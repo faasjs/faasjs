@@ -1,9 +1,8 @@
-# FassJs
+# FaasJs
 
 渐进式面向业务流程的企业级 Node.js Serverless 开发框架。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Gitter](https://badges.gitter.im/fassjs/community.svg)](https://gitter.im/fassjs/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Features
 
@@ -21,7 +20,8 @@
 
 ## Docs & Community
 
-Building
+* [为什么选择 FaaS, Node.js & TypeScript ?](/faasjs/faasjs/wiki/Why-FaaS,-Node.js-&-TypeScript-%3F)
+* [为什么创建 FaasJs ?](/faasjs/faasjs/wiki/Why-create-FaasJs-%3F)
 
 ## How to Contribute
 
