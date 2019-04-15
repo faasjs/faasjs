@@ -1,6 +1,6 @@
 # FaasJs
 
-渐进式面向业务流程的企业级 Node.js Serverless 开发框架。
+渐进式面向业务流程的企业级 Node.js FaaS 开发框架。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
