@@ -20,8 +20,8 @@
 
 ## Docs & Community
 
-* [为什么选择 FaaS, Node.js & TypeScript ?](/faasjs/faasjs/wiki/Why-FaaS,-Node.js-&-TypeScript-%3F)
-* [为什么创建 FaasJs ?](/faasjs/faasjs/wiki/Why-create-FaasJs-%3F)
+* [为什么选择 FaaS, Node.js & TypeScript ?](https://github.com/faasjs/faasjs/wiki/Why-FaaS,-Node.js-&-TypeScript-%3F)
+* [为什么创建 FaasJs ?](https://github.com/faasjs/faasjs/wiki/Why-create-FaasJs-%3F)
 
 ## How to Contribute
 
