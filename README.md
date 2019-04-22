@@ -27,7 +27,7 @@
 
 目前还在筹备期，欢迎加入微信群参与贡献和讨论：
 
-![image](https://user-images.githubusercontent.com/215433/56074015-059fea80-5dde-11e9-8a61-afc97aa7288b.png)
+![image](https://user-images.githubusercontent.com/215433/56482738-4abbcf00-64f8-11e9-8d20-8b44b9b26982.jpg)
 
 ## License
 
