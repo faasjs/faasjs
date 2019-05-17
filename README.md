@@ -1,5 +1,7 @@
 # FaasJs
 
+![logo](https://user-images.githubusercontent.com/215433/57911785-51e9b900-78bb-11e9-8cb3-f072bc5fc854.png)
+
 渐进式面向业务流程的企业级 Node.js FaaS 开发框架。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -25,9 +27,7 @@
 
 ## How to Contribute
 
-目前还在筹备期，欢迎加入微信群参与贡献和讨论：
-
-![image](https://user-images.githubusercontent.com/215433/56482738-4abbcf00-64f8-11e9-8d20-8b44b9b26982.jpg)
+目前框架还在内测中。若想尝鲜可以通过 `yarn add faasjs@beta` 安装测试版框架。
 
 ## License
 

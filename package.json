@@ -1,5 +1,12 @@
 {
   "name": "faasjs",
-  "version": "0.0.0-alpha.0",
-  "license": "MIT"
+  "version": "0.0.0-alpha.1",
+  "license": "MIT",
+  "files": [],
+  "dependencies": {
+    "@faasjs/cli": "beta",
+    "@faasjs/provider-mysql": "beta",
+    "@faasjs/provider-postgresql": "beta",
+    "@faasjs/test": "beta"
+  }
 }
