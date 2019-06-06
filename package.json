@@ -1,14 +1,10 @@
 {
   "name": "faasjs",
-  "version": "0.0.0-alpha.3",
+  "version": "0.0.0-alpha.4",
   "license": "MIT",
   "files": [],
   "dependencies": {
     "@faasjs/cli": "beta",
-    "@faasjs/provider-mysql": "beta",
-    "@faasjs/provider-postgresql": "beta",
-    "@faasjs/provider-sqlite": "beta",
-    "@faasjs/provider-cookie": "beta",
-    "@faasjs/test": "beta"
+    "@faasjs/db": "beta"
   }
 }
