@@ -1,3 +1,5 @@
 # FaasJS
 
-https://faasjs.github.io/
+A Node.js Severless Application Framework
+
+https://faasjs.com/
