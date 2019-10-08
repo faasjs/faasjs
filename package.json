@@ -1,6 +1,6 @@
 {
   "name": "faasjs",
-  "version": "0.0.0-alpha.8",
+  "version": "0.0.0-beta.0",
   "license": "MIT",
   "files": [],
   "dependencies": {
@@ -10,7 +10,6 @@
     "@faasjs/redis": "beta",
     "sqlite3": "*",
     "mysql": "*",
-    "pg": "*",
-    "@types/jest": "*"
+    "pg": "*"
   }
 }
