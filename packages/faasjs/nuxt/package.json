@@ -1,0 +1,56 @@
+{
+  "name": "@faasjs/nuxt",
+  "version": "0.0.0-alpha.20",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "lint": "eslint --ext .ts --fix src",
+    "build": "rm -rf ./lib && rollup -c",
+    "test": "jest --expand",
+    "ci": "yarn lint && yarn test",
+    "commit": "yarn ci && yarn build"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "faasjs": "beta",
+    "@faasjs/eslint-config-vue": "beta",
+    "vue": "*"
+  },
+  "devDependencies": {
+    "@nuxt/types": "*"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "8"
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  },
+  "jest": {
+    "collectCoverage": true,
+    "testRegex": "/*\\.test\\.ts$",
+    "testPathIgnorePatterns": [
+      "/lib/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/",
+      "/__tests__/"
+    ]
+  }
+}
