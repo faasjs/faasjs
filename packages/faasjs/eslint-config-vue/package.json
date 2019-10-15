@@ -1,0 +1,17 @@
+{
+    "name": "@faasjs/eslint-config-vue",
+    "version": "0.0.0-alpha.0",
+    "license": "MIT",
+    "main": "index.js",
+    "files": [
+      "index.js"
+    ],
+    "dependencies": {
+      "@typescript-eslint/eslint-plugin": "*",
+      "@typescript-eslint/parser": "*",
+      "eslint": "*",
+      "eslint-plugin-security": "*",
+      "typescript": "*",
+      "eslint-plugin-vue": "*"
+    }
+  }
