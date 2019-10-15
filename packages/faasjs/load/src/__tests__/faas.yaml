@@ -1,0 +1,27 @@
+defaults:
+  providers:
+    tc:
+      type: '@faasjs/tencentcloud'
+      config:
+        appId: appId
+        secretId: secretId
+        secretKey: secretKey
+        region: ap-beijing
+  plugins:
+    func:
+      provider: tc
+      type: function
+      config:
+        env: defaults
+    test:
+      type: defaults
+    http:
+      type: http
+    mysql:
+      type: mysql
+local:
+  plugins:
+    func:
+      local: local
+    test:
+      type: local

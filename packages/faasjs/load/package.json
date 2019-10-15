@@ -1,0 +1,71 @@
+{
+  "name": "@faasjs/load",
+  "version": "0.0.0-alpha.24",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.es.js",
+  "scripts": {
+    "lint": "eslint --ext .ts --fix src",
+    "build": "rm -rf ./lib && rollup -c",
+    "test": "jest --expand",
+    "doc": "jsdoc2md --files ./lib/index.js > ./API.md",
+    "ci": "yarn lint && yarn test --silent",
+    "commit": "yarn ci && yarn build && yarn doc"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@faasjs/deep_merge": "beta",
+    "js-yaml": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-typescript": "*",
+    "@faasjs/eslint-config-recommended": "beta",
+    "@faasjs/func": "beta",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/js-yaml": "*",
+    "@types/node": "*",
+    "babel-jest": "*",
+    "jest": "*",
+    "jsdoc-babel": "*",
+    "jsdoc-to-markdown": "*"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "8"
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  },
+  "jest": {
+    "collectCoverage": true,
+    "testRegex": "/*\\.test\\.ts$",
+    "testPathIgnorePatterns": [
+      "/lib/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/",
+      "/__tests__/"
+    ]
+  }
+}
