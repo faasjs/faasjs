@@ -1,0 +1,16 @@
+{
+  "name": "@faasjs/eslint-config-recommended",
+  "version": "0.0.0-alpha.4",
+  "license": "MIT",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "eslint": "*",
+    "eslint-plugin-security": "*",
+    "typescript": "*"
+  }
+}
