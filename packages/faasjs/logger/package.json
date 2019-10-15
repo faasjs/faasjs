@@ -1,0 +1,74 @@
+{
+  "name": "@faasjs/logger",
+  "version": "0.0.0-alpha.3",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "lint": "eslint --ext .ts --fix src",
+    "build": "rm -rf ./lib && rollup -c",
+    "test": "jest --expand",
+    "ci": "yarn lint && yarn test",
+    "commit": "yarn ci && yarn build"
+  },
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-typescript": "*",
+    "@faasjs/eslint-config-recommended": "beta",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "babel-jest": "*",
+    "jest": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "8"
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  },
+  "eslintIgnore": [
+    "*.test.ts"
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "testRegex": "/*\\.test\\.ts$",
+    "testPathIgnorePatterns": [
+      "/lib/",
+      "/tmp/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/",
+      "/__tests__/"
+    ],
+    "modulePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/"
+    ],
+    "watchPathIgnorePatterns": [
+      "/lib/",
+      "/tmp/"
+    ]
+  }
+}
