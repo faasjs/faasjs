@@ -1,0 +1,8 @@
+node_modules
+lib
+coverage
+tmp
+*.log
+*.zip
+.rpt2_cache
+yarn.lock
