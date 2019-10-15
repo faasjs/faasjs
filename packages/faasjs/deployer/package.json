@@ -1,0 +1,72 @@
+{
+  "name": "@faasjs/deployer",
+  "version": "0.0.0-alpha.21",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.es.js",
+  "scripts": {
+    "lint": "eslint --ext .ts --fix src",
+    "build": "rm -rf ./lib && rollup -c",
+    "test": "jest --expand",
+    "ci": "yarn lint && yarn test --silent",
+    "commit": "yarn ci && yarn build"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@faasjs/cloud_function": "beta",
+    "@faasjs/tencentcloud": "beta"
+  },
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-typescript": "*",
+    "@faasjs/eslint-config-recommended": "beta",
+    "@faasjs/func": "beta",
+    "@faasjs/http": "beta",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "babel-jest": "*",
+    "jest": "*"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "8"
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ],
+    "compact": false
+  },
+  "eslintConfig": {
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  },
+  "eslintIgnore": [
+    "__tests__"
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "testRegex": "/*\\.test\\.ts$",
+    "testPathIgnorePatterns": [
+      "/lib/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/",
+      "/__tests__/"
+    ],
+    "setupFiles": [
+      "<rootDir>/src/__tests__/setup.ts"
+    ]
+  }
+}
