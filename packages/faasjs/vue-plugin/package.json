@@ -1,0 +1,40 @@
+{
+  "name": "@faasjs/vue-plugin",
+  "version": "0.0.0-alpha.0",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./lib && rollup -c"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@faasjs/browser": "beta"
+  },
+  "devDependencies": {
+    "vue": "*",
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-typescript": "*",
+    "@faasjs/eslint-config-recommended": "beta",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true
+    },
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  }
+}
