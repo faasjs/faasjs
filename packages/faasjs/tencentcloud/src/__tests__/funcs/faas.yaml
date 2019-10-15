@@ -1,0 +1,32 @@
+defaults:
+  deploy:
+    env: testing
+  providers:
+    tencentcloud:
+      type: '@faasjs/tencentcloud'
+      config:
+        appId: appId
+        secretId: secretId
+        secretKey: secretKey
+        region: ap-beijing
+  plugins:
+    defaults:
+      function: function
+      http: http
+    function:
+      provider: tencentcloud
+      type: function
+    http:
+      provider: tencentcloud
+      type: apigateway
+      triggerType: http
+      config:
+        authRequired: 'FALSE'
+        enableCORS: 'TRUE'
+        requestConfig.method: POST
+        serviceType: SCF
+        serviceScfIsIntegratedResponse: 'TRUE'
+        serviceTimeout: 16
+local:
+testing:
+production:
