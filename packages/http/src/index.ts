@@ -208,7 +208,7 @@ export class Http implements Plugin {
 
     // 处理 body
     if (data.response) {
-      if (data.response instanceof Error || data.response.constructor.name === 'Error') {
+      if (data.response instanceof Error || (data.response.constructor && data.response.constructor.name === 'Error')) {
         // 当结果是错误类型时
         this.logger.error(data.response);
         this.response.body = JSON.stringify({ error: { message: data.response.message } });
@@ -250,7 +250,7 @@ export class Http implements Plugin {
    * @param type {string} 类型
    * @param charset {string} 编码
    */
-  public setContentType (type: string, charset: string = 'utf-8') {
+  public setContentType (type: string, charset = 'utf-8') {
     if (ContentType[type as string]) {
       this.setHeader('Content-Type', `${ContentType[type as string]}; charset=${charset}`);
     } else {

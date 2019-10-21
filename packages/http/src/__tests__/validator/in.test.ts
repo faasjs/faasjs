@@ -1,6 +1,7 @@
 import { Func } from '@faasjs/func';
 import { Http } from '../../index';
 
+/* eslint @typescript-eslint/no-empty-function:0 */
 describe('validator/in', function () {
   describe('params', function () {
     describe('normal', function () {

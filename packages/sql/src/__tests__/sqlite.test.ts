@@ -17,8 +17,10 @@ describe('connect', function () {
     });
 
     func.config = {
+      providers: {},
       plugins: {
         sql: {
+          type: 'sql',
           config: {
             filename: ':memory:'
           }
@@ -47,6 +49,7 @@ describe('connect', function () {
       }
     });
     func.config = {
+      providers: {},
       plugins: {}
     };
 
@@ -69,8 +72,10 @@ describe('connect', function () {
     });
 
     func.config = {
+      providers: {},
       plugins: {
         sql: {
+          type: 'sql',
           config: {}
         }
       }
@@ -99,8 +104,10 @@ test('query faild', async function () {
   });
 
   func.config = {
+    providers: {},
     plugins: {
       sql: {
+        type: 'sql',
         config: {
           filename: ':memory:'
         }
@@ -108,7 +115,10 @@ test('query faild', async function () {
     }
   };
   const handler = func.export().handler;
-  const res = await handler({});
 
-  expect(res.message).toEqual('SQLITE_ERROR: near "A": syntax error');
+  try {
+    await handler({});
+  } catch (error) {
+    expect(error.message).toEqual('SQLITE_ERROR: near "A": syntax error');
+  }
 });

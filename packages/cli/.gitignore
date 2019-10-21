@@ -1,9 +1,0 @@
-node_modules
-lib
-*.log
-package
-*.tgz
-coverage
-.rpt2_cache
-tmp
-yarn.lock

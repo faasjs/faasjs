@@ -59,7 +59,7 @@ export class Deployer {
     data.dependencies = deepMerge(loadResult.dependencies, func.dependencies);
 
     // 按类型分类插件
-    let includedCloudFunction = [];
+    const includedCloudFunction = [];
     for (let i = 0; i < func.plugins.length; i++) {
       const plugin = func.plugins[i as number];
       if (!plugin.type) {

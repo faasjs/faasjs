@@ -6,10 +6,9 @@
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
   "scripts": {
-    "lint": "eslint --ext .ts --fix src",
+    "lint": "eslint --ext .ts src",
     "build": "rm -rf ./lib && rollup -c",
-    "test": "jest --expand",
-    "ci": "yarn lint && yarn test",
+    "ci": "yarn lint && jest",
     "commit": "yarn ci && yarn build"
   },
   "files": [

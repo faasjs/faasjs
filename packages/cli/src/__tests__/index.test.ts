@@ -28,7 +28,7 @@ describe('root', function () {
     try {
       program.parse(['fake', 'faas', '-r', '/abc']);
     } catch (error) {
-      expect(error.message).toEqual('can\'t find root path: /abc');
+      expect(error.message).toEqual('Can\'t find root path: /abc');
     }
   });
 });

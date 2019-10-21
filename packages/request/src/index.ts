@@ -40,7 +40,7 @@ let mock: Mock | null = null;
  * 设置模拟请求
  * @param handler {function | null} 模拟函数，若设置为 null 则表示清除模拟函数
  */
-export function setMock(handler: Mock | null) {
+export function setMock (handler: Mock | null) {
   mock = handler;
 }
 
@@ -57,7 +57,7 @@ export function setMock(handler: Mock | null) {
  *
  * @returns {promise}
  */
-export default function request(url: string, {
+export default function request (url: string, {
   headers,
   method,
   query,
@@ -65,9 +65,9 @@ export default function request(url: string, {
   timeout,
   auth
 }: RequestOptions = {
-    headers: {},
-    query: {},
-  }): Promise<Response> {
+  headers: {},
+  query: {},
+}): Promise<Response> {
   log.debug('request %s %o', url, {
     body,
     headers,

@@ -6,12 +6,10 @@
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
   "scripts": {
-    "lint": "eslint --ext .ts --fix src",
+    "lint": "eslint --ext .ts src",
     "build": "rm -rf ./lib && rollup -c",
-    "test": "jest --expand",
-    "doc": "jsdoc2md --files ./lib/index.js > ./API.md",
-    "ci": "yarn lint && yarn test",
-    "commit": "yarn ci && yarn build && yarn doc"
+    "ci": "yarn lint && jest",
+    "commit": "yarn ci && yarn build"
   },
   "files": [
     "lib"
@@ -38,8 +36,6 @@
     "sqlite3": "*",
     "babel-jest": "*",
     "jest": "*",
-    "jsdoc-babel": "*",
-    "jsdoc-to-markdown": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"

@@ -12,6 +12,6 @@ test('multi', async function () {
   const res = execSync(`node -e "const handler = require('${info.tmp}index.js').handler;(async function invoke(){console.log('|'+JSON.stringify(await handler(0))+'|');})(handler);"`, {
     cwd: info.tmp
   }).toString();
-
+  console.log(res);
   expect(res.match(/([^|]+)|$/g)[1]).toEqual('1');
 }, 100000);

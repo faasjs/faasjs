@@ -13,6 +13,7 @@ FaasJS 的 ESLint 默认规则。
 ## Usage
 
 1. Put eslintConfig to package.json
+
 ```json
 "eslintConfig": {
   "extends": [
@@ -20,7 +21,9 @@ FaasJS 的 ESLint 默认规则。
   ]
 }
 ```
+
 2. Running ESLint from command line
+
 ```bash
 eslint --ext .ts --fix src
 ```

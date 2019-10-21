@@ -6,11 +6,8 @@
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "lint": "eslint --ext .ts --fix src",
-    "build": "rm -rf ./lib && rollup -c",
-    "test": "jest --expand",
-    "ci": "yarn lint && yarn test",
-    "commit": "yarn ci && yarn build"
+    "lint": "eslint --ext .ts src",
+    "build": "rm -rf ./lib && rollup -c"
   },
   "files": [
     "lib"
@@ -21,7 +18,8 @@
     "vue": "*"
   },
   "devDependencies": {
-    "@nuxt/types": "*"
+    "@nuxt/types": "*",
+    "@faasjs/eslint-config-recommended": "beta"
   },
   "babel": {
     "presets": [

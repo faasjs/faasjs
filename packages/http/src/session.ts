@@ -88,10 +88,9 @@ export class Session {
 
     const signedParts = text.split('--');
     const hmac = crypto.createHmac(this.config.digest, this.signedSecret);
-    let digest;
 
     hmac.update(signedParts[0]);
-    digest = hmac.digest('hex');
+    const digest = hmac.digest('hex');
 
     if (signedParts[1] !== digest) {
       throw Error('Not valid');
@@ -106,7 +105,7 @@ export class Session {
     const part = Buffer.from(cipher.update(parts[0])).toString('utf8');
     const final = cipher.final('utf8');
 
-    let decryptor = [part, final].join('');
+    const decryptor = [part, final].join('');
 
     return JSON.parse(decryptor);
   }

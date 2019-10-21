@@ -2,7 +2,7 @@ import request from '@faasjs/request';
 import * as crypto from 'crypto';
 import Tencentcloud from '..';
 
-function mergeData (data: any, prefix: string = '') {
+function mergeData (data: any, prefix = '') {
   const ret: any = {};
   for (const k in data) {
     if (typeof data[k as string] === 'undefined' || data[k as string] === null) {

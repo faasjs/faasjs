@@ -6,12 +6,10 @@
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
   "scripts": {
-    "lint": "eslint --ext .ts --fix src",
+    "lint": "eslint --ext .ts src",
     "build": "rm -rf ./lib && rollup -c",
-    "test": "jest --expand",
-    "doc": "jsdoc2md --files ./lib/index.js > ./API.md",
-    "ci": "yarn lint && yarn test --silent",
-    "commit": "yarn ci && yarn build && yarn doc"
+    "ci": "yarn lint && jest",
+    "commit": "yarn ci && yarn build"
   },
   "files": [
     "lib"
@@ -34,9 +32,7 @@
     "@types/js-yaml": "*",
     "@types/node": "*",
     "babel-jest": "*",
-    "jest": "*",
-    "jsdoc-babel": "*",
-    "jsdoc-to-markdown": "*"
+    "jest": "*"
   },
   "babel": {
     "presets": [

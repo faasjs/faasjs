@@ -21,13 +21,18 @@ export default function deepMerge (...sources: any[]) {
       }
       acc = [...new Set((source).concat(...acc as any[]))];
     } else if (shouldMerge(source)) {
-      for (let [key, value] of Object.entries(source)) {
+      for (const [key, value] of Object.entries(source)) {
+        let val;
+
         if (shouldMerge(value)) {
-          value = deepMerge(acc[key as string], value);
+          val = deepMerge(acc[key as string], value);
+        } else {
+          val = value;
         }
+
         acc = {
           ...acc,
-          [key]: value,
+          [key]: val,
         };
       }
     }

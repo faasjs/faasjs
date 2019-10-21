@@ -11,5 +11,88 @@
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true
+  "files.trimFinalNewlines": true,
+  "eslint.packageManager": "yarn",
+  "eslint.workingDirectories": [
+    {
+      "directory": "./packages/browser",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/cli",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/create-faas-app",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/deep_merge",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/deployer",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/eslint-config-recommended",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/eslint-config-vue",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/faasjs",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/func",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/http",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/load",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/logger",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/nuxt",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/redis",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/request",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/server",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/sql",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/tencentcloud",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/test",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "./packages/vue-plugin",
+      "changeProcessCWD": true
+    }
+  ]
 }

@@ -7,6 +7,12 @@ import { existsSync, readFileSync } from 'fs';
 import { loadConfig, loadTs } from '@faasjs/load';
 import { resolve, sep, join } from 'path';
 
+interface Cache {
+  handler?: any;
+  file?: string;
+  md5?: string;
+}
+
 /**
  * 本地服务端
  */
@@ -17,11 +23,7 @@ export class Server {
     cache: boolean;
   }
   private cachedFuncs: {
-    [path: string]: {
-      file: string;
-      md5: string;
-      handler: (...args: any) => any;
-    };
+    [path: string]: Cache;
   }
 
   /**
@@ -62,7 +64,7 @@ export class Server {
     let path = join(this.root, req.url as string).replace(/\?.*/, '');
 
     // 读取或创建缓存
-    const cache = this.cachedFuncs[path as string] || {};
+    const cache: Cache = this.cachedFuncs[path as string] || {};
 
     // 检查缓存是否可以使用
     if (this.cachedFuncs[path as string] && cache.handler) {
@@ -107,6 +109,7 @@ export class Server {
       this.logger.info('[Response] %s', cache.file);
     }
 
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       let func;
       if (!cache.handler) {
@@ -142,6 +145,7 @@ export class Server {
         if (!cache.handler) {
           // 读取云函数配置并写入缓存
           func.config = loadConfig(this.root, path).development;
+          // eslint-disable-next-line require-atomic-updates
           cache.handler = func.export().handler;
         }
 
@@ -153,18 +157,23 @@ export class Server {
         req.on('end', async () => {
           const uri = URL.parse(req.url!);
 
-          const data = await cache.handler({
-            headers: req.headers,
-            method: req.method,
-            queryString: parse(uri.query || ''),
-            body
-          }, {
-            request_id: new Date().getTime().toString()
-          });
+          let data;
+          try {
+            data = await cache.handler({
+              headers: req.headers,
+              method: req.method,
+              queryString: parse(uri.query || ''),
+              body
+            }, {
+              request_id: new Date().getTime().toString()
+            });
+          } catch (error) {
+            data = error;
+          }
 
           this.logger.debug('[Response] %o', data);
 
-          if (data instanceof Error) {
+          if (data instanceof Error || (data && data.constructor && data.constructor.name === 'Error')) {
             res.statusCode = 500;
             res.write(data.message);
           } else {
@@ -173,7 +182,7 @@ export class Server {
             }
             if (data.headers) {
               for (const key in data.headers) {
-                if (data.headers.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(data.headers, key)) {
                   res.setHeader(key, data.headers[key as string]);
                 }
               }
@@ -195,7 +204,7 @@ export class Server {
     });
   }
 
-  public listen (port: number = 3000) {
+  public listen (port = 3000) {
     this.logger.info('listen 127.0.0.1:%s with %s', port, this.root);
 
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') {
