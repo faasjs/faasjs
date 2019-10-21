@@ -7,3 +7,4 @@ tmp
 *.log
 *.zip
 .rpt2_cache
+package-lock.json
