@@ -28,6 +28,8 @@ export interface RequestOptions {
   method?: string;
   query?: http.OutgoingHttpHeaders;
   body?: any;
+  timeout?: number;
+  auth?: string;
 }
 
 type Mock = (url: string, options: RequestOptions) => Promise<Response>;
@@ -38,7 +40,7 @@ let mock: Mock | null = null;
  * 设置模拟请求
  * @param handler {function | null} 模拟函数，若设置为 null 则表示清除模拟函数
  */
-export function setMock (handler: Mock | null) {
+export function setMock(handler: Mock | null) {
   mock = handler;
 }
 
@@ -50,18 +52,22 @@ export function setMock (handler: Mock | null) {
  * @param {object} [options.query={}] 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数
  * @param {object} [options.headers={}] 请求头
  * @param {object=} options.body 请求体
+ * @param {number=} options.timeout 最长耗时，单位为毫秒
+ * @param {string=} options.auth HTTP 认证头，格式为 user:password
  *
  * @returns {promise}
  */
-export default function request (url: string, {
+export default function request(url: string, {
   headers,
   method,
   query,
   body,
+  timeout,
+  auth
 }: RequestOptions = {
-  headers: {},
-  query: {},
-}): Promise<Response> {
+    headers: {},
+    query: {},
+  }): Promise<Response> {
   log.debug('request %s %o', url, {
     body,
     headers,
@@ -101,13 +107,17 @@ export default function request (url: string, {
     host?: string;
     path: string;
     port: string;
+    timeout?: number;
+    auth?: string;
   } = {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: method ? method.toUpperCase() : 'GET',
     path: uri.path!,
     query: {},
-    port: uri.port!
+    port: uri.port!,
+    timeout,
+    auth
   };
 
   // 处理 headers
