@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "8"
+cache: yarn
+script:
+  - yarn install --cwd packages/http
+  - yarn jest --cwd packages/http
+  - yarn global add codecov
+after_success:
+  - codecov
