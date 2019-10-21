@@ -4,5 +4,4 @@ node_js:
 cache: npm
 script:
   - npm install
-  - npm run lerna bootstrap
-  - npm run lerna run ci
+  - npm run ci

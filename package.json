@@ -1,6 +1,9 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "ci": "lerna bootstrap && lerna run ci"
+  },
   "devDependencies": {
     "lerna": "*"
   }
