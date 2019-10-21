@@ -3,6 +3,8 @@ node_js:
   - "8"
 cache: yarn
 script:
+  - yarn install --cwd packages/func
+  - yarn jest --cwd packages/func
   - yarn install --cwd packages/http
   - yarn jest --cwd packages/http
   - yarn global add codecov
