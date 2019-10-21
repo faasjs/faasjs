@@ -1,7 +1,8 @@
 language: node_js
 node_js:
   - "8"
-cache: yarn
+cache: npm
 script:
+  - npm install
   - npm run lerna bootstrap
   - npm run lerna run ci
