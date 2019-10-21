@@ -3,5 +3,5 @@ node_js:
   - "8"
 cache: yarn
 script:
-  - yarn install
-  - yarn lerna run ci
+  - npm run lerna bootstrap
+  - npm run lerna run ci
