@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "independent",
+  "version": "0.0.1-beta.0",
   "npmClient": "yarn",
   "publishConfig": {
     "tag": "beta"
