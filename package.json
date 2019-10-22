@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "faasjs",
   "private": true,
   "scripts": {
     "test": "lerna bootstrap && lerna run ci"
