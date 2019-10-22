@@ -2,7 +2,8 @@
   "name": "faasjs",
   "private": true,
   "scripts": {
-    "test": "lerna bootstrap && lerna run ci"
+    "test": "lerna bootstrap && lerna run ci",
+    "pub": "lerna publish --preid beta"
   },
   "devDependencies": {
     "lerna": "*"
