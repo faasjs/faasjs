@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "test": "lerna bootstrap && lerna run ci",
-    "pub": "lerna publish --preid beta"
+    "pub:latest": "lerna exec -- npm dist-tag add \\$LERNA_PACKAGE_NAME@$(npm view . version) latest",
+    "pub": "lerna publish --preid beta --pre-dist-tag beta"
   },
   "devDependencies": {
     "lerna": "*"
