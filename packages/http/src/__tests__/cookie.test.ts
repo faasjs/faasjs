@@ -99,7 +99,7 @@ describe('cookie', function () {
     });
   });
 
-  describe('write options', function () {
+  describe('cookie options', function () {
     test('domain', async function () {
       const http = new Http();
       const func = new Func({
@@ -154,6 +154,34 @@ describe('cookie', function () {
       });
 
       expect(res.headers['Set-Cookie']).toEqual(['key=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/path;Secure;HttpOnly;']);
+    });
+
+    test('sameSite', async function () {
+      const http = new Http();
+      const func = new Func({
+        plugins: [http],
+        handler () {
+          http.cookie.write('key', null);
+        }
+      });
+      func.config = {
+        plugins: {
+          http: {
+            config: {
+              cookie: {
+                sameSite: 'Lex'
+              }
+            }
+          }
+        }
+      };
+      const res = await func.export().handler({
+        headers: {},
+        key: 'key',
+        value: null
+      });
+
+      expect(res.headers['Set-Cookie']).toEqual(['key=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/;Secure;HttpOnly;SameSite=Lex;']);
     });
 
     test('expires number', async function () {

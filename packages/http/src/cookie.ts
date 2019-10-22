@@ -7,6 +7,7 @@ export interface CookieOptions {
   expires?: number;
   secure?: boolean;
   httpOnly?: boolean;
+  sameSite?: 'Strict' | 'Lax' | 'None';
   session?: SessionOptions;
   [key: string]: any;
 }
@@ -22,6 +23,7 @@ export class Cookie {
     expires: number;
     secure: boolean;
     httpOnly: boolean;
+    sameSite?: 'Strict' | 'Lax' | 'None';
     session: SessionOptions;
   };
   private setCookie: {
@@ -74,6 +76,7 @@ export class Cookie {
     expires?: number | string;
     secure?: boolean;
     httpOnly?: boolean;
+    sameSite?: 'Strict' | 'Lax' | 'None';
   }) {
     opts = Object.assign(this.config, opts || {});
 
@@ -105,6 +108,10 @@ export class Cookie {
 
     if (opts.httpOnly) {
       cookie += 'HttpOnly;';
+    }
+
+    if (opts.sameSite) {
+      cookie += `SameSite=${opts.sameSite};`;
     }
 
     this.setCookie[key as string] = cookie;
