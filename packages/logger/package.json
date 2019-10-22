@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/logger",
-  "version": "0.0.1-0.0.1-beta.2.0",
+  "version": "0.0.1-beta.2",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
