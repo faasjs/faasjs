@@ -54,7 +54,7 @@ export class Server {
     read: () => any;
   }, res: {
     statusCode: number;
-    write: (body: string) => void;
+    write: (body: string | Buffer) => void;
     end: () => void;
     setHeader: (key: string, value: string) => void;
   }) {
