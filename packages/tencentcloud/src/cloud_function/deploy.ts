@@ -17,6 +17,8 @@ const defaults = {
 export default async function deployCloudFunction (this: Tencentcloud, data: DeployData, origin: any) {
   this.logger.info('开始发布云函数');
 
+  if (!this.config || !this.config.secretId || !this.config.secretKey) throw Error('Missing secretId or secretKey!');
+
   const config = deepMerge(origin);
 
   this.logger.debug('参数名适配');
