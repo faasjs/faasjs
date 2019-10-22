@@ -116,7 +116,7 @@ export class Http implements Plugin {
     // 引用服务商部署插件
     // eslint-disable-next-line security/detect-non-literal-require, @typescript-eslint/no-var-requires
     const Provider = require(config.provider.type);
-    const provider = new Provider();
+    const provider = new Provider(config.provider.config);
 
     // 部署网关
     await provider.deploy(this.type, data, config);
