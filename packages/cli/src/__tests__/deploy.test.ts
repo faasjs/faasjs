@@ -5,7 +5,7 @@ describe('deploy', function () {
     try {
       await action('testing', ['src/__tests__/funcs/basic.func.ts']);
     } catch (error) {
-      expect(error.message).toEqual('Cannot find module \'@faasjs/request\' from \'index.js\'');
+      expect(error.message).toEqual('Missing secretId or secretKey!');
     }
   }, 30000);
 
@@ -13,7 +13,7 @@ describe('deploy', function () {
     try {
       await action('testing', ['src/__tests__/funcs/']);
     } catch (error) {
-      expect(error.message).toEqual('Provider is not a constructor');
+      expect(error.message).toEqual('Missing secretId or secretKey!');
     }
   }, 30000);
 });

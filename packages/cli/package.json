@@ -23,8 +23,8 @@
     "@faasjs/test": "beta",
     "@types/glob": "*",
     "commander": "*",
-    "ts-node": "*",
-    "enquirer": "*"
+    "enquirer": "*",
+    "ts-node": "*"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "beta"
