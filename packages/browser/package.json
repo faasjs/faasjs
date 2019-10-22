@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "lint": "eslint --ext .ts src",
-    "build": "rm -rf ./lib && rollup -c"
+    "prepack": "rm -rf ./lib && rollup -c"
   },
   "files": [
     "lib"

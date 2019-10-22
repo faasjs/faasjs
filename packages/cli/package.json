@@ -9,9 +9,8 @@
   },
   "scripts": {
     "lint": "eslint --ext .ts src",
-    "build": "rm -rf ./lib && rollup -c",
-    "ci": "yarn lint && jest",
-    "commit": "yarn ci && yarn build"
+    "prepack": "rm -rf ./lib && rollup -c",
+    "ci": "yarn lint && jest"
   },
   "files": [
     "lib"
