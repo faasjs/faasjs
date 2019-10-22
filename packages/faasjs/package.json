@@ -1,15 +1,15 @@
 {
   "name": "faasjs",
-  "version": "0.0.0-beta.0",
+  "version": "0.0.1-beta.0",
   "license": "MIT",
   "files": [],
   "dependencies": {
-    "@faasjs/cli": "beta",
     "@faasjs/browser": "beta",
-    "@faasjs/sql": "beta",
+    "@faasjs/cli": "beta",
     "@faasjs/redis": "beta",
-    "sqlite3": "*",
+    "@faasjs/sql": "beta",
     "mysql": "*",
-    "pg": "*"
+    "pg": "*",
+    "sqlite3": "*"
   }
 }
