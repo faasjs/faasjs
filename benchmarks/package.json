@@ -4,6 +4,8 @@
   "devDependencies": {
     "benchmark": "*",
     "@faasjs/func": "beta",
-    "@faasjs/http": "beta"
+    "@faasjs/http": "beta",
+    "@faasjs/server": "beta",
+    "@faasjs/cli": "beta"
   }
 }
