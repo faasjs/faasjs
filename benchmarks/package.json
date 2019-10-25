@@ -1,0 +1,9 @@
+{
+  "name": "benchmark",
+  "private": true,
+  "devDependencies": {
+    "benchmark": "*",
+    "@faasjs/func": "beta",
+    "@faasjs/http": "beta"
+  }
+}
