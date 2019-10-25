@@ -40,7 +40,7 @@ class Log {
     }
 
     // 当使用 Jest 进行测试且使用 --silent 参数时禁止日志输出
-    this.silent = !process.env.logLevel &&
+    this.silent = !process.env.FaasLog &&
       process.env.npm_config_argv &&
       JSON.parse(process.env.npm_config_argv).original.includes('--silent');
 
@@ -129,18 +129,20 @@ class Log {
 
       delete this.cachedTimers[key as string];
     } else {
-      this.error('timeEnd not found key %s', key);
-      this.error(message, ...args);
+      this.warn('timeEnd not found key %s', key);
+      this.debug(message);
     }
     return this;
   }
 
   private log (level: Level, message: string, ...args: any) {
+    if (this.silent) return this;
+
     if (process.env.FaasLog) {
-      const priority = LevelPriority[process.env.FaasLog];
+      const priority = LevelPriority[process.env.FaasLog.toLowerCase()];
       if (LevelPriority[level as Level] < priority) return;
     }
-    
+
     if (this.label) {
       message = `[${this.label}] ${message}`;
     }
@@ -157,6 +159,8 @@ class Log {
     } else {
       console.log(output);
     }
+
+    return this;
   }
 }
 

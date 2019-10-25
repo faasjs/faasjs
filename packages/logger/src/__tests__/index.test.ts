@@ -33,7 +33,7 @@ describe('logger', function () {
     const logger = new Logger('error');
     logger.timeEnd('key', 'message');
 
-    expect(logger.lastOutput).toEqual('\u001b[031mERROR [error] message\u001b[39m');
+    expect(logger.lastOutput).toEqual('\u001b[034mDEBUG [error] message\u001b[39m');
   });
 
   test('error', function () {
@@ -43,7 +43,7 @@ describe('logger', function () {
     expect(logger.lastOutput.split('\n')[0]).toEqual('\u001b[031mERROR Error: message');
   });
 
-  test('FaasLog', function(){
+  test('FaasLog', function () {
     const logger = new Logger();
     process.env.FaasLog = 'info';
     logger.debug('debug');
