@@ -6,6 +6,8 @@
     "@faasjs/func": "beta",
     "@faasjs/http": "beta",
     "@faasjs/server": "beta",
-    "@faasjs/cli": "beta"
+    "@faasjs/cli": "beta",
+    "koa": "*",
+    "express": "*"
   }
 }

@@ -2,6 +2,8 @@ const Benchmark = require('benchmark');
 const Func = require('@faasjs/func').Func;
 const suite = new Benchmark.Suite;
 
+process.env.FaasLog = 'error';
+
 const handler = new Func({
   plugins: [],
   handler() {

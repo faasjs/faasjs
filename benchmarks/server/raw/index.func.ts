@@ -1,9 +1,11 @@
 import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
 
 export default new Func({
-  plugins: [new Http()],
+  plugins: [],
   handler() {
-    return 'Hi';
+    return {
+      statusCode: 200,
+      body: 'Hello'
+    };
   }
 })
