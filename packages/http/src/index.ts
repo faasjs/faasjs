@@ -109,7 +109,7 @@ export class Http implements Plugin {
     const config = deepMerge(data.config!.plugins![this.name || this.type], { config: this.config });
 
     // 根据文件及文件夹名生成路径
-    config.config.path = '/' + data.name!.replace(/_/g, '/').replace(/\/index$/, '');
+    config.config.path = '=/' + data.name!.replace(/_/g, '/').replace(/\/index$/, '');
 
     this.logger.debug('[Http] 组装完成 %o', config);
 
