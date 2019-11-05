@@ -38,12 +38,12 @@ describe('logger', function () {
     const logger = new Logger();
     logger.error('message');
 
-    expect(lastOutput).toContain(`ERROR message\u001b[39m`);
+    expect(lastOutput).toContain(`ERROR message`);
 
     logger.label = 'label';
     logger.error('message');
 
-    expect(lastOutput).toContain(`ERROR [label] message\u001b[39m`);
+    expect(lastOutput).toContain(`ERROR [label] message`);
   });
 
   test('time', function (done) {
