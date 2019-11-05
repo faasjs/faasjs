@@ -3,10 +3,10 @@ import { format } from 'util';
 export type Level = 'debug' | 'info' | 'warn' | 'error';
 
 enum LevelColor {
-  debug = 34,
-  info = 32,
-  warn = 33,
-  error = 31,
+  debug = '\u001b[034m',
+  info = '\u001b[032m',
+  warn = '\u001b[033m',
+  error = '\u001b[031m',
 }
 
 interface Timer {
@@ -25,9 +25,10 @@ const LevelPriority = {
  * 日志类
  */
 class Log {
-  public silent: boolean;
+  public readonly silent: boolean;
+  public readonly level: number;
+  public readonly mode: string;
   public label?: string;
-  public lastOutput?: string;
   private cachedTimers: any;
 
   /**
@@ -43,6 +44,9 @@ class Log {
     this.silent = !process.env.FaasLog &&
       process.env.npm_config_argv &&
       JSON.parse(process.env.npm_config_argv).original.includes('--silent');
+
+    this.mode = process.env.FaasMode !== 'remote' ? 'local' : 'remote';
+    this.level = process.env.FaasLog ? LevelPriority[process.env.FaasLog.toLowerCase()] : 0;
 
     this.cachedTimers = {};
   }
@@ -138,21 +142,16 @@ class Log {
   private log (level: Level, message: string, ...args: any) {
     if (this.silent) return this;
 
-    if (process.env.FaasLog) {
-      const priority = LevelPriority[process.env.FaasLog.toLowerCase()];
-      if (LevelPriority[level as Level] < priority) return;
-    }
+    if (LevelPriority[level as Level] < this.level) return;
 
     if (this.label) {
       message = `[${this.label}] ${message}`;
     }
-    let output = format(message, ...args);
+    let output = level.toUpperCase() + ' ' + format(message, ...args);
 
-    if (process.env.FaasMode !== 'remote') {
-      output = `\u001b[0${LevelColor[level as string]}m${level.toUpperCase()} ${output}\u001b[39m`;
+    if (this.mode === 'local' && level !== 'error') {
+      output = `${LevelColor[level as string]}${output}\u001b[39m`;
     }
-
-    this.lastOutput = output;
 
     if (level === 'error') {
       console.error(output);
