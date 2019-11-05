@@ -171,8 +171,6 @@ export class Server {
             data = error;
           }
 
-          this.logger.debug('[Response] %o', data);
-
           if (data instanceof Error || (data && data.constructor && data.constructor.name === 'Error')) {
             res.statusCode = 500;
             res.write(data.message);
