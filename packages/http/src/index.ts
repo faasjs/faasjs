@@ -226,7 +226,7 @@ export class Http implements Plugin {
     // 处理 headers
     this.response.headers = Object.assign({
       'Content-Type': 'application/json; charset=utf-8',
-      'X-Request-Id': (data.context ? data.context.request_id : new Date().getTime().toString())
+      'X-Request-Id': new Date().getTime().toString()
     }, this.cookie.headers(), this.response.headers);
 
     /* eslint-disable-next-line require-atomic-updates */
