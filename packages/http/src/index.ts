@@ -184,7 +184,7 @@ export class Http implements Plugin {
           statusCode: error.statusCode || 500,
           headers: Object.assign({
             'Content-Type': 'application/json; charset=utf-8',
-            'X-Request-Id': (data.context ? data.context.request_id : new Date().getTime().toString())
+            'X-Request-Id': data.context.request_id
           }, error.headers || {}),
           body: JSON.stringify({
             error: {
