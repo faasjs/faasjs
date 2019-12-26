@@ -1,7 +1,8 @@
 import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import { loadTs } from '@faasjs/load';
-import { writeFileSync, stat } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
+import { join } from 'path';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
 import scf from './scf';
@@ -99,7 +100,20 @@ module.exports = main.export();`
     dependencies: config.config.dependencies,
     private: true
   };
-  writeFileSync(config.config.tmp + '/package.json', JSON.stringify(packageJSON));
+
+  for (let key in packageJSON.dependencies) {
+    const subPackage = JSON.parse(readFileSync(join(process.cwd(), 'node_modules', key, 'package.json')).toString());
+    if (subPackage.dependencies) {
+      for (let subKey in subPackage.dependencies) {
+        if (!packageJSON.dependencies[subKey]) {
+          packageJSON.dependencies[subKey] = `file:${join(process.cwd(), 'node_modules', subKey)}`;
+        }
+      }
+    }
+    packageJSON.dependencies[key] = `file:${join(process.cwd(), 'node_modules', key)}`;
+  }
+
+  writeFileSync(join(config.config.tmp, 'package.json'), JSON.stringify(packageJSON));
   this.logger.debug('%o', packageJSON);
 
   this.logger.debug('安装 npm 包');
