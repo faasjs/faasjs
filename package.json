@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "test": "lerna bootstrap && lerna run ci",
-    "pub:latest": "export LERNA_PACKAGE_VERSION=$(cat lerna.json | grep version | head -1 | awk -F= \"{ print $2 }\" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]') && lerna exec -- npm dist-tag add \\$LERNA_PACKAGE_NAME@$LERNA_PACKAGE_VERSION latest &",
+    "pub:latest": "export LERNA_PACKAGE_VERSION=$(cat lerna.json | grep version | head -1 | awk -F= \"{ print $2 }\" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]') && lerna exec --no-bail -- npm dist-tag add \\$LERNA_PACKAGE_NAME@$LERNA_PACKAGE_VERSION latest &",
     "pub": "lerna publish --preid beta --pre-dist-tag beta"
   },
   "devDependencies": {
