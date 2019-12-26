@@ -17,7 +17,7 @@
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "beta",
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

@@ -14,16 +14,16 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/cloud_function": "beta",
-    "@faasjs/tencentcloud": "beta"
+    "@faasjs/cloud_function": "file:../cloud_function",
+    "@faasjs/tencentcloud": "file:../tencentcloud"
   },
   "devDependencies": {
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "beta",
-    "@faasjs/func": "beta",
-    "@faasjs/http": "beta",
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
+    "@faasjs/func": "file:../func",
+    "@faasjs/http": "file:../http",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

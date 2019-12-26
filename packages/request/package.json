@@ -14,13 +14,13 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/logger": "beta"
+    "@faasjs/logger": "file:../logger"
   },
   "devDependencies": {
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "beta",
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

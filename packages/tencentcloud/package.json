@@ -14,17 +14,17 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/load": "beta",
-    "@faasjs/logger": "beta",
-    "@faasjs/request": "beta",
+    "@faasjs/load": "file:../load",
+    "@faasjs/logger": "file:../logger",
+    "@faasjs/request": "file:../request",
     "cos-nodejs-sdk-v5": "*"
   },
   "devDependencies": {
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "beta",
-    "@faasjs/func": "beta",
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
+    "@faasjs/func": "file:../func",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

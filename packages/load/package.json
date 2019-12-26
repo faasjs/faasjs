@@ -14,7 +14,7 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "beta",
+    "@faasjs/deep_merge": "file:../deep_merge",
     "js-yaml": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
@@ -24,8 +24,8 @@
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "beta",
-    "@faasjs/func": "beta",
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
+    "@faasjs/func": "file:../func",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/js-yaml": "*",

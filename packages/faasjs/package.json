@@ -4,10 +4,10 @@
   "license": "MIT",
   "files": [],
   "dependencies": {
-    "@faasjs/browser": "beta",
-    "@faasjs/cli": "beta",
-    "@faasjs/redis": "beta",
-    "@faasjs/sql": "beta",
+    "@faasjs/browser": "file:../browser",
+    "@faasjs/cli": "file:../cli",
+    "@faasjs/redis": "file:../redis",
+    "@faasjs/sql": "file:../sql",
     "mysql": "*",
     "pg": "*",
     "sqlite3": "*"

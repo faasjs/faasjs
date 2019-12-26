@@ -14,14 +14,14 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "beta",
-    "@faasjs/logger": "beta"
+    "@faasjs/deep_merge": "file:../deep_merge",
+    "@faasjs/logger": "file:../logger"
   },
   "devDependencies": {
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "beta",
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

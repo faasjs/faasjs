@@ -17,8 +17,8 @@
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/http": "beta",
-    "@faasjs/load": "beta",
+    "@faasjs/http": "file:../http",
+    "@faasjs/load": "file:../load",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",
@@ -26,8 +26,8 @@
     "jest": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "beta",
-    "@faasjs/func": "beta"
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
+    "@faasjs/func": "file:../func"
   },
   "babel": {
     "presets": [

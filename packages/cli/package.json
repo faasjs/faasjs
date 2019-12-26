@@ -16,17 +16,17 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/deployer": "beta",
-    "@faasjs/func": "beta",
-    "@faasjs/server": "beta",
-    "@faasjs/test": "beta",
+    "@faasjs/deployer": "file:../deployer",
+    "@faasjs/func": "file:../func",
+    "@faasjs/server": "file:../server",
+    "@faasjs/test": "file:../test",
     "@types/glob": "*",
     "commander": "*",
     "enquirer": "*",
     "ts-node": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "beta"
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended"
   },
   "babel": {
     "presets": [

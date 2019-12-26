@@ -13,12 +13,12 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/eslint-config-vue": "beta",
-    "faasjs": "beta",
+    "@faasjs/eslint-config-vue": "file:../eslint-config-vue",
+    "faasjs": "file:../faasjs",
     "vue": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "beta",
+    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
     "@nuxt/types": "*"
   },
   "babel": {
