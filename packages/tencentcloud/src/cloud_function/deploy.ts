@@ -1,7 +1,7 @@
 import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import { loadTs } from '@faasjs/load';
-import { writeFileSync } from 'fs';
+import { writeFileSync, stat } from 'fs';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
 import scf from './scf';
@@ -14,7 +14,7 @@ const defaults = {
   Runtime: 'Nodejs8.9'
 };
 
-export default async function deployCloudFunction (this: Tencentcloud, data: DeployData, origin: any) {
+export default async function deployCloudFunction(this: Tencentcloud, data: DeployData, origin: any) {
   this.logger.info('开始发布云函数');
 
   if (!this.config || !this.config.secretId || !this.config.secretKey) throw Error('Missing secretId or secretKey!');
@@ -212,7 +212,19 @@ module.exports = main.export();`
     Region: config.config.Region,
   });
 
+  let status = null;
+  while (status !== 'Active') {
+    this.logger.info('等待云函数代码更新完成');
+
+    status = await scf.call(this, {
+      Action: 'GetFunction',
+      FunctionName: config.config.FunctionName,
+      Namespace: config.config.Namespace
+    }).then(res => res.Status);
+  }
+
   this.logger.info('发布云函数版本');
+
   const version = await scf.call(this, {
     Action: 'PublishVersion',
     Description: `Published by ${process.env.LOGNAME}`,
