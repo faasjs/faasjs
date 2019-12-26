@@ -15,7 +15,7 @@ const defaults = {
   Runtime: 'Nodejs8.9'
 };
 
-export default async function deployCloudFunction(this: Tencentcloud, data: DeployData, origin: any) {
+export default async function deployCloudFunction (this: Tencentcloud, data: DeployData, origin: any) {
   this.logger.info('开始发布云函数');
 
   if (!this.config || !this.config.secretId || !this.config.secretKey) throw Error('Missing secretId or secretKey!');
@@ -101,16 +101,16 @@ module.exports = main.export();`
     private: true
   };
 
-  for (let key in packageJSON.dependencies) {
+  for (const key in packageJSON.dependencies) {
     const subPackage = JSON.parse(readFileSync(join(process.cwd(), 'node_modules', key, 'package.json')).toString());
     if (subPackage.dependencies) {
-      for (let subKey in subPackage.dependencies) {
-        if (!packageJSON.dependencies[subKey]) {
-          packageJSON.dependencies[subKey] = `file:${join(process.cwd(), 'node_modules', subKey)}`;
+      for (const subKey in subPackage.dependencies) {
+        if (!packageJSON.dependencies[subKey as string]) {
+          packageJSON.dependencies[subKey as string] = `file:${join(process.cwd(), 'node_modules', subKey)}`;
         }
       }
     }
-    packageJSON.dependencies[key] = `file:${join(process.cwd(), 'node_modules', key)}`;
+    packageJSON.dependencies[key as string] = `file:${join(process.cwd(), 'node_modules', key)}`;
   }
 
   writeFileSync(join(config.config.tmp, 'package.json'), JSON.stringify(packageJSON));
