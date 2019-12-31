@@ -1,14 +1,14 @@
 jest.mock(process.cwd() + '/node_modules/cos-nodejs-sdk-v5', () => {
   return class Client {
-    headBucket(params, callback) {
+    headBucket (params, callback) {
       console.log('mock.cos.headBucket', params);
       callback();
     }
-    sliceUploadFile(params, callback) {
+    sliceUploadFile (params, callback) {
       console.log('mock.cos.sliceUploadFile', params);
       callback();
     }
-    deleteObject(params, callback) {
+    deleteObject (params, callback) {
       console.log('mock.cos.deleteObject', params);
       callback();
     }
@@ -35,8 +35,8 @@ jest.mock(process.cwd() + '/node_modules/@faasjs/request', () => {
         switch (params.body.Action) {
           case 'ListNamespaces':
             return {
-              body: { Response: { "Namespaces": [{ Name: "testing" }] } }
-            }
+              body: { Response: { Namespaces: [{ Name: 'testing' }] } }
+            };
           default:
             return {
               body: { Response: {} }

@@ -18,7 +18,7 @@ describe('validator/default', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() {
+          handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -34,7 +34,7 @@ describe('validator/default', function () {
             event: {
               rules: {
                 key: {
-                  default(request) {
+                  default (request) {
                     return request.event.i + 1;
                   }
                 }
@@ -44,7 +44,7 @@ describe('validator/default', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() {
+          handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -78,7 +78,7 @@ describe('validator/default', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() {
+          handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -110,7 +110,7 @@ describe('validator/default', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() {
+          handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -145,7 +145,7 @@ describe('validator/default', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() {
+          handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -177,7 +177,7 @@ describe('validator/default', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() {
+          handler () {
             return cf.event.key;
           }
         }).export().handler;

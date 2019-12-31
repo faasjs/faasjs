@@ -13,6 +13,7 @@ test('should work', async function () {
   });
 
   func.config = {
+    providers: {},
     plugins: {}
   };
 

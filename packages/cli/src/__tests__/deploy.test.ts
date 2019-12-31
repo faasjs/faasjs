@@ -3,7 +3,7 @@ import { action } from '../commands/deploy';
 describe('deploy', function () {
   test('a file', async function () {
     try {
-      await action('testing', ['src/__tests__/funcs/basic.func.ts']);
+      await action('testing', [__dirname + '/funcs/basic.func.ts']);
     } catch (error) {
       expect(error.message).toEqual('Missing secretId or secretKey!');
     }
@@ -11,7 +11,7 @@ describe('deploy', function () {
 
   test('a folder', async function () {
     try {
-      await action('testing', ['src/__tests__/funcs/']);
+      await action('testing', [__dirname + '/funcs/']);
     } catch (error) {
       expect(error.message).toEqual('Missing secretId or secretKey!');
     }

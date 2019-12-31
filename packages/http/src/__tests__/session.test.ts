@@ -12,8 +12,10 @@ describe('session', function () {
       }
     });
     func.config = {
+      providers: {},
       plugins: {
         http: {
+          type: 'http',
           config: {
             cookie: {
               session: {
@@ -81,8 +83,10 @@ describe('session', function () {
       }
     });
     func.config = {
+      providers: {},
       plugins: {
         http: {
+          type: 'http',
           config: {
             cookie: {
               session: {
@@ -133,8 +137,10 @@ describe('session', function () {
         }
       });
       func.config = {
+        providers: {},
         plugins: {
           http: {
+            type: 'http',
             config: {
               cookie: {
                 session: {

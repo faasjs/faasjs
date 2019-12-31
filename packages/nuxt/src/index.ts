@@ -1,4 +1,4 @@
-export default function FaasModule(this: {
+export default function FaasModule (this: {
   options: {
     dev: boolean;
     server: {
@@ -47,7 +47,7 @@ export default function FaasModule(this: {
 
     this.addServerMiddleware({
       path: '/_faas',
-      async handler(req: any, res: any) {
+      async handler (req: any, res: any) {
         await server.processRequest(req, res);
       }
     });

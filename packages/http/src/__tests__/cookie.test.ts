@@ -57,8 +57,11 @@ describe('cookie', function () {
       }
     });
     func.config = {
+      providers: {},
       plugins: {
-        http: {}
+        http: {
+          type: 'http'
+        }
       }
     };
     const handler = func.export().handler;
@@ -109,8 +112,10 @@ describe('cookie', function () {
         }
       });
       func.config = {
+        providers: {},
         plugins: {
           http: {
+            type: 'http',
             config: {
               cookie: {
                 domain: 'domain.com'
@@ -137,8 +142,10 @@ describe('cookie', function () {
         }
       });
       func.config = {
+        providers: {},
         plugins: {
           http: {
+            type: 'http',
             config: {
               cookie: {
                 path: '/path'
@@ -165,8 +172,10 @@ describe('cookie', function () {
         }
       });
       func.config = {
+        providers: {},
         plugins: {
           http: {
+            type: 'http',
             config: {
               cookie: {
                 sameSite: 'Lex'
@@ -193,8 +202,10 @@ describe('cookie', function () {
         }
       });
       func.config = {
+        providers: {},
         plugins: {
           http: {
+            type: 'http',
             config: {
               cookie: {
                 expires: 1
@@ -221,8 +232,10 @@ describe('cookie', function () {
         }
       });
       func.config = {
+        providers: {},
         plugins: {
           http: {
+            type: 'http',
             config: {
               cookie: {
                 expires: '1'

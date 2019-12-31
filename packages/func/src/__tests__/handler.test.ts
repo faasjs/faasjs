@@ -2,6 +2,8 @@ import { Func, InvokeData } from '../index';
 
 describe('handler', function () {
   test('no handler', function () {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     expect(() => new Func({})).toThrowError('Unknown handler');
   });
 

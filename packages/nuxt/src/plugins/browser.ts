@@ -2,7 +2,7 @@ import FaasBrowserClient, { Response } from '@faasjs/browser';
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $faas(action: string, params?: any): Promise<Response>
+    $faas(action: string, params?: any): Promise<Response>;
   }
 }
 

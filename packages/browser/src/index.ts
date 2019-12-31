@@ -65,6 +65,7 @@ export default class FaasBrowserClient {
     }
 
     return new Promise(function (resolve, reject) {
+      // eslint-disable-next-line no-undef
       const xhr = new XMLHttpRequest();
       xhr.open('POST', url);
       xhr.withCredentials = true;

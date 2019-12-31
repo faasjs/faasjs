@@ -13,7 +13,7 @@ export async function action (env: string, files: string[]) {
   const list: string[] = [];
 
   for (const name of files) {
-    let path = process.env.FaasRoot + name;
+    let path = name.startsWith('/') ? name : process.env.FaasRoot + name;
 
     if (!existsSync(path)) {
       throw Error(`File not found: ${path}`);

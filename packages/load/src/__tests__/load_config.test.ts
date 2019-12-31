@@ -2,7 +2,7 @@ import loadConfig from '../load_config';
 
 describe('loadConfig', function () {
   test('defaults', function () {
-    const config = loadConfig(process.cwd() + '/src/__tests__/', process.cwd() + '/src/__tests__/fake.func.ts').defaults;
+    const config = loadConfig(__dirname, __dirname + '/fake.func.ts').defaults;
 
     expect(config.plugins.test.type).toEqual('defaults');
     expect(config.plugins.func.provider).toEqual(config.providers.tc);
@@ -10,7 +10,7 @@ describe('loadConfig', function () {
   });
 
   test('local', function () {
-    const config = loadConfig(process.cwd() + '/src/__tests__/', process.cwd() + '/src/__tests__/fake.func.ts').local;
+    const config = loadConfig(__dirname, __dirname + '/fake.func.ts').local;
 
     expect(config.plugins.func.type).toEqual('function');
     expect(config.plugins.func.provider).toEqual(config.providers.tc);
@@ -21,7 +21,7 @@ describe('loadConfig', function () {
   });
 
   test('sub local', function () {
-    const config = loadConfig(process.cwd() + '/src/__tests__', process.cwd() + '/src/__tests__/sub/fake.func.ts').local;
+    const config = loadConfig(__dirname, __dirname + '/sub/fake.func.ts').local;
 
     expect(config.plugins.func.type).toEqual('function');
     expect(config.plugins.func.provider).toEqual(config.providers.tc);

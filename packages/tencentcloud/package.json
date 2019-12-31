@@ -6,9 +6,7 @@
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
   "scripts": {
-    "lint": "eslint --ext .ts src",
-    "prepack": "rm -rf ./lib && rollup -c",
-    "ci": "yarn lint && jest --silent"
+    "prepack": "rm -rf ./lib && rollup -c"
   },
   "files": [
     "lib"
@@ -20,50 +18,10 @@
     "cos-nodejs-sdk-v5": "*"
   },
   "devDependencies": {
-    "@babel/core": "*",
-    "@babel/preset-env": "*",
-    "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "^0.0.1-beta.4",
     "@faasjs/func": "^0.0.1-beta.9",
     "@types/debug": "*",
     "@types/jest": "*",
-    "@types/node": "*",
-    "babel-jest": "*",
-    "jest": "*"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "8"
-          }
-        }
-      ],
-      "@babel/preset-typescript"
-    ],
-    "compact": false
-  },
-  "eslintConfig": {
-    "extends": [
-      "@faasjs/recommended"
-    ]
-  },
-  "eslintIgnore": [
-    "__tests__"
-  ],
-  "jest": {
-    "collectCoverage": true,
-    "testRegex": "/*\\.test\\.ts$",
-    "testPathIgnorePatterns": [
-      "/lib/"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/lib/",
-      "/tmp/",
-      "/__tests__/"
-    ]
+    "@types/node": "*"
   },
   "gitHead": "09b80e7302b51feb5fb1046de4c2263b798f49e6"
 }

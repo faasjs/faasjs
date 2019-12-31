@@ -25,9 +25,9 @@ const LevelPriority = {
  * 日志类
  */
 class Log {
-  public readonly silent: boolean;
-  public readonly level: number;
-  public readonly mode: string;
+  public silent: boolean;
+  public level: number;
+  public mode: string;
   public label?: string;
   private cachedTimers: any;
 
@@ -142,7 +142,7 @@ class Log {
   private log (level: Level, message: string, ...args: any) {
     if (this.silent) return this;
 
-    if (LevelPriority[level as Level] < this.level) return;
+    if (LevelPriority[level as Level] < this.level) return this;
 
     if (this.label) {
       message = `[${this.label}] ${message}`;

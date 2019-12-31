@@ -21,47 +21,11 @@
     "typescript": "*"
   },
   "devDependencies": {
-    "@babel/core": "*",
-    "@babel/preset-env": "*",
-    "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "^0.0.1-beta.4",
     "@faasjs/func": "^0.0.1-beta.9",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/js-yaml": "*",
-    "@types/node": "*",
-    "babel-jest": "*",
-    "jest": "*"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "8"
-          }
-        }
-      ],
-      "@babel/preset-typescript"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "@faasjs/recommended"
-    ]
-  },
-  "jest": {
-    "collectCoverage": true,
-    "testRegex": "/*\\.test\\.ts$",
-    "testPathIgnorePatterns": [
-      "/lib/"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/lib/",
-      "/tmp/",
-      "/__tests__/"
-    ]
+    "@types/node": "*"
   },
   "gitHead": "09b80e7302b51feb5fb1046de4c2263b798f49e6"
 }

@@ -32,8 +32,11 @@ describe('http', function () {
     });
 
     func.config = {
+      providers: {},
       plugins: {
-        name: {}
+        name: {
+          type: 'name'
+        }
       }
     };
     const handler = func.export().handler;

@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "declaration": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@faasjs/*": ["./packages/*/src"]
+    }
   }
 }

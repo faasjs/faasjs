@@ -6,59 +6,20 @@
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
   "scripts": {
-    "lint": "eslint --ext .ts src",
-    "prepack": "rm -rf ./lib && rollup -c",
-    "ci": "yarn lint && jest --silent"
+    "prepack": "rm -rf ./lib && rollup -c"
   },
   "files": [
     "lib"
   ],
   "dependencies": {
-    "@babel/core": "*",
-    "@babel/preset-env": "*",
-    "@babel/preset-typescript": "*",
     "@faasjs/load": "^0.0.1-beta.9",
     "@types/debug": "*",
     "@types/jest": "*",
-    "@types/node": "*",
-    "babel-jest": "*",
-    "jest": "*"
+    "@types/node": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "^0.0.1-beta.4",
     "@faasjs/func": "^0.0.1-beta.9",
     "@faasjs/http": "^0.0.1-beta.9"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "8"
-          }
-        }
-      ],
-      "@babel/preset-typescript"
-    ],
-    "compact": false
-  },
-  "eslintConfig": {
-    "extends": [
-      "@faasjs/recommended"
-    ]
-  },
-  "jest": {
-    "collectCoverage": true,
-    "testRegex": "/*\\.test\\.ts$",
-    "testPathIgnorePatterns": [
-      "/lib/"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/lib/",
-      "/tmp/",
-      "/__tests__/"
-    ]
   },
   "gitHead": "09b80e7302b51feb5fb1046de4c2263b798f49e6"
 }

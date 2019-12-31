@@ -18,7 +18,8 @@ describe('validator/in', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() { }
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          handler () { }
         }).export().handler;
 
         await handler({});
@@ -58,7 +59,8 @@ describe('validator/in', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() { }
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          handler () { }
         }).export().handler;
 
         await handler({});
@@ -98,7 +100,8 @@ describe('validator/in', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler() { }
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          handler () { }
         }).export().handler;
 
         await handler({});

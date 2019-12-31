@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 
 test('basic', async function () {
   const deployer = new Deployer({
-    root: process.cwd() + '/src/__tests__',
+    root: __dirname,
     filename: __dirname + '/funcs/basic.func.ts',
     env: 'testing'
   });

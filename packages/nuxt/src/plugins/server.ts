@@ -4,13 +4,13 @@ import FaasServerClient from '../server';
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $faas(action: string, params?: any): Promise<Response>
+    $faas(action: string, params?: any): Promise<Response>;
   }
 }
 
 declare module '@nuxt/types' {
   interface Context {
-    $faas(action: string, params?: any): Promise<Response>
+    $faas(action: string, params?: any): Promise<Response>;
   }
 }
 

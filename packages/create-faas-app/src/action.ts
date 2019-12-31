@@ -8,7 +8,7 @@ const Provider = ['tencentcloud', null];
 const Region = ['ap-beijing', 'ap-shanghai', 'ap-guangzhou', 'ap-hongkong'];
 
 const Validator = {
-  name(input: string) {
+  name (input: string) {
     const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_';
     if (match !== true) return match;
     if (existsSync(input)) {
@@ -16,24 +16,24 @@ const Validator = {
     }
     return true;
   },
-  provider(input: string | null) {
+  provider (input: string | null) {
     return Provider.includes(input) ? true : 'Unknow provider';
   },
-  region(input: string) {
+  region (input: string) {
     return Region.includes(input) ? true : 'Unknown region';
   },
-  appId(input: string) {
+  appId (input: string) {
     return /^[0-9]+$/.test(input) ? true : 'Wrong format';
   },
-  secretId(input: string) {
+  secretId (input: string) {
     return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format';
   },
-  secretKey(input: string) {
+  secretKey (input: string) {
     return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format';
   }
 };
 
-export async function action(options?: {
+export async function action (options?: {
   name?: string;
   region?: string;
   appId?: string;

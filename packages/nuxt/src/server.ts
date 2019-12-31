@@ -9,7 +9,7 @@ export default class FaasServerClient {
    * 创建 FaasJS 浏览器客户端
    * @param baseUrl {string} 网关地址，非开发环境下有效
    */
-  constructor(baseUrl: string, ctx: Context) {
+  constructor (baseUrl: string, ctx: Context) {
     if (ctx.isDev) {
       this.host = 'http://' + ctx.req.headers.host + '/_faas/';
     } else {
@@ -23,7 +23,7 @@ export default class FaasServerClient {
    * @param action {string} 动作名称
    * @param body {any} 动作参数
    */
-  public action(ctx: Context, action: string, body?: any): Promise<Response> {
+  public action (ctx: Context, action: string, body?: any): Promise<Response> {
     const url = this.host + action;
     const headers = Object.assign(JSON.parse(JSON.stringify(ctx.req.headers)), {
       'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ export default class FaasServerClient {
           if (ctx.isDev) {
             if (ctx.req.headers.host) {
               // 若有 host 信息，则修改为当前 host 的根域名
-              let host = ctx.req.headers.host!.split('.');
+              const host = ctx.req.headers.host!.split('.');
               cookie = cookie.replace(/domain=[^;]+;/, `domain=${host[host.length - 2]}.${host[host.length - 1]};`);
             } else {
               // 没有 host 信息则直接删除 domain 配置
@@ -71,7 +71,7 @@ export default class FaasServerClient {
           [key: string]: string;
         },
         data: res.body.data
-      })
+      });
     }).catch(function (err: Error) {
       console.error('[faas][server] error:', err);
       return Promise.reject(new ResponseError({
