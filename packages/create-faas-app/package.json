@@ -20,5 +20,6 @@
   "devDependencies": {
     "rollup": "*",
     "rollup-plugin-typescript2": "*"
-  }
+  },
+  "gitHead": "afeb39d6d741f89c5b1c4824a314422fab33f14a"
 }

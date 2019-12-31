@@ -9,6 +9,7 @@
     "hoist": true
   },
   "publishConfig": {
+    "access": "public",
     "tag": "beta"
   }
 }
