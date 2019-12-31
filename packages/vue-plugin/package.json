@@ -11,13 +11,13 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/browser": "file:../browser"
+    "@faasjs/browser": "^0.0.1-beta.9"
   },
   "devDependencies": {
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
+    "@faasjs/eslint-config-recommended": "^0.0.1-beta.4",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*",
@@ -36,5 +36,6 @@
     "extends": [
       "@faasjs/recommended"
     ]
-  }
+  },
+  "gitHead": "09b80e7302b51feb5fb1046de4c2263b798f49e6"
 }

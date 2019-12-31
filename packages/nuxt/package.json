@@ -6,19 +6,19 @@
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "lint": "yarn eslint --ext .ts src",
+    "lint": "eslint --ext .ts src",
     "prepack": "rm -rf ./lib && rollup -c"
   },
   "files": [
     "lib"
   ],
   "dependencies": {
-    "@faasjs/eslint-config-vue": "file:../eslint-config-vue",
-    "faasjs": "file:../faasjs",
+    "@faasjs/eslint-config-vue": "^0.0.1-beta.4",
+    "faasjs": "^0.0.1-beta.9",
     "vue": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
+    "@faasjs/eslint-config-recommended": "^0.0.1-beta.4",
     "@nuxt/types": "*"
   },
   "babel": {
@@ -50,5 +50,6 @@
       "/tmp/",
       "/__tests__/"
     ]
-  }
+  },
+  "gitHead": "09b80e7302b51feb5fb1046de4c2263b798f49e6"
 }

@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
   "scripts": {
-    "lint": "yarn eslint --ext .ts src",
+    "lint": "eslint --ext .ts src",
     "prepack": "rm -rf ./lib && rollup -c",
     "ci": "yarn lint && jest --silent"
   },
@@ -14,16 +14,16 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/cloud_function": "file:../cloud_function",
-    "@faasjs/tencentcloud": "file:../tencentcloud"
+    "@faasjs/cloud_function": "^0.0.1-beta.9",
+    "@faasjs/tencentcloud": "^0.0.1-beta.9"
   },
   "devDependencies": {
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended",
-    "@faasjs/func": "file:../func",
-    "@faasjs/http": "file:../http",
+    "@faasjs/eslint-config-recommended": "^0.0.1-beta.4",
+    "@faasjs/func": "^0.0.1-beta.9",
+    "@faasjs/http": "^0.0.1-beta.9",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",
@@ -66,5 +66,6 @@
     "setupFiles": [
       "<rootDir>/src/__tests__/setup.ts"
     ]
-  }
+  },
+  "gitHead": "09b80e7302b51feb5fb1046de4c2263b798f49e6"
 }

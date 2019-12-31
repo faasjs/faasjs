@@ -75,9 +75,9 @@ export default class FaasBrowserClient {
         const headersList = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/);
         const headers: ResponseHeaders = {};
         headersList.forEach(function (line) {
-          var parts = line.split(': ');
-          var key = parts.shift();
-          var value = parts.join(': ');
+          const parts = line.split(': ');
+          const key = parts.shift();
+          const value = parts.join(': ');
           headers[key as string] = value;
         });
         if (xhr.response && xhr.getResponseHeader('Content-Type') && xhr.getResponseHeader('Content-Type')!.indexOf('json') >= 0) {

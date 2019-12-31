@@ -8,7 +8,7 @@
     "faas": "lib/index.js"
   },
   "scripts": {
-    "lint": "yarn eslint --ext .ts src",
+    "lint": "eslint --ext .ts src",
     "prepack": "rm -rf ./lib && rollup -c",
     "ci": "yarn lint && jest --silent"
   },
@@ -16,17 +16,17 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/deployer": "file:../deployer",
-    "@faasjs/func": "file:../func",
-    "@faasjs/server": "file:../server",
-    "@faasjs/test": "file:../test",
+    "@faasjs/deployer": "^0.0.1-beta.9",
+    "@faasjs/func": "^0.0.1-beta.9",
+    "@faasjs/server": "^0.0.1-beta.9",
+    "@faasjs/test": "^0.0.1-beta.9",
     "@types/glob": "*",
     "commander": "*",
     "enquirer": "*",
     "ts-node": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "file:../eslint-config-recommended"
+    "@faasjs/eslint-config-recommended": "^0.0.1-beta.4"
   },
   "babel": {
     "presets": [
@@ -58,5 +58,6 @@
       "/tmp/",
       "/__tests__/"
     ]
-  }
+  },
+  "gitHead": "09b80e7302b51feb5fb1046de4c2263b798f49e6"
 }

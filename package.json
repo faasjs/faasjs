@@ -2,11 +2,34 @@
   "name": "faasjs",
   "private": true,
   "scripts": {
-    "test": "lerna bootstrap && lerna run ci",
+    "test": "lerna bootstrap && lerna run prepack && lerna run ci --scope @faasjs/test",
     "pub:latest": "export LERNA_PACKAGE_VERSION=$(cat lerna.json | grep version | head -1 | awk -F= \"{ print $2 }\" | sed -E 's/(version)|[:,\",]//g' | tr -d '[[:space:]]') && lerna exec --no-bail -- npm dist-tag add \\$LERNA_PACKAGE_NAME@$LERNA_PACKAGE_VERSION latest &",
     "pub": "lerna publish --preid beta --pre-dist-tag beta"
   },
   "devDependencies": {
     "lerna": "*"
-  }
+  },
+  "workspaces": [
+    "packages/browser",
+    "packages/cli",
+    "packages/cloud_function",
+    "packages/create-faas-app",
+    "packages/deep_merge",
+    "packages/deployer",
+    "packages/eslint-config-recommended",
+    "packages/eslint-config-vue",
+    "packages/faasjs",
+    "packages/func",
+    "packages/http",
+    "packages/load",
+    "packages/logger",
+    "packages/nuxt",
+    "packages/redis",
+    "packages/request",
+    "packages/server",
+    "packages/sql",
+    "packages/tencentcloud",
+    "packages/test",
+    "packages/vue-plugin"
+  ]
 }
