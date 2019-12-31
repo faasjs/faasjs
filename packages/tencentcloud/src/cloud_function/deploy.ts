@@ -230,13 +230,6 @@ module.exports = main.export();`
     }).then(res => res.Status);
   }
 
-  this.logger.debug('删除代码包');
-  await remove.call(this, {
-    Bucket: config.config.Bucket,
-    Key: config.config.CosObjectName,
-    Region: config.config.Region,
-  });
-
   this.logger.info('发布云函数版本');
 
   const version = await scf.call(this, {
@@ -280,6 +273,13 @@ module.exports = main.export();`
   }
 
   this.logger.info('云函数发布完成 %s/%s@%s', config.config.Namespace, config.config.FunctionName, config.config.FunctionVersion);
+
+  this.logger.debug('删除代码包');
+  await remove.call(this, {
+    Bucket: config.config.Bucket,
+    Key: config.config.CosObjectName,
+    Region: config.config.Region,
+  });
 
   if (config.config.triggers) {
     this.logger.info('检查并删除旧触发器');
