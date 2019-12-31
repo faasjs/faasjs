@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/func",
-  "version": "0.0.1-beta.9",
+  "version": "0.0.1-beta.10",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -14,8 +14,8 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "^0.0.1-beta.9",
-    "@faasjs/logger": "^0.0.1-beta.9"
+    "@faasjs/deep_merge": "^0.0.1-beta.10",
+    "@faasjs/logger": "^0.0.1-beta.10"
   },
   "devDependencies": {
     "@types/debug": "*",
