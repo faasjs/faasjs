@@ -219,13 +219,6 @@ module.exports = main.export();`
     }
   }
 
-  this.logger.debug('删除代码包');
-  await remove.call(this, {
-    Bucket: config.config.Bucket,
-    Key: config.config.CosObjectName,
-    Region: config.config.Region,
-  });
-
   let status = null;
   while (status !== 'Active') {
     this.logger.info('等待云函数代码更新完成');
@@ -236,6 +229,13 @@ module.exports = main.export();`
       Namespace: config.config.Namespace
     }).then(res => res.Status);
   }
+
+  this.logger.debug('删除代码包');
+  await remove.call(this, {
+    Bucket: config.config.Bucket,
+    Key: config.config.CosObjectName,
+    Region: config.config.Region,
+  });
 
   this.logger.info('发布云函数版本');
 
