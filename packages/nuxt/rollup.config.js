@@ -1,4 +1,4 @@
-import typescript from 'rollup-plugin-typescript2';
+import { external, typescript } from '../../rollup';
 
 export default [
   {
@@ -13,6 +13,7 @@ export default [
         format: 'es'
       }
     ],
+    external,
     plugins: [
       typescript()
     ]
@@ -25,6 +26,7 @@ export default [
         format: 'esm'
       }
     ],
+    external,
     plugins: [
       typescript({
         tsconfigOverride: {
@@ -43,6 +45,7 @@ export default [
         format: 'cjs'
       }
     ],
+    external,
     plugins: [
       typescript()
     ]

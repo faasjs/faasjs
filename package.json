@@ -13,7 +13,8 @@
     "typescript": "*",
     "jest": "*",
     "ts-jest": "*",
-    "@faasjs/eslint-config-recommended": "./packages/eslint-config-recommended"
+    "@faasjs/eslint-config-recommended": "./packages/eslint-config-recommended",
+    "@zerollup/ts-transform-paths": "*"
   },
   "workspaces": [
     "packages/*"

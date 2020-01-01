@@ -1,17 +1,12 @@
-import typescript from 'rollup-plugin-typescript2';
+import { rollup } from '../../rollup';
 
-export default [
-  {
-    input: 'src/index.ts',
-    output: [
-      {
-        file: 'lib/index.js',
-        format: 'cjs',
-        banner: '#!/usr/bin/env node'
-      }
-    ],
-    plugins: [
-      typescript()
-    ]
-  }
-];
+export default rollup(
+  'src/index.ts',
+  [
+    {
+      file: 'lib/index.js',
+      format: 'cjs',
+      banner: '#!/usr/bin/env node'
+    }
+  ]
+);
