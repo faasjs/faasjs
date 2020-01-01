@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/load",
-  "version": "0.0.1-beta.10",
+  "version": "0.0.1-beta.11",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -14,14 +14,14 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "^0.0.1-beta.10",
+    "@faasjs/deep_merge": "^0.0.1-beta.11",
     "js-yaml": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.1-beta.10",
+    "@faasjs/func": "^0.0.1-beta.11",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/js-yaml": "*",

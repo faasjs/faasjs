@@ -1,13 +1,13 @@
 {
   "name": "faasjs",
-  "version": "0.0.1-beta.10",
+  "version": "0.0.1-beta.11",
   "license": "MIT",
   "files": [],
   "dependencies": {
-    "@faasjs/browser": "^0.0.1-beta.10",
-    "@faasjs/cli": "^0.0.1-beta.10",
-    "@faasjs/redis": "^0.0.1-beta.10",
-    "@faasjs/sql": "^0.0.1-beta.10",
+    "@faasjs/browser": "^0.0.1-beta.11",
+    "@faasjs/cli": "^0.0.1-beta.11",
+    "@faasjs/redis": "^0.0.1-beta.11",
+    "@faasjs/sql": "^0.0.1-beta.11",
     "mysql": "*",
     "pg": "*",
     "sqlite3": "*"
