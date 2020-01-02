@@ -8,6 +8,7 @@
     "@faasjs/cli": "^0.0.1-beta.11",
     "@faasjs/redis": "^0.0.1-beta.11",
     "@faasjs/sql": "^0.0.1-beta.11",
+    "@faasjs/http": "^0.0.1-beta.11",
     "mysql": "*",
     "pg": "*",
     "sqlite3": "*"
