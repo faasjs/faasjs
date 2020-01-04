@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "prepack": "rm -rf ./lib && rollup -c"
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
   },
   "files": [
     "lib"

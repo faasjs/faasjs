@@ -25,7 +25,12 @@ function rollup (input, output) {
     output,
     external,
     plugins: [
-      typescript()
+      typescript({
+        tsconfig: `${process.cwd()}/tsconfig.json`,
+        tsconfigOverride: {
+          exclude: ['**/__tests__']
+        }
+      })
     ]
   };
 };

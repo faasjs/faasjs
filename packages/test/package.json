@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
   "scripts": {
-    "prepack": "rm -rf ./lib && rollup -c"
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
   },
   "files": [
     "lib"
