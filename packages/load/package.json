@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/load",
-  "version": "0.0.1-beta.11",
+  "version": "0.0.1-beta.14",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -21,7 +21,7 @@
     "typescript": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.1-beta.11",
+    "@faasjs/func": "^0.0.1-beta.14",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/js-yaml": "*",
