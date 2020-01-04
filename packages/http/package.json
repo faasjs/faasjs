@@ -20,8 +20,5 @@
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
   },
-  "gitHead": "ff4fd7fd9eded69aae797439cbf14e02d7058d03",
-  "dependencies": {
-    "@faasjs/eslint-config-recommended": "./packages/eslint-config-recommended"
-  }
+  "gitHead": "ff4fd7fd9eded69aae797439cbf14e02d7058d03"
 }
