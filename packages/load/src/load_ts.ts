@@ -5,6 +5,30 @@ import typescript from 'rollup-plugin-typescript2';
 import loadNpmVersion from './load_npm_version';
 import { Func } from '@faasjs/func';
 
+const FAAS_PACKAGES = [
+  '@faasjs/browser',
+  '@faasjs/cli',
+  '@faasjs/cloud_function',
+  'create-faas-app',
+  '@faasjs/deep_merge',
+  '@faasjs/deployer',
+  '@faasjs/eslint-config-recommended',
+  '@faasjs/eslint-config-vue',
+  'faasjs',
+  '@faasjs/func',
+  '@faasjs/http',
+  '@faasjs/load',
+  '@faasjs/logger',
+  '@faasjs/nuxt',
+  '@faasjs/redis',
+  '@faasjs/request',
+  '@faasjs/server',
+  '@faasjs/sql',
+  '@faasjs/tencentcloud',
+  '@faasjs/test',
+  '@faasjs/vue-plugin'
+];
+
 /**
  * 加载 ts 文件
  * 
@@ -30,6 +54,7 @@ export default async function loadTs (filename: string, options: {
   }> {
   const input = deepMerge({
     input: filename,
+    external: FAAS_PACKAGES,
     plugins: [
       typescript({
         tsconfigOverride: {

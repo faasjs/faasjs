@@ -1,7 +1,7 @@
 import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import { loadTs } from '@faasjs/load';
-import { writeFileSync, readFileSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
@@ -102,11 +102,17 @@ module.exports = main.export();`
   };
 
   for (const key in packageJSON.dependencies) {
-    const subPackage = JSON.parse(readFileSync(join(process.cwd(), 'node_modules', key, 'package.json')).toString());
+    const path = join(process.cwd(), 'node_modules', key, 'package.json');
+    if (!existsSync(path)) continue;
+
+    const subPackage = JSON.parse(readFileSync(path).toString());
     if (subPackage.dependencies) {
       for (const subKey in subPackage.dependencies) {
         if (!packageJSON.dependencies[subKey as string]) {
-          packageJSON.dependencies[subKey as string] = `file:${join(process.cwd(), 'node_modules', subKey)}`;
+          const subPath = join(process.cwd(), 'node_modules', subKey);
+          if (!existsSync(subPath)) continue;
+
+          packageJSON.dependencies[subKey as string] = `file:${subPath}`;
         }
       }
     }

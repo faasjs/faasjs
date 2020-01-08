@@ -80,7 +80,7 @@ export class CloudFunction implements Plugin {
 
     // 引用服务商部署插件
     // eslint-disable-next-line security/detect-non-literal-require, @typescript-eslint/no-var-requires
-    const Provider = require(config.provider.type);
+    const Provider = require(config.provider.type).default;
     const provider = new Provider(config.provider.config);
 
     data.dependencies![config.provider.type as string] = loadNpmVersion(config.provider.type);
@@ -97,7 +97,7 @@ export class CloudFunction implements Plugin {
     }
     if (this.config.provider) {
       // eslint-disable-next-line security/detect-non-literal-require, @typescript-eslint/no-var-requires
-      const Provider = require(this.config.provider.type);
+      const Provider = require(this.config.provider.type).default;
       this.adapter = new Provider(this.config.provider.config);
     } else {
       this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.');

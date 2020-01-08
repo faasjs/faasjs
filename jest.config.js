@@ -1,5 +1,5 @@
 module.exports = {
-  preset: 'ts-jest/presets/js-with-ts',
+  preset: 'ts-jest',
   verbose: true,
   collectCoverage: true,
   testRegex: '/*\\.test\\.ts$',

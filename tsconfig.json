@@ -2,6 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "downlevelIteration": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
