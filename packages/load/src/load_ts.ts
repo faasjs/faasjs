@@ -52,9 +52,10 @@ export default async function loadTs (filename: string, options: {
       [key: string]: string;
     };
   }> {
+  const PackageJSON = Object.keys(require(`${process.cwd()}/package.json`).dependencies);
   const input = deepMerge({
     input: filename,
-    // external: FAAS_PACKAGES,
+    external: FAAS_PACKAGES.concat(PackageJSON),
     plugins: [
       typescript({
         tsconfigOverride: {
@@ -79,6 +80,11 @@ export default async function loadTs (filename: string, options: {
         }
       }
     }
+  }
+
+  // 特殊处理，避免引入 tslib
+  if (dependencies['\u0000tslib.js']) {
+    delete dependencies['\u0000tslib.js'];
   }
 
   const output = deepMerge({
