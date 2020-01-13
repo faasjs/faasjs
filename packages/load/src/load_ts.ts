@@ -54,7 +54,7 @@ export default async function loadTs (filename: string, options: {
   }> {
   const input = deepMerge({
     input: filename,
-    external: FAAS_PACKAGES,
+    // external: FAAS_PACKAGES,
     plugins: [
       typescript({
         tsconfigOverride: {
