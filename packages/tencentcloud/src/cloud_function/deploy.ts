@@ -264,7 +264,7 @@ module.exports = main.export();`
     }
   }
 
-  this.logger.info('[8/12] 发布版本: %i', Number(scfInfo.FunctionVersion) + 1);
+  this.logger.info('[8/12] 发布版本');
 
   const version = await scf.call(this, {
     Action: 'PublishVersion',
