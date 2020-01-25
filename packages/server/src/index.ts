@@ -161,8 +161,9 @@ export class Server {
           try {
             data = await cache.handler({
               headers: req.headers,
-              method: req.method,
+              httpMethod: req.method,
               queryString: parse(uri.query || ''),
+              path: req.url,
               body
             }, {
               request_id: new Date().getTime().toString()
