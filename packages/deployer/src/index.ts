@@ -1,5 +1,6 @@
 import { Func, DeployData } from '@faasjs/func';
 import { existsSync, mkdirSync } from 'fs';
+import { join, sep } from 'path';
 import { loadConfig, loadTs } from '@faasjs/load';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
@@ -10,7 +11,7 @@ export class Deployer {
   public func?: Func;
 
   constructor (data: DeployData) {
-    data.name = data.filename.replace(data.root, '').replace('.func.ts', '').replace(/^\/?[^/]+\//, '').replace(/\/$/, '');
+    data.name = data.filename.replace(data.root, '').replace('.func.ts', '');//.replace(/^\/?[^/]+\//, '').replace(/\/$/, '');
     data.version = new Date().toLocaleString('zh-CN', {
       hour12: false,
       timeZone: 'Asia/Shanghai',
@@ -30,10 +31,10 @@ export class Deployer {
       throw Error(`Config load failed: ${data.env}`);
     }
 
-    data.tmp = `${data.root}/tmp/${data.env}/${data.name}/${data.version}/`;
+    data.tmp = join(data.root, 'tmp', data.env, data.name, data.version) + sep;
 
-    data.tmp.split('/').reduce(function (acc: string, cur: string) {
-      acc += '/' + cur;
+    data.tmp.split(sep).reduce(function (acc: string, cur: string) {
+      acc += sep + cur;
       if (!existsSync(acc)) {
         mkdirSync(acc);
       }
