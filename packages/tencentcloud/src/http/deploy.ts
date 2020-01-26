@@ -9,7 +9,7 @@ const defaults = {
   'requestConfig.method': 'POST',
   serviceType: 'SCF',
   serviceScfIsIntegratedResponse: 'TRUE',
-  serviceTimeout: 30
+  serviceTimeout: 1800
 };
 
 export default async function (this: Tencentcloud, data: DeployData, origin: any) {
@@ -94,6 +94,7 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
       await api(provider, Object.assign(config.config, {
         Action: 'ModifyApi',
         apiId: apiInfo.apiId,
+        serviceId: serviceInfo.serviceId
       }));
     } else {
       this.logger.info('网关无需更新 %s %s', config.config['requestConfig.method'], config.config['requestConfig.path']);
@@ -113,7 +114,7 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
     Action: 'ReleaseService',
     environmentName: 'release',
     releaseDesc: `Published ${config.config.serviceScfFunctionName} by ${process.env.LOGNAME}`,
-    serviceId: serviceInfo.serviceId,
+    serviceId: serviceInfo.serviceId
   });
 
   this.logger.info('网关发布完成 %s %s', config.config['requestConfig.method'], config.config['requestConfig.path']);
