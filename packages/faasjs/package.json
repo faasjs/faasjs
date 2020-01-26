@@ -1,11 +1,11 @@
 {
   "name": "faasjs",
-  "version": "0.0.1-beta.19",
+  "version": "0.0.1-beta.20",
   "license": "MIT",
   "files": [],
   "dependencies": {
     "@faasjs/browser": "^0.0.1-beta.11",
-    "@faasjs/cli": "^0.0.1-beta.19",
+    "@faasjs/cli": "^0.0.1-beta.20",
     "@faasjs/http": "^0.0.1-beta.14",
     "@faasjs/redis": "^0.0.1-beta.14",
     "@faasjs/sql": "^0.0.1-beta.16",
