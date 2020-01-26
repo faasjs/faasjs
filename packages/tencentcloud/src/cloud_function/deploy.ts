@@ -15,6 +15,29 @@ const defaults = {
   Runtime: 'Nodejs8.9'
 };
 
+function loadDependents (packageJSON, dependencies) {
+  for (const key in dependencies) {
+    const path = join(process.cwd(), 'node_modules', key, 'package.json');
+    if (!existsSync(path)) continue;
+
+    const subPackage = JSON.parse(readFileSync(path).toString());
+    if (subPackage.dependencies) {
+      for (const subKey in subPackage.dependencies) {
+        if (!packageJSON.dependencies[subKey as string]) {
+          const subPath = join(process.cwd(), 'node_modules', subKey);
+          if (!existsSync(subPath)) continue;
+
+          packageJSON.dependencies[subKey as string] = `file:${subPath}`;
+
+          const subSubPackage = JSON.parse(readFileSync(join(subPath, 'package.json')).toString());
+          loadDependents(packageJSON, subSubPackage.dependencies);
+        }
+      }
+    }
+    packageJSON.dependencies[key as string] = `file:${join(process.cwd(), 'node_modules', key)}`;
+  }
+}
+
 export default async function deployCloudFunction (this: Tencentcloud, data: DeployData, origin: any) {
   this.logger.info('[0/12] 开始发布云函数');
 
@@ -101,32 +124,16 @@ module.exports = main.export();`
     private: true
   };
 
-  for (const key in packageJSON.dependencies) {
-    const path = join(process.cwd(), 'node_modules', key, 'package.json');
-    if (!existsSync(path)) continue;
-
-    const subPackage = JSON.parse(readFileSync(path).toString());
-    if (subPackage.dependencies) {
-      for (const subKey in subPackage.dependencies) {
-        if (!packageJSON.dependencies[subKey as string]) {
-          const subPath = join(process.cwd(), 'node_modules', subKey);
-          if (!existsSync(subPath)) continue;
-
-          packageJSON.dependencies[subKey as string] = `file:${subPath}`;
-        }
-      }
-    }
-    packageJSON.dependencies[key as string] = `file:${join(process.cwd(), 'node_modules', key)}`;
-  }
+  loadDependents(packageJSON, packageJSON.dependencies);
 
   writeFileSync(join(config.config.tmp, 'package.json'), JSON.stringify(packageJSON));
   this.logger.debug('%o', packageJSON);
 
   this.logger.debug('[2.3/12] 生成 node_modules');
-  execSync('yarn --cwd ' + config.config.tmp + ' install --production');
+  execSync(`yarn --cwd ${config.config.tmp} install --production --offline`, { stdio: 'inherit' });
 
   this.logger.info('[3/12] 打包代码包: %s', config.config.tmp);
-  execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`);
+  execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`, { stdio: 'inherit' });
 
   this.logger.info('[4/12] 创建 Cos Bucket: %s', config.config.Bucket);
   this.logger.debug('[4.1/12] 检查 Cos Bucket 状态');
@@ -372,7 +379,7 @@ module.exports = main.export();`
   });
   
   this.logger.debug('[11.2/12] 清理本地文件: %s', config.config.tmp);
-  execSync(`rm -rf ${config.config.tmp}`);
+  execSync(`rm -rf ${config.config.tmp}`, { stdio: 'inherit' });
 
   this.logger.info('[12/12] 完成发布 %s/%s@%s', config.config.Namespace, config.config.FunctionName, config.config.FunctionVersion);
 }
