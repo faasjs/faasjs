@@ -204,14 +204,14 @@ export class Server {
   }
 
   public listen (port = 3000) {
-    this.logger.info('listen 127.0.0.1:%s with %s', port, this.root);
+    this.logger.info('listen http://localhost:%s with %s', port, this.root);
 
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') {
       process.env.FaasEnv = 'development';
     }
 
     process.env.FaasMode = 'local';
-    process.env.FaasLocal = `http://127.0.0.1:${port}`;
+    process.env.FaasLocal = `http://localhost:${port}`;
 
     return createServer(async (req, res) => {
       await this.processRequest(req, res);
