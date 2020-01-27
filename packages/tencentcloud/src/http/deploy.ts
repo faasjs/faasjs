@@ -89,7 +89,8 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
       apiInfo.serviceTimeout !== config.config.serviceTimeout ||
       apiInfo.serviceScfFunctionName !== config.config.serviceScfFunctionName ||
       apiInfo.serviceScfFunctionNamespace !== config.config.serviceScfFunctionNamespace ||
-      apiInfo.serviceScfFunctionQualifier !== config.config.serviceScfFunctionQualifier) {
+      apiInfo.serviceScfFunctionQualifier !== config.config.serviceScfFunctionQualifier ||
+      apiInfo.requestConfig.method !== config.config['requestConfig.method']) {
       this.logger.info('更新接口');
       await api(provider, Object.assign(config.config, {
         Action: 'ModifyApi',
