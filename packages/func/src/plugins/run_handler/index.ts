@@ -14,8 +14,21 @@ export default class RunHandler {
       data.logger.debug('[RunHandler] begin');
       data.logger.time('RunHandler');
       try {
-        // eslint-disable-next-line require-atomic-updates
-        data.response = await data.handler(data);
+        data.response = await new Promise(function (resolve, reject) {
+          data.callback = function (error, result) {
+            if (error) {
+              reject(error);
+            }
+            else {
+              resolve(result);
+            }
+          };
+          Promise.resolve(data.handler(data)).then(function (result) {
+            resolve(result);
+          }).catch(function (error) {
+            reject(error);
+          });
+        });
       } catch (error) {
         data.logger.error(error);
         // eslint-disable-next-line require-atomic-updates

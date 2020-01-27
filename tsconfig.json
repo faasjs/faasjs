@@ -3,6 +3,8 @@
     "declaration": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
+    "target": "ESNext",
     "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]

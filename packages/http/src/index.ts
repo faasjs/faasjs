@@ -213,6 +213,9 @@ export class Http implements Plugin {
         this.logger.error(data.response);
         this.response.body = JSON.stringify({ error: { message: data.response.message } });
         this.response.statusCode = 500;
+      } else if (Object.prototype.toString.call(data.response) === '[object Object]' && data.response.statusCode && data.response.headers) {
+        // 当返回结果是响应结构体时
+        this.response = data.response;
       } else {
         this.response.body = JSON.stringify({ data: data.response });
       }

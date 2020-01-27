@@ -38,6 +38,14 @@ function loadDependents (packageJSON, dependencies) {
   }
 }
 
+function exec (cmd: string) {
+  if (process.env.FaasLog === 'debug') {
+    execSync(cmd, { stdio: 'inherit' });
+  } else {
+    execSync(cmd);
+  }
+}
+
 export default async function deployCloudFunction (this: Tencentcloud, data: DeployData, origin: any) {
   this.logger.info('[0/12] 开始发布云函数');
 
@@ -130,10 +138,10 @@ module.exports = main.export();`
   this.logger.debug('%o', packageJSON);
 
   this.logger.debug('[2.3/12] 生成 node_modules');
-  execSync(`yarn --cwd ${config.config.tmp} install --production --offline`, { stdio: 'inherit' });
+  exec(`yarn --cwd ${config.config.tmp} install --production --offline`);
 
   this.logger.info('[3/12] 打包代码包: %s', config.config.tmp);
-  execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`, { stdio: 'inherit' });
+  exec(`cd ${config.config.tmp} && zip -r deploy.zip *`);
 
   this.logger.info('[4/12] 创建 Cos Bucket: %s', config.config.Bucket);
   this.logger.debug('[4.1/12] 检查 Cos Bucket 状态');
@@ -379,7 +387,7 @@ module.exports = main.export();`
   });
   
   this.logger.debug('[11.2/12] 清理本地文件: %s', config.config.tmp);
-  execSync(`rm -rf ${config.config.tmp}`, { stdio: 'inherit' });
+  exec(`rm -rf ${config.config.tmp}`);
 
   this.logger.info('[12/12] 完成发布 %s/%s@%s', config.config.Namespace, config.config.FunctionName, config.config.FunctionVersion);
 }
