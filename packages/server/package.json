@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "0.0.1-beta.17",
+  "version": "0.0.1-beta.21",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
@@ -12,12 +12,12 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/load": "^0.0.1-beta.16",
+    "@faasjs/load": "^0.0.1-beta.21",
     "@faasjs/logger": "^0.0.1-beta.11"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.1-beta.14",
-    "@faasjs/http": "^0.0.1-beta.14",
+    "@faasjs/func": "^0.0.1-beta.21",
+    "@faasjs/http": "^0.0.1-beta.21",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

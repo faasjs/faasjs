@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cloud_function",
-  "version": "0.0.1-beta.16",
+  "version": "0.0.1-beta.21",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,10 +13,10 @@
   ],
   "dependencies": {
     "@faasjs/deep_merge": "^0.0.1-beta.11",
-    "@faasjs/load": "^0.0.1-beta.16"
+    "@faasjs/load": "^0.0.1-beta.21"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.1-beta.14",
+    "@faasjs/func": "^0.0.1-beta.21",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",
