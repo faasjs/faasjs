@@ -2,7 +2,6 @@ import deepMerge from '@faasjs/deep_merge';
 import { unlinkSync } from 'fs';
 import * as rollup from 'rollup';
 import typescript from 'rollup-plugin-typescript2';
-import loadNpmVersion from './load_npm_version';
 import { Func } from '@faasjs/func';
 
 const FAAS_PACKAGES = [
@@ -52,6 +51,7 @@ export default async function loadTs (filename: string, options: {
       [key: string]: string;
     };
   }> {
+  // eslint-disable-next-line security/detect-non-literal-require
   const PackageJSON = Object.keys(require(`${process.cwd()}/package.json`).dependencies);
   const input = deepMerge({
     input: filename,
@@ -74,10 +74,7 @@ export default async function loadTs (filename: string, options: {
   for (const m of bundle.cache.modules || []) {
     for (const d of m.dependencies) {
       if (!d.startsWith('/') && !dependencies[d as string]) {
-        const version = loadNpmVersion(d);
-        if (version) {
-          dependencies[d as string] = version;
-        }
+        dependencies[d as string] = '*';
       }
     }
   }

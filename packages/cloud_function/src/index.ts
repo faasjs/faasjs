@@ -1,6 +1,5 @@
 import deepMerge from '@faasjs/deep_merge';
 import { Plugin, DeployData, Next, MountData, InvokeData } from '@faasjs/func';
-import { loadNpmVersion } from '@faasjs/load';
 import Logger from '@faasjs/logger';
 import { Validator, ValidatorConfig } from './validator';
 
@@ -83,7 +82,7 @@ export class CloudFunction implements Plugin {
     const Provider = require(config.provider.type);
     const provider = new Provider(config.provider.config);
 
-    data.dependencies![config.provider.type as string] = loadNpmVersion(config.provider.type);
+    data.dependencies![config.provider.type as string] = '*';
 
     // 部署云函数
     await provider.deploy(this.type, data, config);

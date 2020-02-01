@@ -192,19 +192,19 @@ production:`);
 
   writeFileSync(join(answers.name, 'tsconfig.json'), '{}');
 
+  writeFileSync(join(answers.name, '.gitignore'), `node_modules/
+tmp/
+*.tmp.js`);
+
   mkdirSync(join(answers.name, '.vscode'));
 
   writeFileSync(join(answers.name, '.vscode', 'settings.json'),
     `{
   "eslint.packageManager": "yarn",
   "eslint.autoFixOnSave": true,
-  "eslint.validate": [
-    "javascript",
-    {
-      "language": "typescript",
-      "autoFix": true
-    }
-  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
   "editor.formatOnSave": true,

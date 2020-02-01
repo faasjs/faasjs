@@ -1,7 +1,6 @@
 import { Plugin, MountData, Next, DeployData } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
-import { loadNpmVersion } from '@faasjs/load';
 import { Sqlite, SqliteConfig } from './sqlite';
 import { Postgresql, PostgresqlConfig } from './postgresql';
 import { Mysql, MysqlConfig } from './mysql';
@@ -56,13 +55,13 @@ export class Sql implements Plugin {
   public async onDeploy (data: DeployData, next: Next) {
     switch (this.adapterType || data.config!.plugins[this.name || this.type].adapter) {
       case 'sqlite':
-        data.dependencies!['sqlite3'] = loadNpmVersion('sqlite3')!;
+        data.dependencies!['sqlite3'] = '*';
         break;
       case 'postgresql':
-        data.dependencies!['pg'] = loadNpmVersion('pg')!;
+        data.dependencies!['pg'] = '*';
         break;
       case 'mysql':
-        data.dependencies!['mysql'] = loadNpmVersion('mysql')!;
+        data.dependencies!['mysql'] = '*';
         break;
       default:
         throw Error(`[Sql] Unsupport type: ${this.adapterType || data.config!.plugins[this.name || this.type].type}`);
