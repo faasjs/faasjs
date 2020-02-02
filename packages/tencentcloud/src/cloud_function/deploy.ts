@@ -223,30 +223,26 @@ module.exports = main.export();`
       }).then(res => res.Status);
     }
 
-    if (scfInfo.MemorySize !== config.config.MemorySize || scfInfo.Timeout !== config.config.Timeout) {
-      this.logger.debug('[7.2/12] 更新云函数配置');
-      await scf.call(this, {
-        Action: 'UpdateFunctionConfiguration',
-        Environment: config.config.Environment,
+    this.logger.debug('[7.2/12] 更新云函数配置');
+    await scf.call(this, {
+      Action: 'UpdateFunctionConfiguration',
+      Environment: config.config.Environment,
+      FunctionName: config.config.FunctionName,
+      MemorySize: config.config.MemorySize,
+      Timeout: config.config.Timeout,
+      VpcConfig: config.config.VpcConfig,
+      Namespace: config.config.Namespace,
+    });
+
+    status = null;
+    while (status !== 'Active') {
+      this.logger.debug('[7.3/12] 等待云函数配置更新完成');
+
+      status = await scf.call(this, {
+        Action: 'GetFunction',
         FunctionName: config.config.FunctionName,
-        MemorySize: config.config.MemorySize,
-        Timeout: config.config.Timeout,
-        VpcConfig: config.config.VpcConfig,
-        Namespace: config.config.Namespace,
-      });
-
-      let status = null;
-      while (status !== 'Active') {
-        this.logger.debug('[7.3/12] 等待云函数配置更新完成');
-
-        status = await scf.call(this, {
-          Action: 'GetFunction',
-          FunctionName: config.config.FunctionName,
-          Namespace: config.config.Namespace
-        }).then(res => res.Status);
-      }
-    } else {
-      this.logger.debug('[7.2/12] 云函数设置未变更，跳过');
+        Namespace: config.config.Namespace
+      }).then(res => res.Status);
     }
   } catch (error) {
     if (error.Code === 'ResourceNotFound.FunctionName') {
