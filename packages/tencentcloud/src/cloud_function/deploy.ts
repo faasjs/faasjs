@@ -10,7 +10,7 @@ import Tencentcloud from '..';
 
 const defaults = {
   Handler: 'index.handler',
-  MemorySize: 128,
+  MemorySize: 64,
   Timeout: 30,
   Runtime: 'Nodejs8.9'
 };
@@ -82,6 +82,10 @@ export default async function deployCloudFunction (this: Tencentcloud, data: Dep
         },
         {
           Key: 'FaasEnv',
+          Value: data.env
+        },
+        {
+          Key: 'NODE_ENV',
           Value: data.env
         }
       ]
