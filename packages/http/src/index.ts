@@ -103,6 +103,8 @@ export class Http implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next) {
+    await next();
+    
     this.logger.debug('[Http] 组装网关配置');
     this.logger.debug('%o', data);
 
@@ -120,8 +122,6 @@ export class Http implements Plugin {
 
     // 部署网关
     await provider.deploy(this.type, data, config);
-
-    await next();
   }
 
   public async onMount (data: MountData, next: Next) {

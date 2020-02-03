@@ -2,6 +2,7 @@ import { DeployData } from '@faasjs/func';
 import api from './api';
 import deepMerge from '@faasjs/deep_merge';
 import Tencentcloud from '..';
+import scf from '../cloud_function/scf';
 
 const defaults = {
   authRequired: 'FALSE',
@@ -42,7 +43,7 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
   config.config = deepMerge(defaults, config.config, {
     apiName: data.name,
     serviceScfFunctionNamespace: data.env,
-    serviceScfFunctionQualifier: data.env
+    serviceScfFunctionQualifier: '$LATEST'
   });
 
   const provider = config.provider.config;

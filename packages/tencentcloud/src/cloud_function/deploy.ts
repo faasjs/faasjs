@@ -290,39 +290,40 @@ module.exports = main.export();`
   // eslint-disable-next-line require-atomic-updates
   config.config.FunctionVersion = version.FunctionVersion;
 
-  this.logger.info('[9/12] 创建/更新别名: %s', config.config.Namespace);
+  // 别名功能故障，暂时禁用
+  // this.logger.info('[9/12] 创建/更新别名: %s', config.config.Namespace);
 
-  try {
-    this.logger.debug('[9.1/12] 检查别名状态');
-    await scf.call(this, {
-      Action: 'GetAlias',
-      Name: config.config.Namespace,
-      FunctionName: config.config.FunctionName,
-      Namespace: config.config.Namespace
-    });
+  // try {
+  //   this.logger.debug('[9.1/12] 检查别名状态');
+  //   await scf.call(this, {
+  //     Action: 'GetAlias',
+  //     Name: config.config.Namespace,
+  //     FunctionName: config.config.FunctionName,
+  //     Namespace: config.config.Namespace
+  //   });
 
-    this.logger.info('[9.2/12] 更新别名');
-    await scf.call(this, {
-      Action: 'UpdateAlias',
-      Name: config.config.Namespace,
-      FunctionName: config.config.FunctionName,
-      Namespace: config.config.Namespace,
-      FunctionVersion: config.config.FunctionVersion,
-    });
-  } catch (error) {
-    if (error.Code === 'ResourceNotFound.Alias') {
-      this.logger.info('[9.2/12] 创建别名');
-      await scf.call(this, {
-        Action: 'CreateAlias',
-        Name: config.config.Namespace,
-        FunctionName: config.config.FunctionName,
-        FunctionVersion: config.config.FunctionVersion,
-        Namespace: config.config.Namespace
-      });
-    } else {
-      throw error;
-    }
-  }
+  //   this.logger.info('[9.2/12] 更新别名');
+  //   await scf.call(this, {
+  //     Action: 'UpdateAlias',
+  //     Name: config.config.Namespace,
+  //     FunctionName: config.config.FunctionName,
+  //     Namespace: config.config.Namespace,
+  //     FunctionVersion: config.config.FunctionVersion,
+  //   });
+  // } catch (error) {
+  //   if (error.Code === 'ResourceNotFound.Alias') {
+  //     this.logger.info('[9.2/12] 创建别名');
+  //     await scf.call(this, {
+  //       Action: 'CreateAlias',
+  //       Name: config.config.Namespace,
+  //       FunctionName: config.config.FunctionName,
+  //       FunctionVersion: config.config.FunctionVersion,
+  //       Namespace: config.config.Namespace
+  //     });
+  //   } else {
+  //     throw error;
+  //   }
+  // }
 
   if (config.config.triggers) {
     this.logger.info('[10/12] 创建/更新触发器: %o', config.config.triggers);
