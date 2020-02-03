@@ -266,7 +266,7 @@ module.exports = main.export();`
 
       let status = null;
       while (status !== 'Active') {
-        this.logger.info('[7.3/12] 等待云函数代码更新完成');
+        this.logger.debug('[7.3/12] 等待云函数代码更新完成');
 
         status = await scf.call(this, {
           Action: 'GetFunction',
@@ -289,6 +289,17 @@ module.exports = main.export();`
   });
   // eslint-disable-next-line require-atomic-updates
   config.config.FunctionVersion = version.FunctionVersion;
+
+  let status = null;
+  while (status !== 'Active') {
+    this.logger.debug('[8.1/12] 等待版本发布完成');
+
+    status = await scf.call(this, {
+      Action: 'GetFunction',
+      FunctionName: config.config.FunctionName,
+      Namespace: config.config.Namespace
+    }).then(res => res.Status);
+  }
 
   // 别名功能故障，暂时禁用
   // this.logger.info('[9/12] 创建/更新别名: %s', config.config.Namespace);
