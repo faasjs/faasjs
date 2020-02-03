@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/tencentcloud",
-  "version": "0.0.1-beta.26",
+  "version": "0.0.1-beta.27",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
