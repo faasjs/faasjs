@@ -336,56 +336,57 @@ module.exports = main.export();`
   //   }
   // }
 
-  if (config.config.triggers) {
-    this.logger.info('[10/12] 创建/更新触发器: %o', config.config.triggers);
-    const prevVersion = Number(config.config.FunctionVersion) - 1;
-    if (scfInfo && scfInfo.Triggers.length) {
+
+  this.logger.info('[10/12] 创建/更新/删除触发器: %o', config.config.triggers);
+  const prevVersion = Number(config.config.FunctionVersion) - 1;
+  if (scfInfo && scfInfo.Triggers.length) {
+    for (const trigger of scfInfo.Triggers) {
+      this.logger.debug('[10.1/12] 删除已有触发器: %s', trigger.TriggerName);
+      await scf.call(this, {
+        Action: 'DeleteTrigger',
+        FunctionName: config.config.FunctionName,
+        Namespace: config.config.Namespace,
+        TriggerName: trigger.TriggerName,
+        Type: trigger.Type,
+        Qualifier: prevVersion
+      });
+    }
+  }
+  if (prevVersion) {
+    scfInfo = await scf.call(this, {
+      Action: 'GetFunction',
+      FunctionName: config.config.FunctionName,
+      Namespace: config.config.Namespace,
+      Qualifier: prevVersion,
+    });
+    if (scfInfo.Triggers.length) {
       for (const trigger of scfInfo.Triggers) {
-        this.logger.debug('[10.1/12] 删除旧触发器: %s', trigger.TriggerName);
+        this.logger.debug('[10.1/12] 删除旧版本触发器: %s', trigger.TriggerName);
         await scf.call(this, {
           Action: 'DeleteTrigger',
           FunctionName: config.config.FunctionName,
           Namespace: config.config.Namespace,
+          Qualifier: prevVersion,
           TriggerName: trigger.TriggerName,
-          Type: trigger.Type,
-          Qualifier: prevVersion
+          Type: trigger.Type
         });
       }
     }
-    if (prevVersion) {
-      scfInfo = await scf.call(this, {
-        Action: 'GetFunction',
-        FunctionName: config.config.FunctionName,
-        Namespace: config.config.Namespace,
-        Qualifier: prevVersion,
-      });
-      if (scfInfo.Triggers.length) {
-        for (const trigger of scfInfo.Triggers) {
-          this.logger.debug('[10.1/12] 删除旧触发器: %s', trigger.TriggerName);
-          await scf.call(this, {
-            Action: 'DeleteTrigger',
-            FunctionName: config.config.FunctionName,
-            Namespace: config.config.Namespace,
-            Qualifier: prevVersion,
-            TriggerName: trigger.TriggerName,
-            Type: trigger.Type
-          });
-        }
-      }
-    }
 
-    for (const trigger of config.config.triggers) {
-      this.logger.debug('[10.2/12] 创建触发器 %o', trigger);
-      await scf.call(this, {
-        Action: 'CreateTrigger',
-        FunctionName: config.config.FunctionName,
-        TriggerName: trigger.name,
-        Type: trigger.type,
-        TriggerDesc: trigger.value,
-        Qualifier: config.config.FunctionVersion,
-        Namespace: config.config.Namespace,
-        Enable: 'OPEN'
-      });
+    if (config.config.triggers) {
+      for (const trigger of config.config.triggers) {
+        this.logger.debug('[10.2/12] 创建触发器 %o', trigger);
+        await scf.call(this, {
+          Action: 'CreateTrigger',
+          FunctionName: config.config.FunctionName,
+          TriggerName: trigger.name,
+          Type: trigger.type,
+          TriggerDesc: trigger.value,
+          Qualifier: config.config.FunctionVersion,
+          Namespace: config.config.Namespace,
+          Enable: 'OPEN'
+        });
+      }
     }
   }
 
