@@ -22,7 +22,7 @@ export function invokeCloudFunction (this: Tencentcloud, name: string, data?: an
       ClientContext: JSON.stringify(data),
       InvocationType: 'Event',
       Namespace: process.env.FaasEnv,
-      Qualifier: process.env.FaasEnv
+      // Qualifier: process.env.FaasEnv
     }, options || {})).then(function (res) {
       if (res.Result.ErrMsg) {
         return Promise.reject(Error(res.Result.ErrMsg));
