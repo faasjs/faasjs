@@ -5,12 +5,11 @@
     "lint": "eslint --ext .ts packages/*/src",
     "test": "lerna bootstrap && yarn lint && yarn jest --silent",
     "pub": "lerna publish --preid beta --pre-dist-tag beta",
-    "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage tmp",
+    "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp",
     "build": "lerna run prepack --stream"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "./packages/eslint-config-recommended",
-    "@zerollup/ts-transform-paths": "*",
     "jest": "*",
     "lerna": "*",
     "ts-jest": "*",
