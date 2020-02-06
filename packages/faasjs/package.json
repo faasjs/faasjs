@@ -8,10 +8,7 @@
     "@faasjs/cli": "^0.0.1-beta.29",
     "@faasjs/http": "^0.0.1-beta.26",
     "@faasjs/redis": "^0.0.1-beta.21",
-    "@faasjs/sql": "^0.0.1-beta.23",
-    "mysql": "*",
-    "pg": "*",
-    "sqlite3": "*"
+    "@faasjs/sql": "^0.0.1-beta.23"
   },
   "gitHead": "ff4fd7fd9eded69aae797439cbf14e02d7058d03"
 }
