@@ -4,54 +4,71 @@ module.exports = {
     jest: true,
     es6: true
   },
-  parser: "@typescript-eslint/parser",
-  plugins: [
-    "security",
-    "@typescript-eslint"
-  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json'
+  },
   extends: [
-    "eslint:recommended",
-    "plugin:security/recommended",
-    "plugin:@typescript-eslint/recommended"
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
   rules: {
-    "no-console": "off",
-    "quotes": [
-      "error",
-      "single"
+    'no-console': 'off',
+    quotes: [
+      'error',
+      'single'
     ],
-    "keyword-spacing": "error",
-    "space-before-blocks": "error",
-    "space-before-function-paren": "error",
-    "semi": [
-      "error",
-      "always"
+    'keyword-spacing': 'error',
+    'space-before-blocks': 'error',
+    'space-before-function-paren': 'error',
+    semi: [
+      'error',
+      'always'
     ],
-    "eol-last": [
-      "error",
-      "always"
+    'eol-last': [
+      'error',
+      'always'
     ],
-    "quote-props": [
-      "error",
-      "as-needed"
+    'quote-props': [
+      'error',
+      'as-needed'
     ],
-    "object-property-newline": [
-      "error"
+    'object-property-newline': [
+      'error'
     ],
-    "@typescript-eslint/indent": [
-      "error",
+    '@typescript-eslint/indent': [
+      'error',
       2
     ],
-    "camelcase": "off",
-    "@typescript-eslint/camelcase": [
-      "error",
+    '@typescript-eslint/array-type': [
+      'error',
       {
-        "properties": "never"
+        default: 'array'
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/explicit-member-accessibility": "off"
+    '@typescript-eslint/camelcase': [
+      'error',
+      {
+        properties: 'never',
+        ignoreDestructuring: true,
+        ignoreImports: true
+      }
+    ],
+    '@typescript-eslint/member-ordering': 'warn',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-implied-eval': 'warn',
+    '@typescript-eslint/no-require-imports': 'error',
+    '@typescript-eslint/promise-function-async': 'error',
+    '@typescript-eslint/typedef': [
+      'warn',
+      {
+        arrayDestructuring: true,
+        objectDestructuring: true,
+        variableDeclaration: true
+      }
+    ],
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
   }
 };

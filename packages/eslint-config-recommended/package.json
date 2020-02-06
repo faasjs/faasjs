@@ -10,7 +10,6 @@
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
     "eslint": "*",
-    "eslint-plugin-security": "*",
     "typescript": "*"
   }
 }
