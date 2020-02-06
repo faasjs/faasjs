@@ -58,17 +58,11 @@ module.exports = {
     ],
     '@typescript-eslint/member-ordering': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-implied-eval': 'warn',
     '@typescript-eslint/no-require-imports': 'error',
     '@typescript-eslint/promise-function-async': 'error',
-    '@typescript-eslint/typedef': [
-      'warn',
-      {
-        arrayDestructuring: true,
-        objectDestructuring: true,
-        variableDeclaration: true
-      }
-    ],
+    '@typescript-eslint/typedef': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
   }
 };
