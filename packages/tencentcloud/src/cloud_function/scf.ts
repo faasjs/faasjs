@@ -1,27 +1,27 @@
-import request from '@faasjs/request';
+import request, { Response } from '@faasjs/request';
 import * as crypto from 'crypto';
 import Tencentcloud from '..';
 
-function mergeData (data: any, prefix = '') {
+function mergeData (data: any, prefix: string = ''): { [key: string]: any } {
   const ret: any = {};
   for (const k in data) {
-    if (typeof data[k as string] === 'undefined' || data[k as string] === null) {
+    if (typeof data[k] === 'undefined' || data[k] === null) {
       continue;
     }
-    if (data[k as string] instanceof Array || data[k as string] instanceof Object) {
-      Object.assign(ret, mergeData(data[k as string], prefix + k + '.'));
+    if (data[k] instanceof Array || data[k] instanceof Object) {
+      Object.assign(ret, mergeData(data[k], prefix + k + '.'));
     } else {
-      ret[prefix + k] = data[k as string];
+      ret[prefix + k] = data[k];
     }
   }
   return ret;
 }
 
-function formatSignString (params: any) {
+function formatSignString (params: any): string {
   const str: string[] = [];
 
   for (const key of Object.keys(params).sort()) {
-    str.push(key + '=' + params[key as string]);
+    str.push(key + '=' + params[key]);
   }
 
   return str.join('&');
@@ -36,15 +36,16 @@ function formatSignString (params: any) {
  * @param config.secretKey {string} secretKey
  * @param params {object} 请求参数
  */
-export default function action (this: Tencentcloud, params: any) {
-  params = Object.assign({
+export default async function action (this: Tencentcloud, params: any): Promise<any> {
+  params = {
     Nonce: Math.round(Math.random() * 65535),
     Region: this.config.region,
     SecretId: this.config.secretId,
     SignatureMethod: 'HmacSHA256',
     Timestamp: Math.round(Date.now() / 1000) - 1,
     Version: '2018-04-16',
-  }, params);
+    ...params
+  };
   params = mergeData(params);
 
   const sign = 'POSTscf.tencentcloudapi.com/?' + formatSignString(params);
@@ -55,7 +56,7 @@ export default function action (this: Tencentcloud, params: any) {
     body: params,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     method: 'POST',
-  }).then(function (res) {
+  }).then(function (res: Response) {
     if (res.body.Response.Error) {
       console.error(res.body);
       return Promise.reject(res.body.Response.Error);

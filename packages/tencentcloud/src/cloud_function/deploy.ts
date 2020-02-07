@@ -23,18 +23,18 @@ function loadDependents (packageJSON, dependencies) {
     const subPackage = JSON.parse(readFileSync(path).toString());
     if (subPackage.dependencies) {
       for (const subKey in subPackage.dependencies) {
-        if (!packageJSON.dependencies[subKey as string]) {
+        if (!packageJSON.dependencies[subKey]) {
           const subPath = join(process.cwd(), 'node_modules', subKey);
           if (!existsSync(subPath)) continue;
 
-          packageJSON.dependencies[subKey as string] = `file:${subPath}`;
+          packageJSON.dependencies[subKey] = `file:${subPath}`;
 
           const subSubPackage = JSON.parse(readFileSync(join(subPath, 'package.json')).toString());
           loadDependents(packageJSON, subSubPackage.dependencies);
         }
       }
     }
-    packageJSON.dependencies[key as string] = `file:${join(process.cwd(), 'node_modules', key)}`;
+    packageJSON.dependencies[key] = `file:${join(process.cwd(), 'node_modules', key)}`;
   }
 }
 
@@ -59,7 +59,7 @@ export default async function deployCloudFunction (this: Tencentcloud, data: Dep
     config.config.FunctionName = config.config.name;
     delete config.config.name;
   } else {
-    config.config.FunctionName = data.name!.replace(/[^a-zA-Z0-9-_]/g, '_');
+    config.config.FunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_');
   }
   if (config.config.memorySize) {
     config.config.MemorySize = config.config.memorySize;
@@ -232,6 +232,9 @@ module.exports = main.export();`
       Timeout: config.config.Timeout,
       VpcConfig: config.config.VpcConfig,
       Namespace: config.config.Namespace,
+      Role: config.config.Role,
+      ClsLogsetId: config.config.ClsLogsetId,
+      ClsTopicId: config.config.ClsTopicId
     });
 
     status = null;
@@ -249,17 +252,22 @@ module.exports = main.export();`
       this.logger.debug('[7.2/12] 创建云函数');
       await scf.call(this, {
         Action: 'CreateFunction',
+        ClsLogsetId: config.config.ClsLogsetId,
+        ClsTopicId: config.config.ClsTopicId,
         Code: {
           CosBucketName: 'scf',
           CosBucketRegion: config.config.Region,
           CosObjectName: config.config.CosObjectName,
         },
+        CodeSource: config.config.CodeSource,
         Environment: config.config.Environment,
         FunctionName: config.config.FunctionName,
         Handler: config.config.Handler,
+        Description: config.config.Description,
         Namespace: config.config.Namespace,
         MemorySize: config.config.MemorySize,
         Runtime: config.config.Runtime,
+        Role: config.config.Role,
         Timeout: config.config.Timeout,
         VpcConfig: config.config.VpcConfig,
       });
