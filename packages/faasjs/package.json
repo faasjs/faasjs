@@ -1,14 +1,14 @@
 {
   "name": "faasjs",
-  "version": "0.0.1-beta.32",
+  "version": "0.0.2-beta.1",
   "license": "MIT",
   "files": [],
   "dependencies": {
-    "@faasjs/browser": "^0.0.1-beta.11",
-    "@faasjs/cli": "^0.0.1-beta.32",
-    "@faasjs/http": "^0.0.1-beta.26",
-    "@faasjs/redis": "^0.0.1-beta.21",
-    "@faasjs/sql": "^0.0.1-beta.23"
+    "@faasjs/browser": "^0.0.2-beta.1",
+    "@faasjs/cli": "^0.0.2-beta.1",
+    "@faasjs/http": "^0.0.2-beta.1",
+    "@faasjs/redis": "^0.0.2-beta.1",
+    "@faasjs/sql": "^0.0.2-beta.1"
   },
   "gitHead": "ff4fd7fd9eded69aae797439cbf14e02d7058d03"
 }

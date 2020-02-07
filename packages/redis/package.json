@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/redis",
-  "version": "0.0.1-beta.21",
+  "version": "0.0.2-beta.1",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -12,12 +12,12 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "^0.0.1-beta.11",
-    "@faasjs/logger": "^0.0.1-beta.11",
+    "@faasjs/deep_merge": "^0.0.2-beta.1",
+    "@faasjs/logger": "^0.0.2-beta.1",
     "redis": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.1-beta.21",
+    "@faasjs/func": "^0.0.2-beta.1",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/redis": "*",
