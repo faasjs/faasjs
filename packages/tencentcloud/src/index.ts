@@ -5,10 +5,10 @@ import * as invoke from './cloud_function/invoke';
 import deployHttp from './http/deploy';
 
 export interface TencentcloudConfig {
+  [key: string]: any;
   secretId: string;
   secretKey: string;
   region: string;
-  [key: string]: any;
 }
 
 export default class Tencentcloud {
@@ -25,12 +25,14 @@ export default class Tencentcloud {
    * @param data {object} 部署环境配置
    * @param config {Logger} 部署对象配置
    */
-  public deploy (type: string, data: DeployData, config: any) {
+  public async deploy (type: string, data: DeployData, config: any): Promise<void> {
     switch (type) {
       case 'cloud_function':
-        return deployCloudFunction.call(this, data, config);
+        await deployCloudFunction(this, data, config);
+        break;
       case 'http':
-        return deployHttp.call(this, data, config);
+        await deployHttp(this, data, config);
+        break;
       default:
         throw Error(`Unknow deploy type: ${type}`);
     }
@@ -41,8 +43,8 @@ export default class Tencentcloud {
     context: any;
   }, options?: {
     [key: string]: any;
-  }) {
-    return invoke.invokeCloudFunction.call(this, name, data, options);
+  }): Promise<any> {
+    return invoke.invokeCloudFunction(this, name, data, options);
   }
 
   public async invokeSyncCloudFunction (name: string, data: {
@@ -50,7 +52,7 @@ export default class Tencentcloud {
     context: any;
   }, options?: {
     [key: string]: any;
-  }) {
-    return invoke.invokeSyncCloudFunction.call(this, name, data, options);
+  }): Promise<any> {
+    return invoke.invokeSyncCloudFunction(this, name, data, options);
   }
 }

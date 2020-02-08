@@ -36,11 +36,11 @@ function formatSignString (params: any): string {
  * @param config.secretKey {string} secretKey
  * @param params {object} 请求参数
  */
-export default async function action (this: Tencentcloud, params: any): Promise<any> {
+export default async function action (tc: Tencentcloud, params: any): Promise<any> {
   params = {
     Nonce: Math.round(Math.random() * 65535),
-    Region: this.config.region,
-    SecretId: this.config.secretId,
+    Region: tc.config.region,
+    SecretId: tc.config.secretId,
     SignatureMethod: 'HmacSHA256',
     Timestamp: Math.round(Date.now() / 1000) - 1,
     Version: '2018-04-16',
@@ -50,7 +50,7 @@ export default async function action (this: Tencentcloud, params: any): Promise<
 
   const sign = 'POSTscf.tencentcloudapi.com/?' + formatSignString(params);
 
-  params.Signature = crypto.createHmac('sha256', this.config.secretKey).update(sign).digest('base64');
+  params.Signature = crypto.createHmac('sha256', tc.config.secretKey).update(sign).digest('base64');
 
   return request('https://scf.tencentcloudapi.com/?', {
     body: params,

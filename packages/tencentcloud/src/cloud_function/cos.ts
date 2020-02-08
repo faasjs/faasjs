@@ -1,14 +1,15 @@
 import Tencentcloud from '..';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 const cosSdk = require('cos-nodejs-sdk-v5');
 
-export function checkBucket (this: Tencentcloud, params: any) {
+export async function checkBucket (tc: Tencentcloud, params: any): Promise<any> {
   const client = new cosSdk({
-    SecretId: this.config.secretId,
-    SecretKey: this.config.secretKey,
+    SecretId: tc.config.secretId,
+    SecretKey: tc.config.secretKey,
   });
 
+  // eslint-disable-next-line @typescript-eslint/typedef
   return new Promise((resolve, reject) => {
     client.headBucket(params, function (err: any, data: any) {
       if (err) {
@@ -20,12 +21,13 @@ export function checkBucket (this: Tencentcloud, params: any) {
   });
 }
 
-export function createBucket (this: Tencentcloud, params: any) {
+export async function createBucket (tc: Tencentcloud, params: any): Promise<any> {
   const client = new cosSdk({
-    SecretId: this.config.secretId,
-    SecretKey: this.config.secretKey,
+    SecretId: tc.config.secretId,
+    SecretKey: tc.config.secretKey,
   });
 
+  // eslint-disable-next-line @typescript-eslint/typedef
   return new Promise((resolve, reject) => {
     client.putBucket(params, function (err: any, data: any) {
       if (err) {
@@ -37,12 +39,13 @@ export function createBucket (this: Tencentcloud, params: any) {
   });
 }
 
-export function upload (this: Tencentcloud, params: any) {
+export async function upload (tc: Tencentcloud, params: any): Promise<any> {
   const client = new cosSdk({
-    SecretId: this.config.secretId,
-    SecretKey: this.config.secretKey,
+    SecretId: tc.config.secretId,
+    SecretKey: tc.config.secretKey,
   });
 
+  // eslint-disable-next-line @typescript-eslint/typedef
   return new Promise((resolve, reject) => {
     client.sliceUploadFile(params, function (err: any, data: any) {
       if (err) {
@@ -54,12 +57,13 @@ export function upload (this: Tencentcloud, params: any) {
   });
 }
 
-export function remove (this: Tencentcloud, params: any) {
+export async function remove (tc: Tencentcloud, params: any): Promise<any> {
   const client = new cosSdk({
-    SecretId: this.config.secretId,
-    SecretKey: this.config.secretKey,
+    SecretId: tc.config.secretId,
+    SecretKey: tc.config.secretKey,
   });
 
+  // eslint-disable-next-line @typescript-eslint/typedef
   return new Promise((resolve, reject) => {
     client.deleteObject(params, function (err: any, data: any) {
       if (err) {

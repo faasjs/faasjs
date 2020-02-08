@@ -1,5 +1,6 @@
 import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
+import Logger, { Color } from '@faasjs/logger';
 import { loadTs } from '@faasjs/load';
 import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
@@ -15,7 +16,7 @@ const defaults = {
   Runtime: 'Nodejs8.9'
 };
 
-function loadDependents (packageJSON, dependencies) {
+function loadDependents (packageJSON: any, dependencies: any): any {
   for (const key in dependencies) {
     const path = join(process.cwd(), 'node_modules', key, 'package.json');
     if (!existsSync(path)) continue;
@@ -38,7 +39,7 @@ function loadDependents (packageJSON, dependencies) {
   }
 }
 
-function exec (cmd: string) {
+function exec (cmd: string): void {
   if (process.env.FaasLog === 'debug') {
     execSync(cmd, { stdio: 'inherit' });
   } else {
@@ -46,14 +47,17 @@ function exec (cmd: string) {
   }
 }
 
-export default async function deployCloudFunction (this: Tencentcloud, data: DeployData, origin: any) {
-  this.logger.info('[0/12] 开始发布云函数');
+export default async function deployCloudFunction (tc: Tencentcloud, data: DeployData, origin: any): Promise<void> {
+  if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!');
 
-  if (!this.config || !this.config.secretId || !this.config.secretKey) throw Error('Missing secretId or secretKey!');
+  const logger = new Logger(`${data.env}#${data.name}`);
+
+  logger.info('开始部署...');
+
+  logger.raw(`${logger.colorfy(Color.GRAY, '[01/11]')} 生成配置项...`);
 
   const config = deepMerge(origin);
 
-  this.logger.info('[1/12] 生成配置项');
   // 补全默认参数
   if (config.config.name) {
     config.config.FunctionName = config.config.name;
@@ -106,11 +110,11 @@ export default async function deployCloudFunction (this: Tencentcloud, data: Dep
     CosObjectName: config.config.FunctionName + '/' + data.version + '.zip'
   });
 
-  this.logger.debug('[1/12] 完成配置项 %o', config);
+  logger.debug('[01/11] 完成配置项 %o', config);
 
-  this.logger.info('[2/12] 生成代码包');
+  logger.raw(`${logger.colorfy(Color.GRAY, '[02/11]')} 生成代码包...`);
 
-  this.logger.debug('[2.1/12] 生成 index.js');
+  logger.debug('[2.1/11] 生成 index.js...');
   await loadTs(config.config.filename, {
     output: {
       file: config.config.tmp + '/index.js',
@@ -130,7 +134,7 @@ module.exports = main.export();`
     }
   });
 
-  this.logger.debug('[2.2/12] 生成 package.json');
+  logger.debug('[2.2/11] 生成 package.json...');
   const packageJSON = {
     dependencies: config.config.dependencies,
     private: true
@@ -139,70 +143,70 @@ module.exports = main.export();`
   loadDependents(packageJSON, packageJSON.dependencies);
 
   writeFileSync(join(config.config.tmp, 'package.json'), JSON.stringify(packageJSON));
-  this.logger.debug('%o', packageJSON);
+  logger.debug('%o', packageJSON);
 
-  this.logger.debug('[2.3/12] 生成 node_modules');
+  logger.debug('[2.3/11] 生成 node_modules...');
   exec(`yarn --cwd ${config.config.tmp} install --production --offline`);
 
-  this.logger.info('[3/12] 打包代码包: %s', config.config.tmp);
+  logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
   exec(`cd ${config.config.tmp} && zip -r deploy.zip *`);
 
-  this.logger.info('[4/12] 创建 Cos Bucket: %s', config.config.Bucket);
-  this.logger.debug('[4.1/12] 检查 Cos Bucket 状态');
+  logger.raw(`${logger.colorfy(Color.GRAY, '[04/11]')} 检查 COS...`);
+
   try {
-    await checkBucket.call(this, {
+    logger.debug('[4.1/11] 检查 Cos Bucket 状态');
+    await checkBucket(tc, {
       Bucket: config.config.Bucket,
       Region: config.config.Region
     });
-    this.logger.debug('[4.2/12] Cos Bucket 已存在，跳过');
+    logger.debug('[4.2/11] Cos Bucket 已存在，跳过');
   } catch (error) {
-    this.logger.debug('[4.2/12] 创建 Cos Bucket');
-    await createBucket.call(this, {
+    logger.debug('[4.2/11] 创建 Cos Bucket...');
+    await createBucket(tc, {
       Bucket: config.config.Bucket,
       Region: config.config.Region
     });
   }
 
-  this.logger.info('[5/12] 上传代码包到 Cos Bucket: %s', config.config.FilePath);
-  await upload.call(this, {
+  logger.raw(`${logger.colorfy(Color.GRAY, '[05/11]')} 上传代码包...`);
+  await upload(tc, {
     Bucket: config.config.Bucket,
     FilePath: config.config.FilePath,
     Key: config.config.CosObjectName,
     Region: config.config.Region,
   });
 
-  this.logger.info('[6/12] 创建命名空间: %s', config.config.Namespace);
-  this.logger.debug('[6.1/12] 检查命名空间状态');
-  const namespaceList = await scf.call(this, {
+  logger.raw(`${logger.colorfy(Color.GRAY, '[06/11]')} 检查命名空间...`);
+  logger.debug('[6.1/11] 检查命名空间状态');
+  const namespaceList = await scf(tc, {
     Action: 'ListNamespaces'
   });
   if (!namespaceList.Namespaces.find(function (n: any) {
     return n.Name === config.config.Namespace;
   })) {
-    this.logger.debug('[6.2/12] 创建命名空间');
-    await scf.call(this, {
+    logger.debug('[6.2/11] 创建命名空间...');
+    await scf(tc, {
       Action: 'CreateNamespace',
       Namespace: config.config.Namespace
     });
   } else {
-    this.logger.debug('[6.2/12] 命名空间已存在，跳过');
+    logger.debug('[6.2/11] 命名空间已存在，跳过');
   }
 
-
-  this.logger.info('[7/12] 创建/更新云函数: %s', config.config.FunctionName);
+  logger.raw(`${logger.colorfy(Color.GRAY, '[07/11]')} 上传云函数...`);
 
   let scfInfo;
 
   try {
-    this.logger.debug('[7.1/12] 检查云函数是否已存在');
-    scfInfo = await scf.call(this, {
+    logger.debug('[7.1/11] 检查云函数是否已存在...');
+    scfInfo = await scf(tc, {
       Action: 'GetFunction',
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
     });
 
-    this.logger.debug('[7.2/12] 更新云函数代码');
-    await scf.call(this, {
+    logger.debug('[7.2/11] 更新云函数代码...');
+    await scf(tc, {
       Action: 'UpdateFunctionCode',
       CosBucketName: 'scf',
       CosBucketRegion: config.config.Region,
@@ -214,17 +218,17 @@ module.exports = main.export();`
 
     let status = null;
     while (status !== 'Active') {
-      this.logger.debug('[7.3/12] 等待云函数代码更新完成');
+      logger.debug('[7.3/11] 等待云函数代码更新完成...');
 
-      status = await scf.call(this, {
+      status = await scf(tc, {
         Action: 'GetFunction',
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace
       }).then(res => res.Status);
     }
 
-    this.logger.debug('[7.2/12] 更新云函数配置');
-    await scf.call(this, {
+    logger.debug('[7.2/11] 更新云函数配置...');
+    await scf(tc, {
       Action: 'UpdateFunctionConfiguration',
       Environment: config.config.Environment,
       FunctionName: config.config.FunctionName,
@@ -239,9 +243,9 @@ module.exports = main.export();`
 
     status = null;
     while (status !== 'Active') {
-      this.logger.debug('[7.3/12] 等待云函数配置更新完成');
+      logger.debug('[7.3/11] 等待云函数配置更新完成...');
 
-      status = await scf.call(this, {
+      status = await scf(tc, {
         Action: 'GetFunction',
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace
@@ -249,8 +253,8 @@ module.exports = main.export();`
     }
   } catch (error) {
     if (error.Code === 'ResourceNotFound.FunctionName') {
-      this.logger.debug('[7.2/12] 创建云函数');
-      await scf.call(this, {
+      logger.debug('[7.2/11] 创建云函数...');
+      await scf(tc, {
         Action: 'CreateFunction',
         ClsLogsetId: config.config.ClsLogsetId,
         ClsTopicId: config.config.ClsTopicId,
@@ -274,9 +278,9 @@ module.exports = main.export();`
 
       let status = null;
       while (status !== 'Active') {
-        this.logger.debug('[7.3/12] 等待云函数代码更新完成');
+        logger.debug('[7.3/11] 等待云函数代码更新完成...');
 
-        status = await scf.call(this, {
+        status = await scf(tc, {
           Action: 'GetFunction',
           FunctionName: config.config.FunctionName,
           Namespace: config.config.Namespace
@@ -287,9 +291,9 @@ module.exports = main.export();`
     }
   }
 
-  this.logger.info('[8/12] 发布版本');
+  logger.raw(`${logger.colorfy(Color.GRAY, '[08/11]')} 发布版本...`);
 
-  const version = await scf.call(this, {
+  const version = await scf(tc, {
     Action: 'PublishVersion',
     Description: `Published by ${process.env.LOGNAME}`,
     FunctionName: config.config.FunctionName,
@@ -300,9 +304,9 @@ module.exports = main.export();`
 
   let status = null;
   while (status !== 'Active') {
-    this.logger.debug('[8.1/12] 等待版本发布完成');
+    logger.debug('[8.1/11] 等待版本发布完成...');
 
-    status = await scf.call(this, {
+    status = await scf(tc, {
       Action: 'GetFunction',
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace
@@ -310,19 +314,19 @@ module.exports = main.export();`
   }
 
   // 别名功能故障，暂时禁用
-  // this.logger.info('[9/12] 创建/更新别名: %s', config.config.Namespace);
+  // logger.raw(`${logger.colorfy(Color.GRAY, '[09/11]')} 更新别名...`);
 
   // try {
-  //   this.logger.debug('[9.1/12] 检查别名状态');
-  //   await scf.call(this, {
+  //   logger.debug('[9.1/11] 检查别名状态...');
+  //   await scf(tc, {
   //     Action: 'GetAlias',
   //     Name: config.config.Namespace,
   //     FunctionName: config.config.FunctionName,
   //     Namespace: config.config.Namespace
   //   });
 
-  //   this.logger.info('[9.2/12] 更新别名');
-  //   await scf.call(this, {
+  //   logger.info('[9.2/11] 更新别名...');
+  //   await scf(tc, {
   //     Action: 'UpdateAlias',
   //     Name: config.config.Namespace,
   //     FunctionName: config.config.FunctionName,
@@ -331,8 +335,8 @@ module.exports = main.export();`
   //   });
   // } catch (error) {
   //   if (error.Code === 'ResourceNotFound.Alias') {
-  //     this.logger.info('[9.2/12] 创建别名');
-  //     await scf.call(this, {
+  //     logger.info('[9.2/11] 创建别名...');
+  //     await scf(tc, {
   //       Action: 'CreateAlias',
   //       Name: config.config.Namespace,
   //       FunctionName: config.config.FunctionName,
@@ -344,13 +348,12 @@ module.exports = main.export();`
   //   }
   // }
 
-
-  this.logger.info('[10/12] 创建/更新/删除触发器: %o', config.config.triggers);
+  logger.raw(`${logger.colorfy(Color.GRAY, '[10/11]')} 更新触发器...`);
   const prevVersion = Number(config.config.FunctionVersion) - 1;
   if (scfInfo && scfInfo.Triggers.length) {
     for (const trigger of scfInfo.Triggers) {
-      this.logger.debug('[10.1/12] 删除已有触发器: %s', trigger.TriggerName);
-      await scf.call(this, {
+      logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
+      await scf(tc, {
         Action: 'DeleteTrigger',
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace,
@@ -361,7 +364,7 @@ module.exports = main.export();`
     }
   }
   if (prevVersion) {
-    scfInfo = await scf.call(this, {
+    scfInfo = await scf(tc, {
       Action: 'GetFunction',
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
@@ -369,8 +372,8 @@ module.exports = main.export();`
     });
     if (scfInfo.Triggers.length) {
       for (const trigger of scfInfo.Triggers) {
-        this.logger.debug('[10.1/12] 删除旧版本触发器: %s', trigger.TriggerName);
-        await scf.call(this, {
+        logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
+        await scf(tc, {
           Action: 'DeleteTrigger',
           FunctionName: config.config.FunctionName,
           Namespace: config.config.Namespace,
@@ -383,8 +386,8 @@ module.exports = main.export();`
 
     if (config.config.triggers) {
       for (const trigger of config.config.triggers) {
-        this.logger.debug('[10.2/12] 创建触发器 %o', trigger);
-        await scf.call(this, {
+        logger.debug('[10.2/11] 创建触发器 %s...', trigger.name);
+        await scf(tc, {
           Action: 'CreateTrigger',
           FunctionName: config.config.FunctionName,
           TriggerName: trigger.name,
@@ -398,17 +401,17 @@ module.exports = main.export();`
     }
   }
 
-  this.logger.info('[11/12] 清理文件');
+  logger.raw(`${logger.colorfy(Color.GRAY, '[11/11]')} 清理文件...`);
 
-  this.logger.debug('[11.1/12] 清理 Cos Bucket: %s', config.config.CosObjectName);
-  await remove.call(this, {
+  logger.debug('[11.1/11] 清理 Cos Bucket...');
+  await remove(tc, {
     Bucket: config.config.Bucket,
     Key: config.config.CosObjectName,
     Region: config.config.Region,
   });
   
-  this.logger.debug('[11.2/12] 清理本地文件: %s', config.config.tmp);
+  logger.debug('[11.2/11] 清理本地文件...');
   exec(`rm -rf ${config.config.tmp}`);
 
-  this.logger.info('[12/12] 完成发布 %s/%s@%s', config.config.Namespace, config.config.FunctionName, config.config.FunctionVersion);
+  logger.info('完成部署 %s/%s@%s', config.config.Namespace, config.config.FunctionName, config.config.FunctionVersion);
 }

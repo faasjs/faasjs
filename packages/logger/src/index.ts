@@ -1,12 +1,15 @@
 import { format } from 'util';
+import { Color } from './color';
+
+export { Color };
 
 export type Level = 'debug' | 'info' | 'warn' | 'error';
 
 enum LevelColor {
-  debug = '\u001b[034m',
-  info = '\u001b[032m',
-  warn = '\u001b[033m',
-  error = '\u001b[031m',
+  debug = Color.GRAY,
+  info = Color.GREEN,
+  warn = Color.ORANGE,
+  error = Color.RED
 }
 
 interface Timer {
@@ -24,7 +27,7 @@ const LevelPriority = {
 /**
  * 日志类
  */
-class Log {
+export default class Logger {
   public silent: boolean;
   public level: number;
   public mode: string;
@@ -56,7 +59,7 @@ class Log {
    * @param message {string} 日志内容
    * @param args {...any=} 内容参数
    */
-  public debug (message: string, ...args: any[]) {
+  public debug (message: string, ...args: any[]): Logger {
     this.log('debug', message, ...args);
     return this;
   }
@@ -66,7 +69,7 @@ class Log {
    * @param message {string} 日志内容
    * @param args {...any=} 内容参数
    */
-  public info (message: string, ...args: any[]) {
+  public info (message: string, ...args: any[]): Logger {
     this.log('info', message, ...args);
     return this;
   }
@@ -76,7 +79,7 @@ class Log {
    * @param message {string} 日志内容
    * @param args {...any=} 内容参数
    */
-  public warn (message: string, ...args: any[]) {
+  public warn (message: string, ...args: any[]): Logger {
     this.log('warn', message, ...args);
     return this;
   }
@@ -86,7 +89,7 @@ class Log {
    * @param message {any} 日志内容，可以为 Error 对象
    * @param args {...any=} 内容参数
    */
-  public error (message: any, ...args: any[]) {
+  public error (message: any, ...args: any[]): Logger {
     let stack = false;
     [message].concat(Array.from(args)).forEach((e: any) => {
       if (e.stack) {
@@ -107,8 +110,8 @@ class Log {
    * @param key {string} 计时器标识
    * @param level [string=debug] 日志级别，支持 debug、info、warn、error
    */
-  public time (key: string, level: Level = 'debug') {
-    this.cachedTimers[key as string] = {
+  public time (key: string, level: Level = 'debug'): Logger {
+    this.cachedTimers[key] = {
       level,
       time: new Date().getTime(),
     };
@@ -122,16 +125,16 @@ class Log {
    * @param message {string} 日志内容
    * @param args {...any=} 内容参数
    */
-  public timeEnd (key: string, message: string, ...args: any[]) {
-    if (this.cachedTimers[key as string]) {
-      const timer: Timer = this.cachedTimers[key as string];
+  public timeEnd (key: string, message: string, ...args: any[]): Logger {
+    if (this.cachedTimers[key]) {
+      const timer: Timer = this.cachedTimers[key];
 
       message = message + ' +%ims';
       args.push(new Date().getTime() - timer.time);
 
       this[timer.level](message, ...args);
 
-      delete this.cachedTimers[key as string];
+      delete this.cachedTimers[key];
     } else {
       this.warn('timeEnd not found key %s', key);
       this.debug(message);
@@ -139,10 +142,32 @@ class Log {
     return this;
   }
 
-  private log (level: Level, message: string, ...args: any) {
+  /**
+   * 纯输出日志
+   * @param message {string} 日志内容
+   * @param args {...any=} 内容参数
+   */
+  public raw (message: string, ...args: any[]): Logger {
     if (this.silent) return this;
 
-    if (LevelPriority[level as Level] < this.level) return this;
+    console.log(format(message, ...args));
+
+    return this;
+  }
+
+  /**
+   * 文本染色
+   * @param color {number} 颜色代码
+   * @param message {string} 文本内容
+   */
+  public colorfy (color: number, message: string): string {
+    return `\u001b[0${color}m${message}\u001b[39m`;
+  }
+
+  private log (level: Level, message: string, ...args: any): Logger {
+    if (this.silent) return this;
+
+    if (LevelPriority[level] < this.level) return this;
 
     if (this.label) {
       message = `[${this.label}] ${message}`;
@@ -150,7 +175,7 @@ class Log {
     let output = level.toUpperCase() + ' ' + format(message, ...args);
 
     if (this.mode === 'local' && level !== 'error') {
-      output = `${LevelColor[level as string]}${output}\u001b[39m`;
+      output = this.colorfy(LevelColor[level], output);
     }
 
     if (level === 'error') {
@@ -162,5 +187,3 @@ class Log {
     return this;
   }
 }
-
-export default Log;

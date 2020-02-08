@@ -2,7 +2,6 @@ import { DeployData } from '@faasjs/func';
 import api from './api';
 import deepMerge from '@faasjs/deep_merge';
 import Tencentcloud from '..';
-import scf from '../cloud_function/scf';
 
 const defaults = {
   authRequired: 'FALSE',
@@ -13,10 +12,10 @@ const defaults = {
   serviceTimeout: 1800
 };
 
-export default async function (this: Tencentcloud, data: DeployData, origin: any) {
-  this.logger.info('开始发布网关');
+export default async function (tc: Tencentcloud, data: DeployData, origin: any): Promise<void> {
+  tc.logger.info('开始发布网关');
 
-  if (!this.config || !this.config.secretId || !this.config.secretKey) throw Error('Missing secretId or secretKey!');
+  if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!');
 
   const config = deepMerge(origin);
 
@@ -36,7 +35,7 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
     config.config.serviceScfFunctionName = config.config.functionName;
     delete config.config.functionName;
   } else {
-    config.config.serviceScfFunctionName = data.name!.replace(/[^a-zA-Z0-9-_]/g, '_');
+    config.config.serviceScfFunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_');
   }
 
   // 合并配置项
@@ -49,7 +48,7 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
   const provider = config.provider.config;
 
   if (!config.config.serviceId) {
-    this.logger.debug('查询服务信息 %s', data.env);
+    tc.logger.debug('查询服务信息 %s', data.env);
     let serviceInfo = await api(provider, {
       Action: 'DescribeServicesStatus',
       searchName: data.env
@@ -60,7 +59,7 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
     });
 
     if (!serviceInfo) {
-      this.logger.info('服务不存在，创建服务 %s', data.env);
+      tc.logger.info('服务不存在，创建服务 %s', data.env);
       serviceInfo = await api(provider, {
         Action: 'CreateService',
         serviceName: data.env,
@@ -71,7 +70,7 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
     config.config.serviceId = serviceInfo.serviceId;
   }
 
-  this.logger.debug('查询接口是否存在 %s %s', config.config.serviceId, config.config['requestConfig.path']);
+  tc.logger.debug('查询接口是否存在 %s %s', config.config.serviceId, config.config['requestConfig.path']);
 
   let apiInfo = await api(provider, {
     Action: 'DescribeApisStatus',
@@ -96,25 +95,25 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
       apiInfo.serviceScfFunctionNamespace !== config.config.serviceScfFunctionNamespace ||
       apiInfo.serviceScfFunctionQualifier !== config.config.serviceScfFunctionQualifier ||
       apiInfo.requestConfig.method !== config.config['requestConfig.method']) {
-      this.logger.info('更新接口');
+      tc.logger.info('更新接口');
       await api(provider, Object.assign(config.config, {
         Action: 'ModifyApi',
         apiId: apiInfo.apiId,
         serviceId: config.config.serviceId
       }));
     } else {
-      this.logger.info('网关无需更新 %s %s', config.config['requestConfig.method'], config.config['requestConfig.path']);
+      tc.logger.info('网关无需更新 %s %s', config.config['requestConfig.method'], config.config['requestConfig.path']);
       return;
     }
   } else {
-    this.logger.info('接口不存在，创建接口');
+    tc.logger.info('接口不存在，创建接口');
     await api(provider, Object.assign(config.config, {
       Action: 'CreateApi',
       serviceId: config.config.serviceId,
     }));
   }
 
-  this.logger.info('发布网关');
+  tc.logger.info('发布网关');
 
   await api(provider, {
     Action: 'ReleaseService',
@@ -123,5 +122,5 @@ export default async function (this: Tencentcloud, data: DeployData, origin: any
     serviceId: config.config.serviceId
   });
 
-  this.logger.info('网关发布完成 %s %s', config.config['requestConfig.method'], config.config['requestConfig.path']);
+  tc.logger.info('网关发布完成 %s %s', config.config['requestConfig.method'], config.config['requestConfig.path']);
 }
