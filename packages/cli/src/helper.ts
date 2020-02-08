@@ -1,4 +1,4 @@
-export function defaultsEnv () {
+export function defaultsEnv (): void {
   // 设置默认环境变量
   if (!process.env.FaasRoot) {
     process.env.FaasRoot = process.cwd() + '/';

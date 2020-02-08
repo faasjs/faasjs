@@ -25,12 +25,12 @@ const Plugins = {
   }
 };
 
-export default function (logger: Logger, name: string, plugins: string[]) {
+export default function (logger: Logger, name: string, plugins: string[]): void {
   let folder = '';
   if (name.includes(sep)) {
     const folders = name.split(sep);
     name = folders.pop();
-    folders.reduce(function (prev, cur) {
+    folders.reduce(function (prev: string, cur: string) {
       if (!existsSync(prev)) {
         mkdirSync(prev);
       }

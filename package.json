@@ -1,5 +1,5 @@
 {
-  "name": "faasjs",
+  "name": "faasjs-mono",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .ts packages/*/src",

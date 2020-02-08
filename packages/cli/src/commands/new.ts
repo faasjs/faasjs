@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import Logger from '@faasjs/logger';
 import newFunc from './new/func';
 
-export function action (type: string, name: string, plguins: string[]) {
+export function action (type: string, name: string, plguins: string[]): void {
   const logger = new Logger();
 
   switch (type) {
@@ -15,7 +15,7 @@ export function action (type: string, name: string, plguins: string[]) {
   }
 }
 
-export default function (program: Command) {
+export default function (program: Command): void {
   program
     .command('new <type> <name> [plguins...]')
     .name('new')

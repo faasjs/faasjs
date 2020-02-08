@@ -5,7 +5,7 @@ import { createInterface } from 'readline';
 import { Deployer } from '@faasjs/deployer';
 import { defaultsEnv } from '../helper';
 
-export async function action (env: string, files: string[]) {
+export async function action (env: string, files: string[]): Promise<void> {
   process.env.FaasEnv = env;
 
   defaultsEnv();
@@ -34,7 +34,7 @@ export async function action (env: string, files: string[]) {
   // 单个云函数文件直接部署
   if (list.length === 1) {
     const deployer = new Deployer({
-      root: process.env.FaasRoot!,
+      root: process.env.FaasRoot,
       filename: list[0]
     });
     await deployer.deploy();
@@ -42,32 +42,34 @@ export async function action (env: string, files: string[]) {
     console.log(`[${process.env.FaasEnv}] 是否要发布以下云函数？`);
     console.log(list);
     console.log('');
-    const readline = createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
-    readline.question('输入 y 确认:', async function (res) {
-      readline.close();
-
-      if (res !== 'y') {
-        console.error('停止发布');
-        return;
-      } else {
-        for (const file of list) {
-          const deployer = new Deployer({
-            root: process.env.FaasRoot!,
-            filename: file
-          });
-          await deployer.deploy();
+    await new Promise(function (resolve, reject) {
+      const readline = createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+      readline.question('输入 y 确认:', function (res: string) {
+        readline.close();
+  
+        if (res !== 'y') {
+          console.error('停止发布');
+          reject();
+        } else {
+          resolve();
         }
-      }
+      });
     });
-  }
 
-  return true;
+    for (const file of list) {
+      const deployer = new Deployer({
+        root: process.env.FaasRoot,
+        filename: file
+      });
+      await deployer.deploy();
+    }
+  }
 }
 
-export default function (program: Command) {
+export default function (program: Command): void {
   program
     .command('deploy <env> [files...]')
     .name('deploy')

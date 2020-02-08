@@ -21,7 +21,8 @@
     "@types/glob": "*",
     "commander": "*",
     "enquirer": "*",
-    "ts-node": "*"
+    "ts-node": "*",
+    "npmlog": "*"
   },
   "gitHead": "ff4fd7fd9eded69aae797439cbf14e02d7058d03"
 }

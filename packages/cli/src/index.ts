@@ -6,6 +6,7 @@ import New from './commands/new';
 import Deploy from './commands/deploy';
 import Server from './commands/server';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require('ts-node').register({
   project: process.cwd() + '/tsconfig.json',
   compilerOptions: {
@@ -48,7 +49,7 @@ commander
     }
     logger.debug('env: %s', process.env.FaasEnv);
   })
-  .on('command:*', function (cmd) {
+  .on('command:*', function (cmd: string) {
     logger.error(`Unknown command: ${cmd}`);
   });
 

@@ -2,22 +2,20 @@ import { Command } from 'commander';
 import { Server } from '@faasjs/server';
 import { defaultsEnv } from '../helper';
 
-export async function action (opts: {
+export function action (opts: {
   port: number;
   cache: boolean;
-}) {
+}): void {
   defaultsEnv();
-  const server = new Server(process.env.FaasRoot!, {
+  const server = new Server(process.env.FaasRoot, {
     cache: opts.cache
   });
 
   const port = opts.port || 3000;
   server.listen(port);
-
-  return true;
 }
 
-export default function (program: Command) {
+export default function (program: Command): void {
   program
     .command('server')
     .name('server')
