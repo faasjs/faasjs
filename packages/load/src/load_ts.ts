@@ -51,11 +51,11 @@ export default async function loadTs (filename: string, options: {
       [key: string]: string;
     };
   }> {
-  // eslint-disable-next-line security/detect-non-literal-require
-  const PackageJSON = Object.keys(require(`${process.cwd()}/package.json`).dependencies);
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+  const PackageJSON = require(`${process.cwd()}/package.json`);
   const input = deepMerge({
     input: filename,
-    external: FAAS_PACKAGES.concat(PackageJSON),
+    external: PackageJSON['dependencies'] ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES,
     plugins: [
       typescript({
         tsconfigOverride: {
@@ -73,8 +73,8 @@ export default async function loadTs (filename: string, options: {
 
   for (const m of bundle.cache.modules || []) {
     for (const d of m.dependencies) {
-      if (!d.startsWith('/') && !dependencies[d as string]) {
-        dependencies[d as string] = '*';
+      if (!d.startsWith('/') && !dependencies[d]) {
+        dependencies[d] = '*';
       }
     }
   }
@@ -91,7 +91,7 @@ export default async function loadTs (filename: string, options: {
 
   await bundle.write(output);
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires,security/detect-non-literal-require
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
   const module = require(output.file);
 
   if (options.tmp) {

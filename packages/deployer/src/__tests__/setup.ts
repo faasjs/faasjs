@@ -1,14 +1,14 @@
 jest.mock(process.cwd() + '/node_modules/cos-nodejs-sdk-v5', () => {
   return class Client {
-    headBucket (params, callback) {
+    headBucket (params: any, callback: any): void {
       console.log('mock.cos.headBucket', params);
       callback();
     }
-    sliceUploadFile (params, callback) {
+    sliceUploadFile (params: any, callback: any): void {
       console.log('mock.cos.sliceUploadFile', params);
       callback();
     }
-    deleteObject (params, callback) {
+    deleteObject (params: any, callback: any): void {
       console.log('mock.cos.deleteObject', params);
       callback();
     }
@@ -16,7 +16,7 @@ jest.mock(process.cwd() + '/node_modules/cos-nodejs-sdk-v5', () => {
 });
 
 jest.mock(process.cwd() + '/node_modules/@faasjs/request', () => {
-  return async function (url, params) {
+  return function (url: string, params: any): any {
     console.log('mock.request', url, params);
     switch (url) {
       case 'https://apigateway.api.qcloud.com/v2/index.php?':

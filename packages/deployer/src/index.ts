@@ -11,7 +11,7 @@ export class Deployer {
   public func?: Func;
 
   constructor (data: DeployData) {
-    data.name = data.filename.replace(data.root, '').replace('.func.ts', '');//.replace(/^\/?[^/]+\//, '').replace(/\/$/, '');
+    data.name = data.filename.replace(data.root, '').replace('.func.ts', '');
     data.version = new Date().toLocaleString('zh-CN', {
       hour12: false,
       timeZone: 'Asia/Shanghai',
@@ -25,7 +25,7 @@ export class Deployer {
       data.env = process.env.FaasEnv || Config.defaults.deploy.env;
     }
 
-    data.config = Config[data.env!];
+    data.config = Config[data.env];
 
     if (!data.config) {
       throw Error(`Config load failed: ${data.env}`);
@@ -44,7 +44,7 @@ export class Deployer {
     this.deployData = data;
   }
 
-  public async deploy () {
+  public async deploy (): Promise<DeployData> {
     const data = this.deployData;
     const loadResult = await loadTs(data.filename, { tmp: true });
 
@@ -62,9 +62,9 @@ export class Deployer {
     // 按类型分类插件
     const includedCloudFunction = [];
     for (let i = 0; i < func.plugins.length; i++) {
-      const plugin = func.plugins[i as number];
+      const plugin = func.plugins[i];
       if (!plugin.type) {
-        data.logger!.error('Unknow plugin type: %o', plugin);
+        data.logger.error('Unknow plugin type: %o', plugin);
         throw Error('[Deployer] Unknow plugin type');
       }
 

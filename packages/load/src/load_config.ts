@@ -8,14 +8,14 @@ import { Config as FuncConfig } from '@faasjs/func';
  * 配置类
  */
 export class Config {
+  [key: string]: any;
   public readonly root: string;
   public readonly filename: string;
   public readonly origin: {
-    defaults: FuncConfig;
     [key: string]: FuncConfig;
+    defaults: FuncConfig;
   }
   public readonly defaults: FuncConfig;
-  [key: string]: any;
 
   /**
    * 创建配置类，并自动读取配置内容
@@ -36,7 +36,7 @@ export class Config {
 
     const paths = [this.root, '.'].concat(dirname(filename.replace(root, '')).split(sep));
 
-    paths.reduce(function (base, path) {
+    paths.reduce(function (base: string, path: string) {
       const root = join(base, path);
       const faas = join(root, 'faas.yaml');
 
@@ -57,10 +57,10 @@ export class Config {
 
     for (const key in this.origin) {
       if (key !== 'defaults') {
-        this[key as string] = deepMerge(this.origin.defaults, this.origin[key as string]);
+        this[key] = deepMerge(this.origin.defaults, this.origin[key]);
       }
 
-      const data = this[key as string];
+      const data = this[key];
 
       if (!data.providers) {
         throw Error(`[faas.yaml] missing key: ${key}/providers`);
@@ -71,7 +71,7 @@ export class Config {
       }
 
       for (const pluginKey in data.plugins) {
-        const plugin = data.plugins[pluginKey as string];
+        const plugin = data.plugins[pluginKey];
         plugin.name = pluginKey;
         if (plugin.provider) {
           if (typeof plugin.provider === 'string') {

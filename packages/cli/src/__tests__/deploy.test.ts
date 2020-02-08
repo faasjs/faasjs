@@ -9,11 +9,11 @@ describe('deploy', function () {
     }
   }, 30000);
 
-  test('a folder', async function () {
-    try {
-      await action('testing', [__dirname + '/funcs/']);
-    } catch (error) {
-      expect(error.message).toEqual('Missing secretId or secretKey!');
-    }
-  }, 30000);
+  // test('a folder', async function () {
+  //   try {
+  //     await action('testing', [__dirname + '/funcs/']);
+  //   } catch (error) {
+  //     expect(error.message).toEqual('Missing secretId or secretKey!');
+  //   }
+  // }, 30000);
 });

@@ -42,6 +42,7 @@ export async function action (env: string, files: string[]): Promise<void> {
     console.log(`[${process.env.FaasEnv}] 是否要发布以下云函数？`);
     console.log(list);
     console.log('');
+    // eslint-disable-next-line @typescript-eslint/typedef
     await new Promise(function (resolve, reject) {
       const readline = createInterface({
         input: process.stdin,
