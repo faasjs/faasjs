@@ -1,14 +1,14 @@
 {
   "name": "faasjs",
-  "version": "0.0.2-beta.3",
+  "version": "0.0.2-beta.4",
   "license": "MIT",
   "files": [],
   "dependencies": {
     "@faasjs/browser": "^0.0.2-beta.1",
-    "@faasjs/cli": "^0.0.2-beta.3",
+    "@faasjs/cli": "^0.0.2-beta.4",
+    "@faasjs/graphql-server": "file:./../graphql-server",
     "@faasjs/http": "^0.0.2-beta.3",
     "@faasjs/redis": "^0.0.2-beta.3",
-    "@faasjs/sql": "^0.0.2-beta.3",
-    "@faasjs/graphql-server": "file:./../graphql-server"
+    "@faasjs/sql": "^0.0.2-beta.4"
   }
 }
