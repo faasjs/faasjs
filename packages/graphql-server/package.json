@@ -26,5 +26,6 @@
     "@apollographql/graphql-playground-html": "*",
     "apollo-server-core": "*",
     "apollo-server-env": "*"
-  }
+  },
+  "gitHead": "87f75e394a057b947b344a46ca68f52874a04e45"
 }
