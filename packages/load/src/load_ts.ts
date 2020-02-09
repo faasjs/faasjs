@@ -15,6 +15,7 @@ const FAAS_PACKAGES = [
   '@faasjs/eslint-config-vue',
   'faasjs',
   '@faasjs/func',
+  '@faasjs/graphql-server',
   '@faasjs/http',
   '@faasjs/load',
   '@faasjs/logger',

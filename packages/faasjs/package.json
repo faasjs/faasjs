@@ -8,7 +8,7 @@
     "@faasjs/cli": "^0.0.2-beta.3",
     "@faasjs/http": "^0.0.2-beta.3",
     "@faasjs/redis": "^0.0.2-beta.3",
-    "@faasjs/sql": "^0.0.2-beta.3"
-  },
-  "gitHead": "ff4fd7fd9eded69aae797439cbf14e02d7058d03"
+    "@faasjs/sql": "^0.0.2-beta.3",
+    "@faasjs/graphql-server": "file:./../graphql-server"
+  }
 }

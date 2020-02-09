@@ -1,0 +1,30 @@
+{
+  "name": "@faasjs/graphql-server",
+  "version": "0.0.2-beta.3",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
+  },
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "@faasjs/func": "^0.0.2-beta.3",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "@apollographql/graphql-playground-html": "*",
+    "apollo-server-core": "*",
+    "apollo-server-env": "*",
+    "@apollo/federation": "*",
+    "@apollo/gateway": "*"
+  }
+}
