@@ -9,38 +9,38 @@ export default class RunHandler {
     this.name = 'handler';
   }
 
-  public async onInvoke (data: InvokeData, next: () => void) {
-    if (!data.runHandler) {
-      data.logger.debug('[RunHandler] begin');
-      data.logger.time('RunHandler');
-      try {
-        data.response = await new Promise(function (resolve, reject) {
-          data.callback = function (error, result) {
-            if (error) {
-              reject(error);
-            }
-            else {
+  public async onInvoke (data: InvokeData, next: () => Promise<void>): Promise<void> {
+    if (data.handler) {
+      if (!data.runHandler) {
+        data.logger.debug('[RunHandler] begin');
+        data.logger.time('RunHandler');
+        try {
+          data.response = await new Promise(function (resolve: (result: any) => void, reject: (error: Error) => void) {
+            data.callback = function (error: Error, result: any): void {
+              if (error) {
+                reject(error);
+              }
+              else {
+                resolve(result);
+              }
+            };
+            Promise.resolve(data.handler(data)).then(function (result: any) {
               resolve(result);
-            }
-          };
-          Promise.resolve(data.handler(data)).then(function (result) {
-            resolve(result);
-          }).catch(function (error) {
-            reject(error);
+            }).catch(function (error: Error) {
+              reject(error);
+            });
           });
-        });
-      } catch (error) {
-        data.logger.error(error);
-        // eslint-disable-next-line require-atomic-updates
-        data.response = error;
+        } catch (error) {
+          data.logger.error(error);
+          data.response = error;
+        }
+        data.runHandler = true;
+        data.logger.timeEnd('RunHandler', '[RunHandler] end %o', data.response);
+      } else {
+        data.logger.warn('[RunHandler] handler has been run');
       }
-      // eslint-disable-next-line require-atomic-updates
-      data.runHandler = true;
-      data.logger.timeEnd('RunHandler', '[RunHandler] end %o', data.response);
-    } else {
-      data.logger.warn('[RunHandler] handler has been run');
     }
 
-    next();
+    await next();
   }
 }

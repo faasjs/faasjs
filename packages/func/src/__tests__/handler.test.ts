@@ -1,16 +1,16 @@
 import { Func, InvokeData } from '../index';
 
-describe('handler', function () {
-  test('no handler', function () {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    expect(() => new Func({})).toThrowError('Unknown handler');
+describe('Func handler', function () {
+  test('without handler', async function () {
+    const handler = new Func({}).export().handler;
+
+    expect(await handler(0)).toBeUndefined();
   });
 
-  describe('createHanlder', function () {
+  describe('with handler', function () {
     test('should work', async function () {
       const handler = new Func({
-        handler (data: InvokeData) {
+        handler (data: InvokeData): number {
           return data.event + 1;
         }
       }).export().handler;
@@ -21,7 +21,7 @@ describe('handler', function () {
 
     test('throw handler', async function () {
       const handler = new Func({
-        handler () {
+        handler (): void {
           throw Error('Error');
         }
       }).export().handler;

@@ -6,15 +6,16 @@ export type Next = () => Promise<void>;
 export type ExportedHandler = (event: any, context?: any, callback?: (...args: any) => any) => Promise<any>;
 
 export interface Plugin {
+  [key: string]: any;
   type: string;
   name?: string;
   onDeploy?: (data: DeployData, next: Next) => void;
   onMount?: (data: MountData, next: Next) => void;
   onInvoke?: (data: InvokeData, next: Next) => void;
-  [key: string]: any;
 }
 
 export interface Config {
+  [key: string]: any;
   providers: {
     [key: string]: {
       type: string;
@@ -25,17 +26,18 @@ export interface Config {
   };
   plugins: {
     [key: string]: {
+      [key: string]: any;
       provider?: string;
       type: string;
       config?: {
         [key: string]: any;
       };
-      [key: string]: any;
+      
     };
   };
-  [key: string]: any;
 }
 export interface DeployData {
+  [key: string]: any;
   root: string;
   filename: string;
   env?: string;
@@ -47,6 +49,7 @@ export interface DeployData {
   };
   plugins?: {
     [name: string]: {
+      [key: string]: any;
       name?: string;
       type: string;
       provider?: string;
@@ -54,21 +57,20 @@ export interface DeployData {
         [key: string]: any;
       };
       plugin: Plugin;
-      [key: string]: any;
     };
   };
   logger?: Logger;
-  [key: string]: any;
 }
 
 export interface MountData {
+  [key: string]: any;
   config: Config;
   event: any;
   context: any;
-  [key: string]: any;
 }
 
 export interface InvokeData {
+  [key: string]: any;
   event: any;
   context: any;
   callback: any;
@@ -76,21 +78,20 @@ export interface InvokeData {
   logger: Logger;
   handler: Handler;
   config: Config;
-  [key: string]: any;
 }
 
 export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke';
 
 export class Func {
+  [key: string]: any;
   public plugins: Plugin[];
-  public handler: Handler;
+  public handler?: Handler;
   public logger: Logger;
   public config: Config;
   private mounted: boolean;
   private cachedFunctions: {
     [key in LifeCycleKey]: ((...args: any) => any)[];
   }
-  [key: string]: any;
 
   /**
    * 新建流程
@@ -100,15 +101,11 @@ export class Func {
    */
   constructor (config: {
     plugins?: Plugin[];
-    handler: Handler;
+    handler?: Handler;
   }) {
     this.logger = new Logger('Func');
 
-    if (typeof config.handler !== 'function') {
-      throw Error('Unknown handler');
-    }
     this.handler = config.handler;
-
     this.plugins = config.plugins || [];
     this.plugins.push(new RunHandler());
     this.config = {
@@ -120,27 +117,27 @@ export class Func {
     this.cachedFunctions = Object.create(null);
   }
 
-  public compose (key: LifeCycleKey) {
+  public compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
     let list: ((...args: any) => any)[] = [];
 
-    if (this.cachedFunctions[key as LifeCycleKey]) {
-      list = this.cachedFunctions[key as LifeCycleKey];
+    if (this.cachedFunctions[key]) {
+      list = this.cachedFunctions[key];
     } else {
       for (const plugin of this.plugins) {
-        if (typeof plugin[key as LifeCycleKey] === 'function') {
-          list.push(plugin[key as LifeCycleKey].bind(plugin));
+        if (typeof plugin[key] === 'function') {
+          list.push(plugin[key].bind(plugin));
         }
       }
-      this.cachedFunctions[key as LifeCycleKey] = list;
+      this.cachedFunctions[key] = list;
     }
 
-    return function (data: any, next?: () => void) {
+    return function (data: any, next?: () => void): any {
       let index = -1;
 
       const dispatch = function (i: number): any {
         if (i <= index) return Promise.reject(Error('next() called multiple times'));
         index = i;
-        let fn: any = list[i as number];
+        let fn: any = list[i];
         if (i === list.length) fn = next;
         if (!fn) return Promise.resolve();
         try {
@@ -161,7 +158,7 @@ export class Func {
    * @param data.filename {string} 包括完整路径的流程文件名
    * @param data.env {string} 环境
    */
-  public deploy (data: DeployData) {
+  public deploy (data: DeployData): any {
     this.logger.debug('onDeploy');
     return this.compose('onDeploy')(data);
   }
@@ -173,7 +170,7 @@ export class Func {
     event: any;
     context: any;
     config?: any;
-  }) {
+  }): Promise<any> {
     this.logger.debug('onMount');
     if (this.mounted) {
       this.logger.warn('mount() has been called, skipped.');
@@ -195,7 +192,7 @@ export class Func {
    * 执行云函数
    * @param data {object} 执行信息
    */
-  public async invoke (data: InvokeData) {
+  public async invoke (data: InvokeData): Promise<any> {
     this.logger.debug('onInvoke');
 
     // 实例未启动时执行启动函数
@@ -222,7 +219,7 @@ export class Func {
     handler: ExportedHandler;
   } {
     return {
-      handler: async (event: any, context?: any, callback?: (...args: any) => any) => {
+      handler: async (event: any, context?: any, callback?: (...args: any) => any): Promise<any> => {
         this.logger.debug('event: %o', event);
         this.logger.debug('context: %o', context);
 
@@ -242,7 +239,7 @@ export class Func {
           event,
           context,
           callback,
-          response: null,
+          response: undefined,
           handler: this.handler,
           logger: this.logger,
           config: this.config
