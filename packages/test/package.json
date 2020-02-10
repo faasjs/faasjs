@@ -15,7 +15,10 @@
     "@faasjs/load": "^0.0.2-beta.4",
     "@types/debug": "*",
     "@types/jest": "*",
-    "@types/node": "*"
+    "@types/node": "*",
+    "jest": "*",
+    "ts-jest": "*",
+    "typescript": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.3",
