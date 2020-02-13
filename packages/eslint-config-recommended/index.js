@@ -15,6 +15,10 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
   rules: {
+    curly: [
+      'error',
+      'multi'
+    ],
     'no-console': 'off',
     quotes: [
       'error',
@@ -34,6 +38,16 @@ module.exports = {
     'quote-props': [
       'error',
       'as-needed'
+    ],
+    'object-curly-newline': [
+      'error',
+      {
+        multiline: true
+      }
+    ],
+    'object-curly-spacing': [
+      'error',
+      'always'
     ],
     'object-property-newline': [
       'error'
