@@ -29,6 +29,42 @@ const FAAS_PACKAGES = [
   '@faasjs/vue-plugin'
 ];
 
+const NODE_PACKAGES = [
+  'async_hooks',
+  'child_process',
+  'cluster',
+  'crypto',
+  'dns',
+  'events',
+  'fs',
+  'http',
+  'http2',
+  'https',
+  'inspector',
+  'net',
+  'os',
+  'path',
+  'perf_hooks',
+  'process',
+  'querystring',
+  'readline',
+  'repl',
+  'stream',
+  'string_decoder',
+  'tls',
+  'trace_events',
+  'tty',
+  'dgram',
+  'udp4',
+  'url',
+  'util',
+  'v8',
+  'vm',
+  'wasi',
+  'worker_threads',
+  'zlib'
+];
+
 /**
  * 加载 ts 文件
  * 
@@ -54,9 +90,11 @@ export default async function loadTs (filename: string, options: {
   }> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`);
+  const external = PackageJSON['dependencies'] ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES;
+
   const input = deepMerge({
     input: filename,
-    external: PackageJSON['dependencies'] ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES,
+    external,
     plugins: [
       typescript({
         tsconfigOverride: {
@@ -74,15 +112,10 @@ export default async function loadTs (filename: string, options: {
 
   for (const m of bundle.cache.modules || []) {
     for (const d of m.dependencies) {
-      if (!d.startsWith('/') && !dependencies[d]) {
+      if (!d.startsWith('/') && !dependencies[d] && !NODE_PACKAGES.includes(d)) {
         dependencies[d] = '*';
       }
     }
-  }
-
-  // 特殊处理，避免引入 tslib
-  if (dependencies['\u0000tslib.js']) {
-    delete dependencies['\u0000tslib.js'];
   }
 
   const output = deepMerge({
