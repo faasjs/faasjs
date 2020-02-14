@@ -6,7 +6,6 @@
   "dependencies": {
     "@faasjs/browser": "^0.0.2-beta.1",
     "@faasjs/cli": "^0.0.2-beta.6",
-    "@faasjs/graphql-server": "^0.0.2-beta.5",
     "@faasjs/http": "^0.0.2-beta.3",
     "@faasjs/redis": "^0.0.2-beta.3",
     "@faasjs/sql": "^0.0.2-beta.6"
