@@ -117,7 +117,7 @@ export class Http implements Plugin {
 
     // 引用服务商部署插件
     // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-    const Provider = require(config.provider.type).default;
+    const Provider = require(config.provider.type);
     const provider = new Provider(config.provider.config);
 
     // 部署网关

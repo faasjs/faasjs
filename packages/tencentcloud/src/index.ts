@@ -11,7 +11,7 @@ export interface TencentcloudConfig {
   region: string;
 }
 
-class Tencentcloud {
+export default class Tencentcloud {
   public config: TencentcloudConfig;
   public logger: Logger;
 
@@ -56,5 +56,3 @@ class Tencentcloud {
     return invoke.invokeSyncCloudFunction(this, name, data, options);
   }
 }
-
-module.exports = { default: Tencentcloud };
