@@ -2,7 +2,7 @@ import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import Logger, { Color } from '@faasjs/logger';
 import { loadTs } from '@faasjs/load';
-import { writeFileSync, readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
@@ -22,8 +22,8 @@ function loadDependents (packageJSON: any, dependencies: any): any {
     if (!existsSync(path)) continue;
 
     const subPackage = JSON.parse(readFileSync(path).toString());
-    if (subPackage.dependencies) {
-      for (const subKey in subPackage.dependencies) {
+    if (subPackage.dependencies) 
+      for (const subKey in subPackage.dependencies) 
         if (!packageJSON.dependencies[subKey]) {
           const subPath = join(process.cwd(), 'node_modules', subKey);
           if (!existsSync(subPath)) continue;
@@ -33,18 +33,17 @@ function loadDependents (packageJSON: any, dependencies: any): any {
           const subSubPackage = JSON.parse(readFileSync(join(subPath, 'package.json')).toString());
           loadDependents(packageJSON, subSubPackage.dependencies);
         }
-      }
-    }
+      
+    
     packageJSON.dependencies[key] = `file:${join(process.cwd(), 'node_modules', key)}`;
   }
 }
 
 function exec (cmd: string): void {
-  if (process.env.FaasLog === 'debug') {
+  if (process.env.FaasLog === 'debug') 
     execSync(cmd, { stdio: 'inherit' });
-  } else {
+  else 
     execSync(cmd);
-  }
 }
 
 export default async function deployCloudFunction (tc: Tencentcloud, data: DeployData, origin: any): Promise<void> {
@@ -62,9 +61,9 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
   if (config.config.name) {
     config.config.FunctionName = config.config.name;
     delete config.config.name;
-  } else {
+  } else 
     config.config.FunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_');
-  }
+  
   if (config.config.memorySize) {
     config.config.MemorySize = config.config.memorySize;
     delete config.config.memorySize;
@@ -134,22 +133,22 @@ module.exports = main.export();`
     }
   });
 
-  logger.debug('[2.2/11] 生成 package.json...');
-  const packageJSON = {
-    dependencies: config.config.dependencies,
-    private: true
-  };
+  logger.debug('[2.2/11] 生成 dependencies...');
+  const packageJSON = { dependencies: config.config.dependencies };
 
   loadDependents(packageJSON, packageJSON.dependencies);
 
-  writeFileSync(join(config.config.tmp, 'package.json'), JSON.stringify(packageJSON));
   logger.debug('%o', packageJSON);
 
   logger.debug('[2.3/11] 生成 node_modules...');
-  exec(`yarn --cwd ${config.config.tmp} install --production --offline`);
+  for (const key in packageJSON.dependencies) {
+    exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
+    exec(`cp -R -L ${packageJSON.dependencies[key].replace('file:', '')}/* ${config.config.tmp}node_modules/${key}`);
+  }
+  exec(`rm -rf ${config.config.tmp}node_modules/**/node_modules`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
-  exec(`cd ${config.config.tmp} && zip -r deploy.zip *`);
+  exec(`cd ${config.config.tmp} && zip -r deploy.zip * -x "*.md" -x "*.ts" -x "*.map"`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[04/11]')} 检查 COS...`);
 
@@ -178,9 +177,7 @@ module.exports = main.export();`
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[06/11]')} 检查命名空间...`);
   logger.debug('[6.1/11] 检查命名空间状态');
-  const namespaceList = await scf(tc, {
-    Action: 'ListNamespaces'
-  });
+  const namespaceList = await scf(tc, { Action: 'ListNamespaces' });
   if (!namespaceList.Namespaces.find(function (n: any) {
     return n.Name === config.config.Namespace;
   })) {
@@ -189,9 +186,9 @@ module.exports = main.export();`
       Action: 'CreateNamespace',
       Namespace: config.config.Namespace
     });
-  } else {
+  } else 
     logger.debug('[6.2/11] 命名空间已存在，跳过');
-  }
+  
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[07/11]')} 上传云函数...`);
 
@@ -286,9 +283,9 @@ module.exports = main.export();`
           Namespace: config.config.Namespace
         }).then(res => res.Status);
       }
-    } else {
+    } else 
       throw error;
-    }
+    
   }
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[08/11]')} 发布版本...`);
@@ -350,7 +347,7 @@ module.exports = main.export();`
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[10/11]')} 更新触发器...`);
   const prevVersion = Number(config.config.FunctionVersion) - 1;
-  if (scfInfo && scfInfo.Triggers.length) {
+  if (scfInfo && scfInfo.Triggers.length) 
     for (const trigger of scfInfo.Triggers) {
       logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
       await scf(tc, {
@@ -362,7 +359,7 @@ module.exports = main.export();`
         Qualifier: prevVersion
       });
     }
-  }
+  
   if (prevVersion) {
     scfInfo = await scf(tc, {
       Action: 'GetFunction',
@@ -370,7 +367,7 @@ module.exports = main.export();`
       Namespace: config.config.Namespace,
       Qualifier: prevVersion,
     });
-    if (scfInfo.Triggers.length) {
+    if (scfInfo.Triggers.length) 
       for (const trigger of scfInfo.Triggers) {
         logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
         await scf(tc, {
@@ -382,9 +379,8 @@ module.exports = main.export();`
           Type: trigger.Type
         });
       }
-    }
 
-    if (config.config.triggers) {
+    if (config.config.triggers) 
       for (const trigger of config.config.triggers) {
         logger.debug('[10.2/11] 创建触发器 %s...', trigger.name);
         await scf(tc, {
@@ -398,7 +394,6 @@ module.exports = main.export();`
           Enable: 'OPEN'
         });
       }
-    }
   }
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[11/11]')} 清理文件...`);

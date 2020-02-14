@@ -96,13 +96,7 @@ export default async function loadTs (filename: string, options: {
     input: filename,
     external,
     plugins: [
-      typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: false
-          }
-        }
-      })
+      typescript({ tsconfigOverride: { compilerOptions: { declaration: false } } })
     ]
   }, options.input || {});
 
@@ -110,13 +104,9 @@ export default async function loadTs (filename: string, options: {
 
   const dependencies = Object.create(null);
 
-  for (const m of bundle.cache.modules || []) {
-    for (const d of m.dependencies) {
-      if (!d.startsWith('/') && !dependencies[d] && !NODE_PACKAGES.includes(d)) {
-        dependencies[d] = '*';
-      }
-    }
-  }
+  for (const m of bundle.cache.modules || []) 
+    for (const d of m.dependencies) 
+      if (!d.startsWith('/') && !dependencies[d] && !NODE_PACKAGES.includes(d)) dependencies[d] = '*';
 
   const output = deepMerge({
     file: filename + '.tmp.js',
@@ -128,9 +118,7 @@ export default async function loadTs (filename: string, options: {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
   const module = require(output.file);
 
-  if (options.tmp) {
-    unlinkSync(output.file);
-  }
+  if (options.tmp) unlinkSync(output.file);
 
   return {
     module,

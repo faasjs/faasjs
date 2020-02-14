@@ -64,25 +64,25 @@ export class CloudFunction implements Plugin {
     this.type = 'cloud_function';
     this.name = config.name;
     this.config = config.config || Object.create(null);
-    if (config.validator) {
+    if (config.validator) 
       this.validatorConfig = config.validator;
-    }
+    
   }
 
-  public async onDeploy (data: DeployData, next: Next) {
-    data.logger!.debug('[CloudFunction] 组装云函数配置');
-    data.logger!.debug('%o', data);
+  public async onDeploy (data: DeployData, next: Next): Promise<void> {
+    data.logger.debug('[CloudFunction] 组装云函数配置');
+    data.logger.debug('%o', data);
 
-    const config = deepMerge(data.config!.plugins![this.name || this.type], { config: this.config });
+    const config = deepMerge(data.config.plugins[this.name || this.type], { config: this.config });
 
-    data.logger!.debug('[CloudFunction] 组装完成 %o', config);
+    data.logger.debug('[CloudFunction] 组装完成 %o', config);
 
     // 引用服务商部署插件
-    // eslint-disable-next-line security/detect-non-literal-require, @typescript-eslint/no-var-requires
-    const Provider = require(config.provider.type);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+    const Provider = require(config.provider.type).default;
     const provider = new Provider(config.provider.config);
 
-    data.dependencies![config.provider.type as string] = '*';
+    data.dependencies[config.provider.type as string] = '*';
 
     // 部署云函数
     await provider.deploy(this.type, data, config);
@@ -90,17 +90,17 @@ export class CloudFunction implements Plugin {
     await next();
   }
 
-  public async onMount (data: MountData, next: Next) {
-    if (data.config['plugins'] && data.config.plugins[this.name || this.type]) {
+  public async onMount (data: MountData, next: Next): Promise<void> {
+    if (data.config['plugins'] && data.config.plugins[this.name || this.type]) 
       this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type]);
-    }
+    
     if (this.config.provider) {
-      // eslint-disable-next-line security/detect-non-literal-require, @typescript-eslint/no-var-requires
-      const Provider = require(this.config.provider.type);
+      // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+      const Provider = require(this.config.provider.type).default;
       this.adapter = new Provider(this.config.provider.config);
-    } else {
+    } else 
       this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.');
-    }
+    
     if (this.validatorConfig) {
       this.logger.debug('[onMount] prepare validator');
       this.validator = new Validator(this.validatorConfig);
@@ -108,14 +108,12 @@ export class CloudFunction implements Plugin {
     await next();
   }
 
-  public async onInvoke (data: InvokeData, next: Next) {
+  public async onInvoke (data: InvokeData, next: Next): Promise<void> {
     this.event = data.event;
     this.context = data.context;
     if (this.validator) {
       this.logger.debug('[onInvoke] Valid');
-      this.validator.valid({
-        event: this.event
-      });
+      this.validator.valid({ event: this.event });
     }
     await next();
   }
@@ -126,16 +124,16 @@ export class CloudFunction implements Plugin {
    * @param data {any} 参数
    * @param options {object} 额外配置项
    */
-  public invoke (name: string, data?: any, options?: {
+  public async invoke (name: string, data?: any, options?: {
     [key: string]: any;
   }): Promise<any> {
-    if (!data) {
+    if (!data) 
       data = Object.create(null);
-    }
-    if (typeof data === 'object') {
+    
+    if (typeof data === 'object') 
       data.context = this.context;
-    }
-    return this.adapter.invokeCloudFunction(name, data, options);
+    
+    return Promise.resolve(this.adapter.invokeCloudFunction(name, data, options));
   }
 
   /**
@@ -144,15 +142,15 @@ export class CloudFunction implements Plugin {
    * @param data {any} 参数
    * @param options {object} 额外配置项
    */
-  public invokeSync (name: string, data?: any, options?: {
+  public async invokeSync (name: string, data?: any, options?: {
     [key: string]: any;
   }): Promise<any> {
-    if (!data) {
+    if (!data) 
       data = Object.create(null);
-    }
-    if (typeof data === 'object') {
+    
+    if (typeof data === 'object') 
       data.context = this.context;
-    }
-    return this.adapter.invokeSyncCloudFunction(name, data, options);
+    
+    return Promise.resolve(this.adapter.invokeSyncCloudFunction(name, data, options));
   }
 }

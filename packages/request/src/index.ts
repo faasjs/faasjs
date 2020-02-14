@@ -40,7 +40,7 @@ let mock: Mock | null = null;
  * 设置模拟请求
  * @param handler {function | null} 模拟函数，若设置为 null 则表示清除模拟函数
  */
-export function setMock (handler: Mock | null) {
+export function setMock (handler: Mock | null): void {
   mock = handler;
 }
 
@@ -57,7 +57,7 @@ export function setMock (handler: Mock | null) {
  *
  * @returns {promise}
  */
-export default function request (url: string, {
+export default async function (url: string, {
   headers,
   method,
   query,
@@ -75,22 +75,20 @@ export default function request (url: string, {
     query,
   });
 
-  if (mock) {
-    return mock(url, {
-      headers,
-      method,
-      query,
-      body
-    });
-  }
+  if (mock) return mock(url, {
+    headers,
+    method,
+    query,
+    body
+  });
 
   // 序列化 query
   if (query) {
-    if (url.indexOf('?') < 0) {
+    if (!url.includes('?')) 
       url += '?';
-    } else if (url.substring(url.length - 1) !== '?') {
+    else if (!url.endsWith('?')) 
       url += '&';
-    }
+    
     url += stringify(query);
   }
 
@@ -113,44 +111,39 @@ export default function request (url: string, {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: method ? method.toUpperCase() : 'GET',
-    path: uri.path!,
+    path: uri.path,
     query: {},
-    port: uri.port!,
+    port: uri.port,
     timeout,
     auth
   };
 
   // 处理 headers
-  for (const key in headers) {
-    if (typeof headers[key as string] !== 'undefined' && headers[key as string] !== null) {
-      options.headers[key as string] = headers[key as string];
-    }
-  }
+  for (const key in headers) 
+    if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key];
 
   // 序列化 body
-  if (body && typeof body !== 'string') {
+  if (body && typeof body !== 'string') 
     if (
       options.headers['Content-Type'] &&
-      options.headers['Content-Type']!.toString().includes('application/x-www-form-urlencoded')
+      options.headers['Content-Type'].toString().includes('application/x-www-form-urlencoded')
     ) {
       body = stringify(body);
     } else {
       body = JSON.stringify(body);
     }
-  }
 
-  if (body && !options.headers['Content-Length']) {
-    options.headers['Content-Length'] = Buffer.byteLength(body);
-  }
+  if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body);
 
+  // eslint-disable-next-line @typescript-eslint/typedef
   return new Promise(function (resolve, reject) {
     // 包裹请求
-    const req = protocol.request(options, function (res) {
+    const req = protocol.request(options, function (res: http.IncomingMessage) {
       const raw: Buffer[] = [];
-      res.on('data', (chunk) => {
+      res.on('data', (chunk: any) => {
         raw.push(chunk);
       });
-      res.on('end', async () => {
+      res.on('end', () => {
         const data = Buffer.concat(raw).toString();
         log.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data);
 
@@ -162,29 +155,26 @@ export default function request (url: string, {
         response.headers = res.headers;
         response.body = data;
 
-        if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json')) {
+        if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json')) 
           try {
             response.body = JSON.parse(response.body);
             log.debug('response.parse JSON');
           } catch (error) {
             console.error(error);
           }
-        }
 
-        if (response.statusCode >= 200 && response.statusCode < 400) {
+        if (response.statusCode >= 200 && response.statusCode < 400) 
           resolve(response);
-        } else {
+        else {
           log.debug('response.error %o', response);
           reject(response);
         }
       });
     });
 
-    if (body) {
-      req.write(body);
-    }
+    if (body) req.write(body);
 
-    req.on('error', function (e) {
+    req.on('error', function (e: Error) {
       log.timeEnd(url, 'response.error %o', e);
       reject(e);
     });

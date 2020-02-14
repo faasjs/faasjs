@@ -7,11 +7,12 @@ test('http', async function () {
     filename: __dirname + '/funcs/http.func.ts',
     env: 'testing'
   });
-  const info = await deployer.deploy();
+  try {
+    await deployer.deploy();
+  // eslint-disable-next-line no-empty
+  } catch (error) {}
 
-  const res = execSync(`node -e "const handler = require('${info.tmp}index.js').handler;(async function invoke(){console.log('|'+JSON.stringify(await handler({body:'0'}))+'|');})(handler);"`, {
-    cwd: info.tmp
-  }).toString();
+  const res = execSync(`node -e "const handler = require('${deployer.deployData.tmp}index.js').handler;(async function invoke(){console.log('|'+JSON.stringify(await handler({body:'0'}))+'|');})(handler);"`, { cwd: deployer.deployData.tmp }).toString();
 
   const data = JSON.parse(res.match(/([^|]+)|$/g)[1]);
 

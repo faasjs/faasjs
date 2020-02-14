@@ -13,7 +13,8 @@
     "jest": "*",
     "lerna": "*",
     "ts-jest": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "faasjs": "./packages/faasjs"
   },
   "workspaces": [
     "packages/*"

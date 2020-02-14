@@ -21,23 +21,18 @@ export class Deployer {
 
     const Config = loadConfig(data.root, data.filename);
 
-    if (!data.env) {
-      data.env = process.env.FaasEnv || Config.defaults.deploy.env;
-    }
+    if (!data.env) data.env = process.env.FaasEnv || Config.defaults.deploy.env;
 
     data.config = Config[data.env];
 
-    if (!data.config) {
-      throw Error(`Config load failed: ${data.env}`);
-    }
+    if (!data.config) throw Error(`Config load failed: ${data.env}`);
 
     data.tmp = join(data.root, 'tmp', data.env, data.name, data.version) + sep;
 
     data.tmp.split(sep).reduce(function (acc: string, cur: string) {
       acc += sep + cur;
-      if (!existsSync(acc)) {
-        mkdirSync(acc);
-      }
+      if (!existsSync(acc)) mkdirSync(acc);
+
       return acc;
     });
 
@@ -49,13 +44,9 @@ export class Deployer {
     const loadResult = await loadTs(data.filename, { tmp: true });
 
     const func = loadResult.module;
-    if (!func) {
-      throw Error(`Func load failed: ${data.filename}`);
-    }
+    if (!func) throw Error(`Func load failed: ${data.filename}`);
 
-    if (func.config) {
-      data.config = deepMerge(data.config, func.config);
-    }
+    if (func.config) data.config = deepMerge(data.config, func.config);
 
     data.dependencies = deepMerge(loadResult.dependencies, func.dependencies);
 
@@ -68,21 +59,20 @@ export class Deployer {
         throw Error('[Deployer] Unknow plugin type');
       }
 
-      if (plugin.type === 'cloud_function') {
+      if (plugin.type === 'cloud_function') 
         includedCloudFunction.push({
           index: i,
           plugin
         });
-      }
     }
 
     // 将云函数插件移到最后
-    if (includedCloudFunction.length) {
+    if (includedCloudFunction.length) 
       for (const plugin of includedCloudFunction) {
         func.plugins.splice(plugin.index, 1);
         func.plugins.push(plugin.plugin);
       }
-    } else {
+    else {
       const functionPlugin = new CloudFunction();
       func.plugins.push(functionPlugin);
     }

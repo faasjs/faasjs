@@ -21,20 +21,20 @@ export const ContentType: {
 };
 
 export interface HttpConfig {
+  [key: string]: any;
   name?: string;
   config?: {
+    [key: string]: any;
     method?: string;
     timeout?: number;
     functionName?: string;
     cookie?: CookieOptions;
-    [key: string]: any;
   };
   validator?: {
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
   };
-  [key: string]: any;
 }
 
 export interface Response {
@@ -55,11 +55,11 @@ export class Http implements Plugin {
   public cookie: Cookie;
   public session: Session;
   public config: {
+    [key: string]: any;
     method?: number;
     timeout?: number;
     functionName?: string;
     cookie?: CookieOptions;
-    [key: string]: any;
   };
   private validatorOptions?: {
     params?: ValidatorOptions;
@@ -94,41 +94,41 @@ export class Http implements Plugin {
     this.type = 'http';
     this.name = config.name;
     this.config = config.config || Object.create(null);
-    if (config.validator) {
+    if (config.validator) 
       this.validatorOptions = config.validator;
-    }
+    
     this.headers = Object.create(null);
     this.cookie = new Cookie(this.config.cookie || {});
     this.session = this.cookie.session;
   }
 
-  public async onDeploy (data: DeployData, next: Next) {
+  public async onDeploy (data: DeployData, next: Next): Promise<void> {
     await next();
     
     this.logger.debug('[Http] 组装网关配置');
     this.logger.debug('%o', data);
 
-    const config = deepMerge(data.config!.plugins![this.name || this.type], { config: this.config });
+    const config = deepMerge(data.config.plugins[this.name || this.type], { config: this.config });
 
     // 根据文件及文件夹名生成路径
-    config.config.path = '=/' + data.name!.replace(/_/g, '/').replace(/\/index$/, '');
+    config.config.path = '=/' + data.name.replace(/_/g, '/').replace(/\/index$/, '');
 
     this.logger.debug('[Http] 组装完成 %o', config);
 
     // 引用服务商部署插件
-    // eslint-disable-next-line security/detect-non-literal-require, @typescript-eslint/no-var-requires
-    const Provider = require(config.provider.type);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+    const Provider = require(config.provider.type).default;
     const provider = new Provider(config.provider.config);
 
     // 部署网关
     await provider.deploy(this.type, data, config);
   }
 
-  public async onMount (data: MountData, next: Next) {
+  public async onMount (data: MountData, next: Next): Promise<void> {
     this.logger.debug('[onMount] merge config');
-    if (data.config.plugins[this.name || this.type]) {
+    if (data.config.plugins[this.name || this.type]) 
       this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config);
-    }
+    
 
     this.logger.debug('[onMount] prepare cookie & session');
     this.cookie = new Cookie(this.config.cookie || {});
@@ -142,17 +142,15 @@ export class Http implements Plugin {
     await next();
   }
 
-  public async onInvoke (data: InvokeData, next: Next) {
+  public async onInvoke (data: InvokeData, next: Next): Promise<void> {
     this.logger.debug('[onInvoke] Parse & valid');
     this.logger.time('http');
 
     this.headers = data.event.headers || Object.create(null);
     this.params = Object.create(null);
-    this.response = {
-      headers: Object.create(null)
-    };
+    this.response = { headers: Object.create(null) };
 
-    if (data.event.body) {
+    if (data.event.body) 
       if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
         this.logger.debug('[onInvoke] Parse params from json body');
         this.params = JSON.parse(data.event.body);
@@ -160,7 +158,7 @@ export class Http implements Plugin {
         this.logger.debug('[onInvoke] Parse params from raw body');
         this.params = data.event.body;
       }
-    } else if (data.event.queryString) {
+    else if (data.event.queryString) {
       this.logger.debug('[onInvoke] Parse params from queryString');
       this.params = data.event.queryString;
     }
@@ -186,11 +184,7 @@ export class Http implements Plugin {
             'Content-Type': 'application/json; charset=utf-8',
             'X-Request-Id': data.context.request_id
           }, error.headers || {}),
-          body: JSON.stringify({
-            error: {
-              message: error.message
-            }
-          })
+          body: JSON.stringify({ error: { message: error.message } })
         };
         return;
       }
@@ -207,7 +201,7 @@ export class Http implements Plugin {
     this.session.update();
 
     // 处理 body
-    if (data.response) {
+    if (data.response) 
       if (data.response instanceof Error || (data.response.constructor && data.response.constructor.name === 'Error')) {
         // 当结果是错误类型时
         this.logger.error(data.response);
@@ -219,12 +213,12 @@ export class Http implements Plugin {
       } else {
         this.response.body = JSON.stringify({ data: data.response });
       }
-    }
+    
 
     // 处理 statusCode
-    if (!this.response.statusCode) {
+    if (!this.response.statusCode) 
       this.response.statusCode = this.response.body ? 200 : 201;
-    }
+    
 
     // 处理 headers
     this.response.headers = Object.assign({
@@ -243,8 +237,8 @@ export class Http implements Plugin {
    * @param key {string} key
    * @param value {*} value
    */
-  public setHeader (key: string, value: any) {
-    this.response!.headers[key as string] = value;
+  public setHeader (key: string, value: any): Http {
+    this.response.headers[key] = value;
     return this;
   }
 
@@ -253,12 +247,12 @@ export class Http implements Plugin {
    * @param type {string} 类型
    * @param charset {string} 编码
    */
-  public setContentType (type: string, charset = 'utf-8') {
-    if (ContentType[type as string]) {
-      this.setHeader('Content-Type', `${ContentType[type as string]}; charset=${charset}`);
-    } else {
+  public setContentType (type: string, charset: string = 'utf-8'): Http {
+    if (ContentType[type]) 
+      this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`);
+    else 
       this.setHeader('Content-Type', `${type}; charset=${charset}`);
-    }
+    
     return this;
   }
 
@@ -266,8 +260,8 @@ export class Http implements Plugin {
    * 设置状态码
    * @param code {number} 状态码
    */
-  public setStatusCode (code: number) {
-    this.response!.statusCode = code;
+  public setStatusCode (code: number): Http {
+    this.response.statusCode = code;
     return this;
   }
 
@@ -275,8 +269,8 @@ export class Http implements Plugin {
    * 设置 body
    * @param body {*} 内容
    */
-  public setBody (body: string) {
-    this.response!.body = body;
+  public setBody (body: string): Http {
+    this.response.body = body;
     return this;
   }
 }
