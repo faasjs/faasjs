@@ -15,7 +15,7 @@ export class Deployer {
     data.version = new Date().toLocaleString('zh-CN', {
       hour12: false,
       timeZone: 'Asia/Shanghai',
-    }).replace(/(\/|:|\s)/g, '_');
+    }).replace(/[^0-9]+/g, '_');
 
     data.logger = new Logger('Deployer');
 
