@@ -32,6 +32,8 @@ export default class Logger {
   public level: number;
   public mode: string;
   public label?: string;
+  public stdout: (text: string) => void;
+  public stderr: (text: string) => void;
   private cachedTimers: any;
 
   /**
@@ -39,9 +41,7 @@ export default class Logger {
    * @param label {string} 日志前缀
    */
   constructor (label?: string) {
-    if (label) {
-      this.label = label;
-    }
+    if (label) this.label = label;
 
     // 当使用 Jest 进行测试且使用 --silent 参数时禁止日志输出
     this.silent = !process.env.FaasLog &&
@@ -52,6 +52,9 @@ export default class Logger {
     this.level = process.env.FaasLog ? LevelPriority[process.env.FaasLog.toLowerCase()] : 0;
 
     this.cachedTimers = {};
+
+    this.stdout = console.log;
+    this.stderr = console.error;
   }
 
   /**
@@ -98,9 +101,7 @@ export default class Logger {
       }
     });
 
-    if (!stack) {
-      this.log('error', message, ...args);
-    }
+    if (!stack) this.log('error', message, ...args);
 
     return this;
   }
@@ -150,7 +151,7 @@ export default class Logger {
   public raw (message: string, ...args: any[]): Logger {
     if (this.silent) return this;
 
-    console.log(format(message, ...args));
+    this.stdout(format(message, ...args));
 
     return this;
   }
@@ -169,20 +170,17 @@ export default class Logger {
 
     if (LevelPriority[level] < this.level) return this;
 
-    if (this.label) {
-      message = `[${this.label}] ${message}`;
-    }
+    if (this.label) message = `[${this.label}] ${message}`;
+    
     let output = level.toUpperCase() + ' ' + format(message, ...args);
 
-    if (this.mode === 'local' && level !== 'error') {
+    if (this.mode === 'local' && level !== 'error') 
       output = this.colorfy(LevelColor[level], output);
-    }
 
-    if (level === 'error') {
-      console.error(output);
-    } else {
-      console.log(output);
-    }
+    if (level === 'error') 
+      this.stderr(output);
+    else 
+      this.stdout(output);
 
     return this;
   }
