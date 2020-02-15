@@ -2,7 +2,7 @@ import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import Logger, { Color } from '@faasjs/logger';
 import { loadTs } from '@faasjs/load';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
@@ -144,11 +144,8 @@ module.exports = main.export();`
   for (const key in packageJSON.dependencies) {
     exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
     exec(`cp -R -L ${packageJSON.dependencies[key].replace('file:', '')}/* ${config.config.tmp}node_modules/${key}`);
-    packageJSON.dependencies[key] = `./node_modules/${key}`;
   }
   exec(`rm -rf ${config.config.tmp}node_modules/**/node_modules`);
-
-  writeFileSync(config.config.tmp + 'package.json', JSON.stringify(packageJSON));
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
   exec(`cd ${config.config.tmp} && zip -r deploy.zip * -x "*.md" -x "*.ts" -x "*.map"`);
