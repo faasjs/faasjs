@@ -144,6 +144,7 @@ module.exports = main.export();`
   for (const key in packageJSON.dependencies) {
     exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
     exec(`cp -R -L ${packageJSON.dependencies[key].replace('file:', '')}/* ${config.config.tmp}node_modules/${key}`);
+    packageJSON.dependencies[key] = `./node_modules/${key}`;
   }
   exec(`rm -rf ${config.config.tmp}node_modules/**/node_modules`);
 
