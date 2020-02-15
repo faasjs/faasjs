@@ -10,11 +10,11 @@
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "./packages/eslint-config-recommended",
+    "faasjs": "./packages/faasjs",
     "jest": "*",
     "lerna": "*",
     "ts-jest": "*",
-    "typescript": "*",
-    "faasjs": "./packages/faasjs"
+    "typescript": "*"
   },
   "workspaces": [
     "packages/*"
