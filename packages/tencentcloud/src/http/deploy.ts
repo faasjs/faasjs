@@ -34,15 +34,14 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
   if (config.config.functionName) {
     config.config.serviceScfFunctionName = config.config.functionName;
     delete config.config.functionName;
-  } else {
+  } else 
     config.config.serviceScfFunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_');
-  }
 
   // 合并配置项
   config.config = deepMerge(defaults, config.config, {
     apiName: data.name,
     serviceScfFunctionNamespace: data.env,
-    serviceScfFunctionQualifier: '$LATEST'
+    serviceScfFunctionQualifier: data.env
   });
 
   const provider = config.provider.config;

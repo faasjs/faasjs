@@ -4,14 +4,13 @@ import * as crypto from 'crypto';
 function mergeData (data: any, prefix: string = ''): { [key: string]: any } {
   const ret: any = {};
   for (const k in data) {
-    if (typeof data[k] === 'undefined' || data[k] === null) {
+    if (typeof data[k] === 'undefined' || data[k] === null) 
       continue;
-    }
-    if (data[k] instanceof Array || data[k] instanceof Object) {
+    
+    if (data[k] instanceof Array || data[k] instanceof Object) 
       Object.assign(ret, mergeData(data[k], prefix + k + '.'));
-    } else {
+    else 
       ret[prefix + k] = data[k];
-    }
   }
   return ret;
 }
@@ -19,9 +18,8 @@ function mergeData (data: any, prefix: string = ''): { [key: string]: any } {
 function formatSignString (params: any): string {
   const str: string[] = [];
 
-  for (const key of Object.keys(params).sort()) {
+  for (const key of Object.keys(params).sort()) 
     str.push(key + '=' + params[key]);
-  }
 
   return str.join('&');
 }
@@ -64,8 +62,7 @@ export default async function (provider: any, params: any): Promise<any> {
     if (res.body.code) {
       console.error(res.body);
       return Promise.reject(Error(JSON.stringify(res.body)));
-    } else {
+    } else 
       return res.body;
-    }
   });
 }
