@@ -5,9 +5,7 @@ module.exports = {
     es6: true
   },
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: './tsconfig.json'
-  },
+  parserOptions: { project: './tsconfig.json' },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -41,9 +39,7 @@ module.exports = {
     ],
     'object-curly-newline': [
       'error',
-      {
-        multiline: true
-      }
+      { multiline: true }
     ],
     'object-curly-spacing': [
       'error',
@@ -58,23 +54,14 @@ module.exports = {
     ],
     '@typescript-eslint/array-type': [
       'error',
-      {
-        default: 'array'
-      }
+      { default: 'array' }
     ],
-    '@typescript-eslint/camelcase': [
-      'error',
-      {
-        properties: 'never',
-        ignoreDestructuring: true,
-        ignoreImports: true
-      }
-    ],
+    '@typescript-eslint/class-name-casing': 'warn',
+    '@typescript-eslint/camelcase': 'warn',
     '@typescript-eslint/member-ordering': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-implied-eval': 'warn',
-    '@typescript-eslint/no-require-imports': 'error',
     '@typescript-eslint/promise-function-async': 'error',
     '@typescript-eslint/typedef': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
