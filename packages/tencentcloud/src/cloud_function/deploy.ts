@@ -178,9 +178,7 @@ module.exports = main.export();`
   logger.raw(`${logger.colorfy(Color.GRAY, '[06/11]')} 检查命名空间...`);
   logger.debug('[6.1/11] 检查命名空间状态');
   const namespaceList = await scf(tc, { Action: 'ListNamespaces' });
-  if (!namespaceList.Namespaces.find(function (n: any) {
-    return n.Name === config.config.Namespace;
-  })) {
+  if (!namespaceList.Namespaces.find((n: any) => n.Name === config.config.Namespace)) {
     logger.debug('[6.2/11] 创建命名空间...');
     await scf(tc, {
       Action: 'CreateNamespace',
@@ -188,7 +186,6 @@ module.exports = main.export();`
     });
   } else 
     logger.debug('[6.2/11] 命名空间已存在，跳过');
-  
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[07/11]')} 上传云函数...`);
 

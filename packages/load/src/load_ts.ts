@@ -115,7 +115,7 @@ export default async function loadTs (filename: string, options: {
 
   await bundle.write(output);
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const module = require(output.file);
 
   if (options.tmp) unlinkSync(output.file);

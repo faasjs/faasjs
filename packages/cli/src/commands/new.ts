@@ -1,17 +1,13 @@
 import { Command } from 'commander';
-import Logger from '@faasjs/logger';
 import newFunc from './new/func';
 
 export function action (type: string, name: string, plguins: string[]): void {
-  const logger = new Logger();
-
   switch (type) {
     case 'func':
       newFunc(name, plguins);
       break;
     default:
-      logger.error(`Unknown type: ${type} (should be func)`);
-      break;
+      throw Error(`Unknown type: ${type} (only support func now)`);
   }
 }
 

@@ -14,5 +14,8 @@ module.exports = {
   ],
   moduleNameMapper: {
     '@faasjs/(.*)': '<rootDir>/./packages/$1/src'
-  }
+  },
+  setupFiles: [
+    __dirname + '/jest.setup.js'
+  ]
 };

@@ -3,14 +3,15 @@ import { readFileSync } from 'fs';
 import { execSync } from 'child_process';
 
 describe('new', function () {
-  afterEach(function () {
-    execSync(`rm -rf ${__dirname}/tmp`);
-  });
+  describe('func', function () {
+    afterEach(function () {
+      execSync(`rm -rf ${__dirname}/tmp`);
+    });
   
-  test('basic', function () {
-    action('func', 'packages/cli/src/__tests__/tmp/basic', []);
+    test('basic', function () {
+      action('func', 'packages/cli/src/__tests__/tmp/basic', []);
 
-    expect(readFileSync(__dirname + '/tmp/basic.func.ts').toString()).toEqual(`import { Func } from '@faasjs/func';
+      expect(readFileSync(__dirname + '/tmp/basic.func.ts').toString()).toEqual(`import { Func } from '@faasjs/func';
 
 export default new Func({
   plugins: [],
@@ -20,7 +21,7 @@ export default new Func({
 });
 `);
 
-    expect(readFileSync(__dirname + '/tmp/__tests__/basic.test.ts').toString()).toEqual(`import { FuncWarpper } from '@faasjs/test';
+      expect(readFileSync(__dirname + '/tmp/__tests__/basic.test.ts').toString()).toEqual(`import { FuncWarpper } from '@faasjs/test';
 
 describe('basic.func.ts', function () {
   test('should work', async function () {
@@ -32,12 +33,12 @@ describe('basic.func.ts', function () {
   });
 });
 `);
-  });
+    });
 
-  test('with plugins', function () {
-    action('func', 'packages/cli/src/__tests__/tmp/plugin', ['cf', 'http']);
+    test('with plugins', function () {
+      action('func', 'packages/cli/src/__tests__/tmp/plugin', ['cf', 'http']);
 
-    expect(readFileSync(__dirname + '/tmp/plugin.func.ts').toString()).toEqual(`import { Func } from '@faasjs/func';
+      expect(readFileSync(__dirname + '/tmp/plugin.func.ts').toString()).toEqual(`import { Func } from '@faasjs/func';
 import { CloudFunction } from '@faasjs/cloud_function';
 import { Http } from '@faasjs/http';
 
@@ -52,7 +53,7 @@ export default new Func({
 });
 `);
 
-    expect(readFileSync(__dirname + '/tmp/__tests__/plugin.test.ts').toString()).toEqual(`import { FuncWarpper } from '@faasjs/test';
+      expect(readFileSync(__dirname + '/tmp/__tests__/plugin.test.ts').toString()).toEqual(`import { FuncWarpper } from '@faasjs/test';
 
 describe('plugin.func.ts', function () {
   test('should work', async function () {
@@ -64,5 +65,14 @@ describe('plugin.func.ts', function () {
   });
 });
 `);
+    });
+  });
+
+  test('unknown type', function () {
+    try {
+      action('unknown', 'unknown', []);
+    } catch (error) {
+      expect(error.message).toEqual('Unknown type: unknown (only support func now)');
+    }
   });
 });
