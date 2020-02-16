@@ -7,7 +7,7 @@ export function action (type: string, name: string, plguins: string[]): void {
 
   switch (type) {
     case 'func':
-      newFunc(logger, name, plguins);
+      newFunc(name, plguins);
       break;
     default:
       logger.error(`Unknown type: ${type} (should be func)`);

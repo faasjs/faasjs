@@ -25,30 +25,23 @@ const Plugins = {
   }
 };
 
-export default function (logger: Logger, name: string, plugins: string[]): void {
+export default function (name: string, plugins: string[]): void {
+  const logger = new Logger();
+
   let folder = '';
   if (name.includes(sep)) {
     const folders = name.split(sep);
     name = folders.pop();
     folders.reduce(function (prev: string, cur: string) {
-      if (!existsSync(prev)) {
-        mkdirSync(prev);
-      }
-
+      if (!existsSync(prev)) mkdirSync(prev);
       cur = join(prev, cur);
-
-      if (!existsSync(cur)) {
-        mkdirSync(cur);
-      }
-
+      if (!existsSync(cur)) mkdirSync(cur);
       return cur;
     });
     folder = join(...folders);
   }
 
-  if (!name.endsWith('.func.ts')) {
-    name += '.func.ts';
-  }
+  if (!name.endsWith('.func.ts')) name += '.func.ts';
 
   if (existsSync(join(folder, name))) {
     logger.error(`File exists ${join(folder, name)}.`);
@@ -69,26 +62,24 @@ export default function (logger: Logger, name: string, plugins: string[]): void 
         key: kls.toLowerCase()
       };
       funcHeader += `import ${info.kls} from '${info.name}';\n`;
-    } else {
+    } else 
       funcHeader += `import { ${info.kls} } from '${info.name}';\n`;
-    }
 
-    funcPlugins += `const ${info.key} = new ${info.kls}();\n`;
+    funcPlugins += `const ${info.key} = new ${info.kls}({});\n`;
     funcPluginNames.push(info.key);
   }
 
   logger.info(`Writing ${join(folder, name)}`);
-  writeFileSync(join(folder, name), `${funcHeader}\n${funcPlugins}\nexport default new Func({
+  writeFileSync(join(folder, name), `${funcHeader}\n${funcPlugins ? funcPlugins + '\n' : ''}export default new Func({
   plugins: [${funcPluginNames.join(', ')}],
-  async handler () {
+  async handler (): Promise<any> {
     // let's code
   }
 });
 `);
 
-  if (!existsSync(join(folder, '__tests__'))) {
+  if (!existsSync(join(folder, '__tests__'))) 
     mkdirSync(join(folder, '__tests__'));
-  }
 
   const testFile = join(folder, '__tests__', name.replace('.func.ts', '.test.ts'));
   if (!existsSync(testFile)) {
