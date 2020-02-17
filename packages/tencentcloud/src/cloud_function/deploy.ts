@@ -270,19 +270,17 @@ module.exports = main.export();`
         VpcConfig: config.config.VpcConfig,
       });
 
-      let status = null;
-      while (status !== 'Active') {
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
         logger.debug('[7.3/11] 等待云函数代码更新完成...');
-
-        status = await scf(tc, {
+        if ((await scf(tc, {
           Action: 'GetFunction',
           FunctionName: config.config.FunctionName,
           Namespace: config.config.Namespace
-        }).then(res => res.Status);
+        })).Status === 'Active') break;
       }
     } else 
       throw error;
-    
   }
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[08/11]')} 发布版本...`);
@@ -293,21 +291,18 @@ module.exports = main.export();`
     FunctionName: config.config.FunctionName,
     Namespace: config.config.Namespace
   });
-  // eslint-disable-next-line require-atomic-updates
   config.config.FunctionVersion = version.FunctionVersion;
 
-  let status = null;
-  while (status !== 'Active') {
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
     logger.debug('[8.1/11] 等待版本发布完成...');
-
-    status = await scf(tc, {
+    if ((await scf(tc, {
       Action: 'GetFunction',
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace
-    }).then(res => res.Status);
+    })).Status === 'Active') break;
   }
 
-  // 别名功能故障，暂时禁用
   logger.raw(`${logger.colorfy(Color.GRAY, '[09/11]')} 更新别名...`);
 
   try {

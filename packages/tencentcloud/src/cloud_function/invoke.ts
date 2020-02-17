@@ -24,7 +24,7 @@ export async function invokeCloudFunction (tc: Tencentcloud, name: string, data?
     }, options || {})).then(function (res) {
       if (res.Result.ErrMsg) 
         return Promise.reject(Error(res.Result.ErrMsg));
-      else if (res.Result.RetMsg) 
+      else if (typeof res.Result.RetMsg !== 'undefined') 
         try {
           return JSON.parse(res.Result.RetMsg);
         } catch (error) {
