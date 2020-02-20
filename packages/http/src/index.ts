@@ -192,7 +192,11 @@ export class Http implements Plugin {
 
     this.logger.timeEnd('http', '[onInvoke] Parse & valid done');
 
-    await next();
+    try {
+      await next();
+    } catch (error) {
+      data.response = error;
+    }
 
     this.logger.debug('[onInvoke] Generate response');
     this.logger.time('http');
