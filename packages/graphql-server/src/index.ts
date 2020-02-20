@@ -1,10 +1,11 @@
 import { buildFederatedSchema } from '@apollo/federation';
 import { GraphQLSchemaModule } from 'apollo-graphql';
 import { Plugin, InvokeData, Next } from '@faasjs/func';
-import { ApolloServerBase, Config, GraphQLOptions, runHttpQuery, gql } from 'apollo-server-core';
+import { ApolloServerBase, Config, runHttpQuery, gql } from 'apollo-server-core';
 import { renderPlaygroundPage } from '@apollographql/graphql-playground-html';
 import { Headers } from 'apollo-server-env';
 import { ApolloGateway } from '@apollo/gateway';
+import deepMerge from '@faasjs/deep_merge';
 
 export { gql };
 
@@ -22,31 +23,21 @@ export interface GraphQLServerConfig{
 }
 
 class ApolloServer extends ApolloServerBase {
-  async createGraphQLServerOptions (
-    event: any,
-    context: any,
-  ): Promise<GraphQLOptions> {
-    return await super.graphQLServerOptions({
-      event,
-      context 
-    });
-  }
-  
   async load (): Promise<void> {
     await this.willStart();
   }
 
-  async handler (event: any, context: any): Promise<any> {
-    const options = await this.createGraphQLServerOptions(event, context);
+  async handler (data: InvokeData): Promise<any> {
+    const options = await super.graphQLServerOptions(data);
     
-    return runHttpQuery([event, context], {
-      method: event.httpMethod,
+    return runHttpQuery([data.event, data.context], {
+      method: data.event.httpMethod,
       options,
-      query: JSON.parse(event.body),
+      query: JSON.parse(data.event.body),
       request: {
-        url: event.path,
-        method: event.httpMethod,
-        headers: new Headers(event.headers),
+        url: data.event.path,
+        method: data.event.httpMethod,
+        headers: new Headers(data.event.headers)
       }
     }).then(function (response: any) {
       return {
@@ -67,37 +58,35 @@ class ApolloServer extends ApolloServerBase {
 
 export class GraphQLServer implements Plugin {
   public type: string = 'graphQL';
-  private config: GraphQLServerConfig;
+  private config: ApolloServerConfig;
   private server: ApolloServer;
 
   constructor (config: GraphQLServerConfig) {
-    this.config = config;
+    this.config = config.config;
     
     // 将 schemas 转换为 FederatedSchema
-    if (this.config.config.schemas) {
-      this.config.config.schema = buildFederatedSchema(this.config.config.schemas);
-      delete this.config.config.schemas;
+    if (this.config.schemas) {
+      this.config.schema = buildFederatedSchema(this.config.schemas);
+      delete this.config.schemas;
     }
 
     // 将 gateways 转换为 Gateway
-    if (this.config.config.gateways) {
-      this.config.config.gateway = new ApolloGateway({
-        serviceList: this.config.config.gateways,
+    if (this.config.gateways) {
+      this.config.gateway = new ApolloGateway({
+        serviceList: this.config.gateways,
         debug: true,
         experimental_pollInterval: 10000
       });
-      delete this.config.config.gateways;
+      delete this.config.gateways;
     }
 
-    const configContext = this.config.config.context;
-    this.config.config.context = function (args) {
-      const data = {
-        event: args.event,
-        context: args.context
-      };
+    const configContext = this.config.context;
+    this.config.context = function (invokeData: InvokeData): { [key: string]: any } {
+      const data = deepMerge(invokeData);
+      
       if (configContext) 
         if (typeof configContext === 'function') {
-          return Object.assign(data, configContext(args));
+          return Object.assign(data, configContext(data));
         } else {
           return Object.assign(data, configContext);
         }
@@ -107,12 +96,12 @@ export class GraphQLServer implements Plugin {
   }
 
   async onMount (_, next: Next): Promise<any> {
-    if (this.config.config.gateway) {
-      await this.config.config.gateway.load({});
-      this.config.config.subscriptions = false;
+    if (this.config.gateway) {
+      await this.config.gateway.load({});
+      this.config.subscriptions = false;
     }
 
-    this.server = new ApolloServer(this.config.config);
+    this.server = new ApolloServer(this.config);
 
     await this.server.load();
 
@@ -123,7 +112,7 @@ export class GraphQLServer implements Plugin {
     switch (data.event.httpMethod) {
       case 'POST':
         if (data.event.body) 
-          data.response = await this.server.handler(data.event, data.context);
+          data.response = await this.server.handler(data);
         else 
           throw Error('Missing body');
         
