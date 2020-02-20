@@ -2,6 +2,8 @@ import * as http from 'http';
 import * as https from 'https';
 import { stringify } from 'querystring';
 import * as URL from 'url';
+import { readFileSync } from 'fs';
+import { basename } from 'path';
 import Logger from '@faasjs/logger';
 
 const log = new Logger('request');
@@ -30,6 +32,8 @@ export interface RequestOptions {
   body?: any;
   timeout?: number;
   auth?: string;
+  file?: string;
+  downloadStream?: NodeJS.WritableStream;
 }
 
 type Mock = (url: string, options: RequestOptions) => Promise<Response>;
@@ -54,16 +58,20 @@ export function setMock (handler: Mock | null): void {
  * @param {object=} options.body 请求体
  * @param {number=} options.timeout 最长耗时，单位为毫秒
  * @param {string=} options.auth HTTP 认证头，格式为 user:password
+ * @param {string=} options.file 上传文件的完整路径
+ * @param {WritableStream=} options.downloadStream 下载流，用于直接将响应内容保存到本地文件
  *
  * @returns {promise}
  */
-export default async function (url: string, {
+export default async function request (url: string, {
   headers,
   method,
   query,
   body,
   timeout,
-  auth
+  auth,
+  file,
+  downloadStream
 }: RequestOptions = {
   headers: {},
   query: {},
@@ -139,40 +147,65 @@ export default async function (url: string, {
   return new Promise(function (resolve, reject) {
     // 包裹请求
     const req = protocol.request(options, function (res: http.IncomingMessage) {
-      const raw: Buffer[] = [];
-      res.on('data', (chunk: any) => {
-        raw.push(chunk);
-      });
-      res.on('end', () => {
-        const data = Buffer.concat(raw).toString();
-        log.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data);
+      if (downloadStream) {
+        res.pipe(downloadStream);
+        downloadStream.on('finish', function () {
+          resolve();
+        });
+      } else {
+        const raw: Buffer[] = [];
+        res.on('data', (chunk: any) => {
+          raw.push(chunk);
+        });
+        res.on('end', () => {
+          const data = Buffer.concat(raw).toString();
+          log.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data);
 
-        const response = Object.create(null);
-        response.request = options;
-        response.request.body = body;
-        response.statusCode = res.statusCode;
-        response.statusMessage = res.statusMessage;
-        response.headers = res.headers;
-        response.body = data;
+          const response = Object.create(null);
+          response.request = options;
+          response.request.body = body;
+          response.statusCode = res.statusCode;
+          response.statusMessage = res.statusMessage;
+          response.headers = res.headers;
+          response.body = data;
 
-        if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json')) 
-          try {
-            response.body = JSON.parse(response.body);
-            log.debug('response.parse JSON');
-          } catch (error) {
-            console.error(error);
+          if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json')) 
+            try {
+              response.body = JSON.parse(response.body);
+              log.debug('response.parse JSON');
+            } catch (error) {
+              console.error(error);
+            }
+
+          if (response.statusCode >= 200 && response.statusCode < 400) 
+            resolve(response);
+          else {
+            log.debug('response.error %o', response);
+            reject(response);
           }
-
-        if (response.statusCode >= 200 && response.statusCode < 400) 
-          resolve(response);
-        else {
-          log.debug('response.error %o', response);
-          reject(response);
-        }
-      });
+        });
+      }
     });
 
     if (body) req.write(body);
+    if (file) {
+      const crlf = '\r\n';
+      const boundary = `--${Math.random().toString(16)}`;
+      const delimeter = `${crlf}--${boundary}`;
+      const headers = [
+        `Content-Disposition: form-data; name="file"; filename="${basename(file)}"${crlf}`
+      ];
+
+      const multipartBody = Buffer.concat([
+        new Buffer(delimeter + crlf + headers.join('') + crlf),
+        readFileSync(file),
+        new Buffer(`${delimeter}--`)]);
+
+      req.setHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
+      req.setHeader('Content-Length', multipartBody.length);
+
+      req.write(multipartBody);
+    }
 
     req.on('error', function (e: Error) {
       log.timeEnd(url, 'response.error %o', e);
