@@ -169,10 +169,8 @@ export default class Logger {
     if (this.silent) return this;
 
     if (LevelPriority[level] < this.level) return this;
-
-    if (this.label) message = `[${this.label}] ${message}`;
     
-    let output = level.toUpperCase() + ' ' + format(message, ...args);
+    let output = level.toUpperCase() + ' ' + (this.label ? `[${this.label}] ` : '') + format(message, ...args);
 
     if (this.mode === 'local' && level !== 'error') 
       output = this.colorfy(LevelColor[level], output);

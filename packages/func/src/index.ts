@@ -120,14 +120,14 @@ export class Func {
   public compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
     let list: ((...args: any) => any)[] = [];
 
-    if (this.cachedFunctions[key]) {
+    if (this.cachedFunctions[key]) 
       list = this.cachedFunctions[key];
-    } else {
-      for (const plugin of this.plugins) {
-        if (typeof plugin[key] === 'function') {
+    else {
+      for (const plugin of this.plugins) 
+        if (typeof plugin[key] === 'function') 
           list.push(plugin[key].bind(plugin));
-        }
-      }
+        
+      
       this.cachedFunctions[key] = list;
     }
 
@@ -196,12 +196,12 @@ export class Func {
     this.logger.debug('onInvoke');
 
     // 实例未启动时执行启动函数
-    if (!this.mounted) {
+    if (!this.mounted) 
       await this.mount({
         event: data.event,
         context: data.context,
       });
-    }
+    
     try {
       await this.compose('onInvoke')(data);
     } catch (error) {
@@ -223,17 +223,17 @@ export class Func {
         this.logger.debug('event: %o', event);
         this.logger.debug('context: %o', context);
 
-        if (typeof context === 'undefined') {
+        if (typeof context === 'undefined') 
           context = {};
-        }
+        
 
-        if (!context.request_id) {
+        if (!context.request_id) 
           context.request_id = new Date().getTime().toString();
-        }
+        
 
-        if (!context.request_at) {
+        if (!context.request_at) 
           context.request_at = Math.round(new Date().getTime() / 1000);
-        }
+        
 
         const data: InvokeData = {
           event,
@@ -249,9 +249,7 @@ export class Func {
         await this.invoke(data);
         this.logger.timeEnd('invoke', 'invoked');
 
-        if (typeof data.response !== 'undefined' && (data.response instanceof Error || data.response.constructor.name === 'Error')) {
-          throw data.response;
-        }
+        if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response;
 
         return data.response;
       }
