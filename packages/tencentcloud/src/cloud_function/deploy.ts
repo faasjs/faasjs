@@ -88,6 +88,10 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
           Value: data.env
         },
         {
+          Key: 'FaasLog',
+          Value: 'debug'
+        },
+        {
           Key: 'NODE_ENV',
           Value: data.env
         }
