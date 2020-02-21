@@ -1,6 +1,6 @@
 import { buildFederatedSchema } from '@apollo/federation';
 import { GraphQLSchemaModule } from 'apollo-graphql';
-import { Plugin, InvokeData, Next, MountData } from '@faasjs/func';
+import { Plugin, InvokeData, Next, MountData, DeployData } from '@faasjs/func';
 import { ApolloServerBase, Config, runHttpQuery, gql } from 'apollo-server-core';
 import { renderPlaygroundPage } from '@apollographql/graphql-playground-html';
 import { Headers } from 'apollo-server-env';
@@ -137,5 +137,9 @@ export class GraphQLServer implements Plugin {
   
       await next();
     });
+  }
+
+  async onDeploy (data: DeployData, next: Next): Promise<void> {
+    await this.http.onDeploy(data, next);
   }
 }
