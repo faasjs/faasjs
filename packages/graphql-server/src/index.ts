@@ -1,10 +1,11 @@
 import { buildFederatedSchema } from '@apollo/federation';
 import { GraphQLSchemaModule } from 'apollo-graphql';
-import { Plugin, InvokeData, Next } from '@faasjs/func';
+import { Plugin, InvokeData, Next, MountData } from '@faasjs/func';
 import { ApolloServerBase, Config, runHttpQuery, gql } from 'apollo-server-core';
 import { renderPlaygroundPage } from '@apollographql/graphql-playground-html';
 import { Headers } from 'apollo-server-env';
 import { ApolloGateway } from '@apollo/gateway';
+import { Http, HttpConfig } from '@faasjs/http';
 import deepMerge from '@faasjs/deep_merge';
 
 export { gql };
@@ -20,6 +21,7 @@ interface ApolloServerConfig extends Config {
 export interface GraphQLServerConfig{
   name?: string;
   config: ApolloServerConfig;
+  http?: HttpConfig;
 }
 
 class ApolloServer extends ApolloServerBase {
@@ -58,11 +60,13 @@ class ApolloServer extends ApolloServerBase {
 
 export class GraphQLServer implements Plugin {
   public type: string = 'graphQL';
+  public http: Http;
   private config: ApolloServerConfig;
   private server: ApolloServer;
 
   constructor (config: GraphQLServerConfig) {
     this.config = config.config;
+    this.http = new Http(config.http);
     
     // 将 schemas 转换为 FederatedSchema
     if (this.config.schemas) {
@@ -83,7 +87,7 @@ export class GraphQLServer implements Plugin {
     const configContext = this.config.context;
     this.config.context = function (invokeData: InvokeData): { [key: string]: any } {
       const data = deepMerge(invokeData);
-      
+
       if (configContext) 
         if (typeof configContext === 'function') {
           return Object.assign(data, configContext(data));
@@ -95,39 +99,43 @@ export class GraphQLServer implements Plugin {
     };
   }
 
-  async onMount (_, next: Next): Promise<any> {
-    if (this.config.gateway) {
-      await this.config.gateway.load({});
-      this.config.subscriptions = false;
-    }
+  async onMount (data: MountData, next: Next): Promise<any> {
+    await this.http.onMount(data, async ()=> {
+      if (this.config.gateway) {
+        await this.config.gateway.load({});
+        this.config.subscriptions = false;
+      }
+  
+      this.server = new ApolloServer(this.config);
+  
+      await this.server.load();
 
-    this.server = new ApolloServer(this.config);
-
-    await this.server.load();
-
-    await next();
+      await next();
+    });    
   }
 
   async onInvoke (data: InvokeData, next: Next): Promise<any> {
-    switch (data.event.httpMethod) {
-      case 'POST':
-        if (data.event.body) 
-          data.response = await this.server.handler(data);
-        else 
-          throw Error('Missing body');
-        
-        break;
-      case 'GET':
-        data.response = {
-          body: renderPlaygroundPage({ endpoint: data.event.path }),
-          statusCode: 200,
-          headers: { 'Content-Type': 'text/html' }
-        };
-        break;
-      default:
-        throw Error('Unknown method');
-    }
-
-    await next();
+    await this.http.onInvoke(data, async ()=> {
+      switch (data.event.httpMethod) {
+        case 'POST':
+          if (data.event.body) 
+            data.response = await this.server.handler(data);
+          else 
+            throw Error('Missing body');
+          
+          break;
+        case 'GET':
+          data.response = {
+            body: renderPlaygroundPage({ endpoint: data.event.path }),
+            statusCode: 200,
+            headers: { 'Content-Type': 'text/html' }
+          };
+          break;
+        default:
+          throw Error('Unknown method');
+      }
+  
+      await next();
+    });
   }
 }

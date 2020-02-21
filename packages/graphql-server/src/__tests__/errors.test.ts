@@ -1,10 +1,9 @@
 import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
 import { GraphQLServer } from '../index';
 
 describe('errors', function () {
   test('Unknown method', async function () {
-    const handler = new Func({ plugins: [new Http(), new GraphQLServer({ config: { schemas: [] } })] }).export().handler;
+    const handler = new Func({ plugins: [new GraphQLServer({ config: { schemas: [] } })] }).export().handler;
 
     const res = await handler({});
 
@@ -13,7 +12,7 @@ describe('errors', function () {
   });
 
   test('playground', async function () {
-    const handler = new Func({ plugins: [new Http(), new GraphQLServer({ config: { schemas: [] } })] }).export().handler;
+    const handler = new Func({ plugins: [new GraphQLServer({ config: { schemas: [] } })] }).export().handler;
 
     const res = await handler({
       httpMethod: 'GET',
@@ -25,7 +24,7 @@ describe('errors', function () {
   });
 
   test('Missing body', async function () {
-    const handler = new Func({ plugins: [new Http(), new GraphQLServer({ config: { schemas: [] } })] }).export().handler;
+    const handler = new Func({ plugins: [new GraphQLServer({ config: { schemas: [] } })] }).export().handler;
 
     const res = await handler({
       httpMethod: 'POST',

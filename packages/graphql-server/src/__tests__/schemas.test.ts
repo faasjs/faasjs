@@ -1,5 +1,4 @@
 import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
 import { GraphQLServer, gql } from '../index';
 
 describe('schemas', function () {
@@ -12,7 +11,7 @@ describe('schemas', function () {
     }`;
   it('should work', async function () {
     const handler = new Func({
-      plugins: [new Http(), new GraphQLServer({
+      plugins: [new GraphQLServer({
         config: {
           schemas: [{
             typeDefs,
@@ -40,7 +39,7 @@ describe('schemas', function () {
   describe('context', function () {
     it('be normal', async function () {
       const handler = new Func({
-        plugins: [new Http(), new GraphQLServer({
+        plugins: [new GraphQLServer({
           config: {
             schemas: [{
               typeDefs,
@@ -67,7 +66,7 @@ describe('schemas', function () {
 
     it('be object', async function () {
       const handler = new Func({
-        plugins: [new Http(), new GraphQLServer({
+        plugins: [new GraphQLServer({
           config: {
             schemas: [{
               typeDefs,
@@ -95,7 +94,7 @@ describe('schemas', function () {
 
     it('be function', async function () {
       const handler = new Func({
-        plugins: [new Http(), new GraphQLServer({
+        plugins: [new GraphQLServer({
           config: {
             schemas: [{
               typeDefs,
