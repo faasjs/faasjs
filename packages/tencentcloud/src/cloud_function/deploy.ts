@@ -68,7 +68,6 @@ function loadDependents (packageJSON: any, dependencies: any): any {
         const subSubPackage = JSON.parse(readFileSync(join(subPath, 'package.json')).toString());
         loadDependents(packageJSON, subSubPackage.dependencies);
       }
-      
     
     packageJSON.dependencies[key] = `file:${join(process.cwd(), 'node_modules', key)}`;
   }
@@ -98,6 +97,8 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
     delete config.config.name;
   } else 
     config.config.FunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_');
+  
+  if (!config.config.Description) config.config.Description = `Source: ${data.name}\nPublished by ${process.env.LOGNAME}\nPublished at ${config.config.version}`;
   
   if (config.config.memorySize) {
     config.config.MemorySize = config.config.memorySize;
