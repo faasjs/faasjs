@@ -16,23 +16,58 @@ const defaults = {
   Runtime: 'Nodejs8.9'
 };
 
+// 腾讯云内置插件 https://cloud.tencent.com/document/product/583/11060
+const INCLUDED_NPM = [
+  'cos-nodejs-sdk-v5',
+  'base64-js',
+  'buffer',
+  'crypto-browserify',
+  'ieee754',
+  'imagemagick',
+  'isarray',
+  'jmespath',
+  'lodash',
+  'npm',
+  'punycode',
+  'puppeteer',
+  'qcloudapi-sdk',
+  'request',
+  'sax',
+  'tencentcloud-sdk-nodejs',
+  'url',
+  'uuid',
+  'xml2js',
+  'xmlbuilder'
+];
+
 function loadDependents (packageJSON: any, dependencies: any): any {
   for (const key in dependencies) {
+    if (INCLUDED_NPM.includes(key)) {
+      delete dependencies[key];
+      continue;
+    }
+
     const path = join(process.cwd(), 'node_modules', key, 'package.json');
     if (!existsSync(path)) continue;
 
     const subPackage = JSON.parse(readFileSync(path).toString());
     if (subPackage.dependencies) 
-      for (const subKey in subPackage.dependencies) 
-        if (!packageJSON.dependencies[subKey]) {
-          const subPath = join(process.cwd(), 'node_modules', subKey);
-          if (!existsSync(subPath)) continue;
-
-          packageJSON.dependencies[subKey] = `file:${subPath}`;
-
-          const subSubPackage = JSON.parse(readFileSync(join(subPath, 'package.json')).toString());
-          loadDependents(packageJSON, subSubPackage.dependencies);
+      for (const subKey in subPackage.dependencies) {
+        if (INCLUDED_NPM.includes(subKey)) {
+          delete dependencies[subKey];
+          continue;
         }
+
+        if (packageJSON.dependencies[subKey]) continue;
+
+        const subPath = join(process.cwd(), 'node_modules', subKey);
+        if (!existsSync(subPath)) continue;
+
+        packageJSON.dependencies[subKey] = `file:${subPath}`;
+
+        const subSubPackage = JSON.parse(readFileSync(join(subPath, 'package.json')).toString());
+        loadDependents(packageJSON, subSubPackage.dependencies);
+      }
       
     
     packageJSON.dependencies[key] = `file:${join(process.cwd(), 'node_modules', key)}`;
