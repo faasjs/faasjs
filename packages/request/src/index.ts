@@ -6,8 +6,6 @@ import { readFileSync } from 'fs';
 import { basename } from 'path';
 import Logger from '@faasjs/logger';
 
-const log = new Logger('request');
-
 export interface Request {
   headers?: http.OutgoingHttpHeaders;
   method?: string;
@@ -76,6 +74,8 @@ export default async function request (url: string, {
   headers: {},
   query: {},
 }): Promise<Response> {
+  const log = new Logger('request');
+
   log.debug('request %s %o', url, {
     body,
     headers,
