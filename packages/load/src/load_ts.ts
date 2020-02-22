@@ -97,7 +97,8 @@ export default async function loadTs (filename: string, options: {
     external,
     plugins: [
       typescript({ tsconfigOverride: { compilerOptions: { declaration: false } } })
-    ]
+    ],
+    onwarn: () => null
   }, options.input || {});
 
   const bundle = await rollup.rollup(input);
