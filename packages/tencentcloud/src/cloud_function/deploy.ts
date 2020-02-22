@@ -146,7 +146,7 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
     // cos 参数
     Bucket: `scf-${config.provider.config.appId}`,
     FilePath: `${data.tmp}deploy.zip`,
-    CosObjectName: config.config.FunctionName + '/' + data.version + '.zip'
+    CosObjectName: data.env + '/' + config.config.FunctionName + '/' + data.version + '.zip'
   });
 
   logger.debug('[01/11] 完成配置项 %o', config);
