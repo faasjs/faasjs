@@ -10,5 +10,5 @@
     "@faasjs/redis": "^0.0.2-beta.16",
     "@faasjs/sql": "^0.0.2-beta.19"
   },
-  "gitHead": "87f75e394a057b947b344a46ca68f52874a04e45"
+  "gitHead": "c9a5ffe7016506ee1178be5d2e1fb56285d9a047"
 }
