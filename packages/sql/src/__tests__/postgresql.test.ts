@@ -1,12 +1,12 @@
 import { Sql } from '../index';
 import { Func } from '@faasjs/func';
-import { createPool } from 'mysql';
+import { Pool } from 'pg';
 
 describe('connect', function () {
   test('with username', async function () {
     const sql = new Sql({
       name: 'sql',
-      adapterType: 'mysql'
+      adapterType: 'postgresql'
     });
 
     const func = new Func({
@@ -21,7 +21,7 @@ describe('connect', function () {
       plugins: {
         sql: {
           type: 'sql',
-          config: { user: 'travis' }
+          config: { user: 'postgres' }
         }
       }
     };
@@ -31,10 +31,10 @@ describe('connect', function () {
   });
 
   test('with pool', async function () {
-    const pool = createPool({ user: 'travis' });
+    const pool = new Pool({ user: 'postgres' });
     const sql = new Sql({
       name: 'sql',
-      adapterType: 'mysql',
+      adapterType: 'postgresql',
       config: { pool }
     });
 
@@ -57,7 +57,7 @@ describe('connect', function () {
   test('fail', async function () {
     const sql = new Sql({
       name: 'sql',
-      adapterType: 'mysql'
+      adapterType: 'postgresql'
     });
 
     const func = new Func({
@@ -89,7 +89,7 @@ describe('connect', function () {
 test('query faild', async function () {
   const sql = new Sql({
     name: 'sql',
-    adapterType: 'mysql'
+    adapterType: 'postgresql'
   });
 
   const func = new Func({
@@ -104,7 +104,7 @@ test('query faild', async function () {
     plugins: {
       sql: {
         type: 'sql',
-        config: { user: 'travis' }
+        config: { user: 'postgres' }
       }
     }
   };
