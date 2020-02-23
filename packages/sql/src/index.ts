@@ -52,39 +52,39 @@ export class Sql implements Plugin {
     this.logger = new Logger('Sql');
   }
 
-  public async onDeploy (data: DeployData, next: Next) {
-    switch (this.adapterType || data.config!.plugins[this.name || this.type].adapter) {
+  public async onDeploy (data: DeployData, next: Next): Promise<void> {
+    switch (this.adapterType || data.config.plugins[this.name || this.type].adapter) {
       case 'sqlite':
-        data.dependencies!['sqlite3'] = '*';
+        data.dependencies['sqlite3'] = '*';
         break;
       case 'postgresql':
-        data.dependencies!['pg'] = '*';
+        data.dependencies['pg'] = '*';
         break;
       case 'mysql':
-        data.dependencies!['mysql'] = '*';
+        data.dependencies['mysql'] = '*';
         break;
       default:
-        throw Error(`[Sql] Unsupport type: ${this.adapterType || data.config!.plugins[this.name || this.type].type}`);
+        throw Error(`[Sql] Unsupport type: ${this.adapterType || data.config.plugins[this.name || this.type].type}`);
     }
     await next();
   }
 
-  public async onMount (data: MountData, next: Next) {
+  public async onMount (data: MountData, next: Next): Promise<void> {
     this.logger.debug('[Mount] begin');
     this.logger.time('sql');
-    if (data.config.plugins[this.name]) {
+    if (data.config.plugins[this.name]) 
       this.config = deepMerge(data.config.plugins[this.name || this.type].config, this.config);
-    }
+    
 
     this.logger.debug('conncet: %o', this.config);
 
-    if (!this.adapterType) {
+    if (!this.adapterType) 
       this.adapterType = data.config.plugins[this.name || this.type].adapter;
-    }
+    
 
     switch (this.adapterType) {
       case 'sqlite':
-        this.adapter = new Sqlite(this.config!);
+        this.adapter = new Sqlite(this.config);
         break;
       case 'postgresql':
         this.adapter = new Postgresql(this.config);
@@ -106,11 +106,11 @@ export class Sql implements Plugin {
    * @param sql {string} SQL 语句
    * @param values {any} 参数值
    */
-  public async query (sql: string, values?: any) {
+  public async query (sql: string, values?: any): Promise<any[]> {
     this.logger.debug('query begin: %s %o', sql, values);
     this.logger.time(sql);
     try {
-      const res = await this.adapter!.query(sql, values);
+      const res = await this.adapter.query(sql, values);
       this.logger.timeEnd(sql, 'query end: %s %o', sql, res);
       return res;
     } catch (error) {
@@ -123,11 +123,11 @@ export class Sql implements Plugin {
    * 执行多条 SQL
    * @param sqls {string[]} SQL 语句
    */
-  public async queryMulti (sqls: string[]) {
+  public async queryMulti (sqls: string[]): Promise<any[]> {
     const results = [];
-    for (const sql of sqls) {
+    for (const sql of sqls) 
       results.push(await this.query(sql));
-    }
+    
     return results;
   }
 
@@ -136,7 +136,7 @@ export class Sql implements Plugin {
    * @param sql {string} SQL 语句
    * @param values {any} 参数值
    */
-  public async queryFirst (sql: string, values?: any) {
-    return this.query(sql, values).then(res => res[0]);
+  public async queryFirst (sql: string, values?: any): Promise<any> {
+    return this.query(sql, values).then((res: any[]) => res[0]);
   }
 }

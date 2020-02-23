@@ -4,5 +4,6 @@ node_js:
 cache: yarn
 services:
   - redis-server
+  - mysql
 after_success:
   - yarn codecov

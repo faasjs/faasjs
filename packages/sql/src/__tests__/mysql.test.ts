@@ -1,12 +1,12 @@
 import { Sql } from '../index';
 import { Func } from '@faasjs/func';
-import { Database } from 'sqlite3';
+import { createPool } from 'mysql';
 
 describe('connect', function () {
   test('with filename', async function () {
     const sql = new Sql({
       name: 'sql',
-      adapterType: 'sqlite'
+      adapterType: 'mysql'
     });
 
     const func = new Func({
@@ -21,7 +21,7 @@ describe('connect', function () {
       plugins: {
         sql: {
           type: 'sql',
-          config: { filename: ':memory:' }
+          config: { user: 'username' }
         }
       }
     };
@@ -31,10 +31,10 @@ describe('connect', function () {
   });
 
   test('with pool', async function () {
-    const pool = new Database(':memory:');
+    const pool = createPool({ user: 'travis' });
     const sql = new Sql({
       name: 'sql',
-      adapterType: 'sqlite',
+      adapterType: 'mysql',
       config: { pool }
     });
 
@@ -57,7 +57,7 @@ describe('connect', function () {
   test('fail', async function () {
     const sql = new Sql({
       name: 'sql',
-      adapterType: 'sqlite'
+      adapterType: 'mysql'
     });
 
     const func = new Func({
@@ -81,7 +81,7 @@ describe('connect', function () {
     try {
       await handler({});
     } catch (error) {
-      expect(error.message).toEqual('[Sqlite] connect failed: {}');
+      expect(error.message).toEqual('[Mysql] connect failed: {}');
     }
   });
 });
@@ -89,7 +89,7 @@ describe('connect', function () {
 test('query faild', async function () {
   const sql = new Sql({
     name: 'sql',
-    adapterType: 'sqlite'
+    adapterType: 'mysql'
   });
 
   const func = new Func({
@@ -104,7 +104,7 @@ test('query faild', async function () {
     plugins: {
       sql: {
         type: 'sql',
-        config: { filename: ':memory:' }
+        config: { user: 'travis' }
       }
     }
   };

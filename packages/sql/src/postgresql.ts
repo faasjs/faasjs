@@ -2,8 +2,8 @@ import { Pool, PoolConfig, QueryResult } from 'pg';
 import { Adapter } from './index';
 
 export interface PostgresqlConfig extends PoolConfig {
-  pool?: Pool;
   [key: string]: any;
+  pool?: Pool;
 }
 
 const defaults = {
@@ -15,15 +15,15 @@ export class Postgresql implements Adapter {
   public pool: any;
 
   constructor (config: PostgresqlConfig) {
-    if (config.pool) {
+    if (config.pool) 
       this.pool = config.pool;
-    } else {
+    else {
       const Pool = require('pg').Pool;
       this.pool = new Pool(Object.assign(defaults, config));
     }
   }
 
-  public query (sql: string, values?: any): Promise<any[]> {
-    return this.pool.query(sql, values).then((results: QueryResult) => results.rows);
+  public async query (sql: string, values?: any): Promise<any[]> {
+    return await this.pool.query(sql, values).then((results: QueryResult) => results.rows);
   }
 }
