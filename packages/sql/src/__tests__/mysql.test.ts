@@ -21,7 +21,7 @@ describe('connect', function () {
       plugins: {
         sql: {
           type: 'sql',
-          config: { user: 'username' }
+          config: { user: 'travis' }
         }
       }
     };
@@ -81,7 +81,7 @@ describe('connect', function () {
     try {
       await handler({});
     } catch (error) {
-      expect(error.message).toEqual('[Mysql] connect failed: {}');
+      expect(error.message).toEqual('ER_ACCESS_DENIED_ERROR: Access denied for user \'username\'@\'localhost\' (using password: NO)');
     }
   });
 });
@@ -113,6 +113,6 @@ test('query faild', async function () {
   try {
     await handler({});
   } catch (error) {
-    expect(error.message).toEqual('SQLITE_ERROR: near "A": syntax error');
+    expect(error.message).toEqual('ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'A\' at line 1');
   }
 });
