@@ -28,6 +28,8 @@ describe('connect', function () {
     const handler = func.export().handler;
 
     expect(await handler({})).toEqual([{ '1+1': 2 }]);
+
+    sql.adapter.pool.end();
   });
 
   test('with pool', async function () {
@@ -52,6 +54,8 @@ describe('connect', function () {
     const handler = func.export().handler;
 
     expect(await handler({})).toEqual([{ '1+1': 2 }]);
+
+    sql.adapter.pool.end();
   });
 
   test('fail', async function () {
@@ -83,6 +87,8 @@ describe('connect', function () {
     } catch (error) {
       expect(error.message).toEqual('ER_ACCESS_DENIED_ERROR: Access denied for user \'username\'@\'localhost\' (using password: NO)');
     }
+
+    sql.adapter.pool.end();
   });
 });
 
@@ -115,4 +121,6 @@ test('query faild', async function () {
   } catch (error) {
     expect(error.message).toEqual('ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'A\' at line 1');
   }
+
+  sql.adapter.pool.end();
 });
