@@ -27,7 +27,7 @@ describe('connect', function () {
     };
     const handler = func.export().handler;
 
-    expect(await handler({})).toEqual([{ '1+1': 2 }]);
+    expect(await handler({})).toEqual([{ '?column?': 2 }]);
   });
 
   test('with pool', async function () {
@@ -51,7 +51,7 @@ describe('connect', function () {
 
     const handler = func.export().handler;
 
-    expect(await handler({})).toEqual([{ '1+1': 2 }]);
+    expect(await handler({})).toEqual([{ '?column?': 2 }]);
   });
 
   test('fail', async function () {
@@ -113,6 +113,6 @@ test('query faild', async function () {
   try {
     await handler({});
   } catch (error) {
-    expect(error.message).toEqual('ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'A\' at line 1');
+    expect(error.message).toEqual('syntax error at or near "A"');
   }
 });
