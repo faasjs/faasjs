@@ -59,7 +59,7 @@ class ApolloServer extends ApolloServerBase {
 }
 
 export class GraphQLServer implements Plugin {
-  public type: string = 'graphQL';
+  public type: string = 'graphQLServer';
   public http: Http;
   private config: ApolloServerConfig;
   private server: ApolloServer;

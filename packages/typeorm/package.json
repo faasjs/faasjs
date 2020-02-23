@@ -1,0 +1,34 @@
+{
+  "name": "@faasjs/typeorm",
+  "version": "0.0.2-beta.17",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.es.js",
+  "scripts": {
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@faasjs/deep_merge": "^0.0.2-beta.1",
+    "@faasjs/load": "^0.0.2-beta.17",
+    "@faasjs/logger": "^0.0.2-beta.16",
+    "typeorm": "*",
+    "reflect-metadata": "*"
+  },
+  "devDependencies": {
+    "@faasjs/func": "^0.0.2-beta.16",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/mysql": "*",
+    "@types/node": "*",
+    "@types/pg": "*",
+    "@types/sqlite3": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "sqlite3": "*",
+    "typescript": "*"
+  }
+}
