@@ -70,7 +70,9 @@ export class TypeORM implements Plugin {
     this.logger.debug('[Mount] begin');
     this.logger.time('typeorm');
     
-    this.config = deepMerge(data.config.plugins[this.name].config, this.config);
+    if (data.config.plugins[this.name] && data.config.plugins[this.name].config) 
+      this.config = deepMerge(data.config.plugins[this.name].config, this.config);
+    
     this.connection = await createConnection(this.config);
 
     this.logger.timeEnd('typeorm', '[Mount] end');
