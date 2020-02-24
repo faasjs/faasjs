@@ -40,36 +40,31 @@ const INCLUDED_NPM = [
   'xmlbuilder'
 ];
 
-function loadDependents (packageJSON: any, dependencies: any): any {
-  for (const key in dependencies) {
+function loadDependents (packageJSON: any, sub?: any): any {
+  if (!sub) sub = packageJSON;
+
+  if ((packageJSON.dependencies[sub.name] && packageJSON.dependencies[sub.name].startsWith('file:'))) return;
+
+  if (sub.name) packageJSON.dependencies[sub.name] = `file:${join(process.cwd(), 'node_modules', sub.name)}`;
+
+  if (!sub.dependencies && !sub.peerDependencies) return; 
+
+  const dependencies = Object.keys(sub.dependencies || {}).concat(Object.keys(sub.peerDependencies || {}));
+
+  for (const key of dependencies) {
     if (INCLUDED_NPM.includes(key)) {
-      delete dependencies[key];
+      delete packageJSON.dependencies[key];
       continue;
     }
 
-    const path = join(process.cwd(), 'node_modules', key, 'package.json');
-    if (!existsSync(path)) continue;
+    const path = join(process.cwd(), 'node_modules', key);
+    if (!existsSync(path)) {
+      delete packageJSON.dependencies[key];
+      continue;
+    }
 
-    const subPackage = JSON.parse(readFileSync(path).toString());
-    if (subPackage.dependencies) 
-      for (const subKey in subPackage.dependencies) {
-        if (INCLUDED_NPM.includes(subKey)) {
-          delete dependencies[subKey];
-          continue;
-        }
-
-        if (packageJSON.dependencies[subKey]) continue;
-
-        const subPath = join(process.cwd(), 'node_modules', subKey);
-        if (!existsSync(subPath)) continue;
-
-        packageJSON.dependencies[subKey] = `file:${subPath}`;
-
-        const subSubPackage = JSON.parse(readFileSync(join(subPath, 'package.json')).toString());
-        loadDependents(packageJSON, subSubPackage.dependencies);
-      }
-    
-    packageJSON.dependencies[key] = `file:${join(process.cwd(), 'node_modules', key)}`;
+    const subPackage = JSON.parse(readFileSync(join(path, 'package.json')).toString());
+    loadDependents(packageJSON, subPackage);
   }
 }
 
@@ -176,12 +171,13 @@ module.exports = main.export();`
   logger.debug('[2.2/11] 生成 dependencies...');
   const packageJSON = { dependencies: config.config.dependencies };
 
-  loadDependents(packageJSON, packageJSON.dependencies);
+  loadDependents(packageJSON);
 
   logger.debug('%o', packageJSON);
 
   logger.debug('[2.3/11] 生成 node_modules...');
   for (const key in packageJSON.dependencies) {
+    if (packageJSON.dependencies[key].includes('*')) continue;
     exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
     exec(`cp -R -L ${packageJSON.dependencies[key].replace('file:', '')}/* ${config.config.tmp}node_modules/${key}`);
   }
