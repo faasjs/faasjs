@@ -177,7 +177,6 @@ module.exports = main.export();`
 
   logger.debug('[2.3/11] 生成 node_modules...');
   for (const key in packageJSON.dependencies) {
-    if (packageJSON.dependencies[key].includes('*')) continue;
     exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
     exec(`cp -R -L ${packageJSON.dependencies[key].replace('file:', '')}/* ${config.config.tmp}node_modules/${key}`);
   }
