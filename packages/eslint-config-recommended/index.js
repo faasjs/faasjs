@@ -56,14 +56,29 @@ module.exports = {
       'error',
       { default: 'array' }
     ],
-    '@typescript-eslint/class-name-casing': 'warn',
-    '@typescript-eslint/camelcase': 'warn',
+    '@typescript-eslint/class-name-casing': [
+      'warn',
+      {
+        allowUnderscorePrefix: true
+      }
+    ],
+    '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/member-ordering': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-implied-eval': 'warn',
     '@typescript-eslint/promise-function-async': 'error',
-    '@typescript-eslint/typedef': 'warn',
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
+    '@typescript-eslint/typedef': [
+      'warn',
+      {
+        arrowParameter: false
+      }
+    ],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_'
+      }
+    ]
   }
 };

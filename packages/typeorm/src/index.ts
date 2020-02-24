@@ -1,7 +1,8 @@
-import { Plugin, Next, DeployData } from '@faasjs/func';
+import { Plugin, Next, DeployData, MountData } from '@faasjs/func';
 import 'reflect-metadata';
 import { createConnection, ConnectionOptions, Connection, Entity, ObjectType, EntitySchema, Repository } from 'typeorm';
 import Logger from '@faasjs/logger';
+import deepMerge from '@faasjs/deep_merge';
 
 /**
  * TypeORM 插件
@@ -35,7 +36,7 @@ export class TypeORM implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
-    const type = data.config.plugins[this.name || this.type].config.type;
+    const type = data.config.plugins[this.name].config.type;
     switch (type) {
       case 'sqlite':
         data.dependencies['sqlite3'] = '*';
@@ -65,10 +66,11 @@ export class TypeORM implements Plugin {
     await next();
   }
 
-  public async onMount (_, next: Next): Promise<void> {
+  public async onMount (data: MountData, next: Next): Promise<void> {
     this.logger.debug('[Mount] begin');
     this.logger.time('typeorm');
     
+    this.config = deepMerge(data.config.plugins[this.name].config, this.config);
     this.connection = await createConnection(this.config);
 
     this.logger.timeEnd('typeorm', '[Mount] end');
