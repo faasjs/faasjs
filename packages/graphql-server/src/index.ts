@@ -132,7 +132,7 @@ export class GraphQLServer implements Plugin {
           };
           break;
         default:
-          throw Error('Unknown method');
+          throw Error(`Unknown method: ${data.event.httpMethod}`);
       }
   
       await next();

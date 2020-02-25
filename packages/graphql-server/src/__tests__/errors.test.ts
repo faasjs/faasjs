@@ -8,7 +8,7 @@ describe('errors', function () {
     const res = await handler({});
 
     expect(res.statusCode).toEqual(500);
-    expect(res.body).toEqual('{"error":{"message":"Unknown method"}}');
+    expect(res.body).toEqual('{"error":{"message":"Unknown method: undefined"}}');
   });
 
   test('playground', async function () {
