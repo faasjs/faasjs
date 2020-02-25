@@ -119,5 +119,33 @@ describe('schemas', function () {
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n');
     });
+
+    it('be async function', async function () {
+      const handler = new Func({
+        plugins: [new GraphQLServer({
+          config: {
+            schemas: [{
+              typeDefs,
+              resolvers: {
+                Query: {
+                  hello (_, __, context) {
+                    return { name: `Hello, ${context.event.httpMethod}` };
+                  }
+                }
+              }
+            }],
+            async context () { return Promise.resolve({ event: { httpMethod: 'GET' } });}
+          }
+        })]
+      }).export().handler;
+  
+      const res = await handler({
+        httpMethod: 'POST',
+        body: '{"query":"{hello{name}}"}'
+      });
+  
+      expect(res.statusCode).toEqual(200);
+      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n');
+    });
   });
 });
