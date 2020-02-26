@@ -41,7 +41,7 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
   config.config = deepMerge(defaults, config.config, {
     apiName: data.name,
     serviceScfFunctionNamespace: data.env,
-    serviceScfFunctionQualifier: data.env
+    serviceScfFunctionQualifier: '$LATEST' // data.env
   });
 
   const provider = config.provider.config;

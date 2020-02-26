@@ -342,38 +342,38 @@ module.exports = main.export();`
     })).Status === 'Active') break;
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[09/11]')} 更新别名...`);
+  // logger.raw(`${logger.colorfy(Color.GRAY, '[09/11]')} 更新别名...`);
 
-  try {
-    logger.debug('[9.1/11] 检查别名状态...');
-    await scf(tc, {
-      Action: 'GetAlias',
-      Name: config.config.Namespace,
-      FunctionName: config.config.FunctionName,
-      Namespace: config.config.Namespace
-    });
+  // try {
+  //   logger.debug('[9.1/11] 检查别名状态...');
+  //   await scf(tc, {
+  //     Action: 'GetAlias',
+  //     Name: config.config.Namespace,
+  //     FunctionName: config.config.FunctionName,
+  //     Namespace: config.config.Namespace
+  //   });
 
-    logger.info('[9.2/11] 更新别名...');
-    await scf(tc, {
-      Action: 'UpdateAlias',
-      Name: config.config.Namespace,
-      FunctionName: config.config.FunctionName,
-      Namespace: config.config.Namespace,
-      FunctionVersion: config.config.FunctionVersion,
-    });
-  } catch (error) {
-    if (error.Code === 'ResourceNotFound.Alias') {
-      logger.info('[9.2/11] 创建别名...');
-      await scf(tc, {
-        Action: 'CreateAlias',
-        Name: config.config.Namespace,
-        FunctionName: config.config.FunctionName,
-        FunctionVersion: config.config.FunctionVersion,
-        Namespace: config.config.Namespace
-      });
-    } else 
-      throw error;
-  }
+  //   logger.info('[9.2/11] 更新别名...');
+  //   await scf(tc, {
+  //     Action: 'UpdateAlias',
+  //     Name: config.config.Namespace,
+  //     FunctionName: config.config.FunctionName,
+  //     Namespace: config.config.Namespace,
+  //     FunctionVersion: config.config.FunctionVersion,
+  //   });
+  // } catch (error) {
+  //   if (error.Code === 'ResourceNotFound.Alias') {
+  //     logger.info('[9.2/11] 创建别名...');
+  //     await scf(tc, {
+  //       Action: 'CreateAlias',
+  //       Name: config.config.Namespace,
+  //       FunctionName: config.config.FunctionName,
+  //       FunctionVersion: config.config.FunctionVersion,
+  //       Namespace: config.config.Namespace
+  //     });
+  //   } else 
+  //     throw error;
+  // }
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[10/11]')} 更新触发器...`);
   const prevVersion = Number(config.config.FunctionVersion) - 1;

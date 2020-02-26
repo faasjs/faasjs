@@ -20,7 +20,7 @@ export async function invokeCloudFunction (tc: Tencentcloud, name: string, data?
       ClientContext: JSON.stringify(data),
       InvocationType: 'Event',
       Namespace: process.env.FaasEnv,
-      Qualifier: process.env.FaasEnv
+      Qualifier: '$LATEST' // process.env.FaasEnv
     }, options || {})).then(function (res) {
       if (res.Result.ErrMsg) 
         return Promise.reject(Error(res.Result.ErrMsg));
