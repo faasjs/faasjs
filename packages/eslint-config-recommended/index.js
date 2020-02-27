@@ -56,6 +56,7 @@ module.exports = {
       'error',
       { default: 'array' }
     ],
+    '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/class-name-casing': [
       'warn',
       {
