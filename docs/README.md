@@ -1,0 +1,39 @@
+---
+home: true
+heroImage: logo.png
+heroText: FaasJS
+tagline: Serverless & debtless，基于 Serverless 的低技术债业务开发框架
+actionText: 1 分钟上手 →
+actionLink: /guide/
+features:
+- title: 高效开发环境
+  details: 提供单体应用的开发体验，本地一键开发、调试和部署
+- title: 内置常用插件
+  details: 支持 Http、Cookie、Session、Sql 等常用功能
+- title: 支持单机或容器部署
+  details: 担心云厂商绑定？没有​ Serverless 运行环境？你也可以像部署 Node.js 应用一样来部署 FaasJS
+footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 2019-2020 Zhu Feng
+---
+<div align="center" style="padding:0 2.5rem">
+  <div class="features">
+    <div style="flex-grow:1;flex-basis:100%;">本项目正在公测中，更新较频繁，<a href="/changelog.html">点击这里查看更新日志</a>。<br><br>欢迎关注公众号（寂静小站）或加入 QQ 群（772109193）交流反馈：</div>
+    <div style="flex-grow:1;flex-basis:50%;margin-top:1em;"><img src="https://user-images.githubusercontent.com/215433/59484397-31098900-8ea4-11e9-9971-0fa0c7aafccb.jpg" alt="公众号 寂静小站" style="width:100%" /></div>
+    <div style="flex-grow:1;flex-basis:50%;margin-top:1em;"><img src="https://user-images.githubusercontent.com/215433/66827694-cff0df80-ef81-11e9-88c6-3613842de14a.jpg" alt="QQ 群号 772109193" style="width:100%" /></div>
+  </div>
+  <hr style="clear:both;margin-top:2em">
+  <div>
+    <h3>感谢</h3>
+    <p><a href="https://cloud.tencent.com/" target="_blank"><img style="width:10em" src="https://market-10039692.file.myqcloud.com/images/2017/11/6b65dc672a202aab98b2e537d498c425.png" alt="腾讯云" /></a></p>
+    <p>FaasJS 基于以下开源项目：</p>
+    <p><a href="https://babeljs.io/" target="_blank">Babel</a></p>
+    <p><a href="https://eslint.org/" target="_blank">ESLint</a></p>
+    <p><a href="https://jestjs.io/" target="_blank">Jest</a></p>
+    <p><a href="https://jsdoc.app/" target="_blank">JSDoc</a></p>
+    <p><a href="https://nodejs.org/" target="_blank">Node.js</a></p>
+    <p><a href="https://nuxtjs.org/" target="_blank">Nuxt.js</a></p>
+    <p><a href="https://rollupjs.org/" target="_blank">Rollup.js</a></p>
+    <p><a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></p>
+    <p><a href="https://vuejs.org/" target="_blank">Vue.js</a></p>
+    <p><a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a></p>
+  </div>
+</div>
