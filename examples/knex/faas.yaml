@@ -1,0 +1,16 @@
+defaults:
+  providers:
+    tencentcloud:
+      type: '@faasjs/tencentcloud'
+      config: # https://console.cloud.tencent.com/cam/capi
+        appId: 
+        secretId: 
+        secretKey: 
+        region:
+  plugins:
+    cloud_function:
+      provider: tencentcloud
+      type: cloud_function
+development:
+testing:
+production:

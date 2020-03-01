@@ -1,0 +1,16 @@
+{
+  "eslint.packageManager": "yarn",
+  "eslint.validate": [
+    "vue"
+  ],
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.wordWrap": "on",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "vetur.format.defaultFormatter.js": "none",
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "vetur.format.defaultFormatter.ts": "none",
+  "vetur.validation.template": false
+}

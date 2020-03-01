@@ -1,0 +1,42 @@
+{
+  "name": "knex",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@faasjs/eslint-config-recommended": "beta",
+    "faasjs": "beta",
+    "knex": "*"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 8
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  },
+  "eslintIgnore": [
+    "tmp"
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.ts"
+    ],
+    "testRegex": "/*\\.test\\.ts$",
+    "modulePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/"
+    ]
+  }
+}

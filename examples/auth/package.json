@@ -1,0 +1,44 @@
+{
+  "name": "auth",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .ts ."
+  },
+  "dependencies": {
+    "@faasjs/eslint-config-recommended": "beta",
+    "faasjs": "beta"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 8
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  },
+  "eslintIgnore": [
+    "tmp"
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.ts"
+    ],
+    "testRegex": "/*\\.test\\.ts$",
+    "modulePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/"
+    ]
+  }
+}

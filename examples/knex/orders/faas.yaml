@@ -1,0 +1,5 @@
+defaults:
+  plugins:
+    orders:
+      type: sql
+      adapter: sqlite
