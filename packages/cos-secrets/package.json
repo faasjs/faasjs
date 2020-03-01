@@ -15,6 +15,9 @@
     "cos-nodejs-sdk-v5": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.16"
+    "@faasjs/func": "^0.0.2-beta.16",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
   }
 }
