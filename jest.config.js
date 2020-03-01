@@ -5,12 +5,14 @@ module.exports = {
   testRegex: '/*\\.test\\.ts$',
   testPathIgnorePatterns: [
     '/lib/',
-    '/tmp/'
+    '/tmp/',
+    '/examples/'
   ],
   coveragePathIgnorePatterns: [
     '/lib/',
     '/tmp/',
-    '/__tests__/'
+    '/__tests__/',
+    '/examples/'
   ],
   moduleNameMapper: {
     '@faasjs/(.*)': '<rootDir>/./packages/$1/src'
