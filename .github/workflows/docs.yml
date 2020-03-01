@@ -21,5 +21,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: faasjs/faasjs.github.io
           publish_branch: master
           publish_dir: ./docs/.vuepress/dist

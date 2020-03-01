@@ -97,8 +97,8 @@ module.exports = {
     search: true,
     lastUpdated: '更新时间',
     repo: 'faasjs',
-    docsRepo: 'faasjs/faasjs.github.io',
-    docsDir: 'src',
+    docsRepo: 'faasjs/faasjs',
+    docsDir: 'docs',
     editLinks: true,
     editLinkText: '帮助我们改善此页面'
   },
