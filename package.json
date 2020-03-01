@@ -17,9 +17,7 @@
     "jest": "*",
     "lerna": "*",
     "ts-jest": "*",
-    "typescript": "*",
-    "@vuepress/plugin-google-analytics": "*",
-    "vuepress": "*"
+    "typescript": "*"
   },
   "workspaces": [
     "packages/*"

@@ -13,10 +13,11 @@ jobs:
           node-version: '12.x'
       - name: build
         run: |
+          cd docs
           yarn install
           yarn docs:build
-          cp ./docs/CNAME ./docs/.vuepress/dist/CNAME
-          cp ./docs/README.md ./docs/.vuepress/dist/README.md
+          cp ./CNAME ./.vuepress/dist/CNAME
+          cp ./README.md ./.vuepress/dist/README.md
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:

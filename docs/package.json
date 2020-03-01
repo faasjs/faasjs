@@ -1,0 +1,13 @@
+{
+  "name": "faasjs-docs",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vuepress dev .",
+    "build": "vuepress build ."
+  },
+  "devDependencies": {
+    "@vuepress/plugin-google-analytics": "*",
+    "vuepress": "*"
+  }
+}
