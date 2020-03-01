@@ -15,8 +15,8 @@ jobs:
         run: |
           yarn install
           yarn docs:build
-          cp ./CNAME ./docs/.vuepress/dist/CNAME
-          cp ./README.md ./docs/.vuepress/dist/README.md
+          cp ./docs/CNAME ./docs/.vuepress/dist/CNAME
+          cp ./docs/README.md ./docs/.vuepress/dist/README.md
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
