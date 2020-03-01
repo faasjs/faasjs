@@ -23,8 +23,11 @@ footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 
   <hr style="clear:both;margin-top:2em">
   <div>
     <h3>感谢</h3>
-    <p><a href="https://cloud.tencent.com/" target="_blank"><img style="width:10em" src="https://market-10039692.file.myqcloud.com/images/2017/11/6b65dc672a202aab98b2e537d498c425.png" alt="腾讯云" /></a></p>
-    <p>FaasJS 基于以下开源项目：</p>
+    <p>代码贡献者（按字母排序）</p>
+    <p><a href="https://github.com/Vibutnum" target="_blank">Vibutnum</a></p>
+    <p><a href="https://github.com/zfben" target="_blank">zfben</a></p>
+    <p>FaasJS 基于以下开源项目（按字母排序）</p>
+    <p><a href="https://www.apollographql.com/" target="_blank">Apollo</a></p>
     <p><a href="https://babeljs.io/" target="_blank">Babel</a></p>
     <p><a href="https://eslint.org/" target="_blank">ESLint</a></p>
     <p><a href="https://jestjs.io/" target="_blank">Jest</a></p>
@@ -32,6 +35,7 @@ footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 
     <p><a href="https://nodejs.org/" target="_blank">Node.js</a></p>
     <p><a href="https://nuxtjs.org/" target="_blank">Nuxt.js</a></p>
     <p><a href="https://rollupjs.org/" target="_blank">Rollup.js</a></p>
+    <p><a href="https://typeorm.io/" target="_blank">TypeORM</a></p>
     <p><a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></p>
     <p><a href="https://vuejs.org/" target="_blank">Vue.js</a></p>
     <p><a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a></p>

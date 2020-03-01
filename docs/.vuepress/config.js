@@ -2,8 +2,7 @@ module.exports = {
   title: 'FaasJS',
   description: 'A Node.js Severless Application Framework',
   head: [
-    ['link', { rel: 'icon', href: '/logo.ico' }],
-    // ['script', { src: 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', defer: true, onload: 'mermaid.initialize({startOnLoad:true})' }],
+    ['link', { rel: 'icon', href: '/logo.ico' }]
   ],
   shouldPrefetch: () => false,
   themeConfig: {
@@ -52,6 +51,9 @@ module.exports = {
             'excel/lint',
             'excel/vue',
             'excel/nuxt',
+            'excel/graphql-server',
+            'excel/typeorm',
+            'excel/cos-secrets'
           ]
         },
         'story'
@@ -96,7 +98,7 @@ module.exports = {
     displayAllHeaders: true,
     search: true,
     lastUpdated: '更新时间',
-    repo: 'faasjs',
+    repo: 'faasjs/faasjs',
     docsRepo: 'faasjs/faasjs',
     docsDir: 'docs',
     editLinks: true,

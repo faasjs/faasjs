@@ -4,6 +4,47 @@
 
 ## Beta
 
+[`v0.0.2-beta.26 (2020-03-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.25...v0.0.2-beta.26)
+
+- [新增] `@faasjs/cos-secrets`，一个基于 COS 的密钥解决方案。
+- [优化] 将文档移入 `docs` 文件夹。
+- [优化] 将示例移入 `examples` 文件夹。
+
+[`v0.0.2-beta.25 (2020-02-27)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.24...v0.0.2-beta.25)
+
+- [优化] `@faasjs/tencentcloud` 腾讯云故障，禁用别名功能。
+
+[`v0.0.2-beta.24 (2020-02-25)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.22...v0.0.2-beta.24)
+
+- [优化] `@faasjs/graphql-server` 允许 `schemas` 参数为函数，且支持异步函数。
+- [优化] `@faasjs/graphql-server` 导出变量新增 `GraphQLSchemaModule`。
+
+[`v0.0.2-beta.22 (2020-02-24)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.20...v0.0.2-beta.22)
+
+- [修复] `@faasjs/typeorm` 修复配置项错误。
+- [修复] `@faasjs/tencentcloud` 修复部署时打包依赖项的错误。
+
+[`v0.0.2-beta.20 (2020-02-23)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.18...v0.0.2-beta.20)
+
+- [新增] 新增 `@faasjs/typeorm`。
+- [优化] `@faasjs/sql` 单元测试新增 mysql 和 postgresql 的测试。
+
+[`v0.0.2-beta.18 (2020-02-22)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.16...v0.0.2-beta.18)
+
+- [优化] `@faasjs/tencentcloud` 云函数新增层和死信队列接口，COS 增加文件夹名。
+- [优化] `@faasjs/load` 关闭 rollup 的警告信息。
+
+[`v0.0.2-beta.16 (2020-02-21)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.13...v0.0.2-beta.16)
+
+- [优化] `@faasjs/graphql-server` 内置 `@faasjs/http`。
+- [优化] `@faasjs/tencentcloud` 云函数环境变量新增 `FaasLog=debug`。
+
+[`v0.0.2-beta.13 (2020-02-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.10...v0.0.2-beta.13)
+
+- [优化] `@faasjs/tencentcloud` 新增单元测试。
+- [优化] `@faasjs/request` 新增 `file` 和 `downloadStream` 参数。
+- [优化] `@faasjs/graphql-server` 规范化配置项，并将 `invokeData` 作为 context。
+
 [`v0.0.2-beta.10 (2020-02-16)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.9...v0.0.2-beta.10)
 
 - [优化] `@faasjs/eslint-config-recommended` 更新 eslint rules。

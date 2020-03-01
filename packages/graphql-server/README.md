@@ -6,4 +6,4 @@ GraphQL 后端插件
 [![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/graphql-server/stable.svg)](https://www.npmjs.com/package/@faasjs/graphql-server)
 [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/graphql-server/beta.svg)](https://www.npmjs.com/package/@faasjs/graphql-server)
 
-https://faasjs.com/doc/graphql-server.html
+https://faasjs.com/doc/excel/graphql-server.html
