@@ -13,8 +13,8 @@ jobs:
           node-version: '12.x'
       - name: build
         run: |
-          npm install
-          npm run build
+          yarn install
+          yarn docs:build
           cp ./CNAME ./docs/.vuepress/dist/CNAME
           cp ./README.md ./docs/.vuepress/dist/README.md
       - name: deploy
@@ -23,4 +23,3 @@ jobs:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_branch: master
           publish_dir: ./docs/.vuepress/dist
-
