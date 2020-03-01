@@ -8,3 +8,4 @@ tmp
 .rpt2_cache
 package-lock.json
 report.*.json
+.nuxt

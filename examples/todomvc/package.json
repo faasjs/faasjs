@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "faas server -r funcs & webpack-dev-server --config web/config/development.js --progress"
+    "dev": "faas server -r funcs & webpack-dev-server --config web/config/development.js --progress",
+    "test": "yarn && jest --silent --maxWorkers=1 --passWithNoTests"
   },
   "dependencies": {
     "@babel/core": "*",
