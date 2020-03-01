@@ -48,6 +48,11 @@ module.exports = {
     'object-property-newline': [
       'error'
     ],
+    'comma-spacing': 'warn',
+    'no-multi-spaces': 'warn',
+    'keyword-spacing': 'warn',
+    'key-spacing': 'warn',
+    'space-infix-ops': 'warn',    
     '@typescript-eslint/indent': [
       'error',
       2
