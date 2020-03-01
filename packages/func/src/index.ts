@@ -82,6 +82,11 @@ export interface InvokeData {
 
 export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke';
 
+export interface FuncConfig {
+  plugins?: Plugin[];
+  handler?: Handler;
+}
+
 export class Func {
   [key: string]: any;
   public plugins: Plugin[];
@@ -99,10 +104,7 @@ export class Func {
    * @param config.plugins {Plugin[]} 插件
    * @param config.handler {Handler} 业务函数
    */
-  constructor (config: {
-    plugins?: Plugin[];
-    handler?: Handler;
-  }) {
+  constructor (config: FuncConfig) {
     this.logger = new Logger('Func');
 
     this.handler = config.handler;

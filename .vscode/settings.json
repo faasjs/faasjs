@@ -88,5 +88,6 @@
       "directory": "./packages/vue-plugin",
       "changeProcessCWD": true
     }
-  ]
+  ],
+  "javascript.implicitProjectConfig.experimentalDecorators": true
 }
