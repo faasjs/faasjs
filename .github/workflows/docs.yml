@@ -15,7 +15,7 @@ jobs:
         run: |
           cd docs
           yarn install
-          yarn docs:build
+          yarn build
           cp ./CNAME ./.vuepress/dist/CNAME
           cp ./README.md ./.vuepress/dist/README.md
       - name: deploy

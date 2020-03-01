@@ -6,9 +6,7 @@
     "test": "lerna bootstrap && lerna run prepack && yarn jest --silent --maxWorkers=1 --detectOpenHandles",
     "pub": "lerna publish --preid beta --pre-dist-tag beta",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp",
-    "build": "lerna run prepack --stream",
-    "docs:build": "vuepress build docs",
-    "docs": "vuepress dev docs"
+    "build": "lerna run prepack --stream"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "./packages/eslint-config-recommended",
