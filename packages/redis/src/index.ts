@@ -7,7 +7,7 @@ import { createClient, ClientOpts as RedisConfig, RedisClient } from 'redis';
  * 数据库插件
  */
 export class Redis implements Plugin {
-  public type: string;
+  public type: string = 'redis';
   public name?: string;
   public config: RedisConfig;
   public adapter?: RedisClient;
@@ -23,12 +23,10 @@ export class Redis implements Plugin {
     name?: string;
     config?: RedisConfig;
   }) {
-    if (!config) {
-      config = Object.create(null);
-    }
-    this.name = config!.name;
-    this.type = 'redis';
-    this.config = config!.config || Object.create(null);
+    if (!config) config = Object.create(null);
+    
+    this.name = config.name || 'redis';
+    this.config = config.config || Object.create(null);
     this.logger = new Logger('Redis');
   }
 
@@ -36,9 +34,17 @@ export class Redis implements Plugin {
     this.logger.debug('[Mount] begin');
     this.logger.time('redis');
 
-    if (data.config.plugins[this.name || this.type]) {
-      this.config = deepMerge(data.config.plugins[this.name || this.type].config, this.config);
-    }
+    const prefix = `SECRET_${this.name.toUpperCase()}_`;
+
+    for (let key in process.env) 
+      if (key.startsWith(prefix)) {
+        const value = process.env[key];
+        key = key.replace(prefix, '').toLowerCase();
+        if (typeof this.config[key] === 'undefined') this.config[key] = value;
+      }
+
+    if (data.config.plugins[this.name]) 
+      this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.logger.debug('conncet: %o', this.config);
     this.adapter = createClient(this.config);
@@ -48,12 +54,12 @@ export class Redis implements Plugin {
     await next();
   }
 
-  public query (command: string, args: any[]) {
+  public async query (command: string, args: any[]) {
     this.logger.debug('query begin: %s %o', command, args);
     this.logger.time(command);
 
     return new Promise((resolve, reject) => {
-      this.adapter!.sendCommand(command, args, (err, data) => {
+      this.adapter.sendCommand(command, args, (err, data) => {
         if (err) {
           this.logger.timeEnd(command, 'query fail: %s %o', command, err);
           reject(err);

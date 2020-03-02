@@ -1,7 +1,7 @@
 import { Redis } from '../index';
 import { Func } from '@faasjs/func';
 
-test('should work', async function () {
+it('should work', async function () {
   const redis = new Redis();
 
   const func = new Func({
