@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/graphql-server",
-  "version": "0.0.2-beta.26",
+  "version": "0.0.2-beta.27",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
