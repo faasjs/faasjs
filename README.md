@@ -8,3 +8,5 @@
 A Node.js Severless Application Framework
 
 https://faasjs.com/
+
+[Changelog](https://github.com/faasjs/faasjs/blob/master/docs/changelog.md)

@@ -4,6 +4,15 @@
 
 ## Beta
 
+[`v0.0.2-beta.28 (2020-03-02)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.26...v0.0.2-beta.28)
+
+- [优化] `@faasjs/eslint-config-recommended` 补充空格相关的样式设定。
+- [优化] `@faasjs/cos-secrets` 本地模式下会读取本地文件。
+- [优化] `@faasjs/sql` 支持从环境变量读取配置信息。
+- [优化] `@faasjs/typeorm` 支持从环境变量读取配置信息。
+- [优化] `@faasjs/redis` 支持从环境变量读取配置信息。
+- [优化] `@faasjs/server` 出错信息以 json 格式返回。
+
 [`v0.0.2-beta.26 (2020-03-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.25...v0.0.2-beta.26)
 
 - [新增] `@faasjs/cos-secrets`，一个基于 COS 的密钥解决方案。
