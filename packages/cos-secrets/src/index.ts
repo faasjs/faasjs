@@ -1,4 +1,7 @@
 import { Plugin, MountData, Next } from '@faasjs/func';
+import Logger from '@faasjs/logger';
+import { existsSync, readFileSync } from 'fs';
+import { join } from 'path';
 import deepMerge from '@faasjs/deep_merge';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -23,6 +26,7 @@ export class CosSecrets implements Plugin {
   public name: string;
   public config: CosSecretsConfig;
   public data: { [key: string]: any };
+  private logger: Logger;
 
   constructor (config?: {
     name: string;
@@ -35,38 +39,57 @@ export class CosSecrets implements Plugin {
       this.name = this.type;
       this.config = {};
     }
+
+    this.logger = new Logger('CosSecrets');
   }
 
   async onMount (data: MountData, next: Next): Promise<void> {
+    this.logger.debug('[Mount] begin');
+    this.logger.time('CosSecrets');
     if (data.config.plugins[this.name])
       this.config = deepMerge(data.config.plugins[this.name].config, this.config);
     if (!this.config.key) this.config.key = `${process.env.FaasEnv}/secrets.json`;
 
-    const client = new COS({
-      getAuthorization: function (_, cb): void {
-        cb({
-          TmpSecretId: process.env.TENCENTCLOUD_SECRETID,
-          TmpSecretKey: process.env.TENCENTCLOUD_SECRETKEY,
-          XCosSecurityToken: process.env.TENCENTCLOUD_SESSIONTOKEN,
-          ExpiredTime: Date.now() / 1000
-        });
-      }
-    });
-
-    // eslint-disable-next-line @typescript-eslint/typedef
-    await new Promise((resolve, reject) => {
-      client.getObject({
-        Bucket: this.config.bucket,
-        Region: this.config.region,
-        Key: this.config.key
-      // eslint-disable-next-line @typescript-eslint/typedef
-      }, (err, data) => {
-        if (err) reject(err);
-        this.data = JSON.parse(data.Body);
-        dataToEnv(this.data);
-        resolve();
+    if (process.env.FaasMode === 'local') {
+      this.logger.debug('Local mode');
+      const file = join(process.cwd(), `secrets.${process.env.FaasEnv}.json`);
+      if (existsSync(file)) {
+        const env = readFileSync(file).toString();
+        dataToEnv(JSON.parse(env));
+      } else 
+        this.logger.warn(`Not found ${file}.`);
+      
+    } else {
+      this.logger.debug('Loading from %o', this.config);
+      
+      const client = new COS({
+        getAuthorization: function (_, cb): void {
+          cb({
+            TmpSecretId: process.env.TENCENTCLOUD_SECRETID,
+            TmpSecretKey: process.env.TENCENTCLOUD_SECRETKEY,
+            XCosSecurityToken: process.env.TENCENTCLOUD_SESSIONTOKEN,
+            ExpiredTime: Date.now() / 1000
+          });
+        }
       });
-    });
+
+      // eslint-disable-next-line @typescript-eslint/typedef
+      await new Promise((resolve, reject) => {
+        client.getObject({
+          Bucket: this.config.bucket,
+          Region: this.config.region,
+          Key: this.config.key
+          // eslint-disable-next-line @typescript-eslint/typedef
+        }, (err, data) => {
+          if (err) reject(err);
+          this.data = JSON.parse(data.Body);
+          dataToEnv(this.data);
+          resolve();
+        });
+      });
+    }
+
+    this.logger.timeEnd('CosSecrets', '[Mount] end');
 
     await next();
   }

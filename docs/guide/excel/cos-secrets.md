@@ -52,6 +52,10 @@
 
 ```yaml
 plugins:
+  cloud_function:
+    config:
+      # 设置为有权限读取密钥文件的角色名
+      Role: QCS_SCFExcuteRole
   cosSecrets:
     config:
       bucket: secrets-123456
@@ -69,7 +73,7 @@ plugins:
 
 ```typescript
 import { Func } from '@faasjs/func';
-import { CosSecrets } from '@faasjs/cos-secerts';
+import { CosSecrets } from '@faasjs/cos-secrets';
 
 const secrets = new CosSecrets();
 
@@ -82,3 +86,9 @@ export default new Func({
   }
 });
 ```
+
+### 本地环境变量文件
+
+当云函数以本地开发模式运行时，会在项目根目录中寻找 `secrets.${FaasEnv}.json` 文件并将其内容引入环境变量。
+
+为了安全起见，建议将 `secrets.*.json` 列入 `.gitignore`。

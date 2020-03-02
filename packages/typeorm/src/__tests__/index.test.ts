@@ -44,7 +44,6 @@ describe('typeORM', function () {
   it('config with env', async function () {
     process.env.SECRET_TYPEORM_TYPE = 'sqlite';
     process.env.SECRET_TYPEORM_DATABASE = ':memory:';
-    
 
     @Entity()
     class User {
