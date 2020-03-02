@@ -2,8 +2,8 @@ import { Sql } from '../index';
 import { Func } from '@faasjs/func';
 import { createPool } from 'mysql';
 
-describe('connect', function () {
-  test('with username', async function () {
+describe('mysql', function () {
+  it('with username', async function () {
     const sql = new Sql({
       name: 'sql',
       adapterType: 'mysql'
@@ -32,7 +32,7 @@ describe('connect', function () {
     sql.adapter.pool.end();
   });
 
-  test('with pool', async function () {
+  it('with pool', async function () {
     const pool = createPool({ user: 'travis' });
     const sql = new Sql({
       name: 'sql',
@@ -58,7 +58,7 @@ describe('connect', function () {
     sql.adapter.pool.end();
   });
 
-  test('fail', async function () {
+  it('fail', async function () {
     const sql = new Sql({
       name: 'sql',
       adapterType: 'mysql'
@@ -90,37 +90,37 @@ describe('connect', function () {
 
     sql.adapter.pool.end();
   });
-});
 
-test('query faild', async function () {
-  const sql = new Sql({
-    name: 'sql',
-    adapterType: 'mysql'
-  });
+  it('query faild', async function () {
+    const sql = new Sql({
+      name: 'sql',
+      adapterType: 'mysql'
+    });
 
-  const func = new Func({
-    plugins: [sql],
-    async handler () {
-      return sql.query('A');
-    }
-  });
-
-  func.config = {
-    providers: {},
-    plugins: {
-      sql: {
-        type: 'sql',
-        config: { user: 'travis' }
+    const func = new Func({
+      plugins: [sql],
+      async handler () {
+        return sql.query('A');
       }
+    });
+
+    func.config = {
+      providers: {},
+      plugins: {
+        sql: {
+          type: 'sql',
+          config: { user: 'travis' }
+        }
+      }
+    };
+    const handler = func.export().handler;
+
+    try {
+      await handler({});
+    } catch (error) {
+      expect(error.message).toEqual('ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'A\' at line 1');
     }
-  };
-  const handler = func.export().handler;
 
-  try {
-    await handler({});
-  } catch (error) {
-    expect(error.message).toEqual('ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'A\' at line 1');
-  }
-
-  sql.adapter.pool.end();
+    sql.adapter.pool.end();
+  });
 });

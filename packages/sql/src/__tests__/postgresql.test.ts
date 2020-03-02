@@ -2,8 +2,8 @@ import { Sql } from '../index';
 import { Func } from '@faasjs/func';
 import { Pool } from 'pg';
 
-describe('connect', function () {
-  test('with username', async function () {
+describe('postgres', function () {
+  it('with username', async function () {
     const sql = new Sql({
       name: 'sql',
       adapterType: 'postgresql'
@@ -32,7 +32,7 @@ describe('connect', function () {
     sql.adapter.pool.end();
   });
 
-  test('with pool', async function () {
+  it('with pool', async function () {
     const pool = new Pool({ user: 'postgres' });
     const sql = new Sql({
       name: 'sql',
@@ -58,7 +58,7 @@ describe('connect', function () {
     sql.adapter.pool.end();
   });
 
-  test('fail', async function () {
+  it('fail', async function () {
     const sql = new Sql({
       name: 'sql',
       adapterType: 'postgresql'
@@ -90,37 +90,37 @@ describe('connect', function () {
 
     sql.adapter.pool.end();
   });
-});
 
-test('query faild', async function () {
-  const sql = new Sql({
-    name: 'sql',
-    adapterType: 'postgresql'
-  });
+  it('query faild', async function () {
+    const sql = new Sql({
+      name: 'sql',
+      adapterType: 'postgresql'
+    });
 
-  const func = new Func({
-    plugins: [sql],
-    async handler () {
-      return sql.query('A');
-    }
-  });
-
-  func.config = {
-    providers: {},
-    plugins: {
-      sql: {
-        type: 'sql',
-        config: { user: 'postgres' }
+    const func = new Func({
+      plugins: [sql],
+      async handler () {
+        return sql.query('A');
       }
+    });
+
+    func.config = {
+      providers: {},
+      plugins: {
+        sql: {
+          type: 'sql',
+          config: { user: 'postgres' }
+        }
+      }
+    };
+    const handler = func.export().handler;
+
+    try {
+      await handler({});
+    } catch (error) {
+      expect(error.message).toEqual('syntax error at or near "A"');
     }
-  };
-  const handler = func.export().handler;
 
-  try {
-    await handler({});
-  } catch (error) {
-    expect(error.message).toEqual('syntax error at or near "A"');
-  }
-
-  sql.adapter.pool.end();
+    sql.adapter.pool.end();
+  });
 });

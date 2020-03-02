@@ -72,15 +72,23 @@ export class Sql implements Plugin {
   public async onMount (data: MountData, next: Next): Promise<void> {
     this.logger.debug('[Mount] begin');
     this.logger.time('sql');
+
+    const prefix = `SECRET_${this.name.toUpperCase()}_`;
+
+    for (let key in process.env) 
+      if (key.startsWith(prefix)) {
+        const value = process.env[key];
+        key = key.replace(prefix, '').toLowerCase();
+        if (typeof this.config[key] === 'undefined') this.config[key] = value;
+      }
+
     if (data.config.plugins[this.name]) 
-      this.config = deepMerge(data.config.plugins[this.name || this.type].config, this.config);
-    
+      this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.logger.debug('conncet: %o', this.config);
 
     if (!this.adapterType) 
       this.adapterType = data.config.plugins[this.name || this.type].adapter;
-    
 
     switch (this.adapterType) {
       case 'sqlite':
