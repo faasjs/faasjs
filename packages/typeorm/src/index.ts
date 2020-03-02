@@ -1,8 +1,16 @@
 import { Plugin, Next, DeployData, MountData } from '@faasjs/func';
 import 'reflect-metadata';
-import { createConnection, ConnectionOptions, Connection, Entity, ObjectType, EntitySchema, Repository } from 'typeorm';
+import { createConnection, ConnectionOptions, Connection, ObjectType, EntitySchema, Repository } from 'typeorm';
+import { BaseConnectionOptions as OriginBaseConnectionOptions } from 'typeorm/connection/BaseConnectionOptions';
+import { DatabaseType } from 'typeorm/driver/types/DatabaseType';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
+
+type BaseConnectionOptions =  Omit<OriginBaseConnectionOptions, keyof {
+  type?: DatabaseType;
+}>
+
+export type TypeORMConfig = BaseConnectionOptions | ConnectionOptions;
 
 /**
  * TypeORM 插件
@@ -10,7 +18,7 @@ import deepMerge from '@faasjs/deep_merge';
 export class TypeORM implements Plugin {
   public type: string = 'typeORM';
   public name: string;
-  public config: ConnectionOptions;
+  public config: TypeORMConfig;
   public connection: Connection;
   public logger: Logger;
 
@@ -22,7 +30,7 @@ export class TypeORM implements Plugin {
    */
   constructor (config?: {
     name?: string;
-    config?: ConnectionOptions;
+    config?: TypeORMConfig;
   }) {
     if (config) {
       this.name = config.name || 'typeORM';
@@ -69,11 +77,20 @@ export class TypeORM implements Plugin {
   public async onMount (data: MountData, next: Next): Promise<void> {
     this.logger.debug('[Mount] begin');
     this.logger.time('typeorm');
-    
+
+    const prefix = `SECRET_${this.name.toUpperCase()}_`;
+
+    for (let key in process.env) 
+      if (key.startsWith(prefix)) {
+        const value = process.env[key];
+        key = key.replace(prefix, '').toLowerCase();
+        if (typeof this.config[key] === 'undefined') this.config[key] = value;
+      }
+
     if (data.config.plugins[this.name] && data.config.plugins[this.name].config) 
       this.config = deepMerge(data.config.plugins[this.name].config, this.config);
     
-    this.connection = await createConnection(this.config);
+    this.connection = await createConnection(this.config as ConnectionOptions);
 
     this.logger.timeEnd('typeorm', '[Mount] end');
 

@@ -65,6 +65,8 @@ plugins:
 
 `process.env` 会统一加上 `SECRET_` 前缀，且变量名全部大写，若值是一个 object，则会根据 object 的 key 进一步拆分。
 
+**注意：为了保证密钥在初始化的第一步就准备好，请务必将其放在 plugins 的第一个**
+
 ```typescript
 import { Func } from '@faasjs/func';
 import { CosSecrets } from '@faasjs/cos-secerts';
