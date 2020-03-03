@@ -7,7 +7,10 @@ jest.mock('cos-nodejs-sdk-v5', () => {
       callback(null, {
         Body: JSON.stringify({
           a: 1,
-          b: { a: 1 } 
+          b: {
+            a: 1,
+            b: { a: 1 } 
+          } 
         }) 
       });
     }
@@ -26,4 +29,5 @@ it('should work', async function () {
 
   expect(res.SECRET_A).toEqual('1');
   expect(res.SECRET_B_A).toEqual('1');
+  expect(res.SECRET_B_B_A).toEqual('1');
 });

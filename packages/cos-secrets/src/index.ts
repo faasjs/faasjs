@@ -10,7 +10,7 @@ const COS = require('cos-nodejs-sdk-v5');
 function dataToEnv (data: any, parent: string = ''): void {
   for (const key in data) 
     if (Object.prototype.toString.call(data[key]) === '[object Object]') 
-      dataToEnv(data[key], key);
+      dataToEnv(data[key], parent ? `${parent}_${key}` : key);
     else
       process.env[['SECRET', parent.toUpperCase(), key.toUpperCase()].filter(k => !!k).join('_')] = data[key];
 }
