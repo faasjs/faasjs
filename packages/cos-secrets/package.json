@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cos-secrets",
-  "version": "0.0.2-beta.28",
+  "version": "0.0.2-beta.29",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
