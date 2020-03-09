@@ -21,7 +21,8 @@
     "@types/glob": "*",
     "commander": "*",
     "enquirer": "*",
-    "ts-node": "*"
+    "ts-node": "*",
+    "tsconfig-paths": "*"
   },
   "gitHead": "87f75e394a057b947b344a46ca68f52874a04e45"
 }

@@ -1,17 +1,22 @@
 import { Command } from 'commander';
 import Logger from '@faasjs/logger';
 import { existsSync } from 'fs';
-import { sep } from 'path';
+import { sep, join } from 'path';
 import New from './commands/new';
 import Deploy from './commands/deploy';
 import Server from './commands/server';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const tsconfig = require(join(process.cwd(), 'tsconfig.json'));
+
+require('tsconfig-paths').register({
+  baseUrl: tsconfig.compilerOptions.baseUrl,
+  paths: tsconfig.compilerOptions.paths
+});
+
 require('ts-node').register({
-  project: process.cwd() + '/tsconfig.json',
-  compilerOptions: {
-    module: 'commonjs'
-  }
+  project: join(process.cwd(), 'tsconfig.json'),
+  compilerOptions: { module: 'commonjs' }
 });
 
 const commander: Command = new Command();
@@ -35,18 +40,15 @@ commander
   .on('option:root', function (this: { root?: string }) {
     if (this.root && existsSync(this.root)) {
       process.env.FaasRoot = this.root;
-      if (!this.root.endsWith(sep)) {
-        process.env.FaasRoot += sep;
-      }
-    } else {
+      if (!this.root.endsWith(sep)) process.env.FaasRoot += sep;
+    } else
       throw Error(`Can't find root path: ${this.root}`);
-    }
+
     logger.debug('root: %s', process.env.FaasRoot);
   })
   .on('option:env', function (this: { env?: string }) {
-    if (this.env) {
-      process.env.FaasEnv = this.env;
-    }
+    if (this.env) process.env.FaasEnv = this.env;
+
     logger.debug('env: %s', process.env.FaasEnv);
   })
   .on('command:*', function (cmd: string) {
@@ -58,8 +60,6 @@ New(commander);
 Deploy(commander);
 Server(commander);
 
-if (!process.env.CI && process.argv[0] !== 'fake') {
-  commander.parse(process.argv);
-}
+if (!process.env.CI && process.argv[0] !== 'fake') commander.parse(process.argv);
 
 export default commander;
