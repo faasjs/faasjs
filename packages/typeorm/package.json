@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/typeorm",
-  "version": "0.0.2-beta.31",
+  "version": "0.0.2-beta.32",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
