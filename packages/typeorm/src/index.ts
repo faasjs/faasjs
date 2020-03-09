@@ -6,7 +6,7 @@ import { DatabaseType } from 'typeorm/driver/types/DatabaseType';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 
-type BaseConnectionOptions =  Omit<OriginBaseConnectionOptions, keyof {
+type BaseConnectionOptions = Omit<OriginBaseConnectionOptions, keyof {
   type?: DatabaseType;
 }>
 
@@ -78,7 +78,9 @@ export class TypeORM implements Plugin {
     this.logger.debug('[Mount] begin');
     this.logger.time('typeorm');
 
-    if (!getConnection() && !getConnection().isConnected) {
+    try {
+      this.connection = getConnection();
+    } catch (error) {
       const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
       for (let key in process.env)
@@ -92,8 +94,7 @@ export class TypeORM implements Plugin {
         this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
       this.connection = await createConnection(this.config as ConnectionOptions);
-    } else
-      this.connection = getConnection();
+    }
 
     this.logger.timeEnd('typeorm', '[Mount] end');
 
