@@ -9,10 +9,11 @@ import Server from './commands/server';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const tsconfig = require(join(process.cwd(), 'tsconfig.json'));
 
-require('tsconfig-paths').register({
-  baseUrl: tsconfig.compilerOptions.baseUrl,
-  paths: tsconfig.compilerOptions.paths
-});
+if (tsconfig.compilerOptions?.baseUrl && tsconfig.compilerOptions?.paths)
+  require('tsconfig-paths').register({
+    baseUrl: tsconfig.compilerOptions.baseUrl,
+    paths: tsconfig.compilerOptions.paths
+  });
 
 require('ts-node').register({
   project: join(process.cwd(), 'tsconfig.json'),
