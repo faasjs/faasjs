@@ -7,7 +7,7 @@
     "pub": "lerna publish --preid beta --pre-dist-tag beta",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp",
     "build": "lerna run prepack --stream",
-    "pub:retry": "lerna publish --preid beta --pre-dist-tag beta from-git"
+    "pub:retry": "lerna publish from-git --preid beta --pre-dist-tag beta"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "./packages/eslint-config-recommended",
