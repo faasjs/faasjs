@@ -1,10 +1,12 @@
 import { Plugin, Next, DeployData, MountData } from '@faasjs/func';
 import 'reflect-metadata';
-import { createConnection, ConnectionOptions, getConnection, Connection, ObjectType, EntitySchema, Repository } from 'typeorm';
+import { createConnection, ConnectionOptions, getConnection, Connection, ObjectType, EntitySchema, Repository, QueryRunner, SelectQueryBuilder } from 'typeorm';
 import { BaseConnectionOptions as OriginBaseConnectionOptions } from 'typeorm/connection/BaseConnectionOptions';
 import { DatabaseType } from 'typeorm/driver/types/DatabaseType';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
+
+export { Connection, Repository, SelectQueryBuilder };
 
 type BaseConnectionOptions = Omit<OriginBaseConnectionOptions, keyof {
   type?: DatabaseType;
@@ -21,6 +23,7 @@ export class TypeORM implements Plugin {
   public config: TypeORMConfig;
   public connection: Connection;
   public logger: Logger;
+  public createQueryBuilder: <Entity>(entityClass: ObjectType<Entity> | EntitySchema<Entity> | Function | string, alias: string, queryRunner?: QueryRunner) => SelectQueryBuilder<Entity>;
 
   /**
    * 创建插件实例
@@ -96,6 +99,9 @@ export class TypeORM implements Plugin {
 
       this.connection = await createConnection(this.config as ConnectionOptions);
     }
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    this.createQueryBuilder = this.connection.createQueryBuilder;
 
     this.logger.timeEnd('typeorm', '[Mount] end');
 
