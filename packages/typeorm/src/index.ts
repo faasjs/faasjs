@@ -1,12 +1,12 @@
 import { Plugin, Next, DeployData, MountData } from '@faasjs/func';
 import 'reflect-metadata';
-import { createConnection, ConnectionOptions, getConnection, Connection, ObjectType, EntitySchema, Repository, QueryRunner, SelectQueryBuilder } from 'typeorm';
+import { createConnection, ConnectionOptions, getConnection, Connection, ObjectType, EntitySchema, Repository, QueryRunner, SelectQueryBuilder, getRepository } from 'typeorm';
 import { BaseConnectionOptions as OriginBaseConnectionOptions } from 'typeorm/connection/BaseConnectionOptions';
 import { DatabaseType } from 'typeorm/driver/types/DatabaseType';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 
-export { Connection, Repository, SelectQueryBuilder };
+export { Connection, Repository, SelectQueryBuilder, getRepository };
 
 type BaseConnectionOptions = Omit<OriginBaseConnectionOptions, keyof {
   type?: DatabaseType;
