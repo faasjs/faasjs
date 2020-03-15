@@ -1,0 +1,49 @@
+{
+  "name": "graphql",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "faas server -v",
+    "lint": "eslint --ext .ts .",
+    "test": "yarn && jest --silent --maxWorkers=1"
+  },
+  "dependencies": {
+    "@faasjs/eslint-config-recommended": "beta",
+    "@faasjs/graphql-server": "beta",
+    "@faasjs/typeorm": "^0.0.2-beta.34",
+    "faasjs": "^0.0.2-beta.34",
+    "type-graphql": "*"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 8
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  },
+  "eslintIgnore": [
+    "tmp"
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.ts"
+    ],
+    "testRegex": "/*\\.test\\.ts$",
+    "modulePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/"
+    ]
+  }
+}
