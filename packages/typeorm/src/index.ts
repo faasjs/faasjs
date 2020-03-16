@@ -1,6 +1,6 @@
 import { Plugin, Next, DeployData, MountData } from '@faasjs/func';
 import 'reflect-metadata';
-import { createConnection, ConnectionOptions, getConnection, Connection, ObjectType, EntitySchema, Repository, QueryRunner, SelectQueryBuilder, getRepository } from 'typeorm';
+import { createConnection, ConnectionOptions, getConnection, Connection, ObjectType, EntitySchema, Repository, SelectQueryBuilder, getRepository } from 'typeorm';
 import { BaseConnectionOptions as OriginBaseConnectionOptions } from 'typeorm/connection/BaseConnectionOptions';
 import { DatabaseType } from 'typeorm/driver/types/DatabaseType';
 import Logger from '@faasjs/logger';
@@ -23,7 +23,7 @@ export class TypeORM implements Plugin {
   public config: TypeORMConfig;
   public connection: Connection;
   public logger: Logger;
-  public createQueryBuilder: <Entity>(entityClass: ObjectType<Entity> | EntitySchema<Entity> | Function | string, alias: string, queryRunner?: QueryRunner) => SelectQueryBuilder<Entity>;
+  public createQueryBuilder: <Entity>() => SelectQueryBuilder<Entity>;
 
   /**
    * 创建插件实例
