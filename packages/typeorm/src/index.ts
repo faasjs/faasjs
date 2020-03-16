@@ -23,7 +23,6 @@ export class TypeORM implements Plugin {
   public config: TypeORMConfig;
   public connection: Connection;
   public logger: Logger;
-  public createQueryBuilder: <Entity>() => SelectQueryBuilder<Entity>;
 
   /**
    * 创建插件实例
@@ -99,9 +98,6 @@ export class TypeORM implements Plugin {
 
       this.connection = await createConnection(this.config as ConnectionOptions);
     }
-
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.createQueryBuilder = this.connection.createQueryBuilder;
 
     this.logger.timeEnd('typeorm', '[Mount] end');
 
