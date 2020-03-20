@@ -113,8 +113,10 @@ export class Http implements Plugin {
     // 根据文件及文件夹名生成路径
     if (!config.config.path) {
       config.config.path = '=/' + data.name.replace(/_/g, '/').replace(/\/index$/, '');
-      if (config.config.ignorePathPrefix)
+      if (config.config.ignorePathPrefix) {
         config.config.path = config.config.path.replace(new RegExp('^=' + config.config.ignorePathPrefix), '=');
+        if (config.config.path === '=') config.config.path = '=/';
+      }
     }
 
     this.logger.debug('[Http] 组装完成 %o', config);
