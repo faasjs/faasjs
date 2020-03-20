@@ -4,6 +4,24 @@
 
 ## Beta
 
+[`v0.0.2-beta.37 (2020-03-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.34...v0.0.2-beta.37)
+
+- [优化] `@faasjs/http` 配置项新增 `path` 设置。
+
+[`v0.0.2-beta.34 (2020-03-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.32...v0.0.2-beta.34)
+
+- [修复] `@faasjs/cli` 修复当 tsconfig 中未使用 paths 功能时出错的问题。
+- [优化] `@faasjs/typeorm` 新增 `Connection, Repository, SelectQueryBuilder, getRepository` 的输出。
+
+[`v0.0.2-beta.32 (2020-03-09)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.29...v0.0.2-beta.32)
+
+- [优化] `@faasjs/cli` 支持 tsconfig 的 paths 功能。
+- [修复] `@faasjs/typeorm` 修复单体应用模式下连接出错的问题
+
+[`v0.0.2-beta.29 (2020-03-03)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.28...v0.0.2-beta.29)
+
+- [修复] `@faasjs/cos-secrets` 修复嵌套全局变量名错误的问题。
+
 [`v0.0.2-beta.28 (2020-03-02)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.26...v0.0.2-beta.28)
 
 - [优化] `@faasjs/eslint-config-recommended` 补充空格相关的样式设定。
