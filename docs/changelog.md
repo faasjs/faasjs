@@ -4,7 +4,7 @@
 
 ## Beta
 
-[`v0.0.2-beta.38 (2020-03-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.34...v0.0.2-beta.38)
+[`v0.0.2-beta.38 (2020-03-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.34...v0.0.2-beta.40)
 
 - [优化] `@faasjs/http` 配置项新增 `path` 和 `ignorePathPrefix` 设置。
 
