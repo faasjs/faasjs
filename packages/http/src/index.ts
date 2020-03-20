@@ -27,6 +27,8 @@ export interface HttpConfig {
     [key: string]: any;
     method?: string;
     timeout?: number;
+    path?: string;
+    ignorePathPrefix?: string;
     functionName?: string;
     cookie?: CookieOptions;
   };
@@ -70,7 +72,8 @@ export class Http implements Plugin {
    * @param config.name {string} 配置名
    * @param config.config {object} 网关配置
    * @param config.config.method {string} 请求方法，默认为 POST
-   * @param config.config.path {string} 请求路径
+   * @param config.config.path {string} 请求路径，默认为云函数文件路径
+   * @param config.config.ignorePathPrefix {string} 排除的路径前缀，当设置 path 时无效
    * @param config.config.cookie {object} Cookie 配置
    * @param config.validator {object} 入参校验配置
    * @param config.validator.params {object} params 校验配置
@@ -108,8 +111,11 @@ export class Http implements Plugin {
     const config = deepMerge(data.config.plugins[this.name || this.type], { config: this.config });
 
     // 根据文件及文件夹名生成路径
-    if (!config.config.path)
+    if (!config.config.path) {
       config.config.path = '=/' + data.name.replace(/_/g, '/').replace(/\/index$/, '');
+      if (config.config.ignorePathPrefix)
+        config.config.path = config.config.path.replace(new RegExp('^' + config.config.ignorePathPrefix), '');
+    }
 
     this.logger.debug('[Http] 组装完成 %o', config);
 
