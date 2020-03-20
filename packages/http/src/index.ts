@@ -54,13 +54,7 @@ export class Http implements Plugin {
   public params: any;
   public cookie: Cookie;
   public session: Session;
-  public config: {
-    [key: string]: any;
-    method?: number;
-    timeout?: number;
-    functionName?: string;
-    cookie?: CookieOptions;
-  };
+  public config: HttpConfig;
   private validatorOptions?: {
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
@@ -75,6 +69,9 @@ export class Http implements Plugin {
    * @param config {object} 配置项
    * @param config.name {string} 配置名
    * @param config.config {object} 网关配置
+   * @param config.config.method {string} 请求方法，默认为 POST
+   * @param config.config.path {string} 请求路径
+   * @param config.config.cookie {object} Cookie 配置
    * @param config.validator {object} 入参校验配置
    * @param config.validator.params {object} params 校验配置
    * @param config.validator.params.whitelist {string} 白名单配置
@@ -94,9 +91,9 @@ export class Http implements Plugin {
     this.type = 'http';
     this.name = config.name;
     this.config = config.config || Object.create(null);
-    if (config.validator) 
+    if (config.validator)
       this.validatorOptions = config.validator;
-    
+
     this.headers = Object.create(null);
     this.cookie = new Cookie(this.config.cookie || {});
     this.session = this.cookie.session;
@@ -104,14 +101,15 @@ export class Http implements Plugin {
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
     await next();
-    
+
     this.logger.debug('[Http] 组装网关配置');
     this.logger.debug('%o', data);
 
     const config = deepMerge(data.config.plugins[this.name || this.type], { config: this.config });
 
     // 根据文件及文件夹名生成路径
-    config.config.path = '=/' + data.name.replace(/_/g, '/').replace(/\/index$/, '');
+    if (!config.config.path)
+      config.config.path = '=/' + data.name.replace(/_/g, '/').replace(/\/index$/, '');
 
     this.logger.debug('[Http] 组装完成 %o', config);
 
@@ -126,9 +124,8 @@ export class Http implements Plugin {
 
   public async onMount (data: MountData, next: Next): Promise<void> {
     this.logger.debug('[onMount] merge config');
-    if (data.config.plugins[this.name || this.type]) 
+    if (data.config.plugins[this.name || this.type])
       this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config);
-    
 
     this.logger.debug('[onMount] prepare cookie & session');
     this.cookie = new Cookie(this.config.cookie || {});
@@ -150,7 +147,7 @@ export class Http implements Plugin {
     this.params = Object.create(null);
     this.response = { headers: Object.create(null) };
 
-    if (data.event.body) 
+    if (data.event.body)
       if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
         this.logger.debug('[onInvoke] Parse params from json body');
         this.params = JSON.parse(data.event.body);
@@ -205,7 +202,7 @@ export class Http implements Plugin {
     this.session.update();
 
     // 处理 body
-    if (data.response) 
+    if (data.response)
       if (data.response instanceof Error || (data.response.constructor && data.response.constructor.name === 'Error')) {
         // 当结果是错误类型时
         this.logger.error(data.response);
@@ -217,12 +214,10 @@ export class Http implements Plugin {
       } else {
         this.response.body = JSON.stringify({ data: data.response });
       }
-    
 
     // 处理 statusCode
-    if (!this.response.statusCode) 
+    if (!this.response.statusCode)
       this.response.statusCode = this.response.body ? 200 : 201;
-    
 
     // 处理 headers
     this.response.headers = Object.assign({
@@ -252,11 +247,10 @@ export class Http implements Plugin {
    * @param charset {string} 编码
    */
   public setContentType (type: string, charset: string = 'utf-8'): Http {
-    if (ContentType[type]) 
+    if (ContentType[type])
       this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`);
-    else 
+    else
       this.setHeader('Content-Type', `${type}; charset=${charset}`);
-    
     return this;
   }
 
