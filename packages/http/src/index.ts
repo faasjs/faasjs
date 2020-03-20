@@ -114,7 +114,7 @@ export class Http implements Plugin {
     if (!config.config.path) {
       config.config.path = '=/' + data.name.replace(/_/g, '/').replace(/\/index$/, '');
       if (config.config.ignorePathPrefix)
-        config.config.path = config.config.path.replace(new RegExp('^' + config.config.ignorePathPrefix), '');
+        config.config.path = config.config.path.replace(new RegExp('^=' + config.config.ignorePathPrefix), '');
     }
 
     this.logger.debug('[Http] 组装完成 %o', config);
