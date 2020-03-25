@@ -3,7 +3,12 @@ import { Func } from '@faasjs/func';
 
 describe('mongo', function () {
   it('with filename', async function () {
-    const mongo = new Mongo({ config: { url: 'mongodb://travis:test@localhost' } });
+    const mongo = new Mongo({
+      config: {
+        url: 'mongodb://travis:test@localhost',
+        useNewUrlParser: true
+      }
+    });
 
     const func = new Func({
       plugins: [mongo],
