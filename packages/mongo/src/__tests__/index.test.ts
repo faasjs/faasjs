@@ -6,8 +6,8 @@ describe('mongo', function () {
     const mongo = new Mongo({
       config: {
         url: 'mongodb://localhost',
-        // useNewUrlParser: true
-      }
+        database: 'test' 
+      } 
     });
 
     const func = new Func({
