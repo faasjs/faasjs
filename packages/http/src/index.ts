@@ -48,7 +48,7 @@ export interface Response {
 }
 
 export class Http implements Plugin {
-  public readonly type: string;
+  public readonly type: string = 'http';
   public name?: string
   public headers: {
     [key: string]: string;
@@ -90,12 +90,11 @@ export class Http implements Plugin {
    * @param config.validator.session.rules {object} 参数校验规则
    */
   constructor (config: HttpConfig = Object.create(null)) {
-    this.logger = new Logger('Http');
-    this.type = 'http';
-    this.name = config.name;
+    this.name = config.name || this.type;
     this.config = config.config || Object.create(null);
     if (config.validator)
       this.validatorOptions = config.validator;
+    this.logger = new Logger(this.name);
 
     this.headers = Object.create(null);
     this.cookie = new Cookie(this.config.cookie || {});
@@ -105,7 +104,7 @@ export class Http implements Plugin {
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
     await next();
 
-    this.logger.debug('[Http] 组装网关配置');
+    this.logger.debug('组装网关配置');
     this.logger.debug('%o', data);
 
     const config = deepMerge(data.config.plugins[this.name || this.type], { config: this.config });
@@ -119,7 +118,7 @@ export class Http implements Plugin {
       }
     }
 
-    this.logger.debug('[Http] 组装完成 %o', config);
+    this.logger.debug('组装完成 %o', config);
 
     // 引用服务商部署插件
     // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
@@ -148,9 +147,6 @@ export class Http implements Plugin {
   }
 
   public async onInvoke (data: InvokeData, next: Next): Promise<void> {
-    this.logger.debug('[onInvoke] Parse & valid');
-    this.logger.time('http');
-
     this.headers = data.event.headers || Object.create(null);
     this.params = Object.create(null);
     this.response = { headers: Object.create(null) };
@@ -195,16 +191,11 @@ export class Http implements Plugin {
       }
     }
 
-    this.logger.timeEnd('http', '[onInvoke] Parse & valid done');
-
     try {
       await next();
     } catch (error) {
       data.response = error;
     }
-
-    this.logger.debug('[onInvoke] Generate response');
-    this.logger.time('http');
 
     // update seesion
     this.session.update();
@@ -233,10 +224,7 @@ export class Http implements Plugin {
       'X-Request-Id': new Date().getTime().toString()
     }, this.cookie.headers(), this.response.headers);
 
-    /* eslint-disable-next-line require-atomic-updates */
     data.response = this.response;
-
-    this.logger.timeEnd('http', '[onInvoke] done');
   }
 
   /**

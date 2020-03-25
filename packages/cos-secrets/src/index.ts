@@ -8,8 +8,8 @@ import deepMerge from '@faasjs/deep_merge';
 const COS = require('cos-nodejs-sdk-v5');
 
 function dataToEnv (data: any, parent: string = ''): void {
-  for (const key in data) 
-    if (Object.prototype.toString.call(data[key]) === '[object Object]') 
+  for (const key in data)
+    if (Object.prototype.toString.call(data[key]) === '[object Object]')
       dataToEnv(data[key], parent ? `${parent}_${key}` : key);
     else
       process.env[['SECRET', parent.toUpperCase(), key.toUpperCase()].filter(k => !!k).join('_')] = data[key];
@@ -44,8 +44,6 @@ export class CosSecrets implements Plugin {
   }
 
   async onMount (data: MountData, next: Next): Promise<void> {
-    this.logger.debug('[Mount] begin');
-    this.logger.time('CosSecrets');
     if (data.config.plugins[this.name])
       this.config = deepMerge(data.config.plugins[this.name].config, this.config);
     if (!this.config.key) this.config.key = `${process.env.FaasEnv}/secrets.json`;
@@ -56,12 +54,12 @@ export class CosSecrets implements Plugin {
       if (existsSync(file)) {
         const env = readFileSync(file).toString();
         dataToEnv(JSON.parse(env));
-      } else 
+      } else
         this.logger.warn(`Not found ${file}.`);
-      
+
     } else {
       this.logger.debug('Loading from %o', this.config);
-      
+
       const client = new COS({
         getAuthorization: function (_, cb): void {
           cb({
@@ -88,8 +86,6 @@ export class CosSecrets implements Plugin {
         });
       });
     }
-
-    this.logger.timeEnd('CosSecrets', '[Mount] end');
 
     await next();
   }

@@ -35,14 +35,14 @@ export class TypeORM implements Plugin {
     config?: TypeORMConfig;
   }) {
     if (config) {
-      this.name = config.name || 'typeORM';
+      this.name = config.name || this.type;
       this.config = config.config || Object.create(null);
     } else {
-      this.name = 'typeORM';
+      this.name = this.type;
       this.config = Object.create(null);
     }
     this.config = Object.assign(this.config, { logging: 'all' });
-    this.logger = new Logger('TypeORM');
+    this.logger = new Logger(this.name);
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
@@ -77,12 +77,9 @@ export class TypeORM implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    this.logger.debug('[Mount] begin');
-    this.logger.time('typeorm');
-
     try {
       this.connection = getConnection();
-      if (!this.connection.isConnected) throw Error('Not Connected');
+      if (!this.connection.isConnected) throw Error('[TypeORM] Not Connected');
     } catch (error) {
       const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
@@ -98,8 +95,6 @@ export class TypeORM implements Plugin {
 
       this.connection = await createConnection(this.config as ConnectionOptions);
     }
-
-    this.logger.timeEnd('typeorm', '[Mount] end');
 
     await next();
   }

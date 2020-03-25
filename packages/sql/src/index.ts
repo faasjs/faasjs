@@ -19,7 +19,7 @@ export interface SqlConfig extends SqliteConfig, PostgresqlConfig, MysqlConfig {
  * 数据库插件
  */
 export class Sql implements Plugin {
-  public type: string;
+  public type: string = 'sql';
   public name: string;
   public config: SqlConfig;
   public adapterType?: string;
@@ -39,17 +39,15 @@ export class Sql implements Plugin {
     adapterType?: string;
     config?: SqlConfig;
   }) {
-    this.type = 'sql';
-
     if (config) {
-      this.name = config.name || 'sql';
+      this.name = config.name || this.type;
       this.adapterType = config.adapterType;
       this.config = config.config || Object.create(null);
     } else {
-      this.name = 'sql';
+      this.name = this.type;
       this.config = Object.create(null);
     }
-    this.logger = new Logger('Sql');
+    this.logger = new Logger(this.type);
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
@@ -70,24 +68,21 @@ export class Sql implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    this.logger.debug('[Mount] begin');
-    this.logger.time('sql');
-
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env) 
+    for (let key in process.env)
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
         if (typeof this.config[key] === 'undefined') this.config[key] = value;
       }
 
-    if (data.config.plugins[this.name]) 
+    if (data.config.plugins[this.name])
       this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.logger.debug('conncet: %o', this.config);
 
-    if (!this.adapterType) 
+    if (!this.adapterType)
       this.adapterType = data.config.plugins[this.name || this.type].adapter;
 
     switch (this.adapterType) {
@@ -103,8 +98,6 @@ export class Sql implements Plugin {
       default:
         throw Error(`[Sql] Unsupport type: ${this.type}`);
     }
-
-    this.logger.timeEnd('sql', '[Mount] end');
 
     await next();
   }
@@ -133,9 +126,9 @@ export class Sql implements Plugin {
    */
   public async queryMulti (sqls: string[]): Promise<any[]> {
     const results = [];
-    for (const sql of sqls) 
+    for (const sql of sqls)
       results.push(await this.query(sql));
-    
+
     return results;
   }
 

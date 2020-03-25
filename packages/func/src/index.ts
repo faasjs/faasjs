@@ -32,7 +32,6 @@ export interface Config {
       config?: {
         [key: string]: any;
       };
-      
     };
   };
 }
@@ -87,6 +86,11 @@ export interface FuncConfig {
   handler?: Handler;
 }
 
+interface CachedFunction {
+  key: string;
+  handler: (...args: any) => void;
+}
+
 export class Func {
   [key: string]: any;
   public plugins: Plugin[];
@@ -95,7 +99,7 @@ export class Func {
   public config: Config;
   private mounted: boolean;
   private cachedFunctions: {
-    [key in LifeCycleKey]: ((...args: any) => any)[];
+    [key in LifeCycleKey]: CachedFunction[];
   }
 
   /**
@@ -120,16 +124,19 @@ export class Func {
   }
 
   public compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
-    let list: ((...args: any) => any)[] = [];
+    const logger = new Logger(key);
+    let list: CachedFunction[] = [];
 
-    if (this.cachedFunctions[key]) 
+    if (this.cachedFunctions[key])
       list = this.cachedFunctions[key];
     else {
-      for (const plugin of this.plugins) 
-        if (typeof plugin[key] === 'function') 
-          list.push(plugin[key].bind(plugin));
-        
-      
+      for (const plugin of this.plugins)
+        if (typeof plugin[key] === 'function')
+          list.push({
+            key: plugin.name,
+            handler: plugin[key].bind(plugin)
+          });
+
       this.cachedFunctions[key] = list;
     }
 
@@ -142,9 +149,14 @@ export class Func {
         let fn: any = list[i];
         if (i === list.length) fn = next;
         if (!fn) return Promise.resolve();
+        logger.debug(`[${fn.key}] begin`);
+        logger.time(fn.key);
         try {
-          return Promise.resolve(fn(data, dispatch.bind(null, i + 1)));
+          const res = Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)));
+          logger.timeEnd(fn.key, `[${fn.key}] end`);
+          return res;
         } catch (err) {
+          logger.timeEnd(fn.key, `[${fn.key}] end`);
           return Promise.reject(err);
         }
       };
@@ -184,9 +196,8 @@ export class Func {
       this.logger.time('mount');
       await this.compose('onMount')(data);
       this.mounted = true;
-    } catch (error) {
+    } finally {
       this.logger.timeEnd('mount', 'mounted');
-      throw error;
     }
   }
 
@@ -195,21 +206,18 @@ export class Func {
    * @param data {object} 执行信息
    */
   public async invoke (data: InvokeData): Promise<any> {
-    this.logger.debug('onInvoke');
-
     // 实例未启动时执行启动函数
-    if (!this.mounted) 
+    if (!this.mounted)
       await this.mount({
         event: data.event,
         context: data.context,
       });
-    
+
     try {
       await this.compose('onInvoke')(data);
     } catch (error) {
       // 执行异常时回传异常
       this.logger.error(error);
-      // eslint-disable-next-line require-atomic-updates
       data.response = error;
     }
   }
@@ -225,17 +233,9 @@ export class Func {
         this.logger.debug('event: %o', event);
         this.logger.debug('context: %o', context);
 
-        if (typeof context === 'undefined') 
-          context = {};
-        
-
-        if (!context.request_id) 
-          context.request_id = new Date().getTime().toString();
-        
-
-        if (!context.request_at) 
-          context.request_at = Math.round(new Date().getTime() / 1000);
-        
+        if (typeof context === 'undefined') context = {};
+        if (!context.request_id) context.request_id = new Date().getTime().toString();
+        if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000);
 
         const data: InvokeData = {
           event,
@@ -247,9 +247,7 @@ export class Func {
           config: this.config
         };
 
-        this.logger.time('invoke');
         await this.invoke(data);
-        this.logger.timeEnd('invoke', 'invoked');
 
         if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response;
 

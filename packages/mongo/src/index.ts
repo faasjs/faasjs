@@ -41,9 +41,6 @@ export class Mongo implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    this.logger.debug('[Mount] begin');
-    this.logger.time(this.name);
-
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
     for (let key in process.env)
@@ -74,8 +71,6 @@ export class Mongo implements Plugin {
       this.db = this.client.db(database);
       this.collection = this.db.collection.bind(this.db);
     }
-
-    this.logger.timeEnd(this.name, '[Mount] end');
 
     await next();
   }
