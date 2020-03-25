@@ -6,5 +6,6 @@ services:
   - redis-server
   - mysql
   - postgresql
+  - mongodb
 after_success:
   - yarn codecov
