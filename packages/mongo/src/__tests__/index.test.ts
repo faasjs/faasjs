@@ -12,12 +12,12 @@ describe('mongo', function () {
 
     const func = new Func({
       plugins: [mongo],
-      handler () {
-        return mongo.client.db('test').collection('test').find({ $expr: { $eq: [1, 1] } });
+      async handler () {
+        return await mongo.collection('test').find({ $expr: { $eq: [1, 1] } }).toArray();
       }
     });
     const handler = func.export().handler;
 
-    expect(await handler({})).toEqual([{ '1+1': 2 }]);
+    expect(await handler({})).toEqual([]);
   });
 });

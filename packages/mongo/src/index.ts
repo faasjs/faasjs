@@ -62,12 +62,17 @@ export class Mongo implements Plugin {
 
     this.logger.debug('conncet: %o', this.config);
 
-    this.client = await MongoClient.connect(this.config.url, this.config);
+    const url = this.config.url;
+    delete this.config.url;
 
-    if (this.config.database) {
-      this.db = this.client.db(this.config.database);
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      this.collection = this.db.collection;
+    const database = this.config.database;
+    delete this.config.database;
+
+    this.client = await MongoClient.connect(url, this.config);
+
+    if (database) {
+      this.db = this.client.db(database);
+      this.collection = this.db.collection.bind(this.db);
     }
 
     this.logger.timeEnd(this.name, '[Mount] end');
