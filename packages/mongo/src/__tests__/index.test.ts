@@ -13,7 +13,7 @@ describe('mongo', function () {
     const func = new Func({
       plugins: [mongo],
       handler () {
-        return mongo.collection('test').find({ $expr: { $eq: [1, 1] } });
+        return mongo.client.db('test').collection('test').find({ $expr: { $eq: [1, 1] } });
       }
     });
     const handler = func.export().handler;

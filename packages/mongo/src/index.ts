@@ -1,4 +1,4 @@
-import { MongoClientOptions, connect, Db, MongoClient, Collection, DbCollectionOptions, MongoCallback } from 'mongodb';
+import { MongoClientOptions, Db, MongoClient, Collection, DbCollectionOptions, MongoCallback } from 'mongodb';
 import { Plugin, MountData, Next } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
@@ -56,7 +56,9 @@ export class Mongo implements Plugin {
     if (data.config.plugins[this.name])
       this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
-    if (!this.config.loggerLevel) this.config.loggerLevel = 'debug';
+    if (typeof this.config.loggerLevel === 'undefined') this.config.loggerLevel = 'debug';
+    if (typeof this.config.useNewUrlParser === 'undefined') this.config.useNewUrlParser = true;
+    if (typeof this.config.useUnifiedTopology === 'undefined') this.config.useUnifiedTopology = true;
 
     this.logger.debug('conncet: %o', this.config);
 
