@@ -1,0 +1,27 @@
+{
+  "name": "@faasjs/mongo",
+  "version": "0.0.2-beta.40",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@faasjs/logger": "^0.0.2-beta.16",
+    "mongodb": "*",
+    "@types/mongodb": "*"
+  },
+  "devDependencies": {
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
+  }
+}
