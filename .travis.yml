@@ -7,5 +7,7 @@ services:
   - mysql
   - postgresql
   - mongodb
+before_script:
+  - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 after_success:
   - yarn codecov
