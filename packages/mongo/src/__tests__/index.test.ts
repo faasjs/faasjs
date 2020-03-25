@@ -5,8 +5,8 @@ describe('mongo', function () {
   it('with filename', async function () {
     const mongo = new Mongo({
       config: {
-        url: 'mongodb://travis:test@localhost',
-        useNewUrlParser: true
+        url: 'mongodb://localhost',
+        // useNewUrlParser: true
       }
     });
 
