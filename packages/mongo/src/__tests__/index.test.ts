@@ -6,8 +6,8 @@ describe('mongo', function () {
     const mongo = new Mongo({
       config: {
         url: 'mongodb://localhost',
-        database: 'test' 
-      } 
+        database: 'test'
+      }
     });
 
     const func = new Func({

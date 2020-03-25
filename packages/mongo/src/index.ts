@@ -60,7 +60,8 @@ export class Mongo implements Plugin {
 
     this.logger.debug('conncet: %o', this.config);
 
-    this.client = await connect(this.config.url, this.config);
+    this.client = new MongoClient(this.config.url, this.config);
+    await this.client.connect();
     if (this.config.database) {
       this.db = this.client.db(this.config.database);
       // eslint-disable-next-line @typescript-eslint/unbound-method
