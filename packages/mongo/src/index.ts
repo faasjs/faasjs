@@ -1,7 +1,9 @@
-import { MongoClientOptions, Db, MongoClient, Collection, DbCollectionOptions, MongoCallback } from 'mongodb';
+import { MongoClientOptions, Db, MongoClient, Collection, DbCollectionOptions, MongoCallback, ObjectID } from 'mongodb';
 import { Plugin, MountData, Next } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
+
+export { ObjectID };
 
 export interface MongoConfig extends MongoClientOptions {
   url?: string;
@@ -15,7 +17,7 @@ export class Mongo implements Plugin {
   public logger: Logger;
   public client: MongoClient;
   public db: Db;
-  public collection: <TSchema>(name: string, options?: DbCollectionOptions, callback?: MongoCallback<Collection<TSchema>>) => Collection<TSchema>;
+  public collection: <TSchema = any>(name: string, options?: DbCollectionOptions, callback?: MongoCallback<Collection<TSchema>>) => Collection<TSchema>;
 
   /**
    * 创建插件实例
