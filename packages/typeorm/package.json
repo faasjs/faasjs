@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/typeorm",
-  "version": "0.0.2-beta.36",
+  "version": "0.0.2-beta.41",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,13 +13,13 @@
   ],
   "dependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.1",
-    "@faasjs/load": "^0.0.2-beta.26",
+    "@faasjs/load": "^0.0.2-beta.41",
     "@faasjs/logger": "^0.0.2-beta.16",
     "reflect-metadata": "*",
     "typeorm": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.26",
+    "@faasjs/func": "^0.0.2-beta.41",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/mysql": "*",
