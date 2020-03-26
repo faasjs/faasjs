@@ -4,6 +4,12 @@
 
 ## Beta
 
+[`v0.0.2-beta.45 (2020-03-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.40...v0.0.2-beta.45)
+
+- [优化] `faasjs` 移除依赖项：@faasjs/browser, @faasjs/sql, @faasjs/redis。
+- [新增] `@faasjs/mongo` 用于适配 mongodb。
+- [优化] 优化了云函数的日志输出。
+
 [`v0.0.2-beta.40 (2020-03-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.34...v0.0.2-beta.40)
 
 - [优化] `@faasjs/http` 配置项新增 `path` 和 `ignorePathPrefix` 设置。

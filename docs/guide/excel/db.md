@@ -1,6 +1,14 @@
 # 数据库操作
 
-FaasJS 目前提供了 `@faasjs/sql` 和 `@faasjs/redis` 来支持数据库操作，其中 `@faasjs/sql` 支持 `Sqlite`、`Mysql` 和 `PostgreSQL`。
+数据库插件没有内置在 `faasjs` 中，使用前需自行安装依赖。
+
+FaasJS 目前提供了三个数据库插件：
+
+- **@faasjs/sql** 支持 Sqlite、Mysql 和 PostgreSQL。
+- **@faasjs/redis** 支持 Redis。
+- **@faasjs/mongo** 支持 MongoDB。
+
+此外还支持 [TypeORM](/guide/excel/typeorm.html) 用于更复杂的场景。
 
 ## Sql 数据库操作示例
 
@@ -37,3 +45,19 @@ export default new Func({
 ```
 
 详细文档见 [Redis 插件](/doc/redis.html)。
+
+## MongoDB 操作示例
+
+```typescript
+import { Func } from '@faasjs/func';
+import { Mongo } from '@faasjs/mongo';
+
+const mongo = new Mongo();
+
+export default new Func({
+  plugins: [mongo], // 将实例放到云函数的插件中
+  async handler(){
+    return await mongo.collection('test').find().toArray(); // 查询数据库
+  }
+});
+```
