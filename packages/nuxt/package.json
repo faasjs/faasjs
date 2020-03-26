@@ -12,6 +12,7 @@
     "lib"
   ],
   "dependencies": {
+    "@faasjs/browser": "*",
     "@faasjs/eslint-config-vue": "^0.0.2-beta.1",
     "faasjs": "^0.0.2-beta.44",
     "vue": "*"
