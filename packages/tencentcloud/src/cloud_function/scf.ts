@@ -6,10 +6,10 @@ function mergeData (data: any, prefix: string = ''): { [key: string]: any } {
   const ret: any = {};
   for (const k in data) {
     if (typeof data[k] === 'undefined' || data[k] === null) continue;
-    
-    if (data[k] instanceof Array || data[k] instanceof Object) 
+
+    if (data[k] instanceof Array || data[k] instanceof Object)
       Object.assign(ret, mergeData(data[k], prefix + k + '.'));
-    else 
+    else
       ret[prefix + k] = data[k];
   }
   return ret;
@@ -18,11 +18,13 @@ function mergeData (data: any, prefix: string = ''): { [key: string]: any } {
 function formatSignString (params: any): string {
   const str: string[] = [];
 
-  for (const key of Object.keys(params).sort()) 
+  for (const key of Object.keys(params).sort())
     str.push(key + '=' + params[key]);
 
   return str.join('&');
 }
+
+const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ? 'scf.internal.tencentcloudapi.com' : 'scf.tencentcloudapi.com';
 
 /**
  * 发出请求
@@ -45,11 +47,11 @@ export default async function action (tc: Tencentcloud, params: any): Promise<an
   };
   params = mergeData(params);
 
-  const sign = 'POSTscf.tencentcloudapi.com/?' + formatSignString(params);
+  const sign = `POST${host}/?${formatSignString(params)}`;
 
   params.Signature = crypto.createHmac('sha256', tc.config.secretKey).update(sign).digest('base64');
 
-  return request('https://scf.tencentcloudapi.com/?', {
+  return request(`https://${host}/?`, {
     body: params,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     method: 'POST',
@@ -57,7 +59,7 @@ export default async function action (tc: Tencentcloud, params: any): Promise<an
     if (res.body.Response.Error) {
       console.error(res.body);
       return Promise.reject(res.body.Response.Error);
-    } else 
+    } else
       return res.body.Response;
   });
 }
