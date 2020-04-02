@@ -21,7 +21,10 @@
     "@faasjs/func": "^0.0.2-beta.44",
     "@types/debug": "*",
     "@types/jest": "*",
-    "@types/node": "*"
+    "@types/node": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
   },
-  "gitHead": "92a7240c8c603dc2c2477b3000f1efa6f31883e7"
+  "gitHead": "c677b4fe22ef71488a46f2a3bb67c629cadf67c6"
 }
