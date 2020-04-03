@@ -25,7 +25,7 @@ export interface HttpConfig {
   name?: string;
   config?: {
     [key: string]: any;
-    method?: string;
+    method?: 'BEGIN' | 'GET' | 'POST' | 'DELETE' | 'HEAD' | 'PUT' | 'OPTIONS' | 'TRACE' | 'PATCH' | 'ANY';
     timeout?: number;
     path?: string;
     ignorePathPrefix?: string;
