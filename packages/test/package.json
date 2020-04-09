@@ -24,5 +24,5 @@
     "@faasjs/func": "^0.0.2-beta.44",
     "@faasjs/http": "^0.0.2-beta.48"
   },
-  "gitHead": "92a7240c8c603dc2c2477b3000f1efa6f31883e7"
+  "gitHead": "1b3bacb511c826a4ba1f83d7ac273b588004498a"
 }
