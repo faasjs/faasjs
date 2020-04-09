@@ -65,9 +65,11 @@ const NODE_PACKAGES = [
   'zlib'
 ];
 
+const EXTERNAL = FAAS_PACKAGES.concat(NODE_PACKAGES);
+
 /**
  * 加载 ts 文件
- * 
+ *
  * @param filename {string} 完整源文件路径
  * @param options {object} 配置项
  * @param options.input {object} 读取配置
@@ -90,7 +92,7 @@ export default async function loadTs (filename: string, options: {
   }> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`);
-  const external = PackageJSON['dependencies'] ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES;
+  const external = PackageJSON['dependencies'] ? EXTERNAL.concat(Object.keys(PackageJSON.dependencies)) : EXTERNAL;
 
   const input = deepMerge({
     input: filename,
@@ -105,8 +107,8 @@ export default async function loadTs (filename: string, options: {
 
   const dependencies = Object.create(null);
 
-  for (const m of bundle.cache.modules || []) 
-    for (const d of m.dependencies) 
+  for (const m of bundle.cache.modules || [])
+    for (const d of m.dependencies)
       if (!d.startsWith('/') && !dependencies[d] && !NODE_PACKAGES.includes(d)) dependencies[d] = '*';
 
   const output = deepMerge({
