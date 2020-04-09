@@ -1,0 +1,35 @@
+{
+  "name": "@faasjs/sequelize",
+  "version": "0.0.2-beta.49",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.es.js",
+  "scripts": {
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@faasjs/deep_merge": "^0.0.2-beta.1",
+    "@faasjs/load": "^0.0.2-beta.49",
+    "@faasjs/logger": "^0.0.2-beta.16",
+    "sequelize": "^5.0.0"
+  },
+  "devDependencies": {
+    "@faasjs/func": "^0.0.2-beta.44",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/mysql": "*",
+    "@types/node": "*",
+    "@types/pg": "*",
+    "@types/sqlite3": "*",
+    "mysql": "*",
+    "pg": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "sqlite3": "*",
+    "typescript": "*"
+  }
+}
