@@ -65,27 +65,27 @@ export class Server {
     const cache: Cache = this.cachedFuncs[path] || {};
 
     // 检查缓存是否可以使用
-    if (this.cachedFuncs[path] && cache.handler) 
+    if (this.cachedFuncs[path] && cache.handler)
       // 若配置 cache 为 true，则不进行 md5 校验，直接使用缓存
       if (this.opts.cache) {
         this.logger.info('[Response] cached: %s', cache.file);
       } else {
         // 校验 md5 确认文件是否被修改
         const md5 = createHash('md5').update(readFileSync(cache.file).toString()).digest('hex');
-        if (md5 === cache.md5) 
+        if (md5 === cache.md5)
           this.logger.info('[Response] cached: %s', cache.file);
-        else 
+        else
           delete cache.handler;
       }
-    else 
+    else
       this.cachedFuncs[path] = cache;
 
     if (!cache.handler) {
       // 寻找云函数文件
-      if (existsSync(path + '.func.ts')) 
+      if (existsSync(path + '.func.ts'))
         path += '.func.ts';
-      else 
-      if (existsSync(path + '/index.func.ts')) 
+      else
+      if (existsSync(path + '/index.func.ts'))
         path += '/index.func.ts';
       else {
         const body = `Not found: ${path}.func.ts or ${path}/index.func.ts`;
@@ -112,14 +112,14 @@ export class Server {
         try {
           // 删除 require 缓存
           if (!this.opts.cache && require.cache[cache.file]) delete require.cache[cache.file];
-          
+
           // 直接 require ts 文件
           func = require(cache.file).default;
         } catch (error) {
           this.logger.error(error);
           // 删除 require 缓存
           if (require.cache[cache.file + '.tmp.js']) delete require.cache[cache.file + '.tmp.js'];
-          
+
           // 载入 ts 文件
           try {
             const ts = await loadTs(cache.file, { tmp: true });
@@ -133,6 +133,7 @@ export class Server {
           }
         }
 
+      const requestId = new Date().getTime().toString();
       try {
         if (!cache.handler) {
           // 读取云函数配置并写入缓存
@@ -142,6 +143,7 @@ export class Server {
         }
 
         let body = '';
+
         req.on('readable', function () {
           body += req.read() || '';
         });
@@ -158,20 +160,22 @@ export class Server {
               queryString: parse(uri.query || ''),
               path: req.url,
               body
-            }, { request_id: new Date().getTime().toString() });
+            }, { request_id: requestId });
           } catch (error) {
             data = error;
           }
 
           if (data instanceof Error || (data && data.constructor && data.constructor.name === 'Error')) {
             res.statusCode = 500;
-            res.write(data.message);
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.setHeader('X-SCF-RequestId', requestId);
+            res.write(JSON.stringify({ error: { message: data.message } }));
           } else {
             if (data.statusCode) res.statusCode = data.statusCode;
-            
-            if (data.headers) 
-              for (const key in data.headers) 
-                if (Object.prototype.hasOwnProperty.call(data.headers, key)) 
+
+            if (data.headers)
+              for (const key in data.headers)
+                if (Object.prototype.hasOwnProperty.call(data.headers, key))
                   res.setHeader(key, data.headers[key]);
 
             if (data.body) res.write(data.body);
@@ -182,7 +186,8 @@ export class Server {
       } catch (error) {
         this.logger.error(error);
         res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.setHeader('X-SCF-RequestId', requestId);
         res.write(JSON.stringify({ error: { message: error.message } }));
         res.end();
         reject(error);
