@@ -1,24 +1,40 @@
 import { Plugin, Next, DeployData, MountData } from '@faasjs/func';
-import { Sequelize as Seq, Options, Model as SequelizeModel, DataTypes, ModelAttributes, InitOptions as SeqInitOptions } from 'sequelize';
+import { Sequelize as Seq, Options, Model as SequelizeModel, DataTypes, ModelAttributes, InitOptions as SeqInitOptions, Op } from 'sequelize';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 
-export { DataTypes };
+export { DataTypes, Op };
 
 export interface InitOptions extends Omit<SeqInitOptions, 'sequelize'> {
   sequelize?: Seq;
+}
+class Deferred<T> {
+  public readonly promise: Promise<T>
+  public resolve: (value?: T | PromiseLike<T>) => void
+  public reject: (reason?: any) => void
+
+  constructor () {
+    this.promise = new Promise<T>((resolve, reject) => {
+      this.resolve = resolve;
+      this.reject = reject;
+    });
+  }
 }
 
 export interface ModelInitOptions {
   attributes: ModelAttributes;
   options?: InitOptions;
+  defer?: Deferred<void>;
 }
 
 export class Model extends SequelizeModel {
-  static initData: ModelInitOptions;
+  public static initData: ModelInitOptions;
 
-  static setInitData (data: ModelInitOptions) {
+  static async prepare (data: ModelInitOptions): Promise<any> {
+    const defer = new Deferred<void>();
     this.initData = data;
+    if (!this.initData.defer) this.initData.defer = defer;
+    return this.initData.defer.promise;
   }
 }
 
@@ -101,6 +117,7 @@ export class Sequelize implements Plugin {
         sequelize: this.connection,
         ...model.initData.options
       });
+      if (model.initData.defer) model.initData.defer.resolve();
       if (this.config.sync && this.config.sync.force) await model.sync();
     }
 
