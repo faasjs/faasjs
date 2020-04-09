@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/sequelize",
-  "version": "0.0.2-beta.49",
+  "version": "0.0.2-beta.50",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
