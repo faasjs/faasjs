@@ -143,7 +143,7 @@ export class Func {
     return function (data: any, next?: () => void): any {
       let index = -1;
 
-      const dispatch = function (i: number): any {
+      const dispatch = async function (i: number): Promise<any> {
         if (i <= index) return Promise.reject(Error('next() called multiple times'));
         index = i;
         let fn: any = list[i];
@@ -152,11 +152,12 @@ export class Func {
         logger.debug(`[${fn.key}] begin`);
         logger.time(fn.key);
         try {
-          const res = Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)));
+          const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)));
           logger.timeEnd(fn.key, `[${fn.key}] end`);
           return res;
         } catch (err) {
-          logger.timeEnd(fn.key, `[${fn.key}] end`);
+          console.error(err);
+          logger.timeEnd(fn.key, `[${fn.key}] failed`);
           return Promise.reject(err);
         }
       };
