@@ -183,7 +183,7 @@ export class Http implements Plugin {
           statusCode: error.statusCode || 500,
           headers: Object.assign({
             'Content-Type': 'application/json; charset=utf-8',
-            'X-Request-Id': data.context.request_id
+            'X-SCF-RequestId': data.context.request_id
           }, error.headers || {}),
           body: JSON.stringify({ error: { message: error.message } })
         };
@@ -221,7 +221,7 @@ export class Http implements Plugin {
     // 处理 headers
     this.response.headers = Object.assign({
       'Content-Type': 'application/json; charset=utf-8',
-      'X-Request-Id': new Date().getTime().toString()
+      'X-SCF-RequestId': data.context.request_id
     }, this.cookie.headers(), this.response.headers);
 
     data.response = this.response;
