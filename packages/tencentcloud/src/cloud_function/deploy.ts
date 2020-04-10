@@ -40,38 +40,10 @@ const INCLUDED_NPM = [
   'xmlbuilder'
 ];
 
-function loadDependents (packageJSON: any, sub?: any): any {
-  if (!sub) sub = packageJSON;
-
-  if ((packageJSON.dependencies[sub.name] && packageJSON.dependencies[sub.name].startsWith('file:'))) return;
-
-  if (sub.name) packageJSON.dependencies[sub.name] = `file:${join(process.cwd(), 'node_modules', sub.name)}`;
-
-  if (!sub.dependencies && !sub.peerDependencies) return; 
-
-  const dependencies = Object.keys(sub.dependencies || {}).concat(Object.keys(sub.peerDependencies || {}));
-
-  for (const key of dependencies) {
-    if (INCLUDED_NPM.includes(key)) {
-      delete packageJSON.dependencies[key];
-      continue;
-    }
-
-    const path = join(process.cwd(), 'node_modules', key);
-    if (!existsSync(path)) {
-      delete packageJSON.dependencies[key];
-      continue;
-    }
-
-    const subPackage = JSON.parse(readFileSync(join(path, 'package.json')).toString());
-    loadDependents(packageJSON, subPackage);
-  }
-}
-
 function exec (cmd: string): void {
-  if (process.env.FaasLog === 'debug') 
+  if (process.env.FaasLog === 'debug')
     execSync(cmd, { stdio: 'inherit' });
-  else 
+  else
     execSync(cmd);
 }
 
@@ -90,11 +62,11 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
   if (config.config.name) {
     config.config.FunctionName = config.config.name;
     delete config.config.name;
-  } else 
+  } else
     config.config.FunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_');
-  
+
   if (!config.config.Description) config.config.Description = `Source: ${data.name}\nPublished by ${process.env.LOGNAME}\nPublished at ${config.config.version}`;
-  
+
   if (config.config.memorySize) {
     config.config.MemorySize = config.config.memorySize;
     delete config.config.memorySize;
@@ -169,21 +141,52 @@ module.exports = main.export();`
   });
 
   logger.debug('[2.2/11] 生成 dependencies...');
-  const packageJSON = { dependencies: config.config.dependencies };
+  const dependencies = Object.keys(config.config.dependencies);
 
-  loadDependents(packageJSON);
+  const modules = Object.create(null);
 
-  logger.debug('%o', packageJSON);
+  function findModule (list: any, key: string) {
+    if (list[key]) return;
+
+    if (INCLUDED_NPM.includes(key)) {
+      logger.debug('Remove dependent %s', key);
+      return;
+    }
+
+    const paths = [
+      join(process.cwd(), 'node_modules', key),
+      join(__dirname, '..', '..', '..', '..', 'node_modules', key)
+    ];
+
+    let path;
+    for (const p of paths)
+      if (existsSync(p)) path = p;
+
+    if (!path) {
+      logger.debug('Remove dependent %s', key);
+      return;
+    }
+    list[key] = path;
+
+    if (existsSync(join(path, 'package.json'))) {
+      const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString());
+      const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
+      deps.map(d => findModule(modules, d));
+    }
+  }
+
+  dependencies.map(d => findModule(modules, d));
+
+  logger.debug('%o', modules);
 
   logger.debug('[2.3/11] 生成 node_modules...');
-  for (const key in packageJSON.dependencies) {
+  for (const key in modules) {
     exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
-    exec(`cp -R -L ${packageJSON.dependencies[key].replace('file:', '')}/* ${config.config.tmp}node_modules/${key}`);
+    exec(`cp -R -L ${modules[key]}/* ${config.config.tmp}node_modules/${key}`);
   }
-  exec(`rm -rf ${config.config.tmp}node_modules/**/node_modules`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
-  exec(`cd ${config.config.tmp} && zip -r deploy.zip * -x "*.md" -x "*.ts" -x "*.map"`);
+  exec(`cd ${config.config.tmp} && zip -r deploy.zip * -x "*.md" -x "*.ts" -x "*.flow" -x "*.map" -x "*/LICENSE" -x "*/license" -x "ChangeLog" -x "CHANGELOG"`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[04/11]')} 检查 COS...`);
 
@@ -219,7 +222,7 @@ module.exports = main.export();`
       Action: 'CreateNamespace',
       Namespace: config.config.Namespace
     });
-  } else 
+  } else
     logger.debug('[6.2/11] 命名空间已存在，跳过');
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[07/11]')} 上传云函数...`);
@@ -318,7 +321,7 @@ module.exports = main.export();`
           Namespace: config.config.Namespace
         })).Status === 'Active') break;
       }
-    } else 
+    } else
       throw error;
   }
 
@@ -371,13 +374,13 @@ module.exports = main.export();`
   //       FunctionVersion: config.config.FunctionVersion,
   //       Namespace: config.config.Namespace
   //     });
-  //   } else 
+  //   } else
   //     throw error;
   // }
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[10/11]')} 更新触发器...`);
   const prevVersion = Number(config.config.FunctionVersion) - 1;
-  if (scfInfo && scfInfo.Triggers.length) 
+  if (scfInfo && scfInfo.Triggers.length)
     for (const trigger of scfInfo.Triggers) {
       logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
       await scf(tc, {
@@ -389,7 +392,7 @@ module.exports = main.export();`
         Qualifier: prevVersion
       });
     }
-  
+
   if (prevVersion) {
     scfInfo = await scf(tc, {
       Action: 'GetFunction',
@@ -397,7 +400,7 @@ module.exports = main.export();`
       Namespace: config.config.Namespace,
       Qualifier: prevVersion,
     });
-    if (scfInfo.Triggers.length) 
+    if (scfInfo.Triggers.length)
       for (const trigger of scfInfo.Triggers) {
         logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
         await scf(tc, {
@@ -410,7 +413,7 @@ module.exports = main.export();`
         });
       }
 
-    if (config.config.triggers) 
+    if (config.config.triggers)
       for (const trigger of config.config.triggers) {
         logger.debug('[10.2/11] 创建触发器 %s...', trigger.name);
         await scf(tc, {
@@ -434,9 +437,11 @@ module.exports = main.export();`
     Key: config.config.CosObjectName,
     Region: config.config.Region,
   });
-  
-  logger.debug('[11.2/11] 清理本地文件...');
-  exec(`rm -rf ${config.config.tmp}`);
+
+  if (process.env.FaasLog !== 'debug') {
+    logger.debug('[11.2/11] 清理本地文件...');
+    exec(`rm -rf ${config.config.tmp}`);
+  }
 
   logger.info('完成部署 %s/%s@%s', config.config.Namespace, config.config.FunctionName, config.config.FunctionVersion);
 }
