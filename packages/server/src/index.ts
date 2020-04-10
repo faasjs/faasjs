@@ -36,7 +36,7 @@ export class Server {
     cache: boolean;
   }) {
     this.root = root.endsWith(sep) ? root : root + sep;
-    this.logger = new Logger('Server');
+    this.logger = new Logger('FaasJS');
     this.opts = Object.assign({ cache: false }, opts || {});
     this.cachedFuncs = {};
     this.logger.debug('init with %s %o', this.root, this.opts);
