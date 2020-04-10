@@ -146,6 +146,6 @@ describe('server', function () {
     await promise;
 
     expect(res.statusCode).toEqual(500);
-    expect(res.body).toEqual('error');
+    expect(res.body).toEqual('{"error":{"message":"error"}}');
   });
 });

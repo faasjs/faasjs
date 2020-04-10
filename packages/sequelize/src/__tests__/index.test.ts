@@ -5,7 +5,7 @@ class User extends Model {
   public id!: number;
 }
 
-User.setInitData({
+User.prepare({
   attributes: {
     id: {
       type: DataTypes.INTEGER,
