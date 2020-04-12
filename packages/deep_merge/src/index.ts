@@ -14,28 +14,22 @@ const shouldMerge = function (item: any) {
  */
 export default function deepMerge (...sources: any[]) {
   let acc = Object.create(null);
-  for (const source of sources) {
+  for (const source of sources)
     if (source instanceof Array) {
-      if (!(acc instanceof Array)) {
+      if (!(acc instanceof Array))
         acc = [];
-      }
       acc = [...new Set((source).concat(...acc as any[]))];
-    } else if (shouldMerge(source)) {
+    } else if (shouldMerge(source))
       for (const [key, value] of Object.entries(source)) {
         let val;
-
-        if (shouldMerge(value)) {
-          val = deepMerge(acc[key as string], value);
-        } else {
+        if (shouldMerge(value))
+          val = deepMerge(acc[key], value);
+        else
           val = value;
-        }
-
         acc = {
           ...acc,
           [key]: val,
         };
       }
-    }
-  }
   return acc;
 }
