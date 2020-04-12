@@ -1,4 +1,4 @@
-import { createServer } from 'http';
+import { createServer, IncomingMessage } from 'http';
 import * as URL from 'url';
 import { parse } from 'querystring';
 import { createHash } from 'crypto';
@@ -42,15 +42,7 @@ export class Server {
     this.logger.debug('init with %s %o', this.root, this.opts);
   }
 
-  public async processRequest (req: {
-    url?: string;
-    headers: {
-      [key: string]: string | string[] | undefined;
-    };
-    method?: string;
-    on: (event: string, handler: () => void) => void;
-    read: () => any;
-  }, res: {
+  public async processRequest (req: IncomingMessage, res: {
     statusCode: number;
     write: (body: string | Buffer) => void;
     end: () => void;
@@ -137,8 +129,7 @@ export class Server {
       try {
         if (!cache.handler) {
           // 读取云函数配置并写入缓存
-          func.config = loadConfig(this.root, path).development;
-          // eslint-disable-next-line require-atomic-updates
+          func.config = loadConfig(this.root, path)[process.env.FaasEnv];
           cache.handler = func.export().handler;
         }
 
@@ -159,7 +150,13 @@ export class Server {
               httpMethod: req.method,
               queryString: parse(uri.query || ''),
               path: req.url,
-              body
+              body,
+              requestContext: {
+                httpMethod: req.method,
+                identity: {},
+                path: req.url,
+                sourceIp: req.connection.remoteAddress
+              }
             }, { request_id: requestId });
           } catch (error) {
             data = error;
@@ -203,7 +200,7 @@ export class Server {
     process.env.FaasMode = 'local';
     process.env.FaasLocal = `http://localhost:${port}`;
 
-    return createServer((req, res) => {
+    return createServer((req: IncomingMessage, res) => {
       this.processRequest(req, res);
     }).listen(port);
   }
