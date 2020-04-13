@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import { existsSync, lstatSync } from 'fs';
 import { sync as globSync } from 'glob';
 import { createInterface } from 'readline';
+import { sep } from 'path';
 import { Deployer } from '@faasjs/deployer';
 import { defaultsEnv } from '../helper';
 
@@ -13,19 +14,18 @@ export async function action (env: string, files: string[]): Promise<void> {
   const list: string[] = [];
 
   for (const name of files) {
-    let path = name.startsWith('/') ? name : process.env.FaasRoot + name;
+    let path = name.startsWith(sep) ? name : process.env.FaasRoot + name;
 
-    if (!existsSync(path)) {
+    if (!existsSync(path))
       throw Error(`File not found: ${path}`);
-    }
 
-    if (lstatSync(path).isFile()) {
+    if (lstatSync(path).isFile())
       list.push(path);
-    } else {
-      if (!path.endsWith('/')) {
-        path += '/';
-      }
-      list.push(...[...new Set(globSync(path + '*.func.ts').concat(globSync(path + '**/*.func.ts')))]);
+    else {
+      if (!path.endsWith(sep))
+        path += sep;
+
+      list.push(...[...new Set(globSync(path + '*.func.ts').concat(globSync(path + `**${sep}*.func.ts`)))]);
     }
   }
 
@@ -50,13 +50,12 @@ export async function action (env: string, files: string[]): Promise<void> {
       });
       readline.question('输入 y 确认:', function (res: string) {
         readline.close();
-  
+
         if (res !== 'y') {
           console.error('停止发布');
           reject();
-        } else {
+        } else
           resolve();
-        }
       });
     });
 
@@ -78,9 +77,9 @@ export default function (program: Command): void {
     .on('--help', function () {
       console.log(`
 Examples:
-  yarn deploy testing services/demo.func.ts
-  yarn deploy production services/demo.func.ts services/demo2.func.ts
-  yarn deploy testing services/`);
+  yarn deploy testing services${sep}demo.func.ts
+  yarn deploy production services${sep}demo.func.ts services${sep}demo2.func.ts
+  yarn deploy testing services${sep}`);
     })
     .action(action);
 }
