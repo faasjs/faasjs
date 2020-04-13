@@ -1,4 +1,5 @@
 import { Server } from '../index';
+import { IncomingMessage } from 'http';
 
 describe('server', function () {
   test('init', function () {
@@ -31,11 +32,11 @@ describe('server', function () {
       server.processRequest({
         url: '/hello',
         headers: {},
-        on: (event, handler) => {
+        on (event, handler) {
           handler();
         },
         read: () => true
-      }, res);
+      } as IncomingMessage, res);
     });
 
     await promise;
@@ -70,7 +71,7 @@ describe('server', function () {
           handler();
         },
         read: () => true
-      }, res);
+      } as IncomingMessage, res);
     });
 
     await promise;
@@ -105,7 +106,7 @@ describe('server', function () {
           handler();
         },
         read: () => true
-      }, res);
+      } as IncomingMessage, res);
     });
 
     await promise;
@@ -140,7 +141,7 @@ describe('server', function () {
           handler();
         },
         read: () => true
-      }, res);
+      } as IncomingMessage, res);
     });
 
     await promise;

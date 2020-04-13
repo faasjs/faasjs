@@ -19,16 +19,15 @@ export class Config {
 
   /**
    * 创建配置类，并自动读取配置内容
-   * 
+   *
    * @param root {string} 根目录
    * @param filename {filename} 目标文件，用于读取目录层级
    */
   constructor (root: string, filename: string) {
     this.root = root;
 
-    if (!this.root.endsWith(sep)) {
+    if (!this.root.endsWith(sep))
       this.root += sep;
-    }
 
     this.filename = filename;
 
@@ -40,49 +39,43 @@ export class Config {
       const root = join(base, path);
       const faas = join(root, 'faas.yaml');
 
-      if (existsSync(faas)) {
+      if (existsSync(faas))
         configs.push(safeLoad(readFileSync(faas).toString()));
-      }
 
       return root;
     });
 
     this.origin = deepMerge(...configs);
 
-    if (!this.origin.defaults) {
+    if (!this.origin.defaults)
       throw Error('[faas.yaml] need defaults env.');
-    }
+
 
     this.defaults = deepMerge(this.origin.defaults);
 
     for (const key in this.origin) {
-      if (key !== 'defaults') {
+      if (key !== 'defaults')
         this[key] = deepMerge(this.origin.defaults, this.origin[key]);
-      }
 
       const data = this[key];
 
-      if (!data.providers) {
+      if (!data.providers)
         throw Error(`[faas.yaml] missing key: ${key}/providers`);
-      }
 
-      if (!data.plugins) {
+      if (!data.plugins)
         throw Error(`[faas.yaml] missing key: ${key}/plugins`);
-      }
 
       for (const pluginKey in data.plugins) {
         const plugin = data.plugins[pluginKey];
         plugin.name = pluginKey;
-        if (plugin.provider) {
+        if (plugin.provider)
           if (typeof plugin.provider === 'string') {
-            if (!data.providers[plugin.provider]) {
+            if (!data.providers[plugin.provider])
               throw Error(`[faas.yaml] missing provider: ${plugin.provider} <${key}/plugins/${pluginKey}>`);
-            }
             plugin.provider = data.providers[plugin.provider];
           } else {
             plugin.provider = deepMerge(data.providers[plugin.provider], plugin.provider);
           }
-        }
       }
     }
   }

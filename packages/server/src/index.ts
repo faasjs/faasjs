@@ -129,7 +129,7 @@ export class Server {
       try {
         if (!cache.handler) {
           // 读取云函数配置并写入缓存
-          func.config = loadConfig(this.root, path)[process.env.FaasEnv];
+          func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
           cache.handler = func.export().handler;
         }
 
@@ -155,7 +155,7 @@ export class Server {
                 httpMethod: req.method,
                 identity: {},
                 path: req.url,
-                sourceIp: req.connection.remoteAddress
+                sourceIp: req.connection?.remoteAddress
               }
             }, { request_id: requestId });
           } catch (error) {
