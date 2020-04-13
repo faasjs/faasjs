@@ -11,8 +11,8 @@ const tsconfig = require(join(process.cwd(), 'tsconfig.json'));
 
 if (tsconfig.compilerOptions?.baseUrl && tsconfig.compilerOptions?.paths)
   require('tsconfig-paths').register({
-    baseUrl: tsconfig.compilerOptions.baseUrl,
-    paths: tsconfig.compilerOptions.paths
+    baseUrl: tsconfig.compilerOptions.baseUrl || '.',
+    paths: tsconfig.compilerOptions.paths || {}
   });
 
 require('ts-node').register({
