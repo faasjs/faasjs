@@ -14,7 +14,6 @@ module.exports = {
     ],
     extends: [
       "eslint:recommended",
-      "plugin:security/recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:vue/essential"
     ],
