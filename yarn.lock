@@ -3542,13 +3542,6 @@ escodegen@^1.11.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-plugin-security@*:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/eslint-plugin-security/-/eslint-plugin-security-1.4.0.tgz#d4f314484a80b1b613b8c8886e84f52efe1526c2"
-  integrity sha512-xlS7P2PLMXeqfhyf3NpqbvbnW04kN8M9NtmhpR3XGyOvt/vNKS7XPXT5EDbwKW9vCjWH4PpfQvgD/+JgN0VJKA==
-  dependencies:
-    safe-regex "^1.1.0"
-
 eslint-plugin-vue@*:
   version "6.2.1"
   resolved "https://registry.npmjs.org/eslint-plugin-vue/-/eslint-plugin-vue-6.2.1.tgz#ca802df5c33146aed1e56bb21d250c1abb6120a3"
@@ -3787,10 +3780,10 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 faasjs@./packages/faasjs:
-  version "0.0.2-beta.49"
+  version "0.0.2-beta.54"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.49"
-    "@faasjs/http" "^0.0.2-beta.49"
+    "@faasjs/cli" "^0.0.2-beta.54"
+    "@faasjs/http" "^0.0.2-beta.54"
 
 fast-deep-equal@^3.1.1:
   version "3.1.1"
@@ -5974,7 +5967,7 @@ mysql@*:
 
 mz@^2.4.0, mz@^2.5.0:
   version "2.7.0"
-  resolved "https://registry.npmjs.org/mz/-/mz-2.7.0.tgz#95008057a56cafadc2bc63dde7f9ff6955948e32"
+  resolved "https://mirrors.cloud.tencent.com/npm/mz/-/mz-2.7.0.tgz#95008057a56cafadc2bc63dde7f9ff6955948e32"
   integrity sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==
   dependencies:
     any-promise "^1.0.0"

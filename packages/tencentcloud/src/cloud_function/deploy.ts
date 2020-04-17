@@ -145,7 +145,7 @@ module.exports = main.export();`
 
   const modules = Object.create(null);
 
-  function findModule (list: any, key: string) {
+  function findModule (list: any, key: string, basePath: string) {
     if (list[key]) return;
 
     if (INCLUDED_NPM.includes(key)) {
@@ -155,12 +155,15 @@ module.exports = main.export();`
 
     const paths = [
       join(process.cwd(), 'node_modules', key),
-      join(__dirname, '..', '..', '..', '..', 'node_modules', key)
+      join(basePath, 'node_modules', key)
     ];
 
     let path;
     for (const p of paths)
-      if (existsSync(p)) path = p;
+      if (existsSync(p)) {
+        path = p;
+        break;
+      }
 
     if (!path) {
       logger.debug('Remove dependent %s', key);
@@ -171,11 +174,11 @@ module.exports = main.export();`
     if (existsSync(join(path, 'package.json'))) {
       const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString());
       const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
-      deps.map(d => findModule(modules, d));
+      deps.map(d => findModule(modules, d, path));
     }
   }
 
-  dependencies.map(d => findModule(modules, d));
+  dependencies.map(d => findModule(modules, d, process.cwd()));
 
   logger.debug('%o', modules);
 
@@ -184,6 +187,7 @@ module.exports = main.export();`
     exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
     exec(`cp -R -L ${modules[key]}/* ${config.config.tmp}node_modules/${key}`);
   }
+  exec(`rm -rf ${config.config.tmp}node_modules/*/node_modules`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
   exec(`cd ${config.config.tmp} && zip -r deploy.zip * -x "*.md" -x "*.ts" -x "*.flow" -x "*.map" -x "*/LICENSE" -x "*/license" -x "ChangeLog" -x "CHANGELOG"`);
