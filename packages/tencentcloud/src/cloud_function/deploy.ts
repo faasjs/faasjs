@@ -13,7 +13,7 @@ const defaults = {
   Handler: 'index.handler',
   MemorySize: 64,
   Timeout: 30,
-  Runtime: 'Nodejs8.9'
+  Runtime: 'Nodejs10.15'
 };
 
 // 腾讯云内置插件 https://cloud.tencent.com/document/product/583/11060
@@ -290,7 +290,7 @@ module.exports = main.export();`
       }).then(res => res.Status);
     }
   } catch (error) {
-    if (error.Code === 'ResourceNotFound.FunctionName') {
+    if (error.Code.startsWith('ResourceNotFound')) {
       logger.debug('[7.2/11] 创建云函数...');
       await scf(tc, {
         Action: 'CreateFunction',
