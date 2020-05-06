@@ -33,7 +33,7 @@ const INCLUDED_NPM = [
   'qcloudapi-sdk',
   'request',
   'sax',
-  'tencentcloud-sdk-nodejs',
+  // 'tencentcloud-sdk-nodejs',
   'url',
   'uuid',
   'xml2js',
