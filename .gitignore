@@ -9,3 +9,5 @@ tmp
 package-lock.json
 report.*.json
 .nuxt
+dist
+*.conf

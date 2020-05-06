@@ -237,6 +237,7 @@ export class Func {
         if (typeof context === 'undefined') context = {};
         if (!context.request_id) context.request_id = new Date().getTime().toString();
         if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000);
+        context.callbackWaitsForEmptyEventLoop = false;
 
         const data: InvokeData = {
           event,
