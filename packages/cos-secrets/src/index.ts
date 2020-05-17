@@ -1,7 +1,7 @@
 import { Plugin, MountData, Next } from '@faasjs/func';
 import Logger from '@faasjs/logger';
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { join, dirname } from 'path';
 import deepMerge from '@faasjs/deep_merge';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -19,6 +19,7 @@ export interface CosSecretsConfig {
   bucket?: string;
   region?: string;
   key?: string;
+  files?: string[];
 }
 
 export class CosSecrets implements Plugin {
@@ -29,8 +30,8 @@ export class CosSecrets implements Plugin {
   private logger: Logger;
 
   constructor (config?: {
-    name: string;
-    config: CosSecretsConfig;
+    name?: string;
+    config?: CosSecretsConfig;
   }) {
     if (config) {
       this.name = config.name || this.type;
@@ -56,7 +57,6 @@ export class CosSecrets implements Plugin {
         dataToEnv(JSON.parse(env));
       } else
         this.logger.warn(`Not found ${file}.`);
-
     } else {
       this.logger.debug('Loading from %o', this.config);
 
@@ -85,6 +85,25 @@ export class CosSecrets implements Plugin {
           resolve();
         });
       });
+
+      if (this.config.files && this.config.files.length)
+        for (const file of this.config.files)
+          // eslint-disable-next-line @typescript-eslint/typedef
+          await new Promise((resolve, reject) => {
+            client.getObject({
+              Bucket: this.config.bucket,
+              Region: this.config.region,
+              Key: process.env.FaasEnv + '/' + file
+              // eslint-disable-next-line @typescript-eslint/typedef
+            }, (err, data) => {
+              if (err) reject(err);
+              const path = `/tmp/${file}`;
+              mkdirSync(dirname(path), { recursive: true });
+              writeFileSync(path, data.Body);
+              this.logger.debug('write: %s', path);
+              resolve();
+            });
+          });
     }
 
     await next();

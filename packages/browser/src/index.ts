@@ -44,11 +44,11 @@ export default class FaasBrowserClient {
    * @param baseUrl {string=} 网关地址，若不填写，则默认为本地路径 /_faas/
    */
   constructor (baseUrl?: string) {
-    if (baseUrl) {
-      this.host = baseUrl.substring(baseUrl.length - 1) === '/' ? baseUrl : baseUrl + '/';
-    } else {
+    if (baseUrl)
+      this.host = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+    else
       this.host = '/_faas/';
-    }
+
     console.debug('[faas] baseUrl: ' + this.host);
   }
 
@@ -57,12 +57,12 @@ export default class FaasBrowserClient {
    * @param action {string} 动作名称
    * @param params {any} 动作参数
    */
-  public action (action: string, params?: any): Promise<Response> {
+  public async action (action: string, params?: any): Promise<Response> {
     const url = this.host + action + '?_=' + new Date().getTime().toString();
 
-    if (params && typeof params !== 'string') {
+    if (params && typeof params !== 'string')
       params = JSON.stringify(params);
-    }
+
 
     return new Promise(function (resolve, reject) {
       // eslint-disable-next-line no-undef
@@ -79,30 +79,30 @@ export default class FaasBrowserClient {
           const parts = line.split(': ');
           const key = parts.shift();
           const value = parts.join(': ');
-          headers[key as string] = value;
+          headers[key] = value;
         });
-        if (xhr.response && xhr.getResponseHeader('Content-Type') && xhr.getResponseHeader('Content-Type')!.indexOf('json') >= 0) {
+        if (xhr.response && xhr.getResponseHeader('Content-Type') && xhr.getResponseHeader('Content-Type')!.includes('json'))
           try {
             res = JSON.parse(xhr.response);
-            if (res.error && res.error.message) {
+            if (res.error && res.error.message)
               reject(new ResponseError({
                 message: res.error.message,
                 status: xhr.status,
                 headers,
                 body: res
               }));
-            }
+
           } catch (error) {
             console.error(error);
           }
-        }
-        if (xhr.status >= 200 && xhr.status < 300) {
+
+        if (xhr.status >= 200 && xhr.status < 300)
           resolve(new Response({
             status: xhr.status,
             headers,
             data: res.data
           }));
-        } else {
+        else {
           console.error(xhr, res);
           reject(new ResponseError({
             message: xhr.statusText || xhr.status.toString(),
