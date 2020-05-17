@@ -31,7 +31,7 @@ const INCLUDED_NPM = [
   'punycode',
   'puppeteer',
   'qcloudapi-sdk',
-  'request',
+  // 'request',
   'sax',
   // 'tencentcloud-sdk-nodejs',
   'url',
