@@ -39,19 +39,22 @@ export class FuncWarpper {
 
     this.plugins = this.func.plugins || [];
     for (const plugin of this.plugins) {
-      if (['handler', 'config', 'plugins', 'logger'].includes(plugin.type)) continue;
+      if (['handler', 'config', 'plugins', 'logger', 'mount'].includes(plugin.type)) continue;
       this[plugin.type] = plugin;
     }
 
     this._handler = this.func.export().handler;
   }
 
-  public async handler (event: any = Object.create(null), context: any = Object.create(null)): Promise<any> {
+  public async mount () {
     if (!this.func.mounted) await this.func.mount({
-      event,
-      context
+      event: {},
+      context: {}
     });
+  }
 
+  public async handler (event: any = Object.create(null), context: any = Object.create(null)): Promise<any> {
+    await this.mount();
     return this._handler(event, context);
   }
 
@@ -60,10 +63,7 @@ export class FuncWarpper {
     cookie?: { [key: string]: any };
     session?: { [key: string]: any };
   } = Object.create(null)): Promise<any> {
-    if (!this.func.mounted) await this.func.mount({
-      event: {},
-      context: {}
-    });
+    await this.mount();
 
     const headers = options.headers || Object.create(null);
     const http: Http = this.http;
