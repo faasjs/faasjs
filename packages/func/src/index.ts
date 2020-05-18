@@ -97,7 +97,7 @@ export class Func {
   public handler?: Handler;
   public logger: Logger;
   public config: Config;
-  private mounted: boolean;
+  public mounted: boolean;
   private cachedFunctions: {
     [key in LifeCycleKey]: CachedFunction[];
   }
@@ -156,8 +156,8 @@ export class Func {
           logger.timeEnd(fn.key, `[${fn.key}] end`);
           return res;
         } catch (err) {
-          console.error(err);
           logger.timeEnd(fn.key, `[${fn.key}] failed`);
+          console.error(err);
           return Promise.reject(err);
         }
       };
@@ -185,7 +185,7 @@ export class Func {
     event: any;
     context: any;
     config?: any;
-  }): Promise<any> {
+  }): Promise<void> {
     this.logger.debug('onMount');
     if (this.mounted) {
       this.logger.warn('mount() has been called, skipped.');

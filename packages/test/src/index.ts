@@ -1,6 +1,7 @@
 import Logger from '@faasjs/logger';
 import { Func, ExportedHandler, Plugin, Config } from '@faasjs/func';
 import { loadConfig } from '@faasjs/load';
+import { Http } from '@faasjs/http';
 
 // 输出 func 的定义以便于测试用例的引用
 export * from '@faasjs/func';
@@ -9,14 +10,14 @@ export * from '@faasjs/func';
  * 自动化测试用的云函数实例
  */
 export class FuncWarpper {
+  [key: string]: any;
   public readonly file: string;
   public readonly stagging: string;
   public readonly logger: Logger;
   public readonly func: Func;
   public readonly config: Config;
   public readonly plugins: Plugin[];
-  public readonly handler: ExportedHandler;
-  [key: string]: any;
+  private _handler: ExportedHandler;
 
   /**
    * 新建流程实例
@@ -24,40 +25,65 @@ export class FuncWarpper {
    * @example new TestCase(require.resolve('../demo.flow.ts'))
    */
   constructor (file: string) {
+    if (!process.env.FaasEnv) process.env.FaasEnv = 'testing';
+    if (!process.env.FaasMode) process.env.FaasMode = 'local';
+
     this.file = file;
-    this.stagging = process.env.FaasEnv || 'testing';
+    this.stagging = process.env.FaasEnv;
     this.logger = new Logger('TestCase');
 
     this.logger.info('Func: [%s] %s', this.stagging, this.file);
-    // eslint-disable-next-line security/detect-non-literal-require
     this.func = require(this.file).default;
     this.func.config = loadConfig(process.cwd(), this.file)[this.stagging];
     this.config = this.func.config;
-    this.plugins = this.func.plugins;
-    this.handler = this.func.export().handler;
+
+    this.plugins = this.func.plugins || [];
+    for (const plugin of this.plugins) {
+      if (['handler', 'config', 'plugins', 'logger'].includes(plugin.type)) continue;
+      this[plugin.type] = plugin;
+    }
+
+    this._handler = this.func.export().handler;
   }
 
-  /**
-   * 生成实例已激活的接口
-   * @param event {any} 事件对象
-   * @param context {any=} 环境对象
-   */
-  public async mountedHandler (event?: any, context?: any): Promise<ExportedHandler> {
-    const handler = this.func.export().handler;
-
-    await this.func.mount({
-      event: event || Object.create(null),
-      context: context || Object.create(null)
+  public async handler (event: any = Object.create(null), context: any = Object.create(null)): Promise<any> {
+    if (!this.func.mounted) await this.func.mount({
+      event,
+      context
     });
 
-    return handler;
+    return this._handler(event, context);
   }
 
-  public JSONhandler (body?: any, headers?: { [key: string]: any }): Promise<any> {
-    return this.handler({
-      headers: Object.assign({
-        'content-type': 'application/json'
-      }, headers),
+  public async JSONhandler (body?: any, options: {
+    headers?: { [key: string]: any };
+    cookie?: { [key: string]: any };
+    session?: { [key: string]: any };
+  } = Object.create(null)): Promise<any> {
+    if (!this.func.mounted) await this.func.mount({
+      event: {},
+      context: {}
+    });
+
+    const headers = options.headers || Object.create(null);
+    const http: Http = this.http;
+    if (http) {
+      if (options.cookie)
+        for (const key in options.cookie)
+          http.cookie.write(key, options.cookie[key]);
+      if (options.session) {
+        for (const key in options.session)
+          http.session.write(key, options.session[key]);
+        http.session.update();
+      }
+      const cookie = http.cookie.headers()['Set-Cookie']?.map(c => c.split(';')[0]).join(';');
+      if (cookie)
+        if (headers.cookie) headers.cookie += ';' + cookie;
+        else headers.cookie = cookie;
+    }
+
+    return this._handler({
+      headers: Object.assign({ 'content-type': 'application/json' }, headers),
       body: typeof body === 'string' ? body : JSON.stringify(body)
     });
   }

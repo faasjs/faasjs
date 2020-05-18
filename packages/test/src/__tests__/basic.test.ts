@@ -1,8 +1,8 @@
-import { FuncWarpper, ExportedHandler } from '../../src/index';
+import { FuncWarpper } from '../../src/index';
 
 test('basic', async function () {
-  const handler: ExportedHandler = new FuncWarpper(require.resolve('./funcs/basic.func')).handler;
-  const res = await handler({}, {});
+  const func = new FuncWarpper(require.resolve('./funcs/basic.func'));
+  const res = await func.handler({}, {});
 
   expect(res).toEqual(true);
 });
