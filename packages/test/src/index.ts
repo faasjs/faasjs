@@ -46,11 +46,13 @@ export class FuncWarpper {
     this._handler = this.func.export().handler;
   }
 
-  public async mount () {
+  public async mount (handler?: ((func: FuncWarpper) => Promise<void> | void)) {
     if (!this.func.mounted) await this.func.mount({
       event: {},
       context: {}
     });
+
+    if (handler) await handler(this);
   }
 
   public async handler (event: any = Object.create(null), context: any = Object.create(null)): Promise<any> {
