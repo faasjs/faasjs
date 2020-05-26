@@ -52,7 +52,7 @@ module.exports = {
     'no-multi-spaces': 'warn',
     'keyword-spacing': 'warn',
     'key-spacing': 'warn',
-    'space-infix-ops': 'warn',    
+    'space-infix-ops': 'warn',
     '@typescript-eslint/indent': [
       'error',
       2
@@ -62,24 +62,11 @@ module.exports = {
       { default: 'array' }
     ],
     '@typescript-eslint/camelcase': 'off',
-    '@typescript-eslint/class-name-casing': [
-      'warn',
-      {
-        allowUnderscorePrefix: true
-      }
-    ],
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/member-ordering': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-implied-eval': 'warn',
     '@typescript-eslint/promise-function-async': 'error',
-    '@typescript-eslint/typedef': [
-      'warn',
-      {
-        arrowParameter: false
-      }
-    ],
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
