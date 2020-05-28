@@ -22,20 +22,26 @@ export class FuncWarpper {
   /**
    * 新建流程实例
    * @param file {string} 文件名，必须是完整文件名，建议使用 require.resolve() 来传入
+   * @param func {Func} 云函数实例
    * @example new TestCase(require.resolve('../demo.flow.ts'))
    */
-  constructor (file: string) {
+  constructor (func: Func)
+  constructor (file: string)
+  constructor (initBy: Func | string) {
     if (!process.env.FaasEnv) process.env.FaasEnv = 'testing';
     if (!process.env.FaasMode) process.env.FaasMode = 'local';
 
-    this.file = file;
     this.stagging = process.env.FaasEnv;
     this.logger = new Logger('TestCase');
 
-    this.logger.info('Func: [%s] %s', this.stagging, this.file);
-    this.func = require(this.file).default;
-    this.func.config = loadConfig(process.cwd(), this.file)[this.stagging];
-    this.config = this.func.config;
+    if (typeof initBy === 'string') {
+      this.file = initBy;
+      this.logger.info('Func: [%s] %s', this.stagging, this.file);
+      this.func = require(this.file).default;
+      this.func.config = loadConfig(process.cwd(), this.file)[this.stagging];
+      this.config = this.func.config;
+    } else
+      this.func = initBy;
 
     this.plugins = this.func.plugins || [];
     for (const plugin of this.plugins) {
