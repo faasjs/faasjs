@@ -12,11 +12,9 @@ export interface CookieOptions {
   [key: string]: any;
 }
 
-export class Cookie {
-  public session: Session;
-  public content: {
-    [key: string]: any;
-  };
+export class Cookie<C, S> {
+  public session: Session<S, C>;
+  public content: C;
   public readonly config: {
     domain?: string;
     path: string;
@@ -50,15 +48,13 @@ export class Cookie {
     this.content = Object.create(null);
 
     // 解析 cookie
-    if (cookie) {
+    if (cookie)
       cookie.split(';').map((x: string) => {
         x = x.trim();
-        const k = x.match(/([^=]+)/);
-        if (k !== null) {
-          this.content[k[0] as string] = decodeURIComponent(x.replace(`${k[0]}=`, '').replace(/;$/, ''));
-        }
+        const k = /([^=]+)/.exec(x);
+        if (k !== null)
+          this.content[k[0]] = decodeURIComponent(x.replace(`${k[0]}=`, '').replace(/;$/, ''));
       });
-    }
 
     this.setCookie = Object.create(null);
     // 预读取 session
@@ -67,7 +63,7 @@ export class Cookie {
   }
 
   public read (key: string) {
-    return this.content[key as string];
+    return this.content[key];
   }
 
   public write (key: string, value: any, opts?: {
@@ -84,48 +80,46 @@ export class Cookie {
     if (value === null || typeof value === 'undefined') {
       opts.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
       cookie = `${key}=;`;
-      delete this.content[key as string];
+      delete this.content[key];
     } else {
       cookie = `${key}=${encodeURIComponent(value)};`;
-      this.content[key as string] = value;
+      this.content[key] = value;
     }
 
-    if (typeof opts.expires === 'number') {
+    if (typeof opts.expires === 'number')
       cookie += `max-age=${opts.expires};`;
-    } else if (typeof opts.expires === 'string') {
+    else if (typeof opts.expires === 'string')
       cookie += `expires=${opts.expires};`;
-    }
+
 
     cookie += `path=${opts.path || '/'};`;
 
-    if (opts.domain) {
+    if (opts.domain)
       cookie += `domain=${opts.domain};`;
-    }
 
-    if (opts.secure) {
+
+    if (opts.secure)
       cookie += 'Secure;';
-    }
 
-    if (opts.httpOnly) {
+
+    if (opts.httpOnly)
       cookie += 'HttpOnly;';
-    }
 
-    if (opts.sameSite) {
+
+    if (opts.sameSite)
       cookie += `SameSite=${opts.sameSite};`;
-    }
 
-    this.setCookie[key as string] = cookie;
+
+    this.setCookie[key] = cookie;
 
     return this;
   }
 
   public headers () {
-    if (!Object.keys(this.setCookie).length) {
+    if (!Object.keys(this.setCookie).length)
       return {};
-    } else {
-      return {
-        'Set-Cookie': Object.values(this.setCookie)
-      };
-    }
+    else
+      return { 'Set-Cookie': Object.values(this.setCookie) };
+
   }
 }

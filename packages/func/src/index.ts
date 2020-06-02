@@ -68,9 +68,9 @@ export interface MountData {
   context: any;
 }
 
-export interface InvokeData {
+export interface InvokeData<T = any> {
   [key: string]: any;
-  event: any;
+  event: T;
   context: any;
   callback: any;
   response: any;
@@ -231,8 +231,9 @@ export class Func {
   } {
     return {
       handler: async (event: any, context?: any, callback?: (...args: any) => any): Promise<any> => {
-        this.logger.debug('event: %o', event);
-        this.logger.debug('context: %o', context);
+        const logger = new Logger();
+        logger.debug('event: %o', event);
+        logger.debug('context: %o', context);
 
         if (typeof context === 'undefined') context = {};
         if (!context.request_id) context.request_id = new Date().getTime().toString();
@@ -245,7 +246,7 @@ export class Func {
           callback,
           response: undefined,
           handler: this.handler,
-          logger: this.logger,
+          logger,
           config: this.config
         };
 

@@ -43,14 +43,14 @@ class ValidError extends Error {
   }
 }
 
-export class Validator {
+export class Validator<P, C, S> {
   public paramsConfig?: ValidatorOptions;
   public cookieConfig?: ValidatorOptions;
   public sessionConfig?: ValidatorOptions;
   private request?: {
-    params?: any;
-    cookie?: Cookie;
-    session?: Session;
+    params?: P;
+    cookie?: Cookie<C, S>;
+    session?: Session<S, C>;
   }
   private logger: Logger;
 
@@ -71,9 +71,9 @@ export class Validator {
     session
   }:
   {
-    params?: any;
-    cookie?: Cookie;
-    session?: Session;
+    params?: P;
+    cookie?: Cookie<C, S>;
+    session?: Session<S, C>;
   }) {
     this.request = {
       params,
@@ -89,17 +89,17 @@ export class Validator {
 
     if (this.cookieConfig) {
       this.logger.debug('Valid cookie');
-      if (!cookie) {
+      if (!cookie)
         throw Error('Not found Cookie');
-      }
+
       this.validContent('cookie', cookie.content, '', this.cookieConfig);
     }
 
     if (this.sessionConfig) {
       this.logger.debug('Valid Session');
-      if (!session) {
+      if (!session)
         throw Error('Not found Session');
-      }
+
       this.validContent('session', session.content, '', this.sessionConfig);
     }
   }
@@ -111,55 +111,55 @@ export class Validator {
       const paramsKeys = Object.keys(params);
       const rulesKeys = Object.keys(config.rules);
       const diff = paramsKeys.filter(k => !rulesKeys.includes(k));
-      if (diff.length) {
+      if (diff.length)
         if (config.whitelist === 'error') {
           const diffKeys = diff.map(k => `${baseKey}${k}`);
           const error = Error(`[${type}] Unpermitted keys: ${diffKeys.join(', ')}`);
           if (config.onError) {
             const res = config.onError(`${type}.whitelist`, baseKey, diffKeys);
-            if (res) {
+            if (res)
               throw new ValidError(res);
-            }
+
           }
           throw error;
         } else if (config.whitelist === 'ignore') {
-          for (const key of diff) {
-            delete params[key as string];
-          }
+          for (const key of diff)
+            delete params[key];
+
         }
-      }
+
     }
     for (const key in config.rules) {
-      const rule = config.rules[key as string];
-      let value = params[key as string];
+      const rule = config.rules[key];
+      let value = params[key];
 
       // default
-      if (rule.default) {
+      if (rule.default)
         if (type === 'cookie' || type === 'session') {
           this.logger.warn('Cookie and Session not support default rule.');
         } else if (typeof value === 'undefined' && rule.default) {
           value = typeof rule.default === 'function' ? rule.default(this.request) : rule.default;
-          params[key as string] = value;
+          params[key] = value;
         }
-      }
+
 
       // required
-      if (rule.required === true) {
+      if (rule.required === true)
         if (typeof value === 'undefined' || value === null) {
           const error = Error(`[${type}] ${baseKey}${key} is required.`);
           if (config.onError) {
             const res = config.onError(`${type}.rule.required`, `${baseKey}${key}`, value);
-            if (res) {
+            if (res)
               throw new ValidError(res);
-            }
+
           }
           throw error;
         }
-      }
+
 
       if (typeof value !== 'undefined' && value !== null) {
         // type
-        if (rule.type) {
+        if (rule.type)
           if (type === 'cookie') {
             this.logger.warn('Cookie not support type rule');
           } else {
@@ -180,43 +180,43 @@ export class Validator {
               const error = Error(`[${type}] ${baseKey}${key} must be a ${rule.type}.`);
               if (config.onError) {
                 const res = config.onError(`${type}.rule.type`, `${baseKey}${key}`, value);
-                if (res) {
+                if (res)
                   throw new ValidError(res);
-                }
+
               }
               throw error;
             }
           }
-        }
+
 
         // in
         if (rule.in && !rule.in.includes(value)) {
           const error = Error(`[${type}] ${baseKey}${key} must be in ${rule.in.join(', ')}.`);
           if (config.onError) {
             const res = config.onError(`${type}.rule.in`, `${baseKey}${key}`, value);
-            if (res) {
+            if (res)
               throw new ValidError(res);
-            }
+
           }
           throw error;
         }
 
         // nest config
-        if (rule.config) {
+        if (rule.config)
           if (type === 'cookie') {
             this.logger.warn('Cookie not support nest rule.');
           } else {
-            if (Array.isArray(value)) {
+            if (Array.isArray(value))
               // array
-              for (const val of value) {
+              for (const val of value)
                 this.validContent(type, val, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorOptions);
-              }
-            } else if (typeof value === 'object') {
+
+            else if (typeof value === 'object')
               // object
               this.validContent(type, value, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorOptions);
-            }
+
           }
-        }
+
       }
     }
   }

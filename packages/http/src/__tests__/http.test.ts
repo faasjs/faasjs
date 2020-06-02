@@ -21,9 +21,7 @@ describe('http', function () {
   });
 
   test('with config name', async function () {
-    const http = new Http({
-      name: 'name'
-    });
+    const http = new Http({ name: 'name' });
     const func = new Func({
       plugins: [http],
       handler () {
@@ -33,11 +31,7 @@ describe('http', function () {
 
     func.config = {
       providers: {},
-      plugins: {
-        name: {
-          type: 'name'
-        }
-      }
+      plugins: { name: { type: 'name' } }
     };
     const handler = func.export().handler;
 

@@ -12,10 +12,8 @@ export interface SessionOptions {
   cipherName?: string;
 }
 
-export class Session {
-  public content: {
-    [key: string]: any;
-  };
+export class Session<S, C> {
+  public content: S;
 
   public readonly config: {
     key: string;
@@ -29,10 +27,10 @@ export class Session {
   };
   private secret: Buffer;
   private signedSecret: Buffer;
-  private cookie: Cookie;
+  private cookie: Cookie<C, S>;
   private changed?: boolean;
 
-  constructor (cookie: Cookie, config: SessionOptions) {
+  constructor (cookie: Cookie<C, S>, config: SessionOptions) {
     this.cookie = cookie;
 
     this.config = Object.assign({
@@ -46,9 +44,9 @@ export class Session {
       cipherName: 'aes-256-cbc'
     }, config);
 
-    this.secret = crypto.pbkdf2Sync(this.config.secret, this.config.salt!, this.config.iterations, this.config.keylen / 2, this.config.digest!);
+    this.secret = crypto.pbkdf2Sync(this.config.secret, this.config.salt, this.config.iterations, this.config.keylen / 2, this.config.digest);
 
-    this.signedSecret = crypto.pbkdf2Sync(this.config.secret, this.config.signedSalt, this.config.iterations!, this.config.keylen, this.config.digest);
+    this.signedSecret = crypto.pbkdf2Sync(this.config.secret, this.config.signedSalt, this.config.iterations, this.config.keylen, this.config.digest);
 
     this.content = Object.create(null);
   }
@@ -64,9 +62,9 @@ export class Session {
   }
 
   public encode (text: any) {
-    if (typeof text !== 'string') {
+    if (typeof text !== 'string')
       text = JSON.stringify(text);
-    }
+
 
     const iv = crypto.randomBytes(16);
 
@@ -92,9 +90,9 @@ export class Session {
     hmac.update(signedParts[0]);
     const digest = hmac.digest('hex');
 
-    if (signedParts[1] !== digest) {
+    if (signedParts[1] !== digest)
       throw Error('Not valid');
-    }
+
 
     const message = Buffer.from(signedParts[0], 'base64').toString();
     const parts = message.split('--').map(function (part) {
@@ -111,23 +109,23 @@ export class Session {
   }
 
   public read (key: string) {
-    return this.content[key as string];
+    return this.content[key];
   }
 
   public write (key: string, value?: any) {
-    if (value === null || typeof value === 'undefined') {
-      delete this.content[key as string];
-    } else {
-      this.content[key as string] = value;
-    }
+    if (value === null || typeof value === 'undefined')
+      delete this.content[key];
+    else
+      this.content[key] = value;
+
     this.changed = true;
     return this;
   }
 
   public update () {
-    if (this.changed) {
+    if (this.changed)
       this.cookie.write(this.config.key, this.encode(JSON.stringify(this.content)));
-    }
+
     return this;
   }
 }

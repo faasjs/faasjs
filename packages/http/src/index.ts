@@ -47,15 +47,15 @@ export interface Response {
   body?: string;
 }
 
-export class Http implements Plugin {
+export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}> implements Plugin {
   public readonly type: string = 'http';
   public name?: string
   public headers: {
     [key: string]: string;
   };
-  public params: any;
-  public cookie: Cookie;
-  public session: Session;
+  public params: P;
+  public cookie: Cookie<C, S>;
+  public session: Session<S, C>;
   public config: HttpConfig;
   private validatorOptions?: {
     params?: ValidatorOptions;
@@ -63,7 +63,7 @@ export class Http implements Plugin {
     session?: ValidatorOptions;
   };
   private response?: Response;
-  private validator?: Validator;
+  private validator?: Validator<P, C, S>;
   private logger: Logger;
 
   /**
@@ -140,7 +140,7 @@ export class Http implements Plugin {
 
     if (this.validatorOptions) {
       this.logger.debug('[onMount] prepare validator');
-      this.validator = new Validator(this.validatorOptions);
+      this.validator = new Validator<P, C, S>(this.validatorOptions);
     }
 
     await next();

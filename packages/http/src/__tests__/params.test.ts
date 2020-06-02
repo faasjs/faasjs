@@ -18,7 +18,7 @@ describe('params', function () {
   });
 
   test('raw', async function () {
-    const http = new Http();
+    const http = new Http<{ body: string }>();
     const handler = new Func({
       plugins: [http],
       handler () {
@@ -26,9 +26,7 @@ describe('params', function () {
       }
     }).export().handler;
 
-    const res = await handler({
-      body: 'raw'
-    });
+    const res = await handler({ body: 'raw' });
 
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual('{"data":"raw"}');
@@ -43,11 +41,7 @@ describe('params', function () {
       }
     }).export().handler;
 
-    const res = await handler({
-      queryString: {
-        a: 'a'
-      }
-    });
+    const res = await handler({ queryString: { a: 'a' } });
 
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual('{"data":{"a":"a"}}');
@@ -63,9 +57,7 @@ describe('params', function () {
     }).export().handler;
 
     const res = await handler({
-      headers: {
-        'content-type': 'application/json'
-      },
+      headers: { 'content-type': 'application/json' },
       body: '{"key":true}'
     });
 
