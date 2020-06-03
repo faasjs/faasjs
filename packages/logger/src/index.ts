@@ -169,15 +169,16 @@ export default class Logger {
     if (this.silent) return this;
 
     if (LevelPriority[level] < this.level) return this;
-    
+
     let output = level.toUpperCase() + ' ' + (this.label ? `[${this.label}] ` : '') + format(message, ...args);
 
-    if (this.mode === 'local' && level !== 'error') 
+    if (this.mode === 'local' && level !== 'error')
       output = this.colorfy(LevelColor[level], output);
+    else if (this.mode !== 'local') output = output.replace('\n', '');
 
-    if (level === 'error') 
+    if (level === 'error')
       this.stderr(output);
-    else 
+    else
       this.stdout(output);
 
     return this;
