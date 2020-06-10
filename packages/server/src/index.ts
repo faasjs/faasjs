@@ -1,16 +1,14 @@
 import { createServer, IncomingMessage } from 'http';
 import * as URL from 'url';
 import { parse } from 'querystring';
-import { createHash } from 'crypto';
 import Logger from '@faasjs/logger';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync } from 'fs';
 import { loadConfig, loadTs } from '@faasjs/load';
 import { resolve, sep, join } from 'path';
 
 interface Cache {
   handler?: any;
   file?: string;
-  md5?: string;
 }
 
 /**
@@ -58,16 +56,10 @@ export class Server {
 
     // 检查缓存是否可以使用
     if (this.cachedFuncs[path] && cache.handler)
-      // 若配置 cache 为 true，则不进行 md5 校验，直接使用缓存
       if (this.opts.cache) {
         this.logger.info('[Response] cached: %s', cache.file);
       } else {
-        // 校验 md5 确认文件是否被修改
-        const md5 = createHash('md5').update(readFileSync(cache.file).toString()).digest('hex');
-        if (md5 === cache.md5)
-          this.logger.info('[Response] cached: %s', cache.file);
-        else
-          delete cache.handler;
+        delete cache.handler;
       }
     else
       this.cachedFuncs[path] = cache;
@@ -91,7 +83,6 @@ export class Server {
 
       // 将文件路径和 md5 写入缓存
       cache.file = resolve('.', path);
-      cache.md5 = createHash('md5').update(readFileSync(cache.file).toString()).digest('hex');
 
       this.logger.info('[Response] %s', cache.file);
     }
