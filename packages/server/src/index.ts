@@ -1,15 +1,24 @@
-import { createServer, IncomingMessage } from 'http';
+/* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call */
+import { createServer, IncomingMessage, Server as HttpServer } from 'http';
 import * as URL from 'url';
 import { parse } from 'querystring';
 import Logger from '@faasjs/logger';
 import { existsSync } from 'fs';
-import { loadConfig, loadTs } from '@faasjs/load';
-import { resolve, sep, join } from 'path';
+import { loadConfig } from '@faasjs/load';
+import { resolve as pathResolve, sep, join } from 'path';
+import { debounce } from 'lodash';
 
 interface Cache {
-  handler?: any;
   file?: string;
+  handler?(...args: any): Promise<any>;
 }
+
+const clearCache = debounce(function () {
+  Object.keys(require.cache).forEach(function (id) {
+    if (!id.includes('/node_modules/'))
+      delete require.cache[id];
+  });
+}, 500);
 
 /**
  * 本地服务端
@@ -48,82 +57,10 @@ export class Server {
   }): Promise<void> {
     this.logger.info('[Request] %s', req.url);
 
-    // 提取 path
-    let path = join(this.root, req.url).replace(/\?.*/, '');
-
-    // 读取或创建缓存
-    const cache: Cache = this.cachedFuncs[path] || {};
-
-    // 检查缓存是否可以使用
-    if (this.cachedFuncs[path] && cache.handler)
-      if (this.opts.cache) {
-        this.logger.info('[Response] cached: %s', cache.file);
-      } else {
-        delete cache.handler;
-      }
-    else
-      this.cachedFuncs[path] = cache;
-
-    if (!cache.handler) {
-      // 寻找云函数文件
-      if (existsSync(path + '.func.ts'))
-        path += '.func.ts';
-      else
-      if (existsSync(path + '/index.func.ts'))
-        path += '/index.func.ts';
-      else {
-        const body = `Not found: ${path}.func.ts or ${path}/index.func.ts`;
-        this.logger.info(body);
-
-        res.statusCode = 404;
-        res.write(body);
-        res.end();
-        return Promise.resolve();
-      }
-
-      // 将文件路径和 md5 写入缓存
-      cache.file = resolve('.', path);
-
-      this.logger.info('[Response] %s', cache.file);
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
-      let func;
-      if (!cache.handler)
-        // 先直接引用 ts 文件，若非 ts 运行时，则编译成 js 再引用
-        try {
-          // 删除 require 缓存
-          if (!this.opts.cache && require.cache[cache.file]) delete require.cache[cache.file];
-
-          // 直接 require ts 文件
-          func = require(cache.file).default;
-        } catch (error) {
-          this.logger.error(error);
-          // 删除 require 缓存
-          if (require.cache[cache.file + '.tmp.js']) delete require.cache[cache.file + '.tmp.js'];
-
-          // 载入 ts 文件
-          try {
-            const ts = await loadTs(cache.file, { tmp: true });
-            func = ts.module;
-          } catch (error) {
-            this.logger.error(error);
-            res.statusCode = 500;
-            res.write(error.message);
-            res.end();
-            return reject(error);
-          }
-        }
-
+    return new Promise((resolve, reject) => {
       const requestId = new Date().getTime().toString();
       try {
-        if (!cache.handler) {
-          // 读取云函数配置并写入缓存
-          func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
-          cache.handler = func.export().handler;
-        }
-
         let body = '';
 
         req.on('readable', function () {
@@ -132,6 +69,26 @@ export class Server {
 
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         req.on('end', async () => {
+          // 提取 path
+          const path = join(this.root, req.url).replace(/\?.*/, '');
+
+          let cache: Cache = {};
+
+          if (this.opts.cache && this.cachedFuncs[path] && this.cachedFuncs[path].handler) {
+            this.logger.info('[Response] cached: %s', cache.file);
+            cache = this.cachedFuncs[path];
+          } else {
+            this.logger.info('[Response] %s', cache.file);
+            cache.file = pathResolve('.', this.getFilePath(path));
+            const func = require(cache.file).default;
+            func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
+            // eslint-disable-next-line @typescript-eslint/unbound-method
+            cache.handler = func.export().handler;
+
+            if (this.opts.cache) this.cachedFuncs[path] = cache;
+            else clearCache();
+          }
+
           const uri = URL.parse(req.url);
 
           let data;
@@ -183,7 +140,7 @@ export class Server {
     });
   }
 
-  public listen (port: number = 3000) {
+  public listen (port: number = 3000): HttpServer {
     this.logger.info('listen http://localhost:%s with %s', port, this.root);
 
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') process.env.FaasEnv = 'development';
@@ -191,8 +148,15 @@ export class Server {
     process.env.FaasMode = 'local';
     process.env.FaasLocal = `http://localhost:${port}`;
 
-    return createServer((req: IncomingMessage, res) => {
-      this.processRequest(req, res);
-    }).listen(port);
+    return createServer(this.processRequest.bind(this)).listen(port);
+  }
+
+  private getFilePath (path: string) {
+    if (existsSync(path + '.func.ts'))
+      return path + '.func.ts';
+    else if (existsSync(path + '/index.func.ts'))
+      return path + '/index.func.ts';
+
+    throw Error(`Not found: ${path}.func.ts or ${path}/index.func.ts`);
   }
 }

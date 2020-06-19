@@ -13,7 +13,8 @@
   ],
   "dependencies": {
     "@faasjs/load": "^0.0.2-beta.69",
-    "@faasjs/logger": "^0.0.2-beta.69"
+    "@faasjs/logger": "^0.0.2-beta.69",
+    "lodash": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.69",
@@ -23,7 +24,8 @@
     "@types/node": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@types/lodash": "*"
   },
   "gitHead": "1b3bacb511c826a4ba1f83d7ac273b588004498a"
 }
