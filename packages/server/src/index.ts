@@ -69,30 +69,30 @@ export class Server {
 
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         req.on('end', async () => {
-          // 提取 path
-          const path = join(this.root, req.url).replace(/\?.*/, '');
-
-          let cache: Cache = {};
-
-          if (this.opts.cache && this.cachedFuncs[path] && this.cachedFuncs[path].handler) {
-            this.logger.info('[Response] cached: %s', cache.file);
-            cache = this.cachedFuncs[path];
-          } else {
-            this.logger.info('[Response] %s', cache.file);
-            cache.file = pathResolve('.', this.getFilePath(path));
-            const func = require(cache.file).default;
-            func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
-            // eslint-disable-next-line @typescript-eslint/unbound-method
-            cache.handler = func.export().handler;
-
-            if (this.opts.cache) this.cachedFuncs[path] = cache;
-            else clearCache();
-          }
-
-          const uri = URL.parse(req.url);
-
           let data;
           try {
+            // 提取 path
+            const path = join(this.root, req.url).replace(/\?.*/, '');
+
+            let cache: Cache = {};
+
+            if (this.opts.cache && this.cachedFuncs[path] && this.cachedFuncs[path].handler) {
+              this.logger.info('[Response] cached: %s', cache.file);
+              cache = this.cachedFuncs[path];
+            } else {
+              this.logger.info('[Response] %s', cache.file);
+              cache.file = pathResolve('.', this.getFilePath(path));
+              const func = require(cache.file).default;
+              func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
+              // eslint-disable-next-line @typescript-eslint/unbound-method
+              cache.handler = func.export().handler;
+
+              if (this.opts.cache) this.cachedFuncs[path] = cache;
+              else clearCache();
+            }
+
+            const uri = URL.parse(req.url);
+
             data = await cache.handler({
               headers: req.headers,
               httpMethod: req.method,

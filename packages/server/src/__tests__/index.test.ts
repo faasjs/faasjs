@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Server } from '../index';
 import { IncomingMessage } from 'http';
 
@@ -29,7 +32,7 @@ describe('server', function () {
           this.headers[key as string] = value;
         }
       };
-      server.processRequest({
+      void server.processRequest({
         url: '/hello',
         headers: {},
         on (event, handler) {
@@ -64,7 +67,7 @@ describe('server', function () {
           this.headers[key as string] = value;
         }
       };
-      server.processRequest({
+      void server.processRequest({
         url: '/a',
         headers: {},
         on: (event, handler) => {
@@ -99,7 +102,7 @@ describe('server', function () {
           this.headers[key as string] = value;
         }
       };
-      server.processRequest({
+      void server.processRequest({
         url: '/404',
         headers: {},
         on: (event, handler) => {
@@ -111,7 +114,7 @@ describe('server', function () {
 
     await promise;
 
-    expect(res.statusCode).toEqual(404);
+    expect(res.statusCode).toEqual(500);
   });
 
   test('500', async function () {
@@ -134,7 +137,7 @@ describe('server', function () {
           this.headers[key as string] = value;
         }
       };
-      server.processRequest({
+      void server.processRequest({
         url: '/error',
         headers: {},
         on: (event, handler) => {
