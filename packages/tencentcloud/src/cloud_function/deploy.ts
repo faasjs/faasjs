@@ -13,7 +13,7 @@ const defaults = {
   Handler: 'index.handler',
   MemorySize: 64,
   Timeout: 30,
-  Runtime: 'Nodejs10.15'
+  Runtime: 'Nodejs12.16'
 };
 
 // 腾讯云内置插件 https://cloud.tencent.com/document/product/583/11060
