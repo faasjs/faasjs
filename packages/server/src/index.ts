@@ -13,13 +13,6 @@ interface Cache {
   handler?(...args: any): Promise<any>;
 }
 
-const clearCache = debounce(function () {
-  Object.keys(require.cache).forEach(function (id) {
-    if (!id.includes('/node_modules/'))
-      delete require.cache[id];
-  });
-}, 500);
-
 /**
  * 本地服务端
  */
@@ -32,6 +25,7 @@ export class Server {
   private cachedFuncs: {
     [path: string]: Cache;
   }
+  private clearCache: () => void;
 
   /**
    * 创建本地服务器
@@ -47,6 +41,14 @@ export class Server {
     this.opts = Object.assign({ cache: false }, opts || {});
     this.cachedFuncs = {};
     this.logger.debug('init with %s %o', this.root, this.opts);
+
+    this.clearCache = debounce(function () {
+      this.logger.debug('clear cache');
+      Object.keys(require.cache).forEach(function (id) {
+        if (!id.includes('/node_modules/'))
+          delete require.cache[id];
+      });
+    }, 500);
   }
 
   public async processRequest (req: IncomingMessage, res: {
@@ -80,15 +82,16 @@ export class Server {
               this.logger.info('[Response] cached: %s', cache.file);
               cache = this.cachedFuncs[path];
             } else {
-              this.logger.info('[Response] %s', cache.file);
               cache.file = pathResolve('.', this.getFilePath(path));
+              this.logger.info('[Response] %s', cache.file);
+
               const func = require(cache.file).default;
               func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
               // eslint-disable-next-line @typescript-eslint/unbound-method
               cache.handler = func.export().handler;
 
               if (this.opts.cache) this.cachedFuncs[path] = cache;
-              else clearCache();
+              else this.clearCache();
             }
 
             const uri = URL.parse(req.url);
@@ -148,7 +151,7 @@ export class Server {
     process.env.FaasMode = 'local';
     process.env.FaasLocal = `http://localhost:${port}`;
 
-    return createServer(this.processRequest.bind(this)).listen(port);
+    return createServer(this.processRequest.bind(this)).listen(port, '0.0.0.0');
   }
 
   private getFilePath (path: string) {
