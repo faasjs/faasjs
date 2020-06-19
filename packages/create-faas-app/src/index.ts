@@ -1,17 +1,17 @@
 import { Command } from 'commander';
 import action from './action';
 
-const commander: Command = new Command();
+const commander = new Command();
 
 // 设置命令
 commander
   .version('beta');
 
 // 加载命令
-action(commander);
+action(commander as Command);
 
-if (!process.env.CI && process.argv[0] !== 'fake') {
+if (!process.env.CI && process.argv[0] !== 'fake') 
   commander.parse(process.argv);
-}
+
 
 export default commander;

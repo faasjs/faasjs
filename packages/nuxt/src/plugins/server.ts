@@ -1,4 +1,6 @@
 import { Context } from '@nuxt/types';
+import { ServerResponse } from 'http';
+import { IncomingMessage } from 'connect';
 import { Response } from '@faasjs/browser';
 import FaasServerClient from '../server';
 
@@ -11,6 +13,9 @@ declare module 'vue/types/vue' {
 declare module '@nuxt/types' {
   interface Context {
     $faas(action: string, params?: any): Promise<Response>;
+    isDev: boolean;
+    req: IncomingMessage;
+    res: ServerResponse;
   }
 }
 
@@ -18,7 +23,8 @@ let server: FaasServerClient;
 
 export default (ctx: Context, inject: any) => {
   server = new FaasServerClient('<%= options.baseUrl %>', ctx);
-  inject('faas', function (action: string, body?: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  inject('faas', async function (action: string, body?: any) {
     return server.action(ctx, action, body);
   });
 };

@@ -31,5 +31,6 @@
     "rollup-plugin-typescript2": "*",
     "sqlite3": "*",
     "typescript": "*"
-  }
+  },
+  "gitHead": "2a4ad5d99128943bae40dbd3a7bc2b6e4f821634"
 }

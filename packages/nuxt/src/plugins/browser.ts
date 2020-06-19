@@ -9,10 +9,11 @@ declare module 'vue/types/vue' {
 let browser: FaasBrowserClient;
 
 export default (ctx: any, inject: any) => {
-  if (!browser) {
+  if (!browser)
     browser = new FaasBrowserClient('<%= options.baseUrl %>');
-  }
-  inject('faas', function (action: string, body?: any) {
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  inject('faas', async function (action: string, body?: any) {
     return browser.action(action, body);
   });
 };
