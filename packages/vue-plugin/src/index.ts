@@ -14,8 +14,8 @@ export interface Options {
 export default {
   install (Vue: typeof _Vue, options: Options): void {
     const client = new FaasBrowserClient(options.domain);
-    Vue.prototype.$faas = function (action: string, params?: any) {
-      return client.action(action, params);
+    Vue.prototype.$faas = async function<T = any> (action: string, params?: any) {
+      return client.action<T>(action, params);
     };
   }
 };
