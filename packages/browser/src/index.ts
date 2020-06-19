@@ -2,15 +2,15 @@ export interface ResponseHeaders {
   [key: string]: string;
 }
 
-export class Response {
+export class Response<T = any> {
   public readonly status: number;
   public readonly headers: ResponseHeaders;
-  public readonly data: any;
+  public readonly data: T;
 
   constructor ({ status, headers, data }: {
     status: number;
     headers: ResponseHeaders;
-    data: any;
+    data: T;
   }) {
     this.status = status;
     this.headers = headers;
@@ -57,7 +57,7 @@ export default class FaasBrowserClient {
    * @param action {string} 动作名称
    * @param params {any} 动作参数
    */
-  public async action (action: string, params?: any): Promise<Response> {
+  public async action<T = any> (action: string, params?: any): Promise<Response<T>> {
     const url = this.host + action + '?_=' + new Date().getTime().toString();
 
     if (params && typeof params !== 'string')

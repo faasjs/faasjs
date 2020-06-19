@@ -15,12 +15,12 @@ export interface Request {
   body?: any;
 }
 
-export interface Response {
+export interface Response<T = any> {
   request?: Request;
   statusCode?: number;
   statusMessage?: string;
   headers: http.OutgoingHttpHeaders;
-  body: any;
+  body: T;
 }
 
 export interface RequestOptions {
@@ -61,7 +61,7 @@ export function setMock (handler: Mock | null): void {
  *
  * @returns {promise}
  */
-export default async function request (url: string, {
+export default async function request<T = any> (url: string, {
   headers,
   method,
   query,
@@ -73,7 +73,7 @@ export default async function request (url: string, {
 }: RequestOptions = {
   headers: {},
   query: {},
-}): Promise<Response> {
+}): Promise<Response<T>> {
   const log = new Logger('request');
 
   log.debug('request %s %o', url, {
@@ -92,11 +92,11 @@ export default async function request (url: string, {
 
   // 序列化 query
   if (query) {
-    if (!url.includes('?')) 
+    if (!url.includes('?'))
       url += '?';
-    else if (!url.endsWith('?')) 
+    else if (!url.endsWith('?'))
       url += '&';
-    
+
     url += stringify(query);
   }
 
@@ -127,11 +127,11 @@ export default async function request (url: string, {
   };
 
   // 处理 headers
-  for (const key in headers) 
+  for (const key in headers)
     if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key];
 
   // 序列化 body
-  if (body && typeof body !== 'string') 
+  if (body && typeof body !== 'string')
     if (
       options.headers['Content-Type'] &&
       options.headers['Content-Type'].toString().includes('application/x-www-form-urlencoded')
@@ -169,7 +169,7 @@ export default async function request (url: string, {
           response.headers = res.headers;
           response.body = data;
 
-          if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json')) 
+          if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json'))
             try {
               response.body = JSON.parse(response.body);
               log.debug('response.parse JSON');
@@ -177,7 +177,7 @@ export default async function request (url: string, {
               console.error(error);
             }
 
-          if (response.statusCode >= 200 && response.statusCode < 400) 
+          if (response.statusCode >= 200 && response.statusCode < 400)
             resolve(response);
           else {
             log.debug('response.error %o', response);
