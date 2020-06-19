@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-recommended",
-  "version": "0.0.2-beta.65",
+  "version": "0.0.2-beta.75",
   "license": "MIT",
   "main": "index.js",
   "files": [
@@ -10,7 +10,7 @@
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
     "eslint": "*",
-    "typescript": "*",
-    "eslint-plugin-jest": "*"
+    "eslint-plugin-jest": "*",
+    "typescript": "*"
   }
 }
