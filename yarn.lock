@@ -415,6 +415,7 @@
     "@typescript-eslint/eslint-plugin" "*"
     "@typescript-eslint/parser" "*"
     eslint "*"
+    eslint-plugin-jest "*"
     typescript "*"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
@@ -2081,6 +2082,16 @@
     eslint-scope "^5.0.0"
     eslint-utils "^2.0.0"
 
+"@typescript-eslint/experimental-utils@^2.5.0":
+  version "2.34.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/@typescript-eslint%2fexperimental-utils/-/experimental-utils-2.34.0.tgz#d3524b644cdb40eebceca67f8cf3e4cc9c8f980f"
+  integrity sha512-eS6FTkq+wuMJ+sgtuNTtcqavWXqsflWcfBnlYhg/nS4aZ1leewkXGbvBhaapn1q6qf4M71bsR1tez5JTRMuqwA==
+  dependencies:
+    "@types/json-schema" "^7.0.3"
+    "@typescript-eslint/typescript-estree" "2.34.0"
+    eslint-scope "^5.0.0"
+    eslint-utils "^2.0.0"
+
 "@typescript-eslint/parser@*":
   version "3.3.0"
   resolved "https://mirrors.cloud.tencent.com/npm/@typescript-eslint%2fparser/-/parser-3.3.0.tgz#fcae40012ded822aa8b2739a1a03a4e3c5bbb7bb"
@@ -2090,6 +2101,19 @@
     "@typescript-eslint/experimental-utils" "3.3.0"
     "@typescript-eslint/typescript-estree" "3.3.0"
     eslint-visitor-keys "^1.1.0"
+
+"@typescript-eslint/typescript-estree@2.34.0":
+  version "2.34.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/@typescript-eslint%2ftypescript-estree/-/typescript-estree-2.34.0.tgz#14aeb6353b39ef0732cc7f1b8285294937cf37d5"
+  integrity sha512-OMAr+nJWKdlVM9LOqCqh3pQQPwxHAN7Du8DR6dmwCrAmxtiXQnhHJ6tBNtf+cggqfo51SG/FCwnKhXCIM7hnVg==
+  dependencies:
+    debug "^4.1.1"
+    eslint-visitor-keys "^1.1.0"
+    glob "^7.1.6"
+    is-glob "^4.0.1"
+    lodash "^4.17.15"
+    semver "^7.3.2"
+    tsutils "^3.17.1"
 
 "@typescript-eslint/typescript-estree@3.3.0":
   version "3.3.0"
@@ -3861,6 +3885,13 @@ escodegen@^1.14.1:
   optionalDependencies:
     source-map "~0.6.1"
 
+eslint-plugin-jest@*:
+  version "23.13.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/eslint-plugin-jest/-/eslint-plugin-jest-23.13.2.tgz#7b7993b4e09be708c696b02555083ddefd7e4cc7"
+  integrity sha512-qZit+moTXTyZFNDqSIR88/L3rdBlTU7CuW6XmyErD2FfHEkdoLgThkRbiQjzgYnX6rfgLx3Ci4eJmF4Ui5v1Cw==
+  dependencies:
+    "@typescript-eslint/experimental-utils" "^2.5.0"
+
 eslint-plugin-vue@*:
   version "6.2.2"
   resolved "https://mirrors.cloud.tencent.com/npm/eslint-plugin-vue/-/eslint-plugin-vue-6.2.2.tgz#27fecd9a3a24789b0f111ecdd540a9e56198e0fe"
@@ -4111,10 +4142,10 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 faasjs@./packages/faasjs:
-  version "0.0.2-beta.70"
+  version "0.0.2-beta.74"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.70"
-    "@faasjs/http" "^0.0.2-beta.69"
+    "@faasjs/cli" "^0.0.2-beta.74"
+    "@faasjs/http" "^0.0.2-beta.74"
 
 fast-deep-equal@^3.1.1:
   version "3.1.3"

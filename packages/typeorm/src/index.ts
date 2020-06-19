@@ -79,7 +79,8 @@ export class TypeORM implements Plugin {
   public async onMount (data: MountData, next: Next): Promise<void> {
     try {
       this.connection = getConnection();
-      if (!this.connection.isConnected) throw Error('[TypeORM] Not Connected');
+      if (this.connection.isConnected) await this.connection.close();
+      throw Error('[TypeORM] Connecting');
     } catch (error) {
       const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
@@ -94,6 +95,7 @@ export class TypeORM implements Plugin {
         this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
       this.connection = await createConnection(this.config as ConnectionOptions);
+      this.logger.debug('connected');
     }
 
     await next();
