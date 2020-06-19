@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "0.0.2-beta.70",
+  "version": "0.0.2-beta.71",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
@@ -21,11 +21,11 @@
     "@faasjs/http": "^0.0.2-beta.69",
     "@types/debug": "*",
     "@types/jest": "*",
+    "@types/lodash": "*",
     "@types/node": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
-    "typescript": "*",
-    "@types/lodash": "*"
+    "typescript": "*"
   },
   "gitHead": "1b3bacb511c826a4ba1f83d7ac273b588004498a"
 }
