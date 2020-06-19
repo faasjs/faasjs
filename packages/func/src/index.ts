@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 import Logger from '@faasjs/logger';
 import RunHandler from './plugins/run_handler/index';
 
@@ -68,9 +69,9 @@ export interface MountData {
   context: any;
 }
 
-export interface InvokeData<T = any> {
+export interface InvokeData<EVENT = any> {
   [key: string]: any;
-  event: T;
+  event: EVENT;
   context: any;
   callback: any;
   response: any;
@@ -91,7 +92,7 @@ interface CachedFunction {
   handler: (...args: any) => void;
 }
 
-export class Func {
+export class Func<EVENT = any> {
   [key: string]: any;
   public plugins: Plugin[];
   public handler?: Handler;
@@ -149,14 +150,16 @@ export class Func {
         let fn: any = list[i];
         if (i === list.length) fn = next;
         if (!fn) return Promise.resolve();
-        logger.debug(`[${fn.key}] begin`);
-        logger.time(fn.key);
+        if (fn.key) {
+          logger.debug(`[${fn.key as string}] begin`);
+          logger.time(fn.key);
+        }
         try {
           const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)));
-          logger.timeEnd(fn.key, `[${fn.key}] end`);
+          if (fn.key) logger.timeEnd(fn.key, `[${fn.key as string}] end`);
           return res;
         } catch (err) {
-          logger.timeEnd(fn.key, `[${fn.key}] failed`);
+          if (fn.key) logger.timeEnd(fn.key, `[${fn.key as string}] failed`);
           console.error(err);
           return Promise.reject(err);
         }
@@ -206,7 +209,7 @@ export class Func {
    * 执行云函数
    * @param data {object} 执行信息
    */
-  public async invoke (data: InvokeData): Promise<any> {
+  public async invoke (data: InvokeData<EVENT>): Promise<any> {
     // 实例未启动时执行启动函数
     if (!this.mounted)
       await this.mount({
@@ -230,7 +233,7 @@ export class Func {
     handler: ExportedHandler;
   } {
     return {
-      handler: async (event: any, context?: any, callback?: (...args: any) => any): Promise<any> => {
+      handler: async (event: EVENT, context?: any, callback?: (...args: any) => any): Promise<any> => {
         const logger = new Logger();
         logger.debug('event: %o', event);
         logger.debug('context: %o', context);
@@ -240,7 +243,7 @@ export class Func {
         if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000);
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const data: InvokeData = {
+        const data: InvokeData<EVENT> = {
           event,
           context,
           callback,
