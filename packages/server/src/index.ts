@@ -22,6 +22,7 @@ export class Server {
   public readonly opts: {
     cache: boolean;
   }
+  private processing = false;
   private cachedFuncs: {
     [path: string]: Cache;
   }
@@ -151,7 +152,22 @@ export class Server {
     process.env.FaasMode = 'local';
     process.env.FaasLocal = `http://localhost:${port}`;
 
-    return createServer(this.processRequest.bind(this)).listen(port, '0.0.0.0');
+    return createServer(this.opts.cache ? this.processRequest.bind(this) : async (req, res)=> {
+      if (!this.processing) {
+        this.processing = true;
+        await this.processRequest(req, res);
+        this.processing = false;
+      } else {
+        const timer = setInterval(async ()=> {
+          if (!this.processing) {
+            this.processing = true;
+            clearInterval(timer);
+            await this.processRequest(req, res);
+            this.processing = false;
+          }
+        });
+      }
+    }).listen(port, '0.0.0.0');
   }
 
   private getFilePath (path: string) {
