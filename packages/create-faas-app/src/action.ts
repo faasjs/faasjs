@@ -158,19 +158,6 @@ production:`);
     "faasjs": "beta",
     "@faasjs/eslint-config-recommended": "beta"
   },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": 8
-          }
-        }
-      ],
-      "@babel/preset-typescript"
-    ]
-  },
   "eslintConfig": {
     "extends": [
       "@faasjs/recommended"
