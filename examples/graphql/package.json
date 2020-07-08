@@ -14,19 +14,6 @@
     "faasjs": "^0.0.2-beta.34",
     "type-graphql": "*"
   },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": 8
-          }
-        }
-      ],
-      "@babel/preset-typescript"
-    ]
-  },
   "eslintConfig": {
     "extends": [
       "@faasjs/recommended"
@@ -36,6 +23,7 @@
     "tmp"
   ],
   "jest": {
+    "preset": "ts-jest",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.ts"

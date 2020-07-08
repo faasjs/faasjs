@@ -41,6 +41,7 @@
     "tmp"
   ],
   "jest": {
+    "preset": "ts-jest",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.ts"

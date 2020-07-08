@@ -10,19 +10,6 @@
     "@faasjs/eslint-config-recommended": "beta",
     "faasjs": "beta"
   },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": 8
-          }
-        }
-      ],
-      "@babel/preset-typescript"
-    ]
-  },
   "eslintConfig": {
     "extends": [
       "@faasjs/recommended"
@@ -32,6 +19,7 @@
     "tmp"
   ],
   "jest": {
+    "preset": "ts-jest",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.ts"

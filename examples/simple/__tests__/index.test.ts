@@ -1,8 +1,8 @@
 import { FuncWarpper } from '@faasjs/test';
 
-describe('hello', function () {
+describe('index', function () {
   test('should work', async function () {
-    const func = new FuncWarpper(require.resolve('../hello.func'));
+    const func = new FuncWarpper(require.resolve('../index.func'));
 
     const res = await func.handler({});
 
