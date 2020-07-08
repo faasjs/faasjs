@@ -1,14 +1,14 @@
-import { Command } from 'commander';
-import { prompt } from 'enquirer';
-import { mkdirSync, writeFileSync, existsSync } from 'fs';
-import { join } from 'path';
-import { execSync } from 'child_process';
+import {Command} from 'commander';
+import {prompt} from 'enquirer';
+import {mkdirSync, writeFileSync, existsSync} from 'fs';
+import {join} from 'path';
+import {execSync} from 'child_process';
 
 const Provider = ['tencentcloud', null];
 const Region = ['ap-beijing', 'ap-shanghai', 'ap-guangzhou', 'ap-hongkong'];
 
 const Validator = {
-  name (input: string) {
+  name(input: string) {
     const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_';
     if (match !== true) return match;
     if (existsSync(input)) {
@@ -16,24 +16,24 @@ const Validator = {
     }
     return true;
   },
-  provider (input: string | null) {
+  provider(input: string | null) {
     return Provider.includes(input) ? true : 'Unknow provider';
   },
-  region (input: string) {
+  region(input: string) {
     return Region.includes(input) ? true : 'Unknown region';
   },
-  appId (input: string) {
+  appId(input: string) {
     return /^[0-9]+$/.test(input) ? true : 'Wrong format';
   },
-  secretId (input: string) {
+  secretId(input: string) {
     return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format';
   },
-  secretKey (input: string) {
+  secretKey(input: string) {
     return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format';
   }
 };
 
-export async function action (options?: {
+export async function action(options?: {
   name?: string;
   region?: string;
   appId?: string;
@@ -57,7 +57,7 @@ export async function action (options?: {
       name: 'value',
       message: 'Project name',
       validate: Validator.name
-    }).then((res: { value: string }) => res.value);
+    }).then((res: {value: string}) => res.value);
   }
 
   answers.provider = await prompt({
@@ -74,7 +74,7 @@ export async function action (options?: {
         message: '腾讯云'
       },
     ]
-  }).then((res: { value: string }) => res.value);
+  }).then((res: {value: string}) => res.value);
 
   if (answers.provider === 'tencentcloud') {
     if (!answers.region || Validator.region(answers.region) !== true) {
@@ -84,7 +84,7 @@ export async function action (options?: {
         message: 'Region',
         choices: Region.concat([]), // choices 会修改 Region 对象，因此克隆一份
         validate: Validator.region
-      }).then((res: { value: string }) => res.value);
+      }).then((res: {value: string}) => res.value);
     }
 
     if (!answers.appId || Validator.appId(answers.appId) !== true) {
@@ -93,7 +93,7 @@ export async function action (options?: {
         name: 'value',
         message: 'appId (from https://console.cloud.tencent.com/developer)',
         validate: Validator.appId
-      }).then((res: { value: string }) => res.value);
+      }).then((res: {value: string}) => res.value);
     }
 
     if (!answers.secretId || Validator.secretId(answers.secretId) !== true) {
@@ -102,7 +102,7 @@ export async function action (options?: {
         name: 'value',
         message: 'secretId (from https://console.cloud.tencent.com/cam/capi)',
         validate: Validator.secretId
-      }).then((res: { value: string }) => res.value);
+      }).then((res: {value: string}) => res.value);
     }
 
     if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true) {
@@ -111,7 +111,7 @@ export async function action (options?: {
         name: 'value',
         message: 'secretKey (from https://console.cloud.tencent.com/cam/capi)',
         validate: Validator.secretKey
-      }).then((res: { value: string }) => res.value);
+      }).then((res: {value: string}) => res.value);
     }
   }
 
@@ -121,7 +121,7 @@ export async function action (options?: {
       name: 'value',
       message: 'Add example files',
       initial: true
-    }).then((res: { value: boolean }) => res.value);
+    }).then((res: {value: boolean}) => res.value);
   }
 
   mkdirSync(answers.name);
@@ -180,6 +180,8 @@ production:`);
     "tmp"
   ],
   "jest": {
+    "ts-jest",
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.ts"
     ],
@@ -187,10 +189,6 @@ production:`);
     "modulePathIgnorePatterns": [
       "/tmp/"
     ]
-  },
-  "devDependencies": {
-    "@babel/preset-env": "^7.10.4",
-    "@babel/preset-typescript": "^7.10.4"
   }
 }`);
 
@@ -216,7 +214,7 @@ tmp/
   "files.trimFinalNewlines": true
 }`);
 
-  execSync(`yarn --cwd ${answers.name} install`, { stdio: 'inherit' });
+  execSync(`yarn --cwd ${answers.name} install`, {stdio: 'inherit'});
 
   if (answers.example) {
     writeFileSync(join(answers.name, 'index.func.ts'),
@@ -244,7 +242,7 @@ describe('hello', function () {
   });
 });`);
 
-    execSync(`yarn --cwd ${answers.name} jest`, { stdio: 'inherit' });
+    execSync(`yarn --cwd ${answers.name} jest`, {stdio: 'inherit'});
   }
 }
 
