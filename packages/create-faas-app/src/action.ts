@@ -158,19 +158,6 @@ production:`);
     "faasjs": "beta",
     "@faasjs/eslint-config-recommended": "beta"
   },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": 8
-          }
-        }
-      ],
-      "@babel/preset-typescript"
-    ]
-  },
   "eslintConfig": {
     "extends": [
       "@faasjs/recommended"
@@ -180,6 +167,8 @@ production:`);
     "tmp"
   ],
   "jest": {
+    "preset": "ts-jest",
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.ts"
     ],
@@ -215,7 +204,7 @@ tmp/
   execSync(`yarn --cwd ${answers.name} install`, { stdio: 'inherit' });
 
   if (answers.example) {
-    writeFileSync(join(answers.name, 'hello.func.ts'),
+    writeFileSync(join(answers.name, 'index.func.ts'),
       `import { Func } from '@faasjs/func';
 import { Http } from '@faasjs/http';
 
@@ -227,12 +216,12 @@ export default new Func({
 });`);
 
     mkdirSync(join(answers.name, '__tests__'));
-    writeFileSync(join(answers.name, '__tests__', 'hello.test.ts'),
+    writeFileSync(join(answers.name, '__tests__', 'index.test.ts'),
       `import { FuncWarpper } from '@faasjs/test';
 
 describe('hello', function () {
   test('should work', async function () {
-    const func = new FuncWarpper(require.resolve('../hello.func'));
+    const func = new FuncWarpper(require.resolve('../index.func'));
 
     const res = await func.handler({});
 
