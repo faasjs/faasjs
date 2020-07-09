@@ -26,11 +26,7 @@ describe('params', function () {
       }
     }).export().handler;
 
-    const res = await handler({
-      headers: {
-        key: 'value'
-      }
-    });
+    const res = await handler({ headers: { key: 'value' } });
 
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual('{"data":{"key":"value"}}');

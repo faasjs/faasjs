@@ -17,7 +17,7 @@ export default function (program: Command): void {
   program
     .command('server')
     .name('server')
-    .description('本地模拟服务器')
+    .description('本地服务器')
     .on('--help', function () {
       console.log(`
 Examples:

@@ -1,25 +1,25 @@
 import program from '../index';
 
-test('verbose', function () {
-  program.parse(['fake', 'faas', '--verbose', '1']);
-
-  expect(process.env.verbose).toEqual('1');
-
-  delete (process.env.verbose);
-
-  expect(process.env.verbose).toBeUndefined();
-});
+program.exitOverride();
 
 describe('root', function () {
   test('without root', function () {
-    program.parse(['fake', 'faas']);
+    try {
+      program.parse(['fake', 'faas']);
+    } catch (error) {
+      console.error(error);
+    }
 
     expect(process.env.FaasRoot).toBeUndefined();
   });
 
   test('with root', function () {
     const root = __dirname;
-    program.parse(['fake', 'faas', '-r', root]);
+    try {
+      program.parse(['fake', 'faas', '-r', root]);
+    } catch (error) {
+      console.error(error);
+    }
 
     expect(process.env.FaasRoot).toEqual(root + '/');
   });

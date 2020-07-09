@@ -40,7 +40,7 @@ export class Config {
       const faas = join(root, 'faas.yaml');
 
       if (existsSync(faas))
-        configs.push(safeLoad(readFileSync(faas).toString()));
+        configs.push(safeLoad(readFileSync(faas).toString()) as { [key: string]: FuncConfig });
 
       return root;
     });
@@ -73,9 +73,9 @@ export class Config {
             if (!data.providers[plugin.provider])
               throw Error(`[faas.yaml] missing provider: ${plugin.provider} <${key}/plugins/${pluginKey}>`);
             plugin.provider = data.providers[plugin.provider];
-          } else {
+          } else 
             plugin.provider = deepMerge(data.providers[plugin.provider], plugin.provider);
-          }
+          
       }
     }
   }
