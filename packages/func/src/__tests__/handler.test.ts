@@ -1,4 +1,4 @@
-import { Func, InvokeData } from '../index';
+import { Func } from '../index';
 
 describe('Func handler', function () {
   test('without handler', async function () {
@@ -9,8 +9,8 @@ describe('Func handler', function () {
 
   describe('with handler', function () {
     test('should work', async function () {
-      const handler = new Func({
-        handler (data: InvokeData<number>): number {
+      const handler = new Func<number>({
+        handler (data): number {
           return data.event + 1;
         }
       }).export().handler;

@@ -2,9 +2,9 @@
 import Logger from '@faasjs/logger';
 import RunHandler from './plugins/run_handler/index';
 
-export type Handler = (data: InvokeData) => any;
+export type Handler<EVENT = any> = (data: InvokeData<EVENT>) => any;
 export type Next = () => Promise<void>;
-export type ExportedHandler = (event: any, context?: any, callback?: (...args: any) => any) => Promise<any>;
+export type ExportedHandler<EVENT = any> = (event: EVENT, context?: any, callback?: (...args: any) => any) => Promise<any>;
 
 export interface Plugin {
   [key: string]: any;
@@ -76,15 +76,15 @@ export interface InvokeData<EVENT = any> {
   callback: any;
   response: any;
   logger: Logger;
-  handler: Handler;
+  handler: Handler<EVENT>;
   config: Config;
 }
 
 export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke';
 
-export interface FuncConfig {
+export interface FuncConfig<EVENT = any> {
   plugins?: Plugin[];
-  handler?: Handler;
+  handler?: Handler<EVENT>;
 }
 
 interface CachedFunction {
@@ -95,7 +95,7 @@ interface CachedFunction {
 export class Func<EVENT = any> {
   [key: string]: any;
   public plugins: Plugin[];
-  public handler?: Handler;
+  public handler?: Handler<EVENT>;
   public logger: Logger;
   public config: Config;
   public mounted: boolean;
@@ -109,7 +109,7 @@ export class Func<EVENT = any> {
    * @param config.plugins {Plugin[]} 插件
    * @param config.handler {Handler} 业务函数
    */
-  constructor (config: FuncConfig) {
+  constructor (config: FuncConfig<EVENT>) {
     this.logger = new Logger('Func');
 
     this.handler = config.handler;
@@ -185,7 +185,7 @@ export class Func<EVENT = any> {
    * 启动云实例
    */
   public async mount (data: {
-    event: any;
+    event: EVENT;
     context: any;
     config?: any;
   }): Promise<void> {
@@ -230,7 +230,7 @@ export class Func<EVENT = any> {
    * 创建触发函数
    */
   public export (): {
-    handler: ExportedHandler;
+    handler: ExportedHandler<EVENT>;
   } {
     return {
       handler: async (event: EVENT, context?: any, callback?: (...args: any) => any): Promise<any> => {
