@@ -114,11 +114,11 @@ export class Server {
             data = error;
           }
 
-          if (data instanceof Error || (data && data.constructor && data.constructor.name === 'Error')) {
+          if (data instanceof Error || (data && data.constructor && data.constructor.name === 'Error') || typeof data === 'undefined' || data === null) {
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json; charset=utf-8');
             res.setHeader('X-SCF-RequestId', requestId);
-            res.write(JSON.stringify({ error: { message: data.message } }));
+            res.write(JSON.stringify({ error: { message: data.message || 'No response' } }));
           } else {
             if (data.statusCode) res.statusCode = data.statusCode;
 
