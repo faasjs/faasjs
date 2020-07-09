@@ -24,7 +24,9 @@ footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 
   <div>
     <h3>感谢</h3>
     <p>代码贡献者（按字母排序）</p>
+    <p><a href="https://github.com/onichandame" target="_blank">onichandame</a></p>
     <p><a href="https://github.com/Vibutnum" target="_blank">Vibutnum</a></p>
+    <p><a href="https://github.com/victoryifei" target="_blank">victoryifei</a></p>
     <p><a href="https://github.com/zfben" target="_blank">zfben</a></p>
     <p>FaasJS 基于以下开源项目（按字母排序）</p>
     <p><a href="https://www.apollographql.com/" target="_blank">Apollo</a></p>

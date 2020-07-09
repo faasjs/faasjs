@@ -4,7 +4,95 @@
 
 ## Beta
 
-[`v0.0.2-beta.45 (2020-03-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.40...v0.0.2-beta.45)
+[`v0.0.2-beta.77 (2020-07-09)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.77...v0.0.2-beta.78)
+
+- [修复] `create-faas-app` 删除旧的 babel 配置，改成 ts-jest。
+- [修复] 修复示例项目的 package.json。
+- [优化] `@faasjs/func` 优化 ts 支持。
+- [修复] `@faasjs/server` 修正没有响应内容时的出错。
+
+[`v0.0.2-beta.77 (2020-06-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.76...v0.0.2-beta.77)
+
+- [优化] `@faasjs/server` 优化无缓存情况下的热加载。
+
+[`v0.0.2-beta.76 (2020-06-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.70...v0.0.2-beta.76)
+
+- [优化] `@faasjs/server` 优化无缓存情况下的热加载。
+- [优化] `@faasjs/tencentcloud` 将 Node.js 默认版本升级到 12.16。
+- [优化] `@faasjs/func` 优化 ts 支持。
+
+[`v0.0.2-beta.70 (2020-06-10)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.69...v0.0.2-beta.70)
+
+- [优化] `@faasjs/server` 优化缓存。
+
+[`v0.0.2-beta.69 (2020-06-03)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.67...v0.0.2-beta.69)
+
+- [优化] `@faasjs/logger` 云函数环境下,删除日志中的换行符。
+
+[`v0.0.2-beta.67 (2020-06-02)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.66...v0.0.2-beta.67)
+
+- [优化] `@faasjs/func` 优化日志显示和 ts 类型。
+
+[`v0.0.2-beta.66 (2020-05-28)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.65...v0.0.2-beta.66)
+
+- [优化] `@faasjs/test` 支持直接测试云函数，而非云函数文件。
+
+[`v0.0.2-beta.65 (2020-05-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.64...v0.0.2-beta.65)
+
+- [优化] `@faasjs/eslint-config-recommended` 优化规则。
+
+[`v0.0.2-beta.64 (2020-05-25)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.63...v0.0.2-beta.64)
+
+- [优化] `@faasjs/test` 中 `mount` 方法支持传入一个初始化后执行的函数。
+
+[`v0.0.2-beta.63 (2020-05-18)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.61...v0.0.2-beta.63)
+
+- [优化] `@faasjs/test` 新增 `mount` 方法，`JSONHandler` 方法支持 cookie 和 session 入参。
+
+[`v0.0.2-beta.61 (2020-05-17)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.59...v0.0.2-beta.61)
+
+- [优化] `@faasjs/cos-secrets` 支持密钥文件。
+- [优化] `@faasjs/tencentcloud` 禁用腾讯云内置的旧版 `request`。
+
+[`v0.0.2-beta.59 (2020-05-06)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.57...v0.0.2-beta.59)
+
+- [修复] `@faasjs/func` 强制设定 `context.callbackWaitsForEmptyEventLoop = false`。
+- [优化] `@faasjs/tencentcloud` 禁用腾讯云内置的旧版 `tencentcloud-sdk-nodejs`。
+
+[`v0.0.2-beta.57 (2020-04-22)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.55...v0.0.2-beta.57)
+
+- [优化] `@faasjs/tencentcloud` 升级默认 Node.js 版本为 `10.15`。
+- [修复] `@faasjs/tencentcloud` 修正腾讯云新错误代码导致无法发布的问题。
+
+[`v0.0.2-beta.55 (2020-04-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.54...v0.0.2-beta.55)
+
+- [优化] `@faasjs/eslint-config-vue` 移除 `plugin:security/recommended`。
+
+[`v0.0.2-beta.54 (2020-04-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.53...v0.0.2-beta.54)
+
+- [优化] `@faasjs/cli` 适配 Windows 环境。
+
+[`v0.0.2-beta.53 (2020-04-12)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.52...v0.0.2-beta.53)
+
+- [优化] `@faasjs/server` 添加 sourceIp。
+
+[`v0.0.2-beta.52 (2020-04-10)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.51...v0.0.2-beta.52)
+
+- [优化] `@faasjs/server` 优化日志展示。
+- [优化] `@faasjs/tencentcloud` 优化依赖库打包机制。
+
+[`v0.0.2-beta.51 (2020-04-09)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.47...v0.0.2-beta.51)
+
+- [优化] `@faasjs/http` 添加 HTTP 方法定义。
+- [优化] `@faasjs/load` 优化打包时排除内置库的逻辑。
+- [新增] 新增 `@faasjs/sequelize`。
+- [优化] `@faasjs/http`、`@faasjs/server` 新增 header `X-SCF-RequestId`。
+
+[`v0.0.2-beta.47 (2020-04-02)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.46...v0.0.2-beta.47)
+
+- [优化] `@faasjs/cloud_function` 在云函数环境中使用内网域名提升性能。
+
+[`v0.0.2-beta.46 (2020-03-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.40...v0.0.2-beta.46)
 
 - [优化] `faasjs` 移除依赖项：@faasjs/browser, @faasjs/sql, @faasjs/redis。
 - [新增] `@faasjs/mongo` 用于适配 mongodb。
