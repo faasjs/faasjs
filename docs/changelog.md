@@ -4,7 +4,7 @@
 
 ## Beta
 
-[`v0.0.2-beta.77 (2020-07-09)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.77...v0.0.2-beta.78)
+[`v0.0.2-beta.78 (2020-07-09)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.77...v0.0.2-beta.78)
 
 - [修复] `create-faas-app` 删除旧的 babel 配置，改成 ts-jest。
 - [修复] 修复示例项目的 package.json。
