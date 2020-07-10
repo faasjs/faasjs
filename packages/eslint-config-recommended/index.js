@@ -56,6 +56,10 @@ module.exports = {
     'keyword-spacing': 'warn',
     'key-spacing': 'warn',
     'space-infix-ops': 'warn',
+    'padded-blocks': [
+      'error',
+      'never'
+    ],
     '@typescript-eslint/indent': [
       'error',
       2
