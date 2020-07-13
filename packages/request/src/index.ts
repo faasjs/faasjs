@@ -135,15 +135,13 @@ export default async function request<T = any> (url: string, {
     if (
       options.headers['Content-Type'] &&
       options.headers['Content-Type'].toString().includes('application/x-www-form-urlencoded')
-    ) {
+    )
       body = stringify(body);
-    } else {
+    else
       body = JSON.stringify(body);
-    }
 
   if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body);
 
-  // eslint-disable-next-line @typescript-eslint/typedef
   return new Promise(function (resolve, reject) {
     // 包裹请求
     const req = protocol.request(options, function (res: http.IncomingMessage) {
