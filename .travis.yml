@@ -9,9 +9,9 @@ services:
   - mongodb
 script:
   - cd examples/auth && yarn test
-  - cd examples/knex && yarn test
-  - cd examples/nuxt && yarn test
-  - cd examples/simple && yarn test
-  - yarn test
+  - cd ../knex && yarn test
+  - cd ../nuxt && yarn test
+  - cd ../simple && yarn test
+  - cd .. && yarn test
 after_success:
   - yarn codecov
