@@ -4,6 +4,10 @@
 
 ## Beta
 
+[`v0.0.2-beta.79 (2020-07-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.78...v0.0.2-beta.79)
+
+- [修复] `@faasjs/server` 修复没有响应内容时的报错。
+
 [`v0.0.2-beta.78 (2020-07-09)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.77...v0.0.2-beta.78)
 
 - [修复] `create-faas-app` 删除旧的 babel 配置，改成 ts-jest。
