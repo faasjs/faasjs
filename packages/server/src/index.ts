@@ -118,7 +118,7 @@ export class Server {
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json; charset=utf-8');
             res.setHeader('X-SCF-RequestId', requestId);
-            res.write(JSON.stringify({ error: { message: data.message || 'No response' } }));
+            res.write(JSON.stringify({ error: { message: data?.message || 'No response' } }));
           } else {
             if (data.statusCode) res.statusCode = data.statusCode;
 
