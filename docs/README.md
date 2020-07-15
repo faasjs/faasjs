@@ -42,4 +42,5 @@ footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 
     <p><a href="https://vuejs.org/" target="_blank">Vue.js</a></p>
     <p><a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a></p>
   </div>
+  <p><a href="http://beian.miit.gov.cn/" target="_blank" style="color:#4e6e8e;font-weight:200;font-size:0.8rem">沪ICP备15033310号</a></p>
 </div>

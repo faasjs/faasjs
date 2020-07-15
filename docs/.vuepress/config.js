@@ -6,6 +6,7 @@ module.exports = {
   ],
   shouldPrefetch: () => false,
   themeConfig: {
+    smoothScroll: true,
     nav: [
       {
         text: '首页',
@@ -112,5 +113,6 @@ module.exports = {
         'ga': 'UA-143006612-1'
       }
     ]
-  ]
+  ],
+  evergreen: true
 }
