@@ -4,6 +4,10 @@
 
 ## Beta
 
+[`v0.0.2-beta.80 (2020-07-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.79...v0.0.2-beta.80)
+
+- [新增] 新增 `@faasjs/react`，提供 `faas` 和 `useFaas` 两种风格的接口。
+
 [`v0.0.2-beta.79 (2020-07-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.78...v0.0.2-beta.79)
 
 - [修复] `@faasjs/server` 修复没有响应内容时的报错。

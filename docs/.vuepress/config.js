@@ -51,6 +51,7 @@ module.exports = {
             'excel/lint',
             'excel/vue',
             'excel/nuxt',
+            'excel/react',
             'excel/graphql-server',
             'excel/typeorm',
             'excel/cos-secrets'

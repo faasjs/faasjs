@@ -2,14 +2,14 @@
 home: true
 heroImage: logo.png
 heroText: FaasJS
-tagline: Serverless & debtless，基于 Serverless 的低技术债业务开发框架
+tagline: 基于云函数的 Serverless & Typescript 开发框架
 actionText: 1 分钟上手 →
 actionLink: /guide/
 features:
 - title: 高效开发环境
-  details: 提供单体应用的开发体验，本地一键开发、调试和部署
-- title: 内置常用插件
-  details: 支持 Http、Cookie、Session、Sql 等常用功能
+  details: 提供单体应用的开发体验，本地一键开发、测试和部署
+- title: 插件涵盖常用功能
+  details: 支持 Http、Cookie、Session、Sql 等常用功能，还有 vue、react 插件统一前后端交互规范
 - title: 支持单机或容器部署
   details: 担心云厂商绑定？没有​ Serverless 运行环境？你也可以像部署 Node.js 应用一样来部署 FaasJS
 footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 2019-2020 Zhu Feng
