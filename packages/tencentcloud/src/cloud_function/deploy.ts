@@ -231,11 +231,9 @@ module.exports = main.export();`
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[07/11]')} 上传云函数...`);
 
-  let scfInfo;
-
   try {
     logger.debug('[7.1/11] 检查云函数是否已存在...');
-    scfInfo = await scf(tc, {
+    await scf(tc, {
       Action: 'GetFunction',
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
@@ -384,39 +382,21 @@ module.exports = main.export();`
   // }
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[10/11]')} 更新触发器...`);
-  const prevVersion = Number(config.config.FunctionVersion) - 1;
-  if (scfInfo && scfInfo.Triggers.length)
-    for (const trigger of scfInfo.Triggers) {
-      logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
-      await scf(tc, {
-        Action: 'DeleteTrigger',
-        FunctionName: config.config.FunctionName,
-        Namespace: config.config.Namespace,
-        TriggerName: trigger.TriggerName,
-        Type: trigger.Type,
-        Qualifier: prevVersion
-      });
-    }
-
-  if (prevVersion) {
-    scfInfo = await scf(tc, {
-      Action: 'GetFunction',
+  const triggers = await scf(tc, {
+    Action: 'ListTriggers',
+    FunctionName: config.config.FunctionName,
+    Namespace: config.config.Namespace
+  });
+  for (const trigger of triggers.Triggers) {
+    logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
+    await scf(tc, {
+      Action: 'DeleteTrigger',
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
-      Qualifier: prevVersion,
+      TriggerName: trigger.TriggerName,
+      Type: trigger.Type,
+      Qualifier: trigger.Qualifier
     });
-    if (scfInfo.Triggers.length)
-      for (const trigger of scfInfo.Triggers) {
-        logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
-        await scf(tc, {
-          Action: 'DeleteTrigger',
-          FunctionName: config.config.FunctionName,
-          Namespace: config.config.Namespace,
-          Qualifier: prevVersion,
-          TriggerName: trigger.TriggerName,
-          Type: trigger.Type
-        });
-      }
   }
 
   if (config.config.triggers)
