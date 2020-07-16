@@ -345,7 +345,8 @@ module.exports = main.export();`
     if ((await scf(tc, {
       Action: 'GetFunction',
       FunctionName: config.config.FunctionName,
-      Namespace: config.config.Namespace
+      Namespace: config.config.Namespace,
+      Qualifier: config.config.FunctionVersion
     })).Status === 'Active') break;
   }
 
@@ -416,22 +417,22 @@ module.exports = main.export();`
           Type: trigger.Type
         });
       }
-
-    if (config.config.triggers)
-      for (const trigger of config.config.triggers) {
-        logger.debug('[10.2/11] 创建触发器 %s...', trigger.name);
-        await scf(tc, {
-          Action: 'CreateTrigger',
-          FunctionName: config.config.FunctionName,
-          TriggerName: trigger.name,
-          Type: trigger.type,
-          TriggerDesc: trigger.value,
-          Qualifier: config.config.FunctionVersion,
-          Namespace: config.config.Namespace,
-          Enable: 'OPEN'
-        });
-      }
   }
+
+  if (config.config.triggers)
+    for (const trigger of config.config.triggers) {
+      logger.debug('[10.2/11] 创建触发器 %s...', trigger.name);
+      await scf(tc, {
+        Action: 'CreateTrigger',
+        FunctionName: config.config.FunctionName,
+        TriggerName: trigger.name,
+        Type: trigger.type,
+        TriggerDesc: trigger.value,
+        Qualifier: config.config.FunctionVersion,
+        Namespace: config.config.Namespace,
+        Enable: 'OPEN'
+      });
+    }
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[11/11]')} 清理文件...`);
 
