@@ -42,22 +42,23 @@ export async function action (env: string, files: string[]): Promise<void> {
     console.log(`[${process.env.FaasEnv}] 是否要发布以下云函数？`);
     console.log(list);
     console.log('');
-    // eslint-disable-next-line @typescript-eslint/typedef
-    await new Promise(function (resolve, reject) {
-      const readline = createInterface({
-        input: process.stdin,
-        output: process.stdout
-      });
-      readline.question('输入 y 确认:', function (res: string) {
-        readline.close();
+    if (!process.env.CI)
+      // eslint-disable-next-line @typescript-eslint/typedef
+      await new Promise(function (resolve, reject) {
+        const readline = createInterface({
+          input: process.stdin,
+          output: process.stdout
+        });
+        readline.question('输入 y 确认:', function (res: string) {
+          readline.close();
 
-        if (res !== 'y') {
-          console.error('停止发布');
-          reject();
-        } else
-          resolve();
+          if (res !== 'y') {
+            console.error('停止发布');
+            reject();
+          } else
+            resolve();
+        });
       });
-    });
 
     for (const file of list) {
       const deployer = new Deployer({
