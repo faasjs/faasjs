@@ -4,12 +4,11 @@ import deepMerge from '@faasjs/deep_merge';
 import Tencentcloud from '..';
 
 const defaults = {
-  authRequired: 'FALSE',
-  enableCORS: 'TRUE',
-  'requestConfig.method': 'POST',
-  serviceType: 'SCF',
-  serviceScfIsIntegratedResponse: 'TRUE',
-  serviceTimeout: 1800
+  EnableCORS: true,
+  RequestConfig: { Method: 'POST' },
+  ServiceType: 'SCF',
+  ServiceScfIsIntegratedResponse: true,
+  ServiceTimeout: 1800
 };
 
 export default async function (tc: Tencentcloud, data: DeployData, origin: any): Promise<void> {
@@ -19,107 +18,144 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
 
   const config = deepMerge(origin);
 
+  if (!config.config.RequestConfig) config.config.RequestConfig = {};
+
   // 参数名适配
-  config.config['requestConfig.path'] = config.config.path;
+  config.config.RequestConfig.Path = config.config.path;
   delete config.config.path;
 
   if (config.config.method) {
-    config.config['requestConfig.method'] = config.config.method;
+    config.config.RequestConfig.Method = config.config.method;
     delete config.config.method;
   }
   if (config.config.timeout) {
-    config.config.serviceTimeout = config.config.timeout;
+    config.config.ServiceTimeout = config.config.timeout;
     delete config.config.timeout;
   }
   if (config.config.functionName) {
-    config.config.serviceScfFunctionName = config.config.functionName;
+    config.config.ServiceScfFunctionName = config.config.functionName;
     delete config.config.functionName;
-  } else 
-    config.config.serviceScfFunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_');
+  } else
+    config.config.ServiceScfFunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_');
+
+  if (config.config.serviceId) {
+    config.config.ServiceId = config.config.serviceId;
+    delete config.config.serviceId;
+    tc.logger.warn('serviceId 现已改成 ServiceId，请尽快修改相关配置文件');
+  }
 
   // 合并配置项
   config.config = deepMerge(defaults, config.config, {
-    apiName: data.name,
-    serviceScfFunctionNamespace: data.env,
-    serviceScfFunctionQualifier: '$LATEST' // data.env
+    ApiName: data.name,
+    ServiceScfFunctionNamespace: data.env,
+    ServiceScfFunctionQualifier: '$LATEST' // data.env
   });
+
+  // 参数白名单检查
+  const ALLOWS = [
+    'ServiceId',
+    'ServiceType',
+    'ServiceTimeout',
+    'Protocol',
+    'RequestConfig',
+    'ApiName',
+    'ApiDesc',
+    'EnableCORS',
+    'ConstantParameters',
+    'RequestParameters',
+    'ServiceScfFunctionName',
+    'ServiceWebsocketRegisterFunctionName',
+    'ServiceWebsocketCleanupFunctionName',
+    'ServiceWebsocketTransportFunctionName',
+    'ServiceScfFunctionNamespace',
+    'ServiceScfFunctionQualifier',
+    'ServiceWebsocketRegisterFunctionNamespace',
+    'ServiceWebsocketRegisterFunctionQualifier',
+    'ServiceWebsocketTransportFunctionNamespace',
+    'ServiceWebsocketTransportFunctionQualifier',
+    'ServiceWebsocketCleanupFunctionNamespace',
+    'ServiceWebsocketCleanupFunctionQualifier',
+    'ServiceScfIsIntegratedResponse'
+  ];
+  for (const key in config.config)
+    if (!ALLOWS.includes(key)) delete config.config[key];
 
   const provider = config.provider.config;
 
-  if (!config.config.serviceId) {
+  if (!config.config.ServiceId) {
     tc.logger.debug('查询服务信息 %s', data.env);
-    let serviceInfo = await api(provider, {
-      Action: 'DescribeServicesStatus',
-      searchName: data.env
+    let serviceInfo = await api('DescribeServicesStatus', provider, {
+      Filters: [{
+        Name: 'ServiceName',
+        Values: [data.env]
+      }]
     }).then(function (body) {
-      return body.serviceStatusSet.find(function (item: any) {
-        return item.serviceName === data.env;
+      return body.Result.ServiceSet.find(function (item: any) {
+        return item.ServiceName === data.env;
       });
     });
 
     if (!serviceInfo) {
       tc.logger.info('服务不存在，创建服务 %s', data.env);
-      serviceInfo = await api(provider, {
-        Action: 'CreateService',
-        serviceName: data.env,
-        protocol: 'http&https'
+      serviceInfo = await api('CreateService', provider, {
+        ServiceName: data.env,
+        Protocol: 'http&https'
       }).then(function (body) { return body.data; });
     }
 
-    config.config.serviceId = serviceInfo.serviceId;
+    config.config.ServiceId = serviceInfo.ServiceId;
   }
 
-  tc.logger.debug('查询接口是否存在 %s %s', config.config.serviceId, config.config['requestConfig.path']);
+  tc.logger.debug('查询接口是否存在 %s %s', config.config.ServiceId, config.config.RequestConfig.Path);
 
-  let apiInfo = await api(provider, {
-    Action: 'DescribeApisStatus',
-    searchName: config.config['requestConfig.path'],
-    serviceId: config.config.serviceId,
+  let apiInfo = await api('DescribeApisStatus', provider, {
+    Filters: [{
+      Name: 'ApiPath',
+      Values: [config.config.RequestConfig.Path]
+    }],
+    ServiceId: config.config.ServiceId,
   }).then(function (body) {
-    return body.apiIdStatusSet.find(function (item: any) {
-      return item.path === config.config['requestConfig.path'];
+    return body.Result.ApiIdStatusSet.find(function (item: any) {
+      return item.Path === config.config.RequestConfig.Path;
     });
   });
 
   if (apiInfo) {
-    apiInfo = await api(provider, {
-      Action: 'DescribeApi',
-      serviceId: config.config.serviceId,
-      apiId: apiInfo.apiId
-    });
+    apiInfo = await api('DescribeApi', provider, {
+      ServiceId: config.config.ServiceId,
+      ApiId: apiInfo.ApiId
+    }).then(body => body.Result);
     if (
-      apiInfo.serviceType !== 'SCF' ||
-      apiInfo.serviceTimeout !== config.config.serviceTimeout ||
-      apiInfo.serviceScfFunctionName !== config.config.serviceScfFunctionName ||
-      apiInfo.serviceScfFunctionNamespace !== config.config.serviceScfFunctionNamespace ||
-      apiInfo.serviceScfFunctionQualifier !== config.config.serviceScfFunctionQualifier ||
-      apiInfo.requestConfig.method !== config.config['requestConfig.method']) {
+      apiInfo.ServiceType !== 'SCF' ||
+      apiInfo.ServiceTimeout !== config.config.ServiceTimeout ||
+      apiInfo.ServiceScfFunctionName !== config.config.ServiceScfFunctionName ||
+      apiInfo.ServiceScfFunctionNamespace !== config.config.ServiceScfFunctionNamespace ||
+      apiInfo.ServiceScfFunctionQualifier !== config.config.ServiceScfFunctionQualifier ||
+      apiInfo.RequestConfig.Method !== config.config.RequestConfig.Method) {
       tc.logger.info('更新接口');
-      await api(provider, Object.assign(config.config, {
-        Action: 'ModifyApi',
-        apiId: apiInfo.apiId,
-        serviceId: config.config.serviceId
+      await api('ModifyApi', provider, Object.assign(config.config, {
+        ApiId: apiInfo.ApiId,
+        ServiceId: config.config.ServiceId
       }));
     } else {
-      tc.logger.info('网关无需更新 %s %s', config.config['requestConfig.method'], config.config['requestConfig.path']);
+      tc.logger.info('网关无需更新 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
       return;
     }
   } else {
     tc.logger.info('接口不存在，创建接口');
-    await api(provider, Object.assign(config.config, {
-      Action: 'CreateApi',
-      serviceId: config.config.serviceId,
+    await api('CreateApi', provider, Object.assign(config.config, {
+      ServiceId: config.config.ServiceId,
+      Protocol: 'HTTP'
     }));
   }
 
   tc.logger.info('发布网关');
 
-  await api(provider, {
-    Action: 'ReleaseService',
-    environmentName: 'release',
-    releaseDesc: `Published ${config.config.serviceScfFunctionName} by ${process.env.LOGNAME}`,
-    serviceId: config.config.serviceId
+  await api('ReleaseService', provider, {
+    EnvironmentName: 'release',
+    ReleaseDesc: `Published ${config.config.ServiceScfFunctionName} by ${process.env.LOGNAME}`,
+    ServiceId: config.config.ServiceId
   });
 
-  tc.logger.info('网关发布完成 %s %s', config.config['requestConfig.method'], config.config['requestConfig.path']);
+  tc.logger.info('网关发布完成 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
 }
