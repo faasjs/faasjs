@@ -1,0 +1,35 @@
+{
+  "name": "@faasjs/knex",
+  "version": "0.0.2-beta.78",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.es.js",
+  "scripts": {
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "@faasjs/deep_merge": "^0.0.2-beta.54",
+    "@faasjs/logger": "^0.0.2-beta.69",
+    "knex": "*"
+  },
+  "devDependencies": {
+    "@faasjs/func": "^0.0.2-beta.78",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/mysql": "*",
+    "@types/node": "*",
+    "@types/pg": "*",
+    "@types/sqlite3": "*",
+    "mysql": "*",
+    "pg": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "sqlite3": "*",
+    "typescript": "*"
+  },
+  "gitHead": "2a4ad5d99128943bae40dbd3a7bc2b6e4f821634"
+}
