@@ -1,4 +1,4 @@
-import { Plugin, MountData, Next } from '@faasjs/func';
+import { Plugin, MountData, Next, usePlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
@@ -15,23 +15,28 @@ function dataToEnv (data: any, parent: string = ''): void {
       process.env[['SECRET', parent.toUpperCase(), key.toUpperCase()].filter(k => !!k).join('_')] = data[key];
 }
 
-export interface CosSecretsConfig {
+interface Config {
   bucket?: string;
   region?: string;
   key?: string;
   files?: string[];
 }
 
+export interface CosSecretsConfig {
+  name: string;
+  config: Config;
+}
+
 export class CosSecrets implements Plugin {
   public readonly type: string = 'cosSecrets';
   public name: string;
-  public config: CosSecretsConfig;
+  public config: Config;
   public data: { [key: string]: any };
   private logger: Logger;
 
   constructor (config?: {
     name?: string;
-    config?: CosSecretsConfig;
+    config?: Config;
   }) {
     if (config) {
       this.name = config.name || this.type;
@@ -108,4 +113,8 @@ export class CosSecrets implements Plugin {
 
     await next();
   }
+}
+
+export function useCosSecrets (config?: CosSecretsConfig): CosSecrets {
+  return usePlugin(new CosSecrets(config));
 }

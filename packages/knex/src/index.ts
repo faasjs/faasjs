@@ -1,9 +1,12 @@
-import { Plugin, Next, DeployData, MountData } from '@faasjs/func';
+import { Plugin, Next, DeployData, MountData, usePlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 import knex, { Config, Transaction, QueryBuilder, Raw, AliasDict, Value } from 'knex';
 
-export type KnexConfig = Config;
+export type KnexConfig = {
+  name: string;
+  config: Config;
+};
 
 /**
  * TypeORM 插件
@@ -11,7 +14,7 @@ export type KnexConfig = Config;
 export class Knex implements Plugin {
   public type: string = 'knex';
   public name: string;
-  public config: KnexConfig;
+  public config: Config;
   public connection: knex;
   public logger: Logger;
 
@@ -21,10 +24,7 @@ export class Knex implements Plugin {
    * @param config.name {string} 配置名
    * @param config.config {object} 数据库配置
    */
-  constructor (config?: {
-    name?: string;
-    config?: KnexConfig;
-  }) {
+  constructor (config?: KnexConfig) {
     if (config) {
       this.name = config.name || this.type;
       this.config = config.config || Object.create(null);
@@ -36,7 +36,7 @@ export class Knex implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
-    const client = (data.config.plugins[this.name].config as KnexConfig).client as string;
+    const client = (data.config.plugins[this.name].config as Config).client as string;
     data.dependencies[client] = '*';
     await next();
   }
@@ -89,4 +89,8 @@ export class Knex implements Plugin {
   public async transaction<TResult = any> (scope: (trx: Transaction) => Promise<TResult> | void): Promise<TResult> {
     return this.connection.transaction<TResult>(scope);
   }
+}
+
+export function useKnex (config?: KnexConfig): Knex {
+  return usePlugin(new Knex(config));
 }

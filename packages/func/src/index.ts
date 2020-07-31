@@ -262,3 +262,25 @@ export class Func<EVENT = any> {
     };
   }
 }
+
+let plugins = [];
+
+export function usePlugin<T = any> (plugin: T): T {
+  plugins.push(plugin);
+  return plugin;
+}
+
+export function useFunc (handler: () => Handler): Func {
+  plugins = [];
+
+  const invokeHanlder = handler();
+
+  const func = new Func({
+    plugins,
+    handler: invokeHanlder
+  });
+
+  plugins = [];
+
+  return func;
+}

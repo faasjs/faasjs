@@ -1,5 +1,5 @@
 import deepMerge from '@faasjs/deep_merge';
-import { Plugin, DeployData, Next, MountData, InvokeData } from '@faasjs/func';
+import { Plugin, DeployData, Next, MountData, InvokeData, usePlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import { Validator, ValidatorConfig } from './validator';
 
@@ -64,9 +64,8 @@ export class CloudFunction implements Plugin {
     this.type = 'cloud_function';
     this.name = config.name;
     this.config = config.config || Object.create(null);
-    if (config.validator) 
+    if (config.validator)
       this.validatorConfig = config.validator;
-    
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
@@ -91,16 +90,16 @@ export class CloudFunction implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    if (data.config['plugins'] && data.config.plugins[this.name || this.type]) 
+    if (data.config['plugins'] && data.config.plugins[this.name || this.type])
       this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type]);
-    
+
     if (this.config.provider) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
       const Provider = require(this.config.provider.type);
       this.adapter = new Provider(this.config.provider.config);
-    } else 
+    } else
       this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.');
-    
+
     if (this.validatorConfig) {
       this.logger.debug('[onMount] prepare validator');
       this.validator = new Validator(this.validatorConfig);
@@ -127,12 +126,12 @@ export class CloudFunction implements Plugin {
   public async invoke (name: string, data?: any, options?: {
     [key: string]: any;
   }): Promise<any> {
-    if (!data) 
+    if (!data)
       data = Object.create(null);
-    
-    if (typeof data === 'object') 
+
+    if (typeof data === 'object')
       data.context = this.context;
-    
+
     return Promise.resolve(this.adapter.invokeCloudFunction(name, data, options));
   }
 
@@ -145,12 +144,16 @@ export class CloudFunction implements Plugin {
   public async invokeSync (name: string, data?: any, options?: {
     [key: string]: any;
   }): Promise<any> {
-    if (!data) 
+    if (!data)
       data = Object.create(null);
-    
-    if (typeof data === 'object') 
+
+    if (typeof data === 'object')
       data.context = this.context;
-    
+
     return Promise.resolve(this.adapter.invokeSyncCloudFunction(name, data, options));
   }
+}
+
+export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction {
+  return usePlugin(new CloudFunction(config));
 }
