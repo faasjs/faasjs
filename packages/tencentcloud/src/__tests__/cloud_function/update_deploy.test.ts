@@ -22,7 +22,7 @@ jest.mock('@faasjs/request', () => {
     console.log('mock.request', url, params);
     let res;
     switch (url) {
-      case 'https://apigateway.api.qcloud.com/v2/index.php?':
+      case 'https://apigateway.tencentcloudapi.com/':
         switch (params.body.Action) {
           case 'DescribeServicesStatus':
             res = { body: '{"serviceStatusSet":[{"serviceName":"testing","serviceId":"serviceId"}]}' };
@@ -64,6 +64,9 @@ jest.mock('@faasjs/request', () => {
           case 'PublishVersion':
             res = { body: { Response: { FunctionVersion: '1' } } };
             break;
+          case 'ListTriggers':
+            res = { body: { Response: { Triggers: [] } } };
+            break;
           default:
             res = { body: { Response: { Error: 'Unknown mock' } } };
             break;
@@ -80,7 +83,7 @@ test('frist deploy', async function () {
     secretKey: 'secretKey',
     region: 'region'
   });
-    
+
 
   await tc.deploy('cloud_function', {
     root: __dirname,

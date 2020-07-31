@@ -33,14 +33,14 @@ jest.mock('@faasjs/request', () => {
             res = { body: { Response: { Namespaces: [] } } };
             break;
           case 'GetFunction':
-            if (functionCreated) 
+            if (functionCreated)
               res = {
                 body: {
                   Response: {
                     Status: 'Active',
-                    Triggers: [] 
-                  } 
-                } 
+                    Triggers: []
+                  }
+                }
               };
             else
               res = {
@@ -82,6 +82,9 @@ jest.mock('@faasjs/request', () => {
           case 'PublishVersion':
             res = { body: { Response: { FunctionVersion: '1' } } };
             break;
+          case 'ListTriggers':
+            res = { body: { Response: { Triggers: [] } } };
+            break;
           default:
             res = { body: { Response: { Error: 'Unknown mock' } } };
             break;
@@ -98,7 +101,7 @@ test('frist deploy', async function () {
     secretKey: 'secretKey',
     region: 'region'
   });
-    
+
 
   await tc.deploy('cloud_function', {
     root: __dirname,
