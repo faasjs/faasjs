@@ -23,8 +23,8 @@ interface Config {
 }
 
 export interface CosSecretsConfig {
-  name: string;
-  config: Config;
+  name?: string;
+  config?: Config;
 }
 
 export class CosSecrets implements Plugin {

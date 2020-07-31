@@ -4,8 +4,8 @@ import deepMerge from '@faasjs/deep_merge';
 import knex, { Config, Transaction, QueryBuilder, Raw, AliasDict, Value } from 'knex';
 
 export type KnexConfig = {
-  name: string;
-  config: Config;
+  name?: string;
+  config?: Config;
 };
 
 /**
