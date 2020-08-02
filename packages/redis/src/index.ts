@@ -1,7 +1,12 @@
-import { Plugin, MountData, Next } from '@faasjs/func';
+import { Plugin, MountData, Next, usePlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
-import { createClient, ClientOpts as RedisConfig, RedisClient } from 'redis';
+import { createClient, ClientOpts as Config, RedisClient } from 'redis';
+
+export interface RedisConfig {
+  name?: string;
+  config?: Config;
+}
 
 /**
  * 数据库插件
@@ -9,7 +14,7 @@ import { createClient, ClientOpts as RedisConfig, RedisClient } from 'redis';
 export class Redis implements Plugin {
   public type: string = 'redis';
   public name?: string;
-  public config: RedisConfig;
+  public config: Config;
   public adapter?: RedisClient;
   public logger: Logger;
 
@@ -19,10 +24,7 @@ export class Redis implements Plugin {
    * @param config.name {string} 配置名
    * @param config.config {object} Redis 配置
    */
-  constructor (config?: {
-    name?: string;
-    config?: RedisConfig;
-  }) {
+  constructor (config?: RedisConfig) {
     if (!config) config = Object.create(null);
 
     this.name = config.name || this.type;
@@ -65,4 +67,8 @@ export class Redis implements Plugin {
       });
     });
   }
+}
+
+export function useRedis (config?: RedisConfig): Redis {
+  return usePlugin(new Redis(config));
 }
