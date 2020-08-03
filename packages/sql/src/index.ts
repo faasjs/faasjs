@@ -80,7 +80,7 @@ export class Sql implements Plugin {
     if (data.config.plugins[this.name])
       this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
-    this.logger.debug('conncet: %o', this.config);
+    this.logger.debug('conncet: %O', this.config);
 
     if (!this.adapterType)
       this.adapterType = data.config.plugins[this.name || this.type].adapter;
@@ -108,11 +108,11 @@ export class Sql implements Plugin {
    * @param values {any} 参数值
    */
   public async query (sql: string, values?: any): Promise<any[]> {
-    this.logger.debug('query begin: %s %o', sql, values);
+    this.logger.debug('query begin: %s %O', sql, values);
     this.logger.time(sql);
     try {
       const res = await this.adapter.query(sql, values);
-      this.logger.timeEnd(sql, 'query end: %s %o', sql, res);
+      this.logger.timeEnd(sql, 'query end: %s %O', sql, res);
       return res;
     } catch (error) {
       this.logger.timeEnd(sql, 'query end: %s', sql);

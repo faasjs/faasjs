@@ -166,8 +166,8 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
 
     this.logger.debug('[onInvoke] Parse cookie');
     this.cookie.invoke(this.headers['cookie']);
-    this.logger.debug('[onInvoke] Cookie: %o', this.cookie.content);
-    this.logger.debug('[onInvoke] Session: %o', this.session.content);
+    this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content);
+    this.logger.debug('[onInvoke] Session: %O', this.session.content);
 
     if (this.validator) {
       this.logger.debug('[onInvoke] Valid request');

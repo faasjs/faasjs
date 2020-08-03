@@ -59,7 +59,7 @@ export class Mongo implements Plugin {
     if (typeof this.config.useNewUrlParser === 'undefined') this.config.useNewUrlParser = true;
     if (typeof this.config.useUnifiedTopology === 'undefined') this.config.useUnifiedTopology = true;
 
-    this.logger.debug('conncet: %o', this.config);
+    this.logger.debug('conncet: %O', this.config);
 
     const url = this.config.url;
     delete this.config.url;

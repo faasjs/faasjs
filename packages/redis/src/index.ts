@@ -45,23 +45,23 @@ export class Redis implements Plugin {
     if (data.config.plugins[this.name])
       this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
-    this.logger.debug('conncet: %o', this.config);
+    this.logger.debug('conncet: %O', this.config);
     this.adapter = createClient(this.config);
 
     await next();
   }
 
-  public async query (command: string, args: any[]) {
-    this.logger.debug('query begin: %s %o', command, args);
+  public async query<TResult = any> (command: string, args: any[]): Promise<TResult> {
+    this.logger.debug('query begin: %s %O', command, args);
     this.logger.time(command);
 
     return new Promise((resolve, reject) => {
-      this.adapter.sendCommand(command, args, (err, data) => {
+      this.adapter.sendCommand(command, args, (err, data: TResult) => {
         if (err) {
-          this.logger.timeEnd(command, 'query fail: %s %o', command, err);
+          this.logger.timeEnd(command, 'query fail: %s %O', command, err);
           reject(err);
         } else {
-          this.logger.timeEnd(command, 'query success: %s %o', command, data);
+          this.logger.timeEnd(command, 'query success: %s %O', command, data);
           resolve(data);
         }
       });

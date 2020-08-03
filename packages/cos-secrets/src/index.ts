@@ -63,7 +63,7 @@ export class CosSecrets implements Plugin {
       } else
         this.logger.warn(`Not found ${file}.`);
     } else {
-      this.logger.debug('Loading from %o', this.config);
+      this.logger.debug('Loading from %O', this.config);
 
       const client = new COS({
         getAuthorization: function (_, cb): void {

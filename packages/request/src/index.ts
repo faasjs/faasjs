@@ -76,7 +76,7 @@ export default async function request<T = any> (url: string, {
 }): Promise<Response<T>> {
   const log = new Logger('request');
 
-  log.debug('request %s %o', url, {
+  log.debug('request %s %O', url, {
     body,
     headers,
     method,
@@ -178,7 +178,7 @@ export default async function request<T = any> (url: string, {
           if (response.statusCode >= 200 && response.statusCode < 400)
             resolve(response);
           else {
-            log.debug('response.error %o', response);
+            log.debug('response.error %O', response);
             reject(response);
           }
         });
@@ -206,7 +206,7 @@ export default async function request<T = any> (url: string, {
     }
 
     req.on('error', function (e: Error) {
-      log.timeEnd(url, 'response.error %o', e);
+      log.timeEnd(url, 'response.error %O', e);
       reject(e);
     });
 

@@ -62,15 +62,15 @@ export class Knex implements Plugin {
     this.connection = knex(this.config);
 
     this.connection
-      .on('query', ({ sql, __knexQueryUid }) => {
+      .on('query', ({ sql, __knexQueryUid, bindings }) => {
         this.logger.time(`Knex${__knexQueryUid}`);
-        this.logger.debug('query begin: %s', sql);
+        this.logger.debug('query begin: %s %O', sql, bindings);
       })
-      .on('query-response', (_, { sql, __knexQueryUid }) => {
-        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query done: %s', sql);
+      .on('query-response', (response, { sql, __knexQueryUid, bindings }) => {
+        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query done: %s %O %O', sql, bindings, response);
       })
-      .on('query-error', (_, { __knexQueryUid, sql }) => {
-        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query failed: %s', sql);
+      .on('query-error', (_, { __knexQueryUid, sql, bindings }) => {
+        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query failed: %s %O', sql, bindings);
       });
     await this.raw('SELECT 1+1');
     this.logger.debug('connected');

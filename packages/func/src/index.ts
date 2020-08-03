@@ -235,8 +235,8 @@ export class Func<EVENT = any> {
     return {
       handler: async (event: EVENT, context?: any, callback?: (...args: any) => any): Promise<any> => {
         const logger = new Logger();
-        logger.debug('event: %o', event);
-        logger.debug('context: %o', context);
+        logger.debug('event: %O', event);
+        logger.debug('context: %O', context);
 
         if (typeof context === 'undefined') context = {};
         if (!context.request_id) context.request_id = new Date().getTime().toString();
