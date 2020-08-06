@@ -56,7 +56,7 @@ plugins:
     config:
       # 设置为有权限读取密钥文件的角色名
       Role: QCS_SCFExcuteRole
-  cosSecrets:
+  cos_secrets:
     config:
       bucket: secrets-123456
       region: ap-shanghai
