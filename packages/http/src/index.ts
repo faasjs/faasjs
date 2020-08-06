@@ -280,7 +280,7 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
 export function useHttp<P = any, C = {[key: string]: string}, S = {[key: string]: any}> (config?: HttpConfig): Http<P, C, S> {
   const name = config?.name || Name;
 
-  if (globals[name]) return globals[name] as Http<P, C, S>;
+  if (globals[name]) return usePlugin(globals[name] as Http<P, C, S>);
 
   return usePlugin(new Http<P, C, S>(config));
 }

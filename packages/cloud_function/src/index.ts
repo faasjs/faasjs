@@ -175,7 +175,7 @@ export class CloudFunction implements Plugin {
 export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction {
   const name = config?.name || Name;
 
-  if (globals[name]) return globals[name];
+  if (globals[name]) return usePlugin<CloudFunction>(globals[name]);
 
-  return usePlugin(new CloudFunction(config));
+  return usePlugin<CloudFunction>(new CloudFunction(config));
 }

@@ -8,8 +8,8 @@ export type ExportedHandler<TEvent = any, TContext = any, RESULT = any> = (event
 
 export interface Plugin {
   [key: string]: any;
-  type: string;
-  name?: string;
+  readonly type: string;
+  readonly name: string;
   onDeploy?: (data: DeployData, next: Next) => void;
   onMount?: (data: MountData, next: Next) => void;
   onInvoke?: (data: InvokeData, next: Next) => void;
@@ -265,8 +265,10 @@ export class Func<TEvent = any, TContext = any, RESULT = any> {
 
 let plugins = [];
 
-export function usePlugin<T = any> (plugin: T): T {
-  plugins.push(plugin);
+export function usePlugin<T extends Plugin> (plugin: T): T {
+  if (!plugins.find(p => p.name === plugin.name))
+    plugins.push(plugin);
+
   return plugin;
 }
 

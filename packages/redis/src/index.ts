@@ -106,7 +106,7 @@ export class Redis implements Plugin {
 export function useRedis (config?: RedisConfig): Redis {
   const name = config?.name || Name;
 
-  if (globals[name]) return globals[name];
+  if (globals[name]) return usePlugin<Redis>(globals[name]);
 
   return usePlugin<Redis>(new Redis(config));
 }

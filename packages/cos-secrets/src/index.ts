@@ -124,7 +124,7 @@ export class CosSecrets implements Plugin {
 export function useCosSecrets (config?: CosSecretsConfig): CosSecrets {
   const name = config?.name || Name;
 
-  if (globals[name]) return globals[name];
+  if (globals[name]) return usePlugin<CosSecrets>(globals[name]);
 
-  return usePlugin(new CosSecrets(config));
+  return usePlugin<CosSecrets>(new CosSecrets(config));
 }

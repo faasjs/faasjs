@@ -4,6 +4,8 @@ describe('fp', function () {
   it('should work', async function () {
     class DemoPlugin implements Plugin {
       public readonly type = 'P';
+      public readonly name = 'P';
+
       public async onInvoke (data: InvokeData, next: Next) {
         data.event.counter ++;
         await next();

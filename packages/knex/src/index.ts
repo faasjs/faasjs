@@ -114,7 +114,7 @@ export class Knex implements Plugin {
 export function useKnex (config?: KnexConfig): Knex {
   const name = config?.name || Name;
 
-  if (globals[name]) return globals[name];
+  if (globals[name]) return usePlugin<Knex>(globals[name]);
 
   return usePlugin<Knex>(new Knex(config));
 }

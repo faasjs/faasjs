@@ -75,10 +75,10 @@ test('invokeCloudFunction', async function () {
 
   const res = await tc.invokeCloudFunction('invoke', {
     event: {},
-    context: {} 
+    context: {}
   });
 
-  expect(res).toEqual({});
+  expect(res).toBeUndefined();
 });
 
 test('invokeSyncCloudFunction', async function () {
@@ -90,7 +90,7 @@ test('invokeSyncCloudFunction', async function () {
 
   const res = await tc.invokeSyncCloudFunction('invokeSync', {
     event: {},
-    context: {} 
+    context: {}
   });
 
   expect(res).toEqual({});
@@ -105,7 +105,7 @@ test('invokeSyncCloudFunction return string', async function () {
 
   const res = await tc.invokeSyncCloudFunction('invokeString', {
     event: {},
-    context: {} 
+    context: {}
   });
 
   expect(res).toEqual('');
@@ -120,7 +120,7 @@ test('invokeSyncCloudFunction unknown format', async function () {
 
   const res = await tc.invokeSyncCloudFunction('invokeUnknown', {
     event: {},
-    context: {} 
+    context: {}
   });
 
   expect(res).toEqual({ Result: {} });
@@ -136,7 +136,7 @@ test('invokeSyncCloudFunction failed', async function () {
   try {
     await tc.invokeSyncCloudFunction('invokeFail', {
       event: {},
-      context: {} 
+      context: {}
     });
   } catch (error) {
     expect(error.message).toEqual('wrong');

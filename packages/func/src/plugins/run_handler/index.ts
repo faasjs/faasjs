@@ -1,13 +1,8 @@
 import { InvokeData } from '../../index';
 
 export default class RunHandler {
-  public readonly type: string;
-  public name?: string;
-
-  constructor () {
-    this.type = 'handler';
-    this.name = 'handler';
-  }
+  public readonly type: string = 'handler';
+  public readonly name: string = 'handler';
 
   public async onInvoke (data: InvokeData, next: () => Promise<void>): Promise<void> {
     if (data.handler)
@@ -31,9 +26,9 @@ export default class RunHandler {
           data.response = error;
         }
         data.runHandler = true;
-      } else {
+      } else
         data.logger.warn('[RunHandler] handler has been run');
-      }
+
 
     await next();
   }
