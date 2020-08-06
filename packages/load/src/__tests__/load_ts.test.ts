@@ -6,5 +6,5 @@ describe('loadTs', function () {
 
     expect(Object.keys(res.dependencies)).toEqual(['@faasjs/deep_merge']);
     expect(res.module).toEqual(1);
-  });
+  }, 10000);
 });

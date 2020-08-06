@@ -77,7 +77,7 @@ jest.mock('@faasjs/request', () => {
   };
 });
 
-test('frist deploy', async function () {
+test('update deploy', async function () {
   const tc = new Tencentcloud({
     secretId: 'secretId',
     secretKey: 'secretKey',
@@ -112,4 +112,4 @@ test('frist deploy', async function () {
   });
 
   expect(true).toBeTruthy();
-});
+}, 10000);

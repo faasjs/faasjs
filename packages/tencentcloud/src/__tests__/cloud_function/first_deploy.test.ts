@@ -130,4 +130,4 @@ test('frist deploy', async function () {
   });
 
   expect(true).toBeTruthy();
-});
+}, 10000);
