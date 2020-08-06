@@ -16,7 +16,7 @@ describe('fp', function () {
       return p;
     }
 
-    const func = useFunc(function () {
+    const func = useFunc<{counter: number}, void, number>(function () {
       useDemoPlugin();
       return function ({ event }) {
         event.counter ++;

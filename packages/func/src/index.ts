@@ -2,9 +2,9 @@
 import Logger from '@faasjs/logger';
 import RunHandler from './plugins/run_handler/index';
 
-export type Handler<EVENT = any> = (data: InvokeData<EVENT>) => any;
+export type Handler<TEvent = any, TContext = any, RESULT = any> = (data: InvokeData<TEvent, TContext>) => RESULT;
 export type Next = () => Promise<void>;
-export type ExportedHandler<EVENT = any> = (event: EVENT, context?: any, callback?: (...args: any) => any) => Promise<any>;
+export type ExportedHandler<TEvent = any, TContext = any, RESULT = any> = (event: TEvent, context?: TContext, callback?: (...args: any) => any) => Promise<RESULT>;
 
 export interface Plugin {
   [key: string]: any;
@@ -69,22 +69,22 @@ export interface MountData {
   context: any;
 }
 
-export interface InvokeData<EVENT = any> {
+export interface InvokeData<TEvent = any, TContext = any, RESULT = any> {
   [key: string]: any;
-  event: EVENT;
-  context: any;
+  event: TEvent;
+  context: TContext;
   callback: any;
   response: any;
   logger: Logger;
-  handler: Handler<EVENT>;
+  handler: Handler<TEvent, TContext, RESULT>;
   config: Config;
 }
 
 export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke';
 
-export interface FuncConfig<EVENT = any> {
+export interface FuncConfig<TEvent = any, TContext = any, RESULT = any> {
   plugins?: Plugin[];
-  handler?: Handler<EVENT>;
+  handler?: Handler<TEvent, TContext, RESULT>;
 }
 
 interface CachedFunction {
@@ -92,10 +92,10 @@ interface CachedFunction {
   handler: (...args: any) => void;
 }
 
-export class Func<EVENT = any> {
+export class Func<TEvent = any, TContext = any, RESULT = any> {
   [key: string]: any;
   public plugins: Plugin[];
-  public handler?: Handler<EVENT>;
+  public handler?: Handler<TEvent, TContext, RESULT>;
   public logger: Logger;
   public config: Config;
   public mounted: boolean;
@@ -109,7 +109,7 @@ export class Func<EVENT = any> {
    * @param config.plugins {Plugin[]} 插件
    * @param config.handler {Handler} 业务函数
    */
-  constructor (config: FuncConfig<EVENT>) {
+  constructor (config: FuncConfig<TEvent, TContext>) {
     this.logger = new Logger('Func');
 
     this.handler = config.handler;
@@ -185,9 +185,9 @@ export class Func<EVENT = any> {
    * 启动云实例
    */
   public async mount (data: {
-    event: EVENT;
-    context: any;
-    config?: any;
+    event: TEvent;
+    context: TContext;
+    config?: Config;
   }): Promise<void> {
     this.logger.debug('onMount');
     if (this.mounted) {
@@ -209,7 +209,7 @@ export class Func<EVENT = any> {
    * 执行云函数
    * @param data {object} 执行信息
    */
-  public async invoke (data: InvokeData<EVENT>): Promise<any> {
+  public async invoke (data: InvokeData<TEvent, TContext, RESULT>): Promise<void> {
     // 实例未启动时执行启动函数
     if (!this.mounted)
       await this.mount({
@@ -230,10 +230,10 @@ export class Func<EVENT = any> {
    * 创建触发函数
    */
   public export (): {
-    handler: ExportedHandler<EVENT>;
+    handler: ExportedHandler<TEvent, TContext, RESULT>;
   } {
     return {
-      handler: async (event: EVENT, context?: any, callback?: (...args: any) => any): Promise<any> => {
+      handler: async (event: TEvent, context?: TContext | any, callback?: (...args: any) => any): Promise<RESULT> => {
         const logger = new Logger();
         logger.debug('event: %O', event);
         logger.debug('context: %O', context);
@@ -243,7 +243,7 @@ export class Func<EVENT = any> {
         if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000);
         context.callbackWaitsForEmptyEventLoop = false;
 
-        const data: InvokeData<EVENT> = {
+        const data: InvokeData<TEvent, TContext, RESULT> = {
           event,
           context,
           callback,
@@ -270,12 +270,12 @@ export function usePlugin<T = any> (plugin: T): T {
   return plugin;
 }
 
-export function useFunc (handler: () => Handler): Func {
+export function useFunc<TEvent = any, TContext = any, RESULT = any> (handler: () => Handler<TEvent, TContext, RESULT>): Func<TEvent, TContext, RESULT> {
   plugins = [];
 
   const invokeHanlder = handler();
 
-  const func = new Func({
+  const func = new Func<TEvent, TContext, RESULT>({
     plugins,
     handler: invokeHanlder
   });

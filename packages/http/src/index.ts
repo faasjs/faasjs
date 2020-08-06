@@ -269,6 +269,6 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
   }
 }
 
-export function useHttp (config?: HttpConfig): Http {
-  return usePlugin(new Http(config));
+export function useHttp<P = any, C = {[key: string]: string}, S = {[key: string]: any}> (config?: HttpConfig): Http<P, C, S> {
+  return usePlugin(new Http<P, C, S>(config));
 }
