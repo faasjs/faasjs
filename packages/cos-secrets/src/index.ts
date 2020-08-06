@@ -27,9 +27,13 @@ export interface CosSecretsConfig {
   config?: Config;
 }
 
+const Name = 'cos_secrets';
+
+const globals: {[name: string]: CosSecrets} = {};
+
 export class CosSecrets implements Plugin {
-  public readonly type: string = 'cosSecrets';
-  public name: string;
+  public readonly type: string = Name;
+  public readonly name: string = Name;
   public config: Config;
   public data: { [key: string]: any };
   private logger: Logger;
@@ -40,13 +44,13 @@ export class CosSecrets implements Plugin {
   }) {
     if (config) {
       this.name = config.name || this.type;
-      this.config = config.config || {};
+      this.config = config.config || Object.create(null);
     } else {
       this.name = this.type;
-      this.config = {};
+      this.config = Object.create(null);
     }
 
-    this.logger = new Logger('CosSecrets');
+    this.logger = new Logger(this.name);
   }
 
   async onMount (data: MountData, next: Next): Promise<void> {
@@ -111,10 +115,16 @@ export class CosSecrets implements Plugin {
           });
     }
 
+    globals[this.name] = this;
+
     await next();
   }
 }
 
 export function useCosSecrets (config?: CosSecretsConfig): CosSecrets {
+  const name = config?.name || Name;
+
+  if (globals[name]) return globals[name];
+
   return usePlugin(new CosSecrets(config));
 }

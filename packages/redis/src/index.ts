@@ -8,6 +8,8 @@ export interface RedisConfig {
   config?: Config;
 }
 
+const Name = 'redis';
+
 const globals: {
   [name: string]: Redis;
 } = {};
@@ -16,8 +18,8 @@ const globals: {
  * Redis 插件
  */
 export class Redis implements Plugin {
-  public type: string = 'redis';
-  public name?: string;
+  public readonly type: string = Name;
+  public readonly name: string = Name;
   public config: Config;
   public adapter?: RedisClient;
   public logger: Logger;
@@ -102,5 +104,9 @@ export class Redis implements Plugin {
 }
 
 export function useRedis (config?: RedisConfig): Redis {
+  const name = config?.name || Name;
+
+  if (globals[name]) return globals[name];
+
   return usePlugin<Redis>(new Redis(config));
 }

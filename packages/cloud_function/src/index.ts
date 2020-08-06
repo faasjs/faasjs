@@ -22,9 +22,20 @@ export interface CloudFunctionConfig {
   [key: string]: any;
 }
 
+export interface CloudFunctionAdapter {
+  invokeCloudFunction(name: string, data: any, options?: any): Promise<void>;
+  invokeSyncCloudFunction<TResult>(name: string, data: any, options?: any): Promise<TResult>;
+}
+
+const Name = 'cloud_function';
+
+const globals: {
+  [name: string]: CloudFunction;
+} = {};
+
 export class CloudFunction implements Plugin {
-  public readonly type: string;
-  public name?: string;
+  public readonly type: string = Name;
+  public readonly name: string = Name;
   public event: any;
   public context: any;
   private config: {
@@ -38,7 +49,7 @@ export class CloudFunction implements Plugin {
     }[];
     [key: string]: any;
   };
-  private adapter?: any;
+  private adapter?: CloudFunctionAdapter;
   private validatorConfig?: {
     event?: ValidatorConfig;
   };
@@ -59,13 +70,17 @@ export class CloudFunction implements Plugin {
    * @param config.validator.event.onError {function} 自定义报错
    * @param config.validator.event.rules {object} 参数校验规则
    */
-  constructor (config: CloudFunctionConfig = Object.create(null)) {
-    this.logger = new Logger('CloudFunction');
-    this.type = 'cloud_function';
-    this.name = config.name;
-    this.config = config.config || Object.create(null);
-    if (config.validator)
-      this.validatorConfig = config.validator;
+  constructor (config?: CloudFunctionConfig) {
+    if (config) {
+      this.name = config.name;
+      this.config = config.config || Object.create(null);
+      if (config.validator)
+        this.validatorConfig = config.validator;
+    } else {
+      this.name = this.type;
+      this.config = Object.create(null);
+    }
+    this.logger = new Logger(this.name);
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
@@ -91,7 +106,7 @@ export class CloudFunction implements Plugin {
 
   public async onMount (data: MountData, next: Next): Promise<void> {
     if (data.config['plugins'] && data.config.plugins[this.name || this.type])
-      this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type]);
+      this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type], {});
 
     if (this.config.provider) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
@@ -104,6 +119,9 @@ export class CloudFunction implements Plugin {
       this.logger.debug('[onMount] prepare validator');
       this.validator = new Validator(this.validatorConfig);
     }
+
+    globals[this.name] = this;
+
     await next();
   }
 
@@ -125,14 +143,14 @@ export class CloudFunction implements Plugin {
    */
   public async invoke (name: string, data?: any, options?: {
     [key: string]: any;
-  }): Promise<any> {
+  }): Promise<void> {
     if (!data)
       data = Object.create(null);
 
     if (typeof data === 'object')
       data.context = this.context;
 
-    return Promise.resolve(this.adapter.invokeCloudFunction(name, data, options));
+    await this.adapter.invokeCloudFunction(name, data, options);
   }
 
   /**
@@ -150,10 +168,14 @@ export class CloudFunction implements Plugin {
     if (typeof data === 'object')
       data.context = this.context;
 
-    return Promise.resolve(this.adapter.invokeSyncCloudFunction(name, data, options));
+    return this.adapter.invokeSyncCloudFunction(name, data, options);
   }
 }
 
 export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction {
+  const name = config?.name || Name;
+
+  if (globals[name]) return globals[name];
+
   return usePlugin(new CloudFunction(config));
 }

@@ -47,9 +47,15 @@ export interface Response {
   body?: string;
 }
 
+const Name = 'http';
+
+const globals: {
+  [name: string]: Http;
+} = {};
+
 export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}> implements Plugin {
-  public readonly type: string = 'http';
-  public name?: string
+  public readonly type: string = Name;
+  public readonly name: string = Name;
   public headers: {
     [key: string]: string;
   };
@@ -89,10 +95,10 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
    * @param config.validator.session.onError {function} 自定义报错
    * @param config.validator.session.rules {object} 参数校验规则
    */
-  constructor (config: HttpConfig = Object.create(null)) {
-    this.name = config.name || this.type;
-    this.config = config.config || Object.create(null);
-    if (config.validator)
+  constructor (config?: HttpConfig) {
+    this.name = config?.name || this.type;
+    this.config = config?.config || Object.create(null);
+    if (config?.validator)
       this.validatorOptions = config.validator;
     this.logger = new Logger(this.name);
 
@@ -142,6 +148,8 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
       this.logger.debug('[onMount] prepare validator');
       this.validator = new Validator<P, C, S>(this.validatorOptions);
     }
+
+    globals[this.name] = this;
 
     await next();
   }
@@ -270,5 +278,9 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
 }
 
 export function useHttp<P = any, C = {[key: string]: string}, S = {[key: string]: any}> (config?: HttpConfig): Http<P, C, S> {
+  const name = config?.name || Name;
+
+  if (globals[name]) return globals[name] as Http<P, C, S>;
+
   return usePlugin(new Http<P, C, S>(config));
 }

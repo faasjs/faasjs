@@ -2,17 +2,17 @@ import request from '@faasjs/request';
 import scf from './scf';
 import Tencentcloud from '..';
 
-export async function invokeCloudFunction (tc: Tencentcloud, name: string, data?: any, options?: {
+export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name: string, data?: any, options?: {
   [key: string]: any;
-}): Promise<any> {
+}): Promise<TResult> {
   tc.logger.debug('invokeFunction: %s %O', name, options);
 
   if (process.env.FaasMode === 'local' && process.env.FaasLocal)
-    return request(process.env.FaasLocal + '/' + name, {
+    return request<TResult>(process.env.FaasLocal + '/' + name, {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
       method: 'POST'
-    });
+    }).then(res => res.body);
   else
     return scf(tc, Object.assign({
       Action: 'Invoke',
@@ -35,10 +35,10 @@ export async function invokeCloudFunction (tc: Tencentcloud, name: string, data?
     });
 }
 
-export async function invokeSyncCloudFunction (tc: Tencentcloud, name: string, data?: any, options?: {
+export async function invokeSyncCloudFunction<TResult = any> (tc: Tencentcloud, name: string, data?: any, options?: {
   [key: string]: any;
-}): Promise<any> {
+}): Promise<TResult> {
   if (!options) options = {};
   options.InvocationType = 'RequestResponse';
-  return invokeCloudFunction(tc, name, data, options);
+  return invokeCloudFunction<TResult>(tc, name, data, options);
 }
