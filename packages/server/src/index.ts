@@ -6,7 +6,6 @@ import Logger from '@faasjs/logger';
 import { existsSync } from 'fs';
 import { loadConfig } from '@faasjs/load';
 import { resolve as pathResolve, sep, join } from 'path';
-import { debounce } from 'lodash';
 
 interface Cache {
   file?: string;
@@ -26,7 +25,6 @@ export class Server {
   private cachedFuncs: {
     [path: string]: Cache;
   }
-  private clearCache: () => void;
 
   /**
    * 创建本地服务器
@@ -42,14 +40,6 @@ export class Server {
     this.opts = Object.assign({ cache: false }, opts || {});
     this.cachedFuncs = {};
     this.logger.debug('init with %s %o', this.root, this.opts);
-
-    this.clearCache = debounce(function () {
-      this.logger.debug('clear cache');
-      Object.keys(require.cache).forEach(function (id) {
-        if (!id.includes('node_modules') || id.includes('faasjs'))
-          delete require.cache[id];
-      });
-    }, 500);
   }
 
   public async processRequest (req: IncomingMessage, res: {
@@ -60,7 +50,6 @@ export class Server {
   }): Promise<void> {
     this.logger.info('[Request] %s', req.url);
 
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise((resolve, reject) => {
       const requestId = new Date().getTime().toString();
       try {
@@ -70,7 +59,6 @@ export class Server {
           body += req.read() || '';
         });
 
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         req.on('end', async () => {
           let data;
           try {
@@ -88,7 +76,6 @@ export class Server {
 
               const func = require(cache.file).default;
               func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
-              // eslint-disable-next-line @typescript-eslint/unbound-method
               cache.handler = func.export().handler;
 
               if (this.opts.cache) this.cachedFuncs[path] = cache;
@@ -177,5 +164,13 @@ export class Server {
       return path + '/index.func.ts';
 
     throw Error(`Not found: ${path}.func.ts or ${path}/index.func.ts`);
+  }
+
+  private clearCache () {
+    this.logger.debug('clear cache');
+    Object.keys(require.cache).forEach(function (id) {
+      if (!id.includes('node_modules') || id.includes('faasjs'))
+        delete require.cache[id];
+    });
   }
 }
