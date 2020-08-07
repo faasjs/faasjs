@@ -46,7 +46,8 @@ export class Server {
     this.clearCache = debounce(function () {
       this.logger.debug('clear cache');
       Object.keys(require.cache).forEach(function (id) {
-        delete require.cache[id];
+        if (!id.includes('node_modules') && !id.includes('faasjs'))
+          delete require.cache[id];
       });
     }, 500);
   }
