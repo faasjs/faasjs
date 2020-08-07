@@ -46,8 +46,7 @@ export class Server {
     this.clearCache = debounce(function () {
       this.logger.debug('clear cache');
       Object.keys(require.cache).forEach(function (id) {
-        if (!id.includes('/node_modules/'))
-          delete require.cache[id];
+        delete require.cache[id];
       });
     }, 500);
   }
