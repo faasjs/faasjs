@@ -141,16 +141,12 @@ export class CloudFunction implements Plugin {
    * @param data {any} 参数
    * @param options {object} 额外配置项
    */
-  public async invoke (name: string, data?: any, options?: {
+  public async invoke<TData = any> (name: string, data?: TData, options?: {
     [key: string]: any;
   }): Promise<void> {
-    if (!data)
-      data = Object.create(null);
+    if (!data) data = Object.create(null);
 
-    if (typeof data === 'object')
-      data.context = this.context;
-
-    await this.adapter.invokeCloudFunction(name, data, options);
+    await this.adapter.invokeCloudFunction(name, Object.assign(data, { context: this.context }), options);
   }
 
   /**
@@ -159,16 +155,12 @@ export class CloudFunction implements Plugin {
    * @param data {any} 参数
    * @param options {object} 额外配置项
    */
-  public async invokeSync (name: string, data?: any, options?: {
+  public async invokeSync<TResult = any, TData = any> (name: string, data?: TData, options?: {
     [key: string]: any;
-  }): Promise<any> {
-    if (!data)
-      data = Object.create(null);
+  }): Promise<TResult> {
+    if (!data) data = Object.create(null);
 
-    if (typeof data === 'object')
-      data.context = this.context;
-
-    return this.adapter.invokeSyncCloudFunction(name, data, options);
+    return this.adapter.invokeSyncCloudFunction<TResult>(name, Object.assign(data, { context: this.context }), options);
   }
 }
 

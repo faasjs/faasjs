@@ -37,6 +37,7 @@ export class FuncWarpper {
     if (typeof initBy === 'string') {
       this.file = initBy;
       this.logger.info('Func: [%s] %s', this.stagging, this.file);
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       this.func = require(this.file).default;
       this.func.config = loadConfig(process.cwd(), this.file)[this.stagging];
       this.config = this.func.config;
@@ -63,7 +64,11 @@ export class FuncWarpper {
 
   public async handler (event: any = Object.create(null), context: any = Object.create(null)): Promise<any> {
     await this.mount();
-    return this._handler(event, context);
+
+    const response = await this._handler(event, context);
+    this.logger.debug('response: %O', response);
+
+    return response;
   }
 
   public async JSONhandler (body?: any, options: {
@@ -74,6 +79,7 @@ export class FuncWarpper {
     await this.mount();
 
     const headers = options.headers || Object.create(null);
+
     const http: Http = this.http;
     if (http) {
       if (options.cookie)
@@ -90,9 +96,13 @@ export class FuncWarpper {
         else headers.cookie = cookie;
     }
 
-    return this._handler({
+    const response = await this._handler({
       headers: Object.assign({ 'content-type': 'application/json' }, headers),
       body: typeof body === 'string' ? body : JSON.stringify(body)
     });
+
+    this.logger.debug('response: %O', response);
+
+    return response;
   }
 }
