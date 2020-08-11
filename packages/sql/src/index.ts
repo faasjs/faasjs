@@ -1,4 +1,4 @@
-import { Plugin, MountData, Next, DeployData } from '@faasjs/func';
+import { Plugin, MountData, Next, DeployData, usePlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 import { Sqlite, SqliteConfig } from './sqlite';
@@ -10,17 +10,29 @@ export interface Adapter {
   query: (sql: string, values?: any) => Promise<any[]>;
 }
 
-export interface SqlConfig extends SqliteConfig, PostgresqlConfig, MysqlConfig {
+export interface Config extends SqliteConfig, PostgresqlConfig, MysqlConfig {
   pool?: any;
   ssl?: any;
 }
+
+export interface SqlConfig {
+  name?: string;
+  adapterType?: string;
+  config?: Config;
+}
+
+const Name = 'sql';
+
+const globals: {
+  [name: string]: Sql;
+} = {};
 
 /**
  * 数据库插件
  */
 export class Sql implements Plugin {
-  public type: string = 'sql';
-  public name: string;
+  public type: string = Name;
+  public name: string = Name;
   public config: SqlConfig;
   public adapterType?: string;
   public adapter?: Adapter;
@@ -34,11 +46,7 @@ export class Sql implements Plugin {
    * @param config.config {object} 数据库配置
    * @param config.config.pool {Database} 数据库连接实例
    */
-  constructor (config?: {
-    name?: string;
-    adapterType?: string;
-    config?: SqlConfig;
-  }) {
+  constructor (config?: SqlConfig) {
     if (config) {
       this.name = config.name || this.type;
       this.adapterType = config.adapterType;
@@ -47,7 +55,7 @@ export class Sql implements Plugin {
       this.name = this.type;
       this.config = Object.create(null);
     }
-    this.logger = new Logger(this.type);
+    this.logger = new Logger(this.name);
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
@@ -99,6 +107,8 @@ export class Sql implements Plugin {
         throw Error(`[Sql] Unsupport type: ${this.type}`);
     }
 
+    globals[this.name] = this;
+
     await next();
   }
 
@@ -107,7 +117,7 @@ export class Sql implements Plugin {
    * @param sql {string} SQL 语句
    * @param values {any} 参数值
    */
-  public async query (sql: string, values?: any): Promise<any[]> {
+  public async query<TResult = any> (sql: string, values?: any): Promise<TResult[]> {
     this.logger.debug('query begin: %s %O', sql, values);
     this.logger.time(sql);
     try {
@@ -124,7 +134,7 @@ export class Sql implements Plugin {
    * 执行多条 SQL
    * @param sqls {string[]} SQL 语句
    */
-  public async queryMulti (sqls: string[]): Promise<any[]> {
+  public async queryMulti<TResult> (sqls: string[]): Promise<TResult[]> {
     const results = [];
     for (const sql of sqls)
       results.push(await this.query(sql));
@@ -137,7 +147,15 @@ export class Sql implements Plugin {
    * @param sql {string} SQL 语句
    * @param values {any} 参数值
    */
-  public async queryFirst (sql: string, values?: any): Promise<any> {
+  public async queryFirst<TResult = any> (sql: string, values?: TResult): Promise<any> {
     return this.query(sql, values).then((res: any[]) => res[0]);
   }
+}
+
+export function useSql (config?: SqlConfig): Sql {
+  const name = config?.name || Name;
+
+  if (globals[name]) return usePlugin<Sql>(globals[name]);
+
+  return usePlugin<Sql>(new Sql(config));
 }
