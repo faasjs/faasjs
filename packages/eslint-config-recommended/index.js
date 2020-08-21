@@ -53,7 +53,6 @@ module.exports = {
     ],
     'comma-spacing': 'warn',
     'no-multi-spaces': 'warn',
-    'keyword-spacing': 'warn',
     'key-spacing': 'warn',
     'space-infix-ops': 'warn',
     'padded-blocks': [
