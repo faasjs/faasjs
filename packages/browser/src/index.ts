@@ -91,7 +91,6 @@ export default class FaasBrowserClient {
                 headers,
                 body: res
               }));
-
           } catch (error) {
             console.error(error);
           }
