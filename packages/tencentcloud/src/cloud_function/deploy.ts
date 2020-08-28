@@ -274,7 +274,10 @@ module.exports = main.export();`
       ClsLogsetId: config.config.ClsLogsetId,
       ClsTopicId: config.config.ClsTopicId,
       Layers: config.config.Layers,
-      DeadLetterConfig: config.config.DeadLetterConfig
+      DeadLetterConfig: config.config.DeadLetterConfig,
+      PublicNetConfig: config.config.PublicNetConfig,
+      CfsConfig: config.config.CfsConfig,
+      InitTimeout: config.config.InitTimeout
     });
 
     status = null;
@@ -311,7 +314,10 @@ module.exports = main.export();`
         Timeout: config.config.Timeout,
         VpcConfig: config.config.VpcConfig,
         Layers: config.config.Layers,
-        DeadLetterConfig: config.config.DeadLetterConfig
+        DeadLetterConfig: config.config.DeadLetterConfig,
+        PublicNetConfig: config.config.PublicNetConfig,
+        CfsConfig: config.config.CfsConfig,
+        InitTimeout: config.config.InitTimeout
       });
 
       // eslint-disable-next-line no-constant-condition
