@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cos-secrets",
-  "version": "0.0.2-beta.97",
+  "version": "0.0.2-beta.98",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -15,7 +15,7 @@
     "cos-nodejs-sdk-v5": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.97",
+    "@faasjs/func": "^0.0.2-beta.98",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
