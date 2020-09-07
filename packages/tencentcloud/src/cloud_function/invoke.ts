@@ -9,7 +9,7 @@ export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name
   if (process.env.FaasMode === 'local') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const test = require('@faasjs/test');
-    const func = new test.FuncWarpper(require.resolve(name));
+    const func = new test.FuncWarpper(require.resolve(name + '.func'));
     await func.mount();
     return await func.handler(data);
   } else
