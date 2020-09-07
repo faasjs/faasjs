@@ -269,7 +269,16 @@ export function usePlugin<T extends Plugin> (plugin: T): T {
   if (!plugins.find(p => p.name === plugin.name))
     plugins.push(plugin);
 
-  return plugin;
+  return {
+    ...plugin,
+    mount: function (func: {config: Config}) {
+      return plugin.onMount ? plugin.onMount({
+        config: func.config,
+        event: {},
+        context: {}
+      }, async () => Promise.resolve()) : plugin;
+    }
+  };
 }
 
 export function useFunc<TEvent = any, TContext = any, RESULT = any> (handler: () => Handler<TEvent, TContext, RESULT>): Func<TEvent, TContext, RESULT> {

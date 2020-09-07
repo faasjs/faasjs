@@ -1,4 +1,3 @@
-import request from '@faasjs/request';
 import scf from './scf';
 import Tencentcloud from '..';
 
@@ -7,13 +6,13 @@ export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name
 }): Promise<TResult> {
   tc.logger.debug('invokeFunction: %s %O', name, options);
 
-  if (process.env.FaasMode === 'local' && process.env.FaasLocal)
-    return request<TResult>(process.env.FaasLocal + '/' + name, {
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-      method: 'POST'
-    }).then(res => res.body);
-  else
+  if (process.env.FaasMode === 'local') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const test = require('@faasjs/test');
+    const func = new test.FuncWarpper(require.resolve(name));
+    await func.mount();
+    return await func.handler(data);
+  } else
     return scf(tc, Object.assign({
       Action: 'Invoke',
       FunctionName: name.replace(/[^a-zA-Z0-9-_]/g, '_'),
