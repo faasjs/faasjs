@@ -265,20 +265,24 @@ export class Func<TEvent = any, TContext = any, RESULT = any> {
 
 let plugins = [];
 
-export function usePlugin<T extends Plugin> (plugin: T): T {
+export interface UseifyPlugin {
+  mount({ config: Config }): Promise<void>
+}
+
+export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & UseifyPlugin {
   if (!plugins.find(p => p.name === plugin.name))
     plugins.push(plugin);
 
-  return {
-    ...plugin,
-    mount: function (func: {config: Config}) {
-      return plugin.onMount ? plugin.onMount({
-        config: func.config,
+  if (!plugin.mount)
+    plugin.mount = async function ({ config }:{config: Config}) {
+      if (plugin.onMount) await plugin.onMount({
+        config,
         event: {},
         context: {}
-      }, async () => Promise.resolve()) : plugin;
-    }
-  };
+      }, async () => Promise.resolve());
+    };
+
+  return plugin;
 }
 
 export function useFunc<TEvent = any, TContext = any, RESULT = any> (handler: () => Handler<TEvent, TContext, RESULT>): Func<TEvent, TContext, RESULT> {
