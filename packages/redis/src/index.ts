@@ -1,4 +1,4 @@
-import { Plugin, MountData, Next, usePlugin } from '@faasjs/func';
+import { Plugin, MountData, Next, usePlugin, UseifyPlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 import { createClient, ClientOpts as Config, RedisClient } from 'redis';
@@ -103,7 +103,7 @@ export class Redis implements Plugin {
   }
 }
 
-export function useRedis (config?: RedisConfig): Redis {
+export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
   const name = config?.name || Name;
 
   if (globals[name]) return usePlugin<Redis>(globals[name]);

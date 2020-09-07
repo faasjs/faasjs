@@ -266,7 +266,7 @@ export class Func<TEvent = any, TContext = any, RESULT = any> {
 let plugins = [];
 
 export interface UseifyPlugin {
-  mount({ config: Config }): Promise<void>
+  mount?({ config: Config }): Promise<void>
 }
 
 export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & UseifyPlugin {

@@ -1,4 +1,4 @@
-import { Plugin, MountData, Next, DeployData, usePlugin } from '@faasjs/func';
+import { Plugin, MountData, Next, DeployData, usePlugin, UseifyPlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 import { Sqlite, SqliteConfig } from './sqlite';
@@ -152,7 +152,7 @@ export class Sql implements Plugin {
   }
 }
 
-export function useSql (config?: SqlConfig): Sql {
+export function useSql (config?: SqlConfig): Sql & UseifyPlugin {
   const name = config?.name || Name;
 
   if (globals[name]) return usePlugin<Sql>(globals[name]);

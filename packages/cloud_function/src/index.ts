@@ -1,5 +1,5 @@
 import deepMerge from '@faasjs/deep_merge';
-import { Plugin, DeployData, Next, MountData, InvokeData, usePlugin } from '@faasjs/func';
+import { Plugin, DeployData, Next, MountData, InvokeData, usePlugin, UseifyPlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import { Validator, ValidatorConfig } from './validator';
 
@@ -164,7 +164,7 @@ export class CloudFunction implements Plugin {
   }
 }
 
-export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction {
+export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction & UseifyPlugin {
   const name = config?.name || Name;
 
   if (globals[name]) return usePlugin<CloudFunction>(globals[name]);

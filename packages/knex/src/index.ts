@@ -1,4 +1,4 @@
-import { Plugin, Next, DeployData, MountData, usePlugin } from '@faasjs/func';
+import { Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 import knex, { Config, Transaction, QueryBuilder, Raw, AliasDict, Value, SchemaBuilder } from 'knex';
@@ -111,7 +111,7 @@ export class Knex implements Plugin {
   }
 }
 
-export function useKnex (config?: KnexConfig): Knex {
+export function useKnex (config?: KnexConfig): Knex & UseifyPlugin {
   const name = config?.name || Name;
 
   if (globals[name]) return usePlugin<Knex>(globals[name]);

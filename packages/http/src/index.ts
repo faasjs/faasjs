@@ -1,4 +1,4 @@
-import { Plugin, InvokeData, MountData, DeployData, Next, usePlugin } from '@faasjs/func';
+import { Plugin, InvokeData, MountData, DeployData, Next, usePlugin, UseifyPlugin } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import Logger from '@faasjs/logger';
 import { Cookie, CookieOptions } from './cookie';
@@ -277,7 +277,7 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
   }
 }
 
-export function useHttp<P = any, C = {[key: string]: string}, S = {[key: string]: any}> (config?: HttpConfig): Http<P, C, S> {
+export function useHttp<P = any, C = {[key: string]: string}, S = {[key: string]: any}> (config?: HttpConfig): Http<P, C, S> & UseifyPlugin {
   const name = config?.name || Name;
 
   if (globals[name]) return usePlugin(globals[name] as Http<P, C, S>);

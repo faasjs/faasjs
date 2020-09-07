@@ -1,4 +1,4 @@
-import { Plugin, MountData, Next, usePlugin } from '@faasjs/func';
+import { Plugin, MountData, Next, usePlugin, UseifyPlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
@@ -121,7 +121,7 @@ export class CosSecrets implements Plugin {
   }
 }
 
-export function useCosSecrets (config?: CosSecretsConfig): CosSecrets {
+export function useCosSecrets (config?: CosSecretsConfig): CosSecrets & UseifyPlugin {
   const name = config?.name || Name;
 
   if (globals[name]) return usePlugin<CosSecrets>(globals[name]);
