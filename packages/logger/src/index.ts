@@ -176,7 +176,9 @@ export default class Logger {
       output = this.colorfy(LevelColor[level], output);
     else if (this.mode !== 'local') output = output.replace(/\n/g, '');
 
-    if (level === 'error')
+    if (this.mode === 'remote')
+      console.log(output);
+    else if (level === 'error')
       this.stderr(output);
     else
       this.stdout(output);
