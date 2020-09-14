@@ -83,10 +83,16 @@ export default async function request<T = any> (url: string, {
   const log = new Logger('request');
 
   log.debug('request %s %O', url, {
-    body,
     headers,
     method,
     query,
+    body,
+    timeout,
+    auth,
+    file,
+    downloadStream,
+    pfx,
+    passphrase
   });
 
   if (mock) return mock(url, {
@@ -121,8 +127,10 @@ export default async function request<T = any> (url: string, {
     port: string;
     timeout?: number;
     auth?: string;
-    pfx?: Buffer;
-    passphrase?: string;
+    agentOptions?: {
+      pfx?: Buffer;
+      passphrase?: string;
+    }
   } = {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
@@ -132,6 +140,9 @@ export default async function request<T = any> (url: string, {
     port: uri.port,
     timeout,
     auth,
+  };
+
+  if (pfx || passphrase) options.agentOptions = {
     pfx,
     passphrase
   };
