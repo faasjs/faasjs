@@ -34,6 +34,7 @@ export interface RequestOptions {
   downloadStream?: NodeJS.WritableStream;
   pfx?: Buffer;
   passphrase?: string;
+  agent?: boolean;
 }
 
 type Mock = (url: string, options: RequestOptions) => Promise<Response>;
@@ -62,6 +63,7 @@ export function setMock (handler: Mock | null): void {
  * @param {WritableStream=} options.downloadStream 下载流，用于直接将响应内容保存到本地文件
  * @param {Buffer=} options.pfx pfx
  * @param {string=} options.passphrase passphrase
+ * @param {boolean=} options.agent agent
  *
  * @returns {promise}
  */
@@ -75,7 +77,8 @@ export default async function request<T = any> (url: string, {
   file,
   downloadStream,
   pfx,
-  passphrase
+  passphrase,
+  agent
 }: RequestOptions = {
   headers: {},
   query: {},
@@ -127,10 +130,9 @@ export default async function request<T = any> (url: string, {
     port: string;
     timeout?: number;
     auth?: string;
-    agentOptions?: {
-      pfx?: Buffer;
-      passphrase?: string;
-    }
+    pfx?: Buffer;
+    passphrase?: string;
+    agent?: boolean;
   } = {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
@@ -140,11 +142,9 @@ export default async function request<T = any> (url: string, {
     port: uri.port,
     timeout,
     auth,
-  };
-
-  if (pfx || passphrase) options.agentOptions = {
     pfx,
-    passphrase
+    passphrase,
+    agent
   };
 
   // 处理 headers
