@@ -85,19 +85,6 @@ export default async function request<T = any> (url: string, {
 }): Promise<Response<T>> {
   const log = new Logger('request');
 
-  log.debug('request %s %O', url, {
-    headers,
-    method,
-    query,
-    body,
-    timeout,
-    auth,
-    file,
-    downloadStream,
-    pfx,
-    passphrase
-  });
-
   if (mock) return mock(url, {
     headers,
     method,
@@ -164,7 +151,8 @@ export default async function request<T = any> (url: string, {
   if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body);
 
   return new Promise(function (resolve, reject) {
-    // 包裹请求
+    log.debug('request %O', options);
+
     const req = protocol.request(options, function (res: http.IncomingMessage) {
       if (downloadStream) {
         res.pipe(downloadStream);
@@ -207,6 +195,7 @@ export default async function request<T = any> (url: string, {
     });
 
     if (body) req.write(body);
+
     if (file) {
       const crlf = '\r\n';
       const boundary = `--${Math.random().toString(16)}`;
@@ -216,9 +205,9 @@ export default async function request<T = any> (url: string, {
       ];
 
       const multipartBody = Buffer.concat([
-        new Buffer(delimeter + crlf + headers.join('') + crlf),
+        Buffer.from(delimeter + crlf + headers.join('') + crlf),
         readFileSync(file),
-        new Buffer(`${delimeter}--`)]);
+        Buffer.from(`${delimeter}--`)]);
 
       req.setHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
       req.setHeader('Content-Length', multipartBody.length);
@@ -231,7 +220,6 @@ export default async function request<T = any> (url: string, {
       reject(e);
     });
 
-    // 发送请求
     log.time(url);
     req.end();
   });
