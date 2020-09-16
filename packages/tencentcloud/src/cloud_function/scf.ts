@@ -56,10 +56,9 @@ export default async function action (tc: Tencentcloud, params: any): Promise<an
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     method: 'POST',
   }).then(function (res: Response) {
-    if (res.body.Response.Error) {
-      console.error(res.body);
+    if (res.body.Response.Error)
       return Promise.reject(res.body.Response.Error);
-    } else
+    else
       return res.body.Response;
   });
 }

@@ -411,7 +411,7 @@ module.exports = main.export();`
       await scf(tc, {
         Action: 'CreateTrigger',
         FunctionName: config.config.FunctionName,
-        TriggerName: trigger.name,
+        TriggerName: trigger.name || trigger.type,
         Type: trigger.type,
         TriggerDesc: trigger.value,
         Qualifier: config.config.FunctionVersion,
