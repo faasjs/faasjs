@@ -5,7 +5,7 @@ describe('plugins.runHandler', function () {
   test('return result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
-      handler (data: InvokeData) {
+      async handler (data: InvokeData) {
         return data.event + 1;
       }
     }).export().handler;
@@ -29,7 +29,7 @@ describe('plugins.runHandler', function () {
   test('callback result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
-      handler (data: InvokeData) {
+      async handler (data: InvokeData) {
         data.callback(null, data.event + 1);
       }
     }).export().handler;
@@ -57,7 +57,7 @@ describe('plugins.runHandler', function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
-        handler () {
+        async handler () {
           throw Error('wrong');
         }
       }).export().handler(0);
@@ -70,7 +70,7 @@ describe('plugins.runHandler', function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
-        handler () {
+        async handler () {
           return Promise.reject(Error('wrong'));
         }
       }).export().handler(0);
@@ -83,7 +83,7 @@ describe('plugins.runHandler', function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
-        handler (data: InvokeData) {
+        async handler (data: InvokeData) {
           data.callback(Error('wrong'));
         }
       }).export().handler(0);

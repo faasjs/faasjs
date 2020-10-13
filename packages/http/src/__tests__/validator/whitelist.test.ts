@@ -10,15 +10,13 @@ describe('validator/whitelist', function () {
           validator: {
             params: {
               whitelist: 'error',
-              rules: {
-                key: {}
-              }
+              rules: { key: {} }
             }
           }
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({});
@@ -39,15 +37,13 @@ describe('validator/whitelist', function () {
           validator: {
             params: {
               whitelist: 'ignore',
-              rules: {
-                key: {}
-              }
+              rules: { key: {} }
             }
           }
         });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params;
           }
         }).export().handler;
@@ -67,9 +63,7 @@ describe('validator/whitelist', function () {
             validator: {
               params: {
                 whitelist: 'error',
-                rules: {
-                  key: {}
-                },
+                rules: { key: {} },
                 onError: function () {
                 }
               }
@@ -77,7 +71,7 @@ describe('validator/whitelist', function () {
           });
           const handler = new Func({
             plugins: [http],
-            handler () { }
+            async handler () { }
           }).export().handler;
 
           const res = await handler({
@@ -94,20 +88,16 @@ describe('validator/whitelist', function () {
             validator: {
               params: {
                 whitelist: 'error',
-                rules: {
-                  key: {}
-                },
+                rules: { key: {} },
                 onError: function (type, key, value) {
-                  return {
-                    message: `${type} ${key} ${value}`
-                  };
+                  return { message: `${type} ${key} ${value}` };
                 }
               }
             }
           });
           const handler = new Func({
             plugins: [http],
-            handler () { }
+            async handler () { }
           }).export().handler;
 
           const res = await handler({
@@ -124,15 +114,11 @@ describe('validator/whitelist', function () {
             validator: {
               params: {
                 whitelist: 'error',
-                rules: {
-                  key: {}
-                },
+                rules: { key: {} },
                 onError: function (type, key, value) {
                   return {
                     statusCode: 401,
-                    headers: {
-                      key: 'value'
-                    },
+                    headers: { key: 'value' },
                     message: `${type} ${key} ${value}`
                   };
                 }
@@ -141,7 +127,7 @@ describe('validator/whitelist', function () {
           });
           const handler = new Func({
             plugins: [http],
-            handler () { }
+            async handler () { }
           }).export().handler;
 
           const res = await handler({
@@ -165,9 +151,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -176,7 +160,7 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({
@@ -203,9 +187,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -214,7 +196,7 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params.key;
           }
         }).export().handler;
@@ -238,9 +220,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -249,7 +229,7 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({
@@ -276,9 +256,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -287,7 +265,7 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params.key;
           }
         }).export().handler;
@@ -309,26 +287,20 @@ describe('validator/whitelist', function () {
         validator: {
           cookie: {
             whitelist: 'error',
-            rules: {
-              key: {}
-            }
+            rules: { key: {} }
           }
         }
       });
       const handler = new Func({
         plugins: [http],
-        handler () { }
+        async handler () { }
       }).export().handler;
 
       const res = await handler({});
 
       expect(res.statusCode).toEqual(201);
 
-      const res2 = await handler({
-        headers: {
-          cookie: 'key=1;key2=2;key3=3'
-        }
-      });
+      const res2 = await handler({ headers: { cookie: 'key=1;key2=2;key3=3' } });
 
       expect(res2.statusCode).toEqual(500);
       expect(res2.body).toEqual('{"error":{"message":"[cookie] Unpermitted keys: key2, key3"}}');
@@ -339,24 +311,18 @@ describe('validator/whitelist', function () {
         validator: {
           cookie: {
             whitelist: 'ignore',
-            rules: {
-              key: {}
-            }
+            rules: { key: {} }
           }
         }
       });
       const handler = new Func({
         plugins: [http],
-        handler () {
+        async handler () {
           return http.cookie.content;
         }
       }).export().handler;
 
-      const res2 = await handler({
-        headers: {
-          cookie: 'key=1;key2=2;key3=3'
-        }
-      });
+      const res2 = await handler({ headers: { cookie: 'key=1;key2=2;key3=3' } });
 
       expect(res2.statusCode).toEqual(200);
       expect(res2.body).toEqual('{"data":{"key":"1"}}');
@@ -370,15 +336,13 @@ describe('validator/whitelist', function () {
           validator: {
             session: {
               whitelist: 'error',
-              rules: {
-                key: {}
-              }
+              rules: { key: {} }
             }
           }
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({});
@@ -404,15 +368,13 @@ describe('validator/whitelist', function () {
           validator: {
             session: {
               whitelist: 'ignore',
-              rules: {
-                key: {}
-              }
+              rules: { key: {} }
             }
           }
         });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.session.content;
           }
         }).export().handler;
@@ -443,9 +405,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -454,16 +414,12 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
 
-        const res = await handler({
-          headers: {
-            cookie: `key=${http.session.encode({ key: [{ sub: 1 }] })}`
-          }
-        });
+        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: [{ sub: 1 }] })}` } });
 
         expect(res.statusCode).toEqual(201);
 
@@ -490,9 +446,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -501,7 +455,7 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.session.content.key;
           }
         }).export().handler;
@@ -533,9 +487,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -544,16 +496,12 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
 
-        const res = await handler({
-          headers: {
-            cookie: `key=${http.session.encode({ key: { sub: 1 } })}`
-          }
-        });
+        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: { sub: 1 } })}` } });
 
         expect(res.statusCode).toEqual(201);
 
@@ -580,9 +528,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -591,7 +537,7 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.session.content.key;
           }
         }).export().handler;

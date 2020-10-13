@@ -7,7 +7,7 @@ describe('session', function () {
     const http = new Http();
     const func = new Func({
       plugins: [http],
-      handler (data: InvokeData) {
+      async handler (data: InvokeData) {
         return http.session.read(data.event.key);
       }
     });
@@ -31,9 +31,7 @@ describe('session', function () {
 
     test('return value', async function () {
       const res = await handler({
-        headers: {
-          cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6; '
-        },
+        headers: { cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6; ' },
         key: 'key'
       });
 
@@ -42,9 +40,7 @@ describe('session', function () {
 
     test('no value', async function () {
       const res = await handler({
-        headers: {
-          cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6; '
-        },
+        headers: { cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6; ' },
         key: 'null'
       });
 
@@ -53,9 +49,7 @@ describe('session', function () {
 
     test('no key', async function () {
       const res = await handler({
-        headers: {
-          cookie: ''
-        },
+        headers: { cookie: '' },
         key: 'key'
       });
 
@@ -64,9 +58,7 @@ describe('session', function () {
 
     test('wrong session', async function () {
       const res = await handler({
-        headers: {
-          cookie: 'key=key'
-        },
+        headers: { cookie: 'key=key' },
         key: 'key'
       });
 
@@ -78,7 +70,7 @@ describe('session', function () {
     const http = new Http();
     const func = new Func({
       plugins: [http],
-      handler (data: InvokeData) {
+      async handler (data: InvokeData) {
         http.session.write(data.event.key, data.event.value);
       }
     });
@@ -118,9 +110,7 @@ describe('session', function () {
       const res = await handler({
         key: 'key',
         value: null,
-        headers: {
-          cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6;'
-        }
+        headers: { cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6;' }
       });
 
       expect(session.decode(res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2])).toEqual({});
@@ -130,7 +120,7 @@ describe('session', function () {
       const http = new Http();
       const func = new Func({
         plugins: [http],
-        handler () {
+        async handler () {
           http.session.write('a', 1);
           http.session.write('a', 2);
           http.session.write('b', 1);

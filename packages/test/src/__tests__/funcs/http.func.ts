@@ -3,7 +3,7 @@ import { Http } from '@faasjs/http';
 
 export default new Func({
   plugins: [new Http()],
-  handler () {
+  async handler () {
     return true;
   }
 });

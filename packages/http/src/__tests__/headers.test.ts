@@ -6,7 +6,7 @@ describe('params', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return http.headers;
       }
     }).export().handler;
@@ -21,7 +21,7 @@ describe('params', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return http.headers;
       }
     }).export().handler;

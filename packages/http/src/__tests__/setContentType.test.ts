@@ -6,7 +6,7 @@ describe('setContentType', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         http.setContentType(type);
       }
     }).export().handler;
@@ -21,7 +21,7 @@ describe('setContentType', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         http.setContentType('type', 'utf-16');
       }
     }).export().handler;

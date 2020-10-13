@@ -6,20 +6,10 @@ describe('validator/type', function () {
   describe('params', function () {
     describe('normal', function () {
       test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  type
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { type } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({
@@ -44,11 +34,7 @@ describe('validator/type', function () {
         const http = new Http({
           validator: {
             params: {
-              rules: {
-                key: {
-                  type: 'boolean'
-                }
-              },
+              rules: { key: { type: 'boolean' } },
               onError: function () {
               }
             }
@@ -56,7 +42,7 @@ describe('validator/type', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({
@@ -72,22 +58,16 @@ describe('validator/type', function () {
         const http = new Http({
           validator: {
             params: {
-              rules: {
-                key: {
-                  type: 'boolean'
-                }
-              },
+              rules: { key: { type: 'boolean' } },
               onError: function (type, key, value) {
-                return {
-                  message: `${type} ${key} ${value}`
-                };
+                return { message: `${type} ${key} ${value}` };
               }
             }
           }
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({
@@ -103,17 +83,11 @@ describe('validator/type', function () {
         const http = new Http({
           validator: {
             params: {
-              rules: {
-                key: {
-                  type: 'boolean'
-                }
-              },
+              rules: { key: { type: 'boolean' } },
               onError: function (type, key, value) {
                 return {
                   statusCode: 401,
-                  headers: {
-                    key: 'value'
-                  },
+                  headers: { key: 'value' },
                   message: `${type} ${key} ${value}`
                 };
               }
@@ -122,7 +96,7 @@ describe('validator/type', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({
@@ -138,26 +112,10 @@ describe('validator/type', function () {
 
     describe('array', function () {
       test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        type
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { type } } } } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({
@@ -179,26 +137,10 @@ describe('validator/type', function () {
 
     describe('object', function () {
       test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        type
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { type } } } } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         const res = await handler({
@@ -220,27 +162,13 @@ describe('validator/type', function () {
   });
 
   test('cookie should not work', async function () {
-    const http = new Http({
-      validator: {
-        cookie: {
-          rules: {
-            key: {
-              type: 'number'
-            }
-          }
-        }
-      }
-    });
+    const http = new Http({ validator: { cookie: { rules: { key: { type: 'number' } } } } });
     const handler = new Func({
       plugins: [http],
-      handler () { }
+      async handler () { }
     }).export().handler;
 
-    const res = await handler({
-      headers: {
-        cookie: 'key=a'
-      }
-    });
+    const res = await handler({ headers: { cookie: 'key=a' } });
 
     expect(res.statusCode).toEqual(201);
   });
@@ -248,37 +176,19 @@ describe('validator/type', function () {
   describe('session', function () {
     describe('normal', function () {
       test.each([['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
-        const http = new Http({
-          validator: {
-            session: {
-              rules: {
-                key: {
-                  type
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { session: { rules: { key: { type } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
 
-        const res = await handler({
-          headers: {
-            cookie: `key=${http.session.encode({ key: value })}`
-          }
-        });
+        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: value })}` } });
 
         expect(res.statusCode).toEqual(201);
 
-        const res2 = await handler({
-          headers: {
-            cookie: `key=${http.session.encode({ key: '' })}`
-          }
-        });
+        const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: '' })}` } });
 
         expect(res2.statusCode).toEqual(500);
         expect(res2.body).toEqual(`{"error":{"message":"[session] key must be a ${type}."}}`);
@@ -287,43 +197,19 @@ describe('validator/type', function () {
 
     describe('array', function () {
       test.each([['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
-        const http = new Http({
-          validator: {
-            session: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        type
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { type } } } } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
 
-        const res = await handler({
-          headers: {
-            cookie: `key=${http.session.encode({ key: [{ sub: value }] })}`
-          }
-        });
+        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: [{ sub: value }] })}` } });
 
         expect(res.statusCode).toEqual(201);
 
-        const res2 = await handler({
-          headers: {
-            cookie: `key=${http.session.encode({ key: [{ sub: '' }] })}`
-          }
-        });
+        const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: [{ sub: '' }] })}` } });
 
         expect(res2.statusCode).toEqual(500);
         expect(res2.body).toEqual(`{"error":{"message":"[session] key.sub must be a ${type}."}}`);
@@ -332,43 +218,19 @@ describe('validator/type', function () {
 
     describe('object', function () {
       test.each([['string', 'string'], ['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
-        const http = new Http({
-          validator: {
-            session: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        type
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { type } } } } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
 
-        const res = await handler({
-          headers: {
-            cookie: `key=${http.session.encode({ key: { sub: value } })}`
-          }
-        });
+        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: { sub: value } })}` } });
 
         expect(res.statusCode).toEqual(201);
 
-        const res2 = await handler({
-          headers: {
-            cookie: `key=${http.session.encode({ key: { sub: null } })}`
-          }
-        });
+        const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: { sub: null } })}` } });
 
         expect(res2.statusCode).toEqual(201);
       });

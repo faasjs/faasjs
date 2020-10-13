@@ -5,20 +5,10 @@ describe('validator/default', function () {
   describe('params', function () {
     describe('normal', function () {
       test('const', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  default: 1
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { default: 1 } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params.key;
           }
         }).export().handler;
@@ -30,20 +20,10 @@ describe('validator/default', function () {
       });
 
       test('function', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  default: (request) => request.params.i + 1
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { default: (request) => request.params.i + 1 } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params.key;
           }
         }).export().handler;
@@ -60,26 +40,10 @@ describe('validator/default', function () {
 
     describe('array', function () {
       test('const', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        default: 1
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { default: 1 } } } } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params.key;
           }
         }).export().handler;
@@ -94,26 +58,10 @@ describe('validator/default', function () {
       });
 
       test('function', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        default: (request) => request.params.i + 1
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { default: (request) => request.params.i + 1 } } } } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params.key;
           }
         }).export().handler;
@@ -130,26 +78,10 @@ describe('validator/default', function () {
 
     describe('object', function () {
       test('const', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        default: 1
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { default: 1 } } } } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params.key;
           }
         }).export().handler;
@@ -164,26 +96,10 @@ describe('validator/default', function () {
       });
 
       test('function', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        default: (request) => request.params.i + 1
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { default: (request) => request.params.i + 1 } } } } } } } });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.params.key;
           }
         }).export().handler;
@@ -200,20 +116,10 @@ describe('validator/default', function () {
   });
 
   test('cookie should not work', async function () {
-    const http = new Http({
-      validator: {
-        cookie: {
-          rules: {
-            key: {
-              default: 1
-            }
-          }
-        }
-      }
-    });
+    const http = new Http({ validator: { cookie: { rules: { key: { default: 1 } } } } });
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return http.cookie.content;
       }
     }).export().handler;
@@ -225,29 +131,15 @@ describe('validator/default', function () {
   });
 
   test('session should not work', async function () {
-    const http = new Http({
-      validator: {
-        session: {
-          rules: {
-            key: {
-              default: 1
-            }
-          }
-        }
-      }
-    });
+    const http = new Http({ validator: { session: { rules: { key: { default: 1 } } } } });
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return http.session.content;
       }
     }).export().handler;
 
-    const res = await handler({
-      headers: {
-        cookie: 'key=value'
-      }
-    });
+    const res = await handler({ headers: { cookie: 'key=value' } });
 
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual('{"data":{}}');

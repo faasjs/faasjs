@@ -8,7 +8,7 @@ describe('validator/default', function () {
         const cf = new CloudFunction({ validator: { event: { rules: { key: { default: 1 } } } } });
         const handler = new Func({
           plugins: [cf],
-          handler () {
+          async handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -34,7 +34,7 @@ describe('validator/default', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler () {
+          async handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -50,7 +50,7 @@ describe('validator/default', function () {
         const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: 1 } } } } } } } });
         const handler = new Func({
           plugins: [cf],
-          handler () {
+          async handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -64,7 +64,7 @@ describe('validator/default', function () {
         const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: (request) => request.event.i + 1 } } } } } } } });
         const handler = new Func({
           plugins: [cf],
-          handler () {
+          async handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -83,7 +83,7 @@ describe('validator/default', function () {
         const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: 1 } } } } } } } });
         const handler = new Func({
           plugins: [cf],
-          handler () {
+          async handler () {
             return cf.event.key;
           }
         }).export().handler;
@@ -97,7 +97,7 @@ describe('validator/default', function () {
         const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: (request) => request.event.i + 1 } } } } } } } });
         const handler = new Func({
           plugins: [cf],
-          handler () {
+          async handler () {
             return cf.event.key;
           }
         }).export().handler;

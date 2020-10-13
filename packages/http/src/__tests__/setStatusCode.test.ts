@@ -6,7 +6,7 @@ describe('setStatusCode', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         http.setStatusCode(404);
       }
     }).export().handler;

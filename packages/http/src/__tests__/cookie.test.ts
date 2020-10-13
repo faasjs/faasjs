@@ -6,32 +6,26 @@ describe('cookie', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler (data: InvokeData) {
+      async handler (data: InvokeData) {
         return http.cookie.read(data.event.key);
       }
     }).export().handler;
 
     test('should work', async function () {
       let res = await handler({
-        headers: {
-          cookie: 'a=1; b=2'
-        },
+        headers: { cookie: 'a=1; b=2' },
         key: 'a'
       });
       expect(res.body).toEqual('{"data":"1"}');
 
       res = await handler({
-        headers: {
-          cookie: 'a=1; b=2'
-        },
+        headers: { cookie: 'a=1; b=2' },
         key: 'b'
       });
       expect(res.body).toEqual('{"data":"2"}');
 
       res = await handler({
-        headers: {
-          cookie: 'a=1; b=2'
-        },
+        headers: { cookie: 'a=1; b=2' },
         key: 'c'
       });
       expect(res.statusCode).toEqual(201);
@@ -52,17 +46,13 @@ describe('cookie', function () {
     const http = new Http();
     const func = new Func({
       plugins: [http],
-      handler (data: InvokeData) {
+      async handler (data: InvokeData) {
         http.cookie.write(data.event.key, data.event.value);
       }
     });
     func.config = {
       providers: {},
-      plugins: {
-        http: {
-          type: 'http'
-        }
-      }
+      plugins: { http: { type: 'http' } }
     };
     const handler = func.export().handler;
 
@@ -90,7 +80,7 @@ describe('cookie', function () {
       const http = new Http();
       const handler = new Func({
         plugins: [http],
-        handler () {
+        async handler () {
           http.cookie.write('k1', 'v1');
           http.cookie.write('k2', 'v2');
         }
@@ -107,7 +97,7 @@ describe('cookie', function () {
       const http = new Http();
       const func = new Func({
         plugins: [http],
-        handler () {
+        async handler () {
           http.cookie.write('key', null);
         }
       });
@@ -116,11 +106,7 @@ describe('cookie', function () {
         plugins: {
           http: {
             type: 'http',
-            config: {
-              cookie: {
-                domain: 'domain.com'
-              }
-            }
+            config: { cookie: { domain: 'domain.com' } }
           }
         }
       };
@@ -137,7 +123,7 @@ describe('cookie', function () {
       const http = new Http();
       const func = new Func({
         plugins: [http],
-        handler () {
+        async handler () {
           http.cookie.write('key', null);
         }
       });
@@ -146,11 +132,7 @@ describe('cookie', function () {
         plugins: {
           http: {
             type: 'http',
-            config: {
-              cookie: {
-                path: '/path'
-              }
-            }
+            config: { cookie: { path: '/path' } }
           }
         }
       };
@@ -167,7 +149,7 @@ describe('cookie', function () {
       const http = new Http();
       const func = new Func({
         plugins: [http],
-        handler () {
+        async handler () {
           http.cookie.write('key', null);
         }
       });
@@ -176,11 +158,7 @@ describe('cookie', function () {
         plugins: {
           http: {
             type: 'http',
-            config: {
-              cookie: {
-                sameSite: 'Lex'
-              }
-            }
+            config: { cookie: { sameSite: 'Lex' } }
           }
         }
       };
@@ -197,7 +175,7 @@ describe('cookie', function () {
       const http = new Http();
       const func = new Func({
         plugins: [http],
-        handler () {
+        async handler () {
           http.cookie.write('key', 1);
         }
       });
@@ -206,11 +184,7 @@ describe('cookie', function () {
         plugins: {
           http: {
             type: 'http',
-            config: {
-              cookie: {
-                expires: 1
-              }
-            }
+            config: { cookie: { expires: 1 } }
           }
         }
       };
@@ -227,7 +201,7 @@ describe('cookie', function () {
       const http = new Http();
       const func = new Func({
         plugins: [http],
-        handler () {
+        async handler () {
           http.cookie.write('key', 1);
         }
       });
@@ -236,11 +210,7 @@ describe('cookie', function () {
         plugins: {
           http: {
             type: 'http',
-            config: {
-              cookie: {
-                expires: '1'
-              }
-            }
+            config: { cookie: { expires: '1' } }
           }
         }
       };

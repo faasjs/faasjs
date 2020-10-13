@@ -5,33 +5,19 @@ describe('validator/in', function () {
   describe('event', function () {
     describe('normal', function () {
       test('should work', async function () {
-        const cf = new CloudFunction({
-          validator: {
-            event: {
-              rules: {
-                key: {
-                  in: [1]
-                }
-              }
-            }
-          }
-        });
+        const cf = new CloudFunction({ validator: { event: { rules: { key: { in: [1] } } } } });
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
 
-        await handler({
-          key: 1
-        });
+        await handler({ key: 1 });
 
         try {
-          await handler({
-            key: 2
-          });
+          await handler({ key: 2 });
         } catch (error) {
           expect(error.message).toEqual('[event] key must be in 1.');
         }
@@ -40,39 +26,19 @@ describe('validator/in', function () {
 
     describe('array', function () {
       test('should work', async function () {
-        const cf = new CloudFunction({
-          validator: {
-            event: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        in: [1]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
 
-        await handler({
-          key: [{ sub: 1 }]
-        });
+        await handler({ key: [{ sub: 1 }] });
 
         try {
-          await handler({
-            key: [{ sub: 2 }]
-          });
+          await handler({ key: [{ sub: 2 }] });
         } catch (error) {
           expect(error.message).toEqual('[event] key.sub must be in 1.');
         }
@@ -81,39 +47,19 @@ describe('validator/in', function () {
 
     describe('object', function () {
       test('should work', async function () {
-        const cf = new CloudFunction({
-          validator: {
-            event: {
-              rules: {
-                key: {
-                  config: {
-                    rules: {
-                      sub: {
-                        in: [1]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
+        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
 
-        await handler({
-          key: { sub: 1 }
-        });
+        await handler({ key: { sub: 1 } });
 
         try {
-          await handler({
-            key: { sub: 2 }
-          });
+          await handler({ key: { sub: 2 } });
         } catch (error) {
           expect(error.message).toEqual('[event] key.sub must be in 1.');
         }

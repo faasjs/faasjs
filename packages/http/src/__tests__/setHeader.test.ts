@@ -6,7 +6,7 @@ describe('setHeader', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         http.setHeader('key', 'value');
       }
     }).export().handler;

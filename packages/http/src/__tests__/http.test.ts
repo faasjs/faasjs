@@ -6,7 +6,7 @@ describe('http', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return 1;
       }
     }).export().handler;
@@ -24,7 +24,7 @@ describe('http', function () {
     const http = new Http({ name: 'name' });
     const func = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return 1;
       }
     });
@@ -48,7 +48,7 @@ describe('http', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         throw Error('wrong');
       }
     }).export().handler;

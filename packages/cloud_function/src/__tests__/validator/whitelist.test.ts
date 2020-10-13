@@ -9,16 +9,14 @@ describe('validator/whitelist', function () {
           validator: {
             event: {
               whitelist: 'error',
-              rules: {
-                key: {}
-              }
+              rules: { key: {} }
             }
           }
         });
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({});
@@ -39,15 +37,13 @@ describe('validator/whitelist', function () {
           validator: {
             event: {
               whitelist: 'ignore',
-              rules: {
-                key: {}
-              }
+              rules: { key: {} }
             }
           }
         });
         const handler = new Func({
           plugins: [cf],
-          handler () {
+          async handler () {
             return cf.event;
           }
         }).export().handler;
@@ -66,16 +62,14 @@ describe('validator/whitelist', function () {
           validator: {
             event: {
               whitelist: 'error',
-              rules: {
-                key: {}
-              }
+              rules: { key: {} }
             }
           }
         });
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          handler () { }
+          async handler () { }
         }).export().handler;
 
         await handler({
@@ -94,9 +88,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -106,17 +98,17 @@ describe('validator/whitelist', function () {
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          handler () { }
+          async handler () { }
         }).export().handler;
 
-        await handler({
-          key: [{ sub: 1 }]
-        });
+        await handler({ key: [{ sub: 1 }] });
 
         try {
           await handler({
-            key: [{ key1: 1,
-              key2: 2 }]
+            key: [{
+              key1: 1,
+              key2: 2
+            }]
           });
         } catch (error) {
           expect(error.message).toEqual('[event] Unpermitted keys: key.key1, key.key2');
@@ -131,9 +123,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -142,14 +132,16 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [cf],
-          handler () {
+          async handler () {
             return cf.event.key;
           }
         }).export().handler;
 
         const res = await handler({
-          key: [{ sub: 1,
-            key: 2 }]
+          key: [{
+            sub: 1,
+            key: 2
+          }]
         });
 
         expect(res).toEqual([{ sub: 1 }]);
@@ -165,9 +157,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -177,17 +167,17 @@ describe('validator/whitelist', function () {
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          handler () { }
+          async handler () { }
         }).export().handler;
 
-        await handler({
-          key: { sub: 1 }
-        });
+        await handler({ key: { sub: 1 } });
 
         try {
           await handler({
-            key: { key1: 1,
-              key2: 2 }
+            key: {
+              key1: 1,
+              key2: 2
+            }
           });
         } catch (error) {
           expect(error.message).toEqual('[event] Unpermitted keys: key.key1, key.key2');
@@ -202,9 +192,7 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: {
-                      sub: {}
-                    }
+                    rules: { sub: {} }
                   }
                 }
               }
@@ -213,14 +201,16 @@ describe('validator/whitelist', function () {
         });
         const handler = new Func({
           plugins: [http],
-          handler () {
+          async handler () {
             return http.event.key;
           }
         }).export().handler;
 
         const res = await handler({
-          key: { sub: 1,
-            key: 2 }
+          key: {
+            sub: 1,
+            key: 2
+          }
         });
 
         expect(res).toEqual({ sub: 1 });

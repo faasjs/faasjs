@@ -6,7 +6,7 @@ describe('setBody', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         http.setBody('body');
       }
     }).export().handler;

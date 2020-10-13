@@ -5,7 +5,7 @@ const http = new Http();
 
 export default new Func({
   plugins: [http],
-  handler () {
+  async handler () {
     return [http.cookie.read('h'), http.cookie.read('c'), http.session.read('s')];
   }
 });

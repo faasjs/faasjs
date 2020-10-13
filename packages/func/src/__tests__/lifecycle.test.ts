@@ -14,7 +14,7 @@ describe('lifecycle', function () {
 
       const func = new Func({
         plugins: [new P()],
-        handler: () => 1
+        handler: async () => 1
       });
 
       try {
@@ -45,7 +45,7 @@ describe('lifecycle', function () {
 
       const func = new Func({
         plugins: [new P()],
-        handler: () => 1
+        handler: async () => 1
       });
       const handler = func.export().handler;
 
@@ -77,7 +77,7 @@ describe('lifecycle', function () {
 
       const func = new Func({
         plugins: [new P(), new P()],
-        handler: () => 1
+        handler: async () => 1
       });
 
       try {

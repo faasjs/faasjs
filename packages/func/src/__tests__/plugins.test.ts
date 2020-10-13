@@ -26,7 +26,7 @@ describe('plugins', function () {
 
     const func = new Func({
       plugins: [new P1(), new P2()],
-      handler: () => 1
+      handler: async () => 1
     });
 
     results.push('begin');
@@ -66,7 +66,7 @@ describe('plugins', function () {
 
     const func = new Func({
       plugins: [new P1(), new P2()],
-      handler: () => 1
+      handler: async () => 1
     });
 
     results.push('begin');
@@ -111,7 +111,7 @@ describe('plugins', function () {
 
     const func = new Func({
       plugins: [new P1(), new P2()],
-      handler () {
+      async handler () {
         return 'base';
       }
     });
@@ -153,7 +153,7 @@ describe('plugins', function () {
 
     const func = new Func({
       plugins: [new P()],
-      handler: () => 1
+      handler: async () => 1
     });
 
     try {

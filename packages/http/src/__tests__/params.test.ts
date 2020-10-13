@@ -21,7 +21,7 @@ describe('params', function () {
     const http = new Http<{ body: string }>();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return http.params;
       }
     }).export().handler;
@@ -36,7 +36,7 @@ describe('params', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return http.params;
       }
     }).export().handler;
@@ -51,7 +51,7 @@ describe('params', function () {
     const http = new Http();
     const handler = new Func({
       plugins: [http],
-      handler () {
+      async handler () {
         return http.params;
       }
     }).export().handler;

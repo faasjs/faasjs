@@ -10,7 +10,7 @@ describe('Func handler', function () {
   describe('with handler', function () {
     test('should work', async function () {
       const handler = new Func<number>({
-        handler (data): number {
+        async handler (data) {
           return data.event + 1;
         }
       }).export().handler;
@@ -21,7 +21,7 @@ describe('Func handler', function () {
 
     test('throw handler', async function () {
       const handler = new Func({
-        handler (): void {
+        async handler () {
           throw Error('Error');
         }
       }).export().handler;
