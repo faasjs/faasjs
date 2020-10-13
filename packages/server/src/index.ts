@@ -114,7 +114,11 @@ export class Server {
                 if (Object.prototype.hasOwnProperty.call(data.headers, key))
                   res.setHeader(key, data.headers[key]);
 
-            if (data.body) res.write(data.body);
+            if (data.body)
+              if (data.isBase64Encoded)
+                res.write(Buffer.from(data.body, 'base64'));
+              else
+                res.write(data.body);
           }
           res.end();
           resolve();

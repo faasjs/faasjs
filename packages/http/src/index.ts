@@ -4,6 +4,7 @@ import Logger from '@faasjs/logger';
 import { Cookie, CookieOptions } from './cookie';
 import { Session, SessionOptions } from './session';
 import { Validator, ValidatorOptions, ValidatorRuleOptions } from './validator';
+import { gzipSync, deflateSync, brotliCompressSync } from 'zlib';
 
 export { Cookie, CookieOptions, Session, SessionOptions, Validator, ValidatorOptions, ValidatorRuleOptions };
 
@@ -233,6 +234,44 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
     }, this.cookie.headers(), this.response.headers);
 
     data.response = this.response;
+
+    // 非 JSON 格式的响应不压缩
+    if (!data.response.headers['Content-Type'].includes('json')) return;
+
+    const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding'];
+    if (!acceptEncoding) return;
+
+    // gzip 压缩
+    if (/gzip/.test(acceptEncoding))
+      data.response = {
+        isBase64Encoded: true,
+        statusCode: 200,
+        headers: {
+          ...data.response.headers,
+          'Content-Encoding': 'gzip'
+        },
+        body: gzipSync(data.response.body).toString('base64')
+      };
+    else if (/deflate/.test(acceptEncoding))
+      data.response = {
+        isBase64Encoded: true,
+        statusCode: 200,
+        headers: {
+          ...data.response.headers,
+          'Content-Encoding': 'deflate'
+        },
+        body: deflateSync(data.response.body).toString('base64')
+      };
+    else if (/br/.test(acceptEncoding))
+      data.response = {
+        isBase64Encoded: true,
+        statusCode: 200,
+        headers: {
+          ...data.response.headers,
+          'Content-Encoding': 'br'
+        },
+        body: brotliCompressSync(data.response.body).toString('base64')
+      };
   }
 
   /**
