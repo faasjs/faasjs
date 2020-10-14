@@ -4,6 +4,76 @@
 
 ## Beta
 
+[`v0.0.2-beta.109 (2020-10-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.107...v0.0.2-beta.109)
+
+- [修复] `@faasjs/http` 修复没有 body 时也使用 gzip 压缩的 bug。
+
+[`v0.0.2-beta.107 (2020-10-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.106...v0.0.2-beta.107)
+
+- [优化] `@faasjs/http` 支持 gzip 压缩。
+- [删除] 禁用并删除 `@faasjs/cos-secrets`，请使用 CFS 替代。
+
+[`v0.0.2-beta.106 (2020-09-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.105...v0.0.2-beta.106)
+
+- [优化] 优化 ts 定义。
+
+[`v0.0.2-beta.105 (2020-09-16)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.104...v0.0.2-beta.105)
+
+- [优化] `@faasjs/request`优化日志。
+
+[`v0.0.2-beta.104 (2020-09-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.101...v0.0.2-beta.104)
+
+- [优化] `@faasjs/request` 新增 pfx 和 passphrase 配置项。
+
+[`v0.0.2-beta.101 (2020-09-09)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.100...v0.0.2-beta.101)
+
+- [修复] 修复日志 bug。
+
+[`v0.0.2-beta.100 (2020-09-07)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.96...v0.0.2-beta.100)
+
+- [修复] 修复函数式编程接口的 bug。
+
+[`v0.0.2-beta.96 (2020-08-28)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.95...v0.0.2-beta.96)
+
+- [优化] `@faasjs/tencentcloud` 更新云函数配置项。
+
+[`v0.0.2-beta.95 (2020-08-21)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.94...v0.0.2-beta.95)
+
+- [优化] `@faasjs/react` 新增 `onError` 配置项。
+
+[`v0.0.2-beta.94 (2020-08-11)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.93...v0.0.2-beta.94)
+
+- [优化] 更新 ts 定义。
+
+[`v0.0.2-beta.93 (2020-08-07)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.88...v0.0.2-beta.93)
+
+- [修复] `@faasjs/server` 多个请求时排队处理。
+
+[`v0.0.2-beta.88 (2020-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.87...v0.0.2-beta.88)
+
+- [优化] 优化 ts 定义及相关测试用例。
+
+[`v0.0.2-beta.87 (2020-08-03)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.86...v0.0.2-beta.87)
+
+- [优化] 优化日志输出格式。
+
+[`v0.0.2-beta.86 (2020-08-02)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.85...v0.0.2-beta.86)
+
+- [优化] `@faasjs/redis` 支持 `useRedis`。
+
+[`v0.0.2-beta.85 (2020-07-31)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.84...v0.0.2-beta.85)
+
+- [新增] `@faasjs/knex`。
+- [优化] 优化 useFunc 及 usePlugin。
+
+[`v0.0.2-beta.84 (2020-07-27)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.82...v0.0.2-beta.84)
+
+- [优化] `@faasjs/tencentcloud` 更新云API v3。
+
+[`v0.0.2-beta.82 (2020-07-16)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.80...v0.0.2-beta.82)
+
+- [优化] `@faasjs/tencentcloud` 优化触发器更新机制。
+
 [`v0.0.2-beta.80 (2020-07-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.79...v0.0.2-beta.80)
 
 - [新增] 新增 `@faasjs/react`，提供 `faas` 和 `useFaas` 两种风格的接口。
