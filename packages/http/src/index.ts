@@ -247,12 +247,15 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
 
     try {
       if (/br/.test(acceptEncoding)) {
+        data.response.isBase64Encoded = true;
         data.response.headers['Content-Encoding'] = 'br';
         data.response.body = brotliCompressSync(data.response.body).toString('base64');
       } else if (/gzip/.test(acceptEncoding)) {
+        data.response.isBase64Encoded = true;
         data.response.headers['Content-Encoding'] = 'gzip';
         data.response.body = gzipSync(data.response.body).toString('base64');
       } else if (/deflate/.test(acceptEncoding)) {
+        data.response.isBase64Encoded = true;
         data.response.headers['Content-Encoding'] = 'deflate';
         data.response.body = deflateSync(data.response.body).toString('base64');
       }
