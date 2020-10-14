@@ -235,14 +235,14 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
 
     data.response = this.response;
 
-    // 非 JSON 格式的响应不压缩
-    if (!data.response.headers['Content-Type'].includes('json') || !data.response.body) return;
+    // 非字符串和 JSON 格式的响应不压缩
+    if (typeof data.response.body !== 'string' || !data.response.headers['Content-Type'].includes('json')) return;
 
     const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding'];
     if (!acceptEncoding) return;
 
-    // gzip 压缩
     try {
+      // gzip 压缩
       if (/gzip/.test(acceptEncoding))
         data.response = {
           isBase64Encoded: true,
