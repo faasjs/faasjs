@@ -236,43 +236,26 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
     data.response = this.response;
 
     // 非字符串和 JSON 格式的响应不压缩
-    if (typeof data.response.body !== 'string' || !data.response.headers['Content-Type'].includes('json')) return;
+    if (
+      data.response.isBase64Encoded ||
+      typeof data.response.body !== 'string' ||
+      !data.response.headers['Content-Type']?.includes('json')
+    ) return;
 
     const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding'];
     if (!acceptEncoding) return;
 
     try {
-      // gzip 压缩
-      if (/gzip/.test(acceptEncoding))
-        data.response = {
-          isBase64Encoded: true,
-          statusCode: data.response.statusCode,
-          headers: {
-            ...data.response.headers,
-            'Content-Encoding': 'gzip'
-          },
-          body: gzipSync(data.response.body).toString('base64')
-        };
-      else if (/deflate/.test(acceptEncoding))
-        data.response = {
-          isBase64Encoded: true,
-          statusCode: data.response.statusCode,
-          headers: {
-            ...data.response.headers,
-            'Content-Encoding': 'deflate'
-          },
-          body: deflateSync(data.response.body).toString('base64')
-        };
-      else if (/br/.test(acceptEncoding))
-        data.response = {
-          isBase64Encoded: true,
-          statusCode: data.response.statusCode,
-          headers: {
-            ...data.response.headers,
-            'Content-Encoding': 'br'
-          },
-          body: brotliCompressSync(data.response.body).toString('base64')
-        };
+      if (/br/.test(acceptEncoding)) {
+        data.response.headers['Content-Encoding'] = 'br';
+        data.response.body = brotliCompressSync(data.response.body).toString('base64');
+      } else if (/gzip/.test(acceptEncoding)) {
+        data.response.headers['Content-Encoding'] = 'gzip';
+        data.response.body = gzipSync(data.response.body).toString('base64');
+      } else if (/deflate/.test(acceptEncoding)) {
+        data.response.headers['Content-Encoding'] = 'deflate';
+        data.response.body = deflateSync(data.response.body).toString('base64');
+      }
     } catch (error) {
       console.error(error);
     }
