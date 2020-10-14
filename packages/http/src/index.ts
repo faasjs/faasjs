@@ -246,7 +246,7 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
       if (/gzip/.test(acceptEncoding))
         data.response = {
           isBase64Encoded: true,
-          statusCode: 200,
+          statusCode: data.response.statusCode,
           headers: {
             ...data.response.headers,
             'Content-Encoding': 'gzip'
@@ -256,7 +256,7 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
       else if (/deflate/.test(acceptEncoding))
         data.response = {
           isBase64Encoded: true,
-          statusCode: 200,
+          statusCode: data.response.statusCode,
           headers: {
             ...data.response.headers,
             'Content-Encoding': 'deflate'
@@ -266,7 +266,7 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
       else if (/br/.test(acceptEncoding))
         data.response = {
           isBase64Encoded: true,
-          statusCode: 200,
+          statusCode: data.response.statusCode,
           headers: {
             ...data.response.headers,
             'Content-Encoding': 'br'
