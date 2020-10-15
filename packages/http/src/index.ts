@@ -243,24 +243,29 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
     ) return;
 
     const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding'];
-    if (!acceptEncoding) return;
+    if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return;
 
+    const originBody = data.response.body;
     try {
       if (/br/.test(acceptEncoding)) {
-        data.response.isBase64Encoded = true;
         data.response.headers['Content-Encoding'] = 'br';
-        data.response.body = brotliCompressSync(data.response.body).toString('base64');
+        data.response.body = brotliCompressSync(originBody).toString('base64');
       } else if (/gzip/.test(acceptEncoding)) {
-        data.response.isBase64Encoded = true;
         data.response.headers['Content-Encoding'] = 'gzip';
-        data.response.body = gzipSync(data.response.body).toString('base64');
+        data.response.body = gzipSync(originBody).toString('base64');
       } else if (/deflate/.test(acceptEncoding)) {
-        data.response.isBase64Encoded = true;
         data.response.headers['Content-Encoding'] = 'deflate';
-        data.response.body = deflateSync(data.response.body).toString('base64');
-      }
+        data.response.body = deflateSync(originBody).toString('base64');
+      } else
+        throw Error('No matched compression.');
+
+      data.response.isBase64Encoded = true;
+      data.response.originBody = originBody;
     } catch (error) {
       console.error(error);
+      // 若压缩失败还原
+      data.response.body = originBody;
+      delete data.response.headers['Content-Encoding'];
     }
   }
 
