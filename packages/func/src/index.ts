@@ -235,8 +235,8 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
     return {
       handler: async (event: TEvent, context?: TContext | any, callback?: (...args: any) => any): Promise<TRESULT> => {
         const logger = new Logger();
-        logger.debug('event: %O', event);
-        logger.debug('context: %O', context);
+        logger.debug('event: %j', event);
+        logger.debug('context: %j', context);
 
         if (typeof context === 'undefined') context = {};
         if (!context.request_id) context.request_id = new Date().getTime().toString();
