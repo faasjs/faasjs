@@ -53,7 +53,7 @@ export class FuncWarpper {
     this._handler = this.func.export().handler;
   }
 
-  public async mount (handler?: ((func: FuncWarpper) => Promise<void> | void)) {
+  public async mount (handler?: ((func: FuncWarpper) => Promise<void> | void)): Promise<void> {
     if (!this.func.mounted) await this.func.mount({
       event: {},
       context: {}
@@ -62,7 +62,7 @@ export class FuncWarpper {
     if (handler) await handler(this);
   }
 
-  public async handler (event: any = Object.create(null), context: any = Object.create(null)): Promise<any> {
+  public async handler<TResult = any> (event: any = Object.create(null), context: any = Object.create(null)): Promise<TResult> {
     await this.mount();
 
     const response = await this._handler(event, context);
@@ -71,11 +71,18 @@ export class FuncWarpper {
     return response;
   }
 
-  public async JSONhandler (body?: any, options: {
+  public async JSONhandler<TData = any> (body?: any, options: {
     headers?: { [key: string]: any };
     cookie?: { [key: string]: any };
     session?: { [key: string]: any };
-  } = Object.create(null)): Promise<any> {
+  } = Object.create(null)): Promise<{
+      statusCode: number;
+      body: any;
+      data?: TData;
+      error?: {
+        message: string;
+      }
+    }> {
     await this.mount();
 
     const headers = options.headers || Object.create(null);
@@ -100,6 +107,12 @@ export class FuncWarpper {
       headers: Object.assign({ 'content-type': 'application/json' }, headers),
       body: typeof body === 'string' ? body : JSON.stringify(body)
     });
+
+    if (response && response.headers && response.body && response.headers['Content-Type']?.includes('json')) {
+      const parsedBody = JSON.parse(response.body);
+      response.data = parsedBody.data;
+      response.error = parsedBody.error;
+    }
 
     this.logger.debug('response: %O', response);
 

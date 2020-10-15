@@ -11,7 +11,8 @@ test('http', async function () {
 test('JSONhandler', async function () {
   const func = new FuncWarpper(require.resolve('./funcs/json.func'));
 
-  const res = await func.JSONhandler({ key: 1 });
+  const res = await func.JSONhandler<number>({ key: 1 });
 
   expect(res.body).toEqual('{"data":1}');
+  expect(res.data).toEqual(1);
 });
