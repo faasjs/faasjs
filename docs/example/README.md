@@ -16,6 +16,6 @@
 
 FaasJS + Vue 实现的 todomvc，包括常用数据库读写操作、Webpack 本地联调等。
 
-[**knex**](https://github.com/faasjs/examples/tree/master/knex)
+[**sql**](https://github.com/faasjs/examples/tree/master/sql)
 
-使用 Knex 来简化数据库的查询和管理。
+使用多个 Sql 数据库的示例。

@@ -1,28 +1,28 @@
 import { FuncWarpper } from '@faasjs/test';
 import { Sql } from '@faasjs/sql';
-import { CreateUsers, Users } from '../user';
+import { CreateOrders, Orders } from '../order';
 
-describe('users', function () {
+describe('orders/all', function () {
   let func: FuncWarpper;
 
   beforeEach(async function () {
     func = new FuncWarpper(require.resolve('../all.func') as string);
     func.sql = func.plugins[0] as Sql;
 
-    await func.mountedHandler();
+    await func.mount();
 
-    await CreateUsers(func.sql);
+    await CreateOrders(func.sql);
   });
 
   test('should work', async function () {
     await Promise.all([
-      Users(func.sql).insert({
+      Orders(func.sql).insert({
         id: 1,
-        name: 'hi'
+        user_id: 1
       }),
-      Users(func.sql).insert({
+      Orders(func.sql).insert({
         id: 2,
-        name: 'hello'
+        user_id: 2
       }),
     ]);
 
@@ -30,8 +30,8 @@ describe('users', function () {
 
     expect(res.length).toEqual(2);
     expect(res[0].id).toEqual(1);
-    expect(res[0].name).toEqual('hi');
+    expect(res[0].user_id).toEqual(1);
     expect(res[1].id).toEqual(2);
-    expect(res[1].name).toEqual('hello');
+    expect(res[1].user_id).toEqual(2);
   });
 });

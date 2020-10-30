@@ -280,46 +280,44 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@faasjs/cli@^0.0.2-beta.77":
-  version "0.0.2-beta.77"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2fcli/-/cli-0.0.2-beta.77.tgz#3bbc7e90bce3fee818c127c714ed79475dec6b7f"
-  integrity sha512-0X+MNQ6EY3De89VFmLbeRQ3UKS8aWlZ3QbmQQZC854i3MbWAWzNCGvN2BEFen7mNXRq7d822KNnAn+kaM/966g==
+"@faasjs/cli@^0.0.2-beta.116":
+  version "0.0.2-beta.116"
+  resolved "https://registry.npmjs.org/@faasjs/cli/-/cli-0.0.2-beta.116.tgz#7295009262b352ed2c33fdb760442c3c3dd9d9a6"
+  integrity sha512-vo1vbGDvcWlOq9b1uZkn2obeYJ6zln0musvjDfYTdpA5moLIb7PZc3DEcW5d1gVPlyRnIPGD78ejzjjosYfItw==
   dependencies:
-    "@faasjs/deployer" "^0.0.2-beta.76"
-    "@faasjs/func" "^0.0.2-beta.74"
-    "@faasjs/server" "^0.0.2-beta.77"
-    "@faasjs/test" "^0.0.2-beta.74"
+    "@faasjs/deployer" "^0.0.2-beta.116"
+    "@faasjs/func" "^0.0.2-beta.113"
+    "@faasjs/server" "^0.0.2-beta.113"
+    "@faasjs/test" "^0.0.2-beta.115"
     "@types/glob" "*"
     commander "*"
     enquirer "*"
     ts-node "*"
     tsconfig-paths "*"
 
-"@faasjs/cloud_function@^0.0.2-beta.74":
-  version "0.0.2-beta.74"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2fcloud_function/-/cloud_function-0.0.2-beta.74.tgz#a5e97749e946bc9cd182cfc003ceb927aec87a3c"
-  integrity sha512-3yzU1lKnvCdBJ2dfasopbpzbfTj0eN6ZCy7/ErIDU9sia4p1tB9tW7Hy4ZH+OwnKQDGjprik9UPVmeEvDYvt6g==
+"@faasjs/cloud_function@^0.0.2-beta.116":
+  version "0.0.2-beta.116"
+  resolved "https://registry.npmjs.org/@faasjs/cloud_function/-/cloud_function-0.0.2-beta.116.tgz#9d187031c85623b07bade9240c2d69304b9f3418"
+  integrity sha512-76Rap4Z4QHdQPb4uuI4J6n8rmBUjjDKU49Dbnq2VVNhDhokzekBfpyIsdaPT+GRRaKRgmsT3HMgqA1F6KQrosw==
   dependencies:
     "@faasjs/deep_merge" "^0.0.2-beta.54"
-    "@faasjs/load" "^0.0.2-beta.74"
+    "@faasjs/load" "^0.0.2-beta.113"
 
 "@faasjs/deep_merge@^0.0.2-beta.54":
   version "0.0.2-beta.54"
   resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2fdeep_merge/-/deep_merge-0.0.2-beta.54.tgz#f2796b5984a4bcaed38e43f923e55959f0d0fdee"
   integrity sha512-+BQjpRqQQYgPhsiBeYsR5z78RKX+nyZyQWlEUzocJjPBUJe/7nDFich4uyoWDLM2B0txskJeVAh6DNKNlAsCzA==
 
-"@faasjs/deployer@^0.0.2-beta.76":
-  version "0.0.2-beta.76"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2fdeployer/-/deployer-0.0.2-beta.76.tgz#17050ec6e0c5c470f5833b25aee20f42ca05e4ca"
-  integrity sha512-J42znhJctxlCNd/ND9FmZMY1AeKn7PcRE34Vk283YbuwxzLJvr+u7iReonCzUb+BaA291VLpIRqLT3417FUexQ==
+"@faasjs/deployer@^0.0.2-beta.116":
+  version "0.0.2-beta.116"
+  resolved "https://registry.npmjs.org/@faasjs/deployer/-/deployer-0.0.2-beta.116.tgz#977024ca792420bb70afa0e404a57528838aace8"
+  integrity sha512-+yV3c+dkgLp8X8P1vhqjUtzGRCC8iC9BCmd56+galdDPY392dzHsXTUHJXgwy12xrWe0HOPhd5xmrQNItYSfDg==
   dependencies:
-    "@faasjs/cloud_function" "^0.0.2-beta.74"
-    "@faasjs/tencentcloud" "^0.0.2-beta.76"
+    "@faasjs/cloud_function" "^0.0.2-beta.116"
+    "@faasjs/tencentcloud" "^0.0.2-beta.113"
 
-"@faasjs/eslint-config-recommended@beta":
-  version "0.0.2-beta.75"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2feslint-config-recommended/-/eslint-config-recommended-0.0.2-beta.75.tgz#8ffca8f135e5afbbc2456f36c6e54e19e18b5a7e"
-  integrity sha512-L3MaV+tu/W3yfLI2a2p3gdV07RPKdV1sApeCLlN+S+tIZ6nOgmQivRnYipF52VXeoEJ/l8OSPTtqLz99Exi/3A==
+"@faasjs/eslint-config-recommended@file:../../packages/eslint-config-recommended":
+  version "0.0.2-beta.95"
   dependencies:
     "@typescript-eslint/eslint-plugin" "*"
     "@typescript-eslint/parser" "*"
@@ -327,23 +325,23 @@
     eslint-plugin-jest "*"
     typescript "*"
 
-"@faasjs/func@^0.0.2-beta.74":
-  version "0.0.2-beta.74"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2ffunc/-/func-0.0.2-beta.74.tgz#8b1f64a6cc8c85b4b254c186db46569ff7b89c4b"
-  integrity sha512-qWO1iUUK3Xc/cplfizkVswgMTbh/bm+ZEG5fa/z9ODO5PKK/+li7GJkSZ/VuoLwJWwQrh9iWXkulrCVgp/iH+w==
+"@faasjs/func@^0.0.2-beta.113":
+  version "0.0.2-beta.113"
+  resolved "https://registry.npmjs.org/@faasjs/func/-/func-0.0.2-beta.113.tgz#7c39d5eca298325f0a3eaca37bf9f05be619ecdd"
+  integrity sha512-8gXlGLySXAE/aP6TCLghf9ENZPQd6L9hDw//9GuMBeAVtK6f1X3kVt6oRZjqCB1eU+vYCV9SF4lPR3EL9F/fFw==
   dependencies:
     "@faasjs/deep_merge" "^0.0.2-beta.54"
-    "@faasjs/logger" "^0.0.2-beta.69"
+    "@faasjs/logger" "^0.0.2-beta.101"
 
-"@faasjs/http@^0.0.2-beta.74":
-  version "0.0.2-beta.74"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2fhttp/-/http-0.0.2-beta.74.tgz#a038e82b28be31a6e8dd44688fb65301d499736e"
-  integrity sha512-K3Yf9Ysv6Kc9qe1MxQ5J1ICI9V8iS9jCWrjkJh++Ar6eRcP/7V6yDA3lL0Lp8jYDNOuDa9ZcKEMHhiY9HmOCLQ==
+"@faasjs/http@^0.0.2-beta.113":
+  version "0.0.2-beta.113"
+  resolved "https://registry.npmjs.org/@faasjs/http/-/http-0.0.2-beta.113.tgz#6f4aba6275405029ae7214f0160122cadf1c8e75"
+  integrity sha512-zxW9IudJKNPU77ty6FAKBTTmN4jx15w0QFNw0wQGasuezfeA9SUatVpTeIQqji2RHg1voZJeW7/r14f4IpHF+g==
 
-"@faasjs/load@^0.0.2-beta.74":
-  version "0.0.2-beta.74"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2fload/-/load-0.0.2-beta.74.tgz#44907f616ee20b4fc6cd805cb7b74536d38c7c09"
-  integrity sha512-7YCrwBm7rnAsJflEKboRIIXjGDM2qcT2YD0DIOk8Cru/wtvc+0ljmNJnnj0C8B9zyTUwL0PEq9AuxqA+dvrqSQ==
+"@faasjs/load@^0.0.2-beta.113":
+  version "0.0.2-beta.113"
+  resolved "https://registry.npmjs.org/@faasjs/load/-/load-0.0.2-beta.113.tgz#64254e2d76ce5298eeb01c7a7d2dd69e376c8982"
+  integrity sha512-Cy5FpZVvfvMsZ+qQWOj4oFLtHfN8CK3vODpWTB0iOkLZmVJTEmkv64KjJGSD3tQcUM1PoirQ3O8FAjTRcY1j+A==
   dependencies:
     "@faasjs/deep_merge" "^0.0.2-beta.54"
     js-yaml "*"
@@ -351,43 +349,43 @@
     rollup-plugin-typescript2 "*"
     typescript "*"
 
-"@faasjs/logger@^0.0.2-beta.69":
-  version "0.0.2-beta.69"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2flogger/-/logger-0.0.2-beta.69.tgz#ee707aef131d756cc3697561daed6982b53374df"
-  integrity sha512-eDXMCO6o6j6Gj+euHwGNut3ty7ZyYCidNTu68FljDV6e8hhdU0F0+8eElZ7Y4DzIMcYAFG/ZuIZthSlEebOsjQ==
+"@faasjs/logger@^0.0.2-beta.101":
+  version "0.0.2-beta.101"
+  resolved "https://registry.npmjs.org/@faasjs/logger/-/logger-0.0.2-beta.101.tgz#0499539a84390af3f5d8d0a53b7ecf8b962d931e"
+  integrity sha512-bWonPYb0UFy2Ma9DeyYdxrqYkCcEJJQs15G0zqavgUSVm1+IQ3G+/3UhPUPC9oTqBrybBIFxuCAnE8t+yiOYgQ==
 
-"@faasjs/request@^0.0.2-beta.76":
-  version "0.0.2-beta.76"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2frequest/-/request-0.0.2-beta.76.tgz#84039cb3615ddbc14b7bf932f8c8a2dbe05c6e33"
-  integrity sha512-PHqgtHTT1Ui2+iZlNXD81O+Z+egHz96q+9TkUZbLkz9eGbs8Ltv/dddj53gBc/WCATAIMBsXAV8Le1+hsxIcGw==
+"@faasjs/request@^0.0.2-beta.105":
+  version "0.0.2-beta.105"
+  resolved "https://registry.npmjs.org/@faasjs/request/-/request-0.0.2-beta.105.tgz#c261a994f842b539f6e0a9109f0351fb5ebe00ec"
+  integrity sha512-NxmCiZ2KRUEYwAoDdc7SPmyf5bs8zHHQI0Yb+UbtdYYNCa+485Qb547zcR4GlVcCCodmBmiCN/jUvXj55Bbg5g==
   dependencies:
-    "@faasjs/logger" "^0.0.2-beta.69"
+    "@faasjs/logger" "^0.0.2-beta.101"
 
-"@faasjs/server@^0.0.2-beta.77":
-  version "0.0.2-beta.77"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2fserver/-/server-0.0.2-beta.77.tgz#c06b2470b5d24518185f0d66350df28f62603a05"
-  integrity sha512-s0QjZsxRar/hAYslSJgJVWiLytZQwsZL2WgmIg/VOotORBZrlPXk4GBoWghZdNhYsGFvP8xnRNrfE9Sz4o0l8A==
+"@faasjs/server@^0.0.2-beta.113":
+  version "0.0.2-beta.113"
+  resolved "https://registry.npmjs.org/@faasjs/server/-/server-0.0.2-beta.113.tgz#bc368254618fa8a7f8beeb6b0f6a87edf5fd95a0"
+  integrity sha512-5GRBlisp6/gwU5/R9iMjLxphOXDh14uh4bAbVFyHTfeAACH2j5UwM8kBFB5ncmjJGeDNKOG2qOhPKzDqguc0Mg==
   dependencies:
-    "@faasjs/load" "^0.0.2-beta.74"
-    "@faasjs/logger" "^0.0.2-beta.69"
+    "@faasjs/load" "^0.0.2-beta.113"
+    "@faasjs/logger" "^0.0.2-beta.101"
     lodash "*"
 
-"@faasjs/tencentcloud@^0.0.2-beta.76":
-  version "0.0.2-beta.76"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2ftencentcloud/-/tencentcloud-0.0.2-beta.76.tgz#c893c840011371595db182dd5107cf683ccf31d9"
-  integrity sha512-1ZR9qqrxRMG4YZCQL3dpVataPkxJ/gKokWBcpPJbwfAkzAMHrLC9TUMywtZnTgVAtFDWunWafi2lejxCy5Kuig==
+"@faasjs/tencentcloud@^0.0.2-beta.113":
+  version "0.0.2-beta.113"
+  resolved "https://registry.npmjs.org/@faasjs/tencentcloud/-/tencentcloud-0.0.2-beta.113.tgz#4260687507dd3a83e8b5b1c48d32a2bb6d856bdc"
+  integrity sha512-cugaUBx+mCGb9knVkLrzMPokg90afSLOpVxM1YDeqO2naS++wmO7LErVpbIj8Z51oWSvOJyH7uEpiF3kNPErzg==
   dependencies:
-    "@faasjs/load" "^0.0.2-beta.74"
-    "@faasjs/logger" "^0.0.2-beta.69"
-    "@faasjs/request" "^0.0.2-beta.76"
+    "@faasjs/load" "^0.0.2-beta.113"
+    "@faasjs/logger" "^0.0.2-beta.101"
+    "@faasjs/request" "^0.0.2-beta.105"
     cos-nodejs-sdk-v5 "*"
 
-"@faasjs/test@^0.0.2-beta.74":
-  version "0.0.2-beta.74"
-  resolved "https://mirrors.cloud.tencent.com/npm/@faasjs%2ftest/-/test-0.0.2-beta.74.tgz#912b84a0bfd122a6e67072b270e5f6f2371527e4"
-  integrity sha512-Zmix8BfE+0jhZ8kgHyDyTeURAmoxLbhtvS+HiraQV8ItEAWXMfvcPNb8rwmsei7+hZ1w2ZlHEjdRnmHsMOZapA==
+"@faasjs/test@^0.0.2-beta.115":
+  version "0.0.2-beta.115"
+  resolved "https://registry.npmjs.org/@faasjs/test/-/test-0.0.2-beta.115.tgz#befa5f56067119bbb9e45b94d94acd968db6de1c"
+  integrity sha512-m/6ql1CqkI2NZqFYI8z2YCZww6rRgTU6FQOuGzIZGqe7mcVXRESK2H4yKcT5w/WDSoySkKvcovav0wNHYL8pHw==
   dependencies:
-    "@faasjs/load" "^0.0.2-beta.74"
+    "@faasjs/load" "^0.0.2-beta.113"
     "@types/debug" "*"
     "@types/jest" "*"
     "@types/node" "*"
@@ -1807,13 +1805,11 @@ extsprintf@^1.2.0:
   resolved "https://mirrors.cloud.tencent.com/npm/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-faasjs@beta:
-  version "0.0.2-beta.77"
-  resolved "https://mirrors.cloud.tencent.com/npm/faasjs/-/faasjs-0.0.2-beta.77.tgz#365e2c2b277c8e6a1e9331d025c1a86ee5d14c71"
-  integrity sha512-H+xCC1cPr93D8K2hAKZIrQ5M/5LgYbxxHLLsfQ2c7wCeAupgHmTdnorZvyhxGAX2/vwLQLll6KEindESxD0EqA==
+"faasjs@file:../../packages/faasjs":
+  version "0.0.2-beta.116"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.77"
-    "@faasjs/http" "^0.0.2-beta.74"
+    "@faasjs/cli" "^0.0.2-beta.116"
+    "@faasjs/http" "^0.0.2-beta.113"
 
 fast-deep-equal@^3.1.1:
   version "3.1.3"
