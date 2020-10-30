@@ -2,19 +2,59 @@
 home: true
 heroImage: logo.png
 heroText: FaasJS
-tagline: 基于云函数的 Serverless & Typescript 开发框架
-actionText: 1 分钟上手 →
-actionLink: /guide/
-features:
-- title: 高效开发环境
-  details: 提供单体应用的开发体验，本地一键开发、测试和部署
-- title: 插件涵盖常用功能
-  details: 支持 Http、Cookie、Session、Sql 等常用功能，还有 vue、react 插件统一前后端交互规范
-- title: 支持单机或容器部署
-  details: 担心云厂商绑定？没有​ Serverless 运行环境？你也可以像部署 Node.js 应用一样来部署 FaasJS
+tagline: Serverless 比你想象的更简单
 footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 2019-2020 Zhu Feng
 ---
+
+### Show me the code
+
+```ts
+/*
+ * 云函数文件
+ * index.func.ts
+ */
+import { useFunc } from '@faasjs/func';
+import { useHttp } from '@faasjs/http';
+
+export default useFunc(function(){
+  useHttp(); // 使用 http 插件
+
+  return async function () {
+    return 'Hello, world'; // 返回的内容
+  }
+});
+```
+
+```ts
+/*
+ * 自动化测试脚本
+ * __tests__/index.test.ts
+ */
+import { FuncWarpper } from '@faasjs/test';
+
+describe('index', function () {
+  test('should work', async function () {
+    // 引用云函数文件
+    const func = new FuncWarpper(require.resolve('../index.func'));
+    // 模拟调用
+    const res = await func.handler();
+
+    // 检查响应内容
+    expect(res.body).toEqual('{"data":"Hello, world"}');
+  });
+});
+
+```
+
+<div class="hero">
+  <p class="action">
+    <a href="/guide" class="nav-link action-button">探索更多 →</a>
+  </p>
+</div>
+
 <div align="center" style="padding:0 2.5rem">
+  <div>
+  </div>
   <div class="features">
     <div style="flex-grow:1;flex-basis:100%;">
       <a href="https://github.com/faasjs/faasjs/blob/master/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
@@ -40,8 +80,10 @@ footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 
     <p><a href="https://eslint.org/" target="_blank">ESLint</a></p>
     <p><a href="https://jestjs.io/" target="_blank">Jest</a></p>
     <p><a href="https://jsdoc.app/" target="_blank">JSDoc</a></p>
+    <p><a href="https://knexjs.org/" target="_blank">Knex</a></p>
     <p><a href="https://nodejs.org/" target="_blank">Node.js</a></p>
     <p><a href="https://nuxtjs.org/" target="_blank">Nuxt.js</a></p>
+    <p><a href="https://reactjs.org/" target="_blank">React</a></p>
     <p><a href="https://rollupjs.org/" target="_blank">Rollup.js</a></p>
     <p><a href="https://typeorm.io/" target="_blank">TypeORM</a></p>
     <p><a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></p>
