@@ -4,9 +4,23 @@
 
 ## Beta
 
-[`v0.0.2-beta.109 (2020-10-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.107...v0.0.2-beta.109)
+[`v0.0.2-beta.116 (2020-10-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.115...v0.0.2-beta.116)
 
-- [修复] `@faasjs/http` 修复没有 body 时也使用 gzip 压缩的 bug。
+- [修复] `@faasjs/cloud_function` 修复本地调试时没 context 时的报错。
+
+[`v0.0.2-beta.115 (2020-10-28)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.114...v0.0.2-beta.115)
+
+- [优化] `@faasjs/react` 新增返回 `promise` 对象。
+
+[`v0.0.2-beta.114 (2020-10-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.112...v0.0.2-beta.114)
+
+- [优化] `@faasjs/http` 压缩后添加 originBody 以便日志查看。
+- [优化] `@faasjs/cloud_function` 移除 context 中的 function 等无法序列化的内容。
+
+[`v0.0.2-beta.112 (2020-10-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.107...v0.0.2-beta.112)
+
+- [优化] `@faasjs/http` 默认使用 brotli 压缩。
+- [修复] `@faasjs/http` 修复没有 body 时也压缩的 bug。
 
 [`v0.0.2-beta.107 (2020-10-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.106...v0.0.2-beta.107)
 
