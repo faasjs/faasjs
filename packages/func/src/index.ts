@@ -150,16 +150,15 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
         let fn: any = list[i];
         if (i === list.length) fn = next;
         if (!fn) return Promise.resolve();
-        if (fn.key) {
-          logger.debug(`[${fn.key as string}] begin`);
-          logger.time(fn.key);
-        }
+        if (typeof fn.key === 'undefined') fn.key = `UnNamedPlugin#${i}`;
+        logger.debug(`[${fn.key as string}] begin`);
+        logger.time(fn.key);
         try {
           const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)));
-          if (fn.key) logger.timeEnd(fn.key, `[${fn.key as string}] end`);
+          logger.timeEnd(fn.key, `[${fn.key as string}] end`);
           return res;
         } catch (err) {
-          if (fn.key) logger.timeEnd(fn.key, `[${fn.key as string}] failed`);
+          logger.timeEnd(fn.key, `[${fn.key as string}] failed`);
           console.error(err);
           return Promise.reject(err);
         }
