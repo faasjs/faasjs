@@ -77,6 +77,9 @@ export class FuncWarpper {
     session?: { [key: string]: any };
   } = Object.create(null)): Promise<{
       statusCode: number;
+      headers: {
+        [key: string]: string;
+      };
       body: any;
       data?: TData;
       error?: {
