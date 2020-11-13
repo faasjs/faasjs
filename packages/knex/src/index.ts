@@ -48,6 +48,12 @@ export class Knex implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
+    if (globals[this.name]) {
+      this.config = globals[this.name].config;
+      this.adapter = globals[this.name].adapter;
+      await next();
+      return;
+    }
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
     for (let key in process.env)
