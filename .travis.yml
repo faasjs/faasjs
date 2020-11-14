@@ -8,10 +8,6 @@ services:
   - postgresql
   - mongodb
 script:
-  - cd examples/auth && yarn test
-  - cd ../sql && yarn test
-  - cd ../nuxt && yarn test
-  - cd ../simple && yarn test
-  - cd .. && yarn test
+  - yarn test
 after_success:
   - yarn codecov
