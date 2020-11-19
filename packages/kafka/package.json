@@ -1,0 +1,27 @@
+{
+  "name": "@faasjs/kafka",
+  "version": "0.0.2-beta.117",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
+  },
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "kafkajs": "*"
+  },
+  "devDependencies": {
+    "@faasjs/func": "^0.0.2-beta.117",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
+  },
+  "gitHead": "2a4ad5d99128943bae40dbd3a7bc2b6e4f821634"
+}

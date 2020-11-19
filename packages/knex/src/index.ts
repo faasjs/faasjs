@@ -15,7 +15,7 @@ const globals: {
 } = {};
 
 /**
- * TypeORM 插件
+ * Knex 插件
  */
 export class Knex implements Plugin {
   public readonly type: string = Name;

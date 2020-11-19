@@ -15,9 +15,10 @@ export class Mysql implements Adapter {
   public pool: Pool;
 
   constructor (config: MysqlConfig) {
-    if (config.pool) 
+    if (config.pool)
       this.pool = config.pool;
-    else 
+    else
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       this.pool = require('mysql').createPool(Object.assign(defaults, config));
   }
 
@@ -25,9 +26,9 @@ export class Mysql implements Adapter {
     // eslint-disable-next-line @typescript-eslint/typedef
     return new Promise((resolve, reject) => {
       this.pool.query(sql, values, (error: any, results: any[]) => {
-        if (error) 
+        if (error)
           reject(error);
-        
+
         resolve(results);
       });
     });
