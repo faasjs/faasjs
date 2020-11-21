@@ -37,6 +37,8 @@ export class Config {
 
     paths.reduce(function (base: string, path: string) {
       const root = join(base, path);
+      if (root === base) return base;
+
       const faas = join(root, 'faas.yaml');
 
       if (existsSync(faas))
@@ -73,9 +75,8 @@ export class Config {
             if (!data.providers[plugin.provider])
               throw Error(`[faas.yaml] missing provider: ${plugin.provider} <${key}/plugins/${pluginKey}>`);
             plugin.provider = data.providers[plugin.provider];
-          } else 
+          } else
             plugin.provider = deepMerge(data.providers[plugin.provider], plugin.provider);
-          
       }
     }
   }
