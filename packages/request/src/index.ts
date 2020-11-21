@@ -151,13 +151,16 @@ export default async function request<T = any> (url: string, {
   if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body);
 
   return new Promise(function (resolve, reject) {
-    log.debug('request %O', options);
+    log.debug('request %O', {
+      ...options,
+      body
+    });
 
     const req = protocol.request(options, function (res: http.IncomingMessage) {
       if (downloadStream) {
         res.pipe(downloadStream);
         downloadStream.on('finish', function () {
-          resolve();
+          resolve(undefined);
         });
       } else {
         const raw: Buffer[] = [];
