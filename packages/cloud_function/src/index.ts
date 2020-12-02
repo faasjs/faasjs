@@ -70,12 +70,19 @@ export class CloudFunction implements Plugin {
    * @param config.validator.event.onError {function} 自定义报错
    * @param config.validator.event.rules {object} 参数校验规则
    */
-  constructor (config?: CloudFunctionConfig) {
+  constructor (config?: CloudFunctionConfig)
+  constructor (config?: () => CloudFunctionConfig) {
     if (config) {
-      this.name = config.name;
-      this.config = config.config || Object.create(null);
-      if (config.validator)
-        this.validatorConfig = config.validator;
+      let configs;
+      if (typeof config === 'function')
+        configs = config() as CloudFunctionConfig;
+      else
+        configs = config;
+
+      this.name = configs.name;
+      this.config = configs.config || Object.create(null);
+      if (configs.validator)
+        this.validatorConfig = configs.validator;
     } else {
       this.name = this.type;
       this.config = Object.create(null);
