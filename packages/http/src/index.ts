@@ -54,15 +54,15 @@ const globals: {
   [name: string]: Http;
 } = {};
 
-export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}> implements Plugin {
+export class Http<TParams = any, TCookie = any, TSession = any> implements Plugin {
   public readonly type: string = Name;
   public readonly name: string = Name;
   public headers: {
     [key: string]: string;
   };
-  public params: P;
-  public cookie: Cookie<C, S>;
-  public session: Session<S, C>;
+  public params: TParams;
+  public cookie: Cookie<TCookie, TSession>;
+  public session: Session<TSession, TCookie>;
   public config: HttpConfig;
   private validatorOptions?: {
     params?: ValidatorOptions;
@@ -70,7 +70,7 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
     session?: ValidatorOptions;
   };
   private response?: Response;
-  private validator?: Validator<P, C, S>;
+  private validator?: Validator<TParams, TCookie, TSession>;
   private logger: Logger;
 
   /**
@@ -147,7 +147,7 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
 
     if (this.validatorOptions) {
       this.logger.debug('[onMount] prepare validator');
-      this.validator = new Validator<P, C, S>(this.validatorOptions);
+      this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions);
     }
 
     globals[this.name] = this;
@@ -314,7 +314,7 @@ export class Http<P = any, C = {[key: string]: string}, S = {[key: string]: any}
 export function useHttp<P = any, C = {[key: string]: string}, S = {[key: string]: any}> (config?: HttpConfig): Http<P, C, S> & UseifyPlugin {
   const name = config?.name || Name;
 
-  if (globals[name]) return usePlugin(globals[name] as Http<P, C, S>);
+  if (globals[name]) return usePlugin<Http<P, C, S>>(globals[name]);
 
   return usePlugin(new Http<P, C, S>(config));
 }
