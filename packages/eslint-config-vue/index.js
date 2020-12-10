@@ -1,12 +1,15 @@
 module.exports = {
-    env: {
-      node: true,
-      jest: true,
-      es6: true
-    },
-    parser: "vue-eslint-parser",
-    extends: [
-      "@faasjs/recommended",
-      "plugin:vue/essential"
-    ]
-  };
+  env: {
+    node: true,
+    jest: true,
+    es6: true
+  },
+  parserOptions: {
+    parser: "@typescript-eslint/parser",
+    extraFileExtensions: ['.vue']
+  },
+  extends: [
+    "@faasjs/recommended",
+    "plugin:vue/essential"
+  ]
+};
