@@ -1,7 +1,7 @@
 import { Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
-import knex, { Config, Transaction, QueryBuilder, Raw, AliasDict, Value, SchemaBuilder } from 'knex';
+import knex, { Config, Transaction, QueryBuilder, Raw, AliasDict, SchemaBuilder, ValueDict, RawBinding } from 'knex';
 
 export type KnexConfig = {
   name?: string;
@@ -95,8 +95,8 @@ export class Knex implements Plugin {
     return this.adapter<TRecord, TResult>(tableName);
   }
 
-  public async raw<TResult = any> (value: Value): Promise<Raw<TResult>> {
-    return this.adapter.raw<TResult>(value);
+  public async raw<TResult = any> (sql: string, bindings?: RawBinding[] | ValueDict): Promise<Raw<TResult>> {
+    return this.adapter.raw<TResult>(sql, bindings);
   }
 
   public async transaction<TResult = any> (scope: (trx: Transaction) => Promise<TResult> | void): Promise<TResult> {
