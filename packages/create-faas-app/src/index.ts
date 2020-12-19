@@ -5,6 +5,7 @@ const commander = new Command();
 
 // 设置命令
 commander
+  .storeOptionsAsProperties(false)
   .version('beta')
   .name('create-faas-app');
 
