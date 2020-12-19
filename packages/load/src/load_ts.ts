@@ -1,5 +1,6 @@
 import deepMerge from '@faasjs/deep_merge';
 import { unlinkSync } from 'fs';
+import { basename, dirname, join } from 'path';
 import * as rollup from 'rollup';
 import typescript from 'rollup-plugin-typescript2';
 import nodeResolve from '@rollup/plugin-node-resolve';
@@ -60,10 +61,8 @@ export default async function loadTs (filename: string, options: {
   };
   tmp?: boolean;
 } = Object.create(null)): Promise<{
+    file: string;
     module: Func;
-    dependencies: {
-      [key: string]: string;
-    };
   }> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`);
@@ -85,14 +84,8 @@ export default async function loadTs (filename: string, options: {
 
   const bundle = await rollup.rollup(input);
 
-  const dependencies = Object.create(null);
-
-  for (const m of bundle.cache.modules || [])
-    for (const d of m.dependencies)
-      if (!d.startsWith('/') && !dependencies[d] && !EXTERNAL.includes(d)) dependencies[d] = '*';
-
   const output = deepMerge({
-    file: filename + '.tmp.js',
+    dir: dirname(filename),
     format: 'cjs',
     manualChunks (id: string) {
       if (id.includes('node_modules'))
@@ -101,14 +94,15 @@ export default async function loadTs (filename: string, options: {
   }, options.output || {});
 
   await bundle.write(output);
+  const file = output.file || join(output.dir, basename(filename).replace(/.ts$/, '.js'));
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const module = require(output.file);
+  const module = require(file);
 
-  if (options.tmp) unlinkSync(output.file);
+  if (options.tmp) unlinkSync(file);
 
   return {
-    module,
-    dependencies
+    file,
+    module
   };
 }
