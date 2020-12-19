@@ -7,15 +7,15 @@ describe('new', function () {
     afterEach(function () {
       execSync(`rm -rf ${__dirname}/tmp`);
     });
-  
+
     test('basic', function () {
       action('func', 'packages/cli/src/__tests__/tmp/basic', []);
 
-      expect(readFileSync(__dirname + '/tmp/basic.func.ts').toString()).toEqual(`import { Func } from '@faasjs/func';
+      expect(readFileSync(__dirname + '/tmp/basic.func.ts').toString()).toEqual(`import { useFunc } from '@faasjs/func';
 
-export default new Func({
-  plugins: [],
-  async handler (): Promise<any> {
+export default useFunc(function () {
+
+  return async function () {
     // let's code
   }
 });
@@ -38,16 +38,15 @@ describe('basic.func.ts', function () {
     test('with plugins', function () {
       action('func', 'packages/cli/src/__tests__/tmp/plugin', ['cf', 'http']);
 
-      expect(readFileSync(__dirname + '/tmp/plugin.func.ts').toString()).toEqual(`import { Func } from '@faasjs/func';
-import { CloudFunction } from '@faasjs/cloud_function';
-import { Http } from '@faasjs/http';
+      expect(readFileSync(__dirname + '/tmp/plugin.func.ts').toString()).toEqual(`import { useFunc } from '@faasjs/func';
+import { useCloudFunction } from '@faasjs/cloud_function';
+import { useHttp } from '@faasjs/http';
 
-const cf = new CloudFunction({});
-const http = new Http({});
+export default useFunc(function () {
+  const cf = useCloudFunction();
+  const http = useHttp();
 
-export default new Func({
-  plugins: [cf, http],
-  async handler (): Promise<any> {
+  return async function () {
     // let's code
   }
 });

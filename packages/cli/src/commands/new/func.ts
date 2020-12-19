@@ -22,6 +22,11 @@ const Plugins = {
     name: '@faasjs/redis',
     kls: 'Redis',
     key: 'redis'
+  },
+  knex: {
+    name: '@faajs/knex',
+    kls: 'Knex',
+    key: 'knex'
   }
 };
 
@@ -48,8 +53,8 @@ export default function (name: string, plugins: string[]): void {
     return;
   }
 
-  let funcHeader = 'import { Func } from \'@faasjs/func\';\n';
-  let funcPlugins = '';
+  let imports = 'import { useFunc } from \'@faasjs/func\';\n';
+  let initials = '';
   const funcPluginNames = [];
 
   for (const plugin of plugins) {
@@ -61,24 +66,22 @@ export default function (name: string, plugins: string[]): void {
         kls,
         key: kls.toLowerCase()
       };
-      funcHeader += `import ${info.kls} from '${info.name}';\n`;
-    } else 
-      funcHeader += `import { ${info.kls} } from '${info.name}';\n`;
-
-    funcPlugins += `const ${info.key} = new ${info.kls}({});\n`;
+    }
+    imports += `import { use${info.kls} } from '${info.name}';\n`;
+    initials += `  const ${info.key} = use${info.kls}();\n`;
     funcPluginNames.push(info.key);
   }
 
   logger.info(`Writing ${join(folder, name)}`);
-  writeFileSync(join(folder, name), `${funcHeader}\n${funcPlugins ? funcPlugins + '\n' : ''}export default new Func({
-  plugins: [${funcPluginNames.join(', ')}],
-  async handler (): Promise<any> {
+  writeFileSync(join(folder, name), `${imports}\nexport default useFunc(function () {
+${initials}
+  return async function () {
     // let's code
   }
 });
 `);
 
-  if (!existsSync(join(folder, '__tests__'))) 
+  if (!existsSync(join(folder, '__tests__')))
     mkdirSync(join(folder, '__tests__'));
 
   const testFile = join(folder, '__tests__', name.replace('.func.ts', '.test.ts'));

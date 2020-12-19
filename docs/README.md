@@ -6,7 +6,11 @@ tagline: Serverless 比你想象的更简单
 footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 2019-2020 Zhu Feng
 ---
 
-### Show me the code
+### 一行指令创建项目
+
+    yarn create faas-app --name faasjs --example --noprovider
+
+### 查看生成的文件内容
 
 ```ts
 /*
@@ -43,7 +47,6 @@ describe('index', function () {
     expect(res.body).toEqual('{"data":"Hello, world"}');
   });
 });
-
 ```
 
 <div class="hero">

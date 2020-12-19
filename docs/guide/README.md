@@ -17,9 +17,9 @@ FaasJS 基于 Node.js 和 yarn 构建，因此需要本地环境支持至少 Nod
 
 ## 创建项目
 
-你可以直接使用 npx 指令一键创建新项目，初次创建可以先跳过 Provider 配置：
+你可以直接使用 yarn 一键创建新项目，初次创建可以先跳过 Provider 配置：
 
-    npx create-faas-app
+    yarn create faas-app --example --noprovider
 
 ## 启动项目
 
@@ -29,13 +29,11 @@ FaasJS 基于 Node.js 和 yarn 构建，因此需要本地环境支持至少 Nod
 
 ### package.json
 
-这是 Node.js 的项目配置，主要包含了依赖项、Babel 配置、esLint 配置和 jest 配置。
-
-其中 FaasJS 只需依赖 `faasjs` 这个库，`@faasjs/eslint-config-recommended` 是用于代码规范检测的可选依赖库，便于团队之间使用统一的代码风格。
+这是 Node.js 的项目配置，主要包含了依赖项、EsLint 配置和 Jest 配置。
 
 ### tsconfig.json
 
-这个文件的内容仅仅为 `{}`，因为 FaasJS 本身对 Typescript 没有特殊的配置需求，可以根据各自项目的实际情况进行定制化配置。
+这个文件的内容仅仅为 `{}`，因为 FaasJS 本身对 Typescript 没有特殊的配置需求，你可以根据实际情况进行定制化配置。
 
 ### faas.yaml
 

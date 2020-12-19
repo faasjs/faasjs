@@ -40,6 +40,7 @@ export async function action (options?: {
   secretId?: string;
   secretKey?: string;
   example?: boolean;
+  noprovider?: boolean;
 }): Promise<void> {
   const answers: {
     name?: string;
@@ -60,58 +61,60 @@ export async function action (options?: {
     }).then((res: { value: string }) => res.value);
 
 
-  answers.provider = await prompt({
-    type: 'select',
-    name: 'value',
-    message: 'Provider',
-    choices: [
-      {
-        name: 'null',
-        message: '暂不配置'
-      },
-      {
-        name: 'tencentcloud',
-        message: '腾讯云'
-      },
-    ]
-  }).then((res: { value: string }) => res.value);
+  if (!options.noprovider) {
+    answers.provider = await prompt({
+      type: 'select',
+      name: 'value',
+      message: 'Provider',
+      choices: [
+        {
+          name: 'null',
+          message: '暂不配置'
+        },
+        {
+          name: 'tencentcloud',
+          message: '腾讯云'
+        },
+      ]
+    }).then((res: { value: string }) => res.value);
 
-  if (answers.provider === 'tencentcloud') {
-    if (!answers.region || Validator.region(answers.region) !== true)
-      answers.region = await prompt({
-        type: 'select',
-        name: 'value',
-        message: 'Region',
-        choices: Region.concat([]), // choices 会修改 Region 对象，因此克隆一份
-        validate: Validator.region
-      }).then((res: { value: string }) => res.value);
-
-
-    if (!answers.appId || Validator.appId(answers.appId) !== true)
-      answers.appId = await prompt({
-        type: 'input',
-        name: 'value',
-        message: 'appId (from https://console.cloud.tencent.com/developer)',
-        validate: Validator.appId
-      }).then((res: { value: string }) => res.value);
+    if (answers.provider === 'tencentcloud') {
+      if (!answers.region || Validator.region(answers.region) !== true)
+        answers.region = await prompt({
+          type: 'select',
+          name: 'value',
+          message: 'Region',
+          choices: Region.concat([]), // choices 会修改 Region 对象，因此克隆一份
+          validate: Validator.region
+        }).then((res: { value: string }) => res.value);
 
 
-    if (!answers.secretId || Validator.secretId(answers.secretId) !== true)
-      answers.secretId = await prompt({
-        type: 'input',
-        name: 'value',
-        message: 'secretId (from https://console.cloud.tencent.com/cam/capi)',
-        validate: Validator.secretId
-      }).then((res: { value: string }) => res.value);
+      if (!answers.appId || Validator.appId(answers.appId) !== true)
+        answers.appId = await prompt({
+          type: 'input',
+          name: 'value',
+          message: 'appId (from https://console.cloud.tencent.com/developer)',
+          validate: Validator.appId
+        }).then((res: { value: string }) => res.value);
 
 
-    if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true)
-      answers.secretKey = await prompt({
-        type: 'input',
-        name: 'value',
-        message: 'secretKey (from https://console.cloud.tencent.com/cam/capi)',
-        validate: Validator.secretKey
-      }).then((res: { value: string }) => res.value);
+      if (!answers.secretId || Validator.secretId(answers.secretId) !== true)
+        answers.secretId = await prompt({
+          type: 'input',
+          name: 'value',
+          message: 'secretId (from https://console.cloud.tencent.com/cam/capi)',
+          validate: Validator.secretId
+        }).then((res: { value: string }) => res.value);
+
+
+      if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true)
+        answers.secretKey = await prompt({
+          type: 'input',
+          name: 'value',
+          message: 'secretKey (from https://console.cloud.tencent.com/cam/capi)',
+          validate: Validator.secretKey
+        }).then((res: { value: string }) => res.value);
+    }
   }
 
   if (answers.example !== false)
@@ -121,7 +124,6 @@ export async function action (options?: {
       message: 'Add example files',
       initial: true
     }).then((res: { value: boolean }) => res.value);
-
 
   mkdirSync(answers.name);
   writeFileSync(join(answers.name, 'faas.yaml'),
@@ -151,7 +153,9 @@ production:`);
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .ts ."
+    "serve": "faas server",
+    "lint": "eslint --ext .ts .",
+    "test": "jest"
   },
   "dependencies": {
     "faasjs": "beta",
@@ -163,7 +167,8 @@ production:`);
     ]
   },
   "eslintIgnore": [
-    "tmp"
+    "tmp",
+    "coverage"
   ],
   "jest": {
     "preset": "ts-jest",
@@ -173,7 +178,8 @@ production:`);
     ],
     "testRegex": "/*\\\\.test\\\\.ts$",
     "modulePathIgnorePatterns": [
-      "/tmp/"
+      "/tmp/",
+      "/coverage/"
     ]
   }
 }`);
@@ -182,37 +188,62 @@ production:`);
 
   writeFileSync(join(answers.name, '.gitignore'), `node_modules/
 tmp/
+coverage/
 *.tmp.js`);
 
   mkdirSync(join(answers.name, '.vscode'));
 
   writeFileSync(join(answers.name, '.vscode', 'settings.json'),
     `{
-  "eslint.packageManager": "yarn",
-  "eslint.autoFixOnSave": true,
+  "editor.detectIndentation": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
-  "editor.detectIndentation": false,
-  "editor.tabSize": 2,
-  "editor.formatOnSave": true,
   "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true
+  "files.trimFinalNewlines": true,
+  "editor.wordWrap": "on",
+  "files.trimTrailingWhitespace": true,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.maxColumn": 200,
+  "editor.smoothScrolling": true,
+  "editor.cursorBlinking": "phase",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/tmp": true
+  },
+  "eslint.packageManager": "yarn",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue"
+  ],
+  "grunt.autoDetect": "off",
+  "jake.autoDetect": "off",
+  "gulp.autoDetect": "off",
+  "npm.autoDetect": "off"
 }`);
 
   execSync(`yarn --cwd ${answers.name} install`, { stdio: 'inherit' });
 
   if (answers.example) {
     writeFileSync(join(answers.name, 'index.func.ts'),
-      `import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
+      `import { useFunc } from '@faasjs/func';
+import { useHttp } from '@faasjs/http';
 
-export default new Func({
-  plugins: [new Http()],
-  handler () {
+export default useFunc(function () {
+  useHttp();
+
+  return async function () {
     return 'Hello, world';
-  }
-});`);
+  };
+});
+`);
 
     mkdirSync(join(answers.name, '__tests__'));
     writeFileSync(join(answers.name, '__tests__', 'index.test.ts'),
@@ -222,11 +253,12 @@ describe('hello', function () {
   test('should work', async function () {
     const func = new FuncWarpper(require.resolve('../index.func'));
 
-    const res = await func.handler({});
+    const { data } = await func.JSONhandler<string>({});
 
-    expect(res.body).toEqual('{"data":"Hello, world"}');
+    expect(data).toEqual('Hello, world');
   });
-});`);
+});
+`);
 
     execSync(`yarn --cwd ${answers.name} jest`, { stdio: 'inherit' });
   }
@@ -238,7 +270,7 @@ export default function (program: Command): void {
     .on('--help', function () {
       console.log(`
 Examples:
-  yarn new`);
+  yarn create faas-app`);
     })
     .option('--name <name>', '项目名字')
     .option('--region <region>', '可用区')
@@ -246,5 +278,6 @@ Examples:
     .option('--secretId <secretId>', 'secretId')
     .option('--secretKey <secretKey>', 'secretKey')
     .option('--example', '创建示例文件')
+    .option('--noprovider', '暂不配置服务商')
     .action(action);
 }

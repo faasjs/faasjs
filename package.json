@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .ts packages/*/src",
-    "test": "lerna bootstrap && lerna run prepack && yarn jest --silent --maxWorkers=1 --forceExit",
+    "test": "lerna bootstrap && lerna run prepack && yarn jest --silent --runInBand --forceExit",
     "pub": "lerna publish --preid beta --pre-dist-tag beta --registry https://registry.npmjs.org/",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp",
     "build": "lerna run prepack --stream",
