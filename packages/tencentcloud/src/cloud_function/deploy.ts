@@ -121,10 +121,9 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
   logger.raw(`${logger.colorfy(Color.GRAY, '[02/11]')} 生成代码包...`);
 
   logger.debug('[2.1/11] 生成 index.js...');
-  await loadTs(config.config.filename, {
+  const output = await loadTs(config.config.filename, {
     output: {
-      file: config.config.tmp + '/index.js',
-      format: 'cjs',
+      dir: config.config.tmp,
       name: 'index',
       banner: `/**
  * @name ${config.config.name}
@@ -139,55 +138,56 @@ main.config = ${JSON.stringify(data.config, null, 2)};
 module.exports = main.export();`
     }
   });
+  exec(`mv ${output.file} ${config.config.tmp}index.js`);
 
-  logger.debug('[2.2/11] 生成 dependencies...');
-  const dependencies = Object.keys(config.config.dependencies);
+  // logger.debug('[2.2/11] 生成 dependencies...');
+  // const dependencies = Object.keys(config.config.dependencies);
 
-  const modules = Object.create(null);
+  // const modules = Object.create(null);
 
-  function findModule (list: any, key: string, basePath: string) {
-    if (list[key]) return;
+  // function findModule (list: any, key: string, basePath: string) {
+  //   if (list[key]) return;
 
-    if (INCLUDED_NPM.includes(key)) {
-      logger.debug('Remove dependent %s', key);
-      return;
-    }
+  //   if (INCLUDED_NPM.includes(key)) {
+  //     logger.debug('Remove dependent %s', key);
+  //     return;
+  //   }
 
-    const paths = [
-      join(process.cwd(), 'node_modules', key),
-      join(basePath, 'node_modules', key)
-    ];
+  //   const paths = [
+  //     join(process.cwd(), 'node_modules', key),
+  //     join(basePath, 'node_modules', key)
+  //   ];
 
-    let path;
-    for (const p of paths)
-      if (existsSync(p)) {
-        path = p;
-        break;
-      }
+  //   let path;
+  //   for (const p of paths)
+  //     if (existsSync(p)) {
+  //       path = p;
+  //       break;
+  //     }
 
-    if (!path) {
-      logger.debug('Remove dependent %s', key);
-      return;
-    }
-    list[key] = path;
+  //   if (!path) {
+  //     logger.debug('Remove dependent %s', key);
+  //     return;
+  //   }
+  //   list[key] = path;
 
-    if (existsSync(join(path, 'package.json'))) {
-      const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString());
-      const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
-      deps.map(d => findModule(modules, d, path));
-    }
-  }
+  //   if (existsSync(join(path, 'package.json'))) {
+  //     const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString());
+  //     const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
+  //     deps.map(d => findModule(modules, d, path));
+  //   }
+  // }
 
-  dependencies.map(d => findModule(modules, d, process.cwd()));
+  // dependencies.map(d => findModule(modules, d, process.cwd()));
 
-  logger.debug('%o', modules);
+  // logger.debug('%o', modules);
 
-  logger.debug('[2.3/11] 生成 node_modules...');
-  for (const key in modules) {
-    exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
-    exec(`cp -R -L ${modules[key]}/* ${config.config.tmp}node_modules/${key}`);
-  }
-  exec(`rm -rf ${config.config.tmp}node_modules/*/node_modules`);
+  // logger.debug('[2.3/11] 生成 node_modules...');
+  // for (const key in modules) {
+  //   exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
+  //   exec(`cp -R -L ${modules[key]}/* ${config.config.tmp}node_modules/${key}`);
+  // }
+  // exec(`rm -rf ${config.config.tmp}node_modules/*/node_modules`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
   exec(`cd ${config.config.tmp} && zip -r deploy.zip * -x "*.md" -x "*.ts" -x "*.flow" -x "*.map" -x "*/LICENSE" -x "*/license" -x "ChangeLog" -x "CHANGELOG"`);
