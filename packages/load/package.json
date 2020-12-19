@@ -18,7 +18,9 @@
     "js-yaml": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@rollup/plugin-node-resolve": "*",
+    "@rollup/plugin-commonjs": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.117",

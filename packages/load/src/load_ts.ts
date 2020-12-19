@@ -2,34 +2,11 @@ import deepMerge from '@faasjs/deep_merge';
 import { unlinkSync } from 'fs';
 import * as rollup from 'rollup';
 import typescript from 'rollup-plugin-typescript2';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import { Func } from '@faasjs/func';
 
-const FAAS_PACKAGES = [
-  '@faasjs/browser',
-  '@faasjs/cli',
-  '@faasjs/cloud_function',
-  'create-faas-app',
-  '@faasjs/deep_merge',
-  '@faasjs/deployer',
-  '@faasjs/eslint-config-recommended',
-  '@faasjs/eslint-config-vue',
-  'faasjs',
-  '@faasjs/func',
-  '@faasjs/graphql-server',
-  '@faasjs/http',
-  '@faasjs/load',
-  '@faasjs/logger',
-  '@faasjs/nuxt',
-  '@faasjs/redis',
-  '@faasjs/request',
-  '@faasjs/server',
-  '@faasjs/sql',
-  '@faasjs/tencentcloud',
-  '@faasjs/test',
-  '@faasjs/vue-plugin'
-];
-
-const NODE_PACKAGES = [
+const EXTERNAL = [
   'async_hooks',
   'child_process',
   'cluster',
@@ -65,8 +42,6 @@ const NODE_PACKAGES = [
   'zlib'
 ];
 
-const EXTERNAL = FAAS_PACKAGES.concat(NODE_PACKAGES);
-
 /**
  * 加载 ts 文件
  *
@@ -98,7 +73,12 @@ export default async function loadTs (filename: string, options: {
     input: filename,
     external,
     plugins: [
-      typescript({ tsconfigOverride: { compilerOptions: { declaration: false } } })
+      typescript({
+        rollupCommonJSResolveHack: true,
+        tsconfigOverride: { compilerOptions: { declaration: false } }
+      }),
+      commonjs({ include: 'node_modules/**' }),
+      nodeResolve(),
     ],
     onwarn: () => null
   }, options.input || {});
@@ -109,11 +89,15 @@ export default async function loadTs (filename: string, options: {
 
   for (const m of bundle.cache.modules || [])
     for (const d of m.dependencies)
-      if (!d.startsWith('/') && !dependencies[d] && !NODE_PACKAGES.includes(d)) dependencies[d] = '*';
+      if (!d.startsWith('/') && !dependencies[d] && !EXTERNAL.includes(d)) dependencies[d] = '*';
 
   const output = deepMerge({
     file: filename + '.tmp.js',
-    format: 'cjs'
+    format: 'cjs',
+    manualChunks (id: string) {
+      if (id.includes('node_modules'))
+        return 'vendor';
+    }
   }, options.output || {});
 
   await bundle.write(output);
