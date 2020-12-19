@@ -40,7 +40,7 @@ export async function action (options?: {
   secretId?: string;
   secretKey?: string;
   example?: boolean;
-}) {
+}): Promise<void> {
   const answers: {
     name?: string;
     provider?: string;
@@ -232,7 +232,7 @@ describe('hello', function () {
   }
 }
 
-export default function (program: Command) {
+export default function (program: Command): void {
   program
     .description('创建新项目')
     .on('--help', function () {
