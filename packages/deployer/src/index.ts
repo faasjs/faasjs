@@ -43,7 +43,7 @@ export class Deployer {
     const data = this.deployData;
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const func = require(data.filename);
+    const func = require(data.filename).default;
     if (!func) throw Error(`Func load failed: ${data.filename}`);
 
     if (func.config) data.config = deepMerge(data.config, func.config);

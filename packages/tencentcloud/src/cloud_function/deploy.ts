@@ -2,7 +2,7 @@ import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import Logger, { Color } from '@faasjs/logger';
 import { loadTs } from '@faasjs/load';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, appendFileSync } from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
@@ -131,13 +131,14 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
  * @build ${config.config.version}
  * @staging ${config.config.env}
  * @dependencies ${JSON.stringify(config.config.dependencies)}
- */`,
-      footer: `
-const main = module.exports;
-main.config = ${JSON.stringify(data.config, null, 2)};
-module.exports = main.export();`
+ */`
     }
   });
+  appendFileSync(output.file, `
+const main = module.exports;
+main.config = ${JSON.stringify(data.config, null, 2)};
+module.exports = main.export();
+`);
   exec(`mv ${output.file} ${config.config.tmp}index.js`);
 
   // logger.debug('[2.2/11] 生成 dependencies...');
