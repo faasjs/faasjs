@@ -1,13 +1,35 @@
 import deepMerge from '@faasjs/deep_merge';
 import { unlinkSync } from 'fs';
-import { basename, dirname, join } from 'path';
 import * as rollup from 'rollup';
 import typescript from 'rollup-plugin-typescript2';
-import nodeResolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
 import { Func } from '@faasjs/func';
 
-const EXTERNAL = [
+const FAAS_PACKAGES = [
+  '@faasjs/browser',
+  '@faasjs/cli',
+  '@faasjs/cloud_function',
+  'create-faas-app',
+  '@faasjs/deep_merge',
+  '@faasjs/deployer',
+  '@faasjs/eslint-config-recommended',
+  '@faasjs/eslint-config-vue',
+  'faasjs',
+  '@faasjs/func',
+  '@faasjs/graphql-server',
+  '@faasjs/http',
+  '@faasjs/load',
+  '@faasjs/logger',
+  '@faasjs/nuxt',
+  '@faasjs/redis',
+  '@faasjs/request',
+  '@faasjs/server',
+  '@faasjs/sql',
+  '@faasjs/tencentcloud',
+  '@faasjs/test',
+  '@faasjs/vue-plugin'
+];
+
+const NODE_PACKAGES = [
   'async_hooks',
   'child_process',
   'cluster',
@@ -61,48 +83,46 @@ export default async function loadTs (filename: string, options: {
   };
   tmp?: boolean;
 } = Object.create(null)): Promise<{
-    file: string;
     module: Func;
+    dependencies: {
+      [key: string]: string;
+    };
   }> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`);
-  const external = PackageJSON['dependencies'] ? EXTERNAL.concat(Object.keys(PackageJSON.dependencies)) : EXTERNAL;
+  const external = PackageJSON['dependencies'] ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES;
 
   const input = deepMerge({
     input: filename,
     external,
     plugins: [
-      typescript({
-        rollupCommonJSResolveHack: true,
-        tsconfigOverride: { compilerOptions: { declaration: false } }
-      }),
-      commonjs({ include: 'node_modules/**' }),
-      nodeResolve(),
+      typescript({ tsconfigOverride: { compilerOptions: { declaration: false } } })
     ],
     onwarn: () => null
   }, options.input || {});
 
   const bundle = await rollup.rollup(input);
 
+  const dependencies = Object.create(null);
+
+  for (const m of bundle.cache.modules || [])
+    for (const d of m.dependencies)
+      if (!d.startsWith('/') && !dependencies[d] && !NODE_PACKAGES.includes(d)) dependencies[d] = '*';
+
   const output = deepMerge({
-    dir: dirname(filename),
-    format: 'cjs',
-    manualChunks (id: string) {
-      if (id.includes('node_modules'))
-        return 'vendor';
-    }
+    file: filename + '.tmp.js',
+    format: 'cjs'
   }, options.output || {});
 
   await bundle.write(output);
-  const file = output.file || join(output.dir, basename(filename).replace(/.ts$/, '.js'));
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const module = require(file);
+  const module = require(output.file);
 
-  if (options.tmp) unlinkSync(file);
+  if (options.tmp) unlinkSync(output.file);
 
   return {
-    file,
-    module
+    module,
+    dependencies
   };
 }
