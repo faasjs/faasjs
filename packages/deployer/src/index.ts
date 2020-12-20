@@ -1,7 +1,7 @@
 import { Func, DeployData } from '@faasjs/func';
 import { existsSync, mkdirSync } from 'fs';
 import { join, sep } from 'path';
-import { loadConfig } from '@faasjs/load';
+import { loadConfig, loadTs } from '@faasjs/load';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 import { CloudFunction } from '@faasjs/cloud_function';
@@ -42,11 +42,14 @@ export class Deployer {
   public async deploy (): Promise<DeployData> {
     const data = this.deployData;
 
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const func = require(data.filename).default;
+    const loadResult = await loadTs(data.filename, { tmp: true });
+
+    const func = loadResult.module;
     if (!func) throw Error(`Func load failed: ${data.filename}`);
 
     if (func.config) data.config = deepMerge(data.config, func.config);
+
+    data.dependencies = deepMerge(loadResult.dependencies, func.dependencies);
 
     // 按类型分类插件
     const includedCloudFunction = [];
