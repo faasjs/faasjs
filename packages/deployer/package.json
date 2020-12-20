@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/deployer",
-  "version": "0.0.2-beta.133",
+  "version": "0.0.2-beta.134",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
