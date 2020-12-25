@@ -4,7 +4,7 @@ import Tencentcloud from '..';
 export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name: string, data?: any, options?: {
   [key: string]: any;
 }): Promise<TResult> {
-  tc.logger.debug('invokeFunction: %s %O', name, options);
+  tc.logger.debug('invokeFunction: %s %O %O', name, options, data);
 
   if (process.env.FaasMode === 'local') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
