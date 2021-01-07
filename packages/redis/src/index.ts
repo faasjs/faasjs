@@ -91,7 +91,7 @@ export class Redis implements Plugin {
     if (!globals[this.name]) return;
 
     try {
-      await new Promise(resolve => {
+      await new Promise<void>(resolve => {
         globals[this.name].adapter.quit(() => {
           delete globals[this.name];
           resolve();
