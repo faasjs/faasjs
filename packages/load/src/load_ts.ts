@@ -17,15 +17,20 @@ const FAAS_PACKAGES = [
   '@faasjs/func',
   '@faasjs/graphql-server',
   '@faasjs/http',
+  '@faasjs/kafka',
+  '@faasjs/knex',
   '@faasjs/load',
   '@faasjs/logger',
   '@faasjs/nuxt',
+  '@faasjs/react',
   '@faasjs/redis',
   '@faasjs/request',
+  '@faasjs/sequelize',
   '@faasjs/server',
   '@faasjs/sql',
   '@faasjs/tencentcloud',
   '@faasjs/test',
+  '@faasjs/typeorm',
   '@faasjs/vue-plugin'
 ];
 
