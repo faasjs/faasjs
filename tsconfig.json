@@ -6,7 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "target": "ESNext",
+    "target": "ES2019",
     "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
