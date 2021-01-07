@@ -144,7 +144,7 @@ export class TypeORM implements Plugin {
   }
 }
 
-export function useTypeORM (config?: TypeORMConfig): TypeORMConfig & UseifyPlugin {
+export function useTypeORM (config?: TypeORMConfig): TypeORM & UseifyPlugin {
   const name = config?.name || Name;
 
   if (globals[name]) return usePlugin<TypeORM>(globals[name]);
