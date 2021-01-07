@@ -1,4 +1,4 @@
-import { Plugin, Next, DeployData, MountData } from '@faasjs/func';
+import { Plugin, Next, DeployData, MountData, UseifyPlugin, usePlugin } from '@faasjs/func';
 import 'reflect-metadata';
 import { createConnection, ConnectionOptions, getConnection, Connection, ObjectType, EntitySchema, Repository, SelectQueryBuilder, getRepository } from 'typeorm';
 import { BaseConnectionOptions as OriginBaseConnectionOptions } from 'typeorm/connection/BaseConnectionOptions';
@@ -12,15 +12,26 @@ type BaseConnectionOptions = Omit<OriginBaseConnectionOptions, keyof {
   type?: DatabaseType;
 }>
 
-export type TypeORMConfig = BaseConnectionOptions | ConnectionOptions;
+type Config = BaseConnectionOptions | ConnectionOptions;
+
+export type TypeORMConfig = {
+  name?: string;
+  config?: Config;
+}
+
+const Name = 'typeORM';
+
+const globals: {
+  [name: string]: TypeORM;
+} = {};
 
 /**
  * TypeORM 插件
  */
 export class TypeORM implements Plugin {
-  public type: string = 'typeORM';
+  public type: string = Name;
   public name: string;
-  public config: TypeORMConfig;
+  public config: Config;
   public connection: Connection;
   public logger: Logger;
 
@@ -30,10 +41,7 @@ export class TypeORM implements Plugin {
    * @param config.name {string} 配置名
    * @param config.config {object} 数据库配置
    */
-  constructor (config?: {
-    name?: string;
-    config?: TypeORMConfig;
-  }) {
+  constructor (config?: TypeORMConfig) {
     if (config) {
       this.name = config.name || this.type;
       this.config = config.config || Object.create(null);
@@ -77,6 +85,13 @@ export class TypeORM implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
+    if (globals[this.name]) {
+      this.config = globals[this.name].config;
+      this.connection = globals[this.name].connection;
+      await next();
+      return;
+    }
+
     try {
       this.connection = getConnection();
       if (this.connection.isConnected) await this.connection.close();
@@ -98,6 +113,8 @@ export class TypeORM implements Plugin {
       this.logger.debug('connected');
     }
 
+    globals[this.name] = this;
+
     await next();
   }
 
@@ -116,4 +133,21 @@ export class TypeORM implements Plugin {
   public getCustomRepository<T> (customRepository: ObjectType<T>): T {
     return this.connection.getCustomRepository(customRepository);
   }
+
+  public async close (): Promise<void> {
+    try {
+      delete globals[this.name];
+      await globals[this.name].connection.close();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+export function useTypeORM (config?: TypeORMConfig): TypeORMConfig & UseifyPlugin {
+  const name = config?.name || Name;
+
+  if (globals[name]) return usePlugin<TypeORM>(globals[name]);
+
+  return usePlugin<TypeORM>(new TypeORM(config));
 }
