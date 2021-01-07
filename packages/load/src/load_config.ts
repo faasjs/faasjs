@@ -1,7 +1,7 @@
 import deepMerge from '@faasjs/deep_merge';
 import { existsSync, readFileSync } from 'fs';
 import { sep, dirname, join } from 'path';
-import { safeLoad } from 'js-yaml';
+import { load } from 'js-yaml';
 import { Config as FuncConfig } from '@faasjs/func';
 
 /**
@@ -42,7 +42,7 @@ export class Config {
       const faas = join(root, 'faas.yaml');
 
       if (existsSync(faas))
-        configs.push(safeLoad(readFileSync(faas).toString()) as { [key: string]: FuncConfig });
+        configs.push(load(readFileSync(faas).toString()) as { [key: string]: FuncConfig });
 
       return root;
     });
