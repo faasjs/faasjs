@@ -1,10 +1,10 @@
 {
   "name": "faasjs",
-  "version": "0.0.2-beta.135",
+  "version": "0.0.2-beta.136",
   "license": "MIT",
   "files": [],
   "dependencies": {
-    "@faasjs/cli": "^0.0.2-beta.135",
+    "@faasjs/cli": "^0.0.2-beta.136",
     "@faasjs/http": "^0.0.2-beta.125"
   },
   "gitHead": "2a4ad5d99128943bae40dbd3a7bc2b6e4f821634"
