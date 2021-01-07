@@ -44,7 +44,7 @@ export async function action (env: string, files: string[]): Promise<void> {
     console.log('');
     if (!process.env.CI)
       // eslint-disable-next-line @typescript-eslint/typedef
-      await new Promise(function (resolve, reject) {
+      await new Promise<void>(function (resolve, reject) {
         const readline = createInterface({
           input: process.stdin,
           output: process.stdout
