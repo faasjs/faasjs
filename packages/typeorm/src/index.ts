@@ -94,7 +94,7 @@ export class TypeORM implements Plugin {
 
     try {
       this.connection = getConnection();
-      if (this.connection.isConnected) await this.connection.close();
+      if (this.connection?.isConnected) await this.connection.close();
       throw Error('[TypeORM] Connecting');
     } catch (error) {
       const prefix = `SECRET_${this.name.toUpperCase()}_`;

@@ -53,7 +53,6 @@ describe('typeORM', function () {
     }
 
     const typeORM = new TypeORM({
-      name: 'config with env',
       config: {
         synchronize: true,
         entities: [User]
