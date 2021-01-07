@@ -10,7 +10,7 @@ describe('typeORM', function () {
       console.error(error);
     }
   });
-  
+
   it('config with code', async function () {
     @Entity()
     class User {
@@ -19,6 +19,7 @@ describe('typeORM', function () {
     }
 
     const typeORM = new TypeORM({
+      name: 'config with code',
       config: {
         type: 'sqlite',
         database: ':memory:',
@@ -52,6 +53,7 @@ describe('typeORM', function () {
     }
 
     const typeORM = new TypeORM({
+      name: 'config with env',
       config: {
         synchronize: true,
         entities: [User]

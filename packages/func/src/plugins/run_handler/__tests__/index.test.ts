@@ -42,7 +42,7 @@ describe('plugins.runHandler', function () {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler (data: InvokeData) {
-        await new Promise(function (resolve) {
+        await new Promise<void>(function (resolve) {
           data.callback(null, data.event + 1);
           resolve();
         });
@@ -97,7 +97,7 @@ describe('plugins.runHandler', function () {
       await new Func({
         plugins: [new RunHandler()],
         async handler (data: InvokeData) {
-          await new Promise(function (resolve) {
+          await new Promise<void>(function (resolve) {
             data.callback(Error('wrong'));
             resolve();
           });

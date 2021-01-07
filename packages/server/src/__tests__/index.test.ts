@@ -17,7 +17,7 @@ describe('server', function () {
 
     let res;
 
-    const promise = new Promise(function (resolve) {
+    const promise = new Promise<void>(function (resolve) {
       res = {
         statusCode: null,
         body: null,
@@ -52,7 +52,7 @@ describe('server', function () {
 
     let res;
 
-    const promise = new Promise(function (resolve) {
+    const promise = new Promise<void>(function (resolve) {
       res = {
         statusCode: null,
         body: null,
@@ -87,7 +87,7 @@ describe('server', function () {
 
     let res;
 
-    const promise = new Promise(function (resolve) {
+    const promise = new Promise<void>(function (resolve) {
       res = {
         statusCode: null,
         body: null,
@@ -122,7 +122,7 @@ describe('server', function () {
 
     let res;
 
-    const promise = new Promise(function (resolve) {
+    const promise = new Promise<void>(function (resolve) {
       res = {
         statusCode: null,
         body: null,
