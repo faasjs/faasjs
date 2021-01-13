@@ -4328,9 +4328,9 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 faasjs@./packages/faasjs:
-  version "0.0.2-beta.135"
+  version "0.0.2-beta.138"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.135"
+    "@faasjs/cli" "^0.0.2-beta.138"
     "@faasjs/http" "^0.0.2-beta.125"
 
 fast-deep-equal@^3.1.1:

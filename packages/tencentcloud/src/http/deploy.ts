@@ -2,6 +2,7 @@ import { DeployData } from '@faasjs/func';
 import api from './api';
 import deepMerge from '@faasjs/deep_merge';
 import Tencentcloud from '..';
+import { Color } from '@faasjs/logger';
 
 const defaults = {
   EnableCORS: true,
@@ -83,7 +84,7 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
   const provider = config.provider.config;
 
   if (!config.config.ServiceId) {
-    tc.logger.debug('查询服务信息 %s', data.env);
+    tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[1/3]')} 查询和更新服务信息...`);
     let serviceInfo = await api('DescribeServicesStatus', provider, {
       Filters: [{
         Name: 'ServiceName',
@@ -95,23 +96,21 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
       });
     });
 
-    if (!serviceInfo) {
-      tc.logger.info('服务不存在，创建服务 %s', data.env);
+    if (!serviceInfo)
       serviceInfo = await api('CreateService', provider, {
         ServiceName: data.env,
         Protocol: 'http&https'
       }).then(function (body) { return body.data; });
-    }
 
     config.config.ServiceId = serviceInfo.ServiceId;
   }
 
-  tc.logger.debug('查询接口是否存在 %s %s', config.config.ServiceId, config.config.RequestConfig.Path);
+  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[2/3]')} 查询和更新接口信息...`);
 
   let apiInfo = await api('DescribeApisStatus', provider, {
     Filters: [{
-      Name: 'ApiPath',
-      Values: [config.config.RequestConfig.Path]
+      Name: 'ApiName',
+      Values: [config.config.ApiName]
     }],
     ServiceId: config.config.ServiceId,
   }).then(function (body) {
@@ -131,25 +130,22 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
       apiInfo.ServiceScfFunctionName !== config.config.ServiceScfFunctionName ||
       apiInfo.ServiceScfFunctionNamespace !== config.config.ServiceScfFunctionNamespace ||
       apiInfo.ServiceScfFunctionQualifier !== config.config.ServiceScfFunctionQualifier ||
-      apiInfo.RequestConfig.Method !== config.config.RequestConfig.Method) {
-      tc.logger.info('更新接口');
+      apiInfo.RequestConfig.Method !== config.config.RequestConfig.Method)
       await api('ModifyApi', provider, Object.assign(config.config, {
         ApiId: apiInfo.ApiId,
         ServiceId: config.config.ServiceId
       }));
-    } else {
+    else {
       tc.logger.info('网关无需更新 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
       return;
     }
-  } else {
-    tc.logger.info('接口不存在，创建接口');
+  } else
     await api('CreateApi', provider, Object.assign(config.config, {
       ServiceId: config.config.ServiceId,
       Protocol: 'HTTP'
     }));
-  }
 
-  tc.logger.info('发布网关');
+  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[2/3]')} 发布网关...`);
 
   await api('ReleaseService', provider, {
     EnvironmentName: 'release',
@@ -157,5 +153,5 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
     ServiceId: config.config.ServiceId
   });
 
-  tc.logger.info('网关发布完成 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
+  tc.logger.info('HTTP 接口发布完成 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
 }
