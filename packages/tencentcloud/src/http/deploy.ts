@@ -108,43 +108,43 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
 
   tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[2/3]')} 查询和更新接口信息...`);
 
-  let apiInfo = await api('DescribeApisStatus', provider, {
-    Filters: [{
-      Name: 'ApiName',
-      Values: [config.config.ApiName]
-    }],
-    ServiceId: config.config.ServiceId,
-  }).then(function (body) {
-    return body.Result.ApiIdStatusSet.find(function (item: any) {
-      return item.Path === config.config.RequestConfig.Path;
-    });
-  });
+  // let apiInfo = await api('DescribeApisStatus', provider, {
+  //   Filters: [{
+  //     Name: 'ApiName',
+  //     Values: [config.config.ApiName]
+  //   }],
+  //   ServiceId: config.config.ServiceId,
+  // }).then(function (body) {
+  //   return body.Result.ApiIdStatusSet.find(function (item: any) {
+  //     return item.Path === config.config.RequestConfig.Path;
+  //   });
+  // });
 
-  if (apiInfo) {
-    apiInfo = await api('DescribeApi', provider, {
-      ServiceId: config.config.ServiceId,
-      ApiId: apiInfo.ApiId
-    }).then(body => body.Result);
-    if (
-      apiInfo.ServiceType !== 'SCF' ||
-      apiInfo.ServiceTimeout !== config.config.ServiceTimeout ||
-      apiInfo.ServiceScfFunctionName !== config.config.ServiceScfFunctionName ||
-      apiInfo.ServiceScfFunctionNamespace !== config.config.ServiceScfFunctionNamespace ||
-      apiInfo.ServiceScfFunctionQualifier !== config.config.ServiceScfFunctionQualifier ||
-      apiInfo.RequestConfig.Method !== config.config.RequestConfig.Method)
-      await api('ModifyApi', provider, Object.assign(config.config, {
-        ApiId: apiInfo.ApiId,
-        ServiceId: config.config.ServiceId
-      }));
-    else {
-      tc.logger.info('网关无需更新 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
-      return;
-    }
-  } else
-    await api('CreateApi', provider, Object.assign(config.config, {
-      ServiceId: config.config.ServiceId,
-      Protocol: 'HTTP'
-    }));
+  // if (apiInfo) {
+  //   apiInfo = await api('DescribeApi', provider, {
+  //     ServiceId: config.config.ServiceId,
+  //     ApiId: apiInfo.ApiId
+  //   }).then(body => body.Result);
+  //   if (
+  //     apiInfo.ServiceType !== 'SCF' ||
+  //     apiInfo.ServiceTimeout !== config.config.ServiceTimeout ||
+  //     apiInfo.ServiceScfFunctionName !== config.config.ServiceScfFunctionName ||
+  //     apiInfo.ServiceScfFunctionNamespace !== config.config.ServiceScfFunctionNamespace ||
+  //     apiInfo.ServiceScfFunctionQualifier !== config.config.ServiceScfFunctionQualifier ||
+  //     apiInfo.RequestConfig.Method !== config.config.RequestConfig.Method)
+  //     await api('ModifyApi', provider, Object.assign(config.config, {
+  //       ApiId: apiInfo.ApiId,
+  //       ServiceId: config.config.ServiceId
+  //     }));
+  //   else {
+  //     tc.logger.info('网关无需更新 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
+  //     return;
+  //   }
+  // } else
+  await api('CreateApi', provider, Object.assign(config.config, {
+    ServiceId: config.config.ServiceId,
+    Protocol: 'HTTP'
+  }));
 
   tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[2/3]')} 发布网关...`);
 
