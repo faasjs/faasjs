@@ -146,7 +146,7 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
     Protocol: 'HTTP'
   }));
 
-  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[2/3]')} 发布网关...`);
+  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[3/3]')} 发布网关...`);
 
   await api('ReleaseService', provider, {
     EnvironmentName: 'release',
@@ -154,5 +154,5 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
     ServiceId: config.config.ServiceId
   });
 
-  tc.logger.info('HTTP 接口发布完成 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
+  tc.logger.info('接口发布完成 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path);
 }
