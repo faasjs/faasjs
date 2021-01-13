@@ -13,6 +13,7 @@ const defaults = {
 };
 
 export default async function (tc: Tencentcloud, data: DeployData, origin: any): Promise<void> {
+  tc.logger.label = `${data.env}#${data.name}`;
   tc.logger.info('开始发布网关');
 
   if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!');
@@ -83,8 +84,8 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
 
   const provider = config.provider.config;
 
+  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[1/3]')} 查询和更新服务信息...`);
   if (!config.config.ServiceId) {
-    tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[1/3]')} 查询和更新服务信息...`);
     let serviceInfo = await api('DescribeServicesStatus', provider, {
       Filters: [{
         Name: 'ServiceName',
