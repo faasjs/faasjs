@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/knex",
-  "version": "0.0.2-beta.126",
+  "version": "0.0.2-beta.141",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -17,7 +17,7 @@
     "knex": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.117",
+    "@faasjs/func": "^0.0.2-beta.141",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/mysql": "*",
