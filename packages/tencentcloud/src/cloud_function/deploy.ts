@@ -6,7 +6,7 @@ import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
 import scf from './scf';
 import Tencentcloud from '..';
-import { resolve } from 'path';
+import { join } from 'path';
 
 const defaults = {
   Handler: 'index.handler',
@@ -152,12 +152,12 @@ module.exports = main.export();`
 
   logger.debug('[2.2/11] 生成 node_modules...');
   for (const key in ts.modules) {
-    const target = resolve(config.config.tmp, 'node_modules', key);
+    const target = join(config.config.tmp, 'node_modules', key);
     exec(`mkdir -p ${target}`);
-    exec(`rsync -r ${resolve(ts.modules[key], '*')} ${target}`);
+    exec(`rsync -avhp --exclude='*.cache*' ${join(ts.modules[key])} ${target}`);
   }
 
-  exec(`rm -rf ${resolve(config.config.tmp, 'node_modules', '*', 'node_modules')}`);
+  exec(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
   exec(`cd ${config.config.tmp} && zip -r deploy.zip * -x "*.md" -x "*.ts" -x "*.flow" -x "*.map" -x "*/LICENSE" -x "*/license" -x "ChangeLog" -x "CHANGELOG"`);
