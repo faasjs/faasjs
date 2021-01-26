@@ -154,13 +154,13 @@ module.exports = main.export();`
   for (const key in ts.modules) {
     const target = join(config.config.tmp, 'node_modules', key);
     exec(`mkdir -p ${target}`);
-    exec(`rsync -avhpr -R --exclude={'*.cache*','*.bin*'} ${join(ts.modules[key], '*')} ${target}`);
+    exec(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md'} ${join(ts.modules[key], '*')} ${target}`);
   }
 
   exec(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
-  exec(`cd ${config.config.tmp} && zip -r deploy.zip * -x "*.md" -x "*.ts" -x "*.flow" -x "*.map" -x "*/LICENSE" -x "*/license" -x "ChangeLog" -x "CHANGELOG"`);
+  exec(`cd ${config.config.tmp} && zip -r deploy.zip *`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, '[04/11]')} 检查 COS...`);
 
