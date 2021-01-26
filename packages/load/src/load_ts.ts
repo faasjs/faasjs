@@ -125,6 +125,7 @@ export default async function loadTs (filename: string, options: {
   tmp?: boolean;
   modules?: {
     excludes?: string[];
+    additions?: string[];
   };
 } = Object.create(null)): Promise<{
     module: Func;
@@ -181,6 +182,8 @@ export default async function loadTs (filename: string, options: {
     const modules = Object.create(null);
 
     Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules));
+    if (options.modules.additions)
+      options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules));
 
     result.modules = modules;
   }

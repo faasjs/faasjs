@@ -131,14 +131,17 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
  * @author ${process.env.LOGNAME}
  * @build ${config.config.version}
  * @staging ${config.config.env}
- * @dependencies ${JSON.stringify(config.config.dependencies)}
+ * @dependencies ${Object.keys(config.config.dependencies).join(',')}
  */`,
       footer: `
 const main = module.exports;
 main.config = ${JSON.stringify(data.config)};
 module.exports = main.export();`
     },
-    modules: { excludes: INCLUDED_NPM }
+    modules: {
+      excludes: INCLUDED_NPM,
+      additions: ['@faasjs/tencentclooud']
+    }
   });
 
   logger.debug('%o', ts.modules);
