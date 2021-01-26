@@ -1,7 +1,6 @@
 import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import Logger, { Color } from '@faasjs/logger';
-import { loadTs } from '@faasjs/load';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
 import scf from './scf';
@@ -125,7 +124,8 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
   logger.raw(`${logger.colorfy(Color.GRAY, '[02/11]')} 生成代码包...`);
 
   logger.debug('[2.1/11] 生成 index.js...');
-  const ts = await loadTs(config.config.filename, {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ts = await require('@faasjs/load').loadTs(config.config.filename, {
     output: {
       file: config.config.tmp + '/index.js',
       format: 'cjs',
@@ -154,7 +154,7 @@ module.exports = main.export();`
   for (const key in ts.modules) {
     const target = join(config.config.tmp, 'node_modules', key);
     exec(`mkdir -p ${target}`);
-    exec(`rsync -avhp --exclude='*.cache*' ${join(ts.modules[key])} ${target}`);
+    exec(`rsync -avhpr -R --exclude={'*.cache*','*.bin*'} ${join(ts.modules[key], '*')} ${target}`);
   }
 
   exec(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`);

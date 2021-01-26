@@ -110,7 +110,7 @@ test('frist deploy', async function () {
     env: 'testing',
     name: 'basic',
     version: 'version',
-    tmp: join(__dirname, '..', 'tmp') + sep,
+    tmp: join(__dirname, '..', 'tmp', 'first') + sep,
     dependencies: { '@faasjs/func': '*' }
   }, {
     name: 'cloud_function',
