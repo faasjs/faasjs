@@ -1,3 +1,4 @@
+import { resolve, sep } from 'path';
 import Tencentcloud from '../..';
 
 jest.mock('cos-nodejs-sdk-v5', () => {
@@ -87,11 +88,11 @@ test('update deploy', async function () {
 
   await tc.deploy('cloud_function', {
     root: __dirname,
-    filename: __dirname + '/../funcs/basic.func.ts',
+    filename: resolve(__dirname, '/../funcs/basic.func.ts'),
     env: 'testing',
     name: 'basic',
     version: 'version',
-    tmp: __dirname + '/../tmp/',
+    tmp: resolve(__dirname, '/../tmp') + sep,
     dependencies: { '@faasjs/func': '*' }
   }, {
     name: 'cloud_function',

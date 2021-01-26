@@ -39,7 +39,7 @@ export async function action (env: string, files: string[]): Promise<void> {
     });
     await deployer.deploy();
   } else {
-    console.log(`[${process.env.FaasEnv}] 是否要发布以下云函数？`);
+    console.log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？`);
     console.log(list);
     console.log('');
     if (!process.env.CI)
