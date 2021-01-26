@@ -1,8 +1,9 @@
 import deepMerge from '@faasjs/deep_merge';
-import { unlinkSync } from 'fs';
+import { existsSync, readFileSync, unlinkSync } from 'fs';
 import * as rollup from 'rollup';
 import typescript from 'rollup-plugin-typescript2';
 import { Func } from '@faasjs/func';
+import { join } from 'path';
 
 const FAAS_PACKAGES = [
   '@faasjs/browser',
@@ -70,6 +71,39 @@ const NODE_PACKAGES = [
   'zlib'
 ];
 
+function findModule (list: any, key: string, basePath: string, options: {
+  excludes?: string[]
+}) {
+  if (list[key]) return;
+
+  if (key.startsWith('@types/') || options.excludes.includes(key))
+    return;
+
+
+  const paths = [
+    join(process.cwd(), 'node_modules', key),
+    join(basePath, 'node_modules', key)
+  ];
+
+  let path;
+  for (const p of paths)
+    if (existsSync(p)) {
+      path = p;
+      break;
+    }
+
+  if (!path)
+    return;
+
+  list[key] = path;
+
+  if (existsSync(join(path, 'package.json'))) {
+    const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString());
+    const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
+    deps.map(d => findModule(list, d, path, options));
+  }
+}
+
 /**
  * 加载 ts 文件
  *
@@ -78,6 +112,8 @@ const NODE_PACKAGES = [
  * @param options.input {object} 读取配置
  * @param options.output {object} 写入配置
  * @param options.tmp {boolean} 是否为临时文件，true 则生成的文件会被删除，默认为 false
+ * @param options.modules {object} 生成 modules 的配置
+ * @param options.modules.excludes {string[]} modules 中需排除的模块
  */
 export default async function loadTs (filename: string, options: {
   input?: {
@@ -87,15 +123,22 @@ export default async function loadTs (filename: string, options: {
     [key: string]: any;
   };
   tmp?: boolean;
+  modules?: {
+    excludes?: string[];
+  };
 } = Object.create(null)): Promise<{
     module: Func;
     dependencies: {
       [key: string]: string;
     };
+    modules?: {
+      [key: string]: string;
+    }
   }> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`);
   const external = PackageJSON['dependencies'] ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES;
+  if (options.modules && !options.modules.excludes) options.modules.excludes = [];
 
   const input = deepMerge({
     input: filename,
@@ -112,7 +155,11 @@ export default async function loadTs (filename: string, options: {
 
   for (const m of bundle.cache.modules || [])
     for (const d of m.dependencies)
-      if (!d.startsWith('/') && !dependencies[d] && !NODE_PACKAGES.includes(d)) dependencies[d] = '*';
+      if (
+        !d.startsWith('/') &&
+        !dependencies[d] &&
+        !NODE_PACKAGES.includes(d)
+      ) dependencies[d] = '*';
 
   const output = deepMerge({
     file: filename + '.tmp.js',
@@ -121,13 +168,22 @@ export default async function loadTs (filename: string, options: {
 
   await bundle.write(output);
 
+  const result = Object.create(null);
+
+  result.dependencies = dependencies;
+
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const module = require(output.file);
+  result.module = require(output.file);
 
   if (options.tmp) unlinkSync(output.file);
 
-  return {
-    module,
-    dependencies
-  };
+  if (options.modules) {
+    const modules = Object.create(null);
+
+    Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules));
+
+    result.modules = modules;
+  }
+
+  return result;
 }

@@ -15,8 +15,6 @@
   ],
   "dependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.54",
-    "@rollup/plugin-commonjs": "*",
-    "@rollup/plugin-node-resolve": "*",
     "js-yaml": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",

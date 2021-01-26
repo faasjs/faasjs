@@ -2,8 +2,6 @@ import { DeployData } from '@faasjs/func';
 import deepMerge from '@faasjs/deep_merge';
 import Logger, { Color } from '@faasjs/logger';
 import { loadTs } from '@faasjs/load';
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
 import scf from './scf';
@@ -123,7 +121,7 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
   logger.raw(`${logger.colorfy(Color.GRAY, '[02/11]')} 生成代码包...`);
 
   logger.debug('[2.1/11] 生成 index.js...');
-  await loadTs(config.config.filename, {
+  const ts = await loadTs(config.config.filename, {
     output: {
       file: config.config.tmp + '/index.js',
       format: 'cjs',
@@ -137,57 +135,18 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
  */`,
       footer: `
 const main = module.exports;
-main.config = ${JSON.stringify(data.config, null, 2)};
+main.config = ${JSON.stringify(data.config)};
 module.exports = main.export();`
-    }
+    },
+    modules: { excludes: INCLUDED_NPM }
   });
 
-  logger.debug('[2.2/11] 生成 dependencies...');
-  const dependencies = Object.keys(config.config.dependencies);
-
-  const modules = Object.create(null);
-
-  function findModule (list: any, key: string, basePath: string) {
-    if (list[key]) return;
-
-    if (INCLUDED_NPM.includes(key)) {
-      logger.debug('Remove dependent %s', key);
-      return;
-    }
-
-    const paths = [
-      join(process.cwd(), 'node_modules', key),
-      join(basePath, 'node_modules', key)
-    ];
-
-    let path;
-    for (const p of paths)
-      if (existsSync(p)) {
-        path = p;
-        break;
-      }
-
-    if (!path) {
-      logger.debug('Remove dependent %s', key);
-      return;
-    }
-    list[key] = path;
-
-    if (existsSync(join(path, 'package.json'))) {
-      const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString());
-      const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
-      deps.map(d => findModule(modules, d, path));
-    }
-  }
-
-  dependencies.map(d => findModule(modules, d, process.cwd()));
-
-  logger.debug('%o', modules);
+  logger.debug('%o', ts.modules);
 
   logger.debug('[2.3/11] 生成 node_modules...');
-  for (const key in modules) {
+  for (const key in ts.modules) {
     exec(`mkdir -p ${config.config.tmp}node_modules/${key}`);
-    exec(`cp -R -L ${modules[key]}/* ${config.config.tmp}node_modules/${key}`);
+    exec(`cp -R -L ${ts.modules[key]}/* ${config.config.tmp}node_modules/${key}`);
   }
   exec(`rm -rf ${config.config.tmp}node_modules/*/node_modules`);
 
