@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/sql",
-  "version": "0.0.2-beta.146",
+  "version": "0.0.2-beta.147",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,7 +13,7 @@
   ],
   "dependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.54",
-    "@faasjs/load": "^0.0.2-beta.146",
+    "@faasjs/load": "^0.0.2-beta.147",
     "@faasjs/logger": "^0.0.2-beta.101"
   },
   "devDependencies": {
