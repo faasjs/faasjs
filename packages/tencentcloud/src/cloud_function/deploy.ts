@@ -37,7 +37,10 @@ const INCLUDED_NPM = [
   'url',
   'uuid',
   'xml2js',
-  'xmlbuilder'
+  'xmlbuilder',
+
+  // 移除构建所需的依赖项
+  '@faasjs/load'
 ];
 
 function exec (cmd: string): void {
