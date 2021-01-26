@@ -140,7 +140,7 @@ module.exports = main.export();`
     },
     modules: {
       excludes: INCLUDED_NPM,
-      additions: ['@faasjs/tencentclooud']
+      additions: ['@faasjs/tencentcloud']
     }
   });
 
