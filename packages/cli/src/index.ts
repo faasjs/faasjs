@@ -32,11 +32,9 @@ commander
   .option('-r --root <path>', '项目根目录，默认为命令执行时所在的目录')
   .option('-e --env <staging>', '环境，默认为 development', 'development')
 
-  .on('option:verbose', function (this: { verbose?: boolean }) {
-    if (this.verbose) {
-      process.env.verbose = '1';
-      process.env.FaasLog = 'debug';
-    }
+  .on('option:verbose', function () {
+    process.env.verbose = '1';
+    process.env.FaasLog = 'debug';
     logger.debug('已启用调试信息展示');
   })
   .on('option:root', function (this: { root?: string }) {
