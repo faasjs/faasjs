@@ -1,4 +1,9 @@
 module.exports = {
+  env: {
+    browser: true,
+    node: true,
+    jest: true
+  },
   extends: [
     "@faasjs/recommended",
     "plugin:react/recommended"
@@ -6,6 +11,11 @@ module.exports = {
   plugins: [
     "react"
   ],
+  settings: {
+    react: {
+      version: "detect"
+    }
+  },
   rules: {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-use-before-define": "off",
