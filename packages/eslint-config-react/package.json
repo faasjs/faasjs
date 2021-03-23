@@ -7,7 +7,7 @@
     "index.js"
   ],
   "dependencies": {
-    "@faasjs/eslint-config-recommended": "*",
+    "@faasjs/eslint-config-recommended": "^0.0.2-beta.152",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-hooks": "*"
   }
