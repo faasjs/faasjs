@@ -26,7 +26,8 @@
     "@apollographql/graphql-playground-html": "*",
     "@faasjs/http": "^0.0.2-beta.141",
     "apollo-server-core": "*",
-    "apollo-server-env": "*"
+    "apollo-server-env": "*",
+    "graphql": "*"
   },
   "gitHead": "2a4ad5d99128943bae40dbd3a7bc2b6e4f821634"
 }
