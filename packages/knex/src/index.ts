@@ -1,11 +1,11 @@
 import { Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin } from '@faasjs/func';
 import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
-import knex, { Config, Transaction, QueryBuilder, Raw, AliasDict, SchemaBuilder, ValueDict, RawBinding } from 'knex';
+import knex, { Knex as K } from 'knex';
 
 export type KnexConfig = {
   name?: string;
-  config?: Config;
+  config?: K.Config;
 };
 
 const Name = 'knex';
@@ -20,8 +20,8 @@ const globals: {
 export class Knex implements Plugin {
   public readonly type: string = Name;
   public readonly name: string = Name;
-  public config: Config;
-  public adapter: knex;
+  public config: K.Config;
+  public adapter: K;
   public logger: Logger;
 
   /**
@@ -42,7 +42,7 @@ export class Knex implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
-    const client = (data.config.plugins[this.name].config as Config).client as string;
+    const client = (data.config.plugins[this.name].config as K.Config).client as string;
     data.dependencies[client] = '*';
     await next();
   }
@@ -91,19 +91,19 @@ export class Knex implements Plugin {
     await next();
   }
 
-  public query<TRecord = any, TResult = any> (tableName?: string | Raw<TResult> | QueryBuilder<TRecord, TResult> | AliasDict): QueryBuilder<TRecord, TResult> {
+  public query<TRecord = any, TResult = any> (tableName?: string | K.Raw<TResult> | K.QueryBuilder<TRecord, TResult> | K.AliasDict): K.QueryBuilder<TRecord, TResult> {
     return this.adapter<TRecord, TResult>(tableName);
   }
 
-  public async raw<TResult = any> (sql: string, bindings?: RawBinding[] | ValueDict): Promise<Raw<TResult>> {
+  public async raw<TResult = any> (sql: string, bindings?: K.RawBinding[] | K.ValueDict): Promise<K.Raw<TResult>> {
     return this.adapter.raw<TResult>(sql, bindings);
   }
 
-  public async transaction<TResult = any> (scope: (trx: Transaction) => Promise<TResult> | void): Promise<TResult> {
+  public async transaction<TResult = any> (scope: (trx: K.Transaction) => Promise<TResult> | void): Promise<TResult> {
     return this.adapter.transaction<TResult>(scope);
   }
 
-  public schema (): SchemaBuilder {
+  public schema (): K.SchemaBuilder {
     return this.adapter.schema;
   }
 
