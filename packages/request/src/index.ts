@@ -35,6 +35,7 @@ export interface RequestOptions {
   pfx?: Buffer;
   passphrase?: string;
   agent?: boolean;
+  parse?(body: string): any;
 }
 
 type Mock = (url: string, options: RequestOptions) => Promise<Response>;
@@ -64,6 +65,7 @@ export function setMock (handler: Mock | null): void {
  * @param {Buffer=} options.pfx pfx
  * @param {string=} options.passphrase passphrase
  * @param {boolean=} options.agent agent
+ * @param {parse=} options.parse body 解析器，默认为 JSON.parse
  *
  * @returns {promise}
  */
@@ -78,7 +80,8 @@ export default async function request<T = any> (url: string, {
   downloadStream,
   pfx,
   passphrase,
-  agent
+  agent,
+  parse
 }: RequestOptions = {
   headers: {},
   query: {},
@@ -181,7 +184,7 @@ export default async function request<T = any> (url: string, {
 
           if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json'))
             try {
-              response.body = JSON.parse(response.body);
+              response.body = parse ? parse(response.body) : JSON.parse(response.body);
               log.debug('response.parse JSON');
             } catch (error) {
               console.error(error);
