@@ -6,6 +6,35 @@ import { sep } from 'path';
 import { Deployer } from '@faasjs/deployer';
 import { defaultsEnv } from '../helper';
 
+async function deploy (file) {
+  try {
+    const deployer = new Deployer({
+      root: process.env.FaasRoot,
+      filename: file
+    });
+    await deployer.deploy();
+  } catch (error) {
+    console.error(error);
+    console.warn('部署失败，是否重试？');
+    await new Promise<void>(function (resolve, reject) {
+      const readline = createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+      readline.question('输入 y 确认:', function (res: string) {
+        readline.close();
+
+        if (res !== 'y') {
+          console.error('不重试，继续部署后续函数');
+          reject();
+        } else
+          resolve();
+      });
+    });
+    await deploy(file);
+  }
+}
+
 export async function action (env: string, files: string[]): Promise<void> {
   process.env.FaasEnv = env;
 
@@ -32,13 +61,9 @@ export async function action (env: string, files: string[]): Promise<void> {
   if (list.length < 1) throw Error('Not found files.');
 
   // 单个云函数文件直接部署
-  if (list.length === 1) {
-    const deployer = new Deployer({
-      root: process.env.FaasRoot,
-      filename: list[0]
-    });
-    await deployer.deploy();
-  } else {
+  if (list.length === 1)
+    await deploy(list[0]);
+  else {
     console.log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？`);
     console.log(list);
     console.log('');
@@ -60,13 +85,8 @@ export async function action (env: string, files: string[]): Promise<void> {
         });
       });
 
-    for (const file of list) {
-      const deployer = new Deployer({
-        root: process.env.FaasRoot,
-        filename: file
-      });
-      await deployer.deploy();
-    }
+    for (const file of list)
+      await deploy(file);
   }
 }
 
@@ -78,9 +98,9 @@ export default function (program: Command): void {
     .on('--help', function () {
       console.log(`
 Examples:
-  yarn deploy testing services${sep}demo.func.ts
+  yarn deploy staging services${sep}demo.func.ts
   yarn deploy production services${sep}demo.func.ts services${sep}demo2.func.ts
-  yarn deploy testing services${sep}`);
+  yarn deploy staging services${sep}`);
     })
     .action(action);
 }
