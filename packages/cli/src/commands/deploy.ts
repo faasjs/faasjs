@@ -14,6 +14,8 @@ async function deploy (file) {
     });
     await deployer.deploy();
   } catch (error) {
+    if (process.env.CI) throw error;
+
     console.error(error);
     console.warn('部署失败，是否重试？');
     await new Promise<void>(function (resolve, reject) {
