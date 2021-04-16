@@ -58,7 +58,7 @@ export default class FaasBrowserClient {
    * @param params {any} 动作参数
    */
   public async action<T = any> (action: string, params?: any): Promise<Response<T>> {
-    const url = this.host + action + '?_=' + new Date().getTime().toString();
+    const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString();
 
     if (params && typeof params !== 'string')
       params = JSON.stringify(params);
