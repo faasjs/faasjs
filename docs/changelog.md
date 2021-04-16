@@ -4,6 +4,92 @@
 
 ## Beta
 
+[`v0.0.2-beta.163 (2021-04-16)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.162...v0.0.2-beta.163)
+
+- [优化] `@faasjs/cloud_function` 和 `@faasjs/browser` action 自动转小写。
+
+[`v0.0.2-beta.162 (2021-04-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.161...v0.0.2-beta.162)
+
+- [优化] `@faasjs/cli` 支持部署失败时重试。
+
+[`v0.0.2-beta.161 (2021-04-12)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.160...v0.0.2-beta.161)
+
+- [优化] `@faasjs/request` 新增 parse 配置项。
+
+[`v0.0.2-beta.160 (2021-04-08)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.158...v0.0.2-beta.160)
+
+- [优化] `@faasjs/knex` 优化 knex 的 ts 定义。
+- [优化] `@faasjs/graphql` 优化 graphql 依赖项。
+
+[`v0.0.2-beta.158 (2021-04-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.155...v0.0.2-beta.158)
+
+- [修复] `@faasjs/tencentcloud` 修复云函数插件某些情况下未加载的问题。
+
+[`v0.0.2-beta.155 (2021-02-04)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.153...v0.0.2-beta.155)
+
+- [新增] `@faasjs/eslint-config-react`。
+
+[`v0.0.2-beta.153 (2021-02-04)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.151...v0.0.2-beta.153)
+
+- [修复] `@faasjs/cli` 修复日志等级错误的问题。
+
+[`v0.0.2-beta.151 (2021-01-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.144...v0.0.2-beta.151)
+
+- [优化] `@faasjs/tencentcloud` 优化打包机制。
+
+[`v0.0.2-beta.144 (2021-01-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.140...v0.0.2-beta.144)
+
+- [优化] `@faasjs/tencentcloud` 更新网关发布接口。
+
+[`v0.0.2-beta.140 (2021-01-07)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.135...v0.0.2-beta.140)
+
+- [优化] `@faasjs/load` 升级 js-yaml 版本。
+- [优化] `@faasjs/load` 更新内置库。
+- [优化] `@faasjs/typeorm` 支持 `useTypeORM`。
+
+[`v0.0.2-beta.135 (2020-12-25)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.131...v0.0.2-beta.135)
+
+- [优化] `@faasjs/cloud_function` 优化日志输出。
+
+[`v0.0.2-beta.131 (2020-12-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.126...v0.0.2-beta.131)
+
+- [优化] `@faasjs/create-faas-app` 优化命令行。
+
+[`v0.0.2-beta.126 (2020-12-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.125...v0.0.2-beta.126)
+
+- [修复] `@faasjs/knex` 修复 raw 的 ts 定义。
+
+[`v0.0.2-beta.125 (2020-12-10)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.124...v0.0.2-beta.125)
+
+- [优化] `@faasjs/eslint-config-vue` 优化规则。
+- [优化] `@faasjs/http` 优化 ts 定义。
+
+[`v0.0.2-beta.124 (2020-12-04)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.122...v0.0.2-beta.124)
+
+- [优化] `@faasjs/cloud_function` config 支持传入一个 function。
+
+[`v0.0.2-beta.122 (2020-11-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.121...v0.0.2-beta.122)
+
+- [优化] `@faasjs/eslint-config-vue` 优化规则。
+
+[`v0.0.2-beta.121 (2020-11-21)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.119...v0.0.2-beta.121)
+
+- [修复] `@faasjs/load` 修复重复引用文件的问题。
+- [优化] `@faasjs/request` debug 模式下显示更详细的日志。
+
+[`v0.0.2-beta.119 (2020-11-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.118...v0.0.2-beta.119)
+
+- [新增] 新增 `@faasjs/kafka`。
+
+[`v0.0.2-beta.118 (2020-11-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.117...v0.0.2-beta.118)
+
+- [修复] `@faasjs/knex` 修复 knex 连接。
+
+[`v0.0.2-beta.117 (2020-11-12)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.116...v0.0.2-beta.117)
+
+- [修复] `@faasjs/test` 补充 headers 的 ts 定义。
+- [优化] `@faasjs/logger` 优化插件的日志显示。
+
 [`v0.0.2-beta.116 (2020-10-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.115...v0.0.2-beta.116)
 
 - [修复] `@faasjs/cloud_function` 修复本地调试时没 context 时的报错。
