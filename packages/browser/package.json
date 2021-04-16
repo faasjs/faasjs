@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/browser",
-  "version": "0.0.2-beta.95",
+  "version": "0.0.2-beta.163",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
