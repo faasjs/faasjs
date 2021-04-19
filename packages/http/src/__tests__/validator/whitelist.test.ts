@@ -19,11 +19,12 @@ describe('validator/whitelist', function () {
           async handler () { }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":1,"key2":2,"key3":3}'
         });
@@ -49,6 +50,7 @@ describe('validator/whitelist', function () {
         }).export().handler;
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":1,"key2":2,"key3":3}'
         });
@@ -75,6 +77,7 @@ describe('validator/whitelist', function () {
           }).export().handler;
 
           const res = await handler({
+            httpMethod: 'POST',
             headers: { 'content-type': 'application/json' },
             body: '{"key1":1,"key2":2}'
           });
@@ -101,6 +104,7 @@ describe('validator/whitelist', function () {
           }).export().handler;
 
           const res = await handler({
+            httpMethod: 'POST',
             headers: { 'content-type': 'application/json' },
             body: '{"key1":1,"key2":2}'
           });
@@ -131,6 +135,7 @@ describe('validator/whitelist', function () {
           }).export().handler;
 
           const res = await handler({
+            httpMethod: 'POST',
             headers: { 'content-type': 'application/json' },
             body: '{"key1":1,"key2":2}'
           });
@@ -164,6 +169,7 @@ describe('validator/whitelist', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":[{"sub":1}]}'
         });
@@ -171,6 +177,7 @@ describe('validator/whitelist', function () {
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":[{"key1":1,"key2":2}]}'
         });
@@ -202,6 +209,7 @@ describe('validator/whitelist', function () {
         }).export().handler;
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":[{"sub":1,"key":2}]}'
         });
@@ -233,6 +241,7 @@ describe('validator/whitelist', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":{"sub":1}}'
         });
@@ -240,6 +249,7 @@ describe('validator/whitelist', function () {
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":{"key1":1,"key2":2}}'
         });
@@ -271,6 +281,7 @@ describe('validator/whitelist', function () {
         }).export().handler;
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":{"sub":1,"key":2}}'
         });
@@ -296,11 +307,14 @@ describe('validator/whitelist', function () {
         async handler () { }
       }).export().handler;
 
-      const res = await handler({});
+      const res = await handler({ httpMethod: 'POST' });
 
       expect(res.statusCode).toEqual(201);
 
-      const res2 = await handler({ headers: { cookie: 'key=1;key2=2;key3=3' } });
+      const res2 = await handler({
+        httpMethod: 'POST',
+        headers: { cookie: 'key=1;key2=2;key3=3' }
+      });
 
       expect(res2.statusCode).toEqual(500);
       expect(res2.body).toEqual('{"error":{"message":"[cookie] Unpermitted keys: key2, key3"}}');
@@ -322,7 +336,10 @@ describe('validator/whitelist', function () {
         }
       }).export().handler;
 
-      const res2 = await handler({ headers: { cookie: 'key=1;key2=2;key3=3' } });
+      const res2 = await handler({
+        httpMethod: 'POST',
+        headers: { cookie: 'key=1;key2=2;key3=3' }
+      });
 
       expect(res2.statusCode).toEqual(200);
       expect(res2.body).toEqual('{"data":{"key":"1"}}');
@@ -350,6 +367,7 @@ describe('validator/whitelist', function () {
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: {
             cookie: `key=${http.session.encode({
               key: 1,
@@ -379,9 +397,10 @@ describe('validator/whitelist', function () {
           }
         }).export().handler;
 
-        await handler({});
+        await handler({ httpMethod: 'POST' });
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: {
             cookie: `key=${http.session.encode({
               key: 1,
@@ -417,13 +436,17 @@ describe('validator/whitelist', function () {
           async handler () { }
         }).export().handler;
 
-        await handler({});
+        await handler({ httpMethod: 'POST' });
 
-        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: [{ sub: 1 }] })}` } });
+        const res = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: [{ sub: 1 }] })}` }
+        });
 
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: {
             cookie: `key=${http.session.encode({
               key: [{
@@ -460,9 +483,10 @@ describe('validator/whitelist', function () {
           }
         }).export().handler;
 
-        await handler({});
+        await handler({ httpMethod: 'POST' });
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: {
             cookie: `key=${http.session.encode({
               key: [{
@@ -499,13 +523,17 @@ describe('validator/whitelist', function () {
           async handler () { }
         }).export().handler;
 
-        await handler({});
+        await handler({ httpMethod: 'POST' });
 
-        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: { sub: 1 } })}` } });
+        const res = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: { sub: 1 } })}` }
+        });
 
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: {
             cookie: `key=${http.session.encode({
               key: {
@@ -542,9 +570,10 @@ describe('validator/whitelist', function () {
           }
         }).export().handler;
 
-        await handler({});
+        await handler({ httpMethod: 'POST' });
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: {
             cookie: `key=${http.session.encode({
               key: {

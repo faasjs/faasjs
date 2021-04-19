@@ -13,7 +13,7 @@ describe('validator/default', function () {
           }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual('{"data":1}');
@@ -29,6 +29,7 @@ describe('validator/default', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"i":1}'
         });
@@ -49,6 +50,7 @@ describe('validator/default', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":[{}]}'
         });
@@ -67,6 +69,7 @@ describe('validator/default', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":[{}],"i":1}'
         });
@@ -87,6 +90,7 @@ describe('validator/default', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":{}}'
         });
@@ -105,6 +109,7 @@ describe('validator/default', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":{},"i":1}'
         });
@@ -124,7 +129,7 @@ describe('validator/default', function () {
       }
     }).export().handler;
 
-    const res = await handler({});
+    const res = await handler({ httpMethod: 'POST' });
 
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual('{"data":{}}');
@@ -139,7 +144,10 @@ describe('validator/default', function () {
       }
     }).export().handler;
 
-    const res = await handler({ headers: { cookie: 'key=value' } });
+    const res = await handler({
+      httpMethod: 'POST',
+      headers: { cookie: 'key=value' }
+    });
 
     expect(res.statusCode).toEqual(200);
     expect(res.body).toEqual('{"data":{}}');

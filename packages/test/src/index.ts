@@ -107,6 +107,7 @@ export class FuncWarpper {
     }
 
     const response = await this._handler({
+      httpMethod: 'POST',
       headers: Object.assign({ 'content-type': 'application/json' }, headers),
       body: typeof body === 'string' ? body : JSON.stringify(body)
     });

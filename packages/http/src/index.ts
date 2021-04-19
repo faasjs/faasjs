@@ -178,7 +178,7 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
     this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content);
     this.logger.debug('[onInvoke] Session: %O', this.session.content);
 
-    if (this.validator) {
+    if (this.validator && data.event.httpMethod) {
       this.logger.debug('[onInvoke] Valid request');
       try {
         this.validator.valid({
@@ -221,7 +221,6 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
         this.response = data.response;
       else
         this.response.body = JSON.stringify({ data: data.response });
-
 
     // 处理 statusCode
     if (!this.response.statusCode)

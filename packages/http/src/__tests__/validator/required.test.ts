@@ -11,12 +11,13 @@ describe('validator/required', function () {
         async handler () { }
       }).export().handler;
 
-      const res = await handler({});
+      const res = await handler({ httpMethod: 'POST' });
 
       expect(res.statusCode).toEqual(500);
       expect(res.body).toEqual('{"error":{"message":"[params] key is required."}}');
 
       const res2 = await handler({
+        httpMethod: 'POST',
         headers: { 'content-type': 'application/json' },
         body: '{"key":1}'
       });
@@ -40,7 +41,7 @@ describe('validator/required', function () {
           async handler () { }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(500);
         expect(res.body).toEqual('{"error":{"message":"[params] key is required."}}');
@@ -62,7 +63,7 @@ describe('validator/required', function () {
           async handler () { }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(500);
         expect(res.body).toEqual('{"error":{"message":"params.rule.required key undefined"}}');
@@ -88,7 +89,7 @@ describe('validator/required', function () {
           async handler () { }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(401);
         expect(res.headers.key).toEqual('value');
@@ -104,11 +105,12 @@ describe('validator/required', function () {
           async handler () { }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":[]}'
         });
@@ -123,11 +125,12 @@ describe('validator/required', function () {
           async handler () { }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":[{}]}'
         });
@@ -144,11 +147,12 @@ describe('validator/required', function () {
         async handler () { }
       }).export().handler;
 
-      const res = await handler({});
+      const res = await handler({ httpMethod: 'POST' });
 
       expect(res.statusCode).toEqual(201);
 
       const res2 = await handler({
+        httpMethod: 'POST',
         headers: { 'content-type': 'application/json' },
         body: '{"key":{}}'
       });
@@ -166,12 +170,15 @@ describe('validator/required', function () {
         async handler () { }
       }).export().handler;
 
-      const res = await handler({});
+      const res = await handler({ httpMethod: 'POST' });
 
       expect(res.statusCode).toEqual(500);
       expect(res.body).toEqual('{"error":{"message":"[cookie] key is required."}}');
 
-      const res2 = await handler({ headers: { cookie: 'key=1' } });
+      const res2 = await handler({
+        httpMethod: 'POST',
+        headers: { cookie: 'key=1' }
+      });
 
       expect(res2.statusCode).toEqual(201);
     });
@@ -185,12 +192,15 @@ describe('validator/required', function () {
         async handler () { }
       }).export().handler;
 
-      const res = await handler({});
+      const res = await handler({ httpMethod: 'POST' });
 
       expect(res.statusCode).toEqual(500);
       expect(res.body).toEqual('{"error":{"message":"[session] key is required."}}');
 
-      const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: 1 })}` } });
+      const res2 = await handler({
+        httpMethod: 'POST',
+        headers: { cookie: `key=${http.session.encode({ key: 1 })}` }
+      });
 
       expect(res2.statusCode).toEqual(201);
     });
@@ -203,11 +213,14 @@ describe('validator/required', function () {
           async handler () { }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(201);
 
-        const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: [] })}` } });
+        const res2 = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: [] })}` }
+        });
 
         expect(res2.statusCode).toEqual(201);
       });
@@ -219,11 +232,14 @@ describe('validator/required', function () {
           async handler () { }
         }).export().handler;
 
-        const res = await handler({});
+        const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(201);
 
-        const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: [{}] })}` } });
+        const res2 = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: [{}] })}` }
+        });
 
         expect(res2.statusCode).toEqual(500);
         expect(res2.body).toEqual('{"error":{"message":"[session] key.sub is required."}}');
@@ -237,11 +253,14 @@ describe('validator/required', function () {
         async handler () { }
       }).export().handler;
 
-      const res = await handler({});
+      const res = await handler({ httpMethod: 'POST' });
 
       expect(res.statusCode).toEqual(201);
 
-      const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: {} })}` } });
+      const res2 = await handler({
+        httpMethod: 'POST',
+        headers: { cookie: `key=${http.session.encode({ key: {} })}` }
+      });
 
       expect(res2.statusCode).toEqual(500);
       expect(res2.body).toEqual('{"error":{"message":"[session] key.sub is required."}}');

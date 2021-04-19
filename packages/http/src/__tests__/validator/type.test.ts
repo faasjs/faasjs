@@ -13,6 +13,7 @@ describe('validator/type', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: `{"key":${value}}`
         });
@@ -20,6 +21,7 @@ describe('validator/type', function () {
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":{}}'
         });
@@ -46,6 +48,7 @@ describe('validator/type', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":1}'
         });
@@ -71,6 +74,7 @@ describe('validator/type', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":1}'
         });
@@ -100,6 +104,7 @@ describe('validator/type', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":1}'
         });
@@ -119,6 +124,7 @@ describe('validator/type', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: `{"key":[{"sub":${value}}]}`
         });
@@ -126,6 +132,7 @@ describe('validator/type', function () {
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":[{"sub":{}}]}'
         });
@@ -144,6 +151,7 @@ describe('validator/type', function () {
         }).export().handler;
 
         const res = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: `{"key":{"sub":${value}}}`
         });
@@ -151,6 +159,7 @@ describe('validator/type', function () {
         expect(res.statusCode).toEqual(201);
 
         const res2 = await handler({
+          httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
           body: '{"key":{"sub":{}}}'
         });
@@ -168,7 +177,10 @@ describe('validator/type', function () {
       async handler () { }
     }).export().handler;
 
-    const res = await handler({ headers: { cookie: 'key=a' } });
+    const res = await handler({
+      httpMethod: 'POST',
+      headers: { cookie: 'key=a' }
+    });
 
     expect(res.statusCode).toEqual(201);
   });
@@ -184,11 +196,17 @@ describe('validator/type', function () {
 
         await handler({});
 
-        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: value })}` } });
+        const res = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: value })}` }
+        });
 
         expect(res.statusCode).toEqual(201);
 
-        const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: '' })}` } });
+        const res2 = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: '' })}` }
+        });
 
         expect(res2.statusCode).toEqual(500);
         expect(res2.body).toEqual(`{"error":{"message":"[session] key must be a ${type}."}}`);
@@ -203,13 +221,19 @@ describe('validator/type', function () {
           async handler () { }
         }).export().handler;
 
-        await handler({});
+        await handler({ httpMethod: 'POST' });
 
-        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: [{ sub: value }] })}` } });
+        const res = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: [{ sub: value }] })}` }
+        });
 
         expect(res.statusCode).toEqual(201);
 
-        const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: [{ sub: '' }] })}` } });
+        const res2 = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: [{ sub: '' }] })}` }
+        });
 
         expect(res2.statusCode).toEqual(500);
         expect(res2.body).toEqual(`{"error":{"message":"[session] key.sub must be a ${type}."}}`);
@@ -224,13 +248,19 @@ describe('validator/type', function () {
           async handler () { }
         }).export().handler;
 
-        await handler({});
+        await handler({ httpMethod: 'POST' });
 
-        const res = await handler({ headers: { cookie: `key=${http.session.encode({ key: { sub: value } })}` } });
+        const res = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: { sub: value } })}` }
+        });
 
         expect(res.statusCode).toEqual(201);
 
-        const res2 = await handler({ headers: { cookie: `key=${http.session.encode({ key: { sub: null } })}` } });
+        const res2 = await handler({
+          httpMethod: 'POST',
+          headers: { cookie: `key=${http.session.encode({ key: { sub: null } })}` }
+        });
 
         expect(res2.statusCode).toEqual(201);
       });
