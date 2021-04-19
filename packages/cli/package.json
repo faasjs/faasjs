@@ -22,7 +22,8 @@
     "commander": "*",
     "enquirer": "*",
     "ts-node": "*",
-    "tsconfig-paths": "*"
+    "tsconfig-paths": "*",
+    "lodash": "*"
   },
   "gitHead": "e89ce1447cd023302b1902d3839ad27fa2b5b45b"
 }

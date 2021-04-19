@@ -5,6 +5,12 @@ import { createInterface } from 'readline';
 import { sep } from 'path';
 import { Deployer } from '@faasjs/deployer';
 import { defaultsEnv } from '../helper';
+import { cpus } from 'os';
+import { isMaster, fork } from 'cluster';
+import { chunk } from 'lodash';
+
+
+const processNumber = cpus().length;
 
 async function deploy (file) {
   try {
@@ -38,6 +44,12 @@ async function deploy (file) {
 }
 
 export async function action (env: string, files: string[]): Promise<void> {
+  if (process.env.FaasDeployFiles) {
+    for (const file of process.env.FaasDeployFiles.split(','))
+      await deploy(file);
+    process.exit();
+  }
+
   process.env.FaasEnv = env;
 
   defaultsEnv();
@@ -62,7 +74,7 @@ export async function action (env: string, files: string[]): Promise<void> {
 
   if (list.length < 1) throw Error('Not found files.');
 
-  // 单个云函数文件直接部署
+
   if (list.length === 1)
     await deploy(list[0]);
   else {
@@ -87,8 +99,17 @@ export async function action (env: string, files: string[]): Promise<void> {
         });
       });
 
-    for (const file of list)
-      await deploy(file);
+    if (isMaster) {
+      const files = chunk(list, Math.ceil(list.length / processNumber));
+
+      for (let i = 0; i < processNumber; i++) {
+        if (!files[i] || !files[i].length) continue;
+        const worker = fork({ FaasDeployFiles: files[i] });
+        worker.on('error', function () {
+          worker.kill();
+        });
+      }
+    }
   }
 }
 
