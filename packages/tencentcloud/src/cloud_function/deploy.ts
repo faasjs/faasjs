@@ -55,9 +55,8 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
 
   const logger = new Logger(`${data.env}#${data.name}`);
 
-  logger.info('开始部署...');
-
-  logger.raw(`${logger.colorfy(Color.GRAY, '[01/11]')} 生成配置项...`);
+  const loggerPrefix = `[${data.env}#${data.name}]`;
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[01/11]')} 生成配置项...`);
 
   const config = deepMerge(origin);
 
@@ -121,7 +120,7 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
 
   logger.debug('[01/11] 完成配置项 %o', config);
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[02/11]')} 生成代码包...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[02/11]')} 生成代码包...`);
 
   logger.debug('[2.1/11] 生成 index.js...');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -161,10 +160,10 @@ module.exports = main.export();`
 
   exec(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`);
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[03/11]')} 打包代码包...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[03/11]')} 打包代码包...`);
   exec(`cd ${config.config.tmp} && zip -r deploy.zip *`);
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[04/11]')} 检查 COS...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[04/11]')} 检查 COS...`);
 
   try {
     logger.debug('[4.1/11] 检查 Cos Bucket 状态');
@@ -181,7 +180,7 @@ module.exports = main.export();`
     });
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[05/11]')} 上传代码包...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[05/11]')} 上传代码包...`);
   await upload(tc, {
     Bucket: config.config.Bucket,
     FilePath: config.config.FilePath,
@@ -189,7 +188,7 @@ module.exports = main.export();`
     Region: config.config.Region,
   });
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[06/11]')} 检查命名空间...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[06/11]')} 检查命名空间...`);
   logger.debug('[6.1/11] 检查命名空间状态');
   const namespaceList = await scf(tc, { Action: 'ListNamespaces' });
   if (!namespaceList.Namespaces.find((n: any) => n.Name === config.config.Namespace)) {
@@ -201,7 +200,7 @@ module.exports = main.export();`
   } else
     logger.debug('[6.2/11] 命名空间已存在，跳过');
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[07/11]')} 上传云函数...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[07/11]')} 上传云函数...`);
 
   try {
     logger.debug('[7.1/11] 检查云函数是否已存在...');
@@ -305,7 +304,7 @@ module.exports = main.export();`
       throw error;
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[08/11]')} 发布版本...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[08/11]')} 发布版本...`);
 
   const version = await scf(tc, {
     Action: 'PublishVersion',
@@ -359,7 +358,7 @@ module.exports = main.export();`
   //     throw error;
   // }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[10/11]')} 更新触发器...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[10/11]')} 更新触发器...`);
   const triggers = await scf(tc, {
     Action: 'ListTriggers',
     FunctionName: config.config.FunctionName,
@@ -392,7 +391,7 @@ module.exports = main.export();`
       });
     }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, '[11/11]')} 清理文件...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[11/11]')} 清理文件...`);
 
   logger.debug('[11.1/11] 清理 Cos Bucket...');
   await remove(tc, {

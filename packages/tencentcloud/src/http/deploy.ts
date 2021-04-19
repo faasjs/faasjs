@@ -14,7 +14,6 @@ const defaults = {
 
 export default async function (tc: Tencentcloud, data: DeployData, origin: any): Promise<void> {
   tc.logger.label = `${data.env}#${data.name}`;
-  tc.logger.info('开始发布网关');
 
   if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!');
 
@@ -84,7 +83,7 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
 
   const provider = config.provider.config;
 
-  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[1/3]')} 查询和更新服务信息...`);
+  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[1/3]')} 更新服务信息...`);
   if (!config.config.ServiceId) {
     let serviceInfo = await api('DescribeServicesStatus', provider, {
       Filters: [{
@@ -106,7 +105,9 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
     config.config.ServiceId = serviceInfo.ServiceId;
   }
 
-  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[2/3]')} 查询和更新接口信息...`);
+  const loggerPrefix = `[${data.env}#${data.name}]`;
+
+  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[2/3]')} 更新接口信息...`);
 
   let apiInfo = await api('DescribeApisStatus', provider, {
     Filters: [{
@@ -137,7 +138,7 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
         ServiceId: config.config.ServiceId
       }));
     else {
-      tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[3/3]')} 接口无变动，无需更新`);
+      tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[3/3]')} 接口无变动，无需更新`);
       return;
     }
   } else
@@ -146,7 +147,7 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
       Protocol: 'HTTP'
     }));
 
-  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[3/3]')} 发布网关...`);
+  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[3/3]')} 发布网关...`);
 
   await api('ReleaseService', provider, {
     EnvironmentName: 'release',
