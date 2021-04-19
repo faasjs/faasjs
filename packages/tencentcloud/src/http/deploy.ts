@@ -83,7 +83,9 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
 
   const provider = config.provider.config;
 
-  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, '[1/3]')} 更新服务信息...`);
+  const loggerPrefix = `[${data.env}#${data.name}]`;
+
+  tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[1/3]')} 更新服务信息...`);
   if (!config.config.ServiceId) {
     let serviceInfo = await api('DescribeServicesStatus', provider, {
       Filters: [{
@@ -104,8 +106,6 @@ export default async function (tc: Tencentcloud, data: DeployData, origin: any):
 
     config.config.ServiceId = serviceInfo.ServiceId;
   }
-
-  const loggerPrefix = `[${data.env}#${data.name}]`;
 
   tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[2/3]')} 更新接口信息...`);
 

@@ -404,6 +404,4 @@ module.exports = main.export();`
     logger.debug('[11.2/11] 清理本地文件...');
     exec(`rm -rf ${config.config.tmp}`);
   }
-
-  logger.info('完成部署 %s/%s@%s', config.config.Namespace, config.config.FunctionName, config.config.FunctionVersion);
 }
