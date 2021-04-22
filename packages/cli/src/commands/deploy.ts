@@ -23,7 +23,7 @@ async function deploy (file) {
     if (process.env.CI) throw error;
 
     console.error(error);
-    console.warn('部署失败，是否重试？');
+    console.warn(file + ' 部署失败，是否重试？');
     await new Promise<void>(function (resolve, reject) {
       const readline = createInterface({
         input: process.stdin,
