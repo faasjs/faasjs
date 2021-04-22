@@ -4,10 +4,15 @@
 
 ## Beta
 
-[`v0.0.2-beta.165 (2021-04-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.163...v0.0.2-beta.165)
+[`v0.0.2-beta.168 (2021-04-22)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.165...v0.0.2-beta.168)
+
+- [优化] `@faasjs/cli` 部署失败时，优化错误提示。
+
+[`v0.0.2-beta.167 (2021-04-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.163...v0.0.2-beta.167)
 
 - [优化] `@faasjs/cli` 部署多个云函数时，自动根据 CPU 数量进行多进程部署。
 - [优化] `@faasjs/tencentcloud` 优化多进程部署时的日志显示。
+- [优化] `@faasjs/http` 测试环境下禁用缓存。
 
 [`v0.0.2-beta.163 (2021-04-16)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.162...v0.0.2-beta.163)
 

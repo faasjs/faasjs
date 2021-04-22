@@ -6,11 +6,8 @@ import { sep } from 'path';
 import { Deployer } from '@faasjs/deployer';
 import { defaultsEnv } from '../helper';
 import { cpus } from 'os';
-import { isMaster, fork } from 'cluster';
+import { fork } from 'cluster';
 import { chunk } from 'lodash';
-
-
-const processNumber = cpus().length;
 
 async function deploy (file) {
   try {
@@ -43,7 +40,7 @@ async function deploy (file) {
   }
 }
 
-export async function action (env: string, files: string[]): Promise<void> {
+export async function action (env: string, files: string[], { w }: {w: string}): Promise<void> {
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
       await deploy(file);
@@ -74,15 +71,16 @@ export async function action (env: string, files: string[]): Promise<void> {
 
   if (list.length < 1) throw Error('Not found files.');
 
-
   if (list.length === 1)
     await deploy(list[0]);
   else {
-    console.log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？`);
+    let processNumber = w ? Number(w) : (cpus().length > 1 ? cpus().length - 1 : 1);
+    if (processNumber > list.length) processNumber = list.length;
+
+    console.log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber})`);
     console.log(list);
     console.log('');
     if (!process.env.CI)
-      // eslint-disable-next-line @typescript-eslint/typedef
       await new Promise<void>(function (resolve, reject) {
         const readline = createInterface({
           input: process.stdin,
@@ -99,16 +97,19 @@ export async function action (env: string, files: string[]): Promise<void> {
         });
       });
 
-    if (isMaster) {
-      const files = chunk(list, Math.ceil(list.length / processNumber));
+    if (processNumber === 1) {
+      for (const file of list)
+        await deploy(file);
+      return;
+    }
 
-      for (let i = 0; i < processNumber; i++) {
-        if (!files[i] || !files[i].length) continue;
-        const worker = fork({ FaasDeployFiles: files[i] });
-        worker.on('error', function () {
-          worker.kill();
-        });
-      }
+    const files = chunk(list, Math.ceil(list.length / processNumber));
+    for (let i = 0; i < processNumber; i++) {
+      if (!files[i] || !files[i].length) continue;
+      const worker = fork({ FaasDeployFiles: files[i] });
+      worker.on('error', function () {
+        worker.kill();
+      });
     }
   }
 }
@@ -116,6 +117,7 @@ export async function action (env: string, files: string[]): Promise<void> {
 export default function (program: Command): void {
   program
     .command('deploy <env> [files...]')
+    .option('-w <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
     .name('deploy')
     .description('发布')
     .on('--help', function () {
