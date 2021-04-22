@@ -40,7 +40,7 @@ async function deploy (file) {
   }
 }
 
-export async function action (env: string, files: string[], { w }: {w: string}): Promise<void> {
+export async function action (env: string, files: string[], { w }: {w?: string}): Promise<void> {
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
       await deploy(file);
