@@ -140,7 +140,7 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
 const main = module.exports;
 main.config = ${JSON.stringify(data.config)};
 if(typeof cloud_function !== 'undefined' && !main.plugins.find(p => p.type === 'cloud_function'))
-  main.plugins.push(new cloud_function.CloudFunction(main.config.plugins['cloud_function'] || {}))
+  main.plugins.unshift(new cloud_function.CloudFunction(main.config.plugins['cloud_function'] || {}))
 module.exports = main.export();`
     },
     modules: {
