@@ -4,9 +4,10 @@
 
 ## Beta
 
-[`v0.0.2-beta.168 (2021-04-22)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.165...v0.0.2-beta.168)
+[`v0.0.2-beta.169 (2021-04-22)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.167...v0.0.2-beta.169)
 
 - [优化] `@faasjs/cli` 部署失败时，优化错误提示。
+- [优化] `@faasjs/cli` 新增 -w 参数，设置并发数。
 
 [`v0.0.2-beta.167 (2021-04-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.163...v0.0.2-beta.167)
 
