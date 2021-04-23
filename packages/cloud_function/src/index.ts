@@ -72,7 +72,7 @@ export class CloudFunction implements Plugin {
    */
   constructor (config?: CloudFunctionConfig) {
     if (config) {
-      this.name = config.name;
+      this.name = config.name || Name;
       this.config = config.config || Object.create(null);
       if (config.validator)
         this.validatorConfig = config.validator;

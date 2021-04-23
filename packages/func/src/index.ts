@@ -197,6 +197,7 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
     data.config = this.config;
     try {
       this.logger.time('mount');
+      this.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','));
       await this.compose('onMount')(data);
       this.mounted = true;
     } finally {
