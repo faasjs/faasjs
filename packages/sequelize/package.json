@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/sequelize",
-  "version": "0.0.2-beta.147",
+  "version": "0.0.2-beta.170",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,12 +13,12 @@
   ],
   "dependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.54",
-    "@faasjs/load": "^0.0.2-beta.147",
+    "@faasjs/load": "^0.0.2-beta.170",
     "@faasjs/logger": "^0.0.2-beta.101",
     "sequelize": "^5.0.0"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.141",
+    "@faasjs/func": "^0.0.2-beta.170",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/mysql": "*",

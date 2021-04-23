@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/kafka",
-  "version": "0.0.2-beta.141",
+  "version": "0.0.2-beta.170",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
@@ -15,7 +15,7 @@
     "kafkajs": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.141",
+    "@faasjs/func": "^0.0.2-beta.170",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

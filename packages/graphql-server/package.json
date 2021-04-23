@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/graphql-server",
-  "version": "0.0.2-beta.167",
+  "version": "0.0.2-beta.170",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
@@ -12,7 +12,7 @@
     "lib"
   ],
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.141",
+    "@faasjs/func": "^0.0.2-beta.170",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",
@@ -24,7 +24,7 @@
     "@apollo/federation": "*",
     "@apollo/gateway": "*",
     "@apollographql/graphql-playground-html": "*",
-    "@faasjs/http": "^0.0.2-beta.167",
+    "@faasjs/http": "^0.0.2-beta.170",
     "apollo-server-core": "*",
     "apollo-server-env": "*",
     "graphql": "*"
