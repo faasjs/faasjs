@@ -9,7 +9,9 @@ import { cpus } from 'os';
 import { fork } from 'cluster';
 import { chunk } from 'lodash';
 
-async function deploy (file) {
+async function deploy (file: string) {
+  if (!file.endsWith('.func.ts')) throw Error(`${file} isn't a cloud function file.`);
+
   try {
     const deployer = new Deployer({
       root: process.env.FaasRoot,
