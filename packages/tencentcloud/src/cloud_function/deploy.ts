@@ -145,7 +145,7 @@ module.exports = main.export();`
     },
     modules: {
       excludes: INCLUDED_NPM,
-      additions: ['@faasjs/tencentcloud']
+      additions: Object.keys(config.config.dependencies).concat(['@faasjs/tencentcloud'])
     }
   });
 
