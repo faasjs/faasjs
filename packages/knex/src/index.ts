@@ -43,7 +43,11 @@ export class Knex implements Plugin {
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
     const client = (data.config.plugins[this.name].config as K.Config).client as string;
+    if (!client) throw Error('[Knex] client required.');
+
     data.dependencies[client] = '*';
+    this.logger.debug('add dependencies: ' + client);
+
     await next();
   }
 
