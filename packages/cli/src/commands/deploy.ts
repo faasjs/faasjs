@@ -37,6 +37,7 @@ async function deploy (file: string, ar: number) {
       if (ar > 0) {
         await sleep();
         await deploy(file, ar - 1);
+        return;
       } else
         throw Error(file + ' 自动重试次数已满，结束重试');
 
@@ -102,7 +103,7 @@ export async function action (env: string, files: string[], { w, ar }: {
     let processNumber = w ? Number(w) : (cpus().length > 1 ? cpus().length - 1 : 1);
     if (processNumber > list.length) processNumber = list.length;
 
-    console.log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber})`);
+    console.log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber}，失败自动重试 ${ar} 次)`);
     console.log(list);
     console.log('');
     if (!process.env.CI)
