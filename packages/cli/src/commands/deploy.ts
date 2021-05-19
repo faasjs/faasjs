@@ -9,7 +9,17 @@ import { cpus } from 'os';
 import { fork } from 'cluster';
 import { chunk } from 'lodash';
 
-async function deploy (file: string) {
+async function sleep () {
+  const waiting = Math.floor(Math.random() * 3);
+  return new Promise<void>(function (resolve) {
+    console.log(`等待 ${waiting} 秒...`);
+    setTimeout(function () {
+      resolve();
+    }, waiting * 1000);
+  });
+}
+
+async function deploy (file: string, ar: number) {
   if (!file.endsWith('.func.ts')) throw Error(`${file} isn't a cloud function file.`);
 
   try {
@@ -22,6 +32,14 @@ async function deploy (file: string) {
     if (process.env.CI) throw error;
 
     console.error(error);
+
+    if (ar)
+      if (ar > 0) {
+        await sleep();
+        await deploy(file, ar - 1);
+      } else
+        throw Error(file + ' 自动重试次数已满，结束重试');
+
     console.warn(file + ' 部署失败，是否重试？');
     await new Promise<void>(function (resolve, reject) {
       const readline = createInterface({
@@ -38,14 +56,19 @@ async function deploy (file: string) {
           resolve();
       });
     });
-    await deploy(file);
+    await deploy(file, ar);
   }
 }
 
-export async function action (env: string, files: string[], { w }: {w?: string}): Promise<void> {
+export async function action (env: string, files: string[], { w, ar }: {
+  w?: string;
+  ar?: string;
+}): Promise<void> {
+  if (!ar) ar = '3';
+
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
-      await deploy(file);
+      await deploy(file, Number(ar));
     process.exit();
   }
 
@@ -74,7 +97,7 @@ export async function action (env: string, files: string[], { w }: {w?: string})
   if (list.length < 1) throw Error('Not found files.');
 
   if (list.length === 1)
-    await deploy(list[0]);
+    await deploy(list[0], Number(ar));
   else {
     let processNumber = w ? Number(w) : (cpus().length > 1 ? cpus().length - 1 : 1);
     if (processNumber > list.length) processNumber = list.length;
@@ -101,7 +124,7 @@ export async function action (env: string, files: string[], { w }: {w?: string})
 
     if (processNumber === 1) {
       for (const file of list)
-        await deploy(file);
+        await deploy(file, Number(ar));
       return;
     }
 
@@ -120,6 +143,7 @@ export default function (program: Command): void {
   program
     .command('deploy <env> [files...]')
     .option('-w <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
+    .option('-ar <times>', '自动重试次数，默认为 3 次，设为 0 则禁止自动重试')
     .name('deploy')
     .description('发布')
     .on('--help', function () {
