@@ -103,8 +103,8 @@ export class Knex implements Plugin {
     return this.adapter.raw<TResult>(sql, bindings);
   }
 
-  public async transaction<TResult = any> (scope: (trx: K.Transaction) => Promise<TResult> | void): Promise<TResult> {
-    return this.adapter.transaction<TResult>(scope);
+  public async transaction<TResult = any> (scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: K.TransactionConfig): Promise<TResult> {
+    return this.adapter.transaction(scope, config);
   }
 
   public schema (): K.SchemaBuilder {
