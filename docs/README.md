@@ -3,7 +3,7 @@ home: true
 heroImage: logo.png
 heroText: FaasJS
 tagline: Serverless 比你想象的更简单
-footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 2019-2020 Zhu Feng
+footer: A Node.js Severless Application Framework | MIT Licensed | Copyright © 2019-2021 Zhu Feng
 ---
 
 ### 一行指令创建项目
@@ -93,5 +93,5 @@ describe('index', function () {
     <p><a href="https://vuejs.org/" target="_blank">Vue.js</a></p>
     <p><a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a></p>
   </div>
-  <p><a href="http://beian.miit.gov.cn/" target="_blank" style="color:#4e6e8e;font-weight:200;font-size:0.8rem">沪ICP备15033310号</a></p>
+  <p><a href="https://beian.miit.gov.cn/" target="_blank" style="color:#4e6e8e;font-weight:200;font-size:0.8rem">沪ICP备15033310号</a></p>
 </div>

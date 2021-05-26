@@ -4,6 +4,22 @@
 
 ## Beta
 
+[`v0.0.2-beta.175 (2021-05-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.174...v0.0.2-beta.175)
+
+- [优化] `@faasjs/knex` 优化 transaction 的 ts 定义。
+
+[`v0.0.2-beta.174 (2021-05-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.170...v0.0.2-beta.174)
+
+- [优化] `@faasjs/cli` 部署时对文件名进行检查。
+- [优化] `@faasjs/cli` 部署命令添加 `ar` 参数，默认自动重试 3 次。
+- [优化] `@faasjs/knex` 部署时检查适配器依赖项是否添加。
+- [修复] `@faasjs/tencentcloud` 修复部分情况下依赖项错误的问题。
+
+[`v0.0.2-beta.170 (2021-04-23)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.169...v0.0.2-beta.170)
+
+- [修复] `@faasjs/cloud_function` 修复插件排序错误的问题。
+- [修复] `@faasjs/cloud_function` 修复插件名字错误的问题。
+
 [`v0.0.2-beta.169 (2021-04-22)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.167...v0.0.2-beta.169)
 
 - [优化] `@faasjs/cli` 部署失败时，优化错误提示。
