@@ -25,6 +25,10 @@ module.exports = {
         link: '/example/'
       },
       {
+        text: '插件',
+        link: '/npm'
+      },
+      {
         text: '支持 FaasJS',
         link: '/contribute'
       },
@@ -85,8 +89,7 @@ module.exports = {
             'cli/server',
             'cli/deploy',
           ]
-        },
-        'npm'
+        }
       ],
       '/example/': [
         '',
