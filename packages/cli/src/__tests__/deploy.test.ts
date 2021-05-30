@@ -41,6 +41,8 @@ jest.mock('cluster', function () {
   };
 });
 
+jest.setTimeout(15000);
+
 describe('deploy', function () {
   afterEach(function () {
     logs = [];
@@ -99,7 +101,7 @@ describe('deploy', function () {
         Error('Missing secretId or secretKey!'),
         Error('Missing secretId or secretKey!')
       ]);
-    }, 10000);
+    });
 
     test('y', async function () {
       await expect(action('testing', [__dirname + '/funcs'], {
