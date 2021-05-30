@@ -313,7 +313,7 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
 export function useHttp<P = any, C = { [key: string]: string; }, S = { [key: string]: any; }> (config?: HttpConfig): Http<P, C, S> & UseifyPlugin {
   const name = config?.name || Name;
 
-  if (!process.env.JEST_WORKER_ID && process.env.FaasEnv !== 'testing' && globals[name]) return usePlugin<Http<P, C, S>>(globals[name]);
+  if (process.env.FaasEnv !== 'testing' && globals[name]) return usePlugin<Http<P, C, S>>(globals[name]);
 
   return usePlugin(new Http<P, C, S>(config));
 }

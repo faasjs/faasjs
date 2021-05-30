@@ -4,6 +4,24 @@
 
 为了避免与云函数文件的命名混淆，单元测试文件须放置于 `__tests__` 文件夹下，测试文件名须以 `.test.ts` 结尾。
 
+## 配置 Jest
+
+```javascript
+// jest.config.js
+module.exports = {
+  preset: 'ts-jest',
+  verbose: true,
+  collectCoverage: true,
+  testRegex: '/*\\.test\\.ts$',
+  coveragePathIgnorePatterns: [
+    '/__tests__/'
+  ],
+  setupFiles: [
+    '@faasjs/test/lib/jest.setup'
+  ]
+};
+```
+
 ## 测试文件示例
 
 ```typescript
