@@ -8,18 +8,51 @@ import { defaultsEnv } from '../helper';
 import { cpus } from 'os';
 import { fork } from 'cluster';
 import { chunk } from 'lodash';
+import { log, warn, error } from 'console';
 
 async function sleep () {
   const waiting = Math.floor(Math.random() * 3);
   return new Promise<void>(function (resolve) {
-    console.log(`等待 ${waiting} 秒...`);
+    log(`等待 ${waiting} 秒...`);
     setTimeout(function () {
       resolve();
     }, waiting * 1000);
   });
 }
 
-async function deploy (file: string, ar: number) {
+async function confirm ({
+  message,
+  success,
+  fail
+}: {
+  message?: string;
+  success?: string;
+  fail?: string;
+}) {
+  return new Promise<void>(function (resolve, reject) {
+    if (message) warn(message);
+
+    const readline = createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+    readline.question('输入 y 确认:', function (res: string) {
+      readline.close();
+
+      if (res !== 'y') {
+        if (fail)
+          error(fail);
+        reject();
+      } else {
+        if (success)
+          log(success);
+        resolve();
+      }
+    });
+  });
+}
+
+async function deploy (file: string, ar: number, options: {y: string}) {
   if (!file.endsWith('.func.ts')) throw Error(`${file} isn't a cloud function file.`);
 
   try {
@@ -28,48 +61,30 @@ async function deploy (file: string, ar: number) {
       filename: file
     });
     await deployer.deploy();
-  } catch (error) {
-    if (process.env.CI) throw error;
-
-    console.error(error);
-
-    if (ar)
-      if (ar > 0) {
-        await sleep();
-        await deploy(file, ar - 1);
-        return;
-      } else
-        throw Error(file + ' 自动重试次数已满，结束重试');
-
-    console.warn(file + ' 部署失败，是否重试？');
-    await new Promise<void>(function (resolve, reject) {
-      const readline = createInterface({
-        input: process.stdin,
-        output: process.stdout
-      });
-      readline.question('输入 y 确认:', function (res: string) {
-        readline.close();
-
-        if (res !== 'y') {
-          console.error('不重试，继续部署后续函数');
-          reject();
-        } else
-          resolve();
-      });
-    });
-    await deploy(file, ar);
+  } catch (err) {
+    if (ar > 0) {
+      error(err);
+      warn(file + ` 自动重试（剩余 ${ar} 次）`);
+      await sleep();
+      await deploy(file, ar - 1, options);
+      return;
+    } else {
+      error(err);
+      throw Error(file + ' 自动重试次数已满，结束重试');
+    }
   }
 }
 
-export async function action (env: string, files: string[], { w, ar }: {
+export async function action (env: string, files: string[], { w, ar, y }: {
   w?: string;
   ar?: string;
+  y?: string;
 }): Promise<void> {
   if (!ar) ar = '3';
 
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
-      await deploy(file, Number(ar));
+      await deploy(file, Number(ar), { y });
     process.exit();
   }
 
@@ -98,34 +113,24 @@ export async function action (env: string, files: string[], { w, ar }: {
   if (list.length < 1) throw Error('Not found files.');
 
   if (list.length === 1)
-    await deploy(list[0], Number(ar));
+    await deploy(list[0], Number(ar), { y });
   else {
     let processNumber = w ? Number(w) : (cpus().length > 1 ? cpus().length - 1 : 1);
     if (processNumber > list.length) processNumber = list.length;
 
-    console.log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber}，失败自动重试 ${ar} 次)`);
-    console.log(list);
-    console.log('');
-    if (!process.env.CI)
-      await new Promise<void>(function (resolve, reject) {
-        const readline = createInterface({
-          input: process.stdin,
-          output: process.stdout
-        });
-        readline.question('输入 y 确认:', function (res: string) {
-          readline.close();
+    log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber}，失败自动重试 ${ar} 次)`);
+    log(list);
+    log('');
 
-          if (res !== 'y') {
-            console.error('停止发布');
-            reject();
-          } else
-            resolve();
-        });
+    if (!y)
+      await confirm({
+        success: '开始发布',
+        fail: '停止发布'
       });
 
     if (processNumber === 1) {
       for (const file of list)
-        await deploy(file, Number(ar));
+        await deploy(file, Number(ar), { y });
       return;
     }
 
@@ -145,10 +150,11 @@ export default function (program: Command): void {
     .command('deploy <env> [files...]')
     .option('-w <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
     .option('-ar <times>', '自动重试次数，默认为 3 次，设为 0 则禁止自动重试')
+    .option('-y', '自动选择 yes')
     .name('deploy')
     .description('发布')
     .on('--help', function () {
-      console.log(`
+      log(`
 Examples:
   yarn deploy staging services${sep}demo.func.ts
   yarn deploy production services${sep}demo.func.ts services${sep}demo2.func.ts

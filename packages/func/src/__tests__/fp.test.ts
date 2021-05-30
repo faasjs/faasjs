@@ -45,4 +45,50 @@ describe('fp', function () {
 
     expect(res2).toEqual(0);
   });
+
+  it('same plugin with different config', async function () {
+    class DemoPlugin implements Plugin {
+      public readonly type = 'P';
+      public readonly name = 'P';
+      private key: string;
+
+      constructor ({ key }: {
+        key: string;
+      }) {
+        this.key = key;
+      }
+
+      public async onInvoke (data: InvokeData, next: Next) {
+        if (!data.event[this.key]) data.event[this.key] = 0;
+        data.event[this.key] ++;
+        await next();
+      }
+    }
+
+    function useDemoPlugin (config: { key: string }) {
+      const p = new DemoPlugin(config);
+      usePlugin(p);
+      return p;
+    }
+
+    const funcA = useFunc(function () {
+      useDemoPlugin({ key: 'A' });
+      return async function ({ event }) {
+        return event;
+      };
+    }).export().handler;
+
+    const funcB = useFunc(function () {
+      useDemoPlugin({ key: 'B' });
+      return async function ({ event }) {
+        return event;
+      };
+    }).export().handler;
+
+    const resA = await funcA({});
+    const resB = await funcB({});
+
+    expect(resA).toEqual({ A: 1 });
+    expect(resB).toEqual({ B: 1 });
+  });
 });
