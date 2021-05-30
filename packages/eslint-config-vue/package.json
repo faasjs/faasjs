@@ -9,5 +9,6 @@
   "dependencies": {
     "@faasjs/eslint-config-recommended": "^0.0.2-beta.152",
     "eslint-plugin-vue": "*"
-  }
+  },
+  "gitHead": "082c1055ec17506b96a11d169088e3d4b63c010a"
 }
