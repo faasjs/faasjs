@@ -43,13 +43,6 @@ const INCLUDED_NPM = [
   '@faasjs/load'
 ];
 
-function exec (cmd: string): void {
-  if (process.env.FaasLog === 'debug')
-    execSync(cmd, { stdio: 'inherit' });
-  else
-    execSync(cmd);
-}
-
 export default async function deployCloudFunction (tc: Tencentcloud, data: DeployData, origin: any): Promise<void> {
   if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!');
 
@@ -154,14 +147,14 @@ module.exports = main.export();`
   logger.debug('[2.2/11] 生成 node_modules...');
   for (const key in ts.modules) {
     const target = join(config.config.tmp, 'node_modules', key);
-    exec(`mkdir -p ${target}`);
-    exec(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md'} ${join(ts.modules[key], '*')} ${target}`);
+    execSync(`mkdir -p ${target}`);
+    execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md'} ${join(ts.modules[key], '*')} ${target}`);
   }
 
-  exec(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`);
+  execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[03/11]')} 打包代码包...`);
-  exec(`cd ${config.config.tmp} && zip -r deploy.zip *`);
+  execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`);
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[04/11]')} 检查 COS...`);
 
@@ -402,6 +395,6 @@ module.exports = main.export();`
 
   if (process.env.FaasLog !== 'debug') {
     logger.debug('[11.2/11] 清理本地文件...');
-    exec(`rm -rf ${config.config.tmp}`);
+    execSync(`rm -rf ${config.config.tmp}`);
   }
 }
