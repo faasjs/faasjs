@@ -7,4 +7,4 @@ defaults:
       provider: tencentcloud
     http:
       provider: tencentcloud
-development:
+testing:

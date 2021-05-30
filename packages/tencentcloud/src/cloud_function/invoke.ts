@@ -1,5 +1,6 @@
 import scf from './scf';
 import Tencentcloud from '..';
+import { FuncWarpper } from '@faasjs/test';
 
 export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name: string, data?: any, options?: {
   [key: string]: any;
@@ -7,9 +8,7 @@ export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name
   tc.logger.debug('invokeFunction: %s %O %O', name, options, data);
 
   if (process.env.FaasMode === 'local') {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const test = require('@faasjs/test');
-    const func = new test.FuncWarpper(require.resolve(name + '.func'));
+    const func = new FuncWarpper(require.resolve(name + '.func'));
     await func.mount();
     return await func.handler(data);
   } else
