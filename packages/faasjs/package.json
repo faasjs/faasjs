@@ -7,5 +7,5 @@
     "@faasjs/cli": "^0.0.2-beta.174",
     "@faasjs/http": "^0.0.2-beta.170"
   },
-  "gitHead": "082c1055ec17506b96a11d169088e3d4b63c010a"
+  "gitHead": "e45b0b022c0e487a848edcb5a3f85873b1d67dc2"
 }
