@@ -1,13 +1,13 @@
 {
   "name": "@faasjs/eslint-config-react",
-  "version": "0.0.2-beta.156",
+  "version": "0.0.2-beta.176",
   "license": "MIT",
   "main": "index.js",
   "files": [
     "index.js"
   ],
   "dependencies": {
-    "@faasjs/eslint-config-recommended": "^0.0.2-beta.152",
+    "@faasjs/eslint-config-recommended": "^0.0.2-beta.176",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-hooks": "*"
   },

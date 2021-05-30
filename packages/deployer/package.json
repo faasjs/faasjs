@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/deployer",
-  "version": "0.0.2-beta.174",
+  "version": "0.0.2-beta.176",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -12,12 +12,12 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/cloud_function": "^0.0.2-beta.170",
-    "@faasjs/tencentcloud": "^0.0.2-beta.174"
+    "@faasjs/cloud_function": "^0.0.2-beta.176",
+    "@faasjs/tencentcloud": "^0.0.2-beta.176"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.170",
-    "@faasjs/http": "^0.0.2-beta.170",
+    "@faasjs/func": "^0.0.2-beta.176",
+    "@faasjs/http": "^0.0.2-beta.176",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*"
