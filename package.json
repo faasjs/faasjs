@@ -6,7 +6,7 @@
     "test": "lerna bootstrap && lerna run prepack && yarn jest --silent --runInBand --forceExit",
     "pub": "lerna publish --preid beta --pre-dist-tag beta --registry https://registry.npmjs.org/",
     "pub:retry": "lerna publish from-git --preid beta --pre-dist-tag beta --registry https://registry.npmjs.org/",
-    "pub:github": "lerna publish from-git --preid beta --pre-dist-tag beta --registry https://npm.pkg.github.com/",
+    "pub:github": "lerna publish from-package --preid beta --pre-dist-tag beta --registry https://npm.pkg.github.com/",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp",
     "build": "lerna run prepack --stream"
   },
