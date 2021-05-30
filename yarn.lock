@@ -3485,9 +3485,9 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
 cos-nodejs-sdk-v5@*:
-  version "2.9.15"
-  resolved "https://registry.npmjs.org/cos-nodejs-sdk-v5/-/cos-nodejs-sdk-v5-2.9.15.tgz#d90793a4f781dd919ae88779a1ba725f77e09d64"
-  integrity sha512-dvH+98hhUO5sC4qw1QgkBAI+7y1cREejl3OY3qwagZSz4RFM1CdSkLX5DZMDOcU462CTsjuzRaYv7YSnTg+kuw==
+  version "2.9.17"
+  resolved "https://registry.yarnpkg.com/cos-nodejs-sdk-v5/-/cos-nodejs-sdk-v5-2.9.17.tgz#baca663b802148482eff38fbd32a9908ec9baa94"
+  integrity sha512-xYjESDYlMB+4uJhI374ohu4PG7RizwG6THKorigSziztxmdQJesTlY35xjVIGnE5cpRLAX3X4txZ4BS8MWo9CQ==
   dependencies:
     "@types/node" "^14.14.20"
     conf "^9.0.0"
