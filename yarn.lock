@@ -404,7 +404,7 @@
     strip-json-comments "^3.1.1"
 
 "@faasjs/eslint-config-recommended@./packages/eslint-config-recommended":
-  version "0.0.2-beta.152"
+  version "0.0.2-beta.176"
   dependencies:
     "@typescript-eslint/eslint-plugin" "*"
     "@typescript-eslint/parser" "*"
@@ -1987,9 +1987,9 @@
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
 "@types/redis@*":
-  version "2.8.28"
-  resolved "https://registry.npmjs.org/@types/redis/-/redis-2.8.28.tgz#5862b2b64aa7f7cbc76dafd7e6f06992b52c55e3"
-  integrity sha512-8l2gr2OQ969ypa7hFOeKqtFoY70XkHxISV0pAwmQ2nm6CSPb1brmTmqJCGGrekCo+pAZyWlNXr+Kvo6L/1wijA==
+  version "2.8.29"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.29.tgz#f272dba985156e599e2523afb4f5f7e7586b56b5"
+  integrity sha512-/pjQ9lwnL/t1bEfRHQFEJB3kHCR65tpB19NEWmbqcgGgqrfeGo/9b4tUtHbClxQoy3+g6Esx2QRtV7fk7kBPYg==
   dependencies:
     "@types/node" "*"
 
@@ -4081,10 +4081,10 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 faasjs@./packages/faasjs:
-  version "0.0.2-beta.174"
+  version "0.0.2-beta.176"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.174"
-    "@faasjs/http" "^0.0.2-beta.170"
+    "@faasjs/cli" "^0.0.2-beta.176"
+    "@faasjs/http" "^0.0.2-beta.176"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
