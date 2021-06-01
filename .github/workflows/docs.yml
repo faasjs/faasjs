@@ -29,4 +29,4 @@ jobs:
           repository-name: faasjs/faasjs.github.io
           branch: master
           folder: ./docs/.vuepress/dist
-          token: ${{ secrets.GITHUB_PAT }}
+          token: ${{ secrets.FAASJS_TOKEN }}
