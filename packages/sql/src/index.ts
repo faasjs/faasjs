@@ -67,7 +67,7 @@ export class Sql implements Plugin {
         data.dependencies['pg'] = '*';
         break;
       case 'mysql':
-        data.dependencies['mysql'] = '*';
+        data.dependencies['mysql2'] = '*';
         break;
       default:
         throw Error(`[Sql] Unsupport type: ${this.adapterType || data.config.plugins[this.name || this.type].type}`);

@@ -1,7 +1,7 @@
-import { Pool, PoolConfig } from 'mysql';
+import { Pool, ConnectionOptions } from 'mysql2';
 import { Adapter } from './index';
 
-export interface MysqlConfig extends PoolConfig {
+export interface MysqlConfig extends ConnectionOptions {
   [key: string]: any;
   pool?: Pool;
 }
@@ -19,7 +19,7 @@ export class Mysql implements Adapter {
       this.pool = config.pool;
     else
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      this.pool = require('mysql').createPool(Object.assign(defaults, config));
+      this.pool = require('mysql2').createPool(Object.assign(defaults, config));
   }
 
   public async query (sql: string, values?: any): Promise<any[]> {

@@ -24,7 +24,7 @@
     "@types/node": "*",
     "@types/pg": "*",
     "@types/sqlite3": "*",
-    "mysql": "*",
+    "mysql2": "*",
     "pg": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
