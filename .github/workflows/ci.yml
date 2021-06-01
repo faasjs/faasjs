@@ -23,7 +23,7 @@ jobs:
         ports:
           - 5432:5432
       mysql:
-        image: mysql:alpine
+        image: mysql
         ports:
           - 3306:3306
       mongo:
