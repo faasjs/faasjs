@@ -24,12 +24,9 @@ jobs:
           cp ./README.md ./.vuepress/dist/README.md
       - name: deploy
         if: success()
-        uses: crazy-max/ghaction-github-pages@v2
+        uses: JamesIves/github-pages-deploy-action@4.1.3
         with:
-          repo: faasjs/faasjs.github.io
-          target_branch: master
-          build_dir: ./docs/.vuepress/dist
-          verbose: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_PAT: ${{ secrets.GITHUB_PAT }}
+          repository-name: faasjs/faasjs.github.io
+          branch: master
+          folder: ./docs/.vuepress/dist
+          token: ${{ secrets.GITHUB_PAT }}
