@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       redis:
-        image: redis:apline
+        image: redis:alpine
         ports:
           - 6379:6379
     steps:
