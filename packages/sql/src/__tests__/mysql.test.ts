@@ -1,6 +1,6 @@
 import { Sql } from '../index';
 import { Func } from '@faasjs/func';
-import { createPool } from 'mysql';
+import { createPool } from 'mysql2';
 
 describe('mysql', function () {
   it('with username', async function () {
@@ -124,7 +124,7 @@ describe('mysql', function () {
           type: 'sql',
           config: {
             user: 'test',
-            password: 'test' 
+            password: 'test'
           }
         }
       }

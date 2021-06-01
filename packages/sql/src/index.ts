@@ -10,16 +10,18 @@ export interface Adapter {
   query: (sql: string, values?: any) => Promise<any[]>;
 }
 
-export interface Config extends SqliteConfig, PostgresqlConfig, MysqlConfig {
-  pool?: any;
-  ssl?: any;
-}
-
-export interface SqlConfig {
+export type SqlConfig = {
   name?: string;
-  adapterType?: string;
-  config?: Config;
-}
+} & ({
+  adapterType?: 'sqlite';
+  config?: SqliteConfig;
+} | {
+  adapterType?: 'postgresql';
+  config?: PostgresqlConfig;
+} | {
+  adapterType?: 'mysql';
+  config?: MysqlConfig;
+});
 
 const Name = 'sql';
 
