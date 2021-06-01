@@ -1,6 +1,7 @@
 # 官方插件总览
 
-[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/ci/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/ci.yml)
+[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/ci.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/ci.yml)
+
 ## 核心
 
 |Name|Stable|Beta|
