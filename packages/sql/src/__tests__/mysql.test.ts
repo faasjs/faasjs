@@ -6,7 +6,11 @@ describe('mysql', function () {
   it('with username', async function () {
     const sql = new Sql({
       name: 'sql',
-      adapterType: 'mysql'
+      adapterType: 'mysql',
+      config: {
+        user: 'test',
+        password: 'test'
+      }
     });
 
     const func = new Func({
@@ -21,7 +25,10 @@ describe('mysql', function () {
       plugins: {
         sql: {
           type: 'sql',
-          config: { }
+          config: {
+            user: 'test',
+            password: 'test'
+          }
         }
       }
     };
@@ -33,7 +40,10 @@ describe('mysql', function () {
   });
 
   it('with pool', async function () {
-    const pool = createPool({ });
+    const pool = createPool({
+      user: 'test',
+      password: 'test'
+    });
     const sql = new Sql({
       name: 'sql',
       adapterType: 'mysql',
@@ -76,7 +86,10 @@ describe('mysql', function () {
       plugins: {
         sql: {
           type: 'sql',
-          config: {}
+          config: {
+            user: 'test',
+            password: 'test'
+          }
         }
       }
     };
@@ -109,7 +122,10 @@ describe('mysql', function () {
       plugins: {
         sql: {
           type: 'sql',
-          config: { }
+          config: {
+            user: 'test',
+            password: 'test' 
+          }
         }
       }
     };
