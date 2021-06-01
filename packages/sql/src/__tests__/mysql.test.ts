@@ -124,7 +124,7 @@ describe('mysql', function () {
           type: 'sql',
           config: {
             user: 'test',
-            password: 'test' 
+            password: 'test'
           }
         }
       }
