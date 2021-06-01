@@ -19,10 +19,11 @@ jobs:
           cp ./CNAME ./.vuepress/dist/CNAME
           cp ./README.md ./.vuepress/dist/README.md
       - name: deploy
-        uses: crazy-max/ghaction-github-pages@v1
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
         with:
           repo: faasjs/faasjs.github.io
           target_branch: master
           build_dir: ./docs/.vuepress/dist
         env:
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
