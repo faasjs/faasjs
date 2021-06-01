@@ -16,6 +16,20 @@ jobs:
         image: redis:alpine
         ports:
           - 6379:6379
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+      mysql:
+        image: mysql:alpine
+        ports:
+          - 3306:3306
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
