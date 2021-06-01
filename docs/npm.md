@@ -1,6 +1,6 @@
 # 官方插件总览
 
-[![Build Status](https://img.shields.io/travis/com/faasjs/faasjs.svg)](https://travis-ci.com/faasjs/faasjs)
+[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/ci/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/ci.yml)
 ## 核心
 
 |Name|Stable|Beta|
