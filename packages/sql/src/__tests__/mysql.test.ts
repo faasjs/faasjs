@@ -134,7 +134,7 @@ describe('mysql', function () {
     try {
       await handler({});
     } catch (error) {
-      expect(error.message).toEqual('ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'A\' at line 1');
+      expect(error.message).toEqual('You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'A\' at line 1');
     }
 
     sql.adapter.pool.end();
