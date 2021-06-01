@@ -24,6 +24,8 @@ jobs:
           - 5432:5432
       mysql:
         image: mysql
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306:3306
       mongo:

@@ -21,7 +21,7 @@ describe('mysql', function () {
       plugins: {
         sql: {
           type: 'sql',
-          config: { user: 'travis' }
+          config: { }
         }
       }
     };
@@ -33,7 +33,7 @@ describe('mysql', function () {
   });
 
   it('with pool', async function () {
-    const pool = createPool({ user: 'travis' });
+    const pool = createPool({ });
     const sql = new Sql({
       name: 'sql',
       adapterType: 'mysql',
@@ -109,7 +109,7 @@ describe('mysql', function () {
       plugins: {
         sql: {
           type: 'sql',
-          config: { user: 'travis' }
+          config: { }
         }
       }
     };
