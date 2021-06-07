@@ -44,7 +44,7 @@ export class Cookie<C, S> {
     this.setCookie = Object.create(null);
   }
 
-  public invoke (cookie: string | undefined) {
+  public invoke (cookie: string | undefined): Cookie<C, S> {
     this.content = Object.create(null);
 
     // 解析 cookie
@@ -62,7 +62,7 @@ export class Cookie<C, S> {
     return this;
   }
 
-  public read (key: string) {
+  public read (key: string): any {
     return this.content[key];
   }
 
@@ -73,7 +73,7 @@ export class Cookie<C, S> {
     secure?: boolean;
     httpOnly?: boolean;
     sameSite?: 'Strict' | 'Lax' | 'None';
-  }) {
+  }): Cookie<C, S> {
     opts = Object.assign(this.config, opts || {});
 
     let cookie: string;
@@ -115,11 +115,12 @@ export class Cookie<C, S> {
     return this;
   }
 
-  public headers () {
+  public headers (): {
+    'Set-Cookie'?: string[];
+  } {
     if (!Object.keys(this.setCookie).length)
       return {};
     else
       return { 'Set-Cookie': Object.values(this.setCookie) };
-
   }
 }
