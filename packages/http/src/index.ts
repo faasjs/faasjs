@@ -185,7 +185,6 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
       let res;
       try {
         res = await this.config.beforeValid(this);
-        console.log(res);
       } catch (error) {
         this.logger.error(error);
         data.response = {
