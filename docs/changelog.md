@@ -4,9 +4,10 @@
 
 ## Beta
 
-[`v0.0.2-beta.177 (2021-06-08)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.174...v0.0.2-beta.175)
+[`v0.0.2-beta.178 (2021-06-08)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.175...v0.0.2-beta.178)
 
 - [移除] 为了简化和统一数据库读写，移除 `@faasjs/typeorm` 和 `@faasjs/sequelize`。
+- [优化] `@faasjs/http` 新增 `beforeValid`，用于构建包含自定义请求校验的 http 插件。
 
 [`v0.0.2-beta.175 (2021-05-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.174...v0.0.2-beta.175)
 
