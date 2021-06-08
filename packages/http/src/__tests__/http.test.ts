@@ -58,4 +58,56 @@ describe('http', function () {
     expect(res.statusCode).toEqual(500);
     expect(res.body).toEqual('{"error":{"message":"wrong"}}');
   });
+
+  test('beforeValid', async function () {
+    const http = new Http({
+      config: {
+        async beforeValid (request) {
+          if (!request.session.read('aid'))
+            return {
+              statusCode: 401,
+              message: '请先登录'
+            };
+        }
+      }
+    });
+    const handler = new Func({
+      plugins: [http],
+      async handler () {
+        return 1;
+      }
+    }).export().handler;
+
+    const res = await handler({
+      headers: {},
+      body: null
+    });
+
+    expect(res.statusCode).toEqual(401);
+    expect(res.body).toEqual('{"error":{"message":"请先登录"}}');
+  });
+
+  test('beforeValid throw error', async function () {
+    const http = new Http({
+      config: {
+        async beforeValid () {
+          throw Error('something going wrong');
+        }
+      }
+    });
+    const handler = new Func({
+      plugins: [http],
+      async handler () {
+        return 1;
+      }
+    }).export().handler;
+
+    const res = await handler({
+      headers: {},
+      body: null
+    });
+
+    expect(res.statusCode).toEqual(500);
+    expect(res.body).toEqual('{"error":{"message":"something going wrong"}}');
+  });
 });

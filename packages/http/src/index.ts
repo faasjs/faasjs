@@ -38,6 +38,7 @@ export interface HttpConfig {
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
   };
+  beforeValid?(request: Http): Promise<any>;
 }
 
 export interface Response {
@@ -177,6 +178,37 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
     this.cookie.invoke(this.headers['cookie']);
     this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content);
     this.logger.debug('[onInvoke] Session: %O', this.session.content);
+
+    // 自定义校验
+    if (this.config?.beforeValid) {
+      this.logger.debug('[onInvoke] beforeValid request');
+      let res;
+      try {
+        res = await this.config.beforeValid(this);
+      } catch (error) {
+        this.logger.error(error);
+        data.response = {
+          statusCode: error.statusCode || 500,
+          headers: Object.assign({
+            'Content-Type': 'application/json; charset=utf-8',
+            'X-SCF-RequestId': data.context.request_id
+          }, error.headers || {}),
+          body: JSON.stringify({ error: { message: error.message } })
+        };
+        return;
+      }
+      if (res?.statusCode) {
+        data.response = {
+          statusCode: res.statusCode || 500,
+          headers: Object.assign({
+            'Content-Type': 'application/json; charset=utf-8',
+            'X-SCF-RequestId': data.context.request_id
+          }, res.headers || {}),
+          body: JSON.stringify({ error: { message: res.message } })
+        };
+        return;
+      }
+    }
 
     if (this.validator && data.event.httpMethod) {
       this.logger.debug('[onInvoke] Valid request');
