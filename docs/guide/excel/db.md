@@ -8,8 +8,6 @@ FaasJS 目前提供了三个数据库插件：
 - **@faasjs/redis** 支持 Redis。
 - **@faasjs/mongo** 支持 MongoDB。
 
-此外还支持 [TypeORM](/guide/excel/typeorm.html) 用于更复杂的场景。
-
 ## Sql 数据库操作示例
 
 ```typescript

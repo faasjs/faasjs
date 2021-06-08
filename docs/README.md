@@ -88,7 +88,6 @@ describe('index', function () {
     <p><a href="https://nuxtjs.org/" target="_blank">Nuxt.js</a></p>
     <p><a href="https://reactjs.org/" target="_blank">React</a></p>
     <p><a href="https://rollupjs.org/" target="_blank">Rollup.js</a></p>
-    <p><a href="https://typeorm.io/" target="_blank">TypeORM</a></p>
     <p><a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></p>
     <p><a href="https://vuejs.org/" target="_blank">Vue.js</a></p>
     <p><a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a></p>

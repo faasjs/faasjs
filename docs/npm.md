@@ -45,8 +45,6 @@
 |[@faasjs/redis](https://github.com/faasjs/faasjs/tree/master/packages/redis)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/redis/stable.svg)](https://www.npmjs.com/package/@faasjs/redis)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/redis/beta.svg)](https://www.npmjs.com/package/@faasjs/redis)|
 |[@faasjs/kafka](https://github.com/faasjs/faasjs/tree/master/packages/kafka)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/kafka/stable.svg)](https://www.npmjs.com/package/@faasjs/kafka)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/kafka/beta.svg)](https://www.npmjs.com/package/@faasjs/kafka)|
 |[@faasjs/knex](https://github.com/faasjs/faasjs/tree/master/packages/knex)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/knex/stable.svg)](https://www.npmjs.com/package/@faasjs/knex)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/knex/beta.svg)](https://www.npmjs.com/package/@faasjs/knex)|
-|[@faasjs/typeorm](https://github.com/faasjs/faasjs/tree/master/packages/typeorm)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/typeorm/stable.svg)](https://www.npmjs.com/package/@faasjs/typeorm)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/typeorm/beta.svg)](https://www.npmjs.com/package/@faasjs/typeorm)|
-|[@faasjs/sequelize](https://github.com/faasjs/faasjs/tree/master/packages/sequelize)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/sequelize/stable.svg)](https://www.npmjs.com/package/@faasjs/sequelize)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/sequelize/beta.svg)](https://www.npmjs.com/package/@faasjs/sequelize)|
 
 ## 服务商适配
 

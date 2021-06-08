@@ -58,7 +58,6 @@ module.exports = {
             'excel/nuxt',
             'excel/react',
             'excel/graphql-server',
-            'excel/typeorm'
           ]
         },
         'story'
