@@ -73,6 +73,7 @@ describe('index', function () {
   <div>
     <h3>感谢</h3>
     <p>代码贡献者（按字母排序）</p>
+    <p><a href="https://github.com/luckyporo" target="_blank">luckyporo</a></p>
     <p><a href="https://github.com/onichandame" target="_blank">onichandame</a></p>
     <p><a href="https://github.com/Vibutnum" target="_blank">Vibutnum</a></p>
     <p><a href="https://github.com/victoryifei" target="_blank">victoryifei</a></p>
