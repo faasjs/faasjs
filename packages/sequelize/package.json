@@ -15,7 +15,7 @@
     "@faasjs/deep_merge": "^0.0.2-beta.176",
     "@faasjs/load": "^0.0.2-beta.176",
     "@faasjs/logger": "^0.0.2-beta.176",
-    "sequelize": "^5.0.0"
+    "sequelize": "^6.6.2"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.176",
