@@ -37,16 +37,17 @@ export interface HttpConfig {
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
+    before?(request: Http): Promise<void | Response>;
   };
-  beforeValid?(request: Http): Promise<any>;
 }
 
 export interface Response {
   statusCode?: number;
-  headers: {
+  headers?: {
     [key: string]: any;
   };
   body?: string;
+  message?: string;
 }
 
 const Name = 'http';
@@ -69,6 +70,7 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
+    before?: (request: Http) => Promise<void | Response>
   };
   private response?: Response;
   private validator?: Validator<TParams, TCookie, TSession>;
@@ -96,6 +98,7 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
    * @param config.validator.session.whitelist {string} 白名单配置
    * @param config.validator.session.onError {function} 自定义报错
    * @param config.validator.session.rules {object} 参数校验规则
+   * @param config.validator.before {function} 参数校验前自定义函数
    */
   constructor (config?: HttpConfig) {
     this.name = config?.name || this.type;
@@ -179,12 +182,12 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
     this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content);
     this.logger.debug('[onInvoke] Session: %O', this.session.content);
 
-    // 自定义校验
-    if (this.config?.beforeValid) {
-      this.logger.debug('[onInvoke] beforeValid request');
+    if (this.validator?.before) {
+      // 自定义校验
+      this.logger.debug('[onInvoke] before request');
       let res;
       try {
-        res = await this.config.beforeValid(this);
+        res = await this.validator.before(this);
       } catch (error) {
         this.logger.error(error);
         data.response = {
