@@ -61,7 +61,7 @@ describe('http', function () {
 
   test('beforeValid', async function () {
     const http = new Http({
-      config: {
+      validator: {
         async beforeValid (request) {
           if (!request.session.read('aid'))
             return {
@@ -89,7 +89,7 @@ describe('http', function () {
 
   test('beforeValid throw error', async function () {
     const http = new Http({
-      config: {
+      validator: {
         async beforeValid () {
           throw Error('something going wrong');
         }
