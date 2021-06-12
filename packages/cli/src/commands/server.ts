@@ -7,10 +7,11 @@ export function action (opts: {
   cache: boolean;
 }): void {
   defaultsEnv();
-  const server = new Server(process.env.FaasRoot, { cache: opts.cache });
-
-  const port = opts.port || 3000;
-  server.listen(port);
+  const server = new Server(process.env.FaasRoot, {
+    cache: opts.cache,
+    port: opts.port || 3000
+  });
+  server.listen();
 }
 
 export default function (program: Command): void {
