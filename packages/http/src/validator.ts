@@ -43,7 +43,7 @@ class ValidError extends Error {
 }
 
 export class Validator<P, C, S> {
-  public beforeValid?: (request?: any) => Promise<any>
+  public before?: (request?: any) => Promise<any>
   public paramsConfig?: ValidatorOptions;
   public cookieConfig?: ValidatorOptions;
   public sessionConfig?: ValidatorOptions;
@@ -58,12 +58,12 @@ export class Validator<P, C, S> {
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
-    beforeValid?: (request?: any) => Promise<any>
+    before?: (request?: any) => Promise<any>
   }) {
     this.paramsConfig = config.params;
     this.cookieConfig = config.cookie;
     this.sessionConfig = config.session;
-    this.beforeValid = config.beforeValid;
+    this.before = config.before;
     this.logger = new Logger('Http.Validator');
   }
 

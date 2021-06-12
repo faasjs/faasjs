@@ -62,7 +62,7 @@ describe('http', function () {
   test('beforeValid', async function () {
     const http = new Http({
       validator: {
-        async beforeValid (request) {
+        async before (request) {
           if (!request.session.read('aid'))
             return {
               statusCode: 401,
@@ -90,7 +90,7 @@ describe('http', function () {
   test('beforeValid throw error', async function () {
     const http = new Http({
       validator: {
-        async beforeValid () {
+        async before () {
           throw Error('something going wrong');
         }
       }
