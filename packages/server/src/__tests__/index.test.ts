@@ -1,155 +1,54 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Server } from '../index';
-import { IncomingMessage } from 'http';
+import request from '@faasjs/request';
+import { join, sep } from 'path';
 
 describe('server', function () {
-  test('init', function () {
-    const server = new Server(process.cwd() + '/funcs');
+  let server: Server;
+  let port: number;
 
-    expect(server.root).toEqual(process.cwd() + '/funcs/');
-    expect(server.opts).toEqual({ cache: false });
+  beforeAll(function () {
+    port = 3001 + Math.floor(Math.random() * 10);
+    server = new Server(join(__dirname, 'funcs'), { port });
+    server.listen();
+  });
+
+  afterAll(function () {
+    server.close();
+  });
+
+  test('check config', async function () {
+    expect(server.root).toEqual(join(__dirname, 'funcs', sep));
+    expect(server.opts).toEqual({
+      cache: false,
+      port
+    });
+  });
+
+  test('request', async function () {
+    await expect(request('http://localhost:' + port)).rejects.toMatchObject({
+      statusCode: 404,
+      body: { error: { message: `Not found: ${server.root}.func.ts or ${server.root}index.func.ts` } }
+    });
   });
 
   test('hello', async function () {
-    const server = new Server(__dirname + '/funcs');
-
-    let res;
-
-    const promise = new Promise<void>(function (resolve) {
-      res = {
-        statusCode: null,
-        body: null,
-        headers: {},
-        write (body) {
-          this.body = body;
-        },
-        end () {
-          resolve();
-        },
-        setHeader (key, value) {
-          this.headers[key as string] = value;
-        }
-      };
-      void server.processRequest({
-        url: '/hello',
-        headers: {},
-        on (event, handler) {
-          handler();
-        },
-        read: () => true
-      } as IncomingMessage, res);
+    await expect(request('http://localhost:' + port + '/hello')).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: 'hello' }
     });
-
-    await promise;
-
-    expect(res.body).toEqual('{"data":"hello"}');
   });
 
   test('a', async function () {
-    const server = new Server(__dirname + '/funcs');
-
-    let res;
-
-    const promise = new Promise<void>(function (resolve) {
-      res = {
-        statusCode: null,
-        body: null,
-        headers: {},
-        write (body) {
-          this.body = body;
-        },
-        end () {
-          resolve();
-        },
-        setHeader (key, value) {
-          this.headers[key as string] = value;
-        }
-      };
-      void server.processRequest({
-        url: '/a',
-        headers: {},
-        on: (event, handler) => {
-          handler();
-        },
-        read: () => true
-      } as IncomingMessage, res);
+    await expect(request('http://localhost:' + port + '/a')).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: 'a' }
     });
-
-    await promise;
-
-    expect(res.body).toEqual('{"data":"a"}');
-  });
-
-  test('404', async function () {
-    const server = new Server(__dirname + '/funcs');
-
-    let res;
-
-    const promise = new Promise<void>(function (resolve) {
-      res = {
-        statusCode: null,
-        body: null,
-        headers: {},
-        write (body) {
-          this.body = body;
-        },
-        end () {
-          resolve();
-        },
-        setHeader (key, value) {
-          this.headers[key as string] = value;
-        }
-      };
-      void server.processRequest({
-        url: '/404',
-        headers: {},
-        on: (event, handler) => {
-          handler();
-        },
-        read: () => true
-      } as IncomingMessage, res);
-    });
-
-    await promise;
-
-    expect(res.statusCode).toEqual(500);
   });
 
   test('500', async function () {
-    const server = new Server(__dirname + '/funcs');
-
-    let res;
-
-    const promise = new Promise<void>(function (resolve) {
-      res = {
-        statusCode: null,
-        body: null,
-        headers: {},
-        write (body) {
-          this.body = body;
-        },
-        end () {
-          resolve();
-        },
-        setHeader (key, value) {
-          this.headers[key as string] = value;
-        }
-      };
-      void server.processRequest({
-        url: '/error',
-        headers: {},
-        on: (event, handler) => {
-          handler();
-        },
-        read: () => true
-      } as IncomingMessage, res);
+    await expect(request('http://localhost:' + port + '/error')).rejects.toMatchObject({
+      statusCode: 500,
+      body: { error: { message: 'error' } }
     });
-
-    await promise;
-
-    expect(res.statusCode).toEqual(500);
-    expect(res.body).toEqual('{"error":{"message":"error"}}');
   });
 });

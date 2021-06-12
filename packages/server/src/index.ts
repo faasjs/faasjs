@@ -1,15 +1,34 @@
 /* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call */
 import { createServer, IncomingMessage, Server as HttpServer } from 'http';
-import * as URL from 'url';
-import { parse } from 'querystring';
 import Logger from '@faasjs/logger';
 import { existsSync } from 'fs';
 import { loadConfig } from '@faasjs/load';
 import { resolve as pathResolve, sep, join } from 'path';
 
-interface Cache {
+type Cache = {
   file?: string;
   handler?(...args: any): Promise<any>;
+}
+
+class HttpError extends Error {
+  public readonly statusCode: number;
+  public readonly message: string;
+
+  constructor ({
+    statusCode,
+    message
+  }:{
+    statusCode?: number;
+    message: string;
+  }) {
+    super(message);
+
+    if (Error.captureStackTrace)
+      Error.captureStackTrace(this, HttpError);
+
+    this.statusCode = statusCode || 500;
+    this.message = message;
+  }
 }
 
 /**
@@ -20,24 +39,31 @@ export class Server {
   public readonly logger: Logger;
   public readonly opts: {
     cache: boolean;
+    port: number;
   }
   private processing = false;
   private cachedFuncs: {
     [path: string]: Cache;
   }
+  private server: HttpServer;
 
   /**
    * 创建本地服务器
    * @param root {string} 云函数的根目录
    * @param opts {object} 配置项
    * @param cache {boolean} 是否缓存云函数，默认为 false，每次接收请求都会重新编译和加载云函数代码
+   * @param port {number} 端口号，默认为 3000
    */
   constructor (root: string, opts?: {
-    cache: boolean;
+    cache?: boolean;
+    port?: number;
   }) {
     this.root = root.endsWith(sep) ? root : root + sep;
     this.logger = new Logger('FaasJS');
-    this.opts = Object.assign({ cache: false }, opts || {});
+    this.opts = Object.assign({
+      cache: false,
+      port: 3000
+    }, opts || {});
     this.cachedFuncs = {};
     this.logger.debug('init with %s %o', this.root, this.opts);
   }
@@ -50,100 +76,89 @@ export class Server {
   }): Promise<void> {
     this.logger.info('[Request] %s', req.url);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const requestId = new Date().getTime().toString();
-      try {
-        let body = '';
+      let body = '';
 
-        req.on('readable', function () {
-          body += req.read() || '';
-        });
+      req.on('readable', function () {
+        body += req.read() || '';
+      });
 
-        req.on('end', async () => {
-          let data;
-          try {
-            // 提取 path
-            const path = join(this.root, req.url).replace(/\?.*/, '');
+      req.on('end', async () => {
+        let data;
+        try {
+          // 提取 path
+          const path = join(this.root, req.url).replace(/\?.*/, '');
 
-            let cache: Cache = {};
+          let cache: Cache = {};
 
-            if (this.opts.cache && this.cachedFuncs[path] && this.cachedFuncs[path].handler) {
-              this.logger.info('[Response] cached: %s', cache.file);
-              cache = this.cachedFuncs[path];
-            } else {
-              cache.file = pathResolve('.', this.getFilePath(path));
-              this.logger.info('[Response] %s', cache.file);
-
-              const func = require(cache.file).default;
-              func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
-              cache.handler = func.export().handler;
-
-              if (this.opts.cache) this.cachedFuncs[path] = cache;
-              else this.clearCache();
-            }
-
-            const uri = URL.parse(req.url);
-
-            data = await cache.handler({
-              headers: req.headers,
-              httpMethod: req.method,
-              queryString: parse(uri.query || ''),
-              path: req.url,
-              body,
-              requestContext: {
-                httpMethod: req.method,
-                identity: {},
-                path: req.url,
-                sourceIp: req.connection?.remoteAddress
-              }
-            }, { request_id: requestId });
-          } catch (error) {
-            data = error;
-          }
-
-          if (data instanceof Error || (data && data.constructor && data.constructor.name === 'Error') || typeof data === 'undefined' || data === null) {
-            res.statusCode = 500;
-            res.setHeader('Content-Type', 'application/json; charset=utf-8');
-            res.setHeader('X-SCF-RequestId', requestId);
-            res.write(JSON.stringify({ error: { message: data?.message || 'No response' } }));
+          if (this.opts.cache && this.cachedFuncs[path] && this.cachedFuncs[path].handler) {
+            this.logger.info('[Response] cached: %s', cache.file);
+            cache = this.cachedFuncs[path];
           } else {
-            if (data.statusCode) res.statusCode = data.statusCode;
+            cache.file = pathResolve('.', this.getFilePath(path));
+            this.logger.info('[Response] %s', cache.file);
 
-            if (data.headers)
-              for (const key in data.headers)
-                if (Object.prototype.hasOwnProperty.call(data.headers, key))
-                  res.setHeader(key, data.headers[key]);
+            const func = require(cache.file).default;
+            func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
+            cache.handler = func.export().handler;
 
-            if (data.body)
-              if (data.isBase64Encoded)
-                res.write(Buffer.from(data.body, 'base64'));
-              else
-                res.write(data.body);
+            if (this.opts.cache) this.cachedFuncs[path] = cache;
+            else this.clearCache();
           }
-          res.end();
-          resolve();
-        });
-      } catch (error) {
-        this.logger.error(error);
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.setHeader('X-SCF-RequestId', requestId);
-        res.write(JSON.stringify({ error: { message: error.message } }));
+
+          data = await cache.handler({
+            headers: req.headers,
+            httpMethod: req.method,
+            path: req.url,
+            body,
+            requestContext: {
+              httpMethod: req.method,
+              identity: {},
+              path: req.url,
+              sourceIp: req.connection?.remoteAddress
+            }
+          }, { request_id: requestId });
+        } catch (error) {
+          data = error;
+        }
+
+        if (data instanceof Error || (data && data.constructor && data.constructor.name.includes('Error')) || typeof data === 'undefined' || data === null) {
+          res.statusCode = data?.statusCode || 500;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          res.setHeader('X-SCF-RequestId', requestId);
+          res.write(JSON.stringify({ error: { message: data?.message || 'No response' } }));
+        } else {
+          if (data.statusCode) res.statusCode = data.statusCode;
+
+          if (data.headers)
+            for (const key in data.headers)
+              if (Object.prototype.hasOwnProperty.call(data.headers, key))
+                res.setHeader(key, data.headers[key]);
+
+          if (data.body)
+            if (data.isBase64Encoded)
+              res.write(Buffer.from(data.body, 'base64'));
+            else
+              res.write(data.body);
+        }
         res.end();
-        reject(error);
-      }
+        resolve();
+      });
     });
   }
 
-  public listen (port: number = 3000): HttpServer {
-    this.logger.info('listen http://localhost:%s with %s', port, this.root);
-
+  public listen (): HttpServer {
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') process.env.FaasEnv = 'development';
 
     process.env.FaasMode = 'local';
-    process.env.FaasLocal = `http://localhost:${port}`;
+    process.env.FaasLocal = `http://localhost:${this.opts.port}`;
 
-    return createServer(this.opts.cache ? this.processRequest.bind(this) : async (req, res)=> {
+    if (this.server) throw Error('Server already running');
+
+    this.logger.info('[%s] Listen http://localhost:%s with %s', process.env.FaasEnv, this.opts.port, this.root);
+
+    this.server = createServer(this.opts.cache ? this.processRequest.bind(this) : async (req, res)=> {
       if (!this.processing) {
         this.processing = true;
         await this.processRequest(req, res);
@@ -158,20 +173,36 @@ export class Server {
           }
         });
       }
-    }).listen(port, '0.0.0.0');
+    }).listen(this.opts.port, '0.0.0.0');
+
+    return this.server;
+  }
+
+  public close (): void {
+    this.logger.debug('Close server');
+    this.server.close(function (err) {
+      if (err) console.error(err);
+    });
   }
 
   private getFilePath (path: string) {
+    // Safe check
+    if (/^(\.|\|\/)+$/.test(path))
+      throw Error('Illegal characters');
+
     if (existsSync(path + '.func.ts'))
       return path + '.func.ts';
     else if (existsSync(path + '/index.func.ts'))
       return path + '/index.func.ts';
 
-    throw Error(`Not found: ${path}.func.ts or ${path}/index.func.ts`);
+    throw new HttpError({
+      statusCode: 404,
+      message: `Not found: ${path}.func.ts or ${path}index.func.ts`
+    });
   }
 
   private clearCache () {
-    this.logger.debug('clear cache');
+    this.logger.debug('Clear cache');
     Object.keys(require.cache).forEach(function (id) {
       if (!id.includes('node_modules') || id.includes('faasjs'))
         delete require.cache[id];
