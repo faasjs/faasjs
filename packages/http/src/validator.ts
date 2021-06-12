@@ -1,7 +1,7 @@
 import { Cookie } from './cookie';
 import { Session } from './session';
 import Logger from '@faasjs/logger';
-import { Http } from '.';
+import { Http, Response } from '.';
 export interface ValidatorRuleOptions {
   type?: 'string' | 'number' | 'boolean' | 'object' | 'array';
   required?: boolean;
@@ -44,7 +44,7 @@ class ValidError extends Error {
 }
 
 export class Validator<P, C, S> {
-  public before?: (request?: Http) => Promise<any>
+  public before?: (request?: Http) => Promise<void | Response>
   public paramsConfig?: ValidatorOptions;
   public cookieConfig?: ValidatorOptions;
   public sessionConfig?: ValidatorOptions;
@@ -59,7 +59,7 @@ export class Validator<P, C, S> {
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
-    before?: (request?: Http) => Promise<any>
+    before?: (request?: Http) => Promise<void | Response>
   }) {
     this.paramsConfig = config.params;
     this.cookieConfig = config.cookie;

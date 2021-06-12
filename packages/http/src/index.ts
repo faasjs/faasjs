@@ -37,16 +37,17 @@ export interface HttpConfig {
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
-    before?(request: Http): Promise<any>;
+    before?(request: Http): Promise<void | Response>;
   };
 }
 
 export interface Response {
   statusCode?: number;
-  headers: {
+  headers?: {
     [key: string]: any;
   };
   body?: string;
+  message?: string;
 }
 
 const Name = 'http';
@@ -69,7 +70,7 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
-    before?: (request: Http) => Promise<any>
+    before?: (request: Http) => Promise<void | Response>
   };
   private response?: Response;
   private validator?: Validator<TParams, TCookie, TSession>;
