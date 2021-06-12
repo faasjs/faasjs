@@ -181,8 +181,6 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
     this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content);
     this.logger.debug('[onInvoke] Session: %O', this.session.content);
 
-    console.log('===this.validator===', JSON.stringify(this.validator));
-
     if (this.validator?.beforeValid) {
       // 自定义校验
       this.logger.debug('[onInvoke] beforeValid request');
