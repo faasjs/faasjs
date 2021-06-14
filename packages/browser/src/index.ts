@@ -1,4 +1,16 @@
-export interface ResponseHeaders {
+export type Params = {
+  [key: string]: any;
+}
+
+export type Options = {
+  beforeRequest?: ({ action, params, xhr }: {
+    action: string;
+    params: Params;
+    xhr: XMLHttpRequest;
+  }) => void;
+}
+
+export type ResponseHeaders = {
   [key: string]: string;
 }
 
@@ -34,42 +46,46 @@ export class ResponseError extends Error {
   }
 }
 
-export type action = (action: string, params?: any) => Promise<Response>;
-
 export default class FaasBrowserClient {
   public host: string;
+  public defaultOptions: Options;
 
   /**
    * 创建 FaasJS 浏览器客户端
-   * @param baseUrl {string=} 网关地址，若不填写，则默认为本地路径 /_faas/
+   * @param baseUrl {string} 网关地址
+   * @param options {object} 默认配置项
    */
-  constructor (baseUrl?: string) {
-    if (baseUrl)
-      this.host = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    else
-      this.host = '/_faas/';
+  constructor (baseUrl: string, options?: Options) {
+    this.host = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+    this.defaultOptions = options || Object.create(null);
 
     console.debug('[faas] baseUrl: ' + this.host);
   }
 
   /**
-   * 发起操作
+   * 发起请求
    * @param action {string} 动作名称
    * @param params {any} 动作参数
+   * @param options {object} 默认配置项
    */
-  public async action<T = any> (action: string, params?: any): Promise<Response<T>> {
+  public async action<T = any> (action: string, params: Params, options?: Options): Promise<Response<T>> {
     const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString();
-
-    if (params && typeof params !== 'string')
-      params = JSON.stringify(params);
-
+    if (!options) options = this.defaultOptions;
+    else options = {
+      ...this.defaultOptions,
+      ...options
+    };
 
     return new Promise(function (resolve, reject) {
-      // eslint-disable-next-line no-undef
       const xhr = new XMLHttpRequest();
       xhr.open('POST', url);
       xhr.withCredentials = true;
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      if (options.beforeRequest) options.beforeRequest({
+        action,
+        params,
+        xhr
+      });
 
       xhr.onload = function () {
         let res = xhr.response;
@@ -121,7 +137,7 @@ export default class FaasBrowserClient {
         }));
       };
 
-      xhr.send(params);
+      xhr.send(JSON.stringify(params));
     });
   }
 }

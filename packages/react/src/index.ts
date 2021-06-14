@@ -1,12 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { useState, useEffect } = require('react');
-import Client, { Response } from '@faasjs/browser';
+import Client, { Options, Params, Response } from '@faasjs/browser';
 
 export function FaasClient ({
   domain,
+  options,
   onError
 }: {
   domain: string;
+  options?: Options;
   onError?(action: string, params: any): (res: any) => any;
 }): {
     faas<T = any> (action: string, params: any): Promise<Response<T>>;
@@ -17,14 +19,14 @@ export function FaasClient ({
       promise: Promise<Response<T>>
     }
   } {
-  const client = new Client(domain);
+  const client = new Client(domain, options);
 
   return {
-    async faas<T = any> (action: string, params: any) {
-      if (onError) return client.action<T>(action, params).catch(onError(action, params));
+    async faas<T = any> (action: string, params: Params) {
+      if (onError) return client.action<T>(action, params, ).catch(onError(action, params));
       return client.action<T>(action, params);
     },
-    useFaas<T = any> (action: string, params?: any) {
+    useFaas<T = any> (action: string, params?: Params) {
       const [loading, setLoading] = useState(false);
       const [data, setData] = useState();
       const [error, setError] = useState();
