@@ -52,6 +52,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOVTOKEN }}
 
-      - uses: paambaati/codeclimate-action@v2.2.4
+      - uses: paambaati/codeclimate-action@v2
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
