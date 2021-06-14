@@ -42,6 +42,12 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: prepare reporter
+        run:
+          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          - chmod +x ./cc-test-reporter
+          - ./cc-test-reporter before-build
+
       - name: yarn install
         run: yarn install
 
@@ -51,3 +57,7 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOVTOKEN }}
+
+      - uses: paambaati/codeclimate-action@v2.2.4
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
