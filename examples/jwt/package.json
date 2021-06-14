@@ -1,0 +1,40 @@
+{
+  "name": "@faasjs/jwt-demo",
+  "private": "true",
+  "version": "0.0.0",
+  "dependencies": {
+    "@babel/core": "*",
+    "@babel/plugin-proposal-class-properties": "*",
+    "@babel/plugin-proposal-export-default-from": "*",
+    "@babel/plugin-transform-runtime": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-react": "*",
+    "@babel/preset-typescript": "*",
+    "@faasjs/eslint-config-react": "beta",
+    "@faasjs/react": "^0.0.2-beta.183",
+    "@types/jsonwebtoken": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@types/react-router-dom": "*",
+    "@types/uuid": "*",
+    "antd": "*",
+    "babel-loader": "*",
+    "faasjs": "^0.0.2-beta.182",
+    "html-loader": "*",
+    "html-webpack-plugin": "*",
+    "jsonwebtoken": "*",
+    "less-loader": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-router-dom": "*",
+    "style-loader": "*",
+    "url-loader": "*",
+    "uuid": "*",
+    "webpack": "*",
+    "webpack-cli": "*",
+    "webpack-dev-server": "*"
+  },
+  "scripts": {
+    "dev": "yarn node ./node_modules/@faasjs/cli/lib/index.js server -v -r \"./funcs\" -p 8081 & webpack serve --progress --config web/.webpack/webpack.config.js"
+  }
+}
