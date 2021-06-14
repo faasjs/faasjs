@@ -42,12 +42,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: prepare reporter
-        run:
-          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          - chmod +x ./cc-test-reporter
-          - ./cc-test-reporter before-build
-
       - name: yarn install
         run: yarn install
 
