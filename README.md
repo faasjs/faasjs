@@ -4,7 +4,7 @@
 [![Build Status](https://github.com/faasjs/faasjs/actions/workflows/ci.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/ci.yml)
 [![Coverage Status](https://img.shields.io/codecov/c/github/faasjs/faasjs.svg)](https://codecov.io/gh/faasjs/faasjs)
 [![NPM Beta Version](https://img.shields.io/npm/v/faasjs/beta.svg)](https://www.npmjs.com/package/faasjs)
-[![CodeFactor](https://www.codefactor.io/repository/github/faasjs/faasjs/badge)](https://www.codefactor.io/repository/github/faasjs/faasjs)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ed918d6b0ecc951f7924/maintainability)](https://codeclimate.com/github/faasjs/faasjs/maintainability)
 
 A Node.js Severless Application Framework
 
