@@ -77,7 +77,6 @@ describe('validator/required', function () {
               onError: function (type, key, value) {
                 return {
                   statusCode: 401,
-                  headers: { key: 'value' },
                   message: `${type} ${key} ${value}`
                 };
               }
@@ -92,7 +91,6 @@ describe('validator/required', function () {
         const res = await handler({ httpMethod: 'POST' });
 
         expect(res.statusCode).toEqual(401);
-        expect(res.headers.key).toEqual('value');
         expect(res.body).toEqual('{"error":{"message":"params.rule.required key undefined"}}');
       });
     });

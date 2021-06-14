@@ -93,7 +93,6 @@ describe('validator/in', function () {
                 onError: function (type, key, value) {
                   return {
                     statusCode: 401,
-                    headers: { key: 'value' },
                     message: `${type} ${key} ${value}`
                   };
                 }
@@ -112,7 +111,6 @@ describe('validator/in', function () {
           });
 
           expect(res.statusCode).toEqual(401);
-          expect(res.headers.key).toEqual('value');
           expect(res.body).toEqual('{"error":{"message":"params.rule.in key 2"}}');
         });
       });
@@ -219,7 +217,6 @@ describe('validator/in', function () {
                       onError: function (type, key, value) {
                         return {
                           statusCode: 401,
-                          headers: { key: 'value' },
                           message: `${type} ${key} ${value}`
                         };
                       }
@@ -229,7 +226,6 @@ describe('validator/in', function () {
                 onError: function (type, key, value) {
                   return {
                     statusCode: 401,
-                    headers: { key: 'value' },
                     message: `${type} ${key} ${value}`
                   };
                 }
@@ -248,7 +244,6 @@ describe('validator/in', function () {
           });
 
           expect(res.statusCode).toEqual(401);
-          expect(res.headers.key).toEqual('value');
           expect(res.body).toEqual('{"error":{"message":"params.rule.in key.sub 2"}}');
         });
       });
@@ -356,7 +351,6 @@ describe('validator/in', function () {
                     onError: function (type, key, value) {
                       return {
                         statusCode: 401,
-                        headers: { key: 'value' },
                         message: `${type} ${key} ${value}`
                       };
                     }
@@ -366,7 +360,6 @@ describe('validator/in', function () {
               onError: function (type, key, value) {
                 return {
                   statusCode: 401,
-                  headers: { key: 'value' },
                   message: `${type} ${key} ${value}`
                 };
               }
@@ -385,7 +378,6 @@ describe('validator/in', function () {
         });
 
         expect(res.statusCode).toEqual(401);
-        expect(res.headers.key).toEqual('value');
         expect(res.body).toEqual('{"error":{"message":"params.rule.in key.sub 2"}}');
       });
     });
@@ -476,7 +468,6 @@ describe('validator/in', function () {
               onError: function (type, key, value) {
                 return {
                   statusCode: 401,
-                  headers: { key: 'value' },
                   message: `${type} ${key} ${value}`
                 };
               }
@@ -494,7 +485,6 @@ describe('validator/in', function () {
         });
 
         expect(res.statusCode).toEqual(401);
-        expect(res.headers.key).toEqual('value');
         expect(res.body).toEqual('{"error":{"message":"cookie.rule.in key 2"}}');
       });
     });
@@ -656,7 +646,6 @@ describe('validator/in', function () {
                       onError: function (type, key, value) {
                         return {
                           statusCode: 401,
-                          headers: { key: 'value' },
                           message: `${type} ${key} ${value}`
                         };
                       }
@@ -666,7 +655,6 @@ describe('validator/in', function () {
                 onError: function (type, key, value) {
                   return {
                     statusCode: 401,
-                    headers: { key: 'value' },
                     message: `${type} ${key} ${value}`
                   };
                 }
@@ -686,7 +674,6 @@ describe('validator/in', function () {
           });
 
           expect(res.statusCode).toEqual(401);
-          expect(res.headers.key).toEqual('value');
           expect(res.body).toEqual('{"error":{"message":"session.rule.in key.sub 1"}}');
         });
       });

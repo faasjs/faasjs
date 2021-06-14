@@ -122,7 +122,6 @@ describe('validator/whitelist', function () {
                 onError: function (type, key, value) {
                   return {
                     statusCode: 401,
-                    headers: { key: 'value' },
                     message: `${type} ${key} ${value}`
                   };
                 }
@@ -141,7 +140,6 @@ describe('validator/whitelist', function () {
           });
 
           expect(res.statusCode).toEqual(401);
-          expect(res.headers.key).toEqual('value');
           expect(res.body).toEqual('{"error":{"message":"params.whitelist  key1,key2"}}');
         });
       });

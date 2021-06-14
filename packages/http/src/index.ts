@@ -3,7 +3,7 @@ import deepMerge from '@faasjs/deep_merge';
 import Logger from '@faasjs/logger';
 import { Cookie, CookieOptions } from './cookie';
 import { Session, SessionOptions } from './session';
-import { Validator, ValidatorOptions, ValidatorRuleOptions } from './validator';
+import { Validator, ValidatorOptions, ValidatorRuleOptions, ValidatorConfig } from './validator';
 import { gzipSync, deflateSync, brotliCompressSync } from 'zlib';
 
 export { Cookie, CookieOptions, Session, SessionOptions, Validator, ValidatorOptions, ValidatorRuleOptions };
@@ -21,7 +21,7 @@ export const ContentType: {
   jsonp: 'application/javascript'
 };
 
-export interface HttpConfig {
+export type HttpConfig = {
   [key: string]: any;
   name?: string;
   config?: {
@@ -33,21 +33,37 @@ export interface HttpConfig {
     functionName?: string;
     cookie?: CookieOptions;
   };
-  validator?: {
-    params?: ValidatorOptions;
-    cookie?: ValidatorOptions;
-    session?: ValidatorOptions;
-    before?(request: Http): Promise<void | Response>;
-  };
+  validator?: ValidatorConfig;
 }
 
-export interface Response {
+export type Response = {
   statusCode?: number;
   headers?: {
     [key: string]: any;
   };
   body?: string;
   message?: string;
+}
+
+export class HttpError extends Error {
+  public readonly statusCode: number;
+  public readonly message: string;
+
+  constructor ({
+    statusCode,
+    message
+  }:{
+    statusCode?: number;
+    message: string;
+  }) {
+    super(message);
+
+    if (Error.captureStackTrace)
+      Error.captureStackTrace(this, HttpError);
+
+    this.statusCode = statusCode || 500;
+    this.message = message;
+  }
 }
 
 const Name = 'http';
@@ -66,12 +82,7 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
   public cookie: Cookie<TCookie, TSession>;
   public session: Session<TSession, TCookie>;
   public config: HttpConfig;
-  private validatorOptions?: {
-    params?: ValidatorOptions;
-    cookie?: ValidatorOptions;
-    session?: ValidatorOptions;
-    before?: (request: Http) => Promise<void | Response>
-  };
+  private validatorOptions?: ValidatorConfig;
   private response?: Response;
   private validator?: Validator<TParams, TCookie, TSession>;
   private logger: Logger;
@@ -182,41 +193,11 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
     this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content);
     this.logger.debug('[onInvoke] Session: %O', this.session.content);
 
-    if (this.validator?.before) {
-      // 自定义校验
-      this.logger.debug('[onInvoke] before request');
-      let res;
-      try {
-        res = await this.validator.before(this);
-      } catch (error) {
-        this.logger.error(error);
-        data.response = {
-          statusCode: error.statusCode || 500,
-          headers: Object.assign({
-            'Content-Type': 'application/json; charset=utf-8',
-            'X-SCF-RequestId': data.context.request_id
-          }, error.headers || {}),
-          body: JSON.stringify({ error: { message: error.message } })
-        };
-        return;
-      }
-      if (res?.statusCode) {
-        data.response = {
-          statusCode: res.statusCode || 500,
-          headers: Object.assign({
-            'Content-Type': 'application/json; charset=utf-8',
-            'X-SCF-RequestId': data.context.request_id
-          }, res.headers || {}),
-          body: JSON.stringify({ error: { message: res.message } })
-        };
-        return;
-      }
-    }
-
     if (this.validator && data.event.httpMethod) {
       this.logger.debug('[onInvoke] Valid request');
       try {
-        this.validator.valid({
+        await this.validator.valid({
+          headers: this.headers,
           params: this.params,
           cookie: this.cookie,
           session: this.session
@@ -225,10 +206,10 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
         this.logger.error(error);
         data.response = {
           statusCode: error.statusCode || 500,
-          headers: Object.assign({
+          headers: {
             'Content-Type': 'application/json; charset=utf-8',
             'X-SCF-RequestId': data.context.request_id
-          }, error.headers || {}),
+          },
           body: JSON.stringify({ error: { message: error.message } })
         };
         return;

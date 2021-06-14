@@ -1,8 +1,9 @@
 import { Cookie } from './cookie';
 import { Session } from './session';
 import Logger from '@faasjs/logger';
-import { Http, Response } from '.';
-export interface ValidatorRuleOptions {
+import { HttpError } from '.';
+
+export type ValidatorRuleOptions = {
   type?: 'string' | 'number' | 'boolean' | 'object' | 'array';
   required?: boolean;
   in?: any[];
@@ -10,56 +11,51 @@ export interface ValidatorRuleOptions {
   config?: Partial<ValidatorOptions>;
 }
 
-export interface ValidatorOptions {
+export type ValidatorOptions = {
   whitelist?: 'error' | 'ignore';
   rules: {
     [key: string]: ValidatorRuleOptions;
   };
   onError?: (type: string, key: string | string[], value?: any) => {
     statusCode?: number;
-    headers?: {
-      [key: string]: any;
-    };
     message: any;
   } | void;
 }
 
-class ValidError extends Error {
-  public statusCode: number;
-  public headers: {
-    [key: string]: any;
+type Request<P, C, S> = {
+  headers: {
+    [key: string]: string;
   }
+  params?: P;
+  cookie?: Cookie<C, S>;
+  session?: Session<S, C>;
+};
 
-  constructor ({ statusCode, headers, message }: {
-    statusCode?: number;
-    headers?: {
-      [key: string]: any;
-    };
-    message: string;
-  }) {
-    super(message);
-    this.statusCode = statusCode || 500;
-    this.headers = headers || Object.create(null);
-  }
+export type BeforeOption<P = any, C = any, S = any> = (request: Request<P, C, S>) => Promise<void | {
+  statusCode?: number;
+  message: string;
+}>
+
+export type ValidatorConfig = {
+  params?: ValidatorOptions;
+  cookie?: ValidatorOptions;
+  session?: ValidatorOptions;
+  before?: BeforeOption;
 }
 
 export class Validator<P, C, S> {
-  public before?: (request?: Http) => Promise<void | Response>
+  public before?:BeforeOption<P, C, S>;
   public paramsConfig?: ValidatorOptions;
   public cookieConfig?: ValidatorOptions;
   public sessionConfig?: ValidatorOptions;
-  private request?: {
-    params?: P;
-    cookie?: Cookie<C, S>;
-    session?: Session<S, C>;
-  }
+  private request: Request<P, C, S>;
   private logger: Logger;
 
   constructor (config: {
     params?: ValidatorOptions;
     cookie?: ValidatorOptions;
     session?: ValidatorOptions;
-    before?: (request?: Http) => Promise<void | Response>
+    before?: BeforeOption<P, C, S>;
   }) {
     this.paramsConfig = config.params;
     this.cookieConfig = config.cookie;
@@ -68,42 +64,37 @@ export class Validator<P, C, S> {
     this.logger = new Logger('Http.Validator');
   }
 
-  public valid ({
-    params,
-    cookie,
-    session
-  }:
-  {
-    params?: P;
-    cookie?: Cookie<C, S>;
-    session?: Session<S, C>;
-  }): void {
-    this.request = {
-      params,
-      cookie,
-      session
-    };
+  public async valid (request: Request<P, C, S>): Promise<void> {
     this.logger.debug('Begin');
+
+    if (this.before) {
+      const result = await this.before(request);
+
+      if (result)
+        throw new HttpError(result);
+    }
+
+    this.request = request;
 
     if (this.paramsConfig) {
       this.logger.debug('Valid params');
-      this.validContent('params', params, '', this.paramsConfig);
+      this.validContent('params', request.params, '', this.paramsConfig);
     }
 
     if (this.cookieConfig) {
       this.logger.debug('Valid cookie');
-      if (!cookie)
+      if (!request.cookie)
         throw Error('Not found Cookie');
 
-      this.validContent('cookie', cookie.content, '', this.cookieConfig);
+      this.validContent('cookie', request.cookie.content, '', this.cookieConfig);
     }
 
     if (this.sessionConfig) {
       this.logger.debug('Valid Session');
-      if (!session)
+      if (!request.session)
         throw Error('Not found Session');
 
-      this.validContent('session', session.content, '', this.sessionConfig);
+      this.validContent('session', request.session.content, '', this.sessionConfig);
     }
   }
 
@@ -121,7 +112,7 @@ export class Validator<P, C, S> {
           if (config.onError) {
             const res = config.onError(`${type}.whitelist`, baseKey, diffKeys);
             if (res)
-              throw new ValidError(res);
+              throw new HttpError(res);
           }
           throw error;
         } else if (config.whitelist === 'ignore')
@@ -149,7 +140,7 @@ export class Validator<P, C, S> {
           if (config.onError) {
             const res = config.onError(`${type}.rule.required`, `${baseKey}${key}`, value);
             if (res)
-              throw new ValidError(res);
+              throw new HttpError(res);
           }
           throw error;
         }
@@ -179,7 +170,7 @@ export class Validator<P, C, S> {
               if (config.onError) {
                 const res = config.onError(`${type}.rule.type`, `${baseKey}${key}`, value);
                 if (res)
-                  throw new ValidError(res);
+                  throw new HttpError(res);
               }
               throw error;
             }
@@ -192,7 +183,7 @@ export class Validator<P, C, S> {
           if (config.onError) {
             const res = config.onError(`${type}.rule.in`, `${baseKey}${key}`, value);
             if (res)
-              throw new ValidError(res);
+              throw new HttpError(res);
           }
           throw error;
         }

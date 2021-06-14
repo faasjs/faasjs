@@ -91,7 +91,6 @@ describe('validator/type', function () {
               onError: function (type, key, value) {
                 return {
                   statusCode: 401,
-                  headers: { key: 'value' },
                   message: `${type} ${key} ${value}`
                 };
               }
@@ -110,7 +109,6 @@ describe('validator/type', function () {
         });
 
         expect(res.statusCode).toEqual(401);
-        expect(res.headers.key).toEqual('value');
         expect(res.body).toEqual('{"error":{"message":"params.rule.type key 1"}}');
       });
     });
