@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { useState, useEffect } = require('react');
-import Client, { Options, Params, Response } from '@faasjs/browser';
+import Client, { Options, Params, Response, ResponseError } from '@faasjs/browser';
 
 export function FaasClient ({
   domain,
@@ -9,10 +9,10 @@ export function FaasClient ({
 }: {
   domain: string;
   options?: Options;
-  onError?(action: string, params: any): (res: any) => any;
+  onError?(action: string, params: Params): (res: ResponseError) => Promise<any>;
 }): {
-    faas<T = any> (action: string, params: any): Promise<Response<T>>;
-    useFaas<T = any> (action: string, params?: any): {
+    faas<T = any> (action: string, params: Params): Promise<Response<T>>;
+    useFaas<T = any> (action: string, params: Params): {
       loading: boolean;
       data: T;
       error: any;
@@ -26,7 +26,7 @@ export function FaasClient ({
       if (onError) return client.action<T>(action, params, ).catch(onError(action, params));
       return client.action<T>(action, params);
     },
-    useFaas<T = any> (action: string, params?: Params) {
+    useFaas<T = any> (action: string, params: Params) {
       const [loading, setLoading] = useState(false);
       const [data, setData] = useState();
       const [error, setError] = useState();
@@ -40,8 +40,14 @@ export function FaasClient ({
           .then(r => {
             setData(r?.data);
           })
-          .catch(e => {
-            if (onError) onError(action, params)(e);
+          .catch(async e => {
+            if (onError)
+              try {
+                setData(await onError(action, params)(e));
+              } catch (error) {
+                setError(error);
+              }
+
             setError(e);
           })
           .finally(() => setLoading(false));
