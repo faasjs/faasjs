@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Command } from 'commander';
 import Logger from '@faasjs/logger';
 import { existsSync } from 'fs';
@@ -37,17 +36,17 @@ commander
     process.env.FaasLog = 'debug';
     logger.debug('已启用调试信息展示');
   })
-  .on('option:root', function (this: { root?: string }) {
-    if (this.root && existsSync(this.root)) {
-      process.env.FaasRoot = this.root;
-      if (!this.root.endsWith(sep)) process.env.FaasRoot += sep;
+  .on('option:root', function (root?: string) {
+    if (root && existsSync(root)) {
+      process.env.FaasRoot = root;
+      if (!root.endsWith(sep)) process.env.FaasRoot += sep;
     } else
-      throw Error(`Can't find root path: ${this.root}`);
+      throw Error(`Can't find root path: ${root}`);
 
     logger.debug('root: %s', process.env.FaasRoot);
   })
-  .on('option:env', function (this: { env?: string }) {
-    if (this.env) process.env.FaasEnv = this.env;
+  .on('option:env', function (env?: string) {
+    if (env) process.env.FaasEnv = env;
 
     logger.debug('env: %s', process.env.FaasEnv);
   })
