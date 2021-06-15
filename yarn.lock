@@ -3274,9 +3274,9 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
 cos-nodejs-sdk-v5@*:
-  version "2.9.18"
-  resolved "https://registry.yarnpkg.com/cos-nodejs-sdk-v5/-/cos-nodejs-sdk-v5-2.9.18.tgz#c77b80126fe8d4d06f5ba1885a396f13b6bcbda2"
-  integrity sha512-OCtajXYvykUGI1eGSBJPV7yMV0G1sULEeeYFddLxlt7CXvbIaFNw/IOnHAG8UPJHKMFbKgVZ7H1nhr5wuM/trg==
+  version "2.9.20"
+  resolved "https://registry.yarnpkg.com/cos-nodejs-sdk-v5/-/cos-nodejs-sdk-v5-2.9.20.tgz#64c6ab90adf27c24fa09d257eccd28b08b2fa065"
+  integrity sha512-1sdLsF+1tmdEk4dyKg9WNQGMRHX2H0aYUkzFs46YmfYBqxzciRV+GRu46rA67HBOtrBD7W8lLoppMsJr9Dh0lg==
   dependencies:
     "@types/node" "^14.14.20"
     conf "^9.0.0"
@@ -3982,10 +3982,10 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 faasjs@./packages/faasjs:
-  version "0.0.2-beta.178"
+  version "0.0.2-beta.184"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.178"
-    "@faasjs/http" "^0.0.2-beta.178"
+    "@faasjs/cli" "^0.0.2-beta.184"
+    "@faasjs/http" "^0.0.2-beta.184"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
