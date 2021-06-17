@@ -83,9 +83,14 @@ export async function action (env: string, files: string[], { w, ar, y }: {
 }): Promise<void> {
   if (!ar) ar = '3';
 
+  if (process.env.FaasDeployFile) {
+    await deploy(process.env.FaasDeployFile, Number(ar), { y });
+    process.exit();
+  }
+
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
-      execSync(`yarn node node_modules/@faasjs/cli/lib/index.js deploy production -y ${file}`, { stdio: [process.stdin, process.stdout, process.stderr] });
+      execSync(`FaasDeployFile=${file} yarn node node_modules/@faasjs/cli/lib/index.js deploy production -ar ${ar}`, { stdio: [process.stdin, process.stdout, process.stderr] });
     process.exit();
   }
 
