@@ -145,7 +145,7 @@ export default function (program: Command): void {
     .command('deploy <env> [files...]')
     .option('-w <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
     .option('-ar <times>', '自动重试次数，默认为 3 次，设为 0 则禁止自动重试')
-    .option('-y', '自动选择 yes')
+    .option('-y', '当出现需确认的情况时，自动选择 yes')
     .name('deploy')
     .description('发布')
     .on('--help', function () {
