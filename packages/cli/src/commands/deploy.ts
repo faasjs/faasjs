@@ -9,6 +9,7 @@ import { cpus } from 'os';
 import { fork } from 'cluster';
 import { chunk } from 'lodash';
 import { log, warn, error } from 'console';
+import { execSync } from 'child_process';
 
 async function sleep () {
   const waiting = Math.floor(Math.random() * 3);
@@ -84,7 +85,7 @@ export async function action (env: string, files: string[], { w, ar, y }: {
 
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
-      await deploy(file, Number(ar), { y });
+      execSync(`yarn node node_modules/@faasjs/cli/lib/index.js deploy production -y ${file}`, { stdio: [process.stdin, process.stdout, process.stderr] });
     process.exit();
   }
 
@@ -127,12 +128,6 @@ export async function action (env: string, files: string[], { w, ar, y }: {
         success: '开始发布',
         fail: '停止发布'
       });
-
-    if (processNumber === 1) {
-      for (const file of list)
-        await deploy(file, Number(ar), { y });
-      return;
-    }
 
     const files = chunk(list, Math.ceil(list.length / processNumber));
     for (let i = 0; i < processNumber; i++) {

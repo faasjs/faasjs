@@ -2,23 +2,10 @@
 import { Command } from 'commander';
 import Logger from '@faasjs/logger';
 import { existsSync } from 'fs';
-import { sep, join } from 'path';
+import { sep } from 'path';
 import New from './commands/new';
 import Deploy from './commands/deploy';
 import Server from './commands/server';
-
-const tsconfig = require(join(process.cwd(), 'tsconfig.json'));
-
-if (tsconfig.compilerOptions?.baseUrl && tsconfig.compilerOptions?.paths)
-  require('tsconfig-paths').register({
-    baseUrl: tsconfig.compilerOptions.baseUrl || '.',
-    paths: tsconfig.compilerOptions.paths || {}
-  });
-
-require('ts-node').register({
-  project: join(process.cwd(), 'tsconfig.json'),
-  compilerOptions: { module: 'commonjs' }
-});
 
 const commander = new Command();
 const logger = new Logger('Cli');

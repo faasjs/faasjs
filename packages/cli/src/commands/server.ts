@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { join } from 'path';
 import { Command } from 'commander';
 import { Server } from '@faasjs/server';
 import { defaultsEnv } from '../helper';
@@ -6,7 +8,21 @@ export function action (opts: {
   port: number;
   cache: boolean;
 }): void {
+  const tsconfig = require(join(process.cwd(), 'tsconfig.json'));
+
+  if (tsconfig.compilerOptions?.baseUrl && tsconfig.compilerOptions?.paths)
+    require('tsconfig-paths').register({
+      baseUrl: tsconfig.compilerOptions.baseUrl || '.',
+      paths: tsconfig.compilerOptions.paths || {}
+    });
+
+  require('ts-node').register({
+    project: join(process.cwd(), 'tsconfig.json'),
+    compilerOptions: { module: 'commonjs' }
+  });
+
   defaultsEnv();
+
   const server = new Server(process.env.FaasRoot, {
     cache: opts.cache,
     port: opts.port || 3000
