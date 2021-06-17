@@ -53,5 +53,6 @@ jobs:
           token: ${{ secrets.CODECOVTOKEN }}
 
       - uses: paambaati/codeclimate-action@v2.7.5
+        if: ${{ github.event_name == 'push'}}
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
