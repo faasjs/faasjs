@@ -1364,9 +1364,9 @@
     read-package-json-fast "^2.0.1"
 
 "@nuxt/types@*":
-  version "2.15.6"
-  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-2.15.6.tgz#8be28b21a3157b90047834721db97325e4766dcb"
-  integrity sha512-3edRQDAMcpHN4cRWR9vB1ugyegJ+w8UV1vHSxV48/LK9qsgBE8P7wKSK6BvHLqHpnMoB0PxrUXizprpLluwpHA==
+  version "2.15.7"
+  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-2.15.7.tgz#b5275e183ba8c046d3a97e57198c4103109b889e"
+  integrity sha512-jqExebL4Dh5Rn88xVP1/o/a4gxpF7Z1O/kbVjEzEbbvt2E8J0lLc3wsaRYpbqt+S3S9YfvD8FKR85TzkqYtgqw==
   dependencies:
     "@types/autoprefixer" "9.7.2"
     "@types/babel__core" "7.1.14"
@@ -3982,10 +3982,10 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 faasjs@./packages/faasjs:
-  version "0.0.2-beta.178"
+  version "0.0.2-beta.184"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.178"
-    "@faasjs/http" "^0.0.2-beta.178"
+    "@faasjs/cli" "^0.0.2-beta.184"
+    "@faasjs/http" "^0.0.2-beta.184"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
