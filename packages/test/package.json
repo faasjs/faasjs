@@ -18,7 +18,8 @@
     "@types/node": "*",
     "jest": "*",
     "ts-jest": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "vm2": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.176",
