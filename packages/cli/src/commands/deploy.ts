@@ -97,6 +97,7 @@ export async function action (env: string, files: string[], { w, ar, y }: {
               }
           })();`,
           {
+            process,
             deploy,
             ar: Number(ar),
             resolve
