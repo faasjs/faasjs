@@ -9,7 +9,7 @@ import { cpus } from 'os';
 import { fork } from 'cluster';
 import { chunk } from 'lodash';
 import { log, warn, error } from 'console';
-import { execSync } from 'child_process';
+import { runInNewContext } from 'vm';
 
 async function sleep () {
   const waiting = Math.floor(Math.random() * 3);
@@ -83,14 +83,27 @@ export async function action (env: string, files: string[], { w, ar, y }: {
 }): Promise<void> {
   if (!ar) ar = '3';
 
-  if (process.env.FaasDeployFile) {
-    await deploy(process.env.FaasDeployFile, Number(ar), { y });
-    return;
-  }
-
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
-      execSync(`FaasDeployFile=${file} yarn node node_modules/@faasjs/cli/lib/index.js deploy production -ar ${ar}`, { stdio: [process.stdin, process.stdout, process.stderr] });
+      await new Promise(function (resolve) {
+        runInNewContext(
+          `(async function() {
+              try {
+                  await deploy('${file}', ar);
+              } catch (e) {
+                  throw e;
+              } finally {
+                  resolve();
+              }
+          })();`,
+          {
+            deploy,
+            ar: Number(ar),
+            resolve
+          },
+          { breakOnSigint: true }
+        );
+      });
     return;
   }
 
