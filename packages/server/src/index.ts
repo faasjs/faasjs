@@ -4,31 +4,11 @@ import Logger from '@faasjs/logger';
 import { existsSync } from 'fs';
 import { loadConfig } from '@faasjs/load';
 import { resolve as pathResolve, sep, join } from 'path';
+import { HttpError } from '@faasjs/http';
 
 type Cache = {
   file?: string;
   handler?(...args: any): Promise<any>;
-}
-
-class HttpError extends Error {
-  public readonly statusCode: number;
-  public readonly message: string;
-
-  constructor ({
-    statusCode,
-    message
-  }:{
-    statusCode?: number;
-    message: string;
-  }) {
-    super(message);
-
-    if (Error.captureStackTrace)
-      Error.captureStackTrace(this, HttpError);
-
-    this.statusCode = statusCode || 500;
-    this.message = message;
-  }
 }
 
 /**
@@ -65,7 +45,7 @@ export class Server {
       port: 3000
     }, opts || {});
     this.cachedFuncs = {};
-    this.logger.debug('init with %s %o', this.root, this.opts);
+    this.logger.debug('Init with %s %o', this.root, this.opts);
   }
 
   public async processRequest (req: IncomingMessage, res: {
@@ -116,7 +96,7 @@ export class Server {
               httpMethod: req.method,
               identity: {},
               path: req.url,
-              sourceIp: req.connection?.remoteAddress
+              sourceIp: req.socket?.remoteAddress
             }
           }, { request_id: requestId });
         } catch (error) {
