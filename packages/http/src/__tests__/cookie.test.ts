@@ -176,7 +176,7 @@ describe('cookie', function () {
       const func = new Func({
         plugins: [http],
         async handler () {
-          http.cookie.write('key', 1);
+          http.cookie.write('key', '1');
         }
       });
       func.config = {
@@ -202,7 +202,7 @@ describe('cookie', function () {
       const func = new Func({
         plugins: [http],
         async handler () {
-          http.cookie.write('key', 1);
+          http.cookie.write('key', '1');
         }
       });
       func.config = {

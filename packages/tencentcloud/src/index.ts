@@ -26,7 +26,7 @@ export default class Tencentcloud implements CloudFunctionAdapter {
    * @param data {object} 部署环境配置
    * @param config {Logger} 部署对象配置
    */
-  public async deploy (type: string, data: DeployData, config: TencentcloudConfig): Promise<void> {
+  public async deploy (type: string, data: DeployData, config: { [key: string]: any; }): Promise<void> {
     switch (type) {
       case 'cloud_function':
         await deployCloudFunction(this, data, config);

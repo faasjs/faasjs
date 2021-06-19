@@ -4,7 +4,7 @@ import Logger, { Color } from '@faasjs/logger';
 import { execSync } from 'child_process';
 import { checkBucket, createBucket, upload, remove } from './cos';
 import scf from './scf';
-import Tencentcloud, { TencentcloudConfig } from '..';
+import Tencentcloud from '..';
 import { join } from 'path';
 
 const defaults = {
@@ -43,7 +43,7 @@ const INCLUDED_NPM = [
   '@faasjs/load'
 ];
 
-export default async function deployCloudFunction (tc: Tencentcloud, data: DeployData, origin: TencentcloudConfig): Promise<void> {
+export default async function deployCloudFunction (tc: Tencentcloud, data: DeployData, origin: { [key: string]: any; }): Promise<void> {
   if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!');
 
   const logger = new Logger(`${data.env}#${data.name}`);
