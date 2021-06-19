@@ -4,7 +4,7 @@ describe('mock', function () {
   test('should work', async function () {
     setMock(async function (url) {
       return new Promise(function (resolve) {
-        if (url === 'hello') 
+        if (url === 'hello')
           resolve({
             statusCode: 200,
             headers: {},
