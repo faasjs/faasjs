@@ -25,7 +25,7 @@ export class Postgresql implements Adapter {
     }
   }
 
-  public async query (sql: string, values?: any): Promise<any[]> {
+  public async query (sql: string, values?: any[]): Promise<any[]> {
     return await this.pool.query(sql, values).then((results: QueryResult) => results.rows);
   }
 }

@@ -2,15 +2,14 @@ import request, { setMock } from '../index';
 
 describe('mock', function () {
   test('should work', async function () {
-    setMock(function (url) {
+    setMock(async function (url) {
       return new Promise(function (resolve) {
-        if (url === 'hello') {
+        if (url === 'hello') 
           resolve({
             statusCode: 200,
             headers: {},
             body: 'world'
           });
-        }
       });
     });
 

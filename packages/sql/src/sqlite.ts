@@ -11,21 +11,22 @@ export class Sqlite implements Adapter {
   public pool: any;
 
   constructor (config: SqliteConfig) {
-    if (config.pool) 
+    if (config.pool)
       this.pool = config.pool;
     else {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const Database = require('sqlite3').Database;
       this.pool = new Database(config.filename || ':memory:');
     }
   }
 
-  public async query (sql: string, values?: any): Promise<any[]> {
+  public async query (sql: string, values?: { [key: string]: any; }): Promise<any[]> {
     // eslint-disable-next-line @typescript-eslint/typedef
     return new Promise((resolve, reject) => {
       this.pool.all(sql, values, (error: any, results: any[]) => {
-        if (error) 
+        if (error)
           reject(error);
-        
+
         resolve(results);
       });
     });

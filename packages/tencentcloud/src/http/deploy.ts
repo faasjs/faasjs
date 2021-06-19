@@ -1,7 +1,7 @@
 import { DeployData } from '@faasjs/func';
 import api from './api';
 import deepMerge from '@faasjs/deep_merge';
-import Tencentcloud from '..';
+import Tencentcloud, { TencentcloudConfig } from '..';
 import { Color } from '@faasjs/logger';
 
 const defaults = {
@@ -12,7 +12,7 @@ const defaults = {
   ServiceTimeout: 1800
 };
 
-export default async function (tc: Tencentcloud, data: DeployData, origin: any): Promise<void> {
+export default async function (tc: Tencentcloud, data: DeployData, origin: TencentcloudConfig): Promise<void> {
   tc.logger.label = `${data.env}#${data.name}`;
 
   if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!');

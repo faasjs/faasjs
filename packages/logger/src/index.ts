@@ -92,7 +92,7 @@ export default class Logger {
    * @param message {any} 日志内容，可以为 Error 对象
    * @param args {...any=} 内容参数
    */
-  public error (message: any, ...args: any[]): Logger {
+  public error (message: string | Error, ...args: any[]): Logger {
     let stack = false;
     [message].concat(Array.from(args)).forEach((e: any) => {
       if (e.stack) {
@@ -165,7 +165,7 @@ export default class Logger {
     return `\u001b[0${color}m${message}\u001b[39m`;
   }
 
-  private log (level: Level, message: string, ...args: any): Logger {
+  private log (level: Level, message: string | Error, ...args: any): Logger {
     if (this.silent) return this;
 
     if (LevelPriority[level] < this.level) return this;

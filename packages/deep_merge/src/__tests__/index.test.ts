@@ -1,4 +1,4 @@
-import deepMerge from '../index';
+import deepMerge from '..';
 
 describe('deepMerge', () => {
   test('should work', function () {
@@ -8,9 +8,7 @@ describe('deepMerge', () => {
         string: '1',
         object: { key: '1' },
         date: new Date(1),
-        nest: {
-          a: 1
-        }
+        nest: { a: 1 }
       },
     };
     const b = {
@@ -19,9 +17,7 @@ describe('deepMerge', () => {
         string: '2',
         object: { key: '2' },
         date: new Date(2),
-        nest: {
-          b: 1
-        }
+        nest: { b: 1 }
       },
     };
 
@@ -42,18 +38,14 @@ describe('deepMerge', () => {
       string: '1',
       object: { key: '1' },
       date: new Date(1),
-      nest: {
-        a: 1
-      }
+      nest: { a: 1 }
     });
     expect(b.nest).toEqual({
       number: 2,
       string: '2',
       object: { key: '2' },
       date: new Date(2),
-      nest: {
-        b: 1
-      }
+      nest: { b: 1 }
     });
   });
 
@@ -87,16 +79,20 @@ describe('deepMerge', () => {
   });
 
   test('nest dup', function () {
-    const a = { a: 1,
-      nest: {
-        b: 1
-      } };
+    const a = {
+      a: 1,
+      nest: { b: 1 } 
+    };
     const b = deepMerge(a);
     b.nest.b = 2;
 
-    expect(a).toEqual({ a: 1,
-      nest: { b: 1 }});
-    expect(b).toEqual({ a: 1,
-      nest: { b: 2 }});
+    expect(a).toEqual({
+      a: 1,
+      nest: { b: 1 } 
+    });
+    expect(b).toEqual({
+      a: 1,
+      nest: { b: 2 } 
+    });
   });
 });

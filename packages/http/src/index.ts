@@ -289,7 +289,7 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
    * @param key {string} key
    * @param value {*} value
    */
-  public setHeader (key: string, value: any): Http {
+  public setHeader (key: string, value: string): Http {
     this.response.headers[key] = value;
     return this;
   }

@@ -119,7 +119,7 @@ export class Sql implements Plugin {
    * @param sql {string} SQL 语句
    * @param values {any} 参数值
    */
-  public async query<TResult = any> (sql: string, values?: any): Promise<TResult[]> {
+  public async query<TResult = any> (sql: string, values?: any[]): Promise<TResult[]> {
     this.logger.debug('query begin: %s %O', sql, values);
     this.logger.time(sql);
     try {
@@ -149,7 +149,7 @@ export class Sql implements Plugin {
    * @param sql {string} SQL 语句
    * @param values {any} 参数值
    */
-  public async queryFirst<TResult = any> (sql: string, values?: TResult): Promise<any> {
+  public async queryFirst<TResult = any> (sql: string, values?: any[]): Promise<TResult> {
     return this.query(sql, values).then((res: any[]) => res[0]);
   }
 }

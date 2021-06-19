@@ -12,7 +12,7 @@ const shouldMerge = function (item: any) {
  * * 若有数组形式的属性，数组里的内容将被去重合并
  * @param sources [...any] 合并对象
  */
-export default function deepMerge (...sources: any[]) {
+export default function deepMerge (...sources: any[]): any {
   let acc = Object.create(null);
   for (const source of sources)
     if (source instanceof Array) {

@@ -66,7 +66,7 @@ export class Cookie<C, S> {
     return this.content[key];
   }
 
-  public write (key: string, value: any, opts?: {
+  public write (key: string, value: string, opts?: {
     domain?: string;
     path?: string;
     expires?: number | string;

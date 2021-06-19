@@ -97,7 +97,7 @@ export default class FaasBrowserClient {
           const value = parts.join(': ');
           headers[key] = value;
         });
-        if (xhr.response && xhr.getResponseHeader('Content-Type') && xhr.getResponseHeader('Content-Type')!.includes('json'))
+        if (xhr.response && xhr.getResponseHeader('Content-Type') && xhr.getResponseHeader('Content-Type').includes('json'))
           try {
             res = JSON.parse(xhr.response);
             if (res.error && res.error.message)

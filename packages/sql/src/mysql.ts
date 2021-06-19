@@ -22,7 +22,7 @@ export class Mysql implements Adapter {
       this.pool = require('mysql2').createPool(Object.assign(defaults, config));
   }
 
-  public async query (sql: string, values?: any): Promise<any[]> {
+  public async query (sql: string, values?: any[]): Promise<any[]> {
     // eslint-disable-next-line @typescript-eslint/typedef
     return new Promise((resolve, reject) => {
       this.pool.query(sql, values, (error: any, results: any[]) => {

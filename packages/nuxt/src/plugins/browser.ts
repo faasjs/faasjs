@@ -1,4 +1,5 @@
 import FaasBrowserClient, { Response } from '@faasjs/browser';
+import { Context } from '@nuxt/types';
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -8,7 +9,7 @@ declare module 'vue/types/vue' {
 
 let browser: FaasBrowserClient;
 
-export default (ctx: any, inject: any) => {
+export default function (ctx: Context, inject: (...args: any) => any): void {
   if (!browser)
     browser = new FaasBrowserClient('<%= options.baseUrl %>');
 
@@ -16,4 +17,4 @@ export default (ctx: any, inject: any) => {
   inject('faas', async function (action: string, body?: any) {
     return browser.action(action, body);
   });
-};
+}

@@ -35,7 +35,7 @@ const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ? 'scf.internal.tencentcl
  * @param config.secretKey {string} secretKey
  * @param params {object} 请求参数
  */
-export default async function action (tc: Tencentcloud, params: any): Promise<any> {
+export default async function action (tc: Tencentcloud, params: { [key: string]: any; }): Promise<any> {
   params = {
     Nonce: Math.round(Math.random() * 65535),
     Region: tc.config.region,

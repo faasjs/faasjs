@@ -1,7 +1,7 @@
 import scf from './scf';
 import Tencentcloud from '..';
 
-export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name: string, data?: any, options?: {
+export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name: string, data?: { [key: string]: any; }, options?: {
   [key: string]: any;
 }): Promise<TResult> {
   tc.logger.debug('invokeFunction: %s %O %O', name, options, data);
@@ -34,7 +34,7 @@ export async function invokeCloudFunction<TResult = any> (tc: Tencentcloud, name
     });
 }
 
-export async function invokeSyncCloudFunction<TResult = any> (tc: Tencentcloud, name: string, data?: any, options?: {
+export async function invokeSyncCloudFunction<TResult = any> (tc: Tencentcloud, name: string, data?: { [key: string]: any; }, options?: {
   [key: string]: any;
 }): Promise<TResult> {
   if (!options) options = {};
