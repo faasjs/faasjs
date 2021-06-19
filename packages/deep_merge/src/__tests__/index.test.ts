@@ -81,18 +81,18 @@ describe('deepMerge', () => {
   test('nest dup', function () {
     const a = {
       a: 1,
-      nest: { b: 1 } 
+      nest: { b: 1 }
     };
     const b = deepMerge(a);
     b.nest.b = 2;
 
     expect(a).toEqual({
       a: 1,
-      nest: { b: 1 } 
+      nest: { b: 1 }
     });
     expect(b).toEqual({
       a: 1,
-      nest: { b: 2 } 
+      nest: { b: 2 }
     });
   });
 });
