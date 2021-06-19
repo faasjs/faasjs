@@ -1,16 +1,12 @@
 import { Func } from '@faasjs/func';
-import { Http } from '../../index';
+import { Http } from '../..';
 
-/* eslint @typescript-eslint/no-empty-function:0 */
 describe('validator/type', function () {
   describe('params', function () {
     describe('normal', function () {
       test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { params: { rules: { key: { type } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -33,19 +29,8 @@ describe('validator/type', function () {
 
     describe('onError', function () {
       test('no return', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: { key: { type: 'boolean' } },
-              onError: function () {
-              }
-            }
-          }
-        });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const http = new Http({ validator: { params: { rules: { key: { type: 'boolean' } } } } });
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -68,10 +53,7 @@ describe('validator/type', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -97,10 +79,7 @@ describe('validator/type', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -116,10 +95,7 @@ describe('validator/type', function () {
     describe('array', function () {
       test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { type } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -143,10 +119,7 @@ describe('validator/type', function () {
     describe('object', function () {
       test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { type } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -170,10 +143,7 @@ describe('validator/type', function () {
 
   test('cookie should not work', async function () {
     const http = new Http({ validator: { cookie: { rules: { key: { type: 'number' } } } } });
-    const handler = new Func({
-      plugins: [http],
-      async handler () { }
-    }).export().handler;
+    const handler = new Func({ plugins: [http] }).export().handler;
 
     const res = await handler({
       httpMethod: 'POST',
@@ -187,10 +157,7 @@ describe('validator/type', function () {
     describe('normal', function () {
       test.each([['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { session: { rules: { key: { type } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         await handler({});
 
@@ -214,10 +181,7 @@ describe('validator/type', function () {
     describe('array', function () {
       test.each([['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { type } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         await handler({ httpMethod: 'POST' });
 
@@ -241,10 +205,7 @@ describe('validator/type', function () {
     describe('object', function () {
       test.each([['string', 'string'], ['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { type } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         await handler({ httpMethod: 'POST' });
 

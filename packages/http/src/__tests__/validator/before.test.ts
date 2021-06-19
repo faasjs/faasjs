@@ -1,5 +1,5 @@
 import { Func } from '@faasjs/func';
-import { Http } from '../../index';
+import { Http } from '../..';
 
 describe('validator/before', function () {
   test('return error', async function () {

@@ -1,15 +1,11 @@
 import { Func } from '@faasjs/func';
-import { Http } from '../../index';
+import { Http } from '../..';
 
-/* eslint @typescript-eslint/no-empty-function:0 */
 describe('validator/required', function () {
   describe('params', function () {
     test('normal', async function () {
       const http = new Http({ validator: { params: { rules: { key: { required: true } } } } });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({ httpMethod: 'POST' });
 
@@ -27,19 +23,8 @@ describe('validator/required', function () {
 
     describe('onError', function () {
       test('no return', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: { key: { required: true } },
-              onError: function () {
-              }
-            }
-          }
-        });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const http = new Http({ validator: { params: { rules: { key: { required: true } } } } });
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -58,10 +43,7 @@ describe('validator/required', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -83,10 +65,7 @@ describe('validator/required', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -98,10 +77,7 @@ describe('validator/required', function () {
     describe('array', function () {
       test('empty', async function () {
         const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -118,10 +94,7 @@ describe('validator/required', function () {
 
       test('plain object', async function () {
         const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -140,10 +113,7 @@ describe('validator/required', function () {
 
     test('object', async function () {
       const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({ httpMethod: 'POST' });
 
@@ -163,10 +133,7 @@ describe('validator/required', function () {
   describe('cookie', function () {
     test('should work', async function () {
       const http = new Http({ validator: { cookie: { rules: { key: { required: true } } } } });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({ httpMethod: 'POST' });
 
@@ -185,10 +152,7 @@ describe('validator/required', function () {
   describe('session', function () {
     test('normal', async function () {
       const http = new Http({ validator: { session: { rules: { key: { required: true } } } } });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({ httpMethod: 'POST' });
 
@@ -206,10 +170,7 @@ describe('validator/required', function () {
     describe('array', function () {
       test('empty', async function () {
         const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -225,10 +186,7 @@ describe('validator/required', function () {
 
       test('plain object', async function () {
         const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -246,10 +204,7 @@ describe('validator/required', function () {
 
     test('object', async function () {
       const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({ httpMethod: 'POST' });
 

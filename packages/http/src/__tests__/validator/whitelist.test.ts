@@ -1,7 +1,6 @@
 import { Func } from '@faasjs/func';
-import { Http } from '../../index';
+import { Http } from '../..';
 
-/* eslint @typescript-eslint/no-empty-function:0 */
 describe('validator/whitelist', function () {
   describe('params', function () {
     describe('normal', function () {
@@ -14,10 +13,7 @@ describe('validator/whitelist', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -65,16 +61,11 @@ describe('validator/whitelist', function () {
             validator: {
               params: {
                 whitelist: 'error',
-                rules: { key: {} },
-                onError: function () {
-                }
+                rules: { key: {} }
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -98,10 +89,7 @@ describe('validator/whitelist', function () {
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -128,10 +116,7 @@ describe('validator/whitelist', function () {
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -161,10 +146,7 @@ describe('validator/whitelist', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -233,10 +215,7 @@ describe('validator/whitelist', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -300,10 +279,7 @@ describe('validator/whitelist', function () {
           }
         }
       });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({ httpMethod: 'POST' });
 
@@ -355,10 +331,7 @@ describe('validator/whitelist', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({});
 
@@ -429,10 +402,7 @@ describe('validator/whitelist', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         await handler({ httpMethod: 'POST' });
 
@@ -516,10 +486,7 @@ describe('validator/whitelist', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         await handler({ httpMethod: 'POST' });
 

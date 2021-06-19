@@ -1,16 +1,12 @@
 import { Func } from '@faasjs/func';
-import { Http } from '../../index';
+import { Http } from '../..';
 
-/* eslint @typescript-eslint/no-empty-function:0 */
 describe('validator/in', function () {
   describe('params', function () {
     describe('normal', function () {
       test('should work', async function () {
         const http = new Http({ validator: { params: { rules: { key: { in: [1] } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({ httpMethod: 'POST' });
 
@@ -36,18 +32,8 @@ describe('validator/in', function () {
 
       describe('onError', function () {
         test('no return', async function () {
-          const http = new Http({
-            validator: {
-              params: {
-                rules: { key: { in: [1] } },
-                onError: function () { }
-              }
-            }
-          });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const http = new Http({ validator: { params: { rules: { key: { in: [1] } } } } });
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -70,10 +56,7 @@ describe('validator/in', function () {
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -99,10 +82,7 @@ describe('validator/in', function () {
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -119,10 +99,7 @@ describe('validator/in', function () {
     describe('array', function () {
       test('should work', async function () {
         const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({});
 
@@ -148,18 +125,8 @@ describe('validator/in', function () {
 
       describe('onError', function () {
         test('no return', async function () {
-          const http = new Http({
-            validator: {
-              params: {
-                rules: { key: { config: { rules: { sub: { in: [1] } } } } },
-                onError: function () { }
-              }
-            }
-          });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -191,10 +158,7 @@ describe('validator/in', function () {
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -232,10 +196,7 @@ describe('validator/in', function () {
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           const res = await handler({
             httpMethod: 'POST',
@@ -252,10 +213,7 @@ describe('validator/in', function () {
     describe('object', function () {
       test('should work', async function () {
         const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({});
 
@@ -282,18 +240,8 @@ describe('validator/in', function () {
 
     describe('onError', function () {
       test('no return', async function () {
-        const http = new Http({
-          validator: {
-            params: {
-              rules: { key: { config: { rules: { sub: { in: [1] } } } } },
-              onError: function () { }
-            }
-          }
-        });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -325,10 +273,7 @@ describe('validator/in', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -366,10 +311,7 @@ describe('validator/in', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -386,10 +328,7 @@ describe('validator/in', function () {
   describe('cookie', function () {
     test('should work', async function () {
       const http = new Http({ validator: { cookie: { rules: { key: { in: ['1'] } } } } });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({});
 
@@ -413,18 +352,8 @@ describe('validator/in', function () {
 
     describe('onError', function () {
       test('no return', async function () {
-        const http = new Http({
-          validator: {
-            cookie: {
-              rules: { key: { in: [1] } },
-              onError: function () { }
-            }
-          }
-        });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const http = new Http({ validator: { cookie: { rules: { key: { in: [1] } } } } });
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -446,10 +375,7 @@ describe('validator/in', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -474,10 +400,7 @@ describe('validator/in', function () {
             }
           }
         });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({
           httpMethod: 'POST',
@@ -493,10 +416,7 @@ describe('validator/in', function () {
   describe('session', function () {
     test('normal', async function () {
       const http = new Http({ validator: { session: { rules: { key: { in: [1] } } } } });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({ httpMethod: 'POST' });
 
@@ -520,10 +440,7 @@ describe('validator/in', function () {
 
     test('array', async function () {
       const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
-      const handler = new Func({
-        plugins: [http],
-        async handler () { }
-      }).export().handler;
+      const handler = new Func({ plugins: [http] }).export().handler;
 
       const res = await handler({});
 
@@ -548,10 +465,7 @@ describe('validator/in', function () {
     describe('object', function () {
       test('should work', async function () {
         const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
-        const handler = new Func({
-          plugins: [http],
-          async handler () { }
-        }).export().handler;
+        const handler = new Func({ plugins: [http] }).export().handler;
 
         const res = await handler({});
 
@@ -575,18 +489,8 @@ describe('validator/in', function () {
 
       describe('onError', function () {
         test('no return', async function () {
-          const http = new Http({
-            validator: {
-              session: {
-                rules: { key: { config: { rules: { sub: { in: [1] } } } } },
-                onError: function () { }
-              }
-            }
-          });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { in: [1] } } } } } } } });
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           await handler({});
 
@@ -619,10 +523,7 @@ describe('validator/in', function () {
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           await handler({});
 
@@ -661,10 +562,7 @@ describe('validator/in', function () {
               }
             }
           });
-          const handler = new Func({
-            plugins: [http],
-            async handler () { }
-          }).export().handler;
+          const handler = new Func({ plugins: [http] }).export().handler;
 
           await handler({ httpMethod: 'POST' });
 

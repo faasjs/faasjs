@@ -1,5 +1,5 @@
 import { Func, InvokeData } from '@faasjs/func';
-import { Http } from '../index';
+import { Http } from '..';
 
 describe('cookie', function () {
   describe('read', function () {
