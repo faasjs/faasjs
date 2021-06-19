@@ -103,7 +103,7 @@ export class Server {
           data = error;
         }
 
-        if (data instanceof Error || (data && data.constructor && data.constructor.name.includes('Error')) || typeof data === 'undefined' || data === null) {
+        if (data instanceof Error || (data?.constructor?.name?.includes('Error')) || typeof data === 'undefined' || data === null) {
           res.statusCode = data?.statusCode || 500;
           res.setHeader('Content-Type', 'application/json; charset=utf-8');
           res.setHeader('X-SCF-RequestId', requestId);
