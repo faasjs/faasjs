@@ -22,11 +22,11 @@ export default class Tencentcloud implements CloudFunctionAdapter {
   }
   /**
    * 部署
-   * @param type {string} 发布类型，支持 function
+   * @param type {string} 发布类型
    * @param data {object} 部署环境配置
    * @param config {Logger} 部署对象配置
    */
-  public async deploy (type: string, data: DeployData, config: { [key: string]: any; }): Promise<void> {
+  public async deploy (type: 'cloud_function' | 'http', data: DeployData, config: { [key: string]: any; }): Promise<void> {
     switch (type) {
       case 'cloud_function':
         await deployCloudFunction(this, data, config);

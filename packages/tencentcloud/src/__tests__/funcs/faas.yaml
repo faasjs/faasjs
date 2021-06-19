@@ -19,14 +19,6 @@ defaults:
     http:
       provider: tencentcloud
       type: apigateway
-      triggerType: http
-      config:
-        authRequired: 'FALSE'
-        enableCORS: 'TRUE'
-        requestConfig.method: POST
-        serviceType: SCF
-        serviceScfIsIntegratedResponse: 'TRUE'
-        serviceTimeout: 16
 local:
 testing:
 production:

@@ -103,7 +103,6 @@ test('frist deploy', async function () {
     region: 'region'
   });
 
-
   await tc.deploy('cloud_function', {
     root: __dirname,
     filename: join(__dirname, '..', 'funcs', 'basic.func.ts'),
