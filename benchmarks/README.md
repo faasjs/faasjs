@@ -1,6 +1,7 @@
 # Install
 
     yarn install
+    brew install wrk
 
 # Run
 

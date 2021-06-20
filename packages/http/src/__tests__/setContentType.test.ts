@@ -14,7 +14,7 @@ describe('setContentType', function () {
     const res = await handler({});
 
     expect(res.statusCode).toEqual(201);
-    expect(res.headers['Content-Type']).toEqual(`${ContentType[type as string]}; charset=utf-8`);
+    expect(res.headers['Content-Type']).toEqual(`${ContentType[type]}; charset=utf-8`);
   });
 
   test('set charset', async function () {

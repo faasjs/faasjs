@@ -403,7 +403,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@faasjs/eslint-config-recommended@./packages/eslint-config-recommended":
+"@faasjs/eslint-config-recommended@file:./packages/eslint-config-recommended":
   version "0.0.2-beta.176"
   dependencies:
     "@typescript-eslint/eslint-plugin" "*"

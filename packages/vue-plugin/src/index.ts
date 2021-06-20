@@ -3,20 +3,20 @@ import FaasBrowserClient, { Response, Options as FaasOptions } from '@faasjs/bro
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $faas(action: string, params?: any): Promise<Response>;
+    $faas: (action: string, params?: any) => Promise<Response>
   }
 }
 
 export interface Options {
-  domain: string;
-  options?: FaasOptions;
+  domain: string
+  options?: FaasOptions
 }
 
 export default {
   install (Vue: typeof _Vue, options: Options): void {
     const client = new FaasBrowserClient(options.domain, options.options);
     Vue.prototype.$faas = async function<T = any> (action: string, params?: any) {
-      return client.action<T>(action, params);
+      return await client.action<T>(action, params);
     };
   }
 };

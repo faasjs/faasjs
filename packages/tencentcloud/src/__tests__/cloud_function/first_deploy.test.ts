@@ -7,14 +7,17 @@ jest.mock('cos-nodejs-sdk-v5', () => {
       console.log('mock.cos.headBucket', params);
       callback(Error('no bucket'));
     }
+
     putBucket (params, callback): void {
       console.log('mock.cos.putBucket', params);
       callback();
     }
+
     sliceUploadFile (params, callback): void {
       console.log('mock.cos.sliceUploadFile', params);
       callback();
     }
+
     deleteObject (params, callback): void {
       console.log('mock.cos.deleteObject', params);
       callback();
@@ -34,7 +37,7 @@ jest.mock('@faasjs/request', () => {
             res = { body: { Response: { Namespaces: [] } } };
             break;
           case 'GetFunction':
-            if (functionCreated)
+            if (functionCreated) 
               res = {
                 body: {
                   Response: {
@@ -43,7 +46,7 @@ jest.mock('@faasjs/request', () => {
                   }
                 }
               };
-            else
+            else 
               res = {
                 body: {
                   Response: {
@@ -54,6 +57,7 @@ jest.mock('@faasjs/request', () => {
                   }
                 }
               };
+            
             break;
           case 'GetAlias':
             res = {
@@ -92,7 +96,7 @@ jest.mock('@faasjs/request', () => {
         }
     }
     console.log('mock.response', res);
-    return Promise.resolve(res);
+    return await Promise.resolve(res);
   };
 });
 

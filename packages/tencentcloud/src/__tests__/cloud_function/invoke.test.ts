@@ -94,7 +94,7 @@ describe('invoke', function () {
 
     test('success', async function () {
       setMock(async function () {
-        return Promise.resolve({
+        return await Promise.resolve({
           headers: {},
           body: { Response: { Result: {} } }
         });
@@ -114,7 +114,7 @@ describe('invoke', function () {
 
     test('fail', async function () {
       setMock(async function () {
-        return Promise.resolve({
+        return await Promise.resolve({
           headers: {},
           body: { Response: { Result: { ErrMsg: 'ErrMsg' } } }
         });

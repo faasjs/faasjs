@@ -2,7 +2,7 @@
   "name": "faasjs-mono",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .ts packages/*/src",
+    "lint": "eslint --ext .ts,.js .",
     "test": "lerna bootstrap && lerna run prepack && yarn jest --silent --runInBand --forceExit",
     "pub": "lerna publish --preid beta --pre-dist-tag beta --registry https://registry.npmjs.org/",
     "pub:retry": "lerna publish from-git --preid beta --pre-dist-tag beta --registry https://registry.npmjs.org/",
@@ -11,7 +11,7 @@
     "build": "lerna run prepack --stream"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "./packages/eslint-config-recommended",
+    "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
     "codecov": "*",
     "faasjs": "./packages/faasjs",
     "jest": "*",
@@ -21,5 +21,11 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "eslintConfig": {
+    "ignorePatterns": ["**/examples", "**/lib", "**/tmp"],
+    "extends": [
+      "@faasjs/recommended"
+    ]
+  }
 }

@@ -1,36 +1,37 @@
 import { randomBytes, pbkdf2Sync, createCipheriv, createHmac, createDecipheriv } from 'crypto';
 import { Cookie } from './cookie';
 
-export type SessionOptions = {
-  key: string;
-  secret: string;
-  salt?: string;
-  signedSalt?: string;
-  keylen?: number;
-  iterations?: number;
-  digest?: string;
-  cipherName?: string;
+export interface SessionOptions {
+  key: string
+  secret: string
+  salt?: string
+  signedSalt?: string
+  keylen?: number
+  iterations?: number
+  digest?: string
+  cipherName?: string
 }
 
-export type SessionContent = string | number | { [key: string]: any } | null | undefined;
+export type SessionContent = string | number | { [key: string]: any } | null | undefined
 
 export class Session<S, C> {
-  public content: S;
+  public content: S
 
   public readonly config: {
-    key: string;
-    secret: string;
-    salt: string;
-    signedSalt: string;
-    keylen: number;
-    iterations: number;
-    digest: string;
-    cipherName: string;
-  };
-  private secret: Buffer;
-  private signedSecret: Buffer;
-  private cookie: Cookie<C, S>;
-  private changed?: boolean;
+    key: string
+    secret: string
+    salt: string
+    signedSalt: string
+    keylen: number
+    iterations: number
+    digest: string
+    cipherName: string
+  }
+
+  private readonly secret: Buffer
+  private readonly signedSecret: Buffer
+  private readonly cookie: Cookie<C, S>
+  private changed?: boolean
 
   constructor (cookie: Cookie<C, S>, config: SessionOptions) {
     this.cookie = cookie;
@@ -64,8 +65,7 @@ export class Session<S, C> {
   }
 
   public encode (text: SessionContent): string {
-    if (typeof text !== 'string')
-      text = JSON.stringify(text);
+    if (typeof text !== 'string') text = JSON.stringify(text); 
 
     const iv = randomBytes(16);
 
@@ -91,9 +91,7 @@ export class Session<S, C> {
     hmac.update(signedParts[0]);
     const digest = hmac.digest('hex');
 
-    if (signedParts[1] !== digest)
-      throw Error('Not valid');
-
+    if (signedParts[1] !== digest) throw Error('Not valid'); 
 
     const message = Buffer.from(signedParts[0], 'base64').toString();
     const parts = message.split('--').map(function (part) {
@@ -114,18 +112,14 @@ export class Session<S, C> {
   }
 
   public write (key: string, value?: SessionContent): Session<S, C> {
-    if (value === null || typeof value === 'undefined')
-      delete this.content[key];
-    else
-      this.content[key] = value;
+    if (value === null || typeof value === 'undefined') delete this.content[key]; else this.content[key] = value; 
 
     this.changed = true;
     return this;
   }
 
   public update (): Session<S, C> {
-    if (this.changed)
-      this.cookie.write(this.config.key, this.encode(JSON.stringify(this.content)));
+    if (this.changed) this.cookie.write(this.config.key, this.encode(JSON.stringify(this.content))); 
 
     return this;
   }

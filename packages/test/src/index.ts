@@ -13,13 +13,13 @@ export * from '@faasjs/func';
  */
 export class FuncWarpper {
   [key: string]: any;
-  public readonly file: string;
-  public readonly stagging: string;
-  public readonly logger: Logger;
-  public readonly func: Func;
-  public readonly config: Config;
-  public readonly plugins: Plugin[];
-  private _handler: ExportedHandler;
+  public readonly file: string
+  public readonly stagging: string
+  public readonly logger: Logger
+  public readonly func: Func
+  public readonly config: Config
+  public readonly plugins: Plugin[]
+  private readonly _handler: ExportedHandler
   // private _vm: NodeVM;
 
   /**
@@ -51,8 +51,7 @@ export class FuncWarpper {
       this.func = require(this.file).default;
       this.func.config = loadConfig(process.cwd(), this.file)[this.stagging];
       this.config = this.func.config;
-    } else
-      this.func = initBy;
+    } else this.func = initBy; 
 
     this.plugins = this.func.plugins || [];
     for (const plugin of this.plugins) {
@@ -64,13 +63,14 @@ export class FuncWarpper {
   }
 
   public async mount (handler?: ((func: FuncWarpper) => Promise<void> | void)): Promise<void> {
-    if (!this.func.mounted)
+    if (!this.func.mounted) 
       await this.func.mount({
         event: {},
         context: {}
       });
+    
 
-    if (handler) await handler(this);
+    if (handler != null) await handler(this);
   }
 
   public async handler<TResult = any> (event: any = Object.create(null), context: any = Object.create(null)): Promise<TResult> {
@@ -82,37 +82,36 @@ export class FuncWarpper {
     return response;
   }
 
-  public async JSONhandler<TData = any> (body?: { [key: string]: any; }, options: {
-    headers?: { [key: string]: any };
-    cookie?: { [key: string]: any };
-    session?: { [key: string]: any };
+  public async JSONhandler<TData = any> (body?: { [key: string]: any }, options: {
+    headers?: { [key: string]: any }
+    cookie?: { [key: string]: any }
+    session?: { [key: string]: any }
   } = Object.create(null)): Promise<{
-      statusCode: number;
+      statusCode: number
       headers: {
-        [key: string]: string;
-      };
-      body: any;
-      data?: TData;
+        [key: string]: string
+      }
+      body: any
+      data?: TData
       error?: {
-        message: string;
+        message: string
       }
     }> {
     await this.mount();
 
-    const headers = options.headers || Object.create(null);
+    const headers = (options.headers != null) || Object.create(null);
 
     const http: Http = this.http;
     if (http) {
-      if (options.cookie)
-        for (const key in options.cookie)
-          http.cookie.write(key, options.cookie[key]);
-      if (options.session) {
-        for (const key in options.session)
-          http.session.write(key, options.session[key]);
+      if (options.cookie != null) 
+        for (const key in options.cookie) http.cookie.write(key, options.cookie[key]); 
+      
+      if (options.session != null) {
+        for (const key in options.session) http.session.write(key, options.session[key]); 
         http.session.update();
       }
       const cookie = http.cookie.headers()['Set-Cookie']?.map(c => c.split(';')[0]).join(';');
-      if (cookie)
+      if (cookie) 
         if (headers.cookie) headers.cookie += ';' + cookie;
         else headers.cookie = cookie;
     }

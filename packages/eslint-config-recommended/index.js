@@ -75,9 +75,7 @@ module.exports = {
     '@typescript-eslint/promise-function-async': 'error',
     '@typescript-eslint/no-unused-vars': [
       'error',
-      {
-        argsIgnorePattern: '^_'
-      }
+      { argsIgnorePattern: '^_' }
     ]
   }
 };

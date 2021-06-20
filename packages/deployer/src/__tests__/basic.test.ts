@@ -7,7 +7,7 @@ test('basic', async function () {
     filename: __dirname + '/funcs/basic.func.ts',
     env: 'testing'
   });
-  
+
   try {
     await deployer.deploy();
   // eslint-disable-next-line no-empty

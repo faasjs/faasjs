@@ -28,13 +28,7 @@ export default [
     ],
     external,
     plugins: [
-      typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            module: 'es6'
-          }
-        }
-      })
+      typescript({ tsconfigOverride: { compilerOptions: { module: 'es6' } } })
     ]
   },
   {

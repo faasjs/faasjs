@@ -6,7 +6,7 @@ import { Response, ResponseError } from '@faasjs/browser';
 import { Context } from '@nuxt/types';
 
 export default class FaasServerClient {
-  public readonly host: string;
+  public readonly host: string
 
   /**
    * 创建 FaasJS 浏览器客户端
@@ -14,10 +14,8 @@ export default class FaasServerClient {
    */
   constructor (baseUrl: string, ctx: Context) {
     if (ctx.isDev)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this.host = `http://${ctx.req.headers.host as string}/_faas/`;
-    else
-      this.host = baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/');
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      this.host = `http://${ctx.req.headers.host}/_faas/`; else this.host = baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/'); 
 
     console.log('[faas][server] host:', this.host);
   }
@@ -27,7 +25,7 @@ export default class FaasServerClient {
    * @param action {string} 动作名称
    * @param body {any} 动作参数
    */
-  public async action (ctx: Context, action: string, body?: { [key: string]: any; }): Promise<Response> {
+  public async action (ctx: Context, action: string, body?: { [key: string]: any }): Promise<Response> {
     const url = this.host + action;
     const headers = Object.assign(JSON.parse(JSON.stringify(ctx.req.headers)), { 'Content-Type': 'application/json' });
     // 避免与url的host冲突，删除 host
@@ -39,25 +37,25 @@ export default class FaasServerClient {
     }
     console.log('[faas][server] action:', url, headers);
 
-    return request(url, {
+    return await request(url, {
       headers,
       method: 'POST',
-      body: typeof body !== 'string' ? JSON.stringify(body) : body,
+      body: typeof body !== 'string' ? JSON.stringify(body) : body
     }).then(function (res: RequestResponse) {
       // 若有 set-cookie 则写入到 ctx.res
       if (res.headers && res.headers['set-cookie'] && Array.isArray(res.headers['set-cookie'])) {
         const cookies = [];
         for (let cookie of res.headers['set-cookie']) {
           // 在开发模式下修改 cookie 的 domain
-          if (ctx.isDev)
+          if (ctx.isDev) 
             if (ctx.req.headers.host) {
-              // 若有 host 信息，则修改为当前 host 的根域名
+            // 若有 host 信息，则修改为当前 host 的根域名
               const host = ctx.req.headers.host.split('.');
               cookie = cookie.replace(/domain=[^;]+;/, `domain=${host[host.length - 2]}.${host[host.length - 1]};`);
             } else
-              // 没有 host 信息则直接删除 domain 配置
-              cookie = cookie.replace(/domain=[^;]+;/, '');
-
+            // 没有 host 信息则直接删除 domain 配置
+              cookie = cookie.replace(/domain=[^;]+;/, ''); 
+          
 
           cookies.push(cookie);
         }
@@ -67,13 +65,13 @@ export default class FaasServerClient {
       return new Response({
         status: res.statusCode,
         headers: res.headers as {
-          [key: string]: string;
+          [key: string]: string
         },
         data: res.body.data
       });
     }).catch(async function (err: Error) {
       console.error('[faas][server] error:', err);
-      return Promise.reject(new ResponseError({
+      return await Promise.reject(new ResponseError({
         message: err.message,
         status: 500,
         headers: {},

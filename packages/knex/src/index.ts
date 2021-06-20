@@ -3,33 +3,33 @@ import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 import knex, { Knex as K } from 'knex';
 
-export type KnexConfig = {
-  name?: string;
-  config?: K.Config;
-};
+export interface KnexConfig {
+  name?: string
+  config?: K.Config
+}
 
-type TransactionConfig = {
-  isolationLevel?: 'read uncommitted' | 'read committed' | 'snapshot' | 'repeatable read' | 'serializable';
-  userParams?: Record<string, any>;
-  doNotRejectOnRollback?: boolean;
-  connection?: any;
+interface TransactionConfig {
+  isolationLevel?: 'read uncommitted' | 'read committed' | 'snapshot' | 'repeatable read' | 'serializable'
+  userParams?: Record<string, any>
+  doNotRejectOnRollback?: boolean
+  connection?: any
 }
 
 const Name = 'knex';
 
 const globals: {
-  [name: string]: Knex;
+  [name: string]: Knex
 } = {};
 
 /**
  * Knex 插件
  */
 export class Knex implements Plugin {
-  public readonly type: string = Name;
-  public readonly name: string = Name;
-  public config: K.Config;
-  public adapter: K;
-  public logger: Logger;
+  public readonly type: string = Name
+  public readonly name: string = Name
+  public config: K.Config
+  public adapter: K
+  public logger: Logger
 
   /**
    * 创建插件实例
@@ -38,9 +38,9 @@ export class Knex implements Plugin {
    * @param config.config {object} 数据库配置
    */
   constructor (config?: KnexConfig) {
-    if (config) {
+    if (config != null) {
       this.name = config.name || this.type;
-      this.config = config.config || Object.create(null);
+      this.config = (config.config != null) || Object.create(null);
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -67,20 +67,19 @@ export class Knex implements Plugin {
     }
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env)
+    for (let key in process.env) 
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
-        if (typeof this.config[key] === 'undefined')
+        if (typeof this.config[key] === 'undefined') 
           if (key.startsWith('connection_')) {
             if (!this.config.connection) this.config.connection = {};
             this.config.connection[key.replace('connection_', '')] = value;
-          } else
-            this.config[key] = value;
+          } else this.config[key] = value;
       }
+    
 
-    if (data.config.plugins[this.name] && data.config.plugins[this.name].config)
-      this.config = deepMerge(data.config.plugins[this.name].config, this.config);
+    if (data.config.plugins[this.name] && (data.config.plugins[this.name].config != null)) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
 
     this.adapter = knex(this.config);
 
@@ -107,11 +106,11 @@ export class Knex implements Plugin {
   }
 
   public async raw<TResult = any> (sql: string, bindings?: K.RawBinding[] | K.ValueDict): Promise<K.Raw<TResult>> {
-    return this.adapter.raw<TResult>(sql, bindings);
+    return await this.adapter.raw<TResult>(sql, bindings);
   }
 
   public async transaction<TResult = any> (scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: TransactionConfig): Promise<TResult> {
-    return this.adapter.transaction(scope, config);
+    return await this.adapter.transaction(scope, config);
   }
 
   public schema (): K.SchemaBuilder {

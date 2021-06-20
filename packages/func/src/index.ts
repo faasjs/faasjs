@@ -2,105 +2,105 @@
 import Logger from '@faasjs/logger';
 import RunHandler from './plugins/run_handler/index';
 
-export type Handler<TEvent = any, TContext = any, TRESULT = any> = (data: InvokeData<TEvent, TContext>) => Promise<TRESULT>;
-export type Next = () => Promise<void>;
-export type ExportedHandler<TEvent = any, TContext = any, TRESULT = any> = (event: TEvent, context?: TContext, callback?: (...args: any) => any) => Promise<TRESULT>;
+export type Handler<TEvent = any, TContext = any, TRESULT = any> = (data: InvokeData<TEvent, TContext>) => Promise<TRESULT>
+export type Next = () => Promise<void>
+export type ExportedHandler<TEvent = any, TContext = any, TRESULT = any> = (event: TEvent, context?: TContext, callback?: (...args: any) => any) => Promise<TRESULT>
 
-export type Plugin = {
-  [key: string]: any;
-  readonly type: string;
-  readonly name: string;
-  onDeploy?: (data: DeployData, next: Next) => void;
-  onMount?: (data: MountData, next: Next) => void;
-  onInvoke?: (data: InvokeData, next: Next) => void;
+export interface Plugin {
+  [key: string]: any
+  readonly type: string
+  readonly name: string
+  onDeploy?: (data: DeployData, next: Next) => void
+  onMount?: (data: MountData, next: Next) => void
+  onInvoke?: (data: InvokeData, next: Next) => void
 }
 
-export type ProviderConfig = {
-  type: string;
+export interface ProviderConfig {
+  type: string
   config: {
-    [key: string]: any;
-  };
+    [key: string]: any
+  }
 }
 
-export type Config = {
-  [key: string]: any;
+export interface Config {
+  [key: string]: any
   providers?: {
-    [key: string]: ProviderConfig;
-  };
+    [key: string]: ProviderConfig
+  }
   plugins?: {
     [key: string]: {
-      [key: string]: any;
-      provider?: string | ProviderConfig;
-      type: string;
+      [key: string]: any
+      provider?: string | ProviderConfig
+      type: string
       config?: {
-        [key: string]: any;
-      };
-    };
-  };
+        [key: string]: any
+      }
+    }
+  }
 }
-export type DeployData = {
-  [key: string]: any;
-  root: string;
-  filename: string;
-  env?: string;
-  name?: string;
-  config?: Config;
-  version?: string;
+export interface DeployData {
+  [key: string]: any
+  root: string
+  filename: string
+  env?: string
+  name?: string
+  config?: Config
+  version?: string
   dependencies?: {
-    [name: string]: string;
-  };
+    [name: string]: string
+  }
   plugins?: {
     [name: string]: {
-      [key: string]: any;
-      name?: string;
-      type: string;
-      provider?: string;
+      [key: string]: any
+      name?: string
+      type: string
+      provider?: string
       config: {
-        [key: string]: any;
-      };
-      plugin: Plugin;
-    };
-  };
-  logger?: Logger;
+        [key: string]: any
+      }
+      plugin: Plugin
+    }
+  }
+  logger?: Logger
 }
 
-export type MountData = {
-  [key: string]: any;
-  config: Config;
-  event: any;
-  context: any;
+export interface MountData {
+  [key: string]: any
+  config: Config
+  event: any
+  context: any
 }
 
-export type InvokeData<TEvent = any, TContext = any, TRESULT = any> = {
-  [key: string]: any;
-  event: TEvent;
-  context: TContext;
-  callback: any;
-  response: any;
-  logger: Logger;
-  handler: Handler<TEvent, TContext, TRESULT>;
-  config: Config;
+export interface InvokeData<TEvent = any, TContext = any, TRESULT = any> {
+  [key: string]: any
+  event: TEvent
+  context: TContext
+  callback: any
+  response: any
+  logger: Logger
+  handler: Handler<TEvent, TContext, TRESULT>
+  config: Config
 }
 
-export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke';
+export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke'
 
-export type FuncConfig<TEvent = any, TContext = any, TRESULT = any> = {
-  plugins?: Plugin[];
-  handler?: Handler<TEvent, TContext, TRESULT>;
+export interface FuncConfig<TEvent = any, TContext = any, TRESULT = any> {
+  plugins?: Plugin[]
+  handler?: Handler<TEvent, TContext, TRESULT>
 }
 
-type CachedFunction = {
-  key: string;
-  handler: (...args: any) => void;
+interface CachedFunction {
+  key: string
+  handler: (...args: any) => void
 }
 
 export class Func<TEvent = any, TContext = any, TRESULT = any> {
   [key: string]: any;
-  public plugins: Plugin[];
-  public handler?: Handler<TEvent, TContext, TRESULT>;
-  public logger: Logger;
-  public config: Config;
-  public mounted: boolean;
+  public plugins: Plugin[]
+  public handler?: Handler<TEvent, TContext, TRESULT>
+  public logger: Logger
+  public config: Config
+  public mounted: boolean
   private cachedFunctions: {
     [key in LifeCycleKey]: CachedFunction[];
   }
@@ -115,7 +115,7 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
     this.logger = new Logger('Func');
 
     this.handler = config.handler;
-    this.plugins = config.plugins || [];
+    this.plugins = config.plugins ?? [];
     this.plugins.push(new RunHandler());
     this.config = {
       providers: Object.create(null),
@@ -130,28 +130,28 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
     const logger = new Logger(key);
     let list: CachedFunction[] = [];
 
-    if (this.cachedFunctions[key])
-      list = this.cachedFunctions[key];
-    else {
-      for (const plugin of this.plugins)
-        if (typeof plugin[key] === 'function')
+    if (this.cachedFunctions[key]) list = this.cachedFunctions[key]; else {
+      for (const plugin of this.plugins) 
+        if (typeof plugin[key] === 'function') 
           list.push({
             key: plugin.name,
             handler: plugin[key].bind(plugin)
           });
+        
+      
 
       this.cachedFunctions[key] = list;
     }
 
-    return function (data: any, next?: () => void): any {
+    return async function (data: any, next?: () => void): Promise<any> {
       let index = -1;
 
       const dispatch = async function (i: number): Promise<any> {
-        if (i <= index) return Promise.reject(Error('next() called multiple times'));
+        if (i <= index) return await Promise.reject(Error('next() called multiple times'));
         index = i;
         let fn: any = list[i];
         if (i === list.length) fn = next;
-        if (!fn) return Promise.resolve();
+        if (!fn) return await Promise.resolve();
         if (typeof fn.key === 'undefined') fn.key = `UnNamedPlugin#${i}`;
         logger.debug(`[${fn.key as string}] begin`);
         logger.time(fn.key);
@@ -162,11 +162,11 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
         } catch (err) {
           logger.timeEnd(fn.key, `[${fn.key as string}] failed`);
           console.error(err);
-          return Promise.reject(err);
+          return await Promise.reject(err);
         }
       };
 
-      return dispatch(0);
+      return await dispatch(0);
     };
   }
 
@@ -186,9 +186,9 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
    * 启动云实例
    */
   public async mount (data: {
-    event: TEvent;
-    context: TContext;
-    config?: Config;
+    event: TEvent
+    context: TContext
+    config?: Config
   }): Promise<void> {
     this.logger.debug('onMount');
     if (this.mounted) {
@@ -213,11 +213,12 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
    */
   public async invoke (data: InvokeData<TEvent, TContext, TRESULT>): Promise<void> {
     // 实例未启动时执行启动函数
-    if (!this.mounted)
+    if (!this.mounted) 
       await this.mount({
         event: data.event,
-        context: data.context,
+        context: data.context
       });
+    
 
     try {
       await this.compose('onInvoke')(data);
@@ -232,7 +233,7 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
    * 创建触发函数
    */
   public export (): {
-    handler: ExportedHandler<TEvent, TContext, TRESULT>;
+    handler: ExportedHandler<TEvent, TContext, TRESULT>
   } {
     return {
       handler: async (event: TEvent, context?: TContext | any, callback?: (...args: any) => any): Promise<TRESULT> => {
@@ -267,22 +268,23 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
 
 let plugins = [];
 
-export type UseifyPlugin = {
-  mount?({ config: Config }): Promise<void>
+export interface UseifyPlugin {
+  mount?: ({ config: Config }) => Promise<void>
 }
 
 export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & UseifyPlugin {
-  if (!plugins.find(p => p.name === plugin.name))
-    plugins.push(plugin);
+  if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin); 
 
-  if (!plugin.mount)
-    plugin.mount = async function ({ config }:{config: Config}) {
-      if (plugin.onMount) await plugin.onMount({
-        config,
-        event: {},
-        context: {}
-      }, async () => Promise.resolve());
+  if (plugin.mount == null) 
+    plugin.mount = async function ({ config }: {config: Config}) {
+      if (plugin.onMount != null) 
+        await plugin.onMount({
+          config,
+          event: {},
+          context: {}
+        }, async () => await Promise.resolve());
     };
+  
 
   return plugin;
 }

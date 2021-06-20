@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictNullChecks": true,
     "moduleResolution": "node",
     "target": "ES2019",
     "baseUrl": ".",

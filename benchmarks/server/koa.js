@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const Koa = require('koa');
 const app = new Koa();
 

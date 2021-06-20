@@ -7,14 +7,14 @@ import deepMerge from '@faasjs/deep_merge';
 import { CloudFunction } from '@faasjs/cloud_function';
 
 export class Deployer {
-  public deployData: DeployData;
-  public func?: Func;
+  public deployData: DeployData
+  public func?: Func
 
   constructor (data: DeployData) {
     data.name = data.filename.replace(data.root, '').replace('.func.ts', '');
     data.version = new Date().toLocaleString('zh-CN', {
       hour12: false,
-      timeZone: 'Asia/Shanghai',
+      timeZone: 'Asia/Shanghai'
     }).replace(/[^0-9]+/g, '_');
 
     data.logger = new Logger('Deployer');
@@ -25,7 +25,7 @@ export class Deployer {
 
     data.config = Config[data.env];
 
-    if (!data.config) throw Error(`Config load failed: ${data.env}`);
+    if (data.config == null) throw Error(`Config load failed: ${data.env}`);
 
     data.tmp = join(data.root, 'tmp', data.env, data.name, data.version) + sep;
 
@@ -60,7 +60,7 @@ export class Deployer {
         throw Error('[Deployer] Unknow plugin type');
       }
 
-      if (plugin.type === 'cloud_function')
+      if (plugin.type === 'cloud_function') 
         includedCloudFunction.push({
           index: i,
           plugin
@@ -68,7 +68,7 @@ export class Deployer {
     }
 
     // 将云函数插件移到最后
-    if (includedCloudFunction.length)
+    if (includedCloudFunction.length > 0) 
       for (const plugin of includedCloudFunction) {
         func.plugins.splice(plugin.index, 1);
         func.plugins.push(plugin.plugin);

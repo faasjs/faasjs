@@ -13,7 +13,7 @@ describe('sqlite', function () {
       const func = new Func({
         plugins: [sql],
         async handler () {
-          return sql.query('SELECT 1+1');
+          return await sql.query('SELECT 1+1');
         }
       });
 
@@ -42,7 +42,7 @@ describe('sqlite', function () {
       const func = new Func({
         plugins: [sql],
         async handler () {
-          return sql.query('SELECT 1+1');
+          return await sql.query('SELECT 1+1');
         }
       });
       func.config = {
@@ -64,7 +64,7 @@ describe('sqlite', function () {
       const func = new Func({
         plugins: [sql],
         async handler () {
-          return sql.query('SELECT 1+1');
+          return await sql.query('SELECT 1+1');
         }
       });
 
@@ -95,7 +95,7 @@ describe('sqlite', function () {
       const func = new Func({
         plugins: [sql],
         async handler () {
-          return sql.query('A');
+          return await sql.query('A');
         }
       });
 
@@ -128,7 +128,7 @@ describe('sqlite', function () {
       const func = new Func({
         plugins: [sql],
         async handler () {
-          return sql.query('SELECT 1+1');
+          return await sql.query('SELECT 1+1');
         }
       });
 
@@ -152,7 +152,7 @@ describe('sqlite', function () {
       const func = new Func({
         plugins: [sql],
         async handler () {
-          return sql.query('SELECT 1+1');
+          return await sql.query('SELECT 1+1');
         }
       });
 
@@ -170,7 +170,7 @@ describe('sqlite', function () {
       const func = new Func({
         plugins: [sql],
         async handler () {
-          return sql.queryFirst('SELECT 1+1');
+          return await sql.queryFirst('SELECT 1+1');
         }
       });
 
@@ -188,7 +188,7 @@ describe('sqlite', function () {
       const func = new Func({
         plugins: [sql],
         async handler () {
-          return sql.queryMulti(['SELECT 1+1', 'SELECT 2+2']);
+          return await sql.queryMulti(['SELECT 1+1', 'SELECT 2+2']);
         }
       });
 

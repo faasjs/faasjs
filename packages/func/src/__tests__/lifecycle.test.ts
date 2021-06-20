@@ -4,8 +4,8 @@ describe('lifecycle', function () {
   describe('mount', function () {
     test('plugin throw error', async function () {
       class P implements Plugin {
-        public readonly type: string;
-        public readonly name: string;
+        public readonly type: string
+        public readonly name: string
 
         public async onMount () {
           throw Error('wrong');
@@ -34,8 +34,8 @@ describe('lifecycle', function () {
       let times = 0;
 
       class P implements Plugin {
-        public readonly type: string;
-        public readonly name: string;
+        public readonly type: string
+        public readonly name: string
 
         public async onMount (data: MountData, next: Next) {
           times++;
@@ -66,8 +66,8 @@ describe('lifecycle', function () {
   describe('invoke', function () {
     test('plugin throw error', async function () {
       class P implements Plugin {
-        public readonly type: string;
-        public readonly name: string;
+        public readonly type: string
+        public readonly name: string
 
         public async onInvoke (data: InvokeData, next: Next) {
           data.event.headers.cookie;

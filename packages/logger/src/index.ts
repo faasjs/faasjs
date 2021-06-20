@@ -3,7 +3,7 @@ import { Color } from './color';
 
 export { Color };
 
-export type Level = 'debug' | 'info' | 'warn' | 'error';
+export type Level = 'debug' | 'info' | 'warn' | 'error'
 
 enum LevelColor {
   debug = Color.GRAY,
@@ -13,8 +13,8 @@ enum LevelColor {
 }
 
 interface Timer {
-  level: Level;
-  time: number;
+  level: Level
+  time: number
 }
 
 const LevelPriority = {
@@ -28,13 +28,13 @@ const LevelPriority = {
  * 日志类
  */
 export default class Logger {
-  public silent: boolean;
-  public level: number;
-  public mode: string;
-  public label?: string;
-  public stdout: (text: string) => void;
-  public stderr: (text: string) => void;
-  private cachedTimers: any;
+  public silent: boolean
+  public level: number
+  public mode: string
+  public label?: string
+  public stdout: (text: string) => void
+  public stderr: (text: string) => void
+  private cachedTimers: any
 
   /**
    * 初始化日志
@@ -114,7 +114,7 @@ export default class Logger {
   public time (key: string, level: Level = 'debug'): Logger {
     this.cachedTimers[key] = {
       level,
-      time: new Date().getTime(),
+      time: new Date().getTime()
     };
 
     return this;
@@ -172,16 +172,9 @@ export default class Logger {
 
     let output = level.toUpperCase() + ' ' + (this.label ? `[${this.label}] ` : '') + format(message, ...args);
 
-    if (this.mode === 'local' && level !== 'error')
-      output = this.colorfy(LevelColor[level], output);
-    else if (this.mode !== 'local') output = output.replace(/\n/g, '');
+    if (this.mode === 'local' && level !== 'error') output = this.colorfy(LevelColor[level], output); else if (this.mode !== 'local') output = output.replace(/\n/g, '');
 
-    if (this.mode === 'remote')
-      console.log(output);
-    else if (level === 'error')
-      this.stderr(output);
-    else
-      this.stdout(output);
+    if (this.mode === 'remote') console.log(output); else if (level === 'error') this.stderr(output); else this.stdout(output); 
 
     return this;
   }

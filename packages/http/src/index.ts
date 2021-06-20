@@ -9,7 +9,7 @@ import { gzipSync, deflateSync, brotliCompressSync } from 'zlib';
 export { Cookie, CookieOptions, Session, SessionOptions, Validator, ValidatorOptions, ValidatorRuleOptions };
 
 export const ContentType: {
-  [key: string]: string;
+  [key: string]: string
 } = {
   plain: 'text/plain',
   html: 'text/html',
@@ -21,45 +21,44 @@ export const ContentType: {
   jsonp: 'application/javascript'
 };
 
-export type HttpConfig<TParams = { [key: string]: any; }, TCookie = { [key: string]: any; }, TSession = { [key: string]: any; }> = {
-  [key: string]: any;
-  name?: string;
+export interface HttpConfig<TParams = { [key: string]: any }, TCookie = { [key: string]: any }, TSession = { [key: string]: any }> {
+  [key: string]: any
+  name?: string
   config?: {
-    [key: string]: any;
-    method?: 'BEGIN' | 'GET' | 'POST' | 'DELETE' | 'HEAD' | 'PUT' | 'OPTIONS' | 'TRACE' | 'PATCH' | 'ANY';
-    timeout?: number;
-    path?: string;
-    ignorePathPrefix?: string;
-    functionName?: string;
-    cookie?: CookieOptions;
-  };
-  validator?: ValidatorConfig<TParams, TCookie, TSession>;
+    [key: string]: any
+    method?: 'BEGIN' | 'GET' | 'POST' | 'DELETE' | 'HEAD' | 'PUT' | 'OPTIONS' | 'TRACE' | 'PATCH' | 'ANY'
+    timeout?: number
+    path?: string
+    ignorePathPrefix?: string
+    functionName?: string
+    cookie?: CookieOptions
+  }
+  validator?: ValidatorConfig<TParams, TCookie, TSession>
 }
 
-export type Response = {
-  statusCode?: number;
+export interface Response {
+  statusCode?: number
   headers?: {
-    [key: string]: string;
-  };
-  body?: string;
-  message?: string;
+    [key: string]: string
+  }
+  body?: string
+  message?: string
 }
 
 export class HttpError extends Error {
-  public readonly statusCode: number;
-  public readonly message: string;
+  public readonly statusCode: number
+  public readonly message: string
 
   constructor ({
     statusCode,
     message
-  }:{
-    statusCode?: number;
-    message: string;
+  }: {
+    statusCode?: number
+    message: string
   }) {
     super(message);
 
-    if (Error.captureStackTrace)
-      Error.captureStackTrace(this, HttpError);
+    if (Error.captureStackTrace) Error.captureStackTrace(this, HttpError); 
 
     this.statusCode = statusCode || 500;
     this.message = message;
@@ -69,23 +68,24 @@ export class HttpError extends Error {
 const Name = 'http';
 
 const globals: {
-  [name: string]: Http;
+  [name: string]: Http<any, any, any>
 } = {};
 
-export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: any; }, TSession = { [key: string]: any; }> implements Plugin {
-  public readonly type: string = Name;
-  public readonly name: string = Name;
+export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: string }, TSession = { [key: string]: any }> implements Plugin {
+  public readonly type: string = Name
+  public readonly name: string = Name
   public headers: {
-    [key: string]: string;
-  };
-  public params: TParams;
-  public cookie: Cookie<TCookie, TSession>;
-  public session: Session<TSession, TCookie>;
-  public config: HttpConfig<TParams, TCookie, TSession>;
-  private validatorOptions?: ValidatorConfig<TParams, TCookie, TSession>;
-  private response?: Response;
-  private validator?: Validator<TParams, TCookie, TSession>;
-  private logger: Logger;
+    [key: string]: string
+  }
+
+  public params: TParams
+  public cookie: Cookie<TCookie, TSession>
+  public session: Session<TSession, TCookie>
+  public config: HttpConfig<TParams, TCookie, TSession>
+  private readonly validatorOptions?: ValidatorConfig<TParams, TCookie, TSession>
+  private response?: Response
+  private validator?: Validator<TParams, TCookie, TSession>
+  private readonly logger: Logger
 
   /**
    * 创建 Http 插件实例
@@ -113,9 +113,8 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
    */
   constructor (config?: HttpConfig<TParams, TCookie, TSession>) {
     this.name = config?.name || this.type;
-    this.config = config?.config || Object.create(null);
-    if (config?.validator)
-      this.validatorOptions = config.validator;
+    this.config = ((config?.config) != null) || Object.create(null);
+    if ((config?.validator) != null) this.validatorOptions = config.validator; 
     this.logger = new Logger(this.name);
 
     this.headers = Object.create(null);
@@ -154,14 +153,13 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
 
   public async onMount (data: MountData, next: Next): Promise<void> {
     this.logger.debug('[onMount] merge config');
-    if (data.config.plugins[this.name || this.type])
-      this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config);
+    if (data.config.plugins[this.name || this.type]) this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config); 
 
     this.logger.debug('[onMount] prepare cookie & session');
     this.cookie = new Cookie(this.config.cookie || {});
     this.session = this.cookie.session;
 
-    if (this.validatorOptions) {
+    if (this.validatorOptions != null) {
       this.logger.debug('[onMount] prepare validator');
       this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions);
     }
@@ -176,7 +174,7 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
     this.params = Object.create(null);
     this.response = { headers: Object.create(null) };
 
-    if (data.event.body)
+    if (data.event.body) 
       if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
         this.logger.debug('[onInvoke] Parse params from json body');
         this.params = JSON.parse(data.event.body);
@@ -190,11 +188,11 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
     }
 
     this.logger.debug('[onInvoke] Parse cookie');
-    this.cookie.invoke(this.headers['cookie']);
+    this.cookie.invoke(this.headers.cookie);
     this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content);
     this.logger.debug('[onInvoke] Session: %O', this.session.content);
 
-    if (this.validator && data.event.httpMethod) {
+    if ((this.validator != null) && data.event.httpMethod) {
       this.logger.debug('[onInvoke] Valid request');
       try {
         await this.validator.valid({
@@ -227,21 +225,19 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
     this.session.update();
 
     // 处理 body
-    if (data.response)
+    if (data.response) 
       if (data.response instanceof Error || (data.response.constructor && data.response.constructor.name === 'Error')) {
-        // 当结果是错误类型时
+      // 当结果是错误类型时
         this.logger.error(data.response);
         this.response.body = JSON.stringify({ error: { message: data.response.message } });
         this.response.statusCode = 500;
       } else if (Object.prototype.toString.call(data.response) === '[object Object]' && data.response.statusCode && data.response.headers)
-        // 当返回结果是响应结构体时
-        this.response = data.response;
-      else
-        this.response.body = JSON.stringify({ data: data.response });
+      // 当返回结果是响应结构体时
+        this.response = data.response; else this.response.body = JSON.stringify({ data: data.response }); 
+    
 
     // 处理 statusCode
-    if (!this.response.statusCode)
-      this.response.statusCode = this.response.body ? 200 : 201;
+    if (!this.response.statusCode) this.response.statusCode = this.response.body ? 200 : 201; 
 
     // 处理 headers
     this.response.headers = Object.assign({
@@ -263,17 +259,16 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
 
     const originBody = data.response.body;
     try {
-      if (/br/.test(acceptEncoding)) {
+      if (acceptEncoding.includes('br')) {
         data.response.headers['Content-Encoding'] = 'br';
         data.response.body = brotliCompressSync(originBody).toString('base64');
-      } else if (/gzip/.test(acceptEncoding)) {
+      } else if (acceptEncoding.includes('gzip')) {
         data.response.headers['Content-Encoding'] = 'gzip';
         data.response.body = gzipSync(originBody).toString('base64');
-      } else if (/deflate/.test(acceptEncoding)) {
+      } else if (acceptEncoding.includes('deflate')) {
         data.response.headers['Content-Encoding'] = 'deflate';
         data.response.body = deflateSync(originBody).toString('base64');
-      } else
-        throw Error('No matched compression.');
+      } else throw Error('No matched compression.'); 
 
       data.response.isBase64Encoded = true;
       data.response.originBody = originBody;
@@ -290,7 +285,7 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
    * @param key {string} key
    * @param value {*} value
    */
-  public setHeader (key: string, value: string): Http {
+  public setHeader (key: string, value: string): Http<TParams, TCookie, TSession> {
     this.response.headers[key] = value;
     return this;
   }
@@ -300,11 +295,8 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
    * @param type {string} 类型
    * @param charset {string} 编码
    */
-  public setContentType (type: string, charset: string = 'utf-8'): Http {
-    if (ContentType[type])
-      this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`);
-    else
-      this.setHeader('Content-Type', `${type}; charset=${charset}`);
+  public setContentType (type: string, charset: string = 'utf-8'): Http<TParams, TCookie, TSession> {
+    if (ContentType[type]) this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`); else this.setHeader('Content-Type', `${type}; charset=${charset}`); 
     return this;
   }
 
@@ -312,7 +304,7 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
    * 设置状态码
    * @param code {number} 状态码
    */
-  public setStatusCode (code: number): Http {
+  public setStatusCode (code: number): Http<TParams, TCookie, TSession> {
     this.response.statusCode = code;
     return this;
   }
@@ -321,13 +313,13 @@ export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: 
    * 设置 body
    * @param body {*} 内容
    */
-  public setBody (body: string): Http {
+  public setBody (body: string): Http<TParams, TCookie, TSession> {
     this.response.body = body;
     return this;
   }
 }
 
-export function useHttp<TParams = { [key: string]: any; }, TCookie = { [key: string]: any; }, TSession = { [key: string]: any; }> (config?: HttpConfig<TParams, TCookie, TSession>): Http<TParams, TCookie, TSession> & UseifyPlugin {
+export function useHttp<TParams = { [key: string]: any }, TCookie = { [key: string]: any }, TSession = { [key: string]: any }> (config?: HttpConfig<TParams, TCookie, TSession>): Http<TParams, TCookie, TSession> & UseifyPlugin {
   const name = config?.name || Name;
 
   if (process.env.FaasEnv !== 'testing' && globals[name]) return usePlugin<Http<TParams, TCookie, TSession>>(globals[name] as Http<TParams, TCookie, TSession>);

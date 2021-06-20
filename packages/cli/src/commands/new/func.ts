@@ -81,8 +81,7 @@ ${initials}
 });
 `);
 
-  if (!existsSync(join(folder, '__tests__')))
-    mkdirSync(join(folder, '__tests__'));
+  if (!existsSync(join(folder, '__tests__'))) mkdirSync(join(folder, '__tests__')); 
 
   const testFile = join(folder, '__tests__', name.replace('.func.ts', '.test.ts'));
   if (!existsSync(testFile)) {

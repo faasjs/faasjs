@@ -4,57 +4,59 @@ import Logger from '@faasjs/logger';
 import { Validator, ValidatorConfig } from './validator';
 
 export interface CloudFunctionConfig {
-  name?: string;
+  name?: string
   config?: {
-    name?: string;
-    memorySize?: number;
-    timeout?: number;
+    name?: string
+    memorySize?: number
+    timeout?: number
     triggers?: {
-      type: string;
-      name: string;
-      value: string;
-    }[];
-    [key: string]: any;
-  };
+      type: string
+      name: string
+      value: string
+    }[]
+    [key: string]: any
+  }
   validator?: {
-    event?: ValidatorConfig;
-  };
-  [key: string]: any;
+    event?: ValidatorConfig
+  }
+  [key: string]: any
 }
 
 export interface CloudFunctionAdapter {
-  invokeCloudFunction(name: string, data: any, options?: any): Promise<void>;
-  invokeSyncCloudFunction<TResult>(name: string, data: any, options?: any): Promise<TResult>;
+  invokeCloudFunction: (name: string, data: any, options?: any) => Promise<void>
+  invokeSyncCloudFunction: <TResult>(name: string, data: any, options?: any) => Promise<TResult>
 }
 
 const Name = 'cloud_function';
 
 const globals: {
-  [name: string]: CloudFunction;
+  [name: string]: CloudFunction
 } = {};
 
 export class CloudFunction implements Plugin {
-  public readonly type: string = Name;
-  public readonly name: string = Name;
-  public event: any;
-  public context: any;
+  public readonly type: string = Name
+  public readonly name: string = Name
+  public event: any
+  public context: any
   private config: {
-    name?: string;
-    memorySize?: number;
-    timeout?: number;
+    name?: string
+    memorySize?: number
+    timeout?: number
     triggers?: {
-      type: string;
-      name: string;
-      value: string;
-    }[];
-    [key: string]: any;
-  };
-  private adapter?: CloudFunctionAdapter;
-  private validatorConfig?: {
-    event?: ValidatorConfig;
-  };
-  private validator?: Validator;
-  private logger: Logger;
+      type: string
+      name: string
+      value: string
+    }[]
+    [key: string]: any
+  }
+
+  private adapter?: CloudFunctionAdapter
+  private readonly validatorConfig?: {
+    event?: ValidatorConfig
+  }
+
+  private validator?: Validator
+  private readonly logger: Logger
 
   /**
    * 创建云函数配置
@@ -71,11 +73,10 @@ export class CloudFunction implements Plugin {
    * @param config.validator.event.rules {object} 参数校验规则
    */
   constructor (config?: CloudFunctionConfig) {
-    if (config) {
+    if (config != null) {
       this.name = config.name || Name;
-      this.config = config.config || Object.create(null);
-      if (config.validator)
-        this.validatorConfig = config.validator;
+      this.config = (config.config != null) || Object.create(null);
+      if (config.validator != null) this.validatorConfig = config.validator; 
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -105,17 +106,15 @@ export class CloudFunction implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    if (data.config['plugins'] && data.config.plugins[this.name || this.type])
-      this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type], {});
+    if ((data.config.plugins != null) && data.config.plugins[this.name || this.type]) this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type], {}); 
 
     if (this.config.provider) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
       const Provider = require(this.config.provider.type);
       this.adapter = new Provider(this.config.provider.config);
-    } else
-      this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.');
+    } else this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.'); 
 
-    if (this.validatorConfig) {
+    if (this.validatorConfig != null) {
       this.logger.debug('[onMount] prepare validator');
       this.validator = new Validator(this.validatorConfig);
     }
@@ -128,7 +127,7 @@ export class CloudFunction implements Plugin {
   public async onInvoke (data: InvokeData, next: Next): Promise<void> {
     this.event = data.event;
     this.context = data.context;
-    if (this.validator) {
+    if (this.validator != null) {
       this.logger.debug('[onInvoke] Valid');
       this.validator.valid({ event: this.event });
     }
@@ -142,9 +141,9 @@ export class CloudFunction implements Plugin {
    * @param options {object} 额外配置项
    */
   public async invoke<TData = any> (name: string, data?: TData, options?: {
-    [key: string]: any;
+    [key: string]: any
   }): Promise<void> {
-    if (!data) data = Object.create(null);
+    if (data == null) data = Object.create(null);
 
     await this.adapter.invokeCloudFunction(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options);
   }
@@ -156,22 +155,20 @@ export class CloudFunction implements Plugin {
    * @param options {object} 额外配置项
    */
   public async invokeSync<TResult = any, TData = any> (name: string, data?: TData, options?: {
-    [key: string]: any;
+    [key: string]: any
   }): Promise<TResult> {
-    if (!data) data = Object.create(null);
+    if (data == null) data = Object.create(null);
 
-    return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options);
+    return await this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options);
   }
 }
 
 export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction & UseifyPlugin
 export function useCloudFunction (config?: () => CloudFunctionConfig): CloudFunction & UseifyPlugin {
   let configs;
-  if (config)
-    if (typeof config === 'function')
-      configs = config();
-    else
-      configs = config;
+  if (config != null) 
+    if (typeof config === 'function') configs = config(); else configs = config; 
+  
 
   const name = configs?.name || Name;
 

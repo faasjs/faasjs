@@ -10,7 +10,7 @@ describe('logger', function () {
   test.each([
     ['debug', Color.GRAY],
     ['info', Color.GREEN],
-    ['warn', Color.ORANGE],
+    ['warn', Color.ORANGE]
   ])('%s', function (level: string, color: number) {
     const logger = new Logger();
     logger.stdout = fake;

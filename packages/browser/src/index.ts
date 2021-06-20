@@ -1,28 +1,28 @@
-export type Params = {
-  [key: string]: any;
+export interface Params {
+  [key: string]: any
 }
 
-export type Options = {
+export interface Options {
   beforeRequest?: ({ action, params, xhr }: {
-    action: string;
-    params: Params;
-    xhr: XMLHttpRequest;
-  }) => void;
+    action: string
+    params: Params
+    xhr: XMLHttpRequest
+  }) => void
 }
 
-export type ResponseHeaders = {
-  [key: string]: string;
+export interface ResponseHeaders {
+  [key: string]: string
 }
 
 export class Response<T = any> {
-  public readonly status: number;
-  public readonly headers: ResponseHeaders;
-  public readonly data: T;
+  public readonly status: number
+  public readonly headers: ResponseHeaders
+  public readonly data: T
 
   constructor ({ status, headers, data }: {
-    status: number;
-    headers: ResponseHeaders;
-    data: T;
+    status: number
+    headers: ResponseHeaders
+    data: T
   }) {
     this.status = status;
     this.headers = headers;
@@ -31,9 +31,9 @@ export class Response<T = any> {
 }
 
 export class ResponseError extends Error {
-  public readonly status: number;
+  public readonly status: number
   public readonly headers: ResponseHeaders
-  public readonly body: any;
+  public readonly body: any
 
   constructor ({ message, status, headers, body }: {
     message: string; status: number; headers: ResponseHeaders; body: any;
@@ -47,8 +47,8 @@ export class ResponseError extends Error {
 }
 
 export default class FaasBrowserClient {
-  public host: string;
-  public defaultOptions: Options;
+  public host: string
+  public defaultOptions: Options
 
   /**
    * 创建 FaasJS 浏览器客户端
@@ -57,7 +57,7 @@ export default class FaasBrowserClient {
    */
   constructor (baseUrl: string, options?: Options) {
     this.host = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    this.defaultOptions = options || Object.create(null);
+    this.defaultOptions = (options != null) || Object.create(null);
 
     console.debug('[faas] baseUrl: ' + this.host);
   }
@@ -70,22 +70,26 @@ export default class FaasBrowserClient {
    */
   public async action<T = any> (action: string, params: Params, options?: Options): Promise<Response<T>> {
     const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString();
-    if (!options) options = this.defaultOptions;
-    else options = {
-      ...this.defaultOptions,
-      ...options
-    };
+    if (options == null) options = this.defaultOptions;
+    else 
+      options = {
+        ...this.defaultOptions,
+        ...options
+      };
+    
 
-    return new Promise(function (resolve, reject) {
+    return await new Promise(function (resolve, reject) {
       const xhr = new XMLHttpRequest();
       xhr.open('POST', url);
       xhr.withCredentials = true;
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-      if (options.beforeRequest) options.beforeRequest({
-        action,
-        params,
-        xhr
-      });
+      if (options.beforeRequest != null) 
+        options.beforeRequest({
+          action,
+          params,
+          xhr
+        });
+      
 
       xhr.onload = function () {
         let res = xhr.response;
@@ -97,10 +101,10 @@ export default class FaasBrowserClient {
           const value = parts.join(': ');
           headers[key] = value;
         });
-        if (xhr.response && xhr.getResponseHeader('Content-Type') && xhr.getResponseHeader('Content-Type').includes('json'))
+        if (xhr.response && xhr.getResponseHeader('Content-Type') && xhr.getResponseHeader('Content-Type').includes('json')) 
           try {
             res = JSON.parse(xhr.response);
-            if (res.error && res.error.message)
+            if (res.error && res.error.message) 
               reject(new ResponseError({
                 message: res.error.message,
                 status: xhr.status,
@@ -110,8 +114,9 @@ export default class FaasBrowserClient {
           } catch (error) {
             console.error(error);
           }
+        
 
-        if (xhr.status >= 200 && xhr.status < 300)
+        if (xhr.status >= 200 && xhr.status < 300) 
           resolve(new Response({
             status: xhr.status,
             headers,

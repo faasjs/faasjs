@@ -54,12 +54,12 @@ describe('schemas', function () {
           }
         })]
       }).export().handler;
-  
+
       const res = await handler({
         httpMethod: 'POST',
         body: '{"query":"{hello{name}}"}'
       });
-  
+
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, POST"}}}\n');
     });
@@ -82,12 +82,12 @@ describe('schemas', function () {
           }
         })]
       }).export().handler;
-  
+
       const res = await handler({
         httpMethod: 'POST',
         body: '{"query":"{hello{name}}"}'
       });
-  
+
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n');
     });
@@ -106,16 +106,16 @@ describe('schemas', function () {
                 }
               }
             }],
-            context () { return { event: { httpMethod: 'GET' } };}
+            context () { return { event: { httpMethod: 'GET' } }; }
           }
         })]
       }).export().handler;
-  
+
       const res = await handler({
         httpMethod: 'POST',
         body: '{"query":"{hello{name}}"}'
       });
-  
+
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n');
     });
@@ -134,16 +134,16 @@ describe('schemas', function () {
                 }
               }
             }],
-            async context () { return Promise.resolve({ event: { httpMethod: 'GET' } });}
+            async context () { return await Promise.resolve({ event: { httpMethod: 'GET' } }); }
           }
         })]
       }).export().handler;
-  
+
       const res = await handler({
         httpMethod: 'POST',
         body: '{"query":"{hello{name}}"}'
       });
-  
+
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n');
     });

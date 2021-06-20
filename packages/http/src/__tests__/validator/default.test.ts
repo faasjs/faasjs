@@ -5,7 +5,7 @@ describe('validator/default', function () {
   describe('params', function () {
     describe('normal', function () {
       test('const', async function () {
-        const http = new Http<{ key: number; value: string }>({ validator: { params: { rules: { key: { default: 1 } } } } });
+        const http = new Http<{ key: number, value: string }>({ validator: { params: { rules: { key: { default: 1 } } } } });
         const handler = new Func({
           plugins: [http],
           async handler () {

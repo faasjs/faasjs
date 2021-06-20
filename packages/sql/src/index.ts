@@ -5,42 +5,42 @@ import { Sqlite, SqliteConfig } from './sqlite';
 import { Postgresql, PostgresqlConfig } from './postgresql';
 import { Mysql, MysqlConfig } from './mysql';
 
-export type AdapterType = 'sqlite' | 'postgresql' | 'mysql';
+export type AdapterType = 'sqlite' | 'postgresql' | 'mysql'
 
 export interface Adapter {
-  pool: any;
-  query: (sql: string, values?: any) => Promise<any[]>;
+  pool: any
+  query: (sql: string, values?: any) => Promise<any[]>
 }
 
 export type SqlConfig = {
-  name?: string;
+  name?: string
 } & ({
-  adapterType?: 'sqlite';
-  config?: SqliteConfig;
+  adapterType?: 'sqlite'
+  config?: SqliteConfig
 } | {
-  adapterType?: 'postgresql';
-  config?: PostgresqlConfig;
+  adapterType?: 'postgresql'
+  config?: PostgresqlConfig
 } | {
-  adapterType?: 'mysql';
-  config?: MysqlConfig;
-});
+  adapterType?: 'mysql'
+  config?: MysqlConfig
+})
 
 const Name = 'sql';
 
 const globals: {
-  [name: string]: Sql;
+  [name: string]: Sql
 } = {};
 
 /**
  * 数据库插件
  */
 export class Sql implements Plugin {
-  public type: string = Name;
-  public name: string = Name;
-  public config: SqlConfig;
-  public adapterType?: AdapterType;
-  public adapter?: Adapter;
-  public logger: Logger;
+  public type: string = Name
+  public name: string = Name
+  public config: SqlConfig
+  public adapterType?: AdapterType
+  public adapter?: Adapter
+  public logger: Logger
 
   /**
    * 创建插件实例
@@ -51,10 +51,10 @@ export class Sql implements Plugin {
    * @param config.config.pool {Database} 数据库连接实例
    */
   constructor (config?: SqlConfig) {
-    if (config) {
+    if (config != null) {
       this.name = config.name || this.type;
       this.adapterType = config.adapterType;
-      this.config = config.config || Object.create(null);
+      this.config = (config.config != null) || Object.create(null);
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -65,13 +65,13 @@ export class Sql implements Plugin {
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
     switch (this.adapterType || data.config.plugins[this.name || this.type].adapter) {
       case 'sqlite':
-        data.dependencies['sqlite3'] = '*';
+        data.dependencies.sqlite3 = '*';
         break;
       case 'postgresql':
-        data.dependencies['pg'] = '*';
+        data.dependencies.pg = '*';
         break;
       case 'mysql':
-        data.dependencies['mysql2'] = '*';
+        data.dependencies.mysql2 = '*';
         break;
       default:
         throw Error(`[Sql] Unsupport type: ${this.adapterType || data.config.plugins[this.name || this.type].type}`);
@@ -82,20 +82,19 @@ export class Sql implements Plugin {
   public async onMount (data: MountData, next: Next): Promise<void> {
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env)
+    for (let key in process.env) 
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
         if (typeof this.config[key] === 'undefined') this.config[key] = value;
       }
+    
 
-    if (data.config.plugins[this.name])
-      this.config = deepMerge(data.config.plugins[this.name].config, this.config);
+    if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
 
     this.logger.debug('conncet: %O', this.config);
 
-    if (!this.adapterType)
-      this.adapterType = data.config.plugins[this.name || this.type].adapter;
+    if (!this.adapterType) this.adapterType = data.config.plugins[this.name || this.type].adapter; 
 
     switch (this.adapterType) {
       case 'sqlite':
@@ -140,8 +139,7 @@ export class Sql implements Plugin {
    */
   public async queryMulti<TResult> (sqls: string[]): Promise<TResult[]> {
     const results = [];
-    for (const sql of sqls)
-      results.push(await this.query(sql));
+    for (const sql of sqls) results.push(await this.query(sql)); 
 
     return results;
   }
@@ -152,7 +150,7 @@ export class Sql implements Plugin {
    * @param values {any} 参数值
    */
   public async queryFirst<TResult = any> (sql: string, values?: any[]): Promise<TResult> {
-    return this.query(sql, values).then((res: any[]) => res[0]);
+    return await this.query(sql, values).then((res: any[]) => res[0]);
   }
 }
 

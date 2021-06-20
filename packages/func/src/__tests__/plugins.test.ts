@@ -4,8 +4,8 @@ describe('plugins', function () {
   test('onDeploy', async function () {
     const results = [];
     class P1 implements Plugin {
-      public readonly type: string;
-      public readonly name: string;
+      public readonly type: string
+      public readonly name: string
 
       public onDeploy (data: DeployData, next: Next) {
         results.push('before1');
@@ -14,8 +14,8 @@ describe('plugins', function () {
       }
     }
     class P2 implements Plugin {
-      public readonly type: string;
-      public readonly name: string;
+      public readonly type: string
+      public readonly name: string
 
       public onDeploy (data: DeployData, next: Next) {
         results.push('before2');
@@ -44,8 +44,8 @@ describe('plugins', function () {
   test('onMount', async function () {
     const results = [];
     class P1 implements Plugin {
-      public readonly type: string;
-      public readonly name: string;
+      public readonly type: string
+      public readonly name: string
 
       public onMount (data: MountData, next: Next) {
         results.push('before1');
@@ -54,8 +54,8 @@ describe('plugins', function () {
       }
     }
     class P2 implements Plugin {
-      public readonly type: string;
-      public readonly name: string;
+      public readonly type: string
+      public readonly name: string
 
       public onMount (data: MountData, next: Next) {
         results.push('before2');
@@ -83,8 +83,8 @@ describe('plugins', function () {
   test('onInvoke', async function () {
     const results = [];
     class P1 implements Plugin {
-      public readonly type: string;
-      public readonly name: string;
+      public readonly type: string
+      public readonly name: string
 
       public async onInvoke (data: InvokeData, next: Next) {
         results.push('before1');
@@ -96,8 +96,8 @@ describe('plugins', function () {
       }
     }
     class P2 implements Plugin {
-      public readonly type: string;
-      public readonly name: string;
+      public readonly type: string
+      public readonly name: string
 
       public async onInvoke (data: InvokeData, next: Next) {
         results.push('before2');
@@ -142,8 +142,8 @@ describe('plugins', function () {
 
   test('call multiple times next', async function () {
     class P implements Plugin {
-      public readonly type: string;
-      public readonly name: string;
+      public readonly type: string
+      public readonly name: string
 
       public async onMount (data: MountData, next: Next) {
         await next();

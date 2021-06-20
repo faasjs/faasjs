@@ -3,10 +3,10 @@
   "private": true,
   "devDependencies": {
     "benchmark": "*",
-    "@faasjs/func": "file:./packages/func",
-    "@faasjs/http": "file:./packages./http",
-    "@faasjs/server": "file:./packages./server",
-    "@faasjs/cli": "file:./packages./cli",
+    "@faasjs/func": "file:../packages/func",
+    "@faasjs/http": "file:../packages/http",
+    "@faasjs/server": "file:../packages/server",
+    "@faasjs/cli": "file:../packages/cli",
     "koa": "*",
     "express": "*"
   }

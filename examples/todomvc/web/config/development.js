@@ -1,12 +1,12 @@
-const defaultConfig = require('./default.js');
-const merge = require('webpack-merge');
+const defaultConfig = require('./default.js')
+const merge = require('webpack-merge')
 
 module.exports = merge(defaultConfig, {
   mode: 'development',
   name: 'development',
   devServer: {
     contentBase: [
-      __dirname + '/../public',
+      __dirname + '/../public'
     ],
     historyApiFallback: true,
     compress: true,
@@ -21,4 +21,4 @@ module.exports = merge(defaultConfig, {
       }
     }
   }
-});
+})

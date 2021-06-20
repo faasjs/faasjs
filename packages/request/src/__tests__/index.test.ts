@@ -11,7 +11,7 @@ describe('request', function () {
 
   describe('query', function () {
     test('without ?', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com', { query: { test: 1, }, });
+      const res = await request('https://cvm.tencentcloudapi.com', { query: { test: 1 } });
 
       expect(res.statusCode).toEqual(200);
       expect(res.request.path).toEqual('/?test=1');
@@ -19,7 +19,7 @@ describe('request', function () {
     });
 
     test('with ?', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com/?a=1', { query: { test: 1, }, });
+      const res = await request('https://cvm.tencentcloudapi.com/?a=1', { query: { test: 1 } });
 
       expect(res.statusCode).toEqual(200);
       expect(res.request.path).toEqual('/?a=1&test=1');
@@ -29,7 +29,7 @@ describe('request', function () {
 
   describe('headers', function () {
     test('with value', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com', { headers: { 'X-HEADER': 'VALUE', }, });
+      const res = await request('https://cvm.tencentcloudapi.com', { headers: { 'X-HEADER': 'VALUE' } });
 
       expect(res.statusCode).toEqual(200);
       expect(res.request.headers['X-HEADER']).toEqual('VALUE');
@@ -37,7 +37,7 @@ describe('request', function () {
     });
 
     test('without value', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com', { headers: { 'X-HEADER': null, }, });
+      const res = await request('https://cvm.tencentcloudapi.com', { headers: { 'X-HEADER': null } });
 
       expect(res.statusCode).toEqual(200);
       expect(res.request.headers['X-HEADER']).toBeUndefined();
@@ -48,9 +48,9 @@ describe('request', function () {
   describe('body', function () {
     test('form', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
-        body: { test: 1, },
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
-        method: 'POST',
+        body: { test: 1 },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        method: 'POST'
       });
 
       expect(res.statusCode).toEqual(200);
@@ -60,8 +60,8 @@ describe('request', function () {
 
     test('json', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
-        body: { test: 1, },
-        method: 'POST',
+        body: { test: 1 },
+        method: 'POST'
       });
 
       expect(res.statusCode).toEqual(200);

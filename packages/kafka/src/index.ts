@@ -3,27 +3,27 @@ import Logger from '@faasjs/logger';
 import deepMerge from '@faasjs/deep_merge';
 import { Kafka as K, KafkaConfig as KConfig, Producer, ProducerRecord, RecordMetadata } from 'kafkajs';
 
-export type KafkaConfig = {
-  name?: string;
-  config?: KConfig;
-};
+export interface KafkaConfig {
+  name?: string
+  config?: KConfig
+}
 
 const Name = 'kafka';
 
 const globals: {
-  [name: string]: Kafka;
+  [name: string]: Kafka
 } = {};
 
 /**
  * Kafka 插件
  */
 export class Kafka implements Plugin {
-  public readonly type: string = Name;
-  public readonly name: string = Name;
-  public config: KConfig;
-  public client: K;
-  public producer: Producer;
-  public logger: Logger;
+  public readonly type: string = Name
+  public readonly name: string = Name
+  public config: KConfig
+  public client: K
+  public producer: Producer
+  public logger: Logger
 
   /**
    * 创建插件实例
@@ -32,9 +32,9 @@ export class Kafka implements Plugin {
    * @param config.config {object} 配置项
    */
   constructor (config?: KafkaConfig) {
-    if (config) {
+    if (config != null) {
       this.name = config.name || this.type;
-      this.config = config.config || Object.create(null);
+      this.config = (config.config != null) || Object.create(null);
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -52,16 +52,15 @@ export class Kafka implements Plugin {
     }
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env)
+    for (let key in process.env) 
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
-        if (typeof this.config[key] === 'undefined')
-          this.config[key] = value;
+        if (typeof this.config[key] === 'undefined') this.config[key] = value; 
       }
+    
 
-    if (data.config.plugins[this.name] && data.config.plugins[this.name].config)
-      this.config = deepMerge(data.config.plugins[this.name].config, this.config);
+    if (data.config.plugins[this.name] && (data.config.plugins[this.name].config != null)) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
 
     this.client = new K(this.config);
     this.producer = this.client.producer();
@@ -76,7 +75,7 @@ export class Kafka implements Plugin {
   }
 
   public async sendMessage (record: ProducerRecord): Promise<RecordMetadata[]> {
-    return this.producer.send(record);
+    return await this.producer.send(record);
   }
 }
 

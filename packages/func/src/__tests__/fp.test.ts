@@ -3,11 +3,11 @@ import { Plugin, useFunc, usePlugin, InvokeData, Next } from '..';
 describe('fp', function () {
   it('should work', async function () {
     class DemoPlugin implements Plugin {
-      public readonly type = 'P';
-      public readonly name = 'P';
+      public readonly type = 'P'
+      public readonly name = 'P'
 
       public async onInvoke (data: InvokeData, next: Next) {
-        data.event.counter ++;
+        data.event.counter++;
         await next();
       }
     }
@@ -21,7 +21,7 @@ describe('fp', function () {
     const func = useFunc<{counter: number}, void, number>(function () {
       useDemoPlugin();
       return async function ({ event }) {
-        event.counter ++;
+        event.counter++;
         return event.counter;
       };
     });
@@ -36,7 +36,7 @@ describe('fp', function () {
     const func2 = useFunc(function () {
       useDemoPlugin();
       return async function ({ event }) {
-        event.counter --;
+        event.counter--;
         return event.counter;
       };
     });
@@ -48,19 +48,19 @@ describe('fp', function () {
 
   it('same plugin with different config', async function () {
     class DemoPlugin implements Plugin {
-      public readonly type = 'P';
-      public readonly name = 'P';
-      private key: string;
+      public readonly type = 'P'
+      public readonly name = 'P'
+      private key: string
 
       constructor ({ key }: {
-        key: string;
+        key: string
       }) {
         this.key = key;
       }
 
       public async onInvoke (data: InvokeData, next: Next) {
         if (!data.event[this.key]) data.event[this.key] = 0;
-        data.event[this.key] ++;
+        data.event[this.key]++;
         await next();
       }
     }

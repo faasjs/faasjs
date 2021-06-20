@@ -6,26 +6,28 @@ import { loadConfig } from '@faasjs/load';
 import { resolve as pathResolve, sep, join } from 'path';
 import { HttpError } from '@faasjs/http';
 
-type Cache = {
-  file?: string;
-  handler?(...args: any): Promise<any>;
+interface Cache {
+  file?: string
+  handler?: (...args: any) => Promise<any>
 }
 
 /**
  * 本地服务端
  */
 export class Server {
-  public readonly root: string;
-  public readonly logger: Logger;
+  public readonly root: string
+  public readonly logger: Logger
   public readonly opts: {
-    cache: boolean;
-    port: number;
+    cache: boolean
+    port: number
   }
-  private processing = false;
+
+  private processing = false
   private cachedFuncs: {
-    [path: string]: Cache;
+    [path: string]: Cache
   }
-  private server: HttpServer;
+
+  private server: HttpServer
 
   /**
    * 创建本地服务器
@@ -35,28 +37,28 @@ export class Server {
    * @param port {number} 端口号，默认为 3000
    */
   constructor (root: string, opts?: {
-    cache?: boolean;
-    port?: number;
+    cache?: boolean
+    port?: number
   }) {
     this.root = root.endsWith(sep) ? root : root + sep;
     this.logger = new Logger('FaasJS');
     this.opts = Object.assign({
       cache: false,
       port: 3000
-    }, opts || {});
+    }, (opts != null) || {});
     this.cachedFuncs = {};
     this.logger.debug('Init with %s %o', this.root, this.opts);
   }
 
   public async processRequest (req: IncomingMessage, res: {
-    statusCode: number;
-    write: (body: string | Buffer) => void;
-    end: () => void;
-    setHeader: (key: string, value: string) => void;
+    statusCode: number
+    write: (body: string | Buffer) => void
+    end: () => void
+    setHeader: (key: string, value: string) => void
   }): Promise<void> {
     this.logger.info('[Request] %s', req.url);
 
-    return new Promise((resolve) => {
+    return await new Promise((resolve) => {
       const requestId = new Date().getTime().toString();
       let body = '';
 
@@ -72,7 +74,7 @@ export class Server {
 
           let cache: Cache = {};
 
-          if (this.opts.cache && this.cachedFuncs[path] && this.cachedFuncs[path].handler) {
+          if (this.opts.cache && this.cachedFuncs[path] && (this.cachedFuncs[path].handler != null)) {
             this.logger.info('[Response] cached: %s', cache.file);
             cache = this.cachedFuncs[path];
           } else {
@@ -111,16 +113,14 @@ export class Server {
         } else {
           if (data.statusCode) res.statusCode = data.statusCode;
 
-          if (data.headers)
-            for (const key in data.headers)
-              if (Object.prototype.hasOwnProperty.call(data.headers, key))
-                res.setHeader(key, data.headers[key]);
+          if (data.headers) 
+            for (const key in data.headers) 
+              if (Object.prototype.hasOwnProperty.call(data.headers, key)) res.setHeader(key, data.headers[key]); 
+            
+          
 
-          if (data.body)
-            if (data.isBase64Encoded)
-              res.write(Buffer.from(data.body, 'base64'));
-            else
-              res.write(data.body);
+          if (data.body) 
+            if (data.isBase64Encoded) res.write(Buffer.from(data.body, 'base64')); else res.write(data.body);
         }
         res.end();
         resolve();
@@ -138,22 +138,24 @@ export class Server {
 
     this.logger.info('[%s] Listen http://localhost:%s with %s', process.env.FaasEnv, this.opts.port, this.root);
 
-    this.server = createServer(this.opts.cache ? this.processRequest.bind(this) : async (req, res)=> {
-      if (!this.processing) {
-        this.processing = true;
-        await this.processRequest(req, res);
-        this.processing = false;
-      } else {
-        const timer = setInterval(async ()=> {
-          if (!this.processing) {
-            this.processing = true;
-            clearInterval(timer);
-            await this.processRequest(req, res);
-            this.processing = false;
-          }
-        });
-      }
-    }).listen(this.opts.port, '0.0.0.0');
+    this.server = createServer(this.opts.cache
+      ? this.processRequest.bind(this)
+      : async (req, res) => {
+        if (!this.processing) {
+          this.processing = true;
+          await this.processRequest(req, res);
+          this.processing = false;
+        } else {
+          const timer = setInterval(async () => {
+            if (!this.processing) {
+              this.processing = true;
+              clearInterval(timer);
+              await this.processRequest(req, res);
+              this.processing = false;
+            }
+          });
+        }
+      }).listen(this.opts.port, '0.0.0.0');
 
     return this.server;
   }
@@ -161,19 +163,15 @@ export class Server {
   public close (): void {
     this.logger.debug('Close server');
     this.server.close(function (err) {
-      if (err) console.error(err);
+      if (err != null) console.error(err);
     });
   }
 
   private getFilePath (path: string) {
     // Safe check
-    if (/^(\.|\|\/)+$/.test(path))
-      throw Error('Illegal characters');
+    if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters'); 
 
-    if (existsSync(path + '.func.ts'))
-      return path + '.func.ts';
-    else if (existsSync(path + '/index.func.ts'))
-      return path + '/index.func.ts';
+    if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts'; 
 
     throw new HttpError({
       statusCode: 404,
@@ -184,8 +182,7 @@ export class Server {
   private clearCache () {
     this.logger.debug('Clear cache');
     Object.keys(require.cache).forEach(function (id) {
-      if (!id.includes('node_modules') || id.includes('faasjs'))
-        delete require.cache[id];
+      if (!id.includes('node_modules') || id.includes('faasjs')) delete require.cache[id]; 
     });
   }
 }

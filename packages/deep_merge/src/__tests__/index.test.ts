@@ -9,7 +9,7 @@ describe('deepMerge', () => {
         object: { key: '1' },
         date: new Date(1),
         nest: { a: 1 }
-      },
+      }
     };
     const b = {
       nest: {
@@ -18,7 +18,7 @@ describe('deepMerge', () => {
         object: { key: '2' },
         date: new Date(2),
         nest: { b: 1 }
-      },
+      }
     };
 
     expect(deepMerge(a, b)).toEqual({

@@ -7,38 +7,38 @@ import { basename } from 'path';
 import Logger from '@faasjs/logger';
 
 export interface Request {
-  headers?: http.OutgoingHttpHeaders;
-  method?: string;
-  host?: string;
-  path?: string;
-  query?: http.OutgoingHttpHeaders;
-  body?: any;
+  headers?: http.OutgoingHttpHeaders
+  method?: string
+  host?: string
+  path?: string
+  query?: http.OutgoingHttpHeaders
+  body?: any
 }
 
 export interface Response<T = any> {
-  request?: Request;
-  statusCode?: number;
-  statusMessage?: string;
-  headers: http.OutgoingHttpHeaders;
-  body: T;
+  request?: Request
+  statusCode?: number
+  statusMessage?: string
+  headers: http.OutgoingHttpHeaders
+  body: T
 }
 
 export interface RequestOptions {
-  headers?: http.OutgoingHttpHeaders;
-  method?: string;
-  query?: http.OutgoingHttpHeaders;
-  body?: any;
-  timeout?: number;
-  auth?: string;
-  file?: string;
-  downloadStream?: NodeJS.WritableStream;
-  pfx?: Buffer;
-  passphrase?: string;
-  agent?: boolean;
-  parse?(body: string): any;
+  headers?: http.OutgoingHttpHeaders
+  method?: string
+  query?: http.OutgoingHttpHeaders
+  body?: any
+  timeout?: number
+  auth?: string
+  file?: string
+  downloadStream?: NodeJS.WritableStream
+  pfx?: Buffer
+  passphrase?: string
+  agent?: boolean
+  parse?: (body: string) => any
 }
 
-type Mock = (url: string, options: RequestOptions) => Promise<Response>;
+type Mock = (url: string, options: RequestOptions) => Promise<Response>
 
 let mock: Mock | null = null;
 
@@ -84,23 +84,22 @@ export default async function request<T = any> (url: string, {
   parse
 }: RequestOptions = {
   headers: {},
-  query: {},
+  query: {}
 }): Promise<Response<T>> {
   const log = new Logger('request');
 
-  if (mock) return mock(url, {
-    headers,
-    method,
-    query,
-    body
-  });
+  if (mock != null) 
+    return await mock(url, {
+      headers,
+      method,
+      query,
+      body
+    });
+  
 
   // 序列化 query
-  if (query) {
-    if (!url.includes('?'))
-      url += '?';
-    else if (!url.endsWith('?'))
-      url += '&';
+  if (query != null) {
+    if (!url.includes('?')) url += '?'; else if (!url.endsWith('?')) url += '&'; 
 
     url += stringify(query);
   }
@@ -112,17 +111,17 @@ export default async function request<T = any> (url: string, {
   if (!uri.protocol) throw Error('Unkonw protocol');
 
   const options: {
-    method: string;
-    headers: http.OutgoingHttpHeaders;
-    query: http.OutgoingHttpHeaders;
-    host?: string;
-    path: string;
-    port: string;
-    timeout?: number;
-    auth?: string;
-    pfx?: Buffer;
-    passphrase?: string;
-    agent?: boolean;
+    method: string
+    headers: http.OutgoingHttpHeaders
+    query: http.OutgoingHttpHeaders
+    host?: string
+    path: string
+    port: string
+    timeout?: number
+    auth?: string
+    pfx?: Buffer
+    passphrase?: string
+    agent?: boolean
   } = {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
@@ -138,29 +137,26 @@ export default async function request<T = any> (url: string, {
   };
 
   // 处理 headers
-  for (const key in headers)
-    if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key];
+  for (const key in headers) if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key]; 
 
   // 序列化 body
-  if (body && typeof body !== 'string')
+  if (body && typeof body !== 'string') 
     if (
       options.headers['Content-Type'] &&
       options.headers['Content-Type'].toString().includes('application/x-www-form-urlencoded')
-    )
-      body = stringify(body);
-    else
-      body = JSON.stringify(body);
+    ) body = stringify(body); else body = JSON.stringify(body); 
+  
 
   if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body);
 
-  return new Promise(function (resolve, reject) {
+  return await new Promise(function (resolve, reject) {
     log.debug('request %O', {
       ...options,
       body
     });
 
     const req = protocol.request(options, function (res: http.IncomingMessage) {
-      if (downloadStream) {
+      if (downloadStream != null) {
         res.pipe(downloadStream);
         downloadStream.on('finish', function () {
           resolve(undefined);
@@ -182,17 +178,16 @@ export default async function request<T = any> (url: string, {
           response.headers = res.headers;
           response.body = data;
 
-          if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json'))
+          if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json')) 
             try {
-              response.body = parse ? parse(response.body) : JSON.parse(response.body);
+              response.body = (parse != null) ? parse(response.body) : JSON.parse(response.body);
               log.debug('response.parse JSON');
             } catch (error) {
               console.error(error);
             }
+          
 
-          if (response.statusCode >= 200 && response.statusCode < 400)
-            resolve(response);
-          else {
+          if (response.statusCode >= 200 && response.statusCode < 400) resolve(response); else {
             log.debug('response.error %O', response);
             reject(response);
           }

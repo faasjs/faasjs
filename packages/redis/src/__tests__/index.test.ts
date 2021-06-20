@@ -49,7 +49,7 @@ describe('redis', function () {
         const redis2 = useRedis();
         await redis2.query('set', ['key', 'redis2']);
 
-        return redis1.query('get', ['key']);
+        return await redis1.query('get', ['key']);
       };
     });
 

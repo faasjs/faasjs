@@ -1,29 +1,24 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const context = __dirname + '/../assets';
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   context: context,
-  entry: {
-    app: context + '/index.ts'
-  },
+  entry: { app: context + '/index.ts' },
   output: {
     path: __dirname + '/../public',
     filename: '[name]-[contenthash].js',
     publicPath: '/'
   },
-  resolve: {
-    extensions: ['.js', '.ts', '.vue']
-  },
+  resolve: { extensions: ['.js', '.ts', '.vue'] },
   module: {
     rules: [
       {
         test: /\.vue?$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'vue-loader'
-          }
+          { loader: 'vue-loader' }
         ]
       },
       {
@@ -38,7 +33,7 @@ module.exports = {
         test: /\.(js|ts)$/,
         loader: 'babel-loader'
       }
-    ],
+    ]
   },
   externals: {
     vue: 'Vue',

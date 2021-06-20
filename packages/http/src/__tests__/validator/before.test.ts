@@ -6,7 +6,7 @@ describe('validator/before', function () {
     const http = new Http({
       validator: {
         async before (request) {
-          if (!request.session.read('aid'))
+          if (!request.session.read('aid')) 
             return {
               statusCode: 401,
               message: '请先登录'

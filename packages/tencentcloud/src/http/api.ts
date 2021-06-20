@@ -11,13 +11,13 @@ import tc from '../tc';
  * @param params {object} 请求参数
  */
 export default async function (action: string, provider: {
-  secretId: string;
-  secretKey: string;
-  region: string;
+  secretId: string
+  secretKey: string
+  region: string
 }, payload: {
-  [key: string]: any;
+  [key: string]: any
 }): Promise<any> {
-  return tc({
+  return await tc({
     region: provider.region,
     service: 'apigateway',
     version: '2018-08-08',

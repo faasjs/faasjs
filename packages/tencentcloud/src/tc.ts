@@ -10,13 +10,13 @@ export default async function<T = any> ({
   secretId,
   secretKey
 }: {
-  region: string;
-  service: string;
-  version: string;
-  action: string;
-  payload: any;
-  secretId: string;
-  secretKey: string;
+  region: string
+  service: string
+  version: string
+  action: string
+  payload: any
+  secretId: string
+  secretKey: string
 }): Promise<T> {
   const canonicalRequest = `POST\n/\n\ncontent-type:application/json\nhost:${service}.tencentcloudapi.com\n\ncontent-type;host\n` +
   createHash('sha256').update(JSON.stringify(payload)).digest('hex');
@@ -44,7 +44,7 @@ export default async function<T = any> ({
     'SignedHeaders=content-type;host, ' +
     'Signature=' + signature;
 
-  return request<T>(`https://${service}.tencentcloudapi.com/`, {
+  return await request<T>(`https://${service}.tencentcloudapi.com/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

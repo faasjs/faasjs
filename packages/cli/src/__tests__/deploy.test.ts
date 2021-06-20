@@ -15,7 +15,7 @@ jest.mock('console', function () {
     },
     error: function (message: string) {
       errors.push(message);
-    },
+    }
   };
 });
 

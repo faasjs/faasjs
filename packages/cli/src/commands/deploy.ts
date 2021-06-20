@@ -13,7 +13,7 @@ import { runInNewContext } from 'vm';
 
 async function sleep () {
   const waiting = Math.floor(Math.random() * 3);
-  return new Promise<void>(function (resolve) {
+  return await new Promise<void>(function (resolve) {
     log(`等待 ${waiting} 秒...`);
     setTimeout(function () {
       resolve();
@@ -26,11 +26,11 @@ async function confirm ({
   success,
   fail
 }: {
-  message?: string;
-  success?: string;
-  fail?: string;
+  message?: string
+  success?: string
+  fail?: string
 }) {
-  return new Promise<void>(function (resolve, reject) {
+  return await new Promise<void>(function (resolve, reject) {
     if (message) warn(message);
 
     const readline = createInterface({
@@ -41,12 +41,10 @@ async function confirm ({
       readline.close();
 
       if (res !== 'y') {
-        if (fail)
-          error(fail);
+        if (fail) error(fail); 
         reject();
       } else {
-        if (success)
-          log(success);
+        if (success) log(success); 
         resolve();
       }
     });
@@ -68,7 +66,6 @@ async function deploy (file: string, ar: number, options: {y: string}) {
       warn(file + ` 自动重试（剩余 ${ar} 次）`);
       await sleep();
       await deploy(file, ar - 1, options);
-      return;
     } else {
       error(err);
       throw Error(file + ' 自动重试次数已满，结束重试');
@@ -77,14 +74,14 @@ async function deploy (file: string, ar: number, options: {y: string}) {
 }
 
 export async function action (env: string, files: string[], { w, ar, y }: {
-  w?: string;
-  ar?: string;
-  y?: string;
+  w?: string
+  ar?: string
+  y?: string
 }): Promise<void> {
   if (!ar) ar = '3';
 
   if (process.env.FaasDeployFiles) {
-    for (const file of process.env.FaasDeployFiles.split(','))
+    for (const file of process.env.FaasDeployFiles.split(',')) 
       await new Promise(function (resolve) {
         runInNewContext(
           `(async function() {
@@ -105,6 +102,7 @@ export async function action (env: string, files: string[], { w, ar, y }: {
           { breakOnSigint: true }
         );
       });
+    
     return;
   }
 
@@ -117,14 +115,10 @@ export async function action (env: string, files: string[], { w, ar, y }: {
   for (const name of files) {
     let path = name.startsWith(sep) ? name : process.env.FaasRoot + name;
 
-    if (!existsSync(path))
-      throw Error(`File not found: ${path}`);
+    if (!existsSync(path)) throw Error(`File not found: ${path}`); 
 
-    if (lstatSync(path).isFile())
-      list.push(path);
-    else {
-      if (!path.endsWith(sep))
-        path += sep;
+    if (lstatSync(path).isFile()) list.push(path); else {
+      if (!path.endsWith(sep)) path += sep; 
 
       list.push(...[...new Set(globSync(path + '*.func.ts').concat(globSync(path + `**${sep}*.func.ts`)))]);
     }
@@ -132,9 +126,7 @@ export async function action (env: string, files: string[], { w, ar, y }: {
 
   if (list.length < 1) throw Error('Not found files.');
 
-  if (list.length === 1)
-    await deploy(list[0], Number(ar), { y });
-  else {
+  if (list.length === 1) await deploy(list[0], Number(ar), { y }); else {
     let processNumber = w ? Number(w) : (cpus().length > 1 ? cpus().length - 1 : 1);
     if (processNumber > list.length) processNumber = list.length;
 
@@ -142,15 +134,16 @@ export async function action (env: string, files: string[], { w, ar, y }: {
     log(list);
     log('');
 
-    if (!y)
+    if (!y) 
       await confirm({
         success: '开始发布',
         fail: '停止发布'
       });
+    
 
     const files = chunk(list, Math.ceil(list.length / processNumber));
     for (let i = 0; i < processNumber; i++) {
-      if (!files[i] || !files[i].length) continue;
+      if (!files[i] || (files[i].length === 0)) continue;
       const worker = fork({ FaasDeployFiles: files[i] });
       worker.on('error', function () {
         worker.kill();

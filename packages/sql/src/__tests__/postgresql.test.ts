@@ -12,7 +12,7 @@ describe('postgres', function () {
     const func = new Func({
       plugins: [sql],
       async handler () {
-        return sql.query('SELECT 1+1');
+        return await sql.query('SELECT 1+1');
       }
     });
 
@@ -43,7 +43,7 @@ describe('postgres', function () {
     const func = new Func({
       plugins: [sql],
       async handler () {
-        return sql.query('SELECT 1+1');
+        return await sql.query('SELECT 1+1');
       }
     });
     func.config = {
@@ -67,7 +67,7 @@ describe('postgres', function () {
     const func = new Func({
       plugins: [sql],
       async handler () {
-        return sql.query('SELECT 1+1');
+        return await sql.query('SELECT 1+1');
       }
     });
 
@@ -100,7 +100,7 @@ describe('postgres', function () {
     const func = new Func({
       plugins: [sql],
       async handler () {
-        return sql.query('A');
+        return await sql.query('A');
       }
     });
 

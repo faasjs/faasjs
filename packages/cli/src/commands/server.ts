@@ -5,16 +5,17 @@ import { Server } from '@faasjs/server';
 import { defaultsEnv } from '../helper';
 
 export function action (opts: {
-  port: number;
-  cache: boolean;
+  port: number
+  cache: boolean
 }): void {
   const tsconfig = require(join(process.cwd(), 'tsconfig.json'));
 
-  if (tsconfig.compilerOptions?.baseUrl && tsconfig.compilerOptions?.paths)
+  if (tsconfig.compilerOptions?.baseUrl && tsconfig.compilerOptions?.paths) 
     require('tsconfig-paths').register({
       baseUrl: tsconfig.compilerOptions.baseUrl || '.',
       paths: tsconfig.compilerOptions.paths || {}
     });
+  
 
   require('ts-node').register({
     project: join(process.cwd(), 'tsconfig.json'),

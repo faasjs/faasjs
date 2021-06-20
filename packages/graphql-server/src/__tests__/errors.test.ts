@@ -18,7 +18,7 @@ describe('errors', function () {
       httpMethod: 'GET',
       path: '/'
     });
-  
+
     expect(res.statusCode).toEqual(200);
     expect(res.headers['Content-Type']).toEqual('text/html');
   });
@@ -30,7 +30,7 @@ describe('errors', function () {
       httpMethod: 'POST',
       path: '/'
     });
-  
+
     expect(res.statusCode).toEqual(500);
     expect(res.body).toEqual('{"error":{"message":"Missing body"}}');
   });

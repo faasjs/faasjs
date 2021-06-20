@@ -5,11 +5,11 @@ module.exports = {
     es6: true
   },
   parserOptions: {
-    parser: "@typescript-eslint/parser",
+    parser: '@typescript-eslint/parser',
     extraFileExtensions: ['.vue']
   },
   extends: [
-    "@faasjs/recommended",
-    "plugin:vue/essential"
+    '@faasjs/recommended',
+    'plugin:vue/essential'
   ]
 };
