@@ -21,7 +21,7 @@ export const ContentType: {
   jsonp: 'application/javascript'
 };
 
-export type HttpConfig = {
+export type HttpConfig<TParams = { [key: string]: any; }, TCookie = { [key: string]: any; }, TSession = { [key: string]: any; }> = {
   [key: string]: any;
   name?: string;
   config?: {
@@ -33,13 +33,13 @@ export type HttpConfig = {
     functionName?: string;
     cookie?: CookieOptions;
   };
-  validator?: ValidatorConfig;
+  validator?: ValidatorConfig<TParams, TCookie, TSession>;
 }
 
 export type Response = {
   statusCode?: number;
   headers?: {
-    [key: string]: any;
+    [key: string]: string;
   };
   body?: string;
   message?: string;
@@ -72,7 +72,7 @@ const globals: {
   [name: string]: Http;
 } = {};
 
-export class Http<TParams = any, TCookie = any, TSession = any> implements Plugin {
+export class Http<TParams = { [key: string]: any; }, TCookie = { [key: string]: any; }, TSession = { [key: string]: any; }> implements Plugin {
   public readonly type: string = Name;
   public readonly name: string = Name;
   public headers: {
@@ -81,8 +81,8 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
   public params: TParams;
   public cookie: Cookie<TCookie, TSession>;
   public session: Session<TSession, TCookie>;
-  public config: HttpConfig;
-  private validatorOptions?: ValidatorConfig;
+  public config: HttpConfig<TParams, TCookie, TSession>;
+  private validatorOptions?: ValidatorConfig<TParams, TCookie, TSession>;
   private response?: Response;
   private validator?: Validator<TParams, TCookie, TSession>;
   private logger: Logger;
@@ -111,7 +111,7 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
    * @param config.validator.session.rules {object} 参数校验规则
    * @param config.validator.before {function} 参数校验前自定义函数
    */
-  constructor (config?: HttpConfig) {
+  constructor (config?: HttpConfig<TParams, TCookie, TSession>) {
     this.name = config?.name || this.type;
     this.config = config?.config || Object.create(null);
     if (config?.validator)
@@ -327,10 +327,10 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
   }
 }
 
-export function useHttp<P = any, C = { [key: string]: string; }, S = { [key: string]: any; }> (config?: HttpConfig): Http<P, C, S> & UseifyPlugin {
+export function useHttp<TParams = { [key: string]: any; }, TCookie = { [key: string]: any; }, TSession = { [key: string]: any; }> (config?: HttpConfig<TParams, TCookie, TSession>): Http<TParams, TCookie, TSession> & UseifyPlugin {
   const name = config?.name || Name;
 
-  if (process.env.FaasEnv !== 'testing' && globals[name]) return usePlugin<Http<P, C, S>>(globals[name]);
+  if (process.env.FaasEnv !== 'testing' && globals[name]) return usePlugin<Http<TParams, TCookie, TSession>>(globals[name] as Http<TParams, TCookie, TSession>);
 
-  return usePlugin(new Http<P, C, S>(config));
+  return usePlugin(new Http<TParams, TCookie, TSession>(config));
 }

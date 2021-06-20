@@ -11,10 +11,10 @@ export type ValidatorRuleOptions = {
   config?: Partial<ValidatorOptions>;
 }
 
-export type ValidatorOptions = {
+export type ValidatorOptions<Content = { [key: string]: any; }> = {
   whitelist?: 'error' | 'ignore';
   rules: {
-    [key: string]: ValidatorRuleOptions;
+    [k in keyof Content]?: ValidatorRuleOptions;
   };
   onError?: (type: string, key: string | string[], value?: any) => {
     statusCode?: number;
@@ -36,25 +36,25 @@ export type BeforeOption<P = any, C = any, S = any> = (request: Request<P, C, S>
   message: string;
 }>
 
-export type ValidatorConfig = {
-  params?: ValidatorOptions;
-  cookie?: ValidatorOptions;
-  session?: ValidatorOptions;
+export type ValidatorConfig<P, C, S> = {
+  params?: ValidatorOptions<P>;
+  cookie?: ValidatorOptions<C>;
+  session?: ValidatorOptions<S>;
   before?: BeforeOption;
 }
 
 export class Validator<P, C, S> {
   public before?:BeforeOption<P, C, S>;
-  public paramsConfig?: ValidatorOptions;
-  public cookieConfig?: ValidatorOptions;
-  public sessionConfig?: ValidatorOptions;
+  public paramsConfig?: ValidatorOptions<P>;
+  public cookieConfig?: ValidatorOptions<C>;
+  public sessionConfig?: ValidatorOptions<S>;
   private request: Request<P, C, S>;
   private logger: Logger;
 
   constructor (config: {
-    params?: ValidatorOptions;
-    cookie?: ValidatorOptions;
-    session?: ValidatorOptions;
+    params?: ValidatorOptions<P>;
+    cookie?: ValidatorOptions<C>;
+    session?: ValidatorOptions<S>;
     before?: BeforeOption<P, C, S>;
   }) {
     this.paramsConfig = config.params;
