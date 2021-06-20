@@ -134,7 +134,7 @@ describe('schemas', function () {
                 }
               }
             }],
-            async context () { return await Promise.resolve({ event: { httpMethod: 'GET' } }); }
+            async context () { return Promise.resolve({ event: { httpMethod: 'GET' } }); }
           }
         })]
       }).export().handler;

@@ -58,7 +58,7 @@ export class Server {
   }): Promise<void> {
     this.logger.info('[Request] %s', req.url);
 
-    return await new Promise((resolve) => {
+    return new Promise((resolve) => {
       const requestId = new Date().getTime().toString();
       let body = '';
 
@@ -113,13 +113,13 @@ export class Server {
         } else {
           if (data.statusCode) res.statusCode = data.statusCode;
 
-          if (data.headers) 
-            for (const key in data.headers) 
-              if (Object.prototype.hasOwnProperty.call(data.headers, key)) res.setHeader(key, data.headers[key]); 
+          if (data.headers)
+            for (const key in data.headers)
+              if (Object.prototype.hasOwnProperty.call(data.headers, key)) res.setHeader(key, data.headers[key]);
             
           
 
-          if (data.body) 
+          if (data.body)
             if (data.isBase64Encoded) res.write(Buffer.from(data.body, 'base64')); else res.write(data.body);
         }
         res.end();
@@ -169,9 +169,9 @@ export class Server {
 
   private getFilePath (path: string) {
     // Safe check
-    if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters'); 
+    if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters');
 
-    if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts'; 
+    if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts';
 
     throw new HttpError({
       statusCode: 404,
@@ -182,7 +182,7 @@ export class Server {
   private clearCache () {
     this.logger.debug('Clear cache');
     Object.keys(require.cache).forEach(function (id) {
-      if (!id.includes('node_modules') || id.includes('faasjs')) delete require.cache[id]; 
+      if (!id.includes('node_modules') || id.includes('faasjs')) delete require.cache[id];
     });
   }
 }

@@ -17,7 +17,7 @@ export default async function (action: string, provider: {
 }, payload: {
   [key: string]: any
 }): Promise<any> {
-  return await tc({
+  return tc({
     region: provider.region,
     service: 'apigateway',
     version: '2018-08-08',

@@ -67,11 +67,11 @@ export class Knex implements Plugin {
     }
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env) 
+    for (let key in process.env)
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
-        if (typeof this.config[key] === 'undefined') 
+        if (typeof this.config[key] === 'undefined')
           if (key.startsWith('connection_')) {
             if (!this.config.connection) this.config.connection = {};
             this.config.connection[key.replace('connection_', '')] = value;
@@ -79,7 +79,7 @@ export class Knex implements Plugin {
       }
     
 
-    if (data.config.plugins[this.name] && (data.config.plugins[this.name].config != null)) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
+    if (data.config.plugins[this.name] && (data.config.plugins[this.name].config != null)) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.adapter = knex(this.config);
 
@@ -106,11 +106,11 @@ export class Knex implements Plugin {
   }
 
   public async raw<TResult = any> (sql: string, bindings?: K.RawBinding[] | K.ValueDict): Promise<K.Raw<TResult>> {
-    return await this.adapter.raw<TResult>(sql, bindings);
+    return this.adapter.raw<TResult>(sql, bindings);
   }
 
   public async transaction<TResult = any> (scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: TransactionConfig): Promise<TResult> {
-    return await this.adapter.transaction(scope, config);
+    return this.adapter.transaction(scope, config);
   }
 
   public schema (): K.SchemaBuilder {

@@ -27,7 +27,7 @@ commander
     if (root && existsSync(root)) {
       process.env.FaasRoot = root;
       if (!root.endsWith(sep)) process.env.FaasRoot += sep;
-    } else throw Error(`Can't find root path: ${root}`); 
+    } else throw Error(`Can't find root path: ${root}`);
 
     logger.debug('root: %s', process.env.FaasRoot);
   })

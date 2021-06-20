@@ -3,8 +3,8 @@ import request, { setMock } from '../index';
 describe('mock', function () {
   test('should work', async function () {
     setMock(async function (url) {
-      return await new Promise(function (resolve) {
-        if (url === 'hello') 
+      return new Promise(function (resolve) {
+        if (url === 'hello')
           resolve({
             statusCode: 200,
             headers: {},

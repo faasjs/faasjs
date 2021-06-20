@@ -74,7 +74,7 @@ function findModule (list: any, key: string, basePath: string, options: {
 }) {
   if (list[key]) return;
 
-  if (key.startsWith('@types/') || options.excludes.includes(key)) return; 
+  if (key.startsWith('@types/') || options.excludes.includes(key)) return;
 
   const paths = [
     join(process.cwd(), 'node_modules', key),
@@ -82,14 +82,14 @@ function findModule (list: any, key: string, basePath: string, options: {
   ];
 
   let path;
-  for (const p of paths) 
+  for (const p of paths)
     if (existsSync(p)) {
       path = p;
       break;
     }
   
 
-  if (!path) return; 
+  if (!path) return;
 
   list[key] = path;
 
@@ -150,8 +150,8 @@ export default async function loadTs (filename: string, options: {
 
   const dependencies = Object.create(null);
 
-  for (const m of bundle.cache.modules || []) 
-    for (const d of m.dependencies) 
+  for (const m of bundle.cache.modules || [])
+    for (const d of m.dependencies)
       if (
         !d.startsWith('/') &&
         !dependencies[d] &&
@@ -180,7 +180,7 @@ export default async function loadTs (filename: string, options: {
     const modules = Object.create(null);
 
     Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules));
-    if (options.modules.additions != null) options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules)); 
+    if (options.modules.additions != null) options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules));
 
     result.modules = modules;
   }

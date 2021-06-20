@@ -17,14 +17,14 @@ export class Mysql implements Adapter {
   constructor (config: MysqlConfig) {
     if (config.pool != null) this.pool = config.pool; else
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-      this.pool = require('mysql2').createPool(Object.assign(defaults, config)); 
+      this.pool = require('mysql2').createPool(Object.assign(defaults, config));
   }
 
   public async query (sql: string, values?: any[]): Promise<any[]> {
     // eslint-disable-next-line @typescript-eslint/typedef
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.pool.query(sql, values, (error: any, results: any[]) => {
-        if (error) reject(error); 
+        if (error) reject(error);
 
         resolve(results);
       });

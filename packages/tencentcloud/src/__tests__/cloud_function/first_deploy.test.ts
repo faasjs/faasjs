@@ -37,7 +37,7 @@ jest.mock('@faasjs/request', () => {
             res = { body: { Response: { Namespaces: [] } } };
             break;
           case 'GetFunction':
-            if (functionCreated) 
+            if (functionCreated)
               res = {
                 body: {
                   Response: {
@@ -46,7 +46,7 @@ jest.mock('@faasjs/request', () => {
                   }
                 }
               };
-            else 
+            else
               res = {
                 body: {
                   Response: {
@@ -96,7 +96,7 @@ jest.mock('@faasjs/request', () => {
         }
     }
     console.log('mock.response', res);
-    return await Promise.resolve(res);
+    return Promise.resolve(res);
   };
 });
 

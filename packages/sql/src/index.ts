@@ -82,7 +82,7 @@ export class Sql implements Plugin {
   public async onMount (data: MountData, next: Next): Promise<void> {
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env) 
+    for (let key in process.env)
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
@@ -90,11 +90,11 @@ export class Sql implements Plugin {
       }
     
 
-    if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
+    if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.logger.debug('conncet: %O', this.config);
 
-    if (!this.adapterType) this.adapterType = data.config.plugins[this.name || this.type].adapter; 
+    if (!this.adapterType) this.adapterType = data.config.plugins[this.name || this.type].adapter;
 
     switch (this.adapterType) {
       case 'sqlite':
@@ -139,7 +139,7 @@ export class Sql implements Plugin {
    */
   public async queryMulti<TResult> (sqls: string[]): Promise<TResult[]> {
     const results = [];
-    for (const sql of sqls) results.push(await this.query(sql)); 
+    for (const sql of sqls) results.push(await this.query(sql));
 
     return results;
   }
@@ -150,7 +150,7 @@ export class Sql implements Plugin {
    * @param values {any} 参数值
    */
   public async queryFirst<TResult = any> (sql: string, values?: any[]): Promise<TResult> {
-    return await this.query(sql, values).then((res: any[]) => res[0]);
+    return this.query(sql, values).then((res: any[]) => res[0]);
   }
 }
 

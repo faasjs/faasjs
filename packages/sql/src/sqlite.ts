@@ -20,9 +20,9 @@ export class Sqlite implements Adapter {
 
   public async query (sql: string, values?: { [key: string]: any }): Promise<any[]> {
     // eslint-disable-next-line @typescript-eslint/typedef
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.pool.all(sql, values, (error: any, results: any[]) => {
-        if (error) reject(error); 
+        if (error) reject(error);
 
         resolve(results);
       });

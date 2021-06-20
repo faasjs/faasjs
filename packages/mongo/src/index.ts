@@ -45,7 +45,7 @@ export class Mongo implements Plugin {
   public async onMount (data: MountData, next: Next): Promise<void> {
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env) 
+    for (let key in process.env)
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
@@ -53,7 +53,7 @@ export class Mongo implements Plugin {
       }
     
 
-    if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
+    if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     if (typeof this.config.loggerLevel === 'undefined') this.config.loggerLevel = 'debug';
     if (typeof this.config.useNewUrlParser === 'undefined') this.config.useNewUrlParser = true;

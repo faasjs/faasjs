@@ -70,7 +70,7 @@ export class Validator<P, C, S> {
     if (this.before != null) {
       const result = await this.before(request);
 
-      if (result != null) throw new HttpError(result); 
+      if (result != null) throw new HttpError(result);
     }
 
     this.request = request;
@@ -82,14 +82,14 @@ export class Validator<P, C, S> {
 
     if (this.cookieConfig != null) {
       this.logger.debug('Valid cookie');
-      if (request.cookie == null) throw Error('Not found Cookie'); 
+      if (request.cookie == null) throw Error('Not found Cookie');
 
       this.validContent('cookie', request.cookie.content, '', this.cookieConfig);
     }
 
     if (this.sessionConfig != null) {
       this.logger.debug('Valid Session');
-      if (request.session == null) throw Error('Not found Session'); 
+      if (request.session == null) throw Error('Not found Session');
 
       this.validContent('session', request.session.content, '', this.sessionConfig);
     }
@@ -102,16 +102,16 @@ export class Validator<P, C, S> {
       const paramsKeys = Object.keys(params);
       const rulesKeys = Object.keys(config.rules);
       const diff = paramsKeys.filter(k => !rulesKeys.includes(k));
-      if (diff.length > 0) 
+      if (diff.length > 0)
         if (config.whitelist === 'error') {
           const diffKeys = diff.map(k => `${baseKey}${k}`);
           const error = Error(`[${type}] Unpermitted keys: ${diffKeys.join(', ')}`);
           if (config.onError != null) {
             const res = config.onError(`${type}.whitelist`, baseKey, diffKeys);
-            if (res != null) throw new HttpError(res); 
+            if (res != null) throw new HttpError(res);
           }
           throw error;
-        } else if (config.whitelist === 'ignore') 
+        } else if (config.whitelist === 'ignore')
           for (const key of diff) delete params[key];
     }
     for (const key in config.rules) {
@@ -119,7 +119,7 @@ export class Validator<P, C, S> {
       let value = params[key];
 
       // default
-      if (rule.default) 
+      if (rule.default)
         if (type === 'cookie' || type === 'session') this.logger.warn('Cookie and Session not support default rule.'); else if (typeof value === 'undefined' && rule.default) {
           value = typeof rule.default === 'function' ? rule.default(this.request) : rule.default;
           params[key] = value;
@@ -127,12 +127,12 @@ export class Validator<P, C, S> {
       
 
       // required
-      if (rule.required) 
+      if (rule.required)
         if (typeof value === 'undefined' || value === null) {
           const error = Error(`[${type}] ${baseKey}${key} is required.`);
           if (config.onError != null) {
             const res = config.onError(`${type}.rule.required`, `${baseKey}${key}`, value);
-            if (res != null) throw new HttpError(res); 
+            if (res != null) throw new HttpError(res);
           }
           throw error;
         }
@@ -140,7 +140,7 @@ export class Validator<P, C, S> {
 
       if (typeof value !== 'undefined' && value !== null) {
         // type
-        if (rule.type) 
+        if (rule.type)
           if (type === 'cookie') this.logger.warn('Cookie not support type rule'); else {
             let typed = true;
             switch (rule.type) {
@@ -159,7 +159,7 @@ export class Validator<P, C, S> {
               const error = Error(`[${type}] ${baseKey}${key} must be a ${rule.type}.`);
               if (config.onError != null) {
                 const res = config.onError(`${type}.rule.type`, `${baseKey}${key}`, value);
-                if (res != null) throw new HttpError(res); 
+                if (res != null) throw new HttpError(res);
               }
               throw error;
             }
@@ -171,18 +171,18 @@ export class Validator<P, C, S> {
           const error = Error(`[${type}] ${baseKey}${key} must be in ${rule.in.join(', ')}.`);
           if (config.onError != null) {
             const res = config.onError(`${type}.rule.in`, `${baseKey}${key}`, value);
-            if (res != null) throw new HttpError(res); 
+            if (res != null) throw new HttpError(res);
           }
           throw error;
         }
 
         // nest config
-        if (rule.config != null) 
+        if (rule.config != null)
           if (type === 'cookie') this.logger.warn('Cookie not support nest rule.'); else
           if (Array.isArray(value))
           // array
           
-            for (const val of value) this.validContent(type, val, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorOptions); 
+            for (const val of value) this.validContent(type, val, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorOptions);
           else if (typeof value === 'object')
           // object
             this.validContent(type, value, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorOptions);

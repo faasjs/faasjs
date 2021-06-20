@@ -33,7 +33,7 @@ class ApolloServer extends ApolloServerBase {
   async handler (data: InvokeData): Promise<any> {
     const options = await super.graphQLServerOptions(data);
 
-    return await runHttpQuery([data.event, data.context], {
+    return runHttpQuery([data.event, data.context], {
       method: data.event.httpMethod,
       options,
       query: JSON.parse(data.event.body),
@@ -76,7 +76,7 @@ export class GraphQLServer implements Plugin {
     await this.http.onMount(data, async () => {
       // 将 schemas 转换为 FederatedSchema
       if (this.config.schemas != null) {
-        if (typeof this.config.schemas === 'function') this.config.schemas = await this.config.schemas(); 
+        if (typeof this.config.schemas === 'function') this.config.schemas = await this.config.schemas();
 
         this.config.schema = buildFederatedSchema(this.config.schemas);
         delete this.config.schemas;
@@ -96,8 +96,8 @@ export class GraphQLServer implements Plugin {
       this.config.context = async function (invokeData: InvokeData): Promise<Context> {
         const data = deepMerge(invokeData);
 
-        if (configContext != null) 
-          if (typeof configContext === 'function') return Object.assign(data, await configContext(data)); else return Object.assign(data, configContext); 
+        if (configContext != null)
+          if (typeof configContext === 'function') return Object.assign(data, await configContext(data)); else return Object.assign(data, configContext);
         
 
         return data;
@@ -120,7 +120,7 @@ export class GraphQLServer implements Plugin {
     await this.http.onInvoke(data, async () => {
       switch (data.event.httpMethod) {
         case 'POST':
-          if (data.event.body) data.response = await this.server.handler(data); else throw Error('Missing body'); 
+          if (data.event.body) data.response = await this.server.handler(data); else throw Error('Missing body');
 
           break;
         case 'GET':

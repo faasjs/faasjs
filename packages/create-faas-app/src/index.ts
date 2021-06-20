@@ -12,6 +12,6 @@ commander
 // 加载命令
 action(commander as Command);
 
-if (!process.env.CI && process.argv[0] !== 'fake') commander.parse(process.argv); 
+if (!process.env.CI && process.argv[0] !== 'fake') commander.parse(process.argv);
 
 export default commander;

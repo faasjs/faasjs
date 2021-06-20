@@ -4,7 +4,7 @@ import Tencentcloud from '..';
 const cosSdk = require('cos-nodejs-sdk-v5');
 
 export async function checkBucket (tc: Tencentcloud, params: { [key: string]: any }): Promise<any> {
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     new cosSdk({
       SecretId: tc.config.secretId,
       SecretKey: tc.config.secretKey
@@ -19,7 +19,7 @@ export async function checkBucket (tc: Tencentcloud, params: { [key: string]: an
 }
 
 export async function createBucket (tc: Tencentcloud, params: { [key: string]: any }): Promise<any> {
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     new cosSdk({
       SecretId: tc.config.secretId,
       SecretKey: tc.config.secretKey
@@ -34,7 +34,7 @@ export async function createBucket (tc: Tencentcloud, params: { [key: string]: a
 }
 
 export async function upload (tc: Tencentcloud, params: { [key: string]: any }): Promise<any> {
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     new cosSdk({
       SecretId: tc.config.secretId,
       SecretKey: tc.config.secretKey
@@ -49,7 +49,7 @@ export async function upload (tc: Tencentcloud, params: { [key: string]: any }):
 }
 
 export async function remove (tc: Tencentcloud, params: { [key: string]: any }): Promise<any> {
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     new cosSdk({
       SecretId: tc.config.secretId,
       SecretKey: tc.config.secretKey

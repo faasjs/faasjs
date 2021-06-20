@@ -7,7 +7,7 @@ function mergeData (data: any, prefix: string = ''): { [key: string]: any } {
   for (const k in data) {
     if (typeof data[k] === 'undefined' || data[k] === null) continue;
 
-    if (data[k] instanceof Array || data[k] instanceof Object) Object.assign(ret, mergeData(data[k], prefix + k + '.')); else ret[prefix + k] = data[k]; 
+    if (data[k] instanceof Array || data[k] instanceof Object) Object.assign(ret, mergeData(data[k], prefix + k + '.')); else ret[prefix + k] = data[k];
   }
   return ret;
 }
@@ -15,7 +15,7 @@ function mergeData (data: any, prefix: string = ''): { [key: string]: any } {
 function formatSignString (params: any): string {
   const str: string[] = [];
 
-  for (const key of Object.keys(params).sort()) str.push(key + '=' + params[key]); 
+  for (const key of Object.keys(params).sort()) str.push(key + '=' + params[key]);
 
   return str.join('&');
 }
@@ -47,11 +47,11 @@ export default async function action (tc: Tencentcloud, params: { [key: string]:
 
   params.Signature = crypto.createHmac('sha256', tc.config.secretKey).update(sign).digest('base64');
 
-  return await request(`https://${host}/?`, {
+  return request(`https://${host}/?`, {
     body: params,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     method: 'POST'
   }).then(function (res: Response) {
-    if (res.body.Response.Error) return Promise.reject(res.body.Response.Error); else return res.body.Response; 
+    if (res.body.Response.Error) return Promise.reject(res.body.Response.Error); else return res.body.Response;
   });
 }

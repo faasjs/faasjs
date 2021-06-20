@@ -49,11 +49,11 @@ export class Cookie<C, S> {
     this.content = Object.create(null);
 
     // 解析 cookie
-    if (cookie) 
+    if (cookie)
       cookie.split(';').map((x: string) => {
         x = x.trim();
         const k = /([^=]+)/.exec(x);
-        if (k !== null) this.content[k[0]] = decodeURIComponent(x.replace(`${k[0]}=`, '').replace(/;$/, '')); 
+        if (k !== null) this.content[k[0]] = decodeURIComponent(x.replace(`${k[0]}=`, '').replace(/;$/, ''));
       });
     
 
@@ -87,17 +87,17 @@ export class Cookie<C, S> {
       this.content[key] = value;
     }
 
-    if (typeof opts.expires === 'number') cookie += `max-age=${opts.expires};`; else if (typeof opts.expires === 'string') cookie += `expires=${opts.expires};`; 
+    if (typeof opts.expires === 'number') cookie += `max-age=${opts.expires};`; else if (typeof opts.expires === 'string') cookie += `expires=${opts.expires};`;
 
     cookie += `path=${opts.path || '/'};`;
 
-    if (opts.domain) cookie += `domain=${opts.domain};`; 
+    if (opts.domain) cookie += `domain=${opts.domain};`;
 
-    if (opts.secure) cookie += 'Secure;'; 
+    if (opts.secure) cookie += 'Secure;';
 
-    if (opts.httpOnly) cookie += 'HttpOnly;'; 
+    if (opts.httpOnly) cookie += 'HttpOnly;';
 
-    if (opts.sameSite) cookie += `SameSite=${opts.sameSite};`; 
+    if (opts.sameSite) cookie += `SameSite=${opts.sameSite};`;
 
     this.setCookie[key] = cookie;
 
@@ -107,6 +107,6 @@ export class Cookie<C, S> {
   public headers (): {
     'Set-Cookie'?: string[]
   } {
-    if (Object.keys(this.setCookie).length === 0) return {}; else return { 'Set-Cookie': Object.values(this.setCookie) }; 
+    if (Object.keys(this.setCookie).length === 0) return {}; else return { 'Set-Cookie': Object.values(this.setCookie) };
   }
 }

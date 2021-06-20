@@ -52,15 +52,15 @@ export class Kafka implements Plugin {
     }
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env) 
+    for (let key in process.env)
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
-        if (typeof this.config[key] === 'undefined') this.config[key] = value; 
+        if (typeof this.config[key] === 'undefined') this.config[key] = value;
       }
     
 
-    if (data.config.plugins[this.name] && (data.config.plugins[this.name].config != null)) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
+    if (data.config.plugins[this.name] && (data.config.plugins[this.name].config != null)) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.client = new K(this.config);
     this.producer = this.client.producer();
@@ -75,7 +75,7 @@ export class Kafka implements Plugin {
   }
 
   public async sendMessage (record: ProducerRecord): Promise<RecordMetadata[]> {
-    return await this.producer.send(record);
+    return this.producer.send(record);
   }
 }
 

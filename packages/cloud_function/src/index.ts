@@ -76,7 +76,7 @@ export class CloudFunction implements Plugin {
     if (config != null) {
       this.name = config.name || Name;
       this.config = (config.config != null) || Object.create(null);
-      if (config.validator != null) this.validatorConfig = config.validator; 
+      if (config.validator != null) this.validatorConfig = config.validator;
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -106,13 +106,13 @@ export class CloudFunction implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    if ((data.config.plugins != null) && data.config.plugins[this.name || this.type]) this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type], {}); 
+    if ((data.config.plugins != null) && data.config.plugins[this.name || this.type]) this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type], {});
 
     if (this.config.provider) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
       const Provider = require(this.config.provider.type);
       this.adapter = new Provider(this.config.provider.config);
-    } else this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.'); 
+    } else this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.');
 
     if (this.validatorConfig != null) {
       this.logger.debug('[onMount] prepare validator');
@@ -159,15 +159,15 @@ export class CloudFunction implements Plugin {
   }): Promise<TResult> {
     if (data == null) data = Object.create(null);
 
-    return await this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options);
+    return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options);
   }
 }
 
 export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction & UseifyPlugin
 export function useCloudFunction (config?: () => CloudFunctionConfig): CloudFunction & UseifyPlugin {
   let configs;
-  if (config != null) 
-    if (typeof config === 'function') configs = config(); else configs = config; 
+  if (config != null)
+    if (typeof config === 'function') configs = config(); else configs = config;
   
 
   const name = configs?.name || Name;

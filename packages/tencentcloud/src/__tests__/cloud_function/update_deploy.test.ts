@@ -81,7 +81,7 @@ jest.mock('@faasjs/request', () => {
         }
     }
     console.log('mock.response', res);
-    return await Promise.resolve(res);
+    return Promise.resolve(res);
   };
 });
 

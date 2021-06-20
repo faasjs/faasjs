@@ -16,7 +16,7 @@ describe('mysql', function () {
     const func = new Func({
       plugins: [sql],
       async handler () {
-        return await sql.query('SELECT 1+1');
+        return sql.query('SELECT 1+1');
       }
     });
 
@@ -53,7 +53,7 @@ describe('mysql', function () {
     const func = new Func({
       plugins: [sql],
       async handler () {
-        return await sql.query('SELECT 1+1');
+        return sql.query('SELECT 1+1');
       }
     });
     func.config = {
@@ -77,7 +77,7 @@ describe('mysql', function () {
     const func = new Func({
       plugins: [sql],
       async handler () {
-        return await sql.query('SELECT 1+1');
+        return sql.query('SELECT 1+1');
       }
     });
 
@@ -113,7 +113,7 @@ describe('mysql', function () {
     const func = new Func({
       plugins: [sql],
       async handler () {
-        return await sql.query('A');
+        return sql.query('A');
       }
     });
 

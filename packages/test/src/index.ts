@@ -51,7 +51,7 @@ export class FuncWarpper {
       this.func = require(this.file).default;
       this.func.config = loadConfig(process.cwd(), this.file)[this.stagging];
       this.config = this.func.config;
-    } else this.func = initBy; 
+    } else this.func = initBy;
 
     this.plugins = this.func.plugins || [];
     for (const plugin of this.plugins) {
@@ -63,7 +63,7 @@ export class FuncWarpper {
   }
 
   public async mount (handler?: ((func: FuncWarpper) => Promise<void> | void)): Promise<void> {
-    if (!this.func.mounted) 
+    if (!this.func.mounted)
       await this.func.mount({
         event: {},
         context: {}
@@ -103,15 +103,15 @@ export class FuncWarpper {
 
     const http: Http = this.http;
     if (http) {
-      if (options.cookie != null) 
-        for (const key in options.cookie) http.cookie.write(key, options.cookie[key]); 
+      if (options.cookie != null)
+        for (const key in options.cookie) http.cookie.write(key, options.cookie[key]);
       
       if (options.session != null) {
-        for (const key in options.session) http.session.write(key, options.session[key]); 
+        for (const key in options.session) http.session.write(key, options.session[key]);
         http.session.update();
       }
       const cookie = http.cookie.headers()['Set-Cookie']?.map(c => c.split(';')[0]).join(';');
-      if (cookie) 
+      if (cookie)
         if (headers.cookie) headers.cookie += ';' + cookie;
         else headers.cookie = cookie;
     }

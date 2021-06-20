@@ -13,7 +13,7 @@ import { runInNewContext } from 'vm';
 
 async function sleep () {
   const waiting = Math.floor(Math.random() * 3);
-  return await new Promise<void>(function (resolve) {
+  return new Promise<void>(function (resolve) {
     log(`等待 ${waiting} 秒...`);
     setTimeout(function () {
       resolve();
@@ -30,7 +30,7 @@ async function confirm ({
   success?: string
   fail?: string
 }) {
-  return await new Promise<void>(function (resolve, reject) {
+  return new Promise<void>(function (resolve, reject) {
     if (message) warn(message);
 
     const readline = createInterface({
@@ -41,10 +41,10 @@ async function confirm ({
       readline.close();
 
       if (res !== 'y') {
-        if (fail) error(fail); 
+        if (fail) error(fail);
         reject();
       } else {
-        if (success) log(success); 
+        if (success) log(success);
         resolve();
       }
     });
@@ -81,7 +81,7 @@ export async function action (env: string, files: string[], { w, ar, y }: {
   if (!ar) ar = '3';
 
   if (process.env.FaasDeployFiles) {
-    for (const file of process.env.FaasDeployFiles.split(',')) 
+    for (const file of process.env.FaasDeployFiles.split(','))
       await new Promise(function (resolve) {
         runInNewContext(
           `(async function() {
@@ -115,10 +115,10 @@ export async function action (env: string, files: string[], { w, ar, y }: {
   for (const name of files) {
     let path = name.startsWith(sep) ? name : process.env.FaasRoot + name;
 
-    if (!existsSync(path)) throw Error(`File not found: ${path}`); 
+    if (!existsSync(path)) throw Error(`File not found: ${path}`);
 
     if (lstatSync(path).isFile()) list.push(path); else {
-      if (!path.endsWith(sep)) path += sep; 
+      if (!path.endsWith(sep)) path += sep;
 
       list.push(...[...new Set(globSync(path + '*.func.ts').concat(globSync(path + `**${sep}*.func.ts`)))]);
     }
@@ -134,7 +134,7 @@ export async function action (env: string, files: string[], { w, ar, y }: {
     log(list);
     log('');
 
-    if (!y) 
+    if (!y)
       await confirm({
         success: '开始发布',
         fail: '停止发布'

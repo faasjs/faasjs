@@ -46,7 +46,7 @@ export class Redis implements Plugin {
     } else {
       const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-      for (let key in process.env) 
+      for (let key in process.env)
         if (key.startsWith(prefix)) {
           const value = process.env[key];
           key = key.replace(prefix, '').toLowerCase();
@@ -54,7 +54,7 @@ export class Redis implements Plugin {
         }
       
 
-      if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
+      if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
       this.adapter = createClient(this.config);
       this.logger.debug('connceted');
@@ -74,7 +74,7 @@ export class Redis implements Plugin {
     this.logger.debug('query begin: %s %O', command, args);
     this.logger.time(command);
 
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.adapter.sendCommand(command, args, (err, data: TResult) => {
         if (err != null) {
           this.logger.timeEnd(command, 'query fail: %s %O', command, err);

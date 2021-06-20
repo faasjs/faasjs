@@ -20,7 +20,7 @@ describe('Knex', function () {
       const handler = new Func({
         plugins: [knex],
         async handler () {
-          return await knex.raw('SELECT 1+1');
+          return knex.raw('SELECT 1+1');
         }
       }).export().handler;
 
@@ -36,7 +36,7 @@ describe('Knex', function () {
       const handler = new Func({
         plugins: [knex],
         async handler () {
-          return await knex.raw('SELECT 1+1');
+          return knex.raw('SELECT 1+1');
         }
       }).export().handler;
 
@@ -79,7 +79,7 @@ describe('Knex', function () {
       const handler = new Func({
         plugins: [knex],
         async handler () {
-          return await knex.raw('SELECT a from a');
+          return knex.raw('SELECT a from a');
         }
       }).export().handler;
 
@@ -135,7 +135,7 @@ describe('Knex', function () {
 
         const knex2 = useKnex();
 
-        return await knex2.query('test');
+        return knex2.query('test');
       };
     });
 

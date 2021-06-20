@@ -23,8 +23,8 @@ export function FaasClient ({
 
   return {
     async faas<T = any> (action: string, params: Params) {
-      if (onError != null) return await client.action<T>(action, params).catch(onError(action, params));
-      return await client.action<T>(action, params);
+      if (onError != null) return client.action<T>(action, params).catch(onError(action, params));
+      return client.action<T>(action, params);
     },
     useFaas<T = any> (action: string, params: Params) {
       const [loading, setLoading] = useState(false);

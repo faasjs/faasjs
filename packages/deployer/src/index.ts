@@ -60,7 +60,7 @@ export class Deployer {
         throw Error('[Deployer] Unknow plugin type');
       }
 
-      if (plugin.type === 'cloud_function') 
+      if (plugin.type === 'cloud_function')
         includedCloudFunction.push({
           index: i,
           plugin
@@ -68,7 +68,7 @@ export class Deployer {
     }
 
     // 将云函数插件移到最后
-    if (includedCloudFunction.length > 0) 
+    if (includedCloudFunction.length > 0)
       for (const plugin of includedCloudFunction) {
         func.plugins.splice(plugin.index, 1);
         func.plugins.push(plugin.plugin);

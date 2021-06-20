@@ -44,7 +44,7 @@ export default async function<T = any> ({
     'SignedHeaders=content-type;host, ' +
     'Signature=' + signature;
 
-  return await request<T>(`https://${service}.tencentcloudapi.com/`, {
+  return request<T>(`https://${service}.tencentcloudapi.com/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
