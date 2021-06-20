@@ -37,7 +37,7 @@ jest.mock('@faasjs/request', () => {
             res = { body: { Response: { Namespaces: [] } } }
             break
           case 'GetFunction':
-            if (functionCreated) 
+            if (functionCreated)
               res = {
                 body: {
                   Response: {
@@ -46,7 +46,7 @@ jest.mock('@faasjs/request', () => {
                   }
                 }
               }
-            else 
+            else
               res = {
                 body: {
                   Response: {
@@ -57,7 +57,7 @@ jest.mock('@faasjs/request', () => {
                   }
                 }
               }
-            
+
             break
           case 'GetAlias':
             res = {
@@ -114,6 +114,7 @@ test('frist deploy', async function () {
     name: 'basic',
     version: 'version',
     tmp: join(__dirname, '..', 'tmp', 'first') + sep,
+    config: {},
     dependencies: { '@faasjs/func': '*' }
   }, {
     name: 'cloud_function',

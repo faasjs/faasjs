@@ -35,6 +35,7 @@ test('frist deploy', async function () {
     name: 'http',
     version: 'version',
     tmp: join(__dirname, '..', 'tmp', 'first') + sep,
+    config: {},
     dependencies: { '@faasjs/func': '*' }
   }, {
     name: 'http',

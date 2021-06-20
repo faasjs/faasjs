@@ -20,7 +20,8 @@ describe('deploy', function () {
       await func.deploy({
         root: __dirname,
         filename: 'filename',
-        dependencies
+        dependencies,
+        config: {}
       })
 
       expect(dependencies).toEqual({ [npm]: '*' })
@@ -39,7 +40,8 @@ describe('deploy', function () {
       await expect(func.deploy({
         root: __dirname,
         filename: 'filename',
-        dependencies
+        dependencies,
+        config: {}
       })).rejects.toEqual(Error('[Sql] Unsupport type: unknown'))
     })
   })

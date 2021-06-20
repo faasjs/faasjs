@@ -105,7 +105,7 @@ export class Knex implements Plugin {
     return this.adapter<TRecord, TResult>(tableName)
   }
 
-  public async raw<TResult = any> (sql: string, bindings: K.RawBinding[] | K.ValueDict): Promise<K.Raw<TResult>> {
+  public async raw<TResult = any> (sql: string, bindings: K.RawBinding[] | K.ValueDict = []): Promise<K.Raw<TResult>> {
     return await this.adapter.raw<TResult>(sql, bindings)
   }
 

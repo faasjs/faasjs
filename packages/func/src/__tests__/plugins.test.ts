@@ -2,7 +2,7 @@ import { Func, Plugin, DeployData, Next, InvokeData, MountData } from '../index'
 
 describe('plugins', function () {
   test('onDeploy', async function () {
-    const results = []
+    const results: string[] = []
     class P1 implements Plugin {
       public readonly type: string
       public readonly name: string
@@ -30,19 +30,20 @@ describe('plugins', function () {
     })
 
     results.push('begin')
-    const data = {
+    await func.deploy({
       root: '.',
       filename: 'base',
-      env: 'testing'
-    }
-    await func.deploy(data)
+      env: 'testing',
+      config: {},
+      dependencies: {}
+    })
     results.push('end')
 
     expect(results).toEqual(['begin', 'before1', 'before2', 'after2', 'after1', 'end'])
   })
 
   test('onMount', async function () {
-    const results = []
+    const results: string[] = []
     class P1 implements Plugin {
       public readonly type: string
       public readonly name: string
@@ -81,7 +82,7 @@ describe('plugins', function () {
   })
 
   test('onInvoke', async function () {
-    const results = []
+    const results: string[] = []
     class P1 implements Plugin {
       public readonly type: string
       public readonly name: string

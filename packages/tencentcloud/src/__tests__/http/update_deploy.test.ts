@@ -35,7 +35,8 @@ test('update deploy', async function () {
     name: 'http',
     version: 'version',
     tmp: join(__dirname, '..', 'tmp', 'first') + sep,
-    dependencies: { '@faasjs/func': '*' }
+    dependencies: { '@faasjs/func': '*' },
+    config: {}
   }, {
     name: 'http',
     provider: {

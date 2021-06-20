@@ -5,7 +5,9 @@ test('multi', async function () {
   const deployer = new Deployer({
     root: __dirname,
     filename: __dirname + '/funcs/multi.func.ts',
-    env: 'testing'
+    env: 'testing',
+    config: {},
+    dependencies: {}
   })
   try {
     await deployer.deploy()
@@ -14,5 +16,5 @@ test('multi', async function () {
 
   const res = execSync(`node -e "const handler = require('${deployer.deployData.tmp}index.js').handler;(async function invoke(){console.log('|'+JSON.stringify(await handler(0))+'|');})(handler);"`, { cwd: deployer.deployData.tmp }).toString()
 
-  expect(res.match(/([^|]+)|$/g)[1]).toEqual('1')
+  expect(res.match(/([^|]+)|$/g)![1]).toEqual('1')
 }, 100000)

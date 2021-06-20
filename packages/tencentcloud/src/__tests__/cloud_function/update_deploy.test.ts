@@ -99,7 +99,8 @@ test('update deploy', async function () {
     name: 'basic',
     version: 'version',
     tmp: join(__dirname, '..', 'tmp', 'update') + sep,
-    dependencies: { '@faasjs/func': '*' }
+    dependencies: { '@faasjs/func': '*' },
+    config: {}
   }, {
     name: 'cloud_function',
     provider: {

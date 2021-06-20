@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { action } from '../commands/deploy'
 
-let logs = []
-let warns = []
-let errors = []
+let logs: string[] = []
+let warns: string[] = []
+let errors: string[] = []
 
 jest.mock('console', function () {
   return {
