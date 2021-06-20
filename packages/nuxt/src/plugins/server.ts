@@ -25,6 +25,6 @@ export default function (ctx: Context, inject: (...args: any) => any): void {
   server = new FaasServerClient('<%= options.baseUrl %>', ctx)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   inject('faas', async function (action: string, body?: any) {
-    return await server.action(ctx, action, body)
+    return server.action(ctx, action, body)
   })
 }

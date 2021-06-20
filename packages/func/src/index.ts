@@ -149,11 +149,11 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
       let index = -1
 
       const dispatch = async function (i: number): Promise<any> {
-        if (i <= index) return await Promise.reject(Error('next() called multiple times'))
+        if (i <= index) return Promise.reject(Error('next() called multiple times'))
         index = i
         let fn: any = list[i]
         if (i === list.length) fn = next
-        if (!fn) return await Promise.resolve()
+        if (!fn) return Promise.resolve()
         if (typeof fn.key === 'undefined') fn.key = `UnNamedPlugin#${i}`
         logger.debug(`[${fn.key as string}] begin`)
         logger.time(fn.key)
@@ -164,11 +164,11 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
         } catch (err) {
           logger.timeEnd(fn.key, `[${fn.key as string}] failed`)
           console.error(err)
-          return await Promise.reject(err)
+          return Promise.reject(err)
         }
       }
 
-      return await dispatch(0)
+      return dispatch(0)
     }
   }
 
@@ -284,7 +284,7 @@ export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & Usei
           config,
           event: {},
           context: {}
-        }, async () => await Promise.resolve())
+        }, async () => Promise.resolve())
     }
 
 

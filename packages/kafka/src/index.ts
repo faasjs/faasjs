@@ -75,7 +75,7 @@ export class Kafka implements Plugin {
   }
 
   public async sendMessage (record: ProducerRecord): Promise<RecordMetadata[]> {
-    return await this.producer.send(record)
+    return this.producer.send(record)
   }
 }
 

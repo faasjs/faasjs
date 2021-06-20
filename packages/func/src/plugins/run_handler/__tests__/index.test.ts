@@ -18,7 +18,7 @@ describe('plugins.runHandler', function () {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler (data: InvokeData) {
-        return await Promise.resolve(data.event + 1)
+        return Promise.resolve(data.event + 1)
       }
     }).export().handler
 
@@ -71,7 +71,7 @@ describe('plugins.runHandler', function () {
       await new Func({
         plugins: [new RunHandler()],
         async handler () {
-          return await Promise.reject(Error('wrong'))
+          return Promise.reject(Error('wrong'))
         }
       }).export().handler(0)
     } catch (error) {

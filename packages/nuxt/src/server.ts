@@ -15,7 +15,7 @@ export default class FaasServerClient {
   constructor (baseUrl: string, ctx: Context) {
     if (ctx.isDev)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this.host = `http://${ctx.req.headers.host}/_faas/`; else this.host = baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/') 
+      this.host = `http://${ctx.req.headers.host}/_faas/`; else this.host = baseUrl.endsWith('/') ? baseUrl : (baseUrl + '/')
 
     console.log('[faas][server] host:', this.host)
   }
@@ -37,7 +37,7 @@ export default class FaasServerClient {
     }
     console.log('[faas][server] action:', url, headers)
 
-    return await request(url, {
+    return request(url, {
       headers,
       method: 'POST',
       body: typeof body !== 'string' ? JSON.stringify(body) : body
@@ -47,14 +47,14 @@ export default class FaasServerClient {
         const cookies = []
         for (let cookie of res.headers['set-cookie']) {
           // 在开发模式下修改 cookie 的 domain
-          if (ctx.isDev) 
+          if (ctx.isDev)
             if (ctx.req.headers.host) {
             // 若有 host 信息，则修改为当前 host 的根域名
               const host = ctx.req.headers.host.split('.')
               cookie = cookie.replace(/domain=[^;]+;/, `domain=${host[host.length - 2]}.${host[host.length - 1]};`)
             } else
             // 没有 host 信息则直接删除 domain 配置
-              cookie = cookie.replace(/domain=[^;]+;/, '') 
+              cookie = cookie.replace(/domain=[^;]+;/, '')
           
 
           cookies.push(cookie)
@@ -71,7 +71,7 @@ export default class FaasServerClient {
       })
     }).catch(async function (err: Error) {
       console.error('[faas][server] error:', err)
-      return await Promise.reject(new ResponseError({
+      return Promise.reject(new ResponseError({
         message: err.message,
         status: 500,
         headers: {},

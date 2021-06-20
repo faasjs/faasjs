@@ -40,7 +40,7 @@ export default function FaasModule (this: {
     const Server = require('@faasjs/server').Server
     const server = new Server(options.root)
 
-    if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') process.env.FaasEnv = 'development' 
+    if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') process.env.FaasEnv = 'development'
 
     process.env.FaasMode = 'local'
     process.env.FaasLocal = `http${this.options.server.https ? 's' : ''}://${this.options.server.host}:${this.options.server.port}/_faas`

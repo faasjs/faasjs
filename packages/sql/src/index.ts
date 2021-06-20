@@ -150,7 +150,7 @@ export class Sql implements Plugin {
    * @param values {any} 参数值
    */
   public async queryFirst<TResult = any> (sql: string, values?: any[]): Promise<TResult> {
-    return await this.query(sql, values).then((res: any[]) => res[0])
+    return this.query(sql, values).then((res: any[]) => res[0])
   }
 }
 

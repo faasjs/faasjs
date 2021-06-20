@@ -6,17 +6,17 @@ jest.mock('@faasjs/request', function () {
     console.log('mock.request', url, options)
     switch (options.headers['X-TC-Action']) {
       case 'DescribeServicesStatus':
-        return await Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
+        return Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
       case 'CreateService':
-        return await Promise.resolve({ body: { Response: { data: { ServiceId: 'ServiceId' } } } })
+        return Promise.resolve({ body: { Response: { data: { ServiceId: 'ServiceId' } } } })
       case 'DescribeApisStatus':
-        return await Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
+        return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
       case 'CreateApi':
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       case 'ReleaseService':
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       default:
-        return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+        return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
     }
   }
 })

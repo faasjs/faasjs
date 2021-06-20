@@ -13,7 +13,7 @@ describe('mongo', function () {
     const func = new Func({
       plugins: [mongo],
       async handler () {
-        return await mongo.collection('test').find().toArray()
+        return mongo.collection('test').find().toArray()
       }
     })
     const handler = func.export().handler

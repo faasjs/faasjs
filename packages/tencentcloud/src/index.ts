@@ -55,6 +55,6 @@ export default class Tencentcloud implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<TResult> {
-    return await invoke.invokeSyncCloudFunction<TResult>(this, name, data, options)
+    return invoke.invokeSyncCloudFunction<TResult>(this, name, data, options)
   }
 }

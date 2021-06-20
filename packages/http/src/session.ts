@@ -65,7 +65,7 @@ export class Session<S, C> {
   }
 
   public encode (text: SessionContent): string {
-    if (typeof text !== 'string') text = JSON.stringify(text) 
+    if (typeof text !== 'string') text = JSON.stringify(text)
 
     const iv = randomBytes(16)
 
@@ -91,7 +91,7 @@ export class Session<S, C> {
     hmac.update(signedParts[0])
     const digest = hmac.digest('hex')
 
-    if (signedParts[1] !== digest) throw Error('Not valid') 
+    if (signedParts[1] !== digest) throw Error('Not valid')
 
     const message = Buffer.from(signedParts[0], 'base64').toString()
     const parts = message.split('--').map(function (part) {
@@ -112,14 +112,14 @@ export class Session<S, C> {
   }
 
   public write (key: string, value?: SessionContent): Session<S, C> {
-    if (value === null || typeof value === 'undefined') delete this.content[key]; else this.content[key] = value 
+    if (value === null || typeof value === 'undefined') delete this.content[key]; else this.content[key] = value
 
     this.changed = true
     return this
   }
 
   public update (): Session<S, C> {
-    if (this.changed) this.cookie.write(this.config.key, this.encode(JSON.stringify(this.content))) 
+    if (this.changed) this.cookie.write(this.config.key, this.encode(JSON.stringify(this.content)))
 
     return this
   }
