@@ -1,1 +1,1 @@
-export default 'required';
+export default 'required'

@@ -1,12 +1,12 @@
-import typescript from 'rollup-plugin-typescript2';
-import { sync } from 'glob';
-import { basename } from 'path';
+import typescript from 'rollup-plugin-typescript2'
+import { sync } from 'glob'
+import { basename } from 'path'
 
-const external = sync('../*/').map(f => `@faasjs/${basename(f)}`);
+const external = sync('../*/').map(f => `@faasjs/${basename(f)}`)
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function rollup (input, output) {
-  if (!input) input = 'src/index.ts';
+  if (!input) input = 'src/index.ts'
 
   if (!output)
     output = [
@@ -18,7 +18,7 @@ function rollup (input, output) {
         file: 'lib/index.es.js',
         format: 'es'
       }
-    ];
+    ]
 
   return {
     input,
@@ -30,11 +30,11 @@ function rollup (input, output) {
         tsconfigOverride: { exclude: ['**/__tests__'] }
       })
     ]
-  };
+  }
 }
 
 export {
   external,
   typescript,
   rollup
-};
+}

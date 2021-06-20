@@ -1,36 +1,36 @@
-import { Command } from 'commander';
-import { prompt } from 'enquirer';
-import { mkdirSync, writeFileSync, existsSync } from 'fs';
-import { join } from 'path';
-import { execSync } from 'child_process';
+import { Command } from 'commander'
+import { prompt } from 'enquirer'
+import { mkdirSync, writeFileSync, existsSync } from 'fs'
+import { join } from 'path'
+import { execSync } from 'child_process'
 
-const Provider = ['tencentcloud', null];
-const Region = ['ap-beijing', 'ap-shanghai', 'ap-guangzhou', 'ap-hongkong'];
+const Provider = ['tencentcloud', null]
+const Region = ['ap-beijing', 'ap-shanghai', 'ap-guangzhou', 'ap-hongkong']
 
 const Validator = {
   name (input: string) {
-    const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_';
-    if (match !== true) return match;
-    if (existsSync(input)) return `${input} folder exists, please try another name`;
+    const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_'
+    if (match !== true) return match
+    if (existsSync(input)) return `${input} folder exists, please try another name`
 
-    return true;
+    return true
   },
   provider (input: string | null) {
-    return Provider.includes(input) ? true : 'Unknow provider';
+    return Provider.includes(input) ? true : 'Unknow provider'
   },
   region (input: string) {
-    return Region.includes(input) ? true : 'Unknown region';
+    return Region.includes(input) ? true : 'Unknown region'
   },
   appId (input: string) {
-    return /^[0-9]+$/.test(input) ? true : 'Wrong format';
+    return /^[0-9]+$/.test(input) ? true : 'Wrong format'
   },
   secretId (input: string) {
-    return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format';
+    return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format'
   },
   secretKey (input: string) {
-    return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format';
+    return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format'
   }
-};
+}
 
 export async function action (options: {
   name?: string
@@ -49,7 +49,7 @@ export async function action (options: {
     secretId?: string
     secretKey?: string
     example?: boolean
-  } = Object.assign(options, {});
+  } = Object.assign(options, {})
 
   if (!options.name || Validator.name(options.name) !== true)
     answers.name = await prompt({
@@ -57,7 +57,7 @@ export async function action (options: {
       name: 'value',
       message: 'Project name',
       validate: Validator.name
-    }).then((res: { value: string }) => res.value);
+    }).then((res: { value: string }) => res.value)
 
   if (!options.noprovider) {
     answers.provider = await prompt({
@@ -74,7 +74,7 @@ export async function action (options: {
           message: '腾讯云'
         }
       ]
-    }).then((res: { value: string }) => res.value);
+    }).then((res: { value: string }) => res.value)
 
     if (answers.provider === 'tencentcloud') {
       if (!answers.region || Validator.region(answers.region) !== true)
@@ -84,7 +84,7 @@ export async function action (options: {
           message: 'Region',
           choices: Region.concat([]), // choices 会修改 Region 对象，因此克隆一份
           validate: Validator.region
-        }).then((res: { value: string }) => res.value);
+        }).then((res: { value: string }) => res.value)
 
 
       if (!answers.appId || Validator.appId(answers.appId) !== true)
@@ -93,7 +93,7 @@ export async function action (options: {
           name: 'value',
           message: 'appId (from https://console.cloud.tencent.com/developer)',
           validate: Validator.appId
-        }).then((res: { value: string }) => res.value);
+        }).then((res: { value: string }) => res.value)
 
 
       if (!answers.secretId || Validator.secretId(answers.secretId) !== true)
@@ -102,7 +102,7 @@ export async function action (options: {
           name: 'value',
           message: 'secretId (from https://console.cloud.tencent.com/cam/capi)',
           validate: Validator.secretId
-        }).then((res: { value: string }) => res.value);
+        }).then((res: { value: string }) => res.value)
 
 
       if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true)
@@ -111,7 +111,7 @@ export async function action (options: {
           name: 'value',
           message: 'secretKey (from https://console.cloud.tencent.com/cam/capi)',
           validate: Validator.secretKey
-        }).then((res: { value: string }) => res.value);
+        }).then((res: { value: string }) => res.value)
     }
   }
 
@@ -121,12 +121,12 @@ export async function action (options: {
       name: 'value',
       message: 'Add example files',
       initial: true
-    }).then((res: { value: boolean }) => res.value);
+    }).then((res: { value: boolean }) => res.value)
 
 
-  if (!answers.name) return;
+  if (!answers.name) return
 
-  mkdirSync(answers.name);
+  mkdirSync(answers.name)
   writeFileSync(join(answers.name, 'faas.yaml'),
     `defaults:
   providers:
@@ -146,7 +146,7 @@ export async function action (options: {
       type: http
 development:
 testing:
-production:`);
+production:`)
 
   writeFileSync(join(answers.name, 'package.json'),
     `{
@@ -183,16 +183,16 @@ production:`);
       "/coverage/"
     ]
   }
-}`);
+}`)
 
-  writeFileSync(join(answers.name, 'tsconfig.json'), '{}');
+  writeFileSync(join(answers.name, 'tsconfig.json'), '{}')
 
   writeFileSync(join(answers.name, '.gitignore'), `node_modules/
 tmp/
 coverage/
-*.tmp.js`);
+*.tmp.js`)
 
-  mkdirSync(join(answers.name, '.vscode'));
+  mkdirSync(join(answers.name, '.vscode'))
 
   writeFileSync(join(answers.name, '.vscode', 'settings.json'),
     `{
@@ -228,9 +228,9 @@ coverage/
   "jake.autoDetect": "off",
   "gulp.autoDetect": "off",
   "npm.autoDetect": "off"
-}`);
+}`)
 
-  execSync(`yarn --cwd ${answers.name} install`, { stdio: 'inherit' });
+  execSync(`yarn --cwd ${answers.name} install`, { stdio: 'inherit' })
 
   if (answers.example) {
     writeFileSync(join(answers.name, 'index.func.ts'),
@@ -244,9 +244,9 @@ export default useFunc(function () {
     return 'Hello, world';
   };
 });
-`);
+`)
 
-    mkdirSync(join(answers.name, '__tests__'));
+    mkdirSync(join(answers.name, '__tests__'))
     writeFileSync(join(answers.name, '__tests__', 'index.test.ts'),
       `import { FuncWarpper } from '@faasjs/test';
 
@@ -259,9 +259,9 @@ describe('hello', function () {
     expect(data).toEqual('Hello, world');
   });
 });
-`);
+`)
 
-    execSync(`yarn --cwd ${answers.name} jest`, { stdio: 'inherit' });
+    execSync(`yarn --cwd ${answers.name} jest`, { stdio: 'inherit' })
   }
 }
 
@@ -271,7 +271,7 @@ export default function (program: Command): void {
     .on('--help', function () {
       console.log(`
 Examples:
-  yarn create faas-app`);
+  yarn create faas-app`)
     })
     .option('--name <name>', '项目名字')
     .option('--region <region>', '可用区')
@@ -280,5 +280,5 @@ Examples:
     .option('--secretKey <secretKey>', 'secretKey')
     .option('--example', '创建示例文件')
     .option('--noprovider', '暂不配置服务商')
-    .action(action);
+    .action(action)
 }

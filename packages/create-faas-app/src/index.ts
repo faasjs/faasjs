@@ -1,17 +1,17 @@
-import { Command } from 'commander';
-import action from './action';
+import { Command } from 'commander'
+import action from './action'
 
-const commander = new Command();
+const commander = new Command()
 
 // 设置命令
 commander
   .storeOptionsAsProperties(false)
   .version('beta')
-  .name('create-faas-app');
+  .name('create-faas-app')
 
 // 加载命令
-action(commander as Command);
+action(commander as Command)
 
-if (!process.env.CI && process.argv[0] !== 'fake') commander.parse(process.argv); 
+if (!process.env.CI && process.argv[0] !== 'fake') commander.parse(process.argv) 
 
-export default commander;
+export default commander

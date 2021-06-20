@@ -1,19 +1,19 @@
-import { Func } from '@faasjs/func';
-import { Http } from '..';
+import { Func } from '@faasjs/func'
+import { Http } from '..'
 
 describe('setHeader', function () {
   test('should work', async function () {
-    const http = new Http();
+    const http = new Http()
     const handler = new Func({
       plugins: [http],
       async handler () {
-        http.setHeader('key', 'value');
+        http.setHeader('key', 'value')
       }
-    }).export().handler;
+    }).export().handler
 
-    const res = await handler({});
+    const res = await handler({})
 
-    expect(res.statusCode).toEqual(201);
-    expect(res.headers.key).toEqual('value');
-  });
-});
+    expect(res.statusCode).toEqual(201)
+    expect(res.headers.key).toEqual('value')
+  })
+})

@@ -1,4 +1,4 @@
-import { rollup } from '../../rollup';
+import { rollup } from '../../rollup'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function () {
@@ -7,5 +7,5 @@ export default function () {
     rollup('src/jest.setup.js', [
       { file: 'lib/jest.setup.js' }
     ])
-  ];
+  ]
 }

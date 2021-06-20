@@ -1,9 +1,9 @@
-import { DeployData } from '@faasjs/func';
-import Logger from '@faasjs/logger';
-import { CloudFunctionAdapter } from '@faasjs/cloud_function';
-import deployCloudFunction from './cloud_function/deploy';
-import * as invoke from './cloud_function/invoke';
-import deployHttp from './http/deploy';
+import { DeployData } from '@faasjs/func'
+import Logger from '@faasjs/logger'
+import { CloudFunctionAdapter } from '@faasjs/cloud_function'
+import deployCloudFunction from './cloud_function/deploy'
+import * as invoke from './cloud_function/invoke'
+import deployHttp from './http/deploy'
 
 export interface TencentcloudConfig {
   [key: string]: any
@@ -17,8 +17,8 @@ export default class Tencentcloud implements CloudFunctionAdapter {
   public logger: Logger
 
   constructor (config: TencentcloudConfig) {
-    this.config = config;
-    this.logger = new Logger('Tencentcloud');
+    this.config = config
+    this.logger = new Logger('Tencentcloud')
   }
 
   /**
@@ -30,13 +30,13 @@ export default class Tencentcloud implements CloudFunctionAdapter {
   public async deploy (type: 'cloud_function' | 'http', data: DeployData, config: { [key: string]: any }): Promise<void> {
     switch (type) {
       case 'cloud_function':
-        await deployCloudFunction(this, data, config);
-        break;
+        await deployCloudFunction(this, data, config)
+        break
       case 'http':
-        await deployHttp(this, data, config);
-        break;
+        await deployHttp(this, data, config)
+        break
       default:
-        throw Error(`Unknow deploy type: ${type}`);
+        throw Error(`Unknow deploy type: ${type}`)
     }
   }
 
@@ -46,7 +46,7 @@ export default class Tencentcloud implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<void> {
-    await invoke.invokeCloudFunction(this, name, data, options);
+    await invoke.invokeCloudFunction(this, name, data, options)
   }
 
   public async invokeSyncCloudFunction<TResult = any> (name: string, data: {
@@ -55,6 +55,6 @@ export default class Tencentcloud implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<TResult> {
-    return await invoke.invokeSyncCloudFunction<TResult>(this, name, data, options);
+    return await invoke.invokeSyncCloudFunction<TResult>(this, name, data, options)
   }
 }

@@ -1,15 +1,15 @@
-import { action } from '../commands/new';
-import { readFileSync } from 'fs';
-import { execSync } from 'child_process';
+import { action } from '../commands/new'
+import { readFileSync } from 'fs'
+import { execSync } from 'child_process'
 
 describe('new', function () {
   describe('func', function () {
     afterEach(function () {
-      execSync(`rm -rf ${__dirname}/tmp`);
-    });
+      execSync(`rm -rf ${__dirname}/tmp`)
+    })
 
     test('basic', function () {
-      action('func', 'packages/cli/src/__tests__/tmp/basic', []);
+      action('func', 'packages/cli/src/__tests__/tmp/basic', [])
 
       expect(readFileSync(__dirname + '/tmp/basic.func.ts').toString()).toEqual(`import { useFunc } from '@faasjs/func';
 
@@ -19,7 +19,7 @@ export default useFunc(function () {
     // let's code
   }
 });
-`);
+`)
 
       expect(readFileSync(__dirname + '/tmp/__tests__/basic.test.ts').toString()).toEqual(`import { FuncWarpper } from '@faasjs/test';
 
@@ -32,11 +32,11 @@ describe('basic.func.ts', function () {
     expect(res).toEqual({});
   });
 });
-`);
-    });
+`)
+    })
 
     test('with plugins', function () {
-      action('func', 'packages/cli/src/__tests__/tmp/plugin', ['cf', 'http']);
+      action('func', 'packages/cli/src/__tests__/tmp/plugin', ['cf', 'http'])
 
       expect(readFileSync(__dirname + '/tmp/plugin.func.ts').toString()).toEqual(`import { useFunc } from '@faasjs/func';
 import { useCloudFunction } from '@faasjs/cloud_function';
@@ -50,7 +50,7 @@ export default useFunc(function () {
     // let's code
   }
 });
-`);
+`)
 
       expect(readFileSync(__dirname + '/tmp/__tests__/plugin.test.ts').toString()).toEqual(`import { FuncWarpper } from '@faasjs/test';
 
@@ -63,15 +63,15 @@ describe('plugin.func.ts', function () {
     expect(res).toEqual({});
   });
 });
-`);
-    });
-  });
+`)
+    })
+  })
 
   test('unknown type', function () {
     try {
-      action('unknown', 'unknown', []);
+      action('unknown', 'unknown', [])
     } catch (error) {
-      expect(error.message).toEqual('Unknown type: unknown (only support func now)');
+      expect(error.message).toEqual('Unknown type: unknown (only support func now)')
     }
-  });
-});
+  })
+})

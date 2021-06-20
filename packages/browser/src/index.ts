@@ -24,9 +24,9 @@ export class Response<T = any> {
     headers: ResponseHeaders
     data: T
   }) {
-    this.status = status;
-    this.headers = headers;
-    this.data = data;
+    this.status = status
+    this.headers = headers
+    this.data = data
   }
 }
 
@@ -38,11 +38,11 @@ export class ResponseError extends Error {
   constructor ({ message, status, headers, body }: {
     message: string; status: number; headers: ResponseHeaders; body: any;
   }) {
-    super(message);
+    super(message)
 
-    this.status = status;
-    this.headers = headers;
-    this.body = body;
+    this.status = status
+    this.headers = headers
+    this.body = body
   }
 }
 
@@ -56,10 +56,10 @@ export default class FaasBrowserClient {
    * @param options {object} 默认配置项
    */
   constructor (baseUrl: string, options?: Options) {
-    this.host = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    this.defaultOptions = options || Object.create(null);
+    this.host = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'
+    this.defaultOptions = options || Object.create(null)
 
-    console.debug('[faas] baseUrl: ' + this.host);
+    console.debug('[faas] baseUrl: ' + this.host)
   }
 
   /**
@@ -69,49 +69,49 @@ export default class FaasBrowserClient {
    * @param options {object} 默认配置项
    */
   public async action<T = any> (action: string, params: Params, options: Options = {}): Promise<Response<T>> {
-    const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString();
+    const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString()
 
     options = {
       ...this.defaultOptions,
       ...options
-    };
+    }
 
     return await new Promise(function (resolve, reject) {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', url);
-      xhr.withCredentials = true;
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      const xhr = new XMLHttpRequest()
+      xhr.open('POST', url)
+      xhr.withCredentials = true
+      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
       if (options.beforeRequest)
         options.beforeRequest({
           action,
           params,
           xhr
-        });
+        })
 
 
       xhr.onload = function () {
-        let res = xhr.response;
-        const headersList = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/);
-        const headers: ResponseHeaders = {};
+        let res = xhr.response
+        const headersList = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
+        const headers: ResponseHeaders = {}
         headersList.forEach(function (line) {
-          const parts = line.split(': ');
-          const key = parts.shift();
-          const value = parts.join(': ');
+          const parts = line.split(': ')
+          const key = parts.shift()
+          const value = parts.join(': ')
           if (key)
-            headers[key] = value;
-        });
+            headers[key] = value
+        })
         if (xhr.response && xhr.getResponseHeader('Content-Type')?.includes('json'))
           try {
-            res = JSON.parse(xhr.response);
+            res = JSON.parse(xhr.response)
             if (res.error && res.error.message)
               reject(new ResponseError({
                 message: res.error.message,
                 status: xhr.status,
                 headers,
                 body: res
-              }));
+              }))
           } catch (error) {
-            console.error(error);
+            console.error(error)
           }
 
 
@@ -120,17 +120,17 @@ export default class FaasBrowserClient {
             status: xhr.status,
             headers,
             data: res.data
-          }));
+          }))
         else {
-          console.error(xhr, res);
+          console.error(xhr, res)
           reject(new ResponseError({
             message: xhr.statusText || xhr.status.toString(),
             status: xhr.status,
             headers,
             body: res
-          }));
+          }))
         }
-      };
+      }
 
       xhr.onerror = function () {
         reject(new ResponseError({
@@ -138,10 +138,10 @@ export default class FaasBrowserClient {
           status: xhr.status,
           headers: {},
           body: null
-        }));
-      };
+        }))
+      }
 
-      xhr.send(JSON.stringify(params));
-    });
+      xhr.send(JSON.stringify(params))
+    })
   }
 }

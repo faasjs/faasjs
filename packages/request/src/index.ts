@@ -1,10 +1,10 @@
-import * as http from 'http';
-import * as https from 'https';
-import { stringify } from 'querystring';
-import * as URL from 'url';
-import { readFileSync } from 'fs';
-import { basename } from 'path';
-import Logger from '@faasjs/logger';
+import * as http from 'http'
+import * as https from 'https'
+import { stringify } from 'querystring'
+import * as URL from 'url'
+import { readFileSync } from 'fs'
+import { basename } from 'path'
+import Logger from '@faasjs/logger'
 
 export interface Request {
   headers?: http.OutgoingHttpHeaders
@@ -40,14 +40,14 @@ export interface RequestOptions {
 
 type Mock = (url: string, options: RequestOptions) => Promise<Response>
 
-let mock: Mock | null = null;
+let mock: Mock | null = null
 
 /**
  * 设置模拟请求
  * @param handler {function | null} 模拟函数，若设置为 null 则表示清除模拟函数
  */
 export function setMock (handler: Mock | null): void {
-  mock = handler;
+  mock = handler
 }
 
 /**
@@ -86,7 +86,7 @@ export default async function request<T = any> (url: string, {
   headers: {},
   query: {}
 }): Promise<Response<T>> {
-  const log = new Logger('request');
+  const log = new Logger('request')
 
   if (mock)
     return await mock(url, {
@@ -94,20 +94,20 @@ export default async function request<T = any> (url: string, {
       method,
       query,
       body
-    });
+    })
 
   // 序列化 query
   if (query) {
-    if (!url.includes('?')) url += '?'; else if (!url.endsWith('?')) url += '&';
+    if (!url.includes('?')) url += '?'; else if (!url.endsWith('?')) url += '&'
 
-    url += stringify(query);
+    url += stringify(query)
   }
 
   // 处理 URL 并生成 options
-  const uri = URL.parse(url);
-  const protocol = uri.protocol === 'https:' ? https : http;
+  const uri = URL.parse(url)
+  const protocol = uri.protocol === 'https:' ? https : http
 
-  if (!uri.protocol) throw Error('Unkonw protocol');
+  if (!uri.protocol) throw Error('Unkonw protocol')
 
   const options: {
     method: string
@@ -133,94 +133,94 @@ export default async function request<T = any> (url: string, {
     pfx,
     passphrase,
     agent
-  };
+  }
 
   // 处理 headers
-  for (const key in headers) if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key];
+  for (const key in headers) if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key]
 
   // 序列化 body
   if (body && typeof body !== 'string')
     if (
       options.headers['Content-Type'] &&
       options.headers['Content-Type'].toString().includes('application/x-www-form-urlencoded')
-    ) body = stringify(body); else body = JSON.stringify(body);
+    ) body = stringify(body); else body = JSON.stringify(body)
 
 
-  if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body);
+  if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body)
 
   return await new Promise(function (resolve, reject) {
     log.debug('request %O', {
       ...options,
       body
-    });
+    })
 
     const req = protocol.request(options, function (res: http.IncomingMessage) {
       if (downloadStream) {
-        res.pipe(downloadStream);
+        res.pipe(downloadStream)
         downloadStream.on('finish', function () {
-          resolve(undefined);
-        });
+          resolve(undefined)
+        })
       } else {
-        const raw: Buffer[] = [];
+        const raw: Buffer[] = []
         res.on('data', (chunk: any) => {
-          raw.push(chunk);
-        });
+          raw.push(chunk)
+        })
         res.on('end', () => {
-          const data = Buffer.concat(raw).toString();
-          log.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data);
+          const data = Buffer.concat(raw).toString()
+          log.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data)
 
-          const response = Object.create(null);
-          response.request = options;
-          response.request.body = body;
-          response.statusCode = res.statusCode;
-          response.statusMessage = res.statusMessage;
-          response.headers = res.headers;
-          response.body = data;
+          const response = Object.create(null)
+          response.request = options
+          response.request.body = body
+          response.statusCode = res.statusCode
+          response.statusMessage = res.statusMessage
+          response.headers = res.headers
+          response.body = data
 
           if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json'))
             try {
-              response.body = (parse) ? parse(response.body) : JSON.parse(response.body);
-              log.debug('response.parse JSON');
+              response.body = (parse) ? parse(response.body) : JSON.parse(response.body)
+              log.debug('response.parse JSON')
             } catch (error) {
-              console.error(error);
+              console.error(error)
             }
 
 
           if (response.statusCode >= 200 && response.statusCode < 400) resolve(response); else {
-            log.debug('response.error %O', response);
-            reject(response);
+            log.debug('response.error %O', response)
+            reject(response)
           }
-        });
+        })
       }
-    });
+    })
 
-    if (body) req.write(body);
+    if (body) req.write(body)
 
     if (file) {
-      const crlf = '\r\n';
-      const boundary = `--${Math.random().toString(16)}`;
-      const delimeter = `${crlf}--${boundary}`;
+      const crlf = '\r\n'
+      const boundary = `--${Math.random().toString(16)}`
+      const delimeter = `${crlf}--${boundary}`
       const headers = [
         `Content-Disposition: form-data; name="file"; filename="${basename(file)}"${crlf}`
-      ];
+      ]
 
       const multipartBody = Buffer.concat([
         Buffer.from(delimeter + crlf + headers.join('') + crlf),
         readFileSync(file),
-        Buffer.from(`${delimeter}--`)]);
+        Buffer.from(`${delimeter}--`)])
 
-      req.setHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
-      req.setHeader('Content-Length', multipartBody.length);
+      req.setHeader('Content-Type', 'multipart/form-data; boundary=' + boundary)
+      req.setHeader('Content-Length', multipartBody.length)
 
-      req.write(multipartBody);
+      req.write(multipartBody)
     }
 
     req.on('error', function (e: Error) {
-      log.timeEnd(url, 'response.error %O', e);
-      reject(e);
-    });
+      log.timeEnd(url, 'response.error %O', e)
+      reject(e)
+    })
 
-    log.time(url);
-    req.end();
-  });
+    log.time(url)
+    req.end()
+  })
 }

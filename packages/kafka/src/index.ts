@@ -1,18 +1,18 @@
-import { Plugin, Next, MountData, usePlugin, UseifyPlugin } from '@faasjs/func';
-import Logger from '@faasjs/logger';
-import deepMerge from '@faasjs/deep_merge';
-import { Kafka as K, KafkaConfig as KConfig, Producer, ProducerRecord, RecordMetadata } from 'kafkajs';
+import { Plugin, Next, MountData, usePlugin, UseifyPlugin } from '@faasjs/func'
+import Logger from '@faasjs/logger'
+import deepMerge from '@faasjs/deep_merge'
+import { Kafka as K, KafkaConfig as KConfig, Producer, ProducerRecord, RecordMetadata } from 'kafkajs'
 
 export interface KafkaConfig {
   name?: string
   config?: KConfig
 }
 
-const Name = 'kafka';
+const Name = 'kafka'
 
 const globals: {
   [name: string]: Kafka
-} = {};
+} = {}
 
 /**
  * Kafka 插件
@@ -33,56 +33,56 @@ export class Kafka implements Plugin {
    */
   constructor (config?: KafkaConfig) {
     if (config) {
-      this.name = config.name || this.type;
-      this.config = (config.config) || Object.create(null);
+      this.name = config.name || this.type
+      this.config = (config.config) || Object.create(null)
     } else {
-      this.name = this.type;
-      this.config = Object.create(null);
+      this.name = this.type
+      this.config = Object.create(null)
     }
-    this.logger = new Logger(this.name);
+    this.logger = new Logger(this.name)
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
     if (globals[this.name]) {
-      this.config = globals[this.name].config;
-      this.client = globals[this.name].client;
-      this.producer = globals[this.name].producer;
-      await next();
-      return;
+      this.config = globals[this.name].config
+      this.client = globals[this.name].client
+      this.producer = globals[this.name].producer
+      await next()
+      return
     }
-    const prefix = `SECRET_${this.name.toUpperCase()}_`;
+    const prefix = `SECRET_${this.name.toUpperCase()}_`
 
     for (let key in process.env)
       if (key.startsWith(prefix)) {
-        const value = process.env[key];
-        key = key.replace(prefix, '').toLowerCase();
-        if (typeof this.config[key] === 'undefined') this.config[key] = value;
+        const value = process.env[key]
+        key = key.replace(prefix, '').toLowerCase()
+        if (typeof this.config[key] === 'undefined') this.config[key] = value
       }
 
 
-    if (data.config.plugins && (data.config.plugins[this.name].config)) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
+    if (data.config.plugins && (data.config.plugins[this.name].config)) this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
-    this.client = new K(this.config);
-    this.producer = this.client.producer();
+    this.client = new K(this.config)
+    this.producer = this.client.producer()
 
-    await this.producer.connect();
+    await this.producer.connect()
 
-    this.logger.debug('connected');
+    this.logger.debug('connected')
 
-    globals[this.name] = this;
+    globals[this.name] = this
 
-    await next();
+    await next()
   }
 
   public async sendMessage (record: ProducerRecord): Promise<RecordMetadata[]> {
-    return await this.producer.send(record);
+    return await this.producer.send(record)
   }
 }
 
 export function useKafka (config?: KafkaConfig): Kafka & UseifyPlugin {
-  const name = config?.name || Name;
+  const name = config?.name || Name
 
-  if (globals[name]) return usePlugin<Kafka>(globals[name]);
+  if (globals[name]) return usePlugin<Kafka>(globals[name])
 
-  return usePlugin<Kafka>(new Kafka(config));
+  return usePlugin<Kafka>(new Kafka(config))
 }

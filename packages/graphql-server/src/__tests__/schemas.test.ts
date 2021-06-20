@@ -1,5 +1,5 @@
-import { Func } from '@faasjs/func';
-import { GraphQLServer, gql } from '../index';
+import { Func } from '@faasjs/func'
+import { GraphQLServer, gql } from '../index'
 
 describe('schemas', function () {
   const typeDefs = gql`
@@ -8,7 +8,7 @@ describe('schemas', function () {
     }
     type Hello {
       name: String
-    }`;
+    }`
   it('should work', async function () {
     const handler = new Func({
       plugins: [new GraphQLServer({
@@ -18,23 +18,23 @@ describe('schemas', function () {
             resolvers: {
               Query: {
                 hello (_, args) {
-                  return { name: `Hello, ${args.name}` };
+                  return { name: `Hello, ${args.name}` }
                 }
               }
             }
           }]
         }
       })]
-    }).export().handler;
+    }).export().handler
 
     const res = await handler({
       httpMethod: 'POST',
       body: '{"query":"{hello(name:\\"world\\"){name}}"}'
-    });
+    })
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, world"}}}\n');
-  });
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, world"}}}\n')
+  })
 
   describe('context', function () {
     it('be normal', async function () {
@@ -46,23 +46,23 @@ describe('schemas', function () {
               resolvers: {
                 Query: {
                   hello (_, __, context) {
-                    return { name: `Hello, ${context.event.httpMethod}` };
+                    return { name: `Hello, ${context.event.httpMethod}` }
                   }
                 }
               }
             }]
           }
         })]
-      }).export().handler;
+      }).export().handler
 
       const res = await handler({
         httpMethod: 'POST',
         body: '{"query":"{hello{name}}"}'
-      });
+      })
 
-      expect(res.statusCode).toEqual(200);
-      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, POST"}}}\n');
-    });
+      expect(res.statusCode).toEqual(200)
+      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, POST"}}}\n')
+    })
 
     it('be object', async function () {
       const handler = new Func({
@@ -73,7 +73,7 @@ describe('schemas', function () {
               resolvers: {
                 Query: {
                   hello (_, __, context) {
-                    return { name: `Hello, ${context.event.httpMethod}` };
+                    return { name: `Hello, ${context.event.httpMethod}` }
                   }
                 }
               }
@@ -81,16 +81,16 @@ describe('schemas', function () {
             context: { event: { httpMethod: 'GET' } }
           }
         })]
-      }).export().handler;
+      }).export().handler
 
       const res = await handler({
         httpMethod: 'POST',
         body: '{"query":"{hello{name}}"}'
-      });
+      })
 
-      expect(res.statusCode).toEqual(200);
-      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n');
-    });
+      expect(res.statusCode).toEqual(200)
+      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n')
+    })
 
     it('be function', async function () {
       const handler = new Func({
@@ -101,24 +101,24 @@ describe('schemas', function () {
               resolvers: {
                 Query: {
                   hello (_, __, context) {
-                    return { name: `Hello, ${context.event.httpMethod}` };
+                    return { name: `Hello, ${context.event.httpMethod}` }
                   }
                 }
               }
             }],
-            context () { return { event: { httpMethod: 'GET' } }; }
+            context () { return { event: { httpMethod: 'GET' } } }
           }
         })]
-      }).export().handler;
+      }).export().handler
 
       const res = await handler({
         httpMethod: 'POST',
         body: '{"query":"{hello{name}}"}'
-      });
+      })
 
-      expect(res.statusCode).toEqual(200);
-      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n');
-    });
+      expect(res.statusCode).toEqual(200)
+      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n')
+    })
 
     it('be async function', async function () {
       const handler = new Func({
@@ -129,23 +129,23 @@ describe('schemas', function () {
               resolvers: {
                 Query: {
                   hello (_, __, context) {
-                    return { name: `Hello, ${context.event.httpMethod}` };
+                    return { name: `Hello, ${context.event.httpMethod}` }
                   }
                 }
               }
             }],
-            async context () { return await Promise.resolve({ event: { httpMethod: 'GET' } }); }
+            async context () { return await Promise.resolve({ event: { httpMethod: 'GET' } }) }
           }
         })]
-      }).export().handler;
+      }).export().handler
 
       const res = await handler({
         httpMethod: 'POST',
         body: '{"query":"{hello{name}}"}'
-      });
+      })
 
-      expect(res.statusCode).toEqual(200);
-      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n');
-    });
-  });
-});
+      expect(res.statusCode).toEqual(200)
+      expect(res.body).toEqual('{"data":{"hello":{"name":"Hello, GET"}}}\n')
+    })
+  })
+})

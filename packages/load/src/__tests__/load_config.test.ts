@@ -1,32 +1,32 @@
-import loadConfig from '../load_config';
+import loadConfig from '../load_config'
 
 describe('loadConfig', function () {
   test('defaults', function () {
-    const config = loadConfig(__dirname, __dirname + '/fake.func.ts').defaults;
+    const config = loadConfig(__dirname, __dirname + '/fake.func.ts').defaults
 
-    expect(config.plugins.test.type).toEqual('defaults');
-    expect(config.plugins.func.provider).toEqual(config.providers.tc);
-    expect(config.plugins.func.name).toEqual('func');
-  });
+    expect(config.plugins.test.type).toEqual('defaults')
+    expect(config.plugins.func.provider).toEqual(config.providers.tc)
+    expect(config.plugins.func.name).toEqual('func')
+  })
 
   test('local', function () {
-    const config = loadConfig(__dirname, __dirname + '/fake.func.ts').local;
+    const config = loadConfig(__dirname, __dirname + '/fake.func.ts').local
 
-    expect(config.plugins.func.type).toEqual('function');
-    expect(config.plugins.func.provider).toEqual(config.providers.tc);
-    expect(config.plugins.func.name).toEqual('func');
+    expect(config.plugins.func.type).toEqual('function')
+    expect(config.plugins.func.provider).toEqual(config.providers.tc)
+    expect(config.plugins.func.name).toEqual('func')
 
-    expect(config.plugins.test.type).toEqual('local');
-    expect(config.plugins.func.config.env).toEqual('defaults');
-  });
+    expect(config.plugins.test.type).toEqual('local')
+    expect(config.plugins.func.config.env).toEqual('defaults')
+  })
 
   test('sub local', function () {
-    const config = loadConfig(__dirname, __dirname + '/sub/fake.func.ts').local;
+    const config = loadConfig(__dirname, __dirname + '/sub/fake.func.ts').local
 
-    expect(config.plugins.func.type).toEqual('function');
-    expect(config.plugins.func.provider).toEqual(config.providers.tc);
-    expect(config.plugins.func.name).toEqual('func');
+    expect(config.plugins.func.type).toEqual('function')
+    expect(config.plugins.func.provider).toEqual(config.providers.tc)
+    expect(config.plugins.func.name).toEqual('func')
 
-    expect(config.plugins.test.type).toEqual('sublocal');
-  });
-});
+    expect(config.plugins.test.type).toEqual('sublocal')
+  })
+})

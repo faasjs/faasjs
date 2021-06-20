@@ -1,32 +1,32 @@
-import { join, sep } from 'path';
-import Tencentcloud from '../..';
+import { join, sep } from 'path'
+import Tencentcloud from '../..'
 
 jest.mock('@faasjs/request', function () {
   return async function (url, options): Promise<any> {
-    console.log('mock.request', url, options);
+    console.log('mock.request', url, options)
     switch (options.headers['X-TC-Action']) {
       case 'DescribeServicesStatus':
-        return await Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } });
+        return await Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
       case 'CreateService':
-        return await Promise.resolve({ body: { Response: { data: { ServiceId: 'ServiceId' } } } });
+        return await Promise.resolve({ body: { Response: { data: { ServiceId: 'ServiceId' } } } })
       case 'DescribeApisStatus':
-        return await Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } });
+        return await Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
       case 'CreateApi':
-        return await Promise.resolve({ body: { Response: {} } });
+        return await Promise.resolve({ body: { Response: {} } })
       case 'ReleaseService':
-        return await Promise.resolve({ body: { Response: {} } });
+        return await Promise.resolve({ body: { Response: {} } })
       default:
-        return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } });
+        return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
     }
-  };
-});
+  }
+})
 
 test('frist deploy', async function () {
   const tc = new Tencentcloud({
     secretId: 'secretId',
     secretKey: 'secretKey',
     region: 'region'
-  });
+  })
 
   await tc.deploy('http', {
     root: __dirname,
@@ -48,7 +48,7 @@ test('frist deploy', async function () {
       }
     },
     config: {}
-  });
+  })
 
-  expect(true).toBeTruthy();
-}, 10000);
+  expect(true).toBeTruthy()
+}, 10000)

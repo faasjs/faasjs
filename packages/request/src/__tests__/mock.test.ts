@@ -1,4 +1,4 @@
-import request, { setMock } from '../index';
+import request, { setMock } from '../index'
 
 describe('mock', function () {
   test('should work', async function () {
@@ -9,19 +9,19 @@ describe('mock', function () {
             statusCode: 200,
             headers: {},
             body: 'world'
-          });
-      });
-    });
+          })
+      })
+    })
 
-    const res = await request('hello');
-    expect(res.body).toEqual('world');
+    const res = await request('hello')
+    expect(res.body).toEqual('world')
 
-    setMock(null);
+    setMock(null)
 
     try {
-      await request('hello');
+      await request('hello')
     } catch (error) {
-      expect(error.message).toEqual('Unkonw protocol');
+      expect(error.message).toEqual('Unkonw protocol')
     }
-  });
-});
+  })
+})

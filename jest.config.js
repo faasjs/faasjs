@@ -18,4 +18,4 @@ module.exports = {
   setupFiles: [
     './packages/test/src/jest.setup'
   ]
-};
+}

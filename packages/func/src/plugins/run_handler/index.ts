@@ -1,4 +1,4 @@
-import { InvokeData } from '../../index';
+import { InvokeData } from '../../index'
 
 export default class RunHandler {
   public readonly type: string = 'handler'
@@ -10,22 +10,22 @@ export default class RunHandler {
         try {
           data.response = await new Promise(function (resolve: (result: any) => void, reject: (error: Error) => void) {
             data.callback = function (error: Error, result: any): void {
-              if (error) reject(error); else resolve(result); 
-            };
+              if (error) reject(error); else resolve(result) 
+            }
             Promise.resolve(data.handler(data)).then(function (result: any) {
-              resolve(result);
+              resolve(result)
             }).catch(function (error: Error) {
-              reject(error);
-            });
-          });
+              reject(error)
+            })
+          })
         } catch (error) {
-          data.logger.error(error);
-          data.response = error;
+          data.logger.error(error)
+          data.response = error
         }
-        data.runHandler = true;
-      } else data.logger.warn('[RunHandler] handler has been run'); 
+        data.runHandler = true
+      } else data.logger.warn('[RunHandler] handler has been run') 
     
 
-    await next();
+    await next()
   }
 }

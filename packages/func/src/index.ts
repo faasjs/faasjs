@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
-import Logger from '@faasjs/logger';
-import RunHandler from './plugins/run_handler/index';
+import Logger from '@faasjs/logger'
+import RunHandler from './plugins/run_handler/index'
 
 export type Handler<TEvent = any, TContext = any, TRESULT = any> = (data: InvokeData<TEvent, TContext>) => Promise<TRESULT>
 export type Next = () => Promise<void>
@@ -112,64 +112,64 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
    * @param config.handler {Handler} 业务函数
    */
   constructor (config: FuncConfig<TEvent, TContext>) {
-    this.logger = new Logger('Func');
+    this.logger = new Logger('Func')
 
-    this.handler = config.handler;
-    this.plugins = config.plugins ?? [];
-    this.plugins.push(new RunHandler());
+    this.handler = config.handler
+    this.plugins = config.plugins ?? []
+    this.plugins.push(new RunHandler())
     this.config = {
       providers: Object.create(null),
       plugins: Object.create(null)
-    };
+    }
 
-    this.mounted = false;
-    this.cachedFunctions = Object.create(null);
+    this.mounted = false
+    this.cachedFunctions = Object.create(null)
   }
 
   public compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
-    const logger = new Logger(key);
-    let list: CachedFunction[] = [];
+    const logger = new Logger(key)
+    let list: CachedFunction[] = []
 
     if (this.cachedFunctions[key])
-      list = this.cachedFunctions[key];
+      list = this.cachedFunctions[key]
     else {
       for (const plugin of this.plugins) {
-        const handler = plugin[key];
+        const handler = plugin[key]
         if (typeof handler === 'function')
           list.push({
             key: plugin.name,
             handler: handler.bind(plugin)
-          });
+          })
       }
 
-      this.cachedFunctions[key] = list;
+      this.cachedFunctions[key] = list
     }
 
     return async function (data: any, next?: () => void): Promise<any> {
-      let index = -1;
+      let index = -1
 
       const dispatch = async function (i: number): Promise<any> {
-        if (i <= index) return await Promise.reject(Error('next() called multiple times'));
-        index = i;
-        let fn: any = list[i];
-        if (i === list.length) fn = next;
-        if (!fn) return await Promise.resolve();
-        if (typeof fn.key === 'undefined') fn.key = `UnNamedPlugin#${i}`;
-        logger.debug(`[${fn.key as string}] begin`);
-        logger.time(fn.key);
+        if (i <= index) return await Promise.reject(Error('next() called multiple times'))
+        index = i
+        let fn: any = list[i]
+        if (i === list.length) fn = next
+        if (!fn) return await Promise.resolve()
+        if (typeof fn.key === 'undefined') fn.key = `UnNamedPlugin#${i}`
+        logger.debug(`[${fn.key as string}] begin`)
+        logger.time(fn.key)
         try {
-          const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)));
-          logger.timeEnd(fn.key, `[${fn.key as string}] end`);
-          return res;
+          const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)))
+          logger.timeEnd(fn.key, `[${fn.key as string}] end`)
+          return res
         } catch (err) {
-          logger.timeEnd(fn.key, `[${fn.key as string}] failed`);
-          console.error(err);
-          return await Promise.reject(err);
+          logger.timeEnd(fn.key, `[${fn.key as string}] failed`)
+          console.error(err)
+          return await Promise.reject(err)
         }
-      };
+      }
 
-      return await dispatch(0);
-    };
+      return await dispatch(0)
+    }
   }
 
   /**
@@ -180,8 +180,8 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
    * @param data.env {string} 环境
    */
   public deploy (data: DeployData): any {
-    this.logger.debug('onDeploy');
-    return this.compose('onDeploy')(data);
+    this.logger.debug('onDeploy')
+    return this.compose('onDeploy')(data)
   }
 
   /**
@@ -192,20 +192,20 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
     context: TContext
     config?: Config
   }): Promise<void> {
-    this.logger.debug('onMount');
+    this.logger.debug('onMount')
     if (this.mounted) {
-      this.logger.warn('mount() has been called, skipped.');
-      return;
+      this.logger.warn('mount() has been called, skipped.')
+      return
     }
 
-    data.config = this.config;
+    data.config = this.config
     try {
-      this.logger.time('mount');
-      this.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','));
-      await this.compose('onMount')(data);
-      this.mounted = true;
+      this.logger.time('mount')
+      this.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))
+      await this.compose('onMount')(data)
+      this.mounted = true
     } finally {
-      this.logger.timeEnd('mount', 'mounted');
+      this.logger.timeEnd('mount', 'mounted')
     }
   }
 
@@ -219,15 +219,15 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
       await this.mount({
         event: data.event,
         context: data.context
-      });
+      })
 
 
     try {
-      await this.compose('onInvoke')(data);
+      await this.compose('onInvoke')(data)
     } catch (error) {
       // 执行异常时回传异常
-      this.logger.error(error);
-      data.response = error;
+      this.logger.error(error)
+      data.response = error
     }
   }
 
@@ -239,14 +239,14 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
   } {
     return {
       handler: async (event: TEvent, context?: TContext | any, callback?: (...args: any) => any): Promise<TRESULT> => {
-        const logger = new Logger();
-        logger.debug('event: %j', event);
-        logger.debug('context: %j', context);
+        const logger = new Logger()
+        logger.debug('event: %j', event)
+        logger.debug('context: %j', context)
 
-        if (typeof context === 'undefined') context = {};
-        if (!context.request_id) context.request_id = new Date().getTime().toString();
-        if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000);
-        context.callbackWaitsForEmptyEventLoop = false;
+        if (typeof context === 'undefined') context = {}
+        if (!context.request_id) context.request_id = new Date().getTime().toString()
+        if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000)
+        context.callbackWaitsForEmptyEventLoop = false
 
         const data: InvokeData<TEvent, TContext, TRESULT> = {
           event,
@@ -256,26 +256,26 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
           handler: this.handler,
           logger,
           config: this.config
-        };
+        }
 
-        await this.invoke(data);
+        await this.invoke(data)
 
-        if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response;
+        if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response
 
-        return data.response;
+        return data.response
       }
-    };
+    }
   }
 }
 
-let plugins: Plugin[] = [];
+let plugins: Plugin[] = []
 
 export interface UseifyPlugin {
   mount?: ({ config: Config }) => Promise<void>
 }
 
 export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & UseifyPlugin {
-  if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin);
+  if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
 
   if (plugin.mount == null)
     plugin.mount = async function ({ config }: {config: Config}) {
@@ -284,24 +284,24 @@ export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & Usei
           config,
           event: {},
           context: {}
-        }, async () => await Promise.resolve());
-    };
+        }, async () => await Promise.resolve())
+    }
 
 
-  return plugin;
+  return plugin
 }
 
 export function useFunc<TEvent = any, TContext = any, TRESULT = any> (handler: () => Handler<TEvent, TContext, TRESULT>): Func<TEvent, TContext, TRESULT> {
-  plugins = [];
+  plugins = []
 
-  const invokeHanlder = handler();
+  const invokeHanlder = handler()
 
   const func = new Func<TEvent, TContext, TRESULT>({
     plugins,
     handler: invokeHanlder
-  });
+  })
 
-  plugins = [];
+  plugins = []
 
-  return func;
+  return func
 }

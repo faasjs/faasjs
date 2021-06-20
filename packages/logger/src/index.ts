@@ -1,7 +1,7 @@
-import { format } from 'util';
-import { Color } from './color';
+import { format } from 'util'
+import { Color } from './color'
 
-export { Color };
+export { Color }
 
 export type Level = 'debug' | 'info' | 'warn' | 'error'
 
@@ -22,7 +22,7 @@ const LevelPriority = {
   info: 1,
   warn: 2,
   error: 3
-};
+}
 
 /**
  * 日志类
@@ -41,20 +41,20 @@ export default class Logger {
    * @param label {string} 日志前缀
    */
   constructor (label?: string) {
-    if (label) this.label = label;
+    if (label) this.label = label
 
     // 当使用 Jest 进行测试且使用 --silent 参数时禁止日志输出
     this.silent = !process.env.FaasLog &&
       process.env.npm_config_argv &&
-      JSON.parse(process.env.npm_config_argv).original.includes('--silent');
+      JSON.parse(process.env.npm_config_argv).original.includes('--silent')
 
-    this.mode = process.env.FaasMode !== 'remote' ? 'local' : 'remote';
-    this.level = process.env.FaasLog ? LevelPriority[process.env.FaasLog.toLowerCase()] : 0;
+    this.mode = process.env.FaasMode !== 'remote' ? 'local' : 'remote'
+    this.level = process.env.FaasLog ? LevelPriority[process.env.FaasLog.toLowerCase()] : 0
 
-    this.cachedTimers = {};
+    this.cachedTimers = {}
 
-    this.stdout = console.log;
-    this.stderr = console.error;
+    this.stdout = console.log
+    this.stderr = console.error
   }
 
   /**
@@ -63,8 +63,8 @@ export default class Logger {
    * @param args {...any=} 内容参数
    */
   public debug (message: string, ...args: any[]): Logger {
-    this.log('debug', message, ...args);
-    return this;
+    this.log('debug', message, ...args)
+    return this
   }
 
   /**
@@ -73,8 +73,8 @@ export default class Logger {
    * @param args {...any=} 内容参数
    */
   public info (message: string, ...args: any[]): Logger {
-    this.log('info', message, ...args);
-    return this;
+    this.log('info', message, ...args)
+    return this
   }
 
   /**
@@ -83,8 +83,8 @@ export default class Logger {
    * @param args {...any=} 内容参数
    */
   public warn (message: string, ...args: any[]): Logger {
-    this.log('warn', message, ...args);
-    return this;
+    this.log('warn', message, ...args)
+    return this
   }
 
   /**
@@ -96,14 +96,14 @@ export default class Logger {
     let stack = false;
     [message].concat(Array.from(args)).forEach((e: any) => {
       if (e.stack) {
-        stack = true;
-        this.log('error', e.stack);
+        stack = true
+        this.log('error', e.stack)
       }
-    });
+    })
 
-    if (!stack) this.log('error', message, ...args);
+    if (!stack) this.log('error', message, ...args)
 
-    return this;
+    return this
   }
 
   /**
@@ -115,9 +115,9 @@ export default class Logger {
     this.cachedTimers[key] = {
       level,
       time: new Date().getTime()
-    };
+    }
 
-    return this;
+    return this
   }
 
   /**
@@ -128,19 +128,19 @@ export default class Logger {
    */
   public timeEnd (key: string, message: string, ...args: any[]): Logger {
     if (this.cachedTimers[key]) {
-      const timer: Timer = this.cachedTimers[key];
+      const timer: Timer = this.cachedTimers[key]
 
-      message = message + ' +%ims';
-      args.push(new Date().getTime() - timer.time);
+      message = message + ' +%ims'
+      args.push(new Date().getTime() - timer.time)
 
-      this[timer.level](message, ...args);
+      this[timer.level](message, ...args)
 
-      delete this.cachedTimers[key];
+      delete this.cachedTimers[key]
     } else {
-      this.warn('timeEnd not found key %s', key);
-      this.debug(message);
+      this.warn('timeEnd not found key %s', key)
+      this.debug(message)
     }
-    return this;
+    return this
   }
 
   /**
@@ -149,11 +149,11 @@ export default class Logger {
    * @param args {...any=} 内容参数
    */
   public raw (message: string, ...args: any[]): Logger {
-    if (this.silent) return this;
+    if (this.silent) return this
 
-    this.stdout(format(message, ...args));
+    this.stdout(format(message, ...args))
 
-    return this;
+    return this
   }
 
   /**
@@ -162,20 +162,20 @@ export default class Logger {
    * @param message {string} 文本内容
    */
   public colorfy (color: number, message: string): string {
-    return `\u001b[0${color}m${message}\u001b[39m`;
+    return `\u001b[0${color}m${message}\u001b[39m`
   }
 
   private log (level: Level, message: string | Error, ...args: any): Logger {
-    if (this.silent) return this;
+    if (this.silent) return this
 
-    if (LevelPriority[level] < this.level) return this;
+    if (LevelPriority[level] < this.level) return this
 
-    let output = level.toUpperCase() + ' ' + (this.label ? `[${this.label}] ` : '') + format(message, ...args);
+    let output = level.toUpperCase() + ' ' + (this.label ? `[${this.label}] ` : '') + format(message, ...args)
 
-    if (this.mode === 'local' && level !== 'error') output = this.colorfy(LevelColor[level], output); else if (this.mode !== 'local') output = output.replace(/\n/g, '');
+    if (this.mode === 'local' && level !== 'error') output = this.colorfy(LevelColor[level], output); else if (this.mode !== 'local') output = output.replace(/\n/g, '')
 
-    if (this.mode === 'remote') console.log(output); else if (level === 'error') this.stderr(output); else this.stdout(output); 
+    if (this.mode === 'remote') console.log(output); else if (level === 'error') this.stderr(output); else this.stdout(output) 
 
-    return this;
+    return this
   }
 }

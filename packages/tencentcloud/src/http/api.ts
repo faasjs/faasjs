@@ -1,4 +1,4 @@
-import tc from '../tc';
+import tc from '../tc'
 
 /**
  * 发出请求
@@ -25,5 +25,5 @@ export default async function (action: string, provider: {
     payload,
     secretId: provider.secretId,
     secretKey: provider.secretKey
-  });
+  })
 }

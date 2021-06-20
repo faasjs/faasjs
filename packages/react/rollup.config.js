@@ -1,4 +1,4 @@
-import { rollup } from '../../rollup';
+import { rollup } from '../../rollup'
 
 export default rollup(
   'src/index.ts',
@@ -8,4 +8,4 @@ export default rollup(
       format: 'cjs'
     }
   ]
-);
+)

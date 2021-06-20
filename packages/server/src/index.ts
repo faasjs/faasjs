@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call */
-import { createServer, IncomingMessage, Server as HttpServer } from 'http';
-import Logger from '@faasjs/logger';
-import { existsSync } from 'fs';
-import { loadConfig } from '@faasjs/load';
-import { resolve as pathResolve, sep, join } from 'path';
-import { HttpError } from '@faasjs/http';
+import { createServer, IncomingMessage, Server as HttpServer } from 'http'
+import Logger from '@faasjs/logger'
+import { existsSync } from 'fs'
+import { loadConfig } from '@faasjs/load'
+import { resolve as pathResolve, sep, join } from 'path'
+import { HttpError } from '@faasjs/http'
 
 interface Cache {
   file?: string
@@ -40,14 +40,14 @@ export class Server {
     cache?: boolean
     port?: number
   }) {
-    this.root = root.endsWith(sep) ? root : root + sep;
-    this.logger = new Logger('FaasJS');
+    this.root = root.endsWith(sep) ? root : root + sep
+    this.logger = new Logger('FaasJS')
     this.opts = Object.assign({
       cache: false,
       port: 3000
-    }, (opts) || {});
-    this.cachedFuncs = {};
-    this.logger.debug('Init with %s %o', this.root, this.opts);
+    }, (opts) || {})
+    this.cachedFuncs = {}
+    this.logger.debug('Init with %s %o', this.root, this.opts)
   }
 
   public async processRequest (req: IncomingMessage, res: {
@@ -56,37 +56,37 @@ export class Server {
     end: () => void
     setHeader: (key: string, value: string) => void
   }): Promise<void> {
-    this.logger.info('[Request] %s', req.url);
+    this.logger.info('[Request] %s', req.url)
 
     return await new Promise((resolve) => {
-      const requestId = new Date().getTime().toString();
-      let body = '';
+      const requestId = new Date().getTime().toString()
+      let body = ''
 
       req.on('readable', function () {
-        body += req.read() || '';
-      });
+        body += req.read() || ''
+      })
 
       req.on('end', async () => {
-        let data;
+        let data
         try {
           // 提取 path
-          const path = join(this.root, req.url).replace(/\?.*/, '');
+          const path = join(this.root, req.url).replace(/\?.*/, '')
 
-          let cache: Cache = {};
+          let cache: Cache = {}
 
           if (this.opts.cache && this.cachedFuncs[path] && (this.cachedFuncs[path].handler)) {
-            this.logger.info('[Response] cached: %s', cache.file);
-            cache = this.cachedFuncs[path];
+            this.logger.info('[Response] cached: %s', cache.file)
+            cache = this.cachedFuncs[path]
           } else {
-            cache.file = pathResolve('.', this.getFilePath(path));
-            this.logger.info('[Response] %s', cache.file);
+            cache.file = pathResolve('.', this.getFilePath(path))
+            this.logger.info('[Response] %s', cache.file)
 
-            const func = require(cache.file).default;
-            func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development'];
-            cache.handler = func.export().handler;
+            const func = require(cache.file).default
+            func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development']
+            cache.handler = func.export().handler
 
-            if (this.opts.cache) this.cachedFuncs[path] = cache;
-            else this.clearCache();
+            if (this.opts.cache) this.cachedFuncs[path] = cache
+            else this.clearCache()
           }
 
           data = await cache.handler({
@@ -100,89 +100,89 @@ export class Server {
               path: req.url,
               sourceIp: req.socket?.remoteAddress
             }
-          }, { request_id: requestId });
+          }, { request_id: requestId })
         } catch (error) {
-          data = error;
+          data = error
         }
 
         if (data instanceof Error || (data?.constructor?.name?.includes('Error')) || typeof data === 'undefined' || data === null) {
-          res.statusCode = data?.statusCode || 500;
-          res.setHeader('Content-Type', 'application/json; charset=utf-8');
-          res.setHeader('X-SCF-RequestId', requestId);
-          res.write(JSON.stringify({ error: { message: data?.message || 'No response' } }));
+          res.statusCode = data?.statusCode || 500
+          res.setHeader('Content-Type', 'application/json; charset=utf-8')
+          res.setHeader('X-SCF-RequestId', requestId)
+          res.write(JSON.stringify({ error: { message: data?.message || 'No response' } }))
         } else {
-          if (data.statusCode) res.statusCode = data.statusCode;
+          if (data.statusCode) res.statusCode = data.statusCode
 
           if (data.headers)
             for (const key in data.headers)
-              if (Object.prototype.hasOwnProperty.call(data.headers, key)) res.setHeader(key, data.headers[key]);
+              if (Object.prototype.hasOwnProperty.call(data.headers, key)) res.setHeader(key, data.headers[key])
 
 
 
           if (data.body)
-            if (data.isBase64Encoded) res.write(Buffer.from(data.body, 'base64')); else res.write(data.body);
+            if (data.isBase64Encoded) res.write(Buffer.from(data.body, 'base64')); else res.write(data.body)
         }
-        res.end();
-        resolve();
-      });
-    });
+        res.end()
+        resolve()
+      })
+    })
   }
 
   public listen (): HttpServer {
-    if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') process.env.FaasEnv = 'development';
+    if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') process.env.FaasEnv = 'development'
 
-    process.env.FaasMode = 'local';
-    process.env.FaasLocal = `http://localhost:${this.opts.port}`;
+    process.env.FaasMode = 'local'
+    process.env.FaasLocal = `http://localhost:${this.opts.port}`
 
-    if (this.server) throw Error('Server already running');
+    if (this.server) throw Error('Server already running')
 
-    this.logger.info('[%s] Listen http://localhost:%s with %s', process.env.FaasEnv, this.opts.port, this.root);
+    this.logger.info('[%s] Listen http://localhost:%s with %s', process.env.FaasEnv, this.opts.port, this.root)
 
     this.server = createServer(this.opts.cache
       ? this.processRequest.bind(this)
       : async (req, res) => {
         if (!this.processing) {
-          this.processing = true;
-          await this.processRequest(req, res);
-          this.processing = false;
+          this.processing = true
+          await this.processRequest(req, res)
+          this.processing = false
         } else {
           const timer = setInterval(async () => {
             if (!this.processing) {
-              this.processing = true;
-              clearInterval(timer);
-              await this.processRequest(req, res);
-              this.processing = false;
+              this.processing = true
+              clearInterval(timer)
+              await this.processRequest(req, res)
+              this.processing = false
             }
-          });
+          })
         }
-      }).listen(this.opts.port, '0.0.0.0');
+      }).listen(this.opts.port, '0.0.0.0')
 
-    return this.server;
+    return this.server
   }
 
   public close (): void {
-    this.logger.debug('Close server');
+    this.logger.debug('Close server')
     this.server.close(function (err) {
-      if (err) console.error(err);
-    });
+      if (err) console.error(err)
+    })
   }
 
   private getFilePath (path: string) {
     // Safe check
-    if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters');
+    if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
 
-    if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts';
+    if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts'
 
     throw new HttpError({
       statusCode: 404,
       message: `Not found: ${path}.func.ts or ${path}index.func.ts`
-    });
+    })
   }
 
   private clearCache () {
-    this.logger.debug('Clear cache');
+    this.logger.debug('Clear cache')
     Object.keys(require.cache).forEach(function (id) {
-      if (!id.includes('node_modules') || id.includes('faasjs')) delete require.cache[id];
-    });
+      if (!id.includes('node_modules') || id.includes('faasjs')) delete require.cache[id]
+    })
   }
 }

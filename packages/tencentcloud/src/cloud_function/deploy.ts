@@ -1,18 +1,18 @@
-import { DeployData } from '@faasjs/func';
-import deepMerge from '@faasjs/deep_merge';
-import Logger, { Color } from '@faasjs/logger';
-import { execSync } from 'child_process';
-import { checkBucket, createBucket, upload, remove } from './cos';
-import scf from './scf';
-import Tencentcloud from '..';
-import { join } from 'path';
+import { DeployData } from '@faasjs/func'
+import deepMerge from '@faasjs/deep_merge'
+import Logger, { Color } from '@faasjs/logger'
+import { execSync } from 'child_process'
+import { checkBucket, createBucket, upload, remove } from './cos'
+import scf from './scf'
+import Tencentcloud from '..'
+import { join } from 'path'
 
 const defaults = {
   Handler: 'index.handler',
   MemorySize: 64,
   Timeout: 30,
   Runtime: 'Nodejs12.16'
-};
+}
 
 // 腾讯云内置插件 https://cloud.tencent.com/document/product/583/11060
 const INCLUDED_NPM = [
@@ -41,33 +41,33 @@ const INCLUDED_NPM = [
 
   // 移除构建所需的依赖项
   '@faasjs/load'
-];
+]
 
 export default async function deployCloudFunction (tc: Tencentcloud, data: DeployData, origin: { [key: string]: any }): Promise<void> {
-  if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!');
+  if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!')
 
-  const logger = new Logger(`${data.env}#${data.name}`);
+  const logger = new Logger(`${data.env}#${data.name}`)
 
-  const loggerPrefix = `[${data.env}#${data.name}]`;
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[01/11]')} 生成配置项...`);
+  const loggerPrefix = `[${data.env}#${data.name}]`
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[01/11]')} 生成配置项...`)
 
-  const config = deepMerge(origin);
+  const config = deepMerge(origin)
 
   // 补全默认参数
   if (config.config.name) {
-    config.config.FunctionName = config.config.name;
-    delete config.config.name;
-  } else config.config.FunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_'); 
+    config.config.FunctionName = config.config.name
+    delete config.config.name
+  } else config.config.FunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_') 
 
-  if (!config.config.Description) config.config.Description = `Source: ${data.name}\nPublished by ${process.env.LOGNAME}\nPublished at ${config.config.version}`;
+  if (!config.config.Description) config.config.Description = `Source: ${data.name}\nPublished by ${process.env.LOGNAME}\nPublished at ${config.config.version}`
 
   if (config.config.memorySize) {
-    config.config.MemorySize = config.config.memorySize;
-    delete config.config.memorySize;
+    config.config.MemorySize = config.config.memorySize
+    delete config.config.memorySize
   }
   if (config.config.timeout) {
-    config.config.Timeout = config.config.timeout;
-    delete config.config.timeout;
+    config.config.Timeout = config.config.timeout
+    delete config.config.timeout
   }
 
   config.config = deepMerge(defaults, config.config, {
@@ -108,13 +108,13 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
     Bucket: `scf-${config.provider.config.appId}`,
     FilePath: `${data.tmp}deploy.zip`,
     CosObjectName: data.env + '/' + config.config.FunctionName + '/' + data.version + '.zip'
-  });
+  })
 
-  logger.debug('[01/11] 完成配置项 %o', config);
+  logger.debug('[01/11] 完成配置项 %o', config)
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[02/11]')} 生成代码包...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[02/11]')} 生成代码包...`)
 
-  logger.debug('[2.1/11] 生成 index.js...');
+  logger.debug('[2.1/11] 生成 index.js...')
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ts = await require('@faasjs/load').loadTs(config.config.filename, {
     output: {
@@ -139,69 +139,69 @@ module.exports = main.export();`
       excludes: INCLUDED_NPM,
       additions: Object.keys(config.config.dependencies).concat(['@faasjs/tencentcloud'])
     }
-  });
+  })
 
-  logger.debug('%o', ts.modules);
+  logger.debug('%o', ts.modules)
 
-  logger.debug('[2.2/11] 生成 node_modules...');
+  logger.debug('[2.2/11] 生成 node_modules...')
   for (const key in ts.modules) {
-    const target = join(config.config.tmp, 'node_modules', key);
-    execSync(`mkdir -p ${target}`);
-    execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md'} ${join(ts.modules[key], '*')} ${target}`);
+    const target = join(config.config.tmp, 'node_modules', key)
+    execSync(`mkdir -p ${target}`)
+    execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md'} ${join(ts.modules[key], '*')} ${target}`)
   }
 
-  execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`);
+  execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`)
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[03/11]')} 打包代码包...`);
-  execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[03/11]')} 打包代码包...`)
+  execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`)
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[04/11]')} 检查 COS...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[04/11]')} 检查 COS...`)
 
   try {
-    logger.debug('[4.1/11] 检查 Cos Bucket 状态');
+    logger.debug('[4.1/11] 检查 Cos Bucket 状态')
     await checkBucket(tc, {
       Bucket: config.config.Bucket,
       Region: config.config.Region
-    });
-    logger.debug('[4.2/11] Cos Bucket 已存在，跳过');
+    })
+    logger.debug('[4.2/11] Cos Bucket 已存在，跳过')
   } catch (error) {
-    logger.debug('[4.2/11] 创建 Cos Bucket...');
+    logger.debug('[4.2/11] 创建 Cos Bucket...')
     await createBucket(tc, {
       Bucket: config.config.Bucket,
       Region: config.config.Region
-    });
+    })
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[05/11]')} 上传代码包...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[05/11]')} 上传代码包...`)
   await upload(tc, {
     Bucket: config.config.Bucket,
     FilePath: config.config.FilePath,
     Key: config.config.CosObjectName,
     Region: config.config.Region
-  });
+  })
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[06/11]')} 检查命名空间...`);
-  logger.debug('[6.1/11] 检查命名空间状态');
-  const namespaceList = await scf(tc, { Action: 'ListNamespaces' });
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[06/11]')} 检查命名空间...`)
+  logger.debug('[6.1/11] 检查命名空间状态')
+  const namespaceList = await scf(tc, { Action: 'ListNamespaces' })
   if (!namespaceList.Namespaces.find((n: any) => n.Name === config.config.Namespace)) {
-    logger.debug('[6.2/11] 创建命名空间...');
+    logger.debug('[6.2/11] 创建命名空间...')
     await scf(tc, {
       Action: 'CreateNamespace',
       Namespace: config.config.Namespace
-    });
-  } else logger.debug('[6.2/11] 命名空间已存在，跳过'); 
+    })
+  } else logger.debug('[6.2/11] 命名空间已存在，跳过') 
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[07/11]')} 上传云函数...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[07/11]')} 上传云函数...`)
 
   try {
-    logger.debug('[7.1/11] 检查云函数是否已存在...');
+    logger.debug('[7.1/11] 检查云函数是否已存在...')
     await scf(tc, {
       Action: 'GetFunction',
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace
-    });
+    })
 
-    logger.debug('[7.2/11] 更新云函数代码...');
+    logger.debug('[7.2/11] 更新云函数代码...')
     await scf(tc, {
       Action: 'UpdateFunctionCode',
       CosBucketName: 'scf',
@@ -210,20 +210,20 @@ module.exports = main.export();`
       FunctionName: config.config.FunctionName,
       Handler: config.config.Handler,
       Namespace: config.config.Namespace
-    });
+    })
 
-    let status = null;
+    let status = null
     while (status !== 'Active') {
-      logger.debug('[7.3/11] 等待云函数代码更新完成...');
+      logger.debug('[7.3/11] 等待云函数代码更新完成...')
 
       status = await scf(tc, {
         Action: 'GetFunction',
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace
-      }).then(res => res.Status);
+      }).then(res => res.Status)
     }
 
-    logger.debug('[7.2/11] 更新云函数配置...');
+    logger.debug('[7.2/11] 更新云函数配置...')
     await scf(tc, {
       Action: 'UpdateFunctionConfiguration',
       Environment: config.config.Environment,
@@ -240,21 +240,21 @@ module.exports = main.export();`
       PublicNetConfig: config.config.PublicNetConfig,
       CfsConfig: config.config.CfsConfig,
       InitTimeout: config.config.InitTimeout
-    });
+    })
 
-    status = null;
+    status = null
     while (status !== 'Active') {
-      logger.debug('[7.3/11] 等待云函数配置更新完成...');
+      logger.debug('[7.3/11] 等待云函数配置更新完成...')
 
       status = await scf(tc, {
         Action: 'GetFunction',
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace
-      }).then(res => res.Status);
+      }).then(res => res.Status)
     }
   } catch (error) {
     if (error.Code.startsWith('ResourceNotFound')) {
-      logger.debug('[7.2/11] 创建云函数...');
+      logger.debug('[7.2/11] 创建云函数...')
       await scf(tc, {
         Action: 'CreateFunction',
         ClsLogsetId: config.config.ClsLogsetId,
@@ -280,39 +280,39 @@ module.exports = main.export();`
         PublicNetConfig: config.config.PublicNetConfig,
         CfsConfig: config.config.CfsConfig,
         InitTimeout: config.config.InitTimeout
-      });
+      })
 
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        logger.debug('[7.3/11] 等待云函数代码更新完成...');
+        logger.debug('[7.3/11] 等待云函数代码更新完成...')
         if ((await scf(tc, {
           Action: 'GetFunction',
           FunctionName: config.config.FunctionName,
           Namespace: config.config.Namespace
-        })).Status === 'Active') break;
+        })).Status === 'Active') break
       }
-    } else throw error; 
+    } else throw error 
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[08/11]')} 发布版本...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[08/11]')} 发布版本...`)
 
   const version = await scf(tc, {
     Action: 'PublishVersion',
     Description: `Published by ${process.env.LOGNAME}`,
     FunctionName: config.config.FunctionName,
     Namespace: config.config.Namespace
-  });
-  config.config.FunctionVersion = version.FunctionVersion;
+  })
+  config.config.FunctionVersion = version.FunctionVersion
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    logger.debug('[8.1/11] 等待版本发布完成...');
+    logger.debug('[8.1/11] 等待版本发布完成...')
     if ((await scf(tc, {
       Action: 'GetFunction',
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
       Qualifier: config.config.FunctionVersion
-    })).Status === 'Active') break;
+    })).Status === 'Active') break
   }
 
   // logger.raw(`${logger.colorfy(Color.GRAY, '[09/11]')} 更新别名...`);
@@ -348,14 +348,14 @@ module.exports = main.export();`
   //     throw error;
   // }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[10/11]')} 更新触发器...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[10/11]')} 更新触发器...`)
   const triggers = await scf(tc, {
     Action: 'ListTriggers',
     FunctionName: config.config.FunctionName,
     Namespace: config.config.Namespace
-  });
+  })
   for (const trigger of triggers.Triggers) {
-    logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName);
+    logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName)
     await scf(tc, {
       Action: 'DeleteTrigger',
       FunctionName: config.config.FunctionName,
@@ -363,12 +363,12 @@ module.exports = main.export();`
       TriggerName: trigger.TriggerName,
       Type: trigger.Type,
       Qualifier: trigger.Qualifier
-    });
+    })
   }
 
   if (config.config.triggers) 
     for (const trigger of config.config.triggers) {
-      logger.debug('[10.2/11] 创建触发器 %s...', trigger.name);
+      logger.debug('[10.2/11] 创建触发器 %s...', trigger.name)
       await scf(tc, {
         Action: 'CreateTrigger',
         FunctionName: config.config.FunctionName,
@@ -378,21 +378,21 @@ module.exports = main.export();`
         Qualifier: config.config.FunctionVersion,
         Namespace: config.config.Namespace,
         Enable: 'OPEN'
-      });
+      })
     }
   
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[11/11]')} 清理文件...`);
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[11/11]')} 清理文件...`)
 
-  logger.debug('[11.1/11] 清理 Cos Bucket...');
+  logger.debug('[11.1/11] 清理 Cos Bucket...')
   await remove(tc, {
     Bucket: config.config.Bucket,
     Key: config.config.CosObjectName,
     Region: config.config.Region
-  });
+  })
 
   if (process.env.FaasLog !== 'debug') {
-    logger.debug('[11.2/11] 清理本地文件...');
-    execSync(`rm -rf ${config.config.tmp}`);
+    logger.debug('[11.2/11] 清理本地文件...')
+    execSync(`rm -rf ${config.config.tmp}`)
   }
 }

@@ -1,96 +1,96 @@
-import { Func, InvokeData } from '../../../index';
-import RunHandler from '../index';
+import { Func, InvokeData } from '../../../index'
+import RunHandler from '../index'
 
 describe('plugins.runHandler', function () {
   test('return result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler (data: InvokeData) {
-        return data.event + 1;
+        return data.event + 1
       }
-    }).export().handler;
+    }).export().handler
 
-    expect(await handler(0)).toEqual(1);
-    expect(await handler(1)).toEqual(2);
-  });
+    expect(await handler(0)).toEqual(1)
+    expect(await handler(1)).toEqual(2)
+  })
 
   test('async return result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler (data: InvokeData) {
-        return await Promise.resolve(data.event + 1);
+        return await Promise.resolve(data.event + 1)
       }
-    }).export().handler;
+    }).export().handler
 
-    expect(await handler(0)).toEqual(1);
-    expect(await handler(1)).toEqual(2);
-  });
+    expect(await handler(0)).toEqual(1)
+    expect(await handler(1)).toEqual(2)
+  })
 
   test('callback result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler (data: InvokeData) {
-        data.callback(null, data.event + 1);
+        data.callback(null, data.event + 1)
       }
-    }).export().handler;
+    }).export().handler
 
-    expect(await handler(0)).toEqual(1);
-    expect(await handler(1)).toEqual(2);
-  });
+    expect(await handler(0)).toEqual(1)
+    expect(await handler(1)).toEqual(2)
+  })
 
   test('async callback result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler (data: InvokeData) {
         await new Promise<void>(function (resolve) {
-          data.callback(null, data.event + 1);
-          resolve();
-        });
+          data.callback(null, data.event + 1)
+          resolve()
+        })
       }
-    }).export().handler;
+    }).export().handler
 
-    expect(await handler(0)).toEqual(1);
-    expect(await handler(1)).toEqual(2);
-  });
+    expect(await handler(0)).toEqual(1)
+    expect(await handler(1)).toEqual(2)
+  })
 
   test('throw error', async function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
         async handler () {
-          throw Error('wrong');
+          throw Error('wrong')
         }
-      }).export().handler(0);
+      }).export().handler(0)
     } catch (error) {
-      expect(error).toEqual(Error('wrong'));
+      expect(error).toEqual(Error('wrong'))
     }
-  });
+  })
 
   test('async throw error', async function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
         async handler () {
-          return await Promise.reject(Error('wrong'));
+          return await Promise.reject(Error('wrong'))
         }
-      }).export().handler(0);
+      }).export().handler(0)
     } catch (error) {
-      expect(error).toEqual(Error('wrong'));
+      expect(error).toEqual(Error('wrong'))
     }
-  });
+  })
 
   test('callback error', async function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
         async handler (data: InvokeData) {
-          data.callback(Error('wrong'));
+          data.callback(Error('wrong'))
         }
-      }).export().handler(0);
+      }).export().handler(0)
     } catch (error) {
-      expect(error).toEqual(Error('wrong'));
+      expect(error).toEqual(Error('wrong'))
     }
-  });
+  })
 
   test('async callback error', async function () {
     try {
@@ -98,13 +98,13 @@ describe('plugins.runHandler', function () {
         plugins: [new RunHandler()],
         async handler (data: InvokeData) {
           await new Promise<void>(function (resolve) {
-            data.callback(Error('wrong'));
-            resolve();
-          });
+            data.callback(Error('wrong'))
+            resolve()
+          })
         }
-      }).export().handler(0);
+      }).export().handler(0)
     } catch (error) {
-      expect(error).toEqual(Error('wrong'));
+      expect(error).toEqual(Error('wrong'))
     }
-  });
-});
+  })
+})

@@ -1,18 +1,18 @@
-import { Func } from '@faasjs/func';
-import { Http } from '..';
+import { Func } from '@faasjs/func'
+import { Http } from '..'
 
 describe('setBody', function () {
   test('should work', async function () {
-    const http = new Http();
+    const http = new Http()
     const handler = new Func({
       plugins: [http],
       async handler () {
-        http.setBody('body');
+        http.setBody('body')
       }
-    }).export().handler;
+    }).export().handler
 
-    const res = await handler({});
+    const res = await handler({})
 
-    expect(res.body).toEqual('body');
-  });
-});
+    expect(res.body).toEqual('body')
+  })
+})

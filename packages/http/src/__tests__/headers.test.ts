@@ -1,34 +1,34 @@
-import { Func } from '@faasjs/func';
-import { Http } from '..';
+import { Func } from '@faasjs/func'
+import { Http } from '..'
 
 describe('params', function () {
   test('blank', async function () {
-    const http = new Http();
+    const http = new Http()
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return http.headers;
+        return http.headers
       }
-    }).export().handler;
+    }).export().handler
 
-    const res = await handler({});
+    const res = await handler({})
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual('{"data":{}}');
-  });
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual('{"data":{}}')
+  })
 
   test('should work', async function () {
-    const http = new Http();
+    const http = new Http()
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return http.headers;
+        return http.headers
       }
-    }).export().handler;
+    }).export().handler
 
-    const res = await handler({ headers: { key: 'value' } });
+    const res = await handler({ headers: { key: 'value' } })
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual('{"data":{"key":"value"}}');
-  });
-});
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual('{"data":{"key":"value"}}')
+  })
+})

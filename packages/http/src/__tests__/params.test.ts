@@ -1,67 +1,67 @@
-import { Func } from '@faasjs/func';
-import { Http } from '..';
+import { Func } from '@faasjs/func'
+import { Http } from '..'
 
 describe('params', function () {
   test('blank', async function () {
-    const http = new Http();
+    const http = new Http()
     const handler = new Func({
       plugins: [http],
       handler () {
-        return http.params;
+        return http.params
       }
-    }).export().handler;
+    }).export().handler
 
-    const res = await handler({});
+    const res = await handler({})
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual('{"data":{}}');
-  });
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual('{"data":{}}')
+  })
 
   test('raw', async function () {
-    const http = new Http<{ body: string }>();
+    const http = new Http<{ body: string }>()
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return http.params;
+        return http.params
       }
-    }).export().handler;
+    }).export().handler
 
-    const res = await handler({ body: 'raw' });
+    const res = await handler({ body: 'raw' })
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual('{"data":"raw"}');
-  });
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual('{"data":"raw"}')
+  })
 
   test('queryString', async function () {
-    const http = new Http();
+    const http = new Http()
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return http.params;
+        return http.params
       }
-    }).export().handler;
+    }).export().handler
 
-    const res = await handler({ queryString: { a: 'a' } });
+    const res = await handler({ queryString: { a: 'a' } })
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual('{"data":{"a":"a"}}');
-  });
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual('{"data":{"a":"a"}}')
+  })
 
   test('json', async function () {
-    const http = new Http();
+    const http = new Http()
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return http.params;
+        return http.params
       }
-    }).export().handler;
+    }).export().handler
 
     const res = await handler({
       headers: { 'content-type': 'application/json' },
       body: '{"key":true}'
-    });
+    })
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual('{"data":{"key":true}}');
-  });
-});
+    expect(res.statusCode).toEqual(200)
+    expect(res.body).toEqual('{"data":{"key":true}}')
+  })
+})

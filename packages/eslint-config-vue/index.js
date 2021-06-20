@@ -12,4 +12,4 @@ module.exports = {
     '@faasjs/recommended',
     'plugin:vue/essential'
   ]
-};
+}

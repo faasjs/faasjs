@@ -1,7 +1,7 @@
 const shouldMerge = function (item: any) {
-  const type = Object.prototype.toString.call(item);
-  return type === '[object Object]' || type === '[object Array]';
-};
+  const type = Object.prototype.toString.call(item)
+  return type === '[object Object]' || type === '[object Array]'
+}
 
 /**
  * 合并对象
@@ -13,21 +13,21 @@ const shouldMerge = function (item: any) {
  * @param sources [...any] 合并对象
  */
 export default function deepMerge (...sources: any[]): any {
-  let acc = Object.create(null);
+  let acc = Object.create(null)
   for (const source of sources) 
     if (source instanceof Array) {
-      if (!(acc instanceof Array)) acc = []; 
-      acc = [...new Set((source).concat(...acc as any[]))];
+      if (!(acc instanceof Array)) acc = [] 
+      acc = [...new Set((source).concat(...acc as any[]))]
     } else if (shouldMerge(source)) 
       for (const [key, value] of Object.entries(source)) {
-        let val;
-        if (shouldMerge(value)) val = deepMerge(acc[key], value); else val = value; 
+        let val
+        if (shouldMerge(value)) val = deepMerge(acc[key], value); else val = value 
         acc = {
           ...acc,
           [key]: val
-        };
+        }
       }
     
   
-  return acc;
+  return acc
 }

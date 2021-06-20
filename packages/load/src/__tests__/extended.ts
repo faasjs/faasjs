@@ -1,1 +1,1 @@
-export default 'extended';
+export default 'extended'

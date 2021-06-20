@@ -1,32 +1,32 @@
-import { join, sep } from 'path';
-import Tencentcloud from '../..';
+import { join, sep } from 'path'
+import Tencentcloud from '../..'
 
 jest.mock('@faasjs/request', function () {
   return async function (url, options): Promise<any> {
-    console.log('mock.request', url, JSON.stringify(options));
+    console.log('mock.request', url, JSON.stringify(options))
     switch (options.headers['X-TC-Action']) {
       case 'DescribeServicesStatus':
-        return await Promise.resolve({ body: { Response: { Result: { ServiceSet: [{ ServiceName: 'testing' }] } } } });
+        return await Promise.resolve({ body: { Response: { Result: { ServiceSet: [{ ServiceName: 'testing' }] } } } })
       case 'DescribeApisStatus':
-        return await Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [{ Path: '/' }] } } } });
+        return await Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [{ Path: '/' }] } } } })
       case 'DescribeApi':
-        return await Promise.resolve({ body: { Response: { Result: { RequestConfig: {} } } } });
+        return await Promise.resolve({ body: { Response: { Result: { RequestConfig: {} } } } })
       case 'ModifyApi':
-        return await Promise.resolve({ body: { Response: {} } });
+        return await Promise.resolve({ body: { Response: {} } })
       case 'ReleaseService':
-        return await Promise.resolve({ body: { Response: {} } });
+        return await Promise.resolve({ body: { Response: {} } })
       default:
-        return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } });
+        return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
     }
-  };
-});
+  }
+})
 
 test('update deploy', async function () {
   const tc = new Tencentcloud({
     secretId: 'secretId',
     secretKey: 'secretKey',
     region: 'region'
-  });
+  })
 
   await tc.deploy('http', {
     root: __dirname,
@@ -48,7 +48,7 @@ test('update deploy', async function () {
       }
     },
     config: { path: '/' }
-  });
+  })
 
-  expect(true).toBeTruthy();
-}, 10000);
+  expect(true).toBeTruthy()
+}, 10000)

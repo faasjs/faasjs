@@ -1,6 +1,6 @@
-import deepMerge from '@faasjs/deep_merge';
-import extend from './extended';
+import deepMerge from '@faasjs/deep_merge'
+import extend from './extended'
 
-deepMerge({});
+deepMerge({})
 
-export default extend;
+export default extend

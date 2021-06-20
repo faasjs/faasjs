@@ -1,11 +1,11 @@
-import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
+import { Func } from '@faasjs/func'
+import { Http } from '@faasjs/http'
 
-const http = new Http();
+const http = new Http()
 
 export default new Func({
   plugins: [http],
   async handler () {
-    return http.params.key;
+    return http.params.key
   }
-});
+})

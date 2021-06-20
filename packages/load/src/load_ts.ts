@@ -1,9 +1,9 @@
-import deepMerge from '@faasjs/deep_merge';
-import { existsSync, readFileSync, unlinkSync } from 'fs';
-import * as rollup from 'rollup';
-import typescript from 'rollup-plugin-typescript2';
-import { Func } from '@faasjs/func';
-import { join } from 'path';
+import deepMerge from '@faasjs/deep_merge'
+import { existsSync, readFileSync, unlinkSync } from 'fs'
+import * as rollup from 'rollup'
+import typescript from 'rollup-plugin-typescript2'
+import { Func } from '@faasjs/func'
+import { join } from 'path'
 
 const FAAS_PACKAGES = [
   '@faasjs/browser',
@@ -31,7 +31,7 @@ const FAAS_PACKAGES = [
   '@faasjs/tencentcloud',
   '@faasjs/test',
   '@faasjs/vue-plugin'
-];
+]
 
 const NODE_PACKAGES = [
   'async_hooks',
@@ -67,36 +67,36 @@ const NODE_PACKAGES = [
   'wasi',
   'worker_threads',
   'zlib'
-];
+]
 
 function findModule (list: any, key: string, basePath: string, options: {
   excludes?: string[]
 } = { excludes: [] }) {
-  if (list[key]) return;
+  if (list[key]) return
 
-  if (key.startsWith('@types/') || options.excludes.includes(key)) return;
+  if (key.startsWith('@types/') || options.excludes.includes(key)) return
 
   const paths = [
     join(process.cwd(), 'node_modules', key),
     join(basePath, 'node_modules', key)
-  ];
+  ]
 
-  let path;
+  let path
   for (const p of paths)
     if (existsSync(p)) {
-      path = p;
-      break;
+      path = p
+      break
     }
 
 
-  if (!path) return;
+  if (!path) return
 
-  list[key] = path;
+  list[key] = path
 
   if (existsSync(join(path, 'package.json'))) {
-    const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString());
-    const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}));
-    deps.map(d => findModule(list, d, path, options));
+    const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString())
+    const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}))
+    deps.map(d => findModule(list, d, path, options))
   }
 }
 
@@ -133,9 +133,9 @@ export default async function loadTs (filename: string, options: {
     }
   }> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-  const PackageJSON = require(`${process.cwd()}/package.json`);
-  const external = PackageJSON.dependencies ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES;
-  if ((options.modules) && (options.modules.excludes == null)) options.modules.excludes = [];
+  const PackageJSON = require(`${process.cwd()}/package.json`)
+  const external = PackageJSON.dependencies ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES
+  if ((options.modules) && (options.modules.excludes == null)) options.modules.excludes = []
 
   const input = deepMerge({
     input: filename,
@@ -144,11 +144,11 @@ export default async function loadTs (filename: string, options: {
       typescript({ tsconfigOverride: { compilerOptions: { declaration: false } } })
     ],
     onwarn: () => null
-  }, (options.input) || {});
+  }, (options.input) || {})
 
-  const bundle = await rollup.rollup(input);
+  const bundle = await rollup.rollup(input)
 
-  const dependencies = Object.create(null);
+  const dependencies = Object.create(null)
 
   for (const m of bundle.cache?.modules || [])
     for (const d of m.dependencies)
@@ -156,34 +156,34 @@ export default async function loadTs (filename: string, options: {
         !d.startsWith('/') &&
         !dependencies[d] &&
         !NODE_PACKAGES.includes(d)
-      ) dependencies[d] = '*';
+      ) dependencies[d] = '*'
 
 
 
   const output = deepMerge({
     file: filename + '.tmp.js',
     format: 'cjs'
-  }, (options.output) || {});
+  }, (options.output) || {})
 
-  await bundle.write(output);
+  await bundle.write(output)
 
-  const result = Object.create(null);
+  const result = Object.create(null)
 
-  result.dependencies = dependencies;
+  result.dependencies = dependencies
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  result.module = require(output.file);
+  result.module = require(output.file)
 
-  if (options.tmp) unlinkSync(output.file);
+  if (options.tmp) unlinkSync(output.file)
 
   if (options.modules) {
-    const modules = Object.create(null);
+    const modules = Object.create(null)
 
-    Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules!));
-    if (options.modules.additions) options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules!));
+    Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules!))
+    if (options.modules.additions) options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules!))
 
-    result.modules = modules;
+    result.modules = modules
   }
 
-  return result;
+  return result
 }

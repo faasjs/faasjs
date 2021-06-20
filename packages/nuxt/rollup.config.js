@@ -1,4 +1,4 @@
-import { external, typescript } from '../../rollup';
+import { external, typescript } from '../../rollup'
 
 export default [
   {
@@ -44,4 +44,4 @@ export default [
       typescript()
     ]
   }
-];
+]

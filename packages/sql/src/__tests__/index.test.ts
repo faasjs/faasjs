@@ -1,5 +1,5 @@
-import { Func } from '@faasjs/func';
-import { Sql, AdapterType } from '..';
+import { Func } from '@faasjs/func'
+import { Sql, AdapterType } from '..'
 
 describe('deploy', function () {
   describe('dependencies', function () {
@@ -11,36 +11,36 @@ describe('deploy', function () {
       const sql = new Sql({
         name: 'sql',
         adapterType: type
-      });
+      })
 
-      const func = new Func({ plugins: [sql] });
+      const func = new Func({ plugins: [sql] })
 
-      const dependencies = {};
+      const dependencies = {}
 
       await func.deploy({
         root: __dirname,
         filename: 'filename',
         dependencies
-      });
+      })
 
-      expect(dependencies).toEqual({ [npm]: '*' });
-    });
+      expect(dependencies).toEqual({ [npm]: '*' })
+    })
 
     it('else', async function () {
       const sql = new Sql({
         name: 'sql',
         adapterType: 'unknown' as 'sqlite'
-      });
+      })
 
-      const func = new Func({ plugins: [sql] });
+      const func = new Func({ plugins: [sql] })
 
-      const dependencies = {};
+      const dependencies = {}
 
       await expect(func.deploy({
         root: __dirname,
         filename: 'filename',
         dependencies
-      })).rejects.toEqual(Error('[Sql] Unsupport type: unknown'));
-    });
-  });
-});
+      })).rejects.toEqual(Error('[Sql] Unsupport type: unknown'))
+    })
+  })
+})

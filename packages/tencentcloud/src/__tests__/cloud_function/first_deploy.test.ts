@@ -1,41 +1,41 @@
-import { join, sep } from 'path';
-import Tencentcloud from '../..';
+import { join, sep } from 'path'
+import Tencentcloud from '../..'
 
 jest.mock('cos-nodejs-sdk-v5', () => {
   return class Client {
     headBucket (params, callback): void {
-      console.log('mock.cos.headBucket', params);
-      callback(Error('no bucket'));
+      console.log('mock.cos.headBucket', params)
+      callback(Error('no bucket'))
     }
 
     putBucket (params, callback): void {
-      console.log('mock.cos.putBucket', params);
-      callback();
+      console.log('mock.cos.putBucket', params)
+      callback()
     }
 
     sliceUploadFile (params, callback): void {
-      console.log('mock.cos.sliceUploadFile', params);
-      callback();
+      console.log('mock.cos.sliceUploadFile', params)
+      callback()
     }
 
     deleteObject (params, callback): void {
-      console.log('mock.cos.deleteObject', params);
-      callback();
+      console.log('mock.cos.deleteObject', params)
+      callback()
     }
-  };
-});
+  }
+})
 
 jest.mock('@faasjs/request', () => {
-  let functionCreated = false;
+  let functionCreated = false
   return async function (url, params): Promise<any> {
-    console.log('mock.request', url, params);
-    let res;
+    console.log('mock.request', url, params)
+    let res
     switch (url) {
       case 'https://scf.tencentcloudapi.com/?':
         switch (params.body.Action) {
           case 'ListNamespaces':
-            res = { body: { Response: { Namespaces: [] } } };
-            break;
+            res = { body: { Response: { Namespaces: [] } } }
+            break
           case 'GetFunction':
             if (functionCreated) 
               res = {
@@ -45,7 +45,7 @@ jest.mock('@faasjs/request', () => {
                     Triggers: []
                   }
                 }
-              };
+              }
             else 
               res = {
                 body: {
@@ -56,9 +56,9 @@ jest.mock('@faasjs/request', () => {
                     }
                   }
                 }
-              };
+              }
             
-            break;
+            break
           case 'GetAlias':
             res = {
               body: {
@@ -69,43 +69,43 @@ jest.mock('@faasjs/request', () => {
                   }
                 }
               }
-            };
-            break;
+            }
+            break
           case 'CreateAlias':
-            res = { body: { Response: {} } };
-            break;
+            res = { body: { Response: {} } }
+            break
           case 'CreateNamespace':
-            res = { body: { Response: {} } };
-            break;
+            res = { body: { Response: {} } }
+            break
           case 'CreateFunction':
-            functionCreated = true;
-            res = { body: { Response: {} } };
-            break;
+            functionCreated = true
+            res = { body: { Response: {} } }
+            break
           case 'UpdateAlias':
-            res = { body: { Response: {} } };
-            break;
+            res = { body: { Response: {} } }
+            break
           case 'PublishVersion':
-            res = { body: { Response: { FunctionVersion: '1' } } };
-            break;
+            res = { body: { Response: { FunctionVersion: '1' } } }
+            break
           case 'ListTriggers':
-            res = { body: { Response: { Triggers: [] } } };
-            break;
+            res = { body: { Response: { Triggers: [] } } }
+            break
           default:
-            res = { body: { Response: { Error: 'Unknown mock' } } };
-            break;
+            res = { body: { Response: { Error: 'Unknown mock' } } }
+            break
         }
     }
-    console.log('mock.response', res);
-    return await Promise.resolve(res);
-  };
-});
+    console.log('mock.response', res)
+    return await Promise.resolve(res)
+  }
+})
 
 test('frist deploy', async function () {
   const tc = new Tencentcloud({
     secretId: 'secretId',
     secretKey: 'secretKey',
     region: 'region'
-  });
+  })
 
   await tc.deploy('cloud_function', {
     root: __dirname,
@@ -131,7 +131,7 @@ test('frist deploy', async function () {
       memorySize: 64,
       timeout: 60
     }
-  });
+  })
 
-  expect(true).toBeTruthy();
-}, 10000);
+  expect(true).toBeTruthy()
+}, 10000)
