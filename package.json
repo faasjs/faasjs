@@ -23,7 +23,11 @@
     "packages/*"
   ],
   "eslintConfig": {
-    "ignorePatterns": ["**/examples", "**/lib", "**/tmp"],
+    "ignorePatterns": [
+      "**/examples",
+      "**/lib",
+      "**/tmp"
+    ],
     "extends": [
       "@faasjs/recommended"
     ]

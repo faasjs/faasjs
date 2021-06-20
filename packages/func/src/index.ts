@@ -44,9 +44,9 @@ export interface DeployData {
   filename: string
   env?: string
   name?: string
-  config?: Config
+  config: Config
   version?: string
-  dependencies?: {
+  dependencies: {
     [name: string]: string
   }
   plugins?: {
@@ -78,7 +78,7 @@ export interface InvokeData<TEvent = any, TContext = any, TRESULT = any> {
   callback: any
   response: any
   logger: Logger
-  handler: Handler<TEvent, TContext, TRESULT>
+  handler?: Handler<TEvent, TContext, TRESULT>
   config: Config
 }
 
@@ -130,15 +130,17 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
     const logger = new Logger(key);
     let list: CachedFunction[] = [];
 
-    if (this.cachedFunctions[key]) list = this.cachedFunctions[key]; else {
-      for (const plugin of this.plugins) 
-        if (typeof plugin[key] === 'function') 
+    if (this.cachedFunctions[key])
+      list = this.cachedFunctions[key];
+    else {
+      for (const plugin of this.plugins) {
+        const handler = plugin[key];
+        if (typeof handler === 'function')
           list.push({
             key: plugin.name,
-            handler: plugin[key].bind(plugin)
+            handler: handler.bind(plugin)
           });
-        
-      
+      }
 
       this.cachedFunctions[key] = list;
     }
@@ -213,12 +215,12 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
    */
   public async invoke (data: InvokeData<TEvent, TContext, TRESULT>): Promise<void> {
     // 实例未启动时执行启动函数
-    if (!this.mounted) 
+    if (!this.mounted)
       await this.mount({
         event: data.event,
         context: data.context
       });
-    
+
 
     try {
       await this.compose('onInvoke')(data);
@@ -266,25 +268,25 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
   }
 }
 
-let plugins = [];
+let plugins: Plugin[] = [];
 
 export interface UseifyPlugin {
   mount?: ({ config: Config }) => Promise<void>
 }
 
 export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & UseifyPlugin {
-  if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin); 
+  if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin);
 
-  if (plugin.mount == null) 
+  if (plugin.mount == null)
     plugin.mount = async function ({ config }: {config: Config}) {
-      if (plugin.onMount != null) 
+      if (plugin.onMount)
         await plugin.onMount({
           config,
           event: {},
           context: {}
         }, async () => await Promise.resolve());
     };
-  
+
 
   return plugin;
 }

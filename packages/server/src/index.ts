@@ -45,7 +45,7 @@ export class Server {
     this.opts = Object.assign({
       cache: false,
       port: 3000
-    }, (opts != null) || {});
+    }, (opts) || {});
     this.cachedFuncs = {};
     this.logger.debug('Init with %s %o', this.root, this.opts);
   }
@@ -74,7 +74,7 @@ export class Server {
 
           let cache: Cache = {};
 
-          if (this.opts.cache && this.cachedFuncs[path] && (this.cachedFuncs[path].handler != null)) {
+          if (this.opts.cache && this.cachedFuncs[path] && (this.cachedFuncs[path].handler)) {
             this.logger.info('[Response] cached: %s', cache.file);
             cache = this.cachedFuncs[path];
           } else {
@@ -113,13 +113,13 @@ export class Server {
         } else {
           if (data.statusCode) res.statusCode = data.statusCode;
 
-          if (data.headers) 
-            for (const key in data.headers) 
-              if (Object.prototype.hasOwnProperty.call(data.headers, key)) res.setHeader(key, data.headers[key]); 
-            
-          
+          if (data.headers)
+            for (const key in data.headers)
+              if (Object.prototype.hasOwnProperty.call(data.headers, key)) res.setHeader(key, data.headers[key]);
 
-          if (data.body) 
+
+
+          if (data.body)
             if (data.isBase64Encoded) res.write(Buffer.from(data.body, 'base64')); else res.write(data.body);
         }
         res.end();
@@ -163,15 +163,15 @@ export class Server {
   public close (): void {
     this.logger.debug('Close server');
     this.server.close(function (err) {
-      if (err != null) console.error(err);
+      if (err) console.error(err);
     });
   }
 
   private getFilePath (path: string) {
     // Safe check
-    if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters'); 
+    if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters');
 
-    if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts'; 
+    if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts';
 
     throw new HttpError({
       statusCode: 404,
@@ -182,7 +182,7 @@ export class Server {
   private clearCache () {
     this.logger.debug('Clear cache');
     Object.keys(require.cache).forEach(function (id) {
-      if (!id.includes('node_modules') || id.includes('faasjs')) delete require.cache[id]; 
+      if (!id.includes('node_modules') || id.includes('faasjs')) delete require.cache[id];
     });
   }
 }

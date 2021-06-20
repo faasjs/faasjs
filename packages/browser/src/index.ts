@@ -57,7 +57,7 @@ export default class FaasBrowserClient {
    */
   constructor (baseUrl: string, options?: Options) {
     this.host = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    this.defaultOptions = (options != null) || Object.create(null);
+    this.defaultOptions = options || Object.create(null);
 
     console.debug('[faas] baseUrl: ' + this.host);
   }
@@ -68,28 +68,26 @@ export default class FaasBrowserClient {
    * @param params {any} 动作参数
    * @param options {object} 默认配置项
    */
-  public async action<T = any> (action: string, params: Params, options?: Options): Promise<Response<T>> {
+  public async action<T = any> (action: string, params: Params, options: Options = {}): Promise<Response<T>> {
     const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString();
-    if (options == null) options = this.defaultOptions;
-    else 
-      options = {
-        ...this.defaultOptions,
-        ...options
-      };
-    
+
+    options = {
+      ...this.defaultOptions,
+      ...options
+    };
 
     return await new Promise(function (resolve, reject) {
       const xhr = new XMLHttpRequest();
       xhr.open('POST', url);
       xhr.withCredentials = true;
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-      if (options.beforeRequest != null) 
+      if (options.beforeRequest)
         options.beforeRequest({
           action,
           params,
           xhr
         });
-      
+
 
       xhr.onload = function () {
         let res = xhr.response;
@@ -99,12 +97,13 @@ export default class FaasBrowserClient {
           const parts = line.split(': ');
           const key = parts.shift();
           const value = parts.join(': ');
-          headers[key] = value;
+          if (key)
+            headers[key] = value;
         });
-        if (xhr.response && xhr.getResponseHeader('Content-Type') && xhr.getResponseHeader('Content-Type').includes('json')) 
+        if (xhr.response && xhr.getResponseHeader('Content-Type')?.includes('json'))
           try {
             res = JSON.parse(xhr.response);
-            if (res.error && res.error.message) 
+            if (res.error && res.error.message)
               reject(new ResponseError({
                 message: res.error.message,
                 status: xhr.status,
@@ -114,9 +113,9 @@ export default class FaasBrowserClient {
           } catch (error) {
             console.error(error);
           }
-        
 
-        if (xhr.status >= 200 && xhr.status < 300) 
+
+        if (xhr.status >= 200 && xhr.status < 300)
           resolve(new Response({
             status: xhr.status,
             headers,

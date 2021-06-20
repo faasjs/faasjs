@@ -58,7 +58,7 @@ export class HttpError extends Error {
   }) {
     super(message);
 
-    if (Error.captureStackTrace) Error.captureStackTrace(this, HttpError); 
+    if (Error.captureStackTrace) Error.captureStackTrace(this, HttpError);
 
     this.statusCode = statusCode || 500;
     this.message = message;
@@ -113,8 +113,8 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
    */
   constructor (config?: HttpConfig<TParams, TCookie, TSession>) {
     this.name = config?.name || this.type;
-    this.config = ((config?.config) != null) || Object.create(null);
-    if ((config?.validator) != null) this.validatorOptions = config.validator; 
+    this.config = ((config?.config)) || Object.create(null);
+    if ((config?.validator)) this.validatorOptions = config.validator;
     this.logger = new Logger(this.name);
 
     this.headers = Object.create(null);
@@ -128,11 +128,11 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
     this.logger.debug('组装网关配置');
     this.logger.debug('%o', data);
 
-    const config = deepMerge(data.config.plugins[this.name || this.type], { config: this.config });
+    const config = data.config.plugins ? deepMerge(data.config.plugins[this.name || this.type], { config: this.config }) : { config: this.config };
 
     // 根据文件及文件夹名生成路径
     if (!config.config.path) {
-      config.config.path = '=/' + data.name.replace(/_/g, '/').replace(/\/index$/, '');
+      config.config.path = '=/' + data.name?.replace(/_/g, '/').replace(/\/index$/, '');
       if (config.config.ignorePathPrefix) {
         config.config.path = config.config.path.replace(new RegExp('^=' + config.config.ignorePathPrefix), '=');
         if (config.config.path === '=') config.config.path = '=/';
@@ -153,13 +153,13 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
 
   public async onMount (data: MountData, next: Next): Promise<void> {
     this.logger.debug('[onMount] merge config');
-    if (data.config.plugins[this.name || this.type]) this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config); 
+    if (data.config.plugins && data.config.plugins[this.name || this.type]) this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config);
 
     this.logger.debug('[onMount] prepare cookie & session');
     this.cookie = new Cookie(this.config.cookie || {});
     this.session = this.cookie.session;
 
-    if (this.validatorOptions != null) {
+    if (this.validatorOptions) {
       this.logger.debug('[onMount] prepare validator');
       this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions);
     }
@@ -174,7 +174,7 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
     this.params = Object.create(null);
     this.response = { headers: Object.create(null) };
 
-    if (data.event.body) 
+    if (data.event.body)
       if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
         this.logger.debug('[onInvoke] Parse params from json body');
         this.params = JSON.parse(data.event.body);
@@ -192,7 +192,7 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
     this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content);
     this.logger.debug('[onInvoke] Session: %O', this.session.content);
 
-    if ((this.validator != null) && data.event.httpMethod) {
+    if (this.validator && data.event.httpMethod) {
       this.logger.debug('[onInvoke] Valid request');
       try {
         await this.validator.valid({
@@ -225,7 +225,7 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
     this.session.update();
 
     // 处理 body
-    if (data.response) 
+    if (data.response)
       if (data.response instanceof Error || (data.response.constructor && data.response.constructor.name === 'Error')) {
       // 当结果是错误类型时
         this.logger.error(data.response);
@@ -233,11 +233,11 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
         this.response.statusCode = 500;
       } else if (Object.prototype.toString.call(data.response) === '[object Object]' && data.response.statusCode && data.response.headers)
       // 当返回结果是响应结构体时
-        this.response = data.response; else this.response.body = JSON.stringify({ data: data.response }); 
-    
+        this.response = data.response; else this.response.body = JSON.stringify({ data: data.response });
+
 
     // 处理 statusCode
-    if (!this.response.statusCode) this.response.statusCode = this.response.body ? 200 : 201; 
+    if (!this.response.statusCode) this.response.statusCode = this.response.body ? 200 : 201;
 
     // 处理 headers
     this.response.headers = Object.assign({
@@ -268,7 +268,7 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
       } else if (acceptEncoding.includes('deflate')) {
         data.response.headers['Content-Encoding'] = 'deflate';
         data.response.body = deflateSync(originBody).toString('base64');
-      } else throw Error('No matched compression.'); 
+      } else throw Error('No matched compression.');
 
       data.response.isBase64Encoded = true;
       data.response.originBody = originBody;
@@ -296,7 +296,7 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
    * @param charset {string} 编码
    */
   public setContentType (type: string, charset: string = 'utf-8'): Http<TParams, TCookie, TSession> {
-    if (ContentType[type]) this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`); else this.setHeader('Content-Type', `${type}; charset=${charset}`); 
+    if (ContentType[type]) this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`); else this.setHeader('Content-Type', `${type}; charset=${charset}`);
     return this;
   }
 

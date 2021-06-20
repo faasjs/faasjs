@@ -38,9 +38,9 @@ export class Knex implements Plugin {
    * @param config.config {object} 数据库配置
    */
   constructor (config?: KnexConfig) {
-    if (config != null) {
+    if (config) {
       this.name = config.name || this.type;
-      this.config = (config.config != null) || Object.create(null);
+      this.config = (config.config) || Object.create(null);
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -49,7 +49,7 @@ export class Knex implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
-    const client = (data.config.plugins[this.name].config as K.Config).client as string;
+    const client = (data.config.plugins![this.name].config as K.Config).client as string;
     if (!client) throw Error('[Knex] client required.');
 
     data.dependencies[client] = '*';
@@ -67,19 +67,19 @@ export class Knex implements Plugin {
     }
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env) 
+    for (let key in process.env)
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
-        if (typeof this.config[key] === 'undefined') 
+        if (typeof this.config[key] === 'undefined')
           if (key.startsWith('connection_')) {
             if (!this.config.connection) this.config.connection = {};
             this.config.connection[key.replace('connection_', '')] = value;
           } else this.config[key] = value;
       }
-    
 
-    if (data.config.plugins[this.name] && (data.config.plugins[this.name].config != null)) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
+
+    if (data.config.plugins && (data.config.plugins[this.name].config)) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.adapter = knex(this.config);
 
@@ -105,7 +105,7 @@ export class Knex implements Plugin {
     return this.adapter<TRecord, TResult>(tableName);
   }
 
-  public async raw<TResult = any> (sql: string, bindings?: K.RawBinding[] | K.ValueDict): Promise<K.Raw<TResult>> {
+  public async raw<TResult = any> (sql: string, bindings: K.RawBinding[] | K.ValueDict): Promise<K.Raw<TResult>> {
     return await this.adapter.raw<TResult>(sql, bindings);
   }
 

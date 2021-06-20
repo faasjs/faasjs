@@ -71,10 +71,10 @@ const NODE_PACKAGES = [
 
 function findModule (list: any, key: string, basePath: string, options: {
   excludes?: string[]
-}) {
+} = { excludes: [] }) {
   if (list[key]) return;
 
-  if (key.startsWith('@types/') || options.excludes.includes(key)) return; 
+  if (key.startsWith('@types/') || options.excludes.includes(key)) return;
 
   const paths = [
     join(process.cwd(), 'node_modules', key),
@@ -82,14 +82,14 @@ function findModule (list: any, key: string, basePath: string, options: {
   ];
 
   let path;
-  for (const p of paths) 
+  for (const p of paths)
     if (existsSync(p)) {
       path = p;
       break;
     }
-  
 
-  if (!path) return; 
+
+  if (!path) return;
 
   list[key] = path;
 
@@ -135,7 +135,7 @@ export default async function loadTs (filename: string, options: {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`);
   const external = PackageJSON.dependencies ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES;
-  if ((options.modules != null) && (options.modules.excludes == null)) options.modules.excludes = [];
+  if ((options.modules) && (options.modules.excludes == null)) options.modules.excludes = [];
 
   const input = deepMerge({
     input: filename,
@@ -144,26 +144,26 @@ export default async function loadTs (filename: string, options: {
       typescript({ tsconfigOverride: { compilerOptions: { declaration: false } } })
     ],
     onwarn: () => null
-  }, (options.input != null) || {});
+  }, (options.input) || {});
 
   const bundle = await rollup.rollup(input);
 
   const dependencies = Object.create(null);
 
-  for (const m of bundle.cache.modules || []) 
-    for (const d of m.dependencies) 
+  for (const m of bundle.cache?.modules || [])
+    for (const d of m.dependencies)
       if (
         !d.startsWith('/') &&
         !dependencies[d] &&
         !NODE_PACKAGES.includes(d)
       ) dependencies[d] = '*';
-    
-  
+
+
 
   const output = deepMerge({
     file: filename + '.tmp.js',
     format: 'cjs'
-  }, (options.output != null) || {});
+  }, (options.output) || {});
 
   await bundle.write(output);
 
@@ -176,11 +176,11 @@ export default async function loadTs (filename: string, options: {
 
   if (options.tmp) unlinkSync(output.file);
 
-  if (options.modules != null) {
+  if (options.modules) {
     const modules = Object.create(null);
 
-    Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules));
-    if (options.modules.additions != null) options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules)); 
+    Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules!));
+    if (options.modules.additions) options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules!));
 
     result.modules = modules;
   }

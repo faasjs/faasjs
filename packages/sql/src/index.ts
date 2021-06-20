@@ -51,10 +51,10 @@ export class Sql implements Plugin {
    * @param config.config.pool {Database} 数据库连接实例
    */
   constructor (config?: SqlConfig) {
-    if (config != null) {
+    if (config) {
       this.name = config.name || this.type;
       this.adapterType = config.adapterType;
-      this.config = (config.config != null) || Object.create(null);
+      this.config = (config.config) || Object.create(null);
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -82,19 +82,19 @@ export class Sql implements Plugin {
   public async onMount (data: MountData, next: Next): Promise<void> {
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env) 
+    for (let key in process.env)
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
         if (typeof this.config[key] === 'undefined') this.config[key] = value;
       }
-    
 
-    if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
+
+    if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.logger.debug('conncet: %O', this.config);
 
-    if (!this.adapterType) this.adapterType = data.config.plugins[this.name || this.type].adapter; 
+    if (!this.adapterType) this.adapterType = data.config.plugins[this.name || this.type].adapter;
 
     switch (this.adapterType) {
       case 'sqlite':
@@ -139,7 +139,7 @@ export class Sql implements Plugin {
    */
   public async queryMulti<TResult> (sqls: string[]): Promise<TResult[]> {
     const results = [];
-    for (const sql of sqls) results.push(await this.query(sql)); 
+    for (const sql of sqls) results.push(await this.query(sql));
 
     return results;
   }

@@ -30,7 +30,7 @@ module.exports = {
     'space-before-function-paren': 'error',
     semi: [
       'error',
-      'always'
+      'never'
     ],
     'eol-last': [
       'error',

@@ -11,7 +11,7 @@ const Validator = {
   name (input: string) {
     const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_';
     if (match !== true) return match;
-    if (existsSync(input)) return `${input} folder exists, please try another name`; 
+    if (existsSync(input)) return `${input} folder exists, please try another name`;
 
     return true;
   },
@@ -32,7 +32,7 @@ const Validator = {
   }
 };
 
-export async function action (options?: {
+export async function action (options: {
   name?: string
   region?: string
   appId?: string
@@ -40,7 +40,7 @@ export async function action (options?: {
   secretKey?: string
   example?: boolean
   noprovider?: boolean
-}): Promise<void> {
+} = {}): Promise<void> {
   const answers: {
     name?: string
     provider?: string
@@ -51,14 +51,13 @@ export async function action (options?: {
     example?: boolean
   } = Object.assign(options, {});
 
-  if (!options.name || Validator.name(options.name) !== true) 
+  if (!options.name || Validator.name(options.name) !== true)
     answers.name = await prompt({
       type: 'input',
       name: 'value',
       message: 'Project name',
       validate: Validator.name
     }).then((res: { value: string }) => res.value);
-  
 
   if (!options.noprovider) {
     answers.provider = await prompt({
@@ -78,7 +77,7 @@ export async function action (options?: {
     }).then((res: { value: string }) => res.value);
 
     if (answers.provider === 'tencentcloud') {
-      if (!answers.region || Validator.region(answers.region) !== true) 
+      if (!answers.region || Validator.region(answers.region) !== true)
         answers.region = await prompt({
           type: 'select',
           name: 'value',
@@ -86,27 +85,27 @@ export async function action (options?: {
           choices: Region.concat([]), // choices 会修改 Region 对象，因此克隆一份
           validate: Validator.region
         }).then((res: { value: string }) => res.value);
-      
 
-      if (!answers.appId || Validator.appId(answers.appId) !== true) 
+
+      if (!answers.appId || Validator.appId(answers.appId) !== true)
         answers.appId = await prompt({
           type: 'input',
           name: 'value',
           message: 'appId (from https://console.cloud.tencent.com/developer)',
           validate: Validator.appId
         }).then((res: { value: string }) => res.value);
-      
 
-      if (!answers.secretId || Validator.secretId(answers.secretId) !== true) 
+
+      if (!answers.secretId || Validator.secretId(answers.secretId) !== true)
         answers.secretId = await prompt({
           type: 'input',
           name: 'value',
           message: 'secretId (from https://console.cloud.tencent.com/cam/capi)',
           validate: Validator.secretId
         }).then((res: { value: string }) => res.value);
-      
 
-      if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true) 
+
+      if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true)
         answers.secretKey = await prompt({
           type: 'input',
           name: 'value',
@@ -116,14 +115,16 @@ export async function action (options?: {
     }
   }
 
-  if (answers.example) 
+  if (answers.example)
     answers.example = await prompt({
       type: 'confirm',
       name: 'value',
       message: 'Add example files',
       initial: true
     }).then((res: { value: boolean }) => res.value);
-  
+
+
+  if (!answers.name) return;
 
   mkdirSync(answers.name);
   writeFileSync(join(answers.name, 'faas.yaml'),

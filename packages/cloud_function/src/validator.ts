@@ -42,7 +42,7 @@ export class Validator {
     this.request = { event };
     this.logger.debug('Begin');
 
-    if (this.eventConfig != null) {
+    if (this.eventConfig) {
       this.logger.debug('Valid event');
       this.validContent('event', event, '', this.eventConfig);
     }
@@ -55,14 +55,14 @@ export class Validator {
       const eventKeys = Object.keys(event);
       const rulesKeys = Object.keys(config.rules).concat(['context']);
       const diff = eventKeys.filter(k => !rulesKeys.includes(k));
-      if (diff.length > 0) 
+      if (diff.length > 0)
         if (config.whitelist === 'error') {
           const diffKeys = diff.map(k => `${baseKey}${k}`);
           const error = Error(`[${type}] Unpermitted keys: ${diffKeys.join(', ')}`);
-          if (config.onError != null) config.onError(`${type}.whitelist`, baseKey, diffKeys); 
+          if (config.onError) config.onError(`${type}.whitelist`, baseKey, diffKeys);
 
           throw error;
-        } else if (config.whitelist === 'ignore') 
+        } else if (config.whitelist === 'ignore')
           for (const key of diff) delete event[key];
     }
     for (const key in config.rules) {
@@ -70,26 +70,24 @@ export class Validator {
       let value = event[key];
 
       // default
-      if (rule.default) 
+      if (rule.default)
         if (type === 'cookie' || type === 'session') this.logger.warn('Cookie and Session not support default rule.'); else if (typeof value === 'undefined' && rule.default) {
           value = typeof rule.default === 'function' ? rule.default(this.request) : rule.default;
           event[key] = value;
         }
-      
 
       // required
-      if (rule.required) 
+      if (rule.required)
         if (typeof value === 'undefined' || value === null) {
           const error = Error(`[${type}] ${baseKey}${key} is required.`);
-          if (config.onError != null) config.onError(`${type}.rule.required`, `${baseKey}${key}`, value); 
+          if (config.onError) config.onError(`${type}.rule.required`, `${baseKey}${key}`, value);
 
           throw error;
         }
-      
 
       if (typeof value !== 'undefined' && value !== null) {
         // type
-        if (rule.type) 
+        if (rule.type)
           if (type === 'cookie') this.logger.warn('Cookie not support type rule'); else {
             let typed = true;
             switch (rule.type) {
@@ -106,28 +104,28 @@ export class Validator {
 
             if (!typed) {
               const error = Error(`[${type}] ${baseKey}${key} must be a ${rule.type}.`);
-              if (config.onError != null) config.onError(`${type}.rule.type`, `${baseKey}${key}`, value); 
+              if (config.onError) config.onError(`${type}.rule.type`, `${baseKey}${key}`, value);
 
               throw error;
             }
           }
-        
+
 
         // in
-        if ((rule.in != null) && !rule.in.includes(value)) {
+        if ((rule.in) && !rule.in.includes(value)) {
           const error = Error(`[${type}] ${baseKey}${key} must be in ${rule.in.join(', ')}.`);
-          if (config.onError != null) config.onError(`${type}.rule.in`, `${baseKey}${key}`, value); 
+          if (config.onError) config.onError(`${type}.rule.in`, `${baseKey}${key}`, value);
 
           throw error;
         }
 
         // nest config
-        if (rule.config != null) 
+        if (rule.config)
           if (type === 'cookie') this.logger.warn('Cookie not support nest rule.'); else
           if (Array.isArray(value))
           // array
-          
-            for (const val of value) this.validContent(type, val, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig); 
+
+            for (const val of value) this.validContent(type, val, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig);
           else if (typeof value === 'object')
           // object
             this.validContent(type, value, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig);

@@ -23,7 +23,7 @@ export function FaasClient ({
 
   return {
     async faas<T = any> (action: string, params: Params) {
-      if (onError != null) return await client.action<T>(action, params).catch(onError(action, params));
+      if (onError) return await client.action<T>(action, params).catch(onError(action, params));
       return await client.action<T>(action, params);
     },
     useFaas<T = any> (action: string, params: Params) {
@@ -41,7 +41,7 @@ export function FaasClient ({
             setData(r?.data);
           })
           .catch(async e => {
-            if (onError != null)
+            if (onError)
               try {
                 setData(await onError(action, params)(e));
               } catch (error) {

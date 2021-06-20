@@ -32,9 +32,9 @@ export class Kafka implements Plugin {
    * @param config.config {object} 配置项
    */
   constructor (config?: KafkaConfig) {
-    if (config != null) {
+    if (config) {
       this.name = config.name || this.type;
-      this.config = (config.config != null) || Object.create(null);
+      this.config = (config.config) || Object.create(null);
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -52,15 +52,15 @@ export class Kafka implements Plugin {
     }
     const prefix = `SECRET_${this.name.toUpperCase()}_`;
 
-    for (let key in process.env) 
+    for (let key in process.env)
       if (key.startsWith(prefix)) {
         const value = process.env[key];
         key = key.replace(prefix, '').toLowerCase();
-        if (typeof this.config[key] === 'undefined') this.config[key] = value; 
+        if (typeof this.config[key] === 'undefined') this.config[key] = value;
       }
-    
 
-    if (data.config.plugins[this.name] && (data.config.plugins[this.name].config != null)) this.config = deepMerge(data.config.plugins[this.name].config, this.config); 
+
+    if (data.config.plugins && (data.config.plugins[this.name].config)) this.config = deepMerge(data.config.plugins[this.name].config, this.config);
 
     this.client = new K(this.config);
     this.producer = this.client.producer();

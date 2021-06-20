@@ -1,24 +1,24 @@
-import { Command } from 'commander';
-import { existsSync, lstatSync } from 'fs';
-import { sync as globSync } from 'glob';
-import { createInterface } from 'readline';
-import { sep } from 'path';
-import { Deployer } from '@faasjs/deployer';
-import { defaultsEnv } from '../helper';
-import { cpus } from 'os';
-import { fork } from 'cluster';
-import { chunk } from 'lodash';
-import { log, warn, error } from 'console';
-import { runInNewContext } from 'vm';
+import { Command } from 'commander'
+import { existsSync, lstatSync } from 'fs'
+import { sync as globSync } from 'glob'
+import { createInterface } from 'readline'
+import { sep } from 'path'
+import { Deployer } from '@faasjs/deployer'
+import { defaultsEnv } from '../helper'
+import { cpus } from 'os'
+import { fork } from 'cluster'
+import { chunk } from 'lodash'
+import { log, warn, error } from 'console'
+import { runInNewContext } from 'vm'
 
 async function sleep () {
-  const waiting = Math.floor(Math.random() * 3);
+  const waiting = Math.floor(Math.random() * 3)
   return await new Promise<void>(function (resolve) {
-    log(`等待 ${waiting} 秒...`);
+    log(`等待 ${waiting} 秒...`)
     setTimeout(function () {
-      resolve();
-    }, waiting * 1000);
-  });
+      resolve()
+    }, waiting * 1000)
+  })
 }
 
 async function confirm ({
@@ -31,44 +31,46 @@ async function confirm ({
   fail?: string
 }) {
   return await new Promise<void>(function (resolve, reject) {
-    if (message) warn(message);
+    if (message) warn(message)
 
     const readline = createInterface({
       input: process.stdin,
       output: process.stdout
-    });
+    })
     readline.question('输入 y 确认:', function (res: string) {
-      readline.close();
+      readline.close()
 
       if (res !== 'y') {
-        if (fail) error(fail); 
-        reject();
+        if (fail) error(fail)
+        reject()
       } else {
-        if (success) log(success); 
-        resolve();
+        if (success) log(success)
+        resolve()
       }
-    });
-  });
+    })
+  })
 }
 
 async function deploy (file: string, ar: number, options: {y: string}) {
-  if (!file.endsWith('.func.ts')) throw Error(`${file} isn't a cloud function file.`);
+  if (!file.endsWith('.func.ts')) throw Error(`${file} isn't a cloud function file.`)
 
   try {
     const deployer = new Deployer({
-      root: process.env.FaasRoot,
-      filename: file
-    });
-    await deployer.deploy();
+      root: process.env.FaasRoot as string,
+      filename: file,
+      config: {},
+      dependencies: {}
+    })
+    await deployer.deploy()
   } catch (err) {
     if (ar > 0) {
-      error(err);
-      warn(file + ` 自动重试（剩余 ${ar} 次）`);
-      await sleep();
-      await deploy(file, ar - 1, options);
+      error(err)
+      warn(file + ` 自动重试（剩余 ${ar} 次）`)
+      await sleep()
+      await deploy(file, ar - 1, options)
     } else {
-      error(err);
-      throw Error(file + ' 自动重试次数已满，结束重试');
+      error(err)
+      throw Error(file + ' 自动重试次数已满，结束重试')
     }
   }
 }
@@ -78,10 +80,10 @@ export async function action (env: string, files: string[], { w, ar, y }: {
   ar?: string
   y?: string
 }): Promise<void> {
-  if (!ar) ar = '3';
+  if (!ar) ar = '3'
 
   if (process.env.FaasDeployFiles) {
-    for (const file of process.env.FaasDeployFiles.split(',')) 
+    for (const file of process.env.FaasDeployFiles.split(','))
       await new Promise(function (resolve) {
         runInNewContext(
           `(async function() {
@@ -100,54 +102,53 @@ export async function action (env: string, files: string[], { w, ar, y }: {
             resolve
           },
           { breakOnSigint: true }
-        );
-      });
-    
-    return;
+        )
+      })
+
+    return
   }
 
-  process.env.FaasEnv = env;
+  process.env.FaasEnv = env
 
-  defaultsEnv();
+  defaultsEnv()
 
-  const list: string[] = [];
+  const list: string[] = []
 
   for (const name of files) {
-    let path = name.startsWith(sep) ? name : process.env.FaasRoot + name;
+    let path = name.startsWith(sep) ? name : process.env.FaasRoot + name
 
-    if (!existsSync(path)) throw Error(`File not found: ${path}`); 
+    if (!existsSync(path)) throw Error(`File not found: ${path}`)
 
     if (lstatSync(path).isFile()) list.push(path); else {
-      if (!path.endsWith(sep)) path += sep; 
+      if (!path.endsWith(sep)) path += sep
 
-      list.push(...[...new Set(globSync(path + '*.func.ts').concat(globSync(path + `**${sep}*.func.ts`)))]);
+      list.push(...[...new Set(globSync(path + '*.func.ts').concat(globSync(path + `**${sep}*.func.ts`)))])
     }
   }
 
-  if (list.length < 1) throw Error('Not found files.');
+  if (list.length < 1) throw Error('Not found files.')
 
-  if (list.length === 1) await deploy(list[0], Number(ar), { y }); else {
-    let processNumber = w ? Number(w) : (cpus().length > 1 ? cpus().length - 1 : 1);
-    if (processNumber > list.length) processNumber = list.length;
+  if (list.length === 1) await deploy(list[0], Number(ar), { y: y! }); else {
+    let processNumber = w ? Number(w) : (cpus().length > 1 ? cpus().length - 1 : 1)
+    if (processNumber > list.length) processNumber = list.length
 
-    log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber}，失败自动重试 ${ar} 次)`);
-    log(list);
-    log('');
+    log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber}，失败自动重试 ${ar} 次)`)
+    log(list)
+    log('')
 
-    if (!y) 
+    if (!y)
       await confirm({
         success: '开始发布',
         fail: '停止发布'
-      });
-    
+      })
 
-    const files = chunk(list, Math.ceil(list.length / processNumber));
+    const files = chunk(list, Math.ceil(list.length / processNumber))
     for (let i = 0; i < processNumber; i++) {
-      if (!files[i] || (files[i].length === 0)) continue;
-      const worker = fork({ FaasDeployFiles: files[i] });
+      if (!files[i] || (files[i].length === 0)) continue
+      const worker = fork({ FaasDeployFiles: files[i] })
       worker.on('error', function () {
-        worker.kill();
-      });
+        worker.kill()
+      })
     }
   }
 }
@@ -165,7 +166,7 @@ export default function (program: Command): void {
 Examples:
   yarn deploy staging services${sep}demo.func.ts
   yarn deploy production services${sep}demo.func.ts services${sep}demo2.func.ts
-  yarn deploy staging services${sep}`);
+  yarn deploy staging services${sep}`)
     })
-    .action(action);
+    .action(action)
 }

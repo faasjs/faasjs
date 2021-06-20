@@ -75,15 +75,15 @@ export class GraphQLServer implements Plugin {
   async onMount (data: MountData, next: Next): Promise<any> {
     await this.http.onMount(data, async () => {
       // 将 schemas 转换为 FederatedSchema
-      if (this.config.schemas != null) {
-        if (typeof this.config.schemas === 'function') this.config.schemas = await this.config.schemas(); 
+      if (this.config.schemas) {
+        if (typeof this.config.schemas === 'function') this.config.schemas = await this.config.schemas();
 
         this.config.schema = buildFederatedSchema(this.config.schemas);
         delete this.config.schemas;
       }
 
       // 将 gateways 转换为 Gateway
-      if (this.config.gateways != null) {
+      if (this.config.gateways) {
         this.config.gateway = new ApolloGateway({
           serviceList: this.config.gateways,
           debug: true,
@@ -96,14 +96,13 @@ export class GraphQLServer implements Plugin {
       this.config.context = async function (invokeData: InvokeData): Promise<Context> {
         const data = deepMerge(invokeData);
 
-        if (configContext != null) 
-          if (typeof configContext === 'function') return Object.assign(data, await configContext(data)); else return Object.assign(data, configContext); 
-        
+        if (configContext)
+          if (typeof configContext === 'function') return Object.assign(data, await configContext(data)); else return Object.assign(data, configContext);
 
         return data;
       };
 
-      if (this.config.gateway != null) {
+      if (this.config.gateway) {
         await this.config.gateway.load({});
         this.config.subscriptions = false;
       }
@@ -120,8 +119,7 @@ export class GraphQLServer implements Plugin {
     await this.http.onInvoke(data, async () => {
       switch (data.event.httpMethod) {
         case 'POST':
-          if (data.event.body) data.response = await this.server.handler(data); else throw Error('Missing body'); 
-
+          if (data.event.body) data.response = await this.server.handler(data); else throw Error('Missing body');
           break;
         case 'GET':
           data.response = {

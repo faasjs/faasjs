@@ -50,7 +50,7 @@ export class CloudFunction implements Plugin {
     [key: string]: any
   }
 
-  private adapter?: CloudFunctionAdapter
+  private adapter: CloudFunctionAdapter
   private readonly validatorConfig?: {
     event?: ValidatorConfig
   }
@@ -73,10 +73,10 @@ export class CloudFunction implements Plugin {
    * @param config.validator.event.rules {object} 参数校验规则
    */
   constructor (config?: CloudFunctionConfig) {
-    if (config != null) {
+    if (config) {
       this.name = config.name || Name;
-      this.config = (config.config != null) || Object.create(null);
-      if (config.validator != null) this.validatorConfig = config.validator; 
+      this.config = config.config || Object.create(null);
+      if (config.validator) this.validatorConfig = config.validator;
     } else {
       this.name = this.type;
       this.config = Object.create(null);
@@ -85,12 +85,12 @@ export class CloudFunction implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
-    data.logger.debug('[CloudFunction] 组装云函数配置');
-    data.logger.debug('%o', data);
+    this.logger.debug('[CloudFunction] 组装云函数配置');
+    this.logger.debug('%o', data);
 
-    const config = deepMerge(data.config.plugins[this.name || this.type], { config: this.config });
+    const config = data.config.plugins ? deepMerge(data.config.plugins[this.name], { config: this.config }) : { config: this.config };
 
-    data.logger.debug('[CloudFunction] 组装完成 %o', config);
+    this.logger.debug('[CloudFunction] 组装完成 %o', config);
 
     // 引用服务商部署插件
     // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
@@ -106,15 +106,15 @@ export class CloudFunction implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    if ((data.config.plugins != null) && data.config.plugins[this.name || this.type]) this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type], {}); 
+    if (data.config.plugins && data.config.plugins[this.name || this.type]) this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type], {});
 
     if (this.config.provider) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
       const Provider = require(this.config.provider.type);
       this.adapter = new Provider(this.config.provider.config);
-    } else this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.'); 
+    } else this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.');
 
-    if (this.validatorConfig != null) {
+    if (this.validatorConfig) {
       this.logger.debug('[onMount] prepare validator');
       this.validator = new Validator(this.validatorConfig);
     }
@@ -127,7 +127,7 @@ export class CloudFunction implements Plugin {
   public async onInvoke (data: InvokeData, next: Next): Promise<void> {
     this.event = data.event;
     this.context = data.context;
-    if (this.validator != null) {
+    if (this.validator) {
       this.logger.debug('[onInvoke] Valid');
       this.validator.valid({ event: this.event });
     }
@@ -166,9 +166,11 @@ export class CloudFunction implements Plugin {
 export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction & UseifyPlugin
 export function useCloudFunction (config?: () => CloudFunctionConfig): CloudFunction & UseifyPlugin {
   let configs;
-  if (config != null) 
-    if (typeof config === 'function') configs = config(); else configs = config; 
-  
+  if (config)
+    if (typeof config === 'function')
+      configs = config();
+    else
+      configs = config;
 
   const name = configs?.name || Name;
 

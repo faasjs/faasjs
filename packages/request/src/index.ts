@@ -88,18 +88,17 @@ export default async function request<T = any> (url: string, {
 }): Promise<Response<T>> {
   const log = new Logger('request');
 
-  if (mock != null) 
+  if (mock)
     return await mock(url, {
       headers,
       method,
       query,
       body
     });
-  
 
   // 序列化 query
-  if (query != null) {
-    if (!url.includes('?')) url += '?'; else if (!url.endsWith('?')) url += '&'; 
+  if (query) {
+    if (!url.includes('?')) url += '?'; else if (!url.endsWith('?')) url += '&';
 
     url += stringify(query);
   }
@@ -137,15 +136,15 @@ export default async function request<T = any> (url: string, {
   };
 
   // 处理 headers
-  for (const key in headers) if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key]; 
+  for (const key in headers) if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key];
 
   // 序列化 body
-  if (body && typeof body !== 'string') 
+  if (body && typeof body !== 'string')
     if (
       options.headers['Content-Type'] &&
       options.headers['Content-Type'].toString().includes('application/x-www-form-urlencoded')
-    ) body = stringify(body); else body = JSON.stringify(body); 
-  
+    ) body = stringify(body); else body = JSON.stringify(body);
+
 
   if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body);
 
@@ -156,7 +155,7 @@ export default async function request<T = any> (url: string, {
     });
 
     const req = protocol.request(options, function (res: http.IncomingMessage) {
-      if (downloadStream != null) {
+      if (downloadStream) {
         res.pipe(downloadStream);
         downloadStream.on('finish', function () {
           resolve(undefined);
@@ -178,14 +177,14 @@ export default async function request<T = any> (url: string, {
           response.headers = res.headers;
           response.body = data;
 
-          if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json')) 
+          if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json'))
             try {
-              response.body = (parse != null) ? parse(response.body) : JSON.parse(response.body);
+              response.body = (parse) ? parse(response.body) : JSON.parse(response.body);
               log.debug('response.parse JSON');
             } catch (error) {
               console.error(error);
             }
-          
+
 
           if (response.statusCode >= 200 && response.statusCode < 400) resolve(response); else {
             log.debug('response.error %O', response);
