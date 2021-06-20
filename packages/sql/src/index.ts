@@ -5,6 +5,8 @@ import { Sqlite, SqliteConfig } from './sqlite';
 import { Postgresql, PostgresqlConfig } from './postgresql';
 import { Mysql, MysqlConfig } from './mysql';
 
+export type AdapterType = 'sqlite' | 'postgresql' | 'mysql';
+
 export interface Adapter {
   pool: any;
   query: (sql: string, values?: any) => Promise<any[]>;
@@ -36,7 +38,7 @@ export class Sql implements Plugin {
   public type: string = Name;
   public name: string = Name;
   public config: SqlConfig;
-  public adapterType?: string;
+  public adapterType?: AdapterType;
   public adapter?: Adapter;
   public logger: Logger;
 
