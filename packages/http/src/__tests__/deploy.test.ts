@@ -6,7 +6,7 @@ describe('deploy', function () {
     const http = new Http()
     const func = new Func({ plugins: [http] })
 
-    const deployData = {
+    await expect(func.deploy({
       root: '.',
       filename: 'filename',
       name: 'name',
@@ -20,9 +20,8 @@ describe('deploy', function () {
             type: 'http'
           }
         }
-      }
-    }
-
-    await expect(func.deploy(deployData)).rejects.toEqual(Error('Missing secretId or secretKey!'))
+      },
+      dependencies: {}
+    })).rejects.toEqual(Error('Missing secretId or secretKey!'))
   })
 })
