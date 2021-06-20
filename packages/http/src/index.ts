@@ -143,8 +143,9 @@ export class Http<TParams = any, TCookie = any, TSession = any> implements Plugi
     this.logger.debug('组装完成 %o', config);
 
     // 引用服务商部署插件
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-    const Provider = require(config.provider.type);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const Provider = require(config.provider.type).default;
+    console.log(config.provider.type, Provider);
     const provider = new Provider(config.provider.config);
 
     // 部署网关

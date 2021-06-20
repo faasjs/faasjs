@@ -6,7 +6,7 @@ export type Handler<TEvent = any, TContext = any, TRESULT = any> = (data: Invoke
 export type Next = () => Promise<void>;
 export type ExportedHandler<TEvent = any, TContext = any, TRESULT = any> = (event: TEvent, context?: TContext, callback?: (...args: any) => any) => Promise<TRESULT>;
 
-export interface Plugin {
+export type Plugin = {
   [key: string]: any;
   readonly type: string;
   readonly name: string;
@@ -15,20 +15,22 @@ export interface Plugin {
   onInvoke?: (data: InvokeData, next: Next) => void;
 }
 
-export interface Config {
-  [key: string]: any;
-  providers: {
-    [key: string]: {
-      type: string;
-      config: {
-        [key: string]: any;
-      };
-    };
+export type ProviderConfig = {
+  type: string;
+  config: {
+    [key: string]: any;
   };
-  plugins: {
+}
+
+export type Config = {
+  [key: string]: any;
+  providers?: {
+    [key: string]: ProviderConfig;
+  };
+  plugins?: {
     [key: string]: {
       [key: string]: any;
-      provider?: string;
+      provider?: string | ProviderConfig;
       type: string;
       config?: {
         [key: string]: any;
@@ -36,7 +38,7 @@ export interface Config {
     };
   };
 }
-export interface DeployData {
+export type DeployData = {
   [key: string]: any;
   root: string;
   filename: string;
@@ -62,14 +64,14 @@ export interface DeployData {
   logger?: Logger;
 }
 
-export interface MountData {
+export type MountData = {
   [key: string]: any;
   config: Config;
   event: any;
   context: any;
 }
 
-export interface InvokeData<TEvent = any, TContext = any, TRESULT = any> {
+export type InvokeData<TEvent = any, TContext = any, TRESULT = any> = {
   [key: string]: any;
   event: TEvent;
   context: TContext;
@@ -82,12 +84,12 @@ export interface InvokeData<TEvent = any, TContext = any, TRESULT = any> {
 
 export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke';
 
-export interface FuncConfig<TEvent = any, TContext = any, TRESULT = any> {
+export type FuncConfig<TEvent = any, TContext = any, TRESULT = any> = {
   plugins?: Plugin[];
   handler?: Handler<TEvent, TContext, TRESULT>;
 }
 
-interface CachedFunction {
+type CachedFunction = {
   key: string;
   handler: (...args: any) => void;
 }
@@ -265,7 +267,7 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
 
 let plugins = [];
 
-export interface UseifyPlugin {
+export type UseifyPlugin = {
   mount?({ config: Config }): Promise<void>
 }
 
