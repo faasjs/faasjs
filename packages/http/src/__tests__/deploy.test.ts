@@ -22,6 +22,6 @@ describe('deploy', function () {
         }
       },
       dependencies: {}
-    })).rejects.toEqual(Error('Missing secretId or secretKey!'))
+    })).rejects.toEqual(Error('Provider is not a constructor'))
   })
 })
