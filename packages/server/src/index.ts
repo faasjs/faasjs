@@ -70,7 +70,7 @@ export class Server {
         let data
         try {
           // 提取 path
-          const path = join(this.root, req.url).replace(/\?.*/, '')
+          const path = join(this.root, req.url!).replace(/\?.*/, '')
 
           let cache: Cache = {}
 
@@ -89,7 +89,7 @@ export class Server {
             else this.clearCache()
           }
 
-          data = await cache.handler({
+          data = await cache.handler!({
             headers: req.headers,
             httpMethod: req.method,
             path: req.url,
