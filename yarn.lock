@@ -412,7 +412,7 @@
     strip-json-comments "^3.1.1"
 
 "@faasjs/eslint-config-recommended@file:./packages/eslint-config-recommended":
-  version "0.0.2-beta.176"
+  version "0.0.2-beta.193"
   dependencies:
     "@typescript-eslint/eslint-plugin" "*"
     "@typescript-eslint/parser" "*"
@@ -3990,10 +3990,10 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 faasjs@./packages/faasjs:
-  version "0.0.2-beta.192"
+  version "0.0.2-beta.196"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.192"
-    "@faasjs/http" "^0.0.2-beta.192"
+    "@faasjs/cli" "^0.0.2-beta.196"
+    "@faasjs/http" "^0.0.2-beta.196"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -4425,9 +4425,9 @@ graphql-tools@^4.0.8:
     uuid "^3.1.0"
 
 graphql@*:
-  version "15.5.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.5.0.tgz#39d19494dbe69d1ea719915b578bf920344a69d5"
-  integrity sha512-OmaM7y0kaK31NKG31q4YbD2beNYa6jBBKtMFT6gLYJljHLJr42IqJ8KX08u3Li/0ifzTU5HjmoOOrwa5BRLeDA==
+  version "15.5.1"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.5.1.tgz#f2f84415d8985e7b84731e7f3536f8bb9d383aad"
+  integrity sha512-FeTRX67T3LoE3LWAxxOlW2K3Bz+rMYAC18rRguK4wgXaTZMiJwSUwDmPFo3UadAKbzirKIg5Qy+sNJXbpPRnQw==
 
 handlebars@^4.7.6:
   version "4.7.7"
