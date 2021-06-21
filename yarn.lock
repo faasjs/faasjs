@@ -412,7 +412,7 @@
     strip-json-comments "^3.1.1"
 
 "@faasjs/eslint-config-recommended@file:./packages/eslint-config-recommended":
-  version "0.0.2-beta.176"
+  version "0.0.2-beta.193"
   dependencies:
     "@typescript-eslint/eslint-plugin" "*"
     "@typescript-eslint/parser" "*"
@@ -3990,10 +3990,10 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 faasjs@./packages/faasjs:
-  version "0.0.2-beta.192"
+  version "0.0.2-beta.196"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.192"
-    "@faasjs/http" "^0.0.2-beta.192"
+    "@faasjs/cli" "^0.0.2-beta.196"
+    "@faasjs/http" "^0.0.2-beta.196"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -7545,9 +7545,9 @@ rollup-plugin-typescript2@*:
     tslib "2.1.0"
 
 rollup@*:
-  version "2.52.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.52.1.tgz#dd1cc178d70cf35c48d943fc06fdc32d546e6876"
-  integrity sha512-/SPqz8UGnp4P1hq6wc9gdTqA2bXQXGx13TtoL03GBm6qGRI6Hm3p4Io7GeiHNLl0BsQAne1JNYY+q/apcY933w==
+  version "2.52.2"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.52.2.tgz#a7e90d10ddae3e8472c2857bd9f44b09ef34a47a"
+  integrity sha512-4RlFC3k2BIHlUsJ9mGd8OO+9Lm2eDF5P7+6DNQOp5sx+7N/1tFM01kELfbxlMX3MxT6owvLB1ln4S3QvvQlbUA==
   optionalDependencies:
     fsevents "~2.3.2"
 
