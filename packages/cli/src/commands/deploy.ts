@@ -105,7 +105,7 @@ export async function action (env: string, files: string[], { w, ar, y }: {
         )
       })
 
-    return
+    process.exit()
   }
 
   process.env.FaasEnv = env
