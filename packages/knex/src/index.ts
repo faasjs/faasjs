@@ -29,6 +29,7 @@ export class Knex implements Plugin {
   public readonly name: string = Name
   public config: K.Config
   public adapter: K
+  public query: K
   public logger: Logger
 
   /**
@@ -62,6 +63,7 @@ export class Knex implements Plugin {
     if (globals[this.name]) {
       this.config = globals[this.name].config
       this.adapter = globals[this.name].adapter
+      this.query = this.adapter
       await next()
       return
     }
@@ -94,15 +96,14 @@ export class Knex implements Plugin {
       .on('query-error', (_, { __knexQueryUid, sql, bindings }) => {
         this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query failed: %s %O', sql, bindings)
       })
+
+    this.query = this.adapter
+
     this.logger.debug('connected')
 
     globals[this.name] = this
 
     await next()
-  }
-
-  public query<TRecord = any, TResult = any> (tableName?: string | K.Raw<TResult> | K.QueryBuilder<TRecord, TResult> | K.AliasDict): K.QueryBuilder<TRecord, TResult> {
-    return this.adapter<TRecord, TResult>(tableName)
   }
 
   public async raw<TResult = any> (sql: string, bindings: K.RawBinding[] | K.ValueDict = []): Promise<K.Raw<TResult>> {
