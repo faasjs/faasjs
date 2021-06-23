@@ -18,7 +18,9 @@ export function action (opts: {
 
   require('ts-node').register({
     project: join(process.cwd(), 'tsconfig.json'),
-    compilerOptions: { module: 'commonjs' }
+    compilerOptions: { module: 'commonjs' },
+    transpileOnly: true,
+    typeCheck: false
   })
 
   defaultsEnv()
