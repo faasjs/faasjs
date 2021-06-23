@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cli",
-  "version": "0.0.2-beta.196",
+  "version": "0.0.2-beta.198",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
