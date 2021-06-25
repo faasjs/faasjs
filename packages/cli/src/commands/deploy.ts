@@ -75,36 +75,47 @@ async function deploy (file: string, ar: number, options: {y: string}) {
   }
 }
 
-export async function action (env: string, files: string[], { w, ar, y }: {
-  w?: string
-  ar?: string
-  y?: string
+export async function action (env: string, files: string[], { workers, autoRetry, autoYes }: {
+  workers?: string
+  autoRetry?: string
+  autoYes?: string
 }): Promise<void> {
-  if (!ar) ar = '3'
+  if (!autoRetry) autoRetry = '3'
 
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
-      await new Promise(function (resolve) {
-        runInNewContext(
-          `(async function() {
-              try {
-                  await deploy('${file}', ar);
-              } catch (e) {
-                  throw e;
-              } finally {
-                  resolve();
-              }
-          })();`,
-          {
-            process,
-            deploy,
-            ar: Number(ar),
-            resolve
-          },
-          { breakOnSigint: true }
-        )
-      })
-
+      try {
+        await new Promise(function (resolve, reject) {
+          runInNewContext(
+            `(async function() {
+                try {
+                    await deploy('${file}', ar)
+                } catch (e) {
+                    reject(e)
+                } finally {
+                    resolve()
+                }
+            })();`,
+            {
+              process,
+              deploy,
+              ar: Number(autoRetry),
+              resolve,
+              reject
+            },
+            { breakOnSigint: true }
+          )
+        })
+        process.send({
+          type: 'done',
+          file
+        })
+      } catch (error) {
+        process.send({
+          type: 'fail',
+          file
+        })
+      }
     process.exit()
   }
 
@@ -128,27 +139,57 @@ export async function action (env: string, files: string[], { w, ar, y }: {
 
   if (list.length < 1) throw Error('Not found files.')
 
-  if (list.length === 1) await deploy(list[0], Number(ar), { y: y! }); else {
-    let processNumber = w ? Number(w) : (cpus().length > 1 ? cpus().length - 1 : 1)
+  if (list.length === 1)
+    await deploy(list[0], Number(autoRetry), { y: autoRetry })
+  else {
+    let processNumber = workers ? Number(workers) : (cpus().length > 1 ? cpus().length - 1 : 1)
     if (processNumber > list.length) processNumber = list.length
 
-    log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber}，失败自动重试 ${ar} 次)`)
+    log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber}，失败自动重试 ${autoRetry} 次)`)
     log(list)
     log('')
 
-    if (!y)
+    if (!autoYes)
       await confirm({
         success: '开始发布',
         fail: '停止发布'
       })
 
     const files = chunk(list, Math.ceil(list.length / processNumber))
+    const queues = []
+    const results = {
+      done: [],
+      fail: []
+    }
     for (let i = 0; i < processNumber; i++) {
       if (!files[i] || (files[i].length === 0)) continue
-      const worker = fork({ FaasDeployFiles: files[i] })
-      worker.on('error', function () {
-        worker.kill()
-      })
+      queues.push(new Promise<void>(function (resolve) {
+        const worker = fork({ FaasDeployFiles: files[i] })
+        worker.on('message', function (message) {
+          switch (message?.type) {
+            case 'done':
+              results.done.push(message.file)
+              break
+            case 'fail':
+              results.fail.push(message.file)
+              break
+          }
+        })
+        worker.on('error', function () {
+          worker.kill()
+        })
+        worker.on('exit', function () {
+          resolve()
+        })
+      }))
+    }
+
+    await Promise.all(queues)
+
+    if (results.fail.length) {
+      if (results.done.length) console.log('部署成功：', results.done)
+      console.error('部署失败', results.fail)
+      process.exit(1)
     }
   }
 }
@@ -156,9 +197,9 @@ export async function action (env: string, files: string[], { w, ar, y }: {
 export default function (program: Command): void {
   program
     .command('deploy <env> [files...]')
-    .option('-w <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
-    .option('-ar <times>', '自动重试次数，默认为 3 次，设为 0 则禁止自动重试')
-    .option('-y', '当出现需确认的情况时，自动选择 yes')
+    .option('-w --workers <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
+    .option('-ar --autoRetry <times>', '自动重试次数，默认为 3 次，设为 0 则禁止自动重试')
+    .option('-y --autoYes', '当出现需确认的情况时，自动选择 yes')
     .name('deploy')
     .description('发布')
     .on('--help', function () {
