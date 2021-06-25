@@ -63,15 +63,13 @@ async function deploy (file: string, ar: number, options: {y: string}) {
     })
     await deployer.deploy()
   } catch (err) {
+    error(err)
     if (ar > 0) {
-      error(err)
       warn(file + ` 自动重试（剩余 ${ar} 次）`)
       await sleep()
       await deploy(file, ar - 1, options)
-    } else {
-      error(err)
+    } else
       throw Error(file + ' 自动重试次数已满，结束重试')
-    }
   }
 }
 
@@ -80,14 +78,17 @@ export async function action (env: string, files: string[], { workers, autoRetry
   autoRetry?: string
   autoYes?: string
 }): Promise<void> {
+  process.env.FaasEnv = env
+
+  defaultsEnv()
+
   if (!autoRetry) autoRetry = '3'
 
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
       try {
         await new Promise(function (resolve, reject) {
-          runInNewContext(
-            `(async function() {
+          runInNewContext(`(async function() {
                 try {
                     await deploy('${file}', ar)
                 } catch (e) {
@@ -96,32 +97,33 @@ export async function action (env: string, files: string[], { workers, autoRetry
                     resolve()
                 }
             })();`,
-            {
-              process,
-              deploy,
-              ar: Number(autoRetry),
-              resolve,
-              reject
-            },
-            { breakOnSigint: true }
+          {
+            process,
+            deploy,
+            ar: Number(autoRetry),
+            resolve,
+            reject
+          },
+          { breakOnSigint: true }
           )
         })
         process.send({
           type: 'done',
           file
         })
-      } catch (error) {
+      } catch (err) {
+        error(err)
         process.send({
           type: 'fail',
           file
         })
       }
-    process.exit()
+
+    if (process.env.JEST_WORKER_ID)
+      return
+    else
+      process.exit(0)
   }
-
-  process.env.FaasEnv = env
-
-  defaultsEnv()
 
   const list: string[] = []
 
@@ -140,7 +142,7 @@ export async function action (env: string, files: string[], { workers, autoRetry
   if (list.length < 1) throw Error('Not found files.')
 
   if (list.length === 1)
-    await deploy(list[0], Number(autoRetry), { y: autoRetry })
+    await deploy(list[0], Number(autoRetry), { y: autoYes })
   else {
     let processNumber = workers ? Number(workers) : (cpus().length > 1 ? cpus().length - 1 : 1)
     if (processNumber > list.length) processNumber = list.length
@@ -187,9 +189,16 @@ export async function action (env: string, files: string[], { workers, autoRetry
     await Promise.all(queues)
 
     if (results.fail.length) {
-      if (results.done.length) console.log('部署成功：', results.done)
-      console.error('部署失败', results.fail)
-      process.exit(1)
+      if (results.done.length) {
+        log('部署成功：')
+        log(results.done)
+      }
+      error('部署失败：')
+      error(results.fail)
+      if (process.env.JEST_WORKER_ID)
+        return
+      else
+        process.exit(1)
     }
   }
 }
