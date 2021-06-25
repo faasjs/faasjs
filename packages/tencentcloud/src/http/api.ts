@@ -10,7 +10,7 @@ import tc from '../tc'
  * @param config.secretKey {string} secretKey
  * @param params {object} 请求参数
  */
-export default async function (action: string, provider: {
+export async function api (action: string, provider: {
   secretId: string
   secretKey: string
   region: string

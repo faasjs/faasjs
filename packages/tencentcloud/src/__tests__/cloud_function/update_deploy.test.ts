@@ -1,5 +1,5 @@
 import { join, sep } from 'path'
-import Tencentcloud from '../..'
+import { Provider } from '../..'
 
 jest.mock('child_process', function () {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -86,7 +86,7 @@ jest.mock('@faasjs/request', () => {
 })
 
 test('update deploy', async function () {
-  const tc = new Tencentcloud({
+  const tc = new Provider({
     secretId: 'secretId',
     secretKey: 'secretKey',
     region: 'region'

@@ -94,8 +94,8 @@ export class CloudFunction implements Plugin {
 
     // 引用服务商部署插件
     // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-    const Provider = require(config.provider.type)
-    const provider = new (typeof Provider === 'function' ? Provider : Provider.default)(config.provider.config)
+    const Provider = require(config.provider.type).Provider
+    const provider = new Provider(config.provider.config)
 
     data.dependencies[config.provider.type as string] = '*'
 
@@ -110,7 +110,7 @@ export class CloudFunction implements Plugin {
 
     if (this.config.provider) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-      const Provider = require(this.config.provider.type)
+      const Provider = require(this.config.provider.type).Provider
       this.adapter = new Provider(this.config.provider.config)
     } else this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.')
 

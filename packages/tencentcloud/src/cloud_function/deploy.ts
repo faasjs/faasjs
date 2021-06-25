@@ -3,8 +3,8 @@ import deepMerge from '@faasjs/deep_merge'
 import Logger, { Color } from '@faasjs/logger'
 import { execSync } from 'child_process'
 import { checkBucket, createBucket, upload, remove } from './cos'
-import scf from './scf'
-import Tencentcloud from '..'
+import { scf } from './scf'
+import { Provider } from '..'
 import { join } from 'path'
 
 const defaults = {
@@ -43,7 +43,7 @@ const INCLUDED_NPM = [
   '@faasjs/load'
 ]
 
-export default async function deployCloudFunction (tc: Tencentcloud, data: DeployData, origin: { [key: string]: any }): Promise<void> {
+export async function deployCloudFunction (tc: Provider, data: DeployData, origin: { [key: string]: any }): Promise<void> {
   if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!')
 
   const logger = new Logger(`${data.env}#${data.name}`)
@@ -57,7 +57,7 @@ export default async function deployCloudFunction (tc: Tencentcloud, data: Deplo
   if (config.config.name) {
     config.config.FunctionName = config.config.name
     delete config.config.name
-  } else config.config.FunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_') 
+  } else config.config.FunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_')
 
   if (!config.config.Description) config.config.Description = `Source: ${data.name}\nPublished by ${process.env.LOGNAME}\nPublished at ${config.config.version}`
 
@@ -189,7 +189,7 @@ module.exports = main.export();`
       Action: 'CreateNamespace',
       Namespace: config.config.Namespace
     })
-  } else logger.debug('[6.2/11] 命名空间已存在，跳过') 
+  } else logger.debug('[6.2/11] 命名空间已存在，跳过')
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[07/11]')} 上传云函数...`)
 
@@ -291,7 +291,7 @@ module.exports = main.export();`
           Namespace: config.config.Namespace
         })).Status === 'Active') break
       }
-    } else throw error 
+    } else throw error
   }
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[08/11]')} 发布版本...`)
@@ -366,7 +366,7 @@ module.exports = main.export();`
     })
   }
 
-  if (config.config.triggers) 
+  if (config.config.triggers)
     for (const trigger of config.config.triggers) {
       logger.debug('[10.2/11] 创建触发器 %s...', trigger.name)
       await scf(tc, {
@@ -380,7 +380,7 @@ module.exports = main.export();`
         Enable: 'OPEN'
       })
     }
-  
+
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[11/11]')} 清理文件...`)
 

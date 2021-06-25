@@ -1,5 +1,5 @@
 import { join, sep } from 'path'
-import Tencentcloud from '../..'
+import { Provider } from '../..'
 
 jest.mock('@faasjs/request', function () {
   return async function (url, options): Promise<any> {
@@ -22,7 +22,7 @@ jest.mock('@faasjs/request', function () {
 })
 
 test('update deploy', async function () {
-  const tc = new Tencentcloud({
+  const tc = new Provider({
     secretId: 'secretId',
     secretKey: 'secretKey',
     region: 'region'

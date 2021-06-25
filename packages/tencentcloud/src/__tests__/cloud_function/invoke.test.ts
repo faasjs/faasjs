@@ -1,10 +1,10 @@
-import Tencentcloud from '../..'
+import { Provider } from '../..'
 import { setMock } from '@faasjs/request'
 
 describe('invoke', function () {
   describe('basic', function () {
     test('async', async function () {
-      const tc = new Tencentcloud({
+      const tc = new Provider({
         secretId: 'secretId',
         secretKey: 'secretKey',
         region: 'region'
@@ -19,7 +19,7 @@ describe('invoke', function () {
     })
 
     test('sync', async function () {
-      const tc = new Tencentcloud({
+      const tc = new Provider({
         secretId: 'secretId',
         secretKey: 'secretKey',
         region: 'region'
@@ -35,7 +35,7 @@ describe('invoke', function () {
   })
 
   test('string', async function () {
-    const tc = new Tencentcloud({
+    const tc = new Provider({
       secretId: 'secretId',
       secretKey: 'secretKey',
       region: 'region'
@@ -50,7 +50,7 @@ describe('invoke', function () {
   })
 
   test('object', async function () {
-    const tc = new Tencentcloud({
+    const tc = new Provider({
       secretId: 'secretId',
       secretKey: 'secretKey',
       region: 'region'
@@ -65,7 +65,7 @@ describe('invoke', function () {
   })
 
   test('failed', async function () {
-    const tc = new Tencentcloud({
+    const tc = new Provider({
       secretId: 'secretId',
       secretKey: 'secretKey',
       region: 'region'
@@ -100,7 +100,7 @@ describe('invoke', function () {
         })
       })
 
-      const tc = new Tencentcloud({
+      const tc = new Provider({
         secretId: 'secretId',
         secretKey: 'secretKey',
         region: 'region'
@@ -120,7 +120,7 @@ describe('invoke', function () {
         })
       })
 
-      const tc = new Tencentcloud({
+      const tc = new Provider({
         secretId: 'secretId',
         secretKey: 'secretKey',
         region: 'region'

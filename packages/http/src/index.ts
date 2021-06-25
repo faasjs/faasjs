@@ -143,7 +143,7 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
 
     // 引用服务商部署插件
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const Provider = require(config.provider.type)
+    const Provider = require(config.provider.type).Provider
     const provider = new Provider(config.provider.config)
 
     // 部署网关

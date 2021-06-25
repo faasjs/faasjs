@@ -1,7 +1,7 @@
 import { DeployData } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import { CloudFunctionAdapter } from '@faasjs/cloud_function'
-import deployCloudFunction from './cloud_function/deploy'
+import { deployCloudFunction } from './cloud_function/deploy'
 import * as invoke from './cloud_function/invoke'
 import deployHttp from './http/deploy'
 
@@ -12,7 +12,7 @@ export interface TencentcloudConfig {
   region: string
 }
 
-export default class Tencentcloud implements CloudFunctionAdapter {
+export class Provider implements CloudFunctionAdapter {
   public config: TencentcloudConfig
   public logger: Logger
 
