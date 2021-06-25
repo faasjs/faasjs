@@ -4,6 +4,38 @@
 
 ## Beta
 
+[`v0.0.2-beta.193 (2021-06-23)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.197...v0.0.2-beta.198)
+
+- [优化] `@faasjs/cli` 提速 ts-node，编译时不检查 ts 定义。
+
+[`v0.0.2-beta.193 (2021-06-21)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.193...v0.0.2-beta.197)
+
+- [优化] `@faasjs/http` 优化 ts 定义。
+
+[`v0.0.2-beta.193 (2021-06-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.191...v0.0.2-beta.193)
+
+- [优化] `@faasjs/http` 优化 ts 定义。
+- [优化] `@faasjs/
+
+[`v0.0.2-beta.191 (2021-06-18)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.188...v0.0.2-beta.191)
+
+- [优化] `@faasjs/test` 使用 vm2 加载测试云函数。
+
+[`v0.0.2-beta.188 (2021-06-17)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.185...v0.0.2-beta.188)
+
+- [优化] `@faasjs/cli` 仅在启动 server 时引入 ts-node。
+- [修复] `@faasjs/cli` 修正部署大量云函数时内存泄露的问题。
+- [优化] 示例新增 `jwt` 项目示例。
+
+[`v0.0.2-beta.185 (2021-06-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.179...v0.0.2-beta.185)
+
+- [优化] `@faasjs/browser` 新增 `beforeRequest` 参数。
+- [修复] `@faasjs/cli` 修复部分入参无效的问题。
+
+[`v0.0.2-beta.179 (2021-06-12)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.178...v0.0.2-beta.179)
+
+- [优化] `@faasjs/http` 优化 `beforeValid`。
+
 [`v0.0.2-beta.178 (2021-06-08)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.175...v0.0.2-beta.178)
 
 - [移除] 为了简化和统一数据库读写，移除 `@faasjs/typeorm` 和 `@faasjs/sequelize`。
