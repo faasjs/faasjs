@@ -1,7 +1,7 @@
 import { createHash, createHmac } from 'crypto'
 import request, { Response } from '@faasjs/request'
 
-export default async function<T = any> ({
+export async function tc<T = any> ({
   region,
   service,
   version,

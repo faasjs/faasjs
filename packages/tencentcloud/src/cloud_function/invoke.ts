@@ -13,21 +13,24 @@ export async function invokeCloudFunction<TResult = any> (tc: Provider, name: st
     await func.mount()
     return await func.handler(data)
   } else
-    return await scf(tc, Object.assign({
-      Action: 'Invoke',
+    return await scf('Invoke', tc.config, Object.assign({
       FunctionName: name.replace(/[^a-zA-Z0-9-_]/g, '_'),
       ClientContext: JSON.stringify(data),
       InvocationType: 'Event',
       Namespace: process.env.FaasEnv,
       Qualifier: '$LATEST' // process.env.FaasEnv
-    }, (options) || {})).then(function (res) {
-      if (res.Result.ErrMsg) return Promise.reject(Error(res.Result.ErrMsg)); else if (typeof res.Result.RetMsg !== 'undefined')
-        try {
-          return JSON.parse(res.Result.RetMsg)
-        } catch (error) {
-          return res.Result.RetMsg
-        }
-      else return res
+    }, (options) || {})).then(function (res: {
+      Result: {
+        RetMsg: string;
+        ErrMsg: string;
+      }
+    }) {
+      if (res.Result.ErrMsg) return Promise.reject(Error(res.Result.ErrMsg))
+      try {
+        return JSON.parse(res.Result.RetMsg)
+      } catch (error) {
+        return res.Result.RetMsg
+      }
     })
 }
 

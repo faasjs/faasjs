@@ -96,7 +96,7 @@ describe('invoke', function () {
       setMock(async function () {
         return await Promise.resolve({
           headers: {},
-          body: { Response: { Result: {} } }
+          body: { Response: { Result: { RetMsg: 'done' } } }
         })
       })
 
@@ -109,7 +109,7 @@ describe('invoke', function () {
       await expect(tc.invokeSyncCloudFunction('../__tests__/funcs/basic', {
         event: {},
         context: {}
-      })).resolves.toEqual({ Result: {} })
+      })).resolves.toEqual('done')
     })
 
     test('fail', async function () {

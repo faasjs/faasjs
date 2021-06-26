@@ -182,28 +182,23 @@ module.exports = main.export();`
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[06/11]')} 检查命名空间...`)
   logger.debug('[6.1/11] 检查命名空间状态')
-  const namespaceList = await scf(tc, { Action: 'ListNamespaces' })
+  const namespaceList = await scf('ListNamespaces', config.provider.config, {})
   if (!namespaceList.Namespaces.find((n: any) => n.Name === config.config.Namespace)) {
     logger.debug('[6.2/11] 创建命名空间...')
-    await scf(tc, {
-      Action: 'CreateNamespace',
-      Namespace: config.config.Namespace
-    })
+    await scf('CreateNamespace', config.provider.config, { Namespace: config.config.Namespace })
   } else logger.debug('[6.2/11] 命名空间已存在，跳过')
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[07/11]')} 上传云函数...`)
 
   try {
     logger.debug('[7.1/11] 检查云函数是否已存在...')
-    await scf(tc, {
-      Action: 'GetFunction',
+    await scf('GetFunction', config.provider.config, {
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace
     })
 
     logger.debug('[7.2/11] 更新云函数代码...')
-    await scf(tc, {
-      Action: 'UpdateFunctionCode',
+    await scf('UpdateFunctionCode', config.provider.config, {
       CosBucketName: 'scf',
       CosBucketRegion: config.config.Region,
       CosObjectName: config.config.CosObjectName,
@@ -216,16 +211,14 @@ module.exports = main.export();`
     while (status !== 'Active') {
       logger.debug('[7.3/11] 等待云函数代码更新完成...')
 
-      status = await scf(tc, {
-        Action: 'GetFunction',
+      status = await scf('GetFunction', config.provider.config, {
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace
       }).then(res => res.Status)
     }
 
     logger.debug('[7.2/11] 更新云函数配置...')
-    await scf(tc, {
-      Action: 'UpdateFunctionConfiguration',
+    await scf('UpdateFunctionConfiguration', config.provider.config, {
       Environment: config.config.Environment,
       FunctionName: config.config.FunctionName,
       MemorySize: config.config.MemorySize,
@@ -246,8 +239,7 @@ module.exports = main.export();`
     while (status !== 'Active') {
       logger.debug('[7.3/11] 等待云函数配置更新完成...')
 
-      status = await scf(tc, {
-        Action: 'GetFunction',
+      status = await scf('GetFunction', config.provider.config, {
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace
       }).then(res => res.Status)
@@ -255,8 +247,7 @@ module.exports = main.export();`
   } catch (error) {
     if (error.Code.startsWith('ResourceNotFound')) {
       logger.debug('[7.2/11] 创建云函数...')
-      await scf(tc, {
-        Action: 'CreateFunction',
+      await scf('CreateFunction', config.provider.config, {
         ClsLogsetId: config.config.ClsLogsetId,
         ClsTopicId: config.config.ClsTopicId,
         Code: {
@@ -285,8 +276,7 @@ module.exports = main.export();`
       // eslint-disable-next-line no-constant-condition
       while (true) {
         logger.debug('[7.3/11] 等待云函数代码更新完成...')
-        if ((await scf(tc, {
-          Action: 'GetFunction',
+        if ((await scf('GetFunction', config.provider.config, {
           FunctionName: config.config.FunctionName,
           Namespace: config.config.Namespace
         })).Status === 'Active') break
@@ -296,8 +286,7 @@ module.exports = main.export();`
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[08/11]')} 发布版本...`)
 
-  const version = await scf(tc, {
-    Action: 'PublishVersion',
+  const version = await scf('PublishVersion', config.provider.config, {
     Description: `Published by ${process.env.LOGNAME}`,
     FunctionName: config.config.FunctionName,
     Namespace: config.config.Namespace
@@ -307,8 +296,7 @@ module.exports = main.export();`
   // eslint-disable-next-line no-constant-condition
   while (true) {
     logger.debug('[8.1/11] 等待版本发布完成...')
-    if ((await scf(tc, {
-      Action: 'GetFunction',
+    if ((await scf('GetFunction', config.provider.config, {
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
       Qualifier: config.config.FunctionVersion
@@ -349,15 +337,13 @@ module.exports = main.export();`
   // }
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[10/11]')} 更新触发器...`)
-  const triggers = await scf(tc, {
-    Action: 'ListTriggers',
+  const triggers = await scf('ListTriggers', config.provider.config, {
     FunctionName: config.config.FunctionName,
     Namespace: config.config.Namespace
   })
   for (const trigger of triggers.Triggers) {
     logger.debug('[10.1/11] 删除旧触发器: %s...', trigger.TriggerName)
-    await scf(tc, {
-      Action: 'DeleteTrigger',
+    await scf('DeleteTrigger', config.provider.config, {
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
       TriggerName: trigger.TriggerName,
@@ -369,8 +355,7 @@ module.exports = main.export();`
   if (config.config.triggers)
     for (const trigger of config.config.triggers) {
       logger.debug('[10.2/11] 创建触发器 %s...', trigger.name)
-      await scf(tc, {
-        Action: 'CreateTrigger',
+      await scf('CreateTrigger', config.provider.config, {
         FunctionName: config.config.FunctionName,
         TriggerName: trigger.name || trigger.type,
         Type: trigger.type,

@@ -1,26 +1,4 @@
-import request, { Response } from '@faasjs/request'
-import * as crypto from 'crypto'
-import { Provider } from '..'
-
-function mergeData (data: any, prefix: string = ''): { [key: string]: any } {
-  const ret: any = {}
-  for (const k in data) {
-    if (typeof data[k] === 'undefined' || data[k] === null) continue
-
-    if (data[k] instanceof Array || data[k] instanceof Object) Object.assign(ret, mergeData(data[k], prefix + k + '.')); else ret[prefix + k] = data[k]
-  }
-  return ret
-}
-
-function formatSignString (params: any): string {
-  const str: string[] = []
-
-  for (const key of Object.keys(params).sort()) str.push(key + '=' + params[key])
-
-  return str.join('&')
-}
-
-const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ? 'scf.internal.tencentcloudapi.com' : 'scf.tencentcloudapi.com'
+import { tc } from '../tc'
 
 /**
  * 发出请求
@@ -31,27 +9,20 @@ const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ? 'scf.internal.tencentcl
  * @param config.secretKey {string} secretKey
  * @param params {object} 请求参数
  */
-export async function scf (tc: Provider, params: { [key: string]: any }): Promise<any> {
-  params = {
-    Nonce: Math.round(Math.random() * 65535),
-    Region: tc.config.region,
-    SecretId: tc.config.secretId,
-    SignatureMethod: 'HmacSHA256',
-    Timestamp: Math.round(Date.now() / 1000) - 1,
-    Version: '2018-04-16',
-    ...params
-  }
-  params = mergeData(params)
-
-  const sign = `POST${host}/?${formatSignString(params)}`
-
-  params.Signature = crypto.createHmac('sha256', tc.config.secretKey).update(sign).digest('base64')
-
-  return await request(`https://${host}/?`, {
-    body: params,
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    method: 'POST'
-  }).then(function (res: Response) {
-    if (res.body.Response.Error) return Promise.reject(res.body.Response.Error); else return res.body.Response
+export async function scf<TResult = any> (action: string, provider: {
+  secretId: string
+  secretKey: string
+  region: string
+}, payload: {
+  [key: string]: any
+}): Promise<TResult> {
+  return await tc<TResult>({
+    region: provider.region,
+    service: 'scf',
+    version: '2018-04-16',
+    action,
+    payload,
+    secretId: provider.secretId,
+    secretKey: provider.secretKey
   })
 }

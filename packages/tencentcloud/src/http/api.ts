@@ -1,4 +1,4 @@
-import tc from '../tc'
+import { tc } from '../tc'
 
 /**
  * 发出请求
@@ -10,14 +10,14 @@ import tc from '../tc'
  * @param config.secretKey {string} secretKey
  * @param params {object} 请求参数
  */
-export async function api (action: string, provider: {
+export async function api<TResult = any> (action: string, provider: {
   secretId: string
   secretKey: string
   region: string
 }, payload: {
   [key: string]: any
-}): Promise<any> {
-  return await tc({
+}): Promise<TResult> {
+  return await tc<TResult>({
     region: provider.region,
     service: 'apigateway',
     version: '2018-08-08',
