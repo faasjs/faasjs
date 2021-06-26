@@ -253,4 +253,4 @@ test('create', async function () {
     EnvironmentName: 'release',
     ServiceId: 'ServiceId',
   })
-}, 10000)
+})

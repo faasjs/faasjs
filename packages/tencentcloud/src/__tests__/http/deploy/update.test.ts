@@ -75,9 +75,20 @@ jest.mock('@faasjs/request', function () {
       case 'DescribeApisStatus':
         return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [{ Path: '/' }] } } } })
       case 'DescribeApi':
-        return Promise.resolve({ body: { Response: { Result: { RequestConfig: {} } } } })
-      case 'ModifyApi':
-        return Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({
+          body: {
+            Response: {
+              Result: {
+                ServiceType: 'SCF',
+                ServiceTimeout: 1800,
+                ServiceScfFunctionName: 'http',
+                ServiceScfFunctionNamespace: 'testing',
+                ServiceScfFunctionQualifier: '$LATEST',
+                RequestConfig: { Method: 'POST' }
+              }
+            }
+          }
+        })
       case 'ReleaseService':
         return Promise.resolve({ body: { Response: {} } })
       default:
@@ -140,4 +151,4 @@ test('update', async function () {
   })
 
   expect(true).toBeTruthy()
-}, 10000)
+})

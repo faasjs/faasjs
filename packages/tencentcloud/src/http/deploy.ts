@@ -38,12 +38,6 @@ export default async function (tc: Provider, data: DeployData, origin: { [key: s
     delete config.config.functionName
   } else config.config.ServiceScfFunctionName = data.name.replace(/[^a-zA-Z0-9-_]/g, '_')
 
-  if (config.config.serviceId) {
-    config.config.ServiceId = config.config.serviceId
-    delete config.config.serviceId
-    tc.logger.warn('serviceId 现已改成 ServiceId，请尽快修改相关配置文件')
-  }
-
   // 合并配置项
   config.config = deepMerge(defaults, config.config, {
     ApiName: data.name,
