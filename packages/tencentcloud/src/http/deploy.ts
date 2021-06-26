@@ -91,6 +91,7 @@ export default async function (tc: Provider, data: DeployData, origin: { [key: s
         Values: [data.env]
       }]
     }).then(function (body) {
+      console.log(body.Result.ServiceSet)
       return body.Result.ServiceSet.find(function (item: any) {
         return item.ServiceName === data.env
       })

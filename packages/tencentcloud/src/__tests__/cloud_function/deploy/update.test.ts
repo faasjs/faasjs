@@ -33,10 +33,12 @@ jest.mock('@faasjs/request', () => {
         return await Promise.resolve({
           body: {
             Response: {
-              serviceStatusSet: [{
-                serviceName: 'testing',
-                serviceId: 'serviceId'
-              }]
+              Result: {
+                ServiceSet: [{
+                  ServiceName: 'testing',
+                  ServiceId: 'serviceId'
+                }]
+              }
             }
           }
         })
