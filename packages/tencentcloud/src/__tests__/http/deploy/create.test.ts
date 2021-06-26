@@ -41,10 +41,10 @@ jest.mock('@faasjs/request', function () {
     requests[options.headers['X-TC-Action']] = options.body
     switch (options.headers['X-TC-Action']) {
       case 'ListNamespaces':
-        return await Promise.resolve({ body: { Response: { Namespaces: [] } } })
+        return Promise.resolve({ body: { Response: { Namespaces: [] } } })
       case 'GetFunction':
         if (functionCreated)
-          return await Promise.resolve({
+          return Promise.resolve({
             body: {
               Response: {
                 Status: 'Active',
@@ -53,7 +53,7 @@ jest.mock('@faasjs/request', function () {
             }
           })
         else
-          return await Promise.resolve({
+          return Promise.resolve({
             body: {
               Response: {
                 Error: {
@@ -64,7 +64,7 @@ jest.mock('@faasjs/request', function () {
             }
           })
       case 'GetAlias':
-        return await Promise.resolve({
+        return Promise.resolve({
           body: {
             Response: {
               Error: {
@@ -75,30 +75,30 @@ jest.mock('@faasjs/request', function () {
           }
         })
       case 'CreateAlias':
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       case 'CreateNamespace':
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       case 'CreateFunction':
         functionCreated = true
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       case 'UpdateAlias':
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       case 'PublishVersion':
-        return await Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
+        return Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
       case 'ListTriggers':
-        return await Promise.resolve({ body: { Response: { Triggers: [] } } })
+        return Promise.resolve({ body: { Response: { Triggers: [] } } })
       case 'DescribeServicesStatus':
-        return await Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
+        return Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
       case 'CreateService':
-        return await Promise.resolve({ body: { Response: { data: { ServiceId: 'ServiceId' } } } })
+        return Promise.resolve({ body: { Response: { data: { ServiceId: 'ServiceId' } } } })
       case 'DescribeApisStatus':
-        return await Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
+        return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
       case 'CreateApi':
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       case 'ReleaseService':
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       default:
-        return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+        return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
     }
   }
 })

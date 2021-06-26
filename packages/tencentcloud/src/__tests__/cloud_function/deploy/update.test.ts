@@ -30,7 +30,7 @@ jest.mock('@faasjs/request', () => {
     console.log('mock.request', url, options)
     switch (options.headers['X-TC-Action']) {
       case 'DescribeServicesStatus':
-        return await Promise.resolve({
+        return Promise.resolve({
           body: {
             Response: {
               serviceStatusSet: [{
@@ -41,7 +41,7 @@ jest.mock('@faasjs/request', () => {
           }
         })
       case 'ListNamespaces':
-        return await Promise.resolve({
+        return Promise.resolve({
           body: {
             Response: {
               Namespaces: [
@@ -51,7 +51,7 @@ jest.mock('@faasjs/request', () => {
           }
         })
       case 'GetFunction':
-        return await Promise.resolve({
+        return Promise.resolve({
           body: {
             Response: {
               Status: 'Active',
@@ -63,13 +63,13 @@ jest.mock('@faasjs/request', () => {
       case 'UpdateFunctionConfiguration':
       case 'GetAlias':
       case 'UpdateAlias':
-        return await Promise.resolve({ body: { Response: {} } })
+        return Promise.resolve({ body: { Response: {} } })
       case 'PublishVersion':
-        return await Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
+        return Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
       case 'ListTriggers':
-        return await Promise.resolve({ body: { Response: { Triggers: [] } } })
+        return Promise.resolve({ body: { Response: { Triggers: [] } } })
       default:
-        return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+        return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
     }
   }
 })

@@ -16,7 +16,7 @@ export async function scf<TResult = any> (action: string, provider: {
 }, payload: {
   [key: string]: any
 }): Promise<TResult> {
-  return await tc<TResult>({
+  return tc<TResult>({
     region: provider.region,
     service: 'scf',
     version: '2018-04-16',
