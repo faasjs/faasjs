@@ -1,6 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   verbose: true,
+  testTimeout: 10000,
   collectCoverage: true,
   testRegex: '/*\\.test\\.ts$',
   testPathIgnorePatterns: [
