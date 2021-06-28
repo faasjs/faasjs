@@ -105,6 +105,7 @@ jest.mock('@faasjs/request', function () {
 
 test('create', async function () {
   const tc = new Provider({
+    appId: 'appId',
     secretId: 'secretId',
     secretKey: 'secretKey',
     region: 'region'
@@ -123,12 +124,7 @@ test('create', async function () {
     name: 'http',
     provider: {
       type: '@faasjs/tencentcloud',
-      name: 'tencentcloud',
-      config: {
-        secretId: 'secretId',
-        secretKey: 'secretKey',
-        region: 'region'
-      }
+      name: 'tencentcloud'
     },
     config: {}
   })
@@ -146,12 +142,7 @@ test('create', async function () {
     name: 'http',
     provider: {
       type: '@faasjs/tencentcloud',
-      name: 'tencentcloud',
-      config: {
-        secretId: 'secretId',
-        secretKey: 'secretKey',
-        region: 'region'
-      }
+      name: 'tencentcloud'
     },
     config: {
       method: 'GET',

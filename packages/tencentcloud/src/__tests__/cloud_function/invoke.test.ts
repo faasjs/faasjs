@@ -6,8 +6,7 @@ describe('invoke', function () {
     test('async', async function () {
       const tc = new Provider({
         secretId: 'secretId',
-        secretKey: 'secretKey',
-        region: 'region'
+        secretKey: 'secretKey'
       })
 
       const res = await tc.invokeCloudFunction('../__tests__/funcs/basic', {
@@ -21,8 +20,7 @@ describe('invoke', function () {
     test('sync', async function () {
       const tc = new Provider({
         secretId: 'secretId',
-        secretKey: 'secretKey',
-        region: 'region'
+        secretKey: 'secretKey'
       })
 
       const res = await tc.invokeSyncCloudFunction('../__tests__/funcs/basic', {
@@ -37,8 +35,7 @@ describe('invoke', function () {
   test('string', async function () {
     const tc = new Provider({
       secretId: 'secretId',
-      secretKey: 'secretKey',
-      region: 'region'
+      secretKey: 'secretKey'
     })
 
     const res = await tc.invokeSyncCloudFunction('../__tests__/funcs/string', {
@@ -52,8 +49,7 @@ describe('invoke', function () {
   test('object', async function () {
     const tc = new Provider({
       secretId: 'secretId',
-      secretKey: 'secretKey',
-      region: 'region'
+      secretKey: 'secretKey'
     })
 
     const res = await tc.invokeSyncCloudFunction('../__tests__/funcs/object', {
@@ -67,8 +63,7 @@ describe('invoke', function () {
   test('failed', async function () {
     const tc = new Provider({
       secretId: 'secretId',
-      secretKey: 'secretKey',
-      region: 'region'
+      secretKey: 'secretKey'
     })
 
     try {
@@ -102,8 +97,7 @@ describe('invoke', function () {
 
       const tc = new Provider({
         secretId: 'secretId',
-        secretKey: 'secretKey',
-        region: 'region'
+        secretKey: 'secretKey'
       })
 
       await expect(tc.invokeSyncCloudFunction('../__tests__/funcs/basic', {
@@ -122,8 +116,7 @@ describe('invoke', function () {
 
       const tc = new Provider({
         secretId: 'secretId',
-        secretKey: 'secretKey',
-        region: 'region'
+        secretKey: 'secretKey'
       })
 
       await expect(tc.invokeSyncCloudFunction('../__tests__/funcs/basic', {

@@ -1,3 +1,4 @@
+import { TencentcloudConfig } from '..'
 import { tc } from '../tc'
 
 /**
@@ -9,20 +10,13 @@ import { tc } from '../tc'
  * @param config.secretKey {string} secretKey
  * @param params {object} 请求参数
  */
-export async function scf<TResult = any> (action: string, provider: {
-  secretId: string
-  secretKey: string
-  region: string
-}, payload: {
+export async function scf<TResult = any> (action: string, config: TencentcloudConfig, payload: {
   [key: string]: any
 }): Promise<TResult> {
-  return await tc<TResult>({
-    region: provider.region,
+  return await tc<TResult>(config, {
     service: 'scf',
     version: '2018-04-16',
     action,
-    payload,
-    secretId: provider.secretId,
-    secretKey: provider.secretKey
+    payload
   })
 }

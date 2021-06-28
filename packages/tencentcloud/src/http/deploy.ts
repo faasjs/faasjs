@@ -15,8 +15,6 @@ const defaults = {
 export default async function (tc: Provider, data: DeployData, origin: { [key: string]: any }): Promise<void> {
   tc.logger.label = `${data.env}#${data.name}`
 
-  if (!tc.config || !tc.config.secretId || !tc.config.secretKey) throw Error('Missing secretId or secretKey!')
-
   const config = deepMerge(origin)
 
   if (!config.config.RequestConfig) config.config.RequestConfig = {}
@@ -73,7 +71,7 @@ export default async function (tc: Provider, data: DeployData, origin: { [key: s
   ]
   for (const key in config.config) if (!ALLOWS.includes(key)) delete config.config[key]
 
-  const provider = config.provider.config
+  const provider = tc.config
 
   const loggerPrefix = `[${data.env}#${data.name}]`
 

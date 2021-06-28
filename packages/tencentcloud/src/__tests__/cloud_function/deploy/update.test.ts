@@ -78,6 +78,7 @@ jest.mock('@faasjs/request', () => {
 
 test('update', async function () {
   const tc = new Provider({
+    appId: 'appId',
     secretId: 'secretId',
     secretKey: 'secretKey',
     region: 'region'
@@ -96,12 +97,7 @@ test('update', async function () {
     name: 'cloud_function',
     provider: {
       type: '@faasjs/tencentcloud',
-      name: 'tencentcloud',
-      config: {
-        secretId: 'secretId',
-        secretKey: 'secretKey',
-        region: 'region'
-      }
+      name: 'tencentcloud'
     },
     config: {
       name: 'name',

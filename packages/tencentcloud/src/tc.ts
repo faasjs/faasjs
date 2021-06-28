@@ -1,22 +1,17 @@
 import { createHash, createHmac } from 'crypto'
 import request, { Response } from '@faasjs/request'
+import { TencentcloudConfig } from '.'
 
-export async function tc<T = any> ({
-  region,
+export async function tc<T = any> (config: TencentcloudConfig, {
   service,
   version,
   action,
-  payload,
-  secretId,
-  secretKey
+  payload
 }: {
-  region: string
   service: string
   version: string
   action: string
   payload: any
-  secretId: string
-  secretKey: string
 }): Promise<T> {
   const canonicalRequest = `POST\n/\n\ncontent-type:application/json\nhost:${service}.tencentcloudapi.com\n\ncontent-type;host\n` +
   createHash('sha256').update(JSON.stringify(payload)).digest('hex')
@@ -33,28 +28,32 @@ export async function tc<T = any> ({
     credentialScope + '\n' +
     hashedCanonicalRequest
 
-  const secretDate = createHmac('sha256', 'TC3' + secretKey).update(date).digest()
+  const secretDate = createHmac('sha256', 'TC3' + config.secretKey).update(date).digest()
   const secretService = createHmac('sha256', secretDate).update(service).digest()
   const secretSigning = createHmac('sha256', secretService).update('tc3_request').digest()
   const signature = createHmac('sha256', secretSigning).update(stringToSign).digest('hex')
 
   const authorization =
     'TC3-HMAC-SHA256 ' +
-    'Credential=' + secretId + '/' + credentialScope + ', ' +
+    'Credential=' + config.secretId + '/' + credentialScope + ', ' +
     'SignedHeaders=content-type;host, ' +
     'Signature=' + signature
 
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: authorization,
+    Host: `${service}.tencentcloudapi.com`,
+    'X-TC-Action': action,
+    'X-TC-Version': version,
+    'X-TC-Timestamp': timestamp
+  }
+
+  if (config.region) headers['X-TC-Region'] = config.region
+  if (config.token) headers['X-TC-Token'] = config.token
+
   return await request<T>(`https://${service}.tencentcloudapi.com/`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: authorization,
-      Host: `${service}.tencentcloudapi.com`,
-      'X-TC-Action': action,
-      'X-TC-Version': version,
-      'X-TC-Timestamp': timestamp,
-      'X-TC-Region': region
-    },
+    headers,
     body: payload
   }).then(function (res: Response) {
     if (res.body.Response.Error) {

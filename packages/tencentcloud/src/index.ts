@@ -5,11 +5,13 @@ import { deployCloudFunction } from './cloud_function/deploy'
 import * as invoke from './cloud_function/invoke'
 import deployHttp from './http/deploy'
 
-export interface TencentcloudConfig {
+export type TencentcloudConfig = {
   [key: string]: any
-  secretId: string
-  secretKey: string
-  region: string
+  appId?: string
+  secretId?: string
+  secretKey?: string
+  region?: string
+  token?: string
 }
 
 export class Provider implements CloudFunctionAdapter {
@@ -17,8 +19,20 @@ export class Provider implements CloudFunctionAdapter {
   public logger: Logger
 
   constructor (config: TencentcloudConfig) {
-    this.config = config
     this.logger = new Logger('Tencentcloud')
+
+    if (!config) config = {}
+
+    // 环境变量优先级最高
+    if (process.env.TENCENTCLOUD_APPID) config.appId = process.env.TENCENTCLOUD_APPID
+    if (process.env.TENCENTCLOUD_REGION) config.region = process.env.TENCENTCLOUD_REGION
+    if (process.env.TENCENTCLOUD_SECRETID) config.secretId = process.env.TENCENTCLOUD_SECRETID
+    if (process.env.TENCENTCLOUD_SECRETKEY) config.secretKey = process.env.TENCENTCLOUD_SECRETKEY
+    if (process.env.TENCENTCLOUD_SESSIONTOKEN) config.token = process.env.TENCENTCLOUD_SESSIONTOKEN
+
+    this.config = config
+
+    console.log(config)
   }
 
   /**
@@ -28,6 +42,11 @@ export class Provider implements CloudFunctionAdapter {
    * @param config {Logger} 部署对象配置
    */
   public async deploy (type: 'cloud_function' | 'http', data: DeployData, config: { [key: string]: any }): Promise<void> {
+    if (!this.config.appId) throw Error('appId required')
+    if (!this.config.region) throw Error('region required')
+    if (!this.config.secretId) throw Error('secretId required')
+    if (!this.config.secretKey) throw Error('secretKey required')
+
     switch (type) {
       case 'cloud_function':
         await deployCloudFunction(this, data, config)
@@ -46,6 +65,9 @@ export class Provider implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<void> {
+    if (!this.config.secretId) throw Error('secretId required')
+    if (!this.config.secretKey) throw Error('secretKey required')
+
     await invoke.invokeCloudFunction(this, name, data, options)
   }
 
@@ -55,6 +77,9 @@ export class Provider implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<TResult> {
+    if (!this.config.secretId) throw Error('secretId required')
+    if (!this.config.secretKey) throw Error('secretKey required')
+
     return await invoke.invokeSyncCloudFunction<TResult>(this, name, data, options)
   }
 }
