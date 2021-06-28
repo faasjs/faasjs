@@ -14,7 +14,7 @@ import { tc } from '../tc'
 export async function api<TResult = any> (action: string, config: TencentcloudConfig, payload: {
   [key: string]: any
 }): Promise<TResult> {
-  return await tc<TResult>(config, {
+  return tc<TResult>(config, {
     service: 'apigateway',
     version: '2018-08-08',
     action,
