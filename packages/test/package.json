@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/test",
-  "version": "0.0.2-beta.199",
+  "version": "0.0.2-beta.201",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.193",
-    "@faasjs/http": "^0.0.2-beta.199"
+    "@faasjs/http": "^0.0.2-beta.201"
   },
   "gitHead": "e45b0b022c0e487a848edcb5a3f85873b1d67dc2"
 }
