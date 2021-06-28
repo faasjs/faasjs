@@ -13,7 +13,8 @@ export async function tc<T = any> (config: TencentcloudConfig, {
   action: string
   payload: any
 }): Promise<T> {
-  const canonicalRequest = `POST\n/\n\ncontent-type:application/json\nhost:${service}.tencentcloudapi.com\n\ncontent-type;host\n` +
+  const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ? `${service}.internal.tencentcloudapi.com` : `${service}.tencentcloudapi.com`
+  const canonicalRequest = `POST\n/\n\ncontent-type:application/json\nhost:${host}\n\ncontent-type;host\n` +
   createHash('sha256').update(JSON.stringify(payload)).digest('hex')
 
   const t = new Date()
@@ -42,7 +43,7 @@ export async function tc<T = any> (config: TencentcloudConfig, {
   const headers = {
     'Content-Type': 'application/json',
     Authorization: authorization,
-    Host: `${service}.tencentcloudapi.com`,
+    Host: host,
     'X-TC-Action': action,
     'X-TC-Version': version,
     'X-TC-Timestamp': timestamp
@@ -51,7 +52,7 @@ export async function tc<T = any> (config: TencentcloudConfig, {
   if (config.region) headers['X-TC-Region'] = config.region
   if (config.token) headers['X-TC-Token'] = config.token
 
-  return await request<T>(`https://${service}.tencentcloudapi.com/`, {
+  return await request<T>(`https://${host}/`, {
     method: 'POST',
     headers,
     body: payload
