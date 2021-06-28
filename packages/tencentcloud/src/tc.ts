@@ -52,7 +52,7 @@ export async function tc<T = any> (config: TencentcloudConfig, {
   if (config.region) headers['X-TC-Region'] = config.region
   if (config.token) headers['X-TC-Token'] = config.token
 
-  return await request<T>(`https://${host}/`, {
+  return request<T>(`https://${host}/`, {
     method: 'POST',
     headers,
     body: payload
