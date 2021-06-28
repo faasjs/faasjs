@@ -1,6 +1,6 @@
 module.exports = {
   title: 'FaasJS',
-  description: 'A Node.js Severless Application Framework',
+  description: 'An atomic FaaS Application Framework based on Typescript and Node.js',
   head: [
     ['link', { rel: 'icon', href: '/logo.ico' }]
   ],
@@ -30,11 +30,11 @@ module.exports = {
       },
       {
         text: '支持 FaasJS',
-        link: '/contribute'
+        link: 'https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md'
       },
       {
         text: '更新日志',
-        link: '/changelog'
+        link: 'https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md'
       }
     ],
     sidebar: {

@@ -13,8 +13,12 @@
 [![Lines](https://badgen.net/lgtm/lines/g/faasjs/faasjs)](https://github.com/faasjs/faasjs)
 [![Commits](https://badgen.net/github/commits/faasjs/faasjs)](https://github.com/faasjs/faasjs)
 
-A Node.js Severless Application Framework
+An atomic FaaS Application Framework based on Typescript and Node.js
+
+基于 Typescript 和 Node.js 的原子化 FaaS 应用框架
 
 https://faasjs.com/
 
-[Changelog](https://github.com/faasjs/faasjs/blob/master/docs/changelog.md)
+[CHANGELOG](https://github.com/faasjs/faasjs/blob/master/docs/changelog.md)
+
+[CONTRIBUTING](https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md)
