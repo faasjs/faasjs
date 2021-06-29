@@ -159,7 +159,7 @@ export class CloudFunction implements Plugin {
   }): Promise<TResult> {
     if (data == null) data = Object.create(null)
 
-    return await this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options)
+    return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options)
   }
 }
 
