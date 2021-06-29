@@ -14,7 +14,7 @@ describe('invoke', function () {
         context: {}
       })
 
-      expect(res).toBeUndefined()
+      expect(res).toBeNull()
     })
 
     test('sync', async function () {
