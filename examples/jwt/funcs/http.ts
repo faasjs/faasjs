@@ -5,8 +5,6 @@ import { readFileSync } from 'fs';
 export function useHttp<TParams = any> (options: HttpConfig): Http {
   if (!options.validator) options.validator = {};
   if (!options.validator.before) options.validator.before = async function ({ headers }) {
-    console.log(headers);
-
     if (!headers['xfaastoken'])
       return {
         statusCode: 401,
@@ -24,8 +22,6 @@ export function useHttp<TParams = any> (options: HttpConfig): Http {
         subject: 'accessToken',
         algorithms: ['RS256']
       });
-
-      console.log(result);
     } catch (error) {
       return {
         statusCode: 401,

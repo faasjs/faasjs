@@ -77,7 +77,6 @@ const client = FaasClient({
   },
   onError (action, params) {
     return async function (res) {
-      console.log(res.status);
       if (res.status === 401) {
         // 检查设备编号是否生成
         let deviceId = localStorage.getItem('deviceId');

@@ -2,7 +2,7 @@ import { Command } from 'commander'
 import { existsSync, lstatSync } from 'fs'
 import { sync as globSync } from 'glob'
 import { createInterface } from 'readline'
-import { sep } from 'path'
+import { sep, resolve } from 'path'
 import { Deployer } from '@faasjs/deployer'
 import { defaultsEnv } from '../helper'
 import { cpus } from 'os'
@@ -10,6 +10,7 @@ import { fork } from 'cluster'
 import { chunk } from 'lodash'
 import { log, warn, error } from 'console'
 import { runInNewContext } from 'vm'
+import { execSync } from 'child_process'
 
 async function sleep () {
   const waiting = Math.floor(Math.random() * 3)
@@ -73,10 +74,11 @@ async function deploy (file: string, ar: number, options: {y: string}) {
   }
 }
 
-export async function action (env: string, files: string[], { workers, autoRetry, autoYes }: {
+export async function action (env: string, files: string[], { workers, autoRetry, autoYes, commit }: {
   workers?: string
   autoRetry?: string
   autoYes?: string
+  commit?: string
 }): Promise<void> {
   process.env.FaasEnv = env
 
@@ -126,6 +128,16 @@ export async function action (env: string, files: string[], { workers, autoRetry
   }
 
   const list: string[] = []
+
+  if (commit) {
+    const cwd = execSync('git rev-parse --show-cdup').toString().trim()
+    const changes = execSync(`git diff --name-only ${commit}...HEAD`)
+      .toString()
+      .split('\n')
+      .filter(f => f.endsWith('.func.ts'))
+      .map(f => resolve(cwd, f))
+    files = files.concat(changes)
+  }
 
   for (const name of files) {
     let path = name.startsWith(sep) ? name : process.env.FaasRoot + name
@@ -209,6 +221,7 @@ export default function (program: Command): void {
     .option('-w --workers <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
     .option('-ar --autoRetry <times>', '自动重试次数，默认为 3 次，设为 0 则禁止自动重试')
     .option('-y --autoYes', '当出现需确认的情况时，自动选择 yes')
+    .option('-c --commit <commit>', '基于 commit 到 head 的文件变化，发布有更新的云函数')
     .name('deploy')
     .description('发布')
     .on('--help', function () {

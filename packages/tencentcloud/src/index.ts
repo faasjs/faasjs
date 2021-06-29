@@ -31,8 +31,6 @@ export class Provider implements CloudFunctionAdapter {
     if (process.env.TENCENTCLOUD_SESSIONTOKEN) config.token = process.env.TENCENTCLOUD_SESSIONTOKEN
 
     this.config = config
-
-    console.log(config)
   }
 
   /**
