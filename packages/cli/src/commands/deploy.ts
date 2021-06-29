@@ -221,7 +221,7 @@ export default function (program: Command): void {
     .option('-w --workers <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
     .option('-ar --autoRetry <times>', '自动重试次数，默认为 3 次，设为 0 则禁止自动重试')
     .option('-y --autoYes', '当出现需确认的情况时，自动选择 yes')
-    .option('-c --commit <commit>', '基于 commit 到 head 的文件变化，发布有更新的云函数')
+    .option('-c --commit [commit]', '基于 commit 到 head 的文件变化，发布有更新的云函数')
     .name('deploy')
     .description('发布')
     .on('--help', function () {
