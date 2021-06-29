@@ -63,10 +63,7 @@ export class Provider implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<void> {
-    if (!this.config.secretId) throw Error('secretId required')
-    if (!this.config.secretKey) throw Error('secretKey required')
-
-    await invoke.invokeCloudFunction(this, name, data, options)
+    return invoke.invokeCloudFunction(this, name, data, options)
   }
 
   public async invokeSyncCloudFunction<TResult = any> (name: string, data: {
@@ -75,9 +72,6 @@ export class Provider implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<TResult> {
-    if (!this.config.secretId) throw Error('secretId required')
-    if (!this.config.secretKey) throw Error('secretKey required')
-
-    return await invoke.invokeSyncCloudFunction<TResult>(this, name, data, options)
+    return invoke.invokeSyncCloudFunction<TResult>(this, name, data, options)
   }
 }
