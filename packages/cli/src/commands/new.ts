@@ -11,7 +11,7 @@ export function action (type: string, name: string, plguins: string[]): void {
   }
 }
 
-export default function (program: Command): void {
+export function NewCommand (program: Command): void {
   program
     .command('new <type> <name> [plguins...]')
     .name('new')

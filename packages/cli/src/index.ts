@@ -3,9 +3,9 @@ import { Command } from 'commander'
 import Logger from '@faasjs/logger'
 import { existsSync } from 'fs'
 import { sep } from 'path'
-import New from './commands/new'
-import Deploy from './commands/deploy'
-import Server from './commands/server'
+import { NewCommand } from './commands/new'
+import { DeployCommand } from './commands/deploy'
+import { ServerCommand } from './commands/server'
 
 const commander = new Command()
 const logger = new Logger('Cli')
@@ -41,10 +41,15 @@ commander
   })
 
 // 加载命令
-New(commander as Command)
-Deploy(commander as Command)
-Server(commander as Command)
+NewCommand(commander)
+DeployCommand(commander)
+ServerCommand(commander);
 
-if (!process.env.CI && process.argv[0] !== 'fake') commander.parse(process.argv)
-
-export default commander
+// eslint-disable-next-line no-unexpected-multiline
+(async function () {
+  try {
+    if (!process.env.CI && process.argv[0] !== 'fake') await commander.parseAsync(process.argv)
+  } catch (error) {
+    process.exit(1)
+  }
+})()

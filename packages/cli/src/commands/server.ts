@@ -33,7 +33,7 @@ export function action (opts: {
   server.listen()
 }
 
-export default function (program: Command): void {
+export function ServerCommand (program: Command): void {
   program
     .command('server')
     .name('server')

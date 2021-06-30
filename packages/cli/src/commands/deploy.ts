@@ -31,7 +31,7 @@ async function confirm ({
   success?: string
   fail?: string
 }) {
-  return await new Promise<void>(function (resolve, reject) {
+  return new Promise<void>(function (resolve, reject) {
     if (message) warn(message)
 
     const readline = createInterface({
@@ -43,7 +43,7 @@ async function confirm ({
 
       if (res !== 'y') {
         if (fail) error(fail)
-        reject()
+        reject(res)
       } else {
         if (success) log(success)
         resolve()
@@ -131,10 +131,10 @@ export async function action (env: string, files: string[], { workers, autoRetry
 
   if (commit) {
     const cwd = execSync('git rev-parse --show-cdup').toString().trim()
-    const changes = execSync(`git diff --name-only ${commit}...HEAD`)
+    const changes = execSync(`git log -m -1 --name-only --pretty="format:" ${commit}`)
       .toString()
       .split('\n')
-      .filter(f => f.endsWith('.func.ts'))
+      .filter(f => f?.endsWith('.func.ts'))
       .map(f => resolve(cwd, f))
     files = files.concat(changes)
   }
@@ -215,7 +215,7 @@ export async function action (env: string, files: string[], { workers, autoRetry
   }
 }
 
-export default function (program: Command): void {
+export function DeployCommand (program: Command): void {
   program
     .command('deploy <env> [files...]')
     .option('-w --workers <workers>', '并行发布的数量，默认为 CPU 数量 - 1')
