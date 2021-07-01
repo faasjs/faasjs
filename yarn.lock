@@ -11,9 +11,9 @@
     lodash.xorby "^4.7.0"
 
 "@apollo/gateway@*":
-  version "0.30.0"
-  resolved "https://registry.yarnpkg.com/@apollo/gateway/-/gateway-0.30.0.tgz#73714e0fece3c1c62ffeabd9e6c6638b2f6ed965"
-  integrity sha512-wPx4X3L50TmEt8ACRYF0qtETIuh2E72u/EVmLH11SGB0xZvosgJ4VPC9wQKOjg3BFPzEfrw+TuVuDnwO8FBMsA==
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/@apollo/gateway/-/gateway-0.31.0.tgz#2ae2c94b699e02c92d2d70bbf9618cf181c44290"
+  integrity sha512-FG1t6ezbRyT7hjrIKkFUVTIpaubK055b8y41+S+5XClw3zAqueapZDAOqa6ifz9vOzbQyY/xIvixP45R4/S6YA==
   dependencies:
     "@apollo/federation" "^0.25.2"
     "@apollo/query-planner" "^0.2.1"
