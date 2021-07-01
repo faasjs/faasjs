@@ -129,7 +129,7 @@ export async function action (env: string, files: string[], { workers, autoRetry
 
   const list: string[] = []
 
-  if (commit) {
+  if (commit && typeof commit === 'string') {
     const cwd = execSync('git rev-parse --show-cdup').toString().trim()
     const changes = execSync(`git log -m -1 --name-only --pretty="format:" ${commit}`)
       .toString()
