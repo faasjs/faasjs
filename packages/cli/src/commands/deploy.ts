@@ -169,16 +169,16 @@ export async function action (env: string, files: string[], { workers, autoRetry
         fail: '停止发布'
       })
 
-    const files = chunk(list, Math.ceil(list.length / processNumber))
+    const chunked = chunk(list, Math.ceil(list.length / processNumber))
     const queues = []
     const results = {
       done: [],
       fail: []
     }
     for (let i = 0; i < processNumber; i++) {
-      if (!files[i] || (files[i].length === 0)) continue
+      if (!chunked[i] || (chunked[i].length === 0)) continue
       queues.push(new Promise<void>(function (resolve) {
-        const worker = fork({ FaasDeployFiles: files[i] })
+        const worker = fork({ FaasDeployFiles: chunked[i] })
         worker.on('message', function (message) {
           switch (message?.type) {
             case 'done':
