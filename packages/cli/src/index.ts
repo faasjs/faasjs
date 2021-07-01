@@ -43,13 +43,15 @@ commander
 // 加载命令
 NewCommand(commander)
 DeployCommand(commander)
-ServerCommand(commander);
+ServerCommand(commander)
 
 // eslint-disable-next-line no-unexpected-multiline
-(async function () {
+async function main () {
   try {
     if (!process.env.CI && process.argv[0] !== 'fake') await commander.parseAsync(process.argv)
   } catch (error) {
     process.exit(1)
   }
-})()
+}
+
+export default main()

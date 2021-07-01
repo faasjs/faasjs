@@ -1,4 +1,4 @@
-import { Server } from '../index'
+import { closeAll, Server } from '..'
 import request from '@faasjs/request'
 import { join, sep } from 'path'
 
@@ -12,8 +12,8 @@ describe('server', function () {
     server.listen()
   })
 
-  afterAll(function () {
-    server.close()
+  afterAll(async function () {
+    await closeAll()
   })
 
   test('check config', async function () {

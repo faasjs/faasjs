@@ -5,8 +5,8 @@ import { Server } from '@faasjs/server'
 import { defaultsEnv } from '../helper'
 
 export function action (opts: {
-  port: number
-  cache: boolean
+  port?: number
+  cache?: boolean
 }): void {
   const tsconfig = require(join(process.cwd(), 'tsconfig.json'))
 
@@ -25,7 +25,7 @@ export function action (opts: {
 
   defaultsEnv()
 
-  const server = new Server(process.env.FaasRoot!, {
+  const server = new Server(process.env.FaasRoot, {
     cache: opts.cache,
     port: opts.port || 3000
   })

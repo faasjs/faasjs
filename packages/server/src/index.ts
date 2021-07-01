@@ -5,10 +5,22 @@ import { existsSync } from 'fs'
 import { loadConfig } from '@faasjs/load'
 import { resolve as pathResolve, sep, join } from 'path'
 import { HttpError } from '@faasjs/http'
+import { Socket } from 'net'
 
 interface Cache {
   file?: string
   handler?: (...args: any) => Promise<any>
+}
+
+const servers: Server[] = []
+
+export function getAll (): Server[] {
+  return servers
+}
+
+export async function closeAll (): Promise<void> {
+  for (const server of servers)
+    await server.close()
 }
 
 /**
@@ -28,6 +40,7 @@ export class Server {
   }
 
   private server: HttpServer
+  private sockets: Set<Socket>
 
   /**
    * 创建本地服务器
@@ -48,6 +61,8 @@ export class Server {
     }, (opts) || {})
     this.cachedFuncs = {}
     this.logger.debug('Init with %s %o', this.root, this.opts)
+    this.sockets = new Set()
+    servers.push(this)
   }
 
   public async processRequest (req: IncomingMessage, res: {
@@ -155,15 +170,36 @@ export class Server {
             }
           })
         }
-      }).listen(this.opts.port, '0.0.0.0')
+      })
+      .on('connection', (socket) => {
+        this.sockets.add(socket)
+        socket.on('close', () => {
+          this.sockets.delete(socket)
+        })
+      })
+      .listen(this.opts.port, '0.0.0.0')
 
     return this.server
   }
 
-  public close (): void {
+  public async close (): Promise<void> {
     this.logger.debug('Close server')
-    this.server.close(function (err) {
-      if (err) console.error(err)
+    console.log(this.sockets)
+
+    for (const socket of this.sockets)
+      try {
+        socket.destroy()
+      } catch (error) {
+        console.error(error)
+      } finally {
+        this.sockets.delete(socket)
+      }
+
+    await new Promise<void>((resolve) => {
+      this.server.close((err) => {
+        if (err) console.error(err)
+        else resolve()
+      })
     })
   }
 
