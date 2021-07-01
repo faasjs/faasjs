@@ -46,7 +46,7 @@ export class ResponseError extends Error {
   }
 }
 
-export default class FaasBrowserClient {
+export class FaasBrowserClient {
   public host: string
   public defaultOptions: Options
 
@@ -88,7 +88,6 @@ export default class FaasBrowserClient {
           xhr
         })
 
-
       xhr.onload = function () {
         let res = xhr.response
         const headersList = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
@@ -113,7 +112,6 @@ export default class FaasBrowserClient {
           } catch (error) {
             console.error(error)
           }
-
 
         if (xhr.status >= 200 && xhr.status < 300)
           resolve(new Response({
@@ -145,3 +143,5 @@ export default class FaasBrowserClient {
     })
   }
 }
+
+export default FaasBrowserClient

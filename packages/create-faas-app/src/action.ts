@@ -34,6 +34,7 @@ const Validator = {
 
 export async function action (options: {
   name?: string
+  provider?: string
   region?: string
   appId?: string
   secretId?: string
@@ -60,21 +61,22 @@ export async function action (options: {
     }).then((res: { value: string }) => res.value)
 
   if (!options.noprovider) {
-    answers.provider = await prompt({
-      type: 'select',
-      name: 'value',
-      message: 'Provider',
-      choices: [
-        {
-          name: 'null',
-          message: '暂不配置'
-        },
-        {
-          name: 'tencentcloud',
-          message: '腾讯云'
-        }
-      ]
-    }).then((res: { value: string }) => res.value)
+    if (!answers.provider || Validator.provider(answers.provider) !== true)
+      answers.provider = await prompt({
+        type: 'select',
+        name: 'value',
+        message: 'Provider',
+        choices: [
+          {
+            name: 'null',
+            message: '暂不配置'
+          },
+          {
+            name: 'tencentcloud',
+            message: '腾讯云'
+          }
+        ]
+      }).then((res: { value: string }) => res.value)
 
     if (answers.provider === 'tencentcloud') {
       if (!answers.region || Validator.region(answers.region) !== true)
@@ -86,7 +88,6 @@ export async function action (options: {
           validate: Validator.region
         }).then((res: { value: string }) => res.value)
 
-
       if (!answers.appId || Validator.appId(answers.appId) !== true)
         answers.appId = await prompt({
           type: 'input',
@@ -95,7 +96,6 @@ export async function action (options: {
           validate: Validator.appId
         }).then((res: { value: string }) => res.value)
 
-
       if (!answers.secretId || Validator.secretId(answers.secretId) !== true)
         answers.secretId = await prompt({
           type: 'input',
@@ -103,7 +103,6 @@ export async function action (options: {
           message: 'secretId (from https://console.cloud.tencent.com/cam/capi)',
           validate: Validator.secretId
         }).then((res: { value: string }) => res.value)
-
 
       if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true)
         answers.secretKey = await prompt({
@@ -122,7 +121,6 @@ export async function action (options: {
       message: 'Add example files',
       initial: true
     }).then((res: { value: boolean }) => res.value)
-
 
   if (!answers.name) return
 
@@ -190,7 +188,8 @@ production:`)
   writeFileSync(join(answers.name, '.gitignore'), `node_modules/
 tmp/
 coverage/
-*.tmp.js`)
+*.tmp.js
+`)
 
   mkdirSync(join(answers.name, '.vscode'))
 

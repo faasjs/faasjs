@@ -45,10 +45,11 @@
     "testPathIgnorePatterns": [
       "/lib/",
       "/tmp/",
-      "/examples/"
+      "/examples/",
+      "/benchmarks/"
     ],
     "collectCoverageFrom": [
-      "**/*.ts",
+      "**/packages/**/*.ts",
       "!**/local/**"
     ],
     "testRegex": "/*\\.test\\.ts$",
