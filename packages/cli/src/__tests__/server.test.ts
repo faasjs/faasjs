@@ -2,8 +2,8 @@ import { action } from '../commands/server'
 import { getAll, closeAll } from '@faasjs/server'
 
 describe('server', function () {
-  afterAll(async function () {
-    await closeAll()
+  afterAll(function () {
+    closeAll()
   })
 
   it('should work', async function () {
