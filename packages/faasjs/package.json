@@ -3,6 +3,11 @@
   "version": "0.0.2-beta.205",
   "license": "MIT",
   "files": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/faasjs"
+  },
   "dependencies": {
     "@faasjs/cli": "^0.0.2-beta.205",
     "@faasjs/http": "^0.0.2-beta.201"

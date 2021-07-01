@@ -6,6 +6,11 @@
   "files": [
     "index.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/eslint-config-vue"
+  },
   "dependencies": {
     "@faasjs/eslint-config-recommended": "^0.0.2-beta.193",
     "eslint-plugin-vue": "*"

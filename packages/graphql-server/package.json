@@ -5,6 +5,11 @@
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/graphql-server"
+  },
   "scripts": {
     "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
   },
@@ -27,7 +32,8 @@
     "@faasjs/http": "^0.0.2-beta.201",
     "apollo-server-core": "*",
     "apollo-server-env": "*",
-    "graphql": "*"
+    "graphql": "*",
+    "@opentelemetry/api": "*"
   },
   "gitHead": "e45b0b022c0e487a848edcb5a3f85873b1d67dc2"
 }

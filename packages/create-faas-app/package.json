@@ -6,6 +6,11 @@
   "bin": {
     "create-faas-app": "lib/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/create-faas-app"
+  },
   "scripts": {
     "prepack": "rm -rf ./lib && rollup -c"
   },

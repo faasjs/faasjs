@@ -5,6 +5,11 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/load"
+  },
   "scripts": {
     "lint": "eslint --ext .ts src",
     "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/",

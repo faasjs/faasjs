@@ -5,6 +5,11 @@
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/logger"
+  },
   "scripts": {
     "prepack": "rm -rf ./lib && rollup -c"
   },
