@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "0.0.2-beta.193",
+  "version": "0.0.2-beta.206",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -16,7 +16,7 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/browser": "^0.0.2-beta.193"
+    "@faasjs/browser": "^0.0.2-beta.206"
   },
   "devDependencies": {
     "react": "*",
