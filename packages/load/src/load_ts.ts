@@ -1,7 +1,7 @@
 import deepMerge from '@faasjs/deep_merge'
 import { existsSync, readFileSync, unlinkSync } from 'fs'
 import * as rollup from 'rollup'
-import typescript from 'rollup-plugin-typescript2'
+import typescript from '@rollup/plugin-typescript'
 import { Func } from '@faasjs/func'
 import { join } from 'path'
 
@@ -124,7 +124,7 @@ export default async function loadTs (filename: string, options: {
     additions?: string[]
   }
 } = Object.create(null)): Promise<{
-    module: Func
+    module?: Func
     dependencies: {
       [key: string]: string
     }
@@ -141,7 +141,7 @@ export default async function loadTs (filename: string, options: {
     input: filename,
     external,
     plugins: [
-      typescript({ tsconfigOverride: { compilerOptions: { declaration: false } } })
+      typescript({ declaration: false })
     ],
     onwarn: () => null
   }, (options.input) || {})
@@ -157,8 +157,6 @@ export default async function loadTs (filename: string, options: {
         !dependencies[d] &&
         !NODE_PACKAGES.includes(d)
       ) dependencies[d] = '*'
-
-
 
   const output = deepMerge({
     file: filename + '.tmp.js',

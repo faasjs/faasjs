@@ -17,7 +17,7 @@
     "@faasjs/deep_merge": "^0.0.2-beta.193",
     "js-yaml": "*",
     "rollup": "*",
-    "rollup-plugin-typescript2": "*",
+    "@rollup/plugin-typescript": "*",
     "typescript": "*"
   },
   "devDependencies": {
