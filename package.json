@@ -31,5 +31,38 @@
     "extends": [
       "@faasjs/recommended"
     ]
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "globals": {
+      "ts-jest": {
+        "isolatedModules": true
+      }
+    },
+    "verbose": false,
+    "collectCoverage": true,
+    "testTimeout": 10000,
+    "testPathIgnorePatterns": [
+      "/lib/",
+      "/tmp/",
+      "/examples/"
+    ],
+    "collectCoverageFrom": [
+      "**/*.ts",
+      "!**/local/**"
+    ],
+    "testRegex": "/*\\.test\\.ts$",
+    "coveragePathIgnorePatterns": [
+      "/lib/",
+      "/tmp/",
+      "/__tests__/",
+      "/examples/"
+    ],
+    "moduleNameMapper": {
+      "@faasjs/(.*)": "<rootDir>/./packages/$1/src"
+    },
+    "setupFiles": [
+      "./packages/test/src/jest.setup"
+    ]
   }
 }
