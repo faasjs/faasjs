@@ -218,9 +218,9 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
     if (!this.mounted)
       await this.mount({
         event: data.event,
-        context: data.context
+        context: data.context,
+        config: data.config
       })
-
 
     try {
       await this.compose('onInvoke')(data)
@@ -286,7 +286,6 @@ export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & Usei
           context: {}
         }, async () => await Promise.resolve())
     }
-
 
   return plugin
 }
