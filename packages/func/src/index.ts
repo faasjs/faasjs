@@ -234,9 +234,11 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
   /**
    * 创建触发函数
    */
-  public export (): {
+  public export (config?: Config): {
     handler: ExportedHandler<TEvent, TContext, TRESULT>
   } {
+    this.config = config || Object.create(null)
+
     return {
       handler: async (event: TEvent, context?: TContext | any, callback?: (...args: any) => any): Promise<TRESULT> => {
         const logger = new Logger()
