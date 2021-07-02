@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/tencentcloud",
-  "version": "0.0.2-beta.208",
+  "version": "0.0.2-beta.209",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -17,13 +17,13 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/load": "^0.0.2-beta.208",
+    "@faasjs/load": "^0.0.2-beta.209",
     "@faasjs/logger": "^0.0.2-beta.206",
     "@faasjs/request": "^0.0.2-beta.206",
     "cos-nodejs-sdk-v5": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.208",
+    "@faasjs/func": "^0.0.2-beta.209",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",
