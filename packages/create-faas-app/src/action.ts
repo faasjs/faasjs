@@ -183,7 +183,20 @@ production:`)
   }
 }`)
 
-  writeFileSync(join(answers.name, 'tsconfig.json'), '{}')
+  writeFileSync(join(answers.name, 'tsconfig.json'), `{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": false,
+    "target": "ES2019",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "baseUrl": "."
+  }
+}
+`)
 
   writeFileSync(join(answers.name, '.gitignore'), `node_modules/
 tmp/
