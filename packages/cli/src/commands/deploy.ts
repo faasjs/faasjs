@@ -6,7 +6,7 @@ import { sep, resolve } from 'path'
 import { Deployer } from '@faasjs/deployer'
 import { defaultsEnv } from '../helper'
 import { cpus } from 'os'
-import { fork } from 'cluster'
+import Cluster from 'cluster'
 import { chunk } from 'lodash'
 import { log, warn, error } from 'console'
 import { runInNewContext } from 'vm'
@@ -178,7 +178,7 @@ export async function action (env: string, files: string[], { workers, autoRetry
     for (let i = 0; i < processNumber; i++) {
       if (!chunked[i] || (chunked[i].length === 0)) continue
       queues.push(new Promise<void>(function (resolve) {
-        const worker = fork({ FaasDeployFiles: chunked[i] })
+        const worker = Cluster.fork({ FaasDeployFiles: chunked[i] })
         worker.on('message', function (message) {
           switch (message?.type) {
             case 'done':
