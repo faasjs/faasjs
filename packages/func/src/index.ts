@@ -237,7 +237,7 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
   public export (config?: Config): {
     handler: ExportedHandler<TEvent, TContext, TRESULT>
   } {
-    this.config = config || Object.create(null)
+    if (!this.config) this.config = config || Object.create(null)
 
     return {
       handler: async (event: TEvent, context?: TContext | any, callback?: (...args: any) => any): Promise<TRESULT> => {

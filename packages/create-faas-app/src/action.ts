@@ -144,6 +144,7 @@ export async function action (options: {
       type: http
 development:
 testing:
+staging:
 production:`)
 
   writeFileSync(join(answers.name, 'package.json'),
