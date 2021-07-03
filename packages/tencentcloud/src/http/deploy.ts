@@ -72,8 +72,8 @@ export default async function (tc: Provider, data: DeployData, origin: { [key: s
   for (const key in config.config) if (!ALLOWS.includes(key)) delete config.config[key]
 
   const provider = tc.config
-
   const loggerPrefix = `[${data.env}#${data.name}]`
+  let OuterSubDomain: string
 
   tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[1/3]')} 更新服务信息...`)
   if (!config.config.ServiceId) {
@@ -92,10 +92,10 @@ export default async function (tc: Provider, data: DeployData, origin: { [key: s
       serviceInfo = await api('CreateService', provider, {
         ServiceName: data.env,
         Protocol: 'http&https'
-      }).then(function (body) { return body.data })
-
+      })
 
     config.config.ServiceId = serviceInfo.ServiceId
+    OuterSubDomain = serviceInfo.OuterSubDomain
   }
 
   tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[2/3]')} 更新接口信息...`)
@@ -147,5 +147,5 @@ export default async function (tc: Provider, data: DeployData, origin: { [key: s
     ServiceId: config.config.ServiceId
   })
 
-  tc.logger.info('接口发布完成 %s %s', config.config.RequestConfig.Method, config.config.RequestConfig.Path)
+  tc.logger.info(`接口发布完成 ${config.config.RequestConfig.Method} https://${OuterSubDomain}${config.config.RequestConfig.Path.replace(/^=/, '')}`)
 }

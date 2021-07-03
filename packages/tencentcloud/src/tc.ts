@@ -57,10 +57,8 @@ export async function tc<T = any> (config: TencentcloudConfig, {
     headers,
     body: payload
   }).then(function (res: Response) {
-    if (res.body.Response.Error) {
-      console.error(res.body)
+    if (res.body.Response.Error)
       return Promise.reject(res.body.Response.Error)
-    }
 
     return res.body.Response
   })
