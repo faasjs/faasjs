@@ -42,8 +42,11 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: yarn install
+      - name: Install
         run: yarn install
+
+      - name: Prepack
+        run: yarn lerna run prepack
 
       - name: Run Tests
         run: yarn test
