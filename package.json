@@ -12,11 +12,11 @@
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
+    "@swc-node/jest": "*",
     "codecov": "*",
     "faasjs": "./packages/faasjs",
     "jest": "*",
     "lerna": "*",
-    "ts-jest": "*",
     "typescript": "*"
   },
   "workspaces": [
@@ -33,12 +33,7 @@
     ]
   },
   "jest": {
-    "preset": "ts-jest",
-    "globals": {
-      "ts-jest": {
-        "isolatedModules": true
-      }
-    },
+    "transform": { ".(jsx|tsx?)": "@swc-node/jest" },
     "verbose": false,
     "collectCoverage": true,
     "testTimeout": 10000,

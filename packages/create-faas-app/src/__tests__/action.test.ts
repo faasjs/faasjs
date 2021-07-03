@@ -38,7 +38,8 @@ describe('action', function () {
   it('noprovider', async function () {
     await action({
       name: 'test',
-      noprovider: true
+      noprovider: true,
+      example: false
     })
 
     expect(execs).toEqual(['yarn --cwd test install'])
@@ -64,7 +65,8 @@ coverage/
       region: 'ap-beijing',
       appId: '1',
       secretId: 'secretId',
-      secretKey: 'secretKey'
+      secretKey: 'secretKey',
+      example: false
     })
 
     expect(execs).toEqual(['yarn --cwd test install'])

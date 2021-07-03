@@ -114,7 +114,7 @@ export async function action (options: {
     }
   }
 
-  if (answers.example)
+  if (typeof answers.example === 'undefined')
     answers.example = await prompt({
       type: 'confirm',
       name: 'value',
@@ -125,6 +125,7 @@ export async function action (options: {
   if (!answers.name) return
 
   mkdirSync(answers.name)
+
   writeFileSync(join(answers.name, 'faas.yaml'),
     `defaults:
   providers:
@@ -145,7 +146,8 @@ export async function action (options: {
 development:
 testing:
 staging:
-production:`)
+production:
+`)
 
   writeFileSync(join(answers.name, 'package.json'),
     `{
@@ -188,9 +190,6 @@ production:`)
   "compilerOptions": {
     "downlevelIteration": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "strictNullChecks": false,
     "target": "ES2019",
     "module": "ESNext",
     "moduleResolution": "node",
