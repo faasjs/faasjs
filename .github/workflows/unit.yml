@@ -45,9 +45,6 @@ jobs:
       - name: Install
         run: yarn install
 
-      - name: Prepack
-        run: yarn lerna run prepack
-
       - name: Run Tests
         run: yarn test
 

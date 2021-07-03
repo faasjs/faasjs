@@ -17,8 +17,8 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: yarn install
+      - name: Install
         run: yarn install
 
-      - name: Run Tests
+      - name: Run Lint
         run: yarn lint
