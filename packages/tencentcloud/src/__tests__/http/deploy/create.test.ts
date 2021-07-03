@@ -90,7 +90,14 @@ jest.mock('@faasjs/request', function () {
       case 'DescribeServicesStatus':
         return await Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
       case 'CreateService':
-        return await Promise.resolve({ body: { Response: { data: { ServiceId: 'ServiceId' } } } })
+        return await Promise.resolve({
+          body: {
+            Response: {
+              ServiceId: 'ServiceId',
+              OuterSubDomain: 'domain'
+            }
+          }
+        })
       case 'DescribeApisStatus':
         return await Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
       case 'CreateApi':
@@ -147,7 +154,8 @@ test('create', async function () {
     config: {
       method: 'GET',
       timeout: 1,
-      functionName: 'http'
+      functionName: 'http',
+      path: '/'
     }
   })
 
@@ -157,7 +165,7 @@ test('create', async function () {
     Protocol: 'HTTP',
     RequestConfig: {
       Method: 'GET',
-      Path: undefined,
+      Path: '/',
     },
     ServiceId: 'ServiceId',
     ServiceScfFunctionName: 'http',
