@@ -133,6 +133,7 @@ export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: st
     // 根据文件及文件夹名生成路径
     if (!config.config.path) {
       config.config.path = '=/' + data.name?.replace(/_/g, '/').replace(/\/index$/, '')
+      if (config.config.path === '=/index') config.config.path = '=/'
       if (config.config.ignorePathPrefix) {
         config.config.path = config.config.path.replace(new RegExp('^=' + config.config.ignorePathPrefix), '=')
         if (config.config.path === '=') config.config.path = '=/'
