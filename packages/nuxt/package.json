@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/nuxt",
-  "version": "0.0.2-beta.209",
+  "version": "0.0.2-beta.210",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@faasjs/browser": "^0.0.2-beta.208",
     "@faasjs/eslint-config-vue": "^0.0.2-beta.206",
-    "faasjs": "^0.0.2-beta.209",
+    "faasjs": "^0.0.2-beta.210",
     "vue": "*"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/func",
-  "version": "0.0.2-beta.209",
+  "version": "0.0.2-beta.210",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
