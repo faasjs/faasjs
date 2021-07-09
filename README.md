@@ -19,6 +19,6 @@ An atomic FaaS Application Framework based on Typescript and Node.js
 
 https://faasjs.com/
 
-[CHANGELOG](https://github.com/faasjs/faasjs/blob/master/docs/changelog.md)
+[CHANGELOG](https://github.com/faasjs/faasjs/blob/master/docs/CHANGELOG.md)
 
 [CONTRIBUTING](https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md)
