@@ -22,7 +22,6 @@ const FAAS_PACKAGES = [
   '@faasjs/knex',
   '@faasjs/load',
   '@faasjs/logger',
-  '@faasjs/nuxt',
   '@faasjs/react',
   '@faasjs/redis',
   '@faasjs/request',

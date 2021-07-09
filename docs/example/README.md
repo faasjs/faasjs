@@ -8,10 +8,6 @@
 
 最简版 FaasJS 项目，包括代码规范检查、自动化测试等。
 
-[**Nuxt**](https://github.com/faasjs/examples/tree/master/nuxt)
-
-最简版 FaasJS + Nuxt 项目，包括代码规范检查、自动化测试等。
-
 [**todomvc**](https://github.com/faasjs/examples/tree/master/todomvc)
 
 FaasJS + Vue 实现的 todomvc，包括常用数据库读写操作、Webpack 本地联调等。

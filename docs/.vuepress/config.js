@@ -55,7 +55,6 @@ module.exports = {
             'excel/test',
             'excel/lint',
             'excel/vue',
-            'excel/nuxt',
             'excel/react',
             'excel/graphql-server',
           ]

@@ -8,7 +8,6 @@ tmp
 .rpt2_cache
 package-lock.json
 report.*.json
-.nuxt
 dist
 *.conf
 yarn.lock

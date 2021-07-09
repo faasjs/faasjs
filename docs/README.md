@@ -98,7 +98,6 @@ describe('index', function () {
     <p><a href="https://jsdoc.app/" target="_blank">JSDoc</a></p>
     <p><a href="https://knexjs.org/" target="_blank">Knex</a></p>
     <p><a href="https://nodejs.org/" target="_blank">Node.js</a></p>
-    <p><a href="https://nuxtjs.org/" target="_blank">Nuxt.js</a></p>
     <p><a href="https://reactjs.org/" target="_blank">React</a></p>
     <p><a href="https://rollupjs.org/" target="_blank">Rollup.js</a></p>
     <p><a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a></p>

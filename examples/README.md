@@ -12,10 +12,6 @@
 
 使用多个 Sql 数据库的示例。
 
-## nuxt
-
-最简版 FaasJS + Nuxt 项目。
-
 ## todomvc
 
 FaasJS + Vue 实现的 todomvc。

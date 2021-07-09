@@ -52,12 +52,6 @@
 |---|---|---|---|
 |[@faasjs/tencentcloud](https://github.com/faasjs/faasjs/tree/master/packages/tencentcloud)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/tencentcloud/stable.svg)](https://www.npmjs.com/package/@faasjs/tencentcloud)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/tencentcloud/beta.svg)](https://www.npmjs.com/package/@faasjs/tencentcloud)|
 
-## 框架适配
-
-|Name|Stable|Beta|
-|---|---|---|---|
-|[@faasjs/nuxt](https://github.com/faasjs/faasjs/tree/master/packages/nuxt)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/nuxt/stable.svg)](https://www.npmjs.com/package/@faasjs/nuxt)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/nuxt/beta.svg)](https://www.npmjs.com/package/@faasjs/nuxt)|
-
 ## 前端插件
 
 |Name|Stable|Beta|

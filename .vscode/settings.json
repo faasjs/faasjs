@@ -58,10 +58,6 @@
       "changeProcessCWD": true
     },
     {
-      "directory": "./packages/nuxt",
-      "changeProcessCWD": true
-    },
-    {
       "directory": "./packages/redis",
       "changeProcessCWD": true
     },
