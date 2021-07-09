@@ -4,6 +4,27 @@
 
 ## Beta
 
+[`v0.0.2-beta.209 (2021-07-03)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.209...v0.0.2-beta.210)
+
+- [优化] `@faasjs/tencentcloud` 优化日志。
+
+[`v0.0.2-beta.209 (2021-07-02)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.207...v0.0.2-beta.209)
+
+- [优化] `@faasjs/server` 退出时自动关闭连接。
+
+[`v0.0.2-beta.207 (2021-07-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.204...v0.0.2-beta.207)
+
+- [优化] `@faasjs/load` 使用 `@rollup/plugin-typescript` 替代 rpt2。
+
+[`v0.0.2-beta.204 (2021-06-29)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.201...v0.0.2-beta.204)
+
+- [优化] `@faasjs/cli` 新增 `commit` 参数，批量部署被修改的云函数。
+
+[`v0.0.2-beta.201 (2021-06-28)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.198...v0.0.2-beta.201)
+
+- [优化] `@faasjs/tencentcloud` 优化腾讯云接口。
+- [优化] `@faasjs/tencentcloud` 配置优先级调整为：环境变量 > 代码配置项 > yaml 配置项。
+
 [`v0.0.2-beta.193 (2021-06-23)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.197...v0.0.2-beta.198)
 
 - [优化] `@faasjs/cli` 提速 ts-node，编译时不检查 ts 定义。
