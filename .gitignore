@@ -11,3 +11,4 @@ report.*.json
 .nuxt
 dist
 *.conf
+yarn.lock
