@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "0.0.2-beta.210",
+  "version": "0.0.2-beta.211",
   "license": "MIT",
   "main": "lib/index.js",
   "bin": {
@@ -20,8 +20,8 @@
   "dependencies": {
     "commander": "*",
     "enquirer": "*",
-    "typescript": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "typescript": "*"
   },
   "devDependencies": {
     "@types/node": "*",
