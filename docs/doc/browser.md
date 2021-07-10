@@ -1,4 +1,4 @@
-# Browser 插件
+# @faasjs/browser
 
 浏览器插件，用于在浏览器中请求云函数。
 

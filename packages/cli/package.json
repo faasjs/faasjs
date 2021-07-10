@@ -7,6 +7,7 @@
   "bin": {
     "faas": "lib/index.js"
   },
+  "homepage": "https://faasjs.com/doc/cli.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

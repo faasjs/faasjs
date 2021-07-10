@@ -1,7 +1,5 @@
 # 5 分钟开发登录注册功能
 
-注：欢迎加入 QQ 群（772109193）与大家一起交流学习。
-
 在学习本教程前，建议先学习 [1 分钟上手](/guide) 和 [2 分钟部署到腾讯云](/guide/tencentcloud)。
 
 通过本教程，你将学到：
@@ -10,7 +8,6 @@
 - 如何使用 Session 来识别用户？
 - 如何使用入参校验来避免恶意攻击？
 - 如何在云函数中使用 Sql？
-
 
 ## 梳理需求
 
@@ -121,7 +118,7 @@ describe('signin', function () {
   beforeEach(async function () {
     // 使用 FuncWarpper 来引入云函数
     func = new FuncWarpper(require.resolve('../signup.func') as string);
-    
+
     // 因为 sql 插件需要在云函数初始化时生成连接，所以这里需要使用 mountedHandler 来初始化云函数
     await func.mountedHandler({});
 

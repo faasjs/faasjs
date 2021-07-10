@@ -1,4 +1,4 @@
-# Redis 插件
+# @faasjs/redis
 
 Redis 插件可以使云函数能够连接 Redis 数据库。
 

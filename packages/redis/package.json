@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "module": "lib/index.es.js",
+  "homepage": "https://faasjs.com/doc/redis.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

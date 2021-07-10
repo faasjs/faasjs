@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
+  "homepage": "https://faasjs.com/doc/logger.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

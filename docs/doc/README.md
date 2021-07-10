@@ -1,102 +1,70 @@
-# CloudFunction 插件
+# 官方插件总览
 
-FaasJS 内置插件，无需额外安装。
+[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/unit.yml)
 
-## 配置参数
+## 核心插件
 
-- **name** `string` 云函数名字，默认为文件夹+文件名
-- **memorySize** `number` 内存，单位为 MB，默认为 128
-- **timeout** `number` 最大执行时长，单位为秒，默认为 30
-- **triggers** `object` 触发器配置
-  - **type** `string` 触发器类型
-  - **name** `string` 触发器名字
-  - **value** `string` 触发器设置
+|Name|Stable|Beta|
+|---|---|---|---|
+|[faasjs](https://github.com/faasjs/faasjs/tree/master/packages/faasjs)|[![NPM Stable Version](https://img.shields.io/npm/v/faasjs/stable.svg)](https://www.npmjs.com/package/faasjs)|[![NPM Beta Version](https://img.shields.io/npm/v/faasjs/beta.svg)](https://www.npmjs.com/package/faasjs)|
+|[@faasjs/func](https://github.com/faasjs/faasjs/tree/master/packages/func)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/func/stable.svg)](https://www.npmjs.com/package/@faasjs/func)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/func/beta.svg)](https://www.npmjs.com/package/@faasjs/func)|
+|[@faasjs/cloud_function](https://github.com/faasjs/faasjs/tree/master/packages/cloud_function)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/cloud_function/stable.svg)](https://www.npmjs.com/package/@faasjs/cloud_function)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/cloud_function/beta.svg)](https://www.npmjs.com/package/@faasjs/cloud_function)|
+|[@faasjs/deployer](https://github.com/faasjs/faasjs/tree/master/packages/deployer)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/deployer/stable.svg)](https://www.npmjs.com/package/@faasjs/deployer)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/deployer/beta.svg)](https://www.npmjs.com/package/@faasjs/deployer)|
+|[@faasjs/test](https://github.com/faasjs/faasjs/tree/master/packages/test)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/test/stable.svg)](https://www.npmjs.com/package/@faasjs/test)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/test/beta.svg)](https://www.npmjs.com/package/@faasjs/test)|
 
-### 校验配置
+## 命令行插件
 
-- **whitelist** `'error' | 'ignore'` 是否只允许 `rules` 中声明的入参，当遇到未声明的入参，`error` 会直接抛异常，`ignore` 不会报错，但会删除未声明的入参
-- **rules** `object` 参数校验规则
-  - **required** `boolean` 是否必填，设置为 `true` 时，将不允许值为 `undefined` 或 `null`
-  - **type** `string` 支持 `string`、`number`、`boolean`、`array` 和 `object`
-  - **in** `array` 判断值是否在列表中
-  - **default** `any` 若值为 `undefined`，则会将默认值赋上，若这里配置为函数，则会将整个请求作为入参传入，将函数的返回值赋上
-  - **config** `object` 内嵌对象的校验规则，配置项同上
+|Name|Stable|Beta|
+|---|---|---|---|
+|[@faasjs/cli](https://github.com/faasjs/faasjs/tree/master/packages/cli)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/cli/stable.svg)](https://www.npmjs.com/package/@faasjs/cli)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/cli/beta.svg)](https://www.npmjs.com/package/@faasjs/cli)|
+|[create-faas-app](https://github.com/faasjs/faasjs/tree/master/packages/cli)|[![NPM Stable Version](https://img.shields.io/npm/v/create-faas-app/stable.svg)](https://www.npmjs.com/package/create-faas-app)|[![NPM Beta Version](https://img.shields.io/npm/v/create-faas-app/beta.svg)](https://www.npmjs.com/package/create-faas-app)|
 
-#### 代码示例
+## 工具插件
 
-```typescript
-import { CloudFunction } from '@faasjs/cloud_function';
+|Name|Stable|Beta|
+|---|---|---|---|
+|[@faasjs/deep_merge](https://github.com/faasjs/faasjs/tree/master/packages/deep_merge)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/deep_merge/stable.svg)](https://www.npmjs.com/package/@faasjs/deep_merge)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/deep_merge/beta.svg)](https://www.npmjs.com/package/@faasjs/deep_merge)|
+|[@faasjs/load](https://github.com/faasjs/faasjs/tree/master/packages/load)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/load/stable.svg)](https://www.npmjs.com/package/@faasjs/load)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/load/beta.svg)](https://www.npmjs.com/package/@faasjs/load)|
+|[@faasjs/logger](https://github.com/faasjs/faasjs/tree/master/packages/logger)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/logger/stable.svg)](https://www.npmjs.com/package/@faasjs/logger)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/logger/beta.svg)](https://www.npmjs.com/package/@faasjs/logger)|
+|[@faasjs/request](https://github.com/faasjs/faasjs/tree/master/packages/request)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/request/stable.svg)](https://www.npmjs.com/package/@faasjs/request)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/request/beta.svg)](https://www.npmjs.com/package/@faasjs/request)|
+|[@faasjs/server](https://github.com/faasjs/faasjs/tree/master/packages/server)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/server/stable.svg)](https://www.npmjs.com/package/@faasjs/server)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/server/beta.svg)](https://www.npmjs.com/package/@faasjs/server)|
 
-const cf = new CloudFunction({
-  validator: {
-    event: {
-      whitelist: 'error',
-      rules: {
-        key: {
-          required: true,
-          type: 'number',
-          in: [1, 2],
-          default: 1
-        }
-      }
-    }
-  }
-});
-```
+## 代码风格插件
 
-## 实例属性
+|Name|Stable|Beta|
+|---|---|---|---|
+|[@faasjs/eslint-config-react](https://github.com/faasjs/faasjs/tree/master/packages/eslint-config-react)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-react/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-react)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-react/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-react)|
+|[@faasjs/eslint-config-recommended](https://github.com/faasjs/faasjs/tree/master/packages/eslint-config-recommended)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-recommended/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-recommended)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-recommended/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-recommended)|
+|[@faasjs/eslint-config-vue](https://github.com/faasjs/faasjs/tree/master/packages/eslint-config-vue)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-vue/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-vue)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-vue/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-vue)|
 
-### event
+## 网络插件
 
-云函数的事件对象
+|Name|Stable|Beta|
+|---|---|---|---|
+|[@faasjs/http](https://github.com/faasjs/faasjs/tree/master/packages/http)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/http/stable.svg)](https://www.npmjs.com/package/@faasjs/http)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/http/beta.svg)](https://www.npmjs.com/package/@faasjs/http)|
+|[@faasjs/graphql-server](https://github.com/faasjs/faasjs/tree/master/packages/graphql-server)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/graphql-server/stable.svg)](https://www.npmjs.com/package/@faasjs/graphql-server)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/graphql-server/beta.svg)](https://www.npmjs.com/package/@faasjs/graphql-server)|
 
-### context
+## 数据库插件
 
-云函数的环境对象
+|Name|Stable|Beta|
+|---|---|---|---|
+|[@faasjs/kafka](https://github.com/faasjs/faasjs/tree/master/packages/kafka)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/kafka/stable.svg)](https://www.npmjs.com/package/@faasjs/kafka)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/kafka/beta.svg)](https://www.npmjs.com/package/@faasjs/kafka)|
+|[@faasjs/knex](https://github.com/faasjs/faasjs/tree/master/packages/knex)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/knex/stable.svg)](https://www.npmjs.com/package/@faasjs/knex)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/knex/beta.svg)](https://www.npmjs.com/package/@faasjs/knex)|
+|[@faasjs/mongo](https://github.com/faasjs/faasjs/tree/master/packages/mongo)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/mongo/stable.svg)](https://www.npmjs.com/package/@faasjs/mongo)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/mongo/beta.svg)](https://www.npmjs.com/package/@faasjs/mongo)|
+|[@faasjs/redis](https://github.com/faasjs/faasjs/tree/master/packages/redis)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/redis/stable.svg)](https://www.npmjs.com/package/@faasjs/redis)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/redis/beta.svg)](https://www.npmjs.com/package/@faasjs/redis)|
+|[@faasjs/sql](https://github.com/faasjs/faasjs/tree/master/packages/sql)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/sql/stable.svg)](https://www.npmjs.com/package/@faasjs/sql)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/sql/beta.svg)](https://www.npmjs.com/package/@faasjs/sql)|
 
-## 实例方法
 
-### invoke(action: string, params?: any): Promise\<any\>
+## 服务商适配插件
 
-异步触发其它云函数
+|Name|Stable|Beta|
+|---|---|---|---|
+|[@faasjs/tencentcloud](https://github.com/faasjs/faasjs/tree/master/packages/tencentcloud)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/tencentcloud/stable.svg)](https://www.npmjs.com/package/@faasjs/tencentcloud)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/tencentcloud/beta.svg)](https://www.npmjs.com/package/@faasjs/tencentcloud)|
 
-- **action** 云函数的名字，如 `user/create`
-- **params** 传递的参数
+## 前端插件
 
-### invokeSync(action: string, params?: any): Promise\<any\>
-
-同步调用其它云函数
-
-- **action** 云函数的名字，如 `user/create`
-- **params** 传递的参数
-
-## 示例代码
-
-```typescript
-import { Func } from '@faasjs/func';
-import { CloudFunction } from '@faasjs/cloud_function';
-
-// 创建一个云函数插件实例
-const cf = new CloudFunction({
-  config: {
-    timeout: 100 // 将云函数的最大执行时间设为 100 秒
-  }
-});
-
-export default new Func({
-  plugins: [cf], // 将实例放到云函数的插件中
-  async handler(){
-    // 显示入参
-    console.log(cf.event);
-    
-    // 触发另外一个云函数
-    await cf.invoke('another/function_name', { data: 'Hello' });
-
-    return true;
-  }
-});
-```
-
-## Github 地址
-
-[https://github.com/faasjs/faasjs/tree/master/packages/cloud_function](https://github.com/faasjs/faasjs/tree/master/packages/cloud_function)
+|Name|Stable|Beta|
+|---|---|---|---|
+|[@faasjs/browser](https://github.com/faasjs/faasjs/tree/master/packages/browser)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/browser/stable.svg)](https://www.npmjs.com/package/@faasjs/browser)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/browser/beta.svg)](https://www.npmjs.com/package/@faasjs/browser)|
+|[@faasjs/react](https://github.com/faasjs/faasjs/tree/master/packages/react)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/react/stable.svg)](https://www.npmjs.com/package/@faasjs/react)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/react/beta.svg)](https://www.npmjs.com/package/@faasjs/react)|
+|[@faasjs/vue-plugin](https://github.com/faasjs/faasjs/tree/master/packages/vue-plugin)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/vue-plugin/stable.svg)](https://www.npmjs.com/package/@faasjs/vue-plugin)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/vue-plugin/beta.svg)](https://www.npmjs.com/package/@faasjs/vue-plugin)|

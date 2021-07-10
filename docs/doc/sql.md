@@ -1,4 +1,4 @@
-# Sql 插件
+# @faasjs/sql
 
 Sql 插件可以使云函数能够连接 SQL 数据库。
 

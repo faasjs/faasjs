@@ -4,6 +4,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "homepage": "https://faasjs.com/doc/vue-plugin.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

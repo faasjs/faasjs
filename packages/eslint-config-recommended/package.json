@@ -6,6 +6,7 @@
   "files": [
     "index.js"
   ],
+  "homepage": "https://faasjs.com/doc/eslint-config-recommended.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

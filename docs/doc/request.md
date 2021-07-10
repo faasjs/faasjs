@@ -1,4 +1,4 @@
-# Request 插件
+# @faasjs/request
 
 FaasJS 内置插件，无需额外安装。
 

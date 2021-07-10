@@ -25,10 +25,6 @@ module.exports = {
         link: '/example/'
       },
       {
-        text: '插件',
-        link: '/npm'
-      },
-      {
         text: '支持 FaasJS',
         link: 'https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md'
       },
@@ -62,32 +58,80 @@ module.exports = {
         'story'
       ],
       '/doc/': [
+        ['', '总览'],
         {
-          title: '云函数插件',
+          title: '核心插件',
           collapsable: false,
           children: [
-            '',
-            'http',
-            'sql',
-            'redis',
+            'func',
+            'cloud_function',
+            'deployer',
+            'test',
           ]
         },
         {
-          title: '辅助插件',
+          title: '命令行插件',
+          collapsable: false,
+          children: [
+            'cli',
+            'create-faas-app'
+          ]
+        },
+        {
+          title: '工具插件',
+          collapsable: false,
+          children: [
+            'deep_merge',
+            'load',
+            'logger',
+            'request',
+            'server',
+          ]
+        },
+        {
+          title: '代码风格插件',
+          collapsable: false,
+          children: [
+            'eslint-config-react',
+            'eslint-config-recommended',
+            'eslint-config-vue',
+          ]
+        },
+        {
+          title: '网络插件',
+          collapsable: false,
+          children: [
+            'http',
+            'graphql-server',
+          ]
+        },
+        {
+          title: '数据库插件',
+          collapsable: false,
+          children: [
+            'kafka',
+            'knex',
+            'mongo',
+            'redis',
+            'sql',
+          ]
+        },
+        {
+          title: '服务商适配插件',
+          collapsable: false,
+          children: [
+            'tencentcloud'
+          ]
+        },
+        {
+          title: '前端插件',
           collapsable: false,
           children: [
             'browser',
-            'request'
+            'react',
+            'vue-plugin',
           ]
         },
-        {
-          title: '命令行',
-          collapsable: false,
-          children: [
-            'cli/server',
-            'cli/deploy',
-          ]
-        }
       ],
       '/example/': [
         '',
@@ -97,7 +141,6 @@ module.exports = {
         'sql-knex'
       ]
     },
-    displayAllHeaders: true,
     search: true,
     lastUpdated: '更新时间',
     repo: 'faasjs/faasjs',
