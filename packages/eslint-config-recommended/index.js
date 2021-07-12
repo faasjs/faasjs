@@ -17,6 +17,55 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       rules: {
+        'no-confusing-arrow': ['error', { allowParens: true }],
+        'no-mixed-operators': 'error',
+        "no-tabs": ["error", {"allowIndentationTabs": true}],
+        'no-unexpected-multiline': 'error',
+        "max-len": ["error", {"code": 80, "ignoreUrls": true}],
+        curly: [
+          'error',
+          'multi'
+        ],
+        'no-sequences': 'error',
+        '@typescript-eslint/no-console': 'off',
+        '@typescript-eslint/quotes': [
+          'error',
+          'single'
+        ],
+        '@typescript-eslint/keyword-spacing': 'error',
+        'space-before-blocks': 'error',
+        '@typescript-eslint/space-before-function-paren': 'error',
+        '@typescript-eslint/semi': [
+          'error',
+          'never'
+        ],
+        'eol-last': [
+          'error',
+          'always'
+        ],
+        'quote-props': [
+          'error',
+          'as-needed'
+        ],
+        'object-curly-newline': [
+          'error',
+          { multiline: true }
+        ],
+        '@typescript-eslint/object-curly-spacing': [
+          'error',
+          'always'
+        ],
+        'object-property-newline': [
+          'error'
+        ],
+        '@typescript-eslint/comma-spacing': 'warn',
+        'no-multi-spaces': 'warn',
+        'key-spacing': 'warn',
+        '@typescript-eslint/space-infix-ops': 'warn',
+        'padded-blocks': [
+          'error',
+          'never'
+        ],
         '@typescript-eslint/indent': [
           'error',
           2
