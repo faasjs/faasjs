@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-vue",
-  "version": "0.0.2-beta.213",
+  "version": "0.0.2-beta.214",
   "license": "MIT",
   "main": "index.js",
   "files": [
@@ -13,7 +13,7 @@
     "directory": "packages/eslint-config-vue"
   },
   "dependencies": {
-    "@faasjs/eslint-config-recommended": "^0.0.2-beta.213",
+    "@faasjs/eslint-config-recommended": "^0.0.2-beta.214",
     "eslint-plugin-vue": "*"
   },
   "gitHead": "e45b0b022c0e487a848edcb5a3f85873b1d67dc2"
