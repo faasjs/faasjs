@@ -21,9 +21,9 @@ module.exports = {
       rules: {
         'no-confusing-arrow': ['error', { allowParens: true }],
         'no-mixed-operators': 'error',
-        "no-tabs": ["error", {"allowIndentationTabs": true}],
+        'no-tabs': ['error', {'allowIndentationTabs': true}],
         'no-unexpected-multiline': 'error',
-        "max-len": ["warn", {"code": 80, "ignoreUrls": true}],
+        'max-len': ['warn', {'code': 80, 'ignoreUrls': true}],
         curly: [
           'error',
           'multi'
