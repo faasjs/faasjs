@@ -280,7 +280,7 @@ export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & Usei
   if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
 
   if (plugin.mount == null)
-    plugin.mount = async function ({ config }: {config: Config}) {
+    plugin.mount = async function ({ config }: { config: Config }) {
       if (plugin.onMount)
         await plugin.onMount({
           config,

@@ -52,7 +52,7 @@ async function confirm ({
   })
 }
 
-async function deploy (file: string, ar: number, options: {y: string}) {
+async function deploy (file: string, ar: number, options: { y: string }) {
   if (!file.endsWith('.func.ts')) throw Error(`${file} isn't a cloud function file.`)
 
   try {

@@ -18,7 +18,7 @@ describe('fp', function () {
       return p
     }
 
-    const func = useFunc<{counter: number}, void, number>(function () {
+    const func = useFunc<{ counter: number }, void, number>(function () {
       useDemoPlugin()
       return async function ({ event }) {
         event.counter++

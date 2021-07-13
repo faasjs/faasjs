@@ -71,7 +71,7 @@ const globals: {
   [name: string]: Http<any, any, any>
 } = {}
 
-export class Http<TParams = {[key: string]: any }, TCookie = { [key: string]: string }, TSession = { [key: string]: any }> implements Plugin {
+export class Http<TParams = { [key: string]: any }, TCookie = { [key: string]: string }, TSession = { [key: string]: any }> implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
   public headers: {

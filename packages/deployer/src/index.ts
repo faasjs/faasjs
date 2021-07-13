@@ -7,7 +7,7 @@ import deepMerge from '@faasjs/deep_merge'
 import { CloudFunction } from '@faasjs/cloud_function'
 
 export class Deployer {
-  public deployData: DeployData;
+  public deployData: DeployData
   public func?: Func
 
   constructor (data: DeployData) {
