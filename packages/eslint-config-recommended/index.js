@@ -23,7 +23,7 @@ module.exports = {
         'no-mixed-operators': 'error',
         'no-tabs': ['error', {'allowIndentationTabs': true}],
         'no-unexpected-multiline': 'error',
-        'max-len': ['warn', {'code': 80, 'ignoreUrls': true}],
+        'max-len': ['warn', {'code': 100, 'ignoreUrls': true}],
         curly: [
           'error',
           'multi'

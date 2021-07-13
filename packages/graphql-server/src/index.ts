@@ -1,7 +1,13 @@
 import { buildFederatedSchema } from '@apollo/federation'
 import { GraphQLSchemaModule } from 'apollo-graphql'
 import { Plugin, InvokeData, Next, MountData, DeployData } from '@faasjs/func'
-import { ApolloServerBase, Config, runHttpQuery, gql, Context } from 'apollo-server-core'
+import {
+  ApolloServerBase,
+  Config,
+  runHttpQuery,
+  gql,
+  Context
+} from 'apollo-server-core'
 import { renderPlaygroundPage } from '@apollographql/graphql-playground-html'
 import { Headers } from 'apollo-server-env'
 import { ApolloGateway } from '@apollo/gateway'
@@ -27,7 +33,7 @@ export interface GraphQLServerConfig{
 
 class ApolloServer extends ApolloServerBase {
   async load (): Promise<void> {
-    await this.willStart()
+    await this.start()
   }
 
   async handler (data: InvokeData): Promise<any> {
@@ -76,7 +82,8 @@ export class GraphQLServer implements Plugin {
     await this.http.onMount(data, async () => {
       // 将 schemas 转换为 FederatedSchema
       if (this.config.schemas) {
-        if (typeof this.config.schemas === 'function') this.config.schemas = await this.config.schemas()
+        if (typeof this.config.schemas === 'function')
+          this.config.schemas = await this.config.schemas()
 
         this.config.schema = buildFederatedSchema(this.config.schemas)
         delete this.config.schemas
@@ -102,10 +109,8 @@ export class GraphQLServer implements Plugin {
         return data
       }
 
-      if (this.config.gateway) {
-        await this.config.gateway.load({})
-        this.config.subscriptions = false
-      }
+      if (this.config.gateway)
+        await this.config.gateway.load({ apollo: {} })
 
       this.server = new ApolloServer(this.config)
 

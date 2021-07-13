@@ -33,7 +33,9 @@
     ]
   },
   "jest": {
-    "transform": { ".(jsx|tsx?)": "@swc-node/jest" },
+    "transform": {
+      ".(jsx|tsx?)": "@swc-node/jest"
+    },
     "verbose": false,
     "collectCoverage": true,
     "testTimeout": 10000,
