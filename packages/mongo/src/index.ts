@@ -1,9 +1,17 @@
-import { MongoClientOptions, Db, MongoClient, Collection, DbCollectionOptions, MongoCallback, ObjectID } from 'mongodb'
+import {
+  MongoClientOptions,
+  Db,
+  MongoClient,
+  Collection,
+  CollectionOptions,
+  ObjectId,
+  Callback
+} from 'mongodb'
 import { Plugin, MountData, Next } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
 
-export { ObjectID }
+export { ObjectId }
 
 export interface MongoConfig extends MongoClientOptions {
   url?: string
@@ -17,7 +25,11 @@ export class Mongo implements Plugin {
   public logger: Logger
   public client: MongoClient
   public db: Db
-  public collection: <TSchema = any>(name: string, options?: DbCollectionOptions, callback?: MongoCallback<Collection<TSchema>>) => Collection<TSchema>
+  public collection: <TSchema = any>(
+    name: string,
+    options?: CollectionOptions,
+    callback?: Callback<Collection<TSchema>>
+  ) => Collection<TSchema>
 
   /**
    * 创建插件实例
@@ -52,11 +64,10 @@ export class Mongo implements Plugin {
         if (typeof this.config[key] === 'undefined') this.config[key] = value
       }
 
-    if (data.config.plugins && data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config)
+    if (data.config.plugins && data.config.plugins[this.name])
+      this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
     if (typeof this.config.loggerLevel === 'undefined') this.config.loggerLevel = 'debug'
-    if (typeof this.config.useNewUrlParser === 'undefined') this.config.useNewUrlParser = true
-    if (typeof this.config.useUnifiedTopology === 'undefined') this.config.useUnifiedTopology = true
 
     this.logger.debug('conncet: %O', this.config)
 
@@ -66,7 +77,7 @@ export class Mongo implements Plugin {
     const database = this.config.database
     delete this.config.database
 
-    this.client = await MongoClient.connect(url!, this.config)
+    this.client = await MongoClient.connect(url, this.config)
 
     if (database) {
       this.db = this.client.db(database)
