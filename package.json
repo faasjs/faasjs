@@ -14,7 +14,7 @@
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
     "@swc-node/jest": "*",
     "codecov": "*",
-    "faasjs": "./packages/faasjs",
+    "faasjs": "file:./packages/faasjs",
     "jest": "*",
     "lerna": "*",
     "typescript": "*"
@@ -30,12 +30,7 @@
     ],
     "extends": [
       "@faasjs/recommended"
-    ],
-    "settings": {
-      "import/external-module-folders": [
-        "packages"
-      ]
-    }
+    ]
   },
   "jest": {
     "transform": {
