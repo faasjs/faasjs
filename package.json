@@ -30,7 +30,13 @@
     ],
     "extends": [
       "@faasjs/recommended"
-    ]
+    ],
+    "settings": {
+      "import/extensions": [
+        ".js",
+        ".ts"
+      ]
+    }
   },
   "jest": {
     "transform": {
