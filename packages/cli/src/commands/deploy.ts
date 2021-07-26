@@ -8,7 +8,9 @@ import { defaultsEnv } from '../helper'
 import { cpus } from 'os'
 import Cluster from 'cluster'
 import { chunk } from 'lodash'
-import { log, warn, error } from 'console'
+import {
+  log, warn, error 
+} from 'console'
 import { runInNewContext } from 'vm'
 import { execSync } from 'child_process'
 
@@ -74,7 +76,9 @@ async function deploy (file: string, ar: number, options: { y: string }) {
   }
 }
 
-export async function action (env: string, files: string[], { workers, autoRetry, autoYes, commit }: {
+export async function action (env: string, files: string[], {
+  workers, autoRetry, autoYes, commit 
+}: {
   workers?: string
   autoRetry?: string
   autoYes?: string

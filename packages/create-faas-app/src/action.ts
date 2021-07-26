@@ -1,11 +1,18 @@
 import { Command } from 'commander'
 import { prompt } from 'enquirer'
-import { mkdirSync, writeFileSync, existsSync } from 'fs'
+import {
+  mkdirSync, writeFileSync, existsSync 
+} from 'fs'
 import { join } from 'path'
 import { execSync } from 'child_process'
 
 const Provider = ['tencentcloud', null]
-const Region = ['ap-beijing', 'ap-shanghai', 'ap-guangzhou', 'ap-hongkong']
+const Region = [
+  'ap-beijing',
+  'ap-shanghai',
+  'ap-guangzhou',
+  'ap-hongkong'
+]
 
 const Validator = {
   name (input: string) {

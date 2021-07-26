@@ -1,4 +1,6 @@
-import { Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin } from '@faasjs/func'
+import {
+  Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin 
+} from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
 import knex, { Knex as K } from 'knex'
@@ -86,14 +88,20 @@ export class Knex implements Plugin {
     this.adapter = knex(this.config)
 
     this.adapter
-      .on('query', ({ sql, __knexQueryUid, bindings }) => {
+      .on('query', ({
+        sql, __knexQueryUid, bindings 
+      }) => {
         this.logger.time(`Knex${__knexQueryUid}`)
         this.logger.debug('query begin: %s %O', sql, bindings)
       })
-      .on('query-response', (response, { sql, __knexQueryUid, bindings }) => {
+      .on('query-response', (response, {
+        sql, __knexQueryUid, bindings 
+      }) => {
         this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query done: %s %O %O', sql, bindings, response)
       })
-      .on('query-error', (_, { __knexQueryUid, sql, bindings }) => {
+      .on('query-error', (_, {
+        __knexQueryUid, sql, bindings 
+      }) => {
         this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query failed: %s %O', sql, bindings)
       })
 

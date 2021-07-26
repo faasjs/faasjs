@@ -194,10 +194,7 @@ describe('sqlite', function () {
 
       const handler = func.export().handler
 
-      expect(await handler({})).toEqual([
-        [{ '1+1': 2 }],
-        [{ '2+2': 4 }]
-      ])
+      expect(await handler({})).toEqual([[{ '1+1': 2 }], [{ '2+2': 4 }]])
     })
   })
 })

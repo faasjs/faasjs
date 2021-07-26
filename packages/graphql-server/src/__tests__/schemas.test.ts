@@ -11,20 +11,24 @@ describe('schemas', function () {
     }`
   it('should work', async function () {
     const handler = new Func({
-      plugins: [new GraphQLServer({
-        config: {
-          schemas: [{
-            typeDefs,
-            resolvers: {
-              Query: {
-                hello (_, args) {
-                  return { name: `Hello, ${args.name}` }
+      plugins: [
+        new GraphQLServer({
+          config: {
+            schemas: [
+              {
+                typeDefs,
+                resolvers: {
+                  Query: {
+                    hello (_, args) {
+                      return { name: `Hello, ${args.name}` }
+                    }
+                  }
                 }
               }
-            }
-          }]
-        }
-      })]
+            ]
+          }
+        })
+      ]
     }).export().handler
 
     const res = await handler({
@@ -39,20 +43,24 @@ describe('schemas', function () {
   describe('context', function () {
     it('be normal', async function () {
       const handler = new Func({
-        plugins: [new GraphQLServer({
-          config: {
-            schemas: [{
-              typeDefs,
-              resolvers: {
-                Query: {
-                  hello (_, __, context) {
-                    return { name: `Hello, ${context.event.httpMethod}` }
+        plugins: [
+          new GraphQLServer({
+            config: {
+              schemas: [
+                {
+                  typeDefs,
+                  resolvers: {
+                    Query: {
+                      hello (_, __, context) {
+                        return { name: `Hello, ${context.event.httpMethod}` }
+                      }
+                    }
                   }
                 }
-              }
-            }]
-          }
-        })]
+              ]
+            }
+          })
+        ]
       }).export().handler
 
       const res = await handler({
@@ -66,21 +74,25 @@ describe('schemas', function () {
 
     it('be object', async function () {
       const handler = new Func({
-        plugins: [new GraphQLServer({
-          config: {
-            schemas: [{
-              typeDefs,
-              resolvers: {
-                Query: {
-                  hello (_, __, context) {
-                    return { name: `Hello, ${context.event.httpMethod}` }
+        plugins: [
+          new GraphQLServer({
+            config: {
+              schemas: [
+                {
+                  typeDefs,
+                  resolvers: {
+                    Query: {
+                      hello (_, __, context) {
+                        return { name: `Hello, ${context.event.httpMethod}` }
+                      }
+                    }
                   }
                 }
-              }
-            }],
-            context: { event: { httpMethod: 'GET' } }
-          }
-        })]
+              ],
+              context: { event: { httpMethod: 'GET' } }
+            }
+          })
+        ]
       }).export().handler
 
       const res = await handler({
@@ -94,21 +106,25 @@ describe('schemas', function () {
 
     it('be function', async function () {
       const handler = new Func({
-        plugins: [new GraphQLServer({
-          config: {
-            schemas: [{
-              typeDefs,
-              resolvers: {
-                Query: {
-                  hello (_, __, context) {
-                    return { name: `Hello, ${context.event.httpMethod}` }
+        plugins: [
+          new GraphQLServer({
+            config: {
+              schemas: [
+                {
+                  typeDefs,
+                  resolvers: {
+                    Query: {
+                      hello (_, __, context) {
+                        return { name: `Hello, ${context.event.httpMethod}` }
+                      }
+                    }
                   }
                 }
-              }
-            }],
-            context () { return { event: { httpMethod: 'GET' } } }
-          }
-        })]
+              ],
+              context () { return { event: { httpMethod: 'GET' } } }
+            }
+          })
+        ]
       }).export().handler
 
       const res = await handler({
@@ -122,21 +138,25 @@ describe('schemas', function () {
 
     it('be async function', async function () {
       const handler = new Func({
-        plugins: [new GraphQLServer({
-          config: {
-            schemas: [{
-              typeDefs,
-              resolvers: {
-                Query: {
-                  hello (_, __, context) {
-                    return { name: `Hello, ${context.event.httpMethod}` }
+        plugins: [
+          new GraphQLServer({
+            config: {
+              schemas: [
+                {
+                  typeDefs,
+                  resolvers: {
+                    Query: {
+                      hello (_, __, context) {
+                        return { name: `Hello, ${context.event.httpMethod}` }
+                      }
+                    }
                   }
                 }
-              }
-            }],
-            async context () { return await Promise.resolve({ event: { httpMethod: 'GET' } }) }
-          }
-        })]
+              ],
+              async context () { return await Promise.resolve({ event: { httpMethod: 'GET' } }) }
+            }
+          })
+        ]
       }).export().handler
 
       const res = await handler({

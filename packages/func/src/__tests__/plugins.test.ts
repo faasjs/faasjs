@@ -1,4 +1,6 @@
-import { Func, Plugin, DeployData, Next, InvokeData, MountData } from '../index'
+import {
+  Func, Plugin, DeployData, Next, InvokeData, MountData 
+} from '../index'
 
 describe('plugins', function () {
   test('onDeploy', async function () {
@@ -39,7 +41,14 @@ describe('plugins', function () {
     })
     results.push('end')
 
-    expect(results).toEqual(['begin', 'before1', 'before2', 'after2', 'after1', 'end'])
+    expect(results).toEqual([
+      'begin',
+      'before1',
+      'before2',
+      'after2',
+      'after1',
+      'end'
+    ])
   })
 
   test('onMount', async function () {
@@ -78,7 +87,14 @@ describe('plugins', function () {
     })
     results.push('end')
 
-    expect(results).toEqual(['begin', 'before1', 'before2', 'after2', 'after1', 'end'])
+    expect(results).toEqual([
+      'begin',
+      'before1',
+      'before2',
+      'after2',
+      'after1',
+      'end'
+    ])
   })
 
   test('onInvoke', async function () {
@@ -137,7 +153,14 @@ describe('plugins', function () {
     await func.invoke(data)
     results.push('end')
 
-    expect(results).toEqual(['begin', 'before1', 'before2', 'after2', 'after1', 'end'])
+    expect(results).toEqual([
+      'begin',
+      'before1',
+      'before2',
+      'after2',
+      'after1',
+      'end'
+    ])
     expect(data.response).toEqual('baseafter2after1')
   })
 

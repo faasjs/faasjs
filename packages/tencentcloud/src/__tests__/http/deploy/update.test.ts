@@ -34,24 +34,18 @@ jest.mock('@faasjs/request', function () {
           body: {
             Response: {
               Result: {
-                ServiceSet: [{
-                  ServiceName: 'testing',
-                  ServiceId: 'serviceId'
-                }]
+                ServiceSet: [
+                  {
+                    ServiceName: 'testing',
+                    ServiceId: 'serviceId'
+                  }
+                ]
               }
             }
           }
         })
       case 'ListNamespaces':
-        return Promise.resolve({
-          body: {
-            Response: {
-              Namespaces: [
-                { Name: 'testing' }
-              ]
-            }
-          }
-        })
+        return Promise.resolve({ body: { Response: { Namespaces: [{ Name: 'testing' }] } } })
       case 'GetFunction':
         return Promise.resolve({
           body: {

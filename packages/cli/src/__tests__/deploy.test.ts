@@ -107,10 +107,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 1，失败自动重试 0 次)',
-        [
-          __dirname + '/funcs/a.func.ts',
-          __dirname + '/funcs/b.func.ts'
-        ],
+        [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'],
         '',
         '开始发布'
       ])
@@ -121,10 +118,7 @@ describe('deploy', function () {
 
   describe('worker', function () {
     it('done', async function () {
-      process.env.FaasDeployFiles = [
-        __dirname + '/funcs/a.func.ts',
-        __dirname + '/funcs/b.func.ts'
-      ].join(',')
+      process.env.FaasDeployFiles = [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'].join(',')
 
       await action('testing', [], {
         autoRetry: '0',
@@ -134,31 +128,28 @@ describe('deploy', function () {
       expect(logs).toEqual([])
       expect(warns).toEqual([])
       expect(errors).toEqual([])
-      expect(deployeds).toEqual([
-        __dirname + '/funcs/a.func.ts',
-        __dirname + '/funcs/b.func.ts'
-      ])
+      expect(deployeds).toEqual([__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'])
     })
 
     it('fail', async function () {
       deployPass = false
-      process.env.FaasDeployFiles = [
-        __dirname + '/funcs/a.func.ts',
-        __dirname + '/funcs/b.func.ts'
-      ].join(',')
+      process.env.FaasDeployFiles = [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'].join(',')
 
       await action('testing', [], {
         autoRetry: '0',
         workers: '3'
       })
 
-      expect(messages).toEqual([{
-        type: 'fail',
-        file: __dirname + '/funcs/a.func.ts'
-      }, {
-        type: 'fail',
-        file: __dirname + '/funcs/b.func.ts',
-      }])
+      expect(messages).toEqual([
+        {
+          type: 'fail',
+          file: __dirname + '/funcs/a.func.ts'
+        },
+        {
+          type: 'fail',
+          file: __dirname + '/funcs/b.func.ts',
+        }
+      ])
       expect(logs).toEqual([])
       expect(warns).toEqual([])
       expect(errors).toEqual([
@@ -167,10 +158,7 @@ describe('deploy', function () {
         Error('deployPass'),
         Error(__dirname + '/funcs/b.func.ts 自动重试次数已满，结束重试')
       ])
-      expect(deployeds).toEqual([
-        __dirname + '/funcs/a.func.ts',
-        __dirname + '/funcs/b.func.ts'
-      ])
+      expect(deployeds).toEqual([__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'])
     })
   })
 
@@ -187,10 +175,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
-        [
-          __dirname + '/funcs/a.func.ts',
-          __dirname + '/funcs/b.func.ts'
-        ],
+        [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'],
         '',
         '开始发布'
       ])
@@ -209,13 +194,8 @@ describe('deploy', function () {
 
       expect(logs.length).toEqual(1)
       expect(logs[0]).toContain('等待 ')
-      expect(warns).toEqual([
-        __dirname + '/funcs/a.func.ts 自动重试（剩余 1 次）'
-      ])
-      expect(errors).toEqual([
-        Error('deployPass'),
-        Error('deployPass')
-      ])
+      expect(warns).toEqual([__dirname + '/funcs/a.func.ts 自动重试（剩余 1 次）'])
+      expect(errors).toEqual([Error('deployPass'), Error('deployPass')])
     })
 
     test('workers', async function () {
@@ -226,10 +206,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
-        [
-          __dirname + '/funcs/a.func.ts',
-          __dirname + '/funcs/b.func.ts'
-        ],
+        [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'],
         '',
         '开始发布'
       ])

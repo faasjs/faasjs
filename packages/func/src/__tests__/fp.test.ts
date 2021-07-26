@@ -1,4 +1,6 @@
-import { Plugin, useFunc, usePlugin, InvokeData, Next } from '..'
+import {
+  Plugin, useFunc, usePlugin, InvokeData, Next 
+} from '..'
 
 describe('fp', function () {
   it('should work', async function () {

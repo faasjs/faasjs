@@ -11,6 +11,10 @@ describe('JSONhandler', function () {
     })
 
     expect(res.body).toEqual('{"data":["1","2",3]}')
-    expect(res.data).toEqual(['1', '2', 3])
+    expect(res.data).toEqual([
+      '1',
+      '2',
+      3
+    ])
   })
 })

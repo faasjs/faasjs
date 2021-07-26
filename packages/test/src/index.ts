@@ -1,5 +1,7 @@
 import Logger from '@faasjs/logger'
-import { Func, ExportedHandler, Plugin, Config } from '@faasjs/func'
+import {
+  Func, ExportedHandler, Plugin, Config
+} from '@faasjs/func'
 import { loadConfig } from '@faasjs/load'
 import { Http } from '@faasjs/http'
 // import { NodeVM } from 'vm2';
@@ -55,7 +57,13 @@ export class FuncWarpper {
 
     this.plugins = this.func.plugins || []
     for (const plugin of this.plugins) {
-      if (['handler', 'config', 'plugins', 'logger', 'mount'].includes(plugin.type)) continue
+      if ([
+        'handler',
+        'config',
+        'plugins',
+        'logger',
+        'mount'
+      ].includes(plugin.type)) continue
       this[plugin.type] = plugin
     }
 

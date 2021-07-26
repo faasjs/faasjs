@@ -1,4 +1,6 @@
-import { Func, Plugin, Next, MountData, InvokeData } from '../index'
+import {
+  Func, Plugin, Next, MountData, InvokeData 
+} from '../index'
 
 describe('lifecycle', function () {
   describe('mount', function () {

@@ -1,9 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call */
-import { createServer, IncomingMessage, Server as HttpServer } from 'http'
+import {
+  createServer, IncomingMessage, Server as HttpServer
+} from 'http'
 import Logger from '@faasjs/logger'
 import { existsSync } from 'fs'
 import { loadConfig } from '@faasjs/load'
-import { resolve as pathResolve, sep, join } from 'path'
+import {
+  resolve as pathResolve, sep, join
+} from 'path'
 import { HttpError } from '@faasjs/http'
 import { Socket } from 'net'
 
@@ -85,7 +88,7 @@ export class Server {
         let data
         try {
           // 提取 path
-          const path = join(this.root, req.url!).replace(/\?.*/, '')
+          const path = join(this.root, req.url).replace(/\?.*/, '')
 
           let cache: Cache = {}
 
@@ -96,6 +99,7 @@ export class Server {
             cache.file = pathResolve('.', this.getFilePath(path))
             this.logger.info('[Response] %s', cache.file)
 
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const func = require(cache.file).default
             func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development']
             cache.handler = func.export().handler
@@ -104,7 +108,7 @@ export class Server {
             else this.clearCache()
           }
 
-          data = await cache.handler!({
+          data = await cache.handler({
             headers: req.headers,
             httpMethod: req.method,
             path: req.url,
@@ -130,9 +134,8 @@ export class Server {
 
           if (data.headers)
             for (const key in data.headers)
-              if (Object.prototype.hasOwnProperty.call(data.headers, key)) res.setHeader(key, data.headers[key])
-
-
+              if (Object.prototype.hasOwnProperty.call(data.headers, key))
+                res.setHeader(key, data.headers[key])
 
           if (data.body)
             if (data.isBase64Encoded) res.write(Buffer.from(data.body, 'base64')); else res.write(data.body)

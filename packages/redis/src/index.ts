@@ -1,7 +1,11 @@
-import { Plugin, MountData, Next, usePlugin, UseifyPlugin } from '@faasjs/func'
+import {
+  Plugin, MountData, Next, usePlugin, UseifyPlugin 
+} from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
-import { createClient, ClientOpts as Config, RedisClient } from 'redis'
+import {
+  createClient, ClientOpts as Config, RedisClient 
+} from 'redis'
 
 export interface RedisConfig {
   name?: string

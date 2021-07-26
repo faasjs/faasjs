@@ -8,8 +8,5 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     extraFileExtensions: ['.vue']
   },
-  extends: [
-    '@faasjs/recommended',
-    'plugin:vue/essential'
-  ]
+  extends: ['@faasjs/recommended', 'plugin:vue/essential']
 }

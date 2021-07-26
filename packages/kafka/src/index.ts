@@ -1,7 +1,11 @@
-import { Plugin, Next, MountData, usePlugin, UseifyPlugin } from '@faasjs/func'
+import {
+  Plugin, Next, MountData, usePlugin, UseifyPlugin 
+} from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
-import { Kafka as K, KafkaConfig as KConfig, Producer, ProducerRecord, RecordMetadata } from 'kafkajs'
+import {
+  Kafka as K, KafkaConfig as KConfig, Producer, ProducerRecord, RecordMetadata 
+} from 'kafkajs'
 
 export interface KafkaConfig {
   name?: string

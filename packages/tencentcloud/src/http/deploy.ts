@@ -78,10 +78,12 @@ export default async function (tc: Provider, data: DeployData, origin: { [key: s
   tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[1/3]')} 更新服务信息...`)
   if (!config.config.ServiceId) {
     let serviceInfo = await api('DescribeServicesStatus', provider, {
-      Filters: [{
-        Name: 'ServiceName',
-        Values: [data.env]
-      }]
+      Filters: [
+        {
+          Name: 'ServiceName',
+          Values: [data.env]
+        }
+      ]
     }).then(function (body) {
       return body.Result.ServiceSet.find(function (item: any) {
         return item.ServiceName === data.env
@@ -101,10 +103,12 @@ export default async function (tc: Provider, data: DeployData, origin: { [key: s
   tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[2/3]')} 更新接口信息...`)
 
   let apiInfo = await api('DescribeApisStatus', provider, {
-    Filters: [{
-      Name: 'ApiName',
-      Values: [config.config.ApiName]
-    }],
+    Filters: [
+      {
+        Name: 'ApiName',
+        Values: [config.config.ApiName]
+      }
+    ],
     ServiceId: config.config.ServiceId
   }).then(function (body) {
     return body.Result.ApiIdStatusSet.find(function (item: any) {

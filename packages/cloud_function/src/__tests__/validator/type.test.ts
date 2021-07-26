@@ -4,7 +4,12 @@ import { CloudFunction } from '../../index'
 describe('validator/type', function () {
   describe('event', function () {
     describe('normal', function () {
-      test.each([['string', 'string'], ['boolean', false], ['number', 0], ['array', []]])('is %p', async function (type, value) {
+      test.each([
+        ['string', 'string'],
+        ['boolean', false],
+        ['number', 0],
+        ['array', []]
+      ])('is %p', async function (type, value) {
         const http = new CloudFunction({ validator: { event: { rules: { key: { type: type as 'string' | 'boolean' | 'number' | 'array' | 'object' } } } } })
         const handler = new Func({
           plugins: [http],
@@ -23,7 +28,12 @@ describe('validator/type', function () {
     })
 
     describe('array', function () {
-      test.each([['string', 'string'], ['boolean', false], ['number', 0], ['array', []]])('is %p', async function (type, value) {
+      test.each([
+        ['string', 'string'],
+        ['boolean', false],
+        ['number', 0],
+        ['array', []]
+      ])('is %p', async function (type, value) {
         const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { type: type as 'string' | 'boolean' | 'number' | 'array' | 'object' } } } } } } } })
         const handler = new Func({
           plugins: [cf],
@@ -42,7 +52,12 @@ describe('validator/type', function () {
     })
 
     describe('object', function () {
-      test.each([['string', 'string'], ['boolean', false], ['number', 0], ['array', []]])('is %p', async function (type, value) {
+      test.each([
+        ['string', 'string'],
+        ['boolean', false],
+        ['number', 0],
+        ['array', []]
+      ])('is %p', async function (type, value) {
         const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { type: type as 'string' | 'boolean' | 'number' | 'array' | 'object' } } } } } } } })
         const handler = new Func({
           plugins: [cf],

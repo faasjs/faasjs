@@ -1,5 +1,7 @@
 import deepMerge from '@faasjs/deep_merge'
-import { existsSync, readFileSync, unlinkSync } from 'fs'
+import {
+  existsSync, readFileSync, unlinkSync
+} from 'fs'
 import * as rollup from 'rollup'
 import typescript from '@rollup/plugin-typescript'
 import { Func } from '@faasjs/func'
@@ -75,10 +77,7 @@ function findModule (list: any, key: string, basePath: string, options: {
 
   if (key.startsWith('@types/') || options.excludes.includes(key)) return
 
-  const paths = [
-    join(process.cwd(), 'node_modules', key),
-    join(basePath, 'node_modules', key)
-  ]
+  const paths = [join(process.cwd(), 'node_modules', key), join(basePath, 'node_modules', key)]
 
   let path
   for (const p of paths)
@@ -131,17 +130,16 @@ export default async function loadTs (filename: string, options: {
       [key: string]: string
     }
   }> {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`)
-  const external = PackageJSON.dependencies ? FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES
+  const external = PackageJSON.dependencies ?
+    FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES
   if ((options.modules) && (options.modules.excludes == null)) options.modules.excludes = []
 
   const input = deepMerge({
     input: filename,
     external,
-    plugins: [
-      typescript({ declaration: false })
-    ],
+    plugins: [typescript({ declaration: false })],
     onwarn: () => null
   }, (options.input) || {})
 
@@ -176,8 +174,9 @@ export default async function loadTs (filename: string, options: {
   if (options.modules) {
     const modules = Object.create(null)
 
-    Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules!))
-    if (options.modules.additions) options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules!))
+    Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules))
+    if (options.modules.additions)
+      options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules))
 
     result.modules = modules
   }

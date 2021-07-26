@@ -15,10 +15,12 @@ jest.mock('@faasjs/request', function () {
           body: {
             Response: {
               Result: {
-                ServiceSet: [{
-                  ServiceName: 'testing',
-                  ServiceId: 'serviceId'
-                }]
+                ServiceSet: [
+                  {
+                    ServiceName: 'testing',
+                    ServiceId: 'serviceId'
+                  }
+                ]
               }
             }
           }

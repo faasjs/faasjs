@@ -1,4 +1,6 @@
-import { randomBytes, pbkdf2Sync, createCipheriv, createHmac, createDecipheriv } from 'crypto'
+import {
+  randomBytes, pbkdf2Sync, createCipheriv, createHmac, createDecipheriv 
+} from 'crypto'
 import { Cookie } from './cookie'
 
 export interface SessionOptions {

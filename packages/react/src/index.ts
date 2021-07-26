@@ -1,4 +1,6 @@
-import Client, { Options, Params, Response, ResponseError } from '@faasjs/browser'
+import Client, {
+  Options, Params, Response, ResponseError 
+} from '@faasjs/browser'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { useState, useEffect } = require('react')
 

@@ -417,10 +417,12 @@ describe('validator/whitelist', function () {
           httpMethod: 'POST',
           headers: {
             cookie: `key=${http.session.encode({
-              key: [{
-                key1: 1,
-                key2: 2
-              }]
+              key: [
+                {
+                  key1: 1,
+                  key2: 2
+                }
+              ]
             })}`
           }
         })
@@ -457,10 +459,12 @@ describe('validator/whitelist', function () {
           httpMethod: 'POST',
           headers: {
             cookie: `key=${http.session.encode({
-              key: [{
-                sub: 1,
-                key: 2
-              }]
+              key: [
+                {
+                  sub: 1,
+                  key: 2
+                }
+              ]
             })}`
           }
         })

@@ -1,4 +1,6 @@
-import { Pool, PoolConfig, QueryResult } from 'pg'
+import {
+  Pool, PoolConfig, QueryResult 
+} from 'pg'
 import { Adapter } from './index'
 
 export interface PostgresqlConfig extends PoolConfig {

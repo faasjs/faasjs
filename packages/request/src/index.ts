@@ -200,14 +200,13 @@ export default async function request<T = any> (url: string, {
       const crlf = '\r\n'
       const boundary = `--${Math.random().toString(16)}`
       const delimeter = `${crlf}--${boundary}`
-      const headers = [
-        `Content-Disposition: form-data; name="file"; filename="${basename(file)}"${crlf}`
-      ]
+      const headers = [`Content-Disposition: form-data; name="file"; filename="${basename(file)}"${crlf}`]
 
       const multipartBody = Buffer.concat([
         Buffer.from(delimeter + crlf + headers.join('') + crlf),
         readFileSync(file),
-        Buffer.from(`${delimeter}--`)])
+        Buffer.from(`${delimeter}--`)
+      ])
 
       req.setHeader('Content-Type', 'multipart/form-data; boundary=' + boundary)
       req.setHeader('Content-Length', multipartBody.length)

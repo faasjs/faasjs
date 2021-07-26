@@ -4,7 +4,12 @@ import { Http } from '../..'
 describe('validator/type', function () {
   describe('params', function () {
     describe('normal', function () {
-      test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
+      test.each([
+        ['string', '"string"'],
+        ['boolean', 'false'],
+        ['number', '0'],
+        ['array', '[]']
+      ])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { params: { rules: { key: { type } } } } })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -93,7 +98,12 @@ describe('validator/type', function () {
     })
 
     describe('array', function () {
-      test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
+      test.each([
+        ['string', '"string"'],
+        ['boolean', 'false'],
+        ['number', '0'],
+        ['array', '[]']
+      ])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { type } } } } } } } })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -117,7 +127,12 @@ describe('validator/type', function () {
     })
 
     describe('object', function () {
-      test.each([['string', '"string"'], ['boolean', 'false'], ['number', '0'], ['array', '[]']])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
+      test.each([
+        ['string', '"string"'],
+        ['boolean', 'false'],
+        ['number', '0'],
+        ['array', '[]']
+      ])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { type } } } } } } } })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -155,7 +170,12 @@ describe('validator/type', function () {
 
   describe('session', function () {
     describe('normal', function () {
-      test.each([['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
+      test.each([
+        ['boolean', false],
+        ['number', 0],
+        ['array', []],
+        ['object', {}]
+      ])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { session: { rules: { key: { type } } } } })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -179,7 +199,12 @@ describe('validator/type', function () {
     })
 
     describe('array', function () {
-      test.each([['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
+      test.each([
+        ['boolean', false],
+        ['number', 0],
+        ['array', []],
+        ['object', {}]
+      ])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { type } } } } } } } })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -203,7 +228,13 @@ describe('validator/type', function () {
     })
 
     describe('object', function () {
-      test.each([['string', 'string'], ['boolean', false], ['number', 0], ['array', []], ['object', {}]])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
+      test.each([
+        ['string', 'string'],
+        ['boolean', false],
+        ['number', 0],
+        ['array', []],
+        ['object', {}]
+      ])('is %p', async function (type: 'string' | 'boolean' | 'number', value) {
         const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { type } } } } } } } })
         const handler = new Func({ plugins: [http] }).export().handler
 

@@ -227,9 +227,7 @@ test('create', async function () {
     Filters: [
       {
         Name: 'ApiName',
-        Values: [
-          'http',
-        ],
+        Values: ['http', ],
       },
     ],
     ServiceId: 'ServiceId',

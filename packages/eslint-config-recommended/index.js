@@ -6,76 +6,82 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: { project: ['./tsconfig.json', './packages/*/tsconfig.json'] },
-  plugins: [
-    '@typescript-eslint',
-    'jest'
-  ],
+  plugins: ['@typescript-eslint', 'jest'],
   extends: [
     'eslint:recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended'
   ],
   overrides: [
     {
-      files: ['*.ts', '*.tsx'],
+      files: [
+        '*.js',
+        '*.jsx',
+        '*.ts',
+        '*.tsx'
+      ],
       rules: {
+        'array-element-newline': [
+          'error',
+          {
+            minItems: 3,
+            multiline: true
+          }
+        ],
+        'array-bracket-newline': [
+          'error',
+          {
+            multiline: true,
+            minItems: 3,
+          }
+        ],
         'no-confusing-arrow': ['error', { allowParens: true }],
         'no-mixed-operators': 'error',
-        'no-tabs': ['error', {'allowIndentationTabs': true}],
+        'no-tabs': 'error',
         'no-unexpected-multiline': 'error',
-        'max-len': ['warn', {'code': 100, 'ignoreUrls': true}],
-        curly: [
-          'error',
-          'multi'
+        'max-len': [
+          'warn',
+          {
+            code: 100,
+            ignoreUrls: true,
+            ignoreComments: false,
+            ignoreRegExpLiterals: true,
+            ignoreStrings: true,
+            ignoreTemplateLiterals: true
+          }
         ],
         'no-sequences': 'error',
-        '@typescript-eslint/no-console': 'off',
-        '@typescript-eslint/quotes': [
-          'error',
-          'single'
-        ],
-        '@typescript-eslint/keyword-spacing': 'error',
         'space-before-blocks': 'error',
-        '@typescript-eslint/space-before-function-paren': 'error',
-        '@typescript-eslint/semi': [
-          'error',
-          'never'
-        ],
-        'eol-last': [
-          'error',
-          'always'
-        ],
-        'quote-props': [
-          'error',
-          'as-needed'
-        ],
+        'eol-last': ['error', 'always'],
+        'quote-props': ['error', 'as-needed'],
         'object-curly-newline': [
           'error',
-          { multiline: true }
+          {
+            minProperties: 3,
+            multiline: true
+          }
         ],
-        '@typescript-eslint/object-curly-spacing': [
-          'error',
-          'always'
-        ],
-        'object-property-newline': [
-          'error'
-        ],
+        'object-property-newline': 'error',
+        'no-multi-spaces': 'error',
+        'key-spacing': 'error',
+        'padded-blocks': ['error', 'never'],
+      }
+    },
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/no-console': 'off',
+        '@typescript-eslint/quotes': ['error', 'single'],
+        '@typescript-eslint/keyword-spacing': 'error',
+        '@typescript-eslint/space-before-function-paren': 'error',
+        '@typescript-eslint/semi': ['error', 'never'],
+        '@typescript-eslint/object-curly-spacing': ['error', 'always'],
         '@typescript-eslint/comma-spacing': 'warn',
-        'no-multi-spaces': 'warn',
-        'key-spacing': 'warn',
         '@typescript-eslint/space-infix-ops': 'warn',
-        'padded-blocks': [
-          'error',
-          'never'
-        ],
-        '@typescript-eslint/indent': [
-          'error',
-          2
-        ],
-        '@typescript-eslint/array-type': [
-          'error',
-          { default: 'array' }
-        ],
+        '@typescript-eslint/indent': ['error', 2],
+        '@typescript-eslint/array-type': ['error', { default: 'array' }],
         '@typescript-eslint/camelcase': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -83,10 +89,7 @@ module.exports = {
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/no-implied-eval': 'warn',
         '@typescript-eslint/promise-function-async': 'error',
-        '@typescript-eslint/no-unused-vars': [
-          'error',
-          { argsIgnorePattern: '^_' }
-        ]
+        '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
       }
     }
   ]

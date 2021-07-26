@@ -1,6 +1,8 @@
 import { buildFederatedSchema } from '@apollo/federation'
 import { GraphQLSchemaModule } from 'apollo-graphql'
-import { Plugin, InvokeData, Next, MountData, DeployData } from '@faasjs/func'
+import {
+  Plugin, InvokeData, Next, MountData, DeployData 
+} from '@faasjs/func'
 import {
   ApolloServerBase,
   Config,

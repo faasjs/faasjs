@@ -3,7 +3,9 @@ export interface Params {
 }
 
 export interface Options {
-  beforeRequest?: ({ action, params, xhr }: {
+  beforeRequest?: ({
+    action, params, xhr 
+  }: {
     action: string
     params: Params
     xhr: XMLHttpRequest
@@ -19,7 +21,9 @@ export class Response<T = any> {
   public readonly headers: ResponseHeaders
   public readonly data: T
 
-  constructor ({ status, headers, data }: {
+  constructor ({
+    status, headers, data 
+  }: {
     status: number
     headers: ResponseHeaders
     data: T
@@ -35,7 +39,9 @@ export class ResponseError extends Error {
   public readonly headers: ResponseHeaders
   public readonly body: any
 
-  constructor ({ message, status, headers, body }: {
+  constructor ({
+    message, status, headers, body 
+  }: {
     message: string; status: number; headers: ResponseHeaders; body: any;
   }) {
     super(message)
