@@ -1,6 +1,6 @@
 import { sep, join } from 'path'
 import {
-  existsSync, mkdirSync, writeFileSync 
+  existsSync, mkdirSync, writeFileSync
 } from 'fs'
 import Logger from '@faasjs/logger'
 
@@ -83,7 +83,7 @@ ${initials}
 });
 `)
 
-  if (!existsSync(join(folder, '__tests__'))) mkdirSync(join(folder, '__tests__')) 
+  if (!existsSync(join(folder, '__tests__'))) mkdirSync(join(folder, '__tests__'))
 
   const testFile = join(folder, '__tests__', name.replace('.func.ts', '.test.ts'))
   if (!existsSync(testFile)) {

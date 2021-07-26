@@ -4,7 +4,7 @@ export interface Params {
 
 export interface Options {
   beforeRequest?: ({
-    action, params, xhr 
+    action, params, xhr
   }: {
     action: string
     params: Params
@@ -22,7 +22,7 @@ export class Response<T = any> {
   public readonly data: T
 
   constructor ({
-    status, headers, data 
+    status, headers, data
   }: {
     status: number
     headers: ResponseHeaders
@@ -40,7 +40,7 @@ export class ResponseError extends Error {
   public readonly body: any
 
   constructor ({
-    message, status, headers, body 
+    message, status, headers, body
   }: {
     message: string; status: number; headers: ResponseHeaders; body: any;
   }) {
@@ -82,7 +82,7 @@ export class FaasBrowserClient {
       ...options
     }
 
-    return await new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       const xhr = new XMLHttpRequest()
       xhr.open('POST', url)
       xhr.withCredentials = true

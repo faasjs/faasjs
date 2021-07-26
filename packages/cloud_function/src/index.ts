@@ -1,6 +1,6 @@
 import deepMerge from '@faasjs/deep_merge'
 import {
-  Plugin, DeployData, Next, MountData, InvokeData, usePlugin, UseifyPlugin 
+  Plugin, DeployData, Next, MountData, InvokeData, usePlugin, UseifyPlugin
 } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import { Validator, ValidatorConfig } from './validator'

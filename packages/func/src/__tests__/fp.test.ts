@@ -1,5 +1,5 @@
 import {
-  Plugin, useFunc, usePlugin, InvokeData, Next 
+  Plugin, useFunc, usePlugin, InvokeData, Next
 } from '..'
 
 describe('fp', function () {

@@ -1,5 +1,5 @@
 import {
-  Func, Plugin, DeployData, Next, InvokeData, MountData 
+  Func, Plugin, DeployData, Next, InvokeData, MountData
 } from '../index'
 
 describe('plugins', function () {

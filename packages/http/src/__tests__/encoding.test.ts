@@ -1,6 +1,6 @@
 import { Func } from '@faasjs/func'
 import {
-  brotliCompressSync, deflateSync, gzipSync 
+  brotliCompressSync, deflateSync, gzipSync
 } from 'zlib'
 import { Http } from '..'
 

@@ -8,7 +8,7 @@ import {
   Callback
 } from 'mongodb'
 import {
-  Plugin, MountData, Next 
+  Plugin, MountData, Next
 } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
