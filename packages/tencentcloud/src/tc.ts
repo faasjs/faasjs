@@ -13,26 +13,32 @@ export async function tc<T = any> (config: TencentcloudConfig, {
   action: string
   payload: any
 }): Promise<T> {
-  const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ? `${service}.internal.tencentcloudapi.com` : `${service}.tencentcloudapi.com`
+  const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ?
+    `${service}.internal.tencentcloudapi.com` : `${service}.tencentcloudapi.com`
   const canonicalRequest = `POST\n/\n\ncontent-type:application/json\nhost:${host}\n\ncontent-type;host\n` +
-  createHash('sha256').update(JSON.stringify(payload)).digest('hex')
+    createHash('sha256').update(JSON.stringify(payload)).digest('hex')
 
   const t = new Date()
-  const timestamp = Math.round(t.getTime() / 1000) + ''
+  const timestamp = (Math.round(t.getTime() / 1000) - 1).toString()
   const date = t.toISOString().substr(0, 10)
   const credentialScope = date + `/${service}/tc3_request`
 
-  const hashedCanonicalRequest = createHash('sha256').update(canonicalRequest).digest('hex')
+  const hashedCanonicalRequest = createHash('sha256')
+    .update(canonicalRequest).digest('hex')
 
   const stringToSign = 'TC3-HMAC-SHA256\n' +
     timestamp + '\n' +
     credentialScope + '\n' +
     hashedCanonicalRequest
 
-  const secretDate = createHmac('sha256', 'TC3' + config.secretKey).update(date).digest()
-  const secretService = createHmac('sha256', secretDate).update(service).digest()
-  const secretSigning = createHmac('sha256', secretService).update('tc3_request').digest()
-  const signature = createHmac('sha256', secretSigning).update(stringToSign).digest('hex')
+  const secretDate = createHmac('sha256', 'TC3' + config.secretKey)
+    .update(date).digest()
+  const secretService = createHmac('sha256', secretDate)
+    .update(service).digest()
+  const secretSigning = createHmac('sha256', secretService)
+    .update('tc3_request').digest()
+  const signature = createHmac('sha256', secretSigning)
+    .update(stringToSign).digest('hex')
 
   const authorization =
     'TC3-HMAC-SHA256 ' +
