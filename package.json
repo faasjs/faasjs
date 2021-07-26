@@ -32,10 +32,9 @@
       "@faasjs/recommended"
     ],
     "settings": {
-      "import/extensions": [
-        ".js",
-        ".ts"
-      ]
+      "import/resolver": {
+        "typescript": {}
+      }
     }
   },
   "jest": {
