@@ -1,6 +1,6 @@
 import deepMerge from '@faasjs/deep_merge'
 import {
-  Plugin, DeployData, Next, MountData, InvokeData, usePlugin, UseifyPlugin 
+  Plugin, DeployData, Next, MountData, InvokeData, usePlugin, UseifyPlugin
 } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import { Validator, ValidatorConfig } from './validator'
@@ -147,7 +147,7 @@ export class CloudFunction implements Plugin {
   }): Promise<void> {
     if (data == null) data = Object.create(null)
 
-    await this.adapter.invokeCloudFunction(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options)
+    await this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
   }
 
   /**
@@ -161,7 +161,7 @@ export class CloudFunction implements Plugin {
   }): Promise<TResult> {
     if (data == null) data = Object.create(null)
 
-    return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), Object.assign(data, { context: this.context ? JSON.parse(JSON.stringify(this.context)) : {} }), options)
+    return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), data, options)
   }
 }
 
