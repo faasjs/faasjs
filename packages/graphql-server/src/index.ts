@@ -1,7 +1,7 @@
 import { buildFederatedSchema } from '@apollo/federation'
 import { GraphQLSchemaModule } from 'apollo-graphql'
 import {
-  Plugin, InvokeData, Next, MountData, DeployData 
+  Plugin, InvokeData, Next, MountData, DeployData
 } from '@faasjs/func'
 import {
   ApolloServerBase,
@@ -41,7 +41,7 @@ class ApolloServer extends ApolloServerBase {
   async handler (data: InvokeData): Promise<any> {
     const options = await super.graphQLServerOptions(data)
 
-    return await runHttpQuery([data.event, data.context], {
+    return runHttpQuery([data.event, data.context], {
       method: data.event.httpMethod,
       options,
       query: JSON.parse(data.event.body),

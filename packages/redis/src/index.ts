@@ -1,10 +1,10 @@
 import {
-  Plugin, MountData, Next, usePlugin, UseifyPlugin 
+  Plugin, MountData, Next, usePlugin, UseifyPlugin
 } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
 import {
-  createClient, ClientOpts as Config, RedisClient 
+  createClient, ClientOpts as Config, RedisClient
 } from 'redis'
 
 export interface RedisConfig {
@@ -78,7 +78,7 @@ export class Redis implements Plugin {
     this.logger.debug('query begin: %s %O', command, args)
     this.logger.time(command)
 
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.adapter.sendCommand(command, args, (err, data: TResult) => {
         if (err) {
           this.logger.timeEnd(command, 'query fail: %s %O', command, err)

@@ -1,10 +1,10 @@
 import {
-  Plugin, Next, MountData, usePlugin, UseifyPlugin 
+  Plugin, Next, MountData, usePlugin, UseifyPlugin
 } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
 import {
-  Kafka as K, KafkaConfig as KConfig, Producer, ProducerRecord, RecordMetadata 
+  Kafka as K, KafkaConfig as KConfig, Producer, ProducerRecord, RecordMetadata
 } from 'kafkajs'
 
 export interface KafkaConfig {
@@ -79,7 +79,7 @@ export class Kafka implements Plugin {
   }
 
   public async sendMessage (record: ProducerRecord): Promise<RecordMetadata[]> {
-    return await this.producer.send(record)
+    return this.producer.send(record)
   }
 }
 

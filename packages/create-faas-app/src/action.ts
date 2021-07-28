@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import { prompt } from 'enquirer'
 import {
-  mkdirSync, writeFileSync, existsSync 
+  mkdirSync, writeFileSync, existsSync
 } from 'fs'
 import { join } from 'path'
 import { execSync } from 'child_process'

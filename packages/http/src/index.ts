@@ -1,19 +1,19 @@
 import {
-  Plugin, InvokeData, MountData, DeployData, Next, usePlugin, UseifyPlugin 
+  Plugin, InvokeData, MountData, DeployData, Next, usePlugin, UseifyPlugin
 } from '@faasjs/func'
 import deepMerge from '@faasjs/deep_merge'
 import Logger from '@faasjs/logger'
 import { Cookie, CookieOptions } from './cookie'
 import { Session, SessionOptions } from './session'
 import {
-  Validator, ValidatorOptions, ValidatorRuleOptions, ValidatorConfig 
+  Validator, ValidatorOptions, ValidatorRuleOptions, ValidatorConfig
 } from './validator'
 import {
-  gzipSync, deflateSync, brotliCompressSync 
+  gzipSync, deflateSync, brotliCompressSync
 } from 'zlib'
 
 export {
-  Cookie, CookieOptions, Session, SessionOptions, Validator, ValidatorOptions, ValidatorRuleOptions 
+  Cookie, CookieOptions, Session, SessionOptions, Validator, ValidatorOptions, ValidatorRuleOptions
 }
 
 export const ContentType: {

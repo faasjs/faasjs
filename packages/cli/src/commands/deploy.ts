@@ -9,14 +9,14 @@ import { cpus } from 'os'
 import Cluster from 'cluster'
 import { chunk } from 'lodash'
 import {
-  log, warn, error 
+  log, warn, error
 } from 'console'
 import { runInNewContext } from 'vm'
 import { execSync } from 'child_process'
 
 async function sleep () {
   const waiting = Math.floor(Math.random() * 3)
-  return await new Promise<void>(function (resolve) {
+  return new Promise<void>(function (resolve) {
     log(`等待 ${waiting} 秒...`)
     setTimeout(function () {
       resolve()
@@ -77,7 +77,7 @@ async function deploy (file: string, ar: number, options: { y: string }) {
 }
 
 export async function action (env: string, files: string[], {
-  workers, autoRetry, autoYes, commit 
+  workers, autoRetry, autoYes, commit
 }: {
   workers?: string
   autoRetry?: string

@@ -1,5 +1,5 @@
 import {
-  randomBytes, pbkdf2Sync, createCipheriv, createHmac, createDecipheriv 
+  randomBytes, pbkdf2Sync, createCipheriv, createHmac, createDecipheriv
 } from 'crypto'
 import { Cookie } from './cookie'
 

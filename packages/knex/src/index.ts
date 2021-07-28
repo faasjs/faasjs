@@ -1,5 +1,5 @@
 import {
-  Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin 
+  Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin
 } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
@@ -89,18 +89,18 @@ export class Knex implements Plugin {
 
     this.adapter
       .on('query', ({
-        sql, __knexQueryUid, bindings 
+        sql, __knexQueryUid, bindings
       }) => {
         this.logger.time(`Knex${__knexQueryUid}`)
         this.logger.debug('query begin: %s %O', sql, bindings)
       })
       .on('query-response', (response, {
-        sql, __knexQueryUid, bindings 
+        sql, __knexQueryUid, bindings
       }) => {
         this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query done: %s %O %O', sql, bindings, response)
       })
       .on('query-error', (_, {
-        __knexQueryUid, sql, bindings 
+        __knexQueryUid, sql, bindings
       }) => {
         this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query failed: %s %O', sql, bindings)
       })
@@ -115,11 +115,11 @@ export class Knex implements Plugin {
   }
 
   public async raw<TResult = any> (sql: string, bindings: K.RawBinding[] | K.ValueDict = []): Promise<K.Raw<TResult>> {
-    return await this.adapter.raw<TResult>(sql, bindings)
+    return this.adapter.raw<TResult>(sql, bindings)
   }
 
   public async transaction<TResult = any> (scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: TransactionConfig): Promise<TResult> {
-    return await this.adapter.transaction(scope, config)
+    return this.adapter.transaction(scope, config)
   }
 
   public schema (): K.SchemaBuilder {

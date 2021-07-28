@@ -1,5 +1,5 @@
 import {
-  Func, Plugin, Next, MountData, InvokeData 
+  Func, Plugin, Next, MountData, InvokeData
 } from '../index'
 
 describe('lifecycle', function () {
