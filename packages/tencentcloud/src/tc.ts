@@ -13,6 +13,12 @@ export async function tc<T = any> (config: TencentcloudConfig, {
   action: string
   payload: any
 }): Promise<T> {
+  if (process.env.TENCENTCLOUD_APPID) config.appId = process.env.TENCENTCLOUD_APPID
+  if (process.env.TENCENTCLOUD_REGION) config.region = process.env.TENCENTCLOUD_REGION
+  if (process.env.TENCENTCLOUD_SECRETID) config.secretId = process.env.TENCENTCLOUD_SECRETID
+  if (process.env.TENCENTCLOUD_SECRETKEY) config.secretKey = process.env.TENCENTCLOUD_SECRETKEY
+  if (process.env.TENCENTCLOUD_SESSIONTOKEN) config.token = process.env.TENCENTCLOUD_SESSIONTOKEN
+
   const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ?
     `${service}.internal.tencentcloudapi.com` : `${service}.tencentcloudapi.com`
   const canonicalRequest = `POST\n/\n\ncontent-type:application/json\nhost:${host}\n\ncontent-type;host\n` +
