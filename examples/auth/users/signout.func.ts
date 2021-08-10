@@ -1,13 +1,10 @@
-import { Func } from '@faasjs/func';
-import { Sql } from '@faasjs/sql';
-import { Http } from '@faasjs/http';
+import { useFunc } from '@faasjs/func';
+import { useHttp } from '@faasjs/http';
 
-const sql = new Sql();
-const http = new Http();
+export default useFunc(function () {
+  const http = useHttp()
 
-export default new Func({
-  plugins: [sql, http],
-  handler () {
+  return async function () {
     http.session.write('user_id', null);
   }
 });

@@ -1,33 +1,35 @@
-import { Func } from '@faasjs/func';
-import { Sql } from '@faasjs/sql';
-import { Http } from '@faasjs/http';
+import { useFunc } from '@faasjs/func';
+import { useKnex } from '@faasjs/knex';
+import { useHttp } from '@faasjs/http';
 
-const sql = new Sql();
-const http = new Http({
-  validator: {
-    params: {
-      whitelist: 'error',
-      rules: {
-        username: {
-          required: true,
-          type: 'string'
-        },
-        password: {
-          required: true,
-          type: 'string'
+export default useFunc(function () {
+  const knex = useKnex();
+  const http = useHttp<{
+    username: string;
+    password: string;
+  }>({
+    validator: {
+      params: {
+        whitelist: 'error',
+        rules: {
+          username: {
+            required: true,
+            type: 'string'
+          },
+          password: {
+            required: true,
+            type: 'string'
+          }
         }
       }
     }
-  }
-});
+  });
 
-export default new Func({
-  plugins: [sql, http],
-  async handler () {
-    await sql.query('INSERT INTO users (username,password) VALUES (?, ?)', [http.params.username, http.params.password]);
+  return async function () {
+    await knex.raw('INSERT INTO users (username,password) VALUES (?, ?)', [http.params.username, http.params.password]);
 
-    const row = await sql.queryFirst('SELECT id FROM users WHERE username = ? LIMIT 1', [http.params.username]);
+    const row = await knex.raw('SELECT id FROM users WHERE username = ? LIMIT 1', [http.params.username]);
 
-    http.session.write('user_id', row.id);
+    http.session.write('user_id', row[0].id);
   }
 });

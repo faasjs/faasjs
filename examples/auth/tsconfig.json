@@ -1,1 +1,8 @@
-{}
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "target": "ES2019",
+    "module": "ESNext",
+    "moduleResolution": "node"
+  }
+}

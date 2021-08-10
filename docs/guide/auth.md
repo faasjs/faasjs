@@ -65,32 +65,31 @@
 
 ```typescript
 // users/signup.func.ts
-import { Func } from '@faasjs/func';
-import { Sql } from '@faasjs/sql';
-import { Http } from '@faasjs/http';
+import { useFunc } from '@faasjs/func';
+import { useSql } from '@faasjs/sql';
+import { useHttp } from '@faasjs/http';
 
-const sql = new Sql();
-const http = new Http({
-  validator: {
-    params: {
-      whitelist: 'error', // 确保只接受设定的参数
-      rules: {
-        username: { // 设置 username 为必填参数，类型为数字
-          required: true,
-          type: 'string'
-        },
-        password: { // 设置 password 为必填参数，类型为文本
-          required: true,
-          type: 'string'
+export default useFunc(function () {
+  const sql = useSql();
+  const http = useHttp({
+    validator: {
+      params: {
+        whitelist: 'error', // 确保只接受设定的参数
+        rules: {
+          username: { // 设置 username 为必填参数，类型为数字
+            required: true,
+            type: 'string'
+          },
+          password: { // 设置 password 为必填参数，类型为文本
+            required: true,
+            type: 'string'
+          }
         }
       }
     }
-  }
-});
+  });
 
-export default new Func({
-  plugins: [sql, http],
-  async handler () {
+  return async function () {
     // 尝试直接插入，若插入失败会直接抛异常
     await sql.query('INSERT INTO users (username,password) VALUES (?, ?)', [http.params.username, http.params.password]);
 
@@ -180,32 +179,31 @@ describe('signin', function () {
 
 ```typescript
 // users/signin.func.ts
-import { Func } from '@faasjs/func';
-import { Sql } from '@faasjs/sql';
-import { Http } from '@faasjs/http';
+import { useFunc } from '@faasjs/func';
+import { useSql } from '@faasjs/sql';
+import { useHttp } from '@faasjs/http';
 
-const sql = new Sql();
-const http = new Http({
-  validator: {
-    params: {
-      whitelist: 'error',
-      rules: {
-        username: {
-          required: true,
-          type: 'string'
-        },
-        password: {
-          required: true,
-          type: 'string'
+export default useFunc(function () {
+  const sql = useSql();
+  const http = useHttp({
+    validator: {
+      params: {
+        whitelist: 'error',
+        rules: {
+          username: {
+            required: true,
+            type: 'string'
+          },
+          password: {
+            required: true,
+            type: 'string'
+          }
         }
       }
     }
-  }
-});
+  });
 
-export default new Func({
-  plugins: [sql, http],
-  async handler () {
+  return async function () {
     const row = await sql.queryFirst('SELECT id,password FROM users WHERE username = ? LIMIT 1', [http.params.username]);
     if (!row) {
       // 在云函数中，建议直接通过抛异常的方式来告知前端错误信息
@@ -226,16 +224,15 @@ export default new Func({
 
 ```typescript
 // users/signout.func.ts
-import { Func } from '@faasjs/func';
-import { Sql } from '@faasjs/sql';
-import { Http } from '@faasjs/http';
+import { useFunc } from '@faasjs/func';
+import { useSql } from '@faasjs/sql';
+import { useHttp } from '@faasjs/http';
 
-const sql = new Sql();
-const http = new Http();
+export default useFunc(function () {
+  const sql = useSql();
+  const http = useHttp();
 
-export default new Func({
-  plugins: [sql, http],
-  handler () {
+  return async function () {
     // 将值设为 null 即可删除改属性
     http.session.write('user_id', null);
   }
@@ -248,40 +245,39 @@ export default new Func({
 
 ```typescript
 // users/change-password.func.ts
-import { Func } from '@faasjs/func';
-import { Sql } from '@faasjs/sql';
-import { Http } from '@faasjs/http';
+import { useFunc } from '@faasjs/func';
+import { useSql } from '@faasjs/sql';
+import { useHttp } from '@faasjs/http';
 
-const sql = new Sql();
-const http = new Http({
-  validator: {
-    session: { // session 也支持自动校验，比如校验 user_id 为必填来保证只有已登录的用户才能访问此接口
-      rules: {
-        user_id: {
-          required: true,
-          type: 'number'
+export default useFunc(function () {
+  const sql = useSql();
+  const http = useHttp({
+    validator: {
+      session: { // session 也支持自动校验，比如校验 user_id 为必填来保证只有已登录的用户才能访问此接口
+        rules: {
+          user_id: {
+            required: true,
+            type: 'number'
+          }
         }
-      }
-    },
-    params: {
-      whitelist: 'error',
-      rules: {
-        new_password: {
-          required: true,
-          type: 'string'
-        },
-        old_password: {
-          required: true,
-          type: 'string'
+      },
+      params: {
+        whitelist: 'error',
+        rules: {
+          new_password: {
+            required: true,
+            type: 'string'
+          },
+          old_password: {
+            required: true,
+            type: 'string'
+          }
         }
       }
     }
-  }
-});
+  });
 
-export default new Func({
-  plugins: [sql, http],
-  async handler () {
+  return async function () {
     const row = await sql.queryFirst('SELECT password FROM users WHERE id = ? LIMIT 1', [http.session.read('user_id')]);
     if (row.password !== http.params.old_password) {
       throw Error('旧密码错误');

@@ -3,9 +3,9 @@ defaults:
     tencentcloud:
       type: '@faasjs/tencentcloud'
       config: # https://console.cloud.tencent.com/cam/capi
-        appId: 
-        secretId: 
-        secretKey: 
+        appId:
+        secretId:
+        secretKey:
         region:
   plugins:
     cloud_function:
@@ -14,13 +14,12 @@ defaults:
     http:
       provider: tencentcloud
       type: http
-    sql:
-      type: sql
-      adapter: sqlite
 development:
-  plugins:
-    sql:
-      config:
-        filename: development.sqlite3
 testing:
+  plugins:
+    knex:
+      config:
+        client: sqlite3
+        connection:
+          filename: 'testing.sqlite3'
 production:

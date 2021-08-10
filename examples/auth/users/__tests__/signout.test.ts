@@ -1,14 +1,7 @@
 import { FuncWarpper } from '@faasjs/test';
-import setup from './setup';
 
 describe('signout', function () {
-  let func: FuncWarpper;
-
-  beforeEach(async function () {
-    func = await setup('signout');
-
-    await func.sql.query('INSERT INTO users (id,username,password) VALUES (1,\'hello\',\'world\')');
-  });
+  const func = new FuncWarpper(require.resolve('../signout.func'));
 
   test('should work', async function () {
     const res = await func.handler({

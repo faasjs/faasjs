@@ -1,12 +1,8 @@
+import { useKnex } from '@faasjs/knex';
 import { FuncWarpper } from '@faasjs/test';
-import setup from './setup';
 
 describe('signup', function () {
-  let func: FuncWarpper;
-
-  beforeEach(async function () {
-    func = await setup('signup');
-  });
+  const func = new FuncWarpper(require.resolve('../signup.func'));
 
   test('should work', async function () {
     const res = await func.JSONhandler({
@@ -16,7 +12,7 @@ describe('signup', function () {
 
     expect(res.statusCode).toEqual(201);
 
-    const rows = await func.sql.query('SELECT * FROM users');
+    const rows = await useKnex().raw('SELECT * FROM users');
 
     expect(rows.length).toEqual(1);
     expect(rows[0].username).toEqual('hello');
@@ -24,7 +20,7 @@ describe('signup', function () {
   });
 
   test('dup username', async function () {
-    await func.sql.query('INSERT INTO users (username,password) VALUES (\'hello\',\'world\')');
+    await useKnex().raw('INSERT INTO users (username,password) VALUES (\'hello\',\'world\')');
 
     const res = await func.JSONhandler({
       username: 'hello',
@@ -32,6 +28,6 @@ describe('signup', function () {
     });
 
     expect(res.statusCode).toEqual(500);
-    expect(res.body).toEqual('{"error":{"message":"SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username"}}');
+    expect(res.body).toEqual('{"error":{"message":"INSERT INTO users (username,password) VALUES (\'hello\', \'world\') - SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username"}}');
   });
 });

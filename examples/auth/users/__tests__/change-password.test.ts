@@ -1,13 +1,12 @@
 import { FuncWarpper } from '@faasjs/test';
-import setup from './setup';
+import { useKnex } from '@faasjs/knex';
 
 describe('change-password', function () {
-  let func: FuncWarpper;
+  const func = new FuncWarpper(require.resolve('../change-password.func'));
 
   beforeEach(async function () {
-    func = await setup('change-password');
-
-    await func.sql.query('INSERT INTO users (id,username,password) VALUES (1,\'hello\',\'world\')');
+    await func.mount()
+    await useKnex().raw('INSERT INTO users (id,username,password) VALUES (1,\'hello\',\'world\')');
   });
 
   test('should work', async function () {
@@ -15,14 +14,14 @@ describe('change-password', function () {
       old_password: 'world',
       new_password: 'hello'
     }, {
-      cookie: `key=${func.http.session.encode({ user_id: 1 })}`
+      session: { user_id: 1 }
     });
 
     expect(res.statusCode).toEqual(201);
 
-    const row = await func.sql.queryFirst('SELECT password FROM users WHERE id = 1 LIMIT 1');
+    const row = await useKnex().raw('SELECT password FROM users WHERE id = 1 LIMIT 1');
 
-    expect(row.password).toEqual('hello');
+    expect(row[0].password).toEqual('hello');
   });
 
   test('wrong password', async function () {
@@ -30,14 +29,14 @@ describe('change-password', function () {
       old_password: 'hello',
       new_password: 'hello'
     }, {
-      cookie: `key=${func.http.session.encode({ user_id: 1 })}`
+      session: { user_id: 1 }
     });
 
     expect(res.statusCode).toEqual(500);
     expect(res.body).toEqual('{"error":{"message":"旧密码错误"}}');
 
-    const row = await func.sql.queryFirst('SELECT password FROM users WHERE id = 1 LIMIT 1');
+    const row = await useKnex().raw('SELECT password FROM users WHERE id = 1 LIMIT 1');
 
-    expect(row.password).toEqual('world');
+    expect(row[0].password).toEqual('world');
   });
 });

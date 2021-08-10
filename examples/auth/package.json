@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@faasjs/eslint-config-recommended": "beta",
-    "faasjs": "beta"
+    "faasjs": "beta",
+    "@faasjs/knex": "beta",
+    "sqlite3": "*"
   },
   "eslintConfig": {
     "extends": [
@@ -20,6 +22,7 @@
   ],
   "jest": {
     "preset": "ts-jest",
+    "verbose": false,
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.ts"
@@ -28,6 +31,10 @@
     "modulePathIgnorePatterns": [
       "/lib/",
       "/tmp/"
+    ],
+    "setupFilesAfterEnv": [
+      "@faasjs/test/lib/jest.setup.js",
+      "./jest.setup.ts"
     ]
   }
 }

@@ -1,13 +1,11 @@
+import { useKnex } from '@faasjs/knex';
 import { FuncWarpper } from '@faasjs/test';
-import setup from './setup';
 
 describe('signin', function () {
-  let func: FuncWarpper;
+  const func = new FuncWarpper(require.resolve('../signin.func'));
 
   beforeEach(async function () {
-    func = await setup('signin');
-
-    await func.sql.query('INSERT INTO users (id,username,password) VALUES (1,\'hello\',\'world\')');
+    await useKnex().raw('INSERT INTO users (id,username,password) VALUES (1,\'hello\',\'world\')');
   });
 
   test('should work', async function () {

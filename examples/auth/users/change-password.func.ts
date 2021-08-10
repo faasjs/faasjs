@@ -1,41 +1,45 @@
-import { Func } from '@faasjs/func';
-import { Sql } from '@faasjs/sql';
-import { Http } from '@faasjs/http';
+import { useFunc } from '@faasjs/func';
+import { useKnex } from '@faasjs/knex';
+import { useHttp } from '@faasjs/http';
 
-const sql = new Sql();
-const http = new Http({
-  validator: {
-    session: {
-      rules: {
-        user_id: {
-          required: true,
-          type: 'number'
+export default useFunc(function () {
+  const knex = useKnex()
+  const http = useHttp({
+    validator: {
+      session: {
+        rules: {
+          user_id: {
+            required: true,
+            type: 'number'
+          }
         }
-      }
-    },
-    params: {
-      whitelist: 'error',
-      rules: {
-        new_password: {
-          required: true,
-          type: 'string'
-        },
-        old_password: {
-          required: true,
-          type: 'string'
+      },
+      params: {
+        whitelist: 'error',
+        rules: {
+          new_password: {
+            required: true,
+            type: 'string'
+          },
+          old_password: {
+            required: true,
+            type: 'string'
+          }
         }
       }
     }
-  }
-});
+  });
 
-export default new Func({
-  plugins: [sql, http],
-  async handler () {
-    const row = await sql.queryFirst('SELECT password FROM users WHERE id = ? LIMIT 1', [http.session.read('user_id')]);
+  return async function () {
+    const row = await knex.query('users')
+    .select('password')
+    .where('id', '=', http.session.read('user_id'))
+    .first();
     if (row.password !== http.params.old_password) {
       throw Error('旧密码错误');
     }
-    await sql.query('UPDATE users SET password = ? WHERE id = ?', [http.params.new_password, http.session.read('user_id')]);
+    await knex.query('users').where('id', '=', http.session.read('user_id')).update({
+      password: http.params.new_password
+    })
   }
 });

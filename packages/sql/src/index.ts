@@ -91,7 +91,6 @@ export class Sql implements Plugin {
         if (typeof this.config[key] === 'undefined') this.config[key] = value
       }
 
-
     if (data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
     this.logger.debug('conncet: %O', this.config)
@@ -158,7 +157,7 @@ export class Sql implements Plugin {
 
 export function useSql (config?: SqlConfig): Sql & UseifyPlugin {
   const name = config?.name || Name
-
+  console.log(globals)
   if (globals[name]) return usePlugin<Sql>(globals[name])
 
   return usePlugin<Sql>(new Sql(config))
