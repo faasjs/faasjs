@@ -27,4 +27,16 @@ describe('loadTs', function () {
       '@faasjs/load': join(process.cwd(), 'node_modules', '@faasjs/load')
     })
   })
+
+  describe('vm', function () {
+    test('extend', async function () {
+      const res = await loadTs(require.resolve('./extend.func.ts'), {
+        tmp: true,
+        vm: true
+      })
+
+      expect(res.module).toEqual('extended')
+      expect(res.dependencies).toEqual({ '@faasjs/deep_merge': '*' })
+    })
+  })
 })

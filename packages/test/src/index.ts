@@ -4,8 +4,8 @@ import {
 } from '@faasjs/func'
 import { loadConfig } from '@faasjs/load'
 import { Http } from '@faasjs/http'
-// import { NodeVM } from 'vm2';
-// import { transpile } from 'typescript';
+import { NodeVM } from 'vm2'
+import { transpile } from 'typescript'
 
 // 输出 func 的定义以便于测试用例的引用
 export * from '@faasjs/func'
@@ -22,7 +22,7 @@ export class FuncWarpper {
   public readonly config: Config
   public readonly plugins: Plugin[]
   private readonly _handler: ExportedHandler
-  // private _vm: NodeVM;
+  private _vm: NodeVM
 
   /**
    * 新建流程实例
@@ -35,22 +35,22 @@ export class FuncWarpper {
   constructor (initBy: Func | string) {
     this.stagging = process.env.FaasEnv
     this.logger = new Logger('TestCase')
-    // this._vm = new NodeVM({
-    //   compiler: function (code: string, name: string ) { return transpile(code, {}, name);},
-    //   require: {
-    //     external: true,
-    //     context: 'sandbox',
-    //     builtin: ['*']
-    //   },
-    //   sourceExtensions: ['ts', 'js']
-    // });
+    this._vm = new NodeVM({
+      compiler: function (code: string, name: string ) { return transpile(code, {}, name)},
+      require: {
+        external: true,
+        context: 'sandbox',
+        builtin: ['*']
+      },
+      sourceExtensions: ['ts', 'js']
+    })
 
     if (typeof initBy === 'string') {
       this.file = initBy
       this.logger.info('Func: [%s] %s', this.stagging, this.file)
-      // this.func = this._vm.require(this.file).default;
+      this.func = this._vm.require(this.file).default
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      this.func = require(this.file).default
+      // this.func = require(this.file).default
       this.func.config = loadConfig(process.cwd(), this.file)[this.stagging]
       this.config = this.func.config
     } else this.func = initBy

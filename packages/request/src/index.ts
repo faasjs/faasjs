@@ -1,7 +1,7 @@
 import * as http from 'http'
 import * as https from 'https'
 import { stringify } from 'querystring'
-import * as URL from 'url'
+import { URL } from 'url'
 import { readFileSync } from 'fs'
 import { basename } from 'path'
 import Logger from '@faasjs/logger'
@@ -104,7 +104,7 @@ export default async function request<T = any> (url: string, {
   }
 
   // 处理 URL 并生成 options
-  const uri = URL.parse(url)
+  const uri = new URL(url)
   const protocol = uri.protocol === 'https:' ? https : http
 
   if (!uri.protocol) throw Error('Unkonw protocol')
@@ -125,7 +125,7 @@ export default async function request<T = any> (url: string, {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: method ? method.toUpperCase() : 'GET',
-    path: uri.path,
+    path: uri.pathname,
     query: {},
     port: uri.port,
     timeout,

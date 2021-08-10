@@ -6,6 +6,7 @@ import * as rollup from 'rollup'
 import typescript from '@rollup/plugin-typescript'
 import { Func } from '@faasjs/func'
 import { join } from 'path'
+import { NodeVM } from 'vm2'
 
 const FAAS_PACKAGES = [
   '@faasjs/browser',
@@ -120,7 +121,8 @@ export default async function loadTs (filename: string, options: {
   modules?: {
     excludes?: string[]
     additions?: string[]
-  }
+  },
+  vm?: boolean
 } = Object.create(null)): Promise<{
     module?: Func
     dependencies: {
@@ -139,8 +141,7 @@ export default async function loadTs (filename: string, options: {
   const input = deepMerge({
     input: filename,
     external,
-    plugins: [typescript({ declaration: false })],
-    onwarn: () => null
+    plugins: [typescript({ declaration: false })]
   }, (options.input) || {})
 
   const bundle = await rollup.rollup(input)
@@ -157,7 +158,8 @@ export default async function loadTs (filename: string, options: {
 
   const output = deepMerge({
     file: filename + '.tmp.js',
-    format: 'cjs'
+    format: 'cjs',
+    exports: 'auto'
   }, (options.output) || {})
 
   await bundle.write(output)
@@ -166,8 +168,19 @@ export default async function loadTs (filename: string, options: {
 
   result.dependencies = dependencies
 
+  if (options.vm) {
+    const vm = new NodeVM({
+      require: {
+        external: true,
+        context: 'sandbox',
+        builtin: ['*']
+      }
+    })
+    console.log(vm)
+    result.module = vm.require(output.file)
+  } else
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  result.module = require(output.file)
+    result.module = require(output.file)
 
   if (options.tmp) unlinkSync(output.file)
 

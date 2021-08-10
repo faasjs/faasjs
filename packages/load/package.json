@@ -24,7 +24,8 @@
     "@rollup/plugin-typescript": "*",
     "js-yaml": "*",
     "rollup": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "vm2": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.220",
