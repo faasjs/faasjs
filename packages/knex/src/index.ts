@@ -3,11 +3,11 @@ import {
 } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
-import knex, { Knex as K } from 'knex'
+import knex from 'knex'
 
 export interface KnexConfig {
   name?: string
-  config?: K.Config
+  config?: knex.Config
 }
 
 const Name = 'knex'
@@ -22,9 +22,9 @@ const globals: {
 export class Knex implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
-  public config: K.Config
-  public adapter: K
-  public query: K
+  public config: knex.Config
+  public adapter: knex
+  public query: knex
   public logger: Logger
 
   /**
@@ -45,7 +45,7 @@ export class Knex implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
-    const client = (data.config.plugins![this.name].config as K.Config).client as string
+    const client = (data.config.plugins![this.name].config as knex.Config).client as string
     if (!client) throw Error('[Knex] client required.')
 
     data.dependencies[client] = '*'
@@ -107,15 +107,15 @@ export class Knex implements Plugin {
     await next()
   }
 
-  public async raw<TResult = any> (sql: string, bindings: K.RawBinding[] | K.ValueDict = []): Promise<K.Raw<TResult>> {
+  public async raw<TResult = any> (sql: string, bindings: knex.RawBinding[] | knex.ValueDict = []): Promise<knex.Raw<TResult>> {
     return this.adapter.raw<TResult>(sql, bindings)
   }
 
-  public async transaction<TResult = any> (scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: K.TransactionConfig): Promise<TResult> {
+  public async transaction<TResult = any> (scope: (trx: knex.Transaction<any, any>) => Promise<TResult> | void, config?: any): Promise<TResult> {
     return this.adapter.transaction(scope, config)
   }
 
-  public schema (): K.SchemaBuilder {
+  public schema (): knex.SchemaBuilder {
     return this.adapter.schema
   }
 
