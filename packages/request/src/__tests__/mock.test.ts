@@ -2,14 +2,11 @@ import request, { setMock } from '../index'
 
 describe('mock', function () {
   test('should work', async function () {
-    setMock(async function (url) {
-      return await new Promise(function (resolve) {
-        if (url === 'hello') 
-          resolve({
-            statusCode: 200,
-            headers: {},
-            body: 'world'
-          })
+    setMock(async function () {
+      return Promise.resolve({
+        statusCode: 200,
+        headers: {},
+        body: 'world'
       })
     })
 
@@ -18,10 +15,6 @@ describe('mock', function () {
 
     setMock(null)
 
-    try {
-      await request('hello')
-    } catch (error) {
-      expect(error.message).toEqual('Unkonw protocol')
-    }
+    expect(async () => await request('hello')).rejects.toMatch('Invalid URL: hello?')
   })
 })

@@ -89,7 +89,7 @@ export default async function request<T = any> (url: string, {
   const log = new Logger('request')
 
   if (mock)
-    return await mock(url, {
+    return mock(url, {
       headers,
       method,
       query,
@@ -125,7 +125,7 @@ export default async function request<T = any> (url: string, {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: method ? method.toUpperCase() : 'GET',
-    path: uri.pathname,
+    path: uri.pathname + uri.search,
     query: {},
     port: uri.port,
     timeout,
