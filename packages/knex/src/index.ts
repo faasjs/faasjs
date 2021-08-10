@@ -10,13 +10,6 @@ export interface KnexConfig {
   config?: K.Config
 }
 
-interface TransactionConfig {
-  isolationLevel?: 'read uncommitted' | 'read committed' | 'snapshot' | 'repeatable read' | 'serializable'
-  userParams?: Record<string, any>
-  doNotRejectOnRollback?: boolean
-  connection?: any
-}
-
 const Name = 'knex'
 
 const globals: {
@@ -118,7 +111,7 @@ export class Knex implements Plugin {
     return this.adapter.raw<TResult>(sql, bindings)
   }
 
-  public async transaction<TResult = any> (scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: TransactionConfig): Promise<TResult> {
+  public async transaction<TResult = any> (scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: K.TransactionConfig): Promise<TResult> {
     return this.adapter.transaction(scope, config)
   }
 
