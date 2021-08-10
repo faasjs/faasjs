@@ -66,21 +66,24 @@
 ```typescript
 // users/signup.func.ts
 import { useFunc } from '@faasjs/func';
-import { useSql } from '@faasjs/sql';
+import { useKnex } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
 
 export default useFunc(function () {
-  const sql = useSql();
-  const http = useHttp({
+  const knex = useKnex();
+  const http = useHttp<{
+    username: string;
+    password: string;
+  }>({
     validator: {
       params: {
-        whitelist: 'error', // 确保只接受设定的参数
+        whitelist: 'error',
         rules: {
-          username: { // 设置 username 为必填参数，类型为数字
+          username: {
             required: true,
             type: 'string'
           },
-          password: { // 设置 password 为必填参数，类型为文本
+          password: {
             required: true,
             type: 'string'
           }
@@ -90,13 +93,19 @@ export default useFunc(function () {
   });
 
   return async function () {
-    // 尝试直接插入，若插入失败会直接抛异常
-    await sql.query('INSERT INTO users (username,password) VALUES (?, ?)', [http.params.username, http.params.password]);
+    const row = await knex.query('users')
+      .select('id', 'password')
+      .where('username', '=', http.params.username)
+      .first();
 
-    // 读取刚刚插入的数据，获取自增字段的用户 ID
-    const row = await sql.queryFirst('SELECT id FROM users WHERE username = ? LIMIT 1', [http.params.username]);
+    if (!row) {
+      throw Error('用户名错误');
+    }
 
-    // 将用户 ID 保存到 session 中
+    if (row.password !== http.params.password) {
+      throw Error('用户名或密码错误');
+    }
+
     http.session.write('user_id', row.id);
   }
 });
@@ -106,65 +115,40 @@ export default useFunc(function () {
 
 ```typescript
 // users/__tests__/signup.test.ts
+import { useKnex } from '@faasjs/knex';
 import { FuncWarpper } from '@faasjs/test';
-import { Sql } from '@faasjs/sql';
-import { Http } from '@faasjs/http';
 
 describe('signin', function () {
-  // 在外部声明云函数变量，方便各个用例使用
-  let func: FuncWarpper;
+  const func = new FuncWarpper(require.resolve('../signin.func'));
 
   beforeEach(async function () {
-    // 使用 FuncWarpper 来引入云函数
-    func = new FuncWarpper(require.resolve('../signup.func') as string);
-
-    // 因为 sql 插件需要在云函数初始化时生成连接，所以这里需要使用 mountedHandler 来初始化云函数
-    await func.mountedHandler({});
-
-    // 为了便于测试用例中使用 sql 和 http 插件的功能，这里加了个简单的快捷入口
-    func.sql = func.plugins[0] as Sql;
-    func.http = func.plugins[1] as Http;
-
-    // 创建表，若有数据则删除
-     await func.sql.queryMulti([
-      'CREATE TABLE IF NOT EXISTS "users" ("id" integer,"username" varchar UNIQUE,"password" varchar, PRIMARY KEY (id));',
-      'DELETE FROM users;'
-    ]);
+    await useKnex().raw('INSERT INTO users (id,username,password) VALUES (1,\'hello\',\'world\')');
   });
 
   test('should work', async function () {
-    const res = await func.JSONhandler({ // JSONhandler 是一个辅助方法，可以以 JSON 的形式请求云函数
-      username: 'hello',
-      password: 'world'
-    });
-
-    // 解码 session 后检查用户 ID 是否设置正确
-    expect(func.http.session.decode(res.headers['Set-Cookie'][0].match(/key=([^;]+)/)[1])).toEqual({ user_id: 1 });
-
-    // 由于注册操作并不需要返回 data，因此响应状态为 201
-    expect(res.statusCode).toEqual(201);
-  });
-
-  test('wrong username', async function () {
     const res = await func.JSONhandler({
       username: 'hello',
       password: 'world'
     });
 
-    // 按照 FaasJS 的 HTTP 请求规范，错误会以 500 状态返回，错误原因被包裹在 error -> message 中
+    expect(func.http.session.decode(res.headers['Set-Cookie'][0].match(/key=([^;]+)/)[1])).toEqual({ user_id: 1 });
+    expect(res.statusCode).toEqual(201);
+  });
+
+  test('wrong username', async function () {
+    const res = await func.JSONhandler({
+      username: '',
+      password: ''
+    });
+
     expect(res.statusCode).toEqual(500);
     expect(res.body).toEqual('{"error":{"message":"用户名错误"}}');
   });
 
   test('wrong password', async function () {
-    const res = await func.handler({
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: 'hello',
-        password: ''
-      })
+    const res = await func.JSONhandler({
+      username: 'hello',
+      password: ''
     });
 
     expect(res.statusCode).toEqual(500);
@@ -225,15 +209,12 @@ export default useFunc(function () {
 ```typescript
 // users/signout.func.ts
 import { useFunc } from '@faasjs/func';
-import { useSql } from '@faasjs/sql';
 import { useHttp } from '@faasjs/http';
 
 export default useFunc(function () {
-  const sql = useSql();
-  const http = useHttp();
+  const http = useHttp()
 
   return async function () {
-    // 将值设为 null 即可删除改属性
     http.session.write('user_id', null);
   }
 });
@@ -246,14 +227,14 @@ export default useFunc(function () {
 ```typescript
 // users/change-password.func.ts
 import { useFunc } from '@faasjs/func';
-import { useSql } from '@faasjs/sql';
+import { useKnex } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
 
 export default useFunc(function () {
-  const sql = useSql();
+  const knex = useKnex()
   const http = useHttp({
     validator: {
-      session: { // session 也支持自动校验，比如校验 user_id 为必填来保证只有已登录的用户才能访问此接口
+      session: {
         rules: {
           user_id: {
             required: true,
@@ -278,11 +259,16 @@ export default useFunc(function () {
   });
 
   return async function () {
-    const row = await sql.queryFirst('SELECT password FROM users WHERE id = ? LIMIT 1', [http.session.read('user_id')]);
+    const row = await knex.query('users')
+    .select('password')
+    .where('id', '=', http.session.read('user_id'))
+    .first();
     if (row.password !== http.params.old_password) {
       throw Error('旧密码错误');
     }
-    await sql.query('UPDATE users SET password = ? WHERE id = ?', [http.params.new_password, http.session.read('user_id')]);
+    await knex.query('users').where('id', '=', http.session.read('user_id')).update({
+      password: http.params.new_password
+    })
   }
 });
 ```
