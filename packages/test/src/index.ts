@@ -48,9 +48,13 @@ export class FuncWarpper {
     if (typeof initBy === 'string') {
       this.file = initBy
       this.logger.info('Func: [%s] %s', this.stagging, this.file)
-      this.func = this._vm.require(this.file).default
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      // this.func = require(this.file).default
+      try {
+        this.func = this._vm.require(this.file).default
+      } catch (error) {
+        console.error(error)
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        this.func = require(this.file).default
+      }
       this.func.config = loadConfig(process.cwd(), this.file)[this.stagging]
       this.config = this.func.config
     } else this.func = initBy
