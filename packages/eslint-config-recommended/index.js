@@ -62,7 +62,7 @@ module.exports = {
         'object-property-newline': 'error',
         'no-multi-spaces': 'error',
         'key-spacing': 'error',
-        'padded-blocks': ['error'],
+        'padded-blocks': ['error', 'never'],
       }
     },
     {
