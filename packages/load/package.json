@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.217",
-    "@rollup/plugin-typescript": "*",
+    "@rollup/plugin-sucrase": "*",
     "js-yaml": "*",
     "rollup": "*",
     "typescript": "*",

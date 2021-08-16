@@ -3,7 +3,7 @@ import {
   existsSync, readFileSync, unlinkSync
 } from 'fs'
 import * as rollup from 'rollup'
-import typescript from '@rollup/plugin-typescript'
+import sucrase from '@rollup/plugin-sucrase'
 import { Func } from '@faasjs/func'
 import { join } from 'path'
 import { NodeVM } from 'vm2'
@@ -87,7 +87,6 @@ function findModule (list: any, key: string, basePath: string, options: {
       break
     }
 
-
   if (!path) return
 
   list[key] = path
@@ -141,7 +140,12 @@ export default async function loadTs (filename: string, options: {
   const input = deepMerge({
     input: filename,
     external,
-    plugins: [typescript({ declaration: false })]
+    plugins: [
+      sucrase({
+        exclude: ['node_modules/**'],
+        transforms: ['typescript']
+      })
+    ]
   }, (options.input) || {})
 
   const bundle = await rollup.rollup(input)
