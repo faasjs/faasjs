@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-react",
-  "version": "0.0.2-beta.218",
+  "version": "0.0.2-beta.224",
   "license": "MIT",
   "main": "index.js",
   "files": [
@@ -13,7 +13,7 @@
     "directory": "packages/eslint-config-react"
   },
   "dependencies": {
-    "@faasjs/eslint-config-recommended": "^0.0.2-beta.218",
+    "@faasjs/eslint-config-recommended": "^0.0.2-beta.224",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-hooks": "*"
   },
