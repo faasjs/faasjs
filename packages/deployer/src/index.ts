@@ -23,7 +23,7 @@ export class Deployer {
 
     if (!data.env) data.env = process.env.FaasEnv || Config.defaults.deploy.env
 
-    data.config = Config[data.env!]
+    data.config = Config[data.env]
 
     if (!data.config) throw Error(`Config load failed: ${data.env}`)
 

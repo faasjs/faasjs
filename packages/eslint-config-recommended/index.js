@@ -4,8 +4,6 @@ module.exports = {
     jest: true,
     es6: true
   },
-  parser: '@typescript-eslint/parser',
-  parserOptions: { project: ['./tsconfig.json', './packages/*/tsconfig.json'] },
   plugins: ['@typescript-eslint', 'jest'],
   extends: [
     'eslint:recommended',
@@ -64,10 +62,12 @@ module.exports = {
         'object-property-newline': 'error',
         'no-multi-spaces': 'error',
         'key-spacing': 'error',
-        'padded-blocks': ['error', 'never'],
+        'padded-blocks': ['error'],
       }
     },
     {
+      parser: '@typescript-eslint/parser',
+      parserOptions: {project: ['./tsconfig.json', './packages/*/tsconfig.json'] },
       files: ['*.ts', '*.tsx'],
       rules: {
         '@typescript-eslint/no-console': 'off',
