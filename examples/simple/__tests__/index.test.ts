@@ -4,8 +4,8 @@ describe('index', function () {
   test('should work', async function () {
     const func = new FuncWarpper(require.resolve('../index.func'));
 
-    const res = await func.handler();
+    const { data } = await func.JSONhandler();
 
-    expect(res.body).toEqual('{"data":"Hello, world"}');
+    expect(data).toEqual('Hello, world');
   });
 });
