@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/request",
-  "version": "0.0.2-beta.222",
+  "version": "0.0.2-beta.227",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
