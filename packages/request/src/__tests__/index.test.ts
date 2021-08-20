@@ -19,10 +19,10 @@ describe('request', function () {
     })
 
     test('with ?', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com/?a=1', { query: { test: 1 } })
+      const res = await request('https://cvm.tencentcloudapi.com/?a=1', { query: { test: [1, 2] } })
 
       expect(res.statusCode).toEqual(200)
-      expect(res.request.path).toEqual('/?a=1&test=1')
+      expect(res.request.path).toEqual('/?a=1&test=1%2C2')
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
   })

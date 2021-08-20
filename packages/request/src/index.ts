@@ -1,21 +1,22 @@
 import * as http from 'http'
 import * as https from 'https'
-import { stringify } from 'querystring'
 import { URL } from 'url'
 import { readFileSync } from 'fs'
 import { basename } from 'path'
 import Logger from '@faasjs/logger'
 
-export interface Request {
+export type Request = {
   headers?: http.OutgoingHttpHeaders
   method?: string
   host?: string
   path?: string
   query?: http.OutgoingHttpHeaders
-  body?: any
+  body?: {
+    [key: string]: any
+  }
 }
 
-export interface Response<T = any> {
+export type Response<T = any> = {
   request?: Request
   statusCode?: number
   statusMessage?: string
@@ -23,11 +24,15 @@ export interface Response<T = any> {
   body: T
 }
 
-export interface RequestOptions {
+export type RequestOptions = {
   headers?: http.OutgoingHttpHeaders
   method?: string
-  query?: http.OutgoingHttpHeaders
-  body?: any
+  query?: {
+    [key: string]: any
+  }
+  body?: {
+    [key: string]: any
+  } | string
   timeout?: number
   auth?: string
   file?: string
@@ -48,6 +53,30 @@ let mock: Mock | null = null
  */
 export function setMock (handler: Mock | null): void {
   mock = handler
+}
+
+export function querystringify (obj: any) {
+  const pairs:string[] = []
+  let value
+  let key
+
+  for (key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      value = obj[key]
+
+      if (!value && (value === null || value === undefined || isNaN(value))) {
+        value = ''
+      }
+
+      key = encodeURIComponent(key)
+      value = encodeURIComponent(value)
+
+      if (key === null || value === null) continue
+      pairs.push(key + '=' + value)
+    }
+  }
+
+  return pairs.length ? pairs.join('&') : ''
 }
 
 /**
@@ -98,9 +127,12 @@ export default async function request<T = any> (url: string, {
 
   // 序列化 query
   if (query) {
-    if (!url.includes('?')) url += '?'; else if (!url.endsWith('?')) url += '&'
+    if (!url.includes('?'))
+      url += '?'
+    else if (!url.endsWith('?'))
+      url += '&'
 
-    url += stringify(query)
+    url += querystringify(query)
   }
 
   // 处理 URL 并生成 options
@@ -136,17 +168,22 @@ export default async function request<T = any> (url: string, {
   }
 
   // 处理 headers
-  for (const key in headers) if (typeof headers[key] !== 'undefined' && headers[key] !== null) options.headers[key] = headers[key]
+  for (const key in headers)
+    if (typeof headers[key] !== 'undefined' && headers[key] !== null)
+      options.headers[key] = headers[key]
 
   // 序列化 body
   if (body && typeof body !== 'string')
     if (
       options.headers['Content-Type'] &&
       options.headers['Content-Type'].toString().includes('application/x-www-form-urlencoded')
-    ) body = stringify(body); else body = JSON.stringify(body)
+    )
+      body = querystringify(body)
+    else
+      body = JSON.stringify(body)
 
-
-  if (body && !options.headers['Content-Length']) options.headers['Content-Length'] = Buffer.byteLength(body)
+  if (body && !options.headers['Content-Length'])
+    options.headers['Content-Length'] = Buffer.byteLength(body as string)
 
   return await new Promise(function (resolve, reject) {
     log.debug('request %O', {
