@@ -3,11 +3,11 @@ import {
 } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
-import knex from 'knex'
+import knex, { Knex as K } from 'knex'
 
 export interface KnexConfig {
   name?: string
-  config?: knex.Config
+  config?: K.Config
 }
 
 const Name = 'knex'
@@ -22,9 +22,9 @@ const globals: {
 export class Knex implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
-  public config: knex.Config
-  public adapter: knex
-  public query: knex
+  public config: K.Config
+  public adapter: K
+  public query: K
   public logger: Logger
 
   /**
@@ -45,7 +45,7 @@ export class Knex implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
-    const client = (data.config.plugins![this.name].config as knex.Config).client as string
+    const client = (data.config.plugins[this.name].config as K.Config).client as string
     if (!client) throw Error('[Knex] client required.')
 
     data.dependencies[client] = '*'
@@ -76,7 +76,8 @@ export class Knex implements Plugin {
       }
 
 
-    if (data.config.plugins && (data.config.plugins[this.name]?.config)) this.config = deepMerge(data.config.plugins[this.name].config, this.config)
+    if (data.config.plugins && (data.config.plugins[this.name]?.config))
+      this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
     this.adapter = knex(this.config)
 
@@ -107,19 +108,23 @@ export class Knex implements Plugin {
     await next()
   }
 
-  public async raw<TResult = any> (sql: string, bindings: knex.RawBinding[] | knex.ValueDict = []): Promise<knex.Raw<TResult>> {
+  public async raw<TResult = any> (
+    sql: string, bindings: K.RawBinding[] | K.ValueDict = []
+  ): Promise<K.Raw<TResult>> {
     if (!this.adapter) throw Error('[Knex] Client not inited.')
 
     return this.adapter.raw<TResult>(sql, bindings)
   }
 
-  public async transaction<TResult = any> (scope: (trx: knex.Transaction<any, any>) => Promise<TResult> | void, config?: any): Promise<TResult> {
+  public async transaction<TResult = any> (
+    scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: any
+  ): Promise<TResult> {
     if (!this.adapter) throw Error('[Knex] Client not inited.')
 
     return this.adapter.transaction(scope, config)
   }
 
-  public schema (): knex.SchemaBuilder {
+  public schema (): K.SchemaBuilder {
     if (!this.adapter) throw Error('[Knex] Client not inited.')
 
     return this.adapter.schema
@@ -143,6 +148,6 @@ export function useKnex (config?: KnexConfig): Knex & UseifyPlugin {
   return usePlugin<Knex>(new Knex(config))
 }
 
-export function query<TName extends knex.TableNames> (table: TName) {
+export function query<TName extends K.TableNames> (table: TName) {
   return useKnex().query(table)
 }
