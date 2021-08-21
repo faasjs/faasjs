@@ -25,21 +25,30 @@ export type Response<T = any> = {
 }
 
 export type RequestOptions = {
+  /** 请求头 */
   headers?: http.OutgoingHttpHeaders
+  /** 请求方法，默认为 GET */
   method?: string
+  /** 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数 */
   query?: {
     [key: string]: any
   }
+  /** 请求体 */
   body?: {
     [key: string]: any
   } | string
+  /** 最长耗时，单位为毫秒 */
   timeout?: number
+  /** HTTP 认证头，格式为 user:password */
   auth?: string
+  /** 上传文件的完整路径 */
   file?: string
+  /** 下载流，用于直接将响应内容保存到本地文件，通过 fs.createWriteStream 创建 */
   downloadStream?: NodeJS.WritableStream
   pfx?: Buffer
   passphrase?: string
   agent?: boolean
+  /** body 解析器，默认为 JSON.parse */
   parse?: (body: string) => any
 }
 
@@ -97,6 +106,7 @@ export function querystringify (obj: any) {
  * @param {parse=} options.parse body 解析器，默认为 JSON.parse
  *
  * @returns {promise}
+ * @url https://faasjs.com/doc/request.html
  */
 export default async function request<T = any> (url: string, {
   headers,
