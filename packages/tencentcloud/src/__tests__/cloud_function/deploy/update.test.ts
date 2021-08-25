@@ -26,46 +26,48 @@ jest.mock('cos-nodejs-sdk-v5', () => {
 })
 
 jest.mock('@faasjs/request', () => {
-  return async function (url, options): Promise<any> {
-    console.log('mock.request', url, options)
-    switch (options.headers['X-TC-Action']) {
-      case 'DescribeServicesStatus':
-        return Promise.resolve({
-          body: {
-            Response: {
-              Result: {
-                ServiceSet: [
-                  {
-                    ServiceName: 'testing',
-                    ServiceId: 'serviceId'
-                  }
-                ]
+  return {
+    request: async function (url, options): Promise<any> {
+      console.log('mock.request', url, options)
+      switch (options.headers['X-TC-Action']) {
+        case 'DescribeServicesStatus':
+          return Promise.resolve({
+            body: {
+              Response: {
+                Result: {
+                  ServiceSet: [
+                    {
+                      ServiceName: 'testing',
+                      ServiceId: 'serviceId'
+                    }
+                  ]
+                }
               }
             }
-          }
-        })
-      case 'ListNamespaces':
-        return Promise.resolve({ body: { Response: { Namespaces: [{ Name: 'testing' }] } } })
-      case 'GetFunction':
-        return Promise.resolve({
-          body: {
-            Response: {
-              Status: 'Active',
-              Triggers: []
+          })
+        case 'ListNamespaces':
+          return Promise.resolve({ body: { Response: { Namespaces: [{ Name: 'testing' }] } } })
+        case 'GetFunction':
+          return Promise.resolve({
+            body: {
+              Response: {
+                Status: 'Active',
+                Triggers: []
+              }
             }
-          }
-        })
-      case 'UpdateFunctionCode':
-      case 'UpdateFunctionConfiguration':
-      case 'GetAlias':
-      case 'UpdateAlias':
-        return Promise.resolve({ body: { Response: {} } })
-      case 'PublishVersion':
-        return Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
-      case 'ListTriggers':
-        return Promise.resolve({ body: { Response: { Triggers: [] } } })
-      default:
-        return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+          })
+        case 'UpdateFunctionCode':
+        case 'UpdateFunctionConfiguration':
+        case 'GetAlias':
+        case 'UpdateAlias':
+          return Promise.resolve({ body: { Response: {} } })
+        case 'PublishVersion':
+          return Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
+        case 'ListTriggers':
+          return Promise.resolve({ body: { Response: { Triggers: [] } } })
+        default:
+          return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+      }
     }
   }
 })

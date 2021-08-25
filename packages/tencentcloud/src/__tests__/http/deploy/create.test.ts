@@ -36,76 +36,78 @@ const requests: {
 
 jest.mock('@faasjs/request', function () {
   let functionCreated = false
-  return async function (url, options): Promise<any> {
-    console.log('mock.request', url, options)
-    requests[options.headers['X-TC-Action']] = options.body
-    switch (options.headers['X-TC-Action']) {
-      case 'ListNamespaces':
-        return Promise.resolve({ body: { Response: { Namespaces: [] } } })
-      case 'GetFunction':
-        if (functionCreated)
-          return Promise.resolve({
-            body: {
-              Response: {
-                Status: 'Active',
-                Triggers: []
+  return {
+    request: async function (url, options): Promise<any> {
+      console.log('mock.request', url, options)
+      requests[options.headers['X-TC-Action']] = options.body
+      switch (options.headers['X-TC-Action']) {
+        case 'ListNamespaces':
+          return Promise.resolve({ body: { Response: { Namespaces: [] } } })
+        case 'GetFunction':
+          if (functionCreated)
+            return Promise.resolve({
+              body: {
+                Response: {
+                  Status: 'Active',
+                  Triggers: []
+                }
               }
-            }
-          })
-        else
+            })
+          else
+            return Promise.resolve({
+              body: {
+                Response: {
+                  Error: {
+                    Code: 'ResourceNotFound.FunctionName',
+                    Message: 'ResourceNotFound.FunctionName'
+                  }
+                }
+              }
+            })
+        case 'GetAlias':
           return Promise.resolve({
             body: {
               Response: {
                 Error: {
-                  Code: 'ResourceNotFound.FunctionName',
-                  Message: 'ResourceNotFound.FunctionName'
+                  Code: 'ResourceNotFound.Alias',
+                  Message: 'ResourceNotFound.Alias'
                 }
               }
             }
           })
-      case 'GetAlias':
-        return Promise.resolve({
-          body: {
-            Response: {
-              Error: {
-                Code: 'ResourceNotFound.Alias',
-                Message: 'ResourceNotFound.Alias'
+        case 'CreateAlias':
+          return Promise.resolve({ body: { Response: {} } })
+        case 'CreateNamespace':
+          return Promise.resolve({ body: { Response: {} } })
+        case 'CreateFunction':
+          functionCreated = true
+          return Promise.resolve({ body: { Response: {} } })
+        case 'UpdateAlias':
+          return Promise.resolve({ body: { Response: {} } })
+        case 'PublishVersion':
+          return Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
+        case 'ListTriggers':
+          return Promise.resolve({ body: { Response: { Triggers: [] } } })
+        case 'DescribeServicesStatus':
+          return Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
+        case 'CreateService':
+          return Promise.resolve({
+            body: {
+              Response: {
+                ServiceId: 'ServiceId',
+                OuterSubDomain: 'domain'
               }
             }
-          }
-        })
-      case 'CreateAlias':
-        return Promise.resolve({ body: { Response: {} } })
-      case 'CreateNamespace':
-        return Promise.resolve({ body: { Response: {} } })
-      case 'CreateFunction':
-        functionCreated = true
-        return Promise.resolve({ body: { Response: {} } })
-      case 'UpdateAlias':
-        return Promise.resolve({ body: { Response: {} } })
-      case 'PublishVersion':
-        return Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
-      case 'ListTriggers':
-        return Promise.resolve({ body: { Response: { Triggers: [] } } })
-      case 'DescribeServicesStatus':
-        return Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
-      case 'CreateService':
-        return Promise.resolve({
-          body: {
-            Response: {
-              ServiceId: 'ServiceId',
-              OuterSubDomain: 'domain'
-            }
-          }
-        })
-      case 'DescribeApisStatus':
-        return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
-      case 'CreateApi':
-        return Promise.resolve({ body: { Response: {} } })
-      case 'ReleaseService':
-        return Promise.resolve({ body: { Response: {} } })
-      default:
-        return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+          })
+        case 'DescribeApisStatus':
+          return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
+        case 'CreateApi':
+          return Promise.resolve({ body: { Response: {} } })
+        case 'ReleaseService':
+          return Promise.resolve({ body: { Response: {} } })
+        default:
+          return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+      }
     }
   }
 })

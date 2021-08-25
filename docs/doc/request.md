@@ -26,7 +26,7 @@ FaasJS 内置插件，无需额外安装。
 ## 代码示例
 
 ```typescript
-import request from '@faasjs/request';
+import { request } from '@faasjs/request';
 
 request('https://google.com', {
   query: {
@@ -42,7 +42,7 @@ request('https://google.com', {
 代码示例如下：
 
 ```typescript
-import request, { setMock } from '@faasjs/request';
+import { request, setMock } from '@faasjs/request';
 
 setMock(function (url, options) {
   return new Promise(function (resolve) {

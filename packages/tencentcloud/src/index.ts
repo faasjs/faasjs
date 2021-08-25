@@ -2,8 +2,8 @@ import { DeployData } from '@faasjs/func'
 import Logger from '@faasjs/logger'
 import { CloudFunctionAdapter } from '@faasjs/cloud_function'
 import { deployCloudFunction } from './cloud_function/deploy'
-import * as invoke from './cloud_function/invoke'
-import deployHttp from './http/deploy'
+import { invokeCloudFunction, invokeSyncCloudFunction } from './cloud_function/invoke'
+import { deployHttp } from './http/deploy'
 
 // 腾讯云配置项
 export type TencentcloudConfig = {
@@ -63,7 +63,7 @@ export class Provider implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<void> {
-    return invoke.invokeCloudFunction(this, name, data, options)
+    return invokeCloudFunction(this, name, data, options)
   }
 
   public async invokeSyncCloudFunction<TResult = any> (name: string, data: {
@@ -72,6 +72,6 @@ export class Provider implements CloudFunctionAdapter {
   }, options?: {
     [key: string]: any
   }): Promise<TResult> {
-    return invoke.invokeSyncCloudFunction<TResult>(this, name, data, options)
+    return invokeSyncCloudFunction<TResult>(this, name, data, options)
   }
 }

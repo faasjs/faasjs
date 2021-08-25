@@ -140,7 +140,8 @@ export default async function loadTs (filename: string, options: {
   const input = deepMerge({
     input: filename,
     external,
-    plugins: [typescript({ declaration: false })]
+    plugins: [typescript({ declaration: false })],
+    onwarn: () => null
   }, (options.input) || {})
 
   const bundle = await rollup.rollup(input)
@@ -175,7 +176,6 @@ export default async function loadTs (filename: string, options: {
         builtin: ['*']
       }
     })
-    console.log(vm)
     result.module = vm.require(output.file)
   } else
   // eslint-disable-next-line @typescript-eslint/no-var-requires

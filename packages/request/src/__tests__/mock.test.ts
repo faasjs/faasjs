@@ -1,4 +1,4 @@
-import request, { setMock } from '../index'
+import { request, setMock } from '..'
 
 describe('mock', function () {
   test('should work', async function () {

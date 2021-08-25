@@ -1,4 +1,4 @@
-import request from '../index'
+import { request } from '..'
 import { readFileSync } from 'fs'
 
 describe('request', function () {

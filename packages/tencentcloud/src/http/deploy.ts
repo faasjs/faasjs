@@ -12,7 +12,7 @@ const defaults = {
   ServiceTimeout: 1800
 }
 
-export default async function (
+export async function deployHttp (
   tc: Provider,
   data: DeployData,
   origin: { [key: string]: any }

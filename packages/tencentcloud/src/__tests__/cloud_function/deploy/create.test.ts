@@ -32,58 +32,60 @@ jest.mock('cos-nodejs-sdk-v5', () => {
 
 jest.mock('@faasjs/request', () => {
   let functionCreated = false
-  return async function (url, options): Promise<any> {
-    console.log('mock.request', url, options)
-    switch (options.headers['X-TC-Action']) {
-      case 'ListNamespaces':
-        return await Promise.resolve({ body: { Response: { Namespaces: [] } } })
-      case 'GetFunction':
-        if (functionCreated)
-          return await Promise.resolve({
-            body: {
-              Response: {
-                Status: 'Active',
-                Triggers: []
+  return {
+    request: async function (url, options): Promise<any> {
+      console.log('mock.request', url, options)
+      switch (options.headers['X-TC-Action']) {
+        case 'ListNamespaces':
+          return await Promise.resolve({ body: { Response: { Namespaces: [] } } })
+        case 'GetFunction':
+          if (functionCreated)
+            return await Promise.resolve({
+              body: {
+                Response: {
+                  Status: 'Active',
+                  Triggers: []
+                }
               }
-            }
-          })
-        else
+            })
+          else
+            return await Promise.resolve({
+              body: {
+                Response: {
+                  Error: {
+                    Code: 'ResourceNotFound.FunctionName',
+                    Message: 'ResourceNotFound.FunctionName'
+                  }
+                }
+              }
+            })
+        case 'GetAlias':
           return await Promise.resolve({
             body: {
               Response: {
                 Error: {
-                  Code: 'ResourceNotFound.FunctionName',
-                  Message: 'ResourceNotFound.FunctionName'
+                  Code: 'ResourceNotFound.Alias',
+                  Message: 'ResourceNotFound.Alias'
                 }
               }
             }
           })
-      case 'GetAlias':
-        return await Promise.resolve({
-          body: {
-            Response: {
-              Error: {
-                Code: 'ResourceNotFound.Alias',
-                Message: 'ResourceNotFound.Alias'
-              }
-            }
-          }
-        })
-      case 'CreateAlias':
-        return await Promise.resolve({ body: { Response: {} } })
-      case 'CreateNamespace':
-        return await Promise.resolve({ body: { Response: {} } })
-      case 'CreateFunction':
-        functionCreated = true
-        return await Promise.resolve({ body: { Response: {} } })
-      case 'UpdateAlias':
-        return await Promise.resolve({ body: { Response: {} } })
-      case 'PublishVersion':
-        return await Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
-      case 'ListTriggers':
-        return await Promise.resolve({ body: { Response: { Triggers: [] } } })
-      default:
-        return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+        case 'CreateAlias':
+          return await Promise.resolve({ body: { Response: {} } })
+        case 'CreateNamespace':
+          return await Promise.resolve({ body: { Response: {} } })
+        case 'CreateFunction':
+          functionCreated = true
+          return await Promise.resolve({ body: { Response: {} } })
+        case 'UpdateAlias':
+          return await Promise.resolve({ body: { Response: {} } })
+        case 'PublishVersion':
+          return await Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
+        case 'ListTriggers':
+          return await Promise.resolve({ body: { Response: { Triggers: [] } } })
+        default:
+          return await Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+      }
     }
   }
 })

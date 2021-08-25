@@ -1,5 +1,5 @@
 import { closeAll, Server } from '..'
-import request from '@faasjs/request'
+import { request } from '@faasjs/request'
 import { join, sep } from 'path'
 
 describe('server', function () {
