@@ -108,7 +108,7 @@ export function querystringify (obj: any) {
  * @returns {promise}
  * @url https://faasjs.com/doc/request.html
  */
-export default async function request<T = any> (url: string, {
+export async function request<T = any> (url: string, {
   headers,
   method,
   query,
@@ -270,3 +270,5 @@ export default async function request<T = any> (url: string, {
     req.end()
   })
 }
+
+export default request

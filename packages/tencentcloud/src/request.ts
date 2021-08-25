@@ -1,8 +1,13 @@
 import { createHash, createHmac } from 'crypto'
-import request, { Response } from '@faasjs/request'
+import { request as req, Response } from '@faasjs/request'
 import { TencentcloudConfig } from '.'
 
-export async function tc<T = any> (config: TencentcloudConfig, {
+/**
+ * 腾讯云请求封装
+ * @param config 配置项，若有环境变量优先读取环境变量
+ * @param data 请求数据
+ */
+export async function request<T = any> (config: TencentcloudConfig, {
   service,
   version,
   action,
@@ -64,7 +69,7 @@ export async function tc<T = any> (config: TencentcloudConfig, {
   if (config.region) headers['X-TC-Region'] = config.region
   if (config.token) headers['X-TC-Token'] = config.token
 
-  return request<T>(`https://${host}/`, {
+  return req<T>(`https://${host}/`, {
     method: 'POST',
     headers,
     body: payload

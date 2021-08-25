@@ -12,7 +12,11 @@ const defaults = {
   ServiceTimeout: 1800
 }
 
-export default async function (tc: Provider, data: DeployData, origin: { [key: string]: any }): Promise<void> {
+export default async function (
+  tc: Provider,
+  data: DeployData,
+  origin: { [key: string]: any }
+): Promise<void> {
   tc.logger.label = `${data.env}#${data.name}`
 
   const config = deepMerge(origin)

@@ -1,9 +1,14 @@
 import { scf } from './scf'
 import { Provider } from '..'
 
-export async function invokeCloudFunction<TResult = any> (tc: Provider, name: string, data?: { [key: string]: any }, options?: {
-  [key: string]: any
-}): Promise<TResult> {
+export async function invokeCloudFunction<TResult = any> (
+  tc: Provider,
+  name: string,
+  data?: { [key: string]: any },
+  options?: {
+    [key: string]: any
+  }
+): Promise<TResult> {
   tc.logger.debug('invokeFunction: %s %O %O', name, options, data)
 
   if (process.env.FaasMode === 'local') {

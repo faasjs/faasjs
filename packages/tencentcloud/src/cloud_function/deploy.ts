@@ -45,7 +45,11 @@ const INCLUDED_NPM = [
   '@faasjs/load'
 ]
 
-export async function deployCloudFunction (tc: Provider, data: DeployData, origin: { [key: string]: any }): Promise<void> {
+export async function deployCloudFunction (
+  tc: Provider,
+  data: DeployData,
+  origin: { [key: string]: any }
+): Promise<void> {
   const logger = new Logger(`${data.env}#${data.name}`)
 
   const loggerPrefix = `[${data.env}#${data.name}]`
