@@ -75,7 +75,6 @@ export class Knex implements Plugin {
           } else this.config[key] = value
       }
 
-
     if (data.config.plugins && (data.config.plugins[this.name]?.config))
       this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
