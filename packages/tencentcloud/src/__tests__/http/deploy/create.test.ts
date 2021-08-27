@@ -174,7 +174,7 @@ test('create', async function () {
     ServiceId: 'ServiceId',
     ServiceScfFunctionName: 'http',
     ServiceScfFunctionNamespace: 'testing',
-    ServiceScfFunctionQualifier: '$LATEST',
+    ServiceScfFunctionQualifier: 'testing',
     ServiceScfIsIntegratedResponse: true,
     ServiceTimeout: 1,
     ServiceType: 'SCF',

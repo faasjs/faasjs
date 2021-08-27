@@ -27,7 +27,7 @@ export class Deployer {
 
     if (!data.config) throw Error(`Config load failed: ${data.env}`)
 
-    data.tmp = join(data.root, 'tmp', data.env!, data.name, data.version) + sep
+    data.tmp = join(data.root, 'tmp', data.env, data.name, data.version) + sep
 
     data.tmp.split(sep).reduce(function (acc: string, cur: string) {
       acc += sep + cur

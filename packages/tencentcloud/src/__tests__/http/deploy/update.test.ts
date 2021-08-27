@@ -80,7 +80,7 @@ jest.mock('@faasjs/request', function () {
                   ServiceTimeout: 1800,
                   ServiceScfFunctionName: 'http',
                   ServiceScfFunctionNamespace: 'testing',
-                  ServiceScfFunctionQualifier: '$LATEST',
+                  ServiceScfFunctionQualifier: 'testing',
                   RequestConfig: { Method: 'POST' }
                 }
               }
