@@ -209,7 +209,7 @@ export function useCloudFunction (config?: () => CloudFunctionConfig): CloudFunc
 export async function invoke<TData = any> (name: string, data?: TData, options?: {
   [key: string]: any
 }): Promise<void> {
-  return await useCloudFunction().invoke<TData>(name, data, options)
+  return useCloudFunction().invoke<TData>(name, data, options)
 }
 
 /**
@@ -224,5 +224,5 @@ export async function invokeSync<TResult = any, TData = any> (
   options?: {
     [key: string]: any
   }): Promise<TResult> {
-  return await useCloudFunction().invokeSync<TResult, TData>(name, data, options)
+  return useCloudFunction().invokeSync<TResult, TData>(name, data, options)
 }
