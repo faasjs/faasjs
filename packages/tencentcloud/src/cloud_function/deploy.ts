@@ -317,7 +317,7 @@ module.exports = main.export();`
       Namespace: config.config.Namespace
     })
 
-    logger.info('[9.2/13] 更新别名...')
+    logger.debug('[9.2/13] 更新别名...')
     await scf('UpdateAlias', tc.config, {
       Name: config.config.Namespace,
       FunctionName: config.config.FunctionName,
@@ -326,7 +326,7 @@ module.exports = main.export();`
     })
   } catch (error) {
     if (error.Code === 'ResourceNotFound.Alias') {
-      logger.info('[9.2/13] 创建别名...')
+      logger.debug('[9.2/13] 创建别名...')
       await scf('CreateAlias', tc.config, {
         Name: config.config.Namespace,
         FunctionName: config.config.FunctionName,
