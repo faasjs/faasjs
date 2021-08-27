@@ -5,7 +5,6 @@ import { createInterface } from 'readline'
 import { sep, resolve } from 'path'
 import { Deployer } from '@faasjs/deployer'
 import { defaultsEnv } from '../helper'
-import { cpus } from 'os'
 import Cluster from 'cluster'
 import { chunk } from 'lodash'
 import {
@@ -169,7 +168,7 @@ export async function action (env: string, files: string[], {
   if (list.length === 1)
     await deploy(list[0], Number(autoRetry), { y: autoYes })
   else {
-    let processNumber = workers ? Number(workers) : (cpus().length > 1 ? cpus().length - 1 : 1)
+    let processNumber = workers ? Number(workers) : 1
     if (processNumber > list.length) processNumber = list.length
 
     log(`[${process.env.FaasEnv}] 是否要发布以下 ${list.length} 个云函数？(并行数 ${processNumber}，失败自动重试 ${autoRetry} 次)`)
