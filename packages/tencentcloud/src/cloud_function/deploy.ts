@@ -377,15 +377,11 @@ module.exports = main.export();`
   if (current.Allocated.length)
     for (const allocated of current.Allocated) {
       logger.debug('[11.2/13] 删除旧预制并发 %o...', allocated)
-      try {
-        await scf('DeleteReservedConcurrencyConfig', tc.config, {
-          FunctionName: config.config.FunctionName,
-          Namespace: config.config.Namespace,
-          Qualifier: allocated.Qualifier
-        })
-      } catch (error) {
-        console.error(error)
-      }
+      await scf('DeleteProvisionedConcurrencyConfig', tc.config, {
+        FunctionName: config.config.FunctionName,
+        Namespace: config.config.Namespace,
+        Qualifier: allocated.Qualifier
+      })
     }
 
   if (config.config.provisionedConcurrent && config.config.provisionedConcurrent.executions) {
