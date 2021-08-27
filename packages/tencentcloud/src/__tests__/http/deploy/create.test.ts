@@ -89,7 +89,7 @@ jest.mock('@faasjs/request', function () {
         case 'ListTriggers':
           return Promise.resolve({ body: { Response: { Triggers: [] } } })
         case 'GetProvisionedConcurrencyConfig':
-          return await Promise.resolve({ body: { Response: { Allocated: [] } } })
+          return Promise.resolve({ body: { Response: { Allocated: [] } } })
         case 'DescribeServicesStatus':
           return Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
         case 'CreateService':
