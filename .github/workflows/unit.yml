@@ -49,7 +49,7 @@ jobs:
         run: yarn lerna run prepack
 
       - name: Run Tests
-        run: yarn test
+        run: NODE_OPTIONS=--max_old_space_size=4096 node --expose-gc ./node_modules/.bin/jest --silent --ci --forceExit --logHeapUsage -w=1
 
       - uses: codecov/codecov-action@v1
         with:
