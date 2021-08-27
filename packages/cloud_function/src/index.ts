@@ -165,7 +165,7 @@ export class CloudFunction implements Plugin {
   }): Promise<void> {
     if (data == null) data = Object.create(null)
 
-    await this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
+    return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
   }
 
   /**
@@ -198,4 +198,31 @@ export function useCloudFunction (config?: () => CloudFunctionConfig): CloudFunc
   if (globals[name]) return usePlugin<CloudFunction>(globals[name])
 
   return usePlugin<CloudFunction>(new CloudFunction(configs))
+}
+
+/**
+* 异步触发云函数
+* @param name {string} 云函数文件名或云函数名
+* @param data {any} 参数
+* @param options {object} 额外配置项
+*/
+export async function invoke<TData = any> (name: string, data?: TData, options?: {
+  [key: string]: any
+}): Promise<void> {
+  return await useCloudFunction().invoke<TData>(name, data, options)
+}
+
+/**
+* 同步触发云函数
+* @param name {string} 云函数文件名或云函数名
+* @param data {any} 参数
+* @param options {object} 额外配置项
+*/
+export async function invokeSync<TResult = any, TData = any> (
+  name: string,
+  data?: TData,
+  options?: {
+    [key: string]: any
+  }): Promise<TResult> {
+  return await useCloudFunction().invokeSync<TResult, TData>(name, data, options)
 }

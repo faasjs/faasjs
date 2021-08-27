@@ -150,3 +150,17 @@ export function useKnex (config?: KnexConfig): Knex & UseifyPlugin {
 export function query<TName extends K.TableNames> (table: TName) {
   return useKnex().query(table)
 }
+
+export async function transaction<TResult = any> (
+  scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void,
+  config?: any
+): Promise<TResult> {
+  return useKnex().transaction(scope, config)
+}
+
+export async function raw<TResult = any> (
+  sql: string,
+  bindings: K.RawBinding[] | K.ValueDict = []
+): Promise<K.Raw<TResult>> {
+  return useKnex().raw<TResult>(sql, bindings)
+}

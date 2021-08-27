@@ -57,8 +57,8 @@ export class Redis implements Plugin {
           if (typeof this.config[key] === 'undefined') this.config[key] = value
         }
 
-
-      if (data?.config.plugins && data.config.plugins[this.name]) this.config = deepMerge(data.config.plugins[this.name].config, this.config)
+      if (data?.config.plugins && data.config.plugins[this.name])
+        this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
       this.adapter = createClient(this.config)
       this.logger.debug('connceted')
@@ -113,4 +113,8 @@ export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
   if (globals[name]) return usePlugin<Redis>(globals[name])
 
   return usePlugin<Redis>(new Redis(config))
+}
+
+export async function query<TResult = any> (command: string, args: any[]): Promise<TResult> {
+  return useRedis().query<TResult>(command, args)
 }
