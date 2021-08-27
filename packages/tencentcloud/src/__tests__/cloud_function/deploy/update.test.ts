@@ -65,6 +65,8 @@ jest.mock('@faasjs/request', () => {
           return Promise.resolve({ body: { Response: { FunctionVersion: '1' } } })
         case 'ListTriggers':
           return Promise.resolve({ body: { Response: { Triggers: [] } } })
+        case 'GetProvisionedConcurrencyConfig':
+          return await Promise.resolve({ body: { Response: { Allocated: [] } } })
         default:
           return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
       }

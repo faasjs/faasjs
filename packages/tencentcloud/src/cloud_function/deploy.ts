@@ -127,7 +127,7 @@ export async function deployCloudFunction (
       name: 'index',
       banner: `/**
  * @name ${config.config.name}
- * @author ${execSync('git config user.name').toString()}
+ * @author ${execSync('git config user.name')?.toString().replace(/\n/g, '')}
  * @build ${config.config.version}
  * @staging ${config.config.env}
  * @dependencies ${Object.keys(config.config.dependencies).join(',')}
