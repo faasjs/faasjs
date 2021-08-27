@@ -44,7 +44,7 @@ export async function deployHttp (
   config.config = deepMerge(defaults, config.config, {
     ApiName: data.name,
     ServiceScfFunctionNamespace: data.env,
-    ServiceScfFunctionQualifier: '$LATEST' // data.env
+    ServiceScfFunctionQualifier: data.env
   })
 
   // 参数白名单检查
@@ -155,5 +155,5 @@ export async function deployHttp (
     ServiceId: config.config.ServiceId
   })
 
-  tc.logger.info(`接口发布完成 ${config.config.RequestConfig.Method} https://${OuterSubDomain}${config.config.RequestConfig.Path.replace(/^=/, '')}`)
+  tc.logger.info(`接口发布完成 ${config.config.RequestConfig.Method} ${OuterSubDomain ? 'https://' + OuterSubDomain : ''}${config.config.RequestConfig.Path.replace(/^=/, '')}`)
 }

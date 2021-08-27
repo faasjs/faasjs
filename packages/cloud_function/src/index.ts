@@ -5,17 +5,29 @@ import {
 import Logger from '@faasjs/logger'
 import { Validator, ValidatorConfig } from './validator'
 
+/** 云函数配置项 */
 export interface CloudFunctionConfig {
+  /** 插件名称 */
   name?: string
+  /** 配置项 */
   config?: {
+    /** 配置名称 */
     name?: string
-    memorySize?: number
+    /** 内存大小，单位为MB，默认 64 */
+    memorySize?: 64 | 128 | 256 | 384 | 512 | 640 | 768 | 896 | 1024 | number
+    /** 执行超时时间，单位为秒，默认 30 */
     timeout?: number
+    /** 触发器配置 */
     triggers?: {
       type: string
       name: string
       value: string
     }[]
+    /** 预制并发配置 */
+    provisionedConcurrent?: {
+      /** 预制并发数量 */
+      executions: number
+    }
     [key: string]: any
   }
   validator?: {
@@ -68,6 +80,9 @@ export class CloudFunction implements Plugin {
    * @param config.config.name {string} 云函数名
    * @param config.config.memorySize {number} 内存大小，单位为 MB
    * @param config.config.timeout {number} 最长执行时间，单位为 秒
+   * @param config.config.triggers {object[]} 触发器配置
+   * @param config.config.provisionedConcurrent {object} 预制并发配置
+   * @param config.config.provisionedConcurrent.executions {number} 并发数
    * @param config.validator {object} 事件校验配置
    * @param config.validator.event {object} event 校验配置
    * @param config.validator.event.whitelist {string} 白名单配置
@@ -90,12 +105,13 @@ export class CloudFunction implements Plugin {
     this.logger.debug('[CloudFunction] 组装云函数配置')
     this.logger.debug('%o', data)
 
-    const config = data.config.plugins ? deepMerge(data.config.plugins[this.name], { config: this.config }) : { config: this.config }
+    const config = data.config.plugins ?
+      deepMerge(data.config.plugins[this.name], { config: this.config }) : { config: this.config }
 
     this.logger.debug('[CloudFunction] 组装完成 %o', config)
 
     // 引用服务商部署插件
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Provider = require(config.provider.type).Provider
     const provider = new Provider(config.provider.config)
 
@@ -108,10 +124,12 @@ export class CloudFunction implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    if (data.config.plugins && data.config.plugins[this.name || this.type]) this.config = deepMerge({ config: this.config }, data.config.plugins[this.name || this.type], {})
+    if (data.config.plugins && data.config.plugins[this.name || this.type])
+      this.config = deepMerge({ config: this.config },
+        data.config.plugins[this.name || this.type], {})
 
     if (this.config.provider) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const Provider = require(this.config.provider.type).Provider
       this.adapter = new Provider(this.config.provider.config)
     } else this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.')
@@ -166,7 +184,8 @@ export class CloudFunction implements Plugin {
 }
 
 export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction & UseifyPlugin
-export function useCloudFunction (config?: () => CloudFunctionConfig): CloudFunction & UseifyPlugin {
+export function useCloudFunction (config?: () => CloudFunctionConfig): CloudFunction & UseifyPlugin
+{
   let configs
   if (config)
     if (typeof config === 'function')
