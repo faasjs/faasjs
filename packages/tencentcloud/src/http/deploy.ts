@@ -73,7 +73,9 @@ export async function deployHttp (
     'ServiceWebsocketCleanupFunctionQualifier',
     'ServiceScfIsIntegratedResponse'
   ]
-  for (const key in config.config) if (!ALLOWS.includes(key)) delete config.config[key]
+  for (const key in config.config)
+    if (!ALLOWS.includes(key))
+      delete config.config[key]
 
   const provider = tc.config
   const loggerPrefix = `[${data.env}#${data.name}]`

@@ -127,7 +127,7 @@ export async function deployCloudFunction (
       name: 'index',
       banner: `/**
  * @name ${config.config.name}
- * @author ${execSync('git config user.name')?.toString().replace(/\n/g, '')}
+ * @author ${config.config.author}
  * @build ${config.config.version}
  * @staging ${config.config.env}
  * @dependencies ${Object.keys(config.config.dependencies).join(',')}
@@ -150,11 +150,11 @@ module.exports = main.export();`
   logger.debug('[2.2/13] 生成 node_modules...')
   for (const key in ts.modules) {
     const target = join(config.config.tmp, 'node_modules', key)
-    execSync(`mkdir -p ${target}`)
-    execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md'} ${join(ts.modules[key], '*')} ${target}`)
+    execSync(`mkdir -p ${target}`, { stdio: 'inherit' })
+    execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md','node_modules/*/node_modules','__tests__'} ${join(ts.modules[key], '*')} ${target}`, { stdio: 'inherit' })
   }
 
-  execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`)
+  // execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`)
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[03/13]')} 打包代码包...`)
   execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`)

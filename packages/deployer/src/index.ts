@@ -5,6 +5,7 @@ import { loadConfig, loadTs } from '@faasjs/load'
 import Logger from '@faasjs/logger'
 import deepMerge from '@faasjs/deep_merge'
 import { CloudFunction } from '@faasjs/cloud_function'
+import { execSync } from 'child_process'
 
 export class Deployer {
   public deployData: DeployData
@@ -16,6 +17,7 @@ export class Deployer {
       hour12: false,
       timeZone: 'Asia/Shanghai'
     }).replace(/[^0-9]+/g, '_')
+    data.author = execSync('git config user.name')?.toString().replace(/\n/g, '')
 
     data.logger = new Logger('Deployer')
 
@@ -27,7 +29,7 @@ export class Deployer {
 
     if (!data.config) throw Error(`Config load failed: ${data.env}`)
 
-    data.tmp = join(data.root, 'tmp', data.env, data.name, data.version) + sep
+    data.tmp = join(process.cwd(), 'tmp', data.env, data.name, data.version.replace(/_/g, '')) + sep
 
     data.tmp.split(sep).reduce(function (acc: string, cur: string) {
       acc += sep + cur
