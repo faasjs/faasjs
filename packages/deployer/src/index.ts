@@ -18,7 +18,7 @@ export class Deployer {
       timeZone: 'Asia/Shanghai'
     }).replace(/[^0-9]+/g, '_')
     try {
-      data.author = execSync('git config user.name')?.toString().replace(/\n/g, '')
+      data.author = execSync('git config user.name').toString().replace(/\n/g, '')
     } catch (error) {
       data.author = 'Unknown'
     }
