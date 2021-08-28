@@ -17,7 +17,11 @@ export class Deployer {
       hour12: false,
       timeZone: 'Asia/Shanghai'
     }).replace(/[^0-9]+/g, '_')
-    data.author = execSync('git config user.name')?.toString().replace(/\n/g, '')
+    try {
+      data.author = execSync('git config user.name')?.toString().replace(/\n/g, '')
+    } catch (error) {
+      data.author = 'Unknown'
+    }
 
     data.logger = new Logger('Deployer')
 
