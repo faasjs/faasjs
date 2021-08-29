@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/http",
-  "version": "0.0.2-beta.229",
+  "version": "0.0.2-beta.231",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
