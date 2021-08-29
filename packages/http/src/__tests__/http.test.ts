@@ -1,5 +1,5 @@
 import { Func } from '@faasjs/func'
-import { Http } from '..'
+import { Http, HttpError } from '..'
 
 describe('http', function () {
   test('should work', async function () {
@@ -56,6 +56,24 @@ describe('http', function () {
     const res = await handler({})
 
     expect(res.statusCode).toEqual(500)
+    expect(res.body).toEqual('{"error":{"message":"wrong"}}')
+  })
+
+  test('HttpError', async function () {
+    const http = new Http()
+    const handler = new Func({
+      plugins: [http],
+      async handler () {
+        throw new HttpError({
+          statusCode: 400,
+          message: 'wrong'
+        })
+      }
+    }).export().handler
+
+    const res = await handler({})
+
+    expect(res.statusCode).toEqual(400)
     expect(res.body).toEqual('{"error":{"message":"wrong"}}')
   })
 })
