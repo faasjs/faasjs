@@ -150,8 +150,8 @@ module.exports = main.export();`
   logger.debug('[2.2/13] 生成 node_modules...')
   for (const key in ts.modules) {
     const target = join(config.config.tmp, 'node_modules', key)
-    execSync(`mkdir -p ${target}`, { stdio: 'inherit' })
-    execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md','node_modules/*/node_modules','__tests__'} ${join(ts.modules[key], '*')} ${target}`, { stdio: 'inherit' })
+    execSync(`mkdir -p ${target}`)
+    execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md','node_modules/*/node_modules','__tests__'} ${join(ts.modules[key], '*')} ${target}`)
   }
 
   // execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`)
