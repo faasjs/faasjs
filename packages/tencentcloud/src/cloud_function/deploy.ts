@@ -16,7 +16,7 @@ const defaults = {
   Runtime: 'Nodejs12.16'
 }
 
-// 腾讯云内置插件 https://cloud.tencent.com/document/product/583/13060
+// 腾讯云内置插件 https://cloud.tencent.com/document/product/583/12060
 const INCLUDED_NPM = [
   'cos-nodejs-sdk-v5',
   'base64-js',
@@ -53,7 +53,7 @@ export async function deployCloudFunction (
   const logger = new Logger(`${data.env}#${data.name}`)
 
   const loggerPrefix = `[${data.env}#${data.name}]`
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[01/13]')} 生成配置项...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[01/12]')} 生成配置项...`)
 
   const config = deepMerge(origin)
 
@@ -114,11 +114,11 @@ export async function deployCloudFunction (
     CosObjectName: data.env + '/' + config.config.FunctionName + '/' + data.version + '.zip'
   })
 
-  logger.debug('[01/13] 完成配置项 %o', config)
+  logger.debug('[01/12] 完成配置项 %o', config)
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[02/13]')} 生成代码包...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[02/12]')} 生成代码包...`)
 
-  logger.debug('[2.1/13] 生成 index.js...')
+  logger.debug('[2.1/12] 生成 index.js...')
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ts = await require('@faasjs/load').loadTs(config.config.filename, {
     output: {
@@ -147,36 +147,36 @@ module.exports = main.export();`
 
   logger.debug('%o', ts.modules)
 
-  logger.debug('[2.2/13] 生成 node_modules...')
+  logger.debug('[2.2/12] 生成 node_modules...')
   for (const key in ts.modules) {
     const target = join(config.config.tmp, 'node_modules', key)
     execSync(`mkdir -p ${target}`)
     execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md','node_modules/*/node_modules','__tests__'} ${join(ts.modules[key], '*')} ${target}`)
   }
 
-  // execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`)
+  execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`)
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[03/13]')} 打包代码包...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[03/12]')} 打包代码包...`)
   execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`)
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[04/13]')} 检查 COS...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[04/12]')} 检查 COS...`)
 
   try {
-    logger.debug('[4.1/13] 检查 Cos Bucket 状态')
+    logger.debug('[4.1/12] 检查 Cos Bucket 状态')
     await checkBucket(tc, {
       Bucket: config.config.Bucket,
       Region: tc.config.region
     })
-    logger.debug('[4.2/13] Cos Bucket 已存在，跳过')
+    logger.debug('[4.2/12] Cos Bucket 已存在，跳过')
   } catch (error) {
-    logger.debug('[4.2/13] 创建 Cos Bucket...')
+    logger.debug('[4.2/12] 创建 Cos Bucket...')
     await createBucket(tc, {
       Bucket: config.config.Bucket,
       Region: tc.config.region
     })
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[05/13]')} 上传代码包...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[05/12]')} 上传代码包...`)
   await upload(tc, {
     Bucket: config.config.Bucket,
     FilePath: config.config.FilePath,
@@ -184,24 +184,24 @@ module.exports = main.export();`
     Region: tc.config.region
   })
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[06/13]')} 检查命名空间...`)
-  logger.debug('[6.1/13] 检查命名空间状态')
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[06/12]')} 检查命名空间...`)
+  logger.debug('[6.1/12] 检查命名空间状态')
   const namespaceList = await scf('ListNamespaces', tc.config, {})
   if (!namespaceList.Namespaces.find((n: any) => n.Name === config.config.Namespace)) {
-    logger.debug('[6.2/13] 创建命名空间...')
+    logger.debug('[6.2/12] 创建命名空间...')
     await scf('CreateNamespace', tc.config, { Namespace: config.config.Namespace })
-  } else logger.debug('[6.2/13] 命名空间已存在，跳过')
+  } else logger.debug('[6.2/12] 命名空间已存在，跳过')
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[07/13]')} 上传云函数...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[07/12]')} 上传云函数...`)
 
   try {
-    logger.debug('[7.1/13] 检查云函数是否已存在...')
+    logger.debug('[7.1/12] 检查云函数是否已存在...')
     await scf('GetFunction', tc.config, {
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace
     })
 
-    logger.debug('[7.2/13] 更新云函数代码...')
+    logger.debug('[7.2/12] 更新云函数代码...')
     await scf('UpdateFunctionCode', tc.config, {
       CosBucketName: 'scf',
       CosBucketRegion: config.config.Region,
@@ -213,7 +213,7 @@ module.exports = main.export();`
 
     let status = null
     while (status !== 'Active') {
-      logger.debug('[7.3/13] 等待云函数代码更新完成...')
+      logger.debug('[7.3/12] 等待云函数代码更新完成...')
 
       status = await scf('GetFunction', tc.config, {
         FunctionName: config.config.FunctionName,
@@ -221,7 +221,7 @@ module.exports = main.export();`
       }).then(res => res.Status)
     }
 
-    logger.debug('[7.2/13] 更新云函数配置...')
+    logger.debug('[7.2/12] 更新云函数配置...')
     await scf('UpdateFunctionConfiguration', tc.config, {
       Environment: config.config.Environment,
       FunctionName: config.config.FunctionName,
@@ -241,7 +241,7 @@ module.exports = main.export();`
 
     status = null
     while (status !== 'Active') {
-      logger.debug('[7.3/13] 等待云函数配置更新完成...')
+      logger.debug('[7.3/12] 等待云函数配置更新完成...')
 
       status = await scf('GetFunction', tc.config, {
         FunctionName: config.config.FunctionName,
@@ -250,7 +250,7 @@ module.exports = main.export();`
     }
   } catch (error) {
     if (error.Code.startsWith('ResourceNotFound')) {
-      logger.debug('[7.2/13] 创建云函数...')
+      logger.debug('[7.2/12] 创建云函数...')
       await scf('CreateFunction', tc.config, {
         ClsLogsetId: config.config.ClsLogsetId,
         ClsTopicId: config.config.ClsTopicId,
@@ -279,7 +279,7 @@ module.exports = main.export();`
 
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        logger.debug('[7.3/13] 等待云函数代码更新完成...')
+        logger.debug('[7.3/12] 等待云函数代码更新完成...')
         if ((await scf('GetFunction', tc.config, {
           FunctionName: config.config.FunctionName,
           Namespace: config.config.Namespace
@@ -288,7 +288,7 @@ module.exports = main.export();`
     } else throw error
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[08/13]')} 发布版本...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[08/12]')} 发布版本...`)
 
   const version = await scf('PublishVersion', tc.config, {
     Description: `Published by ${process.env.LOGNAME}`,
@@ -299,7 +299,7 @@ module.exports = main.export();`
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    logger.debug('[8.1/13] 等待版本发布完成...')
+    logger.debug('[8.1/12] 等待版本发布完成...')
     if ((await scf('GetFunction', tc.config, {
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
@@ -307,17 +307,17 @@ module.exports = main.export();`
     })).Status === 'Active') break
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[09/13]')} 更新别名...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[09/12]')} 更新别名...`)
 
   try {
-    logger.debug('[9.1/13] 检查别名状态...')
+    logger.debug('[9.1/12] 检查别名状态...')
     await scf('GetAlias', tc.config, {
       Name: config.config.Namespace,
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace
     })
 
-    logger.debug('[9.2/13] 更新别名...')
+    logger.debug('[9.2/12] 更新别名...')
     await scf('UpdateAlias', tc.config, {
       Name: config.config.Namespace,
       FunctionName: config.config.FunctionName,
@@ -326,7 +326,7 @@ module.exports = main.export();`
     })
   } catch (error) {
     if (error.Code === 'ResourceNotFound.Alias') {
-      logger.debug('[9.2/13] 创建别名...')
+      logger.debug('[9.2/12] 创建别名...')
       await scf('CreateAlias', tc.config, {
         Name: config.config.Namespace,
         FunctionName: config.config.FunctionName,
@@ -337,13 +337,13 @@ module.exports = main.export();`
       throw error
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[10/13]')} 更新触发器...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[10/12]')} 更新触发器...`)
   const triggers = await scf('ListTriggers', tc.config, {
     FunctionName: config.config.FunctionName,
     Namespace: config.config.Namespace
   })
   for (const trigger of triggers.Triggers) {
-    logger.debug('[10.1/13] 删除旧触发器: %s...', trigger.TriggerName)
+    logger.debug('[10.1/12] 删除旧触发器: %s...', trigger.TriggerName)
     await scf('DeleteTrigger', tc.config, {
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
@@ -355,7 +355,7 @@ module.exports = main.export();`
 
   if (config.config.triggers)
     for (const trigger of config.config.triggers) {
-      logger.debug('[10.2/13] 创建触发器 %s...', trigger.name)
+      logger.debug('[10.2/12] 创建触发器 %s...', trigger.name)
       await scf('CreateTrigger', tc.config, {
         FunctionName: config.config.FunctionName,
         TriggerName: trigger.name || trigger.type,
@@ -367,16 +367,16 @@ module.exports = main.export();`
       })
     }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[11/13]')} 更新预制并发...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[11/12]')} 更新预制并发...`)
 
-  logger.debug('[11.1/13] 查询预制并发...')
+  logger.debug('[11.1/12] 查询预制并发...')
   const current = await scf('GetProvisionedConcurrencyConfig', tc.config, {
     FunctionName: config.config.FunctionName,
     Namespace: config.config.Namespace
   })
   if (current.Allocated.length)
     for (const allocated of current.Allocated) {
-      logger.debug('[11.2/13] 删除旧预制并发 %o...', allocated)
+      logger.debug('[11.2/12] 删除旧预制并发 %o...', allocated)
       await scf('DeleteProvisionedConcurrencyConfig', tc.config, {
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace,
@@ -385,7 +385,7 @@ module.exports = main.export();`
     }
 
   if (config.config.provisionedConcurrent && config.config.provisionedConcurrent.executions) {
-    logger.debug('[11/13] 添加预制并发 %s...', config.config.provisionedConcurrent.executions)
+    logger.debug('[11/12] 添加预制并发 %s...', config.config.provisionedConcurrent.executions)
     await scf('PutProvisionedConcurrencyConfig', tc.config, {
       FunctionName: config.config.FunctionName,
       Namespace: config.config.Namespace,
@@ -394,9 +394,9 @@ module.exports = main.export();`
     })
   }
 
-  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[11/13]')} 清理文件...`)
+  logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[12/12]')} 清理文件...`)
 
-  logger.debug('[12.1/13] 清理 Cos Bucket...')
+  logger.debug('[12.1/12] 清理 Cos Bucket...')
   await remove(tc, {
     Bucket: config.config.Bucket,
     Key: config.config.CosObjectName,
@@ -404,7 +404,9 @@ module.exports = main.export();`
   })
 
   if (process.env.FaasLog !== 'debug') {
-    logger.debug('[12.2/13] 清理本地文件...')
+    logger.debug('[12.2/12] 清理本地文件...')
     execSync(`rm -rf ${config.config.tmp}`)
   }
+
+  logger.info(`云函数发布完成 ${data.env}#${data.name}#${config.config.FunctionVersion}`)
 }

@@ -10,7 +10,6 @@ import { chunk } from 'lodash'
 import {
   log, warn, error
 } from 'console'
-import { runInNewContext } from 'vm'
 import { execSync } from 'child_process'
 
 async function sleep () {
@@ -53,7 +52,7 @@ async function confirm ({
   })
 }
 
-async function deploy (file: string, ar: number, options: { y: string }) {
+async function deploy (file: string, ar: number) {
   if (!file.endsWith('.func.ts')) throw Error(`${file} isn't a cloud function file.`)
 
   try {
@@ -69,7 +68,7 @@ async function deploy (file: string, ar: number, options: { y: string }) {
     if (ar > 0) {
       warn(file + ` 自动重试（剩余 ${ar} 次）`)
       await sleep()
-      await deploy(file, ar - 1, options)
+      await deploy(file, ar - 1)
     } else
       throw Error(file + ' 自动重试次数已满，结束重试')
   }
@@ -89,29 +88,15 @@ export async function action (env: string, files: string[], {
 
   if (!autoRetry) autoRetry = '3'
 
+  if (process.env.FaasDeployFile) {
+    await deploy(process.env.FaasDeployFile, Number(autoRetry))
+    process.exit(0)
+  }
+
   if (process.env.FaasDeployFiles) {
     for (const file of process.env.FaasDeployFiles.split(','))
       try {
-        await new Promise(function (resolve, reject) {
-          runInNewContext(`(async function() {
-                try {
-                    await deploy('${file}', ar)
-                } catch (e) {
-                    reject(e)
-                } finally {
-                    resolve()
-                }
-            })();`,
-          {
-            process,
-            deploy,
-            ar: Number(autoRetry),
-            resolve,
-            reject
-          },
-          { breakOnSigint: true }
-          )
-        })
+        execSync(`FaasDeployFile=${file} FaasEnv=${env} node ${__filename} deploy ${env}`, { stdio: 'inherit' })
         process.send({
           type: 'done',
           file
@@ -165,9 +150,13 @@ export async function action (env: string, files: string[], {
 
   if (list.length < 1) throw Error('Not found files.')
 
-  if (list.length === 1)
-    await deploy(list[0], Number(autoRetry), { y: autoYes })
-  else {
+  if (list.length === 1) {
+    await deploy(list[0], Number(autoRetry))
+    if (process.env.JEST_WORKER_ID)
+      return
+    else
+      process.exit(0)
+  } else {
     let processNumber = workers ? Number(workers) : 1
     if (processNumber > list.length) processNumber = list.length
 

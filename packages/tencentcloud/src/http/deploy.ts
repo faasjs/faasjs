@@ -148,7 +148,6 @@ export async function deployHttp (
       Protocol: 'HTTP'
     }))
 
-
   tc.logger.raw(`${tc.logger.colorfy(Color.GRAY, loggerPrefix + '[3/3]')} 发布网关...`)
 
   await api('ReleaseService', provider, {
