@@ -116,52 +116,6 @@ describe('deploy', function () {
     })
   })
 
-  describe('worker', function () {
-    it('done', async function () {
-      process.env.FaasDeployFiles = [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'].join(',')
-
-      await action('testing', [], {
-        autoRetry: '0',
-        workers: '3'
-      })
-
-      expect(logs).toEqual([])
-      expect(warns).toEqual([])
-      expect(errors).toEqual([])
-      expect(deployeds).toEqual([__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'])
-    })
-
-    it('fail', async function () {
-      deployPass = false
-      process.env.FaasDeployFiles = [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'].join(',')
-
-      await action('testing', [], {
-        autoRetry: '0',
-        workers: '3'
-      })
-
-      expect(messages).toEqual([
-        {
-          type: 'fail',
-          file: __dirname + '/funcs/a.func.ts'
-        },
-        {
-          type: 'fail',
-          file: __dirname + '/funcs/b.func.ts',
-        }
-      ])
-      expect(logs).toEqual([])
-      expect(warns).toEqual([])
-      expect(errors).toEqual([
-        Error('deployPass'),
-        Error(__dirname + '/funcs/a.func.ts 自动重试次数已满，结束重试'),
-        Error('deployPass'),
-        Error(__dirname + '/funcs/b.func.ts 自动重试次数已满，结束重试')
-      ])
-      expect(deployeds).toEqual([__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'])
-    })
-  })
-
   describe('master', function () {
     it('fail', async function () {
       triggerMessage = {

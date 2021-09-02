@@ -8,6 +8,7 @@
     "strictNullChecks": false,
     "moduleResolution": "node",
     "target": "ES2019",
+    "module": "ESNext",
     "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
