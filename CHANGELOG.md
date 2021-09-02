@@ -4,9 +4,52 @@
 
 ## Beta
 
-[`v0.0.2-beta.209 (2021-07-03)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.209...v0.0.2-beta.210)
+[`v0.0.2-beta.232 (2021-09-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.231...v0.0.2-beta.232)
 
+- [修正] `@faasjs/cli` 修正部署时内存泄露的问题。
+
+[`v0.0.2-beta.232 (2021-08-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.231...v0.0.2-beta.232)
+
+- [修正] `@faasjs/tencentcloud` 修正日志输出。
+
+[`v0.0.2-beta.231 (2021-08-29)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.230...v0.0.2-beta.231)
+
+- [修正] `@faasjs/http` 修正 `HttpError` 的问题。
+
+[`v0.0.2-beta.230 (2021-08-27)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.220...v0.0.2-beta.230)
+
+- [优化] 常用函数通过 export 直接导出。
+
+[`v0.0.2-beta.220 (2021-07-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.219...v0.0.2-beta.220)
+
+- [修正] `@faasjs/tencentcloud` 使用最新的环境变量。
+
+[`v0.0.2-beta.219 (2021-07-28)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.218...v0.0.2-beta.219)
+
+- [优化] `@faasjs/cloud_function` 优化 invoke 数据。
+
+[`v0.0.2-beta.218 (2021-07-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.216...v0.0.2-beta.218)
+
+- [优化] `@faasjs/eslint-config-recommended` 优化代码风格规范。
+- [优化] `@faasjs/mongo` 支持 `mongodb` 新版本。
+
+[`v0.0.2-beta.216 (2021-07-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.215...v0.0.2-beta.216)
+
+- [优化] `@faasjs/tencentcloud` 优化时间签名。
+
+[`v0.0.2-beta.215 (2021-07-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.214...v0.0.2-beta.215)
+
+- [优化] `@faasjs/graphql-server` 支持 `apollo-server-core` 新版本。
+
+[`v0.0.2-beta.214 (2021-07-12)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.212...v0.0.2-beta.214)
+
+- [优化] `@faasjs/eslint-config-recommended` 优化代码风格规范。
+
+[`v0.0.2-beta.212 (2021-07-10)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.209...v0.0.2-beta.212)
+
+- [优化] `@faasjs/cli` 部署命令如果使用 `-c` 参数，默认读取最近的 commit 日志。
 - [优化] `@faasjs/tencentcloud` 优化日志。
+- [删除] 删除 `@faasjs/nuxt` 插件。
 
 [`v0.0.2-beta.209 (2021-07-02)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.207...v0.0.2-beta.209)
 
