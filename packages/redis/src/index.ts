@@ -18,6 +18,25 @@ const globals: {
   [name: string]: Redis
 } = {}
 
+type SET = {
+  /** seconds -- Set the specified expire time, in seconds */
+  EX?: number
+  /** milliseconds -- Set the specified expire time, in milliseconds */
+  PX?: number
+  /** timestamp-seconds -- Set the specified Unix time at which the key will expire, in seconds */
+  EXAT?: number
+  /** timestamp-milliseconds -- Set the specified Unix time at which the key will expire, in milliseconds */
+  PXAT?: number
+  /** Only set the key if it does not already exist */
+  NX?: boolean
+  /** Only set the key if it already exist */
+  XX?: boolean
+  /**Retain the time to live associated with the key */
+  KEEPTTL?: boolean
+  /** Return the old string stored at key, or nil if key did not exist. An error is returned and SET aborted if the value stored at key is not a string */
+  GET?: boolean
+}
+
 /**
  * Redis 插件
  */
@@ -105,6 +124,40 @@ export class Redis implements Plugin {
       console.error(error)
     }
   }
+
+  public async get<TData = any> (key: string): Promise<TData> {
+    return this.query('GET', [key])
+  }
+
+  public async set<TResult = void> (key: string, value: any, options?: SET): Promise<TResult> {
+    const args = [key, value]
+
+    if (options) {
+      if ('EX' in options) {
+        args.push('EX', options.EX.toString())
+      } else if ('PX' in options) {
+        args.push('PX', options.PX.toString())
+      } else if ('EXAT' in options) {
+        args.push('EXAT', options.EXAT.toString())
+      } else if ('PXAT' in options) {
+        args.push('PXAT', options.PXAT.toString())
+      } else if (options.KEEPTTL) {
+        args.push('KEEPTTL')
+      }
+
+      if (options.NX) {
+        args.push('NX')
+      } else if (options.XX) {
+        args.push('XX')
+      }
+
+      if (options.GET) {
+        args.push('GET')
+      }
+    }
+
+    return this.query('SET', args)
+  }
 }
 
 export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
@@ -117,4 +170,16 @@ export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
 
 export async function query<TResult = any> (command: string, args: any[]): Promise<TResult> {
   return useRedis().query<TResult>(command, args)
+}
+
+export async function get<TResult = any> (key: string): Promise<TResult> {
+  return useRedis().get<TResult>(key)
+}
+
+export async function set<TResult = void> (
+  key: string,
+  value: any,
+  options?: SET
+): Promise<TResult> {
+  return useRedis().set<TResult>(key, value, options)
 }

@@ -70,4 +70,18 @@ describe('redis', function () {
       expect(error.message).toEqual('ERR unknown command `wrong`, with args beginning with: ')
     }
   })
+
+  it('get & set', async function () {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler () {
+        await redis.set('key', 'value')
+        return await redis.get('key')
+      }
+    })
+
+    expect(await func.export().handler({})).toEqual('value')
+  })
 })
