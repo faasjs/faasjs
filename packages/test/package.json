@@ -23,7 +23,7 @@
     "@types/jest": "*",
     "@types/node": "*",
     "jest": "*",
-    "ts-jest": "*",
+    "@sucrase/jest-plugin": "*",
     "typescript": "*",
     "vm2": "*"
   },

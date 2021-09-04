@@ -7,8 +7,8 @@
     "test": "yarn && jest --silent --maxWorkers=1"
   },
   "dependencies": {
-    "faasjs": "file:../../packages/faasjs",
-    "@faasjs/eslint-config-recommended": "file:../../packages/eslint-config-recommended"
+    "@faasjs/eslint-config-recommended": "file:../../packages/eslint-config-recommended",
+    "faasjs": "file:../../packages/faasjs"
   },
   "eslintConfig": {
     "extends": [
@@ -19,7 +19,10 @@
     "tmp"
   ],
   "jest": {
-    "preset": "ts-jest",
+    "verbose": false,
+    "transform": {
+      ".(jsx|tsx?)": "@sucrase/jest-plugin"
+    },
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.ts"

@@ -1,9 +1,10 @@
-import { useFunc } from '@faasjs/func';
-import { useHttp } from '@faasjs/http';
+import { useFunc } from '@faasjs/func'
+import { useHttp } from '@faasjs/http'
 
 export default useFunc(function(){
-  useHttp();
+  useHttp()
+
   return async function () {
-    return 'Hello, world';
+    return 'Hello, world'
   }
-});
+})

@@ -38,3 +38,10 @@
 ```
 4. 用 VSCode 打开项目
 5. 点击左下角绿色按钮，选择 `Remote-Containers: Reopen in Container`
+
+## 改回默认源
+
+```bash
+npm config set registry https://registry.npmjs.org
+yarn config set registry https://registry.yarnpkg.com
+```

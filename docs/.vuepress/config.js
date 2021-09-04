@@ -21,17 +21,21 @@ module.exports = {
         link: '/doc/'
       },
       {
-        text: '示例',
-        link: '/example/'
+        text: '代码示例',
+        link: 'https://github.com/faasjs/faasjs/blob/master/examples/'
+      },
+      {
+        text: 'Docker 镜像',
+        link: 'https://github.com/faasjs/faasjs/blob/master/images/'
+      },
+      {
+        text: '更新日志',
+        link: 'https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md'
       },
       {
         text: '支持 FaasJS',
         link: 'https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md'
       },
-      {
-        text: '更新日志',
-        link: 'https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md'
-      }
     ],
     sidebar: {
       '/guide/': [
@@ -48,7 +52,6 @@ module.exports = {
             'excel/db',
             'excel/request-spec',
             'excel/env',
-            'excel/test',
             'excel/lint',
             'excel/vue',
             'excel/react',
@@ -132,13 +135,6 @@ module.exports = {
             'vue-plugin',
           ]
         },
-      ],
-      '/example/': [
-        '',
-        'cloud-function',
-        'http-basic',
-        'cron-basic',
-        'sql-knex'
       ]
     },
     search: true,

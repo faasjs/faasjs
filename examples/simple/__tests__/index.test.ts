@@ -1,11 +1,13 @@
-import { FuncWarpper } from '@faasjs/test';
+import { FuncWarpper } from '@faasjs/test'
+import Func from '../index.func'
 
 describe('index', function () {
   test('should work', async function () {
-    const func = new FuncWarpper(require.resolve('../index.func'));
+    const func = new FuncWarpper(Func)
 
-    const { data } = await func.JSONhandler();
+    const { statusCode, data } = await func.JSONhandler()
 
-    expect(data).toEqual('Hello, world');
+    expect(statusCode).toEqual(200)
+    expect(data).toEqual('Hello, world')
   });
 });

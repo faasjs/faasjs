@@ -8,75 +8,87 @@ footer: An atomic FaaS Application Framework based on Typescript & Node.js | MIT
 
 <div style="width:100%;text-align:center;font-size:1.6rem;line-height:1.3;color:#6a8bad;">基于 Typescript 和 Node.js 的原子化 FaaS 应用框架</div>
 
-### 一行指令创建项目
+## 为什么要使用 FaasJS ？
+
+### 开发效率高
+
+原子化的开发模式，可以让开发和迭代降低到羽量级的程度，对团队开发也更友好。
+
+FaasJS 官方提供了诸如 HTTP、Knex 等插件，使开发者可以立刻上手开发业务。
+
+### 可维护性高
+
+FaaS 架构保证了云函数之间的独立性，避免单一错误导致整个系统的故障。
+
+FaasJS 内置自动化测试工具，方便开发者对云函数进行自动化测试。
+
+### 可扩展性高
+
+FaasJS 拥有简单易用的插件机制，可以让开发者可以自由扩展功能和插件。
+
+## 代码示例
+
+### 云函数文件
+
+```ts
+// index.func.ts 文件，云函数文件名都以 .func.ts 结尾
+import { useFunc } from '@faasjs/func'
+import { useHttp } from '@faasjs/http'
+
+export default useFunc(function() {
+  useHttp() // 引入 http 插件
+
+  return async function () {
+    return 'Hello, world' // 返回的内容
+  }
+})
+```
+
+## 单元测试文件
+
+```ts
+// __tests__/index.test.ts 文件，单元测试文件名都以 .test.ts 结尾
+import { FuncWarpper } from '@faasjs/test'
+import Func from '../index.func'
+
+describe('index', function () {
+  test('should work', async function () {
+    // 引用云函数文件
+    const func = new FuncWarpper(Func);
+
+    // 模拟调用
+    const { statusCode, data } = await func.JSONhandler()
+
+    // 返回 200 状态
+    expect(statusCode).toEqual(200)
+    // 返回的 data 内容为 'Hello, world'
+    expect(data).toEqual('Hello, world')
+  });
+});
+```
+
+## 立即开始
 
 ```bash
 yarn create faas-app --name faasjs --example --noprovider
 ```
 
-### 查看生成的文件内容
-
-```ts
-/*
- * 云函数文件
- * index.func.ts
- */
-import { useFunc } from '@faasjs/func';
-import { useHttp } from '@faasjs/http';
-
-export default useFunc(function(){
-  useHttp(); // 使用 http 插件
-
-  return async function () {
-    return 'Hello, world'; // 返回的内容
-  }
-});
-```
-
-```ts
-/*
- * 自动化测试脚本
- * __tests__/index.test.ts
- */
-import { FuncWarpper } from '@faasjs/test';
-
-describe('index', function () {
-  test('should work', async function () {
-    // 引用云函数文件
-    const func = new FuncWarpper(require.resolve('../index.func'));
-    // 模拟调用
-    const res = await func.handler();
-
-    // 检查响应内容
-    expect(res.body).toEqual('{"data":"Hello, world"}');
-  });
-});
-```
-
-<div class="hero">
-  <p class="action">
-    <a href="/guide" class="nav-link action-button">探索更多 →</a>
-  </p>
-</div>
-
 <div style="padding:0 2.5rem;text-align:center">
   <div class="features">
-    <div style="flex-grow:1;flex-basis:100%;">
+    <div style="flex-grow:1;flex-basis:100%;line-height:1.6">
+      <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/last-commit/faasjs/faasjs"></a>
+      <br>
       <a href="https://github.com/faasjs/faasjs/blob/master/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
       <a href="https://www.npmjs.com/package/faasjs"><img src="https://img.shields.io/npm/v/faasjs/beta.svg"></a>
       <br>
-      <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/last-commit/faasjs/faasjs"></a>
       <a href="https://github.com/faasjs/faasjs/actions/workflows/unit.yml"><img src="https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg"></a>
       <a href="https://github.com/faasjs/faasjs/actions/workflows/lint.yml"><img src="https://github.com/faasjs/faasjs/actions/workflows/lint.yml/badge.svg"></a>
       <br>
-      <a href="https://codeclimate.com/github/faasjs/faasjs/maintainability"><img src="https://api.codeclimate.com/v1/badges/ed918d6b0ecc951f7924/maintainability"></a>
       <a href="https://codecov.io/gh/faasjs/faasjs"><img src="https://img.shields.io/codecov/c/github/faasjs/faasjs.svg"></a>
-      <br>
       <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/lgtm/lines/g/faasjs/faasjs"></a>
       <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/commits/faasjs/faasjs"></a>
-      <br><br>本项目正在公测中，更新较频繁，<a href="https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md">点击这里查看更新日志</a>。<br><br>欢迎关注公众号（寂静小站）或在<a href="https://github.com/faasjs/faasjs/discussions">讨论区</a>交流反馈
     </div>
-    <div style="margin:1em auto"><img src="https://user-images.githubusercontent.com/215433/59484397-31098900-8ea4-11e9-9971-0fa0c7aafccb.jpg" alt="公众号 寂静小站" /></div>
+    <div style="margin:1em auto"><div>欢迎关注 FaasJS 作者的公众号（寂静小站）与我交流：</div><img src="https://user-images.githubusercontent.com/215433/59484397-31098900-8ea4-11e9-9971-0fa0c7aafccb.jpg" alt="公众号 寂静小站" /></div>
   </div>
   <hr style="clear:both">
   <div>

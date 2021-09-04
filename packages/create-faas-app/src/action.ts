@@ -180,7 +180,10 @@ production:
     "coverage"
   ],
   "jest": {
-    "preset": "ts-jest",
+    "verbose": false,
+    "transform": {
+      ".(jsx|tsx?)": "@sucrase/jest-plugin"
+    },
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.ts"

@@ -10,3 +10,10 @@
 ```bash
 docker pull faasjs/node:lts-alpine
 ```
+
+## 改回默认源
+
+```bash
+npm config set registry https://registry.npmjs.org
+yarn config set registry https://registry.yarnpkg.com
+```
