@@ -13,7 +13,7 @@ describe('redis', function () {
       plugins: [redis],
       async handler () {
         await redis.query('set', ['key', 'value'])
-        return await redis.query('get', ['key'])
+        return redis.query('get', ['key'])
       }
     })
 
@@ -31,7 +31,7 @@ describe('redis', function () {
       plugins: [redis],
       async handler () {
         await redis.query('set', ['key', 'value'])
-        return await redis.query('get', ['key'])
+        return redis.query('get', ['key'])
       }
     })
 
@@ -49,7 +49,7 @@ describe('redis', function () {
         const redis2 = useRedis()
         await redis2.query('set', ['key', 'redis2'])
 
-        return await redis1.query('get', ['key'])
+        return redis1.query('get', ['key'])
       }
     })
 
@@ -78,7 +78,7 @@ describe('redis', function () {
       plugins: [redis],
       async handler () {
         await redis.set('key', 'value')
-        return await redis.get('key')
+        return redis.get('key')
       }
     })
 
