@@ -59,6 +59,7 @@ let mock: Mock | null = null
 /**
  * 设置模拟请求
  * @param handler {function | null} 模拟函数，若设置为 null 则表示清除模拟函数
+ * @example setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
  */
 export function setMock (handler: Mock | null): void {
   mock = handler

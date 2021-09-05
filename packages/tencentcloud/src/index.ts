@@ -5,6 +5,8 @@ import { deployCloudFunction } from './cloud_function/deploy'
 import { invokeCloudFunction, invokeSyncCloudFunction } from './cloud_function/invoke'
 import { deployHttp } from './http/deploy'
 
+export { request } from './request'
+
 // 腾讯云配置项
 export type TencentcloudConfig = {
   appId?: string
