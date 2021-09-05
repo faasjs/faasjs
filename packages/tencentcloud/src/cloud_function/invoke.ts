@@ -39,9 +39,13 @@ export async function invokeCloudFunction<TResult = any> (
     })
 }
 
-export async function invokeSyncCloudFunction<TResult = any> (tc: Provider, name: string, data?: { [key: string]: any }, options?: {
-  [key: string]: any
-}): Promise<TResult> {
+export async function invokeSyncCloudFunction<TResult = any> (
+  tc: Provider,
+  name: string,
+  data?: { [key: string]: any },
+  options?: {
+    [key: string]: any
+  }): Promise<TResult> {
   if (options == null) options = {}
   options.InvocationType = 'RequestResponse'
   return invokeCloudFunction<TResult>(tc, name, data, options)

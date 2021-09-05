@@ -7,22 +7,25 @@ import { TencentcloudConfig } from '.'
  * @param config 配置项，若有环境变量优先读取环境变量
  * @param data 请求数据
  */
-export async function request<T = any> (config: TencentcloudConfig, {
+export async function request<T = any> ({
+  region,
+  secretId,
+  secretKey,
+  token,
   service,
   version,
   action,
   payload
-}: {
+}: TencentcloudConfig & {
   service: string
   version: string
   action: string
   payload: any
 }): Promise<T> {
-  if (process.env.TENCENTCLOUD_APPID) config.appId = process.env.TENCENTCLOUD_APPID
-  if (process.env.TENCENTCLOUD_REGION) config.region = process.env.TENCENTCLOUD_REGION
-  if (process.env.TENCENTCLOUD_SECRETID) config.secretId = process.env.TENCENTCLOUD_SECRETID
-  if (process.env.TENCENTCLOUD_SECRETKEY) config.secretKey = process.env.TENCENTCLOUD_SECRETKEY
-  if (process.env.TENCENTCLOUD_SESSIONTOKEN) config.token = process.env.TENCENTCLOUD_SESSIONTOKEN
+  if (process.env.TENCENTCLOUD_REGION) region = process.env.TENCENTCLOUD_REGION
+  if (process.env.TENCENTCLOUD_SECRETID) secretId = process.env.TENCENTCLOUD_SECRETID
+  if (process.env.TENCENTCLOUD_SECRETKEY) secretKey = process.env.TENCENTCLOUD_SECRETKEY
+  if (process.env.TENCENTCLOUD_SESSIONTOKEN) token = process.env.TENCENTCLOUD_SESSIONTOKEN
 
   const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ?
     `${service}.internal.tencentcloudapi.com` : `${service}.tencentcloudapi.com`
@@ -42,7 +45,7 @@ export async function request<T = any> (config: TencentcloudConfig, {
     credentialScope + '\n' +
     hashedCanonicalRequest
 
-  const secretDate = createHmac('sha256', 'TC3' + config.secretKey)
+  const secretDate = createHmac('sha256', 'TC3' + secretKey)
     .update(date).digest()
   const secretService = createHmac('sha256', secretDate)
     .update(service).digest()
@@ -53,7 +56,7 @@ export async function request<T = any> (config: TencentcloudConfig, {
 
   const authorization =
     'TC3-HMAC-SHA256 ' +
-    'Credential=' + config.secretId + '/' + credentialScope + ', ' +
+    'Credential=' + secretId + '/' + credentialScope + ', ' +
     'SignedHeaders=content-type;host, ' +
     'Signature=' + signature
 
@@ -66,8 +69,8 @@ export async function request<T = any> (config: TencentcloudConfig, {
     'X-TC-Timestamp': timestamp
   }
 
-  if (config.region) headers['X-TC-Region'] = config.region
-  if (config.token) headers['X-TC-Token'] = config.token
+  if (region) headers['X-TC-Region'] = region
+  if (token) headers['X-TC-Token'] = token
 
   return req<T>(`https://${host}/`, {
     method: 'POST',
