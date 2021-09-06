@@ -38,7 +38,7 @@ async function confirm ({
       input: process.stdin,
       output: process.stdout
     })
-    readline.question('输入 y 确认:', function (res: string) {
+    readline.question('输入 y 确认: ', function (res: string) {
       readline.close()
 
       if (res !== 'y') {
