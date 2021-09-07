@@ -1,0 +1,81 @@
+{
+  "useFunc": {
+    "description": "Generate a plain useFunc module",
+    "prefix": ["uf", "useFunc"],
+    "body": [
+      "import { useFunc } from '@faasjs/func'",
+      "",
+      "export default useFunc(function() {",
+      "  return async function () {",
+      "    $0",
+      "  }",
+      "})"
+    ]
+  },
+  "useFunc with http": {
+    "description": "Generate a useFunc module with http",
+    "prefix": ["ufh", "useFuncWithHttp"],
+    "body": [
+      "import { useFunc } from '@faasjs/func'",
+      "import { useHttp } from '@faasjs/http'",
+      "",
+      "export default useFunc(function() {",
+      "  const http = useHttp<{$1}, {}, {}>($2)",
+      "",
+      "  return async function () {",
+      "    $3",
+      "  }",
+      "})"
+    ]
+  },
+  "useFunc with knex": {
+    "description": "Generate a useFunc module with knex",
+    "prefix": ["ufk", "useFuncWithKnex"],
+    "body": [
+      "import { useFunc } from '@faasjs/func'",
+      "import { useKnex, query } from '@faasjs/knex'",
+      "",
+      "export default useFunc(function() {",
+      "  useKnex()",
+      "",
+      "  return async function () {",
+      "    $0",
+      "  }",
+      "})"
+    ]
+  },
+  "useFunc with redis": {
+    "description": "Generate a useFunc module with redis",
+    "prefix": ["ufk", "useFuncWithRedis"],
+    "body": [
+      "import { useFunc } from '@faasjs/func'",
+      "import { useRedis, query } from '@faasjs/redis'",
+      "",
+      "export default useFunc(function() {",
+      "  useRedis()",
+      "",
+      "  return async function () {",
+      "    $0",
+      "  }",
+      "})"
+    ]
+  },
+  "useFunc with http, knex and redis": {
+    "description": "Generate a useFunc module with http, knex and redis",
+    "prefix": ["ufh", "useFuncWithHttp"],
+    "body": [
+      "import { useFunc } from '@faasjs/func'",
+      "import { useHttp } from '@faasjs/http'",
+      "import { useKnex } from '@faasjs/knex'",
+      "import { useRedis } from '@faasjs/redis'",
+      "",
+      "export default useFunc(function() {",
+      "  const http = useHttp<{$1}, {}, {}>($2)",
+      "",
+      "  return async function () {",
+      "    $3",
+      "  }",
+      "})"
+    ]
+  }
+}

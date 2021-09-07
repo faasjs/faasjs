@@ -1,0 +1,27 @@
+{
+  "name": "faasjs-snippets",
+  "displayName": "FaasJS Snippets",
+  "description": "Snippets for FaasJS",
+  "publisher": "zfben",
+  "version": "0.0.1",
+  "homepage": "https://faasjs.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "vscode/faasjs-snippets"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "contributes": {
+    "snippets": [
+      {
+        "language": "typescript",
+        "path": "./snippets/func.code-snippets"
+      }
+    ]
+  }
+}
