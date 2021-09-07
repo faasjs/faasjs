@@ -6,6 +6,7 @@ import { loadConfig } from '@faasjs/load'
 import { Http } from '@faasjs/http'
 import { NodeVM } from 'vm2'
 import { transpile } from 'typescript'
+import deepMerge from '@faasjs/deep_merge'
 
 // 输出 func 的定义以便于测试用例的引用
 export * from '@faasjs/func'
@@ -57,7 +58,14 @@ export class FuncWarpper {
       // }
       this.func.config = loadConfig(process.cwd(), this.file)[this.stagging]
       this.config = this.func.config
-    } else this.func = initBy
+    } else {
+      this.func = initBy
+      if (initBy.filename)
+        this.func.config = deepMerge(
+          loadConfig(process.cwd(), initBy.filename)[this.stagging],
+          initBy.config
+        )
+    }
 
     this.plugins = this.func.plugins || []
     for (const plugin of this.plugins) {

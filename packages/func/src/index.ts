@@ -101,6 +101,7 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
   public logger: Logger
   public config: Config
   public mounted: boolean
+  public filename?: string
   private cachedFunctions: {
     [key in LifeCycleKey]: CachedFunction[];
   }
@@ -124,6 +125,15 @@ export class Func<TEvent = any, TContext = any, TRESULT = any> {
 
     this.mounted = false
     this.cachedFunctions = Object.create(null)
+
+    try {
+      this.filename = new Error().stack
+        .split('\n')
+        .find(s => /[^/]\.func\.ts/.test(s))
+        .match(/\((.*\.func\.ts).*\)/)[1]
+    } catch (error) {
+      this.logger.debug(error.message)
+    }
   }
 
   public compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
