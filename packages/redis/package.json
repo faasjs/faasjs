@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/redis",
-  "version": "0.0.2-beta.236",
+  "version": "0.0.2-beta.238",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,7 +23,7 @@
     "redis": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.233",
+    "@faasjs/func": "^0.0.2-beta.238",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/redis": "*",

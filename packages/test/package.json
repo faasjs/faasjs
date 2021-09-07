@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/test",
-  "version": "0.0.2-beta.235",
+  "version": "0.0.2-beta.238",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,7 +18,7 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/load": "^0.0.2-beta.233",
+    "@faasjs/load": "^0.0.2-beta.238",
     "@sucrase/jest-plugin": "*",
     "@types/debug": "*",
     "@types/jest": "*",
@@ -28,8 +28,8 @@
     "vm2": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.233",
-    "@faasjs/http": "^0.0.2-beta.233"
+    "@faasjs/func": "^0.0.2-beta.238",
+    "@faasjs/http": "^0.0.2-beta.238"
   },
   "gitHead": "d340aaa440deafd513d2837cf9a71988d27e8c18"
 }
