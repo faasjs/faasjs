@@ -6,7 +6,7 @@ tagline: null
 footer: An atomic FaaS Application Framework based on Typescript & Node.js | MIT Licensed | Copyright © 2019-2021 Zhu Feng
 ---
 
-<div style="width:100%;text-align:center;font-size:1.6rem;line-height:1.3;color:#6a8bad;">基于 Typescript 和 Node.js 的原子化 FaaS 应用框架</div>
+<div style="width:100%;text-align:center;font-size:1.6rem;line-height:1;color:#6a8bad;margin-bottom:2em">基于 Typescript 和 Node.js 的原子化 FaaS 应用框架</div>
 
 ## 为什么要使用 FaasJS ？
 
