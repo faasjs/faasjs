@@ -1,5 +1,8 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "zfben.faasjs-snippets",
+    "github.copilot",
+    "eamodio.gitlens"
   ]
 }

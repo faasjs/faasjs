@@ -25,8 +25,7 @@
 	"extensions": [
 		"dbaeumer.vscode-eslint",
 		"eamodio.gitlens",
-		"visualstudioexptteam.vscodeintellicode",
-		"streetsidesoftware.code-spell-checker"
+    "zfben.faasjs-snippets"
 	],
 	"forwardPorts": [
 		3000
