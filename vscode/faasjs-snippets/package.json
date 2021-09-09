@@ -3,7 +3,8 @@
   "displayName": "FaasJS Snippets",
   "description": "Snippets for FaasJS",
   "publisher": "zfben",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "license": "MIT",
   "homepage": "https://faasjs.com",
   "repository": {
     "type": "git",
@@ -13,6 +14,7 @@
   "engines": {
     "vscode": "^1.60.0"
   },
+  "icon": "logo.png",
   "categories": [
     "Snippets"
   ],

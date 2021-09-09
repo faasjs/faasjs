@@ -11,3 +11,4 @@ report.*.json
 dist
 *.conf
 yarn.lock
+*.vsix
