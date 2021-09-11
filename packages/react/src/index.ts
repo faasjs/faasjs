@@ -19,6 +19,7 @@ export function FaasClient ({
       data: T
       error: any
       promise: Promise<Response<T>>
+      reload(params?: Params): Promise<Response<T>>
     }
   } {
   const client = new Client(domain, options)
@@ -28,11 +29,13 @@ export function FaasClient ({
       if (onError) return client.action<T>(action, params).catch(onError(action, params))
       return client.action<T>(action, params)
     },
-    useFaas<T = any> (action: string, params: Params) {
+    useFaas<T = any> (action: string, defaultParams: Params) {
       const [loading, setLoading] = useState(false)
       const [data, setData] = useState()
       const [error, setError] = useState()
       const [promise, setPromise] = useState()
+      const [params, setParams] = useState(defaultParams)
+      const [reloadTimes, setReloadTimes] = useState(0)
 
       useEffect(function () {
         setLoading(true)
@@ -49,18 +52,25 @@ export function FaasClient ({
               } catch (error) {
                 setError(error)
               }
-
-
             setError(e)
           })
           .finally(() => setLoading(false))
-      }, [action, JSON.stringify(params)])
+      }, [
+        action,
+        JSON.stringify(params),
+        reloadTimes
+      ])
 
       return {
         loading,
         data,
         error,
-        promise
+        promise,
+        reload (params?: any) {
+          if (params) setParams(params)
+          setReloadTimes(reloadTimes + 1)
+          return promise
+        }
       }
     }
   }
