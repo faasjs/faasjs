@@ -221,7 +221,11 @@ export class Server {
   private clearCache () {
     this.logger.debug('Clear cache')
     Object.keys(require.cache).forEach(function (id) {
-      if (!id.includes('node_modules') || id.includes('faasjs')) delete require.cache[id]
+      if (
+        !id.includes('node_modules') ||
+        (id.includes('faasjs') && !/(knex|sql|redis)/.test(id))
+      )
+        delete require.cache[id]
     })
   }
 }
