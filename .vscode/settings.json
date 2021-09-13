@@ -85,5 +85,14 @@
       "directory": "./packages/vue-plugin",
       "changeProcessCWD": true
     }
+  ],
+  "cSpell.words": [
+    "faasjs",
+    "RUNENV",
+    "SECRETID",
+    "SECRETKEY",
+    "SESSIONTOKEN",
+    "Tencentcloud",
+    "tencentcloudapi"
   ]
 }

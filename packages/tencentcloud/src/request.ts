@@ -17,12 +17,29 @@ export async function request<T = any> ({
   action,
   payload
 }: TencentcloudConfig & {
+  /**
+   * 服务名
+   * @example scf
+   */
   service: string
+  /**
+   * 版本号
+   * @example 2018-04-16
+   */
   version: string
+  /**
+   * 操作名
+   * @example Invoke
+   */
   action: string
-  payload: any
+  /**
+   * 请求数据
+   */
+  payload: {
+    [key: string]: any
+  }
 }): Promise<T> {
-  if (process.env.TENCENTCLOUD_REGION) region = process.env.TENCENTCLOUD_REGION
+  if (!region && process.env.TENCENTCLOUD_REGION) region = process.env.TENCENTCLOUD_REGION
   if (process.env.TENCENTCLOUD_SECRETID) secretId = process.env.TENCENTCLOUD_SECRETID
   if (process.env.TENCENTCLOUD_SECRETKEY) secretKey = process.env.TENCENTCLOUD_SECRETKEY
   if (process.env.TENCENTCLOUD_SESSIONTOKEN) token = process.env.TENCENTCLOUD_SESSIONTOKEN

@@ -7,7 +7,10 @@ import { deployHttp } from './http/deploy'
 
 export { request } from './request'
 
-// 腾讯云配置项
+/**
+ * 云 API 配置项
+ * 优先读取环境变量，如果没有则读取入参
+ */
 export type TencentcloudConfig = {
   appId?: string
   secretId?: string
