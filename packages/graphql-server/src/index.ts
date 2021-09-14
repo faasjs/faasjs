@@ -14,7 +14,7 @@ import { renderPlaygroundPage } from '@apollographql/graphql-playground-html'
 import { Headers } from 'apollo-server-env'
 import { ApolloGateway } from '@apollo/gateway'
 import { Http, HttpConfig } from '@faasjs/http'
-import deepMerge from '@faasjs/deep_merge'
+import { deepMerge } from '@faasjs/deep_merge'
 
 export { gql, GraphQLSchemaModule }
 

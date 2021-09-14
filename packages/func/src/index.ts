@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
-import Logger from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 import RunHandler from './plugins/run_handler/index'
 
 export type Handler<TEvent = any, TContext = any, TRESULT = any> = (data: InvokeData<TEvent, TContext>) => Promise<TRESULT>

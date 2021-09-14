@@ -1,5 +1,5 @@
 import { Session, SessionOptions } from './session'
-import deepMerge from '@faasjs/deep_merge'
+import { deepMerge } from '@faasjs/deep_merge'
 
 export interface CookieOptions {
   domain?: string

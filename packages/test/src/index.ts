@@ -1,4 +1,4 @@
-import Logger from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 import {
   Func, ExportedHandler, Plugin, Config
 } from '@faasjs/func'
@@ -6,7 +6,7 @@ import { loadConfig } from '@faasjs/load'
 import { Http } from '@faasjs/http'
 import { NodeVM } from 'vm2'
 import { transpile } from 'typescript'
-import deepMerge from '@faasjs/deep_merge'
+import { deepMerge } from '@faasjs/deep_merge'
 
 // 输出 func 的定义以便于测试用例的引用
 export * from '@faasjs/func'

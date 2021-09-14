@@ -1,6 +1,6 @@
 import { DeployData } from '@faasjs/func'
 import { api } from './api'
-import deepMerge from '@faasjs/deep_merge'
+import { deepMerge } from '@faasjs/deep_merge'
 import { Provider } from '..'
 import { Color } from '@faasjs/logger'
 

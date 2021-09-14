@@ -10,8 +10,8 @@ import {
 import {
   Plugin, MountData, Next
 } from '@faasjs/func'
-import Logger from '@faasjs/logger'
-import deepMerge from '@faasjs/deep_merge'
+import { Logger } from '@faasjs/logger'
+import { deepMerge } from '@faasjs/deep_merge'
 
 export { ObjectId }
 

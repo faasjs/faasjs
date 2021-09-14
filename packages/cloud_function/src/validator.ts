@@ -1,4 +1,4 @@
-import Logger from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 
 export interface ValidatorConfig {
   whitelist?: 'error' | 'ignore'

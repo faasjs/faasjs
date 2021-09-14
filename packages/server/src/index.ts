@@ -1,7 +1,7 @@
 import {
   createServer, IncomingMessage, Server as HttpServer
 } from 'http'
-import Logger from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 import { existsSync } from 'fs'
 import { loadConfig } from '@faasjs/load'
 import {

@@ -1,8 +1,8 @@
-import deepMerge from '@faasjs/deep_merge'
+import { deepMerge } from '@faasjs/deep_merge'
 import {
   Plugin, DeployData, Next, MountData, InvokeData, usePlugin, UseifyPlugin
 } from '@faasjs/func'
-import Logger from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 import { Validator, ValidatorConfig } from './validator'
 
 /** 云函数配置项 */

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Command } from 'commander'
-import Logger from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 import { existsSync } from 'fs'
 import { sep } from 'path'
 import { NewCommand } from './commands/new'

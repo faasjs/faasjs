@@ -1,8 +1,8 @@
 import {
   Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin
 } from '@faasjs/func'
-import Logger from '@faasjs/logger'
-import deepMerge from '@faasjs/deep_merge'
+import { Logger } from '@faasjs/logger'
+import { deepMerge } from '@faasjs/deep_merge'
 import knex, { Knex as K } from 'knex'
 
 export interface KnexConfig {

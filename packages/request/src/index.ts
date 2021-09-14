@@ -3,7 +3,7 @@ import * as https from 'https'
 import { URL } from 'url'
 import { readFileSync } from 'fs'
 import { basename } from 'path'
-import Logger from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 
 export type Request = {
   headers?: http.OutgoingHttpHeaders

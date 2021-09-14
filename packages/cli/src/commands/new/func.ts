@@ -2,7 +2,7 @@ import { sep, join } from 'path'
 import {
   existsSync, mkdirSync, writeFileSync
 } from 'fs'
-import Logger from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 
 const Plugins = {
   cf: {

@@ -1,8 +1,8 @@
 import {
   Plugin, InvokeData, MountData, DeployData, Next, usePlugin, UseifyPlugin
 } from '@faasjs/func'
-import deepMerge from '@faasjs/deep_merge'
-import Logger from '@faasjs/logger'
+import { deepMerge } from '@faasjs/deep_merge'
+import { Logger } from '@faasjs/logger'
 import { Cookie, CookieOptions } from './cookie'
 import { Session, SessionOptions } from './session'
 import {

@@ -1,4 +1,4 @@
-import deepMerge from '@faasjs/deep_merge'
+import { deepMerge } from '@faasjs/deep_merge'
 import {
   existsSync, readFileSync, unlinkSync
 } from 'fs'

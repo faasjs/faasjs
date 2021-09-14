@@ -1,8 +1,8 @@
 import {
   Plugin, MountData, Next, DeployData, usePlugin, UseifyPlugin
 } from '@faasjs/func'
-import Logger from '@faasjs/logger'
-import deepMerge from '@faasjs/deep_merge'
+import { Logger } from '@faasjs/logger'
+import { deepMerge } from '@faasjs/deep_merge'
 import { Sqlite, SqliteConfig } from './sqlite'
 import { Postgresql, PostgresqlConfig } from './postgresql'
 import { Mysql, MysqlConfig } from './mysql'
