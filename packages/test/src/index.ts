@@ -17,7 +17,7 @@ export * from '@faasjs/func'
 export class FuncWarpper {
   [key: string]: any;
   public readonly file: string
-  public readonly stagging: string
+  public readonly staging: string
   public readonly logger: Logger
   public readonly func: Func
   public readonly config: Config
@@ -26,15 +26,15 @@ export class FuncWarpper {
   private _vm: NodeVM
 
   /**
-   * 新建流程实例
+   * 创建测试实例
    * @param file {string} 文件名，必须是完整文件名，建议使用 require.resolve() 来传入
    * @param func {Func} 云函数实例
    * @example new TestCase(require.resolve('../demo.flow.ts'))
    */
-  constructor (func: Func)
-  constructor (file: string)
+  constructor (initBy: Func)
+  constructor (initBy: string)
   constructor (initBy: Func | string) {
-    this.stagging = process.env.FaasEnv
+    this.staging = process.env.FaasEnv
     this.logger = new Logger('TestCase')
     this._vm = new NodeVM({
       compiler: function (code: string, name: string ) { return transpile(code, {}, name)},
@@ -48,7 +48,7 @@ export class FuncWarpper {
 
     if (typeof initBy === 'string') {
       this.file = initBy
-      this.logger.info('Func: [%s] %s', this.stagging, this.file)
+      this.logger.info('Func: [%s] %s', this.staging, this.file)
       // try {
       //   this.func = this._vm.require(this.file).default
       // } catch (error) {
@@ -56,13 +56,13 @@ export class FuncWarpper {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       this.func = require(this.file).default
       // }
-      this.func.config = loadConfig(process.cwd(), this.file)[this.stagging]
+      this.func.config = loadConfig(process.cwd(), this.file)[this.staging]
       this.config = this.func.config
     } else {
       this.func = initBy
       if (initBy.filename)
         this.func.config = deepMerge(
-          loadConfig(process.cwd(), initBy.filename)[this.stagging],
+          loadConfig(process.cwd(), initBy.filename)[this.staging],
           initBy.config
         )
     }
@@ -89,11 +89,13 @@ export class FuncWarpper {
         context: {}
       })
 
-
     if (handler) await handler(this)
   }
 
-  public async handler<TResult = any> (event: any = Object.create(null), context: any = Object.create(null)): Promise<TResult> {
+  public async handler<TResult = any> (
+    event: any = Object.create(null),
+    context: any = Object.create(null)
+  ): Promise<TResult> {
     await this.mount()
 
     const response = await this._handler(event, context)
@@ -152,4 +154,8 @@ export class FuncWarpper {
 
     return response
   }
+}
+
+export function test (initBy: Func | string): FuncWarpper {
+  return new FuncWarpper(initBy as string)
 }

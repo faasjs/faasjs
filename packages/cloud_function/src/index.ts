@@ -165,7 +165,13 @@ export class CloudFunction implements Plugin {
   }): Promise<void> {
     if (data == null) data = Object.create(null)
 
-    return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
+    if (process.env.FaasMode === 'local') {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const test = require('@faasjs/test')
+      const func = new test.FuncWarpper(require.resolve(name.toLowerCase() + '.func'))
+      return func.handler(data)
+    } else
+      return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
   }
 
   /**
@@ -179,7 +185,13 @@ export class CloudFunction implements Plugin {
   }): Promise<TResult> {
     if (data == null) data = Object.create(null)
 
-    return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), data, options)
+    if (process.env.FaasMode === 'local') {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const test = require('@faasjs/test')
+      const func = new test.FuncWarpper(require.resolve(name.toLowerCase() + '.func'))
+      return func.handler(data)
+    } else
+      return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), data, options)
   }
 }
 
