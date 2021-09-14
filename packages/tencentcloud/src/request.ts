@@ -95,7 +95,7 @@ export async function request<T = any> ({
     body: payload
   }).then(function (res: Response) {
     if (res.body.Response.Error)
-      return Promise.reject(res.body.Response.Error)
+      return Promise.reject(Error(res.body.Response.Error.Code + ': ' + res.body.Response.Error.Message))
 
     return res.body.Response
   })
