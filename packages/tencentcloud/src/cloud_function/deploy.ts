@@ -249,7 +249,7 @@ module.exports = main.export();`
       }).then(res => res.Status)
     }
   } catch (error) {
-    if (error.Code.startsWith('ResourceNotFound')) {
+    if (error.message.startsWith('ResourceNotFound')) {
       logger.debug('[7.2/12] 创建云函数...')
       await scf('CreateFunction', tc.config, {
         ClsLogsetId: config.config.ClsLogsetId,
@@ -325,7 +325,7 @@ module.exports = main.export();`
       FunctionVersion: config.config.FunctionVersion,
     })
   } catch (error) {
-    if (error.Code === 'ResourceNotFound.Alias') {
+    if (error.message.startsWith('ResourceNotFound.Alias')) {
       logger.debug('[9.2/12] 创建别名...')
       await scf('CreateAlias', tc.config, {
         Name: config.config.Namespace,
