@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/mongo",
-  "version": "0.0.2-beta.220",
+  "version": "0.0.2-beta.243",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
@@ -18,7 +18,7 @@
     "lib"
   ],
   "dependencies": {
-    "@faasjs/logger": "^0.0.2-beta.212",
+    "@faasjs/logger": "^0.0.2-beta.243",
     "@types/mongodb": "*",
     "mongodb": "*"
   },
