@@ -4,6 +4,30 @@
 
 ## Beta
 
+[`v0.0.2-beta.243 (2021-09-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.241...v0.0.2-beta.243)
+
+- [优化] `@faasjs/tencentcloud` 将本地 mock 功能移到 `@faasjs/cloud_function`。
+
+[`v0.0.2-beta.241 (2021-09-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.240...v0.0.2-beta.241)
+
+- [修正] `@faasjs/tencentcloud` 环境变量不再强制覆盖 region。
+
+[`v0.0.2-beta.240 (2021-09-11)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.238...v0.0.2-beta.240)
+
+- [优化] `@faasjs/react` 新增 `reload` 方法。
+
+[`v0.0.2-beta.238 (2021-09-07)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.237...v0.0.2-beta.238)
+
+- [优化] `@faasjs/func` 添加 `filename` 属性。
+
+[`v0.0.2-beta.237 (2021-09-05)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.234...v0.0.2-beta.237)
+
+- [优化] `@faasjs/tencentcloud` 优化并导出 `request` 方法。
+
+[`v0.0.2-beta.234 (2021-09-03)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.232...v0.0.2-beta.234)
+
+- [优化] `@faasjs/redis` 导出 `get` 和 `set` 方法。
+
 [`v0.0.2-beta.232 (2021-09-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.231...v0.0.2-beta.232)
 
 - [修正] `@faasjs/cli` 修正部署时内存泄露的问题。
