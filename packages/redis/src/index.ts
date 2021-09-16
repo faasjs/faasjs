@@ -14,9 +14,9 @@ export interface RedisConfig {
 
 const Name = 'redis'
 
-const globals: {
-  [name: string]: Redis
-} = {}
+if (!global['FaasJS_Redis']) {
+  global.FaasJS_Redis = {}
+}
 
 type SET = {
   /** seconds -- Set the specified expire time, in seconds */
@@ -62,9 +62,9 @@ export class Redis implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    if (globals[this.name] && (globals[this.name].adapter)) {
-      this.config = globals[this.name].config
-      this.adapter = globals[this.name].adapter
+    if (global.FaasJS_Redis[this.name] && (global.FaasJS_Redis[this.name].adapter)) {
+      this.config = global.FaasJS_Redis[this.name].config
+      this.adapter = global.FaasJS_Redis[this.name].adapter
       this.logger.debug('use exists adapter')
     } else {
       const prefix = `SECRET_${this.name.toUpperCase()}_`
@@ -82,17 +82,17 @@ export class Redis implements Plugin {
       this.adapter = createClient(this.config)
       this.logger.debug('connceted')
 
-      globals[this.name] = this
+      global.FaasJS_Redis[this.name] = this
     }
 
     await next()
   }
 
   public async query<TResult = any> (command: string, args: any[]): Promise<TResult> {
-    if (!globals[this.name]) throw Error(`[${this.name}] not monuted`)
+    if (!global.FaasJS_Redis[this.name]) throw Error(`[${this.name}] not monuted`)
 
-    if (!this.config) this.config = globals[this.name].config
-    if (this.adapter == null) this.adapter = globals[this.name].adapter
+    if (!this.config) this.config = global.FaasJS_Redis[this.name].config
+    if (this.adapter == null) this.adapter = global.FaasJS_Redis[this.name].adapter
 
     this.logger.debug('query begin: %s %O', command, args)
     this.logger.time(command)
@@ -111,12 +111,12 @@ export class Redis implements Plugin {
   }
 
   public async quit (): Promise<void> {
-    if (!globals[this.name]) return
+    if (!global.FaasJS_Redis[this.name]) return
 
     try {
       await new Promise<void>(resolve => {
-        globals[this.name].adapter.quit(() => {
-          delete globals[this.name]
+        global.FaasJS_Redis[this.name].adapter.quit(() => {
+          delete global.FaasJS_Redis[this.name]
           resolve()
         })
       })
@@ -163,7 +163,7 @@ export class Redis implements Plugin {
 export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
   const name = config?.name || Name
 
-  if (globals[name]) return usePlugin<Redis>(globals[name])
+  if (global.FaasJS_Redis[name]) return usePlugin<Redis>(global.FaasJS_Redis[name])
 
   return usePlugin<Redis>(new Redis(config))
 }

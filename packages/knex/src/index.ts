@@ -12,9 +12,9 @@ export interface KnexConfig {
 
 const Name = 'knex'
 
-const globals: {
-  [name: string]: Knex
-} = {}
+if (!global['FaasJS_Knex']) {
+  global.FaasJS_Knex = {}
+}
 
 /**
  * Knex 插件
@@ -55,9 +55,9 @@ export class Knex implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    if (globals[this.name]) {
-      this.config = globals[this.name].config
-      this.adapter = globals[this.name].adapter
+    if (global.FaasJS_Knex[this.name]) {
+      this.config = global.FaasJS_Knex[this.name].config
+      this.adapter = global.FaasJS_Knex[this.name].adapter
       this.query = this.adapter
       await next()
       return
@@ -102,7 +102,7 @@ export class Knex implements Plugin {
 
     this.logger.debug('connected')
 
-    globals[this.name] = this
+    global.FaasJS_Knex[this.name] = this
 
     await next()
   }
@@ -131,8 +131,8 @@ export class Knex implements Plugin {
 
   public async quit (): Promise<void> {
     try {
-      await globals[this.name].adapter.destroy()
-      delete globals[this.name]
+      await global.FaasJS_Knex[this.name].adapter.destroy()
+      delete global.FaasJS_Knex[this.name]
     } catch (error) {
       console.error(error)
     }
@@ -142,7 +142,7 @@ export class Knex implements Plugin {
 export function useKnex (config?: KnexConfig): Knex & UseifyPlugin {
   const name = config?.name || Name
 
-  if (globals[name]) return usePlugin<Knex>(globals[name])
+  if (global.FaasJS_Knex[name]) return usePlugin<Knex>(global.FaasJS_Knex[name])
 
   return usePlugin<Knex>(new Knex(config))
 }
