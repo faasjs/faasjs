@@ -128,7 +128,7 @@ export async function action (env: string, files: string[], {
       files = files.concat(changes)
     } else {
       const cwd = execSync('git rev-parse --show-cdup').toString().trim()
-      const changes = execSync('git log -m -1 --name-only --pretty="format:"')
+      const changes = execSync('git diff --name-only HEAD~1..HEAD')
         .toString()
         .split('\n')
         .filter(f => f?.endsWith('.func.ts'))

@@ -28,7 +28,6 @@ export function deepMerge (...sources: any[]): any {
         }
       }
 
-
   return acc
 }
 
