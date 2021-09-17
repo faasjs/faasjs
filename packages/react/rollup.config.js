@@ -6,7 +6,7 @@ export default rollup(
   [
     {
       file: 'lib/index.js',
-      format: 'umd',
+      format: 'iife',
       name: 'FaasReactClient',
       exports: 'named',
     }
