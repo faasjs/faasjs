@@ -16,11 +16,12 @@
   "files": [
     "lib"
   ],
-  "dependencies": {
-    "@faasjs/browser": "^0.0.2-beta.245"
+  "peerDependencies": {
+    "react": "*"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "*",
+    "@types/react": "*",
     "react": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",

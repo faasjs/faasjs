@@ -8,6 +8,7 @@ export default rollup(
       format: 'umd',
       name: 'FaasReactClient',
       exports: 'named',
+      globals: { react: 'React' }
     }
   ]
 )

@@ -1,10 +1,13 @@
 import Client, {
   Options, Params, Response, ResponseError
 } from '../../browser/src'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { useState, useEffect } = require('react')
 
-export function FaasClient ({
+declare const React: {
+  useState<T = any>(value?: T): [T, (value: T) => void]
+  useEffect(...args: any): void
+}
+
+export function FaasReactClient ({
   domain,
   options,
   onError
@@ -30,14 +33,14 @@ export function FaasClient ({
       return client.action<T>(action, params)
     },
     useFaas<T = any> (action: string, defaultParams: Params) {
-      const [loading, setLoading] = useState(false)
-      const [data, setData] = useState()
-      const [error, setError] = useState()
-      const [promise, setPromise] = useState()
-      const [params, setParams] = useState(defaultParams)
-      const [reloadTimes, setReloadTimes] = useState(0)
+      const [loading, setLoading] = React.useState(false)
+      const [data, setData] = React.useState<T>()
+      const [error, setError] = React.useState()
+      const [promise, setPromise] = React.useState<Promise<Response<T>>>()
+      const [params, setParams] = React.useState(defaultParams)
+      const [reloadTimes, setReloadTimes] = React.useState(0)
 
-      useEffect(function () {
+      React.useEffect(function () {
         setLoading(true)
         const request = client.action<T>(action, params)
         setPromise(request)
@@ -66,7 +69,7 @@ export function FaasClient ({
         data,
         error,
         promise,
-        reload (params?: any) {
+        async reload (params?: any) {
           if (params) setParams(params)
           setReloadTimes(reloadTimes + 1)
           return promise
