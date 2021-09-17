@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "0.0.2-beta.246",
+  "version": "0.0.2-beta.247",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -20,11 +20,11 @@
     "@faasjs/browser": "^0.0.2-beta.245"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "*",
     "react": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
-    "typescript": "*",
-    "@rollup/plugin-node-resolve": "*"
+    "typescript": "*"
   },
   "gitHead": "e45b0b022c0e487a848edcb5a3f85873b1d67dc2"
 }
