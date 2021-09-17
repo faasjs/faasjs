@@ -2,6 +2,31 @@
 
 浏览器插件，用于在浏览器中请求云函数。
 
+## 安装方法
+
+### npm
+
+    yarn add @faasjs/browser
+
+### Webpack 和 CDN
+
+在 html 中添加如下代码：
+
+```html
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/@faasjs/browser"></script>
+```
+
+在 webpack.config.js 中添加如下代码：
+
+```javascript
+module.exports = {
+  // ...
+  externals: {
+    '@faasjs/browser': 'FaasBrowserClient'
+  }
+}
+```
+
 ## FaasBrowserClient 实例方法
 
 ### constructor (baseUrl?: string): FaasBrowserClient
@@ -25,39 +50,7 @@
 - **headers** `object` 响应头
 - **body** `any` 响应体
 
-## 在 Vue 中使用
+## 在 React 或 Vue 中使用
 
-```typescript
-// faas.ts
-import FaasBrowserClient, { Response } from '@faasjs/browser';
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $faas(action: string, params?: any): Promise<Response>
-  }
-}
-
-export default {
-  install (Vue: any) {
-    const client = new FaasBrowserClient(location.hostname.indexOf('.com') < 0 ? '' : 'https://api.example.com');
-    Vue.prototype.$faas = function (action: string, params?: any) {
-      return client.action(action, params);
-    };
-  }
-};
-
-// app.vue
-export default {
-  mounted() {
-    this.$faas('action', params).then(({data}) => {
-      this.$set(this, 'data', data);
-    }).catch(function(error){
-      alert(error.message);
-    })
-  }
-}
-```
-
-## Github 地址
-
-[https://github.com/faasjs/faasjs/tree/master/packages/browser](https://github.com/faasjs/faasjs/tree/master/packages/browser)
+- [@faasjs/react](https://faasjs.com/doc/react.html)
+- [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin.html)

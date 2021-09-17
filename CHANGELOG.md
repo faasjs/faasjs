@@ -4,6 +4,17 @@
 
 ## Beta
 
+[`v0.0.2-beta.251 (2021-09-17)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.244...v0.0.2-beta.251)
+
+- [优化] `@faasjs/browser` 支持 CDN。
+- [优化] `@faasjs/react` 支持 CDN。
+- [优化] `@faasjs/vue-plugin` 支持 CDN。
+
+[`v0.0.2-beta.244 (2021-09-16)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.243...v0.0.2-beta.244)
+
+- [优化] `@faasjs/deep_merge` 导出 `deepMerge` 方法。
+- [优化] `@faasjs/logger` 导出 `Logger` 类。
+
 [`v0.0.2-beta.243 (2021-09-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.241...v0.0.2-beta.243)
 
 - [优化] `@faasjs/tencentcloud` 将本地 mock 功能移到 `@faasjs/cloud_function`。
