@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/vue-plugin",
-  "version": "0.0.2-beta.250",
+  "version": "0.0.2-beta.251",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
