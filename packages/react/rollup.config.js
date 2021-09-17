@@ -1,4 +1,5 @@
 import { rollup } from '../../rollup'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 
 export default rollup(
   'src/index.ts',
@@ -6,9 +7,9 @@ export default rollup(
     {
       file: 'lib/index.js',
       format: 'umd',
-      name: 'FaasClient',
+      name: 'FaasReactClient',
       exports: 'named',
-      globals: { '@faasjs/browser': 'FaasBrowserClient' },
     }
-  ]
+  ],
+  [nodeResolve()]
 )

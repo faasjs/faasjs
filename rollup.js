@@ -5,7 +5,7 @@ import { basename } from 'path'
 const external = sync('../*/').map(f => `@faasjs/${basename(f)}`)
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function rollup (input, output) {
+function rollup (input, output, plugins) {
   if (!input) input = 'src/index.ts'
 
   if (!output)
@@ -29,7 +29,7 @@ function rollup (input, output) {
         tsconfig: `${process.cwd()}/tsconfig.json`,
         tsconfigOverride: { exclude: ['**/__tests__'] }
       })
-    ]
+    ].concat(plugins || [])
   }
 }
 

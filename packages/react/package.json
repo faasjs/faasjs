@@ -23,7 +23,8 @@
     "react": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@rollup/plugin-node-resolve": "*"
   },
   "gitHead": "e45b0b022c0e487a848edcb5a3f85873b1d67dc2"
 }
