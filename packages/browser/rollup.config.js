@@ -5,7 +5,9 @@ export default rollup(
   [
     {
       file: 'lib/index.js',
-      format: 'cjs'
+      format: 'umd',
+      name: 'FaasBrowserClient',
+      exports: 'named',
     }
   ]
 )
