@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "0.0.2-beta.248",
+  "version": "0.0.2-beta.249",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
