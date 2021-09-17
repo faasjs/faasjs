@@ -11,5 +11,5 @@ export default rollup(
       exports: 'named',
     }
   ],
-  [nodeResolve()]
+  [nodeResolve({browser: true})]
 )
