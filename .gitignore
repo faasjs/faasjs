@@ -10,5 +10,4 @@ package-lock.json
 report.*.json
 dist
 *.conf
-yarn.lock
 *.vsix
