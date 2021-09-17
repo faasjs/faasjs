@@ -62,7 +62,7 @@ export class FaasBrowserClient {
    * @param options {object} 默认配置项
    */
   constructor (baseUrl: string, options?: Options) {
-    this.host = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'
+    this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/'
     this.defaultOptions = options || Object.create(null)
 
     console.debug('[faas] baseUrl: ' + this.host)
@@ -74,7 +74,11 @@ export class FaasBrowserClient {
    * @param params {any} 动作参数
    * @param options {object} 默认配置项
    */
-  public async action<T = any> (action: string, params: Params, options: Options = {}): Promise<Response<T>> {
+  public async action<T = any> (
+    action: string,
+    params: Params,
+    options: Options = {}
+  ): Promise<Response<T>> {
     const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString()
 
     options = {

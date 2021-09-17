@@ -8,6 +8,7 @@ export default rollup(
       format: 'umd',
       exports: 'named',
       name: 'FaasVuePlugin',
+      globals: { vue: 'Vue' }
     }
   ]
 )
