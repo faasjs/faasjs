@@ -1,5 +1,4 @@
-import _Vue from 'vue'
-import FaasBrowserClient, { Response, Options as FaasOptions } from '@faasjs/browser'
+import FaasBrowserClient, { Response, Options as FaasOptions } from '../../browser'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -13,7 +12,7 @@ export interface Options {
 }
 
 export default {
-  install (Vue: typeof _Vue, options: Options): void {
+  install (Vue: any, options: Options): void {
     const client = new FaasBrowserClient(options.domain, options.options)
     Vue.prototype.$faas = async function<T = any> (action: string, params?: any) {
       return await client.action<T>(action, params)

@@ -20,7 +20,6 @@
     "react": "*"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "*",
     "@types/react": "*",
     "react": "*",
     "rollup": "*",
