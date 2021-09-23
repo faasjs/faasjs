@@ -4,6 +4,8 @@ Snippets for FaasJS.
 
 https://faasjs.com
 
+https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets
+
 ## Change Log
 
 ### 0.0.3
