@@ -1,5 +1,0 @@
-defaults:
-  plugins:
-    users:
-      type: sql
-      adapter: sqlite

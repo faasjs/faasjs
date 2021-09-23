@@ -1,6 +1,6 @@
 import { Func } from '@faasjs/func';
 import { Http } from '@faasjs/http';
-import { Sql } from '@faasjs/sql';
+import { Knex } from '@faasjs/knex';
 
 const http = new Http({
   validator: {
@@ -16,11 +16,11 @@ const http = new Http({
   }
 });
 
-const sql = new Sql();
+const knex = new Knex();
 
 export default new Func({
-  plugins: [http, sql],
+  plugins: [http, knex],
   async handler() {
-    return await sql.query('INSERT INTO tasks (name) VALUES (?)', [http.params.name]);
+    return await knex.query('tasks').insert({name: http.params.name})
   }
 });

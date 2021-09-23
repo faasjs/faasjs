@@ -1,13 +1,13 @@
 import { Func } from '@faasjs/func';
 import { Http } from '@faasjs/http';
-import { Sql } from '@faasjs/sql';
+import { Knex } from '@faasjs/knex';
 
 const http = new Http();
-const sql = new Sql();
+const knex = new Knex();
 
 export default new Func({
-  plugins: [http, sql],
+  plugins: [http, knex],
   async handler() {
-    return await sql.query('SELECT * FROM tasks');
+    return await knex.query('tasks');
   }
 });

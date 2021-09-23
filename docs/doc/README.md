@@ -52,8 +52,6 @@
 |[@faasjs/knex](https://github.com/faasjs/faasjs/tree/master/packages/knex)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/knex/stable.svg)](https://www.npmjs.com/package/@faasjs/knex)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/knex/beta.svg)](https://www.npmjs.com/package/@faasjs/knex)|
 |[@faasjs/mongo](https://github.com/faasjs/faasjs/tree/master/packages/mongo)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/mongo/stable.svg)](https://www.npmjs.com/package/@faasjs/mongo)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/mongo/beta.svg)](https://www.npmjs.com/package/@faasjs/mongo)|
 |[@faasjs/redis](https://github.com/faasjs/faasjs/tree/master/packages/redis)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/redis/stable.svg)](https://www.npmjs.com/package/@faasjs/redis)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/redis/beta.svg)](https://www.npmjs.com/package/@faasjs/redis)|
-|[@faasjs/sql](https://github.com/faasjs/faasjs/tree/master/packages/sql)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/sql/stable.svg)](https://www.npmjs.com/package/@faasjs/sql)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/sql/beta.svg)](https://www.npmjs.com/package/@faasjs/sql)|
-
 
 ## 服务商适配插件
 

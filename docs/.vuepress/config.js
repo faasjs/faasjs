@@ -116,7 +116,6 @@ module.exports = {
             'knex',
             'mongo',
             'redis',
-            'sql',
           ]
         },
         {

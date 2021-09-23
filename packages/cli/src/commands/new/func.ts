@@ -15,11 +15,6 @@ const Plugins = {
     kls: 'Http',
     key: 'http'
   },
-  sql: {
-    name: '@faasjs/sql',
-    kls: 'Sql',
-    key: 'http'
-  },
   redis: {
     name: '@faasjs/redis',
     kls: 'Redis',

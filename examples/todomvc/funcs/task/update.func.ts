@@ -1,6 +1,6 @@
 import { Func } from '@faasjs/func';
 import { Http } from '@faasjs/http';
-import { Sql } from '@faasjs/sql';
+import { Knex } from '@faasjs/knex';
 
 const http = new Http({
   validator: {
@@ -22,17 +22,17 @@ const http = new Http({
   }
 });
 
-const sql = new Sql();
+const knex = new Knex();
 
 export default new Func({
-  plugins: [http, sql],
+  plugins: [http, knex],
   async handler() {
     if (http.params.name) {
-      await sql.query('UPDATE tasks SET name = ? WHERE id = ?', [http.params.name, http.params.id]);
+      await knex.query('tasks').where({id: http.params.id}).update({name: http.params.name});
     }
 
     if (typeof http.params.completed !== 'undefined') {
-      await sql.query('UPDATE tasks SET completed = ? WHERE id = ?', [http.params.completed, http.params.id]);
+      await knex.query('tasks').where({id: http.params.id}).update({completed: http.params.completed});
     }
   }
 });

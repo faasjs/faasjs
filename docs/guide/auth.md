@@ -164,11 +164,11 @@ describe('signin', function () {
 ```typescript
 // users/signin.func.ts
 import { useFunc } from '@faasjs/func';
-import { useSql } from '@faasjs/sql';
+import { useKnex, query } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
 
 export default useFunc(function () {
-  const sql = useSql();
+  useKnex();
   const http = useHttp({
     validator: {
       params: {
@@ -188,7 +188,10 @@ export default useFunc(function () {
   });
 
   return async function () {
-    const row = await sql.queryFirst('SELECT id,password FROM users WHERE username = ? LIMIT 1', [http.params.username]);
+    const row = await query('users')
+      .where({ username: http.params.username })
+      .select('id', 'password')
+      .first();
     if (!row) {
       // 在云函数中，建议直接通过抛异常的方式来告知前端错误信息
       throw Error('用户名错误');
@@ -227,11 +230,11 @@ export default useFunc(function () {
 ```typescript
 // users/change-password.func.ts
 import { useFunc } from '@faasjs/func';
-import { useKnex } from '@faasjs/knex';
+import { useKnex, query } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
 
 export default useFunc(function () {
-  const knex = useKnex()
+  useKnex()
   const http = useHttp({
     validator: {
       session: {
@@ -259,14 +262,14 @@ export default useFunc(function () {
   });
 
   return async function () {
-    const row = await knex.query('users')
+    const row = await query('users')
     .select('password')
     .where('id', '=', http.session.read('user_id'))
     .first();
     if (row.password !== http.params.old_password) {
       throw Error('旧密码错误');
     }
-    await knex.query('users').where('id', '=', http.session.read('user_id')).update({
+    await query('users').where('id', '=', http.session.read('user_id')).update({
       password: http.params.new_password
     })
   }

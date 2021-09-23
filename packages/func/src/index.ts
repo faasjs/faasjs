@@ -10,9 +10,9 @@ export interface Plugin {
   [key: string]: any
   readonly type: string
   readonly name: string
-  onDeploy?: (data: DeployData, next: Next) => void
-  onMount?: (data: MountData, next: Next) => void
-  onInvoke?: (data: InvokeData, next: Next) => void
+  onDeploy?: (data: DeployData, next: Next) => void | Promise<void>
+  onMount?: (data: MountData, next: Next) => void | Promise<void>
+  onInvoke?: (data: InvokeData, next: Next) => void | Promise<void>
 }
 
 export interface ProviderConfig {
@@ -44,7 +44,7 @@ export interface DeployData {
   filename: string
   env?: string
   name?: string
-  config: Config
+  config?: Config
   version?: string
   dependencies: {
     [name: string]: string

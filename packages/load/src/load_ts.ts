@@ -29,7 +29,6 @@ const FAAS_PACKAGES = [
   '@faasjs/redis',
   '@faasjs/request',
   '@faasjs/server',
-  '@faasjs/sql',
   '@faasjs/tencentcloud',
   '@faasjs/test',
   '@faasjs/vue-plugin'
