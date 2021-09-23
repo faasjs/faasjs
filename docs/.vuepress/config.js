@@ -21,12 +21,21 @@ module.exports = {
         link: '/doc/'
       },
       {
-        text: '代码示例',
+        text: '示例',
         link: 'https://github.com/faasjs/faasjs/blob/master/examples/'
       },
       {
-        text: 'Docker 镜像',
-        link: 'https://github.com/faasjs/faasjs/blob/master/images/'
+        text: '工具',
+        items: [
+          {
+            text: 'VS Code 插件',
+            link: 'https://marketplace.visualstudio.com/items?itemName=zfben.faasjs-snippets'
+          },
+          {
+            text: 'Docker 镜像',
+            link: 'https://github.com/faasjs/faasjs/blob/master/images/'
+          },
+        ]
       },
       {
         text: '更新日志',
