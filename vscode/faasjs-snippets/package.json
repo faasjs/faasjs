@@ -2,8 +2,8 @@
   "name": "faasjs-snippets",
   "displayName": "FaasJS Snippets",
   "description": "Snippets for FaasJS",
-  "publisher": "zfben",
-  "version": "0.0.2",
+  "publisher": "faasjs",
+  "version": "0.0.3",
   "license": "MIT",
   "homepage": "https://faasjs.com",
   "repository": {

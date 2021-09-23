@@ -29,7 +29,7 @@ module.exports = {
         items: [
           {
             text: 'VS Code 插件',
-            link: 'https://marketplace.visualstudio.com/items?itemName=zfben.faasjs-snippets'
+            link: 'https://marketplace.visualstudio.com/items?itemName=faasjs.faasjs-snippets'
           },
           {
             text: 'Docker 镜像',

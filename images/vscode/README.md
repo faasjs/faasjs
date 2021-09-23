@@ -25,7 +25,7 @@
 	"extensions": [
 		"dbaeumer.vscode-eslint",
 		"eamodio.gitlens",
-    "zfben.faasjs-snippets"
+    "faasjs.faasjs-snippets"
 	],
 	"forwardPorts": [
 		3000
