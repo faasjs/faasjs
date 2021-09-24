@@ -52,7 +52,7 @@ export class CloudFunction implements Plugin {
   public readonly name: string = Name
   public event: any
   public context: any
-  private config: {
+  public config: {
     name?: string
     memorySize?: number
     timeout?: number
