@@ -4,6 +4,12 @@
 
 ## Beta
 
+[`v0.0.2-beta.253 (2021-09-24)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.251...v0.0.2-beta.253)
+
+- [移除] `@faasjs/sql` 移除，使用 `@faasjs/knex` 代替。
+- [优化] VS Code 插件 `faasjs-snippets` 添加更多代码片段。
+- [优化] `@faasjs/cloud_function` 将 `config` 参数改为 `public`。
+
 [`v0.0.2-beta.251 (2021-09-17)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.244...v0.0.2-beta.251)
 
 - [优化] `@faasjs/browser` 支持 CDN。
