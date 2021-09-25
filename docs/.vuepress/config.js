@@ -121,7 +121,6 @@ module.exports = {
           title: '数据库插件',
           collapsable: false,
           children: [
-            'kafka',
             'knex',
             'mongo',
             'redis',

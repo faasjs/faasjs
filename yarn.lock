@@ -3692,10 +3692,10 @@ extsprintf@^1.2.0:
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
 "faasjs@file:./packages/faasjs":
-  version "0.0.2-beta.244"
+  version "0.0.2-beta.253"
   dependencies:
-    "@faasjs/cli" "^0.0.2-beta.244"
-    "@faasjs/http" "^0.0.2-beta.244"
+    "@faasjs/cli" "^0.0.2-beta.253"
+    "@faasjs/http" "^0.0.2-beta.253"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -5234,11 +5234,6 @@ jsprim@^1.2.2:
   dependencies:
     array-includes "^3.1.3"
     object.assign "^4.1.2"
-
-kafkajs@*:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/kafkajs/-/kafkajs-1.15.0.tgz#a5ada0d933edca2149177393562be6fb0875ec3a"
-  integrity sha512-yjPyEnQCkPxAuQLIJnY5dI+xnmmgXmhuOQ1GVxClG5KTOV/rJcW1qA3UfvyEJKTp/RTSqQnUR3HJsKFvHyTpNg==
 
 kind-of@^6.0.2, kind-of@^6.0.3:
   version "6.0.3"

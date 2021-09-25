@@ -48,7 +48,6 @@
 
 |Name|Stable|Beta|
 |---|---|---|---|
-|[@faasjs/kafka](https://github.com/faasjs/faasjs/tree/master/packages/kafka)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/kafka/stable.svg)](https://www.npmjs.com/package/@faasjs/kafka)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/kafka/beta.svg)](https://www.npmjs.com/package/@faasjs/kafka)|
 |[@faasjs/knex](https://github.com/faasjs/faasjs/tree/master/packages/knex)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/knex/stable.svg)](https://www.npmjs.com/package/@faasjs/knex)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/knex/beta.svg)](https://www.npmjs.com/package/@faasjs/knex)|
 |[@faasjs/mongo](https://github.com/faasjs/faasjs/tree/master/packages/mongo)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/mongo/stable.svg)](https://www.npmjs.com/package/@faasjs/mongo)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/mongo/beta.svg)](https://www.npmjs.com/package/@faasjs/mongo)|
 |[@faasjs/redis](https://github.com/faasjs/faasjs/tree/master/packages/redis)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/redis/stable.svg)](https://www.npmjs.com/package/@faasjs/redis)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/redis/beta.svg)](https://www.npmjs.com/package/@faasjs/redis)|

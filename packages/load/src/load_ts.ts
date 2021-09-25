@@ -21,7 +21,6 @@ const FAAS_PACKAGES = [
   '@faasjs/func',
   '@faasjs/graphql-server',
   '@faasjs/http',
-  '@faasjs/kafka',
   '@faasjs/knex',
   '@faasjs/load',
   '@faasjs/logger',
