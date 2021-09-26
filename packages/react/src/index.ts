@@ -41,6 +41,12 @@ export function FaasReactClient ({
       const [reloadTimes, setReloadTimes] = React.useState(0)
 
       React.useEffect(function () {
+        if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
+          setParams(defaultParams)
+        }
+      }, [defaultParams])
+
+      React.useEffect(function () {
         setLoading(true)
         const request = client.action<T>(action, params)
         setPromise(request)
@@ -58,6 +64,10 @@ export function FaasReactClient ({
             setError(e)
           })
           .finally(() => setLoading(false))
+
+        return () => {
+          setLoading(false)
+        }
       }, [
         action,
         JSON.stringify(params),
