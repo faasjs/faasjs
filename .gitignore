@@ -9,5 +9,4 @@ tmp
 package-lock.json
 report.*.json
 dist
-*.conf
 *.vsix
