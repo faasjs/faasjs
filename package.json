@@ -8,7 +8,7 @@
     "pub:retry": "lerna publish from-git --preid beta --pre-dist-tag beta --registry https://registry.npmjs.org/",
     "pub:github": "lerna publish from-package --preid beta --pre-dist-tag beta --registry https://npm.pkg.github.com/",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp *.log",
-    "build": "lerna run prepack --stream"
+    "build": "lerna run prepack"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
