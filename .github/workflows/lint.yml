@@ -12,14 +12,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+
       - name: Install
         run: |
-          npm install -g npm
+          npm install -g npm@latest
           npm install
 
       - name: Run Lint
