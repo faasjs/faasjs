@@ -25,6 +25,7 @@
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",
+    "@types/mongodb": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
