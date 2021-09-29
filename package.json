@@ -11,13 +11,14 @@
     "build": "lerna run prepack --stream"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
+    "@faasjs/eslint-config-recommended": "link:packages/eslint-config-recommended",
     "@sucrase/jest-plugin": "*",
     "codecov": "*",
-    "faasjs": "file:./packages/faasjs",
+    "faasjs": "link:packages/faasjs",
     "jest": "*",
     "lerna": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "rollup": "*"
   },
   "workspaces": [
     "packages/*"

@@ -45,7 +45,7 @@ jobs:
       - name: Install
         run: |
           npm install -g pnpm
-          pnpm install
+          pnpm i --shamefully-hoist
 
       - name: Prepack
         run: pnpm lerna run prepack

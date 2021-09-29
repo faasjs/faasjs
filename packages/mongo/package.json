@@ -19,7 +19,6 @@
   ],
   "dependencies": {
     "@faasjs/logger": "^0.0.2-beta.243",
-    "@types/mongodb": "*",
     "mongodb": "*"
   },
   "devDependencies": {

@@ -20,7 +20,7 @@ jobs:
       - name: Install
         run: |
           npm install -g pnpm
-          pnpm install
+          pnpm i --shamefully-hoist
 
       - name: Run Lint
         run: pnpm lint
