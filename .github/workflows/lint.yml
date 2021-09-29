@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 1
 
       - name: Install
-        run: yarn
+        run: npm install
 
       - name: Run Lint
-        run: yarn lint
+        run: npm run lint
