@@ -7,7 +7,7 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "eslint.packageManager": "yarn",
+  "eslint.packageManager": "pnpm",
   "eslint.workingDirectories": [
     {
       "directory": "./packages/browser",
@@ -89,6 +89,7 @@
   "cSpell.words": [
     "Faas",
     "faasjs",
+    "pnpm",
     "RUNENV",
     "SECRETID",
     "SECRETKEY",
