@@ -30,6 +30,9 @@
       "@faasjs/recommended"
     ]
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "jest": {
     "transform": {
       ".(jsx|tsx?)": "@sucrase/jest-plugin"
