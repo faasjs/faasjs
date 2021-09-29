@@ -17,8 +17,8 @@
     "faasjs": "link:packages/faasjs",
     "jest": "*",
     "lerna": "*",
-    "typescript": "*",
-    "rollup": "*"
+    "rollup": "*",
+    "typescript": "*"
   },
   "workspaces": [
     "packages/*"
