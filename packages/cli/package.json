@@ -19,7 +19,7 @@
   "files": [
     "lib"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "@faasjs/deployer": "^0.0.2-beta.254",
     "@faasjs/func": "^0.0.2-beta.253",
     "@faasjs/server": "^0.0.2-beta.254",

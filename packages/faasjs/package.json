@@ -9,7 +9,7 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/faasjs"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@faasjs/cli": "^0.0.2-beta.254",
     "@faasjs/http": "^0.0.2-beta.253"
   },

@@ -19,7 +19,7 @@
   "files": [
     "lib"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.244",
     "@rollup/plugin-typescript": "*",
     "js-yaml": "*",

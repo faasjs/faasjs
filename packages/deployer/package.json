@@ -17,7 +17,7 @@
   "files": [
     "lib"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "@faasjs/cloud_function": "^0.0.2-beta.254",
     "@faasjs/tencentcloud": "^0.0.2-beta.254"
   },

@@ -12,7 +12,7 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/eslint-config-react"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@faasjs/eslint-config-recommended": "^0.0.2-beta.234",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-hooks": "*"

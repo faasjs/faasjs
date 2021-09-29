@@ -12,7 +12,7 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/eslint-config-recommended"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
     "eslint": "*",
