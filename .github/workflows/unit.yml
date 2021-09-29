@@ -43,12 +43,10 @@ jobs:
           fetch-depth: 1
 
       - name: Install
-        run: |
-          npm install -g pnpm
-          pnpm i --shamefully-hoist
+        run: yarn
 
       - name: Prepack
-        run: pnpm lerna run prepack
+        run: yarn lerna run prepack
 
       - name: Run Tests
         run: NODE_OPTIONS=--max_old_space_size=4096 node --expose-gc ./node_modules/.bin/jest --silent --ci --forceExit --logHeapUsage -w=1

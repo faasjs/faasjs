@@ -18,9 +18,7 @@ jobs:
           fetch-depth: 1
 
       - name: Install
-        run: |
-          npm install -g pnpm
-          pnpm i --shamefully-hoist
+        run: yarn
 
       - name: Run Lint
-        run: pnpm lint
+        run: yarn lint
