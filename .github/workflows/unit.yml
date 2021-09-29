@@ -43,7 +43,9 @@ jobs:
           fetch-depth: 1
 
       - name: Install
-        run: npm install
+        run: |
+          npm install -g npm
+          npm install
 
       - name: Prepack
         run: npm run lerna run prepack

@@ -18,7 +18,9 @@ jobs:
           fetch-depth: 1
 
       - name: Install
-        run: npm install
+        run: |
+          npm install -g npm
+          npm install
 
       - name: Run Lint
         run: npm run lint
