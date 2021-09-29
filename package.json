@@ -20,9 +20,6 @@
     "rollup": "*",
     "typescript": "*"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "eslintConfig": {
     "ignorePatterns": [
       "**/examples",
