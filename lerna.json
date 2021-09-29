@@ -4,7 +4,6 @@
   ],
   "version": "0.0.2-beta.255",
   "npmClient": "npm",
-  "useWorkspaces": true,
   "bootstrap": {
     "hoist": true
   },
