@@ -4,9 +4,6 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "bin": {
-    "faas": "lib/index.js"
-  },
   "homepage": "https://faasjs.com/doc/cli.html",
   "repository": {
     "type": "git",

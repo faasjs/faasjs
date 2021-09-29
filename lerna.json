@@ -3,7 +3,7 @@
     "packages/*"
   ],
   "version": "0.0.2-beta.254",
-  "npmClient": "pnpm",
+  "npmClient": "npm",
   "useWorkspaces": true,
   "bootstrap": {
     "hoist": true

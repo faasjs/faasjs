@@ -3,9 +3,6 @@
   "version": "0.0.2-beta.235",
   "license": "MIT",
   "main": "lib/index.js",
-  "bin": {
-    "create-faas-app": "lib/index.js"
-  },
   "homepage": "https://faasjs.com/doc/create-faas-app.html",
   "repository": {
     "type": "git",
