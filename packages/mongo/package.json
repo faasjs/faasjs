@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/mongo",
-  "version": "0.0.2-beta.255",
+  "version": "0.0.2-beta.256",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
@@ -24,8 +24,8 @@
   "devDependencies": {
     "@types/debug": "*",
     "@types/jest": "*",
-    "@types/node": "*",
     "@types/mongodb": "*",
+    "@types/node": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
