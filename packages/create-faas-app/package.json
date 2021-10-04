@@ -3,6 +3,10 @@
   "version": "0.0.2-beta.255",
   "license": "MIT",
   "main": "lib/index.js",
+  "types": "libs/index.d.ts",
+  "bin": {
+    "create-faas-app": "index.js"
+  },
   "homepage": "https://faasjs.com/doc/create-faas-app.html",
   "repository": {
     "type": "git",
@@ -13,7 +17,8 @@
     "prepack": "rm -rf ./lib && rollup -c"
   },
   "files": [
-    "lib"
+    "lib",
+    "index.js"
   ],
   "dependencies": {
     "commander": "*",

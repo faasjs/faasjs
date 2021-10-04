@@ -93,7 +93,7 @@ export function querystringify (obj: any) {
  * 发起网络请求
  * @param {string} url 请求路径或完整网址
  * @param {object=} [options={}] 参数和配置
- * @param {string} [options.methd=GET] 请求方法
+ * @param {string} [options.method=GET] 请求方法
  * @param {object} [options.query={}] 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数
  * @param {object} [options.headers={}] 请求头
  * @param {object=} options.body 请求体
@@ -150,7 +150,7 @@ export async function request<T = any> (url: string, {
   const uri = new URL(url)
   const protocol = uri.protocol === 'https:' ? https : http
 
-  if (!uri.protocol) throw Error('Unkonw protocol')
+  if (!uri.protocol) throw Error('Unknown protocol')
 
   const options: {
     method: string
@@ -247,13 +247,13 @@ export async function request<T = any> (url: string, {
     if (file) {
       const crlf = '\r\n'
       const boundary = `--${Math.random().toString(16)}`
-      const delimeter = `${crlf}--${boundary}`
+      const delimiter = `${crlf}--${boundary}`
       const headers = [`Content-Disposition: form-data; name="file"; filename="${basename(file)}"${crlf}`]
 
       const multipartBody = Buffer.concat([
-        Buffer.from(delimeter + crlf + headers.join('') + crlf),
+        Buffer.from(delimiter + crlf + headers.join('') + crlf),
         readFileSync(file),
-        Buffer.from(`${delimeter}--`)
+        Buffer.from(`${delimiter}--`)
       ])
 
       req.setHeader('Content-Type', 'multipart/form-data; boundary=' + boundary)

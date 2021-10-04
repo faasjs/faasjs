@@ -90,6 +90,7 @@
     "Faas",
     "faasjs",
     "pnpm",
+    "querystringify",
     "RUNENV",
     "SECRETID",
     "SECRETKEY",

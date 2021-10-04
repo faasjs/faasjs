@@ -4,6 +4,9 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "bin": {
+    "faas": "index.js"
+  },
   "homepage": "https://faasjs.com/doc/cli.html",
   "repository": {
     "type": "git",
@@ -14,7 +17,8 @@
     "prepack": "rm -rf ./lib && rollup -c"
   },
   "files": [
-    "lib"
+    "lib",
+    "index.js"
   ],
   "peerDependencies": {
     "@faasjs/deployer": "^0.0.2-beta.254",
