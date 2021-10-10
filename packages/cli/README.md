@@ -18,4 +18,4 @@ Add script to package.json:
 }
 ```
 
-Get help info: `yarn faas -h`
+Get help info: `npm exec faas -h`

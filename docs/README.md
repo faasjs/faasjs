@@ -70,7 +70,7 @@ describe('index', function () {
 ## 立即开始
 
 ```bash
-yarn create faas-app --name faasjs --example --noprovider
+npx create-faas-app --name faasjs --example --noprovider
 ```
 
 <div style="padding:0 2.5rem;text-align:center">
@@ -104,13 +104,10 @@ yarn create faas-app --name faasjs --example --noprovider
     <a href="https://babeljs.io/" target="_blank">Babel</a>
     <a href="https://eslint.org/" target="_blank">ESLint</a>
     <a href="https://jestjs.io/" target="_blank">Jest</a>
-    <a href="https://jsdoc.app/" target="_blank">JSDoc</a>
     <a href="https://knexjs.org/" target="_blank">Knex</a>
     <a href="https://nodejs.org/" target="_blank">Node.js</a>
-    <a href="https://reactjs.org/" target="_blank">React</a>
     <a href="https://rollupjs.org/" target="_blank">Rollup.js</a>
     <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>
-    <a href="https://vuejs.org/" target="_blank">Vue.js</a>
     <a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a>
   </div>
   <p><a href="https://beian.miit.gov.cn/" target="_blank" style="color:#4e6e8e;font-weight:200;font-size:0.8rem">沪ICP备15033310号</a></p>

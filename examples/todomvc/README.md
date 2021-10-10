@@ -15,8 +15,8 @@
 
 ## 安装
 
-    yarn install
+    npm install
 
 ## 运行
 
-    yarn dev
+    npm run dev

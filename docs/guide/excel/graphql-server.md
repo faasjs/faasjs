@@ -2,7 +2,7 @@
 
 基于 [Apollo Federation](https://www.apollographql.com/docs/apollo-server/federation/introduction/) 构建分布式 GraphQL Serverless 服务。
 
-此插件非 `faasjs` 内置，使用前请先通过 `yarn add @faasjs/graphql-server@beta` 安装。
+此插件非 `faasjs` 内置，使用前请先通过 `npm install @faasjs/graphql-server@beta --save` 安装。
 
 ## 使用示例
 

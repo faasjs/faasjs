@@ -6,7 +6,7 @@ React 插件。
 
 ### npm
 
-    yarn add @faasjs/react
+    npm install @faasjs/react --save
 
 ### Webpack 和 CDN
 

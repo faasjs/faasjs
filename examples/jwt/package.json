@@ -35,6 +35,6 @@
     "webpack-dev-server": "*"
   },
   "scripts": {
-    "dev": "yarn node ./node_modules/@faasjs/cli/lib/index.js server -v -r \"./funcs\" -p 8081 & webpack serve --progress --config web/.webpack/webpack.config.js"
+    "dev": "node ./node_modules/@faasjs/cli/lib/index.js server -v -r \"./funcs\" -p 8081 & webpack serve --progress --config web/.webpack/webpack.config.js"
   }
 }

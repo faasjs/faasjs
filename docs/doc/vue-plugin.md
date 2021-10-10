@@ -6,7 +6,7 @@ Vue 插件。
 
 ### npm
 
-    yarn add @faasjs/vue-plugin
+    npm install @faasjs/vue-plugin --save
 
 ### Webpack 和 CDN
 

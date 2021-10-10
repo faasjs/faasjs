@@ -6,7 +6,7 @@
 
 ### npm
 
-    yarn add @faasjs/browser
+    npm install @faasjs/browser --save
 
 ### Webpack 和 CDN
 

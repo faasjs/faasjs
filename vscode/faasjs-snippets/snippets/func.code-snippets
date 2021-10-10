@@ -20,10 +20,10 @@
       "import { useHttp } from '@faasjs/http'",
       "",
       "export default useFunc(function() {",
-      "  const http = useHttp<{$1}, {}, {}>($2)",
+      "  const http = useHttp<{$0}, {$1}, {$2}>($3)",
       "",
       "  return async function () {",
-      "    $3",
+      "    $4",
       "  }",
       "})"
     ]
@@ -62,7 +62,7 @@
   },
   "useFunc with http, knex": {
     "description": "Generate a useFunc module with http and knex",
-    "prefix": ["ufh", "useFuncWithHttp"],
+    "prefix": ["ufhk", "useFuncWithHttpKnex"],
     "body": [
       "import { useFunc } from '@faasjs/func'",
       "import { useHttp } from '@faasjs/http'",
@@ -70,17 +70,17 @@
       "",
       "export default useFunc(function() {",
       "  useKnex()",
-      "  const http = useHttp<{$1}, {}, {}>($2)",
+      "  const http = useHttp<{$0}, {$1}, {$2}>($3)",
       "",
       "  return async function () {",
-      "    $3",
+      "    $4",
       "  }",
       "})"
     ]
   },
   "useFunc with http, knex and redis": {
     "description": "Generate a useFunc module with http, knex and redis",
-    "prefix": ["ufh", "useFuncWithHttp"],
+    "prefix": ["ufhkr", "useFuncWithHttpKnexRedis"],
     "body": [
       "import { useFunc } from '@faasjs/func'",
       "import { useHttp } from '@faasjs/http'",
@@ -90,12 +90,30 @@
       "export default useFunc(function() {",
       "  useKnex()",
       "  useRedis()",
-      "  const http = useHttp<{$1}, {}, {}>($2)",
+      "  const http = useHttp<{$0}, {$1}, {$2}>($3)",
       "",
       "  return async function () {",
-      "    $3",
+      "    $4",
       "  }",
       "})"
+    ]
+  },
+  "http validator": {
+    "description": "Generate a http validator",
+    "prefix": ["valid", "httpValidator"],
+    "body": [
+      "validator: {",
+      "  params: {",
+      "    rules: {",
+      "      $0",
+      "    }",
+      "  },",
+      "  session: {",
+      "    rules: {",
+      "      $1",
+      "    }",
+      "  },",
+      "}",
     ]
   }
 }

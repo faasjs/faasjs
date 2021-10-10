@@ -41,7 +41,7 @@ export function ServerCommand (program: Command): void {
     .on('--help', function () {
       console.log(`
 Examples:
-  yarn server`)
+  npm exec faas server`)
     })
     .option('-p, --port <port>', '端口号', '3000')
     .option('-c, --cache', '是否启用缓存', false)

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "faas server -r funcs & webpack-dev-server --config web/config/development.js --progress",
-    "test": "yarn && jest --silent --maxWorkers=1 --passWithNoTests"
+    "test": "jest --silent --maxWorkers=1 --passWithNoTests"
   },
   "dependencies": {
     "@babel/core": "*",

@@ -44,9 +44,9 @@ FaasJS 需要将以下 4 个配置信息填写到 `faas.yaml`：
 
 ## 发布到腾讯云
 
-FaasJS 的发布指令格式为 `yarn faas deploy <env> <file>`，示例如下：
+FaasJS 的发布指令格式为 `npm exec faas deploy <env> <file>`，示例如下：
 
-    yarn faas deploy production hello.func.ts
+    npm exec faas deploy production hello.func.ts
 
 其中 `production` 即环境名，`hello.func.ts` 即要发布的云函数文件名。
 

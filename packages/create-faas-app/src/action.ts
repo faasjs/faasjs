@@ -238,7 +238,7 @@ coverage/
     "**/dist": true,
     "**/tmp": true
   },
-  "eslint.packageManager": "yarn",
+  "eslint.packageManager": "npm",
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -252,7 +252,7 @@ coverage/
   "npm.autoDetect": "off"
 }`)
 
-  execSync(`yarn --cwd ${answers.name} install`, { stdio: 'inherit' })
+  execSync(`cd ${answers.name} && npm install`, { stdio: 'inherit' })
 
   if (answers.example) {
     writeFileSync(join(answers.name, 'index.func.ts'),
@@ -283,7 +283,7 @@ describe('hello', function () {
 });
 `)
 
-    execSync(`yarn --cwd ${answers.name} jest`, { stdio: 'inherit' })
+    execSync(`cd ${answers.name} && npm exec jest`, { stdio: 'inherit' })
   }
 }
 
@@ -293,7 +293,7 @@ export default function (program: Command): void {
     .on('--help', function () {
       console.log(`
 Examples:
-  yarn create faas-app`)
+  npx create-faas-app`)
     })
     .option('--name <name>', '项目名字')
     .option('--region <region>', '可用区')

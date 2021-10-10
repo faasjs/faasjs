@@ -4,7 +4,7 @@ FaasJS 提供了 `@faasjs/vue-plugin` 使得你可以在 Vue 组件中轻松调�
 
 ## 集成步骤
 
-1. 安装插件 `yarn add @faasjs/vue-plugin@beta`
+1. 安装插件 `npm install @faasjs/vue-plugin@beta --save`
 2. 引入插件
 
 ```typescript

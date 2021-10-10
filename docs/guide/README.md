@@ -7,21 +7,21 @@
 
 ## 准备工作
 
-FaasJS 基于 Node.js 和 yarn 构建，因此需要本地环境支持至少 Node.js 8.x 和 yarn 1.x。
+FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 12.x。
 
-若使用的是 OS X，可以使用 brew 来安装：`brew install node yarn`。
+若使用的是 OS X，可以使用 brew 来安装：`brew install node`。
 
 由于 FaasJS 基于 TypeScript，因此建议使用 [Visual Studio Code](https://code.visualstudio.com/) 作为编辑器。
 
 ## 创建项目
 
-你可以直接使用 yarn 一键创建新项目，初次创建可以先跳过 Provider 配置：
+你可以直接使用 npx 一键创建新项目，初次创建可以先跳过 Provider 配置：
 
-    yarn create faas-app --example --noprovider
+    npx create-faas-app --example --noprovider
 
 ## 启动项目
 
-执行 `yarn faas server`，用浏览器打开 `http://localhost:3000/hello` 即可看到 hello.func.ts 的执行结果。
+执行 `npm exec faas server`，用浏览器打开 `http://localhost:3000/hello` 即可看到 hello.func.ts 的执行结果。
 
 ## 文件结构
 

@@ -14,7 +14,7 @@ FaasJS 使用 [ESLint](https://eslint.org/) 来提供代码格式规范检查能
 
 ### 配置方法
 
-1. 通过 `yarn add -D @faasjs/eslint-config-recommended@beta` 安装依赖库
+1. 通过 `npm install -D @faasjs/eslint-config-recommended@beta` 安装依赖库
 2. 在 **package.json** 中添加配置项：
 
 ```json
@@ -31,7 +31,7 @@ FaasJS 使用 [ESLint](https://eslint.org/) 来提供代码格式规范检查能
 ### 命令
 
 ```
-yarn eslint --ext .ts .
+npm exec eslint --ext .ts .
 ```
 
 ## 全栈模式
@@ -45,7 +45,7 @@ yarn eslint --ext .ts .
 
 ### 配置方法
 
-1. 通过 `yarn add -D @faasjs/eslint-config-vue@beta` 安装依赖库
+1. 通过 `npm install -D @faasjs/eslint-config-vue@beta` 安装依赖库
 2. 在 **package.json** 中添加配置项：
 
 ```json
@@ -62,5 +62,5 @@ yarn eslint --ext .ts .
 ### 命令
 
 ```
-yarn eslint --ext .ts,.vue .
+npm exec eslint --ext .ts,.vue .
 ```

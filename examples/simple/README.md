@@ -2,16 +2,16 @@
 
 ## 安装
 
-    yarn install
+    npm install
 
 ## 运行
 
-    yarn faas server
+    npm exec faas server
 
 ## 代码规范检查
 
-    yarn lint
+    npm run lint
 
 ## 自动化测试
 
-    yarn jest
+    npm run jest

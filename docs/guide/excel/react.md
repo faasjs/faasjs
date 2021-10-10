@@ -4,7 +4,7 @@ FaasJS 提供了 `@faasjs/react` 使得你可以在 React 中轻松调用云函�
 
 ## 集成步骤
 
-1. 安装插件 `yarn add @faasjs/react@beta`
+1. 安装插件 `npm install @faasjs/react@beta --save`
 2. 引入插件
 
 ```typescript

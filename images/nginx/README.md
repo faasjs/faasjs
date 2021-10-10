@@ -16,12 +16,12 @@ FROM faasjs/node:lts-alpine AS builder
 
 WORKDIR /app
 COPY package.json package.json
-COPY yarn.lock yarn.lock
-RUN yarn install
+COPY package-lock.json package-lock.json
+RUN npm install
 
 COPY . .
 
-RUN yarn build
+RUN npm run build
 
 FROM faasjs/nginx
 

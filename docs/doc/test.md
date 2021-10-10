@@ -34,7 +34,7 @@ FaasJS 内置插件，无需额外安装。
 在完成 `package.json` 配置后，可以使用以下命令进行自动化测试：
 
 ```bash
-yarn jest
+  npm exec jest
 ```
 
 ## 编写测试用例

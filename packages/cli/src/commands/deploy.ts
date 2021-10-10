@@ -228,9 +228,9 @@ export function DeployCommand (program: Command): void {
     .on('--help', function () {
       log(`
 Examples:
-  yarn deploy staging services${sep}demo.func.ts
-  yarn deploy production services${sep}demo.func.ts services${sep}demo2.func.ts
-  yarn deploy staging services${sep}`)
+  npm exec faas deploy staging services${sep}demo.func.ts
+  npm exec faas deploy production services${sep}demo.func.ts services${sep}demo2.func.ts
+  npm exec faas deploy staging services${sep}`)
     })
     .action(action)
 }

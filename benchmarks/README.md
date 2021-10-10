@@ -1,6 +1,6 @@
 # Install
 
-    yarn install
+    npm install
     brew install wrk
 
 # Run

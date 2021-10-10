@@ -59,7 +59,7 @@
 
 我们先通过命令行创建云函数文件：
 
-    yarn faas new func users/signup sql http
+    npm exec faas new func users/signup http knex
 
 然后在云函数文件中写业务代码：
 
@@ -159,7 +159,7 @@ describe('signin', function () {
 
 ## 登录流程
 
-    yarn faas new func users/signin sql http
+    npm exec faas new func users/signin http knex
 
 ```typescript
 // users/signin.func.ts
@@ -207,7 +207,7 @@ export default useFunc(function () {
 
 ## 登出流程
 
-    yarn new func users/signout sql http
+    npm exec faas new func users/signout http
 
 ```typescript
 // users/signout.func.ts
@@ -225,7 +225,7 @@ export default useFunc(function () {
 
 ## 修改密码流程
 
-    yarn faas new func users/change-password sql http
+    npm exec faas new func users/change-password http knex
 
 ```typescript
 // users/change-password.func.ts

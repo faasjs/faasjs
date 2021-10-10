@@ -42,7 +42,7 @@ describe('action', function () {
       example: false
     })
 
-    expect(execs).toEqual(['yarn --cwd test install'])
+    expect(execs).toEqual(['cd test && npm install'])
     expect(mkdirs).toEqual(['test', 'test/.vscode'])
     expect(Object.keys(files)).toEqual([
       'test/faas.yaml',
@@ -69,7 +69,7 @@ coverage/
       example: false
     })
 
-    expect(execs).toEqual(['yarn --cwd test install'])
+    expect(execs).toEqual(['cd test && npm install'])
     expect(mkdirs).toEqual(['test', 'test/.vscode'])
     expect(Object.keys(files)).toEqual([
       'test/faas.yaml',

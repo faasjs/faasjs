@@ -19,8 +19,8 @@ export function NewCommand (program: Command): void {
     .on('--help', function () {
       console.log(`
 Examples:
-  yarn new func hello
-  yarn new func folder/demo cf http sql redis`)
+  npm exec faas new func hello
+  npm exec faas new func folder/demo cf http sql redis`)
     })
     .action(action)
 }
