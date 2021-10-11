@@ -129,6 +129,14 @@ export class Redis implements Plugin {
     return this.query('GET', [key])
   }
 
+  public async getJSON<TData = any> (key: string): Promise<TData> {
+    const data = await this.query('GET', [key])
+
+    if (typeof data !== 'string') return data
+
+    return JSON.parse(data)
+  }
+
   public async set<TResult = void> (key: string, value: any, options?: SET): Promise<TResult> {
     const args = [key, value]
 
@@ -158,6 +166,10 @@ export class Redis implements Plugin {
 
     return this.query('SET', args)
   }
+
+  public async setJSON<TResult = void> (key: string, value: any, options?: SET): Promise<TResult> {
+    return this.set(key, JSON.stringify(value), options)
+  }
 }
 
 export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
@@ -182,4 +194,16 @@ export async function set<TResult = void> (
   options?: SET
 ): Promise<TResult> {
   return useRedis().set<TResult>(key, value, options)
+}
+
+export async function getJSON<TResult = any> (key: string): Promise<TResult> {
+  return useRedis().getJSON<TResult>(key)
+}
+
+export async function setJSON<TResult = void> (
+  key: string,
+  value: any,
+  options?: SET
+): Promise<TResult> {
+  return useRedis().setJSON<TResult>(key, value, options)
 }
