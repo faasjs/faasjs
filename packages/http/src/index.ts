@@ -270,11 +270,12 @@ export class Http<TParams = { [key: string]: any },
 
     data.response = this.response
 
-    // 非字符串和 JSON 格式的响应不压缩
+    // 判断是否需要压缩
     if (
       data.response.isBase64Encoded ||
       typeof data.response.body !== 'string' ||
-      !data.response.headers['Content-Type']?.includes('json')
+      !data.response.headers['Content-Type']?.includes('json') ||
+      data.response.body.length < 100
     ) return
 
     const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding']
