@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/deployer",
-  "version": "0.0.2-beta.255",
+  "version": "0.0.2-beta.258",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.255",
-    "@faasjs/http": "^0.0.2-beta.255",
+    "@faasjs/http": "^0.0.2-beta.258",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*"
