@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/mongo",
-  "version": "0.0.2-beta.256",
+  "version": "0.0.2-beta.259",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
