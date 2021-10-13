@@ -71,7 +71,7 @@ export class Mongo implements Plugin {
 
     if (typeof this.config.loggerLevel === 'undefined') this.config.loggerLevel = 'debug'
 
-    this.logger.debug('conncet: %O', this.config)
+    this.logger.debug('connect: %j', this.config)
 
     const url = this.config.url
     delete this.config.url

@@ -203,11 +203,12 @@ export class Http<TParams = { [key: string]: any },
       this.logger.debug('[onInvoke] Parse params from queryString')
       this.params = data.event.queryString
     }
+    this.logger.debug('[onInvoke] Params: %j', this.params)
 
     this.logger.debug('[onInvoke] Parse cookie')
     this.cookie.invoke(this.headers.cookie)
-    this.logger.debug('[onInvoke] Cookie: %O', this.cookie.content)
-    this.logger.debug('[onInvoke] Session: %O', this.session.content)
+    this.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
+    this.logger.debug('[onInvoke] Session: %j', this.session.content)
 
     if (this.validator && data.event.httpMethod) {
       this.logger.debug('[onInvoke] Valid request')
@@ -269,6 +270,11 @@ export class Http<TParams = { [key: string]: any },
     }, this.cookie.headers(), this.response.headers)
 
     data.response = this.response
+
+    if (process.env.FaasMode === 'local') {
+      this.logger.debug('[onInvoke] Response: %j', data.response)
+      return
+    }
 
     // 判断是否需要压缩
     if (

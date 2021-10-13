@@ -99,7 +99,7 @@ export class FuncWarpper {
     await this.mount()
 
     const response = await this._handler(event, context)
-    this.logger.debug('response: %O', response)
+    this.logger.debug('response: %j', response)
 
     return response
   }
@@ -150,7 +150,7 @@ export class FuncWarpper {
       response.error = parsedBody.error
     }
 
-    this.logger.debug('response: %O', response)
+    this.logger.debug('response: %j', response)
 
     return response
   }

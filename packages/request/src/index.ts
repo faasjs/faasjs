@@ -197,7 +197,7 @@ export async function request<T = any> (url: string, {
     options.headers['Content-Length'] = Buffer.byteLength(body as string)
 
   return await new Promise(function (resolve, reject) {
-    log.debug('request %O', {
+    log.debug('request %j', {
       ...options,
       body
     })
@@ -235,7 +235,7 @@ export async function request<T = any> (url: string, {
 
 
           if (response.statusCode >= 200 && response.statusCode < 400) resolve(response); else {
-            log.debug('response.error %O', response)
+            log.debug('response.error %j', response)
             reject(response)
           }
         })
@@ -263,7 +263,7 @@ export async function request<T = any> (url: string, {
     }
 
     req.on('error', function (e: Error) {
-      log.timeEnd(url, 'response.error %O', e)
+      log.timeEnd(url, 'response.error %j', e)
       reject(e)
     })
 

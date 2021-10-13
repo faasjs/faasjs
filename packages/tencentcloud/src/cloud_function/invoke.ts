@@ -9,7 +9,7 @@ export async function invokeCloudFunction<TResult = any> (
     [key: string]: any
   }
 ): Promise<TResult> {
-  tc.logger.debug('invokeFunction: %s %O %O', name, options, data)
+  tc.logger.debug('invokeFunction: %s %j %j', name, options, data)
 
   return scf('Invoke', tc.config, Object.assign({
     FunctionName: name.replace(/[^a-zA-Z0-9-_]/g, '_'),

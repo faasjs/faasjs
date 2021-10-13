@@ -85,17 +85,17 @@ export class Knex implements Plugin {
         sql, __knexQueryUid, bindings
       }) => {
         this.logger.time(`Knex${__knexQueryUid}`)
-        this.logger.debug('query begin: %s %O', sql, bindings)
+        this.logger.debug('query begin: %s %j', sql, bindings)
       })
       .on('query-response', (response, {
         sql, __knexQueryUid, bindings
       }) => {
-        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query done: %s %O %O', sql, bindings, response)
+        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query done: %s %j %j', sql, bindings, response)
       })
       .on('query-error', (_, {
         __knexQueryUid, sql, bindings
       }) => {
-        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query failed: %s %O', sql, bindings)
+        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query failed: %s %j', sql, bindings)
       })
 
     this.query = this.adapter

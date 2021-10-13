@@ -94,16 +94,16 @@ export class Redis implements Plugin {
     if (!this.config) this.config = global.FaasJS_Redis[this.name].config
     if (this.adapter == null) this.adapter = global.FaasJS_Redis[this.name].adapter
 
-    this.logger.debug('query begin: %s %O', command, args)
+    this.logger.debug('query begin: %s %j', command, args)
     this.logger.time(command)
 
     return new Promise((resolve, reject) => {
       this.adapter.sendCommand(command, args, (err, data: TResult) => {
         if (err) {
-          this.logger.timeEnd(command, 'query fail: %s %O', command, err)
+          this.logger.timeEnd(command, 'query fail: %s %j', command, err)
           reject(err)
         } else {
-          this.logger.timeEnd(command, 'query success: %s %O', command, data)
+          this.logger.timeEnd(command, 'query success: %s %j', command, data)
           resolve(data)
         }
       })
