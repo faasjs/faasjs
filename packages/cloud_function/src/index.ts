@@ -19,8 +19,8 @@ export interface CloudFunctionConfig {
     timeout?: number
     /** 触发器配置 */
     triggers?: {
-      type: string
-      name: string
+      type: 'timer' | string
+      name?: string
       value: string
     }[]
     /** 预制并发配置 */
