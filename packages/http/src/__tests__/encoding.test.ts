@@ -5,12 +5,22 @@ import {
 import { Http } from '..'
 
 describe('Accept-Encoding', function () {
+  beforeAll(function () {
+    process.env.FaasMode = 'remote'
+  })
+
+  afterAll(function () {
+    process.env.FaasMode = 'local'
+  })
+
+  const data = new Array(101).join('1')
+
   test('br', async function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return 1
+        return data
       }
     }).export().handler
 
@@ -21,8 +31,8 @@ describe('Accept-Encoding', function () {
 
     expect(res.isBase64Encoded).toBeTruthy()
     expect(res.headers['Content-Encoding']).toEqual('br')
-    expect(res.originBody).toEqual('{"data":1}')
-    expect(res.body).toEqual(brotliCompressSync('{"data":1}').toString('base64'))
+    expect(res.originBody).toEqual(`{"data":"${data}"}`)
+    expect(res.body).toEqual(brotliCompressSync(`{"data":"${data}"}`).toString('base64'))
   })
 
   test('gzip', async function () {
@@ -30,7 +40,7 @@ describe('Accept-Encoding', function () {
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return 1
+        return data
       }
     }).export().handler
 
@@ -41,8 +51,8 @@ describe('Accept-Encoding', function () {
 
     expect(res.isBase64Encoded).toBeTruthy()
     expect(res.headers['Content-Encoding']).toEqual('gzip')
-    expect(res.originBody).toEqual('{"data":1}')
-    expect(res.body).toEqual(gzipSync('{"data":1}').toString('base64'))
+    expect(res.originBody).toEqual(`{"data":"${data}"}`)
+    expect(res.body).toEqual(gzipSync(`{"data":"${data}"}`).toString('base64'))
   })
 
   test('deflate', async function () {
@@ -50,7 +60,7 @@ describe('Accept-Encoding', function () {
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return 1
+        return data
       }
     }).export().handler
 
@@ -61,8 +71,8 @@ describe('Accept-Encoding', function () {
 
     expect(res.isBase64Encoded).toBeTruthy()
     expect(res.headers['Content-Encoding']).toEqual('deflate')
-    expect(res.originBody).toEqual('{"data":1}')
-    expect(res.body).toEqual(deflateSync('{"data":1}').toString('base64'))
+    expect(res.originBody).toEqual(`{"data":"${data}"}`)
+    expect(res.body).toEqual(deflateSync(`{"data":"${data}"}`).toString('base64'))
   })
 
   test('unknown', async function () {
@@ -70,7 +80,7 @@ describe('Accept-Encoding', function () {
     const handler = new Func({
       plugins: [http],
       async handler () {
-        return 1
+        return data
       }
     }).export().handler
 
@@ -79,6 +89,6 @@ describe('Accept-Encoding', function () {
       body: null
     })
 
-    expect(res.body).toEqual('{"data":1}')
+    expect(res.body).toEqual(`{"data":"${data}"}`)
   })
 })
