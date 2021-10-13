@@ -49,9 +49,21 @@ export class Session<S, C> {
       cipherName: 'aes-256-cbc'
     }, config)
 
-    this.secret = pbkdf2Sync(this.config.secret, this.config.salt, this.config.iterations, this.config.keylen / 2, this.config.digest)
+    this.secret = pbkdf2Sync(
+      this.config.secret,
+      this.config.salt,
+      this.config.iterations,
+      this.config.keylen / 2,
+      this.config.digest
+    )
 
-    this.signedSecret = pbkdf2Sync(this.config.secret, this.config.signedSalt, this.config.iterations, this.config.keylen, this.config.digest)
+    this.signedSecret = pbkdf2Sync(
+      this.config.secret,
+      this.config.signedSalt,
+      this.config.iterations,
+      this.config.keylen,
+      this.config.digest
+    )
 
     this.content = Object.create(null)
   }

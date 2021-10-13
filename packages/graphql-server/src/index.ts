@@ -20,7 +20,9 @@ export { gql, GraphQLSchemaModule }
 
 interface ApolloServerConfig extends Config {
   context?: Context | ((...args: any) => Context) | ((...args: any) => Promise<Context>)
-  schemas?: GraphQLSchemaModule[] | (() => GraphQLSchemaModule[]) | (() => Promise<GraphQLSchemaModule[]>)
+  schemas?: GraphQLSchemaModule[] |
+  (() => GraphQLSchemaModule[]) |
+  (() => Promise<GraphQLSchemaModule[]>)
   gateways?: {
     name: string
     url: string

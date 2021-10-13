@@ -31,10 +31,11 @@ interface Request<P, C, S> {
   session?: Session<S, C>
 }
 
-export type BeforeOption<P = any, C = any, S = any> = (request: Request<P, C, S>) => Promise<void | {
-  statusCode?: number
-  message: string
-}>
+export type BeforeOption<P = any, C = any, S = any> =
+  (request: Request<P, C, S>) => Promise<void | {
+    statusCode?: number
+    message: string
+  }>
 
 export interface ValidatorConfig<P, C, S> {
   params?: ValidatorOptions<P>

@@ -43,7 +43,8 @@ export class Config {
 
       const faas = join(root, 'faas.yaml')
 
-      if (existsSync(faas)) configs.push(load(readFileSync(faas).toString()) as { [key: string]: FuncConfig })
+      if (existsSync(faas))
+        configs.push(load(readFileSync(faas).toString()) as { [key: string]: FuncConfig })
 
       return root
     })
