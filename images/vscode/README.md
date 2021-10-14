@@ -2,9 +2,9 @@
 
 包含以下特性：
 
-- 基于 `vscode/devcontainers/base:alpine`，镜像文件不到 80 MB
-- Alpine、NPM 和 YARN 源都改为 [华为云镜像](https://mirrors.huaweicloud.com/home)，方便境内使用
-- 集成了 `ohmyzsh` 和 `git`、`yarn` 插件
+- 基于 `vscode/devcontainers/base:alpine`，镜像文件约 160 MB
+- Alpine、NPM 和 YARN 源都改为 [腾讯云镜像](https://mirrors.cloud.tencent.com/)，方便境内使用
+- 集成了 `ohmyzsh` 及其 `git`、`yarn` 和 [`自定义 npm 插件`](https://github.com/faasjs/faasjs/tree/master/images/vscode/npm.plugin.zsh)
 
 ## 准备工作
 
@@ -26,9 +26,6 @@
 		"dbaeumer.vscode-eslint",
 		"eamodio.gitlens",
     "faasjs.faasjs-snippets"
-	],
-	"forwardPorts": [
-		3000
 	],
 	"settings": {
 		"terminal.integrated.shell.linux": "/bin/zsh"
