@@ -14,7 +14,7 @@ export * from '@faasjs/func'
 /**
  * 自动化测试用的云函数实例
  */
-export class FuncWarpper {
+export class FuncWarper {
   [key: string]: any;
   public readonly file: string
   public readonly staging: string
@@ -82,7 +82,7 @@ export class FuncWarpper {
     this._handler = this.func.export().handler
   }
 
-  public async mount (handler?: ((func: FuncWarpper) => Promise<void> | void)): Promise<void> {
+  public async mount (handler?: ((func: FuncWarper) => Promise<void> | void)): Promise<void> {
     if (!this.func.mounted)
       await this.func.mount({
         event: {},
@@ -156,6 +156,12 @@ export class FuncWarpper {
   }
 }
 
-export function test (initBy: Func | string): FuncWarpper {
-  return new FuncWarpper(initBy as string)
+export function test (initBy: Func | string): FuncWarper {
+  const warper = new FuncWarper(initBy as string)
+
+  warper.mount = warper.mount.bind(warper)
+  warper.handler = warper.handler.bind(warper)
+  warper.JSONhandler = warper.JSONhandler.bind(warper)
+
+  return warper
 }

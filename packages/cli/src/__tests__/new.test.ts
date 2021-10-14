@@ -21,11 +21,11 @@ export default useFunc(function () {
 });
 `)
 
-      expect(readFileSync(__dirname + '/tmp/__tests__/basic.test.ts').toString()).toEqual(`import { FuncWarpper } from '@faasjs/test';
+      expect(readFileSync(__dirname + '/tmp/__tests__/basic.test.ts').toString()).toEqual(`import { FuncWarper } from '@faasjs/test';
 
 describe('basic.func.ts', function () {
   test('should work', async function () {
-    const func = new FuncWarpper(require.resolve('../basic.func.ts'));
+    const func = new FuncWarper(require.resolve('../basic.func.ts'));
 
     const res = await func.handler({});
 
@@ -52,11 +52,11 @@ export default useFunc(function () {
 });
 `)
 
-      expect(readFileSync(__dirname + '/tmp/__tests__/plugin.test.ts').toString()).toEqual(`import { FuncWarpper } from '@faasjs/test';
+      expect(readFileSync(__dirname + '/tmp/__tests__/plugin.test.ts').toString()).toEqual(`import { FuncWarper } from '@faasjs/test';
 
 describe('plugin.func.ts', function () {
   test('should work', async function () {
-    const func = new FuncWarpper(require.resolve('../plugin.func.ts'));
+    const func = new FuncWarper(require.resolve('../plugin.func.ts'));
 
     const res = await func.handler({});
 

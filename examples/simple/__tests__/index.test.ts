@@ -1,9 +1,9 @@
-import { FuncWarpper } from '@faasjs/test'
+import { FuncWarper } from '@faasjs/test'
 import Func from '../index.func'
 
 describe('index', function () {
   test('should work', async function () {
-    const func = new FuncWarpper(Func)
+    const func = new FuncWarper(Func)
 
     const { statusCode, data } = await func.JSONhandler()
 

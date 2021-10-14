@@ -1,8 +1,8 @@
 import { useKnex } from '@faasjs/knex';
-import { FuncWarpper } from '@faasjs/test';
+import { FuncWarper } from '@faasjs/test';
 
 describe('signup', function () {
-  const func = new FuncWarpper(require.resolve('../signup.func'));
+  const func = new FuncWarper(require.resolve('../signup.func'));
 
   test('should work', async function () {
     const res = await func.JSONhandler({

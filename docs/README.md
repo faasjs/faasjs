@@ -48,13 +48,13 @@ export default useFunc(function() {
 
 ```ts
 // __tests__/index.test.ts 文件，单元测试文件名都以 .test.ts 结尾
-import { FuncWarpper } from '@faasjs/test'
+import { FuncWarper } from '@faasjs/test'
 import Func from '../index.func'
 
 describe('index', function () {
   test('should work', async function () {
     // 引用云函数文件
-    const func = new FuncWarpper(Func);
+    const func = new FuncWarper(Func);
 
     // 模拟调用
     const { statusCode, data } = await func.JSONhandler()

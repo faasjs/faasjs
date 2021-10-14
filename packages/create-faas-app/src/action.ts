@@ -270,11 +270,11 @@ export default useFunc(function () {
 
     mkdirSync(join(answers.name, '__tests__'))
     writeFileSync(join(answers.name, '__tests__', 'index.test.ts'),
-      `import { FuncWarpper } from '@faasjs/test';
+      `import { FuncWarper } from '@faasjs/test';
 
 describe('hello', function () {
   test('should work', async function () {
-    const func = new FuncWarpper(require.resolve('../index.func'));
+    const func = new FuncWarper(require.resolve('../index.func'));
 
     const { data } = await func.JSONhandler<string>({});
 

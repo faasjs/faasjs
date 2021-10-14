@@ -1,8 +1,8 @@
-import { FuncWarpper } from '@faasjs/test';
+import { FuncWarper } from '@faasjs/test';
 import { useKnex } from '@faasjs/knex';
 
 describe('change-password', function () {
-  const func = new FuncWarpper(require.resolve('../change-password.func'));
+  const func = new FuncWarper(require.resolve('../change-password.func'));
 
   beforeEach(async function () {
     await func.mount()

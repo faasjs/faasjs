@@ -1,7 +1,7 @@
-import { FuncWarpper } from '@faasjs/test';
+import { FuncWarper } from '@faasjs/test';
 
 describe('signout', function () {
-  const func = new FuncWarpper(require.resolve('../signout.func'));
+  const func = new FuncWarper(require.resolve('../signout.func'));
 
   test('should work', async function () {
     const res = await func.handler({

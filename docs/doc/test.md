@@ -41,14 +41,14 @@ FaasJS 内置插件，无需额外安装。
 
 ```typescript
 // 引入 FaasJS 的测试函数封装类
-import { FuncWarpper } from '@faasjs/test'
+import { FuncWarper } from '@faasjs/test'
 // 引入云函数文件，假设云函数文件在 `../index.func`
 import Func from '../index.func'
 
 describe('hello', function () {
   test('should work', async function () {
     // 读取目标云函数文件
-    const func = new FuncWarpper(Func)
+    const func = new FuncWarper(Func)
 
     // 触发云函数
     const res = await func.handler({})

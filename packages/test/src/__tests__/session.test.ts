@@ -1,8 +1,8 @@
-import { FuncWarpper } from '../../src/index'
+import { FuncWarper } from '../../src/index'
 
 describe('JSONhandler', function () {
   test('session', async function () {
-    const func = new FuncWarpper(require.resolve('./funcs/session.func'))
+    const func = new FuncWarper(require.resolve('./funcs/session.func'))
 
     const res = await func.JSONhandler({}, {
       headers: { cookie: 'h=1' },

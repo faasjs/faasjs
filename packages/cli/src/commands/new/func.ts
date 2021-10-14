@@ -84,11 +84,11 @@ ${initials}
   if (!existsSync(testFile)) {
     logger.info(`Writing ${testFile}`)
     writeFileSync(testFile,
-      `import { FuncWarpper } from '@faasjs/test';
+      `import { FuncWarper } from '@faasjs/test';
 
 describe('${name}', function () {
   test('should work', async function () {
-    const func = new FuncWarpper(require.resolve('../${name}'));
+    const func = new FuncWarper(require.resolve('../${name}'));
 
     const res = await func.handler({});
 
