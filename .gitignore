@@ -9,3 +9,4 @@ report.*.json
 dist
 *.vsix
 .DS_Store
+*.tgz

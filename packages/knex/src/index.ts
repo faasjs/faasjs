@@ -80,6 +80,15 @@ export class Knex implements Plugin {
 
     this.adapter = knex(this.config)
 
+    if(this.config.client === 'pg') {
+      const pg = require('pg')
+      const intTypes = ['INT2', 'INT4', 'INT8']
+      intTypes.forEach(type => pg.types.setTypeParser(pg.types.builtins[type], value => parseInt(value)))
+
+      const floatTypes = ['FLOAT4', 'FLOAT8', 'NUMERIC']
+      floatTypes.forEach(type => pg.types.setTypeParser(pg.types.builtins[type], value => parseFloat(value)))
+    }
+
     this.adapter
       .on('query', ({
         sql, __knexQueryUid, bindings
