@@ -137,6 +137,13 @@ export async function action (env: string, files: string[], {
     }
 
   for (const name of files) {
+    if (name.includes('*')) {
+      if (name.endsWith('.func.ts'))
+        list.push(...globSync(process.env.FaasRoot + name))
+      else
+        list.push(...globSync(process.env.FaasRoot + name + '.func.ts'))
+      continue
+    }
     let path = name.startsWith(sep) ? name : process.env.FaasRoot + name
 
     if (!existsSync(path)) throw Error(`File not found: ${path}`)
