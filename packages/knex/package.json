@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/knex",
-  "version": "0.0.2-beta.260",
+  "version": "0.0.2-beta.262",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
