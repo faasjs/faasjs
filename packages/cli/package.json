@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cli",
-  "version": "0.0.2-beta.261",
+  "version": "0.0.2-beta.263",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -26,9 +26,9 @@
     "@faasjs/server": "^0.0.2-beta.254",
     "@faasjs/test": "^0.0.2-beta.254",
     "@types/glob": "*",
-    "glob": "*",
     "commander": "*",
     "enquirer": "*",
+    "glob": "*",
     "lodash": "*",
     "ts-node": "*",
     "tsconfig-paths": "*"
