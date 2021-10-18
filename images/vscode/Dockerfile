@@ -1,9 +1,11 @@
 FROM mcr.microsoft.com/vscode/devcontainers/base:alpine
 
+RUN apk add nodejs npm --no-cache
+
+RUN npm install -g npm@latest
+RUN npm install -g yarn@latest
+
 RUN sed -i "s@dl-cdn.alpinelinux.org/@mirrors.cloud.tencent.com/@g" /etc/apk/repositories
-
-RUN apk add nodejs yarn npm --no-cache
-
 RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
 RUN yarn config set registry https://mirrors.cloud.tencent.com/npm/
 

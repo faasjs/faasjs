@@ -80,13 +80,22 @@ export class Knex implements Plugin {
 
     this.adapter = knex(this.config)
 
-    if(this.config.client === 'pg') {
+    if (this.config.client === 'pg') {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const pg = require('pg')
-      const intTypes = ['INT2', 'INT4', 'INT8']
-      intTypes.forEach(type => pg.types.setTypeParser(pg.types.builtins[type], value => parseInt(value)))
+      const intTypes = [
+        'INT2',
+        'INT4',
+        'INT8'
+      ]
+      intTypes.forEach(t => pg.types.setTypeParser(pg.types.builtins[t], v => parseInt(v)))
 
-      const floatTypes = ['FLOAT4', 'FLOAT8', 'NUMERIC']
-      floatTypes.forEach(type => pg.types.setTypeParser(pg.types.builtins[type], value => parseFloat(value)))
+      const floatTypes = [
+        'FLOAT4',
+        'FLOAT8',
+        'NUMERIC'
+      ]
+      floatTypes.forEach(t => pg.types.setTypeParser(pg.types.builtins[t], v => parseFloat(v)))
     }
 
     this.adapter

@@ -7,7 +7,7 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "eslint.packageManager": "pnpm",
+  "eslint.packageManager": "npm",
   "eslint.workingDirectories": [
     {
       "directory": "./packages/browser",
@@ -90,13 +90,13 @@
     "builtins",
     "Faas",
     "faasjs",
-    "pnpm",
     "querystringify",
     "RUNENV",
     "SECRETID",
     "SECRETKEY",
     "SESSIONTOKEN",
     "Tencentcloud",
-    "tencentcloudapi"
+    "tencentcloudapi",
+    "Useify"
   ]
 }
