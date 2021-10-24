@@ -195,9 +195,8 @@ export class CloudFunction implements Plugin {
   }
 }
 
-export function useCloudFunction (config?: CloudFunctionConfig): CloudFunction & UseifyPlugin
-export function useCloudFunction (config?: () => CloudFunctionConfig): CloudFunction & UseifyPlugin
-{
+export function useCloudFunction (config?: CloudFunctionConfig | (() => CloudFunctionConfig)):
+CloudFunction & UseifyPlugin {
   let configs
   if (config)
     if (typeof config === 'function')

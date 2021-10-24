@@ -78,7 +78,7 @@ function findModule (list: any, key: string, basePath: string, options: {
 
   const paths = [join(process.cwd(), 'node_modules', key), join(basePath, 'node_modules', key)]
 
-  let path
+  let path: string
   for (const p of paths)
     if (existsSync(p)) {
       path = p
@@ -139,7 +139,7 @@ export default async function loadTs (filename: string, options: {
     input: filename,
     external,
     plugins: [typescript({ declaration: false })],
-    onwarn: () => null
+    onwarn: () => null as any
   }, (options.input) || {})
 
   const bundle = await rollup.rollup(input)

@@ -90,6 +90,7 @@
     "builtins",
     "Faas",
     "faasjs",
+    "onwarn",
     "querystringify",
     "RUNENV",
     "SECRETID",
