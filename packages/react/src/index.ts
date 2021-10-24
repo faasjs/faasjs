@@ -7,6 +7,16 @@ declare const React: {
   useEffect(...args: any): void
 }
 
+export type faas = <T = any>(action: string, params: Params) => Promise<Response<T>>
+
+export type useFaas = <T = any>(action: string, params: Params) => {
+  loading: boolean
+  data: T
+  error: any
+  promise: Promise<Response<T>>
+  reload(params?: Params): Promise<Response<T>>
+}
+
 export function FaasReactClient ({
   domain,
   options,
@@ -16,14 +26,8 @@ export function FaasReactClient ({
   options?: Options
   onError?: (action: string, params: Params) => (res: ResponseError) => Promise<any>
 }): {
-    faas: <T = any>(action: string, params: Params) => Promise<Response<T>>
-    useFaas: <T = any>(action: string, params: Params) => {
-      loading: boolean
-      data: T
-      error: any
-      promise: Promise<Response<T>>
-      reload(params?: Params): Promise<Response<T>>
-    }
+    faas: faas
+    useFaas: useFaas
   } {
   const client = new Client(domain, options)
 
