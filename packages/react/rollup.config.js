@@ -10,5 +10,7 @@ export default rollup(
       exports: 'named',
       globals: { react: 'React' }
     }
-  ]
+  ],
+  null,
+  ['react']
 )

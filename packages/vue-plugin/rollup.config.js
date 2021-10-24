@@ -10,5 +10,7 @@ export default rollup(
       name: 'FaasVuePlugin',
       globals: { vue: 'Vue' }
     }
-  ]
+  ],
+  null,
+  ['vue']
 )

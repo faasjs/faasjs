@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "strict": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,

@@ -2,10 +2,7 @@ import Client, {
   Options, Params, Response, ResponseError
 } from '../../browser/src'
 
-declare const React: {
-  useState<T = any>(value?: T): [T, (value: T) => void]
-  useEffect(...args: any): void
-}
+import React from 'react'
 
 export type faas = <T = any>(action: string, params: Params) => Promise<Response<T>>
 
@@ -39,7 +36,7 @@ export function FaasReactClient ({
     useFaas<T = any> (action: string, defaultParams: Params) {
       const [loading, setLoading] = React.useState(false)
       const [data, setData] = React.useState<T>()
-      const [error, setError] = React.useState()
+      const [error, setError] = React.useState<any>()
       const [promise, setPromise] = React.useState<Promise<Response<T>>>()
       const [params, setParams] = React.useState(defaultParams)
       const [reloadTimes, setReloadTimes] = React.useState(0)
