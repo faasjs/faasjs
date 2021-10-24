@@ -7,9 +7,13 @@ import {
   createClient, ClientOpts as Config, RedisClient
 } from 'redis'
 
-export interface RedisConfig {
+export type RedisConfig = {
   name?: string
   config?: Config
+}
+
+declare let global: {
+  FaasJS_Redis?: Record<string, Redis>
 }
 
 const Name = 'redis'
@@ -73,14 +77,15 @@ export class Redis implements Plugin {
         if (key.startsWith(prefix)) {
           const value = process.env[key]
           key = key.replace(prefix, '').toLowerCase()
-          if (typeof this.config[key] === 'undefined') this.config[key] = value
+          if (typeof (this.config as any)[key] === 'undefined')
+            (this.config as any)[key] = value
         }
 
       if (data?.config.plugins && data.config.plugins[this.name])
         this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
       this.adapter = createClient(this.config)
-      this.logger.debug('connceted')
+      this.logger.debug('connected')
 
       global.FaasJS_Redis[this.name] = this
     }

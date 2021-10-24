@@ -5,12 +5,16 @@ import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
 import knex, { Knex as K } from 'knex'
 
-export interface KnexConfig {
+export type KnexConfig = {
   name?: string
   config?: K.Config
 }
 
 const Name = 'knex'
+
+declare let global: {
+  FaasJS_Knex?: Record<string, Knex>
+}
 
 if (!global['FaasJS_Knex']) {
   global.FaasJS_Knex = {}
@@ -68,11 +72,12 @@ export class Knex implements Plugin {
       if (key.startsWith(prefix)) {
         const value = process.env[key]
         key = key.replace(prefix, '').toLowerCase()
-        if (typeof this.config[key] === 'undefined')
+        if (typeof (this.config as any)[key] === 'undefined')
           if (key.startsWith('connection_')) {
-            if (!this.config.connection) this.config.connection = {}
-            this.config.connection[key.replace('connection_', '')] = value
-          } else this.config[key] = value
+            if (!this.config.connection)
+              this.config.connection = {} as any
+            (this.config.connection as any)[key.replace('connection_', '')] = value
+          } else (this.config as any)[key] = value
       }
 
     if (data.config.plugins && (data.config.plugins[this.name]?.config))
@@ -88,14 +93,16 @@ export class Knex implements Plugin {
         'INT4',
         'INT8'
       ]
-      intTypes.forEach(t => pg.types.setTypeParser(pg.types.builtins[t], v => parseInt(v)))
+      intTypes.forEach(t => pg.types.setTypeParser(pg.types.builtins[t],
+        (v: string) => parseInt(v)))
 
       const floatTypes = [
         'FLOAT4',
         'FLOAT8',
         'NUMERIC'
       ]
-      floatTypes.forEach(t => pg.types.setTypeParser(pg.types.builtins[t], v => parseFloat(v)))
+      floatTypes.forEach(t => pg.types.setTypeParser(pg.types.builtins[t],
+        (v: string) => parseFloat(v)))
     }
 
     this.adapter

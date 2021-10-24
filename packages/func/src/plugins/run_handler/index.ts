@@ -18,7 +18,7 @@ export default class RunHandler implements Plugin {
               reject(error)
             })
           })
-        } catch (error) {
+        } catch (error: any) {
           data.logger.error(error)
           data.response = error
         }

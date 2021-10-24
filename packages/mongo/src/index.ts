@@ -63,7 +63,8 @@ export class Mongo implements Plugin {
       if (key.startsWith(prefix)) {
         const value = process.env[key]
         key = key.replace(prefix, '').toLowerCase()
-        if (typeof this.config[key] === 'undefined') this.config[key] = value
+        if (typeof (this.config as any)[key] === 'undefined')
+          (this.config as any)[key] = value
       }
 
     if (data.config.plugins && data.config.plugins[this.name])

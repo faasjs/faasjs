@@ -77,7 +77,9 @@ export async function request<T = any> ({
     'SignedHeaders=content-type;host, ' +
     'Signature=' + signature
 
-  const headers = {
+  const headers: {
+    [key: string]: string
+  } = {
     'Content-Type': 'application/json',
     Authorization: authorization,
     Host: host,

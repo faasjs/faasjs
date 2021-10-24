@@ -1,7 +1,7 @@
 import { Session, SessionOptions } from './session'
 import { deepMerge } from '@faasjs/deep_merge'
 
-export interface CookieOptions {
+export type CookieOptions = {
   domain?: string
   path?: string
   expires?: number
@@ -12,9 +12,12 @@ export interface CookieOptions {
   [key: string]: any
 }
 
-export class Cookie<C, S> {
+export class Cookie<
+  C extends Record<string, string> = any,
+  S extends Record<string, string> = any
+> {
   public session: Session<S, C>
-  public content: C
+  public content: Record<string, string>
   public readonly config: {
     domain?: string
     path: string
@@ -50,10 +53,11 @@ export class Cookie<C, S> {
 
     // 解析 cookie
     if (cookie)
-      cookie.split(';').map((x: string) => {
+      cookie.split(';').forEach(x => {
         x = x.trim()
         const k = /([^=]+)/.exec(x)
-        if (k !== null) this.content[k[0]] = decodeURIComponent(x.replace(`${k[0]}=`, '').replace(/;$/, ''))
+        if (k !== null)
+          (this.content as any)[k[0]] = decodeURIComponent(x.replace(`${k[0]}=`, '').replace(/;$/, ''))
       })
 
 

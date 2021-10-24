@@ -30,9 +30,9 @@ export const ContentType: {
 }
 
 export type HttpConfig<
-  TParams = { [key: string]: any },
-  TCookie = { [key: string]: any },
-  TSession = { [key: string]: any }
+  TParams extends Record<string, any> = any,
+  TCookie extends Record<string, string> = any,
+  TSession extends Record<string, string> = any
 > = {
   [key: string]: any
   name?: string
@@ -48,7 +48,7 @@ export type HttpConfig<
   validator?: ValidatorConfig<TParams, TCookie, TSession>
 }
 
-export interface Response {
+export type Response = {
   statusCode?: number
   headers?: {
     [key: string]: string
@@ -83,9 +83,10 @@ const globals: {
   [name: string]: Http<any, any, any>
 } = {}
 
-export class Http<TParams = { [key: string]: any },
-  TCookie = { [key: string]: string },
-  TSession = { [key: string]: any }> implements Plugin {
+export class Http<TParams extends Record<string, any> = any,
+  TCookie extends Record<string, string> = any,
+  TSession extends Record<string, string> = any
+> implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
   public headers: {
@@ -219,7 +220,7 @@ export class Http<TParams = { [key: string]: any },
           cookie: this.cookie,
           session: this.session
         })
-      } catch (error) {
+      } catch (error: any) {
         this.logger.error(error)
         data.response = {
           statusCode: error.statusCode || 500,
@@ -349,9 +350,9 @@ export class Http<TParams = { [key: string]: any },
   }
 }
 
-export function useHttp<TParams = { [key: string]: any },
-  TCookie = { [key: string]: any },
-  TSession = { [key: string]: any }
+export function useHttp<TParams extends { [key: string]: any },
+  TCookie extends Record<string, string>,
+  TSession extends Record<string, string>
 > (
   config?: HttpConfig<TParams, TCookie, TSession>):
   Http<TParams, TCookie, TSession> & UseifyPlugin

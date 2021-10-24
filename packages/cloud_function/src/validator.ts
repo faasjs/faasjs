@@ -1,6 +1,6 @@
 import { Logger } from '@faasjs/logger'
 
-export interface ValidatorConfig {
+export type ValidatorConfig = {
   whitelist?: 'error' | 'ignore'
   rules: {
     [key: string]: {

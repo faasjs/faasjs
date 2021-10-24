@@ -248,7 +248,7 @@ module.exports = main.export();`
         Namespace: config.config.Namespace
       }).then(res => res.Status)
     }
-  } catch (error) {
+  } catch (error: any) {
     if (error.message.startsWith('ResourceNotFound')) {
       logger.debug('[7.2/12] 创建云函数...')
       await scf('CreateFunction', tc.config, {
@@ -324,7 +324,7 @@ module.exports = main.export();`
       Namespace: config.config.Namespace,
       FunctionVersion: config.config.FunctionVersion,
     })
-  } catch (error) {
+  } catch (error: any) {
     if (error.message.startsWith('ResourceNotFound.Alias')) {
       logger.debug('[9.2/12] 创建别名...')
       await scf('CreateAlias', tc.config, {

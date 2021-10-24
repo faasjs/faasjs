@@ -10,7 +10,7 @@ import {
 import { HttpError } from '@faasjs/http'
 import { Socket } from 'net'
 
-interface Cache {
+type Cache = {
   file?: string
   handler?: (...args: any) => Promise<any>
 }

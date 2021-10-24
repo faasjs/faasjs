@@ -3,7 +3,7 @@ import { Session } from './session'
 import { Logger } from '@faasjs/logger'
 import { HttpError } from '.'
 
-export interface ValidatorRuleOptions {
+export type ValidatorRuleOptions = {
   type?: 'string' | 'number' | 'boolean' | 'object' | 'array'
   required?: boolean
   in?: any[]
@@ -11,7 +11,7 @@ export interface ValidatorRuleOptions {
   config?: Partial<ValidatorOptions>
 }
 
-export interface ValidatorOptions<Content = { [key: string]: any }> {
+export type ValidatorOptions<Content = Record<string, any>> = {
   whitelist?: 'error' | 'ignore'
   rules: {
     [k in keyof Content]?: ValidatorRuleOptions;
@@ -22,41 +22,57 @@ export interface ValidatorOptions<Content = { [key: string]: any }> {
   } | void
 }
 
-interface Request<P, C, S> {
+type Request<
+  TParams extends Record<string, any> = any,
+  TCookie extends Record<string, string> = any,
+  TSession extends Record<string, string> = any
+> = {
   headers: {
     [key: string]: string
   }
-  params?: P
-  cookie?: Cookie<C, S>
-  session?: Session<S, C>
+  params?: TParams
+  cookie?: Cookie<TCookie, TSession>
+  session?: Session<TSession, TCookie>
 }
 
-export type BeforeOption<P = any, C = any, S = any> =
-  (request: Request<P, C, S>) => Promise<void | {
+export type BeforeOption<
+  TParams extends Record<string, any> = any,
+  TCookie extends Record<string, string> = any,
+  TSession extends Record<string, string> = any
+> =
+  (request: Request<TParams, TCookie, TSession>) => Promise<void | {
     statusCode?: number
     message: string
   }>
 
-export interface ValidatorConfig<P, C, S> {
-  params?: ValidatorOptions<P>
-  cookie?: ValidatorOptions<C>
-  session?: ValidatorOptions<S>
+export type ValidatorConfig<
+  TParams extends Record<string, any> = any,
+  TCookie extends Record<string, string> = any,
+  TSession extends Record<string, string> = any
+> = {
+  params?: ValidatorOptions<TParams>
+  cookie?: ValidatorOptions<TCookie>
+  session?: ValidatorOptions<TSession>
   before?: BeforeOption
 }
 
-export class Validator<P, C, S> {
-  public before?: BeforeOption<P, C, S>
-  public paramsConfig?: ValidatorOptions<P>
-  public cookieConfig?: ValidatorOptions<C>
-  public sessionConfig?: ValidatorOptions<S>
-  private request: Request<P, C, S>
+export class Validator<
+  TParams extends Record<string, any> = any,
+  TCookie extends Record<string, string> = any,
+  TSession extends Record<string, string> = any
+> {
+  public before?: BeforeOption<TParams, TCookie, TSession>
+  public paramsConfig?: ValidatorOptions<TParams>
+  public cookieConfig?: ValidatorOptions<TCookie>
+  public sessionConfig?: ValidatorOptions<TSession>
+  private request: Request<TParams, TCookie, TSession>
   private readonly logger: Logger
 
   constructor (config: {
-    params?: ValidatorOptions<P>
-    cookie?: ValidatorOptions<C>
-    session?: ValidatorOptions<S>
-    before?: BeforeOption<P, C, S>
+    params?: ValidatorOptions<TParams>
+    cookie?: ValidatorOptions<TCookie>
+    session?: ValidatorOptions<TSession>
+    before?: BeforeOption<TParams, TCookie, TSession>
   }) {
     this.paramsConfig = config.params
     this.cookieConfig = config.cookie
@@ -65,7 +81,7 @@ export class Validator<P, C, S> {
     this.logger = new Logger('Http.Validator')
   }
 
-  public async valid (request: Request<P, C, S>): Promise<void> {
+  public async valid (request: Request<TParams, TCookie, TSession>): Promise<void> {
     this.logger.debug('Begin')
 
     if (this.before) {

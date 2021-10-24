@@ -60,16 +60,16 @@ export async function action (options: {
   } = Object.assign(options, {})
 
   if (!options.name || Validator.name(options.name) !== true)
-    answers.name = await prompt({
+    answers.name = await prompt<{ value: string }>({
       type: 'input',
       name: 'value',
       message: 'Project name',
       validate: Validator.name
-    }).then((res: { value: string }) => res.value)
+    }).then(res => res.value)
 
   if (!options.noprovider) {
     if (!answers.provider || Validator.provider(answers.provider) !== true)
-      answers.provider = await prompt({
+      answers.provider = await prompt<{ value: string }>({
         type: 'select',
         name: 'value',
         message: 'Provider',
@@ -83,51 +83,51 @@ export async function action (options: {
             message: '腾讯云'
           }
         ]
-      }).then((res: { value: string }) => res.value)
+      }).then(res => res.value)
 
     if (answers.provider === 'tencentcloud') {
       if (!answers.region || Validator.region(answers.region) !== true)
-        answers.region = await prompt({
+        answers.region = await prompt<{ value: string }>({
           type: 'select',
           name: 'value',
           message: 'Region',
           choices: Region.concat([]), // choices 会修改 Region 对象，因此克隆一份
           validate: Validator.region
-        }).then((res: { value: string }) => res.value)
+        }).then(res => res.value)
 
       if (!answers.appId || Validator.appId(answers.appId) !== true)
-        answers.appId = await prompt({
+        answers.appId = await prompt<{ value: string }>({
           type: 'input',
           name: 'value',
           message: 'appId (from https://console.cloud.tencent.com/developer)',
           validate: Validator.appId
-        }).then((res: { value: string }) => res.value)
+        }).then(res => res.value)
 
       if (!answers.secretId || Validator.secretId(answers.secretId) !== true)
-        answers.secretId = await prompt({
+        answers.secretId = await prompt<{ value: string }>({
           type: 'input',
           name: 'value',
           message: 'secretId (from https://console.cloud.tencent.com/cam/capi)',
           validate: Validator.secretId
-        }).then((res: { value: string }) => res.value)
+        }).then(res => res.value)
 
       if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true)
-        answers.secretKey = await prompt({
+        answers.secretKey = await prompt<{ value: string }>({
           type: 'input',
           name: 'value',
           message: 'secretKey (from https://console.cloud.tencent.com/cam/capi)',
           validate: Validator.secretKey
-        }).then((res: { value: string }) => res.value)
+        }).then(res => res.value)
     }
   }
 
   if (typeof answers.example === 'undefined')
-    answers.example = await prompt({
+    answers.example = await prompt<{ value: boolean }>({
       type: 'confirm',
       name: 'value',
       message: 'Add example files',
       initial: true
-    }).then((res: { value: boolean }) => res.value)
+    }).then(res => res.value)
 
   if (!answers.name) return
 

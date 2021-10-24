@@ -4,7 +4,13 @@ import {
 } from 'fs'
 import { Logger } from '@faasjs/logger'
 
-const Plugins = {
+const Plugins: {
+  [key: string]: {
+    name: string
+    kls: string
+    key: string
+  }
+} = {
   cf: {
     name: '@faasjs/cloud_function',
     kls: 'CloudFunction',
@@ -21,9 +27,14 @@ const Plugins = {
     key: 'redis'
   },
   knex: {
-    name: '@faajs/knex',
+    name: '@faasjs/knex',
     kls: 'Knex',
     key: 'knex'
+  },
+  mongo: {
+    name: '@faasjs/mongo',
+    kls: 'Mongo',
+    key: 'mongo'
   }
 }
 

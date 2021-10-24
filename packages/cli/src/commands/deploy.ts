@@ -179,7 +179,10 @@ export async function action (env: string, files: string[], {
 
     const chunked = chunk(list, Math.ceil(list.length / processNumber))
     const queues = []
-    const results = {
+    const results: {
+      done: string[]
+      fail: string[]
+    } = {
       done: [],
       fail: []
     }

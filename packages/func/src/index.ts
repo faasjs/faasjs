@@ -7,7 +7,7 @@ export type Next = () => Promise<void>
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> =
   (event: TEvent, context?: TContext, callback?: (...args: any) => any) => Promise<TResult>
 
-export interface Plugin {
+export type Plugin = {
   [key: string]: any
   readonly type: string
   readonly name: string
@@ -16,14 +16,14 @@ export interface Plugin {
   onInvoke?: (data: InvokeData, next: Next) => void | Promise<void>
 }
 
-export interface ProviderConfig {
+export type ProviderConfig = {
   type: string
   config: {
     [key: string]: any
   }
 }
 
-export interface Config {
+export type Config = {
   [key: string]: any
   providers?: {
     [key: string]: ProviderConfig
@@ -39,7 +39,7 @@ export interface Config {
     }
   }
 }
-export interface DeployData {
+export type DeployData = {
   [key: string]: any
   root: string
   filename: string
@@ -65,14 +65,14 @@ export interface DeployData {
   logger?: Logger
 }
 
-export interface MountData {
+export type MountData = {
   [key: string]: any
   config: Config
   event: any
   context: any
 }
 
-export interface InvokeData<TEvent = any, TContext = any, TResult = any> {
+export type InvokeData<TEvent = any, TContext = any, TResult = any> ={
   [key: string]: any
   event: TEvent
   context: TContext
@@ -85,12 +85,12 @@ export interface InvokeData<TEvent = any, TContext = any, TResult = any> {
 
 export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke'
 
-export interface FuncConfig<TEvent = any, TContext = any, TResult = any> {
+export type FuncConfig<TEvent = any, TContext = any, TResult = any>= {
   plugins?: Plugin[]
   handler?: Handler<TEvent, TContext, TResult>
 }
 
-interface CachedFunction {
+type CachedFunction = {
   key: string
   handler: (...args: any) => void
 }
@@ -132,7 +132,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         .split('\n')
         .find(s => /[^/]\.func\.ts/.test(s))
         .match(/\((.*\.func\.ts).*\)/)[1]
-    } catch (error) {
+    } catch (error: any) {
       this.logger.debug(error.message)
     }
   }
@@ -235,7 +235,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
     try {
       await this.compose('onInvoke')(data)
-    } catch (error) {
+    } catch (error: any) {
       // 执行异常时回传异常
       this.logger.error(error)
       data.response = error
@@ -287,8 +287,8 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
 let plugins: Plugin[] = []
 
-export interface UseifyPlugin {
-  mount?: ({ config: Config }) => Promise<void>
+export type UseifyPlugin = {
+  mount?: (data: { config: Config }) => Promise<void>
 }
 
 export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & UseifyPlugin {

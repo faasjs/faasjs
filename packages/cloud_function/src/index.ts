@@ -6,7 +6,7 @@ import { Logger } from '@faasjs/logger'
 import { Validator, ValidatorConfig } from './validator'
 
 /** 云函数配置项 */
-export interface CloudFunctionConfig {
+export type CloudFunctionConfig = {
   /** 插件名称 */
   name?: string
   /** 配置项 */
@@ -36,7 +36,7 @@ export interface CloudFunctionConfig {
   [key: string]: any
 }
 
-export interface CloudFunctionAdapter {
+export type CloudFunctionAdapter = {
   invokeCloudFunction: (name: string, data: any, options?: any) => Promise<void>
   invokeSyncCloudFunction: <TResult>(name: string, data: any, options?: any) => Promise<TResult>
 }

@@ -12,7 +12,7 @@ enum LevelColor {
   error = Color.RED
 }
 
-interface Timer {
+type Timer = {
   level: Level
   time: number
 }
@@ -49,7 +49,7 @@ export class Logger {
       JSON.parse(process.env.npm_config_argv).original.includes('--silent')
 
     this.mode = process.env.FaasMode !== 'remote' ? 'local' : 'remote'
-    this.level = process.env.FaasLog ? LevelPriority[process.env.FaasLog.toLowerCase()] : 0
+    this.level = process.env.FaasLog ? LevelPriority[process.env.FaasLog.toLowerCase() as Level] : 0
 
     this.cachedTimers = {}
 

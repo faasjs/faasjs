@@ -3,7 +3,7 @@ import {
 } from 'crypto'
 import { Cookie } from './cookie'
 
-export interface SessionOptions {
+export type SessionOptions = {
   key: string
   secret: string
   salt?: string
@@ -16,8 +16,11 @@ export interface SessionOptions {
 
 export type SessionContent = string | number | { [key: string]: any } | null | undefined
 
-export class Session<S, C> {
-  public content: S
+export class Session<
+  S extends Record<string, string> = any,
+  C extends Record<string, string> = any
+> {
+  public content: Record<string, string>
 
   public readonly config: {
     key: string
@@ -125,15 +128,19 @@ export class Session<S, C> {
     return this.content[key]
   }
 
-  public write (key: string, value?: SessionContent): Session<S, C> {
-    if (value === null || typeof value === 'undefined') delete this.content[key]; else this.content[key] = value
+  public write (key: string, value?: string): Session<S, C> {
+    if (value === null || typeof value === 'undefined')
+      delete this.content[key]
+    else
+      this.content[key] = value
 
     this.changed = true
     return this
   }
 
   public update (): Session<S, C> {
-    if (this.changed) this.cookie.write(this.config.key, this.encode(JSON.stringify(this.content)))
+    if (this.changed)
+      this.cookie.write(this.config.key, this.encode(JSON.stringify(this.content)))
 
     return this
   }

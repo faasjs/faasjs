@@ -1,8 +1,8 @@
-export interface Params {
+export type Params = {
   [key: string]: any
 }
 
-export interface Options {
+export type Options = {
   beforeRequest?: ({
     action, params, xhr
   }: {
@@ -12,7 +12,7 @@ export interface Options {
   }) => void
 }
 
-export interface ResponseHeaders {
+export type ResponseHeaders = {
   [key: string]: string
 }
 

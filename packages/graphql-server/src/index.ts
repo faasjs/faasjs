@@ -29,7 +29,7 @@ interface ApolloServerConfig extends Config {
   }[]
 }
 
-export interface GraphQLServerConfig{
+export type GraphQLServerConfig = {
   name?: string
   config: ApolloServerConfig
   http?: HttpConfig
