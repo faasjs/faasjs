@@ -312,11 +312,11 @@ export function useFunc<TEvent = any, TContext = any, TResult = any> (
 {
   plugins = []
 
-  const invokeHanlder = handler()
+  const invokeHandler = handler()
 
   const func = new Func<TEvent, TContext, TResult>({
     plugins,
-    handler: invokeHanlder
+    handler: invokeHandler
   })
 
   plugins = []
