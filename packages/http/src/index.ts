@@ -240,7 +240,7 @@ export class Http<TParams extends Record<string, any> = any,
       data.response = error
     }
 
-    // update seesion
+    // update session
     this.session.update()
 
     // 处理 body
@@ -350,9 +350,9 @@ export class Http<TParams extends Record<string, any> = any,
   }
 }
 
-export function useHttp<TParams extends { [key: string]: any },
-  TCookie extends Record<string, string>,
-  TSession extends Record<string, string>
+export function useHttp<TParams extends Record<string, any> = any,
+  TCookie extends Record<string, string> = any,
+  TSession extends Record<string, string> = any
 > (
   config?: HttpConfig<TParams, TCookie, TSession>):
   Http<TParams, TCookie, TSession> & UseifyPlugin
