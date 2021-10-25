@@ -119,9 +119,9 @@ export class Session<
     const part = Buffer.from(cipher.update(parts[0])).toString('utf8')
     const final = cipher.final('utf8')
 
-    const decryptor = [part, final].join('')
+    const decrypt = [part, final].join('')
 
-    return JSON.parse(decryptor)
+    return JSON.parse(decrypt)
   }
 
   public read (key: string): string {
