@@ -66,6 +66,7 @@ export class Knex implements Plugin {
       await next()
       return
     }
+
     const prefix = `SECRET_${this.name.toUpperCase()}_`
 
     for (let key in process.env)
@@ -74,10 +75,12 @@ export class Knex implements Plugin {
         key = key.replace(prefix, '').toLowerCase()
         if (typeof (this.config as any)[key] === 'undefined')
           if (key.startsWith('connection_')) {
-            if (!this.config.connection)
-              this.config.connection = {} as any
-            (this.config.connection as any)[key.replace('connection_', '')] = value
-          } else (this.config as any)[key] = value
+            if (!this.config.connection) {
+              this.config.connection = Object.create(null)
+            }
+            (this.config as any).connection[key.replace('connection_', '')] = value
+          } else
+            (this.config as any)[key] = value
       }
 
     if (data.config.plugins && (data.config.plugins[this.name]?.config))

@@ -85,7 +85,7 @@ describe('Knex', function () {
 
       try {
         await handler({})
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toEqual('SELECT a from a - SQLITE_ERROR: no such table: a')
       }
     })
