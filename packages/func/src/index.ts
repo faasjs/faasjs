@@ -85,7 +85,7 @@ export type InvokeData<TEvent = any, TContext = any, TResult = any> ={
 
 export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke'
 
-export type FuncConfig<TEvent = any, TContext = any, TResult = any>= {
+export type FuncConfig<TEvent = any, TContext = any, TResult = any> = {
   plugins?: Plugin[]
   handler?: Handler<TEvent, TContext, TResult>
 }
