@@ -16,7 +16,6 @@
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
     "eslint": "*",
-    "eslint-plugin-jest": "*",
     "typescript": "*"
   },
   "gitHead": "d340aaa440deafd513d2837cf9a71988d27e8c18"
