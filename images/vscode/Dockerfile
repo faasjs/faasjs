@@ -4,6 +4,7 @@ RUN apk add nodejs npm --no-cache
 
 RUN npm install -g npm@latest
 RUN npm install -g yarn@latest
+RUN npm install -g eslint@latest
 
 RUN sed -i "s@dl-cdn.alpinelinux.org/@mirrors.cloud.tencent.com/@g" /etc/apk/repositories
 RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
