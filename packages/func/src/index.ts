@@ -95,6 +95,8 @@ type CachedFunction = {
   handler: (...args: any) => void
 }
 
+let startedAt = Date.now()
+
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any;
   public plugins: Plugin[]
@@ -257,6 +259,10 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         callback?: (...args: any) => any
       ): Promise<TResult> => {
         const logger = new Logger()
+        if (startedAt) {
+          logger.debug(`Container started +${Date.now() - startedAt}ms`)
+          startedAt = 0
+        }
         logger.debug('event: %j', event)
         logger.debug('context: %j', context)
 
