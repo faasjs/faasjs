@@ -4,6 +4,49 @@
 
 ## Beta
 
+[`v0.0.2-beta.268 (2021-11-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.268...v0.0.2-beta.269)
+
+- [优化] `@faasjs/func` 新增代码包启动计时（此时间为冷启动的一部分）。
+
+[`v0.0.2-beta.268 (2021-10-28)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.267...v0.0.2-beta.268)
+
+- [优化] `@faasjs/eslint-config-recommended` 移除 `eslint-plugin-jest`。
+
+[`v0.0.2-beta.267 (2021-10-25)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.266...v0.0.2-beta.267)
+
+- [优化] `@faasjs/http` 优化 ts 定义。
+
+[`v0.0.2-beta.266 (2021-10-24)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.263...v0.0.2-beta.266)
+
+- [优化] 将项目的 ts 编译设置为 `strict` 模式。
+
+[`v0.0.2-beta.263 (2021-10-16)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.260...v0.0.2-beta.263)
+
+- [优化] `@faasjs/test` 修正 `FuncWarper` 为正确的拼写。
+
+[`v0.0.2-beta.260 (2021-10-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.258...v0.0.2-beta.260)
+
+- [优化] `@faasjs/func` 优化部分 ts 定义。
+- [优化] `@faasjs/cloud_function` 优化部分 ts 定义。
+
+[`v0.0.2-beta.258 (2021-10-12)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.257...v0.0.2-beta.258)
+
+- [优化] `@faasjs/http` 对于小于 100 字节的内容不压缩。
+
+[`v0.0.2-beta.257 (2021-10-11)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.256...v0.0.2-beta.257)
+
+- [优化] `@faasjs/redis` 新增 `getJSON` 和 `setJSON` 方法。
+- [优化] `vscode/faasjs-snippets` 新增 `http validator` 代码块。
+
+[`v0.0.2-beta.256 (2021-10-04)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.254...v0.0.2-beta.256)
+
+- [优化] 采用 `npm` 替代 `yarn`，并将部分关联依赖改为 `peerDependencies`。
+
+[`v0.0.2-beta.254 (2021-09-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.253...v0.0.2-beta.254)
+
+- [移除] `@faasjs/kafka`。
+- [修正] `@faasjs/react` 修正加载错误。
+
 [`v0.0.2-beta.253 (2021-09-24)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.251...v0.0.2-beta.253)
 
 - [移除] `@faasjs/sql` 移除，使用 `@faasjs/knex` 代替。
