@@ -151,10 +151,8 @@ module.exports = main.export();`
   for (const key in ts.modules) {
     const target = join(config.config.tmp, 'node_modules', key)
     execSync(`mkdir -p ${target}`)
-    execSync(`rsync -avhpr --exclude={'*.cache','*.bin','LICENSE','license','ChangeLog','CHANGELOG','*.ts','*.flow','*.map','*.md','node_modules/*/node_modules','__tests__'} ${join(ts.modules[key], '*')} ${target}`)
+    execSync(`rsync -avhpr --exclude '*.cache' --exclude '*.bin' --exclude 'LICENSE' --exclude 'license' --exclude 'ChangeLog' --exclude 'CHANGELOG' --exclude '*.ts' --exclude '*.flow' --exclude '*.map' --exclude '*.md' --exclude 'node_modules/*/node_modules' --exclude '__tests__' ${join(ts.modules[key], '*')} ${target}`)
   }
-
-  execSync(`rm -rf ${join(config.config.tmp, 'node_modules', '*', 'node_modules')}`)
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[03/12]')} 打包代码包...`)
   execSync(`cd ${config.config.tmp} && zip -r deploy.zip *`)
