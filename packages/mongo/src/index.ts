@@ -37,13 +37,10 @@ export class Mongo implements Plugin {
    * 创建插件实例
    * @param config {object} 配置
    * @param config.name {string} 配置名
-   * @param config.adapterType {string} 适配类型
    * @param config.config {object} 数据库配置
-   * @param config.config.pool {Database} 数据库连接实例
    */
   constructor (config?: {
     name?: string
-    adapterType?: string
     config?: MongoConfig
   }) {
     if (config) {
