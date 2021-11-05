@@ -2,7 +2,7 @@
 
 包含以下特性：
 
-- 基于 `vscode/devcontainers/base:alpine`，镜像文件约 160 MB
+- 基于 `node:16-alpine`，镜像文件约 60 MB
 - 内置最新稳定版 `npm`, `yarn`, `eslint` 和 `node` 版本
 - Alpine、NPM 和 YARN 源都改为 [腾讯云镜像](https://mirrors.cloud.tencent.com/)，方便境内使用
 - 集成了 `ohmyzsh` 及其 `git`、`yarn` 和 [`自定义 npm 插件`](https://github.com/faasjs/faasjs/tree/master/images/vscode/npm.plugin.zsh)
