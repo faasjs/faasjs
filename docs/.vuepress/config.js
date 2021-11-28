@@ -22,11 +22,41 @@ module.exports = {
       '/': {
         label: 'English',
         lastUpdated: 'Last Updated',
-        repo: 'faasjs/faasjs',
-        docsRepo: 'faasjs/faasjs',
-        docsDir: 'docs',
-        editLinks: true,
-        editLinkText: '帮助我们改善此页面'
+        nav: [
+          {
+            text: 'Home',
+            link: '/'
+          },
+          {
+            text: 'Documents',
+            link: '/doc/'
+          },
+          {
+            text: 'Examples',
+            link: 'https://github.com/faasjs/faasjs/blob/master/examples/'
+          },
+          {
+            text: 'Tools',
+            items: [
+              {
+                text: 'VS Code Plugin',
+                link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets'
+              },
+              {
+                text: 'Docker Images',
+                link: 'https://github.com/faasjs/faasjs/blob/master/images/'
+              },
+            ]
+          },
+          {
+            text: 'Changelog',
+            link: 'https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md'
+          },
+          {
+            text: 'Contributing',
+            link: 'https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md'
+          },
+        ],
       },
       '/zh/': {
         selectText: '选择语言',
@@ -169,13 +199,14 @@ module.exports = {
           ]
         },
         lastUpdated: '更新时间',
-        repo: 'faasjs/faasjs',
-        docsRepo: 'faasjs/faasjs',
-        docsDir: 'docs',
-        editLinks: true,
         editLinkText: '帮助我们改善此页面'
       }
     },
+    repo: 'faasjs/faasjs',
+    docsRepo: 'faasjs/faasjs',
+    docsDir: 'docs',
+    docsBranch: 'master',
+    editLinks: true,
     smoothScroll: true,
   },
   plugins: [
