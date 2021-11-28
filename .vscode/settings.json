@@ -98,6 +98,7 @@
     "SESSIONTOKEN",
     "Tencentcloud",
     "tencentcloudapi",
-    "Useify"
+    "Useify",
+    "vuepress"
   ]
 }

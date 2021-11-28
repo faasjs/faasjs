@@ -16,13 +16,12 @@ module.exports = {
       description: '一个基于 Typescript 和 Node.js 的原子化 FaaS 应用框架'
     }
   },
-  shouldPrefetch: () => false,
   themeConfig: {
     locales: {
       '/': {
-        label: 'English',
-        lastUpdated: 'Last Updated',
-        nav: [
+        selectLanguageName: 'English',
+        editLinkText: 'Edit this page on GitHub',
+        navbar: [
           {
             text: 'Home',
             link: '/'
@@ -37,7 +36,7 @@ module.exports = {
           },
           {
             text: 'Tools',
-            items: [
+            children: [
               {
                 text: 'VS Code Plugin',
                 link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets'
@@ -60,8 +59,8 @@ module.exports = {
       },
       '/zh/': {
         selectText: '选择语言',
-        label: '简体中文',
-        nav: [
+        selectLanguageName: '简体中文',
+        navbar: [
           {
             text: '首页',
             link: '/zh/'
@@ -80,7 +79,7 @@ module.exports = {
           },
           {
             text: '工具',
-            items: [
+            children: [
               {
                 text: 'VS Code 插件',
                 link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets'
@@ -198,7 +197,7 @@ module.exports = {
             },
           ]
         },
-        lastUpdated: '更新时间',
+        lastUpdatedText: '更新时间',
         editLinkText: '帮助我们改善此页面'
       }
     },
@@ -206,8 +205,7 @@ module.exports = {
     docsRepo: 'faasjs/faasjs',
     docsDir: 'docs',
     docsBranch: 'master',
-    editLinks: true,
-    smoothScroll: true,
+    contributors: false
   },
   plugins: [
     [
@@ -216,6 +214,5 @@ module.exports = {
         'ga': 'UA-143006612-1'
       }
     ]
-  ],
-  evergreen: true
+  ]
 }
