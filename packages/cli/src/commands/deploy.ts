@@ -15,7 +15,7 @@ import { execSync } from 'child_process'
 async function sleep () {
   const waiting = Math.floor(Math.random() * 3)
   return new Promise<void>(function (resolve) {
-    log(`等待 ${waiting} 秒...`)
+    log(`Waiting ${waiting} seconds...`)
     setTimeout(function () {
       resolve()
     }, waiting * 1000)
@@ -213,10 +213,10 @@ export async function action (env: string, files: string[], {
 
     if (results.fail.length) {
       if (results.done.length) {
-        log('部署成功：')
+        log('Success:')
         log(results.done)
       }
-      error('部署失败：')
+      error('Failed:')
       error(results.fail)
       if (process.env.JEST_WORKER_ID)
         return
@@ -234,7 +234,7 @@ export function DeployCommand (program: Command): void {
     .option('-y --autoYes', '当出现需确认的情况时，自动选择 yes')
     .option('-c --commit [commit]', '基于 commit 到 head 的文件变化，发布有更新的云函数，若没有填写 commit id，则发布最近一次提交的云函数')
     .name('deploy')
-    .description('发布')
+    .description('Deploy to cloud function')
     .on('--help', function () {
       log(`
 Examples:

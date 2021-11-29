@@ -1,10 +1,10 @@
 import { Command } from 'commander'
 import newFunc from './new/func'
 
-export function action (type: string, name: string, plguins: string[]): void {
+export function action (type: string, name: string, plugins: string[]): void {
   switch (type) {
     case 'func':
-      newFunc(name, plguins)
+      newFunc(name, plugins)
       break
     default:
       throw Error(`Unknown type: ${type} (only support func now)`)
@@ -13,9 +13,9 @@ export function action (type: string, name: string, plguins: string[]): void {
 
 export function NewCommand (program: Command): void {
   program
-    .command('new <type> <name> [plguins...]')
+    .command('new <type> <name> [plugins...]')
     .name('new')
-    .description('新建文件')
+    .description('Generate new file')
     .on('--help', function () {
       console.log(`
 Examples:

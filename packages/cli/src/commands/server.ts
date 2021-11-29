@@ -37,13 +37,13 @@ export function ServerCommand (program: Command): void {
   program
     .command('server')
     .name('server')
-    .description('本地服务器')
+    .description('Start local server')
     .on('--help', function () {
       console.log(`
 Examples:
   npm exec faas server`)
     })
-    .option('-p, --port <port>', '端口号', '3000')
-    .option('-c, --cache', '是否启用缓存', false)
+    .option('-p, --port <port>', 'Port', '3000')
+    .option('-c, --cache', 'Cache functions', false)
     .action(action)
 }
