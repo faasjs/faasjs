@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/redis",
-  "version": "0.0.2-beta.269",
+  "version": "0.0.2-beta.271",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -25,8 +25,8 @@
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.269",
     "@types/debug": "*",
-    "@types/jest": "*",
     "@types/ioredis": "*",
+    "@types/jest": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
