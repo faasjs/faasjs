@@ -20,13 +20,13 @@
   "peerDependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.244",
     "@faasjs/logger": "^0.0.2-beta.243",
-    "redis": ">=4.0.0"
+    "ioredis": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.269",
     "@types/debug": "*",
     "@types/jest": "*",
-    "@types/redis": "*",
+    "@types/ioredis": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"

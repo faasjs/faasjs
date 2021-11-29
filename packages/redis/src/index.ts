@@ -3,12 +3,13 @@ import {
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
-import { createClient } from 'redis'
-import type { RedisClientOptions as Config, RedisClientType } from '@node-redis/client/dist/lib/client'
+import IORedis, {
+  RedisOptions, Redis as RedisClient, Commands
+} from 'ioredis'
 
 export type RedisConfig = {
   name?: string
-  config?: Config<any, any>
+  config?: RedisOptions
 }
 
 declare let global: {
@@ -46,8 +47,8 @@ type SET = {
 export class Redis implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
-  public config: Config<any, any>
-  public adapter: RedisClientType<any>
+  public config: RedisOptions
+  public adapter: RedisClient
   public logger: Logger
 
   /**
@@ -83,7 +84,7 @@ export class Redis implements Plugin {
       if (data?.config.plugins && data.config.plugins[this.name])
         this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
-      this.adapter = createClient(this.config)
+      this.adapter = new IORedis(this.config)
       this.logger.debug('connected')
 
       global.FaasJS_Redis[this.name] = this
@@ -92,16 +93,16 @@ export class Redis implements Plugin {
     await next()
   }
 
-  public async query<TResult = any> (command: string, args: any[]): Promise<TResult> {
-    if (!global.FaasJS_Redis[this.name]) throw Error(`[${this.name}] not monuted`)
+  public async query<TResult = any> (command: keyof Commands, args: any[]): Promise<TResult> {
+    if (!global.FaasJS_Redis[this.name]) throw Error(`[${this.name}] not mounted`)
 
     if (!this.config) this.config = global.FaasJS_Redis[this.name].config
-    if (this.adapter == null) this.adapter = global.FaasJS_Redis[this.name].adapter
+    if (!this.adapter) this.adapter = global.FaasJS_Redis[this.name].adapter
 
     this.logger.debug('query begin: %s %j', command, args)
     this.logger.time(command)
 
-    return this.adapter.sendCommand<TResult>([command, ...args])
+    return this.adapter.send_command(command, args)
       .then(data => {
         this.logger.timeEnd(command, 'query success: %s %j', command, data)
         return data
@@ -124,11 +125,11 @@ export class Redis implements Plugin {
   }
 
   public async get<TData = any> (key: string): Promise<TData> {
-    return this.query('GET', [key])
+    return this.query('get', [key])
   }
 
   public async getJSON<TData = any> (key: string): Promise<TData> {
-    const data = await this.query('GET', [key])
+    const data = await this.query('get', [key])
 
     if (typeof data !== 'string') return data
 
@@ -162,7 +163,7 @@ export class Redis implements Plugin {
       }
     }
 
-    return this.query('SET', args)
+    return this.query('set', args)
   }
 
   public async setJSON<TResult = void> (key: string, value: any, options?: SET): Promise<TResult> {
@@ -178,7 +179,10 @@ export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
   return usePlugin<Redis>(new Redis(config))
 }
 
-export async function query<TResult = any> (command: string, args: any[]): Promise<TResult> {
+export async function query<TResult = any> (
+  command: keyof Commands,
+  args: any[]
+): Promise<TResult> {
   return useRedis().query<TResult>(command, args)
 }
 

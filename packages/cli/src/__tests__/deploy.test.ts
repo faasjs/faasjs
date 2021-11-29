@@ -23,7 +23,7 @@ jest.mock('readline', function () {
   return {
     createInterface: function () {
       return {
-        question: function (_, handler) {
+        question: function (_: any, handler: (input: string) => void) {
           handler('y')
         },
         close: function () {}
@@ -38,7 +38,10 @@ process.send = function (data) {
   return true
 }
 
-let triggerMessage
+let triggerMessage: {
+  type: string
+  file: string
+}
 
 jest.mock('cluster', function () {
   return {
@@ -65,7 +68,7 @@ let deployPass = true
 jest.mock('@faasjs/deployer', function () {
   return {
     Deployer: class Deployer {
-      constructor (data) {
+      constructor (data: any) {
         deployeds.push(data.filename)
       }
       deploy () {
@@ -134,7 +137,7 @@ describe('deploy', function () {
         '开始发布'
       ])
       expect(warns).toEqual([])
-      expect(errors).toEqual(['部署失败：', ['file', 'file']])
+      expect(errors).toEqual(['Failed:', ['file', 'file']])
     })
   })
 
@@ -147,7 +150,7 @@ describe('deploy', function () {
       })).rejects.toEqual(Error(__dirname + '/funcs/a.func.ts 自动重试次数已满，结束重试'))
 
       expect(logs.length).toEqual(1)
-      expect(logs[0]).toContain('等待 ')
+      expect(logs[0]).toContain('Waiting ')
       expect(warns).toEqual([__dirname + '/funcs/a.func.ts 自动重试（剩余 1 次）'])
       expect(errors).toEqual([Error('deployPass'), Error('deployPass')])
     })

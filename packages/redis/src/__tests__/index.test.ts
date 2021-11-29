@@ -23,7 +23,7 @@ describe('redis', function () {
   })
 
   it('config with env', async function () {
-    process.env.SECRET_REDIS_HOST = '127.0.0.1'
+    process.env.SECRET_REDIS_SOCKET_HOST = 'localhost'
 
     const redis = new Redis()
 
@@ -60,6 +60,8 @@ describe('redis', function () {
     const func = useFunc(function () {
       const redis = useRedis()
       return async function () {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         await redis.query('wrong', [])
       }
     })
