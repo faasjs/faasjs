@@ -3,13 +3,12 @@ import {
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
-import {
-  createClient, ClientOpts as Config, RedisClient
-} from 'redis'
+import { createClient } from 'redis'
+import type { RedisClientOptions as Config, RedisClientType } from '@node-redis/client/dist/lib/client'
 
 export type RedisConfig = {
   name?: string
-  config?: Config
+  config?: Config<any, any>
 }
 
 declare let global: {
@@ -47,8 +46,8 @@ type SET = {
 export class Redis implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
-  public config: Config
-  public adapter: RedisClient
+  public config: Config<any, any>
+  public adapter: RedisClientType<any>
   public logger: Logger
 
   /**
@@ -102,29 +101,23 @@ export class Redis implements Plugin {
     this.logger.debug('query begin: %s %j', command, args)
     this.logger.time(command)
 
-    return new Promise((resolve, reject) => {
-      this.adapter.sendCommand(command, args, (err, data: TResult) => {
-        if (err) {
-          this.logger.timeEnd(command, 'query fail: %s %j', command, err)
-          reject(err)
-        } else {
-          this.logger.timeEnd(command, 'query success: %s %j', command, data)
-          resolve(data)
-        }
+    return this.adapter.sendCommand<TResult>([command, ...args])
+      .then(data => {
+        this.logger.timeEnd(command, 'query success: %s %j', command, data)
+        return data
       })
-    })
+      .catch(async (err) => {
+        this.logger.timeEnd(command, 'query fail: %s %j', command, err)
+        return Promise.reject(err)
+      })
   }
 
   public async quit (): Promise<void> {
     if (!global.FaasJS_Redis[this.name]) return
 
     try {
-      await new Promise<void>(resolve => {
-        global.FaasJS_Redis[this.name].adapter.quit(() => {
-          delete global.FaasJS_Redis[this.name]
-          resolve()
-        })
-      })
+      await global.FaasJS_Redis[this.name].adapter.quit()
+      delete global.FaasJS_Redis[this.name]
     } catch (error) {
       console.error(error)
     }

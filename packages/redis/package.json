@@ -20,7 +20,7 @@
   "peerDependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.244",
     "@faasjs/logger": "^0.0.2-beta.243",
-    "redis": "*"
+    "redis": ">=4.0.0"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.269",

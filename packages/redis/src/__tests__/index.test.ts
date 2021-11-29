@@ -66,7 +66,7 @@ describe('redis', function () {
 
     try {
       await func.export().handler({})
-    } catch (error) {
+    } catch (error: any) {
       expect(error.message).toEqual('ERR unknown command `wrong`, with args beginning with: ')
     }
   })
