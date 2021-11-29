@@ -22,3 +22,5 @@ https://faasjs.com/
 [CHANGELOG](https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md)
 
 [CONTRIBUTING](https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffaasjs%2Ffaasjs.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffaasjs%2Ffaasjs)
