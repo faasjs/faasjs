@@ -1,0 +1,37 @@
+{
+  "name": "@faasjs/aws",
+  "version": "0.0.2-beta.270",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.es.js",
+  "homepage": "https://faasjs.com/doc/aws.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/aws"
+  },
+  "scripts": {
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
+  },
+  "files": [
+    "lib"
+  ],
+  "peerDependencies": {
+    "@faasjs/load": "^0.0.2-beta.254",
+    "@faasjs/logger": "^0.0.2-beta.243",
+    "@faasjs/request": "^0.0.2-beta.243",
+    "@aws-sdk/client-lambda": "*",
+    "@aws-sdk/client-api-gateway": "*"
+  },
+  "devDependencies": {
+    "@faasjs/func": "^0.0.2-beta.269",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
+  },
+  "gitHead": "e0658fb3f40cf082666abcc9cd530068d7f7322a"
+}
