@@ -1,6 +1,6 @@
 FROM node:16-alpine
 
-RUN apk add --no-cache git zsh openssh
+RUN apk add --no-cache git zsh openssh rsync zip
 
 RUN sh -c "$(wget https://ghproxy.com/raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
