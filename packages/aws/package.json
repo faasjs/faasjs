@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/aws",
-  "version": "0.0.2-beta.270",
+  "version": "0.0.2-beta.272",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,11 +18,11 @@
     "lib"
   ],
   "peerDependencies": {
+    "@aws-sdk/client-api-gateway": "*",
+    "@aws-sdk/client-lambda": "*",
     "@faasjs/load": "^0.0.2-beta.254",
     "@faasjs/logger": "^0.0.2-beta.243",
-    "@faasjs/request": "^0.0.2-beta.243",
-    "@aws-sdk/client-lambda": "*",
-    "@aws-sdk/client-api-gateway": "*"
+    "@faasjs/request": "^0.0.2-beta.243"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.269",
