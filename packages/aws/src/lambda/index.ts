@@ -4,19 +4,20 @@ import { Logger, Color } from '@faasjs/logger'
 import { execSync } from 'child_process'
 import { join } from 'path'
 import { CreateFunctionCommand, LambdaClient } from '@aws-sdk/client-lambda'
-import { ReadStream } from 'fs'
-import { PassThrough } from 'stream'
+import { readFileSync } from 'fs'
+import { AWSConfig } from '..'
 
 const defaults = {
   Handler: 'index.handler',
   MemorySize: 128,
   Timeout: 30,
-  Runtime: 'nodejs'
+  Runtime: 'nodejs14.x'
 }
 
 const INCLUDED_NPM = ['@faasjs/load']
 
 export async function deployLambda (
+  aws: AWSConfig,
   data: DeployData,
   origin: { [key: string]: any }
 ): Promise<void> {
@@ -44,8 +45,6 @@ export async function deployLambda (
   }
 
   config.config = deepMerge(defaults, config.config, {
-    // 基本参数
-    Region: config.config.region,
     Namespace: data.env,
     Environment: {
       Variables: [
@@ -75,8 +74,6 @@ export async function deployLambda (
     env: data.env,
     dependencies: data.dependencies,
     tmp: data.tmp,
-
-    ZipFilePath: data.env + '/' + config.config.FunctionName + '/' + data.version + '.zip'
   })
 
   logger.debug('[01/12] 完成配置项 %o', config)
@@ -125,21 +122,17 @@ module.exports = main.export();`
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[04/12]')} 检查 COS...`)
 
   const client = new LambdaClient({
-    region: config.config.Region,
-    credentials: config.config.credentials
+    region: aws.region,
+    credentials: {
+      accessKeyId: aws.accessKeyId,
+      secretAccessKey: aws.secretKey
+    }
   })
 
   const command = new CreateFunctionCommand({
     FunctionName: config.config.FunctionName,
-    Role: config.config.Role,
-    Code: {
-      ZipFile: await new Promise((resolve, reject) => {
-        const rs = new ReadStream(config.config.ZipFilePath)
-        rs.on('error', reject)
-        rs.on('end', resolve)
-        rs.pipe(new PassThrough())
-      })
-    },
+    Role: config.config.role,
+    Code: { ZipFile: readFileSync(join(config.config.tmp, 'deploy.zip')) },
     Description: config.config.Description,
     Handler: config.config.Handler,
     MemorySize: config.config.MemorySize,

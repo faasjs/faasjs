@@ -3,16 +3,10 @@ import { Logger } from '@faasjs/logger'
 import { CloudFunctionAdapter } from '@faasjs/cloud_function'
 import { deployLambda } from './lambda'
 
-/**
- * 云 API 配置项
- * 优先读取环境变量，如果没有则读取入参
- */
 export type AWSConfig = {
-  appId?: string
-  secretId?: string
+  accessKeyId?: string
   secretKey?: string
   region?: string
-  token?: string
 }
 
 export class Provider implements CloudFunctionAdapter {
@@ -23,6 +17,8 @@ export class Provider implements CloudFunctionAdapter {
     this.logger = new Logger('AWS')
 
     if (!config) config = {}
+
+    console.log(config)
 
     this.config = config
   }
@@ -38,7 +34,7 @@ export class Provider implements CloudFunctionAdapter {
   public async deploy (type: 'cloud_function' | 'http', data: DeployData, config: { [key: string]: any }): Promise<void> {
     switch (type) {
       case 'cloud_function':
-        await deployLambda(data, config)
+        await deployLambda(this.config, data, config)
     }
   }
 }
