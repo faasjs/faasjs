@@ -18,7 +18,7 @@
     "lib"
   ],
   "peerDependencies": {
-    "@aws-sdk/client-api-gateway": "*",
+    "@aws-sdk/client-apigatewayv2": "*",
     "@aws-sdk/client-lambda": "*",
     "@faasjs/load": "^0.0.2-beta.254",
     "@faasjs/logger": "^0.0.2-beta.243",
@@ -33,5 +33,5 @@
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
   },
-  "gitHead": "e0658fb3f40cf082666abcc9cd530068d7f7322a"
+  "gitHead": "3463e0c62e5bfad445efed81e6b9503522bc3e10"
 }

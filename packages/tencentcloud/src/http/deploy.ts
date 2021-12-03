@@ -24,7 +24,7 @@ export async function deployHttp (
   if (!config.config.RequestConfig) config.config.RequestConfig = {}
 
   // 参数名适配
-  config.config.RequestConfig.Path = config.config.path
+  config.config.RequestConfig.Path = '=' + config.config.path
   delete config.config.path
 
   if (config.config.method) {

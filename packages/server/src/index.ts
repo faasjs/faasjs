@@ -63,7 +63,7 @@ export class Server {
       port: 3000
     }, (opts) || {})
     this.cachedFuncs = {}
-    this.logger.debug('Init with %s %o', this.root, this.opts)
+    this.logger.debug('Init with %s %j', this.root, this.opts)
     this.sockets = new Set()
     servers.push(this)
   }

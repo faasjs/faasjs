@@ -102,13 +102,13 @@ export class CloudFunction implements Plugin {
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
-    this.logger.debug('[CloudFunction] 组装云函数配置')
-    this.logger.debug('%o', data)
+    this.logger.debug('[CloudFunction] Merge configuration...')
+    this.logger.debug('%j', data)
 
     const config = data.config.plugins ?
       deepMerge(data.config.plugins[this.name], { config: this.config }) : { config: this.config }
 
-    this.logger.debug('[CloudFunction] 组装完成 %o', config)
+    this.logger.debug('[CloudFunction] Merged configuration: %j', config)
 
     // 引用服务商部署插件
     // eslint-disable-next-line @typescript-eslint/no-var-requires

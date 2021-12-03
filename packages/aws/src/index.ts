@@ -1,7 +1,8 @@
 import { DeployData } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { CloudFunctionAdapter } from '@faasjs/cloud_function'
-import { deployLambda } from './lambda'
+import { deployLambda } from './lambda/deploy'
+import { deployApiGateway } from './api-gateway/deploy'
 
 export type AWSConfig = {
   accessKeyId?: string
@@ -18,7 +19,9 @@ export class Provider implements CloudFunctionAdapter {
 
     if (!config) config = {}
 
-    console.log(config)
+    if (!config.accessKeyId) throw Error('accessKeyId is required')
+    if (!config.secretKey) throw Error('secretKey is required')
+    if (!config.region) throw Error('region is required')
 
     this.config = config
   }
@@ -35,6 +38,10 @@ export class Provider implements CloudFunctionAdapter {
     switch (type) {
       case 'cloud_function':
         await deployLambda(this.config, data, config)
+        break
+      case 'http':
+        await deployApiGateway(this.config, data, config)
+        break
     }
   }
 }

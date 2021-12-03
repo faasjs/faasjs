@@ -1,0 +1,3 @@
+# @faasjs/aws
+
+Pending...

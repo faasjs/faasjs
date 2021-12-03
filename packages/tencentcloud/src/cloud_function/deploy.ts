@@ -114,7 +114,7 @@ export async function deployCloudFunction (
     CosObjectName: data.env + '/' + config.config.FunctionName + '/' + data.version + '.zip'
   })
 
-  logger.debug('[01/12] 完成配置项 %o', config)
+  logger.debug('[01/12] 完成配置项 %j', config)
 
   logger.raw(`${logger.colorfy(Color.GRAY, loggerPrefix + '[02/12]')} 生成代码包...`)
 
@@ -145,7 +145,7 @@ module.exports = main.export();`
     }
   })
 
-  logger.debug('%o', ts.modules)
+  logger.debug('%j', ts.modules)
 
   logger.debug('[2.2/12] 生成 node_modules...')
   for (const key in ts.modules) {
@@ -374,7 +374,7 @@ module.exports = main.export();`
   })
   if (current.Allocated.length)
     for (const allocated of current.Allocated) {
-      logger.debug('[11.2/12] 删除旧预制并发 %o...', allocated)
+      logger.debug('[11.2/12] 删除旧预制并发 %j...', allocated)
       await scf('DeleteProvisionedConcurrencyConfig', tc.config, {
         FunctionName: config.config.FunctionName,
         Namespace: config.config.Namespace,

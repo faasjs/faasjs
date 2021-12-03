@@ -141,7 +141,7 @@ export class Http<TParams extends Record<string, any> = any,
     await next()
 
     this.logger.debug('组装网关配置')
-    this.logger.debug('%o', data)
+    this.logger.debug('%j', data)
 
     const config = data.config.plugins ?
       deepMerge(data.config.plugins[this.name || this.type], { config: this.config }) :
@@ -149,15 +149,15 @@ export class Http<TParams extends Record<string, any> = any,
 
     // 根据文件及文件夹名生成路径
     if (!config.config.path) {
-      config.config.path = '=/' + data.name?.replace(/_/g, '/').replace(/\/index$/, '')
-      if (config.config.path === '=/index') config.config.path = '=/'
+      config.config.path = '/' + data.name?.replace(/_/g, '/').replace(/\/index$/, '')
+      if (config.config.path === '/index') config.config.path = '/'
       if (config.config.ignorePathPrefix) {
-        config.config.path = config.config.path.replace(new RegExp('^=' + config.config.ignorePathPrefix), '=')
-        if (config.config.path === '=') config.config.path = '=/'
+        config.config.path = config.config.path.replace(new RegExp('^' + config.config.ignorePathPrefix), '')
+        if (config.config.path === '') config.config.path = '/'
       }
     }
 
-    this.logger.debug('组装完成 %o', config)
+    this.logger.debug('组装完成 %j', config)
 
     // 引用服务商部署插件
     // eslint-disable-next-line @typescript-eslint/no-var-requires
