@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/aws",
-  "version": "0.0.2-beta.272",
+  "version": "0.0.2-beta.273",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
