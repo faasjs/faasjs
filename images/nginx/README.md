@@ -1,5 +1,9 @@
 # Nginx 静态网页托管镜像
 
+[![faasjs/nginx](https://img.shields.io/badge/Docker-faasjs%2Fnginx-blue)](https://hub.docker.com/repository/docker/faasjs/nginx)
+[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml)
+[![Image size](https://img.shields.io/docker/image-size/faasjs/nginx/latest)](https://hub.docker.com/repository/docker/faasjs/nginx)
+
 包含以下特性：
 
 - 基于 `alpine`，镜像文件不到 10 MB

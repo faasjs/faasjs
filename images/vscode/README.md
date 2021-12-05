@@ -1,5 +1,9 @@
 # FaasJS VSCode Container 基础镜像
 
+[![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/repository/docker/faasjs/vscode)
+[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml)
+[![Image size](https://img.shields.io/docker/image-size/faasjs/vscode/latest)](https://hub.docker.com/repository/docker/faasjs/vscode)
+
 包含以下特性：
 
 - 基于 `node:16-alpine`，镜像文件约 60 MB
