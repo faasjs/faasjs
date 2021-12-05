@@ -18,8 +18,7 @@
     "lib"
   ],
   "peerDependencies": {
-    "@faasjs/cloud_function": "^0.0.2-beta.254",
-    "@faasjs/tencentcloud": "^0.0.2-beta.254"
+    "@faasjs/cloud_function": "^0.0.2-beta.254"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.269",
