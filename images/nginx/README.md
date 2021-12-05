@@ -3,7 +3,6 @@
 包含以下特性：
 
 - 基于 `alpine`，镜像文件不到 10 MB
-- Alpine 源改为 [华为云镜像](https://mirrors.huaweicloud.com/home)，方便境内使用
 - 支持 brotli 压缩
 - 支持日志展示
 
@@ -12,7 +11,7 @@
 在静态网站项目中新建 Dockerfile，内容示例如下：
 
 ```Dockerfile
-FROM faasjs/node:lts-alpine AS builder
+FROM faasjs/node AS builder
 
 WORKDIR /app
 COPY package.json package.json
