@@ -70,7 +70,7 @@ jest.mock('@faasjs/request', function () {
         case 'DeleteTrigger':
           return Promise.resolve({ body: { Response: {} } })
         case 'DescribeApisStatus':
-          return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [{ Path: '/' }] } } } })
+          return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [{ Path: '=/' }] } } } })
         case 'DescribeApi':
           return Promise.resolve({
             body: {

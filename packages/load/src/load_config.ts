@@ -51,28 +51,23 @@ export class Config {
 
     this.origin = deepMerge(...configs)
 
-    if (!this.origin.defaults) throw Error('[faas.yaml] need defaults env.')
-
-    this.defaults = deepMerge(this.origin.defaults)
+    this.defaults = deepMerge(this.origin.defaults || {})
 
     for (const key in this.origin) {
       if (key !== 'defaults') this[key] = deepMerge(this.origin.defaults, this.origin[key])
 
       const data = this[key]
 
-      if (!data.providers) throw Error(`[faas.yaml] missing key: ${key}/providers`)
-
-      if (!data.plugins) throw Error(`[faas.yaml] missing key: ${key}/plugins`)
-
-      for (const pluginKey in data.plugins) {
-        const plugin = data.plugins[pluginKey]
-        plugin.name = pluginKey
-        if (plugin.provider)
-          if (typeof plugin.provider === 'string') {
-            if (!data.providers[plugin.provider]) throw Error(`[faas.yaml] missing provider: ${plugin.provider} <${key}/plugins/${pluginKey}>`)
-            plugin.provider = data.providers[plugin.provider]
-          } else plugin.provider = deepMerge(data.providers[plugin.provider], plugin.provider)
-      }
+      if (data.plugins)
+        for (const pluginKey in data.plugins) {
+          const plugin = data.plugins[pluginKey]
+          plugin.name = pluginKey
+          if (plugin.provider)
+            if (typeof plugin.provider === 'string') {
+              if (!data.providers[plugin.provider]) throw Error(`[faas.yaml] missing provider: ${plugin.provider} <${key}/plugins/${pluginKey}>`)
+              plugin.provider = data.providers[plugin.provider]
+            } else plugin.provider = deepMerge(data.providers[plugin.provider], plugin.provider)
+        }
     }
   }
 }

@@ -169,7 +169,7 @@ test('create', async function () {
     Protocol: 'HTTP',
     RequestConfig: {
       Method: 'GET',
-      Path: '/',
+      Path: '=/',
     },
     ServiceId: 'ServiceId',
     ServiceScfFunctionName: 'http',

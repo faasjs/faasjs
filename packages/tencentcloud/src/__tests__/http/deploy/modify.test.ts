@@ -27,7 +27,7 @@ jest.mock('@faasjs/request', function () {
             }
           })
         case 'DescribeApisStatus':
-          return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [{ Path: '/' }] } } } })
+          return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [{ Path: '=/' }] } } } })
         case 'DescribeApi':
           return Promise.resolve({ body: { Response: { Result: {} } } })
         case 'ModifyApi':
