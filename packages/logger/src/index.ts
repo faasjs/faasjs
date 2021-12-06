@@ -179,6 +179,8 @@ export class Logger {
     else if (!this.colorfyOutput)
       output = output.replace(/\n/g, '')
 
+    if (!output) return this
+
     if (!this.colorfyOutput)
       console.log(output)
     else if (level === 'error')

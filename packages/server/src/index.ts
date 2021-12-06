@@ -40,10 +40,10 @@ export class Server {
   private processing = false
   private cachedFuncs: {
     [path: string]: Cache
-  }
+  } = {}
 
   private server: HttpServer
-  private sockets: Set<Socket>
+  private sockets: Set<Socket> = new Set()
 
   /**
    * 创建本地服务器
@@ -56,15 +56,21 @@ export class Server {
     cache?: boolean
     port?: number
   }) {
+    if (!process.env.FaasEnv && process.env.NODE_ENV === 'development')
+      process.env.FaasEnv = 'development'
+
     this.root = root.endsWith(sep) ? root : root + sep
-    this.logger = new Logger('FaasJS')
     this.opts = Object.assign({
       cache: false,
       port: 3000
     }, (opts) || {})
-    this.cachedFuncs = {}
+
+    process.env.FaasMode = this.opts.cache ? 'mono' : 'local'
+    process.env.FaasLocal = `http://localhost:${this.opts.port}`
+
+    this.logger = new Logger('FaasJS')
     this.logger.debug('Init with %s %j', this.root, this.opts)
-    this.sockets = new Set()
+
     servers.push(this)
   }
 
@@ -147,11 +153,6 @@ export class Server {
   }
 
   public listen (): HttpServer {
-    if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') process.env.FaasEnv = 'development'
-
-    process.env.FaasMode = this.opts.cache ? 'mono' : 'local'
-    process.env.FaasLocal = `http://localhost:${this.opts.port}`
-
     if (this.server) throw Error('Server already running')
 
     this.logger.info('[%s] Listen http://localhost:%s with %s', process.env.FaasEnv, this.opts.port, this.root)
