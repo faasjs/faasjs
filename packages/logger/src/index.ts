@@ -30,7 +30,7 @@ const LevelPriority = {
 export class Logger {
   public silent: boolean
   public level: number
-  public mode: string
+  public colorfyOutput: boolean = true
   public label?: string
   public stdout: (text: string) => void
   public stderr: (text: string) => void
@@ -48,7 +48,9 @@ export class Logger {
       process.env.npm_config_argv &&
       JSON.parse(process.env.npm_config_argv).original.includes('--silent')
 
-    this.mode = process.env.FaasMode !== 'remote' ? 'local' : 'remote'
+    if (['remote', 'mono'].includes(process.env.FaasMode))
+      this.colorfyOutput = false
+
     this.level = process.env.FaasLog ? LevelPriority[process.env.FaasLog.toLowerCase() as Level] : 0
 
     this.cachedTimers = {}
@@ -172,9 +174,17 @@ export class Logger {
 
     let output = level.toUpperCase() + ' ' + (this.label ? `[${this.label}] ` : '') + format(message, ...args)
 
-    if (this.mode === 'local' && level !== 'error') output = this.colorfy(LevelColor[level], output); else if (this.mode !== 'local') output = output.replace(/\n/g, '')
+    if (this.colorfyOutput && level !== 'error')
+      output = this.colorfy(LevelColor[level], output)
+    else if (!this.colorfyOutput)
+      output = output.replace(/\n/g, '')
 
-    if (this.mode === 'remote') console.log(output); else if (level === 'error') this.stderr(output); else this.stdout(output)
+    if (!this.colorfyOutput)
+      console.log(output)
+    else if (level === 'error')
+      this.stderr(output)
+    else
+      this.stdout(output)
 
     return this
   }

@@ -149,7 +149,7 @@ export class Server {
   public listen (): HttpServer {
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development') process.env.FaasEnv = 'development'
 
-    process.env.FaasMode = 'local'
+    process.env.FaasMode = this.opts.cache ? 'mono' : 'local'
     process.env.FaasLocal = `http://localhost:${this.opts.port}`
 
     if (this.server) throw Error('Server already running')
