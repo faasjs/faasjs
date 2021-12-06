@@ -89,9 +89,11 @@ export class Http<TParams extends Record<string, any> = any,
 > implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
+
   public headers: {
     [key: string]: string
   }
+  public body: any
 
   public params: TParams
   public cookie: Cookie<TCookie, TSession>
@@ -189,6 +191,7 @@ export class Http<TParams extends Record<string, any> = any,
 
   public async onInvoke (data: InvokeData, next: Next): Promise<void> {
     this.headers = data.event.headers || Object.create(null)
+    this.body = data.event.body
     this.params = Object.create(null)
     this.response = { headers: Object.create(null) }
 
