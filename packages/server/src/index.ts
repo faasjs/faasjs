@@ -99,8 +99,8 @@ export class Server {
           let cache: Cache = {}
 
           if (this.opts.cache && this.cachedFuncs[path] && (this.cachedFuncs[path].handler)) {
-            this.logger.info('[Response] cached: %s', cache.file)
             cache = this.cachedFuncs[path]
+            this.logger.info('[Response] Cached: %s', cache.file)
           } else {
             cache.file = pathResolve('.', this.getFilePath(path))
             this.logger.info('[Response] %s', cache.file)
@@ -110,8 +110,10 @@ export class Server {
             func.config = loadConfig(this.root, path)[process.env.FaasEnv || 'development']
             cache.handler = func.export().handler
 
-            if (this.opts.cache) this.cachedFuncs[path] = cache
-            else this.clearCache()
+            if (this.opts.cache)
+              this.cachedFuncs[path] = cache
+            else
+              this.clearCache()
           }
 
           data = await cache.handler({
@@ -119,12 +121,6 @@ export class Server {
             httpMethod: req.method,
             path: req.url,
             body,
-            requestContext: {
-              httpMethod: req.method,
-              identity: {},
-              path: req.url,
-              sourceIp: req.socket?.remoteAddress
-            }
           }, { request_id: requestId })
         } catch (error) {
           data = error
@@ -133,10 +129,10 @@ export class Server {
         if (data instanceof Error || (data?.constructor?.name?.includes('Error')) || typeof data === 'undefined' || data === null) {
           res.statusCode = data?.statusCode || 500
           res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          res.setHeader('X-SCF-RequestId', requestId)
           res.write(JSON.stringify({ error: { message: data?.message || 'No response' } }))
         } else {
-          if (data.statusCode) res.statusCode = data.statusCode
+          if (data.statusCode)
+            res.statusCode = data.statusCode
 
           if (data.headers)
             for (const key in data.headers)
@@ -144,7 +140,10 @@ export class Server {
                 res.setHeader(key, data.headers[key])
 
           if (data.body)
-            if (data.isBase64Encoded) res.write(Buffer.from(data.body, 'base64')); else res.write(data.body)
+            if (data.isBase64Encoded)
+              res.write(Buffer.from(data.body, 'base64'))
+            else
+              res.write(data.body)
         }
         res.end()
         resolve()

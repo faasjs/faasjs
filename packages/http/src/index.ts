@@ -195,7 +195,7 @@ export class Http<TParams extends Record<string, any> = any,
     this.params = Object.create(null)
     this.response = { headers: Object.create(null) }
 
-    if (data.event.body)
+    if (data.event.body) {
       if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
         this.logger.debug('[onInvoke] Parse params from json body')
         this.params = JSON.parse(data.event.body)
@@ -203,16 +203,18 @@ export class Http<TParams extends Record<string, any> = any,
         this.logger.debug('[onInvoke] Parse params from raw body')
         this.params = data.event.body
       }
-    else if (data.event.queryString) {
+      this.logger.debug('[onInvoke] Params: %j', this.params)
+    } else if (data.event.queryString) {
       this.logger.debug('[onInvoke] Parse params from queryString')
       this.params = data.event.queryString
+      this.logger.debug('[onInvoke] Params: %j', this.params)
     }
-    this.logger.debug('[onInvoke] Params: %j', this.params)
 
-    this.logger.debug('[onInvoke] Parse cookie')
     this.cookie.invoke(this.headers.cookie)
-    this.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
-    this.logger.debug('[onInvoke] Session: %j', this.session.content)
+    if (this.headers.cookie) {
+      this.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
+      this.logger.debug('[onInvoke] Session: %j', this.session.content)
+    }
 
     if (this.validator && data.event.httpMethod) {
       this.logger.debug('[onInvoke] Valid request')
