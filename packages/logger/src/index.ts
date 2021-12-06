@@ -181,9 +181,7 @@ export class Logger {
 
     if (!output) return this
 
-    if (!this.colorfyOutput)
-      console.log(output)
-    else if (level === 'error')
+    if (level === 'error')
       this.stderr(output)
     else
       this.stdout(output)
