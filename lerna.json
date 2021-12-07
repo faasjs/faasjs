@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "0.0.2-beta.279",
+  "version": "0.0.2-beta.280",
   "npmClient": "npm",
   "bootstrap": {
     "hoist": true
