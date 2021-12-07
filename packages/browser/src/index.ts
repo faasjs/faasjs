@@ -9,7 +9,7 @@ export type Options = {
     action: string
     params: Params
     xhr: XMLHttpRequest
-  }) => void
+  }) => Promise<void> | void
 }
 
 export type ResponseHeaders = {
@@ -86,18 +86,18 @@ export class FaasBrowserClient {
       ...options
     }
 
-    return new Promise(function (resolve, reject) {
-      const xhr = new XMLHttpRequest()
-      xhr.open('POST', url)
-      xhr.withCredentials = true
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
-      if (options.beforeRequest)
-        options.beforeRequest({
-          action,
-          params,
-          xhr
-        })
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', url)
+    xhr.withCredentials = true
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
+    if (options.beforeRequest)
+      await options.beforeRequest({
+        action,
+        params,
+        xhr
+      })
 
+    return new Promise(function (resolve, reject) {
       xhr.onload = function () {
         let res = xhr.response
         const headersList = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
