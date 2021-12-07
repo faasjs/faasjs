@@ -24,7 +24,7 @@ describe('server', function () {
     })
   })
 
-  test('request', async function () {
+  test('404', async function () {
     await expect(request('http://localhost:' + port)).rejects.toMatchObject({
       statusCode: 404,
       body: { error: { message: `Not found: ${server.root}.func.ts or ${server.root}index.func.ts` } }
@@ -49,6 +49,18 @@ describe('server', function () {
     await expect(request('http://localhost:' + port + '/error')).rejects.toMatchObject({
       statusCode: 500,
       body: { error: { message: 'error' } }
+    })
+  })
+
+  test('OPTIONS', async function () {
+    await expect(request('http://localhost:' + port, { method: 'OPTIONS' })).resolves.toMatchObject({
+      statusCode: 204,
+      headers: {
+        'access-control-allow-credentials': 'true',
+        'access-control-allow-headers': 'Content-Type, Authorization',
+        'access-control-allow-methods': 'OPTIONS, POST',
+        'access-control-allow-origin': '*',
+      }
     })
   })
 })

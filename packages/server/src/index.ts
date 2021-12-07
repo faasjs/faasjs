@@ -91,6 +91,24 @@ export class Server {
       })
 
       req.on('end', async () => {
+        let headers: {
+          [key: string]: string
+        } = {
+          'Access-Control-Allow-Origin': req.headers.origin || '*',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Methods': 'OPTIONS, POST'
+        }
+
+        if (req.method === 'OPTIONS') {
+          headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+          for (const key in headers)
+            res.setHeader(key, headers[key])
+          res.statusCode = 204
+          res.end()
+          resolve()
+          return
+        }
+
         let data
         try {
           // 提取 path
@@ -126,25 +144,31 @@ export class Server {
           data = error
         }
 
+        let resBody
         if (data instanceof Error || (data?.constructor?.name?.includes('Error')) || typeof data === 'undefined' || data === null) {
           res.statusCode = data?.statusCode || 500
-          res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          res.write(JSON.stringify({ error: { message: data?.message || 'No response' } }))
+          headers['Content-Type'] = 'application/json; charset=utf-8'
+          resBody = JSON.stringify({ error: { message: data?.message || 'No response' } })
         } else {
           if (data.statusCode)
             res.statusCode = data.statusCode
 
           if (data.headers)
-            for (const key in data.headers)
-              if (Object.prototype.hasOwnProperty.call(data.headers, key))
-                res.setHeader(key, data.headers[key])
+            headers = Object.assign(headers, data.headers)
 
           if (data.body)
             if (data.isBase64Encoded)
-              res.write(Buffer.from(data.body, 'base64'))
+              resBody = Buffer.from(data.body, 'base64')
             else
-              res.write(data.body)
+              resBody = data.body
         }
+
+        for (const key in headers)
+          res.setHeader(key, headers[key])
+
+        if (resBody)
+          res.write(resBody)
+
         res.end()
         resolve()
       })
