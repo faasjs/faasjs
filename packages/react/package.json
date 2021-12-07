@@ -17,6 +17,7 @@
     "lib"
   ],
   "peerDependencies": {
+    "@faasjs/browser": "*",
     "react": "*"
   },
   "devDependencies": {
