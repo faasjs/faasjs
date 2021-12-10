@@ -1,8 +1,12 @@
-import Client, {
-  Options, Params, Response, ResponseError
+import {
+  FaasBrowserClient, Options, Params, Response, ResponseError
 } from '../../browser/src'
 
 import React from 'react'
+
+export type {
+  FaasBrowserClient, Options, Params, Response, ResponseHeaders, ResponseError
+} from '../../browser/src'
 
 export type faas = <T = any>(action: string, params: Params) => Promise<Response<T>>
 
@@ -30,7 +34,7 @@ export function FaasReactClient ({
     faas: faas
     useFaas: useFaas
   } {
-  const client = new Client(domain, options)
+  const client = new FaasBrowserClient(domain, options)
 
   return {
     async faas<T = any> (action: string, params: Params) {
