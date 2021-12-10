@@ -84,7 +84,8 @@ export function FaasReactClient ({
           if (params) setParams(params)
           setReloadTimes(reloadTimes + 1)
           return promise
-        }
+        },
+        setData
       }
     }
   }
