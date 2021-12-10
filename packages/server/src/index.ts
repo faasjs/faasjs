@@ -80,7 +80,7 @@ export class Server {
     end: () => void
     setHeader: (key: string, value: string) => void
   }): Promise<void> {
-    this.logger.info('[%s] %s', req.method, req.url)
+    this.logger.info('%s %s', req.method, req.url)
 
     return await new Promise((resolve) => {
       const requestId = new Date().getTime().toString()
@@ -118,10 +118,10 @@ export class Server {
 
           if (this.opts.cache && this.cachedFuncs[path] && (this.cachedFuncs[path].handler)) {
             cache = this.cachedFuncs[path]
-            this.logger.info('[Response] %s with cache.', cache.file)
+            this.logger.debug('Response with cached %s', cache.file)
           } else {
             cache.file = pathResolve('.', this.getFilePath(path))
-            this.logger.info('[Response] %s without cache.', cache.file)
+            this.logger.debug('Response with %s', cache.file)
 
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const func = require(cache.file).default
