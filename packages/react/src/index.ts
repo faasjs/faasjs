@@ -14,6 +14,8 @@ export type useFaas = <T = any>(action: string, params: Params) => {
   reload(params?: Params): Promise<Response<T>>,
   setData(data: T): void
   setLoading(loading: boolean): void
+  setPromise(promise: Promise<Response<T>>): void
+  setError(error: any): void
 }
 
 export function FaasReactClient ({
@@ -88,7 +90,9 @@ export function FaasReactClient ({
           return promise
         },
         setData,
-        setLoading
+        setLoading,
+        setPromise,
+        setError,
       }
     }
   }
