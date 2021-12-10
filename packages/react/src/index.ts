@@ -11,7 +11,8 @@ export type useFaas = <T = any>(action: string, params: Params) => {
   data: T
   error: any
   promise: Promise<Response<T>>
-  reload(params?: Params): Promise<Response<T>>
+  reload(params?: Params): Promise<Response<T>>,
+  setData(data: T): void
 }
 
 export function FaasReactClient ({
