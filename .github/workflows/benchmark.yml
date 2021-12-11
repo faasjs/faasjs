@@ -19,7 +19,11 @@ jobs:
           node-version: '14'
           cache: 'npm'
       - name: Run benchmark
-        run: cd benchmarks/func.js | tee output.txt
+        run: |
+          cd benchmarks
+          npm install -g npm@latest
+          npm install
+          node func.js | tee output.txt
       - name: Download previous benchmark data
         uses: actions/cache@v1
         with:
