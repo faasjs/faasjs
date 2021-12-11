@@ -22,8 +22,7 @@ jobs:
         run: |
           npm install -g npm@latest
           npm install
-          cd packages/func && npm run prepack
-          cd ../http && npm run prepack
+          npm run build
       - name: Run benchmark
         run: |
           cd benchmarks
