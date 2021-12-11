@@ -27,6 +27,6 @@ jobs:
         uses: benchmark-action/github-action-benchmark@v1
         with:
           tool: 'benchmarkjs'
-          output-file-path: output.txt
+          output-file-path: ./benchmarks/output.txt
           external-data-json-path: ./cache/benchmark-data.json
           fail-on-alert: true
