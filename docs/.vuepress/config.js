@@ -2,7 +2,7 @@ module.exports = {
   title: 'FaasJS',
   description: 'An atomic FaaS Application Framework based on Typescript and Node.js',
   head: [
-    ['link', { rel: 'icon', href: '/logo.ico' }]
+    ['link', { rel: 'icon', href: '/logo.jpg' }]
   ],
   locales: {
     '/': {

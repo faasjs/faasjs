@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /logo.png
+heroImage: /logo.jpg
 heroText: FaasJS
 tagline: null
 footer: An atomic FaaS Application Framework based on Typescript & Node.js | MIT Licensed | Copyright © 2019-2021 Zhu Feng
