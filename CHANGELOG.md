@@ -183,18 +183,17 @@
 - [优化] `@faasjs/tencentcloud` 优化腾讯云接口。
 - [优化] `@faasjs/tencentcloud` 配置优先级调整为：环境变量 > 代码配置项 > yaml 配置项。
 
-[`v0.0.2-beta.193 (2021-06-23)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.197...v0.0.2-beta.198)
+[`v0.0.2-beta.198 (2021-06-23)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.197...v0.0.2-beta.198)
 
 - [优化] `@faasjs/cli` 提速 ts-node，编译时不检查 ts 定义。
 
-[`v0.0.2-beta.193 (2021-06-21)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.193...v0.0.2-beta.197)
+[`v0.0.2-beta.197 (2021-06-21)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.193...v0.0.2-beta.197)
 
 - [优化] `@faasjs/http` 优化 ts 定义。
 
 [`v0.0.2-beta.193 (2021-06-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.191...v0.0.2-beta.193)
 
 - [优化] `@faasjs/http` 优化 ts 定义。
-- [优化] `@faasjs/
 
 [`v0.0.2-beta.191 (2021-06-18)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.188...v0.0.2-beta.191)
 

@@ -91,6 +91,10 @@ module.exports = {
             ]
           },
           {
+            text: '博客',
+            link: '/zh/blog/'
+          },
+          {
             text: '更新日志',
             link: 'https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md'
           },
