@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-echo
 FaasLog=warn node node_modules/.bin/faas server -r server/raw -c &
 pid=$!
 
-sleep 2
-
 curl -s http://localhost:3000/ > /dev/null
+
+sleep 2
 
 echo 'FaasJS:'
 wrk 'http://localhost:3000/' \
@@ -21,9 +20,9 @@ echo
 FaasLog=warn node node_modules/.bin/faas server -r server/raw -c &
 pid=$!
 
-sleep 2
+curl -s http://localhost:3000/ > /dev/null
 
-curl -s http://localhost:3000/http > /dev/null
+sleep 2
 
 echo 'FaasJS with http plugin:'
 wrk 'http://localhost:3000/http' \
@@ -37,6 +36,8 @@ kill $pid
 echo
 node server/koa.js &
 pid=$!
+
+curl -s http://localhost:3000/ > /dev/null
 
 sleep 2
 
@@ -52,6 +53,8 @@ kill $pid
 echo
 node server/express.js &
 pid=$!
+
+curl -s http://localhost:3000/ > /dev/null
 
 sleep 2
 

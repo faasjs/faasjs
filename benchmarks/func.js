@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const Benchmark = require('benchmark')
-const Func = require('@faasjs/func').Func
+const useFunc = require('@faasjs/func').useFunc
 const suite = new Benchmark.Suite()
 
 process.env.FaasLog = 'error'
 
-const handler = new Func({ plugins: [] }).export().handler
+const handler = useFunc({ plugins: [] }).export().handler
 
 suite
   .add('create', function () {
-    new Func({ plugins: [] })
+    useFunc({ plugins: [] })
   })
   .add('export', function () {
-    new Func({ plugins: [] }).export()
+    useFunc({ plugins: [] }).export()
   })
   .add('handler', async function () {
     await handler({})

@@ -1,7 +1,7 @@
-import { Func } from '@faasjs/func'
+import { useFunc } from '@faasjs/func'
 
-export default new Func({
-  async handler () {
+export default useFunc(function () {
+  return async function () {
     return {
       statusCode: 200,
       body: 'Hello'

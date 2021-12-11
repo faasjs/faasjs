@@ -1,7 +1,7 @@
 {
-  "name": "benchmark",
+  "name": "@faasjs/benchmark",
   "private": true,
-  "devDependencies": {
+  "dependencies": {
     "benchmark": "*",
     "@faasjs/func": "file:../packages/func",
     "@faasjs/http": "file:../packages/http",

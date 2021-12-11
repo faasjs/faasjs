@@ -1,9 +1,9 @@
-import { Func } from '@faasjs/func'
-import { Http } from '@faasjs/http'
+import { useFunc } from '@faasjs/func'
+import { useHttp } from '@faasjs/http'
 
-export default new Func({
-  plugins: [new Http()],
-  async handler () {
+export default useFunc(function () {
+  useHttp()
+  return async function () {
     return 'Hello'
   }
 })
