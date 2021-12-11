@@ -1,21 +1,21 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const Benchmark = require('benchmark')
 const useFunc = require('@faasjs/func').useFunc
+const useHttp = require('@faasjs/http').useHttp
 const suite = new Benchmark.Suite()
 
 process.env.FaasLog = 'error'
 
-const handler = useFunc({ plugins: [] }).export().handler
+const plain = useFunc(function () { return function() {} }).export().handler
+const http = useFunc(function () { useHttp(); return function() {} }).export().handler
 
 suite
-  .add('create', function () {
-    useFunc({ plugins: [] })
+  .add('Plain func', async function () {
+    await plain({})
   })
-  .add('export', function () {
-    useFunc({ plugins: [] }).export()
-  })
-  .add('handler', async function () {
-    await handler({})
+  .add('Http func', async function () {
+    await http({})
   })
   .on('cycle', function (event) {
     console.log(String(event.target))
