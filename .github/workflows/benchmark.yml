@@ -18,10 +18,14 @@ jobs:
         with:
           node-version: '14'
           cache: 'npm'
+      - name: Install dependencies
+        run: |
+          npm install -g npm@latest
+          npm install
+          npm run build
       - name: Run benchmark
         run: |
           cd benchmarks
-          npm install -g npm@latest
           npm install
           node func.js | tee output.txt
       - name: Download previous benchmark data
