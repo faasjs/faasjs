@@ -3,13 +3,34 @@
 # Please see the documentation for all configuration options:
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
+schedule: &schedule
+  interval: "daily"
+  timezone: "Asia/Shanghai"
+  time: "08:00"
+
 version: 2
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      <<: *schedule
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      <<: *schedule
   - package-ecosystem: "npm"
     directory: "/docs"
     schedule:
-      interval: "daily"
+      <<: *schedule
+  - package-ecosystem: "docker"
+    directory: /images/nginx
+    schedule:
+      <<: *schedule
+  - package-ecosystem: "docker"
+    directory: /images/node
+    schedule:
+      <<: *schedule
+  - package-ecosystem: "docker"
+    directory: /images/vscode
+    schedule:
+      <<: *schedule
