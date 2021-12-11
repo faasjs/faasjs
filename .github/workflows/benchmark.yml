@@ -8,6 +8,7 @@ on:
     paths:
       - 'packages/**'
       - 'benchmarks/**'
+      - '.github/workflows/benchmark.yml'
 
 jobs:
   benchmark:
