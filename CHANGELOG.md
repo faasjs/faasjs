@@ -4,7 +4,38 @@
 
 ## Beta
 
-[`v0.0.2-beta.268 (2021-11-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.268...v0.0.2-beta.269)
+[`v0.0.2-beta.285 (2021-12-10)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.280...v0.0.2-beta.285)
+
+- [优化] `@faasjs/react` 中 `useFaas` 新增导出 `setLoading`、`setPromise`、`setData` 和 `setError` 参数，用于自定义数据加载。
+
+[`v0.0.2-beta.280 (2021-12-07)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.278...v0.0.2-beta.280)
+
+- [优化] `@faasjs/browser` 中 `beforeRequest` 配置项允许传入异步函数。
+- [优化] `@faasjs/server` 内置 `CORS` 支持。
+
+[`v0.0.2-beta.278 (2021-12-06)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.275...v0.0.2-beta.278)
+
+- [优化] `@faasjs/server` 优化单体应用模式下的日志输出。
+- [优化] `@faasjs/http` 新增 `http.body` 属性，用于获取原始请求体。
+- [优化] `@faasjs/http` 简化日志输出。
+
+[`v0.0.2-beta.275 (2021-12-05)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.273...v0.0.2-beta.275)
+
+- [优化] `faasjs` 默认依赖包移除 `@faasjs/tencentcloud`，使用腾讯云的服务须手动添加依赖。
+- [优化] `@faasjs/browser`、`@faasjs/react` 和 `@faasjs/vue-plugin` 编译版本升级到 `es2017`。
+
+[`v0.0.2-beta.273 (2021-12-03)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.271...v0.0.2-beta.273)
+
+- [新增] `@faasjs/aws` 新增 AWS 适配器。
+
+[`v0.0.2-beta.271 (2021-11-29)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.269...v0.0.2-beta.271)
+
+- [优化] `@faasjs/redis` 使用 `ioredis` 替代 `redis`。
+- [优化] `@faasjs/tencentcloud` 优化重复代码。
+- [优化] `@faasjs/cli` 优化日志提示。
+- [修复] `@faasjs/tencentcloud` 修正打包时未将 .d.ts 等文件移除的问题。
+
+[`v0.0.2-beta.269 (2021-11-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.268...v0.0.2-beta.269)
 
 - [优化] `@faasjs/func` 新增代码包启动计时（此时间为冷启动的一部分）。
 
