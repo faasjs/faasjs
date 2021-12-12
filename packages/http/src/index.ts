@@ -269,7 +269,7 @@ export class Http<TParams extends Record<string, any> = any,
     // 处理 headers
     this.response.headers = Object.assign({
       'Content-Type': 'application/json; charset=utf-8',
-      'X-SCF-RequestId': data.context.request_id
+      'Cache-Control': 'no-cache, no-store'
     }, this.cookie.headers(), this.response.headers)
 
     data.response = this.response
