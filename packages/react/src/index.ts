@@ -39,7 +39,7 @@ export function FaasReactClient ({
   const client = new FaasBrowserClient(domain, options)
 
   const useFaas = function<T = any> (action: string, defaultParams: Params): FaasDataInjection<T> {
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(true)
     const [data, setData] = React.useState<T>()
     const [error, setError] = React.useState<any>()
     const [promise, setPromise] = React.useState<Promise<Response<T>>>()
