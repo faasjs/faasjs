@@ -73,17 +73,15 @@ export class Validator<
     cookie?: ValidatorOptions<TCookie>
     session?: ValidatorOptions<TSession>
     before?: BeforeOption<TParams, TCookie, TSession>
-  }) {
+  }, logger: Logger) {
     this.paramsConfig = config.params
     this.cookieConfig = config.cookie
     this.sessionConfig = config.session
     this.before = config.before
-    this.logger = new Logger('Http.Validator')
+    this.logger = logger
   }
 
   public async valid (request: Request<TParams, TCookie, TSession>): Promise<void> {
-    this.logger.debug('Begin')
-
     if (this.before) {
       const result = await this.before(request)
 
@@ -93,12 +91,12 @@ export class Validator<
     this.request = request
 
     if (this.paramsConfig && request.params) {
-      this.logger.debug('Valid params')
+      this.logger.debug('Valid Params')
       this.validContent('params', request.params, '', this.paramsConfig)
     }
 
     if (this.cookieConfig && request.cookie) {
-      this.logger.debug('Valid cookie')
+      this.logger.debug('Valid Cookie')
       if (request.cookie == null) throw Error('Not found Cookie')
 
       this.validContent('cookie', request.cookie.content, '', this.cookieConfig)
@@ -122,7 +120,7 @@ export class Validator<
       if (diff.length > 0)
         if (config.whitelist === 'error') {
           const diffKeys = diff.map(k => `${baseKey}${k}`)
-          const error = Error(`[${type}] Unpermitted keys: ${diffKeys.join(', ')}`)
+          const error = Error(`[${type}] Not permitted keys: ${diffKeys.join(', ')}`)
           if (config.onError) {
             const res = config.onError(`${type}.whitelist`, baseKey, diffKeys)
             if (res) throw new HttpError(res)

@@ -181,7 +181,7 @@ export class Http<TParams extends Record<string, any> = any,
 
     if (this.validatorOptions) {
       this.logger.debug('[onMount] prepare validator')
-      this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions)
+      this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions, this.logger)
     }
 
     globals[this.name] = this
@@ -216,7 +216,7 @@ export class Http<TParams extends Record<string, any> = any,
       this.logger.debug('[onInvoke] Session: %j', this.session.content)
     }
 
-    if (this.validator && data.event.httpMethod) {
+    if (this.validator) {
       this.logger.debug('[onInvoke] Valid request')
       try {
         await this.validator.valid({
@@ -229,10 +229,7 @@ export class Http<TParams extends Record<string, any> = any,
         this.logger.error(error)
         data.response = {
           statusCode: error.statusCode || 500,
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'X-SCF-RequestId': data.context.request_id
-          },
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
           body: JSON.stringify({ error: { message: error.message } })
         }
         return
