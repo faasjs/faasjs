@@ -38,73 +38,75 @@ export function FaasReactClient ({
 }) {
   const client = new FaasBrowserClient(domain, options)
 
+  const useFaas = function<T = any> (action: string, defaultParams: Params): FaasDataInjection<T> {
+    const [loading, setLoading] = React.useState(false)
+    const [data, setData] = React.useState<T>()
+    const [error, setError] = React.useState<any>()
+    const [promise, setPromise] = React.useState<Promise<Response<T>>>()
+    const [params, setParams] = React.useState(defaultParams)
+    const [reloadTimes, setReloadTimes] = React.useState(0)
+
+    React.useEffect(function () {
+      if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
+        setParams(defaultParams)
+      }
+    }, [defaultParams])
+
+    React.useEffect(function () {
+      setLoading(true)
+      const request = client.action<T>(action, params)
+      setPromise(request)
+      request
+        .then(r => {
+          setData(r?.data)
+        })
+        .catch(async e => {
+          if (onError)
+            try {
+              setData(await onError(action, params)(e))
+            } catch (error) {
+              setError(error)
+            }
+          setError(e)
+        })
+        .finally(() => setLoading(false))
+
+      return () => {
+        setLoading(false)
+      }
+    }, [
+      action,
+      JSON.stringify(params),
+      reloadTimes
+    ])
+
+    return {
+      loading,
+      data,
+      error,
+      promise,
+      async reload (params?: any) {
+        if (params) setParams(params)
+        setReloadTimes(reloadTimes + 1)
+        return promise
+      },
+      setData,
+      setLoading,
+      setPromise,
+      setError,
+    }
+  }
+
   return {
     async faas<T = any> (action: string, params: Params): Promise<Response<T>> {
       if (onError) return client.action<T>(action, params).catch(onError(action, params))
       return client.action<T>(action, params)
     },
-    useFaas<T = any> (action: string, defaultParams: Params): FaasDataInjection<T> {
-      const [loading, setLoading] = React.useState(false)
-      const [data, setData] = React.useState<T>()
-      const [error, setError] = React.useState<any>()
-      const [promise, setPromise] = React.useState<Promise<Response<T>>>()
-      const [params, setParams] = React.useState(defaultParams)
-      const [reloadTimes, setReloadTimes] = React.useState(0)
-
-      React.useEffect(function () {
-        if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
-          setParams(defaultParams)
-        }
-      }, [defaultParams])
-
-      React.useEffect(function () {
-        setLoading(true)
-        const request = client.action<T>(action, params)
-        setPromise(request)
-        request
-          .then(r => {
-            setData(r?.data)
-          })
-          .catch(async e => {
-            if (onError)
-              try {
-                setData(await onError(action, params)(e))
-              } catch (error) {
-                setError(error)
-              }
-            setError(e)
-          })
-          .finally(() => setLoading(false))
-
-        return () => {
-          setLoading(false)
-        }
-      }, [
-        action,
-        JSON.stringify(params),
-        reloadTimes
-      ])
-
-      return {
-        loading,
-        data,
-        error,
-        promise,
-        async reload (params?: any) {
-          if (params) setParams(params)
-          setReloadTimes(reloadTimes + 1)
-          return promise
-        },
-        setData,
-        setLoading,
-        setPromise,
-        setError,
-      }
-    },
+    useFaas,
     FaasData<T = any> ({
       action, params, fallback, element
     }: FaasDataProps<T>): JSX.Element {
-      const request = this.useFaas(action, params)
+      const request = useFaas(action, params)
 
       if (request.loading && fallback !== false)
         return fallback || null
