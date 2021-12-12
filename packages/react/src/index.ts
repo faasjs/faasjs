@@ -2,7 +2,7 @@ import {
   FaasBrowserClient, Options, Params, Response, ResponseError
 } from '../../browser/src'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export type {
   FaasBrowserClient, Options, Params, Response, ResponseHeaders, ResponseError
@@ -25,6 +25,7 @@ type FaasDataProps<T = any> = {
   fallback?: JSX.Element | false
   action: string
   params?: Params
+  onDataChange?(args: FaasDataInjection<T>): void
 }
 
 export function FaasReactClient ({
@@ -104,11 +105,15 @@ export function FaasReactClient ({
     },
     useFaas,
     FaasData<T = any> ({
-      action, params, fallback, element
+      action, params, fallback, element, onDataChange
     }: FaasDataProps<T>): JSX.Element {
       const request = useFaas(action, params)
 
-      if (request.loading && fallback !== false)
+      useEffect(() => {
+        if (onDataChange) onDataChange(request)
+      }, [JSON.stringify(request.data)])
+
+      if (fallback !== false && typeof request.data === 'undefined')
         return fallback || null
 
       return element(request)
