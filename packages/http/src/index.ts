@@ -361,7 +361,7 @@ export function useHttp<TParams extends Record<string, any> = any,
 {
   const name = config?.name || Name
 
-  if (process.env.FaasEnv !== 'testing' && globals[name])
+  if (process.env.FaasMode === 'mono' || (process.env.FaasEnv !== 'testing' && globals[name]))
     return usePlugin<Http<TParams, TCookie, TSession>>(
       globals[name] as Http<TParams, TCookie, TSession>)
 
