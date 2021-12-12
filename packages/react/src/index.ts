@@ -108,15 +108,19 @@ export function FaasReactClient ({
       action, params, fallback, element, onDataChange
     }: FaasDataProps<T>): JSX.Element {
       const request = useFaas(action, params)
+      const [loaded, setLoaded] = React.useState(false)
+
+      useEffect(function () {
+        if (!loaded && !request.loading) setLoaded(true)
+      }, [request.loading])
 
       useEffect(() => {
         if (onDataChange) onDataChange(request)
       }, [JSON.stringify(request.data)])
 
-      if (fallback !== false && typeof request.data === 'undefined')
-        return fallback || null
+      if (loaded) return element(request)
 
-      return element(request)
+      return fallback || null
     }
   }
 }
