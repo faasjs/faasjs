@@ -51,7 +51,7 @@ export function FaasReactClient ({
       if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
         setParams(defaultParams)
       }
-    }, [defaultParams])
+    }, [JSON.stringify(defaultParams)])
 
     React.useEffect(function () {
       setLoading(true)
