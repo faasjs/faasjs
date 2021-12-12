@@ -8,9 +8,7 @@ export type {
   FaasBrowserClient, Options, Params, Response, ResponseHeaders, ResponseError
 } from '../../browser/src'
 
-export type faas = <T = any>(action: string, params: Params) => Promise<Response<T>>
-
-export type useFaas = <T = any>(action: string, params: Params) => {
+type FaasDataInjection<T = any> = {
   loading: boolean
   data: T
   error: any
@@ -22,6 +20,13 @@ export type useFaas = <T = any>(action: string, params: Params) => {
   setError(error: any): void
 }
 
+type FaasDataProps<T = any> = {
+  element(args: FaasDataInjection<T>): JSX.Element
+  fallback?: JSX.Element | false
+  action: string
+  params?: Params
+}
+
 export function FaasReactClient ({
   domain,
   options,
@@ -30,18 +35,15 @@ export function FaasReactClient ({
   domain: string
   options?: Options
   onError?: (action: string, params: Params) => (res: ResponseError) => Promise<any>
-}): {
-    faas: faas
-    useFaas: useFaas
-  } {
+}) {
   const client = new FaasBrowserClient(domain, options)
 
   return {
-    async faas<T = any> (action: string, params: Params) {
+    async faas<T = any> (action: string, params: Params): Promise<Response<T>> {
       if (onError) return client.action<T>(action, params).catch(onError(action, params))
       return client.action<T>(action, params)
     },
-    useFaas<T = any> (action: string, defaultParams: Params) {
+    useFaas<T = any> (action: string, defaultParams: Params): FaasDataInjection<T> {
       const [loading, setLoading] = React.useState(false)
       const [data, setData] = React.useState<T>()
       const [error, setError] = React.useState<any>()
@@ -98,6 +100,16 @@ export function FaasReactClient ({
         setPromise,
         setError,
       }
+    },
+    FaasData<T = any> ({
+      action, params, fallback, element
+    }: FaasDataProps<T>): JSX.Element {
+      const request = this.useFaas(action, params)
+
+      if (request.loading && fallback !== false)
+        return fallback || null
+
+      return element(request)
     }
   }
 }
