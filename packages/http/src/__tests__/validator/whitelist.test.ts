@@ -26,7 +26,7 @@ describe('validator/whitelist', function () {
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[params] Unpermitted keys: key2, key3"}}')
+        expect(res2.body).toEqual('{"error":{"message":"[params] Not permitted keys: key2, key3"}}')
       })
 
       test('ignore', async function () {
@@ -74,7 +74,7 @@ describe('validator/whitelist', function () {
           })
 
           expect(res.statusCode).toEqual(500)
-          expect(res.body).toEqual('{"error":{"message":"[params] Unpermitted keys: key1, key2"}}')
+          expect(res.body).toEqual('{"error":{"message":"[params] Not permitted keys: key1, key2"}}')
         })
 
         test('return message', async function () {
@@ -163,7 +163,7 @@ describe('validator/whitelist', function () {
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[params] Unpermitted keys: key.key1, key.key2"}}')
+        expect(res2.body).toEqual('{"error":{"message":"[params] Not permitted keys: key.key1, key.key2"}}')
       })
 
       test('ignore', async function () {
@@ -232,7 +232,7 @@ describe('validator/whitelist', function () {
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[params] Unpermitted keys: key.key1, key.key2"}}')
+        expect(res2.body).toEqual('{"error":{"message":"[params] Not permitted keys: key.key1, key.key2"}}')
       })
 
       test('ignore', async function () {
@@ -291,7 +291,7 @@ describe('validator/whitelist', function () {
       })
 
       expect(res2.statusCode).toEqual(500)
-      expect(res2.body).toEqual('{"error":{"message":"[cookie] Unpermitted keys: key2, key3"}}')
+      expect(res2.body).toEqual('{"error":{"message":"[cookie] Not permitted keys: key2, key3"}}')
     })
 
     test('ignore', async function () {
@@ -349,7 +349,7 @@ describe('validator/whitelist', function () {
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[session] Unpermitted keys: key2, key3"}}')
+        expect(res2.body).toEqual('{"error":{"message":"[session] Not permitted keys: key2, key3"}}')
       })
 
       test('ignore', async function () {
@@ -428,7 +428,7 @@ describe('validator/whitelist', function () {
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[session] Unpermitted keys: key.key1, key.key2"}}')
+        expect(res2.body).toEqual('{"error":{"message":"[session] Not permitted keys: key.key1, key.key2"}}')
       })
 
       test('ignore', async function () {
@@ -514,7 +514,7 @@ describe('validator/whitelist', function () {
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[session] Unpermitted keys: key.key1, key.key2"}}')
+        expect(res2.body).toEqual('{"error":{"message":"[session] Not permitted keys: key.key1, key.key2"}}')
       })
 
       test('ignore', async function () {
