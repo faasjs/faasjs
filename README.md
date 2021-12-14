@@ -4,14 +4,19 @@
 [![NPM Beta Version](https://img.shields.io/npm/v/faasjs/beta.svg)](https://www.npmjs.com/package/faasjs)
 
 [![Last commit](https://badgen.net/github/last-commit/faasjs/faasjs)](https://github.com/faasjs/faasjs)
-[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/unit.yml)
-[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/lint.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/lint.yml)
+[![Unit Status](https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/unit.yml)
+[![Lint Status](https://github.com/faasjs/faasjs/actions/workflows/lint.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/lint.yml)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/ed918d6b0ecc951f7924/maintainability)](https://codeclimate.com/github/faasjs/faasjs/maintainability)
 [![Coverage Status](https://img.shields.io/codecov/c/github/faasjs/faasjs.svg)](https://codecov.io/gh/faasjs/faasjs)
 
 [![Lines](https://badgen.net/lgtm/lines/g/faasjs/faasjs)](https://github.com/faasjs/faasjs)
 [![Commits](https://badgen.net/github/commits/faasjs/faasjs)](https://github.com/faasjs/faasjs)
+
+[![Build Nginx Image](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml)
+[![Build Node Image](https://github.com/faasjs/faasjs/actions/workflows/build-node-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-node-image.yml)
+[![Build VSCode Image](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml)
+
 
 An atomic FaaS Application Framework based on Typescript and Node.js
 
