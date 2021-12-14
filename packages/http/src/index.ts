@@ -79,10 +79,6 @@ export class HttpError extends Error {
 
 const Name = 'http'
 
-const globals: {
-  [name: string]: Http<any, any, any>
-} = {}
-
 export class Http<TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any
@@ -183,8 +179,6 @@ export class Http<TParams extends Record<string, any> = any,
       this.logger.debug('[onMount] prepare validator')
       this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions, this.logger)
     }
-
-    globals[this.name] = this
 
     await next()
   }
@@ -359,11 +353,5 @@ export function useHttp<TParams extends Record<string, any> = any,
   config?: HttpConfig<TParams, TCookie, TSession>):
   Http<TParams, TCookie, TSession> & UseifyPlugin
 {
-  const name = config?.name || Name
-
-  if (process.env.FaasMode !== 'mono' && process.env.FaasEnv !== 'testing' && globals[name])
-    return usePlugin<Http<TParams, TCookie, TSession>>(
-      globals[name] as Http<TParams, TCookie, TSession>)
-
   return usePlugin(new Http<TParams, TCookie, TSession>(config))
 }
