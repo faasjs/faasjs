@@ -13,7 +13,9 @@ import {
 } from 'zlib'
 
 export {
-  Cookie, CookieOptions, Session, SessionOptions, Validator, ValidatorOptions, ValidatorRuleOptions
+  Cookie, CookieOptions,
+  Session, SessionOptions,
+  Validator, ValidatorConfig, ValidatorOptions, ValidatorRuleOptions
 }
 
 export const ContentType: {
