@@ -28,6 +28,13 @@ type FaasDataProps<T = any> = {
   onDataChange?(args: FaasDataInjection<T>): void
 }
 
+export interface FaasActions {
+  [path: string]: {
+    request: any
+    response: any
+  }
+}
+
 export function FaasReactClient ({
   domain,
   options,
@@ -39,7 +46,15 @@ export function FaasReactClient ({
 }) {
   const client = new FaasBrowserClient(domain, options)
 
-  const useFaas = function<T = any> (action: string, defaultParams: Params): FaasDataInjection<T> {
+  // async function faas<Path extends keyof FaasActions> (action: Path, params: FaasActions[Path]['request']): Promise<Response<FaasActions[Path]['response']>>
+  async function faas<T = any> (action: string, params: Params): Promise<Response<T>> {
+    if (onError)
+      return client.action(action, params)
+        .catch(onError(action, params))
+    return client.action(action, params)
+  }
+
+  function useFaas <T = any> (action: string, defaultParams: Params): FaasDataInjection<T> {
     const [loading, setLoading] = React.useState(true)
     const [data, setData] = React.useState<T>()
     const [error, setError] = React.useState<any>()
@@ -99,10 +114,7 @@ export function FaasReactClient ({
   }
 
   return {
-    async faas<T = any> (action: string, params: Params): Promise<Response<T>> {
-      if (onError) return client.action<T>(action, params).catch(onError(action, params))
-      return client.action<T>(action, params)
-    },
+    faas,
     useFaas,
     FaasData<T = any> ({
       action, params, fallback, element, onDataChange
