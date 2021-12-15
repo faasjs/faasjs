@@ -2,13 +2,16 @@ export type Params = {
   [key: string]: any
 }
 
-export type Options = {
+export type Options = RequestInit & {
+  headers?: {
+    [key: string]: string
+  }
   beforeRequest?: ({
-    action, params, xhr
+    action, params, options
   }: {
     action: string
     params: Params
-    xhr: XMLHttpRequest
+    options: Options
   }) => Promise<void> | void
 }
 
@@ -65,7 +68,7 @@ export class FaasBrowserClient {
     this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/'
     this.defaultOptions = options || Object.create(null)
 
-    console.debug('[faas] baseUrl: ' + this.host)
+    console.debug('[Faas] baseUrl: ' + this.host)
   }
 
   /**
@@ -76,81 +79,50 @@ export class FaasBrowserClient {
    */
   public async action<T = any> (
     action: string,
-    params: Params,
+    params: Params = {},
     options: Options = {}
   ): Promise<Response<T>> {
     const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString()
 
     options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+      mode: 'cors',
+      body: JSON.stringify(params),
       ...this.defaultOptions,
       ...options
     }
 
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', url)
-    xhr.withCredentials = true
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
     if (options.beforeRequest)
       await options.beforeRequest({
         action,
         params,
-        xhr
+        options
       })
 
-    return new Promise(function (resolve, reject) {
-      xhr.onload = function () {
-        let res = xhr.response
-        const headersList = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
-        const headers: ResponseHeaders = {}
-        headersList.forEach(function (line) {
-          const parts = line.split(': ')
-          const key = parts.shift()
-          const value = parts.join(': ')
-          if (key)
-            headers[key] = value
+    return fetch(url, options)
+      .then(async response => {
+        const headers: {
+          [key: string]: string
+        } = {}
+        response.headers.forEach((value, key) => headers[key] = value)
+
+        return response.json().then(res => {
+          if (res.error && res.error.message)
+            return Promise.reject(new ResponseError({
+              message: res.error.message,
+              status: response.status,
+              headers,
+              body: response
+            }))
+          else
+            return new Response({
+              status: response.status,
+              headers,
+              data: res.data
+            })
         })
-        if (xhr.response && xhr.getResponseHeader('Content-Type')?.includes('json'))
-          try {
-            res = JSON.parse(xhr.response)
-            if (res.error && res.error.message)
-              reject(new ResponseError({
-                message: res.error.message,
-                status: xhr.status,
-                headers,
-                body: res
-              }))
-          } catch (error) {
-            console.error(error)
-          }
-
-        if (xhr.status >= 200 && xhr.status < 300)
-          resolve(new Response({
-            status: xhr.status,
-            headers,
-            data: res.data
-          }))
-        else {
-          console.error(xhr, res)
-          reject(new ResponseError({
-            message: xhr.statusText || xhr.status.toString(),
-            status: xhr.status,
-            headers,
-            body: res
-          }))
-        }
-      }
-
-      xhr.onerror = function () {
-        reject(new ResponseError({
-          message: 'Network Error',
-          status: xhr.status,
-          headers: {},
-          body: null
-        }))
-      }
-
-      xhr.send(JSON.stringify(params))
-    })
+      })
   }
 }
 
