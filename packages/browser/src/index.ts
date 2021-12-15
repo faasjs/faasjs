@@ -101,7 +101,7 @@ export class FaasBrowserClient {
       })
 
     return fetch(url, options)
-      .then(async response => {
+      .then( async response => {
         const headers: {
           [key: string]: string
         } = {}

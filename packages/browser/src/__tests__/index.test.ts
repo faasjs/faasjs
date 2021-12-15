@@ -6,50 +6,74 @@
 import { FaasBrowserClient } from '..'
 
 let request: {
-  method?: string;
   url?: string;
-  headers: {
-    [key: string]: string
-  };
-} = { headers: {} }
+  method?: string;
+  headers?: HeadersInit
+} = {}
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-window.XMLHttpRequest = jest.fn().mockImplementation(function () {
-  return {
-    status: 200,
-    response: {},
-    open (method, url) {
-      request.method = method
-      request.url = url
-    },
-    setRequestHeader (key, value) {
-      request.headers[key] = value
-    },
-    onerror () {},
-    send () {
-      this.onload()
-    },
-    getAllResponseHeaders () {
-      return ''
-    },
-    getResponseHeader () {
-      return null
-    }
+const defaultMock = async (url:RequestInfo, options: RequestInit) => {
+  request = {
+    url: url as string,
+    method: options.method,
+    headers: options.headers,
   }
-})
+  return Promise.resolve({
+    status: 200,
+    headers: new Map([['Content-Type', 'application/json']]),
+    json: async () => Promise.resolve({ data: {} })
+  }) as unknown as Promise<Response>
+}
 
 describe('client', function () {
   beforeEach(function () {
-    request = { headers: {} }
+    request = {}
+
+    window.fetch = jest.fn(defaultMock)
   })
+
   it('should work', async function () {
     const client = new FaasBrowserClient('/')
-    await client.action('', {})
+    const response = await client.action('')
 
     expect(client.defaultOptions).toEqual({})
     expect(request.url.substring(0, 4)).toEqual('/?_=')
     expect(request.method).toEqual('POST')
     expect(request.headers).toEqual({ 'Content-Type': 'application/json; charset=UTF-8' })
+    expect(response.status).toEqual(200)
+    expect(response.headers).toEqual({ 'Content-Type': 'application/json' })
+    expect(response.data).toEqual({})
+  })
+
+  it('work with beforeRequest', async function () {
+    const client = new FaasBrowserClient('/', {
+      beforeRequest: async ({ options }) => {
+        options.method = 'GET'
+        options.headers = { 'Content-Type': 'plain/text; charset=UTF-8', }
+      }
+    })
+    await client.action('')
+
+    expect(request.url.substring(0, 4)).toEqual('/?_=')
+    expect(request.method).toEqual('GET')
+    expect(request.headers).toEqual({ 'Content-Type': 'plain/text; charset=UTF-8' })
+  })
+
+  it('when error', async function () {
+    window.fetch = jest.fn(async (url:RequestInfo, options: RequestInit) => {
+      request = {
+        url: url as string,
+        method: options.method,
+        headers: options.headers,
+      }
+      return Promise.resolve({
+        status: 500,
+        headers: new Map(),
+        json: async () => Promise.resolve({ error: { message: 'no' } })
+      }) as unknown as Promise<Response>
+    })
+
+    const client = new FaasBrowserClient('/')
+
+    await expect(client.action('')).rejects.toEqual(Error('no'))
   })
 })
