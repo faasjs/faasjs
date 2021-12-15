@@ -1,10 +1,10 @@
 import {
   FaasBrowserClient, Response, Options
-} from '../../browser/src'
+} from '@faasjs/browser'
 
 export type {
   FaasBrowserClient, Options, Params, Response, ResponseHeaders, ResponseError
-} from '../../browser/src'
+} from '@faasjs/browser'
 
 export type faas = <T = any>(action: string, params?: any) => Promise<Response<T>>
 

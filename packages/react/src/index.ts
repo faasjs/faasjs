@@ -1,12 +1,12 @@
 import {
   FaasBrowserClient, Options, Params, Response, ResponseError
-} from '../../browser/src'
+} from '@faasjs/browser'
 
-import React, { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 export type {
   FaasBrowserClient, Options, Params, Response, ResponseHeaders, ResponseError
-} from '../../browser/src'
+} from '@faasjs/browser'
 
 type FaasDataInjection<T = any> = {
   loading: boolean
@@ -55,20 +55,20 @@ export function FaasReactClient ({
   }
 
   function useFaas <T = any> (action: string, defaultParams: Params): FaasDataInjection<T> {
-    const [loading, setLoading] = React.useState(true)
-    const [data, setData] = React.useState<T>()
-    const [error, setError] = React.useState<any>()
-    const [promise, setPromise] = React.useState<Promise<Response<T>>>()
-    const [params, setParams] = React.useState(defaultParams)
-    const [reloadTimes, setReloadTimes] = React.useState(0)
+    const [loading, setLoading] = useState(true)
+    const [data, setData] = useState<T>()
+    const [error, setError] = useState<any>()
+    const [promise, setPromise] = useState<Promise<Response<T>>>()
+    const [params, setParams] = useState(defaultParams)
+    const [reloadTimes, setReloadTimes] = useState(0)
 
-    React.useEffect(function () {
+    useEffect(function () {
       if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
         setParams(defaultParams)
       }
     }, [JSON.stringify(defaultParams)])
 
-    React.useEffect(function () {
+    useEffect(function () {
       setLoading(true)
       const request = client.action<T>(action, params)
       setPromise(request)
@@ -120,7 +120,7 @@ export function FaasReactClient ({
       action, params, fallback, element, onDataChange
     }: FaasDataProps<T>): JSX.Element {
       const request = useFaas(action, params)
-      const [loaded, setLoaded] = React.useState(false)
+      const [loaded, setLoaded] = useState(false)
 
       useEffect(function () {
         if (!loaded && !request.loading) setLoaded(true)
