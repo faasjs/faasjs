@@ -29,7 +29,7 @@ export class Response<T = any> {
   }: {
     status: number
     headers: ResponseHeaders
-    data: T
+    data?: T
   }) {
     this.status = status
     this.headers = headers
@@ -68,7 +68,7 @@ export class FaasBrowserClient {
     this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/'
     this.defaultOptions = options || Object.create(null)
 
-    console.debug('[Faas] baseUrl: ' + this.host)
+    console.debug('[FaasJS] baseUrl: ' + this.host)
   }
 
   /**
@@ -108,6 +108,12 @@ export class FaasBrowserClient {
         response.headers.forEach((value, key) => headers[key] = value)
 
         return response.json().then(res => {
+          if (!res)
+            return new Response({
+              status: response.status,
+              headers
+            })
+
           if (res.error && res.error.message)
             return Promise.reject(new ResponseError({
               message: res.error.message,
