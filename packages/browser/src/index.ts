@@ -22,17 +22,20 @@ export type ResponseHeaders = {
 export class Response<T = any> {
   public readonly status: number
   public readonly headers: ResponseHeaders
+  public readonly body: any
   public readonly data: T
 
   constructor ({
-    status, headers, data
+    status, headers, body, data
   }: {
     status: number
     headers: ResponseHeaders
+    body?: any
     data?: T
   }) {
     this.status = status
     this.headers = headers
+    this.body = body
     this.data = data
   }
 }
@@ -107,26 +110,45 @@ export class FaasBrowserClient {
         } = {}
         response.headers.forEach((value, key) => headers[key] = value)
 
-        return response.json().then(res => {
+        return response.text().then(res => {
           if (!res)
             return new Response({
               status: response.status,
               headers
             })
 
-          if (res.error && res.error.message)
+          try {
+            const body = JSON.parse(res)
+
+            if (body.error && body.error.message)
+              return Promise.reject(new ResponseError({
+                message: body.error.message,
+                status: response.status,
+                headers,
+                body: response
+              }))
+            else if (response.status >= 200 && response.status < 300)
+              return new Response({
+                status: response.status,
+                headers,
+                body,
+                data: body.data
+              })
+            else
+              return Promise.reject(new ResponseError({
+                message: res,
+                status: response.status,
+                headers,
+                body
+              }))
+          } catch (error) {
             return Promise.reject(new ResponseError({
-              message: res.error.message,
+              message: res,
               status: response.status,
               headers,
               body: response
             }))
-          else
-            return new Response({
-              status: response.status,
-              headers,
-              data: res.data
-            })
+          }
         })
       })
   }
