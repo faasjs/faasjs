@@ -20,7 +20,7 @@ const defaultMock = async (url:RequestInfo, options: RequestInit) => {
   return Promise.resolve({
     status: 200,
     headers: new Map([['Content-Type', 'application/json']]),
-    json: async () => Promise.resolve({ data: {} })
+    text: async () => Promise.resolve('{"data":{}}')
   }) as unknown as Promise<Response>
 }
 
@@ -68,7 +68,7 @@ describe('client', function () {
       return Promise.resolve({
         status: 500,
         headers: new Map(),
-        json: async () => Promise.resolve({ error: { message: 'no' } })
+        text: async () => Promise.resolve('{"error":{"message":"no"}}')
       }) as unknown as Promise<Response>
     })
 

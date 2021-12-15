@@ -4,9 +4,6 @@
   ],
   "version": "0.0.2-beta.294",
   "npmClient": "npm",
-  "bootstrap": {
-    "hoist": true
-  },
   "publishConfig": {
     "access": "public",
     "tag": "beta"
