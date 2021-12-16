@@ -117,13 +117,15 @@ export class FaasBrowserClient {
                 status: response.status,
                 headers
               })
-            else
+            else {
+              const body = JSON.parse(res)
               return new Response({
                 status: response.status,
                 headers,
-                body: res,
-                data: JSON.parse(res)
+                body,
+                data: body.data
               })
+            }
           }
 
           try {
