@@ -35,7 +35,7 @@ export function FaasReactClient ({
 }: {
   domain: string
   options?: Options
-  onError?: (action: string, params: Params) => (res: ResponseError) => Promise<any>
+  onError?: (action: string, params: Params) => (res: ResponseError) => Promise<void>
 }) {
   const client = new FaasBrowserClient(domain, options)
 
