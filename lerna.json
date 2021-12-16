@@ -1,5 +1,5 @@
 {
-  "version": "0.0.2-beta.295",
+  "version": "0.0.2-beta.296",
   "npmClient": "npm",
   "bootstrap": {
     "hoist": true
