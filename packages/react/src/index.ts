@@ -14,10 +14,10 @@ type FaasDataInjection<T = any> = {
   error: any
   promise: Promise<Response<T>>
   reload(params?: Params): Promise<Response<T>>,
-  setData(data: T): void
-  setLoading(loading: boolean): void
-  setPromise(promise: Promise<Response<T>>): void
-  setError(error: any): void
+  setData: React.Dispatch<React.SetStateAction<T>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  setPromise: React.Dispatch<React.SetStateAction<Promise<Response<T>>>>
+  setError: React.Dispatch<React.SetStateAction<any>>
 }
 
 type FaasDataProps<T = any> = {
@@ -26,13 +26,6 @@ type FaasDataProps<T = any> = {
   action: string
   params?: Params
   onDataChange?(args: FaasDataInjection<T>): void
-}
-
-export interface FaasActions {
-  [path: string]: {
-    request: any
-    response: any
-  }
 }
 
 export function FaasReactClient ({
