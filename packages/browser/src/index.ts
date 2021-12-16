@@ -111,11 +111,20 @@ export class FaasBrowserClient {
         response.headers.forEach((value, key) => headers[key] = value)
 
         return response.text().then(res => {
-          if (!res)
-            return new Response({
-              status: response.status,
-              headers
-            })
+          if (response.status >= 200 && response.status < 300) {
+            if (!res)
+              return new Response({
+                status: response.status,
+                headers
+              })
+            else
+              return new Response({
+                status: response.status,
+                headers,
+                body: res,
+                data: JSON.parse(res)
+              })
+          }
 
           try {
             const body = JSON.parse(res)
@@ -125,15 +134,8 @@ export class FaasBrowserClient {
                 message: body.error.message,
                 status: response.status,
                 headers,
-                body: response
+                body
               }))
-            else if (response.status >= 200 && response.status < 300)
-              return new Response({
-                status: response.status,
-                headers,
-                body,
-                data: body.data
-              })
             else
               return Promise.reject(new ResponseError({
                 message: res,
@@ -146,7 +148,7 @@ export class FaasBrowserClient {
               message: res,
               status: response.status,
               headers,
-              body: response
+              body: res
             }))
           }
         })

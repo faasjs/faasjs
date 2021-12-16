@@ -43,7 +43,10 @@ export function FaasReactClient ({
   async function faas<T = any> (action: string, params: Params): Promise<Response<T>> {
     if (onError)
       return client.action(action, params)
-        .catch(onError(action, params))
+        .catch(async res => {
+          await onError(action, params)(res)
+          return Promise.reject(res)
+        })
     return client.action(action, params)
   }
 
@@ -66,23 +69,21 @@ export function FaasReactClient ({
       const request = client.action<T>(action, params)
       setPromise(request)
       request
-        .then(r => {
-          setData(r?.data)
-        })
+        .then(r => setData(r.data))
         .catch(async e => {
           if (onError)
             try {
-              setData(await onError(action, params)(e))
+              await onError(action, params)(e)
             } catch (error) {
               setError(error)
             }
-          setError(e)
+          else
+            setError(e)
+          return Promise.reject(e)
         })
         .finally(() => setLoading(false))
 
-      return () => {
-        setLoading(false)
-      }
+      return () => setLoading(false)
     }, [
       action,
       JSON.stringify(params),
