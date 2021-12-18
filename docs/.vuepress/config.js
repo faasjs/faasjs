@@ -1,4 +1,5 @@
 module.exports = {
+  bundler: '@vuepress/bundler-webpack',
   title: 'FaasJS',
   description: 'An atomic FaaS Application Framework based on Typescript and Node.js',
   head: [
