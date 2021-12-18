@@ -13,6 +13,10 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/cli"
   },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "prepack": "rm -rf ./lib && rollup -c"
   },
@@ -32,6 +36,9 @@
     "lodash": "*",
     "ts-node": "*",
     "tsconfig-paths": "*"
+  },
+  "engines": {
+    "npm": ">=8.0.0"
   },
   "gitHead": "d340aaa440deafd513d2837cf9a71988d27e8c18"
 }

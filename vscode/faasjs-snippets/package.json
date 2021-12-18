@@ -11,6 +11,10 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "vscode/faasjs-snippets"
   },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
   "engines": {
     "vscode": "^1.60.0"
   },

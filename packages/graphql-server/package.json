@@ -11,6 +11,10 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/graphql-server"
   },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
   },
@@ -35,6 +39,9 @@
     "apollo-server-core": "*",
     "apollo-server-env": "*",
     "graphql": "*"
+  },
+  "engines": {
+    "npm": ">=8.0.0"
   },
   "gitHead": "e0658fb3f40cf082666abcc9cd530068d7f7322a"
 }

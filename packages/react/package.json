@@ -10,6 +10,10 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/react"
   },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "prepack": "rm -rf ./lib && rollup -c"
   },
@@ -26,6 +30,9 @@
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
+  },
+  "engines": {
+    "npm": ">=8.0.0"
   },
   "gitHead": "e0658fb3f40cf082666abcc9cd530068d7f7322a"
 }

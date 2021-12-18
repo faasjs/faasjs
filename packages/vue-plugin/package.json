@@ -10,6 +10,10 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/vue-plugin"
   },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "prepack": "rm -rf ./lib && rollup -c"
   },
@@ -25,6 +29,9 @@
     "rollup-plugin-typescript2": "*",
     "typescript": "*",
     "vue": "*"
+  },
+  "engines": {
+    "npm": ">=8.0.0"
   },
   "gitHead": "e0658fb3f40cf082666abcc9cd530068d7f7322a"
 }

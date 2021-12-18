@@ -12,10 +12,17 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/eslint-config-react"
   },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
   "peerDependencies": {
     "@faasjs/eslint-config-recommended": "^0.0.2-beta.234",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-hooks": "*"
+  },
+  "engines": {
+    "npm": ">=8.0.0"
   },
   "gitHead": "d340aaa440deafd513d2837cf9a71988d27e8c18"
 }

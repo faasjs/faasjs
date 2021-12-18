@@ -12,11 +12,18 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/eslint-config-recommended"
   },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
     "eslint": "*",
     "typescript": "*"
+  },
+  "engines": {
+    "npm": ">=8.0.0"
   },
   "gitHead": "d340aaa440deafd513d2837cf9a71988d27e8c18"
 }

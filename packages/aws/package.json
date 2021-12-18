@@ -11,6 +11,10 @@
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "packages/aws"
   },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
   },
@@ -32,6 +36,9 @@
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
     "typescript": "*"
+  },
+  "engines": {
+    "npm": ">=8.0.0"
   },
   "gitHead": "3463e0c62e5bfad445efed81e6b9503522bc3e10"
 }
