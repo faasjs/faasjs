@@ -7,15 +7,6 @@ import { FaasActions } from '@faasjs/types'
 import { FaasBrowserClient, Response as FaasResponse } from '..'
 import { expectType } from 'tsd'
 
-declare module '@faasjs/types' {
-  interface FaasActions {
-    '/type': {
-      Params: { key: string }
-      Data: { value: string }
-    }
-  }
-}
-
 let request: {
   url?: string;
   method?: string;
@@ -89,6 +80,15 @@ describe('client', function () {
   })
 })
 
+declare module '@faasjs/types' {
+  interface FaasActions {
+    '/type': {
+      Params: { key: string }
+      Data: { value: string }
+    }
+  }
+}
+
 describe('types', () => {
   beforeEach(function () {
     request = {}
@@ -102,5 +102,6 @@ describe('types', () => {
     expectType<FaasResponse<any>>(await client.action('/', {}))
     expectType<FaasResponse<{ value: number }>>(await client.action<{ value: number }>('/', {}))
     expectType<FaasResponse<FaasActions['/type']['Data']>>(await client.action('/type', { key: 'key' }))
+    expectType<string>(await client.action('/type', { key: 'key' }).then(res => res.data.value))
   })
 })

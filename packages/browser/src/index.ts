@@ -1,4 +1,6 @@
-import { FaasData, FaasParams } from '@faasjs/types'
+import {
+  FaasAction, FaasData, FaasParams
+} from '@faasjs/types'
 
 export type Options = RequestInit & {
   headers?: {
@@ -78,7 +80,7 @@ export class FaasBrowserClient {
    * @param params {any} 动作参数
    * @param options {object} 默认配置项
    */
-  public async action<PathOrData> (
+  public async action<PathOrData extends FaasAction> (
     action: PathOrData | string,
     params?: FaasParams<PathOrData>,
     options?: Options
