@@ -28,7 +28,6 @@
   "devDependencies": {
     "@types/debug": "*",
     "@types/jest": "*",
-    "@types/mongodb": "*",
     "@types/node": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
