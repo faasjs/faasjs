@@ -33,3 +33,5 @@ jobs:
           branch: main
           folder: ./docs/.vuepress/dist
           token: ${{ secrets.FAASJS_TOKEN }}
+          clean-exclude: |
+             - .github
