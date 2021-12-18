@@ -24,6 +24,7 @@ jobs:
           cp ./README.md ./.vuepress/dist/README.md
           mkdir ./.vuepress/dist/.github
           cp ../.github/FUNDING.yml ./.vuepress/dist/.github/FUNDING.yml
+          cat ./.vuepress/dist/.github/FUNDING.yml
       - name: deploy
         if: success()
         uses: JamesIves/github-pages-deploy-action@4.1.7
