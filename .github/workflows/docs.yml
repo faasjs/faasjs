@@ -22,6 +22,7 @@ jobs:
           npm run build
           cp ./CNAME ./.vuepress/dist/CNAME
           cp ./README.md ./.vuepress/dist/README.md
+          mkdir ./.vuepress/dist/.github
           cp ../.github/FUNDING.yml ./.vuepress/dist/.github/FUNDING.yml
       - name: deploy
         if: success()
