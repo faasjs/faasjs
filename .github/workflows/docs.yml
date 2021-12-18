@@ -21,15 +21,15 @@ jobs:
           npm install
           npm run build
           cp ./CNAME ./.vuepress/dist/CNAME
-          cp ./README.md ./.vuepress/dist/README.md
+          cp ../README.md ./.vuepress/dist/README.md
+          touch ./.vuepress/dist/.nojekyll
           mkdir ./.vuepress/dist/.github
           cp ../.github/FUNDING.yml ./.vuepress/dist/.github/FUNDING.yml
-          cat ./.vuepress/dist/.github/FUNDING.yml
       - name: deploy
         if: success()
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           repository-name: faasjs/faasjs.github.io
-          branch: master
+          branch: main
           folder: ./docs/.vuepress/dist
           token: ${{ secrets.FAASJS_TOKEN }}
