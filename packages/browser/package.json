@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/browser",
-  "version": "0.0.2-beta.302",
+  "version": "0.0.2-beta.304",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -28,8 +28,8 @@
     "@types/jest": "*",
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
-    "typescript": "*",
-    "tsd": "*"
+    "tsd": "*",
+    "typescript": "*"
   },
   "engines": {
     "npm": ">=8.0.0"
