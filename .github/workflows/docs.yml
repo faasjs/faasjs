@@ -27,12 +27,9 @@ jobs:
           cp ../.github/FUNDING.yml ./.vuepress/dist/.github/FUNDING.yml
       - name: deploy
         if: success()
-        uses: JamesIves/github-pages-deploy-action@4.1.7
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          repository-name: faasjs/faasjs.github.io
-          branch: main
-          folder: ./docs/.vuepress/dist
-          token: ${{ secrets.FAASJS_TOKEN }}
-          clean: true
-          clean-exclude: |
-             - .github
+          external_repository: faasjs/faasjs.github.io
+          publish_branch: main
+          publish_dir: ./docs/.vuepress/dist
+          personal_token: ${{ secrets.FAASJS_TOKEN }}
