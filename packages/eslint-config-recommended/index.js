@@ -12,7 +12,12 @@ module.exports = {
   ],
   overrides: [
     {
-      files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
+      files: [
+        '**/*.js',
+        '**/*.jsx',
+        '**/*.ts',
+        '**/*.tsx'
+      ],
       rules: {
         'array-element-newline': [
           'error',
@@ -28,6 +33,9 @@ module.exports = {
             minItems: 3,
           }
         ],
+        'object-curly-spacing': ['error', 'always'],
+        'keyword-spacing': 'error',
+        indent: ['error', 2],
         'no-confusing-arrow': ['error', { allowParens: true }],
         'no-mixed-operators': 'error',
         'no-tabs': 'error',
@@ -62,7 +70,7 @@ module.exports = {
     },
     {
       parser: '@typescript-eslint/parser',
-      parserOptions: {project: ['./tsconfig.json', './packages/*/tsconfig.json'] },
+      parserOptions: { project: ['./tsconfig.json', './packages/*/tsconfig.json'] },
       files: ['**/*.ts', '**/*.tsx'],
       rules: {
         '@typescript-eslint/no-console': 'off',
