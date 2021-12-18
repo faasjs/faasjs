@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - 'docs/**'
+      - '.github/workflows/docs.yml'
 
 jobs:
   build:
@@ -21,6 +22,7 @@ jobs:
           npm run build
           cp ./CNAME ./.vuepress/dist/CNAME
           cp ./README.md ./.vuepress/dist/README.md
+          cp ../.github/FUNDING.yml ./.vuepress/dist/.github/FUNDING.yml
       - name: deploy
         if: success()
         uses: JamesIves/github-pages-deploy-action@4.1.7
