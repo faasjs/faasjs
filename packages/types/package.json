@@ -21,18 +21,7 @@
   "files": [
     "lib"
   ],
-  "peerDependencies": {
-    "@faasjs/load": "^0.0.2-beta.254",
-    "@sucrase/jest-plugin": "*",
-    "@types/debug": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "jest": "*",
-    "typescript": "*"
-  },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.302",
-    "@faasjs/http": "^0.0.2-beta.302",
     "tsd": "*"
   },
   "engines": {
