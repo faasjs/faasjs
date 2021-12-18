@@ -1,6 +1,4 @@
-export type Params = {
-  [key: string]: any
-}
+import { FaasData, FaasParams } from '@faasjs/types'
 
 export type Options = RequestInit & {
   headers?: {
@@ -10,7 +8,7 @@ export type Options = RequestInit & {
     action, params, options
   }: {
     action: string
-    params: Params
+    params: Record<string, any>
     options: Options
   }) => Promise<void> | void
 }
@@ -80,12 +78,15 @@ export class FaasBrowserClient {
    * @param params {any} 动作参数
    * @param options {object} 默认配置项
    */
-  public async action<T = any> (
-    action: string,
-    params: Params = {},
-    options: Options = {}
-  ): Promise<Response<T>> {
-    const url = this.host + action.toLowerCase() + '?_=' + new Date().getTime().toString()
+  public async action<PathOrData> (
+    action: PathOrData | string,
+    params?: FaasParams<PathOrData>,
+    options?: Options
+  ): Promise<Response<FaasData<PathOrData>>> {
+    const url = this.host + (action as string).toLowerCase() + '?_=' + Date.now().toString()
+
+    if (!params) params = Object.create(null)
+    if (!options) options = Object.create(null)
 
     options = {
       method: 'POST',
@@ -98,7 +99,7 @@ export class FaasBrowserClient {
 
     if (options.beforeRequest)
       await options.beforeRequest({
-        action,
+        action: action as string,
         params,
         options
       })

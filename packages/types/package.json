@@ -1,34 +1,38 @@
 {
-  "name": "@faasjs/browser",
+  "name": "@faasjs/types",
   "version": "0.0.2-beta.302",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "homepage": "https://faasjs.com/doc/browser.html",
+  "module": "lib/index.es.js",
+  "homepage": "https://faasjs.com/doc/types.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",
-    "directory": "packages/browser"
+    "directory": "packages/types"
   },
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "prepack": "rm -rf ./lib && rollup -c"
+    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
   },
   "files": [
     "lib"
   ],
   "peerDependencies": {
-    "@faasjs/types": "^0.0.2-beta.302"
-  },
-  "devDependencies": {
+    "@faasjs/load": "^0.0.2-beta.254",
+    "@sucrase/jest-plugin": "*",
     "@types/debug": "*",
     "@types/jest": "*",
-    "rollup": "*",
-    "rollup-plugin-typescript2": "*",
-    "typescript": "*",
+    "@types/node": "*",
+    "jest": "*",
+    "typescript": "*"
+  },
+  "devDependencies": {
+    "@faasjs/func": "^0.0.2-beta.302",
+    "@faasjs/http": "^0.0.2-beta.302",
     "tsd": "*"
   },
   "engines": {

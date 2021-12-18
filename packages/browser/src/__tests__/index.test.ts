@@ -3,7 +3,18 @@
  */
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { FaasBrowserClient } from '..'
+import { FaasActions } from '@faasjs/types'
+import { FaasBrowserClient, Response as FaasResponse } from '..'
+import { expectType } from 'tsd'
+
+declare module '@faasjs/types' {
+  interface FaasActions {
+    '/type': {
+      Params: { key: string }
+      Data: { value: string }
+    }
+  }
+}
 
 let request: {
   url?: string;
@@ -75,5 +86,21 @@ describe('client', function () {
     const client = new FaasBrowserClient('/')
 
     await expect(client.action('')).rejects.toEqual(Error('no'))
+  })
+})
+
+describe('types', () => {
+  beforeEach(function () {
+    request = {}
+
+    window.fetch = jest.fn(defaultMock)
+  })
+
+  it('should work', async () => {
+    const client = new FaasBrowserClient('/')
+
+    expectType<FaasResponse<any>>(await client.action('/', {}))
+    expectType<FaasResponse<{ value: number }>>(await client.action<{ value: number }>('/', {}))
+    expectType<FaasResponse<FaasActions['/type']['Data']>>(await client.action('/type', { key: 'key' }))
   })
 })

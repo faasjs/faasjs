@@ -27,8 +27,7 @@
   "devDependencies": {
     "rollup": "*",
     "rollup-plugin-typescript2": "*",
-    "typescript": "*",
-    "vue": "*"
+    "typescript": "*"
   },
   "engines": {
     "npm": ">=8.0.0"
