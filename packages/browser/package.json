@@ -3,7 +3,7 @@
   "version": "0.0.2-beta.305",
   "license": "MIT",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/browser/src/index.d.ts",
   "homepage": "https://faasjs.com/doc/browser.html",
   "repository": {
     "type": "git",
