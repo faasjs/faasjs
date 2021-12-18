@@ -33,3 +33,4 @@ jobs:
           publish_branch: main
           publish_dir: ./docs/.vuepress/dist
           personal_token: ${{ secrets.FAASJS_TOKEN }}
+          exclude_assets: ''
