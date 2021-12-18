@@ -33,7 +33,7 @@ module.exports = {
           },
           {
             text: 'Examples',
-            link: 'https://github.com/faasjs/faasjs/blob/master/examples/'
+            link: 'https://github.com/faasjs/faasjs/blob/main/examples/'
           },
           {
             text: 'Tools',
@@ -44,17 +44,17 @@ module.exports = {
               },
               {
                 text: 'Docker Images',
-                link: 'https://github.com/faasjs/faasjs/blob/master/images/'
+                link: 'https://github.com/faasjs/faasjs/blob/main/images/'
               },
             ]
           },
           {
             text: 'Changelog',
-            link: 'https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md'
+            link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
           },
           {
             text: 'Contributing',
-            link: 'https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md'
+            link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
           },
         ],
       },
@@ -76,7 +76,7 @@ module.exports = {
           },
           {
             text: '示例',
-            link: 'https://github.com/faasjs/faasjs/blob/master/examples/'
+            link: 'https://github.com/faasjs/faasjs/blob/main/examples/'
           },
           {
             text: '工具',
@@ -87,7 +87,7 @@ module.exports = {
               },
               {
                 text: 'Docker 镜像',
-                link: 'https://github.com/faasjs/faasjs/blob/master/images/'
+                link: 'https://github.com/faasjs/faasjs/blob/main/images/'
               },
             ]
           },
@@ -97,11 +97,11 @@ module.exports = {
           },
           {
             text: '更新日志',
-            link: 'https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md'
+            link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
           },
           {
             text: '支持 FaasJS',
-            link: 'https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md'
+            link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
           },
         ],
         sidebar: {
@@ -209,7 +209,7 @@ module.exports = {
     repo: 'faasjs/faasjs',
     docsRepo: 'faasjs/faasjs',
     docsDir: 'docs',
-    docsBranch: 'master',
+    docsBranch: 'main',
     contributors: false
   },
   plugins: [

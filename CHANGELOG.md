@@ -719,11 +719,11 @@
 
 `2019-10-16`
 
-- [新增] 示例项目新增 [knex](https://github.com/faasjs/examples/tree/master/knex)。
+- [新增] 示例项目新增 [knex](https://github.com/faasjs/examples/tree/main/knex)。
 
 `2019-10-15`
 
-- [优化] 将 FaasJS 所有库都并入了 [faasjs/faasjs](https://github.com/faasjs/faasjs/tree/master/packages) 项目中，便于统一管理和更新。
+- [优化] 将 FaasJS 所有库都并入了 [faasjs/faasjs](https://github.com/faasjs/faasjs/tree/main/packages) 项目中，便于统一管理和更新。
 
 `2019-10-13`
 

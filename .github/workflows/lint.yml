@@ -3,12 +3,12 @@ name: Lint
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'packages/**'
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - 'packages/**'
 

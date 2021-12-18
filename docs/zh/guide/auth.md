@@ -278,4 +278,4 @@ export default useFunc(function () {
 
 ## 完整项目代码
 
-完整的项目代码在 [https://github.com/faasjs/examples/tree/master/auth](https://github.com/faasjs/examples/tree/master/auth) 其中还包括了完整的测试用例代码。
+完整的项目代码在 [https://github.com/faasjs/examples/tree/main/auth](https://github.com/faasjs/examples/tree/main/auth) 其中还包括了完整的测试用例代码。

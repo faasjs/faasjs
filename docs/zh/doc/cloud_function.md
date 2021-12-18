@@ -99,4 +99,4 @@ export default new Func({
 
 ## Github 地址
 
-[https://github.com/faasjs/faasjs/tree/master/packages/cloud_function](https://github.com/faasjs/faasjs/tree/master/packages/cloud_function)
+[https://github.com/faasjs/faasjs/tree/main/packages/cloud_function](https://github.com/faasjs/faasjs/tree/main/packages/cloud_function)

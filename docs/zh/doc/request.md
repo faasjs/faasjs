@@ -59,4 +59,4 @@ request('https://hello.com').then(console.log); // 必定会返回 body 为 worl
 
 ## Github 地址
 
-[https://github.com/faasjs/faasjs/tree/master/packages/request](https://github.com/faasjs/faasjs/tree/master/packages/request)
+[https://github.com/faasjs/faasjs/tree/main/packages/request](https://github.com/faasjs/faasjs/tree/main/packages/request)

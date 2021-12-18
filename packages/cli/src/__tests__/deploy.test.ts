@@ -119,7 +119,7 @@ describe('deploy', function () {
     })
   })
 
-  describe('master', function () {
+  describe('workers', function () {
     it('fail', async function () {
       triggerMessage = {
         type: 'fail',

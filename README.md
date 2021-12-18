@@ -1,6 +1,6 @@
 # FaasJS
 
-[![License: MIT](https://img.shields.io/npm/l/faasjs.svg)](https://github.com/faasjs/faasjs/blob/master/packages/faasjs/LICENSE)
+[![License: MIT](https://img.shields.io/npm/l/faasjs.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE)
 [![NPM Beta Version](https://img.shields.io/npm/v/faasjs/beta.svg)](https://www.npmjs.com/package/faasjs)
 
 [![Last commit](https://badgen.net/github/last-commit/faasjs/faasjs)](https://github.com/faasjs/faasjs)
@@ -31,8 +31,8 @@ An atomic Application Framework based on Typescript and Node.js
 
 https://faasjs.com/
 
-[CHANGELOG](https://github.com/faasjs/faasjs/blob/master/CHANGELOG.md)
+[CHANGELOG](https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md)
 
-[CONTRIBUTING](https://github.com/faasjs/faasjs/blob/master/CONTRIBUTING.md)
+[CONTRIBUTING](https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffaasjs%2Ffaasjs.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffaasjs%2Ffaasjs)

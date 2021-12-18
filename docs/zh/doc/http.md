@@ -284,4 +284,4 @@ Path 会按照文件夹和文件名自动生成，并会去掉 Path 的第一级
 
 ## Github 地址
 
-[https://github.com/faasjs/faasjs/tree/master/packages/http](https://github.com/faasjs/faasjs/tree/master/packages/http)
+[https://github.com/faasjs/faasjs/tree/main/packages/http](https://github.com/faasjs/faasjs/tree/main/packages/http)

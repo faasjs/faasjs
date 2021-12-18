@@ -35,4 +35,4 @@ export default new Func({
 
 ## Github 地址
 
-[https://github.com/faasjs/faasjs/tree/master/packages/redis](https://github.com/faasjs/faasjs/tree/master/packages/redis)
+[https://github.com/faasjs/faasjs/tree/main/packages/redis](https://github.com/faasjs/faasjs/tree/main/packages/redis)
