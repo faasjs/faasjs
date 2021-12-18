@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cloud_function",
-  "version": "0.0.2-beta.273",
+  "version": "0.0.2-beta.301",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -26,7 +26,7 @@
     "@faasjs/load": "^0.0.2-beta.254"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.269",
+    "@faasjs/func": "^0.0.2-beta.301",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

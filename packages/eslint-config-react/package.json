@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-react",
-  "version": "0.0.2-beta.257",
+  "version": "0.0.2-beta.301",
   "license": "MIT",
   "main": "index.js",
   "files": [
