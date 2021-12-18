@@ -35,7 +35,11 @@ module.exports = {
         ],
         'object-curly-spacing': ['error', 'always'],
         'keyword-spacing': 'error',
-        indent: ['error', 2],
+        indent: [
+          'error',
+          2,
+          { SwitchCase: 1 }
+        ],
         'no-confusing-arrow': ['error', { allowParens: true }],
         'no-mixed-operators': 'error',
         'no-tabs': 'error',
@@ -75,13 +79,10 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-console': 'off',
         '@typescript-eslint/quotes': ['error', 'single'],
-        '@typescript-eslint/keyword-spacing': 'error',
         '@typescript-eslint/space-before-function-paren': 'error',
         '@typescript-eslint/semi': ['error', 'never'],
-        '@typescript-eslint/object-curly-spacing': ['error', 'always'],
         '@typescript-eslint/comma-spacing': 'warn',
         '@typescript-eslint/space-infix-ops': 'warn',
-        '@typescript-eslint/indent': ['error', 2],
         '@typescript-eslint/array-type': ['error', { default: 'array' }],
         '@typescript-eslint/camelcase': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',

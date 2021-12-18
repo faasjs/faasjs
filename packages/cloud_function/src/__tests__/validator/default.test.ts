@@ -24,7 +24,7 @@ describe('validator/default', function () {
             event: {
               rules: {
                 key: {
-                  default (request) {
+                  default (request: any) {
                     return request.event.i + 1
                   }
                 }
@@ -61,7 +61,7 @@ describe('validator/default', function () {
       })
 
       test('function', async function () {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: (request) => request.event.i + 1 } } } } } } } })
+        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: (request: any) => request.event.i + 1 } } } } } } } })
         const handler = new Func({
           plugins: [cf],
           async handler () {
@@ -94,7 +94,7 @@ describe('validator/default', function () {
       })
 
       test('function', async function () {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: (request) => request.event.i + 1 } } } } } } } })
+        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: (request: any) => request.event.i + 1 } } } } } } } })
         const handler = new Func({
           plugins: [cf],
           async handler () {

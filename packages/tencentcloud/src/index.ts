@@ -58,7 +58,7 @@ export class Provider implements CloudFunctionAdapter {
         await deployHttp(this, data, config)
         break
       default:
-        throw Error(`Unknow deploy type: ${type}`)
+        throw Error(`Unknown deploy type: ${type}`)
     }
   }
 

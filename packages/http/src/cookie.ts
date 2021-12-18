@@ -108,9 +108,10 @@ export class Cookie<
     return this
   }
 
-  public headers (): {
-    'Set-Cookie'?: string[]
-  } {
-    if (Object.keys(this.setCookie).length === 0) return {}; else return { 'Set-Cookie': Object.values(this.setCookie) }
+  public headers (): { 'Set-Cookie'?: string[] } {
+    if (Object.keys(this.setCookie).length === 0)
+      return {}
+    else
+      return { 'Set-Cookie': Object.values(this.setCookie) }
   }
 }
