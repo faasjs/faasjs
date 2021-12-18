@@ -3,10 +3,10 @@ home: true
 heroImage: /logo.jpg
 heroText: FaasJS
 tagline: null
-footer: An atomic FaaS Application Framework based on Typescript & Node.js | MIT Licensed | Copyright © 2019-2021 Zhu Feng
+footer: An Atomic Application Framework based on Typescript | MIT Licensed | Copyright © 2019-2022 Zhu Feng
 ---
 
-<div style="width:100%;text-align:center;font-size:1.6rem;line-height:1;color:#6a8bad;margin-bottom:2em">An atomic FaaS Application Framework based on Typescript & Node.js</div>
+<div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:2em">An Atomic Application Framework based on Typescript.</div>
 
 ## Features
 

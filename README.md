@@ -14,20 +14,17 @@
 [![Commits](https://badgen.net/github/commits/faasjs/faasjs)](https://github.com/faasjs/faasjs)
 
 [![faasjs/nginx](https://img.shields.io/badge/Docker-faasjs%2Fnginx-blue)](https://hub.docker.com/repository/docker/faasjs/nginx)
-[![Image size](https://img.shields.io/docker/image-size/faasjs/nginx/latest)](https://hub.docker.com/repository/docker/faasjs/nginx)
 [![Build faasjs/nginx](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml)
 
 [![faasjs/node](https://img.shields.io/badge/Docker-faasjs%2Fnode-blue)](https://hub.docker.com/repository/docker/faasjs/node)
-[![Image size](https://img.shields.io/docker/image-size/faasjs/node/latest)](https://hub.docker.com/repository/docker/faasjs/node)
 [![Build faasjs/node](https://github.com/faasjs/faasjs/actions/workflows/build-node-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-node-image.yml)
 
 [![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/repository/docker/faasjs/vscode)
-[![Image size](https://img.shields.io/docker/image-size/faasjs/vscode/latest)](https://hub.docker.com/repository/docker/faasjs/vscode)
 [![Build faasjs/vscode](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml)
 
-An atomic Application Framework based on Typescript and Node.js
+An Atomic Application Framework based on Typescript.
 
-基于 Typescript 和 Node.js 的原子化应用框架
+基于 Typescript 的原子化应用框架
 
 https://faasjs.com/
 

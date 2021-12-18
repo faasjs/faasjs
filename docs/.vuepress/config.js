@@ -1,7 +1,7 @@
 module.exports = {
   bundler: '@vuepress/bundler-webpack',
   title: 'FaasJS',
-  description: 'An atomic FaaS Application Framework based on Typescript and Node.js',
+  description: 'An Atomic Application Framework based on Typescript.',
   head: [
     ['link', { rel: 'icon', href: '/logo.jpg' }]
   ],
@@ -9,12 +9,12 @@ module.exports = {
     '/': {
       lang: 'en-US',
       title: 'FaasJS',
-      description: 'An atomic FaaS Application Framework based on Typescript and Node.js'
+      description: 'An Atomic Application Framework based on Typescript.'
     },
     '/zh/': {
       lang: 'zh-CN',
       title: 'FaasJS',
-      description: '一个基于 Typescript 和 Node.js 的原子化 FaaS 应用框架'
+      description: '一个基于 Typescript 的原子化应用框架'
     }
   },
   themeConfig: {

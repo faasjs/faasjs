@@ -1,5 +1,5 @@
 # FaasJS
 
-A Node.js Severless Application Framework
+An Atomic Application Framework based on Typescript
 
 https://faasjs.com/
