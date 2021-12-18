@@ -1,6 +1,7 @@
 import {
   FaasBrowserClient, Options, Response, ResponseError
 } from '@faasjs/browser'
+
 import {
   FaasAction, FaasData, FaasParams
 } from '@faasjs/types'
@@ -39,7 +40,17 @@ export function FaasReactClient ({
   domain: string
   options?: Options
   onError?: (action: string, params: Record<string, any>) => (res: ResponseError) => Promise<void>
-}) {
+}): {
+  faas: <PathOrData extends FaasAction>(
+    action: string | PathOrData,
+    params: FaasParams<PathOrData>
+  ) => Promise<Response<FaasData<PathOrData>>>
+  useFaas: <PathOrData extends FaasAction>(
+    action: string | PathOrData,
+    defaultParams: FaasParams<PathOrData>
+  ) => FaasDataInjection<FaasData<PathOrData>>
+  FaasData<PathOrData extends FaasAction>(props: FaasDataProps<PathOrData>): JSX.Element
+} {
   const client = new FaasBrowserClient(domain, options)
 
   async function faas<PathOrData extends FaasAction> (

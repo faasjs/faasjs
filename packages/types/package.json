@@ -2,9 +2,7 @@
   "name": "@faasjs/types",
   "version": "0.0.2-beta.306",
   "license": "MIT",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "module": "lib/index.es.js",
+  "types": "src/index.ts",
   "homepage": "https://faasjs.com/doc/types.html",
   "repository": {
     "type": "git",
@@ -16,10 +14,10 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "prepack": "rm -rf ./lib && rollup -c"
+    "prepack": ""
   },
   "files": [
-    "lib"
+    "src/index.ts"
   ],
   "devDependencies": {
     "tsd": "*"
