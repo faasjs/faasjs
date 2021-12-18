@@ -1,5 +1,5 @@
 import {
-  FaasBrowserClient, Options, Params, Response, ResponseError
+  FaasBrowserClient, Options, Response, ResponseError
 } from '@faasjs/browser'
 import {
   FaasAction, FaasData, FaasParams
@@ -8,7 +8,7 @@ import {
 import { useState, useEffect } from 'react'
 
 export type {
-  FaasBrowserClient, Options, Params, Response, ResponseHeaders, ResponseError
+  FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
 } from '@faasjs/browser'
 
 type FaasDataInjection<Data = any> = {
@@ -16,7 +16,7 @@ type FaasDataInjection<Data = any> = {
   data: Data
   error: any
   promise: Promise<Response<Data>>
-  reload(params?: Params): Promise<Response<Data>>,
+  reload(params?: Record<string, any>): Promise<Response<Data>>,
   setData: React.Dispatch<React.SetStateAction<Data>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   setPromise: React.Dispatch<React.SetStateAction<Promise<Response<Data>>>>
@@ -38,7 +38,7 @@ export function FaasReactClient ({
 }: {
   domain: string
   options?: Options
-  onError?: (action: string, params: Params) => (res: ResponseError) => Promise<void>
+  onError?: (action: string, params: Record<string, any>) => (res: ResponseError) => Promise<void>
 }) {
   const client = new FaasBrowserClient(domain, options)
 
