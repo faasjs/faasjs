@@ -12,12 +12,7 @@ module.exports = {
   ],
   overrides: [
     {
-      files: [
-        '*.js',
-        '*.jsx',
-        '*.ts',
-        '*.tsx'
-      ],
+      files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
       rules: {
         'array-element-newline': [
           'error',
@@ -40,7 +35,7 @@ module.exports = {
         'max-len': [
           'warn',
           {
-            code: 100,
+            code: 120,
             ignoreUrls: true,
             ignoreComments: true,
             ignoreRegExpLiterals: true,
@@ -68,7 +63,7 @@ module.exports = {
     {
       parser: '@typescript-eslint/parser',
       parserOptions: {project: ['./tsconfig.json', './packages/*/tsconfig.json'] },
-      files: ['*.ts', '*.tsx'],
+      files: ['**/*.ts', '**/*.tsx'],
       rules: {
         '@typescript-eslint/no-console': 'off',
         '@typescript-eslint/quotes': ['error', 'single'],
