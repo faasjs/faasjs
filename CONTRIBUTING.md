@@ -10,6 +10,7 @@ There are many ways to support the development of FaasJS, including but not limi
 - Write an article or record a video to share your FaasJS experience
 - Fix the bug in FaasJS
 - Add new features or new third-party adapter to FaasJS
+- [Be a sponsor to FaasJS](https://github.com/sponsors/faasjs)
 
 # 参与贡献
 
@@ -22,3 +23,4 @@ There are many ways to support the development of FaasJS, including but not limi
 - 写文章或录制视频来分享你的 FaasJS 使用经验
 - 修复 FaasJS 中的 BUG
 - 给 FaasJS 添加新功能或新的第三方适配
+- [成为 FaasJS 的赞助人](https://github.com/sponsors/faasjs)
