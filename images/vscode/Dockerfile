@@ -12,5 +12,5 @@ COPY npm.plugin.zsh /root/npm.plugin.zsh
 RUN echo "source /root/npm.plugin.zsh" >> /root/.zshrc
 
 RUN npm install -g npm@latest
-RUN npm install -g --force yarn@latest
 RUN npm install -g eslint@latest
+RUN npm install -g concurrently@latest
