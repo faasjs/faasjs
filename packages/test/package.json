@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/test",
-  "version": "0.0.2-beta.310",
+  "version": "0.0.2-beta.311",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -28,9 +28,9 @@
     "@types/jest": "*",
     "@types/node": "*",
     "jest": "*",
+    "regenerator-runtime": "*",
     "typescript": "*",
-    "vm2": "*",
-    "regenerator-runtime": "*"
+    "vm2": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.302",
