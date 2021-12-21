@@ -1,4 +1,4 @@
-import { buildFederatedSchema } from '@apollo/federation'
+import { buildSubgraphSchema } from '@apollo/federation'
 import { GraphQLSchemaModule } from 'apollo-graphql'
 import {
   Plugin, InvokeData, Next, MountData, DeployData
@@ -89,7 +89,7 @@ export class GraphQLServer implements Plugin {
         if (typeof this.config.schemas === 'function')
           this.config.schemas = await this.config.schemas()
 
-        this.config.schema = buildFederatedSchema(this.config.schemas)
+        this.config.schema = buildSubgraphSchema(this.config.schemas)
         delete this.config.schemas
       }
 
