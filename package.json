@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
-    "@sucrase/jest-plugin": "*",
+    "@swc/jest": "*",
     "codecov": "*",
     "faasjs": "file:./packages/faasjs",
     "jest": "*",
@@ -34,7 +34,7 @@
   ],
   "jest": {
     "transform": {
-      ".(jsx|tsx?)": "@sucrase/jest-plugin"
+      ".(jsx|tsx?)": "@swc/jest"
     },
     "verbose": false,
     "testTimeout": 30000,

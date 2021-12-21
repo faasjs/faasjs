@@ -6,7 +6,7 @@ FaasJS 内置插件，无需额外安装。
 
 ## package.json 配置
 
-自动化基于 `jest` 和 `@sucrase/jest-plugin`。
+自动化基于 `jest` 和 `@swc/jest`。
 
 可以在 package.json 中添加如下配置：
 
@@ -14,7 +14,7 @@ FaasJS 内置插件，无需额外安装。
 "jest": {
   "verbose": false,
   "transform": {
-    ".(jsx|tsx?)": "@sucrase/jest-plugin"
+    ".(jsx|tsx?)": "@swc/jest"
   },
   "collectCoverageFrom": [
     "**/*.ts"

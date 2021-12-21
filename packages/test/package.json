@@ -23,7 +23,7 @@
   ],
   "peerDependencies": {
     "@faasjs/load": "^0.0.2-beta.254",
-    "@sucrase/jest-plugin": "*",
+    "@swc/jest": "*",
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",

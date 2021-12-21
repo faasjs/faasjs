@@ -182,7 +182,7 @@ production:
   "jest": {
     "verbose": false,
     "transform": {
-      ".(jsx|tsx?)": "@sucrase/jest-plugin"
+      ".(jsx|tsx?)": "@swc/jest"
     },
     "collectCoverage": true,
     "collectCoverageFrom": [
