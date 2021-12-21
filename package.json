@@ -17,7 +17,8 @@
     "jest": "*",
     "lerna": "*",
     "rollup": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "regenerator-runtime": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [

@@ -3,12 +3,13 @@ import { join } from 'path'
 import { Command } from 'commander'
 import { Server } from '@faasjs/server'
 import { defaultsEnv } from '../helper'
+import { readFileSync } from 'fs'
 
 export function action (opts: {
   port?: number
   cache?: boolean
 }): void {
-  const tsconfig = require(join(process.cwd(), 'tsconfig.json'))
+  const tsconfig = JSON.parse(readFileSync(join(process.cwd(), 'tsconfig.json')).toString())
 
   if (tsconfig.compilerOptions?.baseUrl && tsconfig.compilerOptions?.paths)
     require('tsconfig-paths').register({

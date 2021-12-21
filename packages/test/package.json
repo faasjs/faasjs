@@ -29,7 +29,8 @@
     "@types/node": "*",
     "jest": "*",
     "typescript": "*",
-    "vm2": "*"
+    "vm2": "*",
+    "regenerator-runtime": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.302",
