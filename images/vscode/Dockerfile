@@ -8,8 +8,8 @@ RUN sed -i "s/ZSH_THEME=\"codespaces\"/ZSH_THEME=\"robbyrussell\"/" /root/.zshrc
 RUN sed -i "s/plugins=(git)/plugins=(git yarn)/" /root/.zshrc
 RUN sed -i -e "s/bin\/ash/bin\/zsh/" /etc/passwd
 
-COPY npm.plugin.zsh /root/npm.plugin.zsh
-RUN echo "source /root/npm.plugin.zsh" >> /root/.zshrc
+RUN git clone --depth=1 https://github.com/zfben/zsh-npm.git ~/.zsh-npm
+RUN echo "source /root/.zsh-npm/npm.plugin.zsh" >> /root/.zshrc
 
 RUN npm install -g npm@latest
 RUN npm install -g eslint@latest

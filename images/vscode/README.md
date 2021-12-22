@@ -8,7 +8,7 @@
 
 - 基于 `node:16-alpine`，镜像文件约 60 MB
 - 内置最新稳定版 `npm`, `yarn`, `eslint` 和 `node` 版本
-- 集成了 `ohmyzsh` 及其 `git`、`yarn` 和 [`自定义 npm 插件`](https://github.com/faasjs/faasjs/tree/main/images/vscode/npm.plugin.zsh)
+- 集成了 `ohmyzsh` 及其 `git`、`yarn` 和 [`npm 插件`](https://github.com/zfben/zsh-npm)
 
 ## 准备工作
 
