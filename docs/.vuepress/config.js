@@ -28,15 +28,24 @@ module.exports = {
             link: '/'
           },
           {
-            text: 'Documents',
-            link: '/doc/'
+            text: 'Learn',
+            children: [
+              {
+                text: 'Documents',
+                link: '/doc/'
+              },
+              {
+                text: 'Examples',
+                link: 'https://github.com/faasjs/faasjs/blob/main/examples/'
+              },
+              {
+                text: 'Changelog',
+                link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
+              },
+            ]
           },
           {
-            text: 'Examples',
-            link: 'https://github.com/faasjs/faasjs/blob/main/examples/'
-          },
-          {
-            text: 'Tools',
+            text: 'Ecosystem',
             children: [
               {
                 text: 'VS Code Plugin',
@@ -44,18 +53,40 @@ module.exports = {
               },
               {
                 text: 'Docker Images',
-                link: 'https://github.com/faasjs/faasjs/blob/main/images/'
+                children: [
+                  {
+                    text: 'faasjs/nginx',
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/nginx'
+                  },
+                  {
+                    text: 'faasjs/node',
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/node'
+                  },
+                  {
+                    text: 'faasjs/vscode',
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/vscode'
+                  }
+                ]
               },
             ]
           },
           {
-            text: 'Changelog',
-            link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
-          },
-          {
-            text: 'Contributing',
-            link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
-          },
+            text: 'Community',
+            children: [
+              {
+                text: 'Github',
+                link: 'https://github.com/faasjs/faasjs/'
+              },
+              {
+                text: 'Contributing',
+                link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
+              },
+              {
+                text: 'Sponsor',
+                link: 'https://github.com/sponsors/faasjs'
+              }
+            ]
+          }
         ],
       },
       '/zh/': {
@@ -67,19 +98,28 @@ module.exports = {
             link: '/zh/'
           },
           {
-            text: '教程',
-            link: '/zh/guide/'
+            text: '学习',
+            children: [
+              {
+                text: '教程',
+                link: '/zh/guide/'
+              },
+              {
+                text: '文档',
+                link: '/zh/doc/'
+              },
+              {
+                text: '示例',
+                link: 'https://github.com/faasjs/faasjs/blob/main/examples/'
+              },
+              {
+                text: '更新日志',
+                link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
+              },
+            ]
           },
           {
-            text: '文档',
-            link: '/zh/doc/'
-          },
-          {
-            text: '示例',
-            link: 'https://github.com/faasjs/faasjs/blob/main/examples/'
-          },
-          {
-            text: '工具',
+            text: '生态',
             children: [
               {
                 text: 'VS Code 插件',
@@ -87,22 +127,44 @@ module.exports = {
               },
               {
                 text: 'Docker 镜像',
-                link: 'https://github.com/faasjs/faasjs/blob/main/images/'
+                children: [
+                  {
+                    text: 'faasjs/nginx',
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/nginx'
+                  },
+                  {
+                    text: 'faasjs/node',
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/node'
+                  },
+                  {
+                    text: 'faasjs/vscode',
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/vscode'
+                  }
+                ]
               },
             ]
           },
           {
-            text: '博客',
-            link: '/zh/blog/'
-          },
-          {
-            text: '更新日志',
-            link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
-          },
-          {
-            text: '支持 FaasJS',
-            link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
-          },
+            text: '社区',
+            children: [
+              {
+                text: 'Github',
+                link: 'https://github.com/faasjs/faasjs/'
+              },
+              {
+                text: '支持 FaasJS',
+                link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
+              },
+              {
+                text: '赞助 FaasJS',
+                link: 'https://github.com/sponsors/faasjs'
+              },
+              {
+                text: '博客',
+                link: '/zh/blog/'
+              },
+            ]
+          }
         ],
         sidebar: {
           '/zh/guide/': [
@@ -206,7 +268,6 @@ module.exports = {
         editLinkText: '帮助我们改善此页面'
       }
     },
-    repo: 'faasjs/faasjs',
     docsRepo: 'faasjs/faasjs',
     docsDir: 'docs',
     docsBranch: 'main',
