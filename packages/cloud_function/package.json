@@ -2,9 +2,9 @@
   "name": "@faasjs/cloud_function",
   "version": "0.0.2-beta.302",
   "license": "MIT",
-  "main": "lib/index.js",
-  "types": "lib/cloud_function/src/index.d.ts",
-  "module": "lib/index.es.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "homepage": "https://faasjs.com/doc/cloud_function.html",
   "repository": {
     "type": "git",
@@ -16,12 +16,14 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "rm -rf ./lib && rollup -c"
+    "build": "rm -rf ./dist && tsup-node src/index.ts --format esm,cjs --dts"
   },
   "files": [
     "lib"
   ],
   "peerDependencies": {
+    "@faasjs/func": "^0.0.2-beta.302",
+    "@faasjs/logger": "^0.0.2-beta.302",
     "@faasjs/deep_merge": "^0.0.2-beta.244",
     "@faasjs/load": "^0.0.2-beta.254"
   },
@@ -30,9 +32,8 @@
     "@types/debug": "*",
     "@types/jest": "*",
     "@types/node": "*",
-    "rollup": "*",
-    "rollup-plugin-typescript2": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "tsup": "*"
   },
   "engines": {
     "npm": ">=8.0.0"
