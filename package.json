@@ -2,7 +2,7 @@
   "name": "faasjs-mono",
   "version": "0.0.2-beta",
   "scripts": {
-    "lint": "eslint --ext .ts,.js .",
+    "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "node --expose-gc ./node_modules/.bin/jest --silent --ci --coverage --forceExit --logHeapUsage -w=1",
     "pub": "lerna publish --preid beta --pre-dist-tag beta && node tag.js",
     "pub:retry": "lerna publish from-git --preid beta --pre-dist-tag beta",
