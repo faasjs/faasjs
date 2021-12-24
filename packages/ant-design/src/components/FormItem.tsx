@@ -56,9 +56,7 @@ export function FormItem<T> (props: FormItemProps<T>) {
         name={ computedProps.name }
         rules={ computedProps.rules as ValidatorRule[] }>
         {(fields, { add, remove }) => <>
-          <div
-            className='ant-row ant-form-item ant-form-item-label'
-            style={ { rowGap: '0px' } }>
+          <div className='ant-form-item-label'>
             <label className={ computedProps.rules.find(r => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
           </div>
           {fields.map(field => <AntdForm.Item key={ field.key }>
@@ -102,9 +100,7 @@ export function FormItem<T> (props: FormItemProps<T>) {
         name={ computedProps.name }
         rules={ computedProps.rules as ValidatorRule[] }>
         {(fields, { add, remove }) => <>
-          <div
-            className='ant-row ant-form-item ant-form-item-label'
-            style={ { rowGap: '0px' } }>
+          <div className='ant-form-item-label'>
             <label className={ computedProps.rules?.find((r: RuleObject) => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
           </div>
           {fields.map(field => <AntdForm.Item key={ field.key }>
