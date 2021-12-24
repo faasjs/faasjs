@@ -14,6 +14,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "peerDependencies": {
+    "@faasjs/types": "^0.0.2-beta.307",
     "@faasjs/cli": "^0.0.2-beta.254",
     "@faasjs/http": "^0.0.2-beta.253"
   },
