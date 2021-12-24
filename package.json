@@ -12,7 +12,6 @@
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
     "@swc/jest": "*",
-    "codecov": "*",
     "faasjs": "file:./packages/faasjs",
     "jest": "*",
     "lerna": "*",
