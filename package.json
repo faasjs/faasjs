@@ -7,7 +7,7 @@
     "pub": "lerna publish --preid beta --pre-dist-tag beta && node tag.js",
     "pub:retry": "lerna publish from-git --preid beta --pre-dist-tag beta",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp *.log",
-    "build": "lerna run prepack"
+    "build": "turbo run build --parallel"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
@@ -20,7 +20,8 @@
     "typescript": "*",
     "regenerator-runtime": "*",
     "@testing-library/jest-dom": "*",
-    "@testing-library/react": "*"
+    "@testing-library/react": "*",
+    "turbo": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [
@@ -35,6 +36,18 @@
   "workspaces": [
     "packages/*"
   ],
+  "turbo": {
+    "baseBranch": "origin/main",
+    "pipeline": {
+      "build": {
+        "dependsOn": ["^build"],
+        "outputs": ["lib/**"]
+      },
+      "test": {
+        "dependsOn": ["build"]
+      }
+    }
+  },
   "jest": {
     "transform": {
       ".(jsx|tsx?)": "@swc/jest"

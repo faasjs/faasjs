@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/request/src/index.d.ts",
   "homepage": "https://faasjs.com/doc/request.html",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "prepack": "rm -rf ./lib && rollup -c && mv lib/*/src/* lib/"
+    "build": "rm -rf ./lib && rollup -c"
   },
   "files": [
     "lib"

@@ -3,7 +3,7 @@
   "version": "0.0.2-beta.311",
   "license": "MIT",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/cli/src/index.d.ts",
   "bin": {
     "faas": "index.js"
   },
@@ -18,7 +18,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "prepack": "rm -rf ./lib && rollup -c"
+    "build": "rm -rf ./lib && rollup -c"
   },
   "files": [
     "lib",

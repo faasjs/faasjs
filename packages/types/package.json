@@ -13,9 +13,6 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "scripts": {
-    "prepack": ""
-  },
   "files": [
     "src/index.ts"
   ],

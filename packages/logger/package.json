@@ -16,7 +16,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "prepack": "rm -rf ./lib && rollup -c"
+    "build": "rm -rf ./lib && rollup -c"
   },
   "files": [
     "lib"
