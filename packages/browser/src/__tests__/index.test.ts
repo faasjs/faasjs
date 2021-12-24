@@ -1,8 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-disable @typescript-eslint/no-empty-function */
-
 import { FaasActions } from '@faasjs/types'
 import { FaasBrowserClient, Response as FaasResponse } from '..'
 import { expectType } from 'tsd'

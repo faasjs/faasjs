@@ -18,7 +18,9 @@
     "lerna": "*",
     "rollup": "*",
     "typescript": "*",
-    "regenerator-runtime": "*"
+    "regenerator-runtime": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [
@@ -47,9 +49,10 @@
     ],
     "collectCoverageFrom": [
       "**/packages/**/*.ts",
+      "**/packages/**/*.tsx",
       "!**/local/**"
     ],
-    "testRegex": "/*\\.test\\.ts$",
+    "testRegex": "/*\\.test\\.tsx?$",
     "coveragePathIgnorePatterns": [
       "/lib/",
       "/tmp/",

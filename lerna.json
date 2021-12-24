@@ -8,5 +8,10 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "tag": "beta"
+  },
+  "command": {
+    "publish": {
+      "ignoreChanges": ["*.md", "*.test.ts", "*.test.tsx"]
+    }
   }
 }

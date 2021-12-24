@@ -1,0 +1,43 @@
+{
+  "name": "@faasjs/ant-design",
+  "version": "0.0.2-beta.311",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.es.js",
+  "homepage": "https://faasjs.com/doc/ant-design.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/ant-design"
+  },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "scripts": {
+    "prepack": "rm -rf ./lib && rollup -c"
+  },
+  "files": [
+    "lib"
+  ],
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "antd": "*",
+    "@ant-design/icons": "*",
+    "lodash": "*"
+  },
+  "devDependencies": {
+    "@faasjs/func": "^0.0.2-beta.302",
+    "@types/debug": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "rollup": "*",
+    "rollup-plugin-typescript2": "*",
+    "typescript": "*"
+  },
+  "engines": {
+    "npm": ">=8.0.0"
+  }
+}
