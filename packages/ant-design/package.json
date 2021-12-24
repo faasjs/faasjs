@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.2-beta.311",
+  "version": "0.0.2-beta.312",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,11 +22,11 @@
     "lib"
   ],
   "peerDependencies": {
-    "react": "*",
-    "react-dom": "*",
-    "antd": "*",
     "@ant-design/icons": "*",
-    "lodash": "*"
+    "antd": "*",
+    "lodash": "*",
+    "react": "*",
+    "react-dom": "*"
   },
   "devDependencies": {
     "@faasjs/func": "^0.0.2-beta.302",
