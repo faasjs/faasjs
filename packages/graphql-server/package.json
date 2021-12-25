@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/graphql-server",
-  "version": "0.0.2-beta.311",
+  "version": "0.0.2-beta.314",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,8 +22,8 @@
     "dist"
   ],
   "devDependencies": {
-    "typescript": "*",
-    "tsup": "*"
+    "tsup": "*",
+    "typescript": "*"
   },
   "peerDependencies": {
     "@apollo/federation": "*",

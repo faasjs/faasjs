@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.2-beta.313",
+  "version": "0.0.2-beta.314",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,8 +30,8 @@
   },
   "devDependencies": {
     "@types/lodash": "*",
-    "typescript": "*",
-    "tsup": "*"
+    "tsup": "*",
+    "typescript": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

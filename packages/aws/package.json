@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/aws",
-  "version": "0.0.2-beta.302",
+  "version": "0.0.2-beta.314",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,8 +30,8 @@
     "@faasjs/request": "^0.0.2-beta.302"
   },
   "devDependencies": {
-    "typescript": "*",
-    "tsup": "*"
+    "tsup": "*",
+    "typescript": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

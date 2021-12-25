@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/knex",
-  "version": "0.0.2-beta.302",
+  "version": "0.0.2-beta.314",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,8 +23,8 @@
   ],
   "peerDependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.302",
-    "@faasjs/logger": "^0.0.2-beta.302",
     "@faasjs/func": "^0.0.2-beta.302",
+    "@faasjs/logger": "^0.0.2-beta.302",
     "knex": "*"
   },
   "devDependencies": {
@@ -35,8 +35,8 @@
     "mysql": "*",
     "pg": "*",
     "sqlite3": "*",
-    "typescript": "*",
-    "tsup": "*"
+    "tsup": "*",
+    "typescript": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

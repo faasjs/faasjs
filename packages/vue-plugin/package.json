@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/vue-plugin",
-  "version": "0.0.2-beta.305",
+  "version": "0.0.2-beta.314",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,8 +26,8 @@
     "vue": "*"
   },
   "devDependencies": {
-    "typescript": "*",
-    "tsup": "*"
+    "tsup": "*",
+    "typescript": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

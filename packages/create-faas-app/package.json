@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "0.0.2-beta.310",
+  "version": "0.0.2-beta.314",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,8 +31,8 @@
     "lodash": "*"
   },
   "devDependencies": {
-    "typescript": "*",
-    "tsup": "*"
+    "tsup": "*",
+    "typescript": "*"
   },
   "engines": {
     "npm": ">=8.0.0"
