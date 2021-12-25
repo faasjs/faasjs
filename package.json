@@ -55,7 +55,6 @@
       ".(jsx|tsx?)": "@swc/jest"
     },
     "verbose": false,
-    "testTimeout": 30000,
     "testPathIgnorePatterns": [
       "/lib/",
       "/tmp/",
