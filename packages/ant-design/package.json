@@ -29,6 +29,7 @@
     "react-dom": "*"
   },
   "devDependencies": {
+    "@types/lodash": "*",
     "typescript": "*",
     "tsup": "*"
   },

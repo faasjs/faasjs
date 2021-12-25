@@ -7,7 +7,7 @@
     "pub": "lerna publish --preid beta --pre-dist-tag beta && node tag.js",
     "pub:retry": "lerna publish from-git --preid beta --pre-dist-tag beta",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp *.log",
-    "build": "turbo run build --parallel"
+    "build": "lerna run build --stream --parallel"
   },
   "devDependencies": {
     "@types/debug": "*",
@@ -22,10 +22,7 @@
     "typescript": "*",
     "regenerator-runtime": "*",
     "@testing-library/jest-dom": "*",
-    "@testing-library/react": "*",
-    "@nrwl/workspace": "latest",
-    "@nrwl/cli": "latest",
-    "@nrwl/tao": "latest"
+    "@testing-library/react": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [
