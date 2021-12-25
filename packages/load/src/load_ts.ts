@@ -117,8 +117,7 @@ export default async function loadTs (filename: string, options: {
   modules?: {
     excludes?: string[]
     additions?: string[]
-  },
-  vm?: boolean
+  }
 } = Object.create(null)): Promise<{
     module?: Func
     dependencies: {

@@ -4,8 +4,6 @@ import {
 } from '@faasjs/func'
 import { loadConfig } from '@faasjs/load'
 import { Http } from '@faasjs/http'
-import { NodeVM } from 'vm2'
-import { transpile } from 'typescript'
 import { deepMerge } from '@faasjs/deep_merge'
 
 // 输出 func 的定义以便于测试用例的引用
@@ -23,7 +21,6 @@ export class FuncWarper {
   public readonly config: Config
   public readonly plugins: Plugin[]
   private readonly _handler: ExportedHandler
-  private _vm: NodeVM
 
   /**
    * 创建测试实例
@@ -36,26 +33,12 @@ export class FuncWarper {
   constructor (initBy: Func | string) {
     this.staging = process.env.FaasEnv
     this.logger = new Logger('TestCase')
-    this._vm = new NodeVM({
-      compiler: function (code: string, name: string ) { return transpile(code, {}, name)},
-      require: {
-        external: true,
-        context: 'sandbox',
-        builtin: ['*']
-      },
-      sourceExtensions: ['ts', 'js']
-    })
 
     if (typeof initBy === 'string') {
       this.file = initBy
       this.logger.info('Func: [%s] %s', this.staging, this.file)
-      // try {
-      //   this.func = this._vm.require(this.file).default
-      // } catch (error) {
-      //   console.error(error)
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       this.func = require(this.file).default
-      // }
       this.func.config = loadConfig(process.cwd(), this.file)[this.staging]
       this.config = this.func.config
     } else {
