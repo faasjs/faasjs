@@ -1,7 +1,5 @@
 # Overview of official plugins
 
-[![Build Status](https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/unit.yml)
-
 ## Cores
 
 |Name|Stable|Beta|

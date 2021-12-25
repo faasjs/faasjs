@@ -7,12 +7,12 @@ module.exports = {
   ],
   locales: {
     '/': {
-      lang: 'en-US',
+      lang: 'en',
       title: 'FaasJS',
       description: 'An Atomic Application Framework based on Typescript.'
     },
     '/zh/': {
-      lang: 'zh-CN',
+      lang: 'zh',
       title: 'FaasJS',
       description: '一个基于 Typescript 的原子化应用框架'
     }
@@ -279,6 +279,7 @@ module.exports = {
       {
         'id': 'UA-143006612-1'
       }
-    ]
+    ],
+    require('./plugin')
   ]
 }
