@@ -19,14 +19,12 @@
     "build": "rm -rf ./dist && tsup-node src/index.ts --format esm,cjs --dts"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "peerDependencies": {
     "@faasjs/types": "^0.0.2-beta.302"
   },
   "devDependencies": {
-    "@types/debug": "*",
-    "@types/jest": "*",
     "typescript": "*",
     "tsup": "*"
   },

@@ -16,10 +16,10 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "rm -rf ./dist && tsup-node src/index.ts --format esm,cjs --dts --inject react-shim.js"
+    "build": "rm -rf ./dist && tsup src/index.ts --format esm,cjs --dts --inject react-shim.js"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "peerDependencies": {
     "@ant-design/icons": "*",
@@ -29,10 +29,6 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.302",
-    "@types/debug": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
     "typescript": "*",
     "tsup": "*"
   },

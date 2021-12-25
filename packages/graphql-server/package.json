@@ -2,9 +2,9 @@
   "name": "@faasjs/graphql-server",
   "version": "0.0.2-beta.311",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "lib/index.es.js",
-  "types": "lib/graphql-server/src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "homepage": "https://faasjs.com/docs/graphql-server",
   "repository": {
     "type": "git",
@@ -16,25 +16,22 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "rm -rf ./lib && rollup -c"
+    "build": "rm -rf ./dist && tsup-node src/index.ts --format esm,cjs --dts"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.302",
-    "@types/debug": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "rollup": "*",
-    "rollup-plugin-typescript2": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "tsup": "*"
   },
   "peerDependencies": {
     "@apollo/federation": "*",
     "@apollo/gateway": "*",
     "@apollographql/graphql-playground-html": "*",
+    "@faasjs/func": "^0.0.2-beta.302",
     "@faasjs/http": "^0.0.2-beta.253",
+    "@faasjs/logger": "^0.0.2-beta.302",
     "@opentelemetry/api": "*",
     "apollo-server-core": "*",
     "apollo-server-env": "*",

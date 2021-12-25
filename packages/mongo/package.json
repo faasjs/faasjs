@@ -2,9 +2,9 @@
   "name": "@faasjs/mongo",
   "version": "0.0.2-beta.303",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "lib/index.es.js",
-  "types": "lib/mongo/src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "homepage": "https://faasjs.com/doc/mongo.html",
   "repository": {
     "type": "git",
@@ -16,22 +16,20 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "rm -rf ./lib && rollup -c"
+    "build": "rm -rf ./dist && tsup-node src/index.ts --format esm,cjs --dts"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "peerDependencies": {
-    "@faasjs/logger": "^0.0.2-beta.243",
+    "@faasjs/logger": "^0.0.2-beta.302",
+    "@faasjs/func": "^0.0.2-beta.302",
+    "@faasjs/deployer": "^0.0.2-beta.302",
     "mongodb": "*"
   },
   "devDependencies": {
-    "@types/debug": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "rollup": "*",
-    "rollup-plugin-typescript2": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "tsup": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

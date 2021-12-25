@@ -2,9 +2,9 @@
   "name": "@faasjs/logger",
   "version": "0.0.2-beta.302",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "lib/index.es.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "homepage": "https://faasjs.com/doc/logger.html",
   "repository": {
     "type": "git",
@@ -16,18 +16,14 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "rm -rf ./lib && rollup -c"
+    "build": "rm -rf ./dist && tsup-node src/index.ts --format esm,cjs --dts"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "devDependencies": {
-    "@types/debug": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "rollup": "*",
-    "rollup-plugin-typescript2": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "tsup": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

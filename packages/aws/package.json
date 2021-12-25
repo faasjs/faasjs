@@ -19,20 +19,17 @@
     "build": "rm -rf ./dist && tsup-node src/index.ts --format esm,cjs --dts"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "peerDependencies": {
     "@aws-sdk/client-apigatewayv2": "*",
     "@aws-sdk/client-lambda": "*",
-    "@faasjs/load": "^0.0.2-beta.254",
-    "@faasjs/logger": "^0.0.2-beta.243",
-    "@faasjs/request": "^0.0.2-beta.243"
+    "@faasjs/func": "^0.0.2-beta.302",
+    "@faasjs/load": "^0.0.2-beta.302",
+    "@faasjs/logger": "^0.0.2-beta.302",
+    "@faasjs/request": "^0.0.2-beta.302"
   },
   "devDependencies": {
-    "@faasjs/func": "^0.0.2-beta.302",
-    "@types/debug": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
     "typescript": "*",
     "tsup": "*"
   },
