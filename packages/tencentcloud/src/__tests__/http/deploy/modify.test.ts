@@ -1,14 +1,9 @@
 import { join, sep } from 'path'
 import { Provider } from '../../..'
 
-jest.mock('child_process', function () {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  return { execSync () {} }
-})
-
 jest.mock('@faasjs/request', function () {
   return {
-    request: async function (url, options): Promise<any> {
+    request: async function (url: string, options: any): Promise<any> {
       console.log('mock.request', url, JSON.stringify(options))
       switch (options.headers['X-TC-Action']) {
         case 'DescribeServicesStatus':
