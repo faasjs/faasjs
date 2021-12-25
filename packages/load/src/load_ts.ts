@@ -2,10 +2,11 @@ import { deepMerge } from '@faasjs/deep_merge'
 import {
   existsSync, readFileSync, unlinkSync
 } from 'fs'
-import * as rollup from 'rollup'
-import typescript from '@rollup/plugin-typescript'
+import { Plugin, rollup } from 'rollup'
 import { Func } from '@faasjs/func'
 import { join } from 'path'
+import resolve from '@rollup/plugin-node-resolve'
+import { Options, transform } from '@swc/core'
 
 const FAAS_PACKAGES = [
   '@faasjs/browser',
@@ -95,6 +96,16 @@ function findModule (list: any, key: string, basePath: string, options: {
   }
 }
 
+function swc (options: Options): Plugin {
+  return {
+    name: 'swc',
+    async transform (code, filename) {
+      options.filename = filename
+      return transform(code, options)
+    }
+  }
+}
+
 /**
  * 加载 ts 文件
  *
@@ -136,11 +147,26 @@ export default async function loadTs (filename: string, options: {
   const input = deepMerge({
     input: filename,
     external,
-    plugins: [typescript({ declaration: false })],
+    plugins: [
+      resolve({
+        extensions: [
+          '.ts',
+          '.tsx',
+          '.js',
+          '.jsx'
+        ]
+      }),
+      swc({
+        jsc: {
+          parser: { syntax: 'typescript', },
+          target: 'es2021',
+        },
+      })
+    ],
     onwarn: () => null as any
   }, (options.input) || {})
 
-  const bundle = await rollup.rollup(input)
+  const bundle = await rollup(input)
 
   const dependencies = Object.create(null)
 

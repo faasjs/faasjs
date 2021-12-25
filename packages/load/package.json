@@ -24,10 +24,10 @@
   "peerDependencies": {
     "@faasjs/deep_merge": "^0.0.2-beta.244",
     "@faasjs/func": "^0.0.2-beta.302",
-    "@rollup/plugin-typescript": "*",
+    "@rollup/plugin-node-resolve": "*",
     "js-yaml": "*",
     "rollup": "*",
-    "typescript": "*"
+    "@swc/core": "*"
   },
   "devDependencies": {
     "@types/js-yaml": "*",
