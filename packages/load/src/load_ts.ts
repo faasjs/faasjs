@@ -6,7 +6,6 @@ import * as rollup from 'rollup'
 import typescript from '@rollup/plugin-typescript'
 import { Func } from '@faasjs/func'
 import { join } from 'path'
-import { NodeVM } from 'vm2'
 
 const FAAS_PACKAGES = [
   '@faasjs/browser',
@@ -166,18 +165,8 @@ export default async function loadTs (filename: string, options: {
 
   result.dependencies = dependencies
 
-  if (options.vm) {
-    const vm = new NodeVM({
-      require: {
-        external: true,
-        context: 'sandbox',
-        builtin: ['*']
-      }
-    })
-    result.module = vm.require(output.file)
-  } else
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-    result.module = require(output.file)
+  result.module = require(output.file)
 
   if (options.tmp) unlinkSync(output.file)
 
