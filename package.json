@@ -23,7 +23,9 @@
     "regenerator-runtime": "*",
     "@testing-library/jest-dom": "*",
     "@testing-library/react": "*",
-    "turbo": "*"
+    "@nrwl/workspace": "latest",
+    "@nrwl/cli": "latest",
+    "@nrwl/tao": "latest"
   },
   "eslintConfig": {
     "ignorePatterns": [
@@ -38,18 +40,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "turbo": {
-    "baseBranch": "origin/main",
-    "pipeline": {
-      "build": {
-        "dependsOn": ["^build"],
-        "outputs": ["lib/**"]
-      },
-      "test": {
-        "dependsOn": ["build"]
-      }
-    }
-  },
   "jest": {
     "transform": {
       ".(jsx|tsx?)": "@swc/jest"
