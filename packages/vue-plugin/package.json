@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/vue-plugin",
-  "version": "0.0.2-beta.314",
+  "version": "0.0.2-beta.319",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/browser": "^0.0.2-beta.280",
+    "@faasjs/browser": "^0.0.2-beta.319",
     "vue": "*"
   },
   "devDependencies": {

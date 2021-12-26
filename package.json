@@ -1,13 +1,12 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.2-beta",
+  "version": "0.0.2-beta.319",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "node --expose-gc ./node_modules/.bin/jest --silent --ci --coverage --forceExit --logHeapUsage -w=1",
-    "pub": "lerna publish && node tag.js",
-    "pub:retry": "lerna publish from-git",
+    "pub": "node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp *.log",
-    "build": "lerna run build --stream --parallel"
+    "build": "npm run build --ws --if-present"
   },
   "devDependencies": {
     "@types/debug": "*",
@@ -17,16 +16,8 @@
     "@swc/jest": "*",
     "faasjs": "file:./packages/faasjs",
     "jest": "*",
-    "lerna": "*",
-    "@lerna/package": "https://gitpkg.now.sh/zfben/lerna/core/package?c83f02e",
-    "@lerna/package-graph": "https://gitpkg.now.sh/zfben/lerna/core/package-graph?c83f02e",
-    "@lerna/validation-error": "https://gitpkg.now.sh/zfben/lerna/core/validation-error?c83f02e",
-    "@lerna/prerelease-id-from-version": "https://gitpkg.now.sh/zfben/lerna/utils/prerelease-id-from-version?c83f02e",
-    "rollup": "*",
     "typescript": "*",
-    "regenerator-runtime": "*",
-    "@testing-library/jest-dom": "*",
-    "@testing-library/react": "*"
+    "regenerator-runtime": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [

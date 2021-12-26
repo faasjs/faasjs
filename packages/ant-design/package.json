@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.2-beta.314",
+  "version": "0.0.2-beta.319",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,6 +30,8 @@
   },
   "devDependencies": {
     "@types/lodash": "*",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
     "tsup": "*",
     "typescript": "*"
   },
