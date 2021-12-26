@@ -30,3 +30,7 @@ for (const path of globSync('packages/*/package.json')) {
   exec(`npm publish -w ${path.replace('/package.json', '')} --access public`)
   exec(`npm dist-tag add ${pkg.name}@${pkg.version} beta`)
 }
+
+exec(`git commit -am 'release ${version}'`)
+exec(`git tag ${version}`)
+exec('git push && git push --tags')
