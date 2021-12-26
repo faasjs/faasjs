@@ -1,10 +1,8 @@
 import { deepMerge } from '@faasjs/deep_merge'
-import {
-  existsSync, readFileSync, unlinkSync
-} from 'fs'
+import { readFileSync, unlinkSync } from 'fs'
 import { Plugin, rollup } from 'rollup'
 import { Func } from '@faasjs/func'
-import { join } from 'path'
+import { dirname, join } from 'path'
 import resolve from '@rollup/plugin-node-resolve'
 import { Options, transform } from '@swc/core'
 
@@ -71,30 +69,21 @@ const NODE_PACKAGES = [
   'zlib'
 ]
 
-function findModule (list: any, key: string, basePath: string, options: {
+function findModule (list: any, key: string, options: {
   excludes?: string[]
 } = { excludes: [] }) {
   if (list[key]) return
 
   if (key.startsWith('@types/') || options.excludes.includes(key)) return
 
-  const paths = [join(process.cwd(), 'node_modules', key), join(basePath, 'node_modules', key)]
+  try {
+    list[key] = dirname(require.resolve(join(key, 'package.json')))
 
-  let path: string
-  for (const p of paths)
-    if (existsSync(p)) {
-      path = p
-      break
-    }
-
-  if (!path) return
-
-  list[key] = path
-
-  if (existsSync(join(path, 'package.json'))) {
-    const pkg = JSON.parse(readFileSync(join(path, 'package.json')).toString())
+    const pkg = JSON.parse(readFileSync(join(list[key], 'package.json')).toString())
     const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}))
-    deps.map(d => findModule(list, d, path, options))
+    deps.map(d => findModule(list, d, options))
+  } catch (error) {
+    console.warn(`[FaasJS] Cannot find module ${key}`)
   }
 }
 
@@ -200,9 +189,9 @@ export default async function loadTs (filename: string, options: {
   if (options.modules) {
     const modules = Object.create(null)
 
-    Object.keys(dependencies).map(d => findModule(modules, d, process.cwd(), options.modules))
+    Object.keys(dependencies).map(d => findModule(modules, d, options.modules))
     if (options.modules.additions)
-      options.modules.additions.map(d => findModule(modules, d, process.cwd(), options.modules))
+      options.modules.additions.map(d => findModule(modules, d, options.modules))
 
     result.modules = modules
   }
