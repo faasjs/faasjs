@@ -9,6 +9,8 @@ import resolve from '@rollup/plugin-node-resolve'
 import { Options, transform } from '@swc/core'
 
 const FAAS_PACKAGES = [
+  '@faasjs/ant-design',
+  '@faasjs/aws',
   '@faasjs/browser',
   '@faasjs/cli',
   '@faasjs/cloud_function',
