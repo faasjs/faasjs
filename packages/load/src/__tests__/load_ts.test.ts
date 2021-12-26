@@ -23,8 +23,8 @@ describe('loadTs', function () {
     })
 
     expect(res.modules).toMatchObject({
-      '@faasjs/deep_merge': join(process.cwd(), 'node_modules', '@faasjs/deep_merge'),
-      '@faasjs/load': join(process.cwd(), 'node_modules', '@faasjs/load')
+      '@faasjs/deep_merge': join(process.cwd(), 'packages/deep_merge'),
+      '@faasjs/load': join(process.cwd(), 'packages/load')
     })
   })
 })

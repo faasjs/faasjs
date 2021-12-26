@@ -83,7 +83,7 @@ function findModule (list: any, key: string, options: {
     const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}))
     deps.map(d => findModule(list, d, options))
   } catch (error) {
-    console.warn(`[FaasJS] Cannot find module ${key}`)
+    console.warn(`[FaasJS] Cannot find module path: ${key}`, error)
   }
 }
 

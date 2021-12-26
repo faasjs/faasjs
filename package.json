@@ -65,7 +65,7 @@
       "/examples/"
     ],
     "moduleNameMapper": {
-      "@faasjs/(.*)": "<rootDir>/./packages/$1/src"
+      "@faasjs/(.*)": "<rootDir>/packages/$1"
     },
     "setupFiles": [
       "./packages/test/src/jest.setup"
