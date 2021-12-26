@@ -124,7 +124,8 @@ function findModule (list: any, key: string, options: {
     Object.keys(pkg.peerDependenciesMeta).forEach(key => {
       if (pkg.peerDependenciesMeta[key].optional) {
         const index = deps.indexOf(key)
-        deps.splice(index, 1)
+        if (index >= 0)
+          deps.splice(index, 1)
       }
     })
   }
