@@ -2,7 +2,9 @@ import { deepMerge } from '@faasjs/deep_merge'
 import { readFileSync, unlinkSync } from 'fs'
 import { Plugin, rollup } from 'rollup'
 import { Func } from '@faasjs/func'
-import { dirname, join } from 'path'
+import {
+  join, sep, dirname
+} from 'path'
 import resolve from '@rollup/plugin-node-resolve'
 import { Options, transform } from '@swc/core'
 
@@ -69,6 +71,32 @@ const NODE_PACKAGES = [
   'zlib'
 ]
 
+// TODO: remove this when node fixed https://github.com/nodejs/node/issues/33460
+function resolveModuleBasePath (moduleName: string) {
+  const moduleMainFilePath = require.resolve(moduleName)
+
+  const moduleNameParts = moduleName.split('/')
+
+  let searchForPathSection
+
+  if (moduleName.startsWith('@') && moduleNameParts.length > 1) {
+    const [org, mod] = moduleNameParts
+    searchForPathSection = `node_modules${sep}${org}${sep}${mod}`
+  } else {
+    const [mod] = moduleNameParts
+    searchForPathSection = `node_modules${sep}${mod}`
+  }
+
+  const lastIndex = moduleMainFilePath.lastIndexOf(searchForPathSection)
+
+  if (lastIndex === -1) {
+    console.log(searchForPathSection, moduleMainFilePath)
+    throw new Error(`Couldn't resolve the base path of "${moduleName}". Searched inside the resolved main file path "${moduleMainFilePath}" using "${searchForPathSection}"`)
+  }
+
+  return moduleMainFilePath.slice(0, lastIndex + searchForPathSection.length)
+}
+
 function findModule (list: any, key: string, options: {
   excludes?: string[]
 } = { excludes: [] }) {
@@ -78,13 +106,31 @@ function findModule (list: any, key: string, options: {
 
   try {
     list[key] = dirname(require.resolve(join(key, 'package.json')))
-
-    const pkg = JSON.parse(readFileSync(join(list[key], 'package.json')).toString())
-    const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}))
-    deps.map(d => findModule(list, d, options))
   } catch (error) {
-    console.warn(`[FaasJS] Cannot find module path: ${key}`, error)
+    console.warn(error)
+    try {
+      list[key] = resolveModuleBasePath(key)
+    } catch (error) {
+      console.warn(error)
+    }
   }
+
+  // get package's dependencies
+  const pkg = JSON.parse(readFileSync(join(list[key], 'package.json')).toString())
+  const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}))
+
+  // remove optional dependencies
+  if (pkg.peerDependenciesMeta) {
+    Object.keys(pkg.peerDependenciesMeta).forEach(key => {
+      if (pkg.peerDependenciesMeta[key].optional) {
+        const index = deps.indexOf(key)
+        deps.splice(index, 1)
+      }
+    })
+  }
+
+  // import dependencies
+  deps.map(d => findModule(list, d, options))
 }
 
 function swc (options: Options): Plugin {
