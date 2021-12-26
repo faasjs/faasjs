@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "0.0.2-beta.314",
+  "version": "0.0.2-beta.315",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,8 +26,8 @@
     "@faasjs/http": "^0.0.2-beta.302",
     "@faasjs/load": "^0.0.2-beta.254",
     "@faasjs/logger": "^0.0.2-beta.243",
-    "lodash": "*",
     "@swc/core": "*",
+    "lodash": "*",
     "pirates": "*"
   },
   "devDependencies": {
