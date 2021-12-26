@@ -26,7 +26,9 @@
     "@faasjs/http": "^0.0.2-beta.302",
     "@faasjs/load": "^0.0.2-beta.254",
     "@faasjs/logger": "^0.0.2-beta.243",
-    "lodash": "*"
+    "lodash": "*",
+    "@swc/core": "*",
+    "pirates": "*"
   },
   "devDependencies": {
     "tsup": "*",

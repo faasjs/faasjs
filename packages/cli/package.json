@@ -34,9 +34,7 @@
     "commander": ">=8.3.0",
     "enquirer": "*",
     "glob": "*",
-    "lodash": "*",
-    "ts-node": "*",
-    "tsconfig-paths": "*"
+    "lodash": "*"
   },
   "devDependencies": {
     "tsup": "*",

@@ -2,13 +2,53 @@ import {
   createServer, IncomingMessage, Server as HttpServer
 } from 'http'
 import { Logger } from '@faasjs/logger'
-import { existsSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 import { loadConfig } from '@faasjs/load'
 import {
   resolve as pathResolve, sep, join
 } from 'path'
 import { HttpError } from '@faasjs/http'
 import { Socket } from 'net'
+import { addHook } from 'pirates'
+import { transformSync } from '@swc/core'
+
+const tsconfig = JSON.parse(readFileSync(join(process.cwd(), 'tsconfig.json')).toString())
+
+if (!tsconfig.compilerOptions) tsconfig.compilerOptions = {}
+
+tsconfig.compilerOptions.baseUrl = tsconfig.compilerOptions.baseUrl?.replace('.', process.cwd()) || process.cwd()
+
+if (tsconfig.compilerOptions.paths) {
+  for (const key of Object.keys(tsconfig.compilerOptions.paths))
+    tsconfig.compilerOptions.paths[key] = tsconfig.compilerOptions.paths[key]
+      .map((item: string) => item.replace('.', tsconfig.compilerOptions.baseUrl))
+} else
+  tsconfig.compilerOptions.paths = {}
+
+addHook((code, filename) => {
+  if (filename.endsWith('.d.ts'))
+    return ''
+
+  return transformSync(code, {
+    filename,
+    jsc: {
+      parser: {
+        syntax: 'typescript',
+        tsx: true
+      },
+      target: 'es2021',
+      baseUrl: tsconfig.compilerOptions.baseUrl,
+      paths: tsconfig.compilerOptions.paths
+    },
+    module: { type: 'commonjs' }
+  }).code
+}, {
+  exts: [
+    '.jsx',
+    '.ts',
+    '.tsx'
+  ]
+})
 
 type Cache = {
   file?: string
