@@ -4,11 +4,10 @@ import {
 } from 'antd'
 import { FormItem, FormItemProps } from './FormItem'
 
-export type FormProps = { items: FormItemProps[] } & AntdFormProps
+export type FormProps<T = any> = { items: FormItemProps[] } & AntdFormProps<T>
 
-const Form = function (props: FormProps) {
-  console.log(props)
-  return <AntdForm { ...props }>
+const Form = function<T = any> (props: FormProps<T>) {
+  return <AntdForm<T> { ...props }>
     {props.items.map(item => <FormItem
       key={ item.id }
       { ...item }

@@ -7,6 +7,9 @@ import {
   Input,
   InputNumber,
   Switch,
+  InputProps,
+  InputNumberProps,
+  SwitchProps,
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { FaasItemProps } from './data'
@@ -14,10 +17,22 @@ import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { useEffect, useState } from 'react'
 import { upperFirst } from 'lodash'
 
+type FormItemInputProps = {
+  type?: 'string' | 'string[]'
+  input?: InputProps
+} | {
+  type: 'number' | 'number[]'
+  input?: InputNumberProps
+} | {
+  type: 'boolean'
+  input?: SwitchProps
+}
+
 export type FormItemProps<T = any> = {
   children?: JSX.Element
   rules?: RuleObject[]
-} & FaasItemProps & AntdFormItemProps<T>
+  label?: string | false
+} & FormItemInputProps & FaasItemProps & AntdFormItemProps<T>
 
 export function FormItem<T> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
@@ -25,7 +40,7 @@ export function FormItem<T> (props: FormItemProps<T>) {
   useEffect(() => {
     const propsCopy = { ...props }
     if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
-    if (!propsCopy.label) propsCopy.label = propsCopy.title
+    if (!propsCopy.label && props.label !== false) propsCopy.label = propsCopy.title
     if (!propsCopy.name) propsCopy.name = propsCopy.id
     if (!propsCopy.type) propsCopy.type = 'string'
     if (!propsCopy.rules) propsCopy.rules = []
@@ -49,7 +64,7 @@ export function FormItem<T> (props: FormItemProps<T>) {
   switch (computedProps.type) {
     case 'string':
       return <AntdForm.Item { ...computedProps }>
-        <Input />
+        <Input { ...computedProps.input } />
       </AntdForm.Item>
     case 'string[]':
       return <AntdForm.List
@@ -66,7 +81,7 @@ export function FormItem<T> (props: FormItemProps<T>) {
                   { ...field }
                   noStyle
                 >
-                  <Input />
+                  <Input { ...computedProps.input } />
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
@@ -93,7 +108,7 @@ export function FormItem<T> (props: FormItemProps<T>) {
       </AntdForm.List>
     case 'number':
       return <AntdForm.Item { ...computedProps }>
-        <InputNumber style={ { width: '100%' } } />
+        <InputNumber style={ { width: '100%' } } { ...computedProps.input } />
       </AntdForm.Item>
     case 'number[]':
       return <AntdForm.List
@@ -110,7 +125,7 @@ export function FormItem<T> (props: FormItemProps<T>) {
                   { ...field }
                   noStyle
                 >
-                  <InputNumber style={ { width: '100%' } } />
+                  <InputNumber style={ { width: '100%' } } { ...computedProps.input } />
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
@@ -137,7 +152,7 @@ export function FormItem<T> (props: FormItemProps<T>) {
       </AntdForm.List>
     case 'boolean':
       return <AntdForm.Item { ...computedProps }>
-        <Switch />
+        <Switch { ...computedProps.input } />
       </AntdForm.Item>
     default:
       return null
