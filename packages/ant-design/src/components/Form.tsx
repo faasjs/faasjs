@@ -6,7 +6,7 @@ import { FormItem, FormItemProps } from './FormItem'
 
 export type FormProps = { items: FormItemProps[] } & AntdFormProps
 
-export function Form (props: FormProps) {
+const Form = function (props: FormProps) {
   console.log(props)
   return <AntdForm { ...props }>
     {props.items.map(item => <FormItem
@@ -15,3 +15,7 @@ export function Form (props: FormProps) {
     />)}
   </AntdForm>
 }
+
+Form.useForm = AntdForm.useForm
+
+export { Form }
