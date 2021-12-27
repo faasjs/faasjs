@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.2-beta.321",
+  "version": "0.0.2-beta.322",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "node --expose-gc ./node_modules/.bin/jest --silent --ci --coverage --forceExit --logHeapUsage -w=1",
