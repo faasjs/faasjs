@@ -94,6 +94,7 @@ export class FaasBrowserClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=UTF-8' },
       mode: 'cors',
+      credentials: 'include',
       body: JSON.stringify(params),
       ...this.defaultOptions,
       ...options
