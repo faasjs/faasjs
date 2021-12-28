@@ -197,7 +197,7 @@ export default async function loadTs (filename: string, options: {
       swc({
         jsc: {
           parser: { syntax: 'typescript', },
-          target: 'es2021',
+          target: 'es2019',
         },
       })
     ],
