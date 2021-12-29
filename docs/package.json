@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@vuepress/bundler-webpack": "^2.0.0-beta.30",
-    "@vuepress/plugin-google-analytics": "^2.0.0-beta.29",
+    "@vuepress/plugin-google-analytics": "^2.0.0-beta.32",
     "vuepress": "^2.0.0-beta.31"
   }
 }
