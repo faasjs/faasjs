@@ -9,15 +9,8 @@
     "build": "npm run build --ws --if-present"
   },
   "devDependencies": {
-    "@types/debug": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
-    "@swc/jest": "*",
-    "faasjs": "file:./packages/faasjs",
-    "jest": "*",
-    "typescript": "*",
-    "regenerator-runtime": "*"
+    "faasjs": "file:./packages/faasjs"
   },
   "eslintConfig": {
     "ignorePatterns": [
