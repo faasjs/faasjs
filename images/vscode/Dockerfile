@@ -11,6 +11,7 @@ RUN sed -i -e "s/bin\/ash/bin\/zsh/" /etc/passwd
 RUN git clone --depth=1 https://github.com/zfben/zsh-npm.git ~/.zsh-npm
 RUN echo "source /root/.zsh-npm/npm.plugin.zsh" >> /root/.zshrc
 
+RUN corepack enable
 RUN npm install -g npm@latest
 RUN npm install -g eslint@latest
 RUN npm install -g concurrently@latest
