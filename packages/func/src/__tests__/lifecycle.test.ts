@@ -85,7 +85,7 @@ describe('lifecycle', function () {
       try {
         await func.export().handler(null)
       } catch (error) {
-        expect(error.message).toEqual('Cannot read property \'headers\' of null')
+        expect(error.message).toEqual('Cannot read properties of null (reading \'headers\')')
       }
     })
   })
