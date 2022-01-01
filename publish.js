@@ -13,12 +13,35 @@ async function run(cmd) {
 async function publish(path) {
   const pkg = require(__dirname + '/' + path)
   await build(path, true)
-  await run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
-  await run(`npm dist-tag add ${pkg.name}@${version} beta`)
+  try {
+    await run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
+  } catch (error) {
+    console.warn(error)
+  }
+  try {
+    await run(`npm dist-tag add ${pkg.name}@${version} beta`)
+  } catch (error) {
+    console.warn(error)
+  }
 }
 
 async function publishAll() {
-  await Promise.all(globSync('packages/*/package.json').map(publish))
+  const list = globSync('packages/*/package.json')
+
+  for (const name of [
+    'browser',
+    'logger',
+    'deep_merge',
+    'ts-transform',
+    'load',
+    'func',
+    'http',
+  ]) {
+    await publish(`packages/${name}/package.json`)
+    list.splice(list.indexOf(`packages/${name}/package.json`), 1)
+  }
+
+  await Promise.all(list.map(publish))
   await run(`git commit -am 'release ${version}'`)
   await run(`git tag v${version}`)
   await run('git push && git push --tags')

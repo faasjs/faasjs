@@ -1,9 +1,9 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.2-beta.325",
+  "version": "0.0.2-beta.326",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
-    "test": "node --expose-gc ./node_modules/.bin/jest --silent --ci --coverage --forceExit",
+    "test": "jest --silent --ci --coverage --forceExit",
     "pub": "node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/coverage packages/*/*.log tmp *.log",
     "build": "node build.js"
