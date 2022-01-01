@@ -32,7 +32,9 @@ async function build(path) {
 
 async function buildAll() {
   await build('packages/browser/package.json')
-  await Promise.all(globSync('packages/*/package.json').map(build))
+  const list = globSync('packages/*/package.json')
+  list.splice(list.indexOf('packages/browser/package.json'), 1)
+  await Promise.all(list.map(build))
 }
 
 buildAll()
