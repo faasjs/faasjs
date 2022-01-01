@@ -10,7 +10,7 @@ import {
 import { HttpError } from '@faasjs/http'
 import { Socket } from 'net'
 import { addHook } from 'pirates'
-import { transformSync } from '@swc/core'
+import { transform } from '@faasjs/ts-transform'
 
 const tsconfig = JSON.parse(readFileSync(join(process.cwd(), 'tsconfig.json')).toString())
 
@@ -29,19 +29,7 @@ addHook((code, filename) => {
   if (filename.endsWith('.d.ts'))
     return ''
 
-  return transformSync(code, {
-    filename,
-    jsc: {
-      parser: {
-        syntax: 'typescript',
-        tsx: true
-      },
-      target: 'es2021',
-      baseUrl: tsconfig.compilerOptions.baseUrl,
-      paths: tsconfig.compilerOptions.paths
-    },
-    module: { type: 'commonjs' }
-  }).code
+  return transform(code, { filename }).code
 }, {
   exts: [
     '.jsx',

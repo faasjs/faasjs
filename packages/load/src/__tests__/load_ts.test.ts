@@ -3,28 +3,25 @@ import loadTs from '../load_ts'
 
 describe('loadTs', function () {
   test('extend', async function () {
-    const res = await loadTs(require.resolve('./extend.func.ts'), { tmp: true })
+    const res = await loadTs(require.resolve('./extend.ts'), { tmp: true })
 
     expect(res.module).toEqual('extended')
-    expect(res.dependencies).toEqual({ '@faasjs/deep_merge': '*' })
-  }, 10000)
+    expect(res.dependencies).toEqual({})
+  })
 
   test('require', async function () {
-    const res = await loadTs(require.resolve('./require.func.ts'), { tmp: true })
+    const res = await loadTs(require.resolve('./require.ts'), { tmp: true })
 
-    expect(res.module).toEqual({ default: 'required' })
-    expect(res.dependencies).toEqual({ '@faasjs/deep_merge': '*' })
-  }, 10000)
+    expect(res.module.default).toEqual('required')
+    expect(res.dependencies).toEqual({})
+  })
 
   test('modules', async function () {
-    const res = await loadTs(require.resolve('./extend.func.ts'), {
+    const res = await loadTs(require.resolve('./extend.ts'), {
       tmp: true,
       modules: { additions: ['@faasjs/load'] }
     })
 
-    expect(res.modules).toMatchObject({
-      '@faasjs/deep_merge': join(process.cwd(), 'packages/deep_merge'),
-      '@faasjs/load': join(process.cwd(), 'packages/load')
-    })
+    expect(res.modules).toMatchObject({ '@faasjs/load': join(process.cwd(), 'packages/load') })
   })
 })

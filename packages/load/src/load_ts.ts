@@ -6,7 +6,7 @@ import {
   join, sep, dirname
 } from 'path'
 import resolve from '@rollup/plugin-node-resolve'
-import { Options, transform } from '@swc/core'
+import { bundle } from '@faasjs/ts-transform'
 
 const FAAS_PACKAGES = [
   '@faasjs/ant-design',
@@ -134,12 +134,11 @@ function findModule (list: any, key: string, options: {
   deps.map(d => findModule(list, d, options))
 }
 
-function swc (options: Options): Plugin {
+function swc (): Plugin {
   return {
     name: 'swc',
     async transform (code, filename) {
-      options.filename = filename
-      return transform(code, options)
+      return bundle({ filename })
     }
   }
 }
@@ -194,12 +193,7 @@ export default async function loadTs (filename: string, options: {
           '.jsx'
         ]
       }),
-      swc({
-        jsc: {
-          parser: { syntax: 'typescript', },
-          target: 'es2019',
-        },
-      })
+      swc()
     ],
     onwarn: () => null as any
   }, (options.input) || {})
