@@ -6,14 +6,14 @@ describe('loadTs', function () {
     const res = await loadTs(require.resolve('./extend.ts'), { tmp: true })
 
     expect(res.module).toEqual('extended')
-    expect(res.dependencies).toEqual({})
+    expect(res.dependencies).toEqual({ '@faasjs/deep_merge': '*' })
   })
 
   test('require', async function () {
     const res = await loadTs(require.resolve('./require.ts'), { tmp: true })
 
     expect(res.module.default).toEqual('required')
-    expect(res.dependencies).toEqual({})
+    expect(res.dependencies).toEqual({ '@faasjs/deep_merge': '*' })
   })
 
   test('modules', async function () {
