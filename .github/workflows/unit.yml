@@ -6,9 +6,8 @@ on:
       - main
     paths:
       - 'packages/**'
+      - .github/workflows/unit.yml
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/**'
 
