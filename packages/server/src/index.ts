@@ -2,7 +2,7 @@ import {
   createServer, IncomingMessage, Server as HttpServer
 } from 'http'
 import { Logger } from '@faasjs/logger'
-import { existsSync, readFileSync } from 'fs'
+import { existsSync } from 'fs'
 import { loadConfig } from '@faasjs/load'
 import {
   resolve as pathResolve, sep, join
@@ -11,19 +11,6 @@ import { HttpError } from '@faasjs/http'
 import { Socket } from 'net'
 import { addHook } from 'pirates'
 import { transform } from '@faasjs/ts-transform'
-
-const tsconfig = JSON.parse(readFileSync(join(process.cwd(), 'tsconfig.json')).toString())
-
-if (!tsconfig.compilerOptions) tsconfig.compilerOptions = {}
-
-tsconfig.compilerOptions.baseUrl = tsconfig.compilerOptions.baseUrl?.replace('.', process.cwd()) || process.cwd()
-
-if (tsconfig.compilerOptions.paths) {
-  for (const key of Object.keys(tsconfig.compilerOptions.paths))
-    tsconfig.compilerOptions.paths[key] = tsconfig.compilerOptions.paths[key]
-      .map((item: string) => item.replace('.', tsconfig.compilerOptions.baseUrl))
-} else
-  tsconfig.compilerOptions.paths = {}
 
 addHook((code, filename) => {
   if (filename.endsWith('.d.ts'))
