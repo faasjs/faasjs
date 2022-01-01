@@ -10,7 +10,7 @@ async function run(cmd) {
   await exec(cmd, { stdio: 'inherit' })
 }
 
-async function build(path) {
+async function build(path, dts = false) {
   const pkg = require(__dirname + '/' + path)
   pkg.version = version
   if (pkg.peerDependencies) {
@@ -26,14 +26,32 @@ async function build(path) {
     }
   }
   await writeFile(path, JSON.stringify(pkg, null, 2) + '\n')
-  if (pkg.scripts && pkg.scripts.build)
+
+  if (pkg.scripts && pkg.scripts.build) {
     await run(`npm run build -w ${path.replace('/package.json', '')}`)
+    if (dts)
+      await run(`npm run build:types -w ${path.replace('/package.json', '')}`)
+  }
 }
 
 async function buildAll() {
-  await build('packages/browser/package.json')
   const list = globSync('packages/*/package.json')
-  list.splice(list.indexOf('packages/browser/package.json'), 1)
+
+  for (const name of [
+    'browser',
+    'logger',
+    'deep_merge',
+    'func',
+    'cloud_function',
+    'ts-transform',
+    'load',
+    'http',
+    'request',
+  ]) {
+    await build(`packages/${name}/package.json`)
+    list.splice(list.indexOf(`packages/${name}/package.json`), 1)
+  }
+
   await Promise.all(list.map(build))
 }
 
