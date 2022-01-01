@@ -31,6 +31,7 @@ async function build(path) {
 }
 
 async function buildAll() {
+  await build('packages/browser/package.json')
   await Promise.all(globSync('packages/*/package.json').map(build))
 }
 
