@@ -11,7 +11,7 @@
     "module": "ESNext",
     "baseUrl": ".",
     "paths": {
-      "@faasjs/*": ["./packages/*/src"]
+      "@faasjs/*": ["./packages/*"]
     }
   }
 }
