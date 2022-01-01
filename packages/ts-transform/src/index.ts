@@ -5,6 +5,42 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { deepMerge } from '@faasjs/deep_merge'
 
+const NODE_PACKAGES = [
+  'async_hooks',
+  'child_process',
+  'cluster',
+  'crypto',
+  'dns',
+  'events',
+  'fs',
+  'http',
+  'http2',
+  'https',
+  'inspector',
+  'net',
+  'os',
+  'path',
+  'perf_hooks',
+  'process',
+  'querystring',
+  'readline',
+  'repl',
+  'stream',
+  'string_decoder',
+  'tls',
+  'trace_events',
+  'tty',
+  'dgram',
+  'udp4',
+  'url',
+  'util',
+  'v8',
+  'vm',
+  'wasi',
+  'worker_threads',
+  'zlib'
+]
+
 export function transform (code: string, options?: {
   /** default: process.cwd() */
   root?: string
@@ -51,13 +87,7 @@ export function transform (code: string, options?: {
 
 export async function bundle (options: {
   filename: string
-  entry?: {
-    [name: string]: string;
-  }
-  output?: {
-    name?: string
-    path?: string
-  }
+  externalModules?: string[]
 }) {
   return swcBundle(deepMerge({
     mode: 'production',
@@ -71,6 +101,7 @@ export async function bundle (options: {
           exportDefaultFrom: true,
         },
       }
-    }
+    },
+    externalModules: NODE_PACKAGES
   }, options)).then(res => res.index)
 }

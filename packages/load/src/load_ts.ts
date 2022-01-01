@@ -134,11 +134,14 @@ function findModule (list: any, key: string, options: {
   deps.map(d => findModule(list, d, options))
 }
 
-function swc (): Plugin {
+function swc (externalModules: string[]): Plugin {
   return {
     name: 'swc',
     async transform (code, filename) {
-      return bundle({ filename })
+      return bundle({
+        filename,
+        externalModules
+      })
     }
   }
 }
@@ -193,7 +196,7 @@ export default async function loadTs (filename: string, options: {
           '.jsx'
         ]
       }),
-      swc()
+      swc(external)
     ],
     onwarn: () => null as any
   }, (options.input) || {})
