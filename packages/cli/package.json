@@ -19,7 +19,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "rm -rf ./dist && tsup-node src/index.ts --format esm,cjs",
+    "build": "tsup-node src/index.ts --format esm,cjs",
     "build:types": "tsup-node src/index.ts --dts-only"
   },
   "files": [

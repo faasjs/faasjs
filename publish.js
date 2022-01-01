@@ -12,7 +12,7 @@ async function run(cmd) {
 
 async function publish(path) {
   const pkg = require(__dirname + '/' + path)
-  await build(path)
+  await build(path, true)
   await run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
   await run(`npm dist-tag add ${pkg.name}@${version} beta`)
 }
