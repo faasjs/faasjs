@@ -5,7 +5,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { deepMerge } from '@faasjs/deep_merge'
 
-const NODE_PACKAGES = [
+export const NodeBuiltinModules = [
   'async_hooks',
   'child_process',
   'cluster',
@@ -86,9 +86,30 @@ export function transform (code: string, options?: {
 }
 
 export async function bundle (options: {
+  /** default: process.cwd() */
+  root?: string
   filename: string
+  /** default: `es2019` */
+  target?: JscTarget
+  /** has excluded node builtin modules */
   externalModules?: string[]
 }) {
+  if (!options.root) options.root = process.cwd()
+  if (!options.target) options.target = 'es2019'
+
+  const tsconfig = JSON.parse(readFileSync(join(options.root, 'tsconfig.json')).toString())
+
+  if (!tsconfig.compilerOptions) tsconfig.compilerOptions = {}
+
+  tsconfig.compilerOptions.baseUrl = tsconfig.compilerOptions.baseUrl?.replace('.', options.root) || options.root
+
+  if (tsconfig.compilerOptions.paths) {
+    for (const key of Object.keys(tsconfig.compilerOptions.paths))
+      tsconfig.compilerOptions.paths[key] = tsconfig.compilerOptions.paths[key]
+        .map((item: string) => item.replace('.', tsconfig.compilerOptions.baseUrl))
+  } else
+    tsconfig.compilerOptions.paths = {}
+
   return swcBundle(deepMerge({
     mode: 'production',
     entry: { index: options.filename },
@@ -100,8 +121,11 @@ export async function bundle (options: {
           tsx: true,
           exportDefaultFrom: true,
         },
+        target: options.target,
+        baseUrl: tsconfig.compilerOptions.baseUrl,
+        paths: tsconfig.compilerOptions.paths
       }
     },
-    externalModules: NODE_PACKAGES
+    externalModules: NodeBuiltinModules
   }, options)).then(res => res.index)
 }

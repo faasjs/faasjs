@@ -5,71 +5,7 @@ import { Func } from '@faasjs/func'
 import {
   join, sep, dirname
 } from 'path'
-import resolve from '@rollup/plugin-node-resolve'
-import { bundle } from '@faasjs/ts-transform'
-
-const FAAS_PACKAGES = [
-  '@faasjs/ant-design',
-  '@faasjs/aws',
-  '@faasjs/browser',
-  '@faasjs/cli',
-  '@faasjs/cloud_function',
-  'create-faas-app',
-  '@faasjs/deep_merge',
-  '@faasjs/deployer',
-  '@faasjs/eslint-config-recommended',
-  '@faasjs/eslint-config-vue',
-  'faasjs',
-  '@faasjs/func',
-  '@faasjs/graphql-server',
-  '@faasjs/http',
-  '@faasjs/knex',
-  '@faasjs/load',
-  '@faasjs/logger',
-  '@faasjs/react',
-  '@faasjs/redis',
-  '@faasjs/request',
-  '@faasjs/server',
-  '@faasjs/tencentcloud',
-  '@faasjs/test',
-  '@faasjs/vue-plugin'
-]
-
-const NODE_PACKAGES = [
-  'async_hooks',
-  'child_process',
-  'cluster',
-  'crypto',
-  'dns',
-  'events',
-  'fs',
-  'http',
-  'http2',
-  'https',
-  'inspector',
-  'net',
-  'os',
-  'path',
-  'perf_hooks',
-  'process',
-  'querystring',
-  'readline',
-  'repl',
-  'stream',
-  'string_decoder',
-  'tls',
-  'trace_events',
-  'tty',
-  'dgram',
-  'udp4',
-  'url',
-  'util',
-  'v8',
-  'vm',
-  'wasi',
-  'worker_threads',
-  'zlib'
-]
+import { bundle, NodeBuiltinModules } from '@faasjs/ts-transform'
 
 // TODO: remove this when node fixed https://github.com/nodejs/node/issues/33460
 function resolveModuleBasePath (moduleName: string) {
@@ -180,24 +116,13 @@ export default async function loadTs (filename: string, options: {
   }> {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`)
-  const external = PackageJSON.dependencies ?
-    FAAS_PACKAGES.concat(Object.keys(PackageJSON.dependencies)) : FAAS_PACKAGES
+  const external = PackageJSON.dependencies ? Object.keys(PackageJSON.dependencies) : []
   if ((options.modules) && (options.modules.excludes == null)) options.modules.excludes = []
 
   const input = deepMerge({
     input: filename,
     external,
-    plugins: [
-      resolve({
-        extensions: [
-          '.ts',
-          '.tsx',
-          '.js',
-          '.jsx'
-        ]
-      }),
-      swc(external)
-    ],
+    plugins: [swc(external)],
     onwarn: () => null as any
   }, (options.input) || {})
 
@@ -210,7 +135,7 @@ export default async function loadTs (filename: string, options: {
       if (
         !d.startsWith('/') &&
         !dependencies[d] &&
-        !NODE_PACKAGES.includes(d)
+        !NodeBuiltinModules.includes(d)
       ) dependencies[d] = '*'
 
   const output = deepMerge({

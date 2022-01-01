@@ -25,7 +25,6 @@
     "@faasjs/deep_merge": "^0.0.2-beta.325",
     "@faasjs/func": "^0.0.2-beta.325",
     "@faasjs/ts-transform": "^0.0.2-beta.325",
-    "@rollup/plugin-node-resolve": "*",
     "js-yaml": "*",
     "rollup": "*"
   },

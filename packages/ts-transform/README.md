@@ -12,7 +12,7 @@ Typescript transform based on [SWC](https://swc.rs/)
 
 ## Usage
 
-### Used as a register
+### Use as a register
 
 ```ts
 import { addHook } from 'pirates'
@@ -32,7 +32,7 @@ addHook((code, filename) => {
 })
 ```
 
-### Used as a rollup plugin
+### Use as a rollup plugin
 
 ```ts
 import { Plugin, rollup } from 'rollup'
