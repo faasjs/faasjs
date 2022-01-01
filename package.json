@@ -6,7 +6,7 @@
     "test": "node --expose-gc ./node_modules/.bin/jest --silent --ci --coverage --forceExit --logHeapUsage -w=1",
     "pub": "node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/lib packages/*/.rpt2_cache packages/*/coverage packages/*/*.log tmp *.log",
-    "build": "npm run build --ws --if-present"
+    "build": "node build.js"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
