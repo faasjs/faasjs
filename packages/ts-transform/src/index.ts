@@ -90,12 +90,12 @@ export async function bundle (options: {
   root?: string
   filename: string
   /** default: `es2019` */
-  target?: JscTarget
+  jscTarget?: JscTarget
   /** has excluded node builtin modules */
   externalModules?: string[]
 }) {
   if (!options.root) options.root = process.cwd()
-  if (!options.target) options.target = 'es2019'
+  if (!options.jscTarget) options.jscTarget = 'es2019'
 
   const tsconfig = JSON.parse(readFileSync(join(options.root, 'tsconfig.json')).toString())
 
@@ -119,9 +119,8 @@ export async function bundle (options: {
         parser: {
           syntax: 'typescript',
           tsx: true,
-          exportDefaultFrom: true,
         },
-        target: options.target,
+        target: options.jscTarget,
         baseUrl: tsconfig.compilerOptions.baseUrl,
         paths: tsconfig.compilerOptions.paths
       }
