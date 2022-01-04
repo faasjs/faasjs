@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/browser",
-  "version": "0.0.2-beta.326",
+  "version": "0.0.2-beta.327",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/types": "^0.0.2-beta.326"
+    "@faasjs/types": "^0.0.2-beta.327"
   },
   "devDependencies": {
     "tsup": "*",

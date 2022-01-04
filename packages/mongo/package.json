@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/mongo",
-  "version": "0.0.2-beta.326",
+  "version": "0.0.2-beta.327",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,9 +23,9 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/deployer": "^0.0.2-beta.326",
-    "@faasjs/func": "^0.0.2-beta.326",
-    "@faasjs/logger": "^0.0.2-beta.326",
+    "@faasjs/deployer": "^0.0.2-beta.327",
+    "@faasjs/func": "^0.0.2-beta.327",
+    "@faasjs/logger": "^0.0.2-beta.327",
     "mongodb": "*"
   },
   "devDependencies": {

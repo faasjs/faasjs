@@ -96,13 +96,13 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
     case 'string':
       return <AntdForm.Item { ...computedProps }>
         {(computedProps as OptionsProps).options ?
-          <Select {...computedProps.input} /> :
-          <Input { ...computedProps.input } />}
+          <Select {...computedProps.input as SelectProps} /> :
+          <Input { ...computedProps.input as InputProps } />}
       </AntdForm.Item>
     case 'string[]':
       if ((computedProps as OptionsProps).options)
         return <AntdForm.Item { ...computedProps }>
-          <Select mode='multiple' {...computedProps.input} />
+          <Select mode='multiple' {...computedProps.input as SelectProps} />
         </AntdForm.Item>
 
       return <AntdForm.List
@@ -119,7 +119,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                   { ...field }
                   noStyle
                 >
-                  <Input { ...computedProps.input } />
+                  <Input { ...computedProps.input as InputProps } />
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
@@ -147,13 +147,13 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
     case 'number':
       return <AntdForm.Item { ...computedProps }>
         {(computedProps as OptionsProps).options ?
-          <Select {...computedProps.input} /> :
-          <InputNumber style={ { width: '100%' } } { ...computedProps.input } />}
+          <Select {...computedProps.input as SelectProps} /> :
+          <InputNumber style={ { width: '100%' } } { ...computedProps.input as InputNumberProps } />}
       </AntdForm.Item>
     case 'number[]':
       if ((computedProps as OptionsProps).options)
         return <AntdForm.Item { ...computedProps }>
-          <Select mode='multiple' {...computedProps.input} />
+          <Select mode='multiple' {...computedProps.input as SelectProps} />
         </AntdForm.Item>
 
       return <AntdForm.List
@@ -170,7 +170,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                   { ...field }
                   noStyle
                 >
-                  <InputNumber style={ { width: '100%' } } { ...computedProps.input } />
+                  <InputNumber style={ { width: '100%' } } { ...computedProps.input as InputNumberProps } />
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
