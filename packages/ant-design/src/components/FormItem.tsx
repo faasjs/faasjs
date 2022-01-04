@@ -10,31 +10,54 @@ import {
   InputProps,
   InputNumberProps,
   SwitchProps,
+  Select,
+  SelectProps,
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { FaasItemProps } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
-import { useEffect, useState } from 'react'
+import {
+  ReactNode, useEffect, useState
+} from 'react'
 import { upperFirst } from 'lodash'
 
-type FormItemInputProps = {
+type StringProps = {
   type?: 'string' | 'string[]'
   input?: InputProps
-} | {
-  type: 'number' | 'number[]'
+}
+
+type NumberProps = {
+  type?: 'number' | 'number[]'
   input?: InputNumberProps
-} | {
-  type: 'boolean'
+}
+
+type BooleanProps = {
+  type?: 'boolean'
   input?: SwitchProps
 }
+
+type OptionType<T = any> = {
+  label: ReactNode
+  value?: T
+  disabled?: boolean
+  children?: Omit<OptionType<T>, 'children'>[]
+}
+
+type OptionsProps<T = any> = {
+  options?: OptionType<T>[]
+  type?: 'string' | 'string[]' | 'number' | 'number[]'
+  input?: SelectProps<any>
+}
+
+type FormItemInputProps<T = any> = StringProps | NumberProps | BooleanProps | OptionsProps<T>
 
 export type FormItemProps<T = any> = {
   children?: JSX.Element
   rules?: RuleObject[]
   label?: string | false
-} & FormItemInputProps & FaasItemProps & AntdFormItemProps<T>
+} & FormItemInputProps<T> & FaasItemProps & AntdFormItemProps<T>
 
-export function FormItem<T> (props: FormItemProps<T>) {
+export function FormItem<T = any> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
 
   useEffect(() => {
@@ -44,6 +67,14 @@ export function FormItem<T> (props: FormItemProps<T>) {
     if (!propsCopy.name) propsCopy.name = propsCopy.id
     if (!propsCopy.type) propsCopy.type = 'string'
     if (!propsCopy.rules) propsCopy.rules = []
+    if (propsCopy.required) propsCopy.rules.push({
+      required: true,
+      message: `${propsCopy.label} is required`
+    })
+    if (!propsCopy.input) propsCopy.input = {}
+    if ((propsCopy as OptionsProps).options) {
+      (propsCopy as OptionsProps).input.options = (propsCopy as OptionsProps).options
+    }
 
     switch (propsCopy.type) {
       case 'boolean':
@@ -64,16 +95,23 @@ export function FormItem<T> (props: FormItemProps<T>) {
   switch (computedProps.type) {
     case 'string':
       return <AntdForm.Item { ...computedProps }>
-        <Input { ...computedProps.input } />
+        {(computedProps as OptionsProps).options ?
+          <Select {...computedProps.input} /> :
+          <Input { ...computedProps.input } />}
       </AntdForm.Item>
     case 'string[]':
+      if ((computedProps as OptionsProps).options)
+        return <AntdForm.Item { ...computedProps }>
+          <Select mode='multiple' {...computedProps.input} />
+        </AntdForm.Item>
+
       return <AntdForm.List
         name={ computedProps.name }
         rules={ computedProps.rules as ValidatorRule[] }>
         {(fields, { add, remove }) => <>
-          <div className='ant-form-item-label'>
+          {computedProps.label && <div className='ant-form-item-label'>
             <label className={ computedProps.rules.find(r => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
-          </div>
+          </div>}
           {fields.map(field => <AntdForm.Item key={ field.key }>
             <Row gutter={ 16 }>
               <Col span={ 23 }>
@@ -108,16 +146,23 @@ export function FormItem<T> (props: FormItemProps<T>) {
       </AntdForm.List>
     case 'number':
       return <AntdForm.Item { ...computedProps }>
-        <InputNumber style={ { width: '100%' } } { ...computedProps.input } />
+        {(computedProps as OptionsProps).options ?
+          <Select {...computedProps.input} /> :
+          <InputNumber style={ { width: '100%' } } { ...computedProps.input } />}
       </AntdForm.Item>
     case 'number[]':
+      if ((computedProps as OptionsProps).options)
+        return <AntdForm.Item { ...computedProps }>
+          <Select mode='multiple' {...computedProps.input} />
+        </AntdForm.Item>
+
       return <AntdForm.List
         name={ computedProps.name }
         rules={ computedProps.rules as ValidatorRule[] }>
         {(fields, { add, remove }) => <>
-          <div className='ant-form-item-label'>
+          {computedProps.label && <div className='ant-form-item-label'>
             <label className={ computedProps.rules?.find((r: RuleObject) => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
-          </div>
+          </div>}
           {fields.map(field => <AntdForm.Item key={ field.key }>
             <Row gutter={ 16 }>
               <Col span={ 23 }>

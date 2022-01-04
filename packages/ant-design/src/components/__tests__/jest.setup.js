@@ -3,6 +3,7 @@ import React from 'react'
 
 global.React = React
 
+// eslint-disable-next-line no-undef
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: jest.fn().mockImplementation(query => ({
