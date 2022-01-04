@@ -2,8 +2,10 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { FaasItemType } from '../../data'
 import { FormItem } from '../../FormItem'
+import { Form } from '../../Form'
 
 describe('FormItem', () => {
   const types: FaasItemType[] = [
@@ -15,7 +17,7 @@ describe('FormItem', () => {
   ]
 
   describe('label', () => {
-    it.each(types)('%s should show', (type) => {
+    it.each(types)('%s should show', type => {
       const { container } = render(<FormItem
         id='test'
         type={ type }
@@ -25,7 +27,7 @@ describe('FormItem', () => {
       expect(container.getElementsByClassName('ant-form-item-label').length).toEqual(1)
     })
 
-    it.each(types)('%s should hide', (type) => {
+    it.each(types)('%s should hide', type => {
       const { container } = render(<FormItem
         id='test'
         type={ type }
@@ -34,6 +36,26 @@ describe('FormItem', () => {
 
       expect(screen.queryByText('Test')).toBeNull()
       expect(container.getElementsByClassName('ant-form-item-label').length).toEqual(0)
+    })
+  })
+
+  describe('required', () => {
+    it.each(types)('%s should required', async type => {
+      const { container } = render(<Form
+        items={[
+          {
+            id: 'test',
+            type,
+            required: true
+          }
+        ]}
+      />)
+
+      expect(container.getElementsByClassName('ant-form-item-required').length).toEqual(1)
+
+      userEvent.click(container.getElementsByClassName('ant-btn-primary')[0])
+
+      expect(await screen.findByText('Test is required')).toBeInTheDocument()
     })
   })
 })

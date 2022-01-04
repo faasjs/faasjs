@@ -1,4 +1,5 @@
 import {
+  Button,
   Form as AntdForm,
   FormProps as AntdFormProps,
 } from 'antd'
@@ -12,6 +13,7 @@ const Form = function<T = any> (props: FormProps<T>) {
       key={ item.id }
       { ...item }
     />)}
+    <Button htmlType='submit' type='primary'>Submit</Button>
   </AntdForm>
 }
 

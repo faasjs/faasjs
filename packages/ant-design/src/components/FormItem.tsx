@@ -67,10 +67,21 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
     if (!propsCopy.name) propsCopy.name = propsCopy.id
     if (!propsCopy.type) propsCopy.type = 'string'
     if (!propsCopy.rules) propsCopy.rules = []
-    if (propsCopy.required) propsCopy.rules.push({
-      required: true,
-      message: `${propsCopy.label} is required`
-    })
+    if (propsCopy.required) {
+      if (propsCopy.type.endsWith('[]'))
+        propsCopy.rules.push({
+          required: true,
+          validator: async (_, values) => {
+            if (!values || values.length < 1)
+              return Promise.reject(Error(`${propsCopy.label || propsCopy.title} is required`))
+          }
+        })
+      else
+        propsCopy.rules.push({
+          required: true,
+          message: `${propsCopy.label || propsCopy.title} is required`
+        })
+    }
     if (!propsCopy.input) propsCopy.input = {}
     if ((propsCopy as OptionsProps).options) {
       (propsCopy as OptionsProps).input.options = (propsCopy as OptionsProps).options
@@ -108,7 +119,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       return <AntdForm.List
         name={ computedProps.name }
         rules={ computedProps.rules as ValidatorRule[] }>
-        {(fields, { add, remove }) => <>
+        {(fields, { add, remove }, { errors }) => <>
           {computedProps.label && <div className='ant-form-item-label'>
             <label className={ computedProps.rules.find(r => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
           </div>}
@@ -141,6 +152,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
               icon={ <PlusOutlined /> }
             >
             </Button>
+            <AntdForm.ErrorList errors={errors} />
           </AntdForm.Item>
         </>}
       </AntdForm.List>
@@ -159,7 +171,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       return <AntdForm.List
         name={ computedProps.name }
         rules={ computedProps.rules as ValidatorRule[] }>
-        {(fields, { add, remove }) => <>
+        {(fields, { add, remove }, { errors }) => <>
           {computedProps.label && <div className='ant-form-item-label'>
             <label className={ computedProps.rules?.find((r: RuleObject) => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
           </div>}
@@ -192,6 +204,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
               icon={ <PlusOutlined /> }
             >
             </Button>
+            <AntdForm.ErrorList errors={errors} />
           </AntdForm.Item>
         </>}
       </AntdForm.List>
