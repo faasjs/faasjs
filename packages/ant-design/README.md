@@ -27,33 +27,14 @@ type FaasItemProps = {
 }
 ```
 
-### Component special props
+### Components
 
-Each component's props extends from `FaasItemProps` structures.
+#### Form
 
-#### DescriptionItemProps
+Form are based on [Ant Design's Form component](https://ant.design/components/form/#Form).
 
-```ts
-type DescriptionItemProps<T = any> = FaasItemProps & {
-  content?: (props: {
-    value: T
-  }) => JSX.Element
-}
-```
+<iframe src="https://codesandbox.io/embed/recursing-lumiere-8wn11?fontsize=14&hidenavigation=1&theme=dark" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" title="faasjs-ant-design-form" allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
 
-#### FormItemProps
+### FormItem
 
-```ts
-type FormItemProps<T = any> = AntdFormItemProps<T> & FaasItemProps & {
-  input?: (args: {
-    value?: T
-    onChange?: (value: T) => void
-  }) => JSX.Element
-}
-```
-
-#### TableItemProps
-
-```ts
-type TableItemProps<T = any> = AntdTableColumnProps<T> & FaasItemProps
-```
+Form are based on [Ant Design's Form.Item component](https://ant.design/components/form/#Form.Item).
