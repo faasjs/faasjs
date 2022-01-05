@@ -10,12 +10,12 @@ describe('FormItem string', () => {
     const { container } = render(<FormItem
       id='test'
       type='string'
-      options={[
+      options={ [
         {
           label: 'label',
           value: 'value'
         }
-      ]}
+      ] }
     />)
 
     expect(container.getElementsByClassName('ant-select-selector').length).toEqual(1)

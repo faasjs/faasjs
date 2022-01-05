@@ -42,13 +42,13 @@ describe('FormItem', () => {
   describe('required', () => {
     it.each(types)('%s should required', async type => {
       const { container } = render(<Form
-        items={[
+        items={ [
           {
             id: 'test',
             type,
             required: true
           }
-        ]}
+        ] }
       />)
 
       expect(container.getElementsByClassName('ant-form-item-required').length).toEqual(1)
