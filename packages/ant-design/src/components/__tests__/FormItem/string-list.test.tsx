@@ -6,16 +6,16 @@ import userEvent from '@testing-library/user-event'
 import { FormItem } from '../../FormItem'
 
 describe('FormItem string[]', () => {
-  it('with options', async () => {
+  it('with object options', async () => {
     const { container } = render(<FormItem
       id='test'
       type='string[]'
-      options={[
+      options={ [
         {
           label: 'label',
           value: 'value'
         }
-      ]}
+      ] }
     />)
 
     expect(container.getElementsByClassName('ant-select-selector').length).toEqual(1)
@@ -23,5 +23,19 @@ describe('FormItem string[]', () => {
     userEvent.click(container.getElementsByClassName('ant-select-selector')[0])
 
     expect(await screen.findByText('label')).toBeInTheDocument()
+  })
+
+  it('with string options', async () => {
+    const { container } = render(<FormItem
+      id='test'
+      type='string[]'
+      options={ ['value'] }
+    />)
+
+    expect(container.getElementsByClassName('ant-select-selector').length).toEqual(1)
+
+    userEvent.click(container.getElementsByClassName('ant-select-selector')[0])
+
+    expect(await screen.findByText('Value')).toBeInTheDocument()
   })
 })

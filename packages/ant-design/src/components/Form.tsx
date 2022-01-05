@@ -5,15 +5,17 @@ import {
 } from 'antd'
 import { FormItem, FormItemProps } from './FormItem'
 
-export type FormProps<T = any> = { items: FormItemProps[] } & AntdFormProps<T>
+export type FormProps<T = any> = { items?: FormItemProps[] } & AntdFormProps<T>
 
 const Form = function<T = any> (props: FormProps<T>) {
   return <AntdForm<T> { ...props }>
-    {props.items.map(item => <FormItem
+    {props.items?.map(item => <FormItem
       key={ item.id }
       { ...item }
     />)}
-    <Button htmlType='submit' type='primary'>Submit</Button>
+    <Button
+      htmlType='submit'
+      type='primary'>Submit</Button>
   </AntdForm>
 }
 

@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
+    "@faasjs/eslint-config-react": "file:./packages/eslint-config-react",
     "faasjs": "file:./packages/faasjs"
   },
   "eslintConfig": {
@@ -19,7 +20,8 @@
       "**/tmp"
     ],
     "extends": [
-      "@faasjs/recommended"
+      "@faasjs/recommended",
+      "@faasjs/react"
     ]
   },
   "workspaces": [

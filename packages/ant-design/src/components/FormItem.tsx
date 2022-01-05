@@ -44,7 +44,7 @@ type OptionType<T = any> = {
 }
 
 type OptionsProps<T = any> = {
-  options?: OptionType<T>[]
+  options?: OptionType<T>[] | string[] | number[]
   type?: 'string' | 'string[]' | 'number' | 'number[]'
   input?: SelectProps<any>
 }
@@ -84,7 +84,18 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
     }
     if (!propsCopy.input) propsCopy.input = {}
     if ((propsCopy as OptionsProps).options) {
-      (propsCopy as OptionsProps).input.options = (propsCopy as OptionsProps).options
+      const options: OptionType[] = []
+      if ((propsCopy as OptionsProps).options.length > 0)
+        for (const option of (propsCopy as OptionsProps).options) {
+          if (typeof option === 'object')
+            options.push(option)
+          else
+            options.push({
+              label: upperFirst(option.toString()),
+              value: option
+            })
+        }
+      (propsCopy as OptionsProps).input.options = options
     }
 
     switch (propsCopy.type) {
@@ -107,13 +118,15 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
     case 'string':
       return <AntdForm.Item { ...computedProps }>
         {(computedProps as OptionsProps).options ?
-          <Select {...computedProps.input as SelectProps} /> :
+          <Select { ...computedProps.input as SelectProps } /> :
           <Input { ...computedProps.input as InputProps } />}
       </AntdForm.Item>
     case 'string[]':
       if ((computedProps as OptionsProps).options)
         return <AntdForm.Item { ...computedProps }>
-          <Select mode='multiple' {...computedProps.input as SelectProps} />
+          <Select
+            mode='multiple'
+            { ...computedProps.input as SelectProps } />
         </AntdForm.Item>
 
       return <AntdForm.List
@@ -152,20 +165,24 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
               icon={ <PlusOutlined /> }
             >
             </Button>
-            <AntdForm.ErrorList errors={errors} />
+            <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
         </>}
       </AntdForm.List>
     case 'number':
       return <AntdForm.Item { ...computedProps }>
         {(computedProps as OptionsProps).options ?
-          <Select {...computedProps.input as SelectProps} /> :
-          <InputNumber style={ { width: '100%' } } { ...computedProps.input as InputNumberProps } />}
+          <Select { ...computedProps.input as SelectProps } /> :
+          <InputNumber
+            style={ { width: '100%' } }
+            { ...computedProps.input as InputNumberProps } />}
       </AntdForm.Item>
     case 'number[]':
       if ((computedProps as OptionsProps).options)
         return <AntdForm.Item { ...computedProps }>
-          <Select mode='multiple' {...computedProps.input as SelectProps} />
+          <Select
+            mode='multiple'
+            { ...computedProps.input as SelectProps } />
         </AntdForm.Item>
 
       return <AntdForm.List
@@ -182,7 +199,9 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                   { ...field }
                   noStyle
                 >
-                  <InputNumber style={ { width: '100%' } } { ...computedProps.input as InputNumberProps } />
+                  <InputNumber
+                    style={ { width: '100%' } }
+                    { ...computedProps.input as InputNumberProps } />
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
@@ -204,7 +223,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
               icon={ <PlusOutlined /> }
             >
             </Button>
-            <AntdForm.ErrorList errors={errors} />
+            <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
         </>}
       </AntdForm.List>
