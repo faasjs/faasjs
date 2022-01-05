@@ -40,21 +40,43 @@ describe('FormItem number[]', () => {
     expect(await screen.findByText('Value')).toBeInTheDocument()
   })
 
-  it('can add', () => {
-    const { container } = render(<Form>
-      <FormItem
-        id='test'
-        type='number[]'
-      />
-    </Form>)
+  describe('can add', () => {
+    it('without maxCount', () => {
+      const { container } = render(<Form>
+        <FormItem
+          id='test'
+          type='number[]'
+        />
+      </Form>)
 
-    userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
+      userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-    expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
 
-    userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
+      userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-    expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(2)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(2)
+      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(1)
+    })
+
+    it('with maxCount', () => {
+      const { container } = render(<Form>
+        <FormItem
+          id='test'
+          type='number[]'
+          maxCount={ 2 }
+        />
+      </Form>)
+
+      userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
+
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
+
+      userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
+
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(2)
+      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(0)
+    })
   })
 
   describe('can delete', () => {

@@ -22,17 +22,29 @@ import {
 import { upperFirst } from 'lodash'
 
 type StringProps = {
-  type?: 'string' | 'string[]'
+  type?: 'string'
   input?: InputProps
 }
 
+type StringListProps = {
+  type: 'string[]'
+  input?: InputProps
+  maxCount?: number
+}
+
 type NumberProps = {
-  type?: 'number' | 'number[]'
+  type: 'number'
   input?: InputNumberProps
 }
 
+type NumberListProps = {
+  type: 'number[]'
+  input?: InputNumberProps
+  maxCount?: number
+}
+
 type BooleanProps = {
-  type?: 'boolean'
+  type: 'boolean'
   input?: SwitchProps
 }
 
@@ -49,7 +61,9 @@ type OptionsProps<T = any> = {
   input?: SelectProps<any>
 }
 
-type FormItemInputProps<T = any> = StringProps | NumberProps | BooleanProps | OptionsProps<T>
+type FormItemInputProps<T = any> = StringProps | StringListProps |
+NumberProps | NumberListProps |
+BooleanProps | OptionsProps<T>
 
 export type FormItemProps<T = any> = {
   children?: JSX.Element
@@ -158,13 +172,15 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             </Row>
           </AntdForm.Item>)}
           <AntdForm.Item>
-            <Button
-              type='dashed'
-              block
-              onClick={ () => add() }
-              icon={ <PlusOutlined /> }
-            >
-            </Button>
+            {(!(computedProps as StringListProps).maxCount ||
+              (computedProps as StringListProps).maxCount > fields.length) &&
+              <Button
+                type='dashed'
+                block
+                onClick={ () => add() }
+                icon={ <PlusOutlined /> }
+              >
+              </Button>}
             <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
         </>}
@@ -216,13 +232,15 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             </Row>
           </AntdForm.Item>)}
           <AntdForm.Item>
-            <Button
-              type='dashed'
-              block
-              onClick={ () => add() }
-              icon={ <PlusOutlined /> }
-            >
-            </Button>
+            {(!(computedProps as NumberListProps).maxCount ||
+              (computedProps as NumberListProps).maxCount > fields.length) &&
+              <Button
+                type='dashed'
+                block
+                onClick={ () => add() }
+                icon={ <PlusOutlined /> }
+              >
+              </Button>}
             <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
         </>}
