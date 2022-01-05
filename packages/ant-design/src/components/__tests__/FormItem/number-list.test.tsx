@@ -6,11 +6,11 @@ import userEvent from '@testing-library/user-event'
 import { Form } from '../../Form'
 import { FormItem } from '../../FormItem'
 
-describe('FormItem string[]', () => {
+describe('FormItem number[]', () => {
   it('with object options', async () => {
     const { container } = render(<FormItem
       id='test'
-      type='string[]'
+      type='number[]'
       options={ [
         {
           label: 'label',
@@ -26,10 +26,10 @@ describe('FormItem string[]', () => {
     expect(await screen.findByText('label')).toBeInTheDocument()
   })
 
-  it('with string options', async () => {
+  it('with number options', async () => {
     const { container } = render(<FormItem
       id='test'
-      type='string[]'
+      type='number[]'
       options={ ['value'] }
     />)
 
@@ -44,17 +44,17 @@ describe('FormItem string[]', () => {
     const { container } = render(<Form>
       <FormItem
         id='test'
-        type='string[]'
+        type='number[]'
       />
     </Form>)
 
     userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-    expect(container.getElementsByClassName('ant-input').length).toEqual(1)
+    expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
 
     userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-    expect(container.getElementsByClassName('ant-input').length).toEqual(2)
+    expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(2)
   })
 
   describe('can delete', () => {
@@ -62,26 +62,26 @@ describe('FormItem string[]', () => {
       const { container } = render(<Form>
         <FormItem
           id='test'
-          type='string[]'
+          type='number[]'
         />
       </Form>)
 
       userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
       expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(1)
-      expect(container.getElementsByClassName('ant-input').length).toEqual(1)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
 
       userEvent.click(container.getElementsByClassName('anticon-minus-circle')[0])
 
       expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
-      expect(container.getElementsByClassName('ant-input').length).toEqual(0)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(0)
     })
 
     it('with required', () => {
       const { container } = render(<Form>
         <FormItem
           id='test'
-          type='string[]'
+          type='number[]'
           required
         />
       </Form>)
@@ -89,17 +89,17 @@ describe('FormItem string[]', () => {
       userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
       expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
-      expect(container.getElementsByClassName('ant-input').length).toEqual(1)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
 
       userEvent.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
       expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(1)
-      expect(container.getElementsByClassName('ant-input').length).toEqual(2)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(2)
 
       userEvent.click(container.getElementsByClassName('anticon-minus-circle')[0])
 
       expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
-      expect(container.getElementsByClassName('ant-input').length).toEqual(1)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
     })
   })
 })

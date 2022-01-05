@@ -147,7 +147,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
-                {!computedProps.rules.find(r => r.required) && <Button
+                {(!computedProps.rules.find(r => r.required) || field.key > 0) && <Button
                   danger
                   type='link'
                   style={ { float: 'right' } }
@@ -205,13 +205,13 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
-                <Button
+                {(!computedProps.rules.find(r => r.required) || field.key > 0) && <Button
                   danger
                   type='link'
                   style={ { float: 'right' } }
                   icon={ <MinusCircleOutlined /> }
                   onClick={ () => remove(field.name) }
-                />
+                />}
               </Col>
             </Row>
           </AntdForm.Item>)}

@@ -13,6 +13,7 @@ const Form = function<T = any> (props: FormProps<T>) {
       key={ item.id }
       { ...item }
     />)}
+    {props.children}
     <Button
       htmlType='submit'
       type='primary'>Submit</Button>
