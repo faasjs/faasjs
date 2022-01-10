@@ -1,5 +1,5 @@
 import {
-  Plugin, MountData, Next, usePlugin, UseifyPlugin
+  Plugin, MountData, Next, usePlugin, UseifyPlugin, DeployData
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
@@ -63,6 +63,12 @@ export class Redis implements Plugin {
     this.name = config?.name || this.type
     this.config = (config?.config) || Object.create(null)
     this.logger = new Logger(this.name)
+  }
+
+  public async onDeploy (data: DeployData, next: Next): Promise<void> {
+    data.dependencies['@faasjs/redis'] = '*'
+
+    await next()
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {

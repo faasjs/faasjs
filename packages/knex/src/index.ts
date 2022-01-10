@@ -52,6 +52,7 @@ export class Knex implements Plugin {
     const client = (data.config.plugins[this.name].config as K.Config).client as string
     if (!client) throw Error('[Knex] client required.')
 
+    data.dependencies['@faasjs/knex'] = '*'
     data.dependencies[client] = '*'
     this.logger.debug('add dependencies: ' + client)
 

@@ -115,6 +115,7 @@ export class CloudFunction implements Plugin {
     const Provider = require(config.provider.type).Provider
     const provider = new Provider(config.provider.config)
 
+    data.dependencies['@faasjs/cloud_function'] = '*'
     data.dependencies[config.provider.type as string] = '*'
 
     // 部署云函数

@@ -8,7 +8,7 @@ import {
   Callback
 } from 'mongodb'
 import {
-  Plugin, MountData, Next
+  Plugin, MountData, Next, DeployData
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
@@ -51,6 +51,12 @@ export class Mongo implements Plugin {
       this.config = Object.create(null)
     }
     this.logger = new Logger(this.name)
+  }
+
+  public async onDeploy (data: DeployData, next: Next): Promise<void> {
+    data.dependencies['@faasjs/mongo'] = '*'
+
+    await next()
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {

@@ -138,6 +138,8 @@ export class Http<TParams extends Record<string, any> = any,
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
+    data.dependencies['@faasjs/http'] = '*'
+
     await next()
 
     this.logger.debug('组装网关配置')

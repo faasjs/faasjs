@@ -7,6 +7,24 @@ import {
 } from 'path'
 import { bundle, NodeBuiltinModules } from '@faasjs/ts-transform'
 
+const FaasPackages = [
+  '@faasjs/aws',
+  '@faasjs/cloud_function',
+  '@faasjs/deep_merge',
+  '@faasjs/deployer',
+  '@faasjs/func',
+  '@faasjs/graphql-server',
+  '@faasjs/http',
+  '@faasjs/knex',
+  '@faasjs/load',
+  '@faasjs/logger',
+  '@faasjs/mongo',
+  '@faasjs/redis',
+  '@faasjs/request',
+  '@faasjs/tencentcloud',
+  '@faasjs/ts-transform',
+]
+
 // TODO: remove this when node fixed https://github.com/nodejs/node/issues/33460
 function resolveModuleBasePath (moduleName: string) {
   const moduleMainFilePath = require.resolve(moduleName)
@@ -122,7 +140,7 @@ export async function loadTs (filename: string, options: {
   const input = deepMerge({
     input: filename,
     external,
-    plugins: [swc(external)],
+    plugins: [swc(external.concat(FaasPackages))],
     onwarn: () => null as any
   }, (options.input) || {})
 
