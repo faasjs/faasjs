@@ -1,4 +1,4 @@
-import loadConfig from '../load_config'
+import { loadConfig } from '../load_config'
 
 describe('loadConfig', function () {
   test('defaults', function () {

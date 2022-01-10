@@ -1,5 +1,5 @@
 import { join } from 'path'
-import loadTs from '../load_ts'
+import { loadTs } from '../load_ts'
 
 describe('loadTs', function () {
   test('extend', async function () {
