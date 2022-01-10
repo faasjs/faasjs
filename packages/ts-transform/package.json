@@ -4,7 +4,6 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/index.mjs",
   "homepage": "https://faasjs.com/doc/ts-transform.html",
   "repository": {
     "type": "git",
