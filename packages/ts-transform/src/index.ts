@@ -125,6 +125,6 @@ export async function bundle (options: {
         paths: tsconfig.compilerOptions.paths
       }
     },
-    externalModules: NodeBuiltinModules
+    externalModules: NodeBuiltinModules.concat(options.externalModules || [])
   }, options)).then(res => res.index)
 }
