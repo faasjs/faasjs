@@ -66,7 +66,7 @@ export class Deployer {
     for (let i = 0; i < func.plugins.length; i++) {
       const plugin = func.plugins[i]
       if (!plugin.type)
-        throw Error('[Deployer] Unknow plugin type: ' + plugin.name)
+        throw Error('[Deployer] Unknown plugin type: ' + plugin.name)
 
       if (plugin.type === 'cloud_function')
         includedCloudFunction.push({

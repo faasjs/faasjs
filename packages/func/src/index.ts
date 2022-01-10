@@ -194,6 +194,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    */
   public deploy (data: DeployData): any {
     this.logger.debug('onDeploy')
+    this.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))
     return this.compose('onDeploy')(data)
   }
 

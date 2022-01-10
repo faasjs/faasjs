@@ -23,7 +23,7 @@ const Validator = {
     return true
   },
   provider (input: string | null) {
-    return Provider.includes(input) ? true : 'Unknow provider'
+    return Provider.includes(input) ? true : 'Unknown provider'
   },
   region (input: string) {
     return Region.includes(input) ? true : 'Unknown region'

@@ -132,7 +132,7 @@ export class CloudFunction implements Plugin {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const Provider = require(this.config.provider.type).Provider
       this.adapter = new Provider(this.config.provider.config)
-    } else this.logger.warn('[onMount] Unknow provider, can\'t use invoke and invokeSync.')
+    } else this.logger.warn('[onMount] Unknown provider, can\'t use invoke and invokeSync.')
 
     if (this.validatorConfig) {
       this.logger.debug('[onMount] prepare validator')
