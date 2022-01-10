@@ -20,4 +20,4 @@ test('http', async function () {
 
   expect(data.statusCode).toEqual(200)
   expect(data.body).toEqual('{"data":"0"}')
-}, 30000)
+})
