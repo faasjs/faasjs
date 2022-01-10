@@ -93,7 +93,7 @@ function swc (externalModules: string[]): Plugin {
  * @param options.modules {object} 生成 modules 的配置
  * @param options.modules.excludes {string[]} modules 中需排除的模块
  */
-export default async function loadTs (filename: string, options: {
+export async function loadTs (filename: string, options: {
   input?: {
     [key: string]: any
   }

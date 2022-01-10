@@ -189,5 +189,3 @@ export class Logger {
     return this
   }
 }
-
-export default Logger

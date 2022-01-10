@@ -1,7 +1,2 @@
-import loadConfig from './load_config'
-import loadTs from './load_ts'
-
-export {
-  loadConfig,
-  loadTs
-}
+export { loadConfig } from './load_config'
+export { loadTs } from './load_ts'

@@ -1,4 +1,6 @@
-import Logger, { Color } from '../index'
+import {
+  Logger, Color, Level
+} from '../index'
 
 let lastOutput = ''
 
@@ -17,12 +19,12 @@ describe('logger', function () {
     logger.stderr = fake
     logger.silent = false
     logger.level = 0
-    logger[level]('message')
+    logger[level as Level]('message')
 
     expect(lastOutput).toContain(`\u001b[0${color}m${level.toUpperCase()} message\u001b[39m`)
 
     logger.label = 'label'
-    logger[level]('message')
+    logger[level as Level]('message')
 
     expect(lastOutput).toContain(`\u001b[0${color}m${level.toUpperCase()} [label] message\u001b[39m`)
   })

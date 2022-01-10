@@ -77,6 +77,6 @@ export class Config {
  * @param root {string} 根目录
  * @param filename {filename} 目标文件，用于读取目录层级
  */
-export default function loadConfig (root: string, filename: string): Config {
+export function loadConfig (root: string, filename: string): Config {
   return new Config(root, filename)
 }

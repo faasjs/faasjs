@@ -1,5 +1,5 @@
-import { Func, InvokeData } from '../../../index'
-import RunHandler from '../index'
+import { Func, InvokeData } from '../../..'
+import { RunHandler } from '..'
 
 describe('plugins.runHandler', function () {
   test('return result', async function () {

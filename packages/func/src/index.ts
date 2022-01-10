@@ -1,5 +1,5 @@
 import { Logger } from '@faasjs/logger'
-import RunHandler from './plugins/run_handler/index'
+import { RunHandler } from './plugins/run_handler'
 
 export type Handler<TEvent = any, TContext = any, TResult = any> =
   (data: InvokeData<TEvent, TContext>) => Promise<TResult>

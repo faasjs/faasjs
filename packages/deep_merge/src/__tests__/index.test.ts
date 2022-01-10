@@ -1,4 +1,4 @@
-import deepMerge from '..'
+import { deepMerge } from '..'
 
 describe('deepMerge', () => {
   test('should work', function () {

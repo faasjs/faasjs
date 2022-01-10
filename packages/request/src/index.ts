@@ -271,5 +271,3 @@ export async function request<T = any> (url: string, {
     req.end()
   })
 }
-
-export default request

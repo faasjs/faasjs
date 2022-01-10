@@ -1,6 +1,6 @@
 import { InvokeData, Plugin } from '../../index'
 
-export default class RunHandler implements Plugin {
+export class RunHandler implements Plugin {
   public readonly type: string = 'handler'
   public readonly name: string = 'handler'
 
