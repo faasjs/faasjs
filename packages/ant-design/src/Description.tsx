@@ -31,7 +31,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     setComputedProps(propsCopy)
   }, [props])
 
-  if (typeof computedProps.value === 'undefined' || computedProps.value === null)
+  if (!computedProps || typeof computedProps.value === 'undefined' || computedProps.value === null)
     return null
 
   if (computedProps.item.children) {
@@ -39,8 +39,6 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   }
 
   switch (computedProps.item.type) {
-    case 'string':
-      return computedProps.value
     case 'string[]':
       return (computedProps.value as unknown as string[]).join(', ')
     case 'number':
@@ -50,7 +48,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     case 'boolean':
       return computedProps.value ? <CheckOutlined style={ { marginTop: '4px' } } /> : <CloseOutlined style={ { marginTop: '4px' } } />
     default:
-      return null
+      return computedProps.value
   }
 }
 
