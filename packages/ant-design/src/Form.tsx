@@ -15,7 +15,7 @@ export type FormProps<T = any> = {
   }
 } & AntdFormProps<T>
 
-const Form = function<T = any> (props: FormProps<T>) {
+export function Form<T = any> (props: FormProps<T>) {
   return <AntdForm<T> { ...props }>
     {props.items?.map(item => <FormItem
       key={ item.id }
@@ -29,5 +29,3 @@ const Form = function<T = any> (props: FormProps<T>) {
 }
 
 Form.useForm = AntdForm.useForm
-
-export { Form }

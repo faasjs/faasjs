@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.2-beta.334",
+  "version": "0.0.2-beta.335",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "jest --silent --ci --coverage --forceExit",
@@ -17,6 +17,7 @@
     "ignorePatterns": [
       "**/examples",
       "**/lib",
+      "**/dist",
       "**/tmp"
     ],
     "extends": [
@@ -46,9 +47,11 @@
     "testRegex": "/*\\.test\\.tsx?$",
     "coveragePathIgnorePatterns": [
       "/lib/",
+      "/dist/",
       "/tmp/",
       "/__tests__/",
-      "/examples/"
+      "/examples/",
+      "!*.d.ts"
     ],
     "moduleNameMapper": {
       "@faasjs/(.*)": "<rootDir>/packages/$1"

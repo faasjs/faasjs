@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/test",
-  "version": "0.0.2-beta.334",
+  "version": "0.0.2-beta.335",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,9 +22,9 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/func": "^0.0.2-beta.334",
-    "@faasjs/load": "^0.0.2-beta.334",
-    "@faasjs/logger": "^0.0.2-beta.334",
+    "@faasjs/func": "^0.0.2-beta.335",
+    "@faasjs/load": "^0.0.2-beta.335",
+    "@faasjs/logger": "^0.0.2-beta.335",
     "@swc/jest": "*",
     "@types/debug": "*",
     "@types/jest": "*",
