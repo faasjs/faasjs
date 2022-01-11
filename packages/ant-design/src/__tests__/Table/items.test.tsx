@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import { Table } from '../../Table'
 
 describe('Table/items', () => {
-  it('should work', function () {
+  it('should work', () => {
     render(<Table
       items={ [{ id: 'test' }] }
       dataSource={ [

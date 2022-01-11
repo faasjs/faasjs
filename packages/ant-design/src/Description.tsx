@@ -6,8 +6,9 @@ import {
 } from 'react'
 import { FaasItemProps } from './data'
 
-export type DescriptionItemProps = FaasItemProps & {
+export type DescriptionItemProps<T = any> = FaasItemProps & {
   children?: JSX.Element
+  render?: (value: T, values: any) => JSX.Element | null
 }
 
 export type DescriptionProps<T = any> = {
@@ -18,6 +19,7 @@ export type DescriptionProps<T = any> = {
 type DescriptionItemContentProps<T = any> = {
   item: DescriptionItemProps
   value: T
+  values?: any
 }
 
 function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>) {
@@ -34,9 +36,11 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   if (!computedProps || typeof computedProps.value === 'undefined' || computedProps.value === null)
     return null
 
-  if (computedProps.item.children) {
+  if (computedProps.item.children)
     return cloneElement(computedProps.item.children, { value: computedProps.value })
-  }
+
+  if (computedProps.item.render)
+    return computedProps.item.render(computedProps.value, computedProps.values)
 
   switch (computedProps.item.type) {
     case 'string[]':
@@ -60,6 +64,7 @@ export function Description (props: DescriptionProps) {
       <DescriptionItemContent
         item={ item }
         value={ props.dataSource[item.id] }
+        values={ props.dataSource }
       />
     </Descriptions.Item>)
   }</Descriptions>
