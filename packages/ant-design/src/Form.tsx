@@ -5,7 +5,15 @@ import {
 } from 'antd'
 import { FormItem, FormItemProps } from './FormItem'
 
-export type FormProps<T = any> = { items?: FormItemProps[] } & AntdFormProps<T>
+export type FormProps<T = any> = {
+  items?: FormItemProps[]
+
+  /** Default: { text: 'Submit' } */
+  submit?: false | {
+    /** Default: Submit */
+    text?: string
+  }
+} & AntdFormProps<T>
 
 const Form = function<T = any> (props: FormProps<T>) {
   return <AntdForm<T> { ...props }>
@@ -14,9 +22,9 @@ const Form = function<T = any> (props: FormProps<T>) {
       { ...item }
     />)}
     {props.children}
-    <Button
+    {props.submit !== false && <Button
       htmlType='submit'
-      type='primary'>Submit</Button>
+      type='primary'>{props.submit?.text || 'Submit'}</Button>}
   </AntdForm>
 }
 

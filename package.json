@@ -57,7 +57,7 @@
       "./packages/test/src/jest.setup"
     ],
     "setupFilesAfterEnv": [
-      "./packages/ant-design/src/components/__tests__/jest.setup"
+      "./packages/ant-design/src/__tests__/jest.setup"
     ]
   }
 }

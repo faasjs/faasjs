@@ -1,2 +1,4 @@
-export * from './components/Form'
-export * from './components/FormItem'
+export * from './Description'
+export * from './Form'
+export * from './FormItem'
+export * from './Table'
