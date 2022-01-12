@@ -15,7 +15,7 @@ export type ExtendDescriptionItemProps = {
 
 export type DescriptionItemProps<T = any> = {
   children?: JSX.Element
-  render?: (value: T, values: any) => JSX.Element | null
+  render?: (value: T, values: any) => JSX.Element | string | number | boolean | null
 } & FaasItemProps
 
 export type DescriptionProps<T = any, ExtendItemProps = any> = {
