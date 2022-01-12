@@ -13,12 +13,7 @@ type ExtendTypes = BaseItemType & {
 function ExtendForm (props: FormProps<any, ExtendTypes>) {
   return <Form
     { ...props }
-    extendTypes={ {
-      password: {
-        baseType: 'string',
-        children: <Input.Password />,
-      }
-    } } />
+    extendTypes={ { password: { children: <Input.Password />, } } } />
 }
 
 describe('Form/extend', () => {

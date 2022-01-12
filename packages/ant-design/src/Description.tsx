@@ -6,20 +6,28 @@ import {
 } from 'react'
 import { FaasItemProps } from './data'
 
-export type DescriptionItemProps<T = any> = FaasItemProps & {
-  children?: JSX.Element
-  render?: (value: T, values: any) => JSX.Element | null
+export type ExtendDescriptionItemProps = {
+  [type: string]: {
+    children: JSX.Element | null
+  }
 }
 
-export type DescriptionProps<T = any> = {
-  items: DescriptionItemProps[]
+export type DescriptionItemProps<T = any> = {
+  children?: JSX.Element
+  render?: (value: T, values: any) => JSX.Element | null
+} & FaasItemProps
+
+export type DescriptionProps<T = any, ExtendItemProps = any> = {
+  items: (DescriptionItemProps | ExtendItemProps)[]
   dataSource: T
+  extendTypes?: ExtendDescriptionItemProps
 } & DescriptionsProps
 
 type DescriptionItemContentProps<T = any> = {
   item: DescriptionItemProps
   value: T
   values?: any
+  extendTypes?: ExtendDescriptionItemProps
 }
 
 function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>) {
@@ -35,6 +43,12 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
 
   if (!computedProps || typeof computedProps.value === 'undefined' || computedProps.value === null)
     return null
+
+  if (computedProps.extendTypes && computedProps.extendTypes[computedProps.item.type])
+    return cloneElement(
+      computedProps.extendTypes[computedProps.item.type].children,
+      { value: computedProps.value }
+    )
 
   if (computedProps.item.children)
     return cloneElement(computedProps.item.children, { value: computedProps.value })
@@ -65,6 +79,7 @@ export function Description (props: DescriptionProps) {
         item={ item }
         value={ props.dataSource[item.id] }
         values={ props.dataSource }
+        extendTypes={ props.extendTypes }
       />
     </Descriptions.Item>)
   }</Descriptions>

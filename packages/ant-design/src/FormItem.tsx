@@ -14,7 +14,7 @@ import {
   SelectProps,
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { FaasItemProps, FaasItemType } from './data'
+import { FaasItemProps } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import {
   ReactNode, useEffect, useState
@@ -67,7 +67,6 @@ BooleanProps | OptionsProps<T>
 
 export type ExtendFormItemProps = {
   [type: string]: {
-    baseType: FaasItemType
     children: JSX.Element | null
   }
 }
