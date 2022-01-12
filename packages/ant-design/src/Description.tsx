@@ -8,7 +8,8 @@ import { FaasItemProps } from './data'
 
 export type ExtendDescriptionItemProps = {
   [type: string]: {
-    children: JSX.Element | null
+    children?: JSX.Element | null
+    render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
   }
 }
 
@@ -45,13 +46,18 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     return null
 
   if (computedProps.extendTypes && computedProps.extendTypes[computedProps.item.type])
-    return cloneElement(
-      computedProps.extendTypes[computedProps.item.type].children,
-      {
-        value: computedProps.value,
-        values: computedProps.values
-      }
-    )
+    if (computedProps.extendTypes[computedProps.item.type].children)
+      return cloneElement(
+        computedProps.extendTypes[computedProps.item.type].children,
+        {
+          value: computedProps.value,
+          values: computedProps.values
+        }
+      )
+    else if (computedProps.extendTypes[computedProps.item.type].render)
+      return computedProps.extendTypes[computedProps.item.type].render(computedProps.value, computedProps.values)
+    else
+      throw Error(computedProps.item.type + ' requires children or render')
 
   if (computedProps.item.children)
     return cloneElement(computedProps.item.children, { value: computedProps.value })

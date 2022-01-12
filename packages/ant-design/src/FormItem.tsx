@@ -67,7 +67,7 @@ BooleanProps | OptionsProps<T>
 
 export type ExtendFormItemProps = {
   [type: string]: {
-    children: JSX.Element | null
+    children?: JSX.Element | null
   }
 }
 

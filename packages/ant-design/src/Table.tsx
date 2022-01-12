@@ -14,7 +14,8 @@ export type TableItemProps<T = any> = FaasItemProps & AntdTableColumnProps<T>
 
 export type ExtendTableItemProps = {
   [type: string]: {
-    children: JSX.Element | null
+    children?: JSX.Element | null
+    render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
   }
 }
 
@@ -35,13 +36,18 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
       if (item.render) continue
       if (props.extendTypes && props.extendTypes[item.type]) {
-        item.render = (value: any, values: any) => cloneElement(
-          props.extendTypes[item.type].children,
-          {
-            value,
-            values 
-          }
-        )
+        if (props.extendTypes[item.type].children) {
+          item.render = (value: any, values: any) => cloneElement(
+            props.extendTypes[item.type].children,
+            {
+              value,
+              values
+            }
+          )
+        } else if (props.extendTypes[item.type].render)
+          item.render = props.extendTypes[item.type].render
+        else
+          throw Error(item.type + ' requires children or render')
         continue
       }
 

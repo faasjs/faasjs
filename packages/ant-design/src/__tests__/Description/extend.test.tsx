@@ -9,15 +9,36 @@ type ExtendTypes = BaseItemType & {
   type: 'password'
 }
 
-function ExtendDescription (props: DescriptionProps<any, ExtendTypes>) {
-  return <Description
-    { ...props }
-    extendTypes={ { password: { children: <>***</> } } } />
-}
-
 describe('Description/extend', () => {
-  it('should work', function () {
-    render(<ExtendDescription
+  it('children', () => {
+    function ExtendedDescription (props: DescriptionProps<any, ExtendTypes>) {
+      return <Description
+        { ...props }
+        extendTypes={ { password: { children: <>***</> } } } />
+    }
+
+    render(<ExtendedDescription
+      items={ [
+        {
+          id: 'test',
+          type: 'password'
+        }
+      ] }
+      dataSource={ { test: 'value' } }
+    />)
+
+    expect(screen.getByText('Test')).toBeInTheDocument()
+    expect(screen.getByText('***')).toBeInTheDocument()
+  })
+
+  it('render', () => {
+    function ExtendedDescription (props: DescriptionProps<any, ExtendTypes>) {
+      return <Description
+        { ...props }
+        extendTypes={ { password: { render: () => '***' } } } />
+    }
+
+    render(<ExtendedDescription
       items={ [
         {
           id: 'test',
