@@ -2,10 +2,11 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import { BaseItemType } from '../../data'
-import { Description, DescriptionProps } from '../../Description'
+import {
+  Description, DescriptionProps, ExtendItemProps
+} from '../../Description'
 
-type ExtendTypes = BaseItemType & {
+type ExtendTypes = ExtendItemProps & {
   type: 'password'
 }
 

@@ -4,8 +4,11 @@ import {
   FormProps as AntdFormProps,
 } from 'antd'
 import {
-  ExtendFormItemProps, FormItem, FormItemProps 
+  ExtendTypeProps, ExtendItemProps,
+  FormItem, FormItemProps
 } from './FormItem'
+
+export { ExtendTypeProps, ExtendItemProps }
 
 export type FormProps<Values = any, ExtendItemProps = any> = {
   items?: (FormItemProps | ExtendItemProps)[]
@@ -16,7 +19,9 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
     text?: string
   }
 
-  extendTypes?: ExtendFormItemProps
+  extendTypes?: {
+    [type: string]: ExtendTypeProps
+  }
 } & AntdFormProps<Values>
 
 export function Form<Values = any> (props: FormProps<Values>) {

@@ -9,20 +9,23 @@ import {
 import { FaasItemProps } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { upperFirst } from 'lodash'
+import { BaseItemType } from '.'
 
 export type TableItemProps<T = any> = FaasItemProps & AntdTableColumnProps<T>
 
-export type ExtendTableItemProps = {
-  [type: string]: {
-    children?: JSX.Element | null
-    render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
-  }
+export type ExtendTypeProps = {
+  children?: JSX.Element | null
+  render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
 }
 
-export type TableProps<T = any, ExtendTypes = any> = AntdTableProps<T> & {
-  items: (TableItemProps | ExtendTypes)[]
-  extendTypes?: ExtendTableItemProps
-}
+export type ExtendItemProps<T = any> = BaseItemType & AntdTableColumnProps<T>
+
+export type TableProps<T = any, ExtendTypes = any> = {
+  items: (TableItemProps | (ExtendTypes & BaseItemType))[]
+  extendTypes?: {
+    [key: string]: ExtendTypeProps
+  }
+} & AntdTableProps<T>
 
 export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()

@@ -3,10 +3,11 @@
  */
 import { render, screen } from '@testing-library/react'
 import { Input } from 'antd'
-import { BaseItemType } from '../../data'
-import { Form, FormProps } from '../../Form'
+import {
+  Form, FormProps, ExtendItemProps
+} from '../../Form'
 
-type ExtendTypes = BaseItemType & {
+type ExtendTypes = ExtendItemProps & {
   type: 'password'
 }
 
@@ -22,7 +23,8 @@ describe('Form/extend', () => {
       items={ [
         {
           id: 'test',
-          type: 'password'
+          type: 'password',
+          required: true,
         }
       ] } />)
 

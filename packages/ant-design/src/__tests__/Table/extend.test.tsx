@@ -2,12 +2,13 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import { BaseItemType } from '../../data'
-import { Table, TableProps } from '../../Table'
+import {
+  ExtendItemProps, Table, TableProps
+} from '../../Table'
 
-type ExtendTypes = BaseItemType & {
+type ExtendTypes = {
   type: 'password'
-}
+} & ExtendItemProps
 
 describe('Table/extend', () => {
   it('children', function () {
@@ -49,7 +50,7 @@ describe('Table/extend', () => {
       items={ [
         {
           id: 'test',
-          type: 'password'
+          type: 'password',
         }
       ] }
       dataSource={ [

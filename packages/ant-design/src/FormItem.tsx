@@ -20,6 +20,7 @@ import {
   ReactNode, useEffect, useState
 } from 'react'
 import { upperFirst } from 'lodash'
+import { BaseItemType } from '.'
 
 type StringProps = {
   type?: 'string'
@@ -65,17 +66,19 @@ type FormItemInputProps<T = any> = StringProps | StringListProps |
 NumberProps | NumberListProps |
 BooleanProps | OptionsProps<T>
 
-export type ExtendFormItemProps = {
-  [type: string]: {
-    children?: JSX.Element | null
-  }
+export type ExtendTypeProps = {
+  children?: JSX.Element | null
 }
+
+export type ExtendItemProps = BaseItemType & AntdFormItemProps
 
 export type FormItemProps<T = any> = {
   children?: JSX.Element
   rules?: RuleObject[]
   label?: string | false
-  extendTypes?: ExtendFormItemProps
+  extendTypes?: {
+    [type: string]: ExtendTypeProps
+  }
 } & FormItemInputProps<T> & FaasItemProps & AntdFormItemProps<T>
 
 export function FormItem<T = any> (props: FormItemProps<T>) {

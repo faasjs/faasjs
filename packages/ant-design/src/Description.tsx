@@ -4,14 +4,15 @@ import { upperFirst } from 'lodash'
 import {
   cloneElement, useEffect, useState
 } from 'react'
+import { BaseItemType } from '.'
 import { FaasItemProps } from './data'
 
-export type ExtendDescriptionItemProps = {
-  [type: string]: {
-    children?: JSX.Element | null
-    render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
-  }
+export type ExtendTypeProps = {
+  children?: JSX.Element | null
+  render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
 }
+
+export type ExtendItemProps = BaseItemType
 
 export type DescriptionItemProps<T = any> = {
   children?: JSX.Element
@@ -21,14 +22,18 @@ export type DescriptionItemProps<T = any> = {
 export type DescriptionProps<T = any, ExtendItemProps = any> = {
   items: (DescriptionItemProps | ExtendItemProps)[]
   dataSource: T
-  extendTypes?: ExtendDescriptionItemProps
+  extendTypes?: {
+    [key: string]: ExtendTypeProps
+  }
 } & DescriptionsProps
 
 type DescriptionItemContentProps<T = any> = {
   item: DescriptionItemProps
   value: T
   values?: any
-  extendTypes?: ExtendDescriptionItemProps
+  extendTypes?: {
+    [key: string]: ExtendTypeProps
+  }
 }
 
 function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>) {
