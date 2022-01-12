@@ -66,18 +66,18 @@ type FormItemInputProps<T = any> = StringProps | StringListProps |
 NumberProps | NumberListProps |
 BooleanProps | OptionsProps<T>
 
-export type ExtendTypeProps = {
+export type ExtendFormTypeProps = {
   children?: JSX.Element | null
 }
 
-export type ExtendItemProps = BaseItemType & AntdFormItemProps
+export type ExtendFormItemProps = BaseItemType & AntdFormItemProps
 
 export type FormItemProps<T = any> = {
   children?: JSX.Element
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: {
-    [type: string]: ExtendTypeProps
+    [type: string]: ExtendFormTypeProps
   }
 } & FormItemInputProps<T> & FaasItemProps & AntdFormItemProps<T>
 

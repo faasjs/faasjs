@@ -13,17 +13,17 @@ import { BaseItemType } from '.'
 
 export type TableItemProps<T = any> = FaasItemProps & AntdTableColumnProps<T>
 
-export type ExtendTypeProps = {
+export type ExtendTableTypeProps = {
   children?: JSX.Element | null
   render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
 }
 
-export type ExtendItemProps<T = any> = BaseItemType & AntdTableColumnProps<T>
+export type ExtendTableItemProps<T = any> = BaseItemType & AntdTableColumnProps<T>
 
 export type TableProps<T = any, ExtendTypes = any> = {
   items: (TableItemProps | (ExtendTypes & BaseItemType))[]
   extendTypes?: {
-    [key: string]: ExtendTypeProps
+    [key: string]: ExtendTableTypeProps
   }
 } & AntdTableProps<T>
 

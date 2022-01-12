@@ -7,12 +7,12 @@ import {
 import { BaseItemType } from '.'
 import { FaasItemProps } from './data'
 
-export type ExtendTypeProps = {
+export type ExtendDescriptionTypeProps = {
   children?: JSX.Element | null
   render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
 }
 
-export type ExtendItemProps = BaseItemType
+export type ExtendDescriptionItemProps = BaseItemType
 
 export type DescriptionItemProps<T = any> = {
   children?: JSX.Element
@@ -23,7 +23,7 @@ export type DescriptionProps<T = any, ExtendItemProps = any> = {
   items: (DescriptionItemProps | ExtendItemProps)[]
   dataSource: T
   extendTypes?: {
-    [key: string]: ExtendTypeProps
+    [key: string]: ExtendDescriptionTypeProps
   }
 } & DescriptionsProps
 
@@ -32,7 +32,7 @@ type DescriptionItemContentProps<T = any> = {
   value: T
   values?: any
   extendTypes?: {
-    [key: string]: ExtendTypeProps
+    [key: string]: ExtendDescriptionTypeProps
   }
 }
 

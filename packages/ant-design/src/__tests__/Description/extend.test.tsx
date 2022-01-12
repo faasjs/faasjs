@@ -3,10 +3,10 @@
  */
 import { render, screen } from '@testing-library/react'
 import {
-  Description, DescriptionProps, ExtendItemProps
+  Description, DescriptionProps, ExtendDescriptionItemProps
 } from '../../Description'
 
-type ExtendTypes = ExtendItemProps & {
+type ExtendTypes = ExtendDescriptionItemProps & {
   type: 'password'
 }
 

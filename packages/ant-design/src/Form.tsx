@@ -4,11 +4,11 @@ import {
   FormProps as AntdFormProps,
 } from 'antd'
 import {
-  ExtendTypeProps, ExtendItemProps,
+  ExtendFormTypeProps, ExtendFormItemProps,
   FormItem, FormItemProps
 } from './FormItem'
 
-export { ExtendTypeProps, ExtendItemProps }
+export { ExtendFormTypeProps, ExtendFormItemProps }
 
 export type FormProps<Values = any, ExtendItemProps = any> = {
   items?: (FormItemProps | ExtendItemProps)[]
@@ -20,7 +20,7 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
   }
 
   extendTypes?: {
-    [type: string]: ExtendTypeProps
+    [type: string]: ExtendFormTypeProps
   }
 } & AntdFormProps<Values>
 
@@ -39,3 +39,4 @@ export function Form<Values = any> (props: FormProps<Values>) {
 }
 
 Form.useForm = AntdForm.useForm
+Form.Item = FormItem

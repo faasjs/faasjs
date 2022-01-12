@@ -3,12 +3,12 @@
  */
 import { render, screen } from '@testing-library/react'
 import {
-  ExtendItemProps, Table, TableProps
+  ExtendTableItemProps, Table, TableProps
 } from '../../Table'
 
 type ExtendTypes = {
   type: 'password'
-} & ExtendItemProps
+} & ExtendTableItemProps
 
 describe('Table/extend', () => {
   it('children', function () {
