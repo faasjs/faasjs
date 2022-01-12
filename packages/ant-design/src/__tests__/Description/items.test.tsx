@@ -36,7 +36,7 @@ describe('Description/items', () => {
       items={ [
         {
           id: 'test',
-          render: (value) => <>{ value + ' value' }</>
+          render: (value: string) => <>{ value + ' value' }</>
         }
       ] }
       dataSource={ { test: 'value' } }

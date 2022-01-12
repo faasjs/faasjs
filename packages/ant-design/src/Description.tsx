@@ -47,8 +47,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     setComputedProps(propsCopy)
   }, [props])
 
-  if (!computedProps || typeof computedProps.value === 'undefined' || computedProps.value === null)
-    return null
+  if (!computedProps) return null
 
   if (computedProps.extendTypes && computedProps.extendTypes[computedProps.item.type])
     if (computedProps.extendTypes[computedProps.item.type].children)
@@ -69,6 +68,8 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
 
   if (computedProps.item.render)
     return computedProps.item.render(computedProps.value, computedProps.values)
+
+  if (typeof computedProps.value === 'undefined' || computedProps.value === null) return null
 
   switch (computedProps.item.type) {
     case 'string[]':
