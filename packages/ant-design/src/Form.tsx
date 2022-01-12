@@ -3,23 +3,28 @@ import {
   Form as AntdForm,
   FormProps as AntdFormProps,
 } from 'antd'
-import { FormItem, FormItemProps } from './FormItem'
+import {
+  ExtendFormItemProps, FormItem, FormItemProps 
+} from './FormItem'
 
-export type FormProps<T = any> = {
-  items?: FormItemProps[]
+export type FormProps<Values = any, ExtendItemProps = any> = {
+  items?: (FormItemProps | ExtendItemProps)[]
 
-  /** Default: { text: 'Submit' } */
+  /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | {
     /** Default: Submit */
     text?: string
   }
-} & AntdFormProps<T>
 
-export function Form<T = any> (props: FormProps<T>) {
-  return <AntdForm<T> { ...props }>
-    {props.items?.map(item => <FormItem
+  extendTypes?: ExtendFormItemProps
+} & AntdFormProps<Values>
+
+export function Form<Values = any> (props: FormProps<Values>) {
+  return <AntdForm<Values> { ...props }>
+    {props.items?.map((item: FormItemProps) => <FormItem
       key={ item.id }
       { ...item }
+      extendTypes={ props.extendTypes }
     />)}
     {props.children}
     {props.submit !== false && <Button

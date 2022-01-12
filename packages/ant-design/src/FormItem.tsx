@@ -14,7 +14,7 @@ import {
   SelectProps,
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { FaasItemProps } from './data'
+import { FaasItemProps, FaasItemType } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import {
   ReactNode, useEffect, useState
@@ -65,10 +65,18 @@ type FormItemInputProps<T = any> = StringProps | StringListProps |
 NumberProps | NumberListProps |
 BooleanProps | OptionsProps<T>
 
+export type ExtendFormItemProps = {
+  [type: string]: {
+    baseType: FaasItemType
+    children: JSX.Element | null
+  }
+}
+
 export type FormItemProps<T = any> = {
   children?: JSX.Element
   rules?: RuleObject[]
   label?: string | false
+  extendTypes?: ExtendFormItemProps
 } & FormItemInputProps<T> & FaasItemProps & AntdFormItemProps<T>
 
 export function FormItem<T = any> (props: FormItemProps<T>) {
@@ -122,6 +130,11 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
   }, [props])
 
   if (!computedProps) return null
+
+  if (computedProps.extendTypes && computedProps.extendTypes[computedProps.type])
+    return <AntdForm.Item { ...computedProps }>
+      { computedProps.extendTypes[computedProps.type].children }
+    </AntdForm.Item>
 
   if (computedProps.children)
     return <AntdForm.Item { ...computedProps }>

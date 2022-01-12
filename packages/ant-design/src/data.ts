@@ -11,12 +11,15 @@ export type FaasItemTypeValue = {
   boolean: boolean
 }
 
-export type FaasItemProps = {
+export type BaseItemType = {
+  id: string
+  title?: string
+}
+
+export type FaasItemProps = BaseItemType & {
   /**
    * Support string, string[], number, number[], boolean
    * @default 'string'
    */
   type?: FaasItemType
-  id: string
-  title?: string
 }
