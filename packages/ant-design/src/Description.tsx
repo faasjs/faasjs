@@ -47,7 +47,10 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   if (computedProps.extendTypes && computedProps.extendTypes[computedProps.item.type])
     return cloneElement(
       computedProps.extendTypes[computedProps.item.type].children,
-      { value: computedProps.value }
+      {
+        value: computedProps.value,
+        values: computedProps.values
+      }
     )
 
   if (computedProps.item.children)

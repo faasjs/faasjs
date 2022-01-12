@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import {
+  useState, useEffect, cloneElement
+} from 'react'
 import {
   Table as AntdTable,
   TableProps as AntdTableProps,
@@ -10,21 +12,38 @@ import { upperFirst } from 'lodash'
 
 export type TableItemProps<T = any> = FaasItemProps & AntdTableColumnProps<T>
 
-export type TableProps<T = any> = AntdTableProps<T> & {
-  items: TableItemProps[]
+export type ExtendTableItemProps = {
+  [type: string]: {
+    children: JSX.Element | null
+  }
 }
 
-export function Table (props: TableProps) {
+export type TableProps<T = any, ExtendTypes = any> = AntdTableProps<T> & {
+  items: (TableItemProps | ExtendTypes)[]
+  extendTypes?: ExtendTableItemProps
+}
+
+export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()
 
   useEffect(() => {
-    for (const item of props.items) {
+    for (const item of props.items as TableItemProps[]) {
       if (!item.key) item.key = item.id
       if (!item.dataIndex) item.dataIndex = item.id
       if (!item.title) item.title = upperFirst(item.id)
       if (!item.type) item.type = 'string'
 
       if (item.render) continue
+      if (props.extendTypes && props.extendTypes[item.type]) {
+        item.render = (value: any, values: any) => cloneElement(
+          props.extendTypes[item.type].children,
+          {
+            value,
+            values 
+          }
+        )
+        continue
+      }
 
       switch (item.type) {
         case 'string[]':
@@ -39,7 +58,7 @@ export function Table (props: TableProps) {
       }
     }
 
-    setColumns(props.items)
+    setColumns(props.items as TableItemProps[])
   }, [props.items])
 
   if (!columns) return null
