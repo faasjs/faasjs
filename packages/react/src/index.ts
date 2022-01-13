@@ -161,8 +161,9 @@ export function FaasReactClient ({
 }
 
 export function getClient (domain?: string) {
-  if (domain)
-    return clients[domain]
-  else
-    return clients[Object.keys(clients)[0]]
+  const client = clients[domain || Object.keys(clients)[0]]
+
+  if (!client) throw Error('FaasReactClient is not initialized')
+
+  return client
 }
