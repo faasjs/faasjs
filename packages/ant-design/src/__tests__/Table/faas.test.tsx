@@ -3,9 +3,9 @@
  */
 import { FaasReactClient } from '@faasjs/react'
 import { render, screen } from '@testing-library/react'
-import { Description } from '../../Description'
+import { Table } from '../../Table'
 
-describe('Description/faas', () => {
+describe('Table/faas', () => {
   let originalFetch: any
 
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('Description/faas', () => {
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => Promise.resolve('{"data":{"test":"value"}}')
+        text: async () => Promise.resolve('{"data":[{"test":"value"}]}')
       }) as unknown as Promise<Response>
     })
     FaasReactClient({ domain: 'test' })
@@ -25,7 +25,7 @@ describe('Description/faas', () => {
   })
 
   it('with faas', async () => {
-    render(<Description
+    render(<Table
       items={ [{ id: 'test' }] }
       faasData={ { action: 'test' } }
     />)

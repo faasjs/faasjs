@@ -10,6 +10,7 @@ import { FaasItemProps } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { upperFirst } from 'lodash'
 import { BaseItemType } from '.'
+import { FaasDataWrapper } from './FaasWrapper'
 
 export type TableItemProps<T = any> = FaasItemProps & AntdTableColumnProps<T>
 
@@ -24,6 +25,10 @@ export type TableProps<T = any, ExtendTypes = any> = {
   items: (TableItemProps | (ExtendTypes & BaseItemType))[]
   extendTypes?: {
     [key: string]: ExtendTableTypeProps
+  }
+  faasData?: {
+    action: string
+    params?: Record<string, any>
   }
 } & AntdTableProps<T>
 
@@ -72,9 +77,14 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
   if (!columns) return null
 
-  return <AntdTable
-    { ...props }
-    rowKey={ props.rowKey || 'id' }
-    columns={ columns }
+  return <FaasDataWrapper
+    dataSource={ props.dataSource }
+    faasData={ props.faasData }
+    render={ ({ data }) => <AntdTable
+      { ...props }
+      rowKey={ props.rowKey || 'id' }
+      columns={ columns }
+      dataSource={ data }
+    /> }
   />
 }

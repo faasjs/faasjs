@@ -24,7 +24,7 @@ export function FaasDataWrapper<T = any> ({
 
     getClient()
       .faas(faasData.action, faasData.action)
-      .then(data => setData(data))
+      .then(res => setData(res.data))
   }, [JSON.stringify(faasData)])
 
   if (dataSource) return render({ data: dataSource })
