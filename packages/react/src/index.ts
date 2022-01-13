@@ -32,6 +32,22 @@ type FaasDataProps<PathOrData extends FaasAction> = {
   onDataChange?(args: FaasDataInjection<FaasData<PathOrData>>): void
 }
 
+type FaasReactClientInstance = {
+  faas: <PathOrData extends FaasAction>(
+    action: string | PathOrData,
+    params: FaasParams<PathOrData>
+  ) => Promise<Response<FaasData<PathOrData>>>
+  useFaas: <PathOrData extends FaasAction>(
+    action: string | PathOrData,
+    defaultParams: FaasParams<PathOrData>
+  ) => FaasDataInjection<FaasData<PathOrData>>
+  FaasData<PathOrData extends FaasAction>(props: FaasDataProps<PathOrData>): JSX.Element
+}
+
+const clients: {
+  [key: string]: FaasReactClientInstance
+} = {}
+
 export function FaasReactClient ({
   domain,
   options,
@@ -40,17 +56,7 @@ export function FaasReactClient ({
   domain: string
   options?: Options
   onError?: (action: string, params: Record<string, any>) => (res: ResponseError) => Promise<void>
-}): {
-    faas: <PathOrData extends FaasAction>(
-      action: string | PathOrData,
-      params: FaasParams<PathOrData>
-    ) => Promise<Response<FaasData<PathOrData>>>
-    useFaas: <PathOrData extends FaasAction>(
-      action: string | PathOrData,
-      defaultParams: FaasParams<PathOrData>
-    ) => FaasDataInjection<FaasData<PathOrData>>
-    FaasData<PathOrData extends FaasAction>(props: FaasDataProps<PathOrData>): JSX.Element
-  } {
+}): FaasReactClientInstance {
   const client = new FaasBrowserClient(domain, options)
 
   async function faas<PathOrData extends FaasAction> (
@@ -126,7 +132,7 @@ export function FaasReactClient ({
     }
   }
 
-  return {
+  const reactClient = {
     faas,
     useFaas,
     FaasData<PathOrData extends FaasAction> ({
@@ -148,4 +154,15 @@ export function FaasReactClient ({
       return fallback || null
     }
   }
+
+  clients[domain] = reactClient
+
+  return reactClient
+}
+
+export function getClient (domain?: string) {
+  if (domain)
+    return clients[domain]
+  else
+    return clients[Object.keys(clients)[0]]
 }
