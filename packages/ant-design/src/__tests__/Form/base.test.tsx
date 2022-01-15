@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { Form } from '../../Form'
 
 describe('Form/base', () => {
