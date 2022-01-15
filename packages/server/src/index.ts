@@ -251,9 +251,11 @@ export class Server {
 
     if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts'
 
+    const message = `Not found: ${path}.func.ts or ${path}/index.func.ts`
+    this.logger.error(message)
     throw new HttpError({
       statusCode: 404,
-      message: `Not found: ${path}.func.ts or ${path}index.func.ts`
+      message
     })
   }
 
