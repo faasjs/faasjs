@@ -99,7 +99,13 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     case 'number[]':
       return (computedProps.value as unknown as number[]).join(', ')
     case 'boolean':
-      return computedProps.value ? <CheckOutlined style={ { marginTop: '4px' } } /> : <CloseOutlined style={ { marginTop: '4px' } } />
+      return computedProps.value ? <CheckOutlined style={ {
+        marginTop: '4px',
+        color: '#52c41a'
+      } } /> : <CloseOutlined style={ {
+        marginTop: '4px',
+        color: '#ff4d4f'
+      } } />
     default:
       return computedProps.value
   }

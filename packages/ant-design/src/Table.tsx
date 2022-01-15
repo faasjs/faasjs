@@ -86,7 +86,13 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           item.render = value => processValue(item, value).join(', ')
           break
         case 'boolean':
-          item.render = value => (value ? <CheckOutlined style={ { marginTop: '4px' } } /> : <CloseOutlined style={ { marginTop: '4px' } } />)
+          item.render = value => (value ? <CheckOutlined style={ {
+            marginTop: '4px',
+            color: '#52c41a'
+          } } /> : <CloseOutlined style={ {
+            marginTop: '4px',
+            color: '#ff4d4f'
+          } } />)
           break
         default:
           item.render = value => processValue(item, value)
