@@ -16,6 +16,10 @@ export type ExtendDescriptionTypeProps = {
 export type ExtendDescriptionItemProps = BaseItemType
 
 export type DescriptionItemProps<T = any> = {
+  options?: {
+    label: string
+    value?: T
+  }[]
   children?: JSX.Element
   render?: (value: T, values: any) => JSX.Element | string | number | boolean | null
 } & FaasItemProps
@@ -48,6 +52,17 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     const propsCopy = { ...props }
     if (!propsCopy.item.title) propsCopy.item.title = upperFirst(propsCopy.item.id)
     if (!propsCopy.item.type) propsCopy.item.type = 'string'
+
+    if (props.item.options && typeof props.value !== 'undefined' && props.value !== null) {
+      if (props.item.type.endsWith('[]'))
+        propsCopy.value = (props.value as unknown as any[]).map((v: any) => props.item.options
+          .find(option => option.value === v)?.label as unknown as T
+        || v) as unknown as T
+      else
+        propsCopy.value = props.item.options
+          .find(option => option.value === props.value)?.label as unknown as T
+        || props.value
+    }
 
     setComputedProps(propsCopy)
   }, [props])

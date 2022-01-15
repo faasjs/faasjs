@@ -45,4 +45,47 @@ describe('Description/items', () => {
     expect(screen.getByText('Test')).toBeInTheDocument()
     expect(screen.getByText('value value')).toBeInTheDocument()
   })
+
+  describe('options', () => {
+    it('string', () => {
+      render(<Description
+        items={ [
+          {
+            id: 'test',
+            options: [
+              {
+                label: 'label',
+                value: 'value'
+              }
+            ]
+          }
+        ] }
+        dataSource={ { test: 'value' } }
+      />)
+
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText('label')).toBeInTheDocument()
+    })
+
+    it('string[]', () => {
+      render(<Description
+        items={ [
+          {
+            id: 'test',
+            type: 'string[]',
+            options: [
+              {
+                label: 'label',
+                value: 'value'
+              }
+            ]
+          }
+        ] }
+        dataSource={ { test: ['value', 'value'] } }
+      />)
+
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText('label, label')).toBeInTheDocument()
+    })
+  })
 })

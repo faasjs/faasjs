@@ -12,7 +12,12 @@ import { upperFirst } from 'lodash'
 import { BaseItemType } from '.'
 import { FaasDataWrapper } from './FaasWrapper'
 
-export type TableItemProps<T = any> = FaasItemProps & AntdTableColumnProps<T>
+export type TableItemProps<T = any> = {
+  options?: {
+    label: string
+    value?: T
+  }[]
+} & FaasItemProps & AntdTableColumnProps<T>
 
 export type ExtendTableTypeProps = {
   children?: JSX.Element | null
@@ -31,6 +36,20 @@ export type TableProps<T = any, ExtendTypes = any> = {
     params?: Record<string, any>
   }
 } & AntdTableProps<T>
+
+function processValue (item: TableItemProps, value: any) {
+  if (item.options && typeof value !== 'undefined' && value !== null) {
+    if (item.type.endsWith('[]'))
+      return (value as any[]).map((v: any) => item.options
+        .find(option => option.value === v)?.label
+        || v)
+    else
+      return item.options
+        .find(option => option.value === value)?.label
+        || value
+  }
+  return value
+}
 
 export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()
@@ -61,13 +80,16 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
       switch (item.type) {
         case 'string[]':
-          item.render = value => value.join(', ')
+          item.render = value => processValue(item, value).join(', ')
           break
         case 'number[]':
-          item.render = value => value.join(', ')
+          item.render = value => processValue(item, value).join(', ')
           break
         case 'boolean':
           item.render = value => (value ? <CheckOutlined style={ { marginTop: '4px' } } /> : <CloseOutlined style={ { marginTop: '4px' } } />)
+          break
+        default:
+          item.render = value => processValue(item, value)
           break
       }
     }
