@@ -1,7 +1,7 @@
 import { Typography } from 'antd'
 import { isNil } from 'lodash'
 
-const text = navigator.language?.includes('cn') ? '空' : 'Empty'
+const text = navigator.language?.includes('CN') ? '空' : 'Empty'
 
 export function Blank (options?: {
   value?: any;

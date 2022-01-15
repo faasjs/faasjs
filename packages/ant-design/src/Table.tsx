@@ -10,7 +10,7 @@ import {
 } from 'antd'
 import { FaasItemProps } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { upperFirst } from 'lodash'
+import { isNil, upperFirst } from 'lodash'
 import { BaseItemType } from '.'
 import { FaasDataWrapper } from './FaasWrapper'
 import { Blank } from './Blank'
@@ -120,21 +120,27 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
                 confirm()
               } }
             >
-              <Radio.Button>{navigator.language?.includes('cn') ? '全部' : 'All'}</Radio.Button>
-              <Radio.Button value={ 'true' }><CheckOutlined /></Radio.Button>
-              <Radio.Button value={ 'false' }><CloseOutlined /></Radio.Button>
-              <Radio.Button value={ 'empty' }><Blank /></Radio.Button>
+              <Radio.Button>{navigator.language?.includes('CN') ? '全部' : 'All'}</Radio.Button>
+              <Radio.Button value={ 'true' }><CheckOutlined style={ {
+                color: '#52c41a',
+                verticalAlign: 'middle'
+              } } /></Radio.Button>
+              <Radio.Button value={ 'false' }><CloseOutlined style={ {
+                verticalAlign: 'middle',
+                color: '#ff4d4f'
+              } } /></Radio.Button>
+              <Radio.Button value={ 'empty' }>{navigator.language?.includes('CN') ? '空' : 'Empty'}</Radio.Button>
             </Radio.Group>
 
           if (!item.onFilter)
             item.onFilter = (value: string | number | boolean, row: any) => {
               switch (value) {
                 case 'true':
-                  return row[item.id] === true
+                  return !isNil(row[item.id]) && !!row[item.id]
                 case 'false':
-                  return row[item.id] === false
+                  return !isNil(row[item.id]) && !row[item.id]
                 case 'empty':
-                  return typeof row[item.id] === 'undefined' || row[item.id] === null
+                  return isNil(row[item.id])
                 default:
                   return true
               }
