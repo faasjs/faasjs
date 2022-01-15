@@ -1,16 +1,19 @@
+/* eslint-disable react/prop-types */
 import {
   useState, useEffect, cloneElement
 } from 'react'
 import {
   Table as AntdTable,
   TableProps as AntdTableProps,
-  TableColumnProps as AntdTableColumnProps
+  TableColumnProps as AntdTableColumnProps,
+  Radio
 } from 'antd'
 import { FaasItemProps } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { upperFirst } from 'lodash'
 import { BaseItemType } from '.'
 import { FaasDataWrapper } from './FaasWrapper'
+import { Blank } from './Blank'
 
 export type TableItemProps<T = any> = {
   options?: {
@@ -27,7 +30,7 @@ export type ExtendTableTypeProps = {
 export type ExtendTableItemProps<T = any> = BaseItemType & AntdTableColumnProps<T>
 
 export type TableProps<T = any, ExtendTypes = any> = {
-  items: (TableItemProps | (ExtendTypes & BaseItemType))[]
+  items: (TableItemProps | (ExtendTypes & ExtendTableItemProps))[]
   extendTypes?: {
     [key: string]: ExtendTableTypeProps
   }
@@ -82,17 +85,60 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         case 'string[]':
           item.render = value => processValue(item, value).join(', ')
           break
+        case 'number':
+          item.render = value => processValue(item, value)
+          if (!item.sorter) item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
+          break
         case 'number[]':
           item.render = value => processValue(item, value).join(', ')
           break
         case 'boolean':
-          item.render = value => (value ? <CheckOutlined style={ {
-            marginTop: '4px',
-            color: '#52c41a'
-          } } /> : <CloseOutlined style={ {
-            marginTop: '4px',
-            color: '#ff4d4f'
-          } } />)
+          item.render = value => (typeof value === 'undefined' ? <Blank /> : (value ?
+            <CheckOutlined style={ {
+              marginTop: '4px',
+              color: '#52c41a'
+            } } /> : <CloseOutlined style={ {
+              marginTop: '4px',
+              color: '#ff4d4f'
+            } } />))
+          if (!item.filterDropdown)
+            item.filterDropdown = ({
+              setSelectedKeys,
+              selectedKeys,
+              confirm
+            }: {
+              setSelectedKeys: (selectedKeys: React.Key[]) => void;
+              selectedKeys: React.Key[];
+              confirm(): void;
+              clearFilters(): void;
+            }) => <Radio.Group
+              style={ { padding: 8 } }
+              buttonStyle='solid'
+              value={ selectedKeys[0] }
+              onChange={ e => {
+                setSelectedKeys(e.target.value ? [e.target.value] : [])
+                confirm()
+              } }
+            >
+              <Radio.Button>{navigator.language?.includes('cn') ? '全部' : 'All'}</Radio.Button>
+              <Radio.Button value={ 'true' }><CheckOutlined /></Radio.Button>
+              <Radio.Button value={ 'false' }><CloseOutlined /></Radio.Button>
+              <Radio.Button value={ 'empty' }><Blank /></Radio.Button>
+            </Radio.Group>
+
+          if (!item.onFilter)
+            item.onFilter = (value: string | number | boolean, row: any) => {
+              switch (value) {
+                case 'true':
+                  return row[item.id] === true
+                case 'false':
+                  return row[item.id] === false
+                case 'empty':
+                  return typeof row[item.id] === 'undefined' || row[item.id] === null
+                default:
+                  return true
+              }
+            }
           break
         default:
           item.render = value => processValue(item, value)
