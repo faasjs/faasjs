@@ -11,8 +11,8 @@ import { HttpError } from '@faasjs/http'
 import { Socket } from 'net'
 import { addHook } from 'pirates'
 import { transform } from '@faasjs/ts-transform'
-import { URL } from 'url'
 import { parse } from 'querystring'
+import { randomBytes } from 'crypto'
 
 addHook((code, filename) => {
   if (filename.endsWith('.d.ts'))
@@ -100,7 +100,7 @@ export class Server {
     this.logger.info('Process %s %s', req.method, req.url)
 
     return await new Promise((resolve) => {
-      const requestId = new Date().getTime().toString()
+      const requestId = randomBytes(16).toString('hex')
       let body = ''
 
       req.on('readable', function () {
