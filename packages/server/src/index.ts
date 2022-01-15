@@ -113,7 +113,8 @@ export class Server {
         } = {
           'Access-Control-Allow-Origin': req.headers.origin || '*',
           'Access-Control-Allow-Credentials': 'true',
-          'Access-Control-Allow-Methods': 'OPTIONS, POST'
+          'Access-Control-Allow-Methods': 'OPTIONS, POST',
+          'X-FaasJS-Request-Id': requestId
         }
 
         if (req.method === 'OPTIONS') {
@@ -135,10 +136,10 @@ export class Server {
 
           if (this.opts.cache && this.cachedFuncs[path] && (this.cachedFuncs[path].handler)) {
             cache = this.cachedFuncs[path]
-            this.logger.debug('Response with cached %s', cache.file)
+            this.logger.debug('[%s] Response with cached %s', requestId, cache.file)
           } else {
             cache.file = pathResolve('.', this.getFilePath(path))
-            this.logger.debug('Response with %s', cache.file)
+            this.logger.debug('[%s] Response with %s', requestId, cache.file)
 
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const func = require(cache.file).default
@@ -184,8 +185,10 @@ export class Server {
         for (const key in headers)
           res.setHeader(key, headers[key])
 
-        if (resBody)
+        if (resBody) {
+          this.logger.debug('[%s] Response %s %j %j', requestId, res.statusCode, headers, data.originBody || data.body)
           res.write(resBody)
+        }
 
         res.end()
         resolve()
