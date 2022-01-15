@@ -11,6 +11,8 @@ import { HttpError } from '@faasjs/http'
 import { Socket } from 'net'
 import { addHook } from 'pirates'
 import { transform } from '@faasjs/ts-transform'
+import { URL } from 'url'
+import { parse } from 'querystring'
 
 addHook((code, filename) => {
   if (filename.endsWith('.d.ts'))
@@ -95,7 +97,7 @@ export class Server {
     end: () => void
     setHeader: (key: string, value: string) => void
   }): Promise<void> {
-    this.logger.info('%s %s', req.method, req.url)
+    this.logger.info('Process %s %s', req.method, req.url)
 
     return await new Promise((resolve) => {
       const requestId = new Date().getTime().toString()
@@ -153,6 +155,7 @@ export class Server {
             headers: req.headers,
             httpMethod: req.method,
             path: req.url,
+            queryString: parse(req.url.replace(/^.*\?/, '')),
             body,
           }, { request_id: requestId })
         } catch (error) {
@@ -226,7 +229,6 @@ export class Server {
 
   public async close (): Promise<void> {
     this.logger.debug('Close server')
-    console.log(this.sockets)
 
     for (const socket of this.sockets)
       try {
