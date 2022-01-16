@@ -201,28 +201,31 @@ export class Server {
 
     this.logger.info('[%s] Listen http://localhost:%s with %s', process.env.FaasEnv, this.opts.port, this.root)
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this
+
     this.server = createServer(this.opts.cache
       ? this.processRequest.bind(this)
       : async (req, res) => {
-        if (!this.processing) {
-          this.processing = true
-          await this.processRequest(req, res)
-          this.processing = false
+        if (!self.processing) {
+          self.processing = true
+          await self.processRequest(req, res)
+          self.processing = false
         } else {
           const timer = setInterval(async () => {
-            if (!this.processing) {
-              this.processing = true
+            if (!self.processing) {
+              self.processing = true
               clearInterval(timer)
-              await this.processRequest(req, res)
-              this.processing = false
+              await self.processRequest(req, res)
+              self.processing = false
             }
           })
         }
       })
       .on('connection', (socket) => {
-        this.sockets.add(socket)
+        self.sockets.add(socket)
         socket.on('close', () => {
-          this.sockets.delete(socket)
+          self.sockets.delete(socket)
         })
       })
       .listen(this.opts.port, '0.0.0.0')
