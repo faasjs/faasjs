@@ -253,42 +253,44 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   } {
     if (!this.config) this.config = config || Object.create(null)
 
-    return {
-      handler: async (
-        event: TEvent,
-        context?: TContext | any,
-        callback?: (...args: any) => any
-      ): Promise<TResult> => {
-        const logger = new Logger()
-        if (startedAt) {
-          logger.debug(`Container started +${Date.now() - startedAt}ms`)
-          startedAt = 0
-        }
-        logger.debug('event: %j', event)
-        logger.debug('context: %j', context)
-
-        if (typeof context === 'undefined') context = {}
-        if (!context.request_id) context.request_id = new Date().getTime().toString()
-        if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000)
-        context.callbackWaitsForEmptyEventLoop = false
-
-        const data: InvokeData<TEvent, TContext, TResult> = {
-          event,
-          context,
-          callback,
-          response: undefined,
-          handler: this.handler,
-          logger,
-          config: this.config
-        }
-
-        await this.invoke(data)
-
-        if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response
-
-        return data.response
+    const handler = async (
+      event: TEvent,
+      context?: TContext | any,
+      callback?: (...args: any) => any
+    ): Promise<TResult> => {
+      const logger = new Logger()
+      if (startedAt) {
+        logger.debug(`Container started +${Date.now() - startedAt}ms`)
+        startedAt = 0
       }
+      logger.debug('event: %j', event)
+      logger.debug('context: %j', context)
+
+      if (typeof context === 'undefined') context = {}
+      if (!context.request_id) context.request_id = new Date().getTime().toString()
+      if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000)
+      context.callbackWaitsForEmptyEventLoop = false
+
+      const data: InvokeData<TEvent, TContext, TResult> = {
+        event,
+        context,
+        callback,
+        response: undefined,
+        handler: this.handler,
+        logger,
+        config: this.config
+      }
+
+      await this.invoke(data)
+
+      if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response
+
+      return data.response
     }
+
+    handler.bind(this)
+
+    return { handler }
   }
 }
 
