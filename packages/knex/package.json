@@ -31,10 +31,9 @@
     "@types/mysql": "*",
     "@types/node": "*",
     "@types/pg": "*",
-    "@types/sqlite3": "*",
     "mysql": "*",
     "pg": "*",
-    "sqlite3": "*",
+    "@vscode/sqlite3": "*",
     "tsup": "*",
     "typescript": "*"
   },

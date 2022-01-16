@@ -53,7 +53,10 @@ export class Knex implements Plugin {
     if (!client) throw Error('[Knex] client required.')
 
     data.dependencies['@faasjs/knex'] = '*'
-    data.dependencies[client] = '*'
+    if (client === 'sqlite3')
+      data.dependencies['@vscode/sqlite3'] = '*'
+    else
+      data.dependencies[client] = '*'
     this.logger.debug('add dependencies: ' + client)
 
     await next()
