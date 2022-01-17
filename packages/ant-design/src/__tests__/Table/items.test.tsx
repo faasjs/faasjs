@@ -57,6 +57,10 @@ describe('Table/items', () => {
               {
                 label: 'label',
                 value: 'value'
+              },
+              {
+                label: 'label2',
+                value: 'value2'
               }
             ]
           }
@@ -71,6 +75,10 @@ describe('Table/items', () => {
 
       expect(screen.getByText('Test')).toBeInTheDocument()
       expect(screen.getByText('label, label')).toBeInTheDocument()
+
+      userEvent.click(screen.getByRole('img', { name: 'filter' }))
+
+      expect(screen.getByText('label2')).toBeInTheDocument()
     })
   })
 

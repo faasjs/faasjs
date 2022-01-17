@@ -4,8 +4,8 @@ import { upperFirst } from 'lodash'
 import {
   cloneElement, useEffect, useState
 } from 'react'
-import { BaseItemType } from '.'
-import { FaasItemProps } from './data'
+import { BaseItemProps } from '.'
+import { FaasItemProps, transferOptions } from './data'
 import { FaasDataWrapper } from './FaasWrapper'
 
 export type ExtendDescriptionTypeProps = {
@@ -13,13 +13,9 @@ export type ExtendDescriptionTypeProps = {
   render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
 }
 
-export type ExtendDescriptionItemProps = BaseItemType
+export type ExtendDescriptionItemProps = BaseItemProps
 
 export type DescriptionItemProps<T = any> = {
-  options?: {
-    label: string
-    value?: T
-  }[]
   children?: JSX.Element
   render?: (value: T, values: any) => JSX.Element | string | number | boolean | null
 } & FaasItemProps
@@ -52,14 +48,23 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     const propsCopy = { ...props }
     if (!propsCopy.item.title) propsCopy.item.title = upperFirst(propsCopy.item.id)
     if (!propsCopy.item.type) propsCopy.item.type = 'string'
+    if (propsCopy.item.options?.length) {
+      propsCopy.item.options = transferOptions(propsCopy.item.options)
+    }
 
-    if (props.item.options && typeof props.value !== 'undefined' && props.value !== null) {
-      if (props.item.type.endsWith('[]'))
-        propsCopy.value = (props.value as unknown as any[]).map((v: any) => props.item.options
-          .find(option => option.value === v)?.label as unknown as T
+    if (propsCopy.item.options && typeof propsCopy.value !== 'undefined' && propsCopy.value !== null) {
+      if (propsCopy.item.type.endsWith('[]'))
+        propsCopy.value = (propsCopy.value as unknown as any[]).map((v: any) => (propsCopy.item.options as {
+          label: string
+          value: any
+        }[])
+          .find(option => option.value === v)?.label
         || v) as unknown as T
       else
-        propsCopy.value = props.item.options
+        propsCopy.value = (props.item.options as {
+          label: string
+          value: any
+        }[])
           .find(option => option.value === props.value)?.label as unknown as T
         || props.value
     }

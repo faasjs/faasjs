@@ -8,26 +8,21 @@ import {
   TableColumnProps as AntdTableColumnProps,
   Radio
 } from 'antd'
-import { FaasItemProps } from './data'
+import { FaasItemProps, transferOptions } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { isNil, upperFirst } from 'lodash'
-import { BaseItemType } from '.'
+import { BaseItemProps } from '.'
 import { FaasDataWrapper } from './FaasWrapper'
 import { Blank } from './Blank'
 
-export type TableItemProps<T = any> = {
-  options?: {
-    label: string
-    value?: T
-  }[]
-} & FaasItemProps & AntdTableColumnProps<T>
+export type TableItemProps<T = any> = FaasItemProps & AntdTableColumnProps<T>
 
 export type ExtendTableTypeProps = {
   children?: JSX.Element | null
   render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
 }
 
-export type ExtendTableItemProps<T = any> = BaseItemType & AntdTableColumnProps<T>
+export type ExtendTableItemProps<T = any> = BaseItemProps & AntdTableColumnProps<T>
 
 export type TableProps<T = any, ExtendTypes = any> = {
   items: (TableItemProps | (ExtendTypes & ExtendTableItemProps))[]
@@ -43,11 +38,17 @@ export type TableProps<T = any, ExtendTypes = any> = {
 function processValue (item: TableItemProps, value: any) {
   if (item.options && typeof value !== 'undefined' && value !== null) {
     if (item.type.endsWith('[]'))
-      return (value as any[]).map((v: any) => item.options
+      return (value as any[]).map((v: any) => (item.options as {
+        label: string
+        value: any
+      }[])
         .find(option => option.value === v)?.label
         || v)
     else
-      return item.options
+      return (item.options as {
+        label: string
+        value: any
+      }[])
         .find(option => option.value === value)?.label
         || value
   }
@@ -63,6 +64,16 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
       if (!item.dataIndex) item.dataIndex = item.id
       if (!item.title) item.title = upperFirst(item.id)
       if (!item.type) item.type = 'string'
+      if (item.options?.length) {
+        item.options = transferOptions(item.options)
+        item.filters = (item.options as {
+          label: string
+          value: any
+        }[]).map(o => ({
+          text: o.label,
+          value: o.value
+        }))
+      }
 
       if (item.render) continue
       if (props.extendTypes && props.extendTypes[item.type]) {

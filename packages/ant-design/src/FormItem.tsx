@@ -14,13 +14,13 @@ import {
   SelectProps,
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { FaasItemProps } from './data'
+import { FaasItemProps, transferOptions } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import {
   ReactNode, useEffect, useState
 } from 'react'
 import { upperFirst } from 'lodash'
-import { BaseItemType } from '.'
+import { BaseItemProps, BaseOption } from '.'
 
 type StringProps = {
   type?: 'string'
@@ -56,21 +56,21 @@ type OptionType<T = any> = {
   children?: Omit<OptionType<T>, 'children'>[]
 }
 
-type OptionsProps<T = any> = {
-  options?: OptionType<T>[] | string[] | number[]
+type OptionsProps = {
+  options: BaseOption[]
   type?: 'string' | 'string[]' | 'number' | 'number[]'
   input?: SelectProps<any>
 }
 
 type FormItemInputProps<T = any> = StringProps | StringListProps |
 NumberProps | NumberListProps |
-BooleanProps | OptionsProps<T>
+BooleanProps | OptionsProps
 
 export type ExtendFormTypeProps = {
   children?: JSX.Element | null
 }
 
-export type ExtendFormItemProps = BaseItemType & AntdFormItemProps
+export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
 export type FormItemProps<T = any> = {
   children?: JSX.Element
@@ -107,20 +107,8 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
         })
     }
     if (!propsCopy.input) propsCopy.input = {}
-    if ((propsCopy as OptionsProps).options) {
-      const options: OptionType[] = []
-      if ((propsCopy as OptionsProps).options.length > 0)
-        for (const option of (propsCopy as OptionsProps).options) {
-          if (typeof option === 'object')
-            options.push(option)
-          else
-            options.push({
-              label: upperFirst(option.toString()),
-              value: option
-            })
-        }
-      (propsCopy as OptionsProps).input.options = options
-    }
+    if ((propsCopy as OptionsProps).options)
+      (propsCopy as OptionsProps).input.options = transferOptions(propsCopy.options)
 
     switch (propsCopy.type) {
       case 'boolean':
