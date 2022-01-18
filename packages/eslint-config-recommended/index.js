@@ -14,6 +14,7 @@ module.exports = {
     {
       files: [
         '**/*.js',
+        '**/*.mjs',
         '**/*.jsx',
         '**/*.ts',
         '**/*.tsx'
