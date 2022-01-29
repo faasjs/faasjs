@@ -100,13 +100,20 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
       switch (item.type) {
         case 'string[]':
           item.render = value => processValue(item, value).join(', ')
+          if (!item.onFilter)
+            item.onFilter = (value: any, row) => row[item.id].includes(value)
           break
         case 'number':
           item.render = value => processValue(item, value)
-          if (!item.sorter) item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
+          if (!item.sorter)
+            item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
+          if (!item.onFilter)
+            item.onFilter = (value: any, row) => value === row[item.id]
           break
         case 'number[]':
           item.render = value => processValue(item, value).join(', ')
+          if (!item.onFilter)
+            item.onFilter = (value: any, row) => row[item.id].includes(value)
           break
         case 'boolean':
           item.render = value => (typeof value === 'undefined' ? <Blank /> : (value ?
@@ -164,6 +171,8 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           break
         default:
           item.render = value => processValue(item, value)
+          if (!item.onFilter)
+            item.onFilter = (value: any, row) => value === row[item.id]
           break
       }
     }
