@@ -12,7 +12,7 @@ export type FaasDataWrapperProps<T = any> = {
     data?: T
     setData?: Dispatch<SetStateAction<T>>
   }
-  render: (args: {
+  render?: (args: {
     data: T
   }) => JSX.Element
   fallback?: JSX.Element

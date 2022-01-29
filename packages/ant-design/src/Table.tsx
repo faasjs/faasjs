@@ -18,14 +18,14 @@ import { Blank } from './Blank'
 export type TableItemProps<T = any> = {
   /** @deprecated use render */
   children?: JSX.Element | null
-} & FaasItemProps & AntdTableColumnProps<T>
+} & FaasItemProps & Omit<AntdTableColumnProps<T>, 'children'>
 
 export type ExtendTableTypeProps = {
   children?: JSX.Element | null
   render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
 }
 
-export type ExtendTableItemProps<T = any> = BaseItemProps & AntdTableColumnProps<T>
+export type ExtendTableItemProps<T = any> = BaseItemProps & Omit<AntdTableColumnProps<T>, 'children'>
 
 export type TableProps<T = any, ExtendTypes = any> = {
   items: (TableItemProps | (ExtendTypes & ExtendTableItemProps))[]
