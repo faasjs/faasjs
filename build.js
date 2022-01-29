@@ -45,6 +45,7 @@ async function buildAll() {
     'load',
     'func',
     'http',
+    'deployer',
   ]) {
     await build(`packages/${name}/package.json`)
     list.splice(list.indexOf(`packages/${name}/package.json`), 1)
