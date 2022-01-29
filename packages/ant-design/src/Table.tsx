@@ -12,7 +12,7 @@ import { FaasItemProps, transferOptions } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { isNil, upperFirst } from 'lodash'
 import { BaseItemProps } from '.'
-import { FaasDataWrapper } from './FaasWrapper'
+import { FaasDataWrapper, FaasDataWrapperProps } from './FaasDataWrapper'
 import { Blank } from './Blank'
 
 export type TableItemProps<T = any> = {
@@ -32,11 +32,7 @@ export type TableProps<T = any, ExtendTypes = any> = {
   extendTypes?: {
     [key: string]: ExtendTableTypeProps
   }
-  faasData?: {
-    action: string
-    params?: Record<string, any>
-  }
-} & AntdTableProps<T>
+} & FaasDataWrapperProps<T> & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
   if (item.options && typeof value !== 'undefined' && value !== null) {
@@ -182,14 +178,13 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
   if (!columns) return null
 
-  return <FaasDataWrapper
-    dataSource={ props.dataSource }
-    faasData={ props.faasData }
+  return <FaasDataWrapper<T>
     render={ ({ data }) => <AntdTable
       { ...props }
       rowKey={ props.rowKey || 'id' }
       columns={ columns }
-      dataSource={ data }
+      dataSource={ data as any }
     /> }
+    { ...props }
   />
 }

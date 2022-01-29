@@ -4,12 +4,7 @@ import {
 } from 'react'
 import { getClient } from '@faasjs/react'
 
-export function FaasDataWrapper<T = any> ({
-  dataSource,
-  faasData,
-  render,
-  fallback,
-}: {
+export type FaasDataWrapperProps<T = any> = {
   dataSource?: T
   faasData?: {
     action: string
@@ -21,7 +16,14 @@ export function FaasDataWrapper<T = any> ({
     data: T
   }) => JSX.Element
   fallback?: JSX.Element
-}) {
+}
+
+export function FaasDataWrapper<T = any> ({
+  dataSource,
+  faasData,
+  render,
+  fallback,
+}: FaasDataWrapperProps<T>) {
   const [data, setData] = useState<T>()
 
   useEffect(() => {

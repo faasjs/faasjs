@@ -6,7 +6,7 @@ import {
 } from 'react'
 import { BaseItemProps } from '.'
 import { FaasItemProps, transferOptions } from './data'
-import { FaasDataWrapper } from './FaasWrapper'
+import { FaasDataWrapper, FaasDataWrapperProps } from './FaasDataWrapper'
 
 export type ExtendDescriptionTypeProps = {
   children?: JSX.Element | null
@@ -22,15 +22,10 @@ export type DescriptionItemProps<T = any> = {
 
 export type DescriptionProps<T = any, ExtendItemProps = any> = {
   items: (DescriptionItemProps | ExtendItemProps)[]
-  dataSource?: T
-  faasData?: {
-    action: string
-    params?: Record<string, any>
-  }
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
   }
-} & DescriptionsProps
+} & FaasDataWrapperProps<T> & DescriptionsProps
 
 type DescriptionItemContentProps<T = any> = {
   item: DescriptionItemProps
@@ -116,17 +111,16 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   }
 }
 
-export function Description (props: DescriptionProps) {
-  return <FaasDataWrapper
-    dataSource={ props.dataSource }
-    faasData={ props.faasData }
+export function Description<T = any> (props: DescriptionProps<T>) {
+  return <FaasDataWrapper<T>
+    { ...props }
     render={ ({ data }) => <Descriptions { ...props }>{
       props.items.map(item => <Descriptions.Item
         key={ item.id }
         label={ item.title || upperFirst(item.id) }>
         <DescriptionItemContent
           item={ item }
-          value={ data[item.id] }
+          value={ (data as Record<string, any>)[item.id] }
           values={ data }
           extendTypes={ props.extendTypes }
         />
