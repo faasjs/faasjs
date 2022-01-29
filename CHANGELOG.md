@@ -4,6 +4,10 @@
 
 ## Beta
 
+[`v0.0.2-beta.347 (2022-01-29)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.346...v0.0.2-beta.347)
+
+- [Feature] `@faasjs/http` Add regexp rule. (Contributor: [@Germini](https://github.com/Germiniku))
+
 [`v0.0.2-beta.285 (2021-12-10)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.280...v0.0.2-beta.285)
 
 - [优化] `@faasjs/react` 中 `useFaas` 新增导出 `setLoading`、`setPromise`、`setData` 和 `setError` 参数，用于自定义数据加载。
