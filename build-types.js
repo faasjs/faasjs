@@ -2,30 +2,23 @@
 const globSync = require('glob').sync
 const promisify = require('util').promisify
 const exec = promisify(require('child_process').exec)
+const writeFile = promisify(require('fs').writeFile)
 const version = require('./package.json').version
-const build = require('./build.js').build
 
 async function run(cmd) {
   console.log(cmd)
   await exec(cmd, { stdio: 'inherit' })
 }
 
-async function publish(path) {
+async function build(path) {
   const pkg = require(__dirname + '/' + path)
-  await build(path, true)
-  try {
-    await run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
-  } catch (error) {
-    console.warn(error)
-  }
-  try {
-    await run(`npm dist-tag add ${pkg.name}@${version} beta`)
-  } catch (error) {
-    console.warn(error)
+
+  if (pkg.scripts && pkg.scripts['build:types']) {
+    await run(`npm run build:types -w ${path.replace('/package.json', '')}`)
   }
 }
 
-async function publishAll() {
+async function buildAll() {
   const list = globSync('packages/*/package.json')
 
   for (const name of [
@@ -40,14 +33,13 @@ async function publishAll() {
     'deployer',
     'request',
   ]) {
-    await publish(`packages/${name}/package.json`)
+    await build(`packages/${name}/package.json`)
     list.splice(list.indexOf(`packages/${name}/package.json`), 1)
   }
 
-  await Promise.all(list.map(publish))
-  await run(`git commit -am 'release ${version}'`)
-  await run(`git tag v${version}`)
-  await run('git push && git push --tags')
+  await Promise.all(list.map(f => build(f)))
 }
 
-publishAll()
+buildAll()
+
+module.exports = { build }

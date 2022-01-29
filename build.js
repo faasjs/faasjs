@@ -42,10 +42,12 @@ async function buildAll() {
     'logger',
     'deep_merge',
     'ts-transform',
-    'load',
     'func',
+    'load',
     'http',
+    'cloud_function',
     'deployer',
+    'request',
   ]) {
     await build(`packages/${name}/package.json`)
     list.splice(list.indexOf(`packages/${name}/package.json`), 1)

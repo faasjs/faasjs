@@ -6,7 +6,8 @@
     "test": "jest --silent --ci --coverage --forceExit",
     "pub": "node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/coverage packages/*/*.log tmp *.log",
-    "build": "node build.js"
+    "build": "node build.js",
+    "build:types": "node build-types.js"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
