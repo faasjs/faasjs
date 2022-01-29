@@ -15,7 +15,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --format esm,cjs",
+    "build": "tsup-node src/index.ts --format esm,cjs --external @faasjs/load,@faasjs/deep_merge",
     "build:types": "tsup-node src/index.ts --dts-only"
   },
   "files": [
