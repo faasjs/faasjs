@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.2-beta.348",
+  "version": "0.0.2-beta.349",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     "lodash": "*",
     "react": "*",
     "react-dom": "*",
-    "@faasjs/react": "^0.0.2-beta.348"
+    "@faasjs/react": "^0.0.2-beta.349"
   },
   "devDependencies": {
     "@types/lodash": "*",
