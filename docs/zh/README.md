@@ -94,6 +94,7 @@ npx create-faas-app --name faasjs --example --noprovider
   <div style="margin-bottom:2em">
     <h3>感谢</h3>
     <p>代码贡献者（按字母排序）</p>
+    <a href="https://github.com/Germiniku" target="_blank">Germini</a>
     <a href="https://github.com/luckyporo" target="_blank">luckyporo</a>,
     <a href="https://github.com/onichandame" target="_blank">onichandame</a>,
     <a href="https://github.com/Vibutnum" target="_blank">Vibutnum</a>,
@@ -101,7 +102,6 @@ npx create-faas-app --name faasjs --example --noprovider
     <a href="https://github.com/zfben" target="_blank">zfben</a>
     <p>FaasJS 基于以下开源项目（按字母排序）</p>
     <a href="https://www.apollographql.com/" target="_blank">Apollo</a>,
-    <a href="https://babeljs.io/" target="_blank">Babel</a>,
     <a href="https://eslint.org/" target="_blank">ESLint</a>,
     <a href="https://jestjs.io/" target="_blank">Jest</a>,
     <a href="https://knexjs.org/" target="_blank">Knex</a>,
