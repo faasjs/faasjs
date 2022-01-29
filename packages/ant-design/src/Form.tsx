@@ -63,4 +63,5 @@ export function Form<Values = any> (props: FormProps<Values>) {
   </AntdForm>
 }
 
+Form.useForm = AntdForm.useForm
 Form.Item = FormItem
