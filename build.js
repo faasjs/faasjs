@@ -35,7 +35,22 @@ async function build(path, dts = false) {
 }
 
 async function buildAll() {
-  await Promise.all(globSync('packages/*/package.json').map(p => build(p)))
+  const list = globSync('packages/*/package.json')
+
+  for (const name of [
+    'browser',
+    'logger',
+    'deep_merge',
+    'ts-transform',
+    'load',
+    'func',
+    'http',
+  ]) {
+    await build(`packages/${name}/package.json`)
+    list.splice(list.indexOf(`packages/${name}/package.json`), 1)
+  }
+
+  await Promise.all(list.map(f => build(f)))
 }
 
 buildAll()
