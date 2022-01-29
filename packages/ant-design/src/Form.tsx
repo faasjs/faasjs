@@ -48,6 +48,8 @@ export function Form<Values = any> (props: FormProps<Values>) {
     setComputedProps(props)
   }, [])
 
+  if (!computedProps) return null
+
   return <AntdForm<Values> { ...computedProps }>
     {props.items?.map((item: FormItemProps) => <FormItem
       key={ item.id }

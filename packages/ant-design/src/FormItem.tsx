@@ -65,6 +65,7 @@ export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
 export type FormItemProps<T = any> = {
   children?: JSX.Element | null
+  render?: () => JSX.Element | null
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: {
@@ -120,6 +121,11 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
   if (computedProps.children)
     return <AntdForm.Item { ...computedProps }>
       {computedProps.children }
+    </AntdForm.Item>
+
+  if (computedProps.render)
+    return <AntdForm.Item { ...computedProps }>
+      { computedProps.render() }
     </AntdForm.Item>
 
   switch (computedProps.type) {

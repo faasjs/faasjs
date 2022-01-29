@@ -22,7 +22,7 @@ export type TableItemProps<T = any> = {
 
 export type ExtendTableTypeProps = {
   children?: JSX.Element | null
-  render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
+  render?: (value: any, values: any, index: number) => JSX.Element | string | number | boolean | null
 }
 
 export type ExtendTableItemProps<T = any> = BaseItemProps & Omit<AntdTableColumnProps<T>, 'children'>
