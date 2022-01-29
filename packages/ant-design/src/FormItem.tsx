@@ -73,7 +73,7 @@ export type ExtendFormTypeProps = {
 export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
 export type FormItemProps<T = any> = {
-  children?: JSX.Element
+  children?: JSX.Element | null
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: {

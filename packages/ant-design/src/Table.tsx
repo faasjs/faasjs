@@ -15,7 +15,10 @@ import { BaseItemProps } from '.'
 import { FaasDataWrapper } from './FaasWrapper'
 import { Blank } from './Blank'
 
-export type TableItemProps<T = any> = FaasItemProps & AntdTableColumnProps<T>
+export type TableItemProps<T = any> = {
+  /** @deprecated use render */
+  children?: JSX.Element | null
+} & FaasItemProps & AntdTableColumnProps<T>
 
 export type ExtendTableTypeProps = {
   children?: JSX.Element | null
@@ -76,6 +79,8 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
       }
 
       if (item.render) continue
+      if (item.children) delete item.children
+
       if (props.extendTypes && props.extendTypes[item.type]) {
         if (props.extendTypes[item.type].children) {
           item.render = (value: any, values: any) => cloneElement(
