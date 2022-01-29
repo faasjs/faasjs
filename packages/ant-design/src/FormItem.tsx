@@ -16,9 +16,7 @@ import {
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { FaasItemProps, transferOptions } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
-import {
-  ReactNode, useEffect, useState
-} from 'react'
+import { useEffect, useState } from 'react'
 import { upperFirst } from 'lodash'
 import { BaseItemProps, BaseOption } from '.'
 
@@ -47,13 +45,6 @@ type NumberListProps = {
 type BooleanProps = {
   type: 'boolean'
   input?: SwitchProps
-}
-
-type OptionType<T = any> = {
-  label: ReactNode
-  value?: T
-  disabled?: boolean
-  children?: Omit<OptionType<T>, 'children'>[]
 }
 
 type OptionsProps = {
