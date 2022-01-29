@@ -23,7 +23,7 @@ export function FaasDataWrapper<T = any> ({
     if (!faasData) return
 
     getClient()
-      .faas(faasData.action, faasData.action)
+      .faas(faasData.action, faasData.params)
       .then(res => setData(res.data))
   }, [JSON.stringify(faasData)])
 
