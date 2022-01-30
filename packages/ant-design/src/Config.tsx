@@ -15,6 +15,10 @@ export type FaasState = {
       text: string
     }
   }
+  Title: {
+    separator: string
+    suffix: string
+  }
 }
 
 const common = {
@@ -27,6 +31,10 @@ export const useFaasState = createGlobalState<FaasState>({
   common,
   Blank: { text: common.blank },
   Form: { submit: { text: common.submit } },
+  Title: {
+    separator: ' - ',
+    suffix: ''
+  },
 })
 
 export function Config (props: { config: Partial<FaasState> }): JSX.Element {
