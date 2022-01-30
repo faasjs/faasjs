@@ -2,7 +2,7 @@
 
 ## Beta
 
-[`v0.0.2-beta.348 (2022-01-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.352...v0.0.2-beta.353)
+[`v0.0.2-beta.353 (2022-01-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.352...v0.0.2-beta.353)
 
 - `@faasjs/ant-design`
   - [Feature] Add `Config`.
