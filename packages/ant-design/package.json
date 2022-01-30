@@ -27,7 +27,9 @@
     "lodash": "*",
     "react": "*",
     "react-dom": "*",
-    "@faasjs/react": "^0.0.2-beta.352"
+    "@faasjs/react": "^0.0.2-beta.352",
+    "react-use": "*",
+    "react-router-dom": "*"
   },
   "devDependencies": {
     "@types/lodash": "*",
