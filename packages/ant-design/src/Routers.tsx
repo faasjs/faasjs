@@ -3,7 +3,7 @@ import {
   ComponentType, LazyExoticComponent, Suspense
 } from 'react'
 import {
-  Routes, Route, RouteProps
+  Routes as OriginRoutes, Route, RouteProps
 } from 'react-router-dom'
 
 function NoMatch () {
@@ -14,12 +14,15 @@ function NoMatch () {
   />
 }
 
-export function BRoutes (props: {
+export type RoutesProps = {
   routes: (RouteProps & {
-    page: LazyExoticComponent<ComponentType<any>>
+    page?: LazyExoticComponent<ComponentType<any>>
   })[]
-}) {
-  return <Routes>{
+  notFound?: JSX.Element
+}
+
+export function Routes (props: RoutesProps) {
+  return <OriginRoutes>{
     props.routes.map(r => <Route
       key={ r.path as string }
       { ...r }
@@ -30,7 +33,7 @@ export function BRoutes (props: {
   }<Route
     key='*'
     path='*'
-    element={ <NoMatch /> }
+    element={ props.notFound || <NoMatch /> }
   />
-  </Routes>
+  </OriginRoutes>
 }
