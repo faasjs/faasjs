@@ -1,4 +1,5 @@
 export * from './Blank'
+export * from './Config'
 export * from './data'
 export * from './Description'
 export * from './Drawer'

@@ -1,14 +1,17 @@
 import { Typography } from 'antd'
 import { isNil } from 'lodash'
+import { useFaasState } from './Config'
 
-const text = navigator.language?.includes('CN') ? '空' : 'Empty'
-
-export function Blank (options?: {
+export type BlankProps = {
   value?: any;
   text?: string;
-}) {
+}
+
+export function Blank (options?: BlankProps) {
+  const [config] = useFaasState()
+
   return !options ||
     isNil(options.value) ||
     (Array.isArray(options.value) && !options.value.length) ||
-    options.value === '' ? <Typography.Text disabled>{options?.text || text}</Typography.Text> : options.value
+    options.value === '' ? <Typography.Text disabled>{options?.text || config.Blank.text}</Typography.Text> : options.value
 }

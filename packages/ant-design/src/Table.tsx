@@ -8,12 +8,14 @@ import {
   TableColumnProps as AntdTableColumnProps,
   Radio
 } from 'antd'
-import { FaasItemProps, transferOptions } from './data'
+import {
+  FaasItemProps, transferOptions, BaseItemProps
+} from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { isNil, upperFirst } from 'lodash'
-import { BaseItemProps } from '.'
 import { FaasDataWrapper, FaasDataWrapperProps } from './FaasDataWrapper'
 import { Blank } from './Blank'
+import { useFaasState } from './Config'
 
 export type TableItemProps<T = any> = {
   /** @deprecated use render */
@@ -56,6 +58,7 @@ function processValue (item: TableItemProps, value: any) {
 
 export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()
+  const [config] = useFaasState()
 
   useEffect(() => {
     for (const item of props.items as TableItemProps[]) {
@@ -139,7 +142,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
                 confirm()
               } }
             >
-              <Radio.Button>{navigator.language?.includes('CN') ? '全部' : 'All'}</Radio.Button>
+              <Radio.Button>{config.common.all}</Radio.Button>
               <Radio.Button value={ 'true' }><CheckOutlined style={ {
                 color: '#52c41a',
                 verticalAlign: 'middle'
@@ -148,7 +151,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
                 verticalAlign: 'middle',
                 color: '#ff4d4f'
               } } /></Radio.Button>
-              <Radio.Button value={ 'empty' }>{navigator.language?.includes('CN') ? '空' : 'Empty'}</Radio.Button>
+              <Radio.Button value={ 'empty' }>{config.common.blank}</Radio.Button>
             </Radio.Group>
 
           if (!item.onFilter)
