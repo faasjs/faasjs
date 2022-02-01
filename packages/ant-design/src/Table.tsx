@@ -192,7 +192,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
   return <FaasDataWrapper<T>
     { ...props }
     faasData={ {
-      element: ({
+      render: ({
         data, params, reload
       }) => {
         if (!data)

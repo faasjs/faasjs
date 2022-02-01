@@ -33,7 +33,7 @@ export function FaasDataWrapper<T = any> ({
 
   console.log(faasData)
   return <client.FaasData
-    element={ faasData.element || render }
+    render={ faasData.render || render }
     { ...faasData }
   />
 }
