@@ -6,7 +6,7 @@ describe('FaasReactClient', () => {
 
     expect(client).toHaveProperty('faas')
     expect(client).toHaveProperty('useFaas')
-    expect(client).toHaveProperty('FaasData')
+    expect(client).toHaveProperty('FaasDataWrapper')
 
     expect(getClient()).toBe(client)
   })
