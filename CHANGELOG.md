@@ -2,6 +2,18 @@
 
 ## Beta
 
+[`v0.0.2-beta.357 (2022-02-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.353...v0.0.2-beta.357)
+
+Happy Chinese New Year! :tiger: :firecracker:
+
+- `@faasjs/browser`
+  - [Break] Rename `FaasData` to `FaasDataWrapper`.
+  - [Break] Rename `element` to `render`.
+  - [Feature] Add `data` and `setData` to `useFaas` and `FaasDataWrapper`.
+  - [Feature] Add module to package.json.
+- `@faasjs/ant-design`
+  - [Feature] `Table` supports ajax mode.
+
 [`v0.0.2-beta.353 (2022-01-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.352...v0.0.2-beta.353)
 
 - `@faasjs/ant-design`
