@@ -11,6 +11,7 @@ Happy Chinese New Year! :tiger: :firecracker:
   - [Break] Rename `element` to `render`.
   - [Feature] Add `data` and `setData` to `useFaas` and `FaasDataWrapper`.
   - [Feature] Add module to package.json.
+  - [Feature] Export `FaasDataWrapper` directly, it will use default client.
 - `@faasjs/ant-design`
   - [Feature] `Table` supports ajax mode.
 
