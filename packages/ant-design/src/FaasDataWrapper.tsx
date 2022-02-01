@@ -4,17 +4,21 @@ import {
 } from 'react'
 import { getClient } from '@faasjs/react'
 
+export type FaasDataProps<T = any> = {
+  action: string
+  params?: Record<string, any>
+  data?: T
+  setData?: Dispatch<SetStateAction<T>>
+}
+
+export type FaasDataRender<T = any> = (args: {
+  data: T
+}) => JSX.Element
+
 export type FaasDataWrapperProps<T = any> = {
   dataSource?: T
-  faasData?: {
-    action: string
-    params?: Record<string, any>
-    data?: T
-    setData?: Dispatch<SetStateAction<T>>
-  }
-  render?: (args: {
-    data: T
-  }) => JSX.Element
+  faasData?: FaasDataProps<T>
+  render?: FaasDataRender<T>
   fallback?: JSX.Element
 }
 
