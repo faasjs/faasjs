@@ -19,5 +19,7 @@ describe('mongo', function () {
     const handler = func.export().handler
 
     expect(await handler({})).toEqual([])
+
+    await mongo.client.close()
   })
 })
