@@ -13,7 +13,7 @@ import {
 } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { isNil, upperFirst } from 'lodash'
-import { FaasDataWrapper, FaasDataWrapperProps } from './FaasDataWrapper'
+import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
 import { Blank } from './Blank'
 import { useFaasState } from './Config'
 
@@ -34,7 +34,8 @@ export type TableProps<T = any, ExtendTypes = any> = {
   extendTypes?: {
     [key: string]: ExtendTableTypeProps
   }
-} & FaasDataWrapperProps<T> & AntdTableProps<T>
+  faasData?: FaasDataWrapperProps<T>
+} & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
   if (item.options && typeof value !== 'undefined' && value !== null) {
@@ -190,44 +191,41 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
     />
 
   return <FaasDataWrapper<T>
-    { ...props }
-    faasData={ {
-      render: ({
-        data, params, reload
-      }) => {
-        if (!data)
-          return <AntdTable
-            { ...props }
-            rowKey={ props.rowKey || 'id' }
-            columns={ columns }
-            dataSource={ [] }
-          />
-
-        if (Array.isArray(data))
-          return <AntdTable
-            { ...props }
-            rowKey={ props.rowKey || 'id' }
-            columns={ columns }
-            dataSource={ data as any }
-          />
-
+    render= { ({
+      data, params, reload
+    }) => {
+      if (!data)
         return <AntdTable
           { ...props }
           rowKey={ props.rowKey || 'id' }
           columns={ columns }
-          dataSource={ (data as any).rows }
-          pagination={ (data as any).pagination }
-          onChange={ (pagination, filters, sorter) => {
-            reload({
-              ...params,
-              pagination,
-              filters,
-              sorter,
-            })
-          } }
+          dataSource={ [] }
         />
-      },
-      ...props.faasData,
+
+      if (Array.isArray(data))
+        return <AntdTable
+          { ...props }
+          rowKey={ props.rowKey || 'id' }
+          columns={ columns }
+          dataSource={ data as any }
+        />
+
+      return <AntdTable
+        { ...props }
+        rowKey={ props.rowKey || 'id' }
+        columns={ columns }
+        dataSource={ (data as any).rows }
+        pagination={ (data as any).pagination }
+        onChange={ (pagination, filters, sorter) => {
+          reload({
+            ...params,
+            pagination,
+            filters,
+            sorter,
+          })
+        } }
+      />
     } }
+    { ...props.faasData }
   />
 }
