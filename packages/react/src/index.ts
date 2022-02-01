@@ -12,7 +12,9 @@ export type {
   FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
 } from '@faasjs/browser'
 
-type FaasDataInjection<Data = any> = {
+export type FaasDataInjection<Data = any> = {
+  action: string | any
+  params: Record<string, any>
   loading: boolean
   data: Data
   error: any
@@ -24,15 +26,19 @@ type FaasDataInjection<Data = any> = {
   setError: React.Dispatch<React.SetStateAction<any>>
 }
 
-type FaasDataProps<PathOrData extends FaasAction> = {
-  element(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element
+export type FaasDataProps<PathOrData extends FaasAction> = {
+  element?(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element
   fallback?: JSX.Element | false
   action: string
   params?: FaasParams<PathOrData>
   onDataChange?(args: FaasDataInjection<FaasData<PathOrData>>): void
+  /** use custom data, should work with setData */
+  data?: FaasData<PathOrData>
+  /** use custom setData, should work with data */
+  setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
 }
 
-type FaasReactClientInstance = {
+export type FaasReactClientInstance = {
   faas: <PathOrData extends FaasAction>(
     action: string | PathOrData,
     params: FaasParams<PathOrData>
@@ -74,8 +80,14 @@ export function FaasReactClient ({
 
   function useFaas<PathOrData extends FaasAction> (
     action: PathOrData | string,
-    defaultParams: FaasParams<PathOrData>
+    defaultParams: FaasParams<PathOrData>,
+    options?: {
+      data?: FaasData<PathOrData>
+      setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
+    }
   ): FaasDataInjection<FaasData<PathOrData>> {
+    if (!options) options = {}
+
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState<FaasData<PathOrData>>()
     const [error, setError] = useState<any>()
@@ -94,7 +106,7 @@ export function FaasReactClient ({
       const request = client.action<PathOrData>(action, params)
       setPromise(request)
       request
-        .then(r => setData(r.data))
+        .then(r => (options?.setData ? options.setData(r.data) : setData(r.data)))
         .catch(async e => {
           if (onError)
             try {
@@ -116,8 +128,10 @@ export function FaasReactClient ({
     ])
 
     return {
+      action,
+      params,
       loading,
-      data,
+      data: options?.data || data,
       error,
       promise,
       async reload (params?: any) {
@@ -125,7 +139,7 @@ export function FaasReactClient ({
         setReloadTimes(reloadTimes + 1)
         return promise
       },
-      setData,
+      setData: options?.setData || setData,
       setLoading,
       setPromise,
       setError,
@@ -136,9 +150,16 @@ export function FaasReactClient ({
     faas,
     useFaas,
     FaasData<PathOrData extends FaasAction> ({
-      action, params, fallback, element, onDataChange
+      action, params,
+      fallback, element,
+      onDataChange,
+      data,
+      setData,
     }: FaasDataProps<PathOrData>): JSX.Element {
-      const request = useFaas<PathOrData>(action, params)
+      const request = useFaas<PathOrData>(action, params, {
+        data,
+        setData
+      })
       const [loaded, setLoaded] = useState<boolean>(false)
 
       useEffect(function () {

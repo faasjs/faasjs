@@ -181,13 +181,53 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
   if (!columns) return null
 
-  return <FaasDataWrapper<T>
-    render={ ({ data }) => <AntdTable
+  if (!props.faasData)
+    return <AntdTable
       { ...props }
       rowKey={ props.rowKey || 'id' }
       columns={ columns }
-      dataSource={ data as any }
-    /> }
+      dataSource={ props.dataSource }
+    />
+
+  return <FaasDataWrapper<T>
     { ...props }
+    faasData={ {
+      element: ({
+        data, params, reload
+      }) => {
+        if (!data)
+          return <AntdTable
+            { ...props }
+            rowKey={ props.rowKey || 'id' }
+            columns={ columns }
+            dataSource={ [] }
+          />
+
+        if (Array.isArray(data))
+          return <AntdTable
+            { ...props }
+            rowKey={ props.rowKey || 'id' }
+            columns={ columns }
+            dataSource={ data as any }
+          />
+
+        return <AntdTable
+          { ...props }
+          rowKey={ props.rowKey || 'id' }
+          columns={ columns }
+          dataSource={ (data as any).rows }
+          pagination={ (data as any).pagination }
+          onChange={ (pagination, filters, sorter) => {
+            reload({
+              ...params,
+              pagination,
+              filters,
+              sorter,
+            })
+          } }
+        />
+      },
+      ...props.faasData,
+    } }
   />
 }
