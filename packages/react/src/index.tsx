@@ -26,7 +26,7 @@ export type FaasDataInjection<Data = any> = {
   setError: React.Dispatch<React.SetStateAction<any>>
 }
 
-export type FaasDataProps<PathOrData extends FaasAction> = {
+export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
   render?(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element
   fallback?: JSX.Element | false
   action: string
@@ -47,7 +47,7 @@ export type FaasReactClientInstance = {
     action: string | PathOrData,
     defaultParams: FaasParams<PathOrData>
   ) => FaasDataInjection<FaasData<PathOrData>>
-  FaasData<PathOrData extends FaasAction>(props: FaasDataProps<PathOrData>): JSX.Element
+  FaasDataWrapper<PathOrData extends FaasAction>(props: FaasDataWrapperProps<PathOrData>): JSX.Element
 }
 
 const clients: {
@@ -149,13 +149,13 @@ export function FaasReactClient ({
   const reactClient = {
     faas,
     useFaas,
-    FaasData<PathOrData extends FaasAction> ({
+    FaasDataWrapper<PathOrData extends FaasAction> ({
       action, params,
       fallback, render,
       onDataChange,
       data,
       setData,
-    }: FaasDataProps<PathOrData>): JSX.Element {
+    }: FaasDataWrapperProps<PathOrData>): JSX.Element {
       const request = useFaas<PathOrData>(action, params, {
         data,
         setData
@@ -187,4 +187,21 @@ export function getClient (domain?: string) {
   if (!client) throw Error('FaasReactClient is not initialized')
 
   return client
+}
+
+export function FaasDataWrapper<PathOrData extends FaasAction> (props: FaasDataWrapperProps<PathOrData> & {
+  client?: FaasReactClientInstance
+}): JSX.Element {
+  const [client, setClient] = useState<FaasReactClientInstance>(props.client)
+
+  useEffect(() => {
+    if (client) return
+
+    setClient(getClient())
+  }, [])
+
+  if (!client)
+    return props.fallback || null
+
+  return <client.FaasDataWrapper { ...props } />
 }
