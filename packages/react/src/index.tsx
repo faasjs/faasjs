@@ -6,7 +6,9 @@ import {
   FaasAction, FaasData, FaasParams
 } from '@faasjs/types'
 
-import { useState, useEffect } from 'react'
+import {
+  useState, useEffect, createElement
+} from 'react'
 
 export type {
   FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
@@ -203,5 +205,5 @@ export function FaasDataWrapper<PathOrData extends FaasAction> (props: FaasDataW
   if (!client)
     return props.fallback || null
 
-  return <client.FaasDataWrapper { ...props } />
+  return createElement(client.FaasDataWrapper, props as any)
 }
