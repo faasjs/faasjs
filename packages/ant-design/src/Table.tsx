@@ -215,7 +215,10 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         rowKey={ props.rowKey || 'id' }
         columns={ columns }
         dataSource={ (data as any).rows }
-        pagination={ (data as any).pagination }
+        pagination={ {
+          ...props.pagination,
+          ...(data as any).pagination
+        } }
         onChange={ (pagination, filters, sorter) => {
           reload({
             ...params,
