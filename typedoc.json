@@ -4,5 +4,6 @@
   "excludeExternals": true,
   "exclude": "**/__tests__/**",
   "logLevel": "Verbose",
-  "out": "./out"
+  "out": "./out",
+  "plugin": "typedoc-plugin-markdown"
 }

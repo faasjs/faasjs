@@ -8,32 +8,14 @@ async function run(cmd) {
   await exec(cmd, { stdio: 'inherit' })
 }
 
-async function build(path) {
+async function build(path, dts = false) {
   const pkg = require(__dirname + '/' + path)
 
-  if (pkg.scripts && pkg.scripts['build:types']) {
-    await run(`npm run build:types -w ${path.replace('/package.json', '')}`)
-  }
+  await run(`npm run build:doc ${path.replace('/package.json', '/src')} --out docs/doc/${pkg.name.replace('@faasjs/', '')}`)
 }
 
 async function buildAll() {
   const list = globSync('packages/*/package.json')
-
-  for (const name of [
-    'browser',
-    'logger',
-    'deep_merge',
-    'ts-transform',
-    'func',
-    'load',
-    'http',
-    'cloud_function',
-    'deployer',
-    'request',
-  ]) {
-    await build(`packages/${name}/package.json`)
-    list.splice(list.indexOf(`packages/${name}/package.json`), 1)
-  }
 
   await Promise.all(list.map(f => build(f)))
 }

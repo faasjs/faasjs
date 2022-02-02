@@ -7,13 +7,16 @@
     "pub": "node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/coverage packages/*/*.log tmp *.log",
     "build": "node build.js",
-    "build:types": "node build-types.js"
+    "build:types": "node build-types.js",
+    "build:doc": "typedoc",
+    "build:docs": "node build-docs.js"
   },
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
     "@faasjs/eslint-config-react": "file:./packages/eslint-config-react",
     "faasjs": "file:./packages/faasjs",
-    "typedoc": "*"
+    "typedoc": "*",
+    "typedoc-plugin-markdown": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [
