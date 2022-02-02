@@ -30,29 +30,17 @@
 | `baseUrl` | `string` | 网关地址 |
 | `options?` | [`Options`](../modules.md#options) | 默认配置项 |
 
-#### Defined in
-
-[index.ts:70](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L70)
-
 ## Properties
 
 ### defaultOptions
 
 • **defaultOptions**: [`Options`](../modules.md#options)
 
-#### Defined in
-
-[index.ts:63](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L63)
-
 ___
 
 ### host
 
 • **host**: `string`
-
-#### Defined in
-
-[index.ts:62](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L62)
 
 ## Methods
 
@@ -79,7 +67,3 @@ ___
 #### Returns
 
 `Promise`<[`Response`](Response.md)<`FaasData`<`PathOrData`\>\>\>
-
-#### Defined in
-
-[index.ts:83](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L83)

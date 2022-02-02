@@ -40,10 +40,6 @@
 | :------ | :------ | :------ |
 | `config?` | [`CloudFunctionConfig`](../modules.md#cloudfunctionconfig) | 配置项，这些配置将强制覆盖默认配置 |
 
-#### Defined in
-
-[index.ts:92](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L92)
-
 ## Properties
 
 ### config
@@ -63,29 +59,17 @@
 | `timeout?` | `number` |
 | `triggers?` | { `name`: `string` ; `type`: `string` ; `value`: `string`  }[] |
 
-#### Defined in
-
-[index.ts:55](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L55)
-
 ___
 
 ### context
 
 • **context**: `any`
 
-#### Defined in
-
-[index.ts:54](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L54)
-
 ___
 
 ### event
 
 • **event**: `any`
-
-#### Defined in
-
-[index.ts:53](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L53)
 
 ___
 
@@ -97,10 +81,6 @@ ___
 
 Plugin.name
 
-#### Defined in
-
-[index.ts:52](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L52)
-
 ___
 
 ### type
@@ -110,10 +90,6 @@ ___
 #### Implementation of
 
 Plugin.type
-
-#### Defined in
-
-[index.ts:51](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L51)
 
 ## Methods
 
@@ -140,10 +116,6 @@ Plugin.type
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[index.ts:164](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L164)
 
 ___
 
@@ -172,10 +144,6 @@ ___
 
 `Promise`<`TResult`\>
 
-#### Defined in
-
-[index.ts:184](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L184)
-
 ___
 
 ### onDeploy
@@ -196,10 +164,6 @@ ___
 #### Implementation of
 
 Plugin.onDeploy
-
-#### Defined in
-
-[index.ts:104](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L104)
 
 ___
 
@@ -222,10 +186,6 @@ ___
 
 Plugin.onInvoke
 
-#### Defined in
-
-[index.ts:148](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L148)
-
 ___
 
 ### onMount
@@ -246,7 +206,3 @@ ___
 #### Implementation of
 
 Plugin.onMount
-
-#### Defined in
-
-[index.ts:127](https://github.com/faasjs/faasjs/blob/1705fd2/packages/cloud_function/src/index.ts#L127)

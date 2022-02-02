@@ -7,5 +7,6 @@
   "plugin": "typedoc-plugin-markdown",
   "githubPages": false,
   "hideBreadcrumbs": true,
-  "cleanOutputDir": false
+  "cleanOutputDir": false,
+  "disableSources": true
 }

@@ -7,3 +7,13 @@ MongoDB 适配
 [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/mongo/beta.svg)](https://www.npmjs.com/package/@faasjs/mongo)
 
 https://faasjs.com/doc/mongo.html
+
+## Modules
+
+### Classes
+
+- [Mongo](classes/Mongo.md)
+
+### Interfaces
+
+- [MongoConfig](interfaces/MongoConfig.md)

@@ -43,10 +43,6 @@
 | :------ | :------ |
 | `initBy` | [`Func`](Func.md)<`any`, `any`, `any`\> |
 
-#### Defined in
-
-[test/src/index.ts:31](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L31)
-
 • **new FuncWarper**(`initBy`)
 
 创建测试实例
@@ -59,19 +55,11 @@
 | :------ | :------ |
 | `initBy` | `string` |
 
-#### Defined in
-
-[test/src/index.ts:32](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L32)
-
 ## Properties
 
 ### config
 
 • `Readonly` **config**: [`Config`](../modules.md#config)
-
-#### Defined in
-
-[test/src/index.ts:21](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L21)
 
 ___
 
@@ -79,19 +67,11 @@ ___
 
 • `Readonly` **file**: `string`
 
-#### Defined in
-
-[test/src/index.ts:17](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L17)
-
 ___
 
 ### func
 
 • `Readonly` **func**: [`Func`](Func.md)<`any`, `any`, `any`\>
-
-#### Defined in
-
-[test/src/index.ts:20](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L20)
 
 ___
 
@@ -99,29 +79,17 @@ ___
 
 • `Readonly` **logger**: `Logger`
 
-#### Defined in
-
-[test/src/index.ts:19](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L19)
-
 ___
 
 ### plugins
 
 • `Readonly` **plugins**: [`Plugin`](../modules.md#plugin)[]
 
-#### Defined in
-
-[test/src/index.ts:22](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L22)
-
 ___
 
 ### staging
 
 • `Readonly` **staging**: `string`
-
-#### Defined in
-
-[test/src/index.ts:18](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L18)
 
 ## Methods
 
@@ -149,10 +117,6 @@ ___
 
 `Promise`<{ `body`: `any` ; `data?`: `TData` ; `error?`: { `message`: `string`  } ; `headers`: { [key: string]: `string`;  } ; `statusCode`: `number`  }\>
 
-#### Defined in
-
-[test/src/index.ts:90](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L90)
-
 ___
 
 ### handler
@@ -176,10 +140,6 @@ ___
 
 `Promise`<`TResult`\>
 
-#### Defined in
-
-[test/src/index.ts:78](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L78)
-
 ___
 
 ### mount
@@ -195,7 +155,3 @@ ___
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[test/src/index.ts:68](https://github.com/faasjs/faasjs/blob/1705fd2/packages/test/src/index.ts#L68)

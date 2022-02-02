@@ -35,10 +35,6 @@
 
 Error.constructor
 
-#### Defined in
-
-[index.ts:66](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L66)
-
 ## Properties
 
 ### message
@@ -49,16 +45,8 @@ Error.constructor
 
 Error.message
 
-#### Defined in
-
-[index.ts:64](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L64)
-
 ___
 
 ### statusCode
 
 • `Readonly` **statusCode**: `number`
-
-#### Defined in
-
-[index.ts:63](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L63)

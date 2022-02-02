@@ -7,3 +7,27 @@ Amazon Web Services (AWS) Adapter for FaasJS.
 [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/aws/beta.svg)](https://www.npmjs.com/package/@faasjs/aws)
 
 https://faasjs.com/doc/aws.html
+
+## Modules
+
+### Classes
+
+- [Provider](classes/Provider.md)
+
+### Type aliases
+
+- [AWSConfig](modules.md#awsconfig)
+
+## Type aliases
+
+### AWSConfig
+
+Ƭ **AWSConfig**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `accessKeyId?` | `string` |
+| `region?` | `string` |
+| `secretKey?` | `string` |

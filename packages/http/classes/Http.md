@@ -61,19 +61,11 @@
 | :------ | :------ | :------ |
 | `config?` | [`HttpConfig`](../modules.md#httpconfig)<`TParams`, `TCookie`, `TSession`\> | 配置项 |
 
-#### Defined in
-
-[index.ts:129](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L129)
-
 ## Properties
 
 ### body
 
 • **body**: `any`
-
-#### Defined in
-
-[index.ts:94](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L94)
 
 ___
 
@@ -81,19 +73,11 @@ ___
 
 • **config**: [`HttpConfig`](../modules.md#httpconfig)<`TParams`, `TCookie`, `TSession`\>
 
-#### Defined in
-
-[index.ts:99](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L99)
-
 ___
 
 ### cookie
 
 • **cookie**: [`Cookie`](Cookie.md)<`TCookie`, `TSession`\>
-
-#### Defined in
-
-[index.ts:97](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L97)
 
 ___
 
@@ -105,10 +89,6 @@ ___
 
 ▪ [key: `string`]: `string`
 
-#### Defined in
-
-[index.ts:91](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L91)
-
 ___
 
 ### name
@@ -119,29 +99,17 @@ ___
 
 Plugin.name
 
-#### Defined in
-
-[index.ts:89](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L89)
-
 ___
 
 ### params
 
 • **params**: `TParams`
 
-#### Defined in
-
-[index.ts:96](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L96)
-
 ___
 
 ### session
 
 • **session**: [`Session`](Session.md)<`TSession`, `TCookie`\>
-
-#### Defined in
-
-[index.ts:98](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L98)
 
 ___
 
@@ -152,10 +120,6 @@ ___
 #### Implementation of
 
 Plugin.type
-
-#### Defined in
-
-[index.ts:88](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L88)
 
 ## Methods
 
@@ -178,10 +142,6 @@ Plugin.type
 
 Plugin.onDeploy
 
-#### Defined in
-
-[index.ts:140](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L140)
-
 ___
 
 ### onInvoke
@@ -202,10 +162,6 @@ ___
 #### Implementation of
 
 Plugin.onInvoke
-
-#### Defined in
-
-[index.ts:190](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L190)
 
 ___
 
@@ -228,10 +184,6 @@ ___
 
 Plugin.onMount
 
-#### Defined in
-
-[index.ts:173](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L173)
-
 ___
 
 ### setBody
@@ -249,10 +201,6 @@ ___
 #### Returns
 
 [`Http`](Http.md)<`TParams`, `TCookie`, `TSession`\>
-
-#### Defined in
-
-[index.ts:347](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L347)
 
 ___
 
@@ -273,10 +221,6 @@ ___
 
 [`Http`](Http.md)<`TParams`, `TCookie`, `TSession`\>
 
-#### Defined in
-
-[index.ts:329](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L329)
-
 ___
 
 ### setHeader
@@ -296,10 +240,6 @@ ___
 
 [`Http`](Http.md)<`TParams`, `TCookie`, `TSession`\>
 
-#### Defined in
-
-[index.ts:319](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L319)
-
 ___
 
 ### setStatusCode
@@ -317,7 +257,3 @@ ___
 #### Returns
 
 [`Http`](Http.md)<`TParams`, `TCookie`, `TSession`\>
-
-#### Defined in
-
-[index.ts:338](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/index.ts#L338)

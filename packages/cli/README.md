@@ -19,3 +19,15 @@ Add script to package.json:
 ```
 
 Get help info: `npm exec faas -h`
+
+## Modules
+
+### Properties
+
+- [default](modules.md#default)
+
+## Properties
+
+### default
+
+• **default**: `Promise`<`void`\>

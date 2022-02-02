@@ -33,19 +33,11 @@
 | :------ | :------ |
 | `config` | [`AWSConfig`](../modules.md#awsconfig) |
 
-#### Defined in
-
-[index.ts:17](https://github.com/faasjs/faasjs/blob/1705fd2/packages/aws/src/index.ts#L17)
-
 ## Properties
 
 ### config
 
 • **config**: [`AWSConfig`](../modules.md#awsconfig)
-
-#### Defined in
-
-[index.ts:14](https://github.com/faasjs/faasjs/blob/1705fd2/packages/aws/src/index.ts#L14)
 
 ___
 
@@ -72,10 +64,6 @@ ___
 #### Implementation of
 
 CloudFunctionAdapter.invokeCloudFunction
-
-#### Defined in
-
-[index.ts:28](https://github.com/faasjs/faasjs/blob/1705fd2/packages/aws/src/index.ts#L28)
 
 ___
 
@@ -109,19 +97,11 @@ ___
 
 CloudFunctionAdapter.invokeSyncCloudFunction
 
-#### Defined in
-
-[index.ts:29](https://github.com/faasjs/faasjs/blob/1705fd2/packages/aws/src/index.ts#L29)
-
 ___
 
 ### logger
 
 • **logger**: `Logger`
-
-#### Defined in
-
-[index.ts:15](https://github.com/faasjs/faasjs/blob/1705fd2/packages/aws/src/index.ts#L15)
 
 ## Methods
 
@@ -142,7 +122,3 @@ ___
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[index.ts:37](https://github.com/faasjs/faasjs/blob/1705fd2/packages/aws/src/index.ts#L37)

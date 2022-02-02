@@ -7,3 +7,166 @@ Redis 插件
 [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/redis/beta.svg)](https://www.npmjs.com/package/@faasjs/redis)
 
 https://faasjs.com/doc/redis.html
+
+## Modules
+
+### Classes
+
+- [Redis](classes/Redis.md)
+
+### Type aliases
+
+- [RedisConfig](modules.md#redisconfig)
+
+### Functions
+
+- [get](modules.md#get)
+- [getJSON](modules.md#getjson)
+- [query](modules.md#query)
+- [set](modules.md#set)
+- [setJSON](modules.md#setjson)
+- [useRedis](modules.md#useredis)
+
+## Type aliases
+
+### RedisConfig
+
+Ƭ **RedisConfig**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `config?` | `RedisOptions` |
+| `name?` | `string` |
+
+## Functions
+
+### get
+
+▸ **get**<`TResult`\>(`key`): `Promise`<`TResult`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TResult` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+
+#### Returns
+
+`Promise`<`TResult`\>
+
+___
+
+### getJSON
+
+▸ **getJSON**<`TResult`\>(`key`): `Promise`<`TResult`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TResult` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+
+#### Returns
+
+`Promise`<`TResult`\>
+
+___
+
+### query
+
+▸ **query**<`TResult`\>(`command`, `args`): `Promise`<`TResult`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TResult` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `command` | keyof `Commands` |
+| `args` | `any`[] |
+
+#### Returns
+
+`Promise`<`TResult`\>
+
+___
+
+### set
+
+▸ **set**<`TResult`\>(`key`, `value`, `options?`): `Promise`<`TResult`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TResult` | `void` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+| `value` | `any` |
+| `options?` | `SET` |
+
+#### Returns
+
+`Promise`<`TResult`\>
+
+___
+
+### setJSON
+
+▸ **setJSON**<`TResult`\>(`key`, `value`, `options?`): `Promise`<`TResult`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TResult` | `void` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+| `value` | `any` |
+| `options?` | `SET` |
+
+#### Returns
+
+`Promise`<`TResult`\>
+
+___
+
+### useRedis
+
+▸ **useRedis**(`config?`): [`Redis`](classes/Redis.md) & `UseifyPlugin`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `config?` | [`RedisConfig`](modules.md#redisconfig) |
+
+#### Returns
+
+[`Redis`](classes/Redis.md) & `UseifyPlugin`

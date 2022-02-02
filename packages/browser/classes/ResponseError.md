@@ -38,19 +38,11 @@
 
 Error.constructor
 
-#### Defined in
-
-[index.ts:48](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L48)
-
 ## Properties
 
 ### body
 
 • `Readonly` **body**: `any`
-
-#### Defined in
-
-[index.ts:46](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L46)
 
 ___
 
@@ -58,16 +50,8 @@ ___
 
 • `Readonly` **headers**: [`ResponseHeaders`](../modules.md#responseheaders)
 
-#### Defined in
-
-[index.ts:45](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L45)
-
 ___
 
 ### status
 
 • `Readonly` **status**: `number`
-
-#### Defined in
-
-[index.ts:44](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L44)

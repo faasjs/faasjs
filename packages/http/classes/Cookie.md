@@ -45,10 +45,6 @@
 | :------ | :------ |
 | `config` | [`CookieOptions`](../modules.md#cookieoptions) |
 
-#### Defined in
-
-[cookie.ts:35](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/cookie.ts#L35)
-
 ## Properties
 
 ### config
@@ -67,29 +63,17 @@
 | `secure` | `boolean` |
 | `session` | [`SessionOptions`](../modules.md#sessionoptions) |
 
-#### Defined in
-
-[cookie.ts:21](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/cookie.ts#L21)
-
 ___
 
 ### content
 
 • **content**: `Record`<`string`, `string`\>
 
-#### Defined in
-
-[cookie.ts:20](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/cookie.ts#L20)
-
 ___
 
 ### session
 
 • **session**: [`Session`](Session.md)<`S`, `C`\>
-
-#### Defined in
-
-[cookie.ts:19](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/cookie.ts#L19)
 
 ## Methods
 
@@ -104,10 +88,6 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `Set-Cookie?` | `string`[] |
-
-#### Defined in
-
-[cookie.ts:111](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/cookie.ts#L111)
 
 ___
 
@@ -125,10 +105,6 @@ ___
 
 [`Cookie`](Cookie.md)<`C`, `S`\>
 
-#### Defined in
-
-[cookie.ts:51](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/cookie.ts#L51)
-
 ___
 
 ### read
@@ -144,10 +120,6 @@ ___
 #### Returns
 
 `any`
-
-#### Defined in
-
-[cookie.ts:70](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/cookie.ts#L70)
 
 ___
 
@@ -172,7 +144,3 @@ ___
 #### Returns
 
 [`Cookie`](Cookie.md)<`C`, `S`\>
-
-#### Defined in
-
-[cookie.ts:74](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/cookie.ts#L74)

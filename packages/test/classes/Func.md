@@ -57,19 +57,11 @@
 | :------ | :------ | :------ |
 | `config` | [`FuncConfig`](../modules.md#funcconfig)<`TEvent`, `TContext`, `any`\> | 配置项 |
 
-#### Defined in
-
-[func/src/index.ts:118](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L118)
-
 ## Properties
 
 ### config
 
 • **config**: [`Config`](../modules.md#config)
-
-#### Defined in
-
-[func/src/index.ts:105](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L105)
 
 ___
 
@@ -77,19 +69,11 @@ ___
 
 • `Optional` **filename**: `string`
 
-#### Defined in
-
-[func/src/index.ts:107](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L107)
-
 ___
 
 ### handler
 
 • `Optional` **handler**: [`Handler`](../modules.md#handler)<`TEvent`, `TContext`, `TResult`\>
-
-#### Defined in
-
-[func/src/index.ts:103](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L103)
 
 ___
 
@@ -97,29 +81,17 @@ ___
 
 • **logger**: `Logger`
 
-#### Defined in
-
-[func/src/index.ts:104](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L104)
-
 ___
 
 ### mounted
 
 • **mounted**: `boolean`
 
-#### Defined in
-
-[func/src/index.ts:106](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L106)
-
 ___
 
 ### plugins
 
 • **plugins**: [`Plugin`](../modules.md#plugin)[]
-
-#### Defined in
-
-[func/src/index.ts:102](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L102)
 
 ## Methods
 
@@ -150,10 +122,6 @@ ___
 
 `any`
 
-#### Defined in
-
-[func/src/index.ts:142](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L142)
-
 ___
 
 ### deploy
@@ -171,10 +139,6 @@ ___
 #### Returns
 
 `any`
-
-#### Defined in
-
-[func/src/index.ts:195](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L195)
 
 ___
 
@@ -198,10 +162,6 @@ ___
 | :------ | :------ |
 | `handler` | [`ExportedHandler`](../modules.md#exportedhandler)<`TEvent`, `TContext`, `TResult`\> |
 
-#### Defined in
-
-[func/src/index.ts:251](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L251)
-
 ___
 
 ### invoke
@@ -219,10 +179,6 @@ ___
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[func/src/index.ts:230](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L230)
 
 ___
 
@@ -244,7 +200,3 @@ ___
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[func/src/index.ts:204](https://github.com/faasjs/faasjs/blob/1705fd2/packages/func/src/index.ts#L204)

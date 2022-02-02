@@ -42,19 +42,11 @@
 | :------ | :------ | :------ |
 | `label?` | `string` | 日志前缀 |
 
-#### Defined in
-
-[index.ts:43](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L43)
-
 ## Properties
 
 ### colorfyOutput
 
 • **colorfyOutput**: `boolean` = `true`
-
-#### Defined in
-
-[index.ts:33](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L33)
 
 ___
 
@@ -62,29 +54,17 @@ ___
 
 • `Optional` **label**: `string`
 
-#### Defined in
-
-[index.ts:34](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L34)
-
 ___
 
 ### level
 
 • **level**: `number`
 
-#### Defined in
-
-[index.ts:32](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L32)
-
 ___
 
 ### silent
 
 • **silent**: `boolean`
-
-#### Defined in
-
-[index.ts:31](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L31)
 
 ___
 
@@ -106,10 +86,6 @@ ___
 
 `void`
 
-#### Defined in
-
-[index.ts:36](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L36)
-
 ___
 
 ### stdout
@@ -130,10 +106,6 @@ ___
 
 `void`
 
-#### Defined in
-
-[index.ts:35](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L35)
-
 ## Methods
 
 ### colorfy
@@ -152,10 +124,6 @@ ___
 #### Returns
 
 `string`
-
-#### Defined in
-
-[index.ts:166](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L166)
 
 ___
 
@@ -176,10 +144,6 @@ ___
 
 [`Logger`](Logger.md)
 
-#### Defined in
-
-[index.ts:67](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L67)
-
 ___
 
 ### error
@@ -198,10 +162,6 @@ ___
 #### Returns
 
 [`Logger`](Logger.md)
-
-#### Defined in
-
-[index.ts:97](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L97)
 
 ___
 
@@ -222,10 +182,6 @@ ___
 
 [`Logger`](Logger.md)
 
-#### Defined in
-
-[index.ts:77](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L77)
-
 ___
 
 ### raw
@@ -245,10 +201,6 @@ ___
 
 [`Logger`](Logger.md)
 
-#### Defined in
-
-[index.ts:153](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L153)
-
 ___
 
 ### time
@@ -267,10 +219,6 @@ ___
 #### Returns
 
 [`Logger`](Logger.md)
-
-#### Defined in
-
-[index.ts:116](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L116)
 
 ___
 
@@ -292,10 +240,6 @@ ___
 
 [`Logger`](Logger.md)
 
-#### Defined in
-
-[index.ts:131](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L131)
-
 ___
 
 ### warn
@@ -314,7 +258,3 @@ ___
 #### Returns
 
 [`Logger`](Logger.md)
-
-#### Defined in
-
-[index.ts:87](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/index.ts#L87)

@@ -47,10 +47,6 @@
 | `cookie` | [`Cookie`](Cookie.md)<`C`, `S`\> |
 | `config` | [`SessionOptions`](../modules.md#sessionoptions) |
 
-#### Defined in
-
-[session.ts:41](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L41)
-
 ## Properties
 
 ### config
@@ -70,19 +66,11 @@
 | `secret` | `string` |
 | `signedSalt` | `string` |
 
-#### Defined in
-
-[session.ts:25](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L25)
-
 ___
 
 ### content
 
 • **content**: `Record`<`string`, `string` \| `number`\>
-
-#### Defined in
-
-[session.ts:23](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L23)
 
 ## Methods
 
@@ -100,10 +88,6 @@ ___
 
 `SessionContent`
 
-#### Defined in
-
-[session.ts:102](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L102)
-
 ___
 
 ### encode
@@ -119,10 +103,6 @@ ___
 #### Returns
 
 `string`
-
-#### Defined in
-
-[session.ts:84](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L84)
 
 ___
 
@@ -140,10 +120,6 @@ ___
 
 `void`
 
-#### Defined in
-
-[session.ts:74](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L74)
-
 ___
 
 ### read
@@ -160,10 +136,6 @@ ___
 
 `string`
 
-#### Defined in
-
-[session.ts:127](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L127)
-
 ___
 
 ### update
@@ -173,10 +145,6 @@ ___
 #### Returns
 
 [`Session`](Session.md)<`S`, `C`\>
-
-#### Defined in
-
-[session.ts:141](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L141)
 
 ___
 
@@ -194,7 +162,3 @@ ___
 #### Returns
 
 [`Session`](Session.md)<`S`, `C`\>
-
-#### Defined in
-
-[session.ts:131](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/session.ts#L131)

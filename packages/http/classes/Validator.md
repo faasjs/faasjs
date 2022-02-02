@@ -51,19 +51,11 @@
 | `config.session?` | [`ValidatorOptions`](../modules.md#validatoroptions)<`TSession`\> |
 | `logger` | `Logger` |
 
-#### Defined in
-
-[validator.ts:82](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/validator.ts#L82)
-
 ## Properties
 
 ### before
 
 • `Optional` **before**: `BeforeOption`<`TParams`, `TCookie`, `TSession`\>
-
-#### Defined in
-
-[validator.ts:75](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/validator.ts#L75)
 
 ___
 
@@ -71,29 +63,17 @@ ___
 
 • `Optional` **cookieConfig**: [`ValidatorOptions`](../modules.md#validatoroptions)<`TCookie`\>
 
-#### Defined in
-
-[validator.ts:77](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/validator.ts#L77)
-
 ___
 
 ### paramsConfig
 
 • `Optional` **paramsConfig**: [`ValidatorOptions`](../modules.md#validatoroptions)<`TParams`\>
 
-#### Defined in
-
-[validator.ts:76](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/validator.ts#L76)
-
 ___
 
 ### sessionConfig
 
 • `Optional` **sessionConfig**: [`ValidatorOptions`](../modules.md#validatoroptions)<`TSession`\>
-
-#### Defined in
-
-[validator.ts:78](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/validator.ts#L78)
 
 ## Methods
 
@@ -110,10 +90,6 @@ ___
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[validator.ts:98](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/validator.ts#L98)
 
 ___
 
@@ -133,7 +109,3 @@ ___
 #### Returns
 
 `void`
-
-#### Defined in
-
-[validator.ts:138](https://github.com/faasjs/faasjs/blob/1705fd2/packages/http/src/validator.ts#L138)

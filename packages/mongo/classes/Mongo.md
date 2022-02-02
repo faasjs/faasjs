@@ -41,19 +41,11 @@
 | `config.config?` | [`MongoConfig`](../interfaces/MongoConfig.md) | 数据库配置 |
 | `config.name?` | `string` | 配置名 |
 
-#### Defined in
-
-[index.ts:42](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L42)
-
 ## Properties
 
 ### client
 
 • **client**: `MongoClient`
-
-#### Defined in
-
-[index.ts:28](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L28)
 
 ___
 
@@ -83,19 +75,11 @@ ___
 
 `Collection`<`TSchema`\>
 
-#### Defined in
-
-[index.ts:30](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L30)
-
 ___
 
 ### config
 
 • **config**: [`MongoConfig`](../interfaces/MongoConfig.md)
-
-#### Defined in
-
-[index.ts:26](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L26)
 
 ___
 
@@ -103,19 +87,11 @@ ___
 
 • **db**: `Db`
 
-#### Defined in
-
-[index.ts:29](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L29)
-
 ___
 
 ### logger
 
 • **logger**: `Logger`
-
-#### Defined in
-
-[index.ts:27](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L27)
 
 ___
 
@@ -127,10 +103,6 @@ ___
 
 Plugin.name
 
-#### Defined in
-
-[index.ts:25](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L25)
-
 ___
 
 ### type
@@ -140,10 +112,6 @@ ___
 #### Implementation of
 
 Plugin.type
-
-#### Defined in
-
-[index.ts:24](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L24)
 
 ## Methods
 
@@ -166,10 +134,6 @@ Plugin.type
 
 Plugin.onDeploy
 
-#### Defined in
-
-[index.ts:56](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L56)
-
 ___
 
 ### onMount
@@ -190,7 +154,3 @@ ___
 #### Implementation of
 
 Plugin.onMount
-
-#### Defined in
-
-[index.ts:62](https://github.com/faasjs/faasjs/blob/1705fd2/packages/mongo/src/index.ts#L62)

@@ -7,3 +7,27 @@ GraphQL 后端插件
 [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/graphql-server/beta.svg)](https://www.npmjs.com/package/@faasjs/graphql-server)
 
 https://faasjs.com/doc/excel/graphql-server.html
+
+## Modules
+
+### Classes
+
+- [GraphQLServer](classes/GraphQLServer.md)
+
+### Type aliases
+
+- [GraphQLServerConfig](modules.md#graphqlserverconfig)
+
+## Type aliases
+
+### GraphQLServerConfig
+
+Ƭ **GraphQLServerConfig**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `config` | `ApolloServerConfig` |
+| `http?` | `HttpConfig` |
+| `name?` | `string` |

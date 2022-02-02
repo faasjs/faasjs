@@ -20,19 +20,11 @@
 
 • **BLACK** = `30`
 
-#### Defined in
-
-[color.ts:3](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L3)
-
 ___
 
 ### BLUE
 
 • **BLUE** = `34`
-
-#### Defined in
-
-[color.ts:7](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L7)
 
 ___
 
@@ -40,19 +32,11 @@ ___
 
 • **CYAN** = `36`
 
-#### Defined in
-
-[color.ts:9](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L9)
-
 ___
 
 ### DEFAULT
 
 • **DEFAULT** = `39`
-
-#### Defined in
-
-[color.ts:2](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L2)
 
 ___
 
@@ -60,19 +44,11 @@ ___
 
 • **GRAY** = `90`
 
-#### Defined in
-
-[color.ts:10](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L10)
-
 ___
 
 ### GREEN
 
 • **GREEN** = `32`
-
-#### Defined in
-
-[color.ts:5](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L5)
 
 ___
 
@@ -80,26 +56,14 @@ ___
 
 • **MAGENTA** = `35`
 
-#### Defined in
-
-[color.ts:8](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L8)
-
 ___
 
 ### ORANGE
 
 • **ORANGE** = `33`
 
-#### Defined in
-
-[color.ts:6](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L6)
-
 ___
 
 ### RED
 
 • **RED** = `31`
-
-#### Defined in
-
-[color.ts:4](https://github.com/faasjs/faasjs/blob/1705fd2/packages/logger/src/color.ts#L4)

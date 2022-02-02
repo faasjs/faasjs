@@ -7,3 +7,60 @@
 [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/tencentcloud/beta.svg)](https://www.npmjs.com/package/@faasjs/tencentcloud)
 
 https://faasjs.com/guide/tencentcloud.html
+
+## Modules
+
+### Classes
+
+- [Provider](classes/Provider.md)
+
+### Type aliases
+
+- [TencentcloudConfig](modules.md#tencentcloudconfig)
+
+### Functions
+
+- [request](modules.md#request)
+
+## Type aliases
+
+### TencentcloudConfig
+
+Ƭ **TencentcloudConfig**: `Object`
+
+云 API 配置项
+优先读取环境变量，如果没有则读取入参
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `appId?` | `string` |
+| `region?` | `string` |
+| `secretId?` | `string` |
+| `secretKey?` | `string` |
+| `token?` | `string` |
+
+## Functions
+
+### request
+
+▸ **request**<`T`\>(`__namedParameters`): `Promise`<`T`\>
+
+腾讯云请求封装
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `__namedParameters` | [`TencentcloudConfig`](modules.md#tencentcloudconfig) & { `action`: `string` ; `payload`: { [key: string]: `any`;  } ; `service`: `string` ; `version`: `string`  } |
+
+#### Returns
+
+`Promise`<`T`\>

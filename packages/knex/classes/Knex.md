@@ -44,19 +44,11 @@ Knex 插件
 | :------ | :------ | :------ |
 | `config?` | [`KnexConfig`](../modules.md#knexconfig) | 配置 |
 
-#### Defined in
-
-[index.ts:40](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L40)
-
 ## Properties
 
 ### adapter
 
 • **adapter**: `Knex`<`any`, `Record`<`string`, `any`\>[]\>
-
-#### Defined in
-
-[index.ts:30](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L30)
 
 ___
 
@@ -64,19 +56,11 @@ ___
 
 • **config**: `Config`<`any`\>
 
-#### Defined in
-
-[index.ts:29](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L29)
-
 ___
 
 ### logger
 
 • **logger**: `Logger`
-
-#### Defined in
-
-[index.ts:32](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L32)
 
 ___
 
@@ -88,19 +72,11 @@ ___
 
 Plugin.name
 
-#### Defined in
-
-[index.ts:28](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L28)
-
 ___
 
 ### query
 
 • **query**: `Knex`<`any`, `Record`<`string`, `any`\>[]\>
-
-#### Defined in
-
-[index.ts:31](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L31)
 
 ___
 
@@ -111,10 +87,6 @@ ___
 #### Implementation of
 
 Plugin.type
-
-#### Defined in
-
-[index.ts:27](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L27)
 
 ## Methods
 
@@ -137,10 +109,6 @@ Plugin.type
 
 Plugin.onDeploy
 
-#### Defined in
-
-[index.ts:51](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L51)
-
 ___
 
 ### onMount
@@ -162,10 +130,6 @@ ___
 
 Plugin.onMount
 
-#### Defined in
-
-[index.ts:65](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L65)
-
 ___
 
 ### quit
@@ -175,10 +139,6 @@ ___
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[index.ts:164](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L164)
 
 ___
 
@@ -203,10 +163,6 @@ ___
 
 `Promise`<`Raw`<`TResult`\>\>
 
-#### Defined in
-
-[index.ts:142](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L142)
-
 ___
 
 ### schema
@@ -216,10 +172,6 @@ ___
 #### Returns
 
 `SchemaBuilder`
-
-#### Defined in
-
-[index.ts:158](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L158)
 
 ___
 
@@ -243,7 +195,3 @@ ___
 #### Returns
 
 `Promise`<`TResult`\>
-
-#### Defined in
-
-[index.ts:150](https://github.com/faasjs/faasjs/blob/1705fd2/packages/knex/src/index.ts#L150)

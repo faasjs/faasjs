@@ -37,19 +37,11 @@
 | `opts.cache?` | `boolean` | - |
 | `opts.port?` | `number` | - |
 
-#### Defined in
-
-[index.ts:72](https://github.com/faasjs/faasjs/blob/1705fd2/packages/server/src/index.ts#L72)
-
 ## Properties
 
 ### logger
 
 • `Readonly` **logger**: `Logger`
-
-#### Defined in
-
-[index.ts:51](https://github.com/faasjs/faasjs/blob/1705fd2/packages/server/src/index.ts#L51)
 
 ___
 
@@ -64,19 +56,11 @@ ___
 | `cache` | `boolean` |
 | `port` | `number` |
 
-#### Defined in
-
-[index.ts:52](https://github.com/faasjs/faasjs/blob/1705fd2/packages/server/src/index.ts#L52)
-
 ___
 
 ### root
 
 • `Readonly` **root**: `string`
-
-#### Defined in
-
-[index.ts:50](https://github.com/faasjs/faasjs/blob/1705fd2/packages/server/src/index.ts#L50)
 
 ## Methods
 
@@ -88,10 +72,6 @@ ___
 
 `Promise`<`void`\>
 
-#### Defined in
-
-[index.ts:236](https://github.com/faasjs/faasjs/blob/1705fd2/packages/server/src/index.ts#L236)
-
 ___
 
 ### listen
@@ -101,10 +81,6 @@ ___
 #### Returns
 
 `Server`
-
-#### Defined in
-
-[index.ts:199](https://github.com/faasjs/faasjs/blob/1705fd2/packages/server/src/index.ts#L199)
 
 ___
 
@@ -126,7 +102,3 @@ ___
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[index.ts:94](https://github.com/faasjs/faasjs/blob/1705fd2/packages/server/src/index.ts#L94)

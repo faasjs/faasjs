@@ -41,19 +41,11 @@
 | `__namedParameters.headers` | [`ResponseHeaders`](../modules.md#responseheaders) |
 | `__namedParameters.status` | `number` |
 
-#### Defined in
-
-[index.ts:28](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L28)
-
 ## Properties
 
 ### body
 
 • `Readonly` **body**: `any`
-
-#### Defined in
-
-[index.ts:25](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L25)
 
 ___
 
@@ -61,26 +53,14 @@ ___
 
 • `Readonly` **data**: `T`
 
-#### Defined in
-
-[index.ts:26](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L26)
-
 ___
 
 ### headers
 
 • `Readonly` **headers**: [`ResponseHeaders`](../modules.md#responseheaders)
 
-#### Defined in
-
-[index.ts:24](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L24)
-
 ___
 
 ### status
 
 • `Readonly` **status**: `number`
-
-#### Defined in
-
-[index.ts:23](https://github.com/faasjs/faasjs/blob/1705fd2/packages/browser/src/index.ts#L23)

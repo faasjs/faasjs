@@ -34,19 +34,11 @@
 | :------ | :------ |
 | `config` | [`GraphQLServerConfig`](../modules.md#graphqlserverconfig) |
 
-#### Defined in
-
-[index.ts:79](https://github.com/faasjs/faasjs/blob/1705fd2/packages/graphql-server/src/index.ts#L79)
-
 ## Properties
 
 ### http
 
 • **http**: `Http`<`any`, `any`, `any`\>
-
-#### Defined in
-
-[index.ts:75](https://github.com/faasjs/faasjs/blob/1705fd2/packages/graphql-server/src/index.ts#L75)
 
 ___
 
@@ -58,10 +50,6 @@ ___
 
 Plugin.name
 
-#### Defined in
-
-[index.ts:74](https://github.com/faasjs/faasjs/blob/1705fd2/packages/graphql-server/src/index.ts#L74)
-
 ___
 
 ### type
@@ -71,10 +59,6 @@ ___
 #### Implementation of
 
 Plugin.type
-
-#### Defined in
-
-[index.ts:73](https://github.com/faasjs/faasjs/blob/1705fd2/packages/graphql-server/src/index.ts#L73)
 
 ## Methods
 
@@ -97,10 +81,6 @@ Plugin.type
 
 Plugin.onDeploy
 
-#### Defined in
-
-[index.ts:148](https://github.com/faasjs/faasjs/blob/1705fd2/packages/graphql-server/src/index.ts#L148)
-
 ___
 
 ### onInvoke
@@ -122,10 +102,6 @@ ___
 
 Plugin.onInvoke
 
-#### Defined in
-
-[index.ts:127](https://github.com/faasjs/faasjs/blob/1705fd2/packages/graphql-server/src/index.ts#L127)
-
 ___
 
 ### onMount
@@ -146,7 +122,3 @@ ___
 #### Implementation of
 
 Plugin.onMount
-
-#### Defined in
-
-[index.ts:85](https://github.com/faasjs/faasjs/blob/1705fd2/packages/graphql-server/src/index.ts#L85)

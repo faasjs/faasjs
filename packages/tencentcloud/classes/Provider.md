@@ -33,29 +33,17 @@
 | :------ | :------ |
 | `config` | [`TencentcloudConfig`](../modules.md#tencentcloudconfig) |
 
-#### Defined in
-
-[index.ts:26](https://github.com/faasjs/faasjs/blob/1705fd2/packages/tencentcloud/src/index.ts#L26)
-
 ## Properties
 
 ### config
 
 • **config**: [`TencentcloudConfig`](../modules.md#tencentcloudconfig)
 
-#### Defined in
-
-[index.ts:23](https://github.com/faasjs/faasjs/blob/1705fd2/packages/tencentcloud/src/index.ts#L23)
-
 ___
 
 ### logger
 
 • **logger**: `Logger`
-
-#### Defined in
-
-[index.ts:24](https://github.com/faasjs/faasjs/blob/1705fd2/packages/tencentcloud/src/index.ts#L24)
 
 ## Methods
 
@@ -76,10 +64,6 @@ ___
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[index.ts:47](https://github.com/faasjs/faasjs/blob/1705fd2/packages/tencentcloud/src/index.ts#L47)
 
 ___
 
@@ -104,10 +88,6 @@ ___
 #### Implementation of
 
 CloudFunctionAdapter.invokeCloudFunction
-
-#### Defined in
-
-[index.ts:65](https://github.com/faasjs/faasjs/blob/1705fd2/packages/tencentcloud/src/index.ts#L65)
 
 ___
 
@@ -138,7 +118,3 @@ ___
 #### Implementation of
 
 CloudFunctionAdapter.invokeSyncCloudFunction
-
-#### Defined in
-
-[index.ts:74](https://github.com/faasjs/faasjs/blob/1705fd2/packages/tencentcloud/src/index.ts#L74)
