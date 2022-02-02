@@ -219,7 +219,9 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           ...props.pagination,
           ...(data as any).pagination
         } }
-        onChange={ (pagination, filters, sorter) => {
+        onChange={ (pagination, filters, sorter, extra) => {
+          if (props.onChange)
+            props.onChange(pagination, filters, sorter, extra)
           reload({
             ...params,
             pagination,
