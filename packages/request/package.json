@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/request",
-  "version": "0.0.2-beta.359",
+  "version": "0.0.2-beta.360",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/logger": "^0.0.2-beta.359"
+    "@faasjs/logger": "^0.0.2-beta.360"
   },
   "devDependencies": {
     "tsup": "*",
