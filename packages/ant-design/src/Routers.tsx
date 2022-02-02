@@ -29,10 +29,9 @@ export function Routes (props: RoutesProps) {
     props.routes.map(r => <Route
       key={ r.path as string }
       { ...r }
-      element={ r.element || <Suspense fallback={ props.fallback || <Skeleton
-        active
-        style={ { padding: '24px' } }
-      /> }>
+      element={ r.element || <Suspense fallback={ props.fallback || <div style={ { padding: '24px' } }>
+        <Skeleton active />
+      </div> }>
         <r.page />
       </Suspense> }
     />)
