@@ -1,6 +1,6 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
-  Descriptions, DescriptionsProps, Skeleton 
+  Descriptions, DescriptionsProps, Skeleton
 } from 'antd'
 import { upperFirst } from 'lodash'
 import {
@@ -131,7 +131,7 @@ export function Description<T = any> (props: DescriptionProps<T>) {
     }</Descriptions>
 
   return <FaasDataWrapper<T>
-    fallback={ props.faasData.fallback || <div style={ { padding: '24px' } }><Skeleton active /></div> }
+    fallback={ props.faasData.fallback || <Skeleton active /> }
     render={ ({ data }) => <Descriptions { ...props }>{
       props.items.map(item => <Descriptions.Item
         key={ item.id }

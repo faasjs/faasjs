@@ -207,7 +207,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
     />
 
   return <FaasDataWrapper<T>
-    fallback={ props.faasData.fallback || <div style={ { padding: '24px' } }><Skeleton active /></div> }
+    fallback={ props.faasData.fallback || <Skeleton active /> }
     render= { ({
       data, params, reload
     }) => {
