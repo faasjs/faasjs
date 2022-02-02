@@ -61,6 +61,7 @@ const clients: {
  *
  * @param props.domain {string} The domain of your faas server
  * @param props.options {Options} The options of client
+ * @returns {FaasReactClientInstance}
  * @example
  * const client = FaasReactClient({
  *   domain: 'localhost:8080/api'
@@ -196,12 +197,13 @@ export function FaasReactClient ({
 /**
  * Get FaasReactClient instance
  * @param domain {string} empty string for default domain
+ * @returns {FaasReactClientInstance}
  * @example
  * getClient()
  * // or
  * getClient('another-domain')
  */
-export function getClient (domain?: string) {
+export function getClient (domain?: string): FaasReactClientInstance {
   const client = clients[domain || Object.keys(clients)[0]]
 
   if (!client) throw Error('FaasReactClient is not initialized')
@@ -210,8 +212,45 @@ export function getClient (domain?: string) {
 }
 
 /**
- * A data wrapper for react components
+ * Request faas server
  *
+ * @param action {string} action name
+ * @param params {object} action params
+ * @returns {Promise<Response<any>>}
+ * @example
+ * faas<{ title: string }>('post/get', { id: 1 }).then(res => {
+ *   console.log(res.data.title)
+ * })
+ */
+export async function faas<PathOrData extends FaasAction> (
+  action: string | PathOrData,
+  params: FaasParams<PathOrData>,
+): Promise<Response<FaasData<PathOrData>>> {
+  return getClient().faas(action, params)
+}
+
+/**
+ * Request faas server with React hook
+ * @param action {string} action name
+ * @param defaultParams {object} initial action params
+ * @returns {FaasDataInjection<any>}
+ * @example
+ * function Post ({ id }) {
+ *   const { data } = useFaas<{ title: string }>('post/get', { id })
+ *
+ *   return <h1>{data.title}</h1>
+ * }
+ */
+export function useFaas<PathOrData extends FaasAction> (
+  action: string | PathOrData,
+  defaultParams: FaasParams<PathOrData>
+): FaasDataInjection<FaasData<PathOrData>> {
+  return getClient().useFaas(action, defaultParams)
+}
+
+/**
+ * A data wrapper for react components
+ * @returns {JSX.Element}
  * @example
  * <FaasDataWrapper<{
  *   id: string
@@ -222,10 +261,8 @@ export function getClient (domain?: string) {
  *   render={ ({ data }) => <h1>{ data.title }</h1> }
  * />
  */
-export function FaasDataWrapper<PathOrData extends FaasAction> (props: FaasDataWrapperProps<PathOrData> & {
-  client?: FaasReactClientInstance
-}): JSX.Element {
-  const [client, setClient] = useState<FaasReactClientInstance>(props.client)
+export function FaasDataWrapper<PathOrData extends FaasAction> (props: FaasDataWrapperProps<PathOrData>): JSX.Element {
+  const [client, setClient] = useState<FaasReactClientInstance>()
 
   useEffect(() => {
     if (client) return
