@@ -7,7 +7,8 @@ import {
   TableProps as AntdTableProps,
   TableColumnProps as AntdTableColumnProps,
   Radio,
-  Skeleton
+  Skeleton,
+  TablePaginationConfig
 } from 'antd'
 import {
   FaasItemProps, transferOptions, BaseItemProps
@@ -17,6 +18,9 @@ import { isNil, upperFirst } from 'lodash'
 import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
 import { Blank } from './Blank'
 import { useFaasState } from './Config'
+import {
+  FilterValue, SorterResult, TableCurrentDataSource
+} from 'antd/lib/table/interface'
 
 export type TableItemProps<T = any> = {
   /** @deprecated use render */
@@ -36,6 +40,17 @@ export type TableProps<T = any, ExtendTypes = any> = {
     [key: string]: ExtendTableTypeProps
   }
   faasData?: FaasDataWrapperProps<T>
+  onChange?: (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<T> | SorterResult<T>[],
+    extra: TableCurrentDataSource<T>
+  ) => {
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<T> | SorterResult<T>[],
+    extra: TableCurrentDataSource<T>
+  };
 } & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
@@ -222,8 +237,16 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           ...(data as any).pagination
         } }
         onChange={ (pagination, filters, sorter, extra) => {
-          if (props.onChange)
-            props.onChange(pagination, filters, sorter, extra)
+          if (props.onChange) {
+            const processed = props.onChange(pagination, filters, sorter, extra)
+            reload({
+              ...params,
+              pagination: processed.pagination,
+              filters: processed.filters,
+              sorter: processed.sorter,
+            })
+            return
+          }
           reload({
             ...params,
             pagination,
