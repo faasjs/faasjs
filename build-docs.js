@@ -2,22 +2,43 @@
 const globSync = require('glob').sync
 const promisify = require('util').promisify
 const exec = promisify(require('child_process').exec)
+const { existsSync } = require('fs')
 
 async function run(cmd) {
   console.log(cmd)
   await exec(cmd, { stdio: 'inherit' })
 }
 
-async function build(path, dts = false) {
+async function build(path) {
   const pkg = require(__dirname + '/' + path)
 
-  await run(`npm run build:doc ${path.replace('/package.json', '/src')} --out docs/doc/${pkg.name.replace('@faasjs/', '')}`)
+  if (!pkg.types) return
+
+  await run(`npm run build:doc ${path.replace('/package.json', '/src')} -- --out ${path.replace('/package.json', '/')}`)
 }
 
 async function buildAll() {
   const list = globSync('packages/*/package.json')
 
-  await Promise.all(list.map(f => build(f)))
+  for (const name of [
+    'browser',
+    'logger',
+    'deep_merge',
+    'ts-transform',
+    'func',
+    'load',
+    'http',
+    'cloud_function',
+    'deployer',
+    'request',
+  ]) {
+    await build(`packages/${name}/package.json`)
+    list.splice(list.indexOf(`packages/${name}/package.json`), 1)
+  }
+
+  for (const file of list) {
+    await build(file)
+  }
 }
 
 buildAll()

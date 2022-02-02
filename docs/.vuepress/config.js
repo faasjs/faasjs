@@ -280,6 +280,5 @@ module.exports = {
         'id': 'UA-143006612-1'
       }
     ],
-    require('./plugin')
   ]
 }

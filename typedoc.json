@@ -4,6 +4,8 @@
   "excludeExternals": true,
   "exclude": "**/__tests__/**",
   "logLevel": "Verbose",
-  "out": "./out",
-  "plugin": "typedoc-plugin-markdown"
+  "plugin": "typedoc-plugin-markdown",
+  "githubPages": false,
+  "hideBreadcrumbs": true,
+  "cleanOutputDir": false
 }
