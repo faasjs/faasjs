@@ -28,7 +28,9 @@ https://faasjs.com/guide/excel/react.html
 
 - [FaasDataWrapper](modules.md#faasdatawrapper)
 - [FaasReactClient](modules.md#faasreactclient)
+- [faas](modules.md#faas)
 - [getClient](modules.md#getclient)
+- [useFaas](modules.md#usefaas)
 
 ## Type aliases
 
@@ -80,7 +82,7 @@ ___
 | `params?` | `FaasParams`<`PathOrData`\> | - |
 | `setData?` | `React.Dispatch`<`React.SetStateAction`<`FaasData`<`PathOrData`\>\>\> | use custom setData, should work with data |
 | `onDataChange?` | (`args`: [`FaasDataInjection`](modules.md#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `void` | - |
-| `render?` | (`args`: [`FaasDataInjection`](modules.md#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `Element` | - |
+| `render?` | (`args`: [`FaasDataInjection`](modules.md#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `Element` \| `Element`[] | - |
 
 ___
 
@@ -118,6 +120,18 @@ ___
 
 ▸ **FaasDataWrapper**<`PathOrData`\>(`props`): `JSX.Element`
 
+A data wrapper for react components
+
+**`example`**
+<FaasDataWrapper<{
+  id: string
+  title: string
+}>
+  action='post/get'
+  params={ { id: 1 } }
+  render={ ({ data }) => <h1>{ data.title }</h1> }
+/>
+
 #### Type parameters
 
 | Name | Type |
@@ -128,7 +142,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`FaasDataWrapperProps`](modules.md#faasdatawrapperprops)<`PathOrData`\> & { `client?`: [`FaasReactClientInstance`](modules.md#faasreactclientinstance)  } |
+| `props` | [`FaasDataWrapperProps`](modules.md#faasdatawrapperprops)<`PathOrData`\> |
 
 #### Returns
 
@@ -139,6 +153,13 @@ ___
 ### FaasReactClient
 
 ▸ **FaasReactClient**(`__namedParameters`): [`FaasReactClientInstance`](modules.md#faasreactclientinstance)
+
+Before use faas, you should initialize a FaasReactClient.
+
+**`example`**
+const client = FaasReactClient({
+  domain: 'localhost:8080/api'
+})
 
 #### Parameters
 
@@ -155,16 +176,85 @@ ___
 
 ___
 
+### faas
+
+▸ **faas**<`PathOrData`\>(`action`, `params`): `Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>
+
+Request faas server
+
+**`example`**
+faas<{ title: string }>('post/get', { id: 1 }).then(res => {
+  console.log(res.data.title)
+})
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `FaasAction` |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action` | `string` \| `PathOrData` | action name |
+| `params` | `FaasParams`<`PathOrData`\> | action params |
+
+#### Returns
+
+`Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>
+
+___
+
 ### getClient
 
 ▸ **getClient**(`domain?`): [`FaasReactClientInstance`](modules.md#faasreactclientinstance)
 
+Get FaasReactClient instance
+
+**`example`**
+getClient()
+// or
+getClient('another-domain')
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `domain?` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `domain?` | `string` | empty string for default domain |
 
 #### Returns
 
 [`FaasReactClientInstance`](modules.md#faasreactclientinstance)
+
+___
+
+### useFaas
+
+▸ **useFaas**<`PathOrData`\>(`action`, `defaultParams`): [`FaasDataInjection`](modules.md#faasdatainjection)<`FaasData`<`PathOrData`\>\>
+
+Request faas server with React hook
+
+**`example`**
+function Post ({ id }) {
+  const { data } = useFaas<{ title: string }>('post/get', { id })
+
+  return <h1>{data.title}</h1>
+}
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `FaasAction` |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action` | `string` \| `PathOrData` | action name |
+| `defaultParams` | `FaasParams`<`PathOrData`\> | initial action params |
+
+#### Returns
+
+[`FaasDataInjection`](modules.md#faasdatainjection)<`FaasData`<`PathOrData`\>\>
