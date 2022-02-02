@@ -29,7 +29,7 @@ export type FaasDataInjection<Data = any> = {
 }
 
 export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
-  render?(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element
+  render?(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element | JSX.Element[]
   fallback?: JSX.Element | false
   action: string
   params?: FaasParams<PathOrData>
@@ -172,7 +172,7 @@ export function FaasReactClient ({
         if (onDataChange) onDataChange(request)
       }, [JSON.stringify(request.data)])
 
-      if (loaded) return render(request)
+      if (loaded) return render(request) as JSX.Element
 
       return fallback || null
     }
