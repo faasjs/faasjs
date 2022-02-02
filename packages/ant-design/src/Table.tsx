@@ -6,7 +6,8 @@ import {
   Table as AntdTable,
   TableProps as AntdTableProps,
   TableColumnProps as AntdTableColumnProps,
-  Radio
+  Radio,
+  Skeleton
 } from 'antd'
 import {
   FaasItemProps, transferOptions, BaseItemProps
@@ -191,6 +192,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
     />
 
   return <FaasDataWrapper<T>
+    fallback={ props.faasData.fallback || <div style={ { padding: '24px' } }><Skeleton active /></div> }
     render= { ({
       data, params, reload
     }) => {
