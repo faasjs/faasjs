@@ -6,6 +6,7 @@ export type FaasState = {
     blank: string
     all: string
     submit: string
+    pageNotFound: string
   }
   Blank: {
     text: string
@@ -21,10 +22,18 @@ export type FaasState = {
   }
 }
 
-const common = {
-  blank: navigator.language?.includes('CN') ? '空' : 'Empty',
-  all: navigator.language?.includes('CN') ? '全部' : 'All',
-  submit: navigator.language?.includes('CN') ? '提交' : 'Submit',
+const isCN = /^zh/i.test(navigator.language)
+
+const common = isCN ? {
+  blank: '空',
+  all: '全部',
+  submit: '提交',
+  pageNotFound: '页面未找到',
+} : {
+  blank: 'Empty',
+  all: 'All',
+  submit: 'Submit',
+  pageNotFound: 'Page Not Found',
 }
 
 export const useFaasState = createGlobalState<FaasState>({

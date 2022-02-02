@@ -5,12 +5,14 @@ import {
 import {
   Routes as OriginRoutes, Route, RouteProps
 } from 'react-router-dom'
+import { useFaasState } from './Config'
 
-function NoMatch () {
+function NotFound () {
+  const [config] = useFaasState()
+
   return <Result
-    status="404"
-    title="404"
-    subTitle="Page not found"
+    status='404'
+    title={ config.common.pageNotFound }
   />
 }
 
@@ -18,6 +20,7 @@ export type RoutesProps = {
   routes: (RouteProps & {
     page?: LazyExoticComponent<ComponentType<any>>
   })[]
+  fallback?: JSX.Element
   notFound?: JSX.Element
 }
 
@@ -26,14 +29,17 @@ export function Routes (props: RoutesProps) {
     props.routes.map(r => <Route
       key={ r.path as string }
       { ...r }
-      element={ r.element || <Suspense fallback={ <Skeleton active /> }>
+      element={ r.element || <Suspense fallback={ props.fallback || <Skeleton
+        active
+        style={ { padding: '24px' } }
+      /> }>
         <r.page />
       </Suspense> }
     />)
   }<Route
     key='*'
     path='*'
-    element={ props.notFound || <NoMatch /> }
+    element={ props.notFound || <NotFound /> }
   />
   </OriginRoutes>
 }
