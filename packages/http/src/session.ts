@@ -20,7 +20,7 @@ export class Session<
   S extends Record<string, string> = any,
   C extends Record<string, string> = any
 > {
-  public content: Record<string, string>
+  public content: Record<string, string | number>
 
   public readonly config: {
     key: string
@@ -125,10 +125,10 @@ export class Session<
   }
 
   public read (key: string): string {
-    return this.content[key]
+    return this.content[key] as string
   }
 
-  public write (key: string, value?: string): Session<S, C> {
+  public write (key: string, value?: string | number | null): Session<S, C> {
     if (value === null || typeof value === 'undefined')
       delete this.content[key]
     else

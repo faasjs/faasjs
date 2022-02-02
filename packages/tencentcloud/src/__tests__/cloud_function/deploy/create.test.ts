@@ -8,22 +8,22 @@ jest.mock('child_process', function () {
 
 jest.mock('cos-nodejs-sdk-v5', () => {
   return class Client {
-    headBucket (params, callback): void {
+    headBucket (params: any, callback: any): void {
       console.log('mock.cos.headBucket', params)
       callback(Error('no bucket'))
     }
 
-    putBucket (params, callback): void {
+    putBucket (params: any, callback: any): void {
       console.log('mock.cos.putBucket', params)
       callback()
     }
 
-    sliceUploadFile (params, callback): void {
+    sliceUploadFile (params: any, callback: any): void {
       console.log('mock.cos.sliceUploadFile', params)
       callback()
     }
 
-    deleteObject (params, callback): void {
+    deleteObject (params: any, callback: any): void {
       console.log('mock.cos.deleteObject', params)
       callback()
     }
@@ -33,7 +33,7 @@ jest.mock('cos-nodejs-sdk-v5', () => {
 jest.mock('@faasjs/request', () => {
   let functionCreated = false
   return {
-    request: async function (url, options): Promise<any> {
+    request: async function (url: string, options: any): Promise<any> {
       console.log('mock.request', url, options)
       switch (options.headers['X-TC-Action']) {
         case 'ListNamespaces':

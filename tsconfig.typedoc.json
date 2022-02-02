@@ -9,9 +9,13 @@
     "moduleResolution": "node",
     "target": "ES2019",
     "module": "ESNext",
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
     }
-  }
+  },
+  "include": [
+    "packages/*/src"
+  ],
 }

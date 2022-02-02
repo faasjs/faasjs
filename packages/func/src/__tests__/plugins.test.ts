@@ -133,7 +133,7 @@ describe('plugins', function () {
       }
     })
 
-    const data = {
+    const data: any = {
       type: -1,
       event: null,
       context: null,
@@ -186,7 +186,7 @@ describe('plugins', function () {
         event: null,
         context: null
       })
-    } catch (error) {
+    } catch (error: any) {
       expect(error.message).toEqual('next() called multiple times')
     }
   })

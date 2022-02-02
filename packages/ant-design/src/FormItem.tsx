@@ -48,7 +48,7 @@ type BooleanProps = {
 }
 
 type OptionsProps = {
-  options: BaseOption[]
+  options?: BaseOption[]
   type?: 'string' | 'string[]' | 'number' | 'number[]'
   input?: SelectProps<any>
 }

@@ -21,13 +21,13 @@ describe('lifecycle', function () {
 
       try {
         await func.export().handler(null)
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toEqual('wrong')
       }
 
       try {
         await func.export().handler(null)
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toEqual('wrong')
       }
     })
@@ -84,7 +84,7 @@ describe('lifecycle', function () {
 
       try {
         await func.export().handler(null)
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toEqual('Cannot read properties of null (reading \'headers\')')
       }
     })

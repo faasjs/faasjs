@@ -13,7 +13,7 @@
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
     "@faasjs/eslint-config-react": "file:./packages/eslint-config-react",
     "faasjs": "file:./packages/faasjs",
-    "jsdoc": "*"
+    "typedoc": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [

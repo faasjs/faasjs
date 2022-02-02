@@ -20,7 +20,7 @@ describe('validator/default', function () {
       })
 
       test('function', async function () {
-        const http = new Http({ validator: { params: { rules: { key: { default: (request) => request.params.i + 1 } } } } })
+        const http = new Http({ validator: { params: { rules: { key: { default: (request: any) => request.params.i + 1 } } } } })
         const handler = new Func({
           plugins: [http],
           async handler () {
@@ -60,7 +60,7 @@ describe('validator/default', function () {
       })
 
       test('function', async function () {
-        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { default: (request) => request.params.i + 1 } } } } } } } })
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { default: (request: any) => request.params.i + 1 } } } } } } } })
 
         const handler = new Func({
           plugins: [http],
@@ -102,7 +102,7 @@ describe('validator/default', function () {
       })
 
       test('function', async function () {
-        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { default: (request) => request.params.i + 1 } } } } } } } })
+        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { default: (request: any) => request.params.i + 1 } } } } } } } })
         const handler = new Func({
           plugins: [http],
           async handler () {

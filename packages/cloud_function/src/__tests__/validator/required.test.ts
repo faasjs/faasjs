@@ -15,7 +15,7 @@ describe('validator/required', function () {
 
       try {
         await handler({})
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toEqual('[event] key is required.')
       }
     })
@@ -46,7 +46,7 @@ describe('validator/required', function () {
 
         try {
           await handler({ key: [{}] })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual('[event] key.sub is required.')
         }
       })
@@ -64,7 +64,7 @@ describe('validator/required', function () {
 
       try {
         await handler({ key: {} })
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toEqual('[event] key.sub is required.')
       }
     })

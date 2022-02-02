@@ -21,7 +21,7 @@ describe('validator/type', function () {
 
         try {
           await handler({ key: {} })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual(`[event] key must be a ${type}.`)
         }
       })
@@ -45,7 +45,7 @@ describe('validator/type', function () {
 
         try {
           await handler({ key: [{ sub: {} }] })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual(`[event] key.sub must be a ${type}.`)
         }
       })
@@ -69,7 +69,7 @@ describe('validator/type', function () {
 
         try {
           await handler({ key: { sub: {} } })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual(`[event] key.sub must be a ${type}.`)
         }
       })

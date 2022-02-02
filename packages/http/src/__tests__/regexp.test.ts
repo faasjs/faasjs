@@ -1,5 +1,5 @@
 import { Func } from '@faasjs/func'
-import { Http } from '../..'
+import { Http } from '..'
 
 describe('validator/regexp', function () {
   describe('param', function () {

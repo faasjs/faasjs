@@ -27,7 +27,7 @@ describe('validator/whitelist', function () {
             key2: 2,
             key3: 3
           })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual('[event] Unpermitted keys: key2, key3')
         }
       })
@@ -112,7 +112,7 @@ describe('validator/whitelist', function () {
               }
             ]
           })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual('[event] Unpermitted keys: key.key1, key.key2')
         }
       })
@@ -183,7 +183,7 @@ describe('validator/whitelist', function () {
               key2: 2
             }
           })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual('[event] Unpermitted keys: key.key1, key.key2')
         }
       })

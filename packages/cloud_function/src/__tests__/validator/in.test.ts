@@ -18,7 +18,7 @@ describe('validator/in', function () {
 
         try {
           await handler({ key: 2 })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual('[event] key must be in 1.')
         }
       })
@@ -39,7 +39,7 @@ describe('validator/in', function () {
 
         try {
           await handler({ key: [{ sub: 2 }] })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual('[event] key.sub must be in 1.')
         }
       })
@@ -60,7 +60,7 @@ describe('validator/in', function () {
 
         try {
           await handler({ key: { sub: 2 } })
-        } catch (error) {
+        } catch (error: any) {
           expect(error.message).toEqual('[event] key.sub must be in 1.')
         }
       })

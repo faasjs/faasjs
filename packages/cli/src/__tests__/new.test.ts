@@ -70,7 +70,7 @@ describe('plugin.func.ts', function () {
   test('unknown type', function () {
     try {
       action('unknown', 'unknown', [])
-    } catch (error) {
+    } catch (error: any) {
       expect(error.message).toEqual('Unknown type: unknown (only support func now)')
     }
   })
