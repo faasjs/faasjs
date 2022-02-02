@@ -56,6 +56,16 @@ const clients: {
   [key: string]: FaasReactClientInstance
 } = {}
 
+/**
+ * Before use faas, you should initialize a FaasReactClient.
+ *
+ * @param props.domain {string} The domain of your faas server
+ * @param props.options {Options} The options of client
+ * @example
+ * const client = FaasReactClient({
+ *   domain: 'localhost:8080/api'
+ * })
+ */
 export function FaasReactClient ({
   domain,
   options,
@@ -183,6 +193,14 @@ export function FaasReactClient ({
   return reactClient
 }
 
+/**
+ * Get FaasReactClient instance
+ * @param domain {string} empty string for default domain
+ * @example
+ * getClient()
+ * // or
+ * getClient('another-domain')
+ */
 export function getClient (domain?: string) {
   const client = clients[domain || Object.keys(clients)[0]]
 
@@ -191,6 +209,19 @@ export function getClient (domain?: string) {
   return client
 }
 
+/**
+ * A data wrapper for react components
+ *
+ * @example
+ * <FaasDataWrapper<{
+ *   id: string
+ *   title: string
+ * }>
+ *   action='post/get'
+ *   params={ { id: 1 } }
+ *   render={ ({ data }) => <h1>{ data.title }</h1> }
+ * />
+ */
 export function FaasDataWrapper<PathOrData extends FaasAction> (props: FaasDataWrapperProps<PathOrData> & {
   client?: FaasReactClientInstance
 }): JSX.Element {
