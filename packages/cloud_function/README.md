@@ -18,14 +18,14 @@ A FaasJS plugin, let function could create, config and invoke CloudFunction.
 
 ### Type aliases
 
-- [CloudFunctionAdapter](modules.md#cloudfunctionadapter)
-- [CloudFunctionConfig](modules.md#cloudfunctionconfig)
+- [CloudFunctionAdapter](#cloudfunctionadapter)
+- [CloudFunctionConfig](#cloudfunctionconfig)
 
 ### Functions
 
-- [invoke](modules.md#invoke)
-- [invokeSync](modules.md#invokesync)
-- [useCloudFunction](modules.md#usecloudfunction)
+- [invoke](#invoke)
+- [invokeSync](#invokesync)
+- [useCloudFunction](#usecloudfunction)
 
 ## Type aliases
 
@@ -130,7 +130,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | [`CloudFunctionConfig`](modules.md#cloudfunctionconfig) \| () => [`CloudFunctionConfig`](modules.md#cloudfunctionconfig) |
+| `config?` | [`CloudFunctionConfig`](#cloudfunctionconfig) \| () => [`CloudFunctionConfig`](#cloudfunctionconfig) |
 
 #### Returns
 

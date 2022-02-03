@@ -14,16 +14,16 @@ Type definitions.
 
 ### Type aliases
 
-- [FaasAction](modules.md#faasaction)
-- [FaasActionPaths](modules.md#faasactionpaths)
-- [FaasData](modules.md#faasdata)
-- [FaasParams](modules.md#faasparams)
+- [FaasAction](#faasaction)
+- [FaasActionPaths](#faasactionpaths)
+- [FaasData](#faasdata)
+- [FaasParams](#faasparams)
 
 ## Type aliases
 
 ### FaasAction
 
-Ƭ **FaasAction**: [`FaasActionPaths`](modules.md#faasactionpaths) \| `Record`<`string`, `any`\>
+Ƭ **FaasAction**: [`FaasActionPaths`](#faasactionpaths) \| `Record`<`string`, `any`\>
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 ### FaasData
 
-Ƭ **FaasData**<`T`\>: `T` extends [`FaasActionPaths`](modules.md#faasactionpaths) ? `FaasActions`[`T`][``"Data"``] : `T`
+Ƭ **FaasData**<`T`\>: `T` extends [`FaasActionPaths`](#faasactionpaths) ? `FaasActions`[`T`][``"Data"``] : `T`
 
 #### Type parameters
 
@@ -47,7 +47,7 @@ ___
 
 ### FaasParams
 
-Ƭ **FaasParams**<`T`\>: `T` extends [`FaasActionPaths`](modules.md#faasactionpaths) ? `FaasActions`[`T`][``"Params"``] : `any`
+Ƭ **FaasParams**<`T`\>: `T` extends [`FaasActionPaths`](#faasactionpaths) ? `FaasActions`[`T`][``"Params"``] : `any`
 
 #### Type parameters
 

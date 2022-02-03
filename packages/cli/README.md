@@ -28,7 +28,7 @@ Get help info: `npm exec faas -h`
 
 ### Properties
 
-- [default](modules.md#default)
+- [default](#default)
 
 ## Properties
 

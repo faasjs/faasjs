@@ -18,6 +18,7 @@ async function build(path) {
 
   const modules = readFileSync(path.replace('/package.json', '/modules.md'), 'utf8')
     .toString().replace(`# ${pkg.name}\n\n## Table of contents\n`, '')
+    .replaceAll('(modules.md#', '(#')
   let readme = readFileSync(path.replace('/package.json', '/README.md'), 'utf8').toString()
 
   if (readme.includes('## Modules')) {

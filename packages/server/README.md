@@ -17,8 +17,8 @@ FaasJS's server module.
 
 ### Functions
 
-- [closeAll](modules.md#closeall)
-- [getAll](modules.md#getall)
+- [closeAll](#closeall)
+- [getAll](#getall)
 
 ## Functions
 

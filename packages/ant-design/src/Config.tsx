@@ -46,6 +46,20 @@ export const useFaasState = createGlobalState<FaasState>({
   },
 })
 
+/**
+ * Config for all @faasjs/ant-design components.
+ * @param props {object}
+ * @param props.config {Partial<FaasState>}
+ * @returns {null}
+ *
+ * ```ts
+ * <Config config={{
+ *  common: {
+ *   blank: '空',
+ *  },
+ * }} />
+ * ```
+ */
 export function Config (props: { config: Partial<FaasState> }): JSX.Element {
   const [_, setState] = useFaasState()
 

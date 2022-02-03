@@ -13,8 +13,8 @@ FaasJS's load module.
 
 ### Functions
 
-- [loadConfig](modules.md#loadconfig)
-- [loadTs](modules.md#loadts)
+- [loadConfig](#loadconfig)
+- [loadTs](#loadts)
 
 ## Functions
 

@@ -14,7 +14,7 @@ A helper function to deep merge objects and array.
 
 ### Functions
 
-- [deepMerge](modules.md#deepmerge)
+- [deepMerge](#deepmerge)
 
 ## Functions
 

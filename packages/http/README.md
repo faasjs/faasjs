@@ -22,21 +22,21 @@ FaasJS's http plugin.
 
 ### Type aliases
 
-- [CookieOptions](modules.md#cookieoptions)
-- [HttpConfig](modules.md#httpconfig)
-- [Response](modules.md#response)
-- [SessionOptions](modules.md#sessionoptions)
-- [ValidatorConfig](modules.md#validatorconfig)
-- [ValidatorOptions](modules.md#validatoroptions)
-- [ValidatorRuleOptions](modules.md#validatorruleoptions)
+- [CookieOptions](#cookieoptions)
+- [HttpConfig](#httpconfig)
+- [Response](#response)
+- [SessionOptions](#sessionoptions)
+- [ValidatorConfig](#validatorconfig)
+- [ValidatorOptions](#validatoroptions)
+- [ValidatorRuleOptions](#validatorruleoptions)
 
 ### Variables
 
-- [ContentType](modules.md#contenttype)
+- [ContentType](#contenttype)
 
 ### Functions
 
-- [useHttp](modules.md#usehttp)
+- [useHttp](#usehttp)
 
 ## Type aliases
 
@@ -58,7 +58,7 @@ FaasJS's http plugin.
 | `path?` | `string` |
 | `sameSite?` | ``"Strict"`` \| ``"Lax"`` \| ``"None"`` |
 | `secure?` | `boolean` |
-| `session?` | [`SessionOptions`](modules.md#sessionoptions) |
+| `session?` | [`SessionOptions`](#sessionoptions) |
 
 ___
 
@@ -83,14 +83,14 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `config?` | `Object` |
-| `config.cookie?` | [`CookieOptions`](modules.md#cookieoptions) |
+| `config.cookie?` | [`CookieOptions`](#cookieoptions) |
 | `config.functionName?` | `string` |
 | `config.ignorePathPrefix?` | `string` |
 | `config.method?` | ``"BEGIN"`` \| ``"GET"`` \| ``"POST"`` \| ``"DELETE"`` \| ``"HEAD"`` \| ``"PUT"`` \| ``"OPTIONS"`` \| ``"TRACE"`` \| ``"PATCH"`` \| ``"ANY"`` |
 | `config.path?` | `string` |
 | `config.timeout?` | `number` |
 | `name?` | `string` |
-| `validator?` | [`ValidatorConfig`](modules.md#validatorconfig)<`TParams`, `TCookie`, `TSession`\> |
+| `validator?` | [`ValidatorConfig`](#validatorconfig)<`TParams`, `TCookie`, `TSession`\> |
 
 ___
 
@@ -145,9 +145,9 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `before?` | `BeforeOption` |
-| `cookie?` | [`ValidatorOptions`](modules.md#validatoroptions)<`TCookie`\> |
-| `params?` | [`ValidatorOptions`](modules.md#validatoroptions)<`TParams`\> |
-| `session?` | [`ValidatorOptions`](modules.md#validatoroptions)<`TSession`\> |
+| `cookie?` | [`ValidatorOptions`](#validatoroptions)<`TCookie`\> |
+| `params?` | [`ValidatorOptions`](#validatoroptions)<`TParams`\> |
+| `session?` | [`ValidatorOptions`](#validatoroptions)<`TSession`\> |
 
 ___
 
@@ -179,7 +179,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | `Partial`<[`ValidatorOptions`](modules.md#validatoroptions)\> |
+| `config?` | `Partial`<[`ValidatorOptions`](#validatoroptions)\> |
 | `default?` | `any` |
 | `in?` | `any`[] |
 | `regexp?` | `RegExp` |
@@ -214,7 +214,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | [`HttpConfig`](modules.md#httpconfig)<`TParams`, `TCookie`, `TSession`\> |
+| `config?` | [`HttpConfig`](#httpconfig)<`TParams`, `TCookie`, `TSession`\> |
 
 #### Returns
 

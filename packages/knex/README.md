@@ -17,14 +17,14 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 ### Type aliases
 
-- [KnexConfig](modules.md#knexconfig)
+- [KnexConfig](#knexconfig)
 
 ### Functions
 
-- [query](modules.md#query)
-- [raw](modules.md#raw)
-- [transaction](modules.md#transaction)
-- [useKnex](modules.md#useknex)
+- [query](#query)
+- [raw](#raw)
+- [transaction](#transaction)
+- [useKnex](#useknex)
 
 ## Type aliases
 
@@ -117,7 +117,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | [`KnexConfig`](modules.md#knexconfig) |
+| `config?` | [`KnexConfig`](#knexconfig) |
 
 #### Returns
 

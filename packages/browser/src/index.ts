@@ -161,5 +161,3 @@ export class FaasBrowserClient {
       })
   }
 }
-
-export default FaasBrowserClient

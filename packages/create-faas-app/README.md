@@ -13,7 +13,7 @@ Quick way to create a FaasJS project.
 
 ### Variables
 
-- [default](modules.md#default)
+- [default](#default)
 
 ## Variables
 

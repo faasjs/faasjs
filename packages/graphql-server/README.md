@@ -18,7 +18,7 @@ FaasJS's GraphQL plugin.
 
 ### Type aliases
 
-- [GraphQLServerConfig](modules.md#graphqlserverconfig)
+- [GraphQLServerConfig](#graphqlserverconfig)
 
 ## Type aliases
 

@@ -63,12 +63,12 @@ export default {
 
 ### Variables
 
-- [NodeBuiltinModules](modules.md#nodebuiltinmodules)
+- [NodeBuiltinModules](#nodebuiltinmodules)
 
 ### Functions
 
-- [bundle](modules.md#bundle)
-- [transform](modules.md#transform)
+- [bundle](#bundle)
+- [transform](#transform)
 
 ## Variables
 

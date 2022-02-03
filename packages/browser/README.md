@@ -14,7 +14,7 @@ Browser plugin for FaasJS.
 
 ### References
 
-- [default](modules.md#default)
+- [default](#default)
 
 ### Classes
 
@@ -24,8 +24,8 @@ Browser plugin for FaasJS.
 
 ### Type aliases
 
-- [Options](modules.md#options)
-- [ResponseHeaders](modules.md#responseheaders)
+- [Options](#options)
+- [ResponseHeaders](#responseheaders)
 
 ## References
 
@@ -37,7 +37,7 @@ Renames and re-exports [FaasBrowserClient](classes/FaasBrowserClient.md)
 
 ### Options
 
-Ƭ **Options**: `RequestInit` & { `headers?`: { [key: string]: `string`;  } ; `beforeRequest?`: (`__namedParameters`: { `action`: `string` ; `options`: [`Options`](modules.md#options) ; `params`: `Record`<`string`, `any`\>  }) => `void` \| `Promise`<`void`\>  }
+Ƭ **Options**: `RequestInit` & { `headers?`: { [key: string]: `string`;  } ; `beforeRequest?`: (`__namedParameters`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `void` \| `Promise`<`void`\>  }
 
 ___
 

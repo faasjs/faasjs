@@ -7,6 +7,18 @@ export type BlankProps = {
   text?: string;
 }
 
+/**
+ * If value is undefined or null, return text, otherwise return value.
+ *
+ * @param options {object}
+ * @param options.value {any}
+ * @param options.text {string} Default is 'Empty'
+ * @returns {JSX.Element}
+ *
+ * ```ts
+ * <Blank value={undefined} text="Empty" />
+ * ```
+ */
 export function Blank (options?: BlankProps) {
   const [config] = useFaasState()
 

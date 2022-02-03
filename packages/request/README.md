@@ -14,15 +14,15 @@ FaasJS's request module.
 
 ### Type aliases
 
-- [Request](modules.md#request)
-- [RequestOptions](modules.md#requestoptions)
-- [Response](modules.md#response)
+- [Request](#request)
+- [RequestOptions](#requestoptions)
+- [Response](#response)
 
 ### Functions
 
-- [querystringify](modules.md#querystringify)
-- [request](modules.md#request)
-- [setMock](modules.md#setmock)
+- [querystringify](#querystringify)
+- [request](#request)
+- [setMock](#setmock)
 
 ## Type aliases
 
@@ -82,7 +82,7 @@ ___
 | :------ | :------ |
 | `body` | `T` |
 | `headers` | `http.OutgoingHttpHeaders` |
-| `request?` | [`Request`](modules.md#request) |
+| `request?` | [`Request`](#request) |
 | `statusCode?` | `number` |
 | `statusMessage?` | `string` |
 
@@ -106,7 +106,7 @@ ___
 
 ### request
 
-▸ **request**<`T`\>(`url`, `[options={}]?`): `Promise`<[`Response`](modules.md#response)<`T`\>\>
+▸ **request**<`T`\>(`url`, `[options={}]?`): `Promise`<[`Response`](#response)<`T`\>\>
 
 发起网络请求
 
@@ -123,11 +123,11 @@ ___
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `url` | `string` | 请求路径或完整网址 |
-| `[options={}]` | [`RequestOptions`](modules.md#requestoptions) | 参数和配置 |
+| `[options={}]` | [`RequestOptions`](#requestoptions) | 参数和配置 |
 
 #### Returns
 
-`Promise`<[`Response`](modules.md#response)<`T`\>\>
+`Promise`<[`Response`](#response)<`T`\>\>
 
 ___
 

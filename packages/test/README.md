@@ -19,24 +19,24 @@ FaasJS's testing module.
 
 ### Type aliases
 
-- [Config](modules.md#config)
-- [DeployData](modules.md#deploydata)
-- [ExportedHandler](modules.md#exportedhandler)
-- [FuncConfig](modules.md#funcconfig)
-- [Handler](modules.md#handler)
-- [InvokeData](modules.md#invokedata)
-- [LifeCycleKey](modules.md#lifecyclekey)
-- [MountData](modules.md#mountdata)
-- [Next](modules.md#next)
-- [Plugin](modules.md#plugin)
-- [ProviderConfig](modules.md#providerconfig)
-- [UseifyPlugin](modules.md#useifyplugin)
+- [Config](#config)
+- [DeployData](#deploydata)
+- [ExportedHandler](#exportedhandler)
+- [FuncConfig](#funcconfig)
+- [Handler](#handler)
+- [InvokeData](#invokedata)
+- [LifeCycleKey](#lifecyclekey)
+- [MountData](#mountdata)
+- [Next](#next)
+- [Plugin](#plugin)
+- [ProviderConfig](#providerconfig)
+- [UseifyPlugin](#useifyplugin)
 
 ### Functions
 
-- [test](modules.md#test)
-- [useFunc](modules.md#usefunc)
-- [usePlugin](modules.md#useplugin)
+- [test](#test)
+- [useFunc](#usefunc)
+- [usePlugin](#useplugin)
 
 ## Type aliases
 
@@ -69,7 +69,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | [`Config`](modules.md#config) |
+| `config?` | [`Config`](#config) |
 | `dependencies` | `Object` |
 | `env?` | `string` |
 | `filename` | `string` |
@@ -127,14 +127,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler?` | [`Handler`](modules.md#handler)<`TEvent`, `TContext`, `TResult`\> |
-| `plugins?` | [`Plugin`](modules.md#plugin)[] |
+| `handler?` | [`Handler`](#handler)<`TEvent`, `TContext`, `TResult`\> |
+| `plugins?` | [`Plugin`](#plugin)[] |
 
 ___
 
 ### Handler
 
-Ƭ **Handler**<`TEvent`, `TContext`, `TResult`\>: (`data`: [`InvokeData`](modules.md#invokedata)<`TEvent`, `TContext`\>) => `Promise`<`TResult`\>
+Ƭ **Handler**<`TEvent`, `TContext`, `TResult`\>: (`data`: [`InvokeData`](#invokedata)<`TEvent`, `TContext`\>) => `Promise`<`TResult`\>
 
 #### Type parameters
 
@@ -152,7 +152,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `data` | [`InvokeData`](modules.md#invokedata)<`TEvent`, `TContext`\> |
+| `data` | [`InvokeData`](#invokedata)<`TEvent`, `TContext`\> |
 
 ##### Returns
 
@@ -181,10 +181,10 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `callback` | `any` |
-| `config` | [`Config`](modules.md#config) |
+| `config` | [`Config`](#config) |
 | `context` | `TContext` |
 | `event` | `TEvent` |
-| `handler?` | [`Handler`](modules.md#handler)<`TEvent`, `TContext`, `TResult`\> |
+| `handler?` | [`Handler`](#handler)<`TEvent`, `TContext`, `TResult`\> |
 | `logger` | `Logger` |
 | `response` | `any` |
 
@@ -208,7 +208,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config` | [`Config`](modules.md#config) |
+| `config` | [`Config`](#config) |
 | `context` | `any` |
 | `event` | `any` |
 
@@ -242,9 +242,9 @@ ___
 | :------ | :------ |
 | `name` | `string` |
 | `type` | `string` |
-| `onDeploy?` | (`data`: [`DeployData`](modules.md#deploydata), `next`: [`Next`](modules.md#next)) => `void` \| `Promise`<`void`\> |
-| `onInvoke?` | (`data`: [`InvokeData`](modules.md#invokedata)<`any`, `any`, `any`\>, `next`: [`Next`](modules.md#next)) => `void` \| `Promise`<`void`\> |
-| `onMount?` | (`data`: [`MountData`](modules.md#mountdata), `next`: [`Next`](modules.md#next)) => `void` \| `Promise`<`void`\> |
+| `onDeploy?` | (`data`: [`DeployData`](#deploydata), `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
+| `onInvoke?` | (`data`: [`InvokeData`](#invokedata)<`any`, `any`, `any`\>, `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
+| `onMount?` | (`data`: [`MountData`](#mountdata), `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
 
 ___
 
@@ -269,7 +269,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `mount?` | (`data`: { `config`: [`Config`](modules.md#config)  }) => `Promise`<`void`\> |
+| `mount?` | (`data`: { `config`: [`Config`](#config)  }) => `Promise`<`void`\> |
 
 ## Functions
 
@@ -305,7 +305,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | () => [`Handler`](modules.md#handler)<`TEvent`, `TContext`, `TResult`\> |
+| `handler` | () => [`Handler`](#handler)<`TEvent`, `TContext`, `TResult`\> |
 
 #### Returns
 
@@ -315,20 +315,20 @@ ___
 
 ### usePlugin
 
-▸ **usePlugin**<`T`\>(`plugin`): `T` & [`UseifyPlugin`](modules.md#useifyplugin)
+▸ **usePlugin**<`T`\>(`plugin`): `T` & [`UseifyPlugin`](#useifyplugin)
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends [`Plugin`](modules.md#plugin) |
+| `T` | extends [`Plugin`](#plugin) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `plugin` | `T` & [`UseifyPlugin`](modules.md#useifyplugin) |
+| `plugin` | `T` & [`UseifyPlugin`](#useifyplugin) |
 
 #### Returns
 
-`T` & [`UseifyPlugin`](modules.md#useifyplugin)
+`T` & [`UseifyPlugin`](#useifyplugin)

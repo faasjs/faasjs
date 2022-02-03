@@ -47,42 +47,42 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 ### Type aliases
 
-- [BaseItemProps](modules.md#baseitemprops)
-- [BaseOption](modules.md#baseoption)
-- [BlankProps](modules.md#blankprops)
-- [DescriptionItemProps](modules.md#descriptionitemprops)
-- [DescriptionProps](modules.md#descriptionprops)
-- [DrawerProps](modules.md#drawerprops)
-- [ExtendDescriptionItemProps](modules.md#extenddescriptionitemprops)
-- [ExtendDescriptionTypeProps](modules.md#extenddescriptiontypeprops)
-- [ExtendFormItemProps](modules.md#extendformitemprops)
-- [ExtendFormTypeProps](modules.md#extendformtypeprops)
-- [ExtendTableItemProps](modules.md#extendtableitemprops)
-- [ExtendTableTypeProps](modules.md#extendtabletypeprops)
-- [FaasItemProps](modules.md#faasitemprops)
-- [FaasItemType](modules.md#faasitemtype)
-- [FaasItemTypeValue](modules.md#faasitemtypevalue)
-- [FaasState](modules.md#faasstate)
-- [FormItemProps](modules.md#formitemprops)
-- [FormProps](modules.md#formprops)
-- [RoutesProps](modules.md#routesprops)
-- [TableItemProps](modules.md#tableitemprops)
-- [TableProps](modules.md#tableprops)
-- [TitleProps](modules.md#titleprops)
+- [BaseItemProps](#baseitemprops)
+- [BaseOption](#baseoption)
+- [BlankProps](#blankprops)
+- [DescriptionItemProps](#descriptionitemprops)
+- [DescriptionProps](#descriptionprops)
+- [DrawerProps](#drawerprops)
+- [ExtendDescriptionItemProps](#extenddescriptionitemprops)
+- [ExtendDescriptionTypeProps](#extenddescriptiontypeprops)
+- [ExtendFormItemProps](#extendformitemprops)
+- [ExtendFormTypeProps](#extendformtypeprops)
+- [ExtendTableItemProps](#extendtableitemprops)
+- [ExtendTableTypeProps](#extendtabletypeprops)
+- [FaasItemProps](#faasitemprops)
+- [FaasItemType](#faasitemtype)
+- [FaasItemTypeValue](#faasitemtypevalue)
+- [FaasState](#faasstate)
+- [FormItemProps](#formitemprops)
+- [FormProps](#formprops)
+- [RoutesProps](#routesprops)
+- [TableItemProps](#tableitemprops)
+- [TableProps](#tableprops)
+- [TitleProps](#titleprops)
 
 ### Functions
 
-- [Blank](modules.md#blank)
-- [Config](modules.md#config)
-- [Description](modules.md#description)
-- [Form](modules.md#form)
-- [FormItem](modules.md#formitem)
-- [Routes](modules.md#routes)
-- [Table](modules.md#table)
-- [Title](modules.md#title)
-- [transferOptions](modules.md#transferoptions)
-- [useDrawer](modules.md#usedrawer)
-- [useFaasState](modules.md#usefaasstate)
+- [Blank](#blank)
+- [Config](#config)
+- [Description](#description)
+- [Form](#form)
+- [FormItem](#formitem)
+- [Routes](#routes)
+- [Table](#table)
+- [Title](#title)
+- [transferOptions](#transferoptions)
+- [useDrawer](#usedrawer)
+- [useFaasState](#usefaasstate)
 
 ## Type aliases
 
@@ -95,7 +95,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 | Name | Type |
 | :------ | :------ |
 | `id` | `string` |
-| `options?` | [`BaseOption`](modules.md#baseoption)[] |
+| `options?` | [`BaseOption`](#baseoption)[] |
 | `title?` | `string` |
 
 ___
@@ -121,7 +121,7 @@ ___
 
 ### DescriptionItemProps
 
-Ƭ **DescriptionItemProps**<`T`\>: { `children?`: `JSX.Element` ; `render?`: (`value`: `T`, `values`: `any`) => `string` \| `number` \| `boolean` \| `Element`  } & [`FaasItemProps`](modules.md#faasitemprops)
+Ƭ **DescriptionItemProps**<`T`\>: { `children?`: `JSX.Element` ; `render?`: (`value`: `T`, `values`: `any`) => `string` \| `number` \| `boolean` \| `Element`  } & [`FaasItemProps`](#faasitemprops)
 
 #### Type parameters
 
@@ -133,7 +133,7 @@ ___
 
 ### DescriptionProps
 
-Ƭ **DescriptionProps**<`T`, `ExtendItemProps`\>: { `dataSource?`: `T` ; `extendTypes?`: { [key: string]: [`ExtendDescriptionTypeProps`](modules.md#extenddescriptiontypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`DescriptionItemProps`](modules.md#descriptionitemprops) \| `ExtendItemProps`)[]  } & `DescriptionsProps`
+Ƭ **DescriptionProps**<`T`, `ExtendItemProps`\>: { `dataSource?`: `T` ; `extendTypes?`: { [key: string]: [`ExtendDescriptionTypeProps`](#extenddescriptiontypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`DescriptionItemProps`](#descriptionitemprops) \| `ExtendItemProps`)[]  } & `DescriptionsProps`
 
 #### Type parameters
 
@@ -152,7 +152,7 @@ ___
 
 ### ExtendDescriptionItemProps
 
-Ƭ **ExtendDescriptionItemProps**: [`BaseItemProps`](modules.md#baseitemprops)
+Ƭ **ExtendDescriptionItemProps**: [`BaseItemProps`](#baseitemprops)
 
 ___
 
@@ -171,7 +171,7 @@ ___
 
 ### ExtendFormItemProps
 
-Ƭ **ExtendFormItemProps**: [`BaseItemProps`](modules.md#baseitemprops) & `AntdFormItemProps`
+Ƭ **ExtendFormItemProps**: [`BaseItemProps`](#baseitemprops) & `AntdFormItemProps`
 
 ___
 
@@ -189,7 +189,7 @@ ___
 
 ### ExtendTableItemProps
 
-Ƭ **ExtendTableItemProps**<`T`\>: [`BaseItemProps`](modules.md#baseitemprops) & `Omit`<`AntdTableColumnProps`<`T`\>, ``"children"``\>
+Ƭ **ExtendTableItemProps**<`T`\>: [`BaseItemProps`](#baseitemprops) & `Omit`<`AntdTableColumnProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -214,7 +214,7 @@ ___
 
 ### FaasItemProps
 
-Ƭ **FaasItemProps**: [`BaseItemProps`](modules.md#baseitemprops) & { `type?`: [`FaasItemType`](modules.md#faasitemtype)  }
+Ƭ **FaasItemProps**: [`BaseItemProps`](#baseitemprops) & { `type?`: [`FaasItemType`](#faasitemtype)  }
 
 ___
 
@@ -266,7 +266,7 @@ ___
 
 ### FormItemProps
 
-Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { [type: string]: [`ExtendFormTypeProps`](modules.md#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps`<`T`\> & [`FaasItemProps`](modules.md#faasitemprops) & `AntdFormItemProps`<`T`\>
+Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { [type: string]: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps`<`T`\> & [`FaasItemProps`](#faasitemprops) & `AntdFormItemProps`<`T`\>
 
 #### Type parameters
 
@@ -278,7 +278,7 @@ ___
 
 ### FormProps
 
-Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `extendTypes?`: { [type: string]: [`ExtendFormTypeProps`](modules.md#extendformtypeprops);  } ; `items?`: ([`FormItemProps`](modules.md#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string`  }  } & `AntdFormProps`<`Values`\>
+Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `extendTypes?`: { [type: string]: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string`  }  } & `AntdFormProps`<`Values`\>
 
 #### Type parameters
 
@@ -305,7 +305,7 @@ ___
 
 ### TableItemProps
 
-Ƭ **TableItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null``  } & [`FaasItemProps`](modules.md#faasitemprops) & `Omit`<`AntdTableColumnProps`<`T`\>, ``"children"``\>
+Ƭ **TableItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null``  } & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdTableColumnProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -317,7 +317,7 @@ ___
 
 ### TableProps
 
-Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { [key: string]: [`ExtendTableTypeProps`](modules.md#extendtabletypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`TableItemProps`](modules.md#tableitemprops) \| `ExtendTypes` & [`ExtendTableItemProps`](modules.md#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue`\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
+Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { [key: string]: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`TableItemProps`](#tableitemprops) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue`\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
 
 #### Type parameters
 
@@ -346,15 +346,21 @@ ___
 
 ▸ **Blank**(`options?`): `any`
 
+If value is undefined or null, return text, otherwise return value.
+
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | [`BlankProps`](modules.md#blankprops) |
+| `options?` | [`BlankProps`](#blankprops) |
 
 #### Returns
 
 `any`
+
+```ts
+<Blank value={undefined} text="Empty" />
+```
 
 ___
 
@@ -362,16 +368,26 @@ ___
 
 ▸ **Config**(`props`): `JSX.Element`
 
+Config for all @faasjs/ant-design components.
+
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `props` | `Object` |
-| `props.config` | `Partial`<[`FaasState`](modules.md#faasstate)\> |
+| `props.config` | `Partial`<[`FaasState`](#faasstate)\> |
 
 #### Returns
 
 `JSX.Element`
+
+```ts
+<Config config={{
+ common: {
+  blank: '空',
+ },
+}} />
+```
 
 ___
 
@@ -389,7 +405,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`DescriptionProps`](modules.md#descriptionprops)<`T`, `any`\> |
+| `props` | [`DescriptionProps`](#descriptionprops)<`T`, `any`\> |
 
 #### Returns
 
@@ -411,7 +427,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`FormProps`](modules.md#formprops)<`Values`, `any`\> |
+| `props` | [`FormProps`](#formprops)<`Values`, `any`\> |
 
 #### Returns
 
@@ -433,7 +449,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`FormItemProps`](modules.md#formitemprops)<`T`\> |
+| `props` | [`FormItemProps`](#formitemprops)<`T`\> |
 
 #### Returns
 
@@ -449,7 +465,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`RoutesProps`](modules.md#routesprops) |
+| `props` | [`RoutesProps`](#routesprops) |
 
 #### Returns
 
@@ -472,7 +488,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`TableProps`](modules.md#tableprops)<`T`, `ExtendTypes`\> |
+| `props` | [`TableProps`](#tableprops)<`T`, `ExtendTypes`\> |
 
 #### Returns
 
@@ -488,7 +504,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`TitleProps`](modules.md#titleprops) |
+| `props` | [`TitleProps`](#titleprops) |
 
 #### Returns
 
@@ -504,7 +520,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `options` | [`BaseOption`](modules.md#baseoption)[] |
+| `options` | [`BaseOption`](#baseoption)[] |
 
 #### Returns
 
@@ -520,7 +536,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `init?` | [`DrawerProps`](modules.md#drawerprops) |
+| `init?` | [`DrawerProps`](#drawerprops) |
 
 #### Returns
 
@@ -529,15 +545,15 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `drawer` | `Element` |
-| `drawerProps` | [`DrawerProps`](modules.md#drawerprops) |
-| `setDrawerProps` | (`changes`: `Partial`<[`DrawerProps`](modules.md#drawerprops)\>) => `void` |
+| `drawerProps` | [`DrawerProps`](#drawerprops) |
+| `setDrawerProps` | (`changes`: `Partial`<[`DrawerProps`](#drawerprops)\>) => `void` |
 
 ___
 
 ### useFaasState
 
-▸ `Const` **useFaasState**(): [[`FaasState`](modules.md#faasstate), (`state`: `IHookStateSetAction`<[`FaasState`](modules.md#faasstate)\>) => `void`]
+▸ `Const` **useFaasState**(): [[`FaasState`](#faasstate), (`state`: `IHookStateSetAction`<[`FaasState`](#faasstate)\>) => `void`]
 
 #### Returns
 
-[[`FaasState`](modules.md#faasstate), (`state`: `IHookStateSetAction`<[`FaasState`](modules.md#faasstate)\>) => `void`]
+[[`FaasState`](#faasstate), (`state`: `IHookStateSetAction`<[`FaasState`](#faasstate)\>) => `void`]

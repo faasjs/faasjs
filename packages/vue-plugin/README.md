@@ -24,18 +24,18 @@ A Vue plugin for FaasJS.
 
 ### Type aliases
 
-- [Options](modules.md#options)
-- [ResponseHeaders](modules.md#responseheaders)
+- [Options](#options)
+- [ResponseHeaders](#responseheaders)
 
 ### Variables
 
-- [FaasVuePlugin](modules.md#faasvueplugin)
+- [FaasVuePlugin](#faasvueplugin)
 
 ## Type aliases
 
 ### Options
 
-Ƭ **Options**: `RequestInit` & { `headers?`: { [key: string]: `string`;  } ; `beforeRequest?`: (`__namedParameters`: { `action`: `string` ; `options`: [`Options`](modules.md#options) ; `params`: `Record`<`string`, `any`\>  }) => `void` \| `Promise`<`void`\>  }
+Ƭ **Options**: `RequestInit` & { `headers?`: { [key: string]: `string`;  } ; `beforeRequest?`: (`__namedParameters`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `void` \| `Promise`<`void`\>  }
 
 ___
 

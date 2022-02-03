@@ -18,16 +18,16 @@ FaasJS's Redis plugin.
 
 ### Type aliases
 
-- [RedisConfig](modules.md#redisconfig)
+- [RedisConfig](#redisconfig)
 
 ### Functions
 
-- [get](modules.md#get)
-- [getJSON](modules.md#getjson)
-- [query](modules.md#query)
-- [set](modules.md#set)
-- [setJSON](modules.md#setjson)
-- [useRedis](modules.md#useredis)
+- [get](#get)
+- [getJSON](#getjson)
+- [query](#query)
+- [set](#set)
+- [setJSON](#setjson)
+- [useRedis](#useredis)
 
 ## Type aliases
 
@@ -167,7 +167,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | [`RedisConfig`](modules.md#redisconfig) |
+| `config?` | [`RedisConfig`](#redisconfig) |
 
 #### Returns
 

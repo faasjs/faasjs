@@ -21,7 +21,7 @@ FaasJS's logger module.
 
 ### Type aliases
 
-- [Level](modules.md#level)
+- [Level](#level)
 
 ## Type aliases
 

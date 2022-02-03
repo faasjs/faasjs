@@ -14,7 +14,7 @@ Amazon Web Services (AWS) Adapter for FaasJS.
 
 ### Type aliases
 
-- [AWSConfig](modules.md#awsconfig)
+- [AWSConfig](#awsconfig)
 
 ## Type aliases
 

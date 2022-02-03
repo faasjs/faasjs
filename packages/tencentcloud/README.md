@@ -18,11 +18,11 @@ FaasJS's tencentcloud provider.
 
 ### Type aliases
 
-- [TencentcloudConfig](modules.md#tencentcloudconfig)
+- [TencentcloudConfig](#tencentcloudconfig)
 
 ### Functions
 
-- [request](modules.md#request)
+- [request](#request)
 
 ## Type aliases
 
@@ -61,7 +61,7 @@ FaasJS's tencentcloud provider.
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`TencentcloudConfig`](modules.md#tencentcloudconfig) & { `action`: `string` ; `payload`: { [key: string]: `any`;  } ; `service`: `string` ; `version`: `string`  } |
+| `__namedParameters` | [`TencentcloudConfig`](#tencentcloudconfig) & { `action`: `string` ; `payload`: { [key: string]: `any`;  } ; `service`: `string` ; `version`: `string`  } |
 
 #### Returns
 
