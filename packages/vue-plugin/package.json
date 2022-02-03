@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "homepage": "https://faasjs.com/doc/vue-plugin.html",
+  "homepage": "https://faasjs.com/doc/vue-plugin",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

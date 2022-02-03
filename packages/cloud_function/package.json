@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "homepage": "https://faasjs.com/doc/cloud_function.html",
+  "homepage": "https://faasjs.com/doc/cloud_function",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

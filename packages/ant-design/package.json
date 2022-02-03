@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "homepage": "https://faasjs.com/doc/ant-design.html",
+  "homepage": "https://faasjs.com/doc/ant-design",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

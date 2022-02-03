@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "homepage": "https://faasjs.com/doc/load.html",
+  "homepage": "https://faasjs.com/doc/load",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

@@ -7,7 +7,7 @@
   "bin": {
     "create-faas-app": "index.js"
   },
-  "homepage": "https://faasjs.com/doc/create-faas-app.html",
+  "homepage": "https://faasjs.com/doc/create-faas-app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

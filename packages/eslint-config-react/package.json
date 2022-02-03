@@ -6,7 +6,7 @@
   "files": [
     "index.js"
   ],
-  "homepage": "https://faasjs.com/doc/eslint-config-react.html",
+  "homepage": "https://faasjs.com/doc/eslint-config-react",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",

@@ -1,14 +1,14 @@
 # @faasjs/ts-transform
 
-Typescript transform based on [SWC](https://swc.rs/)
-
 [![License: MIT](https://img.shields.io/npm/l/@faasjs/ts-transform.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/ts-transform/LICENSE)
 [![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/ts-transform/stable.svg)](https://www.npmjs.com/package/@faasjs/ts-transform)
 [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/ts-transform/beta.svg)](https://www.npmjs.com/package/@faasjs/ts-transform)
 
+Typescript transform based on [SWC](https://swc.rs/).
+
 ## Install
 
-    npm i @faasjs/ts-transform
+    npm install @faasjs/ts-transform
 
 ## Usage
 

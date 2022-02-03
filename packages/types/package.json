@@ -3,7 +3,7 @@
   "version": "0.0.2-beta.362",
   "license": "MIT",
   "types": "src/index.ts",
-  "homepage": "https://faasjs.com/doc/types.html",
+  "homepage": "https://faasjs.com/doc/types",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",
