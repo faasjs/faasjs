@@ -29,6 +29,13 @@ async function build(path) {
   writeFileSync(path.replace('/package.json', '/README.md'), readme)
 
   await run(`rm ${path.replace('/package.json', '/modules.md')}`)
+
+  const classes = globSync(path.replace('/package.json', '/classes/*.md'))
+
+  if (classes.length)
+    classes.forEach(file => {
+      writeFileSync(file, readFileSync(file, 'utf8').replaceAll('(../modules.md#', '(../#'))
+    })
 }
 
 async function buildAll() {

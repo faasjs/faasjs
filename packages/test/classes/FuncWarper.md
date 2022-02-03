@@ -59,7 +59,7 @@
 
 ### config
 
-• `Readonly` **config**: [`Config`](../modules.md#config)
+• `Readonly` **config**: [`Config`](../#config)
 
 ___
 
@@ -83,7 +83,7 @@ ___
 
 ### plugins
 
-• `Readonly` **plugins**: [`Plugin`](../modules.md#plugin)[]
+• `Readonly` **plugins**: [`Plugin`](../#plugin)[]
 
 ___
 

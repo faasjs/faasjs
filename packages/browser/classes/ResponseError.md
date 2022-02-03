@@ -1,5 +1,15 @@
 # Class: ResponseError
 
+ResponseError class
+
+Example:
+```ts
+new ResponseError({
+  status: 404,
+  message: 'Not Found',
+})
+```
+
 ## Hierarchy
 
 - `Error`
@@ -30,7 +40,7 @@
 | :------ | :------ |
 | `__namedParameters` | `Object` |
 | `__namedParameters.body` | `any` |
-| `__namedParameters.headers` | [`ResponseHeaders`](../modules.md#responseheaders) |
+| `__namedParameters.headers` | [`ResponseHeaders`](../#responseheaders) |
 | `__namedParameters.message` | `string` |
 | `__namedParameters.status` | `number` |
 
@@ -48,7 +58,7 @@ ___
 
 ### headers
 
-• `Readonly` **headers**: [`ResponseHeaders`](../modules.md#responseheaders)
+• `Readonly` **headers**: [`ResponseHeaders`](../#responseheaders)
 
 ___
 

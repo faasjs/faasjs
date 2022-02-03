@@ -19,6 +19,19 @@ export type ResponseHeaders = {
   [key: string]: string
 }
 
+/**
+ * Response class
+ *
+ * Example:
+ * ```ts
+ * new Response({
+ *   status: 200,
+ *   data: {
+ *     name: 'FaasJS'
+ *   }
+ * })
+ * ```
+ */
 export class Response<T = any> {
   public readonly status: number
   public readonly headers: ResponseHeaders
@@ -40,6 +53,17 @@ export class Response<T = any> {
   }
 }
 
+/**
+ * ResponseError class
+ *
+ * Example:
+ * ```ts
+ * new ResponseError({
+ *   status: 404,
+ *   message: 'Not Found',
+ * })
+ * ```
+ */
 export class ResponseError extends Error {
   public readonly status: number
   public readonly headers: ResponseHeaders
@@ -58,27 +82,38 @@ export class ResponseError extends Error {
   }
 }
 
+/**
+ * FaasJS browser client
+ *
+ * Example:
+ *
+ * ```ts
+ * new FaasBrowserClient({
+ *   baseURL: 'http://localhost:8080'
+ * })
+ * ```
+ */
 export class FaasBrowserClient {
   public host: string
   public defaultOptions: Options
 
   /**
-   * 创建 FaasJS 浏览器客户端
-   * @param baseUrl {string} 网关地址
-   * @param options {object} 默认配置项
+   * Create FaasJS Client
+   * @param baseUrl
+   * @param options default options
    */
   constructor (baseUrl: string, options?: Options) {
     this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/'
     this.defaultOptions = options || Object.create(null)
 
-    console.debug('[FaasJS] baseUrl: ' + this.host)
+    console.debug('[FaasJS] Initialize with baseUrl: ' + this.host)
   }
 
   /**
-   * 发起请求
-   * @param action {string} 动作名称
-   * @param params {any} 动作参数
-   * @param options {object} 默认配置项
+   * Request a FaasJS function
+   * @param action function path
+   * @param params function params
+   * @param options request options
    */
   public async action<PathOrData extends FaasAction> (
     action: PathOrData | string,

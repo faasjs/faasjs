@@ -38,7 +38,7 @@
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | [`CloudFunctionConfig`](../modules.md#cloudfunctionconfig) | 配置项，这些配置将强制覆盖默认配置 |
+| `config?` | [`CloudFunctionConfig`](../#cloudfunctionconfig) | 配置项，这些配置将强制覆盖默认配置 |
 
 ## Properties
 

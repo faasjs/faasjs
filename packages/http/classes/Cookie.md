@@ -43,7 +43,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `config` | [`CookieOptions`](../modules.md#cookieoptions) |
+| `config` | [`CookieOptions`](../#cookieoptions) |
 
 ## Properties
 
@@ -61,7 +61,7 @@
 | `path` | `string` |
 | `sameSite?` | ``"Strict"`` \| ``"Lax"`` \| ``"None"`` |
 | `secure` | `boolean` |
-| `session` | [`SessionOptions`](../modules.md#sessionoptions) |
+| `session` | [`SessionOptions`](../#sessionoptions) |
 
 ___
 

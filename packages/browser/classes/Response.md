@@ -1,5 +1,17 @@
 # Class: Response<T\>
 
+Response class
+
+Example:
+```ts
+new Response({
+  status: 200,
+  data: {
+    name: 'FaasJS'
+  }
+})
+```
+
 ## Type parameters
 
 | Name | Type |
@@ -38,7 +50,7 @@
 | `__namedParameters` | `Object` |
 | `__namedParameters.body?` | `any` |
 | `__namedParameters.data?` | `T` |
-| `__namedParameters.headers` | [`ResponseHeaders`](../modules.md#responseheaders) |
+| `__namedParameters.headers` | [`ResponseHeaders`](../#responseheaders) |
 | `__namedParameters.status` | `number` |
 
 ## Properties
@@ -57,7 +69,7 @@ ___
 
 ### headers
 
-• `Readonly` **headers**: [`ResponseHeaders`](../modules.md#responseheaders)
+• `Readonly` **headers**: [`ResponseHeaders`](../#responseheaders)
 
 ___
 

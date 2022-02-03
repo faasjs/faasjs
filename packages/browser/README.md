@@ -12,10 +12,6 @@ Browser plugin for FaasJS.
 
 ## Modules
 
-### References
-
-- [default](#default)
-
 ### Classes
 
 - [FaasBrowserClient](classes/FaasBrowserClient.md)
@@ -26,12 +22,6 @@ Browser plugin for FaasJS.
 
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
-
-## References
-
-### default
-
-Renames and re-exports [FaasBrowserClient](classes/FaasBrowserClient.md)
 
 ## Type aliases
 

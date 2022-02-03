@@ -31,13 +31,13 @@
 
 | Name | Type |
 | :------ | :------ |
-| `config` | [`AWSConfig`](../modules.md#awsconfig) |
+| `config` | [`AWSConfig`](../#awsconfig) |
 
 ## Properties
 
 ### config
 
-• **config**: [`AWSConfig`](../modules.md#awsconfig)
+• **config**: [`AWSConfig`](../#awsconfig)
 
 ___
 

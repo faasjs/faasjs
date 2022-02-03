@@ -45,7 +45,7 @@
 | Name | Type |
 | :------ | :------ |
 | `cookie` | [`Cookie`](Cookie.md)<`C`, `S`\> |
-| `config` | [`SessionOptions`](../modules.md#sessionoptions) |
+| `config` | [`SessionOptions`](../#sessionoptions) |
 
 ## Properties
 

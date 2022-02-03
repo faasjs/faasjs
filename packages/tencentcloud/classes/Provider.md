@@ -31,13 +31,13 @@
 
 | Name | Type |
 | :------ | :------ |
-| `config` | [`TencentcloudConfig`](../modules.md#tencentcloudconfig) |
+| `config` | [`TencentcloudConfig`](../#tencentcloudconfig) |
 
 ## Properties
 
 ### config
 
-• **config**: [`TencentcloudConfig`](../modules.md#tencentcloudconfig)
+• **config**: [`TencentcloudConfig`](../#tencentcloudconfig)
 
 ___
 

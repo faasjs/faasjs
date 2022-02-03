@@ -32,7 +32,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `config` | [`GraphQLServerConfig`](../modules.md#graphqlserverconfig) |
+| `config` | [`GraphQLServerConfig`](../#graphqlserverconfig) |
 
 ## Properties
 

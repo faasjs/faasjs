@@ -46,9 +46,9 @@
 | :------ | :------ |
 | `config` | `Object` |
 | `config.before?` | `BeforeOption`<`TParams`, `TCookie`, `TSession`\> |
-| `config.cookie?` | [`ValidatorOptions`](../modules.md#validatoroptions)<`TCookie`\> |
-| `config.params?` | [`ValidatorOptions`](../modules.md#validatoroptions)<`TParams`\> |
-| `config.session?` | [`ValidatorOptions`](../modules.md#validatoroptions)<`TSession`\> |
+| `config.cookie?` | [`ValidatorOptions`](../#validatoroptions)<`TCookie`\> |
+| `config.params?` | [`ValidatorOptions`](../#validatoroptions)<`TParams`\> |
+| `config.session?` | [`ValidatorOptions`](../#validatoroptions)<`TSession`\> |
 | `logger` | `Logger` |
 
 ## Properties
@@ -61,19 +61,19 @@ ___
 
 ### cookieConfig
 
-• `Optional` **cookieConfig**: [`ValidatorOptions`](../modules.md#validatoroptions)<`TCookie`\>
+• `Optional` **cookieConfig**: [`ValidatorOptions`](../#validatoroptions)<`TCookie`\>
 
 ___
 
 ### paramsConfig
 
-• `Optional` **paramsConfig**: [`ValidatorOptions`](../modules.md#validatoroptions)<`TParams`\>
+• `Optional` **paramsConfig**: [`ValidatorOptions`](../#validatoroptions)<`TParams`\>
 
 ___
 
 ### sessionConfig
 
-• `Optional` **sessionConfig**: [`ValidatorOptions`](../modules.md#validatoroptions)<`TSession`\>
+• `Optional` **sessionConfig**: [`ValidatorOptions`](../#validatoroptions)<`TSession`\>
 
 ## Methods
 
@@ -104,7 +104,7 @@ ___
 | `type` | `string` |
 | `params` | `Object` |
 | `baseKey` | `string` |
-| `config` | [`ValidatorOptions`](../modules.md#validatoroptions)<`Record`<`string`, `any`\>\> |
+| `config` | [`ValidatorOptions`](../#validatoroptions)<`Record`<`string`, `any`\>\> |
 
 #### Returns
 

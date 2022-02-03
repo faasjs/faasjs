@@ -55,13 +55,13 @@
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config` | [`FuncConfig`](../modules.md#funcconfig)<`TEvent`, `TContext`, `any`\> | 配置项 |
+| `config` | [`FuncConfig`](../#funcconfig)<`TEvent`, `TContext`, `any`\> | 配置项 |
 
 ## Properties
 
 ### config
 
-• **config**: [`Config`](../modules.md#config)
+• **config**: [`Config`](../#config)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 ### handler
 
-• `Optional` **handler**: [`Handler`](../modules.md#handler)<`TEvent`, `TContext`, `TResult`\>
+• `Optional` **handler**: [`Handler`](../#handler)<`TEvent`, `TContext`, `TResult`\>
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 ### plugins
 
-• **plugins**: [`Plugin`](../modules.md#plugin)[]
+• **plugins**: [`Plugin`](../#plugin)[]
 
 ## Methods
 
@@ -103,7 +103,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `key` | [`LifeCycleKey`](../modules.md#lifecyclekey) |
+| `key` | [`LifeCycleKey`](../#lifecyclekey) |
 
 #### Returns
 
@@ -134,7 +134,7 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `data` | [`DeployData`](../modules.md#deploydata) | 代码包信息 |
+| `data` | [`DeployData`](../#deploydata) | 代码包信息 |
 
 #### Returns
 
@@ -152,7 +152,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | [`Config`](../modules.md#config) |
+| `config?` | [`Config`](../#config) |
 
 #### Returns
 
@@ -160,7 +160,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | [`ExportedHandler`](../modules.md#exportedhandler)<`TEvent`, `TContext`, `TResult`\> |
+| `handler` | [`ExportedHandler`](../#exportedhandler)<`TEvent`, `TContext`, `TResult`\> |
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `data` | [`InvokeData`](../modules.md#invokedata)<`TEvent`, `TContext`, `TResult`\> | 执行信息 |
+| `data` | [`InvokeData`](../#invokedata)<`TEvent`, `TContext`, `TResult`\> | 执行信息 |
 
 #### Returns
 
@@ -193,7 +193,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `data` | `Object` |
-| `data.config?` | [`Config`](../modules.md#config) |
+| `data.config?` | [`Config`](../#config) |
 | `data.context` | `TContext` |
 | `data.event` | `TEvent` |
 

@@ -42,7 +42,7 @@ Knex 插件
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | [`KnexConfig`](../modules.md#knexconfig) | 配置 |
+| `config?` | [`KnexConfig`](../#knexconfig) | 配置 |
 
 ## Properties
 

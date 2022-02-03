@@ -1,5 +1,7 @@
 # Class: FaasBrowserClient
 
+FaasJS browser client
+
 ## Table of contents
 
 ### Constructors
@@ -21,20 +23,20 @@
 
 • **new FaasBrowserClient**(`baseUrl`, `options?`)
 
-创建 FaasJS 浏览器客户端
+Create FaasJS Client
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `baseUrl` | `string` | 网关地址 |
-| `options?` | [`Options`](../modules.md#options) | 默认配置项 |
+| `baseUrl` | `string` |  |
+| `options?` | [`Options`](../#options) | default options |
 
 ## Properties
 
 ### defaultOptions
 
-• **defaultOptions**: [`Options`](../modules.md#options)
+• **defaultOptions**: [`Options`](../#options)
 
 ___
 
@@ -48,7 +50,7 @@ ___
 
 ▸ **action**<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`<[`Response`](Response.md)<`FaasData`<`PathOrData`\>\>\>
 
-发起请求
+Request a FaasJS function
 
 #### Type parameters
 
@@ -60,9 +62,9 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action` | `string` \| `PathOrData` | 动作名称 |
-| `params?` | `FaasParams`<`PathOrData`\> | 动作参数 |
-| `options?` | [`Options`](../modules.md#options) | 默认配置项 |
+| `action` | `string` \| `PathOrData` | function path |
+| `params?` | `FaasParams`<`PathOrData`\> | function params |
+| `options?` | [`Options`](../#options) | request options |
 
 #### Returns
 

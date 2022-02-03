@@ -214,7 +214,7 @@ ___
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
 | `key` | `string` | `undefined` | 计时器标识 |
-| `level` | [`Level`](../modules.md#level) | `'debug'` | 日志级别，支持 debug、info、warn、error |
+| `level` | [`Level`](../#level) | `'debug'` | 日志级别，支持 debug、info、warn、error |
 
 #### Returns
 

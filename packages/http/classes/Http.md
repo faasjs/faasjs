@@ -59,7 +59,7 @@
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | [`HttpConfig`](../modules.md#httpconfig)<`TParams`, `TCookie`, `TSession`\> | 配置项 |
+| `config?` | [`HttpConfig`](../#httpconfig)<`TParams`, `TCookie`, `TSession`\> | 配置项 |
 
 ## Properties
 
@@ -71,7 +71,7 @@ ___
 
 ### config
 
-• **config**: [`HttpConfig`](../modules.md#httpconfig)<`TParams`, `TCookie`, `TSession`\>
+• **config**: [`HttpConfig`](../#httpconfig)<`TParams`, `TCookie`, `TSession`\>
 
 ___
 
