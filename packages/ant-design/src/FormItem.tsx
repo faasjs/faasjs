@@ -151,7 +151,10 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             <label className={ computedProps.rules.find(r => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
           </div>}
           {fields.map(field => <AntdForm.Item key={ field.key }>
-            <Row gutter={ 24 }>
+            <Row
+              gutter={ 24 }
+              style={ { flexFlow: 'row nowrap' } }
+            >
               <Col span={ 23 }>
                 <AntdForm.Item
                   { ...field }
@@ -209,7 +212,10 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             <label className={ computedProps.rules?.find((r: RuleObject) => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
           </div>}
           {fields.map(field => <AntdForm.Item key={ field.key }>
-            <Row gutter={ 24 }>
+            <Row
+              gutter={ 24 }
+              style={ { flexFlow: 'row nowrap' } }
+            >
               <Col span={ 23 }>
                 <AntdForm.Item
                   { ...field }
