@@ -63,9 +63,11 @@ const clients: {
  * @param props.options {Options} The options of client
  * @returns {FaasReactClientInstance}
  * @example
+ * ```ts
  * const client = FaasReactClient({
  *   domain: 'localhost:8080/api'
  * })
+ * ```
  */
 export function FaasReactClient ({
   domain,
@@ -199,9 +201,11 @@ export function FaasReactClient ({
  * @param domain {string} empty string for default domain
  * @returns {FaasReactClientInstance}
  * @example
+ * ```ts
  * getClient()
  * // or
  * getClient('another-domain')
+ * ```
  */
 export function getClient (domain?: string): FaasReactClientInstance {
   const client = clients[domain || Object.keys(clients)[0]]
@@ -218,9 +222,11 @@ export function getClient (domain?: string): FaasReactClientInstance {
  * @param params {object} action params
  * @returns {Promise<Response<any>>}
  * @example
+ * ```ts
  * faas<{ title: string }>('post/get', { id: 1 }).then(res => {
  *   console.log(res.data.title)
  * })
+ * ```
  */
 export async function faas<PathOrData extends FaasAction> (
   action: string | PathOrData,
@@ -235,11 +241,12 @@ export async function faas<PathOrData extends FaasAction> (
  * @param defaultParams {object} initial action params
  * @returns {FaasDataInjection<any>}
  * @example
+ * ```ts
  * function Post ({ id }) {
  *   const { data } = useFaas<{ title: string }>('post/get', { id })
- *
  *   return <h1>{data.title}</h1>
  * }
+ * ```
  */
 export function useFaas<PathOrData extends FaasAction> (
   action: string | PathOrData,
@@ -252,6 +259,7 @@ export function useFaas<PathOrData extends FaasAction> (
  * A data wrapper for react components
  * @returns {JSX.Element}
  * @example
+ * ```ts
  * <FaasDataWrapper<{
  *   id: string
  *   title: string
@@ -260,6 +268,7 @@ export function useFaas<PathOrData extends FaasAction> (
  *   params={ { id: 1 } }
  *   render={ ({ data }) => <h1>{ data.title }</h1> }
  * />
+ * ```
  */
 export function FaasDataWrapper<PathOrData extends FaasAction> (props: FaasDataWrapperProps<PathOrData>): JSX.Element {
   const [client, setClient] = useState<FaasReactClientInstance>()

@@ -123,6 +123,7 @@ ___
 A data wrapper for react components
 
 **`example`**
+```ts
 <FaasDataWrapper<{
   id: string
   title: string
@@ -131,6 +132,7 @@ A data wrapper for react components
   params={ { id: 1 } }
   render={ ({ data }) => <h1>{ data.title }</h1> }
 />
+```
 
 #### Type parameters
 
@@ -157,9 +159,11 @@ ___
 Before use faas, you should initialize a FaasReactClient.
 
 **`example`**
+```ts
 const client = FaasReactClient({
   domain: 'localhost:8080/api'
 })
+```
 
 #### Parameters
 
@@ -183,9 +187,11 @@ ___
 Request faas server
 
 **`example`**
+```ts
 faas<{ title: string }>('post/get', { id: 1 }).then(res => {
   console.log(res.data.title)
 })
+```
 
 #### Type parameters
 
@@ -213,9 +219,11 @@ ___
 Get FaasReactClient instance
 
 **`example`**
+```ts
 getClient()
 // or
 getClient('another-domain')
+```
 
 #### Parameters
 
@@ -236,11 +244,12 @@ ___
 Request faas server with React hook
 
 **`example`**
+```ts
 function Post ({ id }) {
   const { data } = useFaas<{ title: string }>('post/get', { id })
-
   return <h1>{data.title}</h1>
 }
+```
 
 #### Type parameters
 
