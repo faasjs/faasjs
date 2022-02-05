@@ -164,7 +164,9 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
-                {(!computedProps.rules.find(r => r.required) || field.key > 0) && <Button
+                {!computedProps.input?.disabled &&
+                (!computedProps.rules.find(r => r.required) || field.key > 0) &&
+                <Button
                   danger
                   type='link'
                   style={ { float: 'right' } }
@@ -175,7 +177,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             </Row>
           </AntdForm.Item>)}
           <AntdForm.Item>
-            {(!(computedProps as StringListProps).maxCount ||
+            {!computedProps.input?.disabled && (!(computedProps as StringListProps).maxCount ||
               (computedProps as StringListProps).maxCount > fields.length) &&
               <Button
                 type='dashed'
@@ -227,18 +229,20 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                 </AntdForm.Item>
               </Col>
               <Col span={ 1 }>
-                {(!computedProps.rules.find(r => r.required) || field.key > 0) && <Button
-                  danger
-                  type='link'
-                  style={ { float: 'right' } }
-                  icon={ <MinusCircleOutlined /> }
-                  onClick={ () => remove(field.name) }
-                />}
+                {!computedProps.input?.disabled &&
+                  (!computedProps.rules.find(r => r.required) || field.key > 0) &&
+                  <Button
+                    danger
+                    type='link'
+                    style={ { float: 'right' } }
+                    icon={ <MinusCircleOutlined /> }
+                    onClick={ () => remove(field.name) }
+                  />}
               </Col>
             </Row>
           </AntdForm.Item>)}
           <AntdForm.Item>
-            {(!(computedProps as NumberListProps).maxCount ||
+            {!computedProps.input?.disabled && (!(computedProps as NumberListProps).maxCount ||
               (computedProps as NumberListProps).maxCount > fields.length) &&
               <Button
                 type='dashed'
