@@ -1,5 +1,15 @@
 # Class: ResponseError
 
+ResponseError class
+
+Example:
+```ts
+new ResponseError({
+  status: 404,
+  message: 'Not Found',
+})
+```
+
 ## Hierarchy
 
 - `Error`

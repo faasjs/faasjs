@@ -1,5 +1,15 @@
 # Class: FaasBrowserClient
 
+FaasJS browser client
+
+Example:
+
+```ts
+new FaasBrowserClient({
+  baseURL: 'http://localhost:8080'
+})
+```
+
 ## Table of contents
 
 ### Constructors

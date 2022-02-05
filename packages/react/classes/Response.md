@@ -1,5 +1,17 @@
 # Class: Response<T\>
 
+Response class
+
+Example:
+```ts
+new Response({
+  status: 200,
+  data: {
+    name: 'FaasJS'
+  }
+})
+```
+
 ## Type parameters
 
 | Name | Type |
