@@ -17,6 +17,18 @@
 
 ▸ <`T`\>(`props`): `Element`
 
+FormItem, can be used without Form.
+Example:
+```ts
+// use inline type
+<FormItem item={{ type: 'string', id: 'name' }} />
+
+// use custom type
+<FormItem item={{ id: 'password' }}>
+  <Input.Password />
+</>
+```
+
 ##### Type parameters
 
 | Name | Type |
