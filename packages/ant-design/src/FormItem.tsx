@@ -73,6 +73,19 @@ export type FormItemProps<T = any> = {
   }
 } & FormItemInputProps<T> & FaasItemProps & AntdFormItemProps<T>
 
+/**
+ * FormItem, can be used without Form.
+ * Example:
+ * ```ts
+ * // use inline type
+ * <FormItem item={{ type: 'string', id: 'name' }} />
+ *
+ * // use custom type
+ * <FormItem item={{ id: 'password' }}>
+ *   <Input.Password />
+ * </>
+ * ```
+ */
 export function FormItem<T = any> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
 
