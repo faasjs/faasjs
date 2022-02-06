@@ -3,6 +3,7 @@ import { Color } from './color'
 
 export { Color }
 
+/** Logger Level */
 export type Level = 'debug' | 'info' | 'warn' | 'error'
 
 enum LevelColor {
@@ -25,7 +26,18 @@ const LevelPriority = {
 }
 
 /**
- * 日志类
+ * Logger Class
+ *
+ * ```ts
+ * const logger = new Logger()
+ * logger.debug('debug message')
+ * logger.info('info message')
+ * logger.warn('warn message')
+ * logger.error('error message')
+ *
+ * logger.time('timer name')
+ * logger.timeEnd('timer name', 'message') // 'message +1ms'
+ * ```
  */
 export class Logger {
   public silent: boolean
