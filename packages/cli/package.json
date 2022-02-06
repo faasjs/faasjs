@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "faas": "index.js"
+    "faas": "dist/index.js"
   },
   "homepage": "https://faasjs.com/doc/cli",
   "repository": {
