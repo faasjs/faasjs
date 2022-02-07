@@ -13,7 +13,6 @@ const FaasPackages = [
   '@faasjs/deep_merge',
   '@faasjs/deployer',
   '@faasjs/func',
-  '@faasjs/graphql-server',
   '@faasjs/http',
   '@faasjs/knex',
   '@faasjs/load',
