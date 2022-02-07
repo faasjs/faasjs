@@ -99,7 +99,7 @@ export class Session<
     return main + '--' + digest
   }
 
-  public decode (text: string): SessionContent {
+  public decode<TData = any> (text: string): TData | SessionContent {
     text = decodeURIComponent(text)
 
     const signedParts = text.split('--')
@@ -124,8 +124,8 @@ export class Session<
     return JSON.parse(decrypt)
   }
 
-  public read (key: string): string {
-    return this.content[key] as string
+  public read (key: string) {
+    return this.content[key]
   }
 
   public write (key: string, value?: string | number | null): Session<S, C> {
