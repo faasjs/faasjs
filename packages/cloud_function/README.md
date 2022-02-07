@@ -56,15 +56,15 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | `Object` | 配置项 |
+| `config?` | { [key: string]: `any`; `memorySize?`: ``64`` \| ``128`` \| ``256`` \| ``384`` \| ``512`` \| ``640`` \| ``768`` \| ``896`` \| ``1024`` \| `number` ; `name?`: `string` ; `provisionedConcurrent?`: { `executions`: `number`  } ; `timeout?`: `number` ; `triggers?`: { `name?`: `string` ; `type`: ``"timer"`` \| `string` ; `value`: `string`  }[]  } | 配置项 |
 | `config.memorySize?` | ``64`` \| ``128`` \| ``256`` \| ``384`` \| ``512`` \| ``640`` \| ``768`` \| ``896`` \| ``1024`` \| `number` | 内存大小，单位为MB，默认 64 |
 | `config.name?` | `string` | 配置名称 |
-| `config.provisionedConcurrent?` | `Object` | 预制并发配置 |
+| `config.provisionedConcurrent?` | { `executions`: `number`  } | 预制并发配置 |
 | `config.provisionedConcurrent.executions` | `number` | 预制并发数量 |
 | `config.timeout?` | `number` | 执行超时时间，单位为秒，默认 30 |
 | `config.triggers?` | { `name?`: `string` ; `type`: ``"timer"`` \| `string` ; `value`: `string`  }[] | 触发器配置 |
 | `name?` | `string` | 插件名称 |
-| `validator?` | `Object` | - |
+| `validator?` | { `event?`: `ValidatorConfig`  } | - |
 | `validator.event?` | `ValidatorConfig` | - |
 
 ## Functions

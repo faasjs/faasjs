@@ -1,6 +1,17 @@
 # Class: Logger
 
-日志类
+Logger Class
+
+```ts
+const logger = new Logger()
+logger.debug('debug message')
+logger.info('info message')
+logger.warn('warn message')
+logger.error('error message')
+
+logger.time('timer name')
+logger.timeEnd('timer name', 'message') // 'message +1ms'
+```
 
 ## Table of contents
 

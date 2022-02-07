@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "0.0.2-beta.364",
+  "version": "0.0.2-beta.365",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

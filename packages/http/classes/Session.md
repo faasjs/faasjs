@@ -76,7 +76,13 @@ ___
 
 ### decode
 
-▸ **decode**(`text`): `SessionContent`
+▸ **decode**<`TData`\>(`text`): `SessionContent` \| `TData`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TData` | `any` |
 
 #### Parameters
 
@@ -86,7 +92,7 @@ ___
 
 #### Returns
 
-`SessionContent`
+`SessionContent` \| `TData`
 
 ___
 
@@ -124,7 +130,7 @@ ___
 
 ### read
 
-▸ **read**(`key`): `string`
+▸ **read**(`key`): `string` \| `number`
 
 #### Parameters
 
@@ -134,7 +140,7 @@ ___
 
 #### Returns
 
-`string`
+`string` \| `number`
 
 ___
 

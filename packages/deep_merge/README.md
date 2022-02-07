@@ -22,19 +22,23 @@ A helper function to deep merge objects and array.
 
 ▸ **deepMerge**(...`sources`): `any`
 
-合并对象
+Deep merge two objects or arrays.
 
-**`description`**
-注意事项：
-* 合并时会复制对象，不会修改原对象
-* 合并顺序是后面的覆盖前面的
-* 若有数组形式的属性，数组里的内容将被去重合并
+Features:
+* All objects will be cloned before merging.
+* Merging order is from right to left.
+* If an array include same objects, it will be unique to one.
+
+```ts
+deepMerge({ a: 1 }, { a: 2 }) // { a: 2 }
+deepMerge([1, 2], [2, 3]) // [1, 2, 3]
+```
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `...sources` | `any`[] | 合并对象 |
+| Name | Type |
+| :------ | :------ |
+| `...sources` | `any`[] |
 
 #### Returns
 

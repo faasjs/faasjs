@@ -82,7 +82,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | `Object` |
+| `config?` | { [key: string]: `any`; `cookie?`: [`CookieOptions`](#cookieoptions) ; `functionName?`: `string` ; `ignorePathPrefix?`: `string` ; `method?`: ``"BEGIN"`` \| ``"GET"`` \| ``"POST"`` \| ``"DELETE"`` \| ``"HEAD"`` \| ``"PUT"`` \| ``"OPTIONS"`` \| ``"TRACE"`` \| ``"PATCH"`` \| ``"ANY"`` ; `path?`: `string` ; `timeout?`: `number`  } |
 | `config.cookie?` | [`CookieOptions`](#cookieoptions) |
 | `config.functionName?` | `string` |
 | `config.ignorePathPrefix?` | `string` |
@@ -103,7 +103,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `body?` | `string` |
-| `headers?` | `Object` |
+| `headers?` | { [key: string]: `string`;  } |
 | `message?` | `string` |
 | `statusCode?` | `number` |
 

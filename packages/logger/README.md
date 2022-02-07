@@ -28,3 +28,5 @@ FaasJS's logger module.
 ### Level
 
 Ƭ **Level**: ``"debug"`` \| ``"info"`` \| ``"warn"`` \| ``"error"``
+
+Logger Level

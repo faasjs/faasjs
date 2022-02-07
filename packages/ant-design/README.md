@@ -248,15 +248,15 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `Blank` | `Object` |
+| `Blank` | { `text`: `string`  } |
 | `Blank.text` | `string` |
-| `Form` | `Object` |
-| `Form.submit` | `Object` |
+| `Form` | { `submit`: { `text`: `string`  }  } |
+| `Form.submit` | { `text`: `string`  } |
 | `Form.submit.text` | `string` |
-| `Title` | `Object` |
+| `Title` | { `separator`: `string` ; `suffix`: `string`  } |
 | `Title.separator` | `string` |
 | `Title.suffix` | `string` |
-| `common` | `Object` |
+| `common` | { `all`: `string` ; `blank`: `string` ; `pageNotFound`: `string` ; `submit`: `string`  } |
 | `common.all` | `string` |
 | `common.blank` | `string` |
 | `common.pageNotFound` | `string` |

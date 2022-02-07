@@ -34,7 +34,7 @@ FaasJS's request module.
 
 | Name | Type |
 | :------ | :------ |
-| `body?` | `Object` |
+| `body?` | { [key: string]: `any`;  } |
 | `headers?` | `http.OutgoingHttpHeaders` |
 | `host?` | `string` |
 | `method?` | `string` |
@@ -60,7 +60,7 @@ ___
 | `method?` | `string` | 请求方法，默认为 GET |
 | `passphrase?` | `string` | - |
 | `pfx?` | `Buffer` | - |
-| `query?` | `Object` | 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数 |
+| `query?` | { [key: string]: `any`;  } | 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数 |
 | `timeout?` | `number` | 最长耗时，单位为毫秒 |
 | `parse?` | (`body`: `string`) => `any` | body 解析器，默认为 JSON.parse |
 
