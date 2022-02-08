@@ -12,6 +12,8 @@ import {
   SwitchProps,
   Select,
   SelectProps,
+  DatePicker,
+  DatePickerProps
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { FaasItemProps, transferOptions } from './data'
@@ -47,6 +49,11 @@ type BooleanProps = {
   input?: SwitchProps
 }
 
+type DateProps = {
+  type: 'date';
+  input?: DatePickerProps;
+}
+
 type OptionsProps = {
   options?: BaseOption[]
   type?: 'string' | 'string[]' | 'number' | 'number[]'
@@ -55,7 +62,7 @@ type OptionsProps = {
 
 type FormItemInputProps<T = any> = StringProps | StringListProps |
 NumberProps | NumberListProps |
-BooleanProps | OptionsProps
+BooleanProps | OptionsProps | DateProps
 
 export type ExtendFormTypeProps = {
   children?: JSX.Element | null
@@ -271,6 +278,10 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
     case 'boolean':
       return <AntdForm.Item { ...computedProps }>
         <Switch { ...computedProps.input } />
+      </AntdForm.Item>
+    case 'date':
+      return <AntdForm.Item { ...computedProps }>
+        <DatePicker { ...computedProps.input } />
       </AntdForm.Item>
     default:
       return null

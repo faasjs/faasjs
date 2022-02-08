@@ -3,7 +3,7 @@ import { upperFirst } from 'lodash'
 export type FaasItemType =
   'string' | 'string[]' |
   'number' | 'number[]' |
-  'boolean'
+  'boolean' | 'date'
 
 export type FaasItemTypeValue = {
   string: string
