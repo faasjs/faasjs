@@ -600,6 +600,6 @@ Hook style modal.
 
 | Name | Type |
 | :------ | :------ |
-| `Modal` | `Element` |
-| `ModalProps` | [`ModalProps`](#modalprops) |
+| `modal` | `Element` |
+| `modalProps` | [`ModalProps`](#modalprops) |
 | `setModalProps` | (`changes`: `Partial`<[`ModalProps`](#modalprops)\>) => `void` |
