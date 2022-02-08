@@ -75,7 +75,7 @@ export type FormItemProps<T = any> = {
 
 /**
  * FormItem, can be used without Form.
- * Example:
+ *
  * ```ts
  * // use inline type
  * <FormItem item={{ type: 'string', id: 'name' }} />
