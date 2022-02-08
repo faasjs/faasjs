@@ -1,6 +1,15 @@
 # Class: Server
 
-本地服务端
+FaasJS Server.
+
+```ts
+const server = new Server(process.cwd(), {
+ port: 8080,
+ cache: false,
+})
+
+server.listen()
+```
 
 ## Table of contents
 
@@ -26,16 +35,14 @@
 
 • **new Server**(`root`, `opts?`)
 
-创建本地服务器
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `root` | `string` | 云函数的根目录 |
-| `opts?` | `Object` | 配置项 |
-| `opts.cache?` | `boolean` | - |
-| `opts.port?` | `number` | - |
+| `root` | `string` | Project path |
+| `opts?` | `Object` | Options |
+| `opts.cache?` | `boolean` | Enable cache, default is false |
+| `opts.port?` | `number` | Port, default is 3000 |
 
 ## Properties
 
@@ -77,6 +84,8 @@ ___
 ### listen
 
 ▸ **listen**(): `Server`
+
+Start server.
 
 #### Returns
 
