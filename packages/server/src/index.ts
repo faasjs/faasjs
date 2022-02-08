@@ -44,7 +44,16 @@ export async function closeAll (): Promise<void> {
 }
 
 /**
- * 本地服务端
+ * FaasJS Server.
+ *
+ * ```ts
+ * const server = new Server(process.cwd(), {
+ *  port: 8080,
+ *  cache: false,
+ * })
+ *
+ * server.listen()
+ * ```
  */
 export class Server {
   public readonly root: string
@@ -63,11 +72,10 @@ export class Server {
   private sockets: Set<Socket> = new Set()
 
   /**
-   * 创建本地服务器
-   * @param root {string} 云函数的根目录
-   * @param opts {object} 配置项
-   * @param cache {boolean} 是否缓存云函数，默认为 false，每次接收请求都会重新编译和加载云函数代码
-   * @param port {number} 端口号，默认为 3000
+   * @param root Project path
+   * @param opts Options
+   * @param opts.cache Enable cache, default is false
+   * @param opts.port Port, default is 3000
    */
   constructor (root: string, opts?: {
     cache?: boolean
@@ -196,6 +204,10 @@ export class Server {
     })
   }
 
+  /**
+   * Start server.
+   * @returns {Server}
+   */
   public listen (): HttpServer {
     if (this.server) throw Error('Server already running')
 
