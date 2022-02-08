@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command } from 'commander'
 import { Logger } from '@faasjs/logger'
 import { existsSync } from 'fs'
