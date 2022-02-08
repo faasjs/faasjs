@@ -65,6 +65,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [FaasState](#faasstate)
 - [FormItemProps](#formitemprops)
 - [FormProps](#formprops)
+- [ModalProps](#modalprops)
 - [RoutesProps](#routesprops)
 - [TableItemProps](#tableitemprops)
 - [TableProps](#tableprops)
@@ -83,6 +84,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [transferOptions](#transferoptions)
 - [useDrawer](#usedrawer)
 - [useFaasState](#usefaasstate)
+- [useModal](#usemodal)
 
 ## Type aliases
 
@@ -289,6 +291,12 @@ ___
 
 ___
 
+### ModalProps
+
+Ƭ **ModalProps**: `AntdModalProps` & { `children?`: `JSX.Element` \| `JSX.Element`[]  }
+
+___
+
 ### RoutesProps
 
 Ƭ **RoutesProps**: `Object`
@@ -440,7 +448,7 @@ ___
 ▸ **FormItem**<`T`\>(`props`): `Element`
 
 FormItem, can be used without Form.
-Example:
+
 ```ts
 // use inline type
 <FormItem item={{ type: 'string', id: 'name' }} />
@@ -544,11 +552,13 @@ ___
 
 ▸ **useDrawer**(`init?`): `Object`
 
+Hook style drawer.
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `init?` | [`DrawerProps`](#drawerprops) |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `init?` | [`DrawerProps`](#drawerprops) | initial props  ```ts function Example() {   const { drawer, setDrawerProps } = useDrawer()    return <>     <Button onClick={ () => setDrawerProps(prev => ({ visible: !prev.visible})) }>       Toggle     </Button>     {drawer}   </> } ``` |
 
 #### Returns
 
@@ -569,3 +579,27 @@ ___
 #### Returns
 
 [[`FaasState`](#faasstate), (`state`: `IHookStateSetAction`<[`FaasState`](#faasstate)\>) => `void`]
+
+___
+
+### useModal
+
+▸ **useModal**(`init?`): `Object`
+
+Hook style modal.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `init?` | [`ModalProps`](#modalprops) | initial props  ```ts function Example() {   const { modal, setModalProps } = useModal()    return <>{modal}</> } ``` |
+
+#### Returns
+
+`Object`
+
+| Name | Type |
+| :------ | :------ |
+| `Modal` | `Element` |
+| `ModalProps` | [`ModalProps`](#modalprops) |
+| `setModalProps` | (`changes`: `Partial`<[`ModalProps`](#modalprops)\>) => `void` |

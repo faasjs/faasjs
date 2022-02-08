@@ -18,7 +18,7 @@
 ▸ <`T`\>(`props`): `Element`
 
 FormItem, can be used without Form.
-Example:
+
 ```ts
 // use inline type
 <FormItem item={{ type: 'string', id: 'name' }} />
