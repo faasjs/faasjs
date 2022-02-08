@@ -7,6 +7,23 @@ export type DrawerProps = AntdDrawerProps & {
   children?: JSX.Element | JSX.Element[]
 }
 
+/**
+ * Hook style drawer.
+ * @param init initial props
+ *
+ * ```ts
+ * function Example() {
+ *   const { drawer, setDrawerProps } = useDrawer()
+ *
+ *   return <>
+ *     <Button onClick={ () => setDrawerProps(prev => ({ visible: !prev.visible})) }>
+ *       Toggle
+ *     </Button>
+ *     {drawer}
+ *   </>
+ * }
+ * ```
+ */
 export function useDrawer (init?: DrawerProps) {
   const [props, setProps] = useState<DrawerProps>({
     visible: false,
