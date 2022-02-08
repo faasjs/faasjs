@@ -23,8 +23,8 @@ export function useModal (init?: ModalProps) {
   const [props, setProps] = useState<ModalProps>(init)
 
   return {
-    Modal: <Modal { ...props } />,
-    ModalProps: props,
+    modal: <Modal { ...props } />,
+    modalProps: props,
     setModalProps (changes: Partial<ModalProps>) {
       setProps(prev => ({
         ...prev,
