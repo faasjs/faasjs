@@ -3,10 +3,6 @@
   "compilerOptions": {
     "target": "es2017",
     "moduleResolution": "node",
-    "sourceMap": true,
-    "lib": ["ES2015","DOM"],
-    "types": [
-      "../../node_modules/vue/types/index"
-    ]
+    "sourceMap": true
   }
 }

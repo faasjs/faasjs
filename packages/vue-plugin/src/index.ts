@@ -4,7 +4,7 @@ export type {
   FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
 } from '@faasjs/browser'
 
-export interface FaasVuePluginOptions {
+export type FaasVuePluginOptions = {
   domain: string
   options?: Options
 }
