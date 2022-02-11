@@ -7,6 +7,8 @@ export type ModalProps = AntdModalProps & {
   children?: JSX.Element | JSX.Element[]
 }
 
+export type setDrawerProps = (changes: Partial<ModalProps>) => void
+
 /**
  * Hook style modal.
  * @param init initial props
