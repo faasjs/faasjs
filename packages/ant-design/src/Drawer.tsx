@@ -7,6 +7,8 @@ export type DrawerProps = AntdDrawerProps & {
   children?: JSX.Element | JSX.Element[]
 }
 
+export type setDrawerProps = (changes: Partial<DrawerProps>) => void
+
 /**
  * Hook style drawer.
  * @param init initial props

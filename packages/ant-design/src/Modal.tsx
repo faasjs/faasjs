@@ -7,6 +7,8 @@ export type ModalProps = AntdModalProps & {
   children?: JSX.Element | JSX.Element[]
 }
 
+export type setDrawerProps = (changes: Partial<ModalProps>) => void
+
 /**
  * Hook style modal.
  * @param init initial props
@@ -20,7 +22,14 @@ export type ModalProps = AntdModalProps & {
  * ```
  */
 export function useModal (init?: ModalProps) {
-  const [props, setProps] = useState<ModalProps>(init)
+  const [props, setProps] = useState<ModalProps>({
+    visible: false,
+    onCancel: () => setProps(prev => ({
+      ...prev,
+      visible: false
+    })),
+    ...init,
+  })
 
   return {
     modal: <Modal { ...props } />,
