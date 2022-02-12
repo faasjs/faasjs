@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import { Calendar } from '../../Calendar'
 import dayjs from 'dayjs'
 
-describe('Calandar', () => {
+describe('Calendar', () => {
   it('should work', () => {
     const { container } = render(
       <Calendar

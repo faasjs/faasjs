@@ -59,6 +59,7 @@
       "!*.d.ts"
     ],
     "moduleNameMapper": {
+      ".+\\.(css|less|scss)$": "<rootDir>/mockStyle.js",
       "@faasjs/(.*)": "<rootDir>/packages/$1",
       "^antd/es/(.*)$": "antd/lib/$1",
       "^rc-picker/es/(.*)$": "rc-picker/lib/$1"

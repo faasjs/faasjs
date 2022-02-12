@@ -1,4 +1,3 @@
-import React from 'react'
 import { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/es/generate/dayjs'
 import generateCalendar from 'antd/es/calendar/generateCalendar'
