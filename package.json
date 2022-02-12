@@ -59,7 +59,9 @@
       "!*.d.ts"
     ],
     "moduleNameMapper": {
-      "@faasjs/(.*)": "<rootDir>/packages/$1"
+      "@faasjs/(.*)": "<rootDir>/packages/$1",
+      "^antd/es/(.*)$": "antd/lib/$1",
+      "^rc-picker/es/(.*)$": "rc-picker/lib/$1"
     },
     "setupFiles": [
       "./packages/test/src/jest.setup"

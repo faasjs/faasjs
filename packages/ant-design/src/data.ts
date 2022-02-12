@@ -1,9 +1,10 @@
 import { upperFirst } from 'lodash'
+import { Dayjs } from 'dayjs'
 
 export type FaasItemType =
   'string' | 'string[]' |
   'number' | 'number[]' |
-  'boolean' | 'date'
+  'boolean' | 'date' | 'time'
 
 export type FaasItemTypeValue = {
   string: string
@@ -11,6 +12,8 @@ export type FaasItemTypeValue = {
   number: number
   'number[]': number[]
   boolean: boolean
+  'date': Dayjs
+  'time': Dayjs
 }
 
 export type BaseOption = string | number | {
