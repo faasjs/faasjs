@@ -1,5 +1,7 @@
 # FaasJS
 
+[![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ffaasjs)](https://twitter.com/faasjs)
+
 [![License: MIT](https://img.shields.io/npm/l/faasjs.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE)
 [![NPM Beta Version](https://img.shields.io/npm/v/faasjs/beta.svg)](https://www.npmjs.com/package/faasjs)
 [![Last commit](https://img.shields.io/github/last-commit/faasjs/faasjs)](https://github.com/faasjs/faasjs)
@@ -8,8 +10,9 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/ed918d6b0ecc951f7924/maintainability)](https://codeclimate.com/github/faasjs/faasjs/maintainability)
 [![Coverage Status](https://img.shields.io/codecov/c/github/faasjs/faasjs.svg)](https://app.codecov.io/gh/faasjs/faasjs)
-[![Lines](https://img.shields.io/tokei/lines/github/faasjs/faasjs)](https://github.com/faasjs/faasjs)
 [![Commits](https://img.shields.io/github/commit-activity/y/faasjs/faasjs)](https://github.com/faasjs/faasjs)
+[![Downloads](https://img.shields.io/npm/dm/@faasjs/func)](https://github.com/faasjs/faasjs)
+[![Pull requests](https://img.shields.io/github/issues-pr-closed/faasjs/faasjs)](https://github.com/faasjs/faasjs/pulls)
 
 [![faasjs/nginx](https://img.shields.io/badge/Docker-faasjs%2Fnginx-blue)](https://hub.docker.com/repository/docker/faasjs/nginx)
 [![faasjs/node](https://img.shields.io/badge/Docker-faasjs%2Fnode-blue)](https://hub.docker.com/repository/docker/faasjs/node)
