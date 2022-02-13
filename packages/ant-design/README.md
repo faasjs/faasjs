@@ -50,6 +50,8 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [BaseItemProps](#baseitemprops)
 - [BaseOption](#baseoption)
 - [BlankProps](#blankprops)
+- [CalendarProps](#calendarprops)
+- [DatePickerProps](#datepickerprops)
 - [DescriptionItemProps](#descriptionitemprops)
 - [DescriptionProps](#descriptionprops)
 - [DrawerProps](#drawerprops)
@@ -69,11 +71,20 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [RoutesProps](#routesprops)
 - [TableItemProps](#tableitemprops)
 - [TableProps](#tableprops)
+- [TimePickerProps](#timepickerprops)
 - [TitleProps](#titleprops)
+- [setDrawerProps](#setdrawerprops)
+- [setModalProps](#setmodalprops)
+
+### Variables
+
+- [DatePicker](#datepicker)
+- [TimePicker](#timepicker)
 
 ### Functions
 
 - [Blank](#blank)
+- [Calendar](#calendar)
 - [Config](#config)
 - [Description](#description)
 - [Form](#form)
@@ -118,6 +129,18 @@ ___
 | :------ | :------ |
 | `text?` | `string` |
 | `value?` | `any` |
+
+___
+
+### CalendarProps
+
+Ƭ **CalendarProps**: `AntdProps`<`Dayjs`\>
+
+___
+
+### DatePickerProps
+
+Ƭ **DatePickerProps**: `PickerDateProps`<`Dayjs`\>
 
 ___
 
@@ -222,7 +245,7 @@ ___
 
 ### FaasItemType
 
-Ƭ **FaasItemType**: ``"string"`` \| ``"string[]"`` \| ``"number"`` \| ``"number[]"`` \| ``"boolean"``
+Ƭ **FaasItemType**: ``"string"`` \| ``"string[]"`` \| ``"number"`` \| ``"number[]"`` \| ``"boolean"`` \| ``"date"`` \| ``"time"``
 
 ___
 
@@ -235,10 +258,12 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `boolean` | `boolean` |
+| `date` | `Dayjs` |
 | `number` | `number` |
 | `number[]` | `number`[] |
 | `string` | `string` |
 | `string[]` | `string`[] |
+| `time` | `Dayjs` |
 
 ___
 
@@ -336,6 +361,12 @@ ___
 
 ___
 
+### TimePickerProps
+
+Ƭ **TimePickerProps**: `Omit`<`PickerTimeProps`<`Dayjs`\>, ``"picker"``\>
+
+___
+
 ### TitleProps
 
 Ƭ **TitleProps**: `Object`
@@ -344,9 +375,62 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
+| `h1?` | `boolean` \| { `className?`: `string` ; `style?`: `React.CSSProperties`  } | - |
 | `separator?` | `string` | ` - ` as default |
 | `suffix?` | `string` | - |
 | `title` | `string` \| `string`[] | - |
+
+___
+
+### setDrawerProps
+
+Ƭ **setDrawerProps**: (`changes`: `Partial`<[`DrawerProps`](#drawerprops)\>) => `void`
+
+#### Type declaration
+
+▸ (`changes`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `changes` | `Partial`<[`DrawerProps`](#drawerprops)\> |
+
+##### Returns
+
+`void`
+
+___
+
+### setModalProps
+
+Ƭ **setModalProps**: (`changes`: `Partial`<[`ModalProps`](#modalprops)\>) => `void`
+
+#### Type declaration
+
+▸ (`changes`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `changes` | `Partial`<[`ModalProps`](#modalprops)\> |
+
+##### Returns
+
+`void`
+
+## Variables
+
+### DatePicker
+
+• **DatePicker**: `PickerComponentClass`<`PickerProps`<`Dayjs`\>, `unknown`\> & {}
+
+___
+
+### TimePicker
+
+• **TimePicker**: `ForwardRefExoticComponent`<[`TimePickerProps`](#timepickerprops) & `RefAttributes`<`any`\>\>
 
 ## Functions
 
@@ -369,6 +453,22 @@ If value is undefined or null, return text, otherwise return value.
 ```ts
 <Blank value={undefined} text="Empty" />
 ```
+
+___
+
+### Calendar
+
+▸ `Const` **Calendar**(`props`): `Element`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | `CalendarProps`<`Dayjs`\> |
+
+#### Returns
+
+`Element`
 
 ___
 
@@ -519,6 +619,16 @@ ___
 ### Title
 
 ▸ **Title**(`props`): `JSX.Element`
+
+Title is used to change the title of the page.
+
+```ts
+<Title title='hi' /> // => return null, change the document.title to 'hi'
+<Title title={['a', 'b']} /> // => return null, change the document.title to 'a - b'
+
+<Title title='hi' h1 /> // => return <h1>hi</h1>, change the document.title to 'hi'
+<Title title={['a', 'b']} h1 /> // => return <h1>a</h1>, change the document.title to 'a - b'
+```
 
 #### Parameters
 

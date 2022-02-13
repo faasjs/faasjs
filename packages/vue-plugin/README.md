@@ -18,12 +18,9 @@ A Vue plugin for FaasJS.
 - [Response](classes/Response.md)
 - [ResponseError](classes/ResponseError.md)
 
-### Interfaces
-
-- [FaasVuePluginOptions](interfaces/FaasVuePluginOptions.md)
-
 ### Type aliases
 
+- [FaasVuePluginOptions](#faasvuepluginoptions)
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
 
@@ -32,6 +29,19 @@ A Vue plugin for FaasJS.
 - [FaasVuePlugin](#faasvueplugin)
 
 ## Type aliases
+
+### FaasVuePluginOptions
+
+Ƭ **FaasVuePluginOptions**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `domain` | `string` |
+| `options?` | [`Options`](#options) |
+
+___
 
 ### Options
 
@@ -57,4 +67,4 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `install` | (`Vue`: `any`, `options`: [`FaasVuePluginOptions`](interfaces/FaasVuePluginOptions.md)) => `void` |
+| `install` | (`Vue`: `any`, `options`: [`FaasVuePluginOptions`](#faasvuepluginoptions)) => `void` |
