@@ -3,6 +3,7 @@
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import dayjs from 'dayjs'
 import { Table } from '../../Table'
 
 describe('Table/items', () => {
@@ -132,6 +133,160 @@ describe('Table/items', () => {
       userEvent.click(screen.getByRole('radio', { name: 'All' }), {}, { skipPointerEventsCheck: true })
 
       expect(screen.getAllByRole('cell').length).toBe(6)
+    })
+  })
+
+  describe('time', () => {
+    it('undefined', async () => {
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            type: 'time',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'undefined',
+            test: undefined,
+          },
+        ] }
+      />)
+      expect(screen.getByText('Test')).toBeInTheDocument()
+    })
+    it('number', async () => {
+      const now = dayjs()
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            type: 'time',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'number',
+            test: now.unix(),
+          }
+        ] }
+      />)
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeInTheDocument()
+    })
+    it('dayjs', () => {
+      const now = dayjs()
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            type: 'time',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'dayjs',
+            test: now,
+          }
+        ] }
+      />)
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeInTheDocument()
+    })
+    it('string', () => {
+      const now = dayjs()
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            type: 'time',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'string',
+            test: now.format()
+          }
+        ] }
+      />)
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeInTheDocument()
+    })
+  })
+
+  describe('date', () => {
+    it('undefined', async () => {
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            type: 'date',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'undefined',
+            test: undefined,
+          },
+        ] }
+      />)
+      expect(screen.getByText('Test')).toBeInTheDocument()
+    })
+    it('number', async () => {
+      const now = dayjs()
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            type: 'date',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'number',
+            test: now.unix(),
+          }
+        ] }
+      />)
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
+    })
+    it('dayjs', () => {
+      const now = dayjs()
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            type: 'date',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'dayjs',
+            test: now,
+          }
+        ] }
+      />)
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
+    })
+    it('string', () => {
+      const now = dayjs()
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            type: 'date',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'string',
+            test: now.format()
+          }
+        ] }
+      />)
+      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
     })
   })
 })
