@@ -1,6 +1,7 @@
-import { Dayjs } from 'dayjs'
+import type { Dayjs } from 'dayjs'
+import type { PickerTimeProps } from 'antd/es/date-picker/generatePicker'
+
 import { DatePicker } from './DatePicker'
-import { PickerTimeProps } from 'antd/es/date-picker/generatePicker'
 import { forwardRef } from 'react'
 
 export type TimePickerProps = Omit<PickerTimeProps<Dayjs>, 'picker'>
