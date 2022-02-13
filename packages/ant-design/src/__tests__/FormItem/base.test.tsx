@@ -14,6 +14,7 @@ describe('FormItem', () => {
     'number',
     'number[]',
     'boolean',
+    'date'
   ]
 
   describe('label', () => {

@@ -12,6 +12,8 @@ import {
   SwitchProps,
   Select,
   SelectProps,
+  DatePickerProps,
+  TimePickerProps
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { FaasItemProps, transferOptions } from './data'
@@ -19,6 +21,8 @@ import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { useEffect, useState } from 'react'
 import { upperFirst } from 'lodash'
 import { BaseItemProps, BaseOption } from '.'
+import { DatePicker } from './DatePicker'
+import { TimePicker } from './TimePicker'
 
 type StringProps = {
   type?: 'string'
@@ -47,6 +51,16 @@ type BooleanProps = {
   input?: SwitchProps
 }
 
+type DateProps = {
+  type: 'date';
+  input?: DatePickerProps;
+}
+
+type TimeProps = {
+  type: 'time';
+  input?: TimePickerProps;
+}
+
 type OptionsProps = {
   options?: BaseOption[]
   type?: 'string' | 'string[]' | 'number' | 'number[]'
@@ -55,7 +69,7 @@ type OptionsProps = {
 
 type FormItemInputProps<T = any> = StringProps | StringListProps |
 NumberProps | NumberListProps |
-BooleanProps | OptionsProps
+BooleanProps | OptionsProps | DateProps | TimeProps
 
 export type ExtendFormTypeProps = {
   children?: JSX.Element | null
@@ -271,6 +285,14 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
     case 'boolean':
       return <AntdForm.Item { ...computedProps }>
         <Switch { ...computedProps.input } />
+      </AntdForm.Item>
+    case 'date':
+      return <AntdForm.Item { ...computedProps }>
+        <DatePicker { ...computedProps.input } />
+      </AntdForm.Item>
+    case 'time':
+      return <AntdForm.Item { ...computedProps }>
+        <TimePicker { ...computedProps.input } />
       </AntdForm.Item>
     default:
       return null

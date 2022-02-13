@@ -10,6 +10,7 @@ import {
   Skeleton,
   TablePaginationConfig
 } from 'antd'
+import dayjs from 'dayjs'
 import {
   FaasItemProps, transferOptions, BaseItemProps
 } from './data'
@@ -54,21 +55,38 @@ export type TableProps<T = any, ExtendTypes = any> = {
 } & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
-  if (item.options && typeof value !== 'undefined' && value !== null) {
-    if (item.type.endsWith('[]'))
-      return (value as any[]).map((v: any) => (item.options as {
-        label: string
-        value: any
-      }[])
-        .find(option => option.value === v)?.label
+  if (typeof value !== 'undefined' && value !== null ) {
+    if (item.options ) {
+      if (item.type.endsWith('[]'))
+        return (value as any[]).map((v: any) => (item.options as {
+          label: string
+          value: any
+        }[])
+          .find(option => option.value === v)?.label
         || v)
-    else
-      return (item.options as {
-        label: string
-        value: any
-      }[])
-        .find(option => option.value === value)?.label
+      else if ([
+        'string',
+        'number',
+        'boolean'
+      ].includes(item.type))
+        return (item.options as {
+          label: string
+          value: any
+        }[])
+          .find(option => option.value === value)?.label
         || value
+    }
+
+    let dayjsFormat = ''
+    if (item.type === 'date') dayjsFormat = 'YYYY-MM-DD'
+    else if (item.type === 'time') dayjsFormat = 'YYYY-MM-DD HH:mm:ss'
+
+    // check unix timestamp
+    if (['date', 'time'].includes(item.type)) {
+      if (typeof value === 'number' && value.toString().length === 10)
+        value = value * 1000
+      value = dayjs(value).format(dayjsFormat)
+    }
   }
   return value
 }
@@ -184,6 +202,16 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
                   return true
               }
             }
+          break
+        case 'date':
+          item.render = value => processValue(item, value)
+          if (!item.onFilter)
+            item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
+          break
+        case 'time':
+          item.render = value => processValue(item, value)
+          if (!item.onFilter)
+            item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
           break
         default:
           item.render = value => processValue(item, value)

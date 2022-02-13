@@ -30,7 +30,8 @@
     "react-dom": "*",
     "@faasjs/react": "^0.0.2-beta.370",
     "react-use": "*",
-    "react-router-dom": "*"
+    "react-router-dom": "*",
+    "dayjs": "*"
   },
   "devDependencies": {
     "@types/lodash": "*",
