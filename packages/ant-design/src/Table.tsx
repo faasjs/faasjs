@@ -55,7 +55,7 @@ export type TableProps<T = any, ExtendTypes = any> = {
 } & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
-  if (typeof value !== 'undefined' && value !== null) {
+  if (typeof value !== 'undefined' && value !== null ) {
     if (item.options ) {
       if (item.type.endsWith('[]'))
         return (value as any[]).map((v: any) => (item.options as {
@@ -64,7 +64,11 @@ function processValue (item: TableItemProps, value: any) {
         }[])
           .find(option => option.value === v)?.label
         || v)
-      else
+      else if ([
+        'string',
+        'number',
+        'boolean'
+      ].includes(item.type))
         return (item.options as {
           label: string
           value: any
@@ -72,15 +76,16 @@ function processValue (item: TableItemProps, value: any) {
           .find(option => option.value === value)?.label
         || value
     }
+
+    let dayjsFormat = ''
+    if (item.type === 'date') dayjsFormat = 'YYYY-MM-DD'
+    else if (item.type === 'time') dayjsFormat = 'YYYY-MM-DD HH:mm:ss'
+
+    // check unix timestamp
     if (['date', 'time'].includes(item.type)) {
-      // check unix timestamp
       if (typeof value === 'number' && value.toString().length === 10)
         value = value * 1000
-    }
-    if (item.type === 'date' ) {
-      value = dayjs(value).format('YYYY-MM-DD')
-    } else if (item.type === 'time') {
-      value = dayjs(value).format('YYYY-MM-DD HH:mm:ss')
+      value = dayjs(value).format(dayjsFormat)
     }
   }
   return value
