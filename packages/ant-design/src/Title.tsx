@@ -1,16 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Typography } from 'antd'
 import { useFaasState } from './Config'
+import { TitleProps as AntdTitleProps } from 'antd/lib/typography/Title'
 
-export type TitleProps = {
+export type TitleProps = Omit<AntdTitleProps, 'title'> & {
   title: string | string[]
   /** ` - ` as default */
   separator?: string
   suffix?: string
-
-  h1?: boolean | {
-    className?: string
-    style?: React.CSSProperties
-  }
+  render?: boolean
 }
 
 /**
@@ -26,23 +24,23 @@ export type TitleProps = {
  */
 export function Title (props: TitleProps): JSX.Element {
   const [config] = useFaasState()
-
+  const [computedProps, setComputedProps] = useState<TitleProps>({ title: '' })
   useEffect(() => {
     const title = Array.isArray(props.title) ? props.title : [props.title]
 
     document.title = title.concat(props.suffix || config.Title.suffix)
       .filter(t => !!t)
       .join(props.separator || config.Title.separator)
+    setComputedProps({
+      ...props,
+      title: undefined
+    })
   }, [])
 
-  if (props.h1) {
-    if (typeof props.h1 === 'boolean')
-      return <h1>{Array.isArray(props.title) ? props.title[0] : props.title}</h1>
-
-    return <h1
-      className={ props.h1.className }
-      style={ props.h1.style }
-    >{Array.isArray(props.title) ? props.title[0] : props.title}</h1>
+  if (computedProps.render) {
+    return <Typography.Title { ...computedProps as AntdTitleProps }>
+      {Array.isArray(props.title) ? props.title[0] : props.title}
+    </Typography.Title>
   }
 
   return null
