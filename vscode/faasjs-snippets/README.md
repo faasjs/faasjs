@@ -8,6 +8,11 @@ https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets
 
 ## Change Log
 
+### 0.0.6
+
+- simplify http args
+- add testing snippets
+
 ### 0.0.5
 
 - fix tabstops
