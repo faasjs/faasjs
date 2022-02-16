@@ -20,10 +20,10 @@
       "import { useHttp } from '@faasjs/http'",
       "",
       "export default useFunc(function () {",
-      "  const http = useHttp<{$1}, {$2}, {$3}>($4)",
+      "  const http = useHttp<{$1}>($2)",
       "",
       "  return async function () {",
-      "    $5",
+      "    $3",
       "  }",
       "})"
     ]
@@ -70,10 +70,10 @@
       "",
       "export default useFunc(function () {",
       "  useKnex()",
-      "  const http = useHttp<{$1}, {$2}, {$3}>($4)",
+      "  const http = useHttp<{$1}>($2)",
       "",
       "  return async function () {",
-      "    $5",
+      "    $3",
       "  }",
       "})"
     ]
@@ -90,10 +90,10 @@
       "export default useFunc(function () {",
       "  useKnex()",
       "  useRedis()",
-      "  const http = useHttp<{$1}, {$2}, {$3}>($4)",
+      "  const http = useHttp<{$1}>($2)",
       "",
       "  return async function () {",
-      "    $5",
+      "    $3",
       "  }",
       "})"
     ]
