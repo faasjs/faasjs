@@ -11,6 +11,8 @@ export type TitleProps = {
     className?: string
     style?: React.CSSProperties
   }
+
+  children?: JSX.Element | JSX.Element[]
 }
 
 /**
@@ -24,7 +26,7 @@ export type TitleProps = {
  * <Title title={['a', 'b']} h1 /> // => return <h1>a</h1>, change the document.title to 'a - b'
  * ```
  */
-export function Title (props: TitleProps): JSX.Element {
+export function Title (props: TitleProps): JSX.Element | JSX.Element[] {
   const [config] = useFaasState()
 
   useEffect(() => {
@@ -44,6 +46,9 @@ export function Title (props: TitleProps): JSX.Element {
       style={ props.h1.style }
     >{Array.isArray(props.title) ? props.title[0] : props.title}</h1>
   }
+
+  if (props.children)
+    return props.children
 
   return null
 }
