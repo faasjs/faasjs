@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, cloneElement } from 'react'
 import { useFaasState } from './Config'
 
 export type TitleProps = {
@@ -7,26 +7,34 @@ export type TitleProps = {
   separator?: string
   suffix?: string
 
+  /** return a h1 element */
   h1?: boolean | {
     className?: string
     style?: React.CSSProperties
   }
 
-  children?: JSX.Element | JSX.Element[]
+  /** return children */
+  children?: JSX.Element
 }
 
 /**
  * Title is used to change the title of the page.
+ * Return null by default.
  *
  * ```ts
- * <Title title='hi' /> // => return null, change the document.title to 'hi'
- * <Title title={['a', 'b']} /> // => return null, change the document.title to 'a - b'
+ * // return null
+ * <Title title='hi' /> // => change the document.title to 'hi'
+ * <Title title={['a', 'b']} /> // => change the document.title to 'a - b'
  *
- * <Title title='hi' h1 /> // => return <h1>hi</h1>, change the document.title to 'hi'
- * <Title title={['a', 'b']} h1 /> // => return <h1>a</h1>, change the document.title to 'a - b'
+ * // return h1
+ * <Title title='hi' h1 /> // => <h1>hi</h1>
+ * <Title title={['a', 'b']} h1 /> // => <h1>a</h1>
+ *
+ * // return children
+ * <Title title='hi'><CustomTitle /></Title> // => <CustomTitle />
  * ```
  */
-export function Title (props: TitleProps): JSX.Element | JSX.Element[] {
+export function Title (props: TitleProps): JSX.Element {
   const [config] = useFaasState()
 
   useEffect(() => {
@@ -48,7 +56,7 @@ export function Title (props: TitleProps): JSX.Element | JSX.Element[] {
   }
 
   if (props.children)
-    return props.children
+    return cloneElement(props.children, { title: props.title })
 
   return null
 }
