@@ -61,7 +61,7 @@ FaasJS's tencentcloud provider.
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`TencentcloudConfig`](#tencentcloudconfig) & { `action`: `string` ; `payload`: { [key: string]: `any`;  } ; `service`: `string` ; `version`: `string`  } |
+| `__namedParameters` | [`TencentcloudConfig`](#tencentcloudconfig) & { `action`: `string` ; `payload`: { `[key: string]`: `any`;  } ; `service`: `string` ; `version`: `string`  } |
 
 #### Returns
 

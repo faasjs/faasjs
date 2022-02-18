@@ -43,8 +43,8 @@ ___
 
 ### deploy
 
-▸ **deploy**(): `Promise`<{ [key: string]: `any`; `filename`: `string` ; `root`: `string`  }\>
+▸ **deploy**(): `Promise`<{ `[key: string]`: `any`; `filename`: `string` ; `root`: `string`  }\>
 
 #### Returns
 
-`Promise`<{ [key: string]: `any`; `filename`: `string` ; `root`: `string`  }\>
+`Promise`<{ `[key: string]`: `any`; `filename`: `string` ; `root`: `string`  }\>

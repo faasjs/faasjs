@@ -158,7 +158,7 @@ ___
 
 ### DescriptionProps
 
-Ƭ **DescriptionProps**<`T`, `ExtendItemProps`\>: { `dataSource?`: `T` ; `extendTypes?`: { [key: string]: [`ExtendDescriptionTypeProps`](#extenddescriptiontypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`DescriptionItemProps`](#descriptionitemprops) \| `ExtendItemProps`)[]  } & `DescriptionsProps`
+Ƭ **DescriptionProps**<`T`, `ExtendItemProps`\>: { `dataSource?`: `T` ; `extendTypes?`: { `[key: string]`: [`ExtendDescriptionTypeProps`](#extenddescriptiontypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`DescriptionItemProps`](#descriptionitemprops) \| `ExtendItemProps`)[]  } & `DescriptionsProps`
 
 #### Type parameters
 
@@ -293,7 +293,7 @@ ___
 
 ### FormItemProps
 
-Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { [type: string]: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps`<`T`\> & [`FaasItemProps`](#faasitemprops) & `AntdFormItemProps`<`T`\>
+Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps`<`T`\> & [`FaasItemProps`](#faasitemprops) & `AntdFormItemProps`<`T`\>
 
 #### Type parameters
 
@@ -305,7 +305,7 @@ ___
 
 ### FormProps
 
-Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `extendTypes?`: { [type: string]: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string`  }  } & `AntdFormProps`<`Values`\>
+Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string`  }  } & `AntdFormProps`<`Values`\>
 
 #### Type parameters
 
@@ -350,7 +350,7 @@ ___
 
 ### TableProps
 
-Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { [key: string]: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`TableItemProps`](#tableitemprops) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue`\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
+Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`TableItemProps`](#tableitemprops) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue`\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
 
 #### Type parameters
 
@@ -375,7 +375,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `h1?` | `boolean` \| { `className?`: `string` ; `style?`: `React.CSSProperties`  } | - |
+| `children?` | `JSX.Element` | return children |
+| `h1?` | `boolean` \| { `className?`: `string` ; `style?`: `React.CSSProperties`  } | return a h1 element |
 | `separator?` | `string` | ` - ` as default |
 | `suffix?` | `string` | - |
 | `title` | `string` \| `string`[] | - |
@@ -621,13 +622,19 @@ ___
 ▸ **Title**(`props`): `JSX.Element`
 
 Title is used to change the title of the page.
+Return null by default.
 
 ```ts
-<Title title='hi' /> // => return null, change the document.title to 'hi'
-<Title title={['a', 'b']} /> // => return null, change the document.title to 'a - b'
+// return null
+<Title title='hi' /> // => change the document.title to 'hi'
+<Title title={['a', 'b']} /> // => change the document.title to 'a - b'
 
-<Title title='hi' h1 /> // => return <h1>hi</h1>, change the document.title to 'hi'
-<Title title={['a', 'b']} h1 /> // => return <h1>a</h1>, change the document.title to 'a - b'
+// return h1
+<Title title='hi' h1 /> // => <h1>hi</h1>
+<Title title={['a', 'b']} h1 /> // => <h1>a</h1>
+
+// return children
+<Title title='hi'><CustomTitle /></Title> // => <CustomTitle />
 ```
 
 #### Parameters

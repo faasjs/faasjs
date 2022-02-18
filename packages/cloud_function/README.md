@@ -56,7 +56,7 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | { [key: string]: `any`; `memorySize?`: ``64`` \| ``128`` \| ``256`` \| ``384`` \| ``512`` \| ``640`` \| ``768`` \| ``896`` \| ``1024`` \| `number` ; `name?`: `string` ; `provisionedConcurrent?`: { `executions`: `number`  } ; `timeout?`: `number` ; `triggers?`: { `name?`: `string` ; `type`: ``"timer"`` \| `string` ; `value`: `string`  }[]  } | 配置项 |
+| `config?` | { `[key: string]`: `any`; `memorySize?`: ``64`` \| ``128`` \| ``256`` \| ``384`` \| ``512`` \| ``640`` \| ``768`` \| ``896`` \| ``1024`` \| `number` ; `name?`: `string` ; `provisionedConcurrent?`: { `executions`: `number`  } ; `timeout?`: `number` ; `triggers?`: { `name?`: `string` ; `type`: ``"timer"`` \| `string` ; `value`: `string`  }[]  } | 配置项 |
 | `config.memorySize?` | ``64`` \| ``128`` \| ``256`` \| ``384`` \| ``512`` \| ``640`` \| ``768`` \| ``896`` \| ``1024`` \| `number` | 内存大小，单位为MB，默认 64 |
 | `config.name?` | `string` | 配置名称 |
 | `config.provisionedConcurrent?` | { `executions`: `number`  } | 预制并发配置 |

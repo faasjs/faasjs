@@ -95,7 +95,7 @@ ___
 
 ### JSONhandler
 
-▸ **JSONhandler**<`TData`\>(`body?`, `options?`): `Promise`<{ `body`: `any` ; `data?`: `TData` ; `error?`: { `message`: `string`  } ; `headers`: { [key: string]: `string`;  } ; `statusCode`: `number`  }\>
+▸ **JSONhandler**<`TData`\>(`body?`, `options?`): `Promise`<{ `body`: `any` ; `data?`: `TData` ; `error?`: { `message`: `string`  } ; `headers`: { `[key: string]`: `string`;  } ; `statusCode`: `number`  }\>
 
 #### Type parameters
 
@@ -115,7 +115,7 @@ ___
 
 #### Returns
 
-`Promise`<{ `body`: `any` ; `data?`: `TData` ; `error?`: { `message`: `string`  } ; `headers`: { [key: string]: `string`;  } ; `statusCode`: `number`  }\>
+`Promise`<{ `body`: `any` ; `data?`: `TData` ; `error?`: { `message`: `string`  } ; `headers`: { `[key: string]`: `string`;  } ; `statusCode`: `number`  }\>
 
 ___
 

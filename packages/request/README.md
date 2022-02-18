@@ -34,7 +34,7 @@ FaasJS's request module.
 
 | Name | Type |
 | :------ | :------ |
-| `body?` | { [key: string]: `any`;  } |
+| `body?` | { `[key: string]`: `any`;  } |
 | `headers?` | `http.OutgoingHttpHeaders` |
 | `host?` | `string` |
 | `method?` | `string` |
@@ -53,14 +53,14 @@ ___
 | :------ | :------ | :------ |
 | `agent?` | `boolean` | - |
 | `auth?` | `string` | HTTP 认证头，格式为 user:password |
-| `body?` | { [key: string]: `any`;  } \| `string` | 请求体 |
+| `body?` | { `[key: string]`: `any`;  } \| `string` | 请求体 |
 | `downloadStream?` | `NodeJS.WritableStream` | 下载流，用于直接将响应内容保存到本地文件，通过 fs.createWriteStream 创建 |
 | `file?` | `string` | 上传文件的完整路径 |
 | `headers?` | `http.OutgoingHttpHeaders` | 请求头 |
 | `method?` | `string` | 请求方法，默认为 GET |
 | `passphrase?` | `string` | - |
 | `pfx?` | `Buffer` | - |
-| `query?` | { [key: string]: `any`;  } | 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数 |
+| `query?` | { `[key: string]`: `any`;  } | 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数 |
 | `timeout?` | `number` | 最长耗时，单位为毫秒 |
 | `parse?` | (`body`: `string`) => `any` | body 解析器，默认为 JSON.parse |
 

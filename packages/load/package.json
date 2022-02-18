@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/load",
-  "version": "0.0.2-beta.373",
+  "version": "0.0.2-beta.374",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,9 +22,9 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/deep_merge": "^0.0.2-beta.373",
-    "@faasjs/func": "^0.0.2-beta.373",
-    "@faasjs/ts-transform": "^0.0.2-beta.373",
+    "@faasjs/deep_merge": "^0.0.2-beta.374",
+    "@faasjs/func": "^0.0.2-beta.374",
+    "@faasjs/ts-transform": "^0.0.2-beta.374",
     "js-yaml": "*",
     "rollup": "*"
   },

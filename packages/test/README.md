@@ -52,8 +52,8 @@ FaasJS's testing module.
 
 | Name | Type |
 | :------ | :------ |
-| `plugins?` | { [key: string]: { [key: string]: `any`; `config?`: { [key: string]: `any`;  } ; `provider?`: `string` \| [`ProviderConfig`](#providerconfig) ; `type`: `string`  };  } |
-| `providers?` | { [key: string]: [`ProviderConfig`](#providerconfig);  } |
+| `plugins?` | { `[key: string]`: { `[key: string]`: `any`; `config?`: { `[key: string]`: `any`;  } ; `provider?`: `string` \| [`ProviderConfig`](#providerconfig) ; `type`: `string`  };  } |
+| `providers?` | { `[key: string]`: [`ProviderConfig`](#providerconfig);  } |
 
 ___
 
@@ -70,12 +70,12 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `config?` | [`Config`](#config) |
-| `dependencies` | { [name: string]: `string`;  } |
+| `dependencies` | { `[name: string]`: `string`;  } |
 | `env?` | `string` |
 | `filename` | `string` |
 | `logger?` | `Logger` |
 | `name?` | `string` |
-| `plugins?` | { [name: string]: { [key: string]: `any`; `config`: { [key: string]: `any`;  } ; `name?`: `string` ; `plugin`: [`Plugin`](#plugin) ; `provider?`: `string` ; `type`: `string`  };  } |
+| `plugins?` | { `[name: string]`: { `[key: string]`: `any`; `config`: { `[key: string]`: `any`;  } ; `name?`: `string` ; `plugin`: [`Plugin`](#plugin) ; `provider?`: `string` ; `type`: `string`  };  } |
 | `root` | `string` |
 | `version?` | `string` |
 
@@ -256,7 +256,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config` | { [key: string]: `any`;  } |
+| `config` | { `[key: string]`: `any`;  } |
 | `type` | `string` |
 
 ___
