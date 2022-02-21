@@ -8,6 +8,10 @@ https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets
 
 ## Change Log
 
+### 0.0.7
+
+- fix snippets
+
 ### 0.0.6
 
 - simplify http args
