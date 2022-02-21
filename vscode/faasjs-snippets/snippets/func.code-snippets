@@ -9,7 +9,8 @@
       "  return async function () {",
       "    $1",
       "  }",
-      "})"
+      "})",
+      "",
     ]
   },
   "useFunc with http": {
@@ -25,7 +26,8 @@
       "  return async function () {",
       "    $3",
       "  }",
-      "})"
+      "})",
+      "",
     ]
   },
   "useFunc with knex": {
@@ -41,7 +43,8 @@
       "  return async function () {",
       "    $1",
       "  }",
-      "})"
+      "})",
+      "",
     ]
   },
   "useFunc with redis": {
@@ -57,7 +60,8 @@
       "  return async function () {",
       "    $1",
       "  }",
-      "})"
+      "})",
+      "",
     ]
   },
   "useFunc with http, knex": {
@@ -75,7 +79,8 @@
       "  return async function () {",
       "    $3",
       "  }",
-      "})"
+      "})",
+      "",
     ]
   },
   "useFunc with http, knex and redis": {
@@ -95,7 +100,8 @@
       "  return async function () {",
       "    $3",
       "  }",
-      "})"
+      "})",
+      "",
     ]
   },
   "http validator": {
@@ -114,13 +120,14 @@
       "    }",
       "  },",
       "}",
+      "",
     ]
   },
   "test func": {
     "description": "Test a func",
     "prefix": ["test", "testFunc"],
     "body": [
-      "import { test } from '@faasjs/test",
+      "import { test } from '@faasjs/test'",
       "",
       "describe('$1', () => {",
       "  const func = test(__dirname + '/../$2.func').handler",
@@ -128,16 +135,17 @@
       "  it('should work', async () => {",
       "    const res = await func({$3})",
       "",
-      "    expect(res).toBe($4)",
+      "    expect(res).toEqual($4)",
       "  })",
-      "})"
+      "})",
+      "",
     ]
   },
   "test func with http": {
     "description": "Test a func with http",
     "prefix": ["tfh", "testFuncWithHttp",],
     "body": [
-      "import { test } from '@faasjs/test",
+      "import { test } from '@faasjs/test'",
       "",
       "describe('$1', () => {",
       "  const func = test(__dirname + '/../$2.func').JSONhandler",
@@ -145,16 +153,17 @@
       "  it('should work', async () => {",
       "    const res = await func({$3})",
       "",
-      "    expect(res).toBe($4)",
+      "    expect(res).toEqual($4)",
       "  })",
-      "})"
+      "})",
+      "",
     ]
   },
   "test func with knex": {
     "description": "Test a func with knex",
     "prefix": ["tfk", "testFuncWithKnex",],
     "body": [
-      "import { test } from '@faasjs/test",
+      "import { test } from '@faasjs/test'",
       "import { query } from '@faasjs/knex'",
       "",
       "describe('$1', () => {",
@@ -163,16 +172,17 @@
       "  it('should work', async () => {",
       "    const res = await func({$3})",
       "",
-      "    expect(res).toBe($4)",
+      "    expect(res).toEqual($4)",
       "  })",
-      "})"
+      "})",
+      "",
     ]
   },
   "test func with http and knex": {
     "description": "Test a func with http and knex",
     "prefix": ["tfk", "testFuncWithHttpKnex",],
     "body": [
-      "import { test } from '@faasjs/test",
+      "import { test } from '@faasjs/test'",
       "import { query } from '@faasjs/knex'",
       "",
       "describe('$1', () => {",
@@ -181,9 +191,10 @@
       "  it('should work', async () => {",
       "    const res = await func({$3})",
       "",
-      "    expect(res).toBe($4)",
+      "    expect(res).toEqual($4)",
       "  })",
-      "})"
+      "})",
+      "",
     ]
   }
 }
