@@ -1,7 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { FaasReactClient } from '@faasjs/react'
+import {
+  render, screen, waitFor
+} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Form } from '../../Form'
 
 describe('Form/submit', () => {
@@ -21,5 +25,48 @@ describe('Form/submit', () => {
     render(<Form submit={ false } />)
 
     expect(screen.queryByText('Submit')).toBeNull()
+  })
+
+  it('when submit to', async () => {
+    const originalFetch = window.fetch
+    let values: any
+    window.fetch = jest.fn(async (_, request) => {
+      values = JSON.parse(request.body as string)
+      return Promise.resolve({
+        status: 200,
+        headers: new Map([['Content-Type', 'application/json']]),
+        text: async () => JSON.stringify({ data: {} })
+      }) as unknown as Promise<Response>
+    })
+    FaasReactClient({ domain: 'test' })
+
+    render(<Form
+      initialValues={ { id: 'initialValues' } }
+      items={ [{ id: 'id' }] }
+      submit={ {
+        to: {
+          action: 'test',
+          params: { params: 'params' }
+        }
+      } }
+      onFinish={ async (values, submit) => {
+        await submit({
+          ...values,
+          extraProps: 'extra'
+        })
+      } }
+    />)
+
+    userEvent.click(screen.getByText('Submit'))
+
+    await waitFor(() => expect(values).toBeDefined())
+
+    expect(values).toEqual({
+      id: 'initialValues',
+      params: 'params',
+      extraProps: 'extra'
+    })
+
+    window.fetch = originalFetch
   })
 })

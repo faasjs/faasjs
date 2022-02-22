@@ -1,3 +1,4 @@
+import { faas } from '@faasjs/react'
 import {
   Button,
   Form as AntdForm,
@@ -19,12 +20,44 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
   submit?: false | {
     /** Default: Submit */
     text?: string
+    /**
+     * Submit to FaasJS server.
+     *
+     * If use onFinish, you should call submit manually.
+     * ```ts
+     * {
+     *   submit: {
+     *     to: {
+     *       action: 'action_name'
+     *     }
+     *   },
+     *   onFinish: (values, submit) => {
+     *     // do something before submit
+     *
+     *     // submit
+     *     await submit({
+     *      ...values,
+     *      extraProps: 'some extra props'
+     *     })
+     *
+     *     // do something after submit
+     *   }
+     * }
+     * ```
+     */
+    to?: {
+      action: string
+      /** params will overwrite form values before submit */
+      params?: Record<string, any>
+    }
   }
+
+  onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
 
   extendTypes?: {
     [type: string]: ExtendFormTypeProps
   }
-} & AntdFormProps<Values>
+} & Omit<AntdFormProps<Values>, 'onFinish'>
 
 export function Form<Values = any> (props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)
@@ -39,7 +72,25 @@ export function Form<Values = any> (props: FormProps<Values>) {
         setLoading(true)
 
         try {
-          await propsCopy.onFinish(values)
+          if (propsCopy.submit && propsCopy.submit.to?.action) {
+            await props.onFinish(values, async values => faas((propsCopy.submit as {
+              to: {
+                action: string
+              }
+            }).to.action, (propsCopy.submit as {
+              to: {
+                params?: Record<string, any>
+              }
+            }).to.params ? {
+                ...values,
+                ...(propsCopy.submit as {
+                  to: {
+                    params?: Record<string, any>
+                  }
+                }).to.params
+              } : values))
+          } else
+            await propsCopy.onFinish(values)
         } catch (error) {
           console.error(error)
         }
@@ -47,23 +98,23 @@ export function Form<Values = any> (props: FormProps<Values>) {
         setLoading(false)
       }
     }
-    setComputedProps(props)
+    setComputedProps(propsCopy)
   }, [])
 
   if (!computedProps) return null
 
   return <AntdForm<Values> { ...computedProps }>
-    {props.items?.map((item: FormItemProps) => <FormItem
+    {computedProps.items?.map((item: FormItemProps) => <FormItem
       key={ item.id }
       { ...item }
-      extendTypes={ props.extendTypes }
+      extendTypes={ computedProps.extendTypes }
     />)}
-    {props.children}
-    {props.submit !== false && <Button
+    {computedProps.children}
+    {computedProps.submit !== false && <Button
       htmlType='submit'
       type='primary'
       loading={ loading }
-    >{props.submit?.text || config.Form.submit.text}</Button>}
+    >{computedProps.submit?.text || config.Form.submit.text}</Button>}
   </AntdForm>
 }
 
