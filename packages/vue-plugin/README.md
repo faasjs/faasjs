@@ -61,7 +61,7 @@ ___
 
 ### FaasVuePlugin
 
-• **FaasVuePlugin**: `Object`
+• `Const` **FaasVuePlugin**: `Object`
 
 #### Type declaration
 

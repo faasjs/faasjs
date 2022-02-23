@@ -74,7 +74,7 @@ export default {
 
 ### NodeBuiltinModules
 
-• **NodeBuiltinModules**: `string`[]
+• `Const` **NodeBuiltinModules**: `string`[]
 
 ## Functions
 

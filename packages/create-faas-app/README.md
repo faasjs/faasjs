@@ -19,4 +19,4 @@ Quick way to create a FaasJS project.
 
 ### default
 
-• **default**: `Command`
+• `Const` **default**: `Command`

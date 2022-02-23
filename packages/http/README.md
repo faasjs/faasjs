@@ -190,7 +190,7 @@ ___
 
 ### ContentType
 
-• **ContentType**: `Object`
+• `Const` **ContentType**: `Object`
 
 #### Index signature
 
