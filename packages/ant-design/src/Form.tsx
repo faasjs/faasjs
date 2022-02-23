@@ -54,6 +54,8 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
 
   onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
 
+  beforeItems?: JSX.Element | JSX.Element[]
+
   extendTypes?: {
     [type: string]: ExtendFormTypeProps
   }
@@ -104,6 +106,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
   if (!computedProps) return null
 
   return <AntdForm<Values> { ...computedProps }>
+    {computedProps.beforeItems}
     {computedProps.items?.map((item: FormItemProps) => <FormItem
       key={ item.id }
       { ...item }
