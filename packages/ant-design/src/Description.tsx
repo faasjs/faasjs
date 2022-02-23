@@ -41,7 +41,7 @@ type DescriptionItemContentProps<T = any> = {
   }
 }
 
-function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>) {
+function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>): JSX.Element {
   const [computedProps, setComputedProps] = useState<DescriptionItemContentProps<T>>()
 
   useEffect(() => {
@@ -75,6 +75,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
 
     setComputedProps(propsCopy)
   }, [props])
+
   if (!computedProps) return null
 
   if (computedProps.extendTypes && computedProps.extendTypes[computedProps.item.type])
@@ -87,7 +88,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
         }
       )
     else if (computedProps.extendTypes[computedProps.item.type].render)
-      return computedProps.extendTypes[computedProps.item.type].render(computedProps.value, computedProps.values)
+      return <>{computedProps.extendTypes[computedProps.item.type].render(computedProps.value, computedProps.values)}</>
     else
       throw Error(computedProps.item.type + ' requires children or render')
 
@@ -95,15 +96,16 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     return cloneElement(computedProps.item.children, { value: computedProps.value })
 
   if (computedProps.item.render)
-    return computedProps.item.render(computedProps.value, computedProps.values)
+    return <>{computedProps.item.render(computedProps.value, computedProps.values)}</>
+
   if (typeof computedProps.value === 'undefined' || computedProps.value === null) return null
   switch (computedProps.item.type) {
     case 'string[]':
-      return (computedProps.value as unknown as string[]).join(', ')
+      return <>{(computedProps.value as unknown as string[]).join(', ')}</>
     case 'number':
-      return computedProps.value
+      return computedProps.value as any || null
     case 'number[]':
-      return (computedProps.value as unknown as number[]).join(', ')
+      return <>{(computedProps.value as unknown as number[]).join(', ')}</>
     case 'boolean':
       return computedProps.value ? <CheckOutlined style={ {
         marginTop: '4px',
@@ -114,18 +116,18 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
       } } />
     case 'time':
       // check unix timestamp
-      return (typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
+      return <>{(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
         dayjs.unix(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')
         :
-        dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')
+        dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')}</>
     case 'date':
       // check unix timestamp
-      return (typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
+      return <>{(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
         dayjs.unix(computedProps.value as unknown as number).format('YYYY-MM-DD')
         :
-        dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD')
+        dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD')}</>
     default:
-      return computedProps.value
+      return computedProps.value as any || null
   }
 }
 

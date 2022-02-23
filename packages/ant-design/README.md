@@ -318,7 +318,7 @@ ___
 
 ### ModalProps
 
-Ƭ **ModalProps**: `AntdModalProps` & { `children?`: `JSX.Element` \| `JSX.Element`[]  }
+Ƭ **ModalProps**: `AntdModalProps` & { `children?`: `JSX.Element` \| `JSX.Element`[] \| `string`  }
 
 ___
 
@@ -709,7 +709,7 @@ Hook style modal.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `init?` | [`ModalProps`](#modalprops) | initial props  ```ts function Example() {   const { modal, setModalProps } = useModal()    return <>{modal}</> } ``` |
+| `init?` | [`ModalProps`](#modalprops) | initial props  ```ts function Example() {   const { modal, setModalProps } = useModal()    return <>     <Button onClick={() => setModalProps({ visible: true })}>Open Modal</Button>     {modal}</> } ``` |
 
 #### Returns
 
