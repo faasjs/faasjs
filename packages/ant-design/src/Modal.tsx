@@ -4,7 +4,7 @@ import { useState } from 'react'
 export { Modal }
 
 export type ModalProps = AntdModalProps & {
-  children?: JSX.Element | JSX.Element[]
+  children?: JSX.Element | JSX.Element[] | string
 }
 
 export type setModalProps = (changes: Partial<ModalProps>) => void
@@ -17,7 +17,9 @@ export type setModalProps = (changes: Partial<ModalProps>) => void
  * function Example() {
  *   const { modal, setModalProps } = useModal()
  *
- *   return <>{modal}</>
+ *   return <>
+ *     <Button onClick={() => setModalProps({ visible: true })}>Open Modal</Button>
+ *     {modal}</>
  * }
  * ```
  */
