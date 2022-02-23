@@ -99,7 +99,31 @@ export function Form<Values = any> (props: FormProps<Values>) {
 
         setLoading(false)
       }
+    } else if (propsCopy.submit && (propsCopy.submit as {
+      to?: {
+        action: string
+      }
+    }).to?.action) {
+      propsCopy.onFinish = async values => {
+        return await faas((propsCopy.submit as {
+          to: {
+            action: string
+          }
+        }).to.action, (propsCopy.submit as {
+          to: {
+            params?: Record<string, any>
+          }
+        }).to.params ? {
+            ...values,
+            ...(propsCopy.submit as {
+              to: {
+                params?: Record<string, any>
+              }
+            }).to.params
+          } : values)
+      }
     }
+
     setComputedProps(propsCopy)
   }, [])
 
