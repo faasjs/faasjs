@@ -79,7 +79,8 @@ export function transform (code: string, options?: {
       },
       target: options.target,
       baseUrl: tsconfig.compilerOptions.baseUrl,
-      paths: tsconfig.compilerOptions.paths
+      paths: tsconfig.compilerOptions.paths,
+      transform: { react: { runtime: 'automatic' } }
     }, options.jsc),
     module: { type: 'commonjs' }
   })
@@ -122,7 +123,8 @@ export async function bundle (options: {
         },
         target: options.jscTarget,
         baseUrl: tsconfig.compilerOptions.baseUrl,
-        paths: tsconfig.compilerOptions.paths
+        paths: tsconfig.compilerOptions.paths,
+        transform: { react: { runtime: 'automatic' } }
       }
     },
     externalModules: NodeBuiltinModules.concat(options.externalModules || [])

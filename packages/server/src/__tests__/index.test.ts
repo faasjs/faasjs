@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { closeAll, Server } from '..'
 import { request } from '@faasjs/request'
 import { join, sep } from 'path'
@@ -42,6 +45,13 @@ describe('server', function () {
     await expect(request('http://localhost:' + port + '/a')).resolves.toMatchObject({
       statusCode: 200,
       body: { data: 'a' }
+    })
+  })
+
+  test('tsx', async () => {
+    await expect(request('http://localhost:' + port + '/tsx')).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: '<h1 data-reactroot="">Hi</h1>' }
     })
   })
 

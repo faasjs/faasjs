@@ -269,7 +269,14 @@ export class Server {
     // Safe check
     if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
 
-    if (existsSync(path + '.func.ts')) return path + '.func.ts'; else if (existsSync(path + '/index.func.ts')) return path + '/index.func.ts'
+    if (existsSync(path + '.func.ts'))
+      return path + '.func.ts'
+    else if (existsSync(path + '/index.func.ts'))
+      return path + '/index.func.ts'
+    else if (existsSync(path + '.func.tsx'))
+      return path + '.func.tsx'
+    else if (existsSync(path + '/index.func.tsx'))
+      return path + '/index.func.tsx'
 
     const message = `Not found: ${path}.func.ts or ${path}/index.func.ts`
     this.logger.error(message)

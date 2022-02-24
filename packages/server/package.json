@@ -32,7 +32,8 @@
   },
   "devDependencies": {
     "tsup": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "react": "*"
   },
   "engines": {
     "npm": ">=8.0.0"
