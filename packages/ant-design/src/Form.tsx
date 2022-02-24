@@ -92,7 +92,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
                 }).to.params
               } : values))
           } else
-            await propsCopy.onFinish(values)
+            await props.onFinish(values)
         } catch (error) {
           console.error(error)
         }
