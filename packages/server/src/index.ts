@@ -269,16 +269,22 @@ export class Server {
     // Safe check
     if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
 
-    if (existsSync(path + '.func.ts'))
-      return path + '.func.ts'
-    else if (existsSync(path + '/index.func.ts'))
-      return path + '/index.func.ts'
-    else if (existsSync(path + '.func.tsx'))
-      return path + '.func.tsx'
-    else if (existsSync(path + '/index.func.tsx'))
-      return path + '/index.func.tsx'
+    const parentPath = path.split('/').slice(0, -1).join('/')
+    const searchPaths = [
+      path + '.func.ts',
+      path + '.func.tsx',
+      path + '/index.func.ts',
+      path + '/index.func.tsx',
+      parentPath + '/default.func.ts',
+      parentPath + '/default.func.tsx'
+    ]
 
-    const message = `Not found: ${path}.func.ts or ${path}/index.func.ts`
+    for (const path of searchPaths) {
+      if (existsSync(path))
+        return path
+    }
+
+    const message = `Not found function file.\nSearch paths:\n${searchPaths.map(p => `- ${p}`).join('\n')}`
     this.logger.error(message)
     throw new HttpError({
       statusCode: 404,

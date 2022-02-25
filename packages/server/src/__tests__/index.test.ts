@@ -30,7 +30,7 @@ describe('server', function () {
   test('404', async function () {
     await expect(request('http://localhost:' + port + '/404')).rejects.toMatchObject({
       statusCode: 404,
-      body: { error: { message: `Not found: ${server.root}404.func.ts or ${server.root}404/index.func.ts` } }
+      body: { error: { message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404.func.tsx\n- ${server.root}404/index.func.ts\n- ${server.root}404/index.func.tsx\n- ${server.root}default.func.ts\n- ${server.root}default.func.tsx` } }
     })
   })
 
@@ -41,6 +41,13 @@ describe('server', function () {
     })
   })
 
+  test('tsx', async () => {
+    await expect(request('http://localhost:' + port + '/tsx')).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: '<h1 data-reactroot="">Hi</h1>' }
+    })
+  })
+
   test('a', async function () {
     await expect(request('http://localhost:' + port + '/a')).resolves.toMatchObject({
       statusCode: 200,
@@ -48,10 +55,10 @@ describe('server', function () {
     })
   })
 
-  test('tsx', async () => {
-    await expect(request('http://localhost:' + port + '/tsx')).resolves.toMatchObject({
+  test('a/default', async function () {
+    await expect(request('http://localhost:' + port + '/a/a')).resolves.toMatchObject({
       statusCode: 200,
-      body: { data: '<h1 data-reactroot="">Hi</h1>' }
+      body: { data: 'default' }
     })
   })
 
