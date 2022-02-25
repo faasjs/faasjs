@@ -160,11 +160,13 @@ export class Server {
               this.clearCache()
           }
 
+          const url = new URL(req.url, `http://${req.headers.host}`)
+
           data = await cache.handler({
             headers: req.headers,
             httpMethod: req.method,
-            path: req.url,
-            queryString: parse(req.url.replace(/^.*\?/, '')),
+            path: url.pathname,
+            queryString: Object.fromEntries(new URLSearchParams(url.search)),
             body,
           }, { request_id: requestId })
         } catch (error) {

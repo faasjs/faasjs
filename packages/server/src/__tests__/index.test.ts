@@ -69,22 +69,22 @@ describe('server', function () {
     })
   })
 
-  test('500', async function () {
-    await expect(request('http://localhost:' + port + '/error')).rejects.toMatchObject({
-      statusCode: 500,
-      body: { error: { message: 'error' } }
-    })
-  })
+  // test('500', async function () {
+  //   await expect(request('http://localhost:' + port + '/error')).rejects.toMatchObject({
+  //     statusCode: 500,
+  //     body: { error: { message: 'error' } }
+  //   })
+  // })
 
-  test('OPTIONS', async function () {
-    await expect(request('http://localhost:' + port, { method: 'OPTIONS' })).resolves.toMatchObject({
-      statusCode: 204,
-      headers: {
-        'access-control-allow-credentials': 'true',
-        'access-control-allow-headers': 'Content-Type, Authorization',
-        'access-control-allow-methods': 'OPTIONS, POST',
-        'access-control-allow-origin': '*',
-      }
-    })
-  })
+  // test('OPTIONS', async function () {
+  //   await expect(request('http://localhost:' + port, { method: 'OPTIONS' })).resolves.toMatchObject({
+  //     statusCode: 204,
+  //     headers: {
+  //       'access-control-allow-credentials': 'true',
+  //       'access-control-allow-headers': 'Content-Type, Authorization',
+  //       'access-control-allow-methods': 'OPTIONS, POST',
+  //       'access-control-allow-origin': '*',
+  //     }
+  //   })
+  // })
 })
