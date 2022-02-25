@@ -9,6 +9,19 @@ FaasJS's server module.
 ## Install
 
     npm install @faasjs/server
+
+## Routing
+
+Static routing:
+
+- `/` -> `index.func.ts` or `index.func.tsx`
+- `/path` -> `path.func.ts` or `path.func.tsx` or `path/index.func.ts` or `path/index.func.tsx`
+
+Dynamic routing:
+
+- `/*` -> `default.func.ts` or `default.func.tsx`
+- `/path/*` -> `path/default.func.ts` or `path/default.func.tsx`
+
 ## Modules
 
 ### Classes
