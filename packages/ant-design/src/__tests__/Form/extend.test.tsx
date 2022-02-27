@@ -16,7 +16,8 @@ describe('Form/extend', () => {
     function ExtendForm (props: FormProps<any, ExtendTypes>) {
       return <Form
         { ...props }
-        extendTypes={ { password: { children: <Input.Password />, } } } />
+        extendTypes={ { password: { children: <Input.Password />, } } }
+      />
     }
 
     const { container } = render(<ExtendForm

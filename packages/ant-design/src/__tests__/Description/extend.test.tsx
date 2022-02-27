@@ -15,7 +15,8 @@ describe('Description/extend', () => {
     function ExtendedDescription (props: DescriptionProps<any, ExtendTypes>) {
       return <Description
         { ...props }
-        extendTypes={ { password: { children: <>***</> } } } />
+        extendTypes={ { password: { children: <>***</> } } }
+      />
     }
 
     render(<ExtendedDescription

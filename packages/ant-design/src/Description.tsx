@@ -116,16 +116,20 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
       } } />
     case 'time':
       // check unix timestamp
-      return <>{(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
-        dayjs.unix(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')
-        :
-        dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')}</>
+      return <>
+        {(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
+          dayjs.unix(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')
+          :
+          dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')}
+      </>
     case 'date':
       // check unix timestamp
-      return <>{(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
-        dayjs.unix(computedProps.value as unknown as number).format('YYYY-MM-DD')
-        :
-        dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD')}</>
+      return <>
+        {(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
+          dayjs.unix(computedProps.value as unknown as number).format('YYYY-MM-DD')
+          :
+          dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD')}
+      </>
     default:
       return computedProps.value as any || null
   }
