@@ -2,7 +2,7 @@
   "name": "@faasjs/jest",
   "version": "0.0.2-beta.381",
   "license": "MIT",
-  "main": "dist/index.mjs",
+  "main": "index.js",
   "homepage": "https://faasjs.com/doc/jest",
   "repository": {
     "type": "git",
@@ -13,23 +13,14 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "scripts": {
-    "build": "tsup-node src/index.ts --format esm"
-  },
   "files": [
-    "dist"
+    "index.js"
   ],
   "peerDependencies": {
-    "@faasjs/ts-transform": "^0.0.2-beta.381",
+    "@swc/jest": "*",
     "@types/jest": "*",
     "@types/node": "*",
-    "jest": "*",
-    "regenerator-runtime": "*",
-    "typescript": "*"
-  },
-  "devDependencies": {
-    "tsup": "*",
-    "typescript": "*"
+    "jest": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

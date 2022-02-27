@@ -15,7 +15,7 @@ Add `jest` to your `package.json`:
 ```json
 "jest": {
   "transform": {
-    ".(jsx?|tsx?)": "./packages/jest"
+    ".(jsx|tsx?)": "./packages/jest"
   },
   "testRegex": "/*\\.test\\.tsx?$",
   "coveragePathIgnorePatterns": [
