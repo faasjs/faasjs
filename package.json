@@ -14,6 +14,7 @@
   "devDependencies": {
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
     "@faasjs/eslint-config-react": "file:./packages/eslint-config-react",
+    "@faasjs/jest": "file:./packages/jest",
     "faasjs": "file:./packages/faasjs",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*"
@@ -35,7 +36,7 @@
   ],
   "jest": {
     "transform": {
-      ".(jsx|tsx?)": "@swc/jest"
+      ".(jsx?|tsx?)": "./packages/jest"
     },
     "verbose": false,
     "testPathIgnorePatterns": [
@@ -59,7 +60,7 @@
       "!*.d.ts"
     ],
     "moduleNameMapper": {
-      ".+\\.(css|less|scss)$": "<rootDir>/mockStyle.js",
+      "\\.(css|less|sass|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "@faasjs/jest",
       "@faasjs/(.*)": "<rootDir>/packages/$1",
       "^antd/es/(.*)$": "antd/lib/$1",
       "^rc-picker/es/(.*)$": "rc-picker/lib/$1"
