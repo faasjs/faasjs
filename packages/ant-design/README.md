@@ -31,13 +31,9 @@ type FaasItemProps = {
 
 Form are based on [Ant Design's Form component](https://ant.design/components/form/#Form).
 
-<iframe src="https://codesandbox.io/embed/recursing-lumiere-8wn11" style="width:100%;height:500px;border:0;overflow:hidden;" title="faasjs-ant-design-form" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
-
 ### FormItem
 
 Form are based on [Ant Design's Form.Item component](https://ant.design/components/form/#Form.Item).
-
-<iframe src="https://codesandbox.io/embed/faasjs-ant-design-formitem-olqg5" style="width:100%;height:500px;border:0;overflow:hidden;" title="faasjs-ant-design-formitem" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
 
 ## Modules
 

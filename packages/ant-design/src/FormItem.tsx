@@ -52,13 +52,33 @@ type BooleanProps = {
 }
 
 type DateProps = {
-  type: 'date';
-  input?: DatePickerProps;
+  type: 'date'
+  input?: DatePickerProps
 }
 
 type TimeProps = {
-  type: 'time';
-  input?: TimePickerProps;
+  type: 'time'
+  input?: TimePickerProps
+}
+
+type ObjectProps = {
+  type: 'object'
+  object: (FaasItemProps & (StringProps | StringListProps |
+  NumberProps | NumberListProps |
+  BooleanProps | OptionsProps | DateProps | TimeProps | ObjectProps))[]
+  disabled?: boolean
+}
+
+type ObjectListProps = {
+  type: 'object[]'
+  object: (FaasItemProps & {
+    /** default is 6 */
+    col?: number
+  } & (StringProps | StringListProps |
+  NumberProps | NumberListProps |
+  BooleanProps | OptionsProps | DateProps | TimeProps | ObjectProps))[]
+  maxCount?: number
+  disabled?: boolean
 }
 
 type OptionsProps = {
@@ -67,9 +87,10 @@ type OptionsProps = {
   input?: SelectProps<any>
 }
 
-type FormItemInputProps<T = any> = StringProps | StringListProps |
+type FormItemInputProps = StringProps | StringListProps |
 NumberProps | NumberListProps |
-BooleanProps | OptionsProps | DateProps | TimeProps
+BooleanProps | OptionsProps | DateProps | TimeProps |
+ObjectProps | ObjectListProps
 
 export type ExtendFormTypeProps = {
   children?: JSX.Element | null
@@ -85,7 +106,50 @@ export type FormItemProps<T = any> = {
   extendTypes?: {
     [type: string]: ExtendFormTypeProps
   }
-} & FormItemInputProps<T> & FaasItemProps & AntdFormItemProps<T>
+} & FormItemInputProps & FaasItemProps & AntdFormItemProps<T>
+
+function processProps (propsCopy: FormItemProps) {
+  if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
+  if (!propsCopy.label && propsCopy.label !== false) propsCopy.label = propsCopy.title
+  if (!propsCopy.name) propsCopy.name = propsCopy.id
+  if (!propsCopy.type) propsCopy.type = 'string'
+  if (!propsCopy.rules) propsCopy.rules = []
+  if (propsCopy.required) {
+    if (propsCopy.type.endsWith('[]'))
+      propsCopy.rules.push({
+        required: true,
+        validator: async (_, values) => {
+          if (!values || values.length < 1)
+            return Promise.reject(Error(`${propsCopy.label || propsCopy.title} is required`))
+        }
+      })
+    else
+      propsCopy.rules.push({
+        required: true,
+        message: `${propsCopy.label || propsCopy.title} is required`
+      })
+  }
+  if (!(propsCopy as OptionsProps).input) (propsCopy as OptionsProps).input = {}
+  if ((propsCopy as OptionsProps).options)
+    (propsCopy as OptionsProps).input.options = transferOptions(propsCopy.options)
+
+  switch (propsCopy.type) {
+    case 'boolean':
+      propsCopy.valuePropName = 'checked'
+      break
+    case 'object':
+      if (!Array.isArray(propsCopy.name))
+        propsCopy.name = [propsCopy.name]
+      for (const sub of propsCopy.object) {
+        if (!(sub as FormItemProps).name)
+          (sub as FormItemProps).name = propsCopy.name.concat(sub.id)
+        processProps(sub)
+      }
+      break
+  }
+
+  return propsCopy
+}
 
 /**
  * FormItem, can be used without Form.
@@ -104,38 +168,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
 
   useEffect(() => {
-    const propsCopy = { ...props }
-    if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
-    if (!propsCopy.label && props.label !== false) propsCopy.label = propsCopy.title
-    if (!propsCopy.name) propsCopy.name = propsCopy.id
-    if (!propsCopy.type) propsCopy.type = 'string'
-    if (!propsCopy.rules) propsCopy.rules = []
-    if (propsCopy.required) {
-      if (propsCopy.type.endsWith('[]'))
-        propsCopy.rules.push({
-          required: true,
-          validator: async (_, values) => {
-            if (!values || values.length < 1)
-              return Promise.reject(Error(`${propsCopy.label || propsCopy.title} is required`))
-          }
-        })
-      else
-        propsCopy.rules.push({
-          required: true,
-          message: `${propsCopy.label || propsCopy.title} is required`
-        })
-    }
-    if (!propsCopy.input) propsCopy.input = {}
-    if ((propsCopy as OptionsProps).options)
-      (propsCopy as OptionsProps).input.options = transferOptions(propsCopy.options)
-
-    switch (propsCopy.type) {
-      case 'boolean':
-        propsCopy.valuePropName = 'checked'
-        break
-    }
-
-    setComputedProps(propsCopy)
+    setComputedProps(processProps({ ...props }))
   }, [props])
 
   if (!computedProps) return null
@@ -294,6 +327,58 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       return <AntdForm.Item { ...computedProps }>
         <TimePicker { ...computedProps.input } />
       </AntdForm.Item>
+    case 'object':
+      return <>{computedProps.label && <div className='ant-form-item-label'>
+        <label className={ computedProps.rules?.find((r: RuleObject) => r.required) && 'ant-form-item-required' }>{computedProps.label}</label>
+      </div>}{computedProps.object.map(o => <FormItem
+        key={ o.id }
+        { ...o }
+      />)}</>
+    case 'object[]':
+      return <AntdForm.List
+        name={ computedProps.name }
+        rules={ computedProps.rules as ValidatorRule[] }>
+        {(fields, { add, remove }, { errors }) => <>
+          {fields.map(field => <AntdForm.Item
+            key={ field.key }
+            style={ { marginBottom: 0 } }>
+            <div className='ant-form-item-label'>
+              <label>{computedProps.label} {field.name + 1}
+                {!computedProps.disabled &&
+                  (!computedProps.rules.find(r => r.required) || field.key > 0) &&
+                  <Button
+                    danger
+                    type='link'
+                    icon={ <MinusCircleOutlined /> }
+                    onClick={ () => remove(field.name) }
+                  />}</label>
+            </div>
+            <Row gutter={ 24 }>
+              {computedProps.object.map(o => <Col
+                key={ o.id }
+                span={ o.col || 6 }>
+                <FormItem
+                  { ...o }
+                  name={ [field.name, o.id] }
+                />
+              </Col>)}
+            </Row>
+          </AntdForm.Item>)}
+          <AntdForm.Item>
+            {!computedProps.disabled && (!(computedProps as ObjectListProps).maxCount ||
+              (computedProps as ObjectListProps).maxCount > fields.length) &&
+              <Button
+                type='dashed'
+                block
+                onClick={ () => add() }
+                icon={ <PlusOutlined /> }
+              >
+                {computedProps.label}
+              </Button>}
+            <AntdForm.ErrorList errors={ errors } />
+          </AntdForm.Item>
+        </>}
+      </AntdForm.List>
     default:
       return null
   }

@@ -4,7 +4,8 @@ import { Dayjs } from 'dayjs'
 export type FaasItemType =
   'string' | 'string[]' |
   'number' | 'number[]' |
-  'boolean' | 'date' | 'time'
+  'boolean' | 'date' | 'time' |
+  'object' | 'object[]'
 
 export type FaasItemTypeValue = {
   string: string
@@ -12,8 +13,10 @@ export type FaasItemTypeValue = {
   number: number
   'number[]': number[]
   boolean: boolean
-  'date': Dayjs
-  'time': Dayjs
+  date: Dayjs
+  time: Dayjs
+  object: any
+  'object[]': any[]
 }
 
 export type BaseOption = string | number | {
