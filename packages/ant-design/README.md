@@ -241,7 +241,7 @@ ___
 
 ### FaasItemType
 
-Ƭ **FaasItemType**: ``"string"`` \| ``"string[]"`` \| ``"number"`` \| ``"number[]"`` \| ``"boolean"`` \| ``"date"`` \| ``"time"``
+Ƭ **FaasItemType**: ``"string"`` \| ``"string[]"`` \| ``"number"`` \| ``"number[]"`` \| ``"boolean"`` \| ``"date"`` \| ``"time"`` \| ``"object"`` \| ``"object[]"``
 
 ___
 
@@ -257,6 +257,8 @@ ___
 | `date` | `Dayjs` |
 | `number` | `number` |
 | `number[]` | `number`[] |
+| `object` | `any` |
+| `object[]` | `any`[] |
 | `string` | `string` |
 | `string[]` | `string`[] |
 | `time` | `Dayjs` |
@@ -289,7 +291,7 @@ ___
 
 ### FormItemProps
 
-Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps`<`T`\> & [`FaasItemProps`](#faasitemprops) & `AntdFormItemProps`<`T`\>
+Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `AntdFormItemProps`<`T`\>
 
 #### Type parameters
 

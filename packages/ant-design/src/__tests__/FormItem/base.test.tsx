@@ -8,7 +8,7 @@ import { FormItem } from '../../FormItem'
 import { Form } from '../../Form'
 
 describe('FormItem', () => {
-  const types: Exclude<FaasItemType, 'object'>[] = [
+  const types: Exclude<FaasItemType, 'object' | 'object[]'>[] = [
     'string',
     'string[]',
     'number',
