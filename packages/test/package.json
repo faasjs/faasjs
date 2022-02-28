@@ -25,11 +25,7 @@
     "@faasjs/func": "^0.0.2-beta.381",
     "@faasjs/load": "^0.0.2-beta.381",
     "@faasjs/logger": "^0.0.2-beta.381",
-    "@swc/jest": "*",
-    "@types/debug": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "jest": "*",
+    "@faasjs/jest": "^0.0.2-beta.381",
     "regenerator-runtime": "*",
     "typescript": "*"
   },

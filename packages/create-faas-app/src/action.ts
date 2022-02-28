@@ -182,7 +182,7 @@ production:
   "jest": {
     "verbose": false,
     "transform": {
-      ".(jsx|tsx?)": "@swc/jest"
+      ".(jsx|tsx?)": "@faasjs/jest"
     },
     "collectCoverage": true,
     "collectCoverageFrom": [

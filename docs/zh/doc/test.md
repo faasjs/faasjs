@@ -6,15 +6,13 @@ FaasJS 内置插件，无需额外安装。
 
 ## package.json 配置
 
-自动化基于 `jest` 和 `@swc/jest`。
-
 可以在 package.json 中添加如下配置：
 
 ```json
 "jest": {
   "verbose": false,
   "transform": {
-    ".(jsx|tsx?)": "@swc/jest"
+    ".(jsx|tsx?)": "@faasjs/jest"
   },
   "collectCoverageFrom": [
     "**/*.ts"
