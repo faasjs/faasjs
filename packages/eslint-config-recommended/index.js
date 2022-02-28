@@ -86,6 +86,7 @@ module.exports = {
         '@typescript-eslint/object-curly-spacing': ['error', 'always'],
         '@typescript-eslint/comma-spacing': 'warn',
         '@typescript-eslint/space-infix-ops': 'warn',
+        indent: 'off',
         '@typescript-eslint/indent': ['error', 2],
         '@typescript-eslint/array-type': ['error', { default: 'array' }],
         '@typescript-eslint/camelcase': 'off',
