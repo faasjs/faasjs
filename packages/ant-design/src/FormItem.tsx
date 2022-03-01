@@ -21,6 +21,7 @@ import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { useEffect, useState } from 'react'
 import { upperFirst } from 'lodash'
 import { BaseItemProps, BaseOption } from '.'
+import { FaasState, useFaasState } from './Config'
 import { DatePicker } from './DatePicker'
 import { TimePicker } from './TimePicker'
 
@@ -108,7 +109,7 @@ export type FormItemProps<T = any> = {
   }
 } & FormItemInputProps & FaasItemProps & AntdFormItemProps<T>
 
-function processProps (propsCopy: FormItemProps) {
+function processProps (propsCopy: FormItemProps, config: FaasState) {
   if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
   if (!propsCopy.label && propsCopy.label !== false) propsCopy.label = propsCopy.title
   if (!propsCopy.name) propsCopy.name = propsCopy.id
@@ -120,13 +121,13 @@ function processProps (propsCopy: FormItemProps) {
         required: true,
         validator: async (_, values) => {
           if (!values || values.length < 1)
-            return Promise.reject(Error(`${propsCopy.label || propsCopy.title} is required`))
+            return Promise.reject(Error(`${propsCopy.label || propsCopy.title} ${config.common.required}`))
         }
       })
     else
       propsCopy.rules.push({
         required: true,
-        message: `${propsCopy.label || propsCopy.title} is required`
+        message: `${propsCopy.label || propsCopy.title} ${config.common.required}`
       })
   }
   if (!(propsCopy as OptionsProps).input) (propsCopy as OptionsProps).input = {}
@@ -143,7 +144,7 @@ function processProps (propsCopy: FormItemProps) {
       for (const sub of propsCopy.object) {
         if (!(sub as FormItemProps).name)
           (sub as FormItemProps).name = propsCopy.name.concat(sub.id)
-        processProps(sub)
+        processProps(sub, config)
       }
       break
   }
@@ -166,9 +167,10 @@ function processProps (propsCopy: FormItemProps) {
  */
 export function FormItem<T = any> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
+  const [config] = useFaasState()
 
   useEffect(() => {
-    setComputedProps(processProps({ ...props }))
+    setComputedProps(processProps({ ...props }, config))
   }, [props])
 
   if (!computedProps) return null
@@ -349,9 +351,8 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                   <Button
                     danger
                     type='link'
-                    icon={ <MinusCircleOutlined /> }
                     onClick={ () => remove(field.name) }
-                  />}</label>
+                  >{config.common.delete}</Button>}</label>
             </div>
             <Row gutter={ 24 }>
               {computedProps.object.map(o => <Col
@@ -373,7 +374,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                 onClick={ () => add() }
                 icon={ <PlusOutlined /> }
               >
-                {computedProps.label}
+                {config.common.add} {computedProps.label}
               </Button>}
             <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
