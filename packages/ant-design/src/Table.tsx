@@ -158,7 +158,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
               marginTop: '4px',
               color: '#ff4d4f'
             } } />))
-          if (!item.filterDropdown)
+          if (item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys,
               selectedKeys,
