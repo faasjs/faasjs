@@ -107,7 +107,7 @@ export type FormItemProps<T = any> = {
   extendTypes?: {
     [type: string]: ExtendFormTypeProps
   }
-} & FormItemInputProps & FaasItemProps & AntdFormItemProps<T>
+} & FormItemInputProps & FaasItemProps & Omit<AntdFormItemProps<T>, 'children'>
 
 function processProps (propsCopy: FormItemProps, config: FaasState) {
   if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)

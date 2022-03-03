@@ -11,7 +11,6 @@ import { HttpError } from '@faasjs/http'
 import { Socket } from 'net'
 import { addHook } from 'pirates'
 import { transform } from '@faasjs/ts-transform'
-import { parse } from 'querystring'
 import { randomBytes } from 'crypto'
 
 addHook((code, filename) => {
