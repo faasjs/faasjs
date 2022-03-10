@@ -47,4 +47,4 @@ FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 12.x
 
 ## 完整示例
 
-在 [https://github.com/faasjs/examples/tree/main/simple](https://github.com/faasjs/examples/tree/main/simple) 可以看到一个包含了代码检查、自动化测试的简单例子。
+在 [https://github.com/faasjs/faasjs/tree/main/examples/simple](https://github.com/faasjs/faasjs/tree/main/examples/simple) 可以看到一个包含了代码检查、自动化测试的简单例子。
