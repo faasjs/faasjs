@@ -10,6 +10,8 @@ import {
   useState, useEffect, createElement
 } from 'react'
 
+import useSWR, { useSWRConfig } from 'swr'
+
 export type {
   FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
 } from '@faasjs/browser'
@@ -23,12 +25,7 @@ export type FaasDataInjection<Data = any> = {
   loading: boolean
   data: Data
   error: any
-  promise: Promise<Response<Data>>
   reload(params?: Record<string, any>): Promise<Response<Data>>,
-  setData: React.Dispatch<React.SetStateAction<Data>>
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
-  setPromise: React.Dispatch<React.SetStateAction<Promise<Response<Data>>>>
-  setError: React.Dispatch<React.SetStateAction<any>>
 }
 
 export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
@@ -47,7 +44,7 @@ export type FaasReactClientInstance = {
   faas: <PathOrData extends FaasAction>(
     action: string | PathOrData,
     params: FaasParams<PathOrData>
-  ) => Promise<Response<FaasData<PathOrData>>>
+  ) => Response<FaasData<PathOrData>>
   useFaas: <PathOrData extends FaasAction>(
     action: string | PathOrData,
     defaultParams: FaasParams<PathOrData>
@@ -83,17 +80,16 @@ export function FaasReactClient ({
 }): FaasReactClientInstance {
   const client = new FaasBrowserClient(domain, options)
 
-  async function faas<PathOrData extends FaasAction> (
+  function faas<PathOrData extends FaasAction> (
     action: PathOrData | string,
     params: FaasParams<PathOrData>
-  ): Promise<Response<FaasData<PathOrData>>> {
-    if (onError)
-      return client.action<PathOrData>(action, params)
-        .catch(async res => {
-          await onError(action as string, params)(res)
-          return Promise.reject(res)
-        })
-    return client.action(action, params)
+  ): Response<FaasData<PathOrData>> {
+    const { data } = useSWR([action, params], client.action, {
+      onError: (err) => {
+        if (onError)onError(action as string, params)(err)
+      }
+    })
+    return data as Response
   }
 
   function useFaas<PathOrData extends FaasAction> (
@@ -101,69 +97,26 @@ export function FaasReactClient ({
     defaultParams: FaasParams<PathOrData>,
     options?: {
       data?: FaasData<PathOrData>
-      setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
     }
   ): FaasDataInjection<FaasData<PathOrData>> {
     if (!options) options = {}
-
-    const [loading, setLoading] = useState(true)
-    const [data, setData] = useState<FaasData<PathOrData>>()
-    const [error, setError] = useState<any>()
-    const [promise, setPromise] = useState<Promise<Response<FaasData<PathOrData>>>>()
-    const [params, setParams] = useState(defaultParams)
-    const [reloadTimes, setReloadTimes] = useState(0)
-
-    useEffect(function () {
-      if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
-        setParams(defaultParams)
+    const { mutate } = useSWRConfig()
+    const { data, error } = useSWR([action, defaultParams], client.action, {
+      onError: (err) => {
+        onError(action as string, defaultParams)(err)
       }
-    }, [JSON.stringify(defaultParams)])
-
-    useEffect(function () {
-      setLoading(true)
-      const request = client.action<PathOrData>(action, params)
-      setPromise(request)
-      request
-        .then(r => (options?.setData ? options.setData(r.data) : setData(r.data)))
-        .catch(async e => {
-          if (onError)
-            try {
-              await onError(action as string, params)(e)
-            } catch (error) {
-              setError(error)
-            }
-          else
-            setError(e)
-          return Promise.reject(e)
-        })
-        .finally(() => setLoading(false))
-
-      return () => setLoading(false)
-    }, [
-      action,
-      JSON.stringify(params),
-      reloadTimes
-    ])
-
+    })
     return {
       action,
-      params,
-      loading,
-      data: options?.data || data,
+      params: defaultParams,
+      loading: !data,
+      data: options?.data || data as FaasData<PathOrData>,
       error,
-      promise,
       async reload (params?: any) {
-        if (params) setParams(params)
-        setReloadTimes(reloadTimes + 1)
-        return promise
+        return mutate([action, defaultParams], params, false)
       },
-      setData: options?.setData || setData,
-      setLoading,
-      setPromise,
-      setError,
     }
   }
-
   const reactClient = {
     faas,
     useFaas,
@@ -171,24 +124,13 @@ export function FaasReactClient ({
       action, params,
       fallback, render,
       onDataChange,
-      data,
-      setData,
+      data
     }: FaasDataWrapperProps<PathOrData>): JSX.Element {
-      const request = useFaas<PathOrData>(action, params, {
-        data,
-        setData
-      })
-      const [loaded, setLoaded] = useState<boolean>(false)
-
-      useEffect(function () {
-        if (!loaded && !request.loading) setLoaded(true)
-      }, [request.loading])
-
+      const request = useFaas<PathOrData>(action, params, { data, })
       useEffect(function () {
         if (onDataChange) onDataChange(request)
       }, [JSON.stringify(request.data)])
-
-      if (loaded) return render(request) as JSX.Element
+      if (!request.data) return render(request) as JSX.Element
 
       return fallback || null
     }

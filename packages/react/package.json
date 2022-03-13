@@ -30,7 +30,8 @@
   "devDependencies": {
     "@types/react": "*",
     "tsup": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "swr": "*"
   },
   "engines": {
     "npm": ">=8.0.0"
