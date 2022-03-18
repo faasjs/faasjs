@@ -15,7 +15,6 @@ export { ExtendFormTypeProps, ExtendFormItemProps }
 
 export type FormProps<Values = any, ExtendItemProps = any> = {
   items?: (FormItemProps | ExtendItemProps)[]
-
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | {
     /** Default: Submit */
@@ -53,9 +52,8 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
   }
 
   onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
-
   beforeItems?: JSX.Element | JSX.Element[]
-
+  afterItems?: JSX.Element | JSX.Element[]
   extendTypes?: {
     [type: string]: ExtendFormTypeProps
   }
@@ -142,6 +140,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
       type='primary'
       loading={ loading }
     >{computedProps.submit?.text || config.Form.submit.text}</Button>}
+    {computedProps.afterItems}
   </AntdForm>
 }
 
