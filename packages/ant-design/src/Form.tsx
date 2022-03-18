@@ -53,7 +53,7 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
 
   onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
   beforeItems?: JSX.Element | JSX.Element[]
-  afterItems?: JSX.Element | JSX.Element[]
+  footer?: JSX.Element | JSX.Element[]
   extendTypes?: {
     [type: string]: ExtendFormTypeProps
   }
@@ -140,7 +140,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
       type='primary'
       loading={ loading }
     >{computedProps.submit?.text || config.Form.submit.text}</Button>}
-    {computedProps.afterItems}
+    {computedProps.footer}
   </AntdForm>
 }
 
