@@ -97,6 +97,7 @@ npx create-faas-app --name faasjs --example --noprovider
     <p>Code contributors (in alphabetical order):</p>
     <a href="https://github.com/Germiniku" target="_blank">Germini</a>
     <a href="https://github.com/luckyporo" target="_blank">luckyporo</a>,
+    <a href="https://github.com/minzojian" target="_blank">minzojian</a>,
     <a href="https://github.com/onichandame" target="_blank">onichandame</a>,
     <a href="https://github.com/Vibutnum" target="_blank">Vibutnum</a>,
     <a href="https://github.com/victoryifei" target="_blank">victoryifei</a>,

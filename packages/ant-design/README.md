@@ -281,17 +281,21 @@ ___
 | `Title` | { `separator`: `string` ; `suffix`: `string`  } |
 | `Title.separator` | `string` |
 | `Title.suffix` | `string` |
-| `common` | { `all`: `string` ; `blank`: `string` ; `pageNotFound`: `string` ; `submit`: `string`  } |
+| `common` | { `add`: `string` ; `all`: `string` ; `blank`: `string` ; `delete`: `string` ; `pageNotFound`: `string` ; `required`: `string` ; `submit`: `string`  } |
+| `common.add` | `string` |
 | `common.all` | `string` |
 | `common.blank` | `string` |
+| `common.delete` | `string` |
 | `common.pageNotFound` | `string` |
+| `common.required` | `string` |
 | `common.submit` | `string` |
+| `lang` | `string` |
 
 ___
 
 ### FormItemProps
 
-Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `AntdFormItemProps`<`T`\>
+Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -303,7 +307,7 @@ ___
 
 ### FormProps
 
-Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  } ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\>  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"``\>
+Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  } ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\>  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"``\>
 
 #### Type parameters
 
@@ -423,7 +427,7 @@ ___
 
 ### DatePicker
 
-• `Const` **DatePicker**: `PickerComponentClass`<`PickerProps`<`Dayjs`\>, `unknown`\> & {}
+• `Const` **DatePicker**: `PickerComponentClass`<`Omit`<`PickerBaseProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {} & `Omit`<`PickerDateProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {} & `Omit`<`PickerTimeProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {}, `unknown`\> & {}
 
 ___
 
