@@ -275,6 +275,9 @@ export class Http<TParams extends Record<string, any> = any,
       ...this.response
     }
 
+    const originBody = data.response.body
+    data.response.originBody = originBody
+
     if (process.env.FaasMode === 'local') {
       this.logger.debug('[onInvoke] Response: %j', data.response)
       return
@@ -290,9 +293,6 @@ export class Http<TParams extends Record<string, any> = any,
 
     const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding']
     if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
-
-    const originBody = data.response.body
-    data.response.originBody = originBody
 
     try {
       if (acceptEncoding.includes('br')) {
