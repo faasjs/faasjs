@@ -33,7 +33,7 @@
     "@types/pg": "*",
     "mysql": "*",
     "pg": "*",
-    "@vscode/sqlite3": "*",
+    "better-sqlite3": "*",
     "tsup": "*",
     "typescript": "*"
   },
