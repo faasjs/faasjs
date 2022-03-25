@@ -90,6 +90,9 @@ export class Knex implements Plugin {
     if (data.config.plugins && (data.config.plugins[this.name]?.config))
       this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
+    if (this.config.client === 'sqlite3')
+      this.config.client = 'better-sqlite3'
+
     this.adapter = knex(this.config)
 
     if (this.config.client === 'pg') {
