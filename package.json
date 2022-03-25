@@ -3,7 +3,7 @@
   "version": "0.0.2-beta.388",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
-    "test": "jest --silent --ci --coverage --forceExit --detectOpenHandles",
+    "test": "jest --ci --silent --coverage --forceExit --detectOpenHandles",
     "pub": "node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/coverage packages/*/*.log tmp *.log",
     "build": "node build.js",
@@ -61,7 +61,7 @@
     ],
     "moduleNameMapper": {
       "\\.(css|less|sass|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "@faasjs/jest",
-      "@faasjs/(.*)": "<rootDir>/packages/$1",
+      "@faasjs/(.*)": "<rootDir>/packages/$1/src",
       "^antd/es/(.*)$": "antd/lib/$1",
       "^rc-picker/es/(.*)$": "rc-picker/lib/$1"
     },

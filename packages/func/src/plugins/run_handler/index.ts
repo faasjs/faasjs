@@ -12,11 +12,9 @@ export class RunHandler implements Plugin {
             data.callback = function (error: Error, result: any): void {
               if (error) reject(error); else resolve(result)
             }
-            Promise.resolve(data.handler(data)).then(function (result: any) {
-              resolve(result)
-            }).catch(function (error: Error) {
-              reject(error)
-            })
+            Promise.resolve(data.handler(data))
+              .then(resolve)
+              .catch(reject)
           })
         } catch (error: any) {
           data.logger.error(error)
