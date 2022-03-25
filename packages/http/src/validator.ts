@@ -240,7 +240,6 @@ export class Validator<
           const error = Error(
             `[${type}] ${baseKey}${key} must match ${rule.regexp}.`
           )
-          console.log('--------->22222')
           if (config.onError) {
             const res = config.onError(
               `${type}.rule.regexp`,

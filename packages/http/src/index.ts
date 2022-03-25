@@ -270,7 +270,10 @@ export class Http<TParams extends Record<string, any> = any,
       'Cache-Control': 'no-cache, no-store'
     }, this.cookie.headers(), this.response.headers)
 
-    data.response = this.response
+    data.response = {
+      ...data.response,
+      ...this.response
+    }
 
     if (process.env.FaasMode === 'local') {
       this.logger.debug('[onInvoke] Response: %j', data.response)
@@ -289,6 +292,8 @@ export class Http<TParams extends Record<string, any> = any,
     if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
 
     const originBody = data.response.body
+    data.response.originBody = originBody
+
     try {
       if (acceptEncoding.includes('br')) {
         data.response.headers['Content-Encoding'] = 'br'
@@ -302,7 +307,6 @@ export class Http<TParams extends Record<string, any> = any,
       } else throw Error('No matched compression.')
 
       data.response.isBase64Encoded = true
-      data.response.originBody = originBody
     } catch (error) {
       console.error(error)
       // 若压缩失败还原
