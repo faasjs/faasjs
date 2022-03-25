@@ -270,7 +270,7 @@ export class Http<TParams extends Record<string, any> = any,
       'Cache-Control': 'no-cache, no-store'
     }, this.cookie.headers(), this.response.headers)
 
-    data.response = Object.assign(data.response, this.response)
+    data.response = Object.assign({}, data.response, this.response)
 
     const originBody = data.response.body
     data.response.originBody = originBody
