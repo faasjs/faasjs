@@ -5,7 +5,7 @@ import {
   FormProps as AntdFormProps,
 } from 'antd'
 import { useEffect, useState } from 'react'
-import { useFaasState } from './Config'
+import { useConfigContext } from './Config'
 import {
   ExtendFormTypeProps, ExtendFormItemProps,
   FormItem, FormItemProps
@@ -62,7 +62,7 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
 export function Form<Values = any> (props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)
   const [computedProps, setComputedProps] = useState<FormProps<Values>>()
-  const [config] = useFaasState()
+  const config = useConfigContext()
 
   useEffect(() => {
     const propsCopy = { ...props }

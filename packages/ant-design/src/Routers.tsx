@@ -5,10 +5,10 @@ import {
 import {
   Routes as OriginRoutes, Route, RouteProps
 } from 'react-router-dom'
-import { useFaasState } from './Config'
+import { useConfigContext } from './Config'
 
 function NotFound () {
-  const [config] = useFaasState()
+  const config = useConfigContext()
 
   return <Result
     status='404'

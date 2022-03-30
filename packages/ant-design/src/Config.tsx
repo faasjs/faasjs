@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { createGlobalState } from 'react-use'
+import { createContext, useContext } from 'react'
 
 export type FaasState = {
   lang: string
@@ -48,7 +47,7 @@ const common = isZH ? {
   required: 'is required',
 }
 
-export const useFaasState = createGlobalState<FaasState>({
+const baseConfig = {
   lang: 'en',
   common,
   Blank: { text: common.blank },
@@ -57,31 +56,40 @@ export const useFaasState = createGlobalState<FaasState>({
     separator: ' - ',
     suffix: ''
   },
-})
+}
+
+export const ConfigContext = createContext<FaasState>(baseConfig)
 
 /**
- * Config for all @faasjs/ant-design components.
+ * Config for @faasjs/ant-design components.
  * @param props {object}
  * @param props.config {Partial<FaasState>}
  * @returns {null}
  *
  * ```ts
- * <Config config={{
+ * <ConfigProvider config={{
  *  common: {
  *   blank: '空',
  *  },
- * }} />
+ * }}>
+ *  <Blank />
+ * </ConfigProvider>
  * ```
  */
-export function Config (props: { config: Partial<FaasState> }): JSX.Element {
-  const [_, setState] = useFaasState()
+export function ConfigProvider ({
+  config,
+  children
+}: {
+  config: Partial<FaasState>
+  children: React.ReactNode }) {
+  return <ConfigContext.Provider value={ {
+    ...baseConfig,
+    ...config
+  } }>
+    {children}
+  </ConfigContext.Provider>
+}
 
-  useEffect(() => {
-    setState(prev => ({
-      ...prev,
-      ...props.config
-    }))
-  }, [])
-
-  return null
+export function useConfigContext () {
+  return useContext(ConfigContext)
 }

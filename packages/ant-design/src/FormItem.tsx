@@ -21,7 +21,7 @@ import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { useEffect, useState } from 'react'
 import { upperFirst } from 'lodash'
 import { BaseItemProps, BaseOption } from '.'
-import { FaasState, useFaasState } from './Config'
+import { FaasState, useConfigContext } from './Config'
 import { DatePicker } from './DatePicker'
 import { TimePicker } from './TimePicker'
 
@@ -167,7 +167,7 @@ function processProps (propsCopy: FormItemProps, config: FaasState) {
  */
 export function FormItem<T = any> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
-  const [config] = useFaasState()
+  const config = useConfigContext()
 
   useEffect(() => {
     setComputedProps(processProps({ ...props }, config))

@@ -74,6 +74,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 ### Variables
 
+- [ConfigContext](#configcontext)
 - [DatePicker](#datepicker)
 - [TimePicker](#timepicker)
 
@@ -81,7 +82,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 - [Blank](#blank)
 - [Calendar](#calendar)
-- [Config](#config)
+- [ConfigProvider](#configprovider)
 - [Description](#description)
 - [Form](#form)
 - [FormItem](#formitem)
@@ -89,8 +90,8 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [Table](#table)
 - [Title](#title)
 - [transferOptions](#transferoptions)
+- [useConfigContext](#useconfigcontext)
 - [useDrawer](#usedrawer)
-- [useFaasState](#usefaasstate)
 - [useModal](#usemodal)
 
 ## Type aliases
@@ -425,6 +426,12 @@ ___
 
 ## Variables
 
+### ConfigContext
+
+• `Const` **ConfigContext**: `Context`<[`FaasState`](#faasstate)\>
+
+___
+
 ### DatePicker
 
 • `Const` **DatePicker**: `PickerComponentClass`<`Omit`<`PickerBaseProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {} & `Omit`<`PickerDateProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {} & `Omit`<`PickerTimeProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {}, `unknown`\> & {}
@@ -475,29 +482,32 @@ ___
 
 ___
 
-### Config
+### ConfigProvider
 
-▸ **Config**(`props`): `JSX.Element`
+▸ **ConfigProvider**(`props`): `Element`
 
-Config for all @faasjs/ant-design components.
+Config for @faasjs/ant-design components.
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `props` | `Object` |
+| `props.children` | `ReactNode` |
 | `props.config` | `Partial`<[`FaasState`](#faasstate)\> |
 
 #### Returns
 
-`JSX.Element`
+`Element`
 
 ```ts
-<Config config={{
+<ConfigProvider config={{
  common: {
   blank: '空',
  },
-}} />
+}}>
+ <Blank />
+</ConfigProvider>
 ```
 
 ___
@@ -667,6 +677,16 @@ ___
 
 ___
 
+### useConfigContext
+
+▸ **useConfigContext**(): [`FaasState`](#faasstate)
+
+#### Returns
+
+[`FaasState`](#faasstate)
+
+___
+
 ### useDrawer
 
 ▸ **useDrawer**(`init?`): `Object`
@@ -688,16 +708,6 @@ Hook style drawer.
 | `drawer` | `Element` |
 | `drawerProps` | [`DrawerProps`](#drawerprops) |
 | `setDrawerProps` | (`changes`: `Partial`<[`DrawerProps`](#drawerprops)\>) => `void` |
-
-___
-
-### useFaasState
-
-▸ **useFaasState**(): [[`FaasState`](#faasstate), (`state`: `IHookStateSetAction`<[`FaasState`](#faasstate)\>) => `void`]
-
-#### Returns
-
-[[`FaasState`](#faasstate), (`state`: `IHookStateSetAction`<[`FaasState`](#faasstate)\>) => `void`]
 
 ___
 

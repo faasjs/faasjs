@@ -1,5 +1,5 @@
 import { useEffect, cloneElement } from 'react'
-import { useFaasState } from './Config'
+import { useConfigContext } from './Config'
 
 export type TitleProps = {
   title: string | string[]
@@ -35,7 +35,7 @@ export type TitleProps = {
  * ```
  */
 export function Title (props: TitleProps): JSX.Element {
-  const [config] = useFaasState()
+  const config = useConfigContext()
 
   useEffect(() => {
     const title = Array.isArray(props.title) ? props.title : [props.title]

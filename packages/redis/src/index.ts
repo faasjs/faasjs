@@ -3,9 +3,7 @@ import {
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
-import IORedis, {
-  RedisOptions, Redis as RedisClient, Commands
-} from 'ioredis'
+import IORedis, { RedisOptions, Command } from 'ioredis'
 
 export type RedisConfig = {
   name?: string
@@ -48,7 +46,7 @@ export class Redis implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
   public config: RedisOptions
-  public adapter: RedisClient
+  public adapter: IORedis
   public logger: Logger
 
   /**
@@ -99,7 +97,7 @@ export class Redis implements Plugin {
     await next()
   }
 
-  public async query<TResult = any> (command: keyof Commands, args: any[]): Promise<TResult> {
+  public async query<TResult = any> (command: string, args: any[]): Promise<TResult> {
     if (!global.FaasJS_Redis[this.name]) throw Error(`[${this.name}] not mounted`)
 
     if (!this.config) this.config = global.FaasJS_Redis[this.name].config
@@ -108,7 +106,8 @@ export class Redis implements Plugin {
     this.logger.debug('query begin: %s %j', command, args)
     this.logger.time(command)
 
-    return this.adapter.send_command(command, args)
+    const cmd = new Command(command, args)
+    cmd.promise
       .then(data => {
         this.logger.timeEnd(command, 'query success: %s %j', command, data)
         return data
@@ -117,6 +116,9 @@ export class Redis implements Plugin {
         this.logger.timeEnd(command, 'query fail: %s %j', command, err)
         return Promise.reject(err)
       })
+    this.adapter.sendCommand(cmd)
+
+    return cmd.promise
   }
 
   public async quit (): Promise<void> {
@@ -186,7 +188,7 @@ export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
 }
 
 export async function query<TResult = any> (
-  command: keyof Commands,
+  command: string,
   args: any[]
 ): Promise<TResult> {
   return useRedis().query<TResult>(command, args)

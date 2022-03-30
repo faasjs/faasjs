@@ -1,6 +1,6 @@
 import { Typography } from 'antd'
 import { isNil } from 'lodash'
-import { useFaasState } from './Config'
+import { useConfigContext } from './Config'
 
 export type BlankProps = {
   value?: any;
@@ -20,7 +20,7 @@ export type BlankProps = {
  * ```
  */
 export function Blank (options?: BlankProps) {
-  const [config] = useFaasState()
+  const config = useConfigContext()
 
   return !options ||
     isNil(options.value) ||

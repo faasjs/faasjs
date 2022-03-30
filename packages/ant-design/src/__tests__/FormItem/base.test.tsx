@@ -43,6 +43,7 @@ describe('FormItem', () => {
 
   describe('required', () => {
     it.each(types)('%s should required', async type => {
+      const user = userEvent.setup()
       const { container } = render(<Form
         items={ [
           {
@@ -55,7 +56,7 @@ describe('FormItem', () => {
 
       expect(container.getElementsByClassName('ant-form-item-required').length).toEqual(1)
 
-      userEvent.click(container.getElementsByClassName('ant-btn-primary')[0])
+      await user.click(container.getElementsByClassName('ant-btn-primary')[0])
 
       expect(await screen.findByText('Test is required')).toBeInTheDocument()
     })

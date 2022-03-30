@@ -18,7 +18,7 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { isNil, upperFirst } from 'lodash'
 import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
 import { Blank } from './Blank'
-import { useFaasState } from './Config'
+import { useConfigContext } from './Config'
 import {
   FilterValue, SorterResult, TableCurrentDataSource
 } from 'antd/lib/table/interface'
@@ -93,7 +93,7 @@ function processValue (item: TableItemProps, value: any) {
 
 export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()
-  const [config] = useFaasState()
+  const config = useConfigContext()
 
   useEffect(() => {
     for (const item of props.items as TableItemProps[]) {

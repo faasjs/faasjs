@@ -185,7 +185,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `command` | keyof `Commands` |
+| `command` | `string` |
 | `args` | `any`[] |
 
 #### Returns

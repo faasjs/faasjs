@@ -7,6 +7,7 @@ import { Form } from '../../Form'
 
 describe('FormItem object', () => {
   it('should work', async () => {
+    const user = userEvent.setup()
     let values
     render(<Form
       initialValues={ { test: [{}] } }
@@ -69,7 +70,7 @@ describe('FormItem object', () => {
     expect(screen.getByText('SubObject')).toBeInTheDocument()
     expect(screen.getByText('SubString')).toBeInTheDocument()
 
-    userEvent.type(screen.getByLabelText('SubString'), 'value')
+    await user.type(screen.getByLabelText('SubString'), 'value')
 
     expect(values).toEqual({ test: [{ subObject: { subString: 'value' } }] })
   })

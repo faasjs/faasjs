@@ -7,6 +7,7 @@ import { FormItem } from '../../FormItem'
 
 describe('FormItem number', () => {
   it('with options', async () => {
+    const user = userEvent.setup()
     const { container } = render(<FormItem
       id='test'
       type='number'
@@ -20,7 +21,7 @@ describe('FormItem number', () => {
 
     expect(container.getElementsByClassName('ant-select-selector').length).toEqual(1)
 
-    userEvent.click(container.getElementsByClassName('ant-select-selector')[0])
+    await user.click(container.getElementsByClassName('ant-select-selector')[0])
 
     expect(await screen.findByText('label')).toBeInTheDocument()
   })

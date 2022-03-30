@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render } from '@testing-library/react'
 import { FormItem } from '../../FormItem'
 
 describe('FormItem time', () => {

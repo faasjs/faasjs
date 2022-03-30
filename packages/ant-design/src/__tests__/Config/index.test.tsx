@@ -3,13 +3,14 @@
  */
 import { render, screen } from '@testing-library/react'
 import { Blank } from '../../Blank'
-import { Config } from '../../Config'
+import { ConfigProvider } from '../../Config'
 
 describe('Config', () => {
   it('should work', () => {
     render(<>
-      <Config config={ { Blank: { text: 'text' } } } />
-      <Blank />
+      <ConfigProvider config={ { Blank: { text: 'text' } } }>
+        <Blank />
+      </ConfigProvider>
     </>)
 
     expect(screen.getByText('text')).toBeInTheDocument()

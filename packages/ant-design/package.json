@@ -26,10 +26,9 @@
     "@ant-design/icons": "*",
     "antd": "*",
     "lodash": "*",
-    "react": "*",
-    "react-dom": "*",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "@faasjs/react": "^0.0.2-beta.389",
-    "react-use": "*",
     "react-router-dom": "*",
     "dayjs": "*"
   },
