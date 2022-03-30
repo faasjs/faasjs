@@ -6,7 +6,17 @@ const skipTypes = /(css|less|sass|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|wof
 
 module.exports = {
   createTransformer () {
-    const transformer = createTransformer()
+    const transformer = createTransformer({
+      jsc: {
+        parser: {
+          syntax: 'typescript',
+          tsx: true,
+        },
+        target: 'es2019',
+        transform: { react: { runtime: 'automatic' } },
+      },
+      module: { noInterop: true }
+    })
 
     return {
       process (src, filename, options) {

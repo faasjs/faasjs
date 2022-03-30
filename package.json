@@ -38,7 +38,7 @@
     "transform": {
       ".(jsx|tsx?)": "@faasjs/jest"
     },
-    "verbose": false,
+    "verbose": true,
     "testPathIgnorePatterns": [
       "/lib/",
       "/tmp/",

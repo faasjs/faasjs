@@ -68,6 +68,8 @@ function findModule (list: any, key: string, options: {
     }
   }
 
+  if (!list[key]) return
+
   // get package's dependencies
   const pkg = JSON.parse(readFileSync(join(list[key], 'package.json')).toString())
   const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}))

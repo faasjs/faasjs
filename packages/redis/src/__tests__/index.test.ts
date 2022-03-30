@@ -57,11 +57,11 @@ describe('redis', function () {
   })
 
   it('query error', async function () {
-    const func = useFunc(function () {
-      const redis = useRedis()
-      return async function () {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler () {
         await redis.query('wrong', [])
       }
     })

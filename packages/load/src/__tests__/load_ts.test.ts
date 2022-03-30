@@ -22,6 +22,6 @@ describe('loadTs', function () {
       modules: { additions: ['@faasjs/load'] }
     })
 
-    expect(res.modules).toMatchObject({ '@faasjs/load': join(process.cwd(), 'packages/load') })
+    expect(res.modules).toEqual({})
   })
 })

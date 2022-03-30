@@ -3,7 +3,9 @@ import {
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
-import IORedis, { RedisOptions, Command } from 'ioredis'
+import {
+  RedisOptions, Command, default as IORedis
+} from 'ioredis'
 
 export type RedisConfig = {
   name?: string
@@ -106,8 +108,11 @@ export class Redis implements Plugin {
     this.logger.debug('query begin: %s %j', command, args)
     this.logger.time(command)
 
-    const cmd = new Command(command, args)
-    cmd.promise
+    const cmd = new Command(command, args, { replyEncoding: 'utf-8' })
+
+    this.adapter.sendCommand(cmd)
+
+    return cmd.promise
       .then(data => {
         this.logger.timeEnd(command, 'query success: %s %j', command, data)
         return data
@@ -116,9 +121,6 @@ export class Redis implements Plugin {
         this.logger.timeEnd(command, 'query fail: %s %j', command, err)
         return Promise.reject(err)
       })
-    this.adapter.sendCommand(cmd)
-
-    return cmd.promise
   }
 
   public async quit (): Promise<void> {
