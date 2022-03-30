@@ -14,8 +14,7 @@ module.exports = {
         },
         target: 'es2019',
         transform: { react: { runtime: 'automatic' } },
-      },
-      module: { noInterop: true }
+      }
     })
 
     return {
