@@ -103,6 +103,8 @@ export class FaasBrowserClient {
    * @param options default options
    */
   constructor (baseUrl: string, options?: Options) {
+    if (!baseUrl) throw Error('[FaasJS] baseUrl required')
+
     this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/'
     this.defaultOptions = options || Object.create(null)
 
