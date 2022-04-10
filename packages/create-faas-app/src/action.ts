@@ -6,14 +6,6 @@ import {
 import { join } from 'path'
 import { execSync } from 'child_process'
 
-const Provider = ['tencentcloud', null]
-const Region = [
-  'ap-beijing',
-  'ap-shanghai',
-  'ap-guangzhou',
-  'ap-hongkong'
-]
-
 const Validator = {
   name (input: string) {
     const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_'
@@ -22,40 +14,14 @@ const Validator = {
 
     return true
   },
-  provider (input: string | null) {
-    return Provider.includes(input) ? true : 'Unknown provider'
-  },
-  region (input: string) {
-    return Region.includes(input) ? true : 'Unknown region'
-  },
-  appId (input: string) {
-    return /^[0-9]+$/.test(input) ? true : 'Wrong format'
-  },
-  secretId (input: string) {
-    return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format'
-  },
-  secretKey (input: string) {
-    return /^[a-zA-Z0-9]+$/.test(input) ? true : 'Wrong format'
-  }
 }
 
 export async function action (options: {
   name?: string
-  provider?: string
-  region?: string
-  appId?: string
-  secretId?: string
-  secretKey?: string
   example?: boolean
-  noprovider?: boolean
 } = {}): Promise<void> {
   const answers: {
     name?: string
-    provider?: string
-    region?: string
-    appId?: string
-    secretId?: string
-    secretKey?: string
     example?: boolean
   } = Object.assign(options, {})
 
@@ -66,60 +32,6 @@ export async function action (options: {
       message: 'Project name',
       validate: Validator.name
     }).then(res => res.value)
-
-  if (!options.noprovider) {
-    if (!answers.provider || Validator.provider(answers.provider) !== true)
-      answers.provider = await prompt<{ value: string }>({
-        type: 'select',
-        name: 'value',
-        message: 'Provider',
-        choices: [
-          {
-            name: 'null',
-            message: '暂不配置'
-          },
-          {
-            name: 'tencentcloud',
-            message: '腾讯云'
-          }
-        ]
-      }).then(res => res.value)
-
-    if (answers.provider === 'tencentcloud') {
-      if (!answers.region || Validator.region(answers.region) !== true)
-        answers.region = await prompt<{ value: string }>({
-          type: 'select',
-          name: 'value',
-          message: 'Region',
-          choices: Region.concat([]), // choices 会修改 Region 对象，因此克隆一份
-          validate: Validator.region
-        }).then(res => res.value)
-
-      if (!answers.appId || Validator.appId(answers.appId) !== true)
-        answers.appId = await prompt<{ value: string }>({
-          type: 'input',
-          name: 'value',
-          message: 'appId (from https://console.cloud.tencent.com/developer)',
-          validate: Validator.appId
-        }).then(res => res.value)
-
-      if (!answers.secretId || Validator.secretId(answers.secretId) !== true)
-        answers.secretId = await prompt<{ value: string }>({
-          type: 'input',
-          name: 'value',
-          message: 'secretId (from https://console.cloud.tencent.com/cam/capi)',
-          validate: Validator.secretId
-        }).then(res => res.value)
-
-      if (!answers.secretKey || Validator.secretKey(answers.secretKey) !== true)
-        answers.secretKey = await prompt<{ value: string }>({
-          type: 'input',
-          name: 'value',
-          message: 'secretKey (from https://console.cloud.tencent.com/cam/capi)',
-          validate: Validator.secretKey
-        }).then(res => res.value)
-    }
-  }
 
   if (typeof answers.example === 'undefined')
     answers.example = await prompt<{ value: boolean }>({
@@ -135,21 +47,7 @@ export async function action (options: {
 
   writeFileSync(join(answers.name, 'faas.yaml'),
     `defaults:
-  providers:
-    tencentcloud:
-      type: '@faasjs/tencentcloud'
-      config: # https://faasjs.com/guide/tencentcloud.html
-        appId: ${answers.appId || ''}
-        secretId: ${answers.secretId || ''}
-        secretKey: ${answers.secretKey || ''}
-        region: ${answers.region || ''}
   plugins:
-    cloud_function:
-      provider: tencentcloud
-      type: cloud_function
-    http:
-      provider: tencentcloud
-      type: http
 development:
 testing:
 staging:
@@ -180,7 +78,6 @@ production:
     "coverage"
   ],
   "jest": {
-    "verbose": false,
     "transform": {
       ".(jsx|tsx?)": "@faasjs/jest"
     },
@@ -224,32 +121,11 @@ coverage/
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
+  "editor.wordWrap": "on",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
-  "editor.wordWrap": "on",
   "files.trimTrailingWhitespace": true,
-  "editor.minimap.renderCharacters": false,
-  "editor.minimap.maxColumn": 200,
-  "editor.smoothScrolling": true,
-  "editor.cursorBlinking": "phase",
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/coverage": true,
-    "**/dist": true,
-    "**/tmp": true
-  },
-  "eslint.packageManager": "npm",
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "vue"
-  ],
-  "grunt.autoDetect": "off",
-  "jake.autoDetect": "off",
-  "gulp.autoDetect": "off",
-  "npm.autoDetect": "off"
+  "eslint.packageManager": "npm"
 }`)
 
   execSync(`cd ${answers.name} && npm install`, { stdio: 'inherit' })
@@ -296,11 +172,5 @@ Examples:
   npx create-faas-app`)
     })
     .option('--name <name>', '项目名字')
-    .option('--region <region>', '可用区')
-    .option('--appId <appid>', 'appId')
-    .option('--secretId <secretId>', 'secretId')
-    .option('--secretKey <secretKey>', 'secretKey')
-    .option('--example', '创建示例文件')
-    .option('--noprovider', '暂不配置服务商')
     .action(action)
 }

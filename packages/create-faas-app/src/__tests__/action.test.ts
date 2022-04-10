@@ -11,7 +11,7 @@ jest.mock('child_process', function () {
   }
 })
 
-let mkdirs: string[] = []
+let dirs: string[] = []
 let files: {
   [key: string]: string;
 } = {}
@@ -19,7 +19,7 @@ let files: {
 jest.mock('fs', function () {
   return {
     mkdirSync (path: string) {
-      mkdirs.push(path)
+      dirs.push(path)
     },
     writeFileSync (name: string, body: string) {
       files[name] = body
@@ -31,46 +31,18 @@ jest.mock('fs', function () {
 describe('action', function () {
   beforeEach(function () {
     execs = []
-    mkdirs = []
+    dirs = []
     files = {}
   })
 
-  it('noprovider', async function () {
+  it('should work', async function () {
     await action({
       name: 'test',
-      noprovider: true,
       example: false
     })
 
     expect(execs).toEqual(['cd test && npm install'])
-    expect(mkdirs).toEqual(['test', 'test/.vscode'])
-    expect(Object.keys(files)).toEqual([
-      'test/faas.yaml',
-      'test/package.json',
-      'test/tsconfig.json',
-      'test/.gitignore',
-      'test/.vscode/settings.json',
-    ])
-    expect(files['test/.gitignore']).toEqual(`node_modules/
-tmp/
-coverage/
-*.tmp.js
-`)
-  })
-
-  it('with provider', async function () {
-    await action({
-      name: 'test',
-      provider: 'tencentcloud',
-      region: 'ap-beijing',
-      appId: '1',
-      secretId: 'secretId',
-      secretKey: 'secretKey',
-      example: false
-    })
-
-    expect(execs).toEqual(['cd test && npm install'])
-    expect(mkdirs).toEqual(['test', 'test/.vscode'])
+    expect(dirs).toEqual(['test', 'test/.vscode'])
     expect(Object.keys(files)).toEqual([
       'test/faas.yaml',
       'test/package.json',
