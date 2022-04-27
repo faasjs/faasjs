@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { closeAll, Server } from '..'
 import { request } from '@faasjs/request'
 import { join, sep } from 'path'
@@ -44,7 +41,7 @@ describe('server', function () {
   test('tsx', async () => {
     await expect(request('http://localhost:' + port + '/tsx')).resolves.toMatchObject({
       statusCode: 200,
-      body: { data: '<h1 data-reactroot="">Hi</h1>' }
+      body: { data: '<h1>Hi</h1>' }
     })
   })
 
@@ -69,22 +66,22 @@ describe('server', function () {
     })
   })
 
-  // test('500', async function () {
-  //   await expect(request('http://localhost:' + port + '/error')).rejects.toMatchObject({
-  //     statusCode: 500,
-  //     body: { error: { message: 'error' } }
-  //   })
-  // })
+  test('500', async function () {
+    await expect(request('http://localhost:' + port + '/error')).rejects.toMatchObject({
+      statusCode: 500,
+      body: { error: { message: 'error' } }
+    })
+  })
 
-  // test('OPTIONS', async function () {
-  //   await expect(request('http://localhost:' + port, { method: 'OPTIONS' })).resolves.toMatchObject({
-  //     statusCode: 204,
-  //     headers: {
-  //       'access-control-allow-credentials': 'true',
-  //       'access-control-allow-headers': 'Content-Type, Authorization',
-  //       'access-control-allow-methods': 'OPTIONS, POST',
-  //       'access-control-allow-origin': '*',
-  //     }
-  //   })
-  // })
+  test('OPTIONS', async function () {
+    await expect(request('http://localhost:' + port, { method: 'OPTIONS' })).resolves.toMatchObject({
+      statusCode: 204,
+      headers: {
+        'access-control-allow-credentials': 'true',
+        'access-control-allow-headers': 'Content-Type, Authorization',
+        'access-control-allow-methods': 'OPTIONS, POST',
+        'access-control-allow-origin': '*',
+      }
+    })
+  })
 })

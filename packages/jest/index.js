@@ -17,18 +17,12 @@ const transformer = createTransformer({
 
 module.exports = {
   process (src, filename, options) {
-    if (filename.endsWith('.js'))
-      return { code: src }
-
     if (skipTypes.test(extname(filename)))
       return { code: '' }
 
     return transformer.process(src, filename, options)
   },
   processAsync(src, filename, options) {
-    if (filename.endsWith('.js'))
-      return Promise.resolve({ code: src })
-
     if (skipTypes.test(extname(filename)))
       return Promise.resolve({ code: '' })
 

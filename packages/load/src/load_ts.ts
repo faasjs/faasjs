@@ -1,6 +1,7 @@
 import { deepMerge } from '@faasjs/deep_merge'
 import { readFileSync, unlinkSync } from 'fs'
-import { Plugin, rollup } from 'rollup'
+import { rollup } from 'rollup/dist/rollup.js'
+import type { Plugin } from 'rollup'
 import { Func } from '@faasjs/func'
 import {
   join, sep, dirname
