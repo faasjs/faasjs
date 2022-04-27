@@ -26,11 +26,11 @@ Get help info: `npm exec faas -h`
 
 ## Modules
 
-### Properties
+### Variables
 
 - [default](#default)
 
-## Properties
+## Variables
 
 ### default
 

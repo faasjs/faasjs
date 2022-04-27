@@ -164,10 +164,9 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
               selectedKeys,
               confirm
             }: {
-              setSelectedKeys: (selectedKeys: React.Key[]) => void;
-              selectedKeys: React.Key[];
-              confirm(): void;
-              clearFilters(): void;
+              setSelectedKeys: (selectedKeys: React.Key[]) => void
+              selectedKeys: React.Key[]
+              confirm(): void
             }) => <Radio.Group
               style={ { padding: 8 } }
               buttonStyle='solid'

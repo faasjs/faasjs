@@ -48,7 +48,7 @@ Knex 插件
 
 ### adapter
 
-• **adapter**: `Knex`<`any`, `Record`<`string`, `any`\>[]\>
+• **adapter**: `Knex`<`any`, `any`[]\>
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 ### query
 
-• **query**: `Knex`<`any`, `Record`<`string`, `any`\>[]\>
+• **query**: `Knex`<`any`, `any`[]\>
 
 ___
 

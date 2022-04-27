@@ -4,7 +4,9 @@ import {
   Form as AntdForm,
   FormProps as AntdFormProps,
 } from 'antd'
-import { useEffect, useState } from 'react'
+import {
+  ReactNode, useEffect, useState
+} from 'react'
 import { useConfigContext } from './Config'
 import {
   ExtendFormTypeProps, ExtendFormItemProps,
@@ -57,7 +59,8 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
   extendTypes?: {
     [type: string]: ExtendFormTypeProps
   }
-} & Omit<AntdFormProps<Values>, 'onFinish'>
+  children?: ReactNode
+} & Omit<AntdFormProps<Values>, 'onFinish' | 'children'>
 
 export function Form<Values = any> (props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)

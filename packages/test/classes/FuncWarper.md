@@ -45,10 +45,6 @@
 
 • **new FuncWarper**(`initBy`)
 
-创建测试实例
-
-**`example`** new TestCase(require.resolve('../demo.flow.ts'))
-
 #### Parameters
 
 | Name | Type |

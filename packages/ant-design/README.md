@@ -308,7 +308,7 @@ ___
 
 ### FormProps
 
-Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  } ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\>  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"``\>
+Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  } ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\>  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"``\>
 
 #### Type parameters
 

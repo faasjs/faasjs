@@ -21,7 +21,7 @@ FaasJS's request module.
 ### Functions
 
 - [querystringify](#querystringify)
-- [request](#request)
+- [request](#request-1)
 - [setMock](#setmock)
 
 ## Type aliases

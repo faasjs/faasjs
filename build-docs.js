@@ -17,7 +17,8 @@ async function build(path) {
   await run(`npm run build:doc ${path.replace('/package.json', '/src')} -- --out ${path.replace('/package.json', '/')}`)
 
   const modules = readFileSync(path.replace('/package.json', '/modules.md'), 'utf8')
-    .toString().replace(`# ${pkg.name}\n\n## Table of contents\n`, '')
+    .toString()
+    .replace(`# ${pkg.name}\n\n## Table of contents\n`, '')
     .replaceAll('(modules.md#', '(#')
   let readme = readFileSync(path.replace('/package.json', '/README.md'), 'utf8').toString()
 

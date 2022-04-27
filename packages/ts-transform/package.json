@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ts-transform",
-  "version": "0.0.2-beta.392",
+  "version": "0.0.2-beta.393",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/deep_merge": "^0.0.2-beta.392",
+    "@faasjs/deep_merge": "^0.0.2-beta.393",
     "@swc/core": "*"
   },
   "devDependencies": {},
