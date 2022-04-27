@@ -19,13 +19,13 @@ describe('Drawer', () => {
     return drawer.drawer
   }
 
-  it('should work', function () {
+  it('should work', async function () {
     render(<App />)
 
     expect(screen.getByText('title')).toBeInTheDocument()
 
     setDrawerProps({ title: 'new title' })
 
-    expect(screen.getByText('new title')).toBeInTheDocument()
+    expect(await screen.findByText('new title')).toBeInTheDocument()
   })
 })
