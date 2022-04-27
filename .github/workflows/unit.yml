@@ -6,11 +6,13 @@ on:
     branches:
       - main
     paths:
-      - 'packages/**'
+      - packages/**
       - .github/workflows/unit.yml
+      - package-lock.json
   pull_request:
     paths:
-      - 'packages/**'
+      - packages/**
+      - package-lock.json
 
 jobs:
   test:
