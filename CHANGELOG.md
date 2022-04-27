@@ -1,6 +1,107 @@
-# Changelog 更新日志
+# Changelog
 
 ## Beta
+
+[`v0.0.2-beta.393 (2022-04-27)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.392...v0.0.2-beta.393)
+
+- `@faasjs/ant-design`
+  - [Feature] Support React 18.x.
+- `@faasjs/jest`
+  - [Feature] Support jest 28.x.
+
+[`v0.0.2-beta.392 (2022-04-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.391...v0.0.2-beta.392)
+
+- `create-faas-app`
+  - [Break] Remove default provider.
+
+[`v0.0.2-beta.391 (2022-04-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.390...v0.0.2-beta.391)
+
+- `@faasjs/eslint-recommended`
+  - [Feature] Remove slow rules.
+
+[`v0.0.2-beta.390 (2022-03-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.389...v0.0.2-beta.390)
+
+- `@faasjs/ant-design`
+  - [Break] Remove `react-use` dependency.
+
+[`v0.0.2-beta.389 (2022-03-25)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.385...v0.0.2-beta.389)
+
+- `@faasjs/http`
+  - [Feature] Add originBody to all response.
+  - [Fix] Fix response.
+- `@faasjs/knex`
+  - [Break] Use `better-sqlite3` as sqlite adapter.
+
+[`v0.0.2-beta.385 (2022-03-18)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.384...v0.0.2-beta.385)
+
+- `@faasjs/ant-design`
+  - [Feature] Add `afterItems` to `Form`.
+
+[`v0.0.2-beta.384 (2022-03-03)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.383...v0.0.2-beta.384)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix `filterDropdown`.
+
+[`v0.0.2-beta.383 (2022-03-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.382...v0.0.2-beta.383)
+
+- `@faasjs/ant-design`
+  - [Feature] Update i18n.
+
+[`v0.0.2-beta.382 (2022-02-28)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.380...v0.0.2-beta.382)
+
+- `@faasjs/jest`
+  - [Feature] Add new package `@faasjs/jest`.
+- `@faasjs/ant-design`
+  - [Feature] Add `object` and `object[]` to `FormItem`.
+
+[`v0.0.2-beta.380 (2022-02-25)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.379...v0.0.2-beta.380)
+
+- `@faasjs/server`
+  - [Feature] Add default route.
+
+[`v0.0.2-beta.379 (2022-02-24)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.378...v0.0.2-beta.379)
+
+- `@faasjs/server`
+  - [Feature] Support tsx file.
+- `@faasjs/ant-design`
+  - [Fix] Fix submit for `Form`.
+
+[`v0.0.2-beta.378 (2022-02-23)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.375...v0.0.2-beta.378)
+
+- `@faasjs/ant-design`
+  - [Feature] Add `beforeItems` to `Form`.
+  - [Feature] Support pure string as children.
+
+[`v0.0.2-beta.375 (2022-02-22)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.374...v0.0.2-beta.375)
+
+- `@faasjs/ant-design`
+  - [Feature] Add `submitTo` to `Form`.
+
+[`v0.0.2-beta.374 (2022-02-18)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.373...v0.0.2-beta.374)
+
+- `@faasjs/ant-design`
+  - [Feature] Add `children` to `Title`.
+
+[`v0.0.2-beta.373 (2022-02-14)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.371...v0.0.2-beta.373)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix antd paths.
+
+[`v0.0.2-beta.371 (2022-02-13)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.370...v0.0.2-beta.371)
+
+- `@faasjs/ant-design`
+  - [Feature] Add `h1` to `Title`.
+  - [Feature] Export dayjs components.
+
+[`v0.0.2-beta.370 (2022-02-09)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.365...v0.0.2-beta.370)
+
+- `@faasjs/ant-design`
+  - [Feature] Add DatePicker to `FormItem`.
+
+[`v0.0.2-beta.365 (2022-02-07)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.357...v0.0.2-beta.365)
+
+- `@faasjs/graphql-server`
+  - [Break] Remove package `@faasjs/graphql-server`.
 
 [`v0.0.2-beta.357 (2022-02-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.353...v0.0.2-beta.357)
 
