@@ -1,5 +1,7 @@
+const { viteBundler } = require('vuepress')
+const { defaultTheme } = require('vuepress')
+
 module.exports = {
-  bundler: '@vuepress/bundler-webpack',
   title: 'FaasJS',
   description: 'An Atomic Application Framework based on Typescript.',
   head: [
@@ -17,7 +19,8 @@ module.exports = {
       description: '一个基于 Typescript 的原子化应用框架'
     }
   },
-  themeConfig: {
+  bundler: viteBundler(),
+  theme: defaultTheme({
     locales: {
       '/': {
         selectLanguageName: 'English',
@@ -272,7 +275,7 @@ module.exports = {
     docsDir: 'docs',
     docsBranch: 'main',
     contributors: false
-  },
+  }),
   plugins: [
     [
       '@vuepress/plugin-google-analytics',
