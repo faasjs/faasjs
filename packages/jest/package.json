@@ -20,7 +20,8 @@
     "@swc/jest": "*",
     "@types/jest": "*",
     "@types/node": "*",
-    "jest": "*"
+    "jest": "*",
+    "jest-environment-jsdom": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

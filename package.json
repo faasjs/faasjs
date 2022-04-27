@@ -15,7 +15,6 @@
     "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
     "@faasjs/eslint-config-react": "file:./packages/eslint-config-react",
     "@faasjs/jest": "file:./packages/jest",
-    "jest-environment-jsdom": "*",
     "faasjs": "file:./packages/faasjs",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*"
@@ -37,7 +36,7 @@
   ],
   "jest": {
     "transform": {
-      ".(jsx|tsx?)": "@faasjs/jest"
+      ".(jsx|tsx?)": "./packages/jest/index.js"
     },
     "verbose": true,
     "testPathIgnorePatterns": [
