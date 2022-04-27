@@ -27,6 +27,15 @@ module.exports = {
 
         return transformer.process(src, filename, options)
       },
+      processAsync(src, filename, options) {
+        if (filename.endsWith('.js'))
+          return Promise.resolve(src)
+
+        if (skipTypes.test(extname(filename)))
+          return Promise.resolve('')
+
+        return transformer.processAsync(src, filename, options)
+      },
       getCacheKey (src, filename, ...rest) {
         return transformer.getCacheKey(src, filename, ...rest)
       }
