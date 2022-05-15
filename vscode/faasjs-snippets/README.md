@@ -8,6 +8,11 @@ https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets
 
 ## Change Log
 
+### 0.0.8
+
+- fix snippet prefix
+- add statusCode and data checker in testing
+
 ### 0.0.7
 
 - fix snippets
