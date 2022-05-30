@@ -2,6 +2,11 @@
 
 ## Beta
 
+[`v0.0.2-beta.394 (2022-05-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.393...v0.0.2-beta.394)
+
+- `@faasjs/http`
+  - [Fix] Fix validator.
+
 [`v0.0.2-beta.393 (2022-04-27)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.392...v0.0.2-beta.393)
 
 - `@faasjs/ant-design`
