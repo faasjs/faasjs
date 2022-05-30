@@ -214,27 +214,17 @@ export class Http<TParams extends Record<string, any> = any,
       this.logger.debug('[onInvoke] Session: %j', this.session.content)
     }
 
-    if (this.validator) {
-      this.logger.debug('[onInvoke] Valid request')
-      try {
+    try {
+      if (this.validator) {
+        this.logger.debug('[onInvoke] Valid request')
+
         await this.validator.valid({
           headers: this.headers,
           params: this.params,
           cookie: this.cookie,
           session: this.session
         })
-      } catch (error: any) {
-        this.logger.error(error)
-        data.response = {
-          statusCode: error.statusCode || 500,
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: JSON.stringify({ error: { message: error.message } })
-        }
-        return
       }
-    }
-
-    try {
       await next()
     } catch (error) {
       data.response = error
