@@ -1,18 +1,16 @@
-# Nginx 静态网页托管镜像
+# A Nginx Image for FaasJS projects
 
 [![faasjs/nginx](https://img.shields.io/badge/Docker-faasjs%2Fnginx-blue)](https://hub.docker.com/repository/docker/faasjs/nginx)
 [![Build Status](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml)
 [![Image size](https://img.shields.io/docker/image-size/faasjs/nginx/latest)](https://hub.docker.com/repository/docker/faasjs/nginx)
 
-包含以下特性：
+## Features
 
-- 基于 `alpine`，镜像文件不到 10 MB
-- 支持 brotli 压缩
-- 支持日志展示
+- Base on `alpine` with tiny image size.
+- Support brotli compression.
+- Output log to stdout.
 
-## 使用方法
-
-在静态网站项目中新建 Dockerfile，内容示例如下：
+## Usage
 
 ```Dockerfile
 FROM faasjs/node AS builder
