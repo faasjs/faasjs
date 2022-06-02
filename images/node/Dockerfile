@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:current-alpine
 
 RUN apk add --no-cache rsync zip git
 
