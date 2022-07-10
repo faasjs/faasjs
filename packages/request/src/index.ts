@@ -25,30 +25,38 @@ export type Response<T = any> = {
 }
 
 export type RequestOptions = {
-  /** 请求头 */
   headers?: http.OutgoingHttpHeaders
-  /** 请求方法，默认为 GET */
+  /**
+   * The HTTP method to use when making the request. Defaults to GET.
+   */
   method?: string
-  /** 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数 */
   query?: {
     [key: string]: any
   }
-  /** 请求体 */
   body?: {
     [key: string]: any
   } | string
-  /** 最长耗时，单位为毫秒 */
   timeout?: number
-  /** HTTP 认证头，格式为 user:password */
+  /**
+   * The authentication credentials to use for the request.
+   *
+   * Format: `username:password`
+   */
   auth?: string
-  /** 上传文件的完整路径 */
+  /**
+   * Path of uploading a file to the server.
+   */
   file?: string
-  /** 下载流，用于直接将响应内容保存到本地文件，通过 fs.createWriteStream 创建 */
+  /**
+   * Create a write stream to download a file.
+   */
   downloadStream?: NodeJS.WritableStream
   pfx?: Buffer
   passphrase?: string
   agent?: boolean
-  /** body 解析器，默认为 JSON.parse */
+  /**
+   * Body parser. Defaults to `JSON.parse`.
+   */
   parse?: (body: string) => any
 }
 
@@ -57,8 +65,8 @@ type Mock = (url: string, options: RequestOptions) => Promise<Response>
 let mock: Mock | null = null
 
 /**
- * 设置模拟请求
- * @param handler {function | null} 模拟函数，若设置为 null 则表示清除模拟函数
+ * Mock requests
+ * @param handler {function | null} null to disable mock
  * @example setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
  */
 export function setMock (handler: Mock | null): void {
@@ -90,21 +98,21 @@ export function querystringify (obj: any) {
 }
 
 /**
- * 发起网络请求
- * @param {string} url 请求路径或完整网址
- * @param {object=} [options={}] 参数和配置
- * @param {string} [options.method=GET] 请求方法
- * @param {object} [options.query={}] 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数
- * @param {object} [options.headers={}] 请求头
- * @param {object=} options.body 请求体
- * @param {number=} options.timeout 最长耗时，单位为毫秒
- * @param {string=} options.auth HTTP 认证头，格式为 user:password
- * @param {string=} options.file 上传文件的完整路径
- * @param {WritableStream=} options.downloadStream 下载流，用于直接将响应内容保存到本地文件
+ * Request
+ * @param {string} url Url
+ * @param {object=} [options={}] Options
+ * @param {string} [options.method=GET] Method
+ * @param {object} [options.query={}] Query
+ * @param {object} [options.headers={}] Headers
+ * @param {object=} options.body Body
+ * @param {number=} options.timeout Timeout
+ * @param {string=} options.auth Auth, format: user:password
+ * @param {string=} options.file Upload file path
+ * @param {WritableStream=} options.downloadStream Download stream
  * @param {Buffer=} options.pfx pfx
  * @param {string=} options.passphrase passphrase
  * @param {boolean=} options.agent agent
- * @param {parse=} options.parse body 解析器，默认为 JSON.parse
+ * @param {parse=} options.parse body parser, default is JSON.parse
  *
  * @returns {promise}
  * @url https://faasjs.com/doc/request.html
@@ -136,7 +144,6 @@ export async function request<T = any> (url: string, {
       body
     })
 
-  // 序列化 query
   if (query) {
     if (!url.includes('?'))
       url += '?'
@@ -146,7 +153,6 @@ export async function request<T = any> (url: string, {
     url += querystringify(query)
   }
 
-  // 处理 URL 并生成 options
   const uri = new URL(url)
   const protocol = uri.protocol === 'https:' ? https : http
 
@@ -178,12 +184,10 @@ export async function request<T = any> (url: string, {
     agent
   }
 
-  // 处理 headers
   for (const key in headers)
     if (typeof headers[key] !== 'undefined' && headers[key] !== null)
       options.headers[key] = headers[key]
 
-  // 序列化 body
   if (body && typeof body !== 'string')
     if (
       options.headers['Content-Type'] &&

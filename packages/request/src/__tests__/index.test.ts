@@ -29,10 +29,10 @@ describe('request', function () {
 
   describe('headers', function () {
     test('with value', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com', { headers: { 'X-HEADER': 'VALUE' } })
+      const res = await request('https://cvm.tencentcloudapi.com', { headers: { 'Content-Type': 'text/xml' } })
 
       expect(res.statusCode).toEqual(200)
-      expect(res.request.headers['X-HEADER']).toEqual('VALUE')
+      expect(res.request.headers['Content-Type']).toEqual('text/xml')
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
 
