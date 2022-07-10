@@ -47,6 +47,8 @@ jobs:
       - name: Install
         run: |
           curl https://bun.sh/install | bash
+          export BUN_INSTALL="/home/runner/.bun"
+          export PATH="$BUN_INSTALL/bin:$PATH"
           bun install
       - name: Prepack
         run: bun run build
