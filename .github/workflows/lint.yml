@@ -17,9 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3.3.0
-        with:
-          node-version: '16'
-          cache: 'npm'
       - name: Install
         run: |
           npm install -g npm@latest

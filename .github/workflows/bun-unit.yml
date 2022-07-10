@@ -44,17 +44,10 @@ jobs:
           - 27017:27017
     steps:
       - uses: actions/checkout@v3
-      - name: Install
+      - name: Install bun
         run: |
           curl https://bun.sh/install | bash
           /home/runner/.bun/bin/bun install
-      - name: Prepack
-        run: |
-          shopt -s expand_aliases
-          alias npm="/home/runner/.bun/bin/bun"
-          /home/runner/.bun/bin/bun run build
       - name: Run Tests
         run: |
-          shopt -s expand_aliases
-          alias npm="/home/runner/.bun/bin/bun"
           /home/runner/.bun/bin/bun run test
