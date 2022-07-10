@@ -47,10 +47,8 @@ jobs:
       - name: Install
         run: |
           curl https://bun.sh/install | bash
-          export BUN_INSTALL="/home/runner/.bun"
-          export PATH="$BUN_INSTALL/bin:$PATH"
-          bun install
+          /home/runner/.bun/bin/bun install
       - name: Prepack
-        run: bun run build
+        run: /home/runner/.bun/bin/bun run build
       - name: Run Tests
-        run: bun run test
+        run: /home/runner/.bun/bin/bun run test
