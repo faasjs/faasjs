@@ -51,4 +51,4 @@ jobs:
       - name: Run Tests
         run: |
           export PATH="/home/runner/.bun/bin:$PATH"
-          /home/runner/.bun/bin/bun run test
+          /home/runner/.bun/bin/bun run jest --ci --silent --coverage --forceExit
