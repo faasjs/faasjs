@@ -1,0 +1,54 @@
+name: Unit Test with Bun
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - packages/**
+      - .github/workflows/bun-unit.yml
+      - package-lock.json
+  pull_request:
+    paths:
+      - packages/**
+      - package-lock.json
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+      mysql:
+        image: mysql
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_DATABASE: test
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
+        ports:
+          - 3306:3306
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install
+        run: |
+          curl https://bun.sh/install | bash
+          bun install
+      - name: Prepack
+        run: bun run build
+      - name: Run Tests
+        run: bun run test
