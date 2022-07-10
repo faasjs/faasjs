@@ -49,6 +49,12 @@ jobs:
           curl https://bun.sh/install | bash
           /home/runner/.bun/bin/bun install
       - name: Prepack
-        run: /home/runner/.bun/bin/bun run build
+        run: |
+          shopt -s expand_aliases
+          alias npm="/home/runner/.bun/bin/bun"
+          /home/runner/.bun/bin/bun run build
       - name: Run Tests
-        run: /home/runner/.bun/bin/bun run test
+        run: |
+          shopt -s expand_aliases
+          alias npm="/home/runner/.bun/bin/bun"
+          /home/runner/.bun/bin/bun run test
