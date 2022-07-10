@@ -48,7 +48,8 @@ jobs:
         run: |
           curl https://bun.sh/install | bash
           /home/runner/.bun/bin/bun install
+          ls /home/runner/.bun/bin/bun/bin
       - name: Run Tests
         run: |
           export PATH="/home/runner/.bun/bin:$PATH"
-          /home/runner/.bun/bin/bun run jest --ci --silent --coverage --forceExit
+          /home/runner/.bun/bin/bun wiptest
