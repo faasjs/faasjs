@@ -51,5 +51,4 @@ jobs:
           ls /home/runner/.bun/bin/bun/bin
       - name: Run Tests
         run: |
-          export PATH="/home/runner/.bun/bin:$PATH"
           /home/runner/.bun/bin/bun wiptest
