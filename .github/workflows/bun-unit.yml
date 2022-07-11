@@ -48,7 +48,6 @@ jobs:
         run: |
           curl https://bun.sh/install | bash
           /home/runner/.bun/bin/bun install
-          ls /home/runner/.bun/bin/bun/bin
       - name: Run Tests
         run: |
           /home/runner/.bun/bin/bun wiptest
