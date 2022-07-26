@@ -20,7 +20,7 @@ FaasJS's http plugin.
 - [Session](classes/Session.md)
 - [Validator](classes/Validator.md)
 
-### Type aliases
+### Type Aliases
 
 - [CookieOptions](#cookieoptions)
 - [HttpConfig](#httpconfig)
@@ -38,7 +38,7 @@ FaasJS's http plugin.
 
 - [useHttp](#usehttp)
 
-## Type aliases
+## Type Aliases
 
 ### CookieOptions
 
@@ -165,9 +165,9 @@ ___
 
 | Name | Type |
 | :------ | :------ |
+| `onError?` | (`type`: `string`, `key`: `string` \| `string`[], `value?`: `any`) => { `message`: `any` ; `statusCode?`: `number`  } \| `void` |
 | `rules` | { [k in keyof Content]?: ValidatorRuleOptions } |
 | `whitelist?` | ``"error"`` \| ``"ignore"`` |
-| `onError?` | (`type`: `string`, `key`: `string` \| `string`[], `value?`: `any`) => `void` \| { `message`: `any` ; `statusCode?`: `number`  } |
 
 ___
 

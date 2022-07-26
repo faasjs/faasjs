@@ -42,7 +42,7 @@ Knex 插件
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | [`KnexConfig`](../#knexconfig) | 配置 |
+| `config?` | [`KnexConfig`](../#knexconfig) | {object} 配置 |
 
 ## Properties
 
@@ -157,7 +157,7 @@ ___
 | Name | Type | Default value |
 | :------ | :------ | :------ |
 | `sql` | `string` | `undefined` |
-| `bindings` | `RawBinding`[] \| `ValueDict` | `[]` |
+| `bindings` | `ValueDict` \| `RawBinding`[] | `[]` |
 
 #### Returns
 

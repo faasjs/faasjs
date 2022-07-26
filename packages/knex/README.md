@@ -15,7 +15,7 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 - [Knex](classes/Knex.md)
 
-### Type aliases
+### Type Aliases
 
 - [KnexConfig](#knexconfig)
 
@@ -26,7 +26,7 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 - [transaction](#transaction)
 - [useKnex](#useknex)
 
-## Type aliases
+## Type Aliases
 
 ### KnexConfig
 
@@ -78,7 +78,7 @@ ___
 | Name | Type | Default value |
 | :------ | :------ | :------ |
 | `sql` | `string` | `undefined` |
-| `bindings` | `RawBinding`[] \| `ValueDict` | `[]` |
+| `bindings` | `ValueDict` \| `RawBinding`[] | `[]` |
 
 #### Returns
 

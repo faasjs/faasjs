@@ -38,7 +38,7 @@
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | [`CloudFunctionConfig`](../#cloudfunctionconfig) | 配置项，这些配置将强制覆盖默认配置 |
+| `config?` | [`CloudFunctionConfig`](../#cloudfunctionconfig) | {object} 配置项，这些配置将强制覆盖默认配置 |
 
 ## Properties
 
@@ -109,9 +109,9 @@ Plugin.type
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `name` | `string` | 云函数文件名或云函数名 |
-| `data?` | `TData` | 参数 |
-| `options?` | `Object` | 额外配置项 |
+| `name` | `string` | {string} 云函数文件名或云函数名 |
+| `data?` | `TData` | {any} 参数 |
+| `options?` | `Object` | {object} 额外配置项 |
 
 #### Returns
 
@@ -136,9 +136,9 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `name` | `string` | 云函数文件名或云函数名 |
-| `data?` | `TData` | 参数 |
-| `options?` | `Object` | 额外配置项 |
+| `name` | `string` | {string} 云函数文件名或云函数名 |
+| `data?` | `TData` | {any} 参数 |
+| `options?` | `Object` | {object} 额外配置项 |
 
 #### Returns
 

@@ -19,11 +19,11 @@ FaasJS's logger module.
 
 - [Logger](classes/Logger.md)
 
-### Type aliases
+### Type Aliases
 
 - [Level](#level)
 
-## Type aliases
+## Type Aliases
 
 ### Level
 

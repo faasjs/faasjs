@@ -43,7 +43,7 @@ Redis 插件
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | [`RedisConfig`](../#redisconfig) | 配置 |
+| `config?` | [`RedisConfig`](../#redisconfig) | {object} 配置 |
 
 ## Properties
 

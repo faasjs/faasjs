@@ -18,16 +18,18 @@ Browser plugin for FaasJS.
 - [Response](classes/Response.md)
 - [ResponseError](classes/ResponseError.md)
 
-### Type aliases
+### Type Aliases
 
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
 
-## Type aliases
+## Type Aliases
 
 ### Options
 
-Ƭ **Options**: `RequestInit` & { `headers?`: { `[key: string]`: `string`;  } ; `beforeRequest?`: (`__namedParameters`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `void` \| `Promise`<`void`\>  }
+Ƭ **Options**: `RequestInit` & { `beforeRequest?`: (`{
+    action, params, options
+  }`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `Promise`<`void`\> \| `void` ; `headers?`: { `[key: string]`: `string`;  }  }
 
 ___
 

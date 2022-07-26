@@ -51,7 +51,7 @@ logger.timeEnd('timer name', 'message') // 'message +1ms'
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `label?` | `string` | 日志前缀 |
+| `label?` | `string` | {string} 日志前缀 |
 
 ## Properties
 
@@ -129,8 +129,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `color` | `number` | 颜色代码 |
-| `message` | `string` | 文本内容 |
+| `color` | `number` | {number} 颜色代码 |
+| `message` | `string` | {string} 文本内容 |
 
 #### Returns
 
@@ -148,8 +148,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` | 日志内容 |
-| `...args` | `any`[] | 内容参数 |
+| `message` | `string` | {string} 日志内容 |
+| `...args` | `any`[] | {...any=} 内容参数 |
 
 #### Returns
 
@@ -167,8 +167,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` \| `Error` | 日志内容，可以为 Error 对象 |
-| `...args` | `any`[] | 内容参数 |
+| `message` | `string` \| `Error` | {any} 日志内容，可以为 Error 对象 |
+| `...args` | `any`[] | {...any=} 内容参数 |
 
 #### Returns
 
@@ -186,8 +186,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` | 日志内容 |
-| `...args` | `any`[] | 内容参数 |
+| `message` | `string` | {string} 日志内容 |
+| `...args` | `any`[] | {...any=} 内容参数 |
 
 #### Returns
 
@@ -205,8 +205,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` | 日志内容 |
-| `...args` | `any`[] | 内容参数 |
+| `message` | `string` | {string} 日志内容 |
+| `...args` | `any`[] | {...any=} 内容参数 |
 
 #### Returns
 
@@ -224,8 +224,8 @@ ___
 
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
-| `key` | `string` | `undefined` | 计时器标识 |
-| `level` | [`Level`](../#level) | `'debug'` | 日志级别，支持 debug、info、warn、error |
+| `key` | `string` | `undefined` | {string} 计时器标识 |
+| `level` | [`Level`](../#level) | `'debug'` | [string=debug] 日志级别，支持 debug、info、warn、error |
 
 #### Returns
 
@@ -243,9 +243,9 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `string` | 计时器标识 |
-| `message` | `string` | 日志内容 |
-| `...args` | `any`[] | 内容参数 |
+| `key` | `string` | {string} 计时器标识 |
+| `message` | `string` | {string} 日志内容 |
+| `...args` | `any`[] | {...any=} 内容参数 |
 
 #### Returns
 
@@ -263,8 +263,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` | 日志内容 |
-| `...args` | `any`[] | 内容参数 |
+| `message` | `string` | {string} 日志内容 |
+| `...args` | `any`[] | {...any=} 内容参数 |
 
 #### Returns
 

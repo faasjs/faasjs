@@ -16,7 +16,7 @@ FaasJS's Redis plugin.
 
 - [Redis](classes/Redis.md)
 
-### Type aliases
+### Type Aliases
 
 - [RedisConfig](#redisconfig)
 
@@ -29,7 +29,7 @@ FaasJS's Redis plugin.
 - [setJSON](#setjson)
 - [useRedis](#useredis)
 
-## Type aliases
+## Type Aliases
 
 ### RedisConfig
 

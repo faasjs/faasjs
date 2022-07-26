@@ -16,7 +16,7 @@ FaasJS's function module.
 
 - [Func](classes/Func.md)
 
-### Type aliases
+### Type Aliases
 
 - [Config](#config)
 - [DeployData](#deploydata)
@@ -36,7 +36,7 @@ FaasJS's function module.
 - [useFunc](#usefunc)
 - [usePlugin](#useplugin)
 
-## Type aliases
+## Type Aliases
 
 ### Config
 
@@ -239,10 +239,10 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `type` | `string` |
 | `onDeploy?` | (`data`: [`DeployData`](#deploydata), `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
-| `onInvoke?` | (`data`: [`InvokeData`](#invokedata)<`any`, `any`, `any`\>, `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
+| `onInvoke?` | (`data`: [`InvokeData`](#invokedata), `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
 | `onMount?` | (`data`: [`MountData`](#mountdata), `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
+| `type` | `string` |
 
 ___
 

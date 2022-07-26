@@ -37,9 +37,9 @@
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | `Object` | 配置 |
-| `config.config?` | [`MongoConfig`](../interfaces/MongoConfig.md) | 数据库配置 |
-| `config.name?` | `string` | 配置名 |
+| `config?` | `Object` | {object} 配置 |
+| `config.config?` | [`MongoConfig`](../interfaces/MongoConfig.md) | {object} 数据库配置 |
+| `config.name?` | `string` | {string} 配置名 |
 
 ## Properties
 

@@ -55,7 +55,7 @@
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config` | [`FuncConfig`](../#funcconfig)<`TEvent`, `TContext`, `any`\> | 配置项 |
+| `config` | [`FuncConfig`](../#funcconfig)<`TEvent`, `TContext`, `any`\> | {object} 配置项 |
 
 ## Properties
 
@@ -134,7 +134,7 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `data` | [`DeployData`](../#deploydata) | 代码包信息 |
+| `data` | [`DeployData`](../#deploydata) | {object} 代码包信息 |
 
 #### Returns
 
@@ -174,7 +174,7 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `data` | [`InvokeData`](../#invokedata)<`TEvent`, `TContext`, `TResult`\> | 执行信息 |
+| `data` | [`InvokeData`](../#invokedata)<`TEvent`, `TContext`, `TResult`\> | {object} 执行信息 |
 
 #### Returns
 

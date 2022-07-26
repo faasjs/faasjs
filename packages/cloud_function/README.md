@@ -16,7 +16,7 @@ A FaasJS plugin, let function could create, config and invoke CloudFunction.
 
 - [CloudFunction](classes/CloudFunction.md)
 
-### Type aliases
+### Type Aliases
 
 - [CloudFunctionAdapter](#cloudfunctionadapter)
 - [CloudFunctionConfig](#cloudfunctionconfig)
@@ -27,7 +27,7 @@ A FaasJS plugin, let function could create, config and invoke CloudFunction.
 - [invokeSync](#invokesync)
 - [useCloudFunction](#usecloudfunction)
 
-## Type aliases
+## Type Aliases
 
 ### CloudFunctionAdapter
 
@@ -85,9 +85,9 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `name` | `string` | 云函数文件名或云函数名 |
-| `data?` | `TData` | 参数 |
-| `options?` | `Object` | 额外配置项 |
+| `name` | `string` | {string} 云函数文件名或云函数名 |
+| `data?` | `TData` | {any} 参数 |
+| `options?` | `Object` | {object} 额外配置项 |
 
 #### Returns
 
@@ -112,9 +112,9 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `name` | `string` | 云函数文件名或云函数名 |
-| `data?` | `TData` | 参数 |
-| `options?` | `Object` | 额外配置项 |
+| `name` | `string` | {string} 云函数文件名或云函数名 |
+| `data?` | `TData` | {any} 参数 |
+| `options?` | `Object` | {object} 额外配置项 |
 
 #### Returns
 

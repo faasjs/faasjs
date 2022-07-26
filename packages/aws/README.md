@@ -12,11 +12,11 @@ Amazon Web Services (AWS) Adapter for FaasJS.
 
 - [Provider](classes/Provider.md)
 
-### Type aliases
+### Type Aliases
 
 - [AWSConfig](#awsconfig)
 
-## Type aliases
+## Type Aliases
 
 ### AWSConfig
 

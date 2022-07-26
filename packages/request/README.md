@@ -12,7 +12,7 @@ FaasJS's request module.
 
 ## Modules
 
-### Type aliases
+### Type Aliases
 
 - [Request](#request)
 - [RequestOptions](#requestoptions)
@@ -24,7 +24,7 @@ FaasJS's request module.
 - [request](#request-1)
 - [setMock](#setmock)
 
-## Type aliases
+## Type Aliases
 
 ### Request
 
@@ -52,17 +52,17 @@ ___
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `agent?` | `boolean` | - |
-| `auth?` | `string` | HTTP 认证头，格式为 user:password |
-| `body?` | { `[key: string]`: `any`;  } \| `string` | 请求体 |
-| `downloadStream?` | `NodeJS.WritableStream` | 下载流，用于直接将响应内容保存到本地文件，通过 fs.createWriteStream 创建 |
-| `file?` | `string` | 上传文件的完整路径 |
-| `headers?` | `http.OutgoingHttpHeaders` | 请求头 |
-| `method?` | `string` | 请求方法，默认为 GET |
+| `auth?` | `string` | The authentication credentials to use for the request.  Format: `username:password` |
+| `body?` | { `[key: string]`: `any`;  } \| `string` | - |
+| `downloadStream?` | `NodeJS.WritableStream` | Create a write stream to download a file. |
+| `file?` | `string` | Path of uploading a file to the server. |
+| `headers?` | `http.OutgoingHttpHeaders` | - |
+| `method?` | `string` | The HTTP method to use when making the request. Defaults to GET. |
+| `parse?` | (`body`: `string`) => `any` | Body parser. Defaults to `JSON.parse`. |
 | `passphrase?` | `string` | - |
 | `pfx?` | `Buffer` | - |
-| `query?` | { `[key: string]`: `any`;  } | 请求参数，放置于 path 后，若需放置在 body 中，请使用 body 参数 |
-| `timeout?` | `number` | 最长耗时，单位为毫秒 |
-| `parse?` | (`body`: `string`) => `any` | body 解析器，默认为 JSON.parse |
+| `query?` | { `[key: string]`: `any`;  } | - |
+| `timeout?` | `number` | - |
 
 ___
 
@@ -106,11 +106,13 @@ ___
 
 ### request
 
-▸ **request**<`T`\>(`url`, `[options={}]?`): `Promise`<[`Response`](#response)<`T`\>\>
+▸ **request**<`T`\>(`url`, `options?`): `Promise`<[`Response`](#response)<`T`\>\>
 
-发起网络请求
+Request
 
-**`url`** https://faasjs.com/doc/request.html
+**`Url`**
+
+https://faasjs.com/doc/request.html
 
 #### Type parameters
 
@@ -122,8 +124,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `url` | `string` | 请求路径或完整网址 |
-| `[options={}]` | [`RequestOptions`](#requestoptions) | 参数和配置 |
+| `url` | `string` | Url |
+| `options?` | [`RequestOptions`](#requestoptions) | Options |
 
 #### Returns
 
@@ -135,15 +137,19 @@ ___
 
 ▸ **setMock**(`handler`): `void`
 
-设置模拟请求
+Mock requests
 
-**`example`** setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
+**`Example`**
+
+```ts
+setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
+```
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `handler` | `Mock` | 模拟函数，若设置为 null 则表示清除模拟函数 |
+| `handler` | `Mock` | {function \| null} null to disable mock |
 
 #### Returns
 

@@ -11,7 +11,7 @@ let request: {
   headers?: HeadersInit
 } = {}
 
-const defaultMock = async (url:RequestInfo, options: RequestInit) => {
+const defaultMock = async (url: RequestInfo | URL, options: RequestInit) => {
   request = {
     url: url as string,
     method: options.method,
@@ -59,7 +59,7 @@ describe('client', function () {
   })
 
   it('when error', async function () {
-    window.fetch = jest.fn(async (url:RequestInfo, options: RequestInit) => {
+    window.fetch = jest.fn(async (url: RequestInfo | URL, options: RequestInit) => {
       request = {
         url: url as string,
         method: options.method,

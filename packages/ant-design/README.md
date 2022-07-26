@@ -41,7 +41,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 - [Form](modules/Form.md)
 
-### Type aliases
+### Type Aliases
 
 - [BaseItemProps](#baseitemprops)
 - [BaseOption](#baseoption)
@@ -76,7 +76,6 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 - [ConfigContext](#configcontext)
 - [DatePicker](#datepicker)
-- [TimePicker](#timepicker)
 
 ### Functions
 
@@ -88,13 +87,14 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [FormItem](#formitem)
 - [Routes](#routes)
 - [Table](#table)
+- [TimePicker](#timepicker)
 - [Title](#title)
 - [transferOptions](#transferoptions)
 - [useConfigContext](#useconfigcontext)
 - [useDrawer](#usedrawer)
 - [useModal](#usemodal)
 
-## Type aliases
+## Type Aliases
 
 ### BaseItemProps
 
@@ -143,7 +143,7 @@ ___
 
 ### DescriptionItemProps
 
-Ƭ **DescriptionItemProps**<`T`\>: { `children?`: `JSX.Element` ; `render?`: (`value`: `T`, `values`: `any`) => `string` \| `number` \| `boolean` \| `Element`  } & [`FaasItemProps`](#faasitemprops)
+Ƭ **DescriptionItemProps**<`T`\>: { `children?`: `JSX.Element` ; `render?`: (`value`: `T`, `values`: `any`) => `JSX.Element` \| `string` \| `number` \| `boolean` \| ``null``  } & [`FaasItemProps`](#faasitemprops)
 
 #### Type parameters
 
@@ -187,7 +187,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `children?` | `JSX.Element` \| ``null`` |
-| `render?` | (`value`: `any`, `values`: `any`) => `string` \| `number` \| `boolean` \| `Element` |
+| `render?` | (`value`: `any`, `values`: `any`) => `JSX.Element` \| `string` \| `number` \| `boolean` \| ``null`` |
 
 ___
 
@@ -230,7 +230,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `children?` | `JSX.Element` \| ``null`` |
-| `render?` | (`value`: `any`, `values`: `any`, `index`: `number`) => `string` \| `number` \| `boolean` \| `Element` |
+| `render?` | (`value`: `any`, `values`: `any`, `index`: `number`) => `JSX.Element` \| `string` \| `number` \| `boolean` \| ``null`` |
 
 ___
 
@@ -296,7 +296,7 @@ ___
 
 ### FormItemProps
 
-Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `rules?`: `RuleObject`[] ; `render?`: () => `Element`  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
+Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `render?`: () => `JSX.Element` \| ``null`` ; `rules?`: `RuleObject`[]  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -308,7 +308,7 @@ ___
 
 ### FormProps
 
-Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  } ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\>  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"``\>
+Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\> ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  }  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"``\>
 
 #### Type parameters
 
@@ -353,7 +353,7 @@ ___
 
 ### TableProps
 
-Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`TableItemProps`](#tableitemprops) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue`\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
+Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`TableItemProps`](#tableitemprops) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue` \| ``null``\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
 
 #### Type parameters
 
@@ -436,12 +436,6 @@ ___
 
 • `Const` **DatePicker**: `PickerComponentClass`<`Omit`<`PickerBaseProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {} & `Omit`<`PickerDateProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {} & `Omit`<`PickerTimeProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {}, `unknown`\> & {}
 
-___
-
-### TimePicker
-
-• `Const` **TimePicker**: `ForwardRefExoticComponent`<[`TimePickerProps`](#timepickerprops) & `RefAttributes`<`any`\>\>
-
 ## Functions
 
 ### Blank
@@ -452,9 +446,9 @@ If value is undefined or null, return text, otherwise return value.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `options?` | [`BlankProps`](#blankprops) |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `options?` | [`BlankProps`](#blankprops) | {object} |
 
 #### Returns
 
@@ -490,11 +484,11 @@ Config for @faasjs/ant-design components.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | `Object` |
-| `props.children` | `ReactNode` |
-| `props.config` | `Partial`<[`FaasState`](#faasstate)\> |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | `Object` | {object} |
+| `props.children` | `ReactNode` | - |
+| `props.config` | `Partial`<[`FaasState`](#faasstate)\> | {Partial<FaasState>} |
 
 #### Returns
 
@@ -626,6 +620,24 @@ ___
 #### Returns
 
 `Element`
+
+___
+
+### TimePicker
+
+▸ **TimePicker**(`props`): `ReactElement`<`any`, `string` \| `JSXElementConstructor`<`any`\>\>
+
+**NOTE**: Exotic components are not callable.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`TimePickerProps`](#timepickerprops) & `RefAttributes`<`any`\> |
+
+#### Returns
+
+`ReactElement`<`any`, `string` \| `JSXElementConstructor`<`any`\>\>
 
 ___
 

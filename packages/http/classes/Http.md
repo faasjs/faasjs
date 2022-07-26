@@ -59,7 +59,7 @@
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config?` | [`HttpConfig`](../#httpconfig)<`TParams`, `TCookie`, `TSession`\> | 配置项 |
+| `config?` | [`HttpConfig`](../#httpconfig)<`TParams`, `TCookie`, `TSession`\> | {object} 配置项 |
 
 ## Properties
 
@@ -196,7 +196,7 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `body` | `string` | 内容 |
+| `body` | `string` | {*} 内容 |
 
 #### Returns
 
@@ -214,8 +214,8 @@ ___
 
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
-| `type` | `string` | `undefined` | 类型 |
-| `charset` | `string` | `'utf-8'` | 编码 |
+| `type` | `string` | `undefined` | {string} 类型 |
+| `charset` | `string` | `'utf-8'` | {string} 编码 |
 
 #### Returns
 
@@ -233,8 +233,8 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `string` | key |
-| `value` | `string` | value |
+| `key` | `string` | {string} key |
+| `value` | `string` | {*} value |
 
 #### Returns
 
@@ -252,7 +252,7 @@ ___
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `code` | `number` | 状态码 |
+| `code` | `number` | {number} 状态码 |
 
 #### Returns
 

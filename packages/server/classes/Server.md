@@ -103,9 +103,9 @@ ___
 | :------ | :------ |
 | `req` | `IncomingMessage` |
 | `res` | `Object` |
-| `res.statusCode` | `number` |
 | `res.end` | () => `void` |
 | `res.setHeader` | (`key`: `string`, `value`: `string`) => `void` |
+| `res.statusCode` | `number` |
 | `res.write` | (`body`: `string` \| `Buffer`) => `void` |
 
 #### Returns

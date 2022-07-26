@@ -12,14 +12,14 @@ Type definitions.
 
 ## Modules
 
-### Type aliases
+### Type Aliases
 
 - [FaasAction](#faasaction)
 - [FaasActionPaths](#faasactionpaths)
 - [FaasData](#faasdata)
 - [FaasParams](#faasparams)
 
-## Type aliases
+## Type Aliases
 
 ### FaasAction
 

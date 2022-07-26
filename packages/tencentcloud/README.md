@@ -16,7 +16,7 @@ FaasJS's tencentcloud provider.
 
 - [Provider](classes/Provider.md)
 
-### Type aliases
+### Type Aliases
 
 - [TencentcloudConfig](#tencentcloudconfig)
 
@@ -24,7 +24,7 @@ FaasJS's tencentcloud provider.
 
 - [request](#request)
 
-## Type aliases
+## Type Aliases
 
 ### TencentcloudConfig
 

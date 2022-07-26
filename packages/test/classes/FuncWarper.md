@@ -35,7 +35,11 @@
 
 创建测试实例
 
-**`example`** new TestCase(require.resolve('../demo.flow.ts'))
+**`Example`**
+
+```ts
+new TestCase(require.resolve('../demo.flow.ts'))
+```
 
 #### Parameters
 

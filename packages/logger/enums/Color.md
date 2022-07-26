@@ -2,7 +2,7 @@
 
 ## Table of contents
 
-### Enumeration members
+### Enumeration Members
 
 - [BLACK](Color.md#black)
 - [BLUE](Color.md#blue)
@@ -14,56 +14,56 @@
 - [ORANGE](Color.md#orange)
 - [RED](Color.md#red)
 
-## Enumeration members
+## Enumeration Members
 
 ### BLACK
 
-• **BLACK** = `30`
+• **BLACK** = ``30``
 
 ___
 
 ### BLUE
 
-• **BLUE** = `34`
+• **BLUE** = ``34``
 
 ___
 
 ### CYAN
 
-• **CYAN** = `36`
+• **CYAN** = ``36``
 
 ___
 
 ### DEFAULT
 
-• **DEFAULT** = `39`
+• **DEFAULT** = ``39``
 
 ___
 
 ### GRAY
 
-• **GRAY** = `90`
+• **GRAY** = ``90``
 
 ___
 
 ### GREEN
 
-• **GREEN** = `32`
+• **GREEN** = ``32``
 
 ___
 
 ### MAGENTA
 
-• **MAGENTA** = `35`
+• **MAGENTA** = ``35``
 
 ___
 
 ### ORANGE
 
-• **ORANGE** = `33`
+• **ORANGE** = ``33``
 
 ___
 
 ### RED
 
-• **RED** = `31`
+• **RED** = ``31``

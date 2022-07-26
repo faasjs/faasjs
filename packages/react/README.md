@@ -18,7 +18,7 @@ React plugin for FaasJS.
 - [Response](classes/Response.md)
 - [ResponseError](classes/ResponseError.md)
 
-### Type aliases
+### Type Aliases
 
 - [FaasDataInjection](#faasdatainjection)
 - [FaasDataWrapperProps](#faasdatawrapperprops)
@@ -34,7 +34,7 @@ React plugin for FaasJS.
 - [getClient](#getclient)
 - [useFaas](#usefaas)
 
-## Type aliases
+## Type Aliases
 
 ### FaasDataInjection
 
@@ -98,15 +98,17 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `FaasDataWrapper` | <PathOrData\>(`props`: [`FaasDataWrapperProps`](#faasdatawrapperprops)<`PathOrData`\>) => `Element` |
 | `faas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `params`: `FaasParams`<`PathOrData`\>) => `Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\> |
 | `useFaas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `defaultParams`: `FaasParams`<`PathOrData`\>) => [`FaasDataInjection`](#faasdatainjection)<`FaasData`<`PathOrData`\>\> |
+| `FaasDataWrapper` | <PathOrData\>(`props`: [`FaasDataWrapperProps`](#faasdatawrapperprops)<`PathOrData`\>) => `Element` |
 
 ___
 
 ### Options
 
-Ƭ **Options**: `RequestInit` & { `headers?`: { `[key: string]`: `string`;  } ; `beforeRequest?`: (`__namedParameters`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `void` \| `Promise`<`void`\>  }
+Ƭ **Options**: `RequestInit` & { `beforeRequest?`: (`{
+    action, params, options
+  }`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `Promise`<`void`\> \| `void` ; `headers?`: { `[key: string]`: `string`;  }  }
 
 ___
 
@@ -167,8 +169,8 @@ Before use faas, you should initialize a FaasReactClient.
 | :------ | :------ |
 | `__namedParameters` | `Object` |
 | `__namedParameters.domain` | `string` |
-| `__namedParameters.options?` | [`Options`](#options) |
 | `__namedParameters.onError?` | (`action`: `string`, `params`: `Record`<`string`, `any`\>) => (`res`: [`ResponseError`](classes/ResponseError.md)) => `Promise`<`void`\> |
+| `__namedParameters.options?` | [`Options`](#options) |
 
 #### Returns
 
@@ -198,8 +200,8 @@ Request faas server
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action` | `string` \| `PathOrData` | action name |
-| `params` | `FaasParams`<`PathOrData`\> | action params |
+| `action` | `string` \| `PathOrData` | {string} action name |
+| `params` | `FaasParams`<`PathOrData`\> | {object} action params |
 
 #### Returns
 
@@ -223,7 +225,7 @@ Get FaasReactClient instance
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `domain?` | `string` | empty string for default domain |
+| `domain?` | `string` | {string} empty string for default domain |
 
 #### Returns
 
@@ -253,8 +255,8 @@ Request faas server with React hook
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `action` | `string` \| `PathOrData` | action name |
-| `defaultParams` | `FaasParams`<`PathOrData`\> | initial action params |
+| `action` | `string` \| `PathOrData` | {string} action name |
+| `defaultParams` | `FaasParams`<`PathOrData`\> | {object} initial action params |
 
 #### Returns
 
