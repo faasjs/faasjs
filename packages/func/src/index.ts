@@ -72,7 +72,7 @@ export type MountData = {
   context: any
 }
 
-export type InvokeData<TEvent = any, TContext = any, TResult = any> ={
+export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
   [key: string]: any
   event: TEvent
   context: TContext
@@ -119,7 +119,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     this.logger = new Logger('Func')
 
     this.handler = config.handler
-    this.plugins = config.plugins ?? []
+    this.plugins = config.plugins || []
     this.plugins.push(new RunHandler())
     this.config = {
       providers: Object.create(null),
