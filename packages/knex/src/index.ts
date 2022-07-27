@@ -145,7 +145,7 @@ export class Knex implements Plugin {
   public async raw<TResult = any> (
     sql: string, bindings: K.RawBinding[] | K.ValueDict = []
   ): Promise<K.Raw<TResult>> {
-    if (!this.adapter) throw Error('[Knex] Client not inited.')
+    if (!this.adapter) throw Error('[Knex] Client not initialized.')
 
     return this.adapter.raw<TResult>(sql, bindings)
   }
@@ -153,13 +153,13 @@ export class Knex implements Plugin {
   public async transaction<TResult = any> (
     scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: any
   ): Promise<TResult> {
-    if (!this.adapter) throw Error('[Knex] Client not inited.')
+    if (!this.adapter) throw Error('[Knex] Client not initialized.')
 
     return this.adapter.transaction(scope, config)
   }
 
   public schema (): K.SchemaBuilder {
-    if (!this.adapter) throw Error('[Knex] Client not inited.')
+    if (!this.adapter) throw Error('[Knex] Client not initialized.')
 
     return this.adapter.schema
   }
@@ -182,7 +182,7 @@ export function useKnex (config?: KnexConfig): Knex & UseifyPlugin {
   return usePlugin<Knex>(new Knex(config))
 }
 
-export function query<TName extends K.TableNames> (table: TName) {
+export function query<TName extends K.TableNames> (table: TName | string) {
   return useKnex().query(table)
 }
 
