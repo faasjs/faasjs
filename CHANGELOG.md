@@ -2,6 +2,16 @@
 
 ## Beta
 
+[`v0.0.2-beta.396 (2022-07-27)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.395...v0.0.2-beta.396)
+
+- `@faasjs/knex`
+  - [Fix] Fix query function params's type.
+
+[`v0.0.2-beta.395 (2022-07-26)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.394...v0.0.2-beta.395)
+
+- `@faasjs/request`
+  - [Feature] Add English documents.
+
 [`v0.0.2-beta.394 (2022-05-30)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.393...v0.0.2-beta.394)
 
 - `@faasjs/http`
