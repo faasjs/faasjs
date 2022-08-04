@@ -246,11 +246,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   /**
    * Export the function
    */
-  public export (config?: Config): {
+  public export (): {
     handler: ExportedHandler<TEvent, TContext, TResult>
   } {
-    if (!this.config) this.config = config || Object.create(null)
-
     const handler = async (
       event: TEvent,
       context?: TContext | any,
@@ -300,16 +298,6 @@ export type UseifyPlugin = {
 
 export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & UseifyPlugin {
   if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
-
-  if (plugin.mount == null)
-    plugin.mount = async function ({ config }: { config: Config }) {
-      if (plugin.onMount)
-        await plugin.onMount({
-          config,
-          event: {},
-          context: {}
-        }, async () => await Promise.resolve())
-    }
 
   return plugin
 }
