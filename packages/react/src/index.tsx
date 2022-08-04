@@ -1,5 +1,5 @@
 import {
-  FaasBrowserClient, Options, Response, ResponseError
+  FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
 } from '@faasjs/browser'
 
 import {
@@ -11,8 +11,10 @@ import {
 } from 'react'
 
 export type {
-  FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
-} from '@faasjs/browser'
+  FaasBrowserClient,
+  Options, Response, ResponseHeaders, ResponseError,
+  FaasAction, FaasData, FaasParams
+}
 
 /**
  * Injects FaasData props.
