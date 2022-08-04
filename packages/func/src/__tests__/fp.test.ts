@@ -1,5 +1,5 @@
 import {
-  Plugin, useFunc, usePlugin, InvokeData, Next
+  Plugin, useFunc, usePlugin, InvokeData, Next, MountData
 } from '..'
 
 describe('fp', function () {
@@ -9,6 +9,11 @@ describe('fp', function () {
       public readonly name = 'P'
 
       public async onInvoke (data: InvokeData, next: Next) {
+        data.event.counter++
+        await next()
+      }
+
+      public async onMount (data: MountData, next: Next) {
         data.event.counter++
         await next()
       }
@@ -33,7 +38,11 @@ describe('fp', function () {
 
     const res = await func.export().handler({ counter: 0 })
 
-    expect(res).toEqual(2)
+    expect(res).toEqual(3) // incremented by onMount and onInvoke
+
+    const res2 = await func.export().handler({ counter: 0 })
+
+    expect(res2).toEqual(2) // incremented by onInvoke only
 
     const func2 = useFunc(function () {
       useDemoPlugin()
@@ -43,9 +52,9 @@ describe('fp', function () {
       }
     })
 
-    const res2 = await func2.export().handler({ counter: 0 })
+    const res3 = await func2.export().handler({ counter: 0 })
 
-    expect(res2).toEqual(0)
+    expect(res3).toEqual(1)
   })
 
   it('same plugin with different config', async function () {

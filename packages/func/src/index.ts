@@ -110,10 +110,10 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * 新建流程
-   * @param config {object} 配置项
-   * @param config.plugins {Plugin[]} 插件
-   * @param config.handler {Handler} 业务函数
+   * Create a cloud function
+   * @param config {object} config
+   * @param config.plugins {Plugin[]} plugins list
+   * @param config.handler {Handler} business logic
    */
   constructor (config: FuncConfig<TEvent, TContext>) {
     this.logger = new Logger('Func')
@@ -139,7 +139,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
   }
 
-  public compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
+  private compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
     const logger = new Logger(key)
     let list: CachedFunction[] = []
 
@@ -186,11 +186,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * 发布云资源
-   * @param data {object} 代码包信息
-   * @param data.root {string} 项目根目录
-   * @param data.filename {string} 包括完整路径的流程文件名
-   * @param data.env {string} 环境
+   * Deploy the function
+   * @param data {object} data
+   * @param data.root {string} root path
+   * @param data.filename {string} filename
+   * @param data.env {string} environment
    */
   public deploy (data: DeployData): any {
     this.logger.debug('onDeploy')
@@ -199,7 +199,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * 启动云实例
+   * First time mount the function
    */
   public async mount (data: {
     event: TEvent
@@ -224,11 +224,10 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * 执行云函数
-   * @param data {object} 执行信息
+   * Invoke the function
+   * @param data {object} data
    */
   public async invoke (data: InvokeData<TEvent, TContext, TResult>): Promise<void> {
-    // 实例未启动时执行启动函数
     if (!this.mounted)
       await this.mount({
         event: data.event,
@@ -239,14 +238,13 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     try {
       await this.compose('onInvoke')(data)
     } catch (error: any) {
-      // 执行异常时回传异常
       this.logger.error(error)
       data.response = error
     }
   }
 
   /**
-   * 创建触发函数
+   * Export the function
    */
   public export (config?: Config): {
     handler: ExportedHandler<TEvent, TContext, TResult>
@@ -316,6 +314,27 @@ export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & Usei
   return plugin
 }
 
+/**
+ * ```ts
+ * // pure function
+ * export default useFunc(() => {
+ *   return () => {
+ *     return 'Hello World'
+ *   }
+ * })
+ *
+ * // with http
+ * import { useHttp } from '@faasjs/http'
+ *
+ * export default useFunc(() => {
+ *   const http = useHttp<{ name: string }>()
+ *
+ *   return () => {
+ *     return `Hello ${http.params.name}`
+ *   }
+ * })
+ * ```
+ */
 export function useFunc<TEvent = any, TContext = any, TResult = any> (
   handler: () => Handler<TEvent, TContext, TResult>): Func<TEvent, TContext, TResult>
 {
