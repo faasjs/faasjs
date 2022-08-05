@@ -9,7 +9,6 @@ import {
 import { bundle, NodeBuiltinModules } from '@faasjs/ts-transform'
 
 const FaasPackages = [
-  '@faasjs/aws',
   '@faasjs/cloud_function',
   '@faasjs/deep_merge',
   '@faasjs/deployer',
