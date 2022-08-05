@@ -1,4 +1,6 @@
-import { Redis, useRedis } from '../index'
+import {
+  Redis, useRedis, query, get, set, setJSON, getJSON
+} from '../index'
 import { Func, useFunc } from '@faasjs/func'
 
 describe('redis', function () {
@@ -49,7 +51,7 @@ describe('redis', function () {
         const redis2 = useRedis()
         await redis2.query('set', ['key', 'redis2'])
 
-        return redis1.query('get', ['key'])
+        return query('get', ['key'])
       }
     })
 
@@ -80,6 +82,67 @@ describe('redis', function () {
       plugins: [redis],
       async handler () {
         await redis.set('key', 'value')
+        return redis.get('key')
+      }
+    })
+
+    expect(await func.export().handler({})).toEqual('value')
+  })
+
+  it('get & set with fp', async function () {
+    const func = useFunc(function () {
+      useRedis()
+
+      return async function () {
+        await set('key', 'value')
+        return get('key')
+      }
+    })
+
+    expect(await func.export().handler({})).toEqual('value')
+  })
+
+  it('getJSON & setJSON', async function () {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler () {
+        await redis.setJSON('key', {})
+        return redis.getJSON('key')
+      }
+    })
+
+    expect(await func.export().handler({})).toEqual({})
+  })
+
+  it('getJSON & setJSON with fp', async function () {
+    const func = useFunc(function () {
+      useRedis()
+
+      return async function () {
+        await setJSON('key', {})
+        return getJSON('key')
+      }
+    })
+
+    expect(await func.export().handler({})).toEqual({})
+  })
+
+  it('set with options', async function () {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler () {
+        await redis.set('key', 'value', { EX: 1 })
+        await redis.set('key', 'value', { PX: 1 })
+        await redis.set('key', 'value', { EXAT: 1 })
+        await redis.set('key', 'value', { PXAT: 1 })
+        await redis.set('key', 'value', { KEEPTTL: true })
+        await redis.set('key', 'value', { NX: true })
+        await redis.set('key', 'value', { XX: true })
+        await redis.set('key', 'value', { GET: true })
         return redis.get('key')
       }
     })
