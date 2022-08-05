@@ -35,7 +35,7 @@ describe('action', function () {
     files = {}
   })
 
-  it('should work', async function () {
+  it('without example', async function () {
     await action({
       name: 'test',
       example: false
@@ -49,6 +49,34 @@ describe('action', function () {
       'test/tsconfig.json',
       'test/.gitignore',
       'test/.vscode/settings.json',
+    ])
+    expect(files['test/.gitignore']).toEqual(`node_modules/
+tmp/
+coverage/
+*.tmp.js
+`)
+  })
+
+  it('with example', async function () {
+    await action({
+      name: 'test',
+      example: true
+    })
+
+    expect(execs).toEqual(['cd test && npm install', 'cd test && npm exec jest'])
+    expect(dirs).toEqual([
+      'test',
+      'test/.vscode',
+      'test/__tests__',
+    ])
+    expect(Object.keys(files)).toEqual([
+      'test/faas.yaml',
+      'test/package.json',
+      'test/tsconfig.json',
+      'test/.gitignore',
+      'test/.vscode/settings.json',
+      'test/index.func.ts',
+      'test/__tests__/index.test.ts',
     ])
     expect(files['test/.gitignore']).toEqual(`node_modules/
 tmp/

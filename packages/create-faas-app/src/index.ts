@@ -6,12 +6,21 @@ const commander = new Command()
 // 设置命令
 commander
   .storeOptionsAsProperties(false)
+  .allowUnknownOption(true)
   .version('beta')
   .name('create-faas-app')
 
 // 加载命令
 action(commander as Command)
 
-if (!process.env.CI && process.argv[0] !== 'fake') commander.parseAsync(process.argv)
+async function main () {
+  try {
+    if (!process.env.CI && process.argv[0] !== 'fake')
+      await commander.parseAsync(process.argv)
+  } catch (error) {
+    console.error(error)
+    process.exit(1)
+  }
+}
 
-export default commander
+export default main()
