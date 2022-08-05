@@ -70,6 +70,9 @@
     ],
     "setupFilesAfterEnv": [
       "./packages/ant-design/src/__tests__/jest.setup"
-    ]
+    ],
+    "testEnvironmentOptions": {
+      "customExportConditions": ["node", "node-addons"]
+   }
   }
 }

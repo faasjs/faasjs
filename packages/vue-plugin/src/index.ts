@@ -1,4 +1,12 @@
-import { FaasBrowserClient, Options } from '@faasjs/browser'
+import {
+  FaasBrowserClient, Options, FaasBrowserClientAction
+} from '@faasjs/browser'
+
+declare module 'vue' {
+  interface ComponentCustomProperties {
+    $faas: FaasBrowserClientAction
+  }
+}
 
 export type {
   FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
@@ -10,8 +18,9 @@ export type FaasVuePluginOptions = {
 }
 
 export const FaasVuePlugin = {
-  install (Vue: any, options: FaasVuePluginOptions): void {
+  install (app: any, options: FaasVuePluginOptions): void {
     const client = new FaasBrowserClient(options.domain, options.options)
-    Vue.prototype.$faas = client.action
+
+    app.config.globalProperties.$faas = client.action
   }
 }

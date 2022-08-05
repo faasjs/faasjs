@@ -27,7 +27,8 @@
   },
   "devDependencies": {
     "tsup": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@vue/test-utils": "*"
   },
   "engines": {
     "npm": ">=8.0.0"

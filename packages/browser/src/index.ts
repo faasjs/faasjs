@@ -19,6 +19,12 @@ export type ResponseHeaders = {
   [key: string]: string
 }
 
+export type FaasBrowserClientAction = <PathOrData extends FaasAction> (
+  action: PathOrData | string,
+  params?: FaasParams<PathOrData>,
+  options?: Options
+) => Promise<Response<FaasData<PathOrData>>>
+
 /**
  * Response class
  *
