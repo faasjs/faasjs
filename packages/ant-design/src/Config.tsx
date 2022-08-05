@@ -62,17 +62,14 @@ export const ConfigContext = createContext<FaasState>(baseConfig)
 
 /**
  * Config for @faasjs/ant-design components.
- * @param props {object}
- * @param props.config {Partial<FaasState>}
- * @returns {null}
  *
  * ```ts
  * <ConfigProvider config={{
- *  common: {
- *   blank: '空',
- *  },
+ *   common: {
+ *     blank: 'Empty',
+ *   },
  * }}>
- *  <Blank />
+ *   <Blank />
  * </ConfigProvider>
  * ```
  */
