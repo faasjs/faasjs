@@ -8,15 +8,3 @@ Quick way to create a FaasJS project.
 ## Usage
 
     npx create-faas-app
-
-## Modules
-
-### Variables
-
-- [default](#default)
-
-## Variables
-
-### default
-
-• `Const` **default**: `Command`

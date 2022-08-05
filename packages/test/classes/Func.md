@@ -29,7 +29,6 @@
 
 ### Methods
 
-- [compose](Func.md#compose)
 - [deploy](Func.md#deploy)
 - [export](Func.md#export)
 - [invoke](Func.md#invoke)
@@ -41,7 +40,7 @@
 
 • **new Func**<`TEvent`, `TContext`, `TResult`\>(`config`)
 
-新建流程
+Create a cloud function
 
 #### Type parameters
 
@@ -55,7 +54,7 @@
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config` | [`FuncConfig`](../#funcconfig)<`TEvent`, `TContext`, `any`\> | {object} 配置项 |
+| `config` | [`FuncConfig`](../#funcconfig)<`TEvent`, `TContext`, `any`\> | {object} config |
 
 ## Properties
 
@@ -95,46 +94,17 @@ ___
 
 ## Methods
 
-### compose
-
-▸ **compose**(`key`): (`data`: `any`, `next?`: () => `void`) => `any`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `key` | [`LifeCycleKey`](../#lifecyclekey) |
-
-#### Returns
-
-`fn`
-
-▸ (`data`, `next?`): `any`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `data` | `any` |
-| `next?` | () => `void` |
-
-##### Returns
-
-`any`
-
-___
-
 ### deploy
 
 ▸ **deploy**(`data`): `any`
 
-发布云资源
+Deploy the function
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `data` | [`DeployData`](../#deploydata) | {object} 代码包信息 |
+| `data` | [`DeployData`](../#deploydata) | {object} data |
 
 #### Returns
 
@@ -144,15 +114,9 @@ ___
 
 ### export
 
-▸ **export**(`config?`): `Object`
+▸ **export**(): `Object`
 
-创建触发函数
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `config?` | [`Config`](../#config) |
+Export the function
 
 #### Returns
 
@@ -168,13 +132,13 @@ ___
 
 ▸ **invoke**(`data`): `Promise`<`void`\>
 
-执行云函数
+Invoke the function
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `data` | [`InvokeData`](../#invokedata)<`TEvent`, `TContext`, `TResult`\> | {object} 执行信息 |
+| `data` | [`InvokeData`](../#invokedata)<`TEvent`, `TContext`, `TResult`\> | {object} data |
 
 #### Returns
 
@@ -186,7 +150,7 @@ ___
 
 ▸ **mount**(`data`): `Promise`<`void`\>
 
-启动云实例
+First time mount the function
 
 #### Parameters
 

@@ -1,6 +1,7 @@
 import {
   FaasBrowserClient, Options, FaasBrowserClientAction
 } from '@faasjs/browser'
+import type vue from 'vue'
 
 declare module 'vue' {
   interface ComponentCustomProperties {

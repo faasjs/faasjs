@@ -14,7 +14,7 @@ async function build(path) {
 
   if (!pkg.types) return
 
-  await run(`npm run build:doc ${path.replace('/package.json', '/src')} -- --out ${path.replace('/package.json', '/')}`)
+  await run(`npm run build:doc ${path.replace('/package.json', '/src')} -- --tsconfig ${path.replace('/package.json', '/tsconfig.json')} --out ${path.replace('/package.json', '/')}`)
 
   const modules = readFileSync(path.replace('/package.json', '/modules.md'), 'utf8')
     .toString()
@@ -41,6 +41,7 @@ async function build(path) {
 
 async function buildAll() {
   const list = globSync('packages/*/package.json')
+    .filter(path => !['/cli', '/create-faas-app'].includes(path))
 
   for (const name of [
     'browser',

@@ -43,7 +43,7 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 ### query
 
-▸ **query**<`TName`\>(`table`): `QueryBuilder`<`TableType`<`TName`\>, `DeferredKeySelection`<`ResolveTableType`<`TableType`<`TName`\>, ``"base"``\>, `never`, ``false``, {}, ``false``, {}, `never`\>[]\>
+▸ **query**<`TName`\>(`table`): `QueryBuilder`<`any`, `DeferredKeySelection`<`any`, `never`, ``false``, {}, ``false``, {}, `never`\>[]\>
 
 #### Type parameters
 
@@ -55,11 +55,11 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 | Name | Type |
 | :------ | :------ |
-| `table` | `TName` |
+| `table` | `string` \| `TName` |
 
 #### Returns
 
-`QueryBuilder`<`TableType`<`TName`\>, `DeferredKeySelection`<`ResolveTableType`<`TableType`<`TName`\>, ``"base"``\>, `never`, ``false``, {}, ``false``, {}, `never`\>[]\>
+`QueryBuilder`<`any`, `DeferredKeySelection`<`any`, `never`, ``false``, {}, ``false``, {}, `never`\>[]\>
 
 ___
 

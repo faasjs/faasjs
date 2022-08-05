@@ -64,7 +64,7 @@ Request a FaasJS function
 
 | Name | Type |
 | :------ | :------ |
-| `PathOrData` | extends `FaasAction` |
+| `PathOrData` | extends `Record`<`string`, `any`\> |
 
 #### Parameters
 

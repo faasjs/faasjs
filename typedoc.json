@@ -1,12 +1,13 @@
 {
-  "tsconfig": "./tsconfig.typedoc.json",
   "excludePrivate": true,
   "excludeExternals": true,
   "exclude": "**/__tests__/**",
-  "logLevel": "Verbose",
   "plugin": "typedoc-plugin-markdown",
   "githubPages": false,
   "hideBreadcrumbs": true,
   "cleanOutputDir": false,
-  "disableSources": true
+  "disableSources": true,
+  "compilerOptions": {
+    "skipLibCheck": true
+  }
 }

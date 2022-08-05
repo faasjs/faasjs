@@ -56,7 +56,7 @@ ___
 
 ### action
 
-▸ **action**<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`<[`Response`](Response.md)<`FaasData`<`PathOrData`\>\>\>
+▸ **action**<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`<[`Response`](Response.md)<[`FaasData`](../#faasdata)<`PathOrData`\>\>\>
 
 Request a FaasJS function
 
@@ -64,16 +64,16 @@ Request a FaasJS function
 
 | Name | Type |
 | :------ | :------ |
-| `PathOrData` | extends `FaasAction` |
+| `PathOrData` | extends `Record`<`string`, `any`\> |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `action` | `string` \| `PathOrData` | function path |
-| `params?` | `FaasParams`<`PathOrData`\> | function params |
+| `params?` | [`FaasParams`](../#faasparams)<`PathOrData`\> | function params |
 | `options?` | [`Options`](../#options) | request options |
 
 #### Returns
 
-`Promise`<[`Response`](Response.md)<`FaasData`<`PathOrData`\>\>\>
+`Promise`<[`Response`](Response.md)<[`FaasData`](../#faasdata)<`PathOrData`\>\>\>

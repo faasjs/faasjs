@@ -69,4 +69,4 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `install` | (`Vue`: `any`, `options`: [`FaasVuePluginOptions`](#faasvuepluginoptions)) => `void` |
+| `install` | (`app`: `any`, `options`: [`FaasVuePluginOptions`](#faasvuepluginoptions)) => `void` |

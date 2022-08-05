@@ -23,6 +23,7 @@
     "dist"
   ],
   "peerDependencies": {
+    "vue": "*",
     "@faasjs/browser": "^0.0.2-beta.396"
   },
   "devDependencies": {

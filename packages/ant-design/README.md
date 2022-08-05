@@ -478,31 +478,31 @@ ___
 
 ### ConfigProvider
 
-▸ **ConfigProvider**(`props`): `Element`
+▸ **ConfigProvider**(`__namedParameters`): `Element`
 
 Config for @faasjs/ant-design components.
 
+```ts
+<ConfigProvider config={{
+  common: {
+    blank: 'Empty',
+  },
+}}>
+  <Blank />
+</ConfigProvider>
+```
+
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `props` | `Object` | {object} |
-| `props.children` | `ReactNode` | - |
-| `props.config` | `Partial`<[`FaasState`](#faasstate)\> | {Partial<FaasState>} |
+| Name | Type |
+| :------ | :------ |
+| `__namedParameters` | `Object` |
+| `__namedParameters.children` | `ReactNode` |
+| `__namedParameters.config` | `Partial`<[`FaasState`](#faasstate)\> |
 
 #### Returns
 
 `Element`
-
-```ts
-<ConfigProvider config={{
- common: {
-  blank: '空',
- },
-}}>
- <Blank />
-</ConfigProvider>
-```
 
 ___
 

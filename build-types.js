@@ -18,6 +18,7 @@ async function build(path) {
 
 async function buildAll() {
   const list = globSync('packages/*/package.json')
+    .filter(path => !['/cli', '/create-faas-app'].includes(path))
 
   for (const name of [
     'browser',

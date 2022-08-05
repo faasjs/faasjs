@@ -3,7 +3,6 @@
   "version": "0.0.2-beta.396",
   "license": "MIT",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "bin": {
     "create-faas-app": "index.js"
   },

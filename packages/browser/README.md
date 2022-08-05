@@ -20,10 +20,39 @@ Browser plugin for FaasJS.
 
 ### Type Aliases
 
+- [FaasBrowserClientAction](#faasbrowserclientaction)
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
 
 ## Type Aliases
+
+### FaasBrowserClientAction
+
+Ƭ **FaasBrowserClientAction**: <PathOrData\>(`action`: `PathOrData` \| `string`, `params?`: `FaasParams`<`PathOrData`\>, `options?`: [`Options`](#options)) => `Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>
+
+#### Type declaration
+
+▸ <`PathOrData`\>(`action`, `params?`, `options?`): `Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>
+
+##### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `FaasAction` |
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `action` | `PathOrData` \| `string` |
+| `params?` | `FaasParams`<`PathOrData`\> |
+| `options?` | [`Options`](#options) |
+
+##### Returns
+
+`Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>
+
+___
 
 ### Options
 
