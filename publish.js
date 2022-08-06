@@ -12,7 +12,11 @@ async function run(cmd) {
 
 async function publish(path) {
   const pkg = require(__dirname + '/' + path)
+
+  console.log(pkg.name)
+
   await build(path, true)
+
   try {
     await run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
   } catch (error) {
@@ -40,11 +44,14 @@ async function publishAll() {
     'deployer',
     'request',
   ]) {
-    await publish(`packages/${name}/package.json`)
+    // await publish(`packages/${name}/package.json`)
     list.splice(list.indexOf(`packages/${name}/package.json`), 1)
   }
 
-  await Promise.all(list.map(publish))
+  // await Promise.all(list.map(publish))
+  for (const item of list) {
+    await publish(item)
+  }
   await run(`git commit -am 'release ${version}'`)
   await run(`git tag v${version}`)
   await run('git push && git push --tags')

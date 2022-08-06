@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "0.0.2-beta.396",
+  "version": "0.0.2-beta.397",
   "license": "MIT",
   "main": "dist/index.js",
   "bin": {
@@ -17,8 +17,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --format esm,cjs",
-    "build:types": "tsup-node src/index.ts --dts-only"
+    "build": "tsup-node src/index.ts --format esm,cjs"
   },
   "files": [
     "dist",
