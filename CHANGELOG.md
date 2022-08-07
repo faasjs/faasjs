@@ -2,6 +2,11 @@
 
 ## Beta
 
+[`v0.0.2-beta.398 (2022-08-07)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.397...v0.0.2-beta.398)
+
+- `@faasjs/func`
+  - [Fix] usePlugin will add mount automatically.
+
 [`v0.0.2-beta.397 (2022-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.396...v0.0.2-beta.397)
 
 - `@faasjs/aws`
