@@ -49,6 +49,7 @@ describe('action', function () {
       'test/tsconfig.json',
       'test/.gitignore',
       'test/.vscode/settings.json',
+      'test/.vscode/extensions.json',
     ])
     expect(files['test/.gitignore']).toEqual(`node_modules/
 tmp/
@@ -75,6 +76,7 @@ coverage/
       'test/tsconfig.json',
       'test/.gitignore',
       'test/.vscode/settings.json',
+      'test/.vscode/extensions.json',
       'test/index.func.ts',
       'test/__tests__/index.test.ts',
     ])

@@ -30,6 +30,7 @@ export async function action (options: {
       type: 'input',
       name: 'value',
       message: 'Project name',
+      initial: 'faasjs',
       validate: Validator.name
     }).then(res => res.value)
 
@@ -65,8 +66,11 @@ production:
     "test": "jest"
   },
   "dependencies": {
-    "faasjs": "beta",
-    "@faasjs/eslint-config-recommended": "beta"
+    "faasjs": "*"
+  },
+  "devDependencies": {
+    "@faasjs/eslint-config-recommended": "*",
+    "@faasjs/jest": "*"
   },
   "eslintConfig": {
     "extends": [
@@ -126,7 +130,17 @@ coverage/
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "eslint.packageManager": "npm"
-}`)
+}
+`)
+
+  writeFileSync(join(answers.name, '.vscode', 'extensions.json'),
+    `{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "faasjs.faasjs-snippets"
+  ]
+}
+`)
 
   execSync(`cd ${answers.name} && npm install`, { stdio: 'inherit' })
 
