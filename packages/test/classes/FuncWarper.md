@@ -1,6 +1,13 @@
 # Class: FuncWarper
 
-自动化测试用的云函数实例
+Warper for func
+```ts
+import { FuncWarper } from '@faasjs/test'
+
+const func = new FuncWarper(__dirname + '/../demo.func.ts')
+
+expect(await func.handler()).toEqual('Hello, world')
+```
 
 ## Indexable
 
@@ -32,14 +39,6 @@
 ### constructor
 
 • **new FuncWarper**(`initBy`)
-
-创建测试实例
-
-**`Example`**
-
-```ts
-new TestCase(require.resolve('../demo.flow.ts'))
-```
 
 #### Parameters
 

@@ -277,11 +277,13 @@ ___
 
 ▸ **test**(`initBy`): [`FuncWarper`](classes/FuncWarper.md)
 
+A simple way to warp a FaasJs function.
+
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `initBy` | `string` \| [`Func`](classes/Func.md)<`any`, `any`, `any`\> |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `initBy` | `string` \| [`Func`](classes/Func.md)<`any`, `any`, `any`\> | {string \| Func} Full file path or a FaasJs function ```ts import { test } from '@faasjs/test'  text(__dirname + '/../demo.func.ts'))  expect(await test.handler()).toEqual('Hello, world') ``` |
 
 #### Returns
 
