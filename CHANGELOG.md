@@ -2,6 +2,13 @@
 
 ## Beta
 
+[`v0.0.2-beta.399 (2022-08-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.398...v0.0.2-beta.399)
+
+- `create-faas-app`
+  - [Feature] Update script and files.
+- `@faasjs/test`
+  - [Fix] Fix the empty config issue.
+
 [`v0.0.2-beta.398 (2022-08-07)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.397...v0.0.2-beta.398)
 
 - `@faasjs/func`
