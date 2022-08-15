@@ -6,11 +6,17 @@ import { loadConfig } from '@faasjs/load'
 import { Http } from '@faasjs/http'
 import { deepMerge } from '@faasjs/deep_merge'
 
-// 输出 func 的定义以便于测试用例的引用
 export * from '@faasjs/func'
 
 /**
- * 自动化测试用的云函数实例
+ * Warper for func
+ * ```ts
+ * import { FuncWarper } from '@faasjs/test'
+ *
+ * const func = new FuncWarper(__dirname + '/../demo.func.ts')
+ *
+ * expect(await func.handler()).toEqual('Hello, world')
+ * ```
  */
 export class FuncWarper {
   [key: string]: any;
@@ -23,10 +29,13 @@ export class FuncWarper {
   private readonly _handler: ExportedHandler
 
   /**
-   * 创建测试实例
-   * @param file {string} 文件名，必须是完整文件名，建议使用 require.resolve() 来传入
-   * @param func {Func} 云函数实例
-   * @example new TestCase(require.resolve('../demo.flow.ts'))
+   * @param file {string} Full file path
+   * @param func {Func} A FaasJs function
+   * ```ts
+   * import { FuncWarper } from '@faasjs/test'
+   *
+   * new FuncWarper(__dirname + '/../demo.func.ts')
+   * ```
    */
   constructor (initBy: Func)
   constructor (initBy: string)
@@ -39,7 +48,7 @@ export class FuncWarper {
       this.logger.info('Func: [%s] %s', this.staging, this.file)
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       this.func = require(this.file).default
-      this.func.config = loadConfig(process.cwd(), this.file)[this.staging]
+      this.func.config = loadConfig(process.cwd(), this.file)[this.staging] || Object.create(null)
       this.config = this.func.config
     } else {
       this.func = initBy
@@ -139,6 +148,17 @@ export class FuncWarper {
   }
 }
 
+/**
+ * A simple way to warp a FaasJs function.
+ * @param initBy {string | Func} Full file path or a FaasJs function
+ * ```ts
+ * import { test } from '@faasjs/test'
+ *
+ * text(__dirname + '/../demo.func.ts'))
+ *
+ * expect(await test.handler()).toEqual('Hello, world')
+ * ```
+ */
 export function test (initBy: Func | string): FuncWarper {
   const warper = new FuncWarper(initBy as string)
 
