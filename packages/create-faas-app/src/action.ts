@@ -146,31 +146,32 @@ coverage/
 
   if (answers.example) {
     writeFileSync(join(answers.name, 'index.func.ts'),
-      `import { useFunc } from '@faasjs/func';
-import { useHttp } from '@faasjs/http';
+      `import { useFunc } from '@faasjs/func'
+import { useHttp } from '@faasjs/http'
 
 export default useFunc(function () {
-  useHttp();
+  const http useHttp<{ name: string }>()
 
   return async function () {
-    return 'Hello, world';
-  };
-});
+    return 'Hello, ' + http.params.name
+  }
+})
 `)
 
     mkdirSync(join(answers.name, '__tests__'))
     writeFileSync(join(answers.name, '__tests__', 'index.test.ts'),
-      `import { FuncWarper } from '@faasjs/test';
+      `import { test } from '@faasjs/test'
 
 describe('hello', function () {
-  test('should work', async function () {
-    const func = new FuncWarper(require.resolve('../index.func'));
+  it('should work', async function () {
+    const func = test(require.resolve('../index.func'))
 
-    const { data } = await func.JSONhandler<string>({});
+    const { statusCode, data } = await func.JSONhandler<string>({ name: 'world' })
 
-    expect(data).toEqual('Hello, world');
-  });
-});
+    expect(statusCode).toEqual(200)
+    expect(data).toEqual('Hello, world')
+  })
+})
 `)
 
     execSync(`cd ${answers.name} && npm exec jest`, { stdio: 'inherit' })
