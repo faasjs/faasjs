@@ -68,13 +68,13 @@ export default useFunc(function() {
 ```ts
 // __tests__/index.test.ts
 // all unit test file should be ended with .test.ts
-import { FuncWarper } from '@faasjs/test'
+import { test } from '@faasjs/test'
 import Func from '../index.func'
 
 describe('index', function () {
-  test('should work', async function () {
+  it('should work', async function () {
     // wrap the cloud function
-    const func = new FuncWarper(Func);
+    const func = test(Func)
 
     // mock the request
     const { statusCode, data } = await func.JSONhandler()
@@ -83,8 +83,8 @@ describe('index', function () {
     expect(statusCode).toEqual(200)
     // expect the response content is 'Hello, world'
     expect(data).toEqual('Hello, world')
-  });
-});
+  })
+})
 ```
 
 [Official website](https://faasjs.com)
