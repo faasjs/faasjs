@@ -2,6 +2,10 @@
 
 ## Beta
 
+[`v0.0.2-beta.400 (2022-08-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.399...v0.0.2-beta.400)
+- [BreakChanges] Add request_id to all logs.
+- [BreakChanges] Add `node >= 16.0.0` to `package.json`.
+
 [`v0.0.2-beta.399 (2022-08-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.398...v0.0.2-beta.399)
 
 - `create-faas-app`
@@ -17,7 +21,7 @@
 [`v0.0.2-beta.397 (2022-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.396...v0.0.2-beta.397)
 
 - `@faasjs/aws`
-  - [Remove] Remove `@faasjs/aws` package.
+  - [BreakChanges] Remove `@faasjs/aws` package.
 - `@faasjs/react`
   - [Feature] Export more types from `@faasjs/types`.
 - `@faasjs/func`

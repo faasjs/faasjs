@@ -97,6 +97,7 @@ type CachedFunction = {
 }
 
 export class Func<TEvent = any, TContext = any, TResult = any> {
+  [key: string]: any
   public plugins: Plugin[]
   public handler?: Handler<TEvent, TContext, TResult>
   public config: Config
