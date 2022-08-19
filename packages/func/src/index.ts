@@ -97,7 +97,6 @@ type CachedFunction = {
 }
 
 export class Func<TEvent = any, TContext = any, TResult = any> {
-  [key: string]: any;
   public plugins: Plugin[]
   public handler?: Handler<TEvent, TContext, TResult>
   public config: Config
@@ -189,8 +188,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * @param data.env {string} environment
    */
   public deploy (data: DeployData): any {
-    this.logger.debug('onDeploy')
-    this.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))
+    if (!data.logger) data.logger = new Logger('Func')
+
+    data.logger.debug('onDeploy')
+    data.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))
+
     return this.compose('onDeploy')(data)
   }
 
