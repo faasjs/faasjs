@@ -40,8 +40,10 @@ export type HttpConfig<
   name?: string
   config?: {
     [key: string]: any
+    /** POST as default */
     method?: 'BEGIN' | 'GET' | 'POST' | 'DELETE' | 'HEAD' | 'PUT' | 'OPTIONS' | 'TRACE' | 'PATCH' | 'ANY'
     timeout?: number
+    /** file relative path as default */
     path?: string
     ignorePathPrefix?: string
     functionName?: string
@@ -102,30 +104,6 @@ export class Http<TParams extends Record<string, any> = any,
   private validator?: Validator<TParams, TCookie, TSession>
   private readonly logger: Logger
 
-  /**
-   * 创建 Http 插件实例
-   * @param config {object} 配置项
-   * @param config.name {string} 配置名
-   * @param config.config {object} 网关配置
-   * @param config.config.method {string} 请求方法，默认为 POST
-   * @param config.config.path {string} 请求路径，默认为云函数文件路径
-   * @param config.config.ignorePathPrefix {string} 排除的路径前缀，当设置 path 时无效
-   * @param config.config.cookie {object} Cookie 配置
-   * @param config.validator {object} 入参校验配置
-   * @param config.validator.params {object} params 校验配置
-   * @param config.validator.params.whitelist {string} 白名单配置
-   * @param config.validator.params.onError {function} 自定义报错
-   * @param config.validator.params.rules {object} 参数校验规则
-   * @param config.validator.cookie {object} cookie 校验配置
-   * @param config.validator.cookie.whitelist {string} 白名单配置
-   * @param config.validator.cookie.onError {function} 自定义报错
-   * @param config.validator.cookie.rules {object} 参数校验规则
-   * @param config.validator.session {object} session 校验配置
-   * @param config.validator.session.whitelist {string} 白名单配置
-   * @param config.validator.session.onError {function} 自定义报错
-   * @param config.validator.session.rules {object} 参数校验规则
-   * @param config.validator.before {function} 参数校验前自定义函数
-   */
   constructor (config?: HttpConfig<TParams, TCookie, TSession>) {
     this.name = config?.name || this.type
     this.config = ((config?.config)) || Object.create(null)
@@ -142,14 +120,14 @@ export class Http<TParams extends Record<string, any> = any,
 
     await next()
 
-    this.logger.debug('组装网关配置')
+    this.logger.debug('Generate api gateway\'s config')
     this.logger.debug('%j', data)
 
     const config = data.config.plugins ?
       deepMerge(data.config.plugins[this.name || this.type], { config: this.config }) :
       { config: this.config }
 
-    // 根据文件及文件夹名生成路径
+    // generate path from file path
     if (!config.config.path) {
       config.config.path = '/' + data.name?.replace(/_/g, '/').replace(/\/index$/, '')
       if (config.config.path === '/index') config.config.path = '/'
@@ -159,14 +137,12 @@ export class Http<TParams extends Record<string, any> = any,
       }
     }
 
-    this.logger.debug('组装完成 %j', config)
+    this.logger.debug('Api gateway\'s config: %j', config)
 
-    // 引用服务商部署插件
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Provider = require(config.provider.type).Provider
     const provider = new Provider(config.provider.config)
 
-    // 部署网关
     await provider.deploy(this.type, data, config)
   }
 
@@ -233,10 +209,10 @@ export class Http<TParams extends Record<string, any> = any,
     // update session
     this.session.update()
 
-    // 处理 body
+    // generate body
     if (data.response)
+      // generate error response
       if (data.response instanceof Error || data.response.constructor?.name === 'Error') {
-        // 当结果是错误类型时
         this.logger.error(data.response)
         this.response.body = JSON.stringify({ error: { message: data.response.message } })
         try {
@@ -245,16 +221,16 @@ export class Http<TParams extends Record<string, any> = any,
           this.response.statusCode = 500
         }
       } else if (Object.prototype.toString.call(data.response) === '[object Object]' && data.response.statusCode && data.response.headers)
-        // 当返回结果是响应结构体时
+        // for directly response
         this.response = data.response
       else
         this.response.body = JSON.stringify({ data: data.response })
 
-    // 处理 statusCode
+    // generate statusCode
     if (!this.response.statusCode)
       this.response.statusCode = this.response.body ? 200 : 201
 
-    // 处理 headers
+    // generate headers
     this.response.headers = Object.assign({
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': 'no-cache, no-store'
@@ -270,7 +246,7 @@ export class Http<TParams extends Record<string, any> = any,
       return
     }
 
-    // 判断是否需要压缩
+    // determine if the body needs to be compressed
     if (
       data.response.isBase64Encoded ||
       typeof data.response.body !== 'string' ||
@@ -296,14 +272,14 @@ export class Http<TParams extends Record<string, any> = any,
       data.response.isBase64Encoded = true
     } catch (error) {
       console.error(error)
-      // 若压缩失败还原
+      // restore the original body
       data.response.body = originBody
       delete data.response.headers['Content-Encoding']
     }
   }
 
   /**
-   * 设置 header
+   * set header
    * @param key {string} key
    * @param value {*} value
    */
@@ -313,17 +289,20 @@ export class Http<TParams extends Record<string, any> = any,
   }
 
   /**
-   * 设置 Content-Type
+   * set Content-Type
    * @param type {string} 类型
    * @param charset {string} 编码
    */
   public setContentType (type: string, charset: string = 'utf-8'): Http<TParams, TCookie, TSession> {
-    if (ContentType[type]) this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`); else this.setHeader('Content-Type', `${type}; charset=${charset}`)
+    if (ContentType[type])
+      this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`)
+    else
+      this.setHeader('Content-Type', `${type}; charset=${charset}`)
     return this
   }
 
   /**
-   * 设置状态码
+   * set status code
    * @param code {number} 状态码
    */
   public setStatusCode (code: number): Http<TParams, TCookie, TSession> {
@@ -332,7 +311,7 @@ export class Http<TParams extends Record<string, any> = any,
   }
 
   /**
-   * 设置 body
+   * set body
    * @param body {*} 内容
    */
   public setBody (body: string): Http<TParams, TCookie, TSession> {

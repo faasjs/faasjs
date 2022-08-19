@@ -1,5 +1,6 @@
 import { Logger } from '@faasjs/logger'
 import { RunHandler } from './plugins/run_handler'
+import { randomUUID } from 'crypto'
 
 export type Handler<TEvent = any, TContext = any, TResult = any> =
   (data: InvokeData<TEvent, TContext>) => Promise<TResult>
@@ -263,9 +264,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       logger.debug('context: %j', context)
 
       if (typeof context === 'undefined') context = {}
-      if (!context.request_id) context.request_id = new Date().getTime().toString()
+      if (!context.request_id) context.request_id = randomUUID()
       if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000)
       context.callbackWaitsForEmptyEventLoop = false
+
+      logger.label = `[${context.request_id}]`
 
       const data: InvokeData<TEvent, TContext, TResult> = {
         event,

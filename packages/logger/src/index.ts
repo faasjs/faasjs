@@ -30,13 +30,14 @@ const LevelPriority = {
  *
  * ```ts
  * const logger = new Logger()
+ *
  * logger.debug('debug message')
  * logger.info('info message')
  * logger.warn('warn message')
  * logger.error('error message')
  *
  * logger.time('timer name')
- * logger.timeEnd('timer name', 'message') // 'message +1ms'
+ * logger.timeEnd('timer name', 'message') // => 'message +1ms'
  * ```
  */
 export class Logger {
@@ -49,13 +50,12 @@ export class Logger {
   private cachedTimers: any
 
   /**
-   * 初始化日志
-   * @param label {string} 日志前缀
+   * @param label {string} Prefix label
    */
   constructor (label?: string) {
     if (label) this.label = label
 
-    // 当使用 Jest 进行测试且使用 --silent 参数时禁止日志输出
+    // When run with Jest and --silent, logger are not available
     this.silent = !process.env.FaasLog &&
       process.env.npm_config_argv &&
       JSON.parse(process.env.npm_config_argv).original.includes('--silent')
@@ -72,9 +72,8 @@ export class Logger {
   }
 
   /**
-   * 调试级别日志
-   * @param message {string} 日志内容
-   * @param args {...any=} 内容参数
+   * @param message {string} message
+   * @param args {...any=} arguments
    */
   public debug (message: string, ...args: any[]): Logger {
     this.log('debug', message, ...args)
@@ -82,9 +81,8 @@ export class Logger {
   }
 
   /**
-   * 信息级别日志
-   * @param message {string} 日志内容
-   * @param args {...any=} 内容参数
+   * @param message {string} message
+   * @param args {...any=} arguments
    */
   public info (message: string, ...args: any[]): Logger {
     this.log('info', message, ...args)
@@ -92,9 +90,8 @@ export class Logger {
   }
 
   /**
-   * 警告级别日志
-   * @param message {string} 日志内容
-   * @param args {...any=} 内容参数
+   * @param message {string} message
+   * @param args {...any=} arguments
    */
   public warn (message: string, ...args: any[]): Logger {
     this.log('warn', message, ...args)
@@ -102,9 +99,8 @@ export class Logger {
   }
 
   /**
-   * 错误级别日志
-   * @param message {any} 日志内容，可以为 Error 对象
-   * @param args {...any=} 内容参数
+   * @param message {any} message or Error object
+   * @param args {...any=} arguments
    */
   public error (message: string | Error, ...args: any[]): Logger {
     let stack = false;
@@ -121,8 +117,7 @@ export class Logger {
   }
 
   /**
-   * 设置一个计时器
-   * @param key {string} 计时器标识
+   * @param key {string} timer's label
    * @param level [string=debug] 日志级别，支持 debug、info、warn、error
    */
   public time (key: string, level: Level = 'debug'): Logger {
@@ -135,10 +130,9 @@ export class Logger {
   }
 
   /**
-   * 结束计时并显示日志
-   * @param key {string} 计时器标识
-   * @param message {string} 日志内容
-   * @param args {...any=} 内容参数
+   * @param key {string} timer's label
+   * @param message {string} message
+   * @param args {...any=} arguments
    */
   public timeEnd (key: string, message: string, ...args: any[]): Logger {
     if (this.cachedTimers[key]) {
@@ -158,9 +152,8 @@ export class Logger {
   }
 
   /**
-   * 纯输出日志
-   * @param message {string} 日志内容
-   * @param args {...any=} 内容参数
+   * @param message {string} message
+   * @param args {...any=} arguments
    */
   public raw (message: string, ...args: any[]): Logger {
     if (this.silent) return this
@@ -171,9 +164,8 @@ export class Logger {
   }
 
   /**
-   * 文本染色
-   * @param color {number} 颜色代码
-   * @param message {string} 文本内容
+   * @param color {number} color code
+   * @param message {string} message
    */
   public colorfy (color: number, message: string): string {
     return `\u001b[0${color}m${message}\u001b[39m`
