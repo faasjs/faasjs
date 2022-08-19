@@ -30,7 +30,7 @@
 
 ### constructor
 
-• **new Validator**<`TParams`, `TCookie`, `TSession`\>(`config`, `logger`)
+• **new Validator**<`TParams`, `TCookie`, `TSession`\>(`config`)
 
 #### Type parameters
 
@@ -44,12 +44,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `config` | `Object` |
-| `config.before?` | `BeforeOption`<`TParams`, `TCookie`, `TSession`\> |
-| `config.cookie?` | [`ValidatorOptions`](../#validatoroptions)<`TCookie`\> |
-| `config.params?` | [`ValidatorOptions`](../#validatoroptions)<`TParams`\> |
-| `config.session?` | [`ValidatorOptions`](../#validatoroptions)<`TSession`\> |
-| `logger` | `Logger` |
+| `config` | [`ValidatorConfig`](../#validatorconfig)<`TParams`, `TCookie`, `TSession`\> |
 
 ## Properties
 
@@ -79,13 +74,14 @@ ___
 
 ### valid
 
-▸ **valid**(`request`): `Promise`<`void`\>
+▸ **valid**(`request`, `logger`): `Promise`<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `request` | `Request`<`TParams`, `TCookie`, `TSession`\> |
+| `logger` | `Logger` |
 
 #### Returns
 
@@ -95,7 +91,7 @@ ___
 
 ### validContent
 
-▸ **validContent**(`type`, `params`, `baseKey`, `config`): `void`
+▸ **validContent**(`type`, `params`, `baseKey`, `config`, `logger`): `void`
 
 #### Parameters
 
@@ -105,6 +101,7 @@ ___
 | `params` | `Object` |
 | `baseKey` | `string` |
 | `config` | [`ValidatorOptions`](../#validatoroptions)<`Record`<`string`, `any`\>\> |
+| `logger` | `Logger` |
 
 #### Returns
 

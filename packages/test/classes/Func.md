@@ -23,7 +23,6 @@
 - [config](Func.md#config)
 - [filename](Func.md#filename)
 - [handler](Func.md#handler)
-- [logger](Func.md#logger)
 - [mounted](Func.md#mounted)
 - [plugins](Func.md#plugins)
 
@@ -73,12 +72,6 @@ ___
 ### handler
 
 • `Optional` **handler**: [`Handler`](../#handler)<`TEvent`, `TContext`, `TResult`\>
-
-___
-
-### logger
-
-• **logger**: `Logger`
 
 ___
 
@@ -160,6 +153,7 @@ First time mount the function
 | `data.config?` | [`Config`](../#config) |
 | `data.context` | `TContext` |
 | `data.event` | `TEvent` |
+| `data.logger?` | `Logger` |
 
 #### Returns
 

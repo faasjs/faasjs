@@ -25,6 +25,7 @@ Redis 插件
 - [get](Redis.md#get)
 - [getJSON](Redis.md#getjson)
 - [onDeploy](Redis.md#ondeploy)
+- [onInvoke](Redis.md#oninvoke)
 - [onMount](Redis.md#onmount)
 - [query](Redis.md#query)
 - [quit](Redis.md#quit)
@@ -147,6 +148,27 @@ ___
 #### Implementation of
 
 Plugin.onDeploy
+
+___
+
+### onInvoke
+
+▸ **onInvoke**(`data`, `next`): `Promise`<`void`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `data` | `InvokeData`<`any`, `any`, `any`\> |
+| `next` | `Next` |
+
+#### Returns
+
+`Promise`<`void`\>
+
+#### Implementation of
+
+Plugin.onInvoke
 
 ___
 

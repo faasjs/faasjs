@@ -45,8 +45,6 @@
 
 • **new Http**<`TParams`, `TCookie`, `TSession`\>(`config?`)
 
-创建 Http 插件实例
-
 #### Type parameters
 
 | Name | Type |
@@ -57,9 +55,9 @@
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `config?` | [`HttpConfig`](../#httpconfig)<`TParams`, `TCookie`, `TSession`\> | {object} 配置项 |
+| Name | Type |
+| :------ | :------ |
+| `config?` | [`HttpConfig`](../#httpconfig)<`TParams`, `TCookie`, `TSession`\> |
 
 ## Properties
 
@@ -190,7 +188,7 @@ ___
 
 ▸ **setBody**(`body`): [`Http`](Http.md)<`TParams`, `TCookie`, `TSession`\>
 
-设置 body
+set body
 
 #### Parameters
 
@@ -208,7 +206,7 @@ ___
 
 ▸ **setContentType**(`type`, `charset?`): [`Http`](Http.md)<`TParams`, `TCookie`, `TSession`\>
 
-设置 Content-Type
+set Content-Type
 
 #### Parameters
 
@@ -227,7 +225,7 @@ ___
 
 ▸ **setHeader**(`key`, `value`): [`Http`](Http.md)<`TParams`, `TCookie`, `TSession`\>
 
-设置 header
+set header
 
 #### Parameters
 
@@ -246,7 +244,7 @@ ___
 
 ▸ **setStatusCode**(`code`): [`Http`](Http.md)<`TParams`, `TCookie`, `TSession`\>
 
-设置状态码
+set status code
 
 #### Parameters
 

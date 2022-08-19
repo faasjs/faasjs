@@ -16,7 +16,6 @@ Knex 插件
 
 - [adapter](Knex.md#adapter)
 - [config](Knex.md#config)
-- [logger](Knex.md#logger)
 - [name](Knex.md#name)
 - [query](Knex.md#query)
 - [type](Knex.md#type)
@@ -55,12 +54,6 @@ ___
 ### config
 
 • **config**: `Config`<`any`\>
-
-___
-
-### logger
-
-• **logger**: `Logger`
 
 ___
 

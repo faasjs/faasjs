@@ -16,7 +16,6 @@
 - [collection](Mongo.md#collection)
 - [config](Mongo.md#config)
 - [db](Mongo.md#db)
-- [logger](Mongo.md#logger)
 - [name](Mongo.md#name)
 - [type](Mongo.md#type)
 
@@ -86,12 +85,6 @@ ___
 ### db
 
 • **db**: `Db`
-
-___
-
-### logger
-
-• **logger**: `Logger`
 
 ___
 

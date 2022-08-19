@@ -4,13 +4,14 @@ Logger Class
 
 ```ts
 const logger = new Logger()
+
 logger.debug('debug message')
 logger.info('info message')
 logger.warn('warn message')
 logger.error('error message')
 
 logger.time('timer name')
-logger.timeEnd('timer name', 'message') // 'message +1ms'
+logger.timeEnd('timer name', 'message') // => 'message +1ms'
 ```
 
 ## Table of contents
@@ -45,13 +46,11 @@ logger.timeEnd('timer name', 'message') // 'message +1ms'
 
 • **new Logger**(`label?`)
 
-初始化日志
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `label?` | `string` | {string} 日志前缀 |
+| `label?` | `string` | {string} Prefix label |
 
 ## Properties
 
@@ -123,14 +122,12 @@ ___
 
 ▸ **colorfy**(`color`, `message`): `string`
 
-文本染色
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `color` | `number` | {number} 颜色代码 |
-| `message` | `string` | {string} 文本内容 |
+| `color` | `number` | {number} color code |
+| `message` | `string` | {string} message |
 
 #### Returns
 
@@ -142,14 +139,12 @@ ___
 
 ▸ **debug**(`message`, ...`args`): [`Logger`](Logger.md)
 
-调试级别日志
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` | {string} 日志内容 |
-| `...args` | `any`[] | {...any=} 内容参数 |
+| `message` | `string` | {string} message |
+| `...args` | `any`[] | {...any=} arguments |
 
 #### Returns
 
@@ -161,14 +156,12 @@ ___
 
 ▸ **error**(`message`, ...`args`): [`Logger`](Logger.md)
 
-错误级别日志
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` \| `Error` | {any} 日志内容，可以为 Error 对象 |
-| `...args` | `any`[] | {...any=} 内容参数 |
+| `message` | `string` \| `Error` | {any} message or Error object |
+| `...args` | `any`[] | {...any=} arguments |
 
 #### Returns
 
@@ -180,14 +173,12 @@ ___
 
 ▸ **info**(`message`, ...`args`): [`Logger`](Logger.md)
 
-信息级别日志
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` | {string} 日志内容 |
-| `...args` | `any`[] | {...any=} 内容参数 |
+| `message` | `string` | {string} message |
+| `...args` | `any`[] | {...any=} arguments |
 
 #### Returns
 
@@ -199,14 +190,12 @@ ___
 
 ▸ **raw**(`message`, ...`args`): [`Logger`](Logger.md)
 
-纯输出日志
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` | {string} 日志内容 |
-| `...args` | `any`[] | {...any=} 内容参数 |
+| `message` | `string` | {string} message |
+| `...args` | `any`[] | {...any=} arguments |
 
 #### Returns
 
@@ -218,13 +207,11 @@ ___
 
 ▸ **time**(`key`, `level?`): [`Logger`](Logger.md)
 
-设置一个计时器
-
 #### Parameters
 
 | Name | Type | Default value | Description |
 | :------ | :------ | :------ | :------ |
-| `key` | `string` | `undefined` | {string} 计时器标识 |
+| `key` | `string` | `undefined` | {string} timer's label |
 | `level` | [`Level`](../#level) | `'debug'` | [string=debug] 日志级别，支持 debug、info、warn、error |
 
 #### Returns
@@ -237,15 +224,13 @@ ___
 
 ▸ **timeEnd**(`key`, `message`, ...`args`): [`Logger`](Logger.md)
 
-结束计时并显示日志
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `key` | `string` | {string} 计时器标识 |
-| `message` | `string` | {string} 日志内容 |
-| `...args` | `any`[] | {...any=} 内容参数 |
+| `key` | `string` | {string} timer's label |
+| `message` | `string` | {string} message |
+| `...args` | `any`[] | {...any=} arguments |
 
 #### Returns
 
@@ -257,14 +242,12 @@ ___
 
 ▸ **warn**(`message`, ...`args`): [`Logger`](Logger.md)
 
-警告级别日志
-
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `message` | `string` | {string} 日志内容 |
-| `...args` | `any`[] | {...any=} 内容参数 |
+| `message` | `string` | {string} message |
+| `...args` | `any`[] | {...any=} arguments |
 
 #### Returns
 

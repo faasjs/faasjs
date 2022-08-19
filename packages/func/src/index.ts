@@ -200,16 +200,19 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   public async mount (data: {
     event: TEvent
     context: TContext
-    config: Config
-    logger: Logger
+    config?: Config
+    logger?: Logger
   }): Promise<void> {
+    if (!data.logger) data.logger = new Logger('Func')
+
     data.logger.debug('onMount')
     if (this.mounted) {
       data.logger.warn('mount() has been called, skipped.')
       return
     }
 
-    data.config = this.config
+    if (!data.config)
+      data.config = this.config
     try {
       data.logger.time('mount')
       data.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))

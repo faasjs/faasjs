@@ -57,6 +57,7 @@ ___
 | `downloadStream?` | `NodeJS.WritableStream` | Create a write stream to download a file. |
 | `file?` | `string` | Path of uploading a file to the server. |
 | `headers?` | `http.OutgoingHttpHeaders` | - |
+| `logger?` | `Logger` | - |
 | `method?` | `string` | The HTTP method to use when making the request. Defaults to GET. |
 | `parse?` | (`body`: `string`) => `any` | Body parser. Defaults to `JSON.parse`. |
 | `passphrase?` | `string` | - |
