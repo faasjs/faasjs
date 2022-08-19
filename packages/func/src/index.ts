@@ -130,12 +130,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         .find(s => /[^/]\.func\.ts/.test(s))
         .match(/\((.*\.func\.ts).*\)/)[1]
     } catch (error: any) {
-      new Logger('Func').debug(error.message)
+      new Logger('Func').warn(error.message)
     }
   }
 
   private compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
-    const logger = new Logger(key)
     let list: CachedFunction[] = []
 
     if (this.cachedFunctions[key])
@@ -155,6 +154,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
     return async function (data: any, next?: () => void): Promise<any> {
       let index = -1
+      const logger = data?.logger || new Logger()
 
       const dispatch = async function (i: number): Promise<any> {
         if (i <= index) return Promise.reject(Error('next() called multiple times'))
@@ -163,15 +163,15 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         if (i === list.length) fn = next
         if (!fn) return Promise.resolve()
         if (typeof fn.key === 'undefined') fn.key = `UnNamedPlugin#${i}`
-        logger.debug(`[${fn.key as string}] begin`)
+        logger.debug('[%s][%s] begin', fn.key, key)
         logger.time(fn.key)
         try {
           const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)))
-          logger.timeEnd(fn.key, `[${fn.key as string}] end`)
+          logger.timeEnd(fn.key, '[%s][%s] end', fn.key, key)
           return res
         } catch (err) {
-          logger.timeEnd(fn.key, `[${fn.key as string}] failed`)
-          console.error(err)
+          logger.timeEnd(fn.key, '[%s][%s] failed', fn.key, key)
+          logger.error(err)
           return Promise.reject(err)
         }
       }
@@ -262,7 +262,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000)
       context.callbackWaitsForEmptyEventLoop = false
 
-      const logger = new Logger( `[${context.request_id}]`)
+      const logger = new Logger(context.request_id)
       logger.debug('event: %j', event)
       logger.debug('context: %j', context)
 
