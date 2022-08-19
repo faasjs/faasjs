@@ -25,8 +25,8 @@
     "@faasjs/deep_merge": "^0.0.2-beta.399",
     "@swc/core": "*"
   },
-  "devDependencies": {},
   "engines": {
-    "npm": ">=8.0.0"
+    "npm": ">=8.0.0",
+    "node": ">=16.0.0"
   }
 }
