@@ -77,26 +77,19 @@ export class Validator<
   public cookieConfig?: ValidatorOptions<TCookie>
   public sessionConfig?: ValidatorOptions<TSession>
   private request: Request<TParams, TCookie, TSession>
-  private readonly logger: Logger
 
   constructor (
-    config: {
-      params?: ValidatorOptions<TParams>;
-      cookie?: ValidatorOptions<TCookie>;
-      session?: ValidatorOptions<TSession>;
-      before?: BeforeOption<TParams, TCookie, TSession>;
-    },
-    logger: Logger
+    config: ValidatorConfig<TParams, TCookie, TSession>
   ) {
     this.paramsConfig = config.params
     this.cookieConfig = config.cookie
     this.sessionConfig = config.session
     this.before = config.before
-    this.logger = logger
   }
 
   public async valid (
-    request: Request<TParams, TCookie, TSession>
+    request: Request<TParams, TCookie, TSession>,
+    logger: Logger
   ): Promise<void> {
     if (this.before) {
       const result = await this.before(request)
@@ -107,30 +100,32 @@ export class Validator<
     this.request = request
 
     if (this.paramsConfig && request.params) {
-      this.logger.debug('Valid Params')
-      this.validContent('params', request.params, '', this.paramsConfig)
+      logger.debug('Valid Params')
+      this.validContent('params', request.params, '', this.paramsConfig, logger)
     }
 
     if (this.cookieConfig && request.cookie) {
-      this.logger.debug('Valid Cookie')
+      logger.debug('Valid Cookie')
       if (request.cookie == null) throw Error('Not found Cookie')
 
       this.validContent(
         'cookie',
         request.cookie.content,
         '',
-        this.cookieConfig
+        this.cookieConfig,
+        logger,
       )
     }
 
     if (this.sessionConfig && request.session) {
-      this.logger.debug('Valid Session')
+      logger.debug('Valid Session')
       if (request.session == null) throw Error('Not found Session')
       this.validContent(
         'session',
         request.session.content,
         '',
-        this.sessionConfig
+        this.sessionConfig,
+        logger,
       )
     }
   }
@@ -141,7 +136,8 @@ export class Validator<
       [key: string]: any;
     },
     baseKey: string,
-    config: ValidatorOptions
+    config: ValidatorOptions,
+    logger: Logger
   ): void {
     if (config.whitelist) {
       const paramsKeys = Object.keys(params)
@@ -171,7 +167,7 @@ export class Validator<
       // default
       if (rule.default)
         if (type === 'cookie' || type === 'session')
-          this.logger.warn('Cookie and Session not support default rule.')
+          logger.warn('Cookie and Session not support default rule.')
         else if (typeof value === 'undefined' && rule.default) {
           value =
             typeof rule.default === 'function'
@@ -199,7 +195,7 @@ export class Validator<
         // type
         if (rule.type)
           if (type === 'cookie')
-            this.logger.warn('Cookie not support type rule')
+            logger.warn('Cookie not support type rule')
           else {
             let typed = true
             switch (rule.type) {
@@ -269,7 +265,7 @@ export class Validator<
         // nest config
         if (rule.config)
           if (type === 'cookie')
-            this.logger.warn('Cookie not support nest rule.')
+            logger.warn('Cookie not support nest rule.')
           else if (Array.isArray(value))
           // array
 
@@ -278,7 +274,8 @@ export class Validator<
                 type,
                 val,
                 baseKey ? `${baseKey}.${key}.` : `${key}.`,
-                rule.config as ValidatorOptions
+                rule.config as ValidatorOptions,
+                logger,
               )
           else if (typeof value === 'object')
             // object
@@ -286,7 +283,8 @@ export class Validator<
               type,
               value,
               baseKey ? `${baseKey}.${key}.` : `${key}.`,
-              rule.config as ValidatorOptions
+              rule.config as ValidatorOptions,
+              logger,
             )
       }
     }

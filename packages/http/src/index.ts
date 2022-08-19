@@ -102,13 +102,11 @@ export class Http<TParams extends Record<string, any> = any,
   private readonly validatorOptions?: ValidatorConfig<TParams, TCookie, TSession>
   private response?: Response
   private validator?: Validator<TParams, TCookie, TSession>
-  private readonly logger: Logger
 
   constructor (config?: HttpConfig<TParams, TCookie, TSession>) {
     this.name = config?.name || this.type
     this.config = ((config?.config)) || Object.create(null)
     if ((config?.validator)) this.validatorOptions = config.validator
-    this.logger = new Logger(this.name)
 
     this.headers = Object.create(null)
     this.cookie = new Cookie(this.config.cookie || {})
@@ -120,8 +118,9 @@ export class Http<TParams extends Record<string, any> = any,
 
     await next()
 
-    this.logger.debug('Generate api gateway\'s config')
-    this.logger.debug('%j', data)
+    const logger = new Logger(this.name)
+    logger.debug('Generate api gateway\'s config')
+    logger.debug('%j', data)
 
     const config = data.config.plugins ?
       deepMerge(data.config.plugins[this.name || this.type], { config: this.config }) :
@@ -137,7 +136,7 @@ export class Http<TParams extends Record<string, any> = any,
       }
     }
 
-    this.logger.debug('Api gateway\'s config: %j', config)
+    logger.debug('Api gateway\'s config: %j', config)
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Provider = require(config.provider.type).Provider
@@ -147,17 +146,17 @@ export class Http<TParams extends Record<string, any> = any,
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
-    this.logger.debug('[onMount] merge config')
+    data.logger.debug('[onMount] merge config')
     if (data.config.plugins && data.config.plugins[this.name || this.type])
       this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config)
 
-    this.logger.debug('[onMount] prepare cookie & session')
+    data.logger.debug('[onMount] prepare cookie & session')
     this.cookie = new Cookie(this.config.cookie || {})
     this.session = this.cookie.session
 
     if (this.validatorOptions) {
-      this.logger.debug('[onMount] prepare validator')
-      this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions, this.logger)
+      data.logger.debug('[onMount] prepare validator')
+      this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions)
     }
 
     await next()
@@ -171,35 +170,35 @@ export class Http<TParams extends Record<string, any> = any,
 
     if (data.event.body) {
       if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
-        this.logger.debug('[onInvoke] Parse params from json body')
+        data.logger.debug('[onInvoke] Parse params from json body')
         this.params = JSON.parse(data.event.body)
       } else {
-        this.logger.debug('[onInvoke] Parse params from raw body')
+        data.logger.debug('[onInvoke] Parse params from raw body')
         this.params = data.event.body
       }
-      this.logger.debug('[onInvoke] Params: %j', this.params)
+      data.logger.debug('[onInvoke] Params: %j', this.params)
     } else if (data.event.queryString) {
-      this.logger.debug('[onInvoke] Parse params from queryString')
+      data.logger.debug('[onInvoke] Parse params from queryString')
       this.params = data.event.queryString
-      this.logger.debug('[onInvoke] Params: %j', this.params)
+      data.logger.debug('[onInvoke] Params: %j', this.params)
     }
 
     this.cookie.invoke(this.headers.cookie)
     if (this.headers.cookie) {
-      this.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
-      this.logger.debug('[onInvoke] Session: %j', this.session.content)
+      data.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
+      data.logger.debug('[onInvoke] Session: %j', this.session.content)
     }
 
     try {
       if (this.validator) {
-        this.logger.debug('[onInvoke] Valid request')
+        data.logger.debug('[onInvoke] Valid request')
 
         await this.validator.valid({
           headers: this.headers,
           params: this.params,
           cookie: this.cookie,
-          session: this.session
-        })
+          session: this.session,
+        }, data.logger)
       }
       await next()
     } catch (error) {
@@ -213,7 +212,7 @@ export class Http<TParams extends Record<string, any> = any,
     if (data.response)
       // generate error response
       if (data.response instanceof Error || data.response.constructor?.name === 'Error') {
-        this.logger.error(data.response)
+        data.logger.error(data.response)
         this.response.body = JSON.stringify({ error: { message: data.response.message } })
         try {
           this.response.statusCode = data.response.statusCode || 500
@@ -242,7 +241,7 @@ export class Http<TParams extends Record<string, any> = any,
     data.response.originBody = originBody
 
     if (process.env.FaasMode === 'local') {
-      this.logger.debug('[onInvoke] Response: %j', data.response)
+      data.logger.debug('[onInvoke] Response: %j', data.response)
       return
     }
 

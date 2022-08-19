@@ -58,6 +58,7 @@ export type RequestOptions = {
    * Body parser. Defaults to `JSON.parse`.
    */
   parse?: (body: string) => any
+  logger?: Logger
 }
 
 type Mock = (url: string, options: RequestOptions) => Promise<Response>
@@ -129,12 +130,14 @@ export async function request<T = any> (url: string, {
   pfx,
   passphrase,
   agent,
-  parse
+  parse,
+  logger,
 }: RequestOptions = {
   headers: {},
   query: {}
 }): Promise<Response<T>> {
-  const log = new Logger('request')
+  if (!logger)
+    logger = new Logger('request')
 
   if (mock)
     return mock(url, {
@@ -201,7 +204,7 @@ export async function request<T = any> (url: string, {
     options.headers['Content-Length'] = Buffer.byteLength(body as string)
 
   return await new Promise(function (resolve, reject) {
-    log.debug('request %j', {
+    logger.debug('request %j', {
       ...options,
       body
     })
@@ -219,7 +222,7 @@ export async function request<T = any> (url: string, {
         })
         res.on('end', () => {
           const data = Buffer.concat(raw).toString()
-          log.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data)
+          logger.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data)
 
           const response = Object.create(null)
           response.request = options
@@ -232,14 +235,14 @@ export async function request<T = any> (url: string, {
           if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json'))
             try {
               response.body = (parse) ? parse(response.body) : JSON.parse(response.body)
-              log.debug('response.parse JSON')
+              logger.debug('response.parse JSON')
             } catch (error) {
               console.error(error)
             }
 
 
           if (response.statusCode >= 200 && response.statusCode < 400) resolve(response); else {
-            log.debug('response.error %j', response)
+            logger.debug('response.error %j', response)
             reject(response)
           }
         })
@@ -267,11 +270,11 @@ export async function request<T = any> (url: string, {
     }
 
     req.on('error', function (e: Error) {
-      log.timeEnd(url, 'response.error %j', e)
+      logger.timeEnd(url, 'response.error %j', e)
       reject(e)
     })
 
-    log.time(url)
+    logger.time(url)
     req.end()
   })
 }

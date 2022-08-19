@@ -10,7 +10,6 @@ import {
 import {
   Plugin, MountData, Next, DeployData
 } from '@faasjs/func'
-import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
 
 export { ObjectId }
@@ -24,7 +23,6 @@ export class Mongo implements Plugin {
   public type: string = 'mongo'
   public name: string
   public config: MongoConfig
-  public logger: Logger
   public client: MongoClient
   public db: Db
   public collection: <TSchema = any>(
@@ -50,7 +48,6 @@ export class Mongo implements Plugin {
       this.name = this.type
       this.config = Object.create(null)
     }
-    this.logger = new Logger(this.name)
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
@@ -75,7 +72,7 @@ export class Mongo implements Plugin {
 
     if (typeof this.config.loggerLevel === 'undefined') this.config.loggerLevel = 'debug'
 
-    this.logger.debug('connect: %j', this.config)
+    data.logger.debug('[%s] connect: %j', this.name, this.config)
 
     const url = this.config.url
     delete this.config.url

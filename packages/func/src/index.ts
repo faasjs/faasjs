@@ -96,13 +96,10 @@ type CachedFunction = {
   handler: (...args: any) => void
 }
 
-let startedAt = Date.now()
-
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any;
   public plugins: Plugin[]
   public handler?: Handler<TEvent, TContext, TResult>
-  public logger: Logger
   public config: Config
   public mounted: boolean
   public filename?: string
@@ -117,8 +114,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * @param config.handler {Handler} business logic
    */
   constructor (config: FuncConfig<TEvent, TContext>) {
-    this.logger = new Logger('Func')
-
     this.handler = config.handler
     this.plugins = config.plugins || []
     this.plugins.push(new RunHandler())
@@ -136,7 +131,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         .find(s => /[^/]\.func\.ts/.test(s))
         .match(/\((.*\.func\.ts).*\)/)[1]
     } catch (error: any) {
-      this.logger.debug(error.message)
+      new Logger('Func').debug(error.message)
     }
   }
 
@@ -205,22 +200,23 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   public async mount (data: {
     event: TEvent
     context: TContext
-    config?: Config
+    config: Config
+    logger: Logger
   }): Promise<void> {
-    this.logger.debug('onMount')
+    data.logger.debug('onMount')
     if (this.mounted) {
-      this.logger.warn('mount() has been called, skipped.')
+      data.logger.warn('mount() has been called, skipped.')
       return
     }
 
     data.config = this.config
     try {
-      this.logger.time('mount')
-      this.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))
+      data.logger.time('mount')
+      data.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))
       await this.compose('onMount')(data)
       this.mounted = true
     } finally {
-      this.logger.timeEnd('mount', 'mounted')
+      data.logger.timeEnd('mount', 'mounted')
     }
   }
 
@@ -233,13 +229,14 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       await this.mount({
         event: data.event,
         context: data.context,
-        config: data.config
+        config: data.config,
+        logger: data.logger,
       })
 
     try {
       await this.compose('onInvoke')(data)
     } catch (error: any) {
-      this.logger.error(error)
+      data.logger.error(error)
       data.response = error
     }
   }
@@ -255,20 +252,14 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       context?: TContext | any,
       callback?: (...args: any) => any
     ): Promise<TResult> => {
-      const logger = new Logger()
-      if (startedAt) {
-        logger.debug(`Container started +${Date.now() - startedAt}ms`)
-        startedAt = 0
-      }
-      logger.debug('event: %j', event)
-      logger.debug('context: %j', context)
-
       if (typeof context === 'undefined') context = {}
       if (!context.request_id) context.request_id = randomUUID()
       if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000)
       context.callbackWaitsForEmptyEventLoop = false
 
-      logger.label = `[${context.request_id}]`
+      const logger = new Logger( `[${context.request_id}]`)
+      logger.debug('event: %j', event)
+      logger.debug('context: %j', context)
 
       const data: InvokeData<TEvent, TContext, TResult> = {
         event,

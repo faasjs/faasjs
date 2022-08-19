@@ -29,7 +29,6 @@ export class Knex implements Plugin {
   public config: K.Config
   public adapter: K
   public query: K
-  public logger: Logger
 
   /**
    * 创建插件实例
@@ -45,7 +44,6 @@ export class Knex implements Plugin {
       this.name = this.type
       this.config = Object.create(null)
     }
-    this.logger = new Logger(this.name)
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
@@ -57,7 +55,7 @@ export class Knex implements Plugin {
       data.dependencies['better-sqlite3'] = '*'
     else
       data.dependencies[client] = '*'
-    this.logger.debug('add dependencies: ' + client)
+    new Logger(this.name).debug('add dependencies: ' + client)
 
     await next()
   }
@@ -119,23 +117,23 @@ export class Knex implements Plugin {
       .on('query', ({
         sql, __knexQueryUid, bindings
       }) => {
-        this.logger.time(`Knex${__knexQueryUid}`)
-        this.logger.debug('query begin: %s %j', sql, bindings)
+        data.logger.time(`Knex${__knexQueryUid}`)
+        data.logger.debug('[%s] query begin: %s %j', this.name, sql, bindings)
       })
       .on('query-response', (response, {
         sql, __knexQueryUid, bindings
       }) => {
-        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query done: %s %j %j', sql, bindings, response)
+        data.logger.timeEnd(`Knex${__knexQueryUid}`, '[%s] query done: %s %j %j', this.name, sql, bindings, response)
       })
       .on('query-error', (_, {
         __knexQueryUid, sql, bindings
       }) => {
-        this.logger.timeEnd(`Knex${__knexQueryUid}`, 'query failed: %s %j', sql, bindings)
+        data.logger.timeEnd(`Knex${__knexQueryUid}`, '[%s] query failed: %s %j', this.name, sql, bindings)
       })
 
     this.query = this.adapter
 
-    this.logger.debug('connected')
+    data.logger.debug('[%s] connected', this.name)
 
     global.FaasJS_Knex[this.name] = this
 
@@ -153,13 +151,13 @@ export class Knex implements Plugin {
   public async transaction<TResult = any> (
     scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: any
   ): Promise<TResult> {
-    if (!this.adapter) throw Error('[Knex] Client not initialized.')
+    if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
     return this.adapter.transaction(scope, config)
   }
 
   public schema (): K.SchemaBuilder {
-    if (!this.adapter) throw Error('[Knex] Client not initialized.')
+    if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
     return this.adapter.schema
   }

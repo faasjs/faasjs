@@ -1,7 +1,7 @@
 import {
-  Plugin, MountData, Next, usePlugin, UseifyPlugin, DeployData
+  Plugin, MountData, Next, usePlugin, UseifyPlugin, DeployData, InvokeData
 } from '@faasjs/func'
-import { Logger } from '@faasjs/logger'
+import type { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
 import IORedis, { RedisOptions } from 'ioredis'
 
@@ -60,7 +60,6 @@ export class Redis implements Plugin {
 
     this.name = config?.name || this.type
     this.config = (config?.config) || Object.create(null)
-    this.logger = new Logger(this.name)
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {
@@ -70,10 +69,11 @@ export class Redis implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
+    this.logger = data.logger
     if (global.FaasJS_Redis[this.name] && (global.FaasJS_Redis[this.name].adapter)) {
       this.config = global.FaasJS_Redis[this.name].config
       this.adapter = global.FaasJS_Redis[this.name].adapter
-      this.logger.debug('use exists adapter')
+      data.logger.debug('use exists adapter')
     } else {
       const prefix = `SECRET_${this.name.toUpperCase()}_`
 
@@ -89,10 +89,16 @@ export class Redis implements Plugin {
         this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
       this.adapter = new IORedis(this.config)
-      this.logger.debug('connected')
+      data.logger.debug('connected')
 
       global.FaasJS_Redis[this.name] = this
     }
+
+    await next()
+  }
+
+  public async onInvoke (data: InvokeData<any, any, any>, next: Next) {
+    this.logger = data.logger
 
     await next()
   }
@@ -103,7 +109,7 @@ export class Redis implements Plugin {
     if (!this.config) this.config = global.FaasJS_Redis[this.name].config
     if (!this.adapter) this.adapter = global.FaasJS_Redis[this.name].adapter
 
-    this.logger.debug('query begin: %s %j', command, args)
+    this.logger.debug('[%s] query begin: %s %j', this.name, command, args)
     this.logger.time(command)
 
     const cmd = new IORedis.Command(command, args, { replyEncoding: 'utf-8' })
@@ -112,11 +118,11 @@ export class Redis implements Plugin {
 
     return cmd.promise
       .then(data => {
-        this.logger.timeEnd(command, 'query success: %s %j', command, data)
+        this.logger.timeEnd(command, '[%s] query success: %s %j', this.name, command, data)
         return data
       })
       .catch(async (err) => {
-        this.logger.timeEnd(command, 'query fail: %s %j', command, err)
+        this.logger.timeEnd(command, '[%s] query fail: %s %j', this.name, command, err)
         return Promise.reject(err)
       })
   }
