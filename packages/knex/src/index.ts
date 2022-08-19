@@ -1,5 +1,5 @@
 import {
-  Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin
+  Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin, InvokeData
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
@@ -29,6 +29,7 @@ export class Knex implements Plugin {
   public config: K.Config
   public adapter: K
   public query: K
+  private logger: Logger
 
   /**
    * 创建插件实例
@@ -113,30 +114,35 @@ export class Knex implements Plugin {
         (v: string) => parseFloat(v)))
     }
 
-    this.adapter
+    this.query = this.adapter
+
+    this.query
       .on('query', ({
         sql, __knexQueryUid, bindings
       }) => {
-        data.logger.time(`Knex${__knexQueryUid}`)
-        data.logger.debug('[%s] query begin: %s %j', this.name, sql, bindings)
+        this.logger.time(`Knex${__knexQueryUid}`)
+        this.logger.debug('[%s] query begin: %s %j', this.name, sql, bindings)
       })
       .on('query-response', (response, {
         sql, __knexQueryUid, bindings
       }) => {
-        data.logger.timeEnd(`Knex${__knexQueryUid}`, '[%s] query done: %s %j %j', this.name, sql, bindings, response)
+        this.logger.timeEnd(`Knex${__knexQueryUid}`, '[%s] query done: %s %j %j', this.name, sql, bindings, response)
       })
       .on('query-error', (_, {
         __knexQueryUid, sql, bindings
       }) => {
-        data.logger.timeEnd(`Knex${__knexQueryUid}`, '[%s] query failed: %s %j', this.name, sql, bindings)
+        this.logger.timeEnd(`Knex${__knexQueryUid}`, '[%s] query failed: %s %j', this.name, sql, bindings)
       })
-
-    this.query = this.adapter
 
     data.logger.debug('[%s] connected', this.name)
 
     global.FaasJS_Knex[this.name] = this
 
+    await next()
+  }
+
+  public async onInvoke (data: InvokeData<any, any, any>, next: Next) {
+    this.logger = data.logger
     await next()
   }
 
