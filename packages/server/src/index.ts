@@ -214,6 +214,8 @@ export class Server {
 
     this.logger.info('[%s] Listen http://localhost:%s with %s', process.env.FaasEnv, this.opts.port, this.root)
 
+    this.logger.label = null
+
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
 

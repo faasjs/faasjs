@@ -117,11 +117,11 @@ export class Redis implements Plugin {
 
     return cmd.promise
       .then(data => {
-        this.logger.timeEnd(command, '[%s] query success: %s %j', this.name, command, data)
+        this.logger.timeEnd(command, '[%s] query done: %s %j', this.name, command, data)
         return data
       })
       .catch(async (err) => {
-        this.logger.timeEnd(command, '[%s] query fail: %s %j', this.name, command, err)
+        this.logger.timeEnd(command, '[%s] query failed: %s %j', this.name, command, err)
         return Promise.reject(err)
       })
   }

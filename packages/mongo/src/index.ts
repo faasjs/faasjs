@@ -31,12 +31,6 @@ export class Mongo implements Plugin {
     callback?: Callback<Collection<TSchema>>
   ) => Collection<TSchema>
 
-  /**
-   * 创建插件实例
-   * @param config {object} 配置
-   * @param config.name {string} 配置名
-   * @param config.config {object} 数据库配置
-   */
   constructor (config?: {
     name?: string
     config?: MongoConfig
