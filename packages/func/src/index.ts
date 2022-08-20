@@ -305,7 +305,8 @@ export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & Usei
         await plugin.onMount({
           config,
           event: {},
-          context: {}
+          context: {},
+          logger: new Logger(plugin.name),
         }, async () => Promise.resolve())
     }
 

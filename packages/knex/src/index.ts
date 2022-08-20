@@ -62,6 +62,8 @@ export class Knex implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
+    this.logger = data.logger
+
     if (global.FaasJS_Knex[this.name]) {
       this.config = global.FaasJS_Knex[this.name].config
       this.adapter = global.FaasJS_Knex[this.name].adapter
