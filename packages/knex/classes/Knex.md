@@ -23,6 +23,7 @@ Knex 插件
 ### Methods
 
 - [onDeploy](Knex.md#ondeploy)
+- [onInvoke](Knex.md#oninvoke)
 - [onMount](Knex.md#onmount)
 - [quit](Knex.md#quit)
 - [raw](Knex.md#raw)
@@ -101,6 +102,27 @@ Plugin.type
 #### Implementation of
 
 Plugin.onDeploy
+
+___
+
+### onInvoke
+
+▸ **onInvoke**(`data`, `next`): `Promise`<`void`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `data` | `InvokeData`<`any`, `any`, `any`\> |
+| `next` | `Next` |
+
+#### Returns
+
+`Promise`<`void`\>
+
+#### Implementation of
+
+Plugin.onInvoke
 
 ___
 

@@ -30,15 +30,13 @@
 
 • **new Mongo**(`config?`)
 
-创建插件实例
-
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `config?` | `Object` | {object} 配置 |
-| `config.config?` | [`MongoConfig`](../interfaces/MongoConfig.md) | {object} 数据库配置 |
-| `config.name?` | `string` | {string} 配置名 |
+| Name | Type |
+| :------ | :------ |
+| `config?` | `Object` |
+| `config.config?` | [`MongoConfig`](../interfaces/MongoConfig.md) |
+| `config.name?` | `string` |
 
 ## Properties
 

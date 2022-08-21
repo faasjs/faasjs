@@ -2,12 +2,10 @@
 
 FaasJS browser client
 
-Example:
-
 ```ts
-new FaasBrowserClient({
-  baseURL: 'http://localhost:8080'
-})
+const client = new FaasBrowserClient('http://localhost:8080')
+
+await client.action('func', { key: 'value' })
 ```
 
 ## Table of contents
@@ -31,14 +29,12 @@ new FaasBrowserClient({
 
 • **new FaasBrowserClient**(`baseUrl`, `options?`)
 
-Create FaasJS Client
-
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `baseUrl` | `string` |  |
-| `options?` | [`Options`](../#options) | default options |
+| Name | Type |
+| :------ | :------ |
+| `baseUrl` | `string` |
+| `options?` | [`Options`](../#options) |
 
 ## Properties
 
