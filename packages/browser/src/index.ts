@@ -90,24 +90,17 @@ export class ResponseError extends Error {
 
 /**
  * FaasJS browser client
- *
- * Example:
- *
+
  * ```ts
- * new FaasBrowserClient({
- *   baseURL: 'http://localhost:8080'
- * })
+ * const client = new FaasBrowserClient('http://localhost:8080')
+ *
+ * await client.action('func', { key: 'value' })
  * ```
  */
 export class FaasBrowserClient {
   public host: string
   public defaultOptions: Options
 
-  /**
-   * Create FaasJS Client
-   * @param baseUrl
-   * @param options default options
-   */
   constructor (baseUrl: string, options?: Options) {
     if (!baseUrl) throw Error('[FaasJS] baseUrl required')
 
