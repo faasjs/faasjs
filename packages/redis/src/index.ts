@@ -69,6 +69,8 @@ export class Redis implements Plugin {
   }
 
   public async onMount (data: MountData, next: Next): Promise<void> {
+    this.logger = data.logger
+
     if (global.FaasJS_Redis[this.name] && (global.FaasJS_Redis[this.name].adapter)) {
       this.config = global.FaasJS_Redis[this.name].config
       this.adapter = global.FaasJS_Redis[this.name].adapter
