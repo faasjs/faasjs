@@ -1,7 +1,7 @@
-const { viteBundler } = require('vuepress')
-const { defaultTheme } = require('vuepress')
+import { viteBundler, defaultTheme, defineUserConfig } from 'vuepress'
 
-module.exports = {
+export default defineUserConfig({
+  lang: 'en',
   title: 'FaasJS',
   description: 'An Atomic Application Framework based on Typescript.',
   head: [
@@ -284,4 +284,4 @@ module.exports = {
       }
     ],
   ]
-}
+})
