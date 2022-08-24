@@ -48,7 +48,8 @@ const client = new FaasBrowserClient('/')
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      queryFn: async ({ queryKey, pageParam }) => client.action(queryKey, pageParam)
+      queryFn: async ({ queryKey }) => client
+        .action(queryKey[0] as string, queryKey[1] as any)
         .then(data => data.data),
     },
   },

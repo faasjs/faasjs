@@ -188,8 +188,9 @@ export function useKnex (config?: KnexConfig): Knex & UseifyPlugin {
   return usePlugin<Knex>(new Knex(config))
 }
 
-export function query<TName extends K.TableNames> (table: TName | string) {
-  return useKnex().query(table)
+export function query<TResult = any> (table: string): K.QueryBuilder<TResult>
+export function query<TName extends K.TableNames> (table: TName) {
+  return useKnex().query<TName>(table)
 }
 
 export async function transaction<TResult = any> (
