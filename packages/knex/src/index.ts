@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import {
   Plugin, Next, DeployData, MountData, usePlugin, UseifyPlugin, InvokeData
 } from '@faasjs/func'
@@ -20,9 +21,6 @@ if (!global['FaasJS_Knex']) {
   global.FaasJS_Knex = {}
 }
 
-/**
- * Knex 插件
- */
 export class Knex implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
@@ -31,12 +29,6 @@ export class Knex implements Plugin {
   public query: K
   private logger: Logger
 
-  /**
-   * 创建插件实例
-   * @param config {object} 配置
-   * @param config.name {string} 配置名
-   * @param config.config {object} 数据库配置
-   */
   constructor (config?: KnexConfig) {
     if (config) {
       this.name = config.name || this.type
@@ -188,9 +180,37 @@ export function useKnex (config?: KnexConfig): Knex & UseifyPlugin {
   return usePlugin<Knex>(new Knex(config))
 }
 
-export function query<TResult = any> (table: string): K.QueryBuilder<TResult>
-export function query<TName extends K.TableNames> (table: TName) {
-  return useKnex().query<TName>(table)
+export function query<TName extends K.TableNames> (table: TName):
+K.QueryBuilder<K.TableType<TName>, {
+  _base: K.ResolveTableType<K.TableType<TName>, 'base'>
+  _hasSelection: false
+  _keys: never
+  _aliases: {}
+  _single: false
+  _intersectProps: {}
+  _unionProps: never
+}[]>
+export function query<TName extends {} = any, TResult = any[]> (table: string): K.QueryBuilder<TName, TResult>
+export function query<TName extends K.TableNames | {} = any, TResult = any[]>
+(table: TName extends K.TableNames ? TName : string):
+TName extends K.TableNames ? K.QueryBuilder<K.TableType<TName>, {
+  _base: K.ResolveTableType<K.TableType<TName>, 'base'>
+  _hasSelection: false
+  _keys: never
+  _aliases: {}
+  _single: false
+  _intersectProps: {}
+  _unionProps: never
+}[]> : K.QueryBuilder<TName, TResult> {
+  return useKnex().query<TName, TResult>(table) as TName extends K.TableNames ? K.QueryBuilder<K.TableType<TName>, {
+    _base: K.ResolveTableType<K.TableType<TName>, 'base'>
+    _hasSelection: false
+    _keys: never
+    _aliases: {}
+    _single: false
+    _intersectProps: {}
+    _unionProps: never
+  }[]> : K.QueryBuilder<TName, TResult>
 }
 
 export async function transaction<TResult = any> (

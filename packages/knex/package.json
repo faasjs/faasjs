@@ -35,7 +35,8 @@
     "pg": "*",
     "better-sqlite3": "*",
     "tsup": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "tsd": "*"
   },
   "engines": {
     "npm": ">=8.0.0",

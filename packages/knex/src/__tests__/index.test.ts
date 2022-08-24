@@ -1,5 +1,18 @@
 import { Func, useFunc } from '@faasjs/func'
-import { Knex, useKnex } from '..'
+import {
+  Knex, query, useKnex
+} from '..'
+import { expectType, expectNotType } from 'tsd'
+import type { Knex as K } from 'knex'
+import type { Tables } from 'knex/types/tables'
+
+declare module 'knex/types/tables' {
+  interface Tables {
+    test: {
+      id: string
+    }
+  }
+}
 
 describe('Knex', function () {
   afterEach(async function () {
@@ -140,5 +153,36 @@ describe('Knex', function () {
     })
 
     expect(await func.export().handler({})).toEqual([])
+  })
+
+  it('check types', async function () {
+    const func = useFunc(function () {
+      const knex = useKnex({
+        config: {
+          client: 'sqlite3',
+          connection: { filename: ':memory:' }
+        }
+      })
+
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      return async function () {
+        await knex.schema()
+          .createTable('test', function (t) {
+            t.increments('id')
+          })
+          .createTable('testtest', function (t) {
+            t.increments('id')
+          })
+      }
+    })
+    await func.export().handler({})
+
+    expectType<Tables['test'][]>(await query('test'))
+    expectNotType<any[]>(await query('test'))
+
+    expectType<any>(await query('testtest'))
+
+    expectType<{ value: string }>(await query<any, { value: string }>('testtest'))
+    expectNotType<any>(await query<{ value: string }>('testtest'))
   })
 })
