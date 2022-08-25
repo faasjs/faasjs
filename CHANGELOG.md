@@ -2,6 +2,22 @@
 
 ## Beta
 
+[`v0.0.2-beta.404 (2022-08-24)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.403...v0.0.2-beta.404)
+
+- `@faasjs/knex`
+  - [Fix] Fix query's typescript definition.
+
+[`v0.0.2-beta.403 (2022-08-21)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.402...v0.0.2-beta.403)
+
+- `@faasjs/redis`
+  - [Fix] Fix logger.
+
+[`v0.0.2-beta.402 (2022-08-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.400...v0.0.2-beta.402)
+- `@faasjs/func`
+  - [Fix] Fix logger for testing.
+- `@faasjs/knex`
+  - [Fix] Fix logger.
+
 [`v0.0.2-beta.400 (2022-08-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.399...v0.0.2-beta.400)
 - [BreakChanges] Add request_id to all logs.
 - [BreakChanges] Add `node >= 16.0.0` to `package.json`.

@@ -6,6 +6,8 @@
 
 React plugin for FaasJS.
 
+**If you use [SWR](https://swr.vercel.app) or [React Query / TanStack Query](https://tanstack.com/query), please use [`@faasjs/browser`](https://faasjs.com/doc/browser) directly.**
+
 ## Install
 
     npm install @faasjs/react
