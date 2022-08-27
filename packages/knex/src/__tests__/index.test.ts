@@ -3,7 +3,6 @@ import {
   Knex, query, useKnex
 } from '..'
 import { expectType, expectNotType } from 'tsd'
-import type { Knex as K } from 'knex'
 import type { Tables } from 'knex/types/tables'
 
 declare module 'knex/types/tables' {

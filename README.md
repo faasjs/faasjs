@@ -1,7 +1,5 @@
 # FaasJS
 
-[![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Ffaasjs)](https://twitter.com/faasjs)
-
 [![License: MIT](https://img.shields.io/npm/l/faasjs.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE)
 [![NPM Beta Version](https://img.shields.io/npm/v/faasjs/beta.svg)](https://www.npmjs.com/package/faasjs)
 [![Last commit](https://img.shields.io/github/last-commit/faasjs/faasjs)](https://github.com/faasjs/faasjs)
