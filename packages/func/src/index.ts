@@ -335,8 +335,8 @@ export function usePlugin<T extends Plugin> (plugin: T & UseifyPlugin): T & Usei
  * ```
  */
 export function useFunc<TEvent = any, TContext = any, TResult = any> (
-  handler: () => Handler<TEvent, TContext, TResult>): Func<TEvent, TContext, TResult>
-{
+  handler: () => Handler<TEvent, TContext, TResult>
+) {
   plugins = []
 
   const invokeHandler = handler()

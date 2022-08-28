@@ -11,6 +11,8 @@ export type KnexConfig = {
   config?: K.Config
 }
 
+export type { Knex as K } from 'knex'
+
 const Name = 'knex'
 
 declare let global: {
