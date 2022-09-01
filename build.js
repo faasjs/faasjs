@@ -13,10 +13,10 @@ async function run(cmd) {
 async function build(path, dts = false) {
   const pkg = require(__dirname + '/' + path)
   pkg.version = version
-  if (pkg.peerDependencies) {
-    for (const name of Object.keys(pkg.peerDependencies)) {
+  if (pkg.dependencies) {
+    for (const name of Object.keys(pkg.dependencies)) {
       if (name.startsWith('@faasjs/'))
-        pkg.peerDependencies[name] = '^' + version
+        pkg.dependencies[name] = '^' + version
     }
   }
   if (pkg.devDependencies) {

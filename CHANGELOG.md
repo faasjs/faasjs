@@ -2,6 +2,10 @@
 
 ## Beta
 
+[`v0.0.2-beta.405 (2022-09-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.404...v0.0.2-beta.405)
+
+- [Feature] Replace peerDependencies with dependencies.
+
 [`v0.0.2-beta.404 (2022-08-24)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.403...v0.0.2-beta.404)
 
 - `@faasjs/knex`

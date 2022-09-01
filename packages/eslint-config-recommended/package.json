@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-recommended",
-  "version": "0.0.2-beta.404",
+  "version": "0.0.2-beta.405",
   "license": "MIT",
   "main": "index.js",
   "files": [
@@ -16,7 +16,7 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "peerDependencies": {
+  "dependencies": {
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
     "eslint": "*",

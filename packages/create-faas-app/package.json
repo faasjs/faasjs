@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "0.0.2-beta.404",
+  "version": "0.0.2-beta.405",
   "license": "MIT",
   "main": "dist/index.js",
   "bin": {
@@ -23,7 +23,7 @@
     "dist",
     "index.js"
   ],
-  "peerDependencies": {
+  "dependencies": {
     "commander": "*",
     "enquirer": "*",
     "lodash": "*"

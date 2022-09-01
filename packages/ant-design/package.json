@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.2-beta.404",
+  "version": "0.0.2-beta.405",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,13 +22,13 @@
   "files": [
     "dist"
   ],
-  "peerDependencies": {
+  "dependencies": {
     "@ant-design/icons": "*",
     "antd": "*",
     "lodash": "*",
     "react": "*",
     "react-dom": "*",
-    "@faasjs/react": "^0.0.2-beta.404",
+    "@faasjs/react": "^0.0.2-beta.405",
     "react-router-dom": "*",
     "dayjs": "*"
   },
