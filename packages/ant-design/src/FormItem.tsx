@@ -24,6 +24,7 @@ import { BaseItemProps, BaseOption } from '.'
 import { FaasState, useConfigContext } from './Config'
 import { DatePicker } from './DatePicker'
 import { TimePicker } from './TimePicker'
+import dayjs, { Dayjs, isDayjs } from 'dayjs'
 
 type StringProps = {
   type?: 'string'
@@ -150,6 +151,32 @@ function processProps (propsCopy: FormItemProps, config: FaasState) {
   }
 
   return propsCopy
+}
+
+function DateItem (options: DatePickerProps) {
+  const [value, setValue] = useState<Dayjs>()
+
+  useEffect(() => {
+    setValue(options.value && !isDayjs(options.value) ? dayjs(options.value) : null)
+  }, [options.value])
+
+  return <DatePicker
+    { ...options }
+    value={ value }
+  />
+}
+
+function TimeItem (options: TimePickerProps) {
+  const [value, setValue] = useState<Dayjs>()
+
+  useEffect(() => {
+    setValue(options.value && !isDayjs(options.value) ? dayjs(options.value) : null)
+  }, [options.value])
+
+  return <TimePicker
+    { ...options }
+    value={ value }
+  />
 }
 
 /**
@@ -323,11 +350,11 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       </AntdForm.Item>
     case 'date':
       return <AntdForm.Item { ...computedProps }>
-        <DatePicker { ...computedProps.input } />
+        <DateItem { ...computedProps.input } />
       </AntdForm.Item>
     case 'time':
       return <AntdForm.Item { ...computedProps }>
-        <TimePicker { ...computedProps.input } />
+        <TimeItem { ...computedProps.input } />
       </AntdForm.Item>
     case 'object':
       return <>{computedProps.label && <div className='ant-form-item-label'>
