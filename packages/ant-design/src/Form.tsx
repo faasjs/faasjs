@@ -9,7 +9,7 @@ import {
 } from 'react'
 import { useConfigContext } from './Config'
 import {
-  ExtendFormTypeProps, ExtendFormItemProps,
+  ExtendFormTypeProps, ExtendFormItemProps, ExtendTypes,
   FormItem, FormItemProps
 } from './FormItem'
 
@@ -56,9 +56,7 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
   onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
   beforeItems?: JSX.Element | JSX.Element[]
   footer?: JSX.Element | JSX.Element[]
-  extendTypes?: {
-    [type: string]: ExtendFormTypeProps
-  }
+  extendTypes?: ExtendTypes
   children?: ReactNode
 } & Omit<AntdFormProps<Values>, 'onFinish' | 'children'>
 
@@ -66,6 +64,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)
   const [computedProps, setComputedProps] = useState<FormProps<Values>>()
   const config = useConfigContext()
+  const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
 
   useEffect(() => {
     const propsCopy = { ...props }
@@ -125,6 +124,11 @@ export function Form<Values = any> (props: FormProps<Values>) {
       }
     }
 
+    if (propsCopy.extendTypes) {
+      setExtendTypes(propsCopy.extendTypes)
+      delete propsCopy.extendTypes
+    }
+
     setComputedProps(propsCopy)
   }, [])
 
@@ -135,7 +139,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
     {computedProps.items?.map((item: FormItemProps) => <FormItem
       key={ item.id }
       { ...item }
-      extendTypes={ computedProps.extendTypes }
+      extendTypes={ extendTypes }
     />)}
     {computedProps.children}
     {computedProps.submit !== false && <Button

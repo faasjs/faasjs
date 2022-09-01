@@ -98,6 +98,10 @@ export type ExtendFormTypeProps = {
   children?: JSX.Element | null
 }
 
+export type ExtendTypes = {
+  [type: string]: ExtendFormTypeProps
+}
+
 export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
 export type FormItemProps<T = any> = {
@@ -105,9 +109,7 @@ export type FormItemProps<T = any> = {
   render?: () => JSX.Element | null
   rules?: RuleObject[]
   label?: string | false
-  extendTypes?: {
-    [type: string]: ExtendFormTypeProps
-  }
+  extendTypes?: ExtendTypes
 } & FormItemInputProps & FaasItemProps & Omit<AntdFormItemProps<T>, 'children'>
 
 function processProps (propsCopy: FormItemProps, config: FaasState) {
@@ -194,17 +196,24 @@ function TimeItem (options: TimePickerProps) {
  */
 export function FormItem<T = any> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
+  const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const config = useConfigContext()
 
   useEffect(() => {
-    setComputedProps(processProps({ ...props }, config))
+    const propsCopy = { ...props }
+
+    if (propsCopy.extendTypes) {
+      setExtendTypes(propsCopy.extendTypes)
+      delete propsCopy.extendTypes
+    }
+    setComputedProps(processProps(propsCopy, config))
   }, [props])
 
   if (!computedProps) return null
 
-  if (computedProps.extendTypes && computedProps.extendTypes[computedProps.type])
+  if (extendTypes && extendTypes[computedProps.type])
     return <AntdForm.Item { ...computedProps }>
-      { computedProps.extendTypes[computedProps.type].children }
+      { extendTypes[computedProps.type].children }
     </AntdForm.Item>
 
   if (computedProps.children)
