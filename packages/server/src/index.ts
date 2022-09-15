@@ -222,6 +222,25 @@ export class Server {
     this.server = createServer(this.opts.cache
       ? this.processRequest.bind(this)
       : async (req, res) => {
+        // don't lock options request
+        if (req.method === 'OPTIONS') {
+          const headers: {
+            [key: string]: string
+          } = {
+            'Access-Control-Allow-Origin': req.headers.origin || '*',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Methods': 'OPTIONS, POST',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          }
+
+          for (const key in headers)
+            res.setHeader(key, headers[key])
+
+          res.statusCode = 204
+
+          res.end()
+          return
+        }
         if (!self.processing) {
           self.processing = true
           await self.processRequest(req, res)
