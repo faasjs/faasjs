@@ -24,6 +24,25 @@ export type RoutesProps = {
   notFound?: JSX.Element
 }
 
+/**
+ * Routes with lazy loading and 404 page.
+ *
+ * ```tsx
+ * import { lazy } from 'react'
+ * import { BrowserRouter } from 'react-router-dom'
+ *
+ * export function App () {
+ *   return <BrowserRouter>
+ *     <Routes routes={[
+ *       {
+ *         path: '/',
+ *         page: lazy(() => import('./pages/home'))
+ *       }
+ *     ]} />
+ *   </BrowserRouter>
+ * }
+ * ```
+ */
 export function Routes (props: RoutesProps) {
   return <OriginRoutes>{
     props.routes.map(r => <Route
