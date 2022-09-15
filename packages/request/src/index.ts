@@ -237,9 +237,9 @@ export async function request<T = any> (url: string, {
               response.body = (parse) ? parse(response.body) : JSON.parse(response.body)
               logger.debug('response.parse JSON')
             } catch (error) {
+              console.warn('response plain body', response.body)
               console.error(error)
             }
-
 
           if (response.statusCode >= 200 && response.statusCode < 400) resolve(response); else {
             logger.debug('response.error %j', response)

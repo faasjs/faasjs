@@ -225,6 +225,6 @@ export async function transaction<TResult = any> (
 export async function raw<TResult = any> (
   sql: string,
   bindings: K.RawBinding[] | K.ValueDict = []
-): Promise<K.Raw<TResult>> {
+) {
   return useKnex().raw<TResult>(sql, bindings)
 }
