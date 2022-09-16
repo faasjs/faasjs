@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import { useConfigContext } from './Config'
 
-function NotFound () {
+export function PageNotFound () {
   const config = useConfigContext()
 
   return <Result
@@ -57,7 +57,7 @@ export function Routes (props: RoutesProps) {
   }<Route
     key='*'
     path='*'
-    element={ props.notFound || <NotFound /> }
+    element={ props.notFound || <PageNotFound /> }
   />
   </OriginRoutes>
 }

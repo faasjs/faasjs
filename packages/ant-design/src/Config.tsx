@@ -1,5 +1,5 @@
 import {
-  createContext, useContext, CSSProperties
+  createContext, useContext, CSSProperties, useEffect, useState
 } from 'react'
 import { ConfigProviderProps as AntdConfigProviderProps } from 'antd/lib/config-provider'
 import { ConfigProvider as AntdConfigProvider } from 'antd'
@@ -39,7 +39,7 @@ export type ConfigProviderProps = {
 
 const isZH = /^zh/i.test(navigator.language)
 
-const common = isZH ? {
+const zh = {
   lang: 'zh',
   blank: '空',
   all: '全部',
@@ -48,7 +48,9 @@ const common = isZH ? {
   add: '添加',
   delete: '删除',
   required: '必填',
-} : {
+}
+
+const en = {
   lang: 'en',
   blank: 'Empty',
   all: 'All',
@@ -58,6 +60,8 @@ const common = isZH ? {
   delete: 'Delete',
   required: 'is required',
 }
+
+const common = isZH ? zh : en
 
 const baseConfig = {
   antd: {},
@@ -93,7 +97,21 @@ export function ConfigProvider ({
 }: {
   config: ConfigProviderProps
   children: React.ReactNode }) {
-  return <ConfigContext.Provider value={ defaultsDeep(config, baseConfig) }>
+  const [values, setValues] = useState<ConfigProviderProps>(baseConfig)
+
+  useEffect(() => {
+    if (config.lang === 'zh') {
+      setValues(defaultsDeep(config, {
+        lang: 'zh',
+        common: zh,
+        Blank: { text: zh.blank },
+        Form: { submit: { text: zh.submit } },
+      }, baseConfig))
+    } else
+      setValues(values)
+  }, [])
+
+  return <ConfigContext.Provider value={ values }>
     <AntdConfigProvider { ...config.antd }>
       { children }
     </AntdConfigProvider>
