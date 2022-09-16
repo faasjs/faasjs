@@ -21,7 +21,7 @@ import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { useEffect, useState } from 'react'
 import { upperFirst } from 'lodash'
 import { BaseItemProps, BaseOption } from '.'
-import { FaasState, useConfigContext } from './Config'
+import { ConfigProviderProps, useConfigContext } from './Config'
 import { DatePicker } from './DatePicker'
 import { TimePicker } from './TimePicker'
 import dayjs, { Dayjs, isDayjs } from 'dayjs'
@@ -112,7 +112,7 @@ export type FormItemProps<T = any> = {
   extendTypes?: ExtendTypes
 } & FormItemInputProps & FaasItemProps & Omit<AntdFormItemProps<T>, 'children'>
 
-function processProps (propsCopy: FormItemProps, config: FaasState) {
+function processProps (propsCopy: FormItemProps, config: ConfigProviderProps) {
   if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
   if (!propsCopy.label && propsCopy.label !== false) propsCopy.label = propsCopy.title
   if (!propsCopy.name) propsCopy.name = propsCopy.id

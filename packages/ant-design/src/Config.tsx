@@ -1,27 +1,39 @@
-import { createContext, useContext } from 'react'
+import {
+  createContext, useContext, CSSProperties
+} from 'react'
+import { ConfigProviderProps as AntdConfigProviderProps } from 'antd/lib/config-provider'
+import { ConfigProvider as AntdConfigProvider } from 'antd'
+import { defaultsDeep } from 'lodash'
 
-export type FaasState = {
-  lang: string
-  common: {
-    blank: string
-    all: string
-    submit: string
-    pageNotFound: string
-    add: string
-    delete: string
-    required: string
+export type ConfigProviderProps = {
+  antd?: AntdConfigProviderProps
+  lang?: string
+  common?: {
+    blank?: string
+    all?: string
+    submit?: string
+    pageNotFound?: string
+    add?: string
+    delete?: string
+    required?: string
   }
-  Blank: {
-    text: string
+  Blank?: {
+    text?: string
   }
-  Form: {
-    submit: {
-      text: string
+  Form?: {
+    submit?: {
+      text?: string
     }
   }
-  Title: {
-    separator: string
-    suffix: string
+  Title?: {
+    /** ' - ' as default */
+    separator?: string
+    suffix?: string
+  }
+  Link?: {
+    /** '_blank' as default */
+    target?: string
+    style?: CSSProperties
   }
 }
 
@@ -48,6 +60,7 @@ const common = isZH ? {
 }
 
 const baseConfig = {
+  antd: {},
   lang: 'en',
   common,
   Blank: { text: common.blank },
@@ -56,9 +69,10 @@ const baseConfig = {
     separator: ' - ',
     suffix: ''
   },
+  Link: { style: {} }
 }
 
-export const ConfigContext = createContext<FaasState>(baseConfig)
+export const ConfigContext = createContext<ConfigProviderProps>(baseConfig)
 
 /**
  * Config for @faasjs/ant-design components.
@@ -77,13 +91,12 @@ export function ConfigProvider ({
   config,
   children
 }: {
-  config: Partial<FaasState>
+  config: ConfigProviderProps
   children: React.ReactNode }) {
-  return <ConfigContext.Provider value={ {
-    ...baseConfig,
-    ...config
-  } }>
-    {children}
+  return <ConfigContext.Provider value={ defaultsDeep(baseConfig, config) }>
+    <AntdConfigProvider { ...config.antd }>
+      { children }
+    </AntdConfigProvider>
   </ConfigContext.Provider>
 }
 
