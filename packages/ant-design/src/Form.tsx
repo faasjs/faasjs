@@ -105,7 +105,8 @@ export function Form<Values = any> (props: FormProps<Values>) {
       }
     }).to?.action) {
       propsCopy.onFinish = async values => {
-        return await faas((propsCopy.submit as {
+        setLoading(true)
+        return faas((propsCopy.submit as {
           to: {
             action: string
           }
@@ -120,7 +121,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
                 params?: Record<string, any>
               }
             }).to.params
-          } : values)
+          } : values).finally(() => setLoading(false))
       }
     }
 
