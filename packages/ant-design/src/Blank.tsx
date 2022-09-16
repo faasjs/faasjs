@@ -20,10 +20,10 @@ export type BlankProps = {
  * ```
  */
 export function Blank (options?: BlankProps) {
-  const config = useConfigContext()
+  const { Blank } = useConfigContext()
 
   return !options ||
     isNil(options.value) ||
     (Array.isArray(options.value) && !options.value.length) ||
-    options.value === '' ? <Typography.Text disabled>{options?.text || config.Blank.text}</Typography.Text> : options.value
+    options.value === '' ? <Typography.Text disabled>{options?.text || Blank.text}</Typography.Text> : options.value
 }

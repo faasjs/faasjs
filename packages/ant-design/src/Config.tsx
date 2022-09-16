@@ -93,7 +93,7 @@ export function ConfigProvider ({
 }: {
   config: ConfigProviderProps
   children: React.ReactNode }) {
-  return <ConfigContext.Provider value={ defaultsDeep(baseConfig, config) }>
+  return <ConfigContext.Provider value={ defaultsDeep(config, baseConfig) }>
     <AntdConfigProvider { ...config.antd }>
       { children }
     </AntdConfigProvider>
