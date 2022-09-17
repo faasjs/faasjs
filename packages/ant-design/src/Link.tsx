@@ -3,16 +3,27 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useConfigContext } from './Config'
 import { Button, ButtonProps } from 'antd'
 
-export function Link ({
-  href, target, text, children, style, button,
-}: {
+export type LinkProps = {
   href: string
   target?: string
   text?: string | number
   children?: ReactNode
   style?: CSSProperties
   button?:ButtonProps
-}) {
+}
+
+/**
+ * ```ts
+ * // pure link
+ * <Link href="/">Home</Link>
+ *
+ * // link with button
+ * <Link href="/" button={{type:'primary'}}>Home</Link>
+ * ```
+ */
+export function Link ({
+  href, target, text, children, style, button,
+}: LinkProps) {
   const { Link } = useConfigContext()
 
   style = Object.assign({ cursor: 'pointer' }, style)
