@@ -10,7 +10,7 @@ describe('Drawer', () => {
   function App () {
     const drawer = useDrawer({
       title: 'title',
-      visible: true,
+      open: true,
     })
 
     if (!setDrawerProps)
