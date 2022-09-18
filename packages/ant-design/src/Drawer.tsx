@@ -18,7 +18,7 @@ export type setDrawerProps = (changes: Partial<DrawerProps>) => void
  *   const { drawer, setDrawerProps } = useDrawer()
  *
  *   return <>
- *     <Button onClick={ () => setDrawerProps(prev => ({ visible: !prev.visible})) }>
+ *     <Button onClick={ () => setDrawerProps(prev => ({ open: !prev.open})) }>
  *       Toggle
  *     </Button>
  *     {drawer}
@@ -28,10 +28,10 @@ export type setDrawerProps = (changes: Partial<DrawerProps>) => void
  */
 export function useDrawer (init?: DrawerProps) {
   const [props, setProps] = useState<DrawerProps>({
-    visible: false,
+    open: false,
     onClose: () => setProps(prev => ({
       ...prev,
-      visible: false
+      open: false
     })),
     ...init,
   })

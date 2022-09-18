@@ -18,17 +18,17 @@ export type setModalProps = (changes: Partial<ModalProps>) => void
  *   const { modal, setModalProps } = useModal()
  *
  *   return <>
- *     <Button onClick={() => setModalProps({ visible: true })}>Open Modal</Button>
+ *     <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>
  *     {modal}</>
  * }
  * ```
  */
 export function useModal (init?: ModalProps) {
   const [props, setProps] = useState<ModalProps>({
-    visible: false,
+    open: false,
     onCancel: () => setProps(prev => ({
       ...prev,
-      visible: false
+      open: false
     })),
     ...init,
   })
