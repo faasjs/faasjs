@@ -166,7 +166,7 @@ export class CloudFunction implements Plugin {
   }): Promise<void> {
     if (data == null) data = Object.create(null)
 
-    if (process.env.FaasMode === 'local') {
+    if (process.env.FaasMode !== 'remote') {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
       const func = new test.FuncWarper(process.env.FaasRoot + name.toLowerCase() + '.func')
@@ -186,7 +186,7 @@ export class CloudFunction implements Plugin {
   }): Promise<TResult> {
     if (data == null) data = Object.create(null)
 
-    if (process.env.FaasMode === 'local') {
+    if (process.env.FaasMode !== 'remote') {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
       const func = new test.FuncWarper(process.env.FaasRoot + name.toLowerCase() + '.func')

@@ -101,11 +101,11 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   if (typeof computedProps.value === 'undefined' || computedProps.value === null) return null
   switch (computedProps.item.type) {
     case 'string[]':
-      return <>{(computedProps.value as unknown as string[]).join(', ')}</>
+      return <>{(computedProps.value as string[]).join(', ')}</>
     case 'number':
       return computedProps.value as any || null
     case 'number[]':
-      return <>{(computedProps.value as unknown as number[]).join(', ')}</>
+      return <>{(computedProps.value as number[]).join(', ')}</>
     case 'boolean':
       return computedProps.value ? <CheckOutlined style={ {
         marginTop: '4px',
@@ -118,17 +118,17 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
       // check unix timestamp
       return <>
         {(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
-          dayjs.unix(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')
+          dayjs.unix(computedProps.value as number).format('YYYY-MM-DD HH:mm:ss')
           :
-          dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD HH:mm:ss')}
+          dayjs(computedProps.value as any).format('YYYY-MM-DD HH:mm:ss')}
       </>
     case 'date':
       // check unix timestamp
       return <>
         {(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
-          dayjs.unix(computedProps.value as unknown as number).format('YYYY-MM-DD')
+          dayjs.unix(computedProps.value as number).format('YYYY-MM-DD')
           :
-          dayjs(computedProps.value as unknown as number).format('YYYY-MM-DD')}
+          dayjs(computedProps.value as any).format('YYYY-MM-DD')}
       </>
     default:
       return computedProps.value as any || null

@@ -240,7 +240,7 @@ export class Http<TParams extends Record<string, any> = any,
     const originBody = data.response.body
     data.response.originBody = originBody
 
-    if (process.env.FaasMode === 'local') {
+    if (process.env.FaasMode !== 'remote') {
       data.logger.debug('[onInvoke] Response: %j', data.response)
       return
     }
