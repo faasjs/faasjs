@@ -132,10 +132,7 @@ export async function request<T = any> (url: string, {
   agent,
   parse,
   logger,
-}: RequestOptions = {
-  headers: {},
-  query: {}
-}): Promise<Response<T>> {
+}: RequestOptions = { headers: {} }): Promise<Response<T>> {
   if (!logger)
     logger = new Logger('request')
 
@@ -164,7 +161,6 @@ export async function request<T = any> (url: string, {
   const options: {
     method: string
     headers: http.OutgoingHttpHeaders
-    query: http.OutgoingHttpHeaders
     host?: string
     path: string
     port: string
@@ -178,7 +174,6 @@ export async function request<T = any> (url: string, {
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: method ? method.toUpperCase() : 'GET',
     path: uri.pathname + uri.search,
-    query: {},
     port: uri.port,
     timeout,
     auth,
