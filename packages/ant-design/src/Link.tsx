@@ -28,6 +28,29 @@ export function Link ({
 
   style = Object.assign({ cursor: 'pointer' }, style)
 
+  if (href.startsWith('http') || href.startsWith('mailto')) {
+    if (button)
+      return <Button { ...button }>
+        <a
+          href={ href }
+          target={ target || Link?.target }
+          style={ {
+            ...Link.style,
+            ...style || {},
+          } }
+        >{text || children}</a>
+      </Button>
+
+    return <a
+      href={ href }
+      target={ target || Link?.target }
+      style={ {
+        ...Link.style,
+        ...style || {},
+      } }
+    >{text || children}</a>
+  }
+
   if (button)
     return <Button { ...button }>
       <RouterLink
