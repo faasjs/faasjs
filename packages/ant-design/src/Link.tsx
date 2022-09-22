@@ -28,7 +28,7 @@ export function Link ({
 
   style = Object.assign({ cursor: 'pointer' }, style)
 
-  if (href.startsWith('http') || href.startsWith('mailto')) {
+  if (href.startsWith('http')) {
     if (button)
       return <Button { ...button }>
         <a
