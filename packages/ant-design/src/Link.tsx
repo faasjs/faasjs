@@ -33,7 +33,7 @@ export function Link ({
       return <Button { ...button }>
         <a
           href={ href }
-          target={ target || Link?.target }
+          target={ target || Link?.target || '_blank' }
           style={ {
             ...Link.style,
             ...style || {},
@@ -43,7 +43,7 @@ export function Link ({
 
     return <a
       href={ href }
-      target={ target || Link?.target }
+      target={ target || Link?.target || '_blank' }
       style={ {
         ...Link.style,
         ...style || {},
