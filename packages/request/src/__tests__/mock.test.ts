@@ -17,7 +17,7 @@ describe('mock', function () {
 
     await expect(async () => request('/')).rejects.toMatchObject({
       code: 'ERR_INVALID_URL',
-      input: '/?'
+      input: '/'
     })
   })
 })
