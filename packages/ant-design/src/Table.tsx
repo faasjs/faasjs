@@ -132,6 +132,11 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
       }
 
       switch (item.type) {
+        case 'string':
+          item.render = value => processValue(item, value)
+          if (!item.onFilter)
+            item.onFilter = (value: any, row) => row[item.id].includes(value)
+          break
         case 'string[]':
           item.render = value => processValue(item, value).join(', ')
           if (!item.onFilter)
@@ -205,12 +210,16 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         case 'date':
           item.render = value => processValue(item, value)
           if (!item.onFilter)
-            item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
+            item.onFilter = (value: any, row) => dayjs(row[item.id]).isSame(dayjs(value))
+          if (!item.sorter)
+            item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
           break
         case 'time':
           item.render = value => processValue(item, value)
           if (!item.onFilter)
             item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
+          if (!item.sorter)
+            item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
           break
         default:
           item.render = value => processValue(item, value)
