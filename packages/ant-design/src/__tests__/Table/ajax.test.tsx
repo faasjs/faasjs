@@ -45,7 +45,7 @@ describe('Table/ajax', () => {
     expect(await screen.findByText('Test')).toBeInTheDocument()
     expect(await screen.findByText('value1')).toBeInTheDocument()
 
-    userEvent.click(screen.getAllByRole('button')[1])
+    await userEvent.click(screen.getAllByRole('button')[2])
 
     expect(await screen.findByText('value2')).toBeInTheDocument()
   })
