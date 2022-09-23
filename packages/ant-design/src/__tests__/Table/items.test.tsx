@@ -20,6 +20,7 @@ describe('Table/items', () => {
 
     expect(screen.getByText('Test')).toBeInTheDocument()
     expect(screen.getByText('value')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'filter' })).toBeInTheDocument()
   })
 
   describe('options', () => {
@@ -115,25 +116,25 @@ describe('Table/items', () => {
 
       expect(screen.getAllByRole('cell').length).toBe(6)
 
-      await user.click(screen.getByRole('img', { name: 'filter' }))
+      await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
       await user.click(screen.getByRole('radio', { name: 'check' }))
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('true')).toBeInTheDocument()
 
-      await user.click(screen.getByRole('img', { name: 'filter' }))
+      await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
       await user.click(screen.getByRole('radio', { name: 'close' }))
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('false')).toBeInTheDocument()
 
-      await user.click(screen.getByRole('img', { name: 'filter' }))
+      await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
       await user.click(screen.getByRole('radio', { name: 'Empty' }))
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('undefined')).toBeInTheDocument()
 
-      await user.click(screen.getByRole('img', { name: 'filter' }))
+      await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
       await user.click(screen.getByRole('radio', { name: 'All' }))
 
       expect(screen.getAllByRole('cell').length).toBe(6)

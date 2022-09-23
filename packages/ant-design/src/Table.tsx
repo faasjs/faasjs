@@ -14,7 +14,9 @@ import dayjs from 'dayjs'
 import {
   FaasItemProps, transferOptions, BaseItemProps
 } from './data'
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import {
+  CheckOutlined, CloseOutlined, SearchOutlined
+} from '@ant-design/icons'
 import { isNil, upperFirst } from 'lodash'
 import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
 import { Blank } from './Blank'
@@ -134,8 +136,43 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
       switch (item.type) {
         case 'string':
           item.render = value => processValue(item, value)
-          if (!item.onFilter)
+          if (!item.onFilter) {
             item.onFilter = (value: any, row) => row[item.id].includes(value)
+
+            if (item.filterDropdown !== false)
+              item.filterDropdown = ({
+                setSelectedKeys, selectedKeys, confirm, clearFilters
+              }) => (
+                <div style={ { padding: 8 } }>
+                  <input
+                    value={ selectedKeys[0] }
+                    onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
+                    style={ {
+                      width: 188,
+                      marginBottom: 8,
+                      display: 'block'
+                    } }
+                  />
+                  <button
+                    type="button"
+                    onClick={ () => confirm() }
+                    style={ {
+                      width: 90,
+                      marginRight: 8
+                    } }
+                  >
+                    Search
+                  </button>
+                  <button
+                    type="button"
+                    onClick={ () => clearFilters() }
+                    style={ { width: 90 } }
+                  >
+                    Reset
+                  </button>
+                </div>
+              )
+          }
           break
         case 'string[]':
           item.render = value => processValue(item, value).join(', ')
@@ -163,6 +200,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
               marginTop: '4px',
               color: '#ff4d4f'
             } } />))
+
           if (item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys,
