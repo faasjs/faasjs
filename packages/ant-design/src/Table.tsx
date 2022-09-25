@@ -9,7 +9,10 @@ import {
   Radio,
   Skeleton,
   TablePaginationConfig,
-  Empty
+  Empty,
+  Button,
+  Space,
+  Input,
 } from 'antd'
 import dayjs from 'dayjs'
 import {
@@ -141,32 +144,20 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.filters && item.filterDropdown !== false && item.optionsType !== 'auto')
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
-            }) => (
-              <div style={ { padding: 8 } }>
-                <input
-                  value={ selectedKeys[0] }
-                  onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
-                  style={ {
-                    width: 188,
-                    marginBottom: 8,
-                    display: 'block'
-                  } }
-                />
-                <button
-                  type="button"
-                  onClick={ () => confirm() }
-                  style={ {
-                    width: 90,
-                    marginRight: 8
-                  } }
-                >{common.search}</button>
-                <button
-                  type="button"
-                  onClick={ () => clearFilters() }
-                  style={ { width: 90 } }
-                >{common.reset}</button>
-              </div>
-            )
+            }) => <Input.Search
+              placeholder={ `${common.search} ${item.title}` }
+              value={ selectedKeys[0] }
+              allowClear
+              onSearch={ v => {
+                if (v) {
+                  setSelectedKeys([v])
+                } else {
+                  setSelectedKeys([])
+                  clearFilters()
+                }
+                confirm()
+              } }
+            />
           break
         case 'string[]':
           if (!item.render)
@@ -176,32 +167,20 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
-            }) => (
-              <div style={ { padding: 8 } }>
-                <input
-                  value={ selectedKeys[0] }
-                  onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
-                  style={ {
-                    width: 188,
-                    marginBottom: 8,
-                    display: 'block'
-                  } }
-                />
-                <button
-                  type="button"
-                  onClick={ () => confirm() }
-                  style={ {
-                    width: 90,
-                    marginRight: 8
-                  } }
-                >{common.search}</button>
-                <button
-                  type="button"
-                  onClick={ () => clearFilters() }
-                  style={ { width: 90 } }
-                >{common.reset}</button>
-              </div>
-            )
+            }) => <Input.Search
+              placeholder={ `${common.search} ${item.title}` }
+              value={ selectedKeys[0] }
+              allowClear
+              onSearch={ v => {
+                if (v) {
+                  setSelectedKeys([v])
+                } else {
+                  setSelectedKeys([])
+                  clearFilters()
+                }
+                confirm()
+              } }
+            />
           break
         case 'number':
           if (!item.render)
@@ -213,32 +192,20 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
-            }) => (
-              <div style={ { padding: 8 } }>
-                <input
-                  value={ selectedKeys[0] }
-                  onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
-                  style={ {
-                    width: 188,
-                    marginBottom: 8,
-                    display: 'block'
-                  } }
-                />
-                <button
-                  type="button"
-                  onClick={ () => confirm() }
-                  style={ {
-                    width: 90,
-                    marginRight: 8
-                  } }
-                >{common.search}</button>
-                <button
-                  type="button"
-                  onClick={ () => clearFilters() }
-                  style={ { width: 90 } }
-                >{common.reset}</button>
-              </div>
-            )
+            }) => <Input.Search
+              placeholder={ `${common.search} ${item.title}` }
+              value={ selectedKeys[0] }
+              allowClear
+              onSearch={ v => {
+                if (v) {
+                  setSelectedKeys([v])
+                } else {
+                  setSelectedKeys([])
+                  clearFilters()
+                }
+                confirm()
+              } }
+            />
           break
         case 'number[]':
           if (!item.render)
@@ -248,32 +215,20 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
-            }) => (
-              <div style={ { padding: 8 } }>
-                <input
-                  value={ selectedKeys[0] }
-                  onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
-                  style={ {
-                    width: 188,
-                    marginBottom: 8,
-                    display: 'block'
-                  } }
-                />
-                <button
-                  type="button"
-                  onClick={ () => confirm() }
-                  style={ {
-                    width: 90,
-                    marginRight: 8
-                  } }
-                >{common.search}</button>
-                <button
-                  type="button"
-                  onClick={ () => clearFilters() }
-                  style={ { width: 90 } }
-                >{common.reset}</button>
-              </div>
-            )
+            }) => <Input.Search
+              placeholder={ `${common.search} ${item.title}` }
+              value={ selectedKeys[0] }
+              allowClear
+              onSearch={ v => {
+                if (v) {
+                  setSelectedKeys([v])
+                } else {
+                  setSelectedKeys([])
+                  clearFilters()
+                }
+                confirm()
+              } }
+            />
           break
         case 'boolean':
           if (!item.render)
