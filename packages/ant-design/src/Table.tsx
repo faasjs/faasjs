@@ -138,7 +138,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.onFilter) {
             item.onFilter = (value: any, row) => row[item.id].includes(value)
           }
-          if (item.filterDropdown !== false && item.optionsType !== 'auto')
+          if (!item.filters && item.filterDropdown !== false && item.optionsType !== 'auto')
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
             }) => (
@@ -173,7 +173,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.render = value => processValue(item, value).join(', ')
           if (!item.onFilter)
             item.onFilter = (value: any, row) => row[item.id].includes(value)
-          if (item.filterDropdown !== false)
+          if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
             }) => (
@@ -210,7 +210,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
           if (!item.onFilter)
             item.onFilter = (value: any, row) => value === row[item.id]
-          if (item.filterDropdown !== false)
+          if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
             }) => (
@@ -245,7 +245,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.render = value => processValue(item, value).join(', ')
           if (!item.onFilter)
             item.onFilter = (value: any, row) => row[item.id].includes(value)
-          if (item.filterDropdown !== false)
+          if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
             }) => (
