@@ -8,16 +8,17 @@ import {
   TableColumnProps as AntdTableColumnProps,
   Radio,
   Skeleton,
-  TablePaginationConfig
+  TablePaginationConfig,
+  Empty
 } from 'antd'
 import dayjs from 'dayjs'
 import {
   FaasItemProps, transferOptions, BaseItemProps
 } from './data'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
-  CheckOutlined, CloseOutlined, SearchOutlined
-} from '@ant-design/icons'
-import { isNil, upperFirst } from 'lodash'
+  isNil, uniqBy, upperFirst,
+} from 'lodash'
 import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
@@ -26,6 +27,7 @@ import {
 } from 'antd/lib/table/interface'
 
 export type TableItemProps<T = any> = {
+  optionsType?: 'auto'
   /** @deprecated use render */
   children?: JSX.Element | null
 } & FaasItemProps & Omit<AntdTableColumnProps<T>, 'children'>
@@ -57,45 +59,42 @@ export type TableProps<T = any, ExtendTypes = any> = {
 } & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
-  if (typeof value !== 'undefined' && value !== null ) {
-    if (item.options ) {
-      if (item.type.endsWith('[]'))
-        return (value as any[]).map((v: any) => (item.options as {
-          label: string
-          value: any
-        }[])
-          .find(option => option.value === v)?.label
+  if (typeof value === 'undefined' && value === null )
+    return <Empty />
+
+  if (item.options ) {
+    if (item.type.endsWith('[]'))
+      return (value as any[]).map((v: any) => (item.options as {
+        label: string
+        value: any
+      }[])
+        .find(option => option.value === v)?.label
         || v)
-      else if ([
-        'string',
-        'number',
-        'boolean'
-      ].includes(item.type))
-        return (item.options as {
-          label: string
-          value: any
-        }[])
-          .find(option => option.value === value)?.label
+    else if ([
+      'string',
+      'number',
+      'boolean'
+    ].includes(item.type))
+      return (item.options as {
+        label: string
+        value: any
+      }[])
+        .find(option => option.value === value)?.label
         || value
-    }
-
-    let dayjsFormat = ''
-    if (item.type === 'date') dayjsFormat = 'YYYY-MM-DD'
-    else if (item.type === 'time') dayjsFormat = 'YYYY-MM-DD HH:mm:ss'
-
-    // check unix timestamp
-    if (['date', 'time'].includes(item.type)) {
-      if (typeof value === 'number' && value.toString().length === 10)
-        value = value * 1000
-      value = dayjs(value).format(dayjsFormat)
-    }
   }
+
+  if (['date', 'time'].includes(item.type)) {
+    if (typeof value === 'number' && value.toString().length === 10)
+      value = value * 1000
+    return dayjs(value).format(item.type === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss')
+  }
+
   return value
 }
 
 export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()
-  const config = useConfigContext()
+  const { common } = useConfigContext()
 
   useEffect(() => {
     for (const item of props.items as TableItemProps[]) {
@@ -114,7 +113,6 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         }))
       }
 
-      if (item.render) continue
       if (item.children) delete item.children
 
       if (props.extendTypes && props.extendTypes[item.type]) {
@@ -135,71 +133,158 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
       switch (item.type) {
         case 'string':
-          item.render = value => processValue(item, value)
+          if (!item.render)
+            item.render = value => processValue(item, value)
           if (!item.onFilter) {
             item.onFilter = (value: any, row) => row[item.id].includes(value)
-
-            if (item.filterDropdown !== false)
-              item.filterDropdown = ({
-                setSelectedKeys, selectedKeys, confirm, clearFilters
-              }) => (
-                <div style={ { padding: 8 } }>
-                  <input
-                    value={ selectedKeys[0] }
-                    onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
-                    style={ {
-                      width: 188,
-                      marginBottom: 8,
-                      display: 'block'
-                    } }
-                  />
-                  <button
-                    type="button"
-                    onClick={ () => confirm() }
-                    style={ {
-                      width: 90,
-                      marginRight: 8
-                    } }
-                  >
-                    Search
-                  </button>
-                  <button
-                    type="button"
-                    onClick={ () => clearFilters() }
-                    style={ { width: 90 } }
-                  >
-                    Reset
-                  </button>
-                </div>
-              )
           }
+          if (item.filterDropdown !== false && item.optionsType !== 'auto')
+            item.filterDropdown = ({
+              setSelectedKeys, selectedKeys, confirm, clearFilters
+            }) => (
+              <div style={ { padding: 8 } }>
+                <input
+                  value={ selectedKeys[0] }
+                  onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
+                  style={ {
+                    width: 188,
+                    marginBottom: 8,
+                    display: 'block'
+                  } }
+                />
+                <button
+                  type="button"
+                  onClick={ () => confirm() }
+                  style={ {
+                    width: 90,
+                    marginRight: 8
+                  } }
+                >{common.search}</button>
+                <button
+                  type="button"
+                  onClick={ () => clearFilters() }
+                  style={ { width: 90 } }
+                >{common.reset}</button>
+              </div>
+            )
           break
         case 'string[]':
-          item.render = value => processValue(item, value).join(', ')
+          if (!item.render)
+            item.render = value => processValue(item, value).join(', ')
           if (!item.onFilter)
             item.onFilter = (value: any, row) => row[item.id].includes(value)
+          if (item.filterDropdown !== false)
+            item.filterDropdown = ({
+              setSelectedKeys, selectedKeys, confirm, clearFilters
+            }) => (
+              <div style={ { padding: 8 } }>
+                <input
+                  value={ selectedKeys[0] }
+                  onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
+                  style={ {
+                    width: 188,
+                    marginBottom: 8,
+                    display: 'block'
+                  } }
+                />
+                <button
+                  type="button"
+                  onClick={ () => confirm() }
+                  style={ {
+                    width: 90,
+                    marginRight: 8
+                  } }
+                >{common.search}</button>
+                <button
+                  type="button"
+                  onClick={ () => clearFilters() }
+                  style={ { width: 90 } }
+                >{common.reset}</button>
+              </div>
+            )
           break
         case 'number':
-          item.render = value => processValue(item, value)
+          if (!item.render)
+            item.render = value => processValue(item, value)
           if (!item.sorter)
             item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
           if (!item.onFilter)
             item.onFilter = (value: any, row) => value === row[item.id]
+          if (item.filterDropdown !== false)
+            item.filterDropdown = ({
+              setSelectedKeys, selectedKeys, confirm, clearFilters
+            }) => (
+              <div style={ { padding: 8 } }>
+                <input
+                  value={ selectedKeys[0] }
+                  onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
+                  style={ {
+                    width: 188,
+                    marginBottom: 8,
+                    display: 'block'
+                  } }
+                />
+                <button
+                  type="button"
+                  onClick={ () => confirm() }
+                  style={ {
+                    width: 90,
+                    marginRight: 8
+                  } }
+                >{common.search}</button>
+                <button
+                  type="button"
+                  onClick={ () => clearFilters() }
+                  style={ { width: 90 } }
+                >{common.reset}</button>
+              </div>
+            )
           break
         case 'number[]':
-          item.render = value => processValue(item, value).join(', ')
+          if (!item.render)
+            item.render = value => processValue(item, value).join(', ')
           if (!item.onFilter)
             item.onFilter = (value: any, row) => row[item.id].includes(value)
+          if (item.filterDropdown !== false)
+            item.filterDropdown = ({
+              setSelectedKeys, selectedKeys, confirm, clearFilters
+            }) => (
+              <div style={ { padding: 8 } }>
+                <input
+                  value={ selectedKeys[0] }
+                  onChange={ e => setSelectedKeys(e.target.value ? [e.target.value] : []) }
+                  style={ {
+                    width: 188,
+                    marginBottom: 8,
+                    display: 'block'
+                  } }
+                />
+                <button
+                  type="button"
+                  onClick={ () => confirm() }
+                  style={ {
+                    width: 90,
+                    marginRight: 8
+                  } }
+                >{common.search}</button>
+                <button
+                  type="button"
+                  onClick={ () => clearFilters() }
+                  style={ { width: 90 } }
+                >{common.reset}</button>
+              </div>
+            )
           break
         case 'boolean':
-          item.render = value => (typeof value === 'undefined' ? <Blank /> : (value ?
-            <CheckOutlined style={ {
-              marginTop: '4px',
-              color: '#52c41a'
-            } } /> : <CloseOutlined style={ {
-              marginTop: '4px',
-              color: '#ff4d4f'
-            } } />))
+          if (!item.render)
+            item.render = value => (typeof value === 'undefined' ? <Blank /> : (value ?
+              <CheckOutlined style={ {
+                marginTop: '4px',
+                color: '#52c41a'
+              } } /> : <CloseOutlined style={ {
+                marginTop: '4px',
+                color: '#ff4d4f'
+              } } />))
 
           if (item.filterDropdown !== false)
             item.filterDropdown = ({
@@ -219,7 +304,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
                 confirm()
               } }
             >
-              <Radio.Button>{config.common.all}</Radio.Button>
+              <Radio.Button>{common.all}</Radio.Button>
               <Radio.Button value={ 'true' }><CheckOutlined style={ {
                 color: '#52c41a',
                 verticalAlign: 'middle'
@@ -228,7 +313,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
                 verticalAlign: 'middle',
                 color: '#ff4d4f'
               } } /></Radio.Button>
-              <Radio.Button value={ 'empty' }>{config.common.blank}</Radio.Button>
+              <Radio.Button value={ 'empty' }>{common.blank}</Radio.Button>
             </Radio.Group>
 
           if (!item.onFilter)
@@ -246,21 +331,24 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             }
           break
         case 'date':
-          item.render = value => processValue(item, value)
+          if (!item.render)
+            item.render = value => processValue(item, value)
           if (!item.onFilter)
             item.onFilter = (value: any, row) => dayjs(row[item.id]).isSame(dayjs(value))
           if (!item.sorter)
             item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
           break
         case 'time':
-          item.render = value => processValue(item, value)
+          if (!item.render)
+            item.render = value => processValue(item, value)
           if (!item.onFilter)
             item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
           if (!item.sorter)
             item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
           break
         default:
-          item.render = value => processValue(item, value)
+          if (!item.render)
+            item.render = value => processValue(item, value)
           if (!item.onFilter)
             item.onFilter = (value: any, row) => value === row[item.id]
           break
@@ -269,6 +357,24 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
     setColumns(props.items as TableItemProps[])
   }, [props.items])
+
+  useEffect(() => {
+    if (!props.dataSource || !columns) return
+
+    for (const column of columns) {
+      if (column.optionsType === 'auto' && !column.options && !column.filters) {
+        setColumns(prev => {
+          const newColumns = [...prev]
+          const index = newColumns.findIndex(item => item.id === column.id)
+          newColumns[index].filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
+            text: v[column.id],
+            value: v[column.id],
+          }))
+          return newColumns
+        })
+      }
+    }
+  }, [props.dataSource, columns])
 
   if (!columns) return null
 

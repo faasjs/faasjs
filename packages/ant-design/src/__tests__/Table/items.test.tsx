@@ -84,6 +84,29 @@ describe('Table/items', () => {
 
       expect(screen.getByText('label2')).toBeInTheDocument()
     })
+
+    it('optionsType is auto', async () => {
+      const user = userEvent.setup()
+
+      render(<Table
+        items={ [
+          {
+            id: 'test',
+            optionsType: 'auto',
+          }
+        ] }
+        dataSource={ [
+          {
+            id: 'id',
+            test: 'value'
+          }
+        ] }
+      />)
+
+      await user.click(screen.getByRole('img', { name: 'filter' }))
+
+      expect(screen.getAllByText('value').length).toEqual(2)
+    })
   })
 
   describe('boolean', () => {

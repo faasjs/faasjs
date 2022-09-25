@@ -16,6 +16,8 @@ export type ConfigProviderProps = {
     add?: string
     delete?: string
     required?: string
+    search?: string
+    reset?: string
   }
   Blank?: {
     text?: string
@@ -48,6 +50,8 @@ const zh = {
   add: '添加',
   delete: '删除',
   required: '必填',
+  search: '搜索',
+  reset: '重置',
 }
 
 const en = {
@@ -59,6 +63,8 @@ const en = {
   add: 'Add',
   delete: 'Delete',
   required: 'is required',
+  search: 'Search',
+  reset: 'Reset',
 }
 
 const common = isZH ? zh : en
