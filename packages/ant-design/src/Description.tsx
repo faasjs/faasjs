@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 import { BaseItemProps } from '.'
 import { FaasItemProps, transferOptions } from './data'
 import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
+import { Blank } from './Blank'
 
 export type ExtendDescriptionTypeProps = {
   children?: JSX.Element | null
@@ -30,6 +31,7 @@ export type DescriptionProps<T = any, ExtendItemProps = any> = {
   }
   dataSource?: T
   faasData?: FaasDataWrapperProps<T>
+  footer?: (values: T) => JSX.Element
 } & DescriptionsProps
 
 type DescriptionItemContentProps<T = any> = {
@@ -98,7 +100,9 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   if (computedProps.item.render)
     return <>{computedProps.item.render(computedProps.value, computedProps.values)}</>
 
-  if (typeof computedProps.value === 'undefined' || computedProps.value === null) return null
+  if (typeof computedProps.value === 'undefined' || computedProps.value === null)
+    return <Blank />
+
   switch (computedProps.item.type) {
     case 'string[]':
       return <>{(computedProps.value as string[]).join(', ')}</>
@@ -137,33 +141,39 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
 
 export function Description<T = any> (props: DescriptionProps<T>) {
   if (!props.faasData)
-    return <Descriptions { ...props }>{
-      props.items.map(item => <Descriptions.Item
-        key={ item.id }
-        label={ item.title || upperFirst(item.id) }>
-        <DescriptionItemContent
-          item={ item }
-          value={ (props.dataSource as Record<string, any>)[item.id] }
-          values={ props.dataSource }
-          extendTypes={ props.extendTypes }
-        />
-      </Descriptions.Item>)
-    }</Descriptions>
+    return <Descriptions { ...props }>
+      {
+        props.items.map(item => <Descriptions.Item
+          key={ item.id }
+          label={ item.title || upperFirst(item.id) }>
+          <DescriptionItemContent
+            item={ item }
+            value={ (props.dataSource as Record<string, any>)[item.id] }
+            values={ props.dataSource }
+            extendTypes={ props.extendTypes }
+          />
+        </Descriptions.Item>)
+      }
+      { props.footer && props.footer(props.dataSource) }
+    </Descriptions>
 
   return <FaasDataWrapper<T>
     fallback={ props.faasData.fallback || <Skeleton active /> }
-    render={ ({ data }) => <Descriptions { ...props }>{
-      props.items.map(item => <Descriptions.Item
-        key={ item.id }
-        label={ item.title || upperFirst(item.id) }>
-        <DescriptionItemContent
-          item={ item }
-          value={ (data as Record<string, any>)[item.id] }
-          values={ data }
-          extendTypes={ props.extendTypes }
-        />
-      </Descriptions.Item>)
-    }</Descriptions> }
+    render={ ({ data }) => <Descriptions { ...props }>
+      {
+        props.items.map(item => <Descriptions.Item
+          key={ item.id }
+          label={ item.title || upperFirst(item.id) }>
+          <DescriptionItemContent
+            item={ item }
+            value={ (data as Record<string, any>)[item.id] }
+            values={ data }
+            extendTypes={ props.extendTypes }
+          />
+        </Descriptions.Item>)
+      }
+      { props.footer && props.footer(data) }
+    </Descriptions> }
     { ...props.faasData }
   />
 }

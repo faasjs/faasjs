@@ -9,9 +9,6 @@ import {
   Radio,
   Skeleton,
   TablePaginationConfig,
-  Empty,
-  Button,
-  Space,
   Input,
 } from 'antd'
 import dayjs from 'dayjs'
@@ -63,7 +60,7 @@ export type TableProps<T = any, ExtendTypes = any> = {
 
 function processValue (item: TableItemProps, value: any) {
   if (typeof value === 'undefined' && value === null )
-    return <Empty />
+    return <Blank />
 
   if (item.options ) {
     if (item.type.endsWith('[]'))
