@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { Description } from '../../Description'
 
 describe('Description/base', () => {
