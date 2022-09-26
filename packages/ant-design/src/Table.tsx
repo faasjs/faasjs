@@ -136,7 +136,11 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.render)
             item.render = value => processValue(item, value)
           if (!item.onFilter) {
-            item.onFilter = (value: any, row) => row[item.id].includes(value)
+            item.onFilter = (value: any, row) => {
+              if (!row[item.id]) return false
+
+              return (row[item.id] as string).includes(value)
+            }
           }
           if (!item.filters && item.filterDropdown !== false && item.optionsType !== 'auto')
             item.filterDropdown = ({
@@ -160,7 +164,11 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.render)
             item.render = value => processValue(item, value).join(', ')
           if (!item.onFilter)
-            item.onFilter = (value: any, row) => row[item.id].includes(value)
+            item.onFilter = (value: any, row) => {
+              if (!row[item.id] || !row[item.id].length) return false
+
+              return (row[item.id] as string[]).some(v => v.includes(value))
+            }
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters
@@ -195,7 +203,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
               allowClear
               onSearch={ v => {
                 if (v) {
-                  setSelectedKeys([v])
+                  setSelectedKeys([Number(v)])
                 } else {
                   setSelectedKeys([])
                   clearFilters()
@@ -218,7 +226,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
               allowClear
               onSearch={ v => {
                 if (v) {
-                  setSelectedKeys([v])
+                  setSelectedKeys([Number(v)])
                 } else {
                   setSelectedKeys([])
                   clearFilters()
