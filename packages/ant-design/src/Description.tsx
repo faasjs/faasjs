@@ -25,7 +25,7 @@ export type DescriptionItemProps<T = any> = {
 } & FaasItemProps
 
 export type DescriptionProps<T = any, ExtendItemProps = any> = {
-  title?: ReactNode | ((values: T) => ReactNode)
+  renderTitle?: ((values: T) => ReactNode)
   items: (DescriptionItemProps | ExtendItemProps)[]
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
@@ -142,7 +142,10 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
 
 export function Description<T = any> (props: DescriptionProps<T>) {
   if (!props.faasData)
-    return <Descriptions { ...props }>
+    return <Descriptions
+      { ...props }
+      title={ isFunction(props.renderTitle) ? props.renderTitle(props.dataSource) : props.title }
+    >
       {
         props.items.map(item => <Descriptions.Item
           key={ item.id }
@@ -162,7 +165,7 @@ export function Description<T = any> (props: DescriptionProps<T>) {
     render={ ({ data }) => {
       return <Descriptions
         { ...props }
-        title={ isFunction(props.title) ? props.title(data) : props.title }
+        title={ isFunction(props.renderTitle) ? props.renderTitle(data) : props.title }
       >
         {
           props.items.map(item => <Descriptions.Item
