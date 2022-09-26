@@ -2,9 +2,9 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
   Descriptions, DescriptionsProps, Skeleton
 } from 'antd'
-import { upperFirst } from 'lodash'
+import { isFunction, upperFirst } from 'lodash'
 import {
-  cloneElement, useEffect, useState
+  cloneElement, ReactNode, useEffect, useState
 } from 'react'
 import dayjs from 'dayjs'
 import { BaseItemProps } from '.'
@@ -25,13 +25,13 @@ export type DescriptionItemProps<T = any> = {
 } & FaasItemProps
 
 export type DescriptionProps<T = any, ExtendItemProps = any> = {
+  title?: ReactNode | ((values: T) => ReactNode)
   items: (DescriptionItemProps | ExtendItemProps)[]
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
   }
   dataSource?: T
   faasData?: FaasDataWrapperProps<T>
-  footer?: (values: T) => JSX.Element
 } & DescriptionsProps
 
 type DescriptionItemContentProps<T = any> = {
@@ -48,6 +48,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
 
   useEffect(() => {
     const propsCopy = { ...props }
+
     if (!propsCopy.item.title) propsCopy.item.title = upperFirst(propsCopy.item.id)
     if (!propsCopy.item.type) propsCopy.item.type = 'string'
     if (propsCopy.item.options?.length) {
@@ -154,26 +155,29 @@ export function Description<T = any> (props: DescriptionProps<T>) {
           />
         </Descriptions.Item>)
       }
-      { props.footer && props.footer(props.dataSource) }
     </Descriptions>
 
   return <FaasDataWrapper<T>
     fallback={ props.faasData.fallback || <Skeleton active /> }
-    render={ ({ data }) => <Descriptions { ...props }>
-      {
-        props.items.map(item => <Descriptions.Item
-          key={ item.id }
-          label={ item.title || upperFirst(item.id) }>
-          <DescriptionItemContent
-            item={ item }
-            value={ (data as Record<string, any>)[item.id] }
-            values={ data }
-            extendTypes={ props.extendTypes }
-          />
-        </Descriptions.Item>)
-      }
-      { props.footer && props.footer(data) }
-    </Descriptions> }
+    render={ ({ data }) => {
+      return <Descriptions
+        { ...props }
+        title={ isFunction(props.title) ? props.title(data) : props.title }
+      >
+        {
+          props.items.map(item => <Descriptions.Item
+            key={ item.id }
+            label={ item.title || upperFirst(item.id) }>
+            <DescriptionItemContent
+              item={ item }
+              value={ (data as Record<string, any>)[item.id] }
+              values={ data }
+              extendTypes={ props.extendTypes }
+            />
+          </Descriptions.Item>)
+        }
+      </Descriptions>
+    } }
     { ...props.faasData }
   />
 }
