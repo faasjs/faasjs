@@ -42,15 +42,15 @@ export type TitleProps = {
  * ```
  */
 export function Title (props: TitleProps): JSX.Element {
-  const config = useConfigContext()
+  const { Title } = useConfigContext()
 
   useEffect(() => {
     const title = Array.isArray(props.title) ? props.title : [props.title]
 
-    document.title = title.concat(props.suffix || config.Title.suffix)
+    document.title = title.concat(props.suffix || Title.suffix)
       .filter(t => !!t)
-      .join(props.separator || config.Title.separator)
-  }, [])
+      .join(props.separator || Title.separator)
+  }, [props.title])
 
   if (props.h1) {
     if (typeof props.h1 === 'boolean')
