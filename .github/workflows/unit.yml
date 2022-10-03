@@ -9,10 +9,13 @@ on:
       - packages/**
       - .github/workflows/unit.yml
       - package-lock.json
+      - package.json
   pull_request:
     paths:
+      - .github/workflows/unit.yml
       - packages/**
       - package-lock.json
+      - package.json
 
 jobs:
   test:
