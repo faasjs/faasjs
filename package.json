@@ -3,7 +3,7 @@
   "version": "0.0.2-beta.421",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
-    "test": "RUST_BACKTRACE=1 jest --ci --silent --coverage --forceExit --detectOpenHandles",
+    "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
     "pub": "node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/coverage packages/*/*.log tmp *.log",
     "build": "node build.js",
