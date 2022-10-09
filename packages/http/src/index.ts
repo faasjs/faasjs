@@ -240,11 +240,6 @@ export class Http<TParams extends Record<string, any> = any,
     const originBody = data.response.body
     data.response.originBody = originBody
 
-    if (process.env.FaasMode !== 'remote') {
-      data.logger.debug('[onInvoke] Response: %j', data.response)
-      return
-    }
-
     // determine if the body needs to be compressed
     if (
       data.response.isBase64Encoded ||
