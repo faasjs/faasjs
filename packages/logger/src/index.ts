@@ -45,6 +45,7 @@ export class Logger {
   public level: number
   public colorfyOutput: boolean = true
   public label?: string
+  public size?: number
   public stdout: (text: string) => void
   public stderr: (text: string) => void
   private cachedTimers: any
@@ -66,6 +67,8 @@ export class Logger {
     this.level = process.env.FaasLog ? LevelPriority[process.env.FaasLog.toLowerCase() as Level] : 0
 
     this.cachedTimers = {}
+
+    this.size = 500
 
     this.stdout = console.log
     this.stderr = console.error
@@ -184,6 +187,9 @@ export class Logger {
       output = output.replace(/\n/g, '')
 
     if (!output) return this
+
+    if (output.length > this.size)
+      output = output.slice(0, this.size) + '...'
 
     if (level === 'error')
       this.stderr(output)
