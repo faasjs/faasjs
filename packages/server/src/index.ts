@@ -195,7 +195,7 @@ export class Server {
           res.setHeader(key, headers[key])
 
         if (resBody) {
-          this.logger.debug('[%s] Response %s %j %j', requestId, res.statusCode, headers, data?.originBody || data?.body)
+          this.logger.debug('[%s] Response %s %j %j', requestId, res.statusCode, headers, (data?.originBody || data?.body as string).substring(0, 200))
           res.write(resBody)
         }
 
