@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/http",
-  "version": "0.0.2-beta.422",
+  "version": "0.0.2-beta.423",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,8 +23,8 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/func": "^0.0.2-beta.422",
-    "@faasjs/logger": "^0.0.2-beta.422"
+    "@faasjs/func": "^0.0.2-beta.423",
+    "@faasjs/logger": "^0.0.2-beta.423"
   },
   "devDependencies": {
     "tsup": "*",
