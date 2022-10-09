@@ -1,5 +1,5 @@
 import {
-  createServer, IncomingMessage, Server as HttpServer
+  createServer, IncomingMessage, Server as HttpServer, ServerResponse
 } from 'http'
 import { Logger } from '@faasjs/logger'
 import { existsSync } from 'fs'
@@ -12,6 +12,10 @@ import { Socket } from 'net'
 import { addHook } from 'pirates'
 import { transform } from '@faasjs/ts-transform'
 import { randomBytes } from 'crypto'
+import { pipeline, Readable } from 'stream'
+import {
+  createBrotliCompress, createGzip, createDeflate
+} from 'zlib'
 
 addHook((code, filename) => {
   if (filename.endsWith('.d.ts'))
@@ -98,7 +102,7 @@ export class Server {
     servers.push(this)
   }
 
-  public async processRequest (req: IncomingMessage, res: {
+  public async processRequest (req: IncomingMessage, res: ServerResponse & {
     statusCode: number
     write: (body: string | Buffer) => void
     end: () => void
@@ -133,6 +137,10 @@ export class Server {
           resolve()
           return
         }
+
+        // get and remove accept-encoding to avoid http module compression
+        const encoding = req.headers['accept-encoding'] || ''
+        delete req.headers['accept-encoding']
 
         let data
         try {
@@ -172,7 +180,7 @@ export class Server {
           data = error
         }
 
-        let resBody
+        let resBody: string | Buffer
         if (data instanceof Error || (data?.constructor?.name?.includes('Error')) || typeof data === 'undefined' || data === null) {
           res.statusCode = data?.statusCode || 500
           headers['Content-Type'] = 'application/json; charset=utf-8'
@@ -196,7 +204,29 @@ export class Server {
 
         if (resBody) {
           this.logger.debug('[%s] Response %s %j', requestId, res.statusCode, headers)
-          res.write(resBody)
+
+          const onError = (err: any) => {
+            if (err) {
+              console.error('An error occurred:', err)
+              res.end()
+            }
+          }
+
+          if (encoding.includes('br')) {
+            res.setHeader('Content-Encoding', 'br')
+            pipeline(Readable.from(resBody), createBrotliCompress(), res, onError)
+          } else if (encoding.includes('gzip')) {
+            res.setHeader('Content-Encoding', 'gzip')
+            pipeline(Readable.from(resBody), createGzip(), res, onError)
+          } else if (encoding.includes('deflate')) {
+            res.setHeader('Content-Encoding', 'deflate')
+            pipeline(Readable.from(resBody), createDeflate(), res, onError)
+          } else {
+            res.write(resBody)
+            res.end()
+          }
+          resolve()
+          return
         }
 
         res.end()
