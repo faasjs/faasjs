@@ -1,6 +1,7 @@
 import {
   JscConfig, JscTarget, transformSync, bundle as swcBundle
 } from '@swc/core'
+import { config } from '@swc/core/spack'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { deepMerge } from '@faasjs/deep_merge'
@@ -111,7 +112,7 @@ export async function bundle (options: {
   } else
     tsconfig.compilerOptions.paths = {}
 
-  return swcBundle(deepMerge({
+  return swcBundle(config(deepMerge({
     mode: 'production',
     entry: { index: options.filename },
     module: { type: 'commonjs' },
@@ -128,5 +129,5 @@ export async function bundle (options: {
       }
     },
     externalModules: NodeBuiltinModules.concat(options.externalModules || [])
-  }, options)).then(res => res.index)
+  }, options))).then(res => res.index)
 }
