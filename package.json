@@ -44,7 +44,7 @@
       "/tmp/",
       "/examples/",
       "/benchmarks/",
-      "**/packages/deployer/**"
+      "/packages/deployer/"
     ],
     "collectCoverageFrom": [
       "**/packages/**/*.ts",
