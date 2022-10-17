@@ -1,21 +1,21 @@
 import {
   createServer, IncomingMessage, Server as HttpServer, ServerResponse
-} from 'http'
+} from 'node:http'
 import { Logger } from '@faasjs/logger'
-import { existsSync } from 'fs'
+import { existsSync } from 'node:fs'
 import { loadConfig } from '@faasjs/load'
 import {
   resolve as pathResolve, sep, join
 } from 'path'
 import { HttpError } from '@faasjs/http'
-import { Socket } from 'net'
+import { Socket } from 'node:net'
 import { addHook } from 'pirates'
 import { transform } from '@faasjs/ts-transform'
-import { randomBytes } from 'crypto'
-import { pipeline, Readable } from 'stream'
+import { randomBytes } from 'node:crypto'
+import { pipeline, Readable } from 'node:stream'
 import {
   createBrotliCompress, createGzip, createDeflate
-} from 'zlib'
+} from 'node:zlib'
 
 addHook((code, filename) => {
   if (filename.endsWith('.d.ts'))
@@ -205,28 +205,48 @@ export class Server {
         if (resBody) {
           this.logger.debug('[%s] Response %s %j', requestId, res.statusCode, headers)
 
-          const onError = (err: any) => {
-            if (err) {
-              console.error('An error occurred:', err)
-              res.end()
-            }
-          }
-
-          if (encoding.includes('br')) {
-            res.setHeader('Content-Encoding', 'br')
-            pipeline(Readable.from(resBody), createBrotliCompress(), res, onError)
-          } else if (encoding.includes('gzip')) {
-            res.setHeader('Content-Encoding', 'gzip')
-            pipeline(Readable.from(resBody), createGzip(), res, onError)
-          } else if (encoding.includes('deflate')) {
-            res.setHeader('Content-Encoding', 'deflate')
-            pipeline(Readable.from(resBody), createDeflate(), res, onError)
-          } else {
+          if (res.statusCode !== 200 || typeof resBody !== 'string') {
             res.write(resBody)
             res.end()
+            resolve()
+            return
           }
-          resolve()
-          return
+
+          const onError = (err: any) => {
+            if (err)
+              console.error(err)
+
+            res.end()
+            resolve()
+          }
+
+          const compression = encoding.includes('br') ? {
+            type: 'br',
+            compress: createBrotliCompress(),
+          } : encoding.includes('gzip') ? {
+            type: 'gzip',
+            compress: createGzip(),
+          } : encoding.includes('deflate') ? {
+            type: 'deflate',
+            compress: createDeflate(),
+          } : false
+
+          if (compression) {
+            res.setHeader('Vary', 'Accept-Encoding')
+            res.writeHead(200, { 'Content-Encoding': compression.type })
+
+            Readable.from(resBody)
+              .pipe(compression.compress)
+              .pipe(res)
+              .on('error', onError)
+              .on('close', () => {
+                res.end()
+                resolve()
+              })
+            return
+          }
+
+          res.write(resBody)
         }
 
         res.end()
@@ -336,7 +356,7 @@ export class Server {
         return path
     }
 
-    const message = `Not found function file.\nSearch paths:\n${searchPaths.map(p => `- ${p}`).join('\n')}`
+    const message = process.env.FaasEnv === 'production' ? 'Not found.' : `Not found function file.\nSearch paths:\n${searchPaths.map(p => `- ${p}`).join('\n')}`
     this.logger.error(message)
     throw new HttpError({
       statusCode: 404,
