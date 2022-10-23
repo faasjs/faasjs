@@ -1,7 +1,5 @@
 # Class: Knex
 
-Knex 插件
-
 ## Implements
 
 - `Plugin`
@@ -36,13 +34,11 @@ Knex 插件
 
 • **new Knex**(`config?`)
 
-创建插件实例
-
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `config?` | [`KnexConfig`](../#knexconfig) | {object} 配置 |
+| Name | Type |
+| :------ | :------ |
+| `config?` | [`KnexConfig`](../#knexconfig) |
 
 ## Properties
 

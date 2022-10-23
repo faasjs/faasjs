@@ -43,29 +43,48 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 ### query
 
-▸ **query**<`TName`\>(`table`): `QueryBuilder`<`any`, `DeferredKeySelection`<`any`, `never`, ``false``, {}, ``false``, {}, `never`\>[]\>
+▸ **query**<`TName`\>(`table`): `K.QueryBuilder`<`K.TableType`<`TName`\>, { `_aliases`: {} ; `_base`: `K.ResolveTableType`<`K.TableType`<`TName`\>, ``"base"``\> ; `_hasSelection`: ``false`` ; `_intersectProps`: {} ; `_keys`: `never` ; `_single`: ``false`` ; `_unionProps`: `never`  }[]\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `TName` | extends `never` |
+| `TName` | extends ``"test"`` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `table` | `string` \| `TName` |
+| `table` | `TName` |
 
 #### Returns
 
-`QueryBuilder`<`any`, `DeferredKeySelection`<`any`, `never`, ``false``, {}, ``false``, {}, `never`\>[]\>
+`K.QueryBuilder`<`K.TableType`<`TName`\>, { `_aliases`: {} ; `_base`: `K.ResolveTableType`<`K.TableType`<`TName`\>, ``"base"``\> ; `_hasSelection`: ``false`` ; `_intersectProps`: {} ; `_keys`: `never` ; `_single`: ``false`` ; `_unionProps`: `never`  }[]\>
+
+▸ **query**<`TName`, `TResult`\>(`table`): `K.QueryBuilder`<`TName`, `TResult`\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TName` | extends `Object` = `any` |
+| `TResult` | `any`[] |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `table` | `string` |
+
+#### Returns
+
+`K.QueryBuilder`<`TName`, `TResult`\>
 
 ___
 
 ### raw
 
-▸ **raw**<`TResult`\>(`sql`, `bindings?`): `Promise`<`K.Raw`<`TResult`\>\>
+▸ **raw**<`TResult`\>(`sql`, `bindings?`): `Promise`<`TResult`\>
 
 #### Type parameters
 
@@ -82,7 +101,7 @@ ___
 
 #### Returns
 
-`Promise`<`K.Raw`<`TResult`\>\>
+`Promise`<`TResult`\>
 
 ___
 

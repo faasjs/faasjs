@@ -47,6 +47,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [BaseOption](#baseoption)
 - [BlankProps](#blankprops)
 - [CalendarProps](#calendarprops)
+- [ConfigProviderProps](#configproviderprops)
 - [DatePickerProps](#datepickerprops)
 - [DescriptionItemProps](#descriptionitemprops)
 - [DescriptionProps](#descriptionprops)
@@ -57,12 +58,13 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [ExtendFormTypeProps](#extendformtypeprops)
 - [ExtendTableItemProps](#extendtableitemprops)
 - [ExtendTableTypeProps](#extendtabletypeprops)
+- [ExtendTypes](#extendtypes)
 - [FaasItemProps](#faasitemprops)
 - [FaasItemType](#faasitemtype)
 - [FaasItemTypeValue](#faasitemtypevalue)
-- [FaasState](#faasstate)
 - [FormItemProps](#formitemprops)
 - [FormProps](#formprops)
+- [LinkProps](#linkprops)
 - [ModalProps](#modalprops)
 - [RoutesProps](#routesprops)
 - [TableItemProps](#tableitemprops)
@@ -85,6 +87,8 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [Description](#description)
 - [Form](#form)
 - [FormItem](#formitem)
+- [Link](#link)
+- [PageNotFound](#pagenotfound)
 - [Routes](#routes)
 - [Table](#table)
 - [TimePicker](#timepicker)
@@ -135,6 +139,40 @@ ___
 
 ___
 
+### ConfigProviderProps
+
+Ƭ **ConfigProviderProps**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `Blank?` | { `text?`: `string`  } |
+| `Blank.text?` | `string` |
+| `Form?` | { `submit?`: { `text?`: `string`  }  } |
+| `Form.submit?` | { `text?`: `string`  } |
+| `Form.submit.text?` | `string` |
+| `Link?` | { `style?`: `CSSProperties` ; `target?`: `string`  } |
+| `Link.style?` | `CSSProperties` |
+| `Link.target?` | `string` |
+| `Title?` | { `separator?`: `string` ; `suffix?`: `string`  } |
+| `Title.separator?` | `string` |
+| `Title.suffix?` | `string` |
+| `antd?` | `AntdConfigProviderProps` |
+| `common?` | { `add?`: `string` ; `all?`: `string` ; `blank?`: `string` ; `delete?`: `string` ; `pageNotFound?`: `string` ; `required?`: `string` ; `reset?`: `string` ; `search?`: `string` ; `submit?`: `string`  } |
+| `common.add?` | `string` |
+| `common.all?` | `string` |
+| `common.blank?` | `string` |
+| `common.delete?` | `string` |
+| `common.pageNotFound?` | `string` |
+| `common.required?` | `string` |
+| `common.reset?` | `string` |
+| `common.search?` | `string` |
+| `common.submit?` | `string` |
+| `lang?` | `string` |
+
+___
+
 ### DatePickerProps
 
 Ƭ **DatePickerProps**: `PickerDateProps`<`Dayjs`\>
@@ -155,7 +193,7 @@ ___
 
 ### DescriptionProps
 
-Ƭ **DescriptionProps**<`T`, `ExtendItemProps`\>: { `dataSource?`: `T` ; `extendTypes?`: { `[key: string]`: [`ExtendDescriptionTypeProps`](#extenddescriptiontypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`DescriptionItemProps`](#descriptionitemprops) \| `ExtendItemProps`)[]  } & `DescriptionsProps`
+Ƭ **DescriptionProps**<`T`, `ExtendItemProps`\>: { `dataSource?`: `T` ; `extendTypes?`: { `[key: string]`: [`ExtendDescriptionTypeProps`](#extenddescriptiontypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`DescriptionItemProps`](#descriptionitemprops) \| `ExtendItemProps`)[] ; `renderTitle?`: (`values`: `T`) => `ReactNode`  } & `DescriptionsProps`
 
 #### Type parameters
 
@@ -234,6 +272,16 @@ ___
 
 ___
 
+### ExtendTypes
+
+Ƭ **ExtendTypes**: `Object`
+
+#### Index signature
+
+▪ [type: `string`]: [`ExtendFormTypeProps`](#extendformtypeprops)
+
+___
+
 ### FaasItemProps
 
 Ƭ **FaasItemProps**: [`BaseItemProps`](#baseitemprops) & { `type?`: [`FaasItemType`](#faasitemtype)  }
@@ -266,37 +314,9 @@ ___
 
 ___
 
-### FaasState
-
-Ƭ **FaasState**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `Blank` | { `text`: `string`  } |
-| `Blank.text` | `string` |
-| `Form` | { `submit`: { `text`: `string`  }  } |
-| `Form.submit` | { `text`: `string`  } |
-| `Form.submit.text` | `string` |
-| `Title` | { `separator`: `string` ; `suffix`: `string`  } |
-| `Title.separator` | `string` |
-| `Title.suffix` | `string` |
-| `common` | { `add`: `string` ; `all`: `string` ; `blank`: `string` ; `delete`: `string` ; `pageNotFound`: `string` ; `required`: `string` ; `submit`: `string`  } |
-| `common.add` | `string` |
-| `common.all` | `string` |
-| `common.blank` | `string` |
-| `common.delete` | `string` |
-| `common.pageNotFound` | `string` |
-| `common.required` | `string` |
-| `common.submit` | `string` |
-| `lang` | `string` |
-
-___
-
 ### FormItemProps
 
-Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `label?`: `string` \| ``false`` ; `render?`: () => `JSX.Element` \| ``null`` ; `rules?`: `RuleObject`[]  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
+Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `label?`: `string` \| ``false`` ; `render?`: () => `JSX.Element` \| ``null`` ; `rules?`: `RuleObject`[]  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -308,7 +328,7 @@ ___
 
 ### FormProps
 
-Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: { `[type: string]`: [`ExtendFormTypeProps`](#extendformtypeprops);  } ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\> ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  }  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"``\>
+Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\> ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  }  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"``\>
 
 #### Type parameters
 
@@ -316,6 +336,23 @@ ___
 | :------ | :------ |
 | `Values` | `any` |
 | `ExtendItemProps` | `any` |
+
+___
+
+### LinkProps
+
+Ƭ **LinkProps**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `button?` | `ButtonProps` |
+| `children?` | `ReactNode` |
+| `href` | `string` |
+| `style?` | `CSSProperties` |
+| `target?` | `string` |
+| `text?` | `string` \| `number` |
 
 ___
 
@@ -341,7 +378,7 @@ ___
 
 ### TableItemProps
 
-Ƭ **TableItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null``  } & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdTableColumnProps`<`T`\>, ``"children"``\>
+Ƭ **TableItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `optionsType?`: ``"auto"``  } & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdTableColumnProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -380,6 +417,8 @@ ___
 | :------ | :------ | :------ |
 | `children?` | `JSX.Element` | return children |
 | `h1?` | `boolean` \| { `className?`: `string` ; `style?`: `React.CSSProperties`  } | return a h1 element |
+| `header?` | `PageHeaderProps` | return a PageHeader element |
+| `plain?` | `boolean` | return a pure text element |
 | `separator?` | `string` | ` - ` as default |
 | `suffix?` | `string` | - |
 | `title` | `string` \| `string`[] | - |
@@ -428,13 +467,13 @@ ___
 
 ### ConfigContext
 
-• `Const` **ConfigContext**: `Context`<[`FaasState`](#faasstate)\>
+• `Const` **ConfigContext**: `Context`<[`ConfigProviderProps`](#configproviderprops)\>
 
 ___
 
 ### DatePicker
 
-• `Const` **DatePicker**: `PickerComponentClass`<`Omit`<`PickerBaseProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {} & `Omit`<`PickerDateProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {} & `Omit`<`PickerTimeProps`<`Dayjs`\>, ``"locale"`` \| ``"generateConfig"`` \| ``"hideHeader"`` \| ``"components"``\> & {} & {}, `unknown`\> & {}
+• `Const` **DatePicker**: `PickerComponentClass`<`Object`, `unknown`\> & {}
 
 ## Functions
 
@@ -498,7 +537,7 @@ Config for @faasjs/ant-design components.
 | :------ | :------ |
 | `__namedParameters` | `Object` |
 | `__namedParameters.children` | `ReactNode` |
-| `__namedParameters.config` | `Partial`<[`FaasState`](#faasstate)\> |
+| `__namedParameters.config` | [`ConfigProviderProps`](#configproviderprops) |
 
 #### Returns
 
@@ -584,9 +623,61 @@ FormItem, can be used without Form.
 
 ___
 
+### Link
+
+▸ **Link**(`__namedParameters`): `Element`
+
+```ts
+// pure link
+<Link href="/">Home</Link>
+
+// link with button
+<Link href="/" button={{type:'primary'}}>Home</Link>
+```
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `__namedParameters` | [`LinkProps`](#linkprops) |
+
+#### Returns
+
+`Element`
+
+___
+
+### PageNotFound
+
+▸ **PageNotFound**(): `Element`
+
+#### Returns
+
+`Element`
+
+___
+
 ### Routes
 
 ▸ **Routes**(`props`): `Element`
+
+Routes with lazy loading and 404 page.
+
+```tsx
+import { lazy } from 'react'
+import { BrowserRouter } from 'react-router-dom'
+
+export function App () {
+  return <BrowserRouter>
+    <Routes routes={[
+      {
+        path: '/',
+        page: lazy(() => import('./pages/home'))
+      }
+    ]} />
+  </BrowserRouter>
+}
+```
 
 #### Parameters
 
@@ -691,11 +782,11 @@ ___
 
 ### useConfigContext
 
-▸ **useConfigContext**(): [`FaasState`](#faasstate)
+▸ **useConfigContext**(): [`ConfigProviderProps`](#configproviderprops)
 
 #### Returns
 
-[`FaasState`](#faasstate)
+[`ConfigProviderProps`](#configproviderprops)
 
 ___
 
@@ -709,7 +800,7 @@ Hook style drawer.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `init?` | [`DrawerProps`](#drawerprops) | initial props  ```ts function Example() {   const { drawer, setDrawerProps } = useDrawer()    return <>     <Button onClick={ () => setDrawerProps(prev => ({ visible: !prev.visible})) }>       Toggle     </Button>     {drawer}   </> } ``` |
+| `init?` | [`DrawerProps`](#drawerprops) | initial props  ```ts function Example() {   const { drawer, setDrawerProps } = useDrawer()    return <>     <Button onClick={ () => setDrawerProps(prev => ({ open: !prev.open})) }>       Toggle     </Button>     {drawer}   </> } ``` |
 
 #### Returns
 
@@ -733,7 +824,7 @@ Hook style modal.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `init?` | [`ModalProps`](#modalprops) | initial props  ```ts function Example() {   const { modal, setModalProps } = useModal()    return <>     <Button onClick={() => setModalProps({ visible: true })}>Open Modal</Button>     {modal}</> } ``` |
+| `init?` | [`ModalProps`](#modalprops) | initial props  ```ts function Example() {   const { modal, setModalProps } = useModal()    return <>     <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>     {modal}</> } ``` |
 
 #### Returns
 

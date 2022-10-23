@@ -26,6 +26,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 - [label](Logger.md#label)
 - [level](Logger.md#level)
 - [silent](Logger.md#silent)
+- [size](Logger.md#size)
 - [stderr](Logger.md#stderr)
 - [stdout](Logger.md#stdout)
 
@@ -75,6 +76,12 @@ ___
 ### silent
 
 • **silent**: `boolean`
+
+___
+
+### size
+
+• `Optional` **size**: `number`
 
 ___
 

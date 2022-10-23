@@ -83,13 +83,13 @@ ___
 
 ### listen
 
-▸ **listen**(): `Server`
+▸ **listen**(): `Server`<typeof `IncomingMessage`, typeof `ServerResponse`\>
 
 Start server.
 
 #### Returns
 
-`Server`
+`Server`<typeof `IncomingMessage`, typeof `ServerResponse`\>
 
 ___
 
@@ -102,11 +102,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `req` | `IncomingMessage` |
-| `res` | `Object` |
-| `res.end` | () => `void` |
-| `res.setHeader` | (`key`: `string`, `value`: `string`) => `void` |
-| `res.statusCode` | `number` |
-| `res.write` | (`body`: `string` \| `Buffer`) => `void` |
+| `res` | `ServerResponse`<`IncomingMessage`\> & { `end`: () => `void` ; `setHeader`: (`key`: `string`, `value`: `string`) => `void` ; `statusCode`: `number` ; `write`: (`body`: `string` \| `Buffer`) => `void`  } |
 
 #### Returns
 
