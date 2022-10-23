@@ -237,6 +237,10 @@ export class Http<TParams extends Record<string, any> = any,
 
     data.response = Object.assign({}, data.response, this.response)
 
+    // convert response body to string
+    if (data.response.body && !data.response.isBase64Encoded && typeof data.response.body !== 'string')
+      data.response.body = JSON.stringify(data.response.body)
+
     const originBody = data.response.body
     data.response.originBody = originBody
 

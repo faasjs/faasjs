@@ -12,7 +12,7 @@ import { Socket } from 'node:net'
 import { addHook } from 'pirates'
 import { transform } from '@faasjs/ts-transform'
 import { randomBytes } from 'node:crypto'
-import { pipeline, Readable } from 'node:stream'
+import { Readable } from 'node:stream'
 import {
   createBrotliCompress, createGzip, createDeflate
 } from 'node:zlib'
