@@ -237,12 +237,12 @@ export class Http<TParams extends Record<string, any> = any,
 
     data.response = Object.assign({}, data.response, this.response)
 
-    // convert response body to string
-    if (data.response.body && !data.response.isBase64Encoded && typeof data.response.body !== 'string')
-      data.response.body = JSON.stringify(data.response.body)
-
     const originBody = data.response.body
     data.response.originBody = originBody
+
+    // convert response body to string
+    if (originBody && !data.response.isBase64Encoded && typeof originBody !== 'string')
+      data.response.body = JSON.stringify(originBody)
 
     // determine if the body needs to be compressed
     if (
@@ -251,6 +251,29 @@ export class Http<TParams extends Record<string, any> = any,
       typeof data.response.body !== 'string' ||
       data.response.body.length < 100
     ) return
+
+    const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding']
+    if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
+
+    try {
+      if (acceptEncoding.includes('br')) {
+        data.response.headers['Content-Encoding'] = 'br'
+        data.response.body = brotliCompressSync(originBody).toString('base64')
+      } else if (acceptEncoding.includes('gzip')) {
+        data.response.headers['Content-Encoding'] = 'gzip'
+        data.response.body = gzipSync(originBody).toString('base64')
+      } else if (acceptEncoding.includes('deflate')) {
+        data.response.headers['Content-Encoding'] = 'deflate'
+        data.response.body = deflateSync(originBody).toString('base64')
+      } else throw Error('No matched compression.')
+
+      data.response.isBase64Encoded = true
+    } catch (error) {
+      console.error(error)
+      // restore the original body
+      data.response.body = originBody
+      delete data.response.headers['Content-Encoding']
+    }
   }
 
   /**

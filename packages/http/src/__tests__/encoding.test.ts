@@ -13,7 +13,7 @@ describe('Accept-Encoding', function () {
     process.env.FaasMode = 'local'
   })
 
-  const data = new Array(101).join('1')
+  const data = new Array(201).join('1')
 
   test('br', async function () {
     const http = new Http()
