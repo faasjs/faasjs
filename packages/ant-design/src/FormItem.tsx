@@ -18,7 +18,9 @@ import {
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { FaasItemProps, transferOptions } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
-import { useEffect, useState } from 'react'
+import {
+  ReactNode, useEffect, useState
+} from 'react'
 import { upperFirst } from 'lodash'
 import { BaseItemProps, BaseOption } from '.'
 import { ConfigProviderProps, useConfigContext } from './Config'
@@ -95,7 +97,7 @@ BooleanProps | OptionsProps | DateProps | TimeProps |
 ObjectProps | ObjectListProps
 
 export type ExtendFormTypeProps = {
-  children?: JSX.Element | null
+  children?: ReactNode
 }
 
 export type ExtendTypes = {
@@ -105,8 +107,8 @@ export type ExtendTypes = {
 export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
 export type FormItemProps<T = any> = {
-  children?: JSX.Element | null
-  render?: () => JSX.Element | null
+  children?: ReactNode
+  render?: () => ReactNode
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: ExtendTypes

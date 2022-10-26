@@ -19,7 +19,7 @@ export type BlankProps = {
  * <Blank value={undefined} text="Empty" />
  * ```
  */
-export function Blank (options?: BlankProps) {
+export function Blank (options?: BlankProps): JSX.Element {
   const { Blank } = useConfigContext()
 
   return !options ||

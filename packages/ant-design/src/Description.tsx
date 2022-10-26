@@ -14,14 +14,14 @@ import { Blank } from './Blank'
 
 export type ExtendDescriptionTypeProps = {
   children?: JSX.Element | null
-  render?: (value: any, values: any) => JSX.Element | string | number | boolean | null
+  render?: (value: any, values: any) => ReactNode
 }
 
 export type ExtendDescriptionItemProps = BaseItemProps
 
 export type DescriptionItemProps<T = any> = {
   children?: JSX.Element
-  render?: (value: T, values: any) => JSX.Element | string | number | boolean | null
+  render?: (value: T, values: any) => ReactNode
 } & FaasItemProps
 
 export type DescriptionProps<T = any, ExtendItemProps = any> = {
