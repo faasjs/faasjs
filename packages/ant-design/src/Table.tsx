@@ -55,11 +55,11 @@ export type TableProps<T = any, ExtendTypes = any> = {
     filters: Record<string, FilterValue | null>,
     sorter: SorterResult<T> | SorterResult<T>[],
     extra: TableCurrentDataSource<T>
-  };
+  }
 } & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
-  if (typeof value === 'undefined' && value === null )
+  if (typeof value === 'undefined' || value === null || value === '')
     return <Blank />
 
   if (item.options ) {
