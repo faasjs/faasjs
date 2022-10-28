@@ -31,38 +31,45 @@ import dayjs, { Dayjs, isDayjs } from 'dayjs'
 type StringProps = {
   type?: 'string'
   input?: InputProps
+  required?: boolean
 }
 
 type StringListProps = {
   type: 'string[]'
   input?: InputProps
   maxCount?: number
+  required?: boolean
 }
 
 type NumberProps = {
   type: 'number'
   input?: InputNumberProps
+  required?: boolean
 }
 
 type NumberListProps = {
   type: 'number[]'
   input?: InputNumberProps
   maxCount?: number
+  required?: boolean
 }
 
 type BooleanProps = {
   type: 'boolean'
   input?: SwitchProps
+  required?: boolean
 }
 
 type DateProps = {
   type: 'date'
   input?: DatePickerProps
+  required?: boolean
 }
 
 type TimeProps = {
   type: 'time'
   input?: TimePickerProps
+  required?: boolean
 }
 
 type ObjectProps = {
@@ -71,6 +78,7 @@ type ObjectProps = {
   NumberProps | NumberListProps |
   BooleanProps | OptionsProps | DateProps | TimeProps | ObjectProps))[]
   disabled?: boolean
+  required?: boolean
 }
 
 type ObjectListProps = {
@@ -83,6 +91,7 @@ type ObjectListProps = {
   BooleanProps | OptionsProps | DateProps | TimeProps | ObjectProps))[]
   maxCount?: number
   disabled?: boolean
+  required?: boolean
 }
 
 type OptionsProps = {
