@@ -74,21 +74,17 @@ type TimeProps = {
 
 type ObjectProps = {
   type: 'object'
-  object: (FaasItemProps & (StringProps | StringListProps |
-  NumberProps | NumberListProps |
-  BooleanProps | OptionsProps | DateProps | TimeProps | ObjectProps))[]
+  object: FormItemProps[]
   disabled?: boolean
   required?: boolean
 }
 
 type ObjectListProps = {
   type: 'object[]'
-  object: (FaasItemProps & {
+  object: (FormItemProps & {
     /** default is 6 */
     col?: number
-  } & (StringProps | StringListProps |
-  NumberProps | NumberListProps |
-  BooleanProps | OptionsProps | DateProps | TimeProps | ObjectProps))[]
+  })[]
   maxCount?: number
   disabled?: boolean
   required?: boolean
