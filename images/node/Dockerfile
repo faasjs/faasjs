@@ -1,6 +1,6 @@
 FROM node:current-alpine
 
-RUN apk add --no-cache rsync zip git openssh
+RUN apk add --no-cache git zsh openssh rsync zip libc6-compat
 
 RUN corepack enable
 RUN npm install -g npm@latest

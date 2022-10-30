@@ -1,6 +1,6 @@
 FROM node:current-alpine
 
-RUN apk add --no-cache git zsh openssh rsync zip
+RUN apk add --no-cache git zsh openssh rsync zip libc6-compat
 
 RUN sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 
