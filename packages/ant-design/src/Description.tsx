@@ -1,6 +1,6 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
-  Descriptions, DescriptionsProps, Skeleton
+  Descriptions, DescriptionsProps, Skeleton, Space
 } from 'antd'
 import { isFunction, upperFirst } from 'lodash'
 import {
@@ -22,7 +22,9 @@ export type ExtendDescriptionItemProps = BaseItemProps
 export type DescriptionItemProps<T = any> = {
   children?: JSX.Element
   render?: (value: T, values: any) => ReactNode
-} & FaasItemProps
+} & FaasItemProps & {
+  object?: DescriptionItemProps[]
+}
 
 export type DescriptionProps<T = any, ExtendItemProps = any> = {
   renderTitle?: ((values: T) => ReactNode)
@@ -135,6 +137,22 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
           :
           dayjs(computedProps.value as any).format('YYYY-MM-DD')}
       </>
+    case 'object':
+      return <Description
+        items={ computedProps.item.object }
+        dataSource={ computedProps.value }
+      />
+    case 'object[]':
+      if (!(computedProps.value as Record<string, any>[])?.length) return <Blank />
+
+      return <Space direction="vertical">{
+        (computedProps.value as Record<string, any>[])
+          .map((value, index) => <Description
+            key={ index }
+            items={ computedProps.item.object }
+            dataSource={ value }
+          />)
+      }</Space>
     default:
       return computedProps.value as any || null
   }
