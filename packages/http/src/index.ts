@@ -249,7 +249,7 @@ export class Http<TParams extends Record<string, any> = any,
       !data.response.body ||
       data.response.isBase64Encoded ||
       typeof data.response.body !== 'string' ||
-      data.response.body.length < 100
+      data.response.body.length < 1024
     ) return
 
     const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding']

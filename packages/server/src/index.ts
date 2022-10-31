@@ -205,7 +205,7 @@ export class Server {
         if (resBody) {
           this.logger.debug('[%s] Response %s %j', requestId, res.statusCode, headers)
 
-          if (res.statusCode !== 200 || typeof resBody !== 'string') {
+          if (res.statusCode !== 200 || typeof resBody !== 'string' || resBody.length < 1024) {
             res.write(resBody)
             res.end()
             resolve()
