@@ -130,9 +130,7 @@ export class Server {
 
         if (req.method === 'OPTIONS') {
           headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-          for (const key in headers)
-            res.setHeader(key, headers[key])
-          res.statusCode = 204
+          res.writeHead(204, headers)
           res.end()
           resolve()
           return
@@ -274,20 +272,12 @@ export class Server {
       : async (req, res) => {
         // don't lock options request
         if (req.method === 'OPTIONS') {
-          const headers: {
-            [key: string]: string
-          } = {
+          res.writeHead(204, {
             'Access-Control-Allow-Origin': req.headers.origin || '*',
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Methods': 'OPTIONS, POST',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-          }
-
-          for (const key in headers)
-            res.setHeader(key, headers[key])
-
-          res.statusCode = 204
-
+          })
           res.end()
           return
         }
