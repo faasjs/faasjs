@@ -2,18 +2,18 @@
  * @jest-environment jsdom
  */
 import { FaasActions } from '@faasjs/types'
-import { FaasBrowserClient, Response as FaasResponse } from '..'
+import { FaasBrowserClient, Response as FaasResponse, ResponseError } from '..'
 import { expectType } from 'tsd'
 
 let request: {
   url?: string;
   method?: string;
   headers?: HeadersInit
-} = {}
+} = {};
 
 const defaultMock = async (url: RequestInfo | URL, options: RequestInit) => {
   request = {
-    url: url as string,
+    url: url as any,
     method: options.method,
     headers: options.headers,
   }
@@ -56,6 +56,29 @@ describe('client', function () {
     expect(request.url.substring(0, 4)).toEqual('/?_=')
     expect(request.method).toEqual('GET')
     expect(request.headers).toEqual({ 'Content-Type': 'plain/text; charset=UTF-8' })
+  })
+
+  it('work with request', async function () {
+    const resData: FaasResponse = new FaasResponse({
+      status: 200,
+      headers: {},
+      body: {},
+      data: {
+        data: 'success',
+      }
+    });
+
+    const client = new FaasBrowserClient('/', {
+      request: (url, options) => {
+        return new Promise((resolve, reject) => {
+          JSON.parse(options.body as any).success ? resolve(resData) : reject('error')
+          return resData
+        })
+      }
+    })
+
+    await expect(client.action('/success', { success: true })).resolves.toEqual(resData)
+    await expect(client.action('/error', { success: false })).rejects.toEqual('error')
   })
 
   it('when error', async function () {
