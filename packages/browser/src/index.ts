@@ -6,6 +6,7 @@ export type Options = RequestInit & {
   headers?: {
     [key: string]: string
   }
+  /** trigger before request */
   beforeRequest?: ({
     action, params, options
   }: {
@@ -13,7 +14,8 @@ export type Options = RequestInit & {
     params: Record<string, any>
     options: Options
   }) => Promise<void> | void
-  request?:  <PathOrData extends FaasAction> (url: string, options: Options) => Promise<Response<FaasData<PathOrData>>>
+  /** custom request */
+  request?: <PathOrData extends FaasAction> (url: string, options: Options) => Promise<Response<FaasData<PathOrData>>>
 }
 
 export type ResponseHeaders = {
@@ -116,6 +118,9 @@ export class FaasBrowserClient {
    * @param action function path
    * @param params function params
    * @param options request options
+   * ```ts
+   * await client.action('func', { key: 'value' })
+   * ```
    */
   public async action<PathOrData extends FaasAction> (
     action: PathOrData | string,
@@ -144,9 +149,8 @@ export class FaasBrowserClient {
         options
       })
 
-    if(options.request){
+    if (options.request)
       return options.request(url, options)
-    }
 
     return fetch(url, options)
       .then( async response => {
