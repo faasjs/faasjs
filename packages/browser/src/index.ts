@@ -13,6 +13,7 @@ export type Options = RequestInit & {
     params: Record<string, any>
     options: Options
   }) => Promise<void> | void
+  request?:  <PathOrData extends FaasAction> (url: string, options: Options) => Promise<Response<FaasData<PathOrData>>>
 }
 
 export type ResponseHeaders = {
@@ -142,6 +143,10 @@ export class FaasBrowserClient {
         params,
         options
       })
+
+    if(options.request){
+      return options.request(url, options)
+    }
 
     return fetch(url, options)
       .then( async response => {
