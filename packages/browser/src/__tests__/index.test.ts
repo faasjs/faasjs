@@ -13,7 +13,7 @@ let request: {
 
 const defaultMock = async (url: RequestInfo | URL, options: RequestInit) => {
   request = {
-    url: url as string,
+    url: url as any,
     method: options.method,
     headers: options.headers,
   }
@@ -56,6 +56,28 @@ describe('client', function () {
     expect(request.url.substring(0, 4)).toEqual('/?_=')
     expect(request.method).toEqual('GET')
     expect(request.headers).toEqual({ 'Content-Type': 'plain/text; charset=UTF-8' })
+  })
+
+  it('work with request', async function () {
+    const resData: FaasResponse = new FaasResponse({
+      status: 200,
+      headers: {},
+      body: {},
+      data: {}
+    })
+
+    const client = new FaasBrowserClient('/', {
+      request: (url, options) => {
+        return new Promise((resolve, reject) => {
+          JSON.parse(options.body as any).success ? resolve(resData) : reject('error')
+        })
+      }
+    })
+
+    const response = await client.action('/success', { success: true })
+
+    expect(response.data).toEqual(response.data)
+    await expect(client.action('/error', { success: false })).rejects.toEqual('error')
   })
 
   it('when error', async function () {
