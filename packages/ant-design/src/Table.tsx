@@ -59,18 +59,21 @@ export type TableProps<T = any, ExtendTypes = any> = {
 } & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
-  if (typeof value === 'undefined' || value === null || value === '')
+  if (typeof value === 'undefined' || value === null || value === '' || (Array.isArray(value) && !value.length))
     return <Blank />
 
   if (item.options ) {
-    if (item.type.endsWith('[]'))
+    if (item.type.endsWith('[]')) {
+      if (!Array.isArray(value) && typeof value === 'string')
+        value = value.split(',')
+
       return (value as any[]).map((v: any) => (item.options as {
         label: string
         value: any
       }[])
         .find(option => option.value === v)?.label
         || v)
-    else if ([
+    } else if ([
       'string',
       'number',
       'boolean'
@@ -116,7 +119,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
       if (item.children) delete item.children
 
       if (props.extendTypes && props.extendTypes[item.type]) {
-        if (props.extendTypes[item.type].children) {
+        if (props.extendTypes[item.type].children)
           item.render = (value: any, values: any) => cloneElement(
             props.extendTypes[item.type].children,
             {
@@ -124,7 +127,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
               values
             }
           )
-        } else if (props.extendTypes[item.type].render)
+        else if (props.extendTypes[item.type].render)
           item.render = props.extendTypes[item.type].render
         else
           throw Error(item.type + ' requires children or render')
@@ -135,13 +138,14 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         case 'string':
           if (!item.render)
             item.render = value => processValue(item, value)
-          if (!item.onFilter) {
+
+          if (!item.onFilter)
             item.onFilter = (value: any, row) => {
               if (!row[item.id]) return false
 
               return (row[item.id] as string).includes(value)
             }
-          }
+
           if (!item.filters && item.filterDropdown !== false && item.optionsType !== 'auto')
             item.filterDropdown = ({
               setSelectedKeys, selectedKeys, confirm, clearFilters

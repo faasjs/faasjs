@@ -31,52 +31,43 @@ import dayjs, { Dayjs, isDayjs } from 'dayjs'
 type StringProps = {
   type?: 'string'
   input?: InputProps
-  required?: boolean
 }
 
 type StringListProps = {
   type: 'string[]'
   input?: InputProps
   maxCount?: number
-  required?: boolean
 }
 
 type NumberProps = {
   type: 'number'
   input?: InputNumberProps
-  required?: boolean
 }
 
 type NumberListProps = {
   type: 'number[]'
   input?: InputNumberProps
   maxCount?: number
-  required?: boolean
 }
 
 type BooleanProps = {
   type: 'boolean'
   input?: SwitchProps
-  required?: boolean
 }
 
 type DateProps = {
   type: 'date'
   input?: DatePickerProps
-  required?: boolean
 }
 
 type TimeProps = {
   type: 'time'
   input?: TimePickerProps
-  required?: boolean
 }
 
 type ObjectProps = {
   type: 'object'
   object: FormItemProps[]
-  disabled?: boolean
-  required?: boolean
 }
 
 type ObjectListProps = {
@@ -86,8 +77,6 @@ type ObjectListProps = {
     col?: number
   })[]
   maxCount?: number
-  disabled?: boolean
-  required?: boolean
 }
 
 type OptionsProps = {
@@ -96,10 +85,13 @@ type OptionsProps = {
   input?: SelectProps<any>
 }
 
-type FormItemInputProps = StringProps | StringListProps |
+type FormItemInputProps = (StringProps | StringListProps |
 NumberProps | NumberListProps |
 BooleanProps | OptionsProps | DateProps | TimeProps |
-ObjectProps | ObjectListProps
+ObjectProps | ObjectListProps) & {
+  disabled?: boolean
+  required?: boolean
+}
 
 export type ExtendFormTypeProps = {
   children?: ReactNode
