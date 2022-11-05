@@ -13,7 +13,8 @@ import {
   Select,
   SelectProps,
   DatePickerProps,
-  TimePickerProps
+  TimePickerProps,
+  FormInstance
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { FaasItemProps, transferOptions } from './data'
@@ -105,10 +106,12 @@ export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
 export type FormItemProps<T = any> = {
   children?: ReactNode
-  render?: (value?: any) => ReactNode | JSX.Element
+  render?: (value?: T) => ReactNode | JSX.Element
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: ExtendTypes
+  /** trigger when current item's value changed */
+  onValueChange?: (value: T, values: any, form: FormInstance) => void
 } & FormItemInputProps & FaasItemProps & Omit<AntdFormItemProps<T>, 'children'>
 
 function processProps (propsCopy: FormItemProps, config: ConfigProviderProps) {

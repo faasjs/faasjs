@@ -72,9 +72,13 @@ export function Form<Values = any> (props: FormProps<Values>) {
   const [computedProps, setComputedProps] = useState<FormProps<Values>>()
   const config = useConfigContext()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
+  const [form] = AntdForm.useForm<Values>(props.form)
 
   useEffect(() => {
-    const propsCopy = { ...props }
+    const propsCopy = {
+      ...props,
+      form,
+    }
 
     if (propsCopy.initialValues)
       for (const key in propsCopy.initialValues)
@@ -144,12 +148,30 @@ export function Form<Values = any> (props: FormProps<Values>) {
       delete propsCopy.extendTypes
     }
 
+    let originValuesChange: (changes: any, values: Values) => void
+
+    if (propsCopy.onValuesChange)
+      originValuesChange = propsCopy.onValuesChange
+
+    propsCopy.onValuesChange = (changedValues, allValues) => {
+      if (originValuesChange)
+        originValuesChange(changedValues, allValues)
+      for (const key in changedValues) {
+        const item = propsCopy.items.find(i => i.id === key)
+
+        if (item?.onValueChange)
+          item.onValueChange(changedValues[key], allValues, form)
+      }
+    }
+
     setComputedProps(propsCopy)
   }, [])
 
   if (!computedProps) return null
 
-  return <AntdForm<Values> { ...computedProps }>
+  return <AntdForm
+    { ...computedProps }
+  >
     {computedProps.beforeItems}
     {computedProps.items?.map((item: FormItemProps) => <FormItem
       key={ item.id }
@@ -167,4 +189,3 @@ export function Form<Values = any> (props: FormProps<Values>) {
 }
 
 Form.useForm = AntdForm.useForm
-Form.Item = FormItem
