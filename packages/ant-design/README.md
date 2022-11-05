@@ -18,7 +18,9 @@ In `@faasjs/ant-design`, we use `FaasItemProps` to provide data structures for c
 type FaasItemType =
   'string' | 'string[]' |
   'number' | 'number[]' |
-  'boolean'
+  'boolean' |
+  'date' | 'time' |
+  'object' | 'object[]'
 
 type FaasItemProps = {
   type: FaasItemTypes

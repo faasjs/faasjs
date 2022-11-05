@@ -73,6 +73,14 @@ describe('Table/items', () => {
           {
             id: 1,
             test: ['value', 'value']
+          },
+          {
+            id: 2,
+            test: []
+          },
+          {
+            id: 3,
+            test: null
           }
         ] }
       />)

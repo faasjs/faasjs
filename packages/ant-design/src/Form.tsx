@@ -60,6 +60,11 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
   children?: ReactNode
 } & Omit<AntdFormProps<Values>, 'onFinish' | 'children'>
 
+/**
+ * Form component with Ant Design & FaasJS
+ *
+ * @ref https://ant.design/components/form/
+ */
 export function Form<Values = any> (props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)
   const [computedProps, setComputedProps] = useState<FormProps<Values>>()

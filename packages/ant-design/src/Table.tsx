@@ -62,18 +62,18 @@ function processValue (item: TableItemProps, value: any) {
   if (typeof value === 'undefined' || value === null || value === '' || (Array.isArray(value) && !value.length))
     return <Blank />
 
-  if (item.options ) {
-    if (item.type.endsWith('[]')) {
-      if (!Array.isArray(value) && typeof value === 'string')
-        value = value.split(',')
+  if (item.type.endsWith('[]') && typeof value === 'string') value = value.split(',')
 
+  if (item.options ) {
+    if (item.type.endsWith('[]'))
       return (value as any[]).map((v: any) => (item.options as {
         label: string
         value: any
       }[])
         .find(option => option.value === v)?.label
-        || v)
-    } else if ([
+        || v).join(', ')
+
+    if ([
       'string',
       'number',
       'boolean'
@@ -86,15 +86,24 @@ function processValue (item: TableItemProps, value: any) {
         || value
   }
 
+  if (item.type.endsWith('[]'))
+    return value.join(', ')
+
   if (['date', 'time'].includes(item.type)) {
     if (typeof value === 'number' && value.toString().length === 10)
       value = value * 1000
+
     return dayjs(value).format(item.type === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss')
   }
 
   return value
 }
 
+/**
+ * Table component with Ant Design & FaasJS
+ *
+ * @ref https://ant.design/components/table/
+ */
 export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()
   const { common } = useConfigContext()
@@ -166,7 +175,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           break
         case 'string[]':
           if (!item.render)
-            item.render = value => processValue(item, value).join(', ')
+            item.render = value => processValue(item, value)
           if (!item.onFilter)
             item.onFilter = (value: any, row) => {
               if (!row[item.id] || !row[item.id].length) return false
