@@ -6,9 +6,11 @@ import { isFunction, upperFirst } from 'lodash'
 import {
   cloneElement, ReactNode, useEffect, useState
 } from 'react'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { BaseItemProps } from '.'
-import { FaasItemProps, transferOptions } from './data'
+import {
+  FaasItemProps, transferOptions, transferValue
+} from './data'
 import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
 import { Blank } from './Blank'
 
@@ -57,6 +59,8 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
       propsCopy.item.options = transferOptions(propsCopy.item.options)
     }
 
+    propsCopy.value = transferValue(propsCopy.item.type, propsCopy.value)
+
     if (propsCopy.item.options && typeof propsCopy.value !== 'undefined' && propsCopy.value !== null) {
       if (propsCopy.item.type.endsWith('[]'))
         propsCopy.value = (propsCopy.value as unknown as any[]).map((v: any) => (propsCopy.item.options as {
@@ -103,7 +107,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   if (computedProps.item.render)
     return <>{computedProps.item.render(computedProps.value, computedProps.values)}</>
 
-  if (typeof computedProps.value === 'undefined' || computedProps.value === null)
+  if (computedProps.value === null)
     return <Blank />
 
   switch (computedProps.item.type) {
@@ -122,21 +126,9 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
         color: '#ff4d4f'
       } } />
     case 'time':
-      // check unix timestamp
-      return <>
-        {(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
-          dayjs.unix(computedProps.value as number).format('YYYY-MM-DD HH:mm:ss')
-          :
-          dayjs(computedProps.value as any).format('YYYY-MM-DD HH:mm:ss')}
-      </>
+      return <>{(computedProps.value as Dayjs).format('YYYY-MM-DD HH:mm:ss')}</>
     case 'date':
-      // check unix timestamp
-      return <>
-        {(typeof computedProps.value === 'number' && computedProps.value.toString().length === 10) ?
-          dayjs.unix(computedProps.value as number).format('YYYY-MM-DD')
-          :
-          dayjs(computedProps.value as any).format('YYYY-MM-DD')}
-      </>
+      return <>{(computedProps.value as Dayjs).format('YYYY-MM-DD')}</>
     case 'object':
       return <Description
         items={ computedProps.item.object }

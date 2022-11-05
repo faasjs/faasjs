@@ -8,6 +8,7 @@ import {
   ReactNode, useEffect, useState
 } from 'react'
 import { useConfigContext } from './Config'
+import { transferValue } from './data'
 import {
   ExtendFormTypeProps, ExtendFormItemProps, ExtendTypes,
   FormItem, FormItemProps
@@ -58,7 +59,8 @@ export type FormProps<Values = any, ExtendItemProps = any> = {
   footer?: JSX.Element | JSX.Element[]
   extendTypes?: ExtendTypes
   children?: ReactNode
-} & Omit<AntdFormProps<Values>, 'onFinish' | 'children'>
+  initialValues?: Values
+} & Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'>
 
 /**
  * Form component with Ant Design & FaasJS
@@ -73,6 +75,13 @@ export function Form<Values = any> (props: FormProps<Values>) {
 
   useEffect(() => {
     const propsCopy = { ...props }
+
+    if (propsCopy.initialValues)
+      for (const key in propsCopy.initialValues)
+        propsCopy.initialValues[key] = transferValue(
+          propsCopy.items.find(i => i.id === key)?.type,
+          propsCopy.initialValues[key]
+        )
 
     if (propsCopy.onFinish) {
       propsCopy.onFinish = async values => {

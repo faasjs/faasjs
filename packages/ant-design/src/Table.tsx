@@ -13,7 +13,7 @@ import {
 } from 'antd'
 import dayjs from 'dayjs'
 import {
-  FaasItemProps, transferOptions, BaseItemProps
+  FaasItemProps, transferOptions, BaseItemProps, transferValue
 } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
@@ -59,14 +59,14 @@ export type TableProps<T = any, ExtendTypes = any> = {
 } & AntdTableProps<T>
 
 function processValue (item: TableItemProps, value: any) {
-  if (typeof value === 'undefined' || value === null || value === '' || (Array.isArray(value) && !value.length))
-    return <Blank />
+  const transferred = transferValue(item.type, value)
 
-  if (item.type.endsWith('[]') && typeof value === 'string') value = value.split(',')
+  if (transferred === null)
+    return <Blank />
 
   if (item.options ) {
     if (item.type.endsWith('[]'))
-      return (value as any[]).map((v: any) => (item.options as {
+      return (transferred as any[]).map((v: any) => (item.options as {
         label: string
         value: any
       }[])
@@ -82,19 +82,15 @@ function processValue (item: TableItemProps, value: any) {
         label: string
         value: any
       }[])
-        .find(option => option.value === value)?.label
-        || value
+        .find(option => option.value === transferred)?.label
+        || transferred
   }
 
   if (item.type.endsWith('[]'))
-    return value.join(', ')
+    return transferred.join(', ')
 
-  if (['date', 'time'].includes(item.type)) {
-    if (typeof value === 'number' && value.toString().length === 10)
-      value = value * 1000
-
-    return dayjs(value).format(item.type === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss')
-  }
+  if (['date', 'time'].includes(item.type))
+    return transferred.format(item.type === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss')
 
   return value
 }
