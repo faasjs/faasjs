@@ -156,6 +156,9 @@ export function Form<Values = any> (props: FormProps<Values>) {
     propsCopy.onValuesChange = (changedValues, allValues) => {
       if (originValuesChange)
         originValuesChange(changedValues, allValues)
+
+      if (!propsCopy.items) return
+
       for (const key in changedValues) {
         const item = propsCopy.items.find(i => i.id === key)
 
