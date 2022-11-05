@@ -183,7 +183,7 @@ ___
 
 ### DescriptionItemProps
 
-Ƭ **DescriptionItemProps**<`T`\>: { `children?`: `JSX.Element` ; `render?`: (`value`: `T`, `values`: `any`) => `JSX.Element` \| `string` \| `number` \| `boolean` \| ``null``  } & [`FaasItemProps`](#faasitemprops)
+Ƭ **DescriptionItemProps**<`T`\>: { `children?`: `JSX.Element` ; `render?`: (`value`: `T`, `values`: `any`) => `ReactNode` \| `JSX.Element`  } & [`FaasItemProps`](#faasitemprops) & { `object?`: [`DescriptionItemProps`](#descriptionitemprops)[]  }
 
 #### Type parameters
 
@@ -195,7 +195,7 @@ ___
 
 ### DescriptionProps
 
-Ƭ **DescriptionProps**<`T`, `ExtendItemProps`\>: { `dataSource?`: `T` ; `extendTypes?`: { `[key: string]`: [`ExtendDescriptionTypeProps`](#extenddescriptiontypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`DescriptionItemProps`](#descriptionitemprops) \| `ExtendItemProps`)[] ; `renderTitle?`: (`values`: `T`) => `ReactNode`  } & `DescriptionsProps`
+Ƭ **DescriptionProps**<`T`, `ExtendItemProps`\>: { `dataSource?`: `T` ; `extendTypes?`: { `[key: string]`: [`ExtendDescriptionTypeProps`](#extenddescriptiontypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`DescriptionItemProps`](#descriptionitemprops) \| `ExtendItemProps`)[] ; `renderTitle?`: (`values`: `T`) => `ReactNode` \| `JSX.Element`  } & `DescriptionsProps`
 
 #### Type parameters
 
@@ -227,7 +227,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `children?` | `JSX.Element` \| ``null`` |
-| `render?` | (`value`: `any`, `values`: `any`) => `JSX.Element` \| `string` \| `number` \| `boolean` \| ``null`` |
+| `render?` | (`value`: `any`, `values`: `any`) => `ReactNode` \| `JSX.Element` |
 
 ___
 
@@ -245,7 +245,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `children?` | `JSX.Element` \| ``null`` |
+| `children?` | `ReactNode` |
 
 ___
 
@@ -300,6 +300,8 @@ ___
 
 Ƭ **FaasItemTypeValue**: `Object`
 
+FaasItemType's value type
+
 #### Type declaration
 
 | Name | Type |
@@ -318,7 +320,7 @@ ___
 
 ### FormItemProps
 
-Ƭ **FormItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `label?`: `string` \| ``false`` ; `render?`: () => `JSX.Element` \| ``null`` ; `rules?`: `RuleObject`[]  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
+Ƭ **FormItemProps**<`T`\>: { `children?`: `ReactNode` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `label?`: `string` \| ``false`` ; `render?`: (`value?`: `any`) => `ReactNode` \| `JSX.Element` ; `rules?`: `RuleObject`[]  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -481,7 +483,7 @@ ___
 
 ### Blank
 
-▸ **Blank**(`options?`): `any`
+▸ **Blank**(`options?`): `JSX.Element`
 
 If value is undefined or null, return text, otherwise return value.
 
@@ -493,7 +495,7 @@ If value is undefined or null, return text, otherwise return value.
 
 #### Returns
 
-`any`
+`JSX.Element`
 
 ```ts
 <Blank value={undefined} text="Empty" />
@@ -572,6 +574,12 @@ ___
 ### Form
 
 ▸ **Form**<`Values`\>(`props`): `Element`
+
+Form component with Ant Design & FaasJS
+
+**`Ref`**
+
+https://ant.design/components/form/
 
 #### Type parameters
 
@@ -696,6 +704,12 @@ ___
 ### Table
 
 ▸ **Table**<`T`, `ExtendTypes`\>(`props`): `Element`
+
+Table component with Ant Design & FaasJS
+
+**`Ref`**
+
+https://ant.design/components/table/
 
 #### Type parameters
 

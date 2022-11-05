@@ -68,7 +68,7 @@ Request a FaasJS function
 | :------ | :------ | :------ |
 | `action` | `string` \| `PathOrData` | function path |
 | `params?` | `FaasParams`<`PathOrData`\> | function params |
-| `options?` | [`Options`](../#options) | request options |
+| `options?` | [`Options`](../#options) | request options ```ts await client.action('func', { key: 'value' }) ``` |
 
 #### Returns
 
