@@ -148,7 +148,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.onFilter = (value: any, row) => {
               if (!row[item.id]) return false
 
-              return (row[item.id] as string).includes(value)
+              return (row[item.id] as string).toLowerCase().includes(value.toLowerCase())
             }
 
           if (!item.filters && item.filterDropdown !== false && item.optionsType !== 'auto')
@@ -176,7 +176,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.onFilter = (value: any, row) => {
               if (!row[item.id] || !row[item.id].length) return false
 
-              return (row[item.id] as string[]).some(v => v.includes(value))
+              return (row[item.id] as string[]).some(v => v.toLowerCase().includes(value.toLowerCase()))
             }
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
