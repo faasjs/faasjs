@@ -61,7 +61,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
 
     propsCopy.value = transferValue(propsCopy.item.type, propsCopy.value)
 
-    if (propsCopy.item.options && typeof propsCopy.value !== 'undefined' && propsCopy.value !== null) {
+    if (propsCopy.item.options && propsCopy.value !== null) {
       if (propsCopy.item.type.endsWith('[]'))
         propsCopy.value = (propsCopy.value as unknown as any[]).map((v: any) => (propsCopy.item.options as {
           label: string

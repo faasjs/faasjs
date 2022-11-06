@@ -54,7 +54,11 @@ export function transferOptions (options: BaseOption[]): {
 }
 
 export function transferValue (type: FaasItemType, value: any): any {
-  if (typeof value === 'undefined' || value === null || value === '' || (Array.isArray(value) && !value.length))
+  if (
+    typeof value === 'undefined' || value === null ||
+    value === '' || value === 'null' || value === 'undefined' ||
+    (Array.isArray(value) && !value.length)
+  )
     return null
 
   if (!type) type = 'string'
