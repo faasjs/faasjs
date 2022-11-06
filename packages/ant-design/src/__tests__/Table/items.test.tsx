@@ -163,7 +163,6 @@ describe('Table/items', () => {
       await user.click(screen.getByRole('radio', { name: 'Empty' }))
 
       expect(screen.getAllByRole('cell').length).toBe(2)
-      expect(screen.getByText('undefined')).toBeInTheDocument()
 
       await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
       await user.click(screen.getByRole('radio', { name: 'All' }))
