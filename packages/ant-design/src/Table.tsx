@@ -153,10 +153,9 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
           if (!item.filters && item.filterDropdown !== false && item.optionsType !== 'auto')
             item.filterDropdown = ({
-              setSelectedKeys, selectedKeys, confirm, clearFilters
+              setSelectedKeys, confirm, clearFilters
             }) => <Input.Search
               placeholder={ `${common.search} ${item.title}` }
-              value={ selectedKeys[0] }
               allowClear
               onSearch={ v => {
                 if (v) {
@@ -180,10 +179,9 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             }
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
-              setSelectedKeys, selectedKeys, confirm, clearFilters
+              setSelectedKeys, confirm, clearFilters
             }) => <Input.Search
               placeholder={ `${common.search} ${item.title}` }
-              value={ selectedKeys[0] }
               allowClear
               onSearch={ v => {
                 if (v) {
@@ -205,10 +203,9 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.onFilter = (value: any, row) => value === row[item.id]
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
-              setSelectedKeys, selectedKeys, confirm, clearFilters
+              setSelectedKeys, confirm, clearFilters
             }) => <Input.Search
               placeholder={ `${common.search} ${item.title}` }
-              value={ selectedKeys[0] }
               allowClear
               onSearch={ v => {
                 if (v) {
@@ -228,10 +225,9 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.onFilter = (value: any, row) => row[item.id].includes(value)
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
-              setSelectedKeys, selectedKeys, confirm, clearFilters
+              setSelectedKeys, confirm, clearFilters
             }) => <Input.Search
               placeholder={ `${common.search} ${item.title}` }
-              value={ selectedKeys[0] }
               allowClear
               onSearch={ v => {
                 if (v) {
