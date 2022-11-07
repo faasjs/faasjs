@@ -24,6 +24,7 @@ export type ExtendDescriptionItemProps = BaseItemProps
 export type DescriptionItemProps<T = any> = {
   children?: JSX.Element
   render?: (value: T, values: any) => ReactNode | JSX.Element
+  if?: (values: Record<string, any>) => boolean
 } & FaasItemProps & {
   object?: DescriptionItemProps[]
 }
@@ -157,16 +158,19 @@ export function Description<T = any> (props: DescriptionProps<T>) {
       title={ isFunction(props.renderTitle) ? props.renderTitle(props.dataSource) : props.title }
     >
       {
-        props.items.map(item => <Descriptions.Item
-          key={ item.id }
-          label={ item.title || upperFirst(item.id) }>
-          <DescriptionItemContent
-            item={ item }
-            value={ (props.dataSource as Record<string, any>)[item.id] }
-            values={ props.dataSource }
-            extendTypes={ props.extendTypes }
-          />
-        </Descriptions.Item>)
+        props.items.map(item => {
+          return !item.if || item.if(props.dataSource) ? (
+            <Descriptions.Item
+              key={ item.id }
+              label={ item.title || upperFirst(item.id) }>
+              <DescriptionItemContent
+                item={ item }
+                value={ (props.dataSource as Record<string, any>)[item.id] }
+                values={ props.dataSource }
+                extendTypes={ props.extendTypes }
+              />
+            </Descriptions.Item>
+          ) : null}).filter(Boolean)
       }
     </Descriptions>
 
@@ -178,16 +182,20 @@ export function Description<T = any> (props: DescriptionProps<T>) {
         title={ isFunction(props.renderTitle) ? props.renderTitle(data) : props.title }
       >
         {
-          props.items.map(item => <Descriptions.Item
-            key={ item.id }
-            label={ item.title || upperFirst(item.id) }>
-            <DescriptionItemContent
-              item={ item }
-              value={ (data as Record<string, any>)[item.id] }
-              values={ data }
-              extendTypes={ props.extendTypes }
-            />
-          </Descriptions.Item>)
+          props.items.map(item => {
+            return !item.if || item.if(data) ? (
+              <Descriptions.Item
+                key={ item.id }
+                label={ item.title || upperFirst(item.id) }>
+                <DescriptionItemContent
+                  item={ item }
+                  value={ (data as Record<string, any>)[item.id] }
+                  values={ data }
+                  extendTypes={ props.extendTypes }
+                />
+              </Descriptions.Item>
+            ) : null
+          }).filter(Boolean)
         }
       </Descriptions>
     } }

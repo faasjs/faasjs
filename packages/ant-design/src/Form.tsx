@@ -79,6 +79,9 @@ export function Form<Values = any> (props: FormProps<Values>) {
 
     const propsCopy = {
       ...props,
+      items: (props.items || []).filter((it: any)=>{
+        return !it.if || it.if(props.initialValues || {})
+      }),
       form,
     }
 
@@ -164,6 +167,30 @@ export function Form<Values = any> (props: FormProps<Values>) {
 
         if (item?.onValueChange)
           item.onValueChange(changedValues[key], allValues, form)
+      }
+
+      const filterItems = props.items.filter((it: any)=>{
+        if (!it.if) {
+          return true
+        }
+        const show = it.if(allValues)
+        if (show) {
+          propsCopy.form.setFields([
+            {
+              name: it.id,
+              errors: null
+            }
+          ])
+        }
+
+        return show
+      })
+
+      if (propsCopy.items.length !== filterItems.length || propsCopy.items.some((it, i)=>it !== filterItems[i])) {
+        setComputedProps({
+          ...propsCopy,
+          items: filterItems
+        })
       }
     }
 
