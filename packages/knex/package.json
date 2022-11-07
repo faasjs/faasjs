@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/knex",
-  "version": "0.0.2-beta.444",
+  "version": "0.0.2-beta.445",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,9 +22,9 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "^0.0.2-beta.444",
-    "@faasjs/func": "^0.0.2-beta.444",
-    "@faasjs/logger": "^0.0.2-beta.444",
+    "@faasjs/deep_merge": "^0.0.2-beta.445",
+    "@faasjs/func": "^0.0.2-beta.445",
+    "@faasjs/logger": "^0.0.2-beta.445",
     "knex": "*"
   },
   "devDependencies": {
