@@ -318,6 +318,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.render = value => <Description
               items={ item.object }
               dataSource={ value }
+              column={ 1 }
             />
           break
         case 'object[]':
@@ -326,6 +327,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
               key={ i }
               items={ item.object }
               dataSource={ v }
+              column={ 1 }
             />)
           break
         default:
