@@ -203,12 +203,11 @@ export function Form<Values = any> (props: FormProps<Values>) {
     { ...computedProps }
   >
     {computedProps.beforeItems}
-    {computedProps.items?.map((item: FormItemProps) => {
-      return <FormItem
-        key={ item.id }
-        { ...item }
-        extendTypes={ extendTypes }
-      />})}
+    {computedProps.items?.map((item: FormItemProps) => <FormItem
+      key={ item.id }
+      { ...item }
+      extendTypes={ extendTypes }
+    />)}
     {computedProps.children}
     {computedProps.submit !== false && <Button
       htmlType='submit'
