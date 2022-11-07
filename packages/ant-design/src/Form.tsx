@@ -16,7 +16,7 @@ import {
 
 export { ExtendFormTypeProps, ExtendFormItemProps }
 
-export type FormProps<Values = any, ExtendItemProps = any> = {
+export type FormProps<Values extends Record<string, any> = any, ExtendItemProps = any> = {
   items?: (FormItemProps | ExtendItemProps)[]
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | {
@@ -75,6 +75,8 @@ export function Form<Values = any> (props: FormProps<Values>) {
   const [form] = AntdForm.useForm<Values>(props.form)
 
   useEffect(() => {
+    if (!props.items) return
+
     const propsCopy = {
       ...props,
       form,
@@ -83,7 +85,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
     if (propsCopy.initialValues)
       for (const key in propsCopy.initialValues)
         propsCopy.initialValues[key] = transferValue(
-          propsCopy.items.find(i => i.id === key)?.type,
+          propsCopy.items.find(item => item.id === key)?.type,
           propsCopy.initialValues[key]
         )
 
@@ -157,8 +159,6 @@ export function Form<Values = any> (props: FormProps<Values>) {
       if (originValuesChange)
         originValuesChange(changedValues, allValues)
 
-      if (!propsCopy.items) return
-
       for (const key in changedValues) {
         const item = propsCopy.items.find(i => i.id === key)
 
@@ -168,7 +168,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
     }
 
     setComputedProps(propsCopy)
-  }, [])
+  }, [props])
 
   if (!computedProps) return null
 
