@@ -5,7 +5,7 @@ import {
   FormProps as AntdFormProps,
 } from 'antd'
 import {
-  ReactNode, useEffect, useState
+  ReactNode, useEffect, useState, useCallback
 } from 'react'
 import { useConfigContext } from './Config'
 import { transferValue } from './data'
@@ -151,56 +151,53 @@ export function Form<Values = any> (props: FormProps<Values>) {
       delete propsCopy.extendTypes
     }
 
-    let originValuesChange: (changes: any, values: Values) => void
-
-    if (propsCopy.onValuesChange)
-      originValuesChange = propsCopy.onValuesChange
-
-    propsCopy.onValuesChange = (changedValues, allValues) => {
-      if (originValuesChange)
-        originValuesChange(changedValues, allValues)
-
-      if (!props.items) return
-
-      for (const key in changedValues) {
-        const item = propsCopy.items.find(i => i.id === key)
-
-        if (item?.onValueChange)
-          item.onValueChange(changedValues[key], allValues, form)
-      }
-
-      const filterItems = props.items.filter((it: any)=>{
-        if (!it.if) {
-          return true
-        }
-        const show = it.if(allValues)
-        if (show) {
-          propsCopy.form.setFields([
-            {
-              name: it.id,
-              errors: null
-            }
-          ])
-        }
-
-        return show
-      })
-
-      if (propsCopy.items.length !== filterItems.length || propsCopy.items.some((it, i)=>it !== filterItems[i])) {
-        setComputedProps({
-          ...propsCopy,
-          items: filterItems
-        })
-      }
-    }
-
     setComputedProps(propsCopy)
   }, [props])
+
+  const onValuesChange = useCallback((changedValues:Record<string, any>, allValues:Values) => {
+    if (props.onValuesChange) {
+      props.onValuesChange(changedValues, allValues)
+    }
+
+    if (!props.items) return
+
+    for (const key in changedValues) {
+      const item = computedProps.items.find(i => i.id === key)
+
+      if (item?.onValueChange)
+        item.onValueChange(changedValues[key], allValues, form)
+    }
+
+    const filterItems = props.items.filter((it: any)=>{
+      if (!it.if) {
+        return true
+      }
+      const show = it.if(allValues)
+      if (show) {
+        props.form.setFields([
+          {
+            name: it.id,
+            errors: null
+          }
+        ])
+      }
+
+      return show
+    })
+
+    if (computedProps.items.length !== filterItems.length || computedProps.items.some((it, i)=>it !== filterItems[i])) {
+      setComputedProps({
+        ...computedProps,
+        items: filterItems
+      })
+    }
+  }, [computedProps])
 
   if (!computedProps) return null
 
   return <AntdForm
     { ...computedProps }
+    onValuesChange = { onValuesChange }
   >
     {computedProps.beforeItems}
     {computedProps.items?.map((item: FormItemProps) => <FormItem
