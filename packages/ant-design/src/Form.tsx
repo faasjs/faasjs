@@ -77,6 +77,9 @@ export function Form<Values = any> (props: FormProps<Values>) {
   useEffect(() => {
     const propsCopy = {
       ...props,
+      items: (props.items || []).filter((it: any)=>{
+        return !it.if || it.if(props.initialValues || {})
+      }),
       form,
     }
 
@@ -165,6 +168,30 @@ export function Form<Values = any> (props: FormProps<Values>) {
         if (item?.onValueChange)
           item.onValueChange(changedValues[key], allValues, form)
       }
+
+      const filterItems = props.items.filter((it: any)=>{
+        if (!it.if) {
+          return true
+        }
+        const show = it.if(allValues)
+        if (show) {
+          propsCopy.form.setFields([
+            {
+              name: it.id,
+              errors: null
+            }
+          ])
+        }
+
+        return show
+      })
+
+      if (propsCopy.items.length !== filterItems.length || propsCopy.items.some((it, i)=>it !== filterItems[i])) {
+        setComputedProps({
+          ...propsCopy,
+          items: filterItems
+        })
+      }
     }
 
     setComputedProps(propsCopy)
@@ -176,11 +203,12 @@ export function Form<Values = any> (props: FormProps<Values>) {
     { ...computedProps }
   >
     {computedProps.beforeItems}
-    {computedProps.items?.map((item: FormItemProps) => <FormItem
-      key={ item.id }
-      { ...item }
-      extendTypes={ extendTypes }
-    />)}
+    {computedProps.items?.map((item: FormItemProps) => {
+      return <FormItem
+        key={ item.id }
+        { ...item }
+        extendTypes={ extendTypes }
+      />})}
     {computedProps.children}
     {computedProps.submit !== false && <Button
       htmlType='submit'

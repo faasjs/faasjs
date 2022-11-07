@@ -24,7 +24,7 @@ export type ExtendDescriptionItemProps = BaseItemProps
 export type DescriptionItemProps<T = any> = {
   children?: JSX.Element
   render?: (value: T, values: any) => ReactNode | JSX.Element
-  filter?: (values: any) => boolean
+  if?: (values: Record<string, any>) => boolean
 } & FaasItemProps & {
   object?: DescriptionItemProps[]
 }
@@ -159,7 +159,7 @@ export function Description<T = any> (props: DescriptionProps<T>) {
     >
       {
         props.items.map(item => {
-          return !item.filter || item.filter(props.dataSource) ? (
+          return !item.if || item.if(props.dataSource) ? (
             <Descriptions.Item
               key={ item.id }
               label={ item.title || upperFirst(item.id) }>
@@ -183,7 +183,7 @@ export function Description<T = any> (props: DescriptionProps<T>) {
       >
         {
           props.items.map(item => {
-            return !item.filter || item.filter(data) ? (
+            return !item.if || item.if(data) ? (
               <Descriptions.Item
                 key={ item.id }
                 label={ item.title || upperFirst(item.id) }>

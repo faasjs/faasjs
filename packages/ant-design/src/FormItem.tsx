@@ -113,7 +113,7 @@ export type FormItemProps<T = any> = {
   /** trigger when current item's value changed */
   onValueChange?: (value: T, values: any, form: FormInstance) => void
   /** trigger when any item's value changed */
-  onValuesChange?: (values: Record<string, any>, form: FormInstance) => boolean;
+  if?: (values: Record<string, any>) => boolean;
 } & FormItemInputProps & FaasItemProps & Omit<AntdFormItemProps<T>, 'children'>
 
 function processProps (propsCopy: FormItemProps, config: ConfigProviderProps) {
