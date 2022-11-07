@@ -75,8 +75,6 @@ export function Form<Values = any> (props: FormProps<Values>) {
   const [form] = AntdForm.useForm<Values>(props.form)
 
   useEffect(() => {
-    if (!props.items) return
-
     const propsCopy = {
       ...props,
       items: (props.items || []).filter((it: any)=>{
@@ -161,6 +159,8 @@ export function Form<Values = any> (props: FormProps<Values>) {
     propsCopy.onValuesChange = (changedValues, allValues) => {
       if (originValuesChange)
         originValuesChange(changedValues, allValues)
+
+      if (!props.items) return
 
       for (const key in changedValues) {
         const item = propsCopy.items.find(i => i.id === key)

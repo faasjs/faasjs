@@ -330,4 +330,44 @@ describe('Table/items', () => {
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
     })
   })
+
+  it('object', () => {
+    render(<Table
+      items={ [
+        {
+          id: 'test',
+          type: 'object',
+          object: [{ id: 'key' }]
+        }
+      ] }
+      dataSource={ [
+        {
+          id: 'id',
+          test: { key: 'value' }
+        }
+      ] }
+    />)
+
+    expect(screen.getByText('value')).toBeInTheDocument()
+  })
+
+  it('object[]', () => {
+    render(<Table
+      items={ [
+        {
+          id: 'test',
+          type: 'object[]',
+          object: [{ id: 'key' }]
+        }
+      ] }
+      dataSource={ [
+        {
+          id: 'id',
+          test: [{ key: 'value' }]
+        }
+      ] }
+    />)
+
+    expect(screen.getByText('value')).toBeInTheDocument()
+  })
 })

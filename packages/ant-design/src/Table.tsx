@@ -25,11 +25,13 @@ import { useConfigContext } from './Config'
 import {
   FilterValue, SorterResult, TableCurrentDataSource
 } from 'antd/lib/table/interface'
+import { Description } from './Description'
 
 export type TableItemProps<T = any> = {
   optionsType?: 'auto'
   /** @deprecated use render */
   children?: JSX.Element | null
+  object?: TableItemProps[]
 } & FaasItemProps & Omit<AntdTableColumnProps<T>, 'children'>
 
 export type ExtendTableTypeProps = {
@@ -64,7 +66,7 @@ function processValue (item: TableItemProps, value: any) {
   if (transferred === null)
     return <Blank />
 
-  if (item.options ) {
+  if (item.options) {
     if (item.type.endsWith('[]'))
       return (transferred as any[]).map((v: any) => (item.options as {
         label: string
@@ -310,6 +312,21 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
           if (!item.sorter)
             item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
+          break
+        case 'object':
+          if (!item.render)
+            item.render = value => <Description
+              items={ item.object }
+              dataSource={ value }
+            />
+          break
+        case 'object[]':
+          if (!item.render)
+            item.render = (value: Record<string, any>[]) => value.map((v, i) => <Description
+              key={ i }
+              items={ item.object }
+              dataSource={ v }
+            />)
           break
         default:
           if (!item.render)
