@@ -169,7 +169,7 @@ export class Http<TParams extends Record<string, any> = any,
     this.response = { headers: Object.create(null) }
 
     if (data.event.body) {
-      if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
+      if (this.headers['content-type']?.includes('application/json')) {
         data.logger.debug('[onInvoke] Parse params from json body')
         this.params = Object.assign(this.params, JSON.parse(data.event.body))
       } else {

@@ -41,10 +41,17 @@ describe('params', function () {
       }
     }).export().handler
 
-    const res = await handler({ queryString: { a: 'a' } })
+    const res = await handler({
+      headers: { 'content-type': 'application/json' },
+      queryString: { a: 'a' },
+      body: JSON.stringify({
+        a: 'b',
+        b: 'b'
+      })
+    })
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual('{"data":{"a":"a"}}')
+    expect(res.body).toEqual('{"data":{"a":"b","b":"b"}}')
   })
 
   test('json', async function () {
