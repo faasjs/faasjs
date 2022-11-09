@@ -165,28 +165,17 @@ export class Http<TParams extends Record<string, any> = any,
   public async onInvoke (data: InvokeData, next: Next): Promise<void> {
     this.headers = data.event.headers || Object.create(null)
     this.body = data.event.body
-    this.params = Object.create(null)
+    this.params = data.event.queryString || Object.create(null)
     this.response = { headers: Object.create(null) }
 
     if (data.event.body) {
-      const paramsQueryString = data.event.queryString || {}
       if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
         data.logger.debug('[onInvoke] Parse params from json body')
-        this.params = {
-          ...paramsQueryString,
-          ...JSON.parse(data.event.body)
-        }
+        this.params = Object.assign(this.params, JSON.parse(data.event.body))
       } else {
         data.logger.debug('[onInvoke] Parse params from raw body')
-        this.params = {
-          ...paramsQueryString,
-          ...(data.event.body || {})
-        }
+        this.params = data.event.body || Object.create(null)
       }
-      data.logger.debug('[onInvoke] Params: %j', this.params)
-    } else if (data.event.queryString) {
-      data.logger.debug('[onInvoke] Parse params from queryString')
-      this.params = data.event.queryString
       data.logger.debug('[onInvoke] Params: %j', this.params)
     }
 
