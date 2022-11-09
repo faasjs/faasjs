@@ -95,6 +95,7 @@ npx create-faas-app --name faasjs --example --noprovider
     <h3>感谢</h3>
     <p>代码贡献者（按字母排序）</p>
     <a href="https://github.com/Germiniku" target="_blank">Germini</a>,
+    <a href="https://github.com/hiisea" target="_blank">hiisea</a>,
     <a href="https://github.com/luckyporo" target="_blank">luckyporo</a>,
     <a href="https://github.com/mingkang1993" target="_blank">mingkang1993</a>,
     <a href="https://github.com/minzojian" target="_blank">minzojian</a>,
