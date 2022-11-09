@@ -169,12 +169,19 @@ export class Http<TParams extends Record<string, any> = any,
     this.response = { headers: Object.create(null) }
 
     if (data.event.body) {
+      const paramsQueryString = data.event.queryString || {}
       if (data.event.headers && data.event.headers['content-type'] && data.event.headers['content-type'].includes('application/json')) {
         data.logger.debug('[onInvoke] Parse params from json body')
-        this.params = JSON.parse(data.event.body)
+        this.params = {
+          ...paramsQueryString,
+          ...JSON.parse(data.event.body)
+        }
       } else {
         data.logger.debug('[onInvoke] Parse params from raw body')
-        this.params = data.event.body
+        this.params = {
+          ...paramsQueryString,
+          ...(data.event.body || {})
+        }
       }
       data.logger.debug('[onInvoke] Params: %j', this.params)
     } else if (data.event.queryString) {
