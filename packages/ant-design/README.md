@@ -96,6 +96,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [TimePicker](#timepicker)
 - [Title](#title)
 - [transferOptions](#transferoptions)
+- [transferValue](#transfervalue)
 - [useConfigContext](#useconfigcontext)
 - [useDrawer](#usedrawer)
 - [useModal](#usemodal)
@@ -183,7 +184,7 @@ ___
 
 ### DescriptionItemProps
 
-Ƭ **DescriptionItemProps**<`T`\>: { `children?`: `JSX.Element` ; `render?`: (`value`: `T`, `values`: `any`) => `ReactNode` \| `JSX.Element`  } & [`FaasItemProps`](#faasitemprops) & { `object?`: [`DescriptionItemProps`](#descriptionitemprops)[]  }
+Ƭ **DescriptionItemProps**<`T`\>: { `children?`: `JSX.Element` ; `if?`: (`values`: `Record`<`string`, `any`\>) => `boolean` ; `render?`: (`value`: `T`, `values`: `any`) => `ReactNode` \| `JSX.Element`  } & [`FaasItemProps`](#faasitemprops) & { `object?`: [`DescriptionItemProps`](#descriptionitemprops)[]  }
 
 #### Type parameters
 
@@ -320,7 +321,7 @@ ___
 
 ### FormItemProps
 
-Ƭ **FormItemProps**<`T`\>: { `children?`: `ReactNode` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `label?`: `string` \| ``false`` ; `render?`: (`value?`: `any`) => `ReactNode` \| `JSX.Element` ; `rules?`: `RuleObject`[]  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
+Ƭ **FormItemProps**<`T`\>: { `children?`: `ReactNode` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `if?`: (`values`: `Record`<`string`, `any`\>) => `boolean` ; `label?`: `string` \| ``false`` ; `onValueChange?`: (`value`: `T`, `values`: `any`, `form`: `FormInstance`) => `void` ; `render?`: (`value?`: `T`) => `ReactNode` \| `JSX.Element` ; `rules?`: `RuleObject`[]  } & `FormItemInputProps` & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdFormItemProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -332,13 +333,13 @@ ___
 
 ### FormProps
 
-Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\> ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  }  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"``\>
+Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `initialValues?`: `Values` ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\> ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  }  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"`` \| ``"initialValues"``\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Values` | `any` |
+| `Values` | extends `Record`<`string`, `any`\> = `any` |
 | `ExtendItemProps` | `any` |
 
 ___
@@ -382,7 +383,7 @@ ___
 
 ### TableItemProps
 
-Ƭ **TableItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `optionsType?`: ``"auto"``  } & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdTableColumnProps`<`T`\>, ``"children"``\>
+Ƭ **TableItemProps**<`T`\>: { `children?`: `JSX.Element` \| ``null`` ; `object?`: [`TableItemProps`](#tableitemprops)[] ; `optionsType?`: ``"auto"``  } & [`FaasItemProps`](#faasitemprops) & `Omit`<`AntdTableColumnProps`<`T`\>, ``"children"``\>
 
 #### Type parameters
 
@@ -793,6 +794,23 @@ ___
 #### Returns
 
 { `label`: `string` ; `value?`: `string` \| `number`  }[]
+
+___
+
+### transferValue
+
+▸ **transferValue**(`type`, `value`): `any`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `type` | [`FaasItemType`](#faasitemtype) |
+| `value` | `any` |
+
+#### Returns
+
+`any`
 
 ___
 
