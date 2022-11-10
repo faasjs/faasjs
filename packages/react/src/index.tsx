@@ -104,6 +104,7 @@ export function FaasReactClient ({
     options?: {
       data?: FaasData<PathOrData>
       setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
+      skip?: boolean
     }
   ): FaasDataInjection<FaasData<PathOrData>> {
     if (!options) options = {}
@@ -122,6 +123,11 @@ export function FaasReactClient ({
     }, [JSON.stringify(defaultParams)])
 
     useEffect(function () {
+      if (options?.skip) {
+        setLoading(false)
+        return
+      }
+
       setLoading(true)
       const request = client.action<PathOrData>(action, params)
       setPromise(request)
@@ -144,7 +150,8 @@ export function FaasReactClient ({
     }, [
       action,
       JSON.stringify(params),
-      reloadTimes
+      reloadTimes,
+      options.skip,
     ])
 
     return {
