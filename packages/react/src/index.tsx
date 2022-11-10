@@ -52,7 +52,12 @@ export type FaasReactClientInstance = {
   ) => Promise<Response<FaasData<PathOrData>>>
   useFaas: <PathOrData extends FaasAction>(
     action: string | PathOrData,
-    defaultParams: FaasParams<PathOrData>
+    defaultParams: FaasParams<PathOrData>,
+    options?: {
+      data?: FaasData<PathOrData>
+      setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
+      skip?: boolean
+    }
   ) => FaasDataInjection<FaasData<PathOrData>>
   FaasDataWrapper<PathOrData extends FaasAction>(props: FaasDataWrapperProps<PathOrData>): JSX.Element
 }
@@ -262,9 +267,14 @@ export async function faas<PathOrData extends FaasAction> (
  */
 export function useFaas<PathOrData extends FaasAction> (
   action: string | PathOrData,
-  defaultParams: FaasParams<PathOrData>
+  defaultParams: FaasParams<PathOrData>,
+  options?: {
+    data?: FaasData<PathOrData>
+    setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
+    skip?: boolean
+  }
 ): FaasDataInjection<FaasData<PathOrData>> {
-  return getClient().useFaas(action, defaultParams)
+  return getClient().useFaas(action, defaultParams, options)
 }
 
 /**
