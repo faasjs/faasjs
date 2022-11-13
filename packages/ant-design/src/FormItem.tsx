@@ -159,32 +159,6 @@ function processProps (propsCopy: FormItemProps, config: ConfigProviderProps) {
   return propsCopy
 }
 
-function DateItem (options: DatePickerProps) {
-  const [value, setValue] = useState<Dayjs>()
-
-  useEffect(() => {
-    setValue(options.value && !isDayjs(options.value) ? dayjs(options.value) : null)
-  }, [options.value])
-
-  return <DatePicker
-    { ...options }
-    value={ value }
-  />
-}
-
-function TimeItem (options: TimePickerProps) {
-  const [value, setValue] = useState<Dayjs>()
-
-  useEffect(() => {
-    setValue(options.value && !isDayjs(options.value) ? dayjs(options.value) : null)
-  }, [options.value])
-
-  return <TimePicker
-    { ...options }
-    value={ value }
-  />
-}
-
 /**
  * FormItem, can be used without Form.
  *
@@ -363,11 +337,11 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       </AntdForm.Item>
     case 'date':
       return <AntdForm.Item { ...computedProps }>
-        <DateItem { ...computedProps.input } />
+        <DatePicker { ...computedProps.input } />
       </AntdForm.Item>
     case 'time':
       return <AntdForm.Item { ...computedProps }>
-        <TimeItem { ...computedProps.input } />
+        <TimePicker { ...computedProps.input } />
       </AntdForm.Item>
     case 'object':
       return <>{computedProps.label && <div className='ant-form-item-label'>
