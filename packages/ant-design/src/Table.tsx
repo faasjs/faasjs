@@ -63,7 +63,7 @@ export type TableProps<T = any, ExtendTypes = any> = {
 function processValue (item: TableItemProps, value: any) {
   const transferred = transferValue(item.type, value)
 
-  if (transferred === null)
+  if (transferred === null || (Array.isArray(transferred) && transferred.length === 0))
     return <Blank />
 
   if (item.options) {

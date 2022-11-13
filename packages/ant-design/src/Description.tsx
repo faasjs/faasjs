@@ -6,7 +6,7 @@ import { isFunction, upperFirst } from 'lodash'
 import {
   cloneElement, ReactNode, useEffect, useState
 } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
+import type { Dayjs } from 'dayjs'
 import { BaseItemProps } from '.'
 import {
   FaasItemProps, transferOptions, transferValue
@@ -108,7 +108,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   if (computedProps.item.render)
     return <>{computedProps.item.render(computedProps.value, computedProps.values)}</>
 
-  if (computedProps.value === null)
+  if (computedProps.value === null || (Array.isArray(computedProps.value) && !computedProps.value.length))
     return <Blank />
 
   switch (computedProps.item.type) {

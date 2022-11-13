@@ -56,14 +56,13 @@ export function transferOptions (options: BaseOption[]): {
 export function transferValue (type: FaasItemType, value: any): any {
   if (
     typeof value === 'undefined' || value === null ||
-    value === '' || value === 'null' || value === 'undefined' ||
-    (Array.isArray(value) && !value.length)
+    value === '' || value === 'null' || value === 'undefined'
   )
     return null
 
   if (!type) type = 'string'
 
-  if (type.endsWith('[]') && typeof value === 'string') value = value.split(',')
+  if (type.endsWith('[]') && typeof value === 'string') value = value.split(',').filter(Boolean)
 
   if (['date', 'time'].includes(type)) {
     if (typeof value === 'number' && value.toString().length === 10)
