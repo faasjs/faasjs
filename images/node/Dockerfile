@@ -1,4 +1,4 @@
-FROM node:current-alpine
+FROM node:18-alpine
 
 RUN apk add --no-cache git zsh openssh rsync zip libc6-compat
 
