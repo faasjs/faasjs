@@ -371,7 +371,8 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             <Row gutter={ 24 }>
               {computedProps.object.map(o => <Col
                 key={ o.id }
-                span={ o.col || 6 }>
+                span={ o.col || 24 }
+              >
                 <FormItem
                   { ...o }
                   name={ [field.name, o.id] }
