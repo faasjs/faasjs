@@ -134,6 +134,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
       return <Description
         items={ computedProps.item.object }
         dataSource={ computedProps.value }
+        column={ 1 }
       />
     case 'object[]':
       if (!(computedProps.value as Record<string, any>[])?.length) return <Blank />
@@ -144,6 +145,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
             key={ index }
             items={ computedProps.item.object }
             dataSource={ value }
+            column={ 1 }
           />)
       }</Space>
     default:
