@@ -73,22 +73,23 @@ export function Form<Values = any> (props: FormProps<Values>) {
   const config = useConfigContext()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const [form] = AntdForm.useForm<Values>(props.form)
+  const [initialValues, setInitialValues] = useState<Values>(props.initialValues)
 
   useEffect(() => {
     const propsCopy = {
       ...props,
-      items: (props.items || []).filter((it: any)=>{
-        return !it.if || it.if(props.initialValues || {})
-      }),
       form,
     }
 
-    if (propsCopy.initialValues)
+    if (propsCopy.initialValues) {
       for (const key in propsCopy.initialValues)
         propsCopy.initialValues[key] = transferValue(
           propsCopy.items.find(item => item.id === key)?.type,
           propsCopy.initialValues[key]
         )
+      setInitialValues(propsCopy.initialValues)
+      delete propsCopy.initialValues
+    }
 
     if (propsCopy.onFinish) {
       propsCopy.onFinish = async values => {
@@ -167,30 +168,14 @@ export function Form<Values = any> (props: FormProps<Values>) {
       if (item?.onValueChange)
         item.onValueChange(changedValues[key], allValues, form)
     }
+  }, [computedProps])
 
-    const filterItems = props.items.filter((it: any)=>{
-      if (!it.if) {
-        return true
-      }
-      const show = it.if(allValues)
-      if (show) {
-        props.form.setFields([
-          {
-            name: it.id,
-            errors: null
-          }
-        ])
-      }
+  useEffect(() => {
+    if (!initialValues) return
 
-      return show
-    })
+    form.setFieldsValue(initialValues as any)
 
-    if (computedProps.items.length !== filterItems.length || computedProps.items.some((it, i)=>it !== filterItems[i])) {
-      setComputedProps({
-        ...computedProps,
-        items: filterItems
-      })
-    }
+    setInitialValues(null)
   }, [computedProps])
 
   if (!computedProps) return null

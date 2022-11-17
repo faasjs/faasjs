@@ -27,7 +27,6 @@ import { BaseItemProps, BaseOption } from '.'
 import { ConfigProviderProps, useConfigContext } from './Config'
 import { DatePicker } from './DatePicker'
 import { TimePicker } from './TimePicker'
-import dayjs, { Dayjs, isDayjs } from 'dayjs'
 
 type StringProps = {
   type?: 'string'
@@ -176,6 +175,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const config = useConfigContext()
+  const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
     const propsCopy = { ...props }
@@ -184,10 +184,30 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       setExtendTypes(propsCopy.extendTypes)
       delete propsCopy.extendTypes
     }
+
+    if (propsCopy.if) {
+      const condition = propsCopy.if
+
+      propsCopy.shouldUpdate = (_, cur) => {
+        const show = condition(cur)
+        setHidden(!show)
+        return show
+      }
+
+      delete propsCopy.if
+    }
+
     setComputedProps(processProps(propsCopy, config))
   }, [props])
 
   if (!computedProps) return null
+
+  if (hidden) return <AntdForm.Item
+    { ...computedProps }
+    noStyle
+  >
+    <Input hidden />
+  </AntdForm.Item>
 
   if (extendTypes && extendTypes[computedProps.type])
     return <AntdForm.Item { ...computedProps }>
