@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/logger",
-  "version": "0.0.2-beta.453",
+  "version": "0.0.2-beta.454",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,10 +21,6 @@
   "files": [
     "dist"
   ],
-  "devDependencies": {
-    "tsup": "*",
-    "typescript": "*"
-  },
   "engines": {
     "npm": ">=8.0.0",
     "node": ">=16.0.0"
