@@ -317,7 +317,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.render)
             item.render = value => <Description
               items={ item.object }
-              dataSource={ value }
+              dataSource={ value || {} }
               column={ 1 }
             />
           break
@@ -326,7 +326,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.render = (value: Record<string, any>[]) => value.map((v, i) => <Description
               key={ i }
               items={ item.object }
-              dataSource={ v }
+              dataSource={ v || [] }
               column={ 1 }
             />)
           break

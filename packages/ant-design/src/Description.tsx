@@ -131,6 +131,8 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     case 'date':
       return <>{(computedProps.value as Dayjs).format('YYYY-MM-DD')}</>
     case 'object':
+      if (!computedProps.value) return <Blank />
+
       return <Description
         items={ computedProps.item.object }
         dataSource={ computedProps.value }
