@@ -205,6 +205,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
   if (hidden) return <AntdForm.Item
     { ...computedProps }
     noStyle
+    rules={ [] }
   >
     <Input hidden />
   </AntdForm.Item>
