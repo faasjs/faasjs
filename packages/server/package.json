@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "0.0.2-beta.455",
+  "version": "0.0.2-beta.456",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,11 +22,11 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/func": "^0.0.2-beta.455",
-    "@faasjs/http": "^0.0.2-beta.455",
-    "@faasjs/load": "^0.0.2-beta.455",
-    "@faasjs/logger": "^0.0.2-beta.455",
-    "@faasjs/ts-transform": "^0.0.2-beta.455",
+    "@faasjs/func": "^0.0.2-beta.456",
+    "@faasjs/http": "^0.0.2-beta.456",
+    "@faasjs/load": "^0.0.2-beta.456",
+    "@faasjs/logger": "^0.0.2-beta.456",
+    "@faasjs/ts-transform": "^0.0.2-beta.456",
     "lodash": "*",
     "pirates": "*"
   },
