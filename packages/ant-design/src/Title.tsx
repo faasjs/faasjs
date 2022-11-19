@@ -1,6 +1,5 @@
 import { useEffect, cloneElement } from 'react'
 import { useConfigContext } from './Config'
-import { PageHeader, PageHeaderProps } from 'antd'
 
 export type TitleProps = {
   title: string | string[]
@@ -16,9 +15,6 @@ export type TitleProps = {
 
   /** return a pure text element */
   plain?: boolean
-
-  /** return a PageHeader element */
-  header?: PageHeaderProps
 
   /** return children */
   children?: JSX.Element
@@ -64,12 +60,6 @@ export function Title (props: TitleProps): JSX.Element {
 
   if (props.plain)
     return <>{Array.isArray(props.title) ? props.title[0] : props.title}</>
-
-  if (props.header)
-    return <PageHeader
-      title={ Array.isArray(props.title) ? props.title[0] : props.title }
-      { ...props.header }
-    />
 
   if (props.children)
     return cloneElement(props.children, { title: props.title })
