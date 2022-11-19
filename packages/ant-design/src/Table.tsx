@@ -24,7 +24,7 @@ import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import {
   FilterValue, SorterResult, TableCurrentDataSource
-} from 'antd/lib/table/interface'
+} from 'antd/es/table/interface'
 import { Description } from './Description'
 
 export type TableItemProps<T = any> = {

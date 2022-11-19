@@ -1,7 +1,7 @@
 import {
   createContext, useContext, CSSProperties, useEffect, useState
 } from 'react'
-import { ConfigProviderProps as AntdConfigProviderProps } from 'antd/lib/config-provider'
+import { ConfigProviderProps as AntdConfigProviderProps } from 'antd/es/config-provider'
 import { ConfigProvider as AntdConfigProvider } from 'antd'
 import { defaultsDeep } from 'lodash'
 
