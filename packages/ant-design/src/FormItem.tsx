@@ -12,7 +12,9 @@ import {
   SwitchProps,
   Select,
   SelectProps,
+  DatePicker,
   DatePickerProps,
+  TimePicker,
   TimePickerProps,
   FormInstance
 } from 'antd'
@@ -25,8 +27,6 @@ import {
 import { upperFirst } from 'lodash'
 import { BaseItemProps, BaseOption } from '.'
 import { ConfigProviderProps, useConfigContext } from './Config'
-import { DatePicker } from './DatePicker'
-import { TimePicker } from './TimePicker'
 
 type StringProps = {
   type?: 'string'
