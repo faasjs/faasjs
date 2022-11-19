@@ -2,7 +2,7 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
   Descriptions, DescriptionsProps, Skeleton, Space
 } from 'antd'
-import { isFunction, upperFirst } from 'lodash'
+import { isFunction, upperFirst } from 'lodash-es'
 import {
   cloneElement, ReactNode, useEffect, useState
 } from 'react'

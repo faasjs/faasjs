@@ -25,7 +25,7 @@
   "dependencies": {
     "@ant-design/icons": "*",
     "antd": "*",
-    "lodash": "*",
+    "lodash-es": "*",
     "react": "*",
     "react-dom": "*",
     "@faasjs/react": "^0.0.3-beta.1",
@@ -33,7 +33,7 @@
     "dayjs": "*"
   },
   "devDependencies": {
-    "@types/lodash": "*",
+    "@types/lodash-es": "*",
     "@testing-library/jest-dom": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*"

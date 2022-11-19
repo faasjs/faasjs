@@ -1,5 +1,5 @@
 import { Typography } from 'antd'
-import { isNil } from 'lodash'
+import { isNil } from 'lodash-es'
 import { useConfigContext } from './Config'
 
 export type BlankProps = {

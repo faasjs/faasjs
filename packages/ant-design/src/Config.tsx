@@ -3,7 +3,7 @@ import {
 } from 'react'
 import { ConfigProviderProps as AntdConfigProviderProps } from 'antd/es/config-provider'
 import { ConfigProvider as AntdConfigProvider } from 'antd'
-import { defaultsDeep } from 'lodash'
+import { defaultsDeep } from 'lodash-es'
 
 export type ConfigProviderProps = {
   antd?: AntdConfigProviderProps

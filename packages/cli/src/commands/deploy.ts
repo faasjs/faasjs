@@ -6,7 +6,7 @@ import { sep, resolve } from 'path'
 import { Deployer } from '@faasjs/deployer'
 import { defaultsEnv } from '../helper'
 import Cluster from 'cluster'
-import { chunk } from 'lodash'
+import { chunk } from 'lodash-es'
 import {
   log, warn, error
 } from 'console'

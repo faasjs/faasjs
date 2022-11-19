@@ -18,7 +18,7 @@ import {
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
   isNil, uniqBy, upperFirst,
-} from 'lodash'
+} from 'lodash-es'
 import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'

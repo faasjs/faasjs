@@ -24,7 +24,7 @@ import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import {
   ReactNode, useEffect, useState
 } from 'react'
-import { upperFirst } from 'lodash'
+import { upperFirst } from 'lodash-es'
 import { BaseItemProps, BaseOption } from '.'
 import { ConfigProviderProps, useConfigContext } from './Config'
 
