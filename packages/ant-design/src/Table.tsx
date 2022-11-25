@@ -148,6 +148,8 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
           if (!item.onFilter)
             item.onFilter = (value: any, row) => {
+              if (value === null && isNil(row[item.id])) return true
+
               if (!row[item.id]) return false
 
               return (row[item.id] as string).toLowerCase().includes(value.toLowerCase())
@@ -175,6 +177,8 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
             item.render = value => processValue(item, value)
           if (!item.onFilter)
             item.onFilter = (value: any, row) => {
+              if (value === null && (!row[item.id] || !row[item.id].length)) return true
+
               if (!row[item.id] || !row[item.id].length) return false
 
               return (row[item.id] as string[]).some(v => v.toLowerCase().includes(value.toLowerCase()))
@@ -199,10 +203,17 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         case 'number':
           if (!item.render)
             item.render = value => processValue(item, value)
+
           if (!item.sorter)
             item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
+
           if (!item.onFilter)
-            item.onFilter = (value: any, row) => value === row[item.id]
+            item.onFilter = (value: any, row) => {
+              if (value === null && isNil(row[item.id])) return true
+
+              return value === row[item.id]
+            }
+
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, confirm, clearFilters
@@ -223,8 +234,16 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         case 'number[]':
           if (!item.render)
             item.render = value => processValue(item, value).join(', ')
+
           if (!item.onFilter)
-            item.onFilter = (value: any, row) => row[item.id].includes(value)
+            item.onFilter = (value: any, row) => {
+              if (value === null && (!row[item.id] || !row[item.id].length)) return true
+
+              if (!row[item.id] || !row[item.id].length) return false
+
+              return row[item.id].includes(value)
+            }
+
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
               setSelectedKeys, confirm, clearFilters
@@ -300,18 +319,24 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         case 'date':
           if (!item.render)
             item.render = value => processValue(item, value)
+
           if (!item.onFilter)
             item.onFilter = (value: any, row) => dayjs(row[item.id]).isSame(dayjs(value))
+
           if (!item.sorter)
             item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
+
           break
         case 'time':
           if (!item.render)
             item.render = value => processValue(item, value)
+
           if (!item.onFilter)
             item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
+
           if (!item.sorter)
             item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
+
           break
         case 'object':
           if (!item.render)
@@ -333,8 +358,13 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         default:
           if (!item.render)
             item.render = value => processValue(item, value)
+
           if (!item.onFilter)
-            item.onFilter = (value: any, row) => value === row[item.id]
+            item.onFilter = (value: any, row) => {
+              if (value === null && isNil(row[item.id])) return true
+
+              return value === row[item.id]
+            }
           break
       }
     }
@@ -353,7 +383,10 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           newColumns[index].filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
             text: v[column.id],
             value: v[column.id],
-          }))
+          })).concat({
+            text: <Blank />,
+            value: null,
+          })
           return newColumns
         })
       }
