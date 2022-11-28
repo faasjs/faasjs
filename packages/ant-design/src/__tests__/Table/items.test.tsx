@@ -118,9 +118,7 @@ describe('Table/items', () => {
   })
 
   describe('boolean', () => {
-    it('filter', async () => {
-      const user = userEvent.setup({ pointerEventsCheck: 0 })
-
+    beforeEach(() => {
       render(<Table
         items={ [
           { id: 'id', },
@@ -144,20 +142,34 @@ describe('Table/items', () => {
           }
         ] }
       />)
+    })
 
+    it('no filter', () => {
       expect(screen.getAllByRole('cell').length).toBe(6)
+    })
+
+    it('filter checked', async () => {
+      const user = userEvent.setup({ pointerEventsCheck: 0 })
 
       await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
       await user.click(screen.getByRole('radio', { name: 'check' }))
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('true')).toBeInTheDocument()
+    })
+
+    it('filter unchecked', async () => {
+      const user = userEvent.setup({ pointerEventsCheck: 0 })
 
       await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
       await user.click(screen.getByRole('radio', { name: 'close' }))
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('false')).toBeInTheDocument()
+    })
+
+    it('filter empty and all', async () => {
+      const user = userEvent.setup({ pointerEventsCheck: 0 })
 
       await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
       await user.click(screen.getByRole('radio', { name: 'Empty' }))
