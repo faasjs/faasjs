@@ -5,7 +5,7 @@ import {
   FormProps as AntdFormProps,
 } from 'antd'
 import {
-  ReactNode, useEffect, useState, useCallback
+  ReactNode, useEffect, useState, useCallback, isValidElement
 } from 'react'
 import { useConfigContext } from './Config'
 import { transferValue } from './data'
@@ -17,7 +17,7 @@ import {
 export { ExtendFormTypeProps, ExtendFormItemProps }
 
 export type FormProps<Values extends Record<string, any> = any, ExtendItemProps = any> = {
-  items?: (FormItemProps | ExtendItemProps)[]
+  items?: (FormItemProps | ExtendItemProps | JSX.Element)[]
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | {
     /** Default: Submit */
@@ -82,11 +82,19 @@ export function Form<Values = any> (props: FormProps<Values>) {
     }
 
     if (propsCopy.initialValues) {
-      for (const key in propsCopy.initialValues)
+      for (const key in propsCopy.initialValues) {
         propsCopy.initialValues[key] = transferValue(
           propsCopy.items.find(item => item.id === key)?.type,
           propsCopy.initialValues[key]
         )
+        const item = propsCopy.items.find(item => item.id === key)
+        if (item?.if)
+          item.hidden = !item.if(propsCopy.initialValues)
+      }
+      for (const item of propsCopy.items) {
+        if (item.if)
+          item.hidden = !item.if(propsCopy.initialValues)
+      }
       setInitialValues(propsCopy.initialValues)
       delete propsCopy.initialValues
     }
@@ -156,6 +164,8 @@ export function Form<Values = any> (props: FormProps<Values>) {
   }, [props])
 
   const onValuesChange = useCallback((changedValues:Record<string, any>, allValues:Values) => {
+    console.debug('Form:onValuesChange', changedValues, allValues)
+
     if (props.onValuesChange) {
       props.onValuesChange(changedValues, allValues)
     }
@@ -173,8 +183,9 @@ export function Form<Values = any> (props: FormProps<Values>) {
   useEffect(() => {
     if (!initialValues) return
 
-    form.setFieldsValue(initialValues as any)
+    console.debug('Form:initialValues', initialValues)
 
+    form.setFieldsValue(initialValues as any)
     setInitialValues(null)
   }, [computedProps])
 
@@ -185,11 +196,11 @@ export function Form<Values = any> (props: FormProps<Values>) {
     onValuesChange = { onValuesChange }
   >
     {computedProps.beforeItems}
-    {computedProps.items?.map((item: FormItemProps) => <FormItem
-      key={ item.id }
-      { ...item }
+    {computedProps.items?.map((item: FormItemProps | JSX.Element) => (isValidElement(item) ? item : <FormItem
+      key={ (item as FormItemProps).id }
+      { ...item as FormItemProps }
       extendTypes={ extendTypes }
-    />)}
+    />))}
     {computedProps.children}
     {computedProps.submit !== false && <Button
       htmlType='submit'

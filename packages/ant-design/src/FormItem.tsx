@@ -115,7 +115,7 @@ export type FormItemProps<T = any> = {
   if?: (values: Record<string, any>) => boolean;
 } & FormItemInputProps & FaasItemProps & Omit<AntdFormItemProps<T>, 'children'>
 
-function processProps (propsCopy: FormItemProps, config: ConfigProviderProps) {
+function processProps (propsCopy: FormItemProps, config: ConfigProviderProps['common']) {
   if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
   if (!propsCopy.label && propsCopy.label !== false) propsCopy.label = propsCopy.title
   if (!propsCopy.name) propsCopy.name = propsCopy.id
@@ -127,13 +127,13 @@ function processProps (propsCopy: FormItemProps, config: ConfigProviderProps) {
         required: true,
         validator: async (_, values) => {
           if (!values || values.length < 1)
-            return Promise.reject(Error(`${propsCopy.label || propsCopy.title} ${config.common.required}`))
+            return Promise.reject(Error(`${propsCopy.label || propsCopy.title} ${config.required}`))
         }
       })
     else
       propsCopy.rules.push({
         required: true,
-        message: `${propsCopy.label || propsCopy.title} ${config.common.required}`
+        message: `${propsCopy.label || propsCopy.title} ${config.required}`
       })
   }
   if (!(propsCopy as OptionsProps).input) (propsCopy as OptionsProps).input = {}
@@ -163,10 +163,10 @@ function processProps (propsCopy: FormItemProps, config: ConfigProviderProps) {
  *
  * ```ts
  * // use inline type
- * <FormItem item={{ type: 'string', id: 'name' }} />
+ * <FormItem type='string' id='name' />
  *
  * // use custom type
- * <FormItem item={{ id: 'password' }}>
+ * <FormItem id='password'>
  *   <Input.Password />
  * </>
  * ```
@@ -174,8 +174,8 @@ function processProps (propsCopy: FormItemProps, config: ConfigProviderProps) {
 export function FormItem<T = any> (props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
-  const config = useConfigContext()
-  const [hidden, setHidden] = useState(false)
+  const { common } = useConfigContext()
+  const [hidden, setHidden] = useState(props.hidden || false)
 
   useEffect(() => {
     const propsCopy = { ...props }
@@ -197,7 +197,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       delete propsCopy.if
     }
 
-    setComputedProps(processProps(propsCopy, config))
+    setComputedProps(processProps(propsCopy, common))
   }, [props])
 
   if (!computedProps) return null
@@ -387,7 +387,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                     danger
                     type='link'
                     onClick={ () => remove(field.name) }
-                  >{config.common.delete}</Button>}</label>
+                  >{common.delete}</Button>}</label>
             </div>
             <Row gutter={ 24 }>
               {computedProps.object.map(o => <Col
@@ -410,7 +410,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                 onClick={ () => add() }
                 icon={ <PlusOutlined /> }
               >
-                {config.common.add} {computedProps.label}
+                {common.add} {computedProps.label}
               </Button>}
             <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
