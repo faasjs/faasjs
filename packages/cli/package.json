@@ -32,7 +32,7 @@
     "commander": ">=9.4.1",
     "enquirer": "*",
     "glob": "*",
-    "lodash-es": "*"
+    "lodash": "*"
   },
   "engines": {
     "npm": ">=8.0.0",
