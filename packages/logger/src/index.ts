@@ -189,7 +189,7 @@ export class Logger {
     if (!output) return this
 
     if (output.length > this.size && !['error', 'warn'].includes(level))
-      output = output.slice(0, this.size) + '...'
+      output = output.slice(0, this.size - 100) + '...' + output.slice(output.length - 100)
 
     if (level === 'error')
       this.stderr(output)
