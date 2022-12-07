@@ -187,11 +187,20 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
 
     if (propsCopy.if) {
       const condition = propsCopy.if
+      const originShouldUpdate = propsCopy.shouldUpdate
 
-      propsCopy.shouldUpdate = (_, cur) => {
+      propsCopy.shouldUpdate = (prev, cur) => {
         const show = condition(cur)
+
+        console.debug('Form:if', props.id, !show)
+
+        const shouldUpdate = hidden !== show
+
         setHidden(!show)
-        return show
+
+        const origin = originShouldUpdate ? (typeof originShouldUpdate === 'boolean' ? originShouldUpdate : originShouldUpdate(prev, cur, {})) : true
+
+        return shouldUpdate || origin
       }
 
       delete propsCopy.if
