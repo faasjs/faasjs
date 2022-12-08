@@ -191,9 +191,6 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
 
       propsCopy.shouldUpdate = (prev, cur) => {
         const show = condition(cur)
-
-        console.debug('Form:if', props.id, !show)
-
         const shouldUpdate = hidden !== show
 
         setHidden(!show)
@@ -204,6 +201,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       }
 
       delete propsCopy.if
+      delete propsCopy.hidden
     }
 
     setComputedProps(processProps(propsCopy, common))
