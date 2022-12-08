@@ -134,11 +134,16 @@ export function FaasReactClient ({
       }
 
       setLoading(true)
-      const request = client.action<PathOrData>(action, params)
+
+      const controller = new AbortController()
+      const request = client.action<PathOrData>(action, params, { signal: controller.signal })
       setPromise(request)
+
       request
         .then(r => (options?.setData ? options.setData(r.data) : setData(r.data)))
         .catch(async e => {
+          if (e?.message === 'The user aborted a request.') return
+
           if (onError)
             try {
               await onError(action as string, params)(e)
@@ -151,7 +156,10 @@ export function FaasReactClient ({
         })
         .finally(() => setLoading(false))
 
-      return () => setLoading(false)
+      return () => {
+        controller.abort()
+        setLoading(false)
+      }
     }, [
       action,
       JSON.stringify(params),
