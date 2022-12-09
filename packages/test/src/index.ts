@@ -9,7 +9,8 @@ import { deepMerge } from '@faasjs/deep_merge'
 export * from '@faasjs/func'
 
 /**
- * Warper for func
+ * Test Wrapper for a func
+ *
  * ```ts
  * import { FuncWarper } from '@faasjs/test'
  *
@@ -149,14 +150,15 @@ export class FuncWarper {
 }
 
 /**
- * A simple way to warp a FaasJs function.
+ * A simple way to warp a FaasJS function.
  * @param initBy {string | Func} Full file path or a FaasJs function
+ *
  * ```ts
  * import { test } from '@faasjs/test'
  *
- * text(__dirname + '/../demo.func.ts'))
+ * const func = test(__dirname + '/../demo.func.ts')
  *
- * expect(await test.handler()).toEqual('Hello, world')
+ * expect(await func.handler()).toEqual('Hello, world')
  * ```
  */
 export function test (initBy: Func | string): FuncWarper {
