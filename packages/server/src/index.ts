@@ -302,6 +302,7 @@ export class Server {
           self.sockets.delete(socket)
         })
       })
+      .on('error', console.error)
       .listen(this.opts.port, '0.0.0.0')
 
     return this.server
