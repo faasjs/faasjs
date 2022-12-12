@@ -144,7 +144,7 @@ ___
 
 ### debug
 
-▸ **debug**(`message`, ...`args`): [`Logger`](Logger.md)
+▸ **debug**(`message`, `...args`): [`Logger`](Logger.md)
 
 #### Parameters
 
@@ -161,7 +161,7 @@ ___
 
 ### error
 
-▸ **error**(`message`, ...`args`): [`Logger`](Logger.md)
+▸ **error**(`message`, `...args`): [`Logger`](Logger.md)
 
 #### Parameters
 
@@ -178,7 +178,7 @@ ___
 
 ### info
 
-▸ **info**(`message`, ...`args`): [`Logger`](Logger.md)
+▸ **info**(`message`, `...args`): [`Logger`](Logger.md)
 
 #### Parameters
 
@@ -195,7 +195,7 @@ ___
 
 ### raw
 
-▸ **raw**(`message`, ...`args`): [`Logger`](Logger.md)
+▸ **raw**(`message`, `...args`): [`Logger`](Logger.md)
 
 #### Parameters
 
@@ -229,7 +229,7 @@ ___
 
 ### timeEnd
 
-▸ **timeEnd**(`key`, `message`, ...`args`): [`Logger`](Logger.md)
+▸ **timeEnd**(`key`, `message`, `...args`): [`Logger`](Logger.md)
 
 #### Parameters
 
@@ -247,7 +247,7 @@ ___
 
 ### warn
 
-▸ **warn**(`message`, ...`args`): [`Logger`](Logger.md)
+▸ **warn**(`message`, `...args`): [`Logger`](Logger.md)
 
 #### Parameters
 

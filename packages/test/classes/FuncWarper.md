@@ -1,6 +1,7 @@
 # Class: FuncWarper
 
-Warper for func
+Test Wrapper for a func
+
 ```ts
 import { FuncWarper } from '@faasjs/test'
 

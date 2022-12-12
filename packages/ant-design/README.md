@@ -48,9 +48,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [BaseItemProps](#baseitemprops)
 - [BaseOption](#baseoption)
 - [BlankProps](#blankprops)
-- [CalendarProps](#calendarprops)
 - [ConfigProviderProps](#configproviderprops)
-- [DatePickerProps](#datepickerprops)
 - [DescriptionItemProps](#descriptionitemprops)
 - [DescriptionProps](#descriptionprops)
 - [DrawerProps](#drawerprops)
@@ -71,7 +69,6 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [RoutesProps](#routesprops)
 - [TableItemProps](#tableitemprops)
 - [TableProps](#tableprops)
-- [TimePickerProps](#timepickerprops)
 - [TitleProps](#titleprops)
 - [setDrawerProps](#setdrawerprops)
 - [setModalProps](#setmodalprops)
@@ -79,12 +76,10 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 ### Variables
 
 - [ConfigContext](#configcontext)
-- [DatePicker](#datepicker)
 
 ### Functions
 
 - [Blank](#blank)
-- [Calendar](#calendar)
 - [ConfigProvider](#configprovider)
 - [Description](#description)
 - [Form](#form)
@@ -93,7 +88,6 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [PageNotFound](#pagenotfound)
 - [Routes](#routes)
 - [Table](#table)
-- [TimePicker](#timepicker)
 - [Title](#title)
 - [transferOptions](#transferoptions)
 - [transferValue](#transfervalue)
@@ -136,12 +130,6 @@ ___
 
 ___
 
-### CalendarProps
-
-Ƭ **CalendarProps**: `AntdProps`<`Dayjs`\>
-
-___
-
 ### ConfigProviderProps
 
 Ƭ **ConfigProviderProps**: `Object`
@@ -173,12 +161,6 @@ ___
 | `common.search?` | `string` |
 | `common.submit?` | `string` |
 | `lang?` | `string` |
-
-___
-
-### DatePickerProps
-
-Ƭ **DatePickerProps**: `PickerDateProps`<`Dayjs`\>
 
 ___
 
@@ -333,7 +315,7 @@ ___
 
 ### FormProps
 
-Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `initialValues?`: `Values` ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps`)[] ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\> ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  }  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"`` \| ``"initialValues"``\>
+Ƭ **FormProps**<`Values`, `ExtendItemProps`\>: { `beforeItems?`: `JSX.Element` \| `JSX.Element`[] ; `children?`: `ReactNode` ; `extendTypes?`: [`ExtendTypes`](#extendtypes) ; `footer?`: `JSX.Element` \| `JSX.Element`[] ; `initialValues?`: `Values` ; `items?`: ([`FormItemProps`](#formitemprops) \| `ExtendItemProps` \| `JSX.Element`)[] ; `onFinish?`: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\> ; `submit?`: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  }  } & `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"`` \| ``"initialValues"``\>
 
 #### Type parameters
 
@@ -406,12 +388,6 @@ ___
 
 ___
 
-### TimePickerProps
-
-Ƭ **TimePickerProps**: `Omit`<`PickerTimeProps`<`Dayjs`\>, ``"picker"``\>
-
-___
-
 ### TitleProps
 
 Ƭ **TitleProps**: `Object`
@@ -422,7 +398,6 @@ ___
 | :------ | :------ | :------ |
 | `children?` | `JSX.Element` | return children |
 | `h1?` | `boolean` \| { `className?`: `string` ; `style?`: `React.CSSProperties`  } | return a h1 element |
-| `header?` | `PageHeaderProps` | return a PageHeader element |
 | `plain?` | `boolean` | return a pure text element |
 | `separator?` | `string` | ` - ` as default |
 | `suffix?` | `string` | - |
@@ -474,12 +449,6 @@ ___
 
 • `Const` **ConfigContext**: `Context`<[`ConfigProviderProps`](#configproviderprops)\>
 
-___
-
-### DatePicker
-
-• `Const` **DatePicker**: `PickerComponentClass`<`Object`, `unknown`\> & {}
-
 ## Functions
 
 ### Blank
@@ -504,25 +473,9 @@ If value is undefined or null, return text, otherwise return value.
 
 ___
 
-### Calendar
-
-▸ **Calendar**(`props`): `Element`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props` | `CalendarProps`<`Dayjs`\> |
-
-#### Returns
-
-`Element`
-
-___
-
 ### ConfigProvider
 
-▸ **ConfigProvider**(`__namedParameters`): `Element`
+▸ **ConfigProvider**(`«destructured»`): `Element`
 
 Config for @faasjs/ant-design components.
 
@@ -540,9 +493,9 @@ Config for @faasjs/ant-design components.
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Object` |
-| `__namedParameters.children` | `ReactNode` |
-| `__namedParameters.config` | [`ConfigProviderProps`](#configproviderprops) |
+| `«destructured»` | `Object` |
+| › `children` | `ReactNode` |
+| › `config` | [`ConfigProviderProps`](#configproviderprops) |
 
 #### Returns
 
@@ -608,10 +561,10 @@ FormItem, can be used without Form.
 
 ```ts
 // use inline type
-<FormItem item={{ type: 'string', id: 'name' }} />
+<FormItem type='string' id='name' />
 
 // use custom type
-<FormItem item={{ id: 'password' }}>
+<FormItem id='password'>
   <Input.Password />
 </>
 ```
@@ -636,7 +589,7 @@ ___
 
 ### Link
 
-▸ **Link**(`__namedParameters`): `Element`
+▸ **Link**(`«destructured»`): `Element`
 
 ```ts
 // pure link
@@ -650,7 +603,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`LinkProps`](#linkprops) |
+| `«destructured»` | [`LinkProps`](#linkprops) |
 
 #### Returns
 
@@ -728,24 +681,6 @@ https://ant.design/components/table/
 #### Returns
 
 `Element`
-
-___
-
-### TimePicker
-
-▸ **TimePicker**(`props`): `ReactElement`<`any`, `string` \| `JSXElementConstructor`<`any`\>\>
-
-**NOTE**: Exotic components are not callable.
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props` | [`TimePickerProps`](#timepickerprops) & `RefAttributes`<`any`\> |
-
-#### Returns
-
-`ReactElement`<`any`, `string` \| `JSXElementConstructor`<`any`\>\>
 
 ___
 
@@ -834,7 +769,7 @@ Hook style drawer.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `init?` | [`DrawerProps`](#drawerprops) | initial props  ```ts function Example() {   const { drawer, setDrawerProps } = useDrawer()    return <>     <Button onClick={ () => setDrawerProps(prev => ({ open: !prev.open})) }>       Toggle     </Button>     {drawer}   </> } ``` |
+| `init?` | [`DrawerProps`](#drawerprops) | initial props ```ts function Example() { const { drawer, setDrawerProps } = useDrawer() return <> <Button onClick={ () => setDrawerProps(prev => ({ open: !prev.open})) }> Toggle </Button> {drawer} </> } ``` |
 
 #### Returns
 
@@ -858,7 +793,7 @@ Hook style modal.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `init?` | [`ModalProps`](#modalprops) | initial props  ```ts function Example() {   const { modal, setModalProps } = useModal()    return <>     <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>     {modal}</> } ``` |
+| `init?` | [`ModalProps`](#modalprops) | initial props ```ts function Example() { const { modal, setModalProps } = useModal() return <> <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button> {modal}</> } ``` |
 
 #### Returns
 

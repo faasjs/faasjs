@@ -20,7 +20,7 @@ A helper function to deep merge objects and array.
 
 ### deepMerge
 
-▸ **deepMerge**(...`sources`): `any`
+▸ **deepMerge**(`...sources`): `any`
 
 Deep merge two objects or arrays.
 

@@ -21,15 +21,15 @@
 
 ### constructor
 
-• **new HttpError**(`__namedParameters`)
+• **new HttpError**(`«destructured»`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Object` |
-| `__namedParameters.message` | `string` |
-| `__namedParameters.statusCode?` | `number` |
+| `«destructured»` | `Object` |
+| › `message` | `string` |
+| › `statusCode?` | `number` |
 
 #### Overrides
 

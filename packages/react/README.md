@@ -134,7 +134,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `faas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `params`: [`FaasParams`](#faasparams)<`PathOrData`\>) => `Promise`<[`Response`](classes/Response.md)<[`FaasData`](#faasdata)<`PathOrData`\>\>\> |
-| `useFaas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `defaultParams`: [`FaasParams`](#faasparams)<`PathOrData`\>) => [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\> |
+| `useFaas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `defaultParams`: [`FaasParams`](#faasparams)<`PathOrData`\>, `options?`: { `data?`: [`FaasData`](#faasdata)<`PathOrData`\> ; `setData?`: `React.Dispatch`<`React.SetStateAction`<[`FaasData`](#faasdata)<`PathOrData`\>\>\> ; `skip?`: `boolean`  }) => [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\> |
 | `FaasDataWrapper` | <PathOrData\>(`props`: [`FaasDataWrapperProps`](#faasdatawrapperprops)<`PathOrData`\>) => `Element` |
 
 ___
@@ -194,7 +194,7 @@ ___
 
 ### FaasReactClient
 
-▸ **FaasReactClient**(`__namedParameters`): [`FaasReactClientInstance`](#faasreactclientinstance)
+▸ **FaasReactClient**(`«destructured»`): [`FaasReactClientInstance`](#faasreactclientinstance)
 
 Before use faas, you should initialize a FaasReactClient.
 
@@ -202,10 +202,10 @@ Before use faas, you should initialize a FaasReactClient.
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Object` |
-| `__namedParameters.domain` | `string` |
-| `__namedParameters.onError?` | (`action`: `string`, `params`: `Record`<`string`, `any`\>) => (`res`: [`ResponseError`](classes/ResponseError.md)) => `Promise`<`void`\> |
-| `__namedParameters.options?` | [`Options`](#options) |
+| `«destructured»` | `Object` |
+| › `domain` | `string` |
+| › `onError?` | (`action`: `string`, `params`: `Record`<`string`, `any`\>) => (`res`: [`ResponseError`](classes/ResponseError.md)) => `Promise`<`void`\> |
+| › `options?` | [`Options`](#options) |
 
 #### Returns
 
@@ -276,7 +276,7 @@ ___
 
 ### useFaas
 
-▸ **useFaas**<`PathOrData`\>(`action`, `defaultParams`): [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\>
+▸ **useFaas**<`PathOrData`\>(`action`, `defaultParams`, `options?`): [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\>
 
 Request faas server with React hook
 
@@ -292,6 +292,10 @@ Request faas server with React hook
 | :------ | :------ | :------ |
 | `action` | `string` \| `PathOrData` | {string} action name |
 | `defaultParams` | [`FaasParams`](#faasparams)<`PathOrData`\> | {object} initial action params |
+| `options?` | `Object` | - |
+| `options.data?` | [`FaasData`](#faasdata)<`PathOrData`\> | - |
+| `options.setData?` | `Dispatch`<`SetStateAction`<[`FaasData`](#faasdata)<`PathOrData`\>\>\> | - |
+| `options.skip?` | `boolean` | - |
 
 #### Returns
 

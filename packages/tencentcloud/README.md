@@ -47,7 +47,7 @@ FaasJS's tencentcloud provider.
 
 ### request
 
-▸ **request**<`T`\>(`__namedParameters`): `Promise`<`T`\>
+▸ **request**<`T`\>(`«destructured»`): `Promise`<`T`\>
 
 腾讯云请求封装
 
@@ -61,7 +61,7 @@ FaasJS's tencentcloud provider.
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`TencentcloudConfig`](#tencentcloudconfig) & { `action`: `string` ; `payload`: { `[key: string]`: `any`;  } ; `service`: `string` ; `version`: `string`  } |
+| `«destructured»` | [`TencentcloudConfig`](#tencentcloudconfig) & { `action`: `string` ; `payload`: { `[key: string]`: `any`;  } ; `service`: `string` ; `version`: `string`  } |
 
 #### Returns
 

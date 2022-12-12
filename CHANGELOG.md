@@ -2,6 +2,48 @@
 
 ## Beta
 
+[`v0.0.3-beta.10 (2022-12-08)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.8...v0.0.3-beta.10)
+
+- `@faasjs/react`
+  - [Fix] Auto cancel request when component unmount.
+
+[`v0.0.3-beta.8 (2022-12-07)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.6...v0.0.3-beta.8)
+
+- `@faasjs/ant-design`
+  - [Feature] Add debug logs.
+- `@faasjs/logger`
+  - [Feature] Improve log outputs.
+
+[`v0.0.3-beta.6 (2022-12-05)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.5...v0.0.3-beta.6)
+
+- `@faasjs/cli`
+  - [Fix] Rollback to use `lodash`.
+- `@faasjs/server`
+  - [Fix] Rollback to use `lodash`.
+- `create-faas-app`
+  - [Fix] Rollback to use `lodash`.
+
+[`v0.0.3-beta.5 (2022-12-02)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.4...v0.0.3-beta.5)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix `if` in FormItem.
+
+[`v0.0.3-beta.4 (2022-11-28)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.3...v0.0.3-beta.4)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix i18n for Table.
+
+[`v0.0.3-beta.2 (2022-11-25)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.2...v0.0.3-beta.3)
+
+- `@faasjs/ant-design`
+  - [Feature] Add null to table's options.
+
+[`v0.0.3-beta.2 (2022-11-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.456...v0.0.3-beta.2)
+
+- `@faasjs/ant-design`
+  - [Break] Upgrade Ant Design to 5.x.
+  - [Break] Use `lodash-es` instead of `lodash`.
+
 [`v0.0.2-beta.406 (2022-09-01)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.404...v0.0.2-beta.406)
 
 - [Feature] Replace peerDependencies with dependencies.

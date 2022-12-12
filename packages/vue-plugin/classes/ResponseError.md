@@ -32,17 +32,17 @@ new ResponseError({
 
 ### constructor
 
-• **new ResponseError**(`__namedParameters`)
+• **new ResponseError**(`«destructured»`)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Object` |
-| `__namedParameters.body` | `any` |
-| `__namedParameters.headers` | [`ResponseHeaders`](../#responseheaders) |
-| `__namedParameters.message` | `string` |
-| `__namedParameters.status` | `number` |
+| `«destructured»` | `Object` |
+| › `body` | `any` |
+| › `headers` | [`ResponseHeaders`](../#responseheaders) |
+| › `message` | `string` |
+| › `status` | `number` |
 
 #### Overrides
 

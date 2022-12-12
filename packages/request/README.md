@@ -52,7 +52,7 @@ ___
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `agent?` | `boolean` | - |
-| `auth?` | `string` | The authentication credentials to use for the request.  Format: `username:password` |
+| `auth?` | `string` | The authentication credentials to use for the request. Format: `username:password` |
 | `body?` | { `[key: string]`: `any`;  } \| `string` | - |
 | `downloadStream?` | `NodeJS.WritableStream` | Create a write stream to download a file. |
 | `file?` | `string` | Path of uploading a file to the server. |
