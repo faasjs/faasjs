@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.3-beta.10",
+  "version": "0.0.3-beta.11",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",

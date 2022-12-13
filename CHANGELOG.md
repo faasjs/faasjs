@@ -2,6 +2,11 @@
 
 ## Beta
 
+[`v0.0.3-beta.11 (2022-12-13)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.10...v0.0.3-beta.11)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix link with button.
+
 [`v0.0.3-beta.10 (2022-12-08)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.8...v0.0.3-beta.10)
 
 - `@faasjs/react`
