@@ -30,16 +30,15 @@ export function Link ({
 
   if (href.startsWith('http')) {
     if (button)
-      return <Button { ...button }>
-        <a
-          href={ href }
-          target={ target || Link?.target || '_blank' }
-          style={ {
-            ...Link.style,
-            ...style || {},
-          } }
-        >{text || children}</a>
-      </Button>
+      return <Button
+        { ...button }
+        target={ target || Link?.target || '_blank' }
+        style={ {
+          ...Link.style,
+          ...style || {},
+        } }
+        href={ href }
+      >{text || children}</Button>
 
     return <a
       href={ href }
@@ -52,16 +51,17 @@ export function Link ({
   }
 
   if (button)
-    return <Button { ...button }>
-      <RouterLink
-        to={ href }
-        target={ target || Link?.target }
+    return <RouterLink
+      to={ href }
+      target={ target || Link?.target }
+    >
+      <Button
+        { ...button }
         style={ {
           ...Link.style,
           ...style || {},
-        } }
-      >{text || children}</RouterLink>
-    </Button>
+        } }>{text || children}</Button>
+    </RouterLink>
 
   return <RouterLink
     to={ href }
