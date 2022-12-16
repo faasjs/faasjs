@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-recommended",
-  "version": "0.0.3-beta.11",
+  "version": "0.0.3-beta.12",
   "license": "MIT",
   "main": "index.js",
   "files": [

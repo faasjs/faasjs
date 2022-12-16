@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.3-beta.11",
+  "version": "0.0.3-beta.12",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -28,7 +28,7 @@
     "lodash-es": "*",
     "react": "*",
     "react-dom": "*",
-    "@faasjs/react": "^0.0.3-beta.11",
+    "@faasjs/react": "^0.0.3-beta.12",
     "react-router-dom": "*",
     "dayjs": "*"
   },

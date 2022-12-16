@@ -2,6 +2,11 @@
 
 ## Beta
 
+[`v0.0.3-beta.12 (2022-12-16)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.11...v0.0.3-beta.12)
+
+- `@faasjs/cloud_function`
+  - [Fix] Fix local mode's path issue.
+
 [`v0.0.3-beta.11 (2022-12-13)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.10...v0.0.3-beta.11)
 
 - `@faasjs/ant-design`
