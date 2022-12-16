@@ -338,7 +338,7 @@ export function useHttp<TParams extends Record<string, any> = any,
   TSession extends Record<string, string> = any
 > (
   config?: HttpConfig<TParams, TCookie, TSession>):
-  Http<TParams, TCookie, TSession> & UseifyPlugin
+  UseifyPlugin<Http<TParams, TCookie, TSession>>
 {
   return usePlugin(new Http<TParams, TCookie, TSession>(config))
 }

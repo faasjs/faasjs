@@ -174,7 +174,7 @@ export class Knex implements Plugin {
   }
 }
 
-export function useKnex (config?: KnexConfig): Knex & UseifyPlugin {
+export function useKnex (config?: KnexConfig): UseifyPlugin<Knex> {
   const name = config?.name || Name
 
   if (global.FaasJS_Knex[name]) return usePlugin<Knex>(global.FaasJS_Knex[name])

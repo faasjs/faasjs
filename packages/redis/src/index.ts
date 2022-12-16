@@ -186,7 +186,7 @@ export class Redis implements Plugin {
   }
 }
 
-export function useRedis (config?: RedisConfig): Redis & UseifyPlugin {
+export function useRedis (config?: RedisConfig): UseifyPlugin<Redis> {
   const name = config?.name || Name
 
   if (global.FaasJS_Redis[name]) return usePlugin<Redis>(global.FaasJS_Redis[name])
