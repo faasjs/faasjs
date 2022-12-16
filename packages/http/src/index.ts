@@ -107,10 +107,6 @@ export class Http<TParams extends Record<string, any> = any,
     this.name = config?.name || this.type
     this.config = ((config?.config)) || Object.create(null)
     if ((config?.validator)) this.validatorOptions = config.validator
-
-    this.headers = Object.create(null)
-    this.cookie = new Cookie(this.config.cookie || {})
-    this.session = this.cookie.session
   }
 
   public async onDeploy (data: DeployData, next: Next): Promise<void> {

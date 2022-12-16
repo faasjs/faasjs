@@ -261,7 +261,7 @@ ___
 
 ### UseifyPlugin
 
-Ƭ **UseifyPlugin**<`T`\>: `T` & { `mount?`: (`data`: { `config`: [`Config`](#config)  }) => `Promise`<`T`\>  }
+Ƭ **UseifyPlugin**<`T`\>: `T` & { `mount?`: (`data?`: { `config?`: [`Config`](#config)  }) => `Promise`<`T`\>  }
 
 #### Type parameters
 
