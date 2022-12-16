@@ -2,12 +2,14 @@
 
 ## Beta
 
-[`v0.0.3-beta.14 (2022-12-16)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.11...v0.0.3-beta.14)
+[`v0.0.3-beta.15 (2022-12-16)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.11...v0.0.3-beta.15)
 
 - `@faasjs/cloud_function`
   - [Fix] Fix local mode's path issue.
 - `@faasjs/func`
   - [Feature] Let useify plugin returns plugin instance when it mounts.
+- `@faasjs/http`
+  - [Fix] Don't initialize cookie and session before mount.
 
 [`v0.0.3-beta.11 (2022-12-13)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.10...v0.0.3-beta.11)
 
