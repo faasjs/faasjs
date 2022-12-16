@@ -133,7 +133,7 @@ export class CloudFunction implements Plugin {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const Provider = require(this.config.provider.type).Provider
       this.adapter = new Provider(this.config.provider.config)
-    } else this.logger.warn('[onMount] Unknown provider, can\'t use invoke and invokeSync.')
+    } else this.logger.warn('[onMount] Unknown provider, will use invoke and invokeSync with local mode.')
 
     if (this.validatorConfig) {
       this.logger.debug('[onMount] prepare validator')
@@ -169,7 +169,7 @@ export class CloudFunction implements Plugin {
     if (process.env.FaasMode !== 'remote') {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
-      const func = new test.FuncWarper(process.env.FaasRoot + name.toLowerCase() + '.func')
+      const func = new test.FuncWarper(`${process.env.FaasRoot || ''}${name.toLowerCase()}.func`)
       return func.handler(data)
     } else
       return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
@@ -189,7 +189,7 @@ export class CloudFunction implements Plugin {
     if (process.env.FaasMode !== 'remote') {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
-      const func = new test.FuncWarper(process.env.FaasRoot + name.toLowerCase() + '.func')
+      const func = new test.FuncWarper(`${process.env.FaasRoot || ''}${name.toLowerCase()}.func`)
       return func.handler(data)
     } else
       return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), data, options)
