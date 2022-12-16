@@ -293,17 +293,17 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 let plugins: Plugin[] = []
 
 export type UseifyPlugin<T> = T & {
-  mount?: (data: { config: Config }) => Promise<T>
+  mount?: (data?: { config?: Config }) => Promise<T>
 }
 
 export function usePlugin<T extends Plugin> (plugin: UseifyPlugin<T>): UseifyPlugin<T> {
   if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
 
   if (!plugin.mount)
-    plugin.mount = async function ({ config }: { config?: Config }) {
+    plugin.mount = async function (data?: { config?: Config }) {
       if (plugin.onMount)
         await plugin.onMount({
-          config: config || Object.create(null),
+          config: data?.config || Object.create(null),
           event: Object.create(null),
           context: Object.create(null),
           logger: new Logger(plugin.name),
