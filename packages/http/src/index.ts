@@ -147,6 +147,25 @@ export class Http<TParams extends Record<string, any> = any,
 
   public async onMount (data: MountData, next: Next): Promise<void> {
     data.logger.debug('[onMount] merge config')
+
+    const prefix = `SECRET_${this.name.toUpperCase()}_`
+
+    for (let key in process.env)
+      if (key.startsWith(prefix)) {
+        const value = process.env[key]
+        key = key.replace(prefix, '').toLowerCase()
+        if (key.includes('_')) {
+          let config = this.config
+          const keys = key.split('_')
+          keys.slice(0, keys.length - 1).forEach(k => {
+            if (!config[k]) config[k] = Object.create(null)
+            config = config[k]
+          })
+          config[keys[keys.length - 1]] = value
+        } else
+          this.config[key] = value
+      }
+
     if (data.config.plugins && data.config.plugins[this.name || this.type])
       this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config)
 

@@ -41,6 +41,9 @@ export class Session<
   constructor (cookie: Cookie<C, S>, config: SessionOptions) {
     this.cookie = cookie
 
+    if (!config?.secret)
+      console.warn('Session\'s secret is missing.')
+
     this.config = Object.assign({
       key: 'key',
       secret: randomBytes(128).toString('hex'),
@@ -108,7 +111,7 @@ export class Session<
     hmac.update(signedParts[0])
     const digest = hmac.digest('hex')
 
-    if (signedParts[1] !== digest) throw Error('Not valid')
+    if (signedParts[1] !== digest) throw Error('Session Not valid')
 
     const message = Buffer.from(signedParts[0], 'base64').toString()
     const parts = message.split('--').map(function (part) {
