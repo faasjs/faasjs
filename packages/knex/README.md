@@ -130,7 +130,7 @@ ___
 
 ### useKnex
 
-▸ **useKnex**(`config?`): [`Knex`](classes/Knex.md) & `UseifyPlugin`
+▸ **useKnex**(`config?`): `UseifyPlugin`<[`Knex`](classes/Knex.md)\>
 
 #### Parameters
 
@@ -140,4 +140,4 @@ ___
 
 #### Returns
 
-[`Knex`](classes/Knex.md) & `UseifyPlugin`
+`UseifyPlugin`<[`Knex`](classes/Knex.md)\>

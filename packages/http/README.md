@@ -200,7 +200,7 @@ ___
 
 ### useHttp
 
-▸ **useHttp**<`TParams`, `TCookie`, `TSession`\>(`config?`): [`Http`](classes/Http.md)<`TParams`, `TCookie`, `TSession`\> & `UseifyPlugin`
+▸ **useHttp**<`TParams`, `TCookie`, `TSession`\>(`config?`): `UseifyPlugin`<[`Http`](classes/Http.md)<`TParams`, `TCookie`, `TSession`\>\>
 
 #### Type parameters
 
@@ -218,4 +218,4 @@ ___
 
 #### Returns
 
-[`Http`](classes/Http.md)<`TParams`, `TCookie`, `TSession`\> & `UseifyPlugin`
+`UseifyPlugin`<[`Http`](classes/Http.md)<`TParams`, `TCookie`, `TSession`\>\>

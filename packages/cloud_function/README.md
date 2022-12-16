@@ -124,7 +124,7 @@ ___
 
 ### useCloudFunction
 
-▸ **useCloudFunction**(`config?`): [`CloudFunction`](classes/CloudFunction.md) & `UseifyPlugin`
+▸ **useCloudFunction**(`config?`): `UseifyPlugin`<[`CloudFunction`](classes/CloudFunction.md)\>
 
 #### Parameters
 
@@ -134,4 +134,4 @@ ___
 
 #### Returns
 
-[`CloudFunction`](classes/CloudFunction.md) & `UseifyPlugin`
+`UseifyPlugin`<[`CloudFunction`](classes/CloudFunction.md)\>

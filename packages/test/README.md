@@ -263,13 +263,13 @@ ___
 
 ### UseifyPlugin
 
-Ƭ **UseifyPlugin**: `Object`
+Ƭ **UseifyPlugin**<`T`\>: `T` & { `mount?`: (`data`: { `config`: [`Config`](#config)  }) => `Promise`<`T`\>  }
 
-#### Type declaration
+#### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `mount?` | (`data`: { `config`: [`Config`](#config)  }) => `Promise`<`void`\> |
+| Name |
+| :------ |
+| `T` |
 
 ## Functions
 
@@ -337,7 +337,7 @@ ___
 
 ### usePlugin
 
-▸ **usePlugin**<`T`\>(`plugin`): `T` & [`UseifyPlugin`](#useifyplugin)
+▸ **usePlugin**<`T`\>(`plugin`): [`UseifyPlugin`](#useifyplugin)<`T`\>
 
 #### Type parameters
 
@@ -349,8 +349,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `plugin` | `T` & [`UseifyPlugin`](#useifyplugin) |
+| `plugin` | [`UseifyPlugin`](#useifyplugin)<`T`\> |
 
 #### Returns
 
-`T` & [`UseifyPlugin`](#useifyplugin)
+[`UseifyPlugin`](#useifyplugin)<`T`\>

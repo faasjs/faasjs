@@ -161,7 +161,7 @@ ___
 
 ### useRedis
 
-▸ **useRedis**(`config?`): [`Redis`](classes/Redis.md) & `UseifyPlugin`
+▸ **useRedis**(`config?`): `UseifyPlugin`<[`Redis`](classes/Redis.md)\>
 
 #### Parameters
 
@@ -171,4 +171,4 @@ ___
 
 #### Returns
 
-[`Redis`](classes/Redis.md) & `UseifyPlugin`
+`UseifyPlugin`<[`Redis`](classes/Redis.md)\>
