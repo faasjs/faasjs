@@ -2,6 +2,11 @@
 
 ## Beta
 
+[`v0.0.3-beta.16 (2022-12-23)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.15...v0.0.3-beta.16)
+
+- `@faasjs/ant-design`
+  - [Feature] Update major types to interfaces.
+
 [`v0.0.3-beta.15 (2022-12-16)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.11...v0.0.3-beta.15)
 
 - `@faasjs/cloud_function`
