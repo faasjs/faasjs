@@ -37,7 +37,7 @@ describe('Description/extend', () => {
     function ExtendedDescription (props: DescriptionProps<any, ExtendTypes>) {
       return <Description
         { ...props }
-        extendTypes={ { password: { render: () => '***' } } }
+        extendTypes={ { password: { render: () => <>***</> } } }
       />
     }
 
