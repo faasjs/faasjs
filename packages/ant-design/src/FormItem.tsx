@@ -52,7 +52,7 @@ export interface FormItemProps<T = any> extends FaasItemProps, Omit<AntdFormItem
   required?: boolean
   col?: number
   children?: JSX.Element
-  render?: (value?: T) => JSX.Element
+  render?: () => JSX.Element
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: ExtendTypes
