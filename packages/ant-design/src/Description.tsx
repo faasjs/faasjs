@@ -14,32 +14,31 @@ import {
 import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
 import { Blank } from './Blank'
 
-export type ExtendDescriptionTypeProps = {
-  children?: JSX.Element | null
-  render?: (value: any, values: any) => ReactNode | JSX.Element
+export interface ExtendDescriptionTypeProps {
+  children?: JSX.Element
+  render?: (value: any, values: any) => JSX.Element
 }
 
 export type ExtendDescriptionItemProps = BaseItemProps
 
-export type DescriptionItemProps<T = any> = {
+export interface DescriptionItemProps<T = any> extends FaasItemProps {
   children?: JSX.Element
-  render?: (value: T, values: any) => ReactNode | JSX.Element
+  render?: (value: T, values: any) => JSX.Element
   if?: (values: Record<string, any>) => boolean
-} & FaasItemProps & {
   object?: DescriptionItemProps[]
 }
 
-export type DescriptionProps<T = any, ExtendItemProps = any> = {
-  renderTitle?: ((values: T) => ReactNode | JSX.Element)
+export interface DescriptionProps<T = any, ExtendItemProps = any> extends DescriptionsProps {
+  renderTitle?: ((values: T) => ReactNode)
   items: (DescriptionItemProps | ExtendItemProps)[]
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
   }
   dataSource?: T
   faasData?: FaasDataWrapperProps<T>
-} & DescriptionsProps
+}
 
-type DescriptionItemContentProps<T = any> = {
+export interface DescriptionItemContentProps<T = any> {
   item: DescriptionItemProps
   value: T
   values?: any
@@ -103,7 +102,10 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
       throw Error(computedProps.item.type + ' requires children or render')
 
   if (computedProps.item.children)
-    return cloneElement(computedProps.item.children, { value: computedProps.value })
+    return cloneElement(computedProps.item.children, {
+      value: computedProps.value,
+      values: computedProps.values,
+    })
 
   if (computedProps.item.render)
     return <>{computedProps.item.render(computedProps.value, computedProps.values)}</>

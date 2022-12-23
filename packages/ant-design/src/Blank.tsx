@@ -2,9 +2,9 @@ import { Typography } from 'antd'
 import { isNil } from 'lodash-es'
 import { useConfigContext } from './Config'
 
-export type BlankProps = {
-  value?: any;
-  text?: string;
+export interface BlankProps {
+  value?: any
+  text?: string
 }
 
 /**

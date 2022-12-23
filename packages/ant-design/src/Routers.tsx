@@ -16,7 +16,7 @@ export function PageNotFound () {
   />
 }
 
-export type RoutesProps = {
+export interface RoutesProps {
   routes: (RouteProps & {
     page?: LazyExoticComponent<ComponentType<any>>
   })[]

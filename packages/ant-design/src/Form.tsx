@@ -16,7 +16,7 @@ import {
 
 export { ExtendFormTypeProps, ExtendFormItemProps }
 
-export type FormProps<Values extends Record<string, any> = any, ExtendItemProps = any> = {
+export interface FormProps<Values extends Record<string, any> = any, ExtendItemProps = any> extends Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'> {
   items?: (FormItemProps | ExtendItemProps | JSX.Element)[]
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | {
@@ -60,7 +60,7 @@ export type FormProps<Values extends Record<string, any> = any, ExtendItemProps 
   extendTypes?: ExtendTypes
   children?: ReactNode
   initialValues?: Values
-} & Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'>
+}
 
 /**
  * Form component with Ant Design & FaasJS

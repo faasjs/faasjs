@@ -1,7 +1,7 @@
 import { useEffect, cloneElement } from 'react'
 import { useConfigContext } from './Config'
 
-export type TitleProps = {
+export interface TitleProps {
   title: string | string[]
   /** ` - ` as default */
   separator?: string

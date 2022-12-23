@@ -28,69 +28,10 @@ import { upperFirst } from 'lodash-es'
 import { BaseItemProps, BaseOption } from '.'
 import { ConfigProviderProps, useConfigContext } from './Config'
 
-type StringProps = {
-  type?: 'string'
-  input?: InputProps
-}
-
-type StringListProps = {
-  type: 'string[]'
-  input?: InputProps
-  maxCount?: number
-}
-
-type NumberProps = {
-  type: 'number'
-  input?: InputNumberProps
-}
-
-type NumberListProps = {
-  type: 'number[]'
-  input?: InputNumberProps
-  maxCount?: number
-}
-
-type BooleanProps = {
-  type: 'boolean'
-  input?: SwitchProps
-}
-
-type DateProps = {
-  type: 'date'
-  input?: DatePickerProps
-}
-
-type TimeProps = {
-  type: 'time'
-  input?: TimePickerProps
-}
-
-type ObjectProps = {
-  type: 'object'
-  object: FormItemProps[]
-}
-
-type ObjectListProps = {
-  type: 'object[]'
-  object: (FormItemProps & {
-    /** default is 6 */
-    col?: number
-  })[]
-  maxCount?: number
-}
-
 type OptionsProps = {
   options?: BaseOption[]
   type?: 'string' | 'string[]' | 'number' | 'number[]'
   input?: SelectProps<any>
-}
-
-type FormItemInputProps = (StringProps | StringListProps |
-NumberProps | NumberListProps |
-BooleanProps | OptionsProps | DateProps | TimeProps |
-ObjectProps | ObjectListProps) & {
-  disabled?: boolean
-  required?: boolean
 }
 
 export type ExtendFormTypeProps = {
@@ -103,9 +44,15 @@ export type ExtendTypes = {
 
 export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
-export type FormItemProps<T = any> = {
-  children?: ReactNode
-  render?: (value?: T) => ReactNode | JSX.Element
+export interface FormItemProps<T = any> extends FaasItemProps, Omit<AntdFormItemProps<T>, 'id' | 'children'> {
+  input?: InputProps | InputNumberProps | SwitchProps | SelectProps<T> | DatePickerProps | TimePickerProps
+  maxCount?: number
+  object?: FormItemProps[]
+  disabled?: boolean
+  required?: boolean
+  col?: number
+  children?: JSX.Element
+  render?: (value?: T) => JSX.Element
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: ExtendTypes
@@ -113,7 +60,7 @@ export type FormItemProps<T = any> = {
   onValueChange?: (value: T, values: any, form: FormInstance) => void
   /** trigger when any item's value changed */
   if?: (values: Record<string, any>) => boolean;
-} & FormItemInputProps & FaasItemProps & Omit<AntdFormItemProps<T>, 'children'>
+}
 
 function processProps (propsCopy: FormItemProps, config: ConfigProviderProps['common']) {
   if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
@@ -281,8 +228,8 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             </Row>
           </AntdForm.Item>)}
           <AntdForm.Item>
-            {!computedProps.input?.disabled && (!(computedProps as StringListProps).maxCount ||
-              (computedProps as StringListProps).maxCount > fields.length) &&
+            {!computedProps.input?.disabled && (!computedProps.maxCount ||
+              computedProps.maxCount > fields.length) &&
               <Button
                 type='dashed'
                 block
@@ -346,8 +293,8 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             </Row>
           </AntdForm.Item>)}
           <AntdForm.Item>
-            {!computedProps.input?.disabled && (!(computedProps as NumberListProps).maxCount ||
-              (computedProps as NumberListProps).maxCount > fields.length) &&
+            {!computedProps.input?.disabled && (!computedProps.maxCount ||
+              computedProps.maxCount > fields.length) &&
               <Button
                 type='dashed'
                 block
@@ -361,15 +308,15 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       </AntdForm.List>
     case 'boolean':
       return <AntdForm.Item { ...computedProps }>
-        <Switch { ...computedProps.input } />
+        <Switch { ...computedProps.input as SwitchProps } />
       </AntdForm.Item>
     case 'date':
       return <AntdForm.Item { ...computedProps }>
-        <DatePicker { ...computedProps.input } />
+        <DatePicker { ...computedProps.input as DatePickerProps } />
       </AntdForm.Item>
     case 'time':
       return <AntdForm.Item { ...computedProps }>
-        <TimePicker { ...computedProps.input } />
+        <TimePicker { ...computedProps.input as TimePickerProps } />
       </AntdForm.Item>
     case 'object':
       return <>{computedProps.label && <div className='ant-form-item-label'>
@@ -409,8 +356,8 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
             </Row>
           </AntdForm.Item>)}
           <AntdForm.Item>
-            {!computedProps.disabled && (!(computedProps as ObjectListProps).maxCount ||
-              (computedProps as ObjectListProps).maxCount > fields.length) &&
+            {!computedProps.disabled && (!computedProps.maxCount ||
+              computedProps.maxCount > fields.length) &&
               <Button
                 type='dashed'
                 block

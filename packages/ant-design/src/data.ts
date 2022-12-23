@@ -27,15 +27,15 @@ export type BaseOption = string | number | {
   value?: string | number
 }
 
-export type BaseItemProps = {
+export interface BaseItemProps {
   id: string
   title?: string
   options?: BaseOption[]
 }
 
-export type FaasItemProps = BaseItemProps & {
+export interface FaasItemProps extends BaseItemProps {
   /**
-   * Support string, string[], number, number[], boolean
+   * Support string, string[], number, number[], boolean, date, time, object, object[]
    * @default 'string'
    */
   type?: FaasItemType

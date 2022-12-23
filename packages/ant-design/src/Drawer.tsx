@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 export { Drawer }
 
-export type DrawerProps = AntdDrawerProps & {
+export interface DrawerProps extends AntdDrawerProps {
   children?: JSX.Element | JSX.Element[]
 }
 

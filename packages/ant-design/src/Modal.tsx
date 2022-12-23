@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 export { Modal }
 
-export type ModalProps = AntdModalProps & {
+export interface ModalProps extends AntdModalProps {
   children?: JSX.Element | JSX.Element[] | string
 }
 

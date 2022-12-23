@@ -10,7 +10,6 @@ import {
   Skeleton,
   TablePaginationConfig,
   Input,
-  ConfigProvider,
 } from 'antd'
 import dayjs from 'dayjs'
 import {
@@ -28,15 +27,14 @@ import {
 } from 'antd/es/table/interface'
 import { Description } from './Description'
 
-export type TableItemProps<T = any> = {
+export interface TableItemProps<T = any> extends FaasItemProps, Omit<AntdTableColumnProps<T>, 'title' | 'children'> {
   optionsType?: 'auto'
-  /** @deprecated use render */
-  children?: JSX.Element | null
+  children?: JSX.Element
   object?: TableItemProps[]
-} & FaasItemProps & Omit<AntdTableColumnProps<T>, 'children'>
+}
 
 export type ExtendTableTypeProps = {
-  children?: JSX.Element | null
+  children?: JSX.Element
   render?: (value: any, values: any, index: number) => JSX.Element | string | number | boolean | null
 }
 
@@ -105,7 +103,7 @@ function processValue (item: TableItemProps, value: any) {
  */
 export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()
-  const { common, antd } = useConfigContext()
+  const { common } = useConfigContext()
 
   useEffect(() => {
     for (const item of props.items as TableItemProps[]) {
@@ -124,7 +122,14 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         }))
       }
 
-      if (item.children) delete item.children
+      if (item.children)
+        item.render = (value: any, values: any) => cloneElement(
+          item.children,
+          {
+            value,
+            values,
+          }
+        )
 
       if (props.extendTypes && props.extendTypes[item.type]) {
         if (props.extendTypes[item.type].children)
@@ -397,14 +402,12 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
   if (!columns) return null
 
   if (!props.faasData)
-    return <ConfigProvider { ...antd }>
-      <AntdTable
-        { ...props }
-        rowKey={ props.rowKey || 'id' }
-        columns={ columns }
-        dataSource={ props.dataSource }
-      />
-    </ConfigProvider>
+    return <AntdTable
+      { ...props }
+      rowKey={ props.rowKey || 'id' }
+      columns={ columns }
+      dataSource={ props.dataSource }
+    />
 
   return <FaasDataWrapper<T>
     fallback={ props.faasData.fallback || <Skeleton active /> }
@@ -412,55 +415,49 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
       data, params, reload
     }) => {
       if (!data)
-        return <ConfigProvider { ...antd }>
-          <AntdTable
-            { ...props }
-            rowKey={ props.rowKey || 'id' }
-            columns={ columns }
-            dataSource={ [] }
-          />
-        </ConfigProvider>
-
-      if (Array.isArray(data))
-        return <ConfigProvider { ...antd }>
-          <AntdTable
-            { ...props }
-            rowKey={ props.rowKey || 'id' }
-            columns={ columns }
-            dataSource={ data as any }
-          />
-        </ConfigProvider>
-
-      return <ConfigProvider { ...antd }>
-        <AntdTable
+        return <AntdTable
           { ...props }
           rowKey={ props.rowKey || 'id' }
           columns={ columns }
-          dataSource={ (data as any).rows }
-          pagination={ {
-            ...props.pagination,
-            ...(data as any).pagination
-          } }
-          onChange={ (pagination, filters, sorter, extra) => {
-            if (props.onChange) {
-              const processed = props.onChange(pagination, filters, sorter, extra)
-              reload({
-                ...params,
-                pagination: processed.pagination,
-                filters: processed.filters,
-                sorter: processed.sorter,
-              })
-              return
-            }
+          dataSource={ [] }
+        />
+
+      if (Array.isArray(data))
+        return <AntdTable
+          { ...props }
+          rowKey={ props.rowKey || 'id' }
+          columns={ columns }
+          dataSource={ data as any }
+        />
+
+      return <AntdTable
+        { ...props }
+        rowKey={ props.rowKey || 'id' }
+        columns={ columns }
+        dataSource={ (data as any).rows }
+        pagination={ {
+          ...props.pagination,
+          ...(data as any).pagination
+        } }
+        onChange={ (pagination, filters, sorter, extra) => {
+          if (props.onChange) {
+            const processed = props.onChange(pagination, filters, sorter, extra)
             reload({
               ...params,
-              pagination,
-              filters,
-              sorter,
+              pagination: processed.pagination,
+              filters: processed.filters,
+              sorter: processed.sorter,
             })
-          } }
-        />
-      </ConfigProvider>
+            return
+          }
+          reload({
+            ...params,
+            pagination,
+            filters,
+            sorter,
+          })
+        } }
+      />
     } }
     { ...props.faasData }
   />

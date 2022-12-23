@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useConfigContext } from './Config'
 import { Button, ButtonProps } from 'antd'
 
-export type LinkProps = {
+export interface LinkProps {
   href: string
   target?: string
   text?: string | number

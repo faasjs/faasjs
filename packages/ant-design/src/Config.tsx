@@ -1,12 +1,9 @@
 import {
   createContext, useContext, CSSProperties, useEffect, useState
 } from 'react'
-import { ConfigProviderProps as AntdConfigProviderProps } from 'antd/es/config-provider'
-import { ConfigProvider as AntdConfigProvider } from 'antd'
 import { defaultsDeep } from 'lodash-es'
 
-export type ConfigProviderProps = {
-  antd?: AntdConfigProviderProps
+export interface ConfigProviderProps {
   lang?: string
   common?: {
     blank?: string
@@ -118,9 +115,7 @@ export function ConfigProvider ({
   }, [])
 
   return <ConfigContext.Provider value={ values }>
-    <AntdConfigProvider { ...config.antd }>
-      { children }
-    </AntdConfigProvider>
+    { children }
   </ConfigContext.Provider>
 }
 
