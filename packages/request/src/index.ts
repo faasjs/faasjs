@@ -45,10 +45,19 @@ export type RequestOptions = {
   auth?: string
   /**
    * Path of uploading a file to the server.
+   *
+   * ```ts
+   * await request('https://example.com', { file: 'filepath' })
+   * ```
    */
   file?: string
   /**
    * Create a write stream to download a file.
+   *
+   * ```ts
+   * const stream = createWriteStream('filepath')
+   * await request('https://example.com', { downloadStream: stream })
+   * ```
    */
   downloadStream?: NodeJS.WritableStream
   pfx?: Buffer
