@@ -47,7 +47,7 @@ jobs:
           - 27017:27017
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3.5.1
+      - uses: actions/setup-node@v3.6.0
         with:
           cache: npm
       - name: Install
