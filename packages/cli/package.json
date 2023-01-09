@@ -29,7 +29,7 @@
     "@faasjs/server": "^0.0.3-beta.16",
     "@faasjs/test": "^0.0.3-beta.16",
     "@types/glob": "*",
-    "commander": ">=9.4.1",
+    "commander": ">=9.5.0",
     "enquirer": "*",
     "glob": "*",
     "lodash": "*"
