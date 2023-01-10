@@ -38,7 +38,7 @@ export function Link ({
           ...style || {},
         } }
         href={ href }
-      >{text || children}</Button>
+      >{text ?? children}</Button>
 
     return <a
       href={ href }
@@ -47,7 +47,7 @@ export function Link ({
         ...Link.style,
         ...style || {},
       } }
-    >{text || children}</a>
+    >{text ?? children}</a>
   }
 
   if (button)
@@ -60,7 +60,7 @@ export function Link ({
         style={ {
           ...Link.style,
           ...style || {},
-        } }>{text || children}</Button>
+        } }>{text ?? children}</Button>
     </RouterLink>
 
   return <RouterLink
@@ -70,5 +70,5 @@ export function Link ({
       ...Link.style,
       ...style || {},
     } }
-  >{text || children}</RouterLink>
+  >{text ?? children}</RouterLink>
 }
