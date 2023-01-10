@@ -18,7 +18,7 @@ export interface LinkProps {
  * <Link href="/">Home</Link>
  *
  * // link with button
- * <Link href="/" button={{type:'primary'}}>Home</Link>
+ * <Link href="/" button={{ type:'primary' }}>Home</Link>
  * ```
  */
 export function Link ({
