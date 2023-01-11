@@ -68,7 +68,7 @@ export class Logger {
 
     this.cachedTimers = {}
 
-    this.size = 500
+    this.size = 1000
 
     this.stdout = console.log
     this.stderr = console.error
