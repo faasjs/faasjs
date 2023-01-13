@@ -186,7 +186,8 @@ export class Http<TParams extends Record<string, any> = any,
     if (data.event.body) {
       if (this.headers['content-type']?.includes('application/json')) {
         data.logger.debug('[onInvoke] Parse params from json body')
-        this.params = Object.assign(this.params, JSON.parse(data.event.body))
+        this.params = Object.keys(this.params).length ?
+          Object.assign(this.params, JSON.parse(data.event.body)) : JSON.parse(data.event.body)
       } else {
         data.logger.debug('[onInvoke] Parse params from raw body')
         this.params = data.event.body || Object.create(null)
