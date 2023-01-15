@@ -1,6 +1,6 @@
 {
   "name": "faasjs",
-  "version": "0.0.3-beta.19",
+  "version": "0.0.3-beta.20",
   "license": "MIT",
   "files": [],
   "homepage": "https://faasjs.com",
@@ -14,9 +14,9 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "dependencies": {
-    "@faasjs/cli": "^0.0.3-beta.19",
-    "@faasjs/http": "^0.0.3-beta.19",
-    "@faasjs/types": "^0.0.3-beta.19"
+    "@faasjs/cli": "^0.0.3-beta.20",
+    "@faasjs/http": "^0.0.3-beta.20",
+    "@faasjs/types": "^0.0.3-beta.20"
   },
   "engines": {
     "npm": ">=8.0.0",
