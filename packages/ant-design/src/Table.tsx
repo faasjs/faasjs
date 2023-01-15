@@ -19,7 +19,9 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
   isNil, uniqBy, upperFirst,
 } from 'lodash-es'
-import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
+import {
+  FaasDataInjection, FaasDataWrapper, FaasDataWrapperProps
+} from '@faasjs/react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import {
@@ -119,7 +121,10 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         }[]).map(o => ({
           text: o.label,
           value: o.value
-        }))
+        })).concat({
+          text: <Blank /> as any,
+          value: null,
+        })
       }
 
       if (item.children)
@@ -411,54 +416,104 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
   return <FaasDataWrapper<T>
     fallback={ props.faasData.fallback || <Skeleton active /> }
-    render= { ({
-      data, params, reload
-    }) => {
-      if (!data)
-        return <AntdTable
-          { ...props }
-          rowKey={ props.rowKey || 'id' }
-          columns={ columns }
-          dataSource={ [] }
-        />
-
-      if (Array.isArray(data))
-        return <AntdTable
-          { ...props }
-          rowKey={ props.rowKey || 'id' }
-          columns={ columns }
-          dataSource={ data as any }
-        />
-
-      return <AntdTable
-        { ...props }
-        rowKey={ props.rowKey || 'id' }
-        columns={ columns }
-        dataSource={ (data as any).rows }
-        pagination={ {
-          ...props.pagination,
-          ...(data as any).pagination
-        } }
-        onChange={ (pagination, filters, sorter, extra) => {
-          if (props.onChange) {
-            const processed = props.onChange(pagination, filters, sorter, extra)
-            reload({
-              ...params,
-              pagination: processed.pagination,
-              filters: processed.filters,
-              sorter: processed.sorter,
-            })
-            return
-          }
-          reload({
-            ...params,
-            pagination,
-            filters,
-            sorter,
-          })
-        } }
-      />
-    } }
     { ...props.faasData }
+  >
+    <FaasDataTable
+      props={ props }
+      columns={ columns }
+    />
+  </FaasDataWrapper>
+}
+
+function FaasDataTable ({
+  props,
+  columns,
+  data,
+  params,
+  reload,
+}: Partial<FaasDataInjection> & {
+  props: TableProps
+  columns: TableItemProps[]
+}) {
+  const [currentColumns, setCurrentColumns] = useState(columns)
+
+  useEffect(() => {
+    if (!data || Array.isArray(data)) return
+
+    setCurrentColumns(prev => {
+      const newColumns = [...prev]
+      for (const column of newColumns) {
+        if (data['options'][column.id]) {
+          column.options = data['options'][column.id]
+          column.filters = data['options'][column.id].map((v: any) => ({
+            text: v.label,
+            value: v.value,
+          })).concat({
+            text: <Blank />,
+            value: null,
+          })
+          column.render = (value: any) => processValue(column, value)
+          if (column.filterDropdown)
+            delete column.filterDropdown
+          continue
+        }
+
+        if (column.optionsType === 'auto' && !column.options && !column.filters) {
+          column.filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
+            text: v[column.id],
+            value: v[column.id],
+          })).concat({
+            text: <Blank />,
+            value: null,
+          })
+        }
+      }
+      return newColumns
+    })
+  }, [columns, data])
+
+  if (!data)
+    return <AntdTable
+      { ...props }
+      rowKey={ props.rowKey || 'id' }
+      columns={ currentColumns }
+      dataSource={ [] }
+    />
+
+  if (Array.isArray(data))
+    return <AntdTable
+      { ...props }
+      rowKey={ props.rowKey || 'id' }
+      columns={ currentColumns }
+      dataSource={ data as any }
+    />
+
+  return <AntdTable
+    { ...props }
+    rowKey={ props.rowKey || 'id' }
+    columns={ currentColumns }
+    dataSource={ (data as any).rows }
+    pagination={ {
+      ...props.pagination,
+      ...(data as any).pagination,
+    } }
+    onChange={ (pagination, filters, sorter, extra) => {
+      if (props.onChange) {
+        const processed = props.onChange(pagination, filters, sorter, extra)
+        reload({
+          ...params,
+          pagination: processed.pagination,
+          filters: processed.filters,
+          sorter: processed.sorter,
+        })
+        return
+      }
+      reload({
+        ...params,
+        pagination,
+        filters,
+        sorter,
+      })
+    } }
   />
 }
