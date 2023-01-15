@@ -7,7 +7,7 @@ import {
 } from '@faasjs/types'
 
 import {
-  useState, useEffect, createElement
+  useState, useEffect, createElement, cloneElement,
 } from 'react'
 
 export type {
@@ -35,6 +35,7 @@ export type FaasDataInjection<Data = any> = {
 
 export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
   render?(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element | JSX.Element[]
+  children?: JSX.Element
   fallback?: JSX.Element | false
   action: string
   params?: FaasParams<PathOrData>
@@ -191,7 +192,7 @@ export function FaasReactClient ({
     useFaas,
     FaasDataWrapper<PathOrData extends FaasAction> ({
       action, params,
-      fallback, render,
+      fallback, render, children,
       onDataChange,
       data,
       setData,
@@ -210,7 +211,10 @@ export function FaasReactClient ({
         if (onDataChange) onDataChange(request)
       }, [JSON.stringify(request.data)])
 
-      if (loaded) return render(request) as JSX.Element
+      if (loaded) {
+        if (children) return cloneElement(children, request)
+        if (render) return render(request) as JSX.Element
+      }
 
       return fallback || null
     }
