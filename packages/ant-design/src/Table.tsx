@@ -152,7 +152,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.render)
             item.render = value => processValue(item, value)
 
-          if (!item.onFilter)
+          if (!props.faasData && !item.onFilter)
             item.onFilter = (value: any, row) => {
               if (value === null && isNil(row[item.id])) return true
 
@@ -181,7 +181,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         case 'string[]':
           if (!item.render)
             item.render = value => processValue(item, value)
-          if (!item.onFilter)
+          if (!props.faasData && !item.onFilter)
             item.onFilter = (value: any, row) => {
               if (value === null && (!row[item.id] || !row[item.id].length)) return true
 
@@ -213,11 +213,11 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.sorter)
             item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
 
-          if (!item.onFilter)
+          if (!props.faasData && !item.onFilter)
             item.onFilter = (value: any, row) => {
               if (value === null && isNil(row[item.id])) return true
 
-              return value === row[item.id]
+              return value == row[item.id]
             }
 
           if (!item.filters && item.filterDropdown !== false)
@@ -241,13 +241,13 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.render)
             item.render = value => processValue(item, value).join(', ')
 
-          if (!item.onFilter)
+          if (!props.faasData && !item.onFilter)
             item.onFilter = (value: any, row) => {
               if (value === null && (!row[item.id] || !row[item.id].length)) return true
 
               if (!row[item.id] || !row[item.id].length) return false
 
-              return row[item.id].includes(value)
+              return row[item.id].includes(Number(value))
             }
 
           if (!item.filters && item.filterDropdown !== false)
@@ -308,7 +308,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
               <Radio.Button value={ 'empty' }>{common.blank}</Radio.Button>
             </Radio.Group>
 
-          if (!item.onFilter)
+          if (!props.faasData && !item.onFilter)
             item.onFilter = (value: string | number | boolean, row: any) => {
               switch (value) {
                 case 'true':
@@ -326,7 +326,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.render)
             item.render = value => processValue(item, value)
 
-          if (!item.onFilter)
+          if (!props.faasData && !item.onFilter)
             item.onFilter = (value: any, row) => dayjs(row[item.id]).isSame(dayjs(value))
 
           if (!item.sorter)
@@ -337,7 +337,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           if (!item.render)
             item.render = value => processValue(item, value)
 
-          if (!item.onFilter)
+          if (!props.faasData && !item.onFilter)
             item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
 
           if (!item.sorter)
