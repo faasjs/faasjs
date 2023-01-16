@@ -443,7 +443,7 @@ function FaasDataTable ({
     setCurrentColumns(prev => {
       const newColumns = [...prev]
       for (const column of newColumns) {
-        if (data['options'][column.id]) {
+        if (data['options'] && data.options[column.id]) {
           column.options = data['options'][column.id]
           column.filters = data['options'][column.id].map((v: any) => ({
             text: v.label,
