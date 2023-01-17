@@ -388,18 +388,20 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
 
     for (const column of columns) {
       if (column.optionsType === 'auto' && !column.options && !column.filters) {
-        setColumns(prev => {
-          const newColumns = [...prev]
-          const index = newColumns.findIndex(item => item.id === column.id)
-          newColumns[index].filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
-            text: v[column.id],
-            value: v[column.id],
-          })).concat({
-            text: <Blank />,
-            value: null,
+        const filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
+          text: v[column.id],
+          value: v[column.id],
+        }))
+        if (filters.length)
+          setColumns(prev => {
+            const newColumns = [...prev]
+            const index = newColumns.findIndex(item => item.id === column.id)
+            newColumns[index].filters = filters.concat({
+              text: <Blank />,
+              value: null,
+            })
+            return newColumns
           })
-          return newColumns
-        })
       }
     }
   }, [props.dataSource, columns])
@@ -459,13 +461,15 @@ function FaasDataTable ({
         }
 
         if (column.optionsType === 'auto' && !column.options && !column.filters) {
-          column.filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
+          const filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
             text: v[column.id],
             value: v[column.id],
-          })).concat({
-            text: <Blank />,
-            value: null,
-          })
+          }))
+          if (filters.length)
+            column.filters = filters.concat({
+              text: <Blank />,
+              value: null,
+            })
         }
       }
       return newColumns
