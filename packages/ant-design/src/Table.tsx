@@ -21,10 +21,10 @@ import {
 } from 'lodash-es'
 import {
   FaasDataInjection, FaasDataWrapper, FaasDataWrapperProps
-} from '@faasjs/react'
+} from './FaasDataWrapper'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
-import {
+import type {
   FilterValue, SorterResult, TableCurrentDataSource
 } from 'antd/es/table/interface'
 import { Description } from './Description'

@@ -11,7 +11,7 @@ import { BaseItemProps } from '.'
 import {
   FaasItemProps, transferOptions, transferValue
 } from './data'
-import { FaasDataWrapper, FaasDataWrapperProps } from '@faasjs/react'
+import { FaasDataWrapper, FaasDataWrapperProps } from './FaasDataWrapper'
 import { Blank } from './Blank'
 
 export interface ExtendDescriptionTypeProps {
