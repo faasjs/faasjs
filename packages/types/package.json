@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/types",
-  "version": "0.0.3-beta.27",
+  "version": "0.0.3-beta.28",
   "license": "MIT",
   "types": "src/index.ts",
   "homepage": "https://faasjs.com/doc/types",
