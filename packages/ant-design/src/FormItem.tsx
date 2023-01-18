@@ -25,7 +25,7 @@ import {
   ReactNode, useEffect, useState
 } from 'react'
 import { upperFirst } from 'lodash-es'
-import { BaseItemProps, BaseOption } from '.'
+import type { BaseItemProps, BaseOption } from '.'
 import { ConfigProviderProps, useConfigContext } from './Config'
 
 type OptionsProps = {

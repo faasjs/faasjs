@@ -9,12 +9,12 @@ import {
 } from 'react'
 import { useConfigContext } from './Config'
 import { transferValue } from './data'
-import {
-  ExtendFormTypeProps, ExtendFormItemProps, ExtendTypes,
-  FormItem, FormItemProps
+import type {
+  ExtendFormTypeProps, ExtendFormItemProps, ExtendTypes, FormItemProps
 } from './FormItem'
+import { FormItem } from './FormItem'
 
-export { ExtendFormTypeProps, ExtendFormItemProps }
+export type { ExtendFormTypeProps, ExtendFormItemProps }
 
 export interface FormProps<Values extends Record<string, any> = any, ExtendItemProps = any> extends Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'> {
   items?: (FormItemProps | ExtendItemProps | JSX.Element)[]
@@ -79,6 +79,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
     const propsCopy = {
       ...props,
       form,
+      items: props.items,
     }
 
     if (propsCopy.initialValues && propsCopy.items?.length) {

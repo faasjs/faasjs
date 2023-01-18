@@ -1,10 +1,9 @@
-import {
-  FaasDataWrapper as Origin, FaasDataWrapperProps, FaasDataInjection 
-} from '@faasjs/react'
+import { FaasDataWrapper as Origin } from '@faasjs/react'
+import type { FaasDataWrapperProps } from '@faasjs/react'
 import { Loading } from './Loading'
 import { Alert } from 'antd'
 
-export { FaasDataWrapperProps, FaasDataInjection }
+export type { FaasDataWrapperProps, FaasDataInjection } from '@faasjs/react'
 
 /**
  * FaasDataWrapper component with Loading and ErrorBoundary
