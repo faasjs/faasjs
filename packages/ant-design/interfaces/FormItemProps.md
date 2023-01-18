@@ -158,17 +158,11 @@ ___
 
 ### render
 
-• `Optional` **render**: (`value?`: `T`) => `Element`
+• `Optional` **render**: () => `Element`
 
 #### Type declaration
 
-▸ (`value?`): `Element`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `value?` | `T` |
+▸ (): `Element`
 
 ##### Returns
 

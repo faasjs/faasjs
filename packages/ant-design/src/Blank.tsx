@@ -8,6 +8,8 @@ export interface BlankProps {
 }
 
 /**
+ * Blank component.
+ *
  * If value is undefined or null, return text, otherwise return value.
  *
  * @param options {object}

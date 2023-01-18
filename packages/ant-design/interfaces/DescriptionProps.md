@@ -43,7 +43,7 @@ ___
 
 ### faasData
 
-• `Optional` **faasData**: `FaasDataWrapperProps`<`T`\>
+• `Optional` **faasData**: [`FaasDataWrapperProps`](../modules.md#faasdatawrapperprops)<`T`\>
 
 ___
 

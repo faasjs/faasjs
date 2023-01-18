@@ -11,6 +11,7 @@ export type setDrawerProps = (changes: Partial<DrawerProps>) => void
 
 /**
  * Hook style drawer.
+ *
  * @param init initial props
  *
  * ```ts

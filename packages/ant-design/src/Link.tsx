@@ -13,6 +13,8 @@ export interface LinkProps {
 }
 
 /**
+ * Link component with button.
+ *
  * ```ts
  * // pure link
  * <Link href="/">Home</Link>

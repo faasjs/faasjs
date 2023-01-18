@@ -157,6 +157,9 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
   }
 }
 
+/**
+ * Description component.
+ */
 export function Description<T = any> (props: DescriptionProps<T>) {
   if (!props.faasData)
     return <Descriptions

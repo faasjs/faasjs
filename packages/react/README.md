@@ -104,6 +104,7 @@ ___
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `action` | `string` | - |
+| `children?` | `JSX.Element` | - |
 | `data?` | [`FaasData`](#faasdata)<`PathOrData`\> | use custom data, should work with setData |
 | `fallback?` | `JSX.Element` \| ``false`` | - |
 | `params?` | [`FaasParams`](#faasparams)<`PathOrData`\> | - |

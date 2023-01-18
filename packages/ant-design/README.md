@@ -71,6 +71,8 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [ExtendTableItemProps](#extendtableitemprops)
 - [ExtendTableTypeProps](#extendtabletypeprops)
 - [ExtendTypes](#extendtypes)
+- [FaasDataInjection](#faasdatainjection)
+- [FaasDataWrapperProps](#faasdatawrapperprops)
 - [FaasItemType](#faasitemtype)
 - [FaasItemTypeValue](#faasitemtypevalue)
 - [TableProps](#tableprops)
@@ -86,9 +88,11 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [Blank](#blank)
 - [ConfigProvider](#configprovider)
 - [Description](#description)
+- [FaasDataWrapper](#faasdatawrapper)
 - [Form](#form)
 - [FormItem](#formitem)
 - [Link](#link)
+- [Loading](#loading)
 - [PageNotFound](#pagenotfound)
 - [Routes](#routes)
 - [Table](#table)
@@ -166,6 +170,61 @@ ___
 
 ___
 
+### FaasDataInjection
+
+Ƭ **FaasDataInjection**<`Data`\>: `Object`
+
+Injects FaasData props.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Data` | `any` |
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `action` | `string` \| `any` |
+| `data` | `Data` |
+| `error` | `any` |
+| `loading` | `boolean` |
+| `params` | `Record`<`string`, `any`\> |
+| `promise` | `Promise`<`Response`<`Data`\>\> |
+| `setData` | `React.Dispatch`<`React.SetStateAction`<`Data`\>\> |
+| `setError` | `React.Dispatch`<`React.SetStateAction`<`any`\>\> |
+| `setLoading` | `React.Dispatch`<`React.SetStateAction`<`boolean`\>\> |
+| `setPromise` | `React.Dispatch`<`React.SetStateAction`<`Promise`<`Response`<`Data`\>\>\>\> |
+| `reload` | (`params?`: `Record`<`string`, `any`\>) => `Promise`<`Response`<`Data`\>\> |
+
+___
+
+### FaasDataWrapperProps
+
+Ƭ **FaasDataWrapperProps**<`PathOrData`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `FaasAction` |
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action` | `string` | - |
+| `children?` | `JSX.Element` | - |
+| `data?` | `FaasData`<`PathOrData`\> | use custom data, should work with setData |
+| `fallback?` | `JSX.Element` \| ``false`` | - |
+| `params?` | `FaasParams`<`PathOrData`\> | - |
+| `setData?` | `React.Dispatch`<`React.SetStateAction`<`FaasData`<`PathOrData`\>\>\> | use custom setData, should work with data |
+| `onDataChange?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `void` | - |
+| `render?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `Element` \| `Element`[] | - |
+
+___
+
 ### FaasItemType
 
 Ƭ **FaasItemType**: ``"string"`` \| ``"string[]"`` \| ``"number"`` \| ``"number[]"`` \| ``"boolean"`` \| ``"date"`` \| ``"time"`` \| ``"object"`` \| ``"object[]"``
@@ -196,7 +255,7 @@ ___
 
 ### TableProps
 
-Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`TableItemProps`](interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue` \| ``null``\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
+Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: [`FaasDataWrapperProps`](#faasdatawrapperprops)<`T`\> ; `items`: ([`TableItemProps`](interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue` \| ``null``\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
 
 #### Type parameters
 
@@ -257,6 +316,8 @@ ___
 
 ▸ **Blank**(`options?`): `JSX.Element`
 
+Blank component.
+
 If value is undefined or null, return text, otherwise return value.
 
 #### Parameters
@@ -309,6 +370,8 @@ ___
 
 ▸ **Description**<`T`\>(`props`): `Element`
 
+Description component.
+
 #### Type parameters
 
 | Name | Type |
@@ -324,6 +387,30 @@ ___
 #### Returns
 
 `Element`
+
+___
+
+### FaasDataWrapper
+
+▸ **FaasDataWrapper**<`T`\>(`props`): `JSX.Element`
+
+FaasDataWrapper component with Loading and ErrorBoundary
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`FaasDataWrapperProps`](#faasdatawrapperprops)<`T`\> |
+
+#### Returns
+
+`JSX.Element`
 
 ___
 
@@ -393,12 +480,14 @@ ___
 
 ▸ **Link**(`«destructured»`): `Element`
 
+Link component with button.
+
 ```ts
 // pure link
 <Link href="/">Home</Link>
 
 // link with button
-<Link href="/" button={{type:'primary'}}>Home</Link>
+<Link href="/" button={{ type:'primary' }}>Home</Link>
 ```
 
 #### Parameters
@@ -406,6 +495,26 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `«destructured»` | [`LinkProps`](interfaces/LinkProps.md) |
+
+#### Returns
+
+`Element`
+
+___
+
+### Loading
+
+▸ **Loading**(`props`): `Element`
+
+Loading component based on Spin
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | `Object` |
+| `props.size?` | ``"small"`` \| ``"default"`` \| ``"large"`` |
+| `props.style?` | `CSSProperties` |
 
 #### Returns
 
