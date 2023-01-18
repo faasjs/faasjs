@@ -81,7 +81,7 @@ export function Form<Values = any> (props: FormProps<Values>) {
       form,
     }
 
-    if (propsCopy.initialValues && propsCopy.items) {
+    if (propsCopy.initialValues && propsCopy.items?.length) {
       for (const key in propsCopy.initialValues) {
         propsCopy.initialValues[key] = transferValue(
           propsCopy.items.find(item => item.id === key)?.type,
