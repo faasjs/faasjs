@@ -87,6 +87,6 @@ ___
 
 ### submit
 
-• `Optional` **submit**: ``false`` \| { `text?`: `string` ; `to?`: { `action`: `string` ; `params?`: `Record`<`string`, `any`\>  }  }
+• `Optional` **submit**: ``false`` \| [`FormSubmitProps`](../modules.md#formsubmitprops)
 
 Default: { text: 'Submit' }, set false to disable it

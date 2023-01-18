@@ -42,6 +42,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 ### Namespaces
 
 - [Form](modules/Form.md)
+- [FormItem](modules/FormItem.md)
 
 ### Interfaces
 
@@ -75,6 +76,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [FaasDataWrapperProps](#faasdatawrapperprops)
 - [FaasItemType](#faasitemtype)
 - [FaasItemTypeValue](#faasitemtypevalue)
+- [FormSubmitProps](#formsubmitprops)
 - [TableProps](#tableprops)
 - [setDrawerProps](#setdrawerprops)
 - [setModalProps](#setmodalprops)
@@ -250,6 +252,24 @@ FaasItemType's value type
 | `string` | `string` |
 | `string[]` | `string`[] |
 | `time` | `Dayjs` |
+
+___
+
+### FormSubmitProps
+
+Ƭ **FormSubmitProps**: `Object`
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `text?` | `string` | Default: Submit |
+| `to?` | { `action`: `string` ; `catch?`: (`error`: `any`) => `void` ; `finally?`: () => `void` ; `params?`: `Record`<`string`, `any`\> ; `then?`: (`result`: `any`) => `void`  } | Submit to FaasJS server. If use onFinish, you should call submit manually. ```ts { submit: { to: { action: 'action_name' } }, onFinish: (values, submit) => { // do something before submit // submit await submit({ ...values, extraProps: 'some extra props' }) // do something after submit } } ``` |
+| `to.action` | `string` | - |
+| `to.catch?` | (`error`: `any`) => `void` | - |
+| `to.finally?` | () => `void` | - |
+| `to.params?` | `Record`<`string`, `any`\> | params will overwrite form values before submit |
+| `to.then?` | (`result`: `any`) => `void` | - |
 
 ___
 
@@ -513,7 +533,7 @@ Loading component based on Spin
 | Name | Type |
 | :------ | :------ |
 | `props` | `Object` |
-| `props.size?` | ``"small"`` \| ``"default"`` \| ``"large"`` |
+| `props.size?` | ``"default"`` \| ``"small"`` \| ``"large"`` |
 | `props.style?` | `CSSProperties` |
 
 #### Returns
