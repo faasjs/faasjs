@@ -214,3 +214,5 @@ export function Form<Values = any> (props: FormProps<Values>) {
 Form.useForm = AntdForm.useForm
 Form.useFormInstance = AntdForm.useFormInstance
 Form.useWatch = AntdForm.useWatch
+
+Form.Item = FormItem
