@@ -16,44 +16,48 @@ import { FormItem } from './FormItem'
 
 export type { ExtendFormTypeProps, ExtendFormItemProps }
 
+export type FormSubmitProps = {
+  /** Default: Submit */
+  text?: string
+  /**
+   * Submit to FaasJS server.
+   *
+   * If use onFinish, you should call submit manually.
+   * ```ts
+   * {
+   *   submit: {
+   *     to: {
+   *       action: 'action_name'
+   *     }
+   *   },
+   *   onFinish: (values, submit) => {
+   *     // do something before submit
+   *
+   *     // submit
+   *     await submit({
+   *      ...values,
+   *      extraProps: 'some extra props'
+   *     })
+   *
+   *     // do something after submit
+   *   }
+   * }
+   * ```
+   */
+  to?: {
+    action: string
+    /** params will overwrite form values before submit */
+    params?: Record<string, any>
+    then?: (result: any) => void
+    catch?: (error: any) => void
+    finally?: () => void
+  }
+}
+
 export interface FormProps<Values extends Record<string, any> = any, ExtendItemProps = any> extends Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'> {
   items?: (FormItemProps | ExtendItemProps | JSX.Element)[]
   /** Default: { text: 'Submit' }, set false to disable it */
-  submit?: false | {
-    /** Default: Submit */
-    text?: string
-    /**
-     * Submit to FaasJS server.
-     *
-     * If use onFinish, you should call submit manually.
-     * ```ts
-     * {
-     *   submit: {
-     *     to: {
-     *       action: 'action_name'
-     *     }
-     *   },
-     *   onFinish: (values, submit) => {
-     *     // do something before submit
-     *
-     *     // submit
-     *     await submit({
-     *      ...values,
-     *      extraProps: 'some extra props'
-     *     })
-     *
-     *     // do something after submit
-     *   }
-     * }
-     * ```
-     */
-    to?: {
-      action: string
-      /** params will overwrite form values before submit */
-      params?: Record<string, any>
-    }
-  }
-
+  submit?: false | FormSubmitProps
   onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
   beforeItems?: JSX.Element | JSX.Element[]
   footer?: JSX.Element | JSX.Element[]
@@ -79,7 +83,6 @@ export function Form<Values = any> (props: FormProps<Values>) {
     const propsCopy = {
       ...props,
       form,
-      items: props.items,
     }
 
     if (propsCopy.initialValues && propsCopy.items?.length) {
@@ -152,7 +155,22 @@ export function Form<Values = any> (props: FormProps<Values>) {
                 params?: Record<string, any>
               }
             }).to.params
-          } : values).finally(() => setLoading(false))
+          } : values)
+          .then(result => {
+            if ((propsCopy.submit as FormSubmitProps).to.then)
+              (propsCopy.submit as FormSubmitProps).to.then(result)
+            return result
+          })
+          .catch(error => {
+            if ((propsCopy.submit as FormSubmitProps).to.catch)
+              (propsCopy.submit as FormSubmitProps).to.catch(error)
+            return Promise.reject(error)
+          })
+          .finally(() => {
+            if ((propsCopy.submit as FormSubmitProps).to.finally)
+              (propsCopy.submit as FormSubmitProps).to.finally()
+            setLoading(false)
+          })
       }
     }
 
