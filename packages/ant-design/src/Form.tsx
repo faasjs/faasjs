@@ -216,3 +216,6 @@ Form.useFormInstance = AntdForm.useFormInstance
 Form.useWatch = AntdForm.useWatch
 
 Form.Item = FormItem
+Form.List = AntdForm.List
+Form.ErrorList = AntdForm.ErrorList
+Form.Provider = AntdForm.Provider
