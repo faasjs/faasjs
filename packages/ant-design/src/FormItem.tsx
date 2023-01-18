@@ -374,3 +374,5 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       return null
   }
 }
+
+FormItem.useStatus = AntdForm.Item.useStatus
