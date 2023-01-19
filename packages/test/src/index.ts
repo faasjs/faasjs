@@ -106,6 +106,8 @@ export class FuncWarper {
       headers: {
         [key: string]: string
       }
+      cookie?: Record<string, any>
+      session?: Record<string, any>
       body: any
       data?: TData
       error?: {
@@ -141,6 +143,11 @@ export class FuncWarper {
       const parsedBody = JSON.parse(response.body)
       response.data = parsedBody.data
       response.error = parsedBody.error
+    }
+
+    if (http) {
+      response.cookie = http.cookie.content
+      response.session = http.session.content
     }
 
     this.logger.debug('response: %j', response)
