@@ -149,4 +149,34 @@ describe('redis', function () {
 
     expect(await func.export().handler({})).toEqual('value')
   })
+
+  it('multi', async function () {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler () {
+        await redis.multi().set('key', 'value').exec()
+
+        return redis.get('key')
+      }
+    })
+
+    expect(await func.export().handler({})).toEqual('value')
+  })
+
+  it('pipeline', async function () {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler () {
+        await redis.pipeline().set('key', 'value').exec()
+
+        return redis.get('key')
+      }
+    })
+
+    expect(await func.export().handler({})).toEqual('value')
+  })
 })

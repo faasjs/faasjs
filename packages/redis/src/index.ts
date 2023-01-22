@@ -3,7 +3,7 @@ import {
 } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
-import IORedis, { RedisOptions } from 'ioredis'
+import IORedis, { RedisOptions, ChainableCommander } from 'ioredis'
 
 export type RedisConfig = {
   name?: string
@@ -48,6 +48,10 @@ export class Redis implements Plugin {
   public config: RedisOptions
   public adapter: IORedis
   public logger: Logger
+  public multi: (options?: {
+    pipeline: boolean
+  } | any[][]) => ChainableCommander
+  public pipeline: (commands?: any[][]) => ChainableCommander
 
   /**
    * 创建插件实例
@@ -74,7 +78,10 @@ export class Redis implements Plugin {
     if (global.FaasJS_Redis[this.name] && (global.FaasJS_Redis[this.name].adapter)) {
       this.config = global.FaasJS_Redis[this.name].config
       this.adapter = global.FaasJS_Redis[this.name].adapter
-      data.logger.debug('use exists adapter')
+      this.multi = this.adapter.multi.bind(this.adapter)
+      this.pipeline = this.adapter.pipeline.bind(this.adapter)
+
+      data.logger.debug('[%s] use exists adapter', this.name)
     } else {
       const prefix = `SECRET_${this.name.toUpperCase()}_`
 
@@ -89,8 +96,11 @@ export class Redis implements Plugin {
       if (data?.config.plugins && data.config.plugins[this.name])
         this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
-      this.adapter = new IORedis(this.config)
-      data.logger.debug('connected')
+      this.adapter = process.env[prefix + 'CONNECTION'] ? new IORedis(process.env[prefix + 'CONNECTION']) : new IORedis(this.config)
+      this.multi = this.adapter.multi.bind(this.adapter)
+      this.pipeline = this.adapter.pipeline.bind(this.adapter)
+
+      data.logger.debug('[%s] connected', this.name)
 
       global.FaasJS_Redis[this.name] = this
     }
@@ -223,4 +233,8 @@ export async function setJSON<TResult = void> (
   options?: SET
 ): Promise<TResult> {
   return useRedis().setJSON<TResult>(key, value, options)
+}
+
+export function multi (): ChainableCommander {
+  return useRedis().multi()
 }
