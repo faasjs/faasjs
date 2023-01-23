@@ -1,5 +1,12 @@
 import { Spin } from 'antd'
 
+export type LoadingProps = {
+  style?: React.CSSProperties
+  size?: 'small' | 'default' | 'large'
+  loading?: boolean
+  children?: React.ReactNode
+}
+
 /**
  * Loading component based on Spin
  *
@@ -11,12 +18,7 @@ import { Spin } from 'antd'
  * </Loading>
  * ```
  */
-export function Loading (props: {
-  style?: React.CSSProperties
-  size?: 'small' | 'default' | 'large'
-  loading?: boolean
-  children?: React.ReactNode
-}) {
+export function Loading (props: LoadingProps) {
   if (props.loading === false)
     return <>{props.children}</>
 
