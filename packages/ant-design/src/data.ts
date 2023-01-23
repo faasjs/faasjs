@@ -1,6 +1,10 @@
 import { upperFirst } from 'lodash-es'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
+import type { ReactElement } from 'react'
+import type { FormItemProps } from './FormItem'
+import type { DescriptionItemProps } from './Description'
+import type { TableItemProps } from './Table'
 
 export type FaasItemType =
   'string' | 'string[]' |
@@ -73,4 +77,26 @@ export function transferValue (type: FaasItemType, value: any): any {
   }
 
   return value
+}
+
+export type UnionScene = 'form' | 'description' | 'table'
+
+export type UnionFaasItemInjection<Value = any, Values = any> = {
+  scene?: UnionScene
+  value?: Value
+  values?: Values
+  index?: number
+}
+
+export type UnionFaasItemRender<Value = any, Values = any> =
+  (value: Value, values: Values, index: number, scene: UnionScene) => JSX.Element | null
+
+export type UnionFaasItemElement<Value = any, Values = any> = ReactElement<UnionFaasItemInjection<Value, Values>> | null
+
+export interface UnionFaasItemProps<Value = any, Values = any>
+  extends FormItemProps, DescriptionItemProps, TableItemProps
+{
+  children?: UnionFaasItemElement<UnionFaasItemProps<Value, Values>> | null
+  render?: UnionFaasItemRender
+  object?: UnionFaasItemProps<Value, Values>[]
 }

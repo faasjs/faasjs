@@ -1,6 +1,6 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
-  Descriptions, DescriptionsProps, Skeleton, Space
+  Descriptions, DescriptionsProps, Space
 } from 'antd'
 import { isFunction, upperFirst } from 'lodash-es'
 import {
@@ -9,23 +9,25 @@ import {
 import type { Dayjs } from 'dayjs'
 import { BaseItemProps } from '.'
 import {
-  FaasItemProps, transferOptions, transferValue
+  FaasItemProps, transferOptions, transferValue, UnionFaasItemElement, UnionFaasItemRender
 } from './data'
 import { FaasDataWrapper, FaasDataWrapperProps } from './FaasDataWrapper'
 import { Blank } from './Blank'
 
-export interface ExtendDescriptionTypeProps {
-  children?: JSX.Element
-  render?: (value: any, values: any) => JSX.Element
+export interface ExtendDescriptionTypeProps<T = any> {
+  children?: UnionFaasItemElement<T>
+  render?: UnionFaasItemRender<T>
 }
 
 export type ExtendDescriptionItemProps = BaseItemProps
 
 export interface DescriptionItemProps<T = any> extends FaasItemProps {
-  children?: JSX.Element
-  render?: (value: T, values: any) => JSX.Element
+  children?: UnionFaasItemElement<T>
+  descriptionChildren?: UnionFaasItemElement<T>
+  render?: UnionFaasItemRender<T>
+  descriptionRender?: UnionFaasItemRender<T>
   if?: (values: Record<string, any>) => boolean
-  object?: DescriptionItemProps[]
+  object?: DescriptionItemProps<T>[]
 }
 
 export interface DescriptionProps<T = any, ExtendItemProps = any> extends DescriptionsProps {
@@ -92,23 +94,41 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
       return cloneElement(
         computedProps.extendTypes[computedProps.item.type].children,
         {
+          scene: 'description',
           value: computedProps.value,
           values: computedProps.values
         }
       )
     else if (computedProps.extendTypes[computedProps.item.type].render)
-      return <>{computedProps.extendTypes[computedProps.item.type].render(computedProps.value, computedProps.values)}</>
+      return <>{computedProps.extendTypes[computedProps.item.type].render(computedProps.value, computedProps.values, 0, 'description')}</>
     else
       throw Error(computedProps.item.type + ' requires children or render')
 
-  if (computedProps.item.children)
-    return cloneElement(computedProps.item.children, {
+  if (computedProps.item.descriptionChildren === null)
+    return null
+
+  if (computedProps.item.descriptionChildren)
+    return cloneElement(computedProps.item.descriptionChildren, {
+      scene: 'description',
       value: computedProps.value,
       values: computedProps.values,
     })
 
+  if (computedProps.item.children === null)
+    return null
+
+  if (computedProps.item.children)
+    return cloneElement(computedProps.item.children, {
+      scene: 'description',
+      value: computedProps.value,
+      values: computedProps.values,
+    })
+
+  if (computedProps.item.descriptionRender)
+    return computedProps.item.descriptionRender(computedProps.value, computedProps.values, 0, 'description')
+
   if (computedProps.item.render)
-    return <>{computedProps.item.render(computedProps.value, computedProps.values)}</>
+    return computedProps.item.render(computedProps.value, computedProps.values, 0, 'description')
 
   if (computedProps.value === null || (Array.isArray(computedProps.value) && !computedProps.value.length))
     return <Blank />
@@ -184,7 +204,6 @@ export function Description<T = any> (props: DescriptionProps<T>) {
     </Descriptions>
 
   return <FaasDataWrapper<T>
-    fallback={ props.faasData.fallback || <Skeleton active /> }
     render={ ({ data }) => {
       return <Descriptions
         { ...props }

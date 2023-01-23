@@ -7,14 +7,14 @@ import {
   TableProps as AntdTableProps,
   TableColumnProps as AntdTableColumnProps,
   Radio,
-  Skeleton,
   TablePaginationConfig,
   Input,
 } from 'antd'
 import dayjs from 'dayjs'
-import {
-  FaasItemProps, transferOptions, BaseItemProps, transferValue
+import type {
+  FaasItemProps, BaseItemProps, UnionFaasItemElement, UnionFaasItemRender
 } from './data'
+import { transferOptions, transferValue } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
   isNil, uniqBy, upperFirst,
@@ -29,15 +29,18 @@ import type {
 } from 'antd/es/table/interface'
 import { Description } from './Description'
 
-export interface TableItemProps<T = any> extends FaasItemProps, Omit<AntdTableColumnProps<T>, 'title' | 'children'> {
+export interface TableItemProps<T = any> extends FaasItemProps, Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
-  children?: JSX.Element
-  object?: TableItemProps[]
+  children?: UnionFaasItemElement<T>
+  tableChildren?: UnionFaasItemElement<T>
+  render?: UnionFaasItemRender<T>
+  tableRender?: UnionFaasItemRender<T>
+  object?: TableItemProps<T>[]
 }
 
-export type ExtendTableTypeProps = {
+export type ExtendTableTypeProps<T = any> = {
   children?: JSX.Element
-  render?: (value: any, values: any, index: number) => JSX.Element | string | number | boolean | null
+  render?: UnionFaasItemRender<T>
 }
 
 export type ExtendTableItemProps<T = any> = BaseItemProps & Omit<AntdTableColumnProps<T>, 'children'>
@@ -103,7 +106,7 @@ function processValue (item: TableItemProps, value: any) {
  *
  * @ref https://ant.design/components/table/
  */
-export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
+export function Table<T extends Record<string, any>, ExtendTypes = any> (props: TableProps<T, ExtendTypes>) {
   const [columns, setColumns] = useState<TableItemProps[]>()
   const { common } = useConfigContext()
 
@@ -127,10 +130,24 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
         })
       }
 
-      if (item.children)
+      if (item.tableChildren === null)
+        item.render = () => null
+      else if (item.tableChildren)
+        item.render = (value: any, values: any) => cloneElement(
+          item.tableChildren,
+          {
+            scene: 'table',
+            value,
+            values,
+          }
+        )
+      else if (item.children === null)
+        item.render = () => null
+      else if (item.children)
         item.render = (value: any, values: any) => cloneElement(
           item.children,
           {
+            scene: 'table',
             value,
             values,
           }
@@ -141,6 +158,7 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           item.render = (value: any, values: any) => cloneElement(
             props.extendTypes[item.type].children,
             {
+              scene: 'table',
               value,
               values
             }
@@ -359,12 +377,14 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
           break
         case 'object[]':
           if (!item.render)
-            item.render = (value: Record<string, any>[]) => value.map((v, i) => <Description
-              key={ i }
-              items={ item.object }
-              dataSource={ v || [] }
-              column={ 1 }
-            />)
+            item.render = (value: Record<string, any>[]) => <>{
+              value.map((v, i) => <Description
+                key={ i }
+                items={ item.object }
+                dataSource={ v || [] }
+                column={ 1 }
+              />)
+            }</>
           break
         default:
           if (!item.render)
@@ -412,12 +432,11 @@ export function Table<T = any, ExtendTypes = any> (props: TableProps<T, ExtendTy
     return <AntdTable
       { ...props }
       rowKey={ props.rowKey || 'id' }
-      columns={ columns }
+      columns={ columns as any[] }
       dataSource={ props.dataSource }
     />
 
   return <FaasDataWrapper<T>
-    fallback={ props.faasData.fallback || <Skeleton active /> }
     { ...props.faasData }
   >
     <FaasDataTable
@@ -480,7 +499,7 @@ function FaasDataTable ({
     return <AntdTable
       { ...props }
       rowKey={ props.rowKey || 'id' }
-      columns={ currentColumns }
+      columns={ currentColumns as any[] }
       dataSource={ [] }
     />
 
@@ -488,14 +507,14 @@ function FaasDataTable ({
     return <AntdTable
       { ...props }
       rowKey={ props.rowKey || 'id' }
-      columns={ currentColumns }
+      columns={ currentColumns as any[] }
       dataSource={ data as any }
     />
 
   return <AntdTable
     { ...props }
     rowKey={ props.rowKey || 'id' }
-    columns={ currentColumns }
+    columns={ currentColumns as any[] }
     dataSource={ (data as any).rows }
     pagination={ {
       ...props.pagination,

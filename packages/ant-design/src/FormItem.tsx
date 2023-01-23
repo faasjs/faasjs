@@ -19,10 +19,13 @@ import {
   FormInstance
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { FaasItemProps, transferOptions } from './data'
+import type {
+  FaasItemProps, UnionFaasItemElement, UnionFaasItemRender
+} from './data'
+import { transferOptions } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import {
-  ReactNode, useEffect, useState
+  cloneElement, useEffect, useState
 } from 'react'
 import { upperFirst } from 'lodash-es'
 import type { BaseItemProps, BaseOption } from '.'
@@ -34,8 +37,8 @@ type OptionsProps = {
   input?: SelectProps<any>
 }
 
-export type ExtendFormTypeProps = {
-  children?: ReactNode
+export type ExtendFormTypeProps<T = any> = {
+  children?: UnionFaasItemElement<T>
 }
 
 export type ExtendTypes = {
@@ -44,15 +47,17 @@ export type ExtendTypes = {
 
 export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
-export interface FormItemProps<T = any> extends FaasItemProps, Omit<AntdFormItemProps<T>, 'id' | 'children'> {
+export interface FormItemProps<T = any> extends FaasItemProps, Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   input?: InputProps | InputNumberProps | SwitchProps | SelectProps<T> | DatePickerProps | TimePickerProps
   maxCount?: number
   object?: FormItemProps[]
   disabled?: boolean
   required?: boolean
   col?: number
-  children?: JSX.Element
-  render?: () => JSX.Element
+  children?: UnionFaasItemElement<T>
+  formChildren?: UnionFaasItemElement<T>
+  render?: UnionFaasItemRender<T>
+  formRender?: UnionFaasItemRender<T>
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: ExtendTypes
@@ -83,7 +88,8 @@ function processProps (propsCopy: FormItemProps, config: ConfigProviderProps['co
         message: `${propsCopy.label || propsCopy.title} ${config.required}`
       })
   }
-  if (!(propsCopy as OptionsProps).input) (propsCopy as OptionsProps).input = {}
+  if (!(propsCopy as OptionsProps).input)
+    (propsCopy as OptionsProps).input = {}
   if ((propsCopy as OptionsProps).options)
     (propsCopy as OptionsProps).input.options = transferOptions(propsCopy.options)
 
@@ -169,14 +175,30 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       { extendTypes[computedProps.type].children }
     </AntdForm.Item>
 
+  if (computedProps.formChildren === null)
+    return null
+
+  if (computedProps.formChildren)
+    return <AntdForm.Item { ...computedProps }>
+      { cloneElement(computedProps.formChildren, { scene: 'form' }) }
+    </AntdForm.Item>
+
+  if (computedProps.children === null)
+    return null
+
   if (computedProps.children)
     return <AntdForm.Item { ...computedProps }>
-      {computedProps.children }
+      {cloneElement(computedProps.children, { scene: 'form' }) }
+    </AntdForm.Item>
+
+  if (computedProps.formRender)
+    return <AntdForm.Item { ...computedProps }>
+      { computedProps.formRender(null, null, 0, 'form') }
     </AntdForm.Item>
 
   if (computedProps.render)
     return <AntdForm.Item { ...computedProps }>
-      { computedProps.render() }
+      { computedProps.render(null, null, 0, 'form') }
     </AntdForm.Item>
 
   switch (computedProps.type) {
