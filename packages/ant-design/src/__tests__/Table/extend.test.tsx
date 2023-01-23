@@ -42,7 +42,7 @@ describe('Table/extend', () => {
     function ExtendTable (props: TableProps<any, ExtendTypes>) {
       return <Table
         { ...props }
-        extendTypes={ { password: { render: () => '***' } } }
+        extendTypes={ { password: { render: () => <>***</> } } }
       />
     }
 

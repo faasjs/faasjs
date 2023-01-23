@@ -62,6 +62,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [RoutesProps](interfaces/RoutesProps.md)
 - [TableItemProps](interfaces/TableItemProps.md)
 - [TitleProps](interfaces/TitleProps.md)
+- [UnionFaasItemProps](interfaces/UnionFaasItemProps.md)
 
 ### Type Aliases
 
@@ -77,7 +78,12 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [FaasItemType](#faasitemtype)
 - [FaasItemTypeValue](#faasitemtypevalue)
 - [FormSubmitProps](#formsubmitprops)
+- [LoadingProps](#loadingprops)
 - [TableProps](#tableprops)
+- [UnionFaasItemElement](#unionfaasitemelement)
+- [UnionFaasItemInjection](#unionfaasiteminjection)
+- [UnionFaasItemRender](#unionfaasitemrender)
+- [UnionScene](#unionscene)
 - [setDrawerProps](#setdrawerprops)
 - [setModalProps](#setmodalprops)
 
@@ -127,13 +133,19 @@ ___
 
 ### ExtendFormTypeProps
 
-Ƭ **ExtendFormTypeProps**: `Object`
+Ƭ **ExtendFormTypeProps**<`T`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `children?` | `ReactNode` |
+| `children?` | [`UnionFaasItemElement`](#unionfaasitemelement)<`T`\> |
 
 ___
 
@@ -151,14 +163,20 @@ ___
 
 ### ExtendTableTypeProps
 
-Ƭ **ExtendTableTypeProps**: `Object`
+Ƭ **ExtendTableTypeProps**<`T`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
 | `children?` | `JSX.Element` |
-| `render?` | (`value`: `any`, `values`: `any`, `index`: `number`) => `JSX.Element` \| `string` \| `number` \| `boolean` \| ``null`` |
+| `render?` | [`UnionFaasItemRender`](#unionfaasitemrender)<`T`\> |
 
 ___
 
@@ -204,26 +222,13 @@ ___
 
 ### FaasDataWrapperProps
 
-Ƭ **FaasDataWrapperProps**<`PathOrData`\>: `Object`
+Ƭ **FaasDataWrapperProps**<`T`\>: `OriginProps`<`T`\> & { `loading?`: `JSX.Element` ; `loadingProps?`: [`LoadingProps`](#loadingprops)  }
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `PathOrData` | extends `FaasAction` |
-
-#### Type declaration
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `action` | `string` | - |
-| `children?` | `JSX.Element` | - |
-| `data?` | `FaasData`<`PathOrData`\> | use custom data, should work with setData |
-| `fallback?` | `JSX.Element` \| ``false`` | - |
-| `params?` | `FaasParams`<`PathOrData`\> | - |
-| `setData?` | `React.Dispatch`<`React.SetStateAction`<`FaasData`<`PathOrData`\>\>\> | use custom setData, should work with data |
-| `onDataChange?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `void` | - |
-| `render?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `Element` \| `Element`[] | - |
+| `T` | `any` |
 
 ___
 
@@ -273,6 +278,21 @@ ___
 
 ___
 
+### LoadingProps
+
+Ƭ **LoadingProps**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `children?` | `React.ReactNode` |
+| `loading?` | `boolean` |
+| `size?` | ``"small"`` \| ``"default"`` \| ``"large"`` |
+| `style?` | `React.CSSProperties` |
+
+___
+
 ### TableProps
 
 Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: [`FaasDataWrapperProps`](#faasdatawrapperprops)<`T`\> ; `items`: ([`TableItemProps`](interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue` \| ``null``\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
@@ -283,6 +303,77 @@ ___
 | :------ | :------ |
 | `T` | `any` |
 | `ExtendTypes` | `any` |
+
+___
+
+### UnionFaasItemElement
+
+Ƭ **UnionFaasItemElement**<`Value`, `Values`\>: `ReactElement`<[`UnionFaasItemInjection`](#unionfaasiteminjection)<`Value`, `Values`\>\> \| ``null``
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | `any` |
+| `Values` | `any` |
+
+___
+
+### UnionFaasItemInjection
+
+Ƭ **UnionFaasItemInjection**<`Value`, `Values`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | `any` |
+| `Values` | `any` |
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `index?` | `number` |
+| `scene?` | [`UnionScene`](#unionscene) |
+| `value?` | `Value` |
+| `values?` | `Values` |
+
+___
+
+### UnionFaasItemRender
+
+Ƭ **UnionFaasItemRender**<`Value`, `Values`\>: (`value`: `Value`, `values`: `Values`, `index`: `number`, `scene`: [`UnionScene`](#unionscene)) => `JSX.Element` \| ``null``
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | `any` |
+| `Values` | `any` |
+
+#### Type declaration
+
+▸ (`value`, `values`, `index`, `scene`): `JSX.Element` \| ``null``
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `Value` |
+| `values` | `Values` |
+| `index` | `number` |
+| `scene` | [`UnionScene`](#unionscene) |
+
+##### Returns
+
+`JSX.Element` \| ``null``
+
+___
+
+### UnionScene
+
+Ƭ **UnionScene**: ``"form"`` \| ``"description"`` \| ``"table"``
 
 ___
 
@@ -528,13 +619,19 @@ ___
 
 Loading component based on Spin
 
+```tsx
+<Loading /> // display loading
+
+<Loading loading={ !remoteData }>
+ <div>{remoteData}</div>
+</Loading>
+```
+
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | `Object` |
-| `props.size?` | ``"default"`` \| ``"small"`` \| ``"large"`` |
-| `props.style?` | `CSSProperties` |
+| `props` | [`LoadingProps`](#loadingprops) |
 
 #### Returns
 
@@ -600,7 +697,7 @@ https://ant.design/components/table/
 
 | Name | Type |
 | :------ | :------ |
-| `T` | `any` |
+| `T` | extends `Record`<`string`, `any`\> |
 | `ExtendTypes` | `any` |
 
 #### Parameters

@@ -10,9 +10,11 @@
 
 - [`FaasItemProps`](FaasItemProps.md)
 
-- `Omit`<`AntdFormItemProps`<`T`\>, ``"id"`` \| ``"children"``\>
+- `Omit`<`AntdFormItemProps`<`T`\>, ``"id"`` \| ``"children"`` \| ``"render"``\>
 
   ↳ **`FormItemProps`**
+
+  ↳↳ [`UnionFaasItemProps`](UnionFaasItemProps.md)
 
 ## Table of contents
 
@@ -22,6 +24,8 @@
 - [col](FormItemProps.md#col)
 - [disabled](FormItemProps.md#disabled)
 - [extendTypes](FormItemProps.md#extendtypes)
+- [formChildren](FormItemProps.md#formchildren)
+- [formRender](FormItemProps.md#formrender)
 - [id](FormItemProps.md#id)
 - [if](FormItemProps.md#if)
 - [input](FormItemProps.md#input)
@@ -40,7 +44,7 @@
 
 ### children
 
-• `Optional` **children**: `Element`
+• `Optional` **children**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`T`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
 
 ___
 
@@ -59,6 +63,18 @@ ___
 ### extendTypes
 
 • `Optional` **extendTypes**: [`ExtendTypes`](../modules.md#extendtypes)
+
+___
+
+### formChildren
+
+• `Optional` **formChildren**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`T`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+
+___
+
+### formRender
+
+• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`, `any`\>
 
 ___
 
@@ -158,15 +174,7 @@ ___
 
 ### render
 
-• `Optional` **render**: () => `Element`
-
-#### Type declaration
-
-▸ (): `Element`
-
-##### Returns
-
-`Element`
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`, `any`\>
 
 ___
 

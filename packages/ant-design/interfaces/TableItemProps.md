@@ -10,9 +10,11 @@
 
 - [`FaasItemProps`](FaasItemProps.md)
 
-- `Omit`<`AntdTableColumnProps`<`T`\>, ``"title"`` \| ``"children"``\>
+- `Omit`<`AntdTableColumnProps`<`T`\>, ``"title"`` \| ``"children"`` \| ``"render"``\>
 
   ↳ **`TableItemProps`**
+
+  ↳↳ [`UnionFaasItemProps`](UnionFaasItemProps.md)
 
 ## Table of contents
 
@@ -23,6 +25,9 @@
 - [object](TableItemProps.md#object)
 - [options](TableItemProps.md#options)
 - [optionsType](TableItemProps.md#optionstype)
+- [render](TableItemProps.md#render)
+- [tableChildren](TableItemProps.md#tablechildren)
+- [tableRender](TableItemProps.md#tablerender)
 - [title](TableItemProps.md#title)
 - [type](TableItemProps.md#type)
 
@@ -30,7 +35,7 @@
 
 ### children
 
-• `Optional` **children**: `Element`
+• `Optional` **children**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`T`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
 
 ___
 
@@ -46,7 +51,7 @@ ___
 
 ### object
 
-• `Optional` **object**: [`TableItemProps`](TableItemProps.md)<`any`\>[]
+• `Optional` **object**: [`TableItemProps`](TableItemProps.md)<`T`\>[]
 
 ___
 
@@ -63,6 +68,24 @@ ___
 ### optionsType
 
 • `Optional` **optionsType**: ``"auto"``
+
+___
+
+### render
+
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`, `any`\>
+
+___
+
+### tableChildren
+
+• `Optional` **tableChildren**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`T`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+
+___
+
+### tableRender
+
+• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`, `any`\>
 
 ___
 

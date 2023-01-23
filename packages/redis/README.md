@@ -24,6 +24,7 @@ FaasJS's Redis plugin.
 
 - [get](#get)
 - [getJSON](#getjson)
+- [multi](#multi)
 - [query](#query)
 - [set](#set)
 - [setJSON](#setjson)
@@ -85,6 +86,16 @@ ___
 #### Returns
 
 `Promise`<`TResult`\>
+
+___
+
+### multi
+
+▸ **multi**(): `ChainableCommander`
+
+#### Returns
+
+`ChainableCommander`
 
 ___
 

@@ -17,7 +17,9 @@ Redis 插件
 - [adapter](Redis.md#adapter)
 - [config](Redis.md#config)
 - [logger](Redis.md#logger)
+- [multi](Redis.md#multi)
 - [name](Redis.md#name)
+- [pipeline](Redis.md#pipeline)
 - [type](Redis.md#type)
 
 ### Methods
@@ -66,6 +68,26 @@ ___
 
 ___
 
+### multi
+
+• **multi**: (`options?`: { `pipeline`: `boolean`  } \| `any`[][]) => `ChainableCommander`
+
+#### Type declaration
+
+▸ (`options?`): `ChainableCommander`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options?` | { `pipeline`: `boolean`  } \| `any`[][] |
+
+##### Returns
+
+`ChainableCommander`
+
+___
+
 ### name
 
 • `Readonly` **name**: `string` = `Name`
@@ -73,6 +95,26 @@ ___
 #### Implementation of
 
 Plugin.name
+
+___
+
+### pipeline
+
+• **pipeline**: (`commands?`: `any`[][]) => `ChainableCommander`
+
+#### Type declaration
+
+▸ (`commands?`): `ChainableCommander`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `commands?` | `any`[][] |
+
+##### Returns
+
+`ChainableCommander`
 
 ___
 
