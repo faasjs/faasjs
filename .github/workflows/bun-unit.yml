@@ -50,4 +50,4 @@ jobs:
           /home/runner/.bun/bin/bun install
       - name: Run Tests
         run: |
-          /home/runner/.bun/bin/bun run jest --ci --silent --forceExit
+          /home/runner/.bun/bin/bun run test
