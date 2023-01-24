@@ -44,10 +44,11 @@ jobs:
           - 27017:27017
     steps:
       - uses: actions/checkout@v3
-      - name: Install bun
-        run: |
-          curl https://bun.sh/install | bash
-          /home/runner/.bun/bin/bun install
+      - uses: oven-sh/setup-bun
+        with:
+          bun-version: latest
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Dependencies
+        run: bun install
       - name: Run Tests
-        run: |
-          /home/runner/.bun/bin/bun run test
+        run: bun run test
