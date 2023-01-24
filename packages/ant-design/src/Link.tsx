@@ -10,6 +10,7 @@ export interface LinkProps {
   children?: ReactNode
   style?: CSSProperties
   button?:ButtonProps
+  block?: boolean
 }
 
 /**
@@ -23,54 +24,58 @@ export interface LinkProps {
  * <Link href="/" button={{ type:'primary' }}>Home</Link>
  * ```
  */
-export function Link ({
-  href, target, text, children, style, button,
-}: LinkProps) {
+export function Link (props: LinkProps) {
   const { Link } = useConfigContext()
 
-  style = Object.assign({ cursor: 'pointer' }, style)
+  props.style = Object.assign({ cursor: 'pointer' }, props.style)
 
-  if (href.startsWith('http')) {
-    if (button)
+  if (props.block)
+    props.style = Object.assign({
+      display: 'block',
+      width: '100%',
+    }, props.style)
+
+  if (props.href.startsWith('http')) {
+    if (props.button)
       return <Button
-        { ...button }
-        target={ target || Link?.target || '_blank' }
+        { ...props.button }
+        target={ props.target || Link?.target || '_blank' }
         style={ {
           ...Link.style,
-          ...style || {},
+          ...props.style || {},
         } }
-        href={ href }
-      >{text ?? children}</Button>
+        href={ props.href }
+      >{props.text ?? props.children}</Button>
 
     return <a
-      href={ href }
-      target={ target || Link?.target || '_blank' }
+      href={ props.href }
+      target={ props.target || Link?.target || '_blank' }
       style={ {
         ...Link.style,
-        ...style || {},
+        ...props.style || {},
       } }
-    >{text ?? children}</a>
+    >{props.text ?? props.children}</a>
   }
 
-  if (button)
+  if (props.button)
     return <RouterLink
-      to={ href }
-      target={ target || Link?.target }
+      to={ props.href }
+      target={ props.target || Link?.target }
     >
       <Button
-        { ...button }
+        { ...props.button }
         style={ {
           ...Link.style,
-          ...style || {},
-        } }>{text ?? children}</Button>
+          ...props.style || {},
+        } }>{props.text ?? props.children}</Button>
     </RouterLink>
 
   return <RouterLink
-    to={ href }
-    target={ target || Link?.target }
+    to={ props.href }
+    target={ props.target || Link?.target }
     style={ {
       ...Link.style,
-      ...style || {},
+      ...props.style || {},
     } }
-  >{text ?? children}</RouterLink>
+  >{props.text ?? props.children}</RouterLink>
 }
