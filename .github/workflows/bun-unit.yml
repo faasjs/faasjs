@@ -44,7 +44,7 @@ jobs:
           - 27017:27017
     steps:
       - uses: actions/checkout@v3
-      - uses: oven-sh/setup-bun
+      - uses: oven-sh/setup-bun@v0.1.8
         with:
           bun-version: latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
