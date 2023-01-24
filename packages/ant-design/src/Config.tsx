@@ -103,6 +103,7 @@ export function ConfigProvider ({
   const [values, setValues] = useState<ConfigProviderProps>(baseConfig)
 
   useEffect(() => {
+    console.log(config)
     if (config.lang === 'zh') {
       setValues(defaultsDeep(config, {
         lang: 'zh',
@@ -111,7 +112,7 @@ export function ConfigProvider ({
         Form: { submit: { text: zh.submit } },
       }, baseConfig))
     } else
-      setValues(values)
+      setValues(defaultsDeep(config, values))
   }, [])
 
   return <ConfigContext.Provider value={ values }>

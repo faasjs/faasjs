@@ -27,7 +27,11 @@ export interface LinkProps {
 export function Link (props: LinkProps) {
   const { Link } = useConfigContext()
 
-  let style = Object.assign(Link.style || {}, { cursor: 'pointer' }, props.style || {})
+  let style = {
+    ...(Link.style || {}),
+    cursor: 'pointer',
+    ...props.style
+  }
 
   if (props.block)
     style = Object.assign({
