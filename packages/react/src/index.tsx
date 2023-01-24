@@ -19,7 +19,7 @@ export type {
 /**
  * Injects FaasData props.
  */
-export type FaasDataInjection<Data = any> = {
+export interface FaasDataInjection<Data = any> {
   action: string | any
   params: Record<string, any>
   loading: boolean
@@ -33,7 +33,7 @@ export type FaasDataInjection<Data = any> = {
   setError: React.Dispatch<React.SetStateAction<any>>
 }
 
-export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
+export interface FaasDataWrapperProps<PathOrData extends FaasAction> {
   render?(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element | JSX.Element[]
   children?: JSX.Element
   fallback?: JSX.Element | false
@@ -46,7 +46,7 @@ export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
 }
 
-export type FaasReactClientInstance = {
+export interface FaasReactClientInstance {
   faas: <PathOrData extends FaasAction>(
     action: string | PathOrData,
     params: FaasParams<PathOrData>
