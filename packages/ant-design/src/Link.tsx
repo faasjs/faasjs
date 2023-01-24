@@ -27,33 +27,27 @@ export interface LinkProps {
 export function Link (props: LinkProps) {
   const { Link } = useConfigContext()
 
-  props.style = Object.assign({ cursor: 'pointer' }, props.style)
+  let style = Object.assign(Link.style || {}, { cursor: 'pointer' }, props.style || {})
 
   if (props.block)
-    props.style = Object.assign({
+    style = Object.assign({
       display: 'block',
       width: '100%',
-    }, props.style)
+    }, style)
 
   if (props.href.startsWith('http')) {
     if (props.button)
       return <Button
         { ...props.button }
         target={ props.target || Link?.target || '_blank' }
-        style={ {
-          ...Link.style,
-          ...props.style || {},
-        } }
+        style={ style }
         href={ props.href }
       >{props.text ?? props.children}</Button>
 
     return <a
       href={ props.href }
       target={ props.target || Link?.target || '_blank' }
-      style={ {
-        ...Link.style,
-        ...props.style || {},
-      } }
+      style={ style }
     >{props.text ?? props.children}</a>
   }
 
@@ -64,18 +58,12 @@ export function Link (props: LinkProps) {
     >
       <Button
         { ...props.button }
-        style={ {
-          ...Link.style,
-          ...props.style || {},
-        } }>{props.text ?? props.children}</Button>
+        style={ style }>{props.text ?? props.children}</Button>
     </RouterLink>
 
   return <RouterLink
     to={ props.href }
     target={ props.target || Link?.target }
-    style={ {
-      ...Link.style,
-      ...props.style || {},
-    } }
+    style={ style }
   >{props.text ?? props.children}</RouterLink>
 }
