@@ -9,10 +9,13 @@ on:
       - packages/**
       - .github/workflows/bun-unit.yml
       - package-lock.json
+      - package.json
   pull_request:
     paths:
       - packages/**
+      - .github/workflows/bun-unit.yml
       - package-lock.json
+      - package.json
 
 jobs:
   test:

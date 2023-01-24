@@ -12,10 +12,6 @@
     "build:docs": "node build-docs.js"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
-    "@faasjs/eslint-config-react": "file:./packages/eslint-config-react",
-    "@faasjs/jest": "file:./packages/jest",
-    "faasjs": "file:./packages/faasjs",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
     "tsup": "^5",
@@ -34,7 +30,33 @@
     ]
   },
   "workspaces": [
-    "packages/*"
+    "packages/ant-design",
+    "packages/browser",
+    "packages/cli",
+    "packages/cloud_function",
+    "packages/create-faas-app",
+    "packages/deep_merge",
+    "packages/deployer",
+    "packages/eslint-config-react",
+    "packages/eslint-config-recommended",
+    "packages/eslint-config-vue",
+    "packages/faasjs",
+    "packages/func",
+    "packages/http",
+    "packages/jest",
+    "packages/knex",
+    "packages/load",
+    "packages/logger",
+    "packages/mongo",
+    "packages/react",
+    "packages/redis",
+    "packages/request",
+    "packages/server",
+    "packages/tencentcloud",
+    "packages/test",
+    "packages/ts-transform",
+    "packages/types",
+    "packages/vue-plugin"
   ],
   "jest": {
     "transform": {
