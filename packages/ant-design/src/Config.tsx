@@ -103,7 +103,6 @@ export function ConfigProvider ({
   const [values, setValues] = useState<ConfigProviderProps>(baseConfig)
 
   useEffect(() => {
-    console.log(config)
     if (config.lang === 'zh') {
       setValues(defaultsDeep(config, {
         lang: 'zh',
