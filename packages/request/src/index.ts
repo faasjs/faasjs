@@ -238,14 +238,16 @@ export async function request<T = any> (url: string, {
 
           if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json'))
             try {
-              response.body = (parse) ? parse(response.body) : JSON.parse(response.body)
+              response.body = (parse || JSON.parse)(response.body)
               logger.debug('response.parse JSON')
             } catch (error) {
               console.warn('response plain body', response.body)
               console.error(error)
             }
 
-          if (response.statusCode >= 200 && response.statusCode < 400) resolve(response); else {
+          if (response.statusCode >= 200 && response.statusCode < 400)
+            resolve(response)
+          else {
             logger.debug('response.error %j', response)
             reject(response)
           }
