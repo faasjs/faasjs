@@ -11,7 +11,7 @@ export interface FaasDataWrapperProps<T = any> extends OriginProps<T> {
 }
 
 /**
- * FaasDataWrapper component with Loading and ErrorBoundary
+ * FaasDataWrapper component with Loading
  */
 export function FaasDataWrapper<T = any> (props: FaasDataWrapperProps<T>): JSX.Element {
   return <Origin
