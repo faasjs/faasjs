@@ -28,7 +28,7 @@
     "lodash-es": "*",
     "react": "*",
     "react-dom": "*",
-    "@faasjs/react": "^0.0.3-beta.37",
+    "@faasjs/react": "*",
     "react-router-dom": "*",
     "dayjs": "*"
   },

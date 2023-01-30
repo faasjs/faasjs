@@ -23,8 +23,8 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/browser": "^0.0.3-beta.37",
-    "@faasjs/types": "^0.0.3-beta.37",
+    "@faasjs/browser": "*",
+    "@faasjs/types": "*",
     "react": "*"
   },
   "devDependencies": {

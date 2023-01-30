@@ -23,7 +23,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/types": "^0.0.3-beta.37"
+    "@faasjs/types": "*"
   },
   "engines": {
     "npm": ">=8.0.0",
