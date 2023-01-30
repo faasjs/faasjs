@@ -22,7 +22,7 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "@ant-design/icons": "*",
     "antd": "*",
     "lodash-es": "*",

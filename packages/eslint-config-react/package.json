@@ -16,7 +16,7 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "dependencies": {
+  "peerDependencies": {
     "@faasjs/eslint-config-recommended": "^0.0.3-beta.36",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-hooks": "*"
