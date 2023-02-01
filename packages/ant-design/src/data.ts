@@ -45,6 +45,9 @@ export interface FaasItemProps extends BaseItemProps {
   type?: FaasItemType
 }
 
+/**
+ * convert options to { label, value }[]
+ */
 export function transferOptions (options: BaseOption[]): {
   label: string
   value?: string | number
