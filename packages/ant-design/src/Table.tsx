@@ -428,7 +428,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
 
   if (!columns) return null
 
-  if (!props.faasData)
+  if (props.dataSource)
     return <AntdTable
       { ...props }
       rowKey={ props.rowKey || 'id' }

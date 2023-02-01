@@ -181,7 +181,7 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
  * Description component.
  */
 export function Description<T = any> (props: DescriptionProps<T>) {
-  if (!props.faasData)
+  if (props.dataSource)
     return <Descriptions
       { ...props }
       title={ isFunction(props.renderTitle) ? props.renderTitle(props.dataSource) : props.title }
