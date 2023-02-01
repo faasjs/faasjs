@@ -8,7 +8,7 @@ UI components based on [FaasJS](https://faasjs.com), [Ant Design](https://ant.de
 
 ## Install
 
-    npm install @faasjs/ant-design antd
+    npm install @faasjs/ant-design antd react react-dom @faasjs/react react-router-dom
 
 ## Usage
 
