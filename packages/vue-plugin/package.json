@@ -22,13 +22,13 @@
   "files": [
     "dist"
   ],
-  "peerDependencies": {
-    "vue": "*",
+  "dependencies": {
     "@faasjs/browser": "*"
   },
+  "peerDependencies": {
+    "vue": "*"
+  },
   "devDependencies": {
-    "tsup": "*",
-    "typescript": "*",
     "@vue/test-utils": "*"
   },
   "engines": {

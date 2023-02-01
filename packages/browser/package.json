@@ -22,7 +22,7 @@
   "files": [
     "dist"
   ],
-  "peerDependencies": {
+  "dependencies": {
     "@faasjs/types": "*"
   },
   "engines": {

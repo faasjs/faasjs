@@ -22,15 +22,17 @@
   "files": [
     "dist"
   ],
-  "peerDependencies": {
+  "dependencies": {
     "@ant-design/icons": "*",
-    "antd": "*",
     "lodash-es": "*",
+    "dayjs": "*"
+  },
+  "peerDependencies": {
+    "antd": "*",
     "react": "*",
     "react-dom": "*",
     "@faasjs/react": "*",
-    "react-router-dom": "*",
-    "dayjs": "*"
+    "react-router-dom": "*"
   },
   "devDependencies": {
     "@types/lodash-es": "*",

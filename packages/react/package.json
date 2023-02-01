@@ -22,9 +22,10 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "@faasjs/browser": "*"
+  },
   "peerDependencies": {
-    "@faasjs/browser": "*",
-    "@faasjs/types": "*",
     "react": "*"
   },
   "devDependencies": {

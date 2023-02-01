@@ -1,4 +1,4 @@
-import {
+import type {
   FaasAction, FaasData, FaasParams
 } from '@faasjs/types'
 

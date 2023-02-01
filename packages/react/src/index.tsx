@@ -2,7 +2,7 @@ import {
   FaasBrowserClient, Options, Response, ResponseHeaders, ResponseError
 } from '@faasjs/browser'
 
-import {
+import type {
   FaasAction, FaasData, FaasParams
 } from '@faasjs/types'
 
