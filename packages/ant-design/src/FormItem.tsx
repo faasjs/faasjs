@@ -213,7 +213,8 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
         return <AntdForm.Item { ...computedProps }>
           <Select
             mode='multiple'
-            { ...computedProps.input as SelectProps } />
+            { ...computedProps.input as SelectProps }
+          />
         </AntdForm.Item>
 
       return <AntdForm.List
@@ -259,6 +260,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                 icon={ <PlusOutlined /> }
               >
               </Button>}
+            {computedProps.extra && <div className='ant-form-item-extra'>{computedProps.extra}</div>}
             <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
         </>}
@@ -324,6 +326,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
                 icon={ <PlusOutlined /> }
               >
               </Button>}
+            {computedProps.extra && <div className='ant-form-item-extra'>{computedProps.extra}</div>}
             <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
         </>}
@@ -388,6 +391,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
               >
                 {common.add} {computedProps.label}
               </Button>}
+            {computedProps.extra && <div className='ant-form-item-extra'>{computedProps.extra}</div>}
             <AntdForm.ErrorList errors={ errors } />
           </AntdForm.Item>
         </>}
