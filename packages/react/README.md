@@ -20,14 +20,17 @@ React plugin for FaasJS.
 - [Response](classes/Response.md)
 - [ResponseError](classes/ResponseError.md)
 
+### Interfaces
+
+- [FaasDataInjection](interfaces/FaasDataInjection.md)
+- [FaasDataWrapperProps](interfaces/FaasDataWrapperProps.md)
+- [FaasReactClientInstance](interfaces/FaasReactClientInstance.md)
+
 ### Type Aliases
 
 - [FaasAction](#faasaction)
 - [FaasData](#faasdata)
-- [FaasDataInjection](#faasdatainjection)
-- [FaasDataWrapperProps](#faasdatawrapperprops)
 - [FaasParams](#faasparams)
-- [FaasReactClientInstance](#faasreactclientinstance)
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
 
@@ -59,61 +62,6 @@ ___
 
 ___
 
-### FaasDataInjection
-
-Ƭ **FaasDataInjection**<`Data`\>: `Object`
-
-Injects FaasData props.
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Data` | `any` |
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `action` | `string` \| `any` |
-| `data` | `Data` |
-| `error` | `any` |
-| `loading` | `boolean` |
-| `params` | `Record`<`string`, `any`\> |
-| `promise` | `Promise`<[`Response`](classes/Response.md)<`Data`\>\> |
-| `setData` | `React.Dispatch`<`React.SetStateAction`<`Data`\>\> |
-| `setError` | `React.Dispatch`<`React.SetStateAction`<`any`\>\> |
-| `setLoading` | `React.Dispatch`<`React.SetStateAction`<`boolean`\>\> |
-| `setPromise` | `React.Dispatch`<`React.SetStateAction`<`Promise`<[`Response`](classes/Response.md)<`Data`\>\>\>\> |
-| `reload` | (`params?`: `Record`<`string`, `any`\>) => `Promise`<[`Response`](classes/Response.md)<`Data`\>\> |
-
-___
-
-### FaasDataWrapperProps
-
-Ƭ **FaasDataWrapperProps**<`PathOrData`\>: `Object`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `PathOrData` | extends [`FaasAction`](#faasaction) |
-
-#### Type declaration
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `action` | `string` | - |
-| `children?` | `JSX.Element` | - |
-| `data?` | [`FaasData`](#faasdata)<`PathOrData`\> | use custom data, should work with setData |
-| `fallback?` | `JSX.Element` \| ``false`` | - |
-| `params?` | [`FaasParams`](#faasparams)<`PathOrData`\> | - |
-| `setData?` | `React.Dispatch`<`React.SetStateAction`<[`FaasData`](#faasdata)<`PathOrData`\>\>\> | use custom setData, should work with data |
-| `onDataChange?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\>) => `void` | - |
-| `render?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\>) => `Element` \| `Element`[] | - |
-
-___
-
 ### FaasParams
 
 Ƭ **FaasParams**<`T`\>: `T` extends `FaasActionPaths` ? `FaasActions`[`T`][``"Params"``] : `any`
@@ -123,20 +71,6 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `T` | `any` |
-
-___
-
-### FaasReactClientInstance
-
-Ƭ **FaasReactClientInstance**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `faas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `params`: [`FaasParams`](#faasparams)<`PathOrData`\>) => `Promise`<[`Response`](classes/Response.md)<[`FaasData`](#faasdata)<`PathOrData`\>\>\> |
-| `useFaas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `defaultParams`: [`FaasParams`](#faasparams)<`PathOrData`\>, `options?`: { `data?`: [`FaasData`](#faasdata)<`PathOrData`\> ; `setData?`: `React.Dispatch`<`React.SetStateAction`<[`FaasData`](#faasdata)<`PathOrData`\>\>\> ; `skip?`: `boolean`  }) => [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\> |
-| `FaasDataWrapper` | <PathOrData\>(`props`: [`FaasDataWrapperProps`](#faasdatawrapperprops)<`PathOrData`\>) => `Element` |
 
 ___
 
@@ -174,7 +108,7 @@ A data wrapper for react components
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`FaasDataWrapperProps`](#faasdatawrapperprops)<`PathOrData`\> |
+| `props` | [`FaasDataWrapperProps`](interfaces/FaasDataWrapperProps.md)<`PathOrData`\> |
 
 #### Returns
 
@@ -195,7 +129,7 @@ ___
 
 ### FaasReactClient
 
-▸ **FaasReactClient**(`«destructured»`): [`FaasReactClientInstance`](#faasreactclientinstance)
+▸ **FaasReactClient**(`«destructured»`): [`FaasReactClientInstance`](interfaces/FaasReactClientInstance.md)
 
 Before use faas, you should initialize a FaasReactClient.
 
@@ -210,7 +144,7 @@ Before use faas, you should initialize a FaasReactClient.
 
 #### Returns
 
-[`FaasReactClientInstance`](#faasreactclientinstance)
+[`FaasReactClientInstance`](interfaces/FaasReactClientInstance.md)
 
 ```ts
 const client = FaasReactClient({
@@ -253,7 +187,7 @@ ___
 
 ### getClient
 
-▸ **getClient**(`domain?`): [`FaasReactClientInstance`](#faasreactclientinstance)
+▸ **getClient**(`domain?`): [`FaasReactClientInstance`](interfaces/FaasReactClientInstance.md)
 
 Get FaasReactClient instance
 
@@ -265,7 +199,7 @@ Get FaasReactClient instance
 
 #### Returns
 
-[`FaasReactClientInstance`](#faasreactclientinstance)
+[`FaasReactClientInstance`](interfaces/FaasReactClientInstance.md)
 
 ```ts
 getClient()
@@ -277,7 +211,7 @@ ___
 
 ### useFaas
 
-▸ **useFaas**<`PathOrData`\>(`action`, `defaultParams`, `options?`): [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\>
+▸ **useFaas**<`PathOrData`\>(`action`, `defaultParams`, `options?`): [`FaasDataInjection`](interfaces/FaasDataInjection.md)<[`FaasData`](#faasdata)<`PathOrData`\>\>
 
 Request faas server with React hook
 
@@ -300,7 +234,7 @@ Request faas server with React hook
 
 #### Returns
 
-[`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\>
+[`FaasDataInjection`](interfaces/FaasDataInjection.md)<[`FaasData`](#faasdata)<`PathOrData`\>\>
 
 ```ts
 function Post ({ id }) {

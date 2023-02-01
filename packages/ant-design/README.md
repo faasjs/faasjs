@@ -44,6 +44,10 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [Form](modules/Form.md)
 - [FormItem](modules/FormItem.md)
 
+### Classes
+
+- [ErrorBoundary](classes/ErrorBoundary.md)
+
 ### Interfaces
 
 - [BaseItemProps](interfaces/BaseItemProps.md)
@@ -53,7 +57,10 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [DescriptionItemProps](interfaces/DescriptionItemProps.md)
 - [DescriptionProps](interfaces/DescriptionProps.md)
 - [DrawerProps](interfaces/DrawerProps.md)
+- [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
 - [ExtendDescriptionTypeProps](interfaces/ExtendDescriptionTypeProps.md)
+- [FaasDataInjection](interfaces/FaasDataInjection.md)
+- [FaasDataWrapperProps](interfaces/FaasDataWrapperProps.md)
 - [FaasItemProps](interfaces/FaasItemProps.md)
 - [FormItemProps](interfaces/FormItemProps.md)
 - [FormProps](interfaces/FormProps.md)
@@ -73,8 +80,6 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [ExtendTableItemProps](#extendtableitemprops)
 - [ExtendTableTypeProps](#extendtabletypeprops)
 - [ExtendTypes](#extendtypes)
-- [FaasDataInjection](#faasdatainjection)
-- [FaasDataWrapperProps](#faasdatawrapperprops)
 - [FaasItemType](#faasitemtype)
 - [FaasItemTypeValue](#faasitemtypevalue)
 - [FormSubmitProps](#formsubmitprops)
@@ -190,48 +195,6 @@ ___
 
 ___
 
-### FaasDataInjection
-
-Ƭ **FaasDataInjection**<`Data`\>: `Object`
-
-Injects FaasData props.
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Data` | `any` |
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `action` | `string` \| `any` |
-| `data` | `Data` |
-| `error` | `any` |
-| `loading` | `boolean` |
-| `params` | `Record`<`string`, `any`\> |
-| `promise` | `Promise`<`Response`<`Data`\>\> |
-| `setData` | `React.Dispatch`<`React.SetStateAction`<`Data`\>\> |
-| `setError` | `React.Dispatch`<`React.SetStateAction`<`any`\>\> |
-| `setLoading` | `React.Dispatch`<`React.SetStateAction`<`boolean`\>\> |
-| `setPromise` | `React.Dispatch`<`React.SetStateAction`<`Promise`<`Response`<`Data`\>\>\>\> |
-| `reload` | (`params?`: `Record`<`string`, `any`\>) => `Promise`<`Response`<`Data`\>\> |
-
-___
-
-### FaasDataWrapperProps
-
-Ƭ **FaasDataWrapperProps**<`T`\>: `OriginProps`<`T`\> & { `loading?`: `JSX.Element` ; `loadingProps?`: [`LoadingProps`](#loadingprops)  }
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-
-___
-
 ### FaasItemType
 
 Ƭ **FaasItemType**: ``"string"`` \| ``"string[]"`` \| ``"number"`` \| ``"number[]"`` \| ``"boolean"`` \| ``"date"`` \| ``"time"`` \| ``"object"`` \| ``"object[]"``
@@ -295,7 +258,7 @@ ___
 
 ### TableProps
 
-Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: [`FaasDataWrapperProps`](#faasdatawrapperprops)<`T`\> ; `items`: ([`TableItemProps`](interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue` \| ``null``\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
+Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: [`FaasDataWrapperProps`](interfaces/FaasDataWrapperProps.md)<`T`\> ; `items`: ([`TableItemProps`](interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue` \| ``null``\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
 
 #### Type parameters
 
@@ -505,7 +468,7 @@ ___
 
 ▸ **FaasDataWrapper**<`T`\>(`props`): `JSX.Element`
 
-FaasDataWrapper component with Loading and ErrorBoundary
+FaasDataWrapper component with Loading
 
 #### Type parameters
 
@@ -517,7 +480,7 @@ FaasDataWrapper component with Loading and ErrorBoundary
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`FaasDataWrapperProps`](#faasdatawrapperprops)<`T`\> |
+| `props` | [`FaasDataWrapperProps`](interfaces/FaasDataWrapperProps.md)<`T`\> |
 
 #### Returns
 
@@ -589,7 +552,7 @@ ___
 
 ### Link
 
-▸ **Link**(`«destructured»`): `Element`
+▸ **Link**(`props`): `Element`
 
 Link component with button.
 
@@ -605,7 +568,7 @@ Link component with button.
 
 | Name | Type |
 | :------ | :------ |
-| `«destructured»` | [`LinkProps`](interfaces/LinkProps.md) |
+| `props` | [`LinkProps`](interfaces/LinkProps.md) |
 
 #### Returns
 
@@ -747,6 +710,8 @@ ___
 ### transferOptions
 
 ▸ **transferOptions**(`options`): { `label`: `string` ; `value?`: `string` \| `number`  }[]
+
+convert options to { label, value }[]
 
 #### Parameters
 

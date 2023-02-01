@@ -4,6 +4,7 @@
 
 ### Properties
 
+- [block](LinkProps.md#block)
 - [button](LinkProps.md#button)
 - [children](LinkProps.md#children)
 - [href](LinkProps.md#href)
@@ -13,9 +14,15 @@
 
 ## Properties
 
+### block
+
+• `Optional` **block**: `boolean`
+
+___
+
 ### button
 
-• `Optional` **button**: `Partial`<{} & `BaseButtonProps` & `Omit`<`AnchorHTMLAttributes`<`any`\>, ``"type"`` \| ``"onClick"``\> & {} & `Omit`<`ButtonHTMLAttributes`<`any`\>, ``"type"`` \| ``"onClick"``\>\>
+• `Optional` **button**: `Partial`<{} & `BaseButtonProps` & `Omit`<`AnchorHTMLAttributes`<`HTMLButtonElement` \| `HTMLAnchorElement`\>, ``"type"`` \| ``"onClick"``\> & {} & `Omit`<`ButtonHTMLAttributes`<`HTMLButtonElement`\>, ``"type"`` \| ``"onClick"``\>\>
 
 ___
 
