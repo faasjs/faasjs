@@ -20,7 +20,7 @@ export * from '@faasjs/func'
  * ```
  */
 export class FuncWarper {
-  [key: string]: any;
+  [key: string]: any
   public readonly file: string
   public readonly staging: string
   public readonly logger: Logger
@@ -47,8 +47,15 @@ export class FuncWarper {
     if (typeof initBy === 'string') {
       this.file = initBy
       this.logger.info('Func: [%s] %s', this.staging, this.file)
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      this.func = require(this.file).default
+
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        this.func = require(this.file).default
+      } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        this.func = require(this.file + '.ts').default
+      }
+
       this.func.config = loadConfig(process.cwd(), this.file)[this.staging] || Object.create(null)
       this.config = this.func.config
     } else {
