@@ -292,7 +292,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
           break
         case 'boolean':
           if (!item.render)
-            item.render = value => (typeof value === 'undefined' ? <Blank /> : (value ?
+            item.render = value => (isNil(value) ? <Blank /> : (value ?
               <CheckOutlined style={ {
                 marginTop: '4px',
                 color: '#52c41a'
@@ -320,25 +320,25 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
               } }
             >
               <Radio.Button>{common.all}</Radio.Button>
-              <Radio.Button value={ 'true' }><CheckOutlined style={ {
+              <Radio.Button value={ true }><CheckOutlined style={ {
                 color: '#52c41a',
                 verticalAlign: 'middle'
               } } /></Radio.Button>
-              <Radio.Button value={ 'false' }><CloseOutlined style={ {
+              <Radio.Button value={ false }><CloseOutlined style={ {
                 verticalAlign: 'middle',
                 color: '#ff4d4f'
               } } /></Radio.Button>
-              <Radio.Button value={ 'empty' }>{common.blank}</Radio.Button>
+              <Radio.Button value={ null }>{common.blank}</Radio.Button>
             </Radio.Group>
 
           if (!item.onFilter)
-            item.onFilter = (value: string | number | boolean, row: any) => {
+            item.onFilter = (value, row) => {
               switch (value) {
-                case 'true':
+                case true:
                   return !isNil(row[item.id]) && !!row[item.id]
-                case 'false':
+                case false:
                   return !isNil(row[item.id]) && !row[item.id]
-                case 'empty':
+                case null:
                   return isNil(row[item.id])
                 default:
                   return true
