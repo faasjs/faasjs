@@ -228,7 +228,7 @@ export async function request<T = any> (url: string, {
           const data = Buffer.concat(raw).toString()
           logger.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data)
 
-          const response = Object.create(null)
+          const response = (res.statusCode >= 200 && res.statusCode < 400) ? Object.create(null) : new Error()
           response.request = options
           response.request.body = body
           response.statusCode = res.statusCode
@@ -249,6 +249,7 @@ export async function request<T = any> (url: string, {
             resolve(response)
           else {
             logger.debug('response.error %j', response)
+            response.message = `${res.statusCode} ${res.statusMessage}`
             reject(response)
           }
         })

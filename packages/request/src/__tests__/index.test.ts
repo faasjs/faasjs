@@ -9,6 +9,10 @@ describe('request', function () {
     expect(res.body).toEqual(readFileSync(process.cwd() + '/LICENSE').toString())
   })
 
+  test('404', async () => {
+    expect(async () => await request('https://cdn.jsdelivr.net/npm/faasjs/404')).rejects.toThrow('Not Found')
+  })
+
   describe('query', function () {
     test('without ?', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', { query: { test: 1 } })
