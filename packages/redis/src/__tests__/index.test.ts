@@ -179,4 +179,23 @@ describe('redis', function () {
 
     expect(await func.export().handler({})).toEqual('value')
   })
+
+  it('lock', async () => {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler () {
+        return await redis.lock('key')
+      }
+    }).export().handler
+
+    await func({})
+
+    expect(async () => await func({})).rejects.toThrow(Error('[redis] lock failed'))
+
+    await redis.unlock('key')
+
+    expect(await func({})).toBeUndefined()
+  })
 })
