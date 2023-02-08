@@ -350,10 +350,16 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
             item.render = value => processValue(item, value)
 
           if (!item.onFilter)
-            item.onFilter = (value: any, row) => dayjs(row[item.id]).isSame(dayjs(value))
+            item.onFilter = (value: any, row) => dayjs(row[item.id]).isSame(dayjs(value), 'date')
 
           if (!item.sorter)
-            item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
+            item.sorter = (a, b, order) => {
+              if (isNil(a[item.id]))
+                return order === 'ascend' ? 1 : -1
+              if (isNil(b[item.id]))
+                return order === 'ascend' ? -1 : 1
+              return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
+            }
 
           break
         case 'time':
@@ -364,7 +370,13 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
             item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
 
           if (!item.sorter)
-            item.sorter = (a: any, b: any) => (dayjs(a[item.id]).isBefore(b[item.id]) ? -1 : 1)
+            item.sorter = (a, b, order) => {
+              if (isNil(a[item.id]))
+                return order === 'ascend' ? 1 : -1
+              if (isNil(b[item.id]))
+                return order === 'ascend' ? -1 : 1
+              return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
+            }
 
           break
         case 'object':
