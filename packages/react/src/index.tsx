@@ -35,7 +35,7 @@ export interface FaasDataInjection<Data = any> {
 
 export interface FaasDataWrapperProps<PathOrData extends FaasAction> {
   render?(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element | JSX.Element[]
-  children?: JSX.Element
+  children?: React.ReactElement<Partial<FaasDataInjection>>
   fallback?: JSX.Element | false
   action: string
   params?: FaasParams<PathOrData>
