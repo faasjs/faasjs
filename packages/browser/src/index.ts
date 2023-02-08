@@ -127,6 +127,8 @@ export class FaasBrowserClient {
     params?: FaasParams<PathOrData>,
     options?: Options
   ): Promise<Response<FaasData<PathOrData>>> {
+    if (!action) throw Error('[FaasJS] action required')
+
     const url = this.host + (action as string).toLowerCase() + '?_=' + Date.now().toString()
 
     if (!params) params = Object.create(null)
