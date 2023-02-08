@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/jest",
-  "version": "0.0.3-beta.48",
+  "version": "0.0.3-beta.49",
   "license": "MIT",
   "main": "index.js",
   "homepage": "https://faasjs.com/doc/jest",
