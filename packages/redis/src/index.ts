@@ -211,6 +211,14 @@ export class Redis implements Plugin {
   public async unlock (key: string) {
     await this.adapter.del('lock:' + key)
   }
+
+  /**
+   * Publish message
+   */
+  public async publish (channel: string, message: any) {
+    this.logger.debug('[%s] publish: %s %j', this.name, channel, message)
+    return this.adapter.publish(channel, JSON.stringify(message))
+  }
 }
 
 export function useRedis (config?: RedisConfig): UseifyPlugin<Redis> {
@@ -275,4 +283,11 @@ export async function lock (key: string, EX: number = 10) {
  */
 export async function unlock (key: string) {
   return useRedis().unlock(key)
+}
+
+/**
+ * Publish message
+ */
+export async function publish (channel: string, message: any) {
+  return useRedis().publish(channel, message)
 }
