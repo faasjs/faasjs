@@ -88,6 +88,16 @@ export class Knex implements Plugin {
     if (this.config.client === 'sqlite3')
       this.config.client = 'better-sqlite3'
 
+    if (this.config.client === 'pg' && typeof this.config.pool?.propagateCreateError === 'undefined') {
+      if (!this.config.pool) this.config.pool = Object.create(null)
+      this.config.pool = Object.assign({
+        propagateCreateError: false,
+        min: 0,
+        max: 10,
+        acquireTimeoutMillis: 2000,
+      }, this.config.pool)
+    }
+
     this.adapter = knex(this.config)
 
     if (this.config.client === 'pg') {
