@@ -315,33 +315,36 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
               buttonStyle='solid'
               value={ selectedKeys[0] }
               onChange={ e => {
-                setSelectedKeys(e.target.value ? [e.target.value] : [])
+                const Values: Record<string, any> = {
+                  true: true,
+                  false: false,
+                  null: null,
+                }
+                setSelectedKeys(e.target.value ? [Values[e.target.value]] : [])
                 confirm()
               } }
             >
               <Radio.Button>{common.all}</Radio.Button>
-              <Radio.Button value={ true }><CheckOutlined style={ {
+              <Radio.Button value={ 'true' }><CheckOutlined style={ {
                 color: '#52c41a',
                 verticalAlign: 'middle'
               } } /></Radio.Button>
-              <Radio.Button value={ false }><CloseOutlined style={ {
+              <Radio.Button value={ 'false' }><CloseOutlined style={ {
                 verticalAlign: 'middle',
                 color: '#ff4d4f'
               } } /></Radio.Button>
-              <Radio.Button value={ null }>{common.blank}</Radio.Button>
+              <Radio.Button value={ 'null' }>{common.blank}</Radio.Button>
             </Radio.Group>
 
           if (!item.onFilter)
             item.onFilter = (value, row) => {
               switch (value) {
                 case true:
-                  return !isNil(row[item.id]) && !!row[item.id]
+                  return !isNil(row[item.id]) && row[item.id] !== false
                 case false:
                   return !isNil(row[item.id]) && !row[item.id]
-                case null:
-                  return isNil(row[item.id])
                 default:
-                  return true
+                  return isNil(row[item.id])
               }
             }
           break

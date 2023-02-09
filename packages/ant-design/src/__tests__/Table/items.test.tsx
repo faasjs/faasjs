@@ -148,21 +148,21 @@ describe('Table/items', () => {
       expect(screen.getAllByRole('cell').length).toBe(6)
     })
 
-    it('filter checked', async () => {
+    it('filter true', async () => {
       const user = userEvent.setup({ pointerEventsCheck: 0 })
 
       await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
-      await user.click(screen.getByRole('radio', { name: 'check' }))
+      await user.click(screen.getAllByRole('radio')[1])
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('true')).toBeInTheDocument()
     })
 
-    it('filter unchecked', async () => {
+    it('filter false', async () => {
       const user = userEvent.setup({ pointerEventsCheck: 0 })
 
       await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
-      await user.click(screen.getByRole('radio', { name: 'close' }))
+      await user.click(screen.getAllByRole('radio')[2])
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('false')).toBeInTheDocument()
@@ -172,7 +172,7 @@ describe('Table/items', () => {
       const user = userEvent.setup({ pointerEventsCheck: 0 })
 
       await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
-      await user.click(screen.getByRole('radio', { name: 'Empty' }))
+      await user.click(screen.getAllByRole('radio')[3])
 
       expect(screen.getAllByRole('cell').length).toBe(2)
 
