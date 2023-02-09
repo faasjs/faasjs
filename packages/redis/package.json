@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/redis",
-  "version": "0.0.3-beta.49",
+  "version": "0.0.3-beta.50",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,9 +22,9 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "^0.0.3-beta.49",
-    "@faasjs/func": "^0.0.3-beta.49",
-    "@faasjs/logger": "^0.0.3-beta.49",
+    "@faasjs/deep_merge": "^0.0.3-beta.50",
+    "@faasjs/func": "^0.0.3-beta.50",
+    "@faasjs/logger": "^0.0.3-beta.50",
     "ioredis": "*"
   },
   "devDependencies": {
