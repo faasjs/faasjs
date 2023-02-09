@@ -33,10 +33,10 @@ describe('client', function () {
 
   it('should work', async function () {
     const client = new FaasBrowserClient('/')
-    const response = await client.action('')
+    const response = await client.action('path')
 
     expect(client.defaultOptions).toEqual({})
-    expect(request.url.substring(0, 4)).toEqual('/?_=')
+    expect(request.url.substring(0, 8)).toEqual('/path?_=')
     expect(request.method).toEqual('POST')
     expect(request.headers).toEqual({ 'Content-Type': 'application/json; charset=UTF-8' })
     expect(response.status).toEqual(200)
@@ -51,9 +51,9 @@ describe('client', function () {
         options.headers = { 'Content-Type': 'plain/text; charset=UTF-8', }
       }
     })
-    await client.action('')
+    await client.action('path')
 
-    expect(request.url.substring(0, 4)).toEqual('/?_=')
+    expect(request.url.substring(0, 8)).toEqual('/path?_=')
     expect(request.method).toEqual('GET')
     expect(request.headers).toEqual({ 'Content-Type': 'plain/text; charset=UTF-8' })
   })
@@ -96,7 +96,7 @@ describe('client', function () {
 
     const client = new FaasBrowserClient('/')
 
-    await expect(client.action('')).rejects.toEqual(Error('no'))
+    await expect(client.action('path')).rejects.toEqual(Error('no'))
   })
 })
 
