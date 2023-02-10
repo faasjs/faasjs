@@ -202,7 +202,7 @@ export class Redis implements Plugin {
   public async lock (key: string, EX: number = 10) {
     const result = await this.adapter.set('lock:' + key, '1', 'EX', EX, 'NX')
 
-    if (!result) throw Error(`[${this.name}] lock failed`)
+    if (!result) throw Error(`[${this.name}] lock failed: ${key}`)
   }
 
   /**
