@@ -1,3 +1,4 @@
+export * from './App'
 export * from './Blank'
 export * from './Config'
 export * from './data'
