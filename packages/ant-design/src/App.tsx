@@ -19,18 +19,18 @@ export interface AppProps {
 }
 
 export interface useAppProps {
-  message: Partial<MessageInstance>
-  notification: Partial<NotificationInstance>
+  message: MessageInstance
+  notification: NotificationInstance
   setModalProps: (changes: Partial<ModalProps>) => void
   setDrawerProps: (changes: Partial<DrawerProps>) => void
 }
 
 const AppContext = createContext<useAppProps>({
-  message: {},
-  notification: {},
+  message: {} as MessageInstance,
+  notification: {} as NotificationInstance,
   setModalProps: () => void(0),
   setDrawerProps: () => void(0),
-} as useAppProps)
+})
 
 export function App (props: AppProps) {
   const [messageApi, messageContextHolder] = message.useMessage()
