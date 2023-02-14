@@ -179,7 +179,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
             item.onFilter = (value: any, row) => {
               if (value === null && isNil(row[item.id])) return true
 
-              if (!row[item.id]) return false
+              if (!row[item.id] || !value) return false
 
               return (row[item.id] as string).toLowerCase().includes(value.toLowerCase())
             }
