@@ -192,7 +192,7 @@ describe('redis', function () {
 
     await func({})
 
-    expect(async () => await func({})).rejects.toThrow(Error('[redis] lock failed'))
+    expect(async () => await func({})).rejects.toThrow(Error('[redis] lock failed: key'))
 
     await redis.unlock('key')
 
