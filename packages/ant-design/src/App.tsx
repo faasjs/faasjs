@@ -54,12 +54,12 @@ export function App (props: AppProps) {
   )
 
   return <StyleProvider
-    { ...(props.styleProviderProps || {}) }
-  >
-    <ConfigProvider { ...Object.assign<StyleProviderProps, StyleProviderProps>(props.configProviderProps || {}, {
+    { ...Object.assign(props.styleProviderProps || {}, {
       hashPriority: 'high',
       transformers: [legacyLogicalPropertiesTransformer],
-    }) }>
+    }) }
+  >
+    <ConfigProvider { ...(props.configProviderProps || {}) }>
       <AppContext.Provider value={ memoizedContextValue }>
         {messageContextHolder}
         {notificationContextHolder}
