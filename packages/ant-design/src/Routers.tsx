@@ -1,11 +1,13 @@
 import { Result, Skeleton } from 'antd'
 import {
-  ComponentType, LazyExoticComponent, Suspense
+  ComponentType, LazyExoticComponent, Suspense,
 } from 'react'
 import {
   Routes as OriginRoutes, Route, RouteProps
 } from 'react-router-dom'
 import { useConfigContext } from './Config'
+
+export { lazy } from 'react'
 
 export function PageNotFound () {
   const config = useConfigContext()
