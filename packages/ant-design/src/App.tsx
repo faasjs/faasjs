@@ -5,17 +5,20 @@ import type { ConfigProviderProps } from 'antd/es/config-provider'
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs'
 import type { StyleProviderProps } from '@ant-design/cssinjs/lib/StyleContext'
 import {
-  createContext, useContext, useMemo
+  createContext, useContext, useEffect, useMemo
 } from 'react'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
 import { ModalProps, useModal } from './Modal'
 import { DrawerProps, useDrawer } from './Drawer'
+import { BrowserRouter, useLocation } from 'react-router-dom'
+import type { BrowserRouterProps } from 'react-router-dom'
 
 export interface AppProps {
   children: React.ReactNode
   styleProviderProps?: StyleProviderProps
   configProviderProps?: ConfigProviderProps
+  browserRouterProps?: BrowserRouterProps
 }
 
 export interface useAppProps {
@@ -31,6 +34,21 @@ const AppContext = createContext<useAppProps>({
   setModalProps: () => void(0),
   setDrawerProps: () => void(0),
 })
+
+function RoutesApp (props: {
+  children: React.ReactNode
+}) {
+  const location = useLocation()
+  const { setDrawerProps, setModalProps } = useApp()
+
+  useEffect(() => {
+    console.debug('location', location)
+    setDrawerProps({ open: false })
+    setModalProps({ open: false })
+  }, [location])
+
+  return <>{props.children}</>
+}
 
 export function App (props: AppProps) {
   const [messageApi, messageContextHolder] = message.useMessage()
@@ -59,13 +77,17 @@ export function App (props: AppProps) {
       transformers: [legacyLogicalPropertiesTransformer],
     }) }
   >
-    <ConfigProvider { ...(props.configProviderProps || {}) }>
+    <ConfigProvider { ...props.configProviderProps }>
       <AppContext.Provider value={ memoizedContextValue }>
-        {messageContextHolder}
-        {notificationContextHolder}
-        {modal}
-        {drawer}
-        {props.children}
+        <BrowserRouter { ...props.browserRouterProps }>
+          {messageContextHolder}
+          {notificationContextHolder}
+          {modal}
+          {drawer}
+          <RoutesApp>
+            {props.children}
+          </RoutesApp>
+        </BrowserRouter>
       </AppContext.Provider>
     </ConfigProvider>
   </StyleProvider>
@@ -74,3 +96,5 @@ export function App (props: AppProps) {
 export function useApp () {
   return useContext<useAppProps>(AppContext)
 }
+
+App.useApp = useApp
