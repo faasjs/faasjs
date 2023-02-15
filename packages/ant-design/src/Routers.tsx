@@ -30,7 +30,7 @@ export interface RoutesProps {
  * Routes with lazy loading and 404 page.
  *
  * ```tsx
- * import { lazy } from 'react'
+ * import { Routes, lazy } from '@faasjs/ant-design'
  * import { BrowserRouter } from 'react-router-dom'
  *
  * export function App () {
