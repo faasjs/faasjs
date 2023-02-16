@@ -210,7 +210,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
 
               if (!row[item.id] || !row[item.id].length) return false
 
-              return (row[item.id] as string[]).some(v => v.toLowerCase().includes(value.toLowerCase()))
+              return (row[item.id] as string[]).some(v => v?.toLowerCase().includes(value.toLowerCase()))
             }
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
