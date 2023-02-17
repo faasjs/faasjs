@@ -208,9 +208,9 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
             item.onFilter = (value: any, row) => {
               if (value === null && (!row[item.id] || !row[item.id].length)) return true
 
-              if (!row[item.id] || !row[item.id].length) return false
+              if (!row[item.id] || !row[item.id].length || !value) return false
 
-              return (row[item.id] as string[]).some(v => v?.toLowerCase().includes(value.toLowerCase()))
+              return (row[item.id] as string[]).some(v => v.toLowerCase().includes(value.toLowerCase()))
             }
           if (!item.filters && item.filterDropdown !== false)
             item.filterDropdown = ({
