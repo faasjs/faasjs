@@ -94,7 +94,8 @@ export class Knex implements Plugin {
         propagateCreateError: false,
         min: 0,
         max: 10,
-        acquireTimeoutMillis: 2000,
+        acquireTimeoutMillis: 5000,
+        idleTimeoutMillis: 30000,
       }, this.config.pool)
     }
 
