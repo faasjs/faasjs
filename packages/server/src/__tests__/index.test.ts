@@ -25,56 +25,56 @@ describe('server', function () {
   })
 
   test('404', async function () {
-    await expect(request('http://localhost:' + port + '/404')).rejects.toMatchObject({
+    await expect(request('http://127.0.0.1:' + port + '/404')).rejects.toMatchObject({
       statusCode: 404,
       body: { error: { message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404.func.tsx\n- ${server.root}404/index.func.ts\n- ${server.root}404/index.func.tsx\n- ${server.root}default.func.ts\n- ${server.root}default.func.tsx` } }
     })
   })
 
   test('hello', async function () {
-    await expect(request('http://localhost:' + port + '/hello')).resolves.toMatchObject({
+    await expect(request('http://127.0.0.1:' + port + '/hello')).resolves.toMatchObject({
       statusCode: 200,
       body: { data: 'hello' }
     })
   })
 
   test('tsx', async () => {
-    await expect(request('http://localhost:' + port + '/tsx')).resolves.toMatchObject({
+    await expect(request('http://127.0.0.1:' + port + '/tsx')).resolves.toMatchObject({
       statusCode: 200,
       body: { data: '<h1>Hi</h1>' }
     })
   })
 
   test('a', async function () {
-    await expect(request('http://localhost:' + port + '/a')).resolves.toMatchObject({
+    await expect(request('http://127.0.0.1:' + port + '/a')).resolves.toMatchObject({
       statusCode: 200,
       body: { data: 'a' }
     })
   })
 
   test('a/default', async function () {
-    await expect(request('http://localhost:' + port + '/a/a')).resolves.toMatchObject({
+    await expect(request('http://127.0.0.1:' + port + '/a/a')).resolves.toMatchObject({
       statusCode: 200,
       body: { data: 'default' }
     })
   })
 
   test('query', async function () {
-    await expect(request('http://localhost:' + port + '/query?key=value')).resolves.toMatchObject({
+    await expect(request('http://127.0.0.1:' + port + '/query?key=value')).resolves.toMatchObject({
       statusCode: 200,
       body: { data: { key: 'value' } }
     })
   })
 
   test('500', async function () {
-    await expect(request('http://localhost:' + port + '/error')).rejects.toMatchObject({
+    await expect(request('http://127.0.0.1:' + port + '/error')).rejects.toMatchObject({
       statusCode: 500,
       body: { error: { message: 'error' } }
     })
   })
 
   test('OPTIONS', async function () {
-    await expect(request('http://localhost:' + port, { method: 'OPTIONS' })).resolves.toMatchObject({
+    await expect(request('http://127.0.0.1:' + port, { method: 'OPTIONS' })).resolves.toMatchObject({
       statusCode: 204,
       headers: {
         'access-control-allow-credentials': 'true',
