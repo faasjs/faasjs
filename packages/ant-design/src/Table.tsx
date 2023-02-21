@@ -184,7 +184,9 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
               return (row[item.id] as string).toLowerCase().includes(value.toLowerCase())
             }
 
-          if (!item.filters && item.filterDropdown !== false && item.optionsType !== 'auto')
+          if (item.filterDropdown === false || item.filterDropdown) break
+
+          if (!item.filters && item.optionsType !== 'auto')
             item.filterDropdown = ({
               setSelectedKeys, confirm, clearFilters
             }) => <Input.Search
@@ -212,7 +214,10 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
 
               return (row[item.id] as string[]).some(v => v.toLowerCase().includes(value.toLowerCase()))
             }
-          if (!item.filters && item.filterDropdown !== false)
+
+          if (item.filterDropdown === false || item.filterDropdown) break
+
+          if (!item.filters && item.optionsType !== 'auto')
             item.filterDropdown = ({
               setSelectedKeys, confirm, clearFilters
             }) => <Input.Search
@@ -243,7 +248,9 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
               return value == row[item.id]
             }
 
-          if (!item.filters && item.filterDropdown !== false)
+          if (item.filterDropdown === false || item.filterDropdown) break
+
+          if (!item.filters)
             item.filterDropdown = ({
               setSelectedKeys, confirm, clearFilters
             }) => <Input.Search
@@ -273,7 +280,9 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
               return row[item.id].includes(Number(value))
             }
 
-          if (!item.filters && item.filterDropdown !== false)
+          if (item.filterDropdown === false || item.filterDropdown) break
+
+          if (!item.filters)
             item.filterDropdown = ({
               setSelectedKeys, confirm, clearFilters
             }) => <Input.Search
