@@ -9,6 +9,7 @@ import {
   Radio,
   TablePaginationConfig,
   Input,
+  Select,
 } from 'antd'
 import dayjs from 'dayjs'
 import type {
@@ -440,10 +441,37 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
           setColumns(prev => {
             const newColumns = [...prev]
             const index = newColumns.findIndex(item => item.id === column.id)
-            newColumns[index].filters = filters.concat({
-              text: <Blank />,
-              value: null,
-            })
+            if (filters.length < 11)
+              newColumns[index].filters = filters.concat({
+                text: <Blank />,
+                value: null,
+              })
+            else
+              newColumns[index].filterDropdown = ({
+                setSelectedKeys, selectedKeys, confirm,
+              }) => <div
+                style={ {
+                  padding: 8,
+                  width: '200px',
+                } }
+                onKeyDown={ (e) => e.stopPropagation() }>
+                <Select<React.Key[]>
+                  options={ filters.map(f => ({
+                    label: f.text,
+                    value: f.value,
+                  })) }
+                  allowClear
+                  showSearch
+                  style={ { width: '100%' } }
+                  placeholder={ `${common.search} ${newColumns[index].title}` }
+                  value={ selectedKeys }
+                  onChange={ v => {
+                    setSelectedKeys(v?.length ? v : [])
+                    confirm()
+                  } }
+                  mode='multiple'
+                />
+              </div>
             return newColumns
           })
       }
