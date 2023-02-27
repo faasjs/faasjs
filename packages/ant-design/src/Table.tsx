@@ -470,6 +470,14 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
                     confirm()
                   } }
                   mode='multiple'
+                  filterOption={ (input, option) => {
+                    if (!input || !option || !option.label) return true
+
+                    input = input.trim()
+
+                    return option.value === input ||
+                    option.label.toString().toLowerCase().includes(input.toLowerCase())
+                  } }
                 />
               </div>
             return newColumns
