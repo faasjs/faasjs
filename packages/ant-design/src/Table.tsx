@@ -323,7 +323,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
             }) => <Radio.Group
               style={ { padding: 8 } }
               buttonStyle='solid'
-              value={ selectedKeys[0] }
+              value={ JSON.stringify(selectedKeys[0]) }
               onChange={ e => {
                 const Values: Record<string, any> = {
                   true: true,
