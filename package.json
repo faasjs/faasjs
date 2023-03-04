@@ -14,7 +14,7 @@
   "devDependencies": {
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "tsup": "^5",
+    "tsup": "^6",
     "typescript": "*"
   },
   "eslintConfig": {
