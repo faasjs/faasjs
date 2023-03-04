@@ -10,6 +10,7 @@ import {
   TablePaginationConfig,
   Input,
   Select,
+  DatePicker,
 } from 'antd'
 import dayjs from 'dayjs'
 import type {
@@ -178,11 +179,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
 
           if (!item.onFilter)
             item.onFilter = (value: any, row) => {
-              if (value === null && isNil(row[item.id])) return true
+              if (!value || isNil(value)) return true
 
-              if (!row[item.id] || !value) return false
+              if (isNil(row[item.id])) return false
 
-              return (row[item.id] as string).toLowerCase().includes(value.toLowerCase())
+              return (row[item.id] as string).trim().toLowerCase().includes(value.trim().toLowerCase())
             }
 
           if (item.filterDropdown === false || item.filterDropdown) break
@@ -213,7 +214,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
 
               if (!row[item.id] || !row[item.id].length || !value) return false
 
-              return (row[item.id] as string[]).some(v => v.toLowerCase().includes(value.toLowerCase()))
+              return (row[item.id] as string[]).some(v => v.trim().toLowerCase().includes(value.trim().toLowerCase()))
             }
 
           if (item.filterDropdown === false || item.filterDropdown) break
@@ -244,7 +245,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
 
           if (!item.onFilter)
             item.onFilter = (value: any, row) => {
-              if (value === null && isNil(row[item.id])) return true
+              if (value === null) return true
+              if (isNil(row[item.id])) return false
 
               return value == row[item.id]
             }
@@ -362,8 +364,40 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
           if (!item.render)
             item.render = value => processValue(item, value)
 
+          if (!item.sorter)
+            item.sorter = (a, b, order) => {
+              if (isNil(a[item.id]))
+                return order === 'ascend' ? 1 : -1
+              if (isNil(b[item.id]))
+                return order === 'ascend' ? -1 : 1
+              return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
+            }
+
+          if (!item.filterDropdown)
+            item.filterDropdown = ({
+              setSelectedKeys,
+              confirm,
+            }) => <DatePicker.RangePicker
+              onChange={ (dates) => {
+                setSelectedKeys((dates && dates[0] && dates[1]) ?
+                  [[dates[0].startOf('day').toISOString(), dates[1].endOf('day').toISOString()]] as any
+                  : [])
+                confirm()
+              } }
+            />
+
           if (!item.onFilter)
-            item.onFilter = (value: any, row) => dayjs(row[item.id]).isSame(dayjs(value), 'date')
+            item.onFilter = (value: any, row) => {
+              if (isNil(value[0])) return true
+              if (isNil(row[item.id])) return false
+
+              return dayjs(row[item.id]) >= dayjs(value[0]) && dayjs(row[item.id]) <= dayjs(value[1])
+            }
+
+          break
+        case 'time':
+          if (!item.render)
+            item.render = value => processValue(item, value)
 
           if (!item.sorter)
             item.sorter = (a, b, order) => {
@@ -374,21 +408,25 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
               return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
             }
 
-          break
-        case 'time':
-          if (!item.render)
-            item.render = value => processValue(item, value)
+          if (!item.filterDropdown)
+            item.filterDropdown = ({
+              setSelectedKeys,
+              confirm,
+            }) => <DatePicker.RangePicker
+              onChange={ dates => {
+                setSelectedKeys((dates && dates[0] && dates[1]) ?
+                  [[dates[0].startOf('day').toISOString(), dates[1].endOf('day').toISOString()]] as any
+                  : [])
+                confirm()
+              } }
+            />
 
           if (!item.onFilter)
-            item.onFilter = (value:any, row) => dayjs(row[item.id]).isSame(dayjs(value))
+            item.onFilter = (value: any, row) => {
+              if (isNil(value[0])) return true
+              if (isNil(row[item.id])) return false
 
-          if (!item.sorter)
-            item.sorter = (a, b, order) => {
-              if (isNil(a[item.id]))
-                return order === 'ascend' ? 1 : -1
-              if (isNil(b[item.id]))
-                return order === 'ascend' ? -1 : 1
-              return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
+              return dayjs(row[item.id]) >= dayjs(value[0]) && dayjs(row[item.id]) <= dayjs(value[1])
             }
 
           break
