@@ -1,6 +1,6 @@
 # Class: Redis
 
-Redis 插件
+Redis Plugin
 
 ## Implements
 
@@ -26,13 +26,16 @@ Redis 插件
 
 - [get](Redis.md#get)
 - [getJSON](Redis.md#getjson)
+- [lock](Redis.md#lock)
 - [onDeploy](Redis.md#ondeploy)
 - [onInvoke](Redis.md#oninvoke)
 - [onMount](Redis.md#onmount)
+- [publish](Redis.md#publish)
 - [query](Redis.md#query)
 - [quit](Redis.md#quit)
 - [set](Redis.md#set)
 - [setJSON](Redis.md#setjson)
+- [unlock](Redis.md#unlock)
 
 ## Constructors
 
@@ -40,13 +43,11 @@ Redis 插件
 
 • **new Redis**(`config?`)
 
-创建插件实例
-
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `config?` | [`RedisConfig`](../#redisconfig) | {object} 配置 |
+| Name | Type |
+| :------ | :------ |
+| `config?` | [`RedisConfig`](../#redisconfig) |
 
 ## Properties
 
@@ -172,6 +173,25 @@ ___
 
 ___
 
+### lock
+
+▸ **lock**(`key`, `EX?`): `Promise`<`void`\>
+
+Lock by key
+
+#### Parameters
+
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `key` | `string` | `undefined` |  |
+| `EX` | `number` | `10` | expire in seconds, default 10 |
+
+#### Returns
+
+`Promise`<`void`\>
+
+___
+
 ### onDeploy
 
 ▸ **onDeploy**(`data`, `next`): `Promise`<`void`\>
@@ -232,6 +252,25 @@ ___
 #### Implementation of
 
 Plugin.onMount
+
+___
+
+### publish
+
+▸ **publish**(`channel`, `message`): `Promise`<`number`\>
+
+Publish message
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `channel` | `string` |
+| `message` | `any` |
+
+#### Returns
+
+`Promise`<`number`\>
 
 ___
 
@@ -313,3 +352,21 @@ ___
 #### Returns
 
 `Promise`<`TResult`\>
+
+___
+
+### unlock
+
+▸ **unlock**(`key`): `Promise`<`void`\>
+
+Unlock by key
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+
+#### Returns
+
+`Promise`<`void`\>

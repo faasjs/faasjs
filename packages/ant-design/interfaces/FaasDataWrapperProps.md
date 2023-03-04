@@ -44,7 +44,7 @@ ___
 
 ### children
 
-• `Optional` **children**: `Element`
+• `Optional` **children**: `ReactElement`<`Partial`<`FaasDataInjection`<`any`\>\>, `string` \| `JSXElementConstructor`<`any`\>\>
 
 #### Inherited from
 
@@ -116,7 +116,7 @@ OriginProps.setData
 
 | Name | Type |
 | :------ | :------ |
-| `args` | [`FaasDataInjection`](FaasDataInjection.md)<`FaasData`<`T`\>\> |
+| `args` | `FaasDataInjection`<`FaasData`<`T`\>\> |
 
 #### Returns
 
@@ -136,7 +136,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `args` | [`FaasDataInjection`](FaasDataInjection.md)<`FaasData`<`T`\>\> |
+| `args` | `FaasDataInjection`<`FaasData`<`T`\>\> |
 
 #### Returns
 

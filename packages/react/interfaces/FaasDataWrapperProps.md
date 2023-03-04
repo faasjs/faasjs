@@ -32,7 +32,7 @@ ___
 
 ### children
 
-• `Optional` **children**: `Element`
+• `Optional` **children**: `ReactElement`<`Partial`<[`FaasDataInjection`](FaasDataInjection.md)<`any`\>\>, `string` \| `JSXElementConstructor`<`any`\>\>
 
 ___
 

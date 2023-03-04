@@ -22,7 +22,7 @@ ___
 
 ### button
 
-• `Optional` **button**: `Partial`<{} & `BaseButtonProps` & `Omit`<`AnchorHTMLAttributes`<`HTMLButtonElement` \| `HTMLAnchorElement`\>, ``"type"`` \| ``"onClick"``\> & {} & `Omit`<`ButtonHTMLAttributes`<`HTMLButtonElement`\>, ``"type"`` \| ``"onClick"``\>\>
+• `Optional` **button**: `Partial`<{} & `BaseButtonProps` & `Omit`<`AnchorHTMLAttributes`<`HTMLAnchorElement` \| `HTMLButtonElement`\>, ``"type"`` \| ``"onClick"``\> & {} & `Omit`<`ButtonHTMLAttributes`<`HTMLButtonElement`\>, ``"type"`` \| ``"onClick"``\>\>
 
 ___
 

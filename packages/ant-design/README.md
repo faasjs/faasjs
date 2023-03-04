@@ -41,6 +41,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 ### Namespaces
 
+- [App](modules/App.md)
 - [Form](modules/Form.md)
 - [FormItem](modules/FormItem.md)
 
@@ -50,6 +51,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 ### Interfaces
 
+- [AppProps](interfaces/AppProps.md)
 - [BaseItemProps](interfaces/BaseItemProps.md)
 - [BlankProps](interfaces/BlankProps.md)
 - [ConfigProviderProps](interfaces/ConfigProviderProps.md)
@@ -59,7 +61,6 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [DrawerProps](interfaces/DrawerProps.md)
 - [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
 - [ExtendDescriptionTypeProps](interfaces/ExtendDescriptionTypeProps.md)
-- [FaasDataInjection](interfaces/FaasDataInjection.md)
 - [FaasDataWrapperProps](interfaces/FaasDataWrapperProps.md)
 - [FaasItemProps](interfaces/FaasItemProps.md)
 - [FormItemProps](interfaces/FormItemProps.md)
@@ -70,6 +71,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [TableItemProps](interfaces/TableItemProps.md)
 - [TitleProps](interfaces/TitleProps.md)
 - [UnionFaasItemProps](interfaces/UnionFaasItemProps.md)
+- [useAppProps](interfaces/useAppProps.md)
 
 ### Type Aliases
 
@@ -80,6 +82,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [ExtendTableItemProps](#extendtableitemprops)
 - [ExtendTableTypeProps](#extendtabletypeprops)
 - [ExtendTypes](#extendtypes)
+- [FaasDataInjection](#faasdatainjection)
 - [FaasItemType](#faasitemtype)
 - [FaasItemTypeValue](#faasitemtypevalue)
 - [FormSubmitProps](#formsubmitprops)
@@ -98,6 +101,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 ### Functions
 
+- [App](#app)
 - [Blank](#blank)
 - [ConfigProvider](#configprovider)
 - [Description](#description)
@@ -112,6 +116,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [Title](#title)
 - [transferOptions](#transferoptions)
 - [transferValue](#transfervalue)
+- [useApp](#useapp)
 - [useConfigContext](#useconfigcontext)
 - [useDrawer](#usedrawer)
 - [useModal](#usemodal)
@@ -192,6 +197,18 @@ ___
 #### Index signature
 
 ▪ [type: `string`]: [`ExtendFormTypeProps`](#extendformtypeprops)
+
+___
+
+### FaasDataInjection
+
+Ƭ **FaasDataInjection**<`T`\>: `Partial`<`OriginFaasDataInjection`<`T`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
 
 ___
 
@@ -386,6 +403,22 @@ ___
 
 ## Functions
 
+### App
+
+▸ **App**(`props`): `Element`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`AppProps`](interfaces/AppProps.md) |
+
+#### Returns
+
+`Element`
+
+___
+
 ### Blank
 
 ▸ **Blank**(`options?`): `JSX.Element`
@@ -469,6 +502,18 @@ ___
 ▸ **FaasDataWrapper**<`T`\>(`props`): `JSX.Element`
 
 FaasDataWrapper component with Loading
+
+```tsx
+function MyComponent (props: FaasDataInjection) {
+  return <div>{ props.data }</div>
+}
+
+function MyPage () {
+  return <FaasDataWrapper action="test" params={{ a: 1 }}>
+    <MyComponent />
+  </FaasDataWrapper>
+}
+```
 
 #### Type parameters
 
@@ -619,7 +664,7 @@ ___
 Routes with lazy loading and 404 page.
 
 ```tsx
-import { lazy } from 'react'
+import { Routes, lazy } from '@faasjs/ant-design'
 import { BrowserRouter } from 'react-router-dom'
 
 export function App () {
@@ -739,6 +784,16 @@ ___
 #### Returns
 
 `any`
+
+___
+
+### useApp
+
+▸ **useApp**(): [`useAppProps`](interfaces/useAppProps.md)
+
+#### Returns
+
+[`useAppProps`](interfaces/useAppProps.md)
 
 ___
 

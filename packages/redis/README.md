@@ -24,10 +24,14 @@ FaasJS's Redis plugin.
 
 - [get](#get)
 - [getJSON](#getjson)
+- [lock](#lock)
 - [multi](#multi)
+- [pipeline](#pipeline)
+- [publish](#publish)
 - [query](#query)
 - [set](#set)
 - [setJSON](#setjson)
+- [unlock](#unlock)
 - [useRedis](#useredis)
 
 ## Type Aliases
@@ -89,6 +93,25 @@ ___
 
 ___
 
+### lock
+
+▸ **lock**(`key`, `EX?`): `Promise`<`void`\>
+
+Lock by key
+
+#### Parameters
+
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `key` | `string` | `undefined` |  |
+| `EX` | `number` | `10` | expire in seconds, default 10 |
+
+#### Returns
+
+`Promise`<`void`\>
+
+___
+
 ### multi
 
 ▸ **multi**(): `ChainableCommander`
@@ -96,6 +119,35 @@ ___
 #### Returns
 
 `ChainableCommander`
+
+___
+
+### pipeline
+
+▸ **pipeline**(): `ChainableCommander`
+
+#### Returns
+
+`ChainableCommander`
+
+___
+
+### publish
+
+▸ **publish**(`channel`, `message`): `Promise`<`number`\>
+
+Publish message
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `channel` | `string` |
+| `message` | `any` |
+
+#### Returns
+
+`Promise`<`number`\>
 
 ___
 
@@ -167,6 +219,24 @@ ___
 #### Returns
 
 `Promise`<`TResult`\>
+
+___
+
+### unlock
+
+▸ **unlock**(`key`): `Promise`<`void`\>
+
+Unlock by key
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `key` | `string` |
+
+#### Returns
+
+`Promise`<`void`\>
 
 ___
 
