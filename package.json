@@ -14,7 +14,7 @@
   "devDependencies": {
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "tsup": "^6",
+    "tsup": "5.12.9",
     "typescript": "*"
   },
   "eslintConfig": {
@@ -30,33 +30,7 @@
     ]
   },
   "workspaces": [
-    "packages/ant-design",
-    "packages/browser",
-    "packages/cli",
-    "packages/cloud_function",
-    "packages/create-faas-app",
-    "packages/deep_merge",
-    "packages/deployer",
-    "packages/eslint-config-react",
-    "packages/eslint-config-recommended",
-    "packages/eslint-config-vue",
-    "packages/faasjs",
-    "packages/func",
-    "packages/http",
-    "packages/jest",
-    "packages/knex",
-    "packages/load",
-    "packages/logger",
-    "packages/mongo",
-    "packages/react",
-    "packages/redis",
-    "packages/request",
-    "packages/server",
-    "packages/tencentcloud",
-    "packages/test",
-    "packages/ts-transform",
-    "packages/types",
-    "packages/vue-plugin"
+    "packages/*"
   ],
   "jest": {
     "transform": {

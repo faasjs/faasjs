@@ -64,8 +64,6 @@ export class Mongo implements Plugin {
     if (data.config.plugins && data.config.plugins[this.name])
       this.config = deepMerge(data.config.plugins[this.name].config, this.config)
 
-    if (typeof this.config.loggerLevel === 'undefined') this.config.loggerLevel = 'debug'
-
     data.logger.debug('[%s] connect: %j', this.name, this.config)
 
     const url = this.config.url
