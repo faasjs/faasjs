@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const globSync = require('glob').sync
+const globSync = require('glob').default.globSync
 const promisify = require('util').promisify
 const exec = promisify(require('child_process').exec)
 const dirname = require('path').dirname
