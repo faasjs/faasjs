@@ -613,6 +613,7 @@ function FaasDataTable ({
   if (!data)
     return <AntdTable
       { ...props }
+      loading={ props.loading }
       rowKey={ props.rowKey || 'id' }
       columns={ currentColumns as any[] }
       dataSource={ [] }
@@ -621,6 +622,7 @@ function FaasDataTable ({
   if (Array.isArray(data))
     return <AntdTable
       { ...props }
+      loading={ props.loading }
       rowKey={ props.rowKey || 'id' }
       columns={ currentColumns as any[] }
       dataSource={ data as any }
@@ -628,6 +630,7 @@ function FaasDataTable ({
 
   return <AntdTable
     { ...props }
+    loading={ props.loading }
     rowKey={ props.rowKey || 'id' }
     columns={ currentColumns as any[] }
     dataSource={ (data as any).rows }
