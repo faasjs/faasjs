@@ -518,7 +518,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
     }
 
     setColumns(props.items as TableItemProps[])
-  }, [props.items])
+  }, [JSON.stringify(props.items)])
 
   useEffect(() => {
     if (!props.dataSource || !columns) return
