@@ -37,6 +37,7 @@ async function buildAll() {
 
   for (const name of [
     'browser',
+    'react',
     'logger',
     'deep_merge',
     'ts-transform',
