@@ -125,10 +125,10 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
     })
 
   if (computedProps.item.descriptionRender)
-    return computedProps.item.descriptionRender(computedProps.value, computedProps.values, 0, 'description')
+    return <>{computedProps.item.descriptionRender(computedProps.value, computedProps.values, 0, 'description')}</>
 
   if (computedProps.item.render)
-    return computedProps.item.render(computedProps.value, computedProps.values, 0, 'description')
+    return <>{computedProps.item.render(computedProps.value, computedProps.values, 0, 'description')}</>
 
   if (computedProps.value === null || (Array.isArray(computedProps.value) && !computedProps.value.length))
     return <Blank />
