@@ -29,8 +29,6 @@ async function build(path, dts = false) {
 
   if (pkg.scripts && pkg.scripts.build) {
     await run(`npm run build -w ${path.replace('/package.json', '')}`)
-    if (dts && pkg.scripts['build:types'])
-      await run(`npm run build:types -w ${path.replace('/package.json', '')}`)
   }
 }
 

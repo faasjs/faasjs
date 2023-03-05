@@ -5,7 +5,7 @@
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
     "pub": "node publish.js",
-    "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/coverage packages/*/*.log tmp *.log",
+    "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "build": "node build.js",
     "build:types": "node build-types.js",
     "build:doc": "typedoc",
@@ -14,7 +14,7 @@
   "devDependencies": {
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "tsup": "5.12.9",
+    "tsup": "*",
     "typescript": "*"
   },
   "eslintConfig": {
