@@ -92,13 +92,12 @@ export type UnionFaasItemInjection<Value = any, Values = any> = {
 }
 
 export type UnionFaasItemRender<Value = any, Values = any> =
-  (value: Value, values: Values, index: number, scene: UnionScene) => JSX.Element | null
+  (value: Value, values: Values, index: number, scene: UnionScene) => React.ReactNode
 
 export type UnionFaasItemElement<Value = any, Values = any> = ReactElement<UnionFaasItemInjection<Value, Values>> | null
 
 export interface UnionFaasItemProps<Value = any, Values = any>
-  extends FormItemProps, DescriptionItemProps, TableItemProps
-{
+  extends FormItemProps, DescriptionItemProps, TableItemProps {
   children?: UnionFaasItemElement<UnionFaasItemProps<Value, Values>> | null
   render?: UnionFaasItemRender
   object?: UnionFaasItemProps<Value, Values>[]

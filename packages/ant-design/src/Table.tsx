@@ -112,6 +112,58 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
   const [columns, setColumns] = useState<TableItemProps[]>()
   const { common } = useConfigContext()
 
+  const generateFilterDropdown = (item: TableItemProps) => {
+    if (typeof item.filterDropdown !== 'undefined') return
+
+    if (item.options.length < 11) {
+      if (!item.filters)
+        item.filters = (item.options as {
+          label: string
+          value: any
+        }[]).map(o => ({
+          text: o.label,
+          value: o.value,
+        }))
+      return
+    }
+
+    item.filterDropdown = ({
+      setSelectedKeys, selectedKeys, confirm,
+    }) => <div
+      style={ {
+        padding: 8,
+        width: '200px',
+      } }
+      onKeyDown={ (e) => e.stopPropagation() }>
+      <Select<React.Key[]>
+        options={ item.options as {
+          label: string
+          value: string
+        }[] }
+        allowClear
+        showSearch
+        style={ { width: '100%' } }
+        placeholder={ `${common.search} ${item.title}` }
+        value={ selectedKeys }
+        onChange={ v => {
+          setSelectedKeys(v?.length ? v : [])
+          confirm()
+        } }
+        mode='multiple'
+        filterOption={ (input, option) => {
+          if (!input || !option || !option.label) return true
+
+          input = input.trim()
+
+          return option.value === input ||
+          option.label.toString().toLowerCase().includes(input.toLowerCase())
+        } }
+      />
+    </div>
+
+    return item
+  }
+
   useEffect(() => {
     for (const item of props.items as TableItemProps[]) {
       if (!item.key) item.key = item.id
@@ -130,6 +182,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
           text: <Blank /> as any,
           value: null,
         })
+
+        generateFilterDropdown(item)
       }
 
       if (item.tableChildren === null)
@@ -471,53 +525,16 @@ export function Table<T extends Record<string, any>, ExtendTypes = any> (props: 
 
     for (const column of columns) {
       if (column.optionsType === 'auto' && !column.options && !column.filters) {
-        const filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
-          text: v[column.id],
+        const options = uniqBy<any>(props.dataSource, column.id).map(v => ({
+          label: v[column.id],
           value: v[column.id],
         }))
-        if (filters.length)
+        if (options.length)
           setColumns(prev => {
             const newColumns = [...prev]
             const index = newColumns.findIndex(item => item.id === column.id)
-            if (filters.length < 11)
-              newColumns[index].filters = filters.concat({
-                text: <Blank />,
-                value: null,
-              })
-            else
-              newColumns[index].filterDropdown = ({
-                setSelectedKeys, selectedKeys, confirm,
-              }) => <div
-                style={ {
-                  padding: 8,
-                  width: '200px',
-                } }
-                onKeyDown={ (e) => e.stopPropagation() }>
-                <Select<React.Key[]>
-                  options={ filters.map(f => ({
-                    label: f.text,
-                    value: f.value,
-                  })) }
-                  allowClear
-                  showSearch
-                  style={ { width: '100%' } }
-                  placeholder={ `${common.search} ${newColumns[index].title}` }
-                  value={ selectedKeys }
-                  onChange={ v => {
-                    setSelectedKeys(v?.length ? v : [])
-                    confirm()
-                  } }
-                  mode='multiple'
-                  filterOption={ (input, option) => {
-                    if (!input || !option || !option.label) return true
-
-                    input = input.trim()
-
-                    return option.value === input ||
-                    option.label.toString().toLowerCase().includes(input.toLowerCase())
-                  } }
-                />
-              </div>
+            newColumns[index].options = options
+            generateFilterDropdown(newColumns[index])
             return newColumns
           })
       }
