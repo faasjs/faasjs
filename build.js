@@ -44,6 +44,7 @@ async function buildAll() {
     'func',
     'load',
     'http',
+    'test',
     'cloud_function',
     'deployer',
     'request',
