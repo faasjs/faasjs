@@ -34,12 +34,15 @@ async function publishAll() {
 
   for (const name of [
     'browser',
+    'react',
+    'ant-design',
     'logger',
     'deep_merge',
     'ts-transform',
     'func',
     'load',
     'http',
+    'test',
     'cloud_function',
     'deployer',
     'request',

@@ -38,6 +38,7 @@ async function buildAll() {
   for (const name of [
     'browser',
     'react',
+    'ant-design',
     'logger',
     'deep_merge',
     'ts-transform',
