@@ -571,7 +571,7 @@ function FaasDataTable ({
   props: TableProps
   columns: TableItemProps[]
 }) {
-  const [currentColumns, setCurrentColumns] = useState(columns)
+  const [currentColumns, setCurrentColumns] = useState<TableItemProps[]>(columns)
 
   useEffect(() => {
     if (!data || Array.isArray(data)) return
