@@ -3,7 +3,6 @@ const globSync = require('glob').sync
 const promisify = require('util').promisify
 const exec = promisify(require('child_process').exec)
 const version = require('./package.json').version
-const build = require('./build.js').build
 
 async function run(cmd) {
   console.log(cmd)
@@ -14,8 +13,6 @@ async function publish(path) {
   const pkg = require(__dirname + '/' + path)
 
   console.log(pkg.name)
-
-  await build(path, true)
 
   try {
     await run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
@@ -46,6 +43,7 @@ async function publishAll() {
     'cloud_function',
     'deployer',
     'request',
+    'server',
   ]) {
     await publish(`packages/${name}/package.json`)
     list.splice(list.indexOf(`packages/${name}/package.json`), 1)

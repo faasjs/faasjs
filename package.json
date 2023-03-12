@@ -1,13 +1,12 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.3-beta.69",
+  "version": "0.0.3-beta.70",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
-    "pub": "node publish.js",
+    "pub": "node build.js && node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "build": "node build.js",
-    "build:types": "node build-types.js",
     "build:doc": "typedoc",
     "build:docs": "node build-docs.js"
   },
