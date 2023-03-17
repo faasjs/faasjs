@@ -54,8 +54,8 @@ jobs:
         run: |
           npm install -g npm@latest
           npm install
-      # - name: Prepack
-      #   run: npm run build
+      - name: Prepack
+        run: npm run build
       - name: Run Tests
         run: npm run test
       - uses: codecov/codecov-action@v3
