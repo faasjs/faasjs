@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-vue",
-  "version": "0.0.3-beta.70",
+  "version": "0.0.3-beta.71",
   "license": "MIT",
   "main": "index.js",
   "files": [

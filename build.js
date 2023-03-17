@@ -49,6 +49,7 @@ async function buildAll() {
     'cloud_function',
     'deployer',
     'request',
+    'server',
   ]) {
     await build(`packages/${name}/package.json`)
     list.splice(list.indexOf(`packages/${name}/package.json`), 1)

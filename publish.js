@@ -29,26 +29,6 @@ async function publish(path) {
 async function publishAll() {
   const list = globSync('packages/*/package.json')
 
-  for (const name of [
-    'browser',
-    'react',
-    'ant-design',
-    'logger',
-    'deep_merge',
-    'ts-transform',
-    'func',
-    'load',
-    'http',
-    'test',
-    'cloud_function',
-    'deployer',
-    'request',
-    'server',
-  ]) {
-    await publish(`packages/${name}/package.json`)
-    list.splice(list.indexOf(`packages/${name}/package.json`), 1)
-  }
-
   await Promise.all(list.map(publish))
   // for (const item of list) {
   //   await publish(item)
