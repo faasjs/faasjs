@@ -22,6 +22,7 @@ export type {
 export interface FaasDataInjection<Data = any> {
   action: string | any
   params: Record<string, any>
+  setParams: React.Dispatch<React.SetStateAction<any>>
   loading: boolean
   data: Data
   error: any
@@ -39,6 +40,7 @@ export interface FaasDataWrapperProps<PathOrData extends FaasAction> {
   fallback?: JSX.Element | false
   action: string
   params?: FaasParams<PathOrData>
+  setParams?: React.Dispatch<React.SetStateAction<FaasParams<PathOrData>>>
   onDataChange?(args: FaasDataInjection<FaasData<PathOrData>>): void
   /** use custom data, should work with setData */
   data?: FaasData<PathOrData>
@@ -108,6 +110,8 @@ export function FaasReactClient ({
     action: PathOrData | string,
     defaultParams: FaasParams<PathOrData>,
     options?: {
+      params?: FaasParams<PathOrData>
+      setParams?: React.Dispatch<React.SetStateAction<FaasParams<PathOrData>>>
       data?: FaasData<PathOrData>
       setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
       skip?: boolean
@@ -137,7 +141,7 @@ export function FaasReactClient ({
       setLoading(true)
 
       const controller = new AbortController()
-      const request = client.action<PathOrData>(action, params, { signal: controller.signal })
+      const request = client.action<PathOrData>(action, options.params || params, { signal: controller.signal })
       setPromise(request)
 
       request
@@ -163,7 +167,7 @@ export function FaasReactClient ({
       }
     }, [
       action,
-      JSON.stringify(params),
+      JSON.stringify(options.params || params),
       reloadTimes,
       options.skip,
     ])
@@ -171,13 +175,18 @@ export function FaasReactClient ({
     return {
       action,
       params,
+      setParams,
       loading,
       data: options?.data || data,
       error,
       promise,
       async reload (params?: any) {
-        if (params) setParams(params)
+        if (params) {
+          options.setParams ? options.setParams(params) : setParams(params)
+        }
+
         setReloadTimes(reloadTimes + 1)
+
         return promise
       },
       setData: options?.setData || setData,
