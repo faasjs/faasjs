@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.3-beta.71",
+  "version": "0.0.3-beta.72",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
@@ -13,7 +13,7 @@
   "devDependencies": {
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "tsup": "*",
+    "tsup": "5.12.9",
     "typescript": "*"
   },
   "eslintConfig": {

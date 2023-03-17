@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const globSync = require('glob').sync
-const promisify = require('util').promisify
-const exec = promisify(require('child_process').exec)
-const writeFile = promisify(require('fs').writeFile)
+const exec = require('child_process').execSync
+const writeFile = require('fs').writeFileSync
 const version = require('./package.json').version
 
 async function run(cmd) {
@@ -10,7 +9,7 @@ async function run(cmd) {
   await exec(cmd, { stdio: 'inherit' })
 }
 
-async function build(path, dts = false) {
+async function build(path) {
   const pkg = require(__dirname + '/' + path)
   pkg.version = version
   if (pkg.dependencies) {
@@ -55,7 +54,8 @@ async function buildAll() {
     list.splice(list.indexOf(`packages/${name}/package.json`), 1)
   }
 
-  await Promise.all(list.map(f => build(f)))
+  for (const name of list)
+    await build(name)
 }
 
 buildAll()
