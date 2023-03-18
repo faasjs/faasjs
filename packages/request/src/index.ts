@@ -249,7 +249,7 @@ export async function request<T = any> (url: string, {
             resolve(response)
           else {
             logger.debug('response.error %j', response)
-            response.message = `${res.statusCode} ${res.statusMessage}`
+            response.message = `${res.statusCode} ${res.statusMessage} ${url}`
             reject(response)
           }
         })
