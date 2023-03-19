@@ -133,7 +133,7 @@ export function FaasReactClient ({
     }, [JSON.stringify(defaultParams)])
 
     useEffect(function () {
-      if (options?.skip) {
+      if (!action || options?.skip) {
         setLoading(false)
         return
       }
