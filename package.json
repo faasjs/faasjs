@@ -13,7 +13,7 @@
   "devDependencies": {
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "tsup": "5.12.9",
+    "tsup": "6.7.0",
     "typescript": "*"
   },
   "eslintConfig": {
