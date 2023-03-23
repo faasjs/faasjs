@@ -646,6 +646,7 @@ function FaasDataTable ({
           pagination: processed.pagination,
           filters: processed.filters,
           sorter: processed.sorter,
+          extra: processed.extra,
         })
         return
       }
