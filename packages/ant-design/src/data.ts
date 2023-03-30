@@ -32,7 +32,7 @@ export type BaseOption = string | number | {
 }
 
 export interface BaseItemProps {
-  id: string | number
+  id: string
   title?: string
   options?: BaseOption[]
 }

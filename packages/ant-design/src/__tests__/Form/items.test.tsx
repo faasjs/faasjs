@@ -28,7 +28,7 @@ describe('Form/items', () => {
       </Form.Item>
       <Form.List name='list'>
         {(fields) => fields.map((field) => <Form.Item
-          id={ field.key }
+          id={ field.key.toString() }
           key={ field.key }
           { ...field }
         >
