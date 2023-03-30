@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
-    "pub": "node build.js && node publish.js",
+    "pub": "node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "build": "node build.js",
     "build:doc": "typedoc",
