@@ -28,11 +28,11 @@ export type FaasItemTypeValue = {
 
 export type BaseOption = string | number | {
   label: string
-  value?: string | number
+  value?: any
 }
 
 export interface BaseItemProps {
-  id: string
+  id: string | number
   title?: string
   options?: BaseOption[]
 }

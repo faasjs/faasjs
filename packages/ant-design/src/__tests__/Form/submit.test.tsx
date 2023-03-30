@@ -2,9 +2,7 @@
  * @jest-environment jsdom
  */
 import { FaasReactClient } from '@faasjs/react'
-import {
-  render, screen, waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../Form'
 
@@ -51,9 +49,7 @@ describe('Form/submit', () => {
       } }
     />)
 
-    userEvent.click(screen.getByText('Submit'))
-
-    await waitFor(() => expect(values).toBeDefined())
+    await userEvent.click(screen.getByText('Submit'))
 
     expect(values).toEqual({
       id: 'initialValues',
@@ -93,9 +89,7 @@ describe('Form/submit', () => {
       } }
     />)
 
-    userEvent.click(screen.getByText('Submit'))
-
-    await waitFor(() => expect(values).toBeDefined())
+    await userEvent.click(screen.getByText('Submit'))
 
     expect(values).toEqual({
       id: 'initialValues',
