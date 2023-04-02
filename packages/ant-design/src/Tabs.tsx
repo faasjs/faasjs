@@ -1,6 +1,5 @@
 import { Tabs as Origin, TabsProps as OriginProps } from 'antd'
 import type { Tab as OriginTabProps } from 'rc-tabs/es/interface'
-import { useEffect, useState } from 'react'
 
 export interface TabProps extends Partial<OriginTabProps> {
   id: string
@@ -19,18 +18,12 @@ export interface TabsProps extends Omit<OriginProps, 'items'> {
  * @ref https://ant.design/components/tabs/
  */
 export function Tabs (props: TabsProps) {
-  const [items, setItems] = useState<OriginTabProps[]>([])
-
-  useEffect(() => {
-    setItems(props.items.filter(Boolean).map(item => ({
-      ...item,
-      key: item.id,
-      label: item.title || item.id,
-    })))
-  }, [props.items.filter(Boolean).map(i => i.id).join('')])
-
   return <Origin
     { ...props }
-    items={ items }
+    items={ props.items.filter(Boolean).map(i => ({
+      ...i,
+      key: i.key || i.id,
+      label: i.label || i.title || i.id,
+    })) }
   />
 }
