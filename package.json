@@ -4,9 +4,9 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
-    "pub": "node build.js && node publish.js",
+    "pub": "turbo build && node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
-    "build": "node build.js",
+    "build": "turbo build",
     "build:doc": "typedoc",
     "build:docs": "node build-docs.js"
   },
@@ -14,7 +14,8 @@
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
     "tsup": "5.12.9",
-    "typescript": "*"
+    "typescript": "*",
+    "turbo": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [
