@@ -16,3 +16,4 @@ dist
 .swc
 docs/doc
 bun.lockb
+.turbo
