@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const globSync = require('glob').sync
-const promisify = require('util').promisify
-const exec = promisify(require('child_process').exec)
+const exec = require('child_process').execSync
+const writeFile = require('fs').writeFileSync
 const version = require('./package.json').version
 
 async function run(cmd) {
@@ -13,6 +13,21 @@ async function publish(path) {
   const pkg = require(__dirname + '/' + path)
 
   console.log(pkg.name)
+
+  pkg.version = version
+  if (pkg.dependencies) {
+    for (const name of Object.keys(pkg.dependencies)) {
+      if (name.startsWith('@faasjs/'))
+        pkg.dependencies[name] = '^' + version
+    }
+  }
+  if (pkg.devDependencies) {
+    for (const name of Object.keys(pkg.devDependencies)) {
+      if (name.startsWith('@faasjs/'))
+        pkg.devDependencies[name] = '^' + version
+    }
+  }
+  await writeFile(path, JSON.stringify(pkg, null, 2) + '\n')
 
   try {
     await run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
