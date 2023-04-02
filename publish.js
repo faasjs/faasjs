@@ -29,10 +29,10 @@ async function publish(path) {
 async function publishAll() {
   const list = globSync('packages/*/package.json')
 
-  await Promise.all(list.map(publish))
-  // for (const item of list) {
-  //   await publish(item)
-  // }
+  // await Promise.all(list.map(publish))
+  for (const item of list) {
+    await publish(item)
+  }
   await run(`git commit -am 'release ${version}'`)
   await run(`git tag v${version}`)
   await run('git push && git push --tags')
