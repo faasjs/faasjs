@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 describe('Description/items', () => {
   it('should work', function () {
     render(<Description
-      items={ [{ id: 'test' }] }
+      items={ [{ id: 'test' }, null] }
       dataSource={ { test: 'value' } }
     />)
 
