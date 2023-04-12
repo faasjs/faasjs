@@ -187,19 +187,18 @@ export function Description<T = any> (props: DescriptionProps<T>) {
       title={ isFunction(props.renderTitle) ? props.renderTitle(props.dataSource) : props.title }
     >
       {
-        props.items.map(item => {
-          return !item.if || item.if(props.dataSource) ? (
-            <Descriptions.Item
-              key={ item.id }
-              label={ item.title || upperFirst(item.id) }>
-              <DescriptionItemContent
-                item={ item }
-                value={ (props.dataSource as Record<string, any>)[item.id] }
-                values={ props.dataSource }
-                extendTypes={ props.extendTypes }
-              />
-            </Descriptions.Item>
-          ) : null}).filter(Boolean)
+        props.items.map(item => ((item && (!item.if || item.if(props.dataSource))) ? (
+          <Descriptions.Item
+            key={ item.id }
+            label={ item.title || upperFirst(item.id) }>
+            <DescriptionItemContent
+              item={ item }
+              value={ (props.dataSource as Record<string, any>)[item.id] }
+              values={ props.dataSource }
+              extendTypes={ props.extendTypes }
+            />
+          </Descriptions.Item>
+        ) : null)).filter(Boolean)
       }
     </Descriptions>
 
