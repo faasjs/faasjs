@@ -10,8 +10,9 @@ import {
   useState, useEffect, createElement, cloneElement,
 } from 'react'
 
+export { FaasBrowserClient }
+
 export type {
-  FaasBrowserClient,
   Options, Response, ResponseHeaders, ResponseError,
   FaasAction, FaasData, FaasParams
 }

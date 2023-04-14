@@ -47,9 +47,9 @@ jest.mock('cluster', function () {
   return {
     fork: function () {
       return {
-        on: function (event: string, hanlder: (...args: any) => void) {
-          if (event === 'exit') hanlder()
-          if (event === 'message' && triggerMessage) hanlder(triggerMessage)
+        on: function (event: string, handler: (...args: any) => void) {
+          if (event === 'exit') handler()
+          if (event === 'message' && triggerMessage) handler(triggerMessage)
         }
       }
     }
@@ -62,14 +62,14 @@ jest.mock('@faasjs/request', function () {
   }
 })
 
-let deployeds: string[] = []
+let deploys: string[] = []
 let deployPass = true
 
 jest.mock('@faasjs/deployer', function () {
   return {
     Deployer: class Deployer {
       constructor (data: any) {
-        deployeds.push(data.filename)
+        deploys.push(data.filename)
       }
       deploy () {
         if (!deployPass) throw Error('deployPass')
@@ -83,7 +83,7 @@ describe('deploy', function () {
     logs = []
     warns = []
     errors = []
-    deployeds = []
+    deploys = []
     deployPass = true
     messages = []
     delete process.env.FaasDeployFiles
@@ -110,7 +110,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 1，失败自动重试 0 次)',
-        [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'],
+        [__dirname + '/funcs/b.func.ts', __dirname + '/funcs/a.func.ts'],
         '',
         '开始发布'
       ])
@@ -132,7 +132,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
-        [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'],
+        [__dirname + '/funcs/b.func.ts', __dirname + '/funcs/a.func.ts'],
         '',
         '开始发布'
       ])
@@ -163,7 +163,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
-        [__dirname + '/funcs/a.func.ts', __dirname + '/funcs/b.func.ts'],
+        [__dirname + '/funcs/b.func.ts', __dirname + '/funcs/a.func.ts'],
         '',
         '开始发布'
       ])
