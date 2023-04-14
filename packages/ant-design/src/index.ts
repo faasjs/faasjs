@@ -1,3 +1,5 @@
+export { faas, useFaas } from '@faasjs/react'
+
 export * from './App'
 export * from './Blank'
 export * from './Config'
