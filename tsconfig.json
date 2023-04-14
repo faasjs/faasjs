@@ -3,6 +3,7 @@
     "declaration": true,
     "declarationMap": true,
     "strict": true,
+    "skipLibCheck": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
     "strictNullChecks": false,
@@ -12,7 +13,7 @@
     "module": "ESNext",
     "baseUrl": ".",
     "paths": {
-      "@faasjs/*": ["./packages/*"]
+      "@faasjs/*": ["./packages/*/src"]
     }
   }
 }

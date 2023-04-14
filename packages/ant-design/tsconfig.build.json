@@ -12,5 +12,9 @@
     "target": "es2017",
     "moduleResolution": "node",
     "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@faasjs/*": ["./packages/*"]
+    }
   }
 }
