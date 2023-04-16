@@ -145,13 +145,20 @@ export async function request<T = any> (url: string, {
   if (!logger)
     logger = new Logger('request')
 
-  if (mock)
+  if (mock) {
+    logger.debug('mock %s %j', url, {
+      headers,
+      method,
+      query,
+      body
+    })
     return mock(url, {
       headers,
       method,
       query,
       body
     })
+  }
 
   if (query) {
     if (!url.includes('?'))
