@@ -45,6 +45,11 @@ export class Logger {
   public level: number
   public colorfyOutput: boolean = true
   public label?: string
+  /**
+   * size of log message, default 1000, set 0 to disable
+   *
+   * env: FaasLogSize
+   */
   public size?: number
   public stdout: (text: string) => void
   public stderr: (text: string) => void
@@ -68,7 +73,7 @@ export class Logger {
 
     this.cachedTimers = {}
 
-    this.size = 1000
+    this.size = process.env.FaasLogSize ? Number(process.env.FaasLogSize) : 1000
 
     this.stdout = console.log
     this.stderr = console.error
@@ -188,7 +193,7 @@ export class Logger {
 
     if (!output) return this
 
-    if (output.length > this.size && !['error', 'warn'].includes(level))
+    if (this.size > 0 && output.length > this.size && !['error', 'warn'].includes(level))
       output = output.slice(0, this.size - 100) + '...' + output.slice(output.length - 100)
 
     if (level === 'error')
