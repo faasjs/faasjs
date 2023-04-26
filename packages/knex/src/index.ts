@@ -97,6 +97,9 @@ export class Knex implements Plugin {
         acquireTimeoutMillis: 5000,
         idleTimeoutMillis: 30000,
       }, this.config.pool)
+
+      if (typeof this.config.connection === 'string' && !this.config.connection.includes('json=true'))
+        this.config.connection = this.config.connection + '?json=true'
     }
 
     this.adapter = knex(this.config)
