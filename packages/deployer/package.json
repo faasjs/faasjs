@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/deployer",
-  "version": "0.0.3-beta.78",
+  "version": "0.0.3-beta.79",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,9 +21,9 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/cloud_function": "^0.0.3-beta.78",
-    "@faasjs/func": "^0.0.3-beta.78",
-    "@faasjs/logger": "^0.0.3-beta.78"
+    "@faasjs/cloud_function": "^0.0.3-beta.79",
+    "@faasjs/func": "^0.0.3-beta.79",
+    "@faasjs/logger": "^0.0.3-beta.79"
   },
   "engines": {
     "npm": ">=8.0.0",
