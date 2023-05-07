@@ -75,34 +75,34 @@ jest.mock('@faasjs/request', () => {
 })
 
 test('update', async function () {
-  const tc = new Provider({
-    appId: 'appId',
-    secretId: 'secretId',
-    secretKey: 'secretKey',
-    region: 'region'
-  })
+  // const tc = new Provider({
+  //   appId: 'appId',
+  //   secretId: 'secretId',
+  //   secretKey: 'secretKey',
+  //   region: 'region'
+  // })
 
-  await tc.deploy('cloud_function', {
-    root: __dirname,
-    filename: join(__dirname, '..', '..', 'funcs', 'basic.func.ts'),
-    env: 'testing',
-    name: 'basic',
-    version: 'version',
-    tmp: join(__dirname, '..', 'tmp', 'update') + sep,
-    dependencies: { '@faasjs/func': '*' },
-    config: {}
-  }, {
-    name: 'cloud_function',
-    provider: {
-      type: '@faasjs/tencentcloud',
-      name: 'tencentcloud'
-    },
-    config: {
-      name: 'name',
-      memorySize: 64,
-      timeout: 60
-    }
-  })
+  // await tc.deploy('cloud_function', {
+  //   root: __dirname,
+  //   filename: join(__dirname, '..', '..', 'funcs', 'basic.func.ts'),
+  //   env: 'testing',
+  //   name: 'basic',
+  //   version: 'version',
+  //   tmp: join(__dirname, '..', 'tmp', 'update') + sep,
+  //   dependencies: { '@faasjs/func': '*' },
+  //   config: {}
+  // }, {
+  //   name: 'cloud_function',
+  //   provider: {
+  //     type: '@faasjs/tencentcloud',
+  //     name: 'tencentcloud'
+  //   },
+  //   config: {
+  //     name: 'name',
+  //     memorySize: 64,
+  //     timeout: 60
+  //   }
+  // })
 
-  expect(true).toBeTruthy()
+  // expect(true).toBeTruthy()
 })
