@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.3-beta.79",
+  "version": "0.0.3-beta.80",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
