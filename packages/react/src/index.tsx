@@ -123,6 +123,7 @@ export function FaasReactClient ({
     const [promise, setPromise] = useState<Promise<Response<FaasData<PathOrData>>>>()
     const [params, setParams] = useState(defaultParams)
     const [reloadTimes, setReloadTimes] = useState(0)
+    const [fails, setFails] = useState(0)
 
     useEffect(function () {
       if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
@@ -139,25 +140,36 @@ export function FaasReactClient ({
       setLoading(true)
 
       const controller = new AbortController()
-      const request = client.action<PathOrData>(action, options.params || params, { signal: controller.signal })
-      setPromise(request)
 
-      request
-        .then(r => (options?.setData ? options.setData(r.data) : setData(r.data)))
-        .catch(async e => {
-          if (e?.message === 'The user aborted a request.') return
+      function send () {
+        const request = client.action<PathOrData>(action, options.params || params, { signal: controller.signal })
+        setPromise(request)
 
-          if (onError)
-            try {
-              await onError(action as string, params)(e)
-            } catch (error) {
-              setError(error)
+        request
+          .then(r => (options?.setData ? options.setData(r.data) : setData(r.data)))
+          .catch(async e => {
+            if (e?.message === 'The user aborted a request.') return
+
+            if (!fails) {
+              console.warn(`FaasReactClient: ${e.message} retry...`)
+              setFails(1)
+              return send()
             }
-          else
-            setError(e)
-          return Promise.reject(e)
-        })
-        .finally(() => setLoading(false))
+
+            if (onError)
+              try {
+                await onError(action as string, params)(e)
+              } catch (error) {
+                setError(error)
+              }
+            else
+              setError(e)
+            return Promise.reject(e)
+          })
+          .finally(() => setLoading(false))
+      }
+
+      send()
 
       return () => {
         controller.abort()
