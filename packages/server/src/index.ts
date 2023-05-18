@@ -102,7 +102,7 @@ export class Server {
     servers.push(this)
   }
 
-  public async processRequest (req: IncomingMessage, res: ServerResponse & {
+  public async processRequest (path: string, req: IncomingMessage, res: ServerResponse & {
     statusCode: number
     write: (body: string | Buffer) => void
     end: () => void
@@ -128,23 +128,12 @@ export class Server {
           'X-FaasJS-Request-Id': requestId
         }
 
-        if (req.method === 'OPTIONS') {
-          headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-          res.writeHead(204, headers)
-          res.end()
-          resolve()
-          return
-        }
-
         // get and remove accept-encoding to avoid http module compression
         const encoding = req.headers['accept-encoding'] || ''
         delete req.headers['accept-encoding']
 
         let data
         try {
-          // 提取 path
-          const path = join(this.root, req.url).replace(/\?.*/, '')
-
           let cache: Cache = {}
 
           if (this.opts.cache && this.cachedFuncs[path] && (this.cachedFuncs[path].handler)) {
@@ -267,35 +256,79 @@ export class Server {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
 
-    this.server = createServer(this.opts.cache
-      ? this.processRequest.bind(this)
-      : async (req, res) => {
-        // don't lock options request
-        if (req.method === 'OPTIONS') {
-          res.writeHead(204, {
-            'Access-Control-Allow-Origin': req.headers.origin || '*',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Methods': 'OPTIONS, POST',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-          })
-          res.end()
+    type Mounted = {
+      mounted: boolean
+      pending: [IncomingMessage, ServerResponse<IncomingMessage>][]
+    }
+
+    const mounted: Record<string, Mounted> = {}
+
+    this.server = createServer(async (req, res) => {
+      // don't lock options request
+      if (req.method === 'OPTIONS') {
+        res.writeHead(204, {
+          'Access-Control-Allow-Origin': req.headers.origin || '*',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Methods': 'OPTIONS, POST',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        })
+        res.end()
+        return
+      }
+
+      const path = join(this.root, req.url).replace(/\?.*/, '')
+
+      if (this.opts.cache) {
+        if (!mounted[path]) {
+          mounted[path] = {
+            mounted: false,
+            pending: [],
+          } as Mounted
+
+          await this.processRequest(path, req, res)
+
+          mounted[path].mounted = true
+
+          if (mounted[path].pending.length) {
+            const pending = mounted[path].pending
+            mounted[path].pending = []
+            for (const event of pending)
+              await this.processRequest(path, event[0], event[1])
+          }
           return
         }
-        if (!self.processing) {
-          self.processing = true
-          await self.processRequest(req, res)
-          self.processing = false
-        } else {
-          const timer = setInterval(async () => {
-            if (!self.processing) {
-              self.processing = true
-              clearInterval(timer)
-              await self.processRequest(req, res)
-              self.processing = false
-            }
-          })
+
+        if (!mounted[path].mounted) {
+          mounted[path].pending.push([req, res])
+          return
         }
-      })
+
+        mounted[path].pending.push([req, res])
+
+        if (mounted[path].pending.length) {
+          const pending = mounted[path].pending
+          mounted[path].pending = []
+          for (const event of pending)
+            await this.processRequest(path, event[0], event[1])
+        }
+        return
+      }
+
+      if (!self.processing) {
+        self.processing = true
+        await self.processRequest(path, req, res)
+        self.processing = false
+      } else {
+        const timer = setInterval(async () => {
+          if (!self.processing) {
+            self.processing = true
+            clearInterval(timer)
+            await self.processRequest(path, req, res)
+            self.processing = false
+          }
+        })
+      }
+    })
       .on('connection', (socket) => {
         self.sockets.add(socket)
         socket.on('close', () => {
