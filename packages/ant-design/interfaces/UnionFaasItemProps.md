@@ -320,7 +320,9 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 **`Default`**
 
+```ts
 'string'
+```
 
 #### Inherited from
 

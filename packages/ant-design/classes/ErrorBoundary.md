@@ -63,11 +63,11 @@ ___
 
 ### render
 
-▸ **render**(): `string` \| `number` \| `boolean` \| `Element` \| `ReactFragment`
+▸ **render**(): `string` \| `number` \| `boolean` \| `ReactFragment` \| `Element`
 
 #### Returns
 
-`string` \| `number` \| `boolean` \| `Element` \| `ReactFragment`
+`string` \| `number` \| `boolean` \| `ReactFragment` \| `Element`
 
 #### Overrides
 

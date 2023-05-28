@@ -68,7 +68,9 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [LinkProps](interfaces/LinkProps.md)
 - [ModalProps](interfaces/ModalProps.md)
 - [RoutesProps](interfaces/RoutesProps.md)
+- [TabProps](interfaces/TabProps.md)
 - [TableItemProps](interfaces/TableItemProps.md)
+- [TabsProps](interfaces/TabsProps.md)
 - [TitleProps](interfaces/TitleProps.md)
 - [UnionFaasItemProps](interfaces/UnionFaasItemProps.md)
 - [useAppProps](interfaces/useAppProps.md)
@@ -113,19 +115,22 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [PageNotFound](#pagenotfound)
 - [Routes](#routes)
 - [Table](#table)
+- [Tabs](#tabs)
 - [Title](#title)
+- [faas](#faas)
 - [transferOptions](#transferoptions)
 - [transferValue](#transfervalue)
 - [useApp](#useapp)
 - [useConfigContext](#useconfigcontext)
 - [useDrawer](#usedrawer)
+- [useFaas](#usefaas)
 - [useModal](#usemodal)
 
 ## Type Aliases
 
 ### BaseOption
 
-Ƭ **BaseOption**: `string` \| `number` \| { `label`: `string` ; `value?`: `string` \| `number`  }
+Ƭ **BaseOption**: `string` \| `number` \| { `label`: `string` ; `value?`: `any`  }
 
 ___
 
@@ -323,7 +328,7 @@ ___
 
 ### UnionFaasItemRender
 
-Ƭ **UnionFaasItemRender**<`Value`, `Values`\>: (`value`: `Value`, `values`: `Values`, `index`: `number`, `scene`: [`UnionScene`](#unionscene)) => `JSX.Element` \| ``null``
+Ƭ **UnionFaasItemRender**<`Value`, `Values`\>: (`value`: `Value`, `values`: `Values`, `index`: `number`, `scene`: [`UnionScene`](#unionscene)) => `React.ReactNode`
 
 #### Type parameters
 
@@ -334,7 +339,7 @@ ___
 
 #### Type declaration
 
-▸ (`value`, `values`, `index`, `scene`): `JSX.Element` \| ``null``
+▸ (`value`, `values`, `index`, `scene`): `React.ReactNode`
 
 ##### Parameters
 
@@ -347,7 +352,7 @@ ___
 
 ##### Returns
 
-`JSX.Element` \| ``null``
+`React.ReactNode`
 
 ___
 
@@ -720,6 +725,28 @@ https://ant.design/components/table/
 
 ___
 
+### Tabs
+
+▸ **Tabs**(`props`): `Element`
+
+Tabs component with Ant Design & FaasJS
+
+**`Ref`**
+
+https://ant.design/components/tabs/
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`TabsProps`](interfaces/TabsProps.md) |
+
+#### Returns
+
+`Element`
+
+___
+
 ### Title
 
 ▸ **Title**(`props`): `JSX.Element`
@@ -749,6 +776,37 @@ Return null by default.
 #### Returns
 
 `JSX.Element`
+
+___
+
+### faas
+
+▸ **faas**<`PathOrData`\>(`action`, `params`): `Promise`<`Response`<`FaasData`<`PathOrData`\>\>\>
+
+Request faas server
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `Record`<`string`, `any`\> |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action` | `string` \| `PathOrData` | {string} action name |
+| `params` | `FaasParams`<`PathOrData`\> | {object} action params |
+
+#### Returns
+
+`Promise`<`Response`<`FaasData`<`PathOrData`\>\>\>
+
+```ts
+faas<{ title: string }>('post/get', { id: 1 }).then(res => {
+  console.log(res.data.title)
+})
+```
 
 ___
 
@@ -828,6 +886,42 @@ Hook style drawer.
 | `drawer` | `Element` |
 | `drawerProps` | [`DrawerProps`](interfaces/DrawerProps.md) |
 | `setDrawerProps` | (`changes`: `Partial`<[`DrawerProps`](interfaces/DrawerProps.md)\>) => `void` |
+
+___
+
+### useFaas
+
+▸ **useFaas**<`PathOrData`\>(`action`, `defaultParams`, `options?`): `FaasDataInjection`<`FaasData`<`PathOrData`\>\>
+
+Request faas server with React hook
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `Record`<`string`, `any`\> |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action` | `string` \| `PathOrData` | {string} action name |
+| `defaultParams` | `FaasParams`<`PathOrData`\> | {object} initial action params |
+| `options?` | `Object` | - |
+| `options.data?` | `FaasData`<`PathOrData`\> | - |
+| `options.setData?` | `Dispatch`<`SetStateAction`<`FaasData`<`PathOrData`\>\>\> | - |
+| `options.skip?` | `boolean` | - |
+
+#### Returns
+
+`FaasDataInjection`<`FaasData`<`PathOrData`\>\>
+
+```ts
+function Post ({ id }) {
+  const { data } = useFaas<{ title: string }>('post/get', { id })
+  return <h1>{data.title}</h1>
+}
+```
 
 ___
 

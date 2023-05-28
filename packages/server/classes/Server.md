@@ -95,12 +95,13 @@ ___
 
 ### processRequest
 
-▸ **processRequest**(`req`, `res`): `Promise`<`void`\>
+▸ **processRequest**(`path`, `req`, `res`): `Promise`<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
+| `path` | `string` |
 | `req` | `IncomingMessage` |
 | `res` | `ServerResponse`<`IncomingMessage`\> & { `end`: () => `void` ; `setHeader`: (`key`: `string`, `value`: `string`) => `void` ; `statusCode`: `number` ; `write`: (`body`: `string` \| `Buffer`) => `void`  } |
 
