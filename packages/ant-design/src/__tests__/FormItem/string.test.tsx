@@ -20,9 +20,9 @@ describe('FormItem string', () => {
       ] }
     />)
 
-    expect(container.getElementsByClassName('ant-select-selector').length).toEqual(1)
+    expect(container.getElementsByClassName('ant-radio-input').length).toEqual(1)
 
-    await user.click(container.getElementsByClassName('ant-select-selector')[0])
+    await user.click(container.getElementsByClassName('ant-radio-input')[0])
 
     expect(await screen.findByText('label')).toBeInTheDocument()
   })

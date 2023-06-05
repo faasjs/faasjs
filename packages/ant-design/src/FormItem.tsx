@@ -209,7 +209,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
         return <AntdForm.Item { ...computedProps }>
           {computedProps.options.length > 10 ?
             <Select { ...computedProps.input as SelectProps } />
-            : <Radio { ...computedProps.input as RadioProps } />}
+            : <Radio.Group { ...computedProps.input as RadioProps } />}
         </AntdForm.Item>
 
       return <AntdForm.Item { ...computedProps }>
@@ -277,7 +277,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
         return <AntdForm.Item { ...computedProps }>
           {computedProps.options.length > 10 ?
             <Select { ...computedProps.input as SelectProps } />
-            : <Radio { ...computedProps.input as RadioProps } />}
+            : <Radio.Group { ...computedProps.input as RadioProps } />}
         </AntdForm.Item>
 
       return <AntdForm.Item { ...computedProps }>
