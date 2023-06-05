@@ -16,7 +16,9 @@ import {
   DatePickerProps,
   TimePicker,
   TimePickerProps,
-  FormInstance
+  FormInstance,
+  Radio,
+  RadioProps,
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import type {
@@ -203,10 +205,15 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
 
   switch (computedProps.type) {
     case 'string':
+      if ((computedProps as OptionsProps).options)
+        return <AntdForm.Item { ...computedProps }>
+          {computedProps.options.length > 10 ?
+            <Select { ...computedProps.input as SelectProps } />
+            : <Radio { ...computedProps.input as RadioProps } />}
+        </AntdForm.Item>
+
       return <AntdForm.Item { ...computedProps }>
-        {(computedProps as OptionsProps).options ?
-          <Select { ...computedProps.input as SelectProps } /> :
-          <Input { ...computedProps.input as InputProps } />}
+        <Input { ...computedProps.input as InputProps } />
       </AntdForm.Item>
     case 'string[]':
       if ((computedProps as OptionsProps).options)
@@ -266,12 +273,18 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
         </>}
       </AntdForm.List>
     case 'number':
+      if ((computedProps as OptionsProps).options)
+        return <AntdForm.Item { ...computedProps }>
+          {computedProps.options.length > 10 ?
+            <Select { ...computedProps.input as SelectProps } />
+            : <Radio { ...computedProps.input as RadioProps } />}
+        </AntdForm.Item>
+
       return <AntdForm.Item { ...computedProps }>
-        {(computedProps as OptionsProps).options ?
-          <Select { ...computedProps.input as SelectProps } /> :
-          <InputNumber
-            style={ { width: '100%' } }
-            { ...computedProps.input as InputNumberProps } />}
+        <InputNumber
+          style={ { width: '100%' } }
+          { ...computedProps.input as InputNumberProps }
+        />
       </AntdForm.Item>
     case 'number[]':
       if ((computedProps as OptionsProps).options)
