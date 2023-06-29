@@ -192,6 +192,10 @@ export class Http<TParams extends Record<string, any> = any,
         data.logger.debug('[onInvoke] Parse params from raw body')
         this.params = data.event.body || Object.create(null)
       }
+
+      if (this.params && typeof this.params === 'object' && this.params['_'])
+        delete this.params['_']
+
       data.logger.debug('[onInvoke] Params: %j', this.params)
     }
 

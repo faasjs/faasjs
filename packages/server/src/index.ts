@@ -111,7 +111,8 @@ export class Server {
     this.logger.info('Process %s %s', req.method, req.url)
 
     return await new Promise((resolve) => {
-      const requestId = randomBytes(16).toString('hex')
+      const requestId = req.headers['X-FaasJS-Request-Id'] as string || ('F-' + randomBytes(16).toString('hex'))
+
       let body = ''
 
       req.on('readable', function () {

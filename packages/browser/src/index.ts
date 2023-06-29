@@ -129,7 +129,9 @@ export class FaasBrowserClient {
   ): Promise<Response<FaasData<PathOrData>>> {
     if (!action) throw Error('[FaasJS] action required')
 
-    const url = this.host + (action as string).toLowerCase() + '?_=' + Date.now().toString()
+    const id = 'F-' + Date.now().toString(36) + Math.random().toString(36).substring(2)
+
+    const url = this.host + (action as string).toLowerCase() + '?_=' + id
 
     if (!params) params = Object.create(null)
     if (!options) options = Object.create(null)
@@ -143,6 +145,8 @@ export class FaasBrowserClient {
       ...this.defaultOptions,
       ...options
     }
+
+    if (!options.headers['X-FaasJS-Request-Id']) options.headers['X-FaasJS-Request-Id'] = id
 
     if (options.beforeRequest)
       await options.beforeRequest({
@@ -166,7 +170,7 @@ export class FaasBrowserClient {
             if (!res)
               return new Response({
                 status: response.status,
-                headers
+                headers,
               })
             else {
               const body = JSON.parse(res)
