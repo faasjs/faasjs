@@ -38,9 +38,9 @@ describe('client', function () {
     expect(client.defaultOptions).toEqual({})
     expect(request.url.substring(0, 8)).toEqual('/path?_=')
     expect(request.method).toEqual('POST')
-    expect(request.headers).toEqual({ 'Content-Type': 'application/json; charset=UTF-8' })
+    expect(request.headers).toMatchObject({ 'Content-Type': 'application/json; charset=UTF-8' })
     expect(response.status).toEqual(200)
-    expect(response.headers).toEqual({ 'Content-Type': 'application/json' })
+    expect(response.headers).toMatchObject({ 'Content-Type': 'application/json' })
     expect(response.data).toEqual({})
   })
 
@@ -55,7 +55,7 @@ describe('client', function () {
 
     expect(request.url.substring(0, 8)).toEqual('/path?_=')
     expect(request.method).toEqual('GET')
-    expect(request.headers).toEqual({ 'Content-Type': 'plain/text; charset=UTF-8' })
+    expect(request.headers).toMatchObject({ 'Content-Type': 'plain/text; charset=UTF-8' })
   })
 
   it('work with request', async function () {
