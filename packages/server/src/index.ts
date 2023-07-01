@@ -271,7 +271,7 @@ export class Server {
           'Access-Control-Allow-Origin': req.headers.origin || '*',
           'Access-Control-Allow-Credentials': 'true',
           'Access-Control-Allow-Methods': 'OPTIONS, POST',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-FaasJS-Request-Id',
         })
         res.end()
         return
