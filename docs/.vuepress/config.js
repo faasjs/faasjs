@@ -1,5 +1,6 @@
 import { viteBundler, defaultTheme, defineUserConfig } from 'vuepress'
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
+import { searchPlugin } from '@vuepress/plugin-search'
 
 export default defineUserConfig({
   lang: 'en',
@@ -281,5 +282,6 @@ export default defineUserConfig({
     googleAnalyticsPlugin({
       'id': 'UA-143006612-1'
     }),
+    searchPlugin(),
   ]
 })
