@@ -2,6 +2,10 @@
 
 ## Beta
 
+[`v0.0.3-beta.86 (2023-07-19)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.85...v0.0.3-beta.86)
+
+- `@faasjs/eslint-config-recommended`
+  - [Feature] Add more rules.
 
 [`v0.0.3-beta.83 (2023-06-05)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.82...v0.0.3-beta.83)
 

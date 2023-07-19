@@ -16,11 +16,11 @@
 
 ### ErrorList
 
-• **ErrorList**: (`__namedParameters`: `ErrorListProps`) => `JSX.Element`
+• **ErrorList**: (`__namedParameters`: `ErrorListProps`) => `React.JSX.Element`
 
 #### Type declaration
 
-▸ (`«destructured»`): `JSX.Element`
+▸ (`«destructured»`): `React.JSX.Element`
 
 ##### Parameters
 
@@ -30,7 +30,7 @@
 
 ##### Returns
 
-`JSX.Element`
+`React.JSX.Element`
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 ### useWatch
 
-• **useWatch**: <TDependencies1, TForm, TDependencies2, TDependencies3, TDependencies4\>(`dependencies`: [`TDependencies1`, `TDependencies2`, `TDependencies3`, `TDependencies4`], `form?`: `TForm`) => `GetGeneric`<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`][`TDependencies4`]<TDependencies1, TForm, TDependencies2, TDependencies3\>(`dependencies`: [`TDependencies1`, `TDependencies2`, `TDependencies3`], `form?`: `TForm`) => `GetGeneric`<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`]<TDependencies1, TForm, TDependencies2\>(`dependencies`: [`TDependencies1`, `TDependencies2`], `form?`: `TForm`) => `GetGeneric`<`TForm`\>[`TDependencies1`][`TDependencies2`]<TDependencies, TForm\>(`dependencies`: `TDependencies` \| [`TDependencies`], `form?`: `TForm`) => `GetGeneric`<`TForm`\>[`TDependencies`]<TForm\>(`dependencies`: [], `form?`: `TForm`) => `GetGeneric`<`TForm`\><TForm\>(`dependencies`: `NamePath`, `form?`: `TForm`) => `any`<ValueType\>(`dependencies`: `NamePath`, `form?`: `FormInstance`<`any`\>) => `ValueType`
+• **useWatch**: <TDependencies1, TForm, TDependencies2, TDependencies3, TDependencies4\>(`dependencies`: [`TDependencies1`, `TDependencies2`, `TDependencies3`, `TDependencies4`], `form?`: `TForm` \| `WatchOptions`<`TForm`\>) => `GetGeneric`<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`][`TDependencies4`]<TDependencies1, TForm, TDependencies2, TDependencies3\>(`dependencies`: [`TDependencies1`, `TDependencies2`, `TDependencies3`], `form?`: `TForm` \| `WatchOptions`<`TForm`\>) => `GetGeneric`<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`]<TDependencies1, TForm, TDependencies2\>(`dependencies`: [`TDependencies1`, `TDependencies2`], `form?`: `TForm` \| `WatchOptions`<`TForm`\>) => `GetGeneric`<`TForm`\>[`TDependencies1`][`TDependencies2`]<TDependencies, TForm\>(`dependencies`: `TDependencies` \| [`TDependencies`], `form?`: `TForm` \| `WatchOptions`<`TForm`\>) => `GetGeneric`<`TForm`\>[`TDependencies`]<TForm\>(`dependencies`: [], `form?`: `TForm` \| `WatchOptions`<`TForm`\>) => `GetGeneric`<`TForm`\><TForm\>(`dependencies`: `NamePath`, `form?`: `TForm` \| `WatchOptions`<`TForm`\>) => `any`<ValueType\>(`dependencies`: `NamePath`, `form?`: `FormInstance`<`any`\> \| `WatchOptions`<`FormInstance`<`any`\>\>) => `ValueType`
 
 #### Type declaration
 
@@ -121,7 +121,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | [`TDependencies1`, `TDependencies2`, `TDependencies3`, `TDependencies4`] |
-| `form?` | `TForm` |
+| `form?` | `TForm` \| `WatchOptions`<`TForm`\> |
 
 ##### Returns
 
@@ -143,7 +143,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | [`TDependencies1`, `TDependencies2`, `TDependencies3`] |
-| `form?` | `TForm` |
+| `form?` | `TForm` \| `WatchOptions`<`TForm`\> |
 
 ##### Returns
 
@@ -164,7 +164,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | [`TDependencies1`, `TDependencies2`] |
-| `form?` | `TForm` |
+| `form?` | `TForm` \| `WatchOptions`<`TForm`\> |
 
 ##### Returns
 
@@ -184,7 +184,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | `TDependencies` \| [`TDependencies`] |
-| `form?` | `TForm` |
+| `form?` | `TForm` \| `WatchOptions`<`TForm`\> |
 
 ##### Returns
 
@@ -203,7 +203,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | [] |
-| `form?` | `TForm` |
+| `form?` | `TForm` \| `WatchOptions`<`TForm`\> |
 
 ##### Returns
 
@@ -222,7 +222,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | `NamePath` |
-| `form?` | `TForm` |
+| `form?` | `TForm` \| `WatchOptions`<`TForm`\> |
 
 ##### Returns
 
@@ -241,7 +241,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | `NamePath` |
-| `form?` | `FormInstance`<`any`\> |
+| `form?` | `FormInstance`<`any`\> \| `WatchOptions`<`FormInstance`<`any`\>\> |
 
 ##### Returns
 
