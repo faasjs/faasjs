@@ -45,17 +45,7 @@ module.exports = {
         'no-mixed-operators': 'error',
         'no-tabs': 'error',
         'no-unexpected-multiline': 'error',
-        'max-len': [
-          'warn',
-          {
-            code: 120,
-            ignoreUrls: true,
-            ignoreComments: true,
-            ignoreRegExpLiterals: true,
-            ignoreStrings: true,
-            ignoreTemplateLiterals: true
-          }
-        ],
+        'max-len': 'off',
         'no-sequences': 'error',
         'space-before-blocks': 'error',
         'eol-last': ['error', 'always'],

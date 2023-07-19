@@ -9,7 +9,7 @@ export interface LinkProps {
   text?: string | number
   children?: ReactNode
   style?: CSSProperties
-  button?:ButtonProps
+  button?: ButtonProps
   block?: boolean
 }
 

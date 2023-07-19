@@ -121,14 +121,16 @@ export class Validator {
 
         // nest config
         if (rule.config)
-          if (type === 'cookie') this.logger.warn('Cookie not support nest rule.'); else
-          if (Array.isArray(value))
-          // array
-
-            for (const val of value) this.validContent(type, val, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig)
-          else if (typeof value === 'object')
-          // object
-            this.validContent(type, value, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig)
+          if (type === 'cookie')
+            this.logger.warn('Cookie not support nest rule.')
+          else
+            if (Array.isArray(value))
+              // array
+              for (const val of value)
+                this.validContent(type, val, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig)
+            else if (typeof value === 'object')
+              // object
+              this.validContent(type, value, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig)
       }
     }
   }

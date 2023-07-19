@@ -31,7 +31,7 @@ export interface DescriptionItemProps<T = any> extends FaasItemProps {
 }
 
 export interface DescriptionProps<T = any, ExtendItemProps = any> extends DescriptionsProps {
-  renderTitle?: ((values: T) => ReactNode)
+  renderTitle?(values: T): ReactNode
   items: (DescriptionItemProps | ExtendItemProps)[]
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
