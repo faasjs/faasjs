@@ -7,6 +7,16 @@
 - `@faasjs/eslint-config-recommended`
   - [Feature] Add more rules.
 
+[`v0.0.3-beta.85 (2023-07-01)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.84...v0.0.3-beta.85)
+
+- `@faasjs/server`
+  - [Fix] Fix Access-Control-Allow-Headers.
+
+[`v0.0.3-beta.84 (2023-06-29)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.83...v0.0.3-beta.84)
+
+- `@faasjs/browser` & `@faasjs/server` & `@faasjs/http`
+  - [Feature] Add new `X-FaasJS-Request-Id` header.
+
 [`v0.0.3-beta.83 (2023-06-05)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.82...v0.0.3-beta.83)
 
 - `@faasjs/ant-design`
