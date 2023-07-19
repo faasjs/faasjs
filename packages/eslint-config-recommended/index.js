@@ -30,6 +30,10 @@ module.exports = {
             minItems: 3,
           }
         ],
+        'spaced-comment': 'error',
+        'arrow-spacing': 'error',
+        'block-spacing': 'error',
+        'computed-property-spacing': 'error',
         'object-curly-spacing': ['error', 'always'],
         'keyword-spacing': 'error',
         indent: [
@@ -76,6 +80,7 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-console': 'off',
         '@typescript-eslint/quotes': ['error', 'single'],
+        '@typescript-eslint/key-spacing': 'error',
         '@typescript-eslint/keyword-spacing': 'error',
         '@typescript-eslint/space-before-function-paren': 'error',
         '@typescript-eslint/semi': ['error', 'never'],
