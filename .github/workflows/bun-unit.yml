@@ -53,5 +53,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Dependencies
         run: bun install
+      - name: Build packages
+        run: bun run build
       - name: Run Tests
         run: bun run test
