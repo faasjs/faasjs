@@ -148,7 +148,7 @@ export function FaasReactClient ({
         request
           .then(r => (options?.setData ? options.setData(r.data) : setData(r.data)))
           .catch(async e => {
-            if (e?.message === 'The user aborted a request.') return
+            if (e?.message === 'The user aborted a request.' || e?.message === 'Aborted') return
 
             if (!fails && typeof e?.message === 'string' && e.message.indexOf('Failed to fetch') >= 0) {
               console.warn(`FaasReactClient: ${e.message} retry...`)
