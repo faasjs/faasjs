@@ -5,7 +5,7 @@
     "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
     "pub": "turbo build && node publish.js",
-    "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
+    "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log",
     "build": "turbo build",
     "build:doc": "typedoc",
     "build:docs": "node build-docs.js"
@@ -72,8 +72,5 @@
     "testEnvironmentOptions": {
       "customExportConditions": ["node", "node-addons"]
     }
-  },
-  "tsup": {
-    "tsconfig": "tsconfig.build.json"
   }
 }
