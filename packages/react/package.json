@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "0.0.3-beta.86",
+  "version": "0.0.3-beta.87",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,7 +22,7 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/browser": "^0.0.3-beta.86"
+    "@faasjs/browser": "^0.0.3-beta.87"
   },
   "peerDependencies": {
     "react": "*"
