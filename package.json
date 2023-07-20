@@ -13,7 +13,7 @@
   "devDependencies": {
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "tsup": "5.12.9",
+    "tsup": "*",
     "typescript": "*",
     "turbo": "*"
   },
@@ -71,6 +71,9 @@
     ],
     "testEnvironmentOptions": {
       "customExportConditions": ["node", "node-addons"]
-   }
+    }
+  },
+  "tsup": {
+    "tsconfig": "tsconfig.build.json"
   }
 }

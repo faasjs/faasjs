@@ -1,0 +1,6 @@
+{
+  "format": ["esm", "cjs"],
+  "clean": true,
+  "dts": true,
+  "tsconfig": "tsconfig.build.json"
+}

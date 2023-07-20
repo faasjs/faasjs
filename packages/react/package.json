@@ -16,7 +16,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup src/index.tsx --format esm,cjs --dts --clean"
+    "build": "tsup src/index.tsx --config ../../tsup.config.json"
   },
   "files": [
     "dist"

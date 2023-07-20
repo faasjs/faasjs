@@ -24,6 +24,7 @@
     "SESSIONTOKEN",
     "Tencentcloud",
     "tencentcloudapi",
+    "tsup",
     "typedoc",
     "Useify",
     "vuepress",
