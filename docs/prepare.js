@@ -43,5 +43,6 @@ const roots = globSync('../*.md')
 
 console.log(roots)
 for (const file of roots) {
+  if (file === '../README.md') continue
   run(`cp ${file} ${file.replace('../', './')}`)
 }

@@ -45,7 +45,7 @@ export default defineUserConfig({
               },
               {
                 text: 'Changelog',
-                link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
+                link: '/CHANGELOG'
               },
             ]
           },
@@ -71,11 +71,15 @@ export default defineUserConfig({
               },
               {
                 text: 'Contributing',
-                link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
+                link: '/CONTRIBUTING'
               },
               {
                 text: 'Sponsor',
                 link: 'https://github.com/sponsors/faasjs'
+              },
+              {
+                text: 'Security',
+                link: '/SECURITY'
               }
             ]
           }
