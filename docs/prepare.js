@@ -1,30 +1,47 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const globSync = require('glob').globSync
-const promisify = require('util').promisify
-const exec = promisify(require('child_process').exec)
+const execSync = require('child_process').execSync
 const dirname = require('path').dirname
 const { readFileSync, writeFileSync } = require('fs')
 
-async function run(cmd) {
+function run(cmd) {
   console.log(cmd)
-  await exec(cmd, { stdio: 'inherit' })
+  execSync(cmd, { stdio: 'inherit' })
 }
 
-async function buildAll() {
-  const list = globSync('../packages/**/*.md')
+const packages = globSync('../packages/**/*.md')
 
-  console.log(list)
-  for (const file of list) {
-    const target = file.replace('../packages/', './doc/')
-    await run(`mkdir -p ${dirname(target)} &`)
-    await run(`cp ${file} ${target}`)
-  }
-
-  writeFileSync('./doc/README.md',
-    readFileSync(__dirname + '/../packages/README.md', 'utf-8')
-      .toString()
-      .replaceAll('https://github.com/faasjs/faasjs/tree/main/packages/', '/doc/')
-  )
+console.log(packages)
+for (const file of packages) {
+  const target = file.replace('../packages/', './doc/')
+  run(`mkdir -p ${dirname(target)} &`)
+  run(`cp ${file} ${target}`)
 }
 
-buildAll()
+writeFileSync('./doc/README.md',
+  readFileSync(__dirname + '/../packages/README.md', 'utf-8')
+    .toString()
+    .replaceAll('https://github.com/faasjs/faasjs/tree/main/packages/', '/doc/')
+)
+
+const images = globSync('../images/**/*.md')
+
+console.log(images)
+for (const file of images) {
+  const target = file.replace('../images/', './doc/images/')
+  run(`mkdir -p ${dirname(target)} &`)
+  run(`cp ${file} ${target}`)
+}
+
+writeFileSync('./doc/images/README.md',
+  readFileSync(__dirname + '/doc/images/README.md', 'utf-8')
+    .toString()
+    .replaceAll('https://faasjs.com', '')
+)
+
+const roots = globSync('../*.md')
+
+console.log(roots)
+for (const file of roots) {
+  run(`cp ${file} ${file.replace('../', './')}`)
+}

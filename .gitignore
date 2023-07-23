@@ -15,4 +15,5 @@ dist
 .turbo
 .swc
 docs/doc
+docs/*.md
 .turbo

@@ -58,20 +58,7 @@ export default defineUserConfig({
               },
               {
                 text: 'Docker Images',
-                children: [
-                  {
-                    text: 'faasjs/nginx',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/nginx'
-                  },
-                  {
-                    text: 'faasjs/node',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/node'
-                  },
-                  {
-                    text: 'faasjs/vscode',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/vscode'
-                  }
-                ]
+                link: '/doc/images/'
               },
             ]
           },
