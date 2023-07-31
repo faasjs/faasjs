@@ -78,7 +78,7 @@ describe('server', function () {
       statusCode: 204,
       headers: {
         'access-control-allow-credentials': 'true',
-        'access-control-allow-headers': 'Content-Type, Authorization, X-FaasJS-Request-Id',
+        'access-control-allow-headers': 'Content-Type, Authorization, X-FaasJS-Request-Id, X-FaasJS-Timing-Pending, X-FaasJS-Timing-Processing, X-FaasJS-Timing-Total',
         'access-control-allow-methods': 'OPTIONS, POST',
         'access-control-allow-origin': '*',
       }
