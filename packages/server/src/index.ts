@@ -35,6 +35,10 @@ type Cache = {
   handler?: (...args: any) => Promise<any>
 }
 
+type Mounted = {
+  pending: [IncomingMessage, ServerResponse<IncomingMessage>, number][]
+}
+
 const servers: Server[] = []
 
 export function getAll (): Server[] {
@@ -107,8 +111,10 @@ export class Server {
     write: (body: string | Buffer) => void
     end: () => void
     setHeader: (key: string, value: string) => void
-  }): Promise<void> {
+  }, requestedAt: number): Promise<void> {
     this.logger.info('Process %s %s', req.method, req.url)
+
+    const startedAt = Date.now()
 
     return await new Promise((resolve) => {
       const requestId = req.headers['x-faasjs-request-id'] as string || ('F-' + randomBytes(16).toString('hex'))
@@ -126,7 +132,8 @@ export class Server {
           'Access-Control-Allow-Origin': req.headers.origin || '*',
           'Access-Control-Allow-Credentials': 'true',
           'Access-Control-Allow-Methods': 'OPTIONS, POST',
-          'X-FaasJS-Request-Id': requestId
+          'X-FaasJS-Request-Id': requestId,
+          'X-FaasJS-Timing-Pending': (startedAt - requestedAt).toString(),
         }
 
         // get and remove accept-encoding to avoid http module compression
@@ -187,13 +194,17 @@ export class Server {
               resBody = data.body
         }
 
+        const finishedAt = Date.now()
+        res.setHeader('X-FaasJS-Timing-Processing', (finishedAt - startedAt).toString())
+        res.setHeader('X-FaasJS-Timing-Total', (finishedAt - requestedAt).toString())
+
         for (const key in headers)
           res.setHeader(key, headers[key])
 
         if (resBody) {
           this.logger.debug('[%s] Response %s %j', requestId, res.statusCode, headers)
 
-          if (res.statusCode !== 200 || typeof resBody !== 'string' || resBody.length < 1024) {
+          if (res.statusCode !== 200 || typeof resBody !== 'string' || Buffer.byteLength(resBody) < 600) {
             res.write(resBody)
             res.end()
             resolve()
@@ -257,11 +268,6 @@ export class Server {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
 
-    type Mounted = {
-      mounted: boolean
-      pending: [IncomingMessage, ServerResponse<IncomingMessage>][]
-    }
-
     const mounted: Record<string, Mounted> = {}
 
     this.server = createServer(async (req, res) => {
@@ -271,7 +277,14 @@ export class Server {
           'Access-Control-Allow-Origin': req.headers.origin || '*',
           'Access-Control-Allow-Credentials': 'true',
           'Access-Control-Allow-Methods': 'OPTIONS, POST',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-FaasJS-Request-Id',
+          'Access-Control-Allow-Headers': [
+            'Content-Type',
+            'Authorization',
+            'X-FaasJS-Request-Id',
+            'X-FaasJS-Timing-Pending',
+            'X-FaasJS-Timing-Processing',
+            'X-FaasJS-Timing-Total',
+          ].join(', '),
         })
         res.end()
         return
@@ -280,51 +293,34 @@ export class Server {
       const path = join(this.root, req.url).replace(/\?.*/, '')
 
       if (this.opts.cache) {
-        if (!mounted[path]) {
-          mounted[path] = {
-            mounted: false,
-            pending: [],
-          } as Mounted
+        if (!mounted[path])
+          mounted[path] = { pending: [] } as Mounted
 
-          await this.processRequest(path, req, res)
+        mounted[path].pending.push([
+          req,
+          res,
+          Date.now(),
+        ])
 
-          mounted[path].mounted = true
+        const pending = mounted[path].pending
+        mounted[path].pending = []
+        for (const event of pending)
+          await this.processRequest(path, event[0], event[1], event[2])
 
-          if (mounted[path].pending.length) {
-            const pending = mounted[path].pending
-            mounted[path].pending = []
-            for (const event of pending)
-              await this.processRequest(path, event[0], event[1])
-          }
-          return
-        }
-
-        if (!mounted[path].mounted) {
-          mounted[path].pending.push([req, res])
-          return
-        }
-
-        mounted[path].pending.push([req, res])
-
-        if (mounted[path].pending.length) {
-          const pending = mounted[path].pending
-          mounted[path].pending = []
-          for (const event of pending)
-            await this.processRequest(path, event[0], event[1])
-        }
         return
       }
 
       if (!self.processing) {
         self.processing = true
-        await self.processRequest(path, req, res)
+        await self.processRequest(path, req, res, Date.now())
         self.processing = false
       } else {
+        const now = Date.now()
         const timer = setInterval(async () => {
           if (!self.processing) {
             self.processing = true
             clearInterval(timer)
-            await self.processRequest(path, req, res)
+            await self.processRequest(path, req, res, now)
             self.processing = false
           }
         })
