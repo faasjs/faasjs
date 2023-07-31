@@ -166,7 +166,7 @@ export class Http<TParams extends Record<string, any> = any,
       this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config)
 
     data.logger.debug('[onMount] prepare cookie & session')
-    this.cookie = new Cookie(this.config.cookie || {})
+    this.cookie = new Cookie(this.config.cookie || {}, data.logger)
     this.session = this.cookie.session
 
     if (this.validatorOptions) {
@@ -199,7 +199,8 @@ export class Http<TParams extends Record<string, any> = any,
       data.logger.debug('[onInvoke] Params: %j', this.params)
     }
 
-    this.cookie.invoke(this.headers.cookie)
+    this.cookie.invoke(this.headers.cookie, data.logger)
+
     if (this.headers.cookie) {
       data.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
       data.logger.debug('[onInvoke] Session: %j', this.session.content)

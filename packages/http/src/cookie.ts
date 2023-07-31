@@ -1,3 +1,4 @@
+import type { Logger } from '@faasjs/logger'
 import { Session, SessionOptions } from './session'
 import { deepMerge } from '@faasjs/deep_merge'
 
@@ -27,12 +28,15 @@ export class Cookie<
     sameSite?: 'Strict' | 'Lax' | 'None'
     session: SessionOptions
   }
+  public logger: Logger
 
   private setCookie: {
     [key: string]: string
   }
 
-  constructor (config: CookieOptions) {
+  constructor (config: CookieOptions, logger?: Logger) {
+    this.logger = logger
+
     this.config = deepMerge({
       path: '/',
       expires: 31536000,
@@ -48,7 +52,7 @@ export class Cookie<
     this.setCookie = Object.create(null)
   }
 
-  public invoke (cookie: string | undefined): Cookie<C, S> {
+  public invoke (cookie: string | undefined, logger: Logger): Cookie<C, S> {
     this.content = Object.create(null)
 
     // 解析 cookie
@@ -63,7 +67,7 @@ export class Cookie<
 
     this.setCookie = Object.create(null)
     // 预读取 session
-    this.session.invoke(this.read(this.session.config.key))
+    this.session.invoke(this.read(this.session.config.key), logger)
     return this
   }
 

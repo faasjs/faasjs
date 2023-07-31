@@ -2,6 +2,7 @@ import {
   randomBytes, pbkdf2Sync, createCipheriv, createHmac, createDecipheriv
 } from 'crypto'
 import { Cookie } from './cookie'
+import type { Logger } from '@faasjs/logger'
 
 export type SessionOptions = {
   key: string
@@ -42,7 +43,7 @@ export class Session<
     this.cookie = cookie
 
     if (!config?.secret)
-      console.warn('Session\'s secret is missing.')
+      cookie.logger.warn('Session\'s secret is missing.')
 
     this.config = Object.assign({
       key: 'key',
@@ -74,11 +75,11 @@ export class Session<
     this.content = Object.create(null)
   }
 
-  public invoke (cookie?: string): void {
+  public invoke (cookie?: string, logger?: Logger): void {
     try {
       this.content = cookie ? this.decode(cookie) : Object.create(null)
-    } catch (error) {
-      console.error(error)
+    } catch (error: any) {
+      logger?.error(error)
       this.content = Object.create(null)
     }
     this.changed = false
