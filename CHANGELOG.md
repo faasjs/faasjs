@@ -2,6 +2,19 @@
 
 ## Beta
 
+[`v0.0.3-beta.88 (2023-07-19)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.87...v0.0.3-beta.88)
+
+- `@faasjs/server`
+  - [Feature] Add `X-FaasJS-Timing-Pending`, `X-FaasJS-Timing-Processing`, `X-FaasJS-Timing-Total` to header.
+
+- `@faasjs/http`
+  - [Fix] Fix cookie and session's logger.
+
+[`v0.0.3-beta.87 (2023-07-19)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.86...v0.0.3-beta.87)
+
+- `@faasjs/react`
+  - [Feature] Ignore React Native's fetch abort.
+
 [`v0.0.3-beta.86 (2023-07-19)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.85...v0.0.3-beta.86)
 
 - `@faasjs/eslint-config-recommended`
