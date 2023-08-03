@@ -30,6 +30,7 @@ module.exports = {
             minItems: 3,
           }
         ],
+        'constructor-super': 'off',
         'spaced-comment': 'error',
         'arrow-spacing': 'error',
         'block-spacing': 'error',
