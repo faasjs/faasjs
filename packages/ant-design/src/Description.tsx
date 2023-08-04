@@ -188,14 +188,14 @@ export function Description<T = any> (props: DescriptionProps<T>) {
       ...props,
       title: isFunction(props.renderTitle) ? props.renderTitle(props.dataSource) : props.title,
       items: props.items
-        .filter(item => !item.if || item.if(props.dataSource))
+        .filter(item => item && (!item.if || item.if(props.dataSource)))
         .map(item => ({
           ...item,
           key: item.id,
           label: item.title || upperFirst(item.id),
           children: <DescriptionItemContent
             item={ item }
-            value={ (props.dataSource as Record<string, any>)[item.id] }
+            value={ props.dataSource ? (props.dataSource as Record<string, any>)[item.id] : null }
             values={ props.dataSource }
             extendTypes={ props.extendTypes }
           />
