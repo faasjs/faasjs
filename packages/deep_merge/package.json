@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/deep_merge",
-  "version": "0.0.3-beta.88",
+  "version": "0.0.3-beta.89",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
