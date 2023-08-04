@@ -225,7 +225,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
         </AntdForm.Item>
 
       return <AntdForm.List
-        name={ computedProps.name }
+        name={ computedProps.name as [string] }
         rules={ computedProps.rules as ValidatorRule[] }>
         {(fields, { add, remove }, { errors }) => <>
           {computedProps.label && <div className='ant-form-item-label'>
@@ -295,7 +295,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
         </AntdForm.Item>
 
       return <AntdForm.List
-        name={ computedProps.name }
+        name={ computedProps.name as [string] }
         rules={ computedProps.rules as ValidatorRule[] }>
         {(fields, { add, remove }, { errors }) => <>
           {computedProps.label && <div className='ant-form-item-label'>
@@ -365,7 +365,7 @@ export function FormItem<T = any> (props: FormItemProps<T>) {
       />)}</>
     case 'object[]':
       return <AntdForm.List
-        name={ computedProps.name }
+        name={ computedProps.name as [string] }
         rules={ computedProps.rules as ValidatorRule[] }>
         {(fields, { add, remove }, { errors }) => <>
           {fields.map(field => <AntdForm.Item

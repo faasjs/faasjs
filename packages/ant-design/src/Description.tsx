@@ -30,9 +30,9 @@ export interface DescriptionItemProps<T = any> extends FaasItemProps {
   object?: DescriptionItemProps<T>[]
 }
 
-export interface DescriptionProps<T = any, ExtendItemProps = any> extends DescriptionsProps {
+export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<DescriptionsProps, 'items'> {
   renderTitle?(values: T): ReactNode
-  items: (DescriptionItemProps | ExtendItemProps)[]
+  items: ((DescriptionItemProps | ExtendItemProps))[]
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
   }
@@ -181,51 +181,38 @@ function DescriptionItemContent<T = any> (props: DescriptionItemContentProps<T>)
  * Description component.
  */
 export function Description<T = any> (props: DescriptionProps<T>) {
+  const [computedProps, setComputedProps] = useState<DescriptionProps<T>>()
+
+  useEffect(() => {
+    setComputedProps({
+      ...props,
+      title: isFunction(props.renderTitle) ? props.renderTitle(props.dataSource) : props.title,
+      items: props.items
+        .filter(item => !item.if || item.if(props.dataSource))
+        .map(item => ({
+          ...item,
+          key: item.id,
+          label: item.title || upperFirst(item.id),
+          children: <DescriptionItemContent
+            item={ item }
+            value={ (props.dataSource as Record<string, any>)[item.id] }
+            values={ props.dataSource }
+            extendTypes={ props.extendTypes }
+          />
+        }))
+    })
+  }, [props])
+
+  if (!computedProps) return null
+
   if (props.dataSource)
-    return <Descriptions
-      { ...props }
-      title={ isFunction(props.renderTitle) ? props.renderTitle(props.dataSource) : props.title }
-    >
-      {
-        props.items.map(item => ((item && (!item.if || item.if(props.dataSource))) ? (
-          <Descriptions.Item
-            key={ item.id }
-            label={ item.title || upperFirst(item.id) }>
-            <DescriptionItemContent
-              item={ item }
-              value={ (props.dataSource as Record<string, any>)[item.id] }
-              values={ props.dataSource }
-              extendTypes={ props.extendTypes }
-            />
-          </Descriptions.Item>
-        ) : null)).filter(Boolean)
-      }
-    </Descriptions>
+    return <Descriptions { ...computedProps } />
 
   return <FaasDataWrapper<T>
-    render={ ({ data }) => {
-      return <Descriptions
-        { ...props }
-        title={ isFunction(props.renderTitle) ? props.renderTitle(data) : props.title }
-      >
-        {
-          props.items.map(item => {
-            return !item.if || item.if(data) ? (
-              <Descriptions.Item
-                key={ item.id }
-                label={ item.title || upperFirst(item.id) }>
-                <DescriptionItemContent
-                  item={ item }
-                  value={ (data as Record<string, any>)[item.id] }
-                  values={ data }
-                  extendTypes={ props.extendTypes }
-                />
-              </Descriptions.Item>
-            ) : null
-          }).filter(Boolean)
-        }
-      </Descriptions>
-    } }
+    render={ ({ data }) => <Description
+      { ...computedProps }
+      dataSource={ data }
+    /> }
     { ...props.faasData }
   />
 }
