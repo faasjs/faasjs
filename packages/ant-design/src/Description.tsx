@@ -186,7 +186,7 @@ export function Description<T = any> (props: DescriptionProps<T>) {
   useEffect(() => {
     setComputedProps({
       ...props,
-      title: isFunction(props.renderTitle) ? props.renderTitle(props.dataSource) : props.title,
+      title: (isFunction(props.renderTitle) && props.dataSource) ? props.renderTitle(props.dataSource) : props.title,
       items: props.items
         .filter(item => item && (!item.if || item.if(props.dataSource)))
         .map(item => ({
