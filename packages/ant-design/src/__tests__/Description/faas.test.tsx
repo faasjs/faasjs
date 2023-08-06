@@ -26,11 +26,12 @@ describe('Description/faas', () => {
 
   it('with faas', async () => {
     render(<Description
+      renderTitle={ (data) => data.test }
       items={ [{ id: 'test' }] }
       faasData={ { action: 'test' } }
     />)
 
     expect(await screen.findByText('Test')).toBeInTheDocument()
-    expect(await screen.findByText('value')).toBeInTheDocument()
+    expect(await screen.findAllByText('value')).toHaveLength(2)
   })
 })
