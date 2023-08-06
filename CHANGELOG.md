@@ -2,7 +2,12 @@
 
 ## Beta
 
-[`v0.0.3-beta.88 (2023-07-31)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.88...v0.0.3-beta.89)
+[`v0.0.3-beta.90 (2023-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.89...v0.0.3-beta.90)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix Descriptions' renderTitle.
+
+[`v0.0.3-beta.89 (2023-08-04)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.88...v0.0.3-beta.89)
 
 - `@faasjs/ant-design`
   - [Feature] Upgrade antd version to ~5.8.0.

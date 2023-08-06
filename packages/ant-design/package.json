@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.3-beta.89",
+  "version": "0.0.3-beta.90",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,7 +22,7 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/react": "^0.0.3-beta.89",
+    "@faasjs/react": "^0.0.3-beta.90",
     "@ant-design/icons": "*",
     "lodash-es": "*",
     "dayjs": "*"
