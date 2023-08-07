@@ -196,6 +196,8 @@ export class Http<TParams extends Record<string, any> = any,
       if (this.params && typeof this.params === 'object' && this.params['_'])
         delete this.params['_']
 
+      data.event.params = this.params
+
       data.logger.debug('[onInvoke] Params: %j', this.params)
     }
 
