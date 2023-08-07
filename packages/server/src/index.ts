@@ -117,7 +117,7 @@ export class Server {
     const startedAt = Date.now()
 
     return await new Promise((resolve) => {
-      const requestId = req.headers['x-faasjs-request-id'] as string || ('F-' + randomBytes(16).toString('hex'))
+      const requestId = req.headers['x-faasjs-request-id'] as string || req.headers['x-request-id'] as string || ('F-' + randomBytes(16).toString('hex'))
 
       let body = ''
 

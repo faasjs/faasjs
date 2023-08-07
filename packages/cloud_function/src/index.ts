@@ -161,16 +161,14 @@ export class CloudFunction implements Plugin {
    * @param data {any} 参数
    * @param options {object} 额外配置项
    */
-  public async invoke<TData = any> (name: string, data?: TData, options?: {
-    [key: string]: any
-  }): Promise<void> {
+  public async invoke<TData = any> (name: string, data?: TData, options?: Record<string, any>): Promise<void> {
     if (data == null) data = Object.create(null)
 
     if (process.env.FaasMode !== 'remote') {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
       const func = new test.FuncWarper(`${process.env.FaasRoot || ''}${name.toLowerCase()}.func`)
-      return func.handler(data)
+      return func.handler(data, { request_id: this.logger.label })
     } else
       return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
   }
@@ -181,16 +179,14 @@ export class CloudFunction implements Plugin {
    * @param data {any} 参数
    * @param options {object} 额外配置项
    */
-  public async invokeSync<TResult = any, TData = any> (name: string, data?: TData, options?: {
-    [key: string]: any
-  }): Promise<TResult> {
+  public async invokeSync<TResult = any, TData = any> (name: string, data?: TData, options?: Record<string, any>): Promise<TResult> {
     if (data == null) data = Object.create(null)
 
     if (process.env.FaasMode !== 'remote') {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
       const func = new test.FuncWarper(`${process.env.FaasRoot || ''}${name.toLowerCase()}.func`)
-      return func.handler(data)
+      return func.handler(data, { request_id: this.logger.label })
     } else
       return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), data, options)
   }

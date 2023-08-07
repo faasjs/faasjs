@@ -249,7 +249,8 @@ export class Http<TParams extends Record<string, any> = any,
     // generate headers
     this.response.headers = Object.assign({
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-cache, no-store'
+      'Cache-Control': 'no-cache, no-store',
+      'X-FaasJS-Request-Id': data.logger.label,
     }, this.cookie.headers(), this.response.headers)
 
     data.response = Object.assign({}, data.response, this.response)
