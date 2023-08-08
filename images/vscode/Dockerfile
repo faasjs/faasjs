@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-RUN apk add --no-cache git zsh openssh rsync zip libc6-compat
+RUN apk add --no-cache git zsh openssh rsync zip libc6-compat python3 make g++
 
 RUN sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 
@@ -17,3 +17,5 @@ RUN echo "source /root/.zsh-npm/npm.plugin.zsh" >> /root/.zshrc
 
 RUN corepack enable
 RUN npm install -g npm@latest
+
+RUN npm install -g node-pty
