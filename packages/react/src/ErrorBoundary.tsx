@@ -4,7 +4,7 @@ import {
 
 export interface ErrorBoundaryProps {
   children?: ReactNode
-  onError: (error: Error | null, info: any) => void
+  onError?: (error: Error | null, info: any) => void
   errorChildren?: ReactElement<ErrorChildrenProps>
 }
 
