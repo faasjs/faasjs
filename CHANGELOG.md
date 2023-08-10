@@ -2,9 +2,12 @@
 
 ## Beta
 
-[`v0.0.3-beta.92 (2023-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.91...v0.0.3-beta.92)
+[`v0.0.3-beta.92 (2023-08-10)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.91...v0.0.3-beta.92)
 
-[`v0.0.3-beta.91 (2023-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.90...v0.0.3-beta.91)
+- `@faasjs/react`
+  - [Feature] add `ErrorBoundary`.
+
+[`v0.0.3-beta.91 (2023-08-07)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.90...v0.0.3-beta.91)
 
 - `@faasjs/cloud_function`
   - [Feature] Add request_id to invoked funciton.
