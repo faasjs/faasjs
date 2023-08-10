@@ -17,6 +17,8 @@ export type {
   FaasAction, FaasData, FaasParams
 }
 
+export * from './ErrorBoundary'
+
 /**
  * Injects FaasData props.
  */
