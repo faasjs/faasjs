@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/http",
-  "version": "0.0.3-beta.91",
+  "version": "0.0.3-beta.92",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,8 +22,8 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/func": "^0.0.3-beta.91",
-    "@faasjs/logger": "^0.0.3-beta.91"
+    "@faasjs/func": "^0.0.3-beta.92",
+    "@faasjs/logger": "^0.0.3-beta.92"
   },
   "engines": {
     "npm": ">=8.0.0",

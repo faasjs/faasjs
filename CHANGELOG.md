@@ -2,6 +2,13 @@
 
 ## Beta
 
+[`v0.0.3-beta.92 (2023-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.91...v0.0.3-beta.92)
+
+[`v0.0.3-beta.91 (2023-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.90...v0.0.3-beta.91)
+
+- `@faasjs/cloud_function`
+  - [Feature] Add request_id to invoked funciton.
+
 [`v0.0.3-beta.90 (2023-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.89...v0.0.3-beta.90)
 
 - `@faasjs/ant-design`
