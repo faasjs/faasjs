@@ -32,8 +32,11 @@ VSCode Container Image for FaasJS projects.
 
 ```
 # For alpine
-sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 # For npm
-npm config set registry https://registry.npmmirror.com/
+RUN npm config set registry https://registry.npmmirror.com/
+# Or using .npmrc
+RUN echo "registry=https://registry.npmmirror.com/
+" > .npmrc
 ```
