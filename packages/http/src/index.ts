@@ -184,10 +184,14 @@ export class Http<TParams extends Record<string, any> = any,
     this.response = { headers: Object.create(null) }
 
     if (data.event.body) {
-      if (this.headers['content-type']?.includes('application/json')) {
+      if (this.headers['content-type']?.includes('application/json') && typeof data.event.body === 'string' && data.event.body.length > 1) {
         data.logger.debug('[onInvoke] Parse params from json body')
-        this.params = Object.keys(this.params).length ?
-          Object.assign(this.params, JSON.parse(data.event.body)) : JSON.parse(data.event.body)
+        try {
+          this.params = Object.keys(this.params).length ?
+            Object.assign(this.params, JSON.parse(data.event.body)) : JSON.parse(data.event.body)
+        } catch (error: any) {
+          data.logger.error('[onInvoke] Parse params from json body failed: %s', error.message)
+        }
       } else {
         data.logger.debug('[onInvoke] Parse params from raw body')
         this.params = data.event.body || Object.create(null)
@@ -196,7 +200,7 @@ export class Http<TParams extends Record<string, any> = any,
       if (this.params && typeof this.params === 'object' && this.params['_'])
         delete this.params['_']
 
-      data.event.params = this.params
+      data.event.params = JSON.parse(JSON.stringify(this.params))
 
       data.logger.debug('[onInvoke] Params: %j', this.params)
     }
