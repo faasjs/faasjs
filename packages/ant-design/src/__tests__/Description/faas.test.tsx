@@ -31,7 +31,7 @@ describe('Description/faas', () => {
       faasData={ { action: 'test' } }
     />)
 
-    expect(await screen.findByText('Test')).toBeInTheDocument()
+    expect(await screen.findAllByText('Test')).toHaveLength(1)
     expect(await screen.findAllByText('value')).toHaveLength(2)
   })
 })
