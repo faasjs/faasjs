@@ -29,7 +29,7 @@ export class Knex implements Plugin {
   public config: K.Config
   public adapter: K
   public query: K
-  private logger: Logger
+  public logger: Logger
 
   constructor (config?: KnexConfig) {
     if (config) {
