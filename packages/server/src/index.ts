@@ -69,6 +69,7 @@ export class Server {
     cache: boolean
     port: number
   }
+  public onError?: (error: Error) => void
 
   private processing = false
   private cachedFuncs: {
@@ -87,6 +88,7 @@ export class Server {
   constructor (root: string, opts?: {
     cache?: boolean
     port?: number
+    onError?: (error: Error) => void
   }) {
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development')
       process.env.FaasEnv = 'development'
@@ -334,6 +336,10 @@ export class Server {
       })
       .on('error', console.error)
       .listen(this.opts.port, '0.0.0.0')
+
+    process.on('uncaughtException', (error) => this.onError?.(error))
+
+    process.on('unhandledRejection', (reason) => this.onError?.(Error(reason.toString())))
 
     return this.server
   }
