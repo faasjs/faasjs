@@ -32,6 +32,8 @@ describe('Description/faas', () => {
     />)
 
     expect(await screen.findAllByText('Test')).toHaveLength(1)
+
+    screen.debug()
     expect(await screen.findAllByText('value')).toHaveLength(2)
   })
 })

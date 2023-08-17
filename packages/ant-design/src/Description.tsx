@@ -184,6 +184,9 @@ export function Description<T = any> (props: DescriptionProps<T>) {
   const [computedProps, setComputedProps] = useState<DescriptionProps<T>>()
 
   useEffect(() => {
+    if (props.faasData && !props.dataSource)
+      return
+
     setComputedProps({
       ...props,
       title: (isFunction(props.renderTitle) && props.dataSource) ? props.renderTitle(props.dataSource) : props.title,
@@ -203,16 +206,16 @@ export function Description<T = any> (props: DescriptionProps<T>) {
     })
   }, [props])
 
+  if (props.faasData && !props.dataSource)
+    return <FaasDataWrapper<T>
+      render={ ({ data }) => <Description
+        { ...props }
+        dataSource={ data }
+      /> }
+      { ...props.faasData }
+    />
+
   if (!computedProps) return null
 
-  if (props.dataSource)
-    return <Descriptions { ...computedProps } />
-
-  return <FaasDataWrapper<T>
-    render={ ({ data }) => <Description
-      { ...computedProps }
-      dataSource={ data }
-    /> }
-    { ...props.faasData }
-  />
+  return <Descriptions { ...computedProps } />
 }
