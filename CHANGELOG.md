@@ -2,6 +2,25 @@
 
 ## Beta
 
+[`v0.0.3-beta.95 (2023-08-17)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.94...v0.0.3-beta.95)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix Descriptions' renderTitle.
+
+- `@faasjs/server`
+  - [Feature] Add `onError`.
+
+[`v0.0.3-beta.94 (2023-08-16)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.92...v0.0.3-beta.94)
+
+- `@faasjs/http`
+  - [Fix] Fix params parse.
+
+- `@faasjs/react`
+  - [Feature] `ErrorBoundary`'s onError be opitonal.
+
+- `@faasjs/knex`
+  - [Feature] Make logger be public.
+
 [`v0.0.3-beta.92 (2023-08-10)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.91...v0.0.3-beta.92)
 
 - `@faasjs/react`
