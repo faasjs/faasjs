@@ -91,6 +91,10 @@ export class ResponseError extends Error {
   }
 }
 
+export function generateId () {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2)
+}
+
 /**
  * FaasJS browser client
 
@@ -101,12 +105,14 @@ export class ResponseError extends Error {
  * ```
  */
 export class FaasBrowserClient {
+  public readonly id: string
   public host: string
   public defaultOptions: Options
 
   constructor (baseUrl: string, options?: Options) {
     if (!baseUrl) throw Error('[FaasJS] baseUrl required')
 
+    this.id = 'FBC-' + generateId()
     this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/'
     this.defaultOptions = options || Object.create(null)
 
@@ -129,7 +135,7 @@ export class FaasBrowserClient {
   ): Promise<Response<FaasData<PathOrData>>> {
     if (!action) throw Error('[FaasJS] action required')
 
-    const id = 'F-' + Date.now().toString(36) + Math.random().toString(36).substring(2)
+    const id = 'F-' + generateId()
 
     const url = this.host + (action as string).toLowerCase() + '?_=' + id
 

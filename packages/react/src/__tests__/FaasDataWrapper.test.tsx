@@ -16,7 +16,6 @@ describe('FaasDataWrapper', () => {
     current = 0
     originalFetch = window.fetch
     window.fetch = jest.fn(async (action, args) => {
-      console.log(args)
       current ++
       return Promise.resolve({
         status: 200,
@@ -32,7 +31,9 @@ describe('FaasDataWrapper', () => {
   })
 
   it('should work', async () => {
+    let renderTimes = 0
     function Test (props: Partial<FaasDataInjection>) {
+      renderTimes ++
       return <div>{props.data}<button onClick={ () => props.reload() }>Reload</button></div>
     }
 
@@ -41,6 +42,7 @@ describe('FaasDataWrapper', () => {
     </FaasDataWrapper>)
 
     expect(await screen.findByText('1')).toBeInTheDocument()
+    expect(renderTimes).toEqual(1)
 
     await userEvent.click(screen.getByRole('button'))
 
