@@ -11,7 +11,7 @@ import type {
   Options, Response, ResponseError
 } from '@faasjs/browser'
 import {
-  cloneElement, createElement, useEffect, useState
+  cloneElement, useEffect, useState
 } from 'react'
 import { FaasBrowserClient } from '@faasjs/browser'
 
@@ -143,6 +143,7 @@ export function FaasReactClient ({
       params,
       loading,
       data: options?.data || data,
+      reloadTimes,
       error,
       promise,
       async reload (params?: any) {

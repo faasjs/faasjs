@@ -19,6 +19,7 @@ export type FaasDataInjection<Data = any> = {
   action: string | any
   params: Record<string, any>
   loading: boolean
+  reloadTimes: number
   data: Data
   error: any
   promise: Promise<Response<Data>>
