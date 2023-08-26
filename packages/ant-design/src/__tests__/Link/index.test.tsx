@@ -42,4 +42,18 @@ describe('Link', () => {
 
     expect(container.querySelector('a')).toHaveStyle('font-weight: bold')
   })
+
+  it('work with copyable', async function () {
+    const { container, debug } = render(<BrowserRouter>
+      <Link
+        href='/'
+        text='text'
+        copyable
+      />
+    </BrowserRouter>)
+
+    debug()
+
+    expect(container.querySelector('.ant-typography-copy')).toBeInTheDocument()
+  })
 })

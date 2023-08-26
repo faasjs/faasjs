@@ -1,7 +1,9 @@
 import type { ReactNode, CSSProperties } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useConfigContext } from './Config'
-import { Button, ButtonProps } from 'antd'
+import {
+  Button, ButtonProps, Typography
+} from 'antd'
 
 export interface LinkProps {
   href: string
@@ -11,6 +13,8 @@ export interface LinkProps {
   style?: CSSProperties
   button?: ButtonProps
   block?: boolean
+  /** only use for text without button */
+  copyable?: boolean
 }
 
 /**
@@ -25,10 +29,10 @@ export interface LinkProps {
  * ```
  */
 export function Link (props: LinkProps) {
-  const { Link } = useConfigContext()
+  const { Link: Config } = useConfigContext()
 
   let style = {
-    ...(Link.style || {}),
+    ...(Config.style || {}),
     cursor: 'pointer',
     ...props.style
   }
@@ -43,22 +47,22 @@ export function Link (props: LinkProps) {
     if (props.button)
       return <Button
         { ...props.button }
-        target={ props.target || Link?.target || '_blank' }
+        target={ props.target || Config?.target || '_blank' }
         style={ style }
         href={ props.href }
       >{props.text ?? props.children}</Button>
 
     return <a
       href={ props.href }
-      target={ props.target || Link?.target || '_blank' }
+      target={ props.target || Config?.target || '_blank' }
       style={ style }
-    >{props.text ?? props.children}</a>
+    ><LinkBody { ...props } /></a>
   }
 
   if (props.button)
     return <RouterLink
       to={ props.href }
-      target={ props.target || Link?.target }
+      target={ props.target || Config?.target }
     >
       <Button
         { ...props.button }
@@ -67,7 +71,13 @@ export function Link (props: LinkProps) {
 
   return <RouterLink
     to={ props.href }
-    target={ props.target || Link?.target }
+    target={ props.target || Config?.target }
     style={ style }
-  >{props.text ?? props.children}</RouterLink>
+  ><LinkBody { ...props } /></RouterLink>
+}
+
+export function LinkBody (props: LinkProps) {
+  if (props.children) return props.children
+
+  return <Typography.Text copyable={ props.copyable }>{props.text}</Typography.Text>
 }
