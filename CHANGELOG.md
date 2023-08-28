@@ -2,6 +2,21 @@
 
 ## Beta
 
+[`v0.0.3-beta.98 (2023-08-26)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.97...v0.0.3-beta.98)
+
+- `@faasjs/ant-design`
+  - [Feature] Add `copyable` to `Link`.
+
+[`v0.0.3-beta.97 (2023-08-25)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.96...v0.0.3-beta.97)
+
+- `@faasjs/react`
+  - [Feature] Export `reloadTime` from `useFaas`.
+
+[`v0.0.3-beta.96 (2023-08-19)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.95...v0.0.3-beta.96)
+
+- `@faasjs/react`
+  - [Feature] Add `debounce` to `useFaas`.
+
 [`v0.0.3-beta.95 (2023-08-17)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.94...v0.0.3-beta.95)
 
 - `@faasjs/ant-design`
