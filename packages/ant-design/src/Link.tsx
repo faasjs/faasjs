@@ -1,5 +1,5 @@
 import type { ReactNode, CSSProperties } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useConfigContext } from './Config'
 import {
   Button, ButtonProps, Typography
@@ -7,7 +7,7 @@ import {
 
 export interface LinkProps {
   href: string
-  target?: string
+  target?: '_blank'
   text?: string | number
   children?: ReactNode
   style?: CSSProperties
@@ -30,6 +30,7 @@ export interface LinkProps {
  */
 export function Link (props: LinkProps) {
   const { Link: Config } = useConfigContext()
+  const navigate = useNavigate()
 
   let style = {
     ...(Config.style || {}),
@@ -52,32 +53,40 @@ export function Link (props: LinkProps) {
         href={ props.href }
       >{props.text ?? props.children}</Button>
 
-    return <a
+    if (props.children)
+      return <a
+        href={ props.href }
+        target={ props.target || Config?.target }
+        style={ style }
+      >{props.children}</a>
+
+    return <Typography.Link
       href={ props.href }
       target={ props.target || Config?.target || '_blank' }
       style={ style }
-    ><LinkBody { ...props } /></a>
+      copyable={ props.copyable }
+    >{props.text}</Typography.Link>
   }
 
   if (props.button)
+    return <Button
+      { ...props.button }
+      style={ style }
+      onClick={ () => ((props.target || Config?.target) === '_blank' ? window.open(props.href) : navigate(props.href)) }
+    >{props.text ?? props.children}</Button>
+
+  if (props.children)
     return <RouterLink
       to={ props.href }
       target={ props.target || Config?.target }
-    >
-      <Button
-        { ...props.button }
-        style={ style }>{props.text ?? props.children}</Button>
-    </RouterLink>
+      style={ style }
+    >{props.children}</RouterLink>
 
-  return <RouterLink
-    to={ props.href }
+  return <Typography.Link
+    href={ props.href }
     target={ props.target || Config?.target }
     style={ style }
-  ><LinkBody { ...props } /></RouterLink>
-}
-
-export function LinkBody (props: LinkProps) {
-  if (props.children) return props.children
-
-  return <Typography.Text copyable={ props.copyable }>{props.text}</Typography.Text>
+    copyable={ props.copyable }
+    onClick={ () => ((props.target || Config?.target) === '_blank' ? window.open(props.href) : navigate(props.href)) }
+  >{props.text}</Typography.Link>
 }
