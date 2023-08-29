@@ -87,6 +87,12 @@ export function Link (props: LinkProps) {
     target={ props.target || Config?.target }
     style={ style }
     copyable={ props.copyable }
-    onClick={ () => ((props.target || Config?.target) === '_blank' ? window.open(props.href) : navigate(props.href)) }
+    onClick={ e => {
+      e.preventDefault()
+      if ((props.target || Config?.target) === '_blank')
+        window.open(props.href)
+      else
+        navigate(props.href)
+    } }
   >{props.text}</Typography.Link>
 }
