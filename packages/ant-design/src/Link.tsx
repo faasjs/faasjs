@@ -1,4 +1,6 @@
-import type { ReactNode, CSSProperties } from 'react'
+import {
+  type ReactNode, type CSSProperties, useState, useEffect
+} from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useConfigContext } from './Config'
 import {
@@ -31,18 +33,25 @@ export interface LinkProps {
 export function Link (props: LinkProps) {
   const { Link: Config } = useConfigContext()
   const navigate = useNavigate()
+  const [style, setStyle] = useState<CSSProperties>()
 
-  let style = {
-    ...(Config.style || {}),
-    cursor: 'pointer',
-    ...props.style
-  }
+  useEffect(() => {
+    let computedStyle = {
+      ...(Config.style || {}),
+      cursor: 'pointer',
+      ...props.style
+    }
 
-  if (props.block)
-    style = Object.assign({
-      display: 'block',
-      width: '100%',
-    }, style)
+    if (props.block)
+      computedStyle = Object.assign({
+        display: 'block',
+        width: '100%',
+      }, computedStyle)
+
+    setStyle(computedStyle)
+  }, [props.style, props.block])
+
+  if (!style) return null
 
   if (props.href.startsWith('http')) {
     if (props.button)
@@ -88,11 +97,10 @@ export function Link (props: LinkProps) {
     style={ style }
     copyable={ props.copyable }
     onClick={ e => {
-      e.preventDefault()
-      if ((props.target || Config?.target) === '_blank')
-        window.open(props.href)
-      else
+      if ((props.target || Config?.target) !== '_blank') {
+        e.preventDefault()
         navigate(props.href)
+      }
     } }
   >{props.text}</Typography.Link>
 }
