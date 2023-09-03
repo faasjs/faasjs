@@ -51,7 +51,7 @@ jobs:
         with:
           bun-version: latest
       - name: Install Dependencies
-        run: bun install
+        run: bun install --no-cache
       - name: Build packages
         run: bun run build
       - name: Run Tests
