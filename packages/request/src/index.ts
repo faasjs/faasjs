@@ -190,7 +190,7 @@ export async function request<T = any> (url: string, {
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: method ? method.toUpperCase() : 'GET',
     path: uri.pathname + uri.search,
-    port: uri.port,
+    port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
     timeout,
     auth,
     pfx,
