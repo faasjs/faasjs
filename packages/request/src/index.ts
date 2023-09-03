@@ -1,7 +1,7 @@
 import * as http from 'http'
 import * as https from 'https'
 import { URL } from 'url'
-import { readFileSync } from 'fs'
+import { readFileSync, createWriteStream } from 'fs'
 import { basename } from 'path'
 import { Logger } from '@faasjs/logger'
 
@@ -55,11 +55,21 @@ export type RequestOptions = {
    * Create a write stream to download a file.
    *
    * ```ts
+   * import { createWriteStream } from 'fs'
+   *
    * const stream = createWriteStream('filepath')
    * await request('https://example.com', { downloadStream: stream })
    * ```
    */
   downloadStream?: NodeJS.WritableStream
+  /**
+   * Path of downloading a file from the server.
+   *
+   * ```ts
+   * await request('https://example.com', { downloadFile: 'filepath' })
+   * ```
+   */
+  downloadFile?: string
   pfx?: Buffer
   passphrase?: string
   agent?: boolean
@@ -119,6 +129,7 @@ export function querystringify (obj: any) {
  * @param {string=} options.auth Auth, format: user:password
  * @param {string=} options.file Upload file path
  * @param {WritableStream=} options.downloadStream Download stream
+ * @param {string=} options.downloadFile Download to file
  * @param {Buffer=} options.pfx pfx
  * @param {string=} options.passphrase passphrase
  * @param {boolean=} options.agent agent
@@ -136,6 +147,7 @@ export async function request<T = any> (url: string, {
   auth,
   file,
   downloadStream,
+  downloadFile,
   pfx,
   passphrase,
   agent,
@@ -174,18 +186,7 @@ export async function request<T = any> (url: string, {
 
   if (!uri.protocol) throw Error('Unknown protocol')
 
-  const options: {
-    method: string
-    headers: http.OutgoingHttpHeaders
-    host?: string
-    path: string
-    port: string
-    timeout?: number
-    auth?: string
-    pfx?: Buffer
-    passphrase?: string
-    agent?: boolean
-  } = {
+  const options: https.RequestOptions = {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: method ? method.toUpperCase() : 'GET',
@@ -195,7 +196,7 @@ export async function request<T = any> (url: string, {
     auth,
     pfx,
     passphrase,
-    agent
+    agent,
   }
 
   for (const key in headers)
@@ -223,9 +224,11 @@ export async function request<T = any> (url: string, {
     const req = protocol.request(options, function (res: http.IncomingMessage) {
       if (downloadStream) {
         res.pipe(downloadStream)
-        downloadStream.on('finish', function () {
-          resolve(undefined)
-        })
+        downloadStream.on('finish', () => resolve(undefined))
+      } else if (downloadFile) {
+        const stream = createWriteStream(downloadFile)
+        res.pipe(stream)
+        stream.on('finish', () => resolve(undefined))
       } else {
         const raw: Buffer[] = []
         res.on('data', (chunk: any) => {

@@ -1,5 +1,5 @@
 import { request } from '..'
-import { readFileSync } from 'fs'
+import { readFileSync, createWriteStream } from 'fs'
 
 describe('request', function () {
   test('200', async () => {
@@ -72,5 +72,22 @@ describe('request', function () {
       expect(res.request.body).toEqual('{"test":1}')
       expect(res.body.Response.Error.Code).toEqual('InvalidParameter')
     })
+  })
+
+  it('downloadFile', async () => {
+    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE', { downloadFile: __dirname + '/LICENSE.downloadFile.tmp' })
+
+    expect(res).toBeUndefined()
+
+    expect(readFileSync(process.cwd() + '/LICENSE').toString()).toEqual(readFileSync(__dirname + '/LICENSE.downloadFile.tmp').toString())
+  })
+
+  it('downloadStream', async () => {
+    const stream = createWriteStream(__dirname + '/LICENSE.downloadStream.tmp')
+    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE', { downloadStream: stream })
+
+    expect(res).toBeUndefined()
+
+    expect(readFileSync(process.cwd() + '/LICENSE').toString()).toEqual(readFileSync(__dirname + '/LICENSE.downloadStream.tmp').toString())
   })
 })

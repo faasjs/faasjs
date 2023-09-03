@@ -19,3 +19,4 @@ docs/*.md
 !docs/README.md
 .turbo
 output.txt
+*.tmp
