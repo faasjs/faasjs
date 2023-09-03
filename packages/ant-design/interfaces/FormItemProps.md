@@ -44,7 +44,7 @@
 
 ### children
 
-• `Optional` **children**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`T`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
 
 ___
 
@@ -68,13 +68,13 @@ ___
 
 ### formChildren
 
-• `Optional` **formChildren**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`T`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
 
 ___
 
 ### formRender
 
-• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`, `any`\>
+• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 ### render
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`, `any`\>
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
 
 ___
 

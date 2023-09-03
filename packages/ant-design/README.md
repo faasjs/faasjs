@@ -45,10 +45,6 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [Form](modules/Form.md)
 - [FormItem](modules/FormItem.md)
 
-### Classes
-
-- [ErrorBoundary](classes/ErrorBoundary.md)
-
 ### Interfaces
 
 - [AppProps](interfaces/AppProps.md)
@@ -107,6 +103,7 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [Blank](#blank)
 - [ConfigProvider](#configprovider)
 - [Description](#description)
+- [ErrorBoundary](#errorboundary)
 - [FaasDataWrapper](#faasdatawrapper)
 - [Form](#form)
 - [FormItem](#formitem)
@@ -502,6 +499,22 @@ Description component.
 
 ___
 
+### ErrorBoundary
+
+▸ **ErrorBoundary**(`props`): `Element`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`ErrorBoundaryProps`](interfaces/ErrorBoundaryProps.md) |
+
+#### Returns
+
+`Element`
+
+___
+
 ### FaasDataWrapper
 
 ▸ **FaasDataWrapper**<`T`\>(`props`): `JSX.Element`
@@ -544,10 +557,6 @@ ___
 
 Form component with Ant Design & FaasJS
 
-**`Ref`**
-
-https://ant.design/components/form/
-
 #### Type parameters
 
 | Name | Type |
@@ -563,6 +572,10 @@ https://ant.design/components/form/
 #### Returns
 
 `Element`
+
+**`Ref`**
+
+https://ant.design/components/form/
 
 ___
 
@@ -702,10 +715,6 @@ ___
 
 Table component with Ant Design & FaasJS
 
-**`Ref`**
-
-https://ant.design/components/table/
-
 #### Type parameters
 
 | Name | Type |
@@ -723,6 +732,10 @@ https://ant.design/components/table/
 
 `Element`
 
+**`Ref`**
+
+https://ant.design/components/table/
+
 ___
 
 ### Tabs
@@ -730,10 +743,6 @@ ___
 ▸ **Tabs**(`props`): `Element`
 
 Tabs component with Ant Design & FaasJS
-
-**`Ref`**
-
-https://ant.design/components/tabs/
 
 #### Parameters
 
@@ -744,6 +753,10 @@ https://ant.design/components/tabs/
 #### Returns
 
 `Element`
+
+**`Ref`**
+
+https://ant.design/components/tabs/
 
 ___
 
@@ -907,10 +920,7 @@ Request faas server with React hook
 | :------ | :------ | :------ |
 | `action` | `string` \| `PathOrData` | {string} action name |
 | `defaultParams` | `FaasParams`<`PathOrData`\> | {object} initial action params |
-| `options?` | `Object` | - |
-| `options.data?` | `FaasData`<`PathOrData`\> | - |
-| `options.setData?` | `Dispatch`<`SetStateAction`<`FaasData`<`PathOrData`\>\>\> | - |
-| `options.skip?` | `boolean` | - |
+| `options?` | `useFaasOptions`<`PathOrData`\> | - |
 
 #### Returns
 

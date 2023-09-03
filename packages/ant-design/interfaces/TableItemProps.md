@@ -35,7 +35,7 @@
 
 ### children
 
-• `Optional` **children**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`T`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
 
 ___
 
@@ -73,19 +73,19 @@ ___
 
 ### render
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`, `any`\>
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
 
 ___
 
 ### tableChildren
 
-• `Optional` **tableChildren**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`T`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **tableChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
 
 ___
 
 ### tableRender
 
-• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`, `any`\>
+• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
 
 ___
 

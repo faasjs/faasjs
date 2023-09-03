@@ -80,6 +80,10 @@ Reference: [Default Query Function | TanStack Query](https://tanstack.com/query/
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
 
+### Functions
+
+- [generateId](#generateid)
+
 ## Type Aliases
 
 ### FaasBrowserClientAction
@@ -125,3 +129,13 @@ ___
 #### Index signature
 
 ▪ [key: `string`]: `string`
+
+## Functions
+
+### generateId
+
+▸ **generateId**(): `string`
+
+#### Returns
+
+`string`

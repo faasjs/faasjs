@@ -9,7 +9,7 @@
 
 ## Hierarchy
 
-- `DescriptionsProps`
+- `Omit`<`DescriptionsProps`, ``"items"``\>
 
   ↳ **`DescriptionProps`**
 
@@ -21,6 +21,9 @@
 - [extendTypes](DescriptionProps.md#extendtypes)
 - [faasData](DescriptionProps.md#faasdata)
 - [items](DescriptionProps.md#items)
+
+### Methods
+
 - [renderTitle](DescriptionProps.md#rendertitle)
 
 ## Properties
@@ -51,22 +54,18 @@ ___
 
 • **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)<`any`\>)[]
 
-___
+## Methods
 
 ### renderTitle
 
-• `Optional` **renderTitle**: (`values`: `T`) => `ReactNode`
+▸ `Optional` **renderTitle**(`values`): `ReactNode`
 
-#### Type declaration
-
-▸ (`values`): `ReactNode`
-
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `values` | `T` |
 
-##### Returns
+#### Returns
 
 `ReactNode`

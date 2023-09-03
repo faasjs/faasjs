@@ -7,6 +7,7 @@
 - [block](LinkProps.md#block)
 - [button](LinkProps.md#button)
 - [children](LinkProps.md#children)
+- [copyable](LinkProps.md#copyable)
 - [href](LinkProps.md#href)
 - [style](LinkProps.md#style)
 - [target](LinkProps.md#target)
@@ -22,13 +23,21 @@ ___
 
 ### button
 
-• `Optional` **button**: `Partial`<{} & `BaseButtonProps` & `Omit`<`AnchorHTMLAttributes`<`HTMLAnchorElement` \| `HTMLButtonElement`\>, ``"type"`` \| ``"onClick"``\> & {} & `Omit`<`ButtonHTMLAttributes`<`HTMLButtonElement`\>, ``"type"`` \| ``"onClick"``\>\>
+• `Optional` **button**: `ButtonProps`
 
 ___
 
 ### children
 
 • `Optional` **children**: `ReactNode`
+
+___
+
+### copyable
+
+• `Optional` **copyable**: `boolean`
+
+only use for text without button
 
 ___
 
@@ -46,7 +55,7 @@ ___
 
 ### target
 
-• `Optional` **target**: `string`
+• `Optional` **target**: ``"_blank"``
 
 ___
 

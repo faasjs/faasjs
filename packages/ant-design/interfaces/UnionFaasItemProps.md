@@ -70,7 +70,7 @@ ___
 
 ### descriptionChildren
 
-• `Optional` **descriptionChildren**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`any`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **descriptionChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`any`\>
 
 #### Inherited from
 
@@ -80,7 +80,7 @@ ___
 
 ### descriptionRender
 
-• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`, `any`\>
+• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`\>
 
 #### Inherited from
 
@@ -110,7 +110,7 @@ ___
 
 ### formChildren
 
-• `Optional` **formChildren**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`any`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`any`\>
 
 #### Inherited from
 
@@ -120,7 +120,7 @@ ___
 
 ### formRender
 
-• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`, `any`\>
+• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`\>
 
 #### Inherited from
 
@@ -284,7 +284,7 @@ ___
 
 ### tableChildren
 
-• `Optional` **tableChildren**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<`any`, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **tableChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`any`\>
 
 #### Inherited from
 
@@ -294,7 +294,7 @@ ___
 
 ### tableRender
 
-• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`, `any`\>
+• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`\>
 
 #### Inherited from
 

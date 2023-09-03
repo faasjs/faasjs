@@ -111,10 +111,6 @@ ___
 
 Request
 
-**`Url`**
-
-https://faasjs.com/doc/request.html
-
 #### Type parameters
 
 | Name | Type |
@@ -132,6 +128,10 @@ https://faasjs.com/doc/request.html
 
 `Promise`<[`Response`](#response)<`T`\>\>
 
+**`Url`**
+
+https://faasjs.com/doc/request.html
+
 ___
 
 ### setMock
@@ -139,12 +139,6 @@ ___
 ▸ **setMock**(`handler`): `void`
 
 Mock requests
-
-**`Example`**
-
-```ts
-setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
-```
 
 #### Parameters
 
@@ -155,3 +149,9 @@ setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, 
 #### Returns
 
 `void`
+
+**`Example`**
+
+```ts
+setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
+```

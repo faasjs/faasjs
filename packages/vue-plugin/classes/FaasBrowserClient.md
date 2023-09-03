@@ -18,6 +18,7 @@ await client.action('func', { key: 'value' })
 
 - [defaultOptions](FaasBrowserClient.md#defaultoptions)
 - [host](FaasBrowserClient.md#host)
+- [id](FaasBrowserClient.md#id)
 
 ### Methods
 
@@ -47,6 +48,12 @@ ___
 ### host
 
 • **host**: `string`
+
+___
+
+### id
+
+• `Readonly` **id**: `string`
 
 ## Methods
 
