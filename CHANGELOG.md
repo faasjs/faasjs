@@ -2,10 +2,16 @@
 
 ## Beta
 
-[`v0.0.3-beta.99 (2023-08-29)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.98...v0.0.3-beta.99)
+[`v0.0.3-beta.101 (2023-09-03)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.100...v0.0.3-beta.101)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix `Link` global style.
+
+[`v0.0.3-beta.100 (2023-08-29)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.98...v0.0.3-beta.100)
 
 - `@faasjs/ant-design`
   - [Fix] Fix `Link` style.
+  - [Fix] Fix `Link` onClick bug.
 
 [`v0.0.3-beta.98 (2023-08-26)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.97...v0.0.3-beta.98)
 
