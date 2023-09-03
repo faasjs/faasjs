@@ -11,11 +11,11 @@
     "build:docs": "node build-docs.js"
   },
   "devDependencies": {
+    "tsup": "*",
+    "turbo": "^1.10.13",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "tsup": "*",
-    "typescript": "*",
-    "turbo": "*"
+    "typescript": "*"
   },
   "eslintConfig": {
     "ignorePatterns": [
@@ -70,7 +70,10 @@
       "./packages/ant-design/src/__tests__/jest.setup"
     ],
     "testEnvironmentOptions": {
-      "customExportConditions": ["node", "node-addons"]
+      "customExportConditions": [
+        "node",
+        "node-addons"
+      ]
     }
   }
 }
