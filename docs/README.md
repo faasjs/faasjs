@@ -69,11 +69,15 @@ describe('index', function () {
 });
 ```
 
-## Get Started
+## Quickstart
 
 ```bash
 npx create-faas-app --name faasjs --example --noprovider
 ```
+
+## Playground
+
+[Fork and open in codespace or your computer.](https://github.com/faasjs/starter)
 
 <div style="padding:0 2.5rem;text-align:center">
   <div class="features">
