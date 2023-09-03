@@ -49,7 +49,11 @@ export function Link (props: LinkProps) {
       }, computedStyle)
 
     setStyle(computedStyle)
-  }, [props.style, props.block])
+  }, [
+    props.style,
+    props.block,
+    Config.style,
+  ])
 
   if (!style) return null
 

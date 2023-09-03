@@ -44,15 +44,13 @@ describe('Link', () => {
   })
 
   it('work with copyable', async function () {
-    const { container, debug } = render(<BrowserRouter>
+    const { container } = render(<BrowserRouter>
       <Link
         href='/'
         text='text'
         copyable
       />
     </BrowserRouter>)
-
-    debug()
 
     expect(container.querySelector('.ant-typography-copy')).toBeInTheDocument()
   })
