@@ -2,6 +2,10 @@ import type {
   FaasAction, FaasData, FaasParams
 } from '@faasjs/types'
 
+import { generateId } from './generateId'
+
+export { generateId } from './generateId'
+
 export type Options = RequestInit & {
   headers?: {
     [key: string]: string
@@ -47,18 +51,18 @@ export class Response<T = any> {
   public readonly body: any
   public readonly data: T
 
-  constructor ({
-    status, headers, body, data
-  }: {
-    status: number
-    headers: ResponseHeaders
+  constructor (props: {
+    status?: number
+    headers?: ResponseHeaders
     body?: any
     data?: T
   }) {
-    this.status = status
-    this.headers = headers
-    this.body = body
-    this.data = data
+    this.status = props.status || 200
+    this.headers = props.headers || {}
+    this.body = props.body
+    this.data = props.data
+
+    if (props.data && !props.body) this.body = JSON.stringify(props.data)
   }
 }
 
@@ -91,11 +95,35 @@ export class ResponseError extends Error {
   }
 }
 
+export type MockHandler = (action: string, params: Record<string, any>, options: Options) => Promise<Response<any>>
+
+let mock: MockHandler
+
 /**
- * Generate random id
+ * Set mock handler for testing
+ *
+ * @param handler mock handler, set `undefined` to clear mock
+ *
+ * @example
+ * ```ts
+ * import { setMock } from '@faasjs/browser'
+ *
+ * setMock(async ({ action, params, options }) => {
+ *   return new Response({
+ *     status: 200,
+ *     data: {
+ *       name: 'FaasJS'
+ *     }
+ *   })
+ * })
+ *
+ * const client = new FaasBrowserClient('/')
+ *
+ * const response = await client.action('path') // response.data.name === 'FaasJS'
+ * ```
  */
-export function generateId () {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2)
+export function setMock (handler: MockHandler) {
+  mock = handler
 }
 
 /**
@@ -166,6 +194,9 @@ export class FaasBrowserClient {
 
     if (options.request)
       return options.request(url, options)
+
+    if (mock)
+      return mock(action as string, params, options)
 
     return fetch(url, options)
       .then( async response => {

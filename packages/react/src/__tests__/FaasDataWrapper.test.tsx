@@ -7,27 +7,29 @@ import {
 } from '..'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
+import { Response, setMock } from '@faasjs/browser'
 
 describe('FaasDataWrapper', () => {
-  let originalFetch: any
   let current = 0
 
   beforeEach(() => {
     current = 0
-    originalFetch = window.fetch
-    window.fetch = jest.fn(async (action, args) => {
+
+    setMock(async (action, params) => {
       current ++
-      return Promise.resolve({
+
+      return Promise.resolve(new Response({
         status: 200,
-        headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => (args.body === '{}' ? JSON.stringify({ data: current }) : JSON.stringify({ data: JSON.parse(args.body as string) }))
-      }) as unknown as Promise<Response>
+        headers: { 'Content-Type': 'application/json' },
+        data: params?.v ? params : current,
+      }))
     })
+
     FaasReactClient({ domain: 'test' })
   })
 
   afterEach(() => {
-    window.fetch = originalFetch
+    setMock(undefined)
   })
 
   it('should work', async () => {

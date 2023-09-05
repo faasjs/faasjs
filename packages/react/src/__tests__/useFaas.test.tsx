@@ -5,28 +5,27 @@ import { render, screen } from '@testing-library/react'
 import { FaasReactClient, useFaas } from '..'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
+import { Response, setMock } from '@faasjs/browser'
 
 describe('useFaas', () => {
-  let originalFetch: any
   let current = 0
 
   beforeEach(() => {
     current = 0
-    originalFetch = window.fetch
     FaasReactClient({ domain: 'test' })
   })
 
   afterEach(() => {
-    window.fetch = originalFetch
+    setMock(undefined)
   })
 
   it('should work', async () => {
-    window.fetch = jest.fn(async (action, args) => {
+    setMock(async () => {
       current ++
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => JSON.stringify({ data: current }),
+        data: current,
       }) as unknown as Promise<Response>
     })
 
@@ -46,13 +45,13 @@ describe('useFaas', () => {
   })
 
   it('should work with controlled params', async () => {
-    window.fetch = jest.fn(async (action, args) => {
+    setMock(async (_, params) => {
       current ++
-      return Promise.resolve({
+      return Promise.resolve(new Response({
         status: 200,
-        headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => JSON.stringify({ data: JSON.parse(args.body as string) })
-      }) as unknown as Promise<Response>
+        headers: { 'Content-Type': 'application/json' },
+        data: params,
+      }))
     })
 
     function App () {
@@ -74,13 +73,13 @@ describe('useFaas', () => {
 
   it('should work with debounce', async () => {
     let times = 0
-    window.fetch = jest.fn(async (action, args) => {
+    setMock(async (_, params) => {
       times ++
-      return Promise.resolve({
+      return Promise.resolve(new Response({
         status: 200,
-        headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => JSON.stringify({ data: JSON.parse(args.body as string) }),
-      }) as unknown as Promise<Response>
+        headers: { 'Content-Type': 'application/json' },
+        data: params,
+      }))
     })
 
     function Test () {

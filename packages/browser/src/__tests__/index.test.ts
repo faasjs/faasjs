@@ -2,7 +2,9 @@
  * @jest-environment jsdom
  */
 import { FaasActions } from '@faasjs/types'
-import { FaasBrowserClient, Response as FaasResponse } from '..'
+import {
+  FaasBrowserClient, Response as FaasResponse, Response, setMock
+} from '..'
 import { expectType } from 'tsd'
 
 let request: {
@@ -28,7 +30,7 @@ describe('client', function () {
   beforeEach(function () {
     request = {}
 
-    window.fetch = jest.fn(defaultMock)
+    window.fetch = jest.fn(defaultMock) as any
   })
 
   it('should work', async function () {
@@ -92,11 +94,28 @@ describe('client', function () {
         headers: new Map(),
         text: async () => Promise.resolve('{"error":{"message":"no"}}')
       }) as unknown as Promise<Response>
-    })
+    }) as any
 
     const client = new FaasBrowserClient('/')
 
     await expect(client.action('path')).rejects.toEqual(Error('no'))
+  })
+
+  it('work with mock', async function () {
+    setMock(async () => new Response({
+      status: 100,
+      data: {},
+    }))
+
+    const client = new FaasBrowserClient('/')
+
+    const response = await client.action('path')
+
+    expect(response.status).toEqual(100)
+
+    expect(response.data).toEqual({})
+
+    setMock(undefined)
   })
 })
 
@@ -113,7 +132,7 @@ describe('types', () => {
   beforeEach(function () {
     request = {}
 
-    window.fetch = jest.fn(defaultMock)
+    window.fetch = jest.fn(defaultMock) as any
   })
 
   it('should work', async () => {
