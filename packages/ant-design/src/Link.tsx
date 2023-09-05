@@ -1,6 +1,4 @@
-import {
-  type ReactNode, type CSSProperties, useState, useEffect
-} from 'react'
+import { type ReactNode, type CSSProperties } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useConfigContext } from './Config'
 import {
@@ -17,6 +15,7 @@ export interface LinkProps {
   block?: boolean
   /** only use for text without button */
   copyable?: boolean
+  onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
 /**
@@ -53,6 +52,7 @@ export function Link (props: LinkProps) {
         target={ props.target || Config?.target || '_blank' }
         style={ computedStyle }
         href={ props.href }
+        onClick={ props.onClick }
       >{props.text ?? props.children}</Button>
 
     if (props.children)
@@ -60,6 +60,7 @@ export function Link (props: LinkProps) {
         href={ props.href }
         target={ props.target || Config?.target }
         style={ computedStyle }
+        onClick={ props.onClick }
       >{props.children}</a>
 
     return <Typography.Link
@@ -67,6 +68,7 @@ export function Link (props: LinkProps) {
       target={ props.target || Config?.target || '_blank' }
       style={ computedStyle }
       copyable={ props.copyable }
+      onClick={ props.onClick }
     >{props.text}</Typography.Link>
   }
 
@@ -74,7 +76,7 @@ export function Link (props: LinkProps) {
     return <Button
       { ...props.button }
       style={ computedStyle }
-      onClick={ () => ((props.target || Config?.target) === '_blank' ? window.open(props.href) : navigate(props.href)) }
+      onClick={ e => (props.onClick ? props.onClick(e) : ((props.target || Config?.target) === '_blank' ? window.open(props.href) : navigate(props.href))) }
     >{props.text ?? props.children}</Button>
 
   if (props.children)
@@ -82,6 +84,7 @@ export function Link (props: LinkProps) {
       to={ props.href }
       target={ props.target || Config?.target }
       style={ computedStyle }
+      onClick={ props.onClick }
     >{props.children}</RouterLink>
 
   return <Typography.Link
@@ -90,6 +93,10 @@ export function Link (props: LinkProps) {
     style={ computedStyle }
     copyable={ props.copyable }
     onClick={ e => {
+      if (props.onClick) {
+        props.onClick(e)
+        return
+      }
       if ((props.target || Config?.target) !== '_blank') {
         e.preventDefault()
         navigate(props.href)
