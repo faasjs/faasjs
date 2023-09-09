@@ -25,8 +25,11 @@
     "@faasjs/react": "0.0.3-beta.104",
     "@ant-design/icons": "*",
     "lodash-es": "*",
-    "dayjs": "*",
+    "dayjs": "*"
+  },
+  "peerDependencies": {
     "antd": "*",
+    "react": "*",
     "react-dom": "*",
     "react-router-dom": "*"
   },
