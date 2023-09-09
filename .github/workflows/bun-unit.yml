@@ -52,7 +52,7 @@ jobs:
           bun-version: latest
       - name: Install Dependencies
         run: bun install --no-cache --peer
-      # - name: Build packages
-      #   run: bun run build
+      - name: Build packages
+        run: bun run build
       - name: Run Tests
         run: bun run test
