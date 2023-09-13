@@ -88,9 +88,9 @@ function deepClone (obj: Record<string, any>) {
     return obj;
   }
 
-  let clone: Record<string, any> ={}
+  const clone: Record<string, any> ={}
 
-  for (let key in obj) {
+  for (const key in obj) {
     if (!obj.hasOwnProperty(key)) continue
 
     if (typeof obj[key] === 'function') {
