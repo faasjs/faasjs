@@ -83,6 +83,28 @@ export class HttpError extends Error {
 
 const Name = 'http'
 
+function deepClone (obj: Record<string, any>) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  let clone: Record<string, any> ={}
+
+  for (let key in obj) {
+    if (!obj.hasOwnProperty(key)) continue
+
+    if (typeof obj[key] === 'function') {
+      clone[key] = obj[key].bind(clone)
+      continue
+    }
+
+    clone[key] = deepClone(obj[key])
+  }
+
+  return clone
+}
+
+
 export class Http<TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any
@@ -200,7 +222,7 @@ export class Http<TParams extends Record<string, any> = any,
       if (this.params && typeof this.params === 'object' && this.params['_'])
         delete this.params['_']
 
-      data.event.params = JSON.parse(JSON.stringify(this.params))
+      data.event.params = deepClone(this.params)
 
       data.logger.debug('[onInvoke] Params: %j', this.params)
     }
