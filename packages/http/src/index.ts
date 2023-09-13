@@ -90,6 +90,7 @@ function deepClone (obj: Record<string, any>) {
   const clone: Record<string, any> = {}
 
   for (const key in obj) {
+    // eslint-disable-next-line no-prototype-builtins
     if (!obj.hasOwnProperty(key)) continue
 
     if (typeof obj[key] === 'function') {
