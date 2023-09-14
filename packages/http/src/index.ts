@@ -84,7 +84,10 @@ export class HttpError extends Error {
 const Name = 'http'
 
 function deepClone (obj: Record<string, any>) {
-  if (obj === null || typeof obj !== 'object' || Array.isArray(obj))
+  if (obj === null || typeof obj !== 'object')
+    return obj
+
+  if (Array.isArray(obj))
     return JSON.parse(JSON.stringify(obj))
 
   const clone: Record<string, any> = {}
