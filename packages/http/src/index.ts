@@ -97,7 +97,7 @@ function deepClone (obj: Record<string, any>) {
     if (!obj.hasOwnProperty(key)) continue
 
     if (typeof obj[key] === 'function') {
-      clone[key] = obj[key].bind(clone)
+      clone[key] = obj[key]
       continue
     }
 
