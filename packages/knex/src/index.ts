@@ -165,7 +165,7 @@ export class Knex implements Plugin {
   }
 
   public async transaction<TResult = any> (
-    scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: any
+    scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: K.TransactionConfig
   ): Promise<TResult> {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
@@ -231,7 +231,7 @@ TName extends K.TableNames ? K.QueryBuilder<K.TableType<TName>, {
 
 export async function transaction<TResult = any> (
   scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void,
-  config?: any
+  config?: K.TransactionConfig
 ): Promise<TResult> {
   return useKnex().transaction(scope, config)
 }
