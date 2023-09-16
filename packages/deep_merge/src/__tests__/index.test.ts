@@ -8,8 +8,8 @@ describe('deepMerge', () => {
         string: '1',
         object: { key: '1' },
         date: new Date(1),
-        nest: { a: 1 }
-      }
+        nest: { a: 1 },
+      },
     }
     const b = {
       nest: {
@@ -17,8 +17,8 @@ describe('deepMerge', () => {
         string: '2',
         object: { key: '2' },
         date: new Date(2),
-        nest: { b: 1 }
-      }
+        nest: { b: 1 },
+      },
     }
 
     expect(deepMerge(a, b)).toEqual({
@@ -29,23 +29,23 @@ describe('deepMerge', () => {
         date: new Date(2),
         nest: {
           a: 1,
-          b: 1
-        }
-      }
+          b: 1,
+        },
+      },
     })
     expect(a.nest).toEqual({
       number: 1,
       string: '1',
       object: { key: '1' },
       date: new Date(1),
-      nest: { a: 1 }
+      nest: { a: 1 },
     })
     expect(b.nest).toEqual({
       number: 2,
       string: '2',
       object: { key: '2' },
       date: new Date(2),
-      nest: { b: 1 }
+      nest: { b: 1 },
     })
   })
 
@@ -54,20 +54,21 @@ describe('deepMerge', () => {
   })
 
   test('dup array', function () {
-    expect(deepMerge({
+    expect(
+      deepMerge(
+        {
+          a: {
+            a1: [0, 1],
+            a2: 2,
+          },
+        },
+        { a: { a1: [1, 2] } }
+      )
+    ).toEqual({
       a: {
-        a1: [0, 1],
-        a2: 2
-      }
-    }, { a: { a1: [1, 2] } })).toEqual({
-      a: {
-        a1: [
-          1,
-          2,
-          0
-        ],
-        a2: 2
-      }
+        a1: [1, 2, 0],
+        a2: 2,
+      },
     })
   })
 
@@ -85,18 +86,18 @@ describe('deepMerge', () => {
   test('nest dup', function () {
     const a = {
       a: 1,
-      nest: { b: 1 }
+      nest: { b: 1 },
     }
     const b = deepMerge(a)
     b.nest.b = 2
 
     expect(a).toEqual({
       a: 1,
-      nest: { b: 1 }
+      nest: { b: 1 },
     })
     expect(b).toEqual({
       a: 1,
-      nest: { b: 2 }
+      nest: { b: 2 },
     })
   })
 })

@@ -1,6 +1,12 @@
 import { deepMerge } from '@faasjs/deep_merge'
 import {
-  Plugin, DeployData, Next, MountData, InvokeData, usePlugin, UseifyPlugin
+  Plugin,
+  DeployData,
+  Next,
+  MountData,
+  InvokeData,
+  usePlugin,
+  UseifyPlugin,
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { Validator, ValidatorConfig } from './validator'
@@ -38,7 +44,11 @@ export type CloudFunctionConfig = {
 
 export type CloudFunctionAdapter = {
   invokeCloudFunction: (name: string, data: any, options?: any) => Promise<void>
-  invokeSyncCloudFunction: <TResult>(name: string, data: any, options?: any) => Promise<TResult>
+  invokeSyncCloudFunction: <TResult>(
+    name: string,
+    data: any,
+    options?: any
+  ) => Promise<TResult>
 }
 
 const Name = 'cloud_function'
@@ -89,7 +99,7 @@ export class CloudFunction implements Plugin {
    * @param config.validator.event.onError {function} 自定义报错
    * @param config.validator.event.rules {object} 参数校验规则
    */
-  constructor (config?: CloudFunctionConfig) {
+  constructor(config?: CloudFunctionConfig) {
     if (config) {
       this.name = config.name || Name
       this.config = config.config || Object.create(null)
@@ -101,12 +111,13 @@ export class CloudFunction implements Plugin {
     this.logger = new Logger(this.name)
   }
 
-  public async onDeploy (data: DeployData, next: Next): Promise<void> {
+  public async onDeploy(data: DeployData, next: Next): Promise<void> {
     this.logger.debug('[CloudFunction] Merge configuration...')
     this.logger.debug('%j', data)
 
-    const config = data.config.plugins ?
-      deepMerge(data.config.plugins[this.name], { config: this.config }) : { config: this.config }
+    const config = data.config.plugins
+      ? deepMerge(data.config.plugins[this.name], { config: this.config })
+      : { config: this.config }
 
     this.logger.debug('[CloudFunction] Merged configuration: %j', config)
 
@@ -124,16 +135,22 @@ export class CloudFunction implements Plugin {
     await next()
   }
 
-  public async onMount (data: MountData, next: Next): Promise<void> {
-    if (data.config.plugins && data.config.plugins[this.name || this.type])
-      this.config = deepMerge({ config: this.config },
-        data.config.plugins[this.name || this.type], {})
+  public async onMount(data: MountData, next: Next): Promise<void> {
+    if (data.config.plugins?.[this.name || this.type])
+      this.config = deepMerge(
+        { config: this.config },
+        data.config.plugins[this.name || this.type],
+        {}
+      )
 
     if (this.config.provider) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const Provider = require(this.config.provider.type).Provider
       this.adapter = new Provider(this.config.provider.config)
-    } else this.logger.warn('[onMount] Unknown provider, will use invoke and invokeSync with local mode.')
+    } else
+      this.logger.warn(
+        '[onMount] Unknown provider, will use invoke and invokeSync with local mode.'
+      )
 
     if (this.validatorConfig) {
       this.logger.debug('[onMount] prepare validator')
@@ -145,7 +162,7 @@ export class CloudFunction implements Plugin {
     await next()
   }
 
-  public async onInvoke (data: InvokeData, next: Next): Promise<void> {
+  public async onInvoke(data: InvokeData, next: Next): Promise<void> {
     this.event = data.event
     this.context = data.context
     if (this.validator) {
@@ -161,13 +178,19 @@ export class CloudFunction implements Plugin {
    * @param data {any} 参数
    * @param options {object} 额外配置项
    */
-  public async invoke<TData = any> (name: string, data?: TData, options?: Record<string, any>): Promise<void> {
+  public async invoke<TData = any>(
+    name: string,
+    data?: TData,
+    options?: Record<string, any>
+  ): Promise<void> {
     if (data == null) data = Object.create(null)
 
     if (process.env.FaasMode !== 'remote') {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
-      const func = new test.FuncWarper(`${process.env.FaasRoot || ''}${name.toLowerCase()}.func`)
+      const func = new test.FuncWarper(
+        `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`
+      )
       return func.handler(data, { request_id: this.logger.label })
     } else
       return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
@@ -179,27 +202,36 @@ export class CloudFunction implements Plugin {
    * @param data {any} 参数
    * @param options {object} 额外配置项
    */
-  public async invokeSync<TResult = any, TData = any> (name: string, data?: TData, options?: Record<string, any>): Promise<TResult> {
+  public async invokeSync<TResult = any, TData = any>(
+    name: string,
+    data?: TData,
+    options?: Record<string, any>
+  ): Promise<TResult> {
     if (data == null) data = Object.create(null)
 
     if (process.env.FaasMode !== 'remote') {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
-      const func = new test.FuncWarper(`${process.env.FaasRoot || ''}${name.toLowerCase()}.func`)
+      const func = new test.FuncWarper(
+        `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`
+      )
       return func.handler(data, { request_id: this.logger.label })
     } else
-      return this.adapter.invokeSyncCloudFunction<TResult>(name.toLowerCase(), data, options)
+      return this.adapter.invokeSyncCloudFunction<TResult>(
+        name.toLowerCase(),
+        data,
+        options
+      )
   }
 }
 
-export function useCloudFunction (config?: CloudFunctionConfig | (() => CloudFunctionConfig)):
-UseifyPlugin<CloudFunction> {
+export function useCloudFunction(
+  config?: CloudFunctionConfig | (() => CloudFunctionConfig)
+): UseifyPlugin<CloudFunction> {
   let configs
   if (config)
-    if (typeof config === 'function')
-      configs = config()
-    else
-      configs = config
+    if (typeof config === 'function') configs = config()
+    else configs = config
 
   const name = configs?.name || Name
 
@@ -209,28 +241,37 @@ UseifyPlugin<CloudFunction> {
 }
 
 /**
-* 异步触发云函数
-* @param name {string} 云函数文件名或云函数名
-* @param data {any} 参数
-* @param options {object} 额外配置项
-*/
-export async function invoke<TData = any> (name: string, data?: TData, options?: {
-  [key: string]: any
-}): Promise<void> {
-  return await useCloudFunction().invoke<TData>(name, data, options)
-}
-
-/**
-* 同步触发云函数
-* @param name {string} 云函数文件名或云函数名
-* @param data {any} 参数
-* @param options {object} 额外配置项
-*/
-export async function invokeSync<TResult = any, TData = any> (
+ * 异步触发云函数
+ * @param name {string} 云函数文件名或云函数名
+ * @param data {any} 参数
+ * @param options {object} 额外配置项
+ */
+export async function invoke<TData = any>(
   name: string,
   data?: TData,
   options?: {
     [key: string]: any
-  }): Promise<TResult> {
-  return await useCloudFunction().invokeSync<TResult, TData>(name, data, options)
+  }
+): Promise<void> {
+  return await useCloudFunction().invoke<TData>(name, data, options)
+}
+
+/**
+ * 同步触发云函数
+ * @param name {string} 云函数文件名或云函数名
+ * @param data {any} 参数
+ * @param options {object} 额外配置项
+ */
+export async function invokeSync<TResult = any, TData = any>(
+  name: string,
+  data?: TData,
+  options?: {
+    [key: string]: any
+  }
+): Promise<TResult> {
+  return await useCloudFunction().invokeSync<TResult, TData>(
+    name,
+    data,
+    options
+  )
 }

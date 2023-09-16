@@ -3,13 +3,16 @@
  */
 import { FaasActions } from '@faasjs/types'
 import {
-  FaasBrowserClient, Response as FaasResponse, Response, setMock
+  FaasBrowserClient,
+  Response as FaasResponse,
+  Response,
+  setMock,
 } from '..'
 import { expectType } from 'tsd'
 
 let request: {
-  url?: string;
-  method?: string;
+  url?: string
+  method?: string
   headers?: HeadersInit
 } = {}
 
@@ -22,7 +25,7 @@ const defaultMock = async (url: RequestInfo | URL, options: RequestInit) => {
   return Promise.resolve({
     status: 200,
     headers: new Map([['Content-Type', 'application/json']]),
-    text: async () => Promise.resolve('{"data":{}}')
+    text: async () => Promise.resolve('{"data":{}}'),
   }) as unknown as Promise<Response>
 }
 
@@ -40,9 +43,13 @@ describe('client', function () {
     expect(client.defaultOptions).toEqual({})
     expect(request.url.substring(0, 8)).toEqual('/path?_=')
     expect(request.method).toEqual('POST')
-    expect(request.headers).toMatchObject({ 'Content-Type': 'application/json; charset=UTF-8' })
+    expect(request.headers).toMatchObject({
+      'Content-Type': 'application/json; charset=UTF-8',
+    })
     expect(response.status).toEqual(200)
-    expect(response.headers).toMatchObject({ 'Content-Type': 'application/json' })
+    expect(response.headers).toMatchObject({
+      'Content-Type': 'application/json',
+    })
     expect(response.data).toEqual({})
   })
 
@@ -50,14 +57,16 @@ describe('client', function () {
     const client = new FaasBrowserClient('/', {
       beforeRequest: async ({ options }) => {
         options.method = 'GET'
-        options.headers = { 'Content-Type': 'plain/text; charset=UTF-8', }
-      }
+        options.headers = { 'Content-Type': 'plain/text; charset=UTF-8' }
+      },
     })
     await client.action('path')
 
     expect(request.url.substring(0, 8)).toEqual('/path?_=')
     expect(request.method).toEqual('GET')
-    expect(request.headers).toMatchObject({ 'Content-Type': 'plain/text; charset=UTF-8' })
+    expect(request.headers).toMatchObject({
+      'Content-Type': 'plain/text; charset=UTF-8',
+    })
   })
 
   it('work with request', async function () {
@@ -65,36 +74,42 @@ describe('client', function () {
       status: 200,
       headers: {},
       body: {},
-      data: {}
+      data: {},
     })
 
     const client = new FaasBrowserClient('/', {
       request: (url, options) => {
         return new Promise((resolve, reject) => {
-          JSON.parse(options.body as any).success ? resolve(resData) : reject('error')
+          JSON.parse(options.body as any).success
+            ? resolve(resData)
+            : reject('error')
         })
-      }
+      },
     })
 
     const response = await client.action('/success', { success: true })
 
     expect(response.data).toEqual(response.data)
-    await expect(client.action('/error', { success: false })).rejects.toEqual('error')
+    await expect(client.action('/error', { success: false })).rejects.toEqual(
+      'error'
+    )
   })
 
   it('when error', async function () {
-    window.fetch = jest.fn(async (url: RequestInfo | URL, options: RequestInit) => {
-      request = {
-        url: url as string,
-        method: options.method,
-        headers: options.headers,
+    window.fetch = jest.fn(
+      async (url: RequestInfo | URL, options: RequestInit) => {
+        request = {
+          url: url as string,
+          method: options.method,
+          headers: options.headers,
+        }
+        return Promise.resolve({
+          status: 500,
+          headers: new Map(),
+          text: async () => Promise.resolve('{"error":{"message":"no"}}'),
+        }) as unknown as Promise<Response>
       }
-      return Promise.resolve({
-        status: 500,
-        headers: new Map(),
-        text: async () => Promise.resolve('{"error":{"message":"no"}}')
-      }) as unknown as Promise<Response>
-    }) as any
+    ) as any
 
     const client = new FaasBrowserClient('/')
 
@@ -102,10 +117,13 @@ describe('client', function () {
   })
 
   it('work with mock', async function () {
-    setMock(async () => new Response({
-      status: 100,
-      data: {},
-    }))
+    setMock(
+      async () =>
+        new Response({
+          status: 100,
+          data: {},
+        })
+    )
 
     const client = new FaasBrowserClient('/')
 
@@ -139,8 +157,14 @@ describe('types', () => {
     const client = new FaasBrowserClient('/')
 
     expectType<FaasResponse<any>>(await client.action('/', {}))
-    expectType<FaasResponse<{ value: number }>>(await client.action<{ value: number }>('/', {}))
-    expectType<FaasResponse<FaasActions['/type']['Data']>>(await client.action('/type', { key: 'key' }))
-    expectType<string>(await client.action('/type', { key: 'key' }).then(res => res.data.value))
+    expectType<FaasResponse<{ value: number }>>(
+      await client.action<{ value: number }>('/', {})
+    )
+    expectType<FaasResponse<FaasActions['/type']['Data']>>(
+      await client.action('/type', { key: 'key' })
+    )
+    expectType<string>(
+      await client.action('/type', { key: 'key' }).then(res => res.data.value)
+    )
   })
 })

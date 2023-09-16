@@ -1,6 +1,4 @@
-import {
-  Func, Plugin, DeployData, Next, InvokeData, MountData
-} from '../index'
+import { Func, Plugin, DeployData, Next, InvokeData, MountData } from '../index'
 
 describe('plugins', function () {
   test('onDeploy', async function () {
@@ -9,7 +7,7 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public onDeploy (data: DeployData, next: Next) {
+      public onDeploy(data: DeployData, next: Next) {
         results.push('before1')
         next()
         results.push('after1')
@@ -19,7 +17,7 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public onDeploy (data: DeployData, next: Next) {
+      public onDeploy(data: DeployData, next: Next) {
         results.push('before2')
         next()
         results.push('after2')
@@ -28,7 +26,7 @@ describe('plugins', function () {
 
     const func = new Func({
       plugins: [new P1(), new P2()],
-      handler: async () => 1
+      handler: async () => 1,
     })
 
     results.push('begin')
@@ -37,7 +35,7 @@ describe('plugins', function () {
       filename: 'base',
       env: 'testing',
       config: {},
-      dependencies: {}
+      dependencies: {},
     })
     results.push('end')
 
@@ -47,7 +45,7 @@ describe('plugins', function () {
       'before2',
       'after2',
       'after1',
-      'end'
+      'end',
     ])
   })
 
@@ -57,7 +55,7 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public onMount (data: MountData, next: Next) {
+      public onMount(data: MountData, next: Next) {
         results.push('before1')
         next()
         results.push('after1')
@@ -67,7 +65,7 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public onMount (data: MountData, next: Next) {
+      public onMount(data: MountData, next: Next) {
         results.push('before2')
         next()
         results.push('after2')
@@ -76,14 +74,14 @@ describe('plugins', function () {
 
     const func = new Func({
       plugins: [new P1(), new P2()],
-      handler: async () => 1
+      handler: async () => 1,
     })
 
     results.push('begin')
     await func.mount({
       config: func.config,
       event: null,
-      context: null
+      context: null,
     })
     results.push('end')
 
@@ -93,7 +91,7 @@ describe('plugins', function () {
       'before2',
       'after2',
       'after1',
-      'end'
+      'end',
     ])
   })
 
@@ -103,7 +101,7 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public async onInvoke (data: InvokeData, next: Next) {
+      public async onInvoke(data: InvokeData, next: Next) {
         results.push('before1')
         data.response += 'before1'
         await next()
@@ -116,7 +114,7 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public async onInvoke (data: InvokeData, next: Next) {
+      public async onInvoke(data: InvokeData, next: Next) {
         results.push('before2')
         data.response += 'before2'
         await next()
@@ -128,9 +126,9 @@ describe('plugins', function () {
 
     const func = new Func({
       plugins: [new P1(), new P2()],
-      async handler () {
+      async handler() {
         return 'base'
-      }
+      },
     })
 
     const data: any = {
@@ -141,14 +139,14 @@ describe('plugins', function () {
       response: null,
       handler: func.handler,
       logger: func.logger,
-      config: func.config
+      config: func.config,
     }
 
     results.push('begin')
     await func.mount({
       config: func.config,
       event: null,
-      context: null
+      context: null,
     })
     await func.invoke(data)
     results.push('end')
@@ -159,7 +157,7 @@ describe('plugins', function () {
       'before2',
       'after2',
       'after1',
-      'end'
+      'end',
     ])
     expect(data.response).toEqual('baseafter2after1')
   })
@@ -169,7 +167,7 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public async onMount (data: MountData, next: Next) {
+      public async onMount(data: MountData, next: Next) {
         await next()
         await next()
       }
@@ -177,14 +175,14 @@ describe('plugins', function () {
 
     const func = new Func({
       plugins: [new P()],
-      handler: async () => 1
+      handler: async () => 1,
     })
 
     try {
       await func.mount({
         config: func.config,
         event: null,
-        context: null
+        context: null,
       })
     } catch (error: any) {
       expect(error.message).toEqual('next() called multiple times')

@@ -7,8 +7,13 @@ const suite = new Benchmark.Suite()
 
 process.env.FaasLog = 'error'
 
-const plain = useFunc(function () { return function() {} }).export().handler
-const http = useFunc(function () { useHttp(); return function() {} }).export().handler
+const plain = useFunc(function () {
+  return function () {}
+}).export().handler
+const http = useFunc(function () {
+  useHttp()
+  return function () {}
+}).export().handler
 
 suite
   .add('Plain func', async function () {

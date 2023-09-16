@@ -1,5 +1,9 @@
 import {
-  createContext, useContext, CSSProperties, useEffect, useState
+  createContext,
+  useContext,
+  CSSProperties,
+  useEffect,
+  useState,
 } from 'react'
 import { defaultsDeep } from 'lodash-es'
 
@@ -74,9 +78,9 @@ const baseConfig = {
   Form: { submit: { text: common.submit } },
   Title: {
     separator: ' - ',
-    suffix: ''
+    suffix: '',
   },
-  Link: { style: {} }
+  Link: { style: {} },
 }
 
 export const ConfigContext = createContext<ConfigProviderProps>(baseConfig)
@@ -94,31 +98,37 @@ export const ConfigContext = createContext<ConfigProviderProps>(baseConfig)
  * </ConfigProvider>
  * ```
  */
-export function ConfigProvider ({
+export function ConfigProvider({
   config,
-  children
+  children,
 }: {
   config: ConfigProviderProps
-  children: React.ReactNode }) {
+  children: React.ReactNode
+}) {
   const [values, setValues] = useState<ConfigProviderProps>(baseConfig)
 
   useEffect(() => {
     if (config.lang === 'zh') {
-      setValues(defaultsDeep(config, {
-        lang: 'zh',
-        common: zh,
-        Blank: { text: zh.blank },
-        Form: { submit: { text: zh.submit } },
-      }, baseConfig))
-    } else
-      setValues(defaultsDeep(config, values))
+      setValues(
+        defaultsDeep(
+          config,
+          {
+            lang: 'zh',
+            common: zh,
+            Blank: { text: zh.blank },
+            Form: { submit: { text: zh.submit } },
+          },
+          baseConfig
+        )
+      )
+    } else setValues(defaultsDeep(config, values))
   }, [])
 
-  return <ConfigContext.Provider value={ values }>
-    { children }
-  </ConfigContext.Provider>
+  return (
+    <ConfigContext.Provider value={values}>{children}</ConfigContext.Provider>
+  )
 }
 
-export function useConfigContext () {
+export function useConfigContext() {
   return useContext(ConfigContext)
 }

@@ -21,11 +21,15 @@ export interface BlankProps {
  * <Blank value={undefined} text="Empty" />
  * ```
  */
-export function Blank (options?: BlankProps): JSX.Element {
+export function Blank(options?: BlankProps): JSX.Element {
   const { Blank } = useConfigContext()
 
   return !options ||
     isNil(options.value) ||
     (Array.isArray(options.value) && !options.value.length) ||
-    options.value === '' ? <Typography.Text disabled>{options?.text || Blank.text}</Typography.Text> : options.value
+    options.value === '' ? (
+    <Typography.Text disabled>{options?.text || Blank.text}</Typography.Text>
+  ) : (
+    options.value
+  )
 }

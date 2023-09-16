@@ -2,9 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import {
-  FaasReactClient, FaasDataWrapper, FaasDataInjection,
-} from '..'
+import { FaasReactClient, FaasDataWrapper, FaasDataInjection } from '..'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { Response, setMock } from '@faasjs/browser'
@@ -16,13 +14,15 @@ describe('FaasDataWrapper', () => {
     current = 0
 
     setMock(async (action, params) => {
-      current ++
+      current++
 
-      return Promise.resolve(new Response({
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-        data: params?.v ? params : current,
-      }))
+      return Promise.resolve(
+        new Response({
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+          data: params?.v ? params : current,
+        })
+      )
     })
 
     FaasReactClient({ domain: 'test' })
@@ -34,14 +34,23 @@ describe('FaasDataWrapper', () => {
 
   it('should work', async () => {
     let renderTimes = 0
-    function Test (props: Partial<FaasDataInjection>) {
-      renderTimes ++
-      return <div>{props.data}<button onClick={ () => props.reload() }>Reload</button></div>
+    function Test(props: Partial<FaasDataInjection>) {
+      renderTimes++
+      return (
+        <div>
+          {props.data}
+          <button type='button' onClick={() => props.reload()}>
+            Reload
+          </button>
+        </div>
+      )
     }
 
-    render(<FaasDataWrapper action='test'>
-      <Test />
-    </FaasDataWrapper>)
+    render(
+      <FaasDataWrapper action='test'>
+        <Test />
+      </FaasDataWrapper>
+    )
 
     expect(await screen.findByText('1')).toBeInTheDocument()
     expect(renderTimes).toEqual(1)
@@ -52,20 +61,22 @@ describe('FaasDataWrapper', () => {
   })
 
   it('should work with controlled params', async () => {
-    function App () {
+    function App() {
       const [params, setParams] = useState({ v: 1 })
 
-      return <>
-        <button onClick={ () => setParams({ v: 10 }) }>Reload</button>
-        <FaasDataWrapper
-          action='test'
-          params={ params }>
-          <Test />
-        </FaasDataWrapper>
-      </>
+      return (
+        <>
+          <button type='button' onClick={() => setParams({ v: 10 })}>
+            Reload
+          </button>
+          <FaasDataWrapper action='test' params={params}>
+            <Test />
+          </FaasDataWrapper>
+        </>
+      )
     }
 
-    function Test (props: Partial<FaasDataInjection>) {
+    function Test(props: Partial<FaasDataInjection>) {
       return <div>{JSON.stringify(props.data)}</div>
     }
 

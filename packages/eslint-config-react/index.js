@@ -2,7 +2,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    jest: true
+    jest: true,
   },
   extends: ['@faasjs/recommended', 'plugin:react/recommended'],
   plugins: ['react'],
@@ -20,6 +20,6 @@ module.exports = {
     'react/jsx-indent': [2, 2],
     'react/jsx-indent-props': [2, 2],
     'react/jsx-first-prop-new-line': 'error',
-    'react/jsx-max-props-per-line': [2]
-  }
+    'react/jsx-max-props-per-line': [2],
+  },
 }

@@ -2,17 +2,11 @@ import type {
   FaasDataInjection,
   FaasDataWrapperProps,
   FaasReactClientInstance,
-  useFaasOptions
+  useFaasOptions,
 } from './types'
-import type {
-  FaasAction, FaasData, FaasParams
-} from '@faasjs/types'
-import type {
-  Options, Response, ResponseError
-} from '@faasjs/browser'
-import {
-  cloneElement, useEffect, useState
-} from 'react'
+import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
+import type { Options, Response, ResponseError } from '@faasjs/browser'
+import { cloneElement, useEffect, useState } from 'react'
 import { FaasBrowserClient } from '@faasjs/browser'
 
 const clients: {
@@ -32,111 +26,133 @@ const clients: {
  * })
  * ```
  */
-export function FaasReactClient ({
+export function FaasReactClient({
   domain,
   options,
-  onError
+  onError,
 }: {
   domain: string
   options?: Options
-  onError?: (action: string, params: Record<string, any>) => (res: ResponseError) => Promise<void>
+  onError?: (
+    action: string,
+    params: Record<string, any>
+  ) => (res: ResponseError) => Promise<void>
 }): FaasReactClientInstance {
   const client = new FaasBrowserClient(domain, options)
 
-  async function faas<PathOrData extends FaasAction> (
+  async function faas<PathOrData extends FaasAction>(
     action: PathOrData | string,
     params: FaasParams<PathOrData>
   ): Promise<Response<FaasData<PathOrData>>> {
     if (onError)
-      return client.action<PathOrData>(action, params)
-        .catch(async res => {
-          await onError(action as string, params)(res)
-          return Promise.reject(res)
-        })
+      return client.action<PathOrData>(action, params).catch(async res => {
+        await onError(action as string, params)(res)
+        return Promise.reject(res)
+      })
     return client.action(action, params)
   }
 
-  function useFaas<PathOrData extends FaasAction> (
+  function useFaas<PathOrData extends FaasAction>(
     action: PathOrData | string,
     defaultParams: FaasParams<PathOrData>,
-    options?: useFaasOptions<PathOrData>,
+    options?: useFaasOptions<PathOrData>
   ): FaasDataInjection<FaasData<PathOrData>> {
     if (!options) options = {}
 
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState<FaasData<PathOrData>>()
     const [error, setError] = useState<any>()
-    const [promise, setPromise] = useState<Promise<Response<FaasData<PathOrData>>>>()
+    const [promise, setPromise] =
+      useState<Promise<Response<FaasData<PathOrData>>>>()
     const [params, setParams] = useState(defaultParams)
     const [reloadTimes, setReloadTimes] = useState(0)
     const [fails, setFails] = useState(0)
 
-    useEffect(function () {
-      if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
-        setParams(defaultParams)
-      }
-    }, [JSON.stringify(defaultParams)])
+    useEffect(
+      function () {
+        if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
+          setParams(defaultParams)
+        }
+      },
+      [JSON.stringify(defaultParams)]
+    )
 
-    useEffect(function () {
-      if (!action || options?.skip) {
-        setLoading(false)
-        return
-      }
+    useEffect(
+      function () {
+        if (!action || options?.skip) {
+          setLoading(false)
+          return
+        }
 
-      setLoading(true)
+        setLoading(true)
 
-      const controller = new AbortController()
+        const controller = new AbortController()
 
-      function send () {
-        const request = client.action<PathOrData>(action, options.params || params, { signal: controller.signal })
-        setPromise(request)
+        function send() {
+          const request = client.action<PathOrData>(
+            action,
+            options.params || params,
+            { signal: controller.signal }
+          )
+          setPromise(request)
 
-        request
-          .then(r => (options?.setData ? options.setData(r.data) : setData(r.data)))
-          .catch(async e => {
-            if (e?.message === 'The user aborted a request.' || e?.message === 'Aborted') return
+          request
+            .then(r =>
+              options?.setData ? options.setData(r.data) : setData(r.data)
+            )
+            .catch(async e => {
+              if (
+                e?.message === 'The user aborted a request.' ||
+                e?.message === 'Aborted'
+              )
+                return
 
-            if (!fails && typeof e?.message === 'string' && e.message.indexOf('Failed to fetch') >= 0) {
-              console.warn(`FaasReactClient: ${e.message} retry...`)
-              setFails(1)
-              return send()
-            }
-
-            if (onError)
-              try {
-                await onError(action as string, params)(e)
-              } catch (error) {
-                setError(error)
+              if (
+                !fails &&
+                typeof e?.message === 'string' &&
+                e.message.indexOf('Failed to fetch') >= 0
+              ) {
+                console.warn(`FaasReactClient: ${e.message} retry...`)
+                setFails(1)
+                return send()
               }
-            else
-              setError(e)
-            return Promise.reject(e)
-          })
-          .finally(() => setLoading(false))
-      }
 
-      if (options?.debounce) {
-        const timeout = setTimeout(send, options.debounce)
+              if (onError)
+                try {
+                  await onError(action as string, params)(e)
+                } catch (error) {
+                  setError(error)
+                }
+              else setError(e)
+              return Promise.reject(e)
+            })
+            .finally(() => setLoading(false))
+        }
+
+        if (options?.debounce) {
+          const timeout = setTimeout(send, options.debounce)
+
+          return () => {
+            clearTimeout(timeout)
+            controller.abort()
+            setLoading(false)
+          }
+        }
+
+        send()
 
         return () => {
-          clearTimeout(timeout)
           controller.abort()
           setLoading(false)
         }
-      }
-
-      send()
-
-      return () => {
-        controller.abort()
-        setLoading(false)
-      }
-    }, [
-      action,
-      JSON.stringify(options.params || params),
-      reloadTimes,
-      options.skip,
-    ])
+      },
+      [
+        action,
+        JSON.stringify(options.params || params),
+        reloadTimes,
+        options.skip,
+      ]
+    )
 
     return {
       action,
@@ -146,7 +162,7 @@ export function FaasReactClient ({
       reloadTimes,
       error,
       promise,
-      async reload (params?: any) {
+      async reload(params?: any) {
         if (params) setParams(params)
 
         setReloadTimes(reloadTimes + 1)
@@ -164,26 +180,35 @@ export function FaasReactClient ({
     id: client.id,
     faas,
     useFaas,
-    FaasDataWrapper<PathOrData extends FaasAction> ({
-      action, params,
-      fallback, render, children,
+    FaasDataWrapper<PathOrData extends FaasAction>({
+      action,
+      params,
+      fallback,
+      render,
+      children,
       onDataChange,
       data,
       setData,
     }: FaasDataWrapperProps<PathOrData>): JSX.Element {
       const request = useFaas<PathOrData>(action, params, {
         data,
-        setData
+        setData,
       })
       const [loaded, setLoaded] = useState<boolean>(false)
 
-      useEffect(function () {
-        if (!loaded && !request.loading) setLoaded(true)
-      }, [request.loading])
+      useEffect(
+        function () {
+          if (!loaded && !request.loading) setLoaded(true)
+        },
+        [request.loading]
+      )
 
-      useEffect(function () {
-        if (onDataChange) onDataChange(request)
-      }, [JSON.stringify(request.data)])
+      useEffect(
+        function () {
+          if (onDataChange) onDataChange(request)
+        },
+        [JSON.stringify(request.data)]
+      )
 
       if (loaded) {
         if (children) return cloneElement(children, request)
@@ -191,7 +216,7 @@ export function FaasReactClient ({
       }
 
       return fallback || null
-    }
+    },
   }
 
   clients[domain] = reactClient
@@ -210,7 +235,7 @@ export function FaasReactClient ({
  * getClient('another-domain')
  * ```
  */
-export function getClient (domain?: string): FaasReactClientInstance {
+export function getClient(domain?: string): FaasReactClientInstance {
   const client = clients[domain || Object.keys(clients)[0]]
 
   if (!client) throw Error('FaasReactClient is not initialized')
@@ -231,9 +256,9 @@ export function getClient (domain?: string): FaasReactClientInstance {
  * })
  * ```
  */
-export async function faas<PathOrData extends FaasAction> (
+export async function faas<PathOrData extends FaasAction>(
   action: string | PathOrData,
-  params: FaasParams<PathOrData>,
+  params: FaasParams<PathOrData>
 ): Promise<Response<FaasData<PathOrData>>> {
   return getClient().faas(action, params)
 }
@@ -251,10 +276,10 @@ export async function faas<PathOrData extends FaasAction> (
  * }
  * ```
  */
-export function useFaas<PathOrData extends FaasAction> (
+export function useFaas<PathOrData extends FaasAction>(
   action: string | PathOrData,
   defaultParams: FaasParams<PathOrData>,
-  options?: useFaasOptions<PathOrData>,
+  options?: useFaasOptions<PathOrData>
 ): FaasDataInjection<FaasData<PathOrData>> {
   return getClient().useFaas(action, defaultParams, options)
 }
@@ -274,7 +299,9 @@ export function useFaas<PathOrData extends FaasAction> (
  * />
  * ```
  */
-export function FaasDataWrapper<PathOrData extends FaasAction> (props: FaasDataWrapperProps<PathOrData>): JSX.Element {
+export function FaasDataWrapper<PathOrData extends FaasAction>(
+  props: FaasDataWrapperProps<PathOrData>
+): JSX.Element {
   const [client, setClient] = useState<FaasReactClientInstance>()
 
   useEffect(() => {
@@ -283,8 +310,7 @@ export function FaasDataWrapper<PathOrData extends FaasAction> (props: FaasDataW
     setClient(getClient())
   }, [])
 
-  if (!client)
-    return props.fallback || null
+  if (!client) return props.fallback || null
 
-  return <client.FaasDataWrapper { ...props } />
+  return <client.FaasDataWrapper {...props} />
 }

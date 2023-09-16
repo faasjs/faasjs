@@ -6,16 +6,22 @@ describe('request', function () {
     const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE')
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual(readFileSync(process.cwd() + '/LICENSE').toString())
+    expect(res.body).toEqual(
+      readFileSync(`${process.cwd()}/LICENSE`).toString()
+    )
   })
 
   test('404', async () => {
-    expect(async () => await request('https://cdn.jsdelivr.net/npm/faasjs/404')).rejects.toThrow('Not Found')
+    expect(
+      async () => await request('https://cdn.jsdelivr.net/npm/faasjs/404')
+    ).rejects.toThrow('Not Found')
   })
 
   describe('query', function () {
     test('without ?', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com', { query: { test: 1 } })
+      const res = await request('https://cvm.tencentcloudapi.com', {
+        query: { test: 1 },
+      })
 
       expect(res.statusCode).toEqual(200)
       expect(res.request.path).toEqual('/?test=1')
@@ -23,7 +29,9 @@ describe('request', function () {
     })
 
     test('with ?', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com/?a=1', { query: { test: [1, 2] } })
+      const res = await request('https://cvm.tencentcloudapi.com/?a=1', {
+        query: { test: [1, 2] },
+      })
 
       expect(res.statusCode).toEqual(200)
       expect(res.request.path).toEqual('/?a=1&test=1%2C2')
@@ -33,7 +41,9 @@ describe('request', function () {
 
   describe('headers', function () {
     test('with value', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com', { headers: { 'Content-Type': 'text/xml' } })
+      const res = await request('https://cvm.tencentcloudapi.com', {
+        headers: { 'Content-Type': 'text/xml' },
+      })
 
       expect(res.statusCode).toEqual(200)
       expect(res.request.headers['Content-Type']).toEqual('text/xml')
@@ -41,7 +51,9 @@ describe('request', function () {
     })
 
     test('without value', async () => {
-      const res = await request('https://cvm.tencentcloudapi.com', { headers: { 'X-HEADER': null } })
+      const res = await request('https://cvm.tencentcloudapi.com', {
+        headers: { 'X-HEADER': null },
+      })
 
       expect(res.statusCode).toEqual(200)
       expect(res.request.headers['X-HEADER']).toBeUndefined()
@@ -54,7 +66,7 @@ describe('request', function () {
       const res = await request('https://cvm.tencentcloudapi.com', {
         body: { test: 1 },
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        method: 'POST'
+        method: 'POST',
       })
 
       expect(res.statusCode).toEqual(200)
@@ -65,7 +77,7 @@ describe('request', function () {
     test('json', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         body: { test: 1 },
-        method: 'POST'
+        method: 'POST',
       })
 
       expect(res.statusCode).toEqual(200)
@@ -75,19 +87,27 @@ describe('request', function () {
   })
 
   it('downloadFile', async () => {
-    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE', { downloadFile: __dirname + '/LICENSE.downloadFile.tmp' })
+    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE', {
+      downloadFile: `${__dirname}/LICENSE.downloadFile.tmp`,
+    })
 
     expect(res).toBeUndefined()
 
-    expect(readFileSync(process.cwd() + '/LICENSE').toString()).toEqual(readFileSync(__dirname + '/LICENSE.downloadFile.tmp').toString())
+    expect(readFileSync(`${process.cwd()}/LICENSE`).toString()).toEqual(
+      readFileSync(`${__dirname}/LICENSE.downloadFile.tmp`).toString()
+    )
   })
 
   it('downloadStream', async () => {
-    const stream = createWriteStream(__dirname + '/LICENSE.downloadStream.tmp')
-    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE', { downloadStream: stream })
+    const stream = createWriteStream(`${__dirname}/LICENSE.downloadStream.tmp`)
+    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE', {
+      downloadStream: stream,
+    })
 
     expect(res).toBeUndefined()
 
-    expect(readFileSync(process.cwd() + '/LICENSE').toString()).toEqual(readFileSync(__dirname + '/LICENSE.downloadStream.tmp').toString())
+    expect(readFileSync(`${process.cwd()}/LICENSE`).toString()).toEqual(
+      readFileSync(`${__dirname}/LICENSE.downloadStream.tmp`).toString()
+    )
   })
 })

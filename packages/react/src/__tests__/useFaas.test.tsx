@@ -21,7 +21,7 @@ describe('useFaas', () => {
 
   it('should work', async () => {
     setMock(async () => {
-      current ++
+      current++
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),
@@ -29,10 +29,17 @@ describe('useFaas', () => {
       }) as unknown as Promise<Response>
     })
 
-    function Test () {
+    function Test() {
       const { data, reload } = useFaas<any>('test', {})
 
-      return <div>{data}<button onClick={ () => reload() }>Reload</button></div>
+      return (
+        <div>
+          {data}
+          <button type='button' onClick={() => reload()}>
+            Reload
+          </button>
+        </div>
+      )
     }
 
     render(<Test />)
@@ -46,22 +53,28 @@ describe('useFaas', () => {
 
   it('should work with controlled params', async () => {
     setMock(async (_, params) => {
-      current ++
-      return Promise.resolve(new Response({
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-        data: params,
-      }))
+      current++
+      return Promise.resolve(
+        new Response({
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+          data: params,
+        })
+      )
     })
 
-    function App () {
+    function App() {
       const [params, setParams] = useState({ v: 1 })
       const { data } = useFaas<any>('test', params)
 
-      return <>
-        <button onClick={ () => setParams({ v: 10 }) }>Reload</button>
-        <div>{JSON.stringify(data)}</div>
-      </>
+      return (
+        <>
+          <button type='button' onClick={() => setParams({ v: 10 })}>
+            Reload
+          </button>
+          <div>{JSON.stringify(data)}</div>
+        </>
+      )
     }
 
     render(<App />)
@@ -74,19 +87,28 @@ describe('useFaas', () => {
   it('should work with debounce', async () => {
     let times = 0
     setMock(async (_, params) => {
-      times ++
-      return Promise.resolve(new Response({
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-        data: params,
-      }))
+      times++
+      return Promise.resolve(
+        new Response({
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+          data: params,
+        })
+      )
     })
 
-    function Test () {
+    function Test() {
       const [count, setCount] = useState(0)
       const { data } = useFaas<any>('test', { count }, { debounce: 200 })
 
-      return <div>{data?.count}<button onClick={ () => setCount(p => p + 1) }>Add</button></div>
+      return (
+        <div>
+          {data?.count}
+          <button type='button' onClick={() => setCount(p => p + 1)}>
+            Add
+          </button>
+        </div>
+      )
     }
 
     render(<Test />)

@@ -1,6 +1,4 @@
-import {
-  FaasAction, FaasActions, FaasData, FaasParams
-} from '@faasjs/types'
+import { FaasAction, FaasActions, FaasData, FaasParams } from '@faasjs/types'
 import { expectType, expectNotType } from 'tsd'
 
 declare module '@faasjs/types' {

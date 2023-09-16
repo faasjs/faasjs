@@ -8,10 +8,12 @@ export interface TitleProps {
   suffix?: string
 
   /** return a h1 element */
-  h1?: boolean | {
-    className?: string
-    style?: React.CSSProperties
-  }
+  h1?:
+    | boolean
+    | {
+        className?: string
+        style?: React.CSSProperties
+      }
 
   /** return a pure text element */
   plain?: boolean
@@ -37,25 +39,29 @@ export interface TitleProps {
  * <Title title='hi'><CustomTitle /></Title> // => <CustomTitle />
  * ```
  */
-export function Title (props: TitleProps): JSX.Element {
+export function Title(props: TitleProps): JSX.Element {
   const { Title } = useConfigContext()
 
   useEffect(() => {
     const title = Array.isArray(props.title) ? props.title : [props.title]
 
-    document.title = title.concat(props.suffix || Title.suffix)
+    document.title = title
+      .concat(props.suffix || Title.suffix)
       .filter(t => !!t)
       .join(props.separator || Title.separator)
   }, [props])
 
   if (props.h1) {
     if (typeof props.h1 === 'boolean')
-      return <h1>{Array.isArray(props.title) ? props.title[0] : props.title}</h1>
+      return (
+        <h1>{Array.isArray(props.title) ? props.title[0] : props.title}</h1>
+      )
 
-    return <h1
-      className={ props.h1.className }
-      style={ props.h1.style }
-    >{Array.isArray(props.title) ? props.title[0] : props.title}</h1>
+    return (
+      <h1 className={props.h1.className} style={props.h1.style}>
+        {Array.isArray(props.title) ? props.title[0] : props.title}
+      </h1>
+    )
   }
 
   if (props.plain)

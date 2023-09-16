@@ -27,24 +27,25 @@ export type setDrawerProps = (changes: Partial<DrawerProps>) => void
  * }
  * ```
  */
-export function useDrawer (init?: DrawerProps) {
+export function useDrawer(init?: DrawerProps) {
   const [props, setProps] = useState<DrawerProps>({
     open: false,
-    onClose: () => setProps(prev => ({
-      ...prev,
-      open: false
-    })),
+    onClose: () =>
+      setProps(prev => ({
+        ...prev,
+        open: false,
+      })),
     ...init,
   })
 
   return {
-    drawer: <Drawer { ...props } />,
+    drawer: <Drawer {...props} />,
     drawerProps: props,
-    setDrawerProps (changes: Partial<DrawerProps>) {
+    setDrawerProps(changes: Partial<DrawerProps>) {
       setProps(prev => ({
         ...prev,
-        ...changes
+        ...changes,
       }))
-    }
+    },
   }
 }

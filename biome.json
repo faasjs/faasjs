@@ -4,23 +4,25 @@
     "enabled": false
   },
   "files": {
-    "ignore": [
-      "**/examples",
-      "**/lib",
-      "**/dist",
-      "**/tmp",
-      "*.json"
-    ]
+    "ignore": ["**/examples", "**/lib", "**/dist", "**/tmp", "**/.cache"]
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noExplicitAny": "warn"
+        "noExplicitAny": "off",
+        "noEmptyInterface": "warn",
+        "noControlCharactersInRegex": "off",
+        "noAssignInExpressions": "off",
+        "noArrayIndexKey": "warn"
       },
       "style": {
-        "noParameterAssign": "off"
+        "noParameterAssign": "off",
+        "useLiteralEnumMembers": "off"
+      },
+      "performance": {
+        "noDelete": "off"
       }
     }
   },
@@ -30,8 +32,10 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
+      "trailingComma": "es5",
       "semicolons": "asNeeded",
-      "arrowParentheses": "asNeeded"
+      "arrowParentheses": "asNeeded",
+      "jsxQuoteStyle": "single"
     }
   }
 }

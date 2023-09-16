@@ -8,24 +8,35 @@ import { App, useApp } from '../../App'
 
 describe('App', () => {
   it('should work', async () => {
-    function Component () {
+    function Component() {
       const { setModalProps, message } = useApp()
 
       useEffect(() => {
         message.info('Hi')
       }, [])
 
-      return <button onClick={ () => setModalProps({
-        open: true,
-        title: 'Hello',
-      }) }>Component</button>
+      return (
+        <button
+          type='button'
+          onClick={() =>
+            setModalProps({
+              open: true,
+              title: 'Hello',
+            })
+          }
+        >
+          Component
+        </button>
+      )
     }
 
     const user = userEvent.setup()
 
-    render(<App>
-      <Component />
-    </App>)
+    render(
+      <App>
+        <Component />
+      </App>
+    )
 
     expect(screen.getByText('Hi')).toBeInTheDocument()
 

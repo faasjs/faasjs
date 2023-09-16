@@ -6,15 +6,15 @@ describe('mongo', function () {
     const mongo = new Mongo({
       config: {
         url: 'mongodb://localhost',
-        database: 'test'
-      }
+        database: 'test',
+      },
     })
 
     const func = new Func({
       plugins: [mongo],
-      async handler () {
+      async handler() {
         return await mongo.collection('test').find().toArray()
-      }
+      },
     })
     const handler = func.export().handler
 

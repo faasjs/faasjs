@@ -13,7 +13,7 @@ commander
 // 加载命令
 action(commander as Command)
 
-async function main () {
+async function main() {
   try {
     if (!process.env.CI && process.argv[0] !== 'fake')
       await commander.parseAsync(process.argv)

@@ -17,13 +17,15 @@ export interface TabsProps extends Omit<OriginProps, 'items'> {
  *
  * @ref https://ant.design/components/tabs/
  */
-export function Tabs (props: TabsProps) {
-  return <Origin
-    { ...props }
-    items={ props.items.filter(Boolean).map(i => ({
-      ...i,
-      key: i.key || i.id,
-      label: i.label || i.title || i.id,
-    })) }
-  />
+export function Tabs(props: TabsProps) {
+  return (
+    <Origin
+      {...props}
+      items={props.items.filter(Boolean).map(i => ({
+        ...i,
+        key: i.key || i.id,
+        label: i.label || i.title || i.id,
+      }))}
+    />
+  )
 }

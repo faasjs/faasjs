@@ -4,18 +4,22 @@ import { Http } from '../..'
 describe('validator/required', function () {
   describe('params', function () {
     test('normal', async function () {
-      const http = new Http({ validator: { params: { rules: { key: { required: true } } } } })
+      const http = new Http({
+        validator: { params: { rules: { key: { required: true } } } },
+      })
       const handler = new Func({ plugins: [http] }).export().handler
 
       const res = await handler({ httpMethod: 'POST' })
 
       expect(res.statusCode).toEqual(500)
-      expect(res.body).toEqual('{"error":{"message":"[params] key is required."}}')
+      expect(res.body).toEqual(
+        '{"error":{"message":"[params] key is required."}}'
+      )
 
       const res2 = await handler({
         httpMethod: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: '{"key":1}'
+        body: '{"key":1}',
       })
 
       expect(res2.statusCode).toEqual(201)
@@ -23,13 +27,17 @@ describe('validator/required', function () {
 
     describe('onError', function () {
       test('no return', async function () {
-        const http = new Http({ validator: { params: { rules: { key: { required: true } } } } })
+        const http = new Http({
+          validator: { params: { rules: { key: { required: true } } } },
+        })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
 
         expect(res.statusCode).toEqual(500)
-        expect(res.body).toEqual('{"error":{"message":"[params] key is required."}}')
+        expect(res.body).toEqual(
+          '{"error":{"message":"[params] key is required."}}'
+        )
       })
 
       test('return message', async function () {
@@ -39,16 +47,18 @@ describe('validator/required', function () {
               rules: { key: { required: true } },
               onError: function (type, key, value) {
                 return { message: `${type} ${key} ${value}` }
-              }
-            }
-          }
+              },
+            },
+          },
         })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
 
         expect(res.statusCode).toEqual(500)
-        expect(res.body).toEqual('{"error":{"message":"params.rule.required key undefined"}}')
+        expect(res.body).toEqual(
+          '{"error":{"message":"params.rule.required key undefined"}}'
+        )
       })
 
       test('return all', async function () {
@@ -59,24 +69,34 @@ describe('validator/required', function () {
               onError: function (type, key, value) {
                 return {
                   statusCode: 401,
-                  message: `${type} ${key} ${value}`
+                  message: `${type} ${key} ${value}`,
                 }
-              }
-            }
-          }
+              },
+            },
+          },
         })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
 
         expect(res.statusCode).toEqual(401)
-        expect(res.body).toEqual('{"error":{"message":"params.rule.required key undefined"}}')
+        expect(res.body).toEqual(
+          '{"error":{"message":"params.rule.required key undefined"}}'
+        )
       })
     })
 
     describe('array', function () {
       test('empty', async function () {
-        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } })
+        const http = new Http({
+          validator: {
+            params: {
+              rules: {
+                key: { config: { rules: { sub: { required: true } } } },
+              },
+            },
+          },
+        })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
@@ -86,14 +106,22 @@ describe('validator/required', function () {
         const res2 = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":[]}'
+          body: '{"key":[]}',
         })
 
         expect(res2.statusCode).toEqual(201)
       })
 
       test('plain object', async function () {
-        const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } })
+        const http = new Http({
+          validator: {
+            params: {
+              rules: {
+                key: { config: { rules: { sub: { required: true } } } },
+              },
+            },
+          },
+        })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
@@ -103,16 +131,24 @@ describe('validator/required', function () {
         const res2 = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":[{}]}'
+          body: '{"key":[{}]}',
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[params] key.sub is required."}}')
+        expect(res2.body).toEqual(
+          '{"error":{"message":"[params] key.sub is required."}}'
+        )
       })
     })
 
     test('object', async function () {
-      const http = new Http({ validator: { params: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } })
+      const http = new Http({
+        validator: {
+          params: {
+            rules: { key: { config: { rules: { sub: { required: true } } } } },
+          },
+        },
+      })
       const handler = new Func({ plugins: [http] }).export().handler
 
       const res = await handler({ httpMethod: 'POST' })
@@ -122,27 +158,33 @@ describe('validator/required', function () {
       const res2 = await handler({
         httpMethod: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: '{"key":{}}'
+        body: '{"key":{}}',
       })
 
       expect(res2.statusCode).toEqual(500)
-      expect(res2.body).toEqual('{"error":{"message":"[params] key.sub is required."}}')
+      expect(res2.body).toEqual(
+        '{"error":{"message":"[params] key.sub is required."}}'
+      )
     })
   })
 
   describe('cookie', function () {
     test('should work', async function () {
-      const http = new Http({ validator: { cookie: { rules: { key: { required: true } } } } })
+      const http = new Http({
+        validator: { cookie: { rules: { key: { required: true } } } },
+      })
       const handler = new Func({ plugins: [http] }).export().handler
 
       const res = await handler({ httpMethod: 'POST' })
 
       expect(res.statusCode).toEqual(500)
-      expect(res.body).toEqual('{"error":{"message":"[cookie] key is required."}}')
+      expect(res.body).toEqual(
+        '{"error":{"message":"[cookie] key is required."}}'
+      )
 
       const res2 = await handler({
         httpMethod: 'POST',
-        headers: { cookie: 'key=1' }
+        headers: { cookie: 'key=1' },
       })
 
       expect(res2.statusCode).toEqual(201)
@@ -151,17 +193,21 @@ describe('validator/required', function () {
 
   describe('session', function () {
     test('normal', async function () {
-      const http = new Http({ validator: { session: { rules: { key: { required: true } } } } })
+      const http = new Http({
+        validator: { session: { rules: { key: { required: true } } } },
+      })
       const handler = new Func({ plugins: [http] }).export().handler
 
       const res = await handler({ httpMethod: 'POST' })
 
       expect(res.statusCode).toEqual(500)
-      expect(res.body).toEqual('{"error":{"message":"[session] key is required."}}')
+      expect(res.body).toEqual(
+        '{"error":{"message":"[session] key is required."}}'
+      )
 
       const res2 = await handler({
         httpMethod: 'POST',
-        headers: { cookie: `key=${http.session.encode({ key: 1 })}` }
+        headers: { cookie: `key=${http.session.encode({ key: 1 })}` },
       })
 
       expect(res2.statusCode).toEqual(201)
@@ -169,7 +215,15 @@ describe('validator/required', function () {
 
     describe('array', function () {
       test('empty', async function () {
-        const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } })
+        const http = new Http({
+          validator: {
+            session: {
+              rules: {
+                key: { config: { rules: { sub: { required: true } } } },
+              },
+            },
+          },
+        })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
@@ -178,14 +232,22 @@ describe('validator/required', function () {
 
         const res2 = await handler({
           httpMethod: 'POST',
-          headers: { cookie: `key=${http.session.encode({ key: [] })}` }
+          headers: { cookie: `key=${http.session.encode({ key: [] })}` },
         })
 
         expect(res2.statusCode).toEqual(201)
       })
 
       test('plain object', async function () {
-        const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } })
+        const http = new Http({
+          validator: {
+            session: {
+              rules: {
+                key: { config: { rules: { sub: { required: true } } } },
+              },
+            },
+          },
+        })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
@@ -194,16 +256,24 @@ describe('validator/required', function () {
 
         const res2 = await handler({
           httpMethod: 'POST',
-          headers: { cookie: `key=${http.session.encode({ key: [{}] })}` }
+          headers: { cookie: `key=${http.session.encode({ key: [{}] })}` },
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[session] key.sub is required."}}')
+        expect(res2.body).toEqual(
+          '{"error":{"message":"[session] key.sub is required."}}'
+        )
       })
     })
 
     test('object', async function () {
-      const http = new Http({ validator: { session: { rules: { key: { config: { rules: { sub: { required: true } } } } } } } })
+      const http = new Http({
+        validator: {
+          session: {
+            rules: { key: { config: { rules: { sub: { required: true } } } } },
+          },
+        },
+      })
       const handler = new Func({ plugins: [http] }).export().handler
 
       const res = await handler({ httpMethod: 'POST' })
@@ -212,11 +282,13 @@ describe('validator/required', function () {
 
       const res2 = await handler({
         httpMethod: 'POST',
-        headers: { cookie: `key=${http.session.encode({ key: {} })}` }
+        headers: { cookie: `key=${http.session.encode({ key: {} })}` },
       })
 
       expect(res2.statusCode).toEqual(500)
-      expect(res2.body).toEqual('{"error":{"message":"[session] key.sub is required."}}')
+      expect(res2.body).toEqual(
+        '{"error":{"message":"[session] key.sub is required."}}'
+      )
     })
   })
 })

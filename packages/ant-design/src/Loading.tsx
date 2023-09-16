@@ -18,17 +18,22 @@ export type LoadingProps = {
  * </Loading>
  * ```
  */
-export function Loading (props: LoadingProps) {
-  if (props.loading === false)
-    return <>{props.children}</>
+export function Loading(props: LoadingProps) {
+  if (props.loading === false) return <>{props.children}</>
 
-  return <div style={ {
-    ...props.style || {},
-    ...(!props.size || props.size === 'large' ? {
-      margin: '20vh auto',
-      textAlign: 'center',
-    } : {}),
-  } }>
-    <Spin size={ props.size || 'large' } />
-  </div>
+  return (
+    <div
+      style={{
+        ...(props.style || {}),
+        ...(!props.size || props.size === 'large'
+          ? {
+              margin: '20vh auto',
+              textAlign: 'center',
+            }
+          : {}),
+      }}
+    >
+      <Spin size={props.size || 'large'} />
+    </div>
+  )
 }

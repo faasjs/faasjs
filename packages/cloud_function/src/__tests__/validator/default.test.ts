@@ -5,12 +5,14 @@ describe('validator/default', function () {
   describe('event', function () {
     describe('normal', function () {
       test('const', async function () {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { default: 1 } } } } })
+        const cf = new CloudFunction({
+          validator: { event: { rules: { key: { default: 1 } } } },
+        })
         const handler = new Func({
           plugins: [cf],
-          async handler () {
+          async handler() {
             return cf.event.key
-          }
+          },
         }).export().handler
 
         const res = await handler({})
@@ -24,19 +26,19 @@ describe('validator/default', function () {
             event: {
               rules: {
                 key: {
-                  default (request: any) {
+                  default(request: any) {
                     return request.event.i + 1
-                  }
-                }
-              }
-            }
-          }
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [cf],
-          async handler () {
+          async handler() {
             return cf.event.key
-          }
+          },
         }).export().handler
 
         const res = await handler({ i: 1 })
@@ -47,12 +49,18 @@ describe('validator/default', function () {
 
     describe('array', function () {
       test('const', async function () {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: 1 } } } } } } } })
+        const cf = new CloudFunction({
+          validator: {
+            event: {
+              rules: { key: { config: { rules: { sub: { default: 1 } } } } },
+            },
+          },
+        })
         const handler = new Func({
           plugins: [cf],
-          async handler () {
+          async handler() {
             return cf.event.key
-          }
+          },
         }).export().handler
 
         const res = await handler({ key: [{}] })
@@ -61,17 +69,31 @@ describe('validator/default', function () {
       })
 
       test('function', async function () {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: (request: any) => request.event.i + 1 } } } } } } } })
+        const cf = new CloudFunction({
+          validator: {
+            event: {
+              rules: {
+                key: {
+                  config: {
+                    rules: {
+                      sub: { default: (request: any) => request.event.i + 1 },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        })
         const handler = new Func({
           plugins: [cf],
-          async handler () {
+          async handler() {
             return cf.event.key
-          }
+          },
         }).export().handler
 
         const res = await handler({
           key: [{}],
-          i: 1
+          i: 1,
         })
 
         expect(res).toEqual([{ sub: 2 }])
@@ -80,12 +102,18 @@ describe('validator/default', function () {
 
     describe('object', function () {
       test('const', async function () {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: 1 } } } } } } } })
+        const cf = new CloudFunction({
+          validator: {
+            event: {
+              rules: { key: { config: { rules: { sub: { default: 1 } } } } },
+            },
+          },
+        })
         const handler = new Func({
           plugins: [cf],
-          async handler () {
+          async handler() {
             return cf.event.key
-          }
+          },
         }).export().handler
 
         const res = await handler({ key: {} })
@@ -94,17 +122,31 @@ describe('validator/default', function () {
       })
 
       test('function', async function () {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { default: (request: any) => request.event.i + 1 } } } } } } } })
+        const cf = new CloudFunction({
+          validator: {
+            event: {
+              rules: {
+                key: {
+                  config: {
+                    rules: {
+                      sub: { default: (request: any) => request.event.i + 1 },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        })
         const handler = new Func({
           plugins: [cf],
-          async handler () {
+          async handler() {
             return cf.event.key
-          }
+          },
         }).export().handler
 
         const res = await handler({
           key: {},
-          i: 1
+          i: 1,
         })
 
         expect(res).toEqual({ sub: 2 })

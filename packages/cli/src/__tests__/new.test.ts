@@ -11,7 +11,9 @@ describe('new', function () {
     test('basic', function () {
       action('func', 'packages/cli/src/__tests__/tmp/basic', [])
 
-      expect(readFileSync(__dirname + '/tmp/basic.func.ts').toString()).toEqual(`import { useFunc } from '@faasjs/func';
+      expect(
+        readFileSync(`${__dirname}/tmp/basic.func.ts`).toString()
+      ).toEqual(`import { useFunc } from '@faasjs/func';
 
 export default useFunc(function () {
 
@@ -21,7 +23,9 @@ export default useFunc(function () {
 });
 `)
 
-      expect(readFileSync(__dirname + '/tmp/__tests__/basic.test.ts').toString()).toEqual(`import { FuncWarper } from '@faasjs/test';
+      expect(
+        readFileSync(`${__dirname}/tmp/__tests__/basic.test.ts`).toString()
+      ).toEqual(`import { FuncWarper } from '@faasjs/test';
 
 describe('basic.func.ts', function () {
   test('should work', async function () {
@@ -38,7 +42,9 @@ describe('basic.func.ts', function () {
     test('with plugins', function () {
       action('func', 'packages/cli/src/__tests__/tmp/plugin', ['cf', 'http'])
 
-      expect(readFileSync(__dirname + '/tmp/plugin.func.ts').toString()).toEqual(`import { useFunc } from '@faasjs/func';
+      expect(
+        readFileSync(`${__dirname}/tmp/plugin.func.ts`).toString()
+      ).toEqual(`import { useFunc } from '@faasjs/func';
 import { useCloudFunction } from '@faasjs/cloud_function';
 import { useHttp } from '@faasjs/http';
 
@@ -52,7 +58,9 @@ export default useFunc(function () {
 });
 `)
 
-      expect(readFileSync(__dirname + '/tmp/__tests__/plugin.test.ts').toString()).toEqual(`import { FuncWarper } from '@faasjs/test';
+      expect(
+        readFileSync(`${__dirname}/tmp/__tests__/plugin.test.ts`).toString()
+      ).toEqual(`import { FuncWarper } from '@faasjs/test';
 
 describe('plugin.func.ts', function () {
   test('should work', async function () {
@@ -71,7 +79,9 @@ describe('plugin.func.ts', function () {
     try {
       action('unknown', 'unknown', [])
     } catch (error: any) {
-      expect(error.message).toEqual('Unknown type: unknown (only support func now)')
+      expect(error.message).toEqual(
+        'Unknown type: unknown (only support func now)'
+      )
     }
   })
 })

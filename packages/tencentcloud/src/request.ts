@@ -7,7 +7,7 @@ import { TencentcloudConfig } from '.'
  * @param config 配置项，若有环境变量优先读取环境变量
  * @param data 请求数据
  */
-export async function request<T = any> ({
+export async function request<T = any>({
   region,
   secretId,
   secretKey,
@@ -15,7 +15,7 @@ export async function request<T = any> ({
   service,
   version,
   action,
-  payload
+  payload,
 }: TencentcloudConfig & {
   /**
    * 服务名
@@ -39,14 +39,21 @@ export async function request<T = any> ({
     [key: string]: any
   }
 }): Promise<T> {
-  if (!region && process.env.TENCENTCLOUD_REGION) region = process.env.TENCENTCLOUD_REGION
-  if (process.env.TENCENTCLOUD_SECRETID) secretId = process.env.TENCENTCLOUD_SECRETID
-  if (process.env.TENCENTCLOUD_SECRETKEY) secretKey = process.env.TENCENTCLOUD_SECRETKEY
-  if (process.env.TENCENTCLOUD_SESSIONTOKEN) token = process.env.TENCENTCLOUD_SESSIONTOKEN
+  if (!region && process.env.TENCENTCLOUD_REGION)
+    region = process.env.TENCENTCLOUD_REGION
+  if (process.env.TENCENTCLOUD_SECRETID)
+    secretId = process.env.TENCENTCLOUD_SECRETID
+  if (process.env.TENCENTCLOUD_SECRETKEY)
+    secretKey = process.env.TENCENTCLOUD_SECRETKEY
+  if (process.env.TENCENTCLOUD_SESSIONTOKEN)
+    token = process.env.TENCENTCLOUD_SESSIONTOKEN
 
-  const host = process.env.TENCENTCLOUD_RUNENV === 'SCF' ?
-    `${service}.internal.tencentcloudapi.com` : `${service}.tencentcloudapi.com`
-  const canonicalRequest = `POST\n/\n\ncontent-type:application/json\nhost:${host}\n\ncontent-type;host\n` +
+  const host =
+    process.env.TENCENTCLOUD_RUNENV === 'SCF'
+      ? `${service}.internal.tencentcloudapi.com`
+      : `${service}.tencentcloudapi.com`
+  const canonicalRequest =
+    `POST\n/\n\ncontent-type:application/json\nhost:${host}\n\ncontent-type;host\n` +
     createHash('sha256').update(JSON.stringify(payload)).digest('hex')
 
   const t = new Date()
@@ -55,27 +62,25 @@ export async function request<T = any> ({
   const credentialScope = date + `/${service}/tc3_request`
 
   const hashedCanonicalRequest = createHash('sha256')
-    .update(canonicalRequest).digest('hex')
+    .update(canonicalRequest)
+    .digest('hex')
 
-  const stringToSign = 'TC3-HMAC-SHA256\n' +
-    timestamp + '\n' +
-    credentialScope + '\n' +
-    hashedCanonicalRequest
+  const stringToSign = `TC3-HMAC-SHA256\n${timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`
 
-  const secretDate = createHmac('sha256', 'TC3' + secretKey)
-    .update(date).digest()
+  const secretDate = createHmac('sha256', `TC3${secretKey}`)
+    .update(date)
+    .digest()
   const secretService = createHmac('sha256', secretDate)
-    .update(service).digest()
+    .update(service)
+    .digest()
   const secretSigning = createHmac('sha256', secretService)
-    .update('tc3_request').digest()
+    .update('tc3_request')
+    .digest()
   const signature = createHmac('sha256', secretSigning)
-    .update(stringToSign).digest('hex')
+    .update(stringToSign)
+    .digest('hex')
 
-  const authorization =
-    'TC3-HMAC-SHA256 ' +
-    'Credential=' + secretId + '/' + credentialScope + ', ' +
-    'SignedHeaders=content-type;host, ' +
-    'Signature=' + signature
+  const authorization = `TC3-HMAC-SHA256 Credential=${secretId}/${credentialScope}, SignedHeaders=content-type;host, Signature=${signature}`
 
   const headers: {
     [key: string]: string
@@ -85,7 +90,7 @@ export async function request<T = any> ({
     Host: host,
     'X-TC-Action': action,
     'X-TC-Version': version,
-    'X-TC-Timestamp': timestamp
+    'X-TC-Timestamp': timestamp,
   }
 
   if (region) headers['X-TC-Region'] = region
@@ -94,10 +99,14 @@ export async function request<T = any> ({
   return req<T>(`https://${host}/`, {
     method: 'POST',
     headers,
-    body: payload
+    body: payload,
   }).then(function (res: Response) {
     if (res.body.Response.Error)
-      return Promise.reject(Error(res.body.Response.Error.Code + ': ' + res.body.Response.Error.Message))
+      return Promise.reject(
+        Error(
+          `${res.body.Response.Error.Code}: ${res.body.Response.Error.Message}`
+        )
+      )
 
     return res.body.Response
   })

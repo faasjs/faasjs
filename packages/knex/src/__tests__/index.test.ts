@@ -1,7 +1,5 @@
 import { Func, useFunc } from '@faasjs/func'
-import {
-  Knex, query, useKnex
-} from '..'
+import { Knex, query, useKnex } from '..'
 import { expectType, expectNotType } from 'tsd'
 import type { Tables } from 'knex/types/tables'
 
@@ -25,15 +23,15 @@ describe('Knex', function () {
         config: {
           client: 'sqlite3',
           connection: { filename: ':memory:' },
-          useNullAsDefault: true
-        }
+          useNullAsDefault: true,
+        },
       })
 
       const handler = new Func({
         plugins: [knex],
-        async handler () {
+        async handler() {
           return await knex.raw('SELECT 1+1')
-        }
+        },
       }).export().handler
 
       expect(await handler({})).toEqual([{ '1+1': 2 }])
@@ -47,9 +45,9 @@ describe('Knex', function () {
 
       const handler = new Func({
         plugins: [knex],
-        async handler () {
+        async handler() {
           return await knex.raw('SELECT 1+1')
-        }
+        },
       }).export().handler
 
       expect(await handler({})).toEqual([{ '1+1': 2 }])
@@ -62,18 +60,18 @@ describe('Knex', function () {
         config: {
           client: 'sqlite3',
           connection: { filename: ':memory:' },
-          useNullAsDefault: true
-        }
+          useNullAsDefault: true,
+        },
       })
 
       const handler = new Func({
         plugins: [knex],
-        async handler () {
+        async handler() {
           await knex.schema().createTable('test', function (t) {
             t.increments('id')
           })
           return knex.query('test')
-        }
+        },
       }).export().handler
 
       expect(await handler({})).toEqual([])
@@ -84,21 +82,23 @@ describe('Knex', function () {
         config: {
           client: 'sqlite3',
           connection: { filename: ':memory:' },
-          useNullAsDefault: true
-        }
+          useNullAsDefault: true,
+        },
       })
 
       const handler = new Func({
         plugins: [knex],
-        async handler () {
+        async handler() {
           return await knex.raw('SELECT a from a')
-        }
+        },
       }).export().handler
 
       try {
         await handler({})
       } catch (error: any) {
-        expect(error.message).toEqual('SELECT a from a - SQLITE_ERROR: no such table: a')
+        expect(error.message).toEqual(
+          'SELECT a from a - SQLITE_ERROR: no such table: a'
+        )
       }
     })
   })
@@ -108,13 +108,13 @@ describe('Knex', function () {
       config: {
         client: 'sqlite3',
         connection: { filename: ':memory:' },
-        useNullAsDefault: true
-      }
+        useNullAsDefault: true,
+      },
     })
 
     const handler = new Func({
       plugins: [knex],
-      async handler () {
+      async handler() {
         await knex.schema().createTable('test', function (t) {
           t.increments('id')
         })
@@ -124,7 +124,7 @@ describe('Knex', function () {
         })
 
         return knex.query('test')
-      }
+      },
     }).export().handler
 
     expect(await handler({})).toEqual([{ id: 1 }])
@@ -136,8 +136,8 @@ describe('Knex', function () {
         config: {
           client: 'sqlite3',
           connection: { filename: ':memory:' },
-          useNullAsDefault: true
-        }
+          useNullAsDefault: true,
+        },
       })
 
       return async function () {
@@ -159,13 +159,14 @@ describe('Knex', function () {
       const knex = useKnex({
         config: {
           client: 'sqlite3',
-          connection: { filename: ':memory:' }
-        }
+          connection: { filename: ':memory:' },
+        },
       })
 
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       return async function () {
-        await knex.schema()
+        await knex
+          .schema()
           .createTable('test', function (t) {
             t.increments('id')
           })
@@ -181,7 +182,9 @@ describe('Knex', function () {
 
     expectType<any>(await query('testtest'))
 
-    expectType<{ value: string }>(await query<any, { value: string }>('testtest'))
+    expectType<{ value: string }>(
+      await query<any, { value: string }>('testtest')
+    )
     expectNotType<any>(await query<{ value: string }>('testtest'))
   })
 })

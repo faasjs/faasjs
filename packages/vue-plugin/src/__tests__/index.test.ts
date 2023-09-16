@@ -6,7 +6,10 @@ import { FaasVuePlugin } from '..'
 
 describe('FaasVuePlugin', () => {
   it('should work', () => {
-    const vue = mount({}, { global: { plugins: [[FaasVuePlugin, { domain: 'test' }]] } })
+    const vue = mount(
+      {},
+      { global: { plugins: [[FaasVuePlugin, { domain: 'test' }]] } }
+    )
 
     expect(vue.vm.$faas).toBeDefined()
   })

@@ -1,7 +1,7 @@
 import { Func } from '@faasjs/func'
 
 export default new Func({
-  async handler () {
+  async handler() {
     return { Result: {} }
-  }
+  },
 })

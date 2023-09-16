@@ -1,6 +1,4 @@
-import type {
-  FaasAction, FaasData, FaasParams
-} from '@faasjs/types'
+import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 
 import { generateId } from './generateId'
 
@@ -12,21 +10,26 @@ export type Options = RequestInit & {
   }
   /** trigger before request */
   beforeRequest?: ({
-    action, params, options
+    action,
+    params,
+    options,
   }: {
     action: string
     params: Record<string, any>
     options: Options
   }) => Promise<void> | void
   /** custom request */
-  request?: <PathOrData extends FaasAction> (url: string, options: Options) => Promise<Response<FaasData<PathOrData>>>
+  request?: <PathOrData extends FaasAction>(
+    url: string,
+    options: Options
+  ) => Promise<Response<FaasData<PathOrData>>>
 }
 
 export type ResponseHeaders = {
   [key: string]: string
 }
 
-export type FaasBrowserClientAction = <PathOrData extends FaasAction> (
+export type FaasBrowserClientAction = <PathOrData extends FaasAction>(
   action: PathOrData | string,
   params?: FaasParams<PathOrData>,
   options?: Options
@@ -51,7 +54,7 @@ export class Response<T = any> {
   public readonly body: any
   public readonly data: T
 
-  constructor (props: {
+  constructor(props: {
     status?: number
     headers?: ResponseHeaders
     body?: any
@@ -82,10 +85,16 @@ export class ResponseError extends Error {
   public readonly headers: ResponseHeaders
   public readonly body: any
 
-  constructor ({
-    message, status, headers, body
+  constructor({
+    message,
+    status,
+    headers,
+    body,
   }: {
-    message: string; status: number; headers: ResponseHeaders; body: any;
+    message: string
+    status: number
+    headers: ResponseHeaders
+    body: any
   }) {
     super(message)
 
@@ -95,7 +104,11 @@ export class ResponseError extends Error {
   }
 }
 
-export type MockHandler = (action: string, params: Record<string, any>, options: Options) => Promise<Response<any>>
+export type MockHandler = (
+  action: string,
+  params: Record<string, any>,
+  options: Options
+) => Promise<Response<any>>
 
 let mock: MockHandler
 
@@ -122,7 +135,7 @@ let mock: MockHandler
  * const response = await client.action('path') // response.data.name === 'FaasJS'
  * ```
  */
-export function setMock (handler: MockHandler) {
+export function setMock(handler: MockHandler) {
   mock = handler
 }
 
@@ -140,14 +153,14 @@ export class FaasBrowserClient {
   public host: string
   public defaultOptions: Options
 
-  constructor (baseUrl: string, options?: Options) {
+  constructor(baseUrl: string, options?: Options) {
     if (!baseUrl) throw Error('[FaasJS] baseUrl required')
 
-    this.id = 'FBC-' + generateId()
-    this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/'
+    this.id = `FBC-${generateId()}`
+    this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : `${baseUrl}/`
     this.defaultOptions = options || Object.create(null)
 
-    console.debug('[FaasJS] Initialize with baseUrl: ' + this.host)
+    console.debug(`[FaasJS] Initialize with baseUrl: ${this.host}`)
   }
 
   /**
@@ -159,16 +172,16 @@ export class FaasBrowserClient {
    * await client.action('func', { key: 'value' })
    * ```
    */
-  public async action<PathOrData extends FaasAction> (
+  public async action<PathOrData extends FaasAction>(
     action: PathOrData | string,
     params?: FaasParams<PathOrData>,
     options?: Options
   ): Promise<Response<FaasData<PathOrData>>> {
     if (!action) throw Error('[FaasJS] action required')
 
-    const id = 'F-' + generateId()
+    const id = `F-${generateId()}`
 
-    const url = this.host + (action as string).toLowerCase() + '?_=' + id
+    const url = `${this.host + (action as string).toLowerCase()}?_=${id}`
 
     if (!params) params = Object.create(null)
     if (!options) options = Object.create(null)
@@ -180,75 +193,79 @@ export class FaasBrowserClient {
       credentials: 'include',
       body: JSON.stringify(params),
       ...this.defaultOptions,
-      ...options
+      ...options,
     }
 
-    if (!options.headers['X-FaasJS-Request-Id']) options.headers['X-FaasJS-Request-Id'] = id
+    if (!options.headers['X-FaasJS-Request-Id'])
+      options.headers['X-FaasJS-Request-Id'] = id
 
     if (options.beforeRequest)
       await options.beforeRequest({
         action: action as string,
         params,
-        options
+        options,
       })
 
-    if (options.request)
-      return options.request(url, options)
+    if (options.request) return options.request(url, options)
 
-    if (mock)
-      return mock(action as string, params, options)
+    if (mock) return mock(action as string, params, options)
 
-    return fetch(url, options)
-      .then( async response => {
-        const headers: {
-          [key: string]: string
-        } = {}
-        response.headers.forEach((value, key) => headers[key] = value)
+    return fetch(url, options).then(async response => {
+      const headers: {
+        [key: string]: string
+      } = {}
+      response.headers.forEach((value, key) => (headers[key] = value))
 
-        return response.text().then(res => {
-          if (response.status >= 200 && response.status < 300) {
-            if (!res)
-              return new Response({
-                status: response.status,
-                headers,
-              })
-            else {
-              const body = JSON.parse(res)
-              return new Response({
-                status: response.status,
-                headers,
-                body,
-                data: body.data
-              })
-            }
-          }
-
-          try {
+      return response.text().then(res => {
+        if (response.status >= 200 && response.status < 300) {
+          if (!res)
+            return new Response({
+              status: response.status,
+              headers,
+            })
+          else {
             const body = JSON.parse(res)
+            return new Response({
+              status: response.status,
+              headers,
+              body,
+              data: body.data,
+            })
+          }
+        }
 
-            if (body.error && body.error.message)
-              return Promise.reject(new ResponseError({
+        try {
+          const body = JSON.parse(res)
+
+          if (body.error?.message)
+            return Promise.reject(
+              new ResponseError({
                 message: body.error.message,
                 status: response.status,
                 headers,
-                body
-              }))
-            else
-              return Promise.reject(new ResponseError({
+                body,
+              })
+            )
+          else
+            return Promise.reject(
+              new ResponseError({
                 message: res,
                 status: response.status,
                 headers,
-                body
-              }))
-          } catch (error) {
-            return Promise.reject(new ResponseError({
+                body,
+              })
+            )
+        } catch (error) {
+          return Promise.reject(
+            new ResponseError({
               message: res,
               status: response.status,
               headers,
-              body: res
-            }))
-          }
-        })
+              body: res,
+            })
+          )
+        }
       })
+    })
   }
 }

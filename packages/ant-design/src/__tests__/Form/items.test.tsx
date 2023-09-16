@@ -8,9 +8,7 @@ import userEvent from '@testing-library/user-event'
 
 describe('Form/items', () => {
   it('should work', function () {
-    render(<Form
-      items={ [{ id: 'test' }] }
-    />)
+    render(<Form items={[{ id: 'test' }]} />)
 
     expect(screen.getByText('Test')).toBeInTheDocument()
   })
@@ -18,24 +16,26 @@ describe('Form/items', () => {
   it('should work with children', async function () {
     let value: any
 
-    render(<Form
-      initialValues={ { list: [''] } }
-      items={ [{ id: 'test' }] }
-      onFinish={ (values) => value = values as any }
-    >
-      <Form.Item id='children'>
-        <Input />
-      </Form.Item>
-      <Form.List name='list'>
-        {(fields) => fields.map((field) => <Form.Item
-          id={ field.key.toString() }
-          key={ field.key }
-          { ...field }
-        >
+    render(
+      <Form
+        initialValues={{ list: [''] }}
+        items={[{ id: 'test' }]}
+        onFinish={values => (value = values as any)}
+      >
+        <Form.Item id='children'>
           <Input />
-        </Form.Item>)}
-      </Form.List>
-    </Form>)
+        </Form.Item>
+        <Form.List name='list'>
+          {fields =>
+            fields.map(field => (
+              <Form.Item id={field.key.toString()} key={field.key} {...field}>
+                <Input />
+              </Form.Item>
+            ))
+          }
+        </Form.List>
+      </Form>
+    )
 
     expect(screen.getByText('Test')).toBeInTheDocument()
     expect(screen.getByText('Children')).toBeInTheDocument()

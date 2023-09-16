@@ -14,13 +14,13 @@ describe('Form/submit', () => {
   })
 
   it('when custom submit text', () => {
-    render(<Form submit={ { text: 'Save' } } />)
+    render(<Form submit={{ text: 'Save' }} />)
 
     expect(screen.getByText('Save')).toBeInTheDocument()
   })
 
   it('when submit is false', () => {
-    render(<Form submit={ false } />)
+    render(<Form submit={false} />)
 
     expect(screen.queryByText('Submit')).toBeNull()
   })
@@ -33,21 +33,23 @@ describe('Form/submit', () => {
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => JSON.stringify({ data: {} })
+        text: async () => JSON.stringify({ data: {} }),
       }) as unknown as Promise<Response>
     })
     FaasReactClient({ domain: 'test' })
 
-    render(<Form
-      initialValues={ { id: 'initialValues' } }
-      items={ [{ id: 'id' }] }
-      submit={ {
-        to: {
-          action: 'test',
-          params: { params: 'params' }
-        }
-      } }
-    />)
+    render(
+      <Form
+        initialValues={{ id: 'initialValues' }}
+        items={[{ id: 'id' }]}
+        submit={{
+          to: {
+            action: 'test',
+            params: { params: 'params' },
+          },
+        }}
+      />
+    )
 
     await userEvent.click(screen.getByText('Submit'))
 
@@ -67,34 +69,36 @@ describe('Form/submit', () => {
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => JSON.stringify({ data: {} })
+        text: async () => JSON.stringify({ data: {} }),
       }) as unknown as Promise<Response>
     })
     FaasReactClient({ domain: 'test' })
 
-    render(<Form
-      initialValues={ { id: 'initialValues' } }
-      items={ [{ id: 'id' }] }
-      submit={ {
-        to: {
-          action: 'test',
-          params: { params: 'params' }
-        }
-      } }
-      onFinish={ async (values, submit) => {
-        await submit({
-          ...values,
-          extraProps: 'extra'
-        })
-      } }
-    />)
+    render(
+      <Form
+        initialValues={{ id: 'initialValues' }}
+        items={[{ id: 'id' }]}
+        submit={{
+          to: {
+            action: 'test',
+            params: { params: 'params' },
+          },
+        }}
+        onFinish={async (values, submit) => {
+          await submit({
+            ...values,
+            extraProps: 'extra',
+          })
+        }}
+      />
+    )
 
     await userEvent.click(screen.getByText('Submit'))
 
     expect(values).toEqual({
       id: 'initialValues',
       params: 'params',
-      extraProps: 'extra'
+      extraProps: 'extra',
     })
 
     window.fetch = originalFetch

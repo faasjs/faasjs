@@ -1,3 +1,7 @@
 import { Func } from '@faasjs/func'
 
-export default new Func({ async handler () { return null } })
+export default new Func({
+  async handler() {
+    return null
+  },
+})

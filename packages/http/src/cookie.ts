@@ -34,16 +34,19 @@ export class Cookie<
     [key: string]: string
   }
 
-  constructor (config: CookieOptions, logger?: Logger) {
+  constructor(config: CookieOptions, logger?: Logger) {
     this.logger = logger
 
-    this.config = deepMerge({
-      path: '/',
-      expires: 31536000,
-      secure: true,
-      httpOnly: true,
-      session: {}
-    }, config)
+    this.config = deepMerge(
+      {
+        path: '/',
+        expires: 31536000,
+        secure: true,
+        httpOnly: true,
+        session: {},
+      },
+      config
+    )
 
     this.session = new Session(this, this.config.session)
 
@@ -52,7 +55,7 @@ export class Cookie<
     this.setCookie = Object.create(null)
   }
 
-  public invoke (cookie: string | undefined, logger: Logger): Cookie<C, S> {
+  public invoke(cookie: string | undefined, logger: Logger): Cookie<C, S> {
     this.content = Object.create(null)
 
     // 解析 cookie
@@ -61,9 +64,10 @@ export class Cookie<
         x = x.trim()
         const k = /([^=]+)/.exec(x)
         if (k !== null)
-          (this.content as any)[k[0]] = decodeURIComponent(x.replace(`${k[0]}=`, '').replace(/;$/, ''))
+          (this.content as any)[k[0]] = decodeURIComponent(
+            x.replace(`${k[0]}=`, '').replace(/;$/, '')
+          )
       })
-
 
     this.setCookie = Object.create(null)
     // 预读取 session
@@ -71,18 +75,22 @@ export class Cookie<
     return this
   }
 
-  public read (key: string): any {
+  public read(key: string): any {
     return this.content[key]
   }
 
-  public write (key: string, value: string, opts?: {
-    domain?: string
-    path?: string
-    expires?: number | string
-    secure?: boolean
-    httpOnly?: boolean
-    sameSite?: 'Strict' | 'Lax' | 'None'
-  }): Cookie<C, S> {
+  public write(
+    key: string,
+    value: string,
+    opts?: {
+      domain?: string
+      path?: string
+      expires?: number | string
+      secure?: boolean
+      httpOnly?: boolean
+      sameSite?: 'Strict' | 'Lax' | 'None'
+    }
+  ): Cookie<C, S> {
     opts = Object.assign(this.config, opts || {})
 
     let cookie: string
@@ -95,7 +103,9 @@ export class Cookie<
       this.content[key] = value
     }
 
-    if (typeof opts.expires === 'number') cookie += `max-age=${opts.expires};`; else if (typeof opts.expires === 'string') cookie += `expires=${opts.expires};`
+    if (typeof opts.expires === 'number') cookie += `max-age=${opts.expires};`
+    else if (typeof opts.expires === 'string')
+      cookie += `expires=${opts.expires};`
 
     cookie += `path=${opts.path || '/'};`
 
@@ -112,10 +122,8 @@ export class Cookie<
     return this
   }
 
-  public headers (): { 'Set-Cookie'?: string[] } {
-    if (Object.keys(this.setCookie).length === 0)
-      return {}
-    else
-      return { 'Set-Cookie': Object.values(this.setCookie) }
+  public headers(): { 'Set-Cookie'?: string[] } {
+    if (Object.keys(this.setCookie).length === 0) return {}
+    else return { 'Set-Cookie': Object.values(this.setCookie) }
   }
 }

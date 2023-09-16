@@ -7,9 +7,9 @@ describe('session', function () {
     const http = new Http()
     const func = new Func({
       plugins: [http],
-      async handler (data: InvokeData) {
+      async handler(data: InvokeData) {
         return http.session.read(data.event.key)
-      }
+      },
     })
     func.config = {
       providers: {},
@@ -20,19 +20,22 @@ describe('session', function () {
             cookie: {
               session: {
                 key: 'key',
-                secret: 'secret'
-              }
-            }
-          }
-        }
-      }
+                secret: 'secret',
+              },
+            },
+          },
+        },
+      },
     }
     const handler = func.export().handler
 
     test('return value', async function () {
       const res = await handler({
-        headers: { cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6; ' },
-        key: 'key'
+        headers: {
+          cookie:
+            'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6; ',
+        },
+        key: 'key',
       })
 
       expect(res.body).toEqual('{"data":"value"}')
@@ -40,8 +43,11 @@ describe('session', function () {
 
     test('no value', async function () {
       const res = await handler({
-        headers: { cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6; ' },
-        key: 'null'
+        headers: {
+          cookie:
+            'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6; ',
+        },
+        key: 'null',
       })
 
       expect(res.body).toBeUndefined()
@@ -50,7 +56,7 @@ describe('session', function () {
     test('no key', async function () {
       const res = await handler({
         headers: { cookie: '' },
-        key: 'key'
+        key: 'key',
       })
 
       expect(res.body).toBeUndefined()
@@ -59,7 +65,7 @@ describe('session', function () {
     test('wrong session', async function () {
       const res = await handler({
         headers: { cookie: 'key=key' },
-        key: 'key'
+        key: 'key',
       })
 
       expect(res.body).toBeUndefined()
@@ -70,9 +76,9 @@ describe('session', function () {
     const http = new Http()
     const func = new Func({
       plugins: [http],
-      async handler (data: InvokeData) {
+      async handler(data: InvokeData) {
         http.session.write(data.event.key, data.event.value)
-      }
+      },
     })
     func.config = {
       providers: {},
@@ -83,48 +89,59 @@ describe('session', function () {
             cookie: {
               session: {
                 key: 'key',
-                secret: 'secret'
-              }
-            }
-          }
-        }
-      }
+                secret: 'secret',
+              },
+            },
+          },
+        },
+      },
     }
     const handler = func.export().handler
     const session = new Session(http.cookie, {
       key: 'key',
-      secret: 'secret'
+      secret: 'secret',
     })
 
     test('add', async function () {
       const res = await handler({
         key: 'key',
         value: 'value',
-        headers: {}
+        headers: {},
       })
 
-      expect(session.decode(res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2])).toEqual({ key: 'value' })
+      expect(
+        session.decode(
+          res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]
+        )
+      ).toEqual({ key: 'value' })
     })
 
     test('delete', async function () {
       const res = await handler({
         key: 'key',
         value: null,
-        headers: { cookie: 'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6;' }
+        headers: {
+          cookie:
+            'key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6;',
+        },
       })
 
-      expect(session.decode(res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2])).toEqual({})
+      expect(
+        session.decode(
+          res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]
+        )
+      ).toEqual({})
     })
 
     test('multi change', async function () {
       const http = new Http()
       const func = new Func({
         plugins: [http],
-        async handler () {
+        async handler() {
           http.session.write('a', 1)
           http.session.write('a', 2)
           http.session.write('b', 1)
-        }
+        },
       })
       func.config = {
         providers: {},
@@ -135,23 +152,27 @@ describe('session', function () {
               cookie: {
                 session: {
                   key: 'key',
-                  secret: 'secret'
-                }
-              }
-            }
-          }
-        }
+                  secret: 'secret',
+                },
+              },
+            },
+          },
+        },
       }
       const handler = func.export().handler
 
       const res = await handler({
         key: 'key',
-        value: null
+        value: null,
       })
 
-      expect(session.decode(res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2])).toEqual({
+      expect(
+        session.decode(
+          res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]
+        )
+      ).toEqual({
         a: 2,
-        b: 1
+        b: 1,
       })
     })
   })

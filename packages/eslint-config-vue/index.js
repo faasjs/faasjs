@@ -2,12 +2,12 @@ module.exports = {
   env: {
     node: true,
     jest: true,
-    es6: true
+    es6: true,
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',
-    extraFileExtensions: ['.vue']
+    extraFileExtensions: ['.vue'],
   },
   extends: ['@faasjs/recommended', 'plugin:vue/essential'],
-  rules: { 'vue/multi-word-component-names': 'off', }
+  rules: { 'vue/multi-word-component-names': 'off' },
 }

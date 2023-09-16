@@ -1,12 +1,11 @@
-import {
-  ConfigProvider, message, notification
-} from 'antd'
+import { ConfigProvider, message, notification } from 'antd'
 import type { ConfigProviderProps } from 'antd/es/config-provider'
-import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs'
-import type { StyleProviderProps } from '@ant-design/cssinjs/lib/StyleContext'
 import {
-  createContext, useContext, useEffect, useMemo
-} from 'react'
+  StyleProvider,
+  legacyLogicalPropertiesTransformer,
+} from '@ant-design/cssinjs'
+import type { StyleProviderProps } from '@ant-design/cssinjs/lib/StyleContext'
+import { createContext, useContext, useEffect, useMemo } from 'react'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
 import { ModalProps, useModal } from './Modal'
@@ -31,11 +30,11 @@ export interface useAppProps {
 const AppContext = createContext<useAppProps>({
   message: {} as MessageInstance,
   notification: {} as NotificationInstance,
-  setModalProps: () => void(0),
-  setDrawerProps: () => void(0),
+  setModalProps: () => void 0,
+  setDrawerProps: () => void 0,
 })
 
-function RoutesApp (props: {
+function RoutesApp(props: {
   children: React.ReactNode
 }) {
   const location = useLocation()
@@ -50,9 +49,10 @@ function RoutesApp (props: {
   return <>{props.children}</>
 }
 
-export function App (props: AppProps) {
+export function App(props: AppProps) {
   const [messageApi, messageContextHolder] = message.useMessage()
-  const [notificationApi, notificationContextHolder] = notification.useNotification()
+  const [notificationApi, notificationContextHolder] =
+    notification.useNotification()
   const { modal, setModalProps } = useModal()
   const { drawer, setDrawerProps } = useDrawer()
 
@@ -63,37 +63,32 @@ export function App (props: AppProps) {
       setModalProps,
       setDrawerProps,
     }),
-    [
-      messageApi,
-      notificationApi,
-      setModalProps,
-      setDrawerProps,
-    ],
+    [messageApi, notificationApi, setModalProps, setDrawerProps]
   )
 
-  return <StyleProvider
-    { ...Object.assign(props.styleProviderProps || {}, {
-      hashPriority: 'high',
-      transformers: [legacyLogicalPropertiesTransformer],
-    }) }
-  >
-    <ConfigProvider { ...props.configProviderProps }>
-      <AppContext.Provider value={ memoizedContextValue }>
-        <BrowserRouter { ...props.browserRouterProps }>
-          {messageContextHolder}
-          {notificationContextHolder}
-          {modal}
-          {drawer}
-          <RoutesApp>
-            {props.children}
-          </RoutesApp>
-        </BrowserRouter>
-      </AppContext.Provider>
-    </ConfigProvider>
-  </StyleProvider>
+  return (
+    <StyleProvider
+      {...Object.assign(props.styleProviderProps || {}, {
+        hashPriority: 'high',
+        transformers: [legacyLogicalPropertiesTransformer],
+      })}
+    >
+      <ConfigProvider {...props.configProviderProps}>
+        <AppContext.Provider value={memoizedContextValue}>
+          <BrowserRouter {...props.browserRouterProps}>
+            {messageContextHolder}
+            {notificationContextHolder}
+            {modal}
+            {drawer}
+            <RoutesApp>{props.children}</RoutesApp>
+          </BrowserRouter>
+        </AppContext.Provider>
+      </ConfigProvider>
+    </StyleProvider>
+  )
 }
 
-export function useApp () {
+export function useApp() {
   return useContext<useAppProps>(AppContext)
 }
 

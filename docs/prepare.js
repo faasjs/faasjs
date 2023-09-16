@@ -22,10 +22,7 @@ writeFileSync(
   './doc/README.md',
   readFileSync(`${__dirname}/../packages/README.md`, 'utf-8')
     .toString()
-    .replaceAll(
-      'https://github.com/faasjs/faasjs/tree/main/packages/',
-      '/doc/',
-    ),
+    .replaceAll('https://github.com/faasjs/faasjs/tree/main/packages/', '/doc/')
 )
 
 const images = globSync('../images/**/*.md')
@@ -41,7 +38,7 @@ writeFileSync(
   './doc/images/README.md',
   readFileSync(`${__dirname}/doc/images/README.md`, 'utf-8')
     .toString()
-    .replaceAll('https://faasjs.com', ''),
+    .replaceAll('https://faasjs.com', '')
 )
 
 const roots = globSync('../*.md')

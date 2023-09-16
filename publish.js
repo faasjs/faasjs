@@ -29,7 +29,7 @@ async function publish(path) {
 
   try {
     await run(
-      `npm publish -w ${path.replace('/package.json', '')} --access public`,
+      `npm publish -w ${path.replace('/package.json', '')} --access public`
     )
   } catch (error) {
     console.warn(error)

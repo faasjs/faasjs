@@ -5,26 +5,26 @@ let execs: string[] = []
 
 jest.mock('child_process', function () {
   return {
-    execSync (cmd: string) {
+    execSync(cmd: string) {
       execs.push(cmd)
-    }
+    },
   }
 })
 
 let dirs: string[] = []
 let files: {
-  [key: string]: string;
+  [key: string]: string
 } = {}
 
 jest.mock('fs', function () {
   return {
-    mkdirSync (path: string) {
+    mkdirSync(path: string) {
       dirs.push(path)
     },
-    writeFileSync (name: string, body: string) {
+    writeFileSync(name: string, body: string) {
       files[name] = body
     },
-    existsSync () {}
+    existsSync() {},
   }
 })
 
@@ -38,7 +38,7 @@ describe('action', function () {
   it('without example', async function () {
     await action({
       name: 'test',
-      example: false
+      example: false,
     })
 
     expect(execs).toEqual(['cd test && npm install'])
@@ -61,15 +61,14 @@ coverage/
   it('with example', async function () {
     await action({
       name: 'test',
-      example: true
+      example: true,
     })
 
-    expect(execs).toEqual(['cd test && npm install', 'cd test && npm exec jest'])
-    expect(dirs).toEqual([
-      'test',
-      'test/.vscode',
-      'test/__tests__',
+    expect(execs).toEqual([
+      'cd test && npm install',
+      'cd test && npm exec jest',
     ])
+    expect(dirs).toEqual(['test', 'test/.vscode', 'test/__tests__'])
     expect(Object.keys(files)).toEqual([
       'test/faas.yaml',
       'test/package.json',

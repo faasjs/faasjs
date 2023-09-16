@@ -10,7 +10,7 @@
     "build:doc": "typedoc",
     "build:docs": "node build-docs.js",
     "check": "biome check",
-    "format": "biome format"
+    "format": "biome format --write"
   },
   "devDependencies": {
     "tsup": "*",
@@ -21,20 +21,10 @@
     "@biomejs/biome": "*"
   },
   "eslintConfig": {
-    "ignorePatterns": [
-      "**/examples",
-      "**/lib",
-      "**/dist",
-      "**/tmp"
-    ],
-    "extends": [
-      "@faasjs/recommended",
-      "@faasjs/react"
-    ]
+    "ignorePatterns": ["**/examples", "**/lib", "**/dist", "**/tmp"],
+    "extends": ["@faasjs/recommended", "@faasjs/react"]
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "jest": {
     "transform": {
       ".(jsx|tsx?)": "./packages/jest/index.js"
@@ -66,17 +56,10 @@
       "@faasjs/(.*)": "<rootDir>/packages/$1/src",
       "lodash-es": "lodash"
     },
-    "setupFiles": [
-      "./packages/test/src/jest.setup"
-    ],
-    "setupFilesAfterEnv": [
-      "./packages/ant-design/src/__tests__/jest.setup"
-    ],
+    "setupFiles": ["./packages/test/src/jest.setup"],
+    "setupFilesAfterEnv": ["./packages/ant-design/src/__tests__/jest.setup"],
     "testEnvironmentOptions": {
-      "customExportConditions": [
-        "node",
-        "node-addons"
-      ]
+      "customExportConditions": ["node", "node-addons"]
     }
   }
 }

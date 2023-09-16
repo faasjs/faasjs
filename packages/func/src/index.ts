@@ -2,11 +2,15 @@ import { Logger } from '@faasjs/logger'
 import { RunHandler } from './plugins/run_handler'
 import { randomBytes } from 'crypto'
 
-export type Handler<TEvent = any, TContext = any, TResult = any> =
-  (data: InvokeData<TEvent, TContext>) => Promise<TResult>
+export type Handler<TEvent = any, TContext = any, TResult = any> = (
+  data: InvokeData<TEvent, TContext>
+) => Promise<TResult>
 export type Next = () => Promise<void>
-export type ExportedHandler<TEvent = any, TContext = any, TResult = any> =
-  (event: TEvent, context?: TContext, callback?: (...args: any) => any) => Promise<TResult>
+export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
+  event: TEvent,
+  context?: TContext,
+  callback?: (...args: any) => any
+) => Promise<TResult>
 
 export type Plugin = {
   [key: string]: any
@@ -104,7 +108,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   public mounted: boolean
   public filename?: string
   private cachedFunctions: {
-    [key in LifeCycleKey]: CachedFunction[];
+    [key in LifeCycleKey]: CachedFunction[]
   }
 
   /**
@@ -113,13 +117,13 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * @param config.plugins {Plugin[]} plugins list
    * @param config.handler {Handler} business logic
    */
-  constructor (config: FuncConfig<TEvent, TContext>) {
+  constructor(config: FuncConfig<TEvent, TContext>) {
     this.handler = config.handler
     this.plugins = config.plugins || []
     this.plugins.push(new RunHandler())
     this.config = {
       providers: Object.create(null),
-      plugins: Object.create(null)
+      plugins: Object.create(null),
     }
 
     this.mounted = false
@@ -135,18 +139,17 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
   }
 
-  private compose (key: LifeCycleKey): (data: any, next?: () => void) => any {
+  private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
     let list: CachedFunction[] = []
 
-    if (this.cachedFunctions[key])
-      list = this.cachedFunctions[key]
+    if (this.cachedFunctions[key]) list = this.cachedFunctions[key]
     else {
       for (const plugin of this.plugins) {
         const handler = plugin[key]
         if (typeof handler === 'function')
           list.push({
             key: plugin.name,
-            handler: handler.bind(plugin)
+            handler: handler.bind(plugin),
           })
       }
 
@@ -158,7 +161,8 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       const logger = data?.logger || new Logger()
 
       const dispatch = async function (i: number): Promise<any> {
-        if (i <= index) return Promise.reject(Error('next() called multiple times'))
+        if (i <= index)
+          return Promise.reject(Error('next() called multiple times'))
         index = i
         let fn: any = list[i]
         if (i === list.length) fn = next
@@ -167,7 +171,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         logger.debug('[%s][%s] begin', fn.key, key)
         logger.time(fn.key)
         try {
-          const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)))
+          const res = await Promise.resolve(
+            fn.handler(data, dispatch.bind(null, i + 1))
+          )
           logger.timeEnd(fn.key, '[%s][%s] end', fn.key, key)
           return res
         } catch (err) {
@@ -188,11 +194,13 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * @param data.filename {string} filename
    * @param data.env {string} environment
    */
-  public deploy (data: DeployData): any {
+  public deploy(data: DeployData): any {
     if (!data.logger) data.logger = new Logger('Func')
 
     data.logger.debug('onDeploy')
-    data.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))
+    data.logger.debug(
+      `Plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
+    )
 
     return this.compose('onDeploy')(data)
   }
@@ -200,7 +208,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   /**
    * First time mount the function
    */
-  public async mount (data: {
+  public async mount(data: {
     event: TEvent
     context: TContext
     config?: Config
@@ -214,11 +222,12 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       return
     }
 
-    if (!data.config)
-      data.config = this.config
+    if (!data.config) data.config = this.config
     try {
       data.logger.time('mount')
-      data.logger.debug('Plugins: ' + this.plugins.map(p => `${p.type}#${p.name}`).join(','))
+      data.logger.debug(
+        `Plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
+      )
       await this.compose('onMount')(data)
       this.mounted = true
     } finally {
@@ -230,7 +239,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * Invoke the function
    * @param data {object} data
    */
-  public async invoke (data: InvokeData<TEvent, TContext, TResult>): Promise<void> {
+  public async invoke(
+    data: InvokeData<TEvent, TContext, TResult>
+  ): Promise<void> {
     if (!this.mounted)
       await this.mount({
         event: data.event,
@@ -250,7 +261,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   /**
    * Export the function
    */
-  public export (): {
+  public export(): {
     handler: ExportedHandler<TEvent, TContext, TResult>
   } {
     const handler = async (
@@ -259,8 +270,10 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       callback?: (...args: any) => any
     ): Promise<TResult> => {
       if (typeof context === 'undefined') context = {}
-      if (!context.request_id) context.request_id = randomBytes(16).toString('hex')
-      if (!context.request_at) context.request_at = Math.round(new Date().getTime() / 1000)
+      if (!context.request_id)
+        context.request_id = randomBytes(16).toString('hex')
+      if (!context.request_at)
+        context.request_at = Math.round(new Date().getTime() / 1000)
       context.callbackWaitsForEmptyEventLoop = false
 
       const logger = new Logger(context.request_id)
@@ -274,12 +287,13 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         response: undefined,
         handler: this.handler,
         logger,
-        config: this.config
+        config: this.config,
       }
 
       await this.invoke(data)
 
-      if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response
+      if (Object.prototype.toString.call(data.response) === '[object Error]')
+        throw data.response
 
       return data.response
     }
@@ -296,18 +310,23 @@ export type UseifyPlugin<T> = T & {
   mount?: (data?: { config?: Config }) => Promise<T>
 }
 
-export function usePlugin<T extends Plugin> (plugin: UseifyPlugin<T>): UseifyPlugin<T> {
+export function usePlugin<T extends Plugin>(
+  plugin: UseifyPlugin<T>
+): UseifyPlugin<T> {
   if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
 
   if (!plugin.mount)
     plugin.mount = async function (data?: { config?: Config }) {
       if (plugin.onMount)
-        await plugin.onMount({
-          config: data?.config || Object.create(null),
-          event: Object.create(null),
-          context: Object.create(null),
-          logger: new Logger(plugin.name),
-        }, async () => Promise.resolve())
+        await plugin.onMount(
+          {
+            config: data?.config || Object.create(null),
+            event: Object.create(null),
+            context: Object.create(null),
+            logger: new Logger(plugin.name),
+          },
+          async () => Promise.resolve()
+        )
 
       return plugin
     }
@@ -336,7 +355,7 @@ export function usePlugin<T extends Plugin> (plugin: UseifyPlugin<T>): UseifyPlu
  * })
  * ```
  */
-export function useFunc<TEvent = any, TContext = any, TResult = any> (
+export function useFunc<TEvent = any, TContext = any, TResult = any>(
   handler: () => Handler<TEvent, TContext, TResult>
 ) {
   plugins = []
@@ -345,7 +364,7 @@ export function useFunc<TEvent = any, TContext = any, TResult = any> (
 
   const func = new Func<TEvent, TContext, TResult>({
     plugins,
-    handler: invokeHandler
+    handler: invokeHandler,
   })
 
   plugins = []

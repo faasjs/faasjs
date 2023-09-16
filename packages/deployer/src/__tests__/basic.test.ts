@@ -4,10 +4,10 @@ import { execSync } from 'child_process'
 test('basic', async function () {
   const deployer = new Deployer({
     root: __dirname,
-    filename: __dirname + '/funcs/basic.func.ts',
+    filename: `${__dirname}/funcs/basic.func.ts`,
     env: 'testing',
     config: {},
-    dependencies: {}
+    dependencies: {},
   })
 
   try {
@@ -16,7 +16,10 @@ test('basic', async function () {
     console.error(error)
   }
 
-  const res = execSync(`node -e "const handler = require('${deployer.deployData.tmp}index.js').handler;(async function invoke(){console.log('|'+JSON.stringify(await handler(0))+'|');})(handler);"`, { cwd: deployer.deployData.tmp }).toString()
+  const res = execSync(
+    `node -e "const handler = require('${deployer.deployData.tmp}index.js').handler;(async function invoke(){console.log('|'+JSON.stringify(await handler(0))+'|');})(handler);"`,
+    { cwd: deployer.deployData.tmp }
+  ).toString()
 
   expect(res.match(/([^|]+)|$/g)[1]).toEqual('1')
 })

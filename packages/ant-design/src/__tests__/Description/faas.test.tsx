@@ -14,7 +14,7 @@ describe('Description/faas', () => {
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => Promise.resolve('{"data":{"test":"value"}}')
+        text: async () => Promise.resolve('{"data":{"test":"value"}}'),
       }) as unknown as Promise<Response>
     })
     FaasReactClient({ domain: 'test' })
@@ -25,11 +25,13 @@ describe('Description/faas', () => {
   })
 
   it('with faas', async () => {
-    render(<Description
-      renderTitle={ (data) => data.test }
-      items={ [{ id: 'test' }] }
-      faasData={ { action: 'test' } }
-    />)
+    render(
+      <Description
+        renderTitle={data => data.test}
+        items={[{ id: 'test' }]}
+        faasData={{ action: 'test' }}
+      />
+    )
 
     expect(await screen.findAllByText('Test')).toHaveLength(1)
     expect(await screen.findAllByText('value')).toHaveLength(2)

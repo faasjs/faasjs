@@ -1,6 +1,4 @@
-import {
-  Component, ReactElement, ReactNode, cloneElement
-} from 'react'
+import { Component, ReactElement, ReactNode, cloneElement } from 'react'
 
 export interface ErrorBoundaryProps {
   children?: ReactNode
@@ -15,13 +13,16 @@ export type ErrorChildrenProps = {
   errorDescription?: string
 }
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps, {
-  error?: Error
-  info?: {
-    componentStack?: string
+export class ErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  {
+    error?: Error
+    info?: {
+      componentStack?: string
+    }
   }
-}> {
-  constructor (props: ErrorBoundaryProps) {
+> {
+  constructor(props: ErrorBoundaryProps) {
     super(props)
     this.state = {
       error: undefined,
@@ -29,16 +30,18 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, {
     }
   }
 
-  componentDidCatch (error: Error | null, info: any) {
+  componentDidCatch(error: Error | null, info: any) {
     this.setState({
       error,
       info,
     })
   }
 
-  render () {
+  render() {
     const errorMessage = (this.state.error || '').toString()
-    const errorDescription = this.state.info?.componentStack ? this.state.info.componentStack : null
+    const errorDescription = this.state.info?.componentStack
+      ? this.state.info.componentStack
+      : null
 
     if (this.state.error) {
       if (this.props.onError)
@@ -52,10 +55,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, {
           errorDescription,
         })
 
-      return <div>
-        <p>{errorMessage}</p>
-        <pre>{errorDescription}</pre>
-      </div>
+      return (
+        <div>
+          <p>{errorMessage}</p>
+          <pre>{errorDescription}</pre>
+        </div>
+      )
     }
     return this.props.children
   }

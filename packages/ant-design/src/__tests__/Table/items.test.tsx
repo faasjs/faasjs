@@ -8,15 +8,17 @@ import { Table } from '../../Table'
 
 describe('Table/items', () => {
   it('should work', () => {
-    render(<Table
-      items={ [{ id: 'test' }] }
-      dataSource={ [
-        {
-          id: 1,
-          test: 'value'
-        }
-      ] }
-    />)
+    render(
+      <Table
+        items={[{ id: 'test' }]}
+        dataSource={[
+          {
+            id: 1,
+            test: 'value',
+          },
+        ]}
+      />
+    )
 
     expect(screen.getByText('Test')).toBeInTheDocument()
     expect(screen.getByText('value')).toBeInTheDocument()
@@ -25,25 +27,27 @@ describe('Table/items', () => {
 
   describe('options', () => {
     it('string', () => {
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            options: [
-              {
-                label: 'label',
-                value: 'value'
-              }
-            ]
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 1,
-            test: 'value'
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              options: [
+                {
+                  label: 'label',
+                  value: 'value',
+                },
+              ],
+            },
+          ]}
+          dataSource={[
+            {
+              id: 1,
+              test: 'value',
+            },
+          ]}
+        />
+      )
 
       expect(screen.getByText('Test')).toBeInTheDocument()
       expect(screen.getByText('label')).toBeInTheDocument()
@@ -52,38 +56,40 @@ describe('Table/items', () => {
     it('string[]', async () => {
       const user = userEvent.setup()
 
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'string[]',
-            options: [
-              {
-                label: 'label',
-                value: 'value'
-              },
-              {
-                label: 'label2',
-                value: 'value2'
-              }
-            ]
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 1,
-            test: ['value', 'value']
-          },
-          {
-            id: 2,
-            test: []
-          },
-          {
-            id: 3,
-            test: null
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'string[]',
+              options: [
+                {
+                  label: 'label',
+                  value: 'value',
+                },
+                {
+                  label: 'label2',
+                  value: 'value2',
+                },
+              ],
+            },
+          ]}
+          dataSource={[
+            {
+              id: 1,
+              test: ['value', 'value'],
+            },
+            {
+              id: 2,
+              test: [],
+            },
+            {
+              id: 3,
+              test: null,
+            },
+          ]}
+        />
+      )
 
       expect(screen.getByText('Test')).toBeInTheDocument()
       expect(screen.getByText('label, label')).toBeInTheDocument()
@@ -96,20 +102,22 @@ describe('Table/items', () => {
     it('optionsType is auto', async () => {
       const user = userEvent.setup()
 
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            optionsType: 'auto',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'id',
-            test: 'value'
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              optionsType: 'auto',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
 
       await user.click(screen.getByRole('img', { name: 'filter' }))
 
@@ -119,29 +127,31 @@ describe('Table/items', () => {
 
   describe('boolean', () => {
     beforeEach(() => {
-      render(<Table
-        items={ [
-          { id: 'id', },
-          {
-            id: 'test',
-            type: 'boolean',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'undefined',
-            test: undefined
-          },
-          {
-            id: 'true',
-            test: true
-          },
-          {
-            id: 'false',
-            test: false
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            { id: 'id' },
+            {
+              id: 'test',
+              type: 'boolean',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'undefined',
+              test: undefined,
+            },
+            {
+              id: 'true',
+              test: true,
+            },
+            {
+              id: 'false',
+              test: false,
+            },
+          ]}
+        />
+      )
     })
 
     it('no filter', () => {
@@ -185,200 +195,226 @@ describe('Table/items', () => {
 
   describe('time', () => {
     it('undefined', async () => {
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'time',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'undefined',
-            test: undefined,
-          },
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'time',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'undefined',
+              test: undefined,
+            },
+          ]}
+        />
+      )
       expect(screen.getByText('Test')).toBeInTheDocument()
     })
 
     it('number', async () => {
       const now = dayjs()
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'time',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'number',
-            test: now.unix(),
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'time',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'number',
+              test: now.unix(),
+            },
+          ]}
+        />
+      )
       expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeInTheDocument()
+      expect(
+        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
+      ).toBeInTheDocument()
     })
 
     it('dayjs', () => {
       const now = dayjs()
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'time',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'dayjs',
-            test: now,
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'time',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'dayjs',
+              test: now,
+            },
+          ]}
+        />
+      )
       expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeInTheDocument()
+      expect(
+        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
+      ).toBeInTheDocument()
     })
 
     it('string', () => {
       const now = dayjs()
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'time',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'string',
-            test: now.format()
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'time',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'string',
+              test: now.format(),
+            },
+          ]}
+        />
+      )
       expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeInTheDocument()
+      expect(
+        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
+      ).toBeInTheDocument()
     })
   })
 
   describe('date', () => {
     it('undefined', async () => {
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'date',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'undefined',
-            test: undefined,
-          },
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'date',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'undefined',
+              test: undefined,
+            },
+          ]}
+        />
+      )
       expect(screen.getByText('Test')).toBeInTheDocument()
     })
 
     it('number', async () => {
       const now = dayjs()
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'date',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'number',
-            test: now.unix(),
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'date',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'number',
+              test: now.unix(),
+            },
+          ]}
+        />
+      )
       expect(screen.getByText('Test')).toBeInTheDocument()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
     })
 
     it('dayjs', () => {
       const now = dayjs()
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'date',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'dayjs',
-            test: now,
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'date',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'dayjs',
+              test: now,
+            },
+          ]}
+        />
+      )
       expect(screen.getByText('Test')).toBeInTheDocument()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
     })
 
     it('string', () => {
       const now = dayjs()
-      render(<Table
-        items={ [
-          {
-            id: 'test',
-            type: 'date',
-          }
-        ] }
-        dataSource={ [
-          {
-            id: 'string',
-            test: now.format()
-          }
-        ] }
-      />)
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              type: 'date',
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'string',
+              test: now.format(),
+            },
+          ]}
+        />
+      )
       expect(screen.getByText('Test')).toBeInTheDocument()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
     })
   })
 
   it('object', () => {
-    render(<Table
-      items={ [
-        {
-          id: 'test',
-          type: 'object',
-          object: [{ id: 'key' }]
-        }
-      ] }
-      dataSource={ [
-        {
-          id: 'id',
-          test: { key: 'value' }
-        }
-      ] }
-    />)
+    render(
+      <Table
+        items={[
+          {
+            id: 'test',
+            type: 'object',
+            object: [{ id: 'key' }],
+          },
+        ]}
+        dataSource={[
+          {
+            id: 'id',
+            test: { key: 'value' },
+          },
+        ]}
+      />
+    )
 
     expect(screen.getByText('value')).toBeInTheDocument()
   })
 
   it('object[]', () => {
-    render(<Table
-      items={ [
-        {
-          id: 'test',
-          type: 'object[]',
-          object: [{ id: 'key' }]
-        }
-      ] }
-      dataSource={ [
-        {
-          id: 'id',
-          test: [{ key: 'value' }]
-        }
-      ] }
-    />)
+    render(
+      <Table
+        items={[
+          {
+            id: 'test',
+            type: 'object[]',
+            object: [{ id: 'key' }],
+          },
+        ]}
+        dataSource={[
+          {
+            id: 'id',
+            test: [{ key: 'value' }],
+          },
+        ]}
+      />
+    )
 
     expect(screen.getByText('value')).toBeInTheDocument()
   })

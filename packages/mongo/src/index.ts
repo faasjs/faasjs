@@ -5,11 +5,9 @@ import {
   Collection,
   CollectionOptions,
   ObjectId,
-  Callback
+  Callback,
 } from 'mongodb'
-import {
-  Plugin, MountData, Next, DeployData
-} from '@faasjs/func'
+import { Plugin, MountData, Next, DeployData } from '@faasjs/func'
 import { deepMerge } from '@faasjs/deep_merge'
 
 export { ObjectId }
@@ -20,7 +18,7 @@ export interface MongoConfig extends MongoClientOptions {
 }
 
 export class Mongo implements Plugin {
-  public type: string = 'mongo'
+  public type = 'mongo'
   public name: string
   public config: MongoConfig
   public client: MongoClient
@@ -31,26 +29,26 @@ export class Mongo implements Plugin {
     callback?: Callback<Collection<TSchema>>
   ) => Collection<TSchema>
 
-  constructor (config?: {
+  constructor(config?: {
     name?: string
     config?: MongoConfig
   }) {
     if (config) {
       this.name = config.name || this.type
-      this.config = (config.config) || Object.create(null)
+      this.config = config.config || Object.create(null)
     } else {
       this.name = this.type
       this.config = Object.create(null)
     }
   }
 
-  public async onDeploy (data: DeployData, next: Next): Promise<void> {
+  public async onDeploy(data: DeployData, next: Next): Promise<void> {
     data.dependencies['@faasjs/mongo'] = '*'
 
     await next()
   }
 
-  public async onMount (data: MountData, next: Next): Promise<void> {
+  public async onMount(data: MountData, next: Next): Promise<void> {
     const prefix = `SECRET_${this.name.toUpperCase()}_`
 
     for (let key in process.env)
@@ -61,8 +59,11 @@ export class Mongo implements Plugin {
           (this.config as any)[key] = value
       }
 
-    if (data.config.plugins && data.config.plugins[this.name])
-      this.config = deepMerge(data.config.plugins[this.name].config, this.config)
+    if (data.config.plugins?.[this.name])
+      this.config = deepMerge(
+        data.config.plugins[this.name].config,
+        this.config
+      )
 
     data.logger.debug('[%s] connect: %j', this.name, this.config)
 

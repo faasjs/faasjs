@@ -9,14 +9,14 @@ describe('validator/whitelist', function () {
           validator: {
             event: {
               whitelist: 'error',
-              rules: { key: {} }
-            }
-          }
+              rules: { key: {} },
+            },
+          },
         })
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          async handler () { }
+          async handler() {},
         }).export().handler
 
         await handler({})
@@ -25,7 +25,7 @@ describe('validator/whitelist', function () {
           await handler({
             key: 1,
             key2: 2,
-            key3: 3
+            key3: 3,
           })
         } catch (error: any) {
           expect(error.message).toEqual('[event] Unpermitted keys: key2, key3')
@@ -37,21 +37,21 @@ describe('validator/whitelist', function () {
           validator: {
             event: {
               whitelist: 'ignore',
-              rules: { key: {} }
-            }
-          }
+              rules: { key: {} },
+            },
+          },
         })
         const handler = new Func({
           plugins: [cf],
-          async handler () {
+          async handler() {
             return cf.event
-          }
+          },
         }).export().handler
 
         const res = await handler({
           key: 1,
           key2: 2,
-          key3: 3
+          key3: 3,
         })
 
         expect(res).toEqual({ key: 1 })
@@ -62,19 +62,19 @@ describe('validator/whitelist', function () {
           validator: {
             event: {
               whitelist: 'error',
-              rules: { key: {} }
-            }
-          }
+              rules: { key: {} },
+            },
+          },
         })
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          async handler () { }
+          async handler() {},
         }).export().handler
 
         await handler({
           key: 1,
-          context: {}
+          context: {},
         })
       })
     })
@@ -88,17 +88,17 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          async handler () { }
+          async handler() {},
         }).export().handler
 
         await handler({ key: [{ sub: 1 }] })
@@ -108,12 +108,14 @@ describe('validator/whitelist', function () {
             key: [
               {
                 key1: 1,
-                key2: 2
-              }
-            ]
+                key2: 2,
+              },
+            ],
           })
         } catch (error: any) {
-          expect(error.message).toEqual('[event] Unpermitted keys: key.key1, key.key2')
+          expect(error.message).toEqual(
+            '[event] Unpermitted keys: key.key1, key.key2'
+          )
         }
       })
 
@@ -125,27 +127,27 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [cf],
-          async handler () {
+          async handler() {
             return cf.event.key
-          }
+          },
         }).export().handler
 
         const res = await handler({
           key: [
             {
               sub: 1,
-              key: 2
-            }
-          ]
+              key: 2,
+            },
+          ],
         })
 
         expect(res).toEqual([{ sub: 1 }])
@@ -161,17 +163,17 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          async handler () { }
+          async handler() {},
         }).export().handler
 
         await handler({ key: { sub: 1 } })
@@ -180,11 +182,13 @@ describe('validator/whitelist', function () {
           await handler({
             key: {
               key1: 1,
-              key2: 2
-            }
+              key2: 2,
+            },
           })
         } catch (error: any) {
-          expect(error.message).toEqual('[event] Unpermitted keys: key.key1, key.key2')
+          expect(error.message).toEqual(
+            '[event] Unpermitted keys: key.key1, key.key2'
+          )
         }
       })
 
@@ -196,25 +200,25 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [http],
-          async handler () {
+          async handler() {
             return http.event.key
-          }
+          },
         }).export().handler
 
         const res = await handler({
           key: {
             sub: 1,
-            key: 2
-          }
+            key: 2,
+          },
         })
 
         expect(res).toEqual({ sub: 1 })

@@ -9,9 +9,9 @@ describe('validator/whitelist', function () {
           validator: {
             params: {
               whitelist: 'error',
-              rules: { key: {} }
-            }
-          }
+              rules: { key: {} },
+            },
+          },
         })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -22,11 +22,13 @@ describe('validator/whitelist', function () {
         const res2 = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":1,"key2":2,"key3":3}'
+          body: '{"key":1,"key2":2,"key3":3}',
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[params] Not permitted keys: key2, key3"}}')
+        expect(res2.body).toEqual(
+          '{"error":{"message":"[params] Not permitted keys: key2, key3"}}'
+        )
       })
 
       test('ignore', async function () {
@@ -34,21 +36,21 @@ describe('validator/whitelist', function () {
           validator: {
             params: {
               whitelist: 'ignore',
-              rules: { key: {} }
-            }
-          }
+              rules: { key: {} },
+            },
+          },
         })
         const handler = new Func({
           plugins: [http],
-          async handler () {
+          async handler() {
             return http.params
-          }
+          },
         }).export().handler
 
         const res2 = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":1,"key2":2,"key3":3}'
+          body: '{"key":1,"key2":2,"key3":3}',
         })
 
         expect(res2.statusCode).toEqual(200)
@@ -61,20 +63,22 @@ describe('validator/whitelist', function () {
             validator: {
               params: {
                 whitelist: 'error',
-                rules: { key: {} }
-              }
-            }
+                rules: { key: {} },
+              },
+            },
           })
           const handler = new Func({ plugins: [http] }).export().handler
 
           const res = await handler({
             httpMethod: 'POST',
             headers: { 'content-type': 'application/json' },
-            body: '{"key1":1,"key2":2}'
+            body: '{"key1":1,"key2":2}',
           })
 
           expect(res.statusCode).toEqual(500)
-          expect(res.body).toEqual('{"error":{"message":"[params] Not permitted keys: key1, key2"}}')
+          expect(res.body).toEqual(
+            '{"error":{"message":"[params] Not permitted keys: key1, key2"}}'
+          )
         })
 
         test('return message', async function () {
@@ -85,20 +89,22 @@ describe('validator/whitelist', function () {
                 rules: { key: {} },
                 onError: function (type, key, value) {
                   return { message: `${type} ${key} ${value}` }
-                }
-              }
-            }
+                },
+              },
+            },
           })
           const handler = new Func({ plugins: [http] }).export().handler
 
           const res = await handler({
             httpMethod: 'POST',
             headers: { 'content-type': 'application/json' },
-            body: '{"key1":1,"key2":2}'
+            body: '{"key1":1,"key2":2}',
           })
 
           expect(res.statusCode).toEqual(500)
-          expect(res.body).toEqual('{"error":{"message":"params.whitelist  key1,key2"}}')
+          expect(res.body).toEqual(
+            '{"error":{"message":"params.whitelist  key1,key2"}}'
+          )
         })
 
         test('return all', async function () {
@@ -110,22 +116,24 @@ describe('validator/whitelist', function () {
                 onError: function (type, key, value) {
                   return {
                     statusCode: 401,
-                    message: `${type} ${key} ${value}`
+                    message: `${type} ${key} ${value}`,
                   }
-                }
-              }
-            }
+                },
+              },
+            },
           })
           const handler = new Func({ plugins: [http] }).export().handler
 
           const res = await handler({
             httpMethod: 'POST',
             headers: { 'content-type': 'application/json' },
-            body: '{"key1":1,"key2":2}'
+            body: '{"key1":1,"key2":2}',
           })
 
           expect(res.statusCode).toEqual(401)
-          expect(res.body).toEqual('{"error":{"message":"params.whitelist  key1,key2"}}')
+          expect(res.body).toEqual(
+            '{"error":{"message":"params.whitelist  key1,key2"}}'
+          )
         })
       })
     })
@@ -139,19 +147,19 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":[{"sub":1}]}'
+          body: '{"key":[{"sub":1}]}',
         })
 
         expect(res.statusCode).toEqual(201)
@@ -159,11 +167,13 @@ describe('validator/whitelist', function () {
         const res2 = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":[{"key1":1,"key2":2}]}'
+          body: '{"key":[{"key1":1,"key2":2}]}',
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[params] Not permitted keys: key.key1, key.key2"}}')
+        expect(res2.body).toEqual(
+          '{"error":{"message":"[params] Not permitted keys: key.key1, key.key2"}}'
+        )
       })
 
       test('ignore', async function () {
@@ -174,24 +184,24 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [http],
-          async handler () {
+          async handler() {
             return http.params.key
-          }
+          },
         }).export().handler
 
         const res2 = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":[{"sub":1,"key":2}]}'
+          body: '{"key":[{"sub":1,"key":2}]}',
         })
 
         expect(res2.statusCode).toEqual(200)
@@ -208,19 +218,19 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":{"sub":1}}'
+          body: '{"key":{"sub":1}}',
         })
 
         expect(res.statusCode).toEqual(201)
@@ -228,11 +238,13 @@ describe('validator/whitelist', function () {
         const res2 = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":{"key1":1,"key2":2}}'
+          body: '{"key":{"key1":1,"key2":2}}',
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[params] Not permitted keys: key.key1, key.key2"}}')
+        expect(res2.body).toEqual(
+          '{"error":{"message":"[params] Not permitted keys: key.key1, key.key2"}}'
+        )
       })
 
       test('ignore', async function () {
@@ -243,24 +255,24 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [http],
-          async handler () {
+          async handler() {
             return http.params.key
-          }
+          },
         }).export().handler
 
         const res2 = await handler({
           httpMethod: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: '{"key":{"sub":1,"key":2}}'
+          body: '{"key":{"sub":1,"key":2}}',
         })
 
         expect(res2.statusCode).toEqual(200)
@@ -275,9 +287,9 @@ describe('validator/whitelist', function () {
         validator: {
           cookie: {
             whitelist: 'error',
-            rules: { key: {} }
-          }
-        }
+            rules: { key: {} },
+          },
+        },
       })
       const handler = new Func({ plugins: [http] }).export().handler
 
@@ -287,11 +299,13 @@ describe('validator/whitelist', function () {
 
       const res2 = await handler({
         httpMethod: 'POST',
-        headers: { cookie: 'key=1;key2=2;key3=3' }
+        headers: { cookie: 'key=1;key2=2;key3=3' },
       })
 
       expect(res2.statusCode).toEqual(500)
-      expect(res2.body).toEqual('{"error":{"message":"[cookie] Not permitted keys: key2, key3"}}')
+      expect(res2.body).toEqual(
+        '{"error":{"message":"[cookie] Not permitted keys: key2, key3"}}'
+      )
     })
 
     test('ignore', async function () {
@@ -299,20 +313,20 @@ describe('validator/whitelist', function () {
         validator: {
           cookie: {
             whitelist: 'ignore',
-            rules: { key: {} }
-          }
-        }
+            rules: { key: {} },
+          },
+        },
       })
       const handler = new Func({
         plugins: [http],
-        async handler () {
+        async handler() {
           return http.cookie.content
-        }
+        },
       }).export().handler
 
       const res2 = await handler({
         httpMethod: 'POST',
-        headers: { cookie: 'key=1;key2=2;key3=3' }
+        headers: { cookie: 'key=1;key2=2;key3=3' },
       })
 
       expect(res2.statusCode).toEqual(200)
@@ -327,9 +341,9 @@ describe('validator/whitelist', function () {
           validator: {
             session: {
               whitelist: 'error',
-              rules: { key: {} }
-            }
-          }
+              rules: { key: {} },
+            },
+          },
         })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -343,13 +357,15 @@ describe('validator/whitelist', function () {
             cookie: `key=${http.session.encode({
               key: 1,
               key2: 2,
-              key3: 3
-            })}`
-          }
+              key3: 3,
+            })}`,
+          },
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[session] Not permitted keys: key2, key3"}}')
+        expect(res2.body).toEqual(
+          '{"error":{"message":"[session] Not permitted keys: key2, key3"}}'
+        )
       })
 
       test('ignore', async function () {
@@ -357,15 +373,15 @@ describe('validator/whitelist', function () {
           validator: {
             session: {
               whitelist: 'ignore',
-              rules: { key: {} }
-            }
-          }
+              rules: { key: {} },
+            },
+          },
         })
         const handler = new Func({
           plugins: [http],
-          async handler () {
+          async handler() {
             return http.session.content
-          }
+          },
         }).export().handler
 
         await handler({ httpMethod: 'POST' })
@@ -376,9 +392,9 @@ describe('validator/whitelist', function () {
             cookie: `key=${http.session.encode({
               key: 1,
               key2: 2,
-              key3: 3
-            })}`
-          }
+              key3: 3,
+            })}`,
+          },
         })
 
         expect(res.statusCode).toEqual(200)
@@ -395,12 +411,12 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -408,7 +424,9 @@ describe('validator/whitelist', function () {
 
         const res = await handler({
           httpMethod: 'POST',
-          headers: { cookie: `key=${http.session.encode({ key: [{ sub: 1 }] })}` }
+          headers: {
+            cookie: `key=${http.session.encode({ key: [{ sub: 1 }] })}`,
+          },
         })
 
         expect(res.statusCode).toEqual(201)
@@ -420,15 +438,17 @@ describe('validator/whitelist', function () {
               key: [
                 {
                   key1: 1,
-                  key2: 2
-                }
-              ]
-            })}`
-          }
+                  key2: 2,
+                },
+              ],
+            })}`,
+          },
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[session] Not permitted keys: key.key1, key.key2"}}')
+        expect(res2.body).toEqual(
+          '{"error":{"message":"[session] Not permitted keys: key.key1, key.key2"}}'
+        )
       })
 
       test('ignore', async function () {
@@ -439,18 +459,18 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [http],
-          async handler () {
+          async handler() {
             return http.session.content.key
-          }
+          },
         }).export().handler
 
         await handler({ httpMethod: 'POST' })
@@ -462,11 +482,11 @@ describe('validator/whitelist', function () {
               key: [
                 {
                   sub: 1,
-                  key: 2
-                }
-              ]
-            })}`
-          }
+                  key: 2,
+                },
+              ],
+            })}`,
+          },
         })
 
         expect(res2.statusCode).toEqual(200)
@@ -483,12 +503,12 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'error',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({ plugins: [http] }).export().handler
 
@@ -496,7 +516,9 @@ describe('validator/whitelist', function () {
 
         const res = await handler({
           httpMethod: 'POST',
-          headers: { cookie: `key=${http.session.encode({ key: { sub: 1 } })}` }
+          headers: {
+            cookie: `key=${http.session.encode({ key: { sub: 1 } })}`,
+          },
         })
 
         expect(res.statusCode).toEqual(201)
@@ -507,14 +529,16 @@ describe('validator/whitelist', function () {
             cookie: `key=${http.session.encode({
               key: {
                 key1: 1,
-                key2: 2
-              }
-            })}`
-          }
+                key2: 2,
+              },
+            })}`,
+          },
         })
 
         expect(res2.statusCode).toEqual(500)
-        expect(res2.body).toEqual('{"error":{"message":"[session] Not permitted keys: key.key1, key.key2"}}')
+        expect(res2.body).toEqual(
+          '{"error":{"message":"[session] Not permitted keys: key.key1, key.key2"}}'
+        )
       })
 
       test('ignore', async function () {
@@ -525,18 +549,18 @@ describe('validator/whitelist', function () {
                 key: {
                   config: {
                     whitelist: 'ignore',
-                    rules: { sub: {} }
-                  }
-                }
-              }
-            }
-          }
+                    rules: { sub: {} },
+                  },
+                },
+              },
+            },
+          },
         })
         const handler = new Func({
           plugins: [http],
-          async handler () {
+          async handler() {
             return http.session.content.key
-          }
+          },
         }).export().handler
 
         await handler({ httpMethod: 'POST' })
@@ -547,10 +571,10 @@ describe('validator/whitelist', function () {
             cookie: `key=${http.session.encode({
               key: {
                 sub: 1,
-                key: 2
-              }
-            })}`
-          }
+                key: 2,
+              },
+            })}`,
+          },
         })
 
         expect(res.statusCode).toEqual(200)

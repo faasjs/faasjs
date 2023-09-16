@@ -7,9 +7,11 @@ export type FaasReactClientInstance = {
   useFaas: <PathOrData extends FaasAction>(
     action: string | PathOrData,
     defaultParams: FaasParams<PathOrData>,
-    options?: useFaasOptions<PathOrData>,
+    options?: useFaasOptions<PathOrData>
   ) => FaasDataInjection<FaasData<PathOrData>>
-  FaasDataWrapper<PathOrData extends FaasAction>(props: FaasDataWrapperProps<PathOrData>): JSX.Element
+  FaasDataWrapper<PathOrData extends FaasAction>(
+    props: FaasDataWrapperProps<PathOrData>
+  ): JSX.Element
 }
 
 /**
@@ -23,7 +25,7 @@ export type FaasDataInjection<Data = any> = {
   data: Data
   error: any
   promise: Promise<Response<Data>>
-  reload(params?: Record<string, any>): Promise<Response<Data>>,
+  reload(params?: Record<string, any>): Promise<Response<Data>>
   setData: React.Dispatch<React.SetStateAction<Data>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   setPromise: React.Dispatch<React.SetStateAction<Promise<Response<Data>>>>
@@ -31,7 +33,9 @@ export type FaasDataInjection<Data = any> = {
 }
 
 export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
-  render?(args: FaasDataInjection<FaasData<PathOrData>>): JSX.Element | JSX.Element[]
+  render?(
+    args: FaasDataInjection<FaasData<PathOrData>>
+  ): JSX.Element | JSX.Element[]
   children?: React.ReactElement<Partial<FaasDataInjection>>
   fallback?: JSX.Element | false
   action: string

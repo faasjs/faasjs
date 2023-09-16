@@ -1,13 +1,21 @@
 export type {
-  FaasAction, FaasData, FaasParams
+  FaasAction,
+  FaasData,
+  FaasParams,
 } from '@faasjs/types'
 
 export type {
-  Options, Response, ResponseHeaders, ResponseError
+  Options,
+  Response,
+  ResponseHeaders,
+  ResponseError,
 } from '@faasjs/browser'
 
 export * from './client'
 export * from './ErrorBoundary'
 export type {
-  FaasReactClientInstance, FaasDataInjection, FaasDataWrapperProps, useFaasOptions
+  FaasReactClientInstance,
+  FaasDataInjection,
+  FaasDataWrapperProps,
+  useFaasOptions,
 } from './types'

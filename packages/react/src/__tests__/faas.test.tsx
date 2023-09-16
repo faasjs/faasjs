@@ -11,7 +11,7 @@ describe('faas', () => {
     current = 0
 
     setMock(() => {
-      current ++
+      current++
       return Promise.resolve(new Response({ data: current }))
     })
     FaasReactClient({ domain: 'test' })

@@ -23,24 +23,25 @@ export type setModalProps = (changes: Partial<ModalProps>) => void
  * }
  * ```
  */
-export function useModal (init?: ModalProps) {
+export function useModal(init?: ModalProps) {
   const [props, setProps] = useState<ModalProps>({
     open: false,
-    onCancel: () => setProps(prev => ({
-      ...prev,
-      open: false
-    })),
+    onCancel: () =>
+      setProps(prev => ({
+        ...prev,
+        open: false,
+      })),
     ...init,
   })
 
   return {
-    modal: <Modal { ...props } />,
+    modal: <Modal {...props} />,
     modalProps: props,
-    setModalProps (changes: Partial<ModalProps>) {
+    setModalProps(changes: Partial<ModalProps>) {
       setProps(prev => ({
         ...prev,
-        ...changes
+        ...changes,
       }))
-    }
+    },
   }
 }

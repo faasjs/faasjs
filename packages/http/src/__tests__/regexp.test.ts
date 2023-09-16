@@ -5,7 +5,9 @@ describe('validator/regexp', function () {
   describe('param', function () {
     describe('normal', function () {
       test('should work', async function () {
-        const http = new Http({ validator: { params: { rules: { key: { regexp: /\d+/ } } } }, })
+        const http = new Http({
+          validator: { params: { rules: { key: { regexp: /\d+/ } } } },
+        })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
@@ -20,7 +22,9 @@ describe('validator/regexp', function () {
       })
       describe('onError', function () {
         test('no return', async function () {
-          const http = new Http({ validator: { params: { rules: { key: { regexp: /^12345678$/ } } } }, })
+          const http = new Http({
+            validator: { params: { rules: { key: { regexp: /^12345678$/ } } } },
+          })
           const handler = new Func({ plugins: [http] }).export().handler
 
           const res = await handler({
@@ -65,7 +69,9 @@ describe('validator/regexp', function () {
   describe('cookie', function () {
     describe('normal', function () {
       test('should work', async function () {
-        const http = new Http({ validator: { cookie: { rules: { key: { regexp: /\d+/ } } } }, })
+        const http = new Http({
+          validator: { cookie: { rules: { key: { regexp: /\d+/ } } } },
+        })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
@@ -79,7 +85,9 @@ describe('validator/regexp', function () {
       })
       describe('onError', function () {
         test('onError', async function () {
-          const http = new Http({ validator: { cookie: { rules: { key: { regexp: /^12345678$/ } } } }, })
+          const http = new Http({
+            validator: { cookie: { rules: { key: { regexp: /^12345678$/ } } } },
+          })
           const handler = new Func({ plugins: [http] }).export().handler
 
           const res = await handler({
@@ -123,7 +131,9 @@ describe('validator/regexp', function () {
   describe('session', function () {
     describe('normal', function () {
       test('should work', async function () {
-        const http = new Http({ validator: { session: { rules: { key: { regexp: /\d+/ } } } }, })
+        const http = new Http({
+          validator: { session: { rules: { key: { regexp: /\d+/ } } } },
+        })
         const handler = new Func({ plugins: [http] }).export().handler
 
         const res = await handler({ httpMethod: 'POST' })
@@ -137,7 +147,9 @@ describe('validator/regexp', function () {
       })
       describe('onError', function () {
         test('no return', async function () {
-          const http = new Http({ validator: { session: { rules: { key: { regexp: /1233/ } } } }, })
+          const http = new Http({
+            validator: { session: { rules: { key: { regexp: /1233/ } } } },
+          })
           const handler = new Func({ plugins: [http] }).export().handler
 
           const res = await handler({ httpMethod: 'POST' })

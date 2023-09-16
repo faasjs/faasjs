@@ -3,7 +3,7 @@ import { Http } from '@faasjs/http'
 
 export default new Func({
   plugins: [new Http()],
-  async handler () {
+  async handler() {
     throw Error('message')
-  }
+  },
 })

@@ -1,16 +1,19 @@
 import { faas } from '@faasjs/react'
+import { Button, Form as AntdForm, FormProps as AntdFormProps } from 'antd'
 import {
-  Button,
-  Form as AntdForm,
-  FormProps as AntdFormProps,
-} from 'antd'
-import {
-  ReactNode, useEffect, useState, useCallback, isValidElement
+  ReactNode,
+  useEffect,
+  useState,
+  useCallback,
+  isValidElement,
 } from 'react'
 import { useConfigContext } from './Config'
 import { transferValue } from './data'
 import type {
-  ExtendFormTypeProps, ExtendFormItemProps, ExtendTypes, FormItemProps
+  ExtendFormTypeProps,
+  ExtendFormItemProps,
+  ExtendTypes,
+  FormItemProps,
 } from './FormItem'
 import { FormItem } from './FormItem'
 
@@ -54,11 +57,20 @@ export type FormSubmitProps = {
   }
 }
 
-export interface FormProps<Values extends Record<string, any> = any, ExtendItemProps = any> extends Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'> {
+export interface FormProps<
+  Values extends Record<string, any> = any,
+  ExtendItemProps = any
+> extends Omit<
+    AntdFormProps<Values>,
+    'onFinish' | 'children' | 'initialValues'
+  > {
   items?: (FormItemProps | ExtendItemProps | JSX.Element)[]
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | FormSubmitProps
-  onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
+  onFinish?: (
+    values: Values,
+    submit?: (values: any) => Promise<any>
+  ) => Promise<any>
   beforeItems?: JSX.Element | JSX.Element[]
   footer?: JSX.Element | JSX.Element[]
   extendTypes?: ExtendTypes
@@ -71,13 +83,15 @@ export interface FormProps<Values extends Record<string, any> = any, ExtendItemP
  *
  * @ref https://ant.design/components/form/
  */
-export function Form<Values = any> (props: FormProps<Values>) {
+export function Form<Values = any>(props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)
   const [computedProps, setComputedProps] = useState<FormProps<Values>>()
   const config = useConfigContext()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const [form] = AntdForm.useForm<Values>(props.form)
-  const [initialValues, setInitialValues] = useState<Values>(props.initialValues)
+  const [initialValues, setInitialValues] = useState<Values>(
+    props.initialValues
+  )
 
   useEffect(() => {
     const propsCopy = {
@@ -92,12 +106,10 @@ export function Form<Values = any> (props: FormProps<Values>) {
           propsCopy.initialValues[key]
         )
         const item = propsCopy.items.find(item => item.id === key)
-        if (item?.if)
-          item.hidden = !item.if(propsCopy.initialValues)
+        if (item?.if) item.hidden = !item.if(propsCopy.initialValues)
       }
       for (const item of propsCopy.items) {
-        if (item.if)
-          item.hidden = !item.if(propsCopy.initialValues)
+        if (item.if) item.hidden = !item.if(propsCopy.initialValues)
       }
       setInitialValues(propsCopy.initialValues)
       delete propsCopy.initialValues
@@ -108,54 +120,82 @@ export function Form<Values = any> (props: FormProps<Values>) {
         setLoading(true)
 
         try {
-          if (propsCopy.submit && propsCopy.submit.to?.action) {
-            await props.onFinish(values, async values => faas((propsCopy.submit as {
-              to: {
-                action: string
-              }
-            }).to.action, (propsCopy.submit as {
-              to: {
-                params?: Record<string, any>
-              }
-            }).to.params ? {
-                ...values,
-                ...(propsCopy.submit as {
-                  to: {
-                    params?: Record<string, any>
+          if ((propsCopy.submit as FormSubmitProps)?.to?.action) {
+            await props.onFinish(values, async values =>
+              faas(
+                (
+                  propsCopy.submit as {
+                    to: {
+                      action: string
+                    }
                   }
-                }).to.params
-              } : values))
-          } else
-            await props.onFinish(values)
+                ).to.action,
+                (
+                  propsCopy.submit as {
+                    to: {
+                      params?: Record<string, any>
+                    }
+                  }
+                ).to.params
+                  ? {
+                      ...values,
+                      ...(
+                        propsCopy.submit as {
+                          to: {
+                            params?: Record<string, any>
+                          }
+                        }
+                      ).to.params,
+                    }
+                  : values
+              )
+            )
+          } else await props.onFinish(values)
         } catch (error) {
           console.error(error)
         }
 
         setLoading(false)
       }
-    } else if (propsCopy.submit && (propsCopy.submit as {
-      to?: {
-        action: string
-      }
-    }).to?.action) {
-      propsCopy.onFinish = async values => {
-        setLoading(true)
-        return faas((propsCopy.submit as {
-          to: {
+    } else if (
+      propsCopy.submit &&
+      (
+        propsCopy.submit as {
+          to?: {
             action: string
           }
-        }).to.action, (propsCopy.submit as {
-          to: {
-            params?: Record<string, any>
-          }
-        }).to.params ? {
-            ...values,
-            ...(propsCopy.submit as {
+        }
+      ).to?.action
+    ) {
+      propsCopy.onFinish = async values => {
+        setLoading(true)
+        return faas(
+          (
+            propsCopy.submit as {
+              to: {
+                action: string
+              }
+            }
+          ).to.action,
+          (
+            propsCopy.submit as {
               to: {
                 params?: Record<string, any>
               }
-            }).to.params
-          } : values)
+            }
+          ).to.params
+            ? {
+                ...values,
+                ...(
+                  propsCopy.submit as {
+                    to: {
+                      params?: Record<string, any>
+                    }
+                  }
+                ).to.params,
+              }
+            : values
+        )
           .then(result => {
             if ((propsCopy.submit as FormSubmitProps).to.then)
               (propsCopy.submit as FormSubmitProps).to.then(result)
@@ -182,22 +222,25 @@ export function Form<Values = any> (props: FormProps<Values>) {
     setComputedProps(propsCopy)
   }, [props])
 
-  const onValuesChange = useCallback((changedValues:Record<string, any>, allValues:Values) => {
-    console.debug('Form:onValuesChange', changedValues, allValues)
+  const onValuesChange = useCallback(
+    (changedValues: Record<string, any>, allValues: Values) => {
+      console.debug('Form:onValuesChange', changedValues, allValues)
 
-    if (props.onValuesChange) {
-      props.onValuesChange(changedValues, allValues)
-    }
+      if (props.onValuesChange) {
+        props.onValuesChange(changedValues, allValues)
+      }
 
-    if (!props.items) return
+      if (!props.items) return
 
-    for (const key in changedValues) {
-      const item = computedProps.items.find(i => i.id === key)
+      for (const key in changedValues) {
+        const item = computedProps.items.find(i => i.id === key)
 
-      if (item?.onValueChange)
-        item.onValueChange(changedValues[key], allValues, form)
-    }
-  }, [computedProps])
+        if (item?.onValueChange)
+          item.onValueChange(changedValues[key], allValues, form)
+      }
+    },
+    [computedProps]
+  )
 
   useEffect(() => {
     if (!initialValues) return
@@ -210,24 +253,29 @@ export function Form<Values = any> (props: FormProps<Values>) {
 
   if (!computedProps) return null
 
-  return <AntdForm
-    { ...computedProps }
-    onValuesChange = { onValuesChange }
-  >
-    {computedProps.beforeItems}
-    {computedProps.items?.map((item: FormItemProps | JSX.Element) => (isValidElement(item) ? item : <FormItem
-      key={ (item as FormItemProps).id }
-      { ...item as FormItemProps }
-      extendTypes={ extendTypes }
-    />))}
-    {computedProps.children}
-    {computedProps.submit !== false && <Button
-      htmlType='submit'
-      type='primary'
-      loading={ loading }
-    >{computedProps.submit?.text || config.Form.submit.text}</Button>}
-    {computedProps.footer}
-  </AntdForm>
+  return (
+    <AntdForm {...computedProps} onValuesChange={onValuesChange}>
+      {computedProps.beforeItems}
+      {computedProps.items?.map((item: FormItemProps | JSX.Element) =>
+        isValidElement(item) ? (
+          item
+        ) : (
+          <FormItem
+            key={(item as FormItemProps).id}
+            {...(item as FormItemProps)}
+            extendTypes={extendTypes}
+          />
+        )
+      )}
+      {computedProps.children}
+      {computedProps.submit !== false && (
+        <Button htmlType='submit' type='primary' loading={loading}>
+          {computedProps.submit?.text || config.Form.submit.text}
+        </Button>
+      )}
+      {computedProps.footer}
+    </AntdForm>
+  )
 }
 
 Form.useForm = AntdForm.useForm
