@@ -2,13 +2,17 @@
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": true,
+    "quickfix.biome": true
   },
   "editor.wordWrap": "on",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "eslint.packageManager": "npm",
   "cSpell.words": [
     "Antd",
     "anticon",

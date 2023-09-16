@@ -10,23 +10,21 @@ async function run(cmd) {
 }
 
 async function build(path) {
-  const pkg = require(__dirname + '/' + path)
+  const pkg = require(`${__dirname}/${path}`)
   pkg.version = version
   if (pkg.dependencies) {
     for (const name of Object.keys(pkg.dependencies)) {
-      if (name.startsWith('@faasjs/'))
-        pkg.dependencies[name] = '^' + version
+      if (name.startsWith('@faasjs/')) pkg.dependencies[name] = `^${version}`
     }
   }
   if (pkg.devDependencies) {
     for (const name of Object.keys(pkg.devDependencies)) {
-      if (name.startsWith('@faasjs/'))
-        pkg.devDependencies[name] = '^' + version
+      if (name.startsWith('@faasjs/')) pkg.devDependencies[name] = `^${version}`
     }
   }
-  await writeFile(path, JSON.stringify(pkg, null, 2) + '\n')
+  await writeFile(path, `${JSON.stringify(pkg, null, 2)}\n`)
 
-  if (pkg.scripts && pkg.scripts.build) {
+  if (pkg.scripts?.build) {
     await run(`npm run build -w ${path.replace('/package.json', '')}`)
   }
 }
@@ -54,8 +52,7 @@ async function buildAll() {
     list.splice(list.indexOf(`packages/${name}/package.json`), 1)
   }
 
-  for (const name of list)
-    await build(name)
+  for (const name of list) await build(name)
 }
 
 buildAll()

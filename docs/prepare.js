@@ -18,10 +18,14 @@ for (const file of packages) {
   run(`cp ${file} ${target}`)
 }
 
-writeFileSync('./doc/README.md',
-  readFileSync(__dirname + '/../packages/README.md', 'utf-8')
+writeFileSync(
+  './doc/README.md',
+  readFileSync(`${__dirname}/../packages/README.md`, 'utf-8')
     .toString()
-    .replaceAll('https://github.com/faasjs/faasjs/tree/main/packages/', '/doc/')
+    .replaceAll(
+      'https://github.com/faasjs/faasjs/tree/main/packages/',
+      '/doc/',
+    ),
 )
 
 const images = globSync('../images/**/*.md')
@@ -33,15 +37,17 @@ for (const file of images) {
   run(`cp ${file} ${target}`)
 }
 
-writeFileSync('./doc/images/README.md',
-  readFileSync(__dirname + '/doc/images/README.md', 'utf-8')
+writeFileSync(
+  './doc/images/README.md',
+  readFileSync(`${__dirname}/doc/images/README.md`, 'utf-8')
     .toString()
-    .replaceAll('https://faasjs.com', '')
+    .replaceAll('https://faasjs.com', ''),
 )
 
 const roots = globSync('../*.md')
 
 console.log(roots)
+
 for (const file of roots) {
   if (file === '../README.md') continue
   run(`cp ${file} ${file.replace('../', './')}`)
