@@ -1,20 +1,17 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
   entry: {
-    app: './web/src/index.tsx'
+    app: './web/src/index.tsx',
   },
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: [
-          'style-loader',
-          'css-loader'
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.tsx?$/,
@@ -26,16 +23,16 @@ module.exports = {
               presets: [
                 '@babel/preset-env',
                 '@babel/react',
-                '@babel/preset-typescript'
+                '@babel/preset-typescript',
               ],
               plugins: [
                 '@babel/plugin-transform-runtime',
                 '@babel/plugin-proposal-class-properties',
                 '@babel/plugin-proposal-export-default-from',
-              ]
-            }
-          }
-        ]
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.less$/,
@@ -43,49 +40,49 @@ module.exports = {
           {
             loader: 'style-loader',
           },
-           {
+          {
             loader: 'css-loader',
           },
           {
             loader: 'less-loader',
             options: {
               lessOptions: {
-                javascriptEnabled: true
-              }
-            }
-          }
-        ]
-      }
+                javascriptEnabled: true,
+              },
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
+    extensions: ['.tsx', '.ts', '.js'],
     modules: [path.resolve(__dirname, '..', 'src'), 'node_modules'],
     fallback: {
       path: false,
-      util: false
-    }
+      util: false,
+    },
   },
   output: {
     publicPath: '/',
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, '..', 'dist'),
-    pathinfo: false
+    pathinfo: false,
   },
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM',
-    antd: 'antd'
+    antd: 'antd',
   },
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
-      REACT_APP_API: '/api/'
+      REACT_APP_API: '/api/',
     }),
     new HtmlWebpackPlugin({
       template: 'web/public/index.html',
-      hash: true
-    })
+      hash: true,
+    }),
   ],
   devtool: 'eval-cheap-module-source-map',
   devServer: {
@@ -95,7 +92,7 @@ module.exports = {
     hot: true,
     overlay: {
       warn: false,
-      error: true
+      error: true,
     },
     host: '0.0.0.0',
     disableHostCheck: true,
@@ -103,9 +100,9 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://localhost:8081',
-        pathRewrite: {'^/api' : ''},
+        pathRewrite: { '^/api': '' },
         changeOrigin: true,
-      }
-    }
-  }
+      },
+    },
+  },
 }

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-var-requires */
 const Benchmark = require('benchmark')
 const useFunc = require('@faasjs/func').useFunc
 const useHttp = require('@faasjs/http').useHttp

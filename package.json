@@ -2,7 +2,6 @@
   "name": "faasjs-mono",
   "version": "0.0.3-beta.107",
   "scripts": {
-    "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
     "pub": "npm run build && node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log",
@@ -17,12 +16,7 @@
     "turbo": "^1.10.13",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "typescript": "*",
-    "@biomejs/biome": "*"
-  },
-  "eslintConfig": {
-    "ignorePatterns": ["**/examples", "**/lib", "**/dist", "**/tmp"],
-    "extends": ["@faasjs/recommended", "@faasjs/react"]
+    "typescript": "*"
   },
   "workspaces": ["packages/*"],
   "jest": {

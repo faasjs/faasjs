@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const globSync = require('glob').sync
 const promisify = require('util').promisify
 const exec = promisify(require('child_process').exec)

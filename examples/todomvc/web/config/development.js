@@ -5,9 +5,7 @@ module.exports = merge(defaultConfig, {
   mode: 'development',
   name: 'development',
   devServer: {
-    contentBase: [
-      __dirname + '/../public'
-    ],
+    contentBase: [`${__dirname}/../public`],
     historyApiFallback: true,
     compress: true,
     inline: false,
@@ -16,9 +14,9 @@ module.exports = merge(defaultConfig, {
       '/_faas': {
         target: 'http://localhost:3000',
         pathRewrite: {
-          '^/_faas': ''
-        }
-      }
-    }
-  }
+          '^/_faas': '',
+        },
+      },
+    },
+  },
 })

@@ -9,5 +9,5 @@ describe('index', function () {
 
     expect(statusCode).toEqual(200)
     expect(data).toEqual('Hello, world')
-  });
-});
+  })
+})

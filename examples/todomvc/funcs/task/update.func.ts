@@ -1,6 +1,6 @@
-import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
-import { Knex } from '@faasjs/knex';
+import { Func } from '@faasjs/func'
+import { Http } from '@faasjs/http'
+import { Knex } from '@faasjs/knex'
 
 const http = new Http({
   validator: {
@@ -9,30 +9,36 @@ const http = new Http({
       rules: {
         id: {
           required: true,
-          type: 'number'
+          type: 'number',
         },
         name: {
-          type: 'string'
+          type: 'string',
         },
         completed: {
-          type: 'number'
-        }
-      }
-    }
-  }
-});
+          type: 'number',
+        },
+      },
+    },
+  },
+})
 
-const knex = new Knex();
+const knex = new Knex()
 
 export default new Func({
   plugins: [http, knex],
   async handler() {
     if (http.params.name) {
-      await knex.query('tasks').where({id: http.params.id}).update({name: http.params.name});
+      await knex
+        .query('tasks')
+        .where({ id: http.params.id })
+        .update({ name: http.params.name })
     }
 
     if (typeof http.params.completed !== 'undefined') {
-      await knex.query('tasks').where({id: http.params.id}).update({completed: http.params.completed});
+      await knex
+        .query('tasks')
+        .where({ id: http.params.id })
+        .update({ completed: http.params.completed })
     }
-  }
-});
+  },
+})

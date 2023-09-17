@@ -28,6 +28,7 @@
   "cSpell.words": [
     "Antd",
     "anticon",
+    "biomejs",
     "builtins",
     "colorfy",
     "Faas",
@@ -45,5 +46,7 @@
     "Useify",
     "vuepress",
     "zfben"
-  ]
+  ],
+  "biome.requireConfiguration": true,
+  "biome_lsp.trace.server": "messages"
 }

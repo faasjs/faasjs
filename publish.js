@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const globSync = require('glob').sync
 const exec = require('child_process').execSync
 const writeFile = require('fs').writeFileSync

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const globSync = require('glob').globSync
 const execSync = require('child_process').execSync
 const dirname = require('path').dirname

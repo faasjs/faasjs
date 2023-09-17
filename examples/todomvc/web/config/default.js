@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const context = __dirname + '/../assets';
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const context = `${__dirname}/../assets`
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   context: context,
-  entry: { app: context + '/index.ts' },
+  entry: { app: `${context}/index.ts` },
   output: {
-    path: __dirname + '/../public',
+    path: `${__dirname}/../public`,
     filename: '[name]-[contenthash].js',
-    publicPath: '/'
+    publicPath: '/',
   },
   resolve: { extensions: ['.js', '.ts', '.vue'] },
   module: {
@@ -17,36 +16,34 @@ module.exports = {
       {
         test: /\.vue?$/,
         exclude: /node_modules/,
-        use: [
-          { loader: 'vue-loader' }
-        ]
+        use: [{ loader: 'vue-loader' }],
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        loader: 'style-loader!css-loader',
       },
       {
         test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
-        loader: 'url-loader'
+        loader: 'url-loader',
       },
       {
         test: /\.(js|ts)$/,
-        loader: 'babel-loader'
-      }
-    ]
+        loader: 'babel-loader',
+      },
+    ],
   },
   externals: {
     vue: 'Vue',
     'vue-router': 'VueRouter',
     vuex: 'Vuex',
-    iview: 'iview'
+    iview: 'iview',
   },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       hash: true,
-      template: context + '/index.html',
-      filename: 'index.html'
-    })
-  ]
-};
+      template: `${context}/index.html`,
+      filename: 'index.html',
+    }),
+  ],
+}

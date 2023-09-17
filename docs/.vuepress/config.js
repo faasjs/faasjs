@@ -201,18 +201,9 @@ export default defineUserConfig({
               children: ['deep_merge', 'load', 'logger', 'request', 'server'],
             },
             {
-              title: '代码风格插件',
-              collapsable: false,
-              children: [
-                'eslint-config-react',
-                'eslint-config-recommended',
-                'eslint-config-vue',
-              ],
-            },
-            {
               title: '网络插件',
               collapsable: false,
-              children: ['http', 'graphql-server'],
+              children: ['http'],
             },
             {
               title: '数据库插件',
