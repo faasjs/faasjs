@@ -39,8 +39,13 @@ describe('server', function () {
 
   test('hello', async function () {
     await expect(
-      request(`http://127.0.0.1:${port}/hello`)
+      request(`http://127.0.0.1:${port}/hello`, {
+        headers: { 'x-faasjs-request-id': 'test' },
+      })
     ).resolves.toMatchObject({
+      headers: {
+        'x-faasjs-request-id': 'test',
+      },
       statusCode: 200,
       body: { data: 'hello' },
     })

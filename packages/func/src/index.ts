@@ -271,7 +271,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     ): Promise<TResult> => {
       if (typeof context === 'undefined') context = {}
       if (!context.request_id)
-        context.request_id = randomBytes(16).toString('hex')
+        context.request_id =
+          (event as any)?.headers?.['x-faasjs-request-id'] ||
+          randomBytes(16).toString('hex')
       if (!context.request_at)
         context.request_at = Math.round(new Date().getTime() / 1000)
       context.callbackWaitsForEmptyEventLoop = false
