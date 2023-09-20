@@ -16,9 +16,9 @@ export type Plugin = {
   [key: string]: any
   readonly type: string
   readonly name: string
-  onDeploy?: (data: DeployData, next: Next) => void | Promise<void>
-  onMount?: (data: MountData, next: Next) => void | Promise<void>
-  onInvoke?: (data: InvokeData, next: Next) => void | Promise<void>
+  onDeploy?: (data: DeployData, next: Next) => Promise<void>
+  onMount?: (data: MountData, next: Next) => Promise<void>
+  onInvoke?: (data: InvokeData, next: Next) => Promise<void>
 }
 
 export type ProviderConfig = {
