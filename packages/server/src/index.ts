@@ -101,11 +101,19 @@ export class Server {
       opts || {}
     )
 
-    process.env.FaasMode = this.opts.cache ? 'mono' : 'local'
+    if (!process.env.FaasMode)
+      process.env.FaasMode = this.opts.cache ? 'mono' : 'local'
+
     process.env.FaasLocal = `http://localhost:${this.opts.port}`
 
     this.logger = new Logger('FaasJS')
-    this.logger.debug('Init with %s %j', this.root, this.opts)
+    this.logger.debug(
+      'Initialize [%s] [%s] %s %j',
+      process.env.FaasEnv,
+      process.env.FaasMode,
+      this.root,
+      this.opts
+    )
 
     servers.push(this)
   }
@@ -121,16 +129,17 @@ export class Server {
     },
     requestedAt: number
   ): Promise<void> {
-    this.logger.info('Process %s %s', req.method, req.url)
+    const requestId =
+      (req.headers['x-faasjs-request-id'] as string) ||
+      (req.headers['x-request-id'] as string) ||
+      `FS-${randomBytes(16).toString('hex')}`
+    const logger = new Logger(requestId)
+
+    logger.info('%s %s', req.method, req.url)
 
     const startedAt = Date.now()
 
     return await new Promise(resolve => {
-      const requestId =
-        (req.headers['x-faasjs-request-id'] as string) ||
-        (req.headers['x-request-id'] as string) ||
-        `F-${randomBytes(16).toString('hex')}`
-
       let body = ''
 
       req.on('readable', function () {
@@ -162,14 +171,10 @@ export class Server {
             this.cachedFuncs[path].handler
           ) {
             cache = this.cachedFuncs[path]
-            this.logger.debug(
-              '[%s] Response with cached %s',
-              requestId,
-              cache.file
-            )
+            logger.debug('Response with cached %s', cache.file)
           } else {
             cache.file = pathResolve('.', this.getFilePath(path))
-            this.logger.debug('[%s] Response with %s', requestId, cache.file)
+            logger.debug('Response with %s', cache.file)
 
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             const func = require(cache.file).default
@@ -233,12 +238,7 @@ export class Server {
         for (const key in headers) res.setHeader(key, headers[key])
 
         if (resBody) {
-          this.logger.debug(
-            '[%s] Response %s %j',
-            requestId,
-            res.statusCode,
-            headers
-          )
+          logger.debug('Response %s %j', res.statusCode, headers)
 
           if (
             res.statusCode !== 200 ||
