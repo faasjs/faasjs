@@ -120,7 +120,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `scope` | (`trx`: `Transaction`<`any`, `any`\>) => `void` \| `Promise`<`TResult`\> |
-| `config?` | `any` |
+| `config?` | `TransactionConfig` |
 
 #### Returns
 

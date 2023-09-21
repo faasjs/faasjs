@@ -166,7 +166,9 @@ ___
 ### Options
 
 Ƭ **Options**: `RequestInit` & { `beforeRequest?`: (`{
-    action, params, options
+    action,
+    params,
+    options,
   }`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `Promise`<`void`\> \| `void` ; `headers?`: { `[key: string]`: `string`;  } ; `request?`: <PathOrData\>(`url`: `string`, `options`: [`Options`](#options)) => `Promise`<[`Response`](classes/Response.md)<[`FaasData`](#faasdata)<`PathOrData`\>\>\>  }
 
 ___

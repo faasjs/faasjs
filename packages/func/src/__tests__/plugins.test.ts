@@ -7,9 +7,9 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public onDeploy(data: DeployData, next: Next) {
+      public async onDeploy(data: DeployData, next: Next) {
         results.push('before1')
-        next()
+        await next()
         results.push('after1')
       }
     }
@@ -17,9 +17,9 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public onDeploy(data: DeployData, next: Next) {
+      public async onDeploy(data: DeployData, next: Next) {
         results.push('before2')
-        next()
+        await next()
         results.push('after2')
       }
     }
@@ -55,9 +55,9 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public onMount(data: MountData, next: Next) {
+      public async onMount(data: MountData, next: Next) {
         results.push('before1')
-        next()
+        await next()
         results.push('after1')
       }
     }
@@ -65,9 +65,9 @@ describe('plugins', function () {
       public readonly type: string
       public readonly name: string
 
-      public onMount(data: MountData, next: Next) {
+      public async onMount(data: MountData, next: Next) {
         results.push('before2')
-        next()
+        await next()
         results.push('after2')
       }
     }

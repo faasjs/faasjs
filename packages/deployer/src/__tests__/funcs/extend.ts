@@ -8,8 +8,8 @@ export default class Extend implements Plugin {
     this.type = 'Extend'
   }
 
-  onInvoke(data: InvokeData, next: Next): void {
+  async onInvoke(data: InvokeData, next: Next) {
     data.event++
-    next()
+    await next()
   }
 }

@@ -241,9 +241,9 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `onDeploy?` | (`data`: [`DeployData`](#deploydata), `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
-| `onInvoke?` | (`data`: [`InvokeData`](#invokedata), `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
-| `onMount?` | (`data`: [`MountData`](#mountdata), `next`: [`Next`](#next)) => `void` \| `Promise`<`void`\> |
+| `onDeploy?` | (`data`: [`DeployData`](#deploydata), `next`: [`Next`](#next)) => `Promise`<`void`\> |
+| `onInvoke?` | (`data`: [`InvokeData`](#invokedata), `next`: [`Next`](#next)) => `Promise`<`void`\> |
+| `onMount?` | (`data`: [`MountData`](#mountdata), `next`: [`Next`](#next)) => `Promise`<`void`\> |
 | `type` | `string` |
 
 ___

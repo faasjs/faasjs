@@ -54,7 +54,8 @@ ___
 | `agent?` | `boolean` | - |
 | `auth?` | `string` | The authentication credentials to use for the request. Format: `username:password` |
 | `body?` | { `[key: string]`: `any`;  } \| `string` | - |
-| `downloadStream?` | `NodeJS.WritableStream` | Create a write stream to download a file. ```ts const stream = createWriteStream('filepath') await request('https://example.com', { downloadStream: stream }) ``` |
+| `downloadFile?` | `string` | Path of downloading a file from the server. ```ts await request('https://example.com', { downloadFile: 'filepath' }) ``` |
+| `downloadStream?` | `NodeJS.WritableStream` | Create a write stream to download a file. ```ts import { createWriteStream } from 'fs' const stream = createWriteStream('filepath') await request('https://example.com', { downloadStream: stream }) ``` |
 | `file?` | `string` | Path of uploading a file to the server. ```ts await request('https://example.com', { file: 'filepath' }) ``` |
 | `headers?` | `http.OutgoingHttpHeaders` | - |
 | `logger?` | `Logger` | - |

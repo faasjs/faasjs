@@ -9,6 +9,7 @@
 - [children](LinkProps.md#children)
 - [copyable](LinkProps.md#copyable)
 - [href](LinkProps.md#href)
+- [onClick](LinkProps.md#onclick)
 - [style](LinkProps.md#style)
 - [target](LinkProps.md#target)
 - [text](LinkProps.md#text)
@@ -44,6 +45,26 @@ ___
 ### href
 
 • **href**: `string`
+
+___
+
+### onClick
+
+• `Optional` **onClick**: (`event`: `MouseEvent`<`HTMLElement`, `MouseEvent`\>) => `void`
+
+#### Type declaration
+
+▸ (`event`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `event` | `MouseEvent`<`HTMLElement`, `MouseEvent`\> |
+
+##### Returns
+
+`void`
 
 ___
 

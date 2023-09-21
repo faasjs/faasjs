@@ -31,12 +31,15 @@
 
 #### Overrides
 
-Component&lt;ErrorBoundaryProps, {
-  error?: Error
-  info?: {
-    componentStack?: string
+Component&lt;
+  ErrorBoundaryProps,
+  {
+    error?: Error
+    info?: {
+      componentStack?: string
+    }
   }
-}\&gt;.constructor
+\&gt;.constructor
 
 ## Methods
 
