@@ -1,9 +1,11 @@
 {
   "name": "@faasjs/eslint-config-react",
-  "version": "0.0.3-beta.107",
+  "version": "0.0.3-beta.108",
   "license": "MIT",
   "main": "index.js",
-  "files": ["index.js"],
+  "files": [
+    "index.js"
+  ],
   "homepage": "https://faasjs.com/doc/eslint-config-react",
   "repository": {
     "type": "git",
