@@ -20,6 +20,12 @@
     "eslint": "*",
     "typescript": "*"
   },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "eslint": "*",
+    "typescript": "*"
+  },
   "engines": {
     "npm": ">=9.0.0",
     "node": ">=18.0.0"

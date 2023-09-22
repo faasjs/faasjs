@@ -29,7 +29,9 @@
     "@types/js-yaml": "*",
     "@faasjs/deep_merge": "0.0.3-beta.109",
     "@faasjs/func": "0.0.3-beta.109",
-    "@faasjs/ts-transform": "0.0.3-beta.109"
+    "@faasjs/ts-transform": "0.0.3-beta.109",
+    "js-yaml": "*",
+    "rollup": "*"
   },
   "engines": {
     "npm": ">=9.0.0",

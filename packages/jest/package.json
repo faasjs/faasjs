@@ -21,7 +21,10 @@
   },
   "devDependencies": {
     "@types/jest": "*",
-    "@types/node": "*"
+    "@types/node": "*",
+    "@swc/jest": "*",
+    "jest": "*",
+    "jest-environment-jsdom": "*"
   },
   "engines": {
     "npm": ">=9.0.0",

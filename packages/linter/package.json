@@ -17,6 +17,9 @@
   "peerDependencies": {
     "@biomejs/biome": "*"
   },
+  "devDependencies": {
+    "@biomejs/biome": "*"
+  },
   "engines": {
     "npm": ">=9.0.0",
     "node": ">=18.0.0"

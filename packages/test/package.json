@@ -30,7 +30,9 @@
     "@faasjs/func": "0.0.3-beta.109",
     "@faasjs/load": "0.0.3-beta.109",
     "@faasjs/logger": "0.0.3-beta.109",
-    "@faasjs/jest": "0.0.3-beta.109"
+    "@faasjs/jest": "0.0.3-beta.109",
+    "regenerator-runtime": "*",
+    "typescript": "*"
   },
   "engines": {
     "npm": ">=9.0.0",

@@ -18,6 +18,11 @@
     "@faasjs/http": "0.0.3-beta.109",
     "@faasjs/types": "0.0.3-beta.109"
   },
+  "devDependencies": {
+    "@faasjs/cli": "0.0.3-beta.109",
+    "@faasjs/http": "0.0.3-beta.109",
+    "@faasjs/types": "0.0.3-beta.109"
+  },
   "engines": {
     "npm": ">=9.0.0",
     "node": ">=18.0.0"

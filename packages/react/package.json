@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "@types/react": "*",
-    "@faasjs/browser": "0.0.3-beta.109"
+    "@faasjs/browser": "0.0.3-beta.109",
+    "react": "*"
   },
   "engines": {
     "npm": ">=9.0.0",

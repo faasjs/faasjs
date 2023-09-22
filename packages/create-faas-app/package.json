@@ -25,6 +25,11 @@
     "enquirer": "*",
     "lodash": "*"
   },
+  "devDependencies": {
+    "commander": "*",
+    "enquirer": "*",
+    "lodash": "*"
+  },
   "engines": {
     "npm": ">=9.0.0",
     "node": ">=18.0.0"

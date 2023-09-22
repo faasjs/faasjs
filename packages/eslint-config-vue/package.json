@@ -18,6 +18,10 @@
     "@faasjs/eslint-config-recommended": "*",
     "eslint-plugin-vue": "*"
   },
+  "devDependencies": {
+    "@faasjs/eslint-config-recommended": "*",
+    "eslint-plugin-vue": "*"
+  },
   "engines": {
     "npm": ">=9.0.0",
     "node": ">=18.0.0"
