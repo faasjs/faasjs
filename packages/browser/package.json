@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/browser",
-  "version": "0.0.4-beta.1",
+  "version": "0.0.4-beta.2",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,10 +22,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/types": "0.0.3-beta.109"
+    "@faasjs/types": "0.0.4-beta.2"
   },
   "devDependencies": {
-    "@faasjs/types": "0.0.4-beta.1"
+    "@faasjs/types": "0.0.4-beta.2"
   },
   "engines": {
     "npm": ">=9.0.0",
