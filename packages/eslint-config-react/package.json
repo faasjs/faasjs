@@ -15,12 +15,12 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "peerDependencies": {
-    "@faasjs/eslint-config-recommended": "*",
+    "@faasjs/eslint-config-recommended": "0.0.3-beta.109",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-hooks": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "*",
+    "@faasjs/eslint-config-recommended": "0.0.3-beta.109",
     "eslint-plugin-react": "*",
     "eslint-plugin-react-hooks": "*"
   },
