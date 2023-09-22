@@ -165,11 +165,7 @@ export class Server {
         try {
           let cache: Cache = {}
 
-          if (
-            this.opts.cache &&
-            this.cachedFuncs[path] &&
-            this.cachedFuncs[path].handler
-          ) {
+          if (this.opts.cache && this.cachedFuncs[path]?.handler) {
             cache = this.cachedFuncs[path]
             logger.debug('Response with cached %s', cache.file)
           } else {
