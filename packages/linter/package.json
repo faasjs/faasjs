@@ -3,10 +3,7 @@
   "version": "0.0.3-beta.109",
   "license": "MIT",
   "main": "index.js",
-  "files": [
-    "index.js",
-    "biome.json"
-  ],
+  "files": ["index.js", "biome.json"],
   "homepage": "https://faasjs.com/doc/linter",
   "repository": {
     "type": "git",
@@ -21,7 +18,7 @@
     "@biomejs/biome": "*"
   },
   "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=16.0.0"
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
   }
 }

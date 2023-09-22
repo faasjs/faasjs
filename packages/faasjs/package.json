@@ -13,13 +13,13 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "dependencies": {
+  "peerDependencies": {
     "@faasjs/cli": "0.0.3-beta.109",
     "@faasjs/http": "0.0.3-beta.109",
     "@faasjs/types": "0.0.3-beta.109"
   },
   "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=16.0.0"
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
   }
 }

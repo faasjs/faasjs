@@ -13,18 +13,18 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "files": [
-    "index.js"
-  ],
-  "dependencies": {
+  "files": ["index.js"],
+  "peerDependencies": {
     "@swc/jest": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
     "jest": "*",
     "jest-environment-jsdom": "*"
   },
+  "devDependencies": {
+    "@types/jest": "*",
+    "@types/node": "*"
+  },
   "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=16.0.0"
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
   }
 }

@@ -13,14 +13,12 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "files": [
-    "src/index.ts"
-  ],
+  "files": ["src/index.ts"],
   "devDependencies": {
     "tsd": "*"
   },
   "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=16.0.0"
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
   }
 }

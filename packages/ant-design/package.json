@@ -18,16 +18,12 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
+  "files": ["dist"],
+  "peerDependencies": {
     "@faasjs/react": "0.0.3-beta.109",
     "@ant-design/icons": "*",
     "lodash-es": "*",
-    "dayjs": "*"
-  },
-  "peerDependencies": {
+    "dayjs": "*",
     "antd": "*",
     "react": "*",
     "react-dom": "*",
@@ -40,7 +36,7 @@
     "@testing-library/user-event": "*"
   },
   "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=16.0.0"
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
   }
 }
