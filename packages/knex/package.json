@@ -25,6 +25,9 @@
     "knex": "*"
   },
   "devDependencies": {
+    "@faasjs/deep_merge": "0.0.3-beta.109",
+    "@faasjs/func": "0.0.3-beta.109",
+    "@faasjs/logger": "0.0.3-beta.109",
     "@types/mysql": "*",
     "@types/node": "*",
     "@types/pg": "*",

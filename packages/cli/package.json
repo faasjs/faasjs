@@ -31,7 +31,11 @@
     "lodash": "*"
   },
   "devDependencies": {
-    "@types/glob": "*"
+    "@types/glob": "*",
+    "@faasjs/deployer": "0.0.3-beta.109",
+    "@faasjs/func": "0.0.3-beta.109",
+    "@faasjs/server": "0.0.3-beta.109",
+    "@faasjs/test": "0.0.3-beta.109"
   },
   "engines": {
     "npm": ">=9.0.0",

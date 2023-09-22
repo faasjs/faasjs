@@ -28,7 +28,12 @@
     "pirates": "*"
   },
   "devDependencies": {
-    "react": "*"
+    "react": "*",
+    "@faasjs/func": "0.0.3-beta.109",
+    "@faasjs/http": "0.0.3-beta.109",
+    "@faasjs/load": "0.0.3-beta.109",
+    "@faasjs/logger": "0.0.3-beta.109",
+    "@faasjs/ts-transform": "0.0.3-beta.109"
   },
   "engines": {
     "npm": ">=9.0.0",

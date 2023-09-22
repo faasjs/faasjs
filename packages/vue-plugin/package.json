@@ -24,6 +24,7 @@
     "vue": "*"
   },
   "devDependencies": {
+    "@faasjs/browser": "0.0.3-beta.109",
     "@vue/test-utils": "*"
   },
   "engines": {

@@ -22,6 +22,10 @@
     "@faasjs/deep_merge": "0.0.3-beta.109",
     "@faasjs/logger": "0.0.3-beta.109"
   },
+  "devDependencies": {
+    "@faasjs/deep_merge": "0.0.3-beta.109",
+    "@faasjs/logger": "0.0.3-beta.109"
+  },
   "engines": {
     "npm": ">=9.0.0",
     "node": ">=18.0.0"

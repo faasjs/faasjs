@@ -26,6 +26,13 @@
     "@faasjs/cloud_function": "0.0.3-beta.109",
     "cos-nodejs-sdk-v5": "*"
   },
+  "devDependencies": {
+    "@faasjs/func": "0.0.3-beta.109",
+    "@faasjs/load": "0.0.3-beta.109",
+    "@faasjs/logger": "0.0.3-beta.109",
+    "@faasjs/request": "0.0.3-beta.109",
+    "@faasjs/cloud_function": "0.0.3-beta.109"
+  },
   "engines": {
     "npm": ">=9.0.0",
     "node": ">=18.0.0"
