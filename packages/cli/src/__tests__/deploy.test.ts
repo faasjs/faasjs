@@ -112,7 +112,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 1，失败自动重试 0 次)',
-        [`${__dirname}/funcs/b.func.ts`, `${__dirname}/funcs/a.func.ts`],
+        [`${__dirname}/funcs/a.func.ts`, `${__dirname}/funcs/b.func.ts`],
         '',
         '开始发布',
       ])
@@ -134,7 +134,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
-        [`${__dirname}/funcs/b.func.ts`, `${__dirname}/funcs/a.func.ts`],
+        [`${__dirname}/funcs/a.func.ts`, `${__dirname}/funcs/b.func.ts`],
         '',
         '开始发布',
       ])
@@ -171,7 +171,7 @@ describe('deploy', function () {
 
       expect(logs).toEqual([
         '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
-        [`${__dirname}/funcs/b.func.ts`, `${__dirname}/funcs/a.func.ts`],
+        [`${__dirname}/funcs/a.func.ts`, `${__dirname}/funcs/b.func.ts`],
         '',
         '开始发布',
       ])
