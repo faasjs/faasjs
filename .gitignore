@@ -20,3 +20,4 @@ docs/*.md
 .turbo
 output.txt
 *.tmp
+bun.lockb

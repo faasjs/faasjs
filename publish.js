@@ -19,6 +19,11 @@ async function publish(path) {
       if (name.startsWith('@faasjs/')) pkg.dependencies[name] = version
     }
   }
+  if (pkg.peerDependencies) {
+    for (const name of Object.keys(pkg.peerDependencies)) {
+      if (name.startsWith('@faasjs/')) pkg.peerDependencies[name] = version
+    }
+  }
   if (pkg.devDependencies) {
     for (const name of Object.keys(pkg.devDependencies)) {
       if (name.startsWith('@faasjs/')) pkg.devDependencies[name] = version
