@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/browser",
-  "version": "0.0.3-beta.109",
+  "version": "0.0.4-beta.1",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -18,12 +18,14 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "@faasjs/types": "0.0.3-beta.109"
   },
   "devDependencies": {
-    "@faasjs/types": "0.0.3-beta.109"
+    "@faasjs/types": "0.0.4-beta.1"
   },
   "engines": {
     "npm": ">=9.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/jest",
-  "version": "0.0.3-beta.109",
+  "version": "0.0.4-beta.1",
   "license": "MIT",
   "main": "index.js",
   "homepage": "https://faasjs.com/doc/jest",
@@ -13,7 +13,9 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "files": ["index.js"],
+  "files": [
+    "index.js"
+  ],
   "peerDependencies": {
     "@swc/jest": "*",
     "jest": "*",

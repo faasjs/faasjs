@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/load",
-  "version": "0.0.3-beta.109",
+  "version": "0.0.4-beta.1",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,9 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "@faasjs/deep_merge": "0.0.3-beta.109",
     "@faasjs/func": "0.0.3-beta.109",
@@ -27,9 +29,9 @@
   },
   "devDependencies": {
     "@types/js-yaml": "*",
-    "@faasjs/deep_merge": "0.0.3-beta.109",
-    "@faasjs/func": "0.0.3-beta.109",
-    "@faasjs/ts-transform": "0.0.3-beta.109",
+    "@faasjs/deep_merge": "0.0.4-beta.1",
+    "@faasjs/func": "0.0.4-beta.1",
+    "@faasjs/ts-transform": "0.0.4-beta.1",
     "js-yaml": "*",
     "rollup": "*"
   },

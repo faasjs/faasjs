@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.3-beta.109",
+  "version": "0.0.4-beta.1",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -18,7 +18,9 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "@faasjs/react": "0.0.3-beta.109",
     "@ant-design/icons": "*",
@@ -34,7 +36,7 @@
     "@testing-library/jest-dom": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
-    "@faasjs/react": "0.0.3-beta.109",
+    "@faasjs/react": "0.0.4-beta.1",
     "@ant-design/icons": "*",
     "lodash-es": "*",
     "dayjs": "*",
