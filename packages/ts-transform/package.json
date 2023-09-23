@@ -17,9 +17,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "@faasjs/deep_merge": "0.0.4-beta.2",
     "@swc/core": "*"

@@ -51,7 +51,7 @@ jobs:
         with:
           bun-version: latest
       - name: Install Dependencies
-        run: rm package-lock.json && bun install --no-cache --peer
+        run: rm package-lock.json && bun install
       - name: Build packages
         run: bun run turbo build
       - name: Run Tests

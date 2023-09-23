@@ -24,6 +24,7 @@ jobs:
         with:
           push: true
           tags: faasjs/vscode:${{ github.sha }},faasjs/vscode:bun
+          file: ./images/vscode/bun.Dockerfile
           context: ./images/vscode
           cache-from: type=gha
           cache-to: type=gha,mode=max

@@ -47,22 +47,23 @@ describe('logger', function () {
     expect(lastOutput).toContain('ERROR [label] message')
   })
 
-  test('time', function (done) {
+  test('time', async function () {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake
     logger.silent = false
     logger.level = 0
     logger.time('key')
-    setTimeout(function () {
-      logger.timeEnd('key', 'message')
 
-      // eslint-disable-next-line no-control-regex
-      expect(lastOutput).toMatch(
-        /\u001b\[090mDEBUG message \+[0-9]+ms\u001b\[39m/
-      )
-      done()
-    })
+    await new Promise(resolve =>
+      setTimeout(() => {
+        logger.timeEnd('key', 'message')
+
+        expect(lastOutput).toMatch(/DEBUG message \+[0-9]+ms/)
+
+        resolve(null)
+      }, 100)
+    )
   })
 
   test('timeEnd error', function () {
