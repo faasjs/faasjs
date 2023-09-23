@@ -17,8 +17,7 @@
     "turbo": "^1.10.14",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "typescript": "*",
-    "bun-types": "*"
+    "typescript": "*"
   },
   "workspaces": ["packages/*"],
   "jest": {
