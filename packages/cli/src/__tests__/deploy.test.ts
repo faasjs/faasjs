@@ -110,14 +110,15 @@ describe('deploy', function () {
         workers: '1',
       })
 
-      expect(logs).toEqual(
+      expect(logs).toEqual([
+        '[testing] 是否要发布以下 2 个云函数？(并行数 1，失败自动重试 0 次)',
         expect.arrayContaining([
-          '[testing] 是否要发布以下 2 个云函数？(并行数 1，失败自动重试 0 次)',
-          [`${__dirname}/funcs/a.func.ts`, `${__dirname}/funcs/b.func.ts`],
-          '',
-          '开始发布',
-        ])
-      )
+          `${__dirname}/funcs/a.func.ts`,
+          `${__dirname}/funcs/b.func.ts`,
+        ]),
+        '',
+        '开始发布',
+      ])
       expect(warns).toEqual([])
       expect(errors).toEqual([])
     })
@@ -134,14 +135,15 @@ describe('deploy', function () {
         workers: '3',
       })
 
-      expect(logs).toEqual(
+      expect(logs).toEqual([
+        '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
         expect.arrayContaining([
-          '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
-          [`${__dirname}/funcs/a.func.ts`, `${__dirname}/funcs/b.func.ts`],
-          '',
-          '开始发布',
-        ])
-      )
+          `${__dirname}/funcs/a.func.ts`,
+          `${__dirname}/funcs/b.func.ts`,
+        ]),
+        '',
+        '开始发布',
+      ])
       expect(warns).toEqual([])
       expect(errors).toEqual(['Failed:', ['file', 'file']])
     })
@@ -173,14 +175,15 @@ describe('deploy', function () {
         workers: '3',
       })
 
-      expect(logs).toEqual(
+      expect(logs).toEqual([
+        '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
         expect.arrayContaining([
-          '[testing] 是否要发布以下 2 个云函数？(并行数 2，失败自动重试 0 次)',
-          [`${__dirname}/funcs/a.func.ts`, `${__dirname}/funcs/b.func.ts`],
-          '',
-          '开始发布',
-        ])
-      )
+          `${__dirname}/funcs/a.func.ts`,
+          `${__dirname}/funcs/b.func.ts`,
+        ]),
+        '',
+        '开始发布',
+      ])
       expect(warns).toEqual([])
       expect(errors).toEqual([])
     })
