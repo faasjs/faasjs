@@ -1,7 +1,7 @@
 FROM oven/bun
 
 RUN apt-get update -y
-RUN apt-get install -y git zsh rsync zip python3 make g++ wget curl
+RUN apt-get install -y git zsh rsync zip python3 make g++ wget curl vim
 
 WORKDIR /home
 
