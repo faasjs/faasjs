@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-RUN apk add --no-cache git zsh openssh rsync zip libc6-compat python3 make g++
+RUN apk add --no-cache git bash zsh openssh rsync zip libc6-compat python3 make g++ brotli curl
 
 RUN sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 
