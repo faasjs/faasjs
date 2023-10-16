@@ -51,7 +51,8 @@ export type useFaasOptions<PathOrData extends FaasAction> = {
   params?: FaasParams<PathOrData>
   data?: FaasData<PathOrData>
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
-  skip?: boolean
+  /** if skip is true, will not send request */
+  skip?: boolean | ((params: FaasParams<PathOrData>) => boolean)
   /** send the last request after milliseconds */
   debounce?: number
 }

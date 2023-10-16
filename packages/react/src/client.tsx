@@ -67,11 +67,20 @@ export function FaasReactClient({
     const [params, setParams] = useState(defaultParams)
     const [reloadTimes, setReloadTimes] = useState(0)
     const [fails, setFails] = useState(0)
+    const [skip, setSkip] = useState(
+      typeof options.skip === 'function'
+        ? options.skip(defaultParams)
+        : options.skip
+    )
 
     useEffect(
       function () {
         if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
           setParams(defaultParams)
+
+          if (typeof options.skip === 'function') {
+            setSkip(options.skip(defaultParams))
+          }
         }
       },
       [JSON.stringify(defaultParams)]
@@ -79,7 +88,7 @@ export function FaasReactClient({
 
     useEffect(
       function () {
-        if (!action || options?.skip) {
+        if (!action || skip) {
           setLoading(false)
           return
         }
@@ -146,12 +155,7 @@ export function FaasReactClient({
           setLoading(false)
         }
       },
-      [
-        action,
-        JSON.stringify(options.params || params),
-        reloadTimes,
-        options.skip,
-      ]
+      [action, JSON.stringify(options.params || params), reloadTimes, skip]
     )
 
     return {
