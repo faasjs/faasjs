@@ -2,6 +2,11 @@
 
 ## Beta
 
+[`v0.0.4-beta.3 (2023-10-16)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.104...v0.0.4-beta.3)
+
+- `@faasjs/react`
+  - [Feature] `skip` can be a function.
+
 [`v0.0.3-beta.104 (2023-09-05)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.101...v0.0.3-beta.104)
 
 - `@faasjs/browser`
