@@ -73,14 +73,20 @@ export function FaasReactClient({
         : options.skip
     )
 
+    useEffect(() => {
+      setSkip(
+        typeof options.skip === 'function' ? options.skip(params) : options.skip
+      )
+    }, [
+      typeof options.skip === 'function'
+        ? JSON.stringify(params)
+        : options.skip,
+    ])
+
     useEffect(
       function () {
         if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
           setParams(defaultParams)
-
-          if (typeof options.skip === 'function') {
-            setSkip(options.skip(defaultParams))
-          }
         }
       },
       [JSON.stringify(defaultParams)]
