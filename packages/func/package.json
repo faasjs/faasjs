@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/func",
-  "version": "0.0.4-beta.3",
+  "version": "0.0.4-beta.4",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,12 +21,12 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/deep_merge": "0.0.4-beta.3",
-    "@faasjs/logger": "0.0.4-beta.3"
+    "@faasjs/deep_merge": "0.0.4-beta.4",
+    "@faasjs/logger": "0.0.4-beta.4"
   },
   "devDependencies": {
-    "@faasjs/deep_merge": "0.0.4-beta.3",
-    "@faasjs/logger": "0.0.4-beta.3"
+    "@faasjs/deep_merge": "0.0.4-beta.4",
+    "@faasjs/logger": "0.0.4-beta.4"
   },
   "engines": {
     "npm": ">=9.0.0",

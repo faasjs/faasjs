@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "0.0.4-beta.3",
+  "version": "0.0.4-beta.4",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,7 +22,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/react": "0.0.4-beta.3",
+    "@faasjs/react": "0.0.4-beta.4",
     "@ant-design/icons": "*",
     "lodash-es": "*",
     "dayjs": "*",
@@ -36,7 +36,7 @@
     "@testing-library/jest-dom": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
-    "@faasjs/react": "0.0.4-beta.3",
+    "@faasjs/react": "0.0.4-beta.4",
     "@ant-design/icons": "*",
     "lodash-es": "*",
     "dayjs": "*",

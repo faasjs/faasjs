@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/tencentcloud",
-  "version": "0.0.4-beta.3",
+  "version": "0.0.4-beta.4",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,19 +21,19 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/func": "0.0.4-beta.3",
-    "@faasjs/load": "0.0.4-beta.3",
-    "@faasjs/logger": "0.0.4-beta.3",
-    "@faasjs/request": "0.0.4-beta.3",
-    "@faasjs/cloud_function": "0.0.4-beta.3",
+    "@faasjs/func": "0.0.4-beta.4",
+    "@faasjs/load": "0.0.4-beta.4",
+    "@faasjs/logger": "0.0.4-beta.4",
+    "@faasjs/request": "0.0.4-beta.4",
+    "@faasjs/cloud_function": "0.0.4-beta.4",
     "cos-nodejs-sdk-v5": "*"
   },
   "devDependencies": {
-    "@faasjs/func": "0.0.4-beta.3",
-    "@faasjs/load": "0.0.4-beta.3",
-    "@faasjs/logger": "0.0.4-beta.3",
-    "@faasjs/request": "0.0.4-beta.3",
-    "@faasjs/cloud_function": "0.0.4-beta.3",
+    "@faasjs/func": "0.0.4-beta.4",
+    "@faasjs/load": "0.0.4-beta.4",
+    "@faasjs/logger": "0.0.4-beta.4",
+    "@faasjs/request": "0.0.4-beta.4",
+    "@faasjs/cloud_function": "0.0.4-beta.4",
     "cos-nodejs-sdk-v5": "*"
   },
   "engines": {

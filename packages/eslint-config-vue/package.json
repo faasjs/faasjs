@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-vue",
-  "version": "0.0.4-beta.3",
+  "version": "0.0.4-beta.4",
   "license": "MIT",
   "main": "index.js",
   "files": [
@@ -17,11 +17,11 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "peerDependencies": {
-    "@faasjs/eslint-config-recommended": "0.0.4-beta.3",
+    "@faasjs/eslint-config-recommended": "0.0.4-beta.4",
     "eslint-plugin-vue": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "0.0.4-beta.3",
+    "@faasjs/eslint-config-recommended": "0.0.4-beta.4",
     "eslint-plugin-vue": "*"
   },
   "engines": {

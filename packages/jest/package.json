@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/jest",
-  "version": "0.0.4-beta.3",
+  "version": "0.0.4-beta.4",
   "license": "MIT",
   "main": "index.js",
   "homepage": "https://faasjs.com/doc/jest",
@@ -22,7 +22,7 @@
     "@swc/jest": "*",
     "jest": "*",
     "jest-environment-jsdom": "*",
-    "@faasjs/test": "0.0.4-beta.3"
+    "@faasjs/test": "0.0.4-beta.4"
   },
   "devDependencies": {
     "@types/jest": "*",
