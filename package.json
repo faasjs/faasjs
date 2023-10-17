@@ -51,7 +51,7 @@
       "@faasjs/(.*)": "<rootDir>/packages/$1/src",
       "lodash-es": "lodash"
     },
-    "setupFiles": ["./packages/test/src/jest.setup"],
+    "setupFiles": ["./packages/jest/jest.setup.js"],
     "setupFilesAfterEnv": ["./packages/ant-design/src/__tests__/jest.setup"],
     "testEnvironmentOptions": {
       "customExportConditions": ["node", "node-addons"]
