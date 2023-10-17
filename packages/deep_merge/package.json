@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/deep_merge",
-  "version": "0.0.4-beta.4",
+  "version": "0.0.4-beta.5",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,9 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "engines": {
     "npm": ">=9.0.0",
     "node": ">=18.0.0"

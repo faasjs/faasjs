@@ -1,9 +1,12 @@
 {
   "name": "@faasjs/linter",
-  "version": "0.0.4-beta.4",
+  "version": "0.0.4-beta.5",
   "license": "MIT",
   "main": "index.js",
-  "files": ["index.js", "biome.json"],
+  "files": [
+    "index.js",
+    "biome.json"
+  ],
   "homepage": "https://faasjs.com/doc/linter",
   "repository": {
     "type": "git",

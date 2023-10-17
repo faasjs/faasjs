@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/types",
-  "version": "0.0.4-beta.4",
+  "version": "0.0.4-beta.5",
   "license": "MIT",
   "types": "src/index.ts",
   "homepage": "https://faasjs.com/doc/types",
@@ -13,7 +13,9 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "files": ["src/index.ts"],
+  "files": [
+    "src/index.ts"
+  ],
   "devDependencies": {
     "tsd": "*"
   },

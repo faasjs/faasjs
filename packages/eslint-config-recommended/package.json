@@ -1,9 +1,11 @@
 {
   "name": "@faasjs/eslint-config-recommended",
-  "version": "0.0.4-beta.4",
+  "version": "0.0.4-beta.5",
   "license": "MIT",
   "main": "index.js",
-  "files": ["index.js"],
+  "files": [
+    "index.js"
+  ],
   "homepage": "https://faasjs.com/doc/eslint-config-recommended",
   "repository": {
     "type": "git",

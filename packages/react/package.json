@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "0.0.4-beta.4",
+  "version": "0.0.4-beta.5",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -18,9 +18,11 @@
   "scripts": {
     "build": "tsup src/index.tsx --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "@faasjs/browser": "0.0.4-beta.4"
+    "@faasjs/browser": "0.0.4-beta.5"
   },
   "peerDependencies": {
     "react": "*"

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/jest",
-  "version": "0.0.4-beta.4",
+  "version": "0.0.4-beta.5",
   "license": "MIT",
   "main": "index.js",
   "homepage": "https://faasjs.com/doc/jest",
@@ -13,14 +13,17 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "files": ["index.js", "jest.setup.js"],
+  "files": [
+    "index.js",
+    "jest.setup.js"
+  ],
   "dependencies": {
     "@types/jest": "*",
     "@types/node": "*",
     "@swc/jest": "*",
     "jest": "*",
     "jest-environment-jsdom": "*",
-    "@faasjs/test": "0.0.4-beta.4"
+    "@faasjs/test": "0.0.4-beta.5"
   },
   "engines": {
     "npm": ">=9.0.0",

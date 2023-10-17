@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/deployer",
-  "version": "0.0.4-beta.4",
+  "version": "0.0.4-beta.5",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,11 +17,13 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "@faasjs/cloud_function": "0.0.4-beta.4",
-    "@faasjs/func": "0.0.4-beta.4",
-    "@faasjs/logger": "0.0.4-beta.4"
+    "@faasjs/cloud_function": "0.0.4-beta.5",
+    "@faasjs/func": "0.0.4-beta.5",
+    "@faasjs/logger": "0.0.4-beta.5"
   },
   "engines": {
     "npm": ">=9.0.0",
