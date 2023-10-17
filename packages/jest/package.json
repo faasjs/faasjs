@@ -13,7 +13,7 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "files": ["index.js"],
+  "files": ["index.js", "jest.setup.js"],
   "dependencies": {
     "@types/jest": "*",
     "@types/node": "*",

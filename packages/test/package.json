@@ -15,14 +15,13 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --config ../../tsup.config.json && cp ./src/jest.setup.js ./dist/jest.setup.js"
+    "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
   "files": ["dist"],
   "dependencies": {
     "@faasjs/func": "0.0.4-beta.4",
     "@faasjs/load": "0.0.4-beta.4",
     "@faasjs/logger": "0.0.4-beta.4",
-    "@faasjs/jest": "0.0.4-beta.4",
     "regenerator-runtime": "*",
     "typescript": "*"
   },
