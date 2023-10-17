@@ -17,18 +17,8 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "peerDependencies": {
-    "@faasjs/func": "0.0.4-beta.4",
-    "@faasjs/load": "0.0.4-beta.4",
-    "@faasjs/logger": "0.0.4-beta.4",
-    "@faasjs/request": "0.0.4-beta.4",
-    "@faasjs/cloud_function": "0.0.4-beta.4",
-    "cos-nodejs-sdk-v5": "*"
-  },
-  "devDependencies": {
+  "files": ["dist"],
+  "dependencies": {
     "@faasjs/func": "0.0.4-beta.4",
     "@faasjs/load": "0.0.4-beta.4",
     "@faasjs/logger": "0.0.4-beta.4",

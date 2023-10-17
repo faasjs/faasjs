@@ -18,16 +18,15 @@
   "scripts": {
     "build": "tsup src/index.tsx --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "peerDependencies": {
-    "react": "*",
+  "files": ["dist"],
+  "dependencies": {
     "@faasjs/browser": "0.0.4-beta.4"
+  },
+  "peerDependencies": {
+    "react": "*"
   },
   "devDependencies": {
     "@types/react": "*",
-    "@faasjs/browser": "0.0.4-beta.4",
     "react": "*"
   },
   "engines": {

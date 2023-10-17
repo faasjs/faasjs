@@ -19,22 +19,8 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist",
-    "index.js"
-  ],
-  "peerDependencies": {
-    "@faasjs/deployer": "0.0.4-beta.4",
-    "@faasjs/func": "0.0.4-beta.4",
-    "@faasjs/server": "0.0.4-beta.4",
-    "@faasjs/test": "0.0.4-beta.4",
-    "commander": "*",
-    "enquirer": "*",
-    "glob": "*",
-    "lodash": "*"
-  },
-  "devDependencies": {
-    "@types/glob": "*",
+  "files": ["dist", "index.js"],
+  "dependencies": {
     "@faasjs/deployer": "0.0.4-beta.4",
     "@faasjs/func": "0.0.4-beta.4",
     "@faasjs/server": "0.0.4-beta.4",

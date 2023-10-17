@@ -17,10 +17,8 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "peerDependencies": {
+  "files": ["dist"],
+  "dependencies": {
     "@faasjs/func": "0.0.4-beta.4",
     "@faasjs/http": "0.0.4-beta.4",
     "@faasjs/load": "0.0.4-beta.4",
@@ -30,14 +28,7 @@
     "pirates": "*"
   },
   "devDependencies": {
-    "react": "*",
-    "@faasjs/func": "0.0.4-beta.4",
-    "@faasjs/http": "0.0.4-beta.4",
-    "@faasjs/load": "0.0.4-beta.4",
-    "@faasjs/logger": "0.0.4-beta.4",
-    "@faasjs/ts-transform": "0.0.4-beta.4",
-    "lodash": "*",
-    "pirates": "*"
+    "react": "*"
   },
   "engines": {
     "npm": ">=9.0.0",

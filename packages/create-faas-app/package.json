@@ -19,16 +19,8 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist",
-    "index.js"
-  ],
-  "peerDependencies": {
-    "commander": "*",
-    "enquirer": "*",
-    "lodash": "*"
-  },
-  "devDependencies": {
+  "files": ["dist", "index.js"],
+  "dependencies": {
     "commander": "*",
     "enquirer": "*",
     "lodash": "*"

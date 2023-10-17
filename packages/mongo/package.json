@@ -17,19 +17,13 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "peerDependencies": {
+  "files": ["dist"],
+  "dependencies": {
     "@faasjs/deployer": "0.0.4-beta.4",
     "@faasjs/func": "0.0.4-beta.4",
-    "@faasjs/logger": "0.0.4-beta.4",
-    "mongodb": "*"
+    "@faasjs/logger": "0.0.4-beta.4"
   },
-  "devDependencies": {
-    "@faasjs/deployer": "0.0.4-beta.4",
-    "@faasjs/func": "0.0.4-beta.4",
-    "@faasjs/logger": "0.0.4-beta.4",
+  "peerDependencies": {
     "mongodb": "*"
   },
   "engines": {
