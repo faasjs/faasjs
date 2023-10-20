@@ -193,7 +193,10 @@ export class Knex implements Plugin {
   ): Promise<TResult | void> {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
-    return scope(options?.trx || await this.adapter.transaction(config))
+    if (options?.trx)
+      return scope(options.trx)
+
+    return this.adapter.transaction(scope, config)
   }
 
   public schema(): K.SchemaBuilder {
