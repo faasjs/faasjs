@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "tsup": "*",
-    "turbo": "^1.10.15",
+    "turbo": "^1.10.16",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
     "typescript": "*"
