@@ -10,14 +10,22 @@ import {
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
-import knex, { Knex as K } from 'knex'
+import knex, { Knex as OriginKnex } from 'knex'
+
+/**
+ * Origin [knex](https://knexjs.org/) instance.
+ */
+export const originKnex = knex
+
+/**
+ * Origin [knex](https://knexjs.org/) type.
+ */
+export type { OriginKnex }
 
 export type KnexConfig = {
   name?: string
-  config?: K.Config
+  config?: OriginKnex.Config
 }
-
-export type { Knex as K } from 'knex'
 
 const Name = 'knex'
 
@@ -32,9 +40,9 @@ if (!global.FaasJS_Knex) {
 export class Knex implements Plugin {
   public readonly type: string = Name
   public readonly name: string = Name
-  public config: K.Config
-  public adapter: K
-  public query: K
+  public config: OriginKnex.Config
+  public adapter: OriginKnex
+  public query: OriginKnex
   public logger: Logger
 
   constructor(config?: KnexConfig) {
@@ -48,7 +56,7 @@ export class Knex implements Plugin {
   }
 
   public async onDeploy(data: DeployData, next: Next): Promise<void> {
-    const client = (data.config.plugins[this.name].config as K.Config)
+    const client = (data.config.plugins[this.name].config as OriginKnex.Config)
       .client as string
     if (!client) throw Error('[Knex] client required.')
 
@@ -177,29 +185,28 @@ export class Knex implements Plugin {
 
   public async raw<TResult = any>(
     sql: string,
-    bindings: K.RawBinding[] | K.ValueDict = []
-  ): Promise<K.Raw<TResult>> {
+    bindings: OriginKnex.RawBinding[] | OriginKnex.ValueDict = []
+  ): Promise<OriginKnex.Raw<TResult>> {
     if (!this.adapter) throw Error('[Knex] Client not initialized.')
 
     return this.adapter.raw<TResult>(sql, bindings)
   }
 
-  public async transaction<TResult = any> (
-    scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void,
-    config?: K.TransactionConfig,
+  public async transaction<TResult = any>(
+    scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult> | void,
+    config?: OriginKnex.TransactionConfig,
     options?: {
-      trx?: K.Transaction
+      trx?: OriginKnex.Transaction
     }
   ): Promise<TResult | void> {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
-    if (options?.trx)
-      return scope(options.trx)
+    if (options?.trx) return scope(options.trx)
 
     return this.adapter.transaction(scope, config)
   }
 
-  public schema(): K.SchemaBuilder {
+  public schema(): OriginKnex.SchemaBuilder {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
     return this.adapter.schema
@@ -223,10 +230,12 @@ export function useKnex(config?: KnexConfig): UseifyPlugin<Knex> {
   return usePlugin<Knex>(new Knex(config))
 }
 
-export function query<TName extends K.TableNames>(table: TName): K.QueryBuilder<
-  K.TableType<TName>,
+export function query<TName extends OriginKnex.TableNames>(
+  table: TName
+): OriginKnex.QueryBuilder<
+  OriginKnex.TableType<TName>,
   {
-    _base: K.ResolveTableType<K.TableType<TName>, 'base'>
+    _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
     _hasSelection: false
     _keys: never
     // biome-ignore lint/complexity/noBannedTypes: <explanation>
@@ -239,15 +248,18 @@ export function query<TName extends K.TableNames>(table: TName): K.QueryBuilder<
 >
 export function query<TName extends {} = any, TResult = any[]>(
   table: string
-): K.QueryBuilder<TName, TResult>
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-export function query<TName extends K.TableNames | {} = any, TResult = any[]>(
-  table: TName extends K.TableNames ? TName : string
-): TName extends K.TableNames
-  ? K.QueryBuilder<
-      K.TableType<TName>,
+): OriginKnex.QueryBuilder<TName, TResult>
+export function query<
+  // biome-ignore lint/complexity/noBannedTypes: <explanation>
+  TName extends OriginKnex.TableNames | {} = any,
+  TResult = any[]
+>(
+  table: TName extends OriginKnex.TableNames ? TName : string
+): TName extends OriginKnex.TableNames
+  ? OriginKnex.QueryBuilder<
+      OriginKnex.TableType<TName>,
       {
-        _base: K.ResolveTableType<K.TableType<TName>, 'base'>
+        _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
         _hasSelection: false
         _keys: never
         // biome-ignore lint/complexity/noBannedTypes: <explanation>
@@ -258,12 +270,17 @@ export function query<TName extends K.TableNames | {} = any, TResult = any[]>(
         _unionProps: never
       }[]
     >
-  : K.QueryBuilder<TName, TResult> {
-  return useKnex().query<TName, TResult>(table) as TName extends K.TableNames
-    ? K.QueryBuilder<
-        K.TableType<TName>,
+  : OriginKnex.QueryBuilder<TName, TResult> {
+  return useKnex().query<TName, TResult>(
+    table
+  ) as TName extends OriginKnex.TableNames
+    ? OriginKnex.QueryBuilder<
+        OriginKnex.TableType<TName>,
         {
-          _base: K.ResolveTableType<K.TableType<TName>, 'base'>
+          _base: OriginKnex.ResolveTableType<
+            OriginKnex.TableType<TName>,
+            'base'
+          >
           _hasSelection: false
           _keys: never
           // biome-ignore lint/complexity/noBannedTypes: <explanation>
@@ -274,14 +291,14 @@ export function query<TName extends K.TableNames | {} = any, TResult = any[]>(
           _unionProps: never
         }[]
       >
-    : K.QueryBuilder<TName, TResult>
+    : OriginKnex.QueryBuilder<TName, TResult>
 }
 
 export async function transaction<TResult = any>(
-  scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void,
-  config?: K.TransactionConfig,
+  scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult> | void,
+  config?: OriginKnex.TransactionConfig,
   options?: {
-    trx?: K.Transaction
+    trx?: OriginKnex.Transaction
   }
 ): Promise<TResult | void> {
   return useKnex().transaction(scope, config, options)
@@ -289,7 +306,7 @@ export async function transaction<TResult = any>(
 
 export async function raw<TResult = any>(
   sql: string,
-  bindings: K.RawBinding[] | K.ValueDict = []
+  bindings: OriginKnex.RawBinding[] | OriginKnex.ValueDict = []
 ): Promise<TResult> {
   return useKnex().raw(sql, bindings)
 }

@@ -150,13 +150,19 @@ describe('Knex', function () {
 
         await transaction.commit()
 
-        await knex.transaction(async (trx) => await trx.insert({}).into('test'), {}, { trx: transaction })
+        await knex.transaction(
+          async trx => await trx.insert({}).into('test'),
+          {},
+          { trx: transaction }
+        )
 
         return knex.query('test')
       },
     }).export().handler
 
-    expect(() => handler({})).rejects.toThrow('Transaction query already complete')
+    expect(() => handler({})).rejects.toThrow(
+      'Transaction query already complete'
+    )
   })
 
   it('useKnex', async function () {
