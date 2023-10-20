@@ -130,6 +130,35 @@ describe('Knex', function () {
     expect(await handler({})).toEqual([{ id: 1 }])
   })
 
+  it('transaction with trx', async function () {
+    const knex = new Knex({
+      config: {
+        client: 'sqlite3',
+        connection: { filename: ':memory:' },
+        useNullAsDefault: true,
+      },
+    })
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        await knex.schema().createTable('test', function (t) {
+          t.increments('id')
+        })
+
+        const transaction = await knex.adapter.transaction()
+
+        await transaction.commit()
+
+        await knex.transaction(async (trx) => await trx.insert({}).into('test'), {}, { trx: transaction })
+
+        return knex.query('test')
+      },
+    }).export().handler
+
+    expect(() => handler({})).rejects.toThrow('Transaction query already complete')
+  })
+
   it('useKnex', async function () {
     const func = useFunc(function () {
       const knex1 = useKnex({

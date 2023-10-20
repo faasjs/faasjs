@@ -184,11 +184,17 @@ export class Knex implements Plugin {
     return this.adapter.raw<TResult>(sql, bindings)
   }
 
-  public async transaction<TResult = any>(
+  public async transaction<TResult = any> (
     scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void,
-    config?: K.TransactionConfig
-  ): Promise<TResult> {
+    config?: K.TransactionConfig,
+    options?: {
+      trx?: K.Transaction
+    }
+  ): Promise<TResult | void> {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
+
+    if (options?.trx)
+      return scope(options.trx)
 
     return this.adapter.transaction(scope, config)
   }
@@ -273,9 +279,12 @@ export function query<TName extends K.TableNames | {} = any, TResult = any[]>(
 
 export async function transaction<TResult = any>(
   scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void,
-  config?: K.TransactionConfig
-): Promise<TResult> {
-  return useKnex().transaction(scope, config)
+  config?: K.TransactionConfig,
+  options?: {
+    trx?: K.Transaction
+  }
+): Promise<TResult | void> {
+  return useKnex().transaction(scope, config, options)
 }
 
 export async function raw<TResult = any>(
