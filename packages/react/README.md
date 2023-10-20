@@ -10,18 +10,23 @@ React plugin for FaasJS.
 
 ## Install
 
-    npm install @faasjs/react
+    npm install @faasjs/react react react-dom
 
 ## Modules
 
 ### Classes
 
-- [FaasBrowserClient](classes/FaasBrowserClient.md)
+- [ErrorBoundary](classes/ErrorBoundary.md)
 - [Response](classes/Response.md)
 - [ResponseError](classes/ResponseError.md)
 
+### Interfaces
+
+- [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
+
 ### Type Aliases
 
+- [ErrorChildrenProps](#errorchildrenprops)
 - [FaasAction](#faasaction)
 - [FaasData](#faasdata)
 - [FaasDataInjection](#faasdatainjection)
@@ -30,6 +35,7 @@ React plugin for FaasJS.
 - [FaasReactClientInstance](#faasreactclientinstance)
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
+- [useFaasOptions](#usefaasoptions)
 
 ### Functions
 
@@ -40,6 +46,21 @@ React plugin for FaasJS.
 - [useFaas](#usefaas)
 
 ## Type Aliases
+
+### ErrorChildrenProps
+
+Ƭ **ErrorChildrenProps**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `error?` | `Error` |
+| `errorDescription?` | `string` |
+| `errorMessage?` | `string` |
+| `info?` | `any` |
+
+___
 
 ### FaasAction
 
@@ -80,12 +101,13 @@ Injects FaasData props.
 | `error` | `any` |
 | `loading` | `boolean` |
 | `params` | `Record`<`string`, `any`\> |
-| `promise` | `Promise`<[`Response`](classes/Response.md)<`Data`\>\> |
+| `promise` | `Promise`<`Response`<`Data`\>\> |
+| `reloadTimes` | `number` |
 | `setData` | `React.Dispatch`<`React.SetStateAction`<`Data`\>\> |
 | `setError` | `React.Dispatch`<`React.SetStateAction`<`any`\>\> |
 | `setLoading` | `React.Dispatch`<`React.SetStateAction`<`boolean`\>\> |
-| `setPromise` | `React.Dispatch`<`React.SetStateAction`<`Promise`<[`Response`](classes/Response.md)<`Data`\>\>\>\> |
-| `reload` | (`params?`: `Record`<`string`, `any`\>) => `Promise`<[`Response`](classes/Response.md)<`Data`\>\> |
+| `setPromise` | `React.Dispatch`<`React.SetStateAction`<`Promise`<`Response`<`Data`\>\>\>\> |
+| `reload` | (`params?`: `Record`<`string`, `any`\>) => `Promise`<`any`\> |
 
 ___
 
@@ -97,19 +119,20 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `PathOrData` | extends [`FaasAction`](#faasaction) |
+| `PathOrData` | extends `FaasAction` |
 
 #### Type declaration
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `action` | `string` | - |
-| `data?` | [`FaasData`](#faasdata)<`PathOrData`\> | use custom data, should work with setData |
+| `children?` | `React.ReactElement`<`Partial`<[`FaasDataInjection`](#faasdatainjection)\>\> | - |
+| `data?` | `FaasData`<`PathOrData`\> | use custom data, should work with setData |
 | `fallback?` | `JSX.Element` \| ``false`` | - |
-| `params?` | [`FaasParams`](#faasparams)<`PathOrData`\> | - |
-| `setData?` | `React.Dispatch`<`React.SetStateAction`<[`FaasData`](#faasdata)<`PathOrData`\>\>\> | use custom setData, should work with data |
-| `onDataChange?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\>) => `void` | - |
-| `render?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\>) => `Element` \| `Element`[] | - |
+| `params?` | `FaasParams`<`PathOrData`\> | - |
+| `setData?` | `React.Dispatch`<`React.SetStateAction`<`FaasData`<`PathOrData`\>\>\> | use custom setData, should work with data |
+| `onDataChange?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `void` | - |
+| `render?` | (`args`: [`FaasDataInjection`](#faasdatainjection)<`FaasData`<`PathOrData`\>\>) => `Element` \| `Element`[] | - |
 
 ___
 
@@ -133,8 +156,9 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `faas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `params`: [`FaasParams`](#faasparams)<`PathOrData`\>) => `Promise`<[`Response`](classes/Response.md)<[`FaasData`](#faasdata)<`PathOrData`\>\>\> |
-| `useFaas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `defaultParams`: [`FaasParams`](#faasparams)<`PathOrData`\>, `options?`: { `data?`: [`FaasData`](#faasdata)<`PathOrData`\> ; `setData?`: `React.Dispatch`<`React.SetStateAction`<[`FaasData`](#faasdata)<`PathOrData`\>\>\> ; `skip?`: `boolean`  }) => [`FaasDataInjection`](#faasdatainjection)<[`FaasData`](#faasdata)<`PathOrData`\>\> |
+| `faas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `params`: `FaasParams`<`PathOrData`\>) => `Promise`<`Response`<`FaasData`<`PathOrData`\>\>\> |
+| `id` | `string` |
+| `useFaas` | <PathOrData\>(`action`: `string` \| `PathOrData`, `defaultParams`: `FaasParams`<`PathOrData`\>, `options?`: [`useFaasOptions`](#usefaasoptions)<`PathOrData`\>) => [`FaasDataInjection`](#faasdatainjection)<`FaasData`<`PathOrData`\>\> |
 | `FaasDataWrapper` | <PathOrData\>(`props`: [`FaasDataWrapperProps`](#faasdatawrapperprops)<`PathOrData`\>) => `Element` |
 
 ___
@@ -142,7 +166,9 @@ ___
 ### Options
 
 Ƭ **Options**: `RequestInit` & { `beforeRequest?`: (`{
-    action, params, options
+    action,
+    params,
+    options,
   }`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `Promise`<`void`\> \| `void` ; `headers?`: { `[key: string]`: `string`;  } ; `request?`: <PathOrData\>(`url`: `string`, `options`: [`Options`](#options)) => `Promise`<[`Response`](classes/Response.md)<[`FaasData`](#faasdata)<`PathOrData`\>\>\>  }
 
 ___
@@ -154,6 +180,28 @@ ___
 #### Index signature
 
 ▪ [key: `string`]: `string`
+
+___
+
+### useFaasOptions
+
+Ƭ **useFaasOptions**<`PathOrData`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `FaasAction` |
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `data?` | `FaasData`<`PathOrData`\> | - |
+| `debounce?` | `number` | send the last request after milliseconds |
+| `params?` | `FaasParams`<`PathOrData`\> | - |
+| `setData?` | `React.Dispatch`<`React.SetStateAction`<`FaasData`<`PathOrData`\>\>\> | - |
+| `skip?` | `boolean` | - |
 
 ## Functions
 
@@ -292,10 +340,7 @@ Request faas server with React hook
 | :------ | :------ | :------ |
 | `action` | `string` \| `PathOrData` | {string} action name |
 | `defaultParams` | [`FaasParams`](#faasparams)<`PathOrData`\> | {object} initial action params |
-| `options?` | `Object` | - |
-| `options.data?` | [`FaasData`](#faasdata)<`PathOrData`\> | - |
-| `options.setData?` | `Dispatch`<`SetStateAction`<[`FaasData`](#faasdata)<`PathOrData`\>\>\> | - |
-| `options.skip?` | `boolean` | - |
+| `options?` | [`useFaasOptions`](#usefaasoptions)<`PathOrData`\> | - |
 
 #### Returns
 

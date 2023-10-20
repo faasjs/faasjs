@@ -3,7 +3,7 @@ home: true
 heroImage: /logo.jpg
 heroText: FaasJS
 tagline: null
-footer: An Atomic Application Framework based on Typescript | MIT Licensed | Copyright © 2019-2022 Zhu Feng
+footer: An Atomic Application Framework based on Typescript | MIT Licensed | Copyright © 2019-2023 Zhu Feng
 ---
 
 <div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:2em">An Atomic Application Framework based on Typescript.</div>
@@ -69,26 +69,30 @@ describe('index', function () {
 });
 ```
 
-## Get Started
+## Quickstart
 
 ```bash
 npx create-faas-app --name faasjs --example --noprovider
 ```
 
+## Playground
+
+[Fork and open in codespace or your computer.](https://github.com/faasjs/starter)
+
 <div style="padding:0 2.5rem;text-align:center">
   <div class="features">
-    <div style="flex-grow:1;flex-basis:100%;line-height:1.6">
-      <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/last-commit/faasjs/faasjs"></a>
-      <br>
+    <div style="flex-grow:1;line-height:2">
       <a href="https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
+      <br>
       <a href="https://www.npmjs.com/package/faasjs"><img src="https://img.shields.io/npm/v/faasjs/beta.svg"></a>
       <br>
       <a href="https://github.com/faasjs/faasjs/actions/workflows/unit.yml"><img src="https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg"></a>
       <a href="https://github.com/faasjs/faasjs/actions/workflows/lint.yml"><img src="https://github.com/faasjs/faasjs/actions/workflows/lint.yml/badge.svg"></a>
       <br>
       <a href="https://codecov.io/gh/faasjs/faasjs"><img src="https://img.shields.io/codecov/c/github/faasjs/faasjs.svg"></a>
-      <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/lgtm/lines/g/faasjs/faasjs"></a>
       <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/commits/faasjs/faasjs"></a>
+      <br>
+      <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/last-commit/faasjs/faasjs"></a>
     </div>
   </div>
   <hr style="clear:both">
@@ -106,7 +110,7 @@ npx create-faas-app --name faasjs --example --noprovider
     <a href="https://github.com/zfben" target="_blank">zfben</a>
     <p>FaasJS is based on the following open source projects (in alphabetical order):</p>
     <a href="https://www.apollographql.com/" target="_blank">Apollo</a>,
-    <a href="https://eslint.org/" target="_blank">ESLint</a>,
+    <a href="https://biomejs.dev/" target="_blank">Biome</a>,
     <a href="https://jestjs.io/" target="_blank">Jest</a>,
     <a href="https://knexjs.org/" target="_blank">Knex</a>,
     <a href="https://nodejs.org/" target="_blank">Node.js</a>,

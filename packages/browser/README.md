@@ -77,8 +77,14 @@ Reference: [Default Query Function | TanStack Query](https://tanstack.com/query/
 ### Type Aliases
 
 - [FaasBrowserClientAction](#faasbrowserclientaction)
+- [MockHandler](#mockhandler)
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
+
+### Functions
+
+- [generateId](#generateid)
+- [setMock](#setmock)
 
 ## Type Aliases
 
@@ -110,10 +116,34 @@ Reference: [Default Query Function | TanStack Query](https://tanstack.com/query/
 
 ___
 
+### MockHandler
+
+Ƭ **MockHandler**: (`action`: `string`, `params`: `Record`<`string`, `any`\>, `options`: [`Options`](#options)) => `Promise`<[`Response`](classes/Response.md)<`any`\>\>
+
+#### Type declaration
+
+▸ (`action`, `params`, `options`): `Promise`<[`Response`](classes/Response.md)<`any`\>\>
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `action` | `string` |
+| `params` | `Record`<`string`, `any`\> |
+| `options` | [`Options`](#options) |
+
+##### Returns
+
+`Promise`<[`Response`](classes/Response.md)<`any`\>\>
+
+___
+
 ### Options
 
 Ƭ **Options**: `RequestInit` & { `beforeRequest?`: (`{
-    action, params, options
+    action,
+    params,
+    options,
   }`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `Promise`<`void`\> \| `void` ; `headers?`: { `[key: string]`: `string`;  } ; `request?`: <PathOrData\>(`url`: `string`, `options`: [`Options`](#options)) => `Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>  }
 
 ___
@@ -125,3 +155,58 @@ ___
 #### Index signature
 
 ▪ [key: `string`]: `string`
+
+## Functions
+
+### generateId
+
+▸ **generateId**(`prefix?`): `string`
+
+Generate random id
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `prefix?` | `string` | prefix of id |
+
+#### Returns
+
+`string`
+
+___
+
+### setMock
+
+▸ **setMock**(`handler`): `void`
+
+Set mock handler for testing
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `handler` | [`MockHandler`](#mockhandler) | mock handler, set `undefined` to clear mock |
+
+#### Returns
+
+`void`
+
+**`Example`**
+
+```ts
+import { setMock } from '@faasjs/browser'
+
+setMock(async ({ action, params, options }) => {
+  return new Response({
+    status: 200,
+    data: {
+      name: 'FaasJS'
+    }
+  })
+})
+
+const client = new FaasBrowserClient('/')
+
+const response = await client.action('path') // response.data.name === 'FaasJS'
+```

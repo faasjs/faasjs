@@ -33,9 +33,7 @@
 
 |Name|Stable|Beta|
 |---|---|---|
-|[@faasjs/eslint-config-react](https://github.com/faasjs/faasjs/tree/main/packages/eslint-config-react)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-react/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-react)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-react/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-react)|
-|[@faasjs/eslint-config-recommended](https://github.com/faasjs/faasjs/tree/main/packages/eslint-config-recommended)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-recommended/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-recommended)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-recommended/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-recommended)|
-|[@faasjs/eslint-config-vue](https://github.com/faasjs/faasjs/tree/main/packages/eslint-config-vue)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-vue/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-vue)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-vue/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-vue)|
+|[@faasjs/lint](https://github.com/faasjs/faasjs/tree/main/packages/lint)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/lint/stable.svg)](https://www.npmjs.com/package/@faasjs/lint)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/lint/beta.svg)](https://www.npmjs.com/package/@faasjs/lint)|
 
 ## 网络插件
 

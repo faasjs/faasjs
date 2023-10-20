@@ -1,26 +1,25 @@
-import { viteBundler, defaultTheme, defineUserConfig } from 'vuepress'
+import { defineUserConfig } from '@vuepress/cli'
+import { defaultTheme } from '@vuepress/theme-default'
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
+import { searchPlugin } from '@vuepress/plugin-search'
 
 export default defineUserConfig({
   lang: 'en',
   title: 'FaasJS',
   description: 'An Atomic Application Framework based on Typescript.',
-  head: [
-    ['link', { rel: 'icon', href: '/logo.jpg' }]
-  ],
+  head: [['link', { rel: 'icon', href: '/logo.jpg' }]],
   locales: {
     '/': {
       lang: 'en',
       title: 'FaasJS',
-      description: 'An Atomic Application Framework based on Typescript.'
+      description: 'An Atomic Application Framework based on Typescript.',
     },
     '/zh/': {
       lang: 'zh',
       title: 'FaasJS',
-      description: '一个基于 Typescript 的原子化应用框架'
-    }
+      description: '一个基于 Typescript 的原子化应用框架',
+    },
   },
-  bundler: viteBundler(),
   theme: defaultTheme({
     locales: {
       '/': {
@@ -29,68 +28,59 @@ export default defineUserConfig({
         navbar: [
           {
             text: 'Home',
-            link: '/'
+            link: '/',
           },
           {
             text: 'Learn',
             children: [
               {
                 text: 'Documents',
-                link: '/doc/'
+                link: '/doc/',
               },
               {
                 text: 'Examples',
-                link: 'https://github.com/faasjs/faasjs/blob/main/examples/'
+                link: 'https://github.com/faasjs/faasjs/blob/main/examples/',
               },
               {
                 text: 'Changelog',
-                link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
+                link: '/CHANGELOG',
               },
-            ]
+            ],
           },
           {
             text: 'Ecosystem',
             children: [
               {
                 text: 'VS Code Plugin',
-                link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets'
+                link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets',
               },
               {
                 text: 'Docker Images',
-                children: [
-                  {
-                    text: 'faasjs/nginx',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/nginx'
-                  },
-                  {
-                    text: 'faasjs/node',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/node'
-                  },
-                  {
-                    text: 'faasjs/vscode',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/vscode'
-                  }
-                ]
+                link: '/doc/images/',
               },
-            ]
+            ],
           },
           {
             text: 'Community',
             children: [
               {
                 text: 'Github',
-                link: 'https://github.com/faasjs/faasjs/'
+                link: 'https://github.com/faasjs/faasjs/',
               },
               {
                 text: 'Contributing',
-                link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
+                link: '/CONTRIBUTING',
               },
               {
                 text: 'Sponsor',
-                link: 'https://github.com/sponsors/faasjs'
-              }
-            ]
-          }
+                link: 'https://github.com/sponsors/faasjs',
+              },
+              {
+                text: 'Security',
+                link: '/SECURITY',
+              },
+            ],
+          },
         ],
       },
       '/zh/': {
@@ -99,76 +89,76 @@ export default defineUserConfig({
         navbar: [
           {
             text: '首页',
-            link: '/zh/'
+            link: '/zh/',
           },
           {
             text: '学习',
             children: [
               {
                 text: '教程',
-                link: '/zh/guide/'
+                link: '/zh/guide/',
               },
               {
                 text: '文档',
-                link: '/zh/doc/'
+                link: '/zh/doc/',
               },
               {
                 text: '示例',
-                link: 'https://github.com/faasjs/faasjs/blob/main/examples/'
+                link: 'https://github.com/faasjs/faasjs/blob/main/examples/',
               },
               {
                 text: '更新日志',
-                link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md'
+                link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md',
               },
-            ]
+            ],
           },
           {
             text: '生态',
             children: [
               {
                 text: 'VS Code 插件',
-                link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets'
+                link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets',
               },
               {
                 text: 'Docker 镜像',
                 children: [
                   {
                     text: 'faasjs/nginx',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/nginx'
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/nginx',
                   },
                   {
                     text: 'faasjs/node',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/node'
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/node',
                   },
                   {
                     text: 'faasjs/vscode',
-                    link: 'https://github.com/faasjs/faasjs/tree/main/images/vscode'
-                  }
-                ]
+                    link: 'https://github.com/faasjs/faasjs/tree/main/images/vscode',
+                  },
+                ],
               },
-            ]
+            ],
           },
           {
             text: '社区',
             children: [
               {
                 text: 'Github',
-                link: 'https://github.com/faasjs/faasjs/'
+                link: 'https://github.com/faasjs/faasjs/',
               },
               {
                 text: '支持 FaasJS',
-                link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md'
+                link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md',
               },
               {
                 text: '赞助 FaasJS',
-                link: 'https://github.com/sponsors/faasjs'
+                link: 'https://github.com/sponsors/faasjs',
               },
               {
                 text: '博客',
-                link: '/zh/blog/'
+                link: '/zh/blog/',
               },
-            ]
-          }
+            ],
+          },
         ],
         sidebar: {
           '/zh/guide/': [
@@ -189,97 +179,71 @@ export default defineUserConfig({
                 'excel/vue',
                 'excel/react',
                 'excel/graphql-server',
-              ]
+              ],
             },
-            'story'
+            'story',
           ],
           '/zh/doc/': [
             ['', '总览'],
             {
               title: '核心插件',
               collapsable: false,
-              children: [
-                'func',
-                'cloud_function',
-                'deployer',
-                'test',
-              ]
+              children: ['func', 'cloud_function', 'deployer', 'test'],
             },
             {
               title: '命令行插件',
               collapsable: false,
-              children: [
-                'cli',
-                'create-faas-app'
-              ]
+              children: ['cli', 'create-faas-app'],
             },
             {
               title: '工具插件',
               collapsable: false,
-              children: [
-                'deep_merge',
-                'load',
-                'logger',
-                'request',
-                'server',
-              ]
-            },
-            {
-              title: '代码风格插件',
-              collapsable: false,
-              children: [
-                'eslint-config-react',
-                'eslint-config-recommended',
-                'eslint-config-vue',
-              ]
+              children: ['deep_merge', 'load', 'logger', 'request', 'server'],
             },
             {
               title: '网络插件',
               collapsable: false,
-              children: [
-                'http',
-                'graphql-server',
-              ]
+              children: ['http'],
             },
             {
               title: '数据库插件',
               collapsable: false,
-              children: [
-                'knex',
-                'mongo',
-                'redis',
-              ]
+              children: ['knex', 'mongo', 'redis'],
             },
             {
               title: '服务商适配插件',
               collapsable: false,
-              children: [
-                'tencentcloud'
-              ]
+              children: ['tencentcloud'],
             },
             {
               title: '前端插件',
               collapsable: false,
-              children: [
-                'browser',
-                'react',
-                'vue-plugin',
-              ]
+              children: ['browser', 'react', 'vue-plugin'],
             },
-          ]
+          ],
         },
         lastUpdatedText: '更新时间',
-        editLinkText: '帮助我们改善此页面'
-      }
+        editLinkText: '帮助我们改善此页面',
+      },
     },
     docsRepo: 'faasjs/faasjs',
     docsDir: 'docs',
     docsBranch: 'main',
-    contributors: false
+    contributors: false,
   }),
   plugins: [
     googleAnalyticsPlugin({
-      'id': 'UA-143006612-1'
+      id: 'UA-143006612-1',
     }),
-  ]
+    searchPlugin({
+      locales: {
+        '/': {
+          placeholder: 'Search',
+        },
+        '/zh/': {
+          placeholder: '搜索',
+        },
+      },
+    }),
+  ],
 })

@@ -1,7 +1,7 @@
 import * as http from 'http'
 import * as https from 'https'
 import { URL } from 'url'
-import { readFileSync } from 'fs'
+import { readFileSync, createWriteStream } from 'fs'
 import { basename } from 'path'
 import { Logger } from '@faasjs/logger'
 
@@ -33,9 +33,11 @@ export type RequestOptions = {
   query?: {
     [key: string]: any
   }
-  body?: {
-    [key: string]: any
-  } | string
+  body?:
+    | {
+        [key: string]: any
+      }
+    | string
   timeout?: number
   /**
    * The authentication credentials to use for the request.
@@ -55,11 +57,21 @@ export type RequestOptions = {
    * Create a write stream to download a file.
    *
    * ```ts
+   * import { createWriteStream } from 'fs'
+   *
    * const stream = createWriteStream('filepath')
    * await request('https://example.com', { downloadStream: stream })
    * ```
    */
   downloadStream?: NodeJS.WritableStream
+  /**
+   * Path of downloading a file from the server.
+   *
+   * ```ts
+   * await request('https://example.com', { downloadFile: 'filepath' })
+   * ```
+   */
+  downloadFile?: string
   pfx?: Buffer
   passphrase?: string
   agent?: boolean
@@ -79,12 +91,12 @@ let mock: Mock | null = null
  * @param handler {function | null} null to disable mock
  * @example setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
  */
-export function setMock (handler: Mock | null): void {
+export function setMock(handler: Mock | null): void {
   mock = handler
 }
 
-export function querystringify (obj: any) {
-  const pairs:string[] = []
+export function querystringify(obj: any) {
+  const pairs: string[] = []
   let value
   let key
 
@@ -100,7 +112,7 @@ export function querystringify (obj: any) {
       value = encodeURIComponent(value)
 
       if (key === null || value === null) continue
-      pairs.push(key + '=' + value)
+      pairs.push(`${key}=${value}`)
     }
   }
 
@@ -119,6 +131,7 @@ export function querystringify (obj: any) {
  * @param {string=} options.auth Auth, format: user:password
  * @param {string=} options.file Upload file path
  * @param {WritableStream=} options.downloadStream Download stream
+ * @param {string=} options.downloadFile Download to file
  * @param {Buffer=} options.pfx pfx
  * @param {string=} options.passphrase passphrase
  * @param {boolean=} options.agent agent
@@ -127,37 +140,45 @@ export function querystringify (obj: any) {
  * @returns {promise}
  * @url https://faasjs.com/doc/request.html
  */
-export async function request<T = any> (url: string, {
-  headers,
-  method,
-  query,
-  body,
-  timeout,
-  auth,
-  file,
-  downloadStream,
-  pfx,
-  passphrase,
-  agent,
-  parse,
-  logger,
-}: RequestOptions = { headers: {} }): Promise<Response<T>> {
-  if (!logger)
-    logger = new Logger('request')
+export async function request<T = any>(
+  url: string,
+  {
+    headers,
+    method,
+    query,
+    body,
+    timeout,
+    auth,
+    file,
+    downloadStream,
+    downloadFile,
+    pfx,
+    passphrase,
+    agent,
+    parse,
+    logger,
+  }: RequestOptions = { headers: {} }
+): Promise<Response<T>> {
+  if (!logger) logger = new Logger('request')
 
-  if (mock)
+  if (mock) {
+    logger.debug('mock %s %j', url, {
+      headers,
+      method,
+      query,
+      body,
+    })
     return mock(url, {
       headers,
       method,
       query,
-      body
+      body,
     })
+  }
 
   if (query) {
-    if (!url.includes('?'))
-      url += '?'
-    else if (!url.endsWith('?'))
-      url += '&'
+    if (!url.includes('?')) url += '?'
+    else if (!url.endsWith('?')) url += '&'
 
     url += querystringify(query)
   }
@@ -167,28 +188,17 @@ export async function request<T = any> (url: string, {
 
   if (!uri.protocol) throw Error('Unknown protocol')
 
-  const options: {
-    method: string
-    headers: http.OutgoingHttpHeaders
-    host?: string
-    path: string
-    port: string
-    timeout?: number
-    auth?: string
-    pfx?: Buffer
-    passphrase?: string
-    agent?: boolean
-  } = {
+  const options: https.RequestOptions = {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: method ? method.toUpperCase() : 'GET',
     path: uri.pathname + uri.search,
-    port: uri.port,
+    port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
     timeout,
     auth,
     pfx,
     passphrase,
-    agent
+    agent,
   }
 
   for (const key in headers)
@@ -197,12 +207,12 @@ export async function request<T = any> (url: string, {
 
   if (body && typeof body !== 'string')
     if (
-      options.headers['Content-Type'] &&
-      options.headers['Content-Type'].toString().includes('application/x-www-form-urlencoded')
+      options.headers['Content-Type']
+        ?.toString()
+        .includes('application/x-www-form-urlencoded')
     )
       body = querystringify(body)
-    else
-      body = JSON.stringify(body)
+    else body = JSON.stringify(body)
 
   if (body && !options.headers['Content-Length'])
     options.headers['Content-Length'] = Buffer.byteLength(body as string)
@@ -210,15 +220,17 @@ export async function request<T = any> (url: string, {
   return await new Promise(function (resolve, reject) {
     logger.debug('request %j', {
       ...options,
-      body
+      body,
     })
 
     const req = protocol.request(options, function (res: http.IncomingMessage) {
       if (downloadStream) {
         res.pipe(downloadStream)
-        downloadStream.on('finish', function () {
-          resolve(undefined)
-        })
+        downloadStream.on('finish', () => resolve(undefined))
+      } else if (downloadFile) {
+        const stream = createWriteStream(downloadFile)
+        res.pipe(stream)
+        stream.on('finish', () => resolve(undefined))
       } else {
         const raw: Buffer[] = []
         res.on('data', (chunk: any) => {
@@ -226,9 +238,18 @@ export async function request<T = any> (url: string, {
         })
         res.on('end', () => {
           const data = Buffer.concat(raw).toString()
-          logger.timeEnd(url, 'response %s %s %s', res.statusCode, res.headers['content-type'], data)
+          logger.timeEnd(
+            url,
+            'response %s %s %s',
+            res.statusCode,
+            res.headers['content-type'],
+            data
+          )
 
-          const response = Object.create(null)
+          const response =
+            res.statusCode >= 200 && res.statusCode < 400
+              ? Object.create(null)
+              : new Error()
           response.request = options
           response.request.body = body
           response.statusCode = res.statusCode
@@ -236,17 +257,26 @@ export async function request<T = any> (url: string, {
           response.headers = res.headers
           response.body = data
 
-          if (response.body && response.headers['content-type'] && response.headers['content-type'].includes('application/json'))
+          if (
+            response.body &&
+            response.headers['content-type'] &&
+            response.headers['content-type'].includes('application/json')
+          )
             try {
-              response.body = (parse) ? parse(response.body) : JSON.parse(response.body)
+              response.body = (parse || JSON.parse)(response.body)
               logger.debug('response.parse JSON')
             } catch (error) {
               console.warn('response plain body', response.body)
               console.error(error)
             }
 
-          if (response.statusCode >= 200 && response.statusCode < 400) resolve(response); else {
+          if (response.statusCode >= 200 && response.statusCode < 400)
+            resolve(response)
+          else {
             logger.debug('response.error %j', response)
+            response.message = `${res.statusMessage || res.statusCode} ${
+              options.host
+            }${options.path}`
             reject(response)
           }
         })
@@ -259,15 +289,19 @@ export async function request<T = any> (url: string, {
       const crlf = '\r\n'
       const boundary = `--${Math.random().toString(16)}`
       const delimiter = `${crlf}--${boundary}`
-      const headers = [`Content-Disposition: form-data; name="file"; filename="${basename(file)}"${crlf}`]
+      const headers = [
+        `Content-Disposition: form-data; name="file"; filename="${basename(
+          file
+        )}"${crlf}`,
+      ]
 
       const multipartBody = Buffer.concat([
         Buffer.from(delimiter + crlf + headers.join('') + crlf),
         readFileSync(file),
-        Buffer.from(`${delimiter}--`)
+        Buffer.from(`${delimiter}--`),
       ])
 
-      req.setHeader('Content-Type', 'multipart/form-data; boundary=' + boundary)
+      req.setHeader('Content-Type', `multipart/form-data; boundary=${boundary}`)
       req.setHeader('Content-Length', multipartBody.length)
 
       req.write(multipartBody)

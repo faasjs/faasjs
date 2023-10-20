@@ -150,7 +150,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `InvokeData`<`any`, `any`, `any`\> |
+| `data` | `InvokeData` |
 | `next` | `Next` |
 
 #### Returns

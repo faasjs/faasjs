@@ -2,9 +2,7 @@
  * @jest-environment jsdom
  */
 import { FaasReactClient } from '@faasjs/react'
-import {
-  render, screen, waitFor
-} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../Form'
 
@@ -16,13 +14,13 @@ describe('Form/submit', () => {
   })
 
   it('when custom submit text', () => {
-    render(<Form submit={ { text: 'Save' } } />)
+    render(<Form submit={{ text: 'Save' }} />)
 
     expect(screen.getByText('Save')).toBeInTheDocument()
   })
 
   it('when submit is false', () => {
-    render(<Form submit={ false } />)
+    render(<Form submit={false} />)
 
     expect(screen.queryByText('Submit')).toBeNull()
   })
@@ -35,25 +33,25 @@ describe('Form/submit', () => {
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => JSON.stringify({ data: {} })
+        text: async () => JSON.stringify({ data: {} }),
       }) as unknown as Promise<Response>
     })
     FaasReactClient({ domain: 'test' })
 
-    render(<Form
-      initialValues={ { id: 'initialValues' } }
-      items={ [{ id: 'id' }] }
-      submit={ {
-        to: {
-          action: 'test',
-          params: { params: 'params' }
-        }
-      } }
-    />)
+    render(
+      <Form
+        initialValues={{ id: 'initialValues' }}
+        items={[{ id: 'id' }]}
+        submit={{
+          to: {
+            action: 'test',
+            params: { params: 'params' },
+          },
+        }}
+      />
+    )
 
-    userEvent.click(screen.getByText('Submit'))
-
-    await waitFor(() => expect(values).toBeDefined())
+    await userEvent.click(screen.getByText('Submit'))
 
     expect(values).toEqual({
       id: 'initialValues',
@@ -71,36 +69,36 @@ describe('Form/submit', () => {
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => JSON.stringify({ data: {} })
+        text: async () => JSON.stringify({ data: {} }),
       }) as unknown as Promise<Response>
     })
     FaasReactClient({ domain: 'test' })
 
-    render(<Form
-      initialValues={ { id: 'initialValues' } }
-      items={ [{ id: 'id' }] }
-      submit={ {
-        to: {
-          action: 'test',
-          params: { params: 'params' }
-        }
-      } }
-      onFinish={ async (values, submit) => {
-        await submit({
-          ...values,
-          extraProps: 'extra'
-        })
-      } }
-    />)
+    render(
+      <Form
+        initialValues={{ id: 'initialValues' }}
+        items={[{ id: 'id' }]}
+        submit={{
+          to: {
+            action: 'test',
+            params: { params: 'params' },
+          },
+        }}
+        onFinish={async (values, submit) => {
+          await submit({
+            ...values,
+            extraProps: 'extra',
+          })
+        }}
+      />
+    )
 
-    userEvent.click(screen.getByText('Submit'))
-
-    await waitFor(() => expect(values).toBeDefined())
+    await userEvent.click(screen.getByText('Submit'))
 
     expect(values).toEqual({
       id: 'initialValues',
       params: 'params',
-      extraProps: 'extra'
+      extraProps: 'extra',
     })
 
     window.fetch = originalFetch

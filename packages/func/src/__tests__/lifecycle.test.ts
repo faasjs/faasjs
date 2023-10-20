@@ -1,6 +1,4 @@
-import {
-  Func, Plugin, Next, MountData, InvokeData
-} from '../index'
+import { Func, Plugin, Next, MountData, InvokeData } from '../index'
 
 describe('lifecycle', function () {
   describe('mount', function () {
@@ -9,14 +7,14 @@ describe('lifecycle', function () {
         public readonly type: string
         public readonly name: string
 
-        public async onMount () {
+        public async onMount() {
           throw Error('wrong')
         }
       }
 
       const func = new Func({
         plugins: [new P()],
-        handler: async () => 1
+        handler: async () => 1,
       })
 
       try {
@@ -39,7 +37,7 @@ describe('lifecycle', function () {
         public readonly type: string
         public readonly name: string
 
-        public async onMount (data: MountData, next: Next) {
+        public async onMount(data: MountData, next: Next) {
           times++
           await next()
         }
@@ -47,7 +45,7 @@ describe('lifecycle', function () {
 
       const func = new Func({
         plugins: [new P()],
-        handler: async () => 1
+        handler: async () => 1,
       })
       const handler = func.export().handler
 
@@ -59,7 +57,7 @@ describe('lifecycle', function () {
 
       await func.mount({
         event: null,
-        context: null
+        context: null,
       })
       expect(times).toEqual(1)
     })
@@ -71,7 +69,7 @@ describe('lifecycle', function () {
         public readonly type: string
         public readonly name: string
 
-        public async onInvoke (data: InvokeData, next: Next) {
+        public async onInvoke(data: InvokeData, next: Next) {
           data.event.headers.cookie
           await next()
         }
@@ -79,13 +77,15 @@ describe('lifecycle', function () {
 
       const func = new Func({
         plugins: [new P(), new P()],
-        handler: async () => 1
+        handler: async () => 1,
       })
 
       try {
         await func.export().handler(null)
       } catch (error: any) {
-        expect(error.message).toEqual('Cannot read properties of null (reading \'headers\')')
+        expect(error.message).toEqual(
+          "Cannot read properties of null (reading 'headers')"
+        )
       }
     })
   })

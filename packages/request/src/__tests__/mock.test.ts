@@ -6,7 +6,7 @@ describe('mock', function () {
       return Promise.resolve({
         statusCode: 200,
         headers: {},
-        body: 'world'
+        body: 'world',
       })
     })
 
@@ -17,7 +17,7 @@ describe('mock', function () {
 
     await expect(async () => request('/')).rejects.toMatchObject({
       code: 'ERR_INVALID_URL',
-      input: '/'
+      input: '/',
     })
   })
 })

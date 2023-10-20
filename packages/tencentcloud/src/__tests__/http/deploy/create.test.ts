@@ -2,7 +2,7 @@ import { join, sep } from 'path'
 import { Provider } from '../../..'
 
 const requests: {
-  [key: string]: any;
+  [key: string]: any
 } = {}
 
 jest.mock('@faasjs/request', function () {
@@ -12,26 +12,32 @@ jest.mock('@faasjs/request', function () {
       requests[options.headers['X-TC-Action']] = options.body
       switch (options.headers['X-TC-Action']) {
         case 'DescribeServicesStatus':
-          return Promise.resolve({ body: { Response: { Result: { ServiceSet: [] } } } })
+          return Promise.resolve({
+            body: { Response: { Result: { ServiceSet: [] } } },
+          })
         case 'CreateService':
           return Promise.resolve({
             body: {
               Response: {
                 ServiceId: 'ServiceId',
-                OuterSubDomain: 'domain'
-              }
-            }
+                OuterSubDomain: 'domain',
+              },
+            },
           })
         case 'DescribeApisStatus':
-          return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [] } } } })
+          return Promise.resolve({
+            body: { Response: { Result: { ApiIdStatusSet: [] } } },
+          })
         case 'CreateApi':
           return Promise.resolve({ body: { Response: {} } })
         case 'ReleaseService':
           return Promise.resolve({ body: { Response: {} } })
         default:
-          return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+          return Promise.resolve({
+            body: { Response: { Error: 'Unknown mock' } },
+          })
       }
-    }
+    },
   }
 })
 
@@ -40,31 +46,35 @@ test('create', async function () {
     appId: 'appId',
     secretId: 'secretId',
     secretKey: 'secretKey',
-    region: 'region'
+    region: 'region',
   })
 
-  await tc.deploy('http', {
-    root: __dirname,
-    filename: join(__dirname, '..', 'funcs', 'http.func.ts'),
-    env: 'testing',
-    name: 'http',
-    version: 'version',
-    tmp: join(__dirname, '..', 'tmp', 'first') + sep,
-    config: {},
-    dependencies: { '@faasjs/func': '*' }
-  }, {
-    name: 'http',
-    provider: {
-      type: '@faasjs/tencentcloud',
-      name: 'tencentcloud'
+  await tc.deploy(
+    'http',
+    {
+      root: __dirname,
+      filename: join(__dirname, '..', 'funcs', 'http.func.ts'),
+      env: 'testing',
+      name: 'http',
+      version: 'version',
+      tmp: join(__dirname, '..', 'tmp', 'first') + sep,
+      config: {},
+      dependencies: { '@faasjs/func': '*' },
     },
-    config: {
-      method: 'GET',
-      timeout: 1,
-      functionName: 'http',
-      path: '/'
+    {
+      name: 'http',
+      provider: {
+        type: '@faasjs/tencentcloud',
+        name: 'tencentcloud',
+      },
+      config: {
+        method: 'GET',
+        timeout: 1,
+        functionName: 'http',
+        path: '/',
+      },
     }
-  })
+  )
 
   expect(requests.CreateApi).toMatchObject({
     ApiName: 'http',
@@ -90,7 +100,7 @@ test('create', async function () {
     Filters: [
       {
         Name: 'ApiName',
-        Values: ['http', ],
+        Values: ['http'],
       },
     ],
     ServiceId: 'ServiceId',

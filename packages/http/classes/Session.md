@@ -114,13 +114,14 @@ ___
 
 ### invoke
 
-▸ **invoke**(`cookie?`): `void`
+▸ **invoke**(`cookie?`, `logger?`): `void`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `cookie?` | `string` |
+| `logger?` | `Logger` |
 
 #### Returns
 

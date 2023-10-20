@@ -54,8 +54,9 @@ ___
 | `agent?` | `boolean` | - |
 | `auth?` | `string` | The authentication credentials to use for the request. Format: `username:password` |
 | `body?` | { `[key: string]`: `any`;  } \| `string` | - |
-| `downloadStream?` | `NodeJS.WritableStream` | Create a write stream to download a file. |
-| `file?` | `string` | Path of uploading a file to the server. |
+| `downloadFile?` | `string` | Path of downloading a file from the server. ```ts await request('https://example.com', { downloadFile: 'filepath' }) ``` |
+| `downloadStream?` | `NodeJS.WritableStream` | Create a write stream to download a file. ```ts import { createWriteStream } from 'fs' const stream = createWriteStream('filepath') await request('https://example.com', { downloadStream: stream }) ``` |
+| `file?` | `string` | Path of uploading a file to the server. ```ts await request('https://example.com', { file: 'filepath' }) ``` |
 | `headers?` | `http.OutgoingHttpHeaders` | - |
 | `logger?` | `Logger` | - |
 | `method?` | `string` | The HTTP method to use when making the request. Defaults to GET. |
@@ -111,10 +112,6 @@ ___
 
 Request
 
-**`Url`**
-
-https://faasjs.com/doc/request.html
-
 #### Type parameters
 
 | Name | Type |
@@ -132,6 +129,10 @@ https://faasjs.com/doc/request.html
 
 `Promise`<[`Response`](#response)<`T`\>\>
 
+**`Url`**
+
+https://faasjs.com/doc/request.html
+
 ___
 
 ### setMock
@@ -139,12 +140,6 @@ ___
 ▸ **setMock**(`handler`): `void`
 
 Mock requests
-
-**`Example`**
-
-```ts
-setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
-```
 
 #### Parameters
 
@@ -155,3 +150,9 @@ setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, 
 #### Returns
 
 `void`
+
+**`Example`**
+
+```ts
+setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
+```

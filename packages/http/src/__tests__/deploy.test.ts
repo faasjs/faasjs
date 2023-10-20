@@ -6,22 +6,24 @@ describe('deploy', function () {
     const http = new Http()
     const func = new Func({ plugins: [http] })
 
-    await expect(func.deploy({
-      root: '.',
-      filename: 'filename',
-      name: 'name',
-      config: {
-        plugins: {
-          http: {
-            provider: {
-              type: '@faasjs/tencentcloud',
-              config: {}
+    await expect(
+      func.deploy({
+        root: '.',
+        filename: 'filename',
+        name: 'name',
+        config: {
+          plugins: {
+            http: {
+              provider: {
+                type: '@faasjs/tencentcloud',
+                config: {},
+              },
+              type: 'http',
             },
-            type: 'http'
-          }
-        }
-      },
-      dependencies: {}
-    })).rejects.toEqual(Error('appId required'))
+          },
+        },
+        dependencies: {},
+      })
+    ).rejects.toEqual(Error('appId required'))
   })
 })

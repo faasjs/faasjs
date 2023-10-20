@@ -8,7 +8,7 @@ UI components based on [FaasJS](https://faasjs.com), [Ant Design](https://ant.de
 
 ## Install
 
-    npm install @faasjs/ant-design
+    npm install @faasjs/ant-design antd react react-dom @faasjs/react react-router-dom
 
 ## Usage
 
@@ -41,10 +41,13 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 ### Namespaces
 
+- [App](modules/App.md)
 - [Form](modules/Form.md)
+- [FormItem](modules/FormItem.md)
 
 ### Interfaces
 
+- [AppProps](interfaces/AppProps.md)
 - [BaseItemProps](interfaces/BaseItemProps.md)
 - [BlankProps](interfaces/BlankProps.md)
 - [ConfigProviderProps](interfaces/ConfigProviderProps.md)
@@ -52,15 +55,21 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [DescriptionItemProps](interfaces/DescriptionItemProps.md)
 - [DescriptionProps](interfaces/DescriptionProps.md)
 - [DrawerProps](interfaces/DrawerProps.md)
+- [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
 - [ExtendDescriptionTypeProps](interfaces/ExtendDescriptionTypeProps.md)
+- [FaasDataWrapperProps](interfaces/FaasDataWrapperProps.md)
 - [FaasItemProps](interfaces/FaasItemProps.md)
 - [FormItemProps](interfaces/FormItemProps.md)
 - [FormProps](interfaces/FormProps.md)
 - [LinkProps](interfaces/LinkProps.md)
 - [ModalProps](interfaces/ModalProps.md)
 - [RoutesProps](interfaces/RoutesProps.md)
+- [TabProps](interfaces/TabProps.md)
 - [TableItemProps](interfaces/TableItemProps.md)
+- [TabsProps](interfaces/TabsProps.md)
 - [TitleProps](interfaces/TitleProps.md)
+- [UnionFaasItemProps](interfaces/UnionFaasItemProps.md)
+- [useAppProps](interfaces/useAppProps.md)
 
 ### Type Aliases
 
@@ -71,9 +80,16 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 - [ExtendTableItemProps](#extendtableitemprops)
 - [ExtendTableTypeProps](#extendtabletypeprops)
 - [ExtendTypes](#extendtypes)
+- [FaasDataInjection](#faasdatainjection)
 - [FaasItemType](#faasitemtype)
 - [FaasItemTypeValue](#faasitemtypevalue)
+- [FormSubmitProps](#formsubmitprops)
+- [LoadingProps](#loadingprops)
 - [TableProps](#tableprops)
+- [UnionFaasItemElement](#unionfaasitemelement)
+- [UnionFaasItemInjection](#unionfaasiteminjection)
+- [UnionFaasItemRender](#unionfaasitemrender)
+- [UnionScene](#unionscene)
 - [setDrawerProps](#setdrawerprops)
 - [setModalProps](#setmodalprops)
 
@@ -83,27 +99,35 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 ### Functions
 
+- [App](#app)
 - [Blank](#blank)
 - [ConfigProvider](#configprovider)
 - [Description](#description)
+- [ErrorBoundary](#errorboundary)
+- [FaasDataWrapper](#faasdatawrapper)
 - [Form](#form)
 - [FormItem](#formitem)
 - [Link](#link)
+- [Loading](#loading)
 - [PageNotFound](#pagenotfound)
 - [Routes](#routes)
 - [Table](#table)
+- [Tabs](#tabs)
 - [Title](#title)
+- [faas](#faas)
 - [transferOptions](#transferoptions)
 - [transferValue](#transfervalue)
+- [useApp](#useapp)
 - [useConfigContext](#useconfigcontext)
 - [useDrawer](#usedrawer)
+- [useFaas](#usefaas)
 - [useModal](#usemodal)
 
 ## Type Aliases
 
 ### BaseOption
 
-Ƭ **BaseOption**: `string` \| `number` \| { `label`: `string` ; `value?`: `string` \| `number`  }
+Ƭ **BaseOption**: `string` \| `number` \| { `label`: `string` ; `value?`: `any`  }
 
 ___
 
@@ -121,13 +145,19 @@ ___
 
 ### ExtendFormTypeProps
 
-Ƭ **ExtendFormTypeProps**: `Object`
+Ƭ **ExtendFormTypeProps**<`T`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `children?` | `ReactNode` |
+| `children?` | [`UnionFaasItemElement`](#unionfaasitemelement)<`T`\> |
 
 ___
 
@@ -145,14 +175,20 @@ ___
 
 ### ExtendTableTypeProps
 
-Ƭ **ExtendTableTypeProps**: `Object`
+Ƭ **ExtendTableTypeProps**<`T`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
 | `children?` | `JSX.Element` |
-| `render?` | (`value`: `any`, `values`: `any`, `index`: `number`) => `JSX.Element` \| `string` \| `number` \| `boolean` \| ``null`` |
+| `render?` | [`UnionFaasItemRender`](#unionfaasitemrender)<`T`\> |
 
 ___
 
@@ -163,6 +199,18 @@ ___
 #### Index signature
 
 ▪ [type: `string`]: [`ExtendFormTypeProps`](#extendformtypeprops)
+
+___
+
+### FaasDataInjection
+
+Ƭ **FaasDataInjection**<`T`\>: `Partial`<`OriginFaasDataInjection`<`T`\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
 
 ___
 
@@ -194,9 +242,42 @@ FaasItemType's value type
 
 ___
 
+### FormSubmitProps
+
+Ƭ **FormSubmitProps**: `Object`
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `text?` | `string` | Default: Submit |
+| `to?` | { `action`: `string` ; `catch?`: (`error`: `any`) => `void` ; `finally?`: () => `void` ; `params?`: `Record`<`string`, `any`\> ; `then?`: (`result`: `any`) => `void`  } | Submit to FaasJS server. If use onFinish, you should call submit manually. ```ts { submit: { to: { action: 'action_name' } }, onFinish: (values, submit) => { // do something before submit // submit await submit({ ...values, extraProps: 'some extra props' }) // do something after submit } } ``` |
+| `to.action` | `string` | - |
+| `to.catch?` | (`error`: `any`) => `void` | - |
+| `to.finally?` | () => `void` | - |
+| `to.params?` | `Record`<`string`, `any`\> | params will overwrite form values before submit |
+| `to.then?` | (`result`: `any`) => `void` | - |
+
+___
+
+### LoadingProps
+
+Ƭ **LoadingProps**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `children?` | `React.ReactNode` |
+| `loading?` | `boolean` |
+| `size?` | ``"small"`` \| ``"default"`` \| ``"large"`` |
+| `style?` | `React.CSSProperties` |
+
+___
+
 ### TableProps
 
-Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: `FaasDataWrapperProps`<`T`\> ; `items`: ([`TableItemProps`](interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue` \| ``null``\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
+Ƭ **TableProps**<`T`, `ExtendTypes`\>: { `extendTypes?`: { `[key: string]`: [`ExtendTableTypeProps`](#extendtabletypeprops);  } ; `faasData?`: [`FaasDataWrapperProps`](interfaces/FaasDataWrapperProps.md)<`T`\> ; `items`: ([`TableItemProps`](interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](#extendtableitemprops))[] ; `onChange?`: (`pagination`: `TablePaginationConfig`, `filters`: `Record`<`string`, `FilterValue` \| ``null``\>, `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[], `extra`: `TableCurrentDataSource`<`T`\>) => { `extra`: `TableCurrentDataSource`<`T`\> ; `filters`: `Record`<`string`, `FilterValue` \| ``null``\> ; `pagination`: `TablePaginationConfig` ; `sorter`: `SorterResult`<`T`\> \| `SorterResult`<`T`\>[]  }  } & `AntdTableProps`<`T`\>
 
 #### Type parameters
 
@@ -204,6 +285,77 @@ ___
 | :------ | :------ |
 | `T` | `any` |
 | `ExtendTypes` | `any` |
+
+___
+
+### UnionFaasItemElement
+
+Ƭ **UnionFaasItemElement**<`Value`, `Values`\>: `ReactElement`<[`UnionFaasItemInjection`](#unionfaasiteminjection)<`Value`, `Values`\>\> \| ``null``
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | `any` |
+| `Values` | `any` |
+
+___
+
+### UnionFaasItemInjection
+
+Ƭ **UnionFaasItemInjection**<`Value`, `Values`\>: `Object`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | `any` |
+| `Values` | `any` |
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `index?` | `number` |
+| `scene?` | [`UnionScene`](#unionscene) |
+| `value?` | `Value` |
+| `values?` | `Values` |
+
+___
+
+### UnionFaasItemRender
+
+Ƭ **UnionFaasItemRender**<`Value`, `Values`\>: (`value`: `Value`, `values`: `Values`, `index`: `number`, `scene`: [`UnionScene`](#unionscene)) => `React.ReactNode`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Value` | `any` |
+| `Values` | `any` |
+
+#### Type declaration
+
+▸ (`value`, `values`, `index`, `scene`): `React.ReactNode`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `Value` |
+| `values` | `Values` |
+| `index` | `number` |
+| `scene` | [`UnionScene`](#unionscene) |
+
+##### Returns
+
+`React.ReactNode`
+
+___
+
+### UnionScene
+
+Ƭ **UnionScene**: ``"form"`` \| ``"description"`` \| ``"table"``
 
 ___
 
@@ -253,9 +405,27 @@ ___
 
 ## Functions
 
+### App
+
+▸ **App**(`props`): `Element`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`AppProps`](interfaces/AppProps.md) |
+
+#### Returns
+
+`Element`
+
+___
+
 ### Blank
 
 ▸ **Blank**(`options?`): `JSX.Element`
+
+Blank component.
 
 If value is undefined or null, return text, otherwise return value.
 
@@ -309,6 +479,8 @@ ___
 
 ▸ **Description**<`T`\>(`props`): `Element`
 
+Description component.
+
 #### Type parameters
 
 | Name | Type |
@@ -327,15 +499,63 @@ ___
 
 ___
 
+### ErrorBoundary
+
+▸ **ErrorBoundary**(`props`): `Element`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`ErrorBoundaryProps`](interfaces/ErrorBoundaryProps.md) |
+
+#### Returns
+
+`Element`
+
+___
+
+### FaasDataWrapper
+
+▸ **FaasDataWrapper**<`T`\>(`props`): `JSX.Element`
+
+FaasDataWrapper component with Loading
+
+```tsx
+function MyComponent (props: FaasDataInjection) {
+  return <div>{ props.data }</div>
+}
+
+function MyPage () {
+  return <FaasDataWrapper action="test" params={{ a: 1 }}>
+    <MyComponent />
+  </FaasDataWrapper>
+}
+```
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`FaasDataWrapperProps`](interfaces/FaasDataWrapperProps.md)<`T`\> |
+
+#### Returns
+
+`JSX.Element`
+
+___
+
 ### Form
 
 ▸ **Form**<`Values`\>(`props`): `Element`
 
 Form component with Ant Design & FaasJS
-
-**`Ref`**
-
-https://ant.design/components/form/
 
 #### Type parameters
 
@@ -352,6 +572,10 @@ https://ant.design/components/form/
 #### Returns
 
 `Element`
+
+**`Ref`**
+
+https://ant.design/components/form/
 
 ___
 
@@ -391,21 +615,49 @@ ___
 
 ### Link
 
-▸ **Link**(`«destructured»`): `Element`
+▸ **Link**(`props`): `Element`
+
+Link component with button.
 
 ```ts
 // pure link
 <Link href="/">Home</Link>
 
 // link with button
-<Link href="/" button={{type:'primary'}}>Home</Link>
+<Link href="/" button={{ type:'primary' }}>Home</Link>
 ```
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `«destructured»` | [`LinkProps`](interfaces/LinkProps.md) |
+| `props` | [`LinkProps`](interfaces/LinkProps.md) |
+
+#### Returns
+
+`Element`
+
+___
+
+### Loading
+
+▸ **Loading**(`props`): `Element`
+
+Loading component based on Spin
+
+```tsx
+<Loading /> // display loading
+
+<Loading loading={ !remoteData }>
+ <div>{remoteData}</div>
+</Loading>
+```
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`LoadingProps`](#loadingprops) |
 
 #### Returns
 
@@ -430,7 +682,7 @@ ___
 Routes with lazy loading and 404 page.
 
 ```tsx
-import { lazy } from 'react'
+import { Routes, lazy } from '@faasjs/ant-design'
 import { BrowserRouter } from 'react-router-dom'
 
 export function App () {
@@ -463,15 +715,11 @@ ___
 
 Table component with Ant Design & FaasJS
 
-**`Ref`**
-
-https://ant.design/components/table/
-
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | `any` |
+| `T` | extends `Record`<`string`, `any`\> |
 | `ExtendTypes` | `any` |
 
 #### Parameters
@@ -483,6 +731,32 @@ https://ant.design/components/table/
 #### Returns
 
 `Element`
+
+**`Ref`**
+
+https://ant.design/components/table/
+
+___
+
+### Tabs
+
+▸ **Tabs**(`props`): `Element`
+
+Tabs component with Ant Design & FaasJS
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`TabsProps`](interfaces/TabsProps.md) |
+
+#### Returns
+
+`Element`
+
+**`Ref`**
+
+https://ant.design/components/tabs/
 
 ___
 
@@ -518,9 +792,42 @@ Return null by default.
 
 ___
 
+### faas
+
+▸ **faas**<`PathOrData`\>(`action`, `params`): `Promise`<`Response`<`FaasData`<`PathOrData`\>\>\>
+
+Request faas server
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `Record`<`string`, `any`\> |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action` | `string` \| `PathOrData` | {string} action name |
+| `params` | `FaasParams`<`PathOrData`\> | {object} action params |
+
+#### Returns
+
+`Promise`<`Response`<`FaasData`<`PathOrData`\>\>\>
+
+```ts
+faas<{ title: string }>('post/get', { id: 1 }).then(res => {
+  console.log(res.data.title)
+})
+```
+
+___
+
 ### transferOptions
 
 ▸ **transferOptions**(`options`): { `label`: `string` ; `value?`: `string` \| `number`  }[]
+
+convert options to { label, value }[]
 
 #### Parameters
 
@@ -548,6 +855,16 @@ ___
 #### Returns
 
 `any`
+
+___
+
+### useApp
+
+▸ **useApp**(): [`useAppProps`](interfaces/useAppProps.md)
+
+#### Returns
+
+[`useAppProps`](interfaces/useAppProps.md)
 
 ___
 
@@ -582,6 +899,39 @@ Hook style drawer.
 | `drawer` | `Element` |
 | `drawerProps` | [`DrawerProps`](interfaces/DrawerProps.md) |
 | `setDrawerProps` | (`changes`: `Partial`<[`DrawerProps`](interfaces/DrawerProps.md)\>) => `void` |
+
+___
+
+### useFaas
+
+▸ **useFaas**<`PathOrData`\>(`action`, `defaultParams`, `options?`): `FaasDataInjection`<`FaasData`<`PathOrData`\>\>
+
+Request faas server with React hook
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `PathOrData` | extends `Record`<`string`, `any`\> |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `action` | `string` \| `PathOrData` | {string} action name |
+| `defaultParams` | `FaasParams`<`PathOrData`\> | {object} initial action params |
+| `options?` | `useFaasOptions`<`PathOrData`\> | - |
+
+#### Returns
+
+`FaasDataInjection`<`FaasData`<`PathOrData`\>\>
+
+```ts
+function Post ({ id }) {
+  const { data } = useFaas<{ title: string }>('post/get', { id })
+  return <h1>{data.title}</h1>
+}
+```
 
 ___
 

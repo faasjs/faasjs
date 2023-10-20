@@ -1,41 +1,25 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.3-beta.16",
+  "version": "0.0.4-beta.5",
+  "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.ts,.tsx .",
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
-    "pub": "node publish.js",
-    "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/coverage packages/*/*.log tmp *.log",
-    "build": "node build.js",
-    "build:types": "node build-types.js",
+    "pub": "npm run build && node publish.js",
+    "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log",
+    "build": "npm run clean && npm exec turbo build",
     "build:doc": "typedoc",
-    "build:docs": "node build-docs.js"
+    "build:docs": "node build-docs.js",
+    "check": "biome check",
+    "format": "biome format --write"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "file:./packages/eslint-config-recommended",
-    "@faasjs/eslint-config-react": "file:./packages/eslint-config-react",
-    "@faasjs/jest": "file:./packages/jest",
-    "faasjs": "file:./packages/faasjs",
+    "tsup": "*",
+    "turbo": "^1.10.15",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "tsup": "^5",
     "typescript": "*"
   },
-  "eslintConfig": {
-    "ignorePatterns": [
-      "**/examples",
-      "**/lib",
-      "**/dist",
-      "**/tmp"
-    ],
-    "extends": [
-      "@faasjs/recommended",
-      "@faasjs/react"
-    ]
-  },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "jest": {
     "transform": {
       ".(jsx|tsx?)": "./packages/jest/index.js"
@@ -67,14 +51,10 @@
       "@faasjs/(.*)": "<rootDir>/packages/$1/src",
       "lodash-es": "lodash"
     },
-    "setupFiles": [
-      "./packages/test/src/jest.setup"
-    ],
-    "setupFilesAfterEnv": [
-      "./packages/ant-design/src/__tests__/jest.setup"
-    ],
+    "setupFiles": ["./packages/jest/jest.setup.js"],
+    "setupFilesAfterEnv": ["./packages/ant-design/src/__tests__/jest.setup"],
     "testEnvironmentOptions": {
       "customExportConditions": ["node", "node-addons"]
-   }
+    }
   }
 }

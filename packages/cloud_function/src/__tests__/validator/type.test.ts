@@ -8,13 +8,28 @@ describe('validator/type', function () {
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
-        ['array', []]
+        ['array', []],
       ])('is %p', async function (type, value) {
-        const http = new CloudFunction({ validator: { event: { rules: { key: { type: type as 'string' | 'boolean' | 'number' | 'array' | 'object' } } } } })
+        const http = new CloudFunction({
+          validator: {
+            event: {
+              rules: {
+                key: {
+                  type: type as
+                    | 'string'
+                    | 'boolean'
+                    | 'number'
+                    | 'array'
+                    | 'object',
+                },
+              },
+            },
+          },
+        })
         const handler = new Func({
           plugins: [http],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          async handler () { }
+          async handler() {},
         }).export().handler
 
         await handler({ key: value })
@@ -32,13 +47,34 @@ describe('validator/type', function () {
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
-        ['array', []]
+        ['array', []],
       ])('is %p', async function (type, value) {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { type: type as 'string' | 'boolean' | 'number' | 'array' | 'object' } } } } } } } })
+        const cf = new CloudFunction({
+          validator: {
+            event: {
+              rules: {
+                key: {
+                  config: {
+                    rules: {
+                      sub: {
+                        type: type as
+                          | 'string'
+                          | 'boolean'
+                          | 'number'
+                          | 'array'
+                          | 'object',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        })
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          async handler () { }
+          async handler() {},
         }).export().handler
 
         await handler({ key: [{ sub: value }] })
@@ -56,13 +92,34 @@ describe('validator/type', function () {
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
-        ['array', []]
+        ['array', []],
       ])('is %p', async function (type, value) {
-        const cf = new CloudFunction({ validator: { event: { rules: { key: { config: { rules: { sub: { type: type as 'string' | 'boolean' | 'number' | 'array' | 'object' } } } } } } } })
+        const cf = new CloudFunction({
+          validator: {
+            event: {
+              rules: {
+                key: {
+                  config: {
+                    rules: {
+                      sub: {
+                        type: type as
+                          | 'string'
+                          | 'boolean'
+                          | 'number'
+                          | 'array'
+                          | 'object',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        })
         const handler = new Func({
           plugins: [cf],
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          async handler () { }
+          async handler() {},
         }).export().handler
 
         await handler({ key: { sub: value } })

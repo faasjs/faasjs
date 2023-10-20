@@ -11,27 +11,27 @@ export type ValidatorRuleOptionsType =
   | 'array'
 
 export type ValidatorRuleOptions = {
-  type?: ValidatorRuleOptionsType;
-  required?: boolean;
-  in?: any[];
-  default?: any;
-  config?: Partial<ValidatorOptions>;
-  regexp?: RegExp;
+  type?: ValidatorRuleOptionsType
+  required?: boolean
+  in?: any[]
+  default?: any
+  config?: Partial<ValidatorOptions>
+  regexp?: RegExp
 }
 
 export type ValidatorOptions<Content = Record<string, any>> = {
-  whitelist?: 'error' | 'ignore';
+  whitelist?: 'error' | 'ignore'
   rules: {
-    [k in keyof Content]?: ValidatorRuleOptions;
-  };
+    [k in keyof Content]?: ValidatorRuleOptions
+  }
   onError?: (
     type: string,
     key: string | string[],
     value?: any
   ) => {
-    statusCode?: number;
-    message: any;
-  } | void;
+    statusCode?: number
+    message: any
+  } | void
 }
 
 type Request<
@@ -40,11 +40,11 @@ type Request<
   TSession extends Record<string, string> = any
 > = {
   headers: {
-    [key: string]: string;
-  };
-  params?: TParams;
-  cookie?: Cookie<TCookie, TSession>;
-  session?: Session<TSession, TCookie>;
+    [key: string]: string
+  }
+  params?: TParams
+  cookie?: Cookie<TCookie, TSession>
+  session?: Session<TSession, TCookie>
 }
 
 export type BeforeOption<
@@ -52,8 +52,8 @@ export type BeforeOption<
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any
 > = (request: Request<TParams, TCookie, TSession>) => Promise<void | {
-  statusCode?: number;
-  message: string;
+  statusCode?: number
+  message: string
 }>
 
 export type ValidatorConfig<
@@ -61,10 +61,10 @@ export type ValidatorConfig<
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any
 > = {
-  params?: ValidatorOptions<TParams>;
-  cookie?: ValidatorOptions<TCookie>;
-  session?: ValidatorOptions<TSession>;
-  before?: BeforeOption;
+  params?: ValidatorOptions<TParams>
+  cookie?: ValidatorOptions<TCookie>
+  session?: ValidatorOptions<TSession>
+  before?: BeforeOption
 }
 
 export class Validator<
@@ -78,16 +78,14 @@ export class Validator<
   public sessionConfig?: ValidatorOptions<TSession>
   private request: Request<TParams, TCookie, TSession>
 
-  constructor (
-    config: ValidatorConfig<TParams, TCookie, TSession>
-  ) {
+  constructor(config: ValidatorConfig<TParams, TCookie, TSession>) {
     this.paramsConfig = config.params
     this.cookieConfig = config.cookie
     this.sessionConfig = config.session
     this.before = config.before
   }
 
-  public async valid (
+  public async valid(
     request: Request<TParams, TCookie, TSession>,
     logger: Logger
   ): Promise<void> {
@@ -113,7 +111,7 @@ export class Validator<
         request.cookie.content,
         '',
         this.cookieConfig,
-        logger,
+        logger
       )
     }
 
@@ -125,15 +123,15 @@ export class Validator<
         request.session.content,
         '',
         this.sessionConfig,
-        logger,
+        logger
       )
     }
   }
 
-  public validContent (
+  public validContent(
     type: string,
     params: {
-      [key: string]: any;
+      [key: string]: any
     },
     baseKey: string,
     config: ValidatorOptions,
@@ -142,10 +140,10 @@ export class Validator<
     if (config.whitelist) {
       const paramsKeys = Object.keys(params)
       const rulesKeys = Object.keys(config.rules)
-      const diff = paramsKeys.filter((k) => !rulesKeys.includes(k))
+      const diff = paramsKeys.filter(k => !rulesKeys.includes(k))
       if (diff.length > 0)
         if (config.whitelist === 'error') {
-          const diffKeys = diff.map((k) => `${baseKey}${k}`)
+          const diffKeys = diff.map(k => `${baseKey}${k}`)
           const error = Error(
             `[${type}] Not permitted keys: ${diffKeys.join(', ')}`
           )
@@ -194,8 +192,7 @@ export class Validator<
       if (typeof value !== 'undefined' && value !== null) {
         // type
         if (rule.type)
-          if (type === 'cookie')
-            logger.warn('Cookie not support type rule')
+          if (type === 'cookie') logger.warn('Cookie not support type rule')
           else {
             let typed = true
             switch (rule.type) {
@@ -207,6 +204,7 @@ export class Validator<
                   Object.prototype.toString.call(value) === '[object Object]'
                 break
               default:
+                // biome-ignore lint/suspicious/useValidTypeof: <explanation>
                 typed = typeof value === rule.type
                 break
             }
@@ -264,10 +262,9 @@ export class Validator<
 
         // nest config
         if (rule.config)
-          if (type === 'cookie')
-            logger.warn('Cookie not support nest rule.')
+          if (type === 'cookie') logger.warn('Cookie not support nest rule.')
           else if (Array.isArray(value))
-          // array
+            // array
 
             for (const val of value)
               this.validContent(
@@ -275,7 +272,7 @@ export class Validator<
                 val,
                 baseKey ? `${baseKey}.${key}.` : `${key}.`,
                 rule.config as ValidatorOptions,
-                logger,
+                logger
               )
           else if (typeof value === 'object')
             // object
@@ -284,7 +281,7 @@ export class Validator<
               value,
               baseKey ? `${baseKey}.${key}.` : `${key}.`,
               rule.config as ValidatorOptions,
-              logger,
+              logger
             )
       }
     }

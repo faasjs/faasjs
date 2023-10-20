@@ -1,7 +1,7 @@
 import { Command } from 'commander'
 import newFunc from './new/func'
 
-export function action (type: string, name: string, plugins: string[]): void {
+export function action(type: string, name: string, plugins: string[]): void {
   switch (type) {
     case 'func':
       newFunc(name, plugins)
@@ -11,7 +11,7 @@ export function action (type: string, name: string, plugins: string[]): void {
   }
 }
 
-export function NewCommand (program: Command): void {
+export function NewCommand(program: Command): void {
   program
     .command('new <type> <name> [plugins...]')
     .name('new')

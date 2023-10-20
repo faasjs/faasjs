@@ -1,4 +1,10 @@
-# Interface: ExtendDescriptionTypeProps
+# Interface: ExtendDescriptionTypeProps<T\>
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
 
 ## Table of contents
 
@@ -11,25 +17,10 @@
 
 ### children
 
-• `Optional` **children**: `Element`
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
 
 ___
 
 ### render
 
-• `Optional` **render**: (`value`: `any`, `values`: `any`) => `Element`
-
-#### Type declaration
-
-▸ (`value`, `values`): `Element`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `value` | `any` |
-| `values` | `any` |
-
-##### Returns
-
-`Element`
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>

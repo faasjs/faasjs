@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const globSync = require('glob').sync
-const promisify = require('util').promisify
-const exec = promisify(require('child_process').exec)
+const exec = require('child_process').execSync
+const writeFile = require('fs').writeFileSync
 const version = require('./package.json').version
-const build = require('./build.js').build
 
 async function run(cmd) {
   console.log(cmd)
@@ -11,14 +9,32 @@ async function run(cmd) {
 }
 
 async function publish(path) {
-  const pkg = require(__dirname + '/' + path)
+  const pkg = require(`${__dirname}/${path}`)
 
   console.log(pkg.name)
 
-  await build(path, true)
+  pkg.version = version
+  if (pkg.dependencies) {
+    for (const name of Object.keys(pkg.dependencies)) {
+      if (name.startsWith('@faasjs/')) pkg.dependencies[name] = version
+    }
+  }
+  if (pkg.peerDependencies) {
+    for (const name of Object.keys(pkg.peerDependencies)) {
+      if (name.startsWith('@faasjs/')) pkg.peerDependencies[name] = version
+    }
+  }
+  if (pkg.devDependencies) {
+    for (const name of Object.keys(pkg.devDependencies)) {
+      if (name.startsWith('@faasjs/')) pkg.devDependencies[name] = version
+    }
+  }
+  await writeFile(path, `${JSON.stringify(pkg, null, 2)}\n`)
 
   try {
-    await run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
+    await run(
+      `npm publish -w ${path.replace('/package.json', '')} --access public`
+    )
   } catch (error) {
     console.warn(error)
   }
@@ -32,26 +48,10 @@ async function publish(path) {
 async function publishAll() {
   const list = globSync('packages/*/package.json')
 
-  for (const name of [
-    'browser',
-    'logger',
-    'deep_merge',
-    'ts-transform',
-    'func',
-    'load',
-    'http',
-    'cloud_function',
-    'deployer',
-    'request',
-  ]) {
-    await publish(`packages/${name}/package.json`)
-    list.splice(list.indexOf(`packages/${name}/package.json`), 1)
+  // await Promise.all(list.map(publish))
+  for (const item of list) {
+    await publish(item)
   }
-
-  await Promise.all(list.map(publish))
-  // for (const item of list) {
-  //   await publish(item)
-  // }
   await run(`git commit -am 'release ${version}'`)
   await run(`git tag v${version}`)
   await run('git push && git push --tags')

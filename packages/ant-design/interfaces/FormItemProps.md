@@ -10,9 +10,11 @@
 
 - [`FaasItemProps`](FaasItemProps.md)
 
-- `Omit`<`AntdFormItemProps`<`T`\>, ``"id"`` \| ``"children"``\>
+- `Omit`<`AntdFormItemProps`<`T`\>, ``"id"`` \| ``"children"`` \| ``"render"``\>
 
   ↳ **`FormItemProps`**
+
+  ↳↳ [`UnionFaasItemProps`](UnionFaasItemProps.md)
 
 ## Table of contents
 
@@ -22,6 +24,8 @@
 - [col](FormItemProps.md#col)
 - [disabled](FormItemProps.md#disabled)
 - [extendTypes](FormItemProps.md#extendtypes)
+- [formChildren](FormItemProps.md#formchildren)
+- [formRender](FormItemProps.md#formrender)
 - [id](FormItemProps.md#id)
 - [if](FormItemProps.md#if)
 - [input](FormItemProps.md#input)
@@ -40,7 +44,7 @@
 
 ### children
 
-• `Optional` **children**: `Element`
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
 
 ___
 
@@ -59,6 +63,18 @@ ___
 ### extendTypes
 
 • `Optional` **extendTypes**: [`ExtendTypes`](../modules.md#extendtypes)
+
+___
+
+### formChildren
+
+• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+
+___
+
+### formRender
+
+• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
 
 ___
 
@@ -158,21 +174,7 @@ ___
 
 ### render
 
-• `Optional` **render**: (`value?`: `T`) => `Element`
-
-#### Type declaration
-
-▸ (`value?`): `Element`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `value?` | `T` |
-
-##### Returns
-
-`Element`
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
 
 ___
 
@@ -214,7 +216,9 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 **`Default`**
 
+```ts
 'string'
+```
 
 #### Inherited from
 

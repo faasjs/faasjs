@@ -7,5 +7,5 @@ export enum Color {
   BLUE = 34,
   MAGENTA = 35,
   CYAN = 36,
-  GRAY = 90
+  GRAY = 90,
 }

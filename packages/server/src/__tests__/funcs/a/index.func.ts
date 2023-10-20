@@ -5,7 +5,7 @@ const http = new Http()
 
 export default new Func({
   plugins: [http],
-  async handler () {
+  async handler() {
     return 'a'
-  }
+  },
 })

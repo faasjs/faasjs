@@ -11,10 +11,14 @@ export type ValidatorConfig = {
       config?: Partial<ValidatorConfig>
     }
   }
-  onError?: (type: string, key: string | string[], value?: any) => {
+  onError?: (
+    type: string,
+    key: string | string[],
+    value?: any
+  ) => {
     statusCode?: number
     headers?: {
-      [key: string]: any
+      [name: string]: any
     }
     message: any
   } | void
@@ -28,15 +32,16 @@ export class Validator {
 
   private readonly logger: Logger
 
-  constructor (config: {
+  constructor(config: {
     event?: ValidatorConfig
   }) {
     this.eventConfig = config.event
     this.logger = new Logger('CloudFunction.Validator')
   }
 
-  public valid ({ event }:
-  {
+  public valid({
+    event,
+  }: {
     event?: any
   }): void {
     this.request = { event }
@@ -48,9 +53,14 @@ export class Validator {
     }
   }
 
-  public validContent (type: string, event: {
-    [key: string]: any
-  }, baseKey: string, config: ValidatorConfig): void {
+  public validContent(
+    type: string,
+    event: {
+      [key: string]: any
+    },
+    baseKey: string,
+    config: ValidatorConfig
+  ): void {
     if (config.whitelist) {
       const eventKeys = Object.keys(event)
       const rulesKeys = Object.keys(config.rules).concat(['context'])
@@ -58,8 +68,11 @@ export class Validator {
       if (diff.length > 0)
         if (config.whitelist === 'error') {
           const diffKeys = diff.map(k => `${baseKey}${k}`)
-          const error = Error(`[${type}] Unpermitted keys: ${diffKeys.join(', ')}`)
-          if (config.onError) config.onError(`${type}.whitelist`, baseKey, diffKeys)
+          const error = Error(
+            `[${type}] Unpermitted keys: ${diffKeys.join(', ')}`
+          )
+          if (config.onError)
+            config.onError(`${type}.whitelist`, baseKey, diffKeys)
 
           throw error
         } else if (config.whitelist === 'ignore')
@@ -71,8 +84,13 @@ export class Validator {
 
       // default
       if (rule.default)
-        if (type === 'cookie' || type === 'session') this.logger.warn('Cookie and Session not support default rule.'); else if (typeof value === 'undefined' && rule.default) {
-          value = typeof rule.default === 'function' ? rule.default(this.request) : rule.default
+        if (type === 'cookie' || type === 'session')
+          this.logger.warn('Cookie and Session not support default rule.')
+        else if (typeof value === 'undefined' && rule.default) {
+          value =
+            typeof rule.default === 'function'
+              ? rule.default(this.request)
+              : rule.default
           event[key] = value
         }
 
@@ -80,7 +98,8 @@ export class Validator {
       if (rule.required)
         if (typeof value === 'undefined' || value === null) {
           const error = Error(`[${type}] ${baseKey}${key} is required.`)
-          if (config.onError) config.onError(`${type}.rule.required`, `${baseKey}${key}`, value)
+          if (config.onError)
+            config.onError(`${type}.rule.required`, `${baseKey}${key}`, value)
 
           throw error
         }
@@ -88,47 +107,67 @@ export class Validator {
       if (typeof value !== 'undefined' && value !== null) {
         // type
         if (rule.type)
-          if (type === 'cookie') this.logger.warn('Cookie not support type rule'); else {
+          if (type === 'cookie')
+            this.logger.warn('Cookie not support type rule')
+          else {
             let typed = true
             switch (rule.type) {
               case 'array':
                 typed = Array.isArray(value)
                 break
               case 'object':
-                typed = Object.prototype.toString.call(value) === '[object Object]'
+                typed =
+                  Object.prototype.toString.call(value) === '[object Object]'
                 break
               default:
+                // biome-ignore lint/suspicious/useValidTypeof: <explanation>
                 typed = typeof value === rule.type
                 break
             }
 
             if (!typed) {
-              const error = Error(`[${type}] ${baseKey}${key} must be a ${rule.type}.`)
-              if (config.onError) config.onError(`${type}.rule.type`, `${baseKey}${key}`, value)
+              const error = Error(
+                `[${type}] ${baseKey}${key} must be a ${rule.type}.`
+              )
+              if (config.onError)
+                config.onError(`${type}.rule.type`, `${baseKey}${key}`, value)
 
               throw error
             }
           }
 
-
         // in
-        if ((rule.in) && !rule.in.includes(value)) {
-          const error = Error(`[${type}] ${baseKey}${key} must be in ${rule.in.join(', ')}.`)
-          if (config.onError) config.onError(`${type}.rule.in`, `${baseKey}${key}`, value)
+        if (rule.in && !rule.in.includes(value)) {
+          const error = Error(
+            `[${type}] ${baseKey}${key} must be in ${rule.in.join(', ')}.`
+          )
+          if (config.onError)
+            config.onError(`${type}.rule.in`, `${baseKey}${key}`, value)
 
           throw error
         }
 
         // nest config
         if (rule.config)
-          if (type === 'cookie') this.logger.warn('Cookie not support nest rule.'); else
-          if (Array.isArray(value))
-          // array
-
-            for (const val of value) this.validContent(type, val, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig)
+          if (type === 'cookie')
+            this.logger.warn('Cookie not support nest rule.')
+          else if (Array.isArray(value))
+            // array
+            for (const val of value)
+              this.validContent(
+                type,
+                val,
+                baseKey ? `${baseKey}.${key}.` : `${key}.`,
+                rule.config as ValidatorConfig
+              )
           else if (typeof value === 'object')
-          // object
-            this.validContent(type, value, (baseKey ? `${baseKey}.${key}.` : `${key}.`), rule.config as ValidatorConfig)
+            // object
+            this.validContent(
+              type,
+              value,
+              baseKey ? `${baseKey}.${key}.` : `${key}.`,
+              rule.config as ValidatorConfig
+            )
       }
     }
   }

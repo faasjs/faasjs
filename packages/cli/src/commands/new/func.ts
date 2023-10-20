@@ -1,7 +1,5 @@
 import { sep, join } from 'path'
-import {
-  existsSync, mkdirSync, writeFileSync
-} from 'fs'
+import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { Logger } from '@faasjs/logger'
 
 const Plugins: {
@@ -14,28 +12,28 @@ const Plugins: {
   cf: {
     name: '@faasjs/cloud_function',
     kls: 'CloudFunction',
-    key: 'cf'
+    key: 'cf',
   },
   http: {
     name: '@faasjs/http',
     kls: 'Http',
-    key: 'http'
+    key: 'http',
   },
   redis: {
     name: '@faasjs/redis',
     kls: 'Redis',
-    key: 'redis'
+    key: 'redis',
   },
   knex: {
     name: '@faasjs/knex',
     kls: 'Knex',
-    key: 'knex'
+    key: 'knex',
   },
   mongo: {
     name: '@faasjs/mongo',
     kls: 'Mongo',
-    key: 'mongo'
-  }
+    key: 'mongo',
+  },
 }
 
 export default function (name: string, plugins: string[]): void {
@@ -61,18 +59,21 @@ export default function (name: string, plugins: string[]): void {
     return
   }
 
-  let imports = 'import { useFunc } from \'@faasjs/func\';\n'
+  let imports = "import { useFunc } from '@faasjs/func';\n"
   let initials = ''
   const funcPluginNames = []
 
   for (const plugin of plugins) {
     let info = Plugins[plugin.toLowerCase()]
     if (!info) {
-      const kls = plugin.replace(/@[^/]+\//, '').replace('/', '').replace('-', '')
+      const kls = plugin
+        .replace(/@[^/]+\//, '')
+        .replace('/', '')
+        .replace('-', '')
       info = {
         name: plugin,
         kls,
-        key: kls.toLowerCase()
+        key: kls.toLowerCase(),
       }
     }
     imports += `import { use${info.kls} } from '${info.name}';\n`
@@ -81,20 +82,29 @@ export default function (name: string, plugins: string[]): void {
   }
 
   logger.info(`Writing ${join(folder, name)}`)
-  writeFileSync(join(folder, name), `${imports}\nexport default useFunc(function () {
+  writeFileSync(
+    join(folder, name),
+    `${imports}\nexport default useFunc(function () {
 ${initials}
   return async function () {
     // let's code
   }
 });
-`)
+`
+  )
 
-  if (!existsSync(join(folder, '__tests__'))) mkdirSync(join(folder, '__tests__'))
+  if (!existsSync(join(folder, '__tests__')))
+    mkdirSync(join(folder, '__tests__'))
 
-  const testFile = join(folder, '__tests__', name.replace('.func.ts', '.test.ts'))
+  const testFile = join(
+    folder,
+    '__tests__',
+    name.replace('.func.ts', '.test.ts')
+  )
   if (!existsSync(testFile)) {
     logger.info(`Writing ${testFile}`)
-    writeFileSync(testFile,
+    writeFileSync(
+      testFile,
       `import { FuncWarper } from '@faasjs/test';
 
 describe('${name}', function () {
@@ -106,7 +116,8 @@ describe('${name}', function () {
     expect(res).toEqual({});
   });
 });
-`)
+`
+    )
   }
 
   logger.info('Done.')

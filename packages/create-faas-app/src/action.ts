@@ -1,25 +1,26 @@
 import { Command } from 'commander'
 import { prompt } from 'enquirer'
-import {
-  mkdirSync, writeFileSync, existsSync
-} from 'fs'
+import { mkdirSync, writeFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { execSync } from 'child_process'
 
 const Validator = {
-  name (input: string) {
+  name(input: string) {
     const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_'
     if (match !== true) return match
-    if (existsSync(input)) return `${input} folder exists, please try another name`
+    if (existsSync(input))
+      return `${input} folder exists, please try another name`
 
     return true
   },
 }
 
-export async function action (options: {
-  name?: string
-  example?: boolean
-} = {}): Promise<void> {
+export async function action(
+  options: {
+    name?: string
+    example?: boolean
+  } = {}
+): Promise<void> {
   const answers: {
     name?: string
     example?: boolean
@@ -31,7 +32,7 @@ export async function action (options: {
       name: 'value',
       message: 'Project name',
       initial: 'faasjs',
-      validate: Validator.name
+      validate: Validator.name,
     }).then(res => res.value)
 
   if (typeof answers.example === 'undefined')
@@ -39,23 +40,26 @@ export async function action (options: {
       type: 'confirm',
       name: 'value',
       message: 'Add example files',
-      initial: true
+      initial: true,
     }).then(res => res.value)
 
   if (!answers.name) return
 
   mkdirSync(answers.name)
 
-  writeFileSync(join(answers.name, 'faas.yaml'),
+  writeFileSync(
+    join(answers.name, 'faas.yaml'),
     `defaults:
   plugins:
 development:
 testing:
 staging:
 production:
-`)
+`
+  )
 
-  writeFileSync(join(answers.name, 'package.json'),
+  writeFileSync(
+    join(answers.name, 'package.json'),
     `{
   "name": "${answers.name}",
   "version": "0.0.0",
@@ -95,9 +99,12 @@ production:
       "/coverage/"
     ]
   }
-}`)
+}`
+  )
 
-  writeFileSync(join(answers.name, 'tsconfig.json'), `{
+  writeFileSync(
+    join(answers.name, 'tsconfig.json'),
+    `{
   "compilerOptions": {
     "downlevelIteration": true,
     "esModuleInterop": true,
@@ -107,17 +114,22 @@ production:
     "baseUrl": "."
   }
 }
-`)
+`
+  )
 
-  writeFileSync(join(answers.name, '.gitignore'), `node_modules/
+  writeFileSync(
+    join(answers.name, '.gitignore'),
+    `node_modules/
 tmp/
 coverage/
 *.tmp.js
-`)
+`
+  )
 
   mkdirSync(join(answers.name, '.vscode'))
 
-  writeFileSync(join(answers.name, '.vscode', 'settings.json'),
+  writeFileSync(
+    join(answers.name, '.vscode', 'settings.json'),
     `{
   "editor.detectIndentation": true,
   "editor.insertSpaces": true,
@@ -131,21 +143,25 @@ coverage/
   "files.trimTrailingWhitespace": true,
   "eslint.packageManager": "npm"
 }
-`)
+`
+  )
 
-  writeFileSync(join(answers.name, '.vscode', 'extensions.json'),
+  writeFileSync(
+    join(answers.name, '.vscode', 'extensions.json'),
     `{
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "faasjs.faasjs-snippets"
   ]
 }
-`)
+`
+  )
 
   execSync(`cd ${answers.name} && npm install`, { stdio: 'inherit' })
 
   if (answers.example) {
-    writeFileSync(join(answers.name, 'index.func.ts'),
+    writeFileSync(
+      join(answers.name, 'index.func.ts'),
       `import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
 
@@ -156,10 +172,12 @@ export default useFunc(function () {
     return 'Hello, ' + http.params.name
   }
 })
-`)
+`
+    )
 
     mkdirSync(join(answers.name, '__tests__'))
-    writeFileSync(join(answers.name, '__tests__', 'index.test.ts'),
+    writeFileSync(
+      join(answers.name, '__tests__', 'index.test.ts'),
       `import { test } from '@faasjs/test'
 
 describe('hello', function () {
@@ -172,7 +190,8 @@ describe('hello', function () {
     expect(data).toEqual('Hello, world')
   })
 })
-`)
+`
+    )
 
     execSync(`cd ${answers.name} && npm exec jest`, { stdio: 'inherit' })
   }

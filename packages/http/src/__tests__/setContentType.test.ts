@@ -6,24 +6,26 @@ describe('setContentType', function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         http.setContentType(type)
-      }
+      },
     }).export().handler
 
     const res = await handler({})
 
     expect(res.statusCode).toEqual(201)
-    expect(res.headers['Content-Type']).toEqual(`${ContentType[type]}; charset=utf-8`)
+    expect(res.headers['Content-Type']).toEqual(
+      `${ContentType[type]}; charset=utf-8`
+    )
   })
 
   test('set charset', async function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         http.setContentType('type', 'utf-16')
-      }
+      },
     }).export().handler
 
     const res = await handler({})

@@ -1,8 +1,8 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
     "github.copilot",
     "eamodio.gitlens",
-    "faasjs.faasjs-snippets"
+    "faasjs.faasjs-snippets",
+    "biomejs.biome"
   ]
 }

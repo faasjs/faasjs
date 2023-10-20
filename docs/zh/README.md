@@ -105,7 +105,7 @@ npx create-faas-app --name faasjs --example --noprovider
     <a href="https://github.com/zfben" target="_blank">zfben</a>
     <p>FaasJS 基于以下开源项目（按字母排序）</p>
     <a href="https://www.apollographql.com/" target="_blank">Apollo</a>,
-    <a href="https://eslint.org/" target="_blank">ESLint</a>,
+    <a href="https://biomejs.dev/" target="_blank">Biome</a>,
     <a href="https://jestjs.io/" target="_blank">Jest</a>,
     <a href="https://knexjs.org/" target="_blank">Knex</a>,
     <a href="https://nodejs.org/" target="_blank">Node.js</a>,

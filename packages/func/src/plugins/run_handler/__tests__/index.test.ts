@@ -5,9 +5,9 @@ describe('plugins.runHandler', function () {
   test('return result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
-      async handler (data: InvokeData) {
+      async handler(data: InvokeData) {
         return data.event + 1
-      }
+      },
     }).export().handler
 
     expect(await handler(0)).toEqual(1)
@@ -17,9 +17,9 @@ describe('plugins.runHandler', function () {
   test('async return result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
-      async handler (data: InvokeData) {
+      async handler(data: InvokeData) {
         return await Promise.resolve(data.event + 1)
-      }
+      },
     }).export().handler
 
     expect(await handler(0)).toEqual(1)
@@ -29,9 +29,9 @@ describe('plugins.runHandler', function () {
   test('callback result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
-      async handler (data: InvokeData) {
+      async handler(data: InvokeData) {
         data.callback(null, data.event + 1)
-      }
+      },
     }).export().handler
 
     expect(await handler(0)).toEqual(1)
@@ -41,12 +41,12 @@ describe('plugins.runHandler', function () {
   test('async callback result', async function () {
     const handler = new Func({
       plugins: [new RunHandler()],
-      async handler (data: InvokeData) {
+      async handler(data: InvokeData) {
         await new Promise<void>(function (resolve) {
           data.callback(null, data.event + 1)
           resolve()
         })
-      }
+      },
     }).export().handler
 
     expect(await handler(0)).toEqual(1)
@@ -57,10 +57,12 @@ describe('plugins.runHandler', function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
-        async handler () {
+        async handler() {
           throw Error('wrong')
-        }
-      }).export().handler(0)
+        },
+      })
+        .export()
+        .handler(0)
     } catch (error) {
       expect(error).toEqual(Error('wrong'))
     }
@@ -70,10 +72,12 @@ describe('plugins.runHandler', function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
-        async handler () {
+        async handler() {
           return await Promise.reject(Error('wrong'))
-        }
-      }).export().handler(0)
+        },
+      })
+        .export()
+        .handler(0)
     } catch (error) {
       expect(error).toEqual(Error('wrong'))
     }
@@ -83,10 +87,12 @@ describe('plugins.runHandler', function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
-        async handler (data: InvokeData) {
+        async handler(data: InvokeData) {
           data.callback(Error('wrong'))
-        }
-      }).export().handler(0)
+        },
+      })
+        .export()
+        .handler(0)
     } catch (error) {
       expect(error).toEqual(Error('wrong'))
     }
@@ -96,13 +102,15 @@ describe('plugins.runHandler', function () {
     try {
       await new Func({
         plugins: [new RunHandler()],
-        async handler (data: InvokeData) {
+        async handler(data: InvokeData) {
           await new Promise<void>(function (resolve) {
             data.callback(Error('wrong'))
             resolve()
           })
-        }
-      }).export().handler(0)
+        },
+      })
+        .export()
+        .handler(0)
     } catch (error) {
       expect(error).toEqual(Error('wrong'))
     }

@@ -5,26 +5,26 @@ describe('validator/before', function () {
   test('return error', async function () {
     const http = new Http({
       validator: {
-        async before (request) {
-          if (!request.session.read('aid')) 
+        async before(request) {
+          if (!request.session.read('aid'))
             return {
               statusCode: 401,
-              message: '请先登录'
+              message: '请先登录',
             }
-        }
-      }
+        },
+      },
     })
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         return 1
-      }
+      },
     }).export().handler
 
     const res = await handler({
       httpMethod: 'POST',
       headers: {},
-      body: null
+      body: null,
     })
 
     expect(res.statusCode).toEqual(401)
@@ -34,22 +34,22 @@ describe('validator/before', function () {
   test('throw error', async function () {
     const http = new Http({
       validator: {
-        async before () {
+        async before() {
           throw Error('something going wrong')
-        }
-      }
+        },
+      },
     })
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         return 1
-      }
+      },
     }).export().handler
 
     const res = await handler({
       httpMethod: 'POST',
       headers: {},
-      body: null
+      body: null,
     })
 
     expect(res.statusCode).toEqual(500)

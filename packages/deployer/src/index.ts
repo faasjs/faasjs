@@ -11,14 +11,18 @@ export class Deployer {
   public deployData: DeployData
   public func?: Func
 
-  constructor (data: DeployData) {
+  constructor(data: DeployData) {
     data.name = data.filename.replace(data.root, '').replace('.func.ts', '')
-    data.version = new Date().toLocaleString('zh-CN', {
-      hour12: false,
-      timeZone: 'Asia/Shanghai'
-    }).replace(/[^0-9]+/g, '_')
+    data.version = new Date()
+      .toLocaleString('zh-CN', {
+        hour12: false,
+        timeZone: 'Asia/Shanghai',
+      })
+      .replace(/[^0-9]+/g, '_')
     try {
-      data.author = execSync('git config user.name').toString().replace(/\n/g, '')
+      data.author = execSync('git config user.name')
+        .toString()
+        .replace(/\n/g, '')
     } catch (error) {
       data.author = 'Unknown'
     }
@@ -33,7 +37,14 @@ export class Deployer {
 
     if (!data.config) throw Error(`Config load failed: ${data.env}`)
 
-    data.tmp = join(process.cwd(), 'tmp', data.env, data.name, data.version.replace(/_/g, '')) + sep
+    data.tmp =
+      join(
+        process.cwd(),
+        'tmp',
+        data.env,
+        data.name,
+        data.version.replace(/_/g, '')
+      ) + sep
 
     data.tmp.split(sep).reduce(function (acc: string, cur: string) {
       acc += sep + cur
@@ -45,10 +56,10 @@ export class Deployer {
     this.deployData = data
   }
 
-  public async deploy (): Promise<{
-    [key: string]: any;
-    root: string;
-    filename: string;
+  public async deploy(): Promise<{
+    [key: string]: any
+    root: string
+    filename: string
   }> {
     const data = this.deployData
 
@@ -66,12 +77,12 @@ export class Deployer {
     for (let i = 0; i < func.plugins.length; i++) {
       const plugin = func.plugins[i]
       if (!plugin.type)
-        throw Error('[Deployer] Unknown plugin type: ' + plugin.name)
+        throw Error(`[Deployer] Unknown plugin type: ${plugin.name}`)
 
       if (plugin.type === 'cloud_function')
         includedCloudFunction.push({
           index: i,
-          plugin
+          plugin,
         })
     }
 

@@ -15,6 +15,8 @@ test('JSONhandler data', async function () {
 
   expect(res.body).toEqual('{"data":1}')
   expect(res.data).toEqual(1)
+  expect(res.cookie).toMatchObject({ cookie: 'cookie' })
+  expect(res.session).toEqual({ session: 'session' })
 })
 
 test('JSONhandler error', async function () {

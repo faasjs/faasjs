@@ -20,6 +20,7 @@ server.listen()
 ### Properties
 
 - [logger](Server.md#logger)
+- [onError](Server.md#onerror)
 - [opts](Server.md#opts)
 - [root](Server.md#root)
 
@@ -42,6 +43,7 @@ server.listen()
 | `root` | `string` | Project path |
 | `opts?` | `Object` | Options |
 | `opts.cache?` | `boolean` | Enable cache, default is false |
+| `opts.onError?` | (`error`: `Error`) => `void` | - |
 | `opts.port?` | `number` | Port, default is 3000 |
 
 ## Properties
@@ -49,6 +51,26 @@ server.listen()
 ### logger
 
 • `Readonly` **logger**: `Logger`
+
+___
+
+### onError
+
+• `Optional` **onError**: (`error`: `Error`) => `void`
+
+#### Type declaration
+
+▸ (`error`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `error` | `Error` |
+
+##### Returns
+
+`void`
 
 ___
 
@@ -95,14 +117,16 @@ ___
 
 ### processRequest
 
-▸ **processRequest**(`req`, `res`): `Promise`<`void`\>
+▸ **processRequest**(`path`, `req`, `res`, `requestedAt`): `Promise`<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
+| `path` | `string` |
 | `req` | `IncomingMessage` |
 | `res` | `ServerResponse`<`IncomingMessage`\> & { `end`: () => `void` ; `setHeader`: (`key`: `string`, `value`: `string`) => `void` ; `statusCode`: `number` ; `write`: (`body`: `string` \| `Buffer`) => `void`  } |
+| `requestedAt` | `number` |
 
 #### Returns
 

@@ -2,9 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import {
-  ExtendTableItemProps, Table, TableProps
-} from '../../Table'
+import { ExtendTableItemProps, Table, TableProps } from '../../Table'
 
 type ExtendTypes = {
   type: 'password'
@@ -12,54 +10,59 @@ type ExtendTypes = {
 
 describe('Table/extend', () => {
   it('children', function () {
-    function ExtendTable (props: TableProps<any, ExtendTypes>) {
-      return <Table
-        { ...props }
-        extendTypes={ { password: { children: <>***</> } } }
-      />
+    function ExtendTable(props: TableProps<any, ExtendTypes>) {
+      return (
+        <Table {...props} extendTypes={{ password: { children: <>***</> } }} />
+      )
     }
 
-    render(<ExtendTable
-      items={ [
-        {
-          id: 'test',
-          type: 'password'
-        }
-      ] }
-      dataSource={ [
-        {
-          id: 1,
-          test: 'value'
-        }
-      ] }
-    />)
+    render(
+      <ExtendTable
+        items={[
+          {
+            id: 'test',
+            type: 'password',
+          },
+        ]}
+        dataSource={[
+          {
+            id: 1,
+            test: 'value',
+          },
+        ]}
+      />
+    )
 
     expect(screen.getByText('Test')).toBeInTheDocument()
     expect(screen.getByText('***')).toBeInTheDocument()
   })
 
   it('render', function () {
-    function ExtendTable (props: TableProps<any, ExtendTypes>) {
-      return <Table
-        { ...props }
-        extendTypes={ { password: { render: () => '***' } } }
-      />
+    function ExtendTable(props: TableProps<any, ExtendTypes>) {
+      return (
+        <Table
+          {...props}
+          extendTypes={{ password: { render: () => <>***</> } }}
+        />
+      )
     }
 
-    render(<ExtendTable
-      items={ [
-        {
-          id: 'test',
-          type: 'password',
-        }
-      ] }
-      dataSource={ [
-        {
-          id: 1,
-          test: 'value'
-        }
-      ] }
-    />)
+    render(
+      <ExtendTable
+        items={[
+          {
+            id: 'test',
+            type: 'password',
+          },
+        ]}
+        dataSource={[
+          {
+            id: 1,
+            test: 'value',
+          },
+        ]}
+      />
+    )
 
     expect(screen.getByText('Test')).toBeInTheDocument()
     expect(screen.getByText('***')).toBeInTheDocument()

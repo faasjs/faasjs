@@ -83,6 +83,10 @@ ___
 
 • `Optional` **size**: `number`
 
+size of log message, default 1000, set 0 to disable
+
+env: FaasLogSize
+
 ___
 
 ### stderr

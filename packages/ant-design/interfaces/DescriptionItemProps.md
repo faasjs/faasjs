@@ -12,11 +12,15 @@
 
   ↳ **`DescriptionItemProps`**
 
+  ↳↳ [`UnionFaasItemProps`](UnionFaasItemProps.md)
+
 ## Table of contents
 
 ### Properties
 
 - [children](DescriptionItemProps.md#children)
+- [descriptionChildren](DescriptionItemProps.md#descriptionchildren)
+- [descriptionRender](DescriptionItemProps.md#descriptionrender)
 - [id](DescriptionItemProps.md#id)
 - [if](DescriptionItemProps.md#if)
 - [object](DescriptionItemProps.md#object)
@@ -29,7 +33,19 @@
 
 ### children
 
-• `Optional` **children**: `Element`
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+
+___
+
+### descriptionChildren
+
+• `Optional` **descriptionChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+
+___
+
+### descriptionRender
+
+• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
 
 ___
 
@@ -65,7 +81,7 @@ ___
 
 ### object
 
-• `Optional` **object**: [`DescriptionItemProps`](DescriptionItemProps.md)<`any`\>[]
+• `Optional` **object**: [`DescriptionItemProps`](DescriptionItemProps.md)<`T`\>[]
 
 ___
 
@@ -81,22 +97,7 @@ ___
 
 ### render
 
-• `Optional` **render**: (`value`: `T`, `values`: `any`) => `Element`
-
-#### Type declaration
-
-▸ (`value`, `values`): `Element`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `value` | `T` |
-| `values` | `any` |
-
-##### Returns
-
-`Element`
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
 
 ___
 
@@ -118,7 +119,9 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 **`Default`**
 
+```ts
 'string'
+```
 
 #### Inherited from
 

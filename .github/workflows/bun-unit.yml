@@ -9,10 +9,13 @@ on:
       - packages/**
       - .github/workflows/bun-unit.yml
       - package-lock.json
+      - package.json
   pull_request:
     paths:
       - packages/**
+      - .github/workflows/bun-unit.yml
       - package-lock.json
+      - package.json
 
 jobs:
   test:
@@ -43,11 +46,13 @@ jobs:
         ports:
           - 27017:27017
     steps:
-      - uses: actions/checkout@v3
-      - name: Install bun
-        run: |
-          curl https://bun.sh/install | bash
-          /home/runner/.bun/bin/bun install
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - name: Install Dependencies
+        run: rm package-lock.json && bun install
+      - name: Build packages
+        run: bun run turbo build
       - name: Run Tests
-        run: |
-          /home/runner/.bun/bin/bun run jest --ci --silent --forceExit
+        run: bun run test

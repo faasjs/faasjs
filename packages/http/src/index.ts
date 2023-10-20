@@ -1,21 +1,33 @@
 import {
-  Plugin, InvokeData, MountData, DeployData, Next, usePlugin, UseifyPlugin
+  Plugin,
+  InvokeData,
+  MountData,
+  DeployData,
+  Next,
+  usePlugin,
+  UseifyPlugin,
 } from '@faasjs/func'
 import { deepMerge } from '@faasjs/deep_merge'
 import { Logger } from '@faasjs/logger'
 import { Cookie, CookieOptions } from './cookie'
 import { Session, SessionOptions } from './session'
 import {
-  Validator, ValidatorOptions, ValidatorRuleOptions, ValidatorConfig
+  Validator,
+  ValidatorOptions,
+  ValidatorRuleOptions,
+  ValidatorConfig,
 } from './validator'
-import {
-  gzipSync, deflateSync, brotliCompressSync
-} from 'zlib'
+import { gzipSync, deflateSync, brotliCompressSync } from 'zlib'
 
 export {
-  Cookie, CookieOptions,
-  Session, SessionOptions,
-  Validator, ValidatorConfig, ValidatorOptions, ValidatorRuleOptions
+  Cookie,
+  CookieOptions,
+  Session,
+  SessionOptions,
+  Validator,
+  ValidatorConfig,
+  ValidatorOptions,
+  ValidatorRuleOptions,
 }
 
 export const ContentType: {
@@ -28,7 +40,7 @@ export const ContentType: {
   css: 'text/css',
   javascript: 'application/javascript',
   json: 'application/json',
-  jsonp: 'application/javascript'
+  jsonp: 'application/javascript',
 }
 
 export type HttpConfig<
@@ -41,7 +53,17 @@ export type HttpConfig<
   config?: {
     [key: string]: any
     /** POST as default */
-    method?: 'BEGIN' | 'GET' | 'POST' | 'DELETE' | 'HEAD' | 'PUT' | 'OPTIONS' | 'TRACE' | 'PATCH' | 'ANY'
+    method?:
+      | 'BEGIN'
+      | 'GET'
+      | 'POST'
+      | 'DELETE'
+      | 'HEAD'
+      | 'PUT'
+      | 'OPTIONS'
+      | 'TRACE'
+      | 'PATCH'
+      | 'ANY'
     timeout?: number
     /** file relative path as default */
     path?: string
@@ -65,9 +87,9 @@ export class HttpError extends Error {
   public readonly statusCode: number
   public readonly message: string
 
-  constructor ({
+  constructor({
     statusCode,
-    message
+    message,
   }: {
     statusCode?: number
     message: string
@@ -83,10 +105,34 @@ export class HttpError extends Error {
 
 const Name = 'http'
 
-export class Http<TParams extends Record<string, any> = any,
+function deepClone(obj: Record<string, any>) {
+  if (obj === null || typeof obj !== 'object') return obj
+
+  if (Array.isArray(obj)) return JSON.parse(JSON.stringify(obj))
+
+  const clone: Record<string, any> = {}
+
+  for (const key in obj) {
+    // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
+    if (!obj.hasOwnProperty(key)) continue
+
+    if (typeof obj[key] === 'function') {
+      clone[key] = obj[key]
+      continue
+    }
+
+    clone[key] = deepClone(obj[key])
+  }
+
+  return clone
+}
+
+export class Http<
+  TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any
-> implements Plugin {
+> implements Plugin
+{
   public readonly type: string = Name
   public readonly name: string = Name
 
@@ -99,40 +145,51 @@ export class Http<TParams extends Record<string, any> = any,
   public cookie: Cookie<TCookie, TSession>
   public session: Session<TSession, TCookie>
   public config: HttpConfig<TParams, TCookie, TSession>
-  private readonly validatorOptions?: ValidatorConfig<TParams, TCookie, TSession>
+  private readonly validatorOptions?: ValidatorConfig<
+    TParams,
+    TCookie,
+    TSession
+  >
   private response?: Response
   private validator?: Validator<TParams, TCookie, TSession>
 
-  constructor (config?: HttpConfig<TParams, TCookie, TSession>) {
+  constructor(config?: HttpConfig<TParams, TCookie, TSession>) {
     this.name = config?.name || this.type
-    this.config = ((config?.config)) || Object.create(null)
-    if ((config?.validator)) this.validatorOptions = config.validator
+    this.config = config?.config || Object.create(null)
+    if (config?.validator) this.validatorOptions = config.validator
   }
 
-  public async onDeploy (data: DeployData, next: Next): Promise<void> {
+  public async onDeploy(data: DeployData, next: Next): Promise<void> {
     data.dependencies['@faasjs/http'] = '*'
 
     await next()
 
     const logger = new Logger(this.name)
-    logger.debug('Generate api gateway\'s config')
+    logger.debug("Generate api gateway's config")
     logger.debug('%j', data)
 
-    const config = data.config.plugins ?
-      deepMerge(data.config.plugins[this.name || this.type], { config: this.config }) :
-      { config: this.config }
+    const config = data.config.plugins
+      ? deepMerge(data.config.plugins[this.name || this.type], {
+          config: this.config,
+        })
+      : { config: this.config }
 
     // generate path from file path
     if (!config.config.path) {
-      config.config.path = '/' + data.name?.replace(/_/g, '/').replace(/\/index$/, '')
+      config.config.path = `/${data.name
+        ?.replace(/_/g, '/')
+        .replace(/\/index$/, '')}`
       if (config.config.path === '/index') config.config.path = '/'
       if (config.config.ignorePathPrefix) {
-        config.config.path = config.config.path.replace(new RegExp('^' + config.config.ignorePathPrefix), '')
+        config.config.path = config.config.path.replace(
+          new RegExp(`^${config.config.ignorePathPrefix}`),
+          ''
+        )
         if (config.config.path === '') config.config.path = '/'
       }
     }
 
-    logger.debug('Api gateway\'s config: %j', config)
+    logger.debug("Api gateway's config: %j", config)
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Provider = require(config.provider.type).Provider
@@ -141,7 +198,7 @@ export class Http<TParams extends Record<string, any> = any,
     await provider.deploy(this.type, data, config)
   }
 
-  public async onMount (data: MountData, next: Next): Promise<void> {
+  public async onMount(data: MountData, next: Next): Promise<void> {
     data.logger.debug('[onMount] merge config')
 
     const prefix = `SECRET_${this.name.toUpperCase()}_`
@@ -158,43 +215,67 @@ export class Http<TParams extends Record<string, any> = any,
             config = config[k]
           })
           config[keys[keys.length - 1]] = value
-        } else
-          this.config[key] = value
+        } else this.config[key] = value
       }
 
-    if (data.config.plugins && data.config.plugins[this.name || this.type])
-      this.config = deepMerge(this.config, data.config.plugins[this.name || this.type].config)
+    if (data.config.plugins?.[this.name || this.type])
+      this.config = deepMerge(
+        this.config,
+        data.config.plugins[this.name || this.type].config
+      )
 
     data.logger.debug('[onMount] prepare cookie & session')
-    this.cookie = new Cookie(this.config.cookie || {})
+    this.cookie = new Cookie(this.config.cookie || {}, data.logger)
     this.session = this.cookie.session
 
     if (this.validatorOptions) {
       data.logger.debug('[onMount] prepare validator')
-      this.validator = new Validator<TParams, TCookie, TSession>(this.validatorOptions)
+      this.validator = new Validator<TParams, TCookie, TSession>(
+        this.validatorOptions
+      )
     }
 
     await next()
   }
 
-  public async onInvoke (data: InvokeData, next: Next): Promise<void> {
+  public async onInvoke(data: InvokeData, next: Next): Promise<void> {
     this.headers = data.event.headers || Object.create(null)
     this.body = data.event.body
     this.params = data.event.queryString || Object.create(null)
     this.response = { headers: Object.create(null) }
 
     if (data.event.body) {
-      if (this.headers['content-type']?.includes('application/json')) {
+      if (
+        this.headers['content-type']?.includes('application/json') &&
+        typeof data.event.body === 'string' &&
+        data.event.body.length > 1
+      ) {
         data.logger.debug('[onInvoke] Parse params from json body')
-        this.params = Object.assign(this.params, JSON.parse(data.event.body))
+        try {
+          this.params = Object.keys(this.params).length
+            ? Object.assign(this.params, JSON.parse(data.event.body))
+            : JSON.parse(data.event.body)
+        } catch (error: any) {
+          data.logger.error(
+            '[onInvoke] Parse params from json body failed: %s',
+            error.message
+          )
+        }
       } else {
         data.logger.debug('[onInvoke] Parse params from raw body')
         this.params = data.event.body || Object.create(null)
       }
+
+      if (this.params && typeof this.params === 'object' && this.params._)
+        delete (this.params as Record<string, any>)._
+
+      data.event.params = deepClone(this.params)
+
       data.logger.debug('[onInvoke] Params: %j', this.params)
     }
 
-    this.cookie.invoke(this.headers.cookie)
+    this.cookie.invoke(this.headers.cookie, data.logger)
+
     if (this.headers.cookie) {
       data.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
       data.logger.debug('[onInvoke] Session: %j', this.session.content)
@@ -204,12 +285,15 @@ export class Http<TParams extends Record<string, any> = any,
       if (this.validator) {
         data.logger.debug('[onInvoke] Valid request')
 
-        await this.validator.valid({
-          headers: this.headers,
-          params: this.params,
-          cookie: this.cookie,
-          session: this.session,
-        }, data.logger)
+        await this.validator.valid(
+          {
+            headers: this.headers,
+            params: this.params,
+            cookie: this.cookie,
+            session: this.session,
+          },
+          data.logger
+        )
       }
       await next()
     } catch (error) {
@@ -221,30 +305,43 @@ export class Http<TParams extends Record<string, any> = any,
 
     // generate body
     if (data.response)
-      // generate error response
-      if (data.response instanceof Error || data.response.constructor?.name === 'Error') {
+      if (
+        data.response instanceof Error ||
+        data.response.constructor?.name === 'Error'
+      ) {
+        // generate error response
         data.logger.error(data.response)
-        this.response.body = JSON.stringify({ error: { message: data.response.message } })
+        this.response.body = JSON.stringify({
+          error: { message: data.response.message },
+        })
         try {
           this.response.statusCode = data.response.statusCode || 500
         } catch (error) {
           this.response.statusCode = 500
         }
-      } else if (Object.prototype.toString.call(data.response) === '[object Object]' && data.response.statusCode && data.response.headers)
+      } else if (
+        Object.prototype.toString.call(data.response) === '[object Object]' &&
+        data.response.statusCode &&
+        data.response.headers
+      )
         // for directly response
         this.response = data.response
-      else
-        this.response.body = JSON.stringify({ data: data.response })
+      else this.response.body = JSON.stringify({ data: data.response })
 
     // generate statusCode
     if (!this.response.statusCode)
       this.response.statusCode = this.response.body ? 200 : 201
 
     // generate headers
-    this.response.headers = Object.assign({
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-cache, no-store'
-    }, this.cookie.headers(), this.response.headers)
+    this.response.headers = Object.assign(
+      {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-cache, no-store',
+        'X-FaasJS-Request-Id': data.logger.label,
+      },
+      this.cookie.headers(),
+      this.response.headers
+    )
 
     data.response = Object.assign({}, data.response, this.response)
 
@@ -252,7 +349,11 @@ export class Http<TParams extends Record<string, any> = any,
     data.response.originBody = originBody
 
     // convert response body to string
-    if (originBody && !data.response.isBase64Encoded && typeof originBody !== 'string')
+    if (
+      originBody &&
+      !data.response.isBase64Encoded &&
+      typeof originBody !== 'string'
+    )
       data.response.body = JSON.stringify(originBody)
 
     // determine if the body needs to be compressed
@@ -261,9 +362,11 @@ export class Http<TParams extends Record<string, any> = any,
       data.response.isBase64Encoded ||
       typeof data.response.body !== 'string' ||
       data.response.body.length < 1024
-    ) return
+    )
+      return
 
-    const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding']
+    const acceptEncoding =
+      this.headers['accept-encoding'] || this.headers['Accept-Encoding']
     if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
 
     try {
@@ -292,7 +395,10 @@ export class Http<TParams extends Record<string, any> = any,
    * @param key {string} key
    * @param value {*} value
    */
-  public setHeader (key: string, value: string): Http<TParams, TCookie, TSession> {
+  public setHeader(
+    key: string,
+    value: string
+  ): Http<TParams, TCookie, TSession> {
     this.response.headers[key] = value
     return this
   }
@@ -302,11 +408,13 @@ export class Http<TParams extends Record<string, any> = any,
    * @param type {string} 类型
    * @param charset {string} 编码
    */
-  public setContentType (type: string, charset: string = 'utf-8'): Http<TParams, TCookie, TSession> {
+  public setContentType(
+    type: string,
+    charset = 'utf-8'
+  ): Http<TParams, TCookie, TSession> {
     if (ContentType[type])
       this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`)
-    else
-      this.setHeader('Content-Type', `${type}; charset=${charset}`)
+    else this.setHeader('Content-Type', `${type}; charset=${charset}`)
     return this
   }
 
@@ -314,7 +422,7 @@ export class Http<TParams extends Record<string, any> = any,
    * set status code
    * @param code {number} 状态码
    */
-  public setStatusCode (code: number): Http<TParams, TCookie, TSession> {
+  public setStatusCode(code: number): Http<TParams, TCookie, TSession> {
     this.response.statusCode = code
     return this
   }
@@ -323,18 +431,18 @@ export class Http<TParams extends Record<string, any> = any,
    * set body
    * @param body {*} 内容
    */
-  public setBody (body: string): Http<TParams, TCookie, TSession> {
+  public setBody(body: string): Http<TParams, TCookie, TSession> {
     this.response.body = body
     return this
   }
 }
 
-export function useHttp<TParams extends Record<string, any> = any,
+export function useHttp<
+  TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any
-> (
-  config?: HttpConfig<TParams, TCookie, TSession>):
-  UseifyPlugin<Http<TParams, TCookie, TSession>>
-{
+>(
+  config?: HttpConfig<TParams, TCookie, TSession>
+): UseifyPlugin<Http<TParams, TCookie, TSession>> {
   return usePlugin(new Http<TParams, TCookie, TSession>(config))
 }

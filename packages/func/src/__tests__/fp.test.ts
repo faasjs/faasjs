@@ -1,6 +1,4 @@
-import {
-  Plugin, useFunc, usePlugin, InvokeData, Next, MountData
-} from '..'
+import { Plugin, useFunc, usePlugin, InvokeData, Next, MountData } from '..'
 
 describe('fp', function () {
   it('should work', async function () {
@@ -8,18 +6,18 @@ describe('fp', function () {
       public readonly type = 'P'
       public readonly name = 'P'
 
-      public async onInvoke (data: InvokeData, next: Next) {
+      public async onInvoke(data: InvokeData, next: Next) {
         data.event.counter++
         await next()
       }
 
-      public async onMount (data: MountData, next: Next) {
+      public async onMount(data: MountData, next: Next) {
         data.event.counter++
         await next()
       }
     }
 
-    function useDemoPlugin () {
+    function useDemoPlugin() {
       const p = new DemoPlugin()
       usePlugin(p)
       return p
@@ -63,20 +61,22 @@ describe('fp', function () {
       public readonly name = 'P'
       private key: string
 
-      constructor ({ key }: {
+      constructor({
+        key,
+      }: {
         key: string
       }) {
         this.key = key
       }
 
-      public async onInvoke (data: InvokeData, next: Next) {
+      public async onInvoke(data: InvokeData, next: Next) {
         if (!data.event[this.key]) data.event[this.key] = 0
         data.event[this.key]++
         await next()
       }
     }
 
-    function useDemoPlugin (config: { key: string }) {
+    function useDemoPlugin(config: { key: string }) {
       const p = new DemoPlugin(config)
       usePlugin(p)
       return p
@@ -109,13 +109,15 @@ describe('fp', function () {
       public readonly name = 'A'
       private key: string
 
-      constructor ({ key }: {
+      constructor({
+        key,
+      }: {
         key: string
       }) {
         this.key = key
       }
 
-      public async onInvoke (data: InvokeData, next: Next) {
+      public async onInvoke(data: InvokeData, next: Next) {
         if (!data.event[this.key]) data.event[this.key] = 0
         data.event[this.key]++
         await next()
@@ -127,26 +129,28 @@ describe('fp', function () {
       public readonly name = 'B'
       private key: string
 
-      constructor ({ key }: {
+      constructor({
+        key,
+      }: {
         key: string
       }) {
         this.key = key
       }
 
-      public async onInvoke (data: InvokeData, next: Next) {
+      public async onInvoke(data: InvokeData, next: Next) {
         if (!data.event[this.key]) data.event[this.key] = 0
         data.event[this.key]++
         await next()
       }
     }
 
-    function useA (config: { key: string }) {
+    function useA(config: { key: string }) {
       const p = new A(config)
       usePlugin(p)
       return p
     }
 
-    function useB (config: { key: string }) {
+    function useB(config: { key: string }) {
       const p = new B(config)
       usePlugin(p)
       return p

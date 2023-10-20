@@ -17,6 +17,7 @@
 
 - [config](Cookie.md#config)
 - [content](Cookie.md#content)
+- [logger](Cookie.md#logger)
 - [session](Cookie.md#session)
 
 ### Methods
@@ -30,7 +31,7 @@
 
 ### constructor
 
-• **new Cookie**<`C`, `S`\>(`config`)
+• **new Cookie**<`C`, `S`\>(`config`, `logger?`)
 
 #### Type parameters
 
@@ -44,6 +45,7 @@
 | Name | Type |
 | :------ | :------ |
 | `config` | [`CookieOptions`](../#cookieoptions) |
+| `logger?` | `Logger` |
 
 ## Properties
 
@@ -71,6 +73,12 @@ ___
 
 ___
 
+### logger
+
+• **logger**: `Logger`
+
+___
+
 ### session
 
 • **session**: [`Session`](Session.md)<`S`, `C`\>
@@ -93,13 +101,14 @@ ___
 
 ### invoke
 
-▸ **invoke**(`cookie`): [`Cookie`](Cookie.md)<`C`, `S`\>
+▸ **invoke**(`cookie`, `logger`): [`Cookie`](Cookie.md)<`C`, `S`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `cookie` | `string` |
+| `logger` | `Logger` |
 
 #### Returns
 

@@ -6,9 +6,9 @@ describe('setBody', function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         http.setBody('body')
-      }
+      },
     }).export().handler
 
     const res = await handler({})

@@ -1,6 +1,4 @@
-import {
-  Redis, useRedis, query, get, set, setJSON, getJSON
-} from '../index'
+import { Redis, useRedis, query, get, set, setJSON, getJSON } from '../index'
 import { Func, useFunc } from '@faasjs/func'
 
 describe('redis', function () {
@@ -13,10 +11,10 @@ describe('redis', function () {
 
     const func = new Func({
       plugins: [redis],
-      async handler () {
+      async handler() {
         await redis.query('set', ['key', 'value'])
         return redis.query('get', ['key'])
-      }
+      },
     })
 
     const handler = func.export().handler
@@ -31,10 +29,10 @@ describe('redis', function () {
 
     const func = new Func({
       plugins: [redis],
-      async handler () {
+      async handler() {
         await redis.query('set', ['key', 'value'])
         return redis.query('get', ['key'])
-      }
+      },
     })
 
     const handler = func.export().handler
@@ -63,15 +61,17 @@ describe('redis', function () {
 
     const func = new Func({
       plugins: [redis],
-      async handler () {
+      async handler() {
         await redis.query('wrong', [])
-      }
+      },
     })
 
     try {
       await func.export().handler({})
     } catch (error: any) {
-      expect(error.message).toEqual('ERR unknown command \'wrong\', with args beginning with: ')
+      expect(error.message).toEqual(
+        "ERR unknown command 'wrong', with args beginning with: "
+      )
     }
   })
 
@@ -80,10 +80,10 @@ describe('redis', function () {
 
     const func = new Func({
       plugins: [redis],
-      async handler () {
+      async handler() {
         await redis.set('key', 'value')
         return redis.get('key')
-      }
+      },
     })
 
     expect(await func.export().handler({})).toEqual('value')
@@ -107,10 +107,10 @@ describe('redis', function () {
 
     const func = new Func({
       plugins: [redis],
-      async handler () {
+      async handler() {
         await redis.setJSON('key', {})
         return redis.getJSON('key')
-      }
+      },
     })
 
     expect(await func.export().handler({})).toEqual({})
@@ -134,7 +134,7 @@ describe('redis', function () {
 
     const func = new Func({
       plugins: [redis],
-      async handler () {
+      async handler() {
         await redis.set('key', 'value', { EX: 1 })
         await redis.set('key', 'value', { PX: 1 })
         await redis.set('key', 'value', { EXAT: 1 })
@@ -144,9 +144,60 @@ describe('redis', function () {
         await redis.set('key', 'value', { XX: true })
         await redis.set('key', 'value', { GET: true })
         return redis.get('key')
-      }
+      },
     })
 
     expect(await func.export().handler({})).toEqual('value')
+  })
+
+  it('multi', async function () {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler() {
+        await redis.multi().set('key', 'value').exec()
+
+        return redis.get('key')
+      },
+    })
+
+    expect(await func.export().handler({})).toEqual('value')
+  })
+
+  it('pipeline', async function () {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler() {
+        await redis.pipeline().set('key', 'value').exec()
+
+        return redis.get('key')
+      },
+    })
+
+    expect(await func.export().handler({})).toEqual('value')
+  })
+
+  it('lock', async () => {
+    const redis = new Redis()
+
+    const func = new Func({
+      plugins: [redis],
+      async handler() {
+        return await redis.lock('key')
+      },
+    }).export().handler
+
+    await func({})
+
+    expect(async () => await func({})).rejects.toThrow(
+      Error('[redis] lock failed: key')
+    )
+
+    await redis.unlock('key')
+
+    expect(await func({})).toBeUndefined()
   })
 })

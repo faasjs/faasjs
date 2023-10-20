@@ -4,18 +4,27 @@
 
 ### Properties
 
+- [block](LinkProps.md#block)
 - [button](LinkProps.md#button)
 - [children](LinkProps.md#children)
+- [copyable](LinkProps.md#copyable)
 - [href](LinkProps.md#href)
+- [onClick](LinkProps.md#onclick)
 - [style](LinkProps.md#style)
 - [target](LinkProps.md#target)
 - [text](LinkProps.md#text)
 
 ## Properties
 
+### block
+
+• `Optional` **block**: `boolean`
+
+___
+
 ### button
 
-• `Optional` **button**: `Partial`<{} & `BaseButtonProps` & `Omit`<`AnchorHTMLAttributes`<`any`\>, ``"type"`` \| ``"onClick"``\> & {} & `Omit`<`ButtonHTMLAttributes`<`any`\>, ``"type"`` \| ``"onClick"``\>\>
+• `Optional` **button**: `ButtonProps`
 
 ___
 
@@ -25,9 +34,37 @@ ___
 
 ___
 
+### copyable
+
+• `Optional` **copyable**: `boolean`
+
+only use for text without button
+
+___
+
 ### href
 
 • **href**: `string`
+
+___
+
+### onClick
+
+• `Optional` **onClick**: (`event`: `MouseEvent`<`HTMLElement`, `MouseEvent`\>) => `void`
+
+#### Type declaration
+
+▸ (`event`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `event` | `MouseEvent`<`HTMLElement`, `MouseEvent`\> |
+
+##### Returns
+
+`void`
 
 ___
 
@@ -39,7 +76,7 @@ ___
 
 ### target
 
-• `Optional` **target**: `string`
+• `Optional` **target**: ``"_blank"``
 
 ___
 

@@ -38,11 +38,15 @@ FaasJS has built-in automated testing tools to facilitate developers to automate
 
 FaasJS has a simple and easy-to-use plug-in mechanism that allows developers to extend functions and plugins freely.
 
-## Get Started
+## Quickstart
 
 ```bash
 npx create-faas-app --name faasjs --example --noprovider
 ```
+
+## Playground
+
+[Fork and open in codespace or your computer.](https://github.com/faasjs/starter)
 
 ### Cloud function's file
 

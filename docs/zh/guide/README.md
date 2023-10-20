@@ -27,7 +27,7 @@ FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 12.x
 
 ### package.json
 
-这是 Node.js 的项目配置，主要包含了依赖项、EsLint 配置和 Jest 配置。
+这是 Node.js 的项目配置，主要包含了依赖项和 Jest 配置。
 
 ### tsconfig.json
 

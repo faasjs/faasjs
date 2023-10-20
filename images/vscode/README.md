@@ -8,7 +8,7 @@
 
 - Base on `node:current-alpine` with tiny image size and latest node version.
 - Includes latest npm version.
-- Includes `ohmyzsh` with `git`、`yarn` and [`npm 插件`](https://github.com/zfben/zsh-npm) plugins.
+- Includes `ohmyzsh` with `git`、`yarn` and [`npm`](https://github.com/zfben/zsh-npm) plugins.
 
 ## Before you use
 

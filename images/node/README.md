@@ -6,7 +6,7 @@
 
 ## Features
 
-- Base on `node:current-alpine` with tiny image size and latest node version.
+- Base on `node:lts-alpine` with tiny image size and node lts version.
 
 ## Usage
 

@@ -15,4 +15,9 @@ dist
 .turbo
 .swc
 docs/doc
+docs/*.md
+!docs/README.md
+.turbo
+output.txt
+*.tmp
 bun.lockb

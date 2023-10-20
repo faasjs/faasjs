@@ -14,15 +14,19 @@ jest.mock('@faasjs/request', function () {
                   ServiceSet: [
                     {
                       ServiceName: 'testing',
-                      ServiceId: 'serviceId'
-                    }
-                  ]
-                }
-              }
-            }
+                      ServiceId: 'serviceId',
+                    },
+                  ],
+                },
+              },
+            },
           })
         case 'DescribeApisStatus':
-          return Promise.resolve({ body: { Response: { Result: { ApiIdStatusSet: [{ Path: '=/' }] } } } })
+          return Promise.resolve({
+            body: {
+              Response: { Result: { ApiIdStatusSet: [{ Path: '=/' }] } },
+            },
+          })
         case 'DescribeApi':
           return Promise.resolve({
             body: {
@@ -33,17 +37,19 @@ jest.mock('@faasjs/request', function () {
                   ServiceScfFunctionName: 'http',
                   ServiceScfFunctionNamespace: 'testing',
                   ServiceScfFunctionQualifier: 'testing',
-                  RequestConfig: { Method: 'POST' }
-                }
-              }
-            }
+                  RequestConfig: { Method: 'POST' },
+                },
+              },
+            },
           })
         case 'ReleaseService':
           return Promise.resolve({ body: { Response: {} } })
         default:
-          return Promise.resolve({ body: { Response: { Error: 'Unknown mock' } } })
+          return Promise.resolve({
+            body: { Response: { Error: 'Unknown mock' } },
+          })
       }
-    }
+    },
   }
 })
 
@@ -52,31 +58,35 @@ test('update', async function () {
     appId: 'appId',
     secretId: 'secretId',
     secretKey: 'secretKey',
-    region: 'region'
+    region: 'region',
   })
 
-  await tc.deploy('http', {
-    root: __dirname,
-    filename: join(__dirname, '..', '..', 'funcs', 'http.func.ts'),
-    env: 'testing',
-    name: 'http',
-    version: 'version',
-    tmp: join(__dirname, '..', 'tmp', 'first') + sep,
-    dependencies: { '@faasjs/func': '*' },
-    config: {}
-  }, {
-    name: 'http',
-    provider: {
-      type: '@faasjs/tencentcloud',
-      name: 'tencentcloud',
-      config: {
-        secretId: 'secretId',
-        secretKey: 'secretKey',
-        region: 'region'
-      }
+  await tc.deploy(
+    'http',
+    {
+      root: __dirname,
+      filename: join(__dirname, '..', '..', 'funcs', 'http.func.ts'),
+      env: 'testing',
+      name: 'http',
+      version: 'version',
+      tmp: join(__dirname, '..', 'tmp', 'first') + sep,
+      dependencies: { '@faasjs/func': '*' },
+      config: {},
     },
-    config: { path: '/' }
-  })
+    {
+      name: 'http',
+      provider: {
+        type: '@faasjs/tencentcloud',
+        name: 'tencentcloud',
+        config: {
+          secretId: 'secretId',
+          secretKey: 'secretKey',
+          region: 'region',
+        },
+      },
+      config: { path: '/' },
+    }
+  )
 
   expect(true).toBeTruthy()
 })

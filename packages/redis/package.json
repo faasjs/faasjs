@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/redis",
-  "version": "0.0.3-beta.16",
+  "version": "0.0.4-beta.5",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,23 +15,25 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --format esm,cjs",
-    "build:types": "tsup-node src/index.ts --dts-only"
+    "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
   "files": [
     "dist"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "^0.0.3-beta.16",
-    "@faasjs/func": "^0.0.3-beta.16",
-    "@faasjs/logger": "^0.0.3-beta.16",
+    "@faasjs/deep_merge": "0.0.4-beta.5",
+    "@faasjs/func": "0.0.4-beta.5",
+    "@faasjs/logger": "0.0.4-beta.5"
+  },
+  "peerDependencies": {
     "ioredis": "*"
   },
   "devDependencies": {
-    "@types/ioredis": "*"
+    "@types/ioredis": "*",
+    "ioredis": "*"
   },
   "engines": {
-    "npm": ">=8.0.0",
-    "node": ">=16.0.0"
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
   }
 }

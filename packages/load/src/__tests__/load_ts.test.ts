@@ -19,7 +19,7 @@ describe('loadTs', function () {
   test('modules', async function () {
     const res = await loadTs(require.resolve('./extend.ts'), {
       tmp: true,
-      modules: { additions: ['@faasjs/load'] }
+      modules: { additions: ['@faasjs/load'] },
     })
 
     expect(res.modules).toEqual({})

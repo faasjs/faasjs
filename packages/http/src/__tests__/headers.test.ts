@@ -6,9 +6,9 @@ describe('params', function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         return http.headers
-      }
+      },
     }).export().handler
 
     const res = await handler({})
@@ -21,9 +21,9 @@ describe('params', function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         return http.headers
-      }
+      },
     }).export().handler
 
     const res = await handler({ headers: { key: 'value' } })

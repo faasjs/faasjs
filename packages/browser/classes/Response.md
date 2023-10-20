@@ -35,7 +35,7 @@ new Response({
 
 ### constructor
 
-• **new Response**<`T`\>(`«destructured»`)
+• **new Response**<`T`\>(`props`)
 
 #### Type parameters
 
@@ -47,11 +47,11 @@ new Response({
 
 | Name | Type |
 | :------ | :------ |
-| `«destructured»` | `Object` |
-| › `body?` | `any` |
-| › `data?` | `T` |
-| › `headers` | [`ResponseHeaders`](../#responseheaders) |
-| › `status` | `number` |
+| `props` | `Object` |
+| `props.body?` | `any` |
+| `props.data?` | `T` |
+| `props.headers?` | [`ResponseHeaders`](../#responseheaders) |
+| `props.status?` | `number` |
 
 ## Properties
 

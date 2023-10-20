@@ -111,7 +111,7 @@ Plugin.type
 | :------ | :------ | :------ |
 | `name` | `string` | {string} 云函数文件名或云函数名 |
 | `data?` | `TData` | {any} 参数 |
-| `options?` | `Object` | {object} 额外配置项 |
+| `options?` | `Record`<`string`, `any`\> | {object} 额外配置项 |
 
 #### Returns
 
@@ -138,7 +138,7 @@ ___
 | :------ | :------ | :------ |
 | `name` | `string` | {string} 云函数文件名或云函数名 |
 | `data?` | `TData` | {any} 参数 |
-| `options?` | `Object` | {object} 额外配置项 |
+| `options?` | `Record`<`string`, `any`\> | {object} 额外配置项 |
 
 #### Returns
 
@@ -175,7 +175,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `InvokeData`<`any`, `any`, `any`\> |
+| `data` | `InvokeData` |
 | `next` | `Next` |
 
 #### Returns

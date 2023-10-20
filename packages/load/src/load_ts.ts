@@ -3,9 +3,7 @@ import { readFileSync, unlinkSync } from 'fs'
 import { rollup } from 'rollup/dist/rollup.js'
 import type { Plugin } from 'rollup'
 import { Func } from '@faasjs/func'
-import {
-  join, sep, dirname
-} from 'path'
+import { join, sep, dirname } from 'path'
 import { bundle, NodeBuiltinModules } from '@faasjs/ts-transform'
 
 const FaasPackages = [
@@ -25,7 +23,7 @@ const FaasPackages = [
 ]
 
 // TODO: remove this when node fixed https://github.com/nodejs/node/issues/33460
-function resolveModuleBasePath (moduleName: string) {
+function resolveModuleBasePath(moduleName: string) {
   const moduleMainFilePath = require.resolve(moduleName)
 
   const moduleNameParts = moduleName.split('/')
@@ -44,15 +42,21 @@ function resolveModuleBasePath (moduleName: string) {
 
   if (lastIndex === -1) {
     console.log(searchForPathSection, moduleMainFilePath)
-    throw new Error(`Couldn't resolve the base path of "${moduleName}". Searched inside the resolved main file path "${moduleMainFilePath}" using "${searchForPathSection}"`)
+    throw new Error(
+      `Couldn't resolve the base path of "${moduleName}". Searched inside the resolved main file path "${moduleMainFilePath}" using "${searchForPathSection}"`
+    )
   }
 
   return moduleMainFilePath.slice(0, lastIndex + searchForPathSection.length)
 }
 
-function findModule (list: any, key: string, options: {
-  excludes?: string[]
-} = { excludes: [] }) {
+function findModule(
+  list: any,
+  key: string,
+  options: {
+    excludes?: string[]
+  } = { excludes: [] }
+) {
   if (list[key]) return
 
   if (key.startsWith('@types/') || options.excludes.includes(key)) return
@@ -71,16 +75,19 @@ function findModule (list: any, key: string, options: {
   if (!list[key]) return
 
   // get package's dependencies
-  const pkg = JSON.parse(readFileSync(join(list[key], 'package.json')).toString())
-  const deps = Object.keys(pkg.dependencies || {}).concat(Object.keys(pkg.peerDependencies || {}))
+  const pkg = JSON.parse(
+    readFileSync(join(list[key], 'package.json')).toString()
+  )
+  const deps = Object.keys(pkg.dependencies || {}).concat(
+    Object.keys(pkg.peerDependencies || {})
+  )
 
   // remove optional dependencies
   if (pkg.peerDependenciesMeta) {
     Object.keys(pkg.peerDependenciesMeta).forEach(key => {
       if (pkg.peerDependenciesMeta[key].optional) {
         const index = deps.indexOf(key)
-        if (index >= 0)
-          deps.splice(index, 1)
+        if (index >= 0) deps.splice(index, 1)
       }
     })
   }
@@ -89,15 +96,15 @@ function findModule (list: any, key: string, options: {
   deps.map(d => findModule(list, d, options))
 }
 
-function swc (externalModules: string[]): Plugin {
+function swc(externalModules: string[]): Plugin {
   return {
     name: 'swc',
-    async transform (code, filename) {
+    async transform(code, filename) {
       return bundle({
         filename,
-        externalModules
+        externalModules,
       })
-    }
+    },
   }
 }
 
@@ -112,38 +119,47 @@ function swc (externalModules: string[]): Plugin {
  * @param options.modules {object} 生成 modules 的配置
  * @param options.modules.excludes {string[]} modules 中需排除的模块
  */
-export async function loadTs (filename: string, options: {
-  input?: {
-    [key: string]: any
-  }
-  output?: {
-    [key: string]: any
-  }
-  tmp?: boolean
-  modules?: {
-    excludes?: string[]
-    additions?: string[]
-  }
-} = Object.create(null)): Promise<{
-    module?: Func
-    dependencies: {
-      [key: string]: string
+export async function loadTs(
+  filename: string,
+  options: {
+    input?: {
+      [key: string]: any
     }
+    output?: {
+      [key: string]: any
+    }
+    tmp?: boolean
     modules?: {
-      [key: string]: string
+      excludes?: string[]
+      additions?: string[]
     }
-  }> {
+  } = Object.create(null)
+): Promise<{
+  module?: Func
+  dependencies: {
+    [key: string]: string
+  }
+  modules?: {
+    [key: string]: string
+  }
+}> {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`)
-  const external = PackageJSON.dependencies ? Object.keys(PackageJSON.dependencies) : []
-  if ((options.modules) && (options.modules.excludes == null)) options.modules.excludes = []
+  const external = PackageJSON.dependencies
+    ? Object.keys(PackageJSON.dependencies)
+    : []
+  if (options.modules && options.modules.excludes == null)
+    options.modules.excludes = []
 
-  const input = deepMerge({
-    input: filename,
-    external,
-    plugins: [swc(external.concat(FaasPackages))],
-    onwarn: () => null as any
-  }, (options.input) || {})
+  const input = deepMerge(
+    {
+      input: filename,
+      external,
+      plugins: [swc(external.concat(FaasPackages))],
+      onwarn: () => null as any,
+    },
+    options.input || {}
+  )
 
   const bundle = await rollup(input)
 
@@ -155,13 +171,17 @@ export async function loadTs (filename: string, options: {
         !d.startsWith('/') &&
         !dependencies[d] &&
         !NodeBuiltinModules.includes(d)
-      ) dependencies[d] = '*'
+      )
+        dependencies[d] = '*'
 
-  const output = deepMerge({
-    file: filename + '.tmp.js',
-    format: 'cjs',
-    exports: 'auto'
-  }, (options.output) || {})
+  const output = deepMerge(
+    {
+      file: `${filename}.tmp.js`,
+      format: 'cjs',
+      exports: 'auto',
+    },
+    options.output || {}
+  )
 
   await bundle.write(output)
 
@@ -179,7 +199,9 @@ export async function loadTs (filename: string, options: {
 
     Object.keys(dependencies).map(d => findModule(modules, d, options.modules))
     if (options.modules.additions)
-      options.modules.additions.map(d => findModule(modules, d, options.modules))
+      options.modules.additions.map(d =>
+        findModule(modules, d, options.modules)
+      )
 
     result.modules = modules
   }

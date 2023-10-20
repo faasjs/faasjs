@@ -3,6 +3,7 @@
     "declaration": true,
     "declarationMap": true,
     "strict": true,
+    "skipLibCheck": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
     "strictNullChecks": false,
@@ -13,6 +14,7 @@
     "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
-    }
+    },
+    "types": ["node", "jest", "@testing-library/jest-dom"]
   }
 }

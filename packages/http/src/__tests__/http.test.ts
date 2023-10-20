@@ -6,14 +6,14 @@ describe('http', function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         return 1
-      }
+      },
     }).export().handler
 
     const res = await handler({
       headers: {},
-      body: null
+      body: null,
     })
 
     expect(res.statusCode).toEqual(200)
@@ -24,20 +24,20 @@ describe('http', function () {
     const http = new Http({ name: 'name' })
     const func = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         return 1
-      }
+      },
     })
 
     func.config = {
       providers: {},
-      plugins: { name: { type: 'name' } }
+      plugins: { name: { type: 'name' } },
     }
     const handler = func.export().handler
 
     const res = await handler({
       headers: {},
-      body: null
+      body: null,
     })
 
     expect(res.statusCode).toEqual(200)
@@ -48,9 +48,9 @@ describe('http', function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         throw Error('wrong')
-      }
+      },
     }).export().handler
 
     const res = await handler({})
@@ -63,12 +63,12 @@ describe('http', function () {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler () {
+      async handler() {
         throw new HttpError({
           statusCode: 400,
-          message: 'wrong'
+          message: 'wrong',
         })
-      }
+      },
     }).export().handler
 
     const res = await handler({})

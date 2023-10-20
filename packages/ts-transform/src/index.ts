@@ -1,5 +1,8 @@
 import {
-  JscConfig, JscTarget, transformSync, bundle as swcBundle
+  JscConfig,
+  JscTarget,
+  transformSync,
+  bundle as swcBundle,
 } from '@swc/core'
 import { config } from '@swc/core/spack'
 import { readFileSync } from 'fs'
@@ -39,55 +42,66 @@ export const NodeBuiltinModules = [
   'vm',
   'wasi',
   'worker_threads',
-  'zlib'
+  'zlib',
 ]
 
-export function transform (code: string, options?: {
-  /** default: process.cwd() */
-  root?: string
-  filename?: string
-  /** default: `es2019` */
-  target?: JscTarget
-  /**
-   * swc compilation
-   * @see https://swc.rs/docs/configuration/compilation
-   */
-  jsc?: JscConfig
-}) {
+export function transform(
+  code: string,
+  options?: {
+    /** default: process.cwd() */
+    root?: string
+    filename?: string
+    /** default: `es2019` */
+    target?: JscTarget
+    /**
+     * swc compilation
+     * @see https://swc.rs/docs/configuration/compilation
+     */
+    jsc?: JscConfig
+  }
+) {
   if (!options) options = {}
   if (!options.root) options.root = process.cwd()
   if (!options.target) options.target = 'es2019'
 
-  const tsconfig = JSON.parse(readFileSync(join(options.root, 'tsconfig.json')).toString())
+  const tsconfig = JSON.parse(
+    readFileSync(join(options.root, 'tsconfig.json')).toString()
+  )
 
   if (!tsconfig.compilerOptions) tsconfig.compilerOptions = {}
 
-  tsconfig.compilerOptions.baseUrl = tsconfig.compilerOptions.baseUrl?.replace('.', options.root) || options.root
+  tsconfig.compilerOptions.baseUrl =
+    tsconfig.compilerOptions.baseUrl?.replace('.', options.root) || options.root
 
   if (tsconfig.compilerOptions.paths) {
     for (const key of Object.keys(tsconfig.compilerOptions.paths))
-      tsconfig.compilerOptions.paths[key] = tsconfig.compilerOptions.paths[key]
-        .map((item: string) => item.replace('.', tsconfig.compilerOptions.baseUrl))
-  } else
-    tsconfig.compilerOptions.paths = {}
+      tsconfig.compilerOptions.paths[key] = tsconfig.compilerOptions.paths[
+        key
+      ].map((item: string) =>
+        item.replace('.', tsconfig.compilerOptions.baseUrl)
+      )
+  } else tsconfig.compilerOptions.paths = {}
 
   return transformSync(code, {
     filename: options.filename,
-    jsc: deepMerge({
-      parser: {
-        syntax: 'typescript',
-        tsx: true
+    jsc: deepMerge(
+      {
+        parser: {
+          syntax: 'typescript',
+          tsx: true,
+        },
+        target: options.target,
+        baseUrl: tsconfig.compilerOptions.baseUrl,
+        paths: tsconfig.compilerOptions.paths,
+        transform: { react: { runtime: 'automatic' } },
       },
-      target: options.target,
-      baseUrl: tsconfig.compilerOptions.baseUrl,
-      paths: tsconfig.compilerOptions.paths,
-      transform: { react: { runtime: 'automatic' } }
-    }, options.jsc),
-    module: { type: 'commonjs' }
+      options.jsc
+    ),
+    module: { type: 'commonjs' },
   })
 }
 
-export async function bundle (options: {
+export async function bundle(options: {
   /** default: process.cwd() */
   root?: string
   filename: string
@@ -99,35 +113,49 @@ export async function bundle (options: {
   if (!options.root) options.root = process.cwd()
   if (!options.jscTarget) options.jscTarget = 'es2019'
 
-  const tsconfig = JSON.parse(readFileSync(join(options.root, 'tsconfig.json')).toString())
+  const tsconfig = JSON.parse(
+    readFileSync(join(options.root, 'tsconfig.json')).toString()
+  )
 
   if (!tsconfig.compilerOptions) tsconfig.compilerOptions = {}
 
-  tsconfig.compilerOptions.baseUrl = tsconfig.compilerOptions.baseUrl?.replace('.', options.root) || options.root
+  tsconfig.compilerOptions.baseUrl =
+    tsconfig.compilerOptions.baseUrl?.replace('.', options.root) || options.root
 
   if (tsconfig.compilerOptions.paths) {
     for (const key of Object.keys(tsconfig.compilerOptions.paths))
-      tsconfig.compilerOptions.paths[key] = tsconfig.compilerOptions.paths[key]
-        .map((item: string) => item.replace('.', tsconfig.compilerOptions.baseUrl))
-  } else
-    tsconfig.compilerOptions.paths = {}
+      tsconfig.compilerOptions.paths[key] = tsconfig.compilerOptions.paths[
+        key
+      ].map((item: string) =>
+        item.replace('.', tsconfig.compilerOptions.baseUrl)
+      )
+  } else tsconfig.compilerOptions.paths = {}
 
-  return swcBundle(config(deepMerge({
-    mode: 'production',
-    entry: { index: options.filename },
-    module: { type: 'commonjs' },
-    options: {
-      jsc: {
-        parser: {
-          syntax: 'typescript',
-          tsx: true,
+  return swcBundle(
+    config(
+      deepMerge(
+        {
+          mode: 'production',
+          entry: { index: options.filename },
+          module: { type: 'commonjs' },
+          options: {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                tsx: true,
+              },
+              target: options.jscTarget,
+              baseUrl: tsconfig.compilerOptions.baseUrl,
+              paths: tsconfig.compilerOptions.paths,
+              transform: { react: { runtime: 'automatic' } },
+            },
+          },
+          externalModules: NodeBuiltinModules.concat(
+            options.externalModules || []
+          ),
         },
-        target: options.jscTarget,
-        baseUrl: tsconfig.compilerOptions.baseUrl,
-        paths: tsconfig.compilerOptions.paths,
-        transform: { react: { runtime: 'automatic' } }
-      }
-    },
-    externalModules: NodeBuiltinModules.concat(options.externalModules || [])
-  }, options))).then(res => res.index)
+        options
+      )
+    )
+  ).then(res => res.index)
 }

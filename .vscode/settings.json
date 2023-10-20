@@ -2,16 +2,33 @@
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": true,
+    "quickfix.biome": true
   },
   "editor.wordWrap": "on",
+  "editor.formatOnSave": true,
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "eslint.packageManager": "npm",
   "cSpell.words": [
     "Antd",
     "anticon",
+    "biomejs",
     "builtins",
     "colorfy",
     "Faas",
@@ -24,9 +41,12 @@
     "SESSIONTOKEN",
     "Tencentcloud",
     "tencentcloudapi",
+    "tsup",
     "typedoc",
     "Useify",
     "vuepress",
     "zfben"
-  ]
+  ],
+  "biome.requireConfiguration": true,
+  "biome_lsp.trace.server": "messages"
 }

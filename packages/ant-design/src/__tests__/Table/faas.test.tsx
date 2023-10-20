@@ -10,11 +10,14 @@ describe('Table/faas', () => {
 
   beforeEach(() => {
     originalFetch = window.fetch
-    window.fetch = jest.fn(async () => ({
-      status: 200,
-      headers: new Map([['Content-Type', 'application/json']]),
-      text: async () => Promise.resolve('{"data":[{"test":"value"}]}')
-    }) as unknown as Promise<Response>)
+    window.fetch = jest.fn(
+      async () =>
+        ({
+          status: 200,
+          headers: new Map([['Content-Type', 'application/json']]),
+          text: async () => Promise.resolve('{"data":[{"test":"value"}]}'),
+        }) as unknown as Promise<Response>
+    )
     FaasReactClient({ domain: 'test' })
   })
 
@@ -23,10 +26,7 @@ describe('Table/faas', () => {
   })
 
   it('with faas', async () => {
-    render(<Table
-      items={ [{ id: 'test' }] }
-      faasData={ { action: 'test' } }
-    />)
+    render(<Table items={[{ id: 'test' }]} faasData={{ action: 'test' }} />)
 
     expect(await screen.findByText('Test')).toBeInTheDocument()
     expect(await screen.findByText('value')).toBeInTheDocument()

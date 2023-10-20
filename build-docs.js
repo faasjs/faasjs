@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const globSync = require('glob').sync
 const promisify = require('util').promisify
 const exec = promisify(require('child_process').exec)
@@ -10,22 +9,35 @@ async function run(cmd) {
 }
 
 async function build(path) {
-  const pkg = require(__dirname + '/' + path)
+  const pkg = require(`${__dirname}/${path}`)
 
   if (!pkg.types) return
 
-  await run(`npm run build:doc ${path.replace('/package.json', '/src')} -- --tsconfig ${path.replace('/package.json', '/tsconfig.json')} --out ${path.replace('/package.json', '/')}`)
+  await run(
+    `npm run build:doc ${path.replace(
+      '/package.json',
+      '/src'
+    )} -- --tsconfig ${path.replace(
+      '/package.json',
+      '/tsconfig.json'
+    )} --out ${path.replace('/package.json', '/')}`
+  )
 
-  const modules = readFileSync(path.replace('/package.json', '/modules.md'), 'utf8')
+  const modules = readFileSync(
+    path.replace('/package.json', '/modules.md'),
+    'utf8'
+  )
     .toString()
     .replace(`# ${pkg.name}\n\n## Table of contents\n`, '')
     .replaceAll('(modules.md#', '(#')
-  let readme = readFileSync(path.replace('/package.json', '/README.md'), 'utf8').toString()
+  let readme = readFileSync(
+    path.replace('/package.json', '/README.md'),
+    'utf8'
+  ).toString()
 
   if (readme.includes('## Modules')) {
     readme = readme.replace(/## Modules[\s\S]+/g, `## Modules\n${modules}`)
-  } else
-    readme += `\n## Modules\n\n${modules}`
+  } else readme += `\n## Modules\n\n${modules}`
 
   writeFileSync(path.replace('/package.json', '/README.md'), readme)
 
@@ -35,13 +47,17 @@ async function build(path) {
 
   if (classes.length)
     classes.forEach(file => {
-      writeFileSync(file, readFileSync(file, 'utf8').replaceAll('(../modules.md#', '(../#'))
+      writeFileSync(
+        file,
+        readFileSync(file, 'utf8').replaceAll('(../modules.md#', '(../#')
+      )
     })
 }
 
 async function buildAll() {
-  const list = globSync('packages/*/package.json')
-    .filter(path => !['/cli', '/create-faas-app'].includes(path))
+  const list = globSync('packages/*/package.json').filter(
+    path => !['/cli', '/create-faas-app'].includes(path)
+  )
 
   for (const name of [
     'browser',
