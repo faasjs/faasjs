@@ -151,11 +151,15 @@ export class Knex implements Plugin {
   }
 
   public async transaction<TResult = any> (
-    scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void, config?: any
-  ): Promise<TResult> {
+    scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void,
+    options?: {
+      config?: K.TransactionConfig
+      trx?: K.Transaction
+    }
+  ): Promise<TResult | void> {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
-    return this.adapter.transaction(scope, config)
+    return scope(options?.trx || await this.adapter.transaction(options?.config))
   }
 
   public schema (): K.SchemaBuilder {
@@ -217,9 +221,12 @@ TName extends K.TableNames ? K.QueryBuilder<K.TableType<TName>, {
 
 export async function transaction<TResult = any> (
   scope: (trx: K.Transaction<any, any>) => Promise<TResult> | void,
-  config?: any
-): Promise<TResult> {
-  return useKnex().transaction(scope, config)
+  options?: {
+    config?: K.TransactionConfig
+    trx?: K.Transaction
+  }
+): Promise<TResult | void> {
+  return useKnex().transaction(scope, options)
 }
 
 export async function raw<TResult = any> (
