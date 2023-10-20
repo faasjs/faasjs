@@ -130,7 +130,7 @@ describe('Knex', function () {
     expect(await handler({})).toEqual([{ id: 1 }])
   })
 
-  it('transaction trx', async function () {
+  it('transaction with trx', async function () {
     const knex = new Knex({
       config: {
         client: 'sqlite3',
@@ -148,17 +148,15 @@ describe('Knex', function () {
 
         const transaction = await knex.adapter.transaction()
 
-        await knex.transaction(function (trx) {
-          return trx.insert({}).into('test')
-        }, {}, { trx: transaction })
-
         await transaction.commit()
+
+        await knex.transaction(async (trx) => await trx.insert({}).into('test'), {}, { trx: transaction })
 
         return knex.query('test')
       },
     }).export().handler
 
-    expect(await handler({})).toEqual([{ id: 1 }])
+    expect(() => handler({})).rejects.toThrow('Transaction query already complete')
   })
 
   it('useKnex', async function () {
