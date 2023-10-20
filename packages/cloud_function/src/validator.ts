@@ -21,6 +21,7 @@ export type ValidatorConfig = {
       [name: string]: any
     }
     message: any
+    // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
   } | void
 }
 

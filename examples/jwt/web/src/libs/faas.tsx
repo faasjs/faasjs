@@ -13,25 +13,25 @@ export function FaasClient({
   onError?(action: string, params: any): (res: any) => Promise<any>
 }): {
   faas<T = any>(action: string, params: any): Promise<Response<T>>
-  useFaas<T = any>(
+  useFaas<THookData = any>(
     action: string,
     params?: any
   ): {
     loading: boolean
-    data: T
+    data: THookData
     error: any
-    promise: Promise<Response<T>>
+    promise: Promise<Response<THookData>>
   }
 } {
   const client = new FaasBrowserClient(domain, options)
 
   return {
-    async faas<T = any>(action: string, params: any) {
+    async faas<T extends Record<string, any>>(action: string, params: any) {
       if (onError)
         return client.action<T>(action, params).catch(onError(action, params))
       return client.action<T>(action, params)
     },
-    useFaas<T = any>(action: string, params: any) {
+    useFaas<T extends Record<string, any>>(action: string, params: any) {
       const [loading, setLoading] = useState(false)
       const [data, setData] = useState()
       const [error, setError] = useState()
@@ -75,8 +75,9 @@ const client = FaasClient({
   domain: process.env.REACT_APP_API as string,
   options: {
     beforeRequest: function ({ action, options }) {
-      if (action === 'token/create') return
-      options.headers.XFaasToken = localStorage.getItem('accessToken')
+      if (action === 'token/create' || !options.headers) return
+
+      options.headers.XFaasToken = localStorage.getItem('accessToken') as string
     },
   },
   onError(action, params) {

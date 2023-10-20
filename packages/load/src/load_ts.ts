@@ -84,12 +84,12 @@ function findModule(
 
   // remove optional dependencies
   if (pkg.peerDependenciesMeta) {
-    Object.keys(pkg.peerDependenciesMeta).forEach(key => {
+    for (const key of Object.keys(pkg.peerDependenciesMeta)) {
       if (pkg.peerDependenciesMeta[key].optional) {
         const index = deps.indexOf(key)
         if (index >= 0) deps.splice(index, 1)
       }
-    })
+    }
   }
 
   // import dependencies

@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 export interface FaasActions {}
 
 export type FaasActionPaths = keyof FaasActions

@@ -107,6 +107,7 @@ export function ConfigProvider({
 }) {
   const [values, setValues] = useState<ConfigProviderProps>(baseConfig)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (config.lang === 'zh') {
       setValues(

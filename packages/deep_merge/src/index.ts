@@ -19,8 +19,8 @@ const shouldMerge = function (item: any) {
 export function deepMerge(...sources: any[]): any {
   let acc = Object.create(null)
   for (const source of sources)
-    if (source instanceof Array) {
-      if (!(acc instanceof Array)) acc = []
+    if (Array.isArray(source)) {
+      if (!Array.isArray(acc)) acc = []
       acc = [...new Set(source.concat(...(acc as any[])))]
     } else if (shouldMerge(source))
       for (const [key, value] of Object.entries(source)) {

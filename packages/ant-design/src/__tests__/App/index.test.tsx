@@ -11,6 +11,7 @@ describe('App', () => {
     function Component() {
       const { setModalProps, message } = useApp()
 
+      // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
       useEffect(() => {
         message.info('Hi')
       }, [])

@@ -40,6 +40,7 @@ function RoutesApp(props: {
   const location = useLocation()
   const { setDrawerProps, setModalProps } = useApp()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     console.debug('location', location)
     setDrawerProps({ open: false })

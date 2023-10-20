@@ -35,7 +35,7 @@ describe('Form/submit', () => {
         headers: new Map([['Content-Type', 'application/json']]),
         text: async () => JSON.stringify({ data: {} }),
       }) as unknown as Promise<Response>
-    })
+    }) as typeof window.fetch
     FaasReactClient({ domain: 'test' })
 
     render(
@@ -71,7 +71,7 @@ describe('Form/submit', () => {
         headers: new Map([['Content-Type', 'application/json']]),
         text: async () => JSON.stringify({ data: {} }),
       }) as unknown as Promise<Response>
-    })
+    }) as typeof window.fetch
     FaasReactClient({ domain: 'test' })
 
     render(

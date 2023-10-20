@@ -108,7 +108,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   public mounted: boolean
   public filename?: string
   private cachedFunctions: {
-    [key in LifeCycleKey]: CachedFunction[]
+    [cycleKey in LifeCycleKey]: CachedFunction[]
   }
 
   /**

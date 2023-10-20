@@ -210,10 +210,10 @@ export class Http<
         if (key.includes('_')) {
           let config = this.config
           const keys = key.split('_')
-          keys.slice(0, keys.length - 1).forEach(k => {
+          for (const k of keys.slice(0, keys.length - 1)) {
             if (!config[k]) config[k] = Object.create(null)
             config = config[k]
-          })
+          }
           config[keys[keys.length - 1]] = value
         } else this.config[key] = value
       }

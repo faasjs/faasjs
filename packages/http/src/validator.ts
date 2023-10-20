@@ -31,6 +31,7 @@ export type ValidatorOptions<Content = Record<string, any>> = {
   ) => {
     statusCode?: number
     message: any
+    // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
   } | void
 }
 
@@ -51,6 +52,7 @@ export type BeforeOption<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any
+  // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
 > = (request: Request<TParams, TCookie, TSession>) => Promise<void | {
   statusCode?: number
   message: string

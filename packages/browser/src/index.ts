@@ -17,7 +17,7 @@ export type Options = RequestInit & {
     action: string
     params: Record<string, any>
     options: Options
-  }) => Promise<void> | void
+  }) => Promise<void>
   /** custom request */
   request?: <PathOrData extends FaasAction>(
     url: string,
@@ -214,7 +214,7 @@ export class FaasBrowserClient {
       const headers: {
         [key: string]: string
       } = {}
-      response.headers.forEach((value, key) => (headers[key] = value))
+      for (const values of response.headers) headers[values[0]] = values[1]
 
       return response.text().then(res => {
         if (response.status >= 200 && response.status < 300) {

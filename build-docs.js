@@ -46,12 +46,11 @@ async function build(path) {
   const classes = globSync(path.replace('/package.json', '/classes/*.md'))
 
   if (classes.length)
-    classes.forEach(file => {
+    for (const file of classes)
       writeFileSync(
         file,
         readFileSync(file, 'utf8').replaceAll('(../modules.md#', '(../#')
       )
-    })
 }
 
 async function buildAll() {

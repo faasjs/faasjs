@@ -73,6 +73,7 @@ export function FaasReactClient({
         : options.skip
     )
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
       setSkip(
         typeof options.skip === 'function' ? options.skip(params) : options.skip
@@ -83,6 +84,7 @@ export function FaasReactClient({
         : options.skip,
     ])
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(
       function () {
         if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
@@ -92,6 +94,7 @@ export function FaasReactClient({
       [JSON.stringify(defaultParams)]
     )
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(
       function () {
         if (!action || skip) {
@@ -206,6 +209,7 @@ export function FaasReactClient({
       })
       const [loaded, setLoaded] = useState<boolean>(false)
 
+      // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
       useEffect(
         function () {
           if (!loaded && !request.loading) setLoaded(true)
@@ -213,6 +217,7 @@ export function FaasReactClient({
         [request.loading]
       )
 
+      // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
       useEffect(
         function () {
           if (onDataChange) onDataChange(request)
@@ -314,6 +319,7 @@ export function FaasDataWrapper<PathOrData extends FaasAction>(
 ): JSX.Element {
   const [client, setClient] = useState<FaasReactClientInstance>()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (client) return
 

@@ -10,12 +10,16 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "correctness": {
+        "useExhaustiveDependencies": "warn"
+      },
       "suspicious": {
         "noExplicitAny": "off",
         "noEmptyInterface": "warn",
         "noControlCharactersInRegex": "off",
         "noAssignInExpressions": "off",
-        "noArrayIndexKey": "warn"
+        "noArrayIndexKey": "warn",
+        "noConfusingVoidType": "warn"
       },
       "style": {
         "noParameterAssign": "off",

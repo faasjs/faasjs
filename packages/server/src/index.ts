@@ -435,9 +435,10 @@ export class Server {
 
   private clearCache() {
     this.logger.debug('Clear cache')
-    Object.keys(require.cache).forEach(function (id) {
-      if (!id.includes('node_modules') || id.includes('faasjs'))
-        delete require.cache[id]
-    })
+
+    for (const key of Object.keys(require.cache)) {
+      if (!key.includes('node_modules') || key.includes('faasjs'))
+        delete require.cache[key]
+    }
   }
 }

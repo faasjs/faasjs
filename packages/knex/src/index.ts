@@ -129,19 +129,15 @@ export class Knex implements Plugin {
     this.adapter = knex(this.config)
 
     if (this.config.client === 'pg') {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const pg = require('pg')
-      const intTypes = ['INT2', 'INT4', 'INT8']
-      intTypes.forEach(t =>
-        pg.types.setTypeParser(pg.types.builtins[t], (v: string) => parseInt(v))
-      )
 
-      const floatTypes = ['FLOAT4', 'FLOAT8', 'NUMERIC']
-      floatTypes.forEach(t =>
+      for (const t of ['INT2', 'INT4', 'INT8'])
+        pg.types.setTypeParser(pg.types.builtins[t], (v: string) => parseInt(v))
+
+      for (const t of ['FLOAT4', 'FLOAT8', 'NUMERIC'])
         pg.types.setTypeParser(pg.types.builtins[t], (v: string) =>
           parseFloat(v)
         )
-      )
     }
 
     this.query = this.adapter
@@ -193,11 +189,13 @@ export class Knex implements Plugin {
   }
 
   public async transaction<TResult = any>(
+    // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
     scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult> | void,
     config?: OriginKnex.TransactionConfig,
     options?: {
       trx?: OriginKnex.Transaction
     }
+    // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
   ): Promise<TResult | void> {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
@@ -295,11 +293,13 @@ export function query<
 }
 
 export async function transaction<TResult = any>(
+  // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
   scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult> | void,
   config?: OriginKnex.TransactionConfig,
   options?: {
     trx?: OriginKnex.Transaction
   }
+  // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
 ): Promise<TResult | void> {
   return useKnex().transaction(scope, config, options)
 }

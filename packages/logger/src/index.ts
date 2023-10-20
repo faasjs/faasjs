@@ -115,12 +115,15 @@ export class Logger {
    */
   public error(message: string | Error, ...args: any[]): Logger {
     let stack = false
-    ;[message].concat(Array.from(args)).forEach((e: any) => {
+
+    for (const e of [message].concat(Array.from(args))) {
+      if (typeof e === 'string') continue
+
       if (e.stack) {
         stack = true
         this.log('error', e.stack)
       }
-    })
+    }
 
     if (!stack) this.log('error', message, ...args)
 
