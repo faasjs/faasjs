@@ -195,7 +195,7 @@ ___
 
 ### transaction
 
-▸ **transaction**<`TResult`\>(`scope`, `config?`): `Promise`<`TResult`\>
+▸ **transaction**<`TResult`\>(`scope`, `config?`, `options?`): `Promise`<`void` \| `TResult`\>
 
 #### Type parameters
 
@@ -209,7 +209,9 @@ ___
 | :------ | :------ |
 | `scope` | (`trx`: `Transaction`<`any`, `any`\>) => `void` \| `Promise`<`TResult`\> |
 | `config?` | `TransactionConfig` |
+| `options?` | `Object` |
+| `options.trx?` | `Transaction`<`any`, `any`[]\> |
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`<`void` \| `TResult`\>

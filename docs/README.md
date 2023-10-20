@@ -107,6 +107,7 @@ npx create-faas-app --name faasjs --example --noprovider
     <a href="https://github.com/onichandame" target="_blank">onichandame</a>,
     <a href="https://github.com/Vibutnum" target="_blank">Vibutnum</a>,
     <a href="https://github.com/victoryifei" target="_blank">victoryifei</a>,
+    <a href="https://github.com/WittCsharp" target="_blank">WittCsharp</a>,
     <a href="https://github.com/zfben" target="_blank">zfben</a>
     <p>FaasJS is based on the following open source projects (in alphabetical order):</p>
     <a href="https://www.apollographql.com/" target="_blank">Apollo</a>,

@@ -21,6 +21,7 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 ### Functions
 
+- [originKnex](#originknex)
 - [query](#query)
 - [raw](#raw)
 - [transaction](#transaction)
@@ -36,14 +37,39 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | `K.Config` |
+| `config?` | `OriginKnex.Config` |
 | `name?` | `string` |
 
 ## Functions
 
+### originKnex
+
+▸ **originKnex**<`TRecord`, `TResult`\>(`config`): `Knex`<`TRecord`, `TResult`\>
+
+Origin [knex](https://knexjs.org/) instance.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TRecord` | extends `Object` = `any` |
+| `TResult` | `unknown`[] |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `config` | `string` \| `Config`<`any`\> |
+
+#### Returns
+
+`Knex`<`TRecord`, `TResult`\>
+
+___
+
 ### query
 
-▸ **query**<`TName`\>(`table`): `K.QueryBuilder`<`K.TableType`<`TName`\>, { `_aliases`: {} ; `_base`: `K.ResolveTableType`<`K.TableType`<`TName`\>, ``"base"``\> ; `_hasSelection`: ``false`` ; `_intersectProps`: {} ; `_keys`: `never` ; `_single`: ``false`` ; `_unionProps`: `never`  }[]\>
+▸ **query**<`TName`\>(`table`): `OriginKnex.QueryBuilder`<`OriginKnex.TableType`<`TName`\>, { `_aliases`: {} ; `_base`: `OriginKnex.ResolveTableType`<`OriginKnex.TableType`<`TName`\>, ``"base"``\> ; `_hasSelection`: ``false`` ; `_intersectProps`: {} ; `_keys`: `never` ; `_single`: ``false`` ; `_unionProps`: `never`  }[]\>
 
 #### Type parameters
 
@@ -59,9 +85,9 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 #### Returns
 
-`K.QueryBuilder`<`K.TableType`<`TName`\>, { `_aliases`: {} ; `_base`: `K.ResolveTableType`<`K.TableType`<`TName`\>, ``"base"``\> ; `_hasSelection`: ``false`` ; `_intersectProps`: {} ; `_keys`: `never` ; `_single`: ``false`` ; `_unionProps`: `never`  }[]\>
+`OriginKnex.QueryBuilder`<`OriginKnex.TableType`<`TName`\>, { `_aliases`: {} ; `_base`: `OriginKnex.ResolveTableType`<`OriginKnex.TableType`<`TName`\>, ``"base"``\> ; `_hasSelection`: ``false`` ; `_intersectProps`: {} ; `_keys`: `never` ; `_single`: ``false`` ; `_unionProps`: `never`  }[]\>
 
-▸ **query**<`TName`, `TResult`\>(`table`): `K.QueryBuilder`<`TName`, `TResult`\>
+▸ **query**<`TName`, `TResult`\>(`table`): `OriginKnex.QueryBuilder`<`TName`, `TResult`\>
 
 #### Type parameters
 
@@ -78,7 +104,7 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 #### Returns
 
-`K.QueryBuilder`<`TName`, `TResult`\>
+`OriginKnex.QueryBuilder`<`TName`, `TResult`\>
 
 ___
 
@@ -107,7 +133,7 @@ ___
 
 ### transaction
 
-▸ **transaction**<`TResult`\>(`scope`, `config?`): `Promise`<`TResult`\>
+▸ **transaction**<`TResult`\>(`scope`, `config?`, `options?`): `Promise`<`TResult` \| `void`\>
 
 #### Type parameters
 
@@ -121,10 +147,12 @@ ___
 | :------ | :------ |
 | `scope` | (`trx`: `Transaction`<`any`, `any`\>) => `void` \| `Promise`<`TResult`\> |
 | `config?` | `TransactionConfig` |
+| `options?` | `Object` |
+| `options.trx?` | `Transaction`<`any`, `any`[]\> |
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`<`TResult` \| `void`\>
 
 ___
 

@@ -201,7 +201,7 @@ ___
 | `debounce?` | `number` | send the last request after milliseconds |
 | `params?` | `FaasParams`<`PathOrData`\> | - |
 | `setData?` | `React.Dispatch`<`React.SetStateAction`<`FaasData`<`PathOrData`\>\>\> | - |
-| `skip?` | `boolean` | - |
+| `skip?` | `boolean` \| (`params`: `FaasParams`<`PathOrData`\>) => `boolean` | if skip is true, will not send request |
 
 ## Functions
 

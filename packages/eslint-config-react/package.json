@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/eslint-config-react",
-  "version": "0.0.4-beta.5",
+  "version": "0.0.4-beta.6",
   "license": "MIT",
   "main": "index.js",
   "files": [
@@ -17,7 +17,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "dependencies": {
-    "@faasjs/eslint-config-recommended": "0.0.4-beta.5",
+    "@faasjs/eslint-config-recommended": "0.0.4-beta.6",
     "eslint-plugin-react": "*"
   },
   "engines": {
