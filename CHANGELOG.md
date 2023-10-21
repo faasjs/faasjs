@@ -2,10 +2,41 @@
 
 ## Beta
 
-[`v0.0.4-beta.4 (2023-10-16)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.104...v0.0.4-beta.4)
+[`v0.0.4-beta.6 (2023-10-20)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.5...v0.0.4-beta.6)
+
+- `@faasjs/knex`
+  - [Feature] `transaction` add `options: { trx: Knex.Transaction }` (Thanks contributor: [@Witt](https://github.com/WittCsharp)).
+  - [Feature] Export `originKnex` and `OriginKnex`.
+
+[`v0.0.4-beta.5 (2023-10-17)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.4...v0.0.4-beta.5)
+
+- `@faasjs/test`
+  - [Break] `jest.setup.js` moved to `@faasjs/jest`.
+
+[`v0.0.4-beta.4 (2023-10-16)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.109...v0.0.4-beta.4)
 
 - `@faasjs/react`
   - [Feature] `skip` can be a function.
+
+[`v0.0.3-beta.109 (2023-09-22)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.108...v0.0.3-beta.109)
+
+- `@faasjs/server`
+  - [Feature] Improve logger.
+
+[`v0.0.3-beta.108 (2023-09-21)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.107...v0.0.3-beta.108)
+
+- `@faasjs/linter`
+  - [Feature] Add `@faasjs/linter` based on [biome](https://biomejs.dev/).
+
+[`v0.0.3-beta.107 (2023-09-14)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.105...v0.0.3-beta.107)
+
+- `@faasjs/http`
+  - [Fix] Fix clone params.
+
+[`v0.0.3-beta.105 (2023-09-13)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.104...v0.0.3-beta.105)
+
+- `@faasjs/http`
+  - [Feature] Add `data.event.params` as cloned params.
 
 [`v0.0.3-beta.104 (2023-09-05)`](https://github.com/faasjs/faasjs/compare/v0.0.3-beta.101...v0.0.3-beta.104)
 
@@ -434,8 +465,8 @@
   - [Fix] Fix logger.
 
 [`v0.0.2-beta.400 (2022-08-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.399...v0.0.2-beta.400)
-- [BreakChanges] Add request_id to all logs.
-- [BreakChanges] Add `node >= 16.0.0` to `package.json`.
+- [Break] Add request_id to all logs.
+- [Break] Add `node >= 16.0.0` to `package.json`.
 
 [`v0.0.2-beta.399 (2022-08-15)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.398...v0.0.2-beta.399)
 
@@ -452,7 +483,7 @@
 [`v0.0.2-beta.397 (2022-08-06)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.396...v0.0.2-beta.397)
 
 - `@faasjs/aws`
-  - [BreakChanges] Remove `@faasjs/aws` package.
+  - [Break] Remove `@faasjs/aws` package.
 - `@faasjs/react`
   - [Feature] Export more types from `@faasjs/types`.
 - `@faasjs/func`
