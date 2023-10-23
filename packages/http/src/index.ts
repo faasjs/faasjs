@@ -199,6 +199,9 @@ export class Http<
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
+    if (data.logger.label)
+      data.logger = new Logger(`${data.logger.label} [${this.name}]`)
+
     data.logger.debug('[onMount] merge config')
 
     const prefix = `SECRET_${this.name.toUpperCase()}_`
@@ -217,6 +220,8 @@ export class Http<
           config[keys[keys.length - 1]] = value
         } else this.config[key] = value
       }
+
+    if (!data.config) throw Error(`[${this.name}] Config not found.`)
 
     if (data.config.plugins?.[this.name || this.type])
       this.config = deepMerge(

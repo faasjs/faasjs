@@ -214,7 +214,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     config?: Config
     logger?: Logger
   }): Promise<void> {
-    if (!data.logger) data.logger = new Logger('Func')
+    if (!data.logger) {
+      data.logger = new Logger('Func')
+    } else if (data.logger.label) {
+      data.logger = new Logger(`${data.logger.label} [Func]`)
+    }
 
     data.logger.debug('onMount')
     if (this.mounted) {
@@ -223,6 +227,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
 
     if (!data.config) data.config = this.config
+
     try {
       data.logger.time('mount')
       data.logger.debug(
