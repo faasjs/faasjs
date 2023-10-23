@@ -2,6 +2,14 @@
 
 ## Beta
 
+[`v0.0.4-beta.7 (2023-10-23)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.6...v0.0.4-beta.7)
+
+- `@faasjs/func`
+  - [Feature] Improve logger for mono mode.
+
+- `@faasjs/http`
+  - [Feature] Improve logger for mono mode.
+
 [`v0.0.4-beta.6 (2023-10-20)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.5...v0.0.4-beta.6)
 
 - `@faasjs/knex`
