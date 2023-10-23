@@ -244,6 +244,9 @@ export class Http<
   }
 
   public async onInvoke(data: InvokeData, next: Next): Promise<void> {
+    if (!data.logger.label?.endsWith(`[${this.name}]`))
+      data.logger = new Logger(`${data.logger.label} [${this.name}]`)
+
     this.headers = data.event.headers || Object.create(null)
     this.body = data.event.body
     this.params = data.event.queryString || Object.create(null)
@@ -283,7 +286,11 @@ export class Http<
 
     if (this.headers.cookie) {
       data.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
-      data.logger.debug('[onInvoke] Session: %j', this.session.content)
+      data.logger.debug(
+        '[onInvoke] Session: %s %j',
+        this.session.config.key,
+        this.session.content
+      )
     }
 
     try {
