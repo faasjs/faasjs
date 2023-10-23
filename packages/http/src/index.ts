@@ -199,10 +199,12 @@ export class Http<
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
-    if (data.logger.label)
-      data.logger = new Logger(`${data.logger.label} [${this.name}]`)
+    const logger = new Logger(data.logger?.label || this.name)
 
-    data.logger.debug('[onMount] merge config')
+    if (!logger.label.endsWith(this.name))
+      logger.label = `${logger.label}] [${this.name}`
+
+    logger.debug('[onMount] merge config')
 
     const prefix = `SECRET_${this.name.toUpperCase()}_`
 
@@ -229,12 +231,12 @@ export class Http<
         data.config.plugins[this.name || this.type].config
       )
 
-    data.logger.debug('[onMount] prepare cookie & session')
-    this.cookie = new Cookie(this.config.cookie || {}, data.logger)
+    logger.debug('[onMount] prepare cookie & session')
+    this.cookie = new Cookie(this.config.cookie || {}, logger)
     this.session = this.cookie.session
 
     if (this.validatorOptions) {
-      data.logger.debug('[onMount] prepare validator')
+      logger.debug('[onMount] prepare validator')
       this.validator = new Validator<TParams, TCookie, TSession>(
         this.validatorOptions
       )
@@ -244,8 +246,10 @@ export class Http<
   }
 
   public async onInvoke(data: InvokeData, next: Next): Promise<void> {
-    if (!data.logger.label?.endsWith(`[${this.name}]`))
-      data.logger = new Logger(`${data.logger.label} [${this.name}]`)
+    const logger = new Logger(data.logger?.label || this.name)
+
+    if (!logger.label?.endsWith(this.name))
+      logger.label = `${logger.label}] [${this.name}`
 
     this.headers = data.event.headers || Object.create(null)
     this.body = data.event.body
@@ -258,19 +262,19 @@ export class Http<
         typeof data.event.body === 'string' &&
         data.event.body.length > 1
       ) {
-        data.logger.debug('[onInvoke] Parse params from json body')
+        logger.debug('[onInvoke] Parse params from json body')
         try {
           this.params = Object.keys(this.params).length
             ? Object.assign(this.params, JSON.parse(data.event.body))
             : JSON.parse(data.event.body)
         } catch (error: any) {
-          data.logger.error(
+          logger.error(
             '[onInvoke] Parse params from json body failed: %s',
             error.message
           )
         }
       } else {
-        data.logger.debug('[onInvoke] Parse params from raw body')
+        logger.debug('[onInvoke] Parse params from raw body')
         this.params = data.event.body || Object.create(null)
       }
 
@@ -279,14 +283,14 @@ export class Http<
 
       data.event.params = deepClone(this.params)
 
-      data.logger.debug('[onInvoke] Params: %j', this.params)
+      logger.debug('[onInvoke] Params: %j', this.params)
     }
 
-    this.cookie.invoke(this.headers.cookie, data.logger)
+    this.cookie.invoke(this.headers.cookie, logger)
 
     if (this.headers.cookie) {
-      data.logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
-      data.logger.debug(
+      logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
+      logger.debug(
         '[onInvoke] Session: %s %j',
         this.session.config.key,
         this.session.content
@@ -295,7 +299,7 @@ export class Http<
 
     try {
       if (this.validator) {
-        data.logger.debug('[onInvoke] Valid request')
+        logger.debug('[onInvoke] Valid request')
 
         await this.validator.valid(
           {
@@ -304,7 +308,7 @@ export class Http<
             cookie: this.cookie,
             session: this.session,
           },
-          data.logger
+          logger
         )
       }
       await next()
@@ -322,7 +326,7 @@ export class Http<
         data.response.constructor?.name === 'Error'
       ) {
         // generate error response
-        data.logger.error(data.response)
+        logger.error(data.response)
         this.response.body = JSON.stringify({
           error: { message: data.response.message },
         })

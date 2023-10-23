@@ -214,29 +214,27 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     config?: Config
     logger?: Logger
   }): Promise<void> {
-    if (!data.logger) {
-      data.logger = new Logger('Func')
-    } else if (data.logger.label) {
-      data.logger = new Logger(`${data.logger.label} [Func]`)
-    }
+    const logger = new Logger(data.logger?.label || 'Func')
 
-    data.logger.debug('onMount')
+    if (!logger.label.endsWith('Func')) logger.label = `${logger.label}] [Func`
+
+    logger.debug('onMount')
     if (this.mounted) {
-      data.logger.warn('mount() has been called, skipped.')
+      logger.warn('mount() has been called, skipped.')
       return
     }
 
     if (!data.config) data.config = this.config
 
     try {
-      data.logger.time('mount')
-      data.logger.debug(
+      logger.time('mount')
+      logger.debug(
         `Plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
       )
       await this.compose('onMount')(data)
       this.mounted = true
     } finally {
-      data.logger.timeEnd('mount', 'mounted')
+      logger.timeEnd('mount', 'mounted')
     }
   }
 
