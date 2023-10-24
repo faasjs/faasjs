@@ -2,6 +2,10 @@
 
 ## Beta
 
+[`v0.0.4-beta.8 (2023-10-24)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.7...v0.0.4-beta.8)
+
+- [Feature] Improve dependencies.
+
 [`v0.0.4-beta.7 (2023-10-23)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.6...v0.0.4-beta.7)
 
 - `@faasjs/func`

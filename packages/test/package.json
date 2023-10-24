@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/test",
-  "version": "0.0.4-beta.7",
+  "version": "0.0.4-beta.8",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,20 +17,22 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "regenerator-runtime": "*",
     "typescript": "*"
   },
   "peerDependencies": {
-    "@faasjs/func": "0.0.4-beta.7",
-    "@faasjs/load": "0.0.4-beta.7",
-    "@faasjs/logger": "0.0.4-beta.7"
+    "@faasjs/func": "0.0.4-beta.8",
+    "@faasjs/load": "0.0.4-beta.8",
+    "@faasjs/logger": "0.0.4-beta.8"
   },
   "devDependencies": {
-    "@faasjs/func": "0.0.4-beta.7",
-    "@faasjs/load": "0.0.4-beta.7",
-    "@faasjs/logger": "0.0.4-beta.7"
+    "@faasjs/func": "0.0.4-beta.8",
+    "@faasjs/load": "0.0.4-beta.8",
+    "@faasjs/logger": "0.0.4-beta.8"
   },
   "engines": {
     "npm": ">=9.0.0",
