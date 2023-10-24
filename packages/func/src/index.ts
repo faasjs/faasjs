@@ -214,6 +214,8 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     config?: Config
     logger?: Logger
   }): Promise<void> {
+    if (!data.logger) data.logger = new Logger('Func')
+
     const logger = new Logger(data.logger?.label || 'Func')
 
     if (!logger.label.endsWith('Func')) logger.label = `${logger.label}] [Func`
