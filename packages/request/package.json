@@ -17,10 +17,11 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
+  "files": ["dist"],
+  "peerDependencies": {
+    "@faasjs/logger": "0.0.4-beta.7"
+  },
+  "devDependencies": {
     "@faasjs/logger": "0.0.4-beta.7"
   },
   "engines": {

@@ -17,10 +17,13 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
+  "files": ["dist"],
+  "peerDependencies": {
+    "@faasjs/cloud_function": "0.0.4-beta.7",
+    "@faasjs/func": "0.0.4-beta.7",
+    "@faasjs/logger": "0.0.4-beta.7"
+  },
+  "devDependencies": {
     "@faasjs/cloud_function": "0.0.4-beta.7",
     "@faasjs/func": "0.0.4-beta.7",
     "@faasjs/logger": "0.0.4-beta.7"

@@ -17,13 +17,18 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
+    "@faasjs/load": "0.0.4-beta.7"
+  },
+  "peerDependencies": {
     "@faasjs/deep_merge": "0.0.4-beta.7",
     "@faasjs/func": "0.0.4-beta.7",
-    "@faasjs/load": "0.0.4-beta.7",
+    "@faasjs/logger": "0.0.4-beta.7"
+  },
+  "devDependencies": {
+    "@faasjs/deep_merge": "0.0.4-beta.7",
+    "@faasjs/func": "0.0.4-beta.7",
     "@faasjs/logger": "0.0.4-beta.7"
   },
   "engines": {
