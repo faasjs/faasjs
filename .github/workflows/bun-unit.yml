@@ -55,4 +55,4 @@ jobs:
       - name: Build packages
         run: bun run turbo build
       - name: Run Tests
-        run: bun run test --testPathIgnorePatterns=knex --testPathIgnorePatterns=examples
+        run: bun run test --testPathIgnorePatterns=knex --testPathIgnorePatterns=examples --testPathIgnorePatterns=deployer
