@@ -1,7 +1,7 @@
-FROM oven/bun
+FROM oven/bun:alpine
 
-RUN apt-get update -y
-RUN apt-get install -y git zsh rsync zip python3 make g++ wget curl vim
+RUN apk add --no-cache bash
+RUN apk add --no-cache git zsh openssh rsync zip python3 make g++ brotli curl
 
 WORKDIR /home
 

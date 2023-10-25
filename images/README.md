@@ -10,6 +10,14 @@ A Nginx Image for FaasJS projects.
 [![Image size](https://img.shields.io/docker/image-size/faasjs/nginx/latest)](https://hub.docker.com/r/faasjs/nginx)
 [![Build faasjs/nginx](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-nginx-image.yml)
 
+### [faasjs/vscode](https://faasjs.com/doc/images/vscode)
+
+VSCode Container Image for FaasJS projects.
+
+[![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/r/faasjs/vscode)
+[![Image size](https://img.shields.io/docker/image-size/faasjs/vscode/latest)](https://hub.docker.com/r/faasjs/vscode)
+[![Build faasjs/vscode](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml)
+
 ### [faasjs/node](https://faasjs.com/doc/images/node)
 
 Node Image for FaasJS projects.
@@ -18,13 +26,13 @@ Node Image for FaasJS projects.
 [![Image size](https://img.shields.io/docker/image-size/faasjs/node/latest)](https://hub.docker.com/r/faasjs/node)
 [![Build faasjs/node](https://github.com/faasjs/faasjs/actions/workflows/build-node-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-node-image.yml)
 
-### [faasjs/vscode](https://faasjs.com/doc/images/vscode)
+### [faasjs/bun](https://faasjs.com/doc/images/bun)
 
-VSCode Container Image for FaasJS projects.
+Bun Image for FaasJS projects.
 
-[![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/r/faasjs/vscode)
-[![Image size](https://img.shields.io/docker/image-size/faasjs/vscode/latest)](https://hub.docker.com/r/faasjs/vscode)
-[![Build faasjs/vscode](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-vscode-image.yml)
+[![faasjs/bun](https://img.shields.io/badge/Docker-faasjs%2Fbun-blue)](https://hub.docker.com/r/faasjs/bun)
+[![Image size](https://img.shields.io/docker/image-size/faasjs/bun/latest)](https://hub.docker.com/r/faasjs/bun)
+[![Build faasjs/bun](https://github.com/faasjs/faasjs/actions/workflows/build-bun-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-bun-image.yml)
 
 ## Tips for using in China
 

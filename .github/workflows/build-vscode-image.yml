@@ -24,7 +24,23 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           push: true
-          tags: faasjs/vscode:${{ github.sha }},faasjs/vscode:latest
+          tags: faasjs/vscode:${{ github.sha }},faasjs/vscode:alpine,faasjs/vscode:latest
+          context: ./images/vscode
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: faasjs/vscode:${{ github.sha }},faasjs/vscode:debian
+          file: ./images/vscode/debian.Dockerfile
+          context: ./images/vscode
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: faasjs/vscode:${{ github.sha }},faasjs/vscode:bun
+          file: ./images/vscode/bun.Dockerfile
           context: ./images/vscode
           cache-from: type=gha
           cache-to: type=gha,mode=max

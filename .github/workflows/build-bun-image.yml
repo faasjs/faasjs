@@ -24,7 +24,14 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           push: true
-          tags: faasjs/bun:${{ github.sha }},faasjs/bun:latest
+          tags: faasjs/bun:${{ github.sha }},faasjs/bun:alpine,faasjs/bun:latest
           context: ./images/bun
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: faasjs/bun:${{ github.sha }},faasjs/bun:debian
+          context: ./images/bun/debian.Dockerfile
           cache-from: type=gha
           cache-to: type=gha,mode=max

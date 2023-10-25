@@ -24,7 +24,15 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           push: true
-          tags: faasjs/node:${{ github.sha }},faasjs/node:latest
+          tags: faasjs/node:${{ github.sha }},faasjs/node:alpine,faasjs/node:latest
+          context: ./images/node
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: faasjs/node:${{ github.sha }},faasjs/node:debian
+          file: ./images/node/debian.Dockerfile
           context: ./images/node
           cache-from: type=gha
           cache-to: type=gha,mode=max

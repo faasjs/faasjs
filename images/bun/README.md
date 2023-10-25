@@ -6,7 +6,7 @@
 
 ## Features
 
-- Base on `bun` with tiny image size and bun lts version.
+- Base on `oven/bun:alpine` with tiny image size and bun lts version.
 
 ## Usage
 

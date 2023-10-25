@@ -13,8 +13,9 @@
 [![Pull requests](https://img.shields.io/github/issues-pr-closed/faasjs/faasjs)](https://github.com/faasjs/faasjs/pulls)
 
 [![faasjs/nginx](https://img.shields.io/badge/Docker-faasjs%2Fnginx-blue)](https://hub.docker.com/repository/docker/faasjs/nginx)
-[![faasjs/node](https://img.shields.io/badge/Docker-faasjs%2Fnode-blue)](https://hub.docker.com/repository/docker/faasjs/node)
 [![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/repository/docker/faasjs/vscode)
+[![faasjs/node](https://img.shields.io/badge/Docker-faasjs%2Fnode-blue)](https://hub.docker.com/repository/docker/faasjs/node)
+[![faasjs/bun](https://img.shields.io/badge/Docker-faasjs%2Fbun-blue)](https://hub.docker.com/repository/docker/faasjs/bun)
 
 An Atomic Application Framework based on Typescript.
 

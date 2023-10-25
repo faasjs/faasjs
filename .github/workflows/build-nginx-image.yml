@@ -24,7 +24,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           push: true
-          tags: faasjs/nginx:${{ github.sha }},faasjs/nginx:latest
+          tags: faasjs/nginx:${{ github.sha }},faasjs/nginx:alpine,faasjs/nginx:latest
           context: ./images/nginx
           cache-from: type=gha
           cache-to: type=gha,mode=max
