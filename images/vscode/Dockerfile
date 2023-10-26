@@ -1,6 +1,6 @@
-FROM node:lts-alpine
+FROM oven/bun:alpine
 
-RUN apk add --no-cache git bash zsh openssh rsync zip python3 make g++ brotli curl
+RUN apk add --no-cache git bash zsh openssh rsync zip python3 make g++ brotli curl nodejs-current npm
 
 RUN sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 

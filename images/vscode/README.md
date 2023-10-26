@@ -6,9 +6,14 @@
 
 ## Features
 
-- Base on `node:current-alpine` with tiny image size and latest node version.
-- Includes latest npm version.
-- Includes `ohmyzsh` with `git`、`yarn` and [`npm`](https://github.com/zfben/zsh-npm) plugins.
+- Base on [alpine](https://www.alpinelinux.org/) with tiny image size.
+- Includes latest [node](https://nodejs.org/), [npm](https://www.npmjs.com/) and [bun](https://bun.sh/).
+- Includes [ohmyzsh](https://ohmyz.sh/) with below plugins:
+  - git
+  - zsh-completions
+  - zsh-autosuggestions
+  - zsh-history-substring-search
+  - [`npm`](https://github.com/zfben/zsh-npm)
 
 ## Before you use
 
