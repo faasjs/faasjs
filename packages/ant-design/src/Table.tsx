@@ -670,8 +670,8 @@ function FaasDataTable({
       const newColumns = [...prev]
       for (const column of newColumns) {
         if (data.options?.[column.id]) {
-          column.options = data.options[column.id]
-          column.filters = data.options[column.id]
+          column.options = transferOptions(data.options[column.id])
+          column.filters = column.options
             .map((v: any) => ({
               text: v.label,
               value: v.value,
