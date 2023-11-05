@@ -123,7 +123,30 @@ export function querystringify(obj: any) {
 }
 
 /**
+ * ResponseError class
+ */
+export class ResponseError extends Error {
+  public response: Response
+  public request: Request
+  public statusCode: number
+  public statusMessage: string
+  public headers: http.OutgoingHttpHeaders
+  public body: any
+
+  constructor(message: string, response: Response<any>) {
+    super(message)
+    this.response = response
+    this.request = response.request
+    this.statusCode = response.statusCode
+    this.statusMessage = response.statusMessage
+    this.headers = response.headers
+    this.body = response.body
+  }
+}
+
+/**
  * Request
+ *
  * @param {string} url Url
  * @param {object=} [options={}] Options
  * @param {string} [options.method=GET] Method
@@ -141,6 +164,7 @@ export function querystringify(obj: any) {
  * @param {parse=} options.parse body parser, default is JSON.parse
  *
  * @returns {promise}
+ *
  * @url https://faasjs.com/doc/request.html
  */
 export async function request<T = any>(
@@ -249,10 +273,7 @@ export async function request<T = any>(
             data
           )
 
-          const response =
-            res.statusCode >= 200 && res.statusCode < 400
-              ? Object.create(null)
-              : new Error()
+          const response = Object.create(null)
           response.request = options
           response.request.body = body
           response.statusCode = res.statusCode
@@ -277,10 +298,14 @@ export async function request<T = any>(
             resolve(response)
           else {
             logger.debug('response.error %j', response)
-            response.message = `${res.statusMessage || res.statusCode} ${
-              options.host
-            }${options.path}`
-            reject(response)
+            reject(
+              new ResponseError(
+                `${res.statusMessage || res.statusCode} ${options.host}${
+                  options.path
+                }`,
+                response
+              )
+            )
           }
         })
       }
