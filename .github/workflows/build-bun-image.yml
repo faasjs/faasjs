@@ -32,6 +32,7 @@ jobs:
         with:
           push: true
           tags: faasjs/bun:${{ github.sha }},faasjs/bun:debian
-          context: ./images/bun/debian.Dockerfile
+          file: ./images/bun/debian.Dockerfile
+          context: ./images/bun
           cache-from: type=gha
           cache-to: type=gha,mode=max
