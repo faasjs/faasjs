@@ -2,7 +2,12 @@
 
 ## Beta
 
-[`v0.0.4-beta.8 (2023-10-24)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.7...v0.0.4-beta.8)
+[`v0.0.4-beta.10 (2023-11-05)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.9...v0.0.4-beta.10)
+
+- `@faasjs/request`
+  - [Feature] When request failed, return `ResponseError` instead of `Error`.
+
+[`v0.0.4-beta.9 (2023-10-24)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.7...v0.0.4-beta.9)
 
 - [Feature] Improve dependencies.
 
