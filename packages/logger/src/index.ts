@@ -76,7 +76,10 @@ export class Logger {
 
     this.cachedTimers = {}
 
-    this.size = process.env.FaasLogSize ? Number(process.env.FaasLogSize) : 1000
+    this.size =
+      typeof process.env.FaasLogSize !== 'undefined'
+        ? Number(process.env.FaasLogSize)
+        : 1000
 
     this.stdout = console.log
     this.stderr = console.error
