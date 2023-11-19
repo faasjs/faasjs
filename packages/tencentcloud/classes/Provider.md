@@ -25,13 +25,17 @@
 
 ### constructor
 
-• **new Provider**(`config`)
+• **new Provider**(`config`): [`Provider`](Provider.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `config` | [`TencentcloudConfig`](../#tencentcloudconfig) |
+
+#### Returns
+
+[`Provider`](Provider.md)
 
 ## Properties
 
@@ -49,7 +53,7 @@ ___
 
 ### deploy
 
-▸ **deploy**(`type`, `data`, `config`): `Promise`<`void`\>
+▸ **deploy**(`type`, `data`, `config`): `Promise`\<`void`\>
 
 部署
 
@@ -63,13 +67,13 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
 ### invokeCloudFunction
 
-▸ **invokeCloudFunction**(`name`, `data`, `options?`): `Promise`<`void`\>
+▸ **invokeCloudFunction**(`name`, `data`, `options?`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -83,7 +87,7 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -93,7 +97,7 @@ ___
 
 ### invokeSyncCloudFunction
 
-▸ **invokeSyncCloudFunction**<`TResult`\>(`name`, `data`, `options?`): `Promise`<`TResult`\>
+▸ **invokeSyncCloudFunction**\<`TResult`\>(`name`, `data`, `options?`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -113,7 +117,7 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 #### Implementation of
 

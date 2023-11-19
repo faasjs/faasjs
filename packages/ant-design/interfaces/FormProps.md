@@ -1,15 +1,15 @@
-# Interface: FormProps<Values, ExtendItemProps\>
+# Interface: FormProps\<Values, ExtendItemProps\>
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Values` | extends `Record`<`string`, `any`\> = `any` |
+| `Values` | extends `Record`\<`string`, `any`\> = `any` |
 | `ExtendItemProps` | `any` |
 
 ## Hierarchy
 
-- `Omit`<`AntdFormProps`<`Values`\>, ``"onFinish"`` \| ``"children"`` \| ``"initialValues"``\>
+- `Omit`\<`AntdFormProps`\<`Values`\>, ``"onFinish"`` \| ``"children"`` \| ``"initialValues"``\>
 
   ↳ **`FormProps`**
 
@@ -60,28 +60,28 @@ ___
 
 ### items
 
-• `Optional` **items**: (`Element` \| [`FormItemProps`](FormItemProps.md)<`any`\> \| `ExtendItemProps`)[]
+• `Optional` **items**: (`Element` \| [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps`)[]
 
 ___
 
 ### onFinish
 
-• `Optional` **onFinish**: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`<`any`\>) => `Promise`<`any`\>
+• `Optional` **onFinish**: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`\<`any`\>) => `Promise`\<`any`\>
 
 #### Type declaration
 
-▸ (`values`, `submit?`): `Promise`<`any`\>
+▸ (`values`, `submit?`): `Promise`\<`any`\>
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `values` | `Values` |
-| `submit?` | (`values`: `any`) => `Promise`<`any`\> |
+| `submit?` | (`values`: `any`) => `Promise`\<`any`\> |
 
 ##### Returns
 
-`Promise`<`any`\>
+`Promise`\<`any`\>
 
 ___
 

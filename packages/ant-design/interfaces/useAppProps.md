@@ -25,7 +25,7 @@ ___
 
 ### setDrawerProps
 
-• **setDrawerProps**: (`changes`: `Partial`<[`DrawerProps`](DrawerProps.md)\>) => `void`
+• **setDrawerProps**: (`changes`: `Partial`\<[`DrawerProps`](DrawerProps.md)\>) => `void`
 
 #### Type declaration
 
@@ -35,7 +35,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `changes` | `Partial`<[`DrawerProps`](DrawerProps.md)\> |
+| `changes` | `Partial`\<[`DrawerProps`](DrawerProps.md)\> |
 
 ##### Returns
 
@@ -45,7 +45,7 @@ ___
 
 ### setModalProps
 
-• **setModalProps**: (`changes`: `Partial`<[`ModalProps`](ModalProps.md)\>) => `void`
+• **setModalProps**: (`changes`: `Partial`\<[`ModalProps`](ModalProps.md)\>) => `void`
 
 #### Type declaration
 
@@ -55,7 +55,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `changes` | `Partial`<[`ModalProps`](ModalProps.md)\> |
+| `changes` | `Partial`\<[`ModalProps`](ModalProps.md)\> |
 
 ##### Returns
 

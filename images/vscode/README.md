@@ -43,3 +43,9 @@
 ```
 4. Open your project with VSCode.
 5. Click popup window with `Remote-Containers: Reopen in Container`.
+
+## FAQ
+
+### How to use with debian?
+
+Just change `faasjs/vscode` to `faasjs/vscode:debian` in `devcontainer.json`.

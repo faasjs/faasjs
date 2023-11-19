@@ -64,15 +64,15 @@ ___
 
 ### HttpConfig
 
-Ƭ **HttpConfig**<`TParams`, `TCookie`, `TSession`\>: `Object`
+Ƭ **HttpConfig**\<`TParams`, `TCookie`, `TSession`\>: `Object`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `TParams` | extends `Record`<`string`, `any`\> = `any` |
-| `TCookie` | extends `Record`<`string`, `string`\> = `any` |
-| `TSession` | extends `Record`<`string`, `string`\> = `any` |
+| `TParams` | extends `Record`\<`string`, `any`\> = `any` |
+| `TCookie` | extends `Record`\<`string`, `string`\> = `any` |
+| `TSession` | extends `Record`\<`string`, `string`\> = `any` |
 
 #### Index signature
 
@@ -82,7 +82,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | { `[key: string]`: `any`; `cookie?`: [`CookieOptions`](#cookieoptions) ; `functionName?`: `string` ; `ignorePathPrefix?`: `string` ; `method?`: ``"BEGIN"`` \| ``"GET"`` \| ``"POST"`` \| ``"DELETE"`` \| ``"HEAD"`` \| ``"PUT"`` \| ``"OPTIONS"`` \| ``"TRACE"`` \| ``"PATCH"`` \| ``"ANY"`` ; `path?`: `string` ; `timeout?`: `number`  } |
+| `config?` | \{ `[key: string]`: `any`; `cookie?`: [`CookieOptions`](#cookieoptions) ; `functionName?`: `string` ; `ignorePathPrefix?`: `string` ; `method?`: ``"BEGIN"`` \| ``"GET"`` \| ``"POST"`` \| ``"DELETE"`` \| ``"HEAD"`` \| ``"PUT"`` \| ``"OPTIONS"`` \| ``"TRACE"`` \| ``"PATCH"`` \| ``"ANY"`` ; `path?`: `string` ; `timeout?`: `number`  } |
 | `config.cookie?` | [`CookieOptions`](#cookieoptions) |
 | `config.functionName?` | `string` |
 | `config.ignorePathPrefix?` | `string` |
@@ -90,7 +90,7 @@ ___
 | `config.path?` | `string` |
 | `config.timeout?` | `number` |
 | `name?` | `string` |
-| `validator?` | [`ValidatorConfig`](#validatorconfig)<`TParams`, `TCookie`, `TSession`\> |
+| `validator?` | [`ValidatorConfig`](#validatorconfig)\<`TParams`, `TCookie`, `TSession`\> |
 
 ___
 
@@ -103,7 +103,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `body?` | `string` |
-| `headers?` | { `[key: string]`: `string`;  } |
+| `headers?` | \{ `[key: string]`: `string`;  } |
 | `message?` | `string` |
 | `statusCode?` | `number` |
 
@@ -130,43 +130,43 @@ ___
 
 ### ValidatorConfig
 
-Ƭ **ValidatorConfig**<`TParams`, `TCookie`, `TSession`\>: `Object`
+Ƭ **ValidatorConfig**\<`TParams`, `TCookie`, `TSession`\>: `Object`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `TParams` | extends `Record`<`string`, `any`\> = `any` |
-| `TCookie` | extends `Record`<`string`, `string`\> = `any` |
-| `TSession` | extends `Record`<`string`, `string`\> = `any` |
+| `TParams` | extends `Record`\<`string`, `any`\> = `any` |
+| `TCookie` | extends `Record`\<`string`, `string`\> = `any` |
+| `TSession` | extends `Record`\<`string`, `string`\> = `any` |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
 | `before?` | `BeforeOption` |
-| `cookie?` | [`ValidatorOptions`](#validatoroptions)<`TCookie`\> |
-| `params?` | [`ValidatorOptions`](#validatoroptions)<`TParams`\> |
-| `session?` | [`ValidatorOptions`](#validatoroptions)<`TSession`\> |
+| `cookie?` | [`ValidatorOptions`](#validatoroptions)\<`TCookie`\> |
+| `params?` | [`ValidatorOptions`](#validatoroptions)\<`TParams`\> |
+| `session?` | [`ValidatorOptions`](#validatoroptions)\<`TSession`\> |
 
 ___
 
 ### ValidatorOptions
 
-Ƭ **ValidatorOptions**<`Content`\>: `Object`
+Ƭ **ValidatorOptions**\<`Content`\>: `Object`
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `Content` | `Record`<`string`, `any`\> |
+| `Content` | `Record`\<`string`, `any`\> |
 
 #### Type declaration
 
 | Name | Type |
 | :------ | :------ |
-| `onError?` | (`type`: `string`, `key`: `string` \| `string`[], `value?`: `any`) => { `message`: `any` ; `statusCode?`: `number`  } \| `void` |
-| `rules` | { [k in keyof Content]?: ValidatorRuleOptions } |
+| `onError?` | (`type`: `string`, `key`: `string` \| `string`[], `value?`: `any`) => \{ `message`: `any` ; `statusCode?`: `number`  } \| `void` |
+| `rules` | \{ [k in keyof Content]?: ValidatorRuleOptions } |
 | `whitelist?` | ``"error"`` \| ``"ignore"`` |
 
 ___
@@ -179,7 +179,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | `Partial`<[`ValidatorOptions`](#validatoroptions)\> |
+| `config?` | `Partial`\<[`ValidatorOptions`](#validatoroptions)\> |
 | `default?` | `any` |
 | `in?` | `any`[] |
 | `regexp?` | `RegExp` |
@@ -200,22 +200,22 @@ ___
 
 ### useHttp
 
-▸ **useHttp**<`TParams`, `TCookie`, `TSession`\>(`config?`): `UseifyPlugin`<[`Http`](classes/Http.md)<`TParams`, `TCookie`, `TSession`\>\>
+▸ **useHttp**\<`TParams`, `TCookie`, `TSession`\>(`config?`): `UseifyPlugin`\<[`Http`](classes/Http.md)\<`TParams`, `TCookie`, `TSession`\>\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `TParams` | extends `Record`<`string`, `any`\> = `any` |
-| `TCookie` | extends `Record`<`string`, `string`\> = `any` |
-| `TSession` | extends `Record`<`string`, `string`\> = `any` |
+| `TParams` | extends `Record`\<`string`, `any`\> = `any` |
+| `TCookie` | extends `Record`\<`string`, `string`\> = `any` |
+| `TSession` | extends `Record`\<`string`, `string`\> = `any` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config?` | [`HttpConfig`](#httpconfig)<`TParams`, `TCookie`, `TSession`\> |
+| `config?` | [`HttpConfig`](#httpconfig)\<`TParams`, `TCookie`, `TSession`\> |
 
 #### Returns
 
-`UseifyPlugin`<[`Http`](classes/Http.md)<`TParams`, `TCookie`, `TSession`\>\>
+`UseifyPlugin`\<[`Http`](classes/Http.md)\<`TParams`, `TCookie`, `TSession`\>\>

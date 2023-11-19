@@ -1,4 +1,4 @@
-# Class: Func<TEvent, TContext, TResult\>
+# Class: Func\<TEvent, TContext, TResult\>
 
 ## Type parameters
 
@@ -37,7 +37,7 @@
 
 ### constructor
 
-• **new Func**<`TEvent`, `TContext`, `TResult`\>(`config`)
+• **new Func**\<`TEvent`, `TContext`, `TResult`\>(`config`): [`Func`](Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
 Create a cloud function
 
@@ -53,7 +53,11 @@ Create a cloud function
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config` | [`FuncConfig`](../#funcconfig)<`TEvent`, `TContext`, `any`\> | {object} config |
+| `config` | [`FuncConfig`](../#funcconfig)\<`TEvent`, `TContext`, `any`\> | {object} config |
+
+#### Returns
+
+[`Func`](Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ## Properties
 
@@ -71,7 +75,7 @@ ___
 
 ### handler
 
-• `Optional` **handler**: [`Handler`](../#handler)<`TEvent`, `TContext`, `TResult`\>
+• `Optional` **handler**: [`Handler`](../#handler)\<`TEvent`, `TContext`, `TResult`\>
 
 ___
 
@@ -117,13 +121,13 @@ Export the function
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | [`ExportedHandler`](../#exportedhandler)<`TEvent`, `TContext`, `TResult`\> |
+| `handler` | [`ExportedHandler`](../#exportedhandler)\<`TEvent`, `TContext`, `TResult`\> |
 
 ___
 
 ### invoke
 
-▸ **invoke**(`data`): `Promise`<`void`\>
+▸ **invoke**(`data`): `Promise`\<`void`\>
 
 Invoke the function
 
@@ -131,17 +135,17 @@ Invoke the function
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `data` | [`InvokeData`](../#invokedata)<`TEvent`, `TContext`, `TResult`\> | {object} data |
+| `data` | [`InvokeData`](../#invokedata)\<`TEvent`, `TContext`, `TResult`\> | {object} data |
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
 ### mount
 
-▸ **mount**(`data`): `Promise`<`void`\>
+▸ **mount**(`data`): `Promise`\<`void`\>
 
 First time mount the function
 
@@ -157,4 +161,4 @@ First time mount the function
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>

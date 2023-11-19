@@ -34,7 +34,7 @@ server.listen()
 
 ### constructor
 
-• **new Server**(`root`, `opts?`)
+• **new Server**(`root`, `opts?`): [`Server`](Server.md)
 
 #### Parameters
 
@@ -45,6 +45,10 @@ server.listen()
 | `opts.cache?` | `boolean` | Enable cache, default is false |
 | `opts.onError?` | (`error`: `Error`) => `void` | - |
 | `opts.port?` | `number` | Port, default is 3000 |
+
+#### Returns
+
+[`Server`](Server.md)
 
 ## Properties
 
@@ -95,29 +99,29 @@ ___
 
 ### close
 
-▸ **close**(): `Promise`<`void`\>
+▸ **close**(): `Promise`\<`void`\>
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
 ### listen
 
-▸ **listen**(): `Server`<typeof `IncomingMessage`, typeof `ServerResponse`\>
+▸ **listen**(): `Server`\<typeof `IncomingMessage`, typeof `ServerResponse`\>
 
 Start server.
 
 #### Returns
 
-`Server`<typeof `IncomingMessage`, typeof `ServerResponse`\>
+`Server`\<typeof `IncomingMessage`, typeof `ServerResponse`\>
 
 ___
 
 ### processRequest
 
-▸ **processRequest**(`path`, `req`, `res`, `requestedAt`): `Promise`<`void`\>
+▸ **processRequest**(`path`, `req`, `res`, `requestedAt`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -125,9 +129,9 @@ ___
 | :------ | :------ |
 | `path` | `string` |
 | `req` | `IncomingMessage` |
-| `res` | `ServerResponse`<`IncomingMessage`\> & { `end`: () => `void` ; `setHeader`: (`key`: `string`, `value`: `string`) => `void` ; `statusCode`: `number` ; `write`: (`body`: `string` \| `Buffer`) => `void`  } |
+| `res` | `ServerResponse`\<`IncomingMessage`\> & \{ `end`: () => `void` ; `setHeader`: (`key`: `string`, `value`: `string`) => `void` ; `statusCode`: `number` ; `write`: (`body`: `string` \| `Buffer`) => `void`  } |
 | `requestedAt` | `number` |
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>

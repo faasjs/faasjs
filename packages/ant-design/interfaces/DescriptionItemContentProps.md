@@ -1,4 +1,4 @@
-# Interface: DescriptionItemContentProps<T\>
+# Interface: DescriptionItemContentProps\<T\>
 
 ## Type parameters
 
@@ -29,7 +29,7 @@ ___
 
 ### item
 
-• **item**: [`DescriptionItemProps`](DescriptionItemProps.md)<`any`\>
+• **item**: [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>
 
 ___
 

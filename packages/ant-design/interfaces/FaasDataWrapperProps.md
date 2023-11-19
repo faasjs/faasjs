@@ -1,4 +1,4 @@
-# Interface: FaasDataWrapperProps<T\>
+# Interface: FaasDataWrapperProps\<T\>
 
 ## Type parameters
 
@@ -8,7 +8,7 @@
 
 ## Hierarchy
 
-- `FaasDataWrapperProps`<`T`\>
+- `FaasDataWrapperProps`\<`T`\>
 
   ↳ **`FaasDataWrapperProps`**
 
@@ -44,7 +44,7 @@ ___
 
 ### children
 
-• `Optional` **children**: `ReactElement`<`Partial`<`FaasDataInjection`<`any`\>\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`any`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 #### Inherited from
 
@@ -54,7 +54,7 @@ ___
 
 ### data
 
-• `Optional` **data**: `FaasData`<`PathOrData`\>
+• `Optional` **data**: `FaasData`\<`PathOrData`\>
 
 use custom data, should work with setData
 
@@ -88,7 +88,7 @@ ___
 
 ### params
 
-• `Optional` **params**: `FaasParams`<`PathOrData`\>
+• `Optional` **params**: `FaasParams`\<`PathOrData`\>
 
 #### Inherited from
 
@@ -98,7 +98,7 @@ ___
 
 ### setData
 
-• `Optional` **setData**: `Dispatch`<`any`\>
+• `Optional` **setData**: `Dispatch`\<`any`\>
 
 use custom setData, should work with data
 
@@ -110,13 +110,13 @@ OriginProps.setData
 
 ### onDataChange
 
-▸ `Optional` **onDataChange**(`args`): `void`
+▸ **onDataChange**(`args`): `void`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `args` | `FaasDataInjection`<`FaasData`<`PathOrData`\>\> |
+| `args` | `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\> |
 
 #### Returns
 
@@ -130,13 +130,13 @@ ___
 
 ### render
 
-▸ `Optional` **render**(`args`): `Element` \| `Element`[]
+▸ **render**(`args`): `Element` \| `Element`[]
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `args` | `FaasDataInjection`<`FaasData`<`PathOrData`\>\> |
+| `args` | `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\> |
 
 #### Returns
 

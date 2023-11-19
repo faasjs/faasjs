@@ -50,8 +50,8 @@ FaasJS's function module.
 
 | Name | Type |
 | :------ | :------ |
-| `plugins?` | { `[key: string]`: { `[key: string]`: `any`; `config?`: { `[key: string]`: `any`;  } ; `provider?`: `string` \| [`ProviderConfig`](#providerconfig) ; `type`: `string`  };  } |
-| `providers?` | { `[key: string]`: [`ProviderConfig`](#providerconfig);  } |
+| `plugins?` | \{ `[key: string]`: \{ `[key: string]`: `any`; `config?`: \{ `[key: string]`: `any`;  } ; `provider?`: `string` \| [`ProviderConfig`](#providerconfig) ; `type`: `string`  };  } |
+| `providers?` | \{ `[key: string]`: [`ProviderConfig`](#providerconfig);  } |
 
 ___
 
@@ -68,12 +68,12 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `config?` | [`Config`](#config) |
-| `dependencies` | { `[name: string]`: `string`;  } |
+| `dependencies` | \{ `[name: string]`: `string`;  } |
 | `env?` | `string` |
 | `filename` | `string` |
 | `logger?` | `Logger` |
 | `name?` | `string` |
-| `plugins?` | { `[name: string]`: { `[key: string]`: `any`; `config`: { `[key: string]`: `any`;  } ; `name?`: `string` ; `plugin`: [`Plugin`](#plugin) ; `provider?`: `string` ; `type`: `string`  };  } |
+| `plugins?` | \{ `[name: string]`: \{ `[key: string]`: `any`; `config`: \{ `[key: string]`: `any`;  } ; `name?`: `string` ; `plugin`: [`Plugin`](#plugin) ; `provider?`: `string` ; `type`: `string`  };  } |
 | `root` | `string` |
 | `version?` | `string` |
 
@@ -81,7 +81,7 @@ ___
 
 ### ExportedHandler
 
-Ƭ **ExportedHandler**<`TEvent`, `TContext`, `TResult`\>: (`event`: `TEvent`, `context?`: `TContext`, `callback?`: (...`args`: `any`) => `any`) => `Promise`<`TResult`\>
+Ƭ **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\>: (`event`: `TEvent`, `context?`: `TContext`, `callback?`: (...`args`: `any`) => `any`) => `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -93,7 +93,7 @@ ___
 
 #### Type declaration
 
-▸ (`event`, `context?`, `callback?`): `Promise`<`TResult`\>
+▸ (`event`, `context?`, `callback?`): `Promise`\<`TResult`\>
 
 ##### Parameters
 
@@ -105,13 +105,13 @@ ___
 
 ##### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### FuncConfig
 
-Ƭ **FuncConfig**<`TEvent`, `TContext`, `TResult`\>: `Object`
+Ƭ **FuncConfig**\<`TEvent`, `TContext`, `TResult`\>: `Object`
 
 #### Type parameters
 
@@ -125,14 +125,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `handler?` | [`Handler`](#handler)<`TEvent`, `TContext`, `TResult`\> |
+| `handler?` | [`Handler`](#handler)\<`TEvent`, `TContext`, `TResult`\> |
 | `plugins?` | [`Plugin`](#plugin)[] |
 
 ___
 
 ### Handler
 
-Ƭ **Handler**<`TEvent`, `TContext`, `TResult`\>: (`data`: [`InvokeData`](#invokedata)<`TEvent`, `TContext`\>) => `Promise`<`TResult`\>
+Ƭ **Handler**\<`TEvent`, `TContext`, `TResult`\>: (`data`: [`InvokeData`](#invokedata)\<`TEvent`, `TContext`\>) => `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -144,23 +144,23 @@ ___
 
 #### Type declaration
 
-▸ (`data`): `Promise`<`TResult`\>
+▸ (`data`): `Promise`\<`TResult`\>
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `data` | [`InvokeData`](#invokedata)<`TEvent`, `TContext`\> |
+| `data` | [`InvokeData`](#invokedata)\<`TEvent`, `TContext`\> |
 
 ##### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### InvokeData
 
-Ƭ **InvokeData**<`TEvent`, `TContext`, `TResult`\>: `Object`
+Ƭ **InvokeData**\<`TEvent`, `TContext`, `TResult`\>: `Object`
 
 #### Type parameters
 
@@ -182,7 +182,7 @@ ___
 | `config` | [`Config`](#config) |
 | `context` | `TContext` |
 | `event` | `TEvent` |
-| `handler?` | [`Handler`](#handler)<`TEvent`, `TContext`, `TResult`\> |
+| `handler?` | [`Handler`](#handler)\<`TEvent`, `TContext`, `TResult`\> |
 | `logger` | `Logger` |
 | `response` | `any` |
 
@@ -214,15 +214,15 @@ ___
 
 ### Next
 
-Ƭ **Next**: () => `Promise`<`void`\>
+Ƭ **Next**: () => `Promise`\<`void`\>
 
 #### Type declaration
 
-▸ (): `Promise`<`void`\>
+▸ (): `Promise`\<`void`\>
 
 ##### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
@@ -239,9 +239,9 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `name` | `string` |
-| `onDeploy?` | (`data`: [`DeployData`](#deploydata), `next`: [`Next`](#next)) => `Promise`<`void`\> |
-| `onInvoke?` | (`data`: [`InvokeData`](#invokedata), `next`: [`Next`](#next)) => `Promise`<`void`\> |
-| `onMount?` | (`data`: [`MountData`](#mountdata), `next`: [`Next`](#next)) => `Promise`<`void`\> |
+| `onDeploy?` | (`data`: [`DeployData`](#deploydata), `next`: [`Next`](#next)) => `Promise`\<`void`\> |
+| `onInvoke?` | (`data`: [`InvokeData`](#invokedata), `next`: [`Next`](#next)) => `Promise`\<`void`\> |
+| `onMount?` | (`data`: [`MountData`](#mountdata), `next`: [`Next`](#next)) => `Promise`\<`void`\> |
 | `type` | `string` |
 
 ___
@@ -254,14 +254,14 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `config` | { `[key: string]`: `any`;  } |
+| `config` | \{ `[key: string]`: `any`;  } |
 | `type` | `string` |
 
 ___
 
 ### UseifyPlugin
 
-Ƭ **UseifyPlugin**<`T`\>: `T` & { `mount?`: (`data?`: { `config?`: [`Config`](#config)  }) => `Promise`<`T`\>  }
+Ƭ **UseifyPlugin**\<`T`\>: `T` & \{ `mount?`: (`data?`: \{ `config?`: [`Config`](#config)  }) => `Promise`\<`T`\>  }
 
 #### Type parameters
 
@@ -273,7 +273,7 @@ ___
 
 ### useFunc
 
-▸ **useFunc**<`TEvent`, `TContext`, `TResult`\>(`handler`): [`Func`](classes/Func.md)<`TEvent`, `TContext`, `TResult`\>
+▸ **useFunc**\<`TEvent`, `TContext`, `TResult`\>(`handler`): [`Func`](classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ```ts
 // pure function
@@ -307,17 +307,17 @@ export default useFunc(() => {
 
 | Name | Type |
 | :------ | :------ |
-| `handler` | () => [`Handler`](#handler)<`TEvent`, `TContext`, `TResult`\> |
+| `handler` | () => [`Handler`](#handler)\<`TEvent`, `TContext`, `TResult`\> |
 
 #### Returns
 
-[`Func`](classes/Func.md)<`TEvent`, `TContext`, `TResult`\>
+[`Func`](classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ___
 
 ### usePlugin
 
-▸ **usePlugin**<`T`\>(`plugin`): [`UseifyPlugin`](#useifyplugin)<`T`\>
+▸ **usePlugin**\<`T`\>(`plugin`): [`UseifyPlugin`](#useifyplugin)\<`T`\>
 
 #### Type parameters
 
@@ -329,8 +329,8 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `plugin` | [`UseifyPlugin`](#useifyplugin)<`T`\> |
+| `plugin` | [`UseifyPlugin`](#useifyplugin)\<`T`\> |
 
 #### Returns
 
-[`UseifyPlugin`](#useifyplugin)<`T`\>
+[`UseifyPlugin`](#useifyplugin)\<`T`\>

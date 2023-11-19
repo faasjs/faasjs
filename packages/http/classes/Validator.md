@@ -1,12 +1,12 @@
-# Class: Validator<TParams, TCookie, TSession\>
+# Class: Validator\<TParams, TCookie, TSession\>
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `TParams` | extends `Record`<`string`, `any`\> = `any` |
-| `TCookie` | extends `Record`<`string`, `string`\> = `any` |
-| `TSession` | extends `Record`<`string`, `string`\> = `any` |
+| `TParams` | extends `Record`\<`string`, `any`\> = `any` |
+| `TCookie` | extends `Record`\<`string`, `string`\> = `any` |
+| `TSession` | extends `Record`\<`string`, `string`\> = `any` |
 
 ## Table of contents
 
@@ -30,62 +30,66 @@
 
 ### constructor
 
-• **new Validator**<`TParams`, `TCookie`, `TSession`\>(`config`)
+• **new Validator**\<`TParams`, `TCookie`, `TSession`\>(`config`): [`Validator`](Validator.md)\<`TParams`, `TCookie`, `TSession`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `TParams` | extends `Record`<`string`, `any`\> = `any` |
-| `TCookie` | extends `Record`<`string`, `string`\> = `any` |
-| `TSession` | extends `Record`<`string`, `string`\> = `any` |
+| `TParams` | extends `Record`\<`string`, `any`\> = `any` |
+| `TCookie` | extends `Record`\<`string`, `string`\> = `any` |
+| `TSession` | extends `Record`\<`string`, `string`\> = `any` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `config` | [`ValidatorConfig`](../#validatorconfig)<`TParams`, `TCookie`, `TSession`\> |
+| `config` | [`ValidatorConfig`](../#validatorconfig)\<`TParams`, `TCookie`, `TSession`\> |
+
+#### Returns
+
+[`Validator`](Validator.md)\<`TParams`, `TCookie`, `TSession`\>
 
 ## Properties
 
 ### before
 
-• `Optional` **before**: `BeforeOption`<`TParams`, `TCookie`, `TSession`\>
+• `Optional` **before**: `BeforeOption`\<`TParams`, `TCookie`, `TSession`\>
 
 ___
 
 ### cookieConfig
 
-• `Optional` **cookieConfig**: [`ValidatorOptions`](../#validatoroptions)<`TCookie`\>
+• `Optional` **cookieConfig**: [`ValidatorOptions`](../#validatoroptions)\<`TCookie`\>
 
 ___
 
 ### paramsConfig
 
-• `Optional` **paramsConfig**: [`ValidatorOptions`](../#validatoroptions)<`TParams`\>
+• `Optional` **paramsConfig**: [`ValidatorOptions`](../#validatoroptions)\<`TParams`\>
 
 ___
 
 ### sessionConfig
 
-• `Optional` **sessionConfig**: [`ValidatorOptions`](../#validatoroptions)<`TSession`\>
+• `Optional` **sessionConfig**: [`ValidatorOptions`](../#validatoroptions)\<`TSession`\>
 
 ## Methods
 
 ### valid
 
-▸ **valid**(`request`, `logger`): `Promise`<`void`\>
+▸ **valid**(`request`, `logger`): `Promise`\<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `request` | `Request`<`TParams`, `TCookie`, `TSession`\> |
+| `request` | `Request`\<`TParams`, `TCookie`, `TSession`\> |
 | `logger` | `Logger` |
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
@@ -100,7 +104,7 @@ ___
 | `type` | `string` |
 | `params` | `Object` |
 | `baseKey` | `string` |
-| `config` | [`ValidatorOptions`](../#validatoroptions)<`Record`<`string`, `any`\>\> |
+| `config` | [`ValidatorOptions`](../#validatoroptions)\<`Record`\<`string`, `any`\>\> |
 | `logger` | `Logger` |
 
 #### Returns

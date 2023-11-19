@@ -37,11 +37,11 @@ Dynamic routing:
 
 ### closeAll
 
-▸ **closeAll**(): `Promise`<`void`\>
+▸ **closeAll**(): `Promise`\<`void`\>
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 

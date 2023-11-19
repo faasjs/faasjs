@@ -1,4 +1,4 @@
-# Interface: DescriptionItemProps<T\>
+# Interface: DescriptionItemProps\<T\>
 
 ## Type parameters
 
@@ -33,19 +33,19 @@
 
 ### children
 
-• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
 
 ___
 
 ### descriptionChildren
 
-• `Optional` **descriptionChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+• `Optional` **descriptionChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
 
 ___
 
 ### descriptionRender
 
-• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
+• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 ### if
 
-• `Optional` **if**: (`values`: `Record`<`string`, `any`\>) => `boolean`
+• `Optional` **if**: (`values`: `Record`\<`string`, `any`\>) => `boolean`
 
 #### Type declaration
 
@@ -71,7 +71,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `values` | `Record`<`string`, `any`\> |
+| `values` | `Record`\<`string`, `any`\> |
 
 ##### Returns
 
@@ -81,7 +81,7 @@ ___
 
 ### object
 
-• `Optional` **object**: [`DescriptionItemProps`](DescriptionItemProps.md)<`T`\>[]
+• `Optional` **object**: [`DescriptionItemProps`](DescriptionItemProps.md)\<`T`\>[]
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 ### render
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
 
 ___
 

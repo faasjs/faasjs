@@ -33,7 +33,7 @@
 
 ### constructor
 
-• **new Knex**(`config?`)
+• **new Knex**(`config?`): [`Knex`](Knex.md)
 
 #### Parameters
 
@@ -41,17 +41,21 @@
 | :------ | :------ |
 | `config?` | [`KnexConfig`](../#knexconfig) |
 
+#### Returns
+
+[`Knex`](Knex.md)
+
 ## Properties
 
 ### adapter
 
-• **adapter**: `Knex`<`any`, `any`[]\>
+• **adapter**: `Knex`\<`any`, `any`[]\>
 
 ___
 
 ### config
 
-• **config**: `Config`<`any`\>
+• **config**: `Config`\<`any`\>
 
 ___
 
@@ -73,7 +77,7 @@ ___
 
 ### query
 
-• **query**: `Knex`<`any`, `any`[]\>
+• **query**: `Knex`\<`any`, `any`[]\>
 
 ___
 
@@ -89,7 +93,7 @@ Plugin.type
 
 ### onDeploy
 
-▸ **onDeploy**(`data`, `next`): `Promise`<`void`\>
+▸ **onDeploy**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -100,7 +104,7 @@ Plugin.type
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -110,18 +114,18 @@ ___
 
 ### onInvoke
 
-▸ **onInvoke**(`data`, `next`): `Promise`<`void`\>
+▸ **onInvoke**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `InvokeData`<`any`, `any`, `any`\> |
+| `data` | `InvokeData`\<`any`, `any`, `any`\> |
 | `next` | `Next` |
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -131,7 +135,7 @@ ___
 
 ### onMount
 
-▸ **onMount**(`data`, `next`): `Promise`<`void`\>
+▸ **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -142,7 +146,7 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -152,17 +156,17 @@ ___
 
 ### quit
 
-▸ **quit**(): `Promise`<`void`\>
+▸ **quit**(): `Promise`\<`void`\>
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
 ### raw
 
-▸ **raw**<`TResult`\>(`sql`, `bindings?`): `Promise`<`Raw`<`TResult`\>\>
+▸ **raw**\<`TResult`\>(`sql`, `bindings?`): `Promise`\<`Raw`\<`TResult`\>\>
 
 #### Type parameters
 
@@ -179,7 +183,7 @@ ___
 
 #### Returns
 
-`Promise`<`Raw`<`TResult`\>\>
+`Promise`\<`Raw`\<`TResult`\>\>
 
 ___
 
@@ -195,7 +199,7 @@ ___
 
 ### transaction
 
-▸ **transaction**<`TResult`\>(`scope`, `config?`, `options?`): `Promise`<`void` \| `TResult`\>
+▸ **transaction**\<`TResult`\>(`scope`, `config?`, `options?`): `Promise`\<`void` \| `TResult`\>
 
 #### Type parameters
 
@@ -207,11 +211,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `scope` | (`trx`: `Transaction`<`any`, `any`\>) => `void` \| `Promise`<`TResult`\> |
+| `scope` | (`trx`: `Transaction`\<`any`, `any`\>) => `void` \| `Promise`\<`TResult`\> |
 | `config?` | `TransactionConfig` |
 | `options?` | `Object` |
-| `options.trx?` | `Transaction`<`any`, `any`[]\> |
+| `options.trx?` | `Transaction`\<`any`, `any`[]\> |
 
 #### Returns
 
-`Promise`<`void` \| `TResult`\>
+`Promise`\<`void` \| `TResult`\>

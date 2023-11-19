@@ -80,7 +80,7 @@ export default {
 
 ### bundle
 
-▸ **bundle**(`options`): `Promise`<`Output`\>
+▸ **bundle**(`options`): `Promise`\<`Output`\>
 
 #### Parameters
 
@@ -94,7 +94,7 @@ export default {
 
 #### Returns
 
-`Promise`<`Output`\>
+`Promise`\<`Output`\>
 
 ___
 

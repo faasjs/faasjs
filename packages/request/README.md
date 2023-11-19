@@ -12,6 +12,10 @@ FaasJS's request module.
 
 ## Modules
 
+### Classes
+
+- [ResponseError](classes/ResponseError.md)
+
 ### Type Aliases
 
 - [Request](#request)
@@ -34,7 +38,7 @@ FaasJS's request module.
 
 | Name | Type |
 | :------ | :------ |
-| `body?` | { `[key: string]`: `any`;  } |
+| `body?` | \{ `[key: string]`: `any`;  } |
 | `headers?` | `http.OutgoingHttpHeaders` |
 | `host?` | `string` |
 | `method?` | `string` |
@@ -53,7 +57,7 @@ ___
 | :------ | :------ | :------ |
 | `agent?` | `boolean` | - |
 | `auth?` | `string` | The authentication credentials to use for the request. Format: `username:password` |
-| `body?` | { `[key: string]`: `any`;  } \| `string` | - |
+| `body?` | \{ `[key: string]`: `any`;  } \| `string` | - |
 | `downloadFile?` | `string` | Path of downloading a file from the server. ```ts await request('https://example.com', { downloadFile: 'filepath' }) ``` |
 | `downloadStream?` | `NodeJS.WritableStream` | Create a write stream to download a file. ```ts import { createWriteStream } from 'fs' const stream = createWriteStream('filepath') await request('https://example.com', { downloadStream: stream }) ``` |
 | `file?` | `string` | Path of uploading a file to the server. ```ts await request('https://example.com', { file: 'filepath' }) ``` |
@@ -63,14 +67,14 @@ ___
 | `parse?` | (`body`: `string`) => `any` | Body parser. Defaults to `JSON.parse`. |
 | `passphrase?` | `string` | - |
 | `pfx?` | `Buffer` | - |
-| `query?` | { `[key: string]`: `any`;  } | - |
+| `query?` | \{ `[key: string]`: `any`;  } | - |
 | `timeout?` | `number` | - |
 
 ___
 
 ### Response
 
-Ƭ **Response**<`T`\>: `Object`
+Ƭ **Response**\<`T`\>: `Object`
 
 #### Type parameters
 
@@ -108,7 +112,7 @@ ___
 
 ### request
 
-▸ **request**<`T`\>(`url`, `options?`): `Promise`<[`Response`](#response)<`T`\>\>
+▸ **request**\<`T`\>(`url`, `options?`): `Promise`\<[`Response`](#response)\<`T`\>\>
 
 Request
 
@@ -127,7 +131,7 @@ Request
 
 #### Returns
 
-`Promise`<[`Response`](#response)<`T`\>\>
+`Promise`\<[`Response`](#response)\<`T`\>\>
 
 **`Url`**
 

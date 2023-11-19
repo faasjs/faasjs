@@ -39,21 +39,29 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### constructor
 
-• **new FuncWarper**(`initBy`)
+• **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `initBy` | [`Func`](Func.md)<`any`, `any`, `any`\> |
+| `initBy` | [`Func`](Func.md)\<`any`, `any`, `any`\> |
 
-• **new FuncWarper**(`initBy`)
+#### Returns
+
+[`FuncWarper`](FuncWarper.md)
+
+• **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `initBy` | `string` |
+
+#### Returns
+
+[`FuncWarper`](FuncWarper.md)
 
 ## Properties
 
@@ -71,7 +79,7 @@ ___
 
 ### func
 
-• `Readonly` **func**: [`Func`](Func.md)<`any`, `any`, `any`\>
+• `Readonly` **func**: [`Func`](Func.md)\<`any`, `any`, `any`\>
 
 ___
 
@@ -95,7 +103,7 @@ ___
 
 ### JSONhandler
 
-▸ **JSONhandler**<`TData`\>(`body?`, `options?`): `Promise`<{ `body`: `any` ; `cookie?`: `Record`<`string`, `any`\> ; `data?`: `TData` ; `error?`: { `message`: `string`  } ; `headers`: { `[key: string]`: `string`;  } ; `session?`: `Record`<`string`, `any`\> ; `statusCode`: `number`  }\>
+▸ **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any` ; `cookie?`: `Record`\<`string`, `any`\> ; `data?`: `TData` ; `error?`: \{ `message`: `string`  } ; `headers`: \{ `[key: string]`: `string`;  } ; `session?`: `Record`\<`string`, `any`\> ; `statusCode`: `number`  }\>
 
 #### Type parameters
 
@@ -115,13 +123,13 @@ ___
 
 #### Returns
 
-`Promise`<{ `body`: `any` ; `cookie?`: `Record`<`string`, `any`\> ; `data?`: `TData` ; `error?`: { `message`: `string`  } ; `headers`: { `[key: string]`: `string`;  } ; `session?`: `Record`<`string`, `any`\> ; `statusCode`: `number`  }\>
+`Promise`\<\{ `body`: `any` ; `cookie?`: `Record`\<`string`, `any`\> ; `data?`: `TData` ; `error?`: \{ `message`: `string`  } ; `headers`: \{ `[key: string]`: `string`;  } ; `session?`: `Record`\<`string`, `any`\> ; `statusCode`: `number`  }\>
 
 ___
 
 ### handler
 
-▸ **handler**<`TResult`\>(`event?`, `context?`): `Promise`<`TResult`\>
+▸ **handler**\<`TResult`\>(`event?`, `context?`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -138,20 +146,20 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### mount
 
-▸ **mount**(`handler?`): `Promise`<`void`\>
+▸ **mount**(`handler?`): `Promise`\<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `handler?` | (`func`: [`FuncWarper`](FuncWarper.md)) => `void` \| `Promise`<`void`\> |
+| `handler?` | (`func`: [`FuncWarper`](FuncWarper.md)) => `void` \| `Promise`\<`void`\> |
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>

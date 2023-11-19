@@ -1,4 +1,4 @@
-# Interface: TableItemProps<T\>
+# Interface: TableItemProps\<T\>
 
 ## Type parameters
 
@@ -10,7 +10,7 @@
 
 - [`FaasItemProps`](FaasItemProps.md)
 
-- `Omit`<`AntdTableColumnProps`<`T`\>, ``"title"`` \| ``"children"`` \| ``"render"``\>
+- `Omit`\<`AntdTableColumnProps`\<`T`\>, ``"title"`` \| ``"children"`` \| ``"render"``\>
 
   ↳ **`TableItemProps`**
 
@@ -35,7 +35,7 @@
 
 ### children
 
-• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 ### object
 
-• `Optional` **object**: [`TableItemProps`](TableItemProps.md)<`T`\>[]
+• `Optional` **object**: [`TableItemProps`](TableItemProps.md)\<`T`\>[]
 
 ___
 
@@ -73,19 +73,19 @@ ___
 
 ### render
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
 
 ___
 
 ### tableChildren
 
-• `Optional` **tableChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+• `Optional` **tableChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
 
 ___
 
 ### tableRender
 
-• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
+• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
 
 ___
 

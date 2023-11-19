@@ -2,7 +2,7 @@
 
 ## Hierarchy
 
-- `Partial`<`OriginTabProps`\>
+- `Partial`\<`OriginTabProps`\>
 
   ↳ **`TabProps`**
 

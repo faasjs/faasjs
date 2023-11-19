@@ -24,4 +24,4 @@ ___
 
 ### routes
 
-• **routes**: `Object`[]
+• **routes**: \{ `page?`: `LazyExoticComponent`\<`ComponentType`\<`any`\>\>  }[]

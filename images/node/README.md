@@ -13,3 +13,9 @@
 ```bash
 docker pull faasjs/node
 ```
+
+## FAQ
+
+### How to use with debian?
+
+Just change `faasjs/node` to `faasjs/node:debian`.

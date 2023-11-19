@@ -90,11 +90,11 @@ Reference: [Default Query Function | TanStack Query](https://tanstack.com/query/
 
 ### FaasBrowserClientAction
 
-Ƭ **FaasBrowserClientAction**: <PathOrData\>(`action`: `PathOrData` \| `string`, `params?`: `FaasParams`<`PathOrData`\>, `options?`: [`Options`](#options)) => `Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>
+Ƭ **FaasBrowserClientAction**: \<PathOrData\>(`action`: `PathOrData` \| `string`, `params?`: `FaasParams`\<`PathOrData`\>, `options?`: [`Options`](#options)) => `Promise`\<[`Response`](classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 #### Type declaration
 
-▸ <`PathOrData`\>(`action`, `params?`, `options?`): `Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>
+▸ \<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`\<[`Response`](classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 ##### Type parameters
 
@@ -107,44 +107,44 @@ Reference: [Default Query Function | TanStack Query](https://tanstack.com/query/
 | Name | Type |
 | :------ | :------ |
 | `action` | `PathOrData` \| `string` |
-| `params?` | `FaasParams`<`PathOrData`\> |
+| `params?` | `FaasParams`\<`PathOrData`\> |
 | `options?` | [`Options`](#options) |
 
 ##### Returns
 
-`Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>
+`Promise`\<[`Response`](classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 ___
 
 ### MockHandler
 
-Ƭ **MockHandler**: (`action`: `string`, `params`: `Record`<`string`, `any`\>, `options`: [`Options`](#options)) => `Promise`<[`Response`](classes/Response.md)<`any`\>\>
+Ƭ **MockHandler**: (`action`: `string`, `params`: `Record`\<`string`, `any`\>, `options`: [`Options`](#options)) => `Promise`\<[`Response`](classes/Response.md)\<`any`\>\>
 
 #### Type declaration
 
-▸ (`action`, `params`, `options`): `Promise`<[`Response`](classes/Response.md)<`any`\>\>
+▸ (`action`, `params`, `options`): `Promise`\<[`Response`](classes/Response.md)\<`any`\>\>
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `action` | `string` |
-| `params` | `Record`<`string`, `any`\> |
+| `params` | `Record`\<`string`, `any`\> |
 | `options` | [`Options`](#options) |
 
 ##### Returns
 
-`Promise`<[`Response`](classes/Response.md)<`any`\>\>
+`Promise`\<[`Response`](classes/Response.md)\<`any`\>\>
 
 ___
 
 ### Options
 
-Ƭ **Options**: `RequestInit` & { `beforeRequest?`: (`{
+Ƭ **Options**: `RequestInit` & \{ `beforeRequest?`: (`{
     action,
     params,
     options,
-  }`: { `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`<`string`, `any`\>  }) => `Promise`<`void`\> \| `void` ; `headers?`: { `[key: string]`: `string`;  } ; `request?`: <PathOrData\>(`url`: `string`, `options`: [`Options`](#options)) => `Promise`<[`Response`](classes/Response.md)<`FaasData`<`PathOrData`\>\>\>  }
+  }`: \{ `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`\<`string`, `any`\>  }) => `Promise`\<`void`\> ; `headers?`: \{ `[key: string]`: `string`;  } ; `request?`: \<PathOrData\>(`url`: `string`, `options`: [`Options`](#options)) => `Promise`\<[`Response`](classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>  }
 
 ___
 

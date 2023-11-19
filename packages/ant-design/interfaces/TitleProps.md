@@ -23,7 +23,7 @@ ___
 
 ### h1
 
-• `Optional` **h1**: `boolean` \| { `className?`: `string` ; `style?`: `CSSProperties`  }
+• `Optional` **h1**: `boolean` \| \{ `className?`: `string` ; `style?`: `CSSProperties`  }
 
 return a h1 element
 

@@ -28,7 +28,7 @@
 
 ### constructor
 
-• **new Mongo**(`config?`)
+• **new Mongo**(`config?`): [`Mongo`](Mongo.md)
 
 #### Parameters
 
@@ -37,6 +37,10 @@
 | `config?` | `Object` |
 | `config.config?` | [`MongoConfig`](../interfaces/MongoConfig.md) |
 | `config.name?` | `string` |
+
+#### Returns
+
+[`Mongo`](Mongo.md)
 
 ## Properties
 
@@ -48,11 +52,11 @@ ___
 
 ### collection
 
-• **collection**: <TSchema\>(`name`: `string`, `options?`: `CollectionOptions`, `callback?`: `Callback`<`Collection`<`TSchema`\>\>) => `Collection`<`TSchema`\>
+• **collection**: \<TSchema\>(`name`: `string`, `options?`: `CollectionOptions`, `callback?`: `Callback`\<`Collection`\<`TSchema`\>\>) => `Collection`\<`TSchema`\>
 
 #### Type declaration
 
-▸ <`TSchema`\>(`name`, `options?`, `callback?`): `Collection`<`TSchema`\>
+▸ \<`TSchema`\>(`name`, `options?`, `callback?`): `Collection`\<`TSchema`\>
 
 ##### Type parameters
 
@@ -66,11 +70,11 @@ ___
 | :------ | :------ |
 | `name` | `string` |
 | `options?` | `CollectionOptions` |
-| `callback?` | `Callback`<`Collection`<`TSchema`\>\> |
+| `callback?` | `Callback`\<`Collection`\<`TSchema`\>\> |
 
 ##### Returns
 
-`Collection`<`TSchema`\>
+`Collection`\<`TSchema`\>
 
 ___
 
@@ -108,7 +112,7 @@ Plugin.type
 
 ### onDeploy
 
-▸ **onDeploy**(`data`, `next`): `Promise`<`void`\>
+▸ **onDeploy**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -119,7 +123,7 @@ Plugin.type
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -129,7 +133,7 @@ ___
 
 ### onMount
 
-▸ **onMount**(`data`, `next`): `Promise`<`void`\>
+▸ **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -140,7 +144,7 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 

@@ -30,7 +30,7 @@
 
 ### constructor
 
-• **new CloudFunction**(`config?`)
+• **new CloudFunction**(`config?`): [`CloudFunction`](CloudFunction.md)
 
 创建云函数配置
 
@@ -39,6 +39,10 @@
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `config?` | [`CloudFunctionConfig`](../#cloudfunctionconfig) | {object} 配置项，这些配置将强制覆盖默认配置 |
+
+#### Returns
+
+[`CloudFunction`](CloudFunction.md)
 
 ## Properties
 
@@ -57,7 +61,7 @@
 | `memorySize?` | `number` |
 | `name?` | `string` |
 | `timeout?` | `number` |
-| `triggers?` | { `name`: `string` ; `type`: `string` ; `value`: `string`  }[] |
+| `triggers?` | \{ `name`: `string` ; `type`: `string` ; `value`: `string`  }[] |
 
 ___
 
@@ -95,7 +99,7 @@ Plugin.type
 
 ### invoke
 
-▸ **invoke**<`TData`\>(`name`, `data?`, `options?`): `Promise`<`void`\>
+▸ **invoke**\<`TData`\>(`name`, `data?`, `options?`): `Promise`\<`void`\>
 
 异步触发云函数
 
@@ -111,17 +115,17 @@ Plugin.type
 | :------ | :------ | :------ |
 | `name` | `string` | {string} 云函数文件名或云函数名 |
 | `data?` | `TData` | {any} 参数 |
-| `options?` | `Record`<`string`, `any`\> | {object} 额外配置项 |
+| `options?` | `Record`\<`string`, `any`\> | {object} 额外配置项 |
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
 ### invokeSync
 
-▸ **invokeSync**<`TResult`, `TData`\>(`name`, `data?`, `options?`): `Promise`<`TResult`\>
+▸ **invokeSync**\<`TResult`, `TData`\>(`name`, `data?`, `options?`): `Promise`\<`TResult`\>
 
 同步调用云函数
 
@@ -138,17 +142,17 @@ ___
 | :------ | :------ | :------ |
 | `name` | `string` | {string} 云函数文件名或云函数名 |
 | `data?` | `TData` | {any} 参数 |
-| `options?` | `Record`<`string`, `any`\> | {object} 额外配置项 |
+| `options?` | `Record`\<`string`, `any`\> | {object} 额外配置项 |
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### onDeploy
 
-▸ **onDeploy**(`data`, `next`): `Promise`<`void`\>
+▸ **onDeploy**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -159,7 +163,7 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -169,7 +173,7 @@ ___
 
 ### onInvoke
 
-▸ **onInvoke**(`data`, `next`): `Promise`<`void`\>
+▸ **onInvoke**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -180,7 +184,7 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -190,7 +194,7 @@ ___
 
 ### onMount
 
-▸ **onMount**(`data`, `next`): `Promise`<`void`\>
+▸ **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -201,7 +205,7 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 

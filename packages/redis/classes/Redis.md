@@ -41,13 +41,17 @@ Redis Plugin
 
 ### constructor
 
-• **new Redis**(`config?`)
+• **new Redis**(`config?`): [`Redis`](Redis.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `config?` | [`RedisConfig`](../#redisconfig) |
+
+#### Returns
+
+[`Redis`](Redis.md)
 
 ## Properties
 
@@ -71,7 +75,7 @@ ___
 
 ### multi
 
-• **multi**: (`options?`: { `pipeline`: `boolean`  } \| `any`[][]) => `ChainableCommander`
+• **multi**: (`options?`: \{ `pipeline`: `boolean`  } \| `any`[][]) => `ChainableCommander`
 
 #### Type declaration
 
@@ -81,7 +85,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `options?` | { `pipeline`: `boolean`  } \| `any`[][] |
+| `options?` | \{ `pipeline`: `boolean`  } \| `any`[][] |
 
 ##### Returns
 
@@ -131,7 +135,7 @@ Plugin.type
 
 ### get
 
-▸ **get**<`TData`\>(`key`): `Promise`<`TData`\>
+▸ **get**\<`TData`\>(`key`): `Promise`\<`TData`\>
 
 #### Type parameters
 
@@ -147,13 +151,13 @@ Plugin.type
 
 #### Returns
 
-`Promise`<`TData`\>
+`Promise`\<`TData`\>
 
 ___
 
 ### getJSON
 
-▸ **getJSON**<`TData`\>(`key`): `Promise`<`TData`\>
+▸ **getJSON**\<`TData`\>(`key`): `Promise`\<`TData`\>
 
 #### Type parameters
 
@@ -169,13 +173,13 @@ ___
 
 #### Returns
 
-`Promise`<`TData`\>
+`Promise`\<`TData`\>
 
 ___
 
 ### lock
 
-▸ **lock**(`key`, `EX?`): `Promise`<`void`\>
+▸ **lock**(`key`, `EX?`): `Promise`\<`void`\>
 
 Lock by key
 
@@ -188,13 +192,13 @@ Lock by key
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
 ### onDeploy
 
-▸ **onDeploy**(`data`, `next`): `Promise`<`void`\>
+▸ **onDeploy**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -205,7 +209,7 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -215,18 +219,18 @@ ___
 
 ### onInvoke
 
-▸ **onInvoke**(`data`, `next`): `Promise`<`void`\>
+▸ **onInvoke**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `data` | `InvokeData`<`any`, `any`, `any`\> |
+| `data` | `InvokeData`\<`any`, `any`, `any`\> |
 | `next` | `Next` |
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -236,7 +240,7 @@ ___
 
 ### onMount
 
-▸ **onMount**(`data`, `next`): `Promise`<`void`\>
+▸ **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -247,7 +251,7 @@ ___
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Implementation of
 
@@ -257,7 +261,7 @@ ___
 
 ### publish
 
-▸ **publish**(`channel`, `message`): `Promise`<`number`\>
+▸ **publish**(`channel`, `message`): `Promise`\<`number`\>
 
 Publish message
 
@@ -270,13 +274,13 @@ Publish message
 
 #### Returns
 
-`Promise`<`number`\>
+`Promise`\<`number`\>
 
 ___
 
 ### query
 
-▸ **query**<`TResult`\>(`command`, `args`): `Promise`<`TResult`\>
+▸ **query**\<`TResult`\>(`command`, `args`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -293,23 +297,23 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### quit
 
-▸ **quit**(): `Promise`<`void`\>
+▸ **quit**(): `Promise`\<`void`\>
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
 ### set
 
-▸ **set**<`TResult`\>(`key`, `value`, `options?`): `Promise`<`TResult`\>
+▸ **set**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -327,13 +331,13 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### setJSON
 
-▸ **setJSON**<`TResult`\>(`key`, `value`, `options?`): `Promise`<`TResult`\>
+▸ **setJSON**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -351,13 +355,13 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### unlock
 
-▸ **unlock**(`key`): `Promise`<`void`\>
+▸ **unlock**(`key`): `Promise`\<`void`\>
 
 Unlock by key
 
@@ -369,4 +373,4 @@ Unlock by key
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>

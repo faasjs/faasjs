@@ -19,13 +19,17 @@
 
 ### constructor
 
-• **new Deployer**(`data`)
+• **new Deployer**(`data`): [`Deployer`](Deployer.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `data` | `DeployData` |
+
+#### Returns
+
+[`Deployer`](Deployer.md)
 
 ## Properties
 
@@ -37,14 +41,14 @@ ___
 
 ### func
 
-• `Optional` **func**: `Func`<`any`, `any`, `any`\>
+• `Optional` **func**: `Func`\<`any`, `any`, `any`\>
 
 ## Methods
 
 ### deploy
 
-▸ **deploy**(): `Promise`<{ `[key: string]`: `any`; `filename`: `string` ; `root`: `string`  }\>
+▸ **deploy**(): `Promise`\<\{ `[key: string]`: `any`; `filename`: `string` ; `root`: `string`  }\>
 
 #### Returns
 
-`Promise`<{ `[key: string]`: `any`; `filename`: `string` ; `root`: `string`  }\>
+`Promise`\<\{ `[key: string]`: `any`; `filename`: `string` ; `root`: `string`  }\>

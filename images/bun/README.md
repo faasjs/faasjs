@@ -13,3 +13,9 @@
 ```bash
 docker pull faasjs/bun
 ```
+
+## FAQ
+
+### How to use with debian?
+
+Just change `faasjs/bun` to `faasjs/bun:debian`.

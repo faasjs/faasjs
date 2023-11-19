@@ -33,7 +33,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `submit?` | { `text?`: `string`  } |
+| `submit?` | \{ `text?`: `string`  } |
 | `submit.text?` | `string` |
 
 ___

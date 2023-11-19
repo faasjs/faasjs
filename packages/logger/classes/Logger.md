@@ -45,13 +45,17 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ### constructor
 
-• **new Logger**(`label?`)
+• **new Logger**(`label?`): [`Logger`](Logger.md)
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `label?` | `string` | {string} Prefix label |
+
+#### Returns
+
+[`Logger`](Logger.md)
 
 ## Properties
 

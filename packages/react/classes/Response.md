@@ -1,4 +1,4 @@
-# Class: Response<T\>
+# Class: Response\<T\>
 
 Response class
 
@@ -35,7 +35,7 @@ new Response({
 
 ### constructor
 
-• **new Response**<`T`\>(`props`)
+• **new Response**\<`T`\>(`props`): [`Response`](Response.md)\<`T`\>
 
 #### Type parameters
 
@@ -52,6 +52,10 @@ new Response({
 | `props.data?` | `T` |
 | `props.headers?` | [`ResponseHeaders`](../#responseheaders) |
 | `props.status?` | `number` |
+
+#### Returns
+
+[`Response`](Response.md)\<`T`\>
 
 ## Properties
 

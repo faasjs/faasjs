@@ -18,7 +18,7 @@ ___
 
 ### errorChildren
 
-• `Optional` **errorChildren**: `ReactElement`<[`ErrorChildrenProps`](../modules.md#errorchildrenprops), `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **errorChildren**: `ReactElement`\<[`ErrorChildrenProps`](../modules.md#errorchildrenprops), `string` \| `JSXElementConstructor`\<`any`\>\>
 
 ___
 

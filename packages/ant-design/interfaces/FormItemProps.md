@@ -1,4 +1,4 @@
-# Interface: FormItemProps<T\>
+# Interface: FormItemProps\<T\>
 
 ## Type parameters
 
@@ -10,7 +10,7 @@
 
 - [`FaasItemProps`](FaasItemProps.md)
 
-- `Omit`<`AntdFormItemProps`<`T`\>, ``"id"`` \| ``"children"`` \| ``"render"``\>
+- `Omit`\<`AntdFormItemProps`\<`T`\>, ``"id"`` \| ``"children"`` \| ``"render"``\>
 
   ↳ **`FormItemProps`**
 
@@ -44,7 +44,7 @@
 
 ### children
 
-• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
 
 ___
 
@@ -68,13 +68,13 @@ ___
 
 ### formChildren
 
-• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
 
 ___
 
 ### formRender
 
-• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
+• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 ### if
 
-• `Optional` **if**: (`values`: `Record`<`string`, `any`\>) => `boolean`
+• `Optional` **if**: (`values`: `Record`\<`string`, `any`\>) => `boolean`
 
 #### Type declaration
 
@@ -102,7 +102,7 @@ trigger when any item's value changed
 
 | Name | Type |
 | :------ | :------ |
-| `values` | `Record`<`string`, `any`\> |
+| `values` | `Record`\<`string`, `any`\> |
 
 ##### Returns
 
@@ -112,7 +112,7 @@ ___
 
 ### input
 
-• `Optional` **input**: `InputProps` \| `InputNumberProps`<`ValueType`\> \| `SwitchProps` \| `SelectProps`<`T`, `DefaultOptionType`\> \| `DatePickerProps` \| `TimePickerProps`
+• `Optional` **input**: `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `SelectProps`\<`T`, `DefaultOptionType`\> \| `DatePickerProps` \| `TimePickerProps`
 
 ___
 
@@ -134,13 +134,13 @@ ___
 
 ### object
 
-• `Optional` **object**: [`FormItemProps`](FormItemProps.md)<`any`\>[]
+• `Optional` **object**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
 
 ___
 
 ### onValueChange
 
-• `Optional` **onValueChange**: (`value`: `T`, `values`: `any`, `form`: `FormInstance`<`any`\>) => `void`
+• `Optional` **onValueChange**: (`value`: `T`, `values`: `any`, `form`: `FormInstance`\<`any`\>) => `void`
 
 #### Type declaration
 
@@ -154,7 +154,7 @@ trigger when current item's value changed
 | :------ | :------ |
 | `value` | `T` |
 | `values` | `any` |
-| `form` | `FormInstance`<`any`\> |
+| `form` | `FormInstance`\<`any`\> |
 
 ##### Returns
 
@@ -174,7 +174,7 @@ ___
 
 ### render
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
 
 ___
 

@@ -51,7 +51,7 @@ FaasJS's Redis plugin.
 
 ### get
 
-▸ **get**<`TResult`\>(`key`): `Promise`<`TResult`\>
+▸ **get**\<`TResult`\>(`key`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -67,13 +67,13 @@ FaasJS's Redis plugin.
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### getJSON
 
-▸ **getJSON**<`TResult`\>(`key`): `Promise`<`TResult`\>
+▸ **getJSON**\<`TResult`\>(`key`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -89,13 +89,13 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### lock
 
-▸ **lock**(`key`, `EX?`): `Promise`<`void`\>
+▸ **lock**(`key`, `EX?`): `Promise`\<`void`\>
 
 Lock by key
 
@@ -108,7 +108,7 @@ Lock by key
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 ### publish
 
-▸ **publish**(`channel`, `message`): `Promise`<`number`\>
+▸ **publish**(`channel`, `message`): `Promise`\<`number`\>
 
 Publish message
 
@@ -147,13 +147,13 @@ Publish message
 
 #### Returns
 
-`Promise`<`number`\>
+`Promise`\<`number`\>
 
 ___
 
 ### query
 
-▸ **query**<`TResult`\>(`command`, `args`): `Promise`<`TResult`\>
+▸ **query**\<`TResult`\>(`command`, `args`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -170,13 +170,13 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### set
 
-▸ **set**<`TResult`\>(`key`, `value`, `options?`): `Promise`<`TResult`\>
+▸ **set**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -194,13 +194,13 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### setJSON
 
-▸ **setJSON**<`TResult`\>(`key`, `value`, `options?`): `Promise`<`TResult`\>
+▸ **setJSON**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
@@ -218,13 +218,13 @@ ___
 
 #### Returns
 
-`Promise`<`TResult`\>
+`Promise`\<`TResult`\>
 
 ___
 
 ### unlock
 
-▸ **unlock**(`key`): `Promise`<`void`\>
+▸ **unlock**(`key`): `Promise`\<`void`\>
 
 Unlock by key
 
@@ -236,13 +236,13 @@ Unlock by key
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 ___
 
 ### useRedis
 
-▸ **useRedis**(`config?`): `UseifyPlugin`<[`Redis`](classes/Redis.md)\>
+▸ **useRedis**(`config?`): `UseifyPlugin`\<[`Redis`](classes/Redis.md)\>
 
 #### Parameters
 
@@ -252,4 +252,4 @@ ___
 
 #### Returns
 
-`UseifyPlugin`<[`Redis`](classes/Redis.md)\>
+`UseifyPlugin`\<[`Redis`](classes/Redis.md)\>

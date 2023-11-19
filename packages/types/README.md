@@ -23,7 +23,7 @@ Type definitions.
 
 ### FaasAction
 
-Ƭ **FaasAction**: [`FaasActionPaths`](#faasactionpaths) \| `Record`<`string`, `any`\>
+Ƭ **FaasAction**: [`FaasActionPaths`](#faasactionpaths) \| `Record`\<`string`, `any`\>
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 ### FaasData
 
-Ƭ **FaasData**<`T`\>: `T` extends [`FaasActionPaths`](#faasactionpaths) ? `FaasActions`[`T`][``"Data"``] : `T`
+Ƭ **FaasData**\<`T`\>: `T` extends [`FaasActionPaths`](#faasactionpaths) ? `FaasActions`[`T`][``"Data"``] : `T`
 
 #### Type parameters
 
@@ -47,7 +47,7 @@ ___
 
 ### FaasParams
 
-Ƭ **FaasParams**<`T`\>: `T` extends [`FaasActionPaths`](#faasactionpaths) ? `FaasActions`[`T`][``"Params"``] : `any`
+Ƭ **FaasParams**\<`T`\>: `T` extends [`FaasActionPaths`](#faasactionpaths) ? `FaasActions`[`T`][``"Params"``] : `any`
 
 #### Type parameters
 

@@ -1,11 +1,11 @@
-# Class: Cookie<C, S\>
+# Class: Cookie\<C, S\>
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `C` | extends `Record`<`string`, `string`\> = `any` |
-| `S` | extends `Record`<`string`, `string`\> = `any` |
+| `C` | extends `Record`\<`string`, `string`\> = `any` |
+| `S` | extends `Record`\<`string`, `string`\> = `any` |
 
 ## Table of contents
 
@@ -31,14 +31,14 @@
 
 ### constructor
 
-• **new Cookie**<`C`, `S`\>(`config`, `logger?`)
+• **new Cookie**\<`C`, `S`\>(`config`, `logger?`): [`Cookie`](Cookie.md)\<`C`, `S`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `C` | extends `Record`<`string`, `string`\> = `any` |
-| `S` | extends `Record`<`string`, `string`\> = `any` |
+| `C` | extends `Record`\<`string`, `string`\> = `any` |
+| `S` | extends `Record`\<`string`, `string`\> = `any` |
 
 #### Parameters
 
@@ -46,6 +46,10 @@
 | :------ | :------ |
 | `config` | [`CookieOptions`](../#cookieoptions) |
 | `logger?` | `Logger` |
+
+#### Returns
+
+[`Cookie`](Cookie.md)\<`C`, `S`\>
 
 ## Properties
 
@@ -69,7 +73,7 @@ ___
 
 ### content
 
-• **content**: `Record`<`string`, `string`\>
+• **content**: `Record`\<`string`, `string`\>
 
 ___
 
@@ -81,7 +85,7 @@ ___
 
 ### session
 
-• **session**: [`Session`](Session.md)<`S`, `C`\>
+• **session**: [`Session`](Session.md)\<`S`, `C`\>
 
 ## Methods
 
@@ -101,7 +105,7 @@ ___
 
 ### invoke
 
-▸ **invoke**(`cookie`, `logger`): [`Cookie`](Cookie.md)<`C`, `S`\>
+▸ **invoke**(`cookie`, `logger`): [`Cookie`](Cookie.md)\<`C`, `S`\>
 
 #### Parameters
 
@@ -112,7 +116,7 @@ ___
 
 #### Returns
 
-[`Cookie`](Cookie.md)<`C`, `S`\>
+[`Cookie`](Cookie.md)\<`C`, `S`\>
 
 ___
 
@@ -134,7 +138,7 @@ ___
 
 ### write
 
-▸ **write**(`key`, `value`, `opts?`): [`Cookie`](Cookie.md)<`C`, `S`\>
+▸ **write**(`key`, `value`, `opts?`): [`Cookie`](Cookie.md)\<`C`, `S`\>
 
 #### Parameters
 
@@ -152,4 +156,4 @@ ___
 
 #### Returns
 
-[`Cookie`](Cookie.md)<`C`, `S`\>
+[`Cookie`](Cookie.md)\<`C`, `S`\>

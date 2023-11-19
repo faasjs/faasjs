@@ -1,11 +1,11 @@
-# Class: Session<S, C\>
+# Class: Session\<S, C\>
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `S` | extends `Record`<`string`, `string`\> = `any` |
-| `C` | extends `Record`<`string`, `string`\> = `any` |
+| `S` | extends `Record`\<`string`, `string`\> = `any` |
+| `C` | extends `Record`\<`string`, `string`\> = `any` |
 
 ## Table of contents
 
@@ -31,21 +31,25 @@
 
 ### constructor
 
-• **new Session**<`S`, `C`\>(`cookie`, `config`)
+• **new Session**\<`S`, `C`\>(`cookie`, `config`): [`Session`](Session.md)\<`S`, `C`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `S` | extends `Record`<`string`, `string`\> = `any` |
-| `C` | extends `Record`<`string`, `string`\> = `any` |
+| `S` | extends `Record`\<`string`, `string`\> = `any` |
+| `C` | extends `Record`\<`string`, `string`\> = `any` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `cookie` | [`Cookie`](Cookie.md)<`C`, `S`\> |
+| `cookie` | [`Cookie`](Cookie.md)\<`C`, `S`\> |
 | `config` | [`SessionOptions`](../#sessionoptions) |
+
+#### Returns
+
+[`Session`](Session.md)\<`S`, `C`\>
 
 ## Properties
 
@@ -70,13 +74,13 @@ ___
 
 ### content
 
-• **content**: `Record`<`string`, `string` \| `number`\>
+• **content**: `Record`\<`string`, `string` \| `number`\>
 
 ## Methods
 
 ### decode
 
-▸ **decode**<`TData`\>(`text`): `SessionContent` \| `TData`
+▸ **decode**\<`TData`\>(`text`): `SessionContent` \| `TData`
 
 #### Type parameters
 
@@ -147,17 +151,17 @@ ___
 
 ### update
 
-▸ **update**(): [`Session`](Session.md)<`S`, `C`\>
+▸ **update**(): [`Session`](Session.md)\<`S`, `C`\>
 
 #### Returns
 
-[`Session`](Session.md)<`S`, `C`\>
+[`Session`](Session.md)\<`S`, `C`\>
 
 ___
 
 ### write
 
-▸ **write**(`key`, `value?`): [`Session`](Session.md)<`S`, `C`\>
+▸ **write**(`key`, `value?`): [`Session`](Session.md)\<`S`, `C`\>
 
 #### Parameters
 
@@ -168,4 +172,4 @@ ___
 
 #### Returns
 
-[`Session`](Session.md)<`S`, `C`\>
+[`Session`](Session.md)\<`S`, `C`\>

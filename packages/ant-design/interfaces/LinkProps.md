@@ -50,7 +50,7 @@ ___
 
 ### onClick
 
-• `Optional` **onClick**: (`event`: `MouseEvent`<`HTMLElement`, `MouseEvent`\>) => `void`
+• `Optional` **onClick**: (`event`: `MouseEvent`\<`HTMLElement`, `MouseEvent`\>) => `void`
 
 #### Type declaration
 
@@ -60,7 +60,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `event` | `MouseEvent`<`HTMLElement`, `MouseEvent`\> |
+| `event` | `MouseEvent`\<`HTMLElement`, `MouseEvent`\> |
 
 ##### Returns
 

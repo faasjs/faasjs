@@ -2,7 +2,7 @@
 
 ## Hierarchy
 
-- `Omit`<`OriginProps`, ``"items"``\>
+- `Omit`\<`OriginProps`, ``"items"``\>
 
   ↳ **`TabsProps`**
 

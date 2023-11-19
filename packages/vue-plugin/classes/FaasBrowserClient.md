@@ -28,7 +28,7 @@ await client.action('func', { key: 'value' })
 
 ### constructor
 
-• **new FaasBrowserClient**(`baseUrl`, `options?`)
+• **new FaasBrowserClient**(`baseUrl`, `options?`): [`FaasBrowserClient`](FaasBrowserClient.md)
 
 #### Parameters
 
@@ -36,6 +36,10 @@ await client.action('func', { key: 'value' })
 | :------ | :------ |
 | `baseUrl` | `string` |
 | `options?` | [`Options`](../#options) |
+
+#### Returns
+
+[`FaasBrowserClient`](FaasBrowserClient.md)
 
 ## Properties
 
@@ -59,7 +63,7 @@ ___
 
 ### action
 
-▸ **action**<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`<[`Response`](Response.md)<`FaasData`<`PathOrData`\>\>\>
+▸ **action**\<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`\<[`Response`](Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 Request a FaasJS function
 
@@ -67,16 +71,16 @@ Request a FaasJS function
 
 | Name | Type |
 | :------ | :------ |
-| `PathOrData` | extends `Record`<`string`, `any`\> |
+| `PathOrData` | extends `Record`\<`string`, `any`\> |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `action` | `string` \| `PathOrData` | function path |
-| `params?` | `FaasParams`<`PathOrData`\> | function params |
+| `params?` | `FaasParams`\<`PathOrData`\> | function params |
 | `options?` | [`Options`](../#options) | request options ```ts await client.action('func', { key: 'value' }) ``` |
 
 #### Returns
 
-`Promise`<[`Response`](Response.md)<`FaasData`<`PathOrData`\>\>\>
+`Promise`\<[`Response`](Response.md)\<`FaasData`\<`PathOrData`\>\>\>

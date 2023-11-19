@@ -39,7 +39,7 @@ ___
 
 ### loadTs
 
-▸ **loadTs**(`filename`, `options?`): `Promise`<{ `dependencies`: { `[key: string]`: `string`;  } ; `module?`: `Func` ; `modules?`: { `[key: string]`: `string`;  }  }\>
+▸ **loadTs**(`filename`, `options?`): `Promise`\<\{ `dependencies`: \{ `[key: string]`: `string`;  } ; `module?`: `Func` ; `modules?`: \{ `[key: string]`: `string`;  }  }\>
 
 加载 ts 文件
 
@@ -58,4 +58,4 @@ ___
 
 #### Returns
 
-`Promise`<{ `dependencies`: { `[key: string]`: `string`;  } ; `module?`: `Func` ; `modules?`: { `[key: string]`: `string`;  }  }\>
+`Promise`\<\{ `dependencies`: \{ `[key: string]`: `string`;  } ; `module?`: `Func` ; `modules?`: \{ `[key: string]`: `string`;  }  }\>

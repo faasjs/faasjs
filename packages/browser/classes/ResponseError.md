@@ -32,7 +32,7 @@ new ResponseError({
 
 ### constructor
 
-• **new ResponseError**(`«destructured»`)
+• **new ResponseError**(`«destructured»`): [`ResponseError`](ResponseError.md)
 
 #### Parameters
 
@@ -43,6 +43,10 @@ new ResponseError({
 | › `headers` | [`ResponseHeaders`](../#responseheaders) |
 | › `message` | `string` |
 | › `status` | `number` |
+
+#### Returns
+
+[`ResponseError`](ResponseError.md)
 
 #### Overrides
 

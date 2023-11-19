@@ -1,4 +1,4 @@
-# Interface: DescriptionProps<T, ExtendItemProps\>
+# Interface: DescriptionProps\<T, ExtendItemProps\>
 
 ## Type parameters
 
@@ -9,7 +9,7 @@
 
 ## Hierarchy
 
-- `Omit`<`DescriptionsProps`, ``"items"``\>
+- `Omit`\<`DescriptionsProps`, ``"items"``\>
 
   ↳ **`DescriptionProps`**
 
@@ -46,19 +46,19 @@ ___
 
 ### faasData
 
-• `Optional` **faasData**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)<`T`\>
+• `Optional` **faasData**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`T`\>
 
 ___
 
 ### items
 
-• **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)<`any`\>)[]
+• **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>)[]
 
 ## Methods
 
 ### renderTitle
 
-▸ `Optional` **renderTitle**(`values`): `ReactNode`
+▸ **renderTitle**(`values`): `ReactNode`
 
 #### Parameters
 

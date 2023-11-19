@@ -1,4 +1,4 @@
-# Interface: ExtendDescriptionTypeProps<T\>
+# Interface: ExtendDescriptionTypeProps\<T\>
 
 ## Type parameters
 
@@ -17,10 +17,10 @@
 
 ### children
 
-• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`T`\>
+• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
 
 ___
 
 ### render
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`T`\>
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>

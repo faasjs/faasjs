@@ -2,6 +2,14 @@
 
 ## Beta
 
+[`v0.0.4-beta.11 (2023-11-19)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.10...v0.0.4-beta.11)
+
+- `@faasjs/redis`
+  - [Feature] Remove unnecessary types.
+
+- `@faasjs/logger`
+  - [Fix] Fix logger size.
+
 [`v0.0.4-beta.10 (2023-11-05)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.9...v0.0.4-beta.10)
 
 - `@faasjs/request`

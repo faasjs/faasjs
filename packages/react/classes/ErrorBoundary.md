@@ -2,7 +2,7 @@
 
 ## Hierarchy
 
-- `Component`<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), { `error?`: `Error` ; `info?`: { `componentStack?`: `string`  }  }\>
+- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), \{ `error?`: `Error` ; `info?`: \{ `componentStack?`: `string`  }  }\>
 
   ↳ **`ErrorBoundary`**
 
@@ -21,7 +21,7 @@
 
 ### constructor
 
-• **new ErrorBoundary**(`props`)
+• **new ErrorBoundary**(`props`): [`ErrorBoundary`](ErrorBoundary.md)
 
 #### Parameters
 
@@ -29,13 +29,17 @@
 | :------ | :------ |
 | `props` | [`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md) |
 
+#### Returns
+
+[`ErrorBoundary`](ErrorBoundary.md)
+
 #### Overrides
 
-Component&lt;
+Component\&lt;
   ErrorBoundaryProps,
-  {
+  \{
     error?: Error
-    info?: {
+    info?: \{
       componentStack?: string
     }
   }
@@ -66,11 +70,11 @@ ___
 
 ### render
 
-▸ **render**(): `string` \| `number` \| `boolean` \| `Iterable`<`ReactNode`\> \| `Element`
+▸ **render**(): `string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`\> \| `Element`
 
 #### Returns
 
-`string` \| `number` \| `boolean` \| `Iterable`<`ReactNode`\> \| `Element`
+`string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`\> \| `Element`
 
 #### Overrides
 

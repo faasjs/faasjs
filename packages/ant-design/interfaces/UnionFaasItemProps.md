@@ -1,4 +1,4 @@
-# Interface: UnionFaasItemProps<Value, Values\>
+# Interface: UnionFaasItemProps\<Value, Values\>
 
 ## Type parameters
 
@@ -50,7 +50,7 @@
 
 ### children
 
-• `Optional` **children**: `ReactElement`<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)<[`UnionFaasItemProps`](UnionFaasItemProps.md)<`Value`, `Values`\>, `any`\>, `string` \| `JSXElementConstructor`<`any`\>\>
+• `Optional` **children**: `ReactElement`\<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 #### Overrides
 
@@ -70,7 +70,7 @@ ___
 
 ### descriptionChildren
 
-• `Optional` **descriptionChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`any`\>
+• `Optional` **descriptionChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`any`\>
 
 #### Inherited from
 
@@ -80,7 +80,7 @@ ___
 
 ### descriptionRender
 
-• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`\>
+• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`any`\>
 
 #### Inherited from
 
@@ -110,7 +110,7 @@ ___
 
 ### formChildren
 
-• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`any`\>
+• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`any`\>
 
 #### Inherited from
 
@@ -120,7 +120,7 @@ ___
 
 ### formRender
 
-• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`\>
+• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`any`\>
 
 #### Inherited from
 
@@ -140,7 +140,7 @@ ___
 
 ### if
 
-• `Optional` **if**: (`values`: `Record`<`string`, `any`\>) => `boolean`
+• `Optional` **if**: (`values`: `Record`\<`string`, `any`\>) => `boolean`
 
 #### Type declaration
 
@@ -152,7 +152,7 @@ trigger when any item's value changed
 
 | Name | Type |
 | :------ | :------ |
-| `values` | `Record`<`string`, `any`\> |
+| `values` | `Record`\<`string`, `any`\> |
 
 ##### Returns
 
@@ -166,7 +166,7 @@ ___
 
 ### input
 
-• `Optional` **input**: `SelectProps`<`any`, `DefaultOptionType`\> \| `InputProps` \| `InputNumberProps`<`ValueType`\> \| `SwitchProps` \| `DatePickerProps` \| `TimePickerProps`
+• `Optional` **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps` \| `TimePickerProps`
 
 #### Inherited from
 
@@ -196,7 +196,7 @@ ___
 
 ### object
 
-• `Optional` **object**: [`UnionFaasItemProps`](UnionFaasItemProps.md)<`Value`, `Values`\>[]
+• `Optional` **object**: [`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>[]
 
 #### Overrides
 
@@ -206,7 +206,7 @@ ___
 
 ### onValueChange
 
-• `Optional` **onValueChange**: (`value`: `any`, `values`: `any`, `form`: `FormInstance`<`any`\>) => `void`
+• `Optional` **onValueChange**: (`value`: `any`, `values`: `any`, `form`: `FormInstance`\<`any`\>) => `void`
 
 #### Type declaration
 
@@ -220,7 +220,7 @@ trigger when current item's value changed
 | :------ | :------ |
 | `value` | `any` |
 | `values` | `any` |
-| `form` | `FormInstance`<`any`\> |
+| `form` | `FormInstance`\<`any`\> |
 
 ##### Returns
 
@@ -254,7 +254,7 @@ ___
 
 ### render
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`, `any`\>
+• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`any`, `any`\>
 
 #### Overrides
 
@@ -284,7 +284,7 @@ ___
 
 ### tableChildren
 
-• `Optional` **tableChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)<`any`\>
+• `Optional` **tableChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`any`\>
 
 #### Inherited from
 
@@ -294,7 +294,7 @@ ___
 
 ### tableRender
 
-• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)<`any`\>
+• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`any`\>
 
 #### Inherited from
 

@@ -21,7 +21,7 @@
 
 ### constructor
 
-• **new HttpError**(`«destructured»`)
+• **new HttpError**(`«destructured»`): [`HttpError`](HttpError.md)
 
 #### Parameters
 
@@ -30,6 +30,10 @@
 | `«destructured»` | `Object` |
 | › `message` | `string` |
 | › `statusCode?` | `number` |
+
+#### Returns
+
+[`HttpError`](HttpError.md)
 
 #### Overrides
 
