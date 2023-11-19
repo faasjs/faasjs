@@ -17,9 +17,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@faasjs/deep_merge": "0.0.4-beta.10",
     "@faasjs/func": "0.0.4-beta.10",
@@ -29,7 +27,6 @@
     "ioredis": "*"
   },
   "devDependencies": {
-    "@types/ioredis": "*",
     "ioredis": "*"
   },
   "engines": {
