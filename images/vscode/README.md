@@ -6,7 +6,7 @@
 
 ## Features
 
-- Base on [alpine](https://www.alpinelinux.org/) with tiny image size.
+- Base on [alpine](https://www.alpinelinux.org/) with tiny image size. (Also support debian with `faasjs/vscode:debian`)
 - Includes latest [node](https://nodejs.org/), [npm](https://www.npmjs.com/) and [bun](https://bun.sh/).
 - Includes [ohmyzsh](https://ohmyz.sh/) with below plugins:
   - git
@@ -30,11 +30,12 @@
 ```json
 {
 	"name": "dev",
+  // Change faasjs/vscode to faasjs/vscode:debian if you want to use debian.
 	"image": "faasjs/vscode",
 	"extensions": [
-		"dbaeumer.vscode-eslint",
 		"eamodio.gitlens",
-    "faasjs.faasjs-snippets"
+    "faasjs.faasjs-snippets",
+    "biomejs.biome"
 	],
 	"settings": {
 		"terminal.integrated.shell.linux": "/bin/zsh"
@@ -43,9 +44,3 @@
 ```
 4. Open your project with VSCode.
 5. Click popup window with `Remote-Containers: Reopen in Container`.
-
-## FAQ
-
-### How to use with debian?
-
-Just change `faasjs/vscode` to `faasjs/vscode:debian` in `devcontainer.json`.

@@ -6,7 +6,7 @@
 
 ## Features
 
-- Base on `oven/bun:alpine` with tiny image size and bun lts version.
+- Base on `oven/bun:alpine` with tiny image size and bun lts version. (Also support debian with `faasjs/bun:debian`)
 
 ## Usage
 
@@ -14,8 +14,8 @@
 docker pull faasjs/bun
 ```
 
-## FAQ
+Or use the debian version:
 
-### How to use with debian?
-
-Just change `faasjs/bun` to `faasjs/bun:debian`.
+```bash
+docker pull faasjs/bun:debian
+```

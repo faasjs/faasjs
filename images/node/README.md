@@ -6,7 +6,7 @@
 
 ## Features
 
-- Base on `node:lts-alpine` with tiny image size and node lts version.
+- Base on `node:lts-alpine` with tiny image size and node lts version. (Also support debian with `faasjs/node:debian`)
 
 ## Usage
 
@@ -14,8 +14,8 @@
 docker pull faasjs/node
 ```
 
-## FAQ
+Or use the debian version:
 
-### How to use with debian?
-
-Just change `faasjs/node` to `faasjs/node:debian`.
+```bash
+docker pull faasjs/node:debian
+```
