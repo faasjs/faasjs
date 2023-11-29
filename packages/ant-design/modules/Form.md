@@ -2,7 +2,14 @@
 
 ## Table of contents
 
-### Variables
+### Namespaces
+
+- [ErrorList](Form.ErrorList.md)
+- [Item](Form.Item.md)
+- [List](Form.List.md)
+- [Provider](Form.Provider.md)
+
+### Functions
 
 - [ErrorList](Form.md#errorlist)
 - [Item](Form.md#item)
@@ -12,53 +19,110 @@
 - [useFormInstance](Form.md#useforminstance)
 - [useWatch](Form.md#usewatch)
 
-## Variables
+## Functions
 
 ### ErrorList
 
-• **ErrorList**: `FC`\<`ErrorListProps`\>
+▸ **ErrorList**(`props`, `context?`): `ReactNode`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | `ErrorListProps` |
+| `context?` | `any` |
+
+#### Returns
+
+`ReactNode`
 
 ___
 
 ### Item
 
-• **Item**: typeof [`FormItem`](../modules.md#formitem)
+▸ **Item**\<`T`\>(`props`): `Element`
+
+FormItem, can be used without Form.
+
+```ts
+// use inline type
+<FormItem type='string' id='name' />
+
+// use custom type
+<FormItem id='password'>
+  <Input.Password />
+</>
+```
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`FormItemProps`](../interfaces/FormItemProps.md)\<`T`\> |
+
+#### Returns
+
+`Element`
 
 ___
 
 ### List
 
-• **List**: `FC`\<`FormListProps`\>
+▸ **List**(`props`, `context?`): `ReactNode`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | `FormListProps` |
+| `context?` | `any` |
+
+#### Returns
+
+`ReactNode`
 
 ___
 
 ### Provider
 
-• **Provider**: `FC`\<`FormProviderProps`\>
+▸ **Provider**(`props`, `context?`): `ReactNode`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | `FormProviderProps` |
+| `context?` | `any` |
+
+#### Returns
+
+`ReactNode`
 
 ___
 
 ### useForm
 
-• **useForm**: \<Values\>(`form?`: `FormInstance`\<`Values`\>) => [`FormInstance`\<`Values`\>]
+▸ **useForm**\<`Values`\>(`form?`): [`FormInstance`\<`Values`\>]
 
-#### Type declaration
-
-▸ \<`Values`\>(`form?`): [`FormInstance`\<`Values`\>]
-
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `Values` | `any` |
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `form?` | `FormInstance`\<`Values`\> |
 
-##### Returns
+#### Returns
 
 [`FormInstance`\<`Values`\>]
 
@@ -66,19 +130,15 @@ ___
 
 ### useFormInstance
 
-• **useFormInstance**: \<Value\>() => `FormInstance`\<`Value`\>
+▸ **useFormInstance**\<`Value`\>(): `FormInstance`\<`Value`\>
 
-#### Type declaration
-
-▸ \<`Value`\>(): `FormInstance`\<`Value`\>
-
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `Value` | `any` |
 
-##### Returns
+#### Returns
 
 `FormInstance`\<`Value`\>
 
@@ -86,13 +146,9 @@ ___
 
 ### useWatch
 
-• **useWatch**: \<TDependencies1, TForm, TDependencies2, TDependencies3, TDependencies4\>(`dependencies`: [`TDependencies1`, `TDependencies2`, `TDependencies3`, `TDependencies4`], `form?`: `TForm` \| `WatchOptions`\<`TForm`\>) => `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`][`TDependencies4`]\<TDependencies1, TForm, TDependencies2, TDependencies3\>(`dependencies`: [`TDependencies1`, `TDependencies2`, `TDependencies3`], `form?`: `TForm` \| `WatchOptions`\<`TForm`\>) => `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`]\<TDependencies1, TForm, TDependencies2\>(`dependencies`: [`TDependencies1`, `TDependencies2`], `form?`: `TForm` \| `WatchOptions`\<`TForm`\>) => `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`]\<TDependencies, TForm\>(`dependencies`: `TDependencies` \| [`TDependencies`], `form?`: `TForm` \| `WatchOptions`\<`TForm`\>) => `GetGeneric`\<`TForm`\>[`TDependencies`]\<TForm\>(`dependencies`: [], `form?`: `TForm` \| `WatchOptions`\<`TForm`\>) => `GetGeneric`\<`TForm`\>\<TForm\>(`dependencies`: `any`, `form?`: `TForm` \| `WatchOptions`\<`TForm`\>) => `any`\<ValueType\>(`dependencies`: `any`, `form?`: `FormInstance`\<`any`\> \| `WatchOptions`\<`FormInstance`\<`any`\>\>) => `ValueType`
+▸ **useWatch**\<`TDependencies1`, `TForm`, `TDependencies2`, `TDependencies3`, `TDependencies4`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`][`TDependencies4`]
 
-#### Type declaration
-
-▸ \<`TDependencies1`, `TForm`, `TDependencies2`, `TDependencies3`, `TDependencies4`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`][`TDependencies4`]
-
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -102,20 +158,20 @@ ___
 | `TDependencies3` | extends `string` \| `number` \| `symbol` |
 | `TDependencies4` | extends `string` \| `number` \| `symbol` |
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | [`TDependencies1`, `TDependencies2`, `TDependencies3`, `TDependencies4`] |
 | `form?` | `TForm` \| `WatchOptions`\<`TForm`\> |
 
-##### Returns
+#### Returns
 
 `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`][`TDependencies4`]
 
-▸ \<`TDependencies1`, `TForm`, `TDependencies2`, `TDependencies3`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`]
+▸ **useWatch**\<`TDependencies1`, `TForm`, `TDependencies2`, `TDependencies3`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`]
 
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -124,20 +180,20 @@ ___
 | `TDependencies2` | extends `string` \| `number` \| `symbol` |
 | `TDependencies3` | extends `string` \| `number` \| `symbol` |
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | [`TDependencies1`, `TDependencies2`, `TDependencies3`] |
 | `form?` | `TForm` \| `WatchOptions`\<`TForm`\> |
 
-##### Returns
+#### Returns
 
 `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`][`TDependencies3`]
 
-▸ \<`TDependencies1`, `TForm`, `TDependencies2`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`]
+▸ **useWatch**\<`TDependencies1`, `TForm`, `TDependencies2`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`]
 
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -145,90 +201,90 @@ ___
 | `TForm` | extends `FormInstance`\<`any`\> |
 | `TDependencies2` | extends `string` \| `number` \| `symbol` |
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | [`TDependencies1`, `TDependencies2`] |
 | `form?` | `TForm` \| `WatchOptions`\<`TForm`\> |
 
-##### Returns
+#### Returns
 
 `GetGeneric`\<`TForm`\>[`TDependencies1`][`TDependencies2`]
 
-▸ \<`TDependencies`, `TForm`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>[`TDependencies`]
+▸ **useWatch**\<`TDependencies`, `TForm`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>[`TDependencies`]
 
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `TDependencies` | extends `string` \| `number` \| `symbol` |
 | `TForm` | extends `FormInstance`\<`any`\> |
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | `TDependencies` \| [`TDependencies`] |
 | `form?` | `TForm` \| `WatchOptions`\<`TForm`\> |
 
-##### Returns
+#### Returns
 
 `GetGeneric`\<`TForm`\>[`TDependencies`]
 
-▸ \<`TForm`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>
+▸ **useWatch**\<`TForm`\>(`dependencies`, `form?`): `GetGeneric`\<`TForm`\>
 
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `TForm` | extends `FormInstance`\<`any`\> |
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | [] |
 | `form?` | `TForm` \| `WatchOptions`\<`TForm`\> |
 
-##### Returns
+#### Returns
 
 `GetGeneric`\<`TForm`\>
 
-▸ \<`TForm`\>(`dependencies`, `form?`): `any`
+▸ **useWatch**\<`TForm`\>(`dependencies`, `form?`): `any`
 
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `TForm` | extends `FormInstance`\<`any`\> |
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | `any` |
 | `form?` | `TForm` \| `WatchOptions`\<`TForm`\> |
 
-##### Returns
+#### Returns
 
 `any`
 
-▸ \<`ValueType`\>(`dependencies`, `form?`): `ValueType`
+▸ **useWatch**\<`ValueType`\>(`dependencies`, `form?`): `ValueType`
 
-##### Type parameters
+#### Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `ValueType` | `Store` |
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `dependencies` | `any` |
 | `form?` | `FormInstance`\<`any`\> \| `WatchOptions`\<`FormInstance`\<`any`\>\> |
 
-##### Returns
+#### Returns
 
 `ValueType`

@@ -21,6 +21,12 @@ async function build(path) {
       if (name.startsWith('@faasjs/')) pkg.devDependencies[name] = `^${version}`
     }
   }
+  if (pkg.engines) {
+    pkg.engines = {
+      node: '>=20.0.0',
+      npm: '>=10.0.0',
+    }
+  }
   await writeFile(path, `${JSON.stringify(pkg, null, 2)}\n`)
 
   if (pkg.scripts?.build) {

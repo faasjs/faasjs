@@ -29,7 +29,8 @@
   "devDependencies": {
     "@types/react": "*",
     "react": "*",
-    "@preact/signals-react": "*"
+    "@preact/signals-react": "*",
+    "@types/use-sync-external-store": "*"
   },
   "engines": {
     "npm": ">=9.0.0",

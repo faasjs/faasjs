@@ -28,6 +28,15 @@ export type SignalOptions = {
  * @param initialValue
  * @param options
  * @param options.debugName - debug name for signal, will print signal value to console.debug
+ *
+ * @example
+ * ```ts
+ * import { signal } from '@faasjs/react'
+ *
+ * const count = signal(0, { debugName: 'count' })
+ *
+ * count.value = 1
+ * ```
  */
 export function signal<T = any>(
   initialValue: any,

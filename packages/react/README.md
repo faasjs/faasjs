@@ -35,6 +35,7 @@ React plugin for FaasJS.
 - [FaasReactClientInstance](#faasreactclientinstance)
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
+- [SignalOptions](#signaloptions)
 - [useFaasOptions](#usefaasoptions)
 
 ### Functions
@@ -43,6 +44,7 @@ React plugin for FaasJS.
 - [FaasReactClient](#faasreactclient)
 - [faas](#faas)
 - [getClient](#getclient)
+- [signal](#signal)
 - [useFaas](#usefaas)
 
 ## Type Aliases
@@ -183,6 +185,18 @@ ___
 
 ___
 
+### SignalOptions
+
+Ƭ **SignalOptions**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `debugName?` | `string` |
+
+___
+
 ### useFaasOptions
 
 Ƭ **useFaasOptions**\<`PathOrData`\>: `Object`
@@ -319,6 +333,31 @@ getClient()
 // or
 getClient('another-domain')
 ```
+
+___
+
+### signal
+
+▸ **signal**\<`T`\>(`initialValue`, `options?`): `Signal`\<`T`\>
+
+Create a [signal](https://preactjs.com/guide/v10/signals) with options
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `initialValue` | `any` |
+| `options` | [`SignalOptions`](#signaloptions) |
+
+#### Returns
+
+`Signal`\<`T`\>
 
 ___
 

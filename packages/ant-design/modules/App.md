@@ -2,20 +2,16 @@
 
 ## Table of contents
 
-### Variables
+### Functions
 
 - [useApp](App.md#useapp)
 
-## Variables
+## Functions
 
 ### useApp
 
-• **useApp**: () => [`useAppProps`](../interfaces/useAppProps.md)
+▸ **useApp**(): [`useAppProps`](../interfaces/useAppProps.md)
 
-#### Type declaration
-
-▸ (): [`useAppProps`](../interfaces/useAppProps.md)
-
-##### Returns
+#### Returns
 
 [`useAppProps`](../interfaces/useAppProps.md)

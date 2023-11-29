@@ -2,6 +2,11 @@
 
 ## Beta
 
+[`v0.0.4-beta.12 (2023-11-29)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.11...v0.0.4-beta.12)
+
+- `@faasjs/react`
+  - [Feature] Add `signal` feature, based on [@preact/signals-react](https://preactjs.com/guide/v10/signals).
+
 [`v0.0.4-beta.11 (2023-11-19)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.10...v0.0.4-beta.11)
 
 - `@faasjs/redis`

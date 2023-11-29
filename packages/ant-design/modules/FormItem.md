@@ -2,12 +2,12 @@
 
 ## Table of contents
 
-### Variables
+### References
 
 - [useStatus](FormItem.md#usestatus)
 
-## Variables
+## References
 
 ### useStatus
 
-• **useStatus**: `UseFormItemStatus`
+Re-exports [useStatus](Form.Item.md#usestatus)
