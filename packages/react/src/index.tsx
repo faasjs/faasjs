@@ -13,6 +13,9 @@ export type {
 
 export * from './client'
 export * from './ErrorBoundary'
+
+export * from './signal'
+
 export type {
   FaasReactClientInstance,
   FaasDataInjection,
