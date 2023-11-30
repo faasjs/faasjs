@@ -2,6 +2,11 @@
 
 ## Beta
 
+[`v0.0.4-beta.13 (2023-11-30)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.12...v0.0.4-beta.13)
+
+- `@faasjs/ant-design`
+  - [Feature] Table's columns support `filterDropdown: false` and `sorter: false`.
+
 [`v0.0.4-beta.12 (2023-11-29)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.11...v0.0.4-beta.12)
 
 - `@faasjs/react`
