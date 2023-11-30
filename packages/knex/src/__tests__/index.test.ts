@@ -198,7 +198,6 @@ describe('Knex', function () {
         },
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       return async function () {
         await knex
           .schema()

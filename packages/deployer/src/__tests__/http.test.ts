@@ -11,7 +11,6 @@ test('http', async function () {
   })
   try {
     await deployer.deploy()
-    // eslint-disable-next-line no-empty
   } catch (error) {}
 
   const res = execSync(

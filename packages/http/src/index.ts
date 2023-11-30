@@ -191,7 +191,6 @@ export class Http<
 
     logger.debug("Api gateway's config: %j", config)
 
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Provider = require(config.provider.type).Provider
     const provider = new Provider(config.provider.config)
 

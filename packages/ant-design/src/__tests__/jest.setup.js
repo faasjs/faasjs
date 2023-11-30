@@ -2,7 +2,6 @@ if (typeof window !== 'undefined') {
   require('@testing-library/jest-dom')
   global.React = require('react')
 
-  // eslint-disable-next-line no-undef
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation(query => ({

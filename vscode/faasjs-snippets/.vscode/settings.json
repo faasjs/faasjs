@@ -7,6 +7,5 @@
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
-  "editor.wordWrap": "on",
-  "eslint.packageManager": "npm"
+  "editor.wordWrap": "on"
 }

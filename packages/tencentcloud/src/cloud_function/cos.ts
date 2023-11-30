@@ -1,6 +1,5 @@
 import { Provider } from '..'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const cosSdk = require('cos-nodejs-sdk-v5')
 
 function cos(tc: Provider) {

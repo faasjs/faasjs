@@ -143,7 +143,6 @@ export async function loadTs(
     [key: string]: string
   }
 }> {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const PackageJSON = require(`${process.cwd()}/package.json`)
   const external = PackageJSON.dependencies
     ? Object.keys(PackageJSON.dependencies)
@@ -189,7 +188,6 @@ export async function loadTs(
 
   result.dependencies = dependencies
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   result.module = require(output.file)
 
   if (options.tmp) unlinkSync(output.file)

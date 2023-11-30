@@ -47,10 +47,8 @@ export class FuncWarper {
       this.logger.info('Func: [%s] %s', this.staging, this.file)
 
       try {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         this.func = require(this.file).default
       } catch (error) {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         this.func = require(`${this.file}.ts`).default
       }
 

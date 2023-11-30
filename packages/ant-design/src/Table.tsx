@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect, cloneElement } from 'react'
 import {
   Table as AntdTable,
@@ -118,6 +117,11 @@ function processValue(item: TableItemProps, value: any) {
 
 /**
  * Table component with Ant Design & FaasJS
+ *
+ * - Support all Ant Design Table props.
+ * - Support FaasJS injection.
+ * - Auto generate filter dropdown (disable with `filterDropdown: false`).
+ * - Auto generate sorter (disable with `sorter: false`).
  *
  * @ref https://ant.design/components/table/
  */
@@ -263,9 +267,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 .includes(value.trim().toLowerCase())
             }
 
-          if (item.filterDropdown === false || item.filterDropdown) break
-
-          if (!item.filters && item.optionsType !== 'auto')
+          if (
+            typeof item.filterDropdown === 'undefined' &&
+            !item.filters &&
+            item.optionsType !== 'auto'
+          )
             item.filterDropdown = ({
               setSelectedKeys,
               confirm,
@@ -300,9 +306,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               )
             }
 
-          if (item.filterDropdown === false || item.filterDropdown) break
-
-          if (!item.filters && item.optionsType !== 'auto')
+          if (
+            typeof item.filterDropdown === 'undefined' &&
+            !item.filters &&
+            item.optionsType !== 'auto'
+          )
             item.filterDropdown = ({
               setSelectedKeys,
               confirm,
@@ -326,7 +334,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         case 'number':
           if (!item.render) item.render = value => processValue(item, value)
 
-          if (!item.sorter)
+          if (typeof item.sorter === 'undefined')
             item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
 
           if (!item.onFilter)
@@ -338,9 +346,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               return value == row[item.id]
             }
 
-          if (item.filterDropdown === false || item.filterDropdown) break
-
-          if (!item.filters)
+          if (typeof item.filterDropdown === 'undefined' && !item.filters)
             item.filterDropdown = ({
               setSelectedKeys,
               confirm,
@@ -375,9 +381,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               return row[item.id].includes(Number(value))
             }
 
-          if (item.filterDropdown === false || item.filterDropdown) break
-
-          if (!item.filters)
+          if (typeof item.filterDropdown === 'undefined' && !item.filters)
             item.filterDropdown = ({
               setSelectedKeys,
               confirm,
@@ -419,7 +423,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 />
               )
 
-          if (item.filterDropdown !== false)
+          if (typeof item.filterDropdown === 'undefined')
             item.filterDropdown = ({
               setSelectedKeys,
               selectedKeys,
@@ -481,7 +485,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         case 'date':
           if (!item.render) item.render = value => processValue(item, value)
 
-          if (!item.sorter)
+          if (typeof item.sorter === 'undefined')
             item.sorter = (a, b, order) => {
               if (isNil(a[item.id])) return order === 'ascend' ? 1 : -1
               if (isNil(b[item.id])) return order === 'ascend' ? -1 : 1
@@ -491,7 +495,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 : 1
             }
 
-          if (!item.filterDropdown)
+          if (typeof item.filterDropdown === 'undefined')
             item.filterDropdown = ({ setSelectedKeys, confirm }) => (
               <DatePicker.RangePicker
                 onChange={dates => {
@@ -525,7 +529,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         case 'time':
           if (!item.render) item.render = value => processValue(item, value)
 
-          if (!item.sorter)
+          if (typeof item.sorter === 'undefined')
             item.sorter = (a, b, order) => {
               if (isNil(a[item.id])) return order === 'ascend' ? 1 : -1
               if (isNil(b[item.id])) return order === 'ascend' ? -1 : 1

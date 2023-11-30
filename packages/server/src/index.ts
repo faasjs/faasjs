@@ -172,7 +172,6 @@ export class Server {
             cache.file = pathResolve('.', this.getFilePath(path))
             logger.debug('Response with %s', cache.file)
 
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const func = require(cache.file).default
             func.config = loadConfig(this.root, path)[
               process.env.FaasEnv || 'development'

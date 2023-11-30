@@ -122,7 +122,7 @@ export async function deployCloudFunction(
   )
 
   logger.debug('[2.1/12] 生成 index.js...')
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+
   const ts = await require('@faasjs/load').loadTs(config.config.filename, {
     output: {
       file: `${config.config.tmp}/index.js`,
@@ -301,7 +301,6 @@ module.exports = main.export();`,
         InitTimeout: config.config.InitTimeout,
       })
 
-      // eslint-disable-next-line no-constant-condition
       while (true) {
         logger.debug('[7.3/12] 等待云函数代码更新完成...')
         if (
@@ -328,7 +327,6 @@ module.exports = main.export();`,
   })
   config.config.FunctionVersion = version.FunctionVersion
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     logger.debug('[8.1/12] 等待版本发布完成...')
     if (

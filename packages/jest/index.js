@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const { createTransformer } = require('@swc/jest')
 const { extname } = require('path')
 

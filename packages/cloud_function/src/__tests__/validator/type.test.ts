@@ -28,7 +28,6 @@ describe('validator/type', function () {
         })
         const handler = new Func({
           plugins: [http],
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           async handler() {},
         }).export().handler
 
@@ -73,7 +72,6 @@ describe('validator/type', function () {
         })
         const handler = new Func({
           plugins: [cf],
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           async handler() {},
         }).export().handler
 
@@ -118,7 +116,6 @@ describe('validator/type', function () {
         })
         const handler = new Func({
           plugins: [cf],
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           async handler() {},
         }).export().handler
 

@@ -2,7 +2,6 @@ import { join, sep } from 'path'
 import { Provider } from '../../..'
 
 jest.mock('child_process', function () {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   return { execSync() {} }
 })
 

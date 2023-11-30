@@ -122,7 +122,6 @@ export class CloudFunction implements Plugin {
     this.logger.debug('[CloudFunction] Merged configuration: %j', config)
 
     // 引用服务商部署插件
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const Provider = require(config.provider.type).Provider
     const provider = new Provider(config.provider.config)
 
@@ -144,7 +143,6 @@ export class CloudFunction implements Plugin {
       )
 
     if (this.config.provider) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const Provider = require(this.config.provider.type).Provider
       this.adapter = new Provider(this.config.provider.config)
     } else
@@ -186,7 +184,6 @@ export class CloudFunction implements Plugin {
     if (data == null) data = Object.create(null)
 
     if (process.env.FaasMode !== 'remote') {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
       const func = new test.FuncWarper(
         `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`
@@ -210,7 +207,6 @@ export class CloudFunction implements Plugin {
     if (data == null) data = Object.create(null)
 
     if (process.env.FaasMode !== 'remote') {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const test = require('@faasjs/test')
       const func = new test.FuncWarper(
         `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`
