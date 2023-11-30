@@ -132,7 +132,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
   const { common } = useConfigContext()
 
   const generateFilterDropdown = (item: TableItemProps) => {
-    if (typeof item.filterDropdown !== 'undefined') return
+    if (item.filterDropdown && item.filterDropdown !== true) return
 
     if (item.options.length < 11) {
       if (!item.filters)
@@ -257,7 +257,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           if (!item.render) item.render = value => processValue(item, value)
 
           // filter
-          if (typeof item.filterDropdown === 'undefined') {
+          if (item.filterDropdown !== false) {
             if (!item.onFilter)
               item.onFilter = (value: any, row) => {
                 if (!value || isNil(value)) return true
@@ -270,7 +270,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                   .includes(value.trim().toLowerCase())
               }
 
-            if (!item.filters && item.optionsType !== 'auto')
+            if (
+              typeof item.filterDropdown === 'undefined' &&
+              !item.filters &&
+              item.optionsType !== 'auto'
+            )
               item.filterDropdown = ({
                 setSelectedKeys,
                 confirm,
@@ -297,7 +301,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           if (!item.render) item.render = value => processValue(item, value)
 
           // filter
-          if (typeof item.filterDropdown === 'undefined') {
+          if (item.filterDropdown !== false) {
             if (!item.onFilter)
               item.onFilter = (value: any, row) => {
                 if (value === null && (!row[item.id] || !row[item.id].length))
@@ -311,7 +315,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 )
               }
 
-            if (!item.filters && item.optionsType !== 'auto')
+            if (
+              typeof item.filterDropdown === 'undefined' &&
+              !item.filters &&
+              item.optionsType !== 'auto'
+            )
               item.filterDropdown = ({
                 setSelectedKeys,
                 confirm,
@@ -342,7 +350,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
 
           // filter
-          if (typeof item.filterDropdown === 'undefined') {
+          if (item.filterDropdown !== false) {
             if (!item.onFilter)
               item.onFilter = (value: any, row) => {
                 if (value === null) return true
@@ -352,7 +360,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 return value == row[item.id]
               }
 
-            if (!item.filters)
+            if (typeof item.filterDropdown === 'undefined' && !item.filters)
               item.filterDropdown = ({
                 setSelectedKeys,
                 confirm,
@@ -380,7 +388,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             item.render = value => processValue(item, value).join(', ')
 
           // filter
-          if (typeof item.filterDropdown === 'undefined') {
+          if (item.filterDropdown !== false) {
             if (!item.onFilter)
               item.onFilter = (value: any, row) => {
                 if (value === null && (!row[item.id] || !row[item.id].length))
@@ -391,7 +399,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 return row[item.id].includes(Number(value))
               }
 
-            if (!item.filters)
+            if (typeof item.filterDropdown === 'undefined' && !item.filters)
               item.filterDropdown = ({
                 setSelectedKeys,
                 confirm,
@@ -436,52 +444,53 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               )
 
           // filter
-          if (typeof item.filterDropdown === 'undefined') {
-            item.filterDropdown = ({
-              setSelectedKeys,
-              selectedKeys,
-              confirm,
-            }: {
-              setSelectedKeys: (selectedKeys: React.Key[]) => void
-              selectedKeys: React.Key[]
-              confirm(): void
-            }) => (
-              <Radio.Group
-                style={{ padding: 8 }}
-                buttonStyle='solid'
-                value={JSON.stringify(selectedKeys[0])}
-                onChange={e => {
-                  const Values: Record<string, any> = {
-                    true: true,
-                    false: false,
-                    null: null,
-                  }
-                  setSelectedKeys(
-                    e.target.value ? [Values[e.target.value]] : []
-                  )
-                  confirm()
-                }}
-              >
-                <Radio.Button>{common.all}</Radio.Button>
-                <Radio.Button value={'true'}>
-                  <CheckOutlined
-                    style={{
-                      color: '#52c41a',
-                      verticalAlign: 'middle',
-                    }}
-                  />
-                </Radio.Button>
-                <Radio.Button value={'false'}>
-                  <CloseOutlined
-                    style={{
-                      verticalAlign: 'middle',
-                      color: '#ff4d4f',
-                    }}
-                  />
-                </Radio.Button>
-                <Radio.Button value={'null'}>{common.blank}</Radio.Button>
-              </Radio.Group>
-            )
+          if (item.filterDropdown !== false) {
+            if (typeof item.filterDropdown === 'undefined')
+              item.filterDropdown = ({
+                setSelectedKeys,
+                selectedKeys,
+                confirm,
+              }: {
+                setSelectedKeys: (selectedKeys: React.Key[]) => void
+                selectedKeys: React.Key[]
+                confirm(): void
+              }) => (
+                <Radio.Group
+                  style={{ padding: 8 }}
+                  buttonStyle='solid'
+                  value={JSON.stringify(selectedKeys[0])}
+                  onChange={e => {
+                    const Values: Record<string, any> = {
+                      true: true,
+                      false: false,
+                      null: null,
+                    }
+                    setSelectedKeys(
+                      e.target.value ? [Values[e.target.value]] : []
+                    )
+                    confirm()
+                  }}
+                >
+                  <Radio.Button>{common.all}</Radio.Button>
+                  <Radio.Button value={'true'}>
+                    <CheckOutlined
+                      style={{
+                        color: '#52c41a',
+                        verticalAlign: 'middle',
+                      }}
+                    />
+                  </Radio.Button>
+                  <Radio.Button value={'false'}>
+                    <CloseOutlined
+                      style={{
+                        verticalAlign: 'middle',
+                        color: '#ff4d4f',
+                      }}
+                    />
+                  </Radio.Button>
+                  <Radio.Button value={'null'}>{common.blank}</Radio.Button>
+                </Radio.Group>
+              )
 
             if (!item.onFilter)
               item.onFilter = (value, row) => {
@@ -512,24 +521,25 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             }
 
           // filter
-          if (typeof item.filterDropdown === 'undefined') {
-            item.filterDropdown = ({ setSelectedKeys, confirm }) => (
-              <DatePicker.RangePicker
-                onChange={dates => {
-                  setSelectedKeys(
-                    dates?.[0] && dates[1]
-                      ? ([
-                          [
-                            dates[0].startOf('day').toISOString(),
-                            dates[1].endOf('day').toISOString(),
-                          ],
-                        ] as any)
-                      : []
-                  )
-                  confirm()
-                }}
-              />
-            )
+          if (item.filterDropdown !== false) {
+            if (typeof item.filterDropdown === 'undefined')
+              item.filterDropdown = ({ setSelectedKeys, confirm }) => (
+                <DatePicker.RangePicker
+                  onChange={dates => {
+                    setSelectedKeys(
+                      dates?.[0] && dates[1]
+                        ? ([
+                            [
+                              dates[0].startOf('day').toISOString(),
+                              dates[1].endOf('day').toISOString(),
+                            ],
+                          ] as any)
+                        : []
+                    )
+                    confirm()
+                  }}
+                />
+              )
 
             if (!item.onFilter)
               item.onFilter = (value: any, row) => {
@@ -559,24 +569,25 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             }
 
           // filter
-          if (typeof item.filterDropdown === 'undefined') {
-            item.filterDropdown = ({ setSelectedKeys, confirm }) => (
-              <DatePicker.RangePicker
-                onChange={dates => {
-                  setSelectedKeys(
-                    dates?.[0] && dates[1]
-                      ? ([
-                          [
-                            dates[0].startOf('day').toISOString(),
-                            dates[1].endOf('day').toISOString(),
-                          ],
-                        ] as any)
-                      : []
-                  )
-                  confirm()
-                }}
-              />
-            )
+          if (item.filterDropdown !== false) {
+            if (typeof item.filterDropdown === 'undefined')
+              item.filterDropdown = ({ setSelectedKeys, confirm }) => (
+                <DatePicker.RangePicker
+                  onChange={dates => {
+                    setSelectedKeys(
+                      dates?.[0] && dates[1]
+                        ? ([
+                            [
+                              dates[0].startOf('day').toISOString(),
+                              dates[1].endOf('day').toISOString(),
+                            ],
+                          ] as any)
+                        : []
+                    )
+                    confirm()
+                  }}
+                />
+              )
 
             if (!item.onFilter)
               item.onFilter = (value: any, row) => {
@@ -623,7 +634,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           if (!item.render) item.render = value => processValue(item, value)
 
           // filter
-          if (typeof item.filterDropdown === 'undefined' && !item.onFilter)
+          if (item.filterDropdown !== false && !item.onFilter)
             item.onFilter = (value: any, row) => {
               if (value === null && isNil(row[item.id])) return true
 
@@ -664,7 +675,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     return (
       <AntdTable
         {...props}
-        rowKey={props.rowKey || 'id'}
+        rowKey={props.rowKey || columns[0].id || 'id'}
         columns={columns as any[]}
         dataSource={props.dataSource}
       />
@@ -738,7 +749,7 @@ function FaasDataTable({
       <AntdTable
         {...props}
         loading={props.loading}
-        rowKey={props.rowKey || 'id'}
+        rowKey={props.rowKey || currentColumns[0].id || 'id'}
         columns={currentColumns as any[]}
         dataSource={[]}
       />
@@ -749,7 +760,7 @@ function FaasDataTable({
       <AntdTable
         {...props}
         loading={props.loading}
-        rowKey={props.rowKey || 'id'}
+        rowKey={props.rowKey || currentColumns[0].id || 'id'}
         columns={currentColumns as any[]}
         dataSource={data as any}
       />
@@ -759,7 +770,7 @@ function FaasDataTable({
     <AntdTable
       {...props}
       loading={props.loading}
-      rowKey={props.rowKey || 'id'}
+      rowKey={props.rowKey || currentColumns[0].id || 'id'}
       columns={currentColumns as any[]}
       dataSource={(data as any).rows}
       pagination={{

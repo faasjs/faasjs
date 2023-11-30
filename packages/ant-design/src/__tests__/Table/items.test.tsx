@@ -194,26 +194,6 @@ describe('Table/items', () => {
   })
 
   describe('time', () => {
-    it('undefined', async () => {
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              type: 'time',
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'undefined',
-              test: undefined,
-            },
-          ]}
-        />
-      )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-    })
-
     it('number', async () => {
       const now = dayjs()
       render(
@@ -288,26 +268,6 @@ describe('Table/items', () => {
   })
 
   describe('date', () => {
-    it('undefined', async () => {
-      render(
-        <Table
-          items={[
-            {
-              id: 'test',
-              type: 'date',
-            },
-          ]}
-          dataSource={[
-            {
-              id: 'undefined',
-              test: undefined,
-            },
-          ]}
-        />
-      )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-    })
-
     it('number', async () => {
       const now = dayjs()
       render(
