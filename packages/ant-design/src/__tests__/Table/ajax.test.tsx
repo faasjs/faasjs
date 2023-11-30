@@ -38,7 +38,13 @@ describe('Table/ajax', () => {
   })
 
   it('with faas', async () => {
-    render(<Table items={[{ id: 'test' }]} faasData={{ action: 'test' }} />)
+    render(
+      <Table
+        rowKey='test'
+        items={[{ id: 'test' }]}
+        faasData={{ action: 'test' }}
+      />
+    )
 
     expect(await screen.findByText('Test')).toBeInTheDocument()
     expect(await screen.findByText('value1')).toBeInTheDocument()

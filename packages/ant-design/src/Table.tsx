@@ -253,156 +253,168 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
       switch (item.type) {
         case 'string':
+          // render
           if (!item.render) item.render = value => processValue(item, value)
 
-          if (!item.onFilter)
-            item.onFilter = (value: any, row) => {
-              if (!value || isNil(value)) return true
+          // filter
+          if (typeof item.filterDropdown === 'undefined') {
+            if (!item.onFilter)
+              item.onFilter = (value: any, row) => {
+                if (!value || isNil(value)) return true
 
-              if (isNil(row[item.id])) return false
+                if (isNil(row[item.id])) return false
 
-              return (row[item.id] as string)
-                .trim()
-                .toLowerCase()
-                .includes(value.trim().toLowerCase())
-            }
+                return (row[item.id] as string)
+                  .trim()
+                  .toLowerCase()
+                  .includes(value.trim().toLowerCase())
+              }
 
-          if (
-            typeof item.filterDropdown === 'undefined' &&
-            !item.filters &&
-            item.optionsType !== 'auto'
-          )
-            item.filterDropdown = ({
-              setSelectedKeys,
-              confirm,
-              clearFilters,
-            }) => (
-              <Input.Search
-                placeholder={`${common.search} ${item.title}`}
-                allowClear
-                onSearch={v => {
-                  if (v) {
-                    setSelectedKeys([v])
-                  } else {
-                    setSelectedKeys([])
-                    clearFilters()
-                  }
-                  confirm()
-                }}
-              />
-            )
+            if (!item.filters && item.optionsType !== 'auto')
+              item.filterDropdown = ({
+                setSelectedKeys,
+                confirm,
+                clearFilters,
+              }) => (
+                <Input.Search
+                  placeholder={`${common.search} ${item.title}`}
+                  allowClear
+                  onSearch={v => {
+                    if (v) {
+                      setSelectedKeys([v])
+                    } else {
+                      setSelectedKeys([])
+                      clearFilters()
+                    }
+                    confirm()
+                  }}
+                />
+              )
+          }
           break
         case 'string[]':
+          // render
           if (!item.render) item.render = value => processValue(item, value)
-          if (!item.onFilter)
-            item.onFilter = (value: any, row) => {
-              if (value === null && (!row[item.id] || !row[item.id].length))
-                return true
 
-              if (!row[item.id] || !row[item.id].length || !value) return false
+          // filter
+          if (typeof item.filterDropdown === 'undefined') {
+            if (!item.onFilter)
+              item.onFilter = (value: any, row) => {
+                if (value === null && (!row[item.id] || !row[item.id].length))
+                  return true
 
-              return (row[item.id] as string[]).some(v =>
-                v.trim().toLowerCase().includes(value.trim().toLowerCase())
+                if (!row[item.id] || !row[item.id].length || !value)
+                  return false
+
+                return (row[item.id] as string[]).some(v =>
+                  v.trim().toLowerCase().includes(value.trim().toLowerCase())
+                )
+              }
+
+            if (!item.filters && item.optionsType !== 'auto')
+              item.filterDropdown = ({
+                setSelectedKeys,
+                confirm,
+                clearFilters,
+              }) => (
+                <Input.Search
+                  placeholder={`${common.search} ${item.title}`}
+                  allowClear
+                  onSearch={v => {
+                    if (v) {
+                      setSelectedKeys([v])
+                    } else {
+                      setSelectedKeys([])
+                      clearFilters()
+                    }
+                    confirm()
+                  }}
+                />
               )
-            }
-
-          if (
-            typeof item.filterDropdown === 'undefined' &&
-            !item.filters &&
-            item.optionsType !== 'auto'
-          )
-            item.filterDropdown = ({
-              setSelectedKeys,
-              confirm,
-              clearFilters,
-            }) => (
-              <Input.Search
-                placeholder={`${common.search} ${item.title}`}
-                allowClear
-                onSearch={v => {
-                  if (v) {
-                    setSelectedKeys([v])
-                  } else {
-                    setSelectedKeys([])
-                    clearFilters()
-                  }
-                  confirm()
-                }}
-              />
-            )
+          }
           break
         case 'number':
+          // render
           if (!item.render) item.render = value => processValue(item, value)
 
+          // sorter
           if (typeof item.sorter === 'undefined')
             item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
 
-          if (!item.onFilter)
-            item.onFilter = (value: any, row) => {
-              if (value === null) return true
-              if (isNil(row[item.id])) return false
+          // filter
+          if (typeof item.filterDropdown === 'undefined') {
+            if (!item.onFilter)
+              item.onFilter = (value: any, row) => {
+                if (value === null) return true
+                if (isNil(row[item.id])) return false
 
-              // biome-ignore lint/suspicious/noDoubleEquals: <explanation>
-              return value == row[item.id]
-            }
+                // biome-ignore lint/suspicious/noDoubleEquals: <explanation>
+                return value == row[item.id]
+              }
 
-          if (typeof item.filterDropdown === 'undefined' && !item.filters)
-            item.filterDropdown = ({
-              setSelectedKeys,
-              confirm,
-              clearFilters,
-            }) => (
-              <Input.Search
-                placeholder={`${common.search} ${item.title}`}
-                allowClear
-                onSearch={v => {
-                  if (v) {
-                    setSelectedKeys([Number(v)])
-                  } else {
-                    setSelectedKeys([])
-                    clearFilters()
-                  }
-                  confirm()
-                }}
-              />
-            )
+            if (!item.filters)
+              item.filterDropdown = ({
+                setSelectedKeys,
+                confirm,
+                clearFilters,
+              }) => (
+                <Input.Search
+                  placeholder={`${common.search} ${item.title}`}
+                  allowClear
+                  onSearch={v => {
+                    if (v) {
+                      setSelectedKeys([Number(v)])
+                    } else {
+                      setSelectedKeys([])
+                      clearFilters()
+                    }
+                    confirm()
+                  }}
+                />
+              )
+          }
           break
         case 'number[]':
+          // render
           if (!item.render)
             item.render = value => processValue(item, value).join(', ')
 
-          if (!item.onFilter)
-            item.onFilter = (value: any, row) => {
-              if (value === null && (!row[item.id] || !row[item.id].length))
-                return true
+          // filter
+          if (typeof item.filterDropdown === 'undefined') {
+            if (!item.onFilter)
+              item.onFilter = (value: any, row) => {
+                if (value === null && (!row[item.id] || !row[item.id].length))
+                  return true
 
-              if (!row[item.id] || !row[item.id].length) return false
+                if (!row[item.id] || !row[item.id].length) return false
 
-              return row[item.id].includes(Number(value))
-            }
+                return row[item.id].includes(Number(value))
+              }
 
-          if (typeof item.filterDropdown === 'undefined' && !item.filters)
-            item.filterDropdown = ({
-              setSelectedKeys,
-              confirm,
-              clearFilters,
-            }) => (
-              <Input.Search
-                placeholder={`${common.search} ${item.title}`}
-                allowClear
-                onSearch={v => {
-                  if (v) {
-                    setSelectedKeys([Number(v)])
-                  } else {
-                    setSelectedKeys([])
-                    clearFilters()
-                  }
-                  confirm()
-                }}
-              />
-            )
+            if (!item.filters)
+              item.filterDropdown = ({
+                setSelectedKeys,
+                confirm,
+                clearFilters,
+              }) => (
+                <Input.Search
+                  placeholder={`${common.search} ${item.title}`}
+                  allowClear
+                  onSearch={v => {
+                    if (v) {
+                      setSelectedKeys([Number(v)])
+                    } else {
+                      setSelectedKeys([])
+                      clearFilters()
+                    }
+                    confirm()
+                  }}
+                />
+              )
+          }
           break
         case 'boolean':
+          // render
           if (!item.render)
             item.render = value =>
               isNil(value) ? (
@@ -423,7 +435,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 />
               )
 
-          if (typeof item.filterDropdown === 'undefined')
+          // filter
+          if (typeof item.filterDropdown === 'undefined') {
             item.filterDropdown = ({
               setSelectedKeys,
               selectedKeys,
@@ -470,21 +483,24 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               </Radio.Group>
             )
 
-          if (!item.onFilter)
-            item.onFilter = (value, row) => {
-              switch (value) {
-                case true:
-                  return !isNil(row[item.id]) && row[item.id] !== false
-                case false:
-                  return !isNil(row[item.id]) && !row[item.id]
-                default:
-                  return isNil(row[item.id])
+            if (!item.onFilter)
+              item.onFilter = (value, row) => {
+                switch (value) {
+                  case true:
+                    return !isNil(row[item.id]) && row[item.id] !== false
+                  case false:
+                    return !isNil(row[item.id]) && !row[item.id]
+                  default:
+                    return isNil(row[item.id])
+                }
               }
-            }
+          }
           break
         case 'date':
+          // render
           if (!item.render) item.render = value => processValue(item, value)
 
+          // sorter
           if (typeof item.sorter === 'undefined')
             item.sorter = (a, b, order) => {
               if (isNil(a[item.id])) return order === 'ascend' ? 1 : -1
@@ -495,7 +511,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 : 1
             }
 
-          if (typeof item.filterDropdown === 'undefined')
+          // filter
+          if (typeof item.filterDropdown === 'undefined') {
             item.filterDropdown = ({ setSelectedKeys, confirm }) => (
               <DatePicker.RangePicker
                 onChange={dates => {
@@ -514,21 +531,23 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               />
             )
 
-          if (!item.onFilter)
-            item.onFilter = (value: any, row) => {
-              if (isNil(value[0])) return true
-              if (isNil(row[item.id])) return false
+            if (!item.onFilter)
+              item.onFilter = (value: any, row) => {
+                if (isNil(value[0])) return true
+                if (isNil(row[item.id])) return false
 
-              return (
-                dayjs(row[item.id]) >= dayjs(value[0]) &&
-                dayjs(row[item.id]) <= dayjs(value[1])
-              )
-            }
-
+                return (
+                  dayjs(row[item.id]) >= dayjs(value[0]) &&
+                  dayjs(row[item.id]) <= dayjs(value[1])
+                )
+              }
+          }
           break
         case 'time':
+          // render
           if (!item.render) item.render = value => processValue(item, value)
 
+          // sorter
           if (typeof item.sorter === 'undefined')
             item.sorter = (a, b, order) => {
               if (isNil(a[item.id])) return order === 'ascend' ? 1 : -1
@@ -539,7 +558,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 : 1
             }
 
-          if (!item.filterDropdown)
+          // filter
+          if (typeof item.filterDropdown === 'undefined') {
             item.filterDropdown = ({ setSelectedKeys, confirm }) => (
               <DatePicker.RangePicker
                 onChange={dates => {
@@ -558,19 +578,20 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               />
             )
 
-          if (!item.onFilter)
-            item.onFilter = (value: any, row) => {
-              if (isNil(value[0])) return true
-              if (isNil(row[item.id])) return false
+            if (!item.onFilter)
+              item.onFilter = (value: any, row) => {
+                if (isNil(value[0])) return true
+                if (isNil(row[item.id])) return false
 
-              return (
-                dayjs(row[item.id]) >= dayjs(value[0]) &&
-                dayjs(row[item.id]) <= dayjs(value[1])
-              )
-            }
-
+                return (
+                  dayjs(row[item.id]) >= dayjs(value[0]) &&
+                  dayjs(row[item.id]) <= dayjs(value[1])
+                )
+              }
+          }
           break
         case 'object':
+          // render
           if (!item.render)
             item.render = value => (
               <Description
@@ -581,6 +602,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             )
           break
         case 'object[]':
+          // render
           if (!item.render)
             item.render = (value: Record<string, any>[]) => (
               <>
@@ -597,9 +619,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             )
           break
         default:
+          // render
           if (!item.render) item.render = value => processValue(item, value)
 
-          if (!item.onFilter)
+          // filter
+          if (typeof item.filterDropdown === 'undefined' && !item.onFilter)
             item.onFilter = (value: any, row) => {
               if (value === null && isNil(row[item.id])) return true
 
