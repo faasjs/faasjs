@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/request",
-  "version": "0.0.4-beta.14",
+  "version": "0.0.4-beta.15",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,10 +21,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/logger": "0.0.4-beta.14"
+    "@faasjs/logger": "0.0.4-beta.15"
   },
   "devDependencies": {
-    "@faasjs/logger": "0.0.4-beta.14"
+    "@faasjs/logger": "0.0.4-beta.15"
   },
   "engines": {
     "npm": ">=9.0.0",

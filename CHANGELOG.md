@@ -2,6 +2,23 @@
 
 ## Beta
 
+[`v0.0.4-beta.15 (2023-12-01)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.14...v0.0.4-beta.15)
+
+- `@faasjs/eslint-config-recommended`
+  - [Break] Remove package.
+
+- `@faasjs/eslint-config-react`
+  - [Break] Remove package.
+
+- `@faasjs/eslint-config-vue`
+  - [Break] Remove package.
+
+- `@faasjs/linter`
+  - [Break] Remove package.
+
+- `@faasjs/ant-design`
+  - [Feature] add ErrorBoundary to App.
+
 [`v0.0.4-beta.14 (2023-11-30)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.12...v0.0.4-beta.14)
 
 - `@faasjs/ant-design`

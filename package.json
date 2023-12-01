@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.4-beta.14",
+  "version": "0.0.4-beta.15",
   "private": true,
   "scripts": {
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
@@ -17,7 +17,8 @@
     "turbo": "^1.10.16",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@biomejs/biome": "*"
   },
   "workspaces": ["packages/*"],
   "jest": {
