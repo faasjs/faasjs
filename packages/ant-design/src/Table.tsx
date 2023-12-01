@@ -675,7 +675,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     return (
       <AntdTable
         {...props}
-        rowKey={props.rowKey || columns[0].id || 'id'}
+        rowKey={props.rowKey || 'id'}
         columns={columns as any[]}
         dataSource={props.dataSource}
       />
@@ -749,7 +749,7 @@ function FaasDataTable({
       <AntdTable
         {...props}
         loading={props.loading}
-        rowKey={props.rowKey || currentColumns[0].id || 'id'}
+        rowKey={props.rowKey || 'id'}
         columns={currentColumns as any[]}
         dataSource={[]}
       />
@@ -760,7 +760,7 @@ function FaasDataTable({
       <AntdTable
         {...props}
         loading={props.loading}
-        rowKey={props.rowKey || currentColumns[0].id || 'id'}
+        rowKey={props.rowKey || 'id'}
         columns={currentColumns as any[]}
         dataSource={data as any}
       />
@@ -770,7 +770,7 @@ function FaasDataTable({
     <AntdTable
       {...props}
       loading={props.loading}
-      rowKey={props.rowKey || currentColumns[0].id || 'id'}
+      rowKey={props.rowKey || 'id'}
       columns={currentColumns as any[]}
       dataSource={(data as any).rows}
       pagination={{
