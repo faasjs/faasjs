@@ -12,12 +12,14 @@ import { ModalProps, useModal } from './Modal'
 import { DrawerProps, useDrawer } from './Drawer'
 import { BrowserRouter, useLocation } from 'react-router-dom'
 import type { BrowserRouterProps } from 'react-router-dom'
+import { ErrorBoundary, ErrorBoundaryProps } from './ErrorBoundary'
 
 export interface AppProps {
   children: React.ReactNode
   styleProviderProps?: StyleProviderProps
   configProviderProps?: ConfigProviderProps
   browserRouterProps?: BrowserRouterProps
+  errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
 }
 
 export interface useAppProps {
@@ -76,13 +78,15 @@ export function App(props: AppProps) {
     >
       <ConfigProvider {...props.configProviderProps}>
         <AppContext.Provider value={memoizedContextValue}>
-          <BrowserRouter {...props.browserRouterProps}>
-            {messageContextHolder}
-            {notificationContextHolder}
-            {modal}
-            {drawer}
-            <RoutesApp>{props.children}</RoutesApp>
-          </BrowserRouter>
+          <ErrorBoundary {...props.errorBoundaryProps}>
+            <BrowserRouter {...props.browserRouterProps}>
+              {messageContextHolder}
+              {notificationContextHolder}
+              {modal}
+              {drawer}
+              <RoutesApp>{props.children}</RoutesApp>
+            </BrowserRouter>
+          </ErrorBoundary>
         </AppContext.Provider>
       </ConfigProvider>
     </StyleProvider>
