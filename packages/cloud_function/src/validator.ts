@@ -69,7 +69,9 @@ export class Validator {
       if (diff.length > 0) {
         if (config.whitelist === 'error') {
           const diffKeys = diff.map(k => `${baseKey}${k}`)
-          const error = Error(`[${type}] Not permitted: ${diffKeys.join(', ')}`)
+          const error = Error(
+            `[${type}] Not permitted keys: ${diffKeys.join(', ')}`
+          )
           if (config.onError)
             config.onError(`${type}.whitelist`, baseKey, diffKeys)
 
