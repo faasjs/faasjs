@@ -1,9 +1,7 @@
 import { join, sep } from 'path'
 import { Provider } from '../../..'
 
-jest.mock('child_process', function () {
-  return { execSync() {} }
-})
+jest.mock('child_process', () => ({ execSync() {} }))
 
 jest.mock('cos-nodejs-sdk-v5', () => {
   return class Client {
@@ -26,7 +24,7 @@ jest.mock('cos-nodejs-sdk-v5', () => {
 
 jest.mock('@faasjs/request', () => {
   return {
-    request: async function (url: string, options: any): Promise<any> {
+    request: async (url: string, options: any): Promise<any> => {
       console.log('mock.request', url, options)
       switch (options.headers['X-TC-Action']) {
         case 'DescribeServicesStatus':
@@ -79,7 +77,7 @@ jest.mock('@faasjs/request', () => {
   }
 })
 
-test('update', async function () {
+test('update', async () => {
   // const tc = new Provider({
   //   appId: 'appId',
   //   secretId: 'secretId',

@@ -1,10 +1,10 @@
 import { Func } from '@faasjs/func'
 import { CloudFunction } from '../../index'
 
-describe('validator/in', function () {
-  describe('event', function () {
-    describe('normal', function () {
-      test('should work', async function () {
+describe('validator/in', () => {
+  describe('event', () => {
+    describe('normal', () => {
+      test('should work', async () => {
         const cf = new CloudFunction({
           validator: { event: { rules: { key: { in: [1] } } } },
         })
@@ -25,8 +25,8 @@ describe('validator/in', function () {
       })
     })
 
-    describe('array', function () {
-      test('should work', async function () {
+    describe('array', () => {
+      test('should work', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -51,8 +51,8 @@ describe('validator/in', function () {
       })
     })
 
-    describe('object', function () {
-      test('should work', async function () {
+    describe('object', () => {
+      test('should work', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {

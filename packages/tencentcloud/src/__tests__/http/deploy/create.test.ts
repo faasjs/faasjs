@@ -5,43 +5,41 @@ const requests: {
   [key: string]: any
 } = {}
 
-jest.mock('@faasjs/request', function () {
-  return {
-    request: async function (url: string, options: any): Promise<any> {
-      console.log('mock.request', url, options)
-      requests[options.headers['X-TC-Action']] = options.body
-      switch (options.headers['X-TC-Action']) {
-        case 'DescribeServicesStatus':
-          return Promise.resolve({
-            body: { Response: { Result: { ServiceSet: [] } } },
-          })
-        case 'CreateService':
-          return Promise.resolve({
-            body: {
-              Response: {
-                ServiceId: 'ServiceId',
-                OuterSubDomain: 'domain',
-              },
+jest.mock('@faasjs/request', () => ({
+  request: async (url: string, options: any): Promise<any> => {
+    console.log('mock.request', url, options)
+    requests[options.headers['X-TC-Action']] = options.body
+    switch (options.headers['X-TC-Action']) {
+      case 'DescribeServicesStatus':
+        return Promise.resolve({
+          body: { Response: { Result: { ServiceSet: [] } } },
+        })
+      case 'CreateService':
+        return Promise.resolve({
+          body: {
+            Response: {
+              ServiceId: 'ServiceId',
+              OuterSubDomain: 'domain',
             },
-          })
-        case 'DescribeApisStatus':
-          return Promise.resolve({
-            body: { Response: { Result: { ApiIdStatusSet: [] } } },
-          })
-        case 'CreateApi':
-          return Promise.resolve({ body: { Response: {} } })
-        case 'ReleaseService':
-          return Promise.resolve({ body: { Response: {} } })
-        default:
-          return Promise.resolve({
-            body: { Response: { Error: 'Unknown mock' } },
-          })
-      }
-    },
-  }
-})
+          },
+        })
+      case 'DescribeApisStatus':
+        return Promise.resolve({
+          body: { Response: { Result: { ApiIdStatusSet: [] } } },
+        })
+      case 'CreateApi':
+        return Promise.resolve({ body: { Response: {} } })
+      case 'ReleaseService':
+        return Promise.resolve({ body: { Response: {} } })
+      default:
+        return Promise.resolve({
+          body: { Response: { Error: 'Unknown mock' } },
+        })
+    }
+  },
+}))
 
-test('create', async function () {
+test('create', async () => {
   const tc = new Provider({
     appId: 'appId',
     secretId: 'secretId',

@@ -1,8 +1,8 @@
 import { Func, InvokeData } from '@faasjs/func'
 import { Http } from '..'
 
-describe('cookie', function () {
-  describe('read', function () {
+describe('cookie', () => {
+  describe('read', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -11,7 +11,7 @@ describe('cookie', function () {
       },
     }).export().handler
 
-    test('should work', async function () {
+    test('should work', async () => {
       let res = await handler({
         headers: { cookie: 'a=1; b=2' },
         key: 'a',
@@ -32,7 +32,7 @@ describe('cookie', function () {
       expect(res.body).toBeUndefined()
     })
 
-    test('no cookie', async function () {
+    test('no cookie', async () => {
       const res = await handler({
         headers: {},
         key: 'a',
@@ -42,7 +42,7 @@ describe('cookie', function () {
     })
   })
 
-  describe('write', function () {
+  describe('write', () => {
     const http = new Http()
     const func = new Func({
       plugins: [http],
@@ -56,7 +56,7 @@ describe('cookie', function () {
     }
     const handler = func.export().handler
 
-    test('base', async function () {
+    test('base', async () => {
       const res = await handler({
         headers: {},
         key: 'key',
@@ -68,7 +68,7 @@ describe('cookie', function () {
       ])
     })
 
-    test('delete', async function () {
+    test('delete', async () => {
       const res = await handler({
         headers: {},
         key: 'key',
@@ -80,7 +80,7 @@ describe('cookie', function () {
       ])
     })
 
-    test('write multi keys', async function () {
+    test('write multi keys', async () => {
       const http = new Http()
       const handler = new Func({
         plugins: [http],
@@ -99,8 +99,8 @@ describe('cookie', function () {
     })
   })
 
-  describe('cookie options', function () {
-    test('domain', async function () {
+  describe('cookie options', () => {
+    test('domain', async () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
@@ -128,7 +128,7 @@ describe('cookie', function () {
       ])
     })
 
-    test('path', async function () {
+    test('path', async () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
@@ -156,7 +156,7 @@ describe('cookie', function () {
       ])
     })
 
-    test('sameSite', async function () {
+    test('sameSite', async () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
@@ -184,7 +184,7 @@ describe('cookie', function () {
       ])
     })
 
-    test('expires number', async function () {
+    test('expires number', async () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
@@ -212,7 +212,7 @@ describe('cookie', function () {
       ])
     })
 
-    test('expires string', async function () {
+    test('expires string', async () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],

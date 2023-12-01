@@ -80,7 +80,6 @@ export class FuncWarper {
   }
 
   public async mount(
-    // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
     handler?: (func: FuncWarper) => Promise<void> | void
   ): Promise<void> {
     if (!this.func.mounted)

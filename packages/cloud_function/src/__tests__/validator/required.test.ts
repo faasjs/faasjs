@@ -1,9 +1,9 @@
 import { Func } from '@faasjs/func'
 import { CloudFunction } from '../../index'
 
-describe('validator/required', function () {
-  describe('event', function () {
-    test('normal', async function () {
+describe('validator/required', () => {
+  describe('event', () => {
+    test('normal', async () => {
       const cf = new CloudFunction({
         validator: { event: { rules: { key: { required: true } } } },
       })
@@ -21,8 +21,8 @@ describe('validator/required', function () {
       }
     })
 
-    describe('array', function () {
-      test('empty', async function () {
+    describe('array', () => {
+      test('empty', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -42,7 +42,7 @@ describe('validator/required', function () {
         await handler({ key: [] })
       })
 
-      test('plain object', async function () {
+      test('plain object', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -67,7 +67,7 @@ describe('validator/required', function () {
       })
     })
 
-    test('object', async function () {
+    test('object', async () => {
       const http = new CloudFunction({
         validator: {
           event: {

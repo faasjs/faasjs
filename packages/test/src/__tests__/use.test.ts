@@ -1,6 +1,6 @@
 import { FuncWarper } from '../../src/index'
 
-test('use', async function () {
+test('use', async () => {
   const funcA = new FuncWarper(require.resolve('./funcs/use-a.func'))
   await funcA.mount()
   const funcB = new FuncWarper(require.resolve('./funcs/use-b.func'))

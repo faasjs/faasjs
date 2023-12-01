@@ -1,8 +1,8 @@
 import { Func, InvokeData } from '../../..'
 import { RunHandler } from '..'
 
-describe('plugins.runHandler', function () {
-  test('return result', async function () {
+describe('plugins.runHandler', () => {
+  test('return result', async () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
@@ -14,7 +14,7 @@ describe('plugins.runHandler', function () {
     expect(await handler(1)).toEqual(2)
   })
 
-  test('async return result', async function () {
+  test('async return result', async () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
@@ -26,7 +26,7 @@ describe('plugins.runHandler', function () {
     expect(await handler(1)).toEqual(2)
   })
 
-  test('callback result', async function () {
+  test('callback result', async () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
@@ -38,11 +38,11 @@ describe('plugins.runHandler', function () {
     expect(await handler(1)).toEqual(2)
   })
 
-  test('async callback result', async function () {
+  test('async callback result', async () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
-        await new Promise<void>(function (resolve) {
+        await new Promise<void>(resolve => {
           data.callback(null, data.event + 1)
           resolve()
         })
@@ -53,7 +53,7 @@ describe('plugins.runHandler', function () {
     expect(await handler(1)).toEqual(2)
   })
 
-  test('throw error', async function () {
+  test('throw error', async () => {
     try {
       await new Func({
         plugins: [new RunHandler()],
@@ -68,7 +68,7 @@ describe('plugins.runHandler', function () {
     }
   })
 
-  test('async throw error', async function () {
+  test('async throw error', async () => {
     try {
       await new Func({
         plugins: [new RunHandler()],
@@ -83,7 +83,7 @@ describe('plugins.runHandler', function () {
     }
   })
 
-  test('callback error', async function () {
+  test('callback error', async () => {
     try {
       await new Func({
         plugins: [new RunHandler()],
@@ -98,12 +98,12 @@ describe('plugins.runHandler', function () {
     }
   })
 
-  test('async callback error', async function () {
+  test('async callback error', async () => {
     try {
       await new Func({
         plugins: [new RunHandler()],
         async handler(data: InvokeData) {
-          await new Promise<void>(function (resolve) {
+          await new Promise<void>(resolve => {
             data.callback(Error('wrong'))
             resolve()
           })

@@ -244,13 +244,13 @@ export async function request<T = any>(
   if (body && !options.headers['Content-Length'])
     options.headers['Content-Length'] = Buffer.byteLength(body as string)
 
-  return await new Promise(function (resolve, reject) {
+  return await new Promise((resolve, reject) => {
     logger.debug('request %j', {
       ...options,
       body,
     })
 
-    const req = protocol.request(options, function (res: http.IncomingMessage) {
+    const req = protocol.request(options, (res: http.IncomingMessage) => {
       if (downloadStream) {
         res.pipe(downloadStream)
         downloadStream.on('finish', () => resolve(undefined))
@@ -335,7 +335,7 @@ export async function request<T = any>(
       req.write(multipartBody)
     }
 
-    req.on('error', function (e: Error) {
+    req.on('error', (e: Error) => {
       logger.timeEnd(url, 'response.error %j', e)
       reject(e)
     })

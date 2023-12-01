@@ -1,7 +1,7 @@
 import commander from '..'
 
-describe('create-faas-app', function () {
-  it('should work', function () {
+describe('create-faas-app', () => {
+  it('should work', () => {
     expect(commander).toBeDefined()
   })
 })

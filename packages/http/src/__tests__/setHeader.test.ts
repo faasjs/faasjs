@@ -1,8 +1,8 @@
 import { Func } from '@faasjs/func'
 import { Http } from '..'
 
-describe('setHeader', function () {
-  test('should work', async function () {
+describe('setHeader', () => {
+  test('should work', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],

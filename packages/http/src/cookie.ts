@@ -15,7 +15,7 @@ export type CookieOptions = {
 
 export class Cookie<
   C extends Record<string, string> = any,
-  S extends Record<string, string> = any
+  S extends Record<string, string> = any,
 > {
   public session: Session<S, C>
   public content: Record<string, string>
@@ -124,6 +124,7 @@ export class Cookie<
 
   public headers(): { 'Set-Cookie'?: string[] } {
     if (Object.keys(this.setCookie).length === 0) return {}
-    else return { 'Set-Cookie': Object.values(this.setCookie) }
+
+    return { 'Set-Cookie': Object.values(this.setCookie) }
   }
 }

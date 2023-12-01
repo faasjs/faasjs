@@ -1,4 +1,4 @@
-const shouldMerge = function (item: any) {
+const shouldMerge = (item: any) => {
   const type = Object.prototype.toString.call(item)
   return type === '[object Object]' || type === '[object Array]'
 }

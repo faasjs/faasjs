@@ -95,11 +95,9 @@ export async function deployHttp(
           Values: [data.env],
         },
       ],
-    }).then(function (body) {
-      return body.Result.ServiceSet.find(function (item: any) {
-        return item.ServiceName === data.env
-      })
-    })
+    }).then(body =>
+      body.Result.ServiceSet.find((item: any) => item.ServiceName === data.env)
+    )
 
     if (!serviceInfo)
       serviceInfo = await api('CreateService', provider, {
@@ -123,11 +121,11 @@ export async function deployHttp(
       },
     ],
     ServiceId: config.config.ServiceId,
-  }).then(function (body) {
-    return body.Result.ApiIdStatusSet.find(function (item: any) {
-      return item.Path === config.config.RequestConfig.Path
-    })
-  })
+  }).then(body =>
+    body.Result.ApiIdStatusSet.find(
+      (item: any) => item.Path === config.config.RequestConfig.Path
+    )
+  )
 
   if (apiInfo) {
     apiInfo = await api('DescribeApi', provider, {

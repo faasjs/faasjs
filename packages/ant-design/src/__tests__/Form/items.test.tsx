@@ -7,13 +7,13 @@ import { Input } from 'antd'
 import userEvent from '@testing-library/user-event'
 
 describe('Form/items', () => {
-  it('should work', function () {
+  it('should work', () => {
     render(<Form items={[{ id: 'test' }]} />)
 
     expect(screen.getByText('Test')).toBeInTheDocument()
   })
 
-  it('should work with children', async function () {
+  it('should work with children', async () => {
     let value: any
 
     render(

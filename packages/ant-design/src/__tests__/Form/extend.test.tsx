@@ -10,7 +10,7 @@ type ExtendTypes = ExtendFormItemProps & {
 }
 
 describe('Form/extend', () => {
-  it('children', function () {
+  it('children', () => {
     function ExtendForm(props: FormProps<any, ExtendTypes>) {
       return (
         <Form

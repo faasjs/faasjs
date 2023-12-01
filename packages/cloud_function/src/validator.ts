@@ -66,18 +66,18 @@ export class Validator {
       const eventKeys = Object.keys(event)
       const rulesKeys = Object.keys(config.rules).concat(['context'])
       const diff = eventKeys.filter(k => !rulesKeys.includes(k))
-      if (diff.length > 0)
+      if (diff.length > 0) {
         if (config.whitelist === 'error') {
           const diffKeys = diff.map(k => `${baseKey}${k}`)
-          const error = Error(
-            `[${type}] Unpermitted keys: ${diffKeys.join(', ')}`
-          )
+          const error = Error(`[${type}] Not permitted: ${diffKeys.join(', ')}`)
           if (config.onError)
             config.onError(`${type}.whitelist`, baseKey, diffKeys)
 
           throw error
-        } else if (config.whitelist === 'ignore')
+        }
+        if (config.whitelist === 'ignore')
           for (const key of diff) delete event[key]
+      }
     }
     for (const key in config.rules) {
       const rule = config.rules[key]

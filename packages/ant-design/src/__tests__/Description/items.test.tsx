@@ -6,7 +6,7 @@ import { Description } from '../../Description'
 import dayjs from 'dayjs'
 
 describe('Description/items', () => {
-  it('should work', function () {
+  it('should work', () => {
     render(
       <Description
         items={[{ id: 'test' }, null]}

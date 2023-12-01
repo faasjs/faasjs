@@ -18,12 +18,12 @@ commander
   .option('-r --root <path>', 'Root path')
   .option('-e --env <staging>', 'Environment', 'development')
 
-  .on('option:verbose', function () {
+  .on('option:verbose', () => {
     process.env.verbose = '1'
     process.env.FaasLog = 'debug'
     logger.debug('Verbose log enabled.')
   })
-  .on('option:root', function (root?: string) {
+  .on('option:root', (root?: string) => {
     if (root && existsSync(root)) {
       process.env.FaasRoot = root
       if (!root.endsWith(sep)) process.env.FaasRoot += sep
@@ -31,7 +31,7 @@ commander
 
     logger.debug('root: %s', process.env.FaasRoot)
   })
-  .on('option:env', function (env?: string) {
+  .on('option:env', (env?: string) => {
     if (env) process.env.FaasEnv = env
 
     logger.debug('env: %s', process.env.FaasEnv)

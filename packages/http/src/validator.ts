@@ -38,7 +38,7 @@ export type ValidatorOptions<Content = Record<string, any>> = {
 type Request<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any
+  TSession extends Record<string, string> = any,
 > = {
   headers: {
     [key: string]: string
@@ -51,7 +51,7 @@ type Request<
 export type BeforeOption<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any
+  TSession extends Record<string, string> = any,
   // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
 > = (request: Request<TParams, TCookie, TSession>) => Promise<void | {
   statusCode?: number
@@ -61,7 +61,7 @@ export type BeforeOption<
 export type ValidatorConfig<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any
+  TSession extends Record<string, string> = any,
 > = {
   params?: ValidatorOptions<TParams>
   cookie?: ValidatorOptions<TCookie>
@@ -72,7 +72,7 @@ export type ValidatorConfig<
 export class Validator<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any
+  TSession extends Record<string, string> = any,
 > {
   public before?: BeforeOption<TParams, TCookie, TSession>
   public paramsConfig?: ValidatorOptions<TParams>
@@ -143,7 +143,7 @@ export class Validator<
       const paramsKeys = Object.keys(params)
       const rulesKeys = Object.keys(config.rules)
       const diff = paramsKeys.filter(k => !rulesKeys.includes(k))
-      if (diff.length > 0)
+      if (diff.length > 0) {
         if (config.whitelist === 'error') {
           const diffKeys = diff.map(k => `${baseKey}${k}`)
           const error = Error(
@@ -154,8 +154,10 @@ export class Validator<
             if (res) throw new HttpError(res)
           }
           throw error
-        } else if (config.whitelist === 'ignore')
+        }
+        if (config.whitelist === 'ignore')
           for (const key of diff) delete params[key]
+      }
     }
     for (const key in config.rules) {
       const rule = config.rules[key]

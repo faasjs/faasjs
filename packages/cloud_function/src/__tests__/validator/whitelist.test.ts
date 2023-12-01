@@ -1,10 +1,10 @@
 import { Func } from '@faasjs/func'
 import { CloudFunction } from '../../index'
 
-describe('validator/whitelist', function () {
-  describe('event', function () {
-    describe('normal', function () {
-      test('error', async function () {
+describe('validator/whitelist', () => {
+  describe('event', () => {
+    describe('normal', () => {
+      test('error', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -27,11 +27,13 @@ describe('validator/whitelist', function () {
             key3: 3,
           })
         } catch (error: any) {
-          expect(error.message).toEqual('[event] Unpermitted keys: key2, key3')
+          expect(error.message).toEqual(
+            '[event] Not permitted keys: key2, key3'
+          )
         }
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -56,7 +58,7 @@ describe('validator/whitelist', function () {
         expect(res).toEqual({ key: 1 })
       })
 
-      test('allow context', async function () {
+      test('allow context', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -77,8 +79,8 @@ describe('validator/whitelist', function () {
       })
     })
 
-    describe('array', function () {
-      test('error', async function () {
+    describe('array', () => {
+      test('error', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -111,12 +113,12 @@ describe('validator/whitelist', function () {
           })
         } catch (error: any) {
           expect(error.message).toEqual(
-            '[event] Unpermitted keys: key.key1, key.key2'
+            '[event] Not permitted keys: key.key1, key.key2'
           )
         }
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -151,8 +153,8 @@ describe('validator/whitelist', function () {
       })
     })
 
-    describe('object', function () {
-      test('error', async function () {
+    describe('object', () => {
+      test('error', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -183,12 +185,12 @@ describe('validator/whitelist', function () {
           })
         } catch (error: any) {
           expect(error.message).toEqual(
-            '[event] Unpermitted keys: key.key1, key.key2'
+            '[event] Not permitted keys: key.key1, key.key2'
           )
         }
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const http = new CloudFunction({
           validator: {
             event: {

@@ -11,8 +11,8 @@ export class RunHandler implements Plugin {
     if (data.handler)
       if (!data.runHandler) {
         try {
-          data.response = await new Promise(function (resolve, reject) {
-            data.callback = function (error: Error, result: any): void {
+          data.response = await new Promise((resolve, reject) => {
+            data.callback = (error: Error, result: any): void => {
               if (error) reject(error)
               else resolve(result)
             }

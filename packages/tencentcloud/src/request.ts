@@ -100,7 +100,7 @@ export async function request<T = any>({
     method: 'POST',
     headers,
     body: payload,
-  }).then(function (res: Response) {
+  }).then((res: Response) => {
     if (res.body.Response.Error)
       return Promise.reject(
         Error(

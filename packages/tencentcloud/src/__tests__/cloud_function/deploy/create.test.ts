@@ -1,9 +1,7 @@
 import { join, sep } from 'path'
 import { Provider } from '../../..'
 
-jest.mock('child_process', function () {
-  return { execSync() {} }
-})
+jest.mock('child_process', () => ({ execSync() {} }))
 
 jest.mock('cos-nodejs-sdk-v5', () => {
   return class Client {
@@ -32,7 +30,7 @@ jest.mock('cos-nodejs-sdk-v5', () => {
 jest.mock('@faasjs/request', () => {
   let functionCreated = false
   return {
-    request: async function (url: string, options: any): Promise<any> {
+    request: async (url: string, options: any): Promise<any> => {
       console.log('mock.request', url, options)
       switch (options.headers['X-TC-Action']) {
         case 'ListNamespaces':
@@ -47,17 +45,17 @@ jest.mock('@faasjs/request', () => {
                 },
               },
             })
-          else
-            return Promise.resolve({
-              body: {
-                Response: {
-                  Error: {
-                    Code: 'ResourceNotFound.FunctionName',
-                    Message: 'ResourceNotFound.FunctionName',
-                  },
+
+          return Promise.resolve({
+            body: {
+              Response: {
+                Error: {
+                  Code: 'ResourceNotFound.FunctionName',
+                  Message: 'ResourceNotFound.FunctionName',
                 },
               },
-            })
+            },
+          })
         case 'GetAlias':
           return Promise.resolve({
             body: {
@@ -95,7 +93,7 @@ jest.mock('@faasjs/request', () => {
   }
 })
 
-test('create', async function () {
+test('create', async () => {
   // const tc = new Provider({
   //   appId: 'appId',
   //   secretId: 'secretId',

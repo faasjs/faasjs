@@ -2,21 +2,21 @@ import { closeAll, Server } from '..'
 import { request } from '@faasjs/request'
 import { join, sep } from 'path'
 
-describe('server', function () {
+describe('server', () => {
   let server: Server
   let port: number
 
-  beforeAll(function () {
+  beforeAll(() => {
     port = 3001 + Math.floor(Math.random() * 10)
     server = new Server(join(__dirname, 'funcs'), { port })
     server.listen()
   })
 
-  afterAll(async function () {
+  afterAll(async () => {
     await closeAll()
   })
 
-  test('check config', async function () {
+  test('check config', async () => {
     expect(server.root).toEqual(join(__dirname, 'funcs', sep))
     expect(server.opts).toEqual({
       cache: false,
@@ -24,7 +24,7 @@ describe('server', function () {
     })
   })
 
-  test('404', async function () {
+  test('404', async () => {
     await expect(request(`http://127.0.0.1:${port}/404`)).rejects.toMatchObject(
       {
         statusCode: 404,
@@ -37,7 +37,7 @@ describe('server', function () {
     )
   })
 
-  test('hello', async function () {
+  test('hello', async () => {
     await expect(
       request(`http://127.0.0.1:${port}/hello`, {
         headers: { 'x-faasjs-request-id': 'test' },
@@ -60,14 +60,14 @@ describe('server', function () {
     })
   })
 
-  test('a', async function () {
+  test('a', async () => {
     await expect(request(`http://127.0.0.1:${port}/a`)).resolves.toMatchObject({
       statusCode: 200,
       body: { data: 'a' },
     })
   })
 
-  test('a/default', async function () {
+  test('a/default', async () => {
     await expect(
       request(`http://127.0.0.1:${port}/a/a`)
     ).resolves.toMatchObject({
@@ -76,7 +76,7 @@ describe('server', function () {
     })
   })
 
-  test('query', async function () {
+  test('query', async () => {
     await expect(
       request(`http://127.0.0.1:${port}/query?key=value`)
     ).resolves.toMatchObject({
@@ -85,7 +85,7 @@ describe('server', function () {
     })
   })
 
-  test('500', async function () {
+  test('500', async () => {
     await expect(
       request(`http://127.0.0.1:${port}/error`)
     ).rejects.toMatchObject({
@@ -94,7 +94,7 @@ describe('server', function () {
     })
   })
 
-  test('OPTIONS', async function () {
+  test('OPTIONS', async () => {
     await expect(
       request(`http://127.0.0.1:${port}`, { method: 'OPTIONS' })
     ).resolves.toMatchObject({

@@ -1,8 +1,8 @@
 import { Func } from '@faasjs/func'
 import { Http } from '..'
 
-describe('params', function () {
-  test('blank', async function () {
+describe('params', () => {
+  test('blank', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -17,7 +17,7 @@ describe('params', function () {
     expect(res.body).toEqual('{"data":{}}')
   })
 
-  test('should work', async function () {
+  test('should work', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],

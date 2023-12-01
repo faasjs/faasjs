@@ -1,10 +1,10 @@
 import { Func } from '@faasjs/func'
 import { Http } from '..'
 
-describe('validator/regexp', function () {
-  describe('param', function () {
-    describe('normal', function () {
-      test('should work', async function () {
+describe('validator/regexp', () => {
+  describe('param', () => {
+    describe('normal', () => {
+      test('should work', async () => {
         const http = new Http({
           validator: { params: { rules: { key: { regexp: /\d+/ } } } },
         })
@@ -20,8 +20,8 @@ describe('validator/regexp', function () {
         })
         expect(res2.statusCode).toEqual(201)
       })
-      describe('onError', function () {
-        test('no return', async function () {
+      describe('onError', () => {
+        test('no return', async () => {
           const http = new Http({
             validator: { params: { rules: { key: { regexp: /^12345678$/ } } } },
           })
@@ -37,14 +37,14 @@ describe('validator/regexp', function () {
             `{"error":{"message":"[params] key must match ${/^12345678$/}."}}`
           )
         })
-        test('return', async function () {
+        test('return', async () => {
           const http = new Http({
             validator: {
               params: {
                 rules: { key: { regexp: /1233/ } },
-                onError: function (type, key, value) {
-                  return { message: `${type} ${key} ${value}` }
-                },
+                onError: (type, key, value) => ({
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -66,9 +66,9 @@ describe('validator/regexp', function () {
       })
     })
   })
-  describe('cookie', function () {
-    describe('normal', function () {
-      test('should work', async function () {
+  describe('cookie', () => {
+    describe('normal', () => {
+      test('should work', async () => {
         const http = new Http({
           validator: { cookie: { rules: { key: { regexp: /\d+/ } } } },
         })
@@ -83,8 +83,8 @@ describe('validator/regexp', function () {
         })
         expect(res2.statusCode).toEqual(201)
       })
-      describe('onError', function () {
-        test('onError', async function () {
+      describe('onError', () => {
+        test('onError', async () => {
           const http = new Http({
             validator: { cookie: { rules: { key: { regexp: /^12345678$/ } } } },
           })
@@ -99,14 +99,14 @@ describe('validator/regexp', function () {
             `{"error":{"message":"[cookie] key must match ${/^12345678$/}."}}`
           )
         })
-        test('return', async function () {
+        test('return', async () => {
           const http = new Http({
             validator: {
               cookie: {
                 rules: { key: { regexp: /1233/ } },
-                onError: function (type, key, value) {
-                  return { message: `${type} ${key} ${value}` }
-                },
+                onError: (type, key, value) => ({
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -128,9 +128,9 @@ describe('validator/regexp', function () {
       })
     })
   })
-  describe('session', function () {
-    describe('normal', function () {
-      test('should work', async function () {
+  describe('session', () => {
+    describe('normal', () => {
+      test('should work', async () => {
         const http = new Http({
           validator: { session: { rules: { key: { regexp: /\d+/ } } } },
         })
@@ -145,8 +145,8 @@ describe('validator/regexp', function () {
         })
         expect(res2.statusCode).toEqual(201)
       })
-      describe('onError', function () {
-        test('no return', async function () {
+      describe('onError', () => {
+        test('no return', async () => {
           const http = new Http({
             validator: { session: { rules: { key: { regexp: /1233/ } } } },
           })
@@ -165,14 +165,14 @@ describe('validator/regexp', function () {
             `{"error":{"message":"[session] key must match ${/1233/}."}}`
           )
         })
-        test('return', async function () {
+        test('return', async () => {
           const http = new Http({
             validator: {
               session: {
                 rules: { key: { regexp: /1233/ } },
-                onError: function (type, key, value) {
-                  return { message: `${type} ${key} ${value}` }
-                },
+                onError: (type, key, value) => ({
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })

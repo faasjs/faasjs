@@ -189,8 +189,8 @@ export class CloudFunction implements Plugin {
         `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`
       )
       return func.handler(data, { request_id: this.logger.label })
-    } else
-      return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
+    }
+    return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
   }
 
   /**
@@ -212,12 +212,12 @@ export class CloudFunction implements Plugin {
         `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`
       )
       return func.handler(data, { request_id: this.logger.label })
-    } else
-      return this.adapter.invokeSyncCloudFunction<TResult>(
-        name.toLowerCase(),
-        data,
-        options
-      )
+    }
+    return this.adapter.invokeSyncCloudFunction<TResult>(
+      name.toLowerCase(),
+      data,
+      options
+    )
   }
 }
 

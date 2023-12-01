@@ -142,7 +142,7 @@ export class Server {
     return await new Promise(resolve => {
       let body = ''
 
-      req.on('readable', function () {
+      req.on('readable', () => {
         body += req.read() || ''
       })
 
@@ -259,16 +259,16 @@ export class Server {
                 compress: createBrotliCompress(),
               }
             : encoding.includes('gzip')
-            ? {
-                type: 'gzip',
-                compress: createGzip(),
-              }
-            : encoding.includes('deflate')
-            ? {
-                type: 'deflate',
-                compress: createDeflate(),
-              }
-            : false
+              ? {
+                  type: 'gzip',
+                  compress: createGzip(),
+                }
+              : encoding.includes('deflate')
+                ? {
+                    type: 'deflate',
+                    compress: createDeflate(),
+                  }
+                : false
 
           if (compression) {
             res.setHeader('Vary', 'Accept-Encoding')

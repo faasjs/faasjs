@@ -46,7 +46,7 @@ export class Deployer {
         data.version.replace(/_/g, '')
       ) + sep
 
-    data.tmp.split(sep).reduce(function (acc: string, cur: string) {
+    data.tmp.split(sep).reduce((acc: string, cur: string) => {
       acc += sep + cur
       if (!existsSync(acc)) mkdirSync(acc)
 

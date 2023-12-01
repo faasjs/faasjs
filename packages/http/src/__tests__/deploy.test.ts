@@ -1,8 +1,8 @@
 import { Func } from '@faasjs/func'
 import { Http } from '..'
 
-describe('deploy', function () {
-  test('should work', async function () {
+describe('deploy', () => {
+  test('should work', async () => {
     const http = new Http()
     const func = new Func({ plugins: [http] })
 

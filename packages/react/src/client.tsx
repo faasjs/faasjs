@@ -85,87 +85,81 @@ export function FaasReactClient({
     ])
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    useEffect(
-      function () {
-        if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
-          setParams(defaultParams)
-        }
-      },
-      [JSON.stringify(defaultParams)]
-    )
+    useEffect(() => {
+      if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
+        setParams(defaultParams)
+      }
+    }, [JSON.stringify(defaultParams)])
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    useEffect(
-      function () {
-        if (!action || skip) {
-          setLoading(false)
-          return
-        }
+    useEffect(() => {
+      if (!action || skip) {
+        setLoading(false)
+        return
+      }
 
-        setLoading(true)
+      setLoading(true)
 
-        const controller = new AbortController()
+      const controller = new AbortController()
 
-        function send() {
-          const request = client.action<PathOrData>(
-            action,
-            options.params || params,
-            { signal: controller.signal }
+      function send() {
+        const request = client.action<PathOrData>(
+          action,
+          options.params || params,
+          { signal: controller.signal }
+        )
+        setPromise(request)
+
+        request
+          .then(r =>
+            options?.setData ? options.setData(r.data) : setData(r.data)
           )
-          setPromise(request)
-
-          request
-            .then(r =>
-              options?.setData ? options.setData(r.data) : setData(r.data)
+          .catch(async e => {
+            if (
+              e?.message === 'The user aborted a request.' ||
+              e?.message === 'Aborted'
             )
-            .catch(async e => {
-              if (
-                e?.message === 'The user aborted a request.' ||
-                e?.message === 'Aborted'
-              )
-                return
+              return
 
-              if (
-                !fails &&
-                typeof e?.message === 'string' &&
-                e.message.indexOf('Failed to fetch') >= 0
-              ) {
-                console.warn(`FaasReactClient: ${e.message} retry...`)
-                setFails(1)
-                return send()
+            if (
+              !fails &&
+              typeof e?.message === 'string' &&
+              e.message.indexOf('Failed to fetch') >= 0
+            ) {
+              console.warn(`FaasReactClient: ${e.message} retry...`)
+              setFails(1)
+              return send()
+            }
+
+            if (onError)
+              try {
+                await onError(action as string, params)(e)
+              } catch (error) {
+                setError(error)
               }
+            else setError(e)
+            return Promise.reject(e)
+          })
+          .finally(() => setLoading(false))
+      }
 
-              if (onError)
-                try {
-                  await onError(action as string, params)(e)
-                } catch (error) {
-                  setError(error)
-                }
-              else setError(e)
-              return Promise.reject(e)
-            })
-            .finally(() => setLoading(false))
-        }
-
-        if (options?.debounce) {
-          const timeout = setTimeout(send, options.debounce)
-
-          return () => {
-            clearTimeout(timeout)
-            controller.abort()
-            setLoading(false)
-          }
-        }
-
-        send()
+      if (options?.debounce) {
+        const timeout = setTimeout(send, options.debounce)
 
         return () => {
+          clearTimeout(timeout)
           controller.abort()
           setLoading(false)
         }
-      },
-      [action, JSON.stringify(options.params || params), reloadTimes, skip]
-    )
+      }
+
+      send()
+
+      return () => {
+        controller.abort()
+        setLoading(false)
+      }
+    }, [action, JSON.stringify(options.params || params), reloadTimes, skip])
 
     return {
       action,
@@ -210,20 +204,14 @@ export function FaasReactClient({
       const [loaded, setLoaded] = useState<boolean>(false)
 
       // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-      useEffect(
-        function () {
-          if (!loaded && !request.loading) setLoaded(true)
-        },
-        [request.loading]
-      )
+      useEffect(() => {
+        if (!loaded && !request.loading) setLoaded(true)
+      }, [request.loading])
 
       // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-      useEffect(
-        function () {
-          if (onDataChange) onDataChange(request)
-        },
-        [JSON.stringify(request.data)]
-      )
+      useEffect(() => {
+        if (onDataChange) onDataChange(request)
+      }, [JSON.stringify(request.data)])
 
       if (loaded) {
         if (children) return cloneElement(children, request)

@@ -11,14 +11,14 @@ declare module 'knex/types/tables' {
   }
 }
 
-describe('Knex', function () {
-  afterEach(async function () {
+describe('Knex', () => {
+  afterEach(async () => {
     await useKnex().schema().dropTableIfExists('test')
     await useKnex().quit()
   })
 
-  describe('config', function () {
-    it('with code', async function () {
+  describe('config', () => {
+    it('with code', async () => {
       const knex = new Knex({
         config: {
           client: 'sqlite3',
@@ -37,7 +37,7 @@ describe('Knex', function () {
       expect(await handler({})).toEqual([{ '1+1': 2 }])
     })
 
-    it('with env', async function () {
+    it('with env', async () => {
       process.env.SECRET_KNEX_CLIENT = 'sqlite3'
       process.env.SECRET_KNEX_CONNECTION_FILENAME = ':memory:'
 
@@ -54,8 +54,8 @@ describe('Knex', function () {
     })
   })
 
-  describe('query', function () {
-    it('should work', async function () {
+  describe('query', () => {
+    it('should work', async () => {
       const knex = new Knex({
         config: {
           client: 'sqlite3',
@@ -67,7 +67,7 @@ describe('Knex', function () {
       const handler = new Func({
         plugins: [knex],
         async handler() {
-          await knex.schema().createTable('test', function (t) {
+          await knex.schema().createTable('test', t => {
             t.increments('id')
           })
           return knex.query('test')
@@ -77,7 +77,7 @@ describe('Knex', function () {
       expect(await handler({})).toEqual([])
     })
 
-    it('failed query', async function () {
+    it('failed query', async () => {
       const knex = new Knex({
         config: {
           client: 'sqlite3',
@@ -103,7 +103,7 @@ describe('Knex', function () {
     })
   })
 
-  it('transaction', async function () {
+  it('transaction', async () => {
     const knex = new Knex({
       config: {
         client: 'sqlite3',
@@ -115,13 +115,11 @@ describe('Knex', function () {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        await knex.schema().createTable('test', function (t) {
+        await knex.schema().createTable('test', t => {
           t.increments('id')
         })
 
-        await knex.transaction(function (trx) {
-          return trx.insert({}).into('test')
-        })
+        await knex.transaction(trx => trx.insert({}).into('test'))
 
         return knex.query('test')
       },
@@ -130,7 +128,7 @@ describe('Knex', function () {
     expect(await handler({})).toEqual([{ id: 1 }])
   })
 
-  it('transaction with trx', async function () {
+  it('transaction with trx', async () => {
     const knex = new Knex({
       config: {
         client: 'sqlite3',
@@ -142,7 +140,7 @@ describe('Knex', function () {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        await knex.schema().createTable('test', function (t) {
+        await knex.schema().createTable('test', t => {
           t.increments('id')
         })
 
@@ -165,8 +163,8 @@ describe('Knex', function () {
     )
   })
 
-  it('useKnex', async function () {
-    const func = useFunc(function () {
+  it('useKnex', async () => {
+    const func = useFunc(() => {
       const knex1 = useKnex({
         config: {
           client: 'sqlite3',
@@ -175,8 +173,8 @@ describe('Knex', function () {
         },
       })
 
-      return async function () {
-        await knex1.schema().createTable('test', function (t) {
+      return async () => {
+        await knex1.schema().createTable('test', t => {
           t.increments('id')
         })
 
@@ -189,8 +187,8 @@ describe('Knex', function () {
     expect(await func.export().handler({})).toEqual([])
   })
 
-  it('check types', async function () {
-    const func = useFunc(function () {
+  it('check types', async () => {
+    const func = useFunc(() => {
       const knex = useKnex({
         config: {
           client: 'sqlite3',
@@ -198,13 +196,13 @@ describe('Knex', function () {
         },
       })
 
-      return async function () {
+      return async () => {
         await knex
           .schema()
-          .createTable('test', function (t) {
+          .createTable('test', t => {
             t.increments('id')
           })
-          .createTable('testtest', function (t) {
+          .createTable('testtest', t => {
             t.increments('id')
           })
       }

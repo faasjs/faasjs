@@ -28,7 +28,7 @@ export type SessionContent =
 
 export class Session<
   S extends Record<string, string> = any,
-  C extends Record<string, string> = any
+  C extends Record<string, string> = any,
 > {
   public content: Record<string, string | number>
 
@@ -131,9 +131,7 @@ export class Session<
     if (signedParts[1] !== digest) throw Error('Session Not valid')
 
     const message = Buffer.from(signedParts[0], 'base64').toString()
-    const parts = message.split('--').map(function (part) {
-      return Buffer.from(part, 'base64')
-    })
+    const parts = message.split('--').map(part => Buffer.from(part, 'base64'))
 
     const cipher = createDecipheriv(
       this.config.cipherName,

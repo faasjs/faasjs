@@ -1,9 +1,9 @@
 import { Func } from '@faasjs/func'
 import { Http } from '../..'
 
-describe('validator/required', function () {
-  describe('params', function () {
-    test('normal', async function () {
+describe('validator/required', () => {
+  describe('params', () => {
+    test('normal', async () => {
       const http = new Http({
         validator: { params: { rules: { key: { required: true } } } },
       })
@@ -25,8 +25,8 @@ describe('validator/required', function () {
       expect(res2.statusCode).toEqual(201)
     })
 
-    describe('onError', function () {
-      test('no return', async function () {
+    describe('onError', () => {
+      test('no return', async () => {
         const http = new Http({
           validator: { params: { rules: { key: { required: true } } } },
         })
@@ -40,14 +40,14 @@ describe('validator/required', function () {
         )
       })
 
-      test('return message', async function () {
+      test('return message', async () => {
         const http = new Http({
           validator: {
             params: {
               rules: { key: { required: true } },
-              onError: function (type, key, value) {
-                return { message: `${type} ${key} ${value}` }
-              },
+              onError: (type, key, value) => ({
+                message: `${type} ${key} ${value}`,
+              }),
             },
           },
         })
@@ -61,17 +61,15 @@ describe('validator/required', function () {
         )
       })
 
-      test('return all', async function () {
+      test('return all', async () => {
         const http = new Http({
           validator: {
             params: {
               rules: { key: { required: true } },
-              onError: function (type, key, value) {
-                return {
-                  statusCode: 401,
-                  message: `${type} ${key} ${value}`,
-                }
-              },
+              onError: (type, key, value) => ({
+                statusCode: 401,
+                message: `${type} ${key} ${value}`,
+              }),
             },
           },
         })
@@ -86,8 +84,8 @@ describe('validator/required', function () {
       })
     })
 
-    describe('array', function () {
-      test('empty', async function () {
+    describe('array', () => {
+      test('empty', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -112,7 +110,7 @@ describe('validator/required', function () {
         expect(res2.statusCode).toEqual(201)
       })
 
-      test('plain object', async function () {
+      test('plain object', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -141,7 +139,7 @@ describe('validator/required', function () {
       })
     })
 
-    test('object', async function () {
+    test('object', async () => {
       const http = new Http({
         validator: {
           params: {
@@ -168,8 +166,8 @@ describe('validator/required', function () {
     })
   })
 
-  describe('cookie', function () {
-    test('should work', async function () {
+  describe('cookie', () => {
+    test('should work', async () => {
       const http = new Http({
         validator: { cookie: { rules: { key: { required: true } } } },
       })
@@ -191,8 +189,8 @@ describe('validator/required', function () {
     })
   })
 
-  describe('session', function () {
-    test('normal', async function () {
+  describe('session', () => {
+    test('normal', async () => {
       const http = new Http({
         validator: { session: { rules: { key: { required: true } } } },
       })
@@ -213,8 +211,8 @@ describe('validator/required', function () {
       expect(res2.statusCode).toEqual(201)
     })
 
-    describe('array', function () {
-      test('empty', async function () {
+    describe('array', () => {
+      test('empty', async () => {
         const http = new Http({
           validator: {
             session: {
@@ -238,7 +236,7 @@ describe('validator/required', function () {
         expect(res2.statusCode).toEqual(201)
       })
 
-      test('plain object', async function () {
+      test('plain object', async () => {
         const http = new Http({
           validator: {
             session: {
@@ -266,7 +264,7 @@ describe('validator/required', function () {
       })
     })
 
-    test('object', async function () {
+    test('object', async () => {
       const http = new Http({
         validator: {
           session: {

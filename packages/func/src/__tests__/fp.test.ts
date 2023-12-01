@@ -1,7 +1,7 @@
 import { Plugin, useFunc, usePlugin, InvokeData, Next, MountData } from '..'
 
-describe('fp', function () {
-  it('should work', async function () {
+describe('fp', () => {
+  it('should work', async () => {
     class DemoPlugin implements Plugin {
       public readonly type = 'P'
       public readonly name = 'P'
@@ -23,9 +23,9 @@ describe('fp', function () {
       return p
     }
 
-    const func = useFunc<{ counter: number }, void, number>(function () {
+    const func = useFunc<{ counter: number }, any, number>(() => {
       useDemoPlugin()
-      return async function ({ event }) {
+      return async ({ event }) => {
         event.counter++
         return event.counter
       }
@@ -42,9 +42,9 @@ describe('fp', function () {
 
     expect(res2).toEqual(2) // incremented by onInvoke only
 
-    const func2 = useFunc(function () {
+    const func2 = useFunc(() => {
       useDemoPlugin()
-      return async function ({ event }) {
+      return async ({ event }) => {
         event.counter--
         return event.counter
       }
@@ -55,7 +55,7 @@ describe('fp', function () {
     expect(res3).toEqual(1)
   })
 
-  it('same plugin with different config', async function () {
+  it('same plugin with different config', async () => {
     class DemoPlugin implements Plugin {
       public readonly type = 'P'
       public readonly name = 'P'
@@ -82,18 +82,14 @@ describe('fp', function () {
       return p
     }
 
-    const funcA = useFunc(function () {
+    const funcA = useFunc(() => {
       useDemoPlugin({ key: 'A' })
-      return async function ({ event }) {
-        return event
-      }
+      return async ({ event }) => event
     }).export().handler
 
-    const funcB = useFunc(function () {
+    const funcB = useFunc(() => {
       useDemoPlugin({ key: 'B' })
-      return async function ({ event }) {
-        return event
-      }
+      return async ({ event }) => event
     }).export().handler
 
     const resA = await funcA({})
@@ -103,7 +99,7 @@ describe('fp', function () {
     expect(resB).toEqual({ B: 1 })
   })
 
-  it('different plugins', async function () {
+  it('different plugins', async () => {
     class A implements Plugin {
       public readonly type = 'A'
       public readonly name = 'A'
@@ -156,11 +152,11 @@ describe('fp', function () {
       return p
     }
 
-    const func = useFunc<{ counter: number }, void, number>(function () {
+    const func = useFunc<{ counter: number }, any, number>(() => {
       useA({ key: 'counter' })
       useB({ key: 'counter' })
 
-      return async function ({ event }) {
+      return async ({ event }) => {
         event.counter++
         return event.counter
       }

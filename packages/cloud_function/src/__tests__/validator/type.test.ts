@@ -1,15 +1,15 @@
 import { Func } from '@faasjs/func'
 import { CloudFunction } from '../../index'
 
-describe('validator/type', function () {
-  describe('event', function () {
-    describe('normal', function () {
+describe('validator/type', () => {
+  describe('event', () => {
+    describe('normal', () => {
       test.each([
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
         ['array', []],
-      ])('is %p', async function (type, value) {
+      ])('is %p', async (type, value) => {
         const http = new CloudFunction({
           validator: {
             event: {
@@ -41,13 +41,13 @@ describe('validator/type', function () {
       })
     })
 
-    describe('array', function () {
+    describe('array', () => {
       test.each([
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
         ['array', []],
-      ])('is %p', async function (type, value) {
+      ])('is %p', async (type, value) => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -85,13 +85,13 @@ describe('validator/type', function () {
       })
     })
 
-    describe('object', function () {
+    describe('object', () => {
       test.each([
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
         ['array', []],
-      ])('is %p', async function (type, value) {
+      ])('is %p', async (type, value) => {
         const cf = new CloudFunction({
           validator: {
             event: {

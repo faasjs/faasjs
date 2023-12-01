@@ -18,7 +18,7 @@ describe('Drawer', () => {
     return drawer.drawer
   }
 
-  it('should work', async function () {
+  it('should work', async () => {
     render(<App />)
 
     expect(screen.getByText('title')).toBeInTheDocument()

@@ -2,15 +2,15 @@ import { Func } from '@faasjs/func'
 import { Http } from '../..'
 import { ValidatorRuleOptionsType } from '../../validator'
 
-describe('validator/type', function () {
-  describe('params', function () {
-    describe('normal', function () {
+describe('validator/type', () => {
+  describe('params', () => {
+    describe('normal', () => {
       test.each<[ValidatorRuleOptionsType, any]>([
         ['string', '"string"'],
         ['boolean', 'false'],
         ['number', '0'],
         ['array', '[]'],
-      ])('is %p', async function (type: ValidatorRuleOptionsType, value) {
+      ])('is %p', async (type: ValidatorRuleOptionsType, value) => {
         const http = new Http({
           validator: { params: { rules: { key: { type } } } },
         })
@@ -37,8 +37,8 @@ describe('validator/type', function () {
       })
     })
 
-    describe('onError', function () {
-      test('no return', async function () {
+    describe('onError', () => {
+      test('no return', async () => {
         const http = new Http({
           validator: { params: { rules: { key: { type: 'boolean' } } } },
         })
@@ -56,14 +56,14 @@ describe('validator/type', function () {
         )
       })
 
-      test('return message', async function () {
+      test('return message', async () => {
         const http = new Http({
           validator: {
             params: {
               rules: { key: { type: 'boolean' } },
-              onError: function (type, key, value) {
-                return { message: `${type} ${key} ${value}` }
-              },
+              onError: (type, key, value) => ({
+                message: `${type} ${key} ${value}`,
+              }),
             },
           },
         })
@@ -81,17 +81,15 @@ describe('validator/type', function () {
         )
       })
 
-      test('return all', async function () {
+      test('return all', async () => {
         const http = new Http({
           validator: {
             params: {
               rules: { key: { type: 'boolean' } },
-              onError: function (type, key, value) {
-                return {
-                  statusCode: 401,
-                  message: `${type} ${key} ${value}`,
-                }
-              },
+              onError: (type, key, value) => ({
+                statusCode: 401,
+                message: `${type} ${key} ${value}`,
+              }),
             },
           },
         })
@@ -110,13 +108,13 @@ describe('validator/type', function () {
       })
     })
 
-    describe('array', function () {
+    describe('array', () => {
       test.each<[ValidatorRuleOptionsType, any]>([
         ['string', '"string"'],
         ['boolean', 'false'],
         ['number', '0'],
         ['array', '[]'],
-      ])('is %p', async function (type: ValidatorRuleOptionsType, value) {
+      ])('is %p', async (type: ValidatorRuleOptionsType, value) => {
         const http = new Http({
           validator: {
             params: {
@@ -147,13 +145,13 @@ describe('validator/type', function () {
       })
     })
 
-    describe('object', function () {
+    describe('object', () => {
       test.each<[ValidatorRuleOptionsType, any]>([
         ['string', '"string"'],
         ['boolean', 'false'],
         ['number', '0'],
         ['array', '[]'],
-      ])('is %p', async function (type: ValidatorRuleOptionsType, value) {
+      ])('is %p', async (type: ValidatorRuleOptionsType, value) => {
         const http = new Http({
           validator: {
             params: {
@@ -185,7 +183,7 @@ describe('validator/type', function () {
     })
   })
 
-  test('cookie should not work', async function () {
+  test('cookie should not work', async () => {
     const http = new Http({
       validator: { cookie: { rules: { key: { type: 'number' } } } },
     })
@@ -199,14 +197,14 @@ describe('validator/type', function () {
     expect(res.statusCode).toEqual(201)
   })
 
-  describe('session', function () {
-    describe('normal', function () {
+  describe('session', () => {
+    describe('normal', () => {
       test.each<[ValidatorRuleOptionsType, any]>([
         ['boolean', false],
         ['number', 0],
         ['array', []],
         ['object', {}],
-      ])('is %p', async function (type: ValidatorRuleOptionsType, value) {
+      ])('is %p', async (type: ValidatorRuleOptionsType, value) => {
         const http = new Http({
           validator: { session: { rules: { key: { type } } } },
         })
@@ -233,13 +231,13 @@ describe('validator/type', function () {
       })
     })
 
-    describe('array', function () {
+    describe('array', () => {
       test.each<[ValidatorRuleOptionsType, any]>([
         ['boolean', false],
         ['number', 0],
         ['array', []],
         ['object', {}],
-      ])('is %p', async function (type: ValidatorRuleOptionsType, value) {
+      ])('is %p', async (type: ValidatorRuleOptionsType, value) => {
         const http = new Http({
           validator: {
             session: {
@@ -274,14 +272,14 @@ describe('validator/type', function () {
       })
     })
 
-    describe('object', function () {
+    describe('object', () => {
       test.each<[ValidatorRuleOptionsType, any]>([
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
         ['array', []],
         ['object', {}],
-      ])('is %p', async function (type: ValidatorRuleOptionsType, value) {
+      ])('is %p', async (type: ValidatorRuleOptionsType, value) => {
         const http = new Http({
           validator: {
             session: {

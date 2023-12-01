@@ -1,7 +1,7 @@
 import { request } from '..'
 import { readFileSync, createWriteStream } from 'fs'
 
-describe('request', function () {
+describe('request', () => {
   test('200', async () => {
     const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE')
 
@@ -17,7 +17,7 @@ describe('request', function () {
     ).rejects.toThrow('Not Found')
   })
 
-  describe('query', function () {
+  describe('query', () => {
     test('without ?', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         query: { test: 1 },
@@ -39,7 +39,7 @@ describe('request', function () {
     })
   })
 
-  describe('headers', function () {
+  describe('headers', () => {
     test('with value', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         headers: { 'Content-Type': 'text/xml' },
@@ -61,7 +61,7 @@ describe('request', function () {
     })
   })
 
-  describe('body', function () {
+  describe('body', () => {
     test('form', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         body: { test: 1 },

@@ -6,12 +6,12 @@ function fake(text: string): void {
   lastOutput = text
 }
 
-describe('logger', function () {
+describe('logger', () => {
   test.each([
     ['debug', Color.GRAY],
     ['info', Color.GREEN],
     ['warn', Color.ORANGE],
-  ])('%s', function (level: string, color: number) {
+  ])('%s', (level: string, color: number) => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake
@@ -31,7 +31,7 @@ describe('logger', function () {
     )
   })
 
-  test('error', function () {
+  test('error', () => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake
@@ -47,7 +47,7 @@ describe('logger', function () {
     expect(lastOutput).toContain('ERROR [label] message')
   })
 
-  test('time', async function () {
+  test('time', async () => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake
@@ -66,7 +66,7 @@ describe('logger', function () {
     )
   })
 
-  test('timeEnd error', function () {
+  test('timeEnd error', () => {
     const logger = new Logger('error')
     logger.stdout = fake
     logger.stderr = fake
@@ -77,7 +77,7 @@ describe('logger', function () {
     expect(lastOutput).toContain('\u001b[090mDEBUG [error] message\u001b[39m')
   })
 
-  test('error', function () {
+  test('error', () => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake
@@ -88,7 +88,7 @@ describe('logger', function () {
     expect(lastOutput).toContain('ERROR Error: message')
   })
 
-  test('FaasLog', function () {
+  test('FaasLog', () => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake

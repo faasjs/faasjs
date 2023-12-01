@@ -1,59 +1,57 @@
 import { join, sep } from 'path'
 import { Provider } from '../../..'
 
-jest.mock('@faasjs/request', function () {
-  return {
-    request: async function (url: string, options: any): Promise<any> {
-      console.log('mock.request', url, JSON.stringify(options))
-      switch (options.headers['X-TC-Action']) {
-        case 'DescribeServicesStatus':
-          return Promise.resolve({
-            body: {
-              Response: {
-                Result: {
-                  ServiceSet: [
-                    {
-                      ServiceName: 'testing',
-                      ServiceId: 'serviceId',
-                    },
-                  ],
-                },
+jest.mock('@faasjs/request', () => ({
+  request: async (url: string, options: any): Promise<any> => {
+    console.log('mock.request', url, JSON.stringify(options))
+    switch (options.headers['X-TC-Action']) {
+      case 'DescribeServicesStatus':
+        return Promise.resolve({
+          body: {
+            Response: {
+              Result: {
+                ServiceSet: [
+                  {
+                    ServiceName: 'testing',
+                    ServiceId: 'serviceId',
+                  },
+                ],
               },
             },
-          })
-        case 'DescribeApisStatus':
-          return Promise.resolve({
-            body: {
-              Response: { Result: { ApiIdStatusSet: [{ Path: '=/' }] } },
-            },
-          })
-        case 'DescribeApi':
-          return Promise.resolve({
-            body: {
-              Response: {
-                Result: {
-                  ServiceType: 'SCF',
-                  ServiceTimeout: 1800,
-                  ServiceScfFunctionName: 'http',
-                  ServiceScfFunctionNamespace: 'testing',
-                  ServiceScfFunctionQualifier: 'testing',
-                  RequestConfig: { Method: 'POST' },
-                },
+          },
+        })
+      case 'DescribeApisStatus':
+        return Promise.resolve({
+          body: {
+            Response: { Result: { ApiIdStatusSet: [{ Path: '=/' }] } },
+          },
+        })
+      case 'DescribeApi':
+        return Promise.resolve({
+          body: {
+            Response: {
+              Result: {
+                ServiceType: 'SCF',
+                ServiceTimeout: 1800,
+                ServiceScfFunctionName: 'http',
+                ServiceScfFunctionNamespace: 'testing',
+                ServiceScfFunctionQualifier: 'testing',
+                RequestConfig: { Method: 'POST' },
               },
             },
-          })
-        case 'ReleaseService':
-          return Promise.resolve({ body: { Response: {} } })
-        default:
-          return Promise.resolve({
-            body: { Response: { Error: 'Unknown mock' } },
-          })
-      }
-    },
-  }
-})
+          },
+        })
+      case 'ReleaseService':
+        return Promise.resolve({ body: { Response: {} } })
+      default:
+        return Promise.resolve({
+          body: { Response: { Error: 'Unknown mock' } },
+        })
+    }
+  },
+}))
 
-test('update', async function () {
+test('update', async () => {
   const tc = new Provider({
     appId: 'appId',
     secretId: 'secretId',

@@ -1,10 +1,10 @@
 import { Func } from '@faasjs/func'
 import { Http } from '../..'
 
-describe('validator/in', function () {
-  describe('params', function () {
-    describe('normal', function () {
-      test('should work', async function () {
+describe('validator/in', () => {
+  describe('params', () => {
+    describe('normal', () => {
+      test('should work', async () => {
         const http = new Http({
           validator: { params: { rules: { key: { in: [1] } } } },
         })
@@ -34,8 +34,8 @@ describe('validator/in', function () {
         )
       })
 
-      describe('onError', function () {
-        test('no return', async function () {
+      describe('onError', () => {
+        test('no return', async () => {
           const http = new Http({
             validator: { params: { rules: { key: { in: [1] } } } },
           })
@@ -53,14 +53,14 @@ describe('validator/in', function () {
           )
         })
 
-        test('return message', async function () {
+        test('return message', async () => {
           const http = new Http({
             validator: {
               params: {
                 rules: { key: { in: [1] } },
-                onError: function (type, key, value) {
-                  return { message: `${type} ${key} ${value}` }
-                },
+                onError: (type, key, value) => ({
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -78,17 +78,15 @@ describe('validator/in', function () {
           )
         })
 
-        test('return all', async function () {
+        test('return all', async () => {
           const http = new Http({
             validator: {
               params: {
                 rules: { key: { in: [1] } },
-                onError: function (type, key, value) {
-                  return {
-                    statusCode: 401,
-                    message: `${type} ${key} ${value}`,
-                  }
-                },
+                onError: (type, key, value) => ({
+                  statusCode: 401,
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -108,8 +106,8 @@ describe('validator/in', function () {
       })
     })
 
-    describe('array', function () {
-      test('should work', async function () {
+    describe('array', () => {
+      test('should work', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -143,8 +141,8 @@ describe('validator/in', function () {
         )
       })
 
-      describe('onError', function () {
-        test('no return', async function () {
+      describe('onError', () => {
+        test('no return', async () => {
           const http = new Http({
             validator: {
               params: {
@@ -166,7 +164,7 @@ describe('validator/in', function () {
           )
         })
 
-        test('return message', async function () {
+        test('return message', async () => {
           const http = new Http({
             validator: {
               params: {
@@ -174,15 +172,15 @@ describe('validator/in', function () {
                   key: {
                     config: {
                       rules: { sub: { in: [1] } },
-                      onError: function (type, key, value) {
-                        return { message: `${type} ${key} ${value}` }
-                      },
+                      onError: (type, key, value) => ({
+                        message: `${type} ${key} ${value}`,
+                      }),
                     },
                   },
                 },
-                onError: function (type, key, value) {
-                  return { message: `${type} ${key} ${value}` }
-                },
+                onError: (type, key, value) => ({
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -200,7 +198,7 @@ describe('validator/in', function () {
           )
         })
 
-        test('return all', async function () {
+        test('return all', async () => {
           const http = new Http({
             validator: {
               params: {
@@ -208,21 +206,17 @@ describe('validator/in', function () {
                   key: {
                     config: {
                       rules: { sub: { in: [1] } },
-                      onError: function (type, key, value) {
-                        return {
-                          statusCode: 401,
-                          message: `${type} ${key} ${value}`,
-                        }
-                      },
+                      onError: (type, key, value) => ({
+                        statusCode: 401,
+                        message: `${type} ${key} ${value}`,
+                      }),
                     },
                   },
                 },
-                onError: function (type, key, value) {
-                  return {
-                    statusCode: 401,
-                    message: `${type} ${key} ${value}`,
-                  }
-                },
+                onError: (type, key, value) => ({
+                  statusCode: 401,
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -242,8 +236,8 @@ describe('validator/in', function () {
       })
     })
 
-    describe('object', function () {
-      test('should work', async function () {
+    describe('object', () => {
+      test('should work', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -278,8 +272,8 @@ describe('validator/in', function () {
       })
     })
 
-    describe('onError', function () {
-      test('no return', async function () {
+    describe('onError', () => {
+      test('no return', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -301,7 +295,7 @@ describe('validator/in', function () {
         )
       })
 
-      test('return message', async function () {
+      test('return message', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -309,15 +303,15 @@ describe('validator/in', function () {
                 key: {
                   config: {
                     rules: { sub: { in: [1] } },
-                    onError: function (type, key, value) {
-                      return { message: `${type} ${key} ${value}` }
-                    },
+                    onError: (type, key, value) => ({
+                      message: `${type} ${key} ${value}`,
+                    }),
                   },
                 },
               },
-              onError: function (type, key, value) {
-                return { message: `${type} ${key} ${value}` }
-              },
+              onError: (type, key, value) => ({
+                message: `${type} ${key} ${value}`,
+              }),
             },
           },
         })
@@ -335,7 +329,7 @@ describe('validator/in', function () {
         )
       })
 
-      test('return all', async function () {
+      test('return all', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -343,21 +337,17 @@ describe('validator/in', function () {
                 key: {
                   config: {
                     rules: { sub: { in: [1] } },
-                    onError: function (type, key, value) {
-                      return {
-                        statusCode: 401,
-                        message: `${type} ${key} ${value}`,
-                      }
-                    },
+                    onError: (type, key, value) => ({
+                      statusCode: 401,
+                      message: `${type} ${key} ${value}`,
+                    }),
                   },
                 },
               },
-              onError: function (type, key, value) {
-                return {
-                  statusCode: 401,
-                  message: `${type} ${key} ${value}`,
-                }
-              },
+              onError: (type, key, value) => ({
+                statusCode: 401,
+                message: `${type} ${key} ${value}`,
+              }),
             },
           },
         })
@@ -377,8 +367,8 @@ describe('validator/in', function () {
     })
   })
 
-  describe('cookie', function () {
-    test('should work', async function () {
+  describe('cookie', () => {
+    test('should work', async () => {
       const http = new Http({
         validator: { cookie: { rules: { key: { in: ['1'] } } } },
       })
@@ -406,8 +396,8 @@ describe('validator/in', function () {
       )
     })
 
-    describe('onError', function () {
-      test('no return', async function () {
+    describe('onError', () => {
+      test('no return', async () => {
         const http = new Http({
           validator: { cookie: { rules: { key: { in: [1] } } } },
         })
@@ -424,14 +414,14 @@ describe('validator/in', function () {
         )
       })
 
-      test('return message', async function () {
+      test('return message', async () => {
         const http = new Http({
           validator: {
             cookie: {
               rules: { key: { in: [1] } },
-              onError: function (type, key, value) {
-                return { message: `${type} ${key} ${value}` }
-              },
+              onError: (type, key, value) => ({
+                message: `${type} ${key} ${value}`,
+              }),
             },
           },
         })
@@ -446,17 +436,15 @@ describe('validator/in', function () {
         expect(res.body).toEqual('{"error":{"message":"cookie.rule.in key 2"}}')
       })
 
-      test('return all', async function () {
+      test('return all', async () => {
         const http = new Http({
           validator: {
             cookie: {
               rules: { key: { in: [1] } },
-              onError: function (type, key, value) {
-                return {
-                  statusCode: 401,
-                  message: `${type} ${key} ${value}`,
-                }
-              },
+              onError: (type, key, value) => ({
+                statusCode: 401,
+                message: `${type} ${key} ${value}`,
+              }),
             },
           },
         })
@@ -473,8 +461,8 @@ describe('validator/in', function () {
     })
   })
 
-  describe('session', function () {
-    test('normal', async function () {
+  describe('session', () => {
+    test('normal', async () => {
       const http = new Http({
         validator: { session: { rules: { key: { in: [1] } } } },
       })
@@ -502,7 +490,7 @@ describe('validator/in', function () {
       )
     })
 
-    test('array', async function () {
+    test('array', async () => {
       const http = new Http({
         validator: {
           session: {
@@ -538,8 +526,8 @@ describe('validator/in', function () {
       )
     })
 
-    describe('object', function () {
-      test('should work', async function () {
+    describe('object', () => {
+      test('should work', async () => {
         const http = new Http({
           validator: {
             session: {
@@ -575,8 +563,8 @@ describe('validator/in', function () {
         )
       })
 
-      describe('onError', function () {
-        test('no return', async function () {
+      describe('onError', () => {
+        test('no return', async () => {
           const http = new Http({
             validator: {
               session: {
@@ -601,7 +589,7 @@ describe('validator/in', function () {
           )
         })
 
-        test('return message', async function () {
+        test('return message', async () => {
           const http = new Http({
             validator: {
               session: {
@@ -609,15 +597,15 @@ describe('validator/in', function () {
                   key: {
                     config: {
                       rules: { sub: { in: [1] } },
-                      onError: function (type, key, value) {
-                        return { message: `${type} ${key} ${value}` }
-                      },
+                      onError: (type, key, value) => ({
+                        message: `${type} ${key} ${value}`,
+                      }),
                     },
                   },
                 },
-                onError: function (type, key, value) {
-                  return { message: `${type} ${key} ${value}` }
-                },
+                onError: (type, key, value) => ({
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -638,7 +626,7 @@ describe('validator/in', function () {
           )
         })
 
-        test('return all', async function () {
+        test('return all', async () => {
           const http = new Http({
             validator: {
               session: {
@@ -646,21 +634,17 @@ describe('validator/in', function () {
                   key: {
                     config: {
                       rules: { sub: { in: [1] } },
-                      onError: function (type, key, value) {
-                        return {
-                          statusCode: 401,
-                          message: `${type} ${key} ${value}`,
-                        }
-                      },
+                      onError: (type, key, value) => ({
+                        statusCode: 401,
+                        message: `${type} ${key} ${value}`,
+                      }),
                     },
                   },
                 },
-                onError: function (type, key, value) {
-                  return {
-                    statusCode: 401,
-                    message: `${type} ${key} ${value}`,
-                  }
-                },
+                onError: (type, key, value) => ({
+                  statusCode: 401,
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })

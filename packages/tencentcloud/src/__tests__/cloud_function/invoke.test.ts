@@ -1,14 +1,15 @@
 import { Provider } from '../..'
 import { setMock } from '@faasjs/request'
 
-describe('invoke', function () {
-  test('success', async function () {
-    setMock(async function () {
-      return await Promise.resolve({
-        headers: {},
-        body: { Response: { Result: { RetMsg: 'done' } } },
-      })
-    })
+describe('invoke', () => {
+  test('success', async () => {
+    setMock(
+      async () =>
+        await Promise.resolve({
+          headers: {},
+          body: { Response: { Result: { RetMsg: 'done' } } },
+        })
+    )
 
     const tc = new Provider({
       secretId: 'secretId',
@@ -23,13 +24,14 @@ describe('invoke', function () {
     ).resolves.toEqual('done')
   })
 
-  test('fail', async function () {
-    setMock(async function () {
-      return await Promise.resolve({
-        headers: {},
-        body: { Response: { Result: { ErrMsg: 'ErrMsg' } } },
-      })
-    })
+  test('fail', async () => {
+    setMock(
+      async () =>
+        await Promise.resolve({
+          headers: {},
+          body: { Response: { Result: { ErrMsg: 'ErrMsg' } } },
+        })
+    )
 
     const tc = new Provider({
       secretId: 'secretId',

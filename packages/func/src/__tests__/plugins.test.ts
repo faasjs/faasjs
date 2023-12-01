@@ -1,7 +1,7 @@
 import { Func, Plugin, DeployData, Next, InvokeData, MountData } from '../index'
 
-describe('plugins', function () {
-  test('onDeploy', async function () {
+describe('plugins', () => {
+  test('onDeploy', async () => {
     const results: string[] = []
     class P1 implements Plugin {
       public readonly type: string
@@ -49,7 +49,7 @@ describe('plugins', function () {
     ])
   })
 
-  test('onMount', async function () {
+  test('onMount', async () => {
     const results: string[] = []
     class P1 implements Plugin {
       public readonly type: string
@@ -95,7 +95,7 @@ describe('plugins', function () {
     ])
   })
 
-  test('onInvoke', async function () {
+  test('onInvoke', async () => {
     const results: string[] = []
     class P1 implements Plugin {
       public readonly type: string
@@ -160,7 +160,7 @@ describe('plugins', function () {
     expect(data.response).toEqual('baseafter2after1')
   })
 
-  test('call multiple times next', async function () {
+  test('call multiple times next', async () => {
     class P implements Plugin {
       public readonly type: string
       public readonly name: string

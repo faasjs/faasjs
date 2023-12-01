@@ -43,7 +43,7 @@ export default function (name: string, plugins: string[]): void {
   if (name.includes(sep)) {
     const folders = name.split(sep)
     name = folders.pop()
-    folders.reduce(function (prev: string, cur: string) {
+    folders.reduce((prev: string, cur: string) => {
       if (!existsSync(prev)) mkdirSync(prev)
       cur = join(prev, cur)
       if (!existsSync(cur)) mkdirSync(cur)

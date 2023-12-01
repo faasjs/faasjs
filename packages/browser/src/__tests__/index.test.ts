@@ -29,14 +29,14 @@ const defaultMock = async (url: RequestInfo | URL, options: RequestInit) => {
   }) as unknown as Promise<Response>
 }
 
-describe('client', function () {
-  beforeEach(function () {
+describe('client', () => {
+  beforeEach(() => {
     request = {}
 
     window.fetch = jest.fn(defaultMock) as any
   })
 
-  it('should work', async function () {
+  it('should work', async () => {
     const client = new FaasBrowserClient('/')
     const response = await client.action('path')
 
@@ -53,7 +53,7 @@ describe('client', function () {
     expect(response.data).toEqual({})
   })
 
-  it('work with beforeRequest', async function () {
+  it('work with beforeRequest', async () => {
     const client = new FaasBrowserClient('/', {
       beforeRequest: async ({ options }) => {
         options.method = 'GET'
@@ -69,7 +69,7 @@ describe('client', function () {
     })
   })
 
-  it('work with request', async function () {
+  it('work with request', async () => {
     const resData: FaasResponse = new FaasResponse({
       status: 200,
       headers: {},
@@ -95,7 +95,7 @@ describe('client', function () {
     )
   })
 
-  it('when error', async function () {
+  it('when error', async () => {
     window.fetch = jest.fn(
       async (url: RequestInfo | URL, options: RequestInit) => {
         request = {
@@ -116,7 +116,7 @@ describe('client', function () {
     await expect(client.action('path')).rejects.toEqual(Error('no'))
   })
 
-  it('work with mock', async function () {
+  it('work with mock', async () => {
     setMock(
       async () =>
         new Response({
@@ -147,7 +147,7 @@ declare module '@faasjs/types' {
 }
 
 describe('types', () => {
-  beforeEach(function () {
+  beforeEach(() => {
     request = {}
 
     window.fetch = jest.fn(defaultMock) as any

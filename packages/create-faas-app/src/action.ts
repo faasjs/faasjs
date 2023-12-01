@@ -187,7 +187,7 @@ describe('hello', function () {
 export default function (program: Command): void {
   program
     .description('创建新项目')
-    .on('--help', function () {
+    .on('--help', () => {
       console.log(`
 Examples:
   npx create-faas-app`)

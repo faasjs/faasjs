@@ -4,7 +4,7 @@
 import { Description } from '../../Description'
 
 describe('Description/base', () => {
-  it('should work', function () {
+  it('should work', () => {
     expect(Description).toBeDefined()
   })
 })

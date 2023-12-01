@@ -4,35 +4,29 @@ let logs: string[] = []
 let warns: string[] = []
 let errors: string[] = []
 
-jest.mock('console', function () {
-  return {
-    log: function (message: string) {
-      logs.push(message)
-    },
-    warn: function (message: string) {
-      warns.push(message)
-    },
-    error: function (message: string) {
-      errors.push(message)
-    },
-  }
-})
+jest.mock('console', () => ({
+  log: (message: string) => {
+    logs.push(message)
+  },
+  warn: (message: string) => {
+    warns.push(message)
+  },
+  error: (message: string) => {
+    errors.push(message)
+  },
+}))
 
-jest.mock('readline', function () {
-  return {
-    createInterface: function () {
-      return {
-        question: function (_: any, handler: (input: string) => void) {
-          handler('y')
-        },
-        close: function () {},
-      }
+jest.mock('readline', () => ({
+  createInterface: () => ({
+    question: (_: any, handler: (input: string) => void) => {
+      handler('y')
     },
-  }
-})
+    close: () => {},
+  }),
+}))
 
 let messages = []
-process.send = function (data) {
+process.send = data => {
   messages.push(data)
   return true
 }
@@ -42,43 +36,33 @@ let triggerMessage: {
   file: string
 }
 
-jest.mock('cluster', function () {
-  return {
-    fork: function () {
-      return {
-        on: function (event: string, handler: (...args: any) => void) {
-          if (event === 'exit') handler()
-          if (event === 'message' && triggerMessage) handler(triggerMessage)
-        },
-      }
+jest.mock('cluster', () => ({
+  fork: () => ({
+    on: (event: string, handler: (...args: any) => void) => {
+      if (event === 'exit') handler()
+      if (event === 'message' && triggerMessage) handler(triggerMessage)
     },
-  }
-})
+  }),
+}))
 
-jest.mock('@faasjs/request', function () {
-  return async function () {
-    return Promise.resolve({})
-  }
-})
+jest.mock('@faasjs/request', () => async () => Promise.resolve({}))
 
 let deploys: string[] = []
 let deployPass = true
 
-jest.mock('@faasjs/deployer', function () {
-  return {
-    Deployer: class Deployer {
-      constructor(data: any) {
-        deploys.push(data.filename)
-      }
-      deploy() {
-        if (!deployPass) throw Error('deployPass')
-      }
-    },
-  }
-})
+jest.mock('@faasjs/deployer', () => ({
+  Deployer: class Deployer {
+    constructor(data: any) {
+      deploys.push(data.filename)
+    }
+    deploy() {
+      if (!deployPass) throw Error('deployPass')
+    }
+  },
+}))
 
-describe('deploy', function () {
-  afterEach(function () {
+describe('deploy', () => {
+  afterEach(() => {
     logs = []
     warns = []
     errors = []
@@ -89,8 +73,8 @@ describe('deploy', function () {
     triggerMessage = null
   })
 
-  describe('basic', function () {
-    test('file', async function () {
+  describe('basic', () => {
+    test('file', async () => {
       await expect(
         action('testing', [`${__dirname}/funcs/a.func.ts`], {
           autoRetry: '0',
@@ -103,7 +87,7 @@ describe('deploy', function () {
       expect(errors).toEqual([])
     })
 
-    test('folder', async function () {
+    test('folder', async () => {
       await action('testing', [`${__dirname}/funcs`], {
         autoRetry: '0',
         workers: '1',
@@ -123,8 +107,8 @@ describe('deploy', function () {
     })
   })
 
-  describe('workers', function () {
-    it('fail', async function () {
+  describe('workers', () => {
+    it('fail', async () => {
       triggerMessage = {
         type: 'fail',
         file: 'file',
@@ -148,8 +132,8 @@ describe('deploy', function () {
     })
   })
 
-  describe('options', function () {
-    test('autoRetry', async function () {
+  describe('options', () => {
+    test('autoRetry', async () => {
       deployPass = false
       await expect(
         action('testing', [`${__dirname}/funcs/a.func.ts`], {
@@ -168,7 +152,7 @@ describe('deploy', function () {
       expect(errors).toEqual([Error('deployPass'), Error('deployPass')])
     })
 
-    test('workers', async function () {
+    test('workers', async () => {
       await action('testing', [`${__dirname}/funcs`], {
         autoRetry: '0',
         workers: '3',

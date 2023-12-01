@@ -1,10 +1,10 @@
 import { Func } from '@faasjs/func'
 import { Http } from '../..'
 
-describe('validator/whitelist', function () {
-  describe('params', function () {
-    describe('normal', function () {
-      test('error', async function () {
+describe('validator/whitelist', () => {
+  describe('params', () => {
+    describe('normal', () => {
+      test('error', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -31,7 +31,7 @@ describe('validator/whitelist', function () {
         )
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -57,8 +57,8 @@ describe('validator/whitelist', function () {
         expect(res2.body).toEqual('{"data":{"key":1}}')
       })
 
-      describe('onError', function () {
-        test('no return', async function () {
+      describe('onError', () => {
+        test('no return', async () => {
           const http = new Http({
             validator: {
               params: {
@@ -81,15 +81,15 @@ describe('validator/whitelist', function () {
           )
         })
 
-        test('return message', async function () {
+        test('return message', async () => {
           const http = new Http({
             validator: {
               params: {
                 whitelist: 'error',
                 rules: { key: {} },
-                onError: function (type, key, value) {
-                  return { message: `${type} ${key} ${value}` }
-                },
+                onError: (type, key, value) => ({
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -107,18 +107,16 @@ describe('validator/whitelist', function () {
           )
         })
 
-        test('return all', async function () {
+        test('return all', async () => {
           const http = new Http({
             validator: {
               params: {
                 whitelist: 'error',
                 rules: { key: {} },
-                onError: function (type, key, value) {
-                  return {
-                    statusCode: 401,
-                    message: `${type} ${key} ${value}`,
-                  }
-                },
+                onError: (type, key, value) => ({
+                  statusCode: 401,
+                  message: `${type} ${key} ${value}`,
+                }),
               },
             },
           })
@@ -138,8 +136,8 @@ describe('validator/whitelist', function () {
       })
     })
 
-    describe('array', function () {
-      test('error', async function () {
+    describe('array', () => {
+      test('error', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -176,7 +174,7 @@ describe('validator/whitelist', function () {
         )
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -209,8 +207,8 @@ describe('validator/whitelist', function () {
       })
     })
 
-    describe('object', function () {
-      test('error', async function () {
+    describe('object', () => {
+      test('error', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -247,7 +245,7 @@ describe('validator/whitelist', function () {
         )
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -281,8 +279,8 @@ describe('validator/whitelist', function () {
     })
   })
 
-  describe('cookie', function () {
-    test('error', async function () {
+  describe('cookie', () => {
+    test('error', async () => {
       const http = new Http({
         validator: {
           cookie: {
@@ -308,7 +306,7 @@ describe('validator/whitelist', function () {
       )
     })
 
-    test('ignore', async function () {
+    test('ignore', async () => {
       const http = new Http({
         validator: {
           cookie: {
@@ -334,9 +332,9 @@ describe('validator/whitelist', function () {
     })
   })
 
-  describe('session', function () {
-    describe('normal', function () {
-      test('error', async function () {
+  describe('session', () => {
+    describe('normal', () => {
+      test('error', async () => {
         const http = new Http({
           validator: {
             session: {
@@ -368,7 +366,7 @@ describe('validator/whitelist', function () {
         )
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const http = new Http({
           validator: {
             session: {
@@ -402,8 +400,8 @@ describe('validator/whitelist', function () {
       })
     })
 
-    describe('array', function () {
-      test('error', async function () {
+    describe('array', () => {
+      test('error', async () => {
         const http = new Http({
           validator: {
             session: {
@@ -451,7 +449,7 @@ describe('validator/whitelist', function () {
         )
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const http = new Http({
           validator: {
             session: {
@@ -494,8 +492,8 @@ describe('validator/whitelist', function () {
       })
     })
 
-    describe('object', function () {
-      test('error', async function () {
+    describe('object', () => {
+      test('error', async () => {
         const http = new Http({
           validator: {
             session: {
@@ -541,7 +539,7 @@ describe('validator/whitelist', function () {
         )
       })
 
-      test('ignore', async function () {
+      test('ignore', async () => {
         const http = new Http({
           validator: {
             session: {

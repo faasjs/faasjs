@@ -9,7 +9,7 @@ type ExtendTypes = {
 } & ExtendTableItemProps
 
 describe('Table/extend', () => {
-  it('children', function () {
+  it('children', () => {
     function ExtendTable(props: TableProps<any, ExtendTypes>) {
       return (
         <Table {...props} extendTypes={{ password: { children: <>***</> } }} />
@@ -37,7 +37,7 @@ describe('Table/extend', () => {
     expect(screen.getByText('***')).toBeInTheDocument()
   })
 
-  it('render', function () {
+  it('render', () => {
     function ExtendTable(props: TableProps<any, ExtendTypes>) {
       return (
         <Table

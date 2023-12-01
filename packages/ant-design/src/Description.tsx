@@ -95,7 +95,7 @@ function DescriptionItemContent<T = any>(
 
   if (!computedProps) return null
 
-  if (computedProps.extendTypes?.[computedProps.item.type])
+  if (computedProps.extendTypes?.[computedProps.item.type]) {
     if (computedProps.extendTypes[computedProps.item.type].children)
       return cloneElement(
         computedProps.extendTypes[computedProps.item.type].children,
@@ -105,7 +105,7 @@ function DescriptionItemContent<T = any>(
           values: computedProps.values,
         }
       )
-    else if (computedProps.extendTypes[computedProps.item.type].render)
+    if (computedProps.extendTypes[computedProps.item.type].render)
       return (
         <>
           {computedProps.extendTypes[computedProps.item.type].render(
@@ -116,7 +116,8 @@ function DescriptionItemContent<T = any>(
           )}
         </>
       )
-    else throw Error(`${computedProps.item.type} requires children or render`)
+    throw Error(`${computedProps.item.type} requires children or render`)
+  }
 
   if (computedProps.item.descriptionChildren === null) return null
 

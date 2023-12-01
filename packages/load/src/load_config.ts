@@ -37,7 +37,7 @@ export class Config {
       dirname(filename.replace(root, '')).split(sep)
     )
 
-    paths.reduce(function (base: string, path: string) {
+    paths.reduce((base: string, path: string) => {
       const root = join(base, path)
       if (root === base) return base
 

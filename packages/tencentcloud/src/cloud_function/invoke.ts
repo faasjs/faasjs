@@ -24,19 +24,21 @@ export async function invokeCloudFunction<TResult = any>(
       },
       options || {}
     )
-  ).then(function (res: {
-    Result: {
-      RetMsg: string
-      ErrMsg: string
+  ).then(
+    (res: {
+      Result: {
+        RetMsg: string
+        ErrMsg: string
+      }
+    }) => {
+      if (res.Result.ErrMsg) return Promise.reject(Error(res.Result.ErrMsg))
+      try {
+        return JSON.parse(res.Result.RetMsg)
+      } catch (error) {
+        return res.Result.RetMsg
+      }
     }
-  }) {
-    if (res.Result.ErrMsg) return Promise.reject(Error(res.Result.ErrMsg))
-    try {
-      return JSON.parse(res.Result.RetMsg)
-    } catch (error) {
-      return res.Result.RetMsg
-    }
-  })
+  )
 }
 
 export async function invokeSyncCloudFunction<TResult = any>(

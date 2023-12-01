@@ -1,11 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.0.0/schema.json",
-  "extends": ["./packages/linter/biome.json"],
   "organizeImports": {
     "enabled": false
   },
   "files": {
-    "ignore": ["dist/*", "tmp/*", ".cache/*"]
+    "ignore": ["dist/*", "tmp/*", ".cache/*", "examples/*", "docs/*"]
   },
   "linter": {
     "enabled": true,

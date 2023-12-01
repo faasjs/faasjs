@@ -2,18 +2,18 @@ import { Func } from '@faasjs/func'
 import { brotliCompressSync, deflateSync, gzipSync } from 'zlib'
 import { Http } from '..'
 
-describe('Accept-Encoding', function () {
-  beforeAll(function () {
+describe('Accept-Encoding', () => {
+  beforeAll(() => {
     process.env.FaasMode = 'remote'
   })
 
-  afterAll(function () {
+  afterAll(() => {
     process.env.FaasMode = 'local'
   })
 
   const data = new Array(1025).join('1')
 
-  test('br', async function () {
+  test('br', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -35,7 +35,7 @@ describe('Accept-Encoding', function () {
     )
   })
 
-  test('gzip', async function () {
+  test('gzip', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -55,7 +55,7 @@ describe('Accept-Encoding', function () {
     expect(res.body).toEqual(gzipSync(`{"data":"${data}"}`).toString('base64'))
   })
 
-  test('deflate', async function () {
+  test('deflate', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -77,7 +77,7 @@ describe('Accept-Encoding', function () {
     )
   })
 
-  test('unknown', async function () {
+  test('unknown', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],

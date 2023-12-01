@@ -2,8 +2,8 @@ import { Func, InvokeData } from '@faasjs/func'
 import { Http } from '..'
 import { Session } from '../session'
 
-describe('session', function () {
-  describe('read', function () {
+describe('session', () => {
+  describe('read', () => {
     const http = new Http()
     const func = new Func({
       plugins: [http],
@@ -29,7 +29,7 @@ describe('session', function () {
     }
     const handler = func.export().handler
 
-    test('return value', async function () {
+    test('return value', async () => {
       const res = await handler({
         headers: {
           cookie:
@@ -41,7 +41,7 @@ describe('session', function () {
       expect(res.body).toEqual('{"data":"value"}')
     })
 
-    test('no value', async function () {
+    test('no value', async () => {
       const res = await handler({
         headers: {
           cookie:
@@ -53,7 +53,7 @@ describe('session', function () {
       expect(res.body).toBeUndefined()
     })
 
-    test('no key', async function () {
+    test('no key', async () => {
       const res = await handler({
         headers: { cookie: '' },
         key: 'key',
@@ -62,7 +62,7 @@ describe('session', function () {
       expect(res.body).toBeUndefined()
     })
 
-    test('wrong session', async function () {
+    test('wrong session', async () => {
       const res = await handler({
         headers: { cookie: 'key=key' },
         key: 'key',
@@ -72,7 +72,7 @@ describe('session', function () {
     })
   })
 
-  describe('write', function () {
+  describe('write', () => {
     const http = new Http()
     const func = new Func({
       plugins: [http],
@@ -102,7 +102,7 @@ describe('session', function () {
       secret: 'secret',
     })
 
-    test('add', async function () {
+    test('add', async () => {
       const res = await handler({
         key: 'key',
         value: 'value',
@@ -116,7 +116,7 @@ describe('session', function () {
       ).toEqual({ key: 'value' })
     })
 
-    test('delete', async function () {
+    test('delete', async () => {
       const res = await handler({
         key: 'key',
         value: null,
@@ -133,7 +133,7 @@ describe('session', function () {
       ).toEqual({})
     })
 
-    test('multi change', async function () {
+    test('multi change', async () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],

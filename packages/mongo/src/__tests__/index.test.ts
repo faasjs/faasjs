@@ -1,8 +1,8 @@
 import { Mongo } from '../index'
 import { Func } from '@faasjs/func'
 
-describe('mongo', function () {
-  it('with filename', async function () {
+describe('mongo', () => {
+  it('with filename', async () => {
     const mongo = new Mongo({
       config: {
         url: 'mongodb://localhost',

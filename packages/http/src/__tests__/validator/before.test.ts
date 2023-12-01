@@ -1,8 +1,8 @@
 import { Func } from '@faasjs/func'
 import { Http } from '../..'
 
-describe('validator/before', function () {
-  test('return error', async function () {
+describe('validator/before', () => {
+  test('return error', async () => {
     const http = new Http({
       validator: {
         async before(request) {
@@ -31,7 +31,7 @@ describe('validator/before', function () {
     expect(res.body).toEqual('{"error":{"message":"请先登录"}}')
   })
 
-  test('throw error', async function () {
+  test('throw error', async () => {
     const http = new Http({
       validator: {
         async before() {

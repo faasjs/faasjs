@@ -4,7 +4,7 @@
 import { Table } from '../../Table'
 
 describe('Table/base', () => {
-  it('should work', function () {
+  it('should work', () => {
     expect(Table).toBeDefined()
   })
 })

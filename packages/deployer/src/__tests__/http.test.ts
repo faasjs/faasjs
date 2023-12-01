@@ -1,7 +1,7 @@
 import { Deployer } from '../index'
 import { execSync } from 'child_process'
 
-test('http', async function () {
+test('http', async () => {
   const deployer = new Deployer({
     root: __dirname,
     filename: `${__dirname}/funcs/http.func.ts`,

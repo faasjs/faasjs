@@ -1,10 +1,10 @@
 import { Func } from '@faasjs/func'
 import { CloudFunction } from '../../index'
 
-describe('validator/default', function () {
-  describe('event', function () {
-    describe('normal', function () {
-      test('const', async function () {
+describe('validator/default', () => {
+  describe('event', () => {
+    describe('normal', () => {
+      test('const', async () => {
         const cf = new CloudFunction({
           validator: { event: { rules: { key: { default: 1 } } } },
         })
@@ -20,7 +20,7 @@ describe('validator/default', function () {
         expect(res).toEqual(1)
       })
 
-      test('function', async function () {
+      test('function', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -47,8 +47,8 @@ describe('validator/default', function () {
       })
     })
 
-    describe('array', function () {
-      test('const', async function () {
+    describe('array', () => {
+      test('const', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -68,7 +68,7 @@ describe('validator/default', function () {
         expect(res).toEqual([{ sub: 1 }])
       })
 
-      test('function', async function () {
+      test('function', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -100,8 +100,8 @@ describe('validator/default', function () {
       })
     })
 
-    describe('object', function () {
-      test('const', async function () {
+    describe('object', () => {
+      test('const', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -121,7 +121,7 @@ describe('validator/default', function () {
         expect(res).toEqual({ sub: 1 })
       })
 
-      test('function', async function () {
+      test('function', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {

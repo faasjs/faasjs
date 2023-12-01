@@ -21,7 +21,7 @@ export function ServerCommand(program: Command): void {
     .command('server')
     .name('server')
     .description('Start local server')
-    .on('--help', function () {
+    .on('--help', () => {
       console.log(`
 Examples:
   npm exec faas server`)

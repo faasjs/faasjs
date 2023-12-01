@@ -1,10 +1,10 @@
 import { Func } from '@faasjs/func'
 import { Http } from '../..'
 
-describe('validator/default', function () {
-  describe('params', function () {
-    describe('normal', function () {
-      test('const', async function () {
+describe('validator/default', () => {
+  describe('params', () => {
+    describe('normal', () => {
+      test('const', async () => {
         const http = new Http<{ key: number; value: string }>({
           validator: { params: { rules: { key: { default: 1 } } } },
         })
@@ -21,7 +21,7 @@ describe('validator/default', function () {
         expect(res.body).toEqual('{"data":1}')
       })
 
-      test('function', async function () {
+      test('function', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -49,8 +49,8 @@ describe('validator/default', function () {
       })
     })
 
-    describe('array', function () {
-      test('const', async function () {
+    describe('array', () => {
+      test('const', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -75,7 +75,7 @@ describe('validator/default', function () {
         expect(res.body).toEqual('{"data":[{"sub":1}]}')
       })
 
-      test('function', async function () {
+      test('function', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -110,8 +110,8 @@ describe('validator/default', function () {
       })
     })
 
-    describe('object', function () {
-      test('const', async function () {
+    describe('object', () => {
+      test('const', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -137,7 +137,7 @@ describe('validator/default', function () {
         expect(res.body).toEqual('{"data":{"sub":1}}')
       })
 
-      test('function', async function () {
+      test('function', async () => {
         const http = new Http({
           validator: {
             params: {
@@ -172,7 +172,7 @@ describe('validator/default', function () {
     })
   })
 
-  test('cookie should not work', async function () {
+  test('cookie should not work', async () => {
     const http = new Http({
       validator: { cookie: { rules: { key: { default: 1 } } } },
     })
@@ -189,7 +189,7 @@ describe('validator/default', function () {
     expect(res.body).toEqual('{"data":{}}')
   })
 
-  test('session should not work', async function () {
+  test('session should not work', async () => {
     const http = new Http({
       validator: { session: { rules: { key: { default: 1 } } } },
     })

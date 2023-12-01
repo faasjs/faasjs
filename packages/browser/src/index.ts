@@ -223,15 +223,14 @@ export class FaasBrowserClient {
               status: response.status,
               headers,
             })
-          else {
-            const body = JSON.parse(res)
-            return new Response({
-              status: response.status,
-              headers,
-              body,
-              data: body.data,
-            })
-          }
+
+          const body = JSON.parse(res)
+          return new Response({
+            status: response.status,
+            headers,
+            body,
+            data: body.data,
+          })
         }
 
         try {
@@ -246,15 +245,15 @@ export class FaasBrowserClient {
                 body,
               })
             )
-          else
-            return Promise.reject(
-              new ResponseError({
-                message: res,
-                status: response.status,
-                headers,
-                body,
-              })
-            )
+
+          return Promise.reject(
+            new ResponseError({
+              message: res,
+              status: response.status,
+              headers,
+              body,
+            })
+          )
         } catch (error) {
           return Promise.reject(
             new ResponseError({

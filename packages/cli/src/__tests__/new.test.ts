@@ -2,13 +2,13 @@ import { action } from '../commands/new'
 import { readFileSync } from 'fs'
 import { execSync } from 'child_process'
 
-describe('new', function () {
-  describe('func', function () {
-    afterEach(function () {
+describe('new', () => {
+  describe('func', () => {
+    afterEach(() => {
       execSync(`rm -rf ${__dirname}/tmp`)
     })
 
-    test('basic', function () {
+    test('basic', () => {
       action('func', 'packages/cli/src/__tests__/tmp/basic', [])
 
       expect(
@@ -39,7 +39,7 @@ describe('basic.func.ts', function () {
 `)
     })
 
-    test('with plugins', function () {
+    test('with plugins', () => {
       action('func', 'packages/cli/src/__tests__/tmp/plugin', ['cf', 'http'])
 
       expect(
@@ -75,7 +75,7 @@ describe('plugin.func.ts', function () {
     })
   })
 
-  test('unknown type', function () {
+  test('unknown type', () => {
     try {
       action('unknown', 'unknown', [])
     } catch (error: any) {

@@ -156,11 +156,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       this.cachedFunctions[key] = list
     }
 
-    return async function (data: any, next?: () => void): Promise<any> {
+    return async (data: any, next?: () => void): Promise<any> => {
       let index = -1
       const logger = data?.logger || new Logger()
 
-      const dispatch = async function (i: number): Promise<any> {
+      const dispatch = async (i: number): Promise<any> => {
         if (i <= index)
           return Promise.reject(Error('next() called multiple times'))
         index = i
@@ -323,7 +323,7 @@ export function usePlugin<T extends Plugin>(
   if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
 
   if (!plugin.mount)
-    plugin.mount = async function (data?: { config?: Config }) {
+    plugin.mount = async (data?: { config?: Config }) => {
       if (plugin.onMount)
         await plugin.onMount(
           {

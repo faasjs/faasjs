@@ -1,12 +1,12 @@
 import { Redis, useRedis, query, get, set, setJSON, getJSON } from '../index'
 import { Func, useFunc } from '@faasjs/func'
 
-describe('redis', function () {
-  afterEach(async function () {
+describe('redis', () => {
+  afterEach(async () => {
     await useRedis().quit()
   })
 
-  it('config with code', async function () {
+  it('config with code', async () => {
     const redis = new Redis()
 
     const func = new Func({
@@ -22,7 +22,7 @@ describe('redis', function () {
     expect(await handler({})).toEqual('value')
   })
 
-  it('config with env', async function () {
+  it('config with env', async () => {
     process.env.SECRET_REDIS_SOCKET_HOST = 'localhost'
 
     const redis = new Redis()
@@ -40,10 +40,10 @@ describe('redis', function () {
     expect(await handler({})).toEqual('value')
   })
 
-  it('useRedis', async function () {
-    const func = useFunc(function () {
+  it('useRedis', async () => {
+    const func = useFunc(() => {
       const redis1 = useRedis()
-      return async function () {
+      return async () => {
         await redis1.query('set', ['key', 'redis1'])
 
         const redis2 = useRedis()
@@ -56,7 +56,7 @@ describe('redis', function () {
     expect(await func.export().handler({})).toEqual('redis2')
   })
 
-  it('query error', async function () {
+  it('query error', async () => {
     const redis = new Redis()
 
     const func = new Func({
@@ -75,7 +75,7 @@ describe('redis', function () {
     }
   })
 
-  it('get & set', async function () {
+  it('get & set', async () => {
     const redis = new Redis()
 
     const func = new Func({
@@ -89,11 +89,11 @@ describe('redis', function () {
     expect(await func.export().handler({})).toEqual('value')
   })
 
-  it('get & set with fp', async function () {
-    const func = useFunc(function () {
+  it('get & set with fp', async () => {
+    const func = useFunc(() => {
       useRedis()
 
-      return async function () {
+      return async () => {
         await set('key', 'value')
         return get('key')
       }
@@ -102,7 +102,7 @@ describe('redis', function () {
     expect(await func.export().handler({})).toEqual('value')
   })
 
-  it('getJSON & setJSON', async function () {
+  it('getJSON & setJSON', async () => {
     const redis = new Redis()
 
     const func = new Func({
@@ -116,11 +116,11 @@ describe('redis', function () {
     expect(await func.export().handler({})).toEqual({})
   })
 
-  it('getJSON & setJSON with fp', async function () {
-    const func = useFunc(function () {
+  it('getJSON & setJSON with fp', async () => {
+    const func = useFunc(() => {
       useRedis()
 
-      return async function () {
+      return async () => {
         await setJSON('key', {})
         return getJSON('key')
       }
@@ -129,7 +129,7 @@ describe('redis', function () {
     expect(await func.export().handler({})).toEqual({})
   })
 
-  it('set with options', async function () {
+  it('set with options', async () => {
     const redis = new Redis()
 
     const func = new Func({
@@ -150,7 +150,7 @@ describe('redis', function () {
     expect(await func.export().handler({})).toEqual('value')
   })
 
-  it('multi', async function () {
+  it('multi', async () => {
     const redis = new Redis()
 
     const func = new Func({
@@ -165,7 +165,7 @@ describe('redis', function () {
     expect(await func.export().handler({})).toEqual('value')
   })
 
-  it('pipeline', async function () {
+  it('pipeline', async () => {
     const redis = new Redis()
 
     const func = new Func({

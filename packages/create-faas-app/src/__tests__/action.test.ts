@@ -2,39 +2,35 @@ import { action } from '../action'
 
 let execs: string[] = []
 
-jest.mock('child_process', function () {
-  return {
-    execSync(cmd: string) {
-      execs.push(cmd)
-    },
-  }
-})
+jest.mock('child_process', () => ({
+  execSync(cmd: string) {
+    execs.push(cmd)
+  },
+}))
 
 let dirs: string[] = []
 let files: {
   [key: string]: string
 } = {}
 
-jest.mock('fs', function () {
-  return {
-    mkdirSync(path: string) {
-      dirs.push(path)
-    },
-    writeFileSync(name: string, body: string) {
-      files[name] = body
-    },
-    existsSync() {},
-  }
-})
+jest.mock('fs', () => ({
+  mkdirSync(path: string) {
+    dirs.push(path)
+  },
+  writeFileSync(name: string, body: string) {
+    files[name] = body
+  },
+  existsSync() {},
+}))
 
-describe('action', function () {
-  beforeEach(function () {
+describe('action', () => {
+  beforeEach(() => {
     execs = []
     dirs = []
     files = {}
   })
 
-  it('without example', async function () {
+  it('without example', async () => {
     await action({
       name: 'test',
       example: false,
@@ -57,7 +53,7 @@ coverage/
 `)
   })
 
-  it('with example', async function () {
+  it('with example', async () => {
     await action({
       name: 'test',
       example: true,

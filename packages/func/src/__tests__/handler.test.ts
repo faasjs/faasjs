@@ -1,14 +1,14 @@
 import { Func } from '../index'
 
-describe('Func handler', function () {
-  test('without handler', async function () {
+describe('Func handler', () => {
+  test('without handler', async () => {
     const handler = new Func({}).export().handler
 
     expect(await handler(0)).toBeUndefined()
   })
 
-  describe('with handler', function () {
-    test('should work', async function () {
+  describe('with handler', () => {
+    test('should work', async () => {
       const handler = new Func<number>({
         async handler(data) {
           return data.event + 1
@@ -19,7 +19,7 @@ describe('Func handler', function () {
       expect(await handler(1)).toEqual(2)
     })
 
-    test('throw handler', async function () {
+    test('throw handler', async () => {
       const handler = new Func({
         async handler() {
           throw Error('Error')

@@ -14,7 +14,7 @@ export async function checkBucket(
   params: { [key: string]: any }
 ): Promise<any> {
   return await new Promise((resolve, reject) => {
-    cos(tc).headBucket(params, function (err: any, data: any) {
+    cos(tc).headBucket(params, (err: any, data: any) => {
       if (err) reject(err)
       resolve(data)
     })
@@ -26,7 +26,7 @@ export async function createBucket(
   params: { [key: string]: any }
 ): Promise<any> {
   return await new Promise((resolve, reject) => {
-    cos(tc).putBucket(params, function (err: any, data: any) {
+    cos(tc).putBucket(params, (err: any, data: any) => {
       if (err) reject(err)
       resolve(data)
     })
@@ -38,7 +38,7 @@ export async function upload(
   params: { [key: string]: any }
 ): Promise<any> {
   return await new Promise((resolve, reject) => {
-    cos(tc).sliceUploadFile(params, function (err: any, data: any) {
+    cos(tc).sliceUploadFile(params, (err: any, data: any) => {
       if (err) reject(err)
       resolve(data)
     })
@@ -50,7 +50,7 @@ export async function remove(
   params: { [key: string]: any }
 ): Promise<any> {
   return await new Promise((resolve, reject) => {
-    cos(tc).deleteObject(params, function (err: any, data: any) {
+    cos(tc).deleteObject(params, (err: any, data: any) => {
       if (err) reject(err)
       resolve(data)
     })

@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { ConfigProvider } from '../../Config'
 
 describe('Link', () => {
-  it('should work', async function () {
+  it('should work', async () => {
     render(
       <BrowserRouter>
         <Link href='/' text='text' />
@@ -17,7 +17,7 @@ describe('Link', () => {
     expect(screen.getByText('text')).toBeInTheDocument()
   })
 
-  it('work with block', async function () {
+  it('work with block', async () => {
     const { container } = render(
       <BrowserRouter>
         <Link href='/' text='text' block />
@@ -29,7 +29,7 @@ describe('Link', () => {
     )
   })
 
-  it('work with global style', async function () {
+  it('work with global style', async () => {
     const { container } = render(
       <ConfigProvider config={{ Link: { style: { fontWeight: 'bold' } } }}>
         <BrowserRouter>
@@ -41,7 +41,7 @@ describe('Link', () => {
     expect(container.querySelector('a')).toHaveStyle('font-weight: bold')
   })
 
-  it('work with copyable', async function () {
+  it('work with copyable', async () => {
     const { container } = render(
       <BrowserRouter>
         <Link href='/' text='text' copyable />

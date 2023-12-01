@@ -1,8 +1,8 @@
 import { Func, Plugin, Next, MountData, InvokeData } from '../index'
 
-describe('lifecycle', function () {
-  describe('mount', function () {
-    test('plugin throw error', async function () {
+describe('lifecycle', () => {
+  describe('mount', () => {
+    test('plugin throw error', async () => {
       class P implements Plugin {
         public readonly type: string
         public readonly name: string
@@ -30,7 +30,7 @@ describe('lifecycle', function () {
       }
     })
 
-    test('mount called multiple times', async function () {
+    test('mount called multiple times', async () => {
       let times = 0
 
       class P implements Plugin {
@@ -63,8 +63,8 @@ describe('lifecycle', function () {
     })
   })
 
-  describe('invoke', function () {
-    test('plugin throw error', async function () {
+  describe('invoke', () => {
+    test('plugin throw error', async () => {
       class P implements Plugin {
         public readonly type: string
         public readonly name: string

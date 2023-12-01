@@ -5,22 +5,20 @@ const suite = new Benchmark.Suite()
 
 process.env.FaasLog = 'error'
 
-const plain = useFunc(function () {
-  return function () {}
-}).export().handler
-const http = useFunc(function () {
+const plain = useFunc(() => () => {}).export().handler
+const http = useFunc(() => {
   useHttp()
-  return function () {}
+  return () => {}
 }).export().handler
 
 suite
-  .add('Plain func', async function () {
+  .add('Plain func', async () => {
     await plain({})
   })
-  .add('Http func', async function () {
+  .add('Http func', async () => {
     await http({})
   })
-  .on('cycle', function (event) {
+  .on('cycle', event => {
     console.log(String(event.target))
   })
   .run({ async: true })

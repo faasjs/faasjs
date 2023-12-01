@@ -1,7 +1,7 @@
 import { loadConfig } from '../load_config'
 
-describe('loadConfig', function () {
-  test('defaults', function () {
+describe('loadConfig', () => {
+  test('defaults', () => {
     const config = loadConfig(__dirname, `${__dirname}/fake.func.ts`).defaults
 
     expect(config.plugins.test.type).toEqual('defaults')
@@ -9,7 +9,7 @@ describe('loadConfig', function () {
     expect(config.plugins.func.name).toEqual('func')
   })
 
-  test('local', function () {
+  test('local', () => {
     const config = loadConfig(__dirname, `${__dirname}/fake.func.ts`).local
 
     expect(config.plugins.func.type).toEqual('function')
@@ -20,7 +20,7 @@ describe('loadConfig', function () {
     expect(config.plugins.func.config.env).toEqual('defaults')
   })
 
-  test('sub local', function () {
+  test('sub local', () => {
     const config = loadConfig(__dirname, `${__dirname}/sub/fake.func.ts`).local
 
     expect(config.plugins.func.type).toEqual('function')

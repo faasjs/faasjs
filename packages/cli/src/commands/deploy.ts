@@ -12,9 +12,9 @@ import { execSync } from 'child_process'
 
 async function sleep() {
   const waiting = Math.floor(Math.random() * 3)
-  return new Promise<void>(function (resolve) {
+  return new Promise<void>(resolve => {
     log(`Waiting ${waiting} seconds...`)
-    setTimeout(function () {
+    setTimeout(() => {
       resolve()
     }, waiting * 1000)
   })
@@ -29,14 +29,14 @@ async function confirm({
   success?: string
   fail?: string
 }) {
-  return new Promise<void>(function (resolve, reject) {
+  return new Promise<void>((resolve, reject) => {
     if (message) warn(message)
 
     const readline = createInterface({
       input: process.stdin,
       output: process.stdout,
     })
-    readline.question('输入 y 确认: ', function (res: string) {
+    readline.question('输入 y 确认: ', (res: string) => {
       readline.close()
 
       if (res !== 'y') {
@@ -118,7 +118,8 @@ export async function action(
       }
 
     if (process.env.JEST_WORKER_ID) return
-    else process.exit(0)
+
+    process.exit(0)
   }
 
   const list: string[] = []
@@ -176,7 +177,7 @@ export async function action(
   if (list.length === 1) {
     await deploy(list[0], Number(autoRetry))
     if (process.env.JEST_WORKER_ID) return
-    else process.exit(0)
+    process.exit(0)
   } else {
     let processNumber = workers ? Number(workers) : 1
     if (processNumber > list.length) processNumber = list.length
@@ -205,9 +206,9 @@ export async function action(
     for (let i = 0; i < processNumber; i++) {
       if (!chunked[i] || chunked[i].length === 0) continue
       queues.push(
-        new Promise<void>(function (resolve) {
+        new Promise<void>(resolve => {
           const worker = Cluster.fork({ FaasDeployFiles: chunked[i] })
-          worker.on('message', function (message) {
+          worker.on('message', message => {
             switch (message?.type) {
               case 'done':
                 results.done.push(message.file)
@@ -217,10 +218,10 @@ export async function action(
                 break
             }
           })
-          worker.on('error', function () {
+          worker.on('error', () => {
             worker.kill()
           })
-          worker.on('exit', function () {
+          worker.on('exit', () => {
             resolve()
           })
         })
@@ -237,7 +238,7 @@ export async function action(
       error('Failed:')
       error(results.fail)
       if (process.env.JEST_WORKER_ID) return
-      else process.exit(1)
+      process.exit(1)
     }
   }
 }
@@ -257,7 +258,7 @@ export function DeployCommand(program: Command): void {
     )
     .name('deploy')
     .description('Deploy to cloud function')
-    .on('--help', function () {
+    .on('--help', () => {
       log(`
 Examples:
   npm exec faas deploy staging services${sep}demo.func.ts

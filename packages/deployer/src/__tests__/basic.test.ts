@@ -1,7 +1,7 @@
 import { Deployer } from '../index'
 import { execSync } from 'child_process'
 
-test('basic', async function () {
+test('basic', async () => {
   const deployer = new Deployer({
     root: __dirname,
     filename: `${__dirname}/funcs/basic.func.ts`,

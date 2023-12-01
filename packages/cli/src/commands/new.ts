@@ -16,7 +16,7 @@ export function NewCommand(program: Command): void {
     .command('new <type> <name> [plugins...]')
     .name('new')
     .description('Generate new file')
-    .on('--help', function () {
+    .on('--help', () => {
       console.log(`
 Examples:
   npm exec faas new func hello
