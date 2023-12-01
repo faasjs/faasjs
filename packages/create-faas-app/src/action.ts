@@ -66,25 +66,14 @@ production:
   "private": true,
   "scripts": {
     "serve": "faas server",
-    "lint": "eslint --ext .ts .",
     "test": "jest"
   },
   "dependencies": {
     "faasjs": "*"
   },
   "devDependencies": {
-    "@faasjs/eslint-config-recommended": "*",
     "@faasjs/jest": "*"
   },
-  "eslintConfig": {
-    "extends": [
-      "@faasjs/recommended"
-    ]
-  },
-  "eslintIgnore": [
-    "tmp",
-    "coverage"
-  ],
   "jest": {
     "transform": {
       ".(jsx|tsx?)": "@faasjs/jest"
@@ -140,8 +129,7 @@ coverage/
   "editor.wordWrap": "on",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
-  "files.trimTrailingWhitespace": true,
-  "eslint.packageManager": "npm"
+  "files.trimTrailingWhitespace": true
 }
 `
   )
@@ -150,7 +138,6 @@ coverage/
     join(answers.name, '.vscode', 'extensions.json'),
     `{
   "recommendations": [
-    "dbaeumer.vscode-eslint",
     "faasjs.faasjs-snippets"
   ]
 }

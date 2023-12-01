@@ -8,10 +8,6 @@
 
     npm exec faas server
 
-## 代码规范检查
-
-    npm run lint
-
 ## 自动化测试
 
     npm run jest

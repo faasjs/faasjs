@@ -3,34 +3,19 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .ts .",
     "test": "jest --silent --maxWorkers=1"
   },
   "dependencies": {
-    "@faasjs/eslint-config-recommended": "file:../../packages/eslint-config-recommended",
     "faasjs": "file:../../packages/faasjs"
   },
-  "eslintConfig": {
-    "extends": [
-      "@faasjs/recommended"
-    ]
-  },
-  "eslintIgnore": [
-    "tmp"
-  ],
   "jest": {
     "verbose": false,
     "transform": {
       ".(jsx|tsx?)": "@faasjs/jest"
     },
     "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.ts"
-    ],
+    "collectCoverageFrom": ["**/*.ts"],
     "testRegex": "/*\\.test\\.ts$",
-    "modulePathIgnorePatterns": [
-      "/lib/",
-      "/tmp/"
-    ]
+    "modulePathIgnorePatterns": ["/lib/", "/tmp/"]
   }
 }

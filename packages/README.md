@@ -29,14 +29,6 @@
 |[@faasjs/ts-transform](https://github.com/faasjs/faasjs/tree/main/packages/ts-transform)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/ts-transform/stable.svg)](https://www.npmjs.com/package/@faasjs/ts-transform)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/ts-transform/beta.svg)](https://www.npmjs.com/package/@faasjs/ts-transform)|
 |[@faasjs/jest](https://github.com/faasjs/faasjs/tree/main/packages/jest)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/jest/stable.svg)](https://www.npmjs.com/package/@faasjs/jest)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/jest/beta.svg)](https://www.npmjs.com/package/@faasjs/jest)|
 
-## Code Style
-
-|Name|Stable|Beta|
-|---|---|---|
-|[@faasjs/eslint-config-react](https://github.com/faasjs/faasjs/tree/main/packages/eslint-config-react)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-react/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-react)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-react/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-react)|
-|[@faasjs/eslint-config-recommended](https://github.com/faasjs/faasjs/tree/main/packages/eslint-config-recommended)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-recommended/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-recommended)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-recommended/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-recommended)|
-|[@faasjs/eslint-config-vue](https://github.com/faasjs/faasjs/tree/main/packages/eslint-config-vue)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/eslint-config-vue/stable.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-vue)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/eslint-config-vue/beta.svg)](https://www.npmjs.com/package/@faasjs/eslint-config-vue)|
-
 ## Http
 
 |Name|Stable|Beta|

@@ -29,12 +29,6 @@
 |[@faasjs/request](https://github.com/faasjs/faasjs/tree/main/packages/request)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/request/stable.svg)](https://www.npmjs.com/package/@faasjs/request)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/request/beta.svg)](https://www.npmjs.com/package/@faasjs/request)|
 |[@faasjs/server](https://github.com/faasjs/faasjs/tree/main/packages/server)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/server/stable.svg)](https://www.npmjs.com/package/@faasjs/server)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/server/beta.svg)](https://www.npmjs.com/package/@faasjs/server)|
 
-## 代码风格插件
-
-|Name|Stable|Beta|
-|---|---|---|
-|[@faasjs/lint](https://github.com/faasjs/faasjs/tree/main/packages/lint)|[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/lint/stable.svg)](https://www.npmjs.com/package/@faasjs/lint)|[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/lint/beta.svg)](https://www.npmjs.com/package/@faasjs/lint)|
-
 ## 网络插件
 
 |Name|Stable|Beta|

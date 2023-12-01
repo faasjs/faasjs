@@ -10,11 +10,11 @@
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "@babel/preset-typescript": "*",
-    "@faasjs/vue-plugin": "beta",
+    "@faasjs/vue-plugin": "file:../../packages/vue-plugin",
     "babel-loader": "*",
     "core-js": "*",
     "css-loader": "*",
-    "faasjs": "beta",
+    "faasjs": "file:../../packages/faasjs",
     "html-webpack-plugin": "*",
     "vue": "*",
     "vue-loader": "*",
@@ -37,11 +37,6 @@
         }
       ],
       "@babel/preset-typescript"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "@faasjs/vue"
     ]
   }
 }
