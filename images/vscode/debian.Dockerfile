@@ -22,3 +22,5 @@ RUN echo "source /root/.zsh-npm/npm.plugin.zsh" >> /root/.zshrc
 
 RUN corepack enable
 RUN npm install -g npm@latest
+
+RUN curl -fsSL https://bun.sh/install | bash
