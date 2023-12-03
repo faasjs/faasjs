@@ -308,14 +308,13 @@ export async function request<T = any>(
       const raw: Buffer[] = []
       stream.on('data', (chunk: any) => raw.push(chunk))
       stream.on('end', () => {
-        res.destroy()
-        req.destroy()
         const data = Buffer.concat(raw).toString()
         logger.timeEnd(
           url,
-          'response %s %s %s',
+          'response %s %s %s %j',
           res.statusCode,
           res.headers['content-type'],
+          res.headers['content-encoding'],
           data
         )
 
