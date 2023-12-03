@@ -13,6 +13,10 @@ import { DrawerProps, useDrawer } from './Drawer'
 import { BrowserRouter, useLocation } from 'react-router-dom'
 import type { BrowserRouterProps } from 'react-router-dom'
 import { ErrorBoundary, ErrorBoundaryProps } from './ErrorBoundary'
+import {
+  ConfigProvider as FaasConfigProvider,
+  ConfigProviderProps as FaasConfigProviderProps,
+} from './Config'
 
 export interface AppProps {
   children: React.ReactNode
@@ -20,6 +24,7 @@ export interface AppProps {
   configProviderProps?: ConfigProviderProps
   browserRouterProps?: BrowserRouterProps
   errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
+  faasConfigProviderProps?: Omit<FaasConfigProviderProps, 'children'>
 }
 
 export interface useAppProps {
@@ -78,21 +83,32 @@ export function App(props: AppProps) {
     >
       <ConfigProvider {...props.configProviderProps}>
         <AppContext.Provider value={memoizedContextValue}>
-          <ErrorBoundary {...props.errorBoundaryProps}>
-            <BrowserRouter {...props.browserRouterProps}>
-              {messageContextHolder}
-              {notificationContextHolder}
-              {modal}
-              {drawer}
-              <RoutesApp>{props.children}</RoutesApp>
-            </BrowserRouter>
-          </ErrorBoundary>
+          <FaasConfigProvider config={props.faasConfigProviderProps}>
+            <ErrorBoundary {...props.errorBoundaryProps}>
+              <BrowserRouter {...props.browserRouterProps}>
+                {messageContextHolder}
+                {notificationContextHolder}
+                {modal}
+                {drawer}
+                <RoutesApp>{props.children}</RoutesApp>
+              </BrowserRouter>
+            </ErrorBoundary>
+          </FaasConfigProvider>
         </AppContext.Provider>
       </ConfigProvider>
     </StyleProvider>
   )
 }
 
+/**
+ * Get app context.
+ *
+ * ```ts
+ * import { useApp } from '@faasjs/ant-design'
+ *
+ * const { message, notification, setModalProps, setDrawerProps } = useApp()
+ * ```
+ */
 export function useApp() {
   return useContext<useAppProps>(AppContext)
 }
