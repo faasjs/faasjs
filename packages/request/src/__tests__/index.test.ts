@@ -3,17 +3,26 @@ import { readFileSync, createWriteStream } from 'fs'
 
 describe('request', () => {
   test('200', async () => {
-    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE')
+    const gzip = await request('https://faasjs.com/', {
+      headers: { 'Accept-Encoding': 'gzip' },
+    })
 
-    expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual(
-      readFileSync(`${process.cwd()}/LICENSE`).toString()
-    )
+    expect(gzip.statusCode).toEqual(200)
+    expect(gzip.headers['content-encoding']).toEqual('gzip')
+    expect(gzip.body).toContain('<!DOCTYPE html>')
+
+    const br = await request('https://faasjs.com/', {
+      headers: { 'Accept-Encoding': 'br' },
+    })
+
+    expect(br.statusCode).toEqual(200)
+    expect(br.headers['content-encoding']).toEqual('br')
+    expect(br.body).toContain('<!DOCTYPE html>')
   })
 
   test('404', async () => {
     expect(
-      async () => await request('https://cdn.jsdelivr.net/npm/faasjs/404')
+      async () => await request('https://httpstat.us/404')
     ).rejects.toThrow('Not Found')
   })
 
@@ -87,27 +96,41 @@ describe('request', () => {
   })
 
   it('downloadFile', async () => {
-    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE', {
-      downloadFile: `${__dirname}/LICENSE.downloadFile.tmp`,
+    const res = await request('https://cvm.tencentcloudapi.com', {
+      downloadFile: `${__dirname}/downloadFile.tmp`,
     })
 
     expect(res).toBeUndefined()
 
-    expect(readFileSync(`${process.cwd()}/LICENSE`).toString()).toEqual(
-      readFileSync(`${__dirname}/LICENSE.downloadFile.tmp`).toString()
-    )
+    expect(
+      JSON.parse(readFileSync(`${__dirname}/downloadFile.tmp`).toString())
+    ).toMatchObject({
+      Response: {
+        Error: {
+          Code: 'MissingParameter',
+          Message: 'The request is missing a required parameter `Timestamp`.',
+        },
+      },
+    })
   })
 
   it('downloadStream', async () => {
-    const stream = createWriteStream(`${__dirname}/LICENSE.downloadStream.tmp`)
-    const res = await request('https://cdn.jsdelivr.net/npm/faasjs/LICENSE', {
+    const stream = createWriteStream(`${__dirname}/downloadStream.tmp`)
+    const res = await request('https://cvm.tencentcloudapi.com', {
       downloadStream: stream,
     })
 
     expect(res).toBeUndefined()
 
-    expect(readFileSync(`${process.cwd()}/LICENSE`).toString()).toEqual(
-      readFileSync(`${__dirname}/LICENSE.downloadStream.tmp`).toString()
-    )
+    expect(
+      JSON.parse(readFileSync(`${__dirname}/downloadStream.tmp`).toString())
+    ).toMatchObject({
+      Response: {
+        Error: {
+          Code: 'MissingParameter',
+          Message: 'The request is missing a required parameter `Timestamp`.',
+        },
+      },
+    })
   })
 })

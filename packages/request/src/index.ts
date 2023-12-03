@@ -1,9 +1,10 @@
-import * as http from 'http'
-import * as https from 'https'
+import * as http from 'node:http'
+import * as https from 'node:https'
 import { URL } from 'url'
 import { readFileSync, createWriteStream } from 'fs'
 import { basename } from 'path'
 import { Logger } from '@faasjs/logger'
+import { createGunzip, createBrotliDecompress } from 'zlib'
 
 export type Request = {
   headers?: http.OutgoingHttpHeaders
@@ -228,6 +229,10 @@ export async function request<T = any>(
     agent,
   }
 
+  if (!options.headers['Accept-Encoding'] && !downloadFile && !downloadStream) {
+    options.headers['Accept-Encoding'] = 'br,gzip'
+  }
+
   for (const key in headers)
     if (typeof headers[key] !== 'undefined' && headers[key] !== null)
       options.headers[key] = headers[key]
@@ -252,63 +257,107 @@ export async function request<T = any>(
 
     const req = protocol.request(options, (res: http.IncomingMessage) => {
       if (downloadStream) {
-        res.pipe(downloadStream)
-        downloadStream.on('finish', () => resolve(undefined))
-      } else if (downloadFile) {
-        const stream = createWriteStream(downloadFile)
-        res.pipe(stream)
-        stream.on('finish', () => resolve(undefined))
-      } else {
-        const raw: Buffer[] = []
-        res.on('data', (chunk: any) => {
-          raw.push(chunk)
+        res.pipe(downloadStream, { end: true })
+        downloadStream.on('finish', () => {
+          res.destroy()
+          downloadStream.end()
+          resolve(undefined)
         })
-        res.on('end', () => {
-          const data = Buffer.concat(raw).toString()
-          logger.timeEnd(
-            url,
-            'response %s %s %s',
-            res.statusCode,
-            res.headers['content-type'],
-            data
-          )
-
-          const response = Object.create(null)
-          response.request = options
-          response.request.body = body
-          response.statusCode = res.statusCode
-          response.statusMessage = res.statusMessage
-          response.headers = res.headers
-          response.body = data
-
-          if (
-            response.body &&
-            response.headers['content-type'] &&
-            response.headers['content-type'].includes('application/json')
-          )
-            try {
-              response.body = (parse || JSON.parse)(response.body)
-              logger.debug('response.parse JSON')
-            } catch (error) {
-              console.warn('response plain body', response.body)
-              console.error(error)
-            }
-
-          if (response.statusCode >= 200 && response.statusCode < 400)
-            resolve(response)
-          else {
-            logger.debug('response.error %j', response)
-            reject(
-              new ResponseError(
-                `${res.statusMessage || res.statusCode} ${options.host}${
-                  options.path
-                }`,
-                response
-              )
-            )
-          }
-        })
+        return
       }
+
+      if (downloadFile) {
+        logger.debug('downloadFile')
+        const stream = createWriteStream(downloadFile, { autoClose: true })
+        res.pipe(stream, { end: true })
+        res.on('end', () => {
+          logger.debug('end')
+          res.destroy()
+        })
+        stream.on('finish', () => {
+          stream.end()
+          stream.close()
+          logger.debug('finish')
+        })
+        stream.on('close', () => {
+          logger.debug(
+            'finish',
+            res.closed,
+            res.destroyed,
+            stream.destroyed,
+            stream.closed,
+            req.closed,
+            req.destroyed
+          )
+          resolve(undefined)
+        })
+        return
+      }
+
+      let stream: NodeJS.ReadableStream = res
+
+      switch (res.headers['content-encoding']) {
+        case 'br':
+          stream = res.pipe(createBrotliDecompress())
+          break
+        case 'gzip':
+          stream = res.pipe(createGunzip())
+          break
+      }
+
+      const raw: Buffer[] = []
+      stream.on('data', (chunk: any) => raw.push(chunk))
+      stream.on('end', () => {
+        res.destroy()
+        req.destroy()
+        const data = Buffer.concat(raw).toString()
+        logger.timeEnd(
+          url,
+          'response %s %s %s',
+          res.statusCode,
+          res.headers['content-type'],
+          data
+        )
+
+        const response = Object.create(null)
+        response.request = options
+        response.request.body = body
+        response.statusCode = res.statusCode
+        response.statusMessage = res.statusMessage
+        response.headers = res.headers
+        response.body = data
+
+        if (
+          response.body &&
+          response.headers['content-type'] &&
+          response.headers['content-type'].includes('application/json')
+        )
+          try {
+            response.body = (parse || JSON.parse)(response.body)
+            logger.debug('response.parse JSON')
+          } catch (error) {
+            console.warn('response plain body', response.body)
+            console.error(error)
+          }
+
+        if (response.statusCode >= 200 && response.statusCode < 400)
+          resolve(response)
+        else {
+          logger.debug('response.error %j', response)
+          reject(
+            new ResponseError(
+              `${res.statusMessage || res.statusCode} ${options.host}${
+                options.path
+              }`,
+              response
+            )
+          )
+        }
+      })
+      stream.on('error', (e: Error) => {
+        logger.timeEnd(url, 'response.error %j', e)
+        reject(e)
+      })
     })
 
     if (body) req.write(body)
@@ -338,6 +387,12 @@ export async function request<T = any>(
     req.on('error', (e: Error) => {
       logger.timeEnd(url, 'response.error %j', e)
       reject(e)
+    })
+
+    req.on('timeout', () => {
+      logger.timeEnd(url, 'response.timeout')
+      req.destroy()
+      reject(Error('timeout'))
     })
 
     logger.time(url)
