@@ -18,6 +18,12 @@ describe('request', () => {
     expect(br.statusCode).toEqual(200)
     expect(br.headers['content-encoding']).toEqual('br')
     expect(br.body).toContain('<!DOCTYPE html>')
+
+    const normal = await request('https://faasjs.com/')
+
+    expect(normal.statusCode).toEqual(200)
+    expect(normal.headers['content-encoding']).toEqual('br')
+    expect(normal.body).toContain('<!DOCTYPE html>')
   })
 
   test('404', async () => {
