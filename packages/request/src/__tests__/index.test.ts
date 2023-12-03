@@ -4,7 +4,7 @@ import { readFileSync, createWriteStream } from 'fs'
 describe('request', () => {
   test('200', async () => {
     const gzip = await request('https://faasjs.com/', {
-      headers: { 'Accept-Encoding': 'gzip' },
+      headers: { 'Accept-Encoding': 'gzip', 'user-agent': 'faasjs' },
     })
 
     expect(gzip.statusCode).toEqual(200)
@@ -12,14 +12,16 @@ describe('request', () => {
     expect(gzip.body).toContain('<!DOCTYPE html>')
 
     const br = await request('https://faasjs.com/', {
-      headers: { 'Accept-Encoding': 'br' },
+      headers: { 'Accept-Encoding': 'br', 'user-agent': 'faasjs' },
     })
 
     expect(br.statusCode).toEqual(200)
     expect(br.headers['content-encoding']).toEqual('br')
     expect(br.body).toContain('<!DOCTYPE html>')
 
-    const normal = await request('https://faasjs.com/')
+    const normal = await request('https://faasjs.com/', {
+      headers: { 'user-agent': 'faasjs' },
+    })
 
     expect(normal.statusCode).toEqual(200)
     expect(normal.headers['content-encoding']).toEqual('br')
