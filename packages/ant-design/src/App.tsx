@@ -83,7 +83,7 @@ export function App(props: AppProps) {
     >
       <ConfigProvider {...props.configProviderProps}>
         <AppContext.Provider value={memoizedContextValue}>
-          <FaasConfigProvider config={props.faasConfigProviderProps}>
+          <FaasConfigProvider config={props.faasConfigProviderProps || {}}>
             <ErrorBoundary {...props.errorBoundaryProps}>
               <BrowserRouter {...props.browserRouterProps}>
                 {messageContextHolder}

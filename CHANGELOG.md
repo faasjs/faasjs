@@ -2,6 +2,14 @@
 
 ## Beta
 
+[`v0.0.4-beta.16 (2023-12-03)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.15...v0.0.4-beta.16)
+
+- `@faasjs/ant-design`
+  - [Feature] Add FaasJS's ConfigProvider to App.
+
+- `@faasjs/request`
+  - [Feature] Support gzip and br encoding.
+
 [`v0.0.4-beta.15 (2023-12-01)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.14...v0.0.4-beta.15)
 
 - `@faasjs/eslint-config-recommended`
@@ -17,7 +25,7 @@
   - [Break] Remove package.
 
 - `@faasjs/ant-design`
-  - [Feature] add ErrorBoundary to App.
+  - [Feature] Add ErrorBoundary to App.
 
 [`v0.0.4-beta.14 (2023-11-30)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.12...v0.0.4-beta.14)
 

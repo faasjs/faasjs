@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/jest",
-  "version": "0.0.4-beta.15",
+  "version": "0.0.4-beta.16",
   "license": "MIT",
   "main": "index.js",
   "homepage": "https://faasjs.com/doc/jest",
@@ -23,7 +23,7 @@
     "@swc/jest": "*",
     "jest": "*",
     "jest-environment-jsdom": "*",
-    "@faasjs/test": "0.0.4-beta.15"
+    "@faasjs/test": "0.0.4-beta.16"
   },
   "engines": {
     "npm": ">=9.0.0",
