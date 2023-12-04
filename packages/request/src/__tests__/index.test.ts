@@ -30,7 +30,7 @@ describe('request', () => {
 
   test('404', async () => {
     expect(
-      async () => await request('https://httpstat.us/404')
+      async () => await request('https://www.npmjs.com/package/404404')
     ).rejects.toThrow('Not Found')
   })
 
