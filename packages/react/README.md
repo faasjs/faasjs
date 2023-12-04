@@ -33,6 +33,7 @@ React plugin for FaasJS.
 - [FaasDataWrapperProps](#faasdatawrapperprops)
 - [FaasParams](#faasparams)
 - [FaasReactClientInstance](#faasreactclientinstance)
+- [FaasReactClientOptions](#faasreactclientoptions)
 - [Options](#options)
 - [ResponseHeaders](#responseheaders)
 - [SignalOptions](#signaloptions)
@@ -165,6 +166,20 @@ ___
 
 ___
 
+### FaasReactClientOptions
+
+Ƭ **FaasReactClientOptions**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `domain` | `string` |
+| `onError?` | (`action`: `string`, `params`: `Record`\<`string`, `any`\>) => (`res`: [`ResponseError`](classes/ResponseError.md)) => `Promise`\<`void`\> |
+| `options?` | [`Options`](#options) |
+
+___
+
 ### Options
 
 Ƭ **Options**: `RequestInit` & \{ `beforeRequest?`: (`{
@@ -264,10 +279,7 @@ Before use faas, you should initialize a FaasReactClient.
 
 | Name | Type |
 | :------ | :------ |
-| `«destructured»` | `Object` |
-| › `domain` | `string` |
-| › `onError?` | (`action`: `string`, `params`: `Record`\<`string`, `any`\>) => (`res`: [`ResponseError`](classes/ResponseError.md)) => `Promise`\<`void`\> |
-| › `options?` | [`Options`](#options) |
+| `«destructured»` | [`FaasReactClientOptions`](#faasreactclientoptions) |
 
 #### Returns
 
@@ -358,6 +370,16 @@ Create a [signal](https://preactjs.com/guide/v10/signals) with options
 #### Returns
 
 `Signal`\<`T`\>
+
+**`Example`**
+
+```ts
+import { signal } from '@faasjs/react'
+
+const count = signal(0, { debugName: 'count' })
+
+count.value = 1
+```
 
 ___
 

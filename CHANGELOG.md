@@ -2,6 +2,14 @@
 
 ## Beta
 
+[`v0.0.4-beta.17 (2023-12-04)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.16...v0.0.4-beta.17)
+
+- `@faasjs/ant-design`
+  - [Feature] Add FaasClientOptions to ConfigProvider.
+
+- `@faasjs/request`
+  - [Feature] Update logger.
+
 [`v0.0.4-beta.16 (2023-12-03)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.15...v0.0.4-beta.16)
 
 - `@faasjs/ant-design`

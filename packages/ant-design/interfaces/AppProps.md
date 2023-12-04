@@ -7,6 +7,8 @@
 - [browserRouterProps](AppProps.md#browserrouterprops)
 - [children](AppProps.md#children)
 - [configProviderProps](AppProps.md#configproviderprops)
+- [errorBoundaryProps](AppProps.md#errorboundaryprops)
+- [faasConfigProviderProps](AppProps.md#faasconfigproviderprops)
 - [styleProviderProps](AppProps.md#styleproviderprops)
 
 ## Properties
@@ -26,6 +28,18 @@ ___
 ### configProviderProps
 
 • `Optional` **configProviderProps**: `ConfigProviderProps`
+
+___
+
+### errorBoundaryProps
+
+• `Optional` **errorBoundaryProps**: `Omit`\<[`ErrorBoundaryProps`](ErrorBoundaryProps.md), ``"children"``\>
+
+___
+
+### faasConfigProviderProps
+
+• `Optional` **faasConfigProviderProps**: `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), ``"children"``\>
 
 ___
 

@@ -447,7 +447,7 @@ ___
 
 ### ConfigProvider
 
-▸ **ConfigProvider**(`«destructured»`): `Element`
+▸ **ConfigProvider**(`props`): `Element`
 
 Config for @faasjs/ant-design components.
 
@@ -465,9 +465,10 @@ Config for @faasjs/ant-design components.
 
 | Name | Type |
 | :------ | :------ |
-| `«destructured»` | `Object` |
-| › `children` | `ReactNode` |
-| › `config` | [`ConfigProviderProps`](interfaces/ConfigProviderProps.md) |
+| `props` | `Object` |
+| `props.children` | `ReactNode` |
+| `props.config` | [`ConfigProviderProps`](interfaces/ConfigProviderProps.md) |
+| `props.faasClientOptions?` | `FaasReactClientOptions` |
 
 #### Returns
 
@@ -715,6 +716,11 @@ ___
 
 Table component with Ant Design & FaasJS
 
+- Support all Ant Design Table props.
+- Support FaasJS injection.
+- Auto generate filter dropdown (disable with `filterDropdown: false`).
+- Auto generate sorter (disable with `sorter: false`).
+
 #### Type parameters
 
 | Name | Type |
@@ -861,6 +867,14 @@ ___
 ### useApp
 
 ▸ **useApp**(): [`useAppProps`](interfaces/useAppProps.md)
+
+Get app context.
+
+```ts
+import { useApp } from '@faasjs/ant-design'
+
+const { message, notification, setModalProps, setDrawerProps } = useApp()
+```
 
 #### Returns
 
