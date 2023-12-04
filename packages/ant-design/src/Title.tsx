@@ -40,16 +40,16 @@ export interface TitleProps {
  * ```
  */
 export function Title(props: TitleProps): JSX.Element {
-  const { Title } = useConfigContext()
+  const { theme } = useConfigContext()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const title = Array.isArray(props.title) ? props.title : [props.title]
 
     document.title = title
-      .concat(props.suffix || Title.suffix)
+      .concat(props.suffix || theme.Title.suffix)
       .filter(t => !!t)
-      .join(props.separator || Title.separator)
+      .join(props.separator || theme.Title.separator)
   }, [props])
 
   if (props.h1) {

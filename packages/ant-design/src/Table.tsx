@@ -129,7 +129,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
   props: TableProps<T, ExtendTypes>
 ) {
   const [columns, setColumns] = useState<TableItemProps[]>()
-  const { common } = useConfigContext()
+  const { theme } = useConfigContext()
 
   const generateFilterDropdown = (item: TableItemProps) => {
     if (item.filterDropdown && item.filterDropdown !== true) return
@@ -166,7 +166,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           allowClear
           showSearch
           style={{ width: '100%' }}
-          placeholder={`${common.search} ${item.title}`}
+          placeholder={`${theme.common.search} ${item.title}`}
           value={selectedKeys}
           onChange={v => {
             setSelectedKeys(v?.length ? v : [])
@@ -281,7 +281,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 clearFilters,
               }) => (
                 <Input.Search
-                  placeholder={`${common.search} ${item.title}`}
+                  placeholder={`${theme.common.search} ${item.title}`}
                   allowClear
                   onSearch={v => {
                     if (v) {
@@ -326,7 +326,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 clearFilters,
               }) => (
                 <Input.Search
-                  placeholder={`${common.search} ${item.title}`}
+                  placeholder={`${theme.common.search} ${item.title}`}
                   allowClear
                   onSearch={v => {
                     if (v) {
@@ -367,7 +367,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 clearFilters,
               }) => (
                 <Input.Search
-                  placeholder={`${common.search} ${item.title}`}
+                  placeholder={`${theme.common.search} ${item.title}`}
                   allowClear
                   onSearch={v => {
                     if (v) {
@@ -406,7 +406,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 clearFilters,
               }) => (
                 <Input.Search
-                  placeholder={`${common.search} ${item.title}`}
+                  placeholder={`${theme.common.search} ${item.title}`}
                   allowClear
                   onSearch={v => {
                     if (v) {
@@ -471,7 +471,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     confirm()
                   }}
                 >
-                  <Radio.Button>{common.all}</Radio.Button>
+                  <Radio.Button>{theme.common.all}</Radio.Button>
                   <Radio.Button value={'true'}>
                     <CheckOutlined
                       style={{
@@ -488,7 +488,9 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                       }}
                     />
                   </Radio.Button>
-                  <Radio.Button value={'null'}>{common.blank}</Radio.Button>
+                  <Radio.Button value={'null'}>
+                    {theme.common.blank}
+                  </Radio.Button>
                 </Radio.Group>
               )
 

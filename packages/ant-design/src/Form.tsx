@@ -59,7 +59,7 @@ export type FormSubmitProps = {
 
 export interface FormProps<
   Values extends Record<string, any> = any,
-  ExtendItemProps = any
+  ExtendItemProps = any,
 > extends Omit<
     AntdFormProps<Values>,
     'onFinish' | 'children' | 'initialValues'
@@ -273,7 +273,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
       {computedProps.children}
       {computedProps.submit !== false && (
         <Button htmlType='submit' type='primary' loading={loading}>
-          {computedProps.submit?.text || config.Form.submit.text}
+          {computedProps.submit?.text || config.theme.Form.submit.text}
         </Button>
       )}
       {computedProps.footer}

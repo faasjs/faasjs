@@ -9,35 +9,39 @@ import { defaultsDeep } from 'lodash-es'
 import { FaasReactClient, FaasReactClientOptions } from '@faasjs/react'
 
 export interface ConfigProviderProps {
-  lang?: string
-  common?: {
-    blank?: string
-    all?: string
-    submit?: string
-    pageNotFound?: string
-    add?: string
-    delete?: string
-    required?: string
-    search?: string
-    reset?: string
-  }
-  Blank?: {
-    text?: string
-  }
-  Form?: {
-    submit?: {
+  faasClientOptions?: FaasReactClientOptions
+  children: React.ReactNode
+  theme?: {
+    lang?: string
+    common?: {
+      blank?: string
+      all?: string
+      submit?: string
+      pageNotFound?: string
+      add?: string
+      delete?: string
+      required?: string
+      search?: string
+      reset?: string
+    }
+    Blank?: {
       text?: string
     }
-  }
-  Title?: {
-    /** ' - ' as default */
-    separator?: string
-    suffix?: string
-  }
-  Link?: {
-    /** '_blank' as default */
-    target?: string
-    style?: CSSProperties
+    Form?: {
+      submit?: {
+        text?: string
+      }
+    }
+    Title?: {
+      /** ' - ' as default */
+      separator?: string
+      suffix?: string
+    }
+    Link?: {
+      /** '_blank' as default */
+      target?: string
+      style?: CSSProperties
+    }
   }
 }
 
@@ -71,8 +75,7 @@ const en = {
 
 const common = isZH ? zh : en
 
-const baseConfig = {
-  antd: {},
+const baseTheme = {
   lang: 'en',
   common,
   Blank: { text: common.blank },
@@ -84,50 +87,46 @@ const baseConfig = {
   Link: { style: {} },
 }
 
-export const ConfigContext = createContext<ConfigProviderProps>(baseConfig)
+export const ConfigContext = createContext<Partial<ConfigProviderProps>>({
+  theme: baseTheme,
+})
 
 /**
  * Config for @faasjs/ant-design components.
  *
  * ```ts
- * <ConfigProvider config={{
- *   common: {
- *     blank: 'Empty',
- *   },
- * }}>
+ * <ConfigProvider theme={{ common: { blank: 'Empty' } }}>
  *   <Blank />
  * </ConfigProvider>
  * ```
  */
-export function ConfigProvider(props: {
-  config: ConfigProviderProps
-  faasClientOptions?: FaasReactClientOptions
-  children: React.ReactNode
-}) {
-  const [values, setValues] = useState<ConfigProviderProps>(baseConfig)
+export function ConfigProvider(props: ConfigProviderProps) {
+  const [theme, setTheme] = useState<ConfigProviderProps['theme']>()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (props.config.lang === 'zh') {
-      setValues(
+    if (props.theme?.lang === 'zh') {
+      setTheme(
         defaultsDeep(
-          props.config,
+          props.theme,
           {
             lang: 'zh',
             common: zh,
             Blank: { text: zh.blank },
             Form: { submit: { text: zh.submit } },
           },
-          baseConfig
+          baseTheme
         )
       )
-    } else setValues(defaultsDeep(props.config, values))
+    } else setTheme(defaultsDeep(props.theme, baseTheme))
 
     if (props.faasClientOptions) FaasReactClient(props.faasClientOptions)
-  }, [])
+  }, [JSON.stringify(props.theme)])
+
+  if (!theme) return null
 
   return (
-    <ConfigContext.Provider value={values}>
+    <ConfigContext.Provider value={{ theme }}>
       {props.children}
     </ConfigContext.Provider>
   )

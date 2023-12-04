@@ -79,7 +79,7 @@ export interface FormItemProps<T = any>
 
 function processProps(
   propsCopy: FormItemProps,
-  config: ConfigProviderProps['common']
+  config: ConfigProviderProps['theme']['common']
 ) {
   if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
   if (!propsCopy.label && propsCopy.label !== false)
@@ -143,7 +143,7 @@ function processProps(
 export function FormItem<T = any>(props: FormItemProps<T>) {
   const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
-  const { common } = useConfigContext()
+  const { theme } = useConfigContext()
   const [hidden, setHidden] = useState(props.hidden || false)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -178,7 +178,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       delete propsCopy.hidden
     }
 
-    setComputedProps(processProps(propsCopy, common))
+    setComputedProps(processProps(propsCopy, theme.common))
   }, [props])
 
   if (!computedProps) return null
@@ -476,7 +476,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                             type='link'
                             onClick={() => remove(field.name)}
                           >
-                            {common.delete}
+                            {theme.common.delete}
                           </Button>
                         )}
                     </label>
@@ -500,7 +500,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                       onClick={() => add()}
                       icon={<PlusOutlined />}
                     >
-                      {common.add} {computedProps.label}
+                      {theme.common.add} {computedProps.label}
                     </Button>
                   )}
                 {computedProps.extra && (

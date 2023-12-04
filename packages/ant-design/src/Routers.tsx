@@ -6,9 +6,9 @@ import { useConfigContext } from './Config'
 export { lazy } from 'react'
 
 export function PageNotFound() {
-  const config = useConfigContext()
+  const { theme } = useConfigContext()
 
-  return <Result status='404' title={config.common.pageNotFound} />
+  return <Result status='404' title={theme.common.pageNotFound} />
 }
 
 export interface RoutesProps {

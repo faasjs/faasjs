@@ -28,11 +28,11 @@ export interface LinkProps {
  * ```
  */
 export function Link(props: LinkProps) {
-  const { Link: Config } = useConfigContext()
+  const { theme } = useConfigContext()
   const navigate = useNavigate()
 
   let computedStyle = {
-    ...(Config.style || {}),
+    ...(theme.Link.style || {}),
     cursor: 'pointer',
     ...props.style,
   }
@@ -51,7 +51,7 @@ export function Link(props: LinkProps) {
       return (
         <Button
           {...props.button}
-          target={props.target || Config?.target || '_blank'}
+          target={props.target || theme.Link?.target || '_blank'}
           style={computedStyle}
           href={props.href}
           onClick={props.onClick}
@@ -65,7 +65,7 @@ export function Link(props: LinkProps) {
         // biome-ignore lint/a11y/useValidAnchor: <explanation>
         <a
           href={props.href}
-          target={props.target || Config?.target}
+          target={props.target || theme.Link?.target}
           style={computedStyle}
           onClick={props.onClick}
         >
@@ -76,7 +76,7 @@ export function Link(props: LinkProps) {
     return (
       <Typography.Link
         href={props.href}
-        target={props.target || Config?.target || '_blank'}
+        target={props.target || theme.Link?.target || '_blank'}
         style={computedStyle}
         copyable={props.copyable}
         onClick={props.onClick}
@@ -94,9 +94,9 @@ export function Link(props: LinkProps) {
         onClick={e =>
           props.onClick
             ? props.onClick(e)
-            : (props.target || Config?.target) === '_blank'
-            ? window.open(props.href)
-            : navigate(props.href)
+            : (props.target || theme.Link?.target) === '_blank'
+              ? window.open(props.href)
+              : navigate(props.href)
         }
       >
         {props.text ?? props.children}
@@ -107,7 +107,7 @@ export function Link(props: LinkProps) {
     return (
       <RouterLink
         to={props.href}
-        target={props.target || Config?.target}
+        target={props.target || theme.Link?.target}
         style={computedStyle}
         onClick={props.onClick}
       >
@@ -118,7 +118,7 @@ export function Link(props: LinkProps) {
   return (
     <Typography.Link
       href={props.href}
-      target={props.target || Config?.target}
+      target={props.target || theme.Link?.target}
       style={computedStyle}
       copyable={props.copyable}
       onClick={e => {
@@ -126,7 +126,7 @@ export function Link(props: LinkProps) {
           props.onClick(e)
           return
         }
-        if ((props.target || Config?.target) !== '_blank') {
+        if ((props.target || theme.Link?.target) !== '_blank') {
           e.preventDefault()
           navigate(props.href)
         }

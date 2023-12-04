@@ -9,12 +9,7 @@ import { PageNotFound } from '../../Routers'
 describe('Config', () => {
   it('should work', () => {
     render(
-      <ConfigProvider
-        config={{
-          lang: 'zh',
-          Blank: { text: 'text' },
-        }}
-      >
+      <ConfigProvider theme={{ lang: 'zh', Blank: { text: 'text' } }}>
         <Blank />
         <PageNotFound />
       </ConfigProvider>

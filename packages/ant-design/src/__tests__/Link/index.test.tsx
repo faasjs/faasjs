@@ -31,7 +31,7 @@ describe('Link', () => {
 
   it('work with global style', async () => {
     const { container } = render(
-      <ConfigProvider config={{ Link: { style: { fontWeight: 'bold' } } }}>
+      <ConfigProvider theme={{ Link: { style: { fontWeight: 'bold' } } }}>
         <BrowserRouter>
           <Link href='/' text='text' />
         </BrowserRouter>

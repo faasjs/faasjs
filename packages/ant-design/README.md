@@ -401,7 +401,7 @@ ___
 
 ### ConfigContext
 
-• `Const` **ConfigContext**: `Context`\<[`ConfigProviderProps`](interfaces/ConfigProviderProps.md)\>
+• `Const` **ConfigContext**: `Context`\<`Partial`\<[`ConfigProviderProps`](interfaces/ConfigProviderProps.md)\>\>
 
 ## Functions
 
@@ -452,11 +452,7 @@ ___
 Config for @faasjs/ant-design components.
 
 ```ts
-<ConfigProvider config={{
-  common: {
-    blank: 'Empty',
-  },
-}}>
+<ConfigProvider theme={{ common: { blank: 'Empty' } }}>
   <Blank />
 </ConfigProvider>
 ```
@@ -465,10 +461,7 @@ Config for @faasjs/ant-design components.
 
 | Name | Type |
 | :------ | :------ |
-| `props` | `Object` |
-| `props.children` | `ReactNode` |
-| `props.config` | [`ConfigProviderProps`](interfaces/ConfigProviderProps.md) |
-| `props.faasClientOptions?` | `FaasReactClientOptions` |
+| `props` | [`ConfigProviderProps`](interfaces/ConfigProviderProps.md) |
 
 #### Returns
 
@@ -884,11 +877,11 @@ ___
 
 ### useConfigContext
 
-▸ **useConfigContext**(): [`ConfigProviderProps`](interfaces/ConfigProviderProps.md)
+▸ **useConfigContext**(): `Partial`\<[`ConfigProviderProps`](interfaces/ConfigProviderProps.md)\>
 
 #### Returns
 
-[`ConfigProviderProps`](interfaces/ConfigProviderProps.md)
+`Partial`\<[`ConfigProviderProps`](interfaces/ConfigProviderProps.md)\>
 
 ___
 
