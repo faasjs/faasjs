@@ -1,10 +1,11 @@
 import * as http from 'node:http'
 import * as https from 'node:https'
-import { URL } from 'url'
-import { readFileSync, createWriteStream } from 'fs'
-import { basename } from 'path'
+import { URL } from 'node:url'
+import { readFileSync, createWriteStream } from 'node:fs'
+import { basename } from 'node:path'
 import { Logger } from '@faasjs/logger'
-import { createGunzip, createBrotliDecompress } from 'zlib'
+import { createGunzip, createBrotliDecompress } from 'node:zlib'
+import { randomUUID } from 'node:crypto'
 
 export type Request = {
   headers?: http.OutgoingHttpHeaders
@@ -249,6 +250,8 @@ export async function request<T = any>(
   if (body && !options.headers['Content-Length'])
     options.headers['Content-Length'] = Buffer.byteLength(body as string)
 
+  const requestId = randomUUID()
+
   return await new Promise((resolve, reject) => {
     logger.debug('request %j', {
       ...options,
@@ -310,7 +313,7 @@ export async function request<T = any>(
       stream.on('end', () => {
         const data = Buffer.concat(raw).toString()
         logger.timeEnd(
-          url,
+          requestId,
           'response %s %s %s %j',
           res.statusCode,
           res.headers['content-type'],
@@ -354,7 +357,7 @@ export async function request<T = any>(
         }
       })
       stream.on('error', (e: Error) => {
-        logger.timeEnd(url, 'response.error %j', e)
+        logger.timeEnd(requestId, 'response.error %j', e)
         reject(e)
       })
     })
@@ -384,17 +387,18 @@ export async function request<T = any>(
     }
 
     req.on('error', (e: Error) => {
-      logger.timeEnd(url, 'response.error %j', e)
+      logger.timeEnd(requestId, 'response.error %j', e)
       reject(e)
     })
 
     req.on('timeout', () => {
-      logger.timeEnd(url, 'response.timeout')
+      logger.timeEnd(requestId, 'response.timeout')
       req.destroy()
-      reject(Error('timeout'))
+      reject(Error(`Timeout ${url}`))
     })
 
-    logger.time(url)
+    logger.time(requestId)
+
     req.end()
   })
 }
