@@ -2,9 +2,10 @@
 
 ## Beta
 
-[`v0.0.4-beta.17 (2023-12-04)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.16...v0.0.4-beta.17)
+[`v0.0.5-beta.1 (2023-12-04)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.16...v0.0.5-beta.1)
 
 - `@faasjs/ant-design`
+  - [Break] Change ConfigProvider's config to theme.
   - [Feature] Add FaasClientOptions to ConfigProvider.
 
 - `@faasjs/request`
