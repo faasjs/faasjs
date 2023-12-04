@@ -13,6 +13,15 @@ const clients: {
   [key: string]: FaasReactClientInstance
 } = {}
 
+export type FaasReactClientOptions = {
+  domain: string
+  options?: Options
+  onError?: (
+    action: string,
+    params: Record<string, any>
+  ) => (res: ResponseError) => Promise<void>
+}
+
 /**
  * Before use faas, you should initialize a FaasReactClient.
  *
@@ -30,14 +39,7 @@ export function FaasReactClient({
   domain,
   options,
   onError,
-}: {
-  domain: string
-  options?: Options
-  onError?: (
-    action: string,
-    params: Record<string, any>
-  ) => (res: ResponseError) => Promise<void>
-}): FaasReactClientInstance {
+}: FaasReactClientOptions): FaasReactClientInstance {
   const client = new FaasBrowserClient(domain, options)
 
   async function faas<PathOrData extends FaasAction>(

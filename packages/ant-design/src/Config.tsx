@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react'
 import { defaultsDeep } from 'lodash-es'
+import { FaasReactClient, FaasReactClientOptions } from '@faasjs/react'
 
 export interface ConfigProviderProps {
   lang?: string
@@ -98,21 +99,19 @@ export const ConfigContext = createContext<ConfigProviderProps>(baseConfig)
  * </ConfigProvider>
  * ```
  */
-export function ConfigProvider({
-  config,
-  children,
-}: {
+export function ConfigProvider(props: {
   config: ConfigProviderProps
+  faasClientOptions?: FaasReactClientOptions
   children: React.ReactNode
 }) {
   const [values, setValues] = useState<ConfigProviderProps>(baseConfig)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (config.lang === 'zh') {
+    if (props.config.lang === 'zh') {
       setValues(
         defaultsDeep(
-          config,
+          props.config,
           {
             lang: 'zh',
             common: zh,
@@ -122,11 +121,15 @@ export function ConfigProvider({
           baseConfig
         )
       )
-    } else setValues(defaultsDeep(config, values))
+    } else setValues(defaultsDeep(props.config, values))
+
+    if (props.faasClientOptions) FaasReactClient(props.faasClientOptions)
   }, [])
 
   return (
-    <ConfigContext.Provider value={values}>{children}</ConfigContext.Provider>
+    <ConfigContext.Provider value={values}>
+      {props.children}
+    </ConfigContext.Provider>
   )
 }
 
