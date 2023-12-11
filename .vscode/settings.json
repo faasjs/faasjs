@@ -2,8 +2,8 @@
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "quickfix.biome": true
+    "source.fixAll": "explicit",
+    "quickfix.biome": "explicit"
   },
   "editor.wordWrap": "on",
   "editor.formatOnSave": true,
