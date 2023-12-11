@@ -143,14 +143,21 @@ export class Knex implements Plugin {
 
     this.query
       .on('query', ({ sql, __knexQueryUid, bindings }) => {
-        this.logger.time(`Knex${__knexQueryUid}`)
-        this.logger.debug('[%s] query begin: %s %j', this.name, sql, bindings)
+        this.logger.time(`Knex${this.name}${__knexQueryUid}`)
+        this.logger.debug(
+          '[%s][%s] query begin: %s %j',
+          this.name,
+          __knexQueryUid,
+          sql,
+          bindings
+        )
       })
       .on('query-response', (response, { sql, __knexQueryUid, bindings }) => {
         this.logger.timeEnd(
-          `Knex${__knexQueryUid}`,
-          '[%s] query done: %s %j %j',
+          `Knex${this.name}${__knexQueryUid}`,
+          '[%s][%s] query done: %s %j %j',
           this.name,
+          __knexQueryUid,
           sql,
           bindings,
           response
@@ -158,9 +165,10 @@ export class Knex implements Plugin {
       })
       .on('query-error', (_, { __knexQueryUid, sql, bindings }) => {
         this.logger.timeEnd(
-          `Knex${__knexQueryUid}`,
-          '[%s] query failed: %s %j',
+          `Knex${this.name}${__knexQueryUid}`,
+          '[%s][%s] query failed: %s %j',
           this.name,
+          __knexQueryUid,
           sql,
           bindings
         )
@@ -249,7 +257,7 @@ export function query<TName extends {} = any, TResult = any[]>(
 export function query<
   // biome-ignore lint/complexity/noBannedTypes: <explanation>
   TName extends OriginKnex.TableNames | {} = any,
-  TResult = any[]
+  TResult = any[],
 >(
   table: TName extends OriginKnex.TableNames ? TName : string
 ): TName extends OriginKnex.TableNames
