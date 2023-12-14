@@ -14,8 +14,6 @@ import {
   SelectProps,
   DatePicker,
   DatePickerProps,
-  TimePicker,
-  TimePickerProps,
   FormInstance,
   Radio,
   RadioProps,
@@ -58,7 +56,6 @@ export interface FormItemProps<T = any>
     | SwitchProps
     | SelectProps<T>
     | DatePickerProps
-    | TimePickerProps
   maxCount?: number
   object?: FormItemProps[]
   disabled?: boolean
@@ -432,7 +429,9 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     case 'time':
       return (
         <AntdForm.Item {...computedProps}>
-          <TimePicker {...(computedProps.input as TimePickerProps)} />
+          <DatePicker
+            {...{ ...(computedProps.input as DatePickerProps), showTime: true }}
+          />
         </AntdForm.Item>
       )
     case 'object':
