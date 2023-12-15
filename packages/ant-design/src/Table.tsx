@@ -18,7 +18,7 @@ import type {
 } from './data'
 import { transferOptions, transferValue } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { isNil, uniqBy, upperFirst } from 'lodash-es'
+import { cloneDeep, isNil, uniqBy, upperFirst } from 'lodash-es'
 import {
   FaasDataInjection,
   FaasDataWrapper,
@@ -195,7 +195,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    for (const item of props.items as TableItemProps[]) {
+    const items = cloneDeep(props.items) as TableItemProps[]
+    for (const item of items) {
       if (!item.key) item.key = item.id
       if (!item.dataIndex) item.dataIndex = item.id
       if (!item.title) item.title = upperFirst(item.id)
@@ -556,6 +557,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           }
           break
         case 'time':
+          item.width = item.width ?? 200
           // render
           if (!item.render) item.render = value => processValue(item, value)
 
@@ -646,8 +648,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
       }
     }
 
-    setColumns(props.items as TableItemProps[])
-  }, [JSON.stringify(props.items)])
+    setColumns(items as TableItemProps[])
+  }, [props.items])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
