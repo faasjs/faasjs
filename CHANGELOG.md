@@ -2,6 +2,24 @@
 
 ## Beta
 
+[`v0.0.5-beta.4 (2023-12-19)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.3...v0.0.5-beta.4)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix `Table` items re-render issue.
+
+[`v0.0.5-beta.3 (2023-12-14)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.2...v0.0.5-beta.3)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix time input.
+
+[`v0.0.5-beta.2 (2023-12-12)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.1...v0.0.5-beta.2)
+
+- `@faasjs/knex`
+  - [Feature] Improve logger.
+
+- `@faasjs/react`
+  - [Feature] Add `useSignalState`.
+
 [`v0.0.5-beta.1 (2023-12-04)`](https://github.com/faasjs/faasjs/compare/v0.0.4-beta.16...v0.0.5-beta.1)
 
 - `@faasjs/ant-design`
