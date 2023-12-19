@@ -405,15 +405,25 @@ export class Server {
     // Safe check
     if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
 
-    const parentPath = path.split('/').slice(0, -1).join('/')
+    const deeps = path.replace(this.root, '').split('/').length
+    const parents = path.replace(this.root, '').split('/').filter(Boolean)
     const searchPaths = [
       `${path}.func.ts`,
       `${path}.func.tsx`,
       `${path}/index.func.ts`,
       `${path}/index.func.tsx`,
-      `${parentPath}/default.func.ts`,
-      `${parentPath}/default.func.tsx`,
-    ]
+    ].concat(
+      ...Array(deeps)
+        .fill(0)
+        .flatMap((_, i) => {
+          const folder = this.root + parents.slice(0, -(i + 1)).join('/')
+
+          return [
+            join(folder, 'default.func.ts'),
+            join(folder, 'default.func.tsx'),
+          ]
+        })
+    )
 
     for (const path of searchPaths) {
       if (existsSync(path)) return path

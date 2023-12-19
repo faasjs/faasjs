@@ -76,6 +76,15 @@ describe('server', () => {
     })
   })
 
+  test('deep default', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/a/a/a/a/a`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: 'default' },
+    })
+  })
+
   test('query', async () => {
     await expect(
       request(`http://127.0.0.1:${port}/query?key=value`)
