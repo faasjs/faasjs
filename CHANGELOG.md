@@ -2,10 +2,13 @@
 
 ## Beta
 
-[`v0.0.5-beta.4 (2023-12-19)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.3...v0.0.5-beta.4)
+[`v0.0.5-beta.5 (2023-12-19)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.3...v0.0.5-beta.5)
 
 - `@faasjs/ant-design`
   - [Fix] Fix `Table` items re-render issue.
+
+- `@faasjs/server`
+  - [Feature] Support deep path default function.
 
 [`v0.0.5-beta.3 (2023-12-14)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.2...v0.0.5-beta.3)
 

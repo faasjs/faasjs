@@ -251,6 +251,46 @@ ___
 
 `GetGeneric`\<`TForm`\>
 
+▸ **useWatch**\<`TForm`, `TSelected`\>(`selector`, `form?`): `TSelected`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `TForm` | extends `FormInstance`\<`any`\> |
+| `TSelected` | `unknown` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `selector` | (`values`: `ReturnPromise`\<`ReturnType`\<`TForm`[``"validateFields"``]\>\>) => `TSelected` |
+| `form?` | `TForm` \| `WatchOptions`\<`TForm`\> |
+
+#### Returns
+
+`TSelected`
+
+▸ **useWatch**\<`ValueType`, `TSelected`\>(`selector`, `form?`): `TSelected`
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `ValueType` | `Store` |
+| `TSelected` | `unknown` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `selector` | (`values`: `ValueType`) => `TSelected` |
+| `form?` | `FormInstance`\<`any`\> \| `WatchOptions`\<`FormInstance`\<`any`\>\> |
+
+#### Returns
+
+`TSelected`
+
 ▸ **useWatch**\<`TForm`\>(`dependencies`, `form?`): `any`
 
 #### Type parameters

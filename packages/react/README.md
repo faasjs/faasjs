@@ -47,6 +47,7 @@ React plugin for FaasJS.
 - [getClient](#getclient)
 - [signal](#signal)
 - [useFaas](#usefaas)
+- [useSignalState](#usesignalstate)
 
 ## Type Aliases
 
@@ -413,3 +414,43 @@ function Post ({ id }) {
   return <h1>{data.title}</h1>
 }
 ```
+
+___
+
+### useSignalState
+
+▸ **useSignalState**\<`T`\>(`initialValue`, `options?`): readonly [`T`, (`changes`: `SetStateAction`\<`T`\>) => `void`]
+
+Create a [signal](https://preactjs.com/guide/v10/signals) like useState.
+
+```tsx
+import { useSignalState, useSignalEffect } from '@faasjs/react'
+
+function App () {
+  const [count, setCount] = useSignalState(0, { debugName: 'count' })
+
+  useSignalEffect(() => console.log('count', count))
+
+  return <div>
+    <button onClick={() => setCount(count + 1)}>+</button>
+    <span>{count}</span>
+  </div>
+}
+```
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | `any` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `initialValue` | `T` |
+| `options` | [`SignalOptions`](#signaloptions) |
+
+#### Returns
+
+readonly [`T`, (`changes`: `SetStateAction`\<`T`\>) => `void`]
