@@ -243,15 +243,19 @@ export class Redis implements Plugin {
    * @param EX expire in seconds, default 10
    */
   public async lock(key: string, EX = 10) {
+    this.logger.debug('[%s] lock: %s in %is', this.name, key, EX)
+
     const result = await this.adapter.set(`lock:${key}`, '1', 'EX', EX, 'NX')
 
-    if (!result) throw Error(`[${this.name}] lock failed: ${key}`)
+    if (result !== 'OK') throw Error(`[${this.name}] lock failed: ${key}`)
   }
 
   /**
    * Unlock by key
    */
   public async unlock(key: string) {
+    this.logger.debug('[%s] unlock: %s %i', this.name, key)
+
     await this.adapter.del(`lock:${key}`)
   }
 
