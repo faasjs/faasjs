@@ -39,7 +39,7 @@ async function publish(path) {
     console.warn(error)
   }
   try {
-    await run(`npm dist-tag add ${pkg.name}@${version} beta`)
+    await run(`npm dist-tag add ${pkg.name}@${version} stable`)
   } catch (error) {
     console.warn(error)
   }
