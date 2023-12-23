@@ -8,6 +8,7 @@ import {
   useComputed,
   useSignal as originUseSignal,
   useSignalEffect,
+  useSignals,
 } from '@preact/signals-react/runtime'
 import type { SetStateAction } from 'react'
 
@@ -19,6 +20,7 @@ export {
   batch,
   useComputed,
   useSignalEffect,
+  useSignals,
 }
 
 export type SignalOptions = {
