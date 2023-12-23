@@ -3,10 +3,12 @@ import {
   effect,
   computed,
   batch,
+} from '@preact/signals-react'
+import {
   useComputed,
   useSignal as originUseSignal,
   useSignalEffect,
-} from '@preact/signals-react'
+} from '@preact/signals-react/runtime'
 import type { SetStateAction } from 'react'
 
 export {
