@@ -29,6 +29,7 @@ export type FaasReactClientOptions = {
  * @param props.options {Options} The options of client
  * @returns {FaasReactClientInstance}
  *
+ * @example
  * ```ts
  * const client = FaasReactClient({
  *   domain: 'localhost:8080/api'
@@ -234,6 +235,7 @@ export function FaasReactClient({
  * @param domain {string} empty string for default domain
  * @returns {FaasReactClientInstance}
  *
+ * @example
  * ```ts
  * getClient()
  * // or
@@ -255,6 +257,7 @@ export function getClient(domain?: string): FaasReactClientInstance {
  * @param params {object} action params
  * @returns {Promise<Response<any>>}
  *
+ * @example
  * ```ts
  * faas<{ title: string }>('post/get', { id: 1 }).then(res => {
  *   console.log(res.data.title)
@@ -270,11 +273,13 @@ export async function faas<PathOrData extends FaasAction>(
 
 /**
  * Request faas server with React hook
+ *
  * @param action {string} action name
  * @param defaultParams {object} initial action params
  * @returns {FaasDataInjection<any>}
  *
- * ```ts
+ * @example
+ * ```tsx
  * function Post ({ id }) {
  *   const { data } = useFaas<{ title: string }>('post/get', { id })
  *   return <h1>{data.title}</h1>
@@ -291,9 +296,11 @@ export function useFaas<PathOrData extends FaasAction>(
 
 /**
  * A data wrapper for react components
+ *
  * @returns {JSX.Element}
  *
- * ```ts
+ * @example
+ * ```tsx
  * <FaasDataWrapper<{
  *   id: string
  *   title: string

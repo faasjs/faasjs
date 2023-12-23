@@ -814,6 +814,8 @@ Request faas server
 
 `Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
 
+**`Example`**
+
 ```ts
 faas<{ title: string }>('post/get', { id: 1 }).then(res => {
   console.log(res.data.title)
@@ -933,7 +935,9 @@ Request faas server with React hook
 
 `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\>
 
-```ts
+**`Example`**
+
+```tsx
 function Post ({ id }) {
   const { data } = useFaas<{ title: string }>('post/get', { id })
   return <h1>{data.title}</h1>

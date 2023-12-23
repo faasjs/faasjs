@@ -10,7 +10,31 @@ React plugin for FaasJS.
 
 ## Install
 
-    npm install @faasjs/react react react-dom
+    npm install @faasjs/react
+
+## Usage
+
+1. Initialize [FaasReactClient](#faasreactclient)
+
+```ts
+import { FaasReactClient } from '@faasjs/react'
+
+const client = FaasReactClient({
+  domain: 'localhost:8080/api'
+})
+```
+2. Use [faas](#faas), [useFaas](#usefaas) or [FaasDataWrapper](#faasdatawrapper).
+
+## Usage with `@preact/signal-react`
+
+1. `npm i --save-dev @preact/signals-react-transform`
+2. Add `@preact/signals-react-transform` to babel config:
+```json
+{
+	"plugins": [["module:@preact/signals-react-transform"]]
+}
+```
+3. Add `import '@preact/signals-react/auto'` to your test files.
 
 ## Modules
 
@@ -257,7 +281,9 @@ A data wrapper for react components
 
 `JSX.Element`
 
-```ts
+**`Example`**
+
+```tsx
 <FaasDataWrapper<{
   id: string
   title: string
@@ -285,6 +311,8 @@ Before use faas, you should initialize a FaasReactClient.
 #### Returns
 
 [`FaasReactClientInstance`](#faasreactclientinstance)
+
+**`Example`**
 
 ```ts
 const client = FaasReactClient({
@@ -317,6 +345,8 @@ Request faas server
 
 `Promise`\<[`Response`](classes/Response.md)\<[`FaasData`](#faasdata)\<`PathOrData`\>\>\>
 
+**`Example`**
+
 ```ts
 faas<{ title: string }>('post/get', { id: 1 }).then(res => {
   console.log(res.data.title)
@@ -340,6 +370,8 @@ Get FaasReactClient instance
 #### Returns
 
 [`FaasReactClientInstance`](#faasreactclientinstance)
+
+**`Example`**
 
 ```ts
 getClient()
@@ -408,7 +440,9 @@ Request faas server with React hook
 
 [`FaasDataInjection`](#faasdatainjection)\<[`FaasData`](#faasdata)\<`PathOrData`\>\>
 
-```ts
+**`Example`**
+
+```tsx
 function Post ({ id }) {
   const { data } = useFaas<{ title: string }>('post/get', { id })
   return <h1>{data.title}</h1>
