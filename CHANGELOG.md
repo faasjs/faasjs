@@ -2,6 +2,14 @@
 
 ## Beta
 
+[`v0.0.5-beta.6 (2023-12-23)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.5...v0.0.5-beta.6)
+
+- `@faasjs/react`
+  - [Feature] Upgrade `@preact/signal-react` to `^2.0.0`.
+
+- `@faasjs/redis`
+  - [Feature] Improve locking log.
+
 [`v0.0.5-beta.5 (2023-12-19)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.3...v0.0.5-beta.5)
 
 - `@faasjs/ant-design`

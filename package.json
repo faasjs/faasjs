@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "0.0.5-beta.5",
+  "version": "0.0.5-beta.6",
   "private": true,
   "scripts": {
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "tsup": "*",
-    "turbo": "^1.11.2",
+    "turbo": "*",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
     "typescript": "*",
