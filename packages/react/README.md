@@ -25,7 +25,7 @@ const client = FaasReactClient({
 ```
 2. Use [faas](#faas), [useFaas](#usefaas) or [FaasDataWrapper](#faasdatawrapper).
 
-## Usage with `@preact/signal-react`
+## Usage with [@preact/signal-react](https://github.com/preactjs/signals/blob/main/packages/react/README.md)
 
 1. `npm i --save-dev @preact/signals-react-transform`
 2. Add `@preact/signals-react-transform` to babel config:
