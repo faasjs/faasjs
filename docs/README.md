@@ -3,10 +3,25 @@ home: true
 heroImage: /logo.jpg
 heroText: FaasJS
 tagline: null
-footer: An Atomic Application Framework based on Typescript | MIT Licensed | Copyright © 2019-2023 Zhu Feng
+footer: An Atomic Application Framework based on Typescript | MIT Licensed | Copyright © 2019-2024 Zhu Feng
 ---
 
-<div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:2em">An Atomic Application Framework based on Typescript.</div>
+<div style="width:100%;line-height:1.7">
+  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">An Atomic Application Framework based on Typescript.</div>
+  <div style="display:flex;gap:4px;align-items:center;justify-content:center;flex-wrap:wrap">
+    <a href="https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
+    <br>
+    <a href="https://www.npmjs.com/package/faasjs"><img src="https://img.shields.io/npm/v/faasjs.svg"></a>
+    <br>
+    <a href="https://github.com/faasjs/faasjs/actions/workflows/unit.yml"><img src="https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg"></a>
+    <a href="https://github.com/faasjs/faasjs/actions/workflows/lint.yml"><img src="https://github.com/faasjs/faasjs/actions/workflows/lint.yml/badge.svg"></a>
+    <br>
+    <a href="https://codecov.io/gh/faasjs/faasjs"><img src="https://img.shields.io/codecov/c/github/faasjs/faasjs.svg"></a>
+    <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/commits/faasjs/faasjs"></a>
+    <br>
+    <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/last-commit/faasjs/faasjs"></a>
+  </div>
+</div>
 
 ## Features
 
@@ -45,7 +60,7 @@ export default useFunc(function() {
 })
 ```
 
-## Unit test's file
+### Unit test's file
 
 ```ts
 // __tests__/index.test.ts
@@ -79,45 +94,33 @@ npx create-faas-app --name faasjs --example --noprovider
 
 [Fork and open in codespace or your computer.](https://github.com/faasjs/starter)
 
-<div style="padding:0 2.5rem;text-align:center">
-  <div class="features">
-    <div style="flex-grow:1;line-height:2">
-      <a href="https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
-      <br>
-      <a href="https://www.npmjs.com/package/faasjs"><img src="https://img.shields.io/npm/v/faasjs/beta.svg"></a>
-      <br>
-      <a href="https://github.com/faasjs/faasjs/actions/workflows/unit.yml"><img src="https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg"></a>
-      <a href="https://github.com/faasjs/faasjs/actions/workflows/lint.yml"><img src="https://github.com/faasjs/faasjs/actions/workflows/lint.yml/badge.svg"></a>
-      <br>
-      <a href="https://codecov.io/gh/faasjs/faasjs"><img src="https://img.shields.io/codecov/c/github/faasjs/faasjs.svg"></a>
-      <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/commits/faasjs/faasjs"></a>
-      <br>
-      <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/last-commit/faasjs/faasjs"></a>
-    </div>
-  </div>
-  <hr style="clear:both">
-  <div style="margin-bottom:2em">
-    <h3>Thanks</h3>
-    <p>Code contributors (in alphabetical order):</p>
-    <a href="https://github.com/Germiniku" target="_blank">Germini</a>,
-    <a href="https://github.com/hiisea" target="_blank">hiisea</a>,
-    <a href="https://github.com/iHeyTang">iHeyTang</a>,
-    <a href="https://github.com/luckyporo" target="_blank">luckyporo</a>,
-    <a href="https://github.com/mingkang1993" target="_blank">mingkang1993</a>,
-    <a href="https://github.com/minzojian" target="_blank">minzojian</a>,
-    <a href="https://github.com/onichandame" target="_blank">onichandame</a>,
-    <a href="https://github.com/Vibutnum" target="_blank">Vibutnum</a>,
-    <a href="https://github.com/victoryifei" target="_blank">victoryifei</a>,
-    <a href="https://github.com/WittCsharp" target="_blank">WittCsharp</a>,
-    <a href="https://github.com/zfben" target="_blank">zfben</a>
-    <p>FaasJS is based on the following open source projects (in alphabetical order):</p>
-    <a href="https://www.apollographql.com/" target="_blank">Apollo</a>,
-    <a href="https://biomejs.dev/" target="_blank">Biome</a>,
-    <a href="https://jestjs.io/" target="_blank">Jest</a>,
-    <a href="https://knexjs.org/" target="_blank">Knex</a>,
-    <a href="https://nodejs.org/" target="_blank">Node.js</a>,
-    <a href="https://rollupjs.org/" target="_blank">Rollup.js</a>,
-    <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>,
-    <a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a>
-  </div>
+## Thanks
+
+Code contributors (in alphabetical order):
+
+<div style="display:flex;flex-wrap:wrap;gap:4px;">
+  <a href="https://github.com/Germiniku" target="_blank">Germini</a>,
+  <a href="https://github.com/hiisea" target="_blank">hiisea</a>,
+  <a href="https://github.com/iHeyTang">iHeyTang</a>,
+  <a href="https://github.com/luckyporo" target="_blank">luckyporo</a>,
+  <a href="https://github.com/mingkang1993" target="_blank">mingkang1993</a>,
+  <a href="https://github.com/minzojian" target="_blank">minzojian</a>,
+  <a href="https://github.com/onichandame" target="_blank">onichandame</a>,
+  <a href="https://github.com/Vibutnum" target="_blank">Vibutnum</a>,
+  <a href="https://github.com/victoryifei" target="_blank">victoryifei</a>,
+  <a href="https://github.com/WittCsharp" target="_blank">WittCsharp</a>,
+  <a href="https://github.com/zfben" target="_blank">zfben</a>
+</div>
+
+Open source projects (in alphabetical order):
+
+<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:2em">
+  <a href="https://biomejs.dev/" target="_blank">Biome</a>,
+  <a href="https://jestjs.io/" target="_blank">Jest</a>,
+  <a href="https://knexjs.org/" target="_blank">Knex</a>,
+  <a href="https://nodejs.org/" target="_blank">Node.js</a>,
+  <a href="https://react.dev/" target="_blank">React</a>,
+  <a href="https://rollupjs.org/" target="_blank">Rollup.js</a>,
+  <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>,
+  <a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a>
 </div>

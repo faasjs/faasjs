@@ -1,5 +1,16 @@
 # Changelog
 
+FaasJS use [Semantic Versioning](https://semver.org/).
+
+## Stable
+
+[`v1.0.0 (2023-12-23)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.6...v1.0.0)
+
+- [Feature] Release first stable version.
+
+- `@faasjs/react`
+  - [Feature] Export `useSignals`.
+
 ## Beta
 
 [`v0.0.5-beta.6 (2023-12-23)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.5...v0.0.5-beta.6)

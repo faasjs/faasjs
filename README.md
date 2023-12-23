@@ -1,7 +1,7 @@
 # FaasJS
 
 [![License: MIT](https://img.shields.io/npm/l/faasjs.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE)
-[![NPM Beta Version](https://img.shields.io/npm/v/faasjs/beta.svg)](https://www.npmjs.com/package/faasjs)
+[![NPM Version](https://img.shields.io/npm/v/faasjs.svg)](https://www.npmjs.com/package/faasjs)
 [![Last commit](https://img.shields.io/github/last-commit/faasjs/faasjs)](https://github.com/faasjs/faasjs)
 [![Unit Status](https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/unit.yml)
 [![Lint Status](https://github.com/faasjs/faasjs/actions/workflows/lint.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/lint.yml)
@@ -39,7 +39,7 @@ FaasJS has built-in automated testing tools to facilitate developers to automate
 
 FaasJS has a simple and easy-to-use plug-in mechanism that allows developers to extend functions and plugins freely.
 
-## Quickstart
+## Quick start
 
 ```bash
 npx create-faas-app --name faasjs --example --noprovider
@@ -66,7 +66,7 @@ export default useFunc(function() {
 })
 ```
 
-## Unit test's file
+### Unit test's file
 
 ```ts
 // __tests__/index.test.ts
