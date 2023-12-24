@@ -8,7 +8,9 @@ FaasJS's request module.
 
 ## Install
 
-    npm install @faasjs/request
+```sh
+npm install @faasjs/request
+```
 
 ## Modules
 

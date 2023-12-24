@@ -10,7 +10,9 @@ React plugin for FaasJS.
 
 ## Install
 
-    npm install @faasjs/react
+```sh
+npm install @faasjs/react
+```
 
 ## Usage
 

@@ -8,7 +8,9 @@ A Vue plugin for FaasJS.
 
 ## Install
 
-    npm install @faasjs/vue-plugin
+```sh
+npm install @faasjs/vue-plugin
+```
 
 ## Modules
 

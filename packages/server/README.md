@@ -8,7 +8,9 @@ FaasJS's server module.
 
 ## Install
 
-    npm install @faasjs/server
+```sh
+npm install @faasjs/server
+```
 
 ## Routing
 

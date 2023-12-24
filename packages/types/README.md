@@ -8,7 +8,9 @@ Type definitions.
 
 ## Install
 
-    npm install @faasjs/types
+```sh
+npm install @faasjs/types
+```
 
 ## Modules
 

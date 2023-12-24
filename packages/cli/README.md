@@ -8,9 +8,11 @@ CLI for FaasJS.
 
 ## Install
 
-    npm install @faasjs/cli
+```sh
+npm install @faasjs/cli
+```
 
-## How to use?
+## Usage
 
 Add script to package.json:
 

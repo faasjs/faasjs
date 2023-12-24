@@ -7,4 +7,6 @@ Quick way to create a FaasJS project.
 
 ## Usage
 
-    npx create-faas-app
+```sh
+npx create-faas-app
+```

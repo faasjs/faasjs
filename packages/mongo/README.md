@@ -8,7 +8,9 @@ FaasJS's mongodb plugin.
 
 ## Install
 
-    npm install @faasjs/mongo
+```sh
+npm install @faasjs/mongo
+```
 
 ## Modules
 

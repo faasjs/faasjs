@@ -8,7 +8,10 @@ FaasJS's logger module.
 
 ## Install
 
-    npm install @faasjs/logger
+```sh
+npm install @faasjs/logger
+```
+
 ## Modules
 
 ### Enumerations

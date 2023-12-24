@@ -8,7 +8,9 @@ A FaasJS plugin, let function could create, config and invoke CloudFunction.
 
 ## Install
 
-    npm install @faasjs/cloud_function
+```sh
+npm install @faasjs/cloud_function
+```
 
 ## Modules
 

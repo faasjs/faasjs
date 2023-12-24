@@ -8,7 +8,9 @@ FaasJS's Redis plugin.
 
 ## Install
 
-    npm install @faasjs/redis
+```sh
+npm install @faasjs/redis
+```
 
 ## Modules
 

@@ -8,7 +8,9 @@ FaasJS's function module.
 
 ## Install
 
-    npm install @faasjs/func
+```sh
+npm install @faasjs/func
+```
 
 ## Modules
 

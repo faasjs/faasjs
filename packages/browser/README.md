@@ -12,7 +12,9 @@ Browser plugin for FaasJS.
 
 ## Install
 
-    npm install @faasjs/browser
+```sh
+npm install @faasjs/browser
+```
 
 ## Use directly
 

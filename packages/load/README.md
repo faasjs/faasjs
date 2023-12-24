@@ -8,7 +8,10 @@ FaasJS's load module.
 
 ## Install
 
-    npm install @faasjs/load
+```sh
+npm install @faasjs/load
+```
+
 ## Modules
 
 ### Functions

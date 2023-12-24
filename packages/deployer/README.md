@@ -8,7 +8,9 @@ A tool to deploy a FaasJS function.
 
 ## Install
 
-    npm install @faasjs/deployer
+```sh
+npm install @faasjs/deployer
+```
 
 ## Modules
 

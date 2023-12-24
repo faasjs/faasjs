@@ -8,7 +8,9 @@ A helper function to deep merge objects and array.
 
 ## Install
 
-    npm install @faasjs/deep_merge
+```sh
+npm install @faasjs/deep_merge
+```
 
 ## Modules
 

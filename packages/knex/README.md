@@ -8,7 +8,10 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 
 ## Install
 
-    npm install @faasjs/knex
+```sh
+npm install @faasjs/knex
+```
+
 ## Modules
 
 ### Namespaces

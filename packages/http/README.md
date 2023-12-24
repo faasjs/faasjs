@@ -8,7 +8,9 @@ FaasJS's http plugin.
 
 ## Install
 
-    npm install @faasjs/http
+```sh
+npm install @faasjs/http
+```
 
 ## Modules
 

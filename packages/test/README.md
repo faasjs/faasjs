@@ -8,7 +8,9 @@ FaasJS's testing module.
 
 ## Install
 
-    npm install @faasjs/test
+```sh
+npm install @faasjs/test
+```
 
 ## Modules
 

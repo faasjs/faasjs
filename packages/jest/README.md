@@ -8,7 +8,11 @@ A jest plugin for faasjs projects.
 
 ## Install
 
-    npm install -d @faasjs/jest
+```sh
+npm install -d @faasjs/jest
+```
+
+## Usage
 
 Add `jest` to your `package.json`:
 

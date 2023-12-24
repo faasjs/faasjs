@@ -8,7 +8,9 @@ FaasJS's tencentcloud provider.
 
 ## Install
 
-    npm install @faasjs/tencentcloud
+```sh
+npm install @faasjs/tencentcloud
+```
 
 ## Modules
 

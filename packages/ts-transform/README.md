@@ -8,7 +8,9 @@ Typescript transform based on [SWC](https://swc.rs/).
 
 ## Install
 
-    npm install @faasjs/ts-transform
+```sh
+npm install @faasjs/ts-transform
+```
 
 ## Usage
 
