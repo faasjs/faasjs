@@ -156,7 +156,7 @@ export class FuncWarper {
     if (
       response?.headers &&
       response.body &&
-      response.headers['Content-Type']?.includes('json')
+      response.headers['content-type']?.includes('json')
     ) {
       const parsedBody = JSON.parse(response.body)
       response.data = parsedBody.data
