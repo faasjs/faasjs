@@ -350,9 +350,9 @@ export class Http<
     // generate headers
     this.response.headers = Object.assign(
       {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Cache-Control': 'no-cache, no-store',
-        'X-FaasJS-Request-Id': data.logger.label,
+        'content-type': 'application/json; charset=utf-8',
+        'cache-control': 'no-cache, no-store',
+        'x-faasjs-request-id': data.logger.label,
       },
       this.cookie.headers(),
       this.response.headers
