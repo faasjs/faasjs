@@ -46,7 +46,7 @@ export const ContentType: {
 export type HttpConfig<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any
+  TSession extends Record<string, string> = any,
 > = {
   [key: string]: any
   name?: string
@@ -130,7 +130,7 @@ function deepClone(obj: Record<string, any>) {
 export class Http<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any
+  TSession extends Record<string, string> = any,
 > implements Plugin
 {
   public readonly type: string = Name
@@ -408,13 +408,13 @@ export class Http<
   /**
    * set header
    * @param key {string} key
-   * @param value {*} value
+   * @param value {string} value
    */
   public setHeader(
     key: string,
     value: string
   ): Http<TParams, TCookie, TSession> {
-    this.response.headers[key] = value
+    this.response.headers[key.toLowerCase()] = value
     return this
   }
 
@@ -455,7 +455,7 @@ export class Http<
 export function useHttp<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any
+  TSession extends Record<string, string> = any,
 >(
   config?: HttpConfig<TParams, TCookie, TSession>
 ): UseifyPlugin<Http<TParams, TCookie, TSession>> {

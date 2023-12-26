@@ -45,6 +45,8 @@ describe('server', () => {
     ).resolves.toMatchObject({
       headers: {
         'x-faasjs-request-id': 'test',
+        'access-control-expose-headers':
+          'x-x,content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
       },
       statusCode: 200,
       body: { data: 'hello' },

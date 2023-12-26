@@ -162,9 +162,18 @@ export class Server {
           'Access-Control-Allow-Origin': req.headers.origin || '*',
           'Access-Control-Allow-Credentials': 'true',
           'Access-Control-Allow-Methods': 'OPTIONS, POST',
+          'Access-Control-Expose-Headers': (
+            req.headers['access-control-expose-headers'] || ''
+          )
+            .split(',')
+            .filter(Boolean)
+            .concat(AdditionalHeaders)
+            .join(','),
           'X-FaasJS-Request-Id': requestId,
           'X-FaasJS-Timing-Pending': (startedAt - requestedAt).toString(),
         }
+
+        console.log('headers', headers)
 
         // get and remove accept-encoding to avoid http module compression
         const encoding = req.headers['accept-encoding'] || ''
@@ -240,6 +249,21 @@ export class Server {
         )
 
         for (const key in headers) res.setHeader(key, headers[key])
+
+        if (!headers['access-control-expose-headers']) {
+          res.setHeader(
+            'Access-Control-Expose-Headers',
+            AdditionalHeaders.join(',')
+          )
+        } else
+          res.setHeader(
+            'Access-Control-Expose-Headers',
+            headers['access-control-expose-headers']
+              .split(',')
+              .filter(Boolean)
+              .concat(AdditionalHeaders)
+              .join(',')
+          )
 
         if (resBody) {
           logger.debug('Response %s %j', res.statusCode, headers)
