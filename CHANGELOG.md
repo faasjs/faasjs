@@ -4,6 +4,19 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.1.0 (2023-12-26)`](https://github.com/faasjs/faasjs/compare/v1.0.0...v1.1.0)
+
+- `@faasjs/http`
+  - [Feature] Lowercase header names.
+
+- `@faasjs/server`
+  - [Feature] Lowercase header names.
+  - [Feature] Add all headers to Access-Control-Allow-Headers.
+  - [Feature] Add Access-Control-Expose-Headers.
+
+- `@faasjs/browser`
+  - [Feature] Add `headers` to `beforeRequest`.
+
 [`v1.0.0 (2023-12-23)`](https://github.com/faasjs/faasjs/compare/v0.0.5-beta.6...v1.0.0)
 
 - [Feature] Release first stable version.
