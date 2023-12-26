@@ -329,6 +329,7 @@ export class Server {
           'Access-Control-Allow-Credentials': 'true',
           'Access-Control-Allow-Methods': 'OPTIONS, POST',
           'Access-Control-Allow-Headers': Object.keys(req.headers)
+            .concat(req.headers['access-control-request-headers'] || [])
             .filter(
               key =>
                 !key.startsWith('access-control-') &&
