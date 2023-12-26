@@ -5,18 +5,18 @@ import { generateId } from './generateId'
 export { generateId } from './generateId'
 
 export type Options = RequestInit & {
-  headers?: {
-    [key: string]: string
-  }
+  headers?: Record<string, string>
   /** trigger before request */
   beforeRequest?: ({
     action,
     params,
     options,
+    headers,
   }: {
     action: string
     params: Record<string, any>
     options: Options
+    headers: Record<string, string>
   }) => Promise<void>
   /** custom request */
   request?: <PathOrData extends FaasAction>(
@@ -204,6 +204,7 @@ export class FaasBrowserClient {
         action: action as string,
         params,
         options,
+        headers: options.headers,
       })
 
     if (options.request) return options.request(url, options)
