@@ -105,13 +105,16 @@ describe('server', () => {
 
   test('OPTIONS', async () => {
     await expect(
-      request(`http://127.0.0.1:${port}`, { method: 'OPTIONS' })
+      request(`http://127.0.0.1:${port}`, {
+        method: 'OPTIONS',
+        headers: { 'X-X': 'test', 'Content-Type': 'text/html' },
+      })
     ).resolves.toMatchObject({
       statusCode: 204,
       headers: {
         'access-control-allow-credentials': 'true',
         'access-control-allow-headers':
-          'Content-Type, Authorization, X-FaasJS-Request-Id, X-FaasJS-Timing-Pending, X-FaasJS-Timing-Processing, X-FaasJS-Timing-Total',
+          'accept-encoding, x-x, content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total',
         'access-control-allow-methods': 'OPTIONS, POST',
         'access-control-allow-origin': '*',
       },

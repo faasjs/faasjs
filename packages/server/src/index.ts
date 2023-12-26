@@ -46,6 +46,15 @@ export async function closeAll(): Promise<void> {
   for (const server of servers) await server.close()
 }
 
+const AdditionalHeaders = [
+  'content-type',
+  'authorization',
+  'x-faasjs-request-id',
+  'x-faasjs-timing-pending',
+  'x-faasjs-timing-processing',
+  'x-faasjs-timing-total',
+]
+
 /**
  * FaasJS Server.
  *
@@ -319,14 +328,15 @@ export class Server {
           'Access-Control-Allow-Origin': req.headers.origin || '*',
           'Access-Control-Allow-Credentials': 'true',
           'Access-Control-Allow-Methods': 'OPTIONS, POST',
-          'Access-Control-Allow-Headers': [
-            'Content-Type',
-            'Authorization',
-            'X-FaasJS-Request-Id',
-            'X-FaasJS-Timing-Pending',
-            'X-FaasJS-Timing-Processing',
-            'X-FaasJS-Timing-Total',
-          ].join(', '),
+          'Access-Control-Allow-Headers': Object.keys(req.headers)
+            .filter(
+              key =>
+                !key.startsWith('access-control-') &&
+                !['host', 'connection'].includes(key) &&
+                !AdditionalHeaders.includes(key)
+            )
+            .concat(AdditionalHeaders)
+            .join(', '),
         })
         res.end()
         return
