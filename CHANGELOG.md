@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.1.1 (2023-12-29)`](https://github.com/faasjs/faasjs/compare/v1.1.0...v1.1.1)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix transfer array types.
+
 [`v1.1.0 (2023-12-26)`](https://github.com/faasjs/faasjs/compare/v1.0.0...v1.1.0)
 
 - `@faasjs/http`
