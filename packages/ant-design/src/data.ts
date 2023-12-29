@@ -72,25 +72,44 @@ export function transferOptions(options: BaseOption[]): {
 }
 
 export function transferValue(type: FaasItemType, value: any): any {
+  if (!type) type = 'string'
+
   if (
-    typeof value === 'undefined' ||
-    value === null ||
-    value === '' ||
-    value === 'null' ||
-    value === 'undefined'
+    !type.endsWith('[]') &&
+    (typeof value === 'undefined' ||
+      value === null ||
+      value === '' ||
+      value === 'null' ||
+      value === 'undefined')
   )
     return null
 
-  if (!type) type = 'string'
+  if (type.endsWith('[]')) {
+    if (!value) value = []
 
-  if (type.endsWith('[]') && typeof value === 'string')
-    value = value.split(',').filter(Boolean)
+    if (typeof value === 'string') value = value.split(',').filter(Boolean)
 
-  if (['date', 'time'].includes(type)) {
-    if (typeof value === 'number' && value.toString().length === 10)
-      value = value * 1000
+    if (!Array.isArray(value)) value = [value]
 
-    if (!dayjs.isDayjs(value)) value = dayjs(value)
+    value = value.map((item: any) =>
+      transferValue(type.replace('[]', '') as FaasItemType, item)
+    )
+  }
+
+  switch (type) {
+    case 'boolean':
+      if (typeof value === 'string') value = value === 'true'
+      break
+    case 'number':
+      if (typeof value === 'string') value = Number(value)
+      break
+    case 'date':
+    case 'time':
+      if (typeof value === 'number' && value.toString().length === 10)
+        value = value * 1000
+
+      if (!dayjs.isDayjs(value)) value = dayjs(value)
+      break
   }
 
   return value
