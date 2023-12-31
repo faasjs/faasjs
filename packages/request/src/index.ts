@@ -40,6 +40,7 @@ export type RequestOptions = {
         [key: string]: any
       }
     | string
+  /** Timeout in milliseconds, @default 5000 */
   timeout?: number
   /**
    * The authentication credentials to use for the request.
@@ -223,7 +224,7 @@ export async function request<T = any>(
     method: method ? method.toUpperCase() : 'GET',
     path: uri.pathname + uri.search,
     port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
-    timeout,
+    timeout: timeout || 5000,
     auth,
     pfx,
     passphrase,
