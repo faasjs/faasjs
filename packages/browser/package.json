@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/browser",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,7 +22,7 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/types": "1.1.1"
+    "@faasjs/types": "1.2.0"
   },
   "engines": {
     "npm": ">=9.0.0",

@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.2.0 (2023-12-31)`](https://github.com/faasjs/faasjs/compare/v1.1.0...v1.2.0)
+
+- `@faasjs/request`
+  - [Feature] Add default timeout (5000 as 5s).
+
+- `@faasjs/func`
+  - [Feature] Improve logger.
+
 [`v1.1.1 (2023-12-29)`](https://github.com/faasjs/faasjs/compare/v1.1.0...v1.1.1)
 
 - `@faasjs/ant-design`
