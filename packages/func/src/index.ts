@@ -168,16 +168,16 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         if (i === list.length) fn = next
         if (!fn) return Promise.resolve()
         if (typeof fn.key === 'undefined') fn.key = `UnNamedPlugin#${i}`
-        logger.debug('[%s][%s] begin', fn.key, key)
+        logger.debug('[%s] [%s] begin', fn.key, key)
         logger.time(fn.key)
         try {
           const res = await Promise.resolve(
             fn.handler(data, dispatch.bind(null, i + 1))
           )
-          logger.timeEnd(fn.key, '[%s][%s] end', fn.key, key)
+          logger.timeEnd(fn.key, '[%s] [%s] end', fn.key, key)
           return res
         } catch (err) {
-          logger.timeEnd(fn.key, '[%s][%s] failed', fn.key, key)
+          logger.timeEnd(fn.key, '[%s] [%s] failed', fn.key, key)
           logger.error(err)
           return Promise.reject(err)
         }
