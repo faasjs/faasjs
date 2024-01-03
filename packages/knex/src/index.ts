@@ -145,7 +145,7 @@ export class Knex implements Plugin {
       .on('query', ({ sql, __knexQueryUid, bindings }) => {
         this.logger.time(`Knex${this.name}${__knexQueryUid}`)
         this.logger.debug(
-          '[%s][%s] query begin: %s %j',
+          '[%s] [%s] query begin: %s %j',
           this.name,
           __knexQueryUid,
           sql,
@@ -155,7 +155,7 @@ export class Knex implements Plugin {
       .on('query-response', (response, { sql, __knexQueryUid, bindings }) => {
         this.logger.timeEnd(
           `Knex${this.name}${__knexQueryUid}`,
-          '[%s][%s] query done: %s %j %j',
+          '[%s] [%s] query done: %s %j %j',
           this.name,
           __knexQueryUid,
           sql,
@@ -166,7 +166,7 @@ export class Knex implements Plugin {
       .on('query-error', (_, { __knexQueryUid, sql, bindings }) => {
         this.logger.timeEnd(
           `Knex${this.name}${__knexQueryUid}`,
-          '[%s][%s] query failed: %s %j',
+          '[%s] [%s] query failed: %s %j',
           this.name,
           __knexQueryUid,
           sql,
