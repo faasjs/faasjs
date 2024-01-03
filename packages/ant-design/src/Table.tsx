@@ -37,7 +37,9 @@ export interface TableItemProps<T = any>
   extends FaasItemProps,
     Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
+  /** item would be hidden when children set to null and tableChildren is falsy */
   children?: UnionFaasItemElement<T>
+  /** item would be hidden when tableChildren set to null */
   tableChildren?: UnionFaasItemElement<T>
   render?: UnionFaasItemRender<T>
   tableRender?: UnionFaasItemRender<T>

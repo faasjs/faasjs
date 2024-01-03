@@ -4,6 +4,7 @@ import type { Tab as OriginTabProps } from 'rc-tabs/es/interface'
 export interface TabProps extends Partial<OriginTabProps> {
   id: string
   title?: React.ReactNode
+  /** tab item would be hidden when chidren set to null */
   children: React.ReactNode
 }
 
