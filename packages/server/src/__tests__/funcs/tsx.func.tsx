@@ -11,7 +11,6 @@ function App() {
 export default new Func({
   plugins: [http],
   async handler() {
-    console.log(<App />)
     return renderToString(<App />)
   },
 })

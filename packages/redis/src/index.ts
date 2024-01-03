@@ -177,8 +177,8 @@ export class Redis implements Plugin {
       await global.FaasJS_Redis[this.name].adapter.quit()
       global.FaasJS_Redis[this.name].adapter.disconnect()
       delete global.FaasJS_Redis[this.name]
-    } catch (error) {
-      console.error(error)
+    } catch (error: any) {
+      this.logger.error(error)
     }
   }
 

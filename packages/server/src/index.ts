@@ -173,8 +173,6 @@ export class Server {
           'X-FaasJS-Timing-Pending': (startedAt - requestedAt).toString(),
         }
 
-        console.log('headers', headers)
-
         // get and remove accept-encoding to avoid http module compression
         const encoding = req.headers['accept-encoding'] || ''
         delete req.headers['accept-encoding']
@@ -280,7 +278,7 @@ export class Server {
           }
 
           const onError = (err: any) => {
-            if (err) console.error(err)
+            if (err) logger.error(err)
 
             res.end()
             resolve()
@@ -404,7 +402,7 @@ export class Server {
           this.sockets.delete(socket)
         })
       })
-      .on('error', console.error)
+      .on('error', this.logger.error)
       .listen(this.opts.port, '0.0.0.0')
 
     process.on('uncaughtException', error => this.onError?.(error))
@@ -422,15 +420,15 @@ export class Server {
     for (const socket of this.sockets)
       try {
         socket.destroy()
-      } catch (error) {
-        console.error(error)
+      } catch (error: any) {
+        this.logger.error(error)
       } finally {
         this.sockets.delete(socket)
       }
 
     await new Promise<void>(resolve => {
       this.server.close(err => {
-        if (err) console.error(err)
+        if (err) this.logger.error(err)
         else resolve()
       })
     })

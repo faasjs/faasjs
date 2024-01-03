@@ -338,9 +338,9 @@ export async function request<T = any>(
           try {
             response.body = (parse || JSON.parse)(response.body)
             logger.debug('response.parse JSON')
-          } catch (error) {
-            console.warn('response plain body', response.body)
-            console.error(error)
+          } catch (error: any) {
+            logger.warn('response plain body', response.body)
+            logger.error(error)
           }
 
         if (response.statusCode >= 200 && response.statusCode < 400)
