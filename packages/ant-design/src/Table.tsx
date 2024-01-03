@@ -648,7 +648,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
       }
     }
 
-    setColumns(items as TableItemProps[])
+    setColumns((items as TableItemProps[]).filter(item => {
+      if(item.children === null && !item.tableChildren) return false
+      if(item.tableChildren === null) return false
+      return true;
+    }))
   }, [props.items])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
