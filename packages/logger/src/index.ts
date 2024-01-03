@@ -28,6 +28,12 @@ const LevelPriority = {
 /**
  * Logger Class
  *
+ * Support env:
+ * - FaasLog: debug, info, warn, error (default: debug)
+ * - FaasLogSize: 1000 (default: 1000)
+ * - FaasLogMode: plain, pretty (default: pretty)
+ *
+ * @example
  * ```ts
  * const logger = new Logger()
  *
@@ -67,8 +73,17 @@ export class Logger {
       process.env.npm_config_argv &&
       JSON.parse(process.env.npm_config_argv).original.includes('--silent')
 
-    if (['remote', 'mono'].includes(process.env.FaasMode))
-      this.colorfyOutput = false
+    switch (process.env.FaasLogMode) {
+      case 'plain':
+        this.colorfyOutput = false
+        break
+      case 'pretty':
+        this.colorfyOutput = true
+        break
+      default:
+        this.colorfyOutput = process.env.FaasMode !== 'remote'
+        break
+    }
 
     this.level = process.env.FaasLog
       ? LevelPriority[process.env.FaasLog.toLowerCase() as Level]
