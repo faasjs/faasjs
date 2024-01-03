@@ -4,7 +4,18 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v1.2.0 (2023-12-31)`](https://github.com/faasjs/faasjs/compare/v1.1.0...v1.2.0)
+[`v1.3.0 (2024-01-03)`](https://github.com/faasjs/faasjs/compare/v1.2.0...v1.3.0)
+
+- `@faasjs/logger`
+  - [Feature] Add `FaasLogMode`.
+
+- `@faasjs/request`, `@faasjs/redis`, `@faasjs/server`
+  - [Fix] Use internal logger.
+
+- `@faasjs/knex`
+  - [Fix] Improve log format.
+
+[`v1.2.0 (2023-12-31)`](https://github.com/faasjs/faasjs/compare/v1.1.1...v1.2.0)
 
 - `@faasjs/request`
   - [Feature] Add default timeout (5000 as 5s).
