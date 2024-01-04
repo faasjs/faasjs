@@ -3,7 +3,7 @@ home: true
 heroImage: /logo.jpg
 heroText: FaasJS
 tagline: null
-footer: 一个基于 Typescript 的原子化应用框架 | MIT Licensed | Copyright © 2019-2022 Zhu Feng
+footer: 一个基于 Typescript 的原子化应用框架 | MIT Licensed | Copyright © 2019-2024 Zhu Feng
 ---
 
 <div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:2em">一个基于 Typescript 的原子化应用框架</div>
