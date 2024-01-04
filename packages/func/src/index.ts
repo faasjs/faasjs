@@ -280,7 +280,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
           (event as any)?.headers?.['x-faasjs-request-id'] ||
           randomBytes(16).toString('hex')
       if (!context.request_at)
-        context.request_at = Math.round(new Date().getTime() / 1000)
+        context.request_at = Math.round(Date.now() / 1000)
       context.callbackWaitsForEmptyEventLoop = false
 
       const logger = new Logger(context.request_id)

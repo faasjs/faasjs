@@ -155,7 +155,7 @@ export class Logger {
   public time(key: string, level: Level = 'debug'): Logger {
     this.cachedTimers[key] = {
       level,
-      time: new Date().getTime(),
+      time: Date.now(),
     }
 
     return this
@@ -171,7 +171,7 @@ export class Logger {
       const timer: Timer = this.cachedTimers[key]
 
       message = `${message} +%ims`
-      args.push(new Date().getTime() - timer.time)
+      args.push(Date.now() - timer.time)
 
       this[timer.level](message, ...args)
 
