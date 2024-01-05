@@ -9,7 +9,7 @@ export interface TabProps extends Partial<OriginTabProps> {
 
 export interface TabsProps extends Omit<OriginProps, 'items'> {
   /** auto skip null tab */
-  items: (TabProps | null)[]
+  items: (TabProps | null | false)[]
 }
 
 /**
@@ -21,7 +21,7 @@ export function Tabs(props: TabsProps) {
   return (
     <Origin
       {...props}
-      items={props.items.filter(Boolean).map(i => ({
+      items={(props.items.filter(Boolean) as TabProps[]).map(i => ({
         ...i,
         key: i.key || i.id,
         label: i.label || i.title || i.id,
