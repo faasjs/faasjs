@@ -37,9 +37,7 @@ export interface TableItemProps<T = any>
   extends FaasItemProps,
     Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
-  /** item would be hidden when children set to null and tableChildren is falsy */
   children?: UnionFaasItemElement<T>
-  /** item would be hidden when tableChildren set to null */
   tableChildren?: UnionFaasItemElement<T>
   render?: UnionFaasItemRender<T>
   tableRender?: UnionFaasItemRender<T>
@@ -650,11 +648,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
       }
     }
 
-    setColumns((items as TableItemProps[]).filter(item => {
-      if(item.children === null && !item.tableChildren) return false
-      if(item.tableChildren === null) return false
-      return true;
-    }))
+    setColumns(items as TableItemProps[])
   }, [props.items])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
