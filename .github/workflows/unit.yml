@@ -53,7 +53,7 @@ jobs:
       - name: Install
         run: |
           npm install -g npm@latest
-          npm install
+          npm ci
       - name: Prepack
         run: npm run build
       - name: Run Tests

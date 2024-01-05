@@ -120,7 +120,7 @@ describe('server', () => {
       headers: {
         'access-control-allow-credentials': 'true',
         'access-control-allow-headers':
-          'accept-encoding, x-x, x-y, content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total',
+          'x-x, accept-encoding, x-y, content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total',
         'access-control-allow-methods': 'OPTIONS, POST',
         'access-control-allow-origin': '*',
       },
