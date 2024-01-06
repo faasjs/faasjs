@@ -10,11 +10,9 @@ export interface DrawerProps extends AntdDrawerProps {
 export type setDrawerProps = (changes: Partial<DrawerProps>) => void
 
 /**
- * Hook style drawer.
+ * Hook style drawer
  *
- * @param init initial props
- *
- * ```ts
+ * ```tsx
  * function Example() {
  *   const { drawer, setDrawerProps } = useDrawer()
  *

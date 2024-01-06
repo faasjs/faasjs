@@ -12,12 +12,10 @@ export interface BlankProps {
  *
  * If value is undefined or null, return text, otherwise return value.
  *
- * @param options {object}
- * @param options.value {any}
- * @param options.text {string} Default is 'Empty'
- * @returns {JSX.Element}
+ * @example
+ * ```tsx
+ * import { Blank } from '@faasjs/ant-design'
  *
- * ```ts
  * <Blank value={undefined} text="Empty" />
  * ```
  */

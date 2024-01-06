@@ -16,6 +16,7 @@ export interface FaasDataWrapperProps<T = any> extends OriginProps<T> {
 /**
  * FaasDataWrapper component with Loading
  *
+ * @example
  * ```tsx
  * function MyComponent (props: FaasDataInjection) {
  *   return <div>{ props.data }</div>

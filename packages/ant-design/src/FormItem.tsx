@@ -125,9 +125,13 @@ function processProps(
 }
 
 /**
- * FormItem, can be used without Form.
+ * FormItem
  *
- * ```ts
+ * - Based on [Ant Design Form.Item](https://ant.design/components/form#formitem).
+ * - Can be used without [Form](https://faasjs.com/doc/ant-design/#form).
+ *
+ * @example
+ * ```tsx
  * // use inline type
  * <FormItem type='string' id='name' />
  *

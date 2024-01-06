@@ -92,9 +92,12 @@ export const ConfigContext = createContext<Partial<ConfigProviderProps>>({
 })
 
 /**
- * Config for @faasjs/ant-design components.
+ * Config for `@faasjs/ant-design` components.
  *
- * ```ts
+ * @example
+ * ```tsx
+ * import { ConfigProvider } from '@faasjs/ant-design'
+ *
  * <ConfigProvider theme={{ common: { blank: 'Empty' } }}>
  *   <Blank />
  * </ConfigProvider>

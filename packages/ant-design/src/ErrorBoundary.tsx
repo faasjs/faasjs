@@ -26,6 +26,9 @@ function ErrorChildren(props: ErrorChildrenProps) {
   )
 }
 
+/**
+ * Styled error boundary.
+ */
 export function ErrorBoundary(props: ErrorBoundaryProps) {
   return <Origin errorChildren={<ErrorChildren />} {...props} />
 }

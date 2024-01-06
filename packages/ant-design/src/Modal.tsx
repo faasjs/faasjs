@@ -10,16 +10,16 @@ export interface ModalProps extends AntdModalProps {
 export type setModalProps = (changes: Partial<ModalProps>) => void
 
 /**
- * Hook style modal.
- * @param init initial props
+ * Hook style modal
  *
- * ```ts
+ * ```tsx
  * function Example() {
  *   const { modal, setModalProps } = useModal()
  *
  *   return <>
  *     <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>
- *     {modal}</>
+ *     {modal}
+ *   </>
  * }
  * ```
  */

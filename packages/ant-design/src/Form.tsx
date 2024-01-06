@@ -81,7 +81,7 @@ export interface FormProps<
 /**
  * Form component with Ant Design & FaasJS
  *
- * @ref https://ant.design/components/form/
+ * - Based on [Ant Design Form](https://ant.design/components/form/).
  */
 export function Form<Values = any>(props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)

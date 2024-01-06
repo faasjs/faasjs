@@ -118,12 +118,10 @@ function processValue(item: TableItemProps, value: any) {
 /**
  * Table component with Ant Design & FaasJS
  *
- * - Support all Ant Design Table props.
+ * - Based on [Ant Design Table](https://ant.design/components/table/).
  * - Support FaasJS injection.
  * - Auto generate filter dropdown (disable with `filterDropdown: false`).
  * - Auto generate sorter (disable with `sorter: false`).
- *
- * @ref https://ant.design/components/table/
  */
 export function Table<T extends Record<string, any>, ExtendTypes = any>(
   props: TableProps<T, ExtendTypes>

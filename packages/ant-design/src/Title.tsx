@@ -23,10 +23,11 @@ export interface TitleProps {
 }
 
 /**
- * Title is used to change the title of the page.
+ * Title is used to change the title of the page
+ *
  * Return null by default.
  *
- * ```ts
+ * ```tsx
  * // return null
  * <Title title='hi' /> // => change the document.title to 'hi'
  * <Title title={['a', 'b']} /> // => change the document.title to 'a - b'

@@ -229,7 +229,26 @@ function DescriptionItemContent<T = any>(
 }
 
 /**
- * Description component.
+ * Description component
+ *
+ * - Based on [Ant Design Descriptions](https://ant.design/components/descriptions/).
+ *
+ * @example
+ * ```tsx
+ * import { Description } from '@faasjs/ant-design'
+ *
+ * <Description
+ *   title="Title"
+ *   items={[
+ *     {
+ *       id: 'id',
+ *       title: 'Title',
+ *       type: 'string',
+ *     },
+ *   ]}
+ *   dataSource={{ id: 'value' }}
+ * />
+ * ```
  */
 export function Description<T = any>(props: DescriptionProps<T>) {
   if (props.faasData && !props.dataSource)

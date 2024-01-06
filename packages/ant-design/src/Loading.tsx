@@ -10,11 +10,12 @@ export type LoadingProps = {
 /**
  * Loading component based on Spin
  *
+ * @example
  * ```tsx
  * <Loading /> // display loading
  *
  * <Loading loading={ !remoteData }>
- *  <div>{remoteData}</div>
+ *   <div>{remoteData}</div>
  * </Loading>
  * ```
  */
