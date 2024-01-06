@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.3.1 (2024-01-06)`](https://github.com/faasjs/faasjs/compare/v1.3.0...v1.3.1)
+
+- `@faasjs/request`
+  - [Fix] Fix downloadFile and downloadStream's logger.
+
+- `@faasjs/ant-design`
+  - [Fix] Fix `Tabs`'s item's type define.
+
 [`v1.3.0 (2024-01-03)`](https://github.com/faasjs/faasjs/compare/v1.2.0...v1.3.0)
 
 - `@faasjs/logger`
