@@ -2,6 +2,13 @@
 
 Logger Class
 
+Support env:
+- FaasLog: debug, info, warn, error (default: debug)
+- FaasLogSize: 1000 (default: 1000)
+- FaasLogMode: plain, pretty (default: pretty)
+
+**`Example`**
+
 ```ts
 const logger = new Logger()
 

@@ -92,6 +92,8 @@ ___
 
 • `Optional` **if**: (`values`: `Record`\<`string`, `any`\>) => `boolean`
 
+trigger when any item's value changed
+
 #### Type declaration
 
 ▸ (`values`): `boolean`
@@ -112,7 +114,7 @@ ___
 
 ### input
 
-• `Optional` **input**: `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `SelectProps`\<`T`, `DefaultOptionType`\> \| `DatePickerProps`
+• `Optional` **input**: `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `SelectProps`\<`T`, `DefaultOptionType`\> \| `PickerBaseProps`\<`Dayjs`\> \| `PickerDateProps`\<`Dayjs`\> \| `PickerTimeProps`\<`Dayjs`\>
 
 ___
 
@@ -141,6 +143,8 @@ ___
 ### onValueChange
 
 • `Optional` **onValueChange**: (`value`: `T`, `values`: `any`, `form`: `FormInstance`\<`any`\>) => `void`
+
+trigger when current item's value changed
 
 #### Type declaration
 

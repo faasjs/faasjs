@@ -18,7 +18,7 @@ ___
 
 ### errorChildren
 
-• `Optional` **errorChildren**: `ReactElement`\<`ErrorChildrenProps`, `string` \| `JSXElementConstructor`\<`any`\>\>
+• `Optional` **errorChildren**: `ReactElement`\<`ErrorChildrenProps`, `string` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `ReactNode` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `Component`\<`any`, `any`, `any`\>\>
 
 ___
 

@@ -70,7 +70,7 @@ ___
 | `passphrase?` | `string` | - |
 | `pfx?` | `Buffer` | - |
 | `query?` | \{ `[key: string]`: `any`;  } | - |
-| `timeout?` | `number` | - |
+| `timeout?` | `number` | Timeout in milliseconds, **`Default`** ```ts 5000 ``` |
 
 ___
 

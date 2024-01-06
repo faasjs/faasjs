@@ -17,6 +17,8 @@
 
 • `Optional` **browserRouterProps**: `BrowserRouterProps`
 
+https://reactrouter.com/en/router-components/browser-router
+
 ___
 
 ### children
@@ -29,11 +31,15 @@ ___
 
 • `Optional` **configProviderProps**: `ConfigProviderProps`
 
+https://ant.design/components/config-provider/#API
+
 ___
 
 ### errorBoundaryProps
 
 • `Optional` **errorBoundaryProps**: `Omit`\<[`ErrorBoundaryProps`](ErrorBoundaryProps.md), ``"children"``\>
+
+https://faasjs.com/doc/ant-design/#errorboundary
 
 ___
 
@@ -41,8 +47,12 @@ ___
 
 • `Optional` **faasConfigProviderProps**: `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), ``"children"``\>
 
+https://faasjs.com/doc/ant-design/#configprovider
+
 ___
 
 ### styleProviderProps
 
 • `Optional` **styleProviderProps**: `StyleProviderProps`
+
+https://ant.design/docs/react/compatible-style#styleprovider

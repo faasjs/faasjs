@@ -16,6 +16,6 @@
 
 ### items
 
-• **items**: [`TabProps`](TabProps.md)[]
+• **items**: (``false`` \| [`TabProps`](TabProps.md))[]
 
 auto skip null tab

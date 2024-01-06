@@ -213,7 +213,8 @@ ___
     action,
     params,
     options,
-  }`: \{ `action`: `string` ; `options`: [`Options`](#options) ; `params`: `Record`\<`string`, `any`\>  }) => `Promise`\<`void`\> ; `headers?`: \{ `[key: string]`: `string`;  } ; `request?`: \<PathOrData\>(`url`: `string`, `options`: [`Options`](#options)) => `Promise`\<[`Response`](classes/Response.md)\<[`FaasData`](#faasdata)\<`PathOrData`\>\>\>  }
+    headers,
+  }`: \{ `action`: `string` ; `headers`: `Record`\<`string`, `string`\> ; `options`: [`Options`](#options) ; `params`: `Record`\<`string`, `any`\>  }) => `Promise`\<`void`\> ; `headers?`: `Record`\<`string`, `string`\> ; `request?`: \<PathOrData\>(`url`: `string`, `options`: [`Options`](#options)) => `Promise`\<[`Response`](classes/Response.md)\<[`FaasData`](#faasdata)\<`PathOrData`\>\>\>  }
 
 ___
 

@@ -14,10 +14,6 @@ npm install @faasjs/knex
 
 ## Modules
 
-### Namespaces
-
-- [originKnex](modules/originKnex.md)
-
 ### Classes
 
 - [Knex](classes/Knex.md)

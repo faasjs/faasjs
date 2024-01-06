@@ -236,7 +236,7 @@ set header
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `key` | `string` | {string} key |
-| `value` | `string` | {*} value |
+| `value` | `string` | {string} value |
 
 #### Returns
 

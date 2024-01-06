@@ -50,7 +50,7 @@
 
 ### children
 
-• `Optional` **children**: `ReactElement`\<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
+• `Optional` **children**: `ReactElement`\<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>, `string` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `ReactNode` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `Component`\<`any`, `any`, `any`\>\>
 
 #### Overrides
 
@@ -142,6 +142,8 @@ ___
 
 • `Optional` **if**: (`values`: `Record`\<`string`, `any`\>) => `boolean`
 
+trigger when any item's value changed
+
 #### Type declaration
 
 ▸ (`values`): `boolean`
@@ -166,7 +168,7 @@ ___
 
 ### input
 
-• `Optional` **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
+• `Optional` **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `PickerBaseProps`\<`Dayjs`\> \| `PickerDateProps`\<`Dayjs`\> \| `PickerTimeProps`\<`Dayjs`\>
 
 #### Inherited from
 
@@ -207,6 +209,8 @@ ___
 ### onValueChange
 
 • `Optional` **onValueChange**: (`value`: `any`, `values`: `any`, `form`: `FormInstance`\<`any`\>) => `void`
+
+trigger when current item's value changed
 
 #### Type declaration
 

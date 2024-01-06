@@ -41,12 +41,6 @@ Form are based on [Ant Design's Form.Item component](https://ant.design/componen
 
 ## Modules
 
-### Namespaces
-
-- [App](modules/App.md)
-- [Form](modules/Form.md)
-- [FormItem](modules/FormItem.md)
-
 ### Interfaces
 
 - [AppProps](interfaces/AppProps.md)
@@ -411,6 +405,14 @@ ___
 
 ▸ **App**(`props`): `Element`
 
+App component with Ant Design & FaasJS
+
+- Based on Ant Design's [ConfigProvider](https://ant.design/components/config-provider/) and [StyleProvider](https://ant.design/components/style-provider/).
+- Integrated Ant Design's [Message](https://ant.design/components/message/) and [Notification](https://ant.design/components/notification/).
+- Based on FaasJS's [ConfigProvider](https://faasjs.com/doc/ant-design/#configprovider).
+- Integrated FaasJS's [Modal](https://faasjs.com/doc/ant-design/#usemodal), [Drawer](https://faasjs.com/doc/ant-design/#usedrawer) and [ErrorBoundary](https://faasjs.com/doc/ant-design/#errorboundary).
+- Integrated React Router's [BrowserRouter](https://reactrouter.com/en/router-components/browser-router).
+
 #### Parameters
 
 | Name | Type |
@@ -420,6 +422,25 @@ ___
 #### Returns
 
 `Element`
+
+**`Example`**
+
+```tsx
+import { App } from '@faasjs/ant-design'
+
+export default function () {
+  return (
+    <App
+     styleProviderProps={{}} // https://ant.design/docs/react/compatible-style#styleprovider
+     configProviderProps={{}} // https://ant.design/components/config-provider/#API
+     browserRouterProps={{}} // https://reactrouter.com/en/router-components/browser-router
+     errorBoundaryProps={{}} // https://faasjs.com/doc/ant-design/#errorboundary
+     faasConfigProviderProps={{}} // https://faasjs.com/doc/ant-design/#configprovider
+    >
+      <div>content</div>
+    </App>
+  )
+```
 
 ___
 
@@ -433,15 +454,19 @@ If value is undefined or null, return text, otherwise return value.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `options?` | [`BlankProps`](interfaces/BlankProps.md) | {object} |
+| Name | Type |
+| :------ | :------ |
+| `options?` | [`BlankProps`](interfaces/BlankProps.md) |
 
 #### Returns
 
 `JSX.Element`
 
-```ts
+**`Example`**
+
+```tsx
+import { Blank } from '@faasjs/ant-design'
+
 <Blank value={undefined} text="Empty" />
 ```
 
@@ -451,13 +476,7 @@ ___
 
 ▸ **ConfigProvider**(`props`): `Element`
 
-Config for @faasjs/ant-design components.
-
-```ts
-<ConfigProvider theme={{ common: { blank: 'Empty' } }}>
-  <Blank />
-</ConfigProvider>
-```
+Config for `@faasjs/ant-design` components.
 
 #### Parameters
 
@@ -469,13 +488,25 @@ Config for @faasjs/ant-design components.
 
 `Element`
 
+**`Example`**
+
+```tsx
+import { ConfigProvider } from '@faasjs/ant-design'
+
+<ConfigProvider theme={{ common: { blank: 'Empty' } }}>
+  <Blank />
+</ConfigProvider>
+```
+
 ___
 
 ### Description
 
 ▸ **Description**\<`T`\>(`props`): `Element`
 
-Description component.
+Description component
+
+- Based on [Ant Design Descriptions](https://ant.design/components/descriptions/).
 
 #### Type parameters
 
@@ -493,11 +524,31 @@ Description component.
 
 `Element`
 
+**`Example`**
+
+```tsx
+import { Description } from '@faasjs/ant-design'
+
+<Description
+  title="Title"
+  items={[
+    {
+      id: 'id',
+      title: 'Title',
+      type: 'string',
+    },
+  ]}
+  dataSource={{ id: 'value' }}
+/>
+```
+
 ___
 
 ### ErrorBoundary
 
 ▸ **ErrorBoundary**(`props`): `Element`
+
+Styled error boundary.
 
 #### Parameters
 
@@ -517,18 +568,6 @@ ___
 
 FaasDataWrapper component with Loading
 
-```tsx
-function MyComponent (props: FaasDataInjection) {
-  return <div>{ props.data }</div>
-}
-
-function MyPage () {
-  return <FaasDataWrapper action="test" params={{ a: 1 }}>
-    <MyComponent />
-  </FaasDataWrapper>
-}
-```
-
 #### Type parameters
 
 | Name | Type |
@@ -545,6 +584,20 @@ function MyPage () {
 
 `JSX.Element`
 
+**`Example`**
+
+```tsx
+function MyComponent (props: FaasDataInjection) {
+  return <div>{ props.data }</div>
+}
+
+function MyPage () {
+  return <FaasDataWrapper action="test" params={{ a: 1 }}>
+    <MyComponent />
+  </FaasDataWrapper>
+}
+```
+
 ___
 
 ### Form
@@ -552,6 +605,8 @@ ___
 ▸ **Form**\<`Values`\>(`props`): `Element`
 
 Form component with Ant Design & FaasJS
+
+- Based on [Ant Design Form](https://ant.design/components/form/).
 
 #### Type parameters
 
@@ -569,27 +624,16 @@ Form component with Ant Design & FaasJS
 
 `Element`
 
-**`Ref`**
-
-https://ant.design/components/form/
-
 ___
 
 ### FormItem
 
 ▸ **FormItem**\<`T`\>(`props`): `Element`
 
-FormItem, can be used without Form.
+FormItem
 
-```ts
-// use inline type
-<FormItem type='string' id='name' />
-
-// use custom type
-<FormItem id='password'>
-  <Input.Password />
-</>
-```
+- Based on [Ant Design Form.Item](https://ant.design/components/form#formitem).
+- Can be used without [Form](https://faasjs.com/doc/ant-design/#form).
 
 #### Type parameters
 
@@ -607,21 +651,25 @@ FormItem, can be used without Form.
 
 `Element`
 
+**`Example`**
+
+```tsx
+// use inline type
+<FormItem type='string' id='name' />
+
+// use custom type
+<FormItem id='password'>
+  <Input.Password />
+</>
+```
+
 ___
 
 ### Link
 
 ▸ **Link**(`props`): `Element`
 
-Link component with button.
-
-```ts
-// pure link
-<Link href="/">Home</Link>
-
-// link with button
-<Link href="/" button={{ type:'primary' }}>Home</Link>
-```
+Link component with button
 
 #### Parameters
 
@@ -633,6 +681,16 @@ Link component with button.
 
 `Element`
 
+**`Example`**
+
+```tsx
+// pure link
+<Link href="/">Home</Link>
+
+// link with button
+<Link href="/" button={{ type:'primary' }}>Home</Link>
+```
+
 ___
 
 ### Loading
@@ -640,14 +698,6 @@ ___
 ▸ **Loading**(`props`): `Element`
 
 Loading component based on Spin
-
-```tsx
-<Loading /> // display loading
-
-<Loading loading={ !remoteData }>
- <div>{remoteData}</div>
-</Loading>
-```
 
 #### Parameters
 
@@ -658,6 +708,16 @@ Loading component based on Spin
 #### Returns
 
 `Element`
+
+**`Example`**
+
+```tsx
+<Loading /> // display loading
+
+<Loading loading={ !remoteData }>
+  <div>{remoteData}</div>
+</Loading>
+```
 
 ___
 
@@ -677,6 +737,18 @@ ___
 
 Routes with lazy loading and 404 page.
 
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`RoutesProps`](interfaces/RoutesProps.md) |
+
+#### Returns
+
+`Element`
+
+**`Example`**
+
 ```tsx
 import { Routes, lazy } from '@faasjs/ant-design'
 import { BrowserRouter } from 'react-router-dom'
@@ -693,16 +765,6 @@ export function App () {
 }
 ```
 
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props` | [`RoutesProps`](interfaces/RoutesProps.md) |
-
-#### Returns
-
-`Element`
-
 ___
 
 ### Table
@@ -711,7 +773,7 @@ ___
 
 Table component with Ant Design & FaasJS
 
-- Support all Ant Design Table props.
+- Based on [Ant Design Table](https://ant.design/components/table/).
 - Support FaasJS injection.
 - Auto generate filter dropdown (disable with `filterDropdown: false`).
 - Auto generate sorter (disable with `sorter: false`).
@@ -733,10 +795,6 @@ Table component with Ant Design & FaasJS
 
 `Element`
 
-**`Ref`**
-
-https://ant.design/components/table/
-
 ___
 
 ### Tabs
@@ -744,6 +802,10 @@ ___
 ▸ **Tabs**(`props`): `Element`
 
 Tabs component with Ant Design & FaasJS
+
+- Based on [Ant Design Tabs](https://ant.design/components/tabs/).
+- Support auto skip null/false tab item.
+- Support `id` as key and label.
 
 #### Parameters
 
@@ -755,9 +817,24 @@ Tabs component with Ant Design & FaasJS
 
 `Element`
 
-**`Ref`**
+**`Example`**
 
-https://ant.design/components/tabs/
+```tsx
+import { Tabs } from '@faasjs/ant-design'
+
+<Tabs
+  items={[
+    {
+      id: 'id',
+      children: 'content',
+    },
+    1 === 0 && {
+      id: 'hidden',
+      children: 'content',
+    },
+  ]}
+/>
+```
 
 ___
 
@@ -765,10 +842,11 @@ ___
 
 ▸ **Title**(`props`): `JSX.Element`
 
-Title is used to change the title of the page.
+Title is used to change the title of the page
+
 Return null by default.
 
-```ts
+```tsx
 // return null
 <Title title='hi' /> // => change the document.title to 'hi'
 <Title title={['a', 'b']} /> // => change the document.title to 'a - b'
@@ -893,13 +971,26 @@ ___
 
 ▸ **useDrawer**(`init?`): `Object`
 
-Hook style drawer.
+Hook style drawer
+
+```tsx
+function Example() {
+  const { drawer, setDrawerProps } = useDrawer()
+
+  return <>
+    <Button onClick={ () => setDrawerProps(prev => ({ open: !prev.open})) }>
+      Toggle
+    </Button>
+    {drawer}
+  </>
+}
+```
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `init?` | [`DrawerProps`](interfaces/DrawerProps.md) | initial props ```ts function Example() { const { drawer, setDrawerProps } = useDrawer() return <> <Button onClick={ () => setDrawerProps(prev => ({ open: !prev.open})) }> Toggle </Button> {drawer} </> } ``` |
+| Name | Type |
+| :------ | :------ |
+| `init?` | [`DrawerProps`](interfaces/DrawerProps.md) |
 
 #### Returns
 
@@ -952,13 +1043,24 @@ ___
 
 ▸ **useModal**(`init?`): `Object`
 
-Hook style modal.
+Hook style modal
+
+```tsx
+function Example() {
+  const { modal, setModalProps } = useModal()
+
+  return <>
+    <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>
+    {modal}
+  </>
+}
+```
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `init?` | [`ModalProps`](interfaces/ModalProps.md) | initial props ```ts function Example() { const { modal, setModalProps } = useModal() return <> <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button> {modal}</> } ``` |
+| Name | Type |
+| :------ | :------ |
+| `init?` | [`ModalProps`](interfaces/ModalProps.md) |
 
 #### Returns
 

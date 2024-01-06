@@ -80,7 +80,7 @@ ___
 
 ### decode
 
-▸ **decode**\<`TData`\>(`text`): `SessionContent` \| `TData`
+▸ **decode**\<`TData`\>(`text`): `string` \| `number` \| \{ `[key: string]`: `any`;  } \| `TData`
 
 #### Type parameters
 
@@ -96,7 +96,7 @@ ___
 
 #### Returns
 
-`SessionContent` \| `TData`
+`string` \| `number` \| \{ `[key: string]`: `any`;  } \| `TData`
 
 ___
 
