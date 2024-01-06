@@ -4,9 +4,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v1.3.1 (2024-01-06)`](https://github.com/faasjs/faasjs/compare/v1.3.0...v1.3.1)
+[`v1.3.2 (2024-01-06)`](https://github.com/faasjs/faasjs/compare/v1.3.0...v1.3.2)
 
 - `@faasjs/request`
+  - [Feature] Display requestId in log.
   - [Fix] Fix downloadFile and downloadStream's logger.
 
 - `@faasjs/ant-design`
