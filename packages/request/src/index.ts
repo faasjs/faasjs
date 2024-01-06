@@ -174,7 +174,8 @@ export async function request<T = any>(
   url: string,
   options: RequestOptions = { headers: {} }
 ): Promise<Response<T>> {
-  const logger = options.logger || new Logger('request')
+  const requestId = randomUUID()
+  const logger = options.logger || new Logger(`request][${requestId}`)
 
   if (mock) {
     logger.debug('mock %s %j', url, options)
@@ -234,8 +235,6 @@ export async function request<T = any>(
 
   if (body && !options.headers['Content-Length'])
     requestOptions.headers['Content-Length'] = Buffer.byteLength(body as string)
-
-  const requestId = randomUUID()
 
   return await new Promise((resolve, reject) => {
     logger.debug('request %j', {
