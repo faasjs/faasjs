@@ -248,6 +248,8 @@ export class Redis implements Plugin {
     const result = await this.adapter.set(`lock:${key}`, '1', 'EX', EX, 'NX')
 
     if (result !== 'OK') throw Error(`[${this.name}] lock failed: ${key}`)
+
+    this.logger.debug('[%s] lock success: %s in %is', this.name, key, EX)
   }
 
   /**
