@@ -88,7 +88,7 @@ export class Redis implements Plugin {
       this.multi = this.adapter.multi.bind(this.adapter)
       this.pipeline = this.adapter.pipeline.bind(this.adapter)
 
-      data.logger.debug('[%s] use exists adapter', this.name)
+      this.logger.debug('[%s] use exists adapter', this.name)
     } else {
       const prefix = `SECRET_${this.name.toUpperCase()}_`
 
@@ -113,7 +113,7 @@ export class Redis implements Plugin {
       this.multi = this.adapter.multi.bind(this.adapter)
       this.pipeline = this.adapter.pipeline.bind(this.adapter)
 
-      data.logger.debug('[%s] connected', this.name)
+      this.logger.debug('[%s] connected', this.name)
 
       global.FaasJS_Redis[this.name] = this
     }
