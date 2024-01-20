@@ -4,6 +4,18 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.4.0 (2024-01-20)`](https://github.com/faasjs/faasjs/compare/v1.3.2...v1.4.0)
+
+- `@faasjs/knex`
+  - [Feature] Add `commit` and `rollback` events to `transaction`.
+
+- `@faasjs/request`
+  - [Feature] Improve json parse.
+
+- `@faasjs/redis`
+  - [Feature] Add lock success log.
+  - [Fix] Fix logger label.
+
 [`v1.3.2 (2024-01-06)`](https://github.com/faasjs/faasjs/compare/v1.3.0...v1.3.2)
 
 - `@faasjs/request`
