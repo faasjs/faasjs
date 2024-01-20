@@ -100,8 +100,8 @@ export function setMock(handler: Mock | null): void {
 
 export function querystringify(obj: any) {
   const pairs: string[] = []
-  let value
-  let key
+  let value: string
+  let key: string
 
   for (key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
@@ -327,7 +327,9 @@ export async function request<T = any>(
             if (
               response.body &&
               response.headers['content-type'] &&
-              response.headers['content-type'].includes('application/json')
+              response.headers['content-type'].includes('application/json') &&
+              typeof response.body === 'string' &&
+              (response.body.startsWith('{') || response.body.startsWith('['))
             )
               try {
                 response.body = (options.parse || JSON.parse)(response.body)
