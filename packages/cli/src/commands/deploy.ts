@@ -65,7 +65,7 @@ async function deploy(file: string, ar: number) {
   } catch (err) {
     error(err)
     if (ar > 0) {
-      warn(file + ` 自动重试（剩余 ${ar} 次）`)
+      warn(`${file} 自动重试（剩余 ${ar} 次）`)
       await sleep()
       await deploy(file, ar - 1)
     } else throw Error(`${file} 自动重试次数已满，结束重试`)
@@ -164,7 +164,7 @@ export async function action(
         ...[
           ...new Set(
             globSync(`${path}*.func.ts`).concat(
-              globSync(path + `**${sep}*.func.ts`)
+              globSync(`${path}**${sep}*.func.ts`)
             )
           ),
         ]

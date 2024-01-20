@@ -52,14 +52,16 @@ export async function request<T = any>({
     process.env.TENCENTCLOUD_RUNENV === 'SCF'
       ? `${service}.internal.tencentcloudapi.com`
       : `${service}.tencentcloudapi.com`
-  const canonicalRequest =
-    `POST\n/\n\ncontent-type:application/json\nhost:${host}\n\ncontent-type;host\n` +
-    createHash('sha256').update(JSON.stringify(payload)).digest('hex')
+  const canonicalRequest = `POST\n/\n\ncontent-type:application/json\nhost:${host}\n\ncontent-type;host\n${createHash(
+    'sha256'
+  )
+    .update(JSON.stringify(payload))
+    .digest('hex')}`
 
   const t = new Date()
   const timestamp = (Math.round(t.getTime() / 1000) - 1).toString()
   const date = t.toISOString().substr(0, 10)
-  const credentialScope = date + `/${service}/tc3_request`
+  const credentialScope = `${date}/${service}/tc3_request`
 
   const hashedCanonicalRequest = createHash('sha256')
     .update(canonicalRequest)

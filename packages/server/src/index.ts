@@ -177,7 +177,7 @@ export class Server {
         const encoding = req.headers['accept-encoding'] || ''
         delete req.headers['accept-encoding']
 
-        let data
+        let data: any
         try {
           let cache: Cache = {}
 

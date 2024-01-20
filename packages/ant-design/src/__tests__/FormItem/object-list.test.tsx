@@ -8,7 +8,7 @@ import { Form } from '../../Form'
 describe('FormItem object', () => {
   it('should work', async () => {
     const user = userEvent.setup()
-    let values
+    let values: string
     render(
       <Form
         initialValues={{ test: [{}] }}

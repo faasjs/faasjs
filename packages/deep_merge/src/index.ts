@@ -24,7 +24,7 @@ export function deepMerge(...sources: any[]): any {
       acc = [...new Set(source.concat(...(acc as any[])))]
     } else if (shouldMerge(source))
       for (const [key, value] of Object.entries(source)) {
-        let val
+        let val: any
         if (shouldMerge(value)) val = deepMerge(acc[key], value)
         else val = value
         acc = {

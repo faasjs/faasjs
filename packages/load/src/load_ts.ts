@@ -28,7 +28,7 @@ function resolveModuleBasePath(moduleName: string) {
 
   const moduleNameParts = moduleName.split('/')
 
-  let searchForPathSection
+  let searchForPathSection: string
 
   if (moduleName.startsWith('@') && moduleNameParts.length > 1) {
     const [org, mod] = moduleNameParts

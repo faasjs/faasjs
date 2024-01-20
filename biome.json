@@ -4,7 +4,14 @@
     "enabled": false
   },
   "files": {
-    "ignore": ["dist/*", "tmp/*", ".cache/*", "examples/*", "docs/*"]
+    "ignore": [
+      "dist/*",
+      "tmp/*",
+      ".cache/*",
+      "examples/*",
+      "docs/*",
+      "coverage/*"
+    ]
   },
   "linter": {
     "enabled": true,
