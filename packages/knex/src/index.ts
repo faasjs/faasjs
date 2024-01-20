@@ -195,6 +195,11 @@ export class Knex implements Plugin {
     return this.adapter.raw<TResult>(sql, bindings)
   }
 
+  /**
+   * Wraps a transaction, returning a promise that resolves to the return value of the callback.
+   *
+   * - Support 'commit' and 'rollback' event.
+   */
   public async transaction<TResult = any>(
     // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
     scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult> | void,
@@ -208,7 +213,18 @@ export class Knex implements Plugin {
 
     if (options?.trx) return scope(options.trx)
 
-    return this.adapter.transaction(scope, config)
+    return this.adapter.transaction(async trx => {
+      try {
+        const result = await scope(trx)
+        await trx.commit()
+        trx.emit('commit')
+        return result
+      } catch (error) {
+        await trx.rollback(error)
+        trx.emit('rollback', error)
+        throw error
+      }
+    }, config)
   }
 
   public schema(): OriginKnex.SchemaBuilder {

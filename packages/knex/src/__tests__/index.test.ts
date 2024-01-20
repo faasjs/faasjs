@@ -112,6 +112,8 @@ describe('Knex', () => {
       },
     })
 
+    let commit = false
+
     const handler = new Func({
       plugins: [knex],
       async handler() {
@@ -119,13 +121,17 @@ describe('Knex', () => {
           t.increments('id')
         })
 
-        await knex.transaction(trx => trx.insert({}).into('test'))
+        await knex.transaction(async trx => {
+          trx.on('commit', () => (commit = true))
+          await trx.insert({}).into('test')
+        })
 
         return knex.query('test')
       },
     }).export().handler
 
     expect(await handler({})).toEqual([{ id: 1 }])
+    expect(commit).toBeTruthy()
   })
 
   it('transaction with trx', async () => {
@@ -161,6 +167,38 @@ describe('Knex', () => {
     expect(() => handler({})).rejects.toThrow(
       'Transaction query already complete'
     )
+  })
+
+  it('transaction with error', async () => {
+    const knex = new Knex({
+      config: {
+        client: 'sqlite3',
+        connection: { filename: ':memory:' },
+        useNullAsDefault: true,
+      },
+    })
+
+    let rollback = false
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        await knex.schema().createTable('test', t => {
+          t.increments('id')
+        })
+
+        await knex.transaction(async trx => {
+          trx.on('rollback', () => (rollback = true))
+          await trx.insert({}).into('test')
+          throw Error('test')
+        })
+
+        return knex.query('test')
+      },
+    }).export().handler
+
+    await expect(async () => await handler({})).rejects.toThrow('test')
+
+    expect(rollback).toBeTruthy()
   })
 
   it('useKnex', async () => {
