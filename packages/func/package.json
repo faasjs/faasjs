@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/func",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,8 +21,8 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "1.4.0",
-    "@faasjs/logger": "1.4.0"
+    "@faasjs/deep_merge": "1.4.1",
+    "@faasjs/logger": "1.4.1"
   },
   "engines": {
     "npm": ">=9.0.0",
