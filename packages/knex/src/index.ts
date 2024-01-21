@@ -10,6 +10,7 @@ import {
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
 import knex, { Knex as OriginKnex } from 'knex'
+import { randomUUID } from 'node:crypto'
 
 /**
  * Origin [knex](https://knexjs.org/) instance.
@@ -100,13 +101,14 @@ export class Knex implements Plugin {
         this.config
       )
 
-    if (this.config.client === 'sqlite3') this.config.client = 'better-sqlite3'
+    if (this.config.client === 'sqlite3') {
+      this.config.client = 'better-sqlite3'
+      this.config.useNullAsDefault = true
+    }
 
-    if (
-      this.config.client === 'pg' &&
-      typeof this.config.pool?.propagateCreateError === 'undefined'
-    ) {
+    if (this.config.client === 'pg') {
       if (!this.config.pool) this.config.pool = Object.create(null)
+
       this.config.pool = Object.assign(
         {
           propagateCreateError: false,
@@ -143,6 +145,8 @@ export class Knex implements Plugin {
 
     this.query
       .on('query', ({ sql, __knexQueryUid, bindings }) => {
+        if (!__knexQueryUid) return
+
         this.logger.time(`Knex${this.name}${__knexQueryUid}`)
         this.logger.debug(
           '[%s] [%s] query begin: %s %j',
@@ -153,6 +157,8 @@ export class Knex implements Plugin {
         )
       })
       .on('query-response', (response, { sql, __knexQueryUid, bindings }) => {
+        if (!__knexQueryUid) return
+
         this.logger.timeEnd(
           `Knex${this.name}${__knexQueryUid}`,
           '[%s] [%s] query done: %s %j %j',
@@ -164,6 +170,8 @@ export class Knex implements Plugin {
         )
       })
       .on('query-error', (_, { __knexQueryUid, sql, bindings }) => {
+        if (!__knexQueryUid) return
+
         this.logger.timeEnd(
           `Knex${this.name}${__knexQueryUid}`,
           '[%s] [%s] query failed: %s %j',
@@ -214,13 +222,32 @@ export class Knex implements Plugin {
     if (options?.trx) return scope(options.trx)
 
     return this.adapter.transaction(async trx => {
+      const trxId = randomUUID()
       try {
         const result = await scope(trx)
+        this.logger.debug(
+          '[%s] [%s] query begin: %s',
+          this.name,
+          trxId,
+          'COMMIT;'
+        )
         await trx.commit()
+        this.logger.debug(
+          '[%s] [%s] query done: %s',
+          this.name,
+          trxId,
+          'COMMIT;'
+        )
         trx.emit('commit')
         return result
       } catch (error) {
         await trx.rollback(error)
+        this.logger.debug(
+          '[%s] [%s] query failed: %s',
+          this.name,
+          trxId,
+          'ROLLBACK;'
+        )
         trx.emit('rollback', error)
         throw error
       }

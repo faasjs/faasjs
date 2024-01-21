@@ -134,9 +134,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         .split('\n')
         .find(s => /[^/]\.func\.ts/.test(s))
         .match(/\((.*\.func\.ts).*\)/)[1]
-    } catch (error: any) {
-      new Logger('Func').warn(error.message)
-    }
+    } catch (_) {}
   }
 
   private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
