@@ -10,6 +10,7 @@ import {
 import type { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
 import IORedis, { RedisOptions, ChainableCommander } from 'ioredis'
+import { randomUUID } from 'node:crypto'
 
 export type RedisConfig = {
   name?: string
@@ -140,8 +141,16 @@ export class Redis implements Plugin {
     if (!this.config) this.config = global.FaasJS_Redis[this.name].config
     if (!this.adapter) this.adapter = global.FaasJS_Redis[this.name].adapter
 
-    this.logger.debug('[%s] query begin: %s %j', this.name, command, args)
-    this.logger.time(command)
+    const id = randomUUID()
+
+    this.logger.debug(
+      '[%s] [%s] query begin: %s %j',
+      this.name,
+      id,
+      command,
+      args
+    )
+    this.logger.time(id)
 
     const cmd = new IORedis.Command(command, args, { replyEncoding: 'utf-8' })
 
@@ -150,9 +159,10 @@ export class Redis implements Plugin {
     return cmd.promise
       .then(data => {
         this.logger.timeEnd(
-          command,
-          '[%s] query done: %s %j',
+          id,
+          '[%s] [%s] query done: %s %j',
           this.name,
+          id,
           command,
           data
         )
@@ -160,9 +170,10 @@ export class Redis implements Plugin {
       })
       .catch(async err => {
         this.logger.timeEnd(
-          command,
-          '[%s] query failed: %s %j',
+          id,
+          '[%s] [%s] query failed: %s %j',
           this.name,
+          id,
           command,
           err
         )
@@ -245,7 +256,7 @@ export class Redis implements Plugin {
   public async lock(key: string, EX = 10) {
     this.logger.debug('[%s] lock: %s in %is', this.name, key, EX)
 
-    const result = await this.adapter.set(`lock:${key}`, '1', 'EX', EX, 'NX')
+    const result = await this.set<'OK'>(`lock:${key}`, '1', { EX, NX: true })
 
     if (result !== 'OK') throw Error(`[${this.name}] lock failed: ${key}`)
 
@@ -258,7 +269,7 @@ export class Redis implements Plugin {
   public async unlock(key: string) {
     this.logger.debug('[%s] unlock: %s %i', this.name, key)
 
-    await this.adapter.del(`lock:${key}`)
+    await this.query('del', [`lock:${key}`])
   }
 
   /**

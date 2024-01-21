@@ -75,6 +75,7 @@ export class Knex implements Plugin {
       this.config = global.FaasJS_Knex[this.name].config
       this.adapter = global.FaasJS_Knex[this.name].adapter
       this.query = this.adapter
+      this.logger.debug('[%s] use exists adapter', this.name)
       await next()
       return
     }
