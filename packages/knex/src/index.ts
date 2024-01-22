@@ -210,49 +210,53 @@ export class Knex implements Plugin {
    * - Support 'commit' and 'rollback' event.
    */
   public async transaction<TResult = any>(
-    // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
-    scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult> | void,
+    scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult>,
     config?: OriginKnex.TransactionConfig,
     options?: {
       trx?: OriginKnex.Transaction
     }
-    // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
-  ): Promise<TResult | void> {
+  ): Promise<TResult> {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
     if (options?.trx) return scope(options.trx)
 
-    return this.adapter.transaction(async trx => {
-      const trxId = randomUUID()
-      try {
-        const result = await scope(trx)
+    const trx = await this.adapter.transaction(config)
+    const trxId = randomUUID()
+    this.logger.debug('[%s] [%s] transaction begin', this.name, trxId)
+
+    try {
+      const result = await scope(trx)
+
+      if (trx.isCompleted()) {
         this.logger.debug(
-          '[%s] [%s] query begin: %s',
+          '[%s] [%s] transaction has been finished in scope',
           this.name,
-          trxId,
-          'COMMIT;'
+          trxId
         )
-        await trx.commit()
-        this.logger.debug(
-          '[%s] [%s] query done: %s',
-          this.name,
-          trxId,
-          'COMMIT;'
-        )
-        trx.emit('commit')
         return result
-      } catch (error) {
-        await trx.rollback(error)
-        this.logger.debug(
-          '[%s] [%s] query failed: %s',
-          this.name,
-          trxId,
-          'ROLLBACK;'
-        )
-        trx.emit('rollback', error)
-        throw error
       }
-    }, config)
+
+      this.logger.debug('[%s] [%s] transaction begin commit', this.name, trxId)
+      await trx.commit()
+      this.logger.debug(
+        '[%s] [%s] transaction committed: %j',
+        this.name,
+        trxId,
+        result
+      )
+      trx.emit('commit')
+      return result
+    } catch (error) {
+      await trx.rollback(error)
+      this.logger.error(
+        '[%s] [%s] transaction rollback: %s',
+        this.name,
+        trxId,
+        error
+      )
+      trx.emit('rollback', error)
+      throw error
+    }
   }
 
   public schema(): OriginKnex.SchemaBuilder {
@@ -344,20 +348,18 @@ export function query<
 }
 
 export async function transaction<TResult = any>(
-  // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
-  scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult> | void,
+  scope: (trx: OriginKnex.Transaction<any, any>) => Promise<TResult>,
   config?: OriginKnex.TransactionConfig,
   options?: {
     trx?: OriginKnex.Transaction
   }
-  // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
-): Promise<TResult | void> {
-  return useKnex().transaction(scope, config, options)
+): Promise<TResult> {
+  return useKnex().transaction<TResult>(scope, config, options)
 }
 
 export async function raw<TResult = any>(
   sql: string,
   bindings: OriginKnex.RawBinding[] | OriginKnex.ValueDict = []
-): Promise<TResult> {
-  return useKnex().raw(sql, bindings)
+): Promise<OriginKnex.Raw<TResult>> {
+  return useKnex().raw<TResult>(sql, bindings)
 }

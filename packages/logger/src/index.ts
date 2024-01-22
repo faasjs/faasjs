@@ -132,18 +132,7 @@ export class Logger {
    * @param args {...any=} arguments
    */
   public error(message: string | Error, ...args: any[]): Logger {
-    let stack = false
-
-    for (const e of [message].concat(Array.from(args))) {
-      if (typeof e === 'string') continue
-
-      if (e.stack) {
-        stack = true
-        this.log('error', e.stack)
-      }
-    }
-
-    if (!stack) this.log('error', message, ...args)
+    this.log('error', message, ...args)
 
     return this
   }
@@ -212,8 +201,7 @@ export class Logger {
       this.label ? `[${this.label}] ` : ''
     }${format(message, ...args)}`
 
-    if (this.colorfyOutput && level !== 'error')
-      output = this.colorfy(LevelColor[level], output)
+    if (this.colorfyOutput) output = this.colorfy(LevelColor[level], output)
     else if (!this.colorfyOutput) output = output.replace(/\n/g, '')
 
     if (!output) return this

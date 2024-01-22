@@ -103,7 +103,7 @@ describe('Knex', () => {
     })
   })
 
-  it('transaction', async () => {
+  it('pure transaction', async () => {
     const knex = new Knex({
       config: {
         client: 'sqlite3',
@@ -121,16 +121,14 @@ describe('Knex', () => {
           t.increments('id')
         })
 
-        await knex.transaction(async trx => {
+        return await knex.transaction(async trx => {
           trx.on('commit', () => (commit = true))
-          await trx.insert({}).into('test')
+          return await trx.insert({}).into('test').returning('id')
         })
-
-        return knex.query('test')
       },
     }).export().handler
 
-    expect(await handler({})).toEqual([{ id: 1 }])
+    expect(await handler({})).toEqual([1])
     expect(commit).toBeTruthy()
   })
 
