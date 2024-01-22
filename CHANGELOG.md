@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.4.2 (2024-01-22)`](https://github.com/faasjs/faasjs/compare/v1.4.1...v1.4.2)
+
+- `@faasjs/knex`
+  - [Fix] Fix transaction return value.
+
+- `@faasjs/logger`
+  - [Fix] Fix error log outputs.
+
 [`v1.4.1 (2024-01-20)`](https://github.com/faasjs/faasjs/compare/v1.3.2...v1.4.1)
 
 - `@faasjs/knex`

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/deployer",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,14 +21,14 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/cloud_function": "1.4.1",
-    "@faasjs/func": "1.4.1",
-    "@faasjs/logger": "1.4.1"
+    "@faasjs/cloud_function": "1.4.2",
+    "@faasjs/func": "1.4.2",
+    "@faasjs/logger": "1.4.2"
   },
   "devDependencies": {
-    "@faasjs/cloud_function": "1.4.1",
-    "@faasjs/func": "1.4.1",
-    "@faasjs/logger": "1.4.1"
+    "@faasjs/cloud_function": "1.4.2",
+    "@faasjs/func": "1.4.2",
+    "@faasjs/logger": "1.4.2"
   },
   "engines": {
     "npm": ">=9.0.0",
