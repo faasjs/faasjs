@@ -7,7 +7,11 @@ export interface ModalProps extends AntdModalProps {
   children?: JSX.Element | JSX.Element[] | string
 }
 
-export type setModalProps = (changes: Partial<ModalProps>) => void
+export type setModalProps = (
+  changes:
+    | Partial<ModalProps>
+    | ((prev: Partial<ModalProps>) => Partial<ModalProps>)
+) => void
 
 /**
  * Hook style modal
@@ -37,7 +41,15 @@ export function useModal(init?: ModalProps) {
   return {
     modal: <Modal {...props} />,
     modalProps: props,
-    setModalProps(changes: Partial<ModalProps>) {
+    setModalProps(changes: Parameters<setModalProps>[0]) {
+      if (typeof changes === 'function') {
+        setProps(prev => ({
+          ...prev,
+          ...changes(props),
+        }))
+        return
+      }
+
       setProps(prev => ({
         ...prev,
         ...changes,

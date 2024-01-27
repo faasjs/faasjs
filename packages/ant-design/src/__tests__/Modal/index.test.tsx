@@ -2,53 +2,53 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import { DrawerProps, useDrawer } from '../../Drawer'
+import { ModalProps, useModal } from '../../Modal'
 
-describe('Drawer', () => {
+describe('Modal', () => {
   it('should work', async () => {
-    let setDrawerProps: (changes: Partial<DrawerProps>) => void
+    let setModalProps: (changes: Partial<ModalProps>) => void
 
     function App() {
-      const drawer = useDrawer({
+      const Modal = useModal({
         title: 'title',
         open: true,
       })
 
-      if (!setDrawerProps) setDrawerProps = drawer.setDrawerProps
+      if (!setModalProps) setModalProps = Modal.setModalProps
 
-      return drawer.drawer
+      return Modal.modal
     }
 
     render(<App />)
 
     expect(screen.getByText('title')).toBeInTheDocument()
 
-    setDrawerProps({ title: 'new title' })
+    setModalProps({ title: 'new title' })
 
     expect(await screen.findByText('new title')).toBeInTheDocument()
   })
 
   it('should work with handler', async () => {
-    let setDrawerProps: (
-      changes: (prev: Partial<DrawerProps>) => Partial<DrawerProps>
+    let setModalProps: (
+      changes: (prev: Partial<ModalProps>) => Partial<ModalProps>
     ) => void
 
     function App() {
-      const drawer = useDrawer({
+      const Modal = useModal({
         title: 'title',
         open: true,
       })
 
-      if (!setDrawerProps) setDrawerProps = drawer.setDrawerProps
+      if (!setModalProps) setModalProps = Modal.setModalProps
 
-      return drawer.drawer
+      return Modal.modal
     }
 
     render(<App />)
 
     expect(screen.getByText('title')).toBeInTheDocument()
 
-    setDrawerProps(prev => ({ title: 'new title' }))
+    setModalProps(prev => ({ title: 'new title' }))
 
     expect(await screen.findByText('new title')).toBeInTheDocument()
   })

@@ -7,7 +7,11 @@ export interface DrawerProps extends AntdDrawerProps {
   children?: JSX.Element | JSX.Element[]
 }
 
-export type setDrawerProps = (changes: Partial<DrawerProps>) => void
+export type setDrawerProps = (
+  changes:
+    | Partial<DrawerProps>
+    | ((prev: Partial<DrawerProps>) => Partial<DrawerProps>)
+) => void
 
 /**
  * Hook style drawer
@@ -39,7 +43,15 @@ export function useDrawer(init?: DrawerProps) {
   return {
     drawer: <Drawer {...props} />,
     drawerProps: props,
-    setDrawerProps(changes: Partial<DrawerProps>) {
+    setDrawerProps(changes: Parameters<setDrawerProps>[0]) {
+      if (typeof changes === 'function') {
+        setProps(prev => ({
+          ...prev,
+          ...changes(props),
+        }))
+        return
+      }
+
       setProps(prev => ({
         ...prev,
         ...changes,
