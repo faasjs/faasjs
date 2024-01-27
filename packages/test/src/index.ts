@@ -1,3 +1,16 @@
+/**
+ * FaasJS's testing module.
+ *
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/test.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/test/LICENSE)
+ * [![NPM Version](https://img.shields.io/npm/v/@faasjs/test.svg)](https://www.npmjs.com/package/@faasjs/test)
+ *
+ * ## Install
+ *
+ * ```sh
+ * npm install @faasjs/test
+ * ```
+ * @packageDocumentation
+ */
 import { Logger } from '@faasjs/logger'
 import { Func, ExportedHandler, Plugin, Config } from '@faasjs/func'
 import { loadConfig } from '@faasjs/load'

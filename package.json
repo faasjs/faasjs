@@ -17,7 +17,7 @@
     "tsup": "*",
     "turbo": "*",
     "typedoc": "*",
-    "typedoc-plugin-markdown": "*",
+    "typedoc-plugin-markdown": "next",
     "typescript": "*",
     "@biomejs/biome": "*"
   },

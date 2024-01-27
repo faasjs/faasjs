@@ -1,26 +1,17 @@
+[@faasjs/ant-design](../README.md) / ExtendDescriptionTypeProps
+
 # Interface: ExtendDescriptionTypeProps\<T\>
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-
-## Table of contents
-
-### Properties
-
-- [children](ExtendDescriptionTypeProps.md#children)
-- [render](ExtendDescriptionTypeProps.md#render)
+• **T** = `any`
 
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
+> **children**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
-___
+### render?
 
-### render
-
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
+> **render**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>

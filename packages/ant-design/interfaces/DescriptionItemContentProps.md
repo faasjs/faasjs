@@ -1,44 +1,29 @@
+[@faasjs/ant-design](../README.md) / DescriptionItemContentProps
+
 # Interface: DescriptionItemContentProps\<T\>
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-
-## Table of contents
-
-### Properties
-
-- [extendTypes](DescriptionItemContentProps.md#extendtypes)
-- [item](DescriptionItemContentProps.md#item)
-- [value](DescriptionItemContentProps.md#value)
-- [values](DescriptionItemContentProps.md#values)
+• **T** = `any`
 
 ## Properties
 
-### extendTypes
+### extendTypes?
 
-• `Optional` **extendTypes**: `Object`
+> **extendTypes**?: `Object`
 
 #### Index signature
 
-▪ [key: `string`]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
-
-___
+ \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
 
 ### item
 
-• **item**: [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>
-
-___
+> **item**: [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>
 
 ### value
 
-• **value**: `T`
+> **value**: `T`
 
-___
+### values?
 
-### values
-
-• `Optional` **values**: `any`
+> **values**?: `any`

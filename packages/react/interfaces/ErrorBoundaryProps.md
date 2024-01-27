@@ -1,42 +1,27 @@
+[@faasjs/react](../README.md) / ErrorBoundaryProps
+
 # Interface: ErrorBoundaryProps
-
-## Table of contents
-
-### Properties
-
-- [children](ErrorBoundaryProps.md#children)
-- [errorChildren](ErrorBoundaryProps.md#errorchildren)
-- [onError](ErrorBoundaryProps.md#onerror)
 
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: `ReactNode`
+> **children**?: `ReactNode`
 
-___
+### errorChildren?
 
-### errorChildren
+> **errorChildren**?: `ReactElement`\<[`ErrorChildrenProps`](../type-aliases/ErrorChildrenProps.md), `string` \| `JSXElementConstructor`\<`any`\>\>
 
-• `Optional` **errorChildren**: `ReactElement`\<[`ErrorChildrenProps`](../modules.md#errorchildrenprops), `string` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `ReactNode` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `Component`\<`any`, `any`, `any`\>\>
+### onError?
 
-___
+> **onError**?: (`error`, `info`) => `void`
 
-### onError
+#### Parameters
 
-• `Optional` **onError**: (`error`: `Error`, `info`: `any`) => `void`
+• **error**: `Error`
 
-#### Type declaration
+• **info**: `any`
 
-▸ (`error`, `info`): `void`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `error` | `Error` |
-| `info` | `any` |
-
-##### Returns
+#### Returns
 
 `void`

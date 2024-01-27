@@ -1,328 +1,234 @@
+[@faasjs/ant-design](../README.md) / UnionFaasItemProps
+
 # Interface: UnionFaasItemProps\<Value, Values\>
+
+## Extends
+
+- [`FormItemProps`](FormItemProps.md).[`DescriptionItemProps`](DescriptionItemProps.md).[`TableItemProps`](TableItemProps.md)
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `Value` | `any` |
-| `Values` | `any` |
+• **Value** = `any`
 
-## Hierarchy
-
-- [`FormItemProps`](FormItemProps.md)
-
-- [`DescriptionItemProps`](DescriptionItemProps.md)
-
-- [`TableItemProps`](TableItemProps.md)
-
-  ↳ **`UnionFaasItemProps`**
-
-## Table of contents
-
-### Properties
-
-- [children](UnionFaasItemProps.md#children)
-- [col](UnionFaasItemProps.md#col)
-- [descriptionChildren](UnionFaasItemProps.md#descriptionchildren)
-- [descriptionRender](UnionFaasItemProps.md#descriptionrender)
-- [disabled](UnionFaasItemProps.md#disabled)
-- [extendTypes](UnionFaasItemProps.md#extendtypes)
-- [formChildren](UnionFaasItemProps.md#formchildren)
-- [formRender](UnionFaasItemProps.md#formrender)
-- [id](UnionFaasItemProps.md#id)
-- [if](UnionFaasItemProps.md#if)
-- [input](UnionFaasItemProps.md#input)
-- [label](UnionFaasItemProps.md#label)
-- [maxCount](UnionFaasItemProps.md#maxcount)
-- [object](UnionFaasItemProps.md#object)
-- [onValueChange](UnionFaasItemProps.md#onvaluechange)
-- [options](UnionFaasItemProps.md#options)
-- [optionsType](UnionFaasItemProps.md#optionstype)
-- [render](UnionFaasItemProps.md#render)
-- [required](UnionFaasItemProps.md#required)
-- [rules](UnionFaasItemProps.md#rules)
-- [tableChildren](UnionFaasItemProps.md#tablechildren)
-- [tableRender](UnionFaasItemProps.md#tablerender)
-- [title](UnionFaasItemProps.md#title)
-- [type](UnionFaasItemProps.md#type)
+• **Values** = `any`
 
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: `ReactElement`\<[`UnionFaasItemInjection`](../modules.md#unionfaasiteminjection)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>, `string` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `ReactNode` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `Component`\<`any`, `any`, `any`\>\>
+> **children**?: `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 #### Overrides
 
-[TableItemProps](TableItemProps.md).[children](TableItemProps.md#children)
+[`TableItemProps.children`](TableItemProps.md#children)
 
-___
+### col?
 
-### col
-
-• `Optional` **col**: `number`
+> **col**?: `number`
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[col](FormItemProps.md#col)
+[`FormItemProps.col`](FormItemProps.md#col)
 
-___
+### descriptionChildren?
 
-### descriptionChildren
-
-• `Optional` **descriptionChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`any`\>
+> **descriptionChildren**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\>
 
 #### Inherited from
 
-[DescriptionItemProps](DescriptionItemProps.md).[descriptionChildren](DescriptionItemProps.md#descriptionchildren)
+[`DescriptionItemProps.descriptionChildren`](DescriptionItemProps.md#descriptionchildren)
 
-___
+### descriptionRender?
 
-### descriptionRender
-
-• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`any`\>
+> **descriptionRender**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\>
 
 #### Inherited from
 
-[DescriptionItemProps](DescriptionItemProps.md).[descriptionRender](DescriptionItemProps.md#descriptionrender)
+[`DescriptionItemProps.descriptionRender`](DescriptionItemProps.md#descriptionrender)
 
-___
+### disabled?
 
-### disabled
-
-• `Optional` **disabled**: `boolean`
+> **disabled**?: `boolean`
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[disabled](FormItemProps.md#disabled)
+[`FormItemProps.disabled`](FormItemProps.md#disabled)
 
-___
+### extendTypes?
 
-### extendTypes
-
-• `Optional` **extendTypes**: [`ExtendTypes`](../modules.md#extendtypes)
+> **extendTypes**?: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[extendTypes](FormItemProps.md#extendtypes)
+[`FormItemProps.extendTypes`](FormItemProps.md#extendtypes)
 
-___
+### formChildren?
 
-### formChildren
-
-• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`any`\>
+> **formChildren**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\>
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[formChildren](FormItemProps.md#formchildren)
+[`FormItemProps.formChildren`](FormItemProps.md#formchildren)
 
-___
+### formRender?
 
-### formRender
-
-• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`any`\>
+> **formRender**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\>
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[formRender](FormItemProps.md#formrender)
-
-___
+[`FormItemProps.formRender`](FormItemProps.md#formrender)
 
 ### id
 
-• **id**: `string`
+> **id**: `string`
 
 #### Inherited from
 
-[TableItemProps](TableItemProps.md).[id](TableItemProps.md#id)
+[`TableItemProps.id`](TableItemProps.md#id)
 
-___
+### if?
 
-### if
-
-• `Optional` **if**: (`values`: `Record`\<`string`, `any`\>) => `boolean`
+> **if**?: (`values`) => `boolean`
 
 trigger when any item's value changed
 
-#### Type declaration
+#### Parameters
 
-▸ (`values`): `boolean`
+• **values**: `Record`\<`string`, `any`\>
 
-trigger when any item's value changed
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `values` | `Record`\<`string`, `any`\> |
-
-##### Returns
+#### Returns
 
 `boolean`
 
 #### Inherited from
 
-[DescriptionItemProps](DescriptionItemProps.md).[if](DescriptionItemProps.md#if)
+[`DescriptionItemProps.if`](DescriptionItemProps.md#if)
 
-___
+### input?
 
-### input
-
-• `Optional` **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `PickerBaseProps`\<`Dayjs`\> \| `PickerDateProps`\<`Dayjs`\> \| `PickerTimeProps`\<`Dayjs`\>
+> **input**?: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[input](FormItemProps.md#input)
+[`FormItemProps.input`](FormItemProps.md#input)
 
-___
+### label?
 
-### label
-
-• `Optional` **label**: `string` \| ``false``
+> **label**?: `string` \| `false`
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[label](FormItemProps.md#label)
+[`FormItemProps.label`](FormItemProps.md#label)
 
-___
+### maxCount?
 
-### maxCount
-
-• `Optional` **maxCount**: `number`
+> **maxCount**?: `number`
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[maxCount](FormItemProps.md#maxcount)
+[`FormItemProps.maxCount`](FormItemProps.md#maxcount)
 
-___
+### object?
 
-### object
-
-• `Optional` **object**: [`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>[]
+> **object**?: [`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>[]
 
 #### Overrides
 
-[TableItemProps](TableItemProps.md).[object](TableItemProps.md#object)
+[`TableItemProps.object`](TableItemProps.md#object)
 
-___
+### onValueChange?
 
-### onValueChange
-
-• `Optional` **onValueChange**: (`value`: `any`, `values`: `any`, `form`: `FormInstance`\<`any`\>) => `void`
+> **onValueChange**?: (`value`, `values`, `form`) => `void`
 
 trigger when current item's value changed
 
-#### Type declaration
+#### Parameters
 
-▸ (`value`, `values`, `form`): `void`
+• **value**: `any`
 
-trigger when current item's value changed
+• **values**: `any`
 
-##### Parameters
+• **form**: `FormInstance`\<`any`\>
 
-| Name | Type |
-| :------ | :------ |
-| `value` | `any` |
-| `values` | `any` |
-| `form` | `FormInstance`\<`any`\> |
-
-##### Returns
+#### Returns
 
 `void`
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[onValueChange](FormItemProps.md#onvaluechange)
+[`FormItemProps.onValueChange`](FormItemProps.md#onvaluechange)
 
-___
+### options?
 
-### options
-
-• `Optional` **options**: [`BaseOption`](../modules.md#baseoption)[]
+> **options**?: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
-[TableItemProps](TableItemProps.md).[options](TableItemProps.md#options)
+[`TableItemProps.options`](TableItemProps.md#options)
 
-___
+### optionsType?
 
-### optionsType
-
-• `Optional` **optionsType**: ``"auto"``
+> **optionsType**?: `"auto"`
 
 #### Inherited from
 
-[TableItemProps](TableItemProps.md).[optionsType](TableItemProps.md#optionstype)
+[`TableItemProps.optionsType`](TableItemProps.md#optionstype)
 
-___
+### render?
 
-### render
-
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`any`, `any`\>
+> **render**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`, `any`\>
 
 #### Overrides
 
-[TableItemProps](TableItemProps.md).[render](TableItemProps.md#render)
+[`TableItemProps.render`](TableItemProps.md#render)
 
-___
+### required?
 
-### required
-
-• `Optional` **required**: `boolean`
+> **required**?: `boolean`
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[required](FormItemProps.md#required)
+[`FormItemProps.required`](FormItemProps.md#required)
 
-___
+### rules?
 
-### rules
-
-• `Optional` **rules**: `RuleObject`[]
+> **rules**?: `RuleObject`[]
 
 #### Inherited from
 
-[FormItemProps](FormItemProps.md).[rules](FormItemProps.md#rules)
+[`FormItemProps.rules`](FormItemProps.md#rules)
 
-___
+### tableChildren?
 
-### tableChildren
-
-• `Optional` **tableChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`any`\>
+> **tableChildren**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\>
 
 #### Inherited from
 
-[TableItemProps](TableItemProps.md).[tableChildren](TableItemProps.md#tablechildren)
+[`TableItemProps.tableChildren`](TableItemProps.md#tablechildren)
 
-___
+### tableRender?
 
-### tableRender
-
-• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`any`\>
+> **tableRender**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\>
 
 #### Inherited from
 
-[TableItemProps](TableItemProps.md).[tableRender](TableItemProps.md#tablerender)
+[`TableItemProps.tableRender`](TableItemProps.md#tablerender)
 
-___
+### title?
 
-### title
-
-• `Optional` **title**: `string`
+> **title**?: `string`
 
 #### Inherited from
 
-[TableItemProps](TableItemProps.md).[title](TableItemProps.md#title)
+[`TableItemProps.title`](TableItemProps.md#title)
 
-___
+### type?
 
-### type
-
-• `Optional` **type**: [`FaasItemType`](../modules.md#faasitemtype)
+> **type**?: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 
-**`Default`**
+#### Default
 
 ```ts
 'string'
@@ -330,4 +236,4 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 #### Inherited from
 
-[TableItemProps](TableItemProps.md).[type](TableItemProps.md#type)
+[`TableItemProps.type`](TableItemProps.md#type)

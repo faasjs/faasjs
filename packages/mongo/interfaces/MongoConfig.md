@@ -1,26 +1,17 @@
+[@faasjs/mongo](../README.md) / MongoConfig
+
 # Interface: MongoConfig
 
-## Hierarchy
+## Extends
 
 - `MongoClientOptions`
 
-  ↳ **`MongoConfig`**
-
-## Table of contents
-
-### Properties
-
-- [database](MongoConfig.md#database)
-- [url](MongoConfig.md#url)
-
 ## Properties
 
-### database
+### database?
 
-• `Optional` **database**: `string`
+> **database**?: `string`
 
-___
+### url?
 
-### url
-
-• `Optional` **url**: `string`
+> **url**?: `string`

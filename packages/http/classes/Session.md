@@ -1,51 +1,24 @@
+[@faasjs/http](../README.md) / Session
+
 # Class: Session\<S, C\>
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `S` | extends `Record`\<`string`, `string`\> = `any` |
-| `C` | extends `Record`\<`string`, `string`\> = `any` |
+• **S** extends `Record`\<`string`, `string`\> = `any`
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Session.md#constructor)
-
-### Properties
-
-- [config](Session.md#config)
-- [content](Session.md#content)
-
-### Methods
-
-- [decode](Session.md#decode)
-- [encode](Session.md#encode)
-- [invoke](Session.md#invoke)
-- [read](Session.md#read)
-- [update](Session.md#update)
-- [write](Session.md#write)
+• **C** extends `Record`\<`string`, `string`\> = `any`
 
 ## Constructors
 
-### constructor
+### new Session(cookie, config)
 
-• **new Session**\<`S`, `C`\>(`cookie`, `config`): [`Session`](Session.md)\<`S`, `C`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `S` | extends `Record`\<`string`, `string`\> = `any` |
-| `C` | extends `Record`\<`string`, `string`\> = `any` |
+> **new Session**\<`S`, `C`\>(`cookie`, `config`): [`Session`](Session.md)\<`S`, `C`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `cookie` | [`Cookie`](Cookie.md)\<`C`, `S`\> |
-| `config` | [`SessionOptions`](../#sessionoptions) |
+• **cookie**: [`Cookie`](Cookie.md)\<`C`, `S`\>
+
+• **config**: [`SessionOptions`](../type-aliases/SessionOptions.md)
 
 #### Returns
 
@@ -55,120 +28,119 @@
 
 ### config
 
-• `Readonly` **config**: `Object`
+> **`readonly`** **config**: `Object`
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `cipherName` | `string` |
-| `digest` | `string` |
-| `iterations` | `number` |
-| `key` | `string` |
-| `keylen` | `number` |
-| `salt` | `string` |
-| `secret` | `string` |
-| `signedSalt` | `string` |
+##### cipherName
 
-___
+> **cipherName**: `string`
+
+##### digest
+
+> **digest**: `string`
+
+##### iterations
+
+> **iterations**: `number`
+
+##### key
+
+> **key**: `string`
+
+##### keylen
+
+> **keylen**: `number`
+
+##### salt
+
+> **salt**: `string`
+
+##### secret
+
+> **secret**: `string`
+
+##### signedSalt
+
+> **signedSalt**: `string`
 
 ### content
 
-• **content**: `Record`\<`string`, `string` \| `number`\>
+> **content**: `Record`\<`string`, `string` \| `number`\>
 
 ## Methods
 
-### decode
+### decode()
 
-▸ **decode**\<`TData`\>(`text`): `string` \| `number` \| \{ `[key: string]`: `any`;  } \| `TData`
+> **decode**\<`TData`\>(`text`): `SessionContent` \| `TData`
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TData` | `any` |
+• **TData** = `any`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `text` | `string` |
+• **text**: `string`
 
 #### Returns
 
-`string` \| `number` \| \{ `[key: string]`: `any`;  } \| `TData`
+`SessionContent` \| `TData`
 
-___
+### encode()
 
-### encode
-
-▸ **encode**(`text`): `string`
+> **encode**(`text`): `string`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `text` | `SessionContent` |
+• **text**: `SessionContent`
 
 #### Returns
 
 `string`
 
-___
+### invoke()
 
-### invoke
-
-▸ **invoke**(`cookie?`, `logger?`): `void`
+> **invoke**(`cookie`?, `logger`?): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `cookie?` | `string` |
-| `logger?` | `Logger` |
+• **cookie?**: `string`
+
+• **logger?**: `Logger`
 
 #### Returns
 
 `void`
 
-___
+### read()
 
-### read
-
-▸ **read**(`key`): `string` \| `number`
+> **read**(`key`): `string` \| `number`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
+• **key**: `string`
 
 #### Returns
 
 `string` \| `number`
 
-___
+### update()
 
-### update
-
-▸ **update**(): [`Session`](Session.md)\<`S`, `C`\>
+> **update**(): [`Session`](Session.md)\<`S`, `C`\>
 
 #### Returns
 
 [`Session`](Session.md)\<`S`, `C`\>
 
-___
+### write()
 
-### write
-
-▸ **write**(`key`, `value?`): [`Session`](Session.md)\<`S`, `C`\>
+> **write**(`key`, `value`?): [`Session`](Session.md)\<`S`, `C`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
-| `value?` | `string` \| `number` |
+• **key**: `string`
+
+• **value?**: `string` \| `number`
 
 #### Returns
 

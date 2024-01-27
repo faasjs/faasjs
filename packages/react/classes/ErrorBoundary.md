@@ -1,33 +1,20 @@
+[@faasjs/react](../README.md) / ErrorBoundary
+
 # Class: ErrorBoundary
 
-## Hierarchy
+## Extends
 
-- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), \{ `error?`: `Error` ; `info?`: \{ `componentStack?`: `string`  }  }\>
-
-  ↳ **`ErrorBoundary`**
-
-## Table of contents
-
-### Constructors
-
-- [constructor](ErrorBoundary.md#constructor)
-
-### Methods
-
-- [componentDidCatch](ErrorBoundary.md#componentdidcatch)
-- [render](ErrorBoundary.md#render)
+- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), `Object`\>
 
 ## Constructors
 
-### constructor
+### new ErrorBoundary(props)
 
-• **new ErrorBoundary**(`props`): [`ErrorBoundary`](ErrorBoundary.md)
+> **new ErrorBoundary**(`props`): [`ErrorBoundary`](ErrorBoundary.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md) |
+• **props**: [`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md)
 
 #### Returns
 
@@ -35,28 +22,27 @@
 
 #### Overrides
 
-Component\&lt;
+`Component<
   ErrorBoundaryProps,
-  \{
+  {
     error?: Error
-    info?: \{
+    info?: {
       componentStack?: string
     }
   }
-\&gt;.constructor
+>.constructor`
 
 ## Methods
 
-### componentDidCatch
+### componentDidCatch()
 
-▸ **componentDidCatch**(`error`, `info`): `void`
+> **componentDidCatch**(`error`, `info`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `error` | `Error` |
-| `info` | `any` |
+• **error**: `Error`
+
+• **info**: `any`
 
 #### Returns
 
@@ -64,13 +50,11 @@ Component\&lt;
 
 #### Overrides
 
-Component.componentDidCatch
+`Component.componentDidCatch`
 
-___
+### render()
 
-### render
-
-▸ **render**(): `string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`\> \| `Element`
+> **render**(): `string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`\> \| `Element`
 
 #### Returns
 
@@ -78,4 +62,4 @@ ___
 
 #### Overrides
 
-Component.render
+`Component.render`

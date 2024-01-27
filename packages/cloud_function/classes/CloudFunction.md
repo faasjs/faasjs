@@ -1,44 +1,24 @@
+[@faasjs/cloud_function](../README.md) / CloudFunction
+
 # Class: CloudFunction
 
 ## Implements
 
 - `Plugin`
 
-## Table of contents
-
-### Constructors
-
-- [constructor](CloudFunction.md#constructor)
-
-### Properties
-
-- [config](CloudFunction.md#config)
-- [context](CloudFunction.md#context)
-- [event](CloudFunction.md#event)
-- [name](CloudFunction.md#name)
-- [type](CloudFunction.md#type)
-
-### Methods
-
-- [invoke](CloudFunction.md#invoke)
-- [invokeSync](CloudFunction.md#invokesync)
-- [onDeploy](CloudFunction.md#ondeploy)
-- [onInvoke](CloudFunction.md#oninvoke)
-- [onMount](CloudFunction.md#onmount)
-
 ## Constructors
 
-### constructor
+### new CloudFunction(config)
 
-• **new CloudFunction**(`config?`): [`CloudFunction`](CloudFunction.md)
+> **new CloudFunction**(`config`?): [`CloudFunction`](CloudFunction.md)
 
 创建云函数配置
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `config?` | [`CloudFunctionConfig`](../#cloudfunctionconfig) | {object} 配置项，这些配置将强制覆盖默认配置 |
+• **config?**: [`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md)
+
+{object} 配置项，这些配置将强制覆盖默认配置
 
 #### Returns
 
@@ -48,118 +28,123 @@
 
 ### config
 
-• **config**: `Object`
+> **config**: `Object`
 
 #### Index signature
 
-▪ [key: `string`]: `any`
+ \[`key`: `string`\]: `any`
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `memorySize?` | `number` |
-| `name?` | `string` |
-| `timeout?` | `number` |
-| `triggers?` | \{ `name`: `string` ; `type`: `string` ; `value`: `string`  }[] |
+##### memorySize?
 
-___
+> **memorySize**?: `number`
+
+##### name?
+
+> **name**?: `string`
+
+##### timeout?
+
+> **timeout**?: `number`
+
+##### triggers?
+
+> **triggers**?: `Object`[]
 
 ### context
 
-• **context**: `any`
-
-___
+> **context**: `any`
 
 ### event
 
-• **event**: `any`
-
-___
+> **event**: `any`
 
 ### name
 
-• `Readonly` **name**: `string` = `Name`
+> **`readonly`** **name**: `string` = `Name`
 
 #### Implementation of
 
-Plugin.name
-
-___
+`Plugin.name`
 
 ### type
 
-• `Readonly` **type**: `string` = `Name`
+> **`readonly`** **type**: `string` = `Name`
 
 #### Implementation of
 
-Plugin.type
+`Plugin.type`
 
 ## Methods
 
-### invoke
+### invoke()
 
-▸ **invoke**\<`TData`\>(`name`, `data?`, `options?`): `Promise`\<`void`\>
+> **invoke**\<`TData`\>(`name`, `data`?, `options`?): `Promise`\<`void`\>
 
 异步触发云函数
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TData` | `any` |
+• **TData** = `any`
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `name` | `string` | {string} 云函数文件名或云函数名 |
-| `data?` | `TData` | {any} 参数 |
-| `options?` | `Record`\<`string`, `any`\> | {object} 额外配置项 |
+• **name**: `string`
+
+{string} 云函数文件名或云函数名
+
+• **data?**: `TData`
+
+{any} 参数
+
+• **options?**: `Record`\<`string`, `any`\>
+
+{object} 额外配置项
 
 #### Returns
 
 `Promise`\<`void`\>
 
-___
+### invokeSync()
 
-### invokeSync
-
-▸ **invokeSync**\<`TResult`, `TData`\>(`name`, `data?`, `options?`): `Promise`\<`TResult`\>
+> **invokeSync**\<`TResult`, `TData`\>(`name`, `data`?, `options`?): `Promise`\<`TResult`\>
 
 同步调用云函数
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TResult` | `any` |
-| `TData` | `any` |
+• **TResult** = `any`
+
+• **TData** = `any`
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `name` | `string` | {string} 云函数文件名或云函数名 |
-| `data?` | `TData` | {any} 参数 |
-| `options?` | `Record`\<`string`, `any`\> | {object} 额外配置项 |
+• **name**: `string`
+
+{string} 云函数文件名或云函数名
+
+• **data?**: `TData`
+
+{any} 参数
+
+• **options?**: `Record`\<`string`, `any`\>
+
+{object} 额外配置项
 
 #### Returns
 
 `Promise`\<`TResult`\>
 
-___
+### onDeploy()
 
-### onDeploy
-
-▸ **onDeploy**(`data`, `next`): `Promise`\<`void`\>
+> **onDeploy**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `DeployData` |
-| `next` | `Next` |
+• **data**: `DeployData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -167,20 +152,17 @@ ___
 
 #### Implementation of
 
-Plugin.onDeploy
+`Plugin.onDeploy`
 
-___
+### onInvoke()
 
-### onInvoke
-
-▸ **onInvoke**(`data`, `next`): `Promise`\<`void`\>
+> **onInvoke**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `InvokeData` |
-| `next` | `Next` |
+• **data**: `InvokeData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -188,20 +170,17 @@ ___
 
 #### Implementation of
 
-Plugin.onInvoke
+`Plugin.onInvoke`
 
-___
+### onMount()
 
-### onMount
-
-▸ **onMount**(`data`, `next`): `Promise`\<`void`\>
+> **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `MountData` |
-| `next` | `Next` |
+• **data**: `MountData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -209,4 +188,4 @@ ___
 
 #### Implementation of
 
-Plugin.onMount
+`Plugin.onMount`

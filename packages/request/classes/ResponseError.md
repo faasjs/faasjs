@@ -1,40 +1,24 @@
+[@faasjs/request](../README.md) / ResponseError
+
 # Class: ResponseError
 
 ResponseError class
 
-## Hierarchy
+## Extends
 
 - `Error`
 
-  ↳ **`ResponseError`**
-
-## Table of contents
-
-### Constructors
-
-- [constructor](ResponseError.md#constructor)
-
-### Properties
-
-- [body](ResponseError.md#body)
-- [headers](ResponseError.md#headers)
-- [request](ResponseError.md#request)
-- [response](ResponseError.md#response)
-- [statusCode](ResponseError.md#statuscode)
-- [statusMessage](ResponseError.md#statusmessage)
-
 ## Constructors
 
-### constructor
+### new ResponseError(message, response)
 
-• **new ResponseError**(`message`, `response`): [`ResponseError`](ResponseError.md)
+> **new ResponseError**(`message`, `response`): [`ResponseError`](ResponseError.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `message` | `string` |
-| `response` | [`Response`](../#response)\<`any`\> |
+• **message**: `string`
+
+• **response**: [`Response`](../type-aliases/Response.md)\<`any`\>
 
 #### Returns
 
@@ -42,40 +26,30 @@ ResponseError class
 
 #### Overrides
 
-Error.constructor
+`Error.constructor`
 
 ## Properties
 
 ### body
 
-• **body**: `any`
-
-___
+> **body**: `any`
 
 ### headers
 
-• **headers**: `OutgoingHttpHeaders`
-
-___
+> **headers**: `OutgoingHttpHeaders`
 
 ### request
 
-• **request**: [`Request`](../#request)
-
-___
+> **request**: [`Request`](../type-aliases/Request.md)
 
 ### response
 
-• **response**: [`Response`](../#response)\<`any`\>
-
-___
+> **response**: [`Response`](../type-aliases/Response.md)\<`any`\>
 
 ### statusCode
 
-• **statusCode**: `number`
-
-___
+> **statusCode**: `number`
 
 ### statusMessage
 
-• **statusMessage**: `string`
+> **statusMessage**: `string`

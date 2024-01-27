@@ -1,45 +1,20 @@
+[@faasjs/knex](../README.md) / Knex
+
 # Class: Knex
 
 ## Implements
 
 - `Plugin`
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Knex.md#constructor)
-
-### Properties
-
-- [adapter](Knex.md#adapter)
-- [config](Knex.md#config)
-- [logger](Knex.md#logger)
-- [name](Knex.md#name)
-- [query](Knex.md#query)
-- [type](Knex.md#type)
-
-### Methods
-
-- [onDeploy](Knex.md#ondeploy)
-- [onInvoke](Knex.md#oninvoke)
-- [onMount](Knex.md#onmount)
-- [quit](Knex.md#quit)
-- [raw](Knex.md#raw)
-- [schema](Knex.md#schema)
-- [transaction](Knex.md#transaction)
-
 ## Constructors
 
-### constructor
+### new Knex(config)
 
-• **new Knex**(`config?`): [`Knex`](Knex.md)
+> **new Knex**(`config`?): [`Knex`](Knex.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `config?` | [`KnexConfig`](../#knexconfig) |
+• **config?**: [`KnexConfig`](../type-aliases/KnexConfig.md)
 
 #### Returns
 
@@ -49,58 +24,47 @@
 
 ### adapter
 
-• **adapter**: `Knex`\<`any`, `any`[]\>
-
-___
+> **adapter**: `Knex`\<`any`, `any`[]\>
 
 ### config
 
-• **config**: `Config`\<`any`\>
-
-___
+> **config**: `Config`\<`any`\>
 
 ### logger
 
-• **logger**: `Logger`
-
-___
+> **logger**: `Logger`
 
 ### name
 
-• `Readonly` **name**: `string` = `Name`
+> **`readonly`** **name**: `string` = `Name`
 
 #### Implementation of
 
-Plugin.name
-
-___
+`Plugin.name`
 
 ### query
 
-• **query**: `Knex`\<`any`, `any`[]\>
-
-___
+> **query**: `Knex`\<`any`, `any`[]\>
 
 ### type
 
-• `Readonly` **type**: `string` = `Name`
+> **`readonly`** **type**: `string` = `Name`
 
 #### Implementation of
 
-Plugin.type
+`Plugin.type`
 
 ## Methods
 
-### onDeploy
+### onDeploy()
 
-▸ **onDeploy**(`data`, `next`): `Promise`\<`void`\>
+> **onDeploy**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `DeployData` |
-| `next` | `Next` |
+• **data**: `DeployData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -108,20 +72,17 @@ Plugin.type
 
 #### Implementation of
 
-Plugin.onDeploy
+`Plugin.onDeploy`
 
-___
+### onInvoke()
 
-### onInvoke
-
-▸ **onInvoke**(`data`, `next`): `Promise`\<`void`\>
+> **onInvoke**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `InvokeData`\<`any`, `any`, `any`\> |
-| `next` | `Next` |
+• **data**: `InvokeData`\<`any`, `any`, `any`\>
+
+• **next**: `Next`
 
 #### Returns
 
@@ -129,20 +90,17 @@ ___
 
 #### Implementation of
 
-Plugin.onInvoke
+`Plugin.onInvoke`
 
-___
+### onMount()
 
-### onMount
-
-▸ **onMount**(`data`, `next`): `Promise`\<`void`\>
+> **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `MountData` |
-| `next` | `Next` |
+• **data**: `MountData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -150,72 +108,64 @@ ___
 
 #### Implementation of
 
-Plugin.onMount
+`Plugin.onMount`
 
-___
+### quit()
 
-### quit
-
-▸ **quit**(): `Promise`\<`void`\>
+> **quit**(): `Promise`\<`void`\>
 
 #### Returns
 
 `Promise`\<`void`\>
 
-___
+### raw()
 
-### raw
-
-▸ **raw**\<`TResult`\>(`sql`, `bindings?`): `Promise`\<`Raw`\<`TResult`\>\>
+> **raw**\<`TResult`\>(`sql`, `bindings`): `Promise`\<`Raw`\<`TResult`\>\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TResult` | `any` |
+• **TResult** = `any`
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `sql` | `string` | `undefined` |
-| `bindings` | `ValueDict` \| `RawBinding`[] | `[]` |
+• **sql**: `string`
+
+• **bindings**: `ValueDict` \| `RawBinding`[]= `[]`
 
 #### Returns
 
 `Promise`\<`Raw`\<`TResult`\>\>
 
-___
+### schema()
 
-### schema
-
-▸ **schema**(): `SchemaBuilder`
+> **schema**(): `SchemaBuilder`
 
 #### Returns
 
 `SchemaBuilder`
 
-___
+### transaction()
 
-### transaction
+> **transaction**\<`TResult`\>(`scope`, `config`?, `options`?): `Promise`\<`TResult`\>
 
-▸ **transaction**\<`TResult`\>(`scope`, `config?`, `options?`): `Promise`\<`void` \| `TResult`\>
+Wraps a transaction, returning a promise that resolves to the return value of the callback.
+
+- Support 'commit' and 'rollback' event.
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TResult` | `any` |
+• **TResult** = `any`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `scope` | (`trx`: `Transaction`\<`any`, `any`\>) => `void` \| `Promise`\<`TResult`\> |
-| `config?` | `TransactionConfig` |
-| `options?` | `Object` |
-| `options.trx?` | `Transaction`\<`any`, `any`[]\> |
+• **scope**: (`trx`) => `Promise`\<`TResult`\>
+
+• **config?**: `TransactionConfig`
+
+• **options?**: `Object`
+
+• **options\.trx?**: `Transaction`\<`any`, `any`[]\>
 
 #### Returns
 
-`Promise`\<`void` \| `TResult`\>
+`Promise`\<`TResult`\>

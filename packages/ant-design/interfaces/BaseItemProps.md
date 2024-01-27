@@ -1,33 +1,21 @@
+[@faasjs/ant-design](../README.md) / BaseItemProps
+
 # Interface: BaseItemProps
 
-## Hierarchy
+## Extended by
 
-- **`BaseItemProps`**
-
-  ↳ [`FaasItemProps`](FaasItemProps.md)
-
-## Table of contents
-
-### Properties
-
-- [id](BaseItemProps.md#id)
-- [options](BaseItemProps.md#options)
-- [title](BaseItemProps.md#title)
+- [`FaasItemProps`](FaasItemProps.md)
 
 ## Properties
 
 ### id
 
-• **id**: `string`
+> **id**: `string`
 
-___
+### options?
 
-### options
+> **options**?: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
-• `Optional` **options**: [`BaseOption`](../modules.md#baseoption)[]
+### title?
 
-___
-
-### title
-
-• `Optional` **title**: `string`
+> **title**?: `string`

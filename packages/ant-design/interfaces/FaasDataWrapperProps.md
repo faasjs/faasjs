@@ -1,122 +1,86 @@
+[@faasjs/ant-design](../README.md) / FaasDataWrapperProps
+
 # Interface: FaasDataWrapperProps\<T\>
 
-## Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-
-## Hierarchy
+## Extends
 
 - `FaasDataWrapperProps`\<`T`\>
 
-  ↳ **`FaasDataWrapperProps`**
+## Type parameters
 
-## Table of contents
-
-### Properties
-
-- [action](FaasDataWrapperProps.md#action)
-- [children](FaasDataWrapperProps.md#children)
-- [data](FaasDataWrapperProps.md#data)
-- [fallback](FaasDataWrapperProps.md#fallback)
-- [loading](FaasDataWrapperProps.md#loading)
-- [loadingProps](FaasDataWrapperProps.md#loadingprops)
-- [params](FaasDataWrapperProps.md#params)
-- [setData](FaasDataWrapperProps.md#setdata)
-
-### Methods
-
-- [onDataChange](FaasDataWrapperProps.md#ondatachange)
-- [render](FaasDataWrapperProps.md#render)
+• **T** = `any`
 
 ## Properties
 
 ### action
 
-• **action**: `string`
+> **action**: `string`
 
 #### Inherited from
 
-OriginProps.action
+`OriginProps.action`
 
-___
+### children?
 
-### children
-
-• `Optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`any`\>\>, `string` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `ReactNode` \| (`props`: `any`, `deprecatedLegacyContext?`: `any`) => `Component`\<`any`, `any`, `any`\>\>
+> **children**?: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`any`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 #### Inherited from
 
-OriginProps.children
+`OriginProps.children`
 
-___
+### data?
 
-### data
-
-• `Optional` **data**: `FaasData`\<`PathOrData`\>
+> **data**?: `FaasData`\<`PathOrData`\>
 
 use custom data, should work with setData
 
 #### Inherited from
 
-OriginProps.data
+`OriginProps.data`
 
-___
+### fallback?
 
-### fallback
-
-• `Optional` **fallback**: ``false`` \| `Element`
+> **fallback**?: `false` \| `Element`
 
 #### Inherited from
 
-OriginProps.fallback
+`OriginProps.fallback`
 
-___
+### loading?
 
-### loading
+> **loading**?: `Element`
 
-• `Optional` **loading**: `Element`
+### loadingProps?
 
-___
+> **loadingProps**?: [`LoadingProps`](../type-aliases/LoadingProps.md)
 
-### loadingProps
+### params?
 
-• `Optional` **loadingProps**: [`LoadingProps`](../modules.md#loadingprops)
-
-___
-
-### params
-
-• `Optional` **params**: `FaasParams`\<`PathOrData`\>
+> **params**?: `FaasParams`\<`PathOrData`\>
 
 #### Inherited from
 
-OriginProps.params
+`OriginProps.params`
 
-___
+### setData?
 
-### setData
-
-• `Optional` **setData**: `Dispatch`\<`any`\>
+> **setData**?: `Dispatch`\<`any`\>
 
 use custom setData, should work with data
 
 #### Inherited from
 
-OriginProps.setData
+`OriginProps.setData`
 
 ## Methods
 
-### onDataChange
+### onDataChange()?
 
-▸ **onDataChange**(`args`): `void`
+> **`optional`** **onDataChange**(`args`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `args` | `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\> |
+• **args**: `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\>
 
 #### Returns
 
@@ -124,19 +88,15 @@ OriginProps.setData
 
 #### Inherited from
 
-OriginProps.onDataChange
+`OriginProps.onDataChange`
 
-___
+### render()?
 
-### render
-
-▸ **render**(`args`): `Element` \| `Element`[]
+> **`optional`** **render**(`args`): `Element` \| `Element`[]
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `args` | `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\> |
+• **args**: `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\>
 
 #### Returns
 
@@ -144,4 +104,4 @@ ___
 
 #### Inherited from
 
-OriginProps.render
+`OriginProps.render`

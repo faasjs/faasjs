@@ -1,10 +1,9 @@
 # @faasjs/server
 
-[![License: MIT](https://img.shields.io/npm/l/@faasjs/server.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/server/LICENSE)
-[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/server/stable.svg)](https://www.npmjs.com/package/@faasjs/server)
-[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/server/beta.svg)](https://www.npmjs.com/package/@faasjs/server)
-
 FaasJS's server module.
+
+[![License: MIT](https://img.shields.io/npm/l/@faasjs/server.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/server/LICENSE)
+[![NPM Version](https://img.shields.io/npm/v/@faasjs/server.svg)](https://www.npmjs.com/package/@faasjs/server)
 
 ## Install
 
@@ -24,33 +23,11 @@ Dynamic routing:
 - `/*` -> `default.func.ts` or `default.func.tsx`
 - `/path/*` -> `path/default.func.ts` or `path/default.func.tsx`
 
-## Modules
-
-### Classes
+## Classes
 
 - [Server](classes/Server.md)
 
-### Functions
-
-- [closeAll](#closeall)
-- [getAll](#getall)
-
 ## Functions
 
-### closeAll
-
-▸ **closeAll**(): `Promise`\<`void`\>
-
-#### Returns
-
-`Promise`\<`void`\>
-
-___
-
-### getAll
-
-▸ **getAll**(): [`Server`](classes/Server.md)[]
-
-#### Returns
-
-[`Server`](classes/Server.md)[]
+- [closeAll](functions/closeAll.md)
+- [getAll](functions/getAll.md)

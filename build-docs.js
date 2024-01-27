@@ -23,34 +23,42 @@ async function build(path) {
     )} --out ${path.replace('/package.json', '/')}`
   )
 
-  const modules = readFileSync(
-    path.replace('/package.json', '/modules.md'),
-    'utf8'
-  )
-    .toString()
-    .replace(`# ${pkg.name}\n\n## Table of contents\n`, '')
-    .replaceAll('(modules.md#', '(#')
-  let readme = readFileSync(
-    path.replace('/package.json', '/README.md'),
-    'utf8'
-  ).toString()
+  const files = globSync(path.replace('/package.json', '/**/*.md'))
 
-  if (readme.includes('## Modules')) {
-    readme = readme.replace(/## Modules[\s\S]+/g, `## Modules\n${modules}`)
-  } else readme += `\n## Modules\n\n${modules}`
+  for (const file of files) {
+    const content = readFileSync(file, 'utf8').toString()
+    if (content.includes('***'))
+      writeFileSync(file, content.replaceAll('\n***\n', ''))
+  }
 
-  writeFileSync(path.replace('/package.json', '/README.md'), readme)
+  // const modules = readFileSync(
+  //   path.replace('/package.json', '/modules.md'),
+  //   'utf8'
+  // )
+  //   .toString()
+  //   .replace(`# ${pkg.name}\n\n## Table of contents\n`, '')
+  //   .replaceAll('(modules.md#', '(#')
+  // let readme = readFileSync(
+  //   path.replace('/package.json', '/README.md'),
+  //   'utf8'
+  // ).toString()
 
-  await run(`rm ${path.replace('/package.json', '/modules.md')}`)
+  // if (readme.includes('## Modules')) {
+  //   readme = readme.replace(/## Modules[\s\S]+/g, `## Modules\n${modules}`)
+  // } else readme += `\n## Modules\n\n${modules}`
 
-  const classes = globSync(path.replace('/package.json', '/classes/*.md'))
+  // writeFileSync(path.replace('/package.json', '/README.md'), readme)
 
-  if (classes.length)
-    for (const file of classes)
-      writeFileSync(
-        file,
-        readFileSync(file, 'utf8').replaceAll('(../modules.md#', '(../#')
-      )
+  // await run(`rm ${path.replace('/package.json', '/modules.md')}`)
+
+  // const classes = globSync(path.replace('/package.json', '/classes/*.md'))
+
+  // if (classes.length)
+  //   for (const file of classes)
+  //     writeFileSync(
+  //       file,
+  //       readFileSync(file, 'utf8').replaceAll('(../modules.md#', '(../#')
+  //     )
 }
 
 async function buildAll() {

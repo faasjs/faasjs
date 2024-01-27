@@ -1,58 +1,39 @@
+[@faasjs/ant-design](../README.md) / AppProps
+
 # Interface: AppProps
-
-## Table of contents
-
-### Properties
-
-- [browserRouterProps](AppProps.md#browserrouterprops)
-- [children](AppProps.md#children)
-- [configProviderProps](AppProps.md#configproviderprops)
-- [errorBoundaryProps](AppProps.md#errorboundaryprops)
-- [faasConfigProviderProps](AppProps.md#faasconfigproviderprops)
-- [styleProviderProps](AppProps.md#styleproviderprops)
 
 ## Properties
 
-### browserRouterProps
+### browserRouterProps?
 
-• `Optional` **browserRouterProps**: `BrowserRouterProps`
+> **browserRouterProps**?: `BrowserRouterProps`
 
 https://reactrouter.com/en/router-components/browser-router
 
-___
-
 ### children
 
-• **children**: `ReactNode`
+> **children**: `ReactNode`
 
-___
+### configProviderProps?
 
-### configProviderProps
-
-• `Optional` **configProviderProps**: `ConfigProviderProps`
+> **configProviderProps**?: `ConfigProviderProps`
 
 https://ant.design/components/config-provider/#API
 
-___
+### errorBoundaryProps?
 
-### errorBoundaryProps
-
-• `Optional` **errorBoundaryProps**: `Omit`\<[`ErrorBoundaryProps`](ErrorBoundaryProps.md), ``"children"``\>
+> **errorBoundaryProps**?: `Omit`\<[`ErrorBoundaryProps`](ErrorBoundaryProps.md), `"children"`\>
 
 https://faasjs.com/doc/ant-design/#errorboundary
 
-___
+### faasConfigProviderProps?
 
-### faasConfigProviderProps
-
-• `Optional` **faasConfigProviderProps**: `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), ``"children"``\>
+> **faasConfigProviderProps**?: `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), `"children"`\>
 
 https://faasjs.com/doc/ant-design/#configprovider
 
-___
+### styleProviderProps?
 
-### styleProviderProps
-
-• `Optional` **styleProviderProps**: `StyleProviderProps`
+> **styleProviderProps**?: `StyleProviderProps`
 
 https://ant.design/docs/react/compatible-style#styleprovider

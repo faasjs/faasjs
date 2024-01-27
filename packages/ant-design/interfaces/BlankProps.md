@@ -1,20 +1,13 @@
+[@faasjs/ant-design](../README.md) / BlankProps
+
 # Interface: BlankProps
-
-## Table of contents
-
-### Properties
-
-- [text](BlankProps.md#text)
-- [value](BlankProps.md#value)
 
 ## Properties
 
-### text
+### text?
 
-• `Optional` **text**: `string`
+> **text**?: `string`
 
-___
+### value?
 
-### value
-
-• `Optional` **value**: `any`
+> **value**?: `any`

@@ -1,62 +1,37 @@
+[@faasjs/ant-design](../README.md) / useAppProps
+
 # Interface: useAppProps
-
-## Table of contents
-
-### Properties
-
-- [message](useAppProps.md#message)
-- [notification](useAppProps.md#notification)
-- [setDrawerProps](useAppProps.md#setdrawerprops)
-- [setModalProps](useAppProps.md#setmodalprops)
 
 ## Properties
 
 ### message
 
-• **message**: `MessageInstance`
-
-___
+> **message**: `MessageInstance`
 
 ### notification
 
-• **notification**: `NotificationInstance`
-
-___
+> **notification**: `NotificationInstance`
 
 ### setDrawerProps
 
-• **setDrawerProps**: (`changes`: `Partial`\<[`DrawerProps`](DrawerProps.md)\>) => `void`
+> **setDrawerProps**: (`changes`) => `void`
 
-#### Type declaration
+#### Parameters
 
-▸ (`changes`): `void`
+• **changes**: `Partial`\<[`DrawerProps`](DrawerProps.md)\>
 
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `changes` | `Partial`\<[`DrawerProps`](DrawerProps.md)\> |
-
-##### Returns
+#### Returns
 
 `void`
 
-___
-
 ### setModalProps
 
-• **setModalProps**: (`changes`: `Partial`\<[`ModalProps`](ModalProps.md)\>) => `void`
+> **setModalProps**: (`changes`) => `void`
 
-#### Type declaration
+#### Parameters
 
-▸ (`changes`): `void`
+• **changes**: `Partial`\<[`ModalProps`](ModalProps.md)\>
 
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `changes` | `Partial`\<[`ModalProps`](ModalProps.md)\> |
-
-##### Returns
+#### Returns
 
 `void`

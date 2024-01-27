@@ -1,4 +1,5 @@
 import { defineUserConfig } from '@vuepress/cli'
+import { viteBundler } from '@vuepress/bundler-vite'
 import { defaultTheme } from '@vuepress/theme-default'
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
 import { searchPlugin } from '@vuepress/plugin-search'
@@ -20,6 +21,7 @@ export default defineUserConfig({
       description: '一个基于 Typescript 的原子化应用框架',
     },
   },
+  bundler: viteBundler({}),
   theme: defaultTheme({
     locales: {
       '/': {

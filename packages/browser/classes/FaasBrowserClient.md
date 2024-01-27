@@ -1,3 +1,5 @@
+[@faasjs/browser](../README.md) / FaasBrowserClient
+
 # Class: FaasBrowserClient
 
 FaasJS browser client
@@ -8,34 +10,17 @@ const client = new FaasBrowserClient('http://localhost:8080')
 await client.action('func', { key: 'value' })
 ```
 
-## Table of contents
-
-### Constructors
-
-- [constructor](FaasBrowserClient.md#constructor)
-
-### Properties
-
-- [defaultOptions](FaasBrowserClient.md#defaultoptions)
-- [host](FaasBrowserClient.md#host)
-- [id](FaasBrowserClient.md#id)
-
-### Methods
-
-- [action](FaasBrowserClient.md#action)
-
 ## Constructors
 
-### constructor
+### new FaasBrowserClient(baseUrl, options)
 
-• **new FaasBrowserClient**(`baseUrl`, `options?`): [`FaasBrowserClient`](FaasBrowserClient.md)
+> **new FaasBrowserClient**(`baseUrl`, `options`?): [`FaasBrowserClient`](FaasBrowserClient.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `baseUrl` | `string` |
-| `options?` | [`Options`](../#options) |
+• **baseUrl**: `string`
+
+• **options?**: [`Options`](../type-aliases/Options.md)
 
 #### Returns
 
@@ -45,41 +30,44 @@ await client.action('func', { key: 'value' })
 
 ### defaultOptions
 
-• **defaultOptions**: [`Options`](../#options)
-
-___
+> **defaultOptions**: [`Options`](../type-aliases/Options.md)
 
 ### host
 
-• **host**: `string`
-
-___
+> **host**: `string`
 
 ### id
 
-• `Readonly` **id**: `string`
+> **`readonly`** **id**: `string`
 
 ## Methods
 
-### action
+### action()
 
-▸ **action**\<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`\<[`Response`](Response.md)\<`FaasData`\<`PathOrData`\>\>\>
+> **action**\<`PathOrData`\>(`action`, `params`?, `options`?): `Promise`\<[`Response`](Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 Request a FaasJS function
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `PathOrData` | extends `FaasAction` |
+• **PathOrData** extends `FaasAction`
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `action` | `string` \| `PathOrData` | function path |
-| `params?` | `FaasParams`\<`PathOrData`\> | function params |
-| `options?` | [`Options`](../#options) | request options ```ts await client.action('func', { key: 'value' }) ``` |
+• **action**: `string` \| `PathOrData`
+
+function path
+
+• **params?**: `FaasParams`\<`PathOrData`\>
+
+function params
+
+• **options?**: [`Options`](../type-aliases/Options.md)
+
+request options
+```ts
+await client.action('func', { key: 'value' })
+```
 
 #### Returns
 

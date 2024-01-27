@@ -1,3 +1,17 @@
+/**
+ * A helper function to deep merge objects and array.
+ *
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/deep_merge.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/deep_merge/LICENSE)
+ * [![NPM Version](https://img.shields.io/npm/v/@faasjs/deep_merge.svg)](https://www.npmjs.com/package/@faasjs/deep_merge)
+ *
+ * ## Install
+ *
+ * ```sh
+ * npm install @faasjs/deep_merge
+ * ```
+ * @packageDocumentation
+ */
+
 const shouldMerge = (item: any) => {
   const type = Object.prototype.toString.call(item)
   return type === '[object Object]' || type === '[object Array]'

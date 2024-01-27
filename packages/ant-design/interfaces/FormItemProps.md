@@ -1,224 +1,144 @@
+[@faasjs/ant-design](../README.md) / FormItemProps
+
 # Interface: FormItemProps\<T\>
+
+## Extends
+
+- [`FaasItemProps`](FaasItemProps.md).`Omit`\<`AntdFormItemProps`\<`T`\>, `"id"` \| `"children"` \| `"render"`\>
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-
-## Hierarchy
-
-- [`FaasItemProps`](FaasItemProps.md)
-
-- `Omit`\<`AntdFormItemProps`\<`T`\>, ``"id"`` \| ``"children"`` \| ``"render"``\>
-
-  ↳ **`FormItemProps`**
-
-  ↳↳ [`UnionFaasItemProps`](UnionFaasItemProps.md)
-
-## Table of contents
-
-### Properties
-
-- [children](FormItemProps.md#children)
-- [col](FormItemProps.md#col)
-- [disabled](FormItemProps.md#disabled)
-- [extendTypes](FormItemProps.md#extendtypes)
-- [formChildren](FormItemProps.md#formchildren)
-- [formRender](FormItemProps.md#formrender)
-- [id](FormItemProps.md#id)
-- [if](FormItemProps.md#if)
-- [input](FormItemProps.md#input)
-- [label](FormItemProps.md#label)
-- [maxCount](FormItemProps.md#maxcount)
-- [object](FormItemProps.md#object)
-- [onValueChange](FormItemProps.md#onvaluechange)
-- [options](FormItemProps.md#options)
-- [render](FormItemProps.md#render)
-- [required](FormItemProps.md#required)
-- [rules](FormItemProps.md#rules)
-- [title](FormItemProps.md#title)
-- [type](FormItemProps.md#type)
+• **T** = `any`
 
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
+> **children**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
-___
+### col?
 
-### col
+> **col**?: `number`
 
-• `Optional` **col**: `number`
+### disabled?
 
-___
+> **disabled**?: `boolean`
 
-### disabled
+### extendTypes?
 
-• `Optional` **disabled**: `boolean`
+> **extendTypes**?: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
 
-___
+### formChildren?
 
-### extendTypes
+> **formChildren**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
-• `Optional` **extendTypes**: [`ExtendTypes`](../modules.md#extendtypes)
+### formRender?
 
-___
-
-### formChildren
-
-• `Optional` **formChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
-
-___
-
-### formRender
-
-• `Optional` **formRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
-
-___
+> **formRender**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
 
 ### id
 
-• **id**: `string`
+> **id**: `string`
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[id](FaasItemProps.md#id)
+[`FaasItemProps.id`](FaasItemProps.md#id)
 
-___
+### if?
 
-### if
-
-• `Optional` **if**: (`values`: `Record`\<`string`, `any`\>) => `boolean`
+> **if**?: (`values`) => `boolean`
 
 trigger when any item's value changed
 
-#### Type declaration
+#### Parameters
 
-▸ (`values`): `boolean`
+• **values**: `Record`\<`string`, `any`\>
 
-trigger when any item's value changed
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `values` | `Record`\<`string`, `any`\> |
-
-##### Returns
+#### Returns
 
 `boolean`
 
-___
+### input?
 
-### input
+> **input**?: `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `SelectProps`\<`T`, `DefaultOptionType`\> \| `DatePickerProps`
 
-• `Optional` **input**: `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `SelectProps`\<`T`, `DefaultOptionType`\> \| `PickerBaseProps`\<`Dayjs`\> \| `PickerDateProps`\<`Dayjs`\> \| `PickerTimeProps`\<`Dayjs`\>
+### label?
 
-___
-
-### label
-
-• `Optional` **label**: `string` \| ``false``
+> **label**?: `string` \| `false`
 
 #### Overrides
 
-Omit.label
+`Omit.label`
 
-___
+### maxCount?
 
-### maxCount
+> **maxCount**?: `number`
 
-• `Optional` **maxCount**: `number`
+### object?
 
-___
+> **object**?: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
 
-### object
+### onValueChange?
 
-• `Optional` **object**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
-
-___
-
-### onValueChange
-
-• `Optional` **onValueChange**: (`value`: `T`, `values`: `any`, `form`: `FormInstance`\<`any`\>) => `void`
+> **onValueChange**?: (`value`, `values`, `form`) => `void`
 
 trigger when current item's value changed
 
-#### Type declaration
+#### Parameters
 
-▸ (`value`, `values`, `form`): `void`
+• **value**: `T`
 
-trigger when current item's value changed
+• **values**: `any`
 
-##### Parameters
+• **form**: `FormInstance`\<`any`\>
 
-| Name | Type |
-| :------ | :------ |
-| `value` | `T` |
-| `values` | `any` |
-| `form` | `FormInstance`\<`any`\> |
-
-##### Returns
+#### Returns
 
 `void`
 
-___
+### options?
 
-### options
-
-• `Optional` **options**: [`BaseOption`](../modules.md#baseoption)[]
+> **options**?: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[options](FaasItemProps.md#options)
+[`FaasItemProps.options`](FaasItemProps.md#options)
 
-___
+### render?
 
-### render
+> **render**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
+### required?
 
-___
-
-### required
-
-• `Optional` **required**: `boolean`
+> **required**?: `boolean`
 
 #### Overrides
 
-Omit.required
+`Omit.required`
 
-___
+### rules?
 
-### rules
-
-• `Optional` **rules**: `RuleObject`[]
+> **rules**?: `RuleObject`[]
 
 #### Overrides
 
-Omit.rules
+`Omit.rules`
 
-___
+### title?
 
-### title
-
-• `Optional` **title**: `string`
+> **title**?: `string`
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[title](FaasItemProps.md#title)
+[`FaasItemProps.title`](FaasItemProps.md#title)
 
-___
+### type?
 
-### type
-
-• `Optional` **type**: [`FaasItemType`](../modules.md#faasitemtype)
+> **type**?: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 
-**`Default`**
+#### Default
 
 ```ts
 'string'
@@ -226,4 +146,4 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[type](FaasItemProps.md#type)
+[`FaasItemProps.type`](FaasItemProps.md#type)

@@ -1,3 +1,17 @@
+/**
+ * FaasJS's tencentcloud provider.
+ *
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/tencentcloud.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/tencentcloud/LICENSE)
+ * [![NPM Version](https://img.shields.io/npm/v/@faasjs/tencentcloud.svg)](https://www.npmjs.com/package/@faasjs/tencentcloud)
+ *
+ * ## Install
+ *
+ * ```sh
+ * npm install @faasjs/tencentcloud
+ * ```
+ *
+ * @packageDocumentation
+ */
 import { DeployData } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { CloudFunctionAdapter } from '@faasjs/cloud_function'

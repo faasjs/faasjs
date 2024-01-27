@@ -5,8 +5,7 @@ FaasJS browser client.
 **If you use React or Vue, please use [@faasjs/react](https://faasjs.com/doc/react) or [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin).**
 
 [![License: MIT](https://img.shields.io/npm/l/@faasjs/browser.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/browser/LICENSE)
-[![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/browser/stable.svg)](https://www.npmjs.com/package/@faasjs/browser)
-[![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/browser/beta.svg)](https://www.npmjs.com/package/@faasjs/browser)
+[![NPM Version](https://img.shields.io/npm/v/@faasjs/browser.svg)](https://www.npmjs.com/package/@faasjs/browser)
 
 Browser plugin for FaasJS.
 
@@ -66,150 +65,20 @@ function App() {
 }
 ```
 
-Reference: [Default Query Function | TanStack Query](https://tanstack.com/query/v4/docs/guides/default-query-function)
-
-## Modules
-
-### Classes
+## Classes
 
 - [FaasBrowserClient](classes/FaasBrowserClient.md)
 - [Response](classes/Response.md)
 - [ResponseError](classes/ResponseError.md)
 
-### Type Aliases
-
-- [FaasBrowserClientAction](#faasbrowserclientaction)
-- [MockHandler](#mockhandler)
-- [Options](#options)
-- [ResponseHeaders](#responseheaders)
-
-### Functions
-
-- [generateId](#generateid)
-- [setMock](#setmock)
-
 ## Type Aliases
 
-### FaasBrowserClientAction
-
-Ƭ **FaasBrowserClientAction**: \<PathOrData\>(`action`: `PathOrData` \| `string`, `params?`: `FaasParams`\<`PathOrData`\>, `options?`: [`Options`](#options)) => `Promise`\<[`Response`](classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
-
-#### Type declaration
-
-▸ \<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`\<[`Response`](classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
-
-##### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `PathOrData` | extends `FaasAction` |
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `action` | `PathOrData` \| `string` |
-| `params?` | `FaasParams`\<`PathOrData`\> |
-| `options?` | [`Options`](#options) |
-
-##### Returns
-
-`Promise`\<[`Response`](classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
-
-___
-
-### MockHandler
-
-Ƭ **MockHandler**: (`action`: `string`, `params`: `Record`\<`string`, `any`\>, `options`: [`Options`](#options)) => `Promise`\<[`Response`](classes/Response.md)\<`any`\>\>
-
-#### Type declaration
-
-▸ (`action`, `params`, `options`): `Promise`\<[`Response`](classes/Response.md)\<`any`\>\>
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `action` | `string` |
-| `params` | `Record`\<`string`, `any`\> |
-| `options` | [`Options`](#options) |
-
-##### Returns
-
-`Promise`\<[`Response`](classes/Response.md)\<`any`\>\>
-
-___
-
-### Options
-
-Ƭ **Options**: `RequestInit` & \{ `beforeRequest?`: (`{
-    action,
-    params,
-    options,
-    headers,
-  }`: \{ `action`: `string` ; `headers`: `Record`\<`string`, `string`\> ; `options`: [`Options`](#options) ; `params`: `Record`\<`string`, `any`\>  }) => `Promise`\<`void`\> ; `headers?`: `Record`\<`string`, `string`\> ; `request?`: \<PathOrData\>(`url`: `string`, `options`: [`Options`](#options)) => `Promise`\<[`Response`](classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>  }
-
-___
-
-### ResponseHeaders
-
-Ƭ **ResponseHeaders**: `Object`
-
-#### Index signature
-
-▪ [key: `string`]: `string`
+- [FaasBrowserClientAction](type-aliases/FaasBrowserClientAction.md)
+- [MockHandler](type-aliases/MockHandler.md)
+- [Options](type-aliases/Options.md)
+- [ResponseHeaders](type-aliases/ResponseHeaders.md)
 
 ## Functions
 
-### generateId
-
-▸ **generateId**(`prefix?`): `string`
-
-Generate random id
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `prefix?` | `string` | prefix of id |
-
-#### Returns
-
-`string`
-
-___
-
-### setMock
-
-▸ **setMock**(`handler`): `void`
-
-Set mock handler for testing
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `handler` | [`MockHandler`](#mockhandler) | mock handler, set `undefined` to clear mock |
-
-#### Returns
-
-`void`
-
-**`Example`**
-
-```ts
-import { setMock } from '@faasjs/browser'
-
-setMock(async ({ action, params, options }) => {
-  return new Response({
-    status: 200,
-    data: {
-      name: 'FaasJS'
-    }
-  })
-})
-
-const client = new FaasBrowserClient('/')
-
-const response = await client.action('path') // response.data.name === 'FaasJS'
-```
+- [generateId](functions/generateId.md)
+- [setMock](functions/setMock.md)

@@ -1,92 +1,59 @@
+[@faasjs/ant-design](../README.md) / FormProps
+
 # Interface: FormProps\<Values, ExtendItemProps\>
+
+## Extends
+
+- `Omit`\<`AntdFormProps`\<`Values`\>, `"onFinish"` \| `"children"` \| `"initialValues"`\>
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `Values` | extends `Record`\<`string`, `any`\> = `any` |
-| `ExtendItemProps` | `any` |
+• **Values** extends `Record`\<`string`, `any`\> = `any`
 
-## Hierarchy
-
-- `Omit`\<`AntdFormProps`\<`Values`\>, ``"onFinish"`` \| ``"children"`` \| ``"initialValues"``\>
-
-  ↳ **`FormProps`**
-
-## Table of contents
-
-### Properties
-
-- [beforeItems](FormProps.md#beforeitems)
-- [children](FormProps.md#children)
-- [extendTypes](FormProps.md#extendtypes)
-- [footer](FormProps.md#footer)
-- [initialValues](FormProps.md#initialvalues)
-- [items](FormProps.md#items)
-- [onFinish](FormProps.md#onfinish)
-- [submit](FormProps.md#submit)
+• **ExtendItemProps** = `any`
 
 ## Properties
 
-### beforeItems
+### beforeItems?
 
-• `Optional` **beforeItems**: `Element` \| `Element`[]
+> **beforeItems**?: `Element` \| `Element`[]
 
-___
+### children?
 
-### children
+> **children**?: `ReactNode`
 
-• `Optional` **children**: `ReactNode`
+### extendTypes?
 
-___
+> **extendTypes**?: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
 
-### extendTypes
+### footer?
 
-• `Optional` **extendTypes**: [`ExtendTypes`](../modules.md#extendtypes)
+> **footer**?: `Element` \| `Element`[]
 
-___
+### initialValues?
 
-### footer
+> **initialValues**?: `Values`
 
-• `Optional` **footer**: `Element` \| `Element`[]
+### items?
 
-___
+> **items**?: (`Element` \| [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps`)[]
 
-### initialValues
+### onFinish?
 
-• `Optional` **initialValues**: `Values`
+> **onFinish**?: (`values`, `submit`?) => `Promise`\<`any`\>
 
-___
+#### Parameters
 
-### items
+• **values**: `Values`
 
-• `Optional` **items**: (`Element` \| [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps`)[]
+• **submit?**: (`values`) => `Promise`\<`any`\>
 
-___
-
-### onFinish
-
-• `Optional` **onFinish**: (`values`: `Values`, `submit?`: (`values`: `any`) => `Promise`\<`any`\>) => `Promise`\<`any`\>
-
-#### Type declaration
-
-▸ (`values`, `submit?`): `Promise`\<`any`\>
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `values` | `Values` |
-| `submit?` | (`values`: `any`) => `Promise`\<`any`\> |
-
-##### Returns
+#### Returns
 
 `Promise`\<`any`\>
 
-___
+### submit?
 
-### submit
-
-• `Optional` **submit**: ``false`` \| [`FormSubmitProps`](../modules.md#formsubmitprops)
+> **submit**?: `false` \| [`FormSubmitProps`](../type-aliases/FormSubmitProps.md)
 
 Default: { text: 'Submit' }, set false to disable it

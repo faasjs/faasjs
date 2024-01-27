@@ -1,3 +1,5 @@
+[@faasjs/redis](../README.md) / Redis
+
 # Class: Redis
 
 Redis Plugin
@@ -6,48 +8,15 @@ Redis Plugin
 
 - `Plugin`
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Redis.md#constructor)
-
-### Properties
-
-- [adapter](Redis.md#adapter)
-- [config](Redis.md#config)
-- [logger](Redis.md#logger)
-- [multi](Redis.md#multi)
-- [name](Redis.md#name)
-- [pipeline](Redis.md#pipeline)
-- [type](Redis.md#type)
-
-### Methods
-
-- [get](Redis.md#get)
-- [getJSON](Redis.md#getjson)
-- [lock](Redis.md#lock)
-- [onDeploy](Redis.md#ondeploy)
-- [onInvoke](Redis.md#oninvoke)
-- [onMount](Redis.md#onmount)
-- [publish](Redis.md#publish)
-- [query](Redis.md#query)
-- [quit](Redis.md#quit)
-- [set](Redis.md#set)
-- [setJSON](Redis.md#setjson)
-- [unlock](Redis.md#unlock)
-
 ## Constructors
 
-### constructor
+### new Redis(config)
 
-• **new Redis**(`config?`): [`Redis`](Redis.md)
+> **new Redis**(`config`?): [`Redis`](Redis.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `config?` | [`RedisConfig`](../#redisconfig) |
+• **config?**: [`RedisConfig`](../type-aliases/RedisConfig.md)
 
 #### Returns
 
@@ -57,155 +26,117 @@ Redis Plugin
 
 ### adapter
 
-• **adapter**: `Redis`
-
-___
+> **adapter**: `Redis`
 
 ### config
 
-• **config**: `RedisOptions`
-
-___
+> **config**: `RedisOptions`
 
 ### logger
 
-• **logger**: `Logger`
-
-___
+> **logger**: `Logger`
 
 ### multi
 
-• **multi**: (`options?`: \{ `pipeline`: `boolean`  } \| `any`[][]) => `ChainableCommander`
+> **multi**: (`options`?) => `ChainableCommander`
 
-#### Type declaration
+#### Parameters
 
-▸ (`options?`): `ChainableCommander`
+• **options?**: `Object` \| `any`[][]
 
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `options?` | \{ `pipeline`: `boolean`  } \| `any`[][] |
-
-##### Returns
+#### Returns
 
 `ChainableCommander`
-
-___
 
 ### name
 
-• `Readonly` **name**: `string` = `Name`
+> **`readonly`** **name**: `string` = `Name`
 
 #### Implementation of
 
-Plugin.name
-
-___
+`Plugin.name`
 
 ### pipeline
 
-• **pipeline**: (`commands?`: `any`[][]) => `ChainableCommander`
+> **pipeline**: (`commands`?) => `ChainableCommander`
 
-#### Type declaration
+#### Parameters
 
-▸ (`commands?`): `ChainableCommander`
+• **commands?**: `any`[][]
 
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `commands?` | `any`[][] |
-
-##### Returns
+#### Returns
 
 `ChainableCommander`
 
-___
-
 ### type
 
-• `Readonly` **type**: `string` = `Name`
+> **`readonly`** **type**: `string` = `Name`
 
 #### Implementation of
 
-Plugin.type
+`Plugin.type`
 
 ## Methods
 
-### get
+### get()
 
-▸ **get**\<`TData`\>(`key`): `Promise`\<`TData`\>
+> **get**\<`TData`\>(`key`): `Promise`\<`TData`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TData` | `any` |
+• **TData** = `any`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
+• **key**: `string`
 
 #### Returns
 
 `Promise`\<`TData`\>
 
-___
+### getJSON()
 
-### getJSON
-
-▸ **getJSON**\<`TData`\>(`key`): `Promise`\<`TData`\>
+> **getJSON**\<`TData`\>(`key`): `Promise`\<`TData`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TData` | `any` |
+• **TData** = `any`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
+• **key**: `string`
 
 #### Returns
 
 `Promise`\<`TData`\>
 
-___
+### lock()
 
-### lock
-
-▸ **lock**(`key`, `EX?`): `Promise`\<`void`\>
+> **lock**(`key`, `EX`): `Promise`\<`void`\>
 
 Lock by key
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `key` | `string` | `undefined` |  |
-| `EX` | `number` | `10` | expire in seconds, default 10 |
+• **key**: `string`
+
+• **EX**: `number`= `10`
+
+expire in seconds, default 10
 
 #### Returns
 
 `Promise`\<`void`\>
 
-___
+### onDeploy()
 
-### onDeploy
-
-▸ **onDeploy**(`data`, `next`): `Promise`\<`void`\>
+> **onDeploy**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `DeployData` |
-| `next` | `Next` |
+• **data**: `DeployData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -213,20 +144,17 @@ ___
 
 #### Implementation of
 
-Plugin.onDeploy
+`Plugin.onDeploy`
 
-___
+### onInvoke()
 
-### onInvoke
-
-▸ **onInvoke**(`data`, `next`): `Promise`\<`void`\>
+> **onInvoke**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `InvokeData`\<`any`, `any`, `any`\> |
-| `next` | `Next` |
+• **data**: `InvokeData`\<`any`, `any`, `any`\>
+
+• **next**: `Next`
 
 #### Returns
 
@@ -234,20 +162,17 @@ ___
 
 #### Implementation of
 
-Plugin.onInvoke
+`Plugin.onInvoke`
 
-___
+### onMount()
 
-### onMount
-
-▸ **onMount**(`data`, `next`): `Promise`\<`void`\>
+> **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `MountData` |
-| `next` | `Next` |
+• **data**: `MountData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -255,121 +180,99 @@ ___
 
 #### Implementation of
 
-Plugin.onMount
+`Plugin.onMount`
 
-___
+### publish()
 
-### publish
-
-▸ **publish**(`channel`, `message`): `Promise`\<`number`\>
+> **publish**(`channel`, `message`): `Promise`\<`number`\>
 
 Publish message
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `channel` | `string` |
-| `message` | `any` |
+• **channel**: `string`
+
+• **message**: `any`
 
 #### Returns
 
 `Promise`\<`number`\>
 
-___
+### query()
 
-### query
-
-▸ **query**\<`TResult`\>(`command`, `args`): `Promise`\<`TResult`\>
+> **query**\<`TResult`\>(`command`, `args`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TResult` | `any` |
+• **TResult** = `any`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `command` | `string` |
-| `args` | `any`[] |
+• **command**: `string`
+
+• **args**: `any`[]
 
 #### Returns
 
 `Promise`\<`TResult`\>
 
-___
+### quit()
 
-### quit
-
-▸ **quit**(): `Promise`\<`void`\>
+> **quit**(): `Promise`\<`void`\>
 
 #### Returns
 
 `Promise`\<`void`\>
 
-___
+### set()
 
-### set
-
-▸ **set**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
+> **set**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TResult` | `void` |
+• **TResult** = `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
-| `value` | `any` |
-| `options?` | `SET` |
+• **key**: `string`
+
+• **value**: `any`
+
+• **options?**: `SET`
 
 #### Returns
 
 `Promise`\<`TResult`\>
 
-___
+### setJSON()
 
-### setJSON
-
-▸ **setJSON**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
+> **setJSON**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TResult` | `void` |
+• **TResult** = `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
-| `value` | `any` |
-| `options?` | `SET` |
+• **key**: `string`
+
+• **value**: `any`
+
+• **options?**: `SET`
 
 #### Returns
 
 `Promise`\<`TResult`\>
 
-___
+### unlock()
 
-### unlock
-
-▸ **unlock**(`key`): `Promise`\<`void`\>
+> **unlock**(`key`): `Promise`\<`void`\>
 
 Unlock by key
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `key` | `string` |
+• **key**: `string`
 
 #### Returns
 

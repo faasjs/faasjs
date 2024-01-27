@@ -1,35 +1,24 @@
+[@faasjs/http](../README.md) / HttpError
+
 # Class: HttpError
 
-## Hierarchy
+## Extends
 
 - `Error`
 
-  ↳ **`HttpError`**
-
-## Table of contents
-
-### Constructors
-
-- [constructor](HttpError.md#constructor)
-
-### Properties
-
-- [message](HttpError.md#message)
-- [statusCode](HttpError.md#statuscode)
-
 ## Constructors
 
-### constructor
+### new HttpError(__namedParameters)
 
-• **new HttpError**(`«destructured»`): [`HttpError`](HttpError.md)
+> **new HttpError**(`__namedParameters`): [`HttpError`](HttpError.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `message` | `string` |
-| › `statusCode?` | `number` |
+• **\_\_namedParameters**: `Object`
+
+• **\_\_namedParameters\.message**: `string`
+
+• **\_\_namedParameters\.statusCode?**: `number`
 
 #### Returns
 
@@ -37,20 +26,18 @@
 
 #### Overrides
 
-Error.constructor
+`Error.constructor`
 
 ## Properties
 
 ### message
 
-• `Readonly` **message**: `string`
+> **`readonly`** **message**: `string`
 
 #### Overrides
 
-Error.message
-
-___
+`Error.message`
 
 ### statusCode
 
-• `Readonly` **statusCode**: `number`
+> **`readonly`** **statusCode**: `number`

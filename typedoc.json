@@ -4,10 +4,15 @@
   "exclude": ["**/__tests__/**"],
   "plugin": ["typedoc-plugin-markdown"],
   "githubPages": false,
-  "hideBreadcrumbs": true,
   "cleanOutputDir": false,
   "disableSources": true,
   "compilerOptions": {
     "skipLibCheck": true
+  },
+  "readme": "none",
+  "hidePageHeader": true,
+  "mergeReadme": true,
+  "textContentMappings": {
+    "footer.generator": ""
   }
 }

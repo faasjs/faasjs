@@ -1,56 +1,37 @@
+[@faasjs/ant-design](../README.md) / TitleProps
+
 # Interface: TitleProps
-
-## Table of contents
-
-### Properties
-
-- [children](TitleProps.md#children)
-- [h1](TitleProps.md#h1)
-- [plain](TitleProps.md#plain)
-- [separator](TitleProps.md#separator)
-- [suffix](TitleProps.md#suffix)
-- [title](TitleProps.md#title)
 
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: `Element`
+> **children**?: `Element`
 
 return children
 
-___
+### h1?
 
-### h1
-
-• `Optional` **h1**: `boolean` \| \{ `className?`: `string` ; `style?`: `CSSProperties`  }
+> **h1**?: `boolean` \| `Object`
 
 return a h1 element
 
-___
+### plain?
 
-### plain
-
-• `Optional` **plain**: `boolean`
+> **plain**?: `boolean`
 
 return a pure text element
 
-___
+### separator?
 
-### separator
-
-• `Optional` **separator**: `string`
+> **separator**?: `string`
 
 ` - ` as default
 
-___
+### suffix?
 
-### suffix
-
-• `Optional` **suffix**: `string`
-
-___
+> **suffix**?: `string`
 
 ### title
 
-• **title**: `string` \| `string`[]
+> **title**: `string` \| `string`[]

@@ -1,31 +1,16 @@
+[@faasjs/deployer](../README.md) / Deployer
+
 # Class: Deployer
-
-## Table of contents
-
-### Constructors
-
-- [constructor](Deployer.md#constructor)
-
-### Properties
-
-- [deployData](Deployer.md#deploydata)
-- [func](Deployer.md#func)
-
-### Methods
-
-- [deploy](Deployer.md#deploy)
 
 ## Constructors
 
-### constructor
+### new Deployer(data)
 
-• **new Deployer**(`data`): [`Deployer`](Deployer.md)
+> **new Deployer**(`data`): [`Deployer`](Deployer.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `DeployData` |
+• **data**: `DeployData`
 
 #### Returns
 
@@ -35,20 +20,27 @@
 
 ### deployData
 
-• **deployData**: `DeployData`
+> **deployData**: `DeployData`
 
-___
+### func?
 
-### func
-
-• `Optional` **func**: `Func`\<`any`, `any`, `any`\>
+> **func**?: `Func`\<`any`, `any`, `any`\>
 
 ## Methods
 
-### deploy
+### deploy()
 
-▸ **deploy**(): `Promise`\<\{ `[key: string]`: `any`; `filename`: `string` ; `root`: `string`  }\>
+> **deploy**(): `Promise`\<`Object`\>
 
 #### Returns
 
-`Promise`\<\{ `[key: string]`: `any`; `filename`: `string` ; `root`: `string`  }\>
+`Promise`\<`Object`\>
+
+> ##### filename
+>
+> > **filename**: `string`
+>
+> ##### root
+>
+> > **root**: `string`
+>

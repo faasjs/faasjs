@@ -1,23 +1,17 @@
+[@faasjs/ant-design](../README.md) / DrawerProps
+
 # Interface: DrawerProps
 
-## Hierarchy
+## Extends
 
 - `DrawerProps`
 
-  ↳ **`DrawerProps`**
-
-## Table of contents
-
-### Properties
-
-- [children](DrawerProps.md#children)
-
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: `Element` \| `Element`[]
+> **children**?: `Element` \| `Element`[]
 
 #### Overrides
 
-AntdDrawerProps.children
+`AntdDrawerProps.children`

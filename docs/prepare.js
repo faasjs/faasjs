@@ -21,8 +21,27 @@ writeFileSync(
   './doc/README.md',
   readFileSync(`${__dirname}/../packages/README.md`, 'utf-8')
     .toString()
-    .replaceAll('https://github.com/faasjs/faasjs/tree/main/packages/', '/doc/')
+    .replaceAll(
+      /https:\/\/github.com\/faasjs\/faasjs\/tree\/main\/packages\/([^)]+)/g,
+      (_, name) => `/doc/${name}/`
+    )
 )
+
+const files = globSync('./doc/**/*.md')
+
+for (const file of files) {
+  if (file === 'doc/README.md') continue
+
+  let content = readFileSync(file, 'utf8').toString()
+  console.log(file)
+  if (content.startsWith('# ')) {
+    const title = content.split('\n')[0].replace('# ', '')
+    content = `[Documents](../) / ${title}\n\n${content}`
+  } else {
+    content = `[Documents](../) / ${content}`
+  }
+  writeFileSync(file, content)
+}
 
 const images = globSync('../images/**/*.md')
 

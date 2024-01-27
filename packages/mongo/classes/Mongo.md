@@ -1,42 +1,24 @@
+[@faasjs/mongo](../README.md) / Mongo
+
 # Class: Mongo
 
 ## Implements
 
 - `Plugin`
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Mongo.md#constructor)
-
-### Properties
-
-- [client](Mongo.md#client)
-- [collection](Mongo.md#collection)
-- [config](Mongo.md#config)
-- [db](Mongo.md#db)
-- [name](Mongo.md#name)
-- [type](Mongo.md#type)
-
-### Methods
-
-- [onDeploy](Mongo.md#ondeploy)
-- [onMount](Mongo.md#onmount)
-
 ## Constructors
 
-### constructor
+### new Mongo(config)
 
-• **new Mongo**(`config?`): [`Mongo`](Mongo.md)
+> **new Mongo**(`config`?): [`Mongo`](Mongo.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `config?` | `Object` |
-| `config.config?` | [`MongoConfig`](../interfaces/MongoConfig.md) |
-| `config.name?` | `string` |
+• **config?**: `Object`
+
+• **config\.config?**: [`MongoConfig`](../interfaces/MongoConfig.md)
+
+• **config\.name?**: `string`
 
 #### Returns
 
@@ -46,80 +28,63 @@
 
 ### client
 
-• **client**: `MongoClient`
-
-___
+> **client**: `MongoClient`
 
 ### collection
 
-• **collection**: \<TSchema\>(`name`: `string`, `options?`: `CollectionOptions`, `callback?`: `Callback`\<`Collection`\<`TSchema`\>\>) => `Collection`\<`TSchema`\>
+> **collection**: \<`TSchema`\>(`name`, `options`?, `callback`?) => `Collection`\<`TSchema`\>
 
-#### Type declaration
+#### Type parameters
 
-▸ \<`TSchema`\>(`name`, `options?`, `callback?`): `Collection`\<`TSchema`\>
+• **TSchema** = `any`
 
-##### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `TSchema` | `any` |
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `options?` | `CollectionOptions` |
-| `callback?` | `Callback`\<`Collection`\<`TSchema`\>\> |
-
-##### Returns
-
-`Collection`\<`TSchema`\>
-
-___
-
-### config
-
-• **config**: [`MongoConfig`](../interfaces/MongoConfig.md)
-
-___
-
-### db
-
-• **db**: `Db`
-
-___
-
-### name
+#### Parameters
 
 • **name**: `string`
 
+• **options?**: `CollectionOptions`
+
+• **callback?**: `Callback`\<`Collection`\<`TSchema`\>\>
+
+#### Returns
+
+`Collection`\<`TSchema`\>
+
+### config
+
+> **config**: [`MongoConfig`](../interfaces/MongoConfig.md)
+
+### db
+
+> **db**: `Db`
+
+### name
+
+> **name**: `string`
+
 #### Implementation of
 
-Plugin.name
-
-___
+`Plugin.name`
 
 ### type
 
-• **type**: `string` = `'mongo'`
+> **type**: `string` = `'mongo'`
 
 #### Implementation of
 
-Plugin.type
+`Plugin.type`
 
 ## Methods
 
-### onDeploy
+### onDeploy()
 
-▸ **onDeploy**(`data`, `next`): `Promise`\<`void`\>
+> **onDeploy**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `DeployData` |
-| `next` | `Next` |
+• **data**: `DeployData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -127,20 +92,17 @@ Plugin.type
 
 #### Implementation of
 
-Plugin.onDeploy
+`Plugin.onDeploy`
 
-___
+### onMount()
 
-### onMount
-
-▸ **onMount**(`data`, `next`): `Promise`\<`void`\>
+> **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `data` | `MountData` |
-| `next` | `Next` |
+• **data**: `MountData`
+
+• **next**: `Next`
 
 #### Returns
 
@@ -148,4 +110,4 @@ ___
 
 #### Implementation of
 
-Plugin.onMount
+`Plugin.onMount`

@@ -1,3 +1,5 @@
+[@faasjs/server](../README.md) / Server
+
 # Class: Server
 
 FaasJS Server.
@@ -11,40 +13,31 @@ const server = new Server(process.cwd(), {
 server.listen()
 ```
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Server.md#constructor)
-
-### Properties
-
-- [logger](Server.md#logger)
-- [onError](Server.md#onerror)
-- [opts](Server.md#opts)
-- [root](Server.md#root)
-
-### Methods
-
-- [close](Server.md#close)
-- [listen](Server.md#listen)
-- [processRequest](Server.md#processrequest)
-
 ## Constructors
 
-### constructor
+### new Server(root, opts)
 
-• **new Server**(`root`, `opts?`): [`Server`](Server.md)
+> **new Server**(`root`, `opts`?): [`Server`](Server.md)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `root` | `string` | Project path |
-| `opts?` | `Object` | Options |
-| `opts.cache?` | `boolean` | Enable cache, default is false |
-| `opts.onError?` | (`error`: `Error`) => `void` | - |
-| `opts.port?` | `number` | Port, default is 3000 |
+• **root**: `string`
+
+Project path
+
+• **opts?**: `Object`
+
+Options
+
+• **opts\.cache?**: `boolean`
+
+Enable cache, default is false
+
+• **opts\.onError?**: (`error`) => `void`
+
+• **opts\.port?**: `number`
+
+Port, default is 3000
 
 #### Returns
 
@@ -54,83 +47,71 @@ server.listen()
 
 ### logger
 
-• `Readonly` **logger**: `Logger`
+> **`readonly`** **logger**: `Logger`
 
-___
+### onError?
 
-### onError
+> **onError**?: (`error`) => `void`
 
-• `Optional` **onError**: (`error`: `Error`) => `void`
+#### Parameters
 
-#### Type declaration
+• **error**: `Error`
 
-▸ (`error`): `void`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `error` | `Error` |
-
-##### Returns
+#### Returns
 
 `void`
 
-___
-
 ### opts
 
-• `Readonly` **opts**: `Object`
+> **`readonly`** **opts**: `Object`
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `cache` | `boolean` |
-| `port` | `number` |
+##### cache
 
-___
+> **cache**: `boolean`
+
+##### port
+
+> **port**: `number`
 
 ### root
 
-• `Readonly` **root**: `string`
+> **`readonly`** **root**: `string`
 
 ## Methods
 
-### close
+### close()
 
-▸ **close**(): `Promise`\<`void`\>
+> **close**(): `Promise`\<`void`\>
 
 #### Returns
 
 `Promise`\<`void`\>
 
-___
+### listen()
 
-### listen
-
-▸ **listen**(): `Server`\<typeof `IncomingMessage`, typeof `ServerResponse`\>
+> **listen**(): `Server`\<*typeof* `IncomingMessage`, *typeof* `ServerResponse`\>
 
 Start server.
 
 #### Returns
 
-`Server`\<typeof `IncomingMessage`, typeof `ServerResponse`\>
+`Server`\<*typeof* `IncomingMessage`, *typeof* `ServerResponse`\>
 
-___
+### processRequest()
 
-### processRequest
-
-▸ **processRequest**(`path`, `req`, `res`, `requestedAt`): `Promise`\<`void`\>
+> **processRequest**(`path`, `req`, `res`, `requestedAt`): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `path` | `string` |
-| `req` | `IncomingMessage` |
-| `res` | `ServerResponse`\<`IncomingMessage`\> & \{ `end`: () => `void` ; `setHeader`: (`key`: `string`, `value`: `string`) => `void` ; `statusCode`: `number` ; `write`: (`body`: `string` \| `Buffer`) => `void`  } |
-| `requestedAt` | `number` |
+• **path**: `string`
+
+• **req**: `IncomingMessage`
+
+• **res**: `ServerResponse`\<`IncomingMessage`\> & `Object`
+
+• **requestedAt**: `number`
 
 #### Returns
 

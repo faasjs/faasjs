@@ -1,111 +1,72 @@
+[@faasjs/ant-design](../README.md) / TableItemProps
+
 # Interface: TableItemProps\<T\>
+
+## Extends
+
+- [`FaasItemProps`](FaasItemProps.md).`Omit`\<`AntdTableColumnProps`\<`T`\>, `"title"` \| `"children"` \| `"render"`\>
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-
-## Hierarchy
-
-- [`FaasItemProps`](FaasItemProps.md)
-
-- `Omit`\<`AntdTableColumnProps`\<`T`\>, ``"title"`` \| ``"children"`` \| ``"render"``\>
-
-  ↳ **`TableItemProps`**
-
-  ↳↳ [`UnionFaasItemProps`](UnionFaasItemProps.md)
-
-## Table of contents
-
-### Properties
-
-- [children](TableItemProps.md#children)
-- [id](TableItemProps.md#id)
-- [object](TableItemProps.md#object)
-- [options](TableItemProps.md#options)
-- [optionsType](TableItemProps.md#optionstype)
-- [render](TableItemProps.md#render)
-- [tableChildren](TableItemProps.md#tablechildren)
-- [tableRender](TableItemProps.md#tablerender)
-- [title](TableItemProps.md#title)
-- [type](TableItemProps.md#type)
+• **T** = `any`
 
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
-
-___
+> **children**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
 ### id
 
-• **id**: `string`
+> **id**: `string`
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[id](FaasItemProps.md#id)
+[`FaasItemProps.id`](FaasItemProps.md#id)
 
-___
+### object?
 
-### object
+> **object**?: [`TableItemProps`](TableItemProps.md)\<`T`\>[]
 
-• `Optional` **object**: [`TableItemProps`](TableItemProps.md)\<`T`\>[]
+### options?
 
-___
-
-### options
-
-• `Optional` **options**: [`BaseOption`](../modules.md#baseoption)[]
+> **options**?: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[options](FaasItemProps.md#options)
+[`FaasItemProps.options`](FaasItemProps.md#options)
 
-___
+### optionsType?
 
-### optionsType
+> **optionsType**?: `"auto"`
 
-• `Optional` **optionsType**: ``"auto"``
+### render?
 
-___
+> **render**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
 
-### render
+### tableChildren?
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
+> **tableChildren**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
-___
+### tableRender?
 
-### tableChildren
+> **tableRender**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
 
-• `Optional` **tableChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
+### title?
 
-___
-
-### tableRender
-
-• `Optional` **tableRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
-
-___
-
-### title
-
-• `Optional` **title**: `string`
+> **title**?: `string`
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[title](FaasItemProps.md#title)
+[`FaasItemProps.title`](FaasItemProps.md#title)
 
-___
+### type?
 
-### type
-
-• `Optional` **type**: [`FaasItemType`](../modules.md#faasitemtype)
+> **type**?: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 
-**`Default`**
+#### Default
 
 ```ts
 'string'
@@ -113,4 +74,4 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[type](FaasItemProps.md#type)
+[`FaasItemProps.type`](FaasItemProps.md#type)

@@ -1,37 +1,20 @@
+[@faasjs/tencentcloud](../README.md) / Provider
+
 # Class: Provider
 
 ## Implements
 
 - `CloudFunctionAdapter`
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Provider.md#constructor)
-
-### Properties
-
-- [config](Provider.md#config)
-- [logger](Provider.md#logger)
-
-### Methods
-
-- [deploy](Provider.md#deploy)
-- [invokeCloudFunction](Provider.md#invokecloudfunction)
-- [invokeSyncCloudFunction](Provider.md#invokesynccloudfunction)
-
 ## Constructors
 
-### constructor
+### new Provider(config)
 
-• **new Provider**(`config`): [`Provider`](Provider.md)
+> **new Provider**(`config`): [`Provider`](Provider.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `config` | [`TencentcloudConfig`](../#tencentcloudconfig) |
+• **config**: [`TencentcloudConfig`](../type-aliases/TencentcloudConfig.md)
 
 #### Returns
 
@@ -41,49 +24,53 @@
 
 ### config
 
-• **config**: [`TencentcloudConfig`](../#tencentcloudconfig)
-
-___
+> **config**: [`TencentcloudConfig`](../type-aliases/TencentcloudConfig.md)
 
 ### logger
 
-• **logger**: `Logger`
+> **logger**: `Logger`
 
 ## Methods
 
-### deploy
+### deploy()
 
-▸ **deploy**(`type`, `data`, `config`): `Promise`\<`void`\>
+> **deploy**(`type`, `data`, `config`): `Promise`\<`void`\>
 
 部署
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `type` | ``"cloud_function"`` \| ``"http"`` | {string} 发布类型 |
-| `data` | `DeployData` | {object} 部署环境配置 |
-| `config` | `Object` | {Logger} 部署对象配置 |
+• **type**: `"cloud_function"` \| `"http"`
+
+{string} 发布类型
+
+• **data**: `DeployData`
+
+{object} 部署环境配置
+
+• **config**: `Object`
+
+{Logger} 部署对象配置
 
 #### Returns
 
 `Promise`\<`void`\>
 
-___
+### invokeCloudFunction()
 
-### invokeCloudFunction
-
-▸ **invokeCloudFunction**(`name`, `data`, `options?`): `Promise`\<`void`\>
+> **invokeCloudFunction**(`name`, `data`, `options`?): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `data` | `Object` |
-| `data.context` | `any` |
-| `data.event` | `any` |
-| `options?` | `Object` |
+• **name**: `string`
+
+• **data**: `Object`
+
+• **data\.context**: `any`
+
+• **data\.event?**: `any`
+
+• **options?**: `Object`
 
 #### Returns
 
@@ -91,29 +78,27 @@ ___
 
 #### Implementation of
 
-CloudFunctionAdapter.invokeCloudFunction
+`CloudFunctionAdapter.invokeCloudFunction`
 
-___
+### invokeSyncCloudFunction()
 
-### invokeSyncCloudFunction
-
-▸ **invokeSyncCloudFunction**\<`TResult`\>(`name`, `data`, `options?`): `Promise`\<`TResult`\>
+> **invokeSyncCloudFunction**\<`TResult`\>(`name`, `data`, `options`?): `Promise`\<`TResult`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TResult` | `any` |
+• **TResult** = `any`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
-| `data` | `Object` |
-| `data.context` | `any` |
-| `data.event` | `any` |
-| `options?` | `Object` |
+• **name**: `string`
+
+• **data**: `Object`
+
+• **data\.context**: `any`
+
+• **data\.event?**: `any`
+
+• **options?**: `Object`
 
 #### Returns
 
@@ -121,4 +106,4 @@ ___
 
 #### Implementation of
 
-CloudFunctionAdapter.invokeSyncCloudFunction
+`CloudFunctionAdapter.invokeSyncCloudFunction`

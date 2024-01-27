@@ -1,70 +1,48 @@
+[@faasjs/ant-design](../README.md) / DescriptionProps
+
 # Interface: DescriptionProps\<T, ExtendItemProps\>
+
+## Extends
+
+- `Omit`\<`DescriptionsProps`, `"items"`\>
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-| `ExtendItemProps` | `any` |
+• **T** = `any`
 
-## Hierarchy
-
-- `Omit`\<`DescriptionsProps`, ``"items"``\>
-
-  ↳ **`DescriptionProps`**
-
-## Table of contents
-
-### Properties
-
-- [dataSource](DescriptionProps.md#datasource)
-- [extendTypes](DescriptionProps.md#extendtypes)
-- [faasData](DescriptionProps.md#faasdata)
-- [items](DescriptionProps.md#items)
-
-### Methods
-
-- [renderTitle](DescriptionProps.md#rendertitle)
+• **ExtendItemProps** = `any`
 
 ## Properties
 
-### dataSource
+### dataSource?
 
-• `Optional` **dataSource**: `T`
+> **dataSource**?: `T`
 
-___
+### extendTypes?
 
-### extendTypes
-
-• `Optional` **extendTypes**: `Object`
+> **extendTypes**?: `Object`
 
 #### Index signature
 
-▪ [key: `string`]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
+ \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
 
-___
+### faasData?
 
-### faasData
-
-• `Optional` **faasData**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`T`\>
-
-___
+> **faasData**?: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`T`\>
 
 ### items
 
-• **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>)[]
+> **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>)[]
 
 ## Methods
 
-### renderTitle
+### renderTitle()?
 
-▸ **renderTitle**(`values`): `ReactNode`
+> **`optional`** **renderTitle**(`values`): `ReactNode`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `values` | `T` |
+• **values**: `T`
 
 #### Returns
 

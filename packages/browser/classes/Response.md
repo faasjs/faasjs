@@ -1,3 +1,5 @@
+[@faasjs/browser](../README.md) / Response
+
 # Class: Response\<T\>
 
 Response class
@@ -14,44 +16,25 @@ new Response({
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-
-## Table of contents
-
-### Constructors
-
-- [constructor](Response.md#constructor)
-
-### Properties
-
-- [body](Response.md#body)
-- [data](Response.md#data)
-- [headers](Response.md#headers)
-- [status](Response.md#status)
+• **T** = `any`
 
 ## Constructors
 
-### constructor
+### new Response(props)
 
-• **new Response**\<`T`\>(`props`): [`Response`](Response.md)\<`T`\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
+> **new Response**\<`T`\>(`props`): [`Response`](Response.md)\<`T`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | `Object` |
-| `props.body?` | `any` |
-| `props.data?` | `T` |
-| `props.headers?` | [`ResponseHeaders`](../#responseheaders) |
-| `props.status?` | `number` |
+• **props**: `Object`
+
+• **props\.body?**: `any`
+
+• **props\.data?**: `T`
+
+• **props\.headers?**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+
+• **props\.status?**: `number`
 
 #### Returns
 
@@ -61,22 +44,16 @@ new Response({
 
 ### body
 
-• `Readonly` **body**: `any`
-
-___
+> **`readonly`** **body**: `any`
 
 ### data
 
-• `Readonly` **data**: `T`
-
-___
+> **`readonly`** **data**: `T`
 
 ### headers
 
-• `Readonly` **headers**: [`ResponseHeaders`](../#responseheaders)
-
-___
+> **`readonly`** **headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
 
 ### status
 
-• `Readonly` **status**: `number`
+> **`readonly`** **status**: `number`

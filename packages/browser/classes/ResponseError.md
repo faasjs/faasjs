@@ -1,3 +1,5 @@
+[@faasjs/browser](../README.md) / ResponseError
+
 # Class: ResponseError
 
 ResponseError class
@@ -10,39 +12,27 @@ new ResponseError({
 })
 ```
 
-## Hierarchy
+## Extends
 
 - `Error`
 
-  ↳ **`ResponseError`**
-
-## Table of contents
-
-### Constructors
-
-- [constructor](ResponseError.md#constructor)
-
-### Properties
-
-- [body](ResponseError.md#body)
-- [headers](ResponseError.md#headers)
-- [status](ResponseError.md#status)
-
 ## Constructors
 
-### constructor
+### new ResponseError(__namedParameters)
 
-• **new ResponseError**(`«destructured»`): [`ResponseError`](ResponseError.md)
+> **new ResponseError**(`__namedParameters`): [`ResponseError`](ResponseError.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `«destructured»` | `Object` |
-| › `body` | `any` |
-| › `headers` | [`ResponseHeaders`](../#responseheaders) |
-| › `message` | `string` |
-| › `status` | `number` |
+• **\_\_namedParameters**: `Object`
+
+• **\_\_namedParameters\.body**: `any`
+
+• **\_\_namedParameters\.headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+
+• **\_\_namedParameters\.message**: `string`
+
+• **\_\_namedParameters\.status**: `number`
 
 #### Returns
 
@@ -50,22 +40,18 @@ new ResponseError({
 
 #### Overrides
 
-Error.constructor
+`Error.constructor`
 
 ## Properties
 
 ### body
 
-• `Readonly` **body**: `any`
-
-___
+> **`readonly`** **body**: `any`
 
 ### headers
 
-• `Readonly` **headers**: [`ResponseHeaders`](../#responseheaders)
-
-___
+> **`readonly`** **headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
 
 ### status
 
-• `Readonly` **status**: `number`
+> **`readonly`** **status**: `number`

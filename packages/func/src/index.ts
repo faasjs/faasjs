@@ -1,3 +1,16 @@
+/**
+ * FaasJS's function module.
+ *
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/func.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/func/LICENSE)
+ * [![NPM Version](https://img.shields.io/npm/v/@faasjs/func.svg)](https://www.npmjs.com/package/@faasjs/func)
+ *
+ * ## Install
+ *
+ * ```sh
+ * npm install @faasjs/func
+ * ```
+ * @packageDocumentation
+ */
 import { Logger } from '@faasjs/logger'
 import { RunHandler } from './plugins/run_handler'
 import { randomBytes } from 'crypto'

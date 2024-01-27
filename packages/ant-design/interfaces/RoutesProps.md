@@ -1,27 +1,17 @@
+[@faasjs/ant-design](../README.md) / RoutesProps
+
 # Interface: RoutesProps
-
-## Table of contents
-
-### Properties
-
-- [fallback](RoutesProps.md#fallback)
-- [notFound](RoutesProps.md#notfound)
-- [routes](RoutesProps.md#routes)
 
 ## Properties
 
-### fallback
+### fallback?
 
-• `Optional` **fallback**: `Element`
+> **fallback**?: `Element`
 
-___
+### notFound?
 
-### notFound
-
-• `Optional` **notFound**: `Element`
-
-___
+> **notFound**?: `Element`
 
 ### routes
 
-• **routes**: `RouteProps` & \{ `page?`: `LazyExoticComponent`\<`ComponentType`\<`any`\>\>  }[]
+> **routes**: `RouteProps` & `Object`[]

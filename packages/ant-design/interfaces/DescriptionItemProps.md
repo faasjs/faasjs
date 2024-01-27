@@ -1,123 +1,80 @@
+[@faasjs/ant-design](../README.md) / DescriptionItemProps
+
 # Interface: DescriptionItemProps\<T\>
 
-## Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | `any` |
-
-## Hierarchy
+## Extends
 
 - [`FaasItemProps`](FaasItemProps.md)
 
-  ↳ **`DescriptionItemProps`**
+## Type parameters
 
-  ↳↳ [`UnionFaasItemProps`](UnionFaasItemProps.md)
-
-## Table of contents
-
-### Properties
-
-- [children](DescriptionItemProps.md#children)
-- [descriptionChildren](DescriptionItemProps.md#descriptionchildren)
-- [descriptionRender](DescriptionItemProps.md#descriptionrender)
-- [id](DescriptionItemProps.md#id)
-- [if](DescriptionItemProps.md#if)
-- [object](DescriptionItemProps.md#object)
-- [options](DescriptionItemProps.md#options)
-- [render](DescriptionItemProps.md#render)
-- [title](DescriptionItemProps.md#title)
-- [type](DescriptionItemProps.md#type)
+• **T** = `any`
 
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
+> **children**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
-___
+### descriptionChildren?
 
-### descriptionChildren
+> **descriptionChildren**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
-• `Optional` **descriptionChildren**: [`UnionFaasItemElement`](../modules.md#unionfaasitemelement)\<`T`\>
+### descriptionRender?
 
-___
-
-### descriptionRender
-
-• `Optional` **descriptionRender**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
-
-___
+> **descriptionRender**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
 
 ### id
 
-• **id**: `string`
+> **id**: `string`
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[id](FaasItemProps.md#id)
+[`FaasItemProps.id`](FaasItemProps.md#id)
 
-___
+### if?
 
-### if
+> **if**?: (`values`) => `boolean`
 
-• `Optional` **if**: (`values`: `Record`\<`string`, `any`\>) => `boolean`
+#### Parameters
 
-#### Type declaration
+• **values**: `Record`\<`string`, `any`\>
 
-▸ (`values`): `boolean`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `values` | `Record`\<`string`, `any`\> |
-
-##### Returns
+#### Returns
 
 `boolean`
 
-___
+### object?
 
-### object
+> **object**?: [`DescriptionItemProps`](DescriptionItemProps.md)\<`T`\>[]
 
-• `Optional` **object**: [`DescriptionItemProps`](DescriptionItemProps.md)\<`T`\>[]
+### options?
 
-___
-
-### options
-
-• `Optional` **options**: [`BaseOption`](../modules.md#baseoption)[]
+> **options**?: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[options](FaasItemProps.md#options)
+[`FaasItemProps.options`](FaasItemProps.md#options)
 
-___
+### render?
 
-### render
+> **render**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
 
-• `Optional` **render**: [`UnionFaasItemRender`](../modules.md#unionfaasitemrender)\<`T`\>
+### title?
 
-___
-
-### title
-
-• `Optional` **title**: `string`
+> **title**?: `string`
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[title](FaasItemProps.md#title)
+[`FaasItemProps.title`](FaasItemProps.md#title)
 
-___
+### type?
 
-### type
-
-• `Optional` **type**: [`FaasItemType`](../modules.md#faasitemtype)
+> **type**?: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 
-**`Default`**
+#### Default
 
 ```ts
 'string'
@@ -125,4 +82,4 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 #### Inherited from
 
-[FaasItemProps](FaasItemProps.md).[type](FaasItemProps.md#type)
+[`FaasItemProps.type`](FaasItemProps.md#type)

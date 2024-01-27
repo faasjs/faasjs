@@ -1,54 +1,111 @@
+[@faasjs/ant-design](../README.md) / ConfigProviderProps
+
 # Interface: ConfigProviderProps
-
-## Table of contents
-
-### Properties
-
-- [children](ConfigProviderProps.md#children)
-- [faasClientOptions](ConfigProviderProps.md#faasclientoptions)
-- [theme](ConfigProviderProps.md#theme)
 
 ## Properties
 
 ### children
 
-• **children**: `ReactNode`
+> **children**: `ReactNode`
 
-___
+### faasClientOptions?
 
-### faasClientOptions
+> **faasClientOptions**?: `FaasReactClientOptions`
 
-• `Optional` **faasClientOptions**: `FaasReactClientOptions`
+### theme?
 
-___
-
-### theme
-
-• `Optional` **theme**: `Object`
+> **theme**?: `Object`
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `Blank?` | \{ `text?`: `string`  } |
-| `Blank.text?` | `string` |
-| `Form?` | \{ `submit?`: \{ `text?`: `string`  }  } |
-| `Form.submit?` | \{ `text?`: `string`  } |
-| `Form.submit.text?` | `string` |
-| `Link?` | \{ `style?`: `CSSProperties` ; `target?`: `string`  } |
-| `Link.style?` | `CSSProperties` |
-| `Link.target?` | `string` |
-| `Title?` | \{ `separator?`: `string` ; `suffix?`: `string`  } |
-| `Title.separator?` | `string` |
-| `Title.suffix?` | `string` |
-| `common?` | \{ `add?`: `string` ; `all?`: `string` ; `blank?`: `string` ; `delete?`: `string` ; `pageNotFound?`: `string` ; `required?`: `string` ; `reset?`: `string` ; `search?`: `string` ; `submit?`: `string`  } |
-| `common.add?` | `string` |
-| `common.all?` | `string` |
-| `common.blank?` | `string` |
-| `common.delete?` | `string` |
-| `common.pageNotFound?` | `string` |
-| `common.required?` | `string` |
-| `common.reset?` | `string` |
-| `common.search?` | `string` |
-| `common.submit?` | `string` |
-| `lang?` | `string` |
+##### Blank?
+
+> **Blank**?: `Object`
+
+##### Blank.text?
+
+> **Blank.text**?: `string`
+
+##### Form?
+
+> **Form**?: `Object`
+
+##### Form.submit?
+
+> **Form.submit**?: `Object`
+
+##### Form.submit.text?
+
+> **Form.submit.text**?: `string`
+
+##### Link?
+
+> **Link**?: `Object`
+
+##### Link.style?
+
+> **Link.style**?: `CSSProperties`
+
+##### Link.target?
+
+> **Link.target**?: `string`
+
+'_blank' as default
+
+##### Title?
+
+> **Title**?: `Object`
+
+##### Title.separator?
+
+> **Title.separator**?: `string`
+
+' - ' as default
+
+##### Title.suffix?
+
+> **Title.suffix**?: `string`
+
+##### common?
+
+> **common**?: `Object`
+
+##### common.add?
+
+> **common.add**?: `string`
+
+##### common.all?
+
+> **common.all**?: `string`
+
+##### common.blank?
+
+> **common.blank**?: `string`
+
+##### common.delete?
+
+> **common.delete**?: `string`
+
+##### common.pageNotFound?
+
+> **common.pageNotFound**?: `string`
+
+##### common.required?
+
+> **common.required**?: `string`
+
+##### common.reset?
+
+> **common.reset**?: `string`
+
+##### common.search?
+
+> **common.search**?: `string`
+
+##### common.submit?
+
+> **common.submit**?: `string`
+
+##### lang?
+
+> **lang**?: `string`

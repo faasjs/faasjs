@@ -1,85 +1,51 @@
+[@faasjs/ant-design](../README.md) / LinkProps
+
 # Interface: LinkProps
-
-## Table of contents
-
-### Properties
-
-- [block](LinkProps.md#block)
-- [button](LinkProps.md#button)
-- [children](LinkProps.md#children)
-- [copyable](LinkProps.md#copyable)
-- [href](LinkProps.md#href)
-- [onClick](LinkProps.md#onclick)
-- [style](LinkProps.md#style)
-- [target](LinkProps.md#target)
-- [text](LinkProps.md#text)
 
 ## Properties
 
-### block
+### block?
 
-• `Optional` **block**: `boolean`
+> **block**?: `boolean`
 
-___
+### button?
 
-### button
+> **button**?: `ButtonProps`
 
-• `Optional` **button**: `ButtonProps`
+### children?
 
-___
+> **children**?: `ReactNode`
 
-### children
+### copyable?
 
-• `Optional` **children**: `ReactNode`
-
-___
-
-### copyable
-
-• `Optional` **copyable**: `boolean`
+> **copyable**?: `boolean`
 
 only use for text without button
 
-___
-
 ### href
 
-• **href**: `string`
+> **href**: `string`
 
-___
+### onClick?
 
-### onClick
+> **onClick**?: (`event`) => `void`
 
-• `Optional` **onClick**: (`event`: `MouseEvent`\<`HTMLElement`, `MouseEvent`\>) => `void`
+#### Parameters
 
-#### Type declaration
+• **event**: `MouseEvent`\<`HTMLElement`, `MouseEvent`\>
 
-▸ (`event`): `void`
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `event` | `MouseEvent`\<`HTMLElement`, `MouseEvent`\> |
-
-##### Returns
+#### Returns
 
 `void`
 
-___
+### style?
 
-### style
+> **style**?: `CSSProperties`
 
-• `Optional` **style**: `CSSProperties`
+### target?
 
-___
+> **target**?: `"_blank"`
 
-### target
+### text?
 
-• `Optional` **target**: ``"_blank"``
-
-___
-
-### text
-
-• `Optional` **text**: `string` \| `number`
+> **text**?: `string` \| `number`

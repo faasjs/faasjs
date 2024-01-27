@@ -1,23 +1,17 @@
+[@faasjs/ant-design](../README.md) / ModalProps
+
 # Interface: ModalProps
 
-## Hierarchy
+## Extends
 
 - `ModalProps`
 
-  ↳ **`ModalProps`**
-
-## Table of contents
-
-### Properties
-
-- [children](ModalProps.md#children)
-
 ## Properties
 
-### children
+### children?
 
-• `Optional` **children**: `string` \| `Element` \| `Element`[]
+> **children**?: `string` \| `Element` \| `Element`[]
 
 #### Overrides
 
-AntdModalProps.children
+`AntdModalProps.children`

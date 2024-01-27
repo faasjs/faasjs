@@ -1,3 +1,5 @@
+[@faasjs/logger](../README.md) / Logger
+
 # Class: Logger
 
 Logger Class
@@ -7,7 +9,7 @@ Support env:
 - FaasLogSize: 1000 (default: 1000)
 - FaasLogMode: plain, pretty (default: pretty)
 
-**`Example`**
+## Example
 
 ```ts
 const logger = new Logger()
@@ -21,44 +23,17 @@ logger.time('timer name')
 logger.timeEnd('timer name', 'message') // => 'message +1ms'
 ```
 
-## Table of contents
-
-### Constructors
-
-- [constructor](Logger.md#constructor)
-
-### Properties
-
-- [colorfyOutput](Logger.md#colorfyoutput)
-- [label](Logger.md#label)
-- [level](Logger.md#level)
-- [silent](Logger.md#silent)
-- [size](Logger.md#size)
-- [stderr](Logger.md#stderr)
-- [stdout](Logger.md#stdout)
-
-### Methods
-
-- [colorfy](Logger.md#colorfy)
-- [debug](Logger.md#debug)
-- [error](Logger.md#error)
-- [info](Logger.md#info)
-- [raw](Logger.md#raw)
-- [time](Logger.md#time)
-- [timeEnd](Logger.md#timeend)
-- [warn](Logger.md#warn)
-
 ## Constructors
 
-### constructor
+### new Logger(label)
 
-• **new Logger**(`label?`): [`Logger`](Logger.md)
+> **new Logger**(`label`?): [`Logger`](Logger.md)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `label?` | `string` | {string} Prefix label |
+• **label?**: `string`
+
+{string} Prefix label
 
 #### Returns
 
@@ -68,208 +43,197 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ### colorfyOutput
 
-• **colorfyOutput**: `boolean` = `true`
+> **colorfyOutput**: `boolean` = `true`
 
-___
+### label?
 
-### label
-
-• `Optional` **label**: `string`
-
-___
+> **label**?: `string`
 
 ### level
 
-• **level**: `number`
-
-___
+> **level**: `number`
 
 ### silent
 
-• **silent**: `boolean`
+> **silent**: `boolean`
 
-___
+### size?
 
-### size
-
-• `Optional` **size**: `number`
+> **size**?: `number`
 
 size of log message, default 1000, set 0 to disable
 
 env: FaasLogSize
 
-___
-
 ### stderr
 
-• **stderr**: (`text`: `string`) => `void`
+> **stderr**: (`text`) => `void`
 
-#### Type declaration
+#### Parameters
 
-▸ (`text`): `void`
+• **text**: `string`
 
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `text` | `string` |
-
-##### Returns
+#### Returns
 
 `void`
 
-___
-
 ### stdout
 
-• **stdout**: (`text`: `string`) => `void`
+> **stdout**: (`text`) => `void`
 
-#### Type declaration
+#### Parameters
 
-▸ (`text`): `void`
+• **text**: `string`
 
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `text` | `string` |
-
-##### Returns
+#### Returns
 
 `void`
 
 ## Methods
 
-### colorfy
+### colorfy()
 
-▸ **colorfy**(`color`, `message`): `string`
+> **colorfy**(`color`, `message`): `string`
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `color` | `number` | {number} color code |
-| `message` | `string` | {string} message |
+• **color**: `number`
+
+{number} color code
+
+• **message**: `string`
+
+{string} message
 
 #### Returns
 
 `string`
 
-___
+### debug()
 
-### debug
-
-▸ **debug**(`message`, `...args`): [`Logger`](Logger.md)
+> **debug**(`message`, ...`args`): [`Logger`](Logger.md)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `message` | `string` | {string} message |
-| `...args` | `any`[] | {...any=} arguments |
+• **message**: `string`
+
+{string} message
+
+• ...**args**: `any`[]
+
+{...any=} arguments
 
 #### Returns
 
 [`Logger`](Logger.md)
 
-___
+### error()
 
-### error
-
-▸ **error**(`message`, `...args`): [`Logger`](Logger.md)
+> **error**(`message`, ...`args`): [`Logger`](Logger.md)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `message` | `string` \| `Error` | {any} message or Error object |
-| `...args` | `any`[] | {...any=} arguments |
+• **message**: `string` \| `Error`
+
+{any} message or Error object
+
+• ...**args**: `any`[]
+
+{...any=} arguments
 
 #### Returns
 
 [`Logger`](Logger.md)
 
-___
+### info()
 
-### info
-
-▸ **info**(`message`, `...args`): [`Logger`](Logger.md)
+> **info**(`message`, ...`args`): [`Logger`](Logger.md)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `message` | `string` | {string} message |
-| `...args` | `any`[] | {...any=} arguments |
+• **message**: `string`
+
+{string} message
+
+• ...**args**: `any`[]
+
+{...any=} arguments
 
 #### Returns
 
 [`Logger`](Logger.md)
 
-___
+### raw()
 
-### raw
-
-▸ **raw**(`message`, `...args`): [`Logger`](Logger.md)
+> **raw**(`message`, ...`args`): [`Logger`](Logger.md)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `message` | `string` | {string} message |
-| `...args` | `any`[] | {...any=} arguments |
+• **message**: `string`
+
+{string} message
+
+• ...**args**: `any`[]
+
+{...any=} arguments
 
 #### Returns
 
 [`Logger`](Logger.md)
 
-___
+### time()
 
-### time
-
-▸ **time**(`key`, `level?`): [`Logger`](Logger.md)
+> **time**(`key`, `level`): [`Logger`](Logger.md)
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `key` | `string` | `undefined` | {string} timer's label |
-| `level` | [`Level`](../#level) | `'debug'` | [string=debug] 日志级别，支持 debug、info、warn、error |
+• **key**: `string`
+
+{string} timer's label
+
+• **level**: [`Level`](../type-aliases/Level.md)= `'debug'`
+
+[string=debug] 日志级别，支持 debug、info、warn、error
 
 #### Returns
 
 [`Logger`](Logger.md)
 
-___
+### timeEnd()
 
-### timeEnd
-
-▸ **timeEnd**(`key`, `message`, `...args`): [`Logger`](Logger.md)
+> **timeEnd**(`key`, `message`, ...`args`): [`Logger`](Logger.md)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `key` | `string` | {string} timer's label |
-| `message` | `string` | {string} message |
-| `...args` | `any`[] | {...any=} arguments |
+• **key**: `string`
+
+{string} timer's label
+
+• **message**: `string`
+
+{string} message
+
+• ...**args**: `any`[]
+
+{...any=} arguments
 
 #### Returns
 
 [`Logger`](Logger.md)
 
-___
+### warn()
 
-### warn
-
-▸ **warn**(`message`, `...args`): [`Logger`](Logger.md)
+> **warn**(`message`, ...`args`): [`Logger`](Logger.md)
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `message` | `string` | {string} message |
-| `...args` | `any`[] | {...any=} arguments |
+• **message**: `string`
+
+{string} message
+
+• ...**args**: `any`[]
+
+{...any=} arguments
 
 #### Returns
 

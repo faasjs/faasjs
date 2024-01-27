@@ -1,3 +1,5 @@
+[@faasjs/test](../README.md) / FuncWarper
+
 # Class: FuncWarper
 
 Test Wrapper for a func
@@ -12,52 +14,29 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ## Indexable
 
-▪ [key: `string`]: `any`
-
-## Table of contents
-
-### Constructors
-
-- [constructor](FuncWarper.md#constructor)
-
-### Properties
-
-- [config](FuncWarper.md#config)
-- [file](FuncWarper.md#file)
-- [func](FuncWarper.md#func)
-- [logger](FuncWarper.md#logger)
-- [plugins](FuncWarper.md#plugins)
-- [staging](FuncWarper.md#staging)
-
-### Methods
-
-- [JSONhandler](FuncWarper.md#jsonhandler)
-- [handler](FuncWarper.md#handler)
-- [mount](FuncWarper.md#mount)
+ \[`key`: `string`\]: `any`
 
 ## Constructors
 
-### constructor
+### new FuncWarper(initBy)
 
-• **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
+> **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `initBy` | [`Func`](Func.md)\<`any`, `any`, `any`\> |
+• **initBy**: [`Func`](Func.md)\<`any`, `any`, `any`\>
 
 #### Returns
 
 [`FuncWarper`](FuncWarper.md)
 
-• **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
+### new FuncWarper(initBy)
+
+> **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `initBy` | `string` |
+• **initBy**: `string`
 
 #### Returns
 
@@ -67,98 +46,116 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### config
 
-• `Readonly` **config**: [`Config`](../#config)
-
-___
+> **`readonly`** **config**: [`Config`](../type-aliases/Config.md)
 
 ### file
 
-• `Readonly` **file**: `string`
-
-___
+> **`readonly`** **file**: `string`
 
 ### func
 
-• `Readonly` **func**: [`Func`](Func.md)\<`any`, `any`, `any`\>
-
-___
+> **`readonly`** **func**: [`Func`](Func.md)\<`any`, `any`, `any`\>
 
 ### logger
 
-• `Readonly` **logger**: `Logger`
-
-___
+> **`readonly`** **logger**: `Logger`
 
 ### plugins
 
-• `Readonly` **plugins**: [`Plugin`](../#plugin)[]
-
-___
+> **`readonly`** **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
 
 ### staging
 
-• `Readonly` **staging**: `string`
+> **`readonly`** **staging**: `string`
 
 ## Methods
 
-### JSONhandler
+### JSONhandler()
 
-▸ **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any` ; `cookie?`: `Record`\<`string`, `any`\> ; `data?`: `TData` ; `error?`: \{ `message`: `string`  } ; `headers`: \{ `[key: string]`: `string`;  } ; `session?`: `Record`\<`string`, `any`\> ; `statusCode`: `number`  }\>
+> **JSONhandler**\<`TData`\>(`body`?, `options`?): `Promise`\<`Object`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TData` | `any` |
+• **TData** = `any`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `body?` | `Object` |
-| `options` | `Object` |
-| `options.cookie?` | `Object` |
-| `options.headers?` | `Object` |
-| `options.session?` | `Object` |
+• **body?**: `Object`
+
+• **options?**: `Object`= `undefined`
+
+• **options\.cookie?**: `Object`
+
+• **options\.headers?**: `Object`
+
+• **options\.session?**: `Object`
 
 #### Returns
 
-`Promise`\<\{ `body`: `any` ; `cookie?`: `Record`\<`string`, `any`\> ; `data?`: `TData` ; `error?`: \{ `message`: `string`  } ; `headers`: \{ `[key: string]`: `string`;  } ; `session?`: `Record`\<`string`, `any`\> ; `statusCode`: `number`  }\>
+`Promise`\<`Object`\>
 
-___
+> ##### body
+>
+> > **body**: `any`
+>
+> ##### cookie?
+>
+> > **cookie**?: `Record`\<`string`, `any`\>
+>
+> ##### data?
+>
+> > **data**?: `TData`
+>
+> ##### error?
+>
+> > **error**?: `Object`
+>
+> ##### error.message
+>
+> > **error.message**: `string`
+>
+> ##### headers
+>
+> > **headers**: `Object`
+>
+> ###### Index signature
+>
+> \[`key`: `string`\]: `string`
+>
+> ##### session?
+>
+> > **session**?: `Record`\<`string`, `any`\>
+>
+> ##### statusCode
+>
+> > **statusCode**: `number`
+>
 
-### handler
+### handler()
 
-▸ **handler**\<`TResult`\>(`event?`, `context?`): `Promise`\<`TResult`\>
+> **handler**\<`TResult`\>(`event`, `context`): `Promise`\<`TResult`\>
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `TResult` | `any` |
+• **TResult** = `any`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `event` | `any` |
-| `context` | `any` |
+• **event**: `any`= `undefined`
+
+• **context**: `any`= `undefined`
 
 #### Returns
 
 `Promise`\<`TResult`\>
 
-___
+### mount()
 
-### mount
-
-▸ **mount**(`handler?`): `Promise`\<`void`\>
+> **mount**(`handler`?): `Promise`\<`void`\>
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `handler?` | (`func`: [`FuncWarper`](FuncWarper.md)) => `void` \| `Promise`\<`void`\> |
+• **handler?**: (`func`) => `void` \| `Promise`\<`void`\>
 
 #### Returns
 

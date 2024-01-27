@@ -1,41 +1,29 @@
+[@faasjs/ant-design](../README.md) / TabProps
+
 # Interface: TabProps
 
-## Hierarchy
+## Extends
 
 - `Partial`\<`OriginTabProps`\>
-
-  ↳ **`TabProps`**
-
-## Table of contents
-
-### Properties
-
-- [children](TabProps.md#children)
-- [id](TabProps.md#id)
-- [title](TabProps.md#title)
 
 ## Properties
 
 ### children
 
-• **children**: `ReactNode`
+> **children**: `ReactNode`
 
 #### Overrides
 
-Partial.children
-
-___
+`Partial.children`
 
 ### id
 
-• **id**: `string`
+> **id**: `string`
 
 #### Overrides
 
-Partial.id
+`Partial.id`
 
-___
+### title?
 
-### title
-
-• `Optional` **title**: `ReactNode`
+> **title**?: `ReactNode`

@@ -1,65 +1,44 @@
+[@faasjs/ant-design](../README.md) / FaasItemProps
+
 # Interface: FaasItemProps
 
-## Hierarchy
+## Extends
 
 - [`BaseItemProps`](BaseItemProps.md)
-
-  ↳ **`FaasItemProps`**
-
-  ↳↳ [`DescriptionItemProps`](DescriptionItemProps.md)
-
-  ↳↳ [`FormItemProps`](FormItemProps.md)
-
-  ↳↳ [`TableItemProps`](TableItemProps.md)
-
-## Table of contents
-
-### Properties
-
-- [id](FaasItemProps.md#id)
-- [options](FaasItemProps.md#options)
-- [title](FaasItemProps.md#title)
-- [type](FaasItemProps.md#type)
 
 ## Properties
 
 ### id
 
-• **id**: `string`
+> **id**: `string`
 
 #### Inherited from
 
-[BaseItemProps](BaseItemProps.md).[id](BaseItemProps.md#id)
+[`BaseItemProps.id`](BaseItemProps.md#id)
 
-___
+### options?
 
-### options
-
-• `Optional` **options**: [`BaseOption`](../modules.md#baseoption)[]
+> **options**?: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
-[BaseItemProps](BaseItemProps.md).[options](BaseItemProps.md#options)
+[`BaseItemProps.options`](BaseItemProps.md#options)
 
-___
+### title?
 
-### title
-
-• `Optional` **title**: `string`
+> **title**?: `string`
 
 #### Inherited from
 
-[BaseItemProps](BaseItemProps.md).[title](BaseItemProps.md#title)
+[`BaseItemProps.title`](BaseItemProps.md#title)
 
-___
+### type?
 
-### type
-
-• `Optional` **type**: [`FaasItemType`](../modules.md#faasitemtype)
+> **type**?: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 
-**`Default`**
+#### Default
 
 ```ts
 'string'
