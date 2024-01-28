@@ -1,7 +1,10 @@
-import { Modal, ModalProps as AntdModalProps } from 'antd'
-import { useState } from 'react'
+import { Modal as AntdModal, ModalProps as AntdModalProps } from 'antd'
+import { useCallback, useMemo, useState } from 'react'
 
-export { Modal }
+export const Modal = AntdModal
+
+// @ts-ignore
+Modal.whyDidYouRender = true
 
 export interface ModalProps extends AntdModalProps {
   children?: JSX.Element | JSX.Element[] | string
@@ -28,32 +31,35 @@ export type setModalProps = (
  * ```
  */
 export function useModal(init?: ModalProps) {
-  const [props, setProps] = useState<ModalProps>({
-    open: false,
-    onCancel: () =>
+  const [props, setProps] = useState<ModalProps>({ open: false, ...init })
+
+  const onCancel = useCallback(() => {
+    setProps(prev => ({
+      ...prev,
+      open: false,
+    }))
+  }, [])
+
+  const modal = useMemo(() => <Modal onCancel={onCancel} {...props} />, [props])
+
+  const setModalProps = useCallback<setModalProps>(changes => {
+    if (typeof changes === 'function') {
       setProps(prev => ({
         ...prev,
-        open: false,
-      })),
-    ...init,
-  })
+        ...changes(props),
+      }))
+      return
+    }
+
+    setProps(prev => ({
+      ...prev,
+      ...changes,
+    }))
+  }, [])
 
   return {
-    modal: <Modal {...props} />,
+    modal,
     modalProps: props,
-    setModalProps(changes: Parameters<setModalProps>[0]) {
-      if (typeof changes === 'function') {
-        setProps(prev => ({
-          ...prev,
-          ...changes(props),
-        }))
-        return
-      }
-
-      setProps(prev => ({
-        ...prev,
-        ...changes,
-      }))
-    },
+    setModalProps,
   }
 }

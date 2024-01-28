@@ -1,9 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2018",
     "moduleResolution": "node",
     "sourceMap": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["@welldone-software/why-did-you-render", "jest", "@testing-library/jest-dom"]
   }
 }

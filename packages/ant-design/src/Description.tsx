@@ -228,6 +228,8 @@ function DescriptionItemContent<T = any>(
   }
 }
 
+DescriptionItemContent.whyDidYouRender = true
+
 /**
  * Description component
  *
@@ -289,3 +291,5 @@ export function Description<T = any>(props: DescriptionProps<T>) {
     />
   )
 }
+
+Description.whyDidYouRender = true

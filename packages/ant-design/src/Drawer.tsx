@@ -1,7 +1,7 @@
-import { Drawer, DrawerProps as AntdDrawerProps } from 'antd'
+import { Drawer as AntdDrawer, DrawerProps as AntdDrawerProps } from 'antd'
 import { useState } from 'react'
 
-export { Drawer }
+export const Drawer = AntdDrawer as React.FC<DrawerProps>
 
 export interface DrawerProps extends AntdDrawerProps {
   children?: JSX.Element | JSX.Element[]
@@ -59,3 +59,5 @@ export function useDrawer(init?: DrawerProps) {
     },
   }
 }
+
+Drawer.whyDidYouRender = true

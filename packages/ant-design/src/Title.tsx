@@ -74,3 +74,5 @@ export function Title(props: TitleProps): JSX.Element {
 
   return null
 }
+
+Title.whyDidYouRender = true

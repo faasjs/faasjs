@@ -33,3 +33,5 @@ export function Blank(options?: BlankProps): JSX.Element {
     options.value
   )
 }
+
+Blank.whyDidYouRender = true

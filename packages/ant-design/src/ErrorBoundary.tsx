@@ -32,3 +32,5 @@ function ErrorChildren(props: ErrorChildrenProps) {
 export function ErrorBoundary(props: ErrorBoundaryProps) {
   return <Origin errorChildren={<ErrorChildren />} {...props} />
 }
+
+ErrorBoundary.whyDidYouRender = true

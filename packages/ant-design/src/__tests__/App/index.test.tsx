@@ -8,6 +8,7 @@ import { App, useApp } from '../../App'
 
 describe('App', () => {
   it('should work', async () => {
+    let count = 0
     function Component() {
       const { setModalProps, message } = useApp()
 
@@ -15,6 +16,8 @@ describe('App', () => {
       useEffect(() => {
         message.info('Hi')
       }, [])
+
+      count++
 
       return (
         <button
@@ -31,6 +34,8 @@ describe('App', () => {
       )
     }
 
+    Component.whyDidYouRender = true
+
     const user = userEvent.setup()
 
     render(
@@ -40,9 +45,11 @@ describe('App', () => {
     )
 
     expect(screen.getByText('Hi')).toBeInTheDocument()
+    expect(count).toBe(2)
 
     await user.click(screen.getByRole('button'))
 
-    expect(screen.getByText('Hello')).toBeInTheDocument()
+    expect(await screen.findByText('Hello')).toBeInTheDocument()
+    expect(count).toBe(3)
   })
 })

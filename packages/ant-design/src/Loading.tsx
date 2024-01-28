@@ -38,3 +38,5 @@ export function Loading(props: LoadingProps) {
     </div>
   )
 }
+
+Loading.whyDidYouRender = true

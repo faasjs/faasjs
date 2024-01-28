@@ -67,3 +67,5 @@ export function Routes(props: RoutesProps) {
     </OriginRoutes>
   )
 }
+
+Routes.whyDidYouRender = true

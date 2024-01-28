@@ -24,11 +24,10 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { transferOptions } from './data'
+import { transferOptions, type BaseItemProps, type BaseOption } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { cloneElement, useEffect, useState } from 'react'
 import { upperFirst } from 'lodash-es'
-import type { BaseItemProps, BaseOption } from '.'
 import { ConfigProviderProps, useConfigContext } from './Config'
 
 type OptionsProps = {
@@ -521,5 +520,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       return null
   }
 }
+
+FormItem.whyDidYouRender = true
 
 FormItem.useStatus = AntdForm.Item.useStatus

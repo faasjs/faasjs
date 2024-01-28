@@ -39,3 +39,5 @@ export function FaasDataWrapper<T = any>(
     />
   )
 }
+
+FaasDataWrapper.whyDidYouRender = true

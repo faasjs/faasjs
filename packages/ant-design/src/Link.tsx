@@ -137,3 +137,5 @@ export function Link(props: LinkProps) {
     </Typography.Link>
   )
 }
+
+Link.whyDidYouRender = true

@@ -93,7 +93,7 @@ export function App(props: AppProps) {
   const [messageApi, messageContextHolder] = message.useMessage()
   const [notificationApi, notificationContextHolder] =
     notification.useNotification()
-  const { modal, setModalProps } = useModal()
+  const { modal, modalProps, setModalProps } = useModal()
   const { drawer, setDrawerProps } = useDrawer()
 
   const memoizedContextValue = useMemo<useAppProps>(
@@ -106,13 +106,17 @@ export function App(props: AppProps) {
     [messageApi, notificationApi, setModalProps, setDrawerProps]
   )
 
+  const styleProviderProps = useMemo(
+    () => ({
+      ...props.styleProviderProps,
+      hashPriority: 'high' as const,
+      transformers: [legacyLogicalPropertiesTransformer],
+    }),
+    [props.styleProviderProps]
+  )
+
   return (
-    <StyleProvider
-      {...Object.assign(props.styleProviderProps || {}, {
-        hashPriority: 'high',
-        transformers: [legacyLogicalPropertiesTransformer],
-      })}
-    >
+    <StyleProvider {...styleProviderProps}>
       <ConfigProvider {...props.configProviderProps}>
         <AppContext.Provider value={memoizedContextValue}>
           <FaasConfigProvider {...props.faasConfigProviderProps}>
@@ -146,3 +150,4 @@ export function useApp() {
 }
 
 App.useApp = useApp
+App.whyDidYouRender = true

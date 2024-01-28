@@ -49,3 +49,5 @@ export function Tabs(props: TabsProps) {
     />
   )
 }
+
+Tabs.whyDidYouRender = true
