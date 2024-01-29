@@ -4,6 +4,12 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.5.0 (2024-01-29)`](https://github.com/faasjs/faasjs/compare/v1.4.2...v1.5.0)
+
+- `@faasjs/ant-design`
+  - [Feature] Support [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
+  - [Feature] Drawer and Modal support function as change handler.
+
 [`v1.4.2 (2024-01-22)`](https://github.com/faasjs/faasjs/compare/v1.4.1...v1.4.2)
 
 - `@faasjs/knex`
