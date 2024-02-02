@@ -5,11 +5,11 @@ import {
   legacyLogicalPropertiesTransformer,
 } from '@ant-design/cssinjs'
 import type { StyleProviderProps } from '@ant-design/cssinjs/lib/StyleContext'
-import { createContext, useContext, useEffect, useMemo } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef } from 'react'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
-import { ModalProps, useModal } from './Modal'
-import { DrawerProps, useDrawer } from './Drawer'
+import { ModalProps, setModalProps, useModal } from './Modal'
+import { DrawerProps, setDrawerProps, useDrawer } from './Drawer'
 import { BrowserRouter, useLocation } from 'react-router-dom'
 import type { BrowserRouterProps } from 'react-router-dom'
 import { ErrorBoundary, ErrorBoundaryProps } from './ErrorBoundary'
@@ -35,28 +35,34 @@ export interface AppProps {
 export interface useAppProps {
   message: MessageInstance
   notification: NotificationInstance
+  modalProps: ModalProps
   setModalProps: (changes: Partial<ModalProps>) => void
+  drawerProps: DrawerProps
   setDrawerProps: (changes: Partial<DrawerProps>) => void
 }
 
-const AppContext = createContext<useAppProps>({
-  message: {} as MessageInstance,
-  notification: {} as NotificationInstance,
-  setModalProps: () => void 0,
-  setDrawerProps: () => void 0,
-})
+const MessageContext = createContext<MessageInstance>({} as MessageInstance)
+const NotificationContext = createContext<NotificationInstance>(
+  {} as NotificationInstance
+)
+const ModalPropsContext = createContext<ModalProps>({})
+const SetModalPropsContext = createContext<setModalProps>(() => void 0)
+const DrawerPropsContext = createContext<DrawerProps>({})
+const SetDrawerPropsContext = createContext<setDrawerProps>(() => void 0)
 
 function RoutesApp(props: {
   children: React.ReactNode
 }) {
   const location = useLocation()
-  const { setDrawerProps, setModalProps } = useApp()
+  const { drawerProps, setDrawerProps, modalProps, setModalProps } = useApp()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     console.debug('location', location)
-    setDrawerProps({ open: false })
-    setModalProps({ open: false })
+
+    if (drawerProps.open) setDrawerProps({ open: false })
+
+    if (modalProps.open) setModalProps({ open: false })
   }, [location])
 
   return <>{props.children}</>
@@ -94,17 +100,7 @@ export function App(props: AppProps) {
   const [notificationApi, notificationContextHolder] =
     notification.useNotification()
   const { modal, modalProps, setModalProps } = useModal()
-  const { drawer, setDrawerProps } = useDrawer()
-
-  const memoizedContextValue = useMemo<useAppProps>(
-    () => ({
-      message: messageApi,
-      notification: notificationApi,
-      setModalProps,
-      setDrawerProps,
-    }),
-    [messageApi, notificationApi, setModalProps, setDrawerProps]
-  )
+  const { drawer, drawerProps, setDrawerProps } = useDrawer()
 
   const styleProviderProps = useMemo(
     () => ({
@@ -118,22 +114,42 @@ export function App(props: AppProps) {
   return (
     <StyleProvider {...styleProviderProps}>
       <ConfigProvider {...props.configProviderProps}>
-        <AppContext.Provider value={memoizedContextValue}>
-          <FaasConfigProvider {...props.faasConfigProviderProps}>
-            <ErrorBoundary {...props.errorBoundaryProps}>
-              <BrowserRouter {...props.browserRouterProps}>
-                {messageContextHolder}
-                {notificationContextHolder}
-                {modal}
-                {drawer}
-                <RoutesApp>{props.children}</RoutesApp>
-              </BrowserRouter>
-            </ErrorBoundary>
-          </FaasConfigProvider>
-        </AppContext.Provider>
+        <MessageContext.Provider value={messageApi}>
+          <NotificationContext.Provider value={notificationApi}>
+            <DrawerPropsContext.Provider value={drawerProps}>
+              <SetDrawerPropsContext.Provider value={setDrawerProps}>
+                <ModalPropsContext.Provider value={modalProps}>
+                  <SetModalPropsContext.Provider value={setModalProps}>
+                    <FaasConfigProvider {...props.faasConfigProviderProps}>
+                      <ErrorBoundary {...props.errorBoundaryProps}>
+                        <BrowserRouter {...props.browserRouterProps}>
+                          {messageContextHolder}
+                          {notificationContextHolder}
+                          {modal}
+                          {drawer}
+                          <RoutesApp>{props.children}</RoutesApp>
+                        </BrowserRouter>
+                      </ErrorBoundary>
+                    </FaasConfigProvider>
+                  </SetModalPropsContext.Provider>
+                </ModalPropsContext.Provider>
+              </SetDrawerPropsContext.Provider>
+            </DrawerPropsContext.Provider>
+          </NotificationContext.Provider>
+        </MessageContext.Provider>
       </ConfigProvider>
     </StyleProvider>
   )
+}
+
+function useConstant<T>(fn: () => T): T {
+  const ref = useRef<{ v: T }>()
+
+  if (!ref.current) {
+    ref.current = { v: fn() }
+  }
+
+  return ref.current.v
 }
 
 /**
@@ -146,7 +162,30 @@ export function App(props: AppProps) {
  * ```
  */
 export function useApp() {
-  return useContext<useAppProps>(AppContext)
+  return useConstant(() => {
+    const obj = Object.create(null) as useAppProps
+
+    Object.defineProperty(obj, 'message', {
+      get: () => useContext(MessageContext),
+    })
+    Object.defineProperty(obj, 'notification', {
+      get: () => useContext(NotificationContext),
+    })
+    Object.defineProperty(obj, 'modalProps', {
+      get: () => useContext(ModalPropsContext),
+    })
+    Object.defineProperty(obj, 'setModalProps', {
+      get: () => useContext(SetModalPropsContext),
+    })
+    Object.defineProperty(obj, 'drawerProps', {
+      get: () => useContext(DrawerPropsContext),
+    })
+    Object.defineProperty(obj, 'setDrawerProps', {
+      get: () => useContext(SetDrawerPropsContext),
+    })
+
+    return Object.freeze(obj)
+  })
 }
 
 App.useApp = useApp

@@ -1,9 +1,11 @@
 import { Drawer as AntdDrawer, DrawerProps as AntdDrawerProps } from 'antd'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 export const Drawer = AntdDrawer as React.FC<DrawerProps> & {
   whyDidYouRender?: boolean
 }
+
+Drawer.whyDidYouRender = true
 
 export interface DrawerProps extends AntdDrawerProps {
   children?: JSX.Element | JSX.Element[]
@@ -34,32 +36,31 @@ export type setDrawerProps = (
 export function useDrawer(init?: DrawerProps) {
   const [props, setProps] = useState<DrawerProps>({
     open: false,
-    onClose: () =>
-      setProps(prev => ({
-        ...prev,
-        open: false,
-      })),
     ...init,
   })
 
-  return {
-    drawer: <Drawer {...props} />,
-    drawerProps: props,
-    setDrawerProps(changes: Parameters<setDrawerProps>[0]) {
-      if (typeof changes === 'function') {
-        setProps(prev => ({
-          ...prev,
-          ...changes(props),
-        }))
-        return
-      }
+  const setDrawerProps: setDrawerProps = useCallback(
+    changes => {
+      const changed = typeof changes === 'function' ? changes(props) : changes
 
-      setProps(prev => ({
-        ...prev,
-        ...changes,
-      }))
+      setProps(prev => ({ ...prev, ...changed }))
     },
+    [setProps]
+  )
+
+  return {
+    drawer: (
+      <Drawer
+        onClose={() =>
+          setProps(prev => ({
+            ...prev,
+            open: false,
+          }))
+        }
+        {...props}
+      />
+    ),
+    drawerProps: props,
+    setDrawerProps,
   }
 }
-
-Drawer.whyDidYouRender = true
