@@ -30,7 +30,7 @@
 
 #### Inherited from
 
-[`FaasItemProps.id`](FaasItemProps.md#id)
+[`FaasItemProps`](FaasItemProps.md).[`id`](FaasItemProps.md#id)
 
 ### if?
 
@@ -54,7 +54,7 @@
 
 #### Inherited from
 
-[`FaasItemProps.options`](FaasItemProps.md#options)
+[`FaasItemProps`](FaasItemProps.md).[`options`](FaasItemProps.md#options)
 
 ### render?
 
@@ -66,7 +66,7 @@
 
 #### Inherited from
 
-[`FaasItemProps.title`](FaasItemProps.md#title)
+[`FaasItemProps`](FaasItemProps.md).[`title`](FaasItemProps.md#title)
 
 ### type?
 
@@ -82,4 +82,4 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 #### Inherited from
 
-[`FaasItemProps.type`](FaasItemProps.md#type)
+[`FaasItemProps`](FaasItemProps.md).[`type`](FaasItemProps.md#type)

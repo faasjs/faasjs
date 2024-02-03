@@ -35,13 +35,7 @@ function Example() {
 >
 > > **drawerProps**: [`DrawerProps`](../interfaces/DrawerProps.md) = `props`
 >
-> ### setDrawerProps()
+> ### setDrawerProps
 >
-> #### Parameters
->
-> • **changes**: `Partial`\<[`DrawerProps`](../interfaces/DrawerProps.md)\> \| (`prev`) => `Partial`\<[`DrawerProps`](../interfaces/DrawerProps.md)\>
->
-> #### Returns
->
-> `void`
+> > **setDrawerProps**: [`setDrawerProps`](../type-aliases/setDrawerProps.md)
 >

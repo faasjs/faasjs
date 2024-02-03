@@ -11,8 +11,5 @@
   },
   "readme": "none",
   "hidePageHeader": true,
-  "mergeReadme": true,
-  "textContentMappings": {
-    "footer.generator": ""
-  }
+  "mergeReadme": true
 }

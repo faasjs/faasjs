@@ -4,9 +4,17 @@
 
 ## Properties
 
+### drawerProps
+
+> **drawerProps**: [`DrawerProps`](DrawerProps.md)
+
 ### message
 
 > **message**: `MessageInstance`
+
+### modalProps
+
+> **modalProps**: [`ModalProps`](ModalProps.md)
 
 ### notification
 

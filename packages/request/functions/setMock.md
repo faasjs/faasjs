@@ -10,7 +10,7 @@ Mock requests
 
 • **handler**: `Mock`
 
-{function | null} null to disable mock
+\{function | null\} null to disable mock
 
 ## Returns
 

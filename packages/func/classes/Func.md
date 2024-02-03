@@ -26,7 +26,7 @@ Create a cloud function
 
 • **config**: [`FuncConfig`](../type-aliases/FuncConfig.md)\<`TEvent`, `TContext`, `any`\>
 
-{object} config
+\{object\} config
 
 #### Returns
 
@@ -66,7 +66,7 @@ Deploy the function
 
 • **data**: [`DeployData`](../type-aliases/DeployData.md)
 
-{object} data
+\{object\} data
 
 #### Returns
 
@@ -97,7 +97,7 @@ Invoke the function
 
 • **data**: [`InvokeData`](../type-aliases/InvokeData.md)\<`TEvent`, `TContext`, `TResult`\>
 
-{object} data
+\{object\} data
 
 #### Returns
 

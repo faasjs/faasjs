@@ -10,11 +10,11 @@
 
 • **root**: `string`
 
-{string} 根目录
+\{string\} 根目录
 
 • **filename**: `string`
 
-{filename} 目标文件，用于读取目录层级
+\{filename\} 目标文件，用于读取目录层级
 
 ## Returns
 

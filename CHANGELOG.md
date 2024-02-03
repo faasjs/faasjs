@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.6.0 (2024-01-29)`](https://github.com/faasjs/faasjs/compare/v1.5.0...v1.6.0)
+
+- `@faasjs/react`
+  - [Feature] Add `useConstant`.
+
+- `@faasjs/ant-design`
+  - [Feature] Reduce `App` re-render times.
+
 [`v1.5.0 (2024-01-29)`](https://github.com/faasjs/faasjs/compare/v1.4.2...v1.5.0)
 
 - `@faasjs/ant-design`

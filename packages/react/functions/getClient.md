@@ -10,7 +10,7 @@ Get FaasReactClient instance
 
 • **domain?**: `string`
 
-{string} empty string for default domain
+\{string\} empty string for default domain
 
 ## Returns
 

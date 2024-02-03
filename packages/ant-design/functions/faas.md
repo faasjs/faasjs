@@ -14,11 +14,11 @@ Request faas server
 
 • **action**: `string` \| `PathOrData`
 
-{string} action name
+\{string\} action name
 
 • **params**: `FaasParams`\<`PathOrData`\>
 
-{object} action params
+\{object\} action params
 
 ## Returns
 

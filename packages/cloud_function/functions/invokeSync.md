@@ -16,15 +16,15 @@
 
 • **name**: `string`
 
-{string} 云函数文件名或云函数名
+\{string\} 云函数文件名或云函数名
 
 • **data?**: `TData`
 
-{any} 参数
+\{any\} 参数
 
 • **options?**: `Object`
 
-{object} 额外配置项
+\{object\} 额外配置项
 
 ## Returns
 

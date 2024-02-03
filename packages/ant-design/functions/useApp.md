@@ -2,7 +2,7 @@
 
 # Function: useApp()
 
-> **useApp**(): [`useAppProps`](../interfaces/useAppProps.md)
+> **useApp**(): `Readonly`\<[`useAppProps`](../interfaces/useAppProps.md)\>
 
 Get app context.
 
@@ -14,4 +14,4 @@ const { message, notification, setModalProps, setDrawerProps } = useApp()
 
 ## Returns
 
-[`useAppProps`](../interfaces/useAppProps.md)
+`Readonly`\<[`useAppProps`](../interfaces/useAppProps.md)\>

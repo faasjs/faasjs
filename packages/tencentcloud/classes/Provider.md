@@ -42,15 +42,15 @@
 
 • **type**: `"cloud_function"` \| `"http"`
 
-{string} 发布类型
+\{string\} 发布类型
 
 • **data**: `DeployData`
 
-{object} 部署环境配置
+\{object\} 部署环境配置
 
 • **config**: `Object`
 
-{Logger} 部署对象配置
+\{Logger\} 部署对象配置
 
 #### Returns
 
