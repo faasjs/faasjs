@@ -9,7 +9,7 @@ describe('request', () => {
 
     expect(gzip.statusCode).toEqual(200)
     expect(gzip.headers['content-encoding']).toEqual('gzip')
-    expect(gzip.body).toContain('<!DOCTYPE html>')
+    expect(gzip.body).toContain('<!doctype html>')
 
     const br = await request('https://faasjs.com/', {
       headers: { 'Accept-Encoding': 'br', 'user-agent': 'faasjs' },
@@ -17,7 +17,7 @@ describe('request', () => {
 
     expect(br.statusCode).toEqual(200)
     expect(br.headers['content-encoding']).toEqual('br')
-    expect(br.body).toContain('<!DOCTYPE html>')
+    expect(br.body).toContain('<!doctype html>')
 
     const normal = await request('https://faasjs.com/', {
       headers: { 'user-agent': 'faasjs' },
@@ -25,7 +25,7 @@ describe('request', () => {
 
     expect(normal.statusCode).toEqual(200)
     expect(normal.headers['content-encoding']).toEqual('br')
-    expect(normal.body).toContain('<!DOCTYPE html>')
+    expect(normal.body).toContain('<!doctype html>')
   })
 
   test('404', async () => {
