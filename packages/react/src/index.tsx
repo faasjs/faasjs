@@ -53,6 +53,8 @@ export type {
   ResponseError,
 } from '@faasjs/browser'
 
+export { useConstant } from './constant'
+
 export * from './client'
 export * from './ErrorBoundary'
 
