@@ -10,7 +10,7 @@ A simple way to warp a FaasJS function.
 
 • **initBy**: `string` \| [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
-{string | Func} Full file path or a FaasJs function
+\{string | Func\} Full file path or a FaasJs function
 
 ```ts
 import { test } from '@faasjs/test'

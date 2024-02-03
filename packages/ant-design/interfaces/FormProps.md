@@ -56,4 +56,4 @@
 
 > **submit**?: `false` \| [`FormSubmitProps`](../type-aliases/FormSubmitProps.md)
 
-Default: { text: 'Submit' }, set false to disable it
+Default: \{ text: 'Submit' \}, set false to disable it

@@ -33,7 +33,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **label?**: `string`
 
-{string} Prefix label
+\{string\} Prefix label
 
 #### Returns
 
@@ -99,11 +99,11 @@ env: FaasLogSize
 
 • **color**: `number`
 
-{number} color code
+\{number\} color code
 
 • **message**: `string`
 
-{string} message
+\{string\} message
 
 #### Returns
 
@@ -117,11 +117,11 @@ env: FaasLogSize
 
 • **message**: `string`
 
-{string} message
+\{string\} message
 
 • ...**args**: `any`[]
 
-{...any=} arguments
+\{...any=\} arguments
 
 #### Returns
 
@@ -135,11 +135,11 @@ env: FaasLogSize
 
 • **message**: `string` \| `Error`
 
-{any} message or Error object
+\{any\} message or Error object
 
 • ...**args**: `any`[]
 
-{...any=} arguments
+\{...any=\} arguments
 
 #### Returns
 
@@ -153,11 +153,11 @@ env: FaasLogSize
 
 • **message**: `string`
 
-{string} message
+\{string\} message
 
 • ...**args**: `any`[]
 
-{...any=} arguments
+\{...any=\} arguments
 
 #### Returns
 
@@ -171,11 +171,11 @@ env: FaasLogSize
 
 • **message**: `string`
 
-{string} message
+\{string\} message
 
 • ...**args**: `any`[]
 
-{...any=} arguments
+\{...any=\} arguments
 
 #### Returns
 
@@ -189,7 +189,7 @@ env: FaasLogSize
 
 • **key**: `string`
 
-{string} timer's label
+\{string\} timer's label
 
 • **level**: [`Level`](../type-aliases/Level.md)= `'debug'`
 
@@ -207,15 +207,15 @@ env: FaasLogSize
 
 • **key**: `string`
 
-{string} timer's label
+\{string\} timer's label
 
 • **message**: `string`
 
-{string} message
+\{string\} message
 
 • ...**args**: `any`[]
 
-{...any=} arguments
+\{...any=\} arguments
 
 #### Returns
 
@@ -229,11 +229,11 @@ env: FaasLogSize
 
 • **message**: `string`
 
-{string} message
+\{string\} message
 
 • ...**args**: `any`[]
 
-{...any=} arguments
+\{...any=\} arguments
 
 #### Returns
 

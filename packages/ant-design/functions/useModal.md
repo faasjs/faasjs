@@ -33,13 +33,7 @@ function Example() {
 >
 > > **modalProps**: [`ModalProps`](../interfaces/ModalProps.md) = `props`
 >
-> ### setModalProps()
+> ### setModalProps
 >
-> #### Parameters
->
-> • **changes**: `Partial`\<[`ModalProps`](../interfaces/ModalProps.md)\> \| (`prev`) => `Partial`\<[`ModalProps`](../interfaces/ModalProps.md)\>
->
-> #### Returns
->
-> `void`
+> > **setModalProps**: [`setModalProps`](../type-aliases/setModalProps.md)
 >

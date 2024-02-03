@@ -4,7 +4,7 @@
 
 > **transferOptions**(`options`): `Object`[]
 
-convert string[] or number[] to { label, value }[]
+convert string[] or number[] to \{ label, value \}[]
 
 ## Parameters
 

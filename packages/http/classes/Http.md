@@ -140,7 +140,7 @@ set body
 
 • **body**: `string`
 
-{*} 内容
+\{*\} 内容
 
 #### Returns
 
@@ -156,11 +156,11 @@ set Content-Type
 
 • **type**: `string`
 
-{string} 类型
+\{string\} 类型
 
 • **charset**: `string`= `'utf-8'`
 
-{string} 编码
+\{string\} 编码
 
 #### Returns
 
@@ -176,11 +176,11 @@ set header
 
 • **key**: `string`
 
-{string} key
+\{string\} key
 
 • **value**: `string`
 
-{string} value
+\{string\} value
 
 #### Returns
 
@@ -196,7 +196,7 @@ set status code
 
 • **code**: `number`
 
-{number} 状态码
+\{number\} 状态码
 
 #### Returns
 

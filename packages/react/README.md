@@ -70,5 +70,6 @@ const client = FaasReactClient({
 - [faas](functions/faas.md)
 - [getClient](functions/getClient.md)
 - [signal](functions/signal.md)
+- [useConstant](functions/useConstant.md)
 - [useFaas](functions/useFaas.md)
 - [useSignalState](functions/useSignalState.md)

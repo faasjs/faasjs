@@ -14,7 +14,7 @@
 
 #### Inherited from
 
-[`BaseItemProps.id`](BaseItemProps.md#id)
+[`BaseItemProps`](BaseItemProps.md).[`id`](BaseItemProps.md#id)
 
 ### options?
 
@@ -22,7 +22,7 @@
 
 #### Inherited from
 
-[`BaseItemProps.options`](BaseItemProps.md#options)
+[`BaseItemProps`](BaseItemProps.md).[`options`](BaseItemProps.md#options)
 
 ### title?
 
@@ -30,7 +30,7 @@
 
 #### Inherited from
 
-[`BaseItemProps.title`](BaseItemProps.md#title)
+[`BaseItemProps`](BaseItemProps.md).[`title`](BaseItemProps.md#title)
 
 ### type?
 

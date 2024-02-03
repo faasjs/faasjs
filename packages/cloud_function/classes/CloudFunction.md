@@ -18,7 +18,7 @@
 
 • **config?**: [`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md)
 
-{object} 配置项，这些配置将强制覆盖默认配置
+\{object\} 配置项，这些配置将强制覆盖默认配置
 
 #### Returns
 
@@ -92,15 +92,15 @@
 
 • **name**: `string`
 
-{string} 云函数文件名或云函数名
+\{string\} 云函数文件名或云函数名
 
 • **data?**: `TData`
 
-{any} 参数
+\{any\} 参数
 
 • **options?**: `Record`\<`string`, `any`\>
 
-{object} 额外配置项
+\{object\} 额外配置项
 
 #### Returns
 
@@ -122,15 +122,15 @@
 
 • **name**: `string`
 
-{string} 云函数文件名或云函数名
+\{string\} 云函数文件名或云函数名
 
 • **data?**: `TData`
 
-{any} 参数
+\{any\} 参数
 
 • **options?**: `Record`\<`string`, `any`\>
 
-{object} 额外配置项
+\{object\} 额外配置项
 
 #### Returns
 
