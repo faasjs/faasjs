@@ -5,7 +5,7 @@ import {
   legacyLogicalPropertiesTransformer,
 } from '@ant-design/cssinjs'
 import type { StyleProviderProps } from '@ant-design/cssinjs/lib/StyleContext'
-import { createContext, useContext, useEffect, useMemo, useRef } from 'react'
+import { createContext, useContext, useEffect, useMemo } from 'react'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
 import { ModalProps, setModalProps, useModal } from './Modal'
@@ -17,6 +17,7 @@ import {
   ConfigProvider as FaasConfigProvider,
   ConfigProviderProps as FaasConfigProviderProps,
 } from './Config'
+import { useConstant } from '@faasjs/react'
 
 export interface AppProps {
   children: React.ReactNode
@@ -140,16 +141,6 @@ export function App(props: AppProps) {
       </ConfigProvider>
     </StyleProvider>
   )
-}
-
-function useConstant<T>(fn: () => T): T {
-  const ref = useRef<{ v: T }>()
-
-  if (!ref.current) {
-    ref.current = { v: fn() }
-  }
-
-  return ref.current.v
 }
 
 /**
