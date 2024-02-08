@@ -6,7 +6,7 @@ import type {
 } from './types'
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import type { Options, Response, ResponseError } from '@faasjs/browser'
-import { cloneElement, useEffect, useState } from 'react'
+import { cloneElement, useEffect, useMemo, useState } from 'react'
 import { FaasBrowserClient } from '@faasjs/browser'
 
 const clients: {
@@ -216,12 +216,16 @@ export function FaasReactClient({
         if (onDataChange) onDataChange(request)
       }, [JSON.stringify(request.data)])
 
-      if (loaded) {
-        if (children) return cloneElement(children, request)
-        if (render) return render(request) as JSX.Element
-      }
+      const child = useMemo(() => {
+        if (loaded) {
+          if (children) return cloneElement(children, request)
+          if (render) return render(request) as JSX.Element
+        }
 
-      return fallback || null
+        return fallback || null
+      }, [loaded, request.action, request.params, request.data, request.error])
+
+      return child
     },
   }
 
@@ -327,3 +331,5 @@ export function FaasDataWrapper<PathOrData extends FaasAction>(
 
   return <client.FaasDataWrapper {...props} />
 }
+
+FaasDataWrapper.whyDidYouRender = true

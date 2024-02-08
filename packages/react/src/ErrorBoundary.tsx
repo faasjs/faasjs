@@ -22,6 +22,8 @@ export class ErrorBoundary extends Component<
     }
   }
 > {
+  static whyDidYouRender = true
+
   constructor(props: ErrorBoundaryProps) {
     super(props)
     this.state = {

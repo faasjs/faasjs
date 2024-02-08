@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import '@preact/signals-react/auto'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { signal, useSignalState } from '../signal'
