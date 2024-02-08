@@ -29,8 +29,12 @@ describe('useFaas', () => {
       }) as unknown as Promise<Response>
     })
 
+    let renderTimes = 0
+
     function Test() {
       const { data, reload } = useFaas<any>('test', {})
+
+      renderTimes++
 
       return (
         <div>
@@ -42,13 +46,17 @@ describe('useFaas', () => {
       )
     }
 
+    Test.whyDidYouRender = true
+
     render(<Test />)
 
     expect(await screen.findByText('1')).toBeInTheDocument()
+    expect(renderTimes).toBe(3)
 
     await userEvent.click(screen.getByRole('button'))
 
     expect(await screen.findByText('2')).toBeInTheDocument()
+    expect(renderTimes).toBe(6)
   })
 
   it('should work with controlled params', async () => {

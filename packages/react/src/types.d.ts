@@ -25,7 +25,7 @@ export type FaasDataInjection<Data = any> = {
   data: Data
   error: any
   promise: Promise<Response<Data>>
-  reload(params?: Record<string, any>): Promise<Response<Data>>
+  reload(params?: Record<string, any>): void
   setData: React.Dispatch<React.SetStateAction<Data>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   setPromise: React.Dispatch<React.SetStateAction<Promise<Response<Data>>>>

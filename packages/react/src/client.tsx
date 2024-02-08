@@ -6,7 +6,7 @@ import type {
 } from './types'
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import type { Options, Response, ResponseError } from '@faasjs/browser'
-import { cloneElement, useEffect, useMemo, useState } from 'react'
+import { cloneElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { FaasBrowserClient } from '@faasjs/browser'
 
 const clients: {
@@ -161,6 +161,15 @@ export function FaasReactClient({
       }
     }, [action, JSON.stringify(options.params || params), reloadTimes, skip])
 
+    const reload = useCallback(
+      (params?: FaasParams<PathOrData>) => {
+        if (params) setParams(params)
+
+        setReloadTimes(prev => prev + 1)
+      },
+      [params]
+    )
+
     return {
       action,
       params,
@@ -169,13 +178,7 @@ export function FaasReactClient({
       reloadTimes,
       error,
       promise,
-      async reload(params?: any) {
-        if (params) setParams(params)
-
-        setReloadTimes(reloadTimes + 1)
-
-        return promise
-      },
+      reload,
       setData: options?.setData || setData,
       setLoading,
       setPromise,
@@ -183,45 +186,51 @@ export function FaasReactClient({
     }
   }
 
+  useFaas.whyDidYouRender = true
+
+  function FaasDataWrapper<PathOrData extends FaasAction>({
+    action,
+    params,
+    fallback,
+    render,
+    children,
+    onDataChange,
+    data,
+    setData,
+  }: FaasDataWrapperProps<PathOrData>): JSX.Element {
+    const request = useFaas<PathOrData>(action, params, {
+      data,
+      setData,
+    })
+    const [loaded, setLoaded] = useState<boolean>(false)
+
+    useEffect(() => {
+      if (!loaded && !request.loading) setLoaded(true)
+    }, [request.loading])
+
+    useEffect(() => {
+      if (onDataChange) onDataChange(request)
+    }, [JSON.stringify(request.data)])
+
+    const child = useMemo(() => {
+      if (loaded) {
+        if (children) return cloneElement(children, request)
+        if (render) return render(request) as JSX.Element
+      }
+
+      return fallback || null
+    }, [loaded, request.action, request.params, request.data, request.error])
+
+    return child
+  }
+
+  FaasDataWrapper.whyDidYouRender = true
+
   const reactClient = {
     id: client.id,
     faas,
     useFaas,
-    FaasDataWrapper<PathOrData extends FaasAction>({
-      action,
-      params,
-      fallback,
-      render,
-      children,
-      onDataChange,
-      data,
-      setData,
-    }: FaasDataWrapperProps<PathOrData>): JSX.Element {
-      const request = useFaas<PathOrData>(action, params, {
-        data,
-        setData,
-      })
-      const [loaded, setLoaded] = useState<boolean>(false)
-
-      useEffect(() => {
-        if (!loaded && !request.loading) setLoaded(true)
-      }, [request.loading])
-
-      useEffect(() => {
-        if (onDataChange) onDataChange(request)
-      }, [JSON.stringify(request.data)])
-
-      const child = useMemo(() => {
-        if (loaded) {
-          if (children) return cloneElement(children, request)
-          if (render) return render(request) as JSX.Element
-        }
-
-        return fallback || null
-      }, [loaded, request.action, request.params, request.data, request.error])
-
-      return child
-    },
+    FaasDataWrapper,
   }
 
   clients[domain] = reactClient
