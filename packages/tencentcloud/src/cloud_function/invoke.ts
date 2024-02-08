@@ -34,7 +34,7 @@ export async function invokeCloudFunction<TResult = any>(
       if (res.Result.ErrMsg) return Promise.reject(Error(res.Result.ErrMsg))
       try {
         return JSON.parse(res.Result.RetMsg)
-      } catch (error) {
+      } catch (_) {
         return res.Result.RetMsg
       }
     }

@@ -48,7 +48,7 @@ describe('Drawer', () => {
 
     expect(screen.getByText('title')).toBeInTheDocument()
 
-    setDrawerProps(prev => ({ title: 'new title' }))
+    setDrawerProps(() => ({ title: 'new title' }))
 
     expect(await screen.findByText('new title')).toBeInTheDocument()
   })

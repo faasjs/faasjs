@@ -37,7 +37,7 @@ describe('lifecycle', () => {
         public readonly type: string
         public readonly name: string
 
-        public async onMount(data: MountData, next: Next) {
+        public async onMount(_: MountData, next: Next) {
           times++
           await next()
         }

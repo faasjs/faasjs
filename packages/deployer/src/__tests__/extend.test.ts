@@ -12,7 +12,7 @@ test('extend', async () => {
 
   try {
     await deployer.deploy()
-  } catch (error) {}
+  } catch (_) {}
 
   const res = execSync(
     `node -e "const handler = require('${deployer.deployData.tmp}index.js').handler;(async function invoke(){console.log('|'+JSON.stringify(await handler(0))+'|');})(handler);"`,

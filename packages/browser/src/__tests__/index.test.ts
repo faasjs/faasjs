@@ -78,7 +78,7 @@ describe('client', () => {
     })
 
     const client = new FaasBrowserClient('/', {
-      request: (url, options) => {
+      request: (_, options) => {
         return new Promise((resolve, reject) => {
           JSON.parse(options.body as any).success
             ? resolve(resData)

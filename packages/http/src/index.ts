@@ -345,7 +345,8 @@ export class Http<
         })
         try {
           this.response.statusCode = data.response.statusCode || 500
-        } catch (error) {
+        } catch (e: any) {
+          data.logger.error(e)
           this.response.statusCode = 500
         }
       } else if (

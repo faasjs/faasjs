@@ -323,7 +323,7 @@ export class FaasBrowserClient {
               body,
             })
           )
-        } catch (error) {
+        } catch (_) {
           return Promise.reject(
             new ResponseError({
               message: res,

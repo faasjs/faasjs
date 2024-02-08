@@ -48,7 +48,7 @@ describe('Modal', () => {
 
     expect(screen.getByText('title')).toBeInTheDocument()
 
-    setModalProps(prev => ({ title: 'new title' }))
+    setModalProps(() => ({ title: 'new title' }))
 
     expect(await screen.findByText('new title')).toBeInTheDocument()
   })

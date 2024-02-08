@@ -146,7 +146,6 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   const { theme } = useConfigContext()
   const [hidden, setHidden] = useState(props.hidden || false)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const propsCopy = { ...props }
 

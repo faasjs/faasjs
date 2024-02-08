@@ -10,7 +10,7 @@
     "build:doc": "typedoc",
     "build:docs": "node build-docs.js",
     "check": "biome check",
-    "lint": "biome lint",
+    "lint": "biome lint .",
     "format": "biome format --write"
   },
   "devDependencies": {

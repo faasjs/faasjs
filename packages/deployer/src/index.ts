@@ -37,7 +37,7 @@ export class Deployer {
       data.author = execSync('git config user.name')
         .toString()
         .replace(/\n/g, '')
-    } catch (error) {
+    } catch (_) {
       data.author = 'Unknown'
     }
 

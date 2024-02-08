@@ -13,7 +13,7 @@ describe('FaasDataWrapper', () => {
   beforeEach(() => {
     current = 0
 
-    setMock(async (action, params) => {
+    setMock(async (_action, params) => {
       current++
 
       return Promise.resolve(

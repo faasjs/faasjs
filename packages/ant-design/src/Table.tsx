@@ -191,7 +191,6 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     return item
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const items = cloneDeep(props.items) as TableItemProps[]
     for (const item of items) {
@@ -649,7 +648,6 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     setColumns(items as TableItemProps[])
   }, [props.items])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!props.dataSource || !columns) return
 
@@ -703,7 +701,6 @@ function FaasDataTable({
   const [currentColumns, setCurrentColumns] =
     useState<TableItemProps[]>(columns)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!data || Array.isArray(data)) return
 

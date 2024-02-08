@@ -1,6 +1,3 @@
-import { join, sep } from 'path'
-import { Provider } from '../../..'
-
 jest.mock('child_process', () => ({ execSync() {} }))
 
 jest.mock('cos-nodejs-sdk-v5', () => {

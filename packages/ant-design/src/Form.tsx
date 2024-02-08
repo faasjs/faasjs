@@ -93,7 +93,6 @@ export function Form<Values = any>(props: FormProps<Values>) {
     props.initialValues
   )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const propsCopy = {
       ...props,
@@ -223,7 +222,6 @@ export function Form<Values = any>(props: FormProps<Values>) {
     setComputedProps(propsCopy)
   }, [props])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const onValuesChange = useCallback(
     (changedValues: Record<string, any>, allValues: Values) => {
       console.debug('Form:onValuesChange', changedValues, allValues)
@@ -244,7 +242,6 @@ export function Form<Values = any>(props: FormProps<Values>) {
     [computedProps]
   )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!initialValues) return
 

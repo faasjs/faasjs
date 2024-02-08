@@ -99,7 +99,7 @@ function findModule(
 function swc(externalModules: string[]): Plugin {
   return {
     name: 'swc',
-    async transform(code, filename) {
+    async transform(_, filename) {
       return bundle({
         filename,
         externalModules,

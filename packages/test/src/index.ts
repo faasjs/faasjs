@@ -61,7 +61,7 @@ export class FuncWarper {
 
       try {
         this.func = require(this.file).default
-      } catch (error) {
+      } catch (_) {
         this.func = require(`${this.file}.ts`).default
       }
 

@@ -43,7 +43,6 @@ export interface TitleProps {
 export function Title(props: TitleProps): JSX.Element {
   const { theme } = useConfigContext()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const title = Array.isArray(props.title) ? props.title : [props.title]
 

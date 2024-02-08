@@ -106,7 +106,6 @@ export const ConfigContext = createContext<Partial<ConfigProviderProps>>({
 export function ConfigProvider(props: ConfigProviderProps) {
   const [theme, setTheme] = useState<ConfigProviderProps['theme']>()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (props.theme?.lang === 'zh') {
       setTheme(

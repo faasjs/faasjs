@@ -180,7 +180,7 @@ module.exports = main.export();`,
       Region: tc.config.region,
     })
     logger.debug('[4.2/12] Cos Bucket 已存在，跳过')
-  } catch (error) {
+  } catch (_) {
     logger.debug('[4.2/12] 创建 Cos Bucket...')
     await createBucket(tc, {
       Bucket: config.config.Bucket,

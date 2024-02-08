@@ -54,7 +54,6 @@ describe('App', () => {
     function Component() {
       const { message } = useApp()
 
-      // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
       useEffect(() => {
         message.info('Hi')
       }, [])
