@@ -8,12 +8,12 @@
     "build:prepare": "node prepare.js"
   },
   "devDependencies": {
-    "vuepress": "2.0.0-rc.2",
-    "@vuepress/client": "2.0.0-rc.2",
-    "@vuepress/bundler-vite": "2.0.0-rc.7",
-    "@vuepress/theme-default": "2.0.0-rc.7",
-    "@vuepress/plugin-google-analytics": "2.0.0-rc.7",
-    "@vuepress/plugin-search": "2.0.0-rc.9",
+    "vuepress": "next",
+    "@vuepress/client": "next",
+    "@vuepress/bundler-vite": "next",
+    "@vuepress/theme-default": "next",
+    "@vuepress/plugin-google-analytics": "next",
+    "@vuepress/plugin-search": "next",
     "glob": "*"
   }
 }
