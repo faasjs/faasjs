@@ -1,4 +1,6 @@
-# FaasJS
+# 🚀 FaasJS
+
+[Documentation](https://faasjs.com) - [Discord](https://discord.gg/UASHxEYCfW) - [Changelog](https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md) - [Contributing](https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md)
 
 [![License: MIT](https://img.shields.io/npm/l/faasjs.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/faasjs.svg)](https://www.npmjs.com/package/faasjs)
@@ -89,11 +91,5 @@ describe('index', function () {
   })
 })
 ```
-
-[Official website](https://faasjs.com)
-
-[CHANGELOG](https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md)
-
-[CONTRIBUTING](https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md)
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffaasjs%2Ffaasjs.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffaasjs%2Ffaasjs)
