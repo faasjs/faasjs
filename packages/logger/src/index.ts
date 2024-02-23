@@ -61,19 +61,14 @@ const LevelPriority = {
  * ```
  */
 export class Logger {
-  public silent: boolean
-  public level: number
+  public silent = false
+  public level = 0
   public colorfyOutput = true
   public label?: string
-  /**
-   * size of log message, default 1000, set 0 to disable
-   *
-   * env: FaasLogSize
-   */
-  public size?: number
+  public size = 1000
   public stdout: (text: string) => void
   public stderr: (text: string) => void
-  private cachedTimers: any
+  private cachedTimers: Record<string, Timer> = {}
 
   /**
    * @param label {string} Prefix label
@@ -81,11 +76,13 @@ export class Logger {
   constructor(label?: string) {
     if (label) this.label = label
 
-    // When run with Jest and --silent, logger are not available
-    this.silent =
+    // When run with Jest and --silent, logger won't output anything
+    if (
       !process.env.FaasLog &&
       process.env.npm_config_argv &&
       JSON.parse(process.env.npm_config_argv).original.includes('--silent')
+    )
+      this.silent = true
 
     switch (process.env.FaasLogMode) {
       case 'plain':
@@ -99,16 +96,12 @@ export class Logger {
         break
     }
 
-    this.level = process.env.FaasLog
-      ? LevelPriority[process.env.FaasLog.toLowerCase() as Level]
-      : 0
+    if (process.env.FaasLog)
+      this.level = LevelPriority[process.env.FaasLog.toLowerCase() as Level]
 
     this.cachedTimers = {}
 
-    this.size =
-      typeof process.env.FaasLogSize !== 'undefined'
-        ? Number(process.env.FaasLogSize)
-        : 1000
+    if (process.env.FaasLogSize) this.size = Number(process.env.FaasLogSize)
 
     this.stdout = console.log
     this.stderr = console.error
