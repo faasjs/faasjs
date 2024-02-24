@@ -3,14 +3,11 @@ import action from './action'
 
 const commander = new Command()
 
-// 设置命令
 commander
   .storeOptionsAsProperties(false)
   .allowUnknownOption(true)
-  .version('beta')
   .name('create-faas-app')
 
-// 加载命令
 action(commander as Command)
 
 async function main() {

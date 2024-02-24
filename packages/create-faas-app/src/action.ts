@@ -47,6 +47,8 @@ export async function action(
 
   mkdirSync(answers.name)
 
+  const runtime = process.versions.bun ? 'bun' : 'npm'
+
   writeFileSync(
     join(answers.name, 'faas.yaml'),
     `defaults:
@@ -62,7 +64,7 @@ production:
     join(answers.name, 'package.json'),
     `{
   "name": "${answers.name}",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "faas server",
@@ -144,7 +146,7 @@ coverage/
 `
   )
 
-  execSync(`cd ${answers.name} && npm install`, { stdio: 'inherit' })
+  execSync(`cd ${answers.name} && ${runtime} install`, { stdio: 'inherit' })
 
   if (answers.example) {
     writeFileSync(
@@ -152,12 +154,10 @@ coverage/
       `import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
 
-export default useFunc(function () {
-  const http useHttp<{ name: string }>()
+export default useFunc(() => {
+  const http = useHttp<{ name: string }>()
 
-  return async function () {
-    return 'Hello, ' + http.params.name
-  }
+  return async () => \`Hello, \${http.params.name}\`
 })
 `
     )
@@ -166,10 +166,11 @@ export default useFunc(function () {
     writeFileSync(
       join(answers.name, '__tests__', 'index.test.ts'),
       `import { test } from '@faasjs/test'
+import Func from '../index.func'
 
-describe('hello', function () {
-  it('should work', async function () {
-    const func = test(require.resolve('../index.func'))
+describe('hello', () => {
+  it('should work', async () => {
+    const func = test(Func)
 
     const { statusCode, data } = await func.JSONhandler<string>({ name: 'world' })
 
@@ -180,18 +181,16 @@ describe('hello', function () {
 `
     )
 
-    execSync(`cd ${answers.name} && npm exec jest`, { stdio: 'inherit' })
+    if (runtime === 'bun') {
+      execSync(`cd ${answers.name} && bun test`, { stdio: 'inherit' })
+    } else execSync(`cd ${answers.name} && npm run test`, { stdio: 'inherit' })
   }
 }
 
 export default function (program: Command): void {
   program
-    .description('创建新项目')
-    .on('--help', () => {
-      console.log(`
-Examples:
-  npx create-faas-app`)
-    })
-    .option('--name <name>', '项目名字')
+    .description('Create a new faas app')
+    .on('--help', () => console.log('Examples:\nnpx create-faas-app'))
+    .option('--name <name>', 'Project name')
     .action(action)
 }

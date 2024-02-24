@@ -59,10 +59,7 @@ coverage/
       example: true,
     })
 
-    expect(execs).toEqual([
-      'cd test && npm install',
-      'cd test && npm exec jest',
-    ])
+    expect(execs).toEqual(['cd test && npm install', 'cd test && npm run test'])
     expect(dirs).toEqual(['test', 'test/.vscode', 'test/__tests__'])
     expect(Object.keys(files)).toEqual([
       'test/faas.yaml',
