@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.7.1 (2024-02-25)`](https://github.com/faasjs/faasjs/compare/v1.7.0...v1.7.1)
+
+- `@faasjs/jest`
+  - [Fix] Fix dependences, remove `@faasjs/test`.
+
 [`v1.7.0 (2024-02-24)`](https://github.com/faasjs/faasjs/compare/v1.6.0...v1.7.0)
 
 - `create-faas-app`
