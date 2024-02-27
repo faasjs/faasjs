@@ -694,6 +694,7 @@ function FaasDataTable({
   data,
   params,
   reload,
+  loading,
 }: Partial<FaasDataInjection> & {
   props: TableProps
   columns: TableItemProps[]
@@ -747,7 +748,7 @@ function FaasDataTable({
     return (
       <AntdTable
         {...props}
-        loading={props.loading}
+        loading={loading}
         rowKey={props.rowKey || 'id'}
         columns={currentColumns as any[]}
         dataSource={[]}
@@ -758,7 +759,7 @@ function FaasDataTable({
     return (
       <AntdTable
         {...props}
-        loading={props.loading}
+        loading={loading}
         rowKey={props.rowKey || 'id'}
         columns={currentColumns as any[]}
         dataSource={data as any}
@@ -768,7 +769,7 @@ function FaasDataTable({
   return (
     <AntdTable
       {...props}
-      loading={props.loading}
+      loading={loading}
       rowKey={props.rowKey || 'id'}
       columns={currentColumns as any[]}
       dataSource={(data as any).rows}

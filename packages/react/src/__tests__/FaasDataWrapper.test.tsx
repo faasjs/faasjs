@@ -58,11 +58,12 @@ describe('FaasDataWrapper', () => {
     await userEvent.click(screen.getByRole('button'))
 
     expect(await screen.findByText('2')).toBeInTheDocument()
-    expect(renderTimes).toEqual(2)
+    expect(renderTimes).toEqual(3)
   })
 
   it('should work with controlled params', async () => {
     let renderTimes = 0
+
     function App() {
       const [params, setParams] = useState({ v: 1 })
 
@@ -80,6 +81,7 @@ describe('FaasDataWrapper', () => {
 
     function Test(props: Partial<FaasDataInjection>) {
       renderTimes++
+
       return <div>{JSON.stringify(props.data)}</div>
     }
 
@@ -92,6 +94,6 @@ describe('FaasDataWrapper', () => {
     await userEvent.click(screen.getByRole('button'))
 
     expect(await screen.findByText('{"v":10}')).toBeInTheDocument()
-    expect(renderTimes).toEqual(3)
+    expect(renderTimes).toEqual(4)
   })
 })

@@ -111,13 +111,14 @@ export function FaasReactClient({
         setPromise(request)
 
         request
-          .then(r =>
+          .then(r => {
             options?.setData ? options.setData(r.data) : setData(r.data)
-          )
+            setLoading(false)
+          })
           .catch(async e => {
             if (
-              e?.message === 'The user aborted a request.' ||
-              e?.message === 'Aborted'
+              typeof e?.message === 'string' &&
+              (e.message as string).toLowerCase().indexOf('aborted') >= 0
             )
               return
 
@@ -138,9 +139,9 @@ export function FaasReactClient({
                 setError(error)
               }
             else setError(e)
+            setLoading(false)
             return Promise.reject(e)
           })
-          .finally(() => setLoading(false))
       }
 
       if (options?.debounce) {
@@ -219,7 +220,14 @@ export function FaasReactClient({
       }
 
       return fallback || null
-    }, [loaded, request.action, request.params, request.data, request.error])
+    }, [
+      loaded,
+      request.action,
+      request.params,
+      request.data,
+      request.error,
+      request.loading,
+    ])
 
     return child
   }
