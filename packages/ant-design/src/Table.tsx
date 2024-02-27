@@ -256,7 +256,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
           // filter
           if (item.filterDropdown !== false) {
-            if (!item.onFilter)
+            if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
                 if (!value || isNil(value)) return true
 
@@ -300,7 +300,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
           // filter
           if (item.filterDropdown !== false) {
-            if (!item.onFilter)
+            if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
                 if (value === null && (!row[item.id] || !row[item.id].length))
                   return true
@@ -349,7 +349,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
           // filter
           if (item.filterDropdown !== false) {
-            if (!item.onFilter)
+            if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
                 if (value === null) return true
                 if (isNil(row[item.id])) return false
@@ -387,7 +387,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
           // filter
           if (item.filterDropdown !== false) {
-            if (!item.onFilter)
+            if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
                 if (value === null && (!row[item.id] || !row[item.id].length))
                   return true
@@ -492,7 +492,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 </Radio.Group>
               )
 
-            if (!item.onFilter)
+            if (!item.onFilter && !props.faasData)
               item.onFilter = (value, row) => {
                 switch (value) {
                   case true:
@@ -541,7 +541,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 />
               )
 
-            if (!item.onFilter)
+            if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
                 if (isNil(value[0])) return true
                 if (isNil(row[item.id])) return false
@@ -590,7 +590,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 />
               )
 
-            if (!item.onFilter)
+            if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
                 if (isNil(value[0])) return true
                 if (isNil(row[item.id])) return false
@@ -635,7 +635,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           if (!item.render) item.render = value => processValue(item, value)
 
           // filter
-          if (item.filterDropdown !== false && !item.onFilter)
+          if (
+            item.filterDropdown !== false &&
+            !item.onFilter &&
+            !props.faasData
+          )
             item.onFilter = (value: any, row) => {
               if (value === null && isNil(row[item.id])) return true
 
