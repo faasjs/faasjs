@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v1.7.2 (2024-02-27)`](https://github.com/faasjs/faasjs/compare/v1.7.1...v1.7.2)
+
+- `@faasjs/react`
+  - [Fix] Fix loading's render issue.
+
+- `@faasjs/ant-design`
+  - [Fix] Fix Table's loading state.
+
 [`v1.7.1 (2024-02-25)`](https://github.com/faasjs/faasjs/compare/v1.7.0...v1.7.1)
 
 - `@faasjs/jest`
