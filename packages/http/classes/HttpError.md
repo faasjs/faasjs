@@ -14,7 +14,7 @@
 
 #### Parameters
 
-• **\_\_namedParameters**: `Object`
+• **\_\_namedParameters**
 
 • **\_\_namedParameters\.message**: `string`
 

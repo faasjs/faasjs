@@ -8,7 +8,7 @@
 
 • **code**: `string`
 
-• **options?**: `Object`
+• **options?**
 
 • **options\.filename?**: `string`
 

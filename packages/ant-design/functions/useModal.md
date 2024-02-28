@@ -25,15 +25,14 @@ function Example() {
 
 `Object`
 
-> ### modal
->
-> > **modal**: `Element`
->
-> ### modalProps
->
-> > **modalProps**: [`ModalProps`](../interfaces/ModalProps.md) = `props`
->
-> ### setModalProps
->
-> > **setModalProps**: [`setModalProps`](../type-aliases/setModalProps.md)
->
+### modal
+
+> **modal**: `Element`
+
+### modalProps
+
+> **modalProps**: [`ModalProps`](../interfaces/ModalProps.md) = `props`
+
+### setModalProps
+
+> **setModalProps**: [`setModalProps`](../type-aliases/setModalProps.md)

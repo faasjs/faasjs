@@ -24,7 +24,7 @@
 
 ### func?
 
-> **func**?: `Func`\<`any`, `any`, `any`\>
+> **`optional`** **func**: `Func`\<`any`, `any`, `any`\>
 
 ## Methods
 

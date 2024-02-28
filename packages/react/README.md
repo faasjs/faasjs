@@ -27,17 +27,6 @@ const client = FaasReactClient({
 
 2. Use [faas](#faas), [useFaas](#usefaas) or [FaasDataWrapper](#faasdatawrapper).
 
-## Usage with [@preact/signal-react](https://github.com/preactjs/signals/blob/main/packages/react/README.md)
-
-1. `npm i --save-dev @preact/signals-react-transform`
-2. Add `@preact/signals-react-transform` to babel config:
-```json
-{
-	"plugins": [["module:@preact/signals-react-transform"]]
-}
-```
-3. Add `import '@preact/signals-react/auto'` to your test files.
-
 ## Classes
 
 - [ErrorBoundary](classes/ErrorBoundary.md)
@@ -60,7 +49,6 @@ const client = FaasReactClient({
 - [FaasReactClientOptions](type-aliases/FaasReactClientOptions.md)
 - [Options](type-aliases/Options.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
-- [SignalOptions](type-aliases/SignalOptions.md)
 - [useFaasOptions](type-aliases/useFaasOptions.md)
 
 ## Functions
@@ -69,7 +57,5 @@ const client = FaasReactClient({
 - [FaasReactClient](functions/FaasReactClient.md)
 - [faas](functions/faas.md)
 - [getClient](functions/getClient.md)
-- [signal](functions/signal.md)
 - [useConstant](functions/useConstant.md)
 - [useFaas](functions/useFaas.md)
-- [useSignalState](functions/useSignalState.md)

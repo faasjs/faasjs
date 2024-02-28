@@ -12,7 +12,7 @@
 
 ### onError?
 
-> **onError**?: (`type`, `key`, `value`?) => `Object` \| `void`
+> **`optional`** **onError**: (`type`, `key`, `value`?) => `Object` \| `void`
 
 #### Parameters
 
@@ -32,4 +32,4 @@
 
 ### whitelist?
 
-> **whitelist**?: `"error"` \| `"ignore"`
+> **`optional`** **whitelist**: `"error"` \| `"ignore"`

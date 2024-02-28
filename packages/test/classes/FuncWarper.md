@@ -80,15 +80,15 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Parameters
 
-• **body?**: `Object`
+• **body?**
 
-• **options?**: `Object`= `undefined`
+• **options?**= `undefined`
 
-• **options\.cookie?**: `Object`
+• **options\.cookie?**
 
-• **options\.headers?**: `Object`
+• **options\.headers?**
 
-• **options\.session?**: `Object`
+• **options\.session?**
 
 #### Returns
 
@@ -100,19 +100,19 @@ expect(await func.handler()).toEqual('Hello, world')
 >
 > ##### cookie?
 >
-> > **cookie**?: `Record`\<`string`, `any`\>
+> > **`optional`** **cookie**: `Record`\<`string`, `any`\>
 >
 > ##### data?
 >
-> > **data**?: `TData`
+> > **`optional`** **data**: `TData`
 >
 > ##### error?
 >
-> > **error**?: `Object`
+> > **`optional`** **error**: `Object`
 >
 > ##### error.message
 >
-> > **error.message**: `string`
+> > **message**: `string`
 >
 > ##### headers
 >
@@ -124,7 +124,7 @@ expect(await func.handler()).toEqual('Hello, world')
 >
 > ##### session?
 >
-> > **session**?: `Record`\<`string`, `any`\>
+> > **`optional`** **session**: `Record`\<`string`, `any`\>
 >
 > ##### statusCode
 >
@@ -155,7 +155,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Parameters
 
-• **handler?**: (`func`) => `void` \| `Promise`\<`void`\>
+• **handler?**
 
 #### Returns
 

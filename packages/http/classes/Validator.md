@@ -28,19 +28,19 @@
 
 ### before?
 
-> **before**?: `BeforeOption`\<`TParams`, `TCookie`, `TSession`\>
+> **`optional`** **before**: `BeforeOption`\<`TParams`, `TCookie`, `TSession`\>
 
 ### cookieConfig?
 
-> **cookieConfig**?: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TCookie`\>
+> **`optional`** **cookieConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TCookie`\>
 
 ### paramsConfig?
 
-> **paramsConfig**?: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TParams`\>
+> **`optional`** **paramsConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TParams`\>
 
 ### sessionConfig?
 
-> **sessionConfig**?: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TSession`\>
+> **`optional`** **sessionConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TSession`\>
 
 ## Methods
 
@@ -66,7 +66,7 @@
 
 • **type**: `string`
 
-• **params**: `Object`
+• **params**
 
 • **baseKey**: `string`
 

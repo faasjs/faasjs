@@ -8,8 +8,8 @@
 
 ### config?
 
-> **config**?: `RedisOptions`
+> **`optional`** **config**: `RedisOptions`
 
 ### name?
 
-> **name**?: `string`
+> **`optional`** **name**: `string`

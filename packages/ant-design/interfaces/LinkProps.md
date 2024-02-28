@@ -6,19 +6,19 @@
 
 ### block?
 
-> **block**?: `boolean`
+> **`optional`** **block**: `boolean`
 
 ### button?
 
-> **button**?: `ButtonProps`
+> **`optional`** **button**: `ButtonProps`
 
 ### children?
 
-> **children**?: `ReactNode`
+> **`optional`** **children**: `ReactNode`
 
 ### copyable?
 
-> **copyable**?: `boolean`
+> **`optional`** **copyable**: `boolean`
 
 only use for text without button
 
@@ -28,7 +28,7 @@ only use for text without button
 
 ### onClick?
 
-> **onClick**?: (`event`) => `void`
+> **`optional`** **onClick**: (`event`) => `void`
 
 #### Parameters
 
@@ -40,12 +40,12 @@ only use for text without button
 
 ### style?
 
-> **style**?: `CSSProperties`
+> **`optional`** **style**: `CSSProperties`
 
 ### target?
 
-> **target**?: `"_blank"`
+> **`optional`** **target**: `"_blank"`
 
 ### text?
 
-> **text**?: `string` \| `number`
+> **`optional`** **text**: `string` \| `number`

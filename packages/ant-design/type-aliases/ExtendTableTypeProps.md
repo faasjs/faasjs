@@ -12,8 +12,8 @@
 
 ### children?
 
-> **children**?: `JSX.Element`
+> **`optional`** **children**: `JSX.Element`
 
 ### render?
 
-> **render**?: [`UnionFaasItemRender`](UnionFaasItemRender.md)\<`T`\>
+> **`optional`** **render**: [`UnionFaasItemRender`](UnionFaasItemRender.md)\<`T`\>

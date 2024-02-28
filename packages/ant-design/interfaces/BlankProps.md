@@ -6,8 +6,8 @@
 
 ### text?
 
-> **text**?: `string`
+> **`optional`** **text**: `string`
 
 ### value?
 
-> **value**?: `any`
+> **`optional`** **value**: `any`

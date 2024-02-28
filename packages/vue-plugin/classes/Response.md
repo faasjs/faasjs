@@ -26,7 +26,7 @@ new Response({
 
 #### Parameters
 
-• **props**: `Object`
+• **props**
 
 • **props\.body?**: `any`
 

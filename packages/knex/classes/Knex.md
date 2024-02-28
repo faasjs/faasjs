@@ -158,11 +158,11 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 #### Parameters
 
-• **scope**: (`trx`) => `Promise`\<`TResult`\>
+• **scope**
 
 • **config?**: `TransactionConfig`
 
-• **options?**: `Object`
+• **options?**
 
 • **options\.trx?**: `Transaction`\<`any`, `any`[]\>
 

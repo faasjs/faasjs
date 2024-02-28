@@ -32,6 +32,12 @@
   }
 >.constructor`
 
+## Properties
+
+### whyDidYouRender
+
+> **`static`** **whyDidYouRender**: `boolean` = `true`
+
 ## Methods
 
 ### componentDidCatch()

@@ -8,7 +8,7 @@
 
 ### body?
 
-> **body**?: `Object`
+> **`optional`** **body**: `Object`
 
 #### Index signature
 
@@ -16,20 +16,20 @@
 
 ### headers?
 
-> **headers**?: `http.OutgoingHttpHeaders`
+> **`optional`** **headers**: `http.OutgoingHttpHeaders`
 
 ### host?
 
-> **host**?: `string`
+> **`optional`** **host**: `string`
 
 ### method?
 
-> **method**?: `string`
+> **`optional`** **method**: `string`
 
 ### path?
 
-> **path**?: `string`
+> **`optional`** **path**: `string`
 
 ### query?
 
-> **query**?: `http.OutgoingHttpHeaders`
+> **`optional`** **query**: `http.OutgoingHttpHeaders`

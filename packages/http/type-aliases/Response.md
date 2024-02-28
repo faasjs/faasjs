@@ -8,11 +8,11 @@
 
 ### body?
 
-> **body**?: `string`
+> **`optional`** **body**: `string`
 
 ### headers?
 
-> **headers**?: `Object`
+> **`optional`** **headers**: `Object`
 
 #### Index signature
 
@@ -20,8 +20,8 @@
 
 ### message?
 
-> **message**?: `string`
+> **`optional`** **message**: `string`
 
 ### statusCode?
 
-> **statusCode**?: `number`
+> **`optional`** **statusCode**: `number`

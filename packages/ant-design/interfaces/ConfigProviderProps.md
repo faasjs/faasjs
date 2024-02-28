@@ -10,102 +10,100 @@
 
 ### faasClientOptions?
 
-> **faasClientOptions**?: `FaasReactClientOptions`
+> **`optional`** **faasClientOptions**: `FaasReactClientOptions`
 
 ### theme?
 
-> **theme**?: `Object`
+> **`optional`** **theme**: `Object`
 
-#### Type declaration
+#### theme.Blank?
 
-##### Blank?
+> **`optional`** **Blank**: `Object`
 
-> **Blank**?: `Object`
+#### theme.Blank.text?
 
-##### Blank.text?
+> **`optional`** **text**: `string`
 
-> **Blank.text**?: `string`
+#### theme.Form?
 
-##### Form?
+> **`optional`** **Form**: `Object`
 
-> **Form**?: `Object`
+#### theme.Form.submit?
 
-##### Form.submit?
+> **`optional`** **submit**: `Object`
 
-> **Form.submit**?: `Object`
+#### theme.Form.submit.text?
 
-##### Form.submit.text?
+> **`optional`** **text**: `string`
 
-> **Form.submit.text**?: `string`
+#### theme.Link?
 
-##### Link?
+> **`optional`** **Link**: `Object`
 
-> **Link**?: `Object`
+#### theme.Link.style?
 
-##### Link.style?
+> **`optional`** **style**: `CSSProperties`
 
-> **Link.style**?: `CSSProperties`
+#### theme.Link.target?
 
-##### Link.target?
-
-> **Link.target**?: `string`
+> **`optional`** **target**: `string`
 
 '_blank' as default
 
-##### Title?
+#### theme.Title?
 
-> **Title**?: `Object`
+> **`optional`** **Title**: `Object`
 
-##### Title.separator?
+#### theme.Title.separator?
 
-> **Title.separator**?: `string`
+> **`optional`** **separator**: `string`
 
 ' - ' as default
 
-##### Title.suffix?
+#### theme.Title.suffix?
 
-> **Title.suffix**?: `string`
+> **`optional`** **suffix**: `string`
 
-##### common?
+#### theme.common?
 
-> **common**?: `Object`
+> **`optional`** **common**: `Object`
 
-##### common.add?
+#### theme.common.add?
 
-> **common.add**?: `string`
+> **`optional`** **add**: `string`
 
-##### common.all?
+#### theme.common.all?
 
-> **common.all**?: `string`
+> **`optional`** **all**: `string`
 
-##### common.blank?
+#### theme.common.blank?
 
-> **common.blank**?: `string`
+> **`optional`** **blank**: `string`
 
-##### common.delete?
+#### theme.common.delete?
 
-> **common.delete**?: `string`
+> **`optional`** **delete**: `string`
 
-##### common.pageNotFound?
+#### theme.common.pageNotFound?
 
-> **common.pageNotFound**?: `string`
+> **`optional`** **pageNotFound**: `string`
 
-##### common.required?
+#### theme.common.required?
 
-> **common.required**?: `string`
+> **`optional`** **required**: `string`
 
-##### common.reset?
+#### theme.common.reset?
 
-> **common.reset**?: `string`
+> **`optional`** **reset**: `string`
 
-##### common.search?
+#### theme.common.search?
 
-> **common.search**?: `string`
+> **`optional`** **search**: `string`
 
-##### common.submit?
+#### theme.common.submit?
 
-> **common.submit**?: `string`
+> **`optional`** **submit**: `string`
 
-##### lang?
+#### theme.lang?
 
-> **lang**?: `string`
+> **`optional`** **lang**: `string`

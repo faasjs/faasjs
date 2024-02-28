@@ -12,4 +12,4 @@
 
 ### options?
 
-> **options**?: [`Options`](Options.md)
+> **`optional`** **options**: [`Options`](Options.md)

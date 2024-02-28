@@ -47,23 +47,19 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ### label?
 
-> **label**?: `string`
+> **`optional`** **label**: `string`
 
 ### level
 
-> **level**: `number`
+> **level**: `number` = `0`
 
 ### silent
 
-> **silent**: `boolean`
+> **silent**: `boolean` = `false`
 
-### size?
+### size
 
-> **size**?: `number`
-
-size of log message, default 1000, set 0 to disable
-
-env: FaasLogSize
+> **size**: `number` = `1000`
 
 ### stderr
 

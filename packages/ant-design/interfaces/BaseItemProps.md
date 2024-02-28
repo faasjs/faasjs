@@ -14,8 +14,8 @@
 
 ### options?
 
-> **options**?: [`BaseOption`](../type-aliases/BaseOption.md)[]
+> **`optional`** **options**: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 ### title?
 
-> **title**?: `string`
+> **`optional`** **title**: `string`

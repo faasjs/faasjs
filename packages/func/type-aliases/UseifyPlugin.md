@@ -8,11 +8,11 @@
 
 ### mount?
 
-> **mount**?: (`data`?) => `Promise`\<`T`\>
+> **`optional`** **mount**: (`data`?) => `Promise`\<`T`\>
 
 #### Parameters
 
-• **data?**: `Object`
+• **data?**
 
 • **data\.config?**: [`Config`](Config.md)
 

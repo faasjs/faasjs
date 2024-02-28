@@ -18,7 +18,7 @@
 
 • **context?**: `TContext`
 
-• **callback?**: (...`args`) => `any`
+• **callback?**
 
 ## Returns
 

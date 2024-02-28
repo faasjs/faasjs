@@ -6,7 +6,7 @@
 
 ## Parameters
 
-• **options**: `Object`
+• **options**
 
 • **options\.externalModules?**: `string`[]
 

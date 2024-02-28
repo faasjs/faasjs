@@ -12,28 +12,28 @@
 
 ### domain?
 
-> **domain**?: `string`
+> **`optional`** **domain**: `string`
 
 ### expires?
 
-> **expires**?: `number`
+> **`optional`** **expires**: `number`
 
 ### httpOnly?
 
-> **httpOnly**?: `boolean`
+> **`optional`** **httpOnly**: `boolean`
 
 ### path?
 
-> **path**?: `string`
+> **`optional`** **path**: `string`
 
 ### sameSite?
 
-> **sameSite**?: `"Strict"` \| `"Lax"` \| `"None"`
+> **`optional`** **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
 
 ### secure?
 
-> **secure**?: `boolean`
+> **`optional`** **secure**: `boolean`
 
 ### session?
 
-> **session**?: [`SessionOptions`](SessionOptions.md)
+> **`optional`** **session**: [`SessionOptions`](SessionOptions.md)

@@ -20,7 +20,7 @@
 
 ### config?
 
-> **config**?: `Object`
+> **`optional`** **config**: `Object`
 
 #### Index signature
 
@@ -28,36 +28,36 @@
 
 ### config.cookie?
 
-> **config.cookie**?: [`CookieOptions`](CookieOptions.md)
+> **`optional`** **cookie**: [`CookieOptions`](CookieOptions.md)
 
 ### config.functionName?
 
-> **config.functionName**?: `string`
+> **`optional`** **functionName**: `string`
 
 ### config.ignorePathPrefix?
 
-> **config.ignorePathPrefix**?: `string`
+> **`optional`** **ignorePathPrefix**: `string`
 
 ### config.method?
 
-> **config.method**?: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
+> **`optional`** **method**: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
 
 POST as default
 
 ### config.path?
 
-> **config.path**?: `string`
+> **`optional`** **path**: `string`
 
 file relative path as default
 
 ### config.timeout?
 
-> **config.timeout**?: `number`
+> **`optional`** **timeout**: `number`
 
 ### name?
 
-> **name**?: `string`
+> **`optional`** **name**: `string`
 
 ### validator?
 
-> **validator**?: [`ValidatorConfig`](ValidatorConfig.md)\<`TParams`, `TCookie`, `TSession`\>
+> **`optional`** **validator**: [`ValidatorConfig`](ValidatorConfig.md)\<`TParams`, `TCookie`, `TSession`\>

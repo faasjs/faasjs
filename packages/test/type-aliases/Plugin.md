@@ -16,7 +16,7 @@
 
 ### onDeploy?
 
-> **onDeploy**?: (`data`, `next`) => `Promise`\<`void`\>
+> **`optional`** **onDeploy**: (`data`, `next`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -30,7 +30,7 @@
 
 ### onInvoke?
 
-> **onInvoke**?: (`data`, `next`) => `Promise`\<`void`\>
+> **`optional`** **onInvoke**: (`data`, `next`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -44,7 +44,7 @@
 
 ### onMount?
 
-> **onMount**?: (`data`, `next`) => `Promise`\<`void`\>
+> **`optional`** **onMount**: (`data`, `next`) => `Promise`\<`void`\>
 
 #### Parameters
 

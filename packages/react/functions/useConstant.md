@@ -12,7 +12,7 @@ Returns a constant value that is created by the given function.
 
 ## Parameters
 
-• **fn**: () => `T`
+• **fn**
 
 ## Returns
 

@@ -27,15 +27,14 @@ function Example() {
 
 `Object`
 
-> ### drawer
->
-> > **drawer**: `Element`
->
-> ### drawerProps
->
-> > **drawerProps**: [`DrawerProps`](../interfaces/DrawerProps.md) = `props`
->
-> ### setDrawerProps
->
-> > **setDrawerProps**: [`setDrawerProps`](../type-aliases/setDrawerProps.md)
->
+### drawer
+
+> **drawer**: `Element`
+
+### drawerProps
+
+> **drawerProps**: [`DrawerProps`](../interfaces/DrawerProps.md) = `props`
+
+### setDrawerProps
+
+> **setDrawerProps**: [`setDrawerProps`](../type-aliases/setDrawerProps.md)

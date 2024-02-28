@@ -48,7 +48,7 @@
 
 \{object\} 部署环境配置
 
-• **config**: `Object`
+• **config**
 
 \{Logger\} 部署对象配置
 
@@ -64,13 +64,13 @@
 
 • **name**: `string`
 
-• **data**: `Object`
+• **data**
 
 • **data\.context**: `any`
 
 • **data\.event?**: `any`
 
-• **options?**: `Object`
+• **options?**
 
 #### Returns
 
@@ -92,13 +92,13 @@
 
 • **name**: `string`
 
-• **data**: `Object`
+• **data**
 
 • **data\.context**: `any`
 
 • **data\.event?**: `any`
 
-• **options?**: `Object`
+• **options?**
 
 #### Returns
 

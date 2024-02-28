@@ -22,7 +22,7 @@
 
 \{any\} 参数
 
-• **options?**: `Object`
+• **options?**
 
 \{object\} 额外配置项
 

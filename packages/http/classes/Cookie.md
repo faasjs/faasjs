@@ -30,33 +30,31 @@
 
 > **`readonly`** **config**: `Object`
 
-#### Type declaration
+#### config.domain?
 
-##### domain?
+> **`optional`** **domain**: `string`
 
-> **domain**?: `string`
-
-##### expires
+#### config.expires
 
 > **expires**: `number`
 
-##### httpOnly
+#### config.httpOnly
 
 > **httpOnly**: `boolean`
 
-##### path
+#### config.path
 
 > **path**: `string`
 
-##### sameSite?
+#### config.sameSite?
 
-> **sameSite**?: `"Strict"` \| `"Lax"` \| `"None"`
+> **`optional`** **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
 
-##### secure
+#### config.secure
 
 > **secure**: `boolean`
 
-##### session
+#### config.session
 
 > **session**: [`SessionOptions`](../type-aliases/SessionOptions.md)
 
@@ -82,10 +80,9 @@
 
 `Object`
 
-> ##### Set-Cookie?
->
-> > **Set-Cookie**?: `string`[]
->
+##### Set-Cookie?
+
+> **`optional`** **Set-Cookie**: `string`[]
 
 ### invoke()
 
@@ -123,7 +120,7 @@
 
 • **value**: `string`
 
-• **opts?**: `Object`
+• **opts?**
 
 • **opts\.domain?**: `string`
 

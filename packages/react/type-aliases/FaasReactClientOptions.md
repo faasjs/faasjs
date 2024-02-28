@@ -12,7 +12,7 @@
 
 ### onError?
 
-> **onError**?: (`action`, `params`) => (`res`) => `Promise`\<`void`\>
+> **`optional`** **onError**: (`action`, `params`) => (`res`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -35,4 +35,4 @@
 
 ### options?
 
-> **options**?: [`Options`](Options.md)
+> **`optional`** **options**: [`Options`](Options.md)

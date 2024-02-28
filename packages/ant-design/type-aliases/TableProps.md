@@ -8,7 +8,7 @@
 
 ### extendTypes?
 
-> **extendTypes**?: `Object`
+> **`optional`** **extendTypes**: `Object`
 
 #### Index signature
 
@@ -16,7 +16,7 @@
 
 ### faasData?
 
-> **faasData**?: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`T`\>
+> **`optional`** **faasData**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`T`\>
 
 ### items
 
@@ -24,7 +24,7 @@
 
 ### onChange?
 
-> **onChange**?: (`pagination`, `filters`, `sorter`, `extra`) => `Object`
+> **`optional`** **onChange**: (`pagination`, `filters`, `sorter`, `extra`) => `Object`
 
 #### Parameters
 
@@ -40,22 +40,21 @@
 
 `Object`
 
-> ##### extra
->
-> > **extra**: `TableCurrentDataSource`\<`T`\>
->
-> ##### filters
->
-> > **filters**: `Record`\<`string`, `FilterValue` \| `null`\>
->
-> ##### pagination
->
-> > **pagination**: `TablePaginationConfig`
->
-> ##### sorter
->
-> > **sorter**: `SorterResult`\<`T`\> \| `SorterResult`\<`T`\>[]
->
+##### extra
+
+> **extra**: `TableCurrentDataSource`\<`T`\>
+
+##### filters
+
+> **filters**: `Record`\<`string`, `FilterValue` \| `null`\>
+
+##### pagination
+
+> **pagination**: `TablePaginationConfig`
+
+##### sorter
+
+> **sorter**: `SorterResult`\<`T`\> \| `SorterResult`\<`T`\>[]
 
 ## Type parameters
 

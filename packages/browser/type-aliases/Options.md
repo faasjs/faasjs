@@ -8,7 +8,7 @@
 
 ### beforeRequest?
 
-> **beforeRequest**?: (`{
+> **`optional`** **beforeRequest**: (`{
     action,
     params,
     options,
@@ -24,7 +24,7 @@ trigger before request
     params,
     options,
     headers,
-  }**: `Object`
+  }**
 
 • **\{
     action,
@@ -60,11 +60,11 @@ trigger before request
 
 ### headers?
 
-> **headers**?: `Record`\<`string`, `string`\>
+> **`optional`** **headers**: `Record`\<`string`, `string`\>
 
 ### request?
 
-> **request**?: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
+> **`optional`** **request**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 custom request
 

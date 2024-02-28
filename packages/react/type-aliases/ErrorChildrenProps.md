@@ -8,16 +8,16 @@
 
 ### error?
 
-> **error**?: `Error`
+> **`optional`** **error**: `Error`
 
 ### errorDescription?
 
-> **errorDescription**?: `string`
+> **`optional`** **errorDescription**: `string`
 
 ### errorMessage?
 
-> **errorMessage**?: `string`
+> **`optional`** **errorMessage**: `string`
 
 ### info?
 
-> **info**?: `any`
+> **`optional`** **info**: `any`

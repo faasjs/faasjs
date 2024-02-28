@@ -34,7 +34,7 @@ export default useFunc(() => {
 
 ## Parameters
 
-• **handler**: () => [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+• **handler**
 
 ## Returns
 

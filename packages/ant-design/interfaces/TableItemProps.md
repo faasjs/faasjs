@@ -14,7 +14,7 @@
 
 ### children?
 
-> **children**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
+> **`optional`** **children**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
 ### id
 
@@ -26,11 +26,11 @@
 
 ### object?
 
-> **object**?: [`TableItemProps`](TableItemProps.md)\<`T`\>[]
+> **`optional`** **object**: [`TableItemProps`](TableItemProps.md)\<`T`\>[]
 
 ### options?
 
-> **options**?: [`BaseOption`](../type-aliases/BaseOption.md)[]
+> **`optional`** **options**: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
@@ -38,23 +38,23 @@
 
 ### optionsType?
 
-> **optionsType**?: `"auto"`
+> **`optional`** **optionsType**: `"auto"`
 
 ### render?
 
-> **render**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
+> **`optional`** **render**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
 
 ### tableChildren?
 
-> **tableChildren**?: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
+> **`optional`** **tableChildren**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
 ### tableRender?
 
-> **tableRender**?: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
+> **`optional`** **tableRender**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
 
 ### title?
 
-> **title**?: `string`
+> **`optional`** **title**: `string`
 
 #### Inherited from
 
@@ -62,7 +62,7 @@
 
 ### type?
 
-> **type**?: [`FaasItemType`](../type-aliases/FaasItemType.md)
+> **`optional`** **type**: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 

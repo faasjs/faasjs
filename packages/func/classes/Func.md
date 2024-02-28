@@ -40,11 +40,11 @@ Create a cloud function
 
 ### filename?
 
-> **filename**?: `string`
+> **`optional`** **filename**: `string`
 
 ### handler?
 
-> **handler**?: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+> **`optional`** **handler**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ### mounted
 
@@ -82,10 +82,9 @@ Export the function
 
 `Object`
 
-> ##### handler
->
-> > **handler**: [`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>
->
+##### handler
+
+> **handler**: [`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ### invoke()
 
@@ -111,7 +110,7 @@ First time mount the function
 
 #### Parameters
 
-• **data**: `Object`
+• **data**
 
 • **data\.config?**: [`Config`](../type-aliases/Config.md)
 

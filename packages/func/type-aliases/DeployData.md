@@ -12,7 +12,7 @@
 
 ### config?
 
-> **config**?: [`Config`](Config.md)
+> **`optional`** **config**: [`Config`](Config.md)
 
 ### dependencies
 
@@ -24,7 +24,7 @@
 
 ### env?
 
-> **env**?: `string`
+> **`optional`** **env**: `string`
 
 ### filename
 
@@ -32,15 +32,15 @@
 
 ### logger?
 
-> **logger**?: `Logger`
+> **`optional`** **logger**: `Logger`
 
 ### name?
 
-> **name**?: `string`
+> **`optional`** **name**: `string`
 
 ### plugins?
 
-> **plugins**?: `Object`
+> **`optional`** **plugins**: `Object`
 
 #### Index signature
 
@@ -52,4 +52,4 @@
 
 ### version?
 
-> **version**?: `string`
+> **`optional`** **version**: `string`

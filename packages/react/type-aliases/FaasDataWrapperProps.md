@@ -16,25 +16,25 @@
 
 ### children?
 
-> **children**?: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\>\>
+> **`optional`** **children**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\>\>
 
 ### data?
 
-> **data**?: `FaasData`\<`PathOrData`\>
+> **`optional`** **data**: `FaasData`\<`PathOrData`\>
 
 use custom data, should work with setData
 
 ### fallback?
 
-> **fallback**?: `JSX.Element` \| `false`
+> **`optional`** **fallback**: `JSX.Element` \| `false`
 
 ### params?
 
-> **params**?: `FaasParams`\<`PathOrData`\>
+> **`optional`** **params**: `FaasParams`\<`PathOrData`\>
 
 ### setData?
 
-> **setData**?: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`PathOrData`\>\>\>
+> **`optional`** **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`PathOrData`\>\>\>
 
 use custom setData, should work with data
 

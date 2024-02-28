@@ -25,7 +25,7 @@ server.listen()
 
 Project path
 
-• **opts?**: `Object`
+• **opts?**
 
 Options
 
@@ -33,7 +33,7 @@ Options
 
 Enable cache, default is false
 
-• **opts\.onError?**: (`error`) => `void`
+• **opts\.onError?**
 
 • **opts\.port?**: `number`
 
@@ -51,7 +51,7 @@ Port, default is 3000
 
 ### onError?
 
-> **onError**?: (`error`) => `void`
+> **`optional`** **onError**: (`error`) => `void`
 
 #### Parameters
 
@@ -65,13 +65,11 @@ Port, default is 3000
 
 > **`readonly`** **opts**: `Object`
 
-#### Type declaration
-
-##### cache
+#### opts.cache
 
 > **cache**: `boolean`
 
-##### port
+#### opts.port
 
 > **port**: `number`
 

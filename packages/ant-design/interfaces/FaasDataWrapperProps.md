@@ -22,7 +22,7 @@
 
 ### children?
 
-> **children**?: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`any`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
+> **`optional`** **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`any`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 #### Inherited from
 
@@ -30,7 +30,7 @@
 
 ### data?
 
-> **data**?: `FaasData`\<`PathOrData`\>
+> **`optional`** **data**: `FaasData`\<`PathOrData`\>
 
 use custom data, should work with setData
 
@@ -40,7 +40,7 @@ use custom data, should work with setData
 
 ### fallback?
 
-> **fallback**?: `false` \| `Element`
+> **`optional`** **fallback**: `false` \| `Element`
 
 #### Inherited from
 
@@ -48,15 +48,15 @@ use custom data, should work with setData
 
 ### loading?
 
-> **loading**?: `Element`
+> **`optional`** **loading**: `Element`
 
 ### loadingProps?
 
-> **loadingProps**?: [`LoadingProps`](../type-aliases/LoadingProps.md)
+> **`optional`** **loadingProps**: [`LoadingProps`](../type-aliases/LoadingProps.md)
 
 ### params?
 
-> **params**?: `FaasParams`\<`PathOrData`\>
+> **`optional`** **params**: `FaasParams`\<`PathOrData`\>
 
 #### Inherited from
 
@@ -64,7 +64,7 @@ use custom data, should work with setData
 
 ### setData?
 
-> **setData**?: `Dispatch`\<`any`\>
+> **`optional`** **setData**: `Dispatch`\<`any`\>
 
 use custom setData, should work with data
 

@@ -12,7 +12,7 @@
 
 ### plugins?
 
-> **plugins**?: `Object`
+> **`optional`** **plugins**: `Object`
 
 #### Index signature
 
@@ -20,7 +20,7 @@
 
 ### providers?
 
-> **providers**?: `Object`
+> **`optional`** **providers**: `Object`
 
 #### Index signature
 

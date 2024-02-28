@@ -8,11 +8,11 @@
 
 ### agent?
 
-> **agent**?: `boolean`
+> **`optional`** **agent**: `boolean`
 
 ### auth?
 
-> **auth**?: `string`
+> **`optional`** **auth**: `string`
 
 The authentication credentials to use for the request.
 
@@ -20,11 +20,11 @@ Format: `username:password`
 
 ### body?
 
-> **body**?: `Object` \| `string`
+> **`optional`** **body**: `Object` \| `string`
 
 ### downloadFile?
 
-> **downloadFile**?: `string`
+> **`optional`** **downloadFile**: `string`
 
 Path of downloading a file from the server.
 
@@ -34,7 +34,7 @@ await request('https://example.com', { downloadFile: 'filepath' })
 
 ### downloadStream?
 
-> **downloadStream**?: `NodeJS.WritableStream`
+> **`optional`** **downloadStream**: `NodeJS.WritableStream`
 
 Create a write stream to download a file.
 
@@ -47,7 +47,7 @@ await request('https://example.com', { downloadStream: stream })
 
 ### file?
 
-> **file**?: `string`
+> **`optional`** **file**: `string`
 
 Path of uploading a file to the server.
 
@@ -57,21 +57,21 @@ await request('https://example.com', { file: 'filepath' })
 
 ### headers?
 
-> **headers**?: `http.OutgoingHttpHeaders`
+> **`optional`** **headers**: `http.OutgoingHttpHeaders`
 
 ### logger?
 
-> **logger**?: `Logger`
+> **`optional`** **logger**: `Logger`
 
 ### method?
 
-> **method**?: `string`
+> **`optional`** **method**: `string`
 
 The HTTP method to use when making the request. Defaults to GET.
 
 ### parse?
 
-> **parse**?: (`body`) => `any`
+> **`optional`** **parse**: (`body`) => `any`
 
 Body parser. Defaults to `JSON.parse`.
 
@@ -85,15 +85,15 @@ Body parser. Defaults to `JSON.parse`.
 
 ### passphrase?
 
-> **passphrase**?: `string`
+> **`optional`** **passphrase**: `string`
 
 ### pfx?
 
-> **pfx**?: `Buffer`
+> **`optional`** **pfx**: `Buffer`
 
 ### query?
 
-> **query**?: `Object`
+> **`optional`** **query**: `Object`
 
 #### Index signature
 
@@ -101,7 +101,7 @@ Body parser. Defaults to `JSON.parse`.
 
 ### timeout?
 
-> **timeout**?: `number`
+> **`optional`** **timeout**: `number`
 
 Timeout in milliseconds,
 

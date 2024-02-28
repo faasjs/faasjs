@@ -8,16 +8,16 @@
 
 ### children?
 
-> **children**?: `React.ReactNode`
+> **`optional`** **children**: `React.ReactNode`
 
 ### loading?
 
-> **loading**?: `boolean`
+> **`optional`** **loading**: `boolean`
 
 ### size?
 
-> **size**?: `"small"` \| `"default"` \| `"large"`
+> **`optional`** **size**: `"small"` \| `"default"` \| `"large"`
 
 ### style?
 
-> **style**?: `React.CSSProperties`
+> **`optional`** **style**: `React.CSSProperties`

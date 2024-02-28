@@ -12,15 +12,15 @@
 
 \{string\} 完整源文件路径
 
-• **options**: `Object`= `undefined`
+• **options**= `undefined`
 
 \{object\} 配置项
 
-• **options\.input?**: `Object`
+• **options\.input?**
 
 \{object\} 读取配置
 
-• **options\.modules?**: `Object`
+• **options\.modules?**
 
 \{object\} 生成 modules 的配置
 
@@ -28,7 +28,7 @@
 
 • **options\.modules\.excludes?**: `string`[]
 
-• **options\.output?**: `Object`
+• **options\.output?**
 
 \{object\} 写入配置
 
@@ -50,11 +50,11 @@
 >
 > ### module?
 >
-> > **module**?: `Func`
+> > **`optional`** **module**: `Func`
 >
 > ### modules?
 >
-> > **modules**?: `Object`
+> > **`optional`** **modules**: `Object`
 >
 > #### Index signature
 >

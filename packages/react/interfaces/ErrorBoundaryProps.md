@@ -6,15 +6,15 @@
 
 ### children?
 
-> **children**?: `ReactNode`
+> **`optional`** **children**: `ReactNode`
 
 ### errorChildren?
 
-> **errorChildren**?: `ReactElement`\<[`ErrorChildrenProps`](../type-aliases/ErrorChildrenProps.md), `string` \| `JSXElementConstructor`\<`any`\>\>
+> **`optional`** **errorChildren**: `ReactElement`\<[`ErrorChildrenProps`](../type-aliases/ErrorChildrenProps.md), `string` \| `JSXElementConstructor`\<`any`\>\>
 
 ### onError?
 
-> **onError**?: (`error`, `info`) => `void`
+> **`optional`** **onError**: (`error`, `info`) => `void`
 
 #### Parameters
 

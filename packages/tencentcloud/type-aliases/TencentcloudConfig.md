@@ -11,20 +11,20 @@
 
 ### appId?
 
-> **appId**?: `string`
+> **`optional`** **appId**: `string`
 
 ### region?
 
-> **region**?: `string`
+> **`optional`** **region**: `string`
 
 ### secretId?
 
-> **secretId**?: `string`
+> **`optional`** **secretId**: `string`
 
 ### secretKey?
 
-> **secretKey**?: `string`
+> **`optional`** **secretKey**: `string`
 
 ### token?
 
-> **token**?: `string`
+> **`optional`** **token**: `string`

@@ -16,16 +16,16 @@
 
 ### before?
 
-> **before**?: `BeforeOption`
+> **`optional`** **before**: `BeforeOption`
 
 ### cookie?
 
-> **cookie**?: [`ValidatorOptions`](ValidatorOptions.md)\<`TCookie`\>
+> **`optional`** **cookie**: [`ValidatorOptions`](ValidatorOptions.md)\<`TCookie`\>
 
 ### params?
 
-> **params**?: [`ValidatorOptions`](ValidatorOptions.md)\<`TParams`\>
+> **`optional`** **params**: [`ValidatorOptions`](ValidatorOptions.md)\<`TParams`\>
 
 ### session?
 
-> **session**?: [`ValidatorOptions`](ValidatorOptions.md)\<`TSession`\>
+> **`optional`** **session**: [`ValidatorOptions`](ValidatorOptions.md)\<`TSession`\>

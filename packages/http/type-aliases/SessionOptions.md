@@ -8,15 +8,15 @@
 
 ### cipherName?
 
-> **cipherName**?: `string`
+> **`optional`** **cipherName**: `string`
 
 ### digest?
 
-> **digest**?: `string`
+> **`optional`** **digest**: `string`
 
 ### iterations?
 
-> **iterations**?: `number`
+> **`optional`** **iterations**: `number`
 
 ### key
 
@@ -24,11 +24,11 @@
 
 ### keylen?
 
-> **keylen**?: `number`
+> **`optional`** **keylen**: `number`
 
 ### salt?
 
-> **salt**?: `string`
+> **`optional`** **salt**: `string`
 
 ### secret
 
@@ -36,4 +36,4 @@
 
 ### signedSalt?
 
-> **signedSalt**?: `string`
+> **`optional`** **signedSalt**: `string`

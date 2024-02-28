@@ -14,16 +14,16 @@
 
 ### index?
 
-> **index**?: `number`
+> **`optional`** **index**: `number`
 
 ### scene?
 
-> **scene**?: [`UnionScene`](UnionScene.md)
+> **`optional`** **scene**: [`UnionScene`](UnionScene.md)
 
 ### value?
 
-> **value**?: `Value`
+> **`optional`** **value**: `Value`
 
 ### values?
 
-> **values**?: `Values`
+> **`optional`** **values**: `Values`

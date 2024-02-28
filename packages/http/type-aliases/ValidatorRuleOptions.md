@@ -8,24 +8,24 @@
 
 ### config?
 
-> **config**?: `Partial`\<[`ValidatorOptions`](ValidatorOptions.md)\>
+> **`optional`** **config**: `Partial`\<[`ValidatorOptions`](ValidatorOptions.md)\>
 
 ### default?
 
-> **default**?: `any`
+> **`optional`** **default**: `any`
 
 ### in?
 
-> **in**?: `any`[]
+> **`optional`** **in**: `any`[]
 
 ### regexp?
 
-> **regexp**?: `RegExp`
+> **`optional`** **regexp**: `RegExp`
 
 ### required?
 
-> **required**?: `boolean`
+> **`optional`** **required**: `boolean`
 
 ### type?
 
-> **type**?: `ValidatorRuleOptionsType`
+> **`optional`** **type**: `ValidatorRuleOptionsType`

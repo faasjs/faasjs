@@ -12,24 +12,24 @@
 
 ### data?
 
-> **data**?: `FaasData`\<`PathOrData`\>
+> **`optional`** **data**: `FaasData`\<`PathOrData`\>
 
 ### debounce?
 
-> **debounce**?: `number`
+> **`optional`** **debounce**: `number`
 
 send the last request after milliseconds
 
 ### params?
 
-> **params**?: `FaasParams`\<`PathOrData`\>
+> **`optional`** **params**: `FaasParams`\<`PathOrData`\>
 
 ### setData?
 
-> **setData**?: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`PathOrData`\>\>\>
+> **`optional`** **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`PathOrData`\>\>\>
 
 ### skip?
 
-> **skip**?: `boolean` \| (`params`) => `boolean`
+> **`optional`** **skip**: `boolean` \| (`params`) => `boolean`
 
 if skip is true, will not send request

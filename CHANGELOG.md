@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.0.0 (2024-02-28)`](https://github.com/faasjs/faasjs/compare/v1.7.2...v2.0.0)
+
+- `@faasjs/react`
+  - [Break] Remove `@preact/signals-react`.
+
 [`v1.7.2 (2024-02-27)`](https://github.com/faasjs/faasjs/compare/v1.7.1...v1.7.2)
 
 - `@faasjs/react`

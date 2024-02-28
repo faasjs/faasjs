@@ -20,12 +20,12 @@
 
 ### request?
 
-> **request**?: [`Request`](Request.md)
+> **`optional`** **request**: [`Request`](Request.md)
 
 ### statusCode?
 
-> **statusCode**?: `number`
+> **`optional`** **statusCode**: `number`
 
 ### statusMessage?
 
-> **statusMessage**?: `string`
+> **`optional`** **statusMessage**: `string`

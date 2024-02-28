@@ -14,7 +14,7 @@
 
 #### Parameters
 
-• **config?**: `Object`
+• **config?**
 
 • **config\.config?**: [`MongoConfig`](../interfaces/MongoConfig.md)
 

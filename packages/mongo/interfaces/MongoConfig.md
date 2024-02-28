@@ -10,8 +10,8 @@
 
 ### database?
 
-> **database**?: `string`
+> **`optional`** **database**: `string`
 
 ### url?
 
-> **url**?: `string`
+> **`optional`** **url**: `string`

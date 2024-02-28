@@ -34,23 +34,21 @@
 
  \[`key`: `string`\]: `any`
 
-#### Type declaration
+#### config.memorySize?
 
-##### memorySize?
+> **`optional`** **memorySize**: `number`
 
-> **memorySize**?: `number`
+#### config.name?
 
-##### name?
+> **`optional`** **name**: `string`
 
-> **name**?: `string`
+#### config.timeout?
 
-##### timeout?
+> **`optional`** **timeout**: `number`
 
-> **timeout**?: `number`
+#### config.triggers?
 
-##### triggers?
-
-> **triggers**?: `Object`[]
+> **`optional`** **triggers**: `Object`[]
 
 ### context
 

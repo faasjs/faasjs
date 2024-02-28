@@ -30,37 +30,35 @@
 
 > **`readonly`** **config**: `Object`
 
-#### Type declaration
-
-##### cipherName
+#### config.cipherName
 
 > **cipherName**: `string`
 
-##### digest
+#### config.digest
 
 > **digest**: `string`
 
-##### iterations
+#### config.iterations
 
 > **iterations**: `number`
 
-##### key
+#### config.key
 
 > **key**: `string`
 
-##### keylen
+#### config.keylen
 
 > **keylen**: `number`
 
-##### salt
+#### config.salt
 
 > **salt**: `string`
 
-##### secret
+#### config.secret
 
 > **secret**: `string`
 
-##### signedSalt
+#### config.signedSalt
 
 > **signedSalt**: `string`
 

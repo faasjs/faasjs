@@ -8,8 +8,8 @@
 
 ### config?
 
-> **config**?: `OriginKnex.Config`
+> **`optional`** **config**: `OriginKnex.Config`
 
 ### name?
 
-> **name**?: `string`
+> **`optional`** **name**: `string`
