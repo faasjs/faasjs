@@ -9,8 +9,6 @@ if (typeof window !== 'undefined') {
     logOnDifferentValues: true,
   })
 
-  require('@preact/signals-react/auto')
-
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation(query => ({
