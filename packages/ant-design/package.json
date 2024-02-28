@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "1.7.2",
+  "version": "2.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -26,7 +26,7 @@
     "lodash-es": "*"
   },
   "peerDependencies": {
-    "@faasjs/react": "1.7.2",
+    "@faasjs/react": "2.0.0",
     "antd": "*",
     "react": "*",
     "react-dom": "*",
@@ -38,7 +38,7 @@
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
     "@welldone-software/why-did-you-render": "*",
-    "@faasjs/react": "1.7.2",
+    "@faasjs/react": "2.0.0",
     "antd": "*",
     "react": "*",
     "react-dom": "*",
