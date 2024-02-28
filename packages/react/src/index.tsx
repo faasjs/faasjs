@@ -26,17 +26,6 @@
  *
  * 2. Use [faas](#faas), [useFaas](#usefaas) or [FaasDataWrapper](#faasdatawrapper).
  *
- * ## Usage with [@preact/signal-react](https://github.com/preactjs/signals/blob/main/packages/react/README.md)
- *
- * 1. `npm i --save-dev @preact/signals-react-transform`
- * 2. Add `@preact/signals-react-transform` to babel config:
- * ```json
- * {
- * 	"plugins": [["module:@preact/signals-react-transform"]]
- * }
- * ```
- * 3. Add `import '@preact/signals-react/auto'` to your test files.
- *
  * @packageDocumentation
  */
 
@@ -57,8 +46,6 @@ export { useConstant } from './constant'
 
 export * from './client'
 export * from './ErrorBoundary'
-
-export * from './signal'
 
 export type {
   FaasReactClientInstance,

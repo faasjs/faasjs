@@ -167,6 +167,8 @@ export function FaasReactClient({
         if (params) setParams(params)
 
         setReloadTimes(prev => prev + 1)
+
+        return promise
       },
       [params]
     )
