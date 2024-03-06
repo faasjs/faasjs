@@ -19,7 +19,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2204
     services:
       redis:
         image: redis:alpine
