@@ -22,24 +22,8 @@
 
 ### setDrawerProps
 
-> **setDrawerProps**: (`changes`) => `void`
-
-#### Parameters
-
-• **changes**: `Partial`\<[`DrawerProps`](DrawerProps.md)\>
-
-#### Returns
-
-`void`
+> **setDrawerProps**: [`setDrawerProps`](../type-aliases/setDrawerProps.md)
 
 ### setModalProps
 
-> **setModalProps**: (`changes`) => `void`
-
-#### Parameters
-
-• **changes**: `Partial`\<[`ModalProps`](ModalProps.md)\>
-
-#### Returns
-
-`void`
+> **setModalProps**: [`setModalProps`](../type-aliases/setModalProps.md)
