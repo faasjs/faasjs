@@ -43,6 +43,7 @@ export type {
 } from '@faasjs/browser'
 
 export { useConstant } from './constant'
+export { createSplitedContext } from './splitedContext'
 
 export * from './client'
 export * from './ErrorBoundary'

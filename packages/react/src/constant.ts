@@ -12,3 +12,5 @@ export function useConstant<T>(fn: () => T): T {
 
   return ref.current.v
 }
+
+useConstant.whyDidYouRender = true

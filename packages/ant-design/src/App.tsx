@@ -5,7 +5,7 @@ import {
   legacyLogicalPropertiesTransformer,
 } from '@ant-design/cssinjs'
 import type { StyleProviderProps } from '@ant-design/cssinjs/lib/StyleContext'
-import { createContext, useContext, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
 import { ModalProps, setModalProps, useModal } from './Modal'
@@ -17,7 +17,7 @@ import {
   ConfigProvider as FaasConfigProvider,
   ConfigProviderProps as FaasConfigProviderProps,
 } from './Config'
-import { useConstant } from '@faasjs/react'
+import { createSplitedContext } from '@faasjs/react'
 
 export interface AppProps {
   children: React.ReactNode
@@ -37,19 +37,19 @@ export interface useAppProps {
   message: MessageInstance
   notification: NotificationInstance
   modalProps: ModalProps
-  setModalProps: (changes: Partial<ModalProps>) => void
+  setModalProps: setModalProps
   drawerProps: DrawerProps
-  setDrawerProps: (changes: Partial<DrawerProps>) => void
+  setDrawerProps: setDrawerProps
 }
 
-const MessageContext = createContext<MessageInstance>({} as MessageInstance)
-const NotificationContext = createContext<NotificationInstance>(
-  {} as NotificationInstance
-)
-const ModalPropsContext = createContext<ModalProps>({})
-const SetModalPropsContext = createContext<setModalProps>(() => void 0)
-const DrawerPropsContext = createContext<DrawerProps>({})
-const SetDrawerPropsContext = createContext<setDrawerProps>(() => void 0)
+const AppContext = createSplitedContext<useAppProps>({
+  message: {} as MessageInstance,
+  notification: {} as NotificationInstance,
+  modalProps: {},
+  setModalProps: () => void 0,
+  drawerProps: {},
+  setDrawerProps: () => void 0,
+})
 
 function RoutesApp(props: {
   children: React.ReactNode
@@ -114,29 +114,28 @@ export function App(props: AppProps) {
   return (
     <StyleProvider {...styleProviderProps}>
       <ConfigProvider {...props.configProviderProps}>
-        <MessageContext.Provider value={messageApi}>
-          <NotificationContext.Provider value={notificationApi}>
-            <DrawerPropsContext.Provider value={drawerProps}>
-              <SetDrawerPropsContext.Provider value={setDrawerProps}>
-                <ModalPropsContext.Provider value={modalProps}>
-                  <SetModalPropsContext.Provider value={setModalProps}>
-                    <FaasConfigProvider {...props.faasConfigProviderProps}>
-                      <ErrorBoundary {...props.errorBoundaryProps}>
-                        <BrowserRouter {...props.browserRouterProps}>
-                          {messageContextHolder}
-                          {notificationContextHolder}
-                          {modal}
-                          {drawer}
-                          <RoutesApp>{props.children}</RoutesApp>
-                        </BrowserRouter>
-                      </ErrorBoundary>
-                    </FaasConfigProvider>
-                  </SetModalPropsContext.Provider>
-                </ModalPropsContext.Provider>
-              </SetDrawerPropsContext.Provider>
-            </DrawerPropsContext.Provider>
-          </NotificationContext.Provider>
-        </MessageContext.Provider>
+        <AppContext.Provider
+          value={{
+            message: messageApi,
+            notification: notificationApi,
+            drawerProps,
+            setDrawerProps,
+            modalProps,
+            setModalProps,
+          }}
+        >
+          <FaasConfigProvider {...props.faasConfigProviderProps}>
+            <ErrorBoundary {...props.errorBoundaryProps}>
+              <BrowserRouter {...props.browserRouterProps}>
+                {messageContextHolder}
+                {notificationContextHolder}
+                {modal}
+                {drawer}
+                <RoutesApp>{props.children}</RoutesApp>
+              </BrowserRouter>
+            </ErrorBoundary>
+          </FaasConfigProvider>
+        </AppContext.Provider>
       </ConfigProvider>
     </StyleProvider>
   )
@@ -151,32 +150,7 @@ export function App(props: AppProps) {
  * const { message, notification, setModalProps, setDrawerProps } = useApp()
  * ```
  */
-export function useApp() {
-  return useConstant(() => {
-    const obj = Object.create(null) as useAppProps
-
-    Object.defineProperty(obj, 'message', {
-      get: () => useContext(MessageContext),
-    })
-    Object.defineProperty(obj, 'notification', {
-      get: () => useContext(NotificationContext),
-    })
-    Object.defineProperty(obj, 'modalProps', {
-      get: () => useContext(ModalPropsContext),
-    })
-    Object.defineProperty(obj, 'setModalProps', {
-      get: () => useContext(SetModalPropsContext),
-    })
-    Object.defineProperty(obj, 'drawerProps', {
-      get: () => useContext(DrawerPropsContext),
-    })
-    Object.defineProperty(obj, 'setDrawerProps', {
-      get: () => useContext(SetDrawerPropsContext),
-    })
-
-    return Object.freeze(obj)
-  })
-}
+export const useApp = AppContext.use
 
 App.useApp = useApp
 App.whyDidYouRender = true
