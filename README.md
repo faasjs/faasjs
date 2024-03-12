@@ -41,15 +41,19 @@ An Atomic Application Framework based on Typescript.
 - Extend your application effortlessly with **flexible and simple plugin mechanisms**.
 - **Freely scale** your functions up or down based on demand.
 
-## Quick start
+## Quickstart
+
+### Try with Ccodespace
+
+[FaasJS stater](https://github.com/faasjs/starter)
+
+### Try with Command Line
 
 ```bash
 npx create-faas-app --name faasjs --example --noprovider
 ```
 
-## Playground
-
-[Fork and open in codespace or your computer.](https://github.com/faasjs/starter)
+## Examples
 
 ### Cloud function's file
 

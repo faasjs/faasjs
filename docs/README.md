@@ -44,7 +44,19 @@ footer: An Atomic Application Framework based on Typescript | MIT Licensed | Cop
 - Extend your application effortlessly with **flexible and simple plugin mechanisms**.
 - **Freely scale** your functions up or down based on demand.
 
-## Example
+## Quickstart
+
+### Try with Ccodespace
+
+[🔨 FaasJS Stater](https://github.com/faasjs/starter)
+
+### Try with Command Line
+
+```bash
+npx create-faas-app --name faasjs --example --noprovider
+```
+
+## Examples
 
 ### Cloud function's file
 
@@ -68,13 +80,13 @@ export default useFunc(function() {
 ```ts
 // __tests__/index.test.ts
 // all unit test file should be ended with .test.ts
-import { FuncWarper } from '@faasjs/test'
+import { test } from '@faasjs/test'
 import Func from '../index.func'
 
 describe('index', function () {
-  test('should work', async function () {
+  it('should work', async function () {
     // wrap the cloud function
-    const func = new FuncWarper(Func);
+    const func = test(Func)
 
     // mock the request
     const { statusCode, data } = await func.JSONhandler()
@@ -83,19 +95,9 @@ describe('index', function () {
     expect(statusCode).toEqual(200)
     // expect the response content is 'Hello, world'
     expect(data).toEqual('Hello, world')
-  });
-});
+  })
+})
 ```
-
-## Quickstart
-
-```bash
-npx create-faas-app --name faasjs --example --noprovider
-```
-
-## Playground
-
-[Fork and open in codespace or your computer.](https://github.com/faasjs/starter)
 
 ## Thanks
 
