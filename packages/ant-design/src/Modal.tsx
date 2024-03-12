@@ -1,4 +1,4 @@
-import { Modal as AntdModal, ModalProps as AntdModalProps } from 'antd'
+import { Modal as AntdModal, type ModalProps as AntdModalProps } from 'antd'
 import { useCallback, useState } from 'react'
 
 export const Modal = AntdModal

@@ -3,20 +3,20 @@ import {
   Row,
   Col,
   Form as AntdForm,
-  FormItemProps as AntdFormItemProps,
+  type FormItemProps as AntdFormItemProps,
   Input,
   InputNumber,
   Switch,
-  InputProps,
-  InputNumberProps,
-  SwitchProps,
+  type InputProps,
+  type InputNumberProps,
+  type SwitchProps,
   Select,
-  SelectProps,
+  type SelectProps,
   DatePicker,
-  DatePickerProps,
-  FormInstance,
+  type DatePickerProps,
+  type FormInstance,
   Radio,
-  RadioProps,
+  type RadioProps,
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import type {
@@ -28,7 +28,7 @@ import { transferOptions, type BaseItemProps, type BaseOption } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { cloneElement, useEffect, useState } from 'react'
 import { upperFirst } from 'lodash-es'
-import { ConfigProviderProps, useConfigContext } from './Config'
+import { type ConfigProviderProps, useConfigContext } from './Config'
 
 type OptionsProps = {
   options?: BaseOption[]

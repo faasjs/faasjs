@@ -14,16 +14,16 @@
  */
 import { deepMerge } from '@faasjs/deep_merge'
 import {
-  Plugin,
-  DeployData,
-  Next,
-  MountData,
-  InvokeData,
+  type Plugin,
+  type DeployData,
+  type Next,
+  type MountData,
+  type InvokeData,
   usePlugin,
-  UseifyPlugin,
+  type UseifyPlugin,
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
-import { Validator, ValidatorConfig } from './validator'
+import { Validator, type ValidatorConfig } from './validator'
 
 /** 云函数配置项 */
 export type CloudFunctionConfig = {

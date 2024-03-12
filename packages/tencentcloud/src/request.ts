@@ -1,6 +1,6 @@
-import { createHash, createHmac } from 'crypto'
-import { request as req, Response } from '@faasjs/request'
-import { TencentcloudConfig } from '.'
+import { createHash, createHmac } from 'node:crypto'
+import { request as req, type Response } from '@faasjs/request'
+import type { TencentcloudConfig } from '.'
 
 /**
  * 腾讯云请求封装

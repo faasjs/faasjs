@@ -4,8 +4,8 @@ import {
   createCipheriv,
   createHmac,
   createDecipheriv,
-} from 'crypto'
-import { Cookie } from './cookie'
+} from 'node:crypto'
+import type { Cookie } from './cookie'
 import type { Logger } from '@faasjs/logger'
 
 export type SessionOptions = {

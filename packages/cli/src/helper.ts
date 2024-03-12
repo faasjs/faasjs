@@ -1,4 +1,4 @@
-import { sep } from 'path'
+import { sep } from 'node:path'
 
 export function defaultsEnv(): void {
   if (!process.env.FaasRoot) process.env.FaasRoot = process.cwd() + sep

@@ -12,7 +12,7 @@
  *
  * @packageDocumentation
  */
-import { format } from 'util'
+import { format } from 'node:util'
 import { Color } from './color'
 
 export { Color }

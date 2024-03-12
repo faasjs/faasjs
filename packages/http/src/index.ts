@@ -13,13 +13,13 @@
  * @packageDocumentation
  */
 import {
-  Plugin,
-  InvokeData,
-  MountData,
-  DeployData,
-  Next,
+  type Plugin,
+  type InvokeData,
+  type MountData,
+  type DeployData,
+  type Next,
   usePlugin,
-  UseifyPlugin,
+  type UseifyPlugin,
 } from '@faasjs/func'
 import { deepMerge } from '@faasjs/deep_merge'
 import { Logger } from '@faasjs/logger'
@@ -31,7 +31,7 @@ import {
   ValidatorRuleOptions,
   ValidatorConfig,
 } from './validator'
-import { gzipSync, deflateSync, brotliCompressSync } from 'zlib'
+import { gzipSync, deflateSync, brotliCompressSync } from 'node:zlib'
 
 export {
   Cookie,

@@ -1,12 +1,12 @@
 import {
   createContext,
   useContext,
-  CSSProperties,
+  type CSSProperties,
   useEffect,
   useState,
 } from 'react'
 import { defaultsDeep } from 'lodash-es'
-import { FaasReactClient, FaasReactClientOptions } from '@faasjs/react'
+import { FaasReactClient, type FaasReactClientOptions } from '@faasjs/react'
 
 export interface ConfigProviderProps {
   faasClientOptions?: FaasReactClientOptions

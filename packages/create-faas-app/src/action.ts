@@ -1,8 +1,8 @@
-import { Command } from 'commander'
+import type { Command } from 'commander'
 import { prompt } from 'enquirer'
-import { mkdirSync, writeFileSync, existsSync } from 'fs'
-import { join } from 'path'
-import { execSync } from 'child_process'
+import { mkdirSync, writeFileSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
+import { execSync } from 'node:child_process'
 
 const Validator = {
   name(input: string) {

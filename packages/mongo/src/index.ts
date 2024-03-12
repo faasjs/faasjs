@@ -13,15 +13,15 @@
  * @packageDocumentation
  */
 import {
-  MongoClientOptions,
-  Db,
+  type MongoClientOptions,
+  type Db,
   MongoClient,
-  Collection,
-  CollectionOptions,
+  type Collection,
+  type CollectionOptions,
   ObjectId,
-  Callback,
+  type Callback,
 } from 'mongodb'
-import { Plugin, MountData, Next, DeployData } from '@faasjs/func'
+import type { Plugin, MountData, Next, DeployData } from '@faasjs/func'
 import { deepMerge } from '@faasjs/deep_merge'
 
 export { ObjectId }

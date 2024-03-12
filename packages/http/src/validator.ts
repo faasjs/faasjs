@@ -1,6 +1,6 @@
-import { Cookie } from './cookie'
-import { Session } from './session'
-import { Logger } from '@faasjs/logger'
+import type { Cookie } from './cookie'
+import type { Session } from './session'
+import type { Logger } from '@faasjs/logger'
 import { HttpError } from '.'
 
 export type ValidatorRuleOptionsType =

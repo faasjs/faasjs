@@ -1,6 +1,6 @@
 import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
-import { generateKeyPairSync } from 'crypto'
+import { generateKeyPairSync } from 'node:crypto'
 import { writeFileSync } from 'fs'
 import { sign } from 'jsonwebtoken'
 

@@ -12,14 +12,14 @@
  * @packageDocumentation
  */
 
-import { Func, DeployData } from '@faasjs/func'
-import { existsSync, mkdirSync } from 'fs'
-import { join, sep } from 'path'
+import type { Func, DeployData } from '@faasjs/func'
+import { existsSync, mkdirSync } from 'node:fs'
+import { join, sep } from 'node:path'
 import { loadConfig, loadTs } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
 import { CloudFunction } from '@faasjs/cloud_function'
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 
 export class Deployer {
   public deployData: DeployData

@@ -12,9 +12,9 @@
  *
  * @packageDocumentation
  */
-import { DeployData } from '@faasjs/func'
+import type { DeployData } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
-import { CloudFunctionAdapter } from '@faasjs/cloud_function'
+import type { CloudFunctionAdapter } from '@faasjs/cloud_function'
 import { deployCloudFunction } from './cloud_function/deploy'
 import {
   invokeCloudFunction,

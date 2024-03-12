@@ -3,7 +3,7 @@
  */
 import { render, screen } from '@testing-library/react'
 import { Input } from 'antd'
-import { Form, FormProps, ExtendFormItemProps } from '../../Form'
+import { Form, type FormProps, type ExtendFormItemProps } from '../../Form'
 
 type ExtendTypes = ExtendFormItemProps & {
   type: 'password'

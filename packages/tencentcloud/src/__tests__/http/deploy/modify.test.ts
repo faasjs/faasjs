@@ -1,4 +1,4 @@
-import { join, sep } from 'path'
+import { join, sep } from 'node:path'
 import { Provider } from '../../..'
 
 jest.mock('@faasjs/request', () => ({

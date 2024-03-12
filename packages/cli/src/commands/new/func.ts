@@ -1,5 +1,5 @@
-import { sep, join } from 'path'
-import { existsSync, mkdirSync, writeFileSync } from 'fs'
+import { sep, join } from 'node:path'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { Logger } from '@faasjs/logger'
 
 const Plugins: {

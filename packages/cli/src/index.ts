@@ -2,8 +2,8 @@
 
 import { Command } from 'commander'
 import { Logger } from '@faasjs/logger'
-import { existsSync } from 'fs'
-import { sep } from 'path'
+import { existsSync } from 'node:fs'
+import { sep } from 'node:path'
 import { NewCommand } from './commands/new'
 import { DeployCommand } from './commands/deploy'
 import { ServerCommand } from './commands/server'

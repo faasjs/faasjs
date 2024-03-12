@@ -26,16 +26,16 @@
  */
 import {
   createServer,
-  IncomingMessage,
-  Server as HttpServer,
-  ServerResponse,
+  type IncomingMessage,
+  type Server as HttpServer,
+  type ServerResponse,
 } from 'node:http'
 import { Logger } from '@faasjs/logger'
 import { existsSync } from 'node:fs'
 import { loadConfig } from '@faasjs/load'
-import { resolve as pathResolve, sep, join } from 'path'
+import { resolve as pathResolve, sep, join } from 'node:path'
 import { HttpError } from '@faasjs/http'
-import { Socket } from 'node:net'
+import type { Socket } from 'node:net'
 import { addHook } from 'pirates'
 import { transform } from '@faasjs/ts-transform'
 import { randomBytes } from 'node:crypto'

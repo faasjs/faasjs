@@ -1,6 +1,6 @@
 const globSync = require('glob').sync
-const exec = require('child_process').execSync
-const writeFile = require('fs').writeFileSync
+const exec = require('node:child_process').execSync
+const writeFile = require('node:fs').writeFileSync
 const version = require('./package.json').version
 
 async function run(cmd) {

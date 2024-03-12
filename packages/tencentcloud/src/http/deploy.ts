@@ -1,7 +1,7 @@
-import { DeployData } from '@faasjs/func'
+import type { DeployData } from '@faasjs/func'
 import { api } from './api'
 import { deepMerge } from '@faasjs/deep_merge'
-import { Provider } from '..'
+import type { Provider } from '..'
 import { Color } from '@faasjs/logger'
 
 const defaults = {

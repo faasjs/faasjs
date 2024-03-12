@@ -1,14 +1,14 @@
-import { Command } from 'commander'
-import { existsSync, lstatSync } from 'fs'
+import type { Command } from 'commander'
+import { existsSync, lstatSync } from 'node:fs'
 import { sync as globSync } from 'glob'
-import { createInterface } from 'readline'
-import { sep, resolve } from 'path'
+import { createInterface } from 'node:readline'
+import { sep, resolve } from 'node:path'
 import { Deployer } from '@faasjs/deployer'
 import { defaultsEnv } from '../helper'
-import Cluster from 'cluster'
+import Cluster from 'node:cluster'
 import { chunk } from 'lodash'
-import { log, warn, error } from 'console'
-import { execSync } from 'child_process'
+import { log, warn, error } from 'node:console'
+import { execSync } from 'node:child_process'
 
 async function sleep() {
   const waiting = Math.floor(Math.random() * 3)

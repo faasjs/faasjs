@@ -1,4 +1,4 @@
-import { InvokeData, Plugin } from '../../index'
+import type { InvokeData, Plugin } from '../../index'
 
 export class RunHandler implements Plugin {
   public readonly type: string = 'handler'

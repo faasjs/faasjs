@@ -1,5 +1,5 @@
 import { Deployer } from '../index'
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 
 test('http', async () => {
   const deployer = new Deployer({

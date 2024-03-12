@@ -12,17 +12,17 @@
  * @packageDocumentation
  */
 import {
-  Plugin,
-  MountData,
-  Next,
+  type Plugin,
+  type MountData,
+  type Next,
   usePlugin,
-  UseifyPlugin,
-  DeployData,
-  InvokeData,
+  type UseifyPlugin,
+  type DeployData,
+  type InvokeData,
 } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
-import IORedis, { RedisOptions, ChainableCommander } from 'ioredis'
+import IORedis, { type RedisOptions, type ChainableCommander } from 'ioredis'
 import { randomUUID } from 'node:crypto'
 
 export type RedisConfig = {

@@ -1,4 +1,10 @@
-import { Func, Plugin, Next, MountData, InvokeData } from '../index'
+import {
+  Func,
+  type Plugin,
+  type Next,
+  type MountData,
+  type InvokeData,
+} from '../index'
 
 describe('lifecycle', () => {
   describe('mount', () => {

@@ -1,6 +1,6 @@
 import { Func } from '@faasjs/func'
 import { Http } from '../..'
-import { ValidatorRuleOptionsType } from '../../validator'
+import type { ValidatorRuleOptionsType } from '../../validator'
 
 describe('validator/type', () => {
   describe('params', () => {

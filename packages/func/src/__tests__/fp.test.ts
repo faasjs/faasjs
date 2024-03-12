@@ -1,4 +1,11 @@
-import { Plugin, useFunc, usePlugin, InvokeData, Next, MountData } from '..'
+import {
+  type Plugin,
+  useFunc,
+  usePlugin,
+  type InvokeData,
+  type Next,
+  type MountData,
+} from '..'
 
 describe('fp', () => {
   it('should work', async () => {

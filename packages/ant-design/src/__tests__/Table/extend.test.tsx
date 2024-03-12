@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import { ExtendTableItemProps, Table, TableProps } from '../../Table'
+import { type ExtendTableItemProps, Table, type TableProps } from '../../Table'
 
 type ExtendTypes = {
   type: 'password'

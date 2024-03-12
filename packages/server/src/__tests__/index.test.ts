@@ -1,6 +1,6 @@
 import { closeAll, Server } from '..'
 import { request } from '@faasjs/request'
-import { join, sep } from 'path'
+import { join, sep } from 'node:path'
 
 describe('server', () => {
   let server: Server

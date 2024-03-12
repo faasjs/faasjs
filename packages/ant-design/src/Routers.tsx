@@ -1,6 +1,10 @@
 import { Result, Skeleton } from 'antd'
-import { ComponentType, LazyExoticComponent, Suspense } from 'react'
-import { Routes as OriginRoutes, Route, RouteProps } from 'react-router-dom'
+import { type ComponentType, type LazyExoticComponent, Suspense } from 'react'
+import {
+  Routes as OriginRoutes,
+  Route,
+  type RouteProps,
+} from 'react-router-dom'
 import { useConfigContext } from './Config'
 
 export { lazy } from 'react'

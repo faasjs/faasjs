@@ -1,4 +1,4 @@
-import { Func, InvokeData } from '@faasjs/func'
+import { Func, type InvokeData } from '@faasjs/func'
 
 export default new Func({
   async handler(data: InvokeData) {

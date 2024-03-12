@@ -1,4 +1,11 @@
-import { Func, Plugin, DeployData, Next, InvokeData, MountData } from '../index'
+import {
+  Func,
+  type Plugin,
+  type DeployData,
+  type Next,
+  type InvokeData,
+  type MountData,
+} from '../index'
 
 describe('plugins', () => {
   test('onDeploy', async () => {

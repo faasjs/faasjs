@@ -1,7 +1,7 @@
 const globSync = require('glob').globSync
-const execSync = require('child_process').execSync
-const dirname = require('path').dirname
-const { readFileSync, writeFileSync } = require('fs')
+const execSync = require('node:child_process').execSync
+const dirname = require('node:path').dirname
+const { readFileSync, writeFileSync } = require('node:fs')
 
 function run(cmd) {
   console.log(cmd)

@@ -12,17 +12,17 @@
  * @packageDocumentation
  */
 import {
-  Plugin,
-  Next,
-  DeployData,
-  MountData,
+  type Plugin,
+  type Next,
+  type DeployData,
+  type MountData,
   usePlugin,
-  UseifyPlugin,
-  InvokeData,
+  type UseifyPlugin,
+  type InvokeData,
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
-import knex, { Knex as OriginKnex } from 'knex'
+import knex, { type Knex as OriginKnex } from 'knex'
 import { randomUUID } from 'node:crypto'
 
 /**
@@ -147,11 +147,13 @@ export class Knex implements Plugin {
       const pg = require('pg')
 
       for (const t of ['INT2', 'INT4', 'INT8'])
-        pg.types.setTypeParser(pg.types.builtins[t], (v: string) => parseInt(v))
+        pg.types.setTypeParser(pg.types.builtins[t], (v: string) =>
+          Number.parseInt(v)
+        )
 
       for (const t of ['FLOAT4', 'FLOAT8', 'NUMERIC'])
         pg.types.setTypeParser(pg.types.builtins[t], (v: string) =>
-          parseFloat(v)
+          Number.parseFloat(v)
         )
     }
 

@@ -1,4 +1,9 @@
-import { Component, ReactElement, ReactNode, cloneElement } from 'react'
+import {
+  Component,
+  type ReactElement,
+  type ReactNode,
+  cloneElement,
+} from 'react'
 
 export interface ErrorBoundaryProps {
   children?: ReactNode

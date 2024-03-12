@@ -1,4 +1,4 @@
-import { Command } from 'commander'
+import type { Command } from 'commander'
 import newFunc from './new/func'
 
 export function action(type: string, name: string, plugins: string[]): void {

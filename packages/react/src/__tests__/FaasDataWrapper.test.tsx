@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import { FaasReactClient, FaasDataWrapper, FaasDataInjection } from '..'
+import { FaasReactClient, FaasDataWrapper, type FaasDataInjection } from '..'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { Response, setMock } from '@faasjs/browser'

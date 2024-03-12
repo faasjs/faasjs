@@ -1,4 +1,4 @@
-import { Tabs as Origin, TabsProps as OriginProps } from 'antd'
+import { Tabs as Origin, type TabsProps as OriginProps } from 'antd'
 import type { Tab as OriginTabProps } from 'rc-tabs/es/interface'
 
 export interface TabProps extends Partial<OriginTabProps> {

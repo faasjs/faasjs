@@ -4,8 +4,8 @@
 import { render, screen } from '@testing-library/react'
 import {
   Description,
-  DescriptionProps,
-  ExtendDescriptionItemProps,
+  type DescriptionProps,
+  type ExtendDescriptionItemProps,
 } from '../../Description'
 
 type ExtendTypes = ExtendDescriptionItemProps & {

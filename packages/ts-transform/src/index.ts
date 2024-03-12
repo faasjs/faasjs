@@ -60,14 +60,14 @@
  * @packageDocumentation
  */
 import {
-  JscConfig,
-  JscTarget,
+  type JscConfig,
+  type JscTarget,
   transformSync,
   bundle as swcBundle,
 } from '@swc/core'
 import { config } from '@swc/core/spack'
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { deepMerge } from '@faasjs/deep_merge'
 
 export const NodeBuiltinModules = [

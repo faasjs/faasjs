@@ -13,8 +13,8 @@
  */
 import {
   FaasBrowserClient,
-  Options,
-  FaasBrowserClientAction,
+  type Options,
+  type FaasBrowserClientAction,
 } from '@faasjs/browser'
 import 'vue'
 

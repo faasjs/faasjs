@@ -12,9 +12,9 @@
  * @packageDocumentation
  */
 import { Logger } from '@faasjs/logger'
-import { Func, ExportedHandler, Plugin, Config } from '@faasjs/func'
+import type { Func, ExportedHandler, Plugin, Config } from '@faasjs/func'
 import { loadConfig } from '@faasjs/load'
-import { Http } from '@faasjs/http'
+import type { Http } from '@faasjs/http'
 import { deepMerge } from '@faasjs/deep_merge'
 
 export * from '@faasjs/func'

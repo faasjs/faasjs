@@ -1,11 +1,11 @@
-import { DeployData } from '@faasjs/func'
+import type { DeployData } from '@faasjs/func'
 import { deepMerge } from '@faasjs/deep_merge'
 import { Logger, Color } from '@faasjs/logger'
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 import { checkBucket, createBucket, upload, remove } from './cos'
 import { scf } from './scf'
-import { Provider } from '..'
-import { join } from 'path'
+import type { Provider } from '..'
+import { join } from 'node:path'
 
 const defaults = {
   Handler: 'index.handler',

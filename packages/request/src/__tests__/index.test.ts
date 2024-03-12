@@ -1,5 +1,5 @@
 import { request } from '..'
-import { readFileSync, createWriteStream } from 'fs'
+import { readFileSync, createWriteStream } from 'node:fs'
 
 describe('request', () => {
   test('200', async () => {

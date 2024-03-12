@@ -8,14 +8,14 @@ import type { StyleProviderProps } from '@ant-design/cssinjs/lib/StyleContext'
 import { useEffect, useMemo } from 'react'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
-import { ModalProps, setModalProps, useModal } from './Modal'
-import { DrawerProps, setDrawerProps, useDrawer } from './Drawer'
+import { type ModalProps, type setModalProps, useModal } from './Modal'
+import { type DrawerProps, type setDrawerProps, useDrawer } from './Drawer'
 import { BrowserRouter, useLocation } from 'react-router-dom'
 import type { BrowserRouterProps } from 'react-router-dom'
-import { ErrorBoundary, ErrorBoundaryProps } from './ErrorBoundary'
+import { ErrorBoundary, type ErrorBoundaryProps } from './ErrorBoundary'
 import {
   ConfigProvider as FaasConfigProvider,
-  ConfigProviderProps as FaasConfigProviderProps,
+  type ConfigProviderProps as FaasConfigProviderProps,
 } from './Config'
 import { createSplitedContext } from '@faasjs/react'
 

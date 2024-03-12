@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import { DrawerProps, useDrawer } from '../../Drawer'
+import { type DrawerProps, useDrawer } from '../../Drawer'
 
 describe('Drawer', () => {
   it('should work', async () => {

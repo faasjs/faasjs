@@ -1,4 +1,4 @@
-import { Provider } from '..'
+import type { Provider } from '..'
 
 const cosSdk = require('cos-nodejs-sdk-v5')
 

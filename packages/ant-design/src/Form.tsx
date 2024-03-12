@@ -1,7 +1,7 @@
 import { faas } from '@faasjs/react'
-import { Button, Form as AntdForm, FormProps as AntdFormProps } from 'antd'
+import { Button, Form as AntdForm, type FormProps as AntdFormProps } from 'antd'
 import {
-  ReactNode,
+  type ReactNode,
   useEffect,
   useState,
   useCallback,

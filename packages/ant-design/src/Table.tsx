@@ -1,10 +1,10 @@
 import { useState, useEffect, cloneElement } from 'react'
 import {
   Table as AntdTable,
-  TableProps as AntdTableProps,
-  TableColumnProps as AntdTableColumnProps,
+  type TableProps as AntdTableProps,
+  type TableColumnProps as AntdTableColumnProps,
   Radio,
-  TablePaginationConfig,
+  type TablePaginationConfig,
   Input,
   Select,
   DatePicker,
@@ -20,9 +20,9 @@ import { transferOptions, transferValue } from './data'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { cloneDeep, isNil, uniqBy, upperFirst } from 'lodash-es'
 import {
-  FaasDataInjection,
+  type FaasDataInjection,
   FaasDataWrapper,
-  FaasDataWrapperProps,
+  type FaasDataWrapperProps,
 } from './FaasDataWrapper'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'

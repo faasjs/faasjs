@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { FaasActions } from '@faasjs/types'
+import type { FaasActions } from '@faasjs/types'
 import {
   FaasBrowserClient,
   Response as FaasResponse,

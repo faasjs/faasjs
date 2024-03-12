@@ -1,4 +1,4 @@
-import { TencentcloudConfig } from '..'
+import type { TencentcloudConfig } from '..'
 import { request } from '../request'
 
 export async function api<TResult = any>(

@@ -3,7 +3,7 @@
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { FaasItemType } from '../../data'
+import type { FaasItemType } from '../../data'
 import { FormItem } from '../../FormItem'
 import { Form } from '../../Form'
 

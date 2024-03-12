@@ -1,5 +1,5 @@
 import { scf } from './scf'
-import { Provider } from '..'
+import type { Provider } from '..'
 
 export async function invokeCloudFunction<TResult = any>(
   tc: Provider,

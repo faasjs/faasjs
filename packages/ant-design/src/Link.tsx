@@ -1,7 +1,7 @@
-import { type ReactNode, type CSSProperties } from 'react'
+import type { ReactNode, CSSProperties } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useConfigContext } from './Config'
-import { Button, ButtonProps, Typography } from 'antd'
+import { Button, type ButtonProps, Typography } from 'antd'
 
 export interface LinkProps {
   href: string
@@ -63,7 +63,6 @@ export function Link(props: LinkProps) {
 
     if (props.children)
       return (
-        // biome-ignore lint/a11y/useValidAnchor: <explanation>
         <a
           href={props.href}
           target={props.target || theme.Link?.target}

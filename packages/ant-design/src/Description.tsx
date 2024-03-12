@@ -1,17 +1,17 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { Descriptions, DescriptionsProps, Space } from 'antd'
+import { Descriptions, type DescriptionsProps, Space } from 'antd'
 import { isFunction, upperFirst } from 'lodash-es'
-import { cloneElement, ReactNode, useEffect, useState } from 'react'
+import { cloneElement, type ReactNode, useEffect, useState } from 'react'
 import type { Dayjs } from 'dayjs'
-import { BaseItemProps } from '.'
+import type { BaseItemProps } from '.'
 import {
-  FaasItemProps,
+  type FaasItemProps,
   transferOptions,
   transferValue,
-  UnionFaasItemElement,
-  UnionFaasItemRender,
+  type UnionFaasItemElement,
+  type UnionFaasItemRender,
 } from './data'
-import { FaasDataWrapper, FaasDataWrapperProps } from './FaasDataWrapper'
+import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
 import { Blank } from './Blank'
 
 export interface ExtendDescriptionTypeProps<T = any> {

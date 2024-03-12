@@ -1,4 +1,4 @@
-import { Drawer as AntdDrawer, DrawerProps as AntdDrawerProps } from 'antd'
+import { Drawer as AntdDrawer, type DrawerProps as AntdDrawerProps } from 'antd'
 import { useCallback, useState } from 'react'
 
 export const Drawer = AntdDrawer as React.FC<DrawerProps> & {
