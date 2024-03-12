@@ -19,7 +19,8 @@
       "recommended": true,
       "correctness": {
         "useExhaustiveDependencies": "off",
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error"
       },
       "suspicious": {
         "noExplicitAny": "off",
@@ -37,7 +38,7 @@
         "noDelete": "off"
       },
       "nursery": {
-        "noUnusedImports": "error"
+
       }
     }
   },

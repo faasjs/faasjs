@@ -13,7 +13,7 @@
  */
 import { Logger } from '@faasjs/logger'
 import { RunHandler } from './plugins/run_handler'
-import { randomBytes } from 'crypto'
+import { randomBytes } from 'node:crypto'
 
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
   data: InvokeData<TEvent, TContext>
@@ -112,6 +112,46 @@ type CachedFunction = {
   key: string
   handler: (...args: any) => void
 }
+
+/**
+ * Get the event type of a func
+ *
+ * @example
+ * ```ts
+ * import { useFunc, type FuncEventType } from '@faasjs/func'
+ *
+ * const func = useFunc<{ counter: number }>(() => async () => {})
+ *
+ * FuncEventType<typeof func> // => { counter: number }
+ * ```
+ */
+export type FuncEventType<T extends Func<any, any, any>> = T extends Func<
+  infer P,
+  any,
+  any
+>
+  ? P
+  : any
+
+/**
+ * Get the return type of a func
+ *
+ * @example
+ * ```ts
+ * import { useFunc, type FuncReturnType } from '@faasjs/func'
+ *
+ * const func = useFunc(() => async () => 1)
+ *
+ * FuncReturnType<typeof func> // => number
+ * ```
+ */
+export type FuncReturnType<T extends Func<any, any, any>> = T extends Func<
+  any,
+  any,
+  infer R
+>
+  ? R
+  : any
 
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any
