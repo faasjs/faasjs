@@ -4,7 +4,7 @@ let logs: string[] = []
 let warns: string[] = []
 let errors: string[] = []
 
-jest.mock('console', () => ({
+jest.mock('node:console', () => ({
   log: (message: string) => {
     logs.push(message)
   },
@@ -16,7 +16,7 @@ jest.mock('console', () => ({
   },
 }))
 
-jest.mock('readline', () => ({
+jest.mock('node:readline', () => ({
   createInterface: () => ({
     question: (_: any, handler: (input: string) => void) => {
       handler('y')
@@ -36,7 +36,7 @@ let triggerMessage: {
   file: string
 }
 
-jest.mock('cluster', () => ({
+jest.mock('node:cluster', () => ({
   fork: () => ({
     on: (event: string, handler: (...args: any) => void) => {
       if (event === 'exit') handler()

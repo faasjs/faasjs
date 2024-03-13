@@ -2,7 +2,7 @@ import { action } from '../action'
 
 let execs: string[] = []
 
-jest.mock('child_process', () => ({
+jest.mock('node:child_process', () => ({
   execSync(cmd: string) {
     execs.push(cmd)
   },
@@ -13,7 +13,7 @@ let files: {
   [key: string]: string
 } = {}
 
-jest.mock('fs', () => ({
+jest.mock('node:fs', () => ({
   mkdirSync(path: string) {
     dirs.push(path)
   },
