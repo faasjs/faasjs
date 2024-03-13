@@ -43,14 +43,18 @@ An Atomic Application Framework based on Typescript.
 
 ## Quickstart
 
-### Try with Ccodespace
+### Start with Codespace
 
 [FaasJS stater](https://github.com/faasjs/starter)
 
-### Try with Command Line
+### Start with Command Line
 
 ```bash
-npx create-faas-app --name faasjs --example --noprovider
+# use npm
+npx create-faas-app --name faasjs
+
+# use bun
+bunx create-faas-app --name faasjs
 ```
 
 ## Examples

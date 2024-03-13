@@ -7,6 +7,10 @@ Quick way to create a FaasJS project.
 
 ## Usage
 
-```sh
-npx create-faas-app
+```bash
+# use npm
+npx create-faas-app --name faasjs
+
+# use bun
+bunx create-faas-app --name faasjs
 ```

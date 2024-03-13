@@ -18,12 +18,10 @@ const Validator = {
 export async function action(
   options: {
     name?: string
-    example?: boolean
   } = {}
 ): Promise<void> {
   const answers: {
     name?: string
-    example?: boolean
   } = Object.assign(options, {})
 
   if (!options.name || Validator.name(options.name) !== true)
@@ -33,14 +31,6 @@ export async function action(
       message: 'Project name',
       initial: 'faasjs',
       validate: Validator.name,
-    }).then(res => res.value)
-
-  if (typeof answers.example === 'undefined')
-    answers.example = await prompt<{ value: boolean }>({
-      type: 'confirm',
-      name: 'value',
-      message: 'Add example files',
-      initial: true,
     }).then(res => res.value)
 
   if (!answers.name) return
@@ -148,10 +138,9 @@ coverage/
 
   execSync(`cd ${answers.name} && ${runtime} install`, { stdio: 'inherit' })
 
-  if (answers.example) {
-    writeFileSync(
-      join(answers.name, 'index.func.ts'),
-      `import { useFunc } from '@faasjs/func'
+  writeFileSync(
+    join(answers.name, 'index.func.ts'),
+    `import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
 
 export default useFunc(() => {
@@ -160,12 +149,12 @@ export default useFunc(() => {
   return async () => \`Hello, \${http.params.name}\`
 })
 `
-    )
+  )
 
-    mkdirSync(join(answers.name, '__tests__'))
-    writeFileSync(
-      join(answers.name, '__tests__', 'index.test.ts'),
-      `import { test } from '@faasjs/test'
+  mkdirSync(join(answers.name, '__tests__'))
+  writeFileSync(
+    join(answers.name, '__tests__', 'index.test.ts'),
+    `import { test } from '@faasjs/test'
 import Func from '../index.func'
 
 describe('hello', () => {
@@ -179,12 +168,11 @@ describe('hello', () => {
   })
 })
 `
-    )
+  )
 
-    if (runtime === 'bun') {
-      execSync(`cd ${answers.name} && bun test`, { stdio: 'inherit' })
-    } else execSync(`cd ${answers.name} && npm run test`, { stdio: 'inherit' })
-  }
+  if (runtime === 'bun') {
+    execSync(`cd ${answers.name} && bun test`, { stdio: 'inherit' })
+  } else execSync(`cd ${answers.name} && npm run test`, { stdio: 'inherit' })
 }
 
 export default function (program: Command): void {
