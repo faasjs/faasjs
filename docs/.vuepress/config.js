@@ -7,13 +7,13 @@ import { searchPlugin } from '@vuepress/plugin-search'
 export default defineUserConfig({
   lang: 'en',
   title: 'FaasJS',
-  description: 'An Atomic Application Framework based on Typescript.',
+  description: 'An atomic application framework built for the TypeScript developer.',
   head: [['link', { rel: 'icon', href: '/logo.jpg' }]],
   locales: {
     '/': {
       lang: 'en',
       title: 'FaasJS',
-      description: 'An Atomic Application Framework based on Typescript.',
+      description: 'An atomic application framework built for the TypeScript developer.',
     },
     '/zh/': {
       lang: 'zh',
@@ -21,7 +21,7 @@ export default defineUserConfig({
       description: '一个基于 Typescript 的原子化应用框架',
     },
   },
-  bundler: viteBundler({}),
+  bundler: viteBundler(),
   theme: defaultTheme({
     locales: {
       '/': {
@@ -40,25 +40,25 @@ export default defineUserConfig({
                 link: '/doc/',
               },
               {
-                text: 'Examples',
-                link: 'https://github.com/faasjs/faasjs/blob/main/examples/',
+                text: 'Starter Template',
+                link: 'https://github.com/faasjs/starter',
               },
               {
                 text: 'Changelog',
                 link: '/CHANGELOG',
               },
-            ],
-          },
-          {
-            text: 'Ecosystem',
-            children: [
               {
-                text: 'VS Code Plugin',
-                link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets',
-              },
-              {
-                text: 'Docker Images',
-                link: '/doc/images/',
+                text: 'Ecosystem',
+                children: [
+                  {
+                    text: 'VS Code Plugin',
+                    link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets',
+                  },
+                  {
+                    text: 'Docker Images',
+                    link: '/doc/images/',
+                  },
+                ],
               },
             ],
           },
@@ -68,6 +68,10 @@ export default defineUserConfig({
               {
                 text: 'Github',
                 link: 'https://github.com/faasjs/faasjs/',
+              },
+              {
+                text: 'Newsletter',
+                link: 'https://zfben.ck.page/f80529bd8a',
               },
               {
                 text: 'Contributing',
