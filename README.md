@@ -1,7 +1,5 @@
 # 🚀 FaasJS
 
-[Documentation](https://faasjs.com) - [Discord](https://discord.gg/UASHxEYCfW) - [Changelog](https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md) - [Contributing](https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md)
-
 [![License: MIT](https://img.shields.io/npm/l/faasjs.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/faasjs.svg)](https://www.npmjs.com/package/faasjs)
 [![Last commit](https://img.shields.io/github/last-commit/faasjs/faasjs)](https://github.com/faasjs/faasjs)
@@ -21,7 +19,7 @@
 
 An Atomic Application Framework based on Typescript.
 
-基于 Typescript 的原子化应用框架。
+[Documentation](https://faasjs.com) - [Newsletter](https://zfben.ck.page/55d011b3cc) - [Changelog](https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md) - [Contributing](https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md)
 
 ## Features
 
@@ -57,47 +55,6 @@ npx create-faas-app --name faasjs
 bunx create-faas-app --name faasjs
 ```
 
-## Examples
+## More Resources
 
-### Cloud function's file
-
-```ts
-// index.func.ts
-// all cloud function file should be ended with .func.ts
-import { useFunc } from '@faasjs/func'
-import { useHttp } from '@faasjs/http'
-
-export default useFunc(function() {
-  useHttp() // use http plugin
-
-  return async function () {
-    return 'Hello, world' // response content
-  }
-})
-```
-
-### Unit test's file
-
-```ts
-// __tests__/index.test.ts
-// all unit test file should be ended with .test.ts
-import { test } from '@faasjs/test'
-import Func from '../index.func'
-
-describe('index', function () {
-  it('should work', async function () {
-    // wrap the cloud function
-    const func = test(Func)
-
-    // mock the request
-    const { statusCode, data } = await func.JSONhandler()
-
-    // expect the response with 200 status
-    expect(statusCode).toEqual(200)
-    // expect the response content is 'Hello, world'
-    expect(data).toEqual('Hello, world')
-  })
-})
-```
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffaasjs%2Ffaasjs.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffaasjs%2Ffaasjs)
+[Documentation](https://faasjs.com) - [Newsletter](https://zfben.ck.page/55d011b3cc) - [Changelog](https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md) - [Contributing](https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md)
