@@ -22,6 +22,8 @@ npm install @faasjs/test
 - [DeployData](type-aliases/DeployData.md)
 - [ExportedHandler](type-aliases/ExportedHandler.md)
 - [FuncConfig](type-aliases/FuncConfig.md)
+- [FuncEventType](type-aliases/FuncEventType.md)
+- [FuncReturnType](type-aliases/FuncReturnType.md)
 - [Handler](type-aliases/Handler.md)
 - [InvokeData](type-aliases/InvokeData.md)
 - [LifeCycleKey](type-aliases/LifeCycleKey.md)

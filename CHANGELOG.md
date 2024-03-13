@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.2.0 (2024-03-13)`](https://github.com/faasjs/faasjs/compare/v2.1.0...v2.2.0)
+
+- `@faasjs/func`
+  - [Feature] Add `FuncParamsType` and `FuncReturnType`.
+
+- `create-faas-app`
+  - [Feature] Simplify options.
+
 [`v2.1.0 (2024-03-08)`](https://github.com/faasjs/faasjs/compare/v2.0.0...v2.1.0)
 
 - `@faasjs/react`

@@ -106,7 +106,7 @@ trigger when any item's value changed
 
 ### input?
 
-> **`optional`** **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
+> **`optional`** **input**: `InputProps` \| `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
 
 #### Inherited from
 
