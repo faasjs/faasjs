@@ -3,14 +3,11 @@ home: true
 heroImage: /logo.jpg
 heroText: 🚀 FaasJS
 tagline: null
-footer: An Atomic Application Framework based on Typescript | MIT Licensed | Copyright © 2019-2024 Zhu Feng
+footer: An atomic application framework built for the TypeScript developer. | MIT Licensed | Copyright © 2019-2024 Zhu Feng
 ---
 
 <div style="width:100%;line-height:1.7">
-  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">An Atomic Application Framework based on Typescript.</div>
-  <div style="display:flex;gap:4px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:2em">
-    <a href="https://discord.gg/UASHxEYCfW">Discord</a> · <a href="https://github.com/faasjs/faasjs">Github</a> · <a href="https://faasjs.com/CHANGELOG">Changelog</a>
-  </div>
+  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">An atomic application framework built for the TypeScript developer.</div>
   <div style="display:flex;gap:4px;align-items:center;justify-content:center;flex-wrap:wrap">
     <a href="https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
     <br>
