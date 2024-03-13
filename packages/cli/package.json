@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cli",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "MIT",
   "main": "dist/index.js",
   "bin": {
@@ -24,21 +24,21 @@
     "index.js"
   ],
   "dependencies": {
-    "@faasjs/test": "2.1.0",
+    "@faasjs/test": "2.2.0",
     "commander": "*",
     "enquirer": "*",
     "glob": "*",
     "lodash": "*"
   },
   "peerDependencies": {
-    "@faasjs/deployer": "2.1.0",
-    "@faasjs/func": "2.1.0",
-    "@faasjs/server": "2.1.0"
+    "@faasjs/deployer": "2.2.0",
+    "@faasjs/func": "2.2.0",
+    "@faasjs/server": "2.2.0"
   },
   "devDependencies": {
-    "@faasjs/deployer": "2.1.0",
-    "@faasjs/func": "2.1.0",
-    "@faasjs/server": "2.1.0"
+    "@faasjs/deployer": "2.2.0",
+    "@faasjs/func": "2.2.0",
+    "@faasjs/server": "2.2.0"
   },
   "engines": {
     "npm": ">=9.0.0",
