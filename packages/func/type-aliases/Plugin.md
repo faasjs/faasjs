@@ -14,7 +14,7 @@
 
 > **`readonly`** **name**: `string`
 
-### onDeploy?
+### onDeploy()?
 
 > **`optional`** **onDeploy**: (`data`, `next`) => `Promise`\<`void`\>
 
@@ -28,7 +28,7 @@
 
 `Promise`\<`void`\>
 
-### onInvoke?
+### onInvoke()?
 
 > **`optional`** **onInvoke**: (`data`, `next`) => `Promise`\<`void`\>
 
@@ -42,7 +42,7 @@
 
 `Promise`\<`void`\>
 
-### onMount?
+### onMount()?
 
 > **`optional`** **onMount**: (`data`, `next`) => `Promise`\<`void`\>
 

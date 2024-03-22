@@ -38,7 +38,7 @@
 
 > **`optional`** **items**: (`Element` \| [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps`)[]
 
-### onFinish?
+### onFinish()?
 
 > **`optional`** **onFinish**: (`values`, `submit`?) => `Promise`\<`any`\>
 

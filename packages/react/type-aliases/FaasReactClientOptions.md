@@ -10,7 +10,7 @@
 
 > **domain**: `string`
 
-### onError?
+### onError()?
 
 > **`optional`** **onError**: (`action`, `params`) => (`res`) => `Promise`\<`void`\>
 

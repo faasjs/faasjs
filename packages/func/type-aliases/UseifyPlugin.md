@@ -6,7 +6,7 @@
 
 ## Type declaration
 
-### mount?
+### mount()?
 
 > **`optional`** **mount**: (`data`?) => `Promise`\<`T`\>
 

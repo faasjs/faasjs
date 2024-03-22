@@ -44,7 +44,7 @@
 
 [`FaasItemProps`](FaasItemProps.md).[`id`](FaasItemProps.md#id)
 
-### if?
+### if()?
 
 > **`optional`** **if**: (`values`) => `boolean`
 
@@ -78,7 +78,7 @@ trigger when any item's value changed
 
 > **`optional`** **object**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
 
-### onValueChange?
+### onValueChange()?
 
 > **`optional`** **onValueChange**: (`value`, `values`, `form`) => `void`
 

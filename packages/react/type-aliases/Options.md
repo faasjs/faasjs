@@ -6,7 +6,7 @@
 
 ## Type declaration
 
-### beforeRequest?
+### beforeRequest()?
 
 > **`optional`** **beforeRequest**: (`{
     action,
@@ -62,7 +62,7 @@ trigger before request
 
 > **`optional`** **headers**: `Record`\<`string`, `string`\>
 
-### request?
+### request()?
 
 > **`optional`** **request**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 

@@ -22,7 +22,7 @@
 
 > **items**: ([`TableItemProps`](../interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](ExtendTableItemProps.md))[]
 
-### onChange?
+### onChange()?
 
 > **`optional`** **onChange**: (`pagination`, `filters`, `sorter`, `extra`) => `Object`
 

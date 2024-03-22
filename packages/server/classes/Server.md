@@ -49,7 +49,7 @@ Port, default is 3000
 
 > **`readonly`** **logger**: `Logger`
 
-### onError?
+### onError()?
 
 > **`optional`** **onError**: (`error`) => `void`
 
@@ -65,11 +65,11 @@ Port, default is 3000
 
 > **`readonly`** **opts**: `Object`
 
-#### opts.cache
+#### cache
 
 > **cache**: `boolean`
 
-#### opts.port
+#### port
 
 > **port**: `number`
 

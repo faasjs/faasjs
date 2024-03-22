@@ -1,6 +1,6 @@
 [@faasjs/ant-design](../README.md) / setModalProps
 
-# Type alias: setModalProps
+# Type alias: setModalProps()
 
 > **setModalProps**: (`changes`) => `void`
 

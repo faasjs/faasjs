@@ -86,7 +86,7 @@
 
 [`TableItemProps`](TableItemProps.md).[`id`](TableItemProps.md#id)
 
-### if?
+### if()?
 
 > **`optional`** **if**: (`values`) => `boolean`
 
@@ -106,7 +106,7 @@ trigger when any item's value changed
 
 ### input?
 
-> **`optional`** **input**: `InputProps` \| `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
+> **`optional`** **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
 
 #### Inherited from
 
@@ -136,7 +136,7 @@ trigger when any item's value changed
 
 [`TableItemProps`](TableItemProps.md).[`object`](TableItemProps.md#object)
 
-### onValueChange?
+### onValueChange()?
 
 > **`optional`** **onValueChange**: (`value`, `values`, `form`) => `void`
 

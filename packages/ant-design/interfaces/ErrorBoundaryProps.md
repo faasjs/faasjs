@@ -12,7 +12,7 @@
 
 > **`optional`** **errorChildren**: `ReactElement`\<`ErrorChildrenProps`, `string` \| `JSXElementConstructor`\<`any`\>\>
 
-### onError?
+### onError()?
 
 > **`optional`** **onError**: (`error`, `info`) => `void`
 

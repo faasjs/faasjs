@@ -6,7 +6,7 @@
 
 ## Type declaration
 
-### invokeCloudFunction
+### invokeCloudFunction()
 
 > **invokeCloudFunction**: (`name`, `data`, `options`?) => `Promise`\<`void`\>
 
@@ -22,7 +22,7 @@
 
 `Promise`\<`void`\>
 
-### invokeSyncCloudFunction
+### invokeSyncCloudFunction()
 
 > **invokeSyncCloudFunction**: \<`TResult`\>(`name`, `data`, `options`?) => `Promise`\<`TResult`\>
 

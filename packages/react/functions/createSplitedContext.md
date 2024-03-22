@@ -24,7 +24,7 @@ The default value for the split context.
 
 - An object containing the Provider and use functions.
 
-### Provider
+### Provider()
 
 > **Provider**: (`props`) => `Element`
 
@@ -44,7 +44,7 @@ The default value for the split context.
 
 > **whyDidYouRender**: `boolean`
 
-### use
+### use()
 
 > **use**: () => `Readonly`\<`T`\>
 

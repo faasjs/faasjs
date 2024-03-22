@@ -61,7 +61,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 > **size**: `number` = `1000`
 
-### stderr
+### stderr()
 
 > **stderr**: (`text`) => `void`
 
@@ -73,7 +73,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 `void`
 
-### stdout
+### stdout()
 
 > **stdout**: (`text`) => `void`
 

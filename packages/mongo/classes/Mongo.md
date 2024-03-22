@@ -30,7 +30,7 @@
 
 > **client**: `MongoClient`
 
-### collection
+### collection()
 
 > **collection**: \<`TSchema`\>(`name`, `options`?, `callback`?) => `Collection`\<`TSchema`\>
 

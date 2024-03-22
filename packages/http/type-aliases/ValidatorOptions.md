@@ -10,7 +10,7 @@
 
 ## Type declaration
 
-### onError?
+### onError()?
 
 > **`optional`** **onError**: (`type`, `key`, `value`?) => `Object` \| `void`
 

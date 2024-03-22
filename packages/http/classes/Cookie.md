@@ -30,31 +30,31 @@
 
 > **`readonly`** **config**: `Object`
 
-#### config.domain?
+#### domain?
 
 > **`optional`** **domain**: `string`
 
-#### config.expires
+#### expires
 
 > **expires**: `number`
 
-#### config.httpOnly
+#### httpOnly
 
 > **httpOnly**: `boolean`
 
-#### config.path
+#### path
 
 > **path**: `string`
 
-#### config.sameSite?
+#### sameSite?
 
 > **`optional`** **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
 
-#### config.secure
+#### secure
 
 > **secure**: `boolean`
 
-#### config.session
+#### session
 
 > **session**: [`SessionOptions`](../type-aliases/SessionOptions.md)
 

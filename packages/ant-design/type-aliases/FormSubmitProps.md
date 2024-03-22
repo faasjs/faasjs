@@ -44,7 +44,7 @@ If use onFinish, you should call submit manually.
 
 > **action**: `string`
 
-### to.catch?
+### to.catch()?
 
 > **`optional`** **catch**: (`error`) => `void`
 
@@ -56,7 +56,7 @@ If use onFinish, you should call submit manually.
 
 `void`
 
-### to.finally?
+### to.finally()?
 
 > **`optional`** **finally**: () => `void`
 
@@ -70,7 +70,7 @@ If use onFinish, you should call submit manually.
 
 params will overwrite form values before submit
 
-### to.then?
+### to.then()?
 
 > **`optional`** **then**: (`result`) => `void`
 

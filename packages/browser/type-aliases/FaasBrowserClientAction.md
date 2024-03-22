@@ -1,6 +1,6 @@
 [@faasjs/browser](../README.md) / FaasBrowserClientAction
 
-# Type alias: FaasBrowserClientAction
+# Type alias: FaasBrowserClientAction()
 
 > **FaasBrowserClientAction**: \<`PathOrData`\>(`action`, `params`?, `options`?) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 

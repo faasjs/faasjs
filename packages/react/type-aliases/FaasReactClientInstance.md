@@ -6,7 +6,7 @@
 
 ## Type declaration
 
-### faas
+### faas()
 
 > **faas**: \<`PathOrData`\>(`action`, `params`) => `Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
 
@@ -28,7 +28,7 @@
 
 > **id**: `string`
 
-### useFaas
+### useFaas()
 
 > **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options`?) => [`FaasDataInjection`](FaasDataInjection.md)\<`FaasData`\<`PathOrData`\>\>
 

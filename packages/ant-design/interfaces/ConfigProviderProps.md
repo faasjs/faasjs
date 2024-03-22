@@ -16,94 +16,94 @@
 
 > **`optional`** **theme**: `Object`
 
-#### theme.Blank?
+#### Blank?
 
 > **`optional`** **Blank**: `Object`
 
-#### theme.Blank.text?
+#### Blank.text?
 
 > **`optional`** **text**: `string`
 
-#### theme.Form?
+#### Form?
 
 > **`optional`** **Form**: `Object`
 
-#### theme.Form.submit?
+#### Form.submit?
 
 > **`optional`** **submit**: `Object`
 
-#### theme.Form.submit.text?
+#### Form.submit.text?
 
 > **`optional`** **text**: `string`
 
-#### theme.Link?
+#### Link?
 
 > **`optional`** **Link**: `Object`
 
-#### theme.Link.style?
+#### Link.style?
 
 > **`optional`** **style**: `CSSProperties`
 
-#### theme.Link.target?
+#### Link.target?
 
 > **`optional`** **target**: `string`
 
 '_blank' as default
 
-#### theme.Title?
+#### Title?
 
 > **`optional`** **Title**: `Object`
 
-#### theme.Title.separator?
+#### Title.separator?
 
 > **`optional`** **separator**: `string`
 
 ' - ' as default
 
-#### theme.Title.suffix?
+#### Title.suffix?
 
 > **`optional`** **suffix**: `string`
 
-#### theme.common?
+#### common?
 
 > **`optional`** **common**: `Object`
 
-#### theme.common.add?
+#### common.add?
 
 > **`optional`** **add**: `string`
 
-#### theme.common.all?
+#### common.all?
 
 > **`optional`** **all**: `string`
 
-#### theme.common.blank?
+#### common.blank?
 
 > **`optional`** **blank**: `string`
 
-#### theme.common.delete?
+#### common.delete?
 
 > **`optional`** **delete**: `string`
 
-#### theme.common.pageNotFound?
+#### common.pageNotFound?
 
 > **`optional`** **pageNotFound**: `string`
 
-#### theme.common.required?
+#### common.required?
 
 > **`optional`** **required**: `string`
 
-#### theme.common.reset?
+#### common.reset?
 
 > **`optional`** **reset**: `string`
 
-#### theme.common.search?
+#### common.search?
 
 > **`optional`** **search**: `string`
 
-#### theme.common.submit?
+#### common.submit?
 
 > **`optional`** **submit**: `string`
 
-#### theme.lang?
+#### lang?
 
 > **`optional`** **lang**: `string`

@@ -69,7 +69,7 @@ await request('https://example.com', { file: 'filepath' })
 
 The HTTP method to use when making the request. Defaults to GET.
 
-### parse?
+### parse()?
 
 > **`optional`** **parse**: (`body`) => `any`
 

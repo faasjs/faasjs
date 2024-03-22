@@ -36,7 +36,7 @@ Redis Plugin
 
 > **logger**: `Logger`
 
-### multi
+### multi()
 
 > **multi**: (`options`?) => `ChainableCommander`
 
@@ -56,7 +56,7 @@ Redis Plugin
 
 `Plugin.name`
 
-### pipeline
+### pipeline()
 
 > **pipeline**: (`commands`?) => `ChainableCommander`
 

@@ -26,7 +26,7 @@ only use for text without button
 
 > **href**: `string`
 
-### onClick?
+### onClick()?
 
 > **`optional`** **onClick**: (`event`) => `void`
 

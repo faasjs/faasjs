@@ -32,7 +32,7 @@
 
 [`FaasItemProps`](FaasItemProps.md).[`id`](FaasItemProps.md#id)
 
-### if?
+### if()?
 
 > **`optional`** **if**: (`values`) => `boolean`
 
