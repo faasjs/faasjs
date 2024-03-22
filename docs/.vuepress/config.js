@@ -3,6 +3,7 @@ import { viteBundler } from '@vuepress/bundler-vite'
 import { defaultTheme } from '@vuepress/theme-default'
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
 import { searchPlugin } from '@vuepress/plugin-search'
+import { sitemapPlugin } from '@vuepress/plugin-sitemap'
 
 export default defineUserConfig({
   lang: 'en',
@@ -259,5 +260,8 @@ export default defineUserConfig({
         },
       },
     }),
+    sitemapPlugin({
+      hostname: 'https://faasjs.com',
+    })
   ],
 })

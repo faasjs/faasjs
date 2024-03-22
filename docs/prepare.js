@@ -46,6 +46,7 @@ for (const file of files) {
 const images = globSync('../images/**/*.md')
 
 console.log(images)
+
 for (const file of images) {
   const target = file.replace('../images/', './doc/images/')
   run(`mkdir -p ${dirname(target)} &`)

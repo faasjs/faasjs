@@ -8,9 +8,10 @@
  *
  * ## Features
  *
- * - Support FaasJS request standards.
+ * - Support [FaasJS Request Specifications](https://faasjs.com/guide/request-spec.html).
  * - Support global and per-request configurations.
  * - Capiable with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
+ * - Additional functions for React.
  *
  * ## Install
  *

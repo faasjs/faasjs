@@ -1,4 +1,4 @@
-# Built-in Request Specifications
+# FaasJS Request Specifications
 
 To ensure consistency and avoid confusion during team collaboration, FaasJS offers built-in request specifications and compatible browser plugins.
 

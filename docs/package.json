@@ -14,6 +14,7 @@
     "@vuepress/theme-default": "next",
     "@vuepress/plugin-google-analytics": "next",
     "@vuepress/plugin-search": "next",
+    "@vuepress/plugin-sitemap": "next",
     "glob": "*"
   }
 }

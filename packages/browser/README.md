@@ -2,8 +2,6 @@
 
 FaasJS browser client.
 
-**If you use React or Vue, please use [@faasjs/react](https://faasjs.com/doc/react) or [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin).**
-
 [![License: MIT](https://img.shields.io/npm/l/@faasjs/browser.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/browser/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/browser.svg)](https://www.npmjs.com/package/@faasjs/browser)
 
@@ -15,7 +13,9 @@ Browser plugin for FaasJS.
 npm install @faasjs/browser
 ```
 
-## Use directly
+## Usage
+
+### Use directly
 
 ```ts
 import { FaasBrowserClient } from '@faasjs/browser'
@@ -25,7 +25,7 @@ const client = new FaasBrowserClient('/')
 await client.action('func', { key: 'value' })
 ```
 
-## Use with SWR
+### Use with SWR
 
 ```ts
 import { FaasBrowserClient } from '@faasjs/browser'
@@ -38,7 +38,7 @@ const { data } = useSWR(['func', { key: 'value' }], client.action)
 
 Reference: [Data Fetching - SWR](https://swr.vercel.app/docs/data-fetching)
 
-## Use with React Query
+### Use with React Query
 
 ```ts
 import { FaasBrowserClient } from '@faasjs/browser'
@@ -64,6 +64,14 @@ function App() {
   )
 }
 ```
+
+### Use with React
+
+Please use [@faasjs/react](https://faasjs.com/doc/react) for React.
+
+### Use with Vue
+
+Please use [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin) for Vue.
 
 ## Classes
 

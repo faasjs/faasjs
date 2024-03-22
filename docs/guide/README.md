@@ -15,3 +15,7 @@ bunx create-faas-app --name faasjs
 ### Start with Codespace
 
 [FaasJS Stater](https://github.com/faasjs/starter)
+
+## File Structure
+
+###
