@@ -36,6 +36,10 @@ export default defineUserConfig({
             text: 'Learn',
             children: [
               {
+                text: 'Guide',
+                link: '/guide/',
+              },
+              {
                 text: 'Documents',
                 link: '/doc/',
               },
@@ -88,6 +92,12 @@ export default defineUserConfig({
             ],
           },
         ],
+        sidebar: {
+          '/guide/': [
+            '/guide/',
+            '/guide/request-spec',
+          ],
+        }
       },
       '/zh/': {
         selectText: '选择语言',
@@ -168,24 +178,24 @@ export default defineUserConfig({
         ],
         sidebar: {
           '/zh/guide/': [
-            '',
-            'tencentcloud',
-            'auth',
+            '/zh/guide/',
+            '/zh/guide/tencentcloud',
+            '/zh/guide/auth',
             {
               title: '进阶学习',
               collapsable: false,
               children: [
-                'excel/faas-yaml',
-                'excel/plugin',
-                'excel/http',
-                'excel/db',
-                'excel/request-spec',
-                'excel/env',
-                'excel/vue',
-                'excel/react',
+                '/zh/guide/excel/faas-yaml',
+                '/zh/guide/excel/plugin',
+                '/zh/guide/excel/http',
+                '/zh/guide/excel/db',
+                '/zh/guide/excel/request-spec',
+                '/zh/guide/excel/env',
+                '/zh/guide/excel/vue',
+                '/zh/guide/excel/react',
               ],
             },
-            'story',
+            '/zh/guide/story',
           ],
           '/zh/doc/': [
             ['', '总览'],

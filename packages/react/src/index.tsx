@@ -6,6 +6,12 @@
  *
  * **If you use [SWR](https://swr.vercel.app) or [React Query / TanStack Query](https://tanstack.com/query), please use [`@faasjs/browser`](https://faasjs.com/doc/browser) directly.**
  *
+ * ## Features
+ *
+ * - Support FaasJS request standards.
+ * - Support global and per-request configurations.
+ * - Capiable with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
+ *
  * ## Install
  *
  * ```sh
