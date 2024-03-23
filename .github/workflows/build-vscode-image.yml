@@ -33,6 +33,7 @@ jobs:
           push: true
           tags: faasjs/vscode:${{ github.sha }},faasjs/vscode:debian
           file: ./images/vscode/debian.Dockerfile
+          platforms: linux/x86_64,linux/amd64,linux/arm64
           context: ./images/vscode
           cache-from: type=gha
           cache-to: type=gha,mode=max
