@@ -1,7 +1,20 @@
-FROM node:lts
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
-RUN apt-get update -y
-RUN apt-get install -y git zsh rsync zip python3 make g++ wget curl vim
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -y \
+  && apt-get install -y --no-install-recommends sudo zsh rsync zip python3 make g++ wget curl gnupg \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/* \
+  && echo "node ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/node \
+  && chmod 0440 /etc/sudoers.d/node
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+
+RUN apt-get update -y \
+  && apt-get install -y nodejs=20.* \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home
 
