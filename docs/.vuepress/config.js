@@ -9,7 +9,7 @@ export default defineUserConfig({
   lang: 'en',
   title: 'FaasJS',
   description: 'An atomic application framework built for the TypeScript developer.',
-  head: [['link', { rel: 'icon', href: '/logo.jpg' }]],
+  head: [['link', { rel: 'icon', href: '/logo.jpg' }], ['script', {src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0049636498302507', crossorigin: 'anonymous'}]],
   locales: {
     '/': {
       lang: 'en',
