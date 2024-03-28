@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/devcontainers/base:ubuntu
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y \
+  && apt-get upgrade -y \
   && apt-get install -y --no-install-recommends sudo zsh rsync zip python3 make g++ wget curl gnupg \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
