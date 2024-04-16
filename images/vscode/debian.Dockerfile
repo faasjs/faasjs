@@ -35,3 +35,5 @@ RUN corepack enable
 RUN npm install -g npm@latest
 
 RUN curl -fsSL https://bun.sh/install | bash
+
+RUN chsh "$(id -un)" --shell "/usr/bin/zsh"

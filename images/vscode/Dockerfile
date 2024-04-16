@@ -18,3 +18,5 @@ RUN sed -i "s/plugins=(git)/plugins=(git zsh-completions zsh-autosuggestions zsh
 
 RUN corepack enable
 RUN npm install -g npm@latest
+
+RUN chsh "$(id -un)" --shell "/usr/bin/zsh"
