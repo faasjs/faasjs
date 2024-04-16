@@ -25,7 +25,6 @@ jobs:
         with:
           push: true
           tags: faasjs/bun:${{ github.sha }},faasjs/bun:alpine,faasjs/bun:latest
-          platforms: linux/x86_64,linux/amd64,linux/arm64
           context: ./images/bun
           cache-from: type=gha
           cache-to: type=gha,mode=max
