@@ -25,6 +25,7 @@ jobs:
         with:
           push: true
           tags: faasjs/node:${{ github.sha }},faasjs/node:alpine,faasjs/node:latest
+          platforms: linux/x86_64,linux/amd64,linux/arm64
           context: ./images/node
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -33,6 +34,7 @@ jobs:
           push: true
           tags: faasjs/node:${{ github.sha }},faasjs/node:debian
           file: ./images/node/debian.Dockerfile
+          platforms: linux/x86_64,linux/amd64,linux/arm64
           context: ./images/node
           cache-from: type=gha
           cache-to: type=gha,mode=max
