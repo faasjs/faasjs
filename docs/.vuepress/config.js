@@ -170,10 +170,6 @@ export default defineUserConfig({
                 text: '赞助 FaasJS',
                 link: 'https://github.com/sponsors/faasjs',
               },
-              {
-                text: '博客',
-                link: '/zh/blog/',
-              },
             ],
           },
         ],
