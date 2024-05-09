@@ -4,15 +4,14 @@ import { useConstant } from './constant'
 /**
  * Creates a splited context with the given default value.
  *
- * @template T - The type of the default value.
- * @param {T} defaultValue - The default value for the split context.
- * @returns {Object} - An object containing the Provider and use functions.
- *
  * @example
  * ```tsx
- * const { Provider, use } = createSplitedContext({
+ * const { Provider, use } = createSplitedContext<{
+ *   value: number
+ *   setValue: React.Dispatch<React.SetStateAction<number>>
+ * }>({
  *   value: 0,
- *   setValue: (_: any) => {},
+ *   setValue: null,
  * })
  *
  * function ReaderComponent() {
@@ -31,50 +30,43 @@ import { useConstant } from './constant'
  *   )
  * }
  *
- * const App = memo(() => {
- *   return (
- *     <>
- *       <ReaderComponent />
- *       <WriterComponent />
- *     </>
- *   )
- * })
- *
- * function Container() {
+ * function App() {
  *   const [value, setValue] = useState(0)
  *
  *   return (
  *     <Provider value={{ value, setValue }}>
- *       <App />
+ *       <ReaderComponent />
+ *       <WriterComponent />
  *     </Provider>
  *   )
  * }
  * ```
  */
 export function createSplitedContext<T extends Record<string, any>>(
-  defaultValue: T
+  defaultValue: {
+    [K in keyof T]: Partial<T[K]>
+  }
 ) {
   const contexts: Record<string, Context<any>> = {}
+  const keys = Object.keys(defaultValue)
 
-  for (const key of Object.keys(defaultValue))
-    contexts[key] = createContext(defaultValue[key])
+  for (const key of keys) contexts[key] = createContext(defaultValue[key])
 
-  function Provider(props: { value: T; children: React.ReactNode }) {
+  function Provider(props: {
+    value?: Partial<T>
+    children: React.ReactNode
+  }) {
     let children = props.children
 
-    for (const key of Object.keys(props.value)) {
+    for (const key of keys) {
       const Context = contexts[key]
-      ;(Context.Provider as any).whyDidYouRender = true
+      const value = props.value?.[key] ?? defaultValue[key]
 
-      children = (
-        <Context.Provider value={props.value[key]}>{children}</Context.Provider>
-      )
+      children = <Context.Provider value={value}>{children}</Context.Provider>
     }
 
-    return <>{children}</>
+    return children
   }
-
-  Provider.whyDidYouRender = true
 
   function use() {
     return useConstant(() => {
@@ -89,8 +81,6 @@ export function createSplitedContext<T extends Record<string, any>>(
       return Object.freeze(obj)
     })
   }
-
-  use.whyDidYouRender = true
 
   return {
     Provider,

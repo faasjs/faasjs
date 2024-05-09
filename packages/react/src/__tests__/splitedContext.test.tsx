@@ -4,10 +4,12 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createSplitedContext } from '../splitedContext'
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 describe('createSplitedContext', () => {
-  it('should render children with provided values', () => {
+  it('should render children with default values', () => {
+    let renderTimes = 0
+
     const { Provider, use } = createSplitedContext({
       value1: 'Hello',
       value2: 'World',
@@ -15,6 +17,8 @@ describe('createSplitedContext', () => {
 
     function ChildComponent() {
       const { value1, value2 } = use()
+
+      renderTimes++
 
       return (
         <div>
@@ -25,23 +29,64 @@ describe('createSplitedContext', () => {
     }
 
     render(
-      <Provider value={{ value1: 'Hello', value2: 'World' }}>
+      <Provider>
         <ChildComponent />
       </Provider>
     )
 
     expect(screen.getByText('Hello')).toBeInTheDocument()
     expect(screen.getByText('World')).toBeInTheDocument()
+    expect(renderTimes).toBe(1)
+  })
+
+  it('should render children with provided values', () => {
+    let renderTimes = 0
+    const { Provider, use } = createSplitedContext<{
+      value: {
+        value1: string
+        value2: string
+      }
+    }>({
+      value: {},
+    })
+
+    function ChildComponent() {
+      const { value } = use()
+
+      renderTimes++
+
+      return (
+        <div>
+          <span>{value.value1}</span>
+          <span>{value.value2}</span>
+        </div>
+      )
+    }
+
+    render(
+      <Provider value={{ value: { value1: 'value1', value2: 'value2' } }}>
+        <ChildComponent />
+      </Provider>
+    )
+
+    expect(screen.getByText('value1')).toBeInTheDocument()
+    expect(screen.getByText('value2')).toBeInTheDocument()
+    expect(renderTimes).toBe(1)
   })
 
   it('should reponse to value changes', async () => {
-    let appRenderTimes = 0
+    let containerRenderTimes = 0
     let readerRenderTimes = 0
     let writerRenderTimes = 0
 
-    const { Provider, use } = createSplitedContext({
+    const { Provider, use } = createSplitedContext<{
+      value: number
+      setValue: React.Dispatch<React.SetStateAction<number>>
+      optional: string
+    }>({
       value: 0,
-      setValue: (_: any) => {},
+      setValue: undefined,
+      optional: 'optional',
     })
 
     function ReaderComponent() {
@@ -51,44 +96,40 @@ describe('createSplitedContext', () => {
         readerRenderTimes++
       }, [value])
 
-      return <div>{value}</div>
+      return <div>reader:{value}</div>
     }
 
     ReaderComponent.whyDidYouRender = true
 
     function WriterComponent() {
-      const { setValue } = use()
+      const { setValue, optional } = use()
 
       useEffect(() => {
         writerRenderTimes++
       }, [setValue])
 
       return (
-        <button type='button' onClick={() => setValue((p: number) => p + 1)}>
-          Change
-        </button>
+        <>
+          <button type='button' onClick={() => setValue((p: number) => p + 1)}>
+            Change
+          </button>
+          <div>writer:{optional}</div>
+        </>
       )
     }
 
     WriterComponent.whyDidYouRender = true
 
-    const App = memo(() => {
-      appRenderTimes++
-
-      return (
-        <>
-          <ReaderComponent />
-          <WriterComponent />
-        </>
-      )
-    })
-
     function Container() {
       const [value, setValue] = useState(0)
 
+      containerRenderTimes++
+
       return (
         <Provider value={{ value, setValue }}>
-          <App />
+          <ReaderComponent />
+          <WriterComponent />
+          parent:{value}
         </Provider>
       )
     }
@@ -99,13 +140,15 @@ describe('createSplitedContext', () => {
 
     render(<Container />)
 
-    expect(screen.getByText('0')).toBeInTheDocument()
+    expect(screen.getByText('reader:0')).toBeInTheDocument()
+    expect(screen.getByText('writer:optional')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button'))
     await user.click(screen.getByRole('button'))
 
-    expect(screen.getByText('2')).toBeInTheDocument()
-    expect(appRenderTimes).toBe(1)
+    expect(screen.getByText('reader:2')).toBeInTheDocument()
+    expect(screen.getByText('parent:2')).toBeInTheDocument()
+    expect(containerRenderTimes).toBe(3)
     expect(readerRenderTimes).toBe(3)
     expect(writerRenderTimes).toBe(1)
   })
