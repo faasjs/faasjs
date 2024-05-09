@@ -43,12 +43,12 @@ export interface useAppProps {
 }
 
 const AppContext = createSplitedContext<useAppProps>({
-  message: {} as MessageInstance,
-  notification: {} as NotificationInstance,
+  message: null,
+  notification: null,
   modalProps: {},
-  setModalProps: () => void 0,
+  setModalProps: null,
   drawerProps: {},
-  setDrawerProps: () => void 0,
+  setDrawerProps: null,
 })
 
 function RoutesApp(props: {
