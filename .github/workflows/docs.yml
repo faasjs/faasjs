@@ -18,12 +18,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: npm
+          node-version: 22
       - name: Build
         run: |
           cd docs
           npm ci
-          npm run build:prepare
-          npm run build
+          node --run build:prepare
+          node --run build
           cp ./CNAME ./.vuepress/dist/CNAME
           cp ../README.md ./.vuepress/dist/README.md
           touch ./.vuepress/dist/.nojekyll

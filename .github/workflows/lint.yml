@@ -19,9 +19,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: npm
+          node-version: 22
       - name: Install
-        run: |
-          npm install -g npm@latest
-          npm ci
+        run: npm ci
       - name: Run Lint
-        run: npm run lint .
+        run: node --run lint .
