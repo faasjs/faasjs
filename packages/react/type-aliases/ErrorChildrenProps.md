@@ -2,22 +2,22 @@
 
 # Type alias: ErrorChildrenProps
 
-> **ErrorChildrenProps**: `Object`
+> **ErrorChildrenProps**: `object`
 
 ## Type declaration
 
 ### error?
 
-> **`optional`** **error**: `Error`
+> `optional` **error**: `Error`
 
 ### errorDescription?
 
-> **`optional`** **errorDescription**: `string`
+> `optional` **errorDescription**: `string`
 
 ### errorMessage?
 
-> **`optional`** **errorMessage**: `string`
+> `optional` **errorMessage**: `string`
 
 ### info?
 
-> **`optional`** **info**: `any`
+> `optional` **info**: `any`

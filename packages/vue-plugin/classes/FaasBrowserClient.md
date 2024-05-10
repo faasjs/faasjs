@@ -12,7 +12,7 @@ await client.action('func', { key: 'value' })
 
 ## Constructors
 
-### new FaasBrowserClient(baseUrl, options)
+### new FaasBrowserClient()
 
 > **new FaasBrowserClient**(`baseUrl`, `options`?): [`FaasBrowserClient`](FaasBrowserClient.md)
 
@@ -38,7 +38,7 @@ await client.action('func', { key: 'value' })
 
 ### id
 
-> **`readonly`** **id**: `string`
+> `readonly` **id**: `string`
 
 ## Methods
 
@@ -50,7 +50,7 @@ Request a FaasJS function
 
 #### Type parameters
 
-• **PathOrData** extends `Record`\<`string`, `any`\>
+• **PathOrData** *extends* `Record`\<`string`, `any`\>
 
 #### Parameters
 

@@ -2,13 +2,13 @@
 
 # Type alias: ProviderConfig
 
-> **ProviderConfig**: `Object`
+> **ProviderConfig**: `object`
 
 ## Type declaration
 
 ### config
 
-> **config**: `Object`
+> **config**: `object`
 
 #### Index signature
 

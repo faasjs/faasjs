@@ -2,7 +2,7 @@
 
 # Type alias: FuncReturnType\<T\>
 
-> **FuncReturnType**\<`T`\>: `T` extends [`Func`](../classes/Func.md)\<`any`, `any`, infer R\> ? `R` : `any`
+> **FuncReturnType**\<`T`\>: `T` *extends* [`Func`](../classes/Func.md)\<`any`, `any`, infer R\> ? `R` : `any`
 
 Get the return type of a func
 
@@ -18,4 +18,4 @@ FuncReturnType<typeof func> // => number
 
 ## Type parameters
 
-• **T** extends [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+• **T** *extends* [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>

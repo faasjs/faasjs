@@ -18,7 +18,7 @@
 
 ### options?
 
-> **`optional`** **options**: [`BaseOption`](../type-aliases/BaseOption.md)[]
+> `optional` **options**: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
@@ -26,7 +26,7 @@
 
 ### title?
 
-> **`optional`** **title**: `string`
+> `optional` **title**: `string`
 
 #### Inherited from
 
@@ -34,7 +34,7 @@
 
 ### type?
 
-> **`optional`** **type**: [`FaasItemType`](../type-aliases/FaasItemType.md)
+> `optional` **type**: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 

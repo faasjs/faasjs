@@ -2,7 +2,7 @@
 
 # Type alias: CookieOptions
 
-> **CookieOptions**: `Object`
+> **CookieOptions**: `object`
 
 ## Index signature
 
@@ -12,28 +12,28 @@
 
 ### domain?
 
-> **`optional`** **domain**: `string`
+> `optional` **domain**: `string`
 
 ### expires?
 
-> **`optional`** **expires**: `number`
+> `optional` **expires**: `number`
 
 ### httpOnly?
 
-> **`optional`** **httpOnly**: `boolean`
+> `optional` **httpOnly**: `boolean`
 
 ### path?
 
-> **`optional`** **path**: `string`
+> `optional` **path**: `string`
 
 ### sameSite?
 
-> **`optional`** **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
+> `optional` **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
 
 ### secure?
 
-> **`optional`** **secure**: `boolean`
+> `optional` **secure**: `boolean`
 
 ### session?
 
-> **`optional`** **session**: [`SessionOptions`](SessionOptions.md)
+> `optional` **session**: [`SessionOptions`](SessionOptions.md)

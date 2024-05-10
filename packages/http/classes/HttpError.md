@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new HttpError(__namedParameters)
+### new HttpError()
 
 > **new HttpError**(`__namedParameters`): [`HttpError`](HttpError.md)
 
@@ -16,9 +16,9 @@
 
 • **\_\_namedParameters**
 
-• **\_\_namedParameters\.message**: `string`
+• **\_\_namedParameters.message**: `string`
 
-• **\_\_namedParameters\.statusCode?**: `number`
+• **\_\_namedParameters.statusCode?**: `number`
 
 #### Returns
 
@@ -32,7 +32,7 @@
 
 ### message
 
-> **`readonly`** **message**: `string`
+> `readonly` **message**: `string`
 
 #### Overrides
 
@@ -40,4 +40,4 @@
 
 ### statusCode
 
-> **`readonly`** **statusCode**: `number`
+> `readonly` **statusCode**: `number`

@@ -2,7 +2,7 @@
 
 # Variable: ContentType
 
-> **`const`** **ContentType**: `Object`
+> `const` **ContentType**: `object`
 
 ## Index signature
 

@@ -8,7 +8,7 @@ A data wrapper for react components
 
 ## Type parameters
 
-• **PathOrData** extends `Record`\<`string`, `any`\>
+• **PathOrData** *extends* `Record`\<`string`, `any`\>
 
 ## Parameters
 

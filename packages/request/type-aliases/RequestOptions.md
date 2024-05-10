@@ -2,17 +2,17 @@
 
 # Type alias: RequestOptions
 
-> **RequestOptions**: `Object`
+> **RequestOptions**: `object`
 
 ## Type declaration
 
 ### agent?
 
-> **`optional`** **agent**: `boolean`
+> `optional` **agent**: `boolean`
 
 ### auth?
 
-> **`optional`** **auth**: `string`
+> `optional` **auth**: `string`
 
 The authentication credentials to use for the request.
 
@@ -20,11 +20,11 @@ Format: `username:password`
 
 ### body?
 
-> **`optional`** **body**: `Object` \| `string`
+> `optional` **body**: `object` \| `string`
 
 ### downloadFile?
 
-> **`optional`** **downloadFile**: `string`
+> `optional` **downloadFile**: `string`
 
 Path of downloading a file from the server.
 
@@ -34,7 +34,7 @@ await request('https://example.com', { downloadFile: 'filepath' })
 
 ### downloadStream?
 
-> **`optional`** **downloadStream**: `NodeJS.WritableStream`
+> `optional` **downloadStream**: `NodeJS.WritableStream`
 
 Create a write stream to download a file.
 
@@ -47,7 +47,7 @@ await request('https://example.com', { downloadStream: stream })
 
 ### file?
 
-> **`optional`** **file**: `string`
+> `optional` **file**: `string`
 
 Path of uploading a file to the server.
 
@@ -57,21 +57,21 @@ await request('https://example.com', { file: 'filepath' })
 
 ### headers?
 
-> **`optional`** **headers**: `http.OutgoingHttpHeaders`
+> `optional` **headers**: `http.OutgoingHttpHeaders`
 
 ### logger?
 
-> **`optional`** **logger**: `Logger`
+> `optional` **logger**: `Logger`
 
 ### method?
 
-> **`optional`** **method**: `string`
+> `optional` **method**: `string`
 
 The HTTP method to use when making the request. Defaults to GET.
 
 ### parse()?
 
-> **`optional`** **parse**: (`body`) => `any`
+> `optional` **parse**: (`body`) => `any`
 
 Body parser. Defaults to `JSON.parse`.
 
@@ -85,15 +85,15 @@ Body parser. Defaults to `JSON.parse`.
 
 ### passphrase?
 
-> **`optional`** **passphrase**: `string`
+> `optional` **passphrase**: `string`
 
 ### pfx?
 
-> **`optional`** **pfx**: `Buffer`
+> `optional` **pfx**: `Buffer`
 
 ### query?
 
-> **`optional`** **query**: `Object`
+> `optional` **query**: `object`
 
 #### Index signature
 
@@ -101,7 +101,7 @@ Body parser. Defaults to `JSON.parse`.
 
 ### timeout?
 
-> **`optional`** **timeout**: `number`
+> `optional` **timeout**: `number`
 
 Timeout in milliseconds,
 

@@ -20,7 +20,7 @@ new Response({
 
 ## Constructors
 
-### new Response(props)
+### new Response()
 
 > **new Response**\<`T`\>(`props`): [`Response`](Response.md)\<`T`\>
 
@@ -28,13 +28,13 @@ new Response({
 
 • **props**
 
-• **props\.body?**: `any`
+• **props.body?**: `any`
 
-• **props\.data?**: `T`
+• **props.data?**: `T`
 
-• **props\.headers?**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+• **props.headers?**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
 
-• **props\.status?**: `number`
+• **props.status?**: `number`
 
 #### Returns
 
@@ -44,16 +44,16 @@ new Response({
 
 ### body
 
-> **`readonly`** **body**: `any`
+> `readonly` **body**: `any`
 
 ### data
 
-> **`readonly`** **data**: `T`
+> `readonly` **data**: `T`
 
 ### headers
 
-> **`readonly`** **headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+> `readonly` **headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
 
 ### status
 
-> **`readonly`** **status**: `number`
+> `readonly` **status**: `number`

@@ -2,7 +2,7 @@
 
 # Type alias: FaasDataInjection\<Data\>
 
-> **FaasDataInjection**\<`Data`\>: `Object`
+> **FaasDataInjection**\<`Data`\>: `object`
 
 Injects FaasData props.
 

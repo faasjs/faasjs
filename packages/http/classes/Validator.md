@@ -4,15 +4,15 @@
 
 ## Type parameters
 
-• **TParams** extends `Record`\<`string`, `any`\> = `any`
+• **TParams** *extends* `Record`\<`string`, `any`\> = `any`
 
-• **TCookie** extends `Record`\<`string`, `string`\> = `any`
+• **TCookie** *extends* `Record`\<`string`, `string`\> = `any`
 
-• **TSession** extends `Record`\<`string`, `string`\> = `any`
+• **TSession** *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Constructors
 
-### new Validator(config)
+### new Validator()
 
 > **new Validator**\<`TParams`, `TCookie`, `TSession`\>(`config`): [`Validator`](Validator.md)\<`TParams`, `TCookie`, `TSession`\>
 
@@ -28,19 +28,19 @@
 
 ### before?
 
-> **`optional`** **before**: `BeforeOption`\<`TParams`, `TCookie`, `TSession`\>
+> `optional` **before**: `BeforeOption`\<`TParams`, `TCookie`, `TSession`\>
 
 ### cookieConfig?
 
-> **`optional`** **cookieConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TCookie`\>
+> `optional` **cookieConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TCookie`\>
 
 ### paramsConfig?
 
-> **`optional`** **paramsConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TParams`\>
+> `optional` **paramsConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TParams`\>
 
 ### sessionConfig?
 
-> **`optional`** **sessionConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TSession`\>
+> `optional` **sessionConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TSession`\>
 
 ## Methods
 

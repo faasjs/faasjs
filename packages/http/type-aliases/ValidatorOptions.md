@@ -2,7 +2,7 @@
 
 # Type alias: ValidatorOptions\<Content\>
 
-> **ValidatorOptions**\<`Content`\>: `Object`
+> **ValidatorOptions**\<`Content`\>: `object`
 
 ## Type parameters
 
@@ -12,7 +12,7 @@
 
 ### onError()?
 
-> **`optional`** **onError**: (`type`, `key`, `value`?) => `Object` \| `void`
+> `optional` **onError**: (`type`, `key`, `value`?) => `object` \| `void`
 
 #### Parameters
 
@@ -24,7 +24,7 @@
 
 #### Returns
 
-`Object` \| `void`
+`object` \| `void`
 
 ### rules
 
@@ -32,4 +32,4 @@
 
 ### whitelist?
 
-> **`optional`** **whitelist**: `"error"` \| `"ignore"`
+> `optional` **whitelist**: `"error"` \| `"ignore"`

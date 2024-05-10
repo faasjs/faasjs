@@ -2,19 +2,19 @@
 
 # Type alias: FormSubmitProps
 
-> **FormSubmitProps**: `Object`
+> **FormSubmitProps**: `object`
 
 ## Type declaration
 
 ### text?
 
-> **`optional`** **text**: `string`
+> `optional` **text**: `string`
 
 Default: Submit
 
 ### to?
 
-> **`optional`** **to**: `Object`
+> `optional` **to**: `object`
 
 Submit to FaasJS server.
 
@@ -46,7 +46,7 @@ If use onFinish, you should call submit manually.
 
 ### to.catch()?
 
-> **`optional`** **catch**: (`error`) => `void`
+> `optional` **catch**: (`error`) => `void`
 
 #### Parameters
 
@@ -58,7 +58,7 @@ If use onFinish, you should call submit manually.
 
 ### to.finally()?
 
-> **`optional`** **finally**: () => `void`
+> `optional` **finally**: () => `void`
 
 #### Returns
 
@@ -66,13 +66,13 @@ If use onFinish, you should call submit manually.
 
 ### to.params?
 
-> **`optional`** **params**: `Record`\<`string`, `any`\>
+> `optional` **params**: `Record`\<`string`, `any`\>
 
 params will overwrite form values before submit
 
 ### to.then()?
 
-> **`optional`** **then**: (`result`) => `void`
+> `optional` **then**: (`result`) => `void`
 
 #### Parameters
 

@@ -2,9 +2,9 @@
 
 # Function: transferOptions()
 
-> **transferOptions**(`options`): `Object`[]
+> **transferOptions**(`options`): `object`[]
 
-convert string[] or number[] to \{ label, value \}[]
+convert string[] or number[] to { label, value }[]
 
 ## Parameters
 
@@ -12,4 +12,4 @@ convert string[] or number[] to \{ label, value \}[]
 
 ## Returns
 
-`Object`[]
+`object`[]

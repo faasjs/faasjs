@@ -2,15 +2,15 @@
 
 # Type alias: HttpConfig\<TParams, TCookie, TSession\>
 
-> **HttpConfig**\<`TParams`, `TCookie`, `TSession`\>: `Object`
+> **HttpConfig**\<`TParams`, `TCookie`, `TSession`\>: `object`
 
 ## Type parameters
 
-• **TParams** extends `Record`\<`string`, `any`\> = `any`
+• **TParams** *extends* `Record`\<`string`, `any`\> = `any`
 
-• **TCookie** extends `Record`\<`string`, `string`\> = `any`
+• **TCookie** *extends* `Record`\<`string`, `string`\> = `any`
 
-• **TSession** extends `Record`\<`string`, `string`\> = `any`
+• **TSession** *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Index signature
 
@@ -20,7 +20,7 @@
 
 ### config?
 
-> **`optional`** **config**: `Object`
+> `optional` **config**: `object`
 
 #### Index signature
 
@@ -28,36 +28,36 @@
 
 ### config.cookie?
 
-> **`optional`** **cookie**: [`CookieOptions`](CookieOptions.md)
+> `optional` **cookie**: [`CookieOptions`](CookieOptions.md)
 
 ### config.functionName?
 
-> **`optional`** **functionName**: `string`
+> `optional` **functionName**: `string`
 
 ### config.ignorePathPrefix?
 
-> **`optional`** **ignorePathPrefix**: `string`
+> `optional` **ignorePathPrefix**: `string`
 
 ### config.method?
 
-> **`optional`** **method**: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
+> `optional` **method**: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
 
 POST as default
 
 ### config.path?
 
-> **`optional`** **path**: `string`
+> `optional` **path**: `string`
 
 file relative path as default
 
 ### config.timeout?
 
-> **`optional`** **timeout**: `number`
+> `optional` **timeout**: `number`
 
 ### name?
 
-> **`optional`** **name**: `string`
+> `optional` **name**: `string`
 
 ### validator?
 
-> **`optional`** **validator**: [`ValidatorConfig`](ValidatorConfig.md)\<`TParams`, `TCookie`, `TSession`\>
+> `optional` **validator**: [`ValidatorConfig`](ValidatorConfig.md)\<`TParams`, `TCookie`, `TSession`\>

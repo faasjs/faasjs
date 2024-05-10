@@ -2,7 +2,7 @@
 
 # Type alias: DeployData
 
-> **DeployData**: `Object`
+> **DeployData**: `object`
 
 ## Index signature
 
@@ -12,11 +12,11 @@
 
 ### config?
 
-> **`optional`** **config**: [`Config`](Config.md)
+> `optional` **config**: [`Config`](Config.md)
 
 ### dependencies
 
-> **dependencies**: `Object`
+> **dependencies**: `object`
 
 #### Index signature
 
@@ -24,7 +24,7 @@
 
 ### env?
 
-> **`optional`** **env**: `string`
+> `optional` **env**: `string`
 
 ### filename
 
@@ -32,19 +32,19 @@
 
 ### logger?
 
-> **`optional`** **logger**: `Logger`
+> `optional` **logger**: `Logger`
 
 ### name?
 
-> **`optional`** **name**: `string`
+> `optional` **name**: `string`
 
 ### plugins?
 
-> **`optional`** **plugins**: `Object`
+> `optional` **plugins**: `object`
 
 #### Index signature
 
- \[`name`: `string`\]: `Object`
+ \[`name`: `string`\]: `object`
 
 ### root
 
@@ -52,4 +52,4 @@
 
 ### version?
 
-> **`optional`** **version**: `string`
+> `optional` **version**: `string`

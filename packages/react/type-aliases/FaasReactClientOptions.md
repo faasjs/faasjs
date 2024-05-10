@@ -2,7 +2,7 @@
 
 # Type alias: FaasReactClientOptions
 
-> **FaasReactClientOptions**: `Object`
+> **FaasReactClientOptions**: `object`
 
 ## Type declaration
 
@@ -12,7 +12,7 @@
 
 ### onError()?
 
-> **`optional`** **onError**: (`action`, `params`) => (`res`) => `Promise`\<`void`\>
+> `optional` **onError**: (`action`, `params`) => (`res`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -24,15 +24,14 @@
 
 `Function`
 
-> ##### Parameters
->
-> • **res**: [`ResponseError`](../classes/ResponseError.md)
->
-> ##### Returns
->
-> `Promise`\<`void`\>
->
+##### Parameters
+
+• **res**: [`ResponseError`](../classes/ResponseError.md)
+
+##### Returns
+
+`Promise`\<`void`\>
 
 ### options?
 
-> **`optional`** **options**: [`Options`](Options.md)
+> `optional` **options**: [`Options`](Options.md)

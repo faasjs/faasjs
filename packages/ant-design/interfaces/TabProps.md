@@ -26,4 +26,4 @@
 
 ### title?
 
-> **`optional`** **title**: `ReactNode`
+> `optional` **title**: `ReactNode`

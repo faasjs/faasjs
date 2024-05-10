@@ -2,7 +2,7 @@
 
 # Type alias: ExtendFormTypeProps\<T\>
 
-> **ExtendFormTypeProps**\<`T`\>: `Object`
+> **ExtendFormTypeProps**\<`T`\>: `object`
 
 ## Type parameters
 
@@ -12,4 +12,4 @@
 
 ### children?
 
-> **`optional`** **children**: [`UnionFaasItemElement`](UnionFaasItemElement.md)\<`T`\>
+> `optional` **children**: [`UnionFaasItemElement`](UnionFaasItemElement.md)\<`T`\>

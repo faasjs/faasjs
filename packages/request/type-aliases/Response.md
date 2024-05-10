@@ -2,7 +2,7 @@
 
 # Type alias: Response\<T\>
 
-> **Response**\<`T`\>: `Object`
+> **Response**\<`T`\>: `object`
 
 ## Type parameters
 
@@ -20,12 +20,12 @@
 
 ### request?
 
-> **`optional`** **request**: [`Request`](Request.md)
+> `optional` **request**: [`Request`](Request.md)
 
 ### statusCode?
 
-> **`optional`** **statusCode**: `number`
+> `optional` **statusCode**: `number`
 
 ### statusMessage?
 
-> **`optional`** **statusMessage**: `string`
+> `optional` **statusMessage**: `string`

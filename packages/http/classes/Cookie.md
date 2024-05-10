@@ -4,13 +4,13 @@
 
 ## Type parameters
 
-• **C** extends `Record`\<`string`, `string`\> = `any`
+• **C** *extends* `Record`\<`string`, `string`\> = `any`
 
-• **S** extends `Record`\<`string`, `string`\> = `any`
+• **S** *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Constructors
 
-### new Cookie(config, logger)
+### new Cookie()
 
 > **new Cookie**\<`C`, `S`\>(`config`, `logger`?): [`Cookie`](Cookie.md)\<`C`, `S`\>
 
@@ -28,11 +28,11 @@
 
 ### config
 
-> **`readonly`** **config**: `Object`
+> `readonly` **config**: `object`
 
 #### domain?
 
-> **`optional`** **domain**: `string`
+> `optional` **domain**: `string`
 
 #### expires
 
@@ -48,7 +48,7 @@
 
 #### sameSite?
 
-> **`optional`** **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
+> `optional` **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
 
 #### secure
 
@@ -74,15 +74,15 @@
 
 ### headers()
 
-> **headers**(): `Object`
+> **headers**(): `object`
 
 #### Returns
 
-`Object`
+`object`
 
 ##### Set-Cookie?
 
-> **`optional`** **Set-Cookie**: `string`[]
+> `optional` **Set-Cookie**: `string`[]
 
 ### invoke()
 
@@ -122,17 +122,17 @@
 
 • **opts?**
 
-• **opts\.domain?**: `string`
+• **opts.domain?**: `string`
 
-• **opts\.expires?**: `string` \| `number`
+• **opts.expires?**: `string` \| `number`
 
-• **opts\.httpOnly?**: `boolean`
+• **opts.httpOnly?**: `boolean`
 
-• **opts\.path?**: `string`
+• **opts.path?**: `string`
 
-• **opts\.sameSite?**: `"Strict"` \| `"Lax"` \| `"None"`
+• **opts.sameSite?**: `"Strict"` \| `"Lax"` \| `"None"`
 
-• **opts\.secure?**: `boolean`
+• **opts.secure?**: `boolean`
 
 #### Returns
 

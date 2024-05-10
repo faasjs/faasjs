@@ -2,7 +2,7 @@
 
 # Type alias: ExtendTypes
 
-> **ExtendTypes**: `Object`
+> **ExtendTypes**: `object`
 
 ## Index signature
 

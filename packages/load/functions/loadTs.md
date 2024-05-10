@@ -2,7 +2,7 @@
 
 # Function: loadTs()
 
-> **loadTs**(`filename`, `options`): `Promise`\<`Object`\>
+> **loadTs**(`filename`, `options`): `Promise`\<`object`\>
 
 加载 ts 文件
 
@@ -10,53 +10,52 @@
 
 • **filename**: `string`
 
-\{string\} 完整源文件路径
+{string} 完整源文件路径
 
 • **options**= `undefined`
 
-\{object\} 配置项
+{object} 配置项
 
-• **options\.input?**
+• **options.input?**
 
-\{object\} 读取配置
+{object} 读取配置
 
-• **options\.modules?**
+• **options.modules?**
 
-\{object\} 生成 modules 的配置
+{object} 生成 modules 的配置
 
-• **options\.modules\.additions?**: `string`[]
+• **options.modules.additions?**: `string`[]
 
-• **options\.modules\.excludes?**: `string`[]
+• **options.modules.excludes?**: `string`[]
 
-• **options\.output?**
+• **options.output?**
 
-\{object\} 写入配置
+{object} 写入配置
 
-• **options\.tmp?**: `boolean`
+• **options.tmp?**: `boolean`
 
-\{boolean\} 是否为临时文件，true 则生成的文件会被删除，默认为 false
+{boolean} 是否为临时文件，true 则生成的文件会被删除，默认为 false
 
 ## Returns
 
-`Promise`\<`Object`\>
+`Promise`\<`object`\>
 
-> ### dependencies
->
-> > **dependencies**: `Object`
->
-> #### Index signature
->
-> \[`key`: `string`\]: `string`
->
-> ### module?
->
-> > **`optional`** **module**: `Func`
->
-> ### modules?
->
-> > **`optional`** **modules**: `Object`
->
-> #### Index signature
->
-> \[`key`: `string`\]: `string`
->
+### dependencies
+
+> **dependencies**: `object`
+
+#### Index signature
+
+ \[`key`: `string`\]: `string`
+
+### module?
+
+> `optional` **module**: `Func`
+
+### modules?
+
+> `optional` **modules**: `object`
+
+#### Index signature
+
+ \[`key`: `string`\]: `string`

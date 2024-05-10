@@ -16,11 +16,11 @@
 
 ### dataSource?
 
-> **`optional`** **dataSource**: `T`
+> `optional` **dataSource**: `T`
 
 ### extendTypes?
 
-> **`optional`** **extendTypes**: `Object`
+> `optional` **extendTypes**: `object`
 
 #### Index signature
 
@@ -28,7 +28,7 @@
 
 ### faasData?
 
-> **`optional`** **faasData**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`T`\>
+> `optional` **faasData**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`T`\>
 
 ### items
 
@@ -38,7 +38,7 @@
 
 ### renderTitle()?
 
-> **`optional`** **renderTitle**(`values`): `ReactNode`
+> `optional` **renderTitle**(`values`): `ReactNode`
 
 #### Parameters
 

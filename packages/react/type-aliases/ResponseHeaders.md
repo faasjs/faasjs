@@ -2,7 +2,7 @@
 
 # Type alias: ResponseHeaders
 
-> **ResponseHeaders**: `Object`
+> **ResponseHeaders**: `object`
 
 ## Index signature
 

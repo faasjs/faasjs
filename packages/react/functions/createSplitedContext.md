@@ -2,47 +2,37 @@
 
 # Function: createSplitedContext()
 
-> **createSplitedContext**\<`T`\>(`defaultValue`): `Object`
+> **createSplitedContext**\<`T`\>(`defaultValue`): `object`
 
 Creates a splited context with the given default value.
 
 ## Type parameters
 
-• **T** extends `Record`\<`string`, `any`\>
-
-The type of the default value.
+• **T** *extends* `Record`\<`string`, `any`\>
 
 ## Parameters
 
-• **defaultValue**: `T`
-
-The default value for the split context.
+• **defaultValue**: \{ [K in string \| number \| symbol]: Partial\<T[K]\> \}
 
 ## Returns
 
-`Object`
-
-- An object containing the Provider and use functions.
+`object`
 
 ### Provider()
 
-> **Provider**: (`props`) => `Element`
+> **Provider**: (`props`) => `ReactNode`
 
 #### Parameters
 
 • **props**
 
-• **props\.children**: `ReactNode`
+• **props.children**: `ReactNode`
 
-• **props\.value**: `T`
+• **props.value?**: `Partial`\<`T`\>
 
 #### Returns
 
-`Element`
-
-### Provider.whyDidYouRender
-
-> **whyDidYouRender**: `boolean`
+`ReactNode`
 
 ### use()
 
@@ -52,16 +42,15 @@ The default value for the split context.
 
 `Readonly`\<`T`\>
 
-### use.whyDidYouRender
-
-> **whyDidYouRender**: `boolean`
-
 ## Example
 
 ```tsx
-const { Provider, use } = createSplitedContext({
+const { Provider, use } = createSplitedContext<{
+  value: number
+  setValue: React.Dispatch<React.SetStateAction<number>>
+}>({
   value: 0,
-  setValue: (_: any) => {},
+  setValue: null,
 })
 
 function ReaderComponent() {
@@ -80,21 +69,13 @@ function WriterComponent() {
   )
 }
 
-const App = memo(() => {
-  return (
-    <>
-      <ReaderComponent />
-      <WriterComponent />
-    </>
-  )
-})
-
-function Container() {
+function App() {
   const [value, setValue] = useState(0)
 
   return (
     <Provider value={{ value, setValue }}>
-      <App />
+      <ReaderComponent />
+      <WriterComponent />
     </Provider>
   )
 }

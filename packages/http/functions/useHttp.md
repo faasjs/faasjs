@@ -6,11 +6,11 @@
 
 ## Type parameters
 
-• **TParams** extends `Record`\<`string`, `any`\> = `any`
+• **TParams** *extends* `Record`\<`string`, `any`\> = `any`
 
-• **TCookie** extends `Record`\<`string`, `string`\> = `any`
+• **TCookie** *extends* `Record`\<`string`, `string`\> = `any`
 
-• **TSession** extends `Record`\<`string`, `string`\> = `any`
+• **TSession** *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Parameters
 

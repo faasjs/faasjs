@@ -2,19 +2,19 @@
 
 # Type alias: UseifyPlugin\<T\>
 
-> **UseifyPlugin**\<`T`\>: `T` & `Object`
+> **UseifyPlugin**\<`T`\>: `T` & `object`
 
 ## Type declaration
 
 ### mount()?
 
-> **`optional`** **mount**: (`data`?) => `Promise`\<`T`\>
+> `optional` **mount**: (`data`?) => `Promise`\<`T`\>
 
 #### Parameters
 
 • **data?**
 
-• **data\.config?**: [`Config`](Config.md)
+• **data.config?**: [`Config`](Config.md)
 
 #### Returns
 

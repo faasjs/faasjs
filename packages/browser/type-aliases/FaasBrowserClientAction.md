@@ -6,7 +6,7 @@
 
 ## Type parameters
 
-• **PathOrData** extends `FaasAction`
+• **PathOrData** *extends* `FaasAction`
 
 ## Parameters
 

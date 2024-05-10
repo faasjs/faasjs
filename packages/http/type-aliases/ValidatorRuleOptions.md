@@ -2,30 +2,30 @@
 
 # Type alias: ValidatorRuleOptions
 
-> **ValidatorRuleOptions**: `Object`
+> **ValidatorRuleOptions**: `object`
 
 ## Type declaration
 
 ### config?
 
-> **`optional`** **config**: `Partial`\<[`ValidatorOptions`](ValidatorOptions.md)\>
+> `optional` **config**: `Partial`\<[`ValidatorOptions`](ValidatorOptions.md)\>
 
 ### default?
 
-> **`optional`** **default**: `any`
+> `optional` **default**: `any`
 
 ### in?
 
-> **`optional`** **in**: `any`[]
+> `optional` **in**: `any`[]
 
 ### regexp?
 
-> **`optional`** **regexp**: `RegExp`
+> `optional` **regexp**: `RegExp`
 
 ### required?
 
-> **`optional`** **required**: `boolean`
+> `optional` **required**: `boolean`
 
 ### type?
 
-> **`optional`** **type**: `ValidatorRuleOptionsType`
+> `optional` **type**: `ValidatorRuleOptionsType`

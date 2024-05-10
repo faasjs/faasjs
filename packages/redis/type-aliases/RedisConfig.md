@@ -2,14 +2,14 @@
 
 # Type alias: RedisConfig
 
-> **RedisConfig**: `Object`
+> **RedisConfig**: `object`
 
 ## Type declaration
 
 ### config?
 
-> **`optional`** **config**: `RedisOptions`
+> `optional` **config**: `RedisOptions`
 
 ### name?
 
-> **`optional`** **name**: `string`
+> `optional` **name**: `string`

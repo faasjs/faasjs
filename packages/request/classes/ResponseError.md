@@ -10,7 +10,7 @@ ResponseError class
 
 ## Constructors
 
-### new ResponseError(message, response)
+### new ResponseError()
 
 > **new ResponseError**(`message`, `response`): [`ResponseError`](ResponseError.md)
 

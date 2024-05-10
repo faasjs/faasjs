@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new Provider(config)
+### new Provider()
 
 > **new Provider**(`config`): [`Provider`](Provider.md)
 
@@ -42,15 +42,15 @@
 
 • **type**: `"cloud_function"` \| `"http"`
 
-\{string\} 发布类型
+{string} 发布类型
 
 • **data**: `DeployData`
 
-\{object\} 部署环境配置
+{object} 部署环境配置
 
 • **config**
 
-\{Logger\} 部署对象配置
+{Logger} 部署对象配置
 
 #### Returns
 
@@ -66,9 +66,9 @@
 
 • **data**
 
-• **data\.context**: `any`
+• **data.context**: `any`
 
-• **data\.event?**: `any`
+• **data.event?**: `any`
 
 • **options?**
 
@@ -94,9 +94,9 @@
 
 • **data**
 
-• **data\.context**: `any`
+• **data.context**: `any`
 
-• **data\.event?**: `any`
+• **data.event?**: `any`
 
 • **options?**
 

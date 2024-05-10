@@ -8,17 +8,17 @@ Request faas server
 
 ## Type parameters
 
-• **PathOrData** extends `Record`\<`string`, `any`\>
+• **PathOrData** *extends* `Record`\<`string`, `any`\>
 
 ## Parameters
 
 • **action**: `string` \| `PathOrData`
 
-\{string\} action name
+{string} action name
 
 • **params**: [`FaasParams`](../type-aliases/FaasParams.md)\<`PathOrData`\>
 
-\{object\} action params
+{object} action params
 
 ## Returns
 

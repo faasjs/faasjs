@@ -2,14 +2,14 @@
 
 # Type alias: KnexConfig
 
-> **KnexConfig**: `Object`
+> **KnexConfig**: `object`
 
 ## Type declaration
 
 ### config?
 
-> **`optional`** **config**: `OriginKnex.Config`
+> `optional` **config**: `OriginKnex.Config`
 
 ### name?
 
-> **`optional`** **name**: `string`
+> `optional` **name**: `string`

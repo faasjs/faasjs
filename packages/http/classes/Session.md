@@ -4,13 +4,13 @@
 
 ## Type parameters
 
-• **S** extends `Record`\<`string`, `string`\> = `any`
+• **S** *extends* `Record`\<`string`, `string`\> = `any`
 
-• **C** extends `Record`\<`string`, `string`\> = `any`
+• **C** *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Constructors
 
-### new Session(cookie, config)
+### new Session()
 
 > **new Session**\<`S`, `C`\>(`cookie`, `config`): [`Session`](Session.md)\<`S`, `C`\>
 
@@ -28,7 +28,7 @@
 
 ### config
 
-> **`readonly`** **config**: `Object`
+> `readonly` **config**: `object`
 
 #### cipherName
 

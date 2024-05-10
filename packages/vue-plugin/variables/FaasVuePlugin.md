@@ -2,7 +2,7 @@
 
 # Variable: FaasVuePlugin
 
-> **`const`** **FaasVuePlugin**: `Object`
+> `const` **FaasVuePlugin**: `object`
 
 ## Type declaration
 

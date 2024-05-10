@@ -8,7 +8,7 @@ Origin [knex](https://knexjs.org/) instance.
 
 ## Type parameters
 
-• **TRecord** extends `Object` = `any`
+• **TRecord** *extends* `object` = `any`
 
 • **TResult** = `unknown`[]
 

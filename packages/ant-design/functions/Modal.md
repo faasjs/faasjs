@@ -2,13 +2,18 @@
 
 # Function: Modal()
 
-> **Modal**(`props`, `context`?): `ReactNode`
+> **Modal**(`props`, `deprecatedLegacyContext`?): `ReactNode`
 
 ## Parameters
 
 • **props**: `ModalProps`
 
-• **context?**: `any`
+• **deprecatedLegacyContext?**: `any`
+
+**Deprecated**
+
+**See**
+[React Docs](https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods)
 
 ## Returns
 

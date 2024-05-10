@@ -2,7 +2,7 @@
 
 # Type alias: FaasParams\<T\>
 
-> **FaasParams**\<`T`\>: `T` extends [`FaasActionPaths`](FaasActionPaths.md) ? `FaasActions`\[`T`\]\[`"Params"`\] : `any`
+> **FaasParams**\<`T`\>: `T` *extends* [`FaasActionPaths`](FaasActionPaths.md) ? `FaasActions`\[`T`\]\[`"Params"`\] : `any`
 
 ## Type parameters
 

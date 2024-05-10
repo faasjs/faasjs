@@ -2,11 +2,11 @@
 
 # Type alias: FaasDataWrapperProps\<PathOrData\>
 
-> **FaasDataWrapperProps**\<`PathOrData`\>: `Object`
+> **FaasDataWrapperProps**\<`PathOrData`\>: `object`
 
 ## Type parameters
 
-• **PathOrData** extends `FaasAction`
+• **PathOrData** *extends* `FaasAction`
 
 ## Type declaration
 
@@ -16,25 +16,25 @@
 
 ### children?
 
-> **`optional`** **children**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\>\>
+> `optional` **children**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\>\>
 
 ### data?
 
-> **`optional`** **data**: `FaasData`\<`PathOrData`\>
+> `optional` **data**: `FaasData`\<`PathOrData`\>
 
 use custom data, should work with setData
 
 ### fallback?
 
-> **`optional`** **fallback**: `JSX.Element` \| `false`
+> `optional` **fallback**: `JSX.Element` \| `false`
 
 ### params?
 
-> **`optional`** **params**: `FaasParams`\<`PathOrData`\>
+> `optional` **params**: `FaasParams`\<`PathOrData`\>
 
 ### setData?
 
-> **`optional`** **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`PathOrData`\>\>\>
+> `optional` **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`PathOrData`\>\>\>
 
 use custom setData, should work with data
 

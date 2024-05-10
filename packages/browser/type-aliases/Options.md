@@ -2,13 +2,13 @@
 
 # Type alias: Options
 
-> **Options**: `RequestInit` & `Object`
+> **Options**: `RequestInit` & `object`
 
 ## Type declaration
 
 ### beforeRequest()?
 
-> **`optional`** **beforeRequest**: (`{
+> `optional` **beforeRequest**: (`{
     action,
     params,
     options,
@@ -24,35 +24,35 @@ trigger before request
     params,
     options,
     headers,
-  }**
+  \}**
 
 • **\{
     action,
     params,
     options,
     headers,
-  }\.action**: `string`
+  \}.action**: `string`
 
 • **\{
     action,
     params,
     options,
     headers,
-  }\.headers**: `Record`\<`string`, `string`\>
+  \}.headers**: `Record`\<`string`, `string`\>
 
 • **\{
     action,
     params,
     options,
     headers,
-  }\.options**: [`Options`](Options.md)
+  \}.options**: [`Options`](Options.md)
 
 • **\{
     action,
     params,
     options,
     headers,
-  }\.params**: `Record`\<`string`, `any`\>
+  \}.params**: `Record`\<`string`, `any`\>
 
 #### Returns
 
@@ -60,17 +60,17 @@ trigger before request
 
 ### headers?
 
-> **`optional`** **headers**: `Record`\<`string`, `string`\>
+> `optional` **headers**: `Record`\<`string`, `string`\>
 
 ### request()?
 
-> **`optional`** **request**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
+> `optional` **request**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 custom request
 
 #### Type parameters
 
-• **PathOrData** extends `FaasAction`
+• **PathOrData** *extends* `FaasAction`
 
 #### Parameters
 

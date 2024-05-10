@@ -2,7 +2,7 @@
 
 # Type alias: CloudFunctionConfig
 
-> **CloudFunctionConfig**: `Object`
+> **CloudFunctionConfig**: `object`
 
 云函数配置项
 
@@ -14,7 +14,7 @@
 
 ### config?
 
-> **`optional`** **config**: `Object`
+> `optional` **config**: `object`
 
 配置项
 
@@ -24,19 +24,19 @@
 
 ### config.memorySize?
 
-> **`optional`** **memorySize**: `64` \| `128` \| `256` \| `384` \| `512` \| `640` \| `768` \| `896` \| `1024` \| `number`
+> `optional` **memorySize**: `64` \| `128` \| `256` \| `384` \| `512` \| `640` \| `768` \| `896` \| `1024` \| `number`
 
 内存大小，单位为MB，默认 64
 
 ### config.name?
 
-> **`optional`** **name**: `string`
+> `optional` **name**: `string`
 
 配置名称
 
 ### config.provisionedConcurrent?
 
-> **`optional`** **provisionedConcurrent**: `Object`
+> `optional` **provisionedConcurrent**: `object`
 
 预制并发配置
 
@@ -48,26 +48,26 @@
 
 ### config.timeout?
 
-> **`optional`** **timeout**: `number`
+> `optional` **timeout**: `number`
 
 执行超时时间，单位为秒，默认 30
 
 ### config.triggers?
 
-> **`optional`** **triggers**: `Object`[]
+> `optional` **triggers**: `object`[]
 
 触发器配置
 
 ### name?
 
-> **`optional`** **name**: `string`
+> `optional` **name**: `string`
 
 插件名称
 
 ### validator?
 
-> **`optional`** **validator**: `Object`
+> `optional` **validator**: `object`
 
 ### validator.event?
 
-> **`optional`** **event**: `ValidatorConfig`
+> `optional` **event**: `ValidatorConfig`

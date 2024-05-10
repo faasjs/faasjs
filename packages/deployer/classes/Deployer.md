@@ -4,7 +4,7 @@
 
 ## Constructors
 
-### new Deployer(data)
+### new Deployer()
 
 > **new Deployer**(`data`): [`Deployer`](Deployer.md)
 
@@ -24,23 +24,22 @@
 
 ### func?
 
-> **`optional`** **func**: `Func`\<`any`, `any`, `any`\>
+> `optional` **func**: `Func`\<`any`, `any`, `any`\>
 
 ## Methods
 
 ### deploy()
 
-> **deploy**(): `Promise`\<`Object`\>
+> **deploy**(): `Promise`\<`object`\>
 
 #### Returns
 
-`Promise`\<`Object`\>
+`Promise`\<`object`\>
 
-> ##### filename
->
-> > **filename**: `string`
->
-> ##### root
->
-> > **root**: `string`
->
+##### filename
+
+> **filename**: `string`
+
+##### root
+
+> **root**: `string`

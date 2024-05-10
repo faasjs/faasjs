@@ -2,21 +2,21 @@
 
 # Type alias: SessionOptions
 
-> **SessionOptions**: `Object`
+> **SessionOptions**: `object`
 
 ## Type declaration
 
 ### cipherName?
 
-> **`optional`** **cipherName**: `string`
+> `optional` **cipherName**: `string`
 
 ### digest?
 
-> **`optional`** **digest**: `string`
+> `optional` **digest**: `string`
 
 ### iterations?
 
-> **`optional`** **iterations**: `number`
+> `optional` **iterations**: `number`
 
 ### key
 
@@ -24,11 +24,11 @@
 
 ### keylen?
 
-> **`optional`** **keylen**: `number`
+> `optional` **keylen**: `number`
 
 ### salt?
 
-> **`optional`** **salt**: `string`
+> `optional` **salt**: `string`
 
 ### secret
 
@@ -36,4 +36,4 @@
 
 ### signedSalt?
 
-> **`optional`** **signedSalt**: `string`
+> `optional` **signedSalt**: `string`

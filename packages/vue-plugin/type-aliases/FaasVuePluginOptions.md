@@ -2,7 +2,7 @@
 
 # Type alias: FaasVuePluginOptions
 
-> **FaasVuePluginOptions**: `Object`
+> **FaasVuePluginOptions**: `object`
 
 ## Type declaration
 
@@ -12,4 +12,4 @@
 
 ### options?
 
-> **`optional`** **options**: [`Options`](Options.md)
+> `optional` **options**: [`Options`](Options.md)

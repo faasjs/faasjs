@@ -2,13 +2,13 @@
 
 # Type alias: Request
 
-> **Request**: `Object`
+> **Request**: `object`
 
 ## Type declaration
 
 ### body?
 
-> **`optional`** **body**: `Object`
+> `optional` **body**: `object`
 
 #### Index signature
 
@@ -16,20 +16,20 @@
 
 ### headers?
 
-> **`optional`** **headers**: `http.OutgoingHttpHeaders`
+> `optional` **headers**: `http.OutgoingHttpHeaders`
 
 ### host?
 
-> **`optional`** **host**: `string`
+> `optional` **host**: `string`
 
 ### method?
 
-> **`optional`** **method**: `string`
+> `optional` **method**: `string`
 
 ### path?
 
-> **`optional`** **path**: `string`
+> `optional` **path**: `string`
 
 ### query?
 
-> **`optional`** **query**: `http.OutgoingHttpHeaders`
+> `optional` **query**: `http.OutgoingHttpHeaders`

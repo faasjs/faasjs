@@ -10,20 +10,20 @@
 
 • **options?**
 
-• **options\.filename?**: `string`
+• **options.filename?**: `string`
 
-• **options\.jsc?**: `JscConfig`
+• **options.jsc?**: `JscConfig`
 
 swc compilation
 
 **See**
 https://swc.rs/docs/configuration/compilation
 
-• **options\.root?**: `string`
+• **options.root?**: `string`
 
 default: process.cwd()
 
-• **options\.target?**: `JscTarget`
+• **options.target?**: `JscTarget`
 
 default: `es2019`
 

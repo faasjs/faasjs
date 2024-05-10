@@ -16,7 +16,7 @@
 
 ## Constructors
 
-### new Func(config)
+### new Func()
 
 > **new Func**\<`TEvent`, `TContext`, `TResult`\>(`config`): [`Func`](Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
@@ -26,7 +26,7 @@ Create a cloud function
 
 • **config**: [`FuncConfig`](../type-aliases/FuncConfig.md)\<`TEvent`, `TContext`, `any`\>
 
-\{object\} config
+{object} config
 
 #### Returns
 
@@ -40,11 +40,11 @@ Create a cloud function
 
 ### filename?
 
-> **`optional`** **filename**: `string`
+> `optional` **filename**: `string`
 
 ### handler?
 
-> **`optional`** **handler**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+> `optional` **handler**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ### mounted
 
@@ -66,7 +66,7 @@ Deploy the function
 
 • **data**: [`DeployData`](../type-aliases/DeployData.md)
 
-\{object\} data
+{object} data
 
 #### Returns
 
@@ -74,13 +74,13 @@ Deploy the function
 
 ### export()
 
-> **export**(): `Object`
+> **export**(): `object`
 
 Export the function
 
 #### Returns
 
-`Object`
+`object`
 
 ##### handler
 
@@ -96,7 +96,7 @@ Invoke the function
 
 • **data**: [`InvokeData`](../type-aliases/InvokeData.md)\<`TEvent`, `TContext`, `TResult`\>
 
-\{object\} data
+{object} data
 
 #### Returns
 
@@ -112,13 +112,13 @@ First time mount the function
 
 • **data**
 
-• **data\.config?**: [`Config`](../type-aliases/Config.md)
+• **data.config?**: [`Config`](../type-aliases/Config.md)
 
-• **data\.context**: `TContext`
+• **data.context**: `TContext`
 
-• **data\.event**: `TEvent`
+• **data.event**: `TEvent`
 
-• **data\.logger?**: `Logger`
+• **data.logger?**: `Logger`
 
 #### Returns
 

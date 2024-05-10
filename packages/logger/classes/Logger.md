@@ -25,7 +25,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ## Constructors
 
-### new Logger(label)
+### new Logger()
 
 > **new Logger**(`label`?): [`Logger`](Logger.md)
 
@@ -33,7 +33,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **label?**: `string`
 
-\{string\} Prefix label
+{string} Prefix label
 
 #### Returns
 
@@ -47,7 +47,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ### label?
 
-> **`optional`** **label**: `string`
+> `optional` **label**: `string`
 
 ### level
 
@@ -95,11 +95,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **color**: `number`
 
-\{number\} color code
+{number} color code
 
 • **message**: `string`
 
-\{string\} message
+{string} message
 
 #### Returns
 
@@ -113,11 +113,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **message**: `string`
 
-\{string\} message
+{string} message
 
 • ...**args**: `any`[]
 
-\{...any=\} arguments
+{...any=} arguments
 
 #### Returns
 
@@ -131,11 +131,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **message**: `string` \| `Error`
 
-\{any\} message or Error object
+{any} message or Error object
 
 • ...**args**: `any`[]
 
-\{...any=\} arguments
+{...any=} arguments
 
 #### Returns
 
@@ -149,11 +149,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **message**: `string`
 
-\{string\} message
+{string} message
 
 • ...**args**: `any`[]
 
-\{...any=\} arguments
+{...any=} arguments
 
 #### Returns
 
@@ -167,11 +167,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **message**: `string`
 
-\{string\} message
+{string} message
 
 • ...**args**: `any`[]
 
-\{...any=\} arguments
+{...any=} arguments
 
 #### Returns
 
@@ -185,7 +185,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **key**: `string`
 
-\{string\} timer's label
+{string} timer's label
 
 • **level**: [`Level`](../type-aliases/Level.md)= `'debug'`
 
@@ -203,15 +203,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **key**: `string`
 
-\{string\} timer's label
+{string} timer's label
 
 • **message**: `string`
 
-\{string\} message
+{string} message
 
 • ...**args**: `any`[]
 
-\{...any=\} arguments
+{...any=} arguments
 
 #### Returns
 
@@ -225,11 +225,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 • **message**: `string`
 
-\{string\} message
+{string} message
 
 • ...**args**: `any`[]
 
-\{...any=\} arguments
+{...any=} arguments
 
 #### Returns
 

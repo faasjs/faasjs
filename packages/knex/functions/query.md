@@ -4,11 +4,11 @@
 
 ## query(table)
 
-> **query**\<`TName`\>(`table`): `OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `Object`[]\>
+> **query**\<`TName`\>(`table`): `OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `object`[]\>
 
 ### Type parameters
 
-• **TName** extends `"test"`
+• **TName** *extends* `"test"`
 
 ### Parameters
 
@@ -16,7 +16,7 @@
 
 ### Returns
 
-`OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `Object`[]\>
+`OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `object`[]\>
 
 ## query(table)
 
@@ -24,7 +24,7 @@
 
 ### Type parameters
 
-• **TName** extends `Object` = `any`
+• **TName** *extends* `object` = `any`
 
 • **TResult** = `any`[]
 

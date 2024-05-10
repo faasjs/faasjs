@@ -6,12 +6,12 @@
 
 ### fallback?
 
-> **`optional`** **fallback**: `Element`
+> `optional` **fallback**: `Element`
 
 ### notFound?
 
-> **`optional`** **notFound**: `Element`
+> `optional` **notFound**: `Element`
 
 ### routes
 
-> **routes**: `RouteProps` & `Object`[]
+> **routes**: `RouteProps` & `object`[]

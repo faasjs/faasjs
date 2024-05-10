@@ -2,22 +2,22 @@
 
 # Type alias: LoadingProps
 
-> **LoadingProps**: `Object`
+> **LoadingProps**: `object`
 
 ## Type declaration
 
 ### children?
 
-> **`optional`** **children**: `React.ReactNode`
+> `optional` **children**: `React.ReactNode`
 
 ### loading?
 
-> **`optional`** **loading**: `boolean`
+> `optional` **loading**: `boolean`
 
 ### size?
 
-> **`optional`** **size**: `"small"` \| `"default"` \| `"large"`
+> `optional` **size**: `"small"` \| `"default"` \| `"large"`
 
 ### style?
 
-> **`optional`** **style**: `React.CSSProperties`
+> `optional` **style**: `React.CSSProperties`

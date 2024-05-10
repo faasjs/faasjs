@@ -2,7 +2,7 @@
 
 # Type alias: FuncConfig\<TEvent, TContext, TResult\>
 
-> **FuncConfig**\<`TEvent`, `TContext`, `TResult`\>: `Object`
+> **FuncConfig**\<`TEvent`, `TContext`, `TResult`\>: `object`
 
 ## Type parameters
 
@@ -16,8 +16,8 @@
 
 ### handler?
 
-> **`optional`** **handler**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+> `optional` **handler**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ### plugins?
 
-> **`optional`** **plugins**: [`Plugin`](Plugin.md)[]
+> `optional` **plugins**: [`Plugin`](Plugin.md)[]

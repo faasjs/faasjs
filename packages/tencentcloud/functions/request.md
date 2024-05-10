@@ -12,7 +12,7 @@
 
 ## Parameters
 
-• **\_\_namedParameters**: [`TencentcloudConfig`](../type-aliases/TencentcloudConfig.md) & `Object`
+• **\_\_namedParameters**: [`TencentcloudConfig`](../type-aliases/TencentcloudConfig.md) & `object`
 
 ## Returns
 

@@ -6,7 +6,7 @@
 
 ## Type parameters
 
-• **T** extends [`Plugin`](../type-aliases/Plugin.md)
+• **T** *extends* [`Plugin`](../type-aliases/Plugin.md)
 
 ## Parameters
 

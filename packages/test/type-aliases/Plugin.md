@@ -2,7 +2,7 @@
 
 # Type alias: Plugin
 
-> **Plugin**: `Object`
+> **Plugin**: `object`
 
 ## Index signature
 
@@ -12,11 +12,11 @@
 
 ### name
 
-> **`readonly`** **name**: `string`
+> `readonly` **name**: `string`
 
 ### onDeploy()?
 
-> **`optional`** **onDeploy**: (`data`, `next`) => `Promise`\<`void`\>
+> `optional` **onDeploy**: (`data`, `next`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -30,7 +30,7 @@
 
 ### onInvoke()?
 
-> **`optional`** **onInvoke**: (`data`, `next`) => `Promise`\<`void`\>
+> `optional` **onInvoke**: (`data`, `next`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -44,7 +44,7 @@
 
 ### onMount()?
 
-> **`optional`** **onMount**: (`data`, `next`) => `Promise`\<`void`\>
+> `optional` **onMount**: (`data`, `next`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -58,4 +58,4 @@
 
 ### type
 
-> **`readonly`** **type**: `string`
+> `readonly` **type**: `string`

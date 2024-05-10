@@ -10,7 +10,7 @@
 
 ### children?
 
-> **`optional`** **children**: `string` \| `Element` \| `Element`[]
+> `optional` **children**: `string` \| `Element` \| `Element`[]
 
 #### Overrides
 

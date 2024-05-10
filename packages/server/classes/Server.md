@@ -15,7 +15,7 @@ server.listen()
 
 ## Constructors
 
-### new Server(root, opts)
+### new Server()
 
 > **new Server**(`root`, `opts`?): [`Server`](Server.md)
 
@@ -29,13 +29,13 @@ Project path
 
 Options
 
-• **opts\.cache?**: `boolean`
+• **opts.cache?**: `boolean`
 
 Enable cache, default is false
 
-• **opts\.onError?**
+• **opts.onError?**
 
-• **opts\.port?**: `number`
+• **opts.port?**: `number`
 
 Port, default is 3000
 
@@ -47,11 +47,11 @@ Port, default is 3000
 
 ### logger
 
-> **`readonly`** **logger**: `Logger`
+> `readonly` **logger**: `Logger`
 
 ### onError()?
 
-> **`optional`** **onError**: (`error`) => `void`
+> `optional` **onError**: (`error`) => `void`
 
 #### Parameters
 
@@ -63,7 +63,7 @@ Port, default is 3000
 
 ### opts
 
-> **`readonly`** **opts**: `Object`
+> `readonly` **opts**: `object`
 
 #### cache
 
@@ -75,7 +75,7 @@ Port, default is 3000
 
 ### root
 
-> **`readonly`** **root**: `string`
+> `readonly` **root**: `string`
 
 ## Methods
 
@@ -107,7 +107,7 @@ Start server.
 
 • **req**: `IncomingMessage`
 
-• **res**: `ServerResponse`\<`IncomingMessage`\> & `Object`
+• **res**: `ServerResponse`\<`IncomingMessage`\> & `object`
 
 • **requestedAt**: `number`
 

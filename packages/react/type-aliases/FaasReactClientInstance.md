@@ -2,7 +2,7 @@
 
 # Type alias: FaasReactClientInstance
 
-> **FaasReactClientInstance**: `Object`
+> **FaasReactClientInstance**: `object`
 
 ## Type declaration
 
@@ -12,7 +12,7 @@
 
 #### Type parameters
 
-• **PathOrData** extends `FaasAction`
+• **PathOrData** *extends* `FaasAction`
 
 #### Parameters
 
@@ -34,7 +34,7 @@
 
 #### Type parameters
 
-• **PathOrData** extends `FaasAction`
+• **PathOrData** *extends* `FaasAction`
 
 #### Parameters
 
@@ -52,7 +52,7 @@
 
 #### Type parameters
 
-• **PathOrData** extends `FaasAction`
+• **PathOrData** *extends* `FaasAction`
 
 #### Parameters
 

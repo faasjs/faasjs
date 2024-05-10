@@ -2,7 +2,7 @@
 
 # Type alias: Config
 
-> **Config**: `Object`
+> **Config**: `object`
 
 ## Index signature
 
@@ -12,15 +12,15 @@
 
 ### plugins?
 
-> **`optional`** **plugins**: `Object`
+> `optional` **plugins**: `object`
 
 #### Index signature
 
- \[`key`: `string`\]: `Object`
+ \[`key`: `string`\]: `object`
 
 ### providers?
 
-> **`optional`** **providers**: `Object`
+> `optional` **providers**: `object`
 
 #### Index signature
 

@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new Knex(config)
+### new Knex()
 
 > **new Knex**(`config`?): [`Knex`](Knex.md)
 
@@ -36,7 +36,7 @@
 
 ### name
 
-> **`readonly`** **name**: `string` = `Name`
+> `readonly` **name**: `string` = `Name`
 
 #### Implementation of
 
@@ -48,7 +48,7 @@
 
 ### type
 
-> **`readonly`** **type**: `string` = `Name`
+> `readonly` **type**: `string` = `Name`
 
 #### Implementation of
 
@@ -164,7 +164,7 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 • **options?**
 
-• **options\.trx?**: `Transaction`\<`any`, `any`[]\>
+• **options.trx?**: `Transaction`\<`any`, `any`[]\>
 
 #### Returns
 

@@ -10,7 +10,7 @@
 
 ### extendTypes?
 
-> **`optional`** **extendTypes**: `Object`
+> `optional` **extendTypes**: `object`
 
 #### Index signature
 
@@ -26,4 +26,4 @@
 
 ### values?
 
-> **`optional`** **values**: `any`
+> `optional` **values**: `any`

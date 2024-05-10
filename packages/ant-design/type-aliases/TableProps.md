@@ -2,13 +2,13 @@
 
 # Type alias: TableProps\<T, ExtendTypes\>
 
-> **TableProps**\<`T`, `ExtendTypes`\>: `Object` & `AntdTableProps`\<`T`\>
+> **TableProps**\<`T`, `ExtendTypes`\>: `object` & `AntdTableProps`\<`T`\>
 
 ## Type declaration
 
 ### extendTypes?
 
-> **`optional`** **extendTypes**: `Object`
+> `optional` **extendTypes**: `object`
 
 #### Index signature
 
@@ -16,7 +16,7 @@
 
 ### faasData?
 
-> **`optional`** **faasData**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`T`\>
+> `optional` **faasData**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`T`\>
 
 ### items
 
@@ -24,7 +24,7 @@
 
 ### onChange()?
 
-> **`optional`** **onChange**: (`pagination`, `filters`, `sorter`, `extra`) => `Object`
+> `optional` **onChange**: (`pagination`, `filters`, `sorter`, `extra`) => `object`
 
 #### Parameters
 
@@ -38,7 +38,7 @@
 
 #### Returns
 
-`Object`
+`object`
 
 ##### extra
 

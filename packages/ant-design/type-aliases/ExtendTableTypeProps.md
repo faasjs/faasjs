@@ -2,7 +2,7 @@
 
 # Type alias: ExtendTableTypeProps\<T\>
 
-> **ExtendTableTypeProps**\<`T`\>: `Object`
+> **ExtendTableTypeProps**\<`T`\>: `object`
 
 ## Type parameters
 
@@ -12,8 +12,8 @@
 
 ### children?
 
-> **`optional`** **children**: `JSX.Element`
+> `optional` **children**: `JSX.Element`
 
 ### render?
 
-> **`optional`** **render**: [`UnionFaasItemRender`](UnionFaasItemRender.md)\<`T`\>
+> `optional` **render**: [`UnionFaasItemRender`](UnionFaasItemRender.md)\<`T`\>

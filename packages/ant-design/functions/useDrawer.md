@@ -2,7 +2,7 @@
 
 # Function: useDrawer()
 
-> **useDrawer**(`init`?): `Object`
+> **useDrawer**(`init`?): `object`
 
 Hook style drawer
 
@@ -25,7 +25,7 @@ function Example() {
 
 ## Returns
 
-`Object`
+`object`
 
 ### drawer
 

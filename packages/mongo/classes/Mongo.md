@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new Mongo(config)
+### new Mongo()
 
 > **new Mongo**(`config`?): [`Mongo`](Mongo.md)
 
@@ -16,9 +16,9 @@
 
 • **config?**
 
-• **config\.config?**: [`MongoConfig`](../interfaces/MongoConfig.md)
+• **config.config?**: [`MongoConfig`](../interfaces/MongoConfig.md)
 
-• **config\.name?**: `string`
+• **config.name?**: `string`
 
 #### Returns
 

@@ -2,7 +2,7 @@
 
 # Type alias: InvokeData\<TEvent, TContext, TResult\>
 
-> **InvokeData**\<`TEvent`, `TContext`, `TResult`\>: `Object`
+> **InvokeData**\<`TEvent`, `TContext`, `TResult`\>: `object`
 
 ## Type parameters
 
@@ -36,7 +36,7 @@
 
 ### handler?
 
-> **`optional`** **handler**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+> `optional` **handler**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ### logger
 

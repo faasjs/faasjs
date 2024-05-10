@@ -2,7 +2,7 @@
 
 # Type alias: CloudFunctionAdapter
 
-> **CloudFunctionAdapter**: `Object`
+> **CloudFunctionAdapter**: `object`
 
 ## Type declaration
 

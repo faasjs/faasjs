@@ -2,17 +2,17 @@
 
 # Type alias: Response
 
-> **Response**: `Object`
+> **Response**: `object`
 
 ## Type declaration
 
 ### body?
 
-> **`optional`** **body**: `string`
+> `optional` **body**: `string`
 
 ### headers?
 
-> **`optional`** **headers**: `Object`
+> `optional` **headers**: `object`
 
 #### Index signature
 
@@ -20,8 +20,8 @@
 
 ### message?
 
-> **`optional`** **message**: `string`
+> `optional` **message**: `string`
 
 ### statusCode?
 
-> **`optional`** **statusCode**: `number`
+> `optional` **statusCode**: `number`

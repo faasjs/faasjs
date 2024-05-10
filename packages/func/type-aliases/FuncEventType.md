@@ -2,7 +2,7 @@
 
 # Type alias: FuncEventType\<T\>
 
-> **FuncEventType**\<`T`\>: `T` extends [`Func`](../classes/Func.md)\<infer P, `any`, `any`\> ? `P` : `any`
+> **FuncEventType**\<`T`\>: `T` *extends* [`Func`](../classes/Func.md)\<infer P, `any`, `any`\> ? `P` : `any`
 
 Get the event type of a func
 
@@ -18,4 +18,4 @@ FuncEventType<typeof func> // => { counter: number }
 
 ## Type parameters
 
-• **T** extends [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+• **T** *extends* [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>

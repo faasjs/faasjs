@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new CloudFunction(config)
+### new CloudFunction()
 
 > **new CloudFunction**(`config`?): [`CloudFunction`](CloudFunction.md)
 
@@ -18,7 +18,7 @@
 
 • **config?**: [`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md)
 
-\{object\} 配置项，这些配置将强制覆盖默认配置
+{object} 配置项，这些配置将强制覆盖默认配置
 
 #### Returns
 
@@ -28,7 +28,7 @@
 
 ### config
 
-> **config**: `Object`
+> **config**: `object`
 
 #### Index signature
 
@@ -36,19 +36,19 @@
 
 #### memorySize?
 
-> **`optional`** **memorySize**: `number`
+> `optional` **memorySize**: `number`
 
 #### name?
 
-> **`optional`** **name**: `string`
+> `optional` **name**: `string`
 
 #### timeout?
 
-> **`optional`** **timeout**: `number`
+> `optional` **timeout**: `number`
 
 #### triggers?
 
-> **`optional`** **triggers**: `Object`[]
+> `optional` **triggers**: `object`[]
 
 ### context
 
@@ -60,7 +60,7 @@
 
 ### name
 
-> **`readonly`** **name**: `string` = `Name`
+> `readonly` **name**: `string` = `Name`
 
 #### Implementation of
 
@@ -68,7 +68,7 @@
 
 ### type
 
-> **`readonly`** **type**: `string` = `Name`
+> `readonly` **type**: `string` = `Name`
 
 #### Implementation of
 
@@ -90,15 +90,15 @@
 
 • **name**: `string`
 
-\{string\} 云函数文件名或云函数名
+{string} 云函数文件名或云函数名
 
 • **data?**: `TData`
 
-\{any\} 参数
+{any} 参数
 
 • **options?**: `Record`\<`string`, `any`\>
 
-\{object\} 额外配置项
+{object} 额外配置项
 
 #### Returns
 
@@ -120,15 +120,15 @@
 
 • **name**: `string`
 
-\{string\} 云函数文件名或云函数名
+{string} 云函数文件名或云函数名
 
 • **data?**: `TData`
 
-\{any\} 参数
+{any} 参数
 
 • **options?**: `Record`\<`string`, `any`\>
 
-\{object\} 额外配置项
+{object} 额外配置项
 
 #### Returns
 

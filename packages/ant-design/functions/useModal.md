@@ -2,7 +2,7 @@
 
 # Function: useModal()
 
-> **useModal**(`init`?): `Object`
+> **useModal**(`init`?): `object`
 
 Hook style modal
 
@@ -23,7 +23,7 @@ function Example() {
 
 ## Returns
 
-`Object`
+`object`
 
 ### modal
 

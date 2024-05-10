@@ -2,7 +2,7 @@
 
 # Type alias: MountData
 
-> **MountData**: `Object`
+> **MountData**: `object`
 
 ## Index signature
 

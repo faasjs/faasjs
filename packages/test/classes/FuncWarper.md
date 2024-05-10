@@ -18,7 +18,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ## Constructors
 
-### new FuncWarper(initBy)
+### new FuncWarper()
 
 > **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
 
@@ -30,7 +30,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 [`FuncWarper`](FuncWarper.md)
 
-### new FuncWarper(initBy)
+### new FuncWarper()
 
 > **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
 
@@ -46,33 +46,33 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### config
 
-> **`readonly`** **config**: [`Config`](../type-aliases/Config.md)
+> `readonly` **config**: [`Config`](../type-aliases/Config.md)
 
 ### file
 
-> **`readonly`** **file**: `string`
+> `readonly` **file**: `string`
 
 ### func
 
-> **`readonly`** **func**: [`Func`](Func.md)\<`any`, `any`, `any`\>
+> `readonly` **func**: [`Func`](Func.md)\<`any`, `any`, `any`\>
 
 ### logger
 
-> **`readonly`** **logger**: `Logger`
+> `readonly` **logger**: `Logger`
 
 ### plugins
 
-> **`readonly`** **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
+> `readonly` **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
 
 ### staging
 
-> **`readonly`** **staging**: `string`
+> `readonly` **staging**: `string`
 
 ## Methods
 
 ### JSONhandler()
 
-> **JSONhandler**\<`TData`\>(`body`?, `options`?): `Promise`\<`Object`\>
+> **JSONhandler**\<`TData`\>(`body`?, `options`?): `Promise`\<`object`\>
 
 #### Type parameters
 
@@ -84,52 +84,51 @@ expect(await func.handler()).toEqual('Hello, world')
 
 • **options?**= `undefined`
 
-• **options\.cookie?**
+• **options.cookie?**
 
-• **options\.headers?**
+• **options.headers?**
 
-• **options\.session?**
+• **options.session?**
 
 #### Returns
 
-`Promise`\<`Object`\>
+`Promise`\<`object`\>
 
-> ##### body
->
-> > **body**: `any`
->
-> ##### cookie?
->
-> > **`optional`** **cookie**: `Record`\<`string`, `any`\>
->
-> ##### data?
->
-> > **`optional`** **data**: `TData`
->
-> ##### error?
->
-> > **`optional`** **error**: `Object`
->
-> ##### error.message
->
-> > **message**: `string`
->
-> ##### headers
->
-> > **headers**: `Object`
->
-> ###### Index signature
->
-> \[`key`: `string`\]: `string`
->
-> ##### session?
->
-> > **`optional`** **session**: `Record`\<`string`, `any`\>
->
-> ##### statusCode
->
-> > **statusCode**: `number`
->
+##### body
+
+> **body**: `any`
+
+##### cookie?
+
+> `optional` **cookie**: `Record`\<`string`, `any`\>
+
+##### data?
+
+> `optional` **data**: `TData`
+
+##### error?
+
+> `optional` **error**: `object`
+
+##### error.message
+
+> **message**: `string`
+
+##### headers
+
+> **headers**: `object`
+
+###### Index signature
+
+ \[`key`: `string`\]: `string`
+
+##### session?
+
+> `optional` **session**: `Record`\<`string`, `any`\>
+
+##### statusCode
+
+> **statusCode**: `number`
 
 ### handler()
 

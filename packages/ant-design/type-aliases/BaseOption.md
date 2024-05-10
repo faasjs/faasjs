@@ -2,4 +2,4 @@
 
 # Type alias: BaseOption
 
-> **BaseOption**: `string` \| `number` \| `Object`
+> **BaseOption**: `string` \| `number` \| `object`

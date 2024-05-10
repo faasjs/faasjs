@@ -2,4 +2,4 @@
 
 # Variable: ConfigContext
 
-> **`const`** **ConfigContext**: `Context`\<`Partial`\<[`ConfigProviderProps`](../interfaces/ConfigProviderProps.md)\>\>
+> `const` **ConfigContext**: `Context`\<`Partial`\<[`ConfigProviderProps`](../interfaces/ConfigProviderProps.md)\>\>

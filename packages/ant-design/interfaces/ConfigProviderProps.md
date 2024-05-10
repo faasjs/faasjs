@@ -10,100 +10,100 @@
 
 ### faasClientOptions?
 
-> **`optional`** **faasClientOptions**: `FaasReactClientOptions`
+> `optional` **faasClientOptions**: `FaasReactClientOptions`
 
 ### theme?
 
-> **`optional`** **theme**: `Object`
+> `optional` **theme**: `object`
 
 #### Blank?
 
-> **`optional`** **Blank**: `Object`
+> `optional` **Blank**: `object`
 
 #### Blank.text?
 
-> **`optional`** **text**: `string`
+> `optional` **text**: `string`
 
 #### Form?
 
-> **`optional`** **Form**: `Object`
+> `optional` **Form**: `object`
 
 #### Form.submit?
 
-> **`optional`** **submit**: `Object`
+> `optional` **submit**: `object`
 
 #### Form.submit.text?
 
-> **`optional`** **text**: `string`
+> `optional` **text**: `string`
 
 #### Link?
 
-> **`optional`** **Link**: `Object`
+> `optional` **Link**: `object`
 
 #### Link.style?
 
-> **`optional`** **style**: `CSSProperties`
+> `optional` **style**: `CSSProperties`
 
 #### Link.target?
 
-> **`optional`** **target**: `string`
+> `optional` **target**: `string`
 
 '_blank' as default
 
 #### Title?
 
-> **`optional`** **Title**: `Object`
+> `optional` **Title**: `object`
 
 #### Title.separator?
 
-> **`optional`** **separator**: `string`
+> `optional` **separator**: `string`
 
 ' - ' as default
 
 #### Title.suffix?
 
-> **`optional`** **suffix**: `string`
+> `optional` **suffix**: `string`
 
 #### common?
 
-> **`optional`** **common**: `Object`
+> `optional` **common**: `object`
 
 #### common.add?
 
-> **`optional`** **add**: `string`
+> `optional` **add**: `string`
 
 #### common.all?
 
-> **`optional`** **all**: `string`
+> `optional` **all**: `string`
 
 #### common.blank?
 
-> **`optional`** **blank**: `string`
+> `optional` **blank**: `string`
 
 #### common.delete?
 
-> **`optional`** **delete**: `string`
+> `optional` **delete**: `string`
 
 #### common.pageNotFound?
 
-> **`optional`** **pageNotFound**: `string`
+> `optional` **pageNotFound**: `string`
 
 #### common.required?
 
-> **`optional`** **required**: `string`
+> `optional` **required**: `string`
 
 #### common.reset?
 
-> **`optional`** **reset**: `string`
+> `optional` **reset**: `string`
 
 #### common.search?
 
-> **`optional`** **search**: `string`
+> `optional` **search**: `string`
 
 #### common.submit?
 
-> **`optional`** **submit**: `string`
+> `optional` **submit**: `string`
 
 #### lang?
 
-> **`optional`** **lang**: `string`
+> `optional` **lang**: `string`

@@ -18,7 +18,7 @@ new ResponseError({
 
 ## Constructors
 
-### new ResponseError(__namedParameters)
+### new ResponseError()
 
 > **new ResponseError**(`__namedParameters`): [`ResponseError`](ResponseError.md)
 
@@ -26,13 +26,13 @@ new ResponseError({
 
 • **\_\_namedParameters**
 
-• **\_\_namedParameters\.body**: `any`
+• **\_\_namedParameters.body**: `any`
 
-• **\_\_namedParameters\.headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+• **\_\_namedParameters.headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
 
-• **\_\_namedParameters\.message**: `string`
+• **\_\_namedParameters.message**: `string`
 
-• **\_\_namedParameters\.status**: `number`
+• **\_\_namedParameters.status**: `number`
 
 #### Returns
 
@@ -46,12 +46,12 @@ new ResponseError({
 
 ### body
 
-> **`readonly`** **body**: `any`
+> `readonly` **body**: `any`
 
 ### headers
 
-> **`readonly`** **headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+> `readonly` **headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
 
 ### status
 
-> **`readonly`** **status**: `number`
+> `readonly` **status**: `number`

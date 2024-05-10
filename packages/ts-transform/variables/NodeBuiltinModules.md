@@ -2,4 +2,4 @@
 
 # Variable: NodeBuiltinModules
 
-> **`const`** **NodeBuiltinModules**: `string`[]
+> `const` **NodeBuiltinModules**: `string`[]

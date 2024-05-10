@@ -4,11 +4,11 @@
 
 ## Type parameters
 
-• **TParams** extends `Record`\<`string`, `any`\> = `any`
+• **TParams** *extends* `Record`\<`string`, `any`\> = `any`
 
-• **TCookie** extends `Record`\<`string`, `string`\> = `any`
+• **TCookie** *extends* `Record`\<`string`, `string`\> = `any`
 
-• **TSession** extends `Record`\<`string`, `string`\> = `any`
+• **TSession** *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Implements
 
@@ -16,7 +16,7 @@
 
 ## Constructors
 
-### new Http(config)
+### new Http()
 
 > **new Http**\<`TParams`, `TCookie`, `TSession`\>(`config`?): [`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
 
@@ -44,7 +44,7 @@
 
 ### headers
 
-> **headers**: `Object`
+> **headers**: `object`
 
 #### Index signature
 
@@ -52,7 +52,7 @@
 
 ### name
 
-> **`readonly`** **name**: `string` = `Name`
+> `readonly` **name**: `string` = `Name`
 
 #### Implementation of
 
@@ -68,7 +68,7 @@
 
 ### type
 
-> **`readonly`** **type**: `string` = `Name`
+> `readonly` **type**: `string` = `Name`
 
 #### Implementation of
 
@@ -140,7 +140,7 @@ set body
 
 • **body**: `string`
 
-\{*\} 内容
+{*} 内容
 
 #### Returns
 
@@ -156,11 +156,11 @@ set Content-Type
 
 • **type**: `string`
 
-\{string\} 类型
+{string} 类型
 
 • **charset**: `string`= `'utf-8'`
 
-\{string\} 编码
+{string} 编码
 
 #### Returns
 
@@ -176,11 +176,11 @@ set header
 
 • **key**: `string`
 
-\{string\} key
+{string} key
 
 • **value**: `string`
 
-\{string\} value
+{string} value
 
 #### Returns
 
@@ -196,7 +196,7 @@ set status code
 
 • **code**: `number`
 
-\{number\} 状态码
+{number} 状态码
 
 #### Returns
 

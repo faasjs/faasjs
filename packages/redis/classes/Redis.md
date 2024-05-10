@@ -10,7 +10,7 @@ Redis Plugin
 
 ## Constructors
 
-### new Redis(config)
+### new Redis()
 
 > **new Redis**(`config`?): [`Redis`](Redis.md)
 
@@ -42,7 +42,7 @@ Redis Plugin
 
 #### Parameters
 
-• **options?**: `Object` \| `any`[][]
+• **options?**: `object` \| `any`[][]
 
 #### Returns
 
@@ -50,7 +50,7 @@ Redis Plugin
 
 ### name
 
-> **`readonly`** **name**: `string` = `Name`
+> `readonly` **name**: `string` = `Name`
 
 #### Implementation of
 
@@ -70,7 +70,7 @@ Redis Plugin
 
 ### type
 
-> **`readonly`** **type**: `string` = `Name`
+> `readonly` **type**: `string` = `Name`
 
 #### Implementation of
 

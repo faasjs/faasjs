@@ -2,7 +2,7 @@
 
 # Type alias: TencentcloudConfig
 
-> **TencentcloudConfig**: `Object`
+> **TencentcloudConfig**: `object`
 
 云 API 配置项
 优先读取环境变量，如果没有则读取入参
@@ -11,20 +11,20 @@
 
 ### appId?
 
-> **`optional`** **appId**: `string`
+> `optional` **appId**: `string`
 
 ### region?
 
-> **`optional`** **region**: `string`
+> `optional` **region**: `string`
 
 ### secretId?
 
-> **`optional`** **secretId**: `string`
+> `optional` **secretId**: `string`
 
 ### secretKey?
 
-> **`optional`** **secretKey**: `string`
+> `optional` **secretKey**: `string`
 
 ### token?
 
-> **`optional`** **token**: `string`
+> `optional` **token**: `string`

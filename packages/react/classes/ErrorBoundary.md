@@ -4,11 +4,11 @@
 
 ## Extends
 
-- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), `Object`\>
+- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), `object`\>
 
 ## Constructors
 
-### new ErrorBoundary(props)
+### new ErrorBoundary()
 
 > **new ErrorBoundary**(`props`): [`ErrorBoundary`](ErrorBoundary.md)
 
@@ -36,7 +36,7 @@
 
 ### whyDidYouRender
 
-> **`static`** **whyDidYouRender**: `boolean` = `true`
+> `static` **whyDidYouRender**: `boolean` = `true`
 
 ## Methods
 

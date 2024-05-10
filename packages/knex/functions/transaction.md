@@ -16,7 +16,7 @@
 
 • **options?**
 
-• **options\.trx?**: `Transaction`\<`any`, `any`[]\>
+• **options.trx?**: `Transaction`\<`any`, `any`[]\>
 
 ## Returns
 
