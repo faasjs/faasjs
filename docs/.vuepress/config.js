@@ -121,7 +121,7 @@ export default defineUserConfig({
               },
               {
                 text: '更新日志',
-                link: 'https://github.com/faasjs/faasjs/blob/main/CHANGELOG.md',
+                link: '/CHANGELOG',
               },
             ],
           },
@@ -160,7 +160,7 @@ export default defineUserConfig({
               },
               {
                 text: '支持 FaasJS',
-                link: 'https://github.com/faasjs/faasjs/blob/main/CONTRIBUTING.md',
+                link: '/CONTRIBUTING.md',
               },
               {
                 text: '赞助 FaasJS',
