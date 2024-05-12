@@ -75,10 +75,6 @@ export default defineUserConfig({
                 link: 'https://github.com/faasjs/faasjs/',
               },
               {
-                text: 'Newsletter',
-                link: 'https://zfben.ck.page/f80529bd8a',
-              },
-              {
                 text: 'Contributing',
                 link: '/CONTRIBUTING',
               },
