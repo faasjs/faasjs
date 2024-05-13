@@ -1,5 +1,10 @@
 import { Modal as AntdModal, type ModalProps as AntdModalProps } from 'antd'
-import { useCallback, useState } from 'react'
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useState,
+} from 'react'
 
 export const Modal = AntdModal
 
@@ -10,11 +15,7 @@ export interface ModalProps extends AntdModalProps {
   children?: JSX.Element | JSX.Element[] | string
 }
 
-export type setModalProps = (
-  changes:
-    | Partial<ModalProps>
-    | ((prev: Partial<ModalProps>) => Partial<ModalProps>)
-) => void
+export type setModalProps = Dispatch<SetStateAction<ModalProps>>
 
 /**
  * Hook style modal

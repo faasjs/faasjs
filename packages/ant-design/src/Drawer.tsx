@@ -1,5 +1,10 @@
 import { Drawer as AntdDrawer, type DrawerProps as AntdDrawerProps } from 'antd'
-import { useCallback, useState } from 'react'
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useState,
+} from 'react'
 
 export const Drawer = AntdDrawer as React.FC<DrawerProps> & {
   whyDidYouRender?: boolean
@@ -11,11 +16,7 @@ export interface DrawerProps extends AntdDrawerProps {
   children?: JSX.Element | JSX.Element[]
 }
 
-export type setDrawerProps = (
-  changes:
-    | Partial<DrawerProps>
-    | ((prev: Partial<DrawerProps>) => Partial<DrawerProps>)
-) => void
+export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
 
 /**
  * Hook style drawer

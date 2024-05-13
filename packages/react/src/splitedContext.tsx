@@ -44,7 +44,7 @@ import { useConstant } from './constant'
  */
 export function createSplitedContext<T extends Record<string, any>>(
   defaultValue: {
-    [K in keyof T]: Partial<T[K]>
+    [K in keyof T]: Partial<T[K]> | null
   }
 ) {
   const contexts: Record<string, Context<any>> = {}

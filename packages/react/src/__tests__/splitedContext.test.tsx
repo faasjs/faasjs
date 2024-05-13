@@ -47,7 +47,7 @@ describe('createSplitedContext', () => {
         value2: string
       }
     }>({
-      value: {},
+      value: null,
     })
 
     function ChildComponent() {
