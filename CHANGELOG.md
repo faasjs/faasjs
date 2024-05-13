@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.3.1 (2024-05-13)`](https://github.com/faasjs/faasjs/compare/v2.3.0...v2.3.1)
+
+- `@faasjs/react`
+  - [Fix] `createSplitedContext`'s defaultValue can be null.
+
+- `@faasjs/ant-design`
+  - [Fix] Use `React.Dispatch<SetStateAction>` to define modal and drawer types.
+
 [`v2.3.0 (2024-05-10)`](https://github.com/faasjs/faasjs/compare/v2.2.0...v2.3.0)
 
 - `@faasjs/react`
