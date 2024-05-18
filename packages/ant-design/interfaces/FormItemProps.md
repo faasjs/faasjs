@@ -6,6 +6,10 @@
 
 - [`FaasItemProps`](FaasItemProps.md).`Omit`\<`AntdFormItemProps`\<`T`\>, `"id"` \| `"children"` \| `"render"`\>
 
+## Extended by
+
+- [`UnionFaasItemProps`](UnionFaasItemProps.md)
+
 ## Type parameters
 
 • **T** = `any`

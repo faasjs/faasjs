@@ -20,25 +20,25 @@ FaasItemType's value type
 
 > **number**: `number`
 
-### number[]
+### number\[\]
 
-> **number[]**: `number`[]
+> **number\[\]**: `number`[]
 
 ### object
 
 > **object**: `any`
 
-### object[]
+### object\[\]
 
-> **object[]**: `any`[]
+> **object\[\]**: `any`[]
 
 ### string
 
 > **string**: `string`
 
-### string[]
+### string\[\]
 
-> **string[]**: `string`[]
+> **string\[\]**: `string`[]
 
 ### time
 

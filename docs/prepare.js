@@ -68,3 +68,17 @@ for (const file of roots) {
   if (file === '../README.md') continue
   run(`cp ${file} ${file.replace('../', './')}`)
 }
+
+// Fix modules' links
+for (const file of [
+  './doc/react/interfaces/FaasDataWrapperProps.md',
+  './doc/react/interfaces/FaasReactClientInstance.md',
+  './doc/vue-plugin/interfaces/FaasVuePluginOptions.md'
+]) {
+  writeFileSync(file, readFileSync(file, 'utf-8').toString()
+  .replaceAll('../modules.md#faasaction', '../type-aliases/FaasAction.md')
+  .replaceAll('../modules.md#faasparams', '../type-aliases/FaasParams.md')
+  .replaceAll('../modules.md#faasdata', '../type-aliases/FaasData.md')
+  .replaceAll('../modules.md#options', '../type-aliases/Options.md')
+)
+}

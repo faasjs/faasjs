@@ -6,6 +6,12 @@
 
 - [`BaseItemProps`](BaseItemProps.md)
 
+## Extended by
+
+- [`DescriptionItemProps`](DescriptionItemProps.md)
+- [`FormItemProps`](FormItemProps.md)
+- [`TableItemProps`](TableItemProps.md)
+
 ## Properties
 
 ### id

@@ -6,6 +6,10 @@
 
 - [`FaasItemProps`](FaasItemProps.md).`Omit`\<`AntdTableColumnProps`\<`T`\>, `"title"` \| `"children"` \| `"render"`\>
 
+## Extended by
+
+- [`UnionFaasItemProps`](UnionFaasItemProps.md)
+
 ## Type parameters
 
 • **T** = `any`

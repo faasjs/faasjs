@@ -6,6 +6,10 @@
 
 - [`FaasItemProps`](FaasItemProps.md)
 
+## Extended by
+
+- [`UnionFaasItemProps`](UnionFaasItemProps.md)
+
 ## Type parameters
 
 • **T** = `any`

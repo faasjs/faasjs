@@ -17,6 +17,7 @@
 swc compilation
 
 **See**
+
 https://swc.rs/docs/configuration/compilation
 
 • **options.root?**: `string`

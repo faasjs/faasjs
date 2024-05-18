@@ -12,7 +12,7 @@ Creates a splited context with the given default value.
 
 ## Parameters
 
-• **defaultValue**: \{ [K in string \| number \| symbol]: Partial\<T[K]\> \}
+• **defaultValue**: \{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \}
 
 ## Returns
 
