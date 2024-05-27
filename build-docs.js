@@ -1,7 +1,6 @@
-const globSync = require('glob').sync
 const promisify = require('node:util').promisify
 const exec = promisify(require('node:child_process').exec)
-const { readFileSync, writeFileSync } = require('node:fs')
+const { readFileSync, writeFileSync, globSync } = require('node:fs')
 
 async function run(cmd) {
   console.log(cmd)
