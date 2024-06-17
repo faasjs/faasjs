@@ -21,7 +21,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         with:
           push: true
           tags: faasjs/node:${{ github.sha }},faasjs/node:alpine,faasjs/node:latest
@@ -29,7 +29,7 @@ jobs:
           context: ./images/node
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         with:
           push: true
           tags: faasjs/node:${{ github.sha }},faasjs/node:debian
