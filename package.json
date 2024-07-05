@@ -22,6 +22,7 @@
     "@biomejs/biome": "*"
   },
   "workspaces": ["packages/*"],
+  "packageManager": "npm@10.8.1",
   "jest": {
     "transform": {
       ".(jsx|tsx?)": "./packages/jest/index.js"
