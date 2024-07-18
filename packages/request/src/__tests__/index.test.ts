@@ -19,7 +19,7 @@ describe('request', () => {
     expect(br.headers['content-encoding']).toEqual('br')
     expect(br.body).toContain('<!doctype html>')
 
-    const normal = await request('https://faasjs.com/', {
+    const normal = await request('https://www.npmjs.com/', {
       headers: { 'user-agent': 'faasjs' },
     })
 
