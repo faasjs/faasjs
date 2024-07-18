@@ -3,7 +3,7 @@ import { readFileSync, createWriteStream } from 'node:fs'
 
 describe('request', () => {
   test('200', async () => {
-    const gzip = await request('https://faasjs.com/', {
+    const gzip = await request('https://www.npmjs.com/', {
       headers: { 'Accept-Encoding': 'gzip', 'user-agent': 'faasjs' },
     })
 
@@ -11,7 +11,7 @@ describe('request', () => {
     expect(gzip.headers['content-encoding']).toEqual('gzip')
     expect(gzip.body).toContain('<!doctype html>')
 
-    const br = await request('https://faasjs.com/', {
+    const br = await request('https://www.npmjs.com/', {
       headers: { 'Accept-Encoding': 'br', 'user-agent': 'faasjs' },
     })
 
