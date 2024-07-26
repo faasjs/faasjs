@@ -4,7 +4,7 @@
 
 > **getJSON**\<`TResult`\>(`key`): `Promise`\<`TResult`\>
 
-## Type parameters
+## Type Parameters
 
 • **TResult** = `any`
 

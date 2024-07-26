@@ -1,9 +1,9 @@
 [@faasjs/ant-design](../README.md) / ExtendTypes
 
-# Type alias: ExtendTypes
+# Type Alias: ExtendTypes
 
 > **ExtendTypes**: `object`
 
-## Index signature
+## Index Signature
 
  \[`type`: `string`\]: [`ExtendFormTypeProps`](ExtendFormTypeProps.md)

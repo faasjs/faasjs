@@ -1,6 +1,6 @@
 [@faasjs/knex](../README.md) / KnexConfig
 
-# Type alias: KnexConfig
+# Type Alias: KnexConfig
 
 > **KnexConfig**: `object`
 

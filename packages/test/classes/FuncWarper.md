@@ -74,7 +74,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 > **JSONhandler**\<`TData`\>(`body`?, `options`?): `Promise`\<`object`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TData** = `any`
 
@@ -82,7 +82,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 • **body?**
 
-• **options?**= `undefined`
+• **options?** = `...`
 
 • **options.cookie?**
 
@@ -118,7 +118,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 > **headers**: `object`
 
-###### Index signature
+###### Index Signature
 
  \[`key`: `string`\]: `string`
 
@@ -134,15 +134,15 @@ expect(await func.handler()).toEqual('Hello, world')
 
 > **handler**\<`TResult`\>(`event`, `context`): `Promise`\<`TResult`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult** = `any`
 
 #### Parameters
 
-• **event**: `any`= `undefined`
+• **event**: `any` = `...`
 
-• **context**: `any`= `undefined`
+• **context**: `any` = `...`
 
 #### Returns
 

@@ -1,10 +1,10 @@
 [@faasjs/test](../README.md) / FuncConfig
 
-# Type alias: FuncConfig\<TEvent, TContext, TResult\>
+# Type Alias: FuncConfig\<TEvent, TContext, TResult\>
 
 > **FuncConfig**\<`TEvent`, `TContext`, `TResult`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **TEvent** = `any`
 

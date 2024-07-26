@@ -1,6 +1,6 @@
 [@faasjs/http](../README.md) / ValidatorRuleOptions
 
-# Type alias: ValidatorRuleOptions
+# Type Alias: ValidatorRuleOptions
 
 > **ValidatorRuleOptions**: `object`
 

@@ -1,5 +1,5 @@
 [@faasjs/ant-design](../README.md) / BaseOption
 
-# Type alias: BaseOption
+# Type Alias: BaseOption
 
 > **BaseOption**: `string` \| `number` \| `object`

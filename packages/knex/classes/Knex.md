@@ -122,7 +122,7 @@
 
 > **raw**\<`TResult`\>(`sql`, `bindings`): `Promise`\<`Raw`\<`TResult`\>\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult** = `any`
 
@@ -130,7 +130,7 @@
 
 • **sql**: `string`
 
-• **bindings**: `ValueDict` \| `RawBinding`[]= `[]`
+• **bindings**: `ValueDict` \| `RawBinding`[] = `[]`
 
 #### Returns
 
@@ -152,7 +152,7 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 - Support 'commit' and 'rollback' event.
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult** = `any`
 

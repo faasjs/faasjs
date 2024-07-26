@@ -6,7 +6,7 @@
 
 - [`FormItemProps`](FormItemProps.md).[`DescriptionItemProps`](DescriptionItemProps.md).[`TableItemProps`](TableItemProps.md)
 
-## Type parameters
+## Type Parameters
 
 • **Value** = `any`
 

@@ -14,7 +14,7 @@ new Response({
 })
 ```
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

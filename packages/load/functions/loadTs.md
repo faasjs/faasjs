@@ -12,7 +12,7 @@
 
 {string} 完整源文件路径
 
-• **options**= `undefined`
+• **options** = `...`
 
 {object} 配置项
 
@@ -44,7 +44,7 @@
 
 > **dependencies**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `string`
 
@@ -56,6 +56,6 @@
 
 > `optional` **modules**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `string`

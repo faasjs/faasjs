@@ -1,10 +1,10 @@
 [@faasjs/http](../README.md) / HttpConfig
 
-# Type alias: HttpConfig\<TParams, TCookie, TSession\>
+# Type Alias: HttpConfig\<TParams, TCookie, TSession\>
 
 > **HttpConfig**\<`TParams`, `TCookie`, `TSession`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **TParams** *extends* `Record`\<`string`, `any`\> = `any`
 
@@ -12,7 +12,7 @@
 
 • **TSession** *extends* `Record`\<`string`, `string`\> = `any`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `any`
 
@@ -22,7 +22,7 @@
 
 > `optional` **config**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `any`
 

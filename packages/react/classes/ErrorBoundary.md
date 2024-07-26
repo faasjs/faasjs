@@ -44,6 +44,9 @@
 
 > **componentDidCatch**(`error`, `info`): `void`
 
+Catches exceptions generated in descendant components. Unhandled exceptions will cause
+the entire component tree to unmount.
+
 #### Parameters
 
 • **error**: `Error`

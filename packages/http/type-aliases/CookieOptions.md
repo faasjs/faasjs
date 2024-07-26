@@ -1,10 +1,10 @@
 [@faasjs/http](../README.md) / CookieOptions
 
-# Type alias: CookieOptions
+# Type Alias: CookieOptions
 
 > **CookieOptions**: `object`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `any`
 

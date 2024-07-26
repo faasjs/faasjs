@@ -1,10 +1,10 @@
 [@faasjs/ant-design](../README.md) / UnionFaasItemInjection
 
-# Type alias: UnionFaasItemInjection\<Value, Values\>
+# Type Alias: UnionFaasItemInjection\<Value, Values\>
 
 > **UnionFaasItemInjection**\<`Value`, `Values`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **Value** = `any`
 

@@ -6,7 +6,7 @@
 
 - `Omit`\<`DescriptionsProps`, `"items"`\>
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 
@@ -22,7 +22,7 @@
 
 > `optional` **extendTypes**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
 

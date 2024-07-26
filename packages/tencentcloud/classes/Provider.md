@@ -84,7 +84,7 @@
 
 > **invokeSyncCloudFunction**\<`TResult`\>(`name`, `data`, `options`?): `Promise`\<`TResult`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult** = `any`
 

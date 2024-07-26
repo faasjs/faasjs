@@ -6,7 +6,7 @@
 
 Request faas server
 
-## Type parameters
+## Type Parameters
 
 • **PathOrData** *extends* `Record`\<`string`, `any`\>
 

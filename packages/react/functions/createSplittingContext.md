@@ -1,8 +1,10 @@
-[@faasjs/react](../README.md) / createSplitedContext
+[@faasjs/react](../README.md) / createSplittingContext
 
-# Function: ~~createSplitedContext()~~
+# Function: createSplittingContext()
 
-> **createSplitedContext**\<`T`\>(`defaultValue`): `object`
+> **createSplittingContext**\<`T`\>(`defaultValue`): `object`
+
+Creates a splitting context with the given default value.
 
 ## Type Parameters
 
@@ -20,7 +22,7 @@ The default value of the splitting context.
 
 The provider component and the hook to use the splitting context.
 
-### ~~Provider()~~
+### Provider()
 
 > **Provider**: (`props`) => `ReactNode`
 
@@ -53,7 +55,7 @@ function App() {
 }
 ```
 
-### ~~use()~~
+### use()
 
 > **use**: () => `Readonly`\<`T`\>
 
@@ -72,10 +74,6 @@ function ChildComponent() {
   return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
 }
 ```
-
-## Deprecated
-
-Use `createSplittingContext` instead.
 
 ## Example
 

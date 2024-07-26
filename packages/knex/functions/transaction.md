@@ -4,7 +4,7 @@
 
 > **transaction**\<`TResult`\>(`scope`, `config`?, `options`?): `Promise`\<`TResult`\>
 
-## Type parameters
+## Type Parameters
 
 • **TResult** = `any`
 

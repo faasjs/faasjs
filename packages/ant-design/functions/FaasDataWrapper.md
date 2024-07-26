@@ -6,7 +6,7 @@
 
 FaasDataWrapper component with Loading
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

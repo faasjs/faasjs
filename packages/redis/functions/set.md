@@ -4,7 +4,7 @@
 
 > **set**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
 
-## Type parameters
+## Type Parameters
 
 • **TResult** = `void`
 

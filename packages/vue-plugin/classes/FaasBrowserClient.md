@@ -48,7 +48,7 @@ await client.action('func', { key: 'value' })
 
 Request a FaasJS function
 
-#### Type parameters
+#### Type Parameters
 
 • **PathOrData** *extends* `Record`\<`string`, `any`\>
 

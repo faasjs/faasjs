@@ -1,6 +1,6 @@
 [@faasjs/redis](../README.md) / RedisConfig
 
-# Type alias: RedisConfig
+# Type Alias: RedisConfig
 
 > **RedisConfig**: `object`
 

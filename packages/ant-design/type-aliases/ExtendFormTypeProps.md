@@ -1,10 +1,10 @@
 [@faasjs/ant-design](../README.md) / ExtendFormTypeProps
 
-# Type alias: ExtendFormTypeProps\<T\>
+# Type Alias: ExtendFormTypeProps\<T\>
 
 > **ExtendFormTypeProps**\<`T`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

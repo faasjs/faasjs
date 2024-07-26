@@ -1,10 +1,10 @@
 [@faasjs/test](../README.md) / MountData
 
-# Type alias: MountData
+# Type Alias: MountData
 
 > **MountData**: `object`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `any`
 

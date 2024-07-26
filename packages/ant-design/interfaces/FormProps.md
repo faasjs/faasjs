@@ -6,7 +6,7 @@
 
 - `Omit`\<`AntdFormProps`\<`Values`\>, `"onFinish"` \| `"children"` \| `"initialValues"`\>
 
-## Type parameters
+## Type Parameters
 
 • **Values** *extends* `Record`\<`string`, `any`\> = `any`
 

@@ -4,6 +4,6 @@
 
 > `const` **ContentType**: `object`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `string`

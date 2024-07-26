@@ -1,6 +1,6 @@
 [@faasjs/ant-design](../README.md) / FormSubmitProps
 
-# Type alias: FormSubmitProps
+# Type Alias: FormSubmitProps
 
 > **FormSubmitProps**: `object`
 

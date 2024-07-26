@@ -2,7 +2,7 @@
 
 # Class: Http\<TParams, TCookie, TSession\>
 
-## Type parameters
+## Type Parameters
 
 • **TParams** *extends* `Record`\<`string`, `any`\> = `any`
 
@@ -46,7 +46,7 @@
 
 > **headers**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `string`
 
@@ -158,7 +158,7 @@ set Content-Type
 
 {string} 类型
 
-• **charset**: `string`= `'utf-8'`
+• **charset**: `string` = `'utf-8'`
 
 {string} 编码
 

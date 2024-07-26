@@ -30,7 +30,7 @@
 
 > **config**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `any`
 
@@ -82,7 +82,7 @@
 
 异步触发云函数
 
-#### Type parameters
+#### Type Parameters
 
 • **TData** = `any`
 
@@ -110,7 +110,7 @@
 
 同步调用云函数
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult** = `any`
 

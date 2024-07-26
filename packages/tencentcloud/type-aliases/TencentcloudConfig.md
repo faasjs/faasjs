@@ -1,6 +1,6 @@
 [@faasjs/tencentcloud](../README.md) / TencentcloudConfig
 
-# Type alias: TencentcloudConfig
+# Type Alias: TencentcloudConfig
 
 > **TencentcloudConfig**: `object`
 

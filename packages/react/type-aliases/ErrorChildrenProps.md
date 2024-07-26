@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / ErrorChildrenProps
 
-# Type alias: ErrorChildrenProps
+# Type Alias: ErrorChildrenProps
 
 > **ErrorChildrenProps**: `object`
 

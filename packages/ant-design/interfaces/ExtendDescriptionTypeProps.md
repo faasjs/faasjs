@@ -2,7 +2,7 @@
 
 # Interface: ExtendDescriptionTypeProps\<T\>
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

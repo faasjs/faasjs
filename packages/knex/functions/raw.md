@@ -4,7 +4,7 @@
 
 > **raw**\<`TResult`\>(`sql`, `bindings`): `Promise`\<`OriginKnex.Raw`\<`TResult`\>\>
 
-## Type parameters
+## Type Parameters
 
 • **TResult** = `any`
 
@@ -12,7 +12,7 @@
 
 • **sql**: `string`
 
-• **bindings**: `ValueDict` \| `RawBinding`[]= `[]`
+• **bindings**: `ValueDict` \| `RawBinding`[] = `[]`
 
 ## Returns
 

@@ -1,9 +1,9 @@
 [@faasjs/ant-design](../README.md) / ExtendTableItemProps
 
-# Type alias: ExtendTableItemProps\<T\>
+# Type Alias: ExtendTableItemProps\<T\>
 
 > **ExtendTableItemProps**\<`T`\>: [`BaseItemProps`](../interfaces/BaseItemProps.md) & `Omit`\<`AntdTableColumnProps`\<`T`\>, `"children"`\>
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`

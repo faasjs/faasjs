@@ -1,10 +1,10 @@
 [@faasjs/test](../README.md) / InvokeData
 
-# Type alias: InvokeData\<TEvent, TContext, TResult\>
+# Type Alias: InvokeData\<TEvent, TContext, TResult\>
 
 > **InvokeData**\<`TEvent`, `TContext`, `TResult`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **TEvent** = `any`
 
@@ -12,7 +12,7 @@
 
 • **TResult** = `any`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `any`
 

@@ -1,6 +1,6 @@
 [@faasjs/ant-design](../README.md) / TableProps
 
-# Type alias: TableProps\<T, ExtendTypes\>
+# Type Alias: TableProps\<T, ExtendTypes\>
 
 > **TableProps**\<`T`, `ExtendTypes`\>: `object` & `AntdTableProps`\<`T`\>
 
@@ -10,7 +10,7 @@
 
 > `optional` **extendTypes**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: [`ExtendTableTypeProps`](ExtendTableTypeProps.md)
 
@@ -56,7 +56,7 @@
 
 > **sorter**: `SorterResult`\<`T`\> \| `SorterResult`\<`T`\>[]
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

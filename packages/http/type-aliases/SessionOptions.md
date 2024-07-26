@@ -1,6 +1,6 @@
 [@faasjs/http](../README.md) / SessionOptions
 
-# Type alias: SessionOptions
+# Type Alias: SessionOptions
 
 > **SessionOptions**: `object`
 

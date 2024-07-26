@@ -2,7 +2,7 @@
 
 # Class: Session\<S, C\>
 
-## Type parameters
+## Type Parameters
 
 • **S** *extends* `Record`\<`string`, `string`\> = `any`
 
@@ -72,7 +72,7 @@
 
 > **decode**\<`TData`\>(`text`): `SessionContent` \| `TData`
 
-#### Type parameters
+#### Type Parameters
 
 • **TData** = `any`
 

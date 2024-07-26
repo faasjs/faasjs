@@ -9,7 +9,7 @@ FormItem
 - Based on [Ant Design Form.Item](https://ant.design/components/form#formitem).
 - Can be used without [Form](https://faasjs.com/doc/ant-design/#form).
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

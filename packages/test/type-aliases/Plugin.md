@@ -1,10 +1,10 @@
 [@faasjs/test](../README.md) / Plugin
 
-# Type alias: Plugin
+# Type Alias: Plugin
 
 > **Plugin**: `object`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `any`
 

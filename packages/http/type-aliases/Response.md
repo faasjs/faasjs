@@ -1,6 +1,6 @@
 [@faasjs/http](../README.md) / Response
 
-# Type alias: Response
+# Type Alias: Response
 
 > **Response**: `object`
 
@@ -14,7 +14,7 @@
 
 > `optional` **headers**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `string`
 

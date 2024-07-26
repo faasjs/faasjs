@@ -6,7 +6,7 @@
 
 Origin [knex](https://knexjs.org/) instance.
 
-## Type parameters
+## Type Parameters
 
 • **TRecord** *extends* `object` = `any`
 

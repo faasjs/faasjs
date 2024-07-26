@@ -1,6 +1,6 @@
 [@faasjs/cloud_function](../README.md) / CloudFunctionAdapter
 
-# Type alias: CloudFunctionAdapter
+# Type Alias: CloudFunctionAdapter
 
 > **CloudFunctionAdapter**: `object`
 
@@ -26,7 +26,7 @@
 
 > **invokeSyncCloudFunction**: \<`TResult`\>(`name`, `data`, `options`?) => `Promise`\<`TResult`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult**
 

@@ -1,10 +1,10 @@
 [@faasjs/http](../README.md) / ValidatorConfig
 
-# Type alias: ValidatorConfig\<TParams, TCookie, TSession\>
+# Type Alias: ValidatorConfig\<TParams, TCookie, TSession\>
 
 > **ValidatorConfig**\<`TParams`, `TCookie`, `TSession`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **TParams** *extends* `Record`\<`string`, `any`\> = `any`
 

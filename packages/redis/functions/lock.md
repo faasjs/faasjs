@@ -10,7 +10,7 @@ Lock by key
 
 • **key**: `string`
 
-• **EX**: `number`= `10`
+• **EX**: `number` = `10`
 
 expire in seconds, default 10
 

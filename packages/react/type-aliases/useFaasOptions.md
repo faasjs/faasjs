@@ -1,10 +1,10 @@
 [@faasjs/react](../README.md) / useFaasOptions
 
-# Type alias: useFaasOptions\<PathOrData\>
+# Type Alias: useFaasOptions\<PathOrData\>
 
 > **useFaasOptions**\<`PathOrData`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **PathOrData** *extends* `FaasAction`
 

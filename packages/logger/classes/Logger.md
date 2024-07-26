@@ -187,7 +187,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 {string} timer's label
 
-• **level**: [`Level`](../type-aliases/Level.md)= `'debug'`
+• **level**: [`Level`](../type-aliases/Level.md) = `'debug'`
 
 [string=debug] 日志级别，支持 debug、info、warn、error
 

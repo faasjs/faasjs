@@ -1,10 +1,10 @@
 [@faasjs/react](../README.md) / FaasDataWrapperProps
 
-# Type alias: FaasDataWrapperProps\<PathOrData\>
+# Type Alias: FaasDataWrapperProps\<PathOrData\>
 
 > **FaasDataWrapperProps**\<`PathOrData`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **PathOrData** *extends* `FaasAction`
 

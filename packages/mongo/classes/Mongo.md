@@ -34,7 +34,7 @@
 
 > **collection**: \<`TSchema`\>(`name`, `options`?, `callback`?) => `Collection`\<`TSchema`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TSchema** = `any`
 

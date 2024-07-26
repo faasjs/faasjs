@@ -1,5 +1,5 @@
 [@faasjs/ant-design](../README.md) / ExtendFormItemProps
 
-# Type alias: ExtendFormItemProps
+# Type Alias: ExtendFormItemProps
 
 > **ExtendFormItemProps**: [`BaseItemProps`](../interfaces/BaseItemProps.md) & `AntdFormItemProps`

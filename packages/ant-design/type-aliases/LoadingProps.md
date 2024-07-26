@@ -1,6 +1,6 @@
 [@faasjs/ant-design](../README.md) / LoadingProps
 
-# Type alias: LoadingProps
+# Type Alias: LoadingProps
 
 > **LoadingProps**: `object`
 

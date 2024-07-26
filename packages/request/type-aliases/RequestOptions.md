@@ -1,6 +1,6 @@
 [@faasjs/request](../README.md) / RequestOptions
 
-# Type alias: RequestOptions
+# Type Alias: RequestOptions
 
 > **RequestOptions**: `object`
 
@@ -95,7 +95,7 @@ Body parser. Defaults to `JSON.parse`.
 
 > `optional` **query**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `any`
 

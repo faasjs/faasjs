@@ -4,7 +4,7 @@
 
 > **usePlugin**\<`T`\>(`plugin`): [`UseifyPlugin`](../type-aliases/UseifyPlugin.md)\<`T`\>
 
-## Type parameters
+## Type Parameters
 
 • **T** *extends* [`Plugin`](../type-aliases/Plugin.md)
 

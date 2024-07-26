@@ -1,5 +1,5 @@
 [@faasjs/ant-design](../README.md) / UnionScene
 
-# Type alias: UnionScene
+# Type Alias: UnionScene
 
 > **UnionScene**: `"form"` \| `"description"` \| `"table"`

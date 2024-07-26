@@ -82,7 +82,7 @@ Redis Plugin
 
 > **get**\<`TData`\>(`key`): `Promise`\<`TData`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TData** = `any`
 
@@ -98,7 +98,7 @@ Redis Plugin
 
 > **getJSON**\<`TData`\>(`key`): `Promise`\<`TData`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TData** = `any`
 
@@ -120,7 +120,7 @@ Lock by key
 
 • **key**: `string`
 
-• **EX**: `number`= `10`
+• **EX**: `number` = `10`
 
 expire in seconds, default 10
 
@@ -202,7 +202,7 @@ Publish message
 
 > **query**\<`TResult`\>(`command`, `args`): `Promise`\<`TResult`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult** = `any`
 
@@ -228,7 +228,7 @@ Publish message
 
 > **set**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult** = `void`
 
@@ -248,7 +248,7 @@ Publish message
 
 > **setJSON**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
 
-#### Type parameters
+#### Type Parameters
 
 • **TResult** = `void`
 

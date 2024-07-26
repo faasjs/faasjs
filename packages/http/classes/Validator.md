@@ -2,7 +2,7 @@
 
 # Class: Validator\<TParams, TCookie, TSession\>
 
-## Type parameters
+## Type Parameters
 
 • **TParams** *extends* `Record`\<`string`, `any`\> = `any`
 

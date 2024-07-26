@@ -1,9 +1,9 @@
 [@faasjs/vue-plugin](../README.md) / ResponseHeaders
 
-# Type alias: ResponseHeaders
+# Type Alias: ResponseHeaders
 
 > **ResponseHeaders**: `object`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `string`

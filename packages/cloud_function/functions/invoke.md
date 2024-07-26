@@ -6,7 +6,7 @@
 
 异步触发云函数
 
-## Type parameters
+## Type Parameters
 
 • **TData** = `any`
 

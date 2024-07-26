@@ -11,7 +11,7 @@ Table component with Ant Design & FaasJS
 - Auto generate filter dropdown (disable with `filterDropdown: false`).
 - Auto generate sorter (disable with `sorter: false`).
 
-## Type parameters
+## Type Parameters
 
 • **T** *extends* `Record`\<`string`, `any`\>
 

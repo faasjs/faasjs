@@ -1,6 +1,6 @@
 [@faasjs/request](../README.md) / Request
 
-# Type alias: Request
+# Type Alias: Request
 
 > **Request**: `object`
 
@@ -10,7 +10,7 @@
 
 > `optional` **body**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `any`
 

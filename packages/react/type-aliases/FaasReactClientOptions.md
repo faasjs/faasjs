@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / FaasReactClientOptions
 
-# Type alias: FaasReactClientOptions
+# Type Alias: FaasReactClientOptions
 
 > **FaasReactClientOptions**: `object`
 

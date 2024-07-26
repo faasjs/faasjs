@@ -6,7 +6,7 @@
 
 腾讯云请求封装
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

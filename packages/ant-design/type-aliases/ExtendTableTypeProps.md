@@ -1,10 +1,10 @@
 [@faasjs/ant-design](../README.md) / ExtendTableTypeProps
 
-# Type alias: ExtendTableTypeProps\<T\>
+# Type Alias: ExtendTableTypeProps\<T\>
 
 > **ExtendTableTypeProps**\<`T`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / FaasReactClientInstance
 
-# Type alias: FaasReactClientInstance
+# Type Alias: FaasReactClientInstance
 
 > **FaasReactClientInstance**: `object`
 
@@ -10,7 +10,7 @@
 
 > **faas**: \<`PathOrData`\>(`action`, `params`) => `Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
 
-#### Type parameters
+#### Type Parameters
 
 • **PathOrData** *extends* `FaasAction`
 
@@ -32,7 +32,7 @@
 
 > **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options`?) => [`FaasDataInjection`](FaasDataInjection.md)\<`FaasData`\<`PathOrData`\>\>
 
-#### Type parameters
+#### Type Parameters
 
 • **PathOrData** *extends* `FaasAction`
 
@@ -50,7 +50,7 @@
 
 ### FaasDataWrapper()
 
-#### Type parameters
+#### Type Parameters
 
 • **PathOrData** *extends* `FaasAction`
 

@@ -8,7 +8,7 @@ Form component with Ant Design & FaasJS
 
 - Based on [Ant Design Form](https://ant.design/components/form/).
 
-## Type parameters
+## Type Parameters
 
 • **Values** = `any`
 

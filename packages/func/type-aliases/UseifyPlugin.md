@@ -1,6 +1,6 @@
 [@faasjs/func](../README.md) / UseifyPlugin
 
-# Type alias: UseifyPlugin\<T\>
+# Type Alias: UseifyPlugin\<T\>
 
 > **UseifyPlugin**\<`T`\>: `T` & `object`
 
@@ -20,6 +20,6 @@
 
 `Promise`\<`T`\>
 
-## Type parameters
+## Type Parameters
 
 • **T**

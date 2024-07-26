@@ -1,6 +1,6 @@
 [@faasjs/func](../README.md) / ProviderConfig
 
-# Type alias: ProviderConfig
+# Type Alias: ProviderConfig
 
 > **ProviderConfig**: `object`
 
@@ -10,7 +10,7 @@
 
 > **config**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `any`
 

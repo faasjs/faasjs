@@ -1,12 +1,12 @@
 [@faasjs/react](../README.md) / FaasDataInjection
 
-# Type alias: FaasDataInjection\<Data\>
+# Type Alias: FaasDataInjection\<Data\>
 
 > **FaasDataInjection**\<`Data`\>: `object`
 
 Injects FaasData props.
 
-## Type parameters
+## Type Parameters
 
 • **Data** = `any`
 

@@ -1,10 +1,10 @@
 [@faasjs/func](../README.md) / DeployData
 
-# Type alias: DeployData
+# Type Alias: DeployData
 
 > **DeployData**: `object`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `any`
 
@@ -18,7 +18,7 @@
 
 > **dependencies**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`name`: `string`\]: `string`
 
@@ -42,7 +42,7 @@
 
 > `optional` **plugins**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`name`: `string`\]: `object`
 

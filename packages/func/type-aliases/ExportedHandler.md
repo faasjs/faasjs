@@ -1,10 +1,10 @@
 [@faasjs/func](../README.md) / ExportedHandler
 
-# Type alias: ExportedHandler()\<TEvent, TContext, TResult\>
+# Type Alias: ExportedHandler()\<TEvent, TContext, TResult\>
 
 > **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\>: (`event`, `context`?, `callback`?) => `Promise`\<`TResult`\>
 
-## Type parameters
+## Type Parameters
 
 • **TEvent** = `any`
 

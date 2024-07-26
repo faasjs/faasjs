@@ -6,7 +6,7 @@
 
 > **query**\<`TName`\>(`table`): `OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `object`[]\>
 
-### Type parameters
+### Type Parameters
 
 • **TName** *extends* `"test"`
 
@@ -22,7 +22,7 @@
 
 > **query**\<`TName`, `TResult`\>(`table`): `OriginKnex.QueryBuilder`\<`TName`, `TResult`\>
 
-### Type parameters
+### Type Parameters
 
 • **TName** *extends* `object` = `any`
 

@@ -1,6 +1,6 @@
 [@faasjs/vue-plugin](../README.md) / FaasVuePluginOptions
 
-# Type alias: FaasVuePluginOptions
+# Type Alias: FaasVuePluginOptions
 
 > **FaasVuePluginOptions**: `object`
 

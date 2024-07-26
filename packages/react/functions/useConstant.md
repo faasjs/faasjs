@@ -6,7 +6,7 @@
 
 Returns a constant value that is created by the given function.
 
-## Type parameters
+## Type Parameters
 
 • **T**
 

@@ -2,7 +2,7 @@
 
 # Class: Func\<TEvent, TContext, TResult\>
 
-## Type parameters
+## Type Parameters
 
 • **TEvent** = `any`
 

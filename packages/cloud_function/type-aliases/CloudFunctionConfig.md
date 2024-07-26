@@ -1,12 +1,12 @@
 [@faasjs/cloud_function](../README.md) / CloudFunctionConfig
 
-# Type alias: CloudFunctionConfig
+# Type Alias: CloudFunctionConfig
 
 > **CloudFunctionConfig**: `object`
 
 云函数配置项
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `any`
 
@@ -18,7 +18,7 @@
 
 配置项
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `any`
 

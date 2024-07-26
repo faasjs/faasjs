@@ -1,5 +1,5 @@
 [@faasjs/func](../README.md) / LifeCycleKey
 
-# Type alias: LifeCycleKey
+# Type Alias: LifeCycleKey
 
 > **LifeCycleKey**: `"onDeploy"` \| `"onMount"` \| `"onInvoke"`

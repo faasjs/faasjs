@@ -1,5 +1,5 @@
 [@faasjs/types](../README.md) / FaasActionPaths
 
-# Type alias: FaasActionPaths
+# Type Alias: FaasActionPaths
 
 > **FaasActionPaths**: keyof `FaasActions`

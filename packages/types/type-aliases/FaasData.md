@@ -1,9 +1,9 @@
 [@faasjs/types](../README.md) / FaasData
 
-# Type alias: FaasData\<T\>
+# Type Alias: FaasData\<T\>
 
 > **FaasData**\<`T`\>: `T` *extends* [`FaasActionPaths`](FaasActionPaths.md) ? `FaasActions`\[`T`\]\[`"Data"`\] : `T`
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`

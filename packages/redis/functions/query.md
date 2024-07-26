@@ -4,7 +4,7 @@
 
 > **query**\<`TResult`\>(`command`, `args`): `Promise`\<`TResult`\>
 
-## Type parameters
+## Type Parameters
 
 • **TResult** = `any`
 

@@ -6,7 +6,7 @@
 
 - `FaasDataWrapperProps`\<`T`\>
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

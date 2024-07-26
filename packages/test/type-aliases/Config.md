@@ -1,10 +1,10 @@
 [@faasjs/test](../README.md) / Config
 
-# Type alias: Config
+# Type Alias: Config
 
 > **Config**: `object`
 
-## Index signature
+## Index Signature
 
  \[`key`: `string`\]: `any`
 
@@ -14,7 +14,7 @@
 
 > `optional` **plugins**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: `object`
 
@@ -22,6 +22,6 @@
 
 > `optional` **providers**: `object`
 
-#### Index signature
+#### Index Signature
 
  \[`key`: `string`\]: [`ProviderConfig`](ProviderConfig.md)

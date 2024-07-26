@@ -1,6 +1,6 @@
 [@faasjs/vue-plugin](../README.md) / Options
 
-# Type alias: Options
+# Type Alias: Options
 
 > **Options**: `RequestInit` & `object`
 
@@ -68,7 +68,7 @@ trigger before request
 
 custom request
 
-#### Type parameters
+#### Type Parameters
 
 • **PathOrData** *extends* `FaasAction`
 

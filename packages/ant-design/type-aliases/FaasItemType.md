@@ -1,5 +1,5 @@
 [@faasjs/ant-design](../README.md) / FaasItemType
 
-# Type alias: FaasItemType
+# Type Alias: FaasItemType
 
 > **FaasItemType**: `"string"` \| `"string[]"` \| `"number"` \| `"number[]"` \| `"boolean"` \| `"date"` \| `"time"` \| `"object"` \| `"object[]"`

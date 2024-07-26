@@ -2,7 +2,7 @@
 
 # Class: Cookie\<C, S\>
 
-## Type parameters
+## Type Parameters
 
 • **C** *extends* `Record`\<`string`, `string`\> = `any`
 

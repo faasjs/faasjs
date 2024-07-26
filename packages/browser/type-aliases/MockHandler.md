@@ -1,6 +1,6 @@
 [@faasjs/browser](../README.md) / MockHandler
 
-# Type alias: MockHandler()
+# Type Alias: MockHandler()
 
 > **MockHandler**: (`action`, `params`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<`any`\>\>
 

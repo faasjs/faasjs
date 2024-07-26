@@ -1,10 +1,10 @@
 [@faasjs/ant-design](../README.md) / UnionFaasItemRender
 
-# Type alias: UnionFaasItemRender()\<Value, Values\>
+# Type Alias: UnionFaasItemRender()\<Value, Values\>
 
 > **UnionFaasItemRender**\<`Value`, `Values`\>: (`value`, `values`, `index`, `scene`) => `React.ReactNode`
 
-## Type parameters
+## Type Parameters
 
 • **Value** = `any`
 

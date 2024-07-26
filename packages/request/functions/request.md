@@ -6,7 +6,7 @@
 
 Request
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 
@@ -16,7 +16,7 @@ Request
 
 Url
 
-• **options?**: [`RequestOptions`](../type-aliases/RequestOptions.md)= `undefined`
+• **options?**: [`RequestOptions`](../type-aliases/RequestOptions.md) = `...`
 
 Options
 

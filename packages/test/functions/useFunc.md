@@ -24,7 +24,7 @@ export default useFunc(() => {
 })
 ```
 
-## Type parameters
+## Type Parameters
 
 • **TEvent** = `any`
 

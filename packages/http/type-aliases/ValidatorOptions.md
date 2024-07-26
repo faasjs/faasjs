@@ -1,10 +1,10 @@
 [@faasjs/http](../README.md) / ValidatorOptions
 
-# Type alias: ValidatorOptions\<Content\>
+# Type Alias: ValidatorOptions\<Content\>
 
 > **ValidatorOptions**\<`Content`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **Content** = `Record`\<`string`, `any`\>
 

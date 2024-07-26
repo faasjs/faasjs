@@ -8,7 +8,7 @@ Description component
 
 - Based on [Ant Design Descriptions](https://ant.design/components/descriptions/).
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

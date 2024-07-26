@@ -1,6 +1,6 @@
 [@faasjs/logger](../README.md) / Level
 
-# Type alias: Level
+# Type Alias: Level
 
 > **Level**: `"debug"` \| `"info"` \| `"warn"` \| `"error"`
 

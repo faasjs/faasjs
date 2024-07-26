@@ -1,10 +1,10 @@
 [@faasjs/request](../README.md) / Response
 
-# Type alias: Response\<T\>
+# Type Alias: Response\<T\>
 
 > **Response**\<`T`\>: `object`
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 

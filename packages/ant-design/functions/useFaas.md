@@ -6,7 +6,7 @@
 
 Request faas server with React hook
 
-## Type parameters
+## Type Parameters
 
 • **PathOrData** *extends* `Record`\<`string`, `any`\>
 

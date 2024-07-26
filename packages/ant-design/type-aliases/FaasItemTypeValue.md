@@ -1,6 +1,6 @@
 [@faasjs/ant-design](../README.md) / FaasItemTypeValue
 
-# Type alias: FaasItemTypeValue
+# Type Alias: FaasItemTypeValue
 
 > **FaasItemTypeValue**: `object`
 

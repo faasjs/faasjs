@@ -1,9 +1,9 @@
 [@faasjs/ant-design](../README.md) / FaasDataInjection
 
-# Type alias: FaasDataInjection\<T\>
+# Type Alias: FaasDataInjection\<T\>
 
 > **FaasDataInjection**\<`T`\>: `Partial`\<`OriginFaasDataInjection`\<`T`\>\>
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`

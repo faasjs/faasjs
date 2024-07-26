@@ -10,7 +10,7 @@
 
 - [`UnionFaasItemProps`](UnionFaasItemProps.md)
 
-## Type parameters
+## Type Parameters
 
 • **T** = `any`
 
