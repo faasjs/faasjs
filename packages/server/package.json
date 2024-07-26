@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,26 +17,28 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "lodash": "*",
     "pirates": "*"
   },
   "peerDependencies": {
-    "@faasjs/func": "2.3.1",
-    "@faasjs/http": "2.3.1",
-    "@faasjs/load": "2.3.1",
-    "@faasjs/logger": "2.3.1",
-    "@faasjs/ts-transform": "2.3.1"
+    "@faasjs/func": "2.4.0",
+    "@faasjs/http": "2.4.0",
+    "@faasjs/load": "2.4.0",
+    "@faasjs/logger": "2.4.0",
+    "@faasjs/ts-transform": "2.4.0"
   },
   "devDependencies": {
     "react": "*",
     "@types/react-dom": "*",
-    "@faasjs/func": "2.3.1",
-    "@faasjs/http": "2.3.1",
-    "@faasjs/load": "2.3.1",
-    "@faasjs/logger": "2.3.1",
-    "@faasjs/ts-transform": "2.3.1"
+    "@faasjs/func": "2.4.0",
+    "@faasjs/http": "2.4.0",
+    "@faasjs/load": "2.4.0",
+    "@faasjs/logger": "2.4.0",
+    "@faasjs/ts-transform": "2.4.0"
   },
   "engines": {
     "npm": ">=9.0.0",

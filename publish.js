@@ -1,5 +1,5 @@
 const exec = require('node:child_process').execSync
-const { writeFile, globSync } = require('node:fs')
+const { writeFileSync, globSync } = require('node:fs')
 const version = require('./package.json').version
 
 async function run(cmd) {
@@ -28,7 +28,7 @@ async function publish(path) {
       if (name.startsWith('@faasjs/')) pkg.devDependencies[name] = version
     }
   }
-  await writeFile(path, `${JSON.stringify(pkg, null, 2)}\n`)
+  writeFileSync(path, `${JSON.stringify(pkg, null, 2)}\n`)
 
   try {
     await run(
