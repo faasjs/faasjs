@@ -2,11 +2,14 @@ import { type Context, createContext, useContext } from 'react'
 import { useConstant } from './constant'
 
 /**
- * Creates a splitted context with the given default value.
+ * Creates a splitting context with the given default value.
+ *
+ * @param defaultValue The default value of the splitting context.
+ * @returns The provider component and the hook to use the splitting context.
  *
  * @example
  * ```tsx
- * const { Provider, use } = createSplittedContext<{
+ * const { Provider, use } = createSplittingContext<{
  *   value: number
  *   setValue: React.Dispatch<React.SetStateAction<number>>
  * }>({
@@ -42,7 +45,7 @@ import { useConstant } from './constant'
  * }
  * ```
  */
-export function createSplittedContext<T extends Record<string, any>>(
+export function createSplittingContext<T extends Record<string, any>>(
   defaultValue: {
     [K in keyof T]: Partial<T[K]> | null
   }
@@ -53,7 +56,7 @@ export function createSplittedContext<T extends Record<string, any>>(
   for (const key of keys) contexts[key] = createContext(defaultValue[key])
 
   /**
-   * The provider component of the splitted context.
+   * The provider component of the splitting context.
    *
    * @example
    * ```tsx
@@ -86,14 +89,14 @@ export function createSplittedContext<T extends Record<string, any>>(
   }
 
   /**
-   * Returns the splitted context values.
+   * The hook to use the splitting context.
    *
    * @example
    * ```tsx
    * function ChildComponent() {
    *   const { value, setValue } = use()
    *
-   *   return <div>{value}</div>
+   *   return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
    * }
    * ```
    */
@@ -118,6 +121,6 @@ export function createSplittedContext<T extends Record<string, any>>(
 }
 
 /**
- * @deprecated Use `createSplittedContext` instead.
+ * @deprecated Use `createSplittingContext` instead.
  */
-export const createSplitedContext = createSplittedContext
+export const createSplitedContext = createSplittingContext

@@ -3,14 +3,14 @@
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createSplitedContext } from '../splitedContext'
+import { createSplittingContext } from '../splittingContext'
 import { useEffect, useState } from 'react'
 
-describe('createSplitedContext', () => {
+describe('createSplittingContext', () => {
   it('should render children with default values', () => {
     let renderTimes = 0
 
-    const { Provider, use } = createSplitedContext({
+    const { Provider, use } = createSplittingContext({
       value1: 'Hello',
       value2: 'World',
     })
@@ -41,7 +41,7 @@ describe('createSplitedContext', () => {
 
   it('should render children with provided values', () => {
     let renderTimes = 0
-    const { Provider, use } = createSplitedContext<{
+    const { Provider, use } = createSplittingContext<{
       value: {
         value1: string
         value2: string
@@ -74,12 +74,12 @@ describe('createSplitedContext', () => {
     expect(renderTimes).toBe(1)
   })
 
-  it('should reponse to value changes', async () => {
+  it('should response to value changes', async () => {
     let containerRenderTimes = 0
     let readerRenderTimes = 0
     let writerRenderTimes = 0
 
-    const { Provider, use } = createSplitedContext<{
+    const { Provider, use } = createSplittingContext<{
       value: number
       setValue: React.Dispatch<React.SetStateAction<number>>
       optional: string
