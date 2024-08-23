@@ -60,7 +60,7 @@ jobs:
       - uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOVTOKEN }}
-      - uses: paambaati/codeclimate-action@v8.0.0
+      - uses: paambaati/codeclimate-action@v9.0.0
         if: ${{ github.event_name == 'push'}}
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
