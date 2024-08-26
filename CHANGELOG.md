@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.5.0 (2024-08-26)`](https://github.com/faasjs/faasjs/compare/v2.4.0...v2.5.0)
+
+- `@faasjs/react`
+  - [Feature] Auto generate default FaasReactClient, not throw error when not initialized.
+
 [`v2.4.0 (2024-07-26)`](https://github.com/faasjs/faasjs/compare/v2.3.1...v2.4.0)
 
 - `@faasjs/react`
