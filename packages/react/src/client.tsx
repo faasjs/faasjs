@@ -263,7 +263,13 @@ export function FaasReactClient({
 export function getClient(domain?: string): FaasReactClientInstance {
   const client = clients[domain || Object.keys(clients)[0]]
 
-  if (!client) throw Error('FaasReactClient is not initialized')
+  if (!client) {
+    console.warn('FaasReactClient is not initialized manually, use default.')
+
+    return FaasReactClient({
+      domain: '',
+    })
+  }
 
   return client
 }
