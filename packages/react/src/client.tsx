@@ -267,7 +267,7 @@ export function getClient(domain?: string): FaasReactClientInstance {
     console.warn('FaasReactClient is not initialized manually, use default.')
 
     return FaasReactClient({
-      domain: '',
+      domain: '/',
     })
   }
 
