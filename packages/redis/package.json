@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/redis",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,11 +30,13 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "@faasjs/deep_merge": "2.5.2",
-    "@faasjs/func": "2.5.2",
-    "@faasjs/logger": "2.5.2"
+    "@faasjs/deep_merge": "2.6.0",
+    "@faasjs/func": "2.6.0",
+    "@faasjs/logger": "2.6.0"
   },
   "peerDependencies": {
     "ioredis": "*"

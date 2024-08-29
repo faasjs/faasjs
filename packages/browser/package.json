@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/browser",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,9 +30,11 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "@faasjs/types": "2.5.2"
+    "@faasjs/types": "2.6.0"
   },
   "engines": {
     "npm": ">=9.0.0",

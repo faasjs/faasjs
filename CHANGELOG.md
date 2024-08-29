@@ -4,6 +4,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.6.0 (2024-08-29)`](https://github.com/faasjs/faasjs/compare/v2.5.2...v2.6.0)
+
+- [Feature] Add `exports` to all packages' `package.json`.
+
 [`v2.5.2 (2024-08-26)`](https://github.com/faasjs/faasjs/compare/v2.4.0...v2.5.2)
 
 - `@faasjs/react`
