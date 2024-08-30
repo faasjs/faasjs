@@ -1,0 +1,30 @@
+{
+  "name": "@faasjs/lint",
+  "version": "2.6.0",
+  "license": "MIT",
+  "type": "module",
+  "files": ["biome.json"],
+  "exports": {
+    "./biome": "./biome.json"
+  },
+  "homepage": "https://faasjs.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/lint"
+  },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "devDependencies": {
+    "@biomejs/biome": "*"
+  },
+  "peerDependencies": {
+    "@biomejs/biome": "*"
+  },
+  "engines": {
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
+  }
+}
