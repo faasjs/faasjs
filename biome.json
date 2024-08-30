@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.0.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
   "organizeImports": {
     "enabled": false
   },
@@ -37,9 +37,7 @@
       "performance": {
         "noDelete": "off"
       },
-      "nursery": {
-
-      }
+      "nursery": {}
     }
   },
   "formatter": {
@@ -48,7 +46,7 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
-      "trailingComma": "es5",
+      "trailingCommas": "es5",
       "semicolons": "asNeeded",
       "arrowParentheses": "asNeeded",
       "jsxQuoteStyle": "single"
