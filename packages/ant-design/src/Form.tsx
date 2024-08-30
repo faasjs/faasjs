@@ -1,12 +1,6 @@
 import { faas } from '@faasjs/react'
 import { Button, Form as AntdForm, type FormProps as AntdFormProps } from 'antd'
-import {
-  type ReactNode,
-  useEffect,
-  useState,
-  useCallback,
-  isValidElement,
-} from 'react'
+import { type ReactNode, useEffect, useState, useCallback } from 'react'
 import { useConfigContext } from './Config'
 import { transferValue } from './data'
 import type {
@@ -59,12 +53,17 @@ export type FormSubmitProps = {
 
 export interface FormProps<
   Values extends Record<string, any> = any,
-  ExtendItemProps = any,
+  ExtendItemProps extends ExtendFormItemProps = ExtendFormItemProps,
 > extends Omit<
     AntdFormProps<Values>,
     'onFinish' | 'children' | 'initialValues'
   > {
-  items?: (FormItemProps | ExtendItemProps | JSX.Element)[]
+  items?: (
+    | (ExtendItemProps extends ExtendFormItemProps
+        ? ExtendItemProps | FormItemProps
+        : FormItemProps)
+    | JSX.Element
+  )[]
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | FormSubmitProps
   onFinish?: (
@@ -76,6 +75,10 @@ export interface FormProps<
   extendTypes?: ExtendTypes
   children?: ReactNode
   initialValues?: Values
+}
+
+function isFormItemProps(item: any): item is FormItemProps {
+  return item.id !== undefined
 }
 
 /**
@@ -102,14 +105,18 @@ export function Form<Values = any>(props: FormProps<Values>) {
     if (propsCopy.initialValues && propsCopy.items?.length) {
       for (const key in propsCopy.initialValues) {
         propsCopy.initialValues[key] = transferValue(
-          propsCopy.items.find(item => item.id === key)?.type,
+          propsCopy.items.find(item => isFormItemProps(item) && item.id === key)
+            ?.type,
           propsCopy.initialValues[key]
         )
-        const item = propsCopy.items.find(item => item.id === key)
+        const item = propsCopy.items.find(
+          item => isFormItemProps(item) && item.id === key
+        ) as FormItemProps
         if (item?.if) item.hidden = !item.if(propsCopy.initialValues)
       }
       for (const item of propsCopy.items) {
-        if (item.if) item.hidden = !item.if(propsCopy.initialValues)
+        if (isFormItemProps(item) && item.if)
+          item.hidden = !item.if(propsCopy.initialValues)
       }
       setInitialValues(propsCopy.initialValues)
       delete propsCopy.initialValues
@@ -233,7 +240,9 @@ export function Form<Values = any>(props: FormProps<Values>) {
       if (!props.items) return
 
       for (const key in changedValues) {
-        const item = computedProps.items.find(i => i.id === key)
+        const item = computedProps.items.find(
+          i => isFormItemProps(i) && i.id === key
+        ) as FormItemProps
 
         if (item?.onValueChange)
           item.onValueChange(changedValues[key], allValues, form)
@@ -256,17 +265,11 @@ export function Form<Values = any>(props: FormProps<Values>) {
   return (
     <AntdForm {...computedProps} onValuesChange={onValuesChange}>
       {computedProps.beforeItems}
-      {computedProps.items?.map((item: FormItemProps | JSX.Element) =>
-        isValidElement(item) ? (
-          item
-        ) : (
-          <FormItem
-            key={(item as FormItemProps).id}
-            {...(item as FormItemProps)}
-            extendTypes={extendTypes}
-          />
-        )
-      )}
+      {computedProps.items?.map(item => {
+        if (isFormItemProps(item))
+          return <FormItem key={item.id} {...item} extendTypes={extendTypes} />
+        return item as JSX.Element
+      })}
       {computedProps.children}
       {computedProps.submit !== false && (
         <Button htmlType='submit' type='primary' loading={loading}>

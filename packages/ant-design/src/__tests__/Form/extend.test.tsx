@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import { Input } from 'antd'
 import { Form, type FormProps, type ExtendFormItemProps } from '../../Form'
 
-type ExtendTypes = ExtendFormItemProps & {
+interface ExtendTypes extends ExtendFormItemProps {
   type: 'password'
 }
 
@@ -27,6 +27,13 @@ describe('Form/extend', () => {
             id: 'test',
             type: 'password',
             required: true,
+          },
+          {
+            id: 'default',
+          },
+          {
+            id: 'string',
+            type: 'string',
           },
         ]}
       />

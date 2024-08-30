@@ -24,7 +24,7 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { transferOptions, type BaseItemProps, type BaseOption } from './data'
+import { transferOptions, type BaseOption } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { cloneElement, useEffect, useState } from 'react'
 import { upperFirst } from 'lodash-es'
@@ -43,8 +43,6 @@ export type ExtendFormTypeProps<T = any> = {
 export type ExtendTypes = {
   [type: string]: ExtendFormTypeProps
 }
-
-export type ExtendFormItemProps = BaseItemProps & AntdFormItemProps
 
 export interface FormItemProps<T = any>
   extends FaasItemProps,
@@ -71,6 +69,43 @@ export interface FormItemProps<T = any>
   onValueChange?: (value: T, values: any, form: FormInstance) => void
   /** trigger when any item's value changed */
   if?: (values: Record<string, any>) => boolean
+}
+
+/**
+ * Extend custom form item types.
+ *
+ * @example
+ * ```ts
+ * import type { ExtendFormItemProps, FormProps } from '@faasjs/ant-design'
+ *
+ * // define custom type
+ * interface ExtendTypes extends ExtendFormItemProps {
+ *   type: 'password'
+ * }
+ *
+ * // extend form
+ * function ExtendForm(props: FormProps<any, ExtendTypes>) {
+ *   return (
+ *     <Form
+ *       {...props}
+ *       extendTypes={{ password: { children: <Input.Password /> } }}
+ *     />
+ *   )
+ * }
+ *
+ * // use custom type
+ * <ExtendForm
+ *   items={[
+ *     {
+ *       id: 'test',
+ *       type: 'password',
+ *     },
+ *   ]}
+ * />
+ * ```
+ */
+export interface ExtendFormItemProps extends Omit<FormItemProps, 'type'> {
+  type?: string
 }
 
 function processProps(
