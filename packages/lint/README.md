@@ -9,9 +9,13 @@ Lint tool for FaasJS.
 
 1. Install `@faasjs/lint`: `npm install @faasjs/lint`
 2. Create `biome.json` with content:
-
 ```json
 {
   "extends": ["@faasjs/lint/biome"]
 }
 ```
+3. Add script `"lint": "biome lint"` to `package.json`.
+
+## Usage
+
+See [Biome CLI](https://biomejs.dev/reference/cli/).
