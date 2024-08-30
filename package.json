@@ -18,8 +18,7 @@
     "turbo": "*",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "typescript": "*",
-    "@biomejs/biome": "*"
+    "typescript": "*"
   },
   "workspaces": ["packages/*"],
   "packageManager": "npm@10.8.1",
