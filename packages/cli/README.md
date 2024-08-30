@@ -24,3 +24,7 @@ Add script to package.json:
 ```
 
 Get help info: `npm exec faas -h`
+
+## Variables
+
+- [default](variables/default.md)

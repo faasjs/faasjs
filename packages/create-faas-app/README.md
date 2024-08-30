@@ -14,3 +14,7 @@ npx create-faas-app --name faasjs
 # use bun
 bunx create-faas-app --name faasjs
 ```
+
+## Variables
+
+- [default](variables/default.md)
