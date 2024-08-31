@@ -20,7 +20,8 @@ import {
 } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import type {
-  FaasItemProps,
+  BaseItemProps,
+  FaasItemType,
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
@@ -31,7 +32,7 @@ import { upperFirst } from 'lodash-es'
 import { type ConfigProviderProps, useConfigContext } from './Config'
 
 type OptionsProps = {
-  options?: BaseOption[]
+  options: BaseOption[]
   type?: 'string' | 'string[]' | 'number' | 'number[]'
   input?: SelectProps<any>
 }
@@ -44,15 +45,23 @@ export type ExtendTypes = {
   [type: string]: ExtendFormTypeProps
 }
 
+type InputTypeMap<T> = {
+  string: InputProps | SelectProps<T> | RadioProps
+  'string[]': InputProps | SelectProps<T> | RadioProps
+  number: InputNumberProps | SelectProps<T> | RadioProps
+  'number[]': InputNumberProps | SelectProps<T> | RadioProps
+  boolean: SwitchProps
+  date: DatePickerProps
+  time: DatePickerProps
+  object: never
+  'object[]': never
+}
+
 export interface FormItemProps<T = any>
-  extends FaasItemProps,
+  extends BaseItemProps,
     Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
-  input?:
-    | InputProps
-    | InputNumberProps
-    | SwitchProps
-    | SelectProps<T>
-    | DatePickerProps
+  type?: FaasItemType
+  input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number
   object?: FormItemProps[]
   disabled?: boolean
@@ -108,10 +117,14 @@ export interface ExtendFormItemProps extends Omit<FormItemProps, 'type'> {
   type?: string
 }
 
+function isOptionsProps(item: any): item is OptionsProps {
+  return item && Array.isArray(item.options)
+}
+
 function processProps(
   propsCopy: FormItemProps,
   config: ConfigProviderProps['theme']['common']
-) {
+): FormItemProps {
   if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
   if (!propsCopy.label && propsCopy.label !== false)
     propsCopy.label = propsCopy.title
@@ -135,11 +148,9 @@ function processProps(
         message: `${propsCopy.label || propsCopy.title} ${config.required}`,
       })
   }
-  if (!(propsCopy as OptionsProps).input) (propsCopy as OptionsProps).input = {}
-  if ((propsCopy as OptionsProps).options)
-    (propsCopy as OptionsProps).input.options = transferOptions(
-      propsCopy.options
-    )
+  if (!propsCopy.input) propsCopy.input = {}
+  if (isOptionsProps(propsCopy))
+    propsCopy.input.options = transferOptions(propsCopy.options)
 
   switch (propsCopy.type) {
     case 'boolean':
@@ -148,8 +159,7 @@ function processProps(
     case 'object':
       if (!Array.isArray(propsCopy.name)) propsCopy.name = [propsCopy.name]
       for (const sub of propsCopy.object) {
-        if (!(sub as FormItemProps).name)
-          (sub as FormItemProps).name = propsCopy.name.concat(sub.id)
+        if (!sub.name) sub.name = propsCopy.name.concat(sub.id)
         processProps(sub, config)
       }
       break
@@ -265,7 +275,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
 
   switch (computedProps.type) {
     case 'string':
-      if ((computedProps as OptionsProps).options)
+      if (isOptionsProps(computedProps))
         return (
           <AntdForm.Item {...computedProps}>
             {computedProps.options.length > 10 ? (
@@ -282,7 +292,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
         </AntdForm.Item>
       )
     case 'string[]':
-      if ((computedProps as OptionsProps).options)
+      if (isOptionsProps(computedProps))
         return (
           <AntdForm.Item {...computedProps}>
             <Select mode='multiple' {...(computedProps.input as SelectProps)} />
