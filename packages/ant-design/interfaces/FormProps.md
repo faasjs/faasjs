@@ -10,7 +10,7 @@
 
 • **Values** *extends* `Record`\<`string`, `any`\> = `any`
 
-• **ExtendItemProps** = `any`
+• **ExtendItemProps** *extends* [`ExtendFormItemProps`](ExtendFormItemProps.md) = [`ExtendFormItemProps`](ExtendFormItemProps.md)
 
 ## Properties
 
@@ -36,7 +36,7 @@
 
 ### items?
 
-> `optional` **items**: (`Element` \| [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps`)[]
+> `optional` **items**: (`Element` \| `ExtendItemProps` *extends* [`ExtendFormItemProps`](ExtendFormItemProps.md) ? [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps`\<`ExtendItemProps`\> : [`FormItemProps`](FormItemProps.md)\<`any`\>)[]
 
 ### onFinish()?
 

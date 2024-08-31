@@ -5,6 +5,7 @@
 ## Extended by
 
 - [`FaasItemProps`](FaasItemProps.md)
+- [`FormItemProps`](FormItemProps.md)
 
 ## Properties
 

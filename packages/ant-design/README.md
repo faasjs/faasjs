@@ -42,6 +42,7 @@ type FaasItemProps = {
 - [DrawerProps](interfaces/DrawerProps.md)
 - [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
 - [ExtendDescriptionTypeProps](interfaces/ExtendDescriptionTypeProps.md)
+- [ExtendFormItemProps](interfaces/ExtendFormItemProps.md)
 - [FaasDataWrapperProps](interfaces/FaasDataWrapperProps.md)
 - [FaasItemProps](interfaces/FaasItemProps.md)
 - [FormItemProps](interfaces/FormItemProps.md)
@@ -60,7 +61,6 @@ type FaasItemProps = {
 
 - [BaseOption](type-aliases/BaseOption.md)
 - [ExtendDescriptionItemProps](type-aliases/ExtendDescriptionItemProps.md)
-- [ExtendFormItemProps](type-aliases/ExtendFormItemProps.md)
 - [ExtendFormTypeProps](type-aliases/ExtendFormTypeProps.md)
 - [ExtendTableItemProps](type-aliases/ExtendTableItemProps.md)
 - [ExtendTableTypeProps](type-aliases/ExtendTableTypeProps.md)

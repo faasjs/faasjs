@@ -4,7 +4,7 @@
 
 ## Extends
 
-- [`FaasItemProps`](FaasItemProps.md).`Omit`\<`AntdFormItemProps`\<`T`\>, `"id"` \| `"children"` \| `"render"`\>
+- [`BaseItemProps`](BaseItemProps.md).`Omit`\<`AntdFormItemProps`\<`T`\>, `"id"` \| `"children"` \| `"render"`\>
 
 ## Extended by
 
@@ -46,7 +46,7 @@
 
 #### Inherited from
 
-[`FaasItemProps`](FaasItemProps.md).[`id`](FaasItemProps.md#id)
+[`BaseItemProps`](BaseItemProps.md).[`id`](BaseItemProps.md#id)
 
 ### if()?
 
@@ -64,7 +64,7 @@ trigger when any item's value changed
 
 ### input?
 
-> `optional` **input**: `InputProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `SelectProps`\<`T`, `DefaultOptionType`\> \| `DatePickerProps`
+> `optional` **input**: `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps` \| `SelectProps`\<`T`, `DefaultOptionType`\>
 
 ### label?
 
@@ -106,7 +106,7 @@ trigger when current item's value changed
 
 #### Inherited from
 
-[`FaasItemProps`](FaasItemProps.md).[`options`](FaasItemProps.md#options)
+[`BaseItemProps`](BaseItemProps.md).[`options`](BaseItemProps.md#options)
 
 ### render?
 
@@ -134,20 +134,8 @@ trigger when current item's value changed
 
 #### Inherited from
 
-[`FaasItemProps`](FaasItemProps.md).[`title`](FaasItemProps.md#title)
+[`BaseItemProps`](BaseItemProps.md).[`title`](BaseItemProps.md#title)
 
 ### type?
 
 > `optional` **type**: [`FaasItemType`](../type-aliases/FaasItemType.md)
-
-Support string, string[], number, number[], boolean, date, time, object, object[]
-
-#### Default
-
-```ts
-'string'
-```
-
-#### Inherited from
-
-[`FaasItemProps`](FaasItemProps.md).[`type`](FaasItemProps.md#type)

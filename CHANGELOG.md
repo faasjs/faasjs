@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.6.1 (2024-08-31)`](https://github.com/faasjs/faasjs/compare/v2.6.0...v2.6.1)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix form items type.
+
 [`v2.6.0 (2024-08-29)`](https://github.com/faasjs/faasjs/compare/v2.5.2...v2.6.0)
 
 - [Feature] Add `exports` to all packages' `package.json`.

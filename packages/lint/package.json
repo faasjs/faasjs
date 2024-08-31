@@ -1,9 +1,11 @@
 {
   "name": "@faasjs/lint",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "license": "MIT",
   "type": "module",
-  "files": ["biome.json"],
+  "files": [
+    "biome.json"
+  ],
   "exports": {
     "./biome": "./biome.json"
   },
