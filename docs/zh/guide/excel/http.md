@@ -3,7 +3,7 @@
 `@faasjs/http` 提供了以下功能：
 
 - 网络请求的入参校验
-- 规范化网络响应（基于 [HTTP 请求规范](/guide/excel/request-spec.html)）
+- 规范化网络响应（基于 [HTTP 请求规范](/zh/guide/excel/request-spec.html)）
 - Cookie 的校验和读写
 - Session 的校验和读写（Session 被加密储存在 Cookie 中）
 
@@ -90,4 +90,4 @@ export default new Func({
 
 ## Http 插件文档
 
-详细文档见 [Http 插件](/doc/http.html)。
+详细文档见 [Http 插件](https://faasjs.com/doc/http/)。

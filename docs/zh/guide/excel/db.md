@@ -24,7 +24,7 @@ export default new Func({
 });
 ```
 
-详细文档见 [Redis 插件](/doc/redis.html)。
+详细文档见 [Redis 插件](https://faasjs.com/doc/redis/)。
 
 ## MongoDB 操作示例
 

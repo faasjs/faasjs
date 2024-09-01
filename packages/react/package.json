@@ -17,7 +17,7 @@
       }
     }
   },
-  "homepage": "https://faasjs.com/doc/react",
+  "homepage": "https://faasjs.com/doc/react/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",
@@ -30,9 +30,7 @@
   "scripts": {
     "build": "tsup src/index.tsx --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@faasjs/browser": "2.6.1"
   },

@@ -17,7 +17,7 @@
       }
     }
   },
-  "homepage": "https://faasjs.com/doc/tencentcloud",
+  "homepage": "https://faasjs.com/doc/tencentcloud/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",
@@ -30,9 +30,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@faasjs/func": "2.6.1",
     "@faasjs/load": "2.6.1",

@@ -52,5 +52,5 @@ module.exports = {
 
 ## 在 React 或 Vue 中使用
 
-- [@faasjs/react](https://faasjs.com/doc/react.html)
-- [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin.html)
+- [@faasjs/react](https://faasjs.com/doc/react/)
+- [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin/)

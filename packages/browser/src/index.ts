@@ -66,11 +66,11 @@
  *
  * ### Use with React
  *
- * Please use [@faasjs/react](https://faasjs.com/doc/react) for React.
+ * Please use [@faasjs/react](https://faasjs.com/doc/react/) for React.
  *
  * ### Use with Vue
  *
- * Please use [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin) for Vue.
+ * Please use [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin/) for Vue.
  *
  * @packageDocumentation
  */

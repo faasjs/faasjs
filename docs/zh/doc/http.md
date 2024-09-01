@@ -6,7 +6,7 @@ Http 插件可以使云函数能够接收和处理网络请求。
 
 同时还提供 cookie 和基于 cookie 的 seesion 功能。
 
-此外，强烈建议按 [FaasJS 请求规范](/guide/request-spec.html) 进行网络通讯。
+此外，强烈建议按 [FaasJS 请求规范](/zh/guide/excel/request-spec.html) 进行网络通讯。
 
 ## 配置参数
 
@@ -133,7 +133,7 @@ const http = new Http({
 
 ## 云函数 handler 返回值的处理
 
-为了符合 [FaasJS 请求规范](/guide/request-spec.html)，Http 插件会对 handler 的返回值进行特殊处理。规则为：
+为了符合 [FaasJS 请求规范](/zh/guide/excel/request-spec.html)，Http 插件会对 handler 的返回值进行特殊处理。规则为：
 
 ### 自动添加 headers 和 statusCode
 

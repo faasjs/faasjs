@@ -1732,12 +1732,12 @@ Happy Chinese New Year! :tiger: :firecracker:
 
 `2019-10-13`
 
-- [新增] [FaasJS 周刊](https://faasjs.com/weekly/) 开始试运行。
+- [新增] FaasJS 周刊 开始试运行。
 
 `2019-10-11`
 
 - [Feature] 教程中添加新加入的命令行指令。
-- [新增] 官网新增 [支持 FaasJS](https://faasjs.com/contribute.html)。
+- [新增] 官网新增 [支持 FaasJS](https://faasjs.com/CONTRIBUTING.html)。
 - [修复] `@faasjs/func` 当 handler 没有返回时出现的一个判断异常。
 
 `2019-10-09`
