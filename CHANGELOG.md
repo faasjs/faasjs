@@ -4,6 +4,15 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.7.0 (2024-09-06)`](https://github.com/faasjs/faasjs/compare/v2.6.1...v2.7.0)
+
+- `@faasjs/react`
+  - [Feature] Add `OptionalWrapper`.
+
+- `@faasjs/ant-design`
+  - [Feature] `App`'s `styleProviderProps` and `browserRouterProps` can be disabled by `false`.
+  - [Fix] Fix `Form`'s `initialValues` to `Partial<Values>`.
+
 [`v2.6.1 (2024-08-31)`](https://github.com/faasjs/faasjs/compare/v2.6.0...v2.6.1)
 
 - `@faasjs/ant-design`

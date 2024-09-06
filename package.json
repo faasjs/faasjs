@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "private": true,
   "scripts": {
     "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles",

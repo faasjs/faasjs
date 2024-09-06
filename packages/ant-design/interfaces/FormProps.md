@@ -32,7 +32,7 @@
 
 ### initialValues?
 
-> `optional` **initialValues**: `Values`
+> `optional` **initialValues**: `Partial`\<`Values`\>
 
 ### items?
 

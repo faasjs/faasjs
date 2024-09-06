@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/test",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -38,14 +38,14 @@
     "typescript": "*"
   },
   "peerDependencies": {
-    "@faasjs/func": "2.6.1",
-    "@faasjs/load": "2.6.1",
-    "@faasjs/logger": "2.6.1"
+    "@faasjs/func": "2.7.0",
+    "@faasjs/load": "2.7.0",
+    "@faasjs/logger": "2.7.0"
   },
   "devDependencies": {
-    "@faasjs/func": "2.6.1",
-    "@faasjs/load": "2.6.1",
-    "@faasjs/logger": "2.6.1"
+    "@faasjs/func": "2.7.0",
+    "@faasjs/load": "2.7.0",
+    "@faasjs/logger": "2.7.0"
   },
   "engines": {
     "npm": ">=9.0.0",

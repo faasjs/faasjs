@@ -6,7 +6,11 @@
 
 ### browserRouterProps?
 
-> `optional` **browserRouterProps**: `BrowserRouterProps`
+> `optional` **browserRouterProps**: `false` \| `BrowserRouterProps`
+
+`false` to disable BrowserRouter.
+
+#### See
 
 https://reactrouter.com/en/router-components/browser-router
 
@@ -18,22 +22,32 @@ https://reactrouter.com/en/router-components/browser-router
 
 > `optional` **configProviderProps**: `ConfigProviderProps`
 
+#### See
+
 https://ant.design/components/config-provider/#API
 
 ### errorBoundaryProps?
 
 > `optional` **errorBoundaryProps**: `Omit`\<[`ErrorBoundaryProps`](ErrorBoundaryProps.md), `"children"`\>
 
+#### See
+
 https://faasjs.com/doc/ant-design/#errorboundary
 
 ### faasConfigProviderProps?
 
-> `optional` **faasConfigProviderProps**: `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), `"children"`\>
+> `optional` **faasConfigProviderProps**: `false` \| `Omit`\<[`ConfigProviderProps`](ConfigProviderProps.md), `"children"`\>
+
+#### See
 
 https://faasjs.com/doc/ant-design/#configprovider
 
 ### styleProviderProps?
 
-> `optional` **styleProviderProps**: `StyleProviderProps`
+> `optional` **styleProviderProps**: `false` \| `StyleProviderProps`
+
+`false` to disable StyleProvider.
+
+#### See
 
 https://ant.design/docs/react/compatible-style#styleprovider

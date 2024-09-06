@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/vue-plugin",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,13 +30,15 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
-    "@faasjs/browser": "2.6.1",
+    "@faasjs/browser": "2.7.0",
     "vue": "*"
   },
   "devDependencies": {
-    "@faasjs/browser": "2.6.1",
+    "@faasjs/browser": "2.7.0",
     "@vue/test-utils": "*",
     "vue": "*"
   },
