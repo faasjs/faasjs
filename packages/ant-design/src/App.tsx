@@ -17,7 +17,7 @@ import {
   ConfigProvider as FaasConfigProvider,
   type ConfigProviderProps as FaasConfigProviderProps,
 } from './Config'
-import { createSplitedContext } from '@faasjs/react'
+import { createSplittingContext } from '@faasjs/react'
 
 export interface AppProps {
   children: React.ReactNode
@@ -42,7 +42,7 @@ export interface useAppProps {
   setDrawerProps: setDrawerProps
 }
 
-const AppContext = createSplitedContext<useAppProps>({
+const AppContext = createSplittingContext<useAppProps>({
   message: null,
   notification: null,
   modalProps: {},
