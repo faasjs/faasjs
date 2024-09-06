@@ -74,7 +74,7 @@ export interface FormProps<
   footer?: JSX.Element | JSX.Element[]
   extendTypes?: ExtendTypes
   children?: ReactNode
-  initialValues?: Values
+  initialValues?: Partial<Values>
 }
 
 function isFormItemProps(item: any): item is FormItemProps {
@@ -92,7 +92,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
   const config = useConfigContext()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const [form] = AntdForm.useForm<Values>(props.form)
-  const [initialValues, setInitialValues] = useState<Values>(
+  const [initialValues, setInitialValues] = useState<Partial<Values>>(
     props.initialValues
   )
 
