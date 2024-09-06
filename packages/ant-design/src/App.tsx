@@ -17,20 +17,28 @@ import {
   ConfigProvider as FaasConfigProvider,
   type ConfigProviderProps as FaasConfigProviderProps,
 } from './Config'
-import { createSplittingContext } from '@faasjs/react'
+import { createSplittingContext, OptionalWrapper } from '@faasjs/react'
 
 export interface AppProps {
   children: React.ReactNode
-  /** https://ant.design/docs/react/compatible-style#styleprovider */
-  styleProviderProps?: StyleProviderProps
-  /** https://ant.design/components/config-provider/#API */
+  /**
+   * `false` to disable StyleProvider.
+   *
+   * @see https://ant.design/docs/react/compatible-style#styleprovider
+   */
+  styleProviderProps?: StyleProviderProps | false
+  /** @see https://ant.design/components/config-provider/#API */
   configProviderProps?: ConfigProviderProps
-  /** https://reactrouter.com/en/router-components/browser-router */
-  browserRouterProps?: BrowserRouterProps
-  /** https://faasjs.com/doc/ant-design/#errorboundary */
+  /**
+   * `false` to disable BrowserRouter.
+   *
+   * @see https://reactrouter.com/en/router-components/browser-router
+   */
+  browserRouterProps?: BrowserRouterProps | false
+  /** @see https://faasjs.com/doc/ant-design/#errorboundary */
   errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
-  /** https://faasjs.com/doc/ant-design/#configprovider */
-  faasConfigProviderProps?: Omit<FaasConfigProviderProps, 'children'>
+  /** @see https://faasjs.com/doc/ant-design/#configprovider */
+  faasConfigProviderProps?: Omit<FaasConfigProviderProps, 'children'> | false
 }
 
 export interface useAppProps {
@@ -112,8 +120,16 @@ export function App(props: AppProps) {
   )
 
   return (
-    <StyleProvider {...styleProviderProps}>
-      <ConfigProvider {...props.configProviderProps}>
+    <OptionalWrapper
+      condition={props.styleProviderProps !== false}
+      Wrapper={StyleProvider}
+      wrapperProps={styleProviderProps}
+    >
+      <OptionalWrapper
+        condition={!!props.configProviderProps}
+        Wrapper={ConfigProvider}
+        wrapperProps={props.configProviderProps}
+      >
         <AppContext.Provider
           value={{
             message: messageApi,
@@ -126,18 +142,26 @@ export function App(props: AppProps) {
         >
           <FaasConfigProvider {...props.faasConfigProviderProps}>
             <ErrorBoundary {...props.errorBoundaryProps}>
-              <BrowserRouter {...props.browserRouterProps}>
+              <OptionalWrapper
+                condition={props.browserRouterProps !== false}
+                Wrapper={BrowserRouter}
+                wrapperProps={props.browserRouterProps}
+              >
                 {messageContextHolder}
                 {notificationContextHolder}
                 {modal}
                 {drawer}
-                <RoutesApp>{props.children}</RoutesApp>
-              </BrowserRouter>
+                {props.browserRouterProps !== false ? (
+                  <RoutesApp>{props.children}</RoutesApp>
+                ) : (
+                  props.children
+                )}
+              </OptionalWrapper>
             </ErrorBoundary>
           </FaasConfigProvider>
         </AppContext.Provider>
-      </ConfigProvider>
-    </StyleProvider>
+      </OptionalWrapper>
+    </OptionalWrapper>
   )
 }
 

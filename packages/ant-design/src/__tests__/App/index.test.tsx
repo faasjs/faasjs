@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useEffect } from 'react'
 import { App, useApp } from '../../App'
+import { useNavigate } from 'react-router-dom'
 
 describe('App', () => {
   it('should work', async () => {
@@ -86,4 +87,34 @@ describe('App', () => {
     expect(ButtonTimes).toBe(1)
     expect(ComponentTimes).toBe(1)
   })
+})
+
+it('disable BrowserRouter', () => {
+  function Nav() {
+    const navigate = useNavigate()
+
+    return (
+      <button type='button' onClick={() => navigate('/')}>
+        Nav
+      </button>
+    )
+  }
+
+  render(
+    <App browserRouterProps={false}>
+      <Nav />
+    </App>
+  )
+
+  expect(
+    screen.getByText(/useNavigate\(\) may be used only in the context/)
+  ).toBeInTheDocument()
+
+  render(
+    <App browserRouterProps={false}>
+      <div>OK</div>
+    </App>
+  )
+
+  expect(screen.getByText('OK')).toBeInTheDocument()
 })

@@ -57,6 +57,7 @@ export {
 
 export * from './client'
 export * from './ErrorBoundary'
+export * from './OptionalWrapper'
 
 export type {
   FaasReactClientInstance,
