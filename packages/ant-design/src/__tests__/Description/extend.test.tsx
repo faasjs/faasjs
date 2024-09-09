@@ -35,8 +35,8 @@ describe('Description/extend', () => {
       />
     )
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
-    expect(screen.getByText('***')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
+    expect(screen.getByText('***')).toBeDefined()
   })
 
   it('render', () => {
@@ -61,7 +61,7 @@ describe('Description/extend', () => {
       />
     )
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
-    expect(screen.getByText('***')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
+    expect(screen.getByText('***')).toBeDefined()
   })
 })

@@ -20,9 +20,9 @@ describe('Table/items', () => {
       />
     )
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
-    expect(screen.getByText('value')).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: 'filter' })).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
+    expect(screen.getByText('value')).toBeDefined()
+    expect(screen.getByRole('img', { name: 'filter' })).toBeDefined()
   })
 
   describe('options', () => {
@@ -49,8 +49,8 @@ describe('Table/items', () => {
         />
       )
 
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText('label')).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText('label')).toBeDefined()
     })
 
     it('string[]', async () => {
@@ -91,12 +91,12 @@ describe('Table/items', () => {
         />
       )
 
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText('label, label')).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText('label, label')).toBeDefined()
 
       await user.click(screen.getByRole('img', { name: 'filter' }))
 
-      expect(screen.getByText('label2')).toBeInTheDocument()
+      expect(screen.getByText('label2')).toBeDefined()
     })
 
     it('optionsType is auto', async () => {
@@ -165,7 +165,7 @@ describe('Table/items', () => {
       await user.click(screen.getAllByRole('radio')[1])
 
       expect(screen.getAllByRole('cell').length).toBe(2)
-      expect(screen.getByText('true')).toBeInTheDocument()
+      expect(screen.getByText('true')).toBeDefined()
     })
 
     it('filter false', async () => {
@@ -175,7 +175,7 @@ describe('Table/items', () => {
       await user.click(screen.getAllByRole('radio')[2])
 
       expect(screen.getAllByRole('cell').length).toBe(2)
-      expect(screen.getByText('false')).toBeInTheDocument()
+      expect(screen.getByText('false')).toBeDefined()
     })
 
     it('filter empty and all', async () => {
@@ -212,10 +212,8 @@ describe('Table/items', () => {
           ]}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(
-        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
-      ).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
     })
 
     it('dayjs', () => {
@@ -236,10 +234,8 @@ describe('Table/items', () => {
           ]}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(
-        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
-      ).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
     })
 
     it('string', () => {
@@ -260,10 +256,8 @@ describe('Table/items', () => {
           ]}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(
-        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
-      ).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
     })
   })
 
@@ -286,8 +280,8 @@ describe('Table/items', () => {
           ]}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
     })
 
     it('dayjs', () => {
@@ -308,8 +302,8 @@ describe('Table/items', () => {
           ]}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
     })
 
     it('string', () => {
@@ -330,8 +324,8 @@ describe('Table/items', () => {
           ]}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
     })
   })
 
@@ -354,7 +348,7 @@ describe('Table/items', () => {
       />
     )
 
-    expect(screen.getByText('value')).toBeInTheDocument()
+    expect(screen.getByText('value')).toBeDefined()
   })
 
   it('object[]', () => {
@@ -376,6 +370,6 @@ describe('Table/items', () => {
       />
     )
 
-    expect(screen.getByText('value')).toBeInTheDocument()
+    expect(screen.getByText('value')).toBeDefined()
   })
 })

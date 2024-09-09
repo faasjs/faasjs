@@ -62,6 +62,7 @@ export function FaasReactClient({
     options?: useFaasOptions<PathOrData>
   ): FaasDataInjection<FaasData<PathOrData>> {
     if (!options) options = {}
+    console.log('useFaas', action, defaultParams, options)
 
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState<FaasData<PathOrData>>()

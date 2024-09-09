@@ -14,8 +14,8 @@ describe('Description/items', () => {
       />
     )
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
-    expect(screen.getByText('value')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
+    expect(screen.getByText('value')).toBeDefined()
   })
 
   it('children', () => {
@@ -31,9 +31,9 @@ describe('Description/items', () => {
       />
     )
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
     expect(screen.queryByText('value')).toBeNull()
-    expect(screen.getByText('Children')).toBeInTheDocument()
+    expect(screen.getByText('Children')).toBeDefined()
   })
 
   it('render', () => {
@@ -49,8 +49,8 @@ describe('Description/items', () => {
       />
     )
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
-    expect(screen.getByText('value value')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
+    expect(screen.getByText('value value')).toBeDefined()
   })
 
   describe('options', () => {
@@ -72,8 +72,8 @@ describe('Description/items', () => {
         />
       )
 
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText('label')).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText('label')).toBeDefined()
     })
 
     it('string[]', () => {
@@ -95,8 +95,8 @@ describe('Description/items', () => {
         />
       )
 
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText('label, label')).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText('label, label')).toBeDefined()
     })
   })
 
@@ -116,7 +116,7 @@ describe('Description/items', () => {
           }}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
     })
     it('number', async () => {
       const now = dayjs()
@@ -131,10 +131,8 @@ describe('Description/items', () => {
           dataSource={{ test: now.unix() }}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(
-        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
-      ).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
     })
     it('dayjs', () => {
       const now = dayjs()
@@ -149,10 +147,8 @@ describe('Description/items', () => {
           dataSource={{ test: now }}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(
-        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
-      ).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
     })
     it('string', () => {
       const now = dayjs()
@@ -167,10 +163,8 @@ describe('Description/items', () => {
           dataSource={{ test: now.format() }}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(
-        screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))
-      ).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
     })
   })
 
@@ -187,7 +181,7 @@ describe('Description/items', () => {
           dataSource={{ test: undefined }}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
     })
     it('number', async () => {
       const now = dayjs()
@@ -205,8 +199,8 @@ describe('Description/items', () => {
           }}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
     })
     it('dayjs', () => {
       const now = dayjs()
@@ -224,8 +218,8 @@ describe('Description/items', () => {
           }}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
     })
     it('string', () => {
       const now = dayjs()
@@ -243,8 +237,8 @@ describe('Description/items', () => {
           }}
         />
       )
-      expect(screen.getByText('Test')).toBeInTheDocument()
-      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
+      expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
     })
   })
 })

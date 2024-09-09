@@ -32,7 +32,7 @@ describe('FaasDataWrapper', () => {
       />
     )
 
-    expect(await screen.findByText('value')).toBeInTheDocument()
+    expect(await screen.findByText('value')).toBeDefined()
   })
 
   it('using withFaasData', async () => {
@@ -42,6 +42,6 @@ describe('FaasDataWrapper', () => {
       )
     )
 
-    expect(await screen.findByText('value')).toBeInTheDocument()
+    expect(await screen.findByText('value')).toBeDefined()
   })
 })

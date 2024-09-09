@@ -22,7 +22,7 @@ describe('FormItem', () => {
     it.each(types)('%s should show', type => {
       const { container } = render(<FormItem id='test' type={type} />)
 
-      expect(screen.getByText('Test')).toBeInTheDocument()
+      expect(screen.getByText('Test')).toBeDefined()
       expect(
         container.getElementsByClassName('ant-form-item-label').length
       ).toEqual(1)
@@ -61,7 +61,7 @@ describe('FormItem', () => {
 
       await user.click(container.getElementsByClassName('ant-btn-primary')[0])
 
-      expect(await screen.findByText('Test is required')).toBeInTheDocument()
+      expect(await screen.findByText('Test is required')).toBeDefined()
     })
   })
 })

@@ -21,8 +21,8 @@ describe('Tabs', () => {
       />
     )
 
-    expect(screen.getByText('id')).toBeInTheDocument()
-    expect(screen.getByText('content')).toBeInTheDocument()
-    expect(screen.queryByText('hidden')).not.toBeInTheDocument()
+    expect(screen.getByText('id')).toBeDefined()
+    expect(screen.getByText('content')).toBeDefined()
+    expect(screen.queryByText('hidden')).toBeNull()
   })
 })

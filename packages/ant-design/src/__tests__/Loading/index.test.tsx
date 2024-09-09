@@ -14,6 +14,6 @@ describe('Loading', () => {
   it('should work with children', () => {
     render(<Loading loading={false}>children</Loading>)
 
-    expect(screen.getByText('children')).toBeInTheDocument()
+    expect(screen.getByText('children')).toBeDefined()
   })
 })

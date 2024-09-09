@@ -21,11 +21,11 @@ describe('Modal', () => {
 
     render(<App />)
 
-    expect(screen.getByText('title')).toBeInTheDocument()
+    expect(screen.getByText('title')).toBeDefined()
 
     setModalProps({ title: 'new title' })
 
-    expect(await screen.findByText('new title')).toBeInTheDocument()
+    expect(await screen.findByText('new title')).toBeDefined()
   })
 
   it('should work with handler', async () => {
@@ -46,10 +46,10 @@ describe('Modal', () => {
 
     render(<App />)
 
-    expect(screen.getByText('title')).toBeInTheDocument()
+    expect(screen.getByText('title')).toBeDefined()
 
     setModalProps(() => ({ title: 'new title' }))
 
-    expect(await screen.findByText('new title')).toBeInTheDocument()
+    expect(await screen.findByText('new title')).toBeDefined()
   })
 })

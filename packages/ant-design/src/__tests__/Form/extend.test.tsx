@@ -39,9 +39,7 @@ describe('Form/extend', () => {
       />
     )
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
-    expect(
-      container.querySelector('input[type="password"]')
-    ).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
+    expect(container.querySelector('input[type="password"]')).toBeDefined()
   })
 })

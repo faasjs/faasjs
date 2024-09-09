@@ -1,6 +1,4 @@
 if (typeof window !== 'undefined') {
-  require('@testing-library/jest-dom')
-
   global.React = require('react')
 
   const whyDidYouRender = require('@welldone-software/why-did-you-render')

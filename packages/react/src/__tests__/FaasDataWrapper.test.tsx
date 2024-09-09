@@ -57,12 +57,12 @@ describe('FaasDataWrapper', () => {
       </FaasDataWrapper>
     )
 
-    expect(await screen.findByText('1')).toBeInTheDocument()
+    expect(await screen.findByText('1')).toBeDefined()
     expect(renderTimes).toEqual(1)
 
     await userEvent.click(screen.getByRole('button'))
 
-    expect(await screen.findByText('2')).toBeInTheDocument()
+    expect(await screen.findByText('2')).toBeDefined()
     expect(renderTimes).toEqual(3)
   })
 
@@ -92,13 +92,13 @@ describe('FaasDataWrapper', () => {
 
     render(<App />)
 
-    expect(await screen.findByText('{"v":1}')).toBeInTheDocument()
+    expect(await screen.findByText('{"v":1}')).toBeDefined()
 
     expect(renderTimes).toEqual(1)
 
     await userEvent.click(screen.getByRole('button'))
 
-    expect(await screen.findByText('{"v":10}')).toBeInTheDocument()
+    expect(await screen.findByText('{"v":10}')).toBeDefined()
     expect(renderTimes).toEqual(4)
   })
 
@@ -122,12 +122,12 @@ describe('FaasDataWrapper', () => {
 
     render(<Test />)
 
-    expect(await screen.findByText('1')).toBeInTheDocument()
+    expect(await screen.findByText('1')).toBeDefined()
     expect(renderTimes).toEqual(1)
 
     await userEvent.click(screen.getByRole('button'))
 
-    expect(await screen.findByText('2')).toBeInTheDocument()
+    expect(await screen.findByText('2')).toBeDefined()
     expect(renderTimes).toEqual(3)
   })
 })

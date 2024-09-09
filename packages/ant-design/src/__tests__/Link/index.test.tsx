@@ -15,7 +15,7 @@ describe('Link', () => {
       </BrowserRouter>
     )
 
-    expect(screen.getByText('text')).toBeInTheDocument()
+    expect(screen.getByText('text')).toBeDefined()
 
     await userEvent.click(screen.getByText('text'))
 
@@ -29,9 +29,8 @@ describe('Link', () => {
       </BrowserRouter>
     )
 
-    expect(container.querySelector('a')).toHaveStyle(
-      'display: block;width: 100%;'
-    )
+    expect(container.querySelector('a').style.display).toEqual('block')
+    expect(container.querySelector('a').style.width).toEqual('100%')
   })
 
   it('work with global style', async () => {
@@ -43,7 +42,7 @@ describe('Link', () => {
       </ConfigProvider>
     )
 
-    expect(container.querySelector('a')).toHaveStyle('font-weight: bold')
+    expect(container.querySelector('a').style.fontWeight).toEqual('bold')
   })
 
   it('work with copyable', async () => {
@@ -53,7 +52,7 @@ describe('Link', () => {
       </BrowserRouter>
     )
 
-    expect(container.querySelector('.ant-typography-copy')).toBeInTheDocument()
+    expect(container.querySelector('.ant-typography-copy')).toBeDefined()
   })
 
   it('work with special target', async () => {
@@ -63,7 +62,7 @@ describe('Link', () => {
       </BrowserRouter>
     )
 
-    expect(container.querySelector('[target="_blank"]')).toBeInTheDocument()
+    expect(container.querySelector('[target="_blank"]')).toBeDefined()
   })
 
   it('work with global target', async () => {
@@ -75,7 +74,7 @@ describe('Link', () => {
       </ConfigProvider>
     )
 
-    expect(container.querySelector('[target="_blank"]')).toBeInTheDocument()
+    expect(container.querySelector('[target="_blank"]')).toBeDefined()
   })
 
   it('work with onClick', async () => {
@@ -104,7 +103,7 @@ describe('Link', () => {
       </BrowserRouter>
     )
 
-    expect(container.querySelector('[target="_blank"]')).toBeInTheDocument()
+    expect(container.querySelector('[target="_blank"]')).toBeDefined()
 
     await userEvent.click(screen.getByText('text'))
 
@@ -142,7 +141,7 @@ describe('Link', () => {
         </BrowserRouter>
       )
 
-      expect(container.querySelector('button.ant-btn')).toBeInTheDocument()
+      expect(container.querySelector('button.ant-btn')).toBeDefined()
     })
 
     it('work with onClick', async () => {

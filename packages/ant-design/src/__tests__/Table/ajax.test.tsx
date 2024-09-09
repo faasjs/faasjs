@@ -46,11 +46,11 @@ describe('Table/ajax', () => {
       />
     )
 
-    expect(await screen.findByText('Test')).toBeInTheDocument()
-    expect(await screen.findByText('value1')).toBeInTheDocument()
+    expect(await screen.findByText('Test')).toBeDefined()
+    expect(await screen.findByText('value1')).toBeDefined()
 
     await userEvent.click(screen.getAllByRole('button')[2])
 
-    expect(await screen.findByText('value2')).toBeInTheDocument()
+    expect(await screen.findByText('value2')).toBeDefined()
   })
 })

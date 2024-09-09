@@ -253,6 +253,7 @@ export class FaasBrowserClient {
     params?: FaasParams<PathOrData>,
     options?: Options
   ): Promise<Response<FaasData<PathOrData>>> {
+    console.error(`[FaasJS] Request: ${action} %j`, params)
     if (!action) throw Error('[FaasJS] action required')
 
     const id = `F-${generateId()}`
@@ -285,7 +286,10 @@ export class FaasBrowserClient {
 
     if (options.request) return options.request(url, options)
 
-    if (mock) return mock(action as string, params, options)
+    if (mock) {
+      console.debug(`[FaasJS] Mock request: ${action} %j`, params)
+      return mock(action as string, params, options)
+    }
 
     return fetch(url, options).then(async response => {
       const headers: {

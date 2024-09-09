@@ -62,15 +62,15 @@ describe('FormItem object', () => {
       />
     )
 
-    expect(screen.getByText('String')).toBeInTheDocument()
-    expect(screen.getByText('StringList')).toBeInTheDocument()
-    expect(screen.getByText('Number')).toBeInTheDocument()
-    expect(screen.getByText('NumberList')).toBeInTheDocument()
-    expect(screen.getByText('Boolean')).toBeInTheDocument()
-    expect(screen.getByText('Date')).toBeInTheDocument()
-    expect(screen.getByText('Time')).toBeInTheDocument()
-    expect(screen.getByText('SubObject')).toBeInTheDocument()
-    expect(screen.getByText('SubString')).toBeInTheDocument()
+    expect(screen.getByText('String')).toBeDefined()
+    expect(screen.getByText('StringList')).toBeDefined()
+    expect(screen.getByText('Number')).toBeDefined()
+    expect(screen.getByText('NumberList')).toBeDefined()
+    expect(screen.getByText('Boolean')).toBeDefined()
+    expect(screen.getByText('Date')).toBeDefined()
+    expect(screen.getByText('Time')).toBeDefined()
+    expect(screen.getByText('SubObject')).toBeDefined()
+    expect(screen.getByText('SubString')).toBeDefined()
 
     await user.type(screen.getByLabelText('SubString'), 'value')
 

@@ -15,7 +15,7 @@ describe('Config', () => {
       </ConfigProvider>
     )
 
-    expect(screen.getByText('text')).toBeInTheDocument()
-    expect(screen.getByText('页面未找到')).toBeInTheDocument()
+    expect(screen.getByText('text')).toBeDefined()
+    expect(screen.getByText('页面未找到')).toBeDefined()
   })
 })

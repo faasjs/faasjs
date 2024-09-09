@@ -8,6 +8,6 @@ describe('Blank', () => {
   it('should work', () => {
     render(<Blank />)
 
-    expect(screen.getByText('Empty')).toBeInTheDocument()
+    expect(screen.getByText('Empty')).toBeDefined()
   })
 })

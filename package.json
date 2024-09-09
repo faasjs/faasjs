@@ -18,7 +18,12 @@
     "turbo": "*",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
+    "@happy-dom/global-registrator": "*",
+    "@welldone-software/why-did-you-render": "*",
+    "@types/bun": "*"
   },
   "workspaces": ["packages/*"],
   "packageManager": "npm@10.8.1",

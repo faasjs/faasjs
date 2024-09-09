@@ -28,7 +28,7 @@ describe('FormItem string[]', () => {
 
     await user.click(container.getElementsByClassName('ant-select-selector')[0])
 
-    expect(await screen.findByText('label')).toBeInTheDocument()
+    expect(await screen.findByText('label')).toBeDefined()
   })
 
   it('with string options', async () => {
@@ -43,7 +43,7 @@ describe('FormItem string[]', () => {
 
     await user.click(container.getElementsByClassName('ant-select-selector')[0])
 
-    expect(await screen.findByText('Value')).toBeInTheDocument()
+    expect(await screen.findByText('Value')).toBeDefined()
   })
 
   describe('can add', () => {

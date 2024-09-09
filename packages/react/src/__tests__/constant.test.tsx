@@ -29,6 +29,6 @@ describe('useConstant', () => {
     await user.click(screen.getByRole('button'))
 
     expect(fn).toHaveBeenCalledTimes(1)
-    expect(await screen.findByText('1 test')).toBeInTheDocument()
+    expect(await screen.findByText('1 test')).toBeDefined()
   })
 })

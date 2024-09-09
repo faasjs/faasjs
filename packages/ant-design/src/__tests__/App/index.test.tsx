@@ -74,15 +74,15 @@ describe('App', () => {
       </App>
     )
 
-    expect(screen.getByText('Hi')).toBeInTheDocument()
+    expect(screen.getByText('Hi')).toBeDefined()
     expect(ContainerTimes).toBe(1)
     expect(ButtonTimes).toBe(1)
     expect(ComponentTimes).toBe(1)
 
     await user.click(screen.getByRole('button'))
 
-    expect(await screen.findByText('Hi Drawer')).toBeInTheDocument()
-    expect(await screen.findByText('Hi Modal')).toBeInTheDocument()
+    expect(await screen.findByText('Hi Drawer')).toBeDefined()
+    expect(await screen.findByText('Hi Modal')).toBeDefined()
     expect(ContainerTimes).toBe(1)
     expect(ButtonTimes).toBe(1)
     expect(ComponentTimes).toBe(1)
@@ -108,7 +108,7 @@ it('disable BrowserRouter', () => {
 
   expect(
     screen.getByText(/useNavigate\(\) may be used only in the context/)
-  ).toBeInTheDocument()
+  ).toBeDefined()
 
   render(
     <App browserRouterProps={false}>
@@ -116,5 +116,5 @@ it('disable BrowserRouter', () => {
     </App>
   )
 
-  expect(screen.getByText('OK')).toBeInTheDocument()
+  expect(screen.getByText('OK')).toBeDefined()
 })

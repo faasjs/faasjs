@@ -28,6 +28,6 @@ describe('FormItem string', () => {
 
     await user.click(container.getElementsByClassName('ant-radio-input')[0])
 
-    expect(await screen.findByText('label')).toBeInTheDocument()
+    expect(await screen.findByText('label')).toBeDefined()
   })
 })

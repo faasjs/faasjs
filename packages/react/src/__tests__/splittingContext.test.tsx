@@ -34,8 +34,8 @@ describe('createSplittingContext', () => {
       </Provider>
     )
 
-    expect(screen.getByText('Hello')).toBeInTheDocument()
-    expect(screen.getByText('World')).toBeInTheDocument()
+    expect(screen.getByText('Hello')).toBeDefined()
+    expect(screen.getByText('World')).toBeDefined()
     expect(renderTimes).toBe(1)
   })
 
@@ -69,8 +69,8 @@ describe('createSplittingContext', () => {
       </Provider>
     )
 
-    expect(screen.getByText('value1')).toBeInTheDocument()
-    expect(screen.getByText('value2')).toBeInTheDocument()
+    expect(screen.getByText('value1')).toBeDefined()
+    expect(screen.getByText('value2')).toBeDefined()
     expect(renderTimes).toBe(1)
   })
 
@@ -140,14 +140,14 @@ describe('createSplittingContext', () => {
 
     render(<Container />)
 
-    expect(screen.getByText('reader:0')).toBeInTheDocument()
-    expect(screen.getByText('writer:optional')).toBeInTheDocument()
+    expect(screen.getByText('reader:0')).toBeDefined()
+    expect(screen.getByText('writer:optional')).toBeDefined()
 
     await user.click(screen.getByRole('button'))
     await user.click(screen.getByRole('button'))
 
-    expect(screen.getByText('reader:2')).toBeInTheDocument()
-    expect(screen.getByText('parent:2')).toBeInTheDocument()
+    expect(screen.getByText('reader:2')).toBeDefined()
+    expect(screen.getByText('parent:2')).toBeDefined()
     expect(containerRenderTimes).toBe(3)
     expect(readerRenderTimes).toBe(3)
     expect(writerRenderTimes).toBe(1)

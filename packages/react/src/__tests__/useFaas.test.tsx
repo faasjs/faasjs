@@ -50,12 +50,12 @@ describe('useFaas', () => {
 
     render(<Test />)
 
-    expect(await screen.findByText('1')).toBeInTheDocument()
+    expect(await screen.findByText('1')).toBeDefined()
     expect(renderTimes).toBe(3)
 
     await userEvent.click(screen.getByRole('button'))
 
-    expect(await screen.findByText('2')).toBeInTheDocument()
+    expect(await screen.findByText('2')).toBeDefined()
     expect(renderTimes).toBe(6)
   })
 
@@ -89,7 +89,7 @@ describe('useFaas', () => {
 
     await userEvent.click(screen.getByRole('button'))
 
-    expect(await screen.findByText('{"v":10}')).toBeInTheDocument()
+    expect(await screen.findByText('{"v":10}')).toBeDefined()
   })
 
   it('should work with debounce', async () => {
@@ -125,7 +125,7 @@ describe('useFaas', () => {
     await userEvent.click(screen.getByRole('button'))
     await userEvent.click(screen.getByRole('button'))
 
-    expect(await screen.findByText('3')).toBeInTheDocument()
+    expect(await screen.findByText('3')).toBeDefined()
     expect(times).toBe(1)
   })
 })

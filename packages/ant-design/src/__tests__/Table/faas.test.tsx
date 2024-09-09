@@ -34,7 +34,7 @@ describe('Table/faas', () => {
       />
     )
 
-    expect(await screen.findByText('Test')).toBeInTheDocument()
-    expect(await screen.findByText('value')).toBeInTheDocument()
+    expect(await screen.findByText('Test')).toBeDefined()
+    expect(await screen.findByText('value')).toBeDefined()
   })
 })

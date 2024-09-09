@@ -10,7 +10,7 @@ describe('Form/items', () => {
   it('should work', () => {
     render(<Form items={[{ id: 'test' }]} />)
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
   })
 
   it('should work with children', async () => {
@@ -37,8 +37,8 @@ describe('Form/items', () => {
       </Form>
     )
 
-    expect(screen.getByText('Test')).toBeInTheDocument()
-    expect(screen.getByText('Children')).toBeInTheDocument()
+    expect(screen.getByText('Test')).toBeDefined()
+    expect(screen.getByText('Children')).toBeDefined()
 
     await userEvent.type(screen.getAllByRole('textbox')[0], 'test')
     await userEvent.type(screen.getAllByRole('textbox')[1], 'children')

@@ -30,9 +30,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@ant-design/icons": "*",
     "lodash-es": "*"
@@ -46,10 +44,6 @@
   },
   "devDependencies": {
     "@types/lodash-es": "*",
-    "@testing-library/jest-dom": "*",
-    "@testing-library/react": "*",
-    "@testing-library/user-event": "*",
-    "@welldone-software/why-did-you-render": "*",
     "@faasjs/react": "2.7.0",
     "antd": "*",
     "react": "*",
