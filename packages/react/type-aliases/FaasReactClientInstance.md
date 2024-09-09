@@ -8,21 +8,21 @@
 
 ### faas()
 
-> **faas**: \<`PathOrData`\>(`action`, `params`) => `Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
+> **faas**: \<`PathOrData`\>(`action`, `params`) => `Promise`\<`Response`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 #### Type Parameters
 
-• **PathOrData** *extends* `FaasAction`
+• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
 
 #### Parameters
 
 • **action**: `string` \| `PathOrData`
 
-• **params**: `FaasParams`\<`PathOrData`\>
+• **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
 #### Returns
 
-`Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
+`Promise`\<`Response`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 ### id
 
@@ -30,29 +30,29 @@
 
 ### useFaas()
 
-> **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options`?) => [`FaasDataInjection`](FaasDataInjection.md)\<`FaasData`\<`PathOrData`\>\>
+> **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options`?) => [`FaasDataInjection`](FaasDataInjection.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
 
 #### Type Parameters
 
-• **PathOrData** *extends* `FaasAction`
+• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
 
 #### Parameters
 
 • **action**: `string` \| `PathOrData`
 
-• **defaultParams**: `FaasParams`\<`PathOrData`\>
+• **defaultParams**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
 • **options?**: [`useFaasOptions`](useFaasOptions.md)\<`PathOrData`\>
 
 #### Returns
 
-[`FaasDataInjection`](FaasDataInjection.md)\<`FaasData`\<`PathOrData`\>\>
+[`FaasDataInjection`](FaasDataInjection.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
 
 ### FaasDataWrapper()
 
 #### Type Parameters
 
-• **PathOrData** *extends* `FaasAction`
+• **PathOrData** *extends* `Record`\<`string`, `any`\>
 
 #### Parameters
 

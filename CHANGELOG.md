@@ -4,6 +4,16 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.8.0 (2024-09-09)`](https://github.com/faasjs/faasjs/compare/v2.7.0...v2.8.0)
+
+- `@faasjs/react`
+  - [Feature] Add `withFaasData`.
+
+- `@faasjs/ant-design`
+  - [Feature] Add `withFaasData`.
+  - [Feature] `Link`'s button can be boolean.
+  - [Fix] Fix `FaasAction` types.
+
 [`v2.7.0 (2024-09-06)`](https://github.com/faasjs/faasjs/compare/v2.6.1...v2.7.0)
 
 - `@faasjs/react`

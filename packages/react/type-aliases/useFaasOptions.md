@@ -6,13 +6,13 @@
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasAction`
+• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
 
 ## Type declaration
 
 ### data?
 
-> `optional` **data**: `FaasData`\<`PathOrData`\>
+> `optional` **data**: [`FaasData`](FaasData.md)\<`PathOrData`\>
 
 ### debounce?
 
@@ -22,11 +22,11 @@ send the last request after milliseconds
 
 ### params?
 
-> `optional` **params**: `FaasParams`\<`PathOrData`\>
+> `optional` **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
 ### setData?
 
-> `optional` **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`PathOrData`\>\>\>
+> `optional` **setData**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 ### skip?
 

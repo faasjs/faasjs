@@ -6,7 +6,7 @@
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasAction`
+• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
 
 ## Type declaration
 
@@ -20,9 +20,13 @@
 
 ### data?
 
-> `optional` **data**: `FaasData`\<`PathOrData`\>
+> `optional` **data**: [`FaasData`](FaasData.md)\<`PathOrData`\>
 
 use custom data, should work with setData
+
+### domain?
+
+> `optional` **domain**: `string`
 
 ### fallback?
 
@@ -30,11 +34,11 @@ use custom data, should work with setData
 
 ### params?
 
-> `optional` **params**: `FaasParams`\<`PathOrData`\>
+> `optional` **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
 ### setData?
 
-> `optional` **setData**: `React.Dispatch`\<`React.SetStateAction`\<`FaasData`\<`PathOrData`\>\>\>
+> `optional` **setData**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 use custom setData, should work with data
 
@@ -42,7 +46,7 @@ use custom setData, should work with data
 
 #### Parameters
 
-• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<`FaasData`\<`PathOrData`\>\>
+• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
 
 #### Returns
 
@@ -52,7 +56,7 @@ use custom setData, should work with data
 
 #### Parameters
 
-• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<`FaasData`\<`PathOrData`\>\>
+• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
 
 #### Returns
 

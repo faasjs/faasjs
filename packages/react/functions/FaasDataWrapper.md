@@ -2,9 +2,7 @@
 
 # Function: FaasDataWrapper()
 
-> **FaasDataWrapper**\<`PathOrData`\>(`props`): `JSX.Element`
-
-A data wrapper for react components
+> **FaasDataWrapper**\<`PathOrData`\>(`__namedParameters`): `JSX.Element`
 
 ## Type Parameters
 
@@ -12,21 +10,8 @@ A data wrapper for react components
 
 ## Parameters
 
-• **props**: [`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
+• **\_\_namedParameters**: [`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
 
 ## Returns
 
 `JSX.Element`
-
-## Example
-
-```tsx
-<FaasDataWrapper<{
-  id: string
-  title: string
-}>
-  action='post/get'
-  params={ { id: 1 } }
-  render={ ({ data }) => <h1>{ data.title }</h1> }
-/>
-```

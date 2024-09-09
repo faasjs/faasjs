@@ -30,13 +30,21 @@
 
 ### data?
 
-> `optional` **data**: `FaasData`\<`PathOrData`\>
+> `optional` **data**: `FaasData`\<`T`\>
 
 use custom data, should work with setData
 
 #### Inherited from
 
 `OriginProps.data`
+
+### domain?
+
+> `optional` **domain**: `string`
+
+#### Inherited from
+
+`OriginProps.domain`
 
 ### fallback?
 
@@ -56,7 +64,7 @@ use custom data, should work with setData
 
 ### params?
 
-> `optional` **params**: `FaasParams`\<`PathOrData`\>
+> `optional` **params**: `FaasParams`\<`T`\>
 
 #### Inherited from
 
@@ -64,7 +72,7 @@ use custom data, should work with setData
 
 ### setData?
 
-> `optional` **setData**: `Dispatch`\<`any`\>
+> `optional` **setData**: `Dispatch`\<`SetStateAction`\<`FaasData`\<`T`\>\>\>
 
 use custom setData, should work with data
 
@@ -80,7 +88,7 @@ use custom setData, should work with data
 
 #### Parameters
 
-• **args**: `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\>
+• **args**: `FaasDataInjection`\<`FaasData`\<`T`\>\>
 
 #### Returns
 
@@ -96,7 +104,7 @@ use custom setData, should work with data
 
 #### Parameters
 
-• **args**: `FaasDataInjection`\<`FaasData`\<`PathOrData`\>\>
+• **args**: `FaasDataInjection`\<`FaasData`\<`T`\>\>
 
 #### Returns
 

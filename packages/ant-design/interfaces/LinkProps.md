@@ -10,7 +10,7 @@
 
 ### button?
 
-> `optional` **button**: `ButtonProps`
+> `optional` **button**: `boolean` \| `ButtonProps`
 
 ### children?
 

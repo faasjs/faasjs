@@ -70,3 +70,4 @@ const client = FaasReactClient({
 - [getClient](functions/getClient.md)
 - [useConstant](functions/useConstant.md)
 - [useFaas](functions/useFaas.md)
+- [withFaasData](functions/withFaasData.md)
