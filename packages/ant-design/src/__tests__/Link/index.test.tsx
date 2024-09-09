@@ -78,16 +78,6 @@ describe('Link', () => {
     expect(container.querySelector('[target="_blank"]')).toBeInTheDocument()
   })
 
-  it('work with button', async () => {
-    const { container } = render(
-      <BrowserRouter>
-        <Link href='/' text='text' button />
-      </BrowserRouter>
-    )
-
-    expect(container.querySelector('button.ant-btn')).toBeInTheDocument()
-  })
-
   it('work with onClick', async () => {
     const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {})
 
@@ -102,5 +92,91 @@ describe('Link', () => {
     expect(alertMock).toHaveBeenCalledWith('ok')
 
     alertMock.mockRestore()
+  })
+
+  it('work with external link', async () => {
+    const origin = window.open
+    window.open = jest.fn()
+
+    const { container } = render(
+      <BrowserRouter>
+        <Link href='http://test.com' text='text' />
+      </BrowserRouter>
+    )
+
+    expect(container.querySelector('[target="_blank"]')).toBeInTheDocument()
+
+    await userEvent.click(screen.getByText('text'))
+
+    expect(window.location.hostname).toBe('localhost')
+    expect(window.open).toHaveBeenCalledWith('http://test.com')
+
+    window.open = origin
+  })
+
+  it('work with external link and children', async () => {
+    const origin = window.open
+    window.open = jest.fn()
+
+    render(
+      <BrowserRouter>
+        <Link href='http://testtest.com'>
+          <div>Child</div>
+        </Link>
+      </BrowserRouter>
+    )
+
+    await userEvent.click(screen.getByText('Child'))
+
+    expect(window.location.hostname).toBe('localhost')
+    expect(window.open).toHaveBeenCalledWith('http://testtest.com')
+
+    window.open = origin
+  })
+
+  describe('work with button', () => {
+    it('should work', async () => {
+      const { container } = render(
+        <BrowserRouter>
+          <Link href='/' text='text' button />
+        </BrowserRouter>
+      )
+
+      expect(container.querySelector('button.ant-btn')).toBeInTheDocument()
+    })
+
+    it('work with onClick', async () => {
+      const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {})
+
+      render(
+        <BrowserRouter>
+          <Link href='/' text='text' onClick={() => alert('ok')} button />
+        </BrowserRouter>
+      )
+
+      await userEvent.click(screen.getByText('text'))
+
+      expect(alertMock).toHaveBeenCalledWith('ok')
+
+      alertMock.mockRestore()
+    })
+
+    it('work with external link', async () => {
+      const origin = window.open
+      window.open = jest.fn()
+
+      render(
+        <BrowserRouter>
+          <Link href='http://test.com' text='text' button />
+        </BrowserRouter>
+      )
+
+      await userEvent.click(screen.getByText('text'))
+
+      expect(window.location.hostname).toBe('localhost')
+      expect(window.open).toHaveBeenCalledWith('http://test.com')
+
+      window.open = origin
+    })
   })
 })

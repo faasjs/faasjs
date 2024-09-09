@@ -1,5 +1,5 @@
 import type { ReactNode, CSSProperties } from 'react'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useConfigContext } from './Config'
 import { Button, type ButtonProps, Typography } from 'antd'
 
@@ -31,6 +31,10 @@ export interface LinkProps {
 export function Link(props: LinkProps) {
   const { theme } = useConfigContext()
   const navigate = useNavigate()
+  const target =
+    props.target ||
+    theme.Link?.target ||
+    (props.href.startsWith('http') ? '_blank' : undefined)
 
   let computedStyle = {
     ...(theme.Link.style || {}),
@@ -47,92 +51,47 @@ export function Link(props: LinkProps) {
       computedStyle
     )
 
-  if (props.href.startsWith('http')) {
-    if (props.button)
-      return (
-        <Button
-          {...(props.button || ({} as any))}
-          target={props.target || theme.Link?.target || '_blank'}
-          style={computedStyle}
-          href={props.href}
-          onClick={props.onClick}
-        >
-          {props.text ?? props.children}
-        </Button>
-      )
-
-    if (props.children)
-      return (
-        <a
-          href={props.href}
-          target={props.target || theme.Link?.target}
-          style={computedStyle}
-          onClick={props.onClick}
-        >
-          {props.children}
-        </a>
-      )
-
-    return (
-      <Typography.Link
-        href={props.href}
-        target={props.target || theme.Link?.target || '_blank'}
-        style={computedStyle}
-        copyable={props.copyable}
-        onClick={props.onClick}
-      >
-        {props.text}
-      </Typography.Link>
-    )
-  }
-
   if (props.button)
     return (
       <Button
         {...(props.button || ({} as any))}
         style={computedStyle}
-        onClick={e =>
+        onClick={e => {
           props.onClick
             ? props.onClick(e)
-            : (props.target || theme.Link?.target) === '_blank'
+            : target === '_blank'
               ? window.open(props.href)
               : navigate(props.href)
-        }
+          e.preventDefault()
+        }}
       >
-        {props.text ?? props.children}
+        {props.children ?? props.text}
       </Button>
-    )
-
-  if (props.children)
-    return (
-      <RouterLink
-        to={props.href}
-        target={props.target || theme.Link?.target}
-        style={computedStyle}
-        onClick={props.onClick}
-      >
-        {props.children}
-      </RouterLink>
     )
 
   return (
     <Typography.Link
       href={props.href}
-      target={props.target || theme.Link?.target}
+      target={target}
       style={computedStyle}
       copyable={props.copyable}
       onClick={e => {
+        e.preventDefault()
+
         if (props.onClick) {
           props.onClick(e)
           return
         }
-        if ((props.target || theme.Link?.target) !== '_blank') {
-          e.preventDefault()
-          navigate(props.href)
+
+        if (target === '_blank') {
+          window.open(props.href)
+          return
         }
+
+        navigate(props.href)
       }}
     >
-      {props.text}
+      {props.children ?? props.text}
     </Typography.Link>
   )
 }
