@@ -35,7 +35,7 @@ export function FaasDataWrapper<T = any>(
   props: FaasDataWrapperProps<T>
 ): JSX.Element {
   return (
-    <Origin
+    <Origin<T>
       fallback={props.loading || <Loading {...props.loadingProps} />}
       {...props}
     />
@@ -56,7 +56,7 @@ export function withFaasData<
   TComponent extends React.FC<any>,
   PathOrData extends FaasAction,
 >(Component: TComponent, faasProps: FaasDataWrapperProps<PathOrData>) {
-  return (props: Omit<ComponentProps<TComponent>, 'data'>) => (
+  return (props: ComponentProps<TComponent> & {}) => (
     <FaasDataWrapper {...faasProps}>
       <Component {...(props as ComponentProps<TComponent>)} />
     </FaasDataWrapper>

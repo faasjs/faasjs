@@ -9,7 +9,7 @@ export interface LinkProps {
   text?: string | number
   children?: ReactNode
   style?: CSSProperties
-  button?: ButtonProps
+  button?: ButtonProps | boolean
   block?: boolean
   /** only use for text without button */
   copyable?: boolean
@@ -51,7 +51,7 @@ export function Link(props: LinkProps) {
     if (props.button)
       return (
         <Button
-          {...props.button}
+          {...(props.button || ({} as any))}
           target={props.target || theme.Link?.target || '_blank'}
           style={computedStyle}
           href={props.href}
@@ -89,7 +89,7 @@ export function Link(props: LinkProps) {
   if (props.button)
     return (
       <Button
-        {...props.button}
+        {...(props.button || ({} as any))}
         style={computedStyle}
         onClick={e =>
           props.onClick

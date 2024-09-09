@@ -1,3 +1,5 @@
+import type { FaasAction, FaasParams, FaasData } from '@faasjs/types'
+
 export type FaasReactClientInstance = {
   id: string
   faas: <PathOrData extends FaasAction>(
