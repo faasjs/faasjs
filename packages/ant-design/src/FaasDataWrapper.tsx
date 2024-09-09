@@ -1,10 +1,12 @@
 import { FaasDataWrapper as Origin } from '@faasjs/react'
+import type { FaasAction } from '@faasjs/types'
 import type {
   FaasDataWrapperProps as OriginProps,
   FaasDataInjection as OriginFaasDataInjection,
 } from '@faasjs/react'
 import { Loading } from './Loading'
 import type { LoadingProps } from './Loading'
+import type { ComponentProps } from 'react'
 
 export type FaasDataInjection<T = any> = Partial<OriginFaasDataInjection<T>>
 
@@ -41,3 +43,22 @@ export function FaasDataWrapper<T = any>(
 }
 
 FaasDataWrapper.whyDidYouRender = true
+
+/**
+ * HOC to wrap a component with FaasDataWrapper and Loading
+ *
+ * @example
+ * ```tsx
+ * const MyComponent = withFaasData(MyComponent, { action: 'test', params: { a: 1 } })
+ * ```
+ */
+export function withFaasData<
+  TComponent extends React.FC<any>,
+  PathOrData extends FaasAction,
+>(Component: TComponent, faasProps: FaasDataWrapperProps<PathOrData>) {
+  return (props: Omit<ComponentProps<TComponent>, 'data'>) => (
+    <FaasDataWrapper {...faasProps}>
+      <Component {...(props as ComponentProps<TComponent>)} />
+    </FaasDataWrapper>
+  )
+}

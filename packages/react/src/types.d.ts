@@ -45,6 +45,7 @@ export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
   data?: FaasData<PathOrData>
   /** use custom setData, should work with data */
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
+  domain?: string
 }
 
 export type useFaasOptions<PathOrData extends FaasAction> = {

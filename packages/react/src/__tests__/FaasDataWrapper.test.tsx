@@ -2,7 +2,12 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react'
-import { FaasReactClient, FaasDataWrapper, type FaasDataInjection } from '..'
+import {
+  FaasReactClient,
+  FaasDataWrapper,
+  type FaasDataInjection,
+  withFaasData,
+} from '..'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { Response, setMock } from '@faasjs/browser'
@@ -95,5 +100,34 @@ describe('FaasDataWrapper', () => {
 
     expect(await screen.findByText('{"v":10}')).toBeInTheDocument()
     expect(renderTimes).toEqual(4)
+  })
+
+  it('should work with withFaasData', async () => {
+    let renderTimes = 0
+
+    const Test = withFaasData(
+      (props: Partial<FaasDataInjection>) => {
+        renderTimes++
+        return (
+          <div>
+            {props.data}
+            <button type='button' onClick={() => props.reload()}>
+              Reload
+            </button>
+          </div>
+        )
+      },
+      { action: 'test' }
+    )
+
+    render(<Test />)
+
+    expect(await screen.findByText('1')).toBeInTheDocument()
+    expect(renderTimes).toEqual(1)
+
+    await userEvent.click(screen.getByRole('button'))
+
+    expect(await screen.findByText('2')).toBeInTheDocument()
+    expect(renderTimes).toEqual(3)
   })
 })

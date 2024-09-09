@@ -57,6 +57,7 @@ export {
 
 export * from './client'
 export * from './ErrorBoundary'
+export * from './FaasDataWrapper'
 export * from './OptionalWrapper'
 
 export type {

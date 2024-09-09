@@ -6,8 +6,9 @@ import type {
 } from './types'
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import type { Options, Response, ResponseError } from '@faasjs/browser'
-import { cloneElement, useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FaasBrowserClient } from '@faasjs/browser'
+import { FaasDataWrapper } from './FaasDataWrapper'
 
 const clients: {
   [key: string]: FaasReactClientInstance
@@ -191,56 +192,13 @@ export function FaasReactClient({
 
   useFaas.whyDidYouRender = true
 
-  function FaasDataWrapper<PathOrData extends FaasAction>({
-    action,
-    params,
-    fallback,
-    render,
-    children,
-    onDataChange,
-    data,
-    setData,
-  }: FaasDataWrapperProps<PathOrData>): JSX.Element {
-    const request = useFaas<PathOrData>(action, params, {
-      data,
-      setData,
-    })
-    const [loaded, setLoaded] = useState<boolean>(false)
-
-    useEffect(() => {
-      if (!loaded && !request.loading) setLoaded(true)
-    }, [request.loading])
-
-    useEffect(() => {
-      if (onDataChange) onDataChange(request)
-    }, [JSON.stringify(request.data)])
-
-    const child = useMemo(() => {
-      if (loaded) {
-        if (children) return cloneElement(children, request)
-        if (render) return render(request) as JSX.Element
-      }
-
-      return fallback || null
-    }, [
-      loaded,
-      request.action,
-      request.params,
-      request.data,
-      request.error,
-      request.loading,
-    ])
-
-    return child
-  }
-
-  FaasDataWrapper.whyDidYouRender = true
-
   const reactClient = {
     id: client.id,
     faas,
     useFaas,
-    FaasDataWrapper,
+    FaasDataWrapper: <PathOrData extends FaasAction>(
+      props: FaasDataWrapperProps<PathOrData>
+    ) => <FaasDataWrapper domain={domain} {...props} />,
   }
 
   clients[domain] = reactClient
@@ -250,6 +208,7 @@ export function FaasReactClient({
 
 /**
  * Get FaasReactClient instance
+ *
  * @param domain {string} empty string for default domain
  * @returns {FaasReactClientInstance}
  *
@@ -317,38 +276,3 @@ export function useFaas<PathOrData extends FaasAction>(
 ): FaasDataInjection<FaasData<PathOrData>> {
   return getClient().useFaas(action, defaultParams, options)
 }
-
-/**
- * A data wrapper for react components
- *
- * @returns {JSX.Element}
- *
- * @example
- * ```tsx
- * <FaasDataWrapper<{
- *   id: string
- *   title: string
- * }>
- *   action='post/get'
- *   params={ { id: 1 } }
- *   render={ ({ data }) => <h1>{ data.title }</h1> }
- * />
- * ```
- */
-export function FaasDataWrapper<PathOrData extends FaasAction>(
-  props: FaasDataWrapperProps<PathOrData>
-): JSX.Element {
-  const [client, setClient] = useState<FaasReactClientInstance>()
-
-  useEffect(() => {
-    if (client) return
-
-    setClient(getClient())
-  }, [])
-
-  if (!client) return props.fallback || null
-
-  return <client.FaasDataWrapper {...props} />
-}
-
-FaasDataWrapper.whyDidYouRender = true
