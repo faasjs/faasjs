@@ -253,7 +253,6 @@ export class FaasBrowserClient {
     params?: FaasParams<PathOrData>,
     options?: Options
   ): Promise<Response<FaasData<PathOrData>>> {
-    console.error(`[FaasJS] Request: ${action} %j`, params)
     if (!action) throw Error('[FaasJS] action required')
 
     const id = `F-${generateId()}`
