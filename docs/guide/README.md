@@ -1,6 +1,6 @@
 # Getting Started
 
-## Quickstart
+## Quick Start
 
 ### Start with Command Line
 

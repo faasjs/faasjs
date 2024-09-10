@@ -71,14 +71,14 @@ No body included.
 #### 500 Status
 
 * **error** (Required): Error object
-  * **message** (Required): Description of the error
+  * **message** (Required): Description of the error. (Using `\n` to separate multiple error messages).
 
 Example:
 
 ```json
 {
   "error": {
-    "message": "An error occurred."
+    "message": "An error occurred.\nPlease try again."
   }
 }
 ```
