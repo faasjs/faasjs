@@ -70,6 +70,24 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ## Methods
 
+### handler()
+
+> **handler**\<`TResult`\>(`event`, `context`): `Promise`\<`TResult`\>
+
+#### Type Parameters
+
+• **TResult** = `any`
+
+#### Parameters
+
+• **event**: `any` = `...`
+
+• **context**: `any` = `...`
+
+#### Returns
+
+`Promise`\<`TResult`\>
+
 ### JSONhandler()
 
 > **JSONhandler**\<`TData`\>(`body`?, `options`?): `Promise`\<`object`\>
@@ -129,24 +147,6 @@ expect(await func.handler()).toEqual('Hello, world')
 ##### statusCode
 
 > **statusCode**: `number`
-
-### handler()
-
-> **handler**\<`TResult`\>(`event`, `context`): `Promise`\<`TResult`\>
-
-#### Type Parameters
-
-• **TResult** = `any`
-
-#### Parameters
-
-• **event**: `any` = `...`
-
-• **context**: `any` = `...`
-
-#### Returns
-
-`Promise`\<`TResult`\>
 
 ### mount()
 

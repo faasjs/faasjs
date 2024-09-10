@@ -1,13 +1,7 @@
 import type { FaasAction } from '@faasjs/types'
-import type { FaasDataWrapperProps } from './types'
+import type { FaasDataWrapperProps, FaasDataInjection } from './types'
 import { getClient } from './client'
-import {
-  cloneElement,
-  type ComponentProps,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { cloneElement, useEffect, useMemo, useState } from 'react'
 
 export function FaasDataWrapper<PathOrData extends FaasAction>({
   action,
@@ -60,16 +54,22 @@ FaasDataWrapper.whyDidYouRender = true
  *
  * @example
  * ```tsx
- * const MyComponent = withFaasData(MyComponent, { action: 'test', params: { a: 1 } })
+ * const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, { action: 'test', params: { a: 1 } })
  * ```
  */
 export function withFaasData<
-  TComponent extends React.FC<any>,
   PathOrData extends FaasAction,
->(Component: TComponent, faasProps: FaasDataWrapperProps<PathOrData>) {
-  return (props: Omit<ComponentProps<TComponent>, 'data'>) => (
+  TComponentProps extends
+    FaasDataInjection<PathOrData> = FaasDataInjection<PathOrData>,
+>(
+  Component: React.FC<TComponentProps & Record<string, any>>,
+  faasProps: FaasDataWrapperProps<PathOrData>
+): React.FC<
+  Omit<TComponentProps, keyof FaasDataInjection> & Record<string, any>
+> {
+  return (props: Omit<TComponentProps, keyof FaasDataInjection>) => (
     <FaasDataWrapper {...faasProps}>
-      <Component {...(props as ComponentProps<TComponent>)} />
+      <Component {...(props as TComponentProps)} />
     </FaasDataWrapper>
   )
 }

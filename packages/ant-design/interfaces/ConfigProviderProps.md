@@ -24,46 +24,6 @@
 
 > `optional` **text**: `string`
 
-#### Form?
-
-> `optional` **Form**: `object`
-
-#### Form.submit?
-
-> `optional` **submit**: `object`
-
-#### Form.submit.text?
-
-> `optional` **text**: `string`
-
-#### Link?
-
-> `optional` **Link**: `object`
-
-#### Link.style?
-
-> `optional` **style**: `CSSProperties`
-
-#### Link.target?
-
-> `optional` **target**: `string`
-
-'_blank' as default
-
-#### Title?
-
-> `optional` **Title**: `object`
-
-#### Title.separator?
-
-> `optional` **separator**: `string`
-
-' - ' as default
-
-#### Title.suffix?
-
-> `optional` **suffix**: `string`
-
 #### common?
 
 > `optional` **common**: `object`
@@ -104,6 +64,46 @@
 
 > `optional` **submit**: `string`
 
+#### Form?
+
+> `optional` **Form**: `object`
+
+#### Form.submit?
+
+> `optional` **submit**: `object`
+
+#### Form.submit.text?
+
+> `optional` **text**: `string`
+
 #### lang?
 
 > `optional` **lang**: `string`
+
+#### Link?
+
+> `optional` **Link**: `object`
+
+#### Link.style?
+
+> `optional` **style**: `CSSProperties`
+
+#### Link.target?
+
+> `optional` **target**: `string`
+
+'_blank' as default
+
+#### Title?
+
+> `optional` **Title**: `object`
+
+#### Title.separator?
+
+> `optional` **separator**: `string`
+
+' - ' as default
+
+#### Title.suffix?
+
+> `optional` **suffix**: `string`

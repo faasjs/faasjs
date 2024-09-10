@@ -106,11 +106,11 @@ describe('FaasDataWrapper', () => {
     let renderTimes = 0
 
     const Test = withFaasData(
-      (props: Partial<FaasDataInjection>) => {
+      props => {
         renderTimes++
         return (
           <div>
-            {props.data}
+            {props.data.toString()}
             <button type='button' onClick={() => props.reload()}>
               Reload
             </button>
@@ -120,7 +120,7 @@ describe('FaasDataWrapper', () => {
       { action: 'test' }
     )
 
-    render(<Test />)
+    render(<Test a={1} />)
 
     expect(await screen.findByText('1')).toBeDefined()
     expect(renderTimes).toEqual(1)

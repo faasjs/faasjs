@@ -61,13 +61,13 @@ const client = FaasReactClient({
 
 ## Functions
 
-- [FaasDataWrapper](functions/FaasDataWrapper.md)
-- [FaasReactClient](functions/FaasReactClient.md)
-- [OptionalWrapper](functions/OptionalWrapper.md)
 - [createSplitedContext](functions/createSplitedContext.md)
 - [createSplittingContext](functions/createSplittingContext.md)
 - [faas](functions/faas.md)
+- [FaasDataWrapper](functions/FaasDataWrapper.md)
+- [FaasReactClient](functions/FaasReactClient.md)
 - [getClient](functions/getClient.md)
+- [OptionalWrapper](functions/OptionalWrapper.md)
 - [useConstant](functions/useConstant.md)
 - [useFaas](functions/useFaas.md)
 - [withFaasData](functions/withFaasData.md)

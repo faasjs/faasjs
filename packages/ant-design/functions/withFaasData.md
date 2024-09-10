@@ -2,7 +2,7 @@
 
 # Function: withFaasData()
 
-> **withFaasData**\<`TComponent`, `PathOrData`\>(`Component`, `faasProps`): (`props`) => `Element`
+> **withFaasData**\<`TComponent`, `PathOrData`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`any`, keyof `FaasDataInjection`\> & `Record`\<`string`, `any`\>\>
 
 HOC to wrap a component with FaasDataWrapper and Loading
 
@@ -20,18 +20,10 @@ HOC to wrap a component with FaasDataWrapper and Loading
 
 ## Returns
 
-`Function`
-
-### Parameters
-
-• **props**: `ComponentProps`\<`TComponent`\> & `object`
-
-### Returns
-
-`Element`
+`FC`\<`Omit`\<`any`, keyof `FaasDataInjection`\> & `Record`\<`string`, `any`\>\>
 
 ## Example
 
 ```tsx
-const MyComponent = withFaasData(MyComponent, { action: 'test', params: { a: 1 } })
+const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, { action: 'test', params: { a: 1 } })
 ```

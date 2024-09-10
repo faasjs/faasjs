@@ -2,36 +2,28 @@
 
 # Function: withFaasData()
 
-> **withFaasData**\<`TComponent`, `PathOrData`\>(`Component`, `faasProps`): (`props`) => `Element`
+> **withFaasData**\<`PathOrData`, `TComponentProps`\>(`Component`, `faasProps`): `React.FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\> & `Record`\<`string`, `any`\>\>
 
 HOC to wrap a component with FaasDataWrapper
 
 ## Type Parameters
 
-• **TComponent** *extends* `FC`\<`any`\>
-
 • **PathOrData** *extends* `Record`\<`string`, `any`\>
+
+• **TComponentProps** *extends* [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\> = [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>
 
 ## Parameters
 
-• **Component**: `TComponent`
+• **Component**: `FC`\<`TComponentProps` & `Record`\<`string`, `any`\>\>
 
 • **faasProps**: [`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
 
 ## Returns
 
-`Function`
-
-### Parameters
-
-• **props**: `Omit`\<`ComponentProps`\<`TComponent`\>, `"data"`\>
-
-### Returns
-
-`Element`
+`React.FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\> & `Record`\<`string`, `any`\>\>
 
 ## Example
 
 ```tsx
-const MyComponent = withFaasData(MyComponent, { action: 'test', params: { a: 1 } })
+const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, { action: 'test', params: { a: 1 } })
 ```

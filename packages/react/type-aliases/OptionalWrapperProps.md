@@ -10,10 +10,6 @@
 
 ## Type declaration
 
-### Wrapper
-
-> **Wrapper**: `TWrapper`
-
 ### children
 
 > **children**: `ReactNode`
@@ -21,6 +17,10 @@
 ### condition
 
 > **condition**: `boolean`
+
+### Wrapper
+
+> **Wrapper**: `TWrapper`
 
 ### wrapperProps?
 

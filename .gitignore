@@ -21,3 +21,4 @@ docs/*.md
 output.txt
 *.tmp
 bun.lockb
+junit.xml

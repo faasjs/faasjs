@@ -3,7 +3,7 @@
   "version": "2.8.0",
   "private": true,
   "scripts": {
-    "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles --reporters=jest-junit",
+    "test": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles --testResultsProcessor=jest-junit",
     "pub": "npm run build && node publish.js",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log",
     "build": "npm run clean && npm exec turbo build",
