@@ -85,6 +85,7 @@ export type HttpConfig<
     functionName?: string
     cookie?: CookieOptions
   }
+  /** @deprecated */
   validator?: ValidatorConfig<TParams, TCookie, TSession>
 }
 
@@ -170,7 +171,10 @@ export class Http<
   constructor(config?: HttpConfig<TParams, TCookie, TSession>) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
-    if (config?.validator) this.validatorOptions = config.validator
+    if (config?.validator) {
+      console.warn('Validator will deprecated in the v3.')
+      this.validatorOptions = config.validator
+    }
   }
 
   public async onDeploy(data: DeployData, next: Next): Promise<void> {

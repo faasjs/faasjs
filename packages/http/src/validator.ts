@@ -3,6 +3,7 @@ import type { Session } from './session'
 import type { Logger } from '@faasjs/logger'
 import { HttpError } from '.'
 
+/** @deprecated */
 export type ValidatorRuleOptionsType =
   | 'string'
   | 'number'
@@ -10,6 +11,7 @@ export type ValidatorRuleOptionsType =
   | 'object'
   | 'array'
 
+/** @deprecated */
 export type ValidatorRuleOptions = {
   type?: ValidatorRuleOptionsType
   required?: boolean
@@ -19,6 +21,7 @@ export type ValidatorRuleOptions = {
   regexp?: RegExp
 }
 
+/** @deprecated */
 export type ValidatorOptions<Content = Record<string, any>> = {
   whitelist?: 'error' | 'ignore'
   rules: {
@@ -48,6 +51,7 @@ type Request<
   session?: Session<TSession, TCookie>
 }
 
+/** @deprecated */
 export type BeforeOption<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
@@ -58,6 +62,7 @@ export type BeforeOption<
   message: string
 }>
 
+/** @deprecated */
 export type ValidatorConfig<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
@@ -69,6 +74,7 @@ export type ValidatorConfig<
   before?: BeforeOption
 }
 
+/** @deprecated */
 export class Validator<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
