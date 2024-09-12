@@ -90,7 +90,9 @@ describe('lifecycle', () => {
         await func.export().handler(null)
       } catch (error: any) {
         expect(error.message).toEqual(
-          "Cannot read properties of null (reading 'headers')"
+          typeof Bun === 'undefined'
+            ? "Cannot read properties of null (reading 'headers')"
+            : `null is not an object (evaluating 'data.event.headers')`
         )
       }
     })
