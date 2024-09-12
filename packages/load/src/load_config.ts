@@ -6,6 +6,8 @@ import type { Config as FuncConfig } from '@faasjs/func'
 
 /**
  * 配置类
+ *
+ * @deprecated
  */
 export class Config {
   [key: string]: any
@@ -25,6 +27,8 @@ export class Config {
    * @param filename {filename} 目标文件，用于读取目录层级
    */
   constructor(root: string, filename: string) {
+    console.warn('[@faasjs/load] Will deprecated in v3.')
+
     this.root = root
 
     if (!this.root.endsWith(sep)) this.root += sep

@@ -118,6 +118,8 @@ function swc(externalModules: string[]): Plugin {
  * @param options.tmp {boolean} 是否为临时文件，true 则生成的文件会被删除，默认为 false
  * @param options.modules {object} 生成 modules 的配置
  * @param options.modules.excludes {string[]} modules 中需排除的模块
+ *
+ * @deprecated
  */
 export async function loadTs(
   filename: string,
@@ -143,6 +145,8 @@ export async function loadTs(
     [key: string]: string
   }
 }> {
+  console.warn('[@faasjs/load] Will deprecated in v3.')
+
   const PackageJSON = require(`${process.cwd()}/package.json`)
   const external = PackageJSON.dependencies
     ? Object.keys(PackageJSON.dependencies)

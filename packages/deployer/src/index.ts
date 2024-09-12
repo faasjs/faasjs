@@ -21,11 +21,13 @@ import { deepMerge } from '@faasjs/deep_merge'
 import { CloudFunction } from '@faasjs/cloud_function'
 import { execSync } from 'node:child_process'
 
+/** @deprecated */
 export class Deployer {
   public deployData: DeployData
   public func?: Func
 
   constructor(data: DeployData) {
+    console.warn('[@faasjs/deployer] Will deprecated in v3.')
     data.name = data.filename.replace(data.root, '').replace('.func.ts', '')
     data.version = new Date()
       .toLocaleString('zh-CN', {

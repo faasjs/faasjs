@@ -36,11 +36,13 @@ export type TencentcloudConfig = {
   token?: string
 }
 
+/** @deprecated */
 export class Provider implements CloudFunctionAdapter {
   public config: TencentcloudConfig
   public logger: Logger
 
   constructor(config: TencentcloudConfig) {
+    console.warn('[@faasjs/tencentcloud] Will deprecated in v3.')
     this.logger = new Logger('Tencentcloud')
 
     if (!config) config = {}
