@@ -43,17 +43,17 @@ import { Readable } from 'node:stream'
 import { createBrotliCompress, createGzip, createDeflate } from 'node:zlib'
 import type { Func } from '@faasjs/func'
 
-// if (!globalThis.Bun)
-addHook(
-  (code, filename) => {
-    if (filename.endsWith('.d.ts')) return ''
+if (!globalThis.Bun)
+  addHook(
+    (code, filename) => {
+      if (filename.endsWith('.d.ts')) return ''
 
-    return transform(code, { filename }).code
-  },
-  {
-    exts: ['.jsx', '.ts', '.tsx'],
-  }
-)
+      return transform(code, { filename }).code
+    },
+    {
+      exts: ['.jsx', '.ts', '.tsx'],
+    }
+  )
 
 type Cache = {
   file?: string

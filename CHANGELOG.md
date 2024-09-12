@@ -6,8 +6,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v3.0.0 (2024-09-?)`](https://github.com/faasjs/faasjs/compare/v2.9.0...v3.0.0)
 
-- [Break] Remove `@faasjs/deployer`, `@faasjs/load`, `@faasjs/tencentcloud`.
+- [Break] Remove `@faasjs/deployer`, `@faasjs/tencentcloud`.
 - [Break] Upgrade node version to 22.
+
+- `@faasjs/server`
+  - [Feature] Disable code transformation in Bun.
 
 [`v2.9.0 (2024-09-12)`](https://github.com/faasjs/faasjs/compare/v2.8.1...v2.9.0)
 
