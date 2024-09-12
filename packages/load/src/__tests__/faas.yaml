@@ -1,12 +1,4 @@
 defaults:
-  providers:
-    tc:
-      type: '@faasjs/tencentcloud'
-      config:
-        appId: appId
-        secretId: secretId
-        secretKey: secretKey
-        region: ap-beijing
   plugins:
     func:
       provider: tc

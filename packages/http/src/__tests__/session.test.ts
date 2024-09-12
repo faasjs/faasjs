@@ -12,7 +12,6 @@ describe('session', () => {
       },
     })
     func.config = {
-      providers: {},
       plugins: {
         http: {
           type: 'http',
@@ -81,7 +80,6 @@ describe('session', () => {
       },
     })
     func.config = {
-      providers: {},
       plugins: {
         http: {
           type: 'http',
@@ -144,7 +142,6 @@ describe('session', () => {
         },
       })
       func.config = {
-        providers: {},
         plugins: {
           http: {
             type: 'http',

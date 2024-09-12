@@ -41,7 +41,9 @@ import { transform } from '@faasjs/ts-transform'
 import { randomBytes } from 'node:crypto'
 import { Readable } from 'node:stream'
 import { createBrotliCompress, createGzip, createDeflate } from 'node:zlib'
+import type { Func } from '@faasjs/func'
 
+// if (!globalThis.Bun)
 addHook(
   (code, filename) => {
     if (filename.endsWith('.d.ts')) return ''
@@ -214,10 +216,15 @@ export class Server {
             cache.file = pathResolve('.', this.getFilePath(path))
             logger.debug('Response with %s', cache.file)
 
-            const func = require(cache.file).default
-            func.config = loadConfig(this.root, path)[
+            const func = require(cache.file).default as Func
+
+            func.config = loadConfig(
+              this.root,
+              path,
               process.env.FaasEnv || 'development'
-            ]
+            )
+            if (!func.config) throw Error('No config file found')
+
             cache.handler = func.export().handler
 
             if (this.opts.cache) this.cachedFuncs[path] = cache

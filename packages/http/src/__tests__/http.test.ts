@@ -30,7 +30,6 @@ describe('http', () => {
     })
 
     func.config = {
-      providers: {},
       plugins: { name: { type: 'name' } },
     }
     const handler = func.export().handler

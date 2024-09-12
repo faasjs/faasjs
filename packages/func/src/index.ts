@@ -33,22 +33,11 @@ export type Plugin = {
   onInvoke?: (data: InvokeData, next: Next) => Promise<void>
 }
 
-export type ProviderConfig = {
-  type: string
-  config: {
-    [key: string]: any
-  }
-}
-
 export type Config = {
   [key: string]: any
-  providers?: {
-    [key: string]: ProviderConfig
-  }
   plugins?: {
     [key: string]: {
       [key: string]: any
-      provider?: string | ProviderConfig
       type: string
       config?: {
         [key: string]: any
@@ -149,7 +138,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     this.plugins = config.plugins || []
     this.plugins.push(new RunHandler())
     this.config = {
-      providers: Object.create(null),
       plugins: Object.create(null),
     }
 

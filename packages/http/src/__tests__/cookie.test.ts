@@ -51,7 +51,6 @@ describe('cookie', () => {
       },
     })
     func.config = {
-      providers: {},
       plugins: { http: { type: 'http' } },
     }
     const handler = func.export().handler
@@ -109,7 +108,6 @@ describe('cookie', () => {
         },
       })
       func.config = {
-        providers: {},
         plugins: {
           http: {
             type: 'http',
@@ -137,7 +135,6 @@ describe('cookie', () => {
         },
       })
       func.config = {
-        providers: {},
         plugins: {
           http: {
             type: 'http',
@@ -165,7 +162,6 @@ describe('cookie', () => {
         },
       })
       func.config = {
-        providers: {},
         plugins: {
           http: {
             type: 'http',
@@ -193,7 +189,6 @@ describe('cookie', () => {
         },
       })
       func.config = {
-        providers: {},
         plugins: {
           http: {
             type: 'http',
@@ -221,7 +216,6 @@ describe('cookie', () => {
         },
       })
       func.config = {
-        providers: {},
         plugins: {
           http: {
             type: 'http',

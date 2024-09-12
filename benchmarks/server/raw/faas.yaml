@@ -1,10 +1,2 @@
 defaults:
-  providers:
-    tencentcloud:
-      type: "@faasjs/tencentcloud"
-  plugins:
-    cloud_function:
-      provider: tencentcloud
-    http:
-      provider: tencentcloud
 development:

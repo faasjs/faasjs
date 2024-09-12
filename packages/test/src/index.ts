@@ -65,15 +65,13 @@ export class FuncWarper {
         this.func = require(`${this.file}.ts`).default
       }
 
-      this.func.config =
-        loadConfig(process.cwd(), this.file)[this.staging] ||
-        Object.create(null)
+      this.func.config = loadConfig(process.cwd(), this.file, this.staging)
       this.config = this.func.config
     } else {
       this.func = initBy
       if (initBy.filename)
         this.func.config = deepMerge(
-          loadConfig(process.cwd(), initBy.filename)[this.staging],
+          loadConfig(process.cwd(), initBy.filename, this.staging),
           initBy.config
         )
     }

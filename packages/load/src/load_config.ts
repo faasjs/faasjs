@@ -6,8 +6,6 @@ import type { Config as FuncConfig } from '@faasjs/func'
 
 /**
  * 配置类
- *
- * @deprecated
  */
 export class Config {
   [key: string]: any
@@ -27,8 +25,6 @@ export class Config {
    * @param filename {filename} 目标文件，用于读取目录层级
    */
   constructor(root: string, filename: string) {
-    console.warn('[@faasjs/load] Will deprecated in v3.')
-
     this.root = root
 
     if (!this.root.endsWith(sep)) this.root += sep
@@ -46,6 +42,7 @@ export class Config {
       if (root === base) return base
 
       const faas = join(root, 'faas.yaml')
+      console.log(faas)
 
       if (existsSync(faas))
         configs.push(
@@ -54,6 +51,8 @@ export class Config {
 
       return root
     })
+
+    console.log(configs)
 
     this.origin = deepMerge(...configs)
 
@@ -69,18 +68,6 @@ export class Config {
         for (const pluginKey in data.plugins) {
           const plugin = data.plugins[pluginKey]
           plugin.name = pluginKey
-          if (plugin.provider)
-            if (typeof plugin.provider === 'string') {
-              if (!data.providers[plugin.provider])
-                throw Error(
-                  `[faas.yaml] missing provider: ${plugin.provider} <${key}/plugins/${pluginKey}>`
-                )
-              plugin.provider = data.providers[plugin.provider]
-            } else
-              plugin.provider = deepMerge(
-                data.providers[plugin.provider],
-                plugin.provider
-              )
         }
     }
   }
@@ -91,6 +78,10 @@ export class Config {
  * @param root {string} 根目录
  * @param filename {filename} 目标文件，用于读取目录层级
  */
-export function loadConfig(root: string, filename: string): Config {
-  return new Config(root, filename)
+export function loadConfig(
+  root: string,
+  filename: string,
+  staging: string
+): Config {
+  return new Config(root, filename)[staging] || Object.create(null)
 }

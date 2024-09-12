@@ -1,21 +1,4 @@
 defaults:
-  deploy:
-    env: testing
-  providers:
-    tencentcloud:
-      type: '@faasjs/tencentcloud'
-      config:
-        appId:
-        secretId:
-        secretKey:
-        region:
-  plugins:
-    cloud_function:
-      provider: tencentcloud
-      type: cloud_function
-    http:
-      provider: tencentcloud
-      type: http
 local:
 testing:
 production:
