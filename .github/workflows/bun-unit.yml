@@ -55,4 +55,6 @@ jobs:
       - name: Build packages
         run: bun run turbo build
       - name: Run Tests
-        run: bun run test --testPathIgnorePatterns=knex --testPathIgnorePatterns=examples --testPathIgnorePatterns=deployer
+        run: |
+          mv tsconfig.bun.test.json tsconfig.json
+          bun test --testPathIgnorePatterns=knex --testPathIgnorePatterns=examples
