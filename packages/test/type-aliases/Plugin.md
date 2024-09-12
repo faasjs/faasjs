@@ -14,20 +14,6 @@
 
 > `readonly` **name**: `string`
 
-### onDeploy()?
-
-> `optional` **onDeploy**: (`data`, `next`) => `Promise`\<`void`\>
-
-#### Parameters
-
-• **data**: [`DeployData`](DeployData.md)
-
-• **next**: [`Next`](Next.md)
-
-#### Returns
-
-`Promise`\<`void`\>
-
 ### onInvoke()?
 
 > `optional` **onInvoke**: (`data`, `next`) => `Promise`\<`void`\>

@@ -134,24 +134,6 @@
 
 `Promise`\<`TResult`\>
 
-### onDeploy()
-
-> **onDeploy**(`data`, `next`): `Promise`\<`void`\>
-
-#### Parameters
-
-• **data**: `DeployData`
-
-• **next**: `Next`
-
-#### Returns
-
-`Promise`\<`void`\>
-
-#### Implementation of
-
-`Plugin.onDeploy`
-
 ### onInvoke()
 
 > **onInvoke**(`data`, `next`): `Promise`\<`void`\>

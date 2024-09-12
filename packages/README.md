@@ -7,7 +7,6 @@
 |[faasjs](https://github.com/faasjs/faasjs/tree/main/packages/faasjs)|[![NPM Version](https://img.shields.io/npm/v/faasjs.svg)](https://www.npmjs.com/package/faasjs)|
 |[@faasjs/func](https://github.com/faasjs/faasjs/tree/main/packages/func)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/func.svg)](https://www.npmjs.com/package/@faasjs/func)|
 |[@faasjs/cloud_function](https://github.com/faasjs/faasjs/tree/main/packages/cloud_function)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/cloud_function.svg)](https://www.npmjs.com/package/@faasjs/cloud_function)|
-|[@faasjs/deployer](https://github.com/faasjs/faasjs/tree/main/packages/deployer)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/deployer.svg)](https://www.npmjs.com/package/@faasjs/deployer)|
 |[@faasjs/test](https://github.com/faasjs/faasjs/tree/main/packages/test)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/test.svg)](https://www.npmjs.com/package/@faasjs/test)|
 
 ## Command Lines
@@ -43,12 +42,6 @@
 |[@faasjs/knex](https://github.com/faasjs/faasjs/tree/main/packages/knex)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/knex.svg)](https://www.npmjs.com/package/@faasjs/knex)|
 |[@faasjs/mongo](https://github.com/faasjs/faasjs/tree/main/packages/mongo)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/mongo.svg)](https://www.npmjs.com/package/@faasjs/mongo)|
 |[@faasjs/redis](https://github.com/faasjs/faasjs/tree/main/packages/redis)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/redis.svg)](https://www.npmjs.com/package/@faasjs/redis)|
-
-## Providers
-
-|Name|Version|
-|---|---|
-|[@faasjs/tencentcloud](https://github.com/faasjs/faasjs/tree/main/packages/tencentcloud)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/tencentcloud.svg)](https://www.npmjs.com/package/@faasjs/tencentcloud)|
 
 ## Browsers
 

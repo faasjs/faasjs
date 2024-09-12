@@ -74,7 +74,6 @@ async function buildAll() {
     'load',
     'http',
     'cloud_function',
-    'deployer',
     'request',
   ]) {
     await build(`packages/${name}/package.json`)

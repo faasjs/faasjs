@@ -14,13 +14,12 @@
 import {
   type Plugin,
   type Next,
-  type DeployData,
   type MountData,
   usePlugin,
   type UseifyPlugin,
   type InvokeData,
 } from '@faasjs/func'
-import { Logger } from '@faasjs/logger'
+import type { Logger } from '@faasjs/logger'
 import { deepMerge } from '@faasjs/deep_merge'
 import knex, { type Knex as OriginKnex } from 'knex'
 import { randomUUID } from 'node:crypto'
@@ -66,19 +65,6 @@ export class Knex implements Plugin {
       this.name = this.type
       this.config = Object.create(null)
     }
-  }
-
-  public async onDeploy(data: DeployData, next: Next): Promise<void> {
-    const client = (data.config.plugins[this.name].config as OriginKnex.Config)
-      .client as string
-    if (!client) throw Error('[Knex] client required.')
-
-    data.dependencies['@faasjs/knex'] = '*'
-    if (client === 'sqlite3') data.dependencies['better-sqlite3'] = '*'
-    else data.dependencies[client] = '*'
-    new Logger(this.name).debug(`add dependencies: ${client}`)
-
-    await next()
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {

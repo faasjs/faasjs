@@ -172,7 +172,6 @@ export default defineUserConfig({
         sidebar: {
           '/zh/guide/': [
             '/zh/guide/',
-            '/zh/guide/tencentcloud',
             '/zh/guide/auth',
             {
               title: '进阶学习',
@@ -195,7 +194,7 @@ export default defineUserConfig({
             {
               title: '核心插件',
               collapsable: false,
-              children: ['func', 'cloud_function', 'deployer', 'test'],
+              children: ['func', 'cloud_function', 'test'],
             },
             {
               title: '命令行插件',

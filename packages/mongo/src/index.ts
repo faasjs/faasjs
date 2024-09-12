@@ -21,7 +21,7 @@ import {
   ObjectId,
   type Callback,
 } from 'mongodb'
-import type { Plugin, MountData, Next, DeployData } from '@faasjs/func'
+import type { Plugin, MountData, Next } from '@faasjs/func'
 import { deepMerge } from '@faasjs/deep_merge'
 
 export { ObjectId }
@@ -54,12 +54,6 @@ export class Mongo implements Plugin {
       this.name = this.type
       this.config = Object.create(null)
     }
-  }
-
-  public async onDeploy(data: DeployData, next: Next): Promise<void> {
-    data.dependencies['@faasjs/mongo'] = '*'
-
-    await next()
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {

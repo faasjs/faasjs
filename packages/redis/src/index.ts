@@ -17,7 +17,6 @@ import {
   type Next,
   usePlugin,
   type UseifyPlugin,
-  type DeployData,
   type InvokeData,
 } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
@@ -82,12 +81,6 @@ export class Redis implements Plugin {
 
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
-  }
-
-  public async onDeploy(data: DeployData, next: Next): Promise<void> {
-    data.dependencies['@faasjs/redis'] = '*'
-
-    await next()
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {

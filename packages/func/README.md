@@ -18,7 +18,6 @@ npm install @faasjs/func
 ## Type Aliases
 
 - [Config](type-aliases/Config.md)
-- [DeployData](type-aliases/DeployData.md)
 - [ExportedHandler](type-aliases/ExportedHandler.md)
 - [FuncConfig](type-aliases/FuncConfig.md)
 - [FuncEventType](type-aliases/FuncEventType.md)

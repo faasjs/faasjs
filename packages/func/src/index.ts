@@ -29,7 +29,6 @@ export type Plugin = {
   [key: string]: any
   readonly type: string
   readonly name: string
-  onDeploy?: (data: DeployData, next: Next) => Promise<void>
   onMount?: (data: MountData, next: Next) => Promise<void>
   onInvoke?: (data: InvokeData, next: Next) => Promise<void>
 }
@@ -57,31 +56,6 @@ export type Config = {
     }
   }
 }
-export type DeployData = {
-  [key: string]: any
-  root: string
-  filename: string
-  env?: string
-  name?: string
-  config?: Config
-  version?: string
-  dependencies: {
-    [name: string]: string
-  }
-  plugins?: {
-    [name: string]: {
-      [key: string]: any
-      name?: string
-      type: string
-      provider?: string
-      config: {
-        [key: string]: any
-      }
-      plugin: Plugin
-    }
-  }
-  logger?: Logger
-}
 
 export type MountData = {
   [key: string]: any
@@ -101,7 +75,7 @@ export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
   config: Config
 }
 
-export type LifeCycleKey = 'onDeploy' | 'onMount' | 'onInvoke'
+export type LifeCycleKey = 'onMount' | 'onInvoke'
 
 export type FuncConfig<TEvent = any, TContext = any, TResult = any> = {
   plugins?: Plugin[]
@@ -236,24 +210,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
       return await dispatch(0)
     }
-  }
-
-  /**
-   * Deploy the function
-   * @param data {object} data
-   * @param data.root {string} root path
-   * @param data.filename {string} filename
-   * @param data.env {string} environment
-   */
-  public deploy(data: DeployData): any {
-    if (!data.logger) data.logger = new Logger('Func')
-
-    data.logger.debug('onDeploy')
-    data.logger.debug(
-      `Plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
-    )
-
-    return this.compose('onDeploy')(data)
   }
 
   /**

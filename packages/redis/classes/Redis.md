@@ -128,24 +128,6 @@ expire in seconds, default 10
 
 `Promise`\<`void`\>
 
-### onDeploy()
-
-> **onDeploy**(`data`, `next`): `Promise`\<`void`\>
-
-#### Parameters
-
-• **data**: `DeployData`
-
-• **next**: `Next`
-
-#### Returns
-
-`Promise`\<`void`\>
-
-#### Implementation of
-
-`Plugin.onDeploy`
-
 ### onInvoke()
 
 > **onInvoke**(`data`, `next`): `Promise`\<`void`\>

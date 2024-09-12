@@ -15,7 +15,6 @@
 import { deepMerge } from '@faasjs/deep_merge'
 import {
   type Plugin,
-  type DeployData,
   type Next,
   type MountData,
   type InvokeData,
@@ -123,29 +122,6 @@ export class CloudFunction implements Plugin {
       this.config = Object.create(null)
     }
     this.logger = new Logger(this.name)
-  }
-
-  public async onDeploy(data: DeployData, next: Next): Promise<void> {
-    this.logger.debug('[CloudFunction] Merge configuration...')
-    this.logger.debug('%j', data)
-
-    const config = data.config.plugins
-      ? deepMerge(data.config.plugins[this.name], { config: this.config })
-      : { config: this.config }
-
-    this.logger.debug('[CloudFunction] Merged configuration: %j', config)
-
-    // 引用服务商部署插件
-    const Provider = require(config.provider.type).Provider
-    const provider = new Provider(config.provider.config)
-
-    data.dependencies['@faasjs/cloud_function'] = '*'
-    data.dependencies[config.provider.type as string] = '*'
-
-    // 部署云函数
-    await provider.deploy(this.type, data, config)
-
-    await next()
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {

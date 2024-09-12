@@ -56,22 +56,6 @@ Create a cloud function
 
 ## Methods
 
-### deploy()
-
-> **deploy**(`data`): `any`
-
-Deploy the function
-
-#### Parameters
-
-• **data**: [`DeployData`](../type-aliases/DeployData.md)
-
-{object} data
-
-#### Returns
-
-`any`
-
 ### export()
 
 > **export**(): `object`

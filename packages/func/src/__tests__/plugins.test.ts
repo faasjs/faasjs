@@ -1,61 +1,12 @@
 import {
   Func,
   type Plugin,
-  type DeployData,
   type Next,
   type InvokeData,
   type MountData,
 } from '../index'
 
 describe('plugins', () => {
-  test('onDeploy', async () => {
-    const results: string[] = []
-    class P1 implements Plugin {
-      public readonly type: string
-      public readonly name: string
-
-      public async onDeploy(_: DeployData, next: Next) {
-        results.push('before1')
-        await next()
-        results.push('after1')
-      }
-    }
-    class P2 implements Plugin {
-      public readonly type: string
-      public readonly name: string
-
-      public async onDeploy(_: DeployData, next: Next) {
-        results.push('before2')
-        await next()
-        results.push('after2')
-      }
-    }
-
-    const func = new Func({
-      plugins: [new P1(), new P2()],
-      handler: async () => 1,
-    })
-
-    results.push('begin')
-    await func.deploy({
-      root: '.',
-      filename: 'base',
-      env: 'testing',
-      config: {},
-      dependencies: {},
-    })
-    results.push('end')
-
-    expect(results).toEqual([
-      'begin',
-      'before1',
-      'before2',
-      'after2',
-      'after1',
-      'end',
-    ])
-  })
-
   test('onMount', async () => {
     const results: string[] = []
     class P1 implements Plugin {

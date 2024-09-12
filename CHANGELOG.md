@@ -4,6 +4,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.0.0 (2024-09-?)`](https://github.com/faasjs/faasjs/compare/v2.9.0...v3.0.0)
+
+- [Break] Remove `@faasjs/deployer`, `@faasjs/load`, `@faasjs/tencentcloud`.
+
 [`v2.9.0 (2024-09-12)`](https://github.com/faasjs/faasjs/compare/v2.8.1...v2.9.0)
 
 - Add deprecated notice to below packages:

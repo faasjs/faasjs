@@ -16,7 +16,6 @@ import {
   type Plugin,
   type InvokeData,
   type MountData,
-  type DeployData,
   type Next,
   usePlugin,
   type UseifyPlugin,
@@ -175,44 +174,6 @@ export class Http<
       console.warn('Validator will deprecated in the v3.')
       this.validatorOptions = config.validator
     }
-  }
-
-  public async onDeploy(data: DeployData, next: Next): Promise<void> {
-    data.dependencies['@faasjs/http'] = '*'
-
-    await next()
-
-    const logger = new Logger(this.name)
-    logger.debug("Generate api gateway's config")
-    logger.debug('%j', data)
-
-    const config = data.config.plugins
-      ? deepMerge(data.config.plugins[this.name || this.type], {
-          config: this.config,
-        })
-      : { config: this.config }
-
-    // generate path from file path
-    if (!config.config.path) {
-      config.config.path = `/${data.name
-        ?.replace(/_/g, '/')
-        .replace(/\/index$/, '')}`
-      if (config.config.path === '/index') config.config.path = '/'
-      if (config.config.ignorePathPrefix) {
-        config.config.path = config.config.path.replace(
-          new RegExp(`^${config.config.ignorePathPrefix}`),
-          ''
-        )
-        if (config.config.path === '') config.config.path = '/'
-      }
-    }
-
-    logger.debug("Api gateway's config: %j", config)
-
-    const Provider = require(config.provider.type).Provider
-    const provider = new Provider(config.provider.config)
-
-    await provider.deploy(this.type, data, config)
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
