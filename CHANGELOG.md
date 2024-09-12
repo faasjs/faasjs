@@ -4,6 +4,15 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v2.9.0 (2024-09-12)`](https://github.com/faasjs/faasjs/compare/v2.8.1...v2.9.0)
+
+- Add deprecated notice to below packages:
+  - `@faasjs/deployer`
+  - `@faasjs/load`
+  - `@faasjs/tencentcloud`
+
+- Add deprecated notice to `@faasjs/http`'s `Validator`.
+
 [`v2.8.1 (2024-09-10)`](https://github.com/faasjs/faasjs/compare/v2.8.0...v2.8.1)
 
 - `@faasjs/react`

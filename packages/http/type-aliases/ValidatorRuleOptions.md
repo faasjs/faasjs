@@ -1,31 +1,33 @@
 [@faasjs/http](../README.md) / ValidatorRuleOptions
 
-# Type Alias: ValidatorRuleOptions
+# Type Alias: ~~ValidatorRuleOptions~~
 
 > **ValidatorRuleOptions**: `object`
 
 ## Type declaration
 
-### config?
+### ~~config?~~
 
 > `optional` **config**: `Partial`\<[`ValidatorOptions`](ValidatorOptions.md)\>
 
-### default?
+### ~~default?~~
 
 > `optional` **default**: `any`
 
-### in?
+### ~~in?~~
 
 > `optional` **in**: `any`[]
 
-### regexp?
+### ~~regexp?~~
 
 > `optional` **regexp**: `RegExp`
 
-### required?
+### ~~required?~~
 
 > `optional` **required**: `boolean`
 
-### type?
+### ~~type?~~
 
 > `optional` **type**: `ValidatorRuleOptionsType`
+
+## Deprecated

@@ -1,6 +1,8 @@
 [@faasjs/deployer](../README.md) / Deployer
 
-# Class: Deployer
+# Class: ~~Deployer~~
+
+## Deprecated
 
 ## Constructors
 
@@ -18,17 +20,17 @@
 
 ## Properties
 
-### deployData
+### ~~deployData~~
 
 > **deployData**: `DeployData`
 
-### func?
+### ~~func?~~
 
 > `optional` **func**: `Func`\<`any`, `any`, `any`\>
 
 ## Methods
 
-### deploy()
+### ~~deploy()~~
 
 > **deploy**(): `Promise`\<`object`\>
 
@@ -36,10 +38,10 @@
 
 `Promise`\<`object`\>
 
-##### filename
+##### ~~filename~~
 
 > **filename**: `string`
 
-##### root
+##### ~~root~~
 
 > **root**: `string`

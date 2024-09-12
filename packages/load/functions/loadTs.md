@@ -1,6 +1,6 @@
 [@faasjs/load](../README.md) / loadTs
 
-# Function: loadTs()
+# Function: ~~loadTs()~~
 
 > **loadTs**(`filename`, `options`): `Promise`\<`object`\>
 
@@ -40,7 +40,7 @@
 
 `Promise`\<`object`\>
 
-### dependencies
+### ~~dependencies~~
 
 > **dependencies**: `object`
 
@@ -48,14 +48,16 @@
 
  \[`key`: `string`\]: `string`
 
-### module?
+### ~~module?~~
 
 > `optional` **module**: `Func`
 
-### modules?
+### ~~modules?~~
 
 > `optional` **modules**: `object`
 
 #### Index Signature
 
  \[`key`: `string`\]: `string`
+
+## Deprecated

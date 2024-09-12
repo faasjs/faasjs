@@ -1,6 +1,6 @@
 [@faasjs/http](../README.md) / ValidatorOptions
 
-# Type Alias: ValidatorOptions\<Content\>
+# Type Alias: ~~ValidatorOptions\<Content\>~~
 
 > **ValidatorOptions**\<`Content`\>: `object`
 
@@ -10,7 +10,7 @@
 
 ## Type declaration
 
-### onError()?
+### ~~onError()?~~
 
 > `optional` **onError**: (`type`, `key`, `value`?) => `object` \| `void`
 
@@ -26,10 +26,12 @@
 
 `object` \| `void`
 
-### rules
+### ~~rules~~
 
 > **rules**: `{ [k in keyof Content]?: ValidatorRuleOptions }`
 
-### whitelist?
+### ~~whitelist?~~
 
 > `optional` **whitelist**: `"error"` \| `"ignore"`
+
+## Deprecated

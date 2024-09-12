@@ -1,6 +1,8 @@
 [@faasjs/tencentcloud](../README.md) / Provider
 
-# Class: Provider
+# Class: ~~Provider~~
+
+## Deprecated
 
 ## Implements
 
@@ -22,17 +24,17 @@
 
 ## Properties
 
-### config
+### ~~config~~
 
 > **config**: [`TencentcloudConfig`](../type-aliases/TencentcloudConfig.md)
 
-### logger
+### ~~logger~~
 
 > **logger**: `Logger`
 
 ## Methods
 
-### deploy()
+### ~~deploy()~~
 
 > **deploy**(`type`, `data`, `config`): `Promise`\<`void`\>
 
@@ -56,7 +58,7 @@
 
 `Promise`\<`void`\>
 
-### invokeCloudFunction()
+### ~~invokeCloudFunction()~~
 
 > **invokeCloudFunction**(`name`, `data`, `options`?): `Promise`\<`void`\>
 
@@ -80,7 +82,7 @@
 
 `CloudFunctionAdapter.invokeCloudFunction`
 
-### invokeSyncCloudFunction()
+### ~~invokeSyncCloudFunction()~~
 
 > **invokeSyncCloudFunction**\<`TResult`\>(`name`, `data`, `options`?): `Promise`\<`TResult`\>
 

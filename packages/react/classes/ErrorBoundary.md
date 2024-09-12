@@ -63,11 +63,11 @@ the entire component tree to unmount.
 
 ### render()
 
-> **render**(): `string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`\> \| `Element`
+> **render**(): `string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Element`
 
 #### Returns
 
-`string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`\> \| `Element`
+`string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Element`
 
 #### Overrides
 

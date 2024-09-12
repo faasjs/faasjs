@@ -58,6 +58,8 @@ file relative path as default
 
 > `optional` **name**: `string`
 
-### validator?
+### ~~validator?~~
 
 > `optional` **validator**: [`ValidatorConfig`](ValidatorConfig.md)\<`TParams`, `TCookie`, `TSession`\>
+
+#### Deprecated

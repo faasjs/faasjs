@@ -1,6 +1,6 @@
 [@faasjs/http](../README.md) / ValidatorConfig
 
-# Type Alias: ValidatorConfig\<TParams, TCookie, TSession\>
+# Type Alias: ~~ValidatorConfig\<TParams, TCookie, TSession\>~~
 
 > **ValidatorConfig**\<`TParams`, `TCookie`, `TSession`\>: `object`
 
@@ -14,18 +14,20 @@
 
 ## Type declaration
 
-### before?
+### ~~before?~~
 
 > `optional` **before**: `BeforeOption`
 
-### cookie?
+### ~~cookie?~~
 
 > `optional` **cookie**: [`ValidatorOptions`](ValidatorOptions.md)\<`TCookie`\>
 
-### params?
+### ~~params?~~
 
 > `optional` **params**: [`ValidatorOptions`](ValidatorOptions.md)\<`TParams`\>
 
-### session?
+### ~~session?~~
 
 > `optional` **session**: [`ValidatorOptions`](ValidatorOptions.md)\<`TSession`\>
+
+## Deprecated
