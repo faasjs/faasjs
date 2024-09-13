@@ -43,7 +43,7 @@ import { Readable } from 'node:stream'
 import { createBrotliCompress, createGzip, createDeflate } from 'node:zlib'
 import type { Func } from '@faasjs/func'
 
-if (!globalThis.Bun)
+if (!(globalThis as any).Bun)
   addHook(
     (code, filename) => {
       if (filename.endsWith('.d.ts')) return ''

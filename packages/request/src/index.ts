@@ -11,7 +11,7 @@
  * ```
  * @packageDocumentation
  */
-import http from 'node:http'
+import http, { type OutgoingHttpHeaders, type IncomingMessage } from 'node:http'
 import https from 'node:https'
 import { URL } from 'node:url'
 import { readFileSync, createWriteStream } from 'node:fs'
@@ -21,11 +21,11 @@ import { createGunzip, createBrotliDecompress } from 'node:zlib'
 import { randomUUID } from 'node:crypto'
 
 export type Request = {
-  headers?: http.OutgoingHttpHeaders
+  headers?: OutgoingHttpHeaders
   method?: string
   host?: string
   path?: string
-  query?: http.OutgoingHttpHeaders
+  query?: OutgoingHttpHeaders
   body?: {
     [key: string]: any
   }
@@ -35,12 +35,12 @@ export type Response<T = any> = {
   request?: Request
   statusCode?: number
   statusMessage?: string
-  headers: http.OutgoingHttpHeaders
+  headers: OutgoingHttpHeaders
   body: T
 }
 
 export type RequestOptions = {
-  headers?: http.OutgoingHttpHeaders
+  headers?: OutgoingHttpHeaders
   /**
    * The HTTP method to use when making the request. Defaults to GET.
    */
@@ -88,15 +88,12 @@ export type RequestOptions = {
    * ```
    */
   downloadFile?: string
-  pfx?: Buffer
-  passphrase?: string
-  agent?: boolean
   /**
    * Body parser. Defaults to `JSON.parse`.
    */
   parse?: (body: string) => any
   logger?: Logger
-}
+} & Pick<https.RequestOptions, 'pfx' | 'passphrase' | 'agent'>
 
 type Mock = (url: string, options: RequestOptions) => Promise<Response>
 
@@ -146,7 +143,7 @@ export class ResponseError extends Error {
   public request: Request
   public statusCode: number
   public statusMessage: string
-  public headers: http.OutgoingHttpHeaders
+  public headers: OutgoingHttpHeaders
   public body: any
 
   constructor(message: string, response: Response<any>) {
@@ -255,120 +252,116 @@ export async function request<T = any>(
       body,
     })
 
-    const req = protocol.request(
-      requestOptions,
-      (res: http.IncomingMessage) => {
-        if (options.downloadStream) {
-          options.downloadStream
-            .on('error', (error: Error) => {
-              logger.timeEnd(requestId, 'response.error %j', error)
-              reject(error)
-            })
-            .on('finish', () => {
-              logger.timeEnd(
-                requestId,
-                'response %s %s',
-                res.statusCode,
-                res.headers['content-type']
-              )
-              options.downloadStream.end()
-              resolve(undefined)
-            })
-          res.pipe(options.downloadStream, { end: true })
-          return
-        }
-
-        if (options.downloadFile) {
-          const stream = createWriteStream(options.downloadFile)
-            .on('error', (error: Error) => {
-              logger.timeEnd(requestId, 'response.error %j', error)
-              stream.destroy()
-              reject(error)
-            })
-            .on('finish', () => {
-              logger.timeEnd(
-                requestId,
-                'response %s %s %s',
-                res.statusCode,
-                res.headers['content-type'],
-                stream.bytesWritten
-              )
-              resolve(undefined)
-            })
-
-          res.pipe(stream, { end: true })
-
-          return
-        }
-
-        let stream: NodeJS.ReadableStream = res
-
-        switch (res.headers['content-encoding']) {
-          case 'br':
-            stream = res.pipe(createBrotliDecompress())
-            break
-          case 'gzip':
-            stream = res.pipe(createGunzip())
-            break
-        }
-
-        const raw: Buffer[] = []
-        stream
-          .on('error', (e: Error) => {
-            logger.timeEnd(requestId, 'response.error %j', e)
-            reject(e)
+    const req = protocol.request(requestOptions, (res: IncomingMessage) => {
+      if (options.downloadStream) {
+        options.downloadStream
+          .on('error', (error: Error) => {
+            logger.timeEnd(requestId, 'response.error %j', error)
+            reject(error)
           })
-          .on('end', () => {
-            const data = Buffer.concat(raw).toString()
+          .on('finish', () => {
             logger.timeEnd(
               requestId,
-              'response %s %s %s %j',
+              'response %s %s',
+              res.statusCode,
+              res.headers['content-type']
+            )
+            options.downloadStream.end()
+            resolve(undefined)
+          })
+        res.pipe(options.downloadStream, { end: true })
+        return
+      }
+
+      if (options.downloadFile) {
+        const stream = createWriteStream(options.downloadFile)
+          .on('error', (error: Error) => {
+            logger.timeEnd(requestId, 'response.error %j', error)
+            stream.destroy()
+            reject(error)
+          })
+          .on('finish', () => {
+            logger.timeEnd(
+              requestId,
+              'response %s %s %s',
               res.statusCode,
               res.headers['content-type'],
-              res.headers['content-encoding'],
-              data
+              stream.bytesWritten
             )
-
-            const response = Object.create(null)
-            response.request = requestOptions
-            response.request.body = body
-            response.statusCode = res.statusCode
-            response.statusMessage = res.statusMessage
-            response.headers = res.headers
-            response.body = data
-
-            if (
-              response.body &&
-              response.headers['content-type'] &&
-              response.headers['content-type'].includes('application/json') &&
-              typeof response.body === 'string' &&
-              (response.body.startsWith('{') || response.body.startsWith('['))
-            )
-              try {
-                response.body = (options.parse || JSON.parse)(response.body)
-                logger.debug('response.parse JSON')
-              } catch (error: any) {
-                logger.warn('response plain body', response.body)
-                logger.error(error)
-              }
-
-            if (response.statusCode >= 200 && response.statusCode < 400)
-              resolve(response)
-            else {
-              logger.debug('response.error %j', response)
-              reject(
-                new ResponseError(
-                  `${res.statusMessage || res.statusCode} ${
-                    requestOptions.host
-                  }${requestOptions.path}`,
-                  response
-                )
-              )
-            }
+            resolve(undefined)
           })
-          .on('data', (chunk: any) => raw.push(chunk))
+
+        res.pipe(stream, { end: true })
+
+        return
       }
-    )
+
+      let stream: NodeJS.ReadableStream = res
+
+      switch (res.headers['content-encoding']) {
+        case 'br':
+          stream = res.pipe(createBrotliDecompress())
+          break
+        case 'gzip':
+          stream = res.pipe(createGunzip())
+          break
+      }
+
+      let raw = ''
+      stream
+        .on('data', (chunk: any) => (raw += chunk))
+        .on('error', (e: Error) => {
+          logger.timeEnd(requestId, 'response.error %j', e)
+          reject(e)
+        })
+        .on('end', () => {
+          logger.timeEnd(
+            requestId,
+            'response %s %s %s %j',
+            res.statusCode,
+            res.headers['content-type'],
+            res.headers['content-encoding'],
+            raw
+          )
+
+          const response = Object.create(null)
+          response.request = requestOptions
+          response.request.body = body
+          response.statusCode = res.statusCode
+          response.statusMessage = res.statusMessage
+          response.headers = res.headers
+          response.body = raw
+
+          if (
+            response.body &&
+            response.headers['content-type'] &&
+            response.headers['content-type'].includes('application/json') &&
+            typeof response.body === 'string' &&
+            (response.body.startsWith('{') || response.body.startsWith('['))
+          )
+            try {
+              response.body = (options.parse || JSON.parse)(response.body)
+              logger.debug('response.parse JSON')
+            } catch (error: any) {
+              logger.warn('response plain body', response.body)
+              logger.error(error)
+            }
+
+          if (response.statusCode >= 200 && response.statusCode < 400)
+            resolve(response)
+          else {
+            logger.debug('response.error %j', response)
+            reject(
+              new ResponseError(
+                `${res.statusMessage || res.statusCode} ${
+                  requestOptions.host
+                }${requestOptions.path}`,
+                response
+              )
+            )
+          }
+        })
+    })
 
     if (body) req.write(body)
 

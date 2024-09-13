@@ -23,7 +23,6 @@
     "@testing-library/user-event": "*",
     "@happy-dom/global-registrator": "*",
     "@welldone-software/why-did-you-render": "*",
-    "@types/bun": "*",
     "jest-junit": "*"
   },
   "workspaces": ["packages/*"],

@@ -16,6 +16,6 @@
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
     },
-    "types": ["node", "jest", "bun"]
+    "types": ["node", "jest"]
   }
 }
