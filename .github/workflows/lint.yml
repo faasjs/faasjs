@@ -21,6 +21,6 @@ jobs:
           cache: npm
           node-version: 22
       - name: Install
-        run: npm ci
+        run: npm install
       - name: Run Lint
         run: node --run lint .

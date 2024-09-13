@@ -17,6 +17,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "a11y": {
+        "noLabelWithoutControl": "off"
+      },
       "correctness": {
         "useExhaustiveDependencies": "off",
         "noUnusedVariables": "error",
