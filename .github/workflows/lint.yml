@@ -16,11 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          cache: npm
-          node-version: 22
+          bun-version: latest
       - name: Install
-        run: npm install
+        run: bun install
       - name: Run Lint
-        run: node --run lint .
+        run: bun lint
