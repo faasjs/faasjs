@@ -2,7 +2,7 @@
 
 # Function: loadConfig()
 
-> **loadConfig**(`root`, `filename`): `Config`
+> **loadConfig**(`root`, `filename`, `staging`): `Config`
 
 加载配置
 
@@ -15,6 +15,8 @@
 • **filename**: `string`
 
 {filename} 目标文件，用于读取目录层级
+
+• **staging**: `string`
 
 ## Returns
 

@@ -2,7 +2,7 @@
 
 # Type Alias: ExportedHandler()\<TEvent, TContext, TResult\>
 
-> **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\>: (`event`, `context`?, `callback`?) => `Promise`\<`TResult`\>
+> **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\>: (`event`?, `context`?, `callback`?) => `Promise`\<`TResult`\>
 
 ## Type Parameters
 
@@ -14,7 +14,7 @@
 
 ## Parameters
 
-• **event**: `TEvent`
+• **event?**: `TEvent`
 
 • **context?**: `TContext`
 

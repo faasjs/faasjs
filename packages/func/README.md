@@ -28,7 +28,6 @@ npm install @faasjs/func
 - [MountData](type-aliases/MountData.md)
 - [Next](type-aliases/Next.md)
 - [Plugin](type-aliases/Plugin.md)
-- [ProviderConfig](type-aliases/ProviderConfig.md)
 - [UseifyPlugin](type-aliases/UseifyPlugin.md)
 
 ## Functions

@@ -1,0 +1,56 @@
+{
+  "name": "@faasjs/nextjs",
+  "version": "2.9.0",
+  "license": "MIT",
+  "exports": {
+    "./client": {
+      "import": {
+        "types": "./dist/client/index.d.mts",
+        "default": "./dist/client/index.mjs"
+      },
+      "require": {
+        "types": "./dist/client/index.d.ts",
+        "default": "./dist/client/index.js"
+      }
+    },
+    "./server": {
+      "import": {
+        "types": "./dist/server/index.d.mts",
+        "default": "./dist/server/index.mjs"
+      },
+      "require": {
+        "types": "./dist/server/index.d.ts",
+        "default": "./dist/server/index.js"
+      }
+    }
+  },
+  "homepage": "https://faasjs.com/doc/nextjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/nextjs"
+  },
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "scripts": {
+    "build": "tsup-node src/client/index.ts src/server/index.ts --config ../../tsup.config.json"
+  },
+  "files": ["dist"],
+  "dependencies": {},
+  "peerDependencies": {
+    "@faasjs/react": "2.9.0",
+    "@faasjs/func": "2.9.0",
+    "next": "*"
+  },
+  "devDependencies": {
+    "@faasjs/react": "2.9.0",
+    "@faasjs/func": "2.9.0",
+    "next": "*"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  }
+}

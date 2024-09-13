@@ -17,11 +17,3 @@
 #### Index Signature
 
  \[`key`: `string`\]: `object`
-
-### providers?
-
-> `optional` **providers**: `object`
-
-#### Index Signature
-
- \[`key`: `string`\]: [`ProviderConfig`](ProviderConfig.md)

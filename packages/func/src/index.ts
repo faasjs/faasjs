@@ -20,7 +20,7 @@ export type Handler<TEvent = any, TContext = any, TResult = any> = (
 ) => Promise<TResult>
 export type Next = () => Promise<void>
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
-  event: TEvent,
+  event?: TEvent,
   context?: TContext,
   callback?: (...args: any) => any
 ) => Promise<TResult>
@@ -265,7 +265,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     handler: ExportedHandler<TEvent, TContext, TResult>
   } {
     const handler = async (
-      event: TEvent,
+      event?: TEvent,
       context?: TContext | any,
       callback?: (...args: any) => any
     ): Promise<TResult> => {
