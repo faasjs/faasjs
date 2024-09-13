@@ -1,13 +1,14 @@
-const execSync = require('node:child_process').execSync
-const dirname = require('node:path').dirname
-const { readFileSync, writeFileSync, globSync } = require('node:fs')
+import { execSync} from 'node:child_process'
+import {dirname} from 'node:path'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { Glob } from "bun"
 
 function run(cmd) {
   console.log(cmd)
   execSync(cmd, { stdio: 'inherit' })
 }
 
-const packages = globSync('../packages/**/*.md')
+const packages = new Glob('../packages/**/*.md').scanSync()
 
 console.log(packages)
 for (const file of packages) {
@@ -26,7 +27,7 @@ writeFileSync(
     )
 )
 
-const files = globSync('./doc/**/*.md')
+const files = new Glob('./doc/**/*.md').scanSync()
 
 for (const file of files) {
   if (file === 'doc/README.md') continue
@@ -42,7 +43,7 @@ for (const file of files) {
   writeFileSync(file, content)
 }
 
-const images = globSync('../images/**/*.md')
+const images = new Glob('../images/**/*.md').scanSync()
 
 console.log(images)
 
@@ -59,7 +60,7 @@ writeFileSync(
     .replaceAll('https://faasjs.com', '')
 )
 
-const roots = globSync('../*.md')
+const roots = new Glob('../*.md').scanSync()
 
 console.log(roots)
 

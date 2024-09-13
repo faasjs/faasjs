@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vuepress dev . --debug",
     "build": "vuepress build .",
-    "build:prepare": "node prepare.js"
+    "build:prepare": "bun prepare.mjs"
   },
   "devDependencies": {
     "vuepress": "next",
@@ -14,6 +14,7 @@
     "@vuepress/theme-default": "next",
     "@vuepress/plugin-google-analytics": "next",
     "@vuepress/plugin-search": "next",
-    "@vuepress/plugin-sitemap": "next"
+    "@vuepress/plugin-sitemap": "next",
+    "sass-embedded": "*"
   }
 }

@@ -90,7 +90,7 @@ describe('lifecycle', () => {
         await func.export().handler(null)
       } catch (error: any) {
         expect(error.message).toEqual(
-          typeof Bun === 'undefined'
+          !(globalThis as any).Bun
             ? "Cannot read properties of null (reading 'headers')"
             : `null is not an object (evaluating 'data.event.headers')`
         )

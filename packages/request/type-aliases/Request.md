@@ -16,7 +16,7 @@
 
 ### headers?
 
-> `optional` **headers**: `http.OutgoingHttpHeaders`
+> `optional` **headers**: `OutgoingHttpHeaders`
 
 ### host?
 
@@ -32,4 +32,4 @@
 
 ### query?
 
-> `optional` **query**: `http.OutgoingHttpHeaders`
+> `optional` **query**: `OutgoingHttpHeaders`

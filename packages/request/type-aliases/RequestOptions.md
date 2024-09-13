@@ -2,13 +2,9 @@
 
 # Type Alias: RequestOptions
 
-> **RequestOptions**: `object`
+> **RequestOptions**: `object` & `Pick`\<`https.RequestOptions`, `"pfx"` \| `"passphrase"` \| `"agent"`\>
 
 ## Type declaration
-
-### agent?
-
-> `optional` **agent**: `boolean`
 
 ### auth?
 
@@ -57,7 +53,7 @@ await request('https://example.com', { file: 'filepath' })
 
 ### headers?
 
-> `optional` **headers**: `http.OutgoingHttpHeaders`
+> `optional` **headers**: `OutgoingHttpHeaders`
 
 ### logger?
 
@@ -82,14 +78,6 @@ Body parser. Defaults to `JSON.parse`.
 #### Returns
 
 `any`
-
-### passphrase?
-
-> `optional` **passphrase**: `string`
-
-### pfx?
-
-> `optional` **pfx**: `Buffer`
 
 ### query?
 

@@ -16,7 +16,7 @@
 
 ### headers
 
-> **headers**: `http.OutgoingHttpHeaders`
+> **headers**: `OutgoingHttpHeaders`
 
 ### request?
 
