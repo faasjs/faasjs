@@ -1,6 +1,6 @@
 {
   "name": "faasjs",
-  "version": "2.9.0",
+  "version": "3.0.0-canary.1",
   "license": "MIT",
   "files": [],
   "homepage": "https://faasjs.com",
@@ -14,9 +14,9 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "dependencies": {
-    "@faasjs/cli": "2.9.0",
-    "@faasjs/http": "2.9.0",
-    "@faasjs/types": "2.9.0"
+    "@faasjs/cli": "3.0.0-canary.1",
+    "@faasjs/http": "3.0.0-canary.1",
+    "@faasjs/types": "3.0.0-canary.1"
   },
   "engines": {
     "node": ">=22.0.0",

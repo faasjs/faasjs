@@ -32,16 +32,16 @@ async function publish(path) {
 
   try {
     await run(
-      `npm publish -w ${path.replace('/package.json', '')} --access public`
+      `npm publish -w ${path.replace('/package.json', '')} --access public --tag canary`
     )
   } catch (error) {
     console.warn(error)
   }
-  try {
-    await run(`npm dist-tag add ${pkg.name}@${version} stable`)
-  } catch (error) {
-    console.warn(error)
-  }
+  // try {
+  //   await run(`npm dist-tag add ${pkg.name}@${version} stable`)
+  // } catch (error) {
+  //   console.warn(error)
+  // }
 }
 
 async function publishAll() {

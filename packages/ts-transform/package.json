@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ts-transform",
-  "version": "2.9.0",
+  "version": "3.0.0-canary.1",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -37,10 +37,10 @@
     "@swc/core": "*"
   },
   "peerDependencies": {
-    "@faasjs/deep_merge": "2.9.0"
+    "@faasjs/deep_merge": "3.0.0-canary.1"
   },
   "devDependencies": {
-    "@faasjs/deep_merge": "2.9.0"
+    "@faasjs/deep_merge": "3.0.0-canary.1"
   },
   "engines": {
     "node": ">=22.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/nextjs",
-  "version": "3.0.0-canary.0",
+  "version": "3.0.0-canary.1",
   "license": "MIT",
   "exports": {
     "./client": {
@@ -37,16 +37,18 @@
   "scripts": {
     "build": "tsup-node src/client/index.ts src/server/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {},
   "peerDependencies": {
-    "@faasjs/react": "2.9.0",
-    "@faasjs/func": "2.9.0",
+    "@faasjs/react": "3.0.0-canary.1",
+    "@faasjs/func": "3.0.0-canary.1",
     "next": "*"
   },
   "devDependencies": {
-    "@faasjs/react": "2.9.0",
-    "@faasjs/func": "2.9.0",
+    "@faasjs/react": "3.0.0-canary.1",
+    "@faasjs/func": "3.0.0-canary.1",
     "next": "*"
   },
   "engines": {
