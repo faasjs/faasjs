@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { FaasReactClient } from '@faasjs/react'
 import { render, screen } from '@testing-library/react'
 import { FaasDataWrapper, withFaasData } from '../../FaasDataWrapper'
 
@@ -17,7 +16,6 @@ describe('FaasDataWrapper', () => {
         text: async () => Promise.resolve('{"data":{"test":"value"}}'),
       }) as unknown as Promise<Response>
     })
-    FaasReactClient({ domain: '/' })
   })
 
   afterEach(() => {

@@ -8,7 +8,7 @@ Before use faas, you should initialize a FaasReactClient.
 
 ## Parameters
 
-• **\_\_namedParameters**: [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md)
+• **\_\_namedParameters**: [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md) = `...`
 
 ## Returns
 
@@ -18,6 +18,6 @@ Before use faas, you should initialize a FaasReactClient.
 
 ```ts
 const client = FaasReactClient({
-  domain: 'localhost:8080/api/'
+  baseUrl: 'localhost:8080/api/'
 })
 ```

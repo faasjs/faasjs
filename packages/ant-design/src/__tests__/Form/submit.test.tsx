@@ -37,7 +37,7 @@ describe('Form/submit', () => {
         text: async () => JSON.stringify({ data: {} }),
       }) as unknown as Promise<Response>
     }) as typeof window.fetch
-    FaasReactClient({ domain: '/' })
+    FaasReactClient()
 
     render(
       <Form
@@ -75,7 +75,6 @@ describe('Form/submit', () => {
         text: async () => JSON.stringify({ data: {} }),
       }) as unknown as Promise<Response>
     }) as typeof window.fetch
-    FaasReactClient({ domain: '/' })
 
     render(
       <Form

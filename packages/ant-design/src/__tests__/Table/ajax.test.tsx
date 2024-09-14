@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { FaasReactClient } from '@faasjs/react'
 import { render, screen } from '@testing-library/react'
 import { Table } from '../../Table'
 import userEvent from '@testing-library/user-event'
@@ -30,7 +29,6 @@ describe('Table/ajax', () => {
           }),
       }) as unknown as Promise<Response>
     })
-    FaasReactClient({ domain: '/' })
   })
 
   afterEach(() => {

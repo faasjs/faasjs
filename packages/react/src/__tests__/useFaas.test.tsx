@@ -6,14 +6,12 @@ import { useFaas } from '../useFaas'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { Response, setMock } from '@faasjs/browser'
-import { FaasReactClient } from '../client'
 
 describe('useFaas', () => {
   let current = 0
 
   beforeEach(() => {
     current = 0
-    FaasReactClient({ domain: '/' })
   })
 
   afterEach(() => {

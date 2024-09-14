@@ -34,13 +34,13 @@ export type {
 } from '@faasjs/browser'
 
 export type FaasVuePluginOptions = {
-  domain: BaseUrl
+  baseUrl: BaseUrl
   options?: Options
 }
 
 export const FaasVuePlugin = {
   install(app: any, options: FaasVuePluginOptions): void {
-    const client = new FaasBrowserClient(options.domain, options.options)
+    const client = new FaasBrowserClient(options.baseUrl, options.options)
 
     app.config.globalProperties.$faas = client.action
   },

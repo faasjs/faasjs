@@ -21,7 +21,8 @@ export type OnError = (
 ) => (res: ResponseError) => Promise<void>
 
 export type FaasReactClientOptions = {
-  domain: BaseUrl
+  /** @default `/` */
+  baseUrl?: BaseUrl
   options?: Options
   onError?: OnError
 }
@@ -29,23 +30,23 @@ export type FaasReactClientOptions = {
 /**
  * Before use faas, you should initialize a FaasReactClient.
  *
- * @param props.host {string} The domain of your faas server
+ * @param props.baseUrl {string} The baseUrl of your faas server
  * @param props.options {Options} The options of client
  * @returns {FaasReactClientInstance}
  *
  * @example
  * ```ts
  * const client = FaasReactClient({
- *   domain: 'localhost:8080/api/'
+ *   baseUrl: 'localhost:8080/api/'
  * })
  * ```
  */
-export function FaasReactClient({
-  domain,
-  options,
-  onError,
-}: FaasReactClientOptions): FaasReactClientInstance {
-  const client = new FaasBrowserClient(domain, options)
+export function FaasReactClient(
+  { baseUrl, options, onError }: FaasReactClientOptions = {
+    baseUrl: '/',
+  }
+): FaasReactClientInstance {
+  const client = new FaasBrowserClient(baseUrl, options)
 
   const reactClient = {
     id: client.id,
@@ -62,12 +63,12 @@ export function FaasReactClient({
       useFaas(action, defaultParams, options),
     FaasDataWrapper: <PathOrData extends FaasAction>(
       props: FaasDataWrapperProps<PathOrData>
-    ) => <FaasDataWrapper baseUrl={domain} {...props} />,
+    ) => <FaasDataWrapper baseUrl={baseUrl} {...props} />,
     onError,
     browserClient: client,
   }
 
-  clients[domain] = reactClient
+  clients[baseUrl] = reactClient
 
   return reactClient
 }
@@ -91,9 +92,7 @@ export function getClient(host?: string): FaasReactClientInstance {
   if (!client) {
     console.warn('FaasReactClient is not initialized manually, use default.')
 
-    return FaasReactClient({
-      domain: '/',
-    })
+    return FaasReactClient()
   }
 
   return client

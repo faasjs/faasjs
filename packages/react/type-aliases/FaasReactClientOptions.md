@@ -6,9 +6,13 @@
 
 ## Type declaration
 
-### domain
+### baseUrl?
 
-> **domain**: `BaseUrl`
+> `optional` **baseUrl**: `BaseUrl`
+
+#### Default
+
+`/`
 
 ### onError?
 

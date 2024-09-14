@@ -27,7 +27,7 @@
  * import { FaasReactClient } from '@faasjs/react'
  *
  * const client = FaasReactClient({
- *   domain: 'localhost:8080/api'
+ *   baseUrl: 'localhost:8080/api/'
  * })
  * ```
  *

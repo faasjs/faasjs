@@ -30,8 +30,6 @@ export type OptionalWrapperProps<
 export const OptionalWrapper: React.FC<OptionalWrapperProps> & {
   whyDidYouRender: boolean
 } = ({ condition, Wrapper, wrapperProps, children }) => {
-  console.debug('[OptionalWrapper] %s %s', Wrapper.name, condition)
-
   return condition ? (
     <Wrapper {...wrapperProps}>{children}</Wrapper>
   ) : (

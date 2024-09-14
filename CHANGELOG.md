@@ -12,6 +12,12 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/browser`
   - [Break] `baseURL` is optional and must be end with `/`.
 
+- `@faasjs/react`
+  - [Break] `domain` rename to `baseURL`.
+
+- `@faasjs/vue-plugin`
+  - [Break] `domain` rename to `baseURL`.
+
 - `@faasjs/server`
   - [Feature] Disable code transformation in Bun.
 

@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { FaasReactClient } from '@faasjs/react'
 import { render, screen } from '@testing-library/react'
 import { Description } from '../../Description'
 
@@ -17,7 +16,6 @@ describe('Description/faas', () => {
         text: async () => Promise.resolve('{"data":{"test":"value"}}'),
       }) as unknown as Promise<Response>
     })
-    FaasReactClient({ domain: '/' })
   })
 
   afterEach(() => {

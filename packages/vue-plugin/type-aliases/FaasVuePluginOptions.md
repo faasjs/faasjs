@@ -6,9 +6,9 @@
 
 ## Type declaration
 
-### domain
+### baseUrl
 
-> **domain**: `BaseUrl`
+> **baseUrl**: `BaseUrl`
 
 ### options?
 
