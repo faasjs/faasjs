@@ -12,9 +12,7 @@ describe('NextJsPlugin', () => {
         },
       }).export().handler
 
-      const res = await handler({})
-
-      expect(res).toEqual({ data: 1 })
+      await expect(handler()).resolves.toEqual({ data: 1 })
     })
 
     it('should work with error', async () => {
@@ -26,9 +24,44 @@ describe('NextJsPlugin', () => {
         },
       }).export().handler
 
-      const res = await handler({})
+      await expect(handler()).resolves.toEqual({
+        error: { message: 'error' },
+      })
+    })
 
-      expect(res).toEqual({ error: { message: 'error' } })
+    it('should work with params', async () => {
+      const nextjs = new NextJsPlugin()
+      const handler = new Func<{
+        a: number
+        b: number
+      }>({
+        plugins: [nextjs],
+        async handler({ params }) {
+          return { result: params.a + params.b }
+        },
+      }).export().handler
+
+      await expect(handler({ a: 1, b: 2 })).resolves.toEqual({
+        data: { result: 3 },
+      })
+    })
+
+    it('should work with formData', async () => {
+      const nextjs = new NextJsPlugin()
+      const handler = new Func({
+        plugins: [nextjs],
+        async handler({ params }) {
+          return { result: params.a + params.b }
+        },
+      }).export().handler
+
+      const formData = new FormData()
+      formData.append('a', '1')
+      formData.append('b', '2')
+
+      await expect(handler(formData)).resolves.toEqual({
+        data: { result: '12' },
+      })
     })
   })
 
@@ -46,6 +79,34 @@ describe('NextJsPlugin', () => {
         })()
       ).resolves.toEqual({
         error: { message: 'error' },
+      })
+    })
+
+    it('should work with params', async () => {
+      await expect(
+        useFuncWithNextJsPlugin<{
+          a: number
+          b: number
+        }>(async ({ params }) => ({ result: params.a + params.b }))({
+          a: 1,
+          b: 2,
+        })
+      ).resolves.toEqual({
+        data: { result: 3 },
+      })
+    })
+
+    it('should work with formData', async () => {
+      const formData = new FormData()
+      formData.append('a', '1')
+      formData.append('b', '2')
+
+      await expect(
+        useFuncWithNextJsPlugin(async ({ params }) => ({
+          result: params.a + params.b,
+        }))(formData)
+      ).resolves.toEqual({
+        data: { result: '12' },
       })
     })
   })

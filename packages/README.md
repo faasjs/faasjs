@@ -51,3 +51,9 @@
 |[@faasjs/react](https://github.com/faasjs/faasjs/tree/main/packages/react)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/react.svg)](https://www.npmjs.com/package/@faasjs/react)|
 |[@faasjs/vue-plugin](https://github.com/faasjs/faasjs/tree/main/packages/vue-plugin)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/vue-plugin.svg)](https://www.npmjs.com/package/@faasjs/vue-plugin)|
 |[@faasjs/ant-design](https://github.com/faasjs/faasjs/tree/main/packages/ant-design)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/ant-design.svg)](https://www.npmjs.com/package/@faasjs/ant-design)|
+
+## Full stack frameworks
+
+|Name|Version|
+|---|---|
+|[@faasjs/nextjs](https://github.com/faasjs/faasjs/tree/main/packages/nextjs)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/nextjs.svg)](https://www.npmjs.com/package/@faasjs/nextjs)|
