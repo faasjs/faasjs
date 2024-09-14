@@ -2,15 +2,15 @@
 
 # Function: getClient()
 
-> **getClient**(`domain`?): [`FaasReactClientInstance`](../type-aliases/FaasReactClientInstance.md)
+> **getClient**(`host`?): [`FaasReactClientInstance`](../type-aliases/FaasReactClientInstance.md)
 
 Get FaasReactClient instance
 
 ## Parameters
 
-• **domain?**: `string`
+• **host?**: `string`
 
-{string} empty string for default domain
+{string} empty string for default host
 
 ## Returns
 
@@ -21,5 +21,5 @@ Get FaasReactClient instance
 ```ts
 getClient()
 // or
-getClient('another-domain')
+getClient('another-host')
 ```

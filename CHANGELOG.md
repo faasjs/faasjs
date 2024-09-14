@@ -9,6 +9,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - [Break] Remove `@faasjs/deployer`, `@faasjs/tencentcloud`.
 - [Break] Upgrade node version to 22.
 
+- `@faasjs/browser`
+  - [Break] `baseURL` is optional and must be end with `/`.
+
 - `@faasjs/server`
   - [Feature] Disable code transformation in Bun.
 

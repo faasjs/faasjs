@@ -6,6 +6,10 @@
 
 ## Type declaration
 
+### baseUrl?
+
+> `optional` **baseUrl**: `BaseUrl`
+
 ### beforeRequest()?
 
 > `optional` **beforeRequest**: (`{

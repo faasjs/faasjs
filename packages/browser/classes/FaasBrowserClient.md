@@ -5,7 +5,7 @@
 FaasJS browser client
 
 ```ts
-const client = new FaasBrowserClient('http://localhost:8080')
+const client = new FaasBrowserClient('http://localhost:8080/')
 
 await client.action('func', { key: 'value' })
 ```
@@ -14,13 +14,13 @@ await client.action('func', { key: 'value' })
 
 ### new FaasBrowserClient()
 
-> **new FaasBrowserClient**(`baseUrl`, `options`?): [`FaasBrowserClient`](FaasBrowserClient.md)
+> **new FaasBrowserClient**(`baseUrl`, `options`): [`FaasBrowserClient`](FaasBrowserClient.md)
 
 #### Parameters
 
-• **baseUrl**: `string`
+• **baseUrl**: \`$\{string\}/\` = `'/'`
 
-• **options?**: [`Options`](../type-aliases/Options.md)
+• **options**: [`Options`](../type-aliases/Options.md) = `...`
 
 #### Returns
 
@@ -28,13 +28,13 @@ await client.action('func', { key: 'value' })
 
 ## Properties
 
+### baseUrl
+
+> **baseUrl**: \`$\{string\}/\`
+
 ### defaultOptions
 
 > **defaultOptions**: [`Options`](../type-aliases/Options.md)
-
-### host
-
-> **host**: `string`
 
 ### id
 

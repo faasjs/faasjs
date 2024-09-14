@@ -8,7 +8,7 @@ describe('FaasVuePlugin', () => {
   it('should work', () => {
     const vue = mount(
       {},
-      { global: { plugins: [[FaasVuePlugin, { domain: 'test' }]] } }
+      { global: { plugins: [[FaasVuePlugin, { domain: '/' }]] } }
     )
 
     expect(vue.vm.$faas).toBeDefined()

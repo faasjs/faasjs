@@ -14,6 +14,10 @@
 
 > **action**: `string`
 
+### baseUrl?
+
+> `optional` **baseUrl**: `string`
+
 ### children?
 
 > `optional` **children**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\>\>
@@ -23,10 +27,6 @@
 > `optional` **data**: [`FaasData`](FaasData.md)\<`PathOrData`\>
 
 use custom data, should work with setData
-
-### domain?
-
-> `optional` **domain**: `string`
 
 ### fallback?
 

@@ -13,7 +13,7 @@ describe('useFaas', () => {
 
   beforeEach(() => {
     current = 0
-    FaasReactClient({ domain: 'test' })
+    FaasReactClient({ domain: '/' })
   })
 
   afterEach(() => {

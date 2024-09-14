@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { FaasReactClient, faas } from '..'
+import { FaasReactClient } from '../client'
+import { faas } from '../faas'
 import { Response, setMock } from '@faasjs/browser'
 
 describe('faas', () => {
@@ -14,7 +15,7 @@ describe('faas', () => {
       current++
       return Promise.resolve(new Response({ data: current }))
     })
-    FaasReactClient({ domain: 'test' })
+    FaasReactClient({ domain: 'test/' })
   })
 
   afterEach(() => {

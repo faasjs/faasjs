@@ -37,7 +37,7 @@ describe('client', () => {
   })
 
   it('should work', async () => {
-    const client = new FaasBrowserClient('/')
+    const client = new FaasBrowserClient()
     const response = await client.action('path')
 
     expect(client.defaultOptions).toEqual({})

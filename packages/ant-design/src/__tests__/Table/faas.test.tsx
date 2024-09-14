@@ -18,7 +18,7 @@ describe('Table/faas', () => {
           text: async () => Promise.resolve('{"data":[{"test":"value"}]}'),
         }) as unknown as Promise<Response>
     )
-    FaasReactClient({ domain: 'test' })
+    FaasReactClient({ domain: '/' })
   })
 
   afterEach(() => {

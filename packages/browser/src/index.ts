@@ -80,6 +80,8 @@ import { generateId } from './generateId'
 
 export { generateId } from './generateId'
 
+export type BaseUrl = `${string}/`
+
 export type Options = RequestInit & {
   headers?: Record<string, string>
   /** trigger before request */
@@ -99,6 +101,7 @@ export type Options = RequestInit & {
     url: string,
     options: Options
   ) => Promise<Response<FaasData<PathOrData>>>
+  baseUrl?: BaseUrl
 }
 
 export type ResponseHeaders = {
@@ -219,24 +222,25 @@ export function setMock(handler: MockHandler) {
  * FaasJS browser client
 
  * ```ts
- * const client = new FaasBrowserClient('http://localhost:8080')
+ * const client = new FaasBrowserClient('http://localhost:8080/')
  *
  * await client.action('func', { key: 'value' })
  * ```
  */
 export class FaasBrowserClient {
   public readonly id: string
-  public host: string
+  public baseUrl: BaseUrl
   public defaultOptions: Options
 
-  constructor(baseUrl: string, options?: Options) {
-    if (!baseUrl) throw Error('[FaasJS] baseUrl required')
+  constructor(baseUrl: BaseUrl = '/', options: Options = Object.create(null)) {
+    if (baseUrl && !baseUrl.endsWith('/'))
+      throw Error('[FaasJS] baseUrl should end with /')
 
     this.id = `FBC-${generateId()}`
-    this.host = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : `${baseUrl}/`
-    this.defaultOptions = options || Object.create(null)
+    this.baseUrl = baseUrl
+    this.defaultOptions = options
 
-    console.debug(`[FaasJS] Initialize with baseUrl: ${this.host}`)
+    console.debug(`[FaasJS] Initialize with baseUrl: ${this.baseUrl}`)
   }
 
   /**
@@ -257,7 +261,7 @@ export class FaasBrowserClient {
 
     const id = `F-${generateId()}`
 
-    const url = `${this.host + (action as string).toLowerCase()}?_=${id}`
+    const url = `${options?.baseUrl || this.baseUrl + (action as string).toLowerCase()}?_=${id}`
 
     if (!params) params = Object.create(null)
     if (!options) options = Object.create(null)

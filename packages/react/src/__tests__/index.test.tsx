@@ -2,12 +2,14 @@ import { FaasReactClient, getClient } from '..'
 
 describe('FaasReactClient', () => {
   it('should work', () => {
-    const client = FaasReactClient({ domain: 'mock' })
+    const client = FaasReactClient({
+      domain: '/',
+    })
 
     expect(client).toHaveProperty('faas')
     expect(client).toHaveProperty('useFaas')
     expect(client).toHaveProperty('FaasDataWrapper')
 
-    expect(getClient('mock')).toBe(client)
+    expect(getClient('/')).toBe(client)
   })
 })

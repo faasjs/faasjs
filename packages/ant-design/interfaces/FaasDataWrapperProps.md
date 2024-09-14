@@ -20,6 +20,14 @@
 
 `OriginProps.action`
 
+### baseUrl?
+
+> `optional` **baseUrl**: `string`
+
+#### Inherited from
+
+`OriginProps.baseUrl`
+
 ### children?
 
 > `optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`any`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
@@ -37,14 +45,6 @@ use custom data, should work with setData
 #### Inherited from
 
 `OriginProps.data`
-
-### domain?
-
-> `optional` **domain**: `string`
-
-#### Inherited from
-
-`OriginProps.domain`
 
 ### fallback?
 

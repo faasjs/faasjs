@@ -8,7 +8,7 @@
 
 ### domain
 
-> **domain**: `string`
+> **domain**: `BaseUrl`
 
 ### onError?
 

@@ -53,6 +53,7 @@ export { useConstant } from './constant'
 export { createSplittingContext } from './splittingContext'
 
 export * from './client'
+export * from './faas'
 export * from './ErrorBoundary'
 export * from './FaasDataWrapper'
 export * from './OptionalWrapper'

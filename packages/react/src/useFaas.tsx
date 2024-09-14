@@ -40,7 +40,7 @@ export function useFaas<PathOrData extends FaasAction>(
       : options.skip
   )
 
-  const client = getClient(options.domain)
+  const client = getClient(options.baseUrl)
 
   useEffect(() => {
     setSkip(

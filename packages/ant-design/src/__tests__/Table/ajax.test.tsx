@@ -30,7 +30,7 @@ describe('Table/ajax', () => {
           }),
       }) as unknown as Promise<Response>
     })
-    FaasReactClient({ domain: 'test' })
+    FaasReactClient({ domain: '/' })
   })
 
   afterEach(() => {

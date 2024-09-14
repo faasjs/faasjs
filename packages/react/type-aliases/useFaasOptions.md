@@ -10,6 +10,10 @@
 
 ## Type declaration
 
+### baseUrl?
+
+> `optional` **baseUrl**: `string`
+
 ### data?
 
 > `optional` **data**: [`FaasData`](FaasData.md)\<`PathOrData`\>
@@ -19,10 +23,6 @@
 > `optional` **debounce**: `number`
 
 send the last request after milliseconds
-
-### domain?
-
-> `optional` **domain**: `string`
 
 ### params?
 

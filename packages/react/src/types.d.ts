@@ -1,4 +1,4 @@
-import type { Options } from '@faasjs/browser'
+import type { Options, FaasBrowserClient } from '@faasjs/browser'
 import type { FaasAction, FaasParams, FaasData } from '@faasjs/types'
 
 export type FaasReactClientInstance = {
@@ -17,6 +17,7 @@ export type FaasReactClientInstance = {
     props: FaasDataWrapperProps<PathOrData>
   ): JSX.Element
   onError: OnError
+  browserClient: FaasBrowserClient
 }
 
 /**
@@ -50,7 +51,7 @@ export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
   data?: FaasData<PathOrData>
   /** use custom setData, should work with data */
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
-  domain?: string
+  baseUrl?: string
 }
 
 export type useFaasOptions<PathOrData extends FaasAction> = {
@@ -61,5 +62,5 @@ export type useFaasOptions<PathOrData extends FaasAction> = {
   skip?: boolean | ((params: FaasParams<PathOrData>) => boolean)
   /** send the last request after milliseconds */
   debounce?: number
-  domain?: string
+  baseUrl?: string
 }

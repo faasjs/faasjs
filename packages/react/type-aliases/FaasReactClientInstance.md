@@ -6,6 +6,10 @@
 
 ## Type declaration
 
+### browserClient
+
+> **browserClient**: `FaasBrowserClient`
+
 ### faas()
 
 > **faas**: \<`PathOrData`\>(`action`, `params`, `options`?) => `Promise`\<`Response`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>

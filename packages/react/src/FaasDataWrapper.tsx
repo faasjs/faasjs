@@ -12,9 +12,9 @@ export function FaasDataWrapper<PathOrData extends FaasAction>({
   onDataChange,
   data,
   setData,
-  domain,
+  baseUrl,
 }: FaasDataWrapperProps<PathOrData>): JSX.Element {
-  const request = getClient(domain).useFaas<PathOrData>(action, params, {
+  const request = getClient(baseUrl).useFaas<PathOrData>(action, params, {
     data,
     setData,
   })

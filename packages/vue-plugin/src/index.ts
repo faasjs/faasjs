@@ -15,6 +15,7 @@ import {
   FaasBrowserClient,
   type Options,
   type FaasBrowserClientAction,
+  type BaseUrl,
 } from '@faasjs/browser'
 import 'vue'
 
@@ -33,7 +34,7 @@ export type {
 } from '@faasjs/browser'
 
 export type FaasVuePluginOptions = {
-  domain: string
+  domain: BaseUrl
   options?: Options
 }
 

@@ -30,7 +30,7 @@ describe('FaasDataWrapper', () => {
       )
     })
 
-    FaasReactClient({ domain: 'test' })
+    FaasReactClient({ domain: '/' })
   })
 
   afterEach(() => {

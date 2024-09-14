@@ -81,6 +81,7 @@ Please use [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin/) for Vue.
 
 ## Type Aliases
 
+- [BaseUrl](type-aliases/BaseUrl.md)
 - [FaasBrowserClientAction](type-aliases/FaasBrowserClientAction.md)
 - [MockHandler](type-aliases/MockHandler.md)
 - [Options](type-aliases/Options.md)

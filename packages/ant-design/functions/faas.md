@@ -2,7 +2,7 @@
 
 # Function: faas()
 
-> **faas**\<`PathOrData`\>(`action`, `params`): `Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
+> **faas**\<`PathOrData`\>(`action`, `params`, `options`?): `Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
 
 Request faas server
 
@@ -19,6 +19,8 @@ Request faas server
 • **params**: `FaasParams`\<`PathOrData`\>
 
 {object} action params
+
+• **options?**: `Options`
 
 ## Returns
 
