@@ -6,7 +6,9 @@ export class NextJsPlugin implements Plugin {
 
   async onInvoke(data: InvokeData, next: Next) {
     if (data.event instanceof FormData) {
-      data.logger.warn('[NextJsPlugin] FormData is not recommended.')
+      data.logger.warn(
+        '[NextJsPlugin] FormData is not recommended, because it only supports string or blob values.'
+      )
 
       data.params = {}
       for (const [key, value] of data.event.entries()) {
