@@ -309,12 +309,14 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 let plugins: Plugin[] = []
 
 export type UseifyPlugin<T> = T & {
-  mount?: (data?: { config?: Config }) => Promise<T>
+  mount: (data?: { config?: Config }) => Promise<T>
 }
 
 export function usePlugin<T extends Plugin>(
-  plugin: UseifyPlugin<T>
-): UseifyPlugin<T> {
+  plugin: T & {
+    mount?: (data?: { config?: Config }) => Promise<T>
+  }
+) {
   if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
 
   if (!plugin.mount)
@@ -333,7 +335,7 @@ export function usePlugin<T extends Plugin>(
       return plugin
     }
 
-  return plugin
+  return plugin as UseifyPlugin<T>
 }
 
 /**
