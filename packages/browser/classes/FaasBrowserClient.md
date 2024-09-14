@@ -56,11 +56,11 @@ Request a FaasJS function
 
 • **action**: `string` \| `PathOrData`
 
-function path
+function's path or react's server action
 
 • **params?**: `FaasParams`\<`PathOrData`\>
 
-function params
+function's params
 
 • **options?**: [`Options`](../type-aliases/Options.md)
 

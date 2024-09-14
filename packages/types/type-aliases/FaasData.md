@@ -2,7 +2,7 @@
 
 # Type Alias: FaasData\<T\>
 
-> **FaasData**\<`T`\>: `T` *extends* [`FaasActionPaths`](FaasActionPaths.md) ? `FaasActions`\[`T`\]\[`"Data"`\] : `T`
+> **FaasData**\<`T`\>: `T` *extends* [`FaasActionPaths`](FaasActionPaths.md) ? `FaasActions`\[`T`\]\[`"Data"`\] : `T` *extends* `ReactServerAction` ? `Awaited`\<`ReturnType`\<`T`\>\> : `T`
 
 ## Type Parameters
 

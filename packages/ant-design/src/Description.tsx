@@ -252,7 +252,9 @@ DescriptionItemContent.whyDidYouRender = true
  * />
  * ```
  */
-export function Description<T = any>(props: DescriptionProps<T>) {
+export function Description<T extends Record<string, any> = any>(
+  props: DescriptionProps<T>
+) {
   if (props.faasData && !props.dataSource)
     return (
       <FaasDataWrapper<T>

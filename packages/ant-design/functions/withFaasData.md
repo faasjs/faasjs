@@ -10,7 +10,7 @@ HOC to wrap a component with FaasDataWrapper and Loading
 
 • **TComponent** *extends* `FC`\<`any`\>
 
-• **PathOrData** *extends* `Record`\<`string`, `any`\>
+• **PathOrData** *extends* `FaasAction`
 
 ## Parameters
 

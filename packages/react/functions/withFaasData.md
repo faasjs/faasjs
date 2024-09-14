@@ -8,7 +8,7 @@ HOC to wrap a component with FaasDataWrapper
 
 ## Type Parameters
 
-• **PathOrData** *extends* `Record`\<`string`, `any`\>
+• **PathOrData** *extends* [`FaasAction`](../type-aliases/FaasAction.md)
 
 • **TComponentProps** *extends* [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\> = [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>
 

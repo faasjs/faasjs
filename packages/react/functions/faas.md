@@ -8,7 +8,7 @@ Request faas server
 
 ## Type Parameters
 
-• **PathOrData** *extends* `Record`\<`string`, `any`\>
+• **PathOrData** *extends* [`FaasAction`](../type-aliases/FaasAction.md)
 
 ## Parameters
 

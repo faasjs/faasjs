@@ -10,7 +10,7 @@ Description component
 
 ## Type Parameters
 
-• **T** = `any`
+• **T** *extends* `Record`\<`string`, `any`\> = `any`
 
 ## Parameters
 

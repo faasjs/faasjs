@@ -58,6 +58,42 @@ describe('useFaas', () => {
     expect(renderTimes).toBe(6)
   })
 
+  it('should work with server action', async () => {
+    let renderTimes = 0
+
+    async function action() {
+      current++
+      return current
+    }
+
+    function Test() {
+      const { data, reload } = useFaas(action, null)
+
+      renderTimes++
+
+      return (
+        <div>
+          {data}
+          <button type='button' onClick={() => reload()}>
+            Reload
+          </button>
+        </div>
+      )
+    }
+
+    Test.whyDidYouRender = true
+
+    render(<Test />)
+
+    expect(await screen.findByText('1')).toBeDefined()
+    expect(renderTimes).toBe(3)
+
+    await userEvent.click(screen.getByRole('button'))
+
+    expect(await screen.findByText('2')).toBeDefined()
+    expect(renderTimes).toBe(6)
+  })
+
   it('should work with controlled params', async () => {
     setMock(async (_, params) => {
       current++

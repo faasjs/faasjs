@@ -50,17 +50,17 @@ Request a FaasJS function
 
 #### Type Parameters
 
-• **PathOrData** *extends* `Record`\<`string`, `any`\>
+• **PathOrData** *extends* `FaasAction`
 
 #### Parameters
 
 • **action**: `string` \| `PathOrData`
 
-function path
+function's path or react's server action
 
 • **params?**: `FaasParams`\<`PathOrData`\>
 
-function params
+function's params
 
 • **options?**: [`Options`](../type-aliases/Options.md)
 

@@ -15,6 +15,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/react`
   - [Break] `domain` rename to `baseURL`.
+  - [Feature] `action` can be a react server action.
 
 - `@faasjs/vue-plugin`
   - [Break] `domain` rename to `baseURL`.

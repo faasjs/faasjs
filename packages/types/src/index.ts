@@ -31,5 +31,5 @@ export type FaasParams<T = any> = T extends FaasActionPaths
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
   : T extends ReactServerAction
-    ? ReturnType<T>
+    ? Awaited<ReturnType<T>>
     : T

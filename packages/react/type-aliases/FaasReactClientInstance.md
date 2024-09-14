@@ -62,7 +62,7 @@
 
 #### Type Parameters
 
-• **PathOrData** *extends* `Record`\<`string`, `any`\>
+• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
 
 #### Parameters
 
