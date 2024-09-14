@@ -17,12 +17,19 @@ export interface FaasActions {}
 
 export type FaasActionPaths = keyof FaasActions
 
-export type FaasAction = FaasActionPaths | Record<string, any>
+type ReactServerAction = (...args: any) => Promise<any>
+
+export type FaasAction =
+  | FaasActionPaths
+  | Record<string, any>
+  | ReactServerAction
 export type FaasParams<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
-  : T extends (...args: any) => any
+  : T extends ReactServerAction
     ? Parameters<T>[0]
     : T
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
-  : T
+  : T extends ReactServerAction
+    ? ReturnType<T>
+    : T
