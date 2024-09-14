@@ -119,8 +119,3 @@ export function createSplittingContext<T extends Record<string, any>>(
     use,
   }
 }
-
-/**
- * @deprecated Use `createSplittingContext` instead.
- */
-export const createSplitedContext = createSplittingContext
