@@ -6,21 +6,23 @@ import type {
 } from './types'
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import type { Options, Response, ResponseError } from '@faasjs/browser'
-import { useCallback, useEffect, useState } from 'react'
 import { FaasBrowserClient } from '@faasjs/browser'
 import { FaasDataWrapper } from './FaasDataWrapper'
+import { useFaas } from './useFaas'
 
 const clients: {
   [key: string]: FaasReactClientInstance
 } = {}
 
+export type OnError = (
+  action: string,
+  params: Record<string, any>
+) => (res: ResponseError) => Promise<void>
+
 export type FaasReactClientOptions = {
   domain: string
   options?: Options
-  onError?: (
-    action: string,
-    params: Record<string, any>
-  ) => (res: ResponseError) => Promise<void>
+  onError?: OnError
 }
 
 /**
@@ -46,159 +48,32 @@ export function FaasReactClient({
 
   async function faas<PathOrData extends FaasAction>(
     action: PathOrData | string,
-    params: FaasParams<PathOrData>
+    params: FaasParams<PathOrData>,
+    options?: Options
   ): Promise<Response<FaasData<PathOrData>>> {
     if (onError)
-      return client.action<PathOrData>(action, params).catch(async res => {
-        await onError(action as string, params)(res)
-        return Promise.reject(res)
-      })
-    return client.action(action, params)
+      return client
+        .action<PathOrData>(action, params, options)
+        .catch(async res => {
+          await onError(action as string, params)(res)
+          return Promise.reject(res)
+        })
+    return client.action(action, params, options)
   }
-
-  function useFaas<PathOrData extends FaasAction>(
-    action: PathOrData | string,
-    defaultParams: FaasParams<PathOrData>,
-    options?: useFaasOptions<PathOrData>
-  ): FaasDataInjection<FaasData<PathOrData>> {
-    if (!options) options = {}
-
-    const [loading, setLoading] = useState(true)
-    const [data, setData] = useState<FaasData<PathOrData>>()
-    const [error, setError] = useState<any>()
-    const [promise, setPromise] =
-      useState<Promise<Response<FaasData<PathOrData>>>>()
-    const [params, setParams] = useState(defaultParams)
-    const [reloadTimes, setReloadTimes] = useState(0)
-    const [fails, setFails] = useState(0)
-    const [skip, setSkip] = useState(
-      typeof options.skip === 'function'
-        ? options.skip(defaultParams)
-        : options.skip
-    )
-
-    useEffect(() => {
-      setSkip(
-        typeof options.skip === 'function' ? options.skip(params) : options.skip
-      )
-    }, [
-      typeof options.skip === 'function'
-        ? JSON.stringify(params)
-        : options.skip,
-    ])
-
-    useEffect(() => {
-      if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
-        setParams(defaultParams)
-      }
-    }, [JSON.stringify(defaultParams)])
-
-    useEffect(() => {
-      if (!action || skip) {
-        setLoading(false)
-        return
-      }
-
-      setLoading(true)
-
-      const controller = new AbortController()
-
-      function send() {
-        const request = client.action<PathOrData>(
-          action,
-          options.params || params,
-          { signal: controller.signal }
-        )
-        setPromise(request)
-
-        request
-          .then(r => {
-            options?.setData ? options.setData(r.data) : setData(r.data)
-            setLoading(false)
-          })
-          .catch(async e => {
-            if (
-              typeof e?.message === 'string' &&
-              (e.message as string).toLowerCase().indexOf('aborted') >= 0
-            )
-              return
-
-            if (
-              !fails &&
-              typeof e?.message === 'string' &&
-              e.message.indexOf('Failed to fetch') >= 0
-            ) {
-              console.warn(`FaasReactClient: ${e.message} retry...`)
-              setFails(1)
-              return send()
-            }
-
-            if (onError)
-              try {
-                await onError(action as string, params)(e)
-              } catch (error) {
-                setError(error)
-              }
-            else setError(e)
-            setLoading(false)
-            return Promise.reject(e)
-          })
-      }
-
-      if (options?.debounce) {
-        const timeout = setTimeout(send, options.debounce)
-
-        return () => {
-          clearTimeout(timeout)
-          controller.abort()
-          setLoading(false)
-        }
-      }
-
-      send()
-
-      return () => {
-        controller.abort()
-        setLoading(false)
-      }
-    }, [action, JSON.stringify(options.params || params), reloadTimes, skip])
-
-    const reload = useCallback(
-      (params?: FaasParams<PathOrData>) => {
-        if (params) setParams(params)
-
-        setReloadTimes(prev => prev + 1)
-
-        return promise
-      },
-      [params]
-    )
-
-    return {
-      action,
-      params,
-      loading,
-      data: options?.data || data,
-      reloadTimes,
-      error,
-      promise,
-      reload,
-      setData: options?.setData || setData,
-      setLoading,
-      setPromise,
-      setError,
-    }
-  }
-
-  useFaas.whyDidYouRender = true
 
   const reactClient = {
     id: client.id,
     faas,
-    useFaas,
+    useFaas: <PathOrData extends FaasAction>(
+      action: PathOrData | string,
+      defaultParams: FaasParams<PathOrData>,
+      options?: useFaasOptions<PathOrData>
+    ): FaasDataInjection<FaasData<PathOrData>> =>
+      useFaas(action, defaultParams, options),
     FaasDataWrapper: <PathOrData extends FaasAction>(
       props: FaasDataWrapperProps<PathOrData>
     ) => <FaasDataWrapper domain={domain} {...props} />,
+    onError,
   }
 
   clients[domain] = reactClient
@@ -252,27 +127,4 @@ export async function faas<PathOrData extends FaasAction>(
   params: FaasParams<PathOrData>
 ): Promise<Response<FaasData<PathOrData>>> {
   return getClient().faas(action, params)
-}
-
-/**
- * Request faas server with React hook
- *
- * @param action {string} action name
- * @param defaultParams {object} initial action params
- * @returns {FaasDataInjection<any>}
- *
- * @example
- * ```tsx
- * function Post ({ id }) {
- *   const { data } = useFaas<{ title: string }>('post/get', { id })
- *   return <h1>{data.title}</h1>
- * }
- * ```
- */
-export function useFaas<PathOrData extends FaasAction>(
-  action: string | PathOrData,
-  defaultParams: FaasParams<PathOrData>,
-  options?: useFaasOptions<PathOrData>
-): FaasDataInjection<FaasData<PathOrData>> {
-  return getClient().useFaas(action, defaultParams, options)
 }
