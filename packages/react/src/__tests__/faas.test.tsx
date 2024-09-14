@@ -25,7 +25,9 @@ describe('faas', () => {
   })
 
   it('should work with server action', async () => {
-    expect(await faas(async params => params + 1, 1)).toMatchObject({
+    expect(
+      await faas(async params => ({ data: JSON.parse(params) + 1 }), 1)
+    ).toMatchObject({
       data: 2,
     })
   })

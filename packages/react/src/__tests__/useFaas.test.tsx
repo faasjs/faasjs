@@ -63,7 +63,7 @@ describe('useFaas', () => {
 
     async function action() {
       current++
-      return current
+      return { data: current } as any
     }
 
     function Test() {

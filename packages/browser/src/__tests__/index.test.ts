@@ -141,7 +141,9 @@ describe('client', () => {
       const client = new FaasBrowserClient('/')
 
       const response = await client.action(
-        async (params: { key: number }) => params.key,
+        async (params: { key: number }) => ({
+          data: JSON.parse(params as unknown as string).key,
+        }),
         {
           key: 1,
         }

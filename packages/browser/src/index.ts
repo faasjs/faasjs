@@ -292,11 +292,11 @@ export class FaasBrowserClient {
 
     if (typeof action === 'function') {
       try {
-        const result = await action(params, options)
+        const result = await action(JSON.stringify(params))
 
         return new Response({
           status: result ? 200 : 201,
-          data: result,
+          data: result.data,
         })
       } catch (error: any) {
         return Promise.reject(
