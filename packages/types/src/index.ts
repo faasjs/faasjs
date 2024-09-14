@@ -20,7 +20,9 @@ export type FaasActionPaths = keyof FaasActions
 export type FaasAction = FaasActionPaths | Record<string, any>
 export type FaasParams<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
-  : any
+  : T extends (...args: any) => any
+    ? Parameters<T>[0]
+    : T
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
   : T

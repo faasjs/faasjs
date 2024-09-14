@@ -11,6 +11,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/browser`
   - [Break] `baseURL` is optional and must be end with `/`.
+  - [Feature] `action` can be a react server action.
 
 - `@faasjs/react`
   - [Break] `domain` rename to `baseURL`.

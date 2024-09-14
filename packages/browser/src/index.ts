@@ -245,8 +245,8 @@ export class FaasBrowserClient {
 
   /**
    * Request a FaasJS function
-   * @param action function path
-   * @param params function params
+   * @param action function's path or react's server action
+   * @param params function's params
    * @param options request options
    * ```ts
    * await client.action('func', { key: 'value' })
@@ -261,7 +261,10 @@ export class FaasBrowserClient {
 
     const id = `F-${generateId()}`
 
-    const url = `${options?.baseUrl || this.baseUrl + (action as string).toLowerCase()}?_=${id}`
+    const url =
+      typeof action === 'string'
+        ? `${options?.baseUrl || this.baseUrl + action.toLowerCase()}?_=${id}`
+        : ''
 
     if (!params) params = Object.create(null)
     if (!options) options = Object.create(null)
@@ -286,6 +289,26 @@ export class FaasBrowserClient {
         options,
         headers: options.headers,
       })
+
+    if (typeof action === 'function') {
+      try {
+        const result = await action(params, options)
+
+        return new Response({
+          status: result ? 200 : 201,
+          data: result,
+        })
+      } catch (error: any) {
+        return Promise.reject(
+          new ResponseError({
+            message: error.message,
+            status: 500,
+            headers: {},
+            body: error,
+          })
+        )
+      }
+    }
 
     if (options.request) return options.request(url, options)
 
