@@ -12,7 +12,7 @@
 
 ### action
 
-> **action**: `string`
+> **action**: `PathOrData` \| `string`
 
 ### baseUrl?
 

@@ -44,7 +44,7 @@ export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
   ): JSX.Element | JSX.Element[]
   children?: React.ReactElement<Partial<FaasDataInjection>>
   fallback?: JSX.Element | false
-  action: string
+  action: PathOrData | string
   params?: FaasParams<PathOrData>
   onDataChange?(args: FaasDataInjection<FaasData<PathOrData>>): void
   /** use custom data, should work with setData */

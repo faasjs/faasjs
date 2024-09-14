@@ -14,7 +14,7 @@
 
 ### action
 
-> **action**: `string`
+> **action**: `string` \| `T`
 
 #### Inherited from
 
