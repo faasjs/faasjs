@@ -21,10 +21,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist",
-    "index.js"
-  ],
+  "files": ["dist", "index.js"],
   "dependencies": {
     "@faasjs/test": "3.0.0-canary.1",
     "commander": "*",
@@ -33,12 +30,10 @@
     "lodash": "*"
   },
   "peerDependencies": {
-    "@faasjs/deployer": "3.0.0-canary.1",
     "@faasjs/func": "3.0.0-canary.1",
     "@faasjs/server": "3.0.0-canary.1"
   },
   "devDependencies": {
-    "@faasjs/deployer": "3.0.0-canary.1",
     "@faasjs/func": "3.0.0-canary.1",
     "@faasjs/server": "3.0.0-canary.1"
   },

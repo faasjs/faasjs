@@ -51,6 +51,7 @@ async function publishAll() {
   for (const item of list) {
     await publish(item)
   }
+  await run('npm install')
   await run(`git commit -am 'release ${version}'`)
   await run(`git tag v${version}`)
   await run('git push && git push --tags')
