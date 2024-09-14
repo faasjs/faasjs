@@ -10,7 +10,7 @@
 
 ## Parameters
 
-• **plugin**: [`UseifyPlugin`](../type-aliases/UseifyPlugin.md)\<`T`\>
+• **plugin**: `T` & `object`
 
 ## Returns
 

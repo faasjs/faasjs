@@ -8,7 +8,7 @@
 
 ### faas()
 
-> **faas**: \<`PathOrData`\>(`action`, `params`) => `Promise`\<`Response`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **faas**: \<`PathOrData`\>(`action`, `params`, `options`?) => `Promise`\<`Response`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 #### Type Parameters
 
@@ -20,6 +20,8 @@
 
 • **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
+• **options?**: [`Options`](Options.md)
+
 #### Returns
 
 `Promise`\<`Response`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
@@ -27,6 +29,10 @@
 ### id
 
 > **id**: `string`
+
+### onError
+
+> **onError**: `OnError`
 
 ### useFaas()
 

@@ -20,6 +20,10 @@
 
 send the last request after milliseconds
 
+### domain?
+
+> `optional` **domain**: `string`
+
 ### params?
 
 > `optional` **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
