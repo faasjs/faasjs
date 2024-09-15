@@ -22,7 +22,6 @@ jobs:
         run: |
           cd docs
           bun install
-          bun run build:prepare
           bun run build
           cp ./CNAME ./.vuepress/dist/CNAME
           cp ../README.md ./.vuepress/dist/README.md

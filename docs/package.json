@@ -4,8 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vuepress dev . --debug",
-    "build": "vuepress build .",
-    "build:prepare": "bun prepare.mjs"
+    "build": "bun prepare.ts && vuepress build ."
   },
   "devDependencies": {
     "vuepress": "next",
