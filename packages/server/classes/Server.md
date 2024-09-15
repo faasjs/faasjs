@@ -43,40 +43,6 @@ Port, default is 3000
 
 [`Server`](Server.md)
 
-## Properties
-
-### logger
-
-> `readonly` **logger**: `Logger`
-
-### onError()?
-
-> `optional` **onError**: (`error`) => `void`
-
-#### Parameters
-
-• **error**: `Error`
-
-#### Returns
-
-`void`
-
-### opts
-
-> `readonly` **opts**: `object`
-
-#### cache
-
-> **cache**: `boolean`
-
-#### port
-
-> **port**: `number`
-
-### root
-
-> `readonly` **root**: `string`
-
 ## Methods
 
 ### close()
@@ -114,3 +80,37 @@ Start server.
 #### Returns
 
 `Promise`\<`void`\>
+
+## Properties
+
+### logger
+
+> `readonly` **logger**: `Logger`
+
+### onError()?
+
+> `optional` **onError**: (`error`) => `void`
+
+#### Parameters
+
+• **error**: `Error`
+
+#### Returns
+
+`void`
+
+### opts
+
+> `readonly` **opts**: `object`
+
+#### cache
+
+> **cache**: `boolean`
+
+#### port
+
+> **port**: `number`
+
+### root
+
+> `readonly` **root**: `string`

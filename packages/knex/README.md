@@ -11,14 +11,6 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 npm install @faasjs/knex
 ```
 
-## Classes
-
-- [Knex](classes/Knex.md)
-
-## Type Aliases
-
-- [KnexConfig](type-aliases/KnexConfig.md)
-
 ## Functions
 
 - [originKnex](functions/originKnex.md)
@@ -26,3 +18,11 @@ npm install @faasjs/knex
 - [raw](functions/raw.md)
 - [transaction](functions/transaction.md)
 - [useKnex](functions/useKnex.md)
+
+## Classes
+
+- [Knex](classes/Knex.md)
+
+## Type Aliases
+
+- [KnexConfig](type-aliases/KnexConfig.md)

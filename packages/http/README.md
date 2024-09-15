@@ -11,6 +11,10 @@ FaasJS's http plugin.
 npm install @faasjs/http
 ```
 
+## Functions
+
+- [useHttp](functions/useHttp.md)
+
 ## Classes
 
 - [Cookie](classes/Cookie.md)
@@ -32,7 +36,3 @@ npm install @faasjs/http
 ## Variables
 
 - [ContentType](variables/ContentType.md)
-
-## Functions
-
-- [useHttp](functions/useHttp.md)

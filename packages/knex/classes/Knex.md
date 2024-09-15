@@ -20,40 +20,6 @@
 
 [`Knex`](Knex.md)
 
-## Properties
-
-### adapter
-
-> **adapter**: `Knex`\<`any`, `any`[]\>
-
-### config
-
-> **config**: `Config`\<`any`\>
-
-### logger
-
-> **logger**: `Logger`
-
-### name
-
-> `readonly` **name**: `string` = `Name`
-
-#### Implementation of
-
-`Plugin.name`
-
-### query
-
-> **query**: `Knex`\<`any`, `any`[]\>
-
-### type
-
-> `readonly` **type**: `string` = `Name`
-
-#### Implementation of
-
-`Plugin.type`
-
 ## Methods
 
 ### onInvoke()
@@ -151,3 +117,37 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 #### Returns
 
 `Promise`\<`TResult`\>
+
+## Properties
+
+### adapter
+
+> **adapter**: `Knex`\<`any`, `any`[]\>
+
+### config
+
+> **config**: `Config`\<`any`\>
+
+### logger
+
+> **logger**: `Logger`
+
+### name
+
+> `readonly` **name**: `string` = `Name`
+
+#### Implementation of
+
+`Plugin.name`
+
+### query
+
+> **query**: `Knex`\<`any`, `any`[]\>
+
+### type
+
+> `readonly` **type**: `string` = `Name`
+
+#### Implementation of
+
+`Plugin.type`

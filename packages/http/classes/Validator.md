@@ -26,24 +26,6 @@
 
 [`Validator`](Validator.md)\<`TParams`, `TCookie`, `TSession`\>
 
-## Properties
-
-### ~~before?~~
-
-> `optional` **before**: `BeforeOption`\<`TParams`, `TCookie`, `TSession`\>
-
-### ~~cookieConfig?~~
-
-> `optional` **cookieConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TCookie`\>
-
-### ~~paramsConfig?~~
-
-> `optional` **paramsConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TParams`\>
-
-### ~~sessionConfig?~~
-
-> `optional` **sessionConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TSession`\>
-
 ## Methods
 
 ### ~~valid()~~
@@ -79,3 +61,21 @@
 #### Returns
 
 `void`
+
+## Properties
+
+### ~~before?~~
+
+> `optional` **before**: `BeforeOption`\<`TParams`, `TCookie`, `TSession`\>
+
+### ~~cookieConfig?~~
+
+> `optional` **cookieConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TCookie`\>
+
+### ~~paramsConfig?~~
+
+> `optional` **paramsConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TParams`\>
+
+### ~~sessionConfig?~~
+
+> `optional` **sessionConfig**: [`ValidatorOptions`](../type-aliases/ValidatorOptions.md)\<`TSession`\>

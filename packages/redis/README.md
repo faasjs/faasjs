@@ -11,14 +11,6 @@ FaasJS's Redis plugin.
 npm install @faasjs/redis
 ```
 
-## Classes
-
-- [Redis](classes/Redis.md)
-
-## Type Aliases
-
-- [RedisConfig](type-aliases/RedisConfig.md)
-
 ## Functions
 
 - [get](functions/get.md)
@@ -32,3 +24,11 @@ npm install @faasjs/redis
 - [setJSON](functions/setJSON.md)
 - [unlock](functions/unlock.md)
 - [useRedis](functions/useRedis.md)
+
+## Classes
+
+- [Redis](classes/Redis.md)
+
+## Type Aliases
+
+- [RedisConfig](type-aliases/RedisConfig.md)

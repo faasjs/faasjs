@@ -16,24 +16,6 @@
 
 [`NextJsPlugin`](NextJsPlugin.md)
 
-## Properties
-
-### name
-
-> `readonly` **name**: `"NextJs"` = `'NextJs'`
-
-#### Implementation of
-
-`Plugin.name`
-
-### type
-
-> `readonly` **type**: `"NextJs"` = `'NextJs'`
-
-#### Implementation of
-
-`Plugin.type`
-
 ## Methods
 
 ### onInvoke()
@@ -53,3 +35,21 @@
 #### Implementation of
 
 `Plugin.onInvoke`
+
+## Properties
+
+### name
+
+> `readonly` **name**: `"NextJs"` = `'NextJs'`
+
+#### Implementation of
+
+`Plugin.name`
+
+### type
+
+> `readonly` **type**: `"NextJs"` = `'NextJs'`
+
+#### Implementation of
+
+`Plugin.type`

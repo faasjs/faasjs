@@ -11,6 +11,12 @@ FaasJS's testing module.
 npm install @faasjs/test
 ```
 
+## Functions
+
+- [test](functions/test.md)
+- [useFunc](functions/useFunc.md)
+- [usePlugin](functions/usePlugin.md)
+
 ## Classes
 
 - [Func](classes/Func.md)
@@ -30,9 +36,3 @@ npm install @faasjs/test
 - [Next](type-aliases/Next.md)
 - [Plugin](type-aliases/Plugin.md)
 - [UseifyPlugin](type-aliases/UseifyPlugin.md)
-
-## Functions
-
-- [test](functions/test.md)
-- [useFunc](functions/useFunc.md)
-- [usePlugin](functions/usePlugin.md)

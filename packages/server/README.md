@@ -23,11 +23,11 @@ Dynamic routing:
 - `/*` -> `default.func.ts` or `default.func.tsx`
 - `/path/*` -> `path/default.func.ts` or `path/default.func.tsx`
 
-## Classes
-
-- [Server](classes/Server.md)
-
 ## Functions
 
 - [closeAll](functions/closeAll.md)
 - [getAll](functions/getAll.md)
+
+## Classes
+
+- [Server](classes/Server.md)

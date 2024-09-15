@@ -24,48 +24,6 @@
 
 [`Session`](Session.md)\<`S`, `C`\>
 
-## Properties
-
-### config
-
-> `readonly` **config**: `object`
-
-#### cipherName
-
-> **cipherName**: `string`
-
-#### digest
-
-> **digest**: `string`
-
-#### iterations
-
-> **iterations**: `number`
-
-#### key
-
-> **key**: `string`
-
-#### keylen
-
-> **keylen**: `number`
-
-#### salt
-
-> **salt**: `string`
-
-#### secret
-
-> **secret**: `string`
-
-#### signedSalt
-
-> **signedSalt**: `string`
-
-### content
-
-> **content**: `Record`\<`string`, `string` \| `number`\>
-
 ## Methods
 
 ### decode()
@@ -143,3 +101,45 @@
 #### Returns
 
 [`Session`](Session.md)\<`S`, `C`\>
+
+## Properties
+
+### config
+
+> `readonly` **config**: `object`
+
+#### cipherName
+
+> **cipherName**: `string`
+
+#### digest
+
+> **digest**: `string`
+
+#### iterations
+
+> **iterations**: `number`
+
+#### key
+
+> **key**: `string`
+
+#### keylen
+
+> **keylen**: `number`
+
+#### salt
+
+> **salt**: `string`
+
+#### secret
+
+> **secret**: `string`
+
+#### signedSalt
+
+> **signedSalt**: `string`
+
+### content
+
+> **content**: `Record`\<`string`, `string` \| `number`\>

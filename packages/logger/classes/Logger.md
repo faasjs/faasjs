@@ -39,52 +39,6 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 [`Logger`](Logger.md)
 
-## Properties
-
-### colorfyOutput
-
-> **colorfyOutput**: `boolean` = `true`
-
-### label?
-
-> `optional` **label**: `string`
-
-### level
-
-> **level**: `number` = `0`
-
-### silent
-
-> **silent**: `boolean` = `false`
-
-### size
-
-> **size**: `number` = `1000`
-
-### stderr()
-
-> **stderr**: (`text`) => `void`
-
-#### Parameters
-
-• **text**: `string`
-
-#### Returns
-
-`void`
-
-### stdout()
-
-> **stdout**: (`text`) => `void`
-
-#### Parameters
-
-• **text**: `string`
-
-#### Returns
-
-`void`
-
 ## Methods
 
 ### colorfy()
@@ -234,3 +188,49 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 #### Returns
 
 [`Logger`](Logger.md)
+
+## Properties
+
+### colorfyOutput
+
+> **colorfyOutput**: `boolean` = `true`
+
+### label?
+
+> `optional` **label**: `string`
+
+### level
+
+> **level**: `number` = `0`
+
+### silent
+
+> **silent**: `boolean` = `false`
+
+### size
+
+> **size**: `number` = `1000`
+
+### stderr()
+
+> **stderr**: (`text`) => `void`
+
+#### Parameters
+
+• **text**: `string`
+
+#### Returns
+
+`void`
+
+### stdout()
+
+> **stdout**: (`text`) => `void`
+
+#### Parameters
+
+• **text**: `string`
+
+#### Returns
+
+`void`

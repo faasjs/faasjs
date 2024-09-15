@@ -32,12 +32,6 @@
   }
 >.constructor`
 
-## Properties
-
-### whyDidYouRender
-
-> `static` **whyDidYouRender**: `boolean` = `true`
-
 ## Methods
 
 ### componentDidCatch()
@@ -72,3 +66,9 @@ the entire component tree to unmount.
 #### Overrides
 
 `Component.render`
+
+## Properties
+
+### whyDidYouRender
+
+> `static` **whyDidYouRender**: `boolean` = `true`

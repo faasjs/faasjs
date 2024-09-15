@@ -10,28 +10,25 @@
  *
  * - Support [FaasJS Request Specifications](https://faasjs.com/guide/request-spec.html).
  * - Support global and per-request configurations.
- * - Capiable with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
- * - Additional functions for React.
+ * - Support [React Server Actions](https://react.dev/reference/rsc/server-actions).
+ * - Compatible with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
+ * - Additional React functions:
+ *   - Utils:
+ *     - [useConstant](functions/useConstant.md): Create a constant value with hooks.
+ *     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
+ *     - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
+ *     - [ErrorBoundary](classes/ErrorBoundary.md): Catch errors in the component tree.
+ *   - Fetch Data:
+ *     - [faas](functions/faas.md): Fetch data from FaasJS.
+ *     - [useFaas](functions/useFaas.md): Fetch data from FaasJS with hooks.
+ *     - [FaasDataWrapper](functions/FaasDataWrapper.md): Fetch data from FaasJS with a wrapper component.
+ *     - [withFaasData](functions/withFaasData.md): Fetch data from FaasJS using a higher-order component (HOC).
  *
  * ## Install
  *
  * ```sh
  * npm install @faasjs/react
  * ```
- *
- * ## Usage
- *
- * 1. Initialize [FaasReactClient](#faasreactclient)
- *
- * ```ts
- * import { FaasReactClient } from '@faasjs/react'
- *
- * const client = FaasReactClient({
- *   baseUrl: 'localhost:8080/api/'
- * })
- * ```
- *
- * 2. Use [faas](#faas), [useFaas](#usefaas) or [FaasDataWrapper](#faasdatawrapper).
  *
  * @packageDocumentation
  */

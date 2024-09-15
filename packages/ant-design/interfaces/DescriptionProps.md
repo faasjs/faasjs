@@ -12,6 +12,20 @@
 
 • **ExtendItemProps** = `any`
 
+## Methods
+
+### renderTitle()?
+
+> `optional` **renderTitle**(`values`): `ReactNode`
+
+#### Parameters
+
+• **values**: `T`
+
+#### Returns
+
+`ReactNode`
+
 ## Properties
 
 ### dataSource?
@@ -33,17 +47,3 @@
 ### items
 
 > **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>)[]
-
-## Methods
-
-### renderTitle()?
-
-> `optional` **renderTitle**(`values`): `ReactNode`
-
-#### Parameters
-
-• **values**: `T`
-
-#### Returns
-
-`ReactNode`

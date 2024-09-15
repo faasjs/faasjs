@@ -26,20 +26,6 @@ await client.action('func', { key: 'value' })
 
 [`FaasBrowserClient`](FaasBrowserClient.md)
 
-## Properties
-
-### baseUrl
-
-> **baseUrl**: \`$\{string\}/\`
-
-### defaultOptions
-
-> **defaultOptions**: [`Options`](../type-aliases/Options.md)
-
-### id
-
-> `readonly` **id**: `string`
-
 ## Methods
 
 ### action()
@@ -72,3 +58,17 @@ await client.action('func', { key: 'value' })
 #### Returns
 
 `Promise`\<[`Response`](Response.md)\<`FaasData`\<`PathOrData`\>\>\>
+
+## Properties
+
+### baseUrl
+
+> **baseUrl**: \`$\{string\}/\`
+
+### defaultOptions
+
+> **defaultOptions**: [`Options`](../type-aliases/Options.md)
+
+### id
+
+> `readonly` **id**: `string`

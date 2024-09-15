@@ -11,6 +11,12 @@ A FaasJS plugin, let function could create, config and invoke CloudFunction.
 npm install @faasjs/cloud_function
 ```
 
+## Functions
+
+- [invoke](functions/invoke.md)
+- [invokeSync](functions/invokeSync.md)
+- [useCloudFunction](functions/useCloudFunction.md)
+
 ## Classes
 
 - [CloudFunction](classes/CloudFunction.md)
@@ -19,9 +25,3 @@ npm install @faasjs/cloud_function
 
 - [CloudFunctionAdapter](type-aliases/CloudFunctionAdapter.md)
 - [CloudFunctionConfig](type-aliases/CloudFunctionConfig.md)
-
-## Functions
-
-- [invoke](functions/invoke.md)
-- [invokeSync](functions/invokeSync.md)
-- [useCloudFunction](functions/useCloudFunction.md)

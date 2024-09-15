@@ -11,6 +11,12 @@ FaasJS's request module.
 npm install @faasjs/request
 ```
 
+## Functions
+
+- [querystringify](functions/querystringify.md)
+- [request](functions/request.md)
+- [setMock](functions/setMock.md)
+
 ## Classes
 
 - [ResponseError](classes/ResponseError.md)
@@ -20,9 +26,3 @@ npm install @faasjs/request
 - [Request](type-aliases/Request.md)
 - [RequestOptions](type-aliases/RequestOptions.md)
 - [Response](type-aliases/Response.md)
-
-## Functions
-
-- [querystringify](functions/querystringify.md)
-- [request](functions/request.md)
-- [setMock](functions/setMock.md)

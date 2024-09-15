@@ -11,10 +11,10 @@
 npm install @faasjs/nextjs
 ```
 
-## Classes
-
-- [NextJsPlugin](classes/NextJsPlugin.md)
-
 ## Functions
 
 - [useFuncWithNextJsPlugin](functions/useFuncWithNextJsPlugin.md)
+
+## Classes
+
+- [NextJsPlugin](classes/NextJsPlugin.md)

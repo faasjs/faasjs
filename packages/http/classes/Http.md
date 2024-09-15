@@ -28,52 +28,6 @@
 
 [`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
 
-## Properties
-
-### body
-
-> **body**: `any`
-
-### config
-
-> **config**: [`HttpConfig`](../type-aliases/HttpConfig.md)\<`TParams`, `TCookie`, `TSession`\>
-
-### cookie
-
-> **cookie**: [`Cookie`](Cookie.md)\<`TCookie`, `TSession`\>
-
-### headers
-
-> **headers**: `object`
-
-#### Index Signature
-
- \[`key`: `string`\]: `string`
-
-### name
-
-> `readonly` **name**: `string` = `Name`
-
-#### Implementation of
-
-`Plugin.name`
-
-### params
-
-> **params**: `TParams`
-
-### session
-
-> **session**: [`Session`](Session.md)\<`TSession`, `TCookie`\>
-
-### type
-
-> `readonly` **type**: `string` = `Name`
-
-#### Implementation of
-
-`Plugin.type`
-
 ## Methods
 
 ### onInvoke()
@@ -183,3 +137,49 @@ set status code
 #### Returns
 
 [`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+
+## Properties
+
+### body
+
+> **body**: `any`
+
+### config
+
+> **config**: [`HttpConfig`](../type-aliases/HttpConfig.md)\<`TParams`, `TCookie`, `TSession`\>
+
+### cookie
+
+> **cookie**: [`Cookie`](Cookie.md)\<`TCookie`, `TSession`\>
+
+### headers
+
+> **headers**: `object`
+
+#### Index Signature
+
+ \[`key`: `string`\]: `string`
+
+### name
+
+> `readonly` **name**: `string` = `Name`
+
+#### Implementation of
+
+`Plugin.name`
+
+### params
+
+> **params**: `TParams`
+
+### session
+
+> **session**: [`Session`](Session.md)\<`TSession`, `TCookie`\>
+
+### type
+
+> `readonly` **type**: `string` = `Name`
+
+#### Implementation of
+
+`Plugin.type`

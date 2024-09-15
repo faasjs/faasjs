@@ -32,28 +32,6 @@ Create a cloud function
 
 [`Func`](Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
-## Properties
-
-### config
-
-> **config**: [`Config`](../type-aliases/Config.md)
-
-### filename?
-
-> `optional` **filename**: `string`
-
-### handler?
-
-> `optional` **handler**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
-
-### mounted
-
-> **mounted**: `boolean`
-
-### plugins
-
-> **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
-
 ## Methods
 
 ### export()
@@ -107,3 +85,25 @@ First time mount the function
 #### Returns
 
 `Promise`\<`void`\>
+
+## Properties
+
+### config
+
+> **config**: [`Config`](../type-aliases/Config.md)
+
+### filename?
+
+> `optional` **filename**: `string`
+
+### handler?
+
+> `optional` **handler**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+
+### mounted
+
+> **mounted**: `boolean`
+
+### plugins
+
+> **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]

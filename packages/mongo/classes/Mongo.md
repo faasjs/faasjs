@@ -24,6 +24,26 @@
 
 [`Mongo`](Mongo.md)
 
+## Methods
+
+### onMount()
+
+> **onMount**(`data`, `next`): `Promise`\<`void`\>
+
+#### Parameters
+
+• **data**: `MountData`
+
+• **next**: `Next`
+
+#### Returns
+
+`Promise`\<`void`\>
+
+#### Implementation of
+
+`Plugin.onMount`
+
 ## Properties
 
 ### client
@@ -73,23 +93,3 @@
 #### Implementation of
 
 `Plugin.type`
-
-## Methods
-
-### onMount()
-
-> **onMount**(`data`, `next`): `Promise`\<`void`\>
-
-#### Parameters
-
-• **data**: `MountData`
-
-• **next**: `Next`
-
-#### Returns
-
-`Promise`\<`void`\>
-
-#### Implementation of
-
-`Plugin.onMount`

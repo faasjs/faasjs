@@ -59,11 +59,11 @@ export default {
 }
 ```
 
-## Variables
-
-- [NodeBuiltinModules](variables/NodeBuiltinModules.md)
-
 ## Functions
 
 - [bundle](functions/bundle.md)
 - [transform](functions/transform.md)
+
+## Variables
+
+- [NodeBuiltinModules](variables/NodeBuiltinModules.md)

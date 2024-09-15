@@ -10,6 +10,40 @@
 
 • **T** = `any`
 
+## Methods
+
+### onDataChange()?
+
+> `optional` **onDataChange**(`args`): `void`
+
+#### Parameters
+
+• **args**: `FaasDataInjection`\<`FaasData`\<`T`\>\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`OriginProps.onDataChange`
+
+### render()?
+
+> `optional` **render**(`args`): `Element` \| `Element`[]
+
+#### Parameters
+
+• **args**: `FaasDataInjection`\<`FaasData`\<`T`\>\>
+
+#### Returns
+
+`Element` \| `Element`[]
+
+#### Inherited from
+
+`OriginProps.render`
+
 ## Properties
 
 ### action
@@ -79,37 +113,3 @@ use custom setData, should work with data
 #### Inherited from
 
 `OriginProps.setData`
-
-## Methods
-
-### onDataChange()?
-
-> `optional` **onDataChange**(`args`): `void`
-
-#### Parameters
-
-• **args**: `FaasDataInjection`\<`FaasData`\<`T`\>\>
-
-#### Returns
-
-`void`
-
-#### Inherited from
-
-`OriginProps.onDataChange`
-
-### render()?
-
-> `optional` **render**(`args`): `Element` \| `Element`[]
-
-#### Parameters
-
-• **args**: `FaasDataInjection`\<`FaasData`\<`T`\>\>
-
-#### Returns
-
-`Element` \| `Element`[]
-
-#### Inherited from
-
-`OriginProps.render`

@@ -22,60 +22,6 @@ Redis Plugin
 
 [`Redis`](Redis.md)
 
-## Properties
-
-### adapter
-
-> **adapter**: `Redis`
-
-### config
-
-> **config**: `RedisOptions`
-
-### logger
-
-> **logger**: `Logger`
-
-### multi()
-
-> **multi**: (`options`?) => `ChainableCommander`
-
-#### Parameters
-
-• **options?**: `object` \| `any`[][]
-
-#### Returns
-
-`ChainableCommander`
-
-### name
-
-> `readonly` **name**: `string` = `Name`
-
-#### Implementation of
-
-`Plugin.name`
-
-### pipeline()
-
-> **pipeline**: (`commands`?) => `ChainableCommander`
-
-#### Parameters
-
-• **commands?**: `any`[][]
-
-#### Returns
-
-`ChainableCommander`
-
-### type
-
-> `readonly` **type**: `string` = `Name`
-
-#### Implementation of
-
-`Plugin.type`
-
 ## Methods
 
 ### get()
@@ -259,3 +205,57 @@ Unlock by key
 #### Returns
 
 `Promise`\<`void`\>
+
+## Properties
+
+### adapter
+
+> **adapter**: `Redis`
+
+### config
+
+> **config**: `RedisOptions`
+
+### logger
+
+> **logger**: `Logger`
+
+### multi()
+
+> **multi**: (`options`?) => `ChainableCommander`
+
+#### Parameters
+
+• **options?**: `object` \| `any`[][]
+
+#### Returns
+
+`ChainableCommander`
+
+### name
+
+> `readonly` **name**: `string` = `Name`
+
+#### Implementation of
+
+`Plugin.name`
+
+### pipeline()
+
+> **pipeline**: (`commands`?) => `ChainableCommander`
+
+#### Parameters
+
+• **commands?**: `any`[][]
+
+#### Returns
+
+`ChainableCommander`
+
+### type
+
+> `readonly` **type**: `string` = `Name`
+
+#### Implementation of
+
+`Plugin.type`

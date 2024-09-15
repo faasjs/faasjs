@@ -24,56 +24,6 @@
 
 [`CloudFunction`](CloudFunction.md)
 
-## Properties
-
-### config
-
-> **config**: `object`
-
-#### Index Signature
-
- \[`key`: `string`\]: `any`
-
-#### memorySize?
-
-> `optional` **memorySize**: `number`
-
-#### name?
-
-> `optional` **name**: `string`
-
-#### timeout?
-
-> `optional` **timeout**: `number`
-
-#### triggers?
-
-> `optional` **triggers**: `object`[]
-
-### context
-
-> **context**: `any`
-
-### event
-
-> **event**: `any`
-
-### name
-
-> `readonly` **name**: `string` = `Name`
-
-#### Implementation of
-
-`Plugin.name`
-
-### type
-
-> `readonly` **type**: `string` = `Name`
-
-#### Implementation of
-
-`Plugin.type`
-
 ## Methods
 
 ### invoke()
@@ -169,3 +119,53 @@
 #### Implementation of
 
 `Plugin.onMount`
+
+## Properties
+
+### config
+
+> **config**: `object`
+
+#### Index Signature
+
+ \[`key`: `string`\]: `any`
+
+#### memorySize?
+
+> `optional` **memorySize**: `number`
+
+#### name?
+
+> `optional` **name**: `string`
+
+#### timeout?
+
+> `optional` **timeout**: `number`
+
+#### triggers?
+
+> `optional` **triggers**: `object`[]
+
+### context
+
+> **context**: `any`
+
+### event
+
+> **event**: `any`
+
+### name
+
+> `readonly` **name**: `string` = `Name`
+
+#### Implementation of
+
+`Plugin.name`
+
+### type
+
+> `readonly` **type**: `string` = `Name`
+
+#### Implementation of
+
+`Plugin.type`

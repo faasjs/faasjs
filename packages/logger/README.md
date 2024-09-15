@@ -11,13 +11,13 @@ FaasJS's logger module.
 npm install @faasjs/logger
 ```
 
-## Enumerations
-
-- [Color](enumerations/Color.md)
-
 ## Classes
 
 - [Logger](classes/Logger.md)
+
+## Enumerations
+
+- [Color](enumerations/Color.md)
 
 ## Type Aliases
 

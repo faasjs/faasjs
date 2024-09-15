@@ -24,52 +24,6 @@
 
 [`Cookie`](Cookie.md)\<`C`, `S`\>
 
-## Properties
-
-### config
-
-> `readonly` **config**: `object`
-
-#### domain?
-
-> `optional` **domain**: `string`
-
-#### expires
-
-> **expires**: `number`
-
-#### httpOnly
-
-> **httpOnly**: `boolean`
-
-#### path
-
-> **path**: `string`
-
-#### sameSite?
-
-> `optional` **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
-
-#### secure
-
-> **secure**: `boolean`
-
-#### session
-
-> **session**: [`SessionOptions`](../type-aliases/SessionOptions.md)
-
-### content
-
-> **content**: `Record`\<`string`, `string`\>
-
-### logger
-
-> **logger**: `Logger`
-
-### session
-
-> **session**: [`Session`](Session.md)\<`S`, `C`\>
-
 ## Methods
 
 ### headers()
@@ -137,3 +91,49 @@
 #### Returns
 
 [`Cookie`](Cookie.md)\<`C`, `S`\>
+
+## Properties
+
+### config
+
+> `readonly` **config**: `object`
+
+#### domain?
+
+> `optional` **domain**: `string`
+
+#### expires
+
+> **expires**: `number`
+
+#### httpOnly
+
+> **httpOnly**: `boolean`
+
+#### path
+
+> **path**: `string`
+
+#### sameSite?
+
+> `optional` **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
+
+#### secure
+
+> **secure**: `boolean`
+
+#### session
+
+> **session**: [`SessionOptions`](../type-aliases/SessionOptions.md)
+
+### content
+
+> **content**: `Record`\<`string`, `string`\>
+
+### logger
+
+> **logger**: `Logger`
+
+### session
+
+> **session**: [`Session`](Session.md)\<`S`, `C`\>

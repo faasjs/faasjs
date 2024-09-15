@@ -42,32 +42,6 @@ expect(await func.handler()).toEqual('Hello, world')
 
 [`FuncWarper`](FuncWarper.md)
 
-## Properties
-
-### config
-
-> `readonly` **config**: [`Config`](../type-aliases/Config.md)
-
-### file
-
-> `readonly` **file**: `string`
-
-### func
-
-> `readonly` **func**: [`Func`](Func.md)\<`any`, `any`, `any`\>
-
-### logger
-
-> `readonly` **logger**: `Logger`
-
-### plugins
-
-> `readonly` **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
-
-### staging
-
-> `readonly` **staging**: `string`
-
 ## Methods
 
 ### handler()
@@ -159,3 +133,29 @@ expect(await func.handler()).toEqual('Hello, world')
 #### Returns
 
 `Promise`\<`void`\>
+
+## Properties
+
+### config
+
+> `readonly` **config**: [`Config`](../type-aliases/Config.md)
+
+### file
+
+> `readonly` **file**: `string`
+
+### func
+
+> `readonly` **func**: [`Func`](Func.md)\<`any`, `any`, `any`\>
+
+### logger
+
+> `readonly` **logger**: `Logger`
+
+### plugins
+
+> `readonly` **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
+
+### staging
+
+> `readonly` **staging**: `string`

@@ -73,6 +73,11 @@ Please use [@faasjs/react](https://faasjs.com/doc/react/) for React.
 
 Please use [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin/) for Vue.
 
+## Functions
+
+- [generateId](functions/generateId.md)
+- [setMock](functions/setMock.md)
+
 ## Classes
 
 - [FaasBrowserClient](classes/FaasBrowserClient.md)
@@ -86,8 +91,3 @@ Please use [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin/) for Vue.
 - [MockHandler](type-aliases/MockHandler.md)
 - [Options](type-aliases/Options.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
-
-## Functions
-
-- [generateId](functions/generateId.md)
-- [setMock](functions/setMock.md)

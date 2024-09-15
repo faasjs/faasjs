@@ -69,6 +69,7 @@ function buildAll() {
   }
 }
 
-buildAll()
+if (process.argv[2]) build(`packages/${process.argv[2]}/package.json`)
+else buildAll()
 
 module.exports = { build }

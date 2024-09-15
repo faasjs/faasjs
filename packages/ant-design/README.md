@@ -30,6 +30,35 @@ type FaasItemProps = {
 }
 ```
 
+## Functions
+
+- [App](functions/App.md)
+- [Blank](functions/Blank.md)
+- [ConfigProvider](functions/ConfigProvider.md)
+- [Description](functions/Description.md)
+- [Drawer](functions/Drawer.md)
+- [ErrorBoundary](functions/ErrorBoundary.md)
+- [faas](functions/faas.md)
+- [FaasDataWrapper](functions/FaasDataWrapper.md)
+- [Form](functions/Form.md)
+- [FormItem](functions/FormItem.md)
+- [Link](functions/Link.md)
+- [Loading](functions/Loading.md)
+- [Modal](functions/Modal.md)
+- [PageNotFound](functions/PageNotFound.md)
+- [Routes](functions/Routes.md)
+- [Table](functions/Table.md)
+- [Tabs](functions/Tabs.md)
+- [Title](functions/Title.md)
+- [transferOptions](functions/transferOptions.md)
+- [transferValue](functions/transferValue.md)
+- [useApp](functions/useApp.md)
+- [useConfigContext](functions/useConfigContext.md)
+- [useDrawer](functions/useDrawer.md)
+- [useFaas](functions/useFaas.md)
+- [useModal](functions/useModal.md)
+- [withFaasData](functions/withFaasData.md)
+
 ## Interfaces
 
 - [AppProps](interfaces/AppProps.md)
@@ -81,32 +110,3 @@ type FaasItemProps = {
 ## Variables
 
 - [ConfigContext](variables/ConfigContext.md)
-
-## Functions
-
-- [App](functions/App.md)
-- [Blank](functions/Blank.md)
-- [ConfigProvider](functions/ConfigProvider.md)
-- [Description](functions/Description.md)
-- [Drawer](functions/Drawer.md)
-- [ErrorBoundary](functions/ErrorBoundary.md)
-- [faas](functions/faas.md)
-- [FaasDataWrapper](functions/FaasDataWrapper.md)
-- [Form](functions/Form.md)
-- [FormItem](functions/FormItem.md)
-- [Link](functions/Link.md)
-- [Loading](functions/Loading.md)
-- [Modal](functions/Modal.md)
-- [PageNotFound](functions/PageNotFound.md)
-- [Routes](functions/Routes.md)
-- [Table](functions/Table.md)
-- [Tabs](functions/Tabs.md)
-- [Title](functions/Title.md)
-- [transferOptions](functions/transferOptions.md)
-- [transferValue](functions/transferValue.md)
-- [useApp](functions/useApp.md)
-- [useConfigContext](functions/useConfigContext.md)
-- [useDrawer](functions/useDrawer.md)
-- [useFaas](functions/useFaas.md)
-- [useModal](functions/useModal.md)
-- [withFaasData](functions/withFaasData.md)

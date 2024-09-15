@@ -3,6 +3,7 @@
   "excludeExternals": true,
   "exclude": ["**/__tests__/**"],
   "plugin": ["typedoc-plugin-markdown"],
+  "groupOrder": ["Functions", "Classes", "*"],
   "githubPages": false,
   "cleanOutputDir": false,
   "disableSources": true,
