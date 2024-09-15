@@ -1,25 +1,24 @@
-const promisify = require('node:util').promisify
-const exec = promisify(require('node:child_process').exec)
+const execSync = require('node:child_process').execSync
 const { readFileSync, writeFileSync, globSync } = require('node:fs')
 
-async function run(cmd) {
+function run(cmd) {
   console.log(cmd)
-  await exec(cmd, { stdio: 'inherit' })
+  execSync(cmd, { stdio: 'inherit' })
 }
 
-async function build(path) {
+function build(path) {
   const pkg = require(`${__dirname}/${path}`)
 
   if (!pkg.types) return
 
-  await run(
-    `npm run build:doc ${path.replace(
-      '/package.json',
-      '/src'
-    )} -- --tsconfig ${path.replace(
-      '/package.json',
-      '/tsconfig.json'
-    )} --out ${path.replace('/package.json', '/')}`
+  const packagePath = path.replace('/package.json', '')
+
+  run(
+    `rm -rf ${packagePath}/classes ${packagePath}/functions ${packagePath}/interfaces ${packagePath}/type-aliases`
+  )
+
+  run(
+    `npm run build:doc ${packagePath}/src -- --tsconfig ${packagePath}/tsconfig.json --out ${path.replace('/package.json', '/')}`
   )
 
   const files = globSync(path.replace('/package.json', '/**/*.md'))
@@ -60,28 +59,13 @@ async function build(path) {
   //     )
 }
 
-async function buildAll() {
+function buildAll() {
   const list = globSync('packages/*/package.json').filter(
     path => !['/cli', '/create-faas-app'].includes(path)
   )
 
-  for (const name of [
-    'browser',
-    'logger',
-    'deep_merge',
-    'ts-transform',
-    'func',
-    'load',
-    'http',
-    'cloud_function',
-    'request',
-  ]) {
-    await build(`packages/${name}/package.json`)
-    list.splice(list.indexOf(`packages/${name}/package.json`), 1)
-  }
-
   for (const file of list) {
-    await build(file)
+    build(file)
   }
 }
 

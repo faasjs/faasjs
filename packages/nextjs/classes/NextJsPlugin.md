@@ -26,8 +26,6 @@
 
 `Plugin.name`
 
-***
-
 ### type
 
 > `readonly` **type**: `"NextJs"` = `'NextJs'`

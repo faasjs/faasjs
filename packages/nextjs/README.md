@@ -14,20 +14,7 @@ npm install @faasjs/nextjs
 ## Classes
 
 - [NextJsPlugin](classes/NextJsPlugin.md)
-- [Session](classes/Session.md)
-
-## Type Aliases
-
-- [SessionContent](type-aliases/SessionContent.md)
-- [SessionOptions](type-aliases/SessionOptions.md)
-
-## Variables
-
-- [session](variables/session.md)
 
 ## Functions
 
-- [setSession](functions/setSession.md)
 - [useFuncWithNextJsPlugin](functions/useFuncWithNextJsPlugin.md)
-- [useServerAction](functions/useServerAction.md)
-- [withServerAction](functions/withServerAction.md)

@@ -35,7 +35,7 @@ export class NextJsPlugin implements Plugin {
  * ```ts
  * // create a function in server
  * 'use server'
- * import { useFuncWithNextJsPlugin } from '@faasjs/nextjs/server'
+ * import { useFuncWithNextJsPlugin } from '@faasjs/nextjs'
  *
  * export const serverAction = useFuncWithNextJsPlugin<{
  *   a: number
@@ -49,11 +49,11 @@ export class NextJsPlugin implements Plugin {
  * import { serverAction } from './server'
  *
  * function App() {
- *   return <Form action={serverAction}>
- *    <Input name="a" type="number" />
- *    <Input name="b" type="number" />
+ *   return <form action={serverAction}>
+ *    <input name="a" type="number" />
+ *    <input name="b" type="number" />
  *   <Button>Submit</Button>
- * </Form>
+ * </form>
  * }
  * ```
  */

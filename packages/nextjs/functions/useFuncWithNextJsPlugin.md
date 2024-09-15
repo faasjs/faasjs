@@ -2,14 +2,57 @@
 
 # Function: useFuncWithNextJsPlugin()
 
-> **useFuncWithNextJsPlugin**(`handler`, `plugins`?): `ExportedHandler`\<`any`, `any`, `any`\>
+> **useFuncWithNextJsPlugin**\<`TParams`, `TResult`\>(`handler`, `plugins`?): (`params`?) => `Promise`\<`any`\>
+
+Generate a function with NextJsPlugin.
+
+## Type Parameters
+
+• **TParams** *extends* `Record`\<`string`, `any`\> = `any`
+
+• **TResult** = `any`
 
 ## Parameters
 
-• **handler**: `Handler`\<`any`, `any`, `any`\>
+• **handler**
 
 • **plugins?**: `Plugin`[]
 
 ## Returns
 
-`ExportedHandler`\<`any`, `any`, `any`\>
+`Function`
+
+### Parameters
+
+• **params?**: `TParams`
+
+### Returns
+
+`Promise`\<`any`\>
+
+## Example
+
+```ts
+// create a function in server
+'use server'
+import { useFuncWithNextJsPlugin } from '@faasjs/nextjs'
+
+export const serverAction = useFuncWithNextJsPlugin<{
+  a: number
+  b: number
+}>(async ({ params }) => {
+ return { message: params.a + params.b }
+})
+
+// using in client
+'use client'
+import { serverAction } from './server'
+
+function App() {
+  return <form action={serverAction}>
+   <input name="a" type="number" />
+   <input name="b" type="number" />
+  <Button>Submit</Button>
+</form>
+}
+```
