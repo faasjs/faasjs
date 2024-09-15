@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/knex",
-  "version": "3.0.0-canary.1",
+  "version": "3.0.0-canary.2",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -34,9 +34,9 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/deep_merge": "3.0.0-canary.1",
-    "@faasjs/func": "3.0.0-canary.1",
-    "@faasjs/logger": "3.0.0-canary.1"
+    "@faasjs/deep_merge": "3.0.0-canary.2",
+    "@faasjs/func": "3.0.0-canary.2",
+    "@faasjs/logger": "3.0.0-canary.2"
   },
   "peerDependencies": {
     "knex": "*"

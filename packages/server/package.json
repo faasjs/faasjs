@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "3.0.0-canary.1",
+  "version": "3.0.0-canary.2",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -38,20 +38,20 @@
     "pirates": "*"
   },
   "peerDependencies": {
-    "@faasjs/func": "3.0.0-canary.1",
-    "@faasjs/http": "3.0.0-canary.1",
-    "@faasjs/load": "3.0.0-canary.1",
-    "@faasjs/logger": "3.0.0-canary.1",
-    "@faasjs/ts-transform": "3.0.0-canary.1"
+    "@faasjs/func": "3.0.0-canary.2",
+    "@faasjs/http": "3.0.0-canary.2",
+    "@faasjs/load": "3.0.0-canary.2",
+    "@faasjs/logger": "3.0.0-canary.2",
+    "@faasjs/ts-transform": "3.0.0-canary.2"
   },
   "devDependencies": {
     "react": "*",
     "@types/react-dom": "*",
-    "@faasjs/func": "3.0.0-canary.1",
-    "@faasjs/http": "3.0.0-canary.1",
-    "@faasjs/load": "3.0.0-canary.1",
-    "@faasjs/logger": "3.0.0-canary.1",
-    "@faasjs/ts-transform": "3.0.0-canary.1"
+    "@faasjs/func": "3.0.0-canary.2",
+    "@faasjs/http": "3.0.0-canary.2",
+    "@faasjs/load": "3.0.0-canary.2",
+    "@faasjs/logger": "3.0.0-canary.2",
+    "@faasjs/ts-transform": "3.0.0-canary.2"
   },
   "engines": {
     "node": ">=22.0.0",

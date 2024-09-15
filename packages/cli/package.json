@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cli",
-  "version": "3.0.0-canary.1",
+  "version": "3.0.0-canary.2",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -21,21 +21,24 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist", "index.js"],
+  "files": [
+    "dist",
+    "index.js"
+  ],
   "dependencies": {
-    "@faasjs/test": "3.0.0-canary.1",
+    "@faasjs/test": "3.0.0-canary.2",
     "commander": "*",
     "enquirer": "*",
     "glob": "*",
     "lodash": "*"
   },
   "peerDependencies": {
-    "@faasjs/func": "3.0.0-canary.1",
-    "@faasjs/server": "3.0.0-canary.1"
+    "@faasjs/func": "3.0.0-canary.2",
+    "@faasjs/server": "3.0.0-canary.2"
   },
   "devDependencies": {
-    "@faasjs/func": "3.0.0-canary.1",
-    "@faasjs/server": "3.0.0-canary.1"
+    "@faasjs/func": "3.0.0-canary.2",
+    "@faasjs/server": "3.0.0-canary.2"
   },
   "engines": {
     "node": ">=22.0.0",
