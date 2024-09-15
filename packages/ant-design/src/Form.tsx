@@ -1,3 +1,4 @@
+import type { FaasAction } from '@faasjs/types'
 import { faas } from '@faasjs/react'
 import { Button, Form as AntdForm, type FormProps as AntdFormProps } from 'antd'
 import { type ReactNode, useEffect, useState, useCallback } from 'react'
@@ -42,7 +43,7 @@ export type FormSubmitProps = {
    * ```
    */
   to?: {
-    action: string
+    action: FaasAction | string
     /** params will overwrite form values before submit */
     params?: Record<string, any>
     then?: (result: any) => void

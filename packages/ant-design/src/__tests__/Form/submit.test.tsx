@@ -105,4 +105,14 @@ describe('Form/submit', () => {
 
     window.fetch = originalFetch
   })
+
+  it('when submit to server action', async () => {
+    const action = jest.fn(() => Promise.resolve({ data: {} }))
+
+    render(<Form submit={{ to: { action } }} />)
+
+    await userEvent.click(screen.getByText('Submit'))
+
+    expect(action).toHaveBeenCalled()
+  })
 })
