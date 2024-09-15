@@ -7,10 +7,18 @@
     "ignore": [
       "dist/*",
       "tmp/*",
+      "out/*",
+      "build/*",
       ".cache/*",
       "examples/*",
       "docs/*",
-      "coverage/*"
+      "coverage/*",
+      ".next/*",
+      ".vercel/*",
+      "node_modules/*",
+      ".pnp/*",
+      ".yarn/*",
+      ".turbo/*"
     ]
   },
   "linter": {
