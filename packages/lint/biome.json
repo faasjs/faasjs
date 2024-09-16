@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
   "organizeImports": {
     "enabled": false
   },
@@ -25,9 +25,6 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "a11y": {
-        "noLabelWithoutControl": "off"
-      },
       "correctness": {
         "useExhaustiveDependencies": "off",
         "noUnusedVariables": "error",
@@ -48,7 +45,9 @@
       "performance": {
         "noDelete": "off"
       },
-      "nursery": {}
+      "a11y": {
+        "noLabelWithoutControl": "off"
+      }
     }
   },
   "formatter": {
