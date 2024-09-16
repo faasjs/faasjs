@@ -1,24 +1,24 @@
 [@faasjs/react](../README.md) / FaasDataInjection
 
-# Type Alias: FaasDataInjection\<Data\>
+# Type Alias: FaasDataInjection\<PathOrData\>
 
-> **FaasDataInjection**\<`Data`\>: `object`
+> **FaasDataInjection**\<`PathOrData`\>: `object`
 
 Injects FaasData props.
 
 ## Type Parameters
 
-• **Data** = `any`
+• **PathOrData** *extends* [`FaasAction`](FaasAction.md) = `any`
 
 ## Type declaration
 
 ### action
 
-> **action**: `string` \| `any`
+> **action**: `PathOrData` \| `string`
 
 ### data
 
-> **data**: `Data`
+> **data**: [`FaasData`](FaasData.md)\<`PathOrData`\>
 
 ### error
 
@@ -34,7 +34,7 @@ Injects FaasData props.
 
 ### promise
 
-> **promise**: `Promise`\<`Response`\<`Data`\>\>
+> **promise**: `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 ### reloadTimes
 
@@ -42,7 +42,7 @@ Injects FaasData props.
 
 ### setData
 
-> **setData**: `React.Dispatch`\<`React.SetStateAction`\<`Data`\>\>
+> **setData**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 ### setError
 
@@ -54,7 +54,7 @@ Injects FaasData props.
 
 ### setPromise
 
-> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<`Response`\<`Data`\>\>\>\>
+> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>\>\>
 
 ### reload()
 
@@ -64,4 +64,4 @@ Injects FaasData props.
 
 #### Returns
 
-`Promise`\<`any`\>
+`Promise`\<[`Response`](../classes/Response.md)\<`PathOrData`\>\>

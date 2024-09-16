@@ -20,7 +20,7 @@
 
 ### children?
 
-> `optional` **children**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\>\>
+> `optional` **children**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>\>\>
 
 ### data?
 
@@ -46,7 +46,7 @@ use custom setData, should work with data
 
 #### Parameters
 
-• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
+• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
 #### Returns
 
@@ -56,7 +56,7 @@ use custom setData, should work with data
 
 #### Parameters
 
-• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
+• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
 #### Returns
 

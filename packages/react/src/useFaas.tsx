@@ -1,8 +1,19 @@
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import { useState, useEffect, useCallback } from 'react'
-import type { FaasDataInjection, useFaasOptions } from './types'
 import type { Response } from '@faasjs/browser'
 import { getClient } from './client'
+import type { FaasDataInjection } from './FaasDataWrapper'
+
+export type useFaasOptions<PathOrData extends FaasAction> = {
+  params?: FaasParams<PathOrData>
+  data?: FaasData<PathOrData>
+  setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
+  /** if skip is true, will not send request */
+  skip?: boolean | ((params: FaasParams<PathOrData>) => boolean)
+  /** send the last request after milliseconds */
+  debounce?: number
+  baseUrl?: string
+}
 
 /**
  * Request faas server with React hook
@@ -23,7 +34,7 @@ export function useFaas<PathOrData extends FaasAction>(
   action: PathOrData | string,
   defaultParams: FaasParams<PathOrData>,
   options?: useFaasOptions<PathOrData>
-): FaasDataInjection<FaasData<PathOrData>> {
+): FaasDataInjection<PathOrData> {
   if (!options) options = {}
 
   const [loading, setLoading] = useState(true)

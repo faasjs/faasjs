@@ -12,7 +12,7 @@
 
 ### faas()
 
-> **faas**: \<`PathOrData`\>(`action`, `params`, `options`?) => `Promise`\<`Response`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **faas**: \<`PathOrData`\>(`action`, `params`, `options`?) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 #### Type Parameters
 
@@ -20,7 +20,7 @@
 
 #### Parameters
 
-• **action**: `string` \| `PathOrData`
+• **action**: `PathOrData` \| `string`
 
 • **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
@@ -28,7 +28,7 @@
 
 #### Returns
 
-`Promise`\<`Response`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 ### id
 
@@ -36,11 +36,11 @@
 
 ### onError
 
-> **onError**: `OnError`
+> **onError**: [`OnError`](OnError.md)
 
 ### useFaas()
 
-> **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options`?) => [`FaasDataInjection`](FaasDataInjection.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
+> **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options`?) => [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
 #### Type Parameters
 
@@ -48,7 +48,7 @@
 
 #### Parameters
 
-• **action**: `string` \| `PathOrData`
+• **action**: `PathOrData` \| `string`
 
 • **defaultParams**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
@@ -56,7 +56,7 @@
 
 #### Returns
 
-[`FaasDataInjection`](FaasDataInjection.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
+[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
 ### FaasDataWrapper()
 

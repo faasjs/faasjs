@@ -71,5 +71,5 @@ export function useFuncWithNextJsPlugin<
     handler: handler as any,
   }).export()
 
-  return (params?: TParams) => func.handler(params)
+  return (params?: TParams) => func.handler(params) as Promise<TResult>
 }

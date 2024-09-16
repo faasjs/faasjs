@@ -2,7 +2,7 @@
 
 # Function: useFaas()
 
-> **useFaas**\<`PathOrData`\>(`action`, `defaultParams`, `options`?): [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>
+> **useFaas**\<`PathOrData`\>(`action`, `defaultParams`, `options`?): [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>
 
 Request faas server with React hook
 
@@ -24,7 +24,7 @@ Request faas server with React hook
 
 ## Returns
 
-[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>
+[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>
 
 ## Example
 

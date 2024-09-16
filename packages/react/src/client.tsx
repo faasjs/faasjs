@@ -1,14 +1,12 @@
-import type {
-  FaasDataInjection,
-  FaasDataWrapperProps,
-  FaasReactClientInstance,
-  useFaasOptions,
-} from './types'
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import type { BaseUrl, Options, Response, ResponseError } from '@faasjs/browser'
 import { FaasBrowserClient } from '@faasjs/browser'
-import { FaasDataWrapper } from './FaasDataWrapper'
-import { useFaas } from './useFaas'
+import {
+  type FaasDataInjection,
+  FaasDataWrapper,
+  type FaasDataWrapperProps,
+} from './FaasDataWrapper'
+import { useFaas, type useFaasOptions } from './useFaas'
 import { faas } from './faas'
 
 const clients: {
@@ -25,6 +23,25 @@ export type FaasReactClientOptions = {
   baseUrl?: BaseUrl
   options?: Options
   onError?: OnError
+}
+
+export type FaasReactClientInstance = {
+  id: string
+  faas: <PathOrData extends FaasAction>(
+    action: PathOrData | string,
+    params: FaasParams<PathOrData>,
+    options?: Options
+  ) => Promise<Response<FaasData<PathOrData>>>
+  useFaas: <PathOrData extends FaasAction>(
+    action: PathOrData | string,
+    defaultParams: FaasParams<PathOrData>,
+    options?: useFaasOptions<PathOrData>
+  ) => FaasDataInjection<PathOrData>
+  FaasDataWrapper<PathOrData extends FaasAction>(
+    props: FaasDataWrapperProps<PathOrData>
+  ): JSX.Element
+  onError: OnError
+  browserClient: FaasBrowserClient
 }
 
 /**
@@ -54,16 +71,17 @@ export function FaasReactClient(
       action: PathOrData | string,
       params: FaasParams<PathOrData>,
       options?: Options
-    ): Promise<Response<FaasData<PathOrData>>> => faas(action, params, options),
+    ): Promise<Response<FaasData<PathOrData>>> =>
+      faas<PathOrData>(action, params, { baseUrl, ...options }),
     useFaas: <PathOrData extends FaasAction>(
       action: PathOrData | string,
       defaultParams: FaasParams<PathOrData>,
       options?: useFaasOptions<PathOrData>
-    ): FaasDataInjection<FaasData<PathOrData>> =>
-      useFaas(action, defaultParams, options),
+    ): FaasDataInjection<PathOrData> =>
+      useFaas<PathOrData>(action, defaultParams, { baseUrl, ...options }),
     FaasDataWrapper: <PathOrData extends FaasAction>(
       props: FaasDataWrapperProps<PathOrData>
-    ) => <FaasDataWrapper baseUrl={baseUrl} {...props} />,
+    ) => <FaasDataWrapper<PathOrData> baseUrl={baseUrl} {...props} />,
     onError,
     browserClient: client,
   }
