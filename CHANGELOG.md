@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v3.0.0 (2024-09-?)`](https://github.com/faasjs/faasjs/compare/v2.9.0...v3.0.0)
+[`v3.0.0 (2024-09-16)`](https://github.com/faasjs/faasjs/compare/v2.9.0...v3.0.0)
 
 - [Break] Remove `@faasjs/deployer`, `@faasjs/tencentcloud`.
 - [Break] Upgrade node version to 22.
@@ -16,6 +16,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/react`
   - [Break] `domain` rename to `baseURL`.
   - [Feature] `action` can be a react server action.
+  - [Fix] Fix types.
 
 - `@faasjs/vue-plugin`
   - [Break] `domain` rename to `baseURL`.

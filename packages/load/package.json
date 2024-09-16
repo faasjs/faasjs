@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/load",
-  "version": "3.0.0-canary.4",
+  "version": "3.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -38,15 +38,15 @@
     "rollup": "*"
   },
   "peerDependencies": {
-    "@faasjs/deep_merge": "3.0.0-canary.4",
-    "@faasjs/func": "3.0.0-canary.4",
-    "@faasjs/ts-transform": "3.0.0-canary.4"
+    "@faasjs/deep_merge": "3.0.0",
+    "@faasjs/func": "3.0.0",
+    "@faasjs/ts-transform": "3.0.0"
   },
   "devDependencies": {
     "@types/js-yaml": "*",
-    "@faasjs/deep_merge": "3.0.0-canary.4",
-    "@faasjs/func": "3.0.0-canary.4",
-    "@faasjs/ts-transform": "3.0.0-canary.4"
+    "@faasjs/deep_merge": "3.0.0",
+    "@faasjs/func": "3.0.0",
+    "@faasjs/ts-transform": "3.0.0"
   },
   "engines": {
     "node": ">=22.0.0",

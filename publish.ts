@@ -1,14 +1,24 @@
-const exec = require('node:child_process').execSync
-const { writeFileSync, globSync } = require('node:fs')
-const version = require('./package.json').version
+import { execSync } from 'node:child_process'
+import { readFileSync, writeFileSync, globSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { dirname } from 'node:path'
 
-async function run(cmd) {
-  console.log(cmd)
-  await exec(cmd, { stdio: 'inherit' })
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+function loadJson(path: string) {
+  return JSON.parse(readFileSync(path).toString())
 }
 
-async function publish(path) {
-  const pkg = require(`${__dirname}/${path}`)
+const version = loadJson('./package.json').version
+
+function run(cmd: string) {
+  console.log(cmd)
+  execSync(cmd, { stdio: 'inherit' })
+}
+
+function publish(path: string) {
+  const pkg = loadJson(`${__dirname}/${path}`)
 
   console.log(pkg.name)
 
@@ -31,17 +41,15 @@ async function publish(path) {
   writeFileSync(path, `${JSON.stringify(pkg, null, 2)}\n`)
 
   try {
-    await run(
-      `npm publish -w ${path.replace('/package.json', '')} --access public --tag canary`
-    )
+    run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
   } catch (error) {
     console.warn(error)
   }
-  // try {
-  //   await run(`npm dist-tag add ${pkg.name}@${version} stable`)
-  // } catch (error) {
-  //   console.warn(error)
-  // }
+  try {
+    run(`npm dist-tag add ${pkg.name}@${version} stable`)
+  } catch (error) {
+    console.warn(error)
+  }
 }
 
 async function publishAll() {
