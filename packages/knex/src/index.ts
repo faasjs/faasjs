@@ -101,31 +101,55 @@ export class Knex implements Plugin {
         this.config
       )
 
-    if (this.config.client === 'sqlite3') {
-      this.config.client = 'better-sqlite3'
-      this.config.useNullAsDefault = true
+    switch (this.config.client) {
+      case 'sqlite3':
+        this.config.client = 'better-sqlite3'
+        this.config.useNullAsDefault = true
+        break
+      case 'pg':
+        if (!this.config.pool) this.config.pool = Object.create(null)
+
+        this.config.pool = Object.assign(
+          {
+            propagateCreateError: false,
+            min: 0,
+            max: 10,
+            acquireTimeoutMillis: 5000,
+            idleTimeoutMillis: 30000,
+          },
+          this.config.pool
+        )
+
+        if (
+          typeof this.config.connection === 'string' &&
+          !this.config.connection.includes('json=true')
+        )
+          this.config.connection = `${this.config.connection}?json=true`
+        break
+      default:
+        if (typeof this.config.client === 'string') {
+          if (this.config.client.startsWith('npm:')) {
+            const client = require(this.config.client.replace('npm:', ''))
+
+            if (!client) throw Error(`Invalid client: ${this.config.client}`)
+
+            if (typeof client === 'function') {
+              this.config.client = client
+              break
+            }
+
+            if (client.default && typeof client.default === 'function') {
+              this.config.client = client.default
+              break
+            }
+
+            throw Error(`Invalid client: ${this.config.client}`)
+          }
+        }
+        break
     }
 
-    if (this.config.client === 'pg') {
-      if (!this.config.pool) this.config.pool = Object.create(null)
-
-      this.config.pool = Object.assign(
-        {
-          propagateCreateError: false,
-          min: 0,
-          max: 10,
-          acquireTimeoutMillis: 5000,
-          idleTimeoutMillis: 30000,
-        },
-        this.config.pool
-      )
-
-      if (
-        typeof this.config.connection === 'string' &&
-        !this.config.connection.includes('json=true')
-      )
-        this.config.connection = `${this.config.connection}?json=true`
-    }
+    console.log(this.config)
 
     this.adapter = knex(this.config)
 
