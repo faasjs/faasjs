@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/browser",
-  "version": "3.0.0-canary.2",
+  "version": "3.0.0-canary.3",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -34,7 +34,7 @@
     "dist"
   ],
   "dependencies": {
-    "@faasjs/types": "3.0.0-canary.2"
+    "@faasjs/types": "3.0.0-canary.3"
   },
   "engines": {
     "node": ">=22.0.0",

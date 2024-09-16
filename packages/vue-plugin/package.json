@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/vue-plugin",
-  "version": "3.0.0-canary.2",
+  "version": "3.0.0-canary.3",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -34,11 +34,11 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/browser": "3.0.0-canary.2",
+    "@faasjs/browser": "3.0.0-canary.3",
     "vue": "*"
   },
   "devDependencies": {
-    "@faasjs/browser": "3.0.0-canary.2",
+    "@faasjs/browser": "3.0.0-canary.3",
     "@vue/test-utils": "*",
     "vue": "*"
   },

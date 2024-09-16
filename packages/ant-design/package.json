@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "3.0.0-canary.2",
+  "version": "3.0.0-canary.3",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -38,7 +38,7 @@
     "lodash-es": "*"
   },
   "peerDependencies": {
-    "@faasjs/react": "3.0.0-canary.2",
+    "@faasjs/react": "3.0.0-canary.3",
     "antd": "*",
     "react": "*",
     "react-dom": "*",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "*",
-    "@faasjs/react": "3.0.0-canary.2",
+    "@faasjs/react": "3.0.0-canary.3",
     "antd": "*",
     "react": "*",
     "react-dom": "*",
