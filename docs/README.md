@@ -41,11 +41,13 @@ footer: An atomic application framework built for the TypeScript developer. | MI
 - Extend your application effortlessly with **flexible and simple plugin mechanisms**.
 - **Freely scale** your functions up or down based on demand.
 
-## Quickstart
+## Quick start
 
-### Start with Codespace
+### Start with Codespace and Template
 
-[🔨 FaasJS Stater](https://github.com/faasjs/starter)
+[🔨 FaasJS & Next.js Stater](https://github.com/faasjs/nextjs-starter)
+
+[🔨 Pure FaasJS Stater](https://github.com/faasjs/starter)
 
 ### Start with Command Line
 
