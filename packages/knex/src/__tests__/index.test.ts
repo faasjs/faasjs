@@ -52,6 +52,23 @@ describe('Knex', () => {
 
       expect(await handler({})).toEqual([{ '1+1': 2 }])
     })
+
+    it('with special npm package', async () => {
+      const knex = new Knex({
+        config: {
+          client: 'npm:cloudflare-d1-http-knex/mock',
+        },
+      })
+
+      const handler = new Func({
+        plugins: [knex],
+        async handler() {
+          return await knex.raw('SELECT 1+1')
+        },
+      }).export().handler
+
+      expect(await handler({})).toEqual([{ '1+1': 2 }])
+    })
   })
 
   describe('query', () => {

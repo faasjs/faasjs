@@ -143,6 +143,8 @@ export class Knex implements Plugin {
               break
             }
 
+            console.log(client)
+
             throw Error(`Invalid client: ${this.config.client}`)
           }
         }

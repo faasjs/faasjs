@@ -30,9 +30,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@faasjs/deep_merge": "3.0.0",
     "@faasjs/func": "3.0.0",
@@ -49,7 +47,8 @@
     "mysql": "*",
     "pg": "*",
     "better-sqlite3": "*",
-    "tsd": "*"
+    "tsd": "*",
+    "cloudflare-d1-http-knex": "*"
   },
   "engines": {
     "node": ">=22.0.0",
