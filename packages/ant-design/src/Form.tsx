@@ -90,6 +90,7 @@ function isFormItemProps(item: any): item is FormItemProps {
 export function Form<Values = any>(props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)
   const [computedProps, setComputedProps] = useState<FormProps<Values>>()
+  const [submit, setSubmit] = useState<FormSubmitProps | false>()
   const config = useConfigContext()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const [form] = AntdForm.useForm<Values>(props.form)
@@ -98,10 +99,12 @@ export function Form<Values = any>(props: FormProps<Values>) {
   )
 
   useEffect(() => {
-    const propsCopy = {
+    const { submit, ...propsCopy } = {
       ...props,
       form,
     }
+
+    if (typeof submit !== 'undefined') setSubmit(submit)
 
     if (propsCopy.initialValues && propsCopy.items?.length) {
       for (const key in propsCopy.initialValues) {
@@ -128,18 +131,18 @@ export function Form<Values = any>(props: FormProps<Values>) {
         setLoading(true)
 
         try {
-          if ((propsCopy.submit as FormSubmitProps)?.to?.action) {
+          if ((submit as FormSubmitProps)?.to?.action) {
             await props.onFinish(values, async values =>
               faas(
                 (
-                  propsCopy.submit as {
+                  submit as {
                     to: {
                       action: string
                     }
                   }
                 ).to.action,
                 (
-                  propsCopy.submit as {
+                  submit as {
                     to: {
                       params?: Record<string, any>
                     }
@@ -148,7 +151,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
                   ? {
                       ...values,
                       ...(
-                        propsCopy.submit as {
+                        submit as {
                           to: {
                             params?: Record<string, any>
                           }
@@ -166,9 +169,9 @@ export function Form<Values = any>(props: FormProps<Values>) {
         setLoading(false)
       }
     } else if (
-      propsCopy.submit &&
+      submit &&
       (
-        propsCopy.submit as {
+        submit as {
           to?: {
             action: string
           }
@@ -179,14 +182,14 @@ export function Form<Values = any>(props: FormProps<Values>) {
         setLoading(true)
         return faas(
           (
-            propsCopy.submit as {
+            submit as {
               to: {
                 action: string
               }
             }
           ).to.action,
           (
-            propsCopy.submit as {
+            submit as {
               to: {
                 params?: Record<string, any>
               }
@@ -195,7 +198,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
             ? {
                 ...values,
                 ...(
-                  propsCopy.submit as {
+                  submit as {
                     to: {
                       params?: Record<string, any>
                     }
@@ -205,18 +208,18 @@ export function Form<Values = any>(props: FormProps<Values>) {
             : values
         )
           .then(result => {
-            if ((propsCopy.submit as FormSubmitProps).to.then)
-              (propsCopy.submit as FormSubmitProps).to.then(result)
+            if ((submit as FormSubmitProps).to.then)
+              (submit as FormSubmitProps).to.then(result)
             return result
           })
           .catch(error => {
-            if ((propsCopy.submit as FormSubmitProps).to.catch)
-              (propsCopy.submit as FormSubmitProps).to.catch(error)
+            if ((submit as FormSubmitProps).to.catch)
+              (submit as FormSubmitProps).to.catch(error)
             return Promise.reject(error)
           })
           .finally(() => {
-            if ((propsCopy.submit as FormSubmitProps).to.finally)
-              (propsCopy.submit as FormSubmitProps).to.finally()
+            if ((submit as FormSubmitProps).to.finally)
+              (submit as FormSubmitProps).to.finally()
             setLoading(false)
           })
       }
@@ -272,9 +275,9 @@ export function Form<Values = any>(props: FormProps<Values>) {
         return item as JSX.Element
       })}
       {computedProps.children}
-      {computedProps.submit !== false && (
+      {typeof submit !== 'boolean' && (
         <Button htmlType='submit' type='primary' loading={loading}>
-          {computedProps.submit?.text || config.theme.Form.submit.text}
+          {submit?.text || config.theme.Form.submit.text}
         </Button>
       )}
       {computedProps.footer}

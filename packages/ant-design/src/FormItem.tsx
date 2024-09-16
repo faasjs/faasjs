@@ -192,11 +192,10 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   const [hidden, setHidden] = useState(props.hidden || false)
 
   useEffect(() => {
-    const propsCopy = { ...props }
+    const { extendTypes, ...propsCopy } = { ...props }
 
-    if (propsCopy.extendTypes) {
-      setExtendTypes(propsCopy.extendTypes)
-      delete propsCopy.extendTypes
+    if (extendTypes) {
+      setExtendTypes(extendTypes)
     }
 
     if (propsCopy.if) {

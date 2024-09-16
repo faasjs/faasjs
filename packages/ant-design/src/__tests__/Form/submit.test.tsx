@@ -54,8 +54,6 @@ describe('Form/submit', () => {
 
     await userEvent.click(screen.getByText('Submit'))
 
-    screen.debug()
-
     expect(values).toEqual({
       id: 'initialValues',
       params: 'params',

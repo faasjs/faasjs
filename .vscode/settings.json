@@ -49,7 +49,6 @@
     "vuepress",
     "zfben"
   ],
-  "biome.requireConfiguration": true,
   "biome_lsp.trace.server": "messages",
   "typescript.tsdk": "node_modules/typescript/lib"
 }
