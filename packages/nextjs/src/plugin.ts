@@ -19,7 +19,7 @@ export class NextJsPlugin implements Plugin {
       data.params = data.event
     }
 
-    data.logger.debug('[NextJsPlugin] Params: %j', data.params)
+    data.logger.debug('Params: %j', data.params)
 
     await next()
 
