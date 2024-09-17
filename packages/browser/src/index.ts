@@ -290,6 +290,11 @@ export class FaasBrowserClient {
         headers: options.headers,
       })
 
+    if (mock) {
+      console.debug(`[FaasJS] Mock request: ${action} %j`, params)
+      return mock(action as string, params, options)
+    }
+
     if (typeof action === 'function') {
       try {
         const result = await action(JSON.stringify(params))
@@ -311,11 +316,6 @@ export class FaasBrowserClient {
     }
 
     if (options.request) return options.request(url, options)
-
-    if (mock) {
-      console.debug(`[FaasJS] Mock request: ${action} %j`, params)
-      return mock(action as string, params, options)
-    }
 
     return fetch(url, options).then(async response => {
       const headers: {
