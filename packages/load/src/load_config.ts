@@ -42,7 +42,6 @@ export class Config {
       if (root === base) return base
 
       const faas = join(root, 'faas.yaml')
-      console.log(faas)
 
       if (existsSync(faas))
         configs.push(
@@ -51,8 +50,6 @@ export class Config {
 
       return root
     })
-
-    console.log(configs)
 
     this.origin = deepMerge(...configs)
 
