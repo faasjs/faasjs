@@ -59,10 +59,9 @@ export class Knex implements Plugin {
 
   constructor(config?: KnexConfig) {
     if (config) {
-      this.name = config.name || this.type
+      this.name = config.name || this.name
       this.config = config.config || Object.create(null)
     } else {
-      this.name = this.type
       this.config = Object.create(null)
     }
   }
