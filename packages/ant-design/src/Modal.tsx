@@ -1,10 +1,6 @@
+import { useEqualCallback } from '@faasjs/react'
 import { Modal as AntdModal, type ModalProps as AntdModalProps } from 'antd'
-import {
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useState,
-} from 'react'
+import { type Dispatch, type SetStateAction, useState } from 'react'
 
 export const Modal = AntdModal
 
@@ -34,7 +30,7 @@ export type setModalProps = Dispatch<SetStateAction<ModalProps>>
 export function useModal(init?: ModalProps) {
   const [props, setProps] = useState<ModalProps>({ open: false, ...init })
 
-  const setModalProps: setModalProps = useCallback(
+  const setModalProps: setModalProps = useEqualCallback(
     changes => {
       const changed = typeof changes === 'function' ? changes(props) : changes
 

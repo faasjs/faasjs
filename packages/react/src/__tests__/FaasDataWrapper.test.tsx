@@ -58,10 +58,10 @@ describe('FaasDataWrapper', () => {
     expect(await screen.findByText('1')).toBeDefined()
     expect(renderTimes).toEqual(1)
 
-    // await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button'))
 
-    // expect(await screen.findByText('2')).toBeDefined()
-    // expect(renderTimes).toEqual(3)
+    expect(await screen.findByText('2')).toBeDefined()
+    expect(renderTimes).toEqual(3)
   })
 
   it('with controlled params', async () => {

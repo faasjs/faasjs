@@ -1,7 +1,8 @@
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import { getClient } from './client'
-import { cloneElement, useEffect, useMemo, useState } from 'react'
+import { cloneElement, useEffect, useState } from 'react'
 import type { BaseUrl, Response } from '@faasjs/browser'
+import { useEqualEffect, useEqualMemo } from './equal'
 
 /**
  * Injects FaasData props.
@@ -59,11 +60,11 @@ export function FaasDataWrapper<PathOrData extends FaasAction>(
     if (!loaded && !request.loading) setLoaded(true)
   }, [request.loading])
 
-  useEffect(() => {
+  useEqualEffect(() => {
     if (props.onDataChange) props.onDataChange(request)
-  }, [JSON.stringify(request.data)])
+  }, [request.data])
 
-  const child = useMemo(() => {
+  const child = useEqualMemo(() => {
     if (loaded) {
       if (props.children) return cloneElement(props.children, request)
       if (props.render) return props.render(request) as JSX.Element

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 /**
  * Compares two values for deep equality.
@@ -14,9 +14,10 @@ import { useEffect, useRef } from 'react'
 export function equal(a: any, b: any): boolean {
   if (a === b) return true
 
-  if (typeof a !== typeof b) return false
+  if ((a === null || a === undefined) && (b === null || b === undefined))
+    return true
 
-  if (a === null || a === undefined) return true
+  if (typeof a !== typeof b) return false
 
   const ctor = a.constructor
 
@@ -77,13 +78,16 @@ export function equal(a: any, b: any): boolean {
  * @returns The memoized value.
  */
 export function useEqualMemoize(value: any) {
-  const ref = useRef<any>()
-
+  const ref = useRef<any>(value)
+  const signalRef = useRef(0)
+  console.log(value, ref.current)
   if (!equal(value, ref.current)) {
     ref.current = value
+    signalRef.current += 1
+    console.log('signalRef.current', signalRef.current)
   }
 
-  return ref.current
+  return useMemo(() => ref.current, [signalRef.current])
 }
 
 /**
@@ -98,4 +102,32 @@ export function useEqualEffect(
   dependencies: any[]
 ) {
   return useEffect(callback, useEqualMemoize(dependencies))
+}
+
+/**
+ * Custom hook that works like `useMemo` but uses deep comparison on dependencies.
+ *
+ * @param callback - The callback function to run.
+ * @param dependencies - The list of dependencies.
+ * @returns The result of the `useMemo` hook with memoized dependencies.
+ */
+export function useEqualMemo<T>(callback: () => T, dependencies: any[]): T {
+  return useMemo(callback, useEqualMemoize(dependencies))
+}
+
+/**
+ * Custom hook that works like `useCallback` but uses deep comparison on dependencies.
+ *
+ * @param callback - The callback function to run.
+ * @param dependencies - The list of dependencies.
+ * @returns The result of the `useCallback` hook with memoized dependencies.
+ */
+export function useEqualCallback<T extends (...args: any[]) => any>(
+  callback: T,
+  dependencies: any[]
+): T {
+  return useCallback<any>(
+    (...args: any) => callback(...args),
+    useEqualMemoize(dependencies)
+  )
 }

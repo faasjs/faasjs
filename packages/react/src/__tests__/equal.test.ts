@@ -1,7 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-import { equal, useEqualMemoize, useEqualEffect } from '../equal'
+import {
+  equal,
+  useEqualMemoize,
+  useEqualEffect,
+  useEqualMemo,
+  useEqualCallback,
+} from '../equal'
 import { renderHook } from '@testing-library/react'
 
 describe('equal function', () => {
@@ -70,146 +76,312 @@ describe('equal function', () => {
   test('should return true for null or undefined values', () => {
     expect(equal(null, null)).toBe(true)
     expect(equal(undefined, undefined)).toBe(true)
-    expect(equal(null, undefined)).toBe(false)
+    expect(equal(null, undefined)).toBe(true)
   })
 
   test('should return false for null or undefined compared to other values', () => {
     expect(equal(null, 1)).toBe(false)
     expect(equal(undefined, 'test')).toBe(false)
   })
+})
 
-  describe('useEqualMemoize hook', () => {
-    test('should memoize the value if it is equal to the previous value', () => {
-      const { result, rerender } = renderHook(
-        ({ value }) => useEqualMemoize(value),
-        {
-          initialProps: { value: { a: 1, b: 2 } },
-        }
-      )
+describe('useEqualMemoize hook', () => {
+  test('should memoize the value if it is equal to the previous value', () => {
+    const { result, rerender } = renderHook(
+      ({ value }) => useEqualMemoize(value),
+      {
+        initialProps: { value: { a: 1, b: 2 } },
+      }
+    )
 
-      expect(result.current).toEqual({ a: 1, b: 2 })
+    expect(result.current).toEqual({ a: 1, b: 2 })
 
-      rerender({ value: { a: 1, b: 2 } })
-      expect(result.current).toEqual({ a: 1, b: 2 })
-    })
+    rerender({ value: { a: 1, b: 2 } })
+    expect(result.current).toEqual({ a: 1, b: 2 })
+  })
 
-    test('should update the memoized value if it is not equal to the previous value', () => {
-      const { result, rerender } = renderHook(
-        ({ value }) => useEqualMemoize(value),
-        {
-          initialProps: { value: { a: 1, b: 2 } },
-        }
-      )
+  test('should update the memoized value if it is not equal to the previous value', () => {
+    const { result, rerender } = renderHook(
+      ({ value }) => useEqualMemoize(value),
+      {
+        initialProps: { value: { a: 1, b: 2 } },
+      }
+    )
 
-      expect(result.current).toEqual({ a: 1, b: 2 })
+    expect(result.current).toEqual({ a: 1, b: 2 })
 
-      rerender({ value: { a: 1, b: 3 } })
-      expect(result.current).toEqual({ a: 1, b: 3 })
-    })
+    rerender({ value: { a: 1, b: 3 } })
+    expect(result.current).toEqual({ a: 1, b: 3 })
+  })
 
-    test('should handle primitive values', () => {
-      const { result, rerender } = renderHook(
-        ({ value }) => useEqualMemoize(value),
-        {
-          initialProps: { value: 1 },
-        }
-      )
+  test('should handle primitive values', () => {
+    const { result, rerender } = renderHook(
+      ({ value }) => useEqualMemoize(value),
+      {
+        initialProps: { value: 1 },
+      }
+    )
 
-      expect(result.current).toBe(1)
+    expect(result.current).toBe(1)
 
-      rerender({ value: 1 })
-      expect(result.current).toBe(1)
+    rerender({ value: 1 })
+    expect(result.current).toBe(1)
 
-      rerender({ value: 2 })
-      expect(result.current).toBe(2)
-    })
+    rerender({ value: 2 })
+    expect(result.current).toBe(2)
+  })
 
-    test('should handle arrays', () => {
-      const { result, rerender } = renderHook(
-        ({ value }) => useEqualMemoize(value),
-        {
-          initialProps: { value: [1, 2, 3] },
-        }
-      )
+  test('should handle arrays', () => {
+    const { result, rerender } = renderHook(
+      ({ value }) => useEqualMemoize(value),
+      {
+        initialProps: { value: [1, 2, 3] },
+      }
+    )
 
-      expect(result.current).toEqual([1, 2, 3])
+    expect(result.current).toEqual([1, 2, 3])
 
-      rerender({ value: [1, 2, 3] })
-      expect(result.current).toEqual([1, 2, 3])
+    rerender({ value: [1, 2, 3] })
+    expect(result.current).toEqual([1, 2, 3])
 
-      rerender({ value: [1, 2, 4] })
-      expect(result.current).toEqual([1, 2, 4])
-    })
+    rerender({ value: [1, 2, 4] })
+    expect(result.current).toEqual([1, 2, 4])
+  })
+})
 
-    describe('useEqualEffect hook', () => {
-      test('should call the callback when dependencies change', () => {
-        const callback = jest.fn()
-        const { rerender } = renderHook(
-          ({ deps }) => useEqualEffect(callback, deps),
-          {
-            initialProps: { deps: [1, 2, 3] },
-          }
-        )
+describe('useEqualEffect hook', () => {
+  test('should call the callback when dependencies change', () => {
+    const callback = jest.fn()
+    const { rerender } = renderHook(
+      ({ deps }) => useEqualEffect(callback, deps),
+      {
+        initialProps: { deps: [1, 2, 3] },
+      }
+    )
 
-        expect(callback).toHaveBeenCalledTimes(1)
+    expect(callback).toHaveBeenCalledTimes(1)
 
-        rerender({ deps: [1, 2, 3] })
-        expect(callback).toHaveBeenCalledTimes(1)
+    rerender({ deps: [1, 2, 3] })
+    expect(callback).toHaveBeenCalledTimes(1)
 
-        rerender({ deps: [1, 2, 4] })
-        expect(callback).toHaveBeenCalledTimes(2)
-      })
+    rerender({ deps: [1, 2, 4] })
+    expect(callback).toHaveBeenCalledTimes(2)
+  })
 
-      test('should not call the callback when dependencies are equal', () => {
-        const callback = jest.fn()
-        const { rerender } = renderHook(
-          ({ deps }) => useEqualEffect(callback, deps),
-          {
-            initialProps: { deps: [1, 2, 3] },
-          }
-        )
+  test('should not call the callback when dependencies are equal', () => {
+    const callback = jest.fn()
+    const { rerender } = renderHook(
+      ({ deps }) => useEqualEffect(callback, deps),
+      {
+        initialProps: { deps: [1, 2, 3] },
+      }
+    )
 
-        expect(callback).toHaveBeenCalledTimes(1)
+    expect(callback).toHaveBeenCalledTimes(1)
 
-        rerender({ deps: [1, 2, 3] })
-        expect(callback).toHaveBeenCalledTimes(1)
-      })
+    rerender({ deps: [1, 2, 3] })
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
 
-      test('should handle primitive dependencies', () => {
-        const callback = jest.fn()
-        const { rerender } = renderHook(
-          ({ deps }) => useEqualEffect(callback, deps),
-          {
-            initialProps: { deps: [1] },
-          }
-        )
+  test('should handle primitive dependencies', () => {
+    const callback = jest.fn()
+    const { rerender } = renderHook(
+      ({ deps }) => useEqualEffect(callback, deps),
+      {
+        initialProps: { deps: [1] },
+      }
+    )
 
-        expect(callback).toHaveBeenCalledTimes(1)
+    expect(callback).toHaveBeenCalledTimes(1)
 
-        rerender({ deps: [1] })
-        expect(callback).toHaveBeenCalledTimes(1)
+    rerender({ deps: [1] })
+    expect(callback).toHaveBeenCalledTimes(1)
 
-        rerender({ deps: [2] })
-        expect(callback).toHaveBeenCalledTimes(2)
-      })
+    rerender({ deps: [2] })
+    expect(callback).toHaveBeenCalledTimes(2)
+  })
 
-      test('should handle object dependencies', () => {
-        const callback = jest.fn()
-        const { rerender } = renderHook(
-          ({ deps }) => useEqualEffect(callback, deps),
-          {
-            initialProps: { deps: [{ a: 1 }] },
-          }
-        )
+  test('should handle object dependencies', () => {
+    const callback = jest.fn()
+    const { rerender } = renderHook(
+      ({ deps }) => useEqualEffect(callback, deps),
+      {
+        initialProps: { deps: [{ a: 1 }] },
+      }
+    )
 
-        expect(callback).toHaveBeenCalledTimes(1)
+    expect(callback).toHaveBeenCalledTimes(1)
 
-        rerender({ deps: [{ a: 1 }] })
-        expect(callback).toHaveBeenCalledTimes(1)
+    rerender({ deps: [{ a: 1 }] })
+    expect(callback).toHaveBeenCalledTimes(1)
 
-        rerender({ deps: [{ a: 2 }] })
-        expect(callback).toHaveBeenCalledTimes(2)
-      })
-    })
+    rerender({ deps: [{ a: 2 }] })
+    expect(callback).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('useEqualMemo hook', () => {
+  test('should memoize the result if dependencies are equal', () => {
+    const callback = jest.fn(() => 42)
+    const { result, rerender } = renderHook(
+      ({ deps }) => useEqualMemo(callback, deps),
+      {
+        initialProps: { deps: [1, 2, 3] },
+      }
+    )
+
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [1, 2, 3] })
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
+
+  test('should recompute the result if dependencies change', () => {
+    const callback = jest.fn(() => 42)
+    const { result, rerender } = renderHook(
+      ({ deps }) => useEqualMemo(callback, deps),
+      {
+        initialProps: { deps: [1, 2, 3] },
+      }
+    )
+
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [1, 2, 4] })
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(2)
+  })
+
+  test('should handle primitive dependencies', () => {
+    const callback = jest.fn(() => 42)
+    const { result, rerender } = renderHook(
+      ({ deps }) => useEqualMemo(callback, deps),
+      {
+        initialProps: { deps: [1] },
+      }
+    )
+
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [1] })
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [2] })
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(2)
+  })
+
+  test('should handle object dependencies', () => {
+    const callback = jest.fn(() => 42)
+    const { result, rerender } = renderHook(
+      ({ deps }) => useEqualMemo(callback, deps),
+      {
+        initialProps: { deps: [{ a: 1 }] },
+      }
+    )
+
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [{ a: 1 }] })
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [{ a: 2 }] })
+    expect(result.current).toBe(42)
+    expect(callback).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('useEqualCallback hook', () => {
+  test('should memoize the callback if dependencies are equal', () => {
+    const callback = jest.fn()
+    const { result, rerender } = renderHook(
+      ({ deps }) => useEqualCallback(callback, deps),
+      {
+        initialProps: { deps: [1, 2, 3] },
+      }
+    )
+
+    const memoizedCallback = result.current
+    memoizedCallback()
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [1, 2, 3] })
+    expect(result.current).toBe(memoizedCallback)
+    result.current()
+    expect(callback).toHaveBeenCalledTimes(2)
+  })
+
+  test('should update the memoized callback if dependencies change', () => {
+    const callback = jest.fn()
+    const { result, rerender } = renderHook(
+      ({ deps }) => useEqualCallback(callback, deps),
+      {
+        initialProps: { deps: [1, 2, 3] },
+      }
+    )
+
+    const memoizedCallback = result.current
+    memoizedCallback()
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [1, 2, 4] })
+    expect(result.current).not.toBe(memoizedCallback)
+    result.current()
+    expect(callback).toHaveBeenCalledTimes(2)
+  })
+
+  test('should handle primitive dependencies', () => {
+    const callback = jest.fn()
+    const { result, rerender } = renderHook(
+      ({ deps }) => useEqualCallback(callback, deps),
+      {
+        initialProps: { deps: [1] },
+      }
+    )
+
+    const memoizedCallback = result.current
+    memoizedCallback()
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [1] })
+    expect(result.current).toBe(memoizedCallback)
+    result.current()
+    expect(callback).toHaveBeenCalledTimes(2)
+
+    rerender({ deps: [2] })
+    expect(result.current).not.toBe(memoizedCallback)
+    result.current()
+    expect(callback).toHaveBeenCalledTimes(3)
+  })
+
+  test('should handle object dependencies', () => {
+    const callback = jest.fn()
+    const { result, rerender } = renderHook(
+      ({ deps }) => useEqualCallback(callback, deps),
+      {
+        initialProps: { deps: [{ a: 1 }] },
+      }
+    )
+
+    const memoizedCallback = result.current
+    memoizedCallback()
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender({ deps: [{ a: 1 }] })
+    expect(result.current).toBe(memoizedCallback)
+    result.current()
+    expect(callback).toHaveBeenCalledTimes(2)
+
+    rerender({ deps: [{ a: 2 }] })
+    expect(result.current).not.toBe(memoizedCallback)
+    result.current()
+    expect(callback).toHaveBeenCalledTimes(3)
   })
 })

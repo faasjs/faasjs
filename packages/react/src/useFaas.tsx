@@ -1,9 +1,9 @@
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
-import { useState, useCallback, useRef } from 'react'
+import { useState, useRef } from 'react'
 import type { BaseUrl, Response } from '@faasjs/browser'
 import { getClient } from './client'
 import type { FaasDataInjection } from './FaasDataWrapper'
-import { useEqualEffect, equal } from './equal'
+import { useEqualEffect, equal, useEqualCallback } from './equal'
 
 export type useFaasOptions<PathOrData extends FaasAction> = {
   params?: FaasParams<PathOrData>
@@ -138,7 +138,7 @@ export function useFaas<PathOrData extends FaasAction>(
     }
   }, [action, options.params || params, reloadTimes, skip])
 
-  const reload = useCallback(
+  const reload = useEqualCallback(
     (params?: FaasParams<PathOrData>) => {
       if (skip) setSkip(false)
       if (params) setParams(params)

@@ -1,7 +1,7 @@
 import type { FaasAction } from '@faasjs/types'
-import { faas } from '@faasjs/react'
+import { faas, useEqualCallback } from '@faasjs/react'
 import { Button, Form as AntdForm, type FormProps as AntdFormProps } from 'antd'
-import { type ReactNode, useEffect, useState, useCallback } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 import { useConfigContext } from './Config'
 import { transferValue } from './data'
 import type {
@@ -233,7 +233,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
     setComputedProps(propsCopy)
   }, [props])
 
-  const onValuesChange = useCallback(
+  const onValuesChange = useEqualCallback(
     (changedValues: Record<string, any>, allValues: Values) => {
       console.debug('Form:onValuesChange', changedValues, allValues)
 
