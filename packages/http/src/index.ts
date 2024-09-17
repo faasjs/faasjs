@@ -147,7 +147,7 @@ export class Http<
   TSession extends Record<string, string> = any,
 > implements Plugin
 {
-  public readonly type: string = Name
+  public readonly type = 'http'
   public readonly name: string = Name
 
   public headers: {

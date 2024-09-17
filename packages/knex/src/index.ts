@@ -50,7 +50,7 @@ if (!global.FaasJS_Knex) {
 }
 
 export class Knex implements Plugin {
-  public readonly type: string = Name
+  public readonly type = 'knex'
   public readonly name: string = Name
   public config: OriginKnex.Config
   public adapter: OriginKnex
