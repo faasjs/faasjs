@@ -102,9 +102,13 @@ describe('NextJsPlugin', () => {
       formData.append('b', '2')
 
       await expect(
-        useFuncWithNextJsPlugin(async ({ params }) => ({
-          result: params.a + params.b,
-        }))(formData)
+        useFuncWithNextJsPlugin(async ({ params, logger }) => {
+          logger.debug('params: %j', params)
+
+          return {
+            result: params.a + params.b,
+          }
+        })(formData)
       ).resolves.toEqual({
         data: { result: '12' },
       })

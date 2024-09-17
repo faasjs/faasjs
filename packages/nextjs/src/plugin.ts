@@ -1,4 +1,5 @@
 import { type Plugin, type InvokeData, type Next, Func } from '@faasjs/func'
+import type { Logger } from '@faasjs/logger'
 
 export class NextJsPlugin implements Plugin {
   readonly type = 'NextJs'
@@ -63,13 +64,14 @@ export function useFuncWithNextJsPlugin<
 >(
   handler: (data: {
     params: TParams
+    logger: Logger
   }) => Promise<TResult>,
   plugins?: Plugin[]
 ) {
-  const func = new Func({
+  const func = new Func<TParams, null, TResult>({
     plugins: [new NextJsPlugin(), ...(plugins || [])],
     handler: handler as any,
   }).export()
 
-  return (params?: TParams) => func.handler(params) as Promise<TResult>
+  return (params?: TParams) => func.handler(params)
 }
