@@ -73,7 +73,7 @@ export class Mongo implements Plugin {
         this.config
       )
 
-    data.logger.debug('[%s] connect: %j', this.name, this.config)
+    data.logger.debug('connect: %j', this.config)
 
     const url = this.config.url
     delete this.config.url

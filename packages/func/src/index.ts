@@ -199,9 +199,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
           const res = await Promise.resolve(
             fn.handler(data, dispatch.bind(null, i + 1))
           )
+          logger.label = label
           logger.timeEnd(label, 'end')
           return res
         } catch (err) {
+          logger.label = label
           logger.timeEnd(label, 'failed')
           logger.error(err)
           return Promise.reject(err)
@@ -228,28 +230,18 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   ): Promise<void> {
     if (!data.logger) data.logger = new Logger('Func')
 
-    const logger = new Logger(data.logger?.label || 'Func')
-
-    if (!logger.label.endsWith('Func')) logger.label = `${logger.label}] [Func`
-
-    logger.debug('onMount')
     if (this.mounted) {
-      logger.warn('mount() has been called, skipped.')
+      data.logger.warn('mount() has been called, skipped.')
       return
     }
 
     if (!data.config) data.config = this.config
 
-    try {
-      logger.time('mount')
-      logger.debug(
-        `Plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
-      )
-      await this.compose('onMount')(data)
-      this.mounted = true
-    } finally {
-      logger.timeEnd('mount', 'mounted')
-    }
+    data.logger.debug(
+      `Plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
+    )
+    await this.compose('onMount')(data)
+    this.mounted = true
   }
 
   /**

@@ -39,7 +39,7 @@ export type KnexConfig = {
   config?: OriginKnex.Config
 }
 
-const Name = 'knex'
+const Name = 'Knex'
 
 declare let global: {
   FaasJS_Knex?: Record<string, Knex>
@@ -74,7 +74,7 @@ export class Knex implements Plugin {
       this.config = global.FaasJS_Knex[this.name].config
       this.adapter = global.FaasJS_Knex[this.name].adapter
       this.query = this.adapter
-      this.logger.debug('[%s] use exists adapter', this.name)
+      this.logger.debug('use exists adapter')
       await next()
       return
     }
@@ -177,8 +177,7 @@ export class Knex implements Plugin {
 
         this.logger.time(`Knex${this.name}${__knexQueryUid}`)
         this.logger.debug(
-          '[%s] [%s] query begin: %s %j',
-          this.name,
+          '[%s] query begin: %s %j',
           __knexQueryUid,
           sql,
           bindings
@@ -189,8 +188,7 @@ export class Knex implements Plugin {
 
         this.logger.timeEnd(
           `Knex${this.name}${__knexQueryUid}`,
-          '[%s] [%s] query done: %s %j %j',
-          this.name,
+          '[%s] query done: %s %j %j',
           __knexQueryUid,
           sql,
           bindings,
@@ -202,15 +200,14 @@ export class Knex implements Plugin {
 
         this.logger.timeEnd(
           `Knex${this.name}${__knexQueryUid}`,
-          '[%s] [%s] query failed: %s %j',
-          this.name,
+          '[%s] query failed: %s %j',
           __knexQueryUid,
           sql,
           bindings
         )
       })
 
-    data.logger.debug('[%s] connected', this.name)
+    data.logger.debug('connected')
 
     global.FaasJS_Knex[this.name] = this
 
@@ -249,38 +246,24 @@ export class Knex implements Plugin {
 
     const trx = await this.adapter.transaction(config)
     const trxId = randomUUID()
-    this.logger.debug('[%s] [%s] transaction begin', this.name, trxId)
+    this.logger.debug('[%s] transaction begin', trxId)
 
     try {
       const result = await scope(trx)
 
       if (trx.isCompleted()) {
-        this.logger.debug(
-          '[%s] [%s] transaction has been finished in scope',
-          this.name,
-          trxId
-        )
+        this.logger.debug('[%s] transaction has been finished in scope', trxId)
         return result
       }
 
-      this.logger.debug('[%s] [%s] transaction begin commit', this.name, trxId)
+      this.logger.debug('[%s] transaction begin commit', trxId)
       await trx.commit()
-      this.logger.debug(
-        '[%s] [%s] transaction committed: %j',
-        this.name,
-        trxId,
-        result
-      )
+      this.logger.debug('[%s] transaction committed: %j', trxId, result)
       trx.emit('commit')
       return result
     } catch (error) {
       await trx.rollback(error)
-      this.logger.error(
-        '[%s] [%s] transaction rollback: %s',
-        this.name,
-        trxId,
-        error
-      )
+      this.logger.error('[%s] transaction rollback: %s', trxId, error)
       trx.emit('rollback', error)
       throw error
     }

@@ -21,7 +21,6 @@ import {
   type UseifyPlugin,
 } from '@faasjs/func'
 import { deepMerge } from '@faasjs/deep_merge'
-import { Logger } from '@faasjs/logger'
 import { Cookie, type CookieOptions } from './cookie'
 import type { Session } from './session'
 import { Validator, type ValidatorConfig } from './validator'
@@ -118,7 +117,7 @@ export class HttpError extends Error {
   }
 }
 
-const Name = 'http'
+const Name = 'Http'
 
 function deepClone(obj: Record<string, any>) {
   if (obj === null || typeof obj !== 'object') return obj
@@ -178,12 +177,7 @@ export class Http<
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
-    const logger = new Logger(data.logger?.label || this.name)
-
-    if (!logger.label.endsWith(this.name))
-      logger.label = `${logger.label}] [${this.name}`
-
-    logger.debug('[onMount] merge config')
+    data.logger.debug('merge config')
 
     const prefix = `SECRET_${this.name.toUpperCase()}_`
 
@@ -210,12 +204,12 @@ export class Http<
         data.config.plugins[this.name || this.type].config
       )
 
-    logger.debug('[onMount] prepare cookie & session')
-    this.cookie = new Cookie(this.config.cookie || {}, logger)
+    data.logger.debug('prepare cookie & session')
+    this.cookie = new Cookie(this.config.cookie || {}, data.logger)
     this.session = this.cookie.session
 
     if (this.validatorOptions) {
-      logger.debug('[onMount] prepare validator')
+      data.logger.debug('prepare validator')
       this.validator = new Validator<TParams, TCookie, TSession>(
         this.validatorOptions
       )
@@ -225,11 +219,6 @@ export class Http<
   }
 
   public async onInvoke(data: InvokeData, next: Next): Promise<void> {
-    const logger = new Logger(data.logger?.label || this.name)
-
-    if (!logger.label?.endsWith(this.name))
-      logger.label = `${logger.label}] [${this.name}`
-
     this.headers = data.event.headers || Object.create(null)
     this.body = data.event.body
     this.params = data.event.queryString || Object.create(null)
@@ -241,19 +230,19 @@ export class Http<
         typeof data.event.body === 'string' &&
         data.event.body.length > 1
       ) {
-        logger.debug('[onInvoke] Parse params from json body')
+        data.logger.debug('Parse params from json body')
         try {
           this.params = Object.keys(this.params).length
             ? Object.assign(this.params, JSON.parse(data.event.body))
             : JSON.parse(data.event.body)
         } catch (error: any) {
-          logger.error(
-            '[onInvoke] Parse params from json body failed: %s',
+          data.logger.error(
+            'Parse params from json body failed: %s',
             error.message
           )
         }
       } else {
-        logger.debug('[onInvoke] Parse params from raw body')
+        data.logger.debug('Parse params from raw body')
         this.params = data.event.body || Object.create(null)
       }
 
@@ -262,15 +251,15 @@ export class Http<
 
       data.event.params = deepClone(this.params)
 
-      logger.debug('[onInvoke] Params: %j', this.params)
+      data.logger.debug('Params: %j', this.params)
     }
 
-    this.cookie.invoke(this.headers.cookie, logger)
+    this.cookie.invoke(this.headers.cookie, data.logger)
 
     if (this.headers.cookie) {
-      logger.debug('[onInvoke] Cookie: %j', this.cookie.content)
-      logger.debug(
-        '[onInvoke] Session: %s %j',
+      data.logger.debug('Cookie: %j', this.cookie.content)
+      data.logger.debug(
+        'Session: %s %j',
         this.session.config.key,
         this.session.content
       )
@@ -278,7 +267,7 @@ export class Http<
 
     try {
       if (this.validator) {
-        logger.debug('[onInvoke] Valid request')
+        data.logger.debug('Valid request')
 
         await this.validator.valid(
           {
@@ -287,7 +276,7 @@ export class Http<
             cookie: this.cookie,
             session: this.session,
           },
-          logger
+          data.logger
         )
       }
       await next()
@@ -305,7 +294,7 @@ export class Http<
         data.response.constructor?.name === 'Error'
       ) {
         // generate error response
-        logger.error(data.response)
+        data.logger.error(data.response)
         this.response.body = JSON.stringify({
           error: { message: data.response.message },
         })
@@ -333,7 +322,7 @@ export class Http<
       {
         'content-type': 'application/json; charset=utf-8',
         'cache-control': 'no-cache, no-store',
-        'x-faasjs-request-id': data.logger.label,
+        'x-faasjs-request-id': data.context.request_id,
       },
       this.cookie.headers(),
       this.response.headers
