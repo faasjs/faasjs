@@ -176,21 +176,33 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       const dispatch = async (i: number): Promise<any> => {
         if (i <= index)
           return Promise.reject(Error('next() called multiple times'))
+
         index = i
         let fn: any = list[i]
+
         if (i === list.length) fn = next
+
         if (!fn) return Promise.resolve()
+
         if (typeof fn.key === 'undefined') fn.key = `UnNamedPlugin#${i}`
-        logger.debug('[%s] [%s] begin', fn.key, key)
-        logger.time(fn.key)
+
+        if (!data.context) data.context = Object.create(null)
+
+        if (!data.context.request_at)
+          data.context.request_at = randomBytes(16).toString('hex')
+
+        const label = `${data.context.request_id}] [${fn.key}] [${key}`
+        logger.label = label
+        logger.debug('begin')
+        logger.time(label)
         try {
           const res = await Promise.resolve(
             fn.handler(data, dispatch.bind(null, i + 1))
           )
-          logger.timeEnd(fn.key, '[%s] [%s] end', fn.key, key)
+          logger.timeEnd(label, 'end')
           return res
         } catch (err) {
-          logger.timeEnd(fn.key, '[%s] [%s] failed', fn.key, key)
+          logger.timeEnd(label, 'failed')
           logger.error(err)
           return Promise.reject(err)
         }
@@ -203,12 +215,17 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   /**
    * First time mount the function
    */
-  public async mount(data: {
-    event: TEvent
-    context: TContext
-    config?: Config
-    logger?: Logger
-  }): Promise<void> {
+  public async mount(
+    data: {
+      event: TEvent
+      context: TContext
+      config?: Config
+      logger?: Logger
+    } = {
+      event: Object.create(null),
+      context: Object.create(null),
+    }
+  ): Promise<void> {
     if (!data.logger) data.logger = new Logger('Func')
 
     const logger = new Logger(data.logger?.label || 'Func')
@@ -275,7 +292,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
           (event as any)?.headers?.['x-faasjs-request-id'] ||
           randomBytes(16).toString('hex')
       if (!context.request_at)
-        context.request_at = Math.round(Date.now() / 1000)
+        context.request_at = randomBytes(16).toString('hex')
       context.callbackWaitsForEmptyEventLoop = false
 
       const logger = new Logger(context.request_id)

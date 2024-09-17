@@ -1,8 +1,8 @@
 import type { InvokeData, Plugin } from '../../index'
 
 export class RunHandler implements Plugin {
-  public readonly type: string = 'handler'
-  public readonly name: string = 'handler'
+  public readonly type: string = 'Handler'
+  public readonly name: string = 'Handler'
 
   public async onInvoke(
     data: InvokeData,
