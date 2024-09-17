@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -38,20 +38,20 @@
     "pirates": "*"
   },
   "peerDependencies": {
-    "@faasjs/func": "3.0.0",
-    "@faasjs/http": "3.0.0",
-    "@faasjs/load": "3.0.0",
-    "@faasjs/logger": "3.0.0",
-    "@faasjs/ts-transform": "3.0.0"
+    "@faasjs/func": "3.1.0",
+    "@faasjs/http": "3.1.0",
+    "@faasjs/load": "3.1.0",
+    "@faasjs/logger": "3.1.0",
+    "@faasjs/ts-transform": "3.1.0"
   },
   "devDependencies": {
     "react": "*",
     "@types/react-dom": "*",
-    "@faasjs/func": "3.0.0",
-    "@faasjs/http": "3.0.0",
-    "@faasjs/load": "3.0.0",
-    "@faasjs/logger": "3.0.0",
-    "@faasjs/ts-transform": "3.0.0"
+    "@faasjs/func": "3.1.0",
+    "@faasjs/http": "3.1.0",
+    "@faasjs/load": "3.1.0",
+    "@faasjs/logger": "3.1.0",
+    "@faasjs/ts-transform": "3.1.0"
   },
   "engines": {
     "node": ">=22.0.0",

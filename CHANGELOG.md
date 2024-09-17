@@ -4,6 +4,15 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.1.0 (2024-09-17)`](https://github.com/faasjs/faasjs/compare/v3.0.0...v3.1.0)
+
+- `@faasjs/react`
+  - [Feature] Add custom compare function `equal` and hooks: `useEqualMemoize`, `useEqualEffect`, `useEqualMemo` and `useEqualCallback`.
+  - [Feature] Using new compare function to improve all components and hooks' performance.
+
+- `@faasjs/knex`
+  - [Feature] Client can be a npm package with `npm:` prefix.
+
 [`v3.0.0 (2024-09-16)`](https://github.com/faasjs/faasjs/compare/v2.9.0...v3.0.0)
 
 - [Break] Remove `@faasjs/deployer`, `@faasjs/tencentcloud`.

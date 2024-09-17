@@ -2,7 +2,7 @@
 
 # Function: useFuncWithNextJsPlugin()
 
-> **useFuncWithNextJsPlugin**\<`TParams`, `TResult`\>(`handler`, `plugins`?): (`params`?) => `Promise`\<`any`\>
+> **useFuncWithNextJsPlugin**\<`TParams`, `TResult`\>(`handler`, `plugins`?): (`params`?) => `Promise`\<`TResult`\>
 
 Generate a function with NextJsPlugin.
 
@@ -28,7 +28,7 @@ Generate a function with NextJsPlugin.
 
 ### Returns
 
-`Promise`\<`any`\>
+`Promise`\<`TResult`\>
 
 ## Example
 

@@ -18,7 +18,7 @@
 
 #### Parameters
 
-• **args**: `FaasDataInjection`\<`FaasData`\<`T`\>\>
+• **args**: `FaasDataInjection`\<`T`\>
 
 #### Returns
 
@@ -34,7 +34,7 @@
 
 #### Parameters
 
-• **args**: `FaasDataInjection`\<`FaasData`\<`T`\>\>
+• **args**: `FaasDataInjection`\<`T`\>
 
 #### Returns
 
@@ -56,7 +56,7 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: `string`
+> `optional` **baseUrl**: \`$\{string\}/\`
 
 #### Inherited from
 
@@ -64,7 +64,7 @@
 
 ### children?
 
-> `optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`any`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
+> `optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 #### Inherited from
 

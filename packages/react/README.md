@@ -18,6 +18,8 @@ React plugin for FaasJS.
     - [equal](functions/equal.md): Compare two values for deep equality.
     - [useEqualMemoize](functions/useEqualMemoize.md): Memoize a value with deep equality.
     - [useEqualEffect](functions/useEqualEffect.md): Run an effect with deep equality.
+    - [useEqualMemo](functions/useEqualMemo.md): Memoize a value with deep equality.
+    - [useEqualCallback](functions/useEqualCallback.md): Memoize a callback with deep equality.
     - [useConstant](functions/useConstant.md): Create a constant value with hooks.
     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
     - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
@@ -44,7 +46,9 @@ npm install @faasjs/react
 - [getClient](functions/getClient.md)
 - [OptionalWrapper](functions/OptionalWrapper.md)
 - [useConstant](functions/useConstant.md)
+- [useEqualCallback](functions/useEqualCallback.md)
 - [useEqualEffect](functions/useEqualEffect.md)
+- [useEqualMemo](functions/useEqualMemo.md)
 - [useEqualMemoize](functions/useEqualMemoize.md)
 - [useFaas](functions/useFaas.md)
 - [withFaasData](functions/withFaasData.md)

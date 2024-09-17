@@ -2,7 +2,7 @@
 
 # Function: withFaasData()
 
-> **withFaasData**\<`TComponent`, `PathOrData`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`any`, keyof `FaasDataInjection`\> & `Record`\<`string`, `any`\>\>
+> **withFaasData**\<`TComponent`, `PathOrData`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`any`, keyof `FaasDataInjection`\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
 
 HOC to wrap a component with FaasDataWrapper and Loading
 
@@ -20,7 +20,7 @@ HOC to wrap a component with FaasDataWrapper and Loading
 
 ## Returns
 
-`FC`\<`Omit`\<`any`, keyof `FaasDataInjection`\> & `Record`\<`string`, `any`\>\>
+`FC`\<`Omit`\<`any`, keyof `FaasDataInjection`\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
 
 ## Example
 
