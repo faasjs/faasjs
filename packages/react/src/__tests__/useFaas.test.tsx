@@ -50,12 +50,12 @@ describe('useFaas', () => {
     render(<Test />)
 
     expect(await screen.findByText('1')).toBeDefined()
-    expect(renderTimes).toBe(3)
+    expect(renderTimes).toBe(2)
 
     await userEvent.click(screen.getByRole('button'))
 
     expect(await screen.findByText('2')).toBeDefined()
-    expect(renderTimes).toBe(6)
+    expect(renderTimes).toBe(5)
   })
 
   it('should work with server action', async () => {
@@ -86,12 +86,12 @@ describe('useFaas', () => {
     render(<Test />)
 
     expect(await screen.findByText('1')).toBeDefined()
-    expect(renderTimes).toBe(3)
+    expect(renderTimes).toBe(2)
 
     await userEvent.click(screen.getByRole('button'))
 
     expect(await screen.findByText('2')).toBeDefined()
-    expect(renderTimes).toBe(6)
+    expect(renderTimes).toBe(5)
   })
 
   it('should work with controlled params', async () => {
@@ -162,5 +162,39 @@ describe('useFaas', () => {
 
     expect(await screen.findByText('3')).toBeDefined()
     expect(times).toBe(1)
+  })
+
+  it('should work with skip and reload', async () => {
+    setMock(async (_, params) => {
+      current++
+      return Promise.resolve(
+        new Response({
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+          data: params,
+        })
+      )
+    })
+
+    function Test() {
+      const { data, reload } = useFaas<any>('test', { v: 1 }, { skip: true })
+
+      return (
+        <>
+          <button type='button' onClick={() => reload()}>
+            Reload
+          </button>
+          <div>data:{data?.v}</div>
+        </>
+      )
+    }
+
+    render(<Test />)
+
+    expect(await screen.findByText('data:')).toBeDefined()
+
+    await userEvent.click(screen.getByRole('button'))
+
+    expect(await screen.findByText('data:1')).toBeDefined()
   })
 })

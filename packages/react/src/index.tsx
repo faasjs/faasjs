@@ -14,6 +14,9 @@
  * - Compatible with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
  * - Additional React functions:
  *   - Utils:
+ *     - [equal](functions/equal.md): Compare two values for deep equality.
+ *     - [useEqualMemoize](functions/useEqualMemoize.md): Memoize a value with deep equality.
+ *     - [useEqualEffect](functions/useEqualEffect.md): Run an effect with deep equality.
  *     - [useConstant](functions/useConstant.md): Create a constant value with hooks.
  *     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
  *     - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
@@ -46,8 +49,9 @@ export type {
   ResponseError,
 } from '@faasjs/browser'
 
-export { useConstant } from './constant'
-export { createSplittingContext } from './splittingContext'
+export * from './constant'
+export * from './equal'
+export * from './splittingContext'
 
 export * from './client'
 export * from './faas'

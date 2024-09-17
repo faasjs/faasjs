@@ -1,7 +1,7 @@
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import { getClient } from './client'
 import { cloneElement, useEffect, useMemo, useState } from 'react'
-import type { Response } from '@faasjs/browser'
+import type { BaseUrl, Response } from '@faasjs/browser'
 
 /**
  * Injects FaasData props.
@@ -14,6 +14,11 @@ export type FaasDataInjection<PathOrData extends FaasAction = any> = {
   data: FaasData<PathOrData>
   error: any
   promise: Promise<Response<FaasData<PathOrData>>>
+  /**
+   * Reloads data with new or existing parameters.
+   *
+   * **Note**: It will sets skip to false before loading data.
+   */
   reload(params?: Record<string, any>): Promise<Response<PathOrData>>
   setData: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -34,24 +39,20 @@ export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
   data?: FaasData<PathOrData>
   /** use custom setData, should work with data */
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
-  baseUrl?: string
+  baseUrl?: BaseUrl
 }
 
-export function FaasDataWrapper<PathOrData extends FaasAction>({
-  action,
-  params,
-  fallback,
-  render,
-  children,
-  onDataChange,
-  data,
-  setData,
-  baseUrl,
-}: FaasDataWrapperProps<PathOrData>): JSX.Element {
-  const request = getClient(baseUrl).useFaas<PathOrData>(action, params, {
-    data,
-    setData,
-  })
+export function FaasDataWrapper<PathOrData extends FaasAction>(
+  props: FaasDataWrapperProps<PathOrData>
+): JSX.Element {
+  const request = getClient(props.baseUrl).useFaas<PathOrData>(
+    props.action,
+    props.params,
+    {
+      data: props.data,
+      setData: props.setData,
+    }
+  )
   const [loaded, setLoaded] = useState<boolean>(false)
 
   useEffect(() => {
@@ -59,16 +60,16 @@ export function FaasDataWrapper<PathOrData extends FaasAction>({
   }, [request.loading])
 
   useEffect(() => {
-    if (onDataChange) onDataChange(request)
+    if (props.onDataChange) props.onDataChange(request)
   }, [JSON.stringify(request.data)])
 
   const child = useMemo(() => {
     if (loaded) {
-      if (children) return cloneElement(children, request)
-      if (render) return render(request) as JSX.Element
+      if (props.children) return cloneElement(props.children, request)
+      if (props.render) return props.render(request) as JSX.Element
     }
 
-    return fallback || null
+    return props.fallback || null
   }, [
     loaded,
     request.action,

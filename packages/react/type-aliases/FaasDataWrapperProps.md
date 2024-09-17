@@ -16,7 +16,7 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: `string`
+> `optional` **baseUrl**: `BaseUrl`
 
 ### children?
 

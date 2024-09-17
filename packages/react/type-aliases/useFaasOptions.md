@@ -12,7 +12,7 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: `string`
+> `optional` **baseUrl**: `BaseUrl`
 
 ### data?
 
@@ -22,7 +22,7 @@
 
 > `optional` **debounce**: `number`
 
-send the last request after milliseconds
+Send the last request after milliseconds
 
 ### params?
 
@@ -36,4 +36,6 @@ send the last request after milliseconds
 
 > `optional` **skip**: `boolean` \| (`params`) => `boolean`
 
-if skip is true, will not send request
+If skip is true, the request will not be sent.
+
+However, you can still use reload to send the request.

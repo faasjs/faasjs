@@ -1,18 +1,23 @@
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
-import { useState, useEffect, useCallback } from 'react'
-import type { Response } from '@faasjs/browser'
+import { useState, useCallback, useRef } from 'react'
+import type { BaseUrl, Response } from '@faasjs/browser'
 import { getClient } from './client'
 import type { FaasDataInjection } from './FaasDataWrapper'
+import { useEqualEffect, equal } from './equal'
 
 export type useFaasOptions<PathOrData extends FaasAction> = {
   params?: FaasParams<PathOrData>
   data?: FaasData<PathOrData>
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
-  /** if skip is true, will not send request */
+  /**
+   * If skip is true, the request will not be sent.
+   *
+   * However, you can still use reload to send the request.
+   */
   skip?: boolean | ((params: FaasParams<PathOrData>) => boolean)
-  /** send the last request after milliseconds */
+  /** Send the last request after milliseconds */
   debounce?: number
-  baseUrl?: string
+  baseUrl?: BaseUrl
 }
 
 /**
@@ -33,15 +38,11 @@ export type useFaasOptions<PathOrData extends FaasAction> = {
 export function useFaas<PathOrData extends FaasAction>(
   action: PathOrData | string,
   defaultParams: FaasParams<PathOrData>,
-  options?: useFaasOptions<PathOrData>
+  options: useFaasOptions<PathOrData> = {}
 ): FaasDataInjection<PathOrData> {
-  if (!options) options = {}
-
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<FaasData<PathOrData>>()
   const [error, setError] = useState<any>()
-  const [promise, setPromise] =
-    useState<Promise<Response<FaasData<PathOrData>>>>()
   const [params, setParams] = useState(defaultParams)
   const [reloadTimes, setReloadTimes] = useState(0)
   const [fails, setFails] = useState(0)
@@ -50,24 +51,22 @@ export function useFaas<PathOrData extends FaasAction>(
       ? options.skip(defaultParams)
       : options.skip
   )
+  const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>>>()
+  const controllerRef = useRef<AbortController | null>(null)
 
-  const client = getClient(options.baseUrl)
-
-  useEffect(() => {
+  useEqualEffect(() => {
     setSkip(
       typeof options.skip === 'function' ? options.skip(params) : options.skip
     )
-  }, [
-    typeof options.skip === 'function' ? JSON.stringify(params) : options.skip,
-  ])
+  }, [typeof options.skip === 'function' ? params : options.skip])
 
-  useEffect(() => {
-    if (JSON.stringify(defaultParams) !== JSON.stringify(params)) {
+  useEqualEffect(() => {
+    if (!equal(defaultParams, params)) {
       setParams(defaultParams)
     }
-  }, [JSON.stringify(defaultParams)])
+  }, [defaultParams])
 
-  useEffect(() => {
+  useEqualEffect(() => {
     if (!action || skip) {
       setLoading(false)
       return
@@ -75,19 +74,21 @@ export function useFaas<PathOrData extends FaasAction>(
 
     setLoading(true)
 
-    const controller = new AbortController()
+    controllerRef.current = new AbortController()
+
+    const client = getClient(options.baseUrl)
 
     function send() {
       const request = client.faas<PathOrData>(
         action,
         options.params || params,
-        { signal: controller.signal }
+        { signal: controllerRef.current.signal }
       )
-      setPromise(request)
+      promiseRef.current = request
 
       request
         .then(r => {
-          options?.setData ? options.setData(r.data) : setData(r.data)
+          options.setData ? options.setData(r.data) : setData(r.data)
           setLoading(false)
         })
         .catch(async e => {
@@ -119,12 +120,12 @@ export function useFaas<PathOrData extends FaasAction>(
         })
     }
 
-    if (options?.debounce) {
+    if (options.debounce) {
       const timeout = setTimeout(send, options.debounce)
 
       return () => {
         clearTimeout(timeout)
-        controller.abort()
+        controllerRef.current?.abort()
         setLoading(false)
       }
     }
@@ -132,34 +133,38 @@ export function useFaas<PathOrData extends FaasAction>(
     send()
 
     return () => {
-      controller.abort()
+      controllerRef.current?.abort()
       setLoading(false)
     }
-  }, [action, JSON.stringify(options.params || params), reloadTimes, skip])
+  }, [action, options.params || params, reloadTimes, skip])
 
   const reload = useCallback(
     (params?: FaasParams<PathOrData>) => {
+      if (skip) setSkip(false)
       if (params) setParams(params)
 
       setReloadTimes(prev => prev + 1)
 
-      return promise
+      return promiseRef.current
     },
-    [params]
+    [params, skip]
   )
 
   return {
     action,
     params,
     loading,
-    data: options?.data || data,
+    data: options.data || data,
     reloadTimes,
     error,
-    promise,
+    promise: promiseRef.current,
     reload,
-    setData: options?.setData || setData,
+    setData: options.setData || setData,
     setLoading,
-    setPromise,
+    setPromise: newPromise =>
+      typeof newPromise === 'function'
+        ? newPromise(promiseRef.current)
+        : (promiseRef.current = newPromise),
     setError,
   }
 }

@@ -58,6 +58,10 @@ Injects FaasData props.
 
 ### reload()
 
+Reloads data with new or existing parameters.
+
+**Note**: It will sets skip to false before loading data.
+
 #### Parameters
 
 • **params?**: `Record`\<`string`, `any`\>

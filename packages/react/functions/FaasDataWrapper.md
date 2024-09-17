@@ -2,7 +2,7 @@
 
 # Function: FaasDataWrapper()
 
-> **FaasDataWrapper**\<`PathOrData`\>(`__namedParameters`): `JSX.Element`
+> **FaasDataWrapper**\<`PathOrData`\>(`props`): `JSX.Element`
 
 ## Type Parameters
 
@@ -10,7 +10,7 @@
 
 ## Parameters
 
-• **\_\_namedParameters**: [`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
+• **props**: [`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
 
 ## Returns
 

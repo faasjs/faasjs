@@ -15,6 +15,9 @@ React plugin for FaasJS.
 - Compatible with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
 - Additional React functions:
   - Utils:
+    - [equal](functions/equal.md): Compare two values for deep equality.
+    - [useEqualMemoize](functions/useEqualMemoize.md): Memoize a value with deep equality.
+    - [useEqualEffect](functions/useEqualEffect.md): Run an effect with deep equality.
     - [useConstant](functions/useConstant.md): Create a constant value with hooks.
     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
     - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
@@ -34,12 +37,15 @@ npm install @faasjs/react
 ## Functions
 
 - [createSplittingContext](functions/createSplittingContext.md)
+- [equal](functions/equal.md)
 - [faas](functions/faas.md)
 - [FaasDataWrapper](functions/FaasDataWrapper.md)
 - [FaasReactClient](functions/FaasReactClient.md)
 - [getClient](functions/getClient.md)
 - [OptionalWrapper](functions/OptionalWrapper.md)
 - [useConstant](functions/useConstant.md)
+- [useEqualEffect](functions/useEqualEffect.md)
+- [useEqualMemoize](functions/useEqualMemoize.md)
 - [useFaas](functions/useFaas.md)
 - [withFaasData](functions/withFaasData.md)
 
