@@ -142,15 +142,11 @@ export class Knex implements Plugin {
               break
             }
 
-            console.log(client)
-
             throw Error(`Invalid client: ${this.config.client}`)
           }
         }
         break
     }
-
-    console.log(this.config)
 
     this.adapter = knex(this.config)
 
