@@ -80,11 +80,10 @@ export function equal(a: any, b: any): boolean {
 export function useEqualMemoize(value: any) {
   const ref = useRef<any>(value)
   const signalRef = useRef(0)
-  console.log(value, ref.current)
+
   if (!equal(value, ref.current)) {
     ref.current = value
     signalRef.current += 1
-    console.log('signalRef.current', signalRef.current)
   }
 
   return useMemo(() => ref.current, [signalRef.current])
