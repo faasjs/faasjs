@@ -178,7 +178,7 @@ set status code
 
 ### type
 
-> `readonly` **type**: `string` = `Name`
+> `readonly` **type**: `"http"` = `'http'`
 
 #### Implementation of
 

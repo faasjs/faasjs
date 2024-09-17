@@ -80,7 +80,7 @@
 
 ### name
 
-> **name**: `string`
+> `readonly` **name**: `string` = `'Mongo'`
 
 #### Implementation of
 
@@ -88,7 +88,7 @@
 
 ### type
 
-> **type**: `string` = `'mongo'`
+> `readonly` **type**: `"mongo"` = `'mongo'`
 
 #### Implementation of
 

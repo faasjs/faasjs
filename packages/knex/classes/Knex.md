@@ -146,7 +146,7 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 ### type
 
-> `readonly` **type**: `string` = `Name`
+> `readonly` **type**: `"knex"` = `'knex'`
 
 #### Implementation of
 

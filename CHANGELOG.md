@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v3.1.0 (2024-09-17)`](https://github.com/faasjs/faasjs/compare/v3.0.0...v3.1.0)
+[`v3.1.1 (2024-09-17)`](https://github.com/faasjs/faasjs/compare/v3.0.0...v3.1.1)
 
 - `@faasjs/react`
   - [Feature] Add custom compare function `equal` and hooks: `useEqualMemoize`, `useEqualEffect`, `useEqualMemo` and `useEqualCallback`.
@@ -12,6 +12,12 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/knex`
   - [Feature] Client can be a npm package with `npm:` prefix.
+
+- `@faasjs/func`
+  - [Feature] Improve logger.
+
+- `@faasjs/nextjs`
+  - [Feature] Export logger to context.
 
 [`v3.0.0 (2024-09-16)`](https://github.com/faasjs/faasjs/compare/v2.9.0...v3.0.0)
 

@@ -72,7 +72,7 @@ First time mount the function
 
 #### Parameters
 
-• **data**
+• **data** = `...`
 
 • **data.config?**: [`Config`](../type-aliases/Config.md)
 
