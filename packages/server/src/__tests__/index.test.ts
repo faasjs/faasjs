@@ -53,77 +53,78 @@ describe('server', () => {
     })
   })
 
-  // test('tsx', async () => {
-  //   await expect(
-  //     request(`http://127.0.0.1:${port}/tsx`)
-  //   ).resolves.toMatchObject({
-  //     statusCode: 200,
-  //     body: { data: '<h1>Hi</h1>' },
-  //   })
-  // })
+  test('tsx', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/tsx`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      headers: { 'content-type': 'text/html; charset=utf-8' },
+      body: '<h1>Hi</h1>',
+    })
+  })
 
-  // test('a', async () => {
-  //   await expect(request(`http://127.0.0.1:${port}/a`)).resolves.toMatchObject({
-  //     statusCode: 200,
-  //     body: { data: 'a' },
-  //   })
-  // })
+  test('a', async () => {
+    await expect(request(`http://127.0.0.1:${port}/a`)).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: 'a' },
+    })
+  })
 
-  // test('a/default', async () => {
-  //   await expect(
-  //     request(`http://127.0.0.1:${port}/a/a`)
-  //   ).resolves.toMatchObject({
-  //     statusCode: 200,
-  //     body: { data: 'default' },
-  //   })
-  // })
+  test('a/default', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/a/a`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: 'default' },
+    })
+  })
 
-  // test('deep default', async () => {
-  //   await expect(
-  //     request(`http://127.0.0.1:${port}/a/a/a/a/a`)
-  //   ).resolves.toMatchObject({
-  //     statusCode: 200,
-  //     body: { data: 'default' },
-  //   })
-  // })
+  test('deep default', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/a/a/a/a/a`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: 'default' },
+    })
+  })
 
-  // test('query', async () => {
-  //   await expect(
-  //     request(`http://127.0.0.1:${port}/query?key=value`)
-  //   ).resolves.toMatchObject({
-  //     statusCode: 200,
-  //     body: { data: { key: 'value' } },
-  //   })
-  // })
+  test('query', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/query?key=value`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      body: { data: { key: 'value' } },
+    })
+  })
 
-  // test('500', async () => {
-  //   await expect(
-  //     request(`http://127.0.0.1:${port}/error`)
-  //   ).rejects.toMatchObject({
-  //     statusCode: 500,
-  //     body: { error: { message: 'error' } },
-  //   })
-  // })
+  test('500', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/error`)
+    ).rejects.toMatchObject({
+      statusCode: 500,
+      body: { error: { message: 'error' } },
+    })
+  })
 
-  // test('OPTIONS', async () => {
-  //   await expect(
-  //     request(`http://127.0.0.1:${port}`, {
-  //       method: 'OPTIONS',
-  //       headers: {
-  //         'X-X': 'test',
-  //         'Content-Type': 'text/html',
-  //         'access-control-request-headers': 'x-y',
-  //       },
-  //     })
-  //   ).resolves.toMatchObject({
-  //     statusCode: 204,
-  //     headers: {
-  //       'access-control-allow-credentials': 'true',
-  //       'access-control-allow-headers':
-  //         'x-x, accept-encoding, x-y, content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total',
-  //       'access-control-allow-methods': 'OPTIONS, POST',
-  //       'access-control-allow-origin': '*',
-  //     },
-  //   })
-  // })
+  test('OPTIONS', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}`, {
+        method: 'OPTIONS',
+        headers: {
+          'X-X': 'test',
+          'Content-Type': 'text/html',
+          'access-control-request-headers': 'x-y',
+        },
+      })
+    ).resolves.toMatchObject({
+      statusCode: 204,
+      headers: {
+        'access-control-allow-credentials': 'true',
+        'access-control-allow-headers':
+          'x-x, accept-encoding, x-y, content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total',
+        'access-control-allow-methods': 'OPTIONS, POST',
+        'access-control-allow-origin': '*',
+      },
+    })
+  })
 })
