@@ -35,4 +35,4 @@ jobs:
       - name: Run Simple Tests
         run: cd examples/simple && node --run test
       - name: Run Auth Tests
-        run: cd examples/auth && node --run test
+        run: cd examples/auth && jest .
