@@ -1,10 +1,7 @@
 defaults:
-development:
-testing:
   plugins:
     knex:
       config:
         client: sqlite3
         connection:
           filename: 'testing.sqlite3'
-production:

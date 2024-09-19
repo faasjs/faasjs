@@ -94,9 +94,9 @@ export class Knex implements Plugin {
           } else (this.config as any)[key] = value
       }
 
-    if (data.config.plugins?.[this.name]?.config)
+    if (data.config.plugins?.[this.name || this.type]?.config)
       this.config = deepMerge(
-        data.config.plugins[this.name].config,
+        data.config.plugins[this.name || this.type].config,
         this.config
       )
 
@@ -271,6 +271,8 @@ export class Knex implements Plugin {
   }
 
   public async quit(): Promise<void> {
+    if (!global.FaasJS_Knex[this.name]) return
+
     try {
       await global.FaasJS_Knex[this.name].adapter.destroy()
       delete global.FaasJS_Knex[this.name]

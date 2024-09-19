@@ -3,9 +3,10 @@ import { existsSync, readFileSync } from 'node:fs'
 import { sep, dirname, join } from 'node:path'
 import { load } from 'js-yaml'
 import type { Config as FuncConfig } from '@faasjs/func'
+import { Logger } from '@faasjs/logger'
 
 /**
- * 配置类
+ * Load configuration from faas.yaml
  */
 export class Config {
   [key: string]: any
@@ -15,15 +16,9 @@ export class Config {
     [key: string]: FuncConfig
     defaults: FuncConfig
   }
-
   public readonly defaults: FuncConfig
+  private readonly logger = new Logger('Config')
 
-  /**
-   * 创建配置类，并自动读取配置内容
-   *
-   * @param root {string} 根目录
-   * @param filename {filename} 目标文件，用于读取目录层级
-   */
   constructor(root: string, filename: string) {
     this.root = root
 
@@ -31,11 +26,15 @@ export class Config {
 
     this.filename = filename
 
+    this.logger.debug('Load config from %s in %s', filename, root)
+
     const configs: { [key: string]: FuncConfig }[] = []
 
     const paths = [this.root, '.'].concat(
       dirname(filename.replace(root, '')).split(sep)
     )
+
+    this.logger.debug('Paths: %j', paths)
 
     paths.reduce((base: string, path: string) => {
       const root = join(base, path)
@@ -53,11 +52,15 @@ export class Config {
 
     this.origin = deepMerge(...configs)
 
+    this.logger.debug('Origin: %j', this.origin)
+
     this.defaults = deepMerge(this.origin.defaults || {})
+
+    this.logger.debug('Defaults: %j', this.defaults)
 
     for (const key in this.origin) {
       if (key !== 'defaults')
-        this[key] = deepMerge(this.origin.defaults, this.origin[key])
+        this[key] = deepMerge(this.defaults, this.origin[key])
 
       const data = this[key]
 
@@ -68,17 +71,19 @@ export class Config {
         }
     }
   }
+
+  public get(key: string): Config {
+    return this[key] || this.defaults || Object.create(null)
+  }
 }
 
 /**
- * 加载配置
- * @param root {string} 根目录
- * @param filename {filename} 目标文件，用于读取目录层级
+ * Load configuration from faas.yaml
  */
 export function loadConfig(
   root: string,
   filename: string,
   staging: string
 ): Config {
-  return new Config(root, filename)[staging] || Object.create(null)
+  return new Config(root, filename).get(staging)
 }

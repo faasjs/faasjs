@@ -67,9 +67,9 @@ export class Mongo implements Plugin {
           (this.config as any)[key] = value
       }
 
-    if (data.config.plugins?.[this.name])
+    if (data.config.plugins?.[this.name || this.type])
       this.config = deepMerge(
-        data.config.plugins[this.name].config,
+        data.config.plugins[this.name || this.type].config,
         this.config
       )
 

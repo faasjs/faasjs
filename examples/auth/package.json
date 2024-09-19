@@ -3,12 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "faas server",
     "test": "jest --silent --maxWorkers=1"
   },
   "dependencies": {
-    "faasjs": "beta",
-    "@faasjs/knex": "beta",
-    "sqlite3": "*"
+    "faasjs": "file:../../packages/faasjs",
+    "@faasjs/knex": "file:../../packages/knex",
+    "better-sqlite3": "*"
+  },
+  "devDependencies": {
+    "@faasjs/test": "file:../../packages/test",
+    "@faasjs/jest": "file:../../packages/jest"
   },
   "jest": {
     "verbose": false,
@@ -19,6 +24,6 @@
     "collectCoverageFrom": ["**/*.ts"],
     "testRegex": "/*\\.test\\.ts$",
     "modulePathIgnorePatterns": ["/lib/", "/tmp/"],
-    "setupFilesAfterEnv": ["@faasjs/test/lib/jest.setup.js", "./jest.setup.ts"]
+    "setupFilesAfterEnv": ["@faasjs/jest/jest.setup.js", "./jest.setup.ts"]
   }
 }

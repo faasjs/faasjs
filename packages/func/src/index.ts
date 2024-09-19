@@ -121,11 +121,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   public plugins: Plugin[]
   public handler?: Handler<TEvent, TContext, TResult>
   public config: Config
-  public mounted: boolean
+  public mounted = false
   public filename?: string
   private cachedFunctions: {
     [cycleKey in LifeCycleKey]: CachedFunction[]
-  }
+  } = Object.create(null)
 
   /**
    * Create a cloud function
@@ -140,9 +140,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     this.config = {
       plugins: Object.create(null),
     }
-
-    this.mounted = false
-    this.cachedFunctions = Object.create(null)
 
     try {
       this.filename = new Error().stack
@@ -171,7 +168,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
     return async (data: any, next?: () => void): Promise<any> => {
       let index = -1
-      const logger = data?.logger || new Logger()
+      if (!data.logger) data.logger = new Logger()
 
       const dispatch = async (i: number): Promise<any> => {
         if (i <= index)
@@ -192,20 +189,20 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
           data.context.request_at = randomBytes(16).toString('hex')
 
         const label = `${data.context.request_id}] [${fn.key}] [${key}`
-        logger.label = label
-        logger.debug('begin')
-        logger.time(label)
+        data.logger.label = label
+        data.logger.debug('begin')
+        data.logger.time(label)
         try {
           const res = await Promise.resolve(
             fn.handler(data, dispatch.bind(null, i + 1))
           )
-          logger.label = label
-          logger.timeEnd(label, 'end')
+          data.logger.label = label
+          data.logger.timeEnd(label, 'end')
           return res
         } catch (err) {
-          logger.label = label
-          logger.timeEnd(label, 'failed')
-          logger.error(err)
+          data.logger.label = label
+          data.logger.timeEnd(label, 'failed')
+          data.logger.error(err)
           return Promise.reject(err)
         }
       }
@@ -251,13 +248,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   public async invoke(
     data: InvokeData<TEvent, TContext, TResult>
   ): Promise<void> {
-    if (!this.mounted)
-      await this.mount({
-        event: data.event,
-        context: data.context,
-        config: data.config,
-        logger: data.logger,
-      })
+    if (!this.mounted) await this.mount(data)
 
     try {
       await this.compose('onInvoke')(data)

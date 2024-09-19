@@ -66,6 +66,7 @@ export class FuncWarper {
       }
 
       this.func.config = loadConfig(process.cwd(), this.file, this.staging)
+      this.logger.debug('config: %j', this.func.config)
       this.config = this.func.config
     } else {
       this.func = initBy
@@ -93,11 +94,7 @@ export class FuncWarper {
   public async mount(
     handler?: (func: FuncWarper) => Promise<void> | void
   ): Promise<void> {
-    if (!this.func.mounted)
-      await this.func.mount({
-        event: {},
-        context: {},
-      })
+    if (!this.func.mounted) await this.func.mount()
 
     if (handler) await handler(this)
   }
