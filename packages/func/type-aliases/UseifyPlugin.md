@@ -12,9 +12,7 @@
 
 #### Parameters
 
-• **data?**
-
-• **data.config?**: [`Config`](Config.md)
+• **data?**: [`MountData`](MountData.md)
 
 #### Returns
 
