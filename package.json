@@ -35,6 +35,7 @@
     "testPathIgnorePatterns": [
       "/lib/",
       "/tmp/",
+      "/examples/",
       "/benchmarks/",
       "/packages/deployer/"
     ],
