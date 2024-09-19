@@ -8,7 +8,7 @@ global.beforeEach(async () => {
     config: {
       client: 'sqlite3',
       connection: {
-        filename: 'testing.splite3',
+        filename: ':memory:',
       },
     },
   })

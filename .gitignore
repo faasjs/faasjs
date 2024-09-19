@@ -22,4 +22,4 @@ output.txt
 *.tmp
 bun.lockb
 junit.xml
-*.sqlite3
+*.splite3

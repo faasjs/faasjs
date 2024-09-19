@@ -9,7 +9,7 @@
   "dependencies": {
     "faasjs": "file:../../packages/faasjs",
     "@faasjs/knex": "file:../../packages/knex",
-    "better-sqlite3": "^11.3.0"
+    "better-sqlite3": "*"
   },
   "devDependencies": {
     "@faasjs/test": "file:../../packages/test",
