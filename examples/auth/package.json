@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "faas server",
-    "test": "jest --silent --maxWorkers=1"
+    "test": "jest --maxWorkers=1"
   },
   "dependencies": {
     "faasjs": "file:../../packages/faasjs",
