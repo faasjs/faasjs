@@ -309,28 +309,26 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 let plugins: Plugin[] = []
 
 export type UseifyPlugin<T> = T & {
-  mount: (data?: { config?: Config }) => Promise<T>
+  mount: (data?: MountData) => Promise<T>
 }
 
 export function usePlugin<T extends Plugin>(
   plugin: T & {
-    mount?: (data?: { config?: Config }) => Promise<T>
+    mount?: (data?: MountData) => Promise<T>
   }
 ) {
   if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
 
   if (!plugin.mount)
-    plugin.mount = async (data?: { config?: Config }) => {
+    plugin.mount = async (data?: MountData) => {
+      if (!data) data = Object.create(null)
+      if (!data.config) data.config = Object.create(null)
+      if (!data.context) data.context = Object.create(null)
+      if (!data.event) data.event = Object.create(null)
+      if (!data.logger) data.logger = new Logger(plugin.name)
+
       if (plugin.onMount)
-        await plugin.onMount(
-          {
-            config: data?.config || Object.create(null),
-            event: Object.create(null),
-            context: Object.create(null),
-            logger: new Logger(plugin.name),
-          },
-          async () => Promise.resolve()
-        )
+        await plugin.onMount(data, async () => Promise.resolve())
 
       return plugin
     }

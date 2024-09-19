@@ -1,9 +1,0 @@
-defaults:
-development:
-  plugins:
-    sql:
-      adapter: sqlite
-      config:
-        filename: development.sqlite3
-testing:
-production:

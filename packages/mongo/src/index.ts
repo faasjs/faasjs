@@ -33,7 +33,7 @@ export interface MongoConfig extends MongoClientOptions {
 
 export class Mongo implements Plugin {
   public readonly type = 'mongo'
-  public readonly name: string = 'Mongo'
+  public readonly name: string = 'mongo'
   public config: MongoConfig
   public client: MongoClient
   public db: Db

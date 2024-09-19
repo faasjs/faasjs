@@ -5,7 +5,6 @@ describe('change-password', function () {
   const func = new FuncWarper(require.resolve('../change-password.func'))
 
   beforeEach(async function () {
-    await func.mount()
     await useKnex().raw(
       "INSERT INTO users (id,username,password) VALUES (1,'hello','world')"
     )

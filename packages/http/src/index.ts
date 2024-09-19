@@ -117,7 +117,7 @@ export class HttpError extends Error {
   }
 }
 
-const Name = 'Http'
+const Name = 'http'
 
 function deepClone(obj: Record<string, any>) {
   if (obj === null || typeof obj !== 'object') return obj

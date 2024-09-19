@@ -9,6 +9,10 @@
   "dependencies": {
     "faasjs": "file:../../packages/faasjs"
   },
+  "devDependencies": {
+    "@faasjs/jest": "file:../../packages/jest",
+    "@faasjs/test": "file:../../packages/test"
+  },
   "jest": {
     "verbose": false,
     "transform": {

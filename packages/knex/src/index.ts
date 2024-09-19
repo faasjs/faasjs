@@ -39,7 +39,7 @@ export type KnexConfig = {
   config?: OriginKnex.Config
 }
 
-const Name = 'Knex'
+const Name = 'knex'
 
 declare let global: {
   FaasJS_Knex?: Record<string, Knex>

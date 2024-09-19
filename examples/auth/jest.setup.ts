@@ -1,9 +1,9 @@
-import { Knex } from '@faasjs/knex'
+import { useKnex } from '@faasjs/knex'
 
 let knex
 
 global.beforeEach(async () => {
-  knex = new Knex({
+  knex = useKnex({
     name: 'knex',
     config: {
       client: 'sqlite3',
@@ -13,14 +13,7 @@ global.beforeEach(async () => {
     },
   })
 
-  await knex.onMount(
-    {
-      config: {},
-      event: {},
-      context: {},
-    },
-    async () => {}
-  )
+  await knex.mount()
 
   await knex.raw(
     'CREATE TABLE IF NOT EXISTS "users" ("id" integer,"username" varchar UNIQUE,"password" varchar, PRIMARY KEY (id));'
