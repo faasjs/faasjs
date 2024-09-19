@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v3.1.1 (2024-09-17)`](https://github.com/faasjs/faasjs/compare/v3.0.0...v3.1.1)
+[`v3.1.2 (2024-09-17)`](https://github.com/faasjs/faasjs/compare/v3.0.0...v3.1.2)
 
 - `@faasjs/react`
   - [Feature] Add custom compare function `equal` and hooks: `useEqualMemoize`, `useEqualEffect`, `useEqualMemo` and `useEqualCallback`.

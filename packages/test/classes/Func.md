@@ -102,7 +102,7 @@ First time mount the function
 
 ### mounted
 
-> **mounted**: `boolean`
+> **mounted**: `boolean` = `false`
 
 ### plugins
 
