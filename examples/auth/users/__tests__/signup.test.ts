@@ -31,7 +31,7 @@ describe('signup', function () {
 
     expect(res.statusCode).toEqual(500)
     expect(res.body).toEqual(
-      '{"error":{"message":"INSERT INTO users (username,password) VALUES (\'hello\', \'world\') - SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username"}}'
+      '{"error":{"message":"INSERT INTO users (username,password) VALUES (\'hello\', \'world\') - UNIQUE constraint failed: users.username"}}'
     )
   })
 })

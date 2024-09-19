@@ -7,13 +7,13 @@
     "test": "jest --silent --maxWorkers=1"
   },
   "dependencies": {
-    "faasjs": "^3.1.3",
-    "@faasjs/knex": "^3.1.3",
+    "faasjs": "file:../../packages/faasjs",
+    "@faasjs/knex": "file:../../packages/knex",
     "better-sqlite3": "^11.3.0"
   },
   "devDependencies": {
-    "@faasjs/test": "^3.1.3",
-    "@faasjs/jest": "^3.1.3"
+    "@faasjs/test": "file:../../packages/test",
+    "@faasjs/jest": "file:../../packages/jest"
   },
   "jest": {
     "verbose": false,
