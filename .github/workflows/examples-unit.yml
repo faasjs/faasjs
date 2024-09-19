@@ -33,6 +33,6 @@ jobs:
       - name: Prepack
         run: node --run build
       - name: Run Simple Tests
-        run: cd exmaples/simple && node --run test
+        run: cd examples/simple && node --run test
       - name: Run Auth Tests
-        run: cd exmaples/auth && node --run test
+        run: cd examples/auth && node --run test
