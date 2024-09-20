@@ -1,11 +1,26 @@
-FROM oven/bun:alpine
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
-RUN apk add --no-cache git bash zsh openssh rsync zip python3 make g++ brotli curl nodejs-current npm
+ARG DEBIAN_FRONTEND=noninteractive
 
-RUN sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+RUN apt-get update -y \
+  && apt-get upgrade -y \
+  && apt-get install -y --no-install-recommends sudo zsh rsync zip python3 make g++ wget curl gnupg \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/* \
+  && echo "node ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/node \
+  && chmod 0440 /etc/sudoers.d/node
+
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+
+RUN apt-get install -y nodejs=22.* \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /home
+
+RUN rm -rf /root/.oh-my-zsh && sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 
 RUN sed -i "s/ZSH_THEME=\"codespaces\"/ZSH_THEME=\"robbyrussell\"/" /root/.zshrc
-RUN sed -i -e "s/bin\/ash/bin\/zsh/" /etc/passwd
 
 RUN git clone --depth=1 https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 RUN git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -18,3 +33,7 @@ RUN sed -i "s/plugins=(git)/plugins=(git zsh-completions zsh-autosuggestions zsh
 
 RUN corepack enable
 RUN npm install -g npm@latest
+
+RUN curl -fsSL https://bun.sh/install | bash
+
+RUN chsh "$(id -un)" --shell "/usr/bin/zsh"
