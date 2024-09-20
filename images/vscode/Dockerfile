@@ -36,4 +36,7 @@ RUN npm install -g npm@latest
 
 RUN curl -fsSL https://bun.sh/install | bash
 
+RUN echo 'export BUN_INSTALL="$HOME/.bun"' >> /root/.zshrc
+RUN echo 'export PATH=$BUN_INSTALL/bin:$PATH' >> /root/.zshrc
+
 RUN chsh "$(id -un)" --shell "/usr/bin/zsh"
