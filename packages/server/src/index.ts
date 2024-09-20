@@ -240,12 +240,18 @@ export class Server {
               path: url.pathname,
               queryString: Object.fromEntries(new URLSearchParams(url.search)),
               body,
+              raw: {
+                request: req,
+                response: res,
+              },
             },
             { request_id: requestId }
           )
         } catch (error) {
           data = error
         }
+
+        if (res.writableEnded) return resolve()
 
         let resBody: string | Buffer
         if (
