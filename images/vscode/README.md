@@ -6,7 +6,6 @@
 
 ## Features
 
-- Base on [alpine](https://www.alpinelinux.org/) with tiny image size. (Also support debian with `faasjs/vscode:debian`)
 - Includes latest [node](https://nodejs.org/), [npm](https://www.npmjs.com/) and [bun](https://bun.sh/).
 - Includes [ohmyzsh](https://ohmyz.sh/) with below plugins:
   - git
@@ -26,11 +25,9 @@
 1. Create a folder `.devcontainer` in your project root.
 2. Create `devcontainer.json` in `.devcontainer` folder.
 3. Copy below code into `devcontainer.json`:
-
 ```json
 {
 	"name": "dev",
-  // Change faasjs/vscode to faasjs/vscode:debian if you want to use debian.
 	"image": "faasjs/vscode",
 	"extensions": [
 		"eamodio.gitlens",
