@@ -68,7 +68,7 @@ export class Config {
     }
   }
 
-  public get(key: string): Config {
+  public get(key: string): FuncConfig {
     return this[key] || this.defaults || Object.create(null)
   }
 }
@@ -80,6 +80,6 @@ export function loadConfig(
   root: string,
   filename: string,
   staging: string
-): Config {
+): FuncConfig {
   return new Config(root, filename).get(staging)
 }
