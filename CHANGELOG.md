@@ -4,7 +4,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v3.1.5 (2024-09-20)`](https://github.com/faasjs/faasjs/compare/v3.1.2...v3.1.5)
+[`v3.2.0 (2024-09-20)`](https://github.com/faasjs/faasjs/compare/v3.1.2...v3.2.0)
+
+- `@faasjs/server`
+  - [Feature] Add raw request and response to `event`.
 
 - `@faasjs/browser`
   - [Fix] Fix url.
