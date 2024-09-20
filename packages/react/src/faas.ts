@@ -24,9 +24,11 @@ export async function faas<PathOrData extends FaasAction>(
   const client = getClient(options?.baseUrl)
 
   if (client.onError)
-    return client.faas<PathOrData>(action, params, options).catch(async res => {
-      await client.onError(action as string, params)(res)
-      return Promise.reject(res)
-    })
+    return client.browserClient
+      .action<PathOrData>(action, params, options)
+      .catch(async res => {
+        await client.onError(action as string, params)(res)
+        return Promise.reject(res)
+      })
   return client.browserClient.action(action, params, options)
 }

@@ -263,7 +263,7 @@ export class FaasBrowserClient {
 
     const url =
       typeof action === 'string'
-        ? `${options?.baseUrl || this.baseUrl + action.toLowerCase()}?_=${id}`
+        ? `${(options?.baseUrl || this.baseUrl) + action.toLowerCase()}?_=${id}`
         : ''
 
     if (!params) params = Object.create(null)
