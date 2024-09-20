@@ -52,11 +52,7 @@ export class Config {
 
     this.origin = deepMerge(...configs)
 
-    this.logger.debug('Origin: %j', this.origin)
-
     this.defaults = deepMerge(this.origin.defaults || {})
-
-    this.logger.debug('Defaults: %j', this.defaults)
 
     for (const key in this.origin) {
       if (key !== 'defaults')
