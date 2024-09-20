@@ -35,7 +35,6 @@
     "testPathIgnorePatterns": [
       "/lib/",
       "/tmp/",
-      "/examples/",
       "/benchmarks/",
       "/packages/deployer/"
     ],
@@ -50,7 +49,6 @@
       "/dist/",
       "/tmp/",
       "/__tests__/",
-      "/examples/",
       "!*.d.ts"
     ],
     "moduleNameMapper": {

@@ -116,10 +116,6 @@ export default defineUserConfig({
                 link: '/zh/doc/',
               },
               {
-                text: '示例',
-                link: 'https://github.com/faasjs/faasjs/blob/main/examples/',
-              },
-              {
                 text: '更新日志',
                 link: '/CHANGELOG',
               },

@@ -10,7 +10,6 @@
       "out/*",
       "build/*",
       ".cache/*",
-      "examples/*",
       "docs/*",
       "coverage/*",
       ".next/*",

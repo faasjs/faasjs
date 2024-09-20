@@ -1,7 +1,0 @@
-defaults:
-  plugins:
-    knex:
-      config:
-        client: sqlite3
-        connection:
-          filename: ':memory:'

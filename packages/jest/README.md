@@ -26,7 +26,6 @@ Add `jest` to your `package.json`:
     "/dist/",
     "/tmp/",
     "/__tests__/",
-    "/examples/",
     "!*.d.ts"
   ],
   "moduleNameMapper": {
