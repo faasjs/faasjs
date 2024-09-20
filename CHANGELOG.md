@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.1.5 (2024-09-20)`](https://github.com/faasjs/faasjs/compare/v3.1.2...v3.1.5)
+
+- `@faasjs/browser`
+  - [Fix] Fix url.
+
+- `@faasjs/react`
+  - [Fix] Fix faas.
+
 [`v3.1.2 (2024-09-17)`](https://github.com/faasjs/faasjs/compare/v3.0.0...v3.1.2)
 
 - `@faasjs/react`
