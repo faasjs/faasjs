@@ -95,8 +95,9 @@ FaasDataWrapper.whyDidYouRender = true
  */
 export function withFaasData<
   PathOrData extends FaasAction,
-  TComponentProps extends
-    FaasDataInjection<PathOrData> = FaasDataInjection<PathOrData>,
+  TComponentProps extends Required<FaasDataInjection<PathOrData>> = Required<
+    FaasDataInjection<PathOrData>
+  >,
 >(
   Component: React.FC<TComponentProps & Record<string, any>>,
   faasProps: FaasDataWrapperProps<PathOrData>

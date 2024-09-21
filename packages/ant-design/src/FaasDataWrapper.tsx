@@ -55,10 +55,18 @@ FaasDataWrapper.whyDidYouRender = true
  * ```
  */
 export function withFaasData<
-  TComponent extends React.FC<any>,
   PathOrData extends FaasAction,
->(Component: TComponent, faasProps: FaasDataWrapperProps<PathOrData>) {
-  return OriginWithFaasData(Component, {
+  TComponentProps extends Required<FaasDataInjection<PathOrData>> = Required<
+    FaasDataInjection<PathOrData>
+  >,
+>(
+  Component: React.FC<TComponentProps & Record<string, any>>,
+  faasProps: FaasDataWrapperProps<PathOrData>
+): React.FC<
+  Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> &
+    Record<string, any>
+> {
+  return OriginWithFaasData<PathOrData, any>(Component, {
     fallback: faasProps.loading || <Loading {...faasProps.loadingProps} />,
     ...faasProps,
   })
