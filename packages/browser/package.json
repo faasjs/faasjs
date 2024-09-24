@@ -30,10 +30,11 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
+  "files": ["dist"],
+  "peerDependencies": {
+    "@faasjs/types": "3.2.0"
+  },
+  "devDependencies": {
     "@faasjs/types": "3.2.0"
   },
   "engines": {
