@@ -30,16 +30,13 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
-    "@swc/core": "*"
-  },
+  "files": ["dist"],
   "peerDependencies": {
+    "@swc/core": "*",
     "@faasjs/deep_merge": "3.2.0"
   },
   "devDependencies": {
+    "@swc/core": "*",
     "@faasjs/deep_merge": "3.2.0"
   },
   "engines": {

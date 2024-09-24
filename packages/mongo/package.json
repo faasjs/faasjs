@@ -30,15 +30,16 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
+  "files": ["dist"],
+  "peerDependencies": {
+    "mongodb": "*",
     "@faasjs/func": "3.2.0",
     "@faasjs/logger": "3.2.0"
   },
-  "peerDependencies": {
-    "mongodb": "*"
+  "devDependencies": {
+    "mongodb": "*",
+    "@faasjs/func": "3.2.0",
+    "@faasjs/logger": "3.2.0"
   },
   "engines": {
     "node": ">=22.0.0",

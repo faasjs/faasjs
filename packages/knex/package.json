@@ -30,19 +30,18 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
+  "files": ["dist"],
+  "peerDependencies": {
+    "knex": "*",
     "@faasjs/deep_merge": "3.2.0",
     "@faasjs/func": "3.2.0",
     "@faasjs/logger": "3.2.0"
   },
-  "peerDependencies": {
-    "knex": "*"
-  },
   "devDependencies": {
     "knex": "*",
+    "@faasjs/deep_merge": "3.2.0",
+    "@faasjs/func": "3.2.0",
+    "@faasjs/logger": "3.2.0",
     "@types/mysql": "*",
     "@types/node": "*",
     "@types/pg": "*",
