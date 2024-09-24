@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/knex",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,18 +30,20 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "knex": "*",
-    "@faasjs/deep_merge": "3.2.0",
-    "@faasjs/func": "3.2.0",
-    "@faasjs/logger": "3.2.0"
+    "@faasjs/deep_merge": "3.2.1",
+    "@faasjs/func": "3.2.1",
+    "@faasjs/logger": "3.2.1"
   },
   "devDependencies": {
     "knex": "*",
-    "@faasjs/deep_merge": "3.2.0",
-    "@faasjs/func": "3.2.0",
-    "@faasjs/logger": "3.2.0",
+    "@faasjs/deep_merge": "3.2.1",
+    "@faasjs/func": "3.2.1",
+    "@faasjs/logger": "3.2.1",
     "@types/mysql": "*",
     "@types/node": "*",
     "@types/pg": "*",

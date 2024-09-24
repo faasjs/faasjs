@@ -2,25 +2,25 @@
 
 # Function: withFaasData()
 
-> **withFaasData**\<`TComponent`, `PathOrData`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`any`, keyof `FaasDataInjection`\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
+> **withFaasData**\<`PathOrData`, `TComponentProps`\>(`Component`, `faasProps`): `React.FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
 
 HOC to wrap a component with FaasDataWrapper and Loading
 
 ## Type Parameters
 
-• **TComponent** *extends* `FC`\<`any`\>
-
 • **PathOrData** *extends* `FaasAction`
+
+• **TComponentProps** *extends* `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\> = `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\>
 
 ## Parameters
 
-• **Component**: `TComponent`
+• **Component**: `FC`\<`TComponentProps` & `Record`\<`string`, `any`\>\>
 
 • **faasProps**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`PathOrData`\>
 
 ## Returns
 
-`FC`\<`Omit`\<`any`, keyof `FaasDataInjection`\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
+`React.FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
 
 ## Example
 

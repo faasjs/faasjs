@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ts-transform",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,14 +30,16 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "@swc/core": "*",
-    "@faasjs/deep_merge": "3.2.0"
+    "@faasjs/deep_merge": "3.2.1"
   },
   "devDependencies": {
     "@swc/core": "*",
-    "@faasjs/deep_merge": "3.2.0"
+    "@faasjs/deep_merge": "3.2.1"
   },
   "engines": {
     "node": ">=22.0.0",
