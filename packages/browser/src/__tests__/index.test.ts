@@ -142,7 +142,7 @@ describe('client', () => {
 
       const response = await client.action(
         async (params: { key: number }) => ({
-          data: JSON.parse(params as unknown as string).key,
+          data: params.key,
         }),
         {
           key: 1,
