@@ -34,7 +34,6 @@ RUN sed -i "s/plugins=(git)/plugins=(git zsh-completions zsh-autosuggestions zsh
 
 RUN corepack enable
 RUN npm install -g npm@latest
-RUN npm install -g pnpm@latest
 
 RUN curl -fsSL https://bun.sh/install | bash
 
