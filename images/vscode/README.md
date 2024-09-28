@@ -6,13 +6,19 @@
 
 ## Features
 
-- Includes latest [node](https://nodejs.org/), [npm](https://www.npmjs.com/) and [bun](https://bun.sh/).
+- Includes latest [node](https://nodejs.org/) and package managers:
+  - [npm](https://www.npmjs.com/)
+  - [pnpm](https://pnpm.io/)
+  - [bun](https://bun.sh/).
 - Includes [ohmyzsh](https://ohmyz.sh/) with below plugins:
   - git
   - zsh-completions
   - zsh-autosuggestions
+  - zsh-syntax-highlighting
   - zsh-history-substring-search
-  - [`npm`](https://github.com/zfben/zsh-npm)
+  - [zsh-npm](https://github.com/zfben/zsh-npm)
+  - [zsh-pnpm](https://github.com/zfben/zsh-pnpm)
+  - [zsh-bun](https://github.com/zfben/zsh-bun)
 
 ## Before you use
 
