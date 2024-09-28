@@ -16,6 +16,7 @@
   - zsh-autosuggestions
   - zsh-syntax-highlighting
   - zsh-history-substring-search
+  - you-should-use
   - [zsh-npm](https://github.com/zfben/zsh-npm)
   - [zsh-pnpm](https://github.com/zfben/zsh-pnpm)
   - [zsh-bun](https://github.com/zfben/zsh-bun)
