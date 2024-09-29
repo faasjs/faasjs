@@ -1,10 +1,9 @@
-import { ConfigProvider, message, notification } from 'antd'
-import type { ConfigProviderProps } from 'antd/es/config-provider'
+import { ConfigProvider, message, notification, type ConfigProviderProps } from 'antd'
 import {
   StyleProvider,
   legacyLogicalPropertiesTransformer,
+  type StyleProviderProps
 } from '@ant-design/cssinjs'
-import type { StyleProviderProps } from '@ant-design/cssinjs/lib/StyleContext'
 import { useEffect, useMemo } from 'react'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
@@ -24,7 +23,7 @@ export interface AppProps {
   /**
    * `false` to disable StyleProvider.
    *
-   * @see https://ant.design/docs/react/compatible-style#styleprovider
+   * @see https://github.com/ant-design/cssinjs?tab=readme-ov-file#styleprovider
    */
   styleProviderProps?: StyleProviderProps | false
   /** @see https://ant.design/components/config-provider/#API */
