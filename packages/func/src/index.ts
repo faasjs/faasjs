@@ -11,9 +11,9 @@
  * ```
  * @packageDocumentation
  */
+import { randomBytes } from 'node:crypto'
 import { Logger } from '@faasjs/logger'
 import { RunHandler } from './plugins/run_handler'
-import { randomBytes } from 'node:crypto'
 
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
   data: InvokeData<TEvent, TContext>
@@ -300,9 +300,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       return data.response
     }
 
-    handler.bind(this)
-
-    return { handler }
+    return {
+      handler: handler.bind(this)
+    }
   }
 }
 
