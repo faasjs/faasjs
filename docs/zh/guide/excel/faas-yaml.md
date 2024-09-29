@@ -51,27 +51,6 @@
 
 ### 三级节点：具体配置
 
-#### 服务商节点
-
-服务商名字可以自行设定，若在一个服务商里有多个账户，或者多个可用区时，建议分开设为多个服务商节点。
-
-* **type** 服务商类型，与 npm 的名字保持一致
-* **config** 具体配置项，不同的服务商类型有不同的可配置项
-
-例：
-
-```yaml
-providers:
-  first:
-    type: @faasjs/tencentcloud
-    config:
-      app_id: 1
-  second:
-    type: @faasjs/tencentcloud
-    config:
-      app_id: 2
-```
-
 #### 插件节点
 
 节点名可自行设定，多个同类插件可以设定为多个插件配置。

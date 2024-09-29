@@ -17,7 +17,6 @@ const FaasPackages = [
   '@faasjs/mongo',
   '@faasjs/redis',
   '@faasjs/request',
-  '@faasjs/tencentcloud',
   '@faasjs/ts-transform',
 ]
 

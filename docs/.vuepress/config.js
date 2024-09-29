@@ -213,11 +213,6 @@ export default defineUserConfig({
               children: ['knex', 'mongo', 'redis'],
             },
             {
-              title: '服务商适配插件',
-              collapsable: false,
-              children: ['tencentcloud'],
-            },
-            {
               title: '前端插件',
               collapsable: false,
               children: ['browser', 'react', 'vue-plugin'],

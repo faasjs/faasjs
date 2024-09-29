@@ -26,8 +26,6 @@
     "SECRETID",
     "SECRETKEY",
     "SESSIONTOKEN",
-    "Tencentcloud",
-    "tencentcloudapi",
     "tsup",
     "typedoc",
     "Useify",
