@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /cdn-cgi/
+
+Sitemap: https://faasjs.com/sitemap.xml
