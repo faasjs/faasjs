@@ -50,4 +50,4 @@ https://faasjs.com/doc/ant-design/#configprovider
 
 #### See
 
-https://ant.design/docs/react/compatible-style#styleprovider
+https://github.com/ant-design/cssinjs?tab=readme-ov-file#styleprovider
