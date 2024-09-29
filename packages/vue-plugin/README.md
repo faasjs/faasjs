@@ -2,7 +2,7 @@
 
 A Vue plugin for FaasJS.
 
-[![License: MIT](https://img.shields.io/npm/l/@faasjs/vue-plugin.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/vue-plugin/LICENSE)
+[![License: MIT](https://img.shields.io/npm/l/@faasjs/vue-plugin.svg)](https://github.com/faasjs/faasjs/blob/main/packages/vue-plugin/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/vue-plugin.svg)](https://www.npmjs.com/package/@faasjs/vue-plugin)
 
 ## Install

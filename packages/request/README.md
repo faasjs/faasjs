@@ -2,7 +2,7 @@
 
 FaasJS's request module.
 
-[![License: MIT](https://img.shields.io/npm/l/@faasjs/request.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/request/LICENSE)
+[![License: MIT](https://img.shields.io/npm/l/@faasjs/request.svg)](https://github.com/faasjs/faasjs/blob/main/packages/request/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/request.svg)](https://www.npmjs.com/package/@faasjs/request)
 
 ## Install

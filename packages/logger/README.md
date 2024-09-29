@@ -2,7 +2,7 @@
 
 FaasJS's logger module.
 
-[![License: MIT](https://img.shields.io/npm/l/@faasjs/logger.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/logger/LICENSE)
+[![License: MIT](https://img.shields.io/npm/l/@faasjs/logger.svg)](https://github.com/faasjs/faasjs/blob/main/packages/logger/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/logger.svg)](https://www.npmjs.com/package/@faasjs/logger)
 
 ## Install

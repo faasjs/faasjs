@@ -2,7 +2,7 @@
 
 FaasJS's Redis plugin.
 
-[![License: MIT](https://img.shields.io/npm/l/@faasjs/redis.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/redis/LICENSE)
+[![License: MIT](https://img.shields.io/npm/l/@faasjs/redis.svg)](https://github.com/faasjs/faasjs/blob/main/packages/redis/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/redis.svg)](https://www.npmjs.com/package/@faasjs/redis)
 
 ## Install

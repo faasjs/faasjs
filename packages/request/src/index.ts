@@ -1,7 +1,7 @@
 /**
  * FaasJS's request module.
  *
- * [![License: MIT](https://img.shields.io/npm/l/@faasjs/request.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/request/LICENSE)
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/request.svg)](https://github.com/faasjs/faasjs/blob/main/packages/request/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/@faasjs/request.svg)](https://www.npmjs.com/package/@faasjs/request)
  *
  * ## Install
@@ -49,10 +49,10 @@ export type RequestOptions = {
     [key: string]: any
   }
   body?:
-    | {
-        [key: string]: any
-      }
-    | string
+  | {
+    [key: string]: any
+  }
+  | string
   /** Timeout in milliseconds, @default 5000 */
   timeout?: number
   /**
@@ -353,8 +353,7 @@ export async function request<T = any>(
             logger.debug('response.error %j', response)
             reject(
               new ResponseError(
-                `${res.statusMessage || res.statusCode} ${
-                  requestOptions.host
+                `${res.statusMessage || res.statusCode} ${requestOptions.host
                 }${requestOptions.path}`,
                 response
               )

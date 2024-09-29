@@ -1,7 +1,7 @@
 /**
  * Type definitions.
  *
- * [![License: MIT](https://img.shields.io/npm/l/@faasjs/types.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/types/LICENSE)
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/types.svg)](https://github.com/faasjs/faasjs/blob/main/packages/types/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/@faasjs/types.svg)](https://www.npmjs.com/package/@faasjs/types)
  *
  * ## Install
@@ -13,7 +13,7 @@
  * @packageDocumentation
  */
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-export interface FaasActions {}
+export interface FaasActions { }
 
 export type FaasActionPaths = keyof FaasActions
 
@@ -26,10 +26,10 @@ export type FaasAction =
 export type FaasParams<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
   : T extends ReactServerAction
-    ? Parameters<T>[0]
-    : T
+  ? Parameters<T>[0]
+  : T
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
   : T extends ReactServerAction
-    ? Awaited<ReturnType<T>>
-    : T
+  ? Awaited<ReturnType<T>>
+  : T

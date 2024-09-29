@@ -1,7 +1,7 @@
 /**
  * FaasJS's logger module.
  *
- * [![License: MIT](https://img.shields.io/npm/l/@faasjs/logger.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/logger/LICENSE)
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/logger.svg)](https://github.com/faasjs/faasjs/blob/main/packages/logger/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/@faasjs/logger.svg)](https://www.npmjs.com/package/@faasjs/logger)
  *
  * ## Install
@@ -204,9 +204,8 @@ export class Logger {
 
     if (LevelPriority[level] < this.level) return this
 
-    let output = `${level.toUpperCase()} ${
-      this.label ? `[${this.label}] ` : ''
-    }${format(message, ...args)}`
+    let output = `${level.toUpperCase()} ${this.label ? `[${this.label}] ` : ''
+      }${format(message, ...args)}`
 
     if (this.colorfyOutput) output = this.colorfy(LevelColor[level], output)
     else if (!this.colorfyOutput) output = output.replace(/\n/g, '')

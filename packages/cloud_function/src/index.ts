@@ -1,7 +1,7 @@
 /**
  * A FaasJS plugin, let function could create, config and invoke CloudFunction.
  *
- * [![License: MIT](https://img.shields.io/npm/l/@faasjs/cloud_function.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/cloud_function/LICENSE)
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/cloud_function.svg)](https://github.com/faasjs/faasjs/blob/main/packages/cloud_function/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/@faasjs/cloud_function.svg)](https://www.npmjs.com/package/@faasjs/cloud_function)
  *
  * ## Install

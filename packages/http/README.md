@@ -2,7 +2,7 @@
 
 FaasJS's http plugin.
 
-[![License: MIT](https://img.shields.io/npm/l/@faasjs/http.svg)](https://github.com/faasjs/faasjs/blob/main/packages/faasjs/http/LICENSE)
+[![License: MIT](https://img.shields.io/npm/l/@faasjs/http.svg)](https://github.com/faasjs/faasjs/blob/main/packages/http/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/http.svg)](https://www.npmjs.com/package/@faasjs/http)
 
 ## Install
