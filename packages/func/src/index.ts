@@ -9,6 +9,11 @@
  * ```sh
  * npm install @faasjs/func
  * ```
+ *
+ * ## Usage
+ *
+ * @see {@link useFunc}
+ *
  * @packageDocumentation
  */
 import { randomBytes } from 'node:crypto'
@@ -337,6 +342,9 @@ export function usePlugin<T extends Plugin>(
 }
 
 /**
+ * Create a cloud function.
+ *
+ * @example
  * ```ts
  * // pure function
  * export default useFunc(() => {
@@ -348,11 +356,13 @@ export function usePlugin<T extends Plugin>(
  * // with http
  * import { useHttp } from '@faasjs/http'
  *
- * export default useFunc(() => {
- *   const http = useHttp<{ name: string }>()
+ * export default useFunc<{
+ *   params: { name: string }
+ * }>(() => {
+ *   useHttp()
  *
- *   return () => {
- *     return `Hello ${http.params.name}`
+ *   return ({ event }) => {
+ *     return `Hello ${event.params.name}`
  *   }
  * })
  * ```

@@ -1,8 +1,10 @@
+import { useFunc } from '@faasjs/func'
 import type {
   FaasAction,
   FaasActions,
   FaasData,
   FaasParams,
+  InferFaasAction,
 } from '@faasjs/types'
 import { expectType, expectNotType } from 'tsd'
 
@@ -37,5 +39,26 @@ describe('types', () => {
   it('FaasActions', () => {
     expectType<FaasActions['/test']['Params']>({ key: 'key' })
     expectType<FaasActions['/test']['Data']>({ value: 'value' })
+  })
+
+  it('InferFaasAction', () => {
+    const func = useFunc<
+      {
+        params: { key: string }
+      },
+      unknown,
+      { value: string }
+    >(() => {
+      return async ({ event }) => {
+        return { value: event.params.key }
+      }
+    })
+
+    type InferredAction = InferFaasAction<typeof func>
+
+    expectType<InferredAction['Params']>({ key: 'key' })
+    expectType<InferredAction['Data']>({ value: 'value' })
+    expectNotType<InferredAction['Params']>({ key: true })
+    expectNotType<InferredAction['Data']>({ value: true })
   })
 })

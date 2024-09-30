@@ -4,25 +4,7 @@
 
 > **useFunc**\<`TEvent`, `TContext`, `TResult`\>(`handler`): [`Func`](../classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
-```ts
-// pure function
-export default useFunc(() => {
-  return () => {
-    return 'Hello World'
-  }
-})
-
-// with http
-import { useHttp } from '@faasjs/http'
-
-export default useFunc(() => {
-  const http = useHttp<{ name: string }>()
-
-  return () => {
-    return `Hello ${http.params.name}`
-  }
-})
-```
+Create a cloud function.
 
 ## Type Parameters
 
@@ -39,3 +21,27 @@ export default useFunc(() => {
 ## Returns
 
 [`Func`](../classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
+
+## Example
+
+```ts
+// pure function
+export default useFunc(() => {
+  return () => {
+    return 'Hello World'
+  }
+})
+
+// with http
+import { useHttp } from '@faasjs/http'
+
+export default useFunc<{
+  params: { name: string }
+}>(() => {
+  useHttp()
+
+  return ({ event }) => {
+    return `Hello ${event.params.name}`
+  }
+})
+```

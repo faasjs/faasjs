@@ -2,4 +2,6 @@
 
 # Type Alias: FaasAction
 
-> **FaasAction**: `FaasActionPaths` \| `Record`\<`string`, `any`\> \| `ReactServerAction`
+> **FaasAction**: `FaasActionPaths` \| `ReactServerAction` \| `Record`\<`string`, `any`\>
+
+The type of FaasJS actions.

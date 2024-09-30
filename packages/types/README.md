@@ -1,15 +1,19 @@
 # @faasjs/types
 
-Type definitions.
+Action Type definitions for FaasJS and cross backend and frontend.
 
 [![License: MIT](https://img.shields.io/npm/l/@faasjs/types.svg)](https://github.com/faasjs/faasjs/blob/main/packages/types/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/types.svg)](https://www.npmjs.com/package/@faasjs/types)
 
 ## Install
 
-```sh
-npm install @faasjs/types
-```
+Normally you don't need to install this package manually. It's a dependency of `@faasjs/func` and `@faasjs/react`.
+
+## Usage
+
+## See
+
+[InferFaasAction](type-aliases/InferFaasAction.md)
 
 ## Type Aliases
 
@@ -17,3 +21,4 @@ npm install @faasjs/types
 - [FaasActionPaths](type-aliases/FaasActionPaths.md)
 - [FaasData](type-aliases/FaasData.md)
 - [FaasParams](type-aliases/FaasParams.md)
+- [InferFaasAction](type-aliases/InferFaasAction.md)

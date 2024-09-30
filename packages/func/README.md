@@ -11,6 +11,12 @@ FaasJS's function module.
 npm install @faasjs/func
 ```
 
+## Usage
+
+## See
+
+[useFunc](functions/useFunc.md)
+
 ## Functions
 
 - [useFunc](functions/useFunc.md)
