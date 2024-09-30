@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.3.0 (2024-09-30)`](https://github.com/faasjs/faasjs/compare/v3.2.1...v3.3.0)
+
+- `@faasjs/types`
+  - [Feature] Add `InferFaasAction`.
+
 [`v3.2.1 (2024-09-24)`](https://github.com/faasjs/faasjs/compare/v3.2.0...v3.2.1)
 
 - Move `dependencies` to `peerDependencies`.
