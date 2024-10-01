@@ -12,48 +12,13 @@ Creates a splitting context with the given default value.
 
 ## Parameters
 
-• **defaultValue**: \{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \}
+• **defaultValue**: \{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \} \| keyof `T`[]
 
 The default value of the splitting context.
 
 ## Returns
 
 `object`
-
-The provider component and the hook to use the splitting context.
-
-### Provider()
-
-> **Provider**: (`props`) => `ReactNode`
-
-The provider component of the splitting context.
-
-#### Parameters
-
-• **props**
-
-• **props.children**: `ReactNode`
-
-• **props.value?**: `Partial`\<`T`\>
-
-#### Returns
-
-`ReactNode`
-
-#### Example
-
-```tsx
-function App() {
-  const [value, setValue] = useState(0)
-
-  return (
-    <Provider value={{ value, setValue }}>
-      <ReaderComponent />
-      <WriterComponent />
-    </Provider>
-  )
-}
-```
 
 ### use()
 
@@ -65,15 +30,31 @@ The hook to use the splitting context.
 
 `Readonly`\<`T`\>
 
-#### Example
+#### See
 
-```tsx
-function ChildComponent() {
-  const { value, setValue } = use()
+https://faasjs.com/doc/react/functions/createSplittingContext.html#use
 
-  return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
-}
-```
+### Provider()
+
+The provider component of the splitting context.
+
+#### Parameters
+
+• **props**
+
+• **props.children**: `ReactNode`
+
+• **props.memo?**: `true` \| `any`[]
+
+• **props.value?**: `Partial`\<`T`\>
+
+#### Returns
+
+`ReactNode`
+
+#### See
+
+https://faasjs.com/doc/react/functions/createSplittingContext.html#provider
 
 ## Example
 

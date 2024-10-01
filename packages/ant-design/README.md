@@ -52,6 +52,7 @@ type FaasItemProps = {
 - [Title](functions/Title.md)
 - [transferOptions](functions/transferOptions.md)
 - [transferValue](functions/transferValue.md)
+- [upperFirst](functions/upperFirst.md)
 - [useApp](functions/useApp.md)
 - [useConfigContext](functions/useConfigContext.md)
 - [useDrawer](functions/useDrawer.md)

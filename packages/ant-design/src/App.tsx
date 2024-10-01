@@ -1,10 +1,14 @@
-import { ConfigProvider, message, notification, type ConfigProviderProps } from 'antd'
+import {
+  ConfigProvider,
+  message,
+  notification,
+  type ConfigProviderProps,
+} from 'antd'
 import {
   StyleProvider,
   legacyLogicalPropertiesTransformer,
-  type StyleProviderProps
+  type StyleProviderProps,
 } from '@ant-design/cssinjs'
-import { useEffect, useMemo } from 'react'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
 import { type ModalProps, type setModalProps, useModal } from './Modal'
@@ -16,7 +20,12 @@ import {
   ConfigProvider as FaasConfigProvider,
   type ConfigProviderProps as FaasConfigProviderProps,
 } from './Config'
-import { createSplittingContext, OptionalWrapper } from '@faasjs/react'
+import {
+  createSplittingContext,
+  OptionalWrapper,
+  useEqualEffect,
+  useEqualMemo,
+} from '@faasjs/react'
 
 export interface AppProps {
   children: React.ReactNode
@@ -64,7 +73,7 @@ function RoutesApp(props: {
   const location = useLocation()
   const { drawerProps, setDrawerProps, modalProps, setModalProps } = useApp()
 
-  useEffect(() => {
+  useEqualEffect(() => {
     console.debug('location', location)
 
     if (drawerProps.open) setDrawerProps({ open: false })
@@ -109,7 +118,7 @@ export function App(props: AppProps) {
   const { modal, modalProps, setModalProps } = useModal()
   const { drawer, drawerProps, setDrawerProps } = useDrawer()
 
-  const styleProviderProps = useMemo(
+  const styleProviderProps = useEqualMemo(
     () => ({
       ...props.styleProviderProps,
       hashPriority: 'high' as const,

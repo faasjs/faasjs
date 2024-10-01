@@ -4,7 +4,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createSplittingContext } from '../splittingContext'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 describe('createSplittingContext', () => {
   it('should render children with default values', () => {
@@ -34,8 +34,8 @@ describe('createSplittingContext', () => {
       </Provider>
     )
 
-    expect(screen.getByText('Hello')).toBeDefined()
-    expect(screen.getByText('World')).toBeDefined()
+    expect(screen.getByText('Hello')).not.toBeNull()
+    expect(screen.getByText('World')).not.toBeNull()
     expect(renderTimes).toBe(1)
   })
 
@@ -69,8 +69,8 @@ describe('createSplittingContext', () => {
       </Provider>
     )
 
-    expect(screen.getByText('value1')).toBeDefined()
-    expect(screen.getByText('value2')).toBeDefined()
+    expect(screen.getByText('value1')).not.toBeNull()
+    expect(screen.getByText('value2')).not.toBeNull()
     expect(renderTimes).toBe(1)
   })
 
@@ -92,9 +92,7 @@ describe('createSplittingContext', () => {
     function ReaderComponent() {
       const { value } = use()
 
-      useEffect(() => {
-        readerRenderTimes++
-      }, [value])
+      readerRenderTimes++
 
       return <div>reader:{value}</div>
     }
@@ -104,9 +102,7 @@ describe('createSplittingContext', () => {
     function WriterComponent() {
       const { setValue, optional } = use()
 
-      useEffect(() => {
-        writerRenderTimes++
-      }, [setValue])
+      writerRenderTimes++
 
       return (
         <>
@@ -126,10 +122,9 @@ describe('createSplittingContext', () => {
       containerRenderTimes++
 
       return (
-        <Provider value={{ value, setValue }}>
+        <Provider value={{ value, setValue }} memo>
           <ReaderComponent />
           <WriterComponent />
-          parent:{value}
         </Provider>
       )
     }
@@ -140,16 +135,42 @@ describe('createSplittingContext', () => {
 
     render(<Container />)
 
-    expect(screen.getByText('reader:0')).toBeDefined()
-    expect(screen.getByText('writer:optional')).toBeDefined()
+    expect(screen.getByText('reader:0')).not.toBeNull()
+    expect(screen.getByText('writer:optional')).not.toBeNull()
 
     await user.click(screen.getByRole('button'))
     await user.click(screen.getByRole('button'))
 
-    expect(screen.getByText('reader:2')).toBeDefined()
-    expect(screen.getByText('parent:2')).toBeDefined()
+    expect(screen.getByText('reader:2')).not.toBeNull()
     expect(containerRenderTimes).toBe(3)
     expect(readerRenderTimes).toBe(3)
     expect(writerRenderTimes).toBe(1)
+  })
+
+  it('should accept array of keys', () => {
+    const { Provider, use } = createSplittingContext<{
+      value1: string
+      value2: string
+    }>(['value1', 'value2'])
+
+    function ChildComponent() {
+      const { value1, value2 } = use()
+
+      return (
+        <div>
+          <span>{value1}</span>
+          <span>{value2}</span>
+        </div>
+      )
+    }
+
+    render(
+      <Provider value={{ value1: 'Hello', value2: 'World' }}>
+        <ChildComponent />
+      </Provider>
+    )
+
+    expect(screen.getByText('Hello')).not.toBeNull()
+    expect(screen.getByText('World')).not.toBeNull()
   })
 })

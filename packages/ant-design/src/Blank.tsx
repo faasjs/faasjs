@@ -1,5 +1,4 @@
 import { Typography } from 'antd'
-import { isNil } from 'lodash-es'
 import { useConfigContext } from './Config'
 
 export interface BlankProps {
@@ -23,7 +22,7 @@ export function Blank(options?: BlankProps): JSX.Element {
   const { theme } = useConfigContext()
 
   return !options ||
-    isNil(options.value) ||
+    options.value === undefined || options.value === null ||
     (Array.isArray(options.value) && !options.value.length) ||
     options.value === '' ? (
     <Typography.Text disabled>

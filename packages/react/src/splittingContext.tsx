@@ -1,11 +1,11 @@
-import { type Context, createContext, useContext } from 'react'
+import { type Context, createContext, type ReactNode, useContext } from 'react'
 import { useConstant } from './constant'
+import { useEqualMemo } from './equal'
 
 /**
  * Creates a splitting context with the given default value.
  *
  * @param defaultValue The default value of the splitting context.
- * @returns The provider component and the hook to use the splitting context.
  *
  * @example
  * ```tsx
@@ -46,14 +46,44 @@ import { useConstant } from './constant'
  * ```
  */
 export function createSplittingContext<T extends Record<string, any>>(
-  defaultValue: {
-    [K in keyof T]: Partial<T[K]> | null
-  }
-) {
-  const contexts: Record<string, Context<any>> = {}
-  const keys = Object.keys(defaultValue)
+  defaultValue:
+    | {
+      [K in keyof T]: Partial<T[K]> | null
+    }
+    | (keyof T)[]
+): {
+  /**
+   * The provider component of the splitting context.
+   * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#provider
+   */
+  Provider(props: {
+    value?: Partial<T>
+    children: ReactNode
+    memo?: true | any[]
+  }): ReactNode
 
-  for (const key of keys) contexts[key] = createContext(defaultValue[key])
+  /**
+   * The hook to use the splitting context.
+   *
+   * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#use
+   */
+  use: () => Readonly<T>
+} {
+  const keys = Array.isArray(defaultValue)
+    ? defaultValue
+    : Object.keys(defaultValue)
+  const defaultValues = Array.isArray(defaultValue)
+    ? keys.reduce((prev, cur) => {
+      prev[cur] = null
+      return prev
+    }, {} as T)
+    : defaultValue
+
+  const contexts = {} as Record<
+    keyof T,
+    Context<{ [K in keyof T]: Partial<T[K]> }[keyof T]>
+  >
+  for (const key of keys) contexts[key] = createContext(defaultValues[key])
 
   /**
    * The provider component of the splitting context.
@@ -75,12 +105,19 @@ export function createSplittingContext<T extends Record<string, any>>(
   function Provider(props: {
     value?: Partial<T>
     children: React.ReactNode
+    /** reduce re-render */
+    memo?: true | any[]
   }) {
-    let children = props.children
+    let children = props.memo
+      ? useEqualMemo(
+        () => props.children,
+        typeof props.memo === 'boolean' ? [] : props.memo
+      )
+      : props.children
 
     for (const key of keys) {
       const Context = contexts[key]
-      const value = props.value?.[key] ?? defaultValue[key]
+      const value = props.value?.[key] ?? defaultValues[key]
 
       children = <Context.Provider value={value}>{children}</Context.Provider>
     }

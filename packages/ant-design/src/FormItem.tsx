@@ -25,10 +25,9 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { transferOptions, type BaseOption } from './data'
+import { transferOptions, upperFirst, type BaseOption } from './data'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
 import { cloneElement, useEffect, useState } from 'react'
-import { upperFirst } from 'lodash-es'
 import { type ConfigProviderProps, useConfigContext } from './Config'
 
 type OptionsProps = {
@@ -59,7 +58,7 @@ type InputTypeMap<T> = {
 
 export interface FormItemProps<T = any>
   extends BaseItemProps,
-    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+  Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number

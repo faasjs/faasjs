@@ -1,4 +1,3 @@
-import { upperFirst } from 'lodash-es'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import type { ReactElement } from 'react'
@@ -34,9 +33,9 @@ export type BaseOption =
   | string
   | number
   | {
-      label: string
-      value?: any
-    }
+    label: string
+    value?: any
+  }
 
 export interface BaseItemProps {
   id: string
@@ -52,6 +51,10 @@ export interface FaasItemProps extends BaseItemProps {
   type?: FaasItemType
 }
 
+export function upperFirst(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 /**
  * convert string[] or number[] to { label, value }[]
  */
@@ -65,9 +68,9 @@ export function transferOptions(options: BaseOption[]): {
     typeof item === 'object'
       ? item
       : {
-          label: upperFirst(item.toString()),
-          value: item,
-        }
+        label: upperFirst(item.toString()),
+        value: item,
+      }
   )
 }
 
@@ -137,8 +140,8 @@ export type UnionFaasItemElement<Value = any, Values = any> = ReactElement<
 
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps,
-    DescriptionItemProps,
-    TableItemProps {
+  DescriptionItemProps,
+  TableItemProps {
   children?: UnionFaasItemElement<UnionFaasItemProps<Value, Values>> | null
   render?: UnionFaasItemRender
   object?: UnionFaasItemProps<Value, Values>[]

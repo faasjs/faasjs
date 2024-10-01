@@ -1,6 +1,5 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Descriptions, type DescriptionsProps, Space } from 'antd'
-import { isFunction, upperFirst } from 'lodash-es'
 import { cloneElement, type ReactNode, useEffect, useState } from 'react'
 import type { Dayjs } from 'dayjs'
 import type { BaseItemProps } from '.'
@@ -10,6 +9,7 @@ import {
   transferValue,
   type UnionFaasItemElement,
   type UnionFaasItemRender,
+  upperFirst,
 } from './data'
 import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
 import { Blank } from './Blank'
@@ -267,7 +267,7 @@ export function Description<T extends Record<string, any> = any>(
     <Descriptions
       {...props}
       title={
-        isFunction(props.renderTitle)
+        typeof props.renderTitle === 'function'
           ? props.renderTitle(props.dataSource)
           : props.title
       }
