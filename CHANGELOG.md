@@ -4,6 +4,12 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.4.0 (2024-10-01)`](https://github.com/faasjs/faasjs/compare/v3.3.0...v3.4.0)
+
+- `@faasjs/react`
+  - [Feature] Add `useSplittingState`.
+  - [Feature] Add `memo` to `createSplittingContext`'s `Provider`.
+
 [`v3.3.0 (2024-09-30)`](https://github.com/faasjs/faasjs/compare/v3.2.1...v3.3.0)
 
 - `@faasjs/types`

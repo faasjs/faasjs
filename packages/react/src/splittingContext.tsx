@@ -105,7 +105,14 @@ export function createSplittingContext<T extends Record<string, any>>(
   function Provider(props: {
     value?: Partial<T>
     children: React.ReactNode
-    /** reduce re-render */
+    /**
+     * Whether to use memoization for the children.
+     *
+     * @default false
+     *
+     * `true`: memoize the children without dependencies.
+     * `any[]`: memoize the children with specific dependencies.
+     */
     memo?: true | any[]
   }) {
     let children = props.memo
