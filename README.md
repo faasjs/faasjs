@@ -23,23 +23,30 @@
 
 ### Featherweight Development & Collaboration
 
-- ✅ Break down complex projects into manageable components with the **atomized development model**.
-- ✅ Enjoy **fast iterations** and **seamless** team collaboration.
-- ✅ Jumpstart development with **pre-built plugins** for common functionalities like HTTP and Knex.
+✅ Break down complex projects into manageable components with the **atomized development model**.
+
+✅ Enjoy **fast iterations** and **seamless** team collaboration.
+
+✅ Jumpstart development with **pre-built plugins** for common functionalities like HTTP and Knex.
 
 ### High maintainability
 
-- ✅ The **FaaS architecture** ensures isolated cloud functions, preventing domino-effect errors.
-- ✅ **Automated testing tools** built-in for **robust and efficient testing**.
+✅ The **FaaS architecture** ensures isolated cloud functions, preventing domino-effect errors.
+
+✅ **Automated testing tools** built-in for **robust and efficient testing**.
 
 ### High scalability
 
-- ✅ Extend your application effortlessly with **flexible and simple plugin mechanisms**.
-- ✅ **Freely scale** your functions up or down based on demand.
+✅ Extend your application effortlessly with **flexible and simple plugin mechanisms**.
+
+✅ **Freely scale** your functions up or down based on demand.
 
 ## Learn more
 
-- 👉 Visit [faasjs.com](https://faasjs.com) to learn more.
-- 🔨 Try [the starter template for FaasJS & Next.js](https://github.com/faasjs/nextjs-starter) using Codespaces.
-- 📄 See recent updates in the [CHANGELOG](https://faasjs.com/CHANGELOG.html).
-- ❓ Get help or ask question in [Discussions](https://github.com/orgs/faasjs/discussions).
+👉 Visit [faasjs.com](https://faasjs.com) to learn more.
+
+🔨 Try [the starter template for FaasJS & Next.js](https://github.com/faasjs/nextjs-starter) using Codespaces.
+
+📄 See recent updates in the [CHANGELOG](https://faasjs.com/CHANGELOG.html).
+
+❓ Get help or ask question in [Discussions](https://github.com/orgs/faasjs/discussions).

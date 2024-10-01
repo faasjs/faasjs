@@ -17,7 +17,8 @@
       "node_modules/*",
       ".pnp/*",
       ".yarn/*",
-      ".turbo/*"
+      ".turbo/*",
+      "*.astro"
     ]
   },
   "linter": {
