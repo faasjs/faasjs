@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/mongo",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -35,13 +35,13 @@
   ],
   "peerDependencies": {
     "mongodb": "*",
-    "@faasjs/func": "3.3.0",
-    "@faasjs/logger": "3.3.0"
+    "@faasjs/func": "3.4.0",
+    "@faasjs/logger": "3.4.0"
   },
   "devDependencies": {
     "mongodb": "*",
-    "@faasjs/func": "3.3.0",
-    "@faasjs/logger": "3.3.0"
+    "@faasjs/func": "3.4.0",
+    "@faasjs/logger": "3.4.0"
   },
   "engines": {
     "node": ">=22.0.0",
