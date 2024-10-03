@@ -3,23 +3,20 @@
  */
 import { render, screen } from '@testing-library/react'
 import { Description } from '../../Description'
+import { setMock, Response } from '@faasjs/browser'
 
 describe('Description/faas', () => {
-  let originalFetch: any
-
   beforeEach(() => {
-    originalFetch = window.fetch
-    window.fetch = jest.fn(async () => {
-      return Promise.resolve({
+    setMock(async () => {
+      return new Response({
         status: 200,
-        headers: new Map([['Content-Type', 'application/json']]),
-        text: async () => Promise.resolve('{"data":{"test":"value"}}'),
-      }) as unknown as Promise<Response>
+        data: { test: 'value' },
+      })
     })
   })
 
   afterEach(() => {
-    window.fetch = originalFetch
+    setMock(null)
   })
 
   it('with faas', async () => {
