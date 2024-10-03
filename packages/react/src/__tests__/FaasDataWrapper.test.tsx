@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react'
 import { FaasDataWrapper, type FaasDataInjection, withFaasData } from '..'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { Response, setMock } from '@faasjs/browser'
+import { setMock } from '@faasjs/browser'
 
 describe('FaasDataWrapper', () => {
   let current = 0
@@ -16,15 +16,11 @@ describe('FaasDataWrapper', () => {
     setMock(async (_action, params) => {
       current++
 
-      return new Promise(res =>
+      return new Promise<any>(res =>
         setTimeout(() =>
-          res(
-            new Response({
-              status: 200,
-              headers: { 'Content-Type': 'application/json' },
-              data: params?.v ? params : current,
-            })
-          )
+          res({
+            data: params?.v ? params : current,
+          })
         )
       )
     })

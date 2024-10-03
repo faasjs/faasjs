@@ -114,6 +114,13 @@ export type FaasBrowserClientAction = <PathOrData extends FaasAction>(
   options?: Options
 ) => Promise<Response<FaasData<PathOrData>>>
 
+export type ResponseProps<T = any> = {
+  status?: number
+  headers?: ResponseHeaders
+  body?: any
+  data?: T
+}
+
 /**
  * Response class
  *
@@ -133,13 +140,8 @@ export class Response<T = any> {
   public readonly body: any
   public readonly data: T
 
-  constructor(props: {
-    status?: number
-    headers?: ResponseHeaders
-    body?: any
-    data?: T
-  }) {
-    this.status = props.status || 200
+  constructor(props: ResponseProps<T> = {}) {
+    this.status = props.status || (props.data ? 200 : 201)
     this.headers = props.headers || {}
     this.body = props.body
     this.data = props.data
@@ -187,26 +189,26 @@ export type MockHandler = (
   action: string,
   params: Record<string, any>,
   options: Options
-) => Promise<Response<any>>
+) => Promise<Response<any> | ResponseProps> | Promise<void>
 
 let mock: MockHandler
 
 /**
  * Set mock handler for testing
  *
- * @param handler mock handler, set `undefined` to clear mock
+ * @param handler mock handler, set `null` or `undefined` to clear mock
  *
  * @example
  * ```ts
  * import { setMock } from '@faasjs/browser'
  *
  * setMock(async (action, params, options) => {
- *   return new Response({
+ *   return {
  *     status: 200,
  *     data: {
  *       name: 'FaasJS'
  *     }
- *   })
+ *   }
  * })
  *
  * const client = new FaasBrowserClient('/')
@@ -214,7 +216,7 @@ let mock: MockHandler
  * const response = await client.action('path') // response.data.name === 'FaasJS'
  * ```
  */
-export function setMock(handler: MockHandler) {
+export function setMock(handler: MockHandler | null) {
   mock = handler
 }
 
@@ -292,7 +294,10 @@ export class FaasBrowserClient {
 
     if (mock) {
       console.debug(`[FaasJS] Mock request: ${action} %j`, params)
-      return mock(action as string, params, options)
+      const response = await mock(action as string, params, options)
+      if (response instanceof Error) return Promise.reject(response)
+      if (response instanceof Response) return response
+      return new Response(response || {})
     }
 
     if (typeof action === 'function') {

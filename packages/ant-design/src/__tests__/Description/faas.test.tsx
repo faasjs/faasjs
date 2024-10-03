@@ -3,16 +3,13 @@
  */
 import { render, screen } from '@testing-library/react'
 import { Description } from '../../Description'
-import { setMock, Response } from '@faasjs/browser'
+import { setMock } from '@faasjs/browser'
 
 describe('Description/faas', () => {
   beforeEach(() => {
-    setMock(async () => {
-      return new Response({
-        status: 200,
-        data: { test: 'value' },
-      })
-    })
+    setMock(async () => ({
+      data: { test: 'value' },
+    }))
   })
 
   afterEach(() => {

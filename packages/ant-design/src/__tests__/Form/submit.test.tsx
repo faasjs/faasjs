@@ -4,7 +4,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../Form'
-import { setMock, Response } from '@faasjs/browser'
+import { setMock } from '@faasjs/browser'
 
 describe('Form/submit', () => {
   beforeEach(() => {
@@ -34,9 +34,7 @@ describe('Form/submit', () => {
 
     setMock(async (_, params) => {
       values = params
-      return new Response({
-        status: 201,
-      })
+      return
     })
 
     render(
@@ -65,9 +63,7 @@ describe('Form/submit', () => {
 
     setMock(async (_, params) => {
       values = params
-      return new Response({
-        status: 201,
-      })
+      return
     })
 
     render(
@@ -101,7 +97,7 @@ describe('Form/submit', () => {
   it('when submit to server function', async () => {
     let values: any
 
-    render(<Form submit={{ to: { action: (params) => values = params } }} />)
+    render(<Form submit={{ to: { action: params => (values = params) } }} />)
 
     screen.debug()
 

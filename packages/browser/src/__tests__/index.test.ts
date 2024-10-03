@@ -133,7 +133,7 @@ describe('client', () => {
 
     expect(response.data).toEqual({})
 
-    setMock(undefined)
+    setMock(null)
   })
 
   describe('react server action', () => {

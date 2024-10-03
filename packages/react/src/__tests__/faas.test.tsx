@@ -17,7 +17,7 @@ describe('faas', () => {
   })
 
   afterEach(() => {
-    setMock(undefined)
+    setMock(null)
   })
 
   it('should work', async () => {
@@ -25,7 +25,7 @@ describe('faas', () => {
   })
 
   it('should work with server action', async () => {
-    setMock(undefined)
+    setMock(null)
     expect(
       await faas(async params => ({ data: JSON.parse(params) + 1 }), 1)
     ).toMatchObject({
