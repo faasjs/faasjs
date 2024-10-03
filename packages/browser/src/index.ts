@@ -200,7 +200,7 @@ let mock: MockHandler
  * ```ts
  * import { setMock } from '@faasjs/browser'
  *
- * setMock(async ({ action, params, options }) => {
+ * setMock(async (action, params, options) => {
  *   return new Response({
  *     status: 200,
  *     data: {
