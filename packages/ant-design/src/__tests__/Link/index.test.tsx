@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -78,19 +78,17 @@ describe('Link', () => {
   })
 
   it('work with onClick', async () => {
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {})
+    let called = false
 
     render(
       <BrowserRouter>
-        <Link href='/' text='text' onClick={() => alert('ok')} />
+        <Link href='/' text='text' onClick={() => called = true} />
       </BrowserRouter>
     )
 
     await userEvent.click(screen.getByText('text'))
 
-    expect(alertMock).toHaveBeenCalledWith('ok')
-
-    alertMock.mockRestore()
+    expect(called).toBeTruthy()
   })
 
   it('work with external link', async () => {
@@ -145,19 +143,17 @@ describe('Link', () => {
     })
 
     it('work with onClick', async () => {
-      const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {})
+      let called = false
 
       render(
         <BrowserRouter>
-          <Link href='/' text='text' onClick={() => alert('ok')} button />
+          <Link href='/' text='text' onClick={() => called = true} button />
         </BrowserRouter>
       )
 
       await userEvent.click(screen.getByText('text'))
 
-      expect(alertMock).toHaveBeenCalledWith('ok')
-
-      alertMock.mockRestore()
+      expect(called).toBeTruthy()
     })
 
     it('work with external link', async () => {

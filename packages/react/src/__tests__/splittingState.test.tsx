@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment @happy-dom/jest-environment
  */
 import { renderHook, act } from '@testing-library/react';
 import { useSplittingState } from '../splittingState';

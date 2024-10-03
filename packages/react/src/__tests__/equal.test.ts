@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment @happy-dom/jest-environment
  */
 import {
   equal,
@@ -53,8 +53,8 @@ describe('equal function', () => {
   })
 
   test('should return true for identical functions', () => {
-    const fn1 = () => {}
-    const fn2 = () => {}
+    const fn1 = () => { }
+    const fn2 = () => { }
     expect(equal(fn1, fn2)).toBe(true)
   })
 

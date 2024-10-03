@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment @happy-dom/jest-environment
  */
 import { faas } from '../faas'
 import { Response, setMock } from '@faasjs/browser'

@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
 import { Form } from '../../Form'
@@ -10,7 +10,7 @@ describe('Form/items', () => {
   it('should work', () => {
     render(<Form items={[{ id: 'test' }]} />)
 
-    expect(screen.getByText('Test')).toBeDefined()
+    expect(screen.getByText('Test')).not.toBeNull()
   })
 
   it('should work with children', async () => {
@@ -37,13 +37,13 @@ describe('Form/items', () => {
       </Form>
     )
 
-    expect(screen.getByText('Test')).toBeDefined()
-    expect(screen.getByText('Children')).toBeDefined()
+    expect(screen.getByText('Test')).not.toBeNull()
+    expect(screen.getByText('Children')).not.toBeNull()
 
     await userEvent.type(screen.getAllByRole('textbox')[0], 'test')
     await userEvent.type(screen.getAllByRole('textbox')[1], 'children')
     await userEvent.type(screen.getAllByRole('textbox')[2], 'list')
-    await userEvent.click(screen.getByText('Submit'))
+    await userEvent.click(screen.getByRole('button'))
 
     expect(value).toEqual({
       test: 'test',

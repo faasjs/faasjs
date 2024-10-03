@@ -22,7 +22,7 @@
     "@types/node": "*",
     "@swc/jest": "*",
     "jest": "*",
-    "jest-environment-jsdom": "*"
+    "@happy-dom/jest-environment": "*"
   },
   "engines": {
     "node": ">=22.0.0",

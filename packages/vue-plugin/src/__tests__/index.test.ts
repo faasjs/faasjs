@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment @happy-dom/jest-environment
  */
 import { mount } from '@vue/test-utils'
 import { FaasVuePlugin } from '..'

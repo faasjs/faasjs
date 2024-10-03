@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
 import type { TableElements } from '../elements'

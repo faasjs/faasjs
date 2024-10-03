@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment @happy-dom/jest-environment
  */
 import { render } from '@testing-library/react'
 import { OptionalWrapper } from '../OptionalWrapper'
