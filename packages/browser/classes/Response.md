@@ -26,15 +26,7 @@ new Response({
 
 #### Parameters
 
-• **props**
-
-• **props.body?**: `any`
-
-• **props.data?**: `T`
-
-• **props.headers?**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
-
-• **props.status?**: `number`
+• **props**: [`ResponseProps`](../type-aliases/ResponseProps.md)\<`T`\> = `{}`
 
 #### Returns
 

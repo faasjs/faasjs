@@ -14,7 +14,7 @@ function build(path) {
   const packagePath = path.replace('/package.json', '')
 
   run(
-    `rm -rf ${packagePath}/classes ${packagePath}/functions ${packagePath}/interfaces ${packagePath}/type-aliases`
+    `rm -rf ${packagePath}/classes ${packagePath}/functions ${packagePath}/interfaces ${packagePath}/type-aliases ${packagePath}/modules ${packagePath}/variables`
   )
 
   run(

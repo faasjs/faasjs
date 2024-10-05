@@ -10,7 +10,7 @@ Set mock handler for testing
 
 • **handler**: [`MockHandler`](../type-aliases/MockHandler.md)
 
-mock handler, set `undefined` to clear mock
+mock handler, set `null` or `undefined` to clear mock
 
 ## Returns
 
@@ -21,13 +21,13 @@ mock handler, set `undefined` to clear mock
 ```ts
 import { setMock } from '@faasjs/browser'
 
-setMock(async ({ action, params, options }) => {
-  return new Response({
+setMock(async (action, params, options) => {
+  return {
     status: 200,
     data: {
       name: 'FaasJS'
     }
-  })
+  }
 })
 
 const client = new FaasBrowserClient('/')
