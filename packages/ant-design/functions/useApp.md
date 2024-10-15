@@ -2,7 +2,7 @@
 
 # Function: useApp()
 
-> **useApp**(): `Readonly`\<[`useAppProps`](../interfaces/useAppProps.md)\>
+> **useApp**\<`NewT`\>(): `Readonly`\<[`useAppProps`](../interfaces/useAppProps.md) \| `NewT`\>
 
 Get app context.
 
@@ -12,6 +12,10 @@ import { useApp } from '@faasjs/ant-design'
 const { message, notification, setModalProps, setDrawerProps } = useApp()
 ```
 
+## Type Parameters
+
+• **NewT** *extends* [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+
 ## Returns
 
-`Readonly`\<[`useAppProps`](../interfaces/useAppProps.md)\>
+`Readonly`\<[`useAppProps`](../interfaces/useAppProps.md) \| `NewT`\>

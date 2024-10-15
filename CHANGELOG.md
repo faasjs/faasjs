@@ -4,6 +4,21 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.5.0 (2024-10-15)`](https://github.com/faasjs/faasjs/compare/v3.4.0...v3.5.0)
+
+- `@faasjs/browser`
+  - [Feature] Simplify mock responses in tests and update Response constructor.
+  - [Feature] Add `length` to `generateId`.
+
+- `@faasjs/react`
+  - [Feature] Support special type for createSplittingContext's provider and use.
+
+- `@faasjs/lint`
+  - [Fix] Disable biome for `.astro` files.
+
+- `@faasjs/http`
+  - [Feature] Add `useHttpFunc`.
+
 [`v3.4.0 (2024-10-01)`](https://github.com/faasjs/faasjs/compare/v3.3.0...v3.4.0)
 
 - `@faasjs/react`

@@ -22,13 +22,17 @@ The default value of the splitting context.
 
 ### use()
 
-> **use**: () => `Readonly`\<`T`\>
+> **use**: \<`NewT`\>() => `Readonly`\<`NewT` \| `T`\>
 
 The hook to use the splitting context.
 
+#### Type Parameters
+
+• **NewT** *extends* `T` = `T`
+
 #### Returns
 
-`Readonly`\<`T`\>
+`Readonly`\<`NewT` \| `T`\>
 
 #### See
 
@@ -38,6 +42,10 @@ https://faasjs.com/doc/react/functions/createSplittingContext.html#use
 
 The provider component of the splitting context.
 
+#### Type Parameters
+
+• **NewT** *extends* `Record`\<`string`, `any`\> = `T`
+
 #### Parameters
 
 • **props**
@@ -46,7 +54,7 @@ The provider component of the splitting context.
 
 • **props.memo?**: `true` \| `any`[]
 
-• **props.value?**: `Partial`\<`T`\>
+• **props.value?**: `Partial`\<`NewT` \| `T`\>
 
 #### Returns
 
