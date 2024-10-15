@@ -83,7 +83,7 @@ describe('createSplittingContext', () => {
     const { Provider, use } = createSplittingContext<{
       value: number
       setValue: React.Dispatch<React.SetStateAction<number>>
-      optional: string
+      optional?: string
     }>({
       value: 0,
       setValue: undefined,
@@ -177,12 +177,22 @@ describe('createSplittingContext', () => {
 
   it('should accept new type of provider', () => {
     const { Provider, use } = createSplittingContext<{
-      value: any
-    }>(['value'])
+      value: Record<string, any>
+      setValue: React.Dispatch<React.SetStateAction<any>>
+    }>(['value', 'setValue'])
 
     expectType<React.ReactNode>(
-      Provider<{ value: number }>({ value: { value: 1 }, children: null })
+      Provider<{
+        value: { a: number }
+        setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
+      }>({ value: { value: { a: 1 }, setValue: () => 1 }, children: null })
     )
-    expectType<() => { value: number }>(use<{ value: number }>)
+    expectType<() => {
+      value: { a: number }
+      setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
+    }>(use<{
+      value: { a: number }
+      setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
+    }>)
   })
 })

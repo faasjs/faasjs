@@ -57,7 +57,7 @@ export function createSplittingContext<T extends Record<string, any>>(
    * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#provider
    */
   Provider<NewT extends T = T>(props: {
-    value?: Partial<NewT | T>
+    value?: NewT
     children: ReactNode
     memo?: true | any[]
   }): ReactNode
@@ -67,7 +67,7 @@ export function createSplittingContext<T extends Record<string, any>>(
    *
    * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#use
    */
-  use: <NewT extends T = T>() => Readonly<NewT | T>
+  use: <NewT extends T = T>() => Readonly<NewT>
 } {
   const keys = Array.isArray(defaultValue)
     ? defaultValue
@@ -118,7 +118,7 @@ export function createSplittingContext<T extends Record<string, any>>(
     let children = props.memo
       ? useEqualMemo(
         () => props.children,
-        typeof props.memo === 'boolean' ? [] : props.memo
+        props.memo === true ? [] : props.memo
       )
       : props.children
 
@@ -145,8 +145,8 @@ export function createSplittingContext<T extends Record<string, any>>(
    * ```
    */
   function use<NewT extends T = T>() {
-    return useConstant(() => {
-      const obj = Object.create(null) as NewT
+    return useConstant<NewT>(() => {
+      const obj = Object.create(null)
 
       for (const key of Object.keys(contexts)) {
         Object.defineProperty(obj, key, {
