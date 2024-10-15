@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createSplittingContext } from '../splittingContext'
 import { useState } from 'react'
+import { expectType } from 'tsd'
 
 describe('createSplittingContext', () => {
   it('should render children with default values', () => {
@@ -172,5 +173,14 @@ describe('createSplittingContext', () => {
 
     expect(screen.getByText('Hello')).not.toBeNull()
     expect(screen.getByText('World')).not.toBeNull()
+  })
+
+  it('should accept new type of provider', () => {
+    const { Provider, use } = createSplittingContext<{
+      value: any
+    }>(['value'])
+
+    expectType<React.ReactNode>(Provider<{ value: number }>({ value: { value: 1 }, children: null }))
+    expectType<{ value: number }>(use<{ value: number }>())
   })
 })
