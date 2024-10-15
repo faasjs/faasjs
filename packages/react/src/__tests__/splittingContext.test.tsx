@@ -180,7 +180,9 @@ describe('createSplittingContext', () => {
       value: any
     }>(['value'])
 
-    expectType<React.ReactNode>(Provider<{ value: number }>({ value: { value: 1 }, children: null }))
-    expectType<{ value: number }>(use<{ value: number }>())
+    expectType<React.ReactNode>(
+      Provider<{ value: number }>({ value: { value: 1 }, children: null })
+    )
+    expectType<() => { value: number }>(use<{ value: number }>)
   })
 })
