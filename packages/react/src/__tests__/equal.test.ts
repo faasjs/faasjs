@@ -64,6 +64,18 @@ describe('equal function', () => {
     expect(equal(fn1, fn2)).toBe(false)
   })
 
+  test('should return true for async identical functions', () => {
+    const fn1 = async () => { }
+    const fn2 = async () => { }
+    expect(equal(fn1, fn2)).toBe(true)
+  })
+
+  test('should return false for sync and async functions', () => {
+    const fn1 = async () => { }
+    const fn2 = () => { }
+    expect(equal(fn1, fn2)).toBe(false)
+  })
+
   test('should return true for identical objects', () => {
     expect(equal({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true)
   })

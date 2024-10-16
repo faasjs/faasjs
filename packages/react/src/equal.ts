@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
+const AsyncFunction = (async () => { }).constructor
+
 /**
  * Compares two values for deep equality.
  *
@@ -45,6 +47,7 @@ export function equal(a: any, b: any): boolean {
 
     case RegExp:
     case Function:
+    case AsyncFunction:
       return a.toString() === b.toString()
 
     case Map:
