@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.5.1 (2024-10-16)`](https://github.com/faasjs/faasjs/compare/v3.5.0...v3.5.1)
+
+- `@faasjs/react`
+  - [Fix] Fix `createSplittingContext` type.
+
+- `@faasjs/ant-design`
+  - [Fix] Fix `ConfigProvider`'s language handling to support server renderer.
+
 [`v3.5.0 (2024-10-15)`](https://github.com/faasjs/faasjs/compare/v3.4.0...v3.5.0)
 
 - `@faasjs/browser`

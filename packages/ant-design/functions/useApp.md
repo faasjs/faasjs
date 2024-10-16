@@ -2,7 +2,7 @@
 
 # Function: useApp()
 
-> **useApp**\<`NewT`\>(): `Readonly`\<[`useAppProps`](../interfaces/useAppProps.md) \| `NewT`\>
+> **useApp**\<`NewT`\>(): `Readonly`\<`NewT`\>
 
 Get app context.
 
@@ -18,4 +18,4 @@ const { message, notification, setModalProps, setDrawerProps } = useApp()
 
 ## Returns
 
-`Readonly`\<[`useAppProps`](../interfaces/useAppProps.md) \| `NewT`\>
+`Readonly`\<`NewT`\>

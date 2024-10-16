@@ -22,7 +22,7 @@ The default value of the splitting context.
 
 ### use()
 
-> **use**: \<`NewT`\>() => `Readonly`\<`NewT` \| `T`\>
+> **use**: \<`NewT`\>() => `Readonly`\<`NewT`\>
 
 The hook to use the splitting context.
 
@@ -32,7 +32,7 @@ The hook to use the splitting context.
 
 #### Returns
 
-`Readonly`\<`NewT` \| `T`\>
+`Readonly`\<`NewT`\>
 
 #### See
 
@@ -54,7 +54,7 @@ The provider component of the splitting context.
 
 • **props.memo?**: `true` \| `any`[]
 
-• **props.value?**: `Partial`\<`NewT` \| `T`\>
+• **props.value?**: `NewT`
 
 #### Returns
 
