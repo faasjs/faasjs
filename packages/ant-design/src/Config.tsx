@@ -43,8 +43,6 @@ export interface ConfigProviderProps {
   }
 }
 
-const isZH = /^zh/i.test(navigator.language)
-
 const zh = {
   lang: 'zh',
   blank: '空',
@@ -71,13 +69,11 @@ const en = {
   reset: 'Reset',
 }
 
-const common = isZH ? zh : en
-
 const baseTheme = {
   lang: 'en',
-  common,
-  Blank: { text: common.blank },
-  Form: { submit: { text: common.submit } },
+  common: en,
+  Blank: { text: en.blank },
+  Form: { submit: { text: en.submit } },
   Title: {
     separator: ' - ',
     suffix: '',
@@ -102,10 +98,11 @@ export const ConfigContext = createContext<Partial<ConfigProviderProps>>({
  * ```
  */
 export function ConfigProvider(props: ConfigProviderProps) {
-  const [theme, setTheme] = useState<ConfigProviderProps['theme']>()
+  const [theme, setTheme] = useState<ConfigProviderProps['theme']>(baseTheme)
 
   useEqualEffect(() => {
-    if (props.theme?.lang === 'zh') {
+    const lang = props.theme?.lang || (!props.theme?.lang && /^zh/i.test(navigator.language) ? 'zh' : 'en')
+    if (lang === 'zh') {
       setTheme(
         defaultsDeep(
           props.theme,
