@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -34,7 +34,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/react": "3.5.1",
+    "@faasjs/react": "3.5.2",
     "antd": "*",
     "@ant-design/icons": "*",
     "lodash-es": "*",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "*",
-    "@faasjs/react": "3.5.1",
+    "@faasjs/react": "3.5.2",
     "antd": "*",
     "@ant-design/icons": "*",
     "lodash-es": "*",
