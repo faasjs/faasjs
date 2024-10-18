@@ -136,4 +136,22 @@ describe('server', () => {
       body: 'hello',
     })
   })
+
+  it('Response', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/response`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      body: 'hello',
+    })
+  })
+
+  it('stream', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/stream`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      body: 'hello world',
+    })
+  })
 })

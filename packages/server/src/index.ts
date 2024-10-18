@@ -247,6 +247,29 @@ export class Server {
             },
             { request_id: requestId }
           )
+
+          if (data instanceof Response) {
+            res.statusCode = data.status
+
+            for (const [key, value] of data.headers.entries())
+              res.setHeader(key, value);
+
+            if (data.body instanceof Readable) {
+              data.body.pipe(res)
+              data.body.on('end', () => {
+                res.end()
+                resolve()
+              })
+
+              return
+            }
+
+            res.write(await data.text());
+            res.end();
+            resolve()
+
+            return
+          }
         } catch (error) {
           data = error
         }
