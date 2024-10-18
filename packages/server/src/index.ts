@@ -254,21 +254,39 @@ export class Server {
             for (const [key, value] of data.headers.entries())
               res.setHeader(key, value);
 
-            if (data.body instanceof Readable) {
-              data.body.pipe(res)
-              data.body.on('end', () => {
+            const reader = data.body.getReader()
+
+            const stream = Readable.from(async function* () {
+              while (true) {
+                try {
+                  const { done, value } = await reader.read()
+                  if (done) break
+                  if (value)
+                    yield value
+                } catch (error: any) {
+                  logger.error(error)
+                  stream.emit(error)
+                  break
+                }
+              }
+            }())
+
+            stream.pipe(res)
+              .on('finish', () => {
                 res.end()
                 resolve()
               })
-
-              return
-            }
-
-            res.write(await data.text());
-            res.end();
-            resolve()
+              .on('error', (err) => {
+                if (!res.headersSent) {
+                  res.statusCode = 500
+                  res.setHeader('Content-Type', 'application/json')
+                  res.write(JSON.stringify({ error: { message: err.message } }))
+                }
+                resolve()
+              });
 
             return
+
           }
         } catch (error) {
           data = error

@@ -154,4 +154,13 @@ describe('server', () => {
       body: 'hello world',
     })
   })
+
+  it('stream error', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/stream-error`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      body: 'hello',
+    })
+  })
 })

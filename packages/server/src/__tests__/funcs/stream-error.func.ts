@@ -8,8 +8,7 @@ export default new Func({
         controller.enqueue(encoder.encode('hello'))
 
         setTimeout(() => {
-          controller.enqueue(encoder.encode(' world'))
-          controller.close()
+          controller.error(new Error('error'))
         })
       }
     }))
