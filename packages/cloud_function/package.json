@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cloud_function",
-  "version": "3.5.2",
+  "version": "3.6.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -34,16 +34,16 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/deep_merge": "3.5.2",
-    "@faasjs/func": "3.5.2",
-    "@faasjs/logger": "3.5.2",
-    "@faasjs/load": "3.5.2"
+    "@faasjs/deep_merge": "3.6.0",
+    "@faasjs/func": "3.6.0",
+    "@faasjs/logger": "3.6.0",
+    "@faasjs/load": "3.6.0"
   },
   "devDependencies": {
-    "@faasjs/deep_merge": "3.5.2",
-    "@faasjs/func": "3.5.2",
-    "@faasjs/logger": "3.5.2",
-    "@faasjs/load": "3.5.2"
+    "@faasjs/deep_merge": "3.6.0",
+    "@faasjs/func": "3.6.0",
+    "@faasjs/logger": "3.6.0",
+    "@faasjs/load": "3.6.0"
   },
   "engines": {
     "node": ">=22.0.0",

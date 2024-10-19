@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v3.6.0 (2024-10-16)`](https://github.com/faasjs/faasjs/compare/v3.5.2...v3.6.0)
+[`v3.6.0 (2024-10-19)`](https://github.com/faasjs/faasjs/compare/v3.5.2...v3.6.0)
 
 - `@faasjs/server`
   - [Feature] Support for [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response).
