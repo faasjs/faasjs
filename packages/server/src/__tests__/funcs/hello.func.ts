@@ -6,7 +6,7 @@ const http = new Http()
 export default new Func({
   plugins: [http],
   async handler() {
-    http.setHeader('access-control-expose-headers', 'x-x')
+    http.setHeader('x-headers', 'x-x')
     return 'hello'
   },
 })

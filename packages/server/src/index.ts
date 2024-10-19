@@ -247,52 +247,61 @@ export class Server {
             },
             { request_id: requestId }
           )
-
-          if (data instanceof Response) {
-            res.statusCode = data.status
-
-            for (const [key, value] of data.headers.entries())
-              res.setHeader(key, value);
-
-            const reader = data.body.getReader()
-
-            const stream = Readable.from(async function* () {
-              while (true) {
-                try {
-                  const { done, value } = await reader.read()
-                  if (done) break
-                  if (value)
-                    yield value
-                } catch (error: any) {
-                  logger.error(error)
-                  stream.emit(error)
-                  break
-                }
-              }
-            }())
-
-            stream.pipe(res)
-              .on('finish', () => {
-                res.end()
-                resolve()
-              })
-              .on('error', (err) => {
-                if (!res.headersSent) {
-                  res.statusCode = 500
-                  res.setHeader('Content-Type', 'application/json')
-                  res.write(JSON.stringify({ error: { message: err.message } }))
-                }
-                resolve()
-              });
-
-            return
-
-          }
         } catch (error) {
           data = error
         }
 
         if (res.writableEnded) return resolve()
+
+        // process headers
+        const finishedAt = Date.now()
+
+        if (data.headers) headers = Object.assign(headers, data.headers)
+
+        if (!headers['X-FaasJS-Timing-Processing']) headers['X-FaasJS-Timing-Processing'] = (finishedAt - startedAt).toString()
+
+        if (!headers['X-FaasJS-Timing-Total']) headers['X-FaasJS-Timing-Total'] = (finishedAt - requestedAt).toString()
+
+        Object.freeze(headers)
+
+        for (const key in headers) res.setHeader(key, headers[key])
+
+        if (data instanceof Response) {
+          res.statusCode = data.status
+
+          const reader = data.body.getReader()
+
+          const stream = Readable.from(async function* () {
+            while (true) {
+              try {
+                const { done, value } = await reader.read()
+                if (done) break
+                if (value)
+                  yield value
+              } catch (error: any) {
+                logger.error(error)
+                stream.emit(error)
+                break
+              }
+            }
+          }())
+
+          stream.pipe(res)
+            .on('finish', () => {
+              res.end()
+              resolve()
+            })
+            .on('error', (err) => {
+              if (!res.headersSent) {
+                res.statusCode = 500
+                res.setHeader('Content-Type', 'application/json')
+                res.write(JSON.stringify({ error: { message: err.message } }))
+              }
+              resolve()
+            });
+
+          return
+        }
 
         let resBody: string | Buffer
         if (
@@ -302,46 +311,17 @@ export class Server {
           data === null
         ) {
           res.statusCode = data?.statusCode || 500
-          headers['Content-Type'] = 'application/json; charset=utf-8'
+          res.setHeader('Content-Type', 'application/json; charset=utf-8')
           resBody = JSON.stringify({
             error: { message: data?.message || 'No response' },
           })
         } else {
           if (data.statusCode) res.statusCode = data.statusCode
 
-          if (data.headers) headers = Object.assign(headers, data.headers)
-
           if (data.body)
             if (data.isBase64Encoded) resBody = Buffer.from(data.body, 'base64')
             else resBody = data.body
         }
-
-        const finishedAt = Date.now()
-        res.setHeader(
-          'X-FaasJS-Timing-Processing',
-          (finishedAt - startedAt).toString()
-        )
-        res.setHeader(
-          'X-FaasJS-Timing-Total',
-          (finishedAt - requestedAt).toString()
-        )
-
-        for (const key in headers) res.setHeader(key, headers[key])
-
-        if (!headers['access-control-expose-headers']) {
-          res.setHeader(
-            'Access-Control-Expose-Headers',
-            AdditionalHeaders.join(',')
-          )
-        } else
-          res.setHeader(
-            'Access-Control-Expose-Headers',
-            headers['access-control-expose-headers']
-              .split(',')
-              .filter(Boolean)
-              .concat(AdditionalHeaders)
-              .join(',')
-          )
 
         if (resBody) {
           logger.debug('Response %s %j', res.statusCode, headers)

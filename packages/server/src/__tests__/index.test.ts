@@ -63,8 +63,9 @@ describe('server', () => {
     ).resolves.toMatchObject({
       headers: {
         'x-faasjs-request-id': 'test',
+        'x-headers': 'x-x',
         'access-control-expose-headers':
-          'x-x,content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
+          'content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
       },
       statusCode: 200,
       body: { data: 'hello' },
@@ -77,8 +78,9 @@ describe('server', () => {
     ).resolves.toMatchObject({
       headers: {
         'x-faasjs-request-id': 'test',
+        'x-headers': 'x-x',
         'access-control-expose-headers':
-          'x-x,content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
+          'content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
       },
       statusCode: 200,
       body: { data: 'hello' },
@@ -91,8 +93,9 @@ describe('server', () => {
     ).resolves.toMatchObject({
       headers: {
         'x-faasjs-request-id': 'test',
+        'x-headers': 'x-x',
         'access-control-expose-headers':
-          'x-x,content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
+          'content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
       },
       statusCode: 200,
       body: { data: 'hello' },
