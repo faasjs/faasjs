@@ -464,17 +464,19 @@ export class Server {
         this.processing = true
         await this.processRequest(path, req, res, Date.now())
         this.processing = false
-      } else {
-        const now = Date.now()
-        const timer = setInterval(async () => {
-          if (!this.processing) {
-            this.processing = true
-            clearInterval(timer)
-            await this.processRequest(path, req, res, now)
-            this.processing = false
-          }
-        })
+
+        return
       }
+
+      const now = Date.now()
+      const timer = setInterval(async () => {
+        if (!this.processing) {
+          this.processing = true
+          clearInterval(timer)
+          await this.processRequest(path, req, res, now)
+          this.processing = false
+        }
+      })
     })
       .on('connection', socket => {
         this.sockets.add(socket)
