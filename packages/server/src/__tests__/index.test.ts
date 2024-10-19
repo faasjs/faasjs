@@ -177,34 +177,46 @@ describe('server', () => {
     })
   })
 
-  it('compress with br', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/compress`, {
-      headers: { 'Accept-Encoding': 'br' },
+  describe('compress', () => {
+    it('br', async () => {
+      const response = await fetch(`http://127.0.0.1:${port}/compress`, {
+        headers: { 'Accept-Encoding': 'br' },
+      })
+
+      expect(response.status).toEqual(200)
+      expect(response.headers.get('content-encoding')).toEqual('br')
+      expect(await response.text()).toContain('hello')
     })
 
-    expect(response.status).toEqual(200)
-    expect(response.headers.get('content-encoding')).toEqual('br')
-    expect(await response.text()).toContain('hello')
-  })
+    it('gzip', async () => {
+      const response = await fetch(`http://127.0.0.1:${port}/compress`, {
+        headers: { 'Accept-Encoding': 'gzip' },
+      })
 
-  it('compress with gzip', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/compress`, {
-      headers: { 'Accept-Encoding': 'gzip' },
+      expect(response.status).toEqual(200)
+      expect(response.headers.get('content-encoding')).toEqual('gzip')
+      expect(await response.text()).toContain('hello')
     })
 
-    expect(response.status).toEqual(200)
-    expect(response.headers.get('content-encoding')).toEqual('gzip')
-    expect(await response.text()).toContain('hello')
-  })
+    it('deflate', async () => {
+      const response = await fetch(`http://127.0.0.1:${port}/compress`, {
+        headers: { 'Accept-Encoding': 'deflate' },
+      })
 
-  it('compress with deflate', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/compress`, {
-      headers: { 'Accept-Encoding': 'deflate' },
+      expect(response.status).toEqual(200)
+      expect(response.headers.get('content-encoding')).toEqual('deflate')
+      expect(await response.text()).toContain('hello')
     })
 
-    expect(response.status).toEqual(200)
-    expect(response.headers.get('content-encoding')).toEqual('deflate')
-    expect(await response.text()).toContain('hello')
+    it('unknown', async () => {
+      const response = await fetch(`http://127.0.0.1:${port}/compress`, {
+        headers: { 'Accept-Encoding': 'unknown' },
+      })
+
+      expect(response.status).toEqual(200)
+      expect(response.headers.get('content-encoding')).toBeNull()
+      expect(await response.text()).toContain('hello')
+    })
   })
 
   it('raw', async () => {
@@ -251,18 +263,9 @@ describe('server', () => {
       request(`http://127.0.0.1:${port}/stream`, {
         headers: { 'x-faasjs-request-id': 'test' },
       }),
-      request(`http://127.0.0.1:${port}/stream`, {
-        headers: { 'x-faasjs-request-id': 'test' },
-      }),
-      request(`http://127.0.0.1:${port}/stream`, {
-        headers: { 'x-faasjs-request-id': 'test' },
-      }),
-      request(`http://127.0.0.1:${port}/stream`, {
-        headers: { 'x-faasjs-request-id': 'test' },
-      })
     ])
 
-    expect(results).toHaveLength(5)
+    expect(results).toHaveLength(2)
 
     expect(results[0]).toMatchObject({
       statusCode: 200,

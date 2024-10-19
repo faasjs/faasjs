@@ -10,7 +10,7 @@ export default new Func({
         setTimeout(() => {
           controller.enqueue(encoder.encode(' world'))
           controller.close()
-        })
+        }, 1000)
       }
     }))
   },

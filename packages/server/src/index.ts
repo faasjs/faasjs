@@ -337,13 +337,6 @@ export class Server {
             return
           }
 
-          const onError = (err: any) => {
-            if (err) logger.error(err)
-
-            res.end()
-            resolve()
-          }
-
           const compression = encoding.includes('br')
             ? {
               type: 'br',
@@ -368,7 +361,12 @@ export class Server {
             Readable.from(resBody)
               .pipe(compression.compress)
               .pipe(res)
-              .on('error', onError)
+              .on('error', (err: any) => {
+                if (err) logger.error(err)
+
+                res.end()
+                resolve()
+              })
               .on('close', () => {
                 res.end()
                 resolve()
