@@ -1,5 +1,5 @@
 import { execSync } from 'node:child_process'
-import { dirname, basename } from 'node:path'
+import { dirname } from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { Glob } from "bun"
 
