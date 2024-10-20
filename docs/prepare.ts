@@ -1,5 +1,5 @@
-import { execSync} from 'node:child_process'
-import { dirname } from 'node:path'
+import { execSync } from 'node:child_process'
+import { dirname, basename } from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { Glob } from "bun"
 
@@ -48,6 +48,16 @@ for (const file of images) {
   const target = file.replace('../images/', './doc/images/')
   run(`mkdir -p ${dirname(target)} &`)
   run(`cp ${file} ${target}`)
+
+  if (file === '../images/README.md') continue
+
+  const content = readFileSync(target, 'utf-8')
+    .toString()
+
+  writeFileSync(
+    target,
+    `[Images](../) / faasjs/${target.split('/')[3]}\n\n${content}`
+  )
 }
 
 writeFileSync(

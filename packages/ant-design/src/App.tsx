@@ -87,7 +87,7 @@ function RoutesApp(props: {
 /**
  * App component with Ant Design & FaasJS
  *
- * - Based on Ant Design's [ConfigProvider](https://ant.design/components/config-provider/) and [StyleProvider](https://ant.design/components/style-provider/).
+ * - Based on Ant Design's [ConfigProvider](https://ant.design/components/config-provider/) and [StyleProvider](https://ant.design/docs/react/compatible-style#styleprovider).
  * - Integrated Ant Design's [Message](https://ant.design/components/message/) and [Notification](https://ant.design/components/notification/).
  * - Based on FaasJS's [ConfigProvider](https://faasjs.com/doc/ant-design/#configprovider).
  * - Integrated FaasJS's [Modal](https://faasjs.com/doc/ant-design/#usemodal), [Drawer](https://faasjs.com/doc/ant-design/#usedrawer) and [ErrorBoundary](https://faasjs.com/doc/ant-design/#errorboundary).

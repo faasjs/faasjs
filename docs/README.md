@@ -29,7 +29,7 @@ footer: An atomic application framework built for the TypeScript developer. | MI
 
 - Break down complex projects into manageable components with the **atomized development model**.
 - Enjoy **fast iterations** and **seamless** team collaboration.
-- Jumpstart development with **pre-built plugins** for common functionalities like HTTP and Knex.
+- Jump start development with **pre-built plugins** for common functionalities like HTTP and Knex.
 
 ### High maintainability
 

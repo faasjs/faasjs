@@ -27,7 +27,6 @@ export default defineUserConfig({
     locales: {
       '/': {
         selectLanguageName: 'English',
-        editLinkText: 'Edit this page on GitHub',
         navbar: [
           {
             text: 'Home',
@@ -220,12 +219,8 @@ export default defineUserConfig({
           ],
         },
         lastUpdatedText: '更新时间',
-        editLinkText: '帮助我们改善此页面',
       },
     },
-    docsRepo: 'faasjs/faasjs',
-    docsDir: 'docs',
-    docsBranch: 'main',
     contributors: false,
   }),
   plugins: [
