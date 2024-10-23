@@ -54,11 +54,34 @@ export function createSplittingContext<T extends Record<string, any>>(
 ): {
   /**
    * The provider component of the splitting context.
+   *
    * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#provider
+   *
+   * @example
+   * ```tsx
+   * function App() {
+   *   const [value, setValue] = useState(0)
+   *
+   *   return (
+   *     <Provider value={{ value, setValue }}>
+   *       <ReaderComponent />
+   *       <WriterComponent />
+   *     </Provider>
+   *   )
+   * }
+   * ```
    */
   Provider<NewT extends T = T>(props: {
     value?: NewT
     children: ReactNode
+    /**
+     * Whether to use memoization for the children.
+     *
+     * @default false
+     *
+     * `true`: memoize the children without dependencies.
+     * `any[]`: memoize the children with specific dependencies.
+     */
     memo?: true | any[]
   }): ReactNode
 
@@ -66,6 +89,15 @@ export function createSplittingContext<T extends Record<string, any>>(
    * The hook to use the splitting context.
    *
    * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#use
+   *
+   * @example
+   * ```tsx
+   * function ChildComponent() {
+   *   const { value, setValue } = use()
+   *
+   *   return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
+   * }
+   * ```
    */
   use: <NewT extends T = T>() => Readonly<NewT>
 } {
@@ -85,34 +117,9 @@ export function createSplittingContext<T extends Record<string, any>>(
   >
   for (const key of keys) contexts[key] = createContext(defaultValues[key])
 
-  /**
-   * The provider component of the splitting context.
-   *
-   * @example
-   * ```tsx
-   * function App() {
-   *   const [value, setValue] = useState(0)
-   *
-   *   return (
-   *     <Provider value={{ value, setValue }}>
-   *       <ReaderComponent />
-   *       <WriterComponent />
-   *     </Provider>
-   *   )
-   * }
-   * ```
-   */
   function Provider<NewT extends T = T>(props: {
     value?: Partial<NewT>
     children: React.ReactNode
-    /**
-     * Whether to use memoization for the children.
-     *
-     * @default false
-     *
-     * `true`: memoize the children without dependencies.
-     * `any[]`: memoize the children with specific dependencies.
-     */
     memo?: true | any[]
   }) {
     let children = props.memo
@@ -132,18 +139,6 @@ export function createSplittingContext<T extends Record<string, any>>(
     return children
   }
 
-  /**
-   * The hook to use the splitting context.
-   *
-   * @example
-   * ```tsx
-   * function ChildComponent() {
-   *   const { value, setValue } = use()
-   *
-   *   return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
-   * }
-   * ```
-   */
   function use<NewT extends T = T>() {
     return useConstant<NewT>(() => {
       const obj = Object.create(null)
