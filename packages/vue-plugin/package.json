@@ -28,14 +28,13 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --config ../../tsup.config.json"
+    "build": "tsup-node src/index.ts --config ../../tsup.config.json --external vue"
   },
   "files": [
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/browser": "3.6.1",
-    "vue": "*"
+    "@faasjs/browser": "3.6.1"
   },
   "devDependencies": {
     "@faasjs/browser": "3.6.1",
