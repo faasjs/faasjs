@@ -22,6 +22,7 @@ React plugin for FaasJS.
     - [useEqualCallback](functions/useEqualCallback.md): Memoize a callback with deep equality.
     - [useConstant](functions/useConstant.md): Create a constant value with hooks.
     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
+    - [splittingState](functions/splittingState.md): Create a splitting states.
     - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
     - [ErrorBoundary](classes/ErrorBoundary.md): Catch errors in the component tree.
   - Fetch Data:
@@ -51,6 +52,7 @@ npm install @faasjs/react
 - [useEqualMemo](functions/useEqualMemo.md)
 - [useEqualMemoize](functions/useEqualMemoize.md)
 - [useFaas](functions/useFaas.md)
+- [useSplittingState](functions/useSplittingState.md)
 - [withFaasData](functions/withFaasData.md)
 
 ## Classes

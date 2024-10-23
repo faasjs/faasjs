@@ -38,6 +38,16 @@ The hook to use the splitting context.
 
 https://faasjs.com/doc/react/functions/createSplittingContext.html#use
 
+#### Example
+
+```tsx
+function ChildComponent() {
+  const { value, setValue } = use()
+
+  return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
+}
+```
+
 ### Provider()
 
 The provider component of the splitting context.
@@ -54,6 +64,15 @@ The provider component of the splitting context.
 
 • **props.memo?**: `true` \| `any`[]
 
+Whether to use memoization for the children.
+
+**Default**
+
+false
+
+`true`: memoize the children without dependencies.
+`any[]`: memoize the children with specific dependencies.
+
 • **props.value?**: `NewT`
 
 #### Returns
@@ -63,6 +82,21 @@ The provider component of the splitting context.
 #### See
 
 https://faasjs.com/doc/react/functions/createSplittingContext.html#provider
+
+#### Example
+
+```tsx
+function App() {
+  const [value, setValue] = useState(0)
+
+  return (
+    <Provider value={{ value, setValue }}>
+      <ReaderComponent />
+      <WriterComponent />
+    </Provider>
+  )
+}
+```
 
 ## Example
 
