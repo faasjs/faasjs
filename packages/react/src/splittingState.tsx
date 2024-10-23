@@ -19,7 +19,11 @@ type StatesWithSetters<T> = T & StateSetters<T>
  *
  * @example
  * ```tsx
- * const { count, setCount, name, setName } = useSplittingState({ count: 0, name: 'John' });
+ * function Counter() {
+ *   const { count, setCount, name, setName } = useSplittingState({ count: 0, name: 'John' });
+ *
+ *   return <>{name}: {count}</>
+ * }
  * ```
  */
 export function useSplittingState<T extends Record<string, unknown>>(
@@ -27,7 +31,7 @@ export function useSplittingState<T extends Record<string, unknown>>(
 ) {
   const states = {} as StatesWithSetters<T>
 
-  for (const key of Object.keys(initialStates) as Array<keyof T>) {
+  for (const key of Object.keys(initialStates) as (keyof T)[]) {
     const state = useState(initialStates[key])
 
     Object.assign(states, { [key]: state[0], [`set${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}`]: state[1] })

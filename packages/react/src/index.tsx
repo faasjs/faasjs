@@ -21,6 +21,7 @@
  *     - [useEqualCallback](functions/useEqualCallback.md): Memoize a callback with deep equality.
  *     - [useConstant](functions/useConstant.md): Create a constant value with hooks.
  *     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
+ *     - [splittingState](functions/splittingState.md): Create a splitting states.
  *     - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
  *     - [ErrorBoundary](classes/ErrorBoundary.md): Catch errors in the component tree.
  *   - Fetch Data:
@@ -54,6 +55,7 @@ export type {
 export * from './constant'
 export * from './equal'
 export * from './splittingContext'
+export * from './splittingState'
 
 export * from './client'
 export * from './faas'
