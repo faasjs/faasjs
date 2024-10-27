@@ -3,7 +3,7 @@ import { FormContextProvider, type FormContextProps } from './context'
 import { FormElements, type FormElementTypes } from './elements'
 import { FormFooter } from './Footer'
 import type { FormLabelProps } from './Label'
-import { useSplittingState } from '@faasjs/react'
+import { useSplittingState } from '../splittingState'
 
 export type FormProps<
   Values extends Record<string, any> = Record<string, any>,
