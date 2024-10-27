@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.7.0 (2024-10-23)`](https://github.com/faasjs/faasjs/compare/v3.6.1...v3.7.0)
+
+- `@faasjs/react`
+  - [Feature] Add headless form.
+
 [`v3.6.1 (2024-10-23)`](https://github.com/faasjs/faasjs/compare/v3.6.0...v3.6.1)
 
 - `@faasjs/react`

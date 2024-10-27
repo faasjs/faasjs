@@ -12,6 +12,8 @@ function loadJson(path: string) {
 
 const version = loadJson('./package.json').version
 
+const channel = version.includes('beta') ? 'beta' : 'stable'
+
 function run(cmd: string) {
   console.log(cmd)
   execSync(cmd, { stdio: 'inherit' })
@@ -46,7 +48,7 @@ function publish(path: string) {
     console.warn(error)
   }
   try {
-    run(`npm dist-tag add ${pkg.name}@${version} stable`)
+    run(`npm dist-tag add ${pkg.name}@${version} ${channel}`)
   } catch (error) {
     console.warn(error)
   }
@@ -57,6 +59,7 @@ const list = globSync('packages/*/package.json')
 for (const item of list) {
   publish(item)
 }
+
 run('npm install')
 run('git add .')
 run(`git commit -am 'release ${version}'`)

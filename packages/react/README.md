@@ -44,6 +44,7 @@ npm install @faasjs/react
 - [faas](functions/faas.md)
 - [FaasDataWrapper](functions/FaasDataWrapper.md)
 - [FaasReactClient](functions/FaasReactClient.md)
+- [Form](functions/Form.md)
 - [getClient](functions/getClient.md)
 - [OptionalWrapper](functions/OptionalWrapper.md)
 - [useConstant](functions/useConstant.md)
