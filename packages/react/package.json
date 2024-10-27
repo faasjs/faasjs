@@ -37,9 +37,9 @@
     "@faasjs/browser": "3.6.1"
   },
   "devDependencies": {
+    "@faasjs/browser": "3.6.1",
     "@types/react": "*",
-    "react": "*",
-    "@faasjs/browser": "3.6.1"
+    "react": "*"
   },
   "engines": {
     "node": ">=22.0.0",
