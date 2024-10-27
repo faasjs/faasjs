@@ -7,10 +7,10 @@ export type FormButtonProps = {
 }
 
 export function FormFooter() {
-  const { submitting, setSubmitting, onSubmit, values, elements } = useFormContext()
+  const { submitting, setSubmitting, onSubmit, values, Elements } = useFormContext()
 
   return (
-    <elements.button
+    <Elements.Button
       disabled={submitting}
       onClick={() => {
         setSubmitting(true)
@@ -18,6 +18,6 @@ export function FormFooter() {
       }}
     >
       Submit
-    </elements.button>
+    </Elements.Button>
   )
 }
