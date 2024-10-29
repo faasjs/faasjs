@@ -3,6 +3,8 @@ import { FormLabelElement, type FormLabelElementProps } from './Label'
 import { FormInputElement, type FormInputElementProps } from './Input'
 import { FormButtonElement, type FormButtonElementProps } from './Button'
 
+export type { FormLabelElementProps, FormInputElementProps, FormButtonElementProps }
+
 export type FormElementTypes = {
   Label: ComponentType<FormLabelElementProps>
   Input: ComponentType<FormInputElementProps>

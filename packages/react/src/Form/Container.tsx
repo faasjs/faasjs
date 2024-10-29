@@ -11,7 +11,7 @@ export type FormProps<
 > = {
   items: FormLabelElementProps[]
   onSubmit?: (values: Values) => Promise<void>
-  elements?: FormElements
+  elements?: Partial<FormElements>
   defaultValues?: Values
 }
 

@@ -1,19 +1,21 @@
-import type { ComponentType, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import type { FormRules } from '../rules'
-import { FormInputElement, type FormInputElementProps } from './Input'
+import { FormInputElement } from './Input'
 import { useFormContext } from '../context'
+import type { FormElementTypes } from '.'
+import type { FormInputProps } from '../Input'
 
-export type FormLabelElementProps = {
+export type FormLabelElementProps<
+  FormElements extends FormElementTypes = FormElementTypes,
+> = {
   name: string
   rules?: FormRules
 
   title?: ReactNode
   description?: ReactNode
-  Label?: React.ComponentType<FormLabelElementProps>
-  input?: {
-    Input?: ComponentType<FormInputElementProps>
-    props?: FormInputElementProps
-  }
+
+  Label?: FormElements['Label']
+  input?: FormInputProps<FormElements>
 }
 
 export const FormLabelElement = ({
@@ -25,7 +27,15 @@ export const FormLabelElement = ({
 }: FormLabelElementProps) => {
   const { values, setValues } = useFormContext()
 
-  if (Label) return <Label name={name} title={title} description={description} input={input} />
+  if (Label)
+    return (
+      <Label
+        name={name}
+        title={title}
+        description={description}
+        input={input}
+      />
+    )
 
   return (
     <label>
@@ -50,7 +60,8 @@ export const FormLabelElement = ({
               ...prev,
               [name]: v,
             }))
-          } />
+          }
+        />
       )}
       {description}
     </label>
