@@ -16,6 +16,6 @@
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
     },
-    "types": ["node", "jest"]
+    "types": ["node", "jest", "@welldone-software/why-did-you-render"]
   }
 }

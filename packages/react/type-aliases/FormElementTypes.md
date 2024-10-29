@@ -8,12 +8,12 @@
 
 ### Button
 
-> **Button**: `ComponentType`\<`FormButtonElementProps`\>
+> **Button**: `ComponentType`\<[`FormButtonElementProps`](FormButtonElementProps.md)\>
 
 ### Input
 
-> **Input**: `ComponentType`\<`FormInputElementProps`\>
+> **Input**: `ComponentType`\<[`FormInputElementProps`](FormInputElementProps.md)\>
 
 ### Label
 
-> **Label**: `ComponentType`\<`FormLabelElementProps`\>
+> **Label**: `ComponentType`\<[`FormLabelElementProps`](FormLabelElementProps.md)\>

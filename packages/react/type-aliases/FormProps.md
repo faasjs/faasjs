@@ -18,11 +18,11 @@
 
 ### elements?
 
-> `optional` **elements**: `FormElements`
+> `optional` **elements**: `Partial`\<`FormElements`\>
 
 ### items
 
-> **items**: `FormLabelElementProps`[]
+> **items**: [`FormLabelElementProps`](FormLabelElementProps.md)[]
 
 ### onSubmit()?
 

@@ -69,6 +69,14 @@ the entire component tree to unmount.
 
 ## Properties
 
+### displayName
+
+> `static` **displayName**: `string` = `'ErrorBoundary'`
+
 ### whyDidYouRender
 
 > `static` **whyDidYouRender**: `boolean` = `true`
+
+#### Overrides
+
+`Component.whyDidYouRender`
