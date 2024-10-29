@@ -10,3 +10,6 @@ export function FormLabel(props: FormLabelElementProps) {
 
   return <Elements.Label {...props} />
 }
+
+FormLabel.displayName = 'FormLabel'
+FormLabel.whyDidYouRender = true

@@ -139,6 +139,9 @@ export function createSplittingContext<T extends Record<string, any>>(
     return children
   }
 
+  Provider.displayName = 'SplittingContextProvider'
+  Provider.whyDidYouRender = true
+
   function use<NewT extends T = T>() {
     return useConstant<NewT>(() => {
       const obj = Object.create(null)
@@ -152,6 +155,8 @@ export function createSplittingContext<T extends Record<string, any>>(
       return Object.freeze(obj)
     })
   }
+
+  use.whyDidYouRender = true
 
   return {
     Provider,

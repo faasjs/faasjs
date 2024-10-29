@@ -67,3 +67,6 @@ export const FormLabelElement = ({
     </label>
   )
 }
+
+FormLabelElement.displayName = 'FormLabelElement'
+FormLabelElement.whyDidYouRender = true

@@ -20,3 +20,6 @@ export const FormButtonElement = forwardRef<
     {children}
   </button>
 ))
+
+FormButtonElement.displayName = 'FormButtonElement'
+FormButtonElement.whyDidYouRender = true

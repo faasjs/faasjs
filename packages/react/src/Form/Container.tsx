@@ -51,3 +51,6 @@ export function FormContainer<
     </FormContextProvider>
   )
 }
+
+FormContainer.displayName = 'FormContainer'
+FormContainer.whyDidYouRender = true

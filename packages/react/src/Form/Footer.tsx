@@ -21,3 +21,6 @@ export function FormFooter() {
     </Elements.Button>
   )
 }
+
+FormFooter.displayName = 'FormFooter'
+FormFooter.whyDidYouRender = true

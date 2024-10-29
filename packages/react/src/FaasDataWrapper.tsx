@@ -83,6 +83,7 @@ export function FaasDataWrapper<PathOrData extends FaasAction>(
   return child
 }
 
+FaasDataWrapper.displayName = 'FaasDataWrapper'
 FaasDataWrapper.whyDidYouRender = true
 
 /**
@@ -103,7 +104,7 @@ export function withFaasData<
   faasProps: FaasDataWrapperProps<PathOrData>
 ): React.FC<
   Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> &
-    Record<string, any>
+  Record<string, any>
 > {
   return (
     props: Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>

@@ -37,4 +37,5 @@ export const OptionalWrapper: React.FC<OptionalWrapperProps> & {
   )
 }
 
+OptionalWrapper.displayName = 'OptionalWrapper'
 OptionalWrapper.whyDidYouRender = true
