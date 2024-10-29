@@ -17,23 +17,18 @@ export type InferFormInputProps<
 export type FormInputProps<
   FormElements extends FormElementTypes = FormElementTypes,
 > = {
-  Input: ComponentType<FormInputElementProps>
+  Input?: ComponentType<FormInputElementProps>
   props?: InferFormInputProps<FormElements['Input']>
 }
 
 function processValue(input: any, rules?: FormRules) {
-  let value = input
-  if (typeof input === 'object' && 'target' in input) {
-    value = input.target.value
-  }
-
   switch (rules?.type) {
     case 'number':
-      return Number(value)
+      return Number(input)
     case 'string':
-      return String(value)
+      return String(input)
     default:
-      return value
+      return input
   }
 }
 
@@ -49,7 +44,7 @@ export function FormInput({
 
   const value = values?.[name]
 
-  if ('Input' in rest && rest.Input) {
+  if (rest.Input) {
     return (
       <rest.Input
         name={name}
@@ -57,7 +52,7 @@ export function FormInput({
         onChange={v =>
           setValues(prev => ({
             ...prev,
-            [name]: v,
+            [name]: processValue(v, rules),
           }))
         }
         {...rest.props}
