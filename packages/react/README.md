@@ -45,6 +45,7 @@ npm install @faasjs/react
 - [FaasDataWrapper](functions/FaasDataWrapper.md)
 - [FaasReactClient](functions/FaasReactClient.md)
 - [Form](functions/Form.md)
+- [FormContextProvider](functions/FormContextProvider.md)
 - [getClient](functions/getClient.md)
 - [OptionalWrapper](functions/OptionalWrapper.md)
 - [useConstant](functions/useConstant.md)
@@ -53,6 +54,7 @@ npm install @faasjs/react
 - [useEqualMemo](functions/useEqualMemo.md)
 - [useEqualMemoize](functions/useEqualMemoize.md)
 - [useFaas](functions/useFaas.md)
+- [useFormContext](functions/useFormContext.md)
 - [useSplittingState](functions/useSplittingState.md)
 - [withFaasData](functions/withFaasData.md)
 
@@ -76,8 +78,15 @@ npm install @faasjs/react
 - [FaasParams](type-aliases/FaasParams.md)
 - [FaasReactClientInstance](type-aliases/FaasReactClientInstance.md)
 - [FaasReactClientOptions](type-aliases/FaasReactClientOptions.md)
+- [FormContextProps](type-aliases/FormContextProps.md)
+- [FormElementTypes](type-aliases/FormElementTypes.md)
+- [FormProps](type-aliases/FormProps.md)
 - [OnError](type-aliases/OnError.md)
 - [OptionalWrapperProps](type-aliases/OptionalWrapperProps.md)
 - [Options](type-aliases/Options.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
 - [useFaasOptions](type-aliases/useFaasOptions.md)
+
+## Variables
+
+- [FormDefaultElements](variables/FormDefaultElements.md)

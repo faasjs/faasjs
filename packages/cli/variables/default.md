@@ -2,4 +2,4 @@
 
 # Variable: default
 
-> **default**: `Promise`\<`any`\>
+> **default**: `Promise`\<`Command`\>
