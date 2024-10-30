@@ -45,6 +45,7 @@ export function FormContainer<
           ...props,
         } as FormContextProps
       }
+      memo
     >
       <FormBody />
       <FormFooter />
