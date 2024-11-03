@@ -14,7 +14,7 @@ describe('FormButtonElement', () => {
   it('handles click events', () => {
     const handleClick = jest.fn()
     const { getByText } = render(
-      <FormButtonElement onClick={handleClick}>Click Me</FormButtonElement>
+      <FormButtonElement submit={handleClick}>Click Me</FormButtonElement>
     )
     fireEvent.click(getByText('Click Me'))
     expect(handleClick).toHaveBeenCalledTimes(1)
