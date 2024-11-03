@@ -9,7 +9,9 @@ import { FormButtonElement } from '../Button'
 describe('FormButtonElement', () => {
   it('renders correctly', () => {
     const { getByText } = render(
-      <FormButtonElement disabled={false} submit={async () => undefined}>Click Me</FormButtonElement>
+      <FormButtonElement disabled={false} submit={async () => undefined}>
+        Click Me
+      </FormButtonElement>
     )
     expect(getByText('Click Me')).not.toBeNull()
   })
@@ -18,7 +20,9 @@ describe('FormButtonElement', () => {
     const handleClick = jest.fn()
 
     const { getByText } = render(
-      <FormButtonElement disabled={false} submit={handleClick}>Click Me</FormButtonElement>
+      <FormButtonElement disabled={false} submit={handleClick}>
+        Click Me
+      </FormButtonElement>
     )
     fireEvent.click(getByText('Click Me'))
 
@@ -27,7 +31,9 @@ describe('FormButtonElement', () => {
 
   it('is disabled when the disabled prop is true', () => {
     const { getByText } = render(
-      <FormButtonElement disabled submit={async () => undefined}>Click Me</FormButtonElement>
+      <FormButtonElement disabled submit={async () => undefined}>
+        Click Me
+      </FormButtonElement>
     )
 
     expect((getByText('Click Me') as HTMLButtonElement).disabled).toBeTruthy()
@@ -36,7 +42,15 @@ describe('FormButtonElement', () => {
   it('forwards refs correctly', () => {
     const ref = createRef<HTMLButtonElement>()
 
-    render(<FormButtonElement ref={ref} disabled={false} submit={async () => undefined}>Click Me</FormButtonElement>)
+    render(
+      <FormButtonElement
+        ref={ref}
+        disabled={false}
+        submit={async () => undefined}
+      >
+        Click Me
+      </FormButtonElement>
+    )
 
     expect(ref.current).not.toBeNull()
   })

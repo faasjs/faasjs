@@ -10,7 +10,10 @@ export type FormError = {
   message: string
 }
 
-export async function validValue(rules: FormRules, value: any): Promise<FormError | undefined> {
+export async function validValue(
+  rules: FormRules,
+  value: any
+): Promise<FormError | undefined> {
   if (
     rules.required &&
     (value === null ||

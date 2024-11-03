@@ -10,14 +10,14 @@
 
 > `optional` **children**: `React.ReactNode`
 
-### disabled?
+### disabled
 
-> `optional` **disabled**: `boolean`
+> **disabled**: `boolean`
 
-### submit()?
+### submit()
 
-> `optional` **submit**: () => `void`
+> **submit**: () => `Promise`\<`void`\>
 
 #### Returns
 
-`void`
+`Promise`\<`void`\>

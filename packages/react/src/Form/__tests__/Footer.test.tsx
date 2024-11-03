@@ -63,14 +63,11 @@ describe('FormFooter', () => {
     const setErrors = jest.fn()
     const onSubmit = jest.fn()
 
-    renderWithContext(
-      <FormFooter />,
-      {
-        items: [{ name: 'test', rules: { required: true } }],
-        setErrors,
-        onSubmit,
-      }
-    )
+    renderWithContext(<FormFooter />, {
+      items: [{ name: 'test', rules: { required: true } }],
+      setErrors,
+      onSubmit,
+    })
 
     const button = screen.getByText('Submit') as HTMLButtonElement
     await act(async () => {
@@ -80,7 +77,7 @@ describe('FormFooter', () => {
     expect(setErrors).toHaveBeenCalledWith({
       test: {
         message: 'This field is required',
-      }
+      },
     })
     expect(onSubmit).not.toHaveBeenCalled()
   })

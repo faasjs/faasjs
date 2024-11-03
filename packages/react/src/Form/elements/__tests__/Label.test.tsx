@@ -11,11 +11,17 @@ const renderWithContext = (
   { values = {}, setValues = jest.fn(), error = undefined } = {}
 ) =>
   render(
-    <FormContextProvider value={{
-      values, setValues, errors: {
-        testName: error,
+    <FormContextProvider
+      value={
+        {
+          values,
+          setValues,
+          errors: {
+            testName: error,
+          },
+        } as any
       }
-    } as any}>
+    >
       {ui}
     </FormContextProvider>
   )

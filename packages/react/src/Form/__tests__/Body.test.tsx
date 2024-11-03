@@ -10,7 +10,9 @@ import { FormDefaultElements } from '../elements'
 const renderWithContext = (ui: React.ReactElement, { items = [] } = {}) =>
   render(
     <FormContextProvider
-      value={{ items, Elements: FormDefaultElements, values: {}, errors: {} } as any}
+      value={
+        { items, Elements: FormDefaultElements, values: {}, errors: {} } as any
+      }
     >
       {ui}
     </FormContextProvider>

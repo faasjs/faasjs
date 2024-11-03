@@ -14,6 +14,10 @@
 
 > **Elements**: [`FormElementTypes`](FormElementTypes.md)
 
+### errors
+
+> **errors**: `Record`\<`string`, `FormError`\>
+
 ### items
 
 > **items**: [`FormLabelElementProps`](FormLabelElementProps.md)[]
@@ -30,13 +34,17 @@
 
 `Promise`\<`void`\>
 
+### setErrors
+
+> **setErrors**: `Dispatch`\<`SetStateAction`\<`Record`\<`string`, `FormError`\>\>\>
+
 ### setSubmitting
 
-> **setSubmitting**: `React.Dispatch`\<`React.SetStateAction`\<`boolean`\>\>
+> **setSubmitting**: `Dispatch`\<`SetStateAction`\<`boolean`\>\>
 
 ### setValues
 
-> **setValues**: `React.Dispatch`\<`React.SetStateAction`\<`Values`\>\>
+> **setValues**: `Dispatch`\<`SetStateAction`\<`Values`\>\>
 
 ### submitting
 

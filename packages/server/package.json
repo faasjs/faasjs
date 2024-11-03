@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "3.7.0-beta.4",
+  "version": "3.7.0-beta.5",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -36,22 +36,22 @@
   "peerDependencies": {
     "lodash": "*",
     "pirates": "*",
-    "@faasjs/func": "3.7.0-beta.4",
-    "@faasjs/http": "3.7.0-beta.4",
-    "@faasjs/load": "3.7.0-beta.4",
-    "@faasjs/logger": "3.7.0-beta.4",
-    "@faasjs/ts-transform": "3.7.0-beta.4"
+    "@faasjs/func": "3.7.0-beta.5",
+    "@faasjs/http": "3.7.0-beta.5",
+    "@faasjs/load": "3.7.0-beta.5",
+    "@faasjs/logger": "3.7.0-beta.5",
+    "@faasjs/ts-transform": "3.7.0-beta.5"
   },
   "devDependencies": {
     "lodash": "*",
     "pirates": "*",
     "react": "*",
     "@types/react-dom": "*",
-    "@faasjs/func": "3.7.0-beta.4",
-    "@faasjs/http": "3.7.0-beta.4",
-    "@faasjs/load": "3.7.0-beta.4",
-    "@faasjs/logger": "3.7.0-beta.4",
-    "@faasjs/ts-transform": "3.7.0-beta.4"
+    "@faasjs/func": "3.7.0-beta.5",
+    "@faasjs/http": "3.7.0-beta.5",
+    "@faasjs/load": "3.7.0-beta.5",
+    "@faasjs/logger": "3.7.0-beta.5",
+    "@faasjs/ts-transform": "3.7.0-beta.5"
   },
   "engines": {
     "node": ">=22.0.0",
