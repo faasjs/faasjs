@@ -1,6 +1,6 @@
-import { action } from '../commands/new'
-import { readFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
+import { readFileSync } from 'node:fs'
+import { action } from '../commands/new'
 
 describe('new', () => {
   describe('func', () => {

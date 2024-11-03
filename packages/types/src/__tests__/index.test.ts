@@ -6,7 +6,7 @@ import type {
   FaasParams,
   InferFaasAction,
 } from '@faasjs/types'
-import { expectType, expectNotType } from 'tsd'
+import { expectNotType, expectType } from 'tsd'
 
 declare module '@faasjs/types' {
   interface FaasActions {

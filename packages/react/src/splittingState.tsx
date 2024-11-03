@@ -1,13 +1,13 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
 
-type SetPrefix<S extends string | number | symbol> = S extends string ? (S extends `${infer First}${infer Rest}`
-  ? `set${Capitalize<First>}${Rest}`
-  : never) : never
+type SetPrefix<S extends string | number | symbol> = S extends string
+  ? S extends `${infer First}${infer Rest}`
+    ? `set${Capitalize<First>}${Rest}`
+    : never
+  : never
 
 type StateSetters<T> = {
-  [K in keyof T as SetPrefix<K>]: Dispatch<
-    SetStateAction<T[K]>
-  >
+  [K in keyof T as SetPrefix<K>]: Dispatch<SetStateAction<T[K]>>
 }
 type StatesWithSetters<T> = T & StateSetters<T>
 
@@ -34,7 +34,11 @@ export function useSplittingState<T extends Record<string, unknown>>(
   for (const key of Object.keys(initialStates) as (keyof T)[]) {
     const state = useState(initialStates[key])
 
-    Object.assign(states, { [key]: state[0], [`set${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}`]: state[1] })
+    Object.assign(states, {
+      [key]: state[0],
+      [`set${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}`]:
+        state[1],
+    })
   }
 
   return states

@@ -1,6 +1,6 @@
+import { deepMerge } from '@faasjs/deep_merge'
 import type { Logger } from '@faasjs/logger'
 import { Session, type SessionOptions } from './session'
-import { deepMerge } from '@faasjs/deep_merge'
 
 export type CookieOptions = {
   domain?: string

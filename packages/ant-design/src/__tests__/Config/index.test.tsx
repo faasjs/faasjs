@@ -32,7 +32,9 @@ describe('Config', () => {
   })
 
   it('should work with navigator.language', () => {
-    const mock = jest.spyOn(window.navigator, 'language', 'get').mockReturnValueOnce('zh-CN')
+    const mock = jest
+      .spyOn(window.navigator, 'language', 'get')
+      .mockReturnValueOnce('zh-CN')
 
     render(
       <ConfigProvider theme={{ Blank: { text: 'text' } }}>

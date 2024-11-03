@@ -1,9 +1,9 @@
-import { Alert } from 'antd'
 import {
-  ErrorBoundary as Origin,
   type ErrorBoundaryProps,
   type ErrorChildrenProps,
+  ErrorBoundary as Origin,
 } from '@faasjs/react'
+import { Alert } from 'antd'
 
 export type { ErrorBoundaryProps }
 

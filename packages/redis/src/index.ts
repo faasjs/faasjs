@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto'
+import { deepMerge } from '@faasjs/deep_merge'
 /**
  * FaasJS's Redis plugin.
  *
@@ -12,17 +14,15 @@
  * @packageDocumentation
  */
 import {
-  type Plugin,
+  type InvokeData,
   type MountData,
   type Next,
-  usePlugin,
+  type Plugin,
   type UseifyPlugin,
-  type InvokeData,
+  usePlugin,
 } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
-import { deepMerge } from '@faasjs/deep_merge'
 import IORedis, { type RedisOptions, type ChainableCommander } from 'ioredis'
-import { randomUUID } from 'node:crypto'
 
 export type RedisConfig = {
   name?: string
@@ -70,8 +70,8 @@ export class Redis implements Plugin {
   public multi: (
     options?:
       | {
-        pipeline: boolean
-      }
+          pipeline: boolean
+        }
       | any[][]
   ) => ChainableCommander
   public pipeline: (commands?: any[][]) => ChainableCommander

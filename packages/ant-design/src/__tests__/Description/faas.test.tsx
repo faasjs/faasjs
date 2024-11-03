@@ -1,9 +1,9 @@
+import { setMock } from '@faasjs/browser'
 /**
  * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
 import { Description } from '../../Description'
-import { setMock } from '@faasjs/browser'
 
 describe('Description/faas', () => {
   beforeEach(() => {

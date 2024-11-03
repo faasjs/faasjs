@@ -1,5 +1,5 @@
-import { Mongo } from '../index'
 import { Func } from '@faasjs/func'
+import { Mongo } from '../index'
 
 describe('mongo', () => {
   it('with filename', async () => {

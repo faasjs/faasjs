@@ -1,5 +1,5 @@
 import { expectType } from 'tsd'
-import { type Func, useFunc, type FuncEventType, type FuncReturnType } from '..'
+import { type Func, type FuncEventType, type FuncReturnType, useFunc } from '..'
 
 describe('types', () => {
   it('should work', () => {

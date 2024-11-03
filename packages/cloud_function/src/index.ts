@@ -14,12 +14,12 @@
  */
 import { deepMerge } from '@faasjs/deep_merge'
 import {
-  type Plugin,
-  type Next,
-  type MountData,
   type InvokeData,
-  usePlugin,
+  type MountData,
+  type Next,
+  type Plugin,
   type UseifyPlugin,
+  usePlugin,
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { Validator, type ValidatorConfig } from './validator'

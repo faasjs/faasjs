@@ -2,9 +2,9 @@
  * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
-import { Form } from '../../Form'
-import { Input } from 'antd'
 import userEvent from '@testing-library/user-event'
+import { Input } from 'antd'
+import { Form } from '../../Form'
 
 describe('Form/items', () => {
   it('should work', () => {

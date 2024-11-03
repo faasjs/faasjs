@@ -2,11 +2,11 @@ import {
   FaasDataWrapper as Origin,
   withFaasData as OriginWithFaasData,
 } from '@faasjs/react'
-import type { FaasAction } from '@faasjs/types'
 import type {
-  FaasDataWrapperProps as OriginProps,
   FaasDataInjection as OriginFaasDataInjection,
+  FaasDataWrapperProps as OriginProps,
 } from '@faasjs/react'
+import type { FaasAction } from '@faasjs/types'
 import { Loading } from './Loading'
 import type { LoadingProps } from './Loading'
 

@@ -1,8 +1,8 @@
+import { Response, setMock } from '@faasjs/browser'
 /**
  * @jest-environment @happy-dom/jest-environment
  */
 import { faas } from '../faas'
-import { Response, setMock } from '@faasjs/browser'
 
 describe('faas', () => {
   let current = 0

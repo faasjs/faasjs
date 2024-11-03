@@ -10,8 +10,7 @@
  * ```
  */
 export function generateId(prefix = '', length = 18): string {
-  if (length < 8 || length > 18)
-    throw new Error('Length must be 8 ~ 18')
+  if (length < 8 || length > 18) throw new Error('Length must be 8 ~ 18')
 
   return `${prefix}${Date.now().toString(36).padStart(8, '0')}${Math.random()
     .toString(36)

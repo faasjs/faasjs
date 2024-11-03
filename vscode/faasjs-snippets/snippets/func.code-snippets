@@ -10,7 +10,7 @@
       "    $1",
       "  }",
       "})",
-      "",
+      ""
     ]
   },
   "useFunc with http": {
@@ -27,7 +27,7 @@
       "    $3",
       "  }",
       "})",
-      "",
+      ""
     ]
   },
   "useFunc with knex": {
@@ -44,7 +44,7 @@
       "    $1",
       "  }",
       "})",
-      "",
+      ""
     ]
   },
   "useFunc with redis": {
@@ -61,7 +61,7 @@
       "    $1",
       "  }",
       "})",
-      "",
+      ""
     ]
   },
   "useFunc with http, knex": {
@@ -80,7 +80,7 @@
       "    $3",
       "  }",
       "})",
-      "",
+      ""
     ]
   },
   "useFunc with http, knex and redis": {
@@ -101,7 +101,7 @@
       "    $3",
       "  }",
       "})",
-      "",
+      ""
     ]
   },
   "http validator": {
@@ -120,7 +120,7 @@
       "    }",
       "  },",
       "}",
-      "",
+      ""
     ]
   },
   "test func": {
@@ -138,12 +138,12 @@
       "    expect(res).toEqual($4)",
       "  })",
       "})",
-      "",
+      ""
     ]
   },
   "test func with http": {
     "description": "Test a func with http",
-    "prefix": ["tfh", "testFuncWithHttp",],
+    "prefix": ["tfh", "testFuncWithHttp"],
     "body": [
       "import { test } from '@faasjs/test'",
       "",
@@ -157,12 +157,12 @@
       "    expect(data).toEqual($5)",
       "  })",
       "})",
-      "",
+      ""
     ]
   },
   "test func with knex": {
     "description": "Test a func with knex",
-    "prefix": ["tfk", "testFuncWithKnex",],
+    "prefix": ["tfk", "testFuncWithKnex"],
     "body": [
       "import { test } from '@faasjs/test'",
       "import { query } from '@faasjs/knex'",
@@ -176,12 +176,12 @@
       "    expect(res).toEqual($4)",
       "  })",
       "})",
-      "",
+      ""
     ]
   },
   "test func with http and knex": {
     "description": "Test a func with http and knex",
-    "prefix": ["tfht", "testFuncWithHttpKnex",],
+    "prefix": ["tfht", "testFuncWithHttpKnex"],
     "body": [
       "import { test } from '@faasjs/test'",
       "import { query } from '@faasjs/knex'",
@@ -196,7 +196,7 @@
       "    expect(data).toEqual($5)",
       "  })",
       "})",
-      "",
+      ""
     ]
   }
 }

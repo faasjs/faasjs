@@ -2,8 +2,8 @@
  * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
-import { Table } from '../../Table'
 import userEvent from '@testing-library/user-event'
+import { Table } from '../../Table'
 
 describe('Table/ajax', () => {
   let originalFetch: any

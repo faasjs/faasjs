@@ -1,41 +1,41 @@
-import { useState, useEffect, cloneElement } from 'react'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import {
   Table as AntdTable,
-  type TableProps as AntdTableProps,
   type TableColumnProps as AntdTableColumnProps,
-  Radio,
-  type TablePaginationConfig,
-  Input,
-  Select,
+  type TableProps as AntdTableProps,
   DatePicker,
+  Input,
+  Radio,
+  Select,
+  type TablePaginationConfig,
 } from 'antd'
-import dayjs from 'dayjs'
-import type {
-  FaasItemProps,
-  BaseItemProps,
-  UnionFaasItemElement,
-  UnionFaasItemRender,
-} from './data'
-import { transferOptions, transferValue, upperFirst } from './data'
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { cloneDeep, isNil, uniqBy } from 'lodash-es'
-import {
-  type FaasDataInjection,
-  FaasDataWrapper,
-  type FaasDataWrapperProps,
-} from './FaasDataWrapper'
-import { Blank } from './Blank'
-import { useConfigContext } from './Config'
 import type {
   FilterValue,
   SorterResult,
   TableCurrentDataSource,
 } from 'antd/es/table/interface'
+import dayjs from 'dayjs'
+import { cloneDeep, isNil, uniqBy } from 'lodash-es'
+import { cloneElement, useEffect, useState } from 'react'
+import { Blank } from './Blank'
+import { useConfigContext } from './Config'
 import { Description } from './Description'
+import {
+  type FaasDataInjection,
+  FaasDataWrapper,
+  type FaasDataWrapperProps,
+} from './FaasDataWrapper'
+import type {
+  BaseItemProps,
+  FaasItemProps,
+  UnionFaasItemElement,
+  UnionFaasItemRender,
+} from './data'
+import { transferOptions, transferValue, upperFirst } from './data'
 
 export interface TableItemProps<T = any>
   extends FaasItemProps,
-  Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
+    Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
   children?: UnionFaasItemElement<T>
   tableChildren?: UnionFaasItemElement<T>
@@ -529,11 +529,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                          [
-                            dates[0].startOf('day').toISOString(),
-                            dates[1].endOf('day').toISOString(),
-                          ],
-                        ] as any)
+                            [
+                              dates[0].startOf('day').toISOString(),
+                              dates[1].endOf('day').toISOString(),
+                            ],
+                          ] as any)
                         : []
                     )
                     confirm()
@@ -578,11 +578,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                          [
-                            dates[0].startOf('day').toISOString(),
-                            dates[1].endOf('day').toISOString(),
-                          ],
-                        ] as any)
+                            [
+                              dates[0].startOf('day').toISOString(),
+                              dates[1].endOf('day').toISOString(),
+                            ],
+                          ] as any)
                         : []
                     )
                     confirm()

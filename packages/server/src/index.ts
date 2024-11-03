@@ -1,3 +1,5 @@
+import { randomBytes } from 'node:crypto'
+import { existsSync } from 'node:fs'
 /**
  * FaasJS's server module.
  *
@@ -25,23 +27,21 @@
  * @packageDocumentation
  */
 import {
-  createServer,
-  type IncomingMessage,
   type Server as HttpServer,
+  type IncomingMessage,
   type ServerResponse,
+  createServer,
 } from 'node:http'
-import { Logger } from '@faasjs/logger'
-import { existsSync } from 'node:fs'
-import { loadConfig } from '@faasjs/load'
-import { resolve as pathResolve, sep, join } from 'node:path'
-import { HttpError } from '@faasjs/http'
 import type { Socket } from 'node:net'
-import { addHook } from 'pirates'
-import { transform } from '@faasjs/ts-transform'
-import { randomBytes } from 'node:crypto'
+import { join, resolve as pathResolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
-import { createBrotliCompress, createGzip, createDeflate } from 'node:zlib'
+import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
 import type { Func } from '@faasjs/func'
+import { HttpError } from '@faasjs/http'
+import { loadConfig } from '@faasjs/load'
+import { Logger } from '@faasjs/logger'
+import { transform } from '@faasjs/ts-transform'
+import { addHook } from 'pirates'
 
 if (!(globalThis as any).Bun)
   addHook(
@@ -258,9 +258,15 @@ export class Server {
 
         if (data.headers) headers = Object.assign(headers, data.headers)
 
-        if (!headers['X-FaasJS-Timing-Processing']) headers['X-FaasJS-Timing-Processing'] = (finishedAt - startedAt).toString()
+        if (!headers['X-FaasJS-Timing-Processing'])
+          headers['X-FaasJS-Timing-Processing'] = (
+            finishedAt - startedAt
+          ).toString()
 
-        if (!headers['X-FaasJS-Timing-Total']) headers['X-FaasJS-Timing-Total'] = (finishedAt - requestedAt).toString()
+        if (!headers['X-FaasJS-Timing-Total'])
+          headers['X-FaasJS-Timing-Total'] = (
+            finishedAt - requestedAt
+          ).toString()
 
         Object.freeze(headers)
 
@@ -271,34 +277,36 @@ export class Server {
 
           const reader = data.body.getReader()
 
-          const stream = Readable.from(async function* () {
-            while (true) {
-              try {
-                const { done, value } = await reader.read()
-                if (done) break
-                if (value)
-                  yield value
-              } catch (error: any) {
-                logger.error(error)
-                stream.emit(error)
-                break
+          const stream = Readable.from(
+            (async function* () {
+              while (true) {
+                try {
+                  const { done, value } = await reader.read()
+                  if (done) break
+                  if (value) yield value
+                } catch (error: any) {
+                  logger.error(error)
+                  stream.emit(error)
+                  break
+                }
               }
-            }
-          }())
+            })()
+          )
 
-          stream.pipe(res)
+          stream
+            .pipe(res)
             .on('finish', () => {
               res.end()
               resolve()
             })
-            .on('error', (err) => {
+            .on('error', err => {
               if (!res.headersSent) {
                 res.statusCode = 500
                 res.setHeader('Content-Type', 'application/json')
                 res.write(JSON.stringify({ error: { message: err.message } }))
               }
               resolve()
-            });
+            })
 
           return
         }
@@ -339,19 +347,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-              type: 'br',
-              compress: createBrotliCompress(),
-            }
+                type: 'br',
+                compress: createBrotliCompress(),
+              }
             : encoding.includes('gzip')
               ? {
-                type: 'gzip',
-                compress: createGzip(),
-              }
+                  type: 'gzip',
+                  compress: createGzip(),
+                }
               : encoding.includes('deflate')
                 ? {
-                  type: 'deflate',
-                  compress: createDeflate(),
-                }
+                    type: 'deflate',
+                    compress: createDeflate(),
+                  }
                 : false
 
           if (compression) {
@@ -526,8 +534,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-          .map(p => `- ${p}`)
-          .join('\n')}`
+            .map(p => `- ${p}`)
+            .join('\n')}`
     this.logger.error(message)
     throw new HttpError({
       statusCode: 404,

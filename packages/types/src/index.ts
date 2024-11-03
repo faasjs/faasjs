@@ -25,7 +25,7 @@ import type { Func } from '@faasjs/func'
  * Interface for defining FaasJS actions.
  */
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-export interface FaasActions { }
+export interface FaasActions {}
 
 /**
  * Paths of FaasJS actions.
@@ -51,8 +51,8 @@ export type FaasAction =
 export type FaasParams<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
   : T extends ReactServerAction
-  ? Parameters<T>[0]
-  : T
+    ? Parameters<T>[0]
+    : T
 
 /**
  * Get the returning data type of the action.
@@ -60,8 +60,8 @@ export type FaasParams<T = any> = T extends FaasActionPaths
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
   : T extends ReactServerAction
-  ? Awaited<ReturnType<T>>
-  : T
+    ? Awaited<ReturnType<T>>
+    : T
 
 /**
  * Infer the FaasAction type from a Func.

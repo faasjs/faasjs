@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
-import type { FormRules } from '../rules'
-import { FormInputElement } from './Input'
-import { useFormContext } from '../context'
 import type { FormElementTypes } from '.'
 import type { FormInputProps } from '../Input'
+import { useFormContext } from '../context'
+import type { FormRules } from '../rules'
+import { FormInputElement } from './Input'
 
 export type FormLabelElementProps<
   FormElements extends FormElementTypes = FormElementTypes,

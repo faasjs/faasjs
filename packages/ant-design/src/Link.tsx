@@ -1,7 +1,7 @@
-import type { ReactNode, CSSProperties } from 'react'
+import { Button, type ButtonProps, Typography } from 'antd'
+import type { CSSProperties, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useConfigContext } from './Config'
-import { Button, type ButtonProps, Typography } from 'antd'
 
 export interface LinkProps {
   href: string

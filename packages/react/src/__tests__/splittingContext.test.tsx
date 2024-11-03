@@ -3,9 +3,9 @@
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createSplittingContext } from '../splittingContext'
 import { useState } from 'react'
 import { expectType } from 'tsd'
+import { createSplittingContext } from '../splittingContext'
 
 describe('createSplittingContext', () => {
   it('should render children with default values', () => {
@@ -187,12 +187,16 @@ describe('createSplittingContext', () => {
         setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
       }>({ value: { value: { a: 1 }, setValue: () => 1 }, children: null })
     )
-    expectType<() => {
-      value: { a: number }
-      setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
-    }>(use<{
-      value: { a: number }
-      setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
-    }>)
+    expectType<
+      () => {
+        value: { a: number }
+        setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
+      }
+    >(
+      use<{
+        value: { a: number }
+        setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
+      }>
+    )
   })
 })

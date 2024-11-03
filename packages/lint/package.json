@@ -3,9 +3,7 @@
   "version": "3.7.0-beta.3",
   "license": "MIT",
   "type": "module",
-  "files": [
-    "biome.json"
-  ],
+  "files": ["biome.json"],
   "exports": {
     "./biome": "./biome.json"
   },

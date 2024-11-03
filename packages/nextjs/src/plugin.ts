@@ -1,4 +1,4 @@
-import { type Plugin, type InvokeData, type Next, Func } from '@faasjs/func'
+import { Func, type InvokeData, type Next, type Plugin } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
 
 export class NextJsPlugin implements Plugin {

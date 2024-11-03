@@ -1,8 +1,8 @@
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import type { ReactElement } from 'react'
-import type { FormItemProps } from './FormItem'
 import type { DescriptionItemProps } from './Description'
+import type { FormItemProps } from './FormItem'
 import type { TableItemProps } from './Table'
 
 export type FaasItemType =
@@ -33,9 +33,9 @@ export type BaseOption =
   | string
   | number
   | {
-    label: string
-    value?: any
-  }
+      label: string
+      value?: any
+    }
 
 export interface BaseItemProps {
   id: string
@@ -68,9 +68,9 @@ export function transferOptions(options: BaseOption[]): {
     typeof item === 'object'
       ? item
       : {
-        label: upperFirst(item.toString()),
-        value: item,
-      }
+          label: upperFirst(item.toString()),
+          value: item,
+        }
   )
 }
 
@@ -140,8 +140,8 @@ export type UnionFaasItemElement<Value = any, Values = any> = ReactElement<
 
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps,
-  DescriptionItemProps,
-  TableItemProps {
+    DescriptionItemProps,
+    TableItemProps {
   children?: UnionFaasItemElement<UnionFaasItemProps<Value, Values>> | null
   render?: UnionFaasItemRender
   object?: UnionFaasItemProps<Value, Values>[]

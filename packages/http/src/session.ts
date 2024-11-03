@@ -1,12 +1,12 @@
 import {
-  randomBytes,
-  pbkdf2Sync,
   createCipheriv,
-  createHmac,
   createDecipheriv,
+  createHmac,
+  pbkdf2Sync,
+  randomBytes,
 } from 'node:crypto'
-import type { Cookie } from './cookie'
 import type { Logger } from '@faasjs/logger'
+import type { Cookie } from './cookie'
 
 export type SessionOptions = {
   key: string

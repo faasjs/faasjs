@@ -1,4 +1,4 @@
-import { useFormContext } from "./context";
+import { useFormContext } from './context'
 
 export type FormButtonProps = {
   children?: React.ReactNode
@@ -7,7 +7,8 @@ export type FormButtonProps = {
 }
 
 export function FormFooter() {
-  const { submitting, setSubmitting, onSubmit, values, Elements } = useFormContext()
+  const { submitting, setSubmitting, onSubmit, values, Elements } =
+    useFormContext()
 
   return (
     <Elements.Button

@@ -1,5 +1,5 @@
-import { Func } from '@faasjs/func'
 import { brotliCompressSync, deflateSync, gzipSync } from 'node:zlib'
+import { Func } from '@faasjs/func'
 import { Http } from '..'
 
 describe('Accept-Encoding', () => {

@@ -1,3 +1,5 @@
+import { brotliCompressSync, deflateSync, gzipSync } from 'node:zlib'
+import { deepMerge } from '@faasjs/deep_merge'
 /**
  * FaasJS's http plugin.
  *
@@ -13,19 +15,17 @@
  * @packageDocumentation
  */
 import {
-  type Plugin,
   type InvokeData,
   type MountData,
   type Next,
-  usePlugin,
+  type Plugin,
   type UseifyPlugin,
   useFunc,
+  usePlugin,
 } from '@faasjs/func'
-import { deepMerge } from '@faasjs/deep_merge'
 import { Cookie, type CookieOptions } from './cookie'
 import type { Session } from './session'
 import { Validator, type ValidatorConfig } from './validator'
-import { gzipSync, deflateSync, brotliCompressSync } from 'node:zlib'
 
 export {
   Cookie,
@@ -68,16 +68,16 @@ export type HttpConfig<
     [key: string]: any
     /** POST as default */
     method?:
-    | 'BEGIN'
-    | 'GET'
-    | 'POST'
-    | 'DELETE'
-    | 'HEAD'
-    | 'PUT'
-    | 'OPTIONS'
-    | 'TRACE'
-    | 'PATCH'
-    | 'ANY'
+      | 'BEGIN'
+      | 'GET'
+      | 'POST'
+      | 'DELETE'
+      | 'HEAD'
+      | 'PUT'
+      | 'OPTIONS'
+      | 'TRACE'
+      | 'PATCH'
+      | 'ANY'
     timeout?: number
     /** file relative path as default */
     path?: string
@@ -146,7 +146,8 @@ export class Http<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
-> implements Plugin {
+> implements Plugin
+{
   public readonly type = 'http'
   public readonly name: string = Name
 
@@ -442,14 +443,16 @@ export type HttpFuncHandler<
   TCookie extends Record<string, string> = Record<string, string>,
   TSession extends Record<string, any> = Record<string, any>,
   TResult = any,
-> = (data: InvokeData<{
-  [key: string]: any
-  params?: TParams
-}> & {
-  params?: TParams
-  cookie?: Cookie<TCookie, TSession>
-  session?: Session<TSession, TCookie>
-}) => Promise<TResult>
+> = (
+  data: InvokeData<{
+    [key: string]: any
+    params?: TParams
+  }> & {
+    params?: TParams
+    cookie?: Cookie<TCookie, TSession>
+    session?: Session<TSession, TCookie>
+  }
+) => Promise<TResult>
 
 /**
  * A hook to create an HTTP function with specified handler and configuration.

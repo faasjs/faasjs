@@ -1,7 +1,7 @@
 import { Func, useFunc } from '@faasjs/func'
-import { Knex, query, useKnex } from '..'
-import { expectType, expectNotType } from 'tsd'
 import type { Tables } from 'knex/types/tables'
+import { expectNotType, expectType } from 'tsd'
+import { Knex, query, useKnex } from '..'
 
 declare module 'knex/types/tables' {
   interface Tables {

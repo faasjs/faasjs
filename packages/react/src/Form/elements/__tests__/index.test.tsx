@@ -9,8 +9,16 @@ describe('FormElements', () => {
   it('should render default elements', () => {
     render(
       <FormContextProvider value={{ values: {}, setValues: jest.fn() } as any}>
-        <FormDefaultElements.Label name='testName' title='Test Label' description='Test Description' />
-        <FormDefaultElements.Input name='testName' value='testValue' onChange={jest.fn()} />
+        <FormDefaultElements.Label
+          name='testName'
+          title='Test Label'
+          description='Test Description'
+        />
+        <FormDefaultElements.Input
+          name='testName'
+          value='testValue'
+          onChange={jest.fn()}
+        />
         <FormDefaultElements.Button>Click Me</FormDefaultElements.Button>
       </FormContextProvider>
     )

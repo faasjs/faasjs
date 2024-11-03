@@ -12,10 +12,10 @@
  * @packageDocumentation
  */
 import {
-  FaasBrowserClient,
-  type Options,
-  type FaasBrowserClientAction,
   type BaseUrl,
+  FaasBrowserClient,
+  type FaasBrowserClientAction,
+  type Options,
 } from '@faasjs/browser'
 import 'vue'
 

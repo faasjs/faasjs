@@ -1,8 +1,8 @@
-import { FormBody } from './Body'
-import { FormContextProvider, type FormContextProps } from './context'
-import { FormDefaultElements, type FormElementTypes } from './elements'
-import { FormFooter } from './Footer'
 import { useSplittingState } from '../splittingState'
+import { FormBody } from './Body'
+import { FormFooter } from './Footer'
+import { type FormContextProps, FormContextProvider } from './context'
+import { FormDefaultElements, type FormElementTypes } from './elements'
 import type { FormLabelElementProps } from './elements/Label'
 
 export type FormProps<

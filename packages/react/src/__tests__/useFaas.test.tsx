@@ -1,11 +1,11 @@
+import { Response, setMock } from '@faasjs/browser'
 /**
  * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
-import { useFaas } from '../useFaas'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { Response, setMock } from '@faasjs/browser'
+import { useFaas } from '../useFaas'
 
 describe('useFaas', () => {
   let current = 0

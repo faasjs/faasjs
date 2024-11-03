@@ -2,8 +2,8 @@
  * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
-import { Description } from '../../Description'
 import dayjs from 'dayjs'
+import { Description } from '../../Description'
 
 describe('Description/items', () => {
   it('should work', () => {

@@ -1,13 +1,15 @@
 /**
  * @jest-environment @happy-dom/jest-environment
  */
-import { render, fireEvent } from '@testing-library/react'
-import { FormButtonElement } from '../Button'
+import { fireEvent, render } from '@testing-library/react'
 import { createRef } from 'react'
+import { FormButtonElement } from '../Button'
 
 describe('FormButtonElement', () => {
   it('renders correctly', () => {
-    const { getByText } = render(<FormButtonElement>Click Me</FormButtonElement>)
+    const { getByText } = render(
+      <FormButtonElement>Click Me</FormButtonElement>
+    )
     expect(getByText('Click Me')).not.toBeNull()
   })
 

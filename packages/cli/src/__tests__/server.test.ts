@@ -1,5 +1,5 @@
+import { closeAll, getAll } from '@faasjs/server'
 import { action } from '../commands/server'
-import { getAll, closeAll } from '@faasjs/server'
 
 describe('server', () => {
   afterAll(() => {

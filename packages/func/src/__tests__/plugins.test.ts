@@ -1,9 +1,9 @@
 import {
   Func,
-  type Plugin,
-  type Next,
   type InvokeData,
   type MountData,
+  type Next,
+  type Plugin,
 } from '../index'
 
 describe('plugins', () => {

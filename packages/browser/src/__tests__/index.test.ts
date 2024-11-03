@@ -2,13 +2,13 @@
  * @jest-environment @happy-dom/jest-environment
  */
 import type { FaasActions } from '@faasjs/types'
+import { expectType } from 'tsd'
 import {
   FaasBrowserClient,
   Response as FaasResponse,
   Response,
   setMock,
 } from '..'
-import { expectType } from 'tsd'
 
 let request: {
   url?: string

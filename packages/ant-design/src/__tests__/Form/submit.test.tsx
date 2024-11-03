@@ -1,10 +1,10 @@
+import { setMock } from '@faasjs/browser'
 /**
  * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../Form'
-import { setMock } from '@faasjs/browser'
 
 describe('Form/submit', () => {
   beforeEach(() => {

@@ -1,10 +1,10 @@
 import {
+  type InvokeData,
+  type MountData,
+  type Next,
   type Plugin,
   useFunc,
   usePlugin,
-  type InvokeData,
-  type Next,
-  type MountData,
 } from '..'
 
 describe('fp', () => {

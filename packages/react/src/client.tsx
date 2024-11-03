@@ -1,13 +1,13 @@
-import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import type { BaseUrl, Options, Response, ResponseError } from '@faasjs/browser'
 import { FaasBrowserClient } from '@faasjs/browser'
+import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
 import {
   type FaasDataInjection,
   FaasDataWrapper,
   type FaasDataWrapperProps,
 } from './FaasDataWrapper'
-import { useFaas, type useFaasOptions } from './useFaas'
 import { faas } from './faas'
+import { useFaas, type useFaasOptions } from './useFaas'
 
 const clients: {
   [key: string]: FaasReactClientInstance

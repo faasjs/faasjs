@@ -4,8 +4,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useEffect } from 'react'
-import { App, useApp } from '../../App'
 import { useNavigate } from 'react-router-dom'
+import { App, useApp } from '../../App'
 
 describe('App', () => {
   it('should work', async () => {

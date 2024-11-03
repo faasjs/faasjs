@@ -1,8 +1,10 @@
 import { createSplittingContext } from '../splittingContext'
-import type { FormLabelElementProps } from './elements/Label'
 import type { FormElementTypes } from './elements'
+import type { FormLabelElementProps } from './elements/Label'
 
-export type FormContextProps<Values extends Record<string, any> = Record<string, any>> = {
+export type FormContextProps<
+  Values extends Record<string, any> = Record<string, any>,
+> = {
   // props
   items: FormLabelElementProps[]
   onSubmit: (values: Values) => Promise<void>
@@ -15,7 +17,15 @@ export type FormContextProps<Values extends Record<string, any> = Record<string,
   setValues: React.Dispatch<React.SetStateAction<Values>>
 }
 
-const FormContext = createSplittingContext<FormContextProps>(['items', 'onSubmit', 'Elements', 'submitting', 'setSubmitting', 'values', 'setValues'])
+const FormContext = createSplittingContext<FormContextProps>([
+  'items',
+  'onSubmit',
+  'Elements',
+  'submitting',
+  'setSubmitting',
+  'values',
+  'setValues',
+])
 
 export const FormContextProvider = FormContext.Provider
 export const useFormContext = FormContext.use

@@ -1,34 +1,34 @@
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import {
-  Button,
-  Row,
-  Col,
   Form as AntdForm,
   type FormItemProps as AntdFormItemProps,
-  Input,
-  InputNumber,
-  Switch,
-  type InputProps,
-  type InputNumberProps,
-  type SwitchProps,
-  Select,
-  type SelectProps,
+  Button,
+  Col,
   DatePicker,
   type DatePickerProps,
   type FormInstance,
+  Input,
+  InputNumber,
+  type InputNumberProps,
+  type InputProps,
   Radio,
   type RadioProps,
+  Row,
+  Select,
+  type SelectProps,
+  Switch,
+  type SwitchProps,
 } from 'antd'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
+import { cloneElement, useEffect, useState } from 'react'
+import { type ConfigProviderProps, useConfigContext } from './Config'
 import type {
   BaseItemProps,
   FaasItemType,
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { transferOptions, upperFirst, type BaseOption } from './data'
-import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
-import { cloneElement, useEffect, useState } from 'react'
-import { type ConfigProviderProps, useConfigContext } from './Config'
+import { type BaseOption, transferOptions, upperFirst } from './data'
 
 type OptionsProps = {
   options: BaseOption[]
@@ -58,7 +58,7 @@ type InputTypeMap<T> = {
 
 export interface FormItemProps<T = any>
   extends BaseItemProps,
-  Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number

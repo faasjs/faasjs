@@ -1,11 +1,11 @@
+import { setMock } from '@faasjs/browser'
 /**
  * @jest-environment @happy-dom/jest-environment
  */
 import { render, screen } from '@testing-library/react'
-import { FaasDataWrapper, type FaasDataInjection, withFaasData } from '..'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { setMock } from '@faasjs/browser'
+import { type FaasDataInjection, FaasDataWrapper, withFaasData } from '..'
 
 describe('FaasDataWrapper', () => {
   let current = 0

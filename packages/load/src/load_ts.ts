@@ -1,10 +1,10 @@
-import { deepMerge } from '@faasjs/deep_merge'
 import { readFileSync, unlinkSync } from 'node:fs'
-import { rollup } from 'rollup/dist/rollup.js'
-import type { Plugin } from 'rollup'
+import { dirname, join, sep } from 'node:path'
+import { deepMerge } from '@faasjs/deep_merge'
 import type { Func } from '@faasjs/func'
-import { join, sep, dirname } from 'node:path'
-import { bundle, NodeBuiltinModules } from '@faasjs/ts-transform'
+import { NodeBuiltinModules, bundle } from '@faasjs/ts-transform'
+import type { Plugin } from 'rollup'
+import { rollup } from 'rollup/dist/rollup.js'
 
 const FaasPackages = [
   '@faasjs/cloud_function',

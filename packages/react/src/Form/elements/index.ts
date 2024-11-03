@@ -1,9 +1,13 @@
 import type { ComponentType } from 'react'
-import { FormLabelElement, type FormLabelElementProps } from './Label'
-import { FormInputElement, type FormInputElementProps } from './Input'
 import { FormButtonElement, type FormButtonElementProps } from './Button'
+import { FormInputElement, type FormInputElementProps } from './Input'
+import { FormLabelElement, type FormLabelElementProps } from './Label'
 
-export type { FormLabelElementProps, FormInputElementProps, FormButtonElementProps }
+export type {
+  FormLabelElementProps,
+  FormInputElementProps,
+  FormButtonElementProps,
+}
 
 export type FormElementTypes = {
   Label: ComponentType<FormLabelElementProps>

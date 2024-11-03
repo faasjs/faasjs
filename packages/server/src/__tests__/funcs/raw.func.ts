@@ -1,5 +1,5 @@
-import { Func } from '@faasjs/func'
 import type { ServerResponse } from 'node:http'
+import { Func } from '@faasjs/func'
 
 export default new Func({
   async handler({ event }) {

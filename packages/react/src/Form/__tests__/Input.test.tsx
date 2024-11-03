@@ -1,10 +1,10 @@
 /**
  * @jest-environment @happy-dom/jest-environment
  */
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
+import { useState } from 'react'
 import { FormInput } from '../Input'
 import { FormContextProvider } from '../context'
-import { useState } from 'react'
 import { FormDefaultElements } from '../elements'
 
 describe('FormInput', () => {
@@ -15,41 +15,51 @@ describe('FormInput', () => {
   }) {
     const [values, setValues] = useState(props.values || {})
 
-    return <FormContextProvider
-      value={{ items: [], Elements: FormDefaultElements, values, setValues: props.setValues || setValues } as any}
-    >
-      {props.children}
-    </FormContextProvider>
+    return (
+      <FormContextProvider
+        value={
+          {
+            items: [],
+            Elements: FormDefaultElements,
+            values,
+            setValues: props.setValues || setValues,
+          } as any
+        }
+      >
+        {props.children}
+      </FormContextProvider>
+    )
   }
 
-  const renderWithContext = (children: React.ReactElement, props: { values?: any, setValues?: (values: any) => void }) => {
-    return render(<Provider values={props.values} setValues={props.setValues}>{children}</Provider>)
+  const renderWithContext = (
+    children: React.ReactElement,
+    props: { values?: any; setValues?: (values: any) => void }
+  ) => {
+    return render(
+      <Provider values={props.values} setValues={props.setValues}>
+        {children}
+      </Provider>
+    )
   }
 
   it('should render input with initial value', () => {
-    const { getByDisplayValue } = renderWithContext(
-      <FormInput name="test" />,
-      {
-        values: {
-          test: 'initial',
-        }
-      }
-    )
+    const { getByDisplayValue } = renderWithContext(<FormInput name='test' />, {
+      values: {
+        test: 'initial',
+      },
+    })
     expect(getByDisplayValue('initial')).not.toBeNull()
   })
 
   it('should call setValues on input change', () => {
     const mockSetValues = jest.fn()
 
-    const { getByRole } = renderWithContext(
-      <FormInput name="test" />,
-      {
-        setValues: mockSetValues,
-        values: {
-          test: '',
-        }
-      }
-    )
+    const { getByRole } = renderWithContext(<FormInput name='test' />, {
+      setValues: mockSetValues,
+      values: {
+        test: '',
+      },
+    })
 
     fireEvent.change(getByRole('textbox'), { target: { value: 'changed' } })
 
@@ -58,22 +68,24 @@ describe('FormInput', () => {
 
   it('should call setValues on custom input change', () => {
     let values = {
-      test: ''
+      test: '',
     }
 
     function CustomInput({ name, value, onChange }: any) {
-      return <input
-        data-testid='custom-input'
-        name={name}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-      />
+      return (
+        <input
+          data-testid='custom-input'
+          name={name}
+          value={value}
+          onChange={e => onChange(e.target.value)}
+        />
+      )
     }
 
     const { getByRole } = renderWithContext(
-      <FormInput name="test" Input={CustomInput} />,
+      <FormInput name='test' Input={CustomInput} />,
       {
-        setValues: jest.fn().mockImplementation(v => values = v(values)),
+        setValues: jest.fn().mockImplementation(v => (values = v(values))),
         values,
       }
     )
@@ -87,16 +99,13 @@ describe('FormInput', () => {
     it('default', () => {
       let values = {
         a: 1,
-        test: ''
+        test: '',
       }
 
-      const { getByRole } = renderWithContext(
-        <FormInput name="test" />,
-        {
-          setValues: jest.fn().mockImplementation(v => values = v(values)),
-          values,
-        }
-      )
+      const { getByRole } = renderWithContext(<FormInput name='test' />, {
+        setValues: jest.fn().mockImplementation(v => (values = v(values))),
+        values,
+      })
 
       fireEvent.change(getByRole('textbox'), { target: { value: true } })
 
@@ -107,12 +116,12 @@ describe('FormInput', () => {
       let values = {}
 
       const { getByRole } = renderWithContext(
-        <FormInput name="test" rules={{ type: 'string' }} />,
+        <FormInput name='test' rules={{ type: 'string' }} />,
         {
-          setValues: jest.fn().mockImplementation(v => values = v({})),
+          setValues: jest.fn().mockImplementation(v => (values = v({}))),
           values: {
             test: '',
-          }
+          },
         }
       )
 
@@ -125,12 +134,12 @@ describe('FormInput', () => {
       let values = {}
 
       const { getByRole } = renderWithContext(
-        <FormInput name="test" rules={{ type: 'number' }} />,
+        <FormInput name='test' rules={{ type: 'number' }} />,
         {
-          setValues: jest.fn().mockImplementation(v => values = v({})),
+          setValues: jest.fn().mockImplementation(v => (values = v({}))),
           values: {
             test: 0,
-          }
+          },
         }
       )
 

@@ -29,10 +29,10 @@
  * @packageDocumentation
  */
 
-import { Command } from 'commander'
-import { Logger } from '@faasjs/logger'
 import { existsSync } from 'node:fs'
 import { sep } from 'node:path'
+import { Logger } from '@faasjs/logger'
+import { Command } from 'commander'
 import { NewCommand } from './commands/new'
 import { ServerCommand } from './commands/server'
 

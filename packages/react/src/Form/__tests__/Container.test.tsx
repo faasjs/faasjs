@@ -1,10 +1,10 @@
 /**
  * @jest-environment @happy-dom/jest-environment
  */
-import { render, screen, fireEvent } from '@testing-library/react'
-import { FormContainer, type FormProps } from '../Container'
-import { expectType } from 'tsd'
+import { fireEvent, render, screen } from '@testing-library/react'
 import type { ComponentType } from 'react'
+import { expectType } from 'tsd'
+import { FormContainer, type FormProps } from '../Container'
 import type {
   FormButtonElementProps,
   FormInputElementProps,
@@ -66,22 +66,24 @@ describe('FormContainer', () => {
       >
     )
 
-    const props: FormProps<{ key: string },
+    const props: FormProps<
+      { key: string },
       {
         Input: ComponentType<CustomInputProps>
         Label: ComponentType<FormLabelElementProps>
         Button: ComponentType<FormButtonElementProps>
-      }> = {
+      }
+    > = {
       items: [
         {
           name: 'test',
           input: {
             props: {
-              custom: true
-            }
-          }
-        }
-      ]
+              custom: true,
+            },
+          },
+        },
+      ],
     }
 
     expectType<{ key: string }>(props.defaultValues)

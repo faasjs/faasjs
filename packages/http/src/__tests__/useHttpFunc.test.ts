@@ -1,12 +1,12 @@
-import { useHttpFunc } from '..'
 import {
-  type Plugin,
-  usePlugin,
   type InvokeData,
   type Next,
+  type Plugin,
+  usePlugin,
 } from '@faasjs/func'
 import type { InferFaasAction } from '@faasjs/types'
 import { expectType } from 'tsd'
+import { useHttpFunc } from '..'
 
 describe('useHttpFunc', () => {
   it('should work with extra plugins', async () => {
@@ -68,14 +68,12 @@ describe('useHttpFunc', () => {
       }
     )
 
-    const res = await func
-      .export()
-      .handler({
-        headers: {
-          cookie:
-            'a=2; b=2; key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6;',
-        },
-      })
+    const res = await func.export().handler({
+      headers: {
+        cookie:
+          'a=2; b=2; key=YUwxU1dBMDc5anlDemY3SHhPSDhHUT09LS1BdGJTSzdHSzhsRGJCcDlMZ05lK0ZnPT0=--6a5edb5edffc49259127b2268a82061f8937b742f541df6ccb283b5ca0e312d6;',
+      },
+    })
 
     expect(res.body).toEqual(JSON.stringify({ data: '1value' }))
   })

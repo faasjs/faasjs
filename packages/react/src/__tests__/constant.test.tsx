@@ -1,10 +1,10 @@
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 /**
  * @jest-environment @happy-dom/jest-environment
  */
 import { useState } from 'react'
 import { useConstant } from '../constant'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 describe('useConstant', () => {
   it('should work', async () => {

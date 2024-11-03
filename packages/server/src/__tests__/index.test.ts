@@ -1,6 +1,6 @@
-import { closeAll, Server } from '..'
-import { request } from '@faasjs/request'
 import { join, sep } from 'node:path'
+import { request } from '@faasjs/request'
+import { Server, closeAll } from '..'
 
 describe('server', () => {
   let server: Server
@@ -11,7 +11,10 @@ describe('server', () => {
   beforeAll(() => {
     server = new Server(join(__dirname, 'funcs'), { port, cache: false })
     server.listen()
-    cachedServer = new Server(join(__dirname, 'funcs'), { port: cachedPort, cache: true })
+    cachedServer = new Server(join(__dirname, 'funcs'), {
+      port: cachedPort,
+      cache: true,
+    })
     cachedServer.listen()
   })
 
@@ -43,16 +46,16 @@ describe('server', () => {
         },
       }
     )
-    await expect(request(`http://127.0.0.1:${cachedPort}/404`)).rejects.toMatchObject(
-      {
-        statusCode: 404,
-        body: {
-          error: {
-            message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404.func.tsx\n- ${server.root}404/index.func.ts\n- ${server.root}404/index.func.tsx\n- ${server.root}default.func.ts\n- ${server.root}default.func.tsx`,
-          },
+    await expect(
+      request(`http://127.0.0.1:${cachedPort}/404`)
+    ).rejects.toMatchObject({
+      statusCode: 404,
+      body: {
+        error: {
+          message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404.func.tsx\n- ${server.root}404/index.func.ts\n- ${server.root}404/index.func.tsx\n- ${server.root}default.func.ts\n- ${server.root}default.func.tsx`,
         },
-      }
-    )
+      },
+    })
   })
 
   it('hello', async () => {

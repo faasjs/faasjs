@@ -5,8 +5,8 @@ import type {
 } from 'react'
 import { useFormContext } from './context'
 import type { FormElementTypes } from './elements'
-import type { FormRules } from './rules'
 import type { FormInputElementProps } from './elements/Input'
+import type { FormRules } from './rules'
 
 export type InferFormInputProps<
   T extends ComponentType<FormInputElementProps> | JSXElementConstructor<any>,

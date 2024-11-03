@@ -1,18 +1,19 @@
 /**
  * @jest-environment @happy-dom/jest-environment
  */
-import { render, screen, fireEvent } from '@testing-library/react'
-import { FormLabelElement, type FormLabelElementProps } from '../Label'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { FormContextProvider } from '../../context'
+import { FormLabelElement, type FormLabelElementProps } from '../Label'
 
 const renderWithContext = (
   ui: React.ReactElement,
   { values = {}, setValues = jest.fn() } = {}
-) => render(
-  <FormContextProvider value={{ values, setValues } as any}>
-    {ui}
-  </FormContextProvider>
-)
+) =>
+  render(
+    <FormContextProvider value={{ values, setValues } as any}>
+      {ui}
+    </FormContextProvider>
+  )
 
 describe('FormLabelElement', () => {
   const defaultProps: FormLabelElementProps = {
@@ -43,7 +44,7 @@ describe('FormLabelElement', () => {
 
   it('should call setValues on input change', () => {
     let values = { testName: '' }
-    const setValues = jest.fn().mockImplementation(fn => values = fn(values))
+    const setValues = jest.fn().mockImplementation(fn => (values = fn(values)))
     renderWithContext(<FormLabelElement {...defaultProps} />, { setValues })
 
     fireEvent.change(screen.getByDisplayValue(''), {
@@ -69,11 +70,16 @@ describe('FormLabelElement', () => {
       },
     }
     let values = { testName: 'testValue' }
-    const setValues = jest.fn().mockImplementation(fn => values = fn(values))
-    renderWithContext(<FormLabelElement {...customProps} />, { values, setValues })
+    const setValues = jest.fn().mockImplementation(fn => (values = fn(values)))
+    renderWithContext(<FormLabelElement {...customProps} />, {
+      values,
+      setValues,
+    })
 
     expect(screen.getByTestId('custom-input')).not.toBeNull()
-    expect((screen.getByTestId('custom-input') as HTMLInputElement).value).toEqual('testValue')
+    expect(
+      (screen.getByTestId('custom-input') as HTMLInputElement).value
+    ).toEqual('testValue')
 
     fireEvent.change(screen.getByTestId('custom-input'), {
       target: { value: 'newValue' },

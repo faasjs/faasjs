@@ -3,9 +3,9 @@
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Link } from '../../Link'
 import { BrowserRouter } from 'react-router-dom'
 import { ConfigProvider } from '../../Config'
+import { Link } from '../../Link'
 
 describe('Link', () => {
   it('should work', async () => {
@@ -82,7 +82,7 @@ describe('Link', () => {
 
     render(
       <BrowserRouter>
-        <Link href='/' text='text' onClick={() => called = true} />
+        <Link href='/' text='text' onClick={() => (called = true)} />
       </BrowserRouter>
     )
 
@@ -147,7 +147,7 @@ describe('Link', () => {
 
       render(
         <BrowserRouter>
-          <Link href='/' text='text' onClick={() => called = true} button />
+          <Link href='/' text='text' onClick={() => (called = true)} button />
         </BrowserRouter>
       )
 

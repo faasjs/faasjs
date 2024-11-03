@@ -3,9 +3,9 @@
  */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { FaasItemType } from '../../data'
-import { FormItem } from '../../FormItem'
 import { Form } from '../../Form'
+import { FormItem } from '../../FormItem'
+import type { FaasItemType } from '../../data'
 
 describe('FormItem', () => {
   const types: Exclude<FaasItemType, 'object' | 'object[]'>[] = [

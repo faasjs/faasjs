@@ -1,5 +1,5 @@
-import type { Command } from 'commander'
 import { Server } from '@faasjs/server'
+import type { Command } from 'commander'
 import { defaultsEnv } from '../helper'
 
 export function action(opts: {

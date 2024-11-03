@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes } from 'react'
+import { type InputHTMLAttributes, forwardRef } from 'react'
 
 export type FormInputElementProps = {
   name: string
@@ -8,8 +8,11 @@ export type FormInputElementProps = {
 
 export const FormInputElement = forwardRef<
   HTMLInputElement,
-  Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> & FormInputElementProps
->(({ onChange, ...props }, ref) => <input {...props} onChange={e => onChange(e.target.value)} ref={ref} />)
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> &
+    FormInputElementProps
+>(({ onChange, ...props }, ref) => (
+  <input {...props} onChange={e => onChange(e.target.value)} ref={ref} />
+))
 
 FormInputElement.displayName = 'FormInputElement'
 FormInputElement.whyDidYouRender = true

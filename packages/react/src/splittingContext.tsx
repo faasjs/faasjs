@@ -1,4 +1,4 @@
-import { type Context, createContext, type ReactNode, useContext } from 'react'
+import { type Context, type ReactNode, createContext, useContext } from 'react'
 import { useConstant } from './constant'
 import { useEqualMemo } from './equal'
 
@@ -48,8 +48,8 @@ import { useEqualMemo } from './equal'
 export function createSplittingContext<T extends Record<string, any>>(
   defaultValue:
     | {
-      [K in keyof T]: Partial<T[K]> | null
-    }
+        [K in keyof T]: Partial<T[K]> | null
+      }
     | (keyof T)[]
 ): {
   /**
@@ -106,9 +106,9 @@ export function createSplittingContext<T extends Record<string, any>>(
     : Object.keys(defaultValue)
   const defaultValues = Array.isArray(defaultValue)
     ? keys.reduce((prev, cur) => {
-      prev[cur] = null
-      return prev
-    }, {} as T)
+        prev[cur] = null
+        return prev
+      }, {} as T)
     : defaultValue
 
   const contexts = {} as Record<
@@ -124,9 +124,9 @@ export function createSplittingContext<T extends Record<string, any>>(
   }) {
     let children = props.memo
       ? useEqualMemo(
-        () => props.children,
-        props.memo === true ? [] : props.memo
-      )
+          () => props.children,
+          props.memo === true ? [] : props.memo
+        )
       : props.children
 
     for (const key of keys) {

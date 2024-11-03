@@ -1,3 +1,5 @@
+import { deepMerge } from '@faasjs/deep_merge'
+import type { MountData, Next, Plugin } from '@faasjs/func'
 /**
  * FaasJS's mongodb plugin.
  *
@@ -13,16 +15,14 @@
  * @packageDocumentation
  */
 import {
-  type MongoClientOptions,
-  type Db,
-  MongoClient,
+  type Callback,
   type Collection,
   type CollectionOptions,
+  type Db,
+  MongoClient,
+  type MongoClientOptions,
   ObjectId,
-  type Callback,
 } from 'mongodb'
-import type { Plugin, MountData, Next } from '@faasjs/func'
-import { deepMerge } from '@faasjs/deep_merge'
 
 export { ObjectId }
 

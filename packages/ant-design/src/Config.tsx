@@ -1,10 +1,10 @@
-import { createContext, useContext, type CSSProperties, useState } from 'react'
-import { defaultsDeep } from 'lodash-es'
 import {
   FaasReactClient,
-  useEqualEffect,
   type FaasReactClientOptions,
+  useEqualEffect,
 } from '@faasjs/react'
+import { defaultsDeep } from 'lodash-es'
+import { type CSSProperties, createContext, useContext, useState } from 'react'
 
 export interface ConfigProviderProps {
   faasClientOptions?: FaasReactClientOptions
@@ -101,7 +101,9 @@ export function ConfigProvider(props: ConfigProviderProps) {
   const [theme, setTheme] = useState<ConfigProviderProps['theme']>(baseTheme)
 
   useEqualEffect(() => {
-    const lang = props.theme?.lang || (!props.theme?.lang && /^zh/i.test(navigator.language) ? 'zh' : 'en')
+    const lang =
+      props.theme?.lang ||
+      (!props.theme?.lang && /^zh/i.test(navigator.language) ? 'zh' : 'en')
     if (lang === 'zh') {
       setTheme(
         defaultsDeep(

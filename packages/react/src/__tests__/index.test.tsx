@@ -1,4 +1,4 @@
-import { setMock, Response } from '@faasjs/browser'
+import { Response, setMock } from '@faasjs/browser'
 import { FaasReactClient, getClient } from '..'
 
 describe('FaasReactClient', () => {

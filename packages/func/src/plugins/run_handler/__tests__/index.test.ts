@@ -1,5 +1,5 @@
-import { Func, type InvokeData } from '../../..'
 import { RunHandler } from '..'
+import { Func, type InvokeData } from '../../..'
 
 describe('plugins.runHandler', () => {
   test('return result', async () => {
