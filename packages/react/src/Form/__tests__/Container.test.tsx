@@ -1,6 +1,7 @@
 /**
  * @jest-environment @happy-dom/jest-environment
  */
+
 import { fireEvent, render, screen } from '@testing-library/react'
 import type { ComponentType } from 'react'
 import { expectType } from 'tsd'

@@ -1,7 +1,8 @@
-import { setMock } from '@faasjs/browser'
 /**
  * @jest-environment @happy-dom/jest-environment
  */
+
+import { setMock } from '@faasjs/browser'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../Form'

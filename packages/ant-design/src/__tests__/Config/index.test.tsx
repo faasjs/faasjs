@@ -1,6 +1,7 @@
 /**
  * @jest-environment @happy-dom/jest-environment
  */
+
 import { render, screen } from '@testing-library/react'
 import { Blank } from '../../Blank'
 import { ConfigProvider } from '../../Config'

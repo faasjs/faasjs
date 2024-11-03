@@ -1,6 +1,7 @@
 /**
  * @jest-environment @happy-dom/jest-environment
  */
+
 import { fireEvent, render } from '@testing-library/react'
 import { FormInputElement } from '../Input'
 

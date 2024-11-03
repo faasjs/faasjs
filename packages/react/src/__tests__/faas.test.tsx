@@ -1,7 +1,8 @@
-import { Response, setMock } from '@faasjs/browser'
 /**
  * @jest-environment @happy-dom/jest-environment
  */
+
+import { Response, setMock } from '@faasjs/browser'
 import { faas } from '../faas'
 
 describe('faas', () => {
