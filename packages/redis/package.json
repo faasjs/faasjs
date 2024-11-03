@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/redis",
-  "version": "3.7.0-beta.2",
+  "version": "3.7.0-beta.3",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -35,15 +35,15 @@
   ],
   "peerDependencies": {
     "ioredis": "*",
-    "@faasjs/deep_merge": "3.7.0-beta.2",
-    "@faasjs/func": "3.7.0-beta.2",
-    "@faasjs/logger": "3.7.0-beta.2"
+    "@faasjs/deep_merge": "3.7.0-beta.3",
+    "@faasjs/func": "3.7.0-beta.3",
+    "@faasjs/logger": "3.7.0-beta.3"
   },
   "devDependencies": {
     "ioredis": "*",
-    "@faasjs/deep_merge": "3.7.0-beta.2",
-    "@faasjs/func": "3.7.0-beta.2",
-    "@faasjs/logger": "3.7.0-beta.2"
+    "@faasjs/deep_merge": "3.7.0-beta.3",
+    "@faasjs/func": "3.7.0-beta.3",
+    "@faasjs/logger": "3.7.0-beta.3"
   },
   "engines": {
     "node": ">=22.0.0",

@@ -22,7 +22,7 @@
 
 ### items
 
-> **items**: [`FormLabelElementProps`](FormLabelElementProps.md)[]
+> **items**: [`FormLabelElementProps`](FormLabelElementProps.md)\<`FormElements`\>[]
 
 ### onSubmit()?
 
