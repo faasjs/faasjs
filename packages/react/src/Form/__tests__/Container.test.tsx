@@ -2,7 +2,7 @@
  * @jest-environment @happy-dom/jest-environment
  */
 
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import type { ComponentType } from 'react'
 import { expectType } from 'tsd'
 import { FormContainer, type FormProps } from '../Container'
@@ -27,7 +27,7 @@ describe('FormContainer', () => {
     const onSubmit = jest.fn().mockResolvedValueOnce(Promise.resolve())
     render(<FormContainer {...defaultProps} onSubmit={onSubmit} />)
 
-    fireEvent.click(screen.getByRole('button'))
+    await act(async () => fireEvent.click(screen.getByRole('button')))
 
     expect(onSubmit).toHaveBeenCalledWith({ test: '' })
   })
