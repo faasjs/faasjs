@@ -9,7 +9,7 @@ export type FormProps<
   Values extends Record<string, any> = Record<string, any>,
   FormElements extends FormElementTypes = FormElementTypes,
 > = {
-  items: FormLabelElementProps[]
+  items: FormLabelElementProps<FormElements>[]
   onSubmit?: (values: Values) => Promise<void>
   elements?: Partial<FormElements>
   defaultValues?: Values
