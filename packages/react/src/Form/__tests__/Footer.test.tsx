@@ -2,15 +2,18 @@
  * @jest-environment @happy-dom/jest-environment
  */
 
-import { fireEvent, render } from '@testing-library/react'
-import { useState } from 'react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import { type ComponentProps, useState } from 'react'
 import { FormFooter } from '../Footer'
+import type { FormLabelProps } from '../Label'
 import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
 
 function Provider(props: {
-  ui: React.ReactElement
+  children?: React.ReactElement
+  items?: FormLabelProps[]
   onSubmit?: () => Promise<void>
+  setErrors?: () => void
 }) {
   const [submitting, setSubmitting] = useState(false)
 
@@ -18,24 +21,25 @@ function Provider(props: {
     <FormContextProvider
       value={
         {
-          items: [],
+          items: props.items || [],
           Elements: FormDefaultElements,
           values: {},
           onSubmit: props.onSubmit,
           submitting,
           setSubmitting,
+          setErrors: props.setErrors,
         } as any
       }
     >
-      {props.ui}
+      {props.children}
     </FormContextProvider>
   )
 }
 
 const renderWithContext = (
-  ui: React.ReactElement,
-  { onSubmit }: { onSubmit?: () => Promise<void> } = {}
-) => render(<Provider ui={ui} onSubmit={onSubmit} />)
+  children: React.ReactElement,
+  props: Omit<ComponentProps<typeof Provider>, 'children'> = {}
+) => render(<Provider {...props}>{children}</Provider>)
 
 describe('FormFooter', () => {
   it('should render the submit button', () => {
@@ -53,5 +57,31 @@ describe('FormFooter', () => {
     fireEvent.click(button)
 
     expect(button.disabled).toBeTruthy()
+  })
+
+  it('should set errors and not call onSubmit if validation fails', async () => {
+    const setErrors = jest.fn()
+    const onSubmit = jest.fn()
+
+    renderWithContext(
+      <FormFooter />,
+      {
+        items: [{ name: 'test', rules: { required: true } }],
+        setErrors,
+        onSubmit,
+      }
+    )
+
+    const button = screen.getByText('Submit') as HTMLButtonElement
+    await act(async () => {
+      fireEvent.click(button)
+    })
+
+    expect(setErrors).toHaveBeenCalledWith({
+      test: {
+        message: 'This field is required',
+      }
+    })
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 })

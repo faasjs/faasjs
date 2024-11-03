@@ -33,6 +33,7 @@ export function FormContainer<
 >({ defaultValues, elements, ...props }: FormProps<Values, FormElements>) {
   const states = useSplittingState({
     values: mergeValues(props.items, defaultValues),
+    errors: {},
     submitting: false,
     Elements: Object.assign(FormDefaultElements, elements) as FormElementTypes,
   })

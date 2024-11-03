@@ -25,7 +25,7 @@ export const FormLabelElement = ({
   Label,
   input,
 }: FormLabelElementProps) => {
-  const { values, setValues } = useFormContext()
+  const { values, setValues, errors } = useFormContext()
 
   if (Label)
     return (
@@ -64,6 +64,7 @@ export const FormLabelElement = ({
         />
       )}
       {description}
+      {errors[name]?.message}
     </label>
   )
 }

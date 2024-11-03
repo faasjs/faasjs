@@ -8,10 +8,14 @@ import { FormLabelElement, type FormLabelElementProps } from '../Label'
 
 const renderWithContext = (
   ui: React.ReactElement,
-  { values = {}, setValues = jest.fn() } = {}
+  { values = {}, setValues = jest.fn(), error = undefined } = {}
 ) =>
   render(
-    <FormContextProvider value={{ values, setValues } as any}>
+    <FormContextProvider value={{
+      values, setValues, errors: {
+        testName: error,
+      }
+    } as any}>
       {ui}
     </FormContextProvider>
   )
@@ -87,5 +91,12 @@ describe('FormLabelElement', () => {
     })
 
     expect(values).toEqual({ testName: 'newValue' })
+  })
+
+  it('should render error message', () => {
+    const error = { message: 'Test Error' }
+    renderWithContext(<FormLabelElement {...defaultProps} />, { error })
+
+    expect(screen.getByText(c => c.includes('Test Error'))).not.toBeNull()
   })
 })

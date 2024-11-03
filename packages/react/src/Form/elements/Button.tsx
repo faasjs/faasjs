@@ -3,7 +3,7 @@ import { type ButtonHTMLAttributes, forwardRef } from 'react'
 export type FormButtonElementProps = {
   children?: React.ReactNode
   disabled: boolean
-  submit: () => void
+  submit: () => Promise<void>
 }
 
 export const FormButtonElement = forwardRef<
