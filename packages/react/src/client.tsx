@@ -22,6 +22,14 @@ export type FaasReactClientOptions = {
   /** @default `/` */
   baseUrl?: BaseUrl
   options?: Options
+  /**
+   * @example
+   * ```ts
+   * onError: (action, params) => async (res) => {
+   *   console.error(action, params, res)
+   * }
+   * ```
+   */
   onError?: OnError
 }
 
