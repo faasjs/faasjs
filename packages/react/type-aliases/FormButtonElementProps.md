@@ -14,9 +14,9 @@
 
 > `optional` **disabled**: `boolean`
 
-### onClick()?
+### submit()?
 
-> `optional` **onClick**: () => `void`
+> `optional` **submit**: () => `void`
 
 #### Returns
 

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/jest",
-  "version": "3.7.0-beta.3",
+  "version": "3.7.0-beta.4",
   "license": "MIT",
   "main": "index.js",
   "homepage": "https://faasjs.com/doc/jest",
@@ -13,7 +13,10 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "files": ["index.js", "jest.setup.js"],
+  "files": [
+    "index.js",
+    "jest.setup.js"
+  ],
   "dependencies": {
     "@types/jest": "*",
     "@types/node": "*",

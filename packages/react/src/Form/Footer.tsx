@@ -1,11 +1,5 @@
 import { useFormContext } from './context'
 
-export type FormButtonProps = {
-  children?: React.ReactNode
-  disabled?: boolean
-  onClick?: () => void
-}
-
 export function FormFooter() {
   const { submitting, setSubmitting, onSubmit, values, Elements } =
     useFormContext()
@@ -13,7 +7,7 @@ export function FormFooter() {
   return (
     <Elements.Button
       disabled={submitting}
-      onClick={() => {
+      submit={() => {
         setSubmitting(true)
         onSubmit(values).finally(() => setSubmitting(false))
       }}
