@@ -9,6 +9,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/react`
   - [Feature] Add headless form.
   - [Feature] Add display name to improve debugging.
+  - [Fix] Fix `equal` error for {} and null.
 
 [`v3.6.1 (2024-10-23)`](https://github.com/faasjs/faasjs/compare/v3.6.0...v3.6.1)
 
