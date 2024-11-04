@@ -4,6 +4,7 @@ import { FormFooter } from './Footer'
 import { type FormContextProps, FormContextProvider } from './context'
 import { FormDefaultElements, type FormElementTypes } from './elements'
 import type { FormLabelElementProps } from './elements/Label'
+import { FormDefaultLang, type FormLang } from './lang'
 
 export type FormProps<
   Values extends Record<string, any> = Record<string, any>,
@@ -11,7 +12,8 @@ export type FormProps<
 > = {
   items: FormLabelElementProps<FormElements>[]
   onSubmit?: (values: Values) => Promise<void>
-  elements?: Partial<FormElements>
+  Elements?: Partial<FormElements>
+  lang?: Partial<FormLang>
   defaultValues?: Values
 }
 
@@ -30,12 +32,13 @@ function mergeValues<Values extends Record<string, any>>(
 export function FormContainer<
   Values extends Record<string, any> = Record<string, any>,
   FormElements extends FormElementTypes = FormElementTypes,
->({ defaultValues, elements, ...props }: FormProps<Values, FormElements>) {
+>({ defaultValues, Elements, lang, ...props }: FormProps<Values, FormElements>) {
   const states = useSplittingState({
     values: mergeValues(props.items, defaultValues),
     errors: {},
     submitting: false,
-    Elements: Object.assign(FormDefaultElements, elements) as FormElementTypes,
+    Elements: Object.assign(FormDefaultElements, Elements) as FormElementTypes,
+    lang: Object.assign(FormDefaultLang, lang) as FormLang,
   })
 
   return (

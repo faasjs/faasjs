@@ -1,4 +1,5 @@
 import type { FormLabelProps } from './Label'
+import type { FormLang } from './lang'
 
 export type FormRules = {
   type?: 'string' | 'number'
@@ -12,7 +13,8 @@ export type FormError = {
 
 export async function validValue(
   rules: FormRules,
-  value: any
+  value: any,
+  lang: FormLang
 ): Promise<FormError | undefined> {
   if (
     rules.required &&
@@ -21,17 +23,18 @@ export async function validValue(
       value === '' ||
       Number.isNaN(value))
   )
-    return { message: 'This field is required' }
+    return { message: lang.required }
 
   if (rules.type === 'number' && Number.isNaN(Number(value)))
-    return { message: 'This field must be a number' }
+    return { message: lang.number }
 
   return rules.custom?.(value)
 }
 
 export async function validValues(
   items: FormLabelProps[],
-  values: Record<string, any>
+  values: Record<string, any>,
+  lang: FormLang
 ): Promise<Record<string, FormError>> {
   const errors: Record<string, FormError> = {}
 
@@ -40,7 +43,7 @@ export async function validValues(
     const rules = item.rules
 
     if (rules) {
-      const error = await validValue(rules, value)
+      const error = await validValue(rules, value, lang)
       if (error) errors[item.name] = error
     }
   }

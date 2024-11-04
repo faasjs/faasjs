@@ -2,6 +2,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import { createSplittingContext } from '../splittingContext'
 import type { FormElementTypes } from './elements'
 import type { FormLabelElementProps } from './elements/Label'
+import type { FormLang } from './lang'
 import type { FormError } from './rules'
 
 export type FormContextProps<
@@ -11,6 +12,7 @@ export type FormContextProps<
   items: FormLabelElementProps[]
   onSubmit: (values: Values) => Promise<void>
   Elements: FormElementTypes
+  lang: FormLang
 
   // states
   submitting: boolean
@@ -25,6 +27,7 @@ const FormContext = createSplittingContext<FormContextProps>([
   'items',
   'onSubmit',
   'Elements',
+  'lang',
   'submitting',
   'setSubmitting',
   'values',

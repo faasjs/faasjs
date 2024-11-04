@@ -10,6 +10,7 @@ export function FormFooter() {
     Elements,
     items,
     setErrors,
+    lang,
   } = useFormContext()
 
   return (
@@ -18,7 +19,7 @@ export function FormFooter() {
       submit={async () => {
         setSubmitting(true)
 
-        const errors = await validValues(items, values)
+        const errors = await validValues(items, values, lang)
 
         if (Object.keys(errors).length) {
           setErrors(errors)
@@ -29,7 +30,7 @@ export function FormFooter() {
         onSubmit(values).finally(() => setSubmitting(false))
       }}
     >
-      Submit
+      {lang.submit}
     </Elements.Button>
   )
 }

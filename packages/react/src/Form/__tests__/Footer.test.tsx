@@ -8,6 +8,7 @@ import { FormFooter } from '../Footer'
 import type { FormLabelProps } from '../Label'
 import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
+import { FormDefaultLang } from '../lang'
 
 function Provider(props: {
   children?: React.ReactElement
@@ -23,6 +24,7 @@ function Provider(props: {
         {
           items: props.items || [],
           Elements: FormDefaultElements,
+          lang: FormDefaultLang,
           values: {},
           onSubmit: props.onSubmit,
           submitting,
