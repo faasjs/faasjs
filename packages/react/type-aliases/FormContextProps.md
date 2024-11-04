@@ -22,6 +22,10 @@
 
 > **items**: [`FormLabelElementProps`](FormLabelElementProps.md)[]
 
+### lang
+
+> **lang**: `FormLang`
+
 ### onSubmit()
 
 > **onSubmit**: (`values`) => `Promise`\<`void`\>

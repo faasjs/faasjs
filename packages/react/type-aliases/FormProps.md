@@ -16,13 +16,17 @@
 
 > `optional` **defaultValues**: `Values`
 
-### elements?
+### Elements?
 
-> `optional` **elements**: `Partial`\<`FormElements`\>
+> `optional` **Elements**: `Partial`\<`FormElements`\>
 
 ### items
 
 > **items**: [`FormLabelElementProps`](FormLabelElementProps.md)\<`FormElements`\>[]
+
+### lang?
+
+> `optional` **lang**: `Partial`\<`FormLang`\>
 
 ### onSubmit()?
 

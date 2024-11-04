@@ -18,6 +18,14 @@
 
 > `optional` **onError**: [`OnError`](OnError.md)
 
+#### Example
+
+```ts
+onError: (action, params) => async (res) => {
+  console.error(action, params, res)
+}
+```
+
 ### options?
 
 > `optional` **options**: [`Options`](Options.md)

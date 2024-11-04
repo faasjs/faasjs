@@ -32,7 +32,12 @@ function mergeValues<Values extends Record<string, any>>(
 export function FormContainer<
   Values extends Record<string, any> = Record<string, any>,
   FormElements extends FormElementTypes = FormElementTypes,
->({ defaultValues, Elements, lang, ...props }: FormProps<Values, FormElements>) {
+>({
+  defaultValues,
+  Elements,
+  lang,
+  ...props
+}: FormProps<Values, FormElements>) {
   const states = useSplittingState({
     values: mergeValues(props.items, defaultValues),
     errors: {},
