@@ -25,8 +25,16 @@ export async function validValue(
   )
     return { message: lang.required }
 
-  if (rules.type === 'number' && Number.isNaN(Number(value)))
-    return { message: lang.number }
+  switch (rules.type) {
+    case 'string':
+      if (typeof value !== 'string')
+        return { message: lang.string }
+      break
+    case 'number':
+      if (Number.isNaN(Number(value)))
+        return { message: lang.number }
+      break
+  }
 
   return rules.custom?.(value)
 }

@@ -25,7 +25,26 @@ describe('validValue', () => {
     )
   })
 
-  describe('type', () => {
+  describe('type is string', () => {
+    it('should return undefined if the field type is string and the value is a string', async () => {
+      const rules: FormRules = { type: 'string' }
+      const value = 'some value'
+      const result = await validValue(rules, value, FormDefaultLang)
+      expect(result).toBeUndefined()
+    })
+
+    it.each([[0], [123], [Number.NaN]])(
+      'should return an error if the field type is string and the value is %s',
+      async value => {
+        const rules: FormRules = { type: 'string' }
+        const result = await validValue(rules, value, FormDefaultLang)
+
+        expect(result).toEqual({ message: 'This field must be a string' })
+      }
+    )
+  })
+
+  describe('type is number', () => {
     it('should return undefined if the field type is number and the value is a number', async () => {
       const rules: FormRules = { type: 'number' }
       const value = 123
