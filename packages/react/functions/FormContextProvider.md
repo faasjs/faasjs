@@ -8,13 +8,28 @@ The provider component of the splitting context.
 
 ## Type Parameters
 
-• **NewT** *extends* [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>\> = [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>\>
+• **NewT** *extends* [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, `FormRules`\> = [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, `FormRules`\>
 
 ## Parameters
 
 • **props**
 
 • **props.children**: `ReactNode`
+
+• **props.initializeStates?**: `Partial`\<`NewT`\>
+
+An object containing initial values that will be automatically converted into state variables using [useSplittingState](useSplittingState.md) hook. Each property will create both a state value and its setter following the pattern: value/setValue.
+
+**Example**
+
+```tsx
+<Provider
+ initializeStates={{
+   value: 0,
+ }}
+>
+  // Children will have access to: value, setValue
+</Provider>
 
 • **props.memo?**: `true` \| `any`[]
 
@@ -27,7 +42,7 @@ false
 `true`: memoize the children without dependencies.
 `any[]`: memoize the children with specific dependencies.
 
-• **props.value?**: `NewT`
+• **props.value?**: `Partial`\<`NewT`\>
 
 ## Returns
 

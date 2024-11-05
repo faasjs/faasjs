@@ -2,7 +2,7 @@
 
 # Function: Form()
 
-> **Form**\<`Values`, `FormElements`\>(`__namedParameters`): `Element`
+> **Form**\<`Values`, `FormElements`, `Rules`\>(`__namedParameters`): `Element`
 
 ## Type Parameters
 
@@ -10,9 +10,11 @@
 
 • **FormElements** *extends* [`FormElementTypes`](../type-aliases/FormElementTypes.md) = [`FormElementTypes`](../type-aliases/FormElementTypes.md)
 
+• **Rules** *extends* `FormRules` = `FormRules`
+
 ## Parameters
 
-• **\_\_namedParameters**: [`FormProps`](../type-aliases/FormProps.md)\<`Values`, `FormElements`\>
+• **\_\_namedParameters**: [`FormProps`](../type-aliases/FormProps.md)\<`Values`, `FormElements`, `Rules`\>
 
 ## Returns
 

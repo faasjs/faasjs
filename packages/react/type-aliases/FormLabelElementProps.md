@@ -1,12 +1,14 @@
 [@faasjs/react](../README.md) / FormLabelElementProps
 
-# Type Alias: FormLabelElementProps\<FormElements\>
+# Type Alias: FormLabelElementProps\<FormElements, FormRulesOptions\>
 
-> **FormLabelElementProps**\<`FormElements`\>: `object`
+> **FormLabelElementProps**\<`FormElements`, `FormRulesOptions`\>: `object`
 
 ## Type Parameters
 
 • **FormElements** *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+
+• **FormRulesOptions** *extends* `Record`\<`string`, `any`\> = `FormDefaultRulesOptions`
 
 ## Type declaration
 
@@ -28,7 +30,7 @@
 
 ### rules?
 
-> `optional` **rules**: `FormRules`
+> `optional` **rules**: `FormRulesOptions`
 
 ### title?
 

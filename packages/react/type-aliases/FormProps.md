@@ -1,14 +1,16 @@
 [@faasjs/react](../README.md) / FormProps
 
-# Type Alias: FormProps\<Values, FormElements\>
+# Type Alias: FormProps\<Values, FormElements, Rules\>
 
-> **FormProps**\<`Values`, `FormElements`\>: `object`
+> **FormProps**\<`Values`, `FormElements`, `Rules`\>: `object`
 
 ## Type Parameters
 
 • **Values** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
 • **FormElements** *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+
+• **Rules** *extends* `FormRules` = *typeof* `FormDefaultRules`
 
 ## Type declaration
 
@@ -22,7 +24,7 @@
 
 ### items
 
-> **items**: [`FormLabelElementProps`](FormLabelElementProps.md)\<`FormElements`\>[]
+> **items**: [`FormLabelElementProps`](FormLabelElementProps.md)\<`FormElements`, `InferFormRulesOptions`\<`Rules`\>\>[]
 
 ### lang?
 
@@ -39,3 +41,7 @@
 #### Returns
 
 `Promise`\<`void`\>
+
+### rules?
+
+> `optional` **rules**: *typeof* `FormDefaultRules` & `Rules`

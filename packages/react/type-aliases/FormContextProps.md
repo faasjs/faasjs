@@ -1,12 +1,14 @@
 [@faasjs/react](../README.md) / FormContextProps
 
-# Type Alias: FormContextProps\<Values\>
+# Type Alias: FormContextProps\<Values, Rules\>
 
-> **FormContextProps**\<`Values`\>: `object`
+> **FormContextProps**\<`Values`, `Rules`\>: `object`
 
 ## Type Parameters
 
 • **Values** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+
+• **Rules** *extends* `FormRules` = *typeof* `FormDefaultRules`
 
 ## Type declaration
 
@@ -37,6 +39,10 @@
 #### Returns
 
 `Promise`\<`void`\>
+
+### rules
+
+> **rules**: *typeof* `FormDefaultRules` & `Rules`
 
 ### setErrors
 
