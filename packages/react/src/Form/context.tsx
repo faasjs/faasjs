@@ -3,16 +3,18 @@ import { createSplittingContext } from '../splittingContext'
 import type { FormElementTypes } from './elements'
 import type { FormLabelElementProps } from './elements/Label'
 import type { FormLang } from './lang'
-import type { FormError } from './rules'
+import type { FormDefaultRules, FormError, FormRules } from './rules'
 
 export type FormContextProps<
   Values extends Record<string, any> = Record<string, any>,
+  Rules extends FormRules = typeof FormDefaultRules,
 > = {
   // props
   items: FormLabelElementProps[]
   onSubmit: (values: Values) => Promise<void>
   Elements: FormElementTypes
   lang: FormLang
+  rules: typeof FormDefaultRules & Rules
 
   // states
   submitting: boolean
@@ -34,6 +36,7 @@ const FormContext = createSplittingContext<FormContextProps>([
   'setValues',
   'errors',
   'setErrors',
+  'rules',
 ])
 
 export const FormContextProvider = FormContext.Provider

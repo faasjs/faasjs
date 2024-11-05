@@ -6,7 +6,7 @@ import type {
 import { useFormContext } from './context'
 import type { FormElementTypes } from './elements'
 import type { FormInputElementProps } from './elements/Input'
-import type { FormRules } from './rules'
+import type { FormDefaultRulesOptions } from './rules'
 
 export type InferFormInputProps<
   T extends ComponentType<FormInputElementProps> | JSXElementConstructor<any>,
@@ -21,7 +21,7 @@ export type FormInputProps<
   props?: InferFormInputProps<FormElements['Input']>
 }
 
-function processValue(input: any, rules?: FormRules) {
+function processValue(input: any, rules?: FormDefaultRulesOptions) {
   switch (rules?.type) {
     case 'number':
       return Number(input)
@@ -38,7 +38,7 @@ export function FormInput({
   ...rest
 }: FormInputProps & {
   name: string
-  rules?: FormRules
+  rules?: FormDefaultRulesOptions
 }) {
   const { Elements, values, setValues } = useFormContext()
 

@@ -11,6 +11,7 @@ export function FormFooter() {
     items,
     setErrors,
     lang,
+    rules,
   } = useFormContext()
 
   return (
@@ -19,7 +20,7 @@ export function FormFooter() {
       submit={async () => {
         setSubmitting(true)
 
-        const errors = await validValues(items, values, lang)
+        const errors = await validValues(rules, items, values, lang)
 
         if (Object.keys(errors).length) {
           setErrors(errors)
