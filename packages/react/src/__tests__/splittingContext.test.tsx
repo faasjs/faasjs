@@ -176,6 +176,87 @@ describe('createSplittingContext', () => {
     expect(screen.getByText('World')).not.toBeNull()
   })
 
+  it('should handle initializeStates', async () => {
+    let readerRenderTimes = 0
+    let writerRenderTimes = 0
+
+    const { Provider, use } = createSplittingContext<{
+      count: number
+      setCount: React.Dispatch<React.SetStateAction<number>>
+      name: string
+      setName: React.Dispatch<React.SetStateAction<string>>
+    }>(['count', 'setCount', 'name', 'setName'])
+
+    function ReaderComponent() {
+      const { count, name } = use()
+      readerRenderTimes++
+
+      return <div>count:{count} name:{name}</div>
+    }
+
+    function WriterComponent() {
+      const { setCount, setName } = use()
+      writerRenderTimes++
+
+      return (
+        <>
+          <button type='button' onClick={() => setCount(c => c + 1)}>Increment</button>
+          <button type='button' onClick={() => setName('Alice')}>Change Name</button>
+        </>
+      )
+    }
+
+    const user = userEvent.setup()
+
+    render(
+      <Provider
+        initializeStates={{
+          count: 0,
+          name: 'Bob'
+        }}
+        memo
+      >
+        <ReaderComponent />
+        <WriterComponent />
+      </Provider>
+    )
+
+    expect(screen.getByText('count:0 name:Bob')).not.toBeNull()
+
+    await user.click(screen.getByText('Increment'))
+    expect(screen.getByText('count:1 name:Bob')).not.toBeNull()
+
+    await user.click(screen.getByText('Change Name'))
+    expect(screen.getByText('count:1 name:Alice')).not.toBeNull()
+
+    expect(readerRenderTimes).toBe(3)
+    expect(writerRenderTimes).toBe(1)
+  })
+
+  it('should combine initializeStates with value prop', () => {
+    const { Provider, use } = createSplittingContext<{
+      count: number
+      setCount: React.Dispatch<React.SetStateAction<number>>
+      name: string
+    }>(['count', 'setCount', 'name'])
+
+    function Component() {
+      const { count, name } = use()
+      return <div>count:{count} name:{name}</div>
+    }
+
+    render(
+      <Provider
+        initializeStates={{ count: 0 }}
+        value={{ name: 'Bob' }}
+      >
+        <Component />
+      </Provider>
+    )
+
+    expect(screen.getByText('count:0 name:Bob')).not.toBeNull()
+  })
+
   it('should accept new type of provider', () => {
     const { Provider, use } = createSplittingContext<{
       value: Record<string, any>

@@ -1,4 +1,3 @@
-import { useSplittingState } from '../splittingState'
 import { FormBody } from './Body'
 import { FormFooter } from './Footer'
 import { type FormContextProps, FormContextProvider } from './context'
@@ -38,22 +37,19 @@ export function FormContainer<
   lang,
   ...props
 }: FormProps<Values, FormElements>) {
-  const states = useSplittingState({
-    values: mergeValues(props.items, defaultValues),
-    errors: {},
-    submitting: false,
-    Elements: Object.assign(FormDefaultElements, Elements) as FormElementTypes,
-    lang: Object.assign(FormDefaultLang, lang) as FormLang,
-  })
-
   return (
     <FormContextProvider
-      value={
-        {
-          ...states,
-          ...props,
-        } as FormContextProps
-      }
+      initializeStates={{
+        values: mergeValues(props.items, defaultValues),
+        errors: {},
+        submitting: false,
+        Elements: Object.assign(
+          FormDefaultElements,
+          Elements
+        ) as FormElementTypes,
+        lang: Object.assign(FormDefaultLang, lang) as FormLang,
+      }}
+      value={props as Partial<FormContextProps>}
       memo
     >
       <FormBody />

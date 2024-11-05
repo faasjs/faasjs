@@ -1,6 +1,7 @@
 import { type Context, type ReactNode, createContext, useContext } from 'react'
 import { useConstant } from './constant'
 import { useEqualMemo } from './equal'
+import { useSplittingState } from './splittingState'
 
 /**
  * Creates a splitting context with the given default value.
@@ -48,8 +49,8 @@ import { useEqualMemo } from './equal'
 export function createSplittingContext<T extends Record<string, any>>(
   defaultValue:
     | {
-        [K in keyof T]: Partial<T[K]> | null
-      }
+      [K in keyof T]: Partial<T[K]> | null
+    }
     | (keyof T)[]
 ): {
   /**
@@ -72,7 +73,7 @@ export function createSplittingContext<T extends Record<string, any>>(
    * ```
    */
   Provider<NewT extends T = T>(props: {
-    value?: NewT
+    value?: Partial<NewT>
     children: ReactNode
     /**
      * Whether to use memoization for the children.
@@ -83,6 +84,20 @@ export function createSplittingContext<T extends Record<string, any>>(
      * `any[]`: memoize the children with specific dependencies.
      */
     memo?: true | any[]
+    /**
+     * An object containing initial values that will be automatically converted into state variables using {@link useSplittingState} hook. Each property will create both a state value and its setter following the pattern: value/setValue.
+     *
+     * @example
+     * ```tsx
+     * <Provider
+     *  initializeStates={{
+     *    value: 0,
+     *  }}
+     * >
+     *   // Children will have access to: value, setValue
+     * </Provider>
+     */
+    initializeStates?: Partial<NewT>
   }): ReactNode
 
   /**
@@ -106,9 +121,9 @@ export function createSplittingContext<T extends Record<string, any>>(
     : Object.keys(defaultValue)
   const defaultValues = Array.isArray(defaultValue)
     ? keys.reduce((prev, cur) => {
-        prev[cur] = null
-        return prev
-      }, {} as T)
+      prev[cur] = null
+      return prev
+    }, {} as T)
     : defaultValue
 
   const contexts = {} as Record<
@@ -121,17 +136,20 @@ export function createSplittingContext<T extends Record<string, any>>(
     value?: Partial<NewT>
     children: React.ReactNode
     memo?: true | any[]
+    initializeStates?: Partial<NewT>
   }) {
+    const states = props.initializeStates ? useSplittingState(props.initializeStates) : {} as NewT
+
     let children = props.memo
       ? useEqualMemo(
-          () => props.children,
-          props.memo === true ? [] : props.memo
-        )
+        () => props.children,
+        props.memo === true ? [] : props.memo
+      )
       : props.children
 
     for (const key of keys) {
       const Context = contexts[key]
-      const value = props.value?.[key] ?? defaultValues[key]
+      const value = props.value?.[key] ?? states[key] ?? defaultValues[key]
 
       children = <Context.Provider value={value}>{children}</Context.Provider>
     }
