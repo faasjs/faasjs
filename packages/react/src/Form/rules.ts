@@ -5,9 +5,17 @@ export type FormError = {
   message: string
 }
 
-export type FormRule<Options = any> = (value: any, options?: Options, lang?: FormLang) => Promise<FormError | undefined>
+export type FormRule<Options = any> = (
+  value: any,
+  options?: Options,
+  lang?: FormLang
+) => Promise<FormError | undefined>
 
-type InferRuleOption<T> = T extends (value: any, options: infer O, lang?: FormLang) => Promise<FormError | undefined>
+type InferRuleOption<T> = T extends (
+  value: any,
+  options: infer O,
+  lang?: FormLang
+) => Promise<FormError | undefined>
   ? O
   : never
 
@@ -19,7 +27,12 @@ export type InferFormRulesOptions<T> = {
 
 export const FormDefaultRules: FormRules = {
   required: async (value, _, lang) => {
-    if (value === null || value === undefined || value === '' || Number.isNaN(value)) {
+    if (
+      value === null ||
+      value === undefined ||
+      value === '' ||
+      Number.isNaN(value)
+    ) {
       return { message: lang?.required }
     }
   },
@@ -37,12 +50,17 @@ export const FormDefaultRules: FormRules = {
         break
     }
   },
-  custom: async (value, options: (value: any) => Promise<FormError | undefined>) => {
+  custom: async (
+    value,
+    options: (value: any) => Promise<FormError | undefined>
+  ) => {
     return options(value)
   },
 } as const
 
-export type FormDefaultRulesOptions = InferFormRulesOptions<typeof FormDefaultRules>
+export type FormDefaultRulesOptions = InferFormRulesOptions<
+  typeof FormDefaultRules
+>
 
 export async function validValues(
   rules: FormRules,

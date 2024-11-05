@@ -49,8 +49,8 @@ import { useSplittingState } from './splittingState'
 export function createSplittingContext<T extends Record<string, any>>(
   defaultValue:
     | {
-      [K in keyof T]: Partial<T[K]> | null
-    }
+        [K in keyof T]: Partial<T[K]> | null
+      }
     | (keyof T)[]
 ): {
   /**
@@ -121,9 +121,9 @@ export function createSplittingContext<T extends Record<string, any>>(
     : Object.keys(defaultValue)
   const defaultValues = Array.isArray(defaultValue)
     ? keys.reduce((prev, cur) => {
-      prev[cur] = null
-      return prev
-    }, {} as T)
+        prev[cur] = null
+        return prev
+      }, {} as T)
     : defaultValue
 
   const contexts = {} as Record<
@@ -138,13 +138,15 @@ export function createSplittingContext<T extends Record<string, any>>(
     memo?: true | any[]
     initializeStates?: Partial<NewT>
   }) {
-    const states = props.initializeStates ? useSplittingState(props.initializeStates) : {} as NewT
+    const states = props.initializeStates
+      ? useSplittingState(props.initializeStates)
+      : ({} as NewT)
 
     let children = props.memo
       ? useEqualMemo(
-        () => props.children,
-        props.memo === true ? [] : props.memo
-      )
+          () => props.children,
+          props.memo === true ? [] : props.memo
+        )
       : props.children
 
     for (const key of keys) {

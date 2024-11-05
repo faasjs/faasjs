@@ -191,7 +191,11 @@ describe('createSplittingContext', () => {
       const { count, name } = use()
       readerRenderTimes++
 
-      return <div>count:{count} name:{name}</div>
+      return (
+        <div>
+          count:{count} name:{name}
+        </div>
+      )
     }
 
     function WriterComponent() {
@@ -200,8 +204,12 @@ describe('createSplittingContext', () => {
 
       return (
         <>
-          <button type='button' onClick={() => setCount(c => c + 1)}>Increment</button>
-          <button type='button' onClick={() => setName('Alice')}>Change Name</button>
+          <button type='button' onClick={() => setCount(c => c + 1)}>
+            Increment
+          </button>
+          <button type='button' onClick={() => setName('Alice')}>
+            Change Name
+          </button>
         </>
       )
     }
@@ -212,7 +220,7 @@ describe('createSplittingContext', () => {
       <Provider
         initializeStates={{
           count: 0,
-          name: 'Bob'
+          name: 'Bob',
         }}
         memo
       >
@@ -242,14 +250,15 @@ describe('createSplittingContext', () => {
 
     function Component() {
       const { count, name } = use()
-      return <div>count:{count} name:{name}</div>
+      return (
+        <div>
+          count:{count} name:{name}
+        </div>
+      )
     }
 
     render(
-      <Provider
-        initializeStates={{ count: 0 }}
-        value={{ name: 'Bob' }}
-      >
+      <Provider initializeStates={{ count: 0 }} value={{ name: 'Bob' }}>
         <Component />
       </Provider>
     )
