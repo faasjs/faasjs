@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-const AsyncFunction = (async () => {}).constructor
+const AsyncFunction = (async () => { }).constructor
 
 /**
  * Compares two values for deep equality.
@@ -61,8 +61,6 @@ export function equal(a: any, b: any): boolean {
 
     case Object: {
       const keys = Object.keys(a)
-
-      if (keys.length !== Object.keys(b).length) return false
 
       for (const key of keys) {
         if (!equal(a[key], b[key])) return false
