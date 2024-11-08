@@ -9,9 +9,13 @@ import { FormDefaultElements } from '../elements'
 
 const renderWithContext = (
   ui: React.ReactElement,
-  { values = {
-    testName: 'testValue',
-  }, setValues = jest.fn(), error = undefined } = {}
+  {
+    values = {
+      testName: 'testValue',
+    },
+    setValues = jest.fn(),
+    error = undefined,
+  } = {}
 ) =>
   render(
     <FormContextProvider
@@ -26,8 +30,8 @@ const renderWithContext = (
           items: [
             {
               name: 'testName',
-            }
-          ]
+            },
+          ],
         } as any
       }
     >
@@ -49,7 +53,9 @@ describe('FormItem', () => {
   it('should call setValues on input change', () => {
     const mockSetValues = jest.fn()
 
-    renderWithContext(<FormItem name='testName' />, { setValues: mockSetValues })
+    renderWithContext(<FormItem name='testName' />, {
+      setValues: mockSetValues,
+    })
 
     const input = screen.getByDisplayValue('testValue')
     fireEvent.change(input, { target: { value: 'newValue' } })

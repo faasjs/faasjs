@@ -35,21 +35,16 @@ export const FormDefaultRules: FormRules = {
   type: async (value, options: 'string' | 'number', lang) => {
     switch (options) {
       case 'string':
-        if (typeof value !== 'string')
-          throw Error(lang?.string)
+        if (typeof value !== 'string') throw Error(lang?.string)
 
         break
       case 'number':
-        if (Number.isNaN(Number(value)))
-          throw Error(lang?.number)
+        if (Number.isNaN(Number(value))) throw Error(lang?.number)
 
         break
     }
   },
-  custom: async (
-    value,
-    options: (value: any) => Promise<void>
-  ) => {
+  custom: async (value, options: (value: any) => Promise<void>) => {
     return options(value)
   },
 } as const

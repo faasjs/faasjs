@@ -6,7 +6,7 @@
 
 ## Type Parameters
 
-• **NewT** *extends* [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, `FormRules`\> = [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, `FormRules`\>
+• **NewT** *extends* [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormRules`](../type-aliases/FormRules.md)\> = [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormRules`](../type-aliases/FormRules.md)\>
 
 ## Returns
 

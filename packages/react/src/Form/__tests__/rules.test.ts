@@ -91,9 +91,7 @@ describe('validValues', () => {
   })
 
   it('should return the result of the custom validation function', async () => {
-    const customValidation = jest
-      .fn()
-      .mockRejectedValue(Error('Custom error'))
+    const customValidation = jest.fn().mockRejectedValue(Error('Custom error'))
     const value = 'any value'
     const result = await validValues(
       FormDefaultRules,

@@ -8,7 +8,7 @@
 
 • **Values** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
-• **Rules** *extends* `FormRules` = *typeof* `FormDefaultRules`
+• **Rules** *extends* [`FormRules`](FormRules.md) = *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)
 
 ## Type declaration
 
@@ -18,7 +18,7 @@
 
 ### errors
 
-> **errors**: `Record`\<`string`, `FormError`\>
+> **errors**: `Record`\<`string`, `Error`\>
 
 ### items
 
@@ -42,11 +42,11 @@
 
 ### rules
 
-> **rules**: *typeof* `FormDefaultRules` & `Rules`
+> **rules**: *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md) & `Rules`
 
 ### setErrors
 
-> **setErrors**: `Dispatch`\<`SetStateAction`\<`Record`\<`string`, `FormError`\>\>\>
+> **setErrors**: `Dispatch`\<`SetStateAction`\<`Record`\<`string`, `Error`\>\>\>
 
 ### setSubmitting
 

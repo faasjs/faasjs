@@ -10,7 +10,7 @@
 
 • **FormElements** *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
 
-• **Rules** *extends* `FormRules` = *typeof* `FormDefaultRules`
+• **Rules** *extends* [`FormRules`](FormRules.md) = *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)
 
 ## Type declaration
 
@@ -24,7 +24,7 @@
 
 ### items
 
-> **items**: [`FormLabelElementProps`](FormLabelElementProps.md)\<`FormElements`, `InferFormRulesOptions`\<`Rules`\>\>[]
+> **items**: [`FormItemProps`](FormItemProps.md)\<`FormElements`, [`InferFormRulesOptions`](InferFormRulesOptions.md)\<`Rules`\>\>[]
 
 ### lang?
 
@@ -44,4 +44,4 @@
 
 ### rules?
 
-> `optional` **rules**: *typeof* `FormDefaultRules` & `Rules`
+> `optional` **rules**: *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md) & `Rules`

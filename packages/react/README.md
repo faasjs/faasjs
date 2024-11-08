@@ -34,7 +34,7 @@ React plugin for FaasJS.
 ## Install
 
 ```sh
-npm install @faasjs/react
+npm install @faasjs/react react
 ```
 
 ## Functions
@@ -46,6 +46,7 @@ npm install @faasjs/react
 - [FaasReactClient](functions/FaasReactClient.md)
 - [Form](functions/Form.md)
 - [FormContextProvider](functions/FormContextProvider.md)
+- [FormItem](functions/FormItem.md)
 - [getClient](functions/getClient.md)
 - [OptionalWrapper](functions/OptionalWrapper.md)
 - [useConstant](functions/useConstant.md)
@@ -56,6 +57,7 @@ npm install @faasjs/react
 - [useFaas](functions/useFaas.md)
 - [useFormContext](functions/useFormContext.md)
 - [useSplittingState](functions/useSplittingState.md)
+- [validValues](functions/validValues.md)
 - [withFaasData](functions/withFaasData.md)
 
 ## Classes
@@ -80,10 +82,16 @@ npm install @faasjs/react
 - [FaasReactClientOptions](type-aliases/FaasReactClientOptions.md)
 - [FormButtonElementProps](type-aliases/FormButtonElementProps.md)
 - [FormContextProps](type-aliases/FormContextProps.md)
+- [FormDefaultRulesOptions](type-aliases/FormDefaultRulesOptions.md)
 - [FormElementTypes](type-aliases/FormElementTypes.md)
 - [FormInputElementProps](type-aliases/FormInputElementProps.md)
+- [FormItemName](type-aliases/FormItemName.md)
+- [FormItemProps](type-aliases/FormItemProps.md)
 - [FormLabelElementProps](type-aliases/FormLabelElementProps.md)
 - [FormProps](type-aliases/FormProps.md)
+- [FormRule](type-aliases/FormRule.md)
+- [FormRules](type-aliases/FormRules.md)
+- [InferFormRulesOptions](type-aliases/InferFormRulesOptions.md)
 - [OnError](type-aliases/OnError.md)
 - [OptionalWrapperProps](type-aliases/OptionalWrapperProps.md)
 - [Options](type-aliases/Options.md)
@@ -93,3 +101,4 @@ npm install @faasjs/react
 ## Variables
 
 - [FormDefaultElements](variables/FormDefaultElements.md)
+- [FormDefaultRules](variables/FormDefaultRules.md)
