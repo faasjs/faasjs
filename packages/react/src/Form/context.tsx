@@ -3,7 +3,7 @@ import { createSplittingContext } from '../splittingContext'
 import type { FormElementTypes } from './elements'
 import type { FormLabelElementProps } from './elements/Label'
 import type { FormLang } from './lang'
-import type { FormDefaultRules, FormError, FormRules } from './rules'
+import type { FormDefaultRules, FormRules } from './rules'
 
 export type FormContextProps<
   Values extends Record<string, any> = Record<string, any>,
@@ -21,8 +21,8 @@ export type FormContextProps<
   setSubmitting: Dispatch<SetStateAction<boolean>>
   values: Values
   setValues: Dispatch<SetStateAction<Values>>
-  errors: Record<string, FormError>
-  setErrors: Dispatch<SetStateAction<Record<string, FormError>>>
+  errors: Record<string, Error>
+  setErrors: Dispatch<SetStateAction<Record<string, Error>>>
 }
 
 const FormContext = createSplittingContext<FormContextProps>([

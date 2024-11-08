@@ -27,7 +27,7 @@ describe('validValues', () => {
           FormDefaultLang
         )
 
-        expect(result).toEqual({ test: { message: 'This field is required' } })
+        expect(result).toEqual({ test: Error('This field is required') })
       }
     )
   })
@@ -55,7 +55,7 @@ describe('validValues', () => {
         )
 
         expect(result).toEqual({
-          test: { message: 'This field must be a string' },
+          test: Error('This field must be a string'),
         })
       }
     )
@@ -84,7 +84,7 @@ describe('validValues', () => {
         )
 
         expect(result).toEqual({
-          test: { message: 'This field must be a number' },
+          test: Error('This field must be a number'),
         })
       }
     )
@@ -93,7 +93,7 @@ describe('validValues', () => {
   it('should return the result of the custom validation function', async () => {
     const customValidation = jest
       .fn()
-      .mockResolvedValue({ message: 'Custom error' })
+      .mockRejectedValue(Error('Custom error'))
     const value = 'any value'
     const result = await validValues(
       FormDefaultRules,
@@ -102,7 +102,7 @@ describe('validValues', () => {
       FormDefaultLang
     )
 
-    expect(result).toEqual({ test: { message: 'Custom error' } })
+    expect(result).toEqual({ test: Error('Custom error') })
     expect(customValidation).toHaveBeenCalledWith(value)
   })
 

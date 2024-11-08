@@ -5,7 +5,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { type ComponentProps, useState } from 'react'
 import { FormFooter } from '../Footer'
-import type { FormLabelProps } from '../Label'
+import type { FormItemProps } from '../Item'
 import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
 import { FormDefaultLang } from '../lang'
@@ -13,7 +13,7 @@ import { FormDefaultRules } from '../rules'
 
 function Provider(props: {
   children?: React.ReactElement
-  items?: FormLabelProps[]
+  items?: FormItemProps[]
   onSubmit?: () => Promise<void>
   setErrors?: () => void
 }) {
@@ -79,9 +79,7 @@ describe('FormFooter', () => {
     })
 
     expect(setErrors).toHaveBeenCalledWith({
-      test: {
-        message: 'This field is required',
-      },
+      test: Error('This field is required'),
     })
     expect(onSubmit).not.toHaveBeenCalled()
   })

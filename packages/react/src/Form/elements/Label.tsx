@@ -1,71 +1,29 @@
 import type { ReactNode } from 'react'
-import type { FormElementTypes } from '.'
-import type { FormInputProps } from '../Input'
-import { useFormContext } from '../context'
-import type { FormDefaultRulesOptions } from '../rules'
-import { FormInputElement } from './Input'
 
-export type FormLabelElementProps<
-  FormElements extends FormElementTypes = FormElementTypes,
-  FormRulesOptions extends Record<string, any> = FormDefaultRulesOptions,
-> = {
+export type FormLabelElementProps = {
   name: string
-  rules?: FormRulesOptions
 
   title?: ReactNode
   description?: ReactNode
+  error?: Error
 
-  Label?: FormElements['Label']
-  input?: FormInputProps<FormElements>
+  /** as Input element */
+  children: ReactNode
 }
 
 export const FormLabelElement = ({
   name,
   title,
   description,
-  Label,
-  input,
+  error,
+  children,
 }: FormLabelElementProps) => {
-  const { values, setValues, errors } = useFormContext()
-
-  if (Label)
-    return (
-      <Label
-        name={name}
-        title={title}
-        description={description}
-        input={input}
-      />
-    )
-
   return (
     <label>
       {title ?? name}
-      {input?.Input ? (
-        <input.Input
-          name={name}
-          value={values[name]}
-          onChange={v =>
-            setValues(prev => ({
-              ...prev,
-              [name]: v,
-            }))
-          }
-        />
-      ) : (
-        <FormInputElement
-          name={name}
-          value={values[name]}
-          onChange={v =>
-            setValues(prev => ({
-              ...prev,
-              [name]: v,
-            }))
-          }
-        />
-      )}
+      {children}
       {description}
-      {errors[name]?.message}
+      {error && <div style={{ color: 'red' }}>{error.message}</div>}
     </label>
   )
 }

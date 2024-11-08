@@ -1,21 +1,17 @@
-import type { FormLabelProps } from './Label'
+import type { FormItemProps } from './Item'
 import type { FormLang } from './lang'
-
-export type FormError = {
-  message: string
-}
 
 export type FormRule<Options = any> = (
   value: any,
   options?: Options,
   lang?: FormLang
-) => Promise<FormError | undefined>
+) => Promise<void>
 
 type InferRuleOption<T> = T extends (
   value: any,
   options: infer O,
   lang?: FormLang
-) => Promise<FormError | undefined>
+) => Promise<void>
   ? O
   : never
 
@@ -33,26 +29,26 @@ export const FormDefaultRules: FormRules = {
       value === '' ||
       Number.isNaN(value)
     ) {
-      return { message: lang?.required }
+      throw Error(lang?.required)
     }
   },
   type: async (value, options: 'string' | 'number', lang) => {
     switch (options) {
       case 'string':
-        if (typeof value !== 'string') {
-          return { message: lang?.string }
-        }
+        if (typeof value !== 'string')
+          throw Error(lang?.string)
+
         break
       case 'number':
-        if (Number.isNaN(Number(value))) {
-          return { message: lang?.number }
-        }
+        if (Number.isNaN(Number(value)))
+          throw Error(lang?.number)
+
         break
     }
   },
   custom: async (
     value,
-    options: (value: any) => Promise<FormError | undefined>
+    options: (value: any) => Promise<void>
   ) => {
     return options(value)
   },
@@ -64,11 +60,11 @@ export type FormDefaultRulesOptions = InferFormRulesOptions<
 
 export async function validValues(
   rules: FormRules,
-  items: FormLabelProps[],
+  items: FormItemProps[],
   values: Record<string, any>,
   lang: FormLang
-): Promise<Record<string, FormError>> {
-  const errors: Record<string, FormError> = {}
+): Promise<Record<string, Error>> {
+  const errors: Record<string, Error> = {}
 
   for (const item of items) {
     const value = values[item.name]
@@ -76,17 +72,9 @@ export async function validValues(
 
     if (rulesOptions) {
       for (const [name, options] of Object.entries(rulesOptions)) {
-        const handler = rules[name]
-
-        if (!handler) {
-          console.warn(`Rule "${name}" is not defined`)
-
-          continue
-        }
-
-        const error = await handler(value, options, lang)
-
-        if (error) {
+        try {
+          await rules[name](value, options, lang)
+        } catch (error: any) {
           errors[item.name] = error
           break
         }

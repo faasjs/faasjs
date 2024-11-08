@@ -33,7 +33,7 @@
  * ## Install
  *
  * ```sh
- * npm install @faasjs/react
+ * npm install @faasjs/react react
  * ```
  *
  * @packageDocumentation
