@@ -56,6 +56,7 @@ npm install @faasjs/react react
 - [useEqualMemoize](functions/useEqualMemoize.md)
 - [useFaas](functions/useFaas.md)
 - [useFormContext](functions/useFormContext.md)
+- [usePrevious](functions/usePrevious.md)
 - [useSplittingState](functions/useSplittingState.md)
 - [validValues](functions/validValues.md)
 - [withFaasData](functions/withFaasData.md)
@@ -88,6 +89,7 @@ npm install @faasjs/react react
 - [FormItemName](type-aliases/FormItemName.md)
 - [FormItemProps](type-aliases/FormItemProps.md)
 - [FormLabelElementProps](type-aliases/FormLabelElementProps.md)
+- [FormLang](type-aliases/FormLang.md)
 - [FormProps](type-aliases/FormProps.md)
 - [FormRule](type-aliases/FormRule.md)
 - [FormRules](type-aliases/FormRules.md)
@@ -101,4 +103,5 @@ npm install @faasjs/react react
 ## Variables
 
 - [FormDefaultElements](variables/FormDefaultElements.md)
+- [FormDefaultLang](variables/FormDefaultLang.md)
 - [FormDefaultRules](variables/FormDefaultRules.md)

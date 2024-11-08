@@ -14,7 +14,7 @@
 
 • **options?**: `Options`
 
-• **lang?**: `FormLang`
+• **lang?**: [`FormLang`](FormLang.md)
 
 ## Returns
 

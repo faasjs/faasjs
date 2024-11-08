@@ -26,7 +26,7 @@
 
 ### lang
 
-> **lang**: `FormLang`
+> **lang**: [`FormLang`](FormLang.md)
 
 ### onSubmit()
 

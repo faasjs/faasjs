@@ -28,7 +28,7 @@
 
 ### lang?
 
-> `optional` **lang**: `Partial`\<`FormLang`\>
+> `optional` **lang**: `Partial`\<[`FormLang`](FormLang.md)\>
 
 ### onSubmit()?
 
