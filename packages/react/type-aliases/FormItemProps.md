@@ -18,7 +18,7 @@
 
 ### label?
 
-> `optional` **label**: `Omit`\<[`FormLabelElementProps`](FormLabelElementProps.md), `"name"`\> & `object`
+> `optional` **label**: `Omit`\<[`FormLabelElementProps`](FormLabelElementProps.md), `"name"` \| `"children"`\> & `object`
 
 #### Type declaration
 

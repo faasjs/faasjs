@@ -93,9 +93,9 @@ describe('FormContainer', () => {
   })
 
   it('should work with rules', async () => {
-    render(<FormContainer items={[
-      { name: 'test', rules: { required: true } }
-    ]} />)
+    render(
+      <FormContainer items={[{ name: 'test', rules: { required: true } }]} />
+    )
 
     await act(async () => {
       fireEvent.click(screen.getByRole('button'))
