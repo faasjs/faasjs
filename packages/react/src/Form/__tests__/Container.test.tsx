@@ -91,4 +91,16 @@ describe('FormContainer', () => {
 
     expectType<{ custom?: boolean }>(props.items[0].input.props)
   })
+
+  it('should work with rules', async () => {
+    render(<FormContainer items={[
+      { name: 'test', rules: { required: true } }
+    ]} />)
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button'))
+    })
+
+    expect(screen.getByText('This field is required')).not.toBeNull()
+  })
 })

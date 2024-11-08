@@ -12,7 +12,7 @@ export type FormItemProps<
   FormRulesOptions extends Record<string, any> = FormDefaultRulesOptions,
 > = {
   name: FormItemName
-  label?: Omit<FormLabelElementProps, 'name'> & {
+  label?: Omit<FormLabelElementProps, 'name' | 'children'> & {
     Label?: ComponentType<FormLabelElementProps>
   }
   input?: FormInputProps<FormElements>
@@ -20,12 +20,12 @@ export type FormItemProps<
 }
 
 export function FormItem(props: FormItemProps) {
-  const { Elements, values, setValues } = useFormContext()
+  const { Elements, values, setValues, errors } = useFormContext()
   const Label = props.label?.Label ?? Elements.Label
   const Input = props.input?.Input ?? Elements.Input
 
   return (
-    <Label name={props.name} {...props.label}>
+    <Label name={props.name} {...props.label} error={errors[props.name]}>
       <Input
         name={props.name}
         value={values[props.name]}
