@@ -4,6 +4,8 @@
 
 > **FormElementTypes**: `object`
 
+Represents the types of form elements used in the form.
+
 ## Type declaration
 
 ### Button

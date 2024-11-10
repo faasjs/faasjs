@@ -4,6 +4,8 @@
 
 > **FormLabelElementProps**: `object`
 
+Props for the FormLabelElement component.
+
 ## Type declaration
 
 ### children

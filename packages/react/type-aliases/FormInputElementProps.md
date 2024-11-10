@@ -4,6 +4,8 @@
 
 > **FormInputElementProps**: `object`
 
+Props for the Form Input Element component.
+
 ## Type declaration
 
 ### name

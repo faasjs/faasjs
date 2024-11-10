@@ -4,6 +4,8 @@
 
 > **FormButtonElementProps**: `object`
 
+Props for the FormButtonElement component.
+
 ## Type declaration
 
 ### children?

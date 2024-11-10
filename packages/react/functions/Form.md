@@ -30,3 +30,17 @@ The type of form rules, defaults to FormDefaultRules.
 `Element`
 
 The FormContainer component.
+
+## Example
+
+```tsx
+import { Form } from '@faasjs/react'
+
+function MyForm() {
+  return <Form
+    items={[
+      { name: 'name' },
+    ]}
+  />
+}
+```
