@@ -51,6 +51,19 @@ function mergeValues<Values extends Record<string, any>>(
  * @param {Partial<FormContextProps>} props - Additional properties for the form context.
  *
  * @returns {JSX.Element} The FormContainer component.
+ *
+ * @example
+ * ```tsx
+ * import { Form } from '@faasjs/react'
+ *
+ * function MyForm() {
+ *   return <Form
+ *     items={[
+ *       { name: 'name' },
+ *     ]}
+ *   />
+ * }
+ * ```
  */
 export function FormContainer<
   Values extends Record<string, any> = Record<string, any>,
