@@ -57,7 +57,7 @@ jobs:
         run: node --run build
       - name: Run Tests
         run: node --run test
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOVTOKEN }}
       - uses: codecov/test-results-action@v1
