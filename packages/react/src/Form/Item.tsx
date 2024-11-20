@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import type { FormInputProps } from './Input'
+import { FormInput, type FormInputProps } from './Input'
 import { useFormContext } from './context'
 import type { FormElementTypes } from './elements'
 import type { FormLabelElementProps } from './elements/Label'
@@ -20,21 +20,15 @@ export type FormItemProps<
 }
 
 export function FormItem(props: FormItemProps) {
-  const { Elements, values, setValues, errors } = useFormContext()
+  const { Elements, errors } = useFormContext()
   const Label = props.label?.Label ?? Elements.Label
-  const Input = props.input?.Input ?? Elements.Input
 
   return (
     <Label name={props.name} {...props.label} error={errors[props.name]}>
-      <Input
+      <FormInput
         name={props.name}
-        value={values[props.name]}
-        onChange={v =>
-          setValues(prev => ({
-            ...prev,
-            [props.name]: v,
-          }))
-        }
+        rules={props.rules}
+        {...props.input}
       />
     </Label>
   )
