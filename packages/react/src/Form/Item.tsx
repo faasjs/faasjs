@@ -25,11 +25,7 @@ export function FormItem(props: FormItemProps) {
 
   return (
     <Label name={props.name} {...props.label} error={errors[props.name]}>
-      <FormInput
-        name={props.name}
-        rules={props.rules}
-        {...props.input}
-      />
+      <FormInput name={props.name} rules={props.rules} {...props.input} />
     </Label>
   )
 }

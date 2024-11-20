@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/request",
-  "version": "3.7.0",
+  "version": "3.7.1",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -34,10 +34,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/logger": "3.7.0"
+    "@faasjs/logger": "3.7.1"
   },
   "devDependencies": {
-    "@faasjs/logger": "3.7.0"
+    "@faasjs/logger": "3.7.1"
   },
   "engines": {
     "node": ">=22.0.0",

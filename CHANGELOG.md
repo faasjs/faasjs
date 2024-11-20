@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.7.1 (2024-11-10)`](https://github.com/faasjs/faasjs/compare/v3.7.0...v3.7.1)
+
+- `@faasjs/react`
+  - [Fix] Fix custom input.
+
 [`v3.7.0 (2024-11-10)`](https://github.com/faasjs/faasjs/compare/v3.6.1...v3.7.0)
 
 - `@faasjs/react`
