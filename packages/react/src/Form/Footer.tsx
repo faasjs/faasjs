@@ -16,7 +16,7 @@ export function FormFooter() {
 
   return (
     <Elements.Button
-      disabled={submitting}
+      submitting={submitting}
       submit={async () => {
         setSubmitting(true)
 
