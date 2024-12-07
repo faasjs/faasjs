@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v3.7.2 (2024-12-02)`](https://github.com/faasjs/faasjs/compare/v3.7.1...v3.7.2)
+
+- `@faasjs/react`
+  - [Fix] Rename FormButton's `disabled` to `submitting`.
+
 [`v3.7.1 (2024-11-10)`](https://github.com/faasjs/faasjs/compare/v3.7.0...v3.7.1)
 
 - `@faasjs/react`

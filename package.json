@@ -19,7 +19,6 @@
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
     "@happy-dom/global-registrator": "*",
-    "@welldone-software/why-did-you-render": "*",
     "jest-junit": "*"
   },
   "workspaces": ["packages/*"],

@@ -14,8 +14,13 @@
     "module": "ESNext",
     "baseUrl": ".",
     "paths": {
-      "@faasjs/*": ["./packages/*/src"]
+      "@faasjs/*": [
+        "./packages/*/src"
+      ]
     },
-    "types": ["node", "jest", "@welldone-software/why-did-you-render"]
+    "types": [
+      "node",
+      "jest"
+    ]
   }
 }
