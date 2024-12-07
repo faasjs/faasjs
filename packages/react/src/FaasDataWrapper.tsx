@@ -104,7 +104,7 @@ export function withFaasData<
   faasProps: FaasDataWrapperProps<PathOrData>
 ): React.FC<
   Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> &
-  Record<string, any>
+    Record<string, any>
 > {
   return (
     props: Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>

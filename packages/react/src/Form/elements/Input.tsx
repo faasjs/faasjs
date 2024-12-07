@@ -16,7 +16,7 @@ export type FormInputElementProps = {
 export const FormInputElement = forwardRef<
   HTMLInputElement,
   Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> &
-  FormInputElementProps
+    FormInputElementProps
 >(({ onChange, ...props }, ref) => (
   <input {...props} onChange={e => onChange(e.target.value)} ref={ref} />
 ))

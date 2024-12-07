@@ -56,16 +56,16 @@ export type HttpConfig = {
     [key: string]: any
     /** POST as default */
     method?:
-    | 'BEGIN'
-    | 'GET'
-    | 'POST'
-    | 'DELETE'
-    | 'HEAD'
-    | 'PUT'
-    | 'OPTIONS'
-    | 'TRACE'
-    | 'PATCH'
-    | 'ANY'
+      | 'BEGIN'
+      | 'GET'
+      | 'POST'
+      | 'DELETE'
+      | 'HEAD'
+      | 'PUT'
+      | 'OPTIONS'
+      | 'TRACE'
+      | 'PATCH'
+      | 'ANY'
     timeout?: number
     /** file relative path as default */
     path?: string
@@ -132,7 +132,8 @@ export class Http<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
-> implements Plugin {
+> implements Plugin
+{
   public readonly type = 'http'
   public readonly name: string = Name
 
@@ -387,9 +388,7 @@ export function useHttp<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
->(
-  config?: HttpConfig
-): UseifyPlugin<Http<TParams, TCookie, TSession>> {
+>(config?: HttpConfig): UseifyPlugin<Http<TParams, TCookie, TSession>> {
   return usePlugin(new Http<TParams, TCookie, TSession>(config))
 }
 

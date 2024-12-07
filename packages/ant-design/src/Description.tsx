@@ -259,13 +259,24 @@ DescriptionItemContent.whyDidYouRender = true
  * />
  * ```
  */
-export function Description<T extends Record<string, any> = any>(
-  { faasData, dataSource, renderTitle, extendTypes, ...props }: DescriptionProps<T>
-) {
+export function Description<T extends Record<string, any> = any>({
+  faasData,
+  dataSource,
+  renderTitle,
+  extendTypes,
+  ...props
+}: DescriptionProps<T>) {
   if (faasData && !dataSource)
     return (
       <FaasDataWrapper<T>
-        render={({ data }) => <Description {...props} dataSource={data} renderTitle={renderTitle} extendTypes={extendTypes} />}
+        render={({ data }) => (
+          <Description
+            {...props}
+            dataSource={data}
+            renderTitle={renderTitle}
+            extendTypes={extendTypes}
+          />
+        )}
         {...faasData}
       />
     )
@@ -288,9 +299,7 @@ export function Description<T extends Record<string, any> = any>(
             <DescriptionItemContent
               item={item}
               value={
-                dataSource
-                  ? (dataSource as Record<string, any>)[item.id]
-                  : null
+                dataSource ? (dataSource as Record<string, any>)[item.id] : null
               }
               values={dataSource}
               extendTypes={extendTypes}
