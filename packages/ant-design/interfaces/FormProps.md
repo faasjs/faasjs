@@ -44,9 +44,13 @@
 
 #### Parameters
 
-• **values**: `Values`
+##### values
 
-• **submit?**
+`Values`
+
+##### submit?
+
+(`values`) => `Promise`\<`any`\>
 
 #### Returns
 

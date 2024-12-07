@@ -104,25 +104,6 @@
       ""
     ]
   },
-  "http validator": {
-    "description": "Generate a http validator",
-    "prefix": ["valid", "httpValidator"],
-    "body": [
-      "validator: {",
-      "  params: {",
-      "    rules: {",
-      "      $1",
-      "    }",
-      "  },",
-      "  session: {",
-      "    rules: {",
-      "      $2",
-      "    }",
-      "  },",
-      "}",
-      ""
-    ]
-  },
   "test func": {
     "description": "Test a func",
     "prefix": ["test", "testFunc"],

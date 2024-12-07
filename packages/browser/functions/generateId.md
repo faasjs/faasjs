@@ -8,11 +8,15 @@ Generate random id with prefix
 
 ## Parameters
 
-• **prefix**: `string` = `''`
+### prefix
+
+`string` = `''`
 
 prefix of id
 
-• **length**: `number` = `18`
+### length
+
+`number` = `18`
 
 length of id without prefix, range is 8 ~ 18, default is 18
 

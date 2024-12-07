@@ -6,9 +6,13 @@
 
 ## Parameters
 
-• **type**: [`FaasItemType`](../type-aliases/FaasItemType.md)
+### type
 
-• **value**: `any`
+[`FaasItemType`](../type-aliases/FaasItemType.md)
+
+### value
+
+`any`
 
 ## Returns
 

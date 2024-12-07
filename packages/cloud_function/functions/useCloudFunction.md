@@ -6,7 +6,9 @@
 
 ## Parameters
 
-• **config?**: [`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md) \| () => [`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md)
+### config?
+
+[`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md) | () => [`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md)
 
 ## Returns
 

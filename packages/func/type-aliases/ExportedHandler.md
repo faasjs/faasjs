@@ -14,11 +14,17 @@
 
 ## Parameters
 
-• **event?**: `TEvent`
+### event?
 
-• **context?**: `TContext`
+`TEvent`
 
-• **callback?**
+### context?
+
+`TContext`
+
+### callback?
+
+(...`args`) => `any`
 
 ## Returns
 

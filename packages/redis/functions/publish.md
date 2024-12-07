@@ -8,9 +8,13 @@ Publish message
 
 ## Parameters
 
-• **channel**: `string`
+### channel
 
-• **message**: `any`
+`string`
+
+### message
+
+`any`
 
 ## Returns
 

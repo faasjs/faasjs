@@ -24,7 +24,9 @@ Create a cloud function
 
 #### Parameters
 
-• **config**: [`FuncConfig`](../type-aliases/FuncConfig.md)\<`TEvent`, `TContext`, `any`\>
+##### config
+
+[`FuncConfig`](../type-aliases/FuncConfig.md)\<`TEvent`, `TContext`, `any`\>
 
 {object} config
 
@@ -56,7 +58,9 @@ Invoke the function
 
 #### Parameters
 
-• **data**: [`InvokeData`](../type-aliases/InvokeData.md)\<`TEvent`, `TContext`, `TResult`\>
+##### data
+
+[`InvokeData`](../type-aliases/InvokeData.md)\<`TEvent`, `TContext`, `TResult`\>
 
 {object} data
 
@@ -72,15 +76,23 @@ First time mount the function
 
 #### Parameters
 
-• **data** = `...`
+##### data
 
-• **data.config?**: [`Config`](../type-aliases/Config.md)
+###### config
 
-• **data.context**: `TContext`
+[`Config`](../type-aliases/Config.md)
 
-• **data.event**: `TEvent`
+###### context
 
-• **data.logger?**: `Logger`
+`TContext`
+
+###### event
+
+`TEvent`
+
+###### logger
+
+`Logger`
 
 #### Returns
 

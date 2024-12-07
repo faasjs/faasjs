@@ -21,21 +21,29 @@ server.listen()
 
 #### Parameters
 
-• **root**: `string`
+##### root
+
+`string`
 
 Project path
 
-• **opts?**
+##### opts?
 
 Options
 
-• **opts.cache?**: `boolean`
+###### cache
+
+`boolean`
 
 Enable cache, default is false
 
-• **opts.onError?**
+###### onError
 
-• **opts.port?**: `number`
+(`error`) => `void`
+
+###### port
+
+`number`
 
 Port, default is 3000
 
@@ -69,13 +77,21 @@ Start server.
 
 #### Parameters
 
-• **path**: `string`
+##### path
 
-• **req**: `IncomingMessage`
+`string`
 
-• **res**: `ServerResponse`\<`IncomingMessage`\> & `object`
+##### req
 
-• **requestedAt**: `number`
+`IncomingMessage`
+
+##### res
+
+`ServerResponse`\<`IncomingMessage`\> & `object`
+
+##### requestedAt
+
+`number`
 
 #### Returns
 
@@ -93,7 +109,9 @@ Start server.
 
 #### Parameters
 
-• **error**: `Error`
+##### error
+
+`Error`
 
 #### Returns
 

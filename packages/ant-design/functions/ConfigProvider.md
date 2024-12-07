@@ -8,7 +8,9 @@ Config for `@faasjs/ant-design` components.
 
 ## Parameters
 
-• **props**: [`ConfigProviderProps`](../interfaces/ConfigProviderProps.md)
+### props
+
+[`ConfigProviderProps`](../interfaces/ConfigProviderProps.md)
 
 ## Returns
 

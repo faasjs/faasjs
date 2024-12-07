@@ -12,9 +12,11 @@ Creates a splitting context with the given default value.
 
 ## Parameters
 
-• **defaultValue**: \{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \} \| keyof `T`[]
+### defaultValue
 
 The default value of the splitting context.
+
+\{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \} | keyof `T`[]
 
 ## Returns
 
@@ -58,11 +60,15 @@ The provider component of the splitting context.
 
 #### Parameters
 
-• **props**
+##### props
 
-• **props.children**: `ReactNode`
+###### children
 
-• **props.initializeStates?**: `Partial`\<`NewT`\>
+`ReactNode`
+
+###### initializeStates
+
+`Partial`\<`NewT`\>
 
 An object containing initial values that will be automatically converted into state variables using [useSplittingState](useSplittingState.md) hook. Each property will create both a state value and its setter following the pattern: value/setValue.
 
@@ -77,7 +83,9 @@ An object containing initial values that will be automatically converted into st
   // Children will have access to: value, setValue
 </Provider>
 
-• **props.memo?**: `true` \| `any`[]
+###### memo
+
+`true` \| `any`[]
 
 Whether to use memoization for the children.
 
@@ -88,7 +96,9 @@ false
 `true`: memoize the children without dependencies.
 `any[]`: memoize the children with specific dependencies.
 
-• **props.value?**: `Partial`\<`NewT`\>
+###### value
+
+`Partial`\<`NewT`\>
 
 #### Returns
 

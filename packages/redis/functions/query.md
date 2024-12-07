@@ -10,9 +10,13 @@
 
 ## Parameters
 
-• **command**: `string`
+### command
 
-• **args**: `any`[]
+`string`
+
+### args
+
+`any`[]
 
 ## Returns
 

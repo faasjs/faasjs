@@ -8,7 +8,9 @@ Styled error boundary.
 
 ## Parameters
 
-• **props**: [`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md)
+### props
+
+[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md)
 
 ## Returns
 

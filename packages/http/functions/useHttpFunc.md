@@ -26,15 +26,19 @@ The type of the result.
 
 ## Parameters
 
-• **handler**
+### handler
+
+() => [`HttpFuncHandler`](../type-aliases/HttpFuncHandler.md)\<`TParams`, `TCookie`, `TSession`, `TResult`\>
 
 The function handler to be used.
 
-• **config?**
+### config?
 
 Optional configuration object.
 
-• **config.http?**: [`HttpConfig`](../type-aliases/HttpConfig.md)\<`any`, `any`, `any`\>
+#### http
+
+[`HttpConfig`](../type-aliases/HttpConfig.md)
 
 Optional HTTP configuration.
 

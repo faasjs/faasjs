@@ -6,7 +6,9 @@
 
 ## Parameters
 
-• **config?**: [`RedisConfig`](../type-aliases/RedisConfig.md)
+### config?
+
+[`RedisConfig`](../type-aliases/RedisConfig.md)
 
 ## Returns
 

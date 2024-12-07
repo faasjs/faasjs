@@ -16,7 +16,9 @@ Create a cloud function.
 
 ## Parameters
 
-• **handler**
+### handler
+
+() => [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ## Returns
 

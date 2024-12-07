@@ -2,19 +2,13 @@
 
 # Function: Drawer()
 
-> **Drawer**(`props`, `deprecatedLegacyContext`?): `ReactNode`
+> **Drawer**(`props`): `ReactNode`
 
 ## Parameters
 
-• **props**: [`DrawerProps`](../interfaces/DrawerProps.md)
+### props
 
-• **deprecatedLegacyContext?**: `any`
-
-**Deprecated**
-
-**See**
-
-[React Docs](https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods)
+[`DrawerProps`](../interfaces/DrawerProps.md)
 
 ## Returns
 

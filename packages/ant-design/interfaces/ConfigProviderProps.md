@@ -20,7 +20,7 @@
 
 > `optional` **Blank**: `object`
 
-#### Blank.text?
+##### Blank.text?
 
 > `optional` **text**: `string`
 
@@ -28,39 +28,39 @@
 
 > `optional` **common**: `object`
 
-#### common.add?
+##### common.add?
 
 > `optional` **add**: `string`
 
-#### common.all?
+##### common.all?
 
 > `optional` **all**: `string`
 
-#### common.blank?
+##### common.blank?
 
 > `optional` **blank**: `string`
 
-#### common.delete?
+##### common.delete?
 
 > `optional` **delete**: `string`
 
-#### common.pageNotFound?
+##### common.pageNotFound?
 
 > `optional` **pageNotFound**: `string`
 
-#### common.required?
+##### common.required?
 
 > `optional` **required**: `string`
 
-#### common.reset?
+##### common.reset?
 
 > `optional` **reset**: `string`
 
-#### common.search?
+##### common.search?
 
 > `optional` **search**: `string`
 
-#### common.submit?
+##### common.submit?
 
 > `optional` **submit**: `string`
 
@@ -68,11 +68,11 @@
 
 > `optional` **Form**: `object`
 
-#### Form.submit?
+##### Form.submit?
 
 > `optional` **submit**: `object`
 
-#### Form.submit.text?
+##### Form.submit.text?
 
 > `optional` **text**: `string`
 
@@ -84,11 +84,11 @@
 
 > `optional` **Link**: `object`
 
-#### Link.style?
+##### Link.style?
 
 > `optional` **style**: `CSSProperties`
 
-#### Link.target?
+##### Link.target?
 
 > `optional` **target**: `string`
 
@@ -98,12 +98,12 @@
 
 > `optional` **Title**: `object`
 
-#### Title.separator?
+##### Title.separator?
 
 > `optional` **separator**: `string`
 
 ' - ' as default
 
-#### Title.suffix?
+##### Title.suffix?
 
 > `optional` **suffix**: `string`

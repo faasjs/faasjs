@@ -14,7 +14,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Upgrade react to 19.
 
 - `@faasjs/http`
-  - [Break] Remove validator.
+  - [Break] Remove validator.(Recommend to use [zod](https://zod.dev/) instead)
 
 [`v3.7.1 (2024-11-10)`](https://github.com/faasjs/faasjs/compare/v3.7.0...v3.7.1)
 

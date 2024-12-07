@@ -1,22 +1,14 @@
 [@faasjs/http](../README.md) / HttpConfig
 
-# Type Alias: HttpConfig\<TParams, TCookie, TSession\>
+# Type Alias: HttpConfig
 
-> **HttpConfig**\<`TParams`, `TCookie`, `TSession`\>: `object`
+> **HttpConfig**: `object`
 
-## Type Parameters
-
-• **TParams** *extends* `Record`\<`string`, `any`\> = `any`
-
-• **TCookie** *extends* `Record`\<`string`, `string`\> = `any`
-
-• **TSession** *extends* `Record`\<`string`, `string`\> = `any`
+## Type declaration
 
 ## Index Signature
 
  \[`key`: `string`\]: `any`
-
-## Type declaration
 
 ### config?
 
@@ -26,40 +18,34 @@
 
  \[`key`: `string`\]: `any`
 
-### config.cookie?
+#### config.cookie?
 
 > `optional` **cookie**: [`CookieOptions`](CookieOptions.md)
 
-### config.functionName?
+#### config.functionName?
 
 > `optional` **functionName**: `string`
 
-### config.ignorePathPrefix?
+#### config.ignorePathPrefix?
 
 > `optional` **ignorePathPrefix**: `string`
 
-### config.method?
+#### config.method?
 
 > `optional` **method**: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
 
 POST as default
 
-### config.path?
+#### config.path?
 
 > `optional` **path**: `string`
 
 file relative path as default
 
-### config.timeout?
+#### config.timeout?
 
 > `optional` **timeout**: `number`
 
 ### name?
 
 > `optional` **name**: `string`
-
-### ~~validator?~~
-
-> `optional` **validator**: [`ValidatorConfig`](ValidatorConfig.md)\<`TParams`, `TCookie`, `TSession`\>
-
-#### Deprecated

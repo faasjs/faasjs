@@ -14,7 +14,9 @@ Form component with Ant Design & FaasJS
 
 ## Parameters
 
-• **props**: [`FormProps`](../interfaces/FormProps.md)\<`Values`, [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md)\>
+### props
+
+[`FormProps`](../interfaces/FormProps.md)\<`Values`, [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md)\>
 
 ## Returns
 

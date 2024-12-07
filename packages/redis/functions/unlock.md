@@ -8,7 +8,9 @@ Unlock by key
 
 ## Parameters
 
-• **key**: `string`
+### key
+
+`string`
 
 ## Returns
 

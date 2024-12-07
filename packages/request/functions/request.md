@@ -12,11 +12,15 @@ Request
 
 ## Parameters
 
-• **url**: `string`
+### url
+
+`string`
 
 Url
 
-• **options?**: [`RequestOptions`](../type-aliases/RequestOptions.md) = `...`
+### options?
+
+[`RequestOptions`](../type-aliases/RequestOptions.md) = `...`
 
 Options
 

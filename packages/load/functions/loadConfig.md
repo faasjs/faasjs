@@ -8,11 +8,17 @@ Load configuration from faas.yaml
 
 ## Parameters
 
-• **root**: `string`
+### root
 
-• **filename**: `string`
+`string`
 
-• **staging**: `string`
+### filename
+
+`string`
+
+### staging
+
+`string`
 
 ## Returns
 

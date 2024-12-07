@@ -6,11 +6,17 @@
 
 ## Parameters
 
-• **action**: `string`
+### action
 
-• **params**: `Record`\<`string`, `any`\>
+`string`
 
-• **options**: [`Options`](Options.md)
+### params
+
+`Record`\<`string`, `any`\>
+
+### options
+
+[`Options`](Options.md)
 
 ## Returns
 

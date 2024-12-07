@@ -2,7 +2,7 @@
 
 # Function: query()
 
-## query(table)
+## Call Signature
 
 > **query**\<`TName`\>(`table`): `OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `object`[]\>
 
@@ -12,13 +12,15 @@
 
 ### Parameters
 
-• **table**: `TName`
+#### table
+
+`TName`
 
 ### Returns
 
 `OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `object`[]\>
 
-## query(table)
+## Call Signature
 
 > **query**\<`TName`, `TResult`\>(`table`): `OriginKnex.QueryBuilder`\<`TName`, `TResult`\>
 
@@ -30,7 +32,9 @@
 
 ### Parameters
 
-• **table**: `string`
+#### table
+
+`string`
 
 ### Returns
 

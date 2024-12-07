@@ -14,11 +14,15 @@
 
 #### Parameters
 
-• **\_\_namedParameters**
+##### \_\_namedParameters
 
-• **\_\_namedParameters.message**: `string`
+###### message
 
-• **\_\_namedParameters.statusCode?**: `number`
+`string`
+
+###### statusCode
+
+`number`
 
 #### Returns
 

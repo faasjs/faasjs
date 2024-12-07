@@ -4,11 +4,11 @@
 
 > **Config**: `object`
 
+## Type declaration
+
 ## Index Signature
 
  \[`key`: `string`\]: `any`
-
-## Type declaration
 
 ### plugins?
 

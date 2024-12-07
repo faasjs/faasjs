@@ -8,7 +8,9 @@ Set mock handler for testing
 
 ## Parameters
 
-• **handler**: [`MockHandler`](../type-aliases/MockHandler.md)
+### handler
+
+[`MockHandler`](../type-aliases/MockHandler.md)
 
 mock handler, set `null` or `undefined` to clear mock
 

@@ -12,15 +12,21 @@ Request faas server with React hook
 
 ## Parameters
 
-• **action**: `string` \| `PathOrData`
+### action
 
 {string} action name
 
-• **defaultParams**: `FaasParams`\<`PathOrData`\>
+`string` | `PathOrData`
+
+### defaultParams
+
+`FaasParams`\<`PathOrData`\>
 
 {object} initial action params
 
-• **options**: `useFaasOptions`\<`PathOrData`\> = `{}`
+### options
+
+`useFaasOptions`\<`PathOrData`\> = `{}`
 
 ## Returns
 

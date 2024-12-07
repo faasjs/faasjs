@@ -6,21 +6,35 @@
 
 ## Parameters
 
-• **rules**: [`FormRules`](../type-aliases/FormRules.md)
+### rules
 
-• **items**: [`FormItemProps`](../type-aliases/FormItemProps.md)[]
+[`FormRules`](../type-aliases/FormRules.md)
 
-• **values**: `Record`\<`string`, `any`\>
+### items
 
-• **lang**
+[`FormItemProps`](../type-aliases/FormItemProps.md)[]
 
-• **lang.number**: `string` = `'This field must be a number'`
+### values
 
-• **lang.required**: `string` = `'This field is required'`
+`Record`\<`string`, `any`\>
 
-• **lang.string**: `string` = `'This field must be a string'`
+### lang
 
-• **lang.submit**: `string` = `'Submit'`
+#### number
+
+`string` = `'This field must be a number'`
+
+#### required
+
+`string` = `'This field is required'`
+
+#### string
+
+`string` = `'This field must be a string'`
+
+#### submit
+
+`string` = `'Submit'`
 
 ## Returns
 

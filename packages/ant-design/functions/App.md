@@ -14,7 +14,9 @@ App component with Ant Design & FaasJS
 
 ## Parameters
 
-• **props**: [`AppProps`](../interfaces/AppProps.md)
+### props
+
+[`AppProps`](../interfaces/AppProps.md)
 
 ## Returns
 

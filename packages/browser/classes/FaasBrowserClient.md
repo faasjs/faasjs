@@ -18,9 +18,13 @@ await client.action('func', { key: 'value' })
 
 #### Parameters
 
-• **baseUrl**: \`$\{string\}/\` = `'/'`
+##### baseUrl
 
-• **options**: [`Options`](../type-aliases/Options.md) = `...`
+\`$\{string\}/\` = `'/'`
+
+##### options
+
+[`Options`](../type-aliases/Options.md) = `...`
 
 #### Returns
 
@@ -40,15 +44,21 @@ Request a FaasJS function
 
 #### Parameters
 
-• **action**: `string` \| `PathOrData`
+##### action
 
 function's path or react's server action
 
-• **params?**: `FaasParams`\<`PathOrData`\>
+`string` | `PathOrData`
+
+##### params?
+
+`FaasParams`\<`PathOrData`\>
 
 function's params
 
-• **options?**: [`Options`](../type-aliases/Options.md)
+##### options?
+
+[`Options`](../type-aliases/Options.md)
 
 request options
 ```ts

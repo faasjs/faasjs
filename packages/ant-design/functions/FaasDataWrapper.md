@@ -12,7 +12,9 @@ FaasDataWrapper component with Loading
 
 ## Parameters
 
-• **props**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`T`\>
+### props
+
+[`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`T`\>
 
 ## Returns
 

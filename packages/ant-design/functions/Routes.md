@@ -8,7 +8,9 @@ Routes with lazy loading and 404 page.
 
 ## Parameters
 
-• **props**: [`RoutesProps`](../interfaces/RoutesProps.md)
+### props
+
+[`RoutesProps`](../interfaces/RoutesProps.md)
 
 ## Returns
 

@@ -26,7 +26,9 @@ new Response({
 
 #### Parameters
 
-• **props**: `ResponseProps`\<`T`\> = `{}`
+##### props
+
+`ResponseProps`\<`T`\> = `{}`
 
 #### Returns
 

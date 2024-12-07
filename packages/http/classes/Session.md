@@ -16,9 +16,13 @@
 
 #### Parameters
 
-• **cookie**: [`Cookie`](Cookie.md)\<`C`, `S`\>
+##### cookie
 
-• **config**: [`SessionOptions`](../type-aliases/SessionOptions.md)
+[`Cookie`](Cookie.md)\<`C`, `S`\>
+
+##### config
+
+[`SessionOptions`](../type-aliases/SessionOptions.md)
 
 #### Returns
 
@@ -36,7 +40,9 @@
 
 #### Parameters
 
-• **text**: `string`
+##### text
+
+`string`
 
 #### Returns
 
@@ -48,7 +54,9 @@
 
 #### Parameters
 
-• **text**: `SessionContent`
+##### text
+
+`SessionContent`
 
 #### Returns
 
@@ -60,9 +68,13 @@
 
 #### Parameters
 
-• **cookie?**: `string`
+##### cookie?
 
-• **logger?**: `Logger`
+`string`
+
+##### logger?
+
+`Logger`
 
 #### Returns
 
@@ -74,7 +86,9 @@
 
 #### Parameters
 
-• **key**: `string`
+##### key
+
+`string`
 
 #### Returns
 
@@ -94,9 +108,13 @@
 
 #### Parameters
 
-• **key**: `string`
+##### key
 
-• **value?**: `string` \| `number`
+`string`
+
+##### value?
+
+`string` | `number`
 
 #### Returns
 

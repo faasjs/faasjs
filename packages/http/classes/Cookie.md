@@ -16,9 +16,13 @@
 
 #### Parameters
 
-• **config**: [`CookieOptions`](../type-aliases/CookieOptions.md)
+##### config
 
-• **logger?**: `Logger`
+[`CookieOptions`](../type-aliases/CookieOptions.md)
+
+##### logger?
+
+`Logger`
 
 #### Returns
 
@@ -44,9 +48,13 @@
 
 #### Parameters
 
-• **cookie**: `string`
+##### cookie
 
-• **logger**: `Logger`
+`string`
+
+##### logger
+
+`Logger`
 
 #### Returns
 
@@ -58,7 +66,9 @@
 
 #### Parameters
 
-• **key**: `string`
+##### key
+
+`string`
 
 #### Returns
 
@@ -70,23 +80,39 @@
 
 #### Parameters
 
-• **key**: `string`
+##### key
 
-• **value**: `string`
+`string`
 
-• **opts?**
+##### value
 
-• **opts.domain?**: `string`
+`string`
 
-• **opts.expires?**: `string` \| `number`
+##### opts?
 
-• **opts.httpOnly?**: `boolean`
+###### domain
 
-• **opts.path?**: `string`
+`string`
 
-• **opts.sameSite?**: `"Strict"` \| `"Lax"` \| `"None"`
+###### expires
 
-• **opts.secure?**: `boolean`
+`string` \| `number`
+
+###### httpOnly
+
+`boolean`
+
+###### path
+
+`string`
+
+###### sameSite
+
+`"Strict"` \| `"Lax"` \| `"None"`
+
+###### secure
+
+`boolean`
 
 #### Returns
 

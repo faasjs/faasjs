@@ -34,6 +34,7 @@ type FaasItemProps = {
 
 - [App](functions/App.md)
 - [Blank](functions/Blank.md)
+- [ConfigContext](functions/ConfigContext.md)
 - [ConfigProvider](functions/ConfigProvider.md)
 - [Description](functions/Description.md)
 - [Drawer](functions/Drawer.md)
@@ -107,7 +108,3 @@ type FaasItemProps = {
 - [UnionFaasItemInjection](type-aliases/UnionFaasItemInjection.md)
 - [UnionFaasItemRender](type-aliases/UnionFaasItemRender.md)
 - [UnionScene](type-aliases/UnionScene.md)
-
-## Variables
-
-- [ConfigContext](variables/ConfigContext.md)

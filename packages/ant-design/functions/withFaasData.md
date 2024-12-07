@@ -14,9 +14,13 @@ HOC to wrap a component with FaasDataWrapper and Loading
 
 ## Parameters
 
-• **Component**: `FC`\<`TComponentProps` & `Record`\<`string`, `any`\>\>
+### Component
 
-• **faasProps**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`PathOrData`\>
+`FC`\<`TComponentProps` & `Record`\<`string`, `any`\>\>
+
+### faasProps
+
+[`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`PathOrData`\>
 
 ## Returns
 

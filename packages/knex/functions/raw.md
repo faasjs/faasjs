@@ -10,9 +10,13 @@
 
 ## Parameters
 
-• **sql**: `string`
+### sql
 
-• **bindings**: `ValueDict` \| `RawBinding`[] = `[]`
+`string`
+
+### bindings
+
+`ValueDict` | `RawBinding`[]
 
 ## Returns
 

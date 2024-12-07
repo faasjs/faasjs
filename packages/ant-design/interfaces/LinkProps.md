@@ -32,7 +32,9 @@ only use for text without button
 
 #### Parameters
 
-• **event**: `MouseEvent`\<`HTMLElement`, `MouseEvent`\>
+##### event
+
+`MouseEvent`\<`HTMLElement`, `MouseEvent`\>
 
 #### Returns
 

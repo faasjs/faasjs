@@ -18,7 +18,9 @@
 
 #### Parameters
 
-• **args**: `FaasDataInjection`\<`T`\>
+##### args
+
+`FaasDataInjection`\<`T`\>
 
 #### Returns
 
@@ -34,7 +36,9 @@
 
 #### Parameters
 
-• **args**: `FaasDataInjection`\<`T`\>
+##### args
+
+`FaasDataInjection`\<`T`\>
 
 #### Returns
 

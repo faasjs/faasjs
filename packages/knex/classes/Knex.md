@@ -14,7 +14,9 @@
 
 #### Parameters
 
-• **config?**: [`KnexConfig`](../type-aliases/KnexConfig.md)
+##### config?
+
+[`KnexConfig`](../type-aliases/KnexConfig.md)
 
 #### Returns
 
@@ -28,9 +30,13 @@
 
 #### Parameters
 
-• **data**: `InvokeData`\<`any`, `any`, `any`\>
+##### data
 
-• **next**: `Next`
+`InvokeData`\<`any`, `any`, `any`\>
+
+##### next
+
+`Next`
 
 #### Returns
 
@@ -46,9 +52,13 @@
 
 #### Parameters
 
-• **data**: `MountData`
+##### data
 
-• **next**: `Next`
+`MountData`
+
+##### next
+
+`Next`
 
 #### Returns
 
@@ -76,9 +86,13 @@
 
 #### Parameters
 
-• **sql**: `string`
+##### sql
 
-• **bindings**: `ValueDict` \| `RawBinding`[] = `[]`
+`string`
+
+##### bindings
+
+`ValueDict` | `RawBinding`[]
 
 #### Returns
 
@@ -106,13 +120,19 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 #### Parameters
 
-• **scope**
+##### scope
 
-• **config?**: `TransactionConfig`
+(`trx`) => `Promise`\<`TResult`\>
 
-• **options?**
+##### config?
 
-• **options.trx?**: `Transaction`\<`any`, `any`[]\>
+`TransactionConfig`
+
+##### options?
+
+###### trx
+
+`Transaction`\<`any`, `any`[]\>
 
 #### Returns
 

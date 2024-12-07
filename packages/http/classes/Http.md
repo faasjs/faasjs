@@ -22,7 +22,9 @@
 
 #### Parameters
 
-• **config?**: [`HttpConfig`](../type-aliases/HttpConfig.md)\<`TParams`, `TCookie`, `TSession`\>
+##### config?
+
+[`HttpConfig`](../type-aliases/HttpConfig.md)
 
 #### Returns
 
@@ -36,9 +38,13 @@
 
 #### Parameters
 
-• **data**: `InvokeData`
+##### data
 
-• **next**: `Next`
+`InvokeData`
+
+##### next
+
+`Next`
 
 #### Returns
 
@@ -54,9 +60,13 @@
 
 #### Parameters
 
-• **data**: `MountData`
+##### data
 
-• **next**: `Next`
+`MountData`
+
+##### next
+
+`Next`
 
 #### Returns
 
@@ -74,7 +84,9 @@ set body
 
 #### Parameters
 
-• **body**: `string`
+##### body
+
+`string`
 
 {*} 内容
 
@@ -90,11 +102,15 @@ set Content-Type
 
 #### Parameters
 
-• **type**: `string`
+##### type
+
+`string`
 
 {string} 类型
 
-• **charset**: `string` = `'utf-8'`
+##### charset
+
+`string` = `'utf-8'`
 
 {string} 编码
 
@@ -110,11 +126,15 @@ set header
 
 #### Parameters
 
-• **key**: `string`
+##### key
+
+`string`
 
 {string} key
 
-• **value**: `string`
+##### value
+
+`string`
 
 {string} value
 
@@ -130,7 +150,9 @@ set status code
 
 #### Parameters
 
-• **code**: `number`
+##### code
+
+`number`
 
 {number} 状态码
 
@@ -146,7 +168,7 @@ set status code
 
 ### config
 
-> **config**: [`HttpConfig`](../type-aliases/HttpConfig.md)\<`TParams`, `TCookie`, `TSession`\>
+> **config**: [`HttpConfig`](../type-aliases/HttpConfig.md)
 
 ### cookie
 

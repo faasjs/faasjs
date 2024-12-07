@@ -2,21 +2,15 @@
 
 # Function: OptionalWrapper()
 
-> **OptionalWrapper**(`props`, `deprecatedLegacyContext`?): `ReactNode`
+> **OptionalWrapper**(`props`): `ReactNode`
 
 A wrapper component that conditionally wraps its children with a provided wrapper component.
 
 ## Parameters
 
-• **props**: [`OptionalWrapperProps`](../type-aliases/OptionalWrapperProps.md)\<`any`\>
+### props
 
-• **deprecatedLegacyContext?**: `any`
-
-**Deprecated**
-
-**See**
-
-[React Docs](https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods)
+[`OptionalWrapperProps`](../type-aliases/OptionalWrapperProps.md)\<`any`\>
 
 ## Returns
 

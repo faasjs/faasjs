@@ -14,7 +14,9 @@
 
 ## Parameters
 
-• **data**: [`InvokeData`](InvokeData.md)\<`TEvent`, `TContext`\>
+### data
+
+[`InvokeData`](InvokeData.md)\<`TEvent`, `TContext`\>
 
 ## Returns
 

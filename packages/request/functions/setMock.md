@@ -8,7 +8,9 @@ Mock requests
 
 ## Parameters
 
-• **handler**: `Mock`
+### handler
+
+`Mock`
 
 {function | null} null to disable mock
 

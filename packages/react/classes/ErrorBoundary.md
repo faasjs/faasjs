@@ -14,7 +14,9 @@
 
 #### Parameters
 
-• **props**: [`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md)
+##### props
+
+[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md)
 
 #### Returns
 
@@ -43,9 +45,13 @@ the entire component tree to unmount.
 
 #### Parameters
 
-• **error**: `Error`
+##### error
 
-• **info**: `any`
+`Error`
+
+##### info
+
+`any`
 
 #### Returns
 
@@ -57,11 +63,11 @@ the entire component tree to unmount.
 
 ### render()
 
-> **render**(): `string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Element`
+> **render**(): `string` \| `number` \| `bigint` \| `boolean` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `Element`
 
 #### Returns
 
-`string` \| `number` \| `boolean` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Element`
+`string` \| `number` \| `bigint` \| `boolean` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `Element`
 
 #### Overrides
 
@@ -76,7 +82,3 @@ the entire component tree to unmount.
 ### whyDidYouRender
 
 > `static` **whyDidYouRender**: `boolean` = `true`
-
-#### Overrides
-
-`Component.whyDidYouRender`

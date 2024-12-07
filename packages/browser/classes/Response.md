@@ -26,7 +26,9 @@ new Response({
 
 #### Parameters
 
-• **props**: [`ResponseProps`](../type-aliases/ResponseProps.md)\<`T`\> = `{}`
+##### props
+
+[`ResponseProps`](../type-aliases/ResponseProps.md)\<`T`\> = `{}`
 
 #### Returns
 

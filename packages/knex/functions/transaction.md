@@ -10,13 +10,19 @@
 
 ## Parameters
 
-• **scope**
+### scope
 
-• **config?**: `TransactionConfig`
+(`trx`) => `Promise`\<`TResult`\>
 
-• **options?**
+### config?
 
-• **options.trx?**: `Transaction`\<`any`, `any`[]\>
+`TransactionConfig`
+
+### options?
+
+#### trx
+
+`Transaction`\<`any`, `any`[]\>
 
 ## Returns
 

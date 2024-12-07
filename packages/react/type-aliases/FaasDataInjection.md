@@ -64,7 +64,9 @@ Reloads data with new or existing parameters.
 
 #### Parameters
 
-• **params?**: `Record`\<`string`, `any`\>
+##### params?
+
+`Record`\<`string`, `any`\>
 
 #### Returns
 

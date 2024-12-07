@@ -10,11 +10,17 @@
 
 ## Parameters
 
-• **action**: `PathOrData` \| `string`
+### action
 
-• **params?**: `FaasParams`\<`PathOrData`\>
+`PathOrData` | `string`
 
-• **options?**: [`Options`](Options.md)
+### params?
+
+`FaasParams`\<`PathOrData`\>
+
+### options?
+
+[`Options`](Options.md)
 
 ## Returns
 

@@ -19,7 +19,9 @@ Table component with Ant Design & FaasJS
 
 ## Parameters
 
-• **props**: [`TableProps`](../type-aliases/TableProps.md)\<`T`, `ExtendTypes`\>
+### props
+
+[`TableProps`](../type-aliases/TableProps.md)\<`T`, `ExtendTypes`\>
 
 ## Returns
 

@@ -14,15 +14,21 @@ The type of the options that can be passed to the rule.
 
 ## Parameters
 
-• **value**: `any`
+### value
+
+`any`
 
 The value to be validated.
 
-• **options?**: `Options`
+### options?
+
+`Options`
 
 Optional. Additional options that can be used in the validation.
 
-• **lang?**: [`FormLang`](FormLang.md)
+### lang?
+
+[`FormLang`](FormLang.md)
 
 Optional. The language settings that can be used in the validation.
 

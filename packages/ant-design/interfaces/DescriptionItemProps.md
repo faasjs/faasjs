@@ -42,7 +42,9 @@
 
 #### Parameters
 
-• **values**: `Record`\<`string`, `any`\>
+##### values
+
+`Record`\<`string`, `any`\>
 
 #### Returns
 

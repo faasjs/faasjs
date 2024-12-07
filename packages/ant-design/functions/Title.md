@@ -23,7 +23,9 @@ Return null by default.
 
 ## Parameters
 
-• **props**: [`TitleProps`](../interfaces/TitleProps.md)
+### props
+
+[`TitleProps`](../interfaces/TitleProps.md)
 
 ## Returns
 

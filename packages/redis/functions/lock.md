@@ -8,9 +8,13 @@ Lock by key
 
 ## Parameters
 
-• **key**: `string`
+### key
 
-• **EX**: `number` = `10`
+`string`
+
+### EX
+
+`number` = `10`
 
 expire in seconds, default 10
 

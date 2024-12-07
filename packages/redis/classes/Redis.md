@@ -16,7 +16,9 @@ Redis Plugin
 
 #### Parameters
 
-• **config?**: [`RedisConfig`](../type-aliases/RedisConfig.md)
+##### config?
+
+[`RedisConfig`](../type-aliases/RedisConfig.md)
 
 #### Returns
 
@@ -34,7 +36,9 @@ Redis Plugin
 
 #### Parameters
 
-• **key**: `string`
+##### key
+
+`string`
 
 #### Returns
 
@@ -50,7 +54,9 @@ Redis Plugin
 
 #### Parameters
 
-• **key**: `string`
+##### key
+
+`string`
 
 #### Returns
 
@@ -64,9 +70,13 @@ Lock by key
 
 #### Parameters
 
-• **key**: `string`
+##### key
 
-• **EX**: `number` = `10`
+`string`
+
+##### EX
+
+`number` = `10`
 
 expire in seconds, default 10
 
@@ -80,9 +90,13 @@ expire in seconds, default 10
 
 #### Parameters
 
-• **data**: `InvokeData`\<`any`, `any`, `any`\>
+##### data
 
-• **next**: `Next`
+`InvokeData`\<`any`, `any`, `any`\>
+
+##### next
+
+`Next`
 
 #### Returns
 
@@ -98,9 +112,13 @@ expire in seconds, default 10
 
 #### Parameters
 
-• **data**: `MountData`
+##### data
 
-• **next**: `Next`
+`MountData`
+
+##### next
+
+`Next`
 
 #### Returns
 
@@ -118,9 +136,13 @@ Publish message
 
 #### Parameters
 
-• **channel**: `string`
+##### channel
 
-• **message**: `any`
+`string`
+
+##### message
+
+`any`
 
 #### Returns
 
@@ -136,9 +158,13 @@ Publish message
 
 #### Parameters
 
-• **command**: `string`
+##### command
 
-• **args**: `any`[]
+`string`
+
+##### args
+
+`any`[]
 
 #### Returns
 
@@ -162,11 +188,17 @@ Publish message
 
 #### Parameters
 
-• **key**: `string`
+##### key
 
-• **value**: `any`
+`string`
 
-• **options?**: `SET`
+##### value
+
+`any`
+
+##### options?
+
+`SET`
 
 #### Returns
 
@@ -182,11 +214,17 @@ Publish message
 
 #### Parameters
 
-• **key**: `string`
+##### key
 
-• **value**: `any`
+`string`
 
-• **options?**: `SET`
+##### value
+
+`any`
+
+##### options?
+
+`SET`
 
 #### Returns
 
@@ -200,7 +238,9 @@ Unlock by key
 
 #### Parameters
 
-• **key**: `string`
+##### key
+
+`string`
 
 #### Returns
 
@@ -226,7 +266,9 @@ Unlock by key
 
 #### Parameters
 
-• **options?**: `object` \| `any`[][]
+##### options?
+
+\{`pipeline`: `boolean`; \} | `any`[][]
 
 #### Returns
 
@@ -246,7 +288,9 @@ Unlock by key
 
 #### Parameters
 
-• **commands?**: `any`[][]
+##### commands?
+
+`any`[][]
 
 #### Returns
 

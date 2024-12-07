@@ -46,7 +46,9 @@ use custom setData, should work with data
 
 #### Parameters
 
-• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+##### args
+
+[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
 #### Returns
 
@@ -56,7 +58,9 @@ use custom setData, should work with data
 
 #### Parameters
 
-• **args**: [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+##### args
+
+[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
 #### Returns
 

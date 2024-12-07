@@ -24,9 +24,13 @@
 
 #### Parameters
 
-• **data**: `InvokeData`
+##### data
 
-• **next**: `Next`
+`InvokeData`
+
+##### next
+
+`Next`
 
 #### Returns
 

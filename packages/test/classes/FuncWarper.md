@@ -24,7 +24,9 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Parameters
 
-• **initBy**: [`Func`](Func.md)\<`any`, `any`, `any`\>
+##### initBy
+
+[`Func`](Func.md)\<`any`, `any`, `any`\>
 
 #### Returns
 
@@ -36,7 +38,9 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Parameters
 
-• **initBy**: `string`
+##### initBy
+
+`string`
 
 #### Returns
 
@@ -54,9 +58,13 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Parameters
 
-• **event**: `any` = `...`
+##### event
 
-• **context**: `any` = `...`
+`any` = `...`
+
+##### context
+
+`any` = `...`
 
 #### Returns
 
@@ -72,15 +80,21 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Parameters
 
-• **body?**
+##### body?
 
-• **options?** = `...`
+##### options?
 
-• **options.cookie?**
+###### cookie
 
-• **options.headers?**
+\{\}
 
-• **options.session?**
+###### headers
+
+\{\}
+
+###### session
+
+\{\}
 
 #### Returns
 
@@ -102,7 +116,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 > `optional` **error**: `object`
 
-##### error.message
+###### error.message
 
 > **message**: `string`
 
@@ -128,7 +142,9 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Parameters
 
-• **handler?**
+##### handler?
+
+(`func`) => `void` \| `Promise`\<`void`\>
 
 #### Returns
 

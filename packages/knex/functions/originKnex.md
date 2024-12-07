@@ -14,7 +14,9 @@ Origin [knex](https://knexjs.org/) instance.
 
 ## Parameters
 
-• **config**: `string` \| `Config`\<`any`\>
+### config
+
+`string` | `Config`\<`any`\>
 
 ## Returns
 

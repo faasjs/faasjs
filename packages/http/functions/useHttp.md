@@ -14,7 +14,9 @@
 
 ## Parameters
 
-• **config?**: [`HttpConfig`](../type-aliases/HttpConfig.md)\<`TParams`, `TCookie`, `TSession`\>
+### config?
+
+[`HttpConfig`](../type-aliases/HttpConfig.md)
 
 ## Returns
 

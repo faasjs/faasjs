@@ -8,7 +8,9 @@ Before use faas, you should initialize a FaasReactClient.
 
 ## Parameters
 
-• **\_\_namedParameters**: [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md) = `...`
+### \_\_namedParameters
+
+[`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md) = `...`
 
 ## Returns
 

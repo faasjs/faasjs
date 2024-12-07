@@ -14,11 +14,15 @@
 
 #### Parameters
 
-• **config?**
+##### config?
 
-• **config.config?**: [`MongoConfig`](../interfaces/MongoConfig.md)
+###### config
 
-• **config.name?**: `string`
+[`MongoConfig`](../interfaces/MongoConfig.md)
+
+###### name
+
+`string`
 
 #### Returns
 
@@ -32,9 +36,13 @@
 
 #### Parameters
 
-• **data**: `MountData`
+##### data
 
-• **next**: `Next`
+`MountData`
+
+##### next
+
+`Next`
 
 #### Returns
 
@@ -60,11 +68,17 @@
 
 #### Parameters
 
-• **name**: `string`
+##### name
 
-• **options?**: `CollectionOptions`
+`string`
 
-• **callback?**: `Callback`\<`Collection`\<`TSchema`\>\>
+##### options?
+
+`CollectionOptions`
+
+##### callback?
+
+`Callback`\<`Collection`\<`TSchema`\>\>
 
 #### Returns
 

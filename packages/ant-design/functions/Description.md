@@ -2,7 +2,7 @@
 
 # Function: Description()
 
-> **Description**\<`T`\>(`props`): `Element`
+> **Description**\<`T`\>(`__namedParameters`): `Element`
 
 Description component
 
@@ -14,7 +14,9 @@ Description component
 
 ## Parameters
 
-• **props**: [`DescriptionProps`](../interfaces/DescriptionProps.md)\<`T`, `any`\>
+### \_\_namedParameters
+
+[`DescriptionProps`](../interfaces/DescriptionProps.md)\<`T`, `any`\>
 
 ## Returns
 

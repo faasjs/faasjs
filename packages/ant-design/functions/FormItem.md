@@ -15,7 +15,9 @@ FormItem
 
 ## Parameters
 
-• **props**: [`FormItemProps`](../interfaces/FormItemProps.md)\<`T`\>
+### props
+
+[`FormItemProps`](../interfaces/FormItemProps.md)\<`T`\>
 
 ## Returns
 

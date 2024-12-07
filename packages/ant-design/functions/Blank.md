@@ -10,7 +10,9 @@ If value is undefined or null, return text, otherwise return value.
 
 ## Parameters
 
-• **options?**: [`BlankProps`](../interfaces/BlankProps.md)
+### options?
+
+[`BlankProps`](../interfaces/BlankProps.md)
 
 ## Returns
 

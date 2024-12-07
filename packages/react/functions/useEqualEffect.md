@@ -8,11 +8,15 @@ Custom hook that works like `useEffect` but uses deep comparison on dependencies
 
 ## Parameters
 
-• **callback**: `EffectCallback`
+### callback
+
+`EffectCallback`
 
 The effect callback function to run.
 
-• **dependencies**: `any`[]
+### dependencies
+
+`any`[]
 
 The list of dependencies for the effect.
 

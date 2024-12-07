@@ -14,9 +14,13 @@ Generate a function with NextJsPlugin.
 
 ## Parameters
 
-• **handler**
+### handler
 
-• **plugins?**: `Plugin`[]
+(`data`) => `Promise`\<`TResult`\>
+
+### plugins?
+
+`Plugin`[]
 
 ## Returns
 
@@ -24,7 +28,9 @@ Generate a function with NextJsPlugin.
 
 ### Parameters
 
-• **params?**: `TParams`
+#### params?
+
+`TParams`
 
 ### Returns
 

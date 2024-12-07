@@ -8,7 +8,9 @@ Link component with button
 
 ## Parameters
 
-• **props**: [`LinkProps`](../interfaces/LinkProps.md)
+### props
+
+[`LinkProps`](../interfaces/LinkProps.md)
 
 ## Returns
 

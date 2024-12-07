@@ -40,44 +40,48 @@ If use onFinish, you should call submit manually.
 }
 ```
 
-### to.action
+#### to.action
 
 > **action**: `FaasAction` \| `string`
 
-### to.catch()?
+#### to.catch()?
 
 > `optional` **catch**: (`error`) => `void`
 
-#### Parameters
+##### Parameters
 
-• **error**: `any`
+###### error
 
-#### Returns
+`any`
+
+##### Returns
 
 `void`
 
-### to.finally()?
+#### to.finally()?
 
 > `optional` **finally**: () => `void`
 
-#### Returns
+##### Returns
 
 `void`
 
-### to.params?
+#### to.params?
 
 > `optional` **params**: `Record`\<`string`, `any`\>
 
 params will overwrite form values before submit
 
-### to.then()?
+#### to.then()?
 
 > `optional` **then**: (`result`) => `void`
 
-#### Parameters
+##### Parameters
 
-• **result**: `any`
+###### result
 
-#### Returns
+`any`
+
+##### Returns
 
 `void`

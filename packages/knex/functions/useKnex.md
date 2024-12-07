@@ -6,7 +6,9 @@
 
 ## Parameters
 
-• **config?**: [`KnexConfig`](../type-aliases/KnexConfig.md)
+### config?
+
+[`KnexConfig`](../type-aliases/KnexConfig.md)
 
 ## Returns
 

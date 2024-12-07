@@ -6,7 +6,9 @@
 
 ## Parameters
 
-• **str**: `string`
+### str
+
+`string`
 
 ## Returns
 

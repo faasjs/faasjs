@@ -8,7 +8,9 @@ Loading component based on Spin
 
 ## Parameters
 
-• **props**: [`LoadingProps`](../type-aliases/LoadingProps.md)
+### props
+
+[`LoadingProps`](../type-aliases/LoadingProps.md)
 
 ## Returns
 

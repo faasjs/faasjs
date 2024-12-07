@@ -8,7 +8,9 @@ Custom hook that memoizes a value using deep equality comparison.
 
 ## Parameters
 
-• **value**: `any`
+### value
+
+`any`
 
 The value to be memoized.
 

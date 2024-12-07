@@ -2,4 +2,4 @@
 
 # Type Alias: BaseOption
 
-> **BaseOption**: `string` \| `number` \| `object`
+> **BaseOption**: `string` \| `number` \| \{`label`: `string`;`value`: `any`; \}

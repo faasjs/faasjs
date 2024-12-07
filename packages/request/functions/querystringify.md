@@ -6,7 +6,9 @@
 
 ## Parameters
 
-• **obj**: `any`
+### obj
+
+`any`
 
 ## Returns
 

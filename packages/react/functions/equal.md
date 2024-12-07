@@ -12,11 +12,15 @@ maps, sets, and promises.
 
 ## Parameters
 
-• **a**: `any`
+### a
+
+`any`
 
 The first value to compare.
 
-• **b**: `any`
+### b
+
+`any`
 
 The second value to compare.
 

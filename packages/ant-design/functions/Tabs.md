@@ -12,7 +12,9 @@ Tabs component with Ant Design & FaasJS
 
 ## Parameters
 
-• **props**: [`TabsProps`](../interfaces/TabsProps.md)
+### props
+
+[`TabsProps`](../interfaces/TabsProps.md)
 
 ## Returns
 

@@ -12,10 +12,6 @@ Props for the FormButtonElement component.
 
 > `optional` **children**: `React.ReactNode`
 
-### disabled
-
-> **disabled**: `boolean`
-
 ### submit()
 
 > **submit**: () => `Promise`\<`void`\>
@@ -23,3 +19,7 @@ Props for the FormButtonElement component.
 #### Returns
 
 `Promise`\<`void`\>
+
+### submitting?
+
+> `optional` **submitting**: `boolean`

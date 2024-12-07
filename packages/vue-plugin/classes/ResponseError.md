@@ -24,15 +24,23 @@ new ResponseError({
 
 #### Parameters
 
-• **\_\_namedParameters**
+##### \_\_namedParameters
 
-• **\_\_namedParameters.body**: `any`
+###### body
 
-• **\_\_namedParameters.headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+`any`
 
-• **\_\_namedParameters.message**: `string`
+###### headers
 
-• **\_\_namedParameters.status**: `number`
+[`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+
+###### message
+
+`string`
+
+###### status
+
+`number`
 
 #### Returns
 

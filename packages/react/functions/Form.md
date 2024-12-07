@@ -23,7 +23,9 @@ The type of form rules, defaults to FormDefaultRules.
 
 ## Parameters
 
-• **\_\_namedParameters**: [`FormProps`](../type-aliases/FormProps.md)\<`Values`, `FormElements`, `Rules`\>
+### \_\_namedParameters
+
+[`FormProps`](../type-aliases/FormProps.md)\<`Values`, `FormElements`, `Rules`\>
 
 ## Returns
 

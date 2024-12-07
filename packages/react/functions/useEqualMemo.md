@@ -12,11 +12,15 @@ Custom hook that works like `useMemo` but uses deep comparison on dependencies.
 
 ## Parameters
 
-• **callback**
+### callback
+
+() => `T`
 
 The callback function to run.
 
-• **dependencies**: `any`[]
+### dependencies
+
+`any`[]
 
 The list of dependencies.
 

@@ -10,7 +10,9 @@
 
 ## Parameters
 
-• **plugin**: `T` & `object`
+### plugin
+
+`T` & `object`
 
 ## Returns
 

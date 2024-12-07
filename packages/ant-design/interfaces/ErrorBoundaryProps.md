@@ -18,9 +18,13 @@
 
 #### Parameters
 
-• **error**: `Error`
+##### error
 
-• **info**: `any`
+`Error`
+
+##### info
+
+`any`
 
 #### Returns
 

@@ -16,9 +16,13 @@ ResponseError class
 
 #### Parameters
 
-• **message**: `string`
+##### message
 
-• **response**: [`Response`](../type-aliases/Response.md)\<`any`\>
+`string`
+
+##### response
+
+[`Response`](../type-aliases/Response.md)\<`any`\>
 
 #### Returns
 

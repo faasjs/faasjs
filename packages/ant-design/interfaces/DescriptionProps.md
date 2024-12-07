@@ -20,7 +20,9 @@
 
 #### Parameters
 
-• **values**: `T`
+##### values
+
+`T`
 
 #### Returns
 
@@ -38,7 +40,7 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
+ \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)\<`any`\>
 
 ### faasData?
 

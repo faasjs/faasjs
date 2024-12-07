@@ -14,7 +14,9 @@ The type of the value.
 
 ## Parameters
 
-• **value**: `T`
+### value
+
+`T`
 
 The current value to be stored.
 

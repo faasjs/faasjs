@@ -6,9 +6,13 @@
 
 ## Parameters
 
-• **action**: `string`
+### action
 
-• **params**: `Record`\<`string`, `any`\>
+`string`
+
+### params
+
+`Record`\<`string`, `any`\>
 
 ## Returns
 
@@ -16,7 +20,9 @@
 
 ### Parameters
 
-• **res**: [`ResponseError`](../classes/ResponseError.md)
+#### res
+
+[`ResponseError`](../classes/ResponseError.md)
 
 ### Returns
 

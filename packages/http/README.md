@@ -11,7 +11,6 @@
 - [Http](classes/Http.md)
 - [HttpError](classes/HttpError.md)
 - [Session](classes/Session.md)
-- [Validator](classes/Validator.md)
 
 ## Type Aliases
 
@@ -20,9 +19,6 @@
 - [HttpFuncHandler](type-aliases/HttpFuncHandler.md)
 - [Response](type-aliases/Response.md)
 - [SessionOptions](type-aliases/SessionOptions.md)
-- [ValidatorConfig](type-aliases/ValidatorConfig.md)
-- [ValidatorOptions](type-aliases/ValidatorOptions.md)
-- [ValidatorRuleOptions](type-aliases/ValidatorRuleOptions.md)
 
 ## Variables
 

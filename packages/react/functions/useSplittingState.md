@@ -14,7 +14,9 @@ A generic type that extends a record with string keys and any values.
 
 ## Parameters
 
-• **initialStates**: `T`
+### initialStates
+
+`T`
 
 An object containing the initial states.
 

@@ -12,7 +12,9 @@
 
 #### Parameters
 
-• **data?**: [`MountData`](MountData.md)
+##### data?
+
+[`MountData`](MountData.md)
 
 #### Returns
 

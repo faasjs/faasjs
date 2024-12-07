@@ -10,9 +10,13 @@
 
 #### Parameters
 
-• **app**: `any`
+##### app
 
-• **options**: [`FaasVuePluginOptions`](../type-aliases/FaasVuePluginOptions.md)
+`any`
+
+##### options
+
+[`FaasVuePluginOptions`](../type-aliases/FaasVuePluginOptions.md)
 
 #### Returns
 

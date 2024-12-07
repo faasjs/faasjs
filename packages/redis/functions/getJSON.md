@@ -10,7 +10,9 @@
 
 ## Parameters
 
-• **key**: `string`
+### key
+
+`string`
 
 ## Returns
 

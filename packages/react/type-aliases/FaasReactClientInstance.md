@@ -20,11 +20,17 @@
 
 #### Parameters
 
-• **action**: `PathOrData` \| `string`
+##### action
 
-• **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
+`PathOrData` | `string`
 
-• **options?**: [`Options`](Options.md)
+##### params
+
+[`FaasParams`](FaasParams.md)\<`PathOrData`\>
+
+##### options?
+
+[`Options`](Options.md)
 
 #### Returns
 
@@ -48,11 +54,17 @@
 
 #### Parameters
 
-• **action**: `PathOrData` \| `string`
+##### action
 
-• **defaultParams**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
+`PathOrData` | `string`
 
-• **options?**: [`useFaasOptions`](useFaasOptions.md)\<`PathOrData`\>
+##### defaultParams
+
+[`FaasParams`](FaasParams.md)\<`PathOrData`\>
+
+##### options?
+
+[`useFaasOptions`](useFaasOptions.md)\<`PathOrData`\>
 
 #### Returns
 
@@ -66,7 +78,9 @@
 
 #### Parameters
 
-• **props**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`PathOrData`\>
+##### props
+
+[`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`PathOrData`\>
 
 #### Returns
 

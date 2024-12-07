@@ -4,11 +4,11 @@
 
 > **MountData**: `object`
 
+## Type declaration
+
 ## Index Signature
 
  \[`key`: `string`\]: `any`
-
-## Type declaration
 
 ### config
 

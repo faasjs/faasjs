@@ -6,19 +6,27 @@
 
 ## Parameters
 
-• **options**
+### options
 
-• **options.externalModules?**: `string`[]
+#### externalModules
+
+`string`[]
 
 has excluded node builtin modules
 
-• **options.filename**: `string`
+#### filename
 
-• **options.jscTarget?**: `JscTarget`
+`string`
+
+#### jscTarget
+
+`JscTarget`
 
 default: `es2019`
 
-• **options.root?**: `string`
+#### root
+
+`string`
 
 default: process.cwd()
 

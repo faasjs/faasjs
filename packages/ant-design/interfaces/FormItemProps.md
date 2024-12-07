@@ -56,7 +56,9 @@ trigger when any item's value changed
 
 #### Parameters
 
-• **values**: `Record`\<`string`, `any`\>
+##### values
+
+`Record`\<`string`, `any`\>
 
 #### Returns
 
@@ -90,11 +92,17 @@ trigger when current item's value changed
 
 #### Parameters
 
-• **value**: `T`
+##### value
 
-• **values**: `any`
+`T`
 
-• **form**: `FormInstance`\<`any`\>
+##### values
+
+`any`
+
+##### form
+
+`FormInstance`\<`any`\>
 
 #### Returns
 

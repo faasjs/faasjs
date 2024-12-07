@@ -23,40 +23,28 @@ trigger before request
 
 #### Parameters
 
-• **\{
+##### \{
     action,
     params,
     options,
     headers,
-  \}**
+  \}
 
-• **\{
-    action,
-    params,
-    options,
-    headers,
-  \}.action**: `string`
+###### action
 
-• **\{
-    action,
-    params,
-    options,
-    headers,
-  \}.headers**: `Record`\<`string`, `string`\>
+`string`
 
-• **\{
-    action,
-    params,
-    options,
-    headers,
-  \}.options**: [`Options`](Options.md)
+###### headers
 
-• **\{
-    action,
-    params,
-    options,
-    headers,
-  \}.params**: `Record`\<`string`, `any`\>
+`Record`\<`string`, `string`\>
+
+###### options
+
+[`Options`](Options.md)
+
+###### params
+
+`Record`\<`string`, `any`\>
 
 #### Returns
 
@@ -78,9 +66,13 @@ custom request
 
 #### Parameters
 
-• **url**: `string`
+##### url
 
-• **options**: [`Options`](Options.md)
+`string`
+
+##### options
+
+[`Options`](Options.md)
 
 #### Returns
 

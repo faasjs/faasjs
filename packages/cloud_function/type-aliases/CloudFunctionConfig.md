@@ -6,11 +6,11 @@
 
 云函数配置项
 
+## Type declaration
+
 ## Index Signature
 
  \[`key`: `string`\]: `any`
-
-## Type declaration
 
 ### config?
 
@@ -22,37 +22,37 @@
 
  \[`key`: `string`\]: `any`
 
-### config.memorySize?
+#### config.memorySize?
 
 > `optional` **memorySize**: `64` \| `128` \| `256` \| `384` \| `512` \| `640` \| `768` \| `896` \| `1024` \| `number`
 
 内存大小，单位为MB，默认 64
 
-### config.name?
+#### config.name?
 
 > `optional` **name**: `string`
 
 配置名称
 
-### config.provisionedConcurrent?
+#### config.provisionedConcurrent?
 
 > `optional` **provisionedConcurrent**: `object`
 
 预制并发配置
 
-### config.provisionedConcurrent.executions
+#### config.provisionedConcurrent.executions
 
 > **executions**: `number`
 
 预制并发数量
 
-### config.timeout?
+#### config.timeout?
 
 > `optional` **timeout**: `number`
 
 执行超时时间，单位为秒，默认 30
 
-### config.triggers?
+#### config.triggers?
 
 > `optional` **triggers**: `object`[]
 
@@ -68,6 +68,6 @@
 
 > `optional` **validator**: `object`
 
-### validator.event?
+#### validator.event?
 
 > `optional` **event**: `ValidatorConfig`

@@ -12,15 +12,21 @@ Request faas server
 
 ## Parameters
 
-• **action**: `string` \| `PathOrData`
+### action
 
 {string} action name
 
-• **params**: `FaasParams`\<`PathOrData`\>
+`string` | `PathOrData`
+
+### params
+
+`FaasParams`\<`PathOrData`\>
 
 {object} action params
 
-• **options?**: `Options`
+### options?
+
+`Options`
 
 ## Returns
 

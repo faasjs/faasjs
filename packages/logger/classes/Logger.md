@@ -31,7 +31,9 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **label?**: `string`
+##### label?
+
+`string`
 
 {string} Prefix label
 
@@ -47,11 +49,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **color**: `number`
+##### color
+
+`number`
 
 {number} color code
 
-• **message**: `string`
+##### message
+
+`string`
 
 {string} message
 
@@ -65,11 +71,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **message**: `string`
+##### message
+
+`string`
 
 {string} message
 
-• ...**args**: `any`[]
+##### args
+
+...`any`[]
 
 {...any=} arguments
 
@@ -83,11 +93,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **message**: `string` \| `Error`
+##### message
 
 {any} message or Error object
 
-• ...**args**: `any`[]
+`string` | `Error`
+
+##### args
+
+...`any`[]
 
 {...any=} arguments
 
@@ -101,11 +115,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **message**: `string`
+##### message
+
+`string`
 
 {string} message
 
-• ...**args**: `any`[]
+##### args
+
+...`any`[]
 
 {...any=} arguments
 
@@ -119,11 +137,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **message**: `string`
+##### message
+
+`string`
 
 {string} message
 
-• ...**args**: `any`[]
+##### args
+
+...`any`[]
 
 {...any=} arguments
 
@@ -137,11 +159,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **key**: `string`
+##### key
+
+`string`
 
 {string} timer's label
 
-• **level**: [`Level`](../type-aliases/Level.md) = `'debug'`
+##### level
+
+[`Level`](../type-aliases/Level.md) = `'debug'`
 
 [string=debug] 日志级别，支持 debug、info、warn、error
 
@@ -155,15 +181,21 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **key**: `string`
+##### key
+
+`string`
 
 {string} timer's label
 
-• **message**: `string`
+##### message
+
+`string`
 
 {string} message
 
-• ...**args**: `any`[]
+##### args
+
+...`any`[]
 
 {...any=} arguments
 
@@ -177,11 +209,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **message**: `string`
+##### message
+
+`string`
 
 {string} message
 
-• ...**args**: `any`[]
+##### args
+
+...`any`[]
 
 {...any=} arguments
 
@@ -217,7 +253,9 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **text**: `string`
+##### text
+
+`string`
 
 #### Returns
 
@@ -229,7 +267,9 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Parameters
 
-• **text**: `string`
+##### text
+
+`string`
 
 #### Returns
 

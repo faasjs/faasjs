@@ -12,11 +12,17 @@
 
 #### Parameters
 
-• **name**: `string`
+##### name
 
-• **data**: `any`
+`string`
 
-• **options?**: `any`
+##### data
+
+`any`
+
+##### options?
+
+`any`
 
 #### Returns
 
@@ -32,11 +38,17 @@
 
 #### Parameters
 
-• **name**: `string`
+##### name
 
-• **data**: `any`
+`string`
 
-• **options?**: `any`
+##### data
+
+`any`
+
+##### options?
+
+`any`
 
 #### Returns
 

@@ -16,7 +16,7 @@ Format: `username:password`
 
 ### body?
 
-> `optional` **body**: `object` \| `string`
+> `optional` **body**: \{\} \| `string`
 
 ### downloadFile?
 
@@ -73,7 +73,9 @@ Body parser. Defaults to `JSON.parse`.
 
 #### Parameters
 
-• **body**: `string`
+##### body
+
+`string`
 
 #### Returns
 

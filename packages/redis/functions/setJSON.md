@@ -10,11 +10,17 @@
 
 ## Parameters
 
-• **key**: `string`
+### key
 
-• **value**: `any`
+`string`
 
-• **options?**: `SET`
+### value
+
+`any`
+
+### options?
+
+`SET`
 
 ## Returns
 

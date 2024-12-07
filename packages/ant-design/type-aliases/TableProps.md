@@ -12,7 +12,7 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: [`ExtendTableTypeProps`](ExtendTableTypeProps.md)
+ \[`key`: `string`\]: [`ExtendTableTypeProps`](ExtendTableTypeProps.md)\<`any`\>
 
 ### faasData?
 
@@ -28,13 +28,21 @@
 
 #### Parameters
 
-• **pagination**: `TablePaginationConfig`
+##### pagination
 
-• **filters**: `Record`\<`string`, `FilterValue` \| `null`\>
+`TablePaginationConfig`
 
-• **sorter**: `SorterResult`\<`T`\> \| `SorterResult`\<`T`\>[]
+##### filters
 
-• **extra**: `TableCurrentDataSource`\<`T`\>
+`Record`\<`string`, `FilterValue` \| `null`\>
+
+##### sorter
+
+`SorterResult`\<`T`\> | `SorterResult`\<`T`\>[]
+
+##### extra
+
+`TableCurrentDataSource`\<`T`\>
 
 #### Returns
 

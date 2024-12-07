@@ -8,31 +8,47 @@
 
 ## Parameters
 
-• **filename**: `string`
+### filename
+
+`string`
 
 {string} 完整源文件路径
 
-• **options** = `...`
+### options
 
 {object} 配置项
 
-• **options.input?**
+#### input
+
+\{\}
 
 {object} 读取配置
 
-• **options.modules?**
+#### modules
+
+\{`additions`: `string`[];`excludes`: `string`[]; \}
 
 {object} 生成 modules 的配置
 
-• **options.modules.additions?**: `string`[]
+#### modules.additions
 
-• **options.modules.excludes?**: `string`[]
+`string`[]
 
-• **options.output?**
+#### modules.excludes
+
+`string`[]
+
+{string[]} modules 中需排除的模块
+
+#### output
+
+\{\}
 
 {object} 写入配置
 
-• **options.tmp?**: `boolean`
+#### tmp
+
+`boolean`
 
 {boolean} 是否为临时文件，true 则生成的文件会被删除，默认为 false
 

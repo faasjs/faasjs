@@ -10,7 +10,9 @@
 
 ## Parameters
 
-• **props**: [`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
+### props
+
+[`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
 
 ## Returns
 

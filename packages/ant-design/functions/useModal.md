@@ -19,7 +19,9 @@ function Example() {
 
 ## Parameters
 
-• **init?**: [`ModalProps`](../interfaces/ModalProps.md)
+### init?
+
+[`ModalProps`](../interfaces/ModalProps.md)
 
 ## Returns
 

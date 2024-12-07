@@ -8,7 +8,9 @@ convert string[] or number[] to { label, value }[]
 
 ## Parameters
 
-• **options**: [`BaseOption`](../type-aliases/BaseOption.md)[]
+### options
+
+[`BaseOption`](../type-aliases/BaseOption.md)[]
 
 ## Returns
 

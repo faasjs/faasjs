@@ -21,7 +21,9 @@ function Example() {
 
 ## Parameters
 
-• **init?**: [`DrawerProps`](../interfaces/DrawerProps.md)
+### init?
+
+[`DrawerProps`](../interfaces/DrawerProps.md)
 
 ## Returns
 

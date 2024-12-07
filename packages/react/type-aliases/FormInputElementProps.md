@@ -18,7 +18,9 @@ Props for the Form Input Element component.
 
 #### Parameters
 
-• **value**: `any`
+##### value
+
+`any`
 
 #### Returns
 

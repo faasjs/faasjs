@@ -4,11 +4,11 @@
 
 > **Plugin**: `object`
 
+## Type declaration
+
 ## Index Signature
 
  \[`key`: `string`\]: `any`
-
-## Type declaration
 
 ### name
 
@@ -20,9 +20,13 @@
 
 #### Parameters
 
-• **data**: [`InvokeData`](InvokeData.md)
+##### data
 
-• **next**: [`Next`](Next.md)
+[`InvokeData`](InvokeData.md)
+
+##### next
+
+[`Next`](Next.md)
 
 #### Returns
 
@@ -34,9 +38,13 @@
 
 #### Parameters
 
-• **data**: [`MountData`](MountData.md)
+##### data
 
-• **next**: [`Next`](Next.md)
+[`MountData`](MountData.md)
+
+##### next
+
+[`Next`](Next.md)
 
 #### Returns
 

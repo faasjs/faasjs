@@ -12,15 +12,19 @@
 
 ## Parameters
 
-• **name**: `string`
+### name
+
+`string`
 
 {string} 云函数文件名或云函数名
 
-• **data?**: `TData`
+### data?
+
+`TData`
 
 {any} 参数
 
-• **options?**
+### options?
 
 {object} 额外配置项
 

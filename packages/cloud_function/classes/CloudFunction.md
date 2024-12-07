@@ -16,7 +16,9 @@
 
 #### Parameters
 
-• **config?**: [`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md)
+##### config?
+
+[`CloudFunctionConfig`](../type-aliases/CloudFunctionConfig.md)
 
 {object} 配置项，这些配置将强制覆盖默认配置
 
@@ -38,15 +40,21 @@
 
 #### Parameters
 
-• **name**: `string`
+##### name
+
+`string`
 
 {string} 云函数文件名或云函数名
 
-• **data?**: `TData`
+##### data?
+
+`TData`
 
 {any} 参数
 
-• **options?**: `Record`\<`string`, `any`\>
+##### options?
+
+`Record`\<`string`, `any`\>
 
 {object} 额外配置项
 
@@ -68,15 +76,21 @@
 
 #### Parameters
 
-• **name**: `string`
+##### name
+
+`string`
 
 {string} 云函数文件名或云函数名
 
-• **data?**: `TData`
+##### data?
+
+`TData`
 
 {any} 参数
 
-• **options?**: `Record`\<`string`, `any`\>
+##### options?
+
+`Record`\<`string`, `any`\>
 
 {object} 额外配置项
 
@@ -90,9 +104,13 @@
 
 #### Parameters
 
-• **data**: `InvokeData`
+##### data
 
-• **next**: `Next`
+`InvokeData`
+
+##### next
+
+`Next`
 
 #### Returns
 
@@ -108,9 +126,13 @@
 
 #### Parameters
 
-• **data**: `MountData`
+##### data
 
-• **next**: `Next`
+`MountData`
+
+##### next
+
+`Next`
 
 #### Returns
 

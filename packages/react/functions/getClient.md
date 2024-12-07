@@ -8,7 +8,9 @@ Get FaasReactClient instance
 
 ## Parameters
 
-• **host?**: `string`
+### host?
+
+`string`
 
 {string} empty string for default host
 

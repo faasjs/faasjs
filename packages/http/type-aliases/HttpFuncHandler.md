@@ -16,7 +16,9 @@
 
 ## Parameters
 
-• **data**: `InvokeData`\<`object`\> & `object`
+### data
+
+`InvokeData`\<`object`\> & `object`
 
 ## Returns
 

@@ -12,11 +12,15 @@ Custom hook that works like `useCallback` but uses deep comparison on dependenci
 
 ## Parameters
 
-• **callback**: `T`
+### callback
+
+`T`
 
 The callback function to run.
 
-• **dependencies**: `any`[]
+### dependencies
+
+`any`[]
 
 The list of dependencies.
 
