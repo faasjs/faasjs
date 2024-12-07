@@ -19,16 +19,22 @@ function Provider(props: {
 }) {
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState({})
+  const [values, setValues] = useState({})
 
   return (
     <FormContextProvider
+      initializeStates={{
+        submitting: false,
+        errors: {},
+      }}
       value={
         {
           items: props.items || [],
           Elements: FormDefaultElements,
           rules: FormDefaultRules,
           lang: FormDefaultLang,
-          values: {},
+          values,
+          setValues,
           onSubmit: props.onSubmit,
           submitting,
           setSubmitting,
@@ -36,6 +42,7 @@ function Provider(props: {
           setErrors: props.setErrors || setErrors,
         } as any
       }
+      memo
     >
       {props.children}
     </FormContextProvider>
@@ -64,9 +71,11 @@ describe('FormFooter', () => {
 
     expect(button.disabled).toBeTruthy()
 
-    await act(async () => {
-      await new Promise(r => setTimeout(r, 200))
-    })
+    await act(async () => new Promise(r => setTimeout(r, 100)))
+
+    expect(button.disabled).toBeTruthy()
+
+    await act(async () => new Promise(r => setTimeout(r, 100)))
 
     expect(button.disabled).toBeFalsy()
   })

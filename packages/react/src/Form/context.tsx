@@ -1,16 +1,21 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { createSplittingContext } from '../splittingContext'
+import type { FormItemProps } from './Item'
 import type { FormElementTypes } from './elements'
-import type { FormLabelElementProps } from './elements/Label'
 import type { FormLang } from './lang'
-import type { FormDefaultRules, FormRules } from './rules'
+import type {
+  FormDefaultRules,
+  FormRules,
+  InferFormRulesOptions,
+} from './rules'
 
 export type FormContextProps<
   Values extends Record<string, any> = Record<string, any>,
+  FormElements extends FormElementTypes = FormElementTypes,
   Rules extends FormRules = typeof FormDefaultRules,
 > = {
   // props
-  items: FormLabelElementProps[]
+  items: FormItemProps<FormElements, InferFormRulesOptions<Rules>>[]
   onSubmit: (values: Values) => Promise<void>
   Elements: FormElementTypes
   lang: FormLang

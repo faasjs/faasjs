@@ -74,22 +74,28 @@ export function FormContainer<
   Elements,
   rules,
   lang,
+  items,
   ...props
 }: FormProps<Values, FormElements, Rules>) {
   return (
     <FormContextProvider
       initializeStates={{
-        values: mergeValues(props.items, defaultValues),
+        values: mergeValues(items, defaultValues),
         errors: {},
         submitting: false,
-        Elements: Object.assign(
-          FormDefaultElements,
-          Elements
-        ) as FormElementTypes,
-        lang: Object.assign(FormDefaultLang, lang) as FormLang,
-        rules: Object.assign(FormDefaultRules, rules),
       }}
-      value={props as Partial<FormContextProps>}
+      value={
+        {
+          Elements: Object.assign(
+            FormDefaultElements,
+            Elements
+          ),
+          lang: Object.assign(FormDefaultLang, lang),
+          rules: Object.assign(FormDefaultRules, rules),
+          items,
+          ...props,
+        } as Partial<FormContextProps>
+      }
       memo
     >
       <FormBody />
