@@ -1,4 +1,11 @@
-import { type RefObject, useEffect, useRef, useState } from 'react'
+import {
+  type Dispatch,
+  type RefObject,
+  type SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
 /**
  * Custom hook that returns a stateful value and a ref to that value.
@@ -22,10 +29,10 @@ import { type RefObject, useEffect, useRef, useState } from 'react'
  *   </div>
  * )
  */
-export function useStateRef<T>(
-  initialValue: T
-): [T, (value: T) => void, RefObject<T>] {
-  const [state, setState] = useState(initialValue)
+export function useStateRef<T = any>(
+  initialValue?: T
+): [T, Dispatch<SetStateAction<T>>, RefObject<T>] {
+  const [state, setState] = useState(initialValue ?? null)
   const ref = useRef(state)
 
   useEffect(() => {

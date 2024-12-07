@@ -1,3 +1,4 @@
+import { useStateRef } from '../useStateRef'
 import { FormBody } from './Body'
 import { FormFooter } from './Footer'
 import type { FormItemProps } from './Item'
@@ -77,10 +78,10 @@ export function FormContainer<
   items,
   ...props
 }: FormProps<Values, FormElements, Rules>) {
+  const [values, setValues, valuesRef] = useStateRef(mergeValues(items, defaultValues))
   return (
     <FormContextProvider
       initializeStates={{
-        values: mergeValues(items, defaultValues),
         errors: {},
         submitting: false,
       }}
@@ -93,6 +94,11 @@ export function FormContainer<
           lang: Object.assign(FormDefaultLang, lang),
           rules: Object.assign(FormDefaultRules, rules),
           items,
+
+          values,
+          setValues,
+          valuesRef,
+
           ...props,
         } as Partial<FormContextProps>
       }

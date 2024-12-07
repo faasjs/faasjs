@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react"
  * @param {T} value - The current value to be stored.
  * @returns {T | undefined} - The previous value, or undefined if there is no previous value.
  */
-export function usePrevious<T>(value: T): T | undefined {
+export function usePrevious<T = any>(value: T): T | undefined {
   const ref = useRef<T>(undefined)
 
   useEffect(() => {

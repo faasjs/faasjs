@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, RefObject, SetStateAction } from 'react'
 import { createSplittingContext } from '../splittingContext'
 import type { FormItemProps } from './Item'
 import type { FormElementTypes } from './elements'
@@ -28,6 +28,9 @@ export type FormContextProps<
   setValues: Dispatch<SetStateAction<Values>>
   errors: Record<string, Error>
   setErrors: Dispatch<SetStateAction<Record<string, Error>>>
+
+  // refs
+  valuesRef: RefObject<Values>
 }
 
 const FormContext = createSplittingContext<FormContextProps>([
@@ -35,13 +38,16 @@ const FormContext = createSplittingContext<FormContextProps>([
   'onSubmit',
   'Elements',
   'lang',
+  'rules',
+
   'submitting',
   'setSubmitting',
   'values',
   'setValues',
   'errors',
   'setErrors',
-  'rules',
+
+  'valuesRef',
 ])
 
 export const FormContextProvider = FormContext.Provider
