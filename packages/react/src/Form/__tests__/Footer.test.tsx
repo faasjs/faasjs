@@ -4,6 +4,7 @@
 
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { type ComponentProps, useState } from 'react'
+import { useStateRef } from '../../useStateRef'
 import { FormFooter } from '../Footer'
 import type { FormItemProps } from '../Item'
 import { FormContextProvider } from '../context'
@@ -19,7 +20,7 @@ function Provider(props: {
 }) {
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState({})
-  const [values, setValues] = useState({})
+  const [values, setValues, valuesRef] = useStateRef({})
 
   return (
     <FormContextProvider
@@ -35,6 +36,7 @@ function Provider(props: {
           lang: FormDefaultLang,
           values,
           setValues,
+          valuesRef,
           onSubmit: props.onSubmit,
           submitting,
           setSubmitting,
