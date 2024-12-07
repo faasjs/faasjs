@@ -14,7 +14,7 @@
     "@vuepress/plugin-google-analytics": "next",
     "@vuepress/plugin-search": "next",
     "@vuepress/plugin-sitemap": "next",
-    "sass-embedded": "*",
-    "@types/bun": "*"
+    "sass-embedded": "^1.82.0",
+    "@types/bun": "^1.1.14"
   }
 }
