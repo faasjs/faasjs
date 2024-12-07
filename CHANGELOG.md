@@ -4,10 +4,17 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v3.7.2 (2024-12-02)`](https://github.com/faasjs/faasjs/compare/v3.7.1...v3.7.2)
+[`v4.0.0 (2024-12-07)`](https://github.com/faasjs/faasjs/compare/v3.7.1...v4.0.0)
 
 - `@faasjs/react`
+  - [Break] Upgrade react to 19.
   - [Fix] Rename FormButton's `disabled` to `submitting`.
+
+- `@faasjs/ant-design`
+  - [Break] Upgrade react to 19.
+
+- `@faasjs/http`
+  - [Break] Remove validator.
 
 [`v3.7.1 (2024-11-10)`](https://github.com/faasjs/faasjs/compare/v3.7.0...v3.7.1)
 

@@ -25,7 +25,6 @@ import {
 } from '@faasjs/func'
 import { Cookie, type CookieOptions } from './cookie'
 import type { Session } from './session'
-import { Validator, type ValidatorConfig } from './validator'
 
 export {
   Cookie,
@@ -36,13 +35,6 @@ export {
   Session,
   SessionOptions,
 } from './session'
-
-export {
-  Validator,
-  ValidatorConfig,
-  ValidatorOptions,
-  ValidatorRuleOptions,
-} from './validator'
 
 export const ContentType: {
   [key: string]: string
@@ -57,27 +49,23 @@ export const ContentType: {
   jsonp: 'application/javascript',
 }
 
-export type HttpConfig<
-  TParams extends Record<string, any> = any,
-  TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any,
-> = {
+export type HttpConfig = {
   [key: string]: any
   name?: string
   config?: {
     [key: string]: any
     /** POST as default */
     method?:
-      | 'BEGIN'
-      | 'GET'
-      | 'POST'
-      | 'DELETE'
-      | 'HEAD'
-      | 'PUT'
-      | 'OPTIONS'
-      | 'TRACE'
-      | 'PATCH'
-      | 'ANY'
+    | 'BEGIN'
+    | 'GET'
+    | 'POST'
+    | 'DELETE'
+    | 'HEAD'
+    | 'PUT'
+    | 'OPTIONS'
+    | 'TRACE'
+    | 'PATCH'
+    | 'ANY'
     timeout?: number
     /** file relative path as default */
     path?: string
@@ -85,8 +73,6 @@ export type HttpConfig<
     functionName?: string
     cookie?: CookieOptions
   }
-  /** @deprecated */
-  validator?: ValidatorConfig<TParams, TCookie, TSession>
 }
 
 export type Response = {
@@ -146,8 +132,7 @@ export class Http<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
-> implements Plugin
-{
+> implements Plugin {
   public readonly type = 'http'
   public readonly name: string = Name
 
@@ -159,22 +144,12 @@ export class Http<
   public params: TParams
   public cookie: Cookie<TCookie, TSession>
   public session: Session<TSession, TCookie>
-  public config: HttpConfig<TParams, TCookie, TSession>
-  private readonly validatorOptions?: ValidatorConfig<
-    TParams,
-    TCookie,
-    TSession
-  >
+  public config: HttpConfig
   private response?: Response
-  private validator?: Validator<TParams, TCookie, TSession>
 
-  constructor(config?: HttpConfig<TParams, TCookie, TSession>) {
+  constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
-    if (config?.validator) {
-      console.warn('Validator will deprecated in the v3.')
-      this.validatorOptions = config.validator
-    }
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
@@ -208,13 +183,6 @@ export class Http<
     data.logger.debug('prepare cookie & session')
     this.cookie = new Cookie(this.config.cookie || {}, data.logger)
     this.session = this.cookie.session
-
-    if (this.validatorOptions) {
-      data.logger.debug('prepare validator')
-      this.validator = new Validator<TParams, TCookie, TSession>(
-        this.validatorOptions
-      )
-    }
 
     await next()
   }
@@ -272,19 +240,6 @@ export class Http<
     data.session = this.session
 
     try {
-      if (this.validator) {
-        data.logger.debug('Valid request')
-
-        await this.validator.valid(
-          {
-            headers: this.headers,
-            params: this.params,
-            cookie: this.cookie,
-            session: this.session,
-          },
-          data.logger
-        )
-      }
       await next()
     } catch (error) {
       data.response = error
@@ -433,7 +388,7 @@ export function useHttp<
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
 >(
-  config?: HttpConfig<TParams, TCookie, TSession>
+  config?: HttpConfig
 ): UseifyPlugin<Http<TParams, TCookie, TSession>> {
   return usePlugin(new Http<TParams, TCookie, TSession>(config))
 }
