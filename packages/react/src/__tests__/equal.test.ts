@@ -9,7 +9,6 @@ import {
   useEqualEffect,
   useEqualMemo,
   useEqualMemoize,
-  usePrevious,
 } from '../equal'
 
 describe('equal function', () => {
@@ -55,8 +54,8 @@ describe('equal function', () => {
   })
 
   test('should return true for identical functions', () => {
-    const fn1 = () => {}
-    const fn2 = () => {}
+    const fn1 = () => { }
+    const fn2 = () => { }
     expect(equal(fn1, fn2)).toBe(true)
   })
 
@@ -67,14 +66,14 @@ describe('equal function', () => {
   })
 
   test('should return true for async identical functions', () => {
-    const fn1 = async () => {}
-    const fn2 = async () => {}
+    const fn1 = async () => { }
+    const fn2 = async () => { }
     expect(equal(fn1, fn2)).toBe(true)
   })
 
   test('should return false for sync and async functions', () => {
-    const fn1 = async () => {}
-    const fn2 = () => {}
+    const fn1 = async () => { }
+    const fn2 = () => { }
     expect(equal(fn1, fn2)).toBe(false)
   })
 
@@ -400,54 +399,5 @@ describe('useEqualCallback hook', () => {
     expect(result.current).not.toBe(memoizedCallback)
     result.current()
     expect(callback).toHaveBeenCalledTimes(3)
-  })
-})
-
-describe('usePrevious hook', () => {
-  test('should return undefined on initial render', () => {
-    const { result } = renderHook(() => usePrevious(1))
-    expect(result.current).toBeUndefined()
-  })
-
-  test('should return the previous value after update', () => {
-    const { result, rerender } = renderHook(({ value }) => usePrevious(value), {
-      initialProps: { value: 1 },
-    })
-
-    expect(result.current).toBeUndefined()
-
-    rerender({ value: 2 })
-    expect(result.current).toBe(1)
-
-    rerender({ value: 3 })
-    expect(result.current).toBe(2)
-  })
-
-  test('should handle object values', () => {
-    const { result, rerender } = renderHook(({ value }) => usePrevious(value), {
-      initialProps: { value: { a: 1 } },
-    })
-
-    expect(result.current).toBeUndefined()
-
-    rerender({ value: { a: 2 } })
-    expect(result.current).toEqual({ a: 1 })
-
-    rerender({ value: { a: 3 } })
-    expect(result.current).toEqual({ a: 2 })
-  })
-
-  test('should handle array values', () => {
-    const { result, rerender } = renderHook(({ value }) => usePrevious(value), {
-      initialProps: { value: [1, 2, 3] },
-    })
-
-    expect(result.current).toBeUndefined()
-
-    rerender({ value: [4, 5, 6] })
-    expect(result.current).toEqual([1, 2, 3])
-
-    rerender({ value: [7, 8, 9] })
-    expect(result.current).toEqual([4, 5, 6])
   })
 })

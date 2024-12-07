@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-const AsyncFunction = (async () => {}).constructor
+const AsyncFunction = (async () => { }).constructor
 
 /**
  * Compares two values for deep equality.
@@ -129,21 +129,4 @@ export function useEqualCallback<T extends (...args: any[]) => any>(
     (...args: any) => callback(...args),
     useEqualMemoize(dependencies)
   )
-}
-
-/**
- * Hook to store the previous value of a state or prop.
- *
- * @template T - The type of the value.
- * @param {T} value - The current value to be stored.
- * @returns {T | undefined} - The previous value, or undefined if there is no previous value.
- */
-export function usePrevious<T>(value: T): T | undefined {
-  const ref = useRef<T>(undefined)
-
-  useEffect(() => {
-    ref.current = value
-  })
-
-  return ref.current
 }
