@@ -8,6 +8,11 @@ https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets
 
 ## Change Log
 
+### 4.0.0
+
+- sync with faasjs 4.0.0
+- remove http validator
+
 ### 0.0.8
 
 - fix snippet prefix
