@@ -9,7 +9,7 @@ import { FormButtonElement } from '../Button'
 describe('FormButtonElement', () => {
   it('renders correctly', () => {
     const { getByText } = render(
-      <FormButtonElement disabled={false} submit={async () => undefined}>
+      <FormButtonElement submitting={false} submit={async () => undefined}>
         Click Me
       </FormButtonElement>
     )
@@ -20,7 +20,7 @@ describe('FormButtonElement', () => {
     const handleClick = jest.fn()
 
     const { getByText } = render(
-      <FormButtonElement disabled={false} submit={handleClick}>
+      <FormButtonElement submitting={false} submit={handleClick}>
         Click Me
       </FormButtonElement>
     )
@@ -31,7 +31,7 @@ describe('FormButtonElement', () => {
 
   it('is disabled when the disabled prop is true', () => {
     const { getByText } = render(
-      <FormButtonElement disabled submit={async () => undefined}>
+      <FormButtonElement submitting submit={async () => undefined}>
         Click Me
       </FormButtonElement>
     )
@@ -45,7 +45,7 @@ describe('FormButtonElement', () => {
     render(
       <FormButtonElement
         ref={ref}
-        disabled={false}
+        submitting={false}
         submit={async () => undefined}
       >
         Click Me

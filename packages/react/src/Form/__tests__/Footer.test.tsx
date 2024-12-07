@@ -18,6 +18,7 @@ function Provider(props: {
   setErrors?: () => void
 }) {
   const [submitting, setSubmitting] = useState(false)
+  const [errors, setErrors] = useState({})
 
   return (
     <FormContextProvider
@@ -31,7 +32,8 @@ function Provider(props: {
           onSubmit: props.onSubmit,
           submitting,
           setSubmitting,
-          setErrors: props.setErrors,
+          errors,
+          setErrors: props.setErrors || setErrors,
         } as any
       }
     >
@@ -54,13 +56,19 @@ describe('FormFooter', () => {
 
   it('should call onSubmit and setSubmitting when button is clicked', async () => {
     const { getByText } = renderWithContext(<FormFooter />, {
-      onSubmit: () => new Promise(r => setTimeout(r, 1000)),
+      onSubmit: () => new Promise(r => setTimeout(r, 200)),
     })
     const button = getByText('Submit') as HTMLButtonElement
 
     fireEvent.click(button)
 
     expect(button.disabled).toBeTruthy()
+
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 200))
+    })
+
+    expect(button.disabled).toBeFalsy()
   })
 
   it('should set errors and not call onSubmit if validation fails', async () => {
@@ -74,6 +82,7 @@ describe('FormFooter', () => {
     })
 
     const button = screen.getByText('Submit') as HTMLButtonElement
+
     await act(async () => {
       fireEvent.click(button)
     })

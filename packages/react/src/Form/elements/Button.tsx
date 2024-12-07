@@ -9,17 +9,17 @@ import { type ButtonHTMLAttributes, forwardRef } from 'react'
  */
 export type FormButtonElementProps = {
   children?: React.ReactNode
-  submitting?: boolean
+  submitting: boolean
   submit: () => Promise<void>
 }
 
 export const FormButtonElement = forwardRef<
   HTMLButtonElement,
   ButtonHTMLAttributes<HTMLButtonElement> & FormButtonElementProps
->(({ children, submit, ...props }, ref) => (
+>(({ children, submit, submitting, ...props }, ref) => (
   <button
     type='button'
-    disabled={props.submitting}
+    disabled={submitting}
     onClick={submit}
     {...props}
     ref={ref}
