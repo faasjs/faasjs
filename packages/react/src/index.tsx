@@ -15,13 +15,17 @@
  * - Additional React functions:
  *   - Utils:
  *     - [equal](functions/equal.md): Compare two values for deep equality.
+ *     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
+ *     - [splittingState](functions/splittingState.md): Create a splitting states.
+ *   - Hooks:
  *     - [useEqualMemoize](functions/useEqualMemoize.md): Memoize a value with deep equality.
  *     - [useEqualEffect](functions/useEqualEffect.md): Run an effect with deep equality.
  *     - [useEqualMemo](functions/useEqualMemo.md): Memoize a value with deep equality.
  *     - [useEqualCallback](functions/useEqualCallback.md): Memoize a callback with deep equality.
  *     - [useConstant](functions/useConstant.md): Create a constant value with hooks.
- *     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
- *     - [splittingState](functions/splittingState.md): Create a splitting states.
+ *     - [usePrevious](functions/usePrevious.md): Get the previous value of a state.
+ *     - [useStateRef](functions/useStateRef.md): Create a state with a ref.
+ *   - Components:
  *     - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
  *     - [ErrorBoundary](classes/ErrorBoundary.md): Catch errors in the component tree.
  *   - Fetch Data:
@@ -56,6 +60,8 @@ export * from './constant'
 export * from './equal'
 export * from './splittingContext'
 export * from './splittingState'
+export * from './usePrevious'
+export * from './useStateRef'
 
 export * from './client'
 export * from './faas'

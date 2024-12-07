@@ -20,6 +20,6 @@ Props for the FormButtonElement component.
 
 `Promise`\<`void`\>
 
-### submitting?
+### submitting
 
-> `optional` **submitting**: `boolean`
+> **submitting**: `boolean`

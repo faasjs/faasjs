@@ -1,12 +1,14 @@
 [@faasjs/react](../README.md) / FormContextProps
 
-# Type Alias: FormContextProps\<Values, Rules\>
+# Type Alias: FormContextProps\<Values, FormElements, Rules\>
 
-> **FormContextProps**\<`Values`, `Rules`\>: `object`
+> **FormContextProps**\<`Values`, `FormElements`, `Rules`\>: `object`
 
 ## Type Parameters
 
 • **Values** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+
+• **FormElements** *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
 
 • **Rules** *extends* [`FormRules`](FormRules.md) = *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)
 
@@ -22,7 +24,7 @@
 
 ### items
 
-> **items**: [`FormLabelElementProps`](FormLabelElementProps.md)[]
+> **items**: [`FormItemProps`](FormItemProps.md)\<`FormElements`, [`InferFormRulesOptions`](InferFormRulesOptions.md)\<`Rules`\>\>[]
 
 ### lang
 
@@ -65,3 +67,7 @@
 ### values
 
 > **values**: `Values`
+
+### valuesRef
+
+> **valuesRef**: `RefObject`\<`Values`\>

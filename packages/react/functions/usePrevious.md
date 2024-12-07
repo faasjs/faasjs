@@ -8,7 +8,7 @@ Hook to store the previous value of a state or prop.
 
 ## Type Parameters
 
-• **T**
+• **T** = `any`
 
 The type of the value.
 
