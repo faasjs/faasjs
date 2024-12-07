@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-const AsyncFunction = (async () => {}).constructor
+const AsyncFunction = (async () => { }).constructor
 
 /**
  * Compares two values for deep equality.
@@ -139,7 +139,7 @@ export function useEqualCallback<T extends (...args: any[]) => any>(
  * @returns {T | undefined} - The previous value, or undefined if there is no previous value.
  */
 export function usePrevious<T>(value: T): T | undefined {
-  const ref = useRef<T>()
+  const ref = useRef<T>(undefined)
 
   useEffect(() => {
     ref.current = value

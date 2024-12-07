@@ -1,4 +1,4 @@
-import { cloneElement, useEffect } from 'react'
+import { type JSX, cloneElement, useEffect } from 'react'
 import { useConfigContext } from './Config'
 
 export interface TitleProps {
@@ -9,11 +9,11 @@ export interface TitleProps {
 
   /** return a h1 element */
   h1?:
-    | boolean
-    | {
-        className?: string
-        style?: React.CSSProperties
-      }
+  | boolean
+  | {
+    className?: string
+    style?: React.CSSProperties
+  }
 
   /** return a pure text element */
   plain?: boolean

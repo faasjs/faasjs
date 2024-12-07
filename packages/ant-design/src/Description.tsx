@@ -1,7 +1,13 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Descriptions, type DescriptionsProps, Space } from 'antd'
 import type { Dayjs } from 'dayjs'
-import { type ReactNode, cloneElement, useEffect, useState } from 'react'
+import {
+  type JSX,
+  type ReactNode,
+  cloneElement,
+  useEffect,
+  useState,
+} from 'react'
 import type { BaseItemProps } from '.'
 import { Blank } from './Blank'
 import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'

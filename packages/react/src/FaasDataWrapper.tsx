@@ -1,6 +1,6 @@
 import type { BaseUrl, Response } from '@faasjs/browser'
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
-import { cloneElement, useEffect, useState } from 'react'
+import { type JSX, cloneElement, useEffect, useState } from 'react'
 import { getClient } from './client'
 import { useEqualEffect, useEqualMemo } from './equal'
 
@@ -104,7 +104,7 @@ export function withFaasData<
   faasProps: FaasDataWrapperProps<PathOrData>
 ): React.FC<
   Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> &
-    Record<string, any>
+  Record<string, any>
 > {
   return (
     props: Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>

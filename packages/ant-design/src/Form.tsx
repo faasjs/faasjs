@@ -1,7 +1,7 @@
 import { faas, useEqualCallback } from '@faasjs/react'
 import type { FaasAction } from '@faasjs/types'
 import { Form as AntdForm, type FormProps as AntdFormProps, Button } from 'antd'
-import { type ReactNode, useEffect, useState } from 'react'
+import { type JSX, type ReactNode, useEffect, useState } from 'react'
 import { useConfigContext } from './Config'
 import type {
   ExtendFormItemProps,
@@ -56,13 +56,13 @@ export interface FormProps<
   Values extends Record<string, any> = any,
   ExtendItemProps extends ExtendFormItemProps = ExtendFormItemProps,
 > extends Omit<
-    AntdFormProps<Values>,
-    'onFinish' | 'children' | 'initialValues'
-  > {
+  AntdFormProps<Values>,
+  'onFinish' | 'children' | 'initialValues'
+> {
   items?: (
     | (ExtendItemProps extends ExtendFormItemProps
-        ? ExtendItemProps | FormItemProps
-        : FormItemProps)
+      ? ExtendItemProps | FormItemProps
+      : FormItemProps)
     | JSX.Element
   )[]
   /** Default: { text: 'Submit' }, set false to disable it */
@@ -149,15 +149,15 @@ export function Form<Values = any>(props: FormProps<Values>) {
                   }
                 ).to.params
                   ? {
-                      ...values,
-                      ...(
-                        submit as {
-                          to: {
-                            params?: Record<string, any>
-                          }
+                    ...values,
+                    ...(
+                      submit as {
+                        to: {
+                          params?: Record<string, any>
                         }
-                      ).to.params,
-                    }
+                      }
+                    ).to.params,
+                  }
                   : values
               )
             )
@@ -196,15 +196,15 @@ export function Form<Values = any>(props: FormProps<Values>) {
             }
           ).to.params
             ? {
-                ...values,
-                ...(
-                  submit as {
-                    to: {
-                      params?: Record<string, any>
-                    }
+              ...values,
+              ...(
+                submit as {
+                  to: {
+                    params?: Record<string, any>
                   }
-                ).to.params,
-              }
+                }
+              ).to.params,
+            }
             : values
         )
           .then(result => {

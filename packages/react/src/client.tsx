@@ -1,6 +1,7 @@
 import type { BaseUrl, Options, Response, ResponseError } from '@faasjs/browser'
 import { FaasBrowserClient } from '@faasjs/browser'
 import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
+import type { JSX } from 'react'
 import {
   type FaasDataInjection,
   FaasDataWrapper,

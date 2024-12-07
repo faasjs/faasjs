@@ -51,7 +51,7 @@ export function useFaas<PathOrData extends FaasAction>(
       ? options.skip(defaultParams)
       : options.skip
   )
-  const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>>>()
+  const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>>>(null)
   const controllerRef = useRef<AbortController | null>(null)
 
   useEqualEffect(() => {

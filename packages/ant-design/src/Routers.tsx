@@ -1,5 +1,10 @@
 import { Result, Skeleton } from 'antd'
-import { type ComponentType, type LazyExoticComponent, Suspense } from 'react'
+import {
+  type ComponentType,
+  type JSX,
+  type LazyExoticComponent,
+  Suspense,
+} from 'react'
 import {
   Routes as OriginRoutes,
   Route,

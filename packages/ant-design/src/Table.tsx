@@ -16,7 +16,7 @@ import type {
 } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
 import { cloneDeep, isNil, uniqBy } from 'lodash-es'
-import { cloneElement, useEffect, useState } from 'react'
+import { type JSX, cloneElement, useEffect, useState } from 'react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import { Description } from './Description'
@@ -35,7 +35,7 @@ import { transferOptions, transferValue, upperFirst } from './data'
 
 export interface TableItemProps<T = any>
   extends FaasItemProps,
-    Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
+  Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
   children?: UnionFaasItemElement<T>
   tableChildren?: UnionFaasItemElement<T>
@@ -529,11 +529,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                            [
-                              dates[0].startOf('day').toISOString(),
-                              dates[1].endOf('day').toISOString(),
-                            ],
-                          ] as any)
+                          [
+                            dates[0].startOf('day').toISOString(),
+                            dates[1].endOf('day').toISOString(),
+                          ],
+                        ] as any)
                         : []
                     )
                     confirm()
@@ -578,11 +578,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                            [
-                              dates[0].startOf('day').toISOString(),
-                              dates[1].endOf('day').toISOString(),
-                            ],
-                          ] as any)
+                          [
+                            dates[0].startOf('day').toISOString(),
+                            dates[1].endOf('day').toISOString(),
+                          ],
+                        ] as any)
                         : []
                     )
                     confirm()

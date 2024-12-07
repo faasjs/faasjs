@@ -1,6 +1,6 @@
 import { useEqualCallback } from '@faasjs/react'
 import { Drawer as AntdDrawer, type DrawerProps as AntdDrawerProps } from 'antd'
-import { type Dispatch, type SetStateAction, useState } from 'react'
+import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
 
 export const Drawer = AntdDrawer as React.FC<DrawerProps> & {
   whyDidYouRender?: boolean

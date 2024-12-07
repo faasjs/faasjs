@@ -1,6 +1,6 @@
 import { useEqualCallback } from '@faasjs/react'
 import { Modal as AntdModal, type ModalProps as AntdModalProps } from 'antd'
-import { type Dispatch, type SetStateAction, useState } from 'react'
+import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
 
 export const Modal = AntdModal
 
