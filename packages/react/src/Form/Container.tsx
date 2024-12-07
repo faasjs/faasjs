@@ -78,7 +78,9 @@ export function FormContainer<
   items,
   ...props
 }: FormProps<Values, FormElements, Rules>) {
-  const [values, setValues, valuesRef] = useStateRef(mergeValues(items, defaultValues))
+  const [values, setValues, valuesRef] = useStateRef(
+    mergeValues(items, defaultValues)
+  )
   return (
     <FormContextProvider
       initializeStates={{
@@ -87,10 +89,7 @@ export function FormContainer<
       }}
       value={
         {
-          Elements: Object.assign(
-            FormDefaultElements,
-            Elements
-          ),
+          Elements: Object.assign(FormDefaultElements, Elements),
           lang: Object.assign(FormDefaultLang, lang),
           rules: Object.assign(FormDefaultRules, rules),
           items,

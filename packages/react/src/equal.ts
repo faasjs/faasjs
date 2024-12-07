@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-const AsyncFunction = (async () => { }).constructor
+const AsyncFunction = (async () => {}).constructor
 
 /**
  * Compares two values for deep equality.
