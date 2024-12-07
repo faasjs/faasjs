@@ -2,7 +2,9 @@ import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
 
 export default useFunc(() => {
-  useHttp({ validator: { params: { rules: { b: { required: true } } } } })
+  const http = useHttp()
 
-  return async () => true
+  return async () => {
+    if (!http.params.b) throw new Error('[params] b is required.')
+  }
 })
