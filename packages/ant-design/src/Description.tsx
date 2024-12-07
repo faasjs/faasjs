@@ -234,6 +234,7 @@ function DescriptionItemContent<T = any>(
   }
 }
 
+DescriptionItemContent.displayName = 'DescriptionItemContent'
 DescriptionItemContent.whyDidYouRender = true
 
 /**
@@ -259,13 +260,13 @@ DescriptionItemContent.whyDidYouRender = true
  * ```
  */
 export function Description<T extends Record<string, any> = any>(
-  props: DescriptionProps<T>
+  { faasData, dataSource, renderTitle, extendTypes, ...props }: DescriptionProps<T>
 ) {
-  if (props.faasData && !props.dataSource)
+  if (faasData && !dataSource)
     return (
       <FaasDataWrapper<T>
-        render={({ data }) => <Description {...props} dataSource={data} />}
-        {...props.faasData}
+        render={({ data }) => <Description {...props} dataSource={data} renderTitle={renderTitle} extendTypes={extendTypes} />}
+        {...faasData}
       />
     )
 
@@ -273,12 +274,12 @@ export function Description<T extends Record<string, any> = any>(
     <Descriptions
       {...props}
       title={
-        typeof props.renderTitle === 'function'
-          ? props.renderTitle(props.dataSource)
+        typeof renderTitle === 'function'
+          ? renderTitle(dataSource)
           : props.title
       }
       items={props.items
-        .filter(item => item && (!item.if || item.if(props.dataSource)))
+        .filter(item => item && (!item.if || item.if(dataSource)))
         .map(item => ({
           ...item,
           key: item.id,
@@ -287,12 +288,12 @@ export function Description<T extends Record<string, any> = any>(
             <DescriptionItemContent
               item={item}
               value={
-                props.dataSource
-                  ? (props.dataSource as Record<string, any>)[item.id]
+                dataSource
+                  ? (dataSource as Record<string, any>)[item.id]
                   : null
               }
-              values={props.dataSource}
-              extendTypes={props.extendTypes}
+              values={dataSource}
+              extendTypes={extendTypes}
             />
           ),
         }))}
@@ -300,4 +301,5 @@ export function Description<T extends Record<string, any> = any>(
   )
 }
 
+Description.displayName = 'Description'
 Description.whyDidYouRender = true

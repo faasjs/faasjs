@@ -9,7 +9,7 @@ import { Description } from '../../Description'
 describe('Description/faas', () => {
   beforeEach(() => {
     setMock(async () => ({
-      data: { test: 'value' },
+      data: { title: 'title', test: 'value' },
     }))
   })
 
@@ -20,13 +20,14 @@ describe('Description/faas', () => {
   it('with faas', async () => {
     render(
       <Description
-        renderTitle={data => data.test}
+        renderTitle={data => data.title}
         items={[{ id: 'test' }]}
         faasData={{ action: 'test' }}
       />
     )
 
+    expect(await screen.findAllByText('title')).toHaveLength(1)
     expect(await screen.findAllByText('Test')).toHaveLength(1)
-    expect(await screen.findAllByText('value')).toHaveLength(2)
+    expect(await screen.findAllByText('value')).toHaveLength(1)
   })
 })
