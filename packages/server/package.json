@@ -30,28 +30,26 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "lodash": "*",
-    "pirates": "*",
     "@faasjs/func": "4.1.0",
     "@faasjs/http": "4.1.0",
     "@faasjs/load": "4.1.0",
-    "@faasjs/logger": "4.1.0",
-    "@faasjs/ts-transform": "4.1.0"
+    "@faasjs/logger": "4.1.0"
+  },
+  "optionalDependencies": {
+    "tsx": "*"
   },
   "devDependencies": {
     "lodash": "*",
-    "pirates": "*",
     "react": "*",
     "@types/react-dom": "*",
     "@faasjs/func": "4.1.0",
     "@faasjs/http": "4.1.0",
     "@faasjs/load": "4.1.0",
     "@faasjs/logger": "4.1.0",
-    "@faasjs/ts-transform": "4.1.0"
+    "tsx": "*"
   },
   "engines": {
     "node": ">=22.0.0",

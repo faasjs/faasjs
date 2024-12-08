@@ -1,5 +1,3 @@
-import { randomBytes } from 'node:crypto'
-import { existsSync } from 'node:fs'
 /**
  * FaasJS's server module.
  *
@@ -26,6 +24,9 @@ import { existsSync } from 'node:fs'
  *
  * @packageDocumentation
  */
+
+import { randomBytes } from 'node:crypto'
+import { existsSync } from 'node:fs'
 import {
   type Server as HttpServer,
   type IncomingMessage,
@@ -40,20 +41,7 @@ import type { Func } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
 import { loadConfig } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
-import { transform } from '@faasjs/ts-transform'
-import { addHook } from 'pirates'
-
-if (!(globalThis as any).Bun)
-  addHook(
-    (code, filename) => {
-      if (filename.endsWith('.d.ts')) return ''
-
-      return transform(code, { filename }).code
-    },
-    {
-      exts: ['.jsx', '.ts', '.tsx'],
-    }
-  )
+import((globalThis as any).Bun ? 'bun' : 'tsx')
 
 type Cache = {
   file?: string
@@ -102,6 +90,7 @@ export class Server {
     cache: boolean
     port: number
   }
+  public readonly runtime: 'esm' | 'cjs' | 'bun'
   public onError?: (error: Error) => void
 
   private processing = false
@@ -151,6 +140,16 @@ export class Server {
       this.root,
       this.opts
     )
+
+    if ((globalThis as any).Bun) {
+      this.runtime = 'bun'
+    } else {
+      if (typeof globalThis.require === 'function') {
+        this.runtime = 'cjs'
+      } else {
+        this.runtime = 'esm'
+      }
+    }
 
     servers.push(this)
   }
@@ -216,7 +215,7 @@ export class Server {
             cache.file = pathResolve('.', this.getFilePath(path))
             logger.debug('Response with %s', cache.file)
 
-            const func = require(cache.file).default as Func
+            const func = await this.importFuncFile(cache.file)
 
             func.config = loadConfig(
               this.root,
@@ -247,7 +246,8 @@ export class Server {
             },
             { request_id: requestId }
           )
-        } catch (error) {
+        } catch (error: any) {
+          logger.error(error)
           data = error
         }
 
@@ -300,6 +300,7 @@ export class Server {
               resolve()
             })
             .on('error', err => {
+              this.logger.error(err)
               if (!res.headersSent) {
                 res.statusCode = 500
                 res.setHeader('Content-Type', 'application/json')
@@ -347,19 +348,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -395,14 +396,15 @@ export class Server {
    * Start server.
    * @returns {Server}
    */
-  public listen(): HttpServer {
+  public async listen(): Promise<HttpServer> {
     if (this.server) throw Error('Server already running')
 
     this.logger.info(
-      '[%s] Listen http://localhost:%s with %s',
+      '[%s] Listen http://localhost:%s with %s %s',
       process.env.FaasEnv,
       this.opts.port,
-      this.root
+      this.root,
+      this.runtime
     )
 
     this.logger.label = null
@@ -534,13 +536,24 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+          .map(p => `- ${p}`)
+          .join('\n')}`
     this.logger.error(message)
     throw new HttpError({
       statusCode: 404,
       message,
     })
+  }
+
+  private async importFuncFile(path: string): Promise<Func> {
+    switch (this.runtime) {
+      case 'cjs': {
+        return require(path).default as Func
+      }
+      default: {
+        return (await import(path)).default.default as Func
+      }
+    }
   }
 
   private clearCache() {
