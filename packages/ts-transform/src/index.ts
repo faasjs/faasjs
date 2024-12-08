@@ -1,6 +1,3 @@
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
-import { deepMerge } from '@faasjs/deep_merge'
 /**
  * Typescript transform based on [SWC](https://swc.rs/).
  *
@@ -62,13 +59,17 @@ import { deepMerge } from '@faasjs/deep_merge'
  * ```
  * @packageDocumentation
  */
+
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { deepMerge } from '@faasjs/deep_merge'
 import {
   type JscConfig,
   type JscTarget,
   bundle as swcBundle,
   transformSync,
 } from '@swc/core'
-import { config } from '@swc/core/spack'
+import { config } from '@swc/core/spack.js'
 
 export const NodeBuiltinModules = [
   'async_hooks',
