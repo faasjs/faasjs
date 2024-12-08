@@ -40,6 +40,11 @@ function publish(path: string) {
       if (name.startsWith('@faasjs/')) pkg.devDependencies[name] = version
     }
   }
+  if (pkg.optionalDependencies) {
+    for (const name of Object.keys(pkg.optionalDependencies)) {
+      if (name.startsWith('@faasjs/')) pkg.optionalDependencies[name] = version
+    }
+  }
   writeFileSync(path, `${JSON.stringify(pkg, null, 2)}\n`)
 
   try {
