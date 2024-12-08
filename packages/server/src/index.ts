@@ -26,7 +26,7 @@
  * @packageDocumentation
  */
 
-import(((globalThis as any).Bun || typeof process.env.JEST_WORKER_ID === 'string') ? 'bun' : 'tsx')
+import(((globalThis as any).Bun ? 'bun' : (typeof process.env.JEST_WORKER_ID === 'string' ? 'jest' : 'tsx')))
 
 export * from './middleware'
 export * from './server'
