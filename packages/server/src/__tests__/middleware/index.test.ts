@@ -49,17 +49,20 @@ describe('server', () => {
     ).resolves.toMatchObject({
       statusCode: 200,
       headers: {},
-      body: readFileSync(join(__dirname, 'funcs', 'useMiddleware.func.ts'), 'utf-8'),
+      body: readFileSync(
+        join(__dirname, 'funcs', 'useMiddleware.func.ts'),
+        'utf-8'
+      ),
     })
   })
 
   it('staticHandler not found', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/404`)
-    ).rejects.toMatchObject({
-      statusCode: 404,
-      headers: {},
-      body: 'Not Found',
-    })
+    await expect(request(`http://127.0.0.1:${port}/404`)).rejects.toMatchObject(
+      {
+        statusCode: 404,
+        headers: {},
+        body: 'Not Found',
+      }
+    )
   })
 })

@@ -103,15 +103,15 @@ Start server.
 
 > `readonly` **logger**: `Logger`
 
-### onError()?
+### onError()
 
-> `optional` **onError**: (`error`) => `void`
+> `readonly` **onError**: (`error`) => `void`
 
 #### Parameters
 
 ##### error
 
-`Error`
+`any`
 
 #### Returns
 
@@ -132,3 +132,7 @@ Start server.
 ### root
 
 > `readonly` **root**: `string`
+
+### runtime
+
+> `readonly` **runtime**: `"cjs"` \| `"esm"` \| `"bun"`

@@ -4,6 +4,13 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v4.2.0 (2024-12-08)`](https://github.com/faasjs/faasjs/compare/v4.1.0...v4.2.0)
+
+- `@faasjs/server`
+  - [Feature] Add `useMiddleware` and `useMiddlewares`.
+  - [Feature] Add `staticHandler`.
+  - [Fix] Output all error message.
+
 [`v4.1.0 (2024-12-07)`](https://github.com/faasjs/faasjs/compare/v3.7.1...v4.1.0)
 
 - `@faasjs/react`
