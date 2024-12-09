@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -35,21 +35,22 @@
   ],
   "peerDependencies": {
     "lodash": "*",
-    "@faasjs/func": "4.2.2",
-    "@faasjs/load": "4.2.2",
-    "@faasjs/logger": "4.2.2"
+    "@faasjs/func": "4.2.3",
+    "@faasjs/load": "4.2.3",
+    "@faasjs/logger": "4.2.3",
+    "@faasjs/http": "4.2.3"
   },
   "optionalDependencies": {
-    "tsx": "*",
-    "@faasjs/http": "4.2.2"
+    "tsx": "*"
   },
   "devDependencies": {
     "lodash": "*",
     "react": "*",
     "@types/react-dom": "*",
-    "@faasjs/func": "4.2.2",
-    "@faasjs/load": "4.2.2",
-    "@faasjs/logger": "4.2.2",
+    "@faasjs/func": "4.2.3",
+    "@faasjs/load": "4.2.3",
+    "@faasjs/logger": "4.2.3",
+    "@faasjs/http": "4.2.3",
     "tsx": "*"
   },
   "engines": {
