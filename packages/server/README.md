@@ -39,5 +39,5 @@ Dynamic routing:
 ## Type Aliases
 
 - [Middleware](type-aliases/Middleware.md)
-- [RawEvent](type-aliases/RawEvent.md)
+- [MiddlewareEvent](type-aliases/MiddlewareEvent.md)
 - [StaticHandlerOptions](type-aliases/StaticHandlerOptions.md)

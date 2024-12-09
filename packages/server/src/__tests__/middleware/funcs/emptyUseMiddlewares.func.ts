@@ -1,5 +1,3 @@
 import { useMiddlewares } from '../../../middleware'
 
-export default useMiddlewares([
-  function handle() { },
-])
+export default useMiddlewares([function handle() {}])

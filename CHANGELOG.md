@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v4.2.5 (2024-12-09)`](https://github.com/faasjs/faasjs/compare/v4.1.0...v4.2.5)
+[`v4.2.6 (2024-12-09)`](https://github.com/faasjs/faasjs/compare/v4.1.0...v4.2.6)
 
 - `@faasjs/server`
   - [Feature] Add `useMiddleware` and `useMiddlewares`.

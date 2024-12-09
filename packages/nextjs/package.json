@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/nextjs",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -34,12 +34,12 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/react": "4.2.5",
-    "@faasjs/func": "4.2.5"
+    "@faasjs/react": "4.2.6",
+    "@faasjs/func": "4.2.6"
   },
   "devDependencies": {
-    "@faasjs/react": "4.2.5",
-    "@faasjs/func": "4.2.5",
+    "@faasjs/react": "4.2.6",
+    "@faasjs/func": "4.2.6",
     "next": "*"
   },
   "engines": {

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/vue-plugin",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -34,10 +34,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/browser": "4.2.5"
+    "@faasjs/browser": "4.2.6"
   },
   "devDependencies": {
-    "@faasjs/browser": "4.2.5",
+    "@faasjs/browser": "4.2.6",
     "@vue/test-utils": "*",
     "vue": "*"
   },

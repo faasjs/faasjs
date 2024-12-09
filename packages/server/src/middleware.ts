@@ -20,18 +20,30 @@ export type Middleware = (
   logger: Logger
 ) => void | Promise<void>
 
-async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler: Middleware) {
+async function invokeMiddleware(
+  event: MiddlewareEvent,
+  logger: Logger,
+  handler: Middleware
+) {
   const loggerKey = randomUUID()
   logger.debug('[middleware] [%s] begin', handler.name || 'anonymous')
   logger.time(loggerKey, 'debug')
   try {
-    await handler(Object.assign(event.raw.request, { body: event.body }), event.raw.response, logger)
+    await handler(
+      Object.assign(event.raw.request, { body: event.body }),
+      event.raw.response,
+      logger
+    )
   } catch (error) {
     logger.error('[middleware] [%s] error:', handler.name || 'anonymous', error)
     event.raw.response.statusCode = 500
     event.raw.response.end(error.toString())
   } finally {
-    logger.timeEnd(loggerKey, '[middleware] [%s] end', handler.name || 'anonymous')
+    logger.timeEnd(
+      loggerKey,
+      '[middleware] [%s] end',
+      handler.name || 'anonymous'
+    )
   }
 }
 
@@ -53,17 +65,14 @@ async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler:
  * ```
  */
 export async function useMiddleware(handler: Middleware) {
-  return useFunc<MiddlewareEvent>(
-    () =>
-      async ({ event, logger }) => {
-        await invokeMiddleware(event, logger, handler)
+  return useFunc<MiddlewareEvent>(() => async ({ event, logger }) => {
+    await invokeMiddleware(event, logger, handler)
 
-        if (!event.raw.response.writableEnded) {
-          event.raw.response.statusCode = 404
-          event.raw.response.end('Not Found')
-        }
-      }
-  )
+    if (!event.raw.response.writableEnded) {
+      event.raw.response.statusCode = 404
+      event.raw.response.end('Not Found')
+    }
+  })
 }
 
 /**
