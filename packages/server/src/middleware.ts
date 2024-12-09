@@ -3,6 +3,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
 import { useFunc } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
+import { lookup } from 'mime-types'
 
 export type RawEvent = {
   request: IncomingMessage
@@ -130,9 +131,12 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
       return
     }
 
-    logger.info('[static] found:', url)
-
     const stream = createReadStream(path)
+
+    const mimeType = lookup(path) || 'application/octet-stream'
+    response.setHeader('Content-Type', mimeType)
+
+    logger.info('[static] found:', mimeType, url)
 
     await new Promise<void>((resolve, reject) => {
       stream
