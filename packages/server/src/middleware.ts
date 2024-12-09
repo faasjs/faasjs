@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { createReadStream, existsSync } from 'node:fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
@@ -5,16 +6,34 @@ import { useFunc } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
 import { lookup } from 'mime-types'
 
-export type RawEvent = {
-  request: IncomingMessage
-  response: ServerResponse
+export type MiddlewareEvent = {
+  body: any
+  raw: {
+    request: IncomingMessage
+    response: ServerResponse
+  }
 }
 
 export type Middleware = (
-  request: IncomingMessage,
+  request: IncomingMessage & { body: any },
   response: ServerResponse,
   logger: Logger
 ) => void | Promise<void>
+
+async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler: Middleware) {
+  const loggerKey = randomUUID()
+  logger.debug('[middleware] [%s] begin', handler.name || 'anonymous')
+  logger.time(loggerKey, 'debug')
+  try {
+    await handler(Object.assign(event.raw.request, { body: event.body }), event.raw.response, logger)
+  } catch (error) {
+    logger.error('[middleware] [%s] error:', handler.name || 'anonymous', error)
+    event.raw.response.statusCode = 500
+    event.raw.response.end(error.toString())
+  } finally {
+    logger.timeEnd(loggerKey, '[middleware] [%s] end', handler.name || 'anonymous')
+  }
+}
 
 /**
  * Apply a middleware function to handle incoming requests.
@@ -34,12 +53,16 @@ export type Middleware = (
  * ```
  */
 export async function useMiddleware(handler: Middleware) {
-  return useFunc<{
-    raw: RawEvent
-  }>(
+  return useFunc<MiddlewareEvent>(
     () =>
-      async ({ event, logger }) =>
-        handler(event.raw.request, event.raw.response, logger)
+      async ({ event, logger }) => {
+        await invokeMiddleware(event, logger, handler)
+
+        if (!event.raw.response.writableEnded) {
+          event.raw.response.statusCode = 404
+          event.raw.response.end('Not Found')
+        }
+      }
   )
 }
 
@@ -66,15 +89,16 @@ export async function useMiddleware(handler: Middleware) {
  * ```
  */
 export async function useMiddlewares(handlers: Middleware[]) {
-  return useFunc<{
-    raw: RawEvent
-  }>(() => async ({ event, logger }) => {
+  return useFunc<MiddlewareEvent>(() => async ({ event, logger }) => {
     for (const handler of handlers) {
-      logger.debug('Middleware:', handler.name)
-
       if (event.raw.response.writableEnded) break
 
-      await handler(event.raw.request, event.raw.response, logger)
+      await invokeMiddleware(event, logger, handler)
+    }
+
+    if (!event.raw.response.writableEnded) {
+      event.raw.response.statusCode = 404
+      event.raw.response.end('Not Found')
     }
   })
 }
@@ -111,13 +135,13 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
 
     if (url === '') url = 'index.html'
 
-    logger.debug('[static] finding:', request.url)
+    logger.debug('[middleware] [static] finding:', request.url)
 
     const path = resolve(options.root, url)
 
     if (!existsSync(path)) {
       if (options.notFound) {
-        logger.info('[static] not found:', url)
+        logger.debug('[middleware] [static] not found:', url)
 
         if (options.notFound === true) {
           response.statusCode = 404
@@ -136,14 +160,14 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     const mimeType = lookup(path) || 'application/octet-stream'
     response.setHeader('Content-Type', mimeType)
 
-    logger.info('[static] found:', mimeType, url)
+    logger.debug('[middleware] [static] found:', mimeType, url)
 
     await new Promise<void>((resolve, reject) => {
       stream
         .on('error', error => {
           logger.error('[static] error:', error)
           response.statusCode = 500
-          response.end('Internal Server Error')
+          response.end(error?.message || 'Internal Server Error')
           reject(error)
         })
         .on('end', resolve)
@@ -152,3 +176,5 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     })
   }
 }
+
+Object.defineProperty(staticHandler, 'name', { value: 'staticHandler' })

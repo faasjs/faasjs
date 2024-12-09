@@ -33,6 +33,16 @@ describe('server', () => {
     })
   })
 
+  it('emptyMiddleware', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/emptyUseMiddleware`)
+    ).rejects.toMatchObject({
+      statusCode: 404,
+      headers: {},
+      body: 'Not Found',
+    })
+  })
+
   it('useMiddlewares', async () => {
     await expect(
       request(`http://127.0.0.1:${port}/useMiddlewares`)
@@ -40,6 +50,16 @@ describe('server', () => {
       statusCode: 200,
       headers: {},
       body: 'useMiddlewares',
+    })
+  })
+
+  it('emptyMiddlewares', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/emptyUseMiddlewares`)
+    ).rejects.toMatchObject({
+      statusCode: 404,
+      headers: {},
+      body: 'Not Found',
     })
   })
 
@@ -62,6 +82,26 @@ describe('server', () => {
         statusCode: 404,
         headers: {},
         body: 'Not Found',
+      }
+    )
+  })
+
+  it('staticHandler custom not found', async () => {
+    await expect(request(`http://127.0.0.1:${port}/custom404`)).rejects.toMatchObject(
+      {
+        statusCode: 404,
+        headers: {},
+        body: 'custom404',
+      }
+    )
+  })
+
+  it('middleware error', async () => {
+    await expect(request(`http://127.0.0.1:${port}/error`)).rejects.toMatchObject(
+      {
+        statusCode: 500,
+        headers: {},
+        body: 'Error: useMiddleware',
       }
     )
   })
