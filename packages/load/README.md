@@ -14,4 +14,3 @@ npm install @faasjs/load
 ## Functions
 
 - [loadConfig](functions/loadConfig.md)
-- [loadTs](functions/loadTs.md)

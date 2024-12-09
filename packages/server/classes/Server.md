@@ -135,4 +135,4 @@ Start server.
 
 ### runtime
 
-> `readonly` **runtime**: `"cjs"` \| `"esm"` \| `"bun"`
+> `readonly` **runtime**: `"esm"` \| `"cjs"` \| `"bun"`

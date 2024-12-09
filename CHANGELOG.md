@@ -4,12 +4,15 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v4.2.4 (2024-12-09)`](https://github.com/faasjs/faasjs/compare/v4.1.0...v4.2.4)
+[`v4.2.5 (2024-12-09)`](https://github.com/faasjs/faasjs/compare/v4.1.0...v4.2.5)
 
 - `@faasjs/server`
   - [Feature] Add `useMiddleware` and `useMiddlewares`.
   - [Feature] Add `staticHandler`.
   - [Fix] Output all error message.
+
+- `@faasjs/load`
+  - [Fix] Remove unused `loadTs`.
 
 [`v4.1.0 (2024-12-07)`](https://github.com/faasjs/faasjs/compare/v3.7.1...v4.1.0)
 
