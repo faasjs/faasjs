@@ -30,23 +30,17 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "js-yaml": "*",
-    "rollup": "*",
     "@faasjs/deep_merge": "4.2.4",
-    "@faasjs/func": "4.2.4",
-    "@faasjs/ts-transform": "4.2.4"
+    "@faasjs/func": "4.2.4"
   },
   "devDependencies": {
     "js-yaml": "*",
-    "rollup": "*",
     "@types/js-yaml": "*",
     "@faasjs/deep_merge": "4.2.4",
-    "@faasjs/func": "4.2.4",
-    "@faasjs/ts-transform": "4.2.4"
+    "@faasjs/func": "4.2.4"
   },
   "engines": {
     "node": ">=22.0.0",
