@@ -329,19 +329,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-              type: 'br',
-              compress: createBrotliCompress(),
-            }
+                type: 'br',
+                compress: createBrotliCompress(),
+              }
             : encoding.includes('gzip')
               ? {
-                type: 'gzip',
-                compress: createGzip(),
-              }
+                  type: 'gzip',
+                  compress: createGzip(),
+                }
               : encoding.includes('deflate')
                 ? {
-                  type: 'deflate',
-                  compress: createDeflate(),
-                }
+                    type: 'deflate',
+                    compress: createDeflate(),
+                  }
                 : false
 
           if (compression) {
@@ -572,8 +572,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-          .map(p => `- ${p}`)
-          .join('\n')}`
+            .map(p => `- ${p}`)
+            .join('\n')}`
     this.onError(message)
     throw new HttpError({
       statusCode: 404,

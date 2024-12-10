@@ -99,6 +99,10 @@ Start server.
 
 ## Properties
 
+### closed
+
+> `protected` **closed**: `boolean` = `false`
+
 ### logger
 
 > `readonly` **logger**: `Logger`

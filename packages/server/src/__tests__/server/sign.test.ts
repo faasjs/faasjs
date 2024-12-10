@@ -3,10 +3,8 @@ import { request } from '@faasjs/request'
 import { Server } from '../../server'
 
 describe('server', () => {
-
   it('should handle SIGTERM and SIGINT', async () => {
-    const port =
-      3002 + Number(process.env.JEST_WORKER_ID)
+    const port = 3002 + Number(process.env.JEST_WORKER_ID)
     const serverA = new Server(join(__dirname, 'funcs'), { port })
     serverA.listen()
 
