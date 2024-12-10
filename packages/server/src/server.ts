@@ -66,6 +66,7 @@ export class Server {
   public readonly onError: (error: any) => void
 
   private processing = false
+  private activeRequests = 0
   private cachedFuncs: {
     [path: string]: Cache
   } = {}
@@ -104,9 +105,9 @@ export class Server {
 
     process.env.FaasLocal = `http://localhost:${this.opts.port}`
 
-    this.logger = new Logger('FaasJS')
+    this.logger = new Logger(`server][${randomBytes(16).toString('hex')}`)
     this.logger.debug(
-      'Initialize [%s] [%s] %s %j',
+      'FaasJS server initialized: [%s] [%s] %s %j',
       process.env.FaasEnv,
       process.env.FaasMode,
       this.root,
@@ -327,19 +328,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -386,11 +387,13 @@ export class Server {
       this.runtime
     )
 
-    this.logger.label = null
-
     const mounted: Record<string, Mounted> = {}
 
     this.server = createServer(async (req, res) => {
+      this.activeRequests++
+
+      res.on('finish', () => this.activeRequests--)
+
       // don't lock options request
       if (req.method === 'OPTIONS') {
         res.writeHead(204, {
@@ -454,15 +457,44 @@ export class Server {
       .on('error', this.onError)
       .listen(this.opts.port, '0.0.0.0')
 
-    process.on('uncaughtException', this.onError)
+    process
+      .on('uncaughtException', this.onError)
+      .on('unhandledRejection', this.onError)
+      .on('SIGTERM', async () => {
+        this.logger.debug('Received SIGTERM')
 
-    process.on('unhandledRejection', this.onError)
+        await this.close()
+        process.exit()
+      })
+      .on('SIGINT', async () => {
+        this.logger.debug('Received SIGINT')
+
+        await this.close()
+        process.exit()
+      })
 
     return this.server
   }
 
   public async close(): Promise<void> {
-    this.logger.debug('Close server')
+    this.logger.debug('closing')
+    this.logger.time('close')
+
+    if (this.activeRequests) {
+      await new Promise<void>(resolve => {
+        const check = () => {
+          this.logger.debug('waiting for %s requests', this.activeRequests)
+
+          if (this.activeRequests === 0) {
+            resolve()
+            return
+          }
+
+          setTimeout(check, 100)
+        }
+        check()
+      })
+    }
 
     for (const socket of this.sockets)
       try {
@@ -479,6 +511,8 @@ export class Server {
         else resolve()
       })
     })
+
+    this.logger.timeEnd('close', 'closed')
   }
 
   private getFilePath(path: string) {
@@ -513,8 +547,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+          .map(p => `- ${p}`)
+          .join('\n')}`
     this.onError(message)
     throw new HttpError({
       statusCode: 404,

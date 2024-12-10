@@ -4,6 +4,12 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v4.3.0 (2024-12-10)`](https://github.com/faasjs/faasjs/compare/v4.2.6...v4.3.0)
+
+- `@faasjs/server`
+  - [Feature] Monitor `SIGTERM` and `SIGINT` to exit smoothly.
+  - [Feature] Improve server logger.
+
 [`v4.2.6 (2024-12-09)`](https://github.com/faasjs/faasjs/compare/v4.1.0...v4.2.6)
 
 - `@faasjs/server`
