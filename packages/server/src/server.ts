@@ -64,6 +64,7 @@ export class Server {
   }
   public readonly runtime: 'esm' | 'cjs' | 'bun'
   public readonly onError: (error: any) => void
+  protected closed = false
 
   private processing = false
   private activeRequests = 0
@@ -458,39 +459,62 @@ export class Server {
       .listen(this.opts.port, '0.0.0.0')
 
     process
-      .on('uncaughtException', this.onError)
-      .on('unhandledRejection', this.onError)
+      .on('uncaughtException', e => {
+        this.logger.debug('Uncaught exception')
+        this.onError(e)
+      })
+      .on('unhandledRejection', e => {
+        this.logger.debug('Unhandled rejection')
+        this.onError(e)
+      })
       .on('SIGTERM', async () => {
-        this.logger.debug('Received SIGTERM')
+        this.logger.debug('received SIGTERM')
+
+        if (this.closed) {
+          this.logger.debug('already closed')
+          return
+        }
 
         await this.close()
-        process.exit()
+
+        if (!process.env.JEST_WORKER_ID) process.exit(0)
       })
       .on('SIGINT', async () => {
-        this.logger.debug('Received SIGINT')
+        this.logger.debug('received SIGINT')
+
+        if (this.closed) {
+          this.logger.debug('already closed')
+          return
+        }
 
         await this.close()
-        process.exit()
+
+        if (!process.env.JEST_WORKER_ID) process.exit(0)
       })
 
     return this.server
   }
 
   public async close(): Promise<void> {
+    if (this.closed) {
+      this.logger.debug('already closed')
+      return
+    }
+
     this.logger.debug('closing')
-    this.logger.time('close')
+    this.logger.time(`${this.logger.label}close`)
 
     if (this.activeRequests) {
       await new Promise<void>(resolve => {
         const check = () => {
-          this.logger.debug('waiting for %s requests', this.activeRequests)
-
           if (this.activeRequests === 0) {
             resolve()
             return
           }
 
-          setTimeout(check, 100)
+          this.logger.debug('waiting for %i requests', this.activeRequests)
+
+          setTimeout(check, 50)
         }
         check()
       })
@@ -508,11 +532,12 @@ export class Server {
     await new Promise<void>(resolve => {
       this.server.close(err => {
         if (err) this.onError(err)
-        else resolve()
+        resolve()
       })
     })
 
-    this.logger.timeEnd('close', 'closed')
+    this.logger.timeEnd(`${this.logger.label}close`, 'closed')
+    this.closed = true
   }
 
   private getFilePath(path: string) {
