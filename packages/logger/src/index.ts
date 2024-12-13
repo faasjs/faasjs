@@ -204,9 +204,8 @@ export class Logger {
 
     if (LevelPriority[level] < this.level) return this
 
-    let output = `${level.toUpperCase()} ${
-      this.label ? `[${this.label}] ` : ''
-    }${format(message, ...args)}`
+    let output = `${level.toUpperCase()} ${this.label ? `[${this.label}] ` : ''
+      }${format(message, ...args)}`
 
     if (this.colorfyOutput) output = this.colorfy(LevelColor[level], output)
     else if (!this.colorfyOutput) output = output.replace(/\n/g, '')

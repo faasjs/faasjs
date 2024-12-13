@@ -3,7 +3,7 @@ import { createReadStream, existsSync } from 'node:fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
 import { useFunc } from '@faasjs/func'
-import type { Logger } from '@faasjs/logger'
+import { Logger } from '@faasjs/logger'
 import { lookup } from 'mime-types'
 
 export type MiddlewareEvent = {
@@ -20,29 +20,43 @@ export type Middleware = (
   logger: Logger
 ) => void | Promise<void>
 
+/**
+ * Assigns a name to a middleware handler function.
+ *
+ * The name will be displayed in logs and error messages.
+ *
+ * @param name - The name to assign to the middleware handler.
+ * @param handler - The middleware handler function to be named.
+ * @returns The middleware handler function with the assigned name.
+ */
+export function nameMiddleware(name: string, handler: Middleware) {
+  Object.defineProperty(handler, 'name', { value: name })
+  return handler
+}
+
 async function invokeMiddleware(
   event: MiddlewareEvent,
   logger: Logger,
   handler: Middleware
 ) {
   const loggerKey = randomUUID()
-  logger.debug('[middleware] [%s] begin', handler.name || 'anonymous')
-  logger.time(loggerKey, 'debug')
+  const handlerLogger = new Logger(`${logger.label}] [middleware] [${handler.name || 'anonymous'}`)
+  handlerLogger.debug('begin')
+  handlerLogger.time(loggerKey, 'debug')
   try {
     await handler(
       Object.assign(event.raw.request, { body: event.body }),
       event.raw.response,
-      logger
+      handlerLogger
     )
   } catch (error) {
-    logger.error('[middleware] [%s] error:', handler.name || 'anonymous', error)
+    handlerLogger.error('error:', error)
     event.raw.response.statusCode = 500
     event.raw.response.end(error.toString())
   } finally {
-    logger.timeEnd(
+    handlerLogger.timeEnd(
       loggerKey,
-      '[middleware] [%s] end',
-      handler.name || 'anonymous'
+      'end',
     )
   }
 }
@@ -135,7 +149,7 @@ export type StaticHandlerOptions = {
  * ```
  */
 export function staticHandler(options: StaticHandlerOptions): Middleware {
-  return async (request, response, logger) => {
+  const handler: Middleware = async (request, response, logger) => {
     if (request.method !== 'GET') return
 
     if (request.url.slice(0, 2) === '/.') return
@@ -144,14 +158,14 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
 
     if (url === '') url = 'index.html'
 
-    logger.debug('[middleware] [static] finding:', request.url)
+    logger.debug('finding:', request.url)
 
     const path = resolve(options.root, url)
 
     if (!existsSync(path)) {
-      if (options.notFound) {
-        logger.debug('[middleware] [static] not found:', url)
+      logger.debug('not found:', url)
 
+      if (options.notFound) {
         if (options.notFound === true) {
           response.statusCode = 404
           response.end('Not Found')
@@ -169,12 +183,12 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     const mimeType = lookup(path) || 'application/octet-stream'
     response.setHeader('Content-Type', mimeType)
 
-    logger.debug('[middleware] [static] found:', mimeType, url)
+    logger.debug('found:', mimeType, url)
 
     await new Promise<void>((resolve, reject) => {
       stream
         .on('error', error => {
-          logger.error('[static] error:', error)
+          logger.error('error:', error)
           response.statusCode = 500
           response.end(error?.message || 'Internal Server Error')
           reject(error)
@@ -184,6 +198,8 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
       stream.pipe(response)
     })
   }
-}
 
-Object.defineProperty(staticHandler, 'name', { value: 'staticHandler' })
+  nameMiddleware('static', handler)
+
+  return handler
+}
