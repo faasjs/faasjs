@@ -2,6 +2,7 @@
 
 ## Functions
 
+- [nameFunc](functions/nameFunc.md)
 - [test](functions/test.md)
 - [useFunc](functions/useFunc.md)
 - [usePlugin](functions/usePlugin.md)

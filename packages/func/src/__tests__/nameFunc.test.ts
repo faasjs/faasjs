@@ -1,4 +1,4 @@
-import { nameFunc } from ".."
+import { nameFunc } from '..'
 
 it('nameFunc assigns name to handler', () => {
   const originalHandler = () => 'Hello World'

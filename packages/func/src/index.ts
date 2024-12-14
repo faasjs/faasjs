@@ -151,7 +151,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         .split('\n')
         .find(s => /[^/]\.func\.ts/.test(s))
         .match(/\((.*\.func\.ts).*\)/)[1]
-    } catch (_) { }
+    } catch (_) {}
   }
 
   private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
@@ -226,9 +226,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       config?: Config
       logger?: Logger
     } = {
-        event: Object.create(null),
-        context: Object.create(null),
-      }
+      event: Object.create(null),
+      context: Object.create(null),
+    }
   ): Promise<void> {
     if (!data.logger) data.logger = new Logger('Func')
 
@@ -401,7 +401,10 @@ export function useFunc<TEvent = any, TContext = any, TResult = any>(
  * console.log(handler.name) // => 'myHandler'
  * ```
  */
-export function nameFunc<T extends (...args: any[]) => any>(name: string, handler: T): T {
+export function nameFunc<T extends (...args: any[]) => any>(
+  name: string,
+  handler: T
+): T {
   Object.defineProperty(handler, 'name', { value: name })
   return handler
 }

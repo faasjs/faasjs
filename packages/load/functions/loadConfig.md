@@ -2,7 +2,7 @@
 
 # Function: loadConfig()
 
-> **loadConfig**(`root`, `filename`, `staging`): `FuncConfig`
+> **loadConfig**(`root`, `filename`, `staging`, `logger`?): `FuncConfig`
 
 Load configuration from faas.yaml
 
@@ -19,6 +19,10 @@ Load configuration from faas.yaml
 ### staging
 
 `string`
+
+### logger?
+
+`Logger`
 
 ## Returns
 

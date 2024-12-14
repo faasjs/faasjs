@@ -20,7 +20,9 @@ export class Config {
   private logger: Logger
 
   constructor(root: string, filename: string, logger?: Logger) {
-    this.logger = new Logger(logger?.label ? `${logger.label}] [config` : 'config')
+    this.logger = new Logger(
+      logger?.label ? `${logger.label}] [config` : 'config'
+    )
 
     this.root = root
 

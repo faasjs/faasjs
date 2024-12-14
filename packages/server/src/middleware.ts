@@ -26,7 +26,9 @@ async function invokeMiddleware(
   handler: Middleware
 ) {
   const loggerKey = randomUUID()
-  const handlerLogger = new Logger(`${logger.label}] [middleware] [${handler.name || 'uname'}`)
+  const handlerLogger = new Logger(
+    `${logger.label}] [middleware] [${handler.name || 'uname'}`
+  )
   handlerLogger.debug('begin')
   handlerLogger.time(loggerKey, 'debug')
   try {
@@ -40,10 +42,7 @@ async function invokeMiddleware(
     event.raw.response.statusCode = 500
     event.raw.response.end(error.toString())
   } finally {
-    handlerLogger.timeEnd(
-      loggerKey,
-      'end',
-    )
+    handlerLogger.timeEnd(loggerKey, 'end')
   }
 }
 
