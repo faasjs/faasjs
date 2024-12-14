@@ -65,14 +65,14 @@ export class FuncWarper {
         this.func = require(`${this.file}.ts`).default
       }
 
-      this.func.config = loadConfig(process.cwd(), this.file, this.staging)
+      this.func.config = loadConfig(process.cwd(), this.file, this.staging, this.logger)
       this.logger.debug('config: %j', this.func.config)
       this.config = this.func.config
     } else {
       this.func = initBy
       if (initBy.filename)
         this.func.config = deepMerge(
-          loadConfig(process.cwd(), initBy.filename, this.staging),
+          loadConfig(process.cwd(), initBy.filename, this.staging, this.logger),
           initBy.config
         )
     }
@@ -148,7 +148,7 @@ export class FuncWarper {
       }
       const cookie = http.cookie
         .headers()
-        ['Set-Cookie']?.map(c => c.split(';')[0])
+      ['Set-Cookie']?.map(c => c.split(';')[0])
         .join(';')
       if (cookie)
         if (headers.cookie) headers.cookie += `;${cookie}`

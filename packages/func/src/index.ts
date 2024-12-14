@@ -151,7 +151,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         .split('\n')
         .find(s => /[^/]\.func\.ts/.test(s))
         .match(/\((.*\.func\.ts).*\)/)[1]
-    } catch (_) {}
+    } catch (_) { }
   }
 
   private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
@@ -226,9 +226,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       config?: Config
       logger?: Logger
     } = {
-      event: Object.create(null),
-      context: Object.create(null),
-    }
+        event: Object.create(null),
+        context: Object.create(null),
+      }
   ): Promise<void> {
     if (!data.logger) data.logger = new Logger('Func')
 
@@ -240,7 +240,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     if (!data.config) data.config = this.config
 
     data.logger.debug(
-      `Plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
+      `plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
     )
     await this.compose('onMount')(data)
     this.mounted = true
@@ -284,8 +284,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       context.callbackWaitsForEmptyEventLoop = false
 
       const logger = new Logger(context.request_id)
-      logger.debug('event: %j', event)
-      logger.debug('context: %j', context)
 
       const data: InvokeData<TEvent, TContext, TResult> = {
         event,

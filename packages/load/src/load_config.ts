@@ -17,24 +17,24 @@ export class Config {
     defaults: FuncConfig
   }
   public readonly defaults: FuncConfig
-  private readonly logger = new Logger('Config')
+  private logger: Logger
 
-  constructor(root: string, filename: string) {
+  constructor(root: string, filename: string, logger?: Logger) {
+    this.logger = new Logger(logger?.label ? `${logger.label}] [config` : 'config')
+
     this.root = root
 
     if (!this.root.endsWith(sep)) this.root += sep
 
     this.filename = filename
 
-    this.logger.debug('Load config from %s in %s', filename, root)
+    this.logger.debug('load %s in %s', filename, root)
 
     const configs: { [key: string]: FuncConfig }[] = []
 
     const paths = [this.root, '.'].concat(
       dirname(filename.replace(root, '')).split(sep)
     )
-
-    this.logger.debug('Paths: %j', paths)
 
     paths.reduce((base: string, path: string) => {
       const root = join(base, path)
@@ -79,7 +79,8 @@ export class Config {
 export function loadConfig(
   root: string,
   filename: string,
-  staging: string
+  staging: string,
+  logger?: Logger
 ): FuncConfig {
-  return new Config(root, filename).get(staging)
+  return new Config(root, filename, logger).get(staging)
 }

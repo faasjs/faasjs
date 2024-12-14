@@ -25,7 +25,7 @@ export class RunHandler implements Plugin {
           data.response = error
         }
         data.runHandler = true
-      } else data.logger.warn('[RunHandler] handler has been run')
+      } else data.logger.warn('handler has been run')
 
     await next()
   }

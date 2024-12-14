@@ -4,11 +4,17 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v4.4.0 (2024-12-13)`](https://github.com/faasjs/faasjs/compare/v4.3.0...v4.4.0)
+[`v4.4.0 (2024-12-14)`](https://github.com/faasjs/faasjs/compare/v4.3.0...v4.4.0)
 
 - `@faasjs/server`
   - [Feature] Add `nameMiddleware` for improve logger.
   - [Fix] Fix staticHandler's name.
+
+- `@faasjs/func`
+  - [Feature] Update logger.
+
+- `@faasjs/load`
+  - [Feature] Update logger.
 
 [`v4.3.0 (2024-12-10)`](https://github.com/faasjs/faasjs/compare/v4.2.6...v4.3.0)
 

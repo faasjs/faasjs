@@ -191,17 +191,18 @@ export class Server {
 
           if (this.opts.cache && this.cachedFuncs[path]?.handler) {
             cache = this.cachedFuncs[path]
-            logger.debug('Response with cached %s', cache.file)
+            logger.debug('response with cached %s', cache.file)
           } else {
             cache.file = pathResolve('.', this.getFilePath(path))
-            logger.debug('Response with %s', cache.file)
+            logger.debug('response with %s', cache.file)
 
             const func = await this.importFuncFile(cache.file)
 
             func.config = loadConfig(
               this.root,
               path,
-              process.env.FaasEnv || 'development'
+              process.env.FaasEnv || 'development',
+              logger
             )
             if (!func.config) throw Error('No config file found')
 
@@ -329,19 +330,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -572,8 +573,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+          .map(p => `- ${p}`)
+          .join('\n')}`
     this.onError(message)
     throw new HttpError({
       statusCode: 404,
@@ -595,7 +596,7 @@ export class Server {
   }
 
   private clearCache() {
-    this.logger.debug('Clear cache')
+    this.logger.debug('clear cache')
 
     for (const key of Object.keys(require.cache)) {
       if (!key.includes('node_modules') || key.includes('faasjs'))
