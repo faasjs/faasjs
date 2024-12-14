@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { createReadStream, existsSync } from 'node:fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
-import { useFunc } from '@faasjs/func'
+import { nameFunc, useFunc } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { lookup } from 'mime-types'
 
@@ -20,27 +20,13 @@ export type Middleware = (
   logger: Logger
 ) => void | Promise<void>
 
-/**
- * Assigns a name to a middleware handler function.
- *
- * The name will be displayed in logs and error messages.
- *
- * @param name - The name to assign to the middleware handler.
- * @param handler - The middleware handler function to be named.
- * @returns The middleware handler function with the assigned name.
- */
-export function nameMiddleware(name: string, handler: Middleware) {
-  Object.defineProperty(handler, 'name', { value: name })
-  return handler
-}
-
 async function invokeMiddleware(
   event: MiddlewareEvent,
   logger: Logger,
   handler: Middleware
 ) {
   const loggerKey = randomUUID()
-  const handlerLogger = new Logger(`${logger.label}] [middleware] [${handler.name || 'anonymous'}`)
+  const handlerLogger = new Logger(`${logger.label}] [middleware] [${handler.name || 'uname'}`)
   handlerLogger.debug('begin')
   handlerLogger.time(loggerKey, 'debug')
   try {
@@ -199,7 +185,7 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     })
   }
 
-  nameMiddleware('static', handler)
+  nameFunc('static', handler)
 
   return handler
 }
