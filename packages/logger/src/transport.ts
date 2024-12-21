@@ -65,6 +65,7 @@ export async function run() {
   running = false
 }
 
-setInterval(() => {
-  if (CachedMessages.length > 0) run()
-}, 5000)
+if (!process.env.JEST_WORKER_ID)
+  setInterval(() => {
+    if (CachedMessages.length > 0) run()
+  }, 5000)
