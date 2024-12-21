@@ -10,10 +10,21 @@ export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
 
 export const Transports = new Map<string, TransportHandler>()
 
+/**
+ * Registers a transport handler with a given name.
+ *
+ * @param name - The name of the transport handler.
+ * @param handler - The transport handler to be registered.
+ */
 export function register(name: string, handler: TransportHandler) {
   Transports.set(name, handler)
 }
 
+/**
+ * Unregister a transport by its name.
+ *
+ * @param name - The name of the transport to unregister.
+ */
 export function unregister(name: string) {
   Transports.delete(name)
 }

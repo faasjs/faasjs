@@ -4,7 +4,7 @@
 
 ## Extends
 
-- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), `object`\>
+- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), \{ `error`: `Error`; `info`: \{ `componentStack`: `string`; \}; \}\>
 
 ## Constructors
 

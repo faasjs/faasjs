@@ -2,7 +2,7 @@
 
 # Function: useHttpFunc()
 
-> **useHttpFunc**\<`TParams`, `TCookie`, `TSession`, `TResult`\>(`handler`, `config`?): `Func`\<`object`, `any`, `TResult`\>
+> **useHttpFunc**\<`TParams`, `TCookie`, `TSession`, `TResult`\>(`handler`, `config`?): `Func`\<\{ `[key: string]`: `any`;  `params`: `TParams`; \}, `any`, `TResult`\>
 
 A hook to create an HTTP function with specified handler and configuration.
 
@@ -44,10 +44,6 @@ Optional HTTP configuration.
 
 ## Returns
 
-`Func`\<`object`, `any`, `TResult`\>
+`Func`\<\{ `[key: string]`: `any`;  `params`: `TParams`; \}, `any`, `TResult`\>
 
 The created HTTP function.
-
-### params?
-
-> `optional` **params**: `TParams`

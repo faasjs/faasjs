@@ -2,7 +2,7 @@
 
 # Function: Drawer()
 
-> **Drawer**(`props`): `ReactNode`
+> **Drawer**(`props`): `ReactNode` \| `Promise`\<`ReactNode`\>
 
 ## Parameters
 
@@ -12,4 +12,4 @@
 
 ## Returns
 
-`ReactNode`
+`ReactNode` \| `Promise`\<`ReactNode`\>

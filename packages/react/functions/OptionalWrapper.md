@@ -2,7 +2,7 @@
 
 # Function: OptionalWrapper()
 
-> **OptionalWrapper**(`props`): `ReactNode`
+> **OptionalWrapper**(`props`): `ReactNode` \| `Promise`\<`ReactNode`\>
 
 A wrapper component that conditionally wraps its children with a provided wrapper component.
 
@@ -14,7 +14,7 @@ A wrapper component that conditionally wraps its children with a provided wrappe
 
 ## Returns
 
-`ReactNode`
+`ReactNode` \| `Promise`\<`ReactNode`\>
 
 ## Example
 

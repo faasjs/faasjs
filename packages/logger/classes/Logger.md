@@ -4,11 +4,6 @@
 
 Logger Class
 
-Support env:
-- FaasLog: debug, info, warn, error (default: debug)
-- FaasLogSize: 1000 (default: 1000)
-- FaasLogMode: plain, pretty (default: pretty)
-
 ## Example
 
 ```ts
@@ -157,27 +152,33 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 > **time**(`key`, `level`): [`Logger`](Logger.md)
 
+Start a timer with a specific key and log level.
+
 #### Parameters
 
 ##### key
 
 `string`
 
-{string} timer's label
+The unique identifier for the timer.
 
 ##### level
 
 [`Level`](../type-aliases/Level.md) = `'debug'`
 
-[string=debug] 日志级别，支持 debug、info、warn、error
+The log level for the timer. Defaults to 'debug'.
 
 #### Returns
 
 [`Logger`](Logger.md)
 
+The Logger instance for chaining.
+
 ### timeEnd()
 
 > **timeEnd**(`key`, `message`, ...`args`): [`Logger`](Logger.md)
+
+End a timer with a specific key and log the elapsed time.
 
 #### Parameters
 
@@ -185,23 +186,25 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 `string`
 
-{string} timer's label
+The unique identifier for the timer.
 
 ##### message
 
 `string`
 
-{string} message
+The message to log with the elapsed time.
 
 ##### args
 
 ...`any`[]
 
-{...any=} arguments
+Additional arguments to log with the message.
 
 #### Returns
 
 [`Logger`](Logger.md)
+
+The Logger instance for chaining.
 
 ### warn()
 

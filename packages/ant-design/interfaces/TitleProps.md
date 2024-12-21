@@ -12,7 +12,7 @@ return children
 
 ### h1?
 
-> `optional` **h1**: `boolean` \| \{`className`: `string`;`style`: `CSSProperties`; \}
+> `optional` **h1**: `boolean` \| \{ `className`: `string`; `style`: `CSSProperties`; \}
 
 return a h1 element
 

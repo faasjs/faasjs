@@ -268,7 +268,7 @@ Unlock by key
 
 ##### options?
 
-\{`pipeline`: `boolean`; \} | `any`[][]
+\{ `pipeline`: `boolean`; \} | `any`[][]
 
 #### Returns
 

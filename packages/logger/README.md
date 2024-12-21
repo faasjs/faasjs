@@ -11,6 +11,32 @@ FaasJS's logger module.
 npm install @faasjs/logger
 ```
 
+## Usage
+
+```typescript
+import { Logger } from '@faasjs/logger'
+
+const logger = new Logger()
+
+logger.debug('debug message')
+logger.info('info message')
+logger.warn('warn message')
+logger.error('error message')
+```
+
+### Support environment variables
+
+- **FaasLog**: debug, info, warn, error (default: debug)
+- **FaasLogSize**: 1000 (default: 1000, 0 for unlimited)
+- **FaasLogMode**: plain, pretty (default: pretty)
+
+## Functions
+
+- [insert](functions/insert.md)
+- [register](functions/register.md)
+- [run](functions/run.md)
+- [unregister](functions/unregister.md)
+
 ## Classes
 
 - [Logger](classes/Logger.md)
@@ -22,3 +48,10 @@ npm install @faasjs/logger
 ## Type Aliases
 
 - [Level](type-aliases/Level.md)
+- [LoggerMessage](type-aliases/LoggerMessage.md)
+- [TransportHandler](type-aliases/TransportHandler.md)
+
+## Variables
+
+- [CachedMessages](variables/CachedMessages.md)
+- [Transports](variables/Transports.md)

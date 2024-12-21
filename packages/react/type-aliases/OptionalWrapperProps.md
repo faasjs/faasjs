@@ -6,7 +6,7 @@
 
 ## Type Parameters
 
-• **TWrapper** *extends* `ComponentType`\<`object`\> = `any`
+• **TWrapper** *extends* `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
 
 ## Type declaration
 

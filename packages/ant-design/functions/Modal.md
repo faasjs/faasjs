@@ -2,7 +2,7 @@
 
 # Function: Modal()
 
-> **Modal**(`props`): `ReactNode`
+> **Modal**(`props`): `ReactNode` \| `Promise`\<`ReactNode`\>
 
 ## Parameters
 
@@ -12,4 +12,4 @@
 
 ## Returns
 
-`ReactNode`
+`ReactNode` \| `Promise`\<`ReactNode`\>
