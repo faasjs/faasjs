@@ -1,4 +1,5 @@
-import { Color, type Level, Logger } from '../index'
+import { Color } from '../color'
+import { type Level, Logger } from '../logger'
 
 let lastOutput = ''
 
