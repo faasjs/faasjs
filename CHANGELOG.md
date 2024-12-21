@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v4.5.0 (2024-12-21)`](https://github.com/faasjs/faasjs/compare/v4.4.0...v4.5.0)
+[`v4.5.1 (2024-12-21)`](https://github.com/faasjs/faasjs/compare/v4.4.0...v4.5.1)
 
 - `@faasjs/logger`
   - [Feature] Add `Transport`.
