@@ -190,16 +190,18 @@ export class Logger {
 
     if (LevelPriority[level] < this.level) return this
 
-    let output = `${level.toUpperCase()} ${
-      this.label ? `[${this.label}] ` : ''
-    }${format(message, ...args)}`
+    const formattedMessage = format(message, ...args)
+
+    if (!formattedMessage) return this
+
+    insert(level, formattedMessage, Date.now())
+
+    let output = `${level.toUpperCase()} ${this.label ? `[${this.label}] ` : ''}${formattedMessage}`
 
     if (this.colorfyOutput) output = this.colorfy(LevelColor[level], output)
     else if (!this.colorfyOutput) output = output.replace(/\n/g, '')
 
     if (!output) return this
-
-    insert(level, output, Date.now())
 
     if (
       this.size > 0 &&
