@@ -37,14 +37,12 @@ process
   .on('SIGTERM', async () => {
     if (running) return
 
-    if (CachedMessages.length)
-      await run()
+    if (CachedMessages.length) await run()
   })
   .on('SIGINT', async () => {
     if (running) return
 
-    if (CachedMessages.length)
-      await run()
+    if (CachedMessages.length) await run()
   })
 
 export function insert(level: Level, message: string, timestamp: number) {
