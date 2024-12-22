@@ -35,6 +35,7 @@ logger.error('error message')
 - [insert](functions/insert.md)
 - [register](functions/register.md)
 - [run](functions/run.md)
+- [start](functions/start.md)
 - [unregister](functions/unregister.md)
 
 ## Classes

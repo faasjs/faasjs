@@ -33,18 +33,6 @@ export const CachedMessages: LoggerMessage[] = []
 
 let running = false
 
-process
-  .on('SIGTERM', async () => {
-    if (CachedMessages.length) await run()
-
-    process.exit(0)
-  })
-  .on('SIGINT', async () => {
-    if (CachedMessages.length) await run()
-
-    process.exit(0)
-  })
-
 export function insert(level: Level, message: string, timestamp: number) {
   CachedMessages.push({ level, message, timestamp })
 }
@@ -65,7 +53,20 @@ export async function run() {
   running = false
 }
 
-if (!process.env.JEST_WORKER_ID)
+export function start() {
+  process
+    .on('SIGTERM', async () => {
+      if (CachedMessages.length) await run()
+
+      process.exit(0)
+    })
+    .on('SIGINT', async () => {
+      if (CachedMessages.length) await run()
+
+      process.exit(0)
+    })
+
   setInterval(() => {
     if (CachedMessages.length > 0) run()
   }, 5000)
+}
