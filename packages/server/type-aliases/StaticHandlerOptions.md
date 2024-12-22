@@ -6,6 +6,16 @@
 
 ## Type declaration
 
+### cache?
+
+> `optional` **cache**: `boolean`
+
+#### Default
+
+```ts
+true
+```
+
 ### notFound?
 
 > `optional` **notFound**: [`Middleware`](Middleware.md) \| `true`

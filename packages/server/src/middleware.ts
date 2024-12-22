@@ -120,9 +120,9 @@ export type StaticHandlerOptions = {
 
 type StaticHandlerCache =
   | {
-    path: string
-    mimeType: string
-  }
+      path: string
+      mimeType: string
+    }
   | false
 
 const cachedStaticFiles = new Map<string, StaticHandlerCache>()
@@ -191,7 +191,13 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
 
     const cached = options.cache !== false && cachedStaticFiles.get(request.url)
 
-    if (cached === false) return await respondWithNotFound(options.notFound, request, response, logger)
+    if (cached === false)
+      return await respondWithNotFound(
+        options.notFound,
+        request,
+        response,
+        logger
+      )
 
     if (cached) {
       response.setHeader('Content-Type', cached.mimeType)
@@ -210,10 +216,14 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     if (!existsSync(path)) {
       logger.debug('not found:', url)
 
-      if (options.cache !== false)
-        cachedStaticFiles.set(request.url, false)
+      if (options.cache !== false) cachedStaticFiles.set(request.url, false)
 
-      return await respondWithNotFound(options.notFound, request, response, logger)
+      return await respondWithNotFound(
+        options.notFound,
+        request,
+        response,
+        logger
+      )
     }
 
     const mimeType = lookup(path) || 'application/octet-stream'
@@ -223,7 +233,7 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     if (options.cache !== false)
       cachedStaticFiles.set(request.url, {
         path,
-        mimeType
+        mimeType,
       })
 
     return await respondWithFile(path, mimeType, response)

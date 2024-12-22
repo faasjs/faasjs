@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v4.5.2 (2024-12-22)`](https://github.com/faasjs/faasjs/compare/v4.5.1...v4.5.2)
+
+- `@faasjs/logger`
+  - [Fix] Fix freezed existing logger.
+
+- `@faasjs/server`
+  - [Feature] Add cache to staticHandler.
+
 [`v4.5.1 (2024-12-21)`](https://github.com/faasjs/faasjs/compare/v4.4.0...v4.5.1)
 
 - `@faasjs/logger`
