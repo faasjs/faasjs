@@ -114,6 +114,56 @@ export async function useMiddlewares(handlers: Middleware[]) {
 export type StaticHandlerOptions = {
   root: `${string}/`
   notFound?: Middleware | true
+  /** @default true */
+  cache?: boolean
+}
+
+type StaticHandlerCache =
+  | {
+    path: string
+    mimeType: string
+  }
+  | false
+
+const cachedStaticFiles = new Map<string, StaticHandlerCache>()
+
+async function respondWithNotFound(
+  options: StaticHandlerOptions['notFound'],
+  request: IncomingMessage & {
+    body: any
+  },
+  response: ServerResponse,
+  logger: Logger
+) {
+  if (!options) return
+  if (options === true) {
+    response.statusCode = 404
+    response.end('Not Found')
+    return
+  }
+
+  return await options(request, response, logger)
+}
+
+async function respondWithFile(
+  path: string,
+  mimeType: string,
+  response: ServerResponse
+) {
+  const stream = createReadStream(path)
+  response.setHeader('Content-Type', mimeType)
+
+  await new Promise<void>((resolve, reject) => {
+    stream
+      .on('error', error => {
+        response.statusCode = 500
+        response.end(error?.message || 'Internal Server Error')
+        reject(error)
+      })
+      .on('end', resolve)
+
+    stream.pipe(response)
+  })
 }
 
 /**
@@ -139,6 +189,16 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
 
     if (request.url.slice(0, 2) === '/.') return
 
+    const cached = options.cache !== false && cachedStaticFiles.get(request.url)
+
+    if (cached === false) return await respondWithNotFound(options.notFound, request, response, logger)
+
+    if (cached) {
+      response.setHeader('Content-Type', cached.mimeType)
+
+      return await respondWithFile(cached.path, cached.mimeType, response)
+    }
+
     let url = request.url.slice(1)
 
     if (url === '') url = 'index.html'
@@ -150,38 +210,23 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     if (!existsSync(path)) {
       logger.debug('not found:', url)
 
-      if (options.notFound) {
-        if (options.notFound === true) {
-          response.statusCode = 404
-          response.end('Not Found')
-          return
-        }
+      if (options.cache !== false)
+        cachedStaticFiles.set(request.url, false)
 
-        await options.notFound(request, response, logger)
-      }
-
-      return
+      return await respondWithNotFound(options.notFound, request, response, logger)
     }
 
-    const stream = createReadStream(path)
-
     const mimeType = lookup(path) || 'application/octet-stream'
-    response.setHeader('Content-Type', mimeType)
 
     logger.debug('found:', mimeType, url)
 
-    await new Promise<void>((resolve, reject) => {
-      stream
-        .on('error', error => {
-          logger.error('error:', error)
-          response.statusCode = 500
-          response.end(error?.message || 'Internal Server Error')
-          reject(error)
-        })
-        .on('end', resolve)
+    if (options.cache !== false)
+      cachedStaticFiles.set(request.url, {
+        path,
+        mimeType
+      })
 
-      stream.pipe(response)
-    })
+    return await respondWithFile(path, mimeType, response)
   }
 
   nameFunc('static', handler)
