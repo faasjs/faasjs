@@ -4,10 +4,13 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v4.5.4 (2024-12-23)`](https://github.com/faasjs/faasjs/compare/v4.5.3...v4.5.4)
+[`v4.6.0 (2024-12-23)`](https://github.com/faasjs/faasjs/compare/v4.5.3...v4.6.0)
 
 - `@faasjs/logger`
   - [Feature] Move transport to `@faasjs/logger/transport`.
+
+- `@faasjs/server`
+  - [Feature] Add `onClose`.
 
 [`v4.5.3 (2024-12-22)`](https://github.com/faasjs/faasjs/compare/v4.5.1...v4.5.3)
 

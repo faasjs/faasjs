@@ -5,7 +5,7 @@ import { Server } from '../../server'
 describe('server', () => {
   it('should handle SIGTERM and SIGINT', async () => {
     const port = 3002 + Number(process.env.JEST_WORKER_ID)
-    const onClose = jest.fn().mockImplementation(async () => { })
+    const onClose = jest.fn().mockImplementation(async () => {})
     const serverA = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverA.listen()
 

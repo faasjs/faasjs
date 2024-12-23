@@ -37,6 +37,10 @@ Options
 
 Enable cache, default is false
 
+###### onClose
+
+() => `Promise`\<`void`\>
+
 ###### onError
 
 (`error`) => `void`
@@ -106,6 +110,14 @@ Start server.
 ### logger
 
 > `readonly` **logger**: `Logger`
+
+### onClose()?
+
+> `readonly` `optional` **onClose**: () => `Promise`\<`void`\>
+
+#### Returns
+
+`Promise`\<`void`\>
 
 ### onError()
 
