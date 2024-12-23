@@ -105,7 +105,7 @@ export async function flush() {
     try {
       await handler(messages)
     } catch (error) {
-      console.error('LoggerTransportError', handler.name, error)
+      console.error('[LoggerTransport]', handler.name, error)
     }
 
   flushing = false
@@ -115,6 +115,9 @@ export type StartOptions = {
   /** @default 5000 */
   interval?: number
 }
+
+let started = false
+let interval: NodeJS.Timeout
 
 /**
  * Starts the logging transport with the specified options.
@@ -133,10 +136,35 @@ export type StartOptions = {
  * ```
  */
 export function start(options: StartOptions = {}) {
-  setTimeout(async () => {
+  if (started) {
+    console.warn('[LoggerTransport] already started')
+    return
+  }
+
+  interval = setTimeout(async () => {
     if (CachedMessages.length > 0)
       await flush()
 
-    start()
+    if (started)
+      start()
   }, options.interval ?? 5000)
+}
+
+/**
+ * Stops the logging transport.
+ *
+ * If there are any cached messages, it flushes them.
+ *
+ * @returns {Promise<void>} A promise that resolves when the logging transport is stopped.
+ */
+export async function stop() {
+  started = false
+
+  if (interval) {
+    clearInterval(interval)
+    interval = undefined
+  }
+
+  if (CachedMessages.length > 0)
+    await flush()
 }

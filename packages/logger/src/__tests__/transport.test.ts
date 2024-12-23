@@ -4,6 +4,8 @@ import {
   flush,
   insert,
   register,
+  start,
+  stop,
   unregister,
 } from '../transport'
 import type { TransportHandler } from '../transport'
@@ -54,7 +56,7 @@ describe('transport', () => {
 
     insert(level, message, timestamp)
 
-    await flush()
+    await Promise.all([flush(), flush()])
 
     expect(handler).toHaveBeenCalledWith([{ level, message, timestamp }])
   })
@@ -78,6 +80,31 @@ describe('transport', () => {
 
     await flush()
 
-    expect(console.error).toHaveBeenCalledWith('LoggerTransportError', 'mockConstructor', error)
+    expect(console.error).toHaveBeenCalledWith('[LoggerTransport]', 'mockConstructor', error)
+  })
+
+  it('should start and periodically flush cached messages', async () => {
+    jest.useFakeTimers()
+
+    start({ interval: 1000 })
+    start()
+
+    insert('info', 'test message', Date.now())
+
+    jest.advanceTimersByTime(1000)
+
+    expect(CachedMessages).toHaveLength(0)
+
+    insert('info', 'test message', Date.now())
+
+    await stop()
+
+    insert('info', 'test message', Date.now())
+
+    jest.advanceTimersByTime(1000)
+
+    expect(CachedMessages).toHaveLength(1)
+
+    jest.useRealTimers()
   })
 })
