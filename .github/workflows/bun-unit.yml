@@ -57,4 +57,4 @@ jobs:
       - name: Run Tests
         run: |
           # mv tsconfig.bun.test.json tsconfig.json
-          bun run test --testPathIgnorePatterns=knex
+          bun run ci --testPathIgnorePatterns=knex

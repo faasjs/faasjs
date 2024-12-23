@@ -5,7 +5,8 @@ import { Server } from '../../server'
 describe('server', () => {
   it('should handle SIGTERM and SIGINT', async () => {
     const port = 3002 + Number(process.env.JEST_WORKER_ID)
-    const serverA = new Server(join(__dirname, 'funcs'), { port })
+    const onClose = jest.fn().mockImplementation(async () => { })
+    const serverA = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverA.listen()
 
     const closeSpyA = jest.spyOn(serverA, 'close')
@@ -23,6 +24,7 @@ describe('server', () => {
     await new Promise(resolve => setTimeout(resolve, 10))
 
     expect(closeSpyA).toHaveBeenCalled()
+    expect(onClose).toHaveBeenCalled()
 
     const serverB = new Server(join(__dirname, 'funcs'), { port })
     serverB.listen()

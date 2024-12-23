@@ -1,15 +1,17 @@
 {
   "name": "faasjs-mono",
   "version": "4.5.4",
+  "type": "commonjs",
   "private": true,
   "scripts": {
-    "test": "RUST_BACKTRACE=full JEST_JUNIT_CLASSNAME=\"{filepath}\" jest --ci --silent --coverage --forceExit --detectOpenHandles --reporters=jest-junit",
+    "test": "jest",
     "pub": "npm run lint && npm run build && node build-docs.js && node --experimental-strip-types publish.ts",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log",
     "build": "npm run clean && npm exec turbo build",
     "build:doc": "typedoc",
     "build:docs": "node build-docs.js",
-    "lint": "biome check . --write"
+    "lint": "biome check . --write",
+    "ci": "RUST_BACKTRACE=full jest --ci --silent --coverage --forceExit --detectOpenHandles --testResultsProcessor=jest-junit --reporters=jest-junit --reporters=default"
   },
   "devDependencies": {
     "tsup": "*",

@@ -56,7 +56,7 @@ jobs:
       - name: Prepack
         run: node --run build
       - name: Run Tests
-        run: node --run test
+        run: node --run ci
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOVTOKEN }}

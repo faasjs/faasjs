@@ -64,6 +64,7 @@ export class Server {
   }
   public readonly runtime: 'esm' | 'cjs' | 'bun'
   public readonly onError: (error: any) => void
+  public readonly onClose?: () => Promise<void>
   protected closed = false
 
   private processing = false
@@ -87,6 +88,7 @@ export class Server {
       cache?: boolean
       port?: number
       onError?: (error: Error) => void
+      onClose?: () => Promise<void>
     }
   ) {
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development')
@@ -119,8 +121,16 @@ export class Server {
       if (!(error instanceof Error)) error = Error(error)
 
       this.logger.error(error)
-      opts.onError?.(error)
+
+      if (opts?.onError)
+        try {
+          opts.onError(error)
+        } catch (error: any) {
+          this.logger.error(error)
+        }
     }
+
+    this.onClose = opts.onClose
 
     if ((globalThis as any).Bun) {
       this.runtime = 'bun'
@@ -330,19 +340,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -537,6 +547,17 @@ export class Server {
       })
     })
 
+    if (this.onClose) {
+      this.logger.debug('[onClose] begin')
+      this.logger.time(`${this.logger.label}onClose`)
+      try {
+        await this.onClose()
+      } catch (error) {
+        this.onError(error)
+      }
+      this.logger.timeEnd(`${this.logger.label}onClose`, '[onClose] end')
+    }
+
     this.logger.timeEnd(`${this.logger.label}close`, 'closed')
     this.closed = true
   }
@@ -573,8 +594,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+          .map(p => `- ${p}`)
+          .join('\n')}`
     this.onError(message)
     throw new HttpError({
       statusCode: 404,
