@@ -15,6 +15,16 @@
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
       }
+    },
+    "./transport": {
+      "import": {
+        "types": "./dist/transport.d.mts",
+        "default": "./dist/transport.mjs"
+      },
+      "require": {
+        "types": "./dist/transport.d.ts",
+        "default": "./dist/transport.js"
+      }
     }
   },
   "homepage": "https://faasjs.com/doc/logger",
@@ -28,11 +38,9 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --config ../../tsup.config.json"
+    "build": "tsup-node --entry src/index.ts --entry src/transport.ts --config ../../tsup.config.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "engines": {
     "node": ">=22.0.0",
     "npm": ">=10.0.0"
