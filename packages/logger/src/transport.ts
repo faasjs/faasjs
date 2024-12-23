@@ -89,14 +89,15 @@ export function insert(level: Level, message: string, timestamp: number) {
  * ```
  */
 export async function flush() {
-  if (flushing) return new Promise<void>((resolve) => {
-    const interval = setInterval(() => {
-      if (!flushing) {
-        clearInterval(interval)
-        resolve()
-      }
-    }, 100)
-  })
+  if (flushing)
+    return new Promise<void>(resolve => {
+      const interval = setInterval(() => {
+        if (!flushing) {
+          clearInterval(interval)
+          resolve()
+        }
+      }, 100)
+    })
 
   flushing = true
   const messages = CachedMessages.splice(0, CachedMessages.length)
@@ -142,11 +143,9 @@ export function start(options: StartOptions = {}) {
   }
 
   interval = setTimeout(async () => {
-    if (CachedMessages.length > 0)
-      await flush()
+    if (CachedMessages.length > 0) await flush()
 
-    if (started)
-      start()
+    if (started) start()
   }, options.interval ?? 5000)
 }
 
@@ -165,6 +164,5 @@ export async function stop() {
     interval = undefined
   }
 
-  if (CachedMessages.length > 0)
-    await flush()
+  if (CachedMessages.length > 0) await flush()
 }

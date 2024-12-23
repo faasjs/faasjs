@@ -30,14 +30,6 @@ logger.error('error message')
 - **FaasLogSize**: 1000 (default: 1000, 0 for unlimited)
 - **FaasLogMode**: plain, pretty (default: pretty)
 
-## Functions
-
-- [insert](functions/insert.md)
-- [register](functions/register.md)
-- [run](functions/run.md)
-- [start](functions/start.md)
-- [unregister](functions/unregister.md)
-
 ## Classes
 
 - [Logger](classes/Logger.md)
@@ -49,10 +41,3 @@ logger.error('error message')
 ## Type Aliases
 
 - [Level](type-aliases/Level.md)
-- [LoggerMessage](type-aliases/LoggerMessage.md)
-- [TransportHandler](type-aliases/TransportHandler.md)
-
-## Variables
-
-- [CachedMessages](variables/CachedMessages.md)
-- [Transports](variables/Transports.md)

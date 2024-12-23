@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "4.5.3",
+  "version": "4.5.4",
   "private": true,
   "scripts": {
     "test": "RUST_BACKTRACE=full JEST_JUNIT_CLASSNAME=\"{filepath}\" jest --ci --silent --coverage --forceExit --detectOpenHandles --reporters=jest-junit",

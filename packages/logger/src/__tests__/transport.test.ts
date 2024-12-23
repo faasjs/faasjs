@@ -17,7 +17,7 @@ describe('transport', () => {
   })
 
   it('should register a transport handler', () => {
-    const handler: TransportHandler = async () => { }
+    const handler: TransportHandler = async () => {}
 
     register('test', handler)
 
@@ -25,7 +25,7 @@ describe('transport', () => {
   })
 
   it('should unregister a transport handler', () => {
-    const handler: TransportHandler = async () => { }
+    const handler: TransportHandler = async () => {}
 
     register('test', handler)
 
@@ -46,7 +46,7 @@ describe('transport', () => {
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = jest.fn(async () => { })
+    const handler: TransportHandler = jest.fn(async () => {})
 
     register('test', handler)
 
@@ -80,7 +80,11 @@ describe('transport', () => {
 
     await flush()
 
-    expect(console.error).toHaveBeenCalledWith('[LoggerTransport]', 'mockConstructor', error)
+    expect(console.error).toHaveBeenCalledWith(
+      '[LoggerTransport]',
+      'mockConstructor',
+      error
+    )
   })
 
   it('should start and periodically flush cached messages', async () => {
