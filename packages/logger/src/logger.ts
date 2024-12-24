@@ -194,7 +194,7 @@ export class Logger {
 
     if (!formattedMessage) return this
 
-    insert(level, formattedMessage, Date.now())
+    insert(level, this.label?.split(/\]\s*\[/) || [], formattedMessage, Date.now())
 
     let output = `${level.toUpperCase()} ${this.label ? `[${this.label}] ` : ''}${formattedMessage}`
 

@@ -2,6 +2,7 @@ import type { Level } from './logger'
 
 export type LoggerMessage = {
   level: Level
+  labels: string[]
   message: string
   timestamp: number
 }
@@ -65,8 +66,8 @@ let flushing = false
  * insert('info', 'test message', Date.now())
  * ```
  */
-export function insert(level: Level, message: string, timestamp: number) {
-  CachedMessages.push({ level, message, timestamp })
+export function insert(level: Level, labels: string[], message: string, timestamp: number) {
+  CachedMessages.push({ level, labels, message, timestamp })
 }
 
 /**

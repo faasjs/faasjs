@@ -17,7 +17,7 @@ describe('transport', () => {
   })
 
   it('should register a transport handler', () => {
-    const handler: TransportHandler = async () => {}
+    const handler: TransportHandler = async () => { }
 
     register('test', handler)
 
@@ -25,7 +25,7 @@ describe('transport', () => {
   })
 
   it('should unregister a transport handler', () => {
-    const handler: TransportHandler = async () => {}
+    const handler: TransportHandler = async () => { }
 
     register('test', handler)
 
@@ -39,14 +39,14 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insert(level, message, timestamp)
+    insert(level, [], message, timestamp)
 
     expect(CachedMessages.length).toBe(1)
     expect(CachedMessages[0]).toEqual({ level, message, timestamp })
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = jest.fn(async () => {})
+    const handler: TransportHandler = jest.fn(async () => { })
 
     register('test', handler)
 
@@ -54,7 +54,7 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insert(level, message, timestamp)
+    insert(level, [], message, timestamp)
 
     await Promise.all([flush(), flush()])
 
@@ -74,7 +74,7 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insert(level, message, timestamp)
+    insert(level, [], message, timestamp)
 
     console.error = jest.fn()
 
@@ -93,17 +93,17 @@ describe('transport', () => {
     start({ interval: 1000 })
     start()
 
-    insert('info', 'test message', Date.now())
+    insert('info', [], 'test message', Date.now())
 
     jest.advanceTimersByTime(1000)
 
     expect(CachedMessages).toHaveLength(0)
 
-    insert('info', 'test message', Date.now())
+    insert('info', [], 'test message', Date.now())
 
     await stop()
 
-    insert('info', 'test message', Date.now())
+    insert('info', [], 'test message', Date.now())
 
     jest.advanceTimersByTime(1000)
 
