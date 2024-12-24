@@ -42,7 +42,7 @@ describe('transport', () => {
     insert(level, [], message, timestamp)
 
     expect(CachedMessages.length).toBe(1)
-    expect(CachedMessages[0]).toEqual({ level, message, timestamp })
+    expect(CachedMessages[0]).toEqual({ level, labels: [], message, timestamp })
   })
 
   it('should flush transport handlers with cached messages', async () => {
@@ -58,7 +58,7 @@ describe('transport', () => {
 
     await Promise.all([flush(), flush()])
 
-    expect(handler).toHaveBeenCalledWith([{ level, message, timestamp }])
+    expect(handler).toHaveBeenCalledWith([{ level, labels: [], message, timestamp }])
   })
 
   it('should handle errors in transport handlers', async () => {
