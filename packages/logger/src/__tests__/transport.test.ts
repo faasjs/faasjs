@@ -39,7 +39,7 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insert(level, [], message, timestamp)
+    insert({ level, labels: [], message, timestamp })
 
     expect(CachedMessages.length).toBe(1)
     expect(CachedMessages[0]).toEqual({ level, labels: [], message, timestamp })
@@ -54,7 +54,7 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insert(level, [], message, timestamp)
+    insert({ level, labels: [], message, timestamp })
 
     await Promise.all([flush(), flush()])
 
@@ -74,7 +74,7 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insert(level, [], message, timestamp)
+    insert({ level, labels: [], message, timestamp })
 
     console.error = jest.fn()
 
@@ -93,17 +93,17 @@ describe('transport', () => {
     start({ interval: 1000 })
     start()
 
-    insert('info', [], 'test message', Date.now())
+    insert({ level: 'info', labels: [], message: 'test message', timestamp: Date.now() })
 
     jest.advanceTimersByTime(1000)
 
     expect(CachedMessages).toHaveLength(0)
 
-    insert('info', [], 'test message', Date.now())
+    insert({ level: 'info', labels: [], message: 'test message', timestamp: Date.now() })
 
     await stop()
 
-    insert('info', [], 'test message', Date.now())
+    insert({ level: 'info', labels: [], message: 'test message', timestamp: Date.now() })
 
     jest.advanceTimersByTime(1000)
 

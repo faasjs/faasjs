@@ -5,6 +5,7 @@ export type LoggerMessage = {
   labels: string[]
   message: string
   timestamp: number
+  extra?: any[]
 }
 
 export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
@@ -54,20 +55,23 @@ let flushing = false
 /**
  * Inserts a log message into the cache.
  *
- * @param level - The level of the log message.
- * @param message - The log message to be inserted.
- * @param timestamp - The timestamp when the log message was created.
+ * @param message - The log message to insert.
  *
  * @example
  *
  * ```typescript
  * import { insert } from '@faasjs/logger/transport'
  *
- * insert('info', 'test message', Date.now())
+ * insert({
+ *   level: 'info',
+ *   labels: ['server'],
+ *   message: 'test message',
+ *   timestamp: Date.now()
+ * })
  * ```
  */
-export function insert(level: Level, labels: string[], message: string, timestamp: number) {
-  CachedMessages.push({ level, labels, message, timestamp })
+export function insert(message: LoggerMessage) {
+  CachedMessages.push(message)
 }
 
 /**

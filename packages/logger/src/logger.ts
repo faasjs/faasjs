@@ -151,9 +151,13 @@ export class Logger {
   public timeEnd(key: string, message: string, ...args: any[]): Logger {
     if (this.cachedTimers[key]) {
       const timer: Timer = this.cachedTimers[key]
+      const duration = Date.now() - timer.time
 
-      message = `${message} +%ims`
-      args.push(Date.now() - timer.time)
+      message = `${message} +${duration}ms`
+
+      args.push({
+        duration,
+      })
 
       this[timer.level](message, ...args)
 
@@ -192,9 +196,9 @@ export class Logger {
 
     const formattedMessage = format(message, ...args)
 
-    if (!formattedMessage) return this
+    if (!formattedMessage && !args.length) return this
 
-    insert(level, this.label?.split(/\]\s*\[/) || [], formattedMessage, Date.now())
+    insert({ level, labels: this.label?.split(/\]\s*\[/) || [], message: formattedMessage, timestamp: Date.now(), extra: args })
 
     let output = `${level.toUpperCase()} ${this.label ? `[${this.label}] ` : ''}${formattedMessage}`
 
