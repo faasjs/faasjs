@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v4.7.0 (2024-12-24)`](https://github.com/faasjs/faasjs/compare/v4.6.0...v4.7.0)
+
+- `@faasjs/logger`
+  - [Feature] Add labels and extra to logger.
+
 [`v4.6.0 (2024-12-23)`](https://github.com/faasjs/faasjs/compare/v4.5.3...v4.6.0)
 
 - `@faasjs/logger`

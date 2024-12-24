@@ -17,7 +17,7 @@ describe('transport', () => {
   })
 
   it('should register a transport handler', () => {
-    const handler: TransportHandler = async () => { }
+    const handler: TransportHandler = async () => {}
 
     register('test', handler)
 
@@ -25,7 +25,7 @@ describe('transport', () => {
   })
 
   it('should unregister a transport handler', () => {
-    const handler: TransportHandler = async () => { }
+    const handler: TransportHandler = async () => {}
 
     register('test', handler)
 
@@ -46,7 +46,7 @@ describe('transport', () => {
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = jest.fn(async () => { })
+    const handler: TransportHandler = jest.fn(async () => {})
 
     register('test', handler)
 
@@ -58,7 +58,9 @@ describe('transport', () => {
 
     await Promise.all([flush(), flush()])
 
-    expect(handler).toHaveBeenCalledWith([{ level, labels: [], message, timestamp }])
+    expect(handler).toHaveBeenCalledWith([
+      { level, labels: [], message, timestamp },
+    ])
   })
 
   it('should handle errors in transport handlers', async () => {
@@ -93,17 +95,32 @@ describe('transport', () => {
     start({ interval: 1000 })
     start()
 
-    insert({ level: 'info', labels: [], message: 'test message', timestamp: Date.now() })
+    insert({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+      timestamp: Date.now(),
+    })
 
     jest.advanceTimersByTime(1000)
 
     expect(CachedMessages).toHaveLength(0)
 
-    insert({ level: 'info', labels: [], message: 'test message', timestamp: Date.now() })
+    insert({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+      timestamp: Date.now(),
+    })
 
     await stop()
 
-    insert({ level: 'info', labels: [], message: 'test message', timestamp: Date.now() })
+    insert({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+      timestamp: Date.now(),
+    })
 
     jest.advanceTimersByTime(1000)
 
