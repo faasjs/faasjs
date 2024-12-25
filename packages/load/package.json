@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/load",
-  "version": "4.7.1",
+  "version": "4.7.2",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -35,14 +35,14 @@
   ],
   "peerDependencies": {
     "js-yaml": "*",
-    "@faasjs/deep_merge": "4.7.1",
-    "@faasjs/func": "4.7.1"
+    "@faasjs/deep_merge": "4.7.2",
+    "@faasjs/func": "4.7.2"
   },
   "devDependencies": {
     "js-yaml": "*",
     "@types/js-yaml": "*",
-    "@faasjs/deep_merge": "4.7.1",
-    "@faasjs/func": "4.7.1"
+    "@faasjs/deep_merge": "4.7.2",
+    "@faasjs/func": "4.7.2"
   },
   "engines": {
     "node": ">=22.0.0",
