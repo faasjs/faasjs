@@ -24,6 +24,10 @@ const LevelPriority = {
   error: 3,
 }
 
+function formatLogger(...args: any[]): string {
+  return format(...args.filter((a: any) => typeof a !== 'object' || a.__hidden__ !== true))
+}
+
 /**
  * Logger Class
  *
@@ -156,6 +160,7 @@ export class Logger {
       message = `${message} +${duration}ms`
 
       args.push({
+        __hidden__: true,
         duration,
       })
 
@@ -176,7 +181,7 @@ export class Logger {
   public raw(message: string, ...args: any[]): Logger {
     if (this.silent) return this
 
-    this.stdout(format(message, ...args))
+    this.stdout(formatLogger(message, ...args))
 
     return this
   }
@@ -194,7 +199,7 @@ export class Logger {
 
     if (LevelPriority[level] < this.level) return this
 
-    const formattedMessage = format(message, ...args)
+    const formattedMessage = formatLogger(message, ...args)
 
     if (!formattedMessage && !args.length) return this
 
