@@ -26,7 +26,7 @@ const LevelPriority = {
 
 function formatLogger(...args: any[]): string {
   return format(
-    ...args.filter((a: any) => typeof a !== 'object' || a.__hidden__ !== true)
+    ...args.filter((a: any) => !a || typeof a !== 'object' || a.__hidden__ !== true)
   )
 }
 

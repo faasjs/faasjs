@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v4.7.1 (2024-12-25)`](https://github.com/faasjs/faasjs/compare/v4.7.0...v4.7.1)
+[`v4.7.2 (2024-12-25)`](https://github.com/faasjs/faasjs/compare/v4.7.0...v4.7.2)
 
 - `@faasjs/logger`
   - [Feature] Using `__hidden__` to hide argument for message.
