@@ -25,7 +25,9 @@ const LevelPriority = {
 }
 
 function formatLogger(...args: any[]): string {
-  return format(...args.filter((a: any) => typeof a !== 'object' || a.__hidden__ !== true))
+  return format(
+    ...args.filter((a: any) => typeof a !== 'object' || a.__hidden__ !== true)
+  )
 }
 
 /**
@@ -161,7 +163,11 @@ export class Logger {
 
       args.push({
         __hidden__: true,
-        duration,
+        performance: {
+          name: key,
+          startTime: timer.time,
+          duration,
+        },
       })
 
       this[timer.level](message, ...args)
