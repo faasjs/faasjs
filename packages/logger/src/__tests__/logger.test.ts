@@ -5,6 +5,7 @@ let lastOutput = ''
 
 function fake(text: string): void {
   lastOutput = text
+  console.log(text)
 }
 
 describe('logger', () => {
