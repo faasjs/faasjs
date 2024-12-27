@@ -7,4 +7,4 @@ RUN apt-get update -y \
   && rm -rf /var/lib/apt/lists/*
 
 RUN corepack enable
-RUN npm install -g npm@latest
+RUN npm install -g npm@latest && npm cache clean --force
