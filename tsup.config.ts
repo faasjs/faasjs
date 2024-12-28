@@ -1,5 +1,4 @@
-import { fixImportsPlugin } from 'esbuild-fix-imports-plugin';
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
   format: ['esm', 'cjs'],
@@ -7,7 +6,6 @@ export default defineConfig({
   dts: true,
   treeshake: true,
   tsconfig: 'tsconfig.build.json',
-  esbuildPlugins: [fixImportsPlugin()],
   outExtension({ format }) {
     if (format === 'cjs')
       return {
@@ -24,7 +22,7 @@ export default defineConfig({
     if (format === "esm") {
       return {
         js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
-      };
+      }
     }
   },
 })
