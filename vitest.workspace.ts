@@ -19,7 +19,6 @@ export default defineWorkspace([
       include: ['packages/**/*.test.ts'],
       exclude: [...browsers, 'packages/vue-plugin/**'],
       environment: 'node',
-      setupFiles: ['vitest.setup.ts'],
     },
   },
   {
@@ -28,7 +27,6 @@ export default defineWorkspace([
       globals: true,
       include: browsers,
       environment: 'happy-dom',
-      setupFiles: ['vitest.setup.ts'],
     },
   }
 ])
