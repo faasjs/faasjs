@@ -1,12 +1,14 @@
 import { join } from 'node:path'
 import { request } from '@faasjs/request'
-import { vi } from 'vitest'
 import { Server } from '../../server'
 
 describe('server', () => {
   it('should handle SIGTERM and SIGINT', async () => {
     const port = 3002 + Number(process.env.VITEST_POOL_ID)
-    const onClose = vi.fn().mockResolvedValue(undefined)
+    let times = 0
+    const onClose = async () => {
+      times++
+    }
     const serverA = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverA.listen()
 
@@ -22,7 +24,7 @@ describe('server', () => {
 
     await new Promise(resolve => setTimeout(resolve, 10))
 
-    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(times).toBe(1)
 
     const serverB = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverB.listen()
@@ -40,6 +42,6 @@ describe('server', () => {
 
     await new Promise(resolve => setTimeout(resolve, 100))
 
-    expect(onClose).toHaveBeenCalledTimes(2)
+    expect(times).toBe(2)
   })
 })
