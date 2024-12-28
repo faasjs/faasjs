@@ -16,7 +16,7 @@ Description component
 
 ### \_\_namedParameters
 
-[`DescriptionProps`](../interfaces/DescriptionProps.md)\<`T`, `any`\>
+[`DescriptionProps`](../interfaces/DescriptionProps.md)\<`T`\>
 
 ## Returns
 

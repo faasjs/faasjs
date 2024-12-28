@@ -1,4 +1,3 @@
-import react from '@vitejs/plugin-react'
 import { defineWorkspace } from 'vitest/config'
 
 const browsers = [
@@ -12,21 +11,18 @@ const browsers = [
 
 export default defineWorkspace([
   {
+    extends: './vitest.config.ts',
     test: {
-      globals: true,
       include: ['packages/**/*.test.ts'],
-      exclude: [...browsers, 'packages/vue-plugin/**'],
+      exclude: browsers,
       environment: 'node',
-      setupFiles: ['vitest.setup.ts'],
     },
   },
   {
-    plugins: [react()],
+    extends: './vitest.config.ts',
     test: {
-      globals: true,
       include: browsers,
       environment: 'happy-dom',
-      setupFiles: ['vitest.setup.ts'],
     },
-  }
+  },
 ])

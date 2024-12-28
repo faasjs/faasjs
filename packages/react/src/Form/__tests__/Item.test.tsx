@@ -1,8 +1,5 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { fireEvent, render, screen } from '@testing-library/react'
+import { vi } from 'vitest'
 import { FormItem } from '../Item'
 import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
@@ -13,7 +10,7 @@ const renderWithContext = (
     values = {
       testName: 'testValue',
     },
-    setValues = jest.fn(),
+    setValues = vi.fn(),
     error = undefined,
   } = {}
 ) =>
@@ -51,7 +48,7 @@ describe('FormItem', () => {
   })
 
   it('should call setValues on input change', () => {
-    const mockSetValues = jest.fn()
+    const mockSetValues = vi.fn()
 
     renderWithContext(<FormItem name='testName' />, {
       setValues: mockSetValues,

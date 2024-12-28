@@ -1,9 +1,6 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import { Table } from '../../Table'
 
 describe('Table/ajax', () => {
@@ -12,7 +9,7 @@ describe('Table/ajax', () => {
 
   beforeEach(() => {
     originalFetch = window.fetch
-    window.fetch = jest.fn(async () => {
+    window.fetch = vi.fn(async () => {
       current++
       return Promise.resolve({
         status: 200,

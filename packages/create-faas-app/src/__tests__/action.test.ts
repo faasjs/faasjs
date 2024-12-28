@@ -1,8 +1,9 @@
+import { vi } from 'vitest'
 import { action } from '../action'
 
 let execs: string[] = []
 
-jest.mock('node:child_process', () => ({
+vi.mock('node:child_process', () => ({
   execSync(cmd: string) {
     execs.push(cmd)
   },
@@ -13,14 +14,14 @@ let files: {
   [key: string]: string
 } = {}
 
-jest.mock('node:fs', () => ({
+vi.mock('node:fs', () => ({
   mkdirSync(path: string) {
     dirs.push(path)
   },
   writeFileSync(name: string, body: string) {
     files[name] = body
   },
-  existsSync() {},
+  existsSync() { },
 }))
 
 describe('action', () => {

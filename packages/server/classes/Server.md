@@ -67,13 +67,13 @@ Port, default is 3000
 
 ### listen()
 
-> **listen**(): `Server`\<*typeof* `IncomingMessage`, *typeof* `ServerResponse`\>
+> **listen**(): `Server`
 
 Start server.
 
 #### Returns
 
-`Server`\<*typeof* `IncomingMessage`, *typeof* `ServerResponse`\>
+`Server`
 
 ### processRequest()
 
@@ -91,7 +91,7 @@ Start server.
 
 ##### res
 
-`ServerResponse`\<`IncomingMessage`\> & `object`
+`ServerResponse` & `object`
 
 ##### requestedAt
 

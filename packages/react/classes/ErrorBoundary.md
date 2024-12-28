@@ -63,11 +63,11 @@ the entire component tree to unmount.
 
 ### render()
 
-> **render**(): `string` \| `number` \| `bigint` \| `boolean` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `Element`
+> **render**(): `string` \| `number` \| `bigint` \| `boolean` \| `Iterable`\<`ReactNode`\> \| `Promise`\<`AwaitedReactNode`\> \| `Element`
 
 #### Returns
 
-`string` \| `number` \| `bigint` \| `boolean` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `Element`
+`string` \| `number` \| `bigint` \| `boolean` \| `Iterable`\<`ReactNode`\> \| `Promise`\<`AwaitedReactNode`\> \| `Element`
 
 #### Overrides
 

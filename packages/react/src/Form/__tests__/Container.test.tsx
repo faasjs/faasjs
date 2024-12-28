@@ -1,10 +1,7 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import type { ComponentType } from 'react'
 import { expectType } from 'tsd'
+import { vi } from 'vitest'
 import { FormContainer, type FormProps } from '../Container'
 import type {
   FormButtonElementProps,
@@ -15,7 +12,7 @@ import type {
 describe('FormContainer', () => {
   const defaultProps = {
     items: [{ name: 'test' }],
-    onSubmit: jest.fn(),
+    onSubmit: vi.fn(),
   }
 
   it('should render FormBody', () => {
@@ -24,7 +21,7 @@ describe('FormContainer', () => {
   })
 
   it('should call onSubmit with correct values', async () => {
-    const onSubmit = jest.fn().mockResolvedValueOnce(Promise.resolve())
+    const onSubmit = vi.fn().mockResolvedValueOnce(Promise.resolve())
     render(<FormContainer {...defaultProps} onSubmit={onSubmit} />)
 
     await act(async () => fireEvent.click(screen.getByRole('button')))

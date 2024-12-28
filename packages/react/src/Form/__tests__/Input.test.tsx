@@ -1,9 +1,6 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { fireEvent, render } from '@testing-library/react'
 import { useState } from 'react'
+import { vi } from 'vitest'
 import { FormInput } from '../Input'
 import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
@@ -53,7 +50,7 @@ describe('FormInput', () => {
   })
 
   it('should call setValues on input change', () => {
-    const mockSetValues = jest.fn()
+    const mockSetValues = vi.fn()
 
     const { getByRole } = renderWithContext(<FormInput name='test' />, {
       setValues: mockSetValues,
@@ -75,6 +72,7 @@ describe('FormInput', () => {
     function CustomInput({ name, value, onChange }: any) {
       return (
         <input
+          title='test'
           data-testid='custom-input'
           name={name}
           value={value}
@@ -86,7 +84,7 @@ describe('FormInput', () => {
     const { getByRole } = renderWithContext(
       <FormInput name='test' Input={CustomInput} />,
       {
-        setValues: jest.fn().mockImplementation(v => (values = v(values))),
+        setValues: vi.fn().mockImplementation(v => (values = v(values))),
         values,
       }
     )
@@ -104,7 +102,7 @@ describe('FormInput', () => {
       }
 
       const { getByRole } = renderWithContext(<FormInput name='test' />, {
-        setValues: jest.fn().mockImplementation(v => (values = v(values))),
+        setValues: vi.fn().mockImplementation(v => (values = v(values))),
         values,
       })
 
@@ -119,7 +117,7 @@ describe('FormInput', () => {
       const { getByRole } = renderWithContext(
         <FormInput name='test' rules={{ type: 'string' }} />,
         {
-          setValues: jest.fn().mockImplementation(v => (values = v({}))),
+          setValues: vi.fn().mockImplementation(v => (values = v({}))),
           values: {
             test: '',
           },
@@ -137,7 +135,7 @@ describe('FormInput', () => {
       const { getByRole } = renderWithContext(
         <FormInput name='test' rules={{ type: 'number' }} />,
         {
-          setValues: jest.fn().mockImplementation(v => (values = v({}))),
+          setValues: vi.fn().mockImplementation(v => (values = v({}))),
           values: {
             test: 0,
           },

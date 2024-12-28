@@ -26,7 +26,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ##### initBy
 
-[`Func`](Func.md)\<`any`, `any`, `any`\>
+[`Func`](Func.md)
 
 #### Returns
 
@@ -41,6 +41,20 @@ expect(await func.handler()).toEqual('Hello, world')
 ##### initBy
 
 `string`
+
+#### Returns
+
+[`FuncWarper`](FuncWarper.md)
+
+### new FuncWarper()
+
+> **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
+
+#### Parameters
+
+##### initBy
+
+`any`
 
 #### Returns
 
@@ -126,7 +140,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### func
 
-> `readonly` **func**: [`Func`](Func.md)\<`any`, `any`, `any`\>
+> `readonly` **func**: [`Func`](Func.md)
 
 ### logger
 

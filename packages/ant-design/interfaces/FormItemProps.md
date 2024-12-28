@@ -66,7 +66,7 @@ trigger when any item's value changed
 
 ### input?
 
-> `optional` **input**: `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps` \| `SelectProps`\<`T`, `DefaultOptionType`\>
+> `optional` **input**: `InputProps` \| `RadioProps` \| `InputNumberProps` \| `SwitchProps` \| `DatePickerProps` \| `SelectProps`\<`T`\>
 
 ### label?
 
@@ -82,7 +82,7 @@ trigger when any item's value changed
 
 ### object?
 
-> `optional` **object**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
+> `optional` **object**: [`FormItemProps`](FormItemProps.md)[]
 
 ### onValueChange()?
 
@@ -102,7 +102,7 @@ trigger when current item's value changed
 
 ##### form
 
-`FormInstance`\<`any`\>
+`FormInstance`
 
 #### Returns
 

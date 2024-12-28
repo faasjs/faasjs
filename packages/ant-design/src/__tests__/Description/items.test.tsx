@@ -1,7 +1,3 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
 import dayjs from 'dayjs'
 import { Description } from '../../Description'

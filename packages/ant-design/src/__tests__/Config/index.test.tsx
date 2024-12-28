@@ -1,8 +1,5 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
+import { vi } from 'vitest'
 import { Blank } from '../../Blank'
 import { ConfigProvider } from '../../Config'
 import { PageNotFound } from '../../Routers'
@@ -33,7 +30,7 @@ describe('Config', () => {
   })
 
   it('should work with navigator.language', () => {
-    const mock = jest
+    const mock = vi
       .spyOn(window.navigator, 'language', 'get')
       .mockReturnValueOnce('zh-CN')
 

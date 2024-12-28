@@ -14,11 +14,11 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)\<`any`\>
+ \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
 
 ### item
 
-> **item**: [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>
+> **item**: [`DescriptionItemProps`](DescriptionItemProps.md)
 
 ### value
 

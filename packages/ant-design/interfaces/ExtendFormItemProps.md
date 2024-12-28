@@ -119,7 +119,7 @@ trigger when any item's value changed
 
 ### input?
 
-> `optional` **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
+> `optional` **input**: `SelectProps` \| `InputProps` \| `RadioProps` \| `InputNumberProps` \| `SwitchProps` \| `DatePickerProps`
 
 #### Inherited from
 
@@ -143,7 +143,7 @@ trigger when any item's value changed
 
 ### object?
 
-> `optional` **object**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
+> `optional` **object**: [`FormItemProps`](FormItemProps.md)[]
 
 #### Inherited from
 
@@ -167,7 +167,7 @@ trigger when current item's value changed
 
 ##### form
 
-`FormInstance`\<`any`\>
+`FormInstance`
 
 #### Returns
 

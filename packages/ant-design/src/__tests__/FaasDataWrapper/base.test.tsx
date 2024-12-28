@@ -1,8 +1,5 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
+import { vi } from 'vitest'
 import { FaasDataWrapper, withFaasData } from '../../FaasDataWrapper'
 
 describe('FaasDataWrapper', () => {
@@ -10,7 +7,7 @@ describe('FaasDataWrapper', () => {
 
   beforeEach(() => {
     originalFetch = window.fetch
-    window.fetch = jest.fn(async () => {
+    window.fetch = vi.fn(async () => {
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),

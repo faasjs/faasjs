@@ -34,7 +34,7 @@ only use for text without button
 
 ##### event
 
-`MouseEvent`\<`HTMLElement`, `MouseEvent`\>
+`MouseEvent`\<`HTMLElement`\>
 
 #### Returns
 

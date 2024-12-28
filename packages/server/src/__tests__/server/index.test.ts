@@ -5,7 +5,7 @@ import { Server, closeAll } from '../../server'
 describe('server', () => {
   let server: Server
   let cachedServer: Server
-  const port = 3001 + Number(process.env.JEST_WORKER_ID)
+  const port = 3001 + Number(process.env.VITEST_POOL_ID)
   const cachedPort = port + 1
 
   beforeAll(() => {

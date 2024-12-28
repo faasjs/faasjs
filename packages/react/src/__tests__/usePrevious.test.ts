@@ -1,7 +1,3 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { renderHook } from '@testing-library/react'
 import { usePrevious } from '../usePrevious'
 

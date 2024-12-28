@@ -1,7 +1,3 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
 import { FormLabelElement, type FormLabelElementProps } from '../Label'
 
@@ -29,7 +25,7 @@ describe('FormLabelElement', () => {
   it('should render input element with correct value', () => {
     render(
       <FormLabelElement {...defaultProps}>
-        <input value='testValue' />
+        <input title='test' value='testValue' />
       </FormLabelElement>
     )
 

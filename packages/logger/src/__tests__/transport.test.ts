@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import {
   CachedMessages,
   Transports,
@@ -17,7 +18,7 @@ describe('transport', () => {
   })
 
   it('should register a transport handler', () => {
-    const handler: TransportHandler = async () => {}
+    const handler: TransportHandler = async () => { }
 
     register('test', handler)
 
@@ -25,7 +26,7 @@ describe('transport', () => {
   })
 
   it('should unregister a transport handler', () => {
-    const handler: TransportHandler = async () => {}
+    const handler: TransportHandler = async () => { }
 
     register('test', handler)
 
@@ -46,7 +47,7 @@ describe('transport', () => {
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = jest.fn(async () => {})
+    const handler: TransportHandler = vi.fn(async () => { })
 
     register('test', handler)
 
@@ -66,7 +67,7 @@ describe('transport', () => {
   it('should handle errors in transport handlers', async () => {
     const error = new Error('test error')
 
-    const handler: TransportHandler = jest.fn(async () => {
+    const handler: TransportHandler = vi.fn(async () => {
       throw error
     })
 
@@ -78,19 +79,19 @@ describe('transport', () => {
 
     insert({ level, labels: [], message, timestamp })
 
-    console.error = jest.fn()
+    console.error = vi.fn()
 
     await flush()
 
     expect(console.error).toHaveBeenCalledWith(
       '[LoggerTransport]',
-      'mockConstructor',
+      'spy',
       error
     )
   })
 
   it('should start and periodically flush cached messages', async () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
     start({ interval: 1000 })
     start()
@@ -102,7 +103,7 @@ describe('transport', () => {
       timestamp: Date.now(),
     })
 
-    jest.advanceTimersByTime(1000)
+    vi.advanceTimersByTime(1000)
 
     expect(CachedMessages).toHaveLength(0)
 
@@ -122,10 +123,10 @@ describe('transport', () => {
       timestamp: Date.now(),
     })
 
-    jest.advanceTimersByTime(1000)
+    vi.advanceTimersByTime(1000)
 
     expect(CachedMessages).toHaveLength(1)
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 })

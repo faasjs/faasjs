@@ -29,11 +29,6 @@ const Plugins: {
     kls: 'Knex',
     key: 'knex',
   },
-  mongo: {
-    name: '@faasjs/mongo',
-    kls: 'Mongo',
-    key: 'mongo',
-  },
 }
 
 export default function (name: string, plugins: string[]): void {

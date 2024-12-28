@@ -4,12 +4,13 @@ import { Server } from '../../server'
 
 describe('server', () => {
   it('should handle SIGTERM and SIGINT', async () => {
-    const port = 3002 + Number(process.env.JEST_WORKER_ID)
-    const onClose = jest.fn().mockImplementation(async () => {})
+    const port = 3002 + Number(process.env.VITEST_POOL_ID)
+    let times = 0
+    const onClose = async () => {
+      times++
+    }
     const serverA = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverA.listen()
-
-    const closeSpyA = jest.spyOn(serverA, 'close')
 
     await new Promise(resolve => setTimeout(resolve, 10))
     const resA = request(`http://127.0.0.1:${port}/timeout`)
@@ -21,17 +22,15 @@ describe('server', () => {
       body: { data: 'done' },
     })
 
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise(resolve => setTimeout(resolve, 100))
 
-    expect(closeSpyA).toHaveBeenCalled()
-    expect(onClose).toHaveBeenCalled()
+    expect(times).toBe(1)
 
-    const serverB = new Server(join(__dirname, 'funcs'), { port })
+    const serverB = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverB.listen()
 
-    const closeSpyB = jest.spyOn(serverB, 'close')
-
     await new Promise(resolve => setTimeout(resolve, 10))
+
     const resB = request(`http://127.0.0.1:${port}/timeout`)
     await new Promise(resolve => setTimeout(resolve, 10))
     process.emit('SIGINT')
@@ -41,8 +40,8 @@ describe('server', () => {
       body: { data: 'done' },
     })
 
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise(resolve => setTimeout(resolve, 100))
 
-    expect(closeSpyB).toHaveBeenCalled()
+    expect(times).toBe(2)
   })
 })

@@ -1,18 +1,17 @@
 {
   "name": "faasjs-mono",
   "version": "4.7.2",
-  "type": "commonjs",
+  "type": "module",
   "private": true,
   "scripts": {
-    "test": "jest",
-    "pub": "npm run lint && npm run build && node build-docs.js && tsx publish.ts",
+    "test": "vitest run",
+    "pub": "npm run lint && npm run build && node build-docs.cjs && tsx publish.ts",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log",
     "build": "npm run clean && npm exec turbo build",
     "build:doc": "typedoc",
-    "build:docs": "node build-docs.js",
+    "build:docs": "node build-docs.cjs",
     "lint": "biome check . --write",
-    "ci": "RUST_BACKTRACE=full JEST_JUNIT_CLASSNAME=\"{filepath}\" jest --ci --silent --coverage --forceExit --detectOpenHandles --testResultsProcessor=jest-junit --reporters=jest-junit --reporters=default",
-    "vitest": "vitest run --coverage --silent"
+    "ci": "vitest run --silent --coverage"
   },
   "devDependencies": {
     "tsup": "*",
@@ -22,47 +21,12 @@
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
     "@happy-dom/global-registrator": "*",
-    "jest-junit": "*",
     "vitest": "*",
     "@vitejs/plugin-react": "*",
     "happy-dom": "*",
-    "@vitest/coverage-v8": "*"
+    "@vitest/coverage-v8": "*",
+    "vite-tsconfig-paths": "*"
   },
   "workspaces": ["packages/*"],
-  "packageManager": "npm@10.9.0",
-  "jest": {
-    "transform": {
-      ".(jsx|tsx?)": "./packages/jest/index.js"
-    },
-    "verbose": true,
-    "testPathIgnorePatterns": [
-      "/lib/",
-      "/tmp/",
-      "/benchmarks/",
-      "/packages/deployer/"
-    ],
-    "collectCoverageFrom": [
-      "**/packages/**/*.ts",
-      "**/packages/**/*.tsx",
-      "!**/local/**"
-    ],
-    "testRegex": "/*\\.test\\.tsx?$",
-    "coveragePathIgnorePatterns": [
-      "/lib/",
-      "/dist/",
-      "/tmp/",
-      "/__tests__/",
-      "!*.d.ts"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less|sass|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "@faasjs/jest",
-      "@faasjs/(.*)": "<rootDir>/packages/$1/src",
-      "lodash-es": "lodash"
-    },
-    "setupFiles": ["./packages/jest/jest.setup.js"],
-    "setupFilesAfterEnv": ["./packages/ant-design/src/__tests__/jest.setup"],
-    "testEnvironmentOptions": {
-      "customExportConditions": ["node", "node-addons"]
-    }
-  }
+  "packageManager": "npm@11.0.0"
 }

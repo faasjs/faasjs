@@ -16,7 +16,7 @@
 
 ### children?
 
-> `optional` **children**: `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
+> `optional` **children**: `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>\>
 
 #### Overrides
 
@@ -108,7 +108,7 @@ trigger when any item's value changed
 
 ### input?
 
-> `optional` **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
+> `optional` **input**: `SelectProps` \| `InputProps` \| `RadioProps` \| `InputNumberProps` \| `SwitchProps` \| `DatePickerProps`
 
 #### Inherited from
 
@@ -156,7 +156,7 @@ trigger when current item's value changed
 
 ##### form
 
-`FormInstance`\<`any`\>
+`FormInstance`
 
 #### Returns
 

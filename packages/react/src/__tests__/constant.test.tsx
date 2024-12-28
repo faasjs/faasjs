@@ -1,15 +1,12 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
+import { vi } from 'vitest'
 import { useConstant } from '../constant'
 
 describe('useConstant', () => {
   it('should work', async () => {
-    const fn = jest.fn(() => 'test')
+    const fn = vi.fn(() => 'test')
 
     function Test() {
       const data = useConstant(fn)

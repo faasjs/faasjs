@@ -1,8 +1,9 @@
 import { FuncWarper } from '../../src/index'
+import Func from './funcs/session.func'
 
 describe('JSONhandler', () => {
   it('session', async () => {
-    const func = new FuncWarper(require.resolve('./funcs/session.func.ts'))
+    const func = new FuncWarper(Func)
 
     const res = await func.JSONhandler(
       {},

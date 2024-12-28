@@ -2,6 +2,7 @@ import { deepMerge } from '@faasjs/deep_merge'
 import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
 import type { Http } from '@faasjs/http'
 import { loadConfig } from '@faasjs/load'
+
 /**
  * FaasJS's testing module.
  *
@@ -51,7 +52,8 @@ export class FuncWarper {
    */
   constructor(initBy: Func)
   constructor(initBy: string)
-  constructor(initBy: Func | string) {
+  constructor(initBy: any)
+  constructor(initBy: any) {
     this.staging = process.env.FaasEnv
     this.logger = new Logger('TestCase')
 
@@ -74,8 +76,8 @@ export class FuncWarper {
       this.logger.debug('config: %j', this.func.config)
       this.config = this.func.config
     } else {
-      this.func = initBy
-      if (initBy.filename)
+      this.func = initBy.default ? initBy.default : initBy
+      if (this.func.filename)
         this.func.config = deepMerge(
           loadConfig(process.cwd(), initBy.filename, this.staging, this.logger),
           initBy.config
@@ -153,7 +155,7 @@ export class FuncWarper {
       }
       const cookie = http.cookie
         .headers()
-        ['Set-Cookie']?.map(c => c.split(';')[0])
+      ['Set-Cookie']?.map(c => c.split(';')[0])
         .join(';')
       if (cookie)
         if (headers.cookie) headers.cookie += `;${cookie}`

@@ -1,8 +1,5 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
+import { vi } from 'vitest'
 import { Table } from '../../Table'
 
 describe('Table/faas', () => {
@@ -10,7 +7,7 @@ describe('Table/faas', () => {
 
   beforeEach(() => {
     originalFetch = window.fetch
-    window.fetch = jest.fn(
+    window.fetch = vi.fn(
       async () =>
         ({
           status: 200,

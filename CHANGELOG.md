@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v5.0.0 (2024-12-25)`](https://github.com/faasjs/faasjs/compare/v4.7.2...v5.0.0)
+
+- [Break] Remove `@faasjs/mongo`, `@faasjs/vue-plugin`.
+- [Break] Replace jest with vitest.
+
 [`v4.7.2 (2024-12-25)`](https://github.com/faasjs/faasjs/compare/v4.7.0...v4.7.2)
 
 - `@faasjs/logger`

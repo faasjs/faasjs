@@ -1,9 +1,11 @@
 import { FuncWarper } from '../../src/index'
+import UseA from './funcs/use-a.func'
+import UseB from './funcs/use-b.func'
 
 it('use', async () => {
-  const funcA = new FuncWarper(require.resolve('./funcs/use-a.func.ts'))
+  const funcA = new FuncWarper(UseA)
   await funcA.mount()
-  const funcB = new FuncWarper(require.resolve('./funcs/use-b.func.ts'))
+  const funcB = new FuncWarper(UseB)
   await funcB.mount()
 
   expect(await funcB.JSONhandler({})).toMatchObject({

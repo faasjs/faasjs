@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import { FormDefaultLang } from '../lang'
 import { FormDefaultRules, validValues } from '../rules'
 
@@ -91,7 +92,7 @@ describe('validValues', () => {
   })
 
   it('should return the result of the custom validation function', async () => {
-    const customValidation = jest.fn().mockRejectedValue(Error('Custom error'))
+    const customValidation = vi.fn().mockRejectedValue(Error('Custom error'))
     const value = 'any value'
     const result = await validValues(
       FormDefaultRules,

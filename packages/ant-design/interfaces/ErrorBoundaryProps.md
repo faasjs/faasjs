@@ -10,7 +10,7 @@
 
 ### errorChildren?
 
-> `optional` **errorChildren**: `ReactElement`\<`ErrorChildrenProps`, `string` \| `JSXElementConstructor`\<`any`\>\>
+> `optional` **errorChildren**: `ReactElement`\<`ErrorChildrenProps`\>
 
 ### onError()?
 

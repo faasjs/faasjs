@@ -1,9 +1,6 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import type { FaasActions } from '@faasjs/types'
 import { expectType } from 'tsd'
+import { vi } from 'vitest'
 import {
   FaasBrowserClient,
   Response as FaasResponse,
@@ -34,7 +31,7 @@ describe('client', () => {
   beforeEach(() => {
     request = {}
 
-    window.fetch = jest.fn(defaultMock) as any
+    window.fetch = vi.fn(defaultMock) as any
   })
 
   it('should work', async () => {
@@ -97,7 +94,7 @@ describe('client', () => {
   })
 
   it('when error', async () => {
-    window.fetch = jest.fn(
+    window.fetch = vi.fn(
       async (url: RequestInfo | URL, options: RequestInit) => {
         request = {
           url: url as string,
@@ -179,7 +176,7 @@ describe('types', () => {
   beforeEach(() => {
     request = {}
 
-    window.fetch = jest.fn(defaultMock) as any
+    window.fetch = vi.fn(defaultMock) as any
   })
 
   it('should work', async () => {
