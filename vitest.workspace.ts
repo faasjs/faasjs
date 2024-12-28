@@ -19,6 +19,7 @@ export default defineWorkspace([
       include: ['packages/**/*.test.ts'],
       exclude: [...browsers, 'packages/vue-plugin/**'],
       environment: 'node',
+      restoreMocks: true,
     },
   },
   {
@@ -27,6 +28,7 @@ export default defineWorkspace([
       globals: true,
       include: browsers,
       environment: 'happy-dom',
+      restoreMocks: true,
     },
   }
 ])

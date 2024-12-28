@@ -10,7 +10,7 @@ describe('server', () => {
     const serverA = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverA.listen()
 
-    const closeSpyA = vi.spyOn(serverA, 'close')
+    const closeSpyA = vi.spyOn(serverA, 'close').mockImplementation(async () => { })
 
     await new Promise(resolve => setTimeout(resolve, 10))
     const resA = request(`http://127.0.0.1:${port}/timeout`)
@@ -30,7 +30,7 @@ describe('server', () => {
     const serverB = new Server(join(__dirname, 'funcs'), { port })
     serverB.listen()
 
-    const closeSpyB = vi.spyOn(serverB, 'close')
+    const closeSpyB = vi.spyOn(serverB, 'close').mockImplementation(async () => { })
 
     await new Promise(resolve => setTimeout(resolve, 10))
 
