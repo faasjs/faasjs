@@ -54,7 +54,5 @@ jobs:
           node-version: 22
       - name: Install
         run: npm install
-      - name: Prepack
-        run: node --run build
       - name: Run Tests
         run: node --run vitest
