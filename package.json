@@ -11,7 +11,8 @@
     "build:doc": "typedoc",
     "build:docs": "node build-docs.js",
     "lint": "biome check . --write",
-    "ci": "RUST_BACKTRACE=full JEST_JUNIT_CLASSNAME=\"{filepath}\" jest --ci --silent --coverage --forceExit --detectOpenHandles --testResultsProcessor=jest-junit --reporters=jest-junit --reporters=default"
+    "ci": "RUST_BACKTRACE=full JEST_JUNIT_CLASSNAME=\"{filepath}\" jest --ci --silent --coverage --forceExit --detectOpenHandles --testResultsProcessor=jest-junit --reporters=jest-junit --reporters=default",
+    "vitest": "vitest run"
   },
   "devDependencies": {
     "tsup": "*",
@@ -22,7 +23,9 @@
     "@testing-library/user-event": "*",
     "@happy-dom/global-registrator": "*",
     "jest-junit": "*",
-    "esbuild-fix-imports-plugin": "*"
+    "vitest": "*",
+    "@vitejs/plugin-react": "*",
+    "happy-dom": "*"
   },
   "workspaces": ["packages/*"],
   "packageManager": "npm@10.9.0",
