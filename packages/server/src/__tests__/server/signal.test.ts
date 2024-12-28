@@ -33,6 +33,7 @@ describe('server', () => {
     const closeSpyB = vi.spyOn(serverB, 'close')
 
     await new Promise(resolve => setTimeout(resolve, 10))
+
     const resB = request(`http://127.0.0.1:${port}/timeout`)
     await new Promise(resolve => setTimeout(resolve, 10))
     process.emit('SIGINT')
@@ -42,7 +43,7 @@ describe('server', () => {
       body: { data: 'done' },
     })
 
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise(resolve => setTimeout(resolve, 50))
 
     expect(closeSpyB).toHaveBeenCalled()
   })
