@@ -6,7 +6,7 @@ import { Server } from '../../server'
 describe('server', () => {
   it('should handle SIGTERM and SIGINT', async () => {
     const port = 3002 + Number(process.env.VITEST_POOL_ID)
-    const onClose = vi.fn().mockImplementation(async () => { })
+    const onClose = vi.fn().mockResolvedValue(undefined)
     const serverA = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverA.listen()
 
@@ -22,7 +22,7 @@ describe('server', () => {
 
     await new Promise(resolve => setTimeout(resolve, 10))
 
-    expect(onClose).toHaveBeenCalled()
+    expect(onClose).toHaveBeenCalledTimes(1)
 
     const serverB = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverB.listen()
