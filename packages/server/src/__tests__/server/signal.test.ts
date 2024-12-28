@@ -22,7 +22,7 @@ describe('server', () => {
       body: { data: 'done' },
     })
 
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise(resolve => setTimeout(resolve, 100))
 
     expect(times).toBe(1)
 
