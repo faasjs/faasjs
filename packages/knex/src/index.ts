@@ -128,7 +128,7 @@ export class Knex implements Plugin {
       default:
         if (typeof this.config.client === 'string') {
           if (this.config.client.startsWith('npm:')) {
-            const client = await import(this.config.client.replace('npm:', ''))
+            const client = require(this.config.client.replace('npm:', ''))
 
             if (!client) throw Error(`Invalid client: ${this.config.client}`)
 
@@ -151,7 +151,7 @@ export class Knex implements Plugin {
     this.adapter = knex(this.config)
 
     if (this.config.client === 'pg') {
-      const pg = await import('pg')
+      const pg = require('pg')
 
       pg.types.setTypeParser(pg.types.builtins.INT2, (v: string) =>
         Number.parseInt(v)
