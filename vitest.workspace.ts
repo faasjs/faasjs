@@ -6,6 +6,7 @@ export default defineWorkspace([
       globals: true,
       include: ['packages/**/*.test.ts'],
       environment: 'node',
+      setupFiles: ['vitest.setup.ts'],
     }
   }
 ])
