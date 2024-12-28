@@ -21,7 +21,6 @@
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
     "@happy-dom/global-registrator": "*",
-    "jest-junit": "*",
     "vitest": "*",
     "@vitejs/plugin-react": "*",
     "happy-dom": "*",
@@ -29,7 +28,7 @@
     "vite-tsconfig-paths": "*"
   },
   "workspaces": ["packages/*"],
-  "packageManager": "npm@10.9.0",
+  "packageManager": "npm@11.0.0",
   "jest": {
     "transform": {
       ".(jsx|tsx?)": "./packages/jest/index.js"
