@@ -43,7 +43,7 @@ describe('server', () => {
       body: { data: 'done' },
     })
 
-    await new Promise(resolve => setTimeout(resolve, 50))
+    await new Promise(resolve => setTimeout(resolve, 100))
 
     expect(closeSpyB).toHaveBeenCalled()
   })

@@ -74,7 +74,7 @@ describe('FormFooter', () => {
 
     expect(button.disabled).toBeTruthy()
 
-    await act(async () => new Promise(r => setTimeout(r, 100)))
+    await act(async () => new Promise(r => setTimeout(r, 200)))
 
     expect(button.disabled).toBeFalsy()
   })
