@@ -10,10 +10,10 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: [
-        'default',
-        ['junit', { outputFile: 'test-report.junit.xml' }],
+        'text',
         ['lcov'],
       ]
     },
+    reporters: [['junit', { outputFile: 'test-report.junit.xml' }]]
   },
 })
