@@ -11,7 +11,7 @@
     "build:doc": "typedoc",
     "build:docs": "node build-docs.js",
     "lint": "biome check . --write",
-    "ci": "vitest run --silent --coverage --reporter=default --reporter=lcov --reporter=junit --outputFile=test-report.junit.xml"
+    "ci": "vitest run --silent --coverage --reporter=default --reporter=clover --reporter=junit --outputFile=test-report.junit.xml"
   },
   "devDependencies": {
     "tsup": "*",
