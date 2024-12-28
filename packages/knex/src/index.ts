@@ -89,7 +89,7 @@ export class Knex implements Plugin {
             if (!this.config.connection) {
               this.config.connection = Object.create(null)
             }
-            ;(this.config as any).connection[key.replace('connection_', '')] =
+            ; (this.config as any).connection[key.replace('connection_', '')] =
               value
           } else (this.config as any)[key] = value
       }
@@ -128,7 +128,7 @@ export class Knex implements Plugin {
       default:
         if (typeof this.config.client === 'string') {
           if (this.config.client.startsWith('npm:')) {
-            const client = require(this.config.client.replace('npm:', ''))
+            const client = await import(this.config.client.replace('npm:', ''))
 
             if (!client) throw Error(`Invalid client: ${this.config.client}`)
 
@@ -151,17 +151,27 @@ export class Knex implements Plugin {
     this.adapter = knex(this.config)
 
     if (this.config.client === 'pg') {
-      const pg = require('pg')
+      const pg = await import('pg')
 
-      for (const t of ['INT2', 'INT4', 'INT8'])
-        pg.types.setTypeParser(pg.types.builtins[t], (v: string) =>
-          Number.parseInt(v)
-        )
+      pg.types.setTypeParser(pg.types.builtins.INT2, (v: string) =>
+        Number.parseInt(v)
+      )
+      pg.types.setTypeParser(pg.types.builtins.INT4, (v: string) =>
+        Number.parseInt(v)
+      )
+      pg.types.setTypeParser(pg.types.builtins.INT8, (v: string) =>
+        Number.parseInt(v)
+      )
 
-      for (const t of ['FLOAT4', 'FLOAT8', 'NUMERIC'])
-        pg.types.setTypeParser(pg.types.builtins[t], (v: string) =>
-          Number.parseFloat(v)
-        )
+      pg.types.setTypeParser(pg.types.builtins.FLOAT4, (v: string) =>
+        Number.parseFloat(v)
+      )
+      pg.types.setTypeParser(pg.types.builtins.FLOAT8, (v: string) =>
+        Number.parseFloat(v)
+      )
+      pg.types.setTypeParser(pg.types.builtins.NUMERIC, (v: string) =>
+        Number.parseFloat(v)
+      )
     }
 
     this.query = this.adapter
@@ -317,9 +327,30 @@ export function query<
   table: TName extends OriginKnex.TableNames ? TName : string
 ): TName extends OriginKnex.TableNames
   ? OriginKnex.QueryBuilder<
+    OriginKnex.TableType<TName>,
+    {
+      _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
+      _hasSelection: false
+      _keys: never
+      // biome-ignore lint/complexity/noBannedTypes: <explanation>
+      _aliases: {}
+      _single: false
+      // biome-ignore lint/complexity/noBannedTypes: <explanation>
+      _intersectProps: {}
+      _unionProps: never
+    }[]
+  >
+  : OriginKnex.QueryBuilder<TName, TResult> {
+  return useKnex().query<TName, TResult>(
+    table
+  ) as TName extends OriginKnex.TableNames
+    ? OriginKnex.QueryBuilder<
       OriginKnex.TableType<TName>,
       {
-        _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
+        _base: OriginKnex.ResolveTableType<
+          OriginKnex.TableType<TName>,
+          'base'
+        >
         _hasSelection: false
         _keys: never
         // biome-ignore lint/complexity/noBannedTypes: <explanation>
@@ -330,27 +361,6 @@ export function query<
         _unionProps: never
       }[]
     >
-  : OriginKnex.QueryBuilder<TName, TResult> {
-  return useKnex().query<TName, TResult>(
-    table
-  ) as TName extends OriginKnex.TableNames
-    ? OriginKnex.QueryBuilder<
-        OriginKnex.TableType<TName>,
-        {
-          _base: OriginKnex.ResolveTableType<
-            OriginKnex.TableType<TName>,
-            'base'
-          >
-          _hasSelection: false
-          _keys: never
-          // biome-ignore lint/complexity/noBannedTypes: <explanation>
-          _aliases: {}
-          _single: false
-          // biome-ignore lint/complexity/noBannedTypes: <explanation>
-          _intersectProps: {}
-          _unionProps: never
-        }[]
-      >
     : OriginKnex.QueryBuilder<TName, TResult>
 }
 

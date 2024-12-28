@@ -1,7 +1,0 @@
-{
-  "format": ["esm", "cjs"],
-  "clean": true,
-  "dts": true,
-  "treeshake": true,
-  "tsconfig": "tsconfig.build.json"
-}

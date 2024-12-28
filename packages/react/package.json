@@ -28,11 +28,9 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup src/index.tsx --config ../../tsup.config.json --external react"
+    "build": "tsup src/index.tsx --config ../../tsup.config.ts --external react"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "@faasjs/browser": "4.7.2"
   },

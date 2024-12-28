@@ -21,7 +21,8 @@
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
     "@happy-dom/global-registrator": "*",
-    "jest-junit": "*"
+    "jest-junit": "*",
+    "esbuild-fix-imports-plugin": "*"
   },
   "workspaces": ["packages/*"],
   "packageManager": "npm@10.9.0",

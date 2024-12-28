@@ -133,7 +133,7 @@ export class CloudFunction implements Plugin {
       )
 
     if (this.config.provider) {
-      const Provider = require(this.config.provider.type).Provider
+      const Provider = (await import(this.config.provider.type)).Provider
       this.adapter = new Provider(this.config.provider.config)
     } else
       this.logger.warn(

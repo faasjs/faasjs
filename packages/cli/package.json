@@ -19,12 +19,9 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --config ../../tsup.config.json"
+    "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist",
-    "index.js"
-  ],
+  "files": ["dist", "index.js"],
   "dependencies": {
     "@faasjs/test": "4.7.2",
     "commander": "*",
