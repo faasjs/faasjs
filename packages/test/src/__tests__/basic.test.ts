@@ -1,7 +1,7 @@
 import { FuncWarper } from '../../src/index'
 
-test('basic', async () => {
-  const func = new FuncWarper(require.resolve('./funcs/basic.func'))
+it('basic', async () => {
+  const func = new FuncWarper(require.resolve('./funcs/basic.func.ts'))
   const res = await func.handler<boolean>({}, {})
 
   expect(res).toEqual(true)

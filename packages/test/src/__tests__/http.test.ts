@@ -1,15 +1,15 @@
 import { FuncWarper } from '../../src/index'
 
-test('http', async () => {
-  const func = new FuncWarper(require.resolve('./funcs/http.func'))
+it('http', async () => {
+  const func = new FuncWarper(require.resolve('./funcs/http.func.ts'))
 
   const res = await func.handler({}, {})
 
   expect(res.body).toEqual('{"data":true}')
 })
 
-test('JSONhandler data', async () => {
-  const func = new FuncWarper(require.resolve('./funcs/json.func'))
+it('JSONhandler data', async () => {
+  const func = new FuncWarper(require.resolve('./funcs/json.func.ts'))
 
   const res = await func.JSONhandler<number>({ key: 1 })
 
@@ -19,8 +19,8 @@ test('JSONhandler data', async () => {
   expect(res.session).toEqual({ session: 'session' })
 })
 
-test('JSONhandler error', async () => {
-  const func = new FuncWarper(require.resolve('./funcs/http-error.func'))
+it('JSONhandler error', async () => {
+  const func = new FuncWarper(require.resolve('./funcs/http-error.func.ts'))
 
   const res = await func.JSONhandler()
 

@@ -1,7 +1,7 @@
 import { Func, FuncWarper } from '../../src/index'
 
 describe('init by func', () => {
-  test('200', async () => {
+  it('200', async () => {
     const func = new Func({
       async handler() {
         return true

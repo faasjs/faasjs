@@ -1,4 +1,4 @@
-name: Unit
+name: Vitest
 
 on:
   workflow_dispatch:
@@ -58,13 +58,3 @@ jobs:
         run: node --run build
       - name: Run Tests
         run: node --run vitest
-      - uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOVTOKEN }}
-      - uses: codecov/test-results-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-      - uses: paambaati/codeclimate-action@v9.0.0
-        if: ${{ github.event_name == 'push'}}
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}

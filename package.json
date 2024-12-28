@@ -12,7 +12,7 @@
     "build:docs": "node build-docs.js",
     "lint": "biome check . --write",
     "ci": "RUST_BACKTRACE=full JEST_JUNIT_CLASSNAME=\"{filepath}\" jest --ci --silent --coverage --forceExit --detectOpenHandles --testResultsProcessor=jest-junit --reporters=jest-junit --reporters=default",
-    "vitest": "vitest run"
+    "vitest": "vitest run --coverage"
   },
   "devDependencies": {
     "tsup": "*",
@@ -25,7 +25,8 @@
     "jest-junit": "*",
     "vitest": "*",
     "@vitejs/plugin-react": "*",
-    "happy-dom": "*"
+    "happy-dom": "*",
+    "@vitest/coverage-v8": "*"
   },
   "workspaces": ["packages/*"],
   "packageManager": "npm@10.9.0",
