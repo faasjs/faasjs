@@ -22,7 +22,7 @@
 
 #### trx
 
-`Transaction`\<`any`, `any`[]\>
+`Transaction`
 
 ## Returns
 

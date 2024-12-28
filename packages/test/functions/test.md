@@ -20,7 +20,7 @@ const func = test(__dirname + '/../demo.func.ts')
 expect(await func.handler()).toEqual('Hello, world')
 ```
 
-`string` | [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+`string` | [`Func`](../classes/Func.md)
 
 ## Returns
 

@@ -50,7 +50,6 @@ module.exports = {
 - **headers** `object` 响应头
 - **body** `any` 响应体
 
-## 在 React 或 Vue 中使用
+## 在 React 中使用
 
 - [@faasjs/react](https://faasjs.com/doc/react/)
-- [@faasjs/vue-plugin](https://faasjs.com/doc/vue-plugin/)

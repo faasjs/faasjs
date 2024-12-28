@@ -132,7 +132,7 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 ###### trx
 
-`Transaction`\<`any`, `any`[]\>
+`Transaction`
 
 #### Returns
 
@@ -142,11 +142,11 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 ### adapter
 
-> **adapter**: `Knex`\<`any`, `any`[]\>
+> **adapter**: `Knex`
 
 ### config
 
-> **config**: `Config`\<`any`\>
+> **config**: `Config`
 
 ### logger
 
@@ -162,7 +162,7 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 ### query
 
-> **query**: `Knex`\<`any`, `any`[]\>
+> **query**: `Knex`
 
 ### type
 

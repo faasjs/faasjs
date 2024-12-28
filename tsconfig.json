@@ -7,6 +7,7 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "moduleDetection": "force",
@@ -14,8 +15,12 @@
     "module": "ESNext",
     "baseUrl": ".",
     "paths": {
-      "@faasjs/*": ["./packages/*/src"]
+      "@faasjs/*": [
+        "./packages/*/src"
+      ]
     },
-    "types": ["node", "jest"]
+    "types": [
+      "node"
+    ]
   }
 }

@@ -40,7 +40,6 @@
 |Name|Version|
 |---|---|
 |[@faasjs/knex](https://github.com/faasjs/faasjs/tree/main/packages/knex)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/knex.svg)](https://www.npmjs.com/package/@faasjs/knex)|
-|[@faasjs/mongo](https://github.com/faasjs/faasjs/tree/main/packages/mongo)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/mongo.svg)](https://www.npmjs.com/package/@faasjs/mongo)|
 |[@faasjs/redis](https://github.com/faasjs/faasjs/tree/main/packages/redis)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/redis.svg)](https://www.npmjs.com/package/@faasjs/redis)|
 
 ## Browsers
@@ -49,7 +48,6 @@
 |---|---|
 |[@faasjs/browser](https://github.com/faasjs/faasjs/tree/main/packages/browser)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/browser.svg)](https://www.npmjs.com/package/@faasjs/browser)|
 |[@faasjs/react](https://github.com/faasjs/faasjs/tree/main/packages/react)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/react.svg)](https://www.npmjs.com/package/@faasjs/react)|
-|[@faasjs/vue-plugin](https://github.com/faasjs/faasjs/tree/main/packages/vue-plugin)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/vue-plugin.svg)](https://www.npmjs.com/package/@faasjs/vue-plugin)|
 |[@faasjs/ant-design](https://github.com/faasjs/faasjs/tree/main/packages/ant-design)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/ant-design.svg)](https://www.npmjs.com/package/@faasjs/ant-design)|
 
 ## Full stack frameworks

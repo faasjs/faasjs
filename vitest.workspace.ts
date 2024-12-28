@@ -14,7 +14,7 @@ export default defineWorkspace([
     extends: './vitest.config.ts',
     test: {
       include: ['packages/**/*.test.ts'],
-      exclude: [...browsers, 'packages/vue-plugin/**'],
+      exclude: browsers,
       environment: 'node',
     },
   },

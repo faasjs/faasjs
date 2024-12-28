@@ -178,7 +178,6 @@ export default defineUserConfig({
                 '/zh/guide/excel/db',
                 '/zh/guide/excel/request-spec',
                 '/zh/guide/excel/env',
-                '/zh/guide/excel/vue',
                 '/zh/guide/excel/react',
               ],
             },
@@ -209,12 +208,12 @@ export default defineUserConfig({
             {
               title: '数据库插件',
               collapsable: false,
-              children: ['knex', 'mongo', 'redis'],
+              children: ['knex', 'redis'],
             },
             {
               title: '前端插件',
               collapsable: false,
-              children: ['browser', 'react', 'vue-plugin'],
+              children: ['browser', 'react'],
             },
           ],
         },

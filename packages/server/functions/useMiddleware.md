@@ -2,7 +2,7 @@
 
 # Function: useMiddleware()
 
-> **useMiddleware**(`handler`): `Promise`\<`Func`\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
+> **useMiddleware**(`handler`): `Promise`\<`Func`\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md)\>\>
 
 Apply a middleware function to handle incoming requests.
 
@@ -16,7 +16,7 @@ The middleware function to handle the request and response.
 
 ## Returns
 
-`Promise`\<`Func`\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
+`Promise`\<`Func`\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md)\>\>
 
 A function that processes the event and applies the middleware.
 

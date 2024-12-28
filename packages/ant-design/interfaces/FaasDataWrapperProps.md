@@ -68,7 +68,7 @@
 
 ### children?
 
-> `optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
+> `optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>\>
 
 #### Inherited from
 
