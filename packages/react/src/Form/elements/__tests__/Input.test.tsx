@@ -1,13 +1,10 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { fireEvent, render } from '@testing-library/react'
+import { vi } from 'vitest'
 import { FormInputElement } from '../Input'
 
 describe('FormInputElement', () => {
   it('renders input element and handles change', () => {
-    const handleChange = jest.fn()
+    const handleChange = vi.fn()
     const { getByRole } = render(
       <FormInputElement name='test' value='initial' onChange={handleChange} />
     )

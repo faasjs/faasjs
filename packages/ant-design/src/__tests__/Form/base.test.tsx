@@ -1,7 +1,3 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { Form } from '../../Form'
 
 describe('Form/base', () => {

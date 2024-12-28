@@ -1,10 +1,11 @@
+import { vi } from 'vitest'
 import { useFunc } from '../index'
 
 describe('logger', () => {
   it('should work', async () => {
     const logs: string[] = []
 
-    jest
+    vi
       .spyOn(console, 'log')
       .mockImplementation((...args) => logs.push(args.join(' ')))
 
@@ -24,6 +25,6 @@ describe('logger', () => {
     expect(logs[2]).toContain('INFO [request_id] [handler] [onInvoke] test')
     expect(logs[3]).toContain('DEBUG [request_id] [handler] [onInvoke] end')
 
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 })

@@ -1,7 +1,3 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render } from '@testing-library/react'
 import { FormItem } from '../../FormItem'
 

@@ -1,9 +1,6 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { type ComponentProps, useState } from 'react'
+import { vi } from 'vitest'
 import { useStateRef } from '../../useStateRef'
 import { FormFooter } from '../Footer'
 import type { FormItemProps } from '../Item'
@@ -83,8 +80,8 @@ describe('FormFooter', () => {
   })
 
   it('should set errors and not call onSubmit if validation fails', async () => {
-    const setErrors = jest.fn()
-    const onSubmit = jest.fn()
+    const setErrors = vi.fn()
+    const onSubmit = vi.fn()
 
     renderWithContext(<FormFooter />, {
       items: [{ name: 'test', rules: { required: true } }],

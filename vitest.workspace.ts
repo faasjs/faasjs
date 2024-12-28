@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react'
+import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineWorkspace } from 'vitest/config'
 
 const browsers = [
@@ -12,6 +13,7 @@ const browsers = [
 
 export default defineWorkspace([
   {
+    plugins: [tsconfigPaths()],
     test: {
       globals: true,
       include: ['packages/**/*.test.ts'],
@@ -21,7 +23,7 @@ export default defineWorkspace([
     },
   },
   {
-    plugins: [react()],
+    plugins: [tsconfigPaths(), react()],
     test: {
       globals: true,
       include: browsers,

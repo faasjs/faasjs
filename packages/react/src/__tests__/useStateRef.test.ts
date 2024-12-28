@@ -1,7 +1,3 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { act, renderHook } from '@testing-library/react'
 import { useStateRef } from '../useStateRef'
 

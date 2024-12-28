@@ -1,8 +1,5 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { renderHook } from '@testing-library/react'
+import { vi } from 'vitest'
 import {
   equal,
   useEqualCallback,
@@ -54,8 +51,8 @@ describe('equal function', () => {
   })
 
   test('should return true for identical functions', () => {
-    const fn1 = () => {}
-    const fn2 = () => {}
+    const fn1 = () => { }
+    const fn2 = () => { }
     expect(equal(fn1, fn2)).toBe(true)
   })
 
@@ -66,14 +63,14 @@ describe('equal function', () => {
   })
 
   test('should return true for async identical functions', () => {
-    const fn1 = async () => {}
-    const fn2 = async () => {}
+    const fn1 = async () => { }
+    const fn2 = async () => { }
     expect(equal(fn1, fn2)).toBe(true)
   })
 
   test('should return false for sync and async functions', () => {
-    const fn1 = async () => {}
-    const fn2 = () => {}
+    const fn1 = async () => { }
+    const fn2 = () => { }
     expect(equal(fn1, fn2)).toBe(false)
   })
 
@@ -167,7 +164,7 @@ describe('useEqualMemoize hook', () => {
 
 describe('useEqualEffect hook', () => {
   test('should call the callback when dependencies change', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const { rerender } = renderHook(
       ({ deps }) => useEqualEffect(callback, deps),
       {
@@ -185,7 +182,7 @@ describe('useEqualEffect hook', () => {
   })
 
   test('should not call the callback when dependencies are equal', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const { rerender } = renderHook(
       ({ deps }) => useEqualEffect(callback, deps),
       {
@@ -200,7 +197,7 @@ describe('useEqualEffect hook', () => {
   })
 
   test('should handle primitive dependencies', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const { rerender } = renderHook(
       ({ deps }) => useEqualEffect(callback, deps),
       {
@@ -218,7 +215,7 @@ describe('useEqualEffect hook', () => {
   })
 
   test('should handle object dependencies', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const { rerender } = renderHook(
       ({ deps }) => useEqualEffect(callback, deps),
       {
@@ -238,7 +235,7 @@ describe('useEqualEffect hook', () => {
 
 describe('useEqualMemo hook', () => {
   test('should memoize the result if dependencies are equal', () => {
-    const callback = jest.fn(() => 42)
+    const callback = vi.fn(() => 42)
     const { result, rerender } = renderHook(
       ({ deps }) => useEqualMemo(callback, deps),
       {
@@ -255,7 +252,7 @@ describe('useEqualMemo hook', () => {
   })
 
   test('should recompute the result if dependencies change', () => {
-    const callback = jest.fn(() => 42)
+    const callback = vi.fn(() => 42)
     const { result, rerender } = renderHook(
       ({ deps }) => useEqualMemo(callback, deps),
       {
@@ -272,7 +269,7 @@ describe('useEqualMemo hook', () => {
   })
 
   test('should handle primitive dependencies', () => {
-    const callback = jest.fn(() => 42)
+    const callback = vi.fn(() => 42)
     const { result, rerender } = renderHook(
       ({ deps }) => useEqualMemo(callback, deps),
       {
@@ -293,7 +290,7 @@ describe('useEqualMemo hook', () => {
   })
 
   test('should handle object dependencies', () => {
-    const callback = jest.fn(() => 42)
+    const callback = vi.fn(() => 42)
     const { result, rerender } = renderHook(
       ({ deps }) => useEqualMemo(callback, deps),
       {
@@ -316,7 +313,7 @@ describe('useEqualMemo hook', () => {
 
 describe('useEqualCallback hook', () => {
   test('should memoize the callback if dependencies are equal', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const { result, rerender } = renderHook(
       ({ deps }) => useEqualCallback(callback, deps),
       {
@@ -335,7 +332,7 @@ describe('useEqualCallback hook', () => {
   })
 
   test('should update the memoized callback if dependencies change', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const { result, rerender } = renderHook(
       ({ deps }) => useEqualCallback(callback, deps),
       {
@@ -354,7 +351,7 @@ describe('useEqualCallback hook', () => {
   })
 
   test('should handle primitive dependencies', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const { result, rerender } = renderHook(
       ({ deps }) => useEqualCallback(callback, deps),
       {
@@ -378,7 +375,7 @@ describe('useEqualCallback hook', () => {
   })
 
   test('should handle object dependencies', () => {
-    const callback = jest.fn()
+    const callback = vi.fn()
     const { result, rerender } = renderHook(
       ({ deps }) => useEqualCallback(callback, deps),
       {

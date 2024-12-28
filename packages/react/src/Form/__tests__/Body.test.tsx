@@ -1,7 +1,3 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
 import { FormBody } from '../Body'
 import { FormContextProvider } from '../context'

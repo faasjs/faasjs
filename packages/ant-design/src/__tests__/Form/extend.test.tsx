@@ -1,7 +1,3 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
 import { Input } from 'antd'
 import { type ExtendFormItemProps, Form, type FormProps } from '../../Form'

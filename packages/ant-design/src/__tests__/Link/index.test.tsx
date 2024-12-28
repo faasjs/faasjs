@@ -1,10 +1,7 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 import { ConfigProvider } from '../../Config'
 import { Link } from '../../Link'
 
@@ -94,7 +91,7 @@ describe('Link', () => {
 
   it('work with external link', async () => {
     const origin = window.open
-    window.open = jest.fn()
+    window.open = vi.fn()
 
     const { container } = render(
       <BrowserRouter>
@@ -114,7 +111,7 @@ describe('Link', () => {
 
   it('work with external link and children', async () => {
     const origin = window.open
-    window.open = jest.fn()
+    window.open = vi.fn()
 
     render(
       <BrowserRouter>
@@ -159,7 +156,7 @@ describe('Link', () => {
 
     it('work with external link', async () => {
       const origin = window.open
-      window.open = jest.fn()
+      window.open = vi.fn()
 
       render(
         <BrowserRouter>

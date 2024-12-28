@@ -1,9 +1,6 @@
-/**
- * @jest-environment @happy-dom/jest-environment
- */
-
 import { fireEvent, render } from '@testing-library/react'
 import { createRef } from 'react'
+import { vi } from 'vitest'
 import { FormButtonElement } from '../Button'
 
 describe('FormButtonElement', () => {
@@ -17,7 +14,7 @@ describe('FormButtonElement', () => {
   })
 
   it('handles click events', () => {
-    const handleClick = jest.fn()
+    const handleClick = vi.fn()
 
     const { getByText } = render(
       <FormButtonElement submitting={false} submit={handleClick}>
