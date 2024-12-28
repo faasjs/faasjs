@@ -1,7 +1,7 @@
 import { FuncWarper } from '../../src/index'
 
 it('http', async () => {
-  const func = new FuncWarper(require.resolve('./funcs/http.func.ts'))
+  const func = new FuncWarper(await import('./funcs/http.func'))
 
   const res = await func.handler({}, {})
 
@@ -9,7 +9,7 @@ it('http', async () => {
 })
 
 it('JSONhandler data', async () => {
-  const func = new FuncWarper(require.resolve('./funcs/json.func.ts'))
+  const func = new FuncWarper(await import('./funcs/json.func'))
 
   const res = await func.JSONhandler<number>({ key: 1 })
 
@@ -20,7 +20,7 @@ it('JSONhandler data', async () => {
 })
 
 it('JSONhandler error', async () => {
-  const func = new FuncWarper(require.resolve('./funcs/http-error.func.ts'))
+  const func = new FuncWarper(await import('./funcs/http-error.func'))
 
   const res = await func.JSONhandler()
 

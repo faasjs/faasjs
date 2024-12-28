@@ -488,6 +488,8 @@ export class Server {
         }
 
         await this.close()
+
+        if (!process.env.JEST_WORKER_ID && !process.env.VITEST_POOL_ID) process.exit(0)
       })
       .on('SIGINT', async () => {
         this.logger.debug('received SIGINT')
@@ -498,6 +500,8 @@ export class Server {
         }
 
         await this.close()
+
+        if (!process.env.JEST_WORKER_ID && !process.env.VITEST_POOL_ID) process.exit(0)
       })
 
     return this.server
