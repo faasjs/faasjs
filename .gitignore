@@ -23,3 +23,4 @@ output.txt
 bun.lockb
 junit.xml
 *.splite3
+*.junit.xml
