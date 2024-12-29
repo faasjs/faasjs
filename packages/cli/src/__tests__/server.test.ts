@@ -1,4 +1,5 @@
 import { closeAll, getAll } from '@faasjs/server'
+import { afterAll, describe, expect, it } from 'vitest'
 import { action } from '../commands/server'
 
 describe('server', () => {

@@ -13,7 +13,8 @@ export default defineConfig({
       exclude: ['packages/**/*.test.ts', 'packages/**/*.test.tsx', 'packages/**/dist/**'],
       reporter: [
         'text',
-        ['lcov'],
+        'lcov',
+        'html',
       ]
     },
     reporters: ['default', ['junit', { outputFile: 'test-report.junit.xml' }]]

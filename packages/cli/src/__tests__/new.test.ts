@@ -1,5 +1,6 @@
 import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
+import { afterEach, describe, expect, it } from 'vitest'
 import { action } from '../commands/new'
 
 describe('new', () => {
@@ -8,7 +9,7 @@ describe('new', () => {
       execSync(`rm -rf ${__dirname}/tmp`)
     })
 
-    test('basic', () => {
+    it('basic', () => {
       action('func', 'packages/cli/src/__tests__/tmp/basic', [])
 
       expect(
@@ -39,7 +40,7 @@ describe('basic.func.ts', function () {
 `)
     })
 
-    test('with plugins', () => {
+    it('with plugins', () => {
       action('func', 'packages/cli/src/__tests__/tmp/plugin', ['cf', 'http'])
 
       expect(
@@ -75,7 +76,7 @@ describe('plugin.func.ts', function () {
     })
   })
 
-  test('unknown type', () => {
+  it('unknown type', () => {
     try {
       action('unknown', 'unknown', [])
     } catch (error: any) {

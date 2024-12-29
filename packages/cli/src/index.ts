@@ -33,6 +33,7 @@ import { existsSync } from 'node:fs'
 import { sep } from 'node:path'
 import { Logger } from '@faasjs/logger'
 import { Command } from 'commander'
+import { version } from '../package.json'
 import { NewCommand } from './commands/new'
 import { ServerCommand } from './commands/server'
 
@@ -40,7 +41,7 @@ const commander = new Command()
 const logger = new Logger('Cli')
 
 commander
-  .version('beta')
+  .version(version)
   .usage('[command] [flags]')
   .option('-v --verbose', 'Show verbose logs')
   .option('-r --root <path>', 'Root path')
@@ -69,14 +70,12 @@ commander
 NewCommand(commander)
 ServerCommand(commander)
 
-export async function main() {
+export async function main(argv: string[]) {
   try {
-    if (!process.env.CI && process.argv[0] !== 'fake')
-      return await commander.parseAsync(process.argv)
-  } catch (error) {
-    console.error(error)
-    process.exit(1)
+    await commander.parseAsync(argv)
+    return commander
+  } catch (error: any) {
+    logger.error(error)
+    throw error
   }
 }
-
-export default main()
