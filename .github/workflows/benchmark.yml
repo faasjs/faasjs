@@ -36,7 +36,10 @@ jobs:
       - name: Store benchmark result
         uses: benchmark-action/github-action-benchmark@v1
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           tool: 'benchmarkjs'
           output-file-path: ./benchmarks/output.txt
           external-data-json-path: ./cache/benchmark-data.json
+          comment-on-alert: true
           fail-on-alert: true
+          alert-comment-cc-users: '@zfben'
