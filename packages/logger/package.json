@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/logger",
-  "version": "4.7.2",
+  "version": "5.0.0-beta.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -41,7 +41,9 @@
   "scripts": {
     "build": "tsup-node --entry src/index.ts --entry src/transport.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=22.0.0",
     "npm": ">=10.0.0"

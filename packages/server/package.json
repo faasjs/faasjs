@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "4.7.2",
+  "version": "5.0.0-beta.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -31,14 +31,16 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "lodash": "*",
     "mime-types": "*",
-    "@faasjs/func": "4.7.2",
-    "@faasjs/load": "4.7.2",
-    "@faasjs/logger": "4.7.2",
-    "@faasjs/http": "4.7.2"
+    "@faasjs/func": "5.0.0-beta.1",
+    "@faasjs/load": "5.0.0-beta.1",
+    "@faasjs/logger": "5.0.0-beta.1",
+    "@faasjs/http": "5.0.0-beta.1"
   },
   "optionalDependencies": {
     "tsx": "*"
@@ -49,10 +51,10 @@
     "mime-types": "*",
     "@types/mime-types": "*",
     "@types/react-dom": "*",
-    "@faasjs/func": "4.7.2",
-    "@faasjs/load": "4.7.2",
-    "@faasjs/logger": "4.7.2",
-    "@faasjs/http": "4.7.2",
+    "@faasjs/func": "5.0.0-beta.1",
+    "@faasjs/load": "5.0.0-beta.1",
+    "@faasjs/logger": "5.0.0-beta.1",
+    "@faasjs/http": "5.0.0-beta.1",
     "tsx": "*"
   },
   "engines": {

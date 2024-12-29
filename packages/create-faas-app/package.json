@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "4.7.2",
+  "version": "5.0.0-beta.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -22,7 +22,10 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist", "index.js"],
+  "files": [
+    "dist",
+    "index.js"
+  ],
   "dependencies": {
     "commander": "*",
     "enquirer": "*",

@@ -10,7 +10,7 @@ describe('validator/required', () => {
       })
       const handler = new Func({
         plugins: [cf],
-        async handler() { },
+        async handler() {},
       }).export().handler
 
       await handler({ key: 1 })
@@ -35,7 +35,7 @@ describe('validator/required', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({})
@@ -55,7 +55,7 @@ describe('validator/required', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({})
@@ -78,7 +78,7 @@ describe('validator/required', () => {
       })
       const handler = new Func({
         plugins: [http],
-        async handler() { },
+        async handler() {},
       }).export().handler
 
       await handler({})

@@ -16,7 +16,7 @@ describe('validator/whitelist', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({})
@@ -70,7 +70,7 @@ describe('validator/whitelist', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({
@@ -98,7 +98,7 @@ describe('validator/whitelist', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({ key: [{ sub: 1 }] })
@@ -172,7 +172,7 @@ describe('validator/whitelist', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({ key: { sub: 1 } })

@@ -11,7 +11,7 @@ describe('validator/in', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({})
@@ -37,7 +37,7 @@ describe('validator/in', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({})
@@ -63,7 +63,7 @@ describe('validator/in', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({})

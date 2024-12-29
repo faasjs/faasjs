@@ -1,8 +1,7 @@
-import { beforeEach } from "vitest"
+import { beforeEach } from 'vitest'
 
 beforeEach(() => {
-  if (typeof document === 'undefined')
-    return
+  if (typeof document === 'undefined') return
 
   document.body.innerHTML = ''
   window.location.href = 'http://localhost/'

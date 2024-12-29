@@ -21,7 +21,7 @@ vi.mock('node:fs', () => ({
   writeFileSync(name: string, body: string) {
     files[name] = body
   },
-  existsSync() { },
+  existsSync() {},
 }))
 
 describe('action', () => {

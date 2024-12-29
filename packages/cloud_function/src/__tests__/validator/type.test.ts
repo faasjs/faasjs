@@ -29,7 +29,7 @@ describe('validator/type', () => {
         })
         const handler = new Func({
           plugins: [http],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({ key: value })
@@ -73,7 +73,7 @@ describe('validator/type', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({ key: [{ sub: value }] })
@@ -117,7 +117,7 @@ describe('validator/type', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() { },
+          async handler() {},
         }).export().handler
 
         await handler({ key: { sub: value } })

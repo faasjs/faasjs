@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/request",
-  "version": "4.7.2",
+  "version": "5.0.0-beta.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -31,12 +31,14 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
-    "@faasjs/logger": "4.7.2"
+    "@faasjs/logger": "5.0.0-beta.1"
   },
   "devDependencies": {
-    "@faasjs/logger": "4.7.2"
+    "@faasjs/logger": "5.0.0-beta.1"
   },
   "engines": {
     "node": ">=22.0.0",
