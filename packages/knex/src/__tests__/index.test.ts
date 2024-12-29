@@ -1,7 +1,7 @@
 import { Func, useFunc } from '@faasjs/func'
 import type { Tables } from 'knex/types/tables'
 import { afterEach, assertType, describe, expect, it } from 'vitest'
-import { Knex, query, useKnex } from '..'
+import { Knex, query, raw, transaction, useKnex } from '..'
 
 declare module 'knex/types/tables' {
   interface Tables {
@@ -238,6 +238,36 @@ describe('Knex', () => {
     })
 
     expect(await func.export().handler({})).toEqual([])
+  })
+
+  it('hooks', async () => {
+    const func = useFunc(() => {
+      useKnex({
+        config: {
+          client: 'sqlite3',
+          connection: { filename: ':memory:' },
+        },
+      })
+
+      return async () => {
+        await useKnex().schema().createTable('test', t => {
+          t.increments('id')
+          t.integer('value')
+        })
+
+        const value = await raw('SELECT 1+1 AS count').then((res: any) => res[0].count)
+
+        await transaction(async trx => {
+          await trx.insert({
+            value,
+          }).into('test')
+        })
+
+        return await query('test')
+      }
+    })
+
+    expect(await func.export().handler({})).toEqual([{ id: 1, value: 2 }])
   })
 
   it('check types', async () => {
