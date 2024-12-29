@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * [![License: MIT](https://img.shields.io/npm/l/@faasjs/cli.svg)](https://github.com/faasjs/faasjs/blob/main/packages/cli/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/@faasjs/cli.svg)](https://www.npmjs.com/package/@faasjs/cli)
