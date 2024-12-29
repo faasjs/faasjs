@@ -1,8 +1,3 @@
-import { deepMerge } from '@faasjs/deep_merge'
-import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
-import type { Http } from '@faasjs/http'
-import { loadConfig } from '@faasjs/load'
-
 /**
  * FaasJS's testing module.
  *
@@ -16,9 +11,17 @@ import { loadConfig } from '@faasjs/load'
  * ```
  * @packageDocumentation
  */
+
+import { createRequire } from 'node:module'
+import { deepMerge } from '@faasjs/deep_merge'
+import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
+import type { Http } from '@faasjs/http'
+import { loadConfig } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
 
 export * from '@faasjs/func'
+
+const require = createRequire(import.meta.url)
 
 /**
  * Test Wrapper for a func

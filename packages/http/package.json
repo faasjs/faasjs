@@ -2,6 +2,7 @@
   "name": "@faasjs/http",
   "version": "4.7.2",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",

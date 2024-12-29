@@ -2,6 +2,7 @@
   "name": "faasjs",
   "version": "4.7.2",
   "license": "MIT",
+  "type": "module",
   "files": [],
   "homepage": "https://faasjs.com",
   "repository": {

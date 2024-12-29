@@ -1,5 +1,3 @@
-import { randomUUID } from 'node:crypto'
-import { deepMerge } from '@faasjs/deep_merge'
 /**
  * FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
  *
@@ -13,6 +11,10 @@ import { deepMerge } from '@faasjs/deep_merge'
  * ```
  * @packageDocumentation
  */
+
+import { randomUUID } from 'node:crypto'
+import { createRequire } from 'node:module'
+import { deepMerge } from '@faasjs/deep_merge'
 import {
   type InvokeData,
   type MountData,
@@ -23,6 +25,8 @@ import {
 } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
 import knex, { type Knex as OriginKnex } from 'knex'
+
+const require = createRequire(import.meta.url)
 
 /**
  * Origin [knex](https://knexjs.org/) instance.

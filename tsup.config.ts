@@ -18,11 +18,4 @@ export default defineConfig({
         dts: '.d.mts',
       }
   },
-  banner({ format }) {
-    if (format === "esm") {
-      return {
-        js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
-      }
-    }
-  },
 })

@@ -6,6 +6,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v5.0.0 (2024-12-25)`](https://github.com/faasjs/faasjs/compare/v4.7.2...v5.0.0)
 
+- [Break] Convert all packages to esm.
 - [Break] Remove `@faasjs/mongo`, `@faasjs/vue-plugin`.
 - [Break] Replace jest with vitest.
 

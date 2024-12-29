@@ -218,7 +218,7 @@ describe('Knex', () => {
 
   it('useKnex', async () => {
     const func = useFunc(() => {
-      const knex1 = useKnex({
+      useKnex({
         config: {
           client: 'sqlite3',
           connection: { filename: ':memory:' },
@@ -227,13 +227,11 @@ describe('Knex', () => {
       })
 
       return async () => {
-        await knex1.schema().createTable('test', t => {
+        await useKnex().schema().createTable('test', t => {
           t.increments('id')
         })
 
-        const knex2 = useKnex()
-
-        return await knex2.query('test')
+        return await useKnex().query('test')
       }
     })
 

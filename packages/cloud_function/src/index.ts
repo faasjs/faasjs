@@ -12,6 +12,8 @@
  *
  * @packageDocumentation
  */
+
+import { createRequire } from 'node:module'
 import { deepMerge } from '@faasjs/deep_merge'
 import {
   type InvokeData,
@@ -23,6 +25,8 @@ import {
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { Validator, type ValidatorConfig } from './validator'
+
+const require = createRequire(import.meta.url)
 
 /** 云函数配置项 */
 export type CloudFunctionConfig = {

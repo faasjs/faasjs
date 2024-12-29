@@ -2,7 +2,16 @@
   "name": "@faasjs/types",
   "version": "4.7.2",
   "license": "MIT",
+  "type": "module",
   "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./src/index.ts",
+        "default": "./src/index.ts"
+      }
+    }
+  },
   "homepage": "https://faasjs.com/doc/types",
   "repository": {
     "type": "git",
