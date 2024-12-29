@@ -270,4 +270,22 @@ describe('Knex', () => {
       await query<any, { value: string }>('testtest')
     )
   })
+
+  it('should work with pg', async () => {
+    const knex = new Knex({
+      config: {
+        client: 'pg',
+        connection: 'postgres://postgres:postgres@localhost:5432/testing'
+      }
+    })
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        return await knex.raw('SELECT 1+1')
+      },
+    }).export().handler
+
+    expect(await handler({})).toEqual([{ '?column?': 2 }])
+  })
 })
