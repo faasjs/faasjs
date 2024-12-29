@@ -15,7 +15,7 @@ export default defineConfig({
     if (format === 'esm')
       return {
         js: '.mjs',
-        dts: '.d.mts',
+        dts: '.d.ts',
       }
   },
 })
