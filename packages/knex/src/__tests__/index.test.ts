@@ -275,7 +275,9 @@ describe('Knex', () => {
     const knex = new Knex({
       config: {
         client: 'pg',
-        connection: 'postgres://postgres:postgres@localhost:5432/testing'
+        connection: {
+          connectionString: 'postgres://postgres:postgres@localhost:5432/testing'
+        }
       }
     })
 
