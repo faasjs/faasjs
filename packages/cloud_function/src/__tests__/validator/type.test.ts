@@ -1,10 +1,11 @@
 import { Func } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { CloudFunction } from '../../index'
 
 describe('validator/type', () => {
   describe('event', () => {
     describe('normal', () => {
-      test.each([
+      it.each([
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
@@ -28,7 +29,7 @@ describe('validator/type', () => {
         })
         const handler = new Func({
           plugins: [http],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({ key: value })
@@ -42,7 +43,7 @@ describe('validator/type', () => {
     })
 
     describe('array', () => {
-      test.each([
+      it.each([
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
@@ -72,7 +73,7 @@ describe('validator/type', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({ key: [{ sub: value }] })
@@ -86,7 +87,7 @@ describe('validator/type', () => {
     })
 
     describe('object', () => {
-      test.each([
+      it.each([
         ['string', 'string'],
         ['boolean', false],
         ['number', 0],
@@ -116,7 +117,7 @@ describe('validator/type', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({ key: { sub: value } })

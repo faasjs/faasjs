@@ -1,7 +1,8 @@
+import { describe, expect, it } from 'vitest'
 import { deepMerge } from '..'
 
 describe('deepMerge', () => {
-  test('should work', () => {
+  it('should work', () => {
     const a = {
       nest: {
         number: 1,
@@ -49,11 +50,11 @@ describe('deepMerge', () => {
     })
   })
 
-  test('array', () => {
+  it('array', () => {
     expect(deepMerge({ a: [0] }, { a: [1] })).toEqual({ a: [1, 0] })
   })
 
-  test('dup array', () => {
+  it('dup array', () => {
     expect(
       deepMerge(
         {
@@ -72,7 +73,7 @@ describe('deepMerge', () => {
     })
   })
 
-  test('null object', () => {
+  it('null object', () => {
     const a = Object.create(null)
     a.key = 1
     const b = Object.create(null)
@@ -83,7 +84,7 @@ describe('deepMerge', () => {
     expect(b).toEqual({ key: 2 })
   })
 
-  test('nest dup', () => {
+  it('nest dup', () => {
     const a = {
       a: 1,
       nest: { b: 1 },

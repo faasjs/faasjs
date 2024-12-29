@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v5.0.0 (2024-12-25)`](https://github.com/faasjs/faasjs/compare/v4.7.2...v5.0.0)
+[`v5.0.0 (2024-12-29)`](https://github.com/faasjs/faasjs/compare/v4.7.2...v5.0.0-beta.1)
 
 - [Break] Convert all packages to esm.
 - [Break] Remove `@faasjs/mongo`, `@faasjs/vue-plugin`.

@@ -1,8 +1,9 @@
 import { Func } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { Http, HttpError } from '..'
 
 describe('http', () => {
-  test('should work', async () => {
+  it('should work', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -20,7 +21,7 @@ describe('http', () => {
     expect(res.body).toEqual('{"data":1}')
   })
 
-  test('with config name', async () => {
+  it('with config name', async () => {
     const http = new Http({ name: 'name' })
     const func = new Func({
       plugins: [http],
@@ -43,7 +44,7 @@ describe('http', () => {
     expect(res.body).toEqual('{"data":1}')
   })
 
-  test('throw error', async () => {
+  it('throw error', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -58,7 +59,7 @@ describe('http', () => {
     expect(res.body).toEqual('{"error":{"message":"wrong"}}')
   })
 
-  test('HttpError', async () => {
+  it('HttpError', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],

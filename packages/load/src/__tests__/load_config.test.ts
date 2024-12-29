@@ -1,7 +1,8 @@
+import { describe, expect, it } from 'vitest'
 import { loadConfig } from '../load_config'
 
 describe('loadConfig', () => {
-  test('defaults', () => {
+  it('defaults', () => {
     const config = loadConfig(
       __dirname,
       `${__dirname}/fake.func.ts`,
@@ -12,7 +13,7 @@ describe('loadConfig', () => {
     expect(config.plugins.func.name).toEqual('func')
   })
 
-  test('local', () => {
+  it('local', () => {
     const config = loadConfig(__dirname, `${__dirname}/fake.func.ts`, 'local')
 
     expect(config.plugins.func.type).toEqual('function')
@@ -22,7 +23,7 @@ describe('loadConfig', () => {
     expect(config.plugins.func.config.env).toEqual('defaults')
   })
 
-  test('sub local', () => {
+  it('sub local', () => {
     const config = loadConfig(
       __dirname,
       `${__dirname}/sub/fake.func.ts`,

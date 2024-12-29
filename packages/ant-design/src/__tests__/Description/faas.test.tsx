@@ -1,5 +1,6 @@
 import { setMock } from '@faasjs/browser'
 import { render, screen } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { Description } from '../../Description'
 
 describe('Description/faas', () => {

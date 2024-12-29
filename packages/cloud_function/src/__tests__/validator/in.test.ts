@@ -1,16 +1,17 @@
 import { Func } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { CloudFunction } from '../../index'
 
 describe('validator/in', () => {
   describe('event', () => {
     describe('normal', () => {
-      test('should work', async () => {
+      it('should work', async () => {
         const cf = new CloudFunction({
           validator: { event: { rules: { key: { in: [1] } } } },
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({})
@@ -26,7 +27,7 @@ describe('validator/in', () => {
     })
 
     describe('array', () => {
-      test('should work', async () => {
+      it('should work', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -36,7 +37,7 @@ describe('validator/in', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({})
@@ -52,7 +53,7 @@ describe('validator/in', () => {
     })
 
     describe('object', () => {
-      test('should work', async () => {
+      it('should work', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -62,7 +63,7 @@ describe('validator/in', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({})

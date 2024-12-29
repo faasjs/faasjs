@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { Color } from '../color'
 import { type Level, Logger } from '../logger'
 
@@ -9,7 +10,7 @@ function fake(text: string): void {
 }
 
 describe('logger', () => {
-  test.each([
+  it.each([
     ['debug', Color.GRAY],
     ['info', Color.GREEN],
     ['warn', Color.ORANGE],
@@ -33,7 +34,7 @@ describe('logger', () => {
     )
   })
 
-  test('error', () => {
+  it('error', () => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake
@@ -49,7 +50,7 @@ describe('logger', () => {
     expect(lastOutput).toContain('ERROR [label] message')
   })
 
-  test('time', async () => {
+  it('time', async () => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake
@@ -68,7 +69,7 @@ describe('logger', () => {
     )
   })
 
-  test('timeEnd error', () => {
+  it('timeEnd error', () => {
     const logger = new Logger('error')
     logger.stdout = fake
     logger.stderr = fake
@@ -79,7 +80,7 @@ describe('logger', () => {
     expect(lastOutput).toContain('\u001b[090mDEBUG [error] message\u001b[39m')
   })
 
-  test('error', () => {
+  it('error', () => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake
@@ -90,7 +91,7 @@ describe('logger', () => {
     expect(lastOutput).toContain('ERROR Error: message')
   })
 
-  test('FaasLog', () => {
+  it('FaasLog', () => {
     const logger = new Logger()
     logger.stdout = fake
     logger.stderr = fake

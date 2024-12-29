@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { nameFunc } from '..'
 
 it('nameFunc assigns name to handler', () => {

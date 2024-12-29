@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { FaasDataWrapper, withFaasData } from '../../FaasDataWrapper'
 
 describe('FaasDataWrapper', () => {

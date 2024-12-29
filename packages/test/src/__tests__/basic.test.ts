@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { FuncWarper } from '../../src/index'
 
 it('basic', async () => {

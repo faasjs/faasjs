@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import commander from '..'
 
 describe('create-faas-app', () => {

@@ -1,4 +1,5 @@
 import { Func, type InvokeData } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { Http } from '..'
 import { Session } from '../session'
 
@@ -28,7 +29,7 @@ describe('session', () => {
     }
     const handler = func.export().handler
 
-    test('return value', async () => {
+    it('return value', async () => {
       const res = await handler({
         headers: {
           cookie:
@@ -40,7 +41,7 @@ describe('session', () => {
       expect(res.body).toEqual('{"data":"value"}')
     })
 
-    test('no value', async () => {
+    it('no value', async () => {
       const res = await handler({
         headers: {
           cookie:
@@ -52,7 +53,7 @@ describe('session', () => {
       expect(res.body).toBeUndefined()
     })
 
-    test('no key', async () => {
+    it('no key', async () => {
       const res = await handler({
         headers: { cookie: '' },
         key: 'key',
@@ -61,7 +62,7 @@ describe('session', () => {
       expect(res.body).toBeUndefined()
     })
 
-    test('wrong session', async () => {
+    it('wrong session', async () => {
       const res = await handler({
         headers: { cookie: 'key=key' },
         key: 'key',
@@ -100,7 +101,7 @@ describe('session', () => {
       secret: 'secret',
     })
 
-    test('add', async () => {
+    it('add', async () => {
       const res = await handler({
         key: 'key',
         value: 'value',
@@ -114,7 +115,7 @@ describe('session', () => {
       ).toEqual({ key: 'value' })
     })
 
-    test('delete', async () => {
+    it('delete', async () => {
       const res = await handler({
         key: 'key',
         value: null,
@@ -131,7 +132,7 @@ describe('session', () => {
       ).toEqual({})
     })
 
-    test('multi change', async () => {
+    it('multi change', async () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],

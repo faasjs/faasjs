@@ -1,5 +1,6 @@
 import { join } from 'node:path'
 import { request } from '@faasjs/request'
+import { describe, expect, it } from 'vitest'
 import { Server } from '../../server'
 
 describe('server', () => {

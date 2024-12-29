@@ -1,7 +1,8 @@
+import { describe, expect, it } from 'vitest'
 import { request, setMock } from '..'
 
 describe('mock', () => {
-  test('should work', async () => {
+  it('should work', async () => {
     setMock(async () =>
       Promise.resolve({
         statusCode: 200,

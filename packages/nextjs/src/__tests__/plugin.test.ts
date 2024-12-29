@@ -1,4 +1,5 @@
 import { Func } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { NextJsPlugin, useFuncWithNextJsPlugin } from '../plugin'
 
 describe('NextJsPlugin', () => {

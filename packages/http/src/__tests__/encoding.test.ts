@@ -1,5 +1,6 @@
 import { brotliCompressSync, deflateSync, gzipSync } from 'node:zlib'
 import { Func } from '@faasjs/func'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { Http } from '..'
 
 describe('Accept-Encoding', () => {
@@ -13,7 +14,7 @@ describe('Accept-Encoding', () => {
 
   const data = new Array(1025).join('1')
 
-  test('br', async () => {
+  it('br', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -35,7 +36,7 @@ describe('Accept-Encoding', () => {
     )
   })
 
-  test('gzip', async () => {
+  it('gzip', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -55,7 +56,7 @@ describe('Accept-Encoding', () => {
     expect(res.body).toEqual(gzipSync(`{"data":"${data}"}`).toString('base64'))
   })
 
-  test('deflate', async () => {
+  it('deflate', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -77,7 +78,7 @@ describe('Accept-Encoding', () => {
     )
   })
 
-  test('unknown', async () => {
+  it('unknown', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],

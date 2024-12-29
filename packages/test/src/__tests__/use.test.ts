@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { FuncWarper } from '../../src/index'
 import UseA from './funcs/use-a.func'
 import UseB from './funcs/use-b.func'

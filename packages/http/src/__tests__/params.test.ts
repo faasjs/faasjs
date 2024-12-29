@@ -1,8 +1,9 @@
 import { Func } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { Http } from '..'
 
 describe('params', () => {
-  test('blank', async () => {
+  it('blank', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -17,7 +18,7 @@ describe('params', () => {
     expect(res.body).toEqual('{"data":{}}')
   })
 
-  test('raw', async () => {
+  it('raw', async () => {
     const http = new Http<{ body: string }>()
     const handler = new Func({
       plugins: [http],
@@ -32,7 +33,7 @@ describe('params', () => {
     expect(res.body).toEqual('{"data":"raw"}')
   })
 
-  test('queryString', async () => {
+  it('queryString', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -54,7 +55,7 @@ describe('params', () => {
     expect(res.body).toEqual('{"data":{"a":"b","b":"b"}}')
   })
 
-  test('json', async () => {
+  it('json', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],

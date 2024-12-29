@@ -1,13 +1,14 @@
 import { renderHook } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
 import { usePrevious } from '../usePrevious'
 
 describe('usePrevious hook', () => {
-  test('should return undefined on initial render', () => {
+  it('should return undefined on initial render', () => {
     const { result } = renderHook(() => usePrevious(1))
     expect(result.current).toBeUndefined()
   })
 
-  test('should return the previous value after update', () => {
+  it('should return the previous value after update', () => {
     const { result, rerender } = renderHook(({ value }) => usePrevious(value), {
       initialProps: { value: 1 },
     })
@@ -21,7 +22,7 @@ describe('usePrevious hook', () => {
     expect(result.current).toBe(2)
   })
 
-  test('should handle object values', () => {
+  it('should handle object values', () => {
     const { result, rerender } = renderHook(({ value }) => usePrevious(value), {
       initialProps: { value: { a: 1 } },
     })
@@ -35,7 +36,7 @@ describe('usePrevious hook', () => {
     expect(result.current).toEqual({ a: 2 })
   })
 
-  test('should handle array values', () => {
+  it('should handle array values', () => {
     const { result, rerender } = renderHook(({ value }) => usePrevious(value), {
       initialProps: { value: [1, 2, 3] },
     })

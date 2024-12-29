@@ -1,8 +1,9 @@
 import { createWriteStream, readFileSync } from 'node:fs'
+import { describe, expect, it } from 'vitest'
 import { request } from '..'
 
 describe('request', () => {
-  test('200', async () => {
+  it('200', async () => {
     const gzip = await request('https://www.npmjs.com/', {
       headers: { 'Accept-Encoding': 'gzip', 'user-agent': 'faasjs' },
     })
@@ -28,14 +29,14 @@ describe('request', () => {
     expect(normal.body).toContain('<!doctype html>')
   })
 
-  test('404', async () => {
+  it('404', async () => {
     expect(
       async () => await request('https://www.npmjs.com/package/404404')
     ).rejects.toThrow('Not Found')
   })
 
   describe('query', () => {
-    test('without ?', async () => {
+    it('without ?', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         query: { test: 1 },
       })
@@ -45,7 +46,7 @@ describe('request', () => {
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
 
-    test('with ?', async () => {
+    it('with ?', async () => {
       const res = await request('https://cvm.tencentcloudapi.com/?a=1', {
         query: { test: [1, 2] },
       })
@@ -57,7 +58,7 @@ describe('request', () => {
   })
 
   describe('headers', () => {
-    test('with value', async () => {
+    it('with value', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         headers: { 'Content-Type': 'text/xml' },
       })
@@ -67,7 +68,7 @@ describe('request', () => {
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
 
-    test('without value', async () => {
+    it('without value', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         headers: { 'X-HEADER': null },
       })
@@ -79,7 +80,7 @@ describe('request', () => {
   })
 
   describe('body', () => {
-    test('form', async () => {
+    it('form', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         body: { test: 1 },
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -91,7 +92,7 @@ describe('request', () => {
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
 
-    test('json', async () => {
+    it('json', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
         body: { test: 1 },
         method: 'POST',

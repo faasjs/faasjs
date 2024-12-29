@@ -1,10 +1,11 @@
 import { Func } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { CloudFunction } from '../../index'
 
 describe('validator/whitelist', () => {
   describe('event', () => {
     describe('normal', () => {
-      test('error', async () => {
+      it('error', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -15,7 +16,7 @@ describe('validator/whitelist', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({})
@@ -33,7 +34,7 @@ describe('validator/whitelist', () => {
         }
       })
 
-      test('ignore', async () => {
+      it('ignore', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -58,7 +59,7 @@ describe('validator/whitelist', () => {
         expect(res).toEqual({ key: 1 })
       })
 
-      test('allow context', async () => {
+      it('allow context', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -69,7 +70,7 @@ describe('validator/whitelist', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({
@@ -80,7 +81,7 @@ describe('validator/whitelist', () => {
     })
 
     describe('array', () => {
-      test('error', async () => {
+      it('error', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -97,7 +98,7 @@ describe('validator/whitelist', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({ key: [{ sub: 1 }] })
@@ -118,7 +119,7 @@ describe('validator/whitelist', () => {
         }
       })
 
-      test('ignore', async () => {
+      it('ignore', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -154,7 +155,7 @@ describe('validator/whitelist', () => {
     })
 
     describe('object', () => {
-      test('error', async () => {
+      it('error', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -171,7 +172,7 @@ describe('validator/whitelist', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({ key: { sub: 1 } })
@@ -190,7 +191,7 @@ describe('validator/whitelist', () => {
         }
       })
 
-      test('ignore', async () => {
+      it('ignore', async () => {
         const http = new CloudFunction({
           validator: {
             event: {

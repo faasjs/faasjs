@@ -1,14 +1,15 @@
+import { describe, expect, it } from 'vitest'
 import { Func } from '../index'
 
 describe('Func handler', () => {
-  test('without handler', async () => {
+  it('without handler', async () => {
     const handler = new Func({}).export().handler
 
     expect(await handler(0)).toBeUndefined()
   })
 
   describe('with handler', () => {
-    test('should work', async () => {
+    it('should work', async () => {
       const handler = new Func<number>({
         async handler(data) {
           return data.event + 1
@@ -19,7 +20,7 @@ describe('Func handler', () => {
       expect(await handler(1)).toEqual(2)
     })
 
-    test('throw handler', async () => {
+    it('throw handler', async () => {
       const handler = new Func({
         async handler() {
           throw Error('Error')

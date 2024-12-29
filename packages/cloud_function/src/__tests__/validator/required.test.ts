@@ -1,15 +1,16 @@
 import { Func } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { CloudFunction } from '../../index'
 
 describe('validator/required', () => {
   describe('event', () => {
-    test('normal', async () => {
+    it('normal', async () => {
       const cf = new CloudFunction({
         validator: { event: { rules: { key: { required: true } } } },
       })
       const handler = new Func({
         plugins: [cf],
-        async handler() {},
+        async handler() { },
       }).export().handler
 
       await handler({ key: 1 })
@@ -22,7 +23,7 @@ describe('validator/required', () => {
     })
 
     describe('array', () => {
-      test('empty', async () => {
+      it('empty', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -34,7 +35,7 @@ describe('validator/required', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({})
@@ -42,7 +43,7 @@ describe('validator/required', () => {
         await handler({ key: [] })
       })
 
-      test('plain object', async () => {
+      it('plain object', async () => {
         const cf = new CloudFunction({
           validator: {
             event: {
@@ -54,7 +55,7 @@ describe('validator/required', () => {
         })
         const handler = new Func({
           plugins: [cf],
-          async handler() {},
+          async handler() { },
         }).export().handler
 
         await handler({})
@@ -67,7 +68,7 @@ describe('validator/required', () => {
       })
     })
 
-    test('object', async () => {
+    it('object', async () => {
       const http = new CloudFunction({
         validator: {
           event: {
@@ -77,7 +78,7 @@ describe('validator/required', () => {
       })
       const handler = new Func({
         plugins: [http],
-        async handler() {},
+        async handler() { },
       }).export().handler
 
       await handler({})

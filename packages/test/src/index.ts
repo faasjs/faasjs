@@ -158,7 +158,7 @@ export class FuncWarper {
       }
       const cookie = http.cookie
         .headers()
-      ['Set-Cookie']?.map(c => c.split(';')[0])
+        ['Set-Cookie']?.map(c => c.split(';')[0])
         .join(';')
       if (cookie)
         if (headers.cookie) headers.cookie += `;${cookie}`

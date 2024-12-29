@@ -93,7 +93,7 @@ export class Knex implements Plugin {
             if (!this.config.connection) {
               this.config.connection = Object.create(null)
             }
-            ; (this.config as any).connection[key.replace('connection_', '')] =
+            ;(this.config as any).connection[key.replace('connection_', '')] =
               value
           } else (this.config as any)[key] = value
       }
@@ -331,30 +331,9 @@ export function query<
   table: TName extends OriginKnex.TableNames ? TName : string
 ): TName extends OriginKnex.TableNames
   ? OriginKnex.QueryBuilder<
-    OriginKnex.TableType<TName>,
-    {
-      _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
-      _hasSelection: false
-      _keys: never
-      // biome-ignore lint/complexity/noBannedTypes: <explanation>
-      _aliases: {}
-      _single: false
-      // biome-ignore lint/complexity/noBannedTypes: <explanation>
-      _intersectProps: {}
-      _unionProps: never
-    }[]
-  >
-  : OriginKnex.QueryBuilder<TName, TResult> {
-  return useKnex().query<TName, TResult>(
-    table
-  ) as TName extends OriginKnex.TableNames
-    ? OriginKnex.QueryBuilder<
       OriginKnex.TableType<TName>,
       {
-        _base: OriginKnex.ResolveTableType<
-          OriginKnex.TableType<TName>,
-          'base'
-        >
+        _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
         _hasSelection: false
         _keys: never
         // biome-ignore lint/complexity/noBannedTypes: <explanation>
@@ -365,6 +344,27 @@ export function query<
         _unionProps: never
       }[]
     >
+  : OriginKnex.QueryBuilder<TName, TResult> {
+  return useKnex().query<TName, TResult>(
+    table
+  ) as TName extends OriginKnex.TableNames
+    ? OriginKnex.QueryBuilder<
+        OriginKnex.TableType<TName>,
+        {
+          _base: OriginKnex.ResolveTableType<
+            OriginKnex.TableType<TName>,
+            'base'
+          >
+          _hasSelection: false
+          _keys: never
+          // biome-ignore lint/complexity/noBannedTypes: <explanation>
+          _aliases: {}
+          _single: false
+          // biome-ignore lint/complexity/noBannedTypes: <explanation>
+          _intersectProps: {}
+          _unionProps: never
+        }[]
+      >
     : OriginKnex.QueryBuilder<TName, TResult>
 }
 

@@ -1,8 +1,9 @@
 import { Func } from '@faasjs/func'
+import { describe, expect, it } from 'vitest'
 import { ContentType, Http } from '..'
 
 describe('setContentType', () => {
-  test.each(Object.keys(ContentType))('type is %s', async type => {
+  it.each(Object.keys(ContentType))('type is %s', async type => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -19,7 +20,7 @@ describe('setContentType', () => {
     )
   })
 
-  test('set charset', async () => {
+  it('set charset', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],

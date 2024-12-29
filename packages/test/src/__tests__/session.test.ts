@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { FuncWarper } from '../../src/index'
 import Func from './funcs/session.func'
 

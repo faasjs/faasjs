@@ -227,9 +227,11 @@ describe('Knex', () => {
       })
 
       return async () => {
-        await useKnex().schema().createTable('test', t => {
-          t.increments('id')
-        })
+        await useKnex()
+          .schema()
+          .createTable('test', t => {
+            t.increments('id')
+          })
 
         return await useKnex().query('test')
       }
@@ -248,17 +250,23 @@ describe('Knex', () => {
       })
 
       return async () => {
-        await useKnex().schema().createTable('test', t => {
-          t.increments('id')
-          t.integer('value')
-        })
+        await useKnex()
+          .schema()
+          .createTable('test', t => {
+            t.increments('id')
+            t.integer('value')
+          })
 
-        const value = await raw('SELECT 1+1 AS count').then((res: any) => res[0].count)
+        const value = await raw('SELECT 1+1 AS count').then(
+          (res: any) => res[0].count
+        )
 
         await transaction(async trx => {
-          await trx.insert({
-            value,
-          }).into('test')
+          await trx
+            .insert({
+              value,
+            })
+            .into('test')
         })
 
         return await query('test')
@@ -304,9 +312,10 @@ describe('Knex', () => {
       config: {
         client: 'pg',
         connection: {
-          connectionString: 'postgres://postgres:postgres@localhost:5432/testing'
-        }
-      }
+          connectionString:
+            'postgres://postgres:postgres@localhost:5432/testing',
+        },
+      },
     })
 
     const handler = new Func({

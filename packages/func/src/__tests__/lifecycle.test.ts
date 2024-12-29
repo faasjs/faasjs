@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import {
   Func,
   type InvokeData,
@@ -8,7 +9,7 @@ import {
 
 describe('lifecycle', () => {
   describe('mount', () => {
-    test('plugin throw error', async () => {
+    it('plugin throw error', async () => {
       class P implements Plugin {
         public readonly type: string
         public readonly name: string
@@ -36,7 +37,7 @@ describe('lifecycle', () => {
       }
     })
 
-    test('mount called multiple times', async () => {
+    it('mount called multiple times', async () => {
       let times = 0
 
       class P implements Plugin {
@@ -70,7 +71,7 @@ describe('lifecycle', () => {
   })
 
   describe('invoke', () => {
-    test('plugin throw error', async () => {
+    it('plugin throw error', async () => {
       class P implements Plugin {
         public readonly type: string
         public readonly name: string

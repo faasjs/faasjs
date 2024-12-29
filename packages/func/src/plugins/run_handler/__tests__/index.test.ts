@@ -1,8 +1,9 @@
+import { describe, expect, it } from 'vitest'
 import { RunHandler } from '..'
 import { Func, type InvokeData } from '../../..'
 
 describe('plugins.runHandler', () => {
-  test('return result', async () => {
+  it('return result', async () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
@@ -14,7 +15,7 @@ describe('plugins.runHandler', () => {
     expect(await handler(1)).toEqual(2)
   })
 
-  test('async return result', async () => {
+  it('async return result', async () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
@@ -26,7 +27,7 @@ describe('plugins.runHandler', () => {
     expect(await handler(1)).toEqual(2)
   })
 
-  test('callback result', async () => {
+  it('callback result', async () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
@@ -38,7 +39,7 @@ describe('plugins.runHandler', () => {
     expect(await handler(1)).toEqual(2)
   })
 
-  test('async callback result', async () => {
+  it('async callback result', async () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
@@ -53,7 +54,7 @@ describe('plugins.runHandler', () => {
     expect(await handler(1)).toEqual(2)
   })
 
-  test('throw error', async () => {
+  it('throw error', async () => {
     try {
       await new Func({
         plugins: [new RunHandler()],
@@ -68,7 +69,7 @@ describe('plugins.runHandler', () => {
     }
   })
 
-  test('async throw error', async () => {
+  it('async throw error', async () => {
     try {
       await new Func({
         plugins: [new RunHandler()],
@@ -83,7 +84,7 @@ describe('plugins.runHandler', () => {
     }
   })
 
-  test('callback error', async () => {
+  it('callback error', async () => {
     try {
       await new Func({
         plugins: [new RunHandler()],
@@ -98,7 +99,7 @@ describe('plugins.runHandler', () => {
     }
   })
 
-  test('async callback error', async () => {
+  it('async callback error', async () => {
     try {
       await new Func({
         plugins: [new RunHandler()],

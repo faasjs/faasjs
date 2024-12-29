@@ -1,5 +1,6 @@
+import { expect, it } from 'vitest'
 import * as load from '../index'
 
-test('should work', () => {
+it('should work', () => {
   expect(load).toHaveProperty('loadConfig')
 })

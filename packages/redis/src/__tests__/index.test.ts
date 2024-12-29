@@ -1,4 +1,5 @@
 import { Func, useFunc } from '@faasjs/func'
+import { afterEach, describe, expect, it } from 'vitest'
 import { Redis, get, getJSON, query, set, setJSON, useRedis } from '../index'
 
 describe('redis', () => {

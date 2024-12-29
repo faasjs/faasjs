@@ -1,13 +1,13 @@
-import { vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { useFunc } from '../index'
 
 describe('logger', () => {
   it('should work', async () => {
     const logs: string[] = []
 
-    vi
-      .spyOn(console, 'log')
-      .mockImplementation((...args) => logs.push(args.join(' ')))
+    vi.spyOn(console, 'log').mockImplementation((...args) =>
+      logs.push(args.join(' '))
+    )
 
     const func = useFunc(() => {
       return async ({ logger }) => {

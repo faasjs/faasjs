@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { Func, FuncWarper } from '../../src/index'
 
 describe('init by func', () => {

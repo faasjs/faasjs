@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import {
   Func,
   type InvokeData,
@@ -7,7 +8,7 @@ import {
 } from '../index'
 
 describe('plugins', () => {
-  test('onMount', async () => {
+  it('onMount', async () => {
     const results: string[] = []
     class P1 implements Plugin {
       public readonly type: string
@@ -53,7 +54,7 @@ describe('plugins', () => {
     ])
   })
 
-  test('onInvoke', async () => {
+  it('onInvoke', async () => {
     const results: string[] = []
     class P1 implements Plugin {
       public readonly type: string
@@ -118,7 +119,7 @@ describe('plugins', () => {
     expect(data.response).toEqual('baseafter2after1')
   })
 
-  test('call multiple times next', async () => {
+  it('call multiple times next', async () => {
     class P implements Plugin {
       public readonly type: string
       public readonly name: string
