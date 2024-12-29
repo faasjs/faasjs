@@ -1,6 +1,7 @@
-const Benchmark = require('benchmark')
-const useFunc = require('@faasjs/func').useFunc
-const useHttp = require('@faasjs/http').useHttp
+import { useFunc } from '@faasjs/func'
+import { useHttp } from '@faasjs/http'
+import Benchmark from 'benchmark'
+
 const suite = new Benchmark.Suite()
 
 process.env.FaasLog = 'error'

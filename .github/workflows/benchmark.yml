@@ -27,7 +27,7 @@ jobs:
         run: |
           cd benchmarks
           npm ci
-          node func.js | tee output.txt
+          node func.mjs | tee output.txt
       - name: Download previous benchmark data
         uses: actions/cache@v4
         with:

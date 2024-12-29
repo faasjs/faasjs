@@ -1,5 +1,6 @@
 {
   "name": "@faasjs/benchmark",
+  "type": "module",
   "private": true,
   "dependencies": {
     "benchmark": "*",
