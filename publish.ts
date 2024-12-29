@@ -48,12 +48,13 @@ function publish(path: string) {
   writeFileSync(path, `${JSON.stringify(pkg, null, 2)}\n`)
 
   try {
-    run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
-  } catch (error) {
-    console.warn(error)
-  }
-  try {
-    run(`npm dist-tag add ${pkg.name}@${version} ${channel}`)
+    if (channel === 'stable') {
+      run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
+      run(`npm dist-tag add ${pkg.name}@${version} stable`)
+    } else
+      run(
+        `npm publish -w ${path.replace('/package.json', '')} --access public --tag ${channel}`
+      )
   } catch (error) {
     console.warn(error)
   }
