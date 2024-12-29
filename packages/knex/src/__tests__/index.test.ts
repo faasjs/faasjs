@@ -284,7 +284,7 @@ describe('Knex', () => {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        return await knex.raw('SELECT 1+1')
+        return await knex.raw('SELECT 1+1').then((res: any) => res.rows)
       },
     }).export().handler
 
