@@ -16,6 +16,6 @@ export default defineConfig({
         ['lcov'],
       ]
     },
-    reporters: [['junit', { outputFile: 'test-report.junit.xml' }]]
+    reporters: ['default', ['junit', { outputFile: 'test-report.junit.xml' }]]
   },
 })

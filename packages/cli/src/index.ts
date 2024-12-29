@@ -69,7 +69,7 @@ commander
 NewCommand(commander)
 ServerCommand(commander)
 
-async function main() {
+export async function main() {
   try {
     if (!process.env.CI && process.argv[0] !== 'fake')
       return await commander.parseAsync(process.argv)
