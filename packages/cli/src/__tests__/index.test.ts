@@ -5,7 +5,7 @@ import { main } from '../index'
 
 describe('main function', () => {
   it('should work', async () => {
-    const commander = await main(['node', 'script', '-v', '-r', './', '-e', 'env'])
+    const commander = await main(['node', 'script', '-v', '-r', './', '-e', 'env', '--help'])
 
     // @ts-ignore
     expect(commander.version()).toBe(version)

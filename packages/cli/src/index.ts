@@ -44,7 +44,7 @@ commander
   .option('-v --verbose', 'Show verbose logs')
   .option('-r --root <path>', 'Root path')
   .option('-e --env <staging>', 'Environment', 'development')
-  .exitOverride()
+  .exitOverride(e => console.error(e))
 
   .on('option:verbose', () => {
     process.env.verbose = '1'
@@ -72,9 +72,9 @@ ServerCommand(commander)
 export async function main(argv: string[]) {
   try {
     await commander.parseAsync(argv)
-    return commander
   } catch (error: any) {
     logger.error(error)
-    throw error
   }
+
+  return commander
 }
