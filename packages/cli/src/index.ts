@@ -46,6 +46,7 @@ commander
   .option('-v --verbose', 'Show verbose logs')
   .option('-r --root <path>', 'Root path')
   .option('-e --env <staging>', 'Environment', 'development')
+  .exitOverride()
 
   .on('option:verbose', () => {
     process.env.verbose = '1'

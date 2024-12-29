@@ -1,7 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import type { ComponentType } from 'react'
-import { expectType } from 'tsd'
-import { vi } from 'vitest'
+import { assertType, describe, expect, it, vi } from 'vitest'
 import { FormContainer, type FormProps } from '../Container'
 import type {
   FormButtonElementProps,
@@ -42,7 +41,7 @@ describe('FormContainer', () => {
       custom?: boolean
     }
 
-    expectType<
+    assertType<
       ComponentType<
         FormProps<
           { key: string },
@@ -84,9 +83,9 @@ describe('FormContainer', () => {
       ],
     }
 
-    expectType<{ key: string }>(props.defaultValues)
+    assertType<{ key: string }>(props.defaultValues)
 
-    expectType<{ custom?: boolean }>(props.items[0].input.props)
+    assertType<{ custom?: boolean }>(props.items[0].input.props)
   })
 
   it('should work with rules', async () => {

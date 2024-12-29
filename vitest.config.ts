@@ -7,6 +7,9 @@ export default defineConfig({
   test: {
     globals: true,
     restoreMocks: true,
+    typecheck: {
+      enabled: true,
+    },
     coverage: {
       provider: 'v8',
       include: ['packages/**/*.ts', 'packages/**/*.tsx'],

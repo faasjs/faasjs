@@ -5,7 +5,7 @@ import {
   usePlugin,
 } from '@faasjs/func'
 import type { InferFaasAction } from '@faasjs/types'
-import { expectType } from 'tsd'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import { useHttpFunc } from '..'
 
 describe('useHttpFunc', () => {
@@ -43,8 +43,8 @@ describe('useHttpFunc', () => {
 
     type InferredAction = InferFaasAction<typeof func>
 
-    expectType<InferredAction['Params']>({ counter: 0 })
-    expectType<InferredAction['Data']>(2)
+    expectTypeOf({ counter: 0 }).toMatchTypeOf<InferredAction['Params']>()
+    expectTypeOf(2).toMatchTypeOf<InferredAction['Data']>()
   })
 
   it('should work with cookie', async () => {

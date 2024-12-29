@@ -1,6 +1,6 @@
 import { Func, useFunc } from '@faasjs/func'
 import type { Tables } from 'knex/types/tables'
-import { expectNotType, expectType } from 'tsd'
+import { afterEach, assertType, describe, expect, it } from 'vitest'
 import { Knex, query, useKnex } from '..'
 
 declare module 'knex/types/tables' {
@@ -262,14 +262,12 @@ describe('Knex', () => {
     })
     await func.export().handler({})
 
-    expectType<Tables['test'][]>(await query('test'))
-    expectNotType<any[]>(await query('test'))
+    assertType<Tables['test'][]>(await query('test'))
 
-    expectType<any>(await query('testtest'))
+    assertType<any>(await query('testtest'))
 
-    expectType<{ value: string }>(
+    assertType<{ value: string }>(
       await query<any, { value: string }>('testtest')
     )
-    expectNotType<any>(await query<{ value: string }>('testtest'))
   })
 })

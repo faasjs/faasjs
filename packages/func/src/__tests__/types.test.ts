@@ -1,4 +1,4 @@
-import { expectType } from 'tsd'
+import { assertType, describe, it } from 'vitest'
 import { type Func, type FuncEventType, type FuncReturnType, useFunc } from '..'
 
 describe('types', () => {
@@ -8,10 +8,12 @@ describe('types', () => {
       return event.counter
     })
 
-    expectType<Func<{ counter: number }, any, number>>(func)
+    assertType<Func<{ counter: number }, any, number>>(func)
 
-    expectType<{ counter: number }>({} as FuncEventType<typeof func>)
+    assertType<{
+      counter: number
+    }>({} as FuncEventType<typeof func>)
 
-    expectType<number>({} as FuncReturnType<typeof func>)
+    assertType<number>({} as FuncReturnType<typeof func>)
   })
 })

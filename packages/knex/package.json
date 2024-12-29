@@ -48,7 +48,6 @@
     "mysql": "*",
     "pg": "*",
     "better-sqlite3": "*",
-    "tsd": "*",
     "cloudflare-d1-http-knex": "*"
   },
   "engines": {

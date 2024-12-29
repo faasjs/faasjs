@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { expectType } from 'tsd'
+import { assertType, describe, expect, it } from 'vitest'
 import { createSplittingContext } from '../splittingContext'
 
 describe('createSplittingContext', () => {
@@ -268,13 +268,13 @@ describe('createSplittingContext', () => {
       setValue: React.Dispatch<React.SetStateAction<any>>
     }>(['value', 'setValue'])
 
-    expectType<React.ReactNode>(
+    assertType<React.ReactNode>(
       Provider<{
         value: { a: number }
         setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
       }>({ value: { value: { a: 1 }, setValue: () => 1 }, children: null })
     )
-    expectType<
+    assertType<
       () => {
         value: { a: number }
         setValue: React.Dispatch<React.SetStateAction<{ a: number }>>

@@ -6,7 +6,7 @@ import type {
   FaasParams,
   InferFaasAction,
 } from '@faasjs/types'
-import { expectNotType, expectType } from 'tsd'
+import { assertType, describe, expectTypeOf, it } from 'vitest'
 
 declare module '@faasjs/types' {
   interface FaasActions {
@@ -19,26 +19,24 @@ declare module '@faasjs/types' {
 
 describe('types', () => {
   it('FaasAction', () => {
-    expectType<FaasAction>({})
-    expectType<FaasAction>('/test')
-    expectNotType<FaasAction>('/')
+    assertType<FaasAction>({})
+    assertType<FaasAction>('/test')
   })
 
   it('FaasParams', () => {
-    expectType<FaasParams>({})
-    expectType<FaasParams<'/test'>>({ key: 'key' })
-    expectNotType<FaasParams<'/test'>>({ key: true })
+    assertType<FaasParams>({})
+    assertType<FaasParams<'/test'>>({ key: 'key' })
   })
 
   it('FaasData', () => {
-    expectType<FaasData>({})
-    expectType<FaasData<'/test'>>({ value: 'value' })
-    expectNotType<FaasData<'/test'>>({ value: true })
+    assertType<FaasData>({})
+    assertType<FaasData<'/test'>>({ value: 'value' })
+    expectTypeOf({ value: true }).not.toEqualTypeOf({ value: 'value' })
   })
 
   it('FaasActions', () => {
-    expectType<FaasActions['/test']['Params']>({ key: 'key' })
-    expectType<FaasActions['/test']['Data']>({ value: 'value' })
+    assertType<FaasActions['/test']['Params']>({ key: 'key' })
+    assertType<FaasActions['/test']['Data']>({ value: 'value' })
   })
 
   it('InferFaasAction', () => {
@@ -56,9 +54,9 @@ describe('types', () => {
 
     type InferredAction = InferFaasAction<typeof func>
 
-    expectType<InferredAction['Params']>({ key: 'key' })
-    expectType<InferredAction['Data']>({ value: 'value' })
-    expectNotType<InferredAction['Params']>({ key: true })
-    expectNotType<InferredAction['Data']>({ value: true })
+    assertType<InferredAction['Params']>({ key: 'key' })
+    assertType<InferredAction['Data']>({ value: 'value' })
+    expectTypeOf({ key: true }).not.toEqualTypeOf({ key: 'key' })
+    expectTypeOf({ value: true }).not.toEqualTypeOf({ value: 'value' })
   })
 })

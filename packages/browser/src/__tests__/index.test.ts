@@ -1,6 +1,5 @@
 import type { FaasActions } from '@faasjs/types'
-import { expectType } from 'tsd'
-import { vi } from 'vitest'
+import { assertType, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   FaasBrowserClient,
   Response as FaasResponse,
@@ -182,14 +181,14 @@ describe('types', () => {
   it('should work', async () => {
     const client = new FaasBrowserClient('/')
 
-    expectType<FaasResponse<any>>(await client.action('/', {}))
-    expectType<FaasResponse<{ value: number }>>(
+    assertType<FaasResponse<any>>(await client.action('/', {}))
+    assertType<FaasResponse<{ value: number }>>(
       await client.action<{ value: number }>('/', { value: 1 })
     )
-    expectType<FaasResponse<FaasActions['/type']['Data']>>(
+    assertType<FaasResponse<FaasActions['/type']['Data']>>(
       await client.action('/type', { key: 'key' })
     )
-    expectType<string>(
+    assertType<string>(
       await client.action('/type', { key: 'key' }).then(res => res.data.value)
     )
   })
