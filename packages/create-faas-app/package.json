@@ -7,7 +7,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "bin": {
-    "create-faas-app": "index.js"
+    "create-faas-app": "index.cjs"
   },
   "homepage": "https://faasjs.com/doc/create-faas-app",
   "repository": {
@@ -22,10 +22,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist",
-    "index.js"
-  ],
+  "files": ["dist", "index.js"],
   "dependencies": {
     "commander": "*",
     "enquirer": "*",
