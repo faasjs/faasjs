@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "5.0.0-beta.4",
+  "version": "5.0.0-beta.5",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -35,10 +35,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/browser": "5.0.0-beta.4"
+    "@faasjs/browser": "5.0.0-beta.5"
   },
   "devDependencies": {
-    "@faasjs/browser": "5.0.0-beta.4",
+    "@faasjs/browser": "5.0.0-beta.5",
     "@types/react": "*",
     "react": "*"
   },
