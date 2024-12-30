@@ -25,12 +25,13 @@ commander
   .storeOptionsAsProperties(false)
   .allowUnknownOption(true)
   .name('create-faas-app')
+  .exitOverride()
 
 action(commander as Command)
 
-export async function main() {
+export async function main(argv: string[]) {
   try {
-    await commander.parseAsync(process.argv)
+    await commander.parseAsync(argv)
   } catch (error) {
     console.error(error)
   }
