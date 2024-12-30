@@ -28,14 +28,12 @@ commander
 
 action(commander as Command)
 
-async function main() {
+export async function main() {
   try {
-    if (!process.env.CI && process.argv[0] !== 'fake')
-      await commander.parseAsync(process.argv)
+    await commander.parseAsync(process.argv)
   } catch (error) {
     console.error(error)
-    process.exit(1)
   }
-}
 
-export default main()
+  return commander
+}

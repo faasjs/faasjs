@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import commander from '..'
+import { main } from '..'
 
 describe('create-faas-app', () => {
   it('should work', () => {
-    expect(commander).toBeDefined()
+    expect(main).toBeDefined()
   })
 })
