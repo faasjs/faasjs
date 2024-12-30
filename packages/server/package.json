@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "5.0.0-beta.3",
+  "version": "5.0.0-beta.4",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
@@ -37,10 +37,10 @@
   "peerDependencies": {
     "lodash": "*",
     "mime-types": "*",
-    "@faasjs/func": "5.0.0-beta.3",
-    "@faasjs/load": "5.0.0-beta.3",
-    "@faasjs/logger": "5.0.0-beta.3",
-    "@faasjs/http": "5.0.0-beta.3"
+    "@faasjs/func": "5.0.0-beta.4",
+    "@faasjs/load": "5.0.0-beta.4",
+    "@faasjs/logger": "5.0.0-beta.4",
+    "@faasjs/http": "5.0.0-beta.4"
   },
   "optionalDependencies": {
     "tsx": "*"
@@ -51,10 +51,10 @@
     "mime-types": "*",
     "@types/mime-types": "*",
     "@types/react-dom": "*",
-    "@faasjs/func": "5.0.0-beta.3",
-    "@faasjs/load": "5.0.0-beta.3",
-    "@faasjs/logger": "5.0.0-beta.3",
-    "@faasjs/http": "5.0.0-beta.3",
+    "@faasjs/func": "5.0.0-beta.4",
+    "@faasjs/load": "5.0.0-beta.4",
+    "@faasjs/logger": "5.0.0-beta.4",
+    "@faasjs/http": "5.0.0-beta.4",
     "tsx": "*"
   },
   "engines": {
