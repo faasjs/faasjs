@@ -5,6 +5,7 @@ import {
   flush,
   insert,
   register,
+  reset,
   start,
   stop,
   unregister,
@@ -13,12 +14,11 @@ import type { TransportHandler } from '../transport'
 
 describe('transport', () => {
   afterEach(() => {
-    Transports.clear()
-    CachedMessages.splice(0, CachedMessages.length)
+    reset()
   })
 
   it('should register a transport handler', () => {
-    const handler: TransportHandler = async () => {}
+    const handler: TransportHandler = async () => { }
 
     register('test', handler)
 
@@ -26,7 +26,7 @@ describe('transport', () => {
   })
 
   it('should unregister a transport handler', () => {
-    const handler: TransportHandler = async () => {}
+    const handler: TransportHandler = async () => { }
 
     register('test', handler)
 
@@ -47,13 +47,15 @@ describe('transport', () => {
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = vi.fn(async () => {})
+    const handler: TransportHandler = vi.fn(async () => { })
 
     register('test', handler)
 
     const level = 'info'
     const message = 'test message'
     const timestamp = Date.now()
+
+    CachedMessages.splice(0, CachedMessages.length)
 
     insert({ level, labels: [], message, timestamp })
 
@@ -77,17 +79,17 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insert({ level, labels: [], message, timestamp })
+    CachedMessages.splice(0, CachedMessages.length)
 
-    console.error = vi.fn()
+    insert({ level, labels: [], message, timestamp })
 
     await flush()
 
-    expect(console.error).toHaveBeenCalledWith(
-      '[LoggerTransport]',
-      'spy',
-      error
-    )
+    expect(CachedMessages[0]).toMatchObject({
+      labels: ['LoggerTransport'],
+      level: 'error',
+      extra: [error]
+    })
   })
 
   it('should start and periodically flush cached messages', async () => {
@@ -95,6 +97,8 @@ describe('transport', () => {
 
     start({ interval: 1000 })
     start()
+
+    CachedMessages.splice(0, CachedMessages.length)
 
     insert({
       level: 'info',
@@ -126,6 +130,11 @@ describe('transport', () => {
     vi.advanceTimersByTime(1000)
 
     expect(CachedMessages).toHaveLength(1)
+    expect(CachedMessages[0]).toMatchObject({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+    })
 
     vi.useRealTimers()
   })

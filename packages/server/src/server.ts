@@ -15,6 +15,7 @@ import type { Func } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
 import { loadConfig } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
+import { stop } from '@faasjs/logger/transport'
 
 type Cache = {
   file?: string
@@ -572,6 +573,9 @@ export class Server {
     }
 
     this.logger.timeEnd(`${this.logger.label}close`, 'closed')
+
+    await stop()
+
     this.closed = true
   }
 

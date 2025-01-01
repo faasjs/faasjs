@@ -1,4 +1,4 @@
-import type { Level } from './logger'
+import { type Level, Logger } from './logger'
 
 export type LoggerMessage = {
   level: Level
@@ -11,6 +11,10 @@ export type LoggerMessage = {
 export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
 
 export const Transports = new Map<string, TransportHandler>()
+
+const logger = new Logger('LoggerTransport')
+
+let enabled = true
 
 /**
  * Registers a transport handler with a given name.
@@ -29,6 +33,7 @@ export const Transports = new Map<string, TransportHandler>()
  * ```
  */
 export function register(name: string, handler: TransportHandler) {
+  logger.info('register', name)
   Transports.set(name, handler)
 }
 
@@ -45,6 +50,7 @@ export function register(name: string, handler: TransportHandler) {
  * ```
  */
 export function unregister(name: string) {
+  logger.info('unregister', name)
   Transports.delete(name)
 }
 
@@ -71,6 +77,7 @@ let flushing = false
  * ```
  */
 export function insert(message: LoggerMessage) {
+  if (!enabled) return
   CachedMessages.push(message)
 }
 
@@ -105,13 +112,14 @@ export async function flush() {
     })
 
   flushing = true
+
   const messages = CachedMessages.splice(0, CachedMessages.length)
 
   for (const handler of Transports.values())
     try {
       await handler(messages)
     } catch (error) {
-      console.error('[LoggerTransport]', handler.name, error)
+      logger.error(handler.name, error)
     }
 
   flushing = false
@@ -142,8 +150,10 @@ let interval: NodeJS.Timeout
  * ```
  */
 export function start(options: StartOptions = {}) {
+  if (!enabled) enabled = true
+
   if (started) {
-    console.warn('[LoggerTransport] already started')
+    logger.warn('already started')
     return
   }
 
@@ -152,6 +162,8 @@ export function start(options: StartOptions = {}) {
 
     if (started) start()
   }, options.interval ?? 5000)
+
+  logger.info('started %j', options)
 }
 
 /**
@@ -162,6 +174,8 @@ export function start(options: StartOptions = {}) {
  * @returns {Promise<void>} A promise that resolves when the logging transport is stopped.
  */
 export async function stop() {
+  if (!enabled) return
+
   started = false
 
   if (interval) {
@@ -169,5 +183,32 @@ export async function stop() {
     interval = undefined
   }
 
-  if (CachedMessages.length > 0) await flush()
+  logger.info('stopping')
+
+  await flush()
+
+  logger.info('stopped')
+
+  await flush()
 }
+
+/**
+ * Resets the logging system to its default state.
+ *
+ * This function performs the following actions:
+ * - Enables logging by setting the `enabled` flag to `true`.
+ * - Clears all transports by calling `Transports.clear()`.
+ * - Empties the cached messages by splicing the `CachedMessages` array.
+ */
+export function reset() {
+  enabled = true
+  Transports.clear()
+  CachedMessages.splice(0, CachedMessages.length)
+}
+
+setTimeout(async () => {
+  if (Object.keys(Transports).length === 0) {
+    logger.warn('no transports registered, disabling')
+    enabled = false
+  }
+}, 5000)
