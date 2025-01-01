@@ -1,4 +1,4 @@
-import { type Level, Logger } from './logger'
+import { type Level, Logger } from '@faasjs/logger'
 
 export type LoggerMessage = {
   level: Level
@@ -12,7 +12,13 @@ export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
 
 export const Transports = new Map<string, TransportHandler>()
 
-const logger = new Logger('LoggerTransport')
+let _logger: Logger
+
+function logger() {
+  if (!_logger) _logger = new Logger('LoggerTransport')
+
+  return _logger
+}
 
 let enabled = true
 
@@ -33,7 +39,7 @@ let enabled = true
  * ```
  */
 export function register(name: string, handler: TransportHandler) {
-  logger.info('register', name)
+  logger().info('register', name)
   Transports.set(name, handler)
 }
 
@@ -50,7 +56,7 @@ export function register(name: string, handler: TransportHandler) {
  * ```
  */
 export function unregister(name: string) {
-  logger.info('unregister', name)
+  logger().info('unregister', name)
   Transports.delete(name)
 }
 
@@ -119,7 +125,7 @@ export async function flush() {
     try {
       await handler(messages)
     } catch (error) {
-      logger.error(handler.name, error)
+      logger().error(handler.name, error)
     }
 
   flushing = false
@@ -153,7 +159,7 @@ export function start(options: StartOptions = {}) {
   if (!enabled) enabled = true
 
   if (started) {
-    logger.warn('already started')
+    logger().warn('already started')
     return
   }
 
@@ -163,7 +169,7 @@ export function start(options: StartOptions = {}) {
     if (started) start()
   }, options.interval ?? 5000)
 
-  logger.info('started %j', options)
+  logger().info('started %j', options)
 }
 
 /**
@@ -183,11 +189,11 @@ export async function stop() {
     interval = undefined
   }
 
-  logger.info('stopping')
+  logger().info('stopping')
 
   await flush()
 
-  logger.info('stopped')
+  logger().info('stopped')
 
   await flush()
 }
@@ -208,7 +214,7 @@ export function reset() {
 
 setTimeout(async () => {
   if (Object.keys(Transports).length === 0) {
-    logger.warn('no transports registered, disabling')
+    logger().warn('no transports registered, auto disabled')
     enabled = false
   }
 }, 5000)
