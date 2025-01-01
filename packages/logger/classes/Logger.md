@@ -240,7 +240,7 @@ The Logger instance for chaining.
 
 ### level
 
-> **level**: `number` = `0`
+> **level**: [`Level`](../type-aliases/Level.md) = `'debug'`
 
 ### silent
 

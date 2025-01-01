@@ -72,11 +72,23 @@ class Transport {
 
     if (!this.enabled || this.messages.length === 0) return
 
+    if (this.handlers.size === 0) {
+      this.logger.warn('no handlers to flush, disable transport')
+      this.messages.splice(0, this.messages.length)
+      this.enabled = false
+      clearInterval(this.interval)
+      return
+    }
+
     this.flushing = true
 
     const messages = this.messages.splice(0, this.messages.length)
 
-    this.logger.debug('flushing %d messages with %d handlers', messages.length, this.handlers.size)
+    this.logger.debug(
+      'flushing %d messages with %d handlers',
+      messages.length,
+      this.handlers.size
+    )
 
     for (const handler of this.handlers.values())
       try {
@@ -113,8 +125,7 @@ class Transport {
   }
 
   config(options: TransportOptions) {
-    if (options.label)
-      this.logger.label = options.label
+    if (options.label) this.logger.label = options.label
 
     if (typeof options.debug === 'boolean')
       this.logger.level = options.debug ? 'debug' : 'info'

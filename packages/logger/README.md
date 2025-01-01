@@ -33,6 +33,7 @@ logger.error('error message')
 ## Functions
 
 - [flushTransportMessages](functions/flushTransportMessages.md)
+- [getTransport](functions/getTransport.md)
 - [insertMessageToTransport](functions/insertMessageToTransport.md)
 - [registerTransportHandler](functions/registerTransportHandler.md)
 - [resetTransport](functions/resetTransport.md)
@@ -52,10 +53,9 @@ logger.error('error message')
 
 - [Level](type-aliases/Level.md)
 - [LoggerMessage](type-aliases/LoggerMessage.md)
-- [StartOptions](type-aliases/StartOptions.md)
 - [TransportHandler](type-aliases/TransportHandler.md)
+- [TransportOptions](type-aliases/TransportOptions.md)
 
 ## Variables
 
 - [CachedMessages](variables/CachedMessages.md)
-- [TransportHandlers](variables/TransportHandlers.md)

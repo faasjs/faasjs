@@ -17,7 +17,7 @@ describe('transport', () => {
   })
 
   it('should register a transport handler', () => {
-    const handler: TransportHandler = async () => { }
+    const handler: TransportHandler = async () => {}
 
     registerTransportHandler('test', handler)
 
@@ -25,7 +25,7 @@ describe('transport', () => {
   })
 
   it('should unregister a transport handler', () => {
-    const handler: TransportHandler = async () => { }
+    const handler: TransportHandler = async () => {}
 
     registerTransportHandler('test', handler)
 
@@ -42,11 +42,16 @@ describe('transport', () => {
     insertMessageToTransport({ level, labels: [], message, timestamp })
 
     expect(getTransport().messages.length).toBe(1)
-    expect(getTransport().messages[0]).toEqual({ level, labels: [], message, timestamp })
+    expect(getTransport().messages[0]).toEqual({
+      level,
+      labels: [],
+      message,
+      timestamp,
+    })
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = vi.fn(async () => { })
+    const handler: TransportHandler = vi.fn(async () => {})
 
     registerTransportHandler('test', handler)
 

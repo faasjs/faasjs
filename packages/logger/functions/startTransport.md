@@ -13,7 +13,7 @@ If there are any cached messages, it will flush them and then restart the proces
 
 ### options?
 
-[`StartOptions`](../type-aliases/StartOptions.md) = `{}`
+[`TransportOptions`](../type-aliases/TransportOptions.md) = `{}`
 
 The options to configure the logging transport.
 
