@@ -87,7 +87,7 @@ Body parser. Defaults to `JSON.parse`.
 
 #### Index Signature
 
- \[`key`: `string`\]: `any`
+\[`key`: `string`\]: `any`
 
 ### timeout?
 

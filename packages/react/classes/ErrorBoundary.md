@@ -24,15 +24,7 @@
 
 #### Overrides
 
-`Component<
-  ErrorBoundaryProps,
-  {
-    error?: Error
-    info?: {
-      componentStack?: string
-    }
-  }
->.constructor`
+`Component< ErrorBoundaryProps, { error?: Error info?: { componentStack?: string } } >.constructor`
 
 ## Methods
 

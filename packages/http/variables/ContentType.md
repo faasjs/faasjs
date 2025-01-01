@@ -6,4 +6,4 @@
 
 ## Index Signature
 
- \[`key`: `string`\]: `string`
+\[`key`: `string`\]: `string`

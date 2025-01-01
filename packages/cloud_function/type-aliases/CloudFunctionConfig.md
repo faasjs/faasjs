@@ -10,7 +10,7 @@
 
 ## Index Signature
 
- \[`key`: `string`\]: `any`
+\[`key`: `string`\]: `any`
 
 ### config?
 
@@ -20,7 +20,7 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: `any`
+\[`key`: `string`\]: `any`
 
 #### config.memorySize?
 

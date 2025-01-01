@@ -6,4 +6,4 @@
 
 ## Index Signature
 
- \[`type`: `string`\]: [`ExtendFormTypeProps`](ExtendFormTypeProps.md)\<`any`\>
+\[`type`: `string`\]: [`ExtendFormTypeProps`](ExtendFormTypeProps.md)\<`any`\>

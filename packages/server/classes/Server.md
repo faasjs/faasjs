@@ -39,11 +39,11 @@ Enable cache, default is false
 
 ###### onClose
 
-() => `Promise`\<`void`\>
+(`context`) => `Promise`\<`void`\>
 
 ###### onError
 
-(`error`) => `void`
+(`error`, `context`) => `void`
 
 ###### port
 
@@ -113,7 +113,15 @@ Start server.
 
 ### onClose()?
 
-> `readonly` `optional` **onClose**: () => `Promise`\<`void`\>
+> `readonly` `optional` **onClose**: (`context`) => `Promise`\<`void`\>
+
+#### Parameters
+
+##### context
+
+###### logger
+
+`Logger`
 
 #### Returns
 

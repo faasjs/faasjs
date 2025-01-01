@@ -2,7 +2,13 @@
 
 # Function: main()
 
-> **main**(): `Promise`\<`Command`\>
+> **main**(`argv`): `Promise`\<`Command`\>
+
+## Parameters
+
+### argv
+
+`string`[]
 
 ## Returns
 

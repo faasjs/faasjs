@@ -2,7 +2,7 @@
 
 # Function: useStateRef()
 
-> **useStateRef**\<`T`\>(`initialValue`?): [`T`, `Dispatch`\<`SetStateAction`\<`T`\>\>, `RefObject`\<`T`\>]
+> **useStateRef**\<`T`\>(`initialValue`?): \[`T`, `Dispatch`\<`SetStateAction`\<`T`\>\>, `RefObject`\<`T`\>\]
 
 Custom hook that returns a stateful value and a ref to that value.
 
@@ -22,7 +22,7 @@ The initial value of the state.
 
 ## Returns
 
-[`T`, `Dispatch`\<`SetStateAction`\<`T`\>\>, `RefObject`\<`T`\>]
+\[`T`, `Dispatch`\<`SetStateAction`\<`T`\>\>, `RefObject`\<`T`\>\]
 
 - The stateful value, a function to set the value, and a ref to the value.
 

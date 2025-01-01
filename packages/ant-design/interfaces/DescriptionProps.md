@@ -40,7 +40,7 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
+\[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
 
 ### faasData?
 

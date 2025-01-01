@@ -180,7 +180,7 @@ set status code
 
 #### Index Signature
 
- \[`key`: `string`\]: `string`
+\[`key`: `string`\]: `string`
 
 ### name
 

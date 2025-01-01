@@ -60,7 +60,7 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: \`$\{string\}/\`
+> `optional` **baseUrl**: `` `${string}/` ``
 
 #### Inherited from
 

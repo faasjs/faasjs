@@ -38,7 +38,10 @@ let enabled = true
  * })
  * ```
  */
-export function registerTransportHandler(name: string, handler: TransportHandler) {
+export function registerTransportHandler(
+  name: string,
+  handler: TransportHandler
+) {
   logger().info('register', name)
   TransportHandlers.set(name, handler)
 }

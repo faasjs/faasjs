@@ -20,7 +20,7 @@ await client.action('func', { key: 'value' })
 
 ##### baseUrl
 
-\`$\{string\}/\` = `'/'`
+`` `${string}/` `` = `'/'`
 
 ##### options
 
@@ -73,7 +73,7 @@ await client.action('func', { key: 'value' })
 
 ### baseUrl
 
-> **baseUrl**: \`$\{string\}/\`
+> **baseUrl**: `` `${string}/` ``
 
 ### defaultOptions
 

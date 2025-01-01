@@ -12,7 +12,7 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: [`ExtendTableTypeProps`](ExtendTableTypeProps.md)\<`any`\>
+\[`key`: `string`\]: [`ExtendTableTypeProps`](ExtendTableTypeProps.md)\<`any`\>
 
 ### faasData?
 

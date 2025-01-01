@@ -8,7 +8,7 @@
 
 ## Index Signature
 
- \[`key`: `string`\]: `any`
+\[`key`: `string`\]: `any`
 
 ### plugins?
 
@@ -16,4 +16,4 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: `object`
+\[`key`: `string`\]: `object`

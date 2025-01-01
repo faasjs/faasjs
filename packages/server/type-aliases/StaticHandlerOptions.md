@@ -22,4 +22,4 @@ true
 
 ### root
 
-> **root**: \`$\{string\}/\`
+> **root**: `` `${string}/` ``

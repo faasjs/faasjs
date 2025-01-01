@@ -8,7 +8,7 @@
 
 ## Index Signature
 
- \[`key`: `string`\]: `any`
+\[`key`: `string`\]: `any`
 
 ### domain?
 

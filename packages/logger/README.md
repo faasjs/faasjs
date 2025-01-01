@@ -30,6 +30,16 @@ logger.error('error message')
 - **FaasLogSize**: 1000 (default: 1000, 0 for unlimited)
 - **FaasLogMode**: plain, pretty (default: pretty)
 
+## Functions
+
+- [flushTransportMessages](functions/flushTransportMessages.md)
+- [insertMessageToTransport](functions/insertMessageToTransport.md)
+- [registerTransportHandler](functions/registerTransportHandler.md)
+- [resetTransport](functions/resetTransport.md)
+- [startTransport](functions/startTransport.md)
+- [stopTransport](functions/stopTransport.md)
+- [unregisterTransportHandler](functions/unregisterTransportHandler.md)
+
 ## Classes
 
 - [Logger](classes/Logger.md)
@@ -41,3 +51,11 @@ logger.error('error message')
 ## Type Aliases
 
 - [Level](type-aliases/Level.md)
+- [LoggerMessage](type-aliases/LoggerMessage.md)
+- [StartOptions](type-aliases/StartOptions.md)
+- [TransportHandler](type-aliases/TransportHandler.md)
+
+## Variables
+
+- [CachedMessages](variables/CachedMessages.md)
+- [TransportHandlers](variables/TransportHandlers.md)
