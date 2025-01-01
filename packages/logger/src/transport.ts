@@ -10,17 +10,132 @@ export type LoggerMessage = {
 
 export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
 
-export const TransportHandlers = new Map<string, TransportHandler>()
-
-let _logger: Logger
-
-function logger() {
-  if (!_logger) _logger = new Logger('LoggerTransport')
-
-  return _logger
+export type TransportOptions = {
+  /** @default 'LoggerTransport' */
+  label?: string
+  /** @default 5000 */
+  interval?: number
+  /** @default false */
+  debug?: boolean
 }
 
-let enabled = true
+class Transport {
+  private enabled = true
+  public handlers: Map<string, TransportHandler> = new Map()
+  private logger: Logger
+  public messages: LoggerMessage[] = []
+  private flushing = false
+  private interval: NodeJS.Timeout
+  private intervalTime = 5000
+
+  constructor() {
+    this.logger = new Logger('LoggerTransport')
+    this.logger.level = 'info'
+
+    this.flush = this.flush.bind(this)
+
+    this.interval = setInterval(this.flush, this.intervalTime)
+  }
+
+  register(name: string, handler: TransportHandler) {
+    this.logger.info('register', name)
+
+    this.handlers.set(name, handler)
+
+    if (!this.enabled) this.enabled = true
+  }
+
+  unregister(name: string) {
+    this.logger.info('unregister', name)
+
+    this.handlers.delete(name)
+
+    if (this.handlers.size === 0) this.enabled = false
+  }
+
+  insert(message: LoggerMessage) {
+    if (!this.enabled) return
+
+    this.messages.push(message)
+  }
+
+  async flush() {
+    if (this.flushing)
+      return new Promise<void>(resolve => {
+        const interval = setInterval(() => {
+          if (!this.flushing) {
+            clearInterval(interval)
+            resolve()
+          }
+        }, 100)
+      })
+
+    if (!this.enabled || this.messages.length === 0) return
+
+    this.flushing = true
+
+    const messages = this.messages.splice(0, this.messages.length)
+
+    this.logger.debug('flushing %d messages with %d handlers', messages.length, this.handlers.size)
+
+    for (const handler of this.handlers.values())
+      try {
+        await handler(messages)
+      } catch (error) {
+        this.logger.error(handler.name, error)
+      }
+
+    this.flushing = false
+  }
+
+  async stop() {
+    this.logger.info('stopping')
+
+    if (this.interval) {
+      clearInterval(this.interval)
+      this.interval = undefined
+    }
+
+    await this.flush()
+
+    this.enabled = false
+  }
+
+  reset() {
+    this.handlers.clear()
+    this.messages.splice(0, this.messages.length)
+    this.enabled = true
+
+    if (this.interval) {
+      clearInterval(this.interval)
+      this.interval = undefined
+    }
+  }
+
+  config(options: TransportOptions) {
+    if (options.label)
+      this.logger.label = options.label
+
+    if (typeof options.debug === 'boolean')
+      this.logger.level = options.debug ? 'debug' : 'info'
+
+    if (options.interval && options.interval !== this.intervalTime) {
+      this.intervalTime = options.interval
+      clearInterval(this.interval)
+      this.interval = setInterval(this.flush, this.intervalTime)
+    }
+
+    if (!this.enabled) this.enabled = true
+  }
+}
+
+let current: Transport
+
+export function getTransport() {
+  current ||= new Transport()
+
+  return current
+}
 
 /**
  * Registers a transport handler with a given name.
@@ -42,9 +157,7 @@ export function registerTransportHandler(
   name: string,
   handler: TransportHandler
 ) {
-  logger().info('register', name)
-  TransportHandlers.set(name, handler)
-  if (!enabled) enabled = true
+  getTransport().register(name, handler)
 }
 
 /**
@@ -60,13 +173,10 @@ export function registerTransportHandler(
  * ```
  */
 export function unregisterTransportHandler(name: string) {
-  logger().info('unregister', name)
-  TransportHandlers.delete(name)
+  getTransport().unregister(name)
 }
 
 export const CachedMessages: LoggerMessage[] = []
-
-let flushing = false
 
 /**
  * Inserts a log message into the transport.
@@ -87,8 +197,7 @@ let flushing = false
  * ```
  */
 export function insertMessageToTransport(message: LoggerMessage) {
-  if (!enabled) return
-  CachedMessages.push(message)
+  getTransport().insert(message)
 }
 
 /**
@@ -111,48 +220,8 @@ export function insertMessageToTransport(message: LoggerMessage) {
  * ```
  */
 export async function flushTransportMessages() {
-  if (flushing)
-    return new Promise<void>(resolve => {
-      const interval = setInterval(() => {
-        if (!flushing) {
-          clearInterval(interval)
-          resolve()
-        }
-      }, 100)
-    })
-
-  flushing = true
-
-  const messages = CachedMessages.splice(0, CachedMessages.length)
-
-  logger().debug(
-    'flushing %d messages with %d handlers',
-    messages.length,
-    TransportHandlers.size
-  )
-
-  if (messages.length === 0) {
-    flushing = false
-    return
-  }
-
-  for (const handler of TransportHandlers.values())
-    try {
-      await handler(messages)
-    } catch (error) {
-      logger().error(handler.name, error)
-    }
-
-  flushing = false
+  return getTransport().flush()
 }
-
-export type StartOptions = {
-  /** @default 5000 */
-  interval?: number
-}
-
-let started = false
-let interval: NodeJS.Timeout
 
 /**
  * Starts the logging transport with the specified options.
@@ -160,7 +229,7 @@ let interval: NodeJS.Timeout
  * This function sets a timeout to periodically flush cached messages.
  * If there are any cached messages, it will flush them and then restart the process.
  *
- * @param {StartOptions} [options={}] - The options to configure the logging transport.
+ * @param {TransportOptions} [options={}] - The options to configure the logging transport.
  * @param {number} [options.interval=5000] - The interval in milliseconds at which to flush cached messages.
  *
  * @example
@@ -170,17 +239,8 @@ let interval: NodeJS.Timeout
  * start()
  * ```
  */
-export function startTransport(options: StartOptions = {}) {
-  if (!enabled) enabled = true
-
-  if (started) {
-    logger().warn('already started')
-    return
-  }
-
-  interval = setInterval(flushTransportMessages, options.interval ?? 5000)
-
-  logger().info('started %j', options)
+export function startTransport(options: TransportOptions = {}) {
+  getTransport().config(options)
 }
 
 /**
@@ -191,23 +251,7 @@ export function startTransport(options: StartOptions = {}) {
  * @returns {Promise<void>} A promise that resolves when the logging transport is stopped.
  */
 export async function stopTransport() {
-  if (!enabled) return
-
-  started = false
-  enabled = false
-
-  if (interval) {
-    clearInterval(interval)
-    interval = undefined
-  }
-
-  logger().info('stopping')
-
-  await flushTransportMessages()
-
-  logger().info('stopped')
-
-  await flushTransportMessages()
+  await getTransport().stop()
 }
 
 /**
@@ -219,14 +263,5 @@ export async function stopTransport() {
  * - Empties the cached messages by splicing the `CachedMessages` array.
  */
 export function resetTransport() {
-  enabled = true
-  TransportHandlers.clear()
-  CachedMessages.splice(0, CachedMessages.length)
+  getTransport().reset()
 }
-
-setTimeout(async () => {
-  if (TransportHandlers.size === 0) {
-    logger().warn('no transports registered, auto disabled')
-    enabled = false
-  }
-}, 5000)

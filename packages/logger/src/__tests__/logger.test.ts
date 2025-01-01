@@ -19,7 +19,7 @@ describe('logger', () => {
     logger.stdout = fake
     logger.stderr = fake
     logger.silent = false
-    logger.level = 0
+    logger.level = 'debug'
     logger[level as Level]('message')
 
     expect(lastOutput).toContain(
@@ -39,7 +39,7 @@ describe('logger', () => {
     logger.stdout = fake
     logger.stderr = fake
     logger.silent = false
-    logger.level = 0
+    logger.level = 'debug'
     logger.error('message')
 
     expect(lastOutput).toContain('ERROR message')
@@ -55,7 +55,7 @@ describe('logger', () => {
     logger.stdout = fake
     logger.stderr = fake
     logger.silent = false
-    logger.level = 0
+    logger.level = 'debug'
     logger.time('key')
 
     await new Promise(resolve =>
@@ -74,7 +74,7 @@ describe('logger', () => {
     logger.stdout = fake
     logger.stderr = fake
     logger.silent = false
-    logger.level = 0
+    logger.level = 'debug'
     logger.timeEnd('key', 'message')
 
     expect(lastOutput).toContain('\u001b[090mDEBUG [error] message\u001b[39m')
@@ -85,7 +85,7 @@ describe('logger', () => {
     logger.stdout = fake
     logger.stderr = fake
     logger.silent = false
-    logger.level = 0
+    logger.level = 'debug'
     logger.error(Error('message'))
 
     expect(lastOutput).toContain('ERROR Error: message')
@@ -96,7 +96,7 @@ describe('logger', () => {
     logger.stdout = fake
     logger.stderr = fake
     logger.silent = false
-    logger.level = 1
+    logger.level = 'info'
     logger.debug('debug')
 
     expect(lastOutput).not.toContain('debug')

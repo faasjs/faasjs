@@ -50,7 +50,7 @@ function formatLogger(...args: any[]): string {
  */
 export class Logger {
   public silent = false
-  public level = 0
+  public level: Level = 'debug'
   public colorfyOutput = true
   public label?: string
   public size = 1000
@@ -85,7 +85,7 @@ export class Logger {
     }
 
     if (process.env.FaasLog)
-      this.level = LevelPriority[process.env.FaasLog.toLowerCase() as Level]
+      this.level = process.env.FaasLog.toLowerCase() as Level
 
     this.cachedTimers = {}
 
@@ -205,7 +205,7 @@ export class Logger {
   private log(level: Level, message: string | Error, ...args: any): Logger {
     if (this.silent) return this
 
-    if (LevelPriority[level] < this.level) return this
+    if (LevelPriority[level] < LevelPriority[this.level]) return this
 
     const formattedMessage = formatLogger(message, ...args)
 
