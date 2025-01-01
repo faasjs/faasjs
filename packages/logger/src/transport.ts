@@ -125,7 +125,11 @@ export async function flushTransportMessages() {
 
   const messages = CachedMessages.splice(0, CachedMessages.length)
 
-  logger().debug('flushing %d messages with %d handlers', messages.length, TransportHandlers.size)
+  logger().debug(
+    'flushing %d messages with %d handlers',
+    messages.length,
+    TransportHandlers.size
+  )
 
   for (const handler of TransportHandlers.values())
     try {
