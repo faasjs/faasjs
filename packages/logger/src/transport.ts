@@ -44,6 +44,7 @@ export function registerTransportHandler(
 ) {
   logger().info('register', name)
   TransportHandlers.set(name, handler)
+  if (!enabled) enabled = true
 }
 
 /**
@@ -123,6 +124,8 @@ export async function flushTransportMessages() {
   flushing = true
 
   const messages = CachedMessages.splice(0, CachedMessages.length)
+
+  logger().debug('flushing %d messages with %d handlers', messages.length, TransportHandlers.size)
 
   for (const handler of TransportHandlers.values())
     try {
@@ -216,7 +219,7 @@ export function resetTransport() {
 }
 
 setTimeout(async () => {
-  if (Object.keys(TransportHandlers).length === 0) {
+  if (TransportHandlers.size === 0) {
     logger().warn('no transports registered, auto disabled')
     enabled = false
   }
