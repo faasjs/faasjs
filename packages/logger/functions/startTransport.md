@@ -24,7 +24,7 @@ The options to configure the logging transport.
 ## Example
 
 ```typescript
-import { start } from '@faasjs/logger/transport'
+import { startTransport } from '@faasjs/logger'
 
 start()
 ```
