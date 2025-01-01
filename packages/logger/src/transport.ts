@@ -1,4 +1,4 @@
-import { type Level, Logger } from '@faasjs/logger'
+import { type Level, Logger } from './logger'
 
 export type LoggerMessage = {
   level: Level
@@ -10,7 +10,7 @@ export type LoggerMessage = {
 
 export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
 
-export const Transports = new Map<string, TransportHandler>()
+export const TransportHandlers = new Map<string, TransportHandler>()
 
 let _logger: Logger
 
@@ -30,17 +30,17 @@ let enabled = true
  *
  * @example
  * ```typescript
- * import { register } from '@faasjs/logger/transport'
+ * import { registerTransportHandler } from '@faasjs/logger'
  *
- * register('test', async (messages) => {
+ * registerTransportHandler('test', async (messages) => {
  *  for (const { level, message } of messages)
  *   console.log(level, message)
  * })
  * ```
  */
-export function register(name: string, handler: TransportHandler) {
+export function registerTransportHandler(name: string, handler: TransportHandler) {
   logger().info('register', name)
-  Transports.set(name, handler)
+  TransportHandlers.set(name, handler)
 }
 
 /**
@@ -50,14 +50,14 @@ export function register(name: string, handler: TransportHandler) {
  *
  * @example
  * ```typescript
- * import { unregister } from '@faasjs/logger/transport'
+ * import { unregisterTransportHandler } from '@faasjs/logger'
  *
- * unregister('test')
+ * unregisterTransportHandler('test')
  * ```
  */
-export function unregister(name: string) {
+export function unregisterTransportHandler(name: string) {
   logger().info('unregister', name)
-  Transports.delete(name)
+  TransportHandlers.delete(name)
 }
 
 export const CachedMessages: LoggerMessage[] = []
@@ -65,16 +65,16 @@ export const CachedMessages: LoggerMessage[] = []
 let flushing = false
 
 /**
- * Inserts a log message into the cache.
+ * Inserts a log message into the transport.
  *
  * @param message - The log message to insert.
  *
  * @example
  *
  * ```typescript
- * import { insert } from '@faasjs/logger/transport'
+ * import { insertMessageToTransport } from '@faasjs/logger'
  *
- * insert({
+ * insertMessageToTransport({
  *   level: 'info',
  *   labels: ['server'],
  *   message: 'test message',
@@ -82,7 +82,7 @@ let flushing = false
  * })
  * ```
  */
-export function insert(message: LoggerMessage) {
+export function insertMessageToTransport(message: LoggerMessage) {
   if (!enabled) return
   CachedMessages.push(message)
 }
@@ -98,15 +98,15 @@ export function insert(message: LoggerMessage) {
  * @example
  *
  * ```typescript
- * import { flush } from '@faasjs/logger/transport'
+ * import { flushTransportMessages } from '@faasjs/logger'
  *
  * process.on('SIGINT', async () => {
- *   await flush()
+ *   await flushTransportMessages()
  *   process.exit(0)
  * })
  * ```
  */
-export async function flush() {
+export async function flushTransportMessages() {
   if (flushing)
     return new Promise<void>(resolve => {
       const interval = setInterval(() => {
@@ -121,7 +121,7 @@ export async function flush() {
 
   const messages = CachedMessages.splice(0, CachedMessages.length)
 
-  for (const handler of Transports.values())
+  for (const handler of TransportHandlers.values())
     try {
       await handler(messages)
     } catch (error) {
@@ -155,7 +155,7 @@ let interval: NodeJS.Timeout
  * start()
  * ```
  */
-export function start(options: StartOptions = {}) {
+export function startTransport(options: StartOptions = {}) {
   if (!enabled) enabled = true
 
   if (started) {
@@ -164,9 +164,9 @@ export function start(options: StartOptions = {}) {
   }
 
   interval = setTimeout(async () => {
-    if (CachedMessages.length > 0) await flush()
+    if (CachedMessages.length > 0) await flushTransportMessages()
 
-    if (started) start()
+    if (started) startTransport()
   }, options.interval ?? 5000)
 
   logger().info('started %j', options)
@@ -179,7 +179,7 @@ export function start(options: StartOptions = {}) {
  *
  * @returns {Promise<void>} A promise that resolves when the logging transport is stopped.
  */
-export async function stop() {
+export async function stopTransport() {
   if (!enabled) return
 
   started = false
@@ -191,11 +191,11 @@ export async function stop() {
 
   logger().info('stopping')
 
-  await flush()
+  await flushTransportMessages()
 
   logger().info('stopped')
 
-  await flush()
+  await flushTransportMessages()
 }
 
 /**
@@ -206,14 +206,14 @@ export async function stop() {
  * - Clears all transports by calling `Transports.clear()`.
  * - Empties the cached messages by splicing the `CachedMessages` array.
  */
-export function reset() {
+export function resetTransport() {
   enabled = true
-  Transports.clear()
+  TransportHandlers.clear()
   CachedMessages.splice(0, CachedMessages.length)
 }
 
 setTimeout(async () => {
-  if (Object.keys(Transports).length === 0) {
+  if (Object.keys(TransportHandlers).length === 0) {
     logger().warn('no transports registered, auto disabled')
     enabled = false
   }

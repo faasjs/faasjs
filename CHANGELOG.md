@@ -15,6 +15,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Feature] Stop logger transport when server close.
 
 - `@faasjs/logger`
+  - [Break] Move `@faasjs/logger/transport` to `@faasjs/logger`.
   - [Feature] Add reset method to logger transport.
 
 [`v4.7.2 (2024-12-25)`](https://github.com/faasjs/faasjs/compare/v4.7.0...v4.7.2)

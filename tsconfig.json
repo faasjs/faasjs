@@ -18,9 +18,6 @@
     "paths": {
       "@faasjs/*": [
         "./packages/*/src"
-      ],
-      "@faasjs/logger/transport": [
-        "./packages/logger/src/transport"
       ]
     },
     "types": [

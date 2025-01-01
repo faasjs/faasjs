@@ -14,8 +14,7 @@ import { deepMerge } from '@faasjs/deep_merge'
 import type { Func } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
 import { loadConfig } from '@faasjs/load'
-import { Logger } from '@faasjs/logger'
-import { stop } from '@faasjs/logger/transport'
+import { Logger, stopTransport } from '@faasjs/logger'
 
 type Cache = {
   file?: string
@@ -574,7 +573,7 @@ export class Server {
 
     this.logger.timeEnd(`${this.logger.label}close`, 'closed')
 
-    await stop()
+    await stopTransport()
 
     this.closed = true
   }

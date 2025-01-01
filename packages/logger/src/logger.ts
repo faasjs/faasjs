@@ -1,6 +1,6 @@
 import { format } from 'node:util'
 import { Color } from './color'
-import { insert } from './transport'
+import { insertMessageToTransport } from './transport'
 
 /** Logger Level */
 export type Level = 'debug' | 'info' | 'warn' | 'error'
@@ -211,7 +211,7 @@ export class Logger {
 
     if (!formattedMessage && !args.length) return this
 
-    insert({
+    insertMessageToTransport({
       level,
       labels: this.label?.split(/\]\s*\[/) || [],
       message: formattedMessage,

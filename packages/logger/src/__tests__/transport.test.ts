@@ -1,38 +1,38 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   CachedMessages,
-  Transports,
-  flush,
-  insert,
-  register,
-  reset,
-  start,
-  stop,
-  unregister,
+  TransportHandlers,
+  flushTransportMessages,
+  insertMessageToTransport,
+  registerTransportHandler,
+  resetTransport,
+  startTransport,
+  stopTransport,
+  unregisterTransportHandler,
 } from '../transport'
 import type { TransportHandler } from '../transport'
 
 describe('transport', () => {
   afterEach(() => {
-    reset()
+    resetTransport()
   })
 
   it('should register a transport handler', () => {
     const handler: TransportHandler = async () => { }
 
-    register('test', handler)
+    registerTransportHandler('test', handler)
 
-    expect(Transports.has('test')).toBe(true)
+    expect(TransportHandlers.has('test')).toBe(true)
   })
 
   it('should unregister a transport handler', () => {
     const handler: TransportHandler = async () => { }
 
-    register('test', handler)
+    registerTransportHandler('test', handler)
 
-    unregister('test')
+    unregisterTransportHandler('test')
 
-    expect(Transports.has('test')).toBe(false)
+    expect(TransportHandlers.has('test')).toBe(false)
   })
 
   it('should insert messages into cache', () => {
@@ -40,7 +40,7 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insert({ level, labels: [], message, timestamp })
+    insertMessageToTransport({ level, labels: [], message, timestamp })
 
     expect(CachedMessages.length).toBe(1)
     expect(CachedMessages[0]).toEqual({ level, labels: [], message, timestamp })
@@ -49,7 +49,7 @@ describe('transport', () => {
   it('should flush transport handlers with cached messages', async () => {
     const handler: TransportHandler = vi.fn(async () => { })
 
-    register('test', handler)
+    registerTransportHandler('test', handler)
 
     const level = 'info'
     const message = 'test message'
@@ -57,9 +57,9 @@ describe('transport', () => {
 
     CachedMessages.splice(0, CachedMessages.length)
 
-    insert({ level, labels: [], message, timestamp })
+    insertMessageToTransport({ level, labels: [], message, timestamp })
 
-    await Promise.all([flush(), flush()])
+    await Promise.all([flushTransportMessages(), flushTransportMessages()])
 
     expect(handler).toHaveBeenCalledWith([
       { level, labels: [], message, timestamp },
@@ -73,7 +73,7 @@ describe('transport', () => {
       throw error
     })
 
-    register('test', handler)
+    registerTransportHandler('test', handler)
 
     const level = 'info'
     const message = 'test message'
@@ -81,9 +81,9 @@ describe('transport', () => {
 
     CachedMessages.splice(0, CachedMessages.length)
 
-    insert({ level, labels: [], message, timestamp })
+    insertMessageToTransport({ level, labels: [], message, timestamp })
 
-    await flush()
+    await flushTransportMessages()
 
     expect(CachedMessages[0]).toMatchObject({
       labels: ['LoggerTransport'],
@@ -95,12 +95,12 @@ describe('transport', () => {
   it('should start and periodically flush cached messages', async () => {
     vi.useFakeTimers()
 
-    start({ interval: 1000 })
-    start()
+    startTransport({ interval: 1000 })
+    startTransport()
 
     CachedMessages.splice(0, CachedMessages.length)
 
-    insert({
+    insertMessageToTransport({
       level: 'info',
       labels: [],
       message: 'test message',
@@ -111,16 +111,16 @@ describe('transport', () => {
 
     expect(CachedMessages).toHaveLength(0)
 
-    insert({
+    insertMessageToTransport({
       level: 'info',
       labels: [],
       message: 'test message',
       timestamp: Date.now(),
     })
 
-    await stop()
+    await stopTransport()
 
-    insert({
+    insertMessageToTransport({
       level: 'info',
       labels: [],
       message: 'test message',
