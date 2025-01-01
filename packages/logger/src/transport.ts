@@ -131,6 +131,11 @@ export async function flushTransportMessages() {
     TransportHandlers.size
   )
 
+  if (messages.length === 0) {
+    flushing = false
+    return
+  }
+
   for (const handler of TransportHandlers.values())
     try {
       await handler(messages)
@@ -160,7 +165,7 @@ let interval: NodeJS.Timeout
  *
  * @example
  * ```typescript
- * import { start } from '@faasjs/logger/transport'
+ * import { startTransport } from '@faasjs/logger'
  *
  * start()
  * ```
@@ -173,11 +178,7 @@ export function startTransport(options: StartOptions = {}) {
     return
   }
 
-  interval = setTimeout(async () => {
-    if (CachedMessages.length > 0) await flushTransportMessages()
-
-    if (started) startTransport()
-  }, options.interval ?? 5000)
+  interval = setInterval(flushTransportMessages, options.interval ?? 5000)
 
   logger().info('started %j', options)
 }
@@ -193,6 +194,7 @@ export async function stopTransport() {
   if (!enabled) return
 
   started = false
+  enabled = false
 
   if (interval) {
     clearInterval(interval)
