@@ -1,7 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import {
-  getTransport,
-} from '../transport'
+import { getTransport } from '../transport'
 import type { TransportHandler } from '../transport'
 
 describe('transport', () => {
@@ -10,7 +8,7 @@ describe('transport', () => {
   })
 
   it('should register a transport handler', () => {
-    const handler: TransportHandler = async () => { }
+    const handler: TransportHandler = async () => {}
 
     getTransport().register('test', handler)
 
@@ -18,7 +16,7 @@ describe('transport', () => {
   })
 
   it('should unregister a transport handler', () => {
-    const handler: TransportHandler = async () => { }
+    const handler: TransportHandler = async () => {}
 
     getTransport().register('test', handler)
 
@@ -44,7 +42,7 @@ describe('transport', () => {
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = vi.fn(async () => { })
+    const handler: TransportHandler = vi.fn(async () => {})
 
     const transport = getTransport()
 

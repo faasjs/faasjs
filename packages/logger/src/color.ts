@@ -1,4 +1,4 @@
-import type { Level } from "./logger";
+import type { Level } from './logger'
 
 export enum Color {
   DEFAULT = 39,
