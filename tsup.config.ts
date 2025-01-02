@@ -9,7 +9,7 @@ export default defineConfig({
   outExtension({ format }) {
     if (format === 'cjs')
       return {
-        js: '.js',
+        js: '.cjs',
         dts: '.d.ts',
       }
     if (format === 'esm')
