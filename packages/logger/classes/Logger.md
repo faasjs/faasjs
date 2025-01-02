@@ -38,28 +38,6 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ## Methods
 
-### colorfy()
-
-> **colorfy**(`color`, `message`): `string`
-
-#### Parameters
-
-##### color
-
-`number`
-
-{number} color code
-
-##### message
-
-`string`
-
-{string} message
-
-#### Returns
-
-`string`
-
 ### debug()
 
 > **debug**(`message`, ...`args`): [`Logger`](Logger.md)

@@ -19,7 +19,40 @@ export type TransportOptions = {
   debug?: boolean
 }
 
-class Transport {
+/**
+ * The transport class that manages the transport handlers and log messages.
+ *
+ * **Note: This class is not meant to be used directly. Use the {@link getTransport} instead.**
+ *
+ * @example
+ * ```typescript
+ * import { getTransport } from '@faasjs/logger'
+ *
+ * const transport = getTransport()
+ *
+ * transport.register('test', async (messages) => {
+ *  for (const { level, message } of messages)
+ *    console.log(level, message)
+ * })
+ *
+ * transport.config({ label: 'test', debug: true })
+ *
+ * // If you using Logger, it will automatically insert messages to the transport.
+ * // Otherwise, you can insert messages manually.
+ * transport.insert({
+ *   level: 'info',
+ *   labels: ['server'],
+ *   message: 'test message',
+ *   timestamp: Date.now()
+ * })
+ *
+ * process.on('SIGINT', async () => {
+ *   await transport.stop()
+ *   process.exit(0)
+ * })
+ * ```
+ */
+export class Transport {
   private enabled = true
   public handlers: Map<string, TransportHandler> = new Map()
   private logger: Logger
@@ -37,6 +70,12 @@ class Transport {
     this.interval = setInterval(this.flush, this.intervalTime)
   }
 
+  /**
+   * Registers a new transport handler.
+   *
+   * @param name - The name of the transport handler.
+   * @param handler - The transport handler function to be registered.
+   */
   register(name: string, handler: TransportHandler) {
     this.logger.info('register', name)
 
@@ -45,6 +84,14 @@ class Transport {
     if (!this.enabled) this.enabled = true
   }
 
+  /**
+   * Unregister a handler by its name.
+   *
+   * This method logs the unregistration process, removes the handler from the internal collection,
+   * and disables the logger if no handlers remain.
+   *
+   * @param name - The name of the handler to unregister.
+   */
   unregister(name: string) {
     this.logger.info('unregister', name)
 
@@ -53,12 +100,28 @@ class Transport {
     if (this.handlers.size === 0) this.enabled = false
   }
 
+  /**
+   * Inserts a log message into the transport if it is enabled.
+   *
+   * @param message - The log message to be inserted.
+   */
   insert(message: LoggerMessage) {
     if (!this.enabled) return
 
     this.messages.push(message)
   }
 
+  /**
+   * Flushes the current messages by processing them with the registered handlers.
+   *
+   * If the transport is already flushing, it will wait until the current flush is complete.
+   * If the transport is disabled or there are no messages to flush, it will return immediately.
+   * If there are no handlers registered, it will log a warning, clear the messages, disable the transport, and stop the interval.
+   *
+   * The method processes all messages with each handler and logs any errors encountered during the process.
+   *
+   * @returns {Promise<void>} A promise that resolves when the flush operation is complete.
+   */
   async flush() {
     if (this.flushing)
       return new Promise<void>(resolve => {
@@ -100,6 +163,17 @@ class Transport {
     this.flushing = false
   }
 
+  /**
+   * Stops the logger transport.
+   *
+   * This method performs the following actions:
+   * 1. Logs a 'stopping' message.
+   * 2. Clears the interval if it is set.
+   * 3. Flushes any remaining logs.
+   * 4. Disables the transport.
+   *
+   * @returns {Promise<void>} A promise that resolves when the transport has been stopped.
+   */
   async stop() {
     this.logger.info('stopping')
 
@@ -113,6 +187,10 @@ class Transport {
     this.enabled = false
   }
 
+  /**
+   * Resets the transport by clearing handlers, emptying messages, and re-enabling the transport.
+   * If an interval is set, it will be cleared.
+   */
   reset() {
     this.handlers.clear()
     this.messages.splice(0, this.messages.length)
@@ -124,6 +202,14 @@ class Transport {
     }
   }
 
+  /**
+   * Configure the transport options for the logger.
+   *
+   * @param {TransportOptions} options - The configuration options for the transport.
+   * @param {string} [options.label] - The label to be used by the logger.
+   * @param {boolean} [options.debug] - If true, sets the logger level to 'debug', otherwise sets it to 'info'.
+   * @param {number} [options.interval] - The interval time in milliseconds for flushing the logs. If different from the current interval, it updates the interval and resets the timer.
+   */
   config(options: TransportOptions) {
     if (options.label) this.logger.label = options.label
 
@@ -146,133 +232,4 @@ export function getTransport() {
   current ||= new Transport()
 
   return current
-}
-
-/**
- * Registers a transport handler with a given name.
- *
- * @param name - The name of the transport handler.
- * @param handler - The transport handler to be registered.
- *
- * @example
- * ```typescript
- * import { registerTransportHandler } from '@faasjs/logger'
- *
- * registerTransportHandler('test', async (messages) => {
- *  for (const { level, message } of messages)
- *   console.log(level, message)
- * })
- * ```
- */
-export function registerTransportHandler(
-  name: string,
-  handler: TransportHandler
-) {
-  getTransport().register(name, handler)
-}
-
-/**
- * Unregister a transport by its name.
- *
- * @param name - The name of the transport to unregister.
- *
- * @example
- * ```typescript
- * import { unregisterTransportHandler } from '@faasjs/logger'
- *
- * unregisterTransportHandler('test')
- * ```
- */
-export function unregisterTransportHandler(name: string) {
-  getTransport().unregister(name)
-}
-
-export const CachedMessages: LoggerMessage[] = []
-
-/**
- * Inserts a log message into the transport.
- *
- * @param message - The log message to insert.
- *
- * @example
- *
- * ```typescript
- * import { insertMessageToTransport } from '@faasjs/logger'
- *
- * insertMessageToTransport({
- *   level: 'info',
- *   labels: ['server'],
- *   message: 'test message',
- *   timestamp: Date.now()
- * })
- * ```
- */
-export function insertMessageToTransport(message: LoggerMessage) {
-  getTransport().insert(message)
-}
-
-/**
- * Flushes the cached log messages by sending them to all registered transports.
- *
- * If a flush operation is already in progress, this function will wait until
- * the current flush is complete before starting a new one.
- *
- * @returns A promise that resolves when the flush operation is complete.
- *
- * @example
- *
- * ```typescript
- * import { flushTransportMessages } from '@faasjs/logger'
- *
- * process.on('SIGINT', async () => {
- *   await flushTransportMessages()
- *   process.exit(0)
- * })
- * ```
- */
-export async function flushTransportMessages() {
-  return getTransport().flush()
-}
-
-/**
- * Starts the logging transport with the specified options.
- *
- * This function sets a timeout to periodically flush cached messages.
- * If there are any cached messages, it will flush them and then restart the process.
- *
- * @param {TransportOptions} [options={}] - The options to configure the logging transport.
- * @param {number} [options.interval=5000] - The interval in milliseconds at which to flush cached messages.
- *
- * @example
- * ```typescript
- * import { startTransport } from '@faasjs/logger'
- *
- * start()
- * ```
- */
-export function startTransport(options: TransportOptions = {}) {
-  getTransport().config(options)
-}
-
-/**
- * Stops the logging transport.
- *
- * If there are any cached messages, it flushes them.
- *
- * @returns {Promise<void>} A promise that resolves when the logging transport is stopped.
- */
-export async function stopTransport() {
-  await getTransport().stop()
-}
-
-/**
- * Resets the logging system to its default state.
- *
- * This function performs the following actions:
- * - Enables logging by setting the `enabled` flag to `true`.
- * - Clears all transports by calling `Transports.clear()`.
- * - Empties the cached messages by splicing the `CachedMessages` array.
- */
-export function resetTransport() {
-  getTransport().reset()
 }

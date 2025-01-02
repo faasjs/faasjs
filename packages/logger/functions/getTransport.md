@@ -2,8 +2,8 @@
 
 # Function: getTransport()
 
-> **getTransport**(): `Transport`
+> **getTransport**(): [`Transport`](../classes/Transport.md)
 
 ## Returns
 
-`Transport`
+[`Transport`](../classes/Transport.md)

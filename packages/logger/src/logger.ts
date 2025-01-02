@@ -1,16 +1,9 @@
 import { format } from 'node:util'
-import { Color } from './color'
-import { insertMessageToTransport } from './transport'
+import { colorfy } from './color'
+import { getTransport } from './transport'
 
 /** Logger Level */
 export type Level = 'debug' | 'info' | 'warn' | 'error'
-
-enum LevelColor {
-  debug = Color.GRAY,
-  info = Color.GREEN,
-  warn = Color.ORANGE,
-  error = Color.RED,
-}
 
 type Timer = {
   level: Level
@@ -194,14 +187,6 @@ export class Logger {
     return this
   }
 
-  /**
-   * @param color {number} color code
-   * @param message {string} message
-   */
-  public colorfy(color: number, message: string): string {
-    return `\u001b[0${color}m${message}\u001b[39m`
-  }
-
   private log(level: Level, message: string | Error, ...args: any): Logger {
     if (this.silent) return this
 
@@ -211,7 +196,7 @@ export class Logger {
 
     if (!formattedMessage && !args.length) return this
 
-    insertMessageToTransport({
+    getTransport().insert({
       level,
       labels: this.label?.split(/\]\s*\[/) || [],
       message: formattedMessage,
@@ -221,7 +206,7 @@ export class Logger {
 
     let output = `${level.toUpperCase()} ${this.label ? `[${this.label}] ` : ''}${formattedMessage}`
 
-    if (this.colorfyOutput) output = this.colorfy(LevelColor[level], output)
+    if (this.colorfyOutput) output = colorfy(level, output)
     else if (!this.colorfyOutput) output = output.replace(/\n/g, '')
 
     if (!output) return this

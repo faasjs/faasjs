@@ -32,22 +32,18 @@ logger.error('error message')
 
 ## Functions
 
-- [flushTransportMessages](functions/flushTransportMessages.md)
+- [colorfy](functions/colorfy.md)
 - [getTransport](functions/getTransport.md)
-- [insertMessageToTransport](functions/insertMessageToTransport.md)
-- [registerTransportHandler](functions/registerTransportHandler.md)
-- [resetTransport](functions/resetTransport.md)
-- [startTransport](functions/startTransport.md)
-- [stopTransport](functions/stopTransport.md)
-- [unregisterTransportHandler](functions/unregisterTransportHandler.md)
 
 ## Classes
 
 - [Logger](classes/Logger.md)
+- [Transport](classes/Transport.md)
 
 ## Enumerations
 
 - [Color](enumerations/Color.md)
+- [LevelColor](enumerations/LevelColor.md)
 
 ## Type Aliases
 
@@ -55,7 +51,3 @@ logger.error('error message')
 - [LoggerMessage](type-aliases/LoggerMessage.md)
 - [TransportHandler](type-aliases/TransportHandler.md)
 - [TransportOptions](type-aliases/TransportOptions.md)
-
-## Variables
-
-- [CachedMessages](variables/CachedMessages.md)

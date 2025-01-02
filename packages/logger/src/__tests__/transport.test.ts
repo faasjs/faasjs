@@ -1,35 +1,28 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
-  flushTransportMessages,
   getTransport,
-  insertMessageToTransport,
-  registerTransportHandler,
-  resetTransport,
-  startTransport,
-  stopTransport,
-  unregisterTransportHandler,
 } from '../transport'
 import type { TransportHandler } from '../transport'
 
 describe('transport', () => {
   afterEach(() => {
-    resetTransport()
+    getTransport().reset()
   })
 
   it('should register a transport handler', () => {
-    const handler: TransportHandler = async () => {}
+    const handler: TransportHandler = async () => { }
 
-    registerTransportHandler('test', handler)
+    getTransport().register('test', handler)
 
     expect(getTransport().handlers.has('test')).toBe(true)
   })
 
   it('should unregister a transport handler', () => {
-    const handler: TransportHandler = async () => {}
+    const handler: TransportHandler = async () => { }
 
-    registerTransportHandler('test', handler)
+    getTransport().register('test', handler)
 
-    unregisterTransportHandler('test')
+    getTransport().unregister('test')
 
     expect(getTransport().handlers.has('test')).toBe(false)
   })
@@ -39,7 +32,7 @@ describe('transport', () => {
     const message = 'test message'
     const timestamp = Date.now()
 
-    insertMessageToTransport({ level, labels: [], message, timestamp })
+    getTransport().insert({ level, labels: [], message, timestamp })
 
     expect(getTransport().messages.length).toBe(1)
     expect(getTransport().messages[0]).toEqual({
@@ -51,19 +44,21 @@ describe('transport', () => {
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = vi.fn(async () => {})
+    const handler: TransportHandler = vi.fn(async () => { })
 
-    registerTransportHandler('test', handler)
+    const transport = getTransport()
+
+    transport.register('test', handler)
 
     const level = 'info'
     const message = 'test message'
     const timestamp = Date.now()
 
-    getTransport().messages.splice(0, getTransport().messages.length)
+    transport.messages.splice(0, transport.messages.length)
 
-    insertMessageToTransport({ level, labels: [], message, timestamp })
+    transport.insert({ level, labels: [], message, timestamp })
 
-    await Promise.all([flushTransportMessages(), flushTransportMessages()])
+    await Promise.all([transport.flush(), transport.flush()])
 
     expect(handler).toHaveBeenCalledWith([
       { level, labels: [], message, timestamp },
@@ -72,24 +67,25 @@ describe('transport', () => {
 
   it('should handle errors in transport handlers', async () => {
     const error = new Error('test error')
+    const transport = getTransport()
 
     const handler: TransportHandler = vi.fn(async () => {
       throw error
     })
 
-    registerTransportHandler('test', handler)
+    transport.register('test', handler)
 
     const level = 'info'
     const message = 'test message'
     const timestamp = Date.now()
 
-    getTransport().messages.splice(0, getTransport().messages.length)
+    transport.messages.splice(0, transport.messages.length)
 
-    insertMessageToTransport({ level, labels: [], message, timestamp })
+    transport.insert({ level, labels: [], message, timestamp })
 
-    await flushTransportMessages()
+    await transport.flush()
 
-    expect(getTransport().messages[0]).toMatchObject({
+    expect(transport.messages[0]).toMatchObject({
       labels: ['LoggerTransport'],
       level: 'error',
       extra: [error],
@@ -99,12 +95,14 @@ describe('transport', () => {
   it('should start and periodically flush cached messages', async () => {
     vi.useFakeTimers()
 
-    startTransport({ interval: 1000 })
-    startTransport()
+    const transport = getTransport()
 
-    getTransport().messages.splice(0, getTransport().messages.length)
+    transport.config({ interval: 1000 })
+    transport.config({})
 
-    insertMessageToTransport({
+    transport.messages.splice(0, transport.messages.length)
+
+    transport.insert({
       level: 'info',
       labels: [],
       message: 'test message',
@@ -113,18 +111,18 @@ describe('transport', () => {
 
     vi.advanceTimersByTime(1000)
 
-    expect(getTransport().messages).toHaveLength(0)
+    expect(transport.messages).toHaveLength(0)
 
-    insertMessageToTransport({
+    transport.insert({
       level: 'info',
       labels: [],
       message: 'test message',
       timestamp: Date.now(),
     })
 
-    await stopTransport()
+    await transport.stop()
 
-    insertMessageToTransport({
+    transport.insert({
       level: 'info',
       labels: [],
       message: 'test message',
@@ -133,7 +131,7 @@ describe('transport', () => {
 
     vi.advanceTimersByTime(1000)
 
-    expect(getTransport().messages).toHaveLength(0)
+    expect(transport.messages).toHaveLength(0)
 
     vi.useRealTimers()
   })
