@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/load",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -26,17 +26,19 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "js-yaml": "*",
-    "@faasjs/deep_merge": "5.0.0",
-    "@faasjs/func": "5.0.0"
+    "@faasjs/deep_merge": "5.0.1",
+    "@faasjs/func": "5.0.1"
   },
   "devDependencies": {
     "js-yaml": "*",
     "@types/js-yaml": "*",
-    "@faasjs/deep_merge": "5.0.0",
-    "@faasjs/func": "5.0.0"
+    "@faasjs/deep_merge": "5.0.1",
+    "@faasjs/func": "5.0.1"
   },
   "engines": {
     "node": ">=22.0.0",

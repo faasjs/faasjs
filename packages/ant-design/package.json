@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -26,9 +26,11 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
-    "@faasjs/react": "5.0.0",
+    "@faasjs/react": "5.0.1",
     "antd": "*",
     "@ant-design/icons": "*",
     "lodash-es": "*",
@@ -38,7 +40,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "*",
-    "@faasjs/react": "5.0.0",
+    "@faasjs/react": "5.0.1",
     "antd": "*",
     "@ant-design/icons": "*",
     "lodash-es": "*",
