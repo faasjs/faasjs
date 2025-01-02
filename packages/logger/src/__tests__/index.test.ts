@@ -9,13 +9,5 @@ it('should work', () => {
     'Logger',
     'Transport',
     'getTransport',
-    'registerTransportHandler',
-    'unregisterTransportHandler',
-    'CachedMessages',
-    'insertMessageToTransport',
-    'flushTransportMessages',
-    'startTransport',
-    'stopTransport',
-    'resetTransport',
   ])
 })
