@@ -26,16 +26,16 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "js-yaml": "*",
+    "tsx": "*",
     "@faasjs/deep_merge": "6.0.0-beta.0",
     "@faasjs/func": "6.0.0-beta.0"
   },
   "devDependencies": {
     "js-yaml": "*",
+    "tsx": "*",
     "@types/js-yaml": "*",
     "@faasjs/deep_merge": "6.0.0-beta.0",
     "@faasjs/func": "6.0.0-beta.0"

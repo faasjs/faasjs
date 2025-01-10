@@ -35,9 +35,6 @@
     "@faasjs/deep_merge": "6.0.0-beta.0",
     "@faasjs/logger": "6.0.0-beta.0"
   },
-  "optionalDependencies": {
-    "tsx": "*"
-  },
   "engines": {
     "node": ">=22.0.0",
     "npm": ">=10.0.0"
