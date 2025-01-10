@@ -14,29 +14,30 @@ describe('new', () => {
 
       expect(
         readFileSync(`${__dirname}/tmp/basic.func.ts`).toString()
-      ).toEqual(`import { useFunc } from '@faasjs/func';
+      ).toEqual(`import { useFunc } from '@faasjs/func'
 
 export default useFunc(function () {
 
   return async function () {
     // let's code
   }
-});
+})
 `)
 
       expect(
         readFileSync(`${__dirname}/tmp/__tests__/basic.test.ts`).toString()
-      ).toEqual(`import { FuncWarper } from '@faasjs/test';
+      ).toEqual(`import { FuncWarper } from '@faasjs/test'
+import Func from '../basic.func'
 
 describe('basic.func.ts', function () {
   test('should work', async function () {
-    const func = new FuncWarper(require.resolve('../basic.func.ts'));
+    const func = new FuncWarper(Func)
 
-    const res = await func.handler({});
+    const res = await func.handler({})
 
-    expect(res).toEqual({});
-  });
-});
+    expect(res).toEqual({})
+  })
+})
 `)
     })
 
@@ -45,33 +46,34 @@ describe('basic.func.ts', function () {
 
       expect(
         readFileSync(`${__dirname}/tmp/plugin.func.ts`).toString()
-      ).toEqual(`import { useFunc } from '@faasjs/func';
-import { useCloudFunction } from '@faasjs/cloud_function';
-import { useHttp } from '@faasjs/http';
+      ).toEqual(`import { useFunc } from '@faasjs/func'
+import { useCloudFunction } from '@faasjs/cloud_function'
+import { useHttp } from '@faasjs/http'
 
 export default useFunc(function () {
-  const cf = useCloudFunction();
-  const http = useHttp();
+  const cf = useCloudFunction()
+  const http = useHttp()
 
   return async function () {
     // let's code
   }
-});
+})
 `)
 
       expect(
         readFileSync(`${__dirname}/tmp/__tests__/plugin.test.ts`).toString()
-      ).toEqual(`import { FuncWarper } from '@faasjs/test';
+      ).toEqual(`import { FuncWarper } from '@faasjs/test'
+import Func from '../plugin.func'
 
 describe('plugin.func.ts', function () {
   test('should work', async function () {
-    const func = new FuncWarper(require.resolve('../plugin.func.ts'));
+    const func = new FuncWarper(Func)
 
-    const res = await func.handler({});
+    const res = await func.handler({})
 
-    expect(res).toEqual({});
-  });
-});
+    expect(res).toEqual({})
+  })
+})
 `)
     })
   })

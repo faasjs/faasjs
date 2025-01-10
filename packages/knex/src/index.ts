@@ -13,7 +13,6 @@
  */
 
 import { randomUUID } from 'node:crypto'
-import { createRequire } from 'node:module'
 import { deepMerge } from '@faasjs/deep_merge'
 import {
   type InvokeData,
@@ -21,12 +20,11 @@ import {
   type Next,
   type Plugin,
   type UseifyPlugin,
+  loadPackage,
   usePlugin,
 } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
 import knex, { type Knex as OriginKnex } from 'knex'
-
-const require = createRequire(import.meta.url)
 
 /**
  * Origin [knex](https://knexjs.org/) instance.
@@ -93,7 +91,7 @@ export class Knex implements Plugin {
             if (!this.config.connection) {
               this.config.connection = Object.create(null)
             }
-            ;(this.config as any).connection[key.replace('connection_', '')] =
+            ; (this.config as any).connection[key.replace('connection_', '')] =
               value
           } else (this.config as any)[key] = value
       }
@@ -132,7 +130,7 @@ export class Knex implements Plugin {
       default:
         if (typeof this.config.client === 'string') {
           if (this.config.client.startsWith('npm:')) {
-            const client = require(this.config.client.replace('npm:', ''))
+            const client = await loadPackage<any>(this.config.client.replace('npm:', ''))
 
             if (!client) throw Error(`Invalid client: ${this.config.client}`)
 
@@ -155,7 +153,7 @@ export class Knex implements Plugin {
     this.adapter = knex(this.config)
 
     if (this.config.client === 'pg') {
-      const pg = require('pg')
+      const pg = await loadPackage<typeof import('pg')>('pg')
 
       pg.types.setTypeParser(pg.types.builtins.INT2, (v: string) =>
         Number.parseInt(v)
@@ -331,9 +329,30 @@ export function query<
   table: TName extends OriginKnex.TableNames ? TName : string
 ): TName extends OriginKnex.TableNames
   ? OriginKnex.QueryBuilder<
+    OriginKnex.TableType<TName>,
+    {
+      _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
+      _hasSelection: false
+      _keys: never
+      // biome-ignore lint/complexity/noBannedTypes: <explanation>
+      _aliases: {}
+      _single: false
+      // biome-ignore lint/complexity/noBannedTypes: <explanation>
+      _intersectProps: {}
+      _unionProps: never
+    }[]
+  >
+  : OriginKnex.QueryBuilder<TName, TResult> {
+  return useKnex().query<TName, TResult>(
+    table
+  ) as TName extends OriginKnex.TableNames
+    ? OriginKnex.QueryBuilder<
       OriginKnex.TableType<TName>,
       {
-        _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
+        _base: OriginKnex.ResolveTableType<
+          OriginKnex.TableType<TName>,
+          'base'
+        >
         _hasSelection: false
         _keys: never
         // biome-ignore lint/complexity/noBannedTypes: <explanation>
@@ -344,27 +363,6 @@ export function query<
         _unionProps: never
       }[]
     >
-  : OriginKnex.QueryBuilder<TName, TResult> {
-  return useKnex().query<TName, TResult>(
-    table
-  ) as TName extends OriginKnex.TableNames
-    ? OriginKnex.QueryBuilder<
-        OriginKnex.TableType<TName>,
-        {
-          _base: OriginKnex.ResolveTableType<
-            OriginKnex.TableType<TName>,
-            'base'
-          >
-          _hasSelection: false
-          _keys: never
-          // biome-ignore lint/complexity/noBannedTypes: <explanation>
-          _aliases: {}
-          _single: false
-          // biome-ignore lint/complexity/noBannedTypes: <explanation>
-          _intersectProps: {}
-          _unionProps: never
-        }[]
-      >
     : OriginKnex.QueryBuilder<TName, TResult>
 }
 

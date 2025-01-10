@@ -26,9 +26,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "lodash": "*",
     "mime-types": "*",
@@ -36,9 +34,6 @@
     "@faasjs/load": "5.0.1",
     "@faasjs/logger": "5.0.1",
     "@faasjs/http": "5.0.1"
-  },
-  "optionalDependencies": {
-    "tsx": "*"
   },
   "devDependencies": {
     "lodash": "*",
@@ -49,8 +44,7 @@
     "@faasjs/func": "5.0.1",
     "@faasjs/load": "5.0.1",
     "@faasjs/logger": "5.0.1",
-    "@faasjs/http": "5.0.1",
-    "tsx": "*"
+    "@faasjs/http": "5.0.1"
   },
   "engines": {
     "node": ">=22.0.0",

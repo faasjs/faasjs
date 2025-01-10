@@ -9,27 +9,37 @@
  * ```sh
  * npm install @faasjs/test
  * ```
+ *
+ * ## Usage
+ *
+ * ```ts
+ * import { test } from '@faasjs/test'
+ * import Func from '../demo.func.ts'
+ *
+ * const func = test(Func)
+ *
+ * expect(await func.handler()).toEqual('Hello, world')
+ * ```
+ *
  * @packageDocumentation
  */
 
-import { createRequire } from 'node:module'
 import { deepMerge } from '@faasjs/deep_merge'
-import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
+import type { Config, ExportedHandler, Func, Plugin, } from '@faasjs/func'
 import type { Http } from '@faasjs/http'
 import { loadConfig } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
 
 export * from '@faasjs/func'
 
-const require = createRequire(import.meta.url)
-
 /**
  * Test Wrapper for a func
  *
  * ```ts
  * import { FuncWarper } from '@faasjs/test'
+ * import Func from '../demo.func.ts'
  *
- * const func = new FuncWarper(__dirname + '/../demo.func.ts')
+ * const func = new FuncWarper(Func)
  *
  * expect(await func.handler()).toEqual('Hello, world')
  * ```
@@ -53,39 +63,16 @@ export class FuncWarper {
    * new FuncWarper(__dirname + '/../demo.func.ts')
    * ```
    */
-  constructor(initBy: Func)
-  constructor(initBy: string)
-  constructor(initBy: any)
-  constructor(initBy: any) {
+  constructor(initBy: Func) {
     this.staging = process.env.FaasEnv
     this.logger = new Logger('TestCase')
 
-    if (typeof initBy === 'string') {
-      this.file = initBy
-      this.logger.info('Func: [%s] %s', this.staging, this.file)
-
-      try {
-        this.func = require(this.file).default
-      } catch (_) {
-        this.func = require(`${this.file}.ts`).default
-      }
-
-      this.func.config = loadConfig(
-        process.cwd(),
-        this.file,
-        this.staging,
-        this.logger
+    this.func = initBy.default ? initBy.default : initBy
+    if (this.func.filename)
+      this.func.config = deepMerge(
+        loadConfig(process.cwd(), initBy.filename, this.staging, this.logger),
+        initBy.config
       )
-      this.logger.debug('config: %j', this.func.config)
-      this.config = this.func.config
-    } else {
-      this.func = initBy.default ? initBy.default : initBy
-      if (this.func.filename)
-        this.func.config = deepMerge(
-          loadConfig(process.cwd(), initBy.filename, this.staging, this.logger),
-          initBy.config
-        )
-    }
 
     this.plugins = this.func.plugins || []
     for (const plugin of this.plugins) {
@@ -158,7 +145,7 @@ export class FuncWarper {
       }
       const cookie = http.cookie
         .headers()
-        ['Set-Cookie']?.map(c => c.split(';')[0])
+      ['Set-Cookie']?.map(c => c.split(';')[0])
         .join(';')
       if (cookie)
         if (headers.cookie) headers.cookie += `;${cookie}`
@@ -194,18 +181,19 @@ export class FuncWarper {
 
 /**
  * A simple way to warp a FaasJS function.
- * @param initBy {string | Func} Full file path or a FaasJs function
+ * @param initBy {Func} Full file path or a FaasJs function
  *
  * ```ts
  * import { test } from '@faasjs/test'
+ * import Func from '../demo.func.ts'
  *
- * const func = test(__dirname + '/../demo.func.ts')
+ * const func = test(Func)
  *
  * expect(await func.handler()).toEqual('Hello, world')
  * ```
  */
-export function test(initBy: Func | string): FuncWarper {
-  const warper = new FuncWarper(initBy as string)
+export function test(initBy: Func): FuncWarper {
+  const warper = new FuncWarper(initBy)
 
   warper.mount = warper.mount.bind(warper)
   warper.handler = warper.handler.bind(warper)

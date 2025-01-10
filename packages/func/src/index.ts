@@ -20,6 +20,8 @@ import { randomBytes } from 'node:crypto'
 import { Logger } from '@faasjs/logger'
 import { RunHandler } from './plugins/run_handler'
 
+export * from './utils'
+
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
   data: InvokeData<TEvent, TContext>
 ) => Promise<TResult>
@@ -151,7 +153,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         .split('\n')
         .find(s => /[^/]\.func\.ts/.test(s))
         .match(/\((.*\.func\.ts).*\)/)[1]
-    } catch (_) {}
+    } catch (_) { }
   }
 
   private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
@@ -226,9 +228,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       config?: Config
       logger?: Logger
     } = {
-      event: Object.create(null),
-      context: Object.create(null),
-    }
+        event: Object.create(null),
+        context: Object.create(null),
+      }
   ): Promise<void> {
     if (!data.logger) data.logger = new Logger('Func')
 
@@ -380,31 +382,4 @@ export function useFunc<TEvent = any, TContext = any, TResult = any>(
   plugins = []
 
   return func
-}
-
-/**
- * Assigns a name to a given function handler, which will be displayed in logs and error messages.
- *
- * @template T - The type of the function handler.
- * @param {string} name - The name to assign to the function handler.
- * @param {T} handler - The function handler to which the name will be assigned.
- * @returns {T} - The original function handler with the assigned name.
- *
- * @example
- * ```ts
- * import { nameFunc } from '@faasjs/func'
- *
- * const handler = nameFunc('myHandler', () => {
- *  return 'Hello World'
- * })
- *
- * console.log(handler.name) // => 'myHandler'
- * ```
- */
-export function nameFunc<T extends (...args: any[]) => any>(
-  name: string,
-  handler: T
-): T {
-  Object.defineProperty(handler, 'name', { value: name })
-  return handler
 }

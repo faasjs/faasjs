@@ -1,8 +1,11 @@
 import { expect, it } from 'vitest'
 import { FuncWarper } from '../../src/index'
+import HttpError from './funcs/http-error.func'
+import Http from './funcs/http.func'
+import Json from './funcs/json.func'
 
 it('http', async () => {
-  const func = new FuncWarper(await import('./funcs/http.func'))
+  const func = new FuncWarper(Http)
 
   const res = await func.handler({}, {})
 
@@ -10,7 +13,7 @@ it('http', async () => {
 })
 
 it('JSONhandler data', async () => {
-  const func = new FuncWarper(await import('./funcs/json.func'))
+  const func = new FuncWarper(Json)
 
   const res = await func.JSONhandler<number>({ key: 1 })
 
@@ -21,7 +24,7 @@ it('JSONhandler data', async () => {
 })
 
 it('JSONhandler error', async () => {
-  const func = new FuncWarper(await import('./funcs/http-error.func'))
+  const func = new FuncWarper(HttpError)
 
   const res = await func.JSONhandler()
 

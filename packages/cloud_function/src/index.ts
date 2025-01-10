@@ -13,20 +13,19 @@
  * @packageDocumentation
  */
 
-import { createRequire } from 'node:module'
 import { deepMerge } from '@faasjs/deep_merge'
 import {
+  type Func,
   type InvokeData,
   type MountData,
   type Next,
   type Plugin,
   type UseifyPlugin,
+  loadPackage,
   usePlugin,
 } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { Validator, type ValidatorConfig } from './validator'
-
-const require = createRequire(import.meta.url)
 
 /** 云函数配置项 */
 export type CloudFunctionConfig = {
@@ -178,10 +177,9 @@ export class CloudFunction implements Plugin {
     if (data == null) data = Object.create(null)
 
     if (process.env.FaasMode !== 'remote') {
-      const test = require('@faasjs/test')
-      const func = new test.FuncWarper(
-        `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`
-      )
+      const test = await loadPackage<typeof import('@faasjs/test')>('@faasjs/test')
+      const originFunc = await loadPackage<Func>(`${process.env.FaasRoot || ''}${name.toLowerCase()}.func`)
+      const func = new test.FuncWarper(originFunc)
       return func.handler(data, { request_id: this.logger.label })
     }
     return this.adapter.invokeCloudFunction(name.toLowerCase(), data, options)
@@ -201,10 +199,9 @@ export class CloudFunction implements Plugin {
     if (data == null) data = Object.create(null)
 
     if (process.env.FaasMode !== 'remote') {
-      const test = require('@faasjs/test')
-      const func = new test.FuncWarper(
-        `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`
-      )
+      const test = await loadPackage<typeof import('@faasjs/test')>('@faasjs/test')
+      const originFunc = await loadPackage<Func>(`${process.env.FaasRoot || ''}${name.toLowerCase()}.func`)
+      const func = new test.FuncWarper(originFunc)
       return func.handler(data, { request_id: this.logger.label })
     }
     return this.adapter.invokeSyncCloudFunction<TResult>(

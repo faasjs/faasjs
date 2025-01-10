@@ -4,7 +4,18 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v5.0.0 (2025-01-02)`](https://github.com/faasjs/faasjs/compare/v4.7.2...v5.0.0)
+[`v6.0.0 (2025-01-10)`](https://github.com/faasjs/faasjs/compare/v5.0.1...v6.0.0)
+
+- `@faasjs/server`
+  - [Break] Remove cache option, cache is always working, for develop, please use [`tsx watch`](https://tsx.is/watch-mode) instead.
+
+- `@faasjs/test`
+  - [Break] Don't support filename as argument, only support Func.
+
+- `@faasjs/func`
+  - [Feature] Add `detectNodeRuntime` and `loadPackage` for dynamic load .func.ts file.
+
+[`v5.0.1 (2025-01-02)`](https://github.com/faasjs/faasjs/compare/v4.7.2...v5.0.1)
 
 Happy New Year! 🎉
 

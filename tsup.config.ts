@@ -6,6 +6,7 @@ export default defineConfig({
   dts: true,
   treeshake: true,
   tsconfig: 'tsconfig.build.json',
+  shims: true,
   outExtension({ format }) {
     if (format === 'cjs')
       return {

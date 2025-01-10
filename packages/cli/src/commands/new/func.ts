@@ -54,7 +54,7 @@ export default function (name: string, plugins: string[]): void {
     return
   }
 
-  let imports = "import { useFunc } from '@faasjs/func';\n"
+  let imports = "import { useFunc } from '@faasjs/func'\n"
   let initials = ''
   const funcPluginNames = []
 
@@ -71,8 +71,8 @@ export default function (name: string, plugins: string[]): void {
         key: kls.toLowerCase(),
       }
     }
-    imports += `import { use${info.kls} } from '${info.name}';\n`
-    initials += `  const ${info.key} = use${info.kls}();\n`
+    imports += `import { use${info.kls} } from '${info.name}'\n`
+    initials += `  const ${info.key} = use${info.kls}()\n`
     funcPluginNames.push(info.key)
   }
 
@@ -84,7 +84,7 @@ ${initials}
   return async function () {
     // let's code
   }
-});
+})
 `
   )
 
@@ -100,17 +100,18 @@ ${initials}
     logger.info(`Writing ${testFile}`)
     writeFileSync(
       testFile,
-      `import { FuncWarper } from '@faasjs/test';
+      `import { FuncWarper } from '@faasjs/test'
+import Func from '../${name.replace('.ts', '')}'
 
 describe('${name}', function () {
   test('should work', async function () {
-    const func = new FuncWarper(require.resolve('../${name}'));
+    const func = new FuncWarper(Func)
 
-    const res = await func.handler({});
+    const res = await func.handler({})
 
-    expect(res).toEqual({});
-  });
-});
+    expect(res).toEqual({})
+  })
+})
 `
     )
   }

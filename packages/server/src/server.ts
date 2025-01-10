@@ -11,7 +11,7 @@ import { join, resolve as pathResolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
 import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
 import { deepMerge } from '@faasjs/deep_merge'
-import type { Func } from '@faasjs/func'
+import { type Func, loadPackage } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
 import { loadConfig } from '@faasjs/load'
 import { Logger, getTransport } from '@faasjs/logger'
@@ -50,7 +50,6 @@ const AdditionalHeaders = [
  * ```ts
  * const server = new Server(process.cwd(), {
  *  port: 8080,
- *  cache: false,
  * })
  *
  * server.listen()
@@ -60,10 +59,8 @@ export class Server {
   public readonly root: string
   public readonly logger: Logger
   public readonly opts: {
-    cache: boolean
     port: number
   }
-  public readonly runtime: 'esm' | 'cjs' | 'bun'
   public readonly onError: (error: any) => void
   public readonly onClose?: (context: {
     logger: Logger
@@ -107,14 +104,13 @@ export class Server {
     this.root = root.endsWith(sep) ? root : root + sep
     this.opts = deepMerge(
       {
-        cache: false,
         port: 3000,
       },
       opts || {}
     )
 
     if (!process.env.FaasMode)
-      process.env.FaasMode = this.opts.cache ? 'mono' : 'local'
+      process.env.FaasMode = 'mono'
 
     process.env.FaasLocal = `http://localhost:${this.opts.port}`
 
@@ -143,16 +139,6 @@ export class Server {
     }
 
     this.onClose = opts.onClose
-
-    if ((globalThis as any).Bun) {
-      this.runtime = 'bun'
-    } else {
-      if (typeof globalThis.require === 'function') {
-        this.runtime = 'cjs'
-      } else {
-        this.runtime = 'esm'
-      }
-    }
 
     servers.push(this)
   }
@@ -211,14 +197,14 @@ export class Server {
         try {
           let cache: Cache = {}
 
-          if (this.opts.cache && this.cachedFuncs[path]?.handler) {
+          if (this.cachedFuncs[path]?.handler) {
             cache = this.cachedFuncs[path]
             logger.debug('response with cached %s', cache.file)
           } else {
             cache.file = pathResolve('.', this.getFilePath(path))
             logger.debug('response with %s', cache.file)
 
-            const func = await this.importFuncFile(cache.file)
+            const func = await loadPackage<Func>(cache.file)
 
             func.config = loadConfig(
               this.root,
@@ -230,8 +216,7 @@ export class Server {
 
             cache.handler = func.export().handler
 
-            if (this.opts.cache) this.cachedFuncs[path] = cache
-            else this.clearCache()
+            this.cachedFuncs[path] = cache
           }
 
           const url = new URL(req.url, `http://${req.headers.host}`)
@@ -352,19 +337,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -404,11 +389,10 @@ export class Server {
     if (this.server) throw Error('Server already running')
 
     this.logger.info(
-      '[%s] Listen http://localhost:%s with %s %s',
+      '[%s] Listen http://localhost:%s with',
       process.env.FaasEnv,
       this.opts.port,
       this.root,
-      this.runtime
     )
 
     const mounted: Record<string, Mounted> = {}
@@ -441,36 +425,14 @@ export class Server {
 
       const path = join(this.root, req.url).replace(/\?.*/, '')
 
-      if (this.opts.cache) {
-        if (!mounted[path]) mounted[path] = { pending: [] } as Mounted
+      if (!mounted[path]) mounted[path] = { pending: [] } as Mounted
 
-        mounted[path].pending.push([req, res, Date.now()])
+      mounted[path].pending.push([req, res, Date.now()])
 
-        const pending = mounted[path].pending
-        mounted[path].pending = []
-        for (const event of pending)
-          await this.processRequest(path, event[0], event[1], event[2])
-
-        return
-      }
-
-      if (!this.processing) {
-        this.processing = true
-        await this.processRequest(path, req, res, Date.now())
-        this.processing = false
-
-        return
-      }
-
-      const now = Date.now()
-      const timer = setInterval(async () => {
-        if (!this.processing) {
-          this.processing = true
-          clearInterval(timer)
-          await this.processRequest(path, req, res, now)
-          this.processing = false
-        }
-      })
+      const pending = mounted[path].pending
+      mounted[path].pending = []
+      for (const event of pending)
+        await this.processRequest(path, event[0], event[1], event[2])
     })
       .on('connection', socket => {
         this.sockets.add(socket)
@@ -613,34 +575,12 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+          .map(p => `- ${p}`)
+          .join('\n')}`
     this.onError(message)
     throw new HttpError({
       statusCode: 404,
       message,
     })
-  }
-
-  private async importFuncFile(path: string): Promise<Func> {
-    switch (this.runtime) {
-      case 'cjs': {
-        return require(path).default as Func
-      }
-      default: {
-        const func = (await import(path)).default
-
-        return (func.default ? func.default : func) as Func
-      }
-    }
-  }
-
-  private clearCache() {
-    this.logger.debug('clear cache')
-
-    for (const key of Object.keys(require.cache)) {
-      if (!key.includes('node_modules') || key.includes('faasjs'))
-        delete require.cache[key]
-    }
   }
 }
