@@ -26,7 +26,8 @@
     "happy-dom": "*",
     "@vitest/coverage-v8": "*",
     "vite-tsconfig-paths": "*",
-    "commander": ">=13.0.0"
+    "commander": ">=13.0.0",
+    "tsx": "*"
   },
   "workspaces": ["packages/*"],
   "packageManager": "npm@11.0.0"

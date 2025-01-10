@@ -12,7 +12,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/test`
   - [Break] Don't support filename as argument, only support Func.
 
-- `@faasjs/func`
+- `@faasjs/load`
   - [Feature] Add `detectNodeRuntime` and `loadPackage` for dynamic load .func.ts file.
 
 [`v5.0.1 (2025-01-02)`](https://github.com/faasjs/faasjs/compare/v4.7.2...v5.0.1)

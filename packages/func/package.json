@@ -26,9 +26,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "@faasjs/deep_merge": "6.0.0-beta.0",
     "@faasjs/logger": "6.0.0-beta.0"
@@ -36,6 +34,9 @@
   "devDependencies": {
     "@faasjs/deep_merge": "6.0.0-beta.0",
     "@faasjs/logger": "6.0.0-beta.0"
+  },
+  "optionalDependencies": {
+    "tsx": "*"
   },
   "engines": {
     "node": ">=22.0.0",

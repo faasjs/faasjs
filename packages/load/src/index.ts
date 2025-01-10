@@ -9,7 +9,9 @@
  * ```sh
  * npm install @faasjs/load
  * ```
+ *
  * @packageDocumentation
  */
 
 export { loadConfig } from './load_config'
+export * from './load_package'

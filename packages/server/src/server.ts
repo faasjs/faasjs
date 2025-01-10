@@ -11,9 +11,9 @@ import { join, resolve as pathResolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
 import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
 import { deepMerge } from '@faasjs/deep_merge'
-import { type Func, loadPackage } from '@faasjs/func'
+import type { Func } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
-import { loadConfig } from '@faasjs/load'
+import { loadConfig, loadPackage } from '@faasjs/load'
 import { Logger, getTransport } from '@faasjs/logger'
 
 type Cache = {
@@ -336,19 +336,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -574,8 +574,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+          .map(p => `- ${p}`)
+          .join('\n')}`
     this.onError(message)
     throw new HttpError({
       statusCode: 404,

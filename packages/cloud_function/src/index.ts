@@ -21,9 +21,9 @@ import {
   type Next,
   type Plugin,
   type UseifyPlugin,
-  loadPackage,
   usePlugin,
 } from '@faasjs/func'
+import { loadPackage } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
 import { Validator, type ValidatorConfig } from './validator'
 

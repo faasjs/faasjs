@@ -13,4 +13,10 @@ npm install @faasjs/load
 
 ## Functions
 
+- [detectNodeRuntime](functions/detectNodeRuntime.md)
 - [loadConfig](functions/loadConfig.md)
+- [loadPackage](functions/loadPackage.md)
+
+## Type Aliases
+
+- [NodeRuntime](type-aliases/NodeRuntime.md)

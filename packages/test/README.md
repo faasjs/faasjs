@@ -24,8 +24,6 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ## Functions
 
-- [detectNodeRuntime](functions/detectNodeRuntime.md)
-- [loadPackage](functions/loadPackage.md)
 - [nameFunc](functions/nameFunc.md)
 - [test](functions/test.md)
 - [useFunc](functions/useFunc.md)

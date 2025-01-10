@@ -1,5 +1,6 @@
-import { Func, detectNodeRuntime } from '@faasjs/func'
+import { Func } from '@faasjs/func'
 import { Http } from '@faasjs/http'
+import { detectNodeRuntime } from '@faasjs/load'
 
 const http = new Http()
 

@@ -1,8 +1,8 @@
-[@faasjs/func](../README.md) / detectNodeRuntime
+[@faasjs/load](../README.md) / detectNodeRuntime
 
 # Function: detectNodeRuntime()
 
-> **detectNodeRuntime**(): `"commonjs"` \| `"module"`
+> **detectNodeRuntime**(): [`NodeRuntime`](../type-aliases/NodeRuntime.md)
 
 Detect the current JavaScript runtime environment.
 
@@ -11,7 +11,7 @@ whether the runtime is using ECMAScript modules (ESM) or CommonJS modules (CJS).
 
 ## Returns
 
-`"commonjs"` \| `"module"`
+[`NodeRuntime`](../type-aliases/NodeRuntime.md)
 
 - Returns 'module' if the runtime is using ECMAScript modules,
                            and 'cjs' if the runtime is using CommonJS modules.
