@@ -5,18 +5,11 @@ import { Server, closeAll } from '../../server'
 
 describe('server', () => {
   let server: Server
-  let cachedServer: Server
   const port = 3001 + Number(process.env.VITEST_POOL_ID)
-  const cachedPort = port + 1
 
   beforeAll(() => {
-    server = new Server(join(__dirname, 'funcs'), { port, cache: false })
+    server = new Server(join(__dirname, 'funcs'), { port, onError: console.error })
     server.listen()
-    cachedServer = new Server(join(__dirname, 'funcs'), {
-      port: cachedPort,
-      cache: true,
-    })
-    cachedServer.listen()
   })
 
   afterAll(async () => {
@@ -26,13 +19,8 @@ describe('server', () => {
   it('check config', async () => {
     expect(server.root).toEqual(join(__dirname, 'funcs', sep))
     expect(server.opts).toEqual({
-      cache: false,
       port,
-    })
-    expect(cachedServer.root).toEqual(join(__dirname, 'funcs', sep))
-    expect(cachedServer.opts).toEqual({
-      cache: true,
-      port: cachedPort,
+      onError: console.error,
     })
   })
 
@@ -47,51 +35,11 @@ describe('server', () => {
         },
       }
     )
-    await expect(
-      request(`http://127.0.0.1:${cachedPort}/404`)
-    ).rejects.toMatchObject({
-      statusCode: 404,
-      body: {
-        error: {
-          message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404.func.tsx\n- ${server.root}404/index.func.ts\n- ${server.root}404/index.func.tsx\n- ${server.root}default.func.ts\n- ${server.root}default.func.tsx`,
-        },
-      },
-    })
   })
 
   it('hello', async () => {
     await expect(
       request(`http://127.0.0.1:${port}/hello`, {
-        headers: { 'x-faasjs-request-id': 'test' },
-      })
-    ).resolves.toMatchObject({
-      headers: {
-        'x-faasjs-request-id': 'test',
-        'x-headers': 'x-x',
-        'access-control-expose-headers':
-          'content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
-      },
-      statusCode: 200,
-      body: { data: 'hello' },
-    })
-
-    await expect(
-      request(`http://127.0.0.1:${cachedPort}/hello`, {
-        headers: { 'x-faasjs-request-id': 'test' },
-      })
-    ).resolves.toMatchObject({
-      headers: {
-        'x-faasjs-request-id': 'test',
-        'x-headers': 'x-x',
-        'access-control-expose-headers':
-          'content-type,authorization,x-faasjs-request-id,x-faasjs-timing-pending,x-faasjs-timing-processing,x-faasjs-timing-total',
-      },
-      statusCode: 200,
-      body: { data: 'hello' },
-    })
-
-    await expect(
-      request(`http://127.0.0.1:${cachedPort}/hello`, {
         headers: { 'x-faasjs-request-id': 'test' },
       })
     ).resolves.toMatchObject({
@@ -178,6 +126,17 @@ describe('server', () => {
         'access-control-allow-methods': 'OPTIONS, POST',
         'access-control-allow-origin': '*',
       },
+    })
+  })
+
+  it('runtime', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/runtime`)
+    ).resolves.toMatchObject({
+      statusCode: 200,
+      body: {
+        data: 'module'
+      }
     })
   })
 
