@@ -18,9 +18,9 @@ export function detectNodeRuntime(): NodeRuntime {
   if (_runtime) return _runtime
 
   if (typeof globalThis.require === 'function' && typeof module !== 'undefined')
-    return _runtime = 'commonjs'
+    return (_runtime = 'commonjs')
 
-  if (typeof import.meta !== 'undefined') return _runtime = 'module'
+  if (typeof import.meta !== 'undefined') return (_runtime = 'module')
 
   throw Error('Unknown runtime')
 }
@@ -56,7 +56,9 @@ export async function loadPackage<T = unknown>(name: string): Promise<T> {
         tsxLoaded = true
       } catch (_) {
         tsxLoaded = false
-        logger.warn('Recommend installing the "tsx" package for loading ts/tsx files')
+        logger.warn(
+          'Recommend installing the "tsx" package for loading ts/tsx files'
+        )
       }
     }
 
@@ -72,7 +74,9 @@ export async function loadPackage<T = unknown>(name: string): Promise<T> {
         tsxLoaded = true
       } catch (_) {
         tsxLoaded = false
-        logger.warn('Recommend installing the "tsx" package for loading ts/tsx files')
+        logger.warn(
+          'Recommend installing the "tsx" package for loading ts/tsx files'
+        )
       }
     }
 
