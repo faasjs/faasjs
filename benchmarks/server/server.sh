@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FaasLog=warn node node_modules/.bin/faas server -r server/raw -c &
+FaasLog=error tsx node_modules/.bin/faas server -r server/raw &
 pid=$!
 
 curl -s http://localhost:3000/ > /dev/null
@@ -17,7 +17,7 @@ wrk 'http://localhost:3000/' \
 kill $pid
 
 echo
-FaasLog=warn node node_modules/.bin/faas server -r server/raw -c &
+FaasLog=error tsx node_modules/.bin/faas server -r server/raw &
 pid=$!
 
 curl -s http://localhost:3000/ > /dev/null
@@ -34,7 +34,7 @@ wrk 'http://localhost:3000/http' \
 kill $pid
 
 echo
-node server/koa.js &
+node server/koa.cjs &
 pid=$!
 
 curl -s http://localhost:3000/ > /dev/null
@@ -51,7 +51,7 @@ wrk 'http://localhost:3000/' \
 kill $pid
 
 echo
-node server/express.js &
+node server/express.cjs &
 pid=$!
 
 curl -s http://localhost:3000/ > /dev/null

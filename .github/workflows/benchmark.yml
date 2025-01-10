@@ -26,8 +26,9 @@ jobs:
       - name: Run benchmark
         run: |
           cd benchmarks
+          npm install -g tsx
           npm ci
-          node func.mjs | tee output.txt
+          tsx func.mjs | tee output.txt
       - name: Download previous benchmark data
         uses: actions/cache@v4
         with:
