@@ -8,7 +8,10 @@ describe('server', () => {
   const port = 3001 + Number(process.env.VITEST_POOL_ID)
 
   beforeAll(() => {
-    server = new Server(join(__dirname, 'funcs'), { port, onError: console.error })
+    server = new Server(join(__dirname, 'funcs'), {
+      port,
+      onError: console.error,
+    })
     server.listen()
   })
 
@@ -135,8 +138,8 @@ describe('server', () => {
     ).resolves.toMatchObject({
       statusCode: 200,
       body: {
-        data: 'module'
-      }
+        data: 'module',
+      },
     })
   })
 

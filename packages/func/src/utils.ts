@@ -1,4 +1,3 @@
-
 /**
  * Assigns a name to a given function handler, which will be displayed in logs and error messages.
  *
@@ -40,8 +39,7 @@ export function detectNodeRuntime(): 'commonjs' | 'module' {
   if (typeof globalThis.require === 'function' && typeof module !== 'undefined')
     return 'commonjs'
 
-  if (typeof import.meta !== 'undefined')
-    return 'module'
+  if (typeof import.meta !== 'undefined') return 'module'
 
   throw Error('Unknown runtime')
 }

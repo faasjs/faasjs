@@ -7,7 +7,6 @@ FaasJS Server.
 ```ts
 const server = new Server(process.cwd(), {
  port: 8080,
- cache: false,
 })
 
 server.listen()
@@ -145,10 +144,6 @@ Start server.
 
 > `readonly` **opts**: `object`
 
-#### cache
-
-> **cache**: `boolean`
-
 #### port
 
 > **port**: `number`
@@ -156,7 +151,3 @@ Start server.
 ### root
 
 > `readonly` **root**: `string`
-
-### runtime
-
-> `readonly` **runtime**: `"esm"` \| `"cjs"` \| `"bun"`

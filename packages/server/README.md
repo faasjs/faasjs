@@ -12,6 +12,24 @@ FaasJS's server module.
 npm install @faasjs/server tsx
 ```
 
+## Usage
+
+1. Create a `server.ts` file:
+```ts
+// server.ts
+import { Server } from '@faasjs/server'
+
+const server = new Server({
+ // options
+})
+
+server.start()
+```
+2. Run the server:
+```sh
+tsx server.ts // or `bun server.ts` if you are not using bun
+```
+
 ## Routing
 
 Static routing:

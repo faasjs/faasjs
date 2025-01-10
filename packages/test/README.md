@@ -11,8 +11,21 @@ FaasJS's testing module.
 npm install @faasjs/test
 ```
 
+## Usage
+
+```ts
+import { test } from '@faasjs/test'
+import Func from '../demo.func.ts'
+
+const func = test(Func)
+
+expect(await func.handler()).toEqual('Hello, world')
+```
+
 ## Functions
 
+- [detectNodeRuntime](functions/detectNodeRuntime.md)
+- [loadPackage](functions/loadPackage.md)
 - [nameFunc](functions/nameFunc.md)
 - [test](functions/test.md)
 - [useFunc](functions/useFunc.md)

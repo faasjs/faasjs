@@ -6,8 +6,9 @@ Test Wrapper for a func
 
 ```ts
 import { FuncWarper } from '@faasjs/test'
+import Func from '../demo.func.ts'
 
-const func = new FuncWarper(__dirname + '/../demo.func.ts')
+const func = new FuncWarper(Func)
 
 expect(await func.handler()).toEqual('Hello, world')
 ```
@@ -27,34 +28,6 @@ expect(await func.handler()).toEqual('Hello, world')
 ##### initBy
 
 [`Func`](Func.md)
-
-#### Returns
-
-[`FuncWarper`](FuncWarper.md)
-
-### new FuncWarper()
-
-> **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
-
-#### Parameters
-
-##### initBy
-
-`string`
-
-#### Returns
-
-[`FuncWarper`](FuncWarper.md)
-
-### new FuncWarper()
-
-> **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
-
-#### Parameters
-
-##### initBy
-
-`any`
 
 #### Returns
 

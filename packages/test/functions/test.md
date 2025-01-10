@@ -10,17 +10,18 @@ A simple way to warp a FaasJS function.
 
 ### initBy
 
-{string | Func} Full file path or a FaasJs function
+[`Func`](../classes/Func.md)
+
+{Func} Full file path or a FaasJs function
 
 ```ts
 import { test } from '@faasjs/test'
+import Func from '../demo.func.ts'
 
-const func = test(__dirname + '/../demo.func.ts')
+const func = test(Func)
 
 expect(await func.handler()).toEqual('Hello, world')
 ```
-
-`string` | [`Func`](../classes/Func.md)
 
 ## Returns
 

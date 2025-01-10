@@ -19,6 +19,8 @@ npm install @faasjs/func
 
 ## Functions
 
+- [detectNodeRuntime](functions/detectNodeRuntime.md)
+- [loadPackage](functions/loadPackage.md)
 - [nameFunc](functions/nameFunc.md)
 - [useFunc](functions/useFunc.md)
 - [usePlugin](functions/usePlugin.md)

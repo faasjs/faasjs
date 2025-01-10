@@ -25,7 +25,7 @@
  */
 
 import { deepMerge } from '@faasjs/deep_merge'
-import type { Config, ExportedHandler, Func, Plugin, } from '@faasjs/func'
+import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
 import type { Http } from '@faasjs/http'
 import { loadConfig } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
@@ -145,7 +145,7 @@ export class FuncWarper {
       }
       const cookie = http.cookie
         .headers()
-      ['Set-Cookie']?.map(c => c.split(';')[0])
+        ['Set-Cookie']?.map(c => c.split(';')[0])
         .join(';')
       if (cookie)
         if (headers.cookie) headers.cookie += `;${cookie}`
