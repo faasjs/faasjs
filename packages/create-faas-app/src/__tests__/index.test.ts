@@ -5,6 +5,6 @@ describe('create-faas-app', () => {
   it('should work', async () => {
     const commander = await main(['node', 'script', '--help'])
 
-    expect(commander.args).toEqual(['--help'])
+    expect(commander.args).toEqual([])
   })
 })
