@@ -16,12 +16,15 @@
  *
  * @packageDocumentation
  */
+
 import { Command } from 'commander'
+import { version } from '../package.json'
 import action from './action'
 
 const commander = new Command()
 
 commander
+  .version(version)
   .storeOptionsAsProperties(false)
   .allowUnknownOption(true)
   .name('create-faas-app')
