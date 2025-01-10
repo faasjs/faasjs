@@ -24,9 +24,9 @@ import action from './action'
 const commander = new Command()
 
 commander
-  .version(version)
   .storeOptionsAsProperties(false)
   .allowUnknownOption(true)
+  .version(version)
   .name('create-faas-app')
   .exitOverride()
 
