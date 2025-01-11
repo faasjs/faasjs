@@ -92,7 +92,7 @@ export default defineUserConfig({
           '/guide/': [
             '/guide/',
             '/guide/request-spec',
-            '/guide/dockerize',
+            '/guide/Dockerize',
           ],
         }
       },
