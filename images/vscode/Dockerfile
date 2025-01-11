@@ -36,7 +36,7 @@ RUN git clone --depth=1 https://github.com/tamcore/autoupdate-oh-my-zsh-plugins.
 RUN sed -i "s/plugins=(git)/plugins=(git zsh-completions zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting you-should-use zsh-npm zsh-bun zsh-pnpm autoupdate)/" /root/.zshrc
 
 # Upgrade npm
-RUN npm install -g npm@latest && npm cache clean --force
+RUN npm install -g npm@latest tsx && npm cache clean --force
 
 # Install pnpm
 ENV PNPM_HOME="/root/.pnpm"

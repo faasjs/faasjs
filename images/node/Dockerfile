@@ -3,4 +3,4 @@ FROM node:lts-alpine
 RUN apk add --no-cache git bash openssh rsync zip python3 make g++ brotli curl
 
 RUN corepack enable
-RUN npm install -g npm@latest && npm cache clean --force
+RUN npm install -g npm@latest tsx && npm cache clean --force
