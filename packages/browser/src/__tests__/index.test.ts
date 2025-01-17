@@ -4,6 +4,7 @@ import {
   FaasBrowserClient,
   Response as FaasResponse,
   Response,
+  ResponseError,
   setMock,
 } from '..'
 
@@ -110,7 +111,7 @@ describe('client', () => {
 
     const client = new FaasBrowserClient('/')
 
-    await expect(client.action('path')).rejects.toEqual(Error('no'))
+    await expect(client.action('path')).rejects.toEqual(new ResponseError('no'))
   })
 
   it('work with mock', async () => {
@@ -157,7 +158,7 @@ describe('client', () => {
         client.action(async () => {
           throw Error('error')
         })
-      ).rejects.toEqual(Error('error'))
+      ).rejects.toThrow(new ResponseError(Error('error')))
     })
   })
 })

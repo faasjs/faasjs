@@ -146,38 +146,63 @@ export class Response<T = any> {
   }
 }
 
+export type ResponseErrorProps = {
+  message: string
+  /** @default 500 */
+  status?: number
+  /** @default {} */
+  headers?: ResponseHeaders
+  /** @default { error: Error(message) } */
+  body?: any
+  originalError?: Error
+}
+
+
 /**
- * ResponseError class
+ * Custom error class to handle HTTP response errors.
  *
- * Example:
+ * @class ResponseError
+ * @extends {Error}
+ *
+ * @property {number} status - The HTTP status code of the response.
+ * @property {ResponseHeaders} headers - The headers of the response.
+ * @property {any} body - The body of the response, or the original error if available.
+ * @property {Error} [originalError] - The original error, if any.
+ *
+ * @constructor
+ * @param {string | Error | ResponseErrorProps} data - The error message, an Error object, or a ResponseErrorProps object.
+ * @param {Omit<ResponseErrorProps, 'message' | 'originalError'>} [options] - Additional options for the error.
+ *
+ * @example
  * ```ts
- * new ResponseError({
- *   status: 404,
- *   message: 'Not Found',
- * })
+ * new ResponseError('error message')
+ * new ResponseError(new Error('error message'))
+ * new ResponseError({ message: 'not found', status: 404 })
  * ```
  */
 export class ResponseError extends Error {
   public readonly status: number
   public readonly headers: ResponseHeaders
   public readonly body: any
+  public readonly originalError?: Error
 
-  constructor({
-    message,
-    status,
-    headers,
-    body,
-  }: {
-    message: string
-    status: number
-    headers: ResponseHeaders
-    body: any
-  }) {
-    super(message)
+  constructor(msg: string | Error, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>)
+  constructor(props: ResponseErrorProps)
+  constructor(data: string | Error | ResponseErrorProps, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>) {
+    let props: ResponseErrorProps
+    if (typeof data === 'string') {
+      props = { message: data, ...options }
+    } else if (data instanceof Error || data?.constructor?.name?.includes('Error')) {
+      props = { message: data.message, originalError: (data as Error), ...options }
+    } else {
+      props = data
+    }
 
-    this.status = status
-    this.headers = headers
-    this.body = body
+    super(props.message)
+
+    this.status = props.status || 500
+    this.headers = props.headers || {}
+    this.body = props.body || props.originalError || { error: { message: props.message } }
   }
 }
 

@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.1.0 (2025-01)`](https://github.com/faasjs/faasjs/compare/v6.0.0...v6.1.0)
+
+- `@faasjs/browser`
+  - [Feature] Extend `ResponseError` to support string or Error as parameter.
+
 [`v6.0.0 (2025-01-10)`](https://github.com/faasjs/faasjs/compare/v5.0.1...v6.0.0)
 
 - `@faasjs/server`
