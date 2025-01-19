@@ -86,5 +86,6 @@ Please use [@faasjs/react](https://faasjs.com/doc/react/) for React.
 - [FaasBrowserClientAction](type-aliases/FaasBrowserClientAction.md)
 - [MockHandler](type-aliases/MockHandler.md)
 - [Options](type-aliases/Options.md)
+- [ResponseErrorProps](type-aliases/ResponseErrorProps.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
 - [ResponseProps](type-aliases/ResponseProps.md)

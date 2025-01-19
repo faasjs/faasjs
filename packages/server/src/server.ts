@@ -45,29 +45,75 @@ const AdditionalHeaders = [
   'x-faasjs-timing-total',
 ]
 
+/**
+ * Options for configuring the server.
+ */
 export type ServerOptions = {
-  /** @default 3000 */
+  /**
+   * The port on which the server will listen.
+   * @default 3000
+   */
   port?: number
-  onStart?: (context: {
-    logger: Logger
-  }) => Promise<void>
-  onError?: (
-    error: Error,
-    context: {
-      logger: Logger
-    }
-  ) => Promise<void>
-  onClose?: (context: {
-    logger: Logger
-  }) => Promise<void>
+
+  /**
+   * Callback function that is called when the server starts.
+   *
+   * Note: It will not break the server if an error occurs.
+   *
+   * @param context - The context object containing the logger.
+   * @example
+   * ```ts
+   * const server = new Server(process.cwd(), {
+   *   onStart: async ({ logger }) => {
+   *     logger.info('Server started')
+   *   })
+   * })
+   * ```
+   */
+  onStart?: (context: { logger: Logger }) => Promise<void>
+
+  /**
+   * Callback function that is called when an error occurs.
+   * @param error - The error that occurred.
+   * @param context - The context object containing the logger.
+   * @example
+   * ```ts
+   * const server = new Server(process.cwd(), {
+   *   onError: async (error, { logger }) => {
+   *     logger.error(error)
+   *   })
+   * })
+   * ```
+   */
+  onError?: (error: Error, context: { logger: Logger }) => Promise<void>
+
+  /**
+   * Callback function that is called when the server is closed.
+   * @param context - The context object containing the logger.
+   * @example
+   * ```ts
+   * const server = new Server(process.cwd(), {
+   *   onClose: async ({ logger }) => {
+   *     logger.info('Server closed')
+   *   })
+   * })
+   * ```
+   */
+  onClose?: (context: { logger: Logger }) => Promise<void>
 }
 
 /**
  * FaasJS Server.
  *
+ * @param {string} root The root path of the server.
+ * @param {ServerOptions} opts The options of the server.
+ * @returns {Server}
+ * @example
  * ```ts
+ * import { Server } from '@faasjs/server'
+ *
  * const server = new Server(process.cwd(), {
- *  port: 8080,
+ *   port: 8080,
  * })
  *
  * server.listen()
@@ -90,16 +136,7 @@ export class Server {
   private server: HttpServer
   private sockets: Set<Socket> = new Set()
 
-  /**
-   * @param root Project path
-   * @param opts Options
-   * @param opts.cache Enable cache, default is false
-   * @param opts.port Port, default is 3000
-   */
-  constructor(
-    root: string,
-    opts?: ServerOptions
-  ) {
+  constructor(root: string, opts?: ServerOptions) {
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development')
       process.env.FaasEnv = 'development'
 
@@ -111,9 +148,12 @@ export class Server {
       opts || {}
     )
 
-    if (opts.onClose && !types.isAsyncFunction(opts.onClose)) throw Error('onClose must be async function')
-    if (opts.onError && !types.isAsyncFunction(opts.onError)) throw Error('onError must be async function')
-    if (opts.onStart && !types.isAsyncFunction(opts.onStart)) throw Error('onStart must be async function')
+    if (opts.onClose && !types.isAsyncFunction(opts.onClose))
+      throw Error('onClose must be async function')
+    if (opts.onError && !types.isAsyncFunction(opts.onError))
+      throw Error('onError must be async function')
+    if (opts.onStart && !types.isAsyncFunction(opts.onStart))
+      throw Error('onStart must be async function')
 
     if (!process.env.FaasMode) process.env.FaasMode = 'mono'
 
@@ -340,19 +380,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-              type: 'br',
-              compress: createBrotliCompress(),
-            }
+                type: 'br',
+                compress: createBrotliCompress(),
+              }
             : encoding.includes('gzip')
               ? {
-                type: 'gzip',
-                compress: createGzip(),
-              }
+                  type: 'gzip',
+                  compress: createGzip(),
+                }
               : encoding.includes('deflate')
                 ? {
-                  type: 'deflate',
-                  compress: createDeflate(),
-                }
+                    type: 'deflate',
+                    compress: createDeflate(),
+                  }
                 : false
 
           if (compression) {
@@ -403,11 +443,14 @@ export class Server {
     if (this.options.onStart) {
       this.logger.debug('[onStart] begin')
       this.logger.time(`${this.logger.label}onStart`)
-      this.options.onStart({
-        logger: this.logger,
-      })
+      this.options
+        .onStart({
+          logger: this.logger,
+        })
         .catch(this.onError)
-        .finally(() => this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end'))
+        .finally(() =>
+          this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end')
+        )
     }
 
     this.server = createServer(async (req, res) => {
@@ -589,8 +632,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-          .map(p => `- ${p}`)
-          .join('\n')}`
+            .map(p => `- ${p}`)
+            .join('\n')}`
     this.onError(message)
     throw new HttpError({
       statusCode: 404,

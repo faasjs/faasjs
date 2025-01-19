@@ -2,14 +2,24 @@
 
 # Class: ResponseError
 
-ResponseError class
+Custom error class to handle HTTP response errors.
 
-Example:
+ ResponseError
+
+## Param
+
+The error message, an Error object, or a ResponseErrorProps object.
+
+## Param
+
+Additional options for the error.
+
+## Example
+
 ```ts
-new ResponseError({
-  status: 404,
-  message: 'Not Found',
-})
+new ResponseError('error message')
+new ResponseError(new Error('error message'))
+new ResponseError({ message: 'not found', status: 404 })
 ```
 
 ## Extends
@@ -20,27 +30,35 @@ new ResponseError({
 
 ### new ResponseError()
 
-> **new ResponseError**(`__namedParameters`): [`ResponseError`](ResponseError.md)
+> **new ResponseError**(`msg`, `options`?): [`ResponseError`](ResponseError.md)
 
 #### Parameters
 
-##### \_\_namedParameters
+##### msg
 
-###### body
+`string` | `Error`
 
-`any`
+##### options?
 
-###### headers
+`Omit`\<`ResponseErrorProps`, `"message"` \| `"originalError"`\>
 
-[`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
+#### Returns
 
-###### message
+[`ResponseError`](ResponseError.md)
 
-`string`
+#### Overrides
 
-###### status
+`Error.constructor`
 
-`number`
+### new ResponseError()
+
+> **new ResponseError**(`props`): [`ResponseError`](ResponseError.md)
+
+#### Parameters
+
+##### props
+
+`ResponseErrorProps`
 
 #### Returns
 
@@ -56,10 +74,22 @@ new ResponseError({
 
 > `readonly` **body**: `any`
 
+The body of the response, or the original error if available.
+
 ### headers
 
 > `readonly` **headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
 
+The headers of the response.
+
+### originalError?
+
+> `readonly` `optional` **originalError**: `Error`
+
+The original error, if any.
+
 ### status
 
 > `readonly` **status**: `number`
+
+The HTTP status code of the response.

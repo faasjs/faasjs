@@ -26,7 +26,13 @@ describe('server/hooks', () => {
     const onError = async () => {
       times++
     }
-    const server = new Server(join(__dirname, 'funcs'), { port, onError, onStart: async () => { throw Error('test') } })
+    const server = new Server(join(__dirname, 'funcs'), {
+      port,
+      onError,
+      onStart: async () => {
+        throw Error('test')
+      },
+    })
     server.listen()
 
     await new Promise(resolve => setTimeout(resolve, 100))

@@ -4,9 +4,21 @@
 
 FaasJS Server.
 
+## Param
+
+The root path of the server.
+
+## Param
+
+The options of the server.
+
+## Example
+
 ```ts
+import { Server } from '@faasjs/server'
+
 const server = new Server(process.cwd(), {
- port: 8080,
+  port: 8080,
 })
 
 server.listen()
@@ -24,31 +36,9 @@ server.listen()
 
 `string`
 
-Project path
-
 ##### opts?
 
-Options
-
-###### cache
-
-`boolean`
-
-Enable cache, default is false
-
-###### onClose
-
-(`context`) => `Promise`\<`void`\>
-
-###### onError
-
-(`error`, `context`) => `void`
-
-###### port
-
-`number`
-
-Port, default is 3000
+[`ServerOptions`](../type-aliases/ServerOptions.md)
 
 #### Returns
 
@@ -110,43 +100,9 @@ Start server.
 
 > `readonly` **logger**: `Logger`
 
-### onClose()?
+### options
 
-> `readonly` `optional` **onClose**: (`context`) => `Promise`\<`void`\>
-
-#### Parameters
-
-##### context
-
-###### logger
-
-`Logger`
-
-#### Returns
-
-`Promise`\<`void`\>
-
-### onError()
-
-> `readonly` **onError**: (`error`) => `void`
-
-#### Parameters
-
-##### error
-
-`any`
-
-#### Returns
-
-`void`
-
-### opts
-
-> `readonly` **opts**: `object`
-
-#### port
-
-> **port**: `number`
+> `readonly` **options**: [`ServerOptions`](../type-aliases/ServerOptions.md)
 
 ### root
 

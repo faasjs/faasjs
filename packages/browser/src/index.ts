@@ -157,7 +157,6 @@ export type ResponseErrorProps = {
   originalError?: Error
 }
 
-
 /**
  * Custom error class to handle HTTP response errors.
  *
@@ -186,14 +185,27 @@ export class ResponseError extends Error {
   public readonly body: any
   public readonly originalError?: Error
 
-  constructor(msg: string | Error, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>)
+  constructor(
+    msg: string | Error,
+    options?: Omit<ResponseErrorProps, 'message' | 'originalError'>
+  )
   constructor(props: ResponseErrorProps)
-  constructor(data: string | Error | ResponseErrorProps, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>) {
+  constructor(
+    data: string | Error | ResponseErrorProps,
+    options?: Omit<ResponseErrorProps, 'message' | 'originalError'>
+  ) {
     let props: ResponseErrorProps
     if (typeof data === 'string') {
       props = { message: data, ...options }
-    } else if (data instanceof Error || data?.constructor?.name?.includes('Error')) {
-      props = { message: data.message, originalError: (data as Error), ...options }
+    } else if (
+      data instanceof Error ||
+      data?.constructor?.name?.includes('Error')
+    ) {
+      props = {
+        message: data.message,
+        originalError: data as Error,
+        ...options,
+      }
     } else {
       props = data
     }
@@ -202,7 +214,8 @@ export class ResponseError extends Error {
 
     this.status = props.status || 500
     this.headers = props.headers || {}
-    this.body = props.body || props.originalError || { error: { message: props.message } }
+    this.body = props.body ||
+      props.originalError || { error: { message: props.message } }
   }
 }
 

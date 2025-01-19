@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ant-design",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -30,7 +30,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/react": "6.0.0",
+    "@faasjs/react": "6.1.0",
     "antd": "*",
     "@ant-design/icons": "*",
     "lodash-es": "*",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "*",
-    "@faasjs/react": "6.0.0",
+    "@faasjs/react": "6.1.0",
     "antd": "*",
     "@ant-design/icons": "*",
     "lodash-es": "*",
