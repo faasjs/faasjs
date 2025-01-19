@@ -10,7 +10,6 @@ describe('server', () => {
   beforeAll(() => {
     server = new Server(join(__dirname, 'funcs'), {
       port,
-      onError: console.error,
     })
     server.listen()
   })
@@ -24,7 +23,6 @@ describe('server', () => {
     expect(getAll()[0].root).toEqual(join(__dirname, 'funcs', sep))
     expect(getAll()[0].options).toEqual({
       port,
-      onError: console.error,
     })
   })
 

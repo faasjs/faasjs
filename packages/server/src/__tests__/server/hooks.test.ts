@@ -20,38 +20,20 @@ describe('server/hooks', () => {
     expect(times).toBe(1)
   })
 
-  describe('should handle onError', () => {
-    it('sync handler', async () => {
-      const port = 3003 + Number(process.env.VITEST_POOL_ID)
-      let times = 0
-      const onError = async () => {
-        times++
-      }
-      const server = new Server(join(__dirname, 'funcs'), { port, onError, onStart: () => { throw Error('test') } })
-      server.listen()
+  it('should handle onError', async () => {
+    const port = 3004 + Number(process.env.VITEST_POOL_ID)
+    let times = 0
+    const onError = async () => {
+      times++
+    }
+    const server = new Server(join(__dirname, 'funcs'), { port, onError, onStart: async () => { throw Error('test') } })
+    server.listen()
 
-      await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise(resolve => setTimeout(resolve, 100))
 
-      await server.close()
+    await server.close()
 
-      expect(times).toBe(1)
-    })
-
-    it('async handler', async () => {
-      const port = 3004 + Number(process.env.VITEST_POOL_ID)
-      let times = 0
-      const onError = async () => {
-        times++
-      }
-      const server = new Server(join(__dirname, 'funcs'), { port, onError, onStart: async () => { throw Error('test') } })
-      server.listen()
-
-      await new Promise(resolve => setTimeout(resolve, 100))
-
-      await server.close()
-
-      expect(times).toBe(1)
-    })
+    expect(times).toBe(1)
   })
 
   it('should handle SIGTERM and SIGINT with onClose', async () => {

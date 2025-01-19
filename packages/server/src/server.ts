@@ -9,6 +9,7 @@ import {
 import type { Socket } from 'node:net'
 import { join, resolve as pathResolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
+import { types } from 'node:util'
 import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
 import { deepMerge } from '@faasjs/deep_merge'
 import type { Func } from '@faasjs/func'
@@ -55,7 +56,7 @@ export type ServerOptions = {
     context: {
       logger: Logger
     }
-  ) => void
+  ) => Promise<void>
   onClose?: (context: {
     logger: Logger
   }) => Promise<void>
@@ -76,12 +77,15 @@ export class Server {
   public readonly root: string
   public readonly logger: Logger
   public readonly options: ServerOptions
-  public readonly onError: (error: any) => void
+
   protected closed = false
+
   private activeRequests = 0
   private cachedFuncs: {
     [path: string]: Cache
   } = {}
+
+  private onError: (error: any) => void
 
   private server: HttpServer
   private sockets: Set<Socket> = new Set()
@@ -106,6 +110,10 @@ export class Server {
       },
       opts || {}
     )
+
+    if (opts.onClose && !types.isAsyncFunction(opts.onClose)) throw Error('onClose must be async function')
+    if (opts.onError && !types.isAsyncFunction(opts.onError)) throw Error('onError must be async function')
+    if (opts.onStart && !types.isAsyncFunction(opts.onStart)) throw Error('onStart must be async function')
 
     if (!process.env.FaasMode) process.env.FaasMode = 'mono'
 
@@ -395,16 +403,11 @@ export class Server {
     if (this.options.onStart) {
       this.logger.debug('[onStart] begin')
       this.logger.time(`${this.logger.label}onStart`)
-      try {
-        this.options.onStart({
-          logger: this.logger,
-        })
-          .catch(this.onError)
-          .finally(() => this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end'))
-      } catch (error) {
-        this.onError(error)
-        this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end')
-      }
+      this.options.onStart({
+        logger: this.logger,
+      })
+        .catch(this.onError)
+        .finally(() => this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end'))
     }
 
     this.server = createServer(async (req, res) => {
