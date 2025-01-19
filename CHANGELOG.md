@@ -9,6 +9,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/browser`
   - [Feature] Extend `ResponseError` to support string or Error as parameter.
 
+- `@faasjs/server`
+  - [Feature] Add `onStart` to `Server`.
+
 [`v6.0.0 (2025-01-10)`](https://github.com/faasjs/faasjs/compare/v5.0.1...v6.0.0)
 
 - `@faasjs/server`
