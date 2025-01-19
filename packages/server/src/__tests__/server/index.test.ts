@@ -1,7 +1,7 @@
 import { join, sep } from 'node:path'
 import { request } from '@faasjs/request'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { Server, closeAll } from '../../server'
+import { Server, closeAll, getAll } from '../../server'
 
 describe('server', () => {
   let server: Server
@@ -20,8 +20,9 @@ describe('server', () => {
   })
 
   it('check config', async () => {
-    expect(server.root).toEqual(join(__dirname, 'funcs', sep))
-    expect(server.options).toEqual({
+    expect(getAll()).toHaveLength(1)
+    expect(getAll()[0].root).toEqual(join(__dirname, 'funcs', sep))
+    expect(getAll()[0].options).toEqual({
       port,
       onError: console.error,
     })

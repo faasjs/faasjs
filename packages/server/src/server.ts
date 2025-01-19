@@ -395,13 +395,16 @@ export class Server {
     if (this.options.onStart) {
       this.logger.debug('[onStart] begin')
       this.logger.time(`${this.logger.label}onStart`)
-      this.options.onStart({
-        logger: this.logger,
-      })
-        .then(() => {
-          this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end')
+      try {
+        this.options.onStart({
+          logger: this.logger,
         })
-        .catch(this.onError)
+          .catch(this.onError)
+          .finally(() => this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end'))
+      } catch (error) {
+        this.onError(error)
+        this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end')
+      }
     }
 
     this.server = createServer(async (req, res) => {
@@ -526,6 +529,7 @@ export class Server {
     await new Promise<void>(resolve => {
       this.server.close(err => {
         if (err) this.onError(err)
+
         resolve()
       })
     })
