@@ -21,7 +21,7 @@ describe('server', () => {
 
   it('check config', async () => {
     expect(server.root).toEqual(join(__dirname, 'funcs', sep))
-    expect(server.opts).toEqual({
+    expect(server.options).toEqual({
       port,
       onError: console.error,
     })
