@@ -14,6 +14,6 @@ describe('server', () => {
     const servers = getAll()
 
     expect(servers.length).toEqual(1)
-    expect(servers[0].opts.port).toEqual(port)
+    expect(servers[0].options.port).toEqual(port)
   })
 })
