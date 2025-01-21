@@ -29,15 +29,11 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist",
-    "index.js"
-  ],
+  "files": ["dist", "index.js"],
   "dependencies": {
     "@faasjs/test": "6.1.0",
     "commander": "*",
     "enquirer": "*",
-    "glob": "*",
     "lodash": "*"
   },
   "peerDependencies": {
