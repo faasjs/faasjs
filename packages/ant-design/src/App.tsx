@@ -40,7 +40,7 @@ export interface AppProps {
   /**
    * `false` to disable BrowserRouter.
    *
-   * Automatically disabled when no document is available.
+   * Auto disable when not in browser.
    *
    * @see https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
    */

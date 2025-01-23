@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.2.0 (2025-01-23)`](https://github.com/faasjs/faasjs/compare/v6.1.0...v6.2.0)
+
+- `@faasjs/ant-design`
+  - [Feature] Auto disable BrowserRouter when not in browser.
+
 [`v6.1.0 (2025-01-19)`](https://github.com/faasjs/faasjs/compare/v6.0.0...v6.1.0)
 
 - `@faasjs/browser`
