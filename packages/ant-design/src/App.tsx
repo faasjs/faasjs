@@ -40,7 +40,9 @@ export interface AppProps {
   /**
    * `false` to disable BrowserRouter.
    *
-   * @see https://reactrouter.com/en/router-components/browser-router
+   * Automatically disabled when no document is available.
+   *
+   * @see https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
    */
   browserRouterProps?: BrowserRouterProps | false
   /** @see https://faasjs.com/doc/ant-design/#errorboundary */
@@ -91,7 +93,7 @@ function RoutesApp(props: {
  * - Integrated Ant Design's [Message](https://ant.design/components/message/) and [Notification](https://ant.design/components/notification/).
  * - Based on FaasJS's [ConfigProvider](https://faasjs.com/doc/ant-design/#configprovider).
  * - Integrated FaasJS's [Modal](https://faasjs.com/doc/ant-design/#usemodal), [Drawer](https://faasjs.com/doc/ant-design/#usedrawer) and [ErrorBoundary](https://faasjs.com/doc/ant-design/#errorboundary).
- * - Integrated React Router's [BrowserRouter](https://reactrouter.com/en/router-components/browser-router).
+ * - Integrated React Router's [BrowserRouter](https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html).
  *
  * @example
  * ```tsx
@@ -102,7 +104,7 @@ function RoutesApp(props: {
  *     <App
  *      styleProviderProps={{}} // https://ant.design/docs/react/compatible-style#styleprovider
  *      configProviderProps={{}} // https://ant.design/components/config-provider/#API
- *      browserRouterProps={{}} // https://reactrouter.com/en/router-components/browser-router
+ *      browserRouterProps={{}} // https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
  *      errorBoundaryProps={{}} // https://faasjs.com/doc/ant-design/#errorboundary
  *      faasConfigProviderProps={{}} // https://faasjs.com/doc/ant-design/#configprovider
  *     >
@@ -151,7 +153,7 @@ export function App(props: AppProps) {
           <FaasConfigProvider {...props.faasConfigProviderProps}>
             <ErrorBoundary {...props.errorBoundaryProps}>
               <OptionalWrapper
-                condition={props.browserRouterProps !== false}
+                condition={typeof document !== 'undefined' && props.browserRouterProps !== false}
                 Wrapper={BrowserRouter}
                 wrapperProps={props.browserRouterProps}
               >
