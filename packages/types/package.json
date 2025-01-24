@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/types",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "license": "MIT",
   "type": "module",
   "types": "src/index.ts",
@@ -22,7 +22,9 @@
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
-  "files": ["src/index.ts"],
+  "files": [
+    "src/index.ts"
+  ],
   "engines": {
     "node": ">=22.0.0",
     "npm": ">=10.0.0"

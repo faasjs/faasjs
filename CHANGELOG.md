@@ -7,7 +7,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 [`v6.2.0 (2025-01-24)`](https://github.com/faasjs/faasjs/compare/v6.1.0...v6.2.0)
 
 - `faasjs`
-  - [Feature] Add tsconfig templates.
+  - [Feature] Add tsconfig templates, you can use `faasjs/tsconfig.base`, `faasjs/tsconfig.react` and `faasjs/tsconfig.build` in your project's tsconfig.
 
 - `@faasjs/ant-design`
   - [Feature] Auto disable BrowserRouter when not in browser.

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/nextjs",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -26,14 +26,16 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts --external next"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
-    "@faasjs/react": "6.1.0",
-    "@faasjs/func": "6.1.0"
+    "@faasjs/react": "6.2.0",
+    "@faasjs/func": "6.2.0"
   },
   "devDependencies": {
-    "@faasjs/react": "6.1.0",
-    "@faasjs/func": "6.1.0",
+    "@faasjs/react": "6.2.0",
+    "@faasjs/func": "6.2.0",
     "next": "*"
   },
   "engines": {

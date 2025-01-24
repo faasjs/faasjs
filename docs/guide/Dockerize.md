@@ -54,7 +54,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm install --production
+RUN npm install --production && npm cache clean --force
 
 COPY . .
 

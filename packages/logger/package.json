@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/logger",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -26,7 +26,9 @@
   "scripts": {
     "build": "tsup-node --entry src/index.ts --entry src/transport.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=22.0.0",
     "npm": ">=10.0.0"
