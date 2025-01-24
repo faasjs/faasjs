@@ -3,7 +3,7 @@
   "version": "6.1.0",
   "license": "MIT",
   "type": "module",
-  "files": [],
+  "files": ["tsconfig.base.json", "tsconfig.react.json", "tsconfig.build.json"],
   "homepage": "https://faasjs.com",
   "repository": {
     "type": "git",

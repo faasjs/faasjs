@@ -38,14 +38,14 @@ export class ErrorBoundary extends Component<
     }
   }
 
-  componentDidCatch(error: Error | null, info: any) {
+  override componentDidCatch(error: Error | null, info: any) {
     this.setState({
       error,
       info,
     })
   }
 
-  render() {
+  override render() {
     const errorMessage = (this.state.error || '').toString()
     const errorDescription = this.state.info?.componentStack
       ? this.state.info.componentStack

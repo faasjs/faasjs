@@ -49,7 +49,7 @@ export type FaasReactClientInstance = {
   FaasDataWrapper<PathOrData extends FaasAction>(
     props: FaasDataWrapperProps<PathOrData>
   ): JSX.Element
-  onError: OnError
+  onError?: OnError
   browserClient: FaasBrowserClient
 }
 
@@ -95,7 +95,7 @@ export function FaasReactClient(
     browserClient: client,
   }
 
-  clients[baseUrl] = reactClient
+  clients[baseUrl as string] = reactClient
 
   return reactClient
 }
@@ -114,7 +114,7 @@ export function FaasReactClient(
  * ```
  */
 export function getClient(host?: string): FaasReactClientInstance {
-  const client = clients[host || Object.keys(clients)[0]]
+  const client = clients[host || Object.keys(clients)[0] as string]
 
   if (!client) {
     console.warn('FaasReactClient is not initialized manually, use default.')

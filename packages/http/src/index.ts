@@ -28,12 +28,12 @@ import type { Session } from './session'
 
 export {
   Cookie,
-  CookieOptions,
+  type CookieOptions,
 } from './cookie'
 
 export {
   Session,
-  SessionOptions,
+  type SessionOptions,
 } from './session'
 
 export const ContentType: {
@@ -56,16 +56,16 @@ export type HttpConfig = {
     [key: string]: any
     /** POST as default */
     method?:
-      | 'BEGIN'
-      | 'GET'
-      | 'POST'
-      | 'DELETE'
-      | 'HEAD'
-      | 'PUT'
-      | 'OPTIONS'
-      | 'TRACE'
-      | 'PATCH'
-      | 'ANY'
+    | 'BEGIN'
+    | 'GET'
+    | 'POST'
+    | 'DELETE'
+    | 'HEAD'
+    | 'PUT'
+    | 'OPTIONS'
+    | 'TRACE'
+    | 'PATCH'
+    | 'ANY'
     timeout?: number
     /** file relative path as default */
     path?: string
@@ -86,7 +86,7 @@ export type Response = {
 
 export class HttpError extends Error {
   public readonly statusCode: number
-  public readonly message: string
+  public override readonly message: string
 
   constructor({
     statusCode,
@@ -132,25 +132,26 @@ export class Http<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
-> implements Plugin
-{
+> implements Plugin {
   public readonly type = 'http'
   public readonly name: string = Name
 
   public headers: {
     [key: string]: string
-  }
+  } = Object.create(null)
   public body: any
 
-  public params: TParams
+  public params: TParams = Object.create(null)
   public cookie: Cookie<TCookie, TSession>
   public session: Session<TSession, TCookie>
   public config: HttpConfig
-  private response?: Response
+  private response: Response = Object.create(null)
 
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
+    this.cookie = new Cookie(this.config.cookie || {})
+    this.session = this.cookie.session
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
@@ -169,7 +170,7 @@ export class Http<
             if (!config[k]) config[k] = Object.create(null)
             config = config[k]
           }
-          config[keys[keys.length - 1]] = value
+          config[keys[keys.length - 1] as string] = value
         } else this.config[key] = value
       }
 
@@ -178,7 +179,7 @@ export class Http<
     if (data.config.plugins?.[this.name || this.type])
       this.config = deepMerge(
         this.config,
-        data.config.plugins[this.name || this.type].config
+        data.config.plugins[this.name || this.type as string]!.config
       )
 
     data.logger.debug('prepare cookie & session')
@@ -346,7 +347,8 @@ export class Http<
     key: string,
     value: string
   ): Http<TParams, TCookie, TSession> {
-    this.response.headers[key.toLowerCase()] = value
+    if (!this.response.headers) this.response.headers = Object.create(null)
+    this.response.headers![key.toLowerCase()] = value
     return this
   }
 

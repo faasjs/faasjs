@@ -37,7 +37,8 @@
       },
       "style": {
         "noParameterAssign": "off",
-        "useLiteralEnumMembers": "off"
+        "useLiteralEnumMembers": "off",
+        "noNonNullAssertion": "warn"
       },
       "performance": {
         "noDelete": "off"

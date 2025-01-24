@@ -49,10 +49,10 @@ export type RequestOptions = {
     [key: string]: any
   }
   body?:
-    | {
-        [key: string]: any
-      }
-    | string
+  | {
+    [key: string]: any
+  }
+  | string
   /** Timeout in milliseconds, @default 5000 */
   timeout?: number
   /**
@@ -140,9 +140,9 @@ export function querystringify(obj: any) {
  */
 export class ResponseError extends Error {
   public response: Response
-  public request: Request
-  public statusCode: number
-  public statusMessage: string
+  public request?: Request
+  public statusCode?: number
+  public statusMessage?: string
   public headers: OutgoingHttpHeaders
   public body: any
 
@@ -206,7 +206,9 @@ export async function request<T = any>(
 
   if (!uri.protocol) throw Error('Unknown protocol')
 
-  const requestOptions: https.RequestOptions = {
+  const requestOptions: https.RequestOptions & {
+    headers: OutgoingHttpHeaders
+  } = {
     headers: {},
     host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
     method: options.method ? options.method.toUpperCase() : 'GET',
@@ -266,8 +268,8 @@ export async function request<T = any>(
               res.statusCode,
               res.headers['content-type']
             )
-            options.downloadStream.end()
-            resolve(undefined)
+            options.downloadStream?.end()
+            resolve(undefined as any)
           })
         res.pipe(options.downloadStream, { end: true })
         return
@@ -288,7 +290,7 @@ export async function request<T = any>(
               res.headers['content-type'],
               stream.bytesWritten
             )
-            resolve(undefined)
+            resolve(undefined as any)
           })
 
         res.pipe(stream, { end: true })
@@ -353,8 +355,7 @@ export async function request<T = any>(
             logger.debug('response.error %j', response)
             reject(
               new ResponseError(
-                `${res.statusMessage || res.statusCode} ${
-                  requestOptions.host
+                `${res.statusMessage || res.statusCode} ${requestOptions.host
                 }${requestOptions.path}`,
                 response
               )

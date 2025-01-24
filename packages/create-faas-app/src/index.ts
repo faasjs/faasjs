@@ -18,7 +18,7 @@
  */
 
 import { Command } from 'commander'
-import { version } from '../package.json'
+import PackageJSON from '../package.json' assert { type: 'json' }
 import action from './action'
 
 const commander = new Command()
@@ -26,7 +26,7 @@ const commander = new Command()
 commander
   .storeOptionsAsProperties(false)
   .allowUnknownOption(true)
-  .version(version)
+  .version(PackageJSON.version)
   .name('create-faas-app')
   .exitOverride()
 

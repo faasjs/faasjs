@@ -1,23 +1,15 @@
 {
+  "extends": "./packages/faasjs/tsconfig.build.json",
   "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "downlevelIteration": true,
-    "esModuleInterop": true,
     "strictNullChecks": false,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "node",
-    "moduleDetection": "force",
-    "target": "ESNext",
-    "module": "ESNext",
     "baseUrl": ".",
     "paths": {
-      "@faasjs/*": ["./packages/*/src"]
+      "@faasjs/*": [
+        "./packages/*/src"
+      ]
     },
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   }
 }

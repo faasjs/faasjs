@@ -88,7 +88,7 @@ export type Options = RequestInit & {
     headers,
   }: {
     action: string
-    params: Record<string, any>
+    params?: Record<string, any>
     options: Options
     headers: Record<string, string>
   }) => Promise<void>
@@ -134,7 +134,7 @@ export class Response<T = any> {
   public readonly status: number
   public readonly headers: ResponseHeaders
   public readonly body: any
-  public readonly data: T
+  public readonly data?: T
 
   constructor(props: ResponseProps<T> = {}) {
     this.status = props.status || (props.data ? 200 : 201)
@@ -221,11 +221,11 @@ export class ResponseError extends Error {
 
 export type MockHandler = (
   action: string,
-  params: Record<string, any>,
+  params: Record<string, any> | undefined,
   options: Options
 ) => Promise<Response<any> | ResponseProps> | Promise<void>
 
-let mock: MockHandler
+let mock: MockHandler | null
 
 /**
  * Set mock handler for testing
@@ -305,30 +305,30 @@ export class FaasBrowserClient {
     if (!params) params = Object.create(null)
     if (!options) options = Object.create(null)
 
-    options = {
+    const parsedOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      mode: 'cors',
-      credentials: 'include',
+      mode: 'cors' as RequestMode,
+      credentials: 'include' as RequestCredentials,
       body: JSON.stringify(params),
       ...this.defaultOptions,
       ...options,
     }
 
-    if (!options.headers['X-FaasJS-Request-Id'])
-      options.headers['X-FaasJS-Request-Id'] = id
+    if (!parsedOptions.headers['X-FaasJS-Request-Id'])
+      parsedOptions.headers['X-FaasJS-Request-Id'] = id
 
-    if (options.beforeRequest)
-      await options.beforeRequest({
+    if (parsedOptions.beforeRequest)
+      await parsedOptions.beforeRequest({
         action: action as string,
         params,
-        options,
-        headers: options.headers,
+        options: parsedOptions,
+        headers: parsedOptions.headers,
       })
 
     if (mock) {
       console.debug(`[FaasJS] Mock request: ${action} %j`, params)
-      const response = await mock(action as string, params, options)
+      const response = await mock(action as string, params, parsedOptions)
       if (response instanceof Error) return Promise.reject(response)
       if (response instanceof Response) return response
       return new Response(response || {})
@@ -354,9 +354,9 @@ export class FaasBrowserClient {
       }
     }
 
-    if (options.request) return options.request(url, options)
+    if (parsedOptions.request) return parsedOptions.request(url, parsedOptions)
 
-    return fetch(url, options).then(async response => {
+    return fetch(url, parsedOptions).then(async response => {
       const headers: {
         [key: string]: string
       } = {}

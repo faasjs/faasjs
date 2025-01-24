@@ -18,7 +18,7 @@ export class RunHandler implements Plugin {
               if (error) reject(error)
               else resolve(result)
             }
-            Promise.resolve(data.handler(data)).then(resolve).catch(reject)
+            Promise.resolve(data.handler?.(data)).then(resolve).catch(reject)
           })
         } catch (error: any) {
           data.logger.error(error)

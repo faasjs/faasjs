@@ -26,7 +26,7 @@
 
 import { deepMerge } from '@faasjs/deep_merge'
 import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
-import type { Http } from '@faasjs/http'
+import { Http } from '@faasjs/http'
 import { loadConfig } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
 
@@ -132,20 +132,19 @@ export class FuncWarper {
 
     const headers = options.headers || Object.create(null)
 
-    const http: Http = this.http
-    if (http) {
+    if (this.http && this.http instanceof Http) {
       if (options.cookie)
         for (const key in options.cookie)
-          http.cookie.write(key, options.cookie[key])
+          this.http.cookie.write(key, options.cookie[key])
 
       if (options.session) {
         for (const key in options.session)
-          http.session.write(key, options.session[key])
-        http.session.update()
+          this.http.session.write(key, options.session[key])
+        this.http.session.update()
       }
-      const cookie = http.cookie
+      const cookie = this.http.cookie
         .headers()
-        ['Set-Cookie']?.map(c => c.split(';')[0])
+      ['Set-Cookie']?.map(c => c.split(';')[0])
         .join(';')
       if (cookie)
         if (headers.cookie) headers.cookie += `;${cookie}`
@@ -168,9 +167,9 @@ export class FuncWarper {
       response.error = parsedBody.error
     }
 
-    if (http) {
-      response.cookie = http.cookie.content
-      response.session = http.session.content
+    if (this.http) {
+      response.cookie = this.http.cookie.content
+      response.session = this.http.session.content
     }
 
     this.logger.debug('response: %j', response)

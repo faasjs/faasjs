@@ -150,11 +150,17 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
 
     try {
-      this.filename = new Error().stack
-        .split('\n')
-        .find(s => /[^/]\.func\.ts/.test(s))
-        .match(/\((.*\.func\.ts).*\)/)[1]
-    } catch (_) {}
+      const stack = new Error().stack;
+      if (stack) {
+        const match = stack
+          .split('\n')
+          .find(s => /[^/]\.func\.ts/.test(s))
+          ?.match(/\((.*\.func\.ts).*\)/);
+        if (match) {
+          this.filename = match[1];
+        }
+      }
+    } catch (_) { }
   }
 
   private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
@@ -229,9 +235,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       config?: Config
       logger?: Logger
     } = {
-      event: Object.create(null),
-      context: Object.create(null),
-    }
+        event: Object.create(null),
+        context: Object.create(null),
+      }
   ): Promise<void> {
     if (!data.logger) data.logger = new Logger('Func')
 
@@ -289,7 +295,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       const logger = new Logger(context.request_id)
 
       const data: InvokeData<TEvent, TContext, TResult> = {
-        event,
+        event: event ?? Object.create(null),
         context,
         callback,
         response: undefined,
@@ -327,14 +333,14 @@ export function usePlugin<T extends Plugin>(
 
   if (!plugin.mount)
     plugin.mount = async (data?: MountData) => {
-      if (!data) data = Object.create(null)
-      if (!data.config) data.config = Object.create(null)
-      if (!data.context) data.context = Object.create(null)
-      if (!data.event) data.event = Object.create(null)
-      if (!data.logger) data.logger = new Logger(plugin.name)
+      const parsedData = data || Object.create(null)
+      if (!parsedData.config) parsedData.config = Object.create(null)
+      if (!parsedData.context) parsedData.context = Object.create(null)
+      if (!parsedData.event) parsedData.event = Object.create(null)
+      if (!parsedData.logger) parsedData.logger = new Logger(plugin.name)
 
       if (plugin.onMount)
-        await plugin.onMount(data, async () => Promise.resolve())
+        await plugin.onMount(parsedData, async () => Promise.resolve())
 
       return plugin
     }
