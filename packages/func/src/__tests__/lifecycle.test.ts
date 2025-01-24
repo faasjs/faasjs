@@ -92,7 +92,7 @@ describe('lifecycle', () => {
       } catch (error: any) {
         expect(error.message).toEqual(
           !(globalThis as any).Bun
-            ? "Cannot read properties of null (reading 'headers')"
+            ? "Cannot read properties of undefined (reading 'cookie')"
             : `null is not an object (evaluating 'data.event.headers')`
         )
       }

@@ -49,8 +49,8 @@ import { useSplittingState } from './splittingState'
 export function createSplittingContext<T extends Record<string, any>>(
   defaultValue:
     | {
-      [K in keyof T]: Partial<T[K]> | null
-    }
+        [K in keyof T]: Partial<T[K]> | null
+      }
     | (keyof T)[]
 ): {
   /**
@@ -120,10 +120,13 @@ export function createSplittingContext<T extends Record<string, any>>(
     ? defaultValue
     : Object.keys(defaultValue)
   const defaultValues = Array.isArray(defaultValue)
-    ? keys.reduce<{ [K in keyof T]: Partial<T[K]> | null }>((prev, cur) => {
-      prev[cur] = null
-      return prev
-    }, {} as ({ [K in keyof T]: Partial<T[K]> | null }))
+    ? keys.reduce<{ [K in keyof T]: Partial<T[K]> | null }>(
+        (prev, cur) => {
+          prev[cur] = null
+          return prev
+        },
+        {} as { [K in keyof T]: Partial<T[K]> | null }
+      )
     : defaultValue
 
   const contexts = {} as Record<
@@ -144,9 +147,9 @@ export function createSplittingContext<T extends Record<string, any>>(
 
     let children = props.memo
       ? useEqualMemo(
-        () => props.children,
-        props.memo === true ? [] : props.memo
-      )
+          () => props.children,
+          props.memo === true ? [] : props.memo
+        )
       : props.children
 
     for (const key of keys) {
@@ -170,9 +173,9 @@ export function createSplittingContext<T extends Record<string, any>>(
         Object.defineProperty(obj, key, {
           get: () => {
             if (!contexts[key]) {
-              throw new Error(`Context for key "${key}" is undefined`);
+              throw new Error(`Context for key "${key}" is undefined`)
             }
-            return useContext(contexts[key]);
+            return useContext(contexts[key])
           },
         })
       }

@@ -1,7 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    /* Base Options: */
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "ESNext",
@@ -10,13 +9,10 @@
     "moduleDetection": "force",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    /* Strict */
     "strict": true,
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
-    /* React */
     "jsx": "react-jsx",
-    /* Build */
     "declaration": true,
     "declarationMap": true,
     "module": "ESNext",

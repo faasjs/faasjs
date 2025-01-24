@@ -150,17 +150,17 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
 
     try {
-      const stack = new Error().stack;
+      const stack = new Error().stack
       if (stack) {
         const match = stack
           .split('\n')
           .find(s => /[^/]\.func\.ts/.test(s))
-          ?.match(/\((.*\.func\.ts).*\)/);
+          ?.match(/\((.*\.func\.ts).*\)/)
         if (match) {
-          this.filename = match[1];
+          this.filename = match[1]
         }
       }
-    } catch (_) { }
+    } catch (_) {}
   }
 
   private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
@@ -235,9 +235,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       config?: Config
       logger?: Logger
     } = {
-        event: Object.create(null),
-        context: Object.create(null),
-      }
+      event: Object.create(null),
+      context: Object.create(null),
+    }
   ): Promise<void> {
     if (!data.logger) data.logger = new Logger('Func')
 

@@ -114,7 +114,7 @@ export function FaasReactClient(
  * ```
  */
 export function getClient(host?: string): FaasReactClientInstance {
-  const client = clients[host || Object.keys(clients)[0] as string]
+  const client = clients[host || (Object.keys(clients)[0] as string)]
 
   if (!client) {
     console.warn('FaasReactClient is not initialized manually, use default.')

@@ -56,16 +56,16 @@ export type HttpConfig = {
     [key: string]: any
     /** POST as default */
     method?:
-    | 'BEGIN'
-    | 'GET'
-    | 'POST'
-    | 'DELETE'
-    | 'HEAD'
-    | 'PUT'
-    | 'OPTIONS'
-    | 'TRACE'
-    | 'PATCH'
-    | 'ANY'
+      | 'BEGIN'
+      | 'GET'
+      | 'POST'
+      | 'DELETE'
+      | 'HEAD'
+      | 'PUT'
+      | 'OPTIONS'
+      | 'TRACE'
+      | 'PATCH'
+      | 'ANY'
     timeout?: number
     /** file relative path as default */
     path?: string
@@ -132,7 +132,8 @@ export class Http<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
-> implements Plugin {
+> implements Plugin
+{
   public readonly type = 'http'
   public readonly name: string = Name
 
@@ -145,7 +146,7 @@ export class Http<
   public cookie: Cookie<TCookie, TSession>
   public session: Session<TSession, TCookie>
   public config: HttpConfig
-  private response: Response = Object.create(null)
+  private response: Response
 
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
@@ -177,7 +178,7 @@ export class Http<
     if (data.config.plugins?.[this.name || this.type])
       this.config = deepMerge(
         this.config,
-        data.config.plugins[this.name || this.type as string]!.config
+        data.config.plugins[this.name || (this.type as string)].config
       )
 
     data.logger.debug('prepare cookie & session')
@@ -345,8 +346,7 @@ export class Http<
     key: string,
     value: string
   ): Http<TParams, TCookie, TSession> {
-    if (!this.response.headers) this.response.headers = Object.create(null)
-    this.response.headers![key.toLowerCase()] = value
+    this.response.headers[key.toLowerCase()] = value
     return this
   }
 

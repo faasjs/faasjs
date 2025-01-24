@@ -153,7 +153,10 @@ export function App(props: AppProps) {
           <FaasConfigProvider {...props.faasConfigProviderProps}>
             <ErrorBoundary {...props.errorBoundaryProps}>
               <OptionalWrapper
-                condition={typeof document !== 'undefined' && props.browserRouterProps !== false}
+                condition={
+                  typeof document !== 'undefined' &&
+                  props.browserRouterProps !== false
+                }
                 Wrapper={BrowserRouter}
                 wrapperProps={props.browserRouterProps}
               >
