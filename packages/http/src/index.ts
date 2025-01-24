@@ -150,8 +150,6 @@ export class Http<
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
-    this.cookie = new Cookie(this.config.cookie || {})
-    this.session = this.cookie.session
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
