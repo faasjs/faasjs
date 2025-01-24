@@ -40,9 +40,9 @@
 
 > **id**: `string`
 
-### onError
+### onError?
 
-> **onError**: [`OnError`](OnError.md)
+> `optional` **onError**: [`OnError`](OnError.md)
 
 ### useFaas()
 

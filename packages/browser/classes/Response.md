@@ -40,9 +40,9 @@ new Response({
 
 > `readonly` **body**: `any`
 
-### data
+### data?
 
-> `readonly` **data**: `T`
+> `readonly` `optional` **data**: `T`
 
 ### headers
 

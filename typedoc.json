@@ -1,9 +1,18 @@
 {
   "excludePrivate": true,
   "excludeExternals": true,
-  "exclude": ["**/__tests__/**"],
-  "plugin": ["typedoc-plugin-markdown"],
-  "groupOrder": ["Functions", "Classes", "*"],
+  "exclude": [
+    "**/__tests__/**",
+    "**/dist/**"
+  ],
+  "plugin": [
+    "typedoc-plugin-markdown"
+  ],
+  "groupOrder": [
+    "Functions",
+    "Classes",
+    "*"
+  ],
   "githubPages": false,
   "cleanOutputDir": false,
   "disableSources": true,

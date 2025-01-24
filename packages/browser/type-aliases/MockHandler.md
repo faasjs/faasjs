@@ -12,7 +12,7 @@
 
 ### params
 
-`Record`\<`string`, `any`\>
+`Record`\<`string`, `any`\> | `undefined`
 
 ### options
 

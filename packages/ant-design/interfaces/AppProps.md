@@ -10,9 +10,11 @@
 
 `false` to disable BrowserRouter.
 
+Auto disable when not in browser.
+
 #### See
 
-https://reactrouter.com/en/router-components/browser-router
+https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
 
 ### children
 

@@ -4,8 +4,16 @@
     "strictNullChecks": false,
     "baseUrl": ".",
     "paths": {
-      "@faasjs/*": ["./packages/*/src"]
+      "@faasjs/*": [
+        "./packages/*/src"
+      ]
     },
-    "types": ["node"]
-  }
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "packages/*/src/**/*.ts",
+    "packages/*/src/**/*.tsx"
+  ],
 }
