@@ -12,6 +12,7 @@
     "strict": true,
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
+    "exactOptionalPropertyTypes": true,
     "jsx": "react-jsx"
   }
 }

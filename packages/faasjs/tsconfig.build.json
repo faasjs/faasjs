@@ -12,11 +12,13 @@
     "strict": true,
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
+    "exactOptionalPropertyTypes": true,
     "jsx": "react-jsx",
     "declaration": true,
     "declarationMap": true,
     "module": "ESNext",
     "moduleResolution": "node",
-    "sourceMap": true
+    "sourceMap": true,
+    "noEmit": true
   }
 }

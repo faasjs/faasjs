@@ -11,6 +11,7 @@
     "verbatimModuleSyntax": true,
     "strict": true,
     "noImplicitOverride": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "exactOptionalPropertyTypes": true
   }
 }
