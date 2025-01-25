@@ -2,11 +2,19 @@
   "extends": "./packages/faasjs/tsconfig.build.json",
   "compilerOptions": {
     "strictNullChecks": false,
+    "exactOptionalPropertyTypes": false,
     "baseUrl": ".",
     "paths": {
-      "@faasjs/*": ["./packages/*/src"]
+      "@faasjs/*": [
+        "./packages/*/src"
+      ]
     },
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["packages/*/src/**/*.ts", "packages/*/src/**/*.tsx"]
+  "include": [
+    "packages/*/src/**/*.ts",
+    "packages/*/src/**/*.tsx"
+  ]
 }

@@ -10,6 +10,7 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "strict": true,
+    "strictNullChecks": true,
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
     "exactOptionalPropertyTypes": true,
