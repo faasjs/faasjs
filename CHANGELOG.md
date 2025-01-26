@@ -9,6 +9,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `faasjs`
   - [Feature] tsconfig templates add `exactOptionalPropertyTypes`,`strictNullChecks` and `noEmit`.
 
+- `@faasjs/server`
+  - [Feature] Add `stripPrefix` to `staticHandler`.
+  - [Feature] `cache` can be a string as cacheKey to `staticHandler`.
+
 [`v6.2.0 (2025-01-24)`](https://github.com/faasjs/faasjs/compare/v6.1.0...v6.2.0)
 
 - `faasjs`
