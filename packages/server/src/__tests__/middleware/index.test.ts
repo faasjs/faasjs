@@ -89,6 +89,16 @@ describe('middleware', () => {
           'utf-8'
         ),
       })
+      await expect(
+        request(`http://127.0.0.1:${port}/default.default.func.ts`)
+      ).resolves.toMatchObject({
+        statusCode: 200,
+        headers: {},
+        body: readFileSync(
+          join(__dirname, 'funcs', 'default.func.ts'),
+          'utf-8'
+        ),
+      })
     })
 
     it('not found', async () => {

@@ -15,7 +15,7 @@ export type MiddlewareEvent = {
 }
 
 export type Middleware = (
-  request: IncomingMessage & { body: any },
+  request: IncomingMessage & { body?: any },
   response: ServerResponse,
   logger: Logger
 ) => void | Promise<void>
@@ -112,17 +112,44 @@ export async function useMiddlewares(handlers: Middleware[]) {
 }
 
 export type StaticHandlerOptions = {
-  root: `${string}/`
-  notFound?: Middleware | true
-  /** @default true */
-  cache?: boolean
+  root: string
+  /**
+   * Not found handler.
+   *
+   * If set to `true`, the middleware will respond with a default 404 status code.
+   * If set to a function, the middleware will call the function with the request, response, and logger.
+   * If set to `false`, the middleware will do nothing.
+   *
+   * @default false
+   */
+  notFound?: Middleware | boolean
+  /**
+   * Cache static files.
+   * If set to `true`, the middleware will cache static files.
+   * If set to a string, the middleware will cache static files with the specified key.
+   * If set to `false`, the middleware will not cache static files.
+   *
+   * @default true
+   */
+  cache?: boolean | string
+  /**
+   * Strip prefix from the URL.
+   *
+   * @example
+   * ```typescript
+   * import { useMiddleware, staticHandler } from '@faasjs/server'
+   *
+   * export default useMiddleware(staticHandler({ root: __dirname + '/public', stripPrefix: '/public' })) // /public/index.html -> /index.html
+   * ```
+   */
+  stripPrefix?: string | RegExp
 }
 
 type StaticHandlerCache =
   | {
-      path: string
-      mimeType: string
-    }
+    path: string
+    mimeType: string
+  }
   | false
 
 const cachedStaticFiles = new Map<string, StaticHandlerCache>()
@@ -130,7 +157,7 @@ const cachedStaticFiles = new Map<string, StaticHandlerCache>()
 async function respondWithNotFound(
   options: StaticHandlerOptions['notFound'],
   request: IncomingMessage & {
-    body: any
+    body?: any
   },
   response: ServerResponse,
   logger: Logger
@@ -185,38 +212,42 @@ async function respondWithFile(
  */
 export function staticHandler(options: StaticHandlerOptions): Middleware {
   const handler: Middleware = async (request, response, logger) => {
-    if (request.method !== 'GET') return
+    if (request.method !== 'GET' || request.url.slice(0, 2) === '/.') return
 
-    if (request.url.slice(0, 2) === '/.') return
+    const cacheKey = options.cache !== false ? `${options.cache || options.root}${request.url}` : null
 
-    const cached = options.cache !== false && cachedStaticFiles.get(request.url)
+    if (cacheKey) {
+      const cached = cachedStaticFiles.get(cacheKey)
 
-    if (cached === false)
-      return await respondWithNotFound(
-        options.notFound,
-        request,
-        response,
-        logger
-      )
+      if (cached === false)
+        return await respondWithNotFound(
+          options.notFound,
+          request,
+          response,
+          logger
+        )
 
-    if (cached) {
-      response.setHeader('Content-Type', cached.mimeType)
+      if (cached) {
+        response.setHeader('Content-Type', cached.mimeType)
 
-      return await respondWithFile(cached.path, cached.mimeType, response)
+        return await respondWithFile(cached.path, cached.mimeType, response)
+      }
     }
 
-    let url = request.url.slice(1)
+    let url = options.stripPrefix ? request.url.replace(options.stripPrefix, '') : request.url
 
-    if (url === '') url = 'index.html'
+    if (url === '/') url = '/index.html'
+
+    if (url.startsWith('/')) url = url.slice(1)
 
     logger.debug('finding:', request.url)
 
     const path = resolve(options.root, url)
 
     if (!existsSync(path)) {
-      logger.debug('not found:', url)
+      logger.debug('not found:', path)
 
-      if (options.cache !== false) cachedStaticFiles.set(request.url, false)
+      if (cacheKey) cachedStaticFiles.set(cacheKey, false)
 
       return await respondWithNotFound(
         options.notFound,
@@ -230,8 +261,8 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
 
     logger.debug('found:', mimeType, url)
 
-    if (options.cache !== false)
-      cachedStaticFiles.set(request.url, {
+    if (cacheKey)
+      cachedStaticFiles.set(cacheKey, {
         path,
         mimeType,
       })
@@ -239,6 +270,7 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     return await respondWithFile(path, mimeType, response)
   }
 
+  // Set the name of the handler function for better debugging and logging
   nameFunc('static', handler)
 
   return handler
