@@ -50,7 +50,7 @@ export function Title(props: TitleProps): JSX.Element {
       .concat(props.suffix || theme.Title.suffix)
       .filter(t => !!t)
       .join(props.separator || theme.Title.separator)
-  }, [props])
+  }, [props, theme.Title])
 
   if (props.h1) {
     if (typeof props.h1 === 'boolean')

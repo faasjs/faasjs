@@ -746,7 +746,7 @@ function FaasDataTable({
       }
       return newColumns
     })
-  }, [columns, data])
+  }, [data, props.dataSource])
 
   if (!data)
     return (

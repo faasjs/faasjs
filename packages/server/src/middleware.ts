@@ -147,9 +147,9 @@ export type StaticHandlerOptions = {
 
 type StaticHandlerCache =
   | {
-    path: string
-    mimeType: string
-  }
+      path: string
+      mimeType: string
+    }
   | false
 
 const cachedStaticFiles = new Map<string, StaticHandlerCache>()
@@ -214,7 +214,10 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
   const handler: Middleware = async (request, response, logger) => {
     if (request.method !== 'GET' || request.url.slice(0, 2) === '/.') return
 
-    const cacheKey = options.cache !== false ? `${options.cache || options.root}${request.url}` : null
+    const cacheKey =
+      options.cache !== false
+        ? `${options.cache || options.root}${request.url}`
+        : null
 
     if (cacheKey) {
       const cached = cachedStaticFiles.get(cacheKey)
@@ -234,7 +237,9 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
       }
     }
 
-    let url = options.stripPrefix ? request.url.replace(options.stripPrefix, '') : request.url
+    let url = options.stripPrefix
+      ? request.url.replace(options.stripPrefix, '')
+      : request.url
 
     if (url === '/') url = '/index.html'
 

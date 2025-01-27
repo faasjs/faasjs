@@ -57,7 +57,7 @@ export function FaasDataWrapper<PathOrData extends FaasAction>(
   const [loaded, setLoaded] = useState<boolean>(false)
 
   useEffect(() => {
-    if (!loaded && !request.loading) setLoaded(true)
+    if (!request.loading) setLoaded(prev => (prev === false ? true : prev))
   }, [request.loading])
 
   useEqualEffect(() => {

@@ -23,7 +23,7 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "useExhaustiveDependencies": "off",
+        "useExhaustiveDependencies": "warn",
         "noUnusedVariables": "error",
         "noUnusedImports": "error"
       },

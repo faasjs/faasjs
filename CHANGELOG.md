@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v6.3.0 (2025-01)`](https://github.com/faasjs/faasjs/compare/v6.2.0...v6.3.0)
+[`v6.3.0 (2025-01-27)`](https://github.com/faasjs/faasjs/compare/v6.2.0...v6.3.0)
 
 - `faasjs`
   - [Feature] tsconfig templates add `exactOptionalPropertyTypes`,`strictNullChecks` and `noEmit`.
@@ -12,6 +12,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/server`
   - [Feature] Add `stripPrefix` to `staticHandler`.
   - [Feature] `cache` can be a string as cacheKey to `staticHandler`.
+
+- `@faasjs/lint`
+  - [Feature] Change `useExhaustiveDependencies` to `warn` by default.
 
 [`v6.2.0 (2025-01-24)`](https://github.com/faasjs/faasjs/compare/v6.1.0...v6.2.0)
 

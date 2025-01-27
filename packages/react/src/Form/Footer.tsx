@@ -36,7 +36,7 @@ export function FormFooter() {
         {lang.submit}
       </Elements.Button>
     ),
-    [submitting, handleSubmit, lang.submit]
+    [submitting, handleSubmit, lang.submit, Elements.Button]
   )
 
   return MemoizedButton
