@@ -118,10 +118,11 @@ export function Form<Values = any>(props: FormProps<Values>) {
       delete propsCopy.initialValues
     }
 
-    for (const item of propsCopy.items) {
-      if (isFormItemProps(item) && item.if)
-        item.hidden = !item.if(propsCopy.initialValues || Object.create(null))
-    }
+    if (propsCopy.items?.length)
+      for (const item of propsCopy.items) {
+        if (isFormItemProps(item) && item.if)
+          item.hidden = !item.if(propsCopy.initialValues || Object.create(null))
+      }
 
     if (propsCopy.onFinish) {
       propsCopy.onFinish = async values => {
