@@ -12,13 +12,15 @@ describe('base', () => {
 
 describe('if', () => {
   it('should work', async () => {
-    render(<Form
-      items={[
-        { id: 'true', if: () => true },
-        { id: 'false', if: () => false },
-        { id: 'condition', if: values => !!values.true }
-      ]}
-    />)
+    render(
+      <Form
+        items={[
+          { id: 'true', if: () => true },
+          { id: 'false', if: () => false },
+          { id: 'condition', if: values => !!values.true },
+        ]}
+      />
+    )
 
     expect(screen.getByText('True')).not.toBeNull()
     expect(() => screen.getByText('False')).toThrow()
@@ -30,14 +32,16 @@ describe('if', () => {
   })
 
   it('should work with initialValues', async () => {
-    render(<Form
-      initialValues={{ true: 'true' }}
-      items={[
-        { id: 'true', if: () => true },
-        { id: 'false', if: () => false },
-        { id: 'condition', if: values => !!values.true }
-      ]}
-    />)
+    render(
+      <Form
+        initialValues={{ true: 'true' }}
+        items={[
+          { id: 'true', if: () => true },
+          { id: 'false', if: () => false },
+          { id: 'condition', if: values => !!values.true },
+        ]}
+      />
+    )
 
     expect(screen.getByText('True')).not.toBeNull()
     expect(() => screen.getByText('False')).toThrow()

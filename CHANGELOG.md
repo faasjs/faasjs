@@ -4,6 +4,12 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+
+[`v6.3.1 (2025-01-29)`](https://github.com/faasjs/faasjs/compare/v6.3.0...v6.3.1)
+
+- `@faasjs/ant-design`
+  - [Fix] Fix Form's `if` bug.
+
 [`v6.3.0 (2025-01-27)`](https://github.com/faasjs/faasjs/compare/v6.2.0...v6.3.0)
 
 - `faasjs`
