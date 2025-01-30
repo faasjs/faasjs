@@ -18,6 +18,15 @@ describe('if', () => {
           { id: 'true', if: () => true },
           { id: 'false', if: () => false },
           { id: 'condition', if: values => !!values.true },
+          {
+            id: 'object',
+            type: 'object',
+            if: values => !!values.true,
+            object: [{
+              id: 'object-condition',
+              if: values => values.true === 'test',
+            }]
+          }
         ]}
       />
     )
@@ -25,10 +34,12 @@ describe('if', () => {
     expect(screen.getByText('True')).not.toBeNull()
     expect(() => screen.getByText('False')).toThrow()
     expect(() => screen.getByText('Condition')).toThrow()
+    expect(screen.getAllByRole('textbox')).toHaveLength(1)
 
     await userEvent.type(screen.getByRole('textbox'), 'test')
 
     expect(screen.getByText('Condition')).not.toBeNull()
+    expect(screen.getAllByRole('textbox')).toHaveLength(3)
   })
 
   it('should work with initialValues', async () => {
@@ -39,6 +50,15 @@ describe('if', () => {
           { id: 'true', if: () => true },
           { id: 'false', if: () => false },
           { id: 'condition', if: values => !!values.true },
+          {
+            id: 'object',
+            type: 'object',
+            if: values => !!values.true,
+            object: [{
+              id: 'object-condition',
+              if: values => values.true === 'test',
+            }]
+          }
         ]}
       />
     )
@@ -46,5 +66,6 @@ describe('if', () => {
     expect(screen.getByText('True')).not.toBeNull()
     expect(() => screen.getByText('False')).toThrow()
     expect(() => screen.getByText('Condition')).not.toBeNull()
+    expect(screen.getAllByRole('textbox')).toHaveLength(3)
   })
 })

@@ -58,7 +58,7 @@ type InputTypeMap<T> = {
 
 export interface FormItemProps<T = any>
   extends BaseItemProps,
-    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+  Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number
@@ -228,7 +228,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   if (hidden)
     return (
       <AntdForm.Item {...computedProps} noStyle rules={[]}>
-        <Input hidden />
+        <Input type='hidden' hidden />
       </AntdForm.Item>
     )
 

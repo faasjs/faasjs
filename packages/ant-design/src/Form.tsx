@@ -56,13 +56,13 @@ export interface FormProps<
   Values extends Record<string, any> = any,
   ExtendItemProps extends ExtendFormItemProps = ExtendFormItemProps,
 > extends Omit<
-    AntdFormProps<Values>,
-    'onFinish' | 'children' | 'initialValues'
-  > {
+  AntdFormProps<Values>,
+  'onFinish' | 'children' | 'initialValues'
+> {
   items?: (
     | (ExtendItemProps extends ExtendFormItemProps
-        ? ExtendItemProps | FormItemProps
-        : FormItemProps)
+      ? ExtendItemProps | FormItemProps
+      : FormItemProps)
     | JSX.Element
   )[]
   /** Default: { text: 'Submit' }, set false to disable it */
@@ -121,7 +121,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
     if (propsCopy.items?.length)
       for (const item of propsCopy.items) {
         if (isFormItemProps(item) && item.if)
-          item.hidden = !item.if(propsCopy.initialValues || Object.create(null))
+          item.hidden = !item.if(initialValues || Object.create(null))
       }
 
     if (propsCopy.onFinish) {
@@ -147,15 +147,15 @@ export function Form<Values = any>(props: FormProps<Values>) {
                   }
                 ).to.params
                   ? {
-                      ...values,
-                      ...(
-                        submit as {
-                          to: {
-                            params?: Record<string, any>
-                          }
+                    ...values,
+                    ...(
+                      submit as {
+                        to: {
+                          params?: Record<string, any>
                         }
-                      ).to.params,
-                    }
+                      }
+                    ).to.params,
+                  }
                   : values
               )
             )
@@ -194,15 +194,15 @@ export function Form<Values = any>(props: FormProps<Values>) {
             }
           ).to.params
             ? {
-                ...values,
-                ...(
-                  submit as {
-                    to: {
-                      params?: Record<string, any>
-                    }
+              ...values,
+              ...(
+                submit as {
+                  to: {
+                    params?: Record<string, any>
                   }
-                ).to.params,
-              }
+                }
+              ).to.params,
+            }
             : values
         )
           .then(result => {

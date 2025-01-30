@@ -62,4 +62,20 @@ describe('FormItem', () => {
       expect(await screen.findByText('Test is required')).toBeDefined()
     })
   })
+
+  it('hidden', () => {
+    const { container } = render(
+      <Form
+        items={[
+          {
+            id: 'test',
+            type: 'string',
+            if: () => false,
+          },
+        ]}
+      />
+    )
+
+    expect(container.querySelectorAll('input[type="hidden"]')).toHaveLength(1)
+  })
 })
