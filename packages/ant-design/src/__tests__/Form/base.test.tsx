@@ -22,11 +22,13 @@ describe('if', () => {
             id: 'object',
             type: 'object',
             if: values => !!values.true,
-            object: [{
-              id: 'object-condition',
-              if: values => values.true === 'test',
-            }]
-          }
+            object: [
+              {
+                id: 'object-condition',
+                if: values => values.true === 'test',
+              },
+            ],
+          },
         ]}
       />
     )
@@ -54,11 +56,13 @@ describe('if', () => {
             id: 'object',
             type: 'object',
             if: values => !!values.true,
-            object: [{
-              id: 'object-condition',
-              if: values => values.true === 'test',
-            }]
-          }
+            object: [
+              {
+                id: 'object-condition',
+                if: values => values.true === 'test',
+              },
+            ],
+          },
         ]}
       />
     )
