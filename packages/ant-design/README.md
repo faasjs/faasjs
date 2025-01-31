@@ -65,6 +65,7 @@ type FaasItemProps = {
 - [useDrawer](functions/useDrawer.md)
 - [useFaas](functions/useFaas.md)
 - [useModal](functions/useModal.md)
+- [useThemeToken](functions/useThemeToken.md)
 - [withFaasData](functions/withFaasData.md)
 
 ## Interfaces

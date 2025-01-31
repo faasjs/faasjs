@@ -8,7 +8,7 @@ The UnionFaas item can be used in a form, description, or table.
 
 ### Render Priority Order
 
-1. **Null Rendering**
+1. **Null Rendering** (Notice: it also doesn't render column in table and description)
    1. Returns `null` if specific children or render props are null:
        - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
    2. Returns `null` if `children` or `render` prop is null

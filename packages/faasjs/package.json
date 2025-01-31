@@ -1,9 +1,13 @@
 {
   "name": "faasjs",
-  "version": "6.4.2",
+  "version": "6.4.3",
   "license": "MIT",
   "type": "module",
-  "files": ["tsconfig.base.json", "tsconfig.react.json", "tsconfig.build.json"],
+  "files": [
+    "tsconfig.base.json",
+    "tsconfig.react.json",
+    "tsconfig.build.json"
+  ],
   "homepage": "https://faasjs.com",
   "repository": {
     "type": "git",
@@ -15,9 +19,9 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "peerDependencies": {
-    "@faasjs/cli": "6.4.2",
-    "@faasjs/http": "6.4.2",
-    "@faasjs/types": "6.4.2"
+    "@faasjs/cli": "6.4.3",
+    "@faasjs/http": "6.4.3",
+    "@faasjs/types": "6.4.3"
   },
   "engines": {
     "node": ">=22.0.0",

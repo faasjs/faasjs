@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import { ConfigProvider, } from 'antd';
+import { render, screen } from '@testing-library/react'
+import { ConfigProvider } from 'antd'
 import { describe, expect, it } from 'vitest'
-import { useThemeToken } from '../useThemeToken';
+import { useThemeToken } from '../useThemeToken'
 
 describe('useThemeToken', () => {
   it('should return the theme token from the Ant Design theme configuration', () => {
@@ -12,13 +12,17 @@ describe('useThemeToken', () => {
     }
 
     function App() {
-      return <ConfigProvider theme={{
-        token: {
-          colorPrimary: '#000000'
-        }
-      }}>
-        <Test />
-      </ConfigProvider>
+      return (
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#000000',
+            },
+          }}
+        >
+          <Test />
+        </ConfigProvider>
+      )
     }
 
     render(<App />)

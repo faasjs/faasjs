@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "6.4.2",
+  "version": "6.4.3",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -26,12 +26,14 @@
   "scripts": {
     "build": "tsup src/index.tsx --config ../../tsup.config.ts --external react"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
-    "@faasjs/browser": "6.4.2"
+    "@faasjs/browser": "6.4.3"
   },
   "devDependencies": {
-    "@faasjs/browser": "6.4.2",
+    "@faasjs/browser": "6.4.3",
     "@types/react": "*",
     "react": "*"
   },

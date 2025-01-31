@@ -6,17 +6,13 @@
 
 Represents a React element that is used in the UnionFaasItem context.
 
+This type can either be a React element with the specified injection types or `null`.
+
 ## Type Parameters
 
 • **Value** = `any`
 
-The type of the value associated with the element. Defaults to `any`.
-
 • **Values** = `any`
-
-The type of the values associated with the element. Defaults to `any`.
-
-This type can either be a React element with the specified injection types or `null`.
 
 ## Example
 

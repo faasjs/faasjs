@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cli",
-  "version": "6.4.2",
+  "version": "6.4.3",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -29,20 +29,23 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist", "index.js"],
+  "files": [
+    "dist",
+    "index.js"
+  ],
   "dependencies": {
-    "@faasjs/test": "6.4.2",
+    "@faasjs/test": "6.4.3",
     "commander": "*",
     "enquirer": "*",
     "lodash": "*"
   },
   "peerDependencies": {
-    "@faasjs/func": "6.4.2",
-    "@faasjs/server": "6.4.2"
+    "@faasjs/func": "6.4.3",
+    "@faasjs/server": "6.4.3"
   },
   "devDependencies": {
-    "@faasjs/func": "6.4.2",
-    "@faasjs/server": "6.4.2"
+    "@faasjs/func": "6.4.3",
+    "@faasjs/server": "6.4.3"
   },
   "engines": {
     "node": ">=22.0.0",

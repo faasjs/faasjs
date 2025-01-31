@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/test",
-  "version": "6.4.2",
+  "version": "6.4.3",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -26,20 +26,22 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "regenerator-runtime": "*",
     "typescript": "*",
-    "@faasjs/func": "6.4.2",
-    "@faasjs/load": "6.4.2",
-    "@faasjs/logger": "6.4.2"
+    "@faasjs/func": "6.4.3",
+    "@faasjs/load": "6.4.3",
+    "@faasjs/logger": "6.4.3"
   },
   "devDependencies": {
     "regenerator-runtime": "*",
     "typescript": "*",
-    "@faasjs/func": "6.4.2",
-    "@faasjs/load": "6.4.2",
-    "@faasjs/logger": "6.4.2"
+    "@faasjs/func": "6.4.3",
+    "@faasjs/load": "6.4.3",
+    "@faasjs/logger": "6.4.3"
   },
   "engines": {
     "node": ">=22.0.0",
