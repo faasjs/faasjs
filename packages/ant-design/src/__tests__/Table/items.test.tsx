@@ -402,7 +402,7 @@ describe('Table/items', () => {
           items={[
             {
               id: 'test',
-              render: (value) => value.toUpperCase(),
+              render: value => value.toUpperCase(),
             },
           ]}
           dataSource={[
@@ -418,7 +418,8 @@ describe('Table/items', () => {
     })
 
     it('union render', () => {
-      const renderItem: UnionFaasItemRender = (value, _values, _index, scene) => scene === 'table' && <span>{value.toUpperCase()}</span>
+      const renderItem: UnionFaasItemRender = (value, _values, _index, scene) =>
+        scene === 'table' && <span>{value.toUpperCase()}</span>
 
       render(
         <Table
@@ -521,7 +522,7 @@ describe('Table/items', () => {
           items={[
             {
               id: 'test',
-              tableRender: (value) => value.toUpperCase(),
+              tableRender: value => value.toUpperCase(),
             },
           ]}
           dataSource={[

@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/nextjs",
-  "version": "6.4.0",
+  "version": "6.4.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -30,12 +30,12 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/react": "6.4.0",
-    "@faasjs/func": "6.4.0"
+    "@faasjs/react": "6.4.1",
+    "@faasjs/func": "6.4.1"
   },
   "devDependencies": {
-    "@faasjs/react": "6.4.0",
-    "@faasjs/func": "6.4.0",
+    "@faasjs/react": "6.4.1",
+    "@faasjs/func": "6.4.1",
     "next": "*"
   },
   "engines": {

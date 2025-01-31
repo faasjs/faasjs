@@ -28,7 +28,12 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { type BaseOption, cloneUnionFaasItemElement, transferOptions, upperFirst } from './data'
+import {
+  type BaseOption,
+  cloneUnionFaasItemElement,
+  transferOptions,
+  upperFirst,
+} from './data'
 
 type OptionsProps = {
   options: BaseOption[]
@@ -58,7 +63,7 @@ type InputTypeMap<T> = {
 
 export interface FormItemProps<T = any>
   extends BaseItemProps,
-  Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number
@@ -232,7 +237,8 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       </AntdForm.Item>
     )
 
-  if (computedProps.formChildren === null || computedProps.children === null) return null
+  if (computedProps.formChildren === null || computedProps.children === null)
+    return null
 
   const children = computedProps.formChildren || computedProps.children
 
@@ -255,7 +261,9 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   if (extendTypes?.[computedProps.type])
     return (
       <AntdForm.Item {...computedProps}>
-        {cloneUnionFaasItemElement(extendTypes[computedProps.type].children, { scene: 'form' })}
+        {cloneUnionFaasItemElement(extendTypes[computedProps.type].children, {
+          scene: 'form',
+        })}
       </AntdForm.Item>
     )
 

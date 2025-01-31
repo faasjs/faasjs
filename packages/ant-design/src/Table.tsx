@@ -31,11 +31,16 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { cloneUnionFaasItemElement, transferOptions, transferValue, upperFirst } from './data'
+import {
+  cloneUnionFaasItemElement,
+  transferOptions,
+  transferValue,
+  upperFirst,
+} from './data'
 
 export interface TableItemProps<T = any>
   extends FaasItemProps,
-  Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
+    Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
   children?: UnionFaasItemElement<T>
   tableChildren?: UnionFaasItemElement<T>
@@ -264,9 +269,9 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               values,
               index: 0,
             })
-        }
-        else if (props.extendTypes[item.type].render)
-          item.render = (value: any, values: any) => props.extendTypes[item.type].render(value, values, 0, 'table')
+        } else if (props.extendTypes[item.type].render)
+          item.render = (value: any, values: any) =>
+            props.extendTypes[item.type].render(value, values, 0, 'table')
         else throw Error(`${item.type} requires children or render`)
         continue
       }
@@ -551,11 +556,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                          [
-                            dates[0].startOf('day').toISOString(),
-                            dates[1].endOf('day').toISOString(),
-                          ],
-                        ] as any)
+                            [
+                              dates[0].startOf('day').toISOString(),
+                              dates[1].endOf('day').toISOString(),
+                            ],
+                          ] as any)
                         : []
                     )
                     confirm()
@@ -600,11 +605,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                          [
-                            dates[0].startOf('day').toISOString(),
-                            dates[1].endOf('day').toISOString(),
-                          ],
-                        ] as any)
+                            [
+                              dates[0].startOf('day').toISOString(),
+                              dates[1].endOf('day').toISOString(),
+                            ],
+                          ] as any)
                         : []
                     )
                     confirm()
@@ -803,9 +808,9 @@ function FaasDataTable({
         props.pagination === false
           ? false
           : {
-            ...(props.pagination || Object.create(null)),
-            ...((data as any).pagination || Object.create(null)),
-          }
+              ...(props.pagination || Object.create(null)),
+              ...((data as any).pagination || Object.create(null)),
+            }
       }
       onChange={(pagination, filters, sorter, extra) => {
         if (props.onChange) {

@@ -1,6 +1,12 @@
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import { type FC, type ReactElement, cloneElement, createElement, isValidElement } from 'react'
+import {
+  type FC,
+  type ReactElement,
+  cloneElement,
+  createElement,
+  isValidElement,
+} from 'react'
 import type { DescriptionItemProps } from './Description'
 import type { FormItemProps } from './FormItem'
 import type { TableItemProps } from './Table'
@@ -33,9 +39,9 @@ export type BaseOption =
   | string
   | number
   | {
-    label: string
-    value?: any
-  }
+      label: string
+      value?: any
+    }
 
 export interface BaseItemProps {
   id: string
@@ -68,9 +74,9 @@ export function transferOptions(options: BaseOption[]): {
     typeof item === 'object'
       ? item
       : {
-        label: upperFirst(item.toString()),
-        value: item,
-      }
+          label: upperFirst(item.toString()),
+          value: item,
+        }
   )
 }
 
@@ -174,7 +180,6 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
   scene: UnionScene
 ) => React.ReactNode
 
-
 /**
  * Represents a React element that is used in the UnionFaasItem context.
  *
@@ -216,9 +221,9 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
  * }
  * ```
  */
-export type UnionFaasItemElement<Value = any, Values = any> = ReactElement<
-  UnionFaasItemInjection<Value, Values>
-> | FC<UnionFaasItemInjection<Value, Values>>
+export type UnionFaasItemElement<Value = any, Values = any> =
+  | ReactElement<UnionFaasItemInjection<Value, Values>>
+  | FC<UnionFaasItemInjection<Value, Values>>
 
 /**
  * Interface representing the properties of a UnionFaas item.
@@ -286,10 +291,10 @@ export type UnionFaasItemElement<Value = any, Values = any> = ReactElement<
  */
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps,
-  DescriptionItemProps,
-  TableItemProps {
+    DescriptionItemProps,
+    TableItemProps {
   children?: UnionFaasItemElement<UnionFaasItemProps<Value, Values>> | null
-  render?: UnionFaasItemRender
+  render?: UnionFaasItemRender<Value, Values>
   object?: UnionFaasItemProps<Value, Values>[]
 }
 
@@ -304,6 +309,12 @@ export interface UnionFaasItemProps<Value = any, Values = any>
  * @param props - The props to be applied to the cloned element.
  * @returns The cloned element with the applied props.
  */
-export function cloneUnionFaasItemElement(element: UnionFaasItemElement, props: any) {
-  return cloneElement(isValidElement(element) ? element : createElement(element), props)
+export function cloneUnionFaasItemElement(
+  element: UnionFaasItemElement,
+  props: any
+) {
+  return cloneElement(
+    isValidElement(element) ? element : createElement(element),
+    props
+  )
 }

@@ -2,6 +2,70 @@
 
 # Interface: UnionFaasItemProps\<Value, Values\>
 
+Interface representing the properties of a UnionFaas item.
+
+The UnionFaas item can be used in a form, description, or table.
+
+### Render Priority Order
+
+1. **Null Rendering**
+   1. Returns `null` if specific children props are null:
+       - `formChildren` / `descriptionChildren` / `tableChildren`
+   2. Returns `null` if `children` prop is null
+2. **Children Rendering**
+   1. First priority: Component-specific children
+       - `formChildren` for Form
+       - `descriptionChildren` for Description
+       - `tableChildren` for Table
+   2. Second priority: Generic `children` prop
+3. **Custom Render Functions**
+   1. First priority: Component-specific render functions
+       - `formRender` for Form
+       - `descriptionRender` for Description
+       - `tableRender` for Table
+   2. Second priority: Generic `render` prop
+4. **Extended Types**
+   - Renders based on registered extended type handlers
+5. **Default Rendering**
+   - Renders primitive types (string, number, etc.)
+   - Uses default formatting based on data type
+
+## Example
+
+```tsx
+import { type UnionFaasItemProps, Form, Table, Description } from '@faasjs/ant-design'
+
+const item: UnionFaasItemProps[] = [
+  {
+    id: 'id',
+    formChildren: null, // Don't show in form, only in description and table
+  },
+  {
+    id: 'name',
+    required: true, // Required in form
+  },
+  {
+    id: 'age',
+    type: 'number', // Number type in form, description and table
+    options: ['< 18', '>= 18'], // Options in form and table
+  }
+]
+
+const data = {
+  id: '1',
+  name: 'John',
+  age: '>= 18',
+}
+
+function App() {
+  return <>
+    <Form items={item} /> // Use in form
+    <Description items={item} dataSource={data} /> // Use in description
+    <Table items={item} dataSource={[ data ]} /> // Use in table
+  </>
+}
+```
+
 ## Extends
 
 - [`FormItemProps`](FormItemProps.md).[`DescriptionItemProps`](DescriptionItemProps.md).[`TableItemProps`](TableItemProps.md)
@@ -16,7 +80,7 @@
 
 ### children?
 
-> `optional` **children**: `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>\>
+> `optional` **children**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>
 
 #### Overrides
 
@@ -184,7 +248,7 @@ trigger when current item's value changed
 
 ### render?
 
-> `optional` **render**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`, `any`\>
+> `optional` **render**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`Value`, `Values`\>
 
 #### Overrides
 

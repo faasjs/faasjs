@@ -12,7 +12,7 @@
 
 ### children?
 
-> `optional` **children**: `JSX.Element`
+> `optional` **children**: [`UnionFaasItemElement`](UnionFaasItemElement.md)\<`T`\>
 
 ### render?
 

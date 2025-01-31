@@ -1,12 +1,7 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Descriptions, type DescriptionsProps, Space } from 'antd'
 import type { Dayjs } from 'dayjs'
-import {
-  type JSX,
-  type ReactNode,
-  useEffect,
-  useState,
-} from 'react'
+import { type JSX, type ReactNode, useEffect, useState } from 'react'
 import type { BaseItemProps } from '.'
 import { Blank } from './Blank'
 import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
@@ -101,9 +96,14 @@ function DescriptionItemContent<T = any>(
 
   if (!computedProps) return null
 
-  if (computedProps.item.descriptionChildren === null || computedProps.item.children === null) return null
+  if (
+    computedProps.item.descriptionChildren === null ||
+    computedProps.item.children === null
+  )
+    return null
 
-  const children = computedProps.item.descriptionChildren || computedProps.item.children
+  const children =
+    computedProps.item.descriptionChildren || computedProps.item.children
   if (children)
     return cloneUnionFaasItemElement(children, {
       scene: 'description',
@@ -112,18 +112,12 @@ function DescriptionItemContent<T = any>(
       index: 0,
     })
 
-  const render = computedProps.item.descriptionRender || computedProps.item.render
+  const render =
+    computedProps.item.descriptionRender || computedProps.item.render
 
   if (render)
     return (
-      <>
-        {render(
-          computedProps.value,
-          computedProps.values,
-          0,
-          'description'
-        )}
-      </>
+      <>{render(computedProps.value, computedProps.values, 0, 'description')}</>
     )
 
   if (computedProps.extendTypes?.[computedProps.item.type]) {
