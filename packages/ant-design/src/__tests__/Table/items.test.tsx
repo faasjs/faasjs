@@ -121,6 +121,29 @@ describe('Table/items', () => {
 
       expect(screen.getAllByText('value').length).toEqual(2)
     })
+
+    it('dropdown', async () => {
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              options: new Array(100).fill(0).map((_, i) => i),
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      await userEvent.click(screen.getByRole('img', { name: 'filter' }))
+
+      expect(screen.getByText('Search Test')).not.toBeNull()
+    })
   })
 
   describe('boolean', () => {
