@@ -4,7 +4,6 @@ import type { Dayjs } from 'dayjs'
 import {
   type JSX,
   type ReactNode,
-  cloneElement,
   useEffect,
   useState,
 } from 'react'
@@ -15,6 +14,7 @@ import {
   type FaasItemProps,
   type UnionFaasItemElement,
   type UnionFaasItemRender,
+  cloneUnionFaasItemElement,
   transferOptions,
   transferValue,
   upperFirst,
@@ -101,9 +101,34 @@ function DescriptionItemContent<T = any>(
 
   if (!computedProps) return null
 
+  if (computedProps.item.descriptionChildren === null || computedProps.item.children === null) return null
+
+  const children = computedProps.item.descriptionChildren || computedProps.item.children
+  if (children)
+    return cloneUnionFaasItemElement(children, {
+      scene: 'description',
+      value: computedProps.value,
+      values: computedProps.values,
+      index: 0,
+    })
+
+  const render = computedProps.item.descriptionRender || computedProps.item.render
+
+  if (render)
+    return (
+      <>
+        {render(
+          computedProps.value,
+          computedProps.values,
+          0,
+          'description'
+        )}
+      </>
+    )
+
   if (computedProps.extendTypes?.[computedProps.item.type]) {
     if (computedProps.extendTypes[computedProps.item.type].children)
-      return cloneElement(
+      return cloneUnionFaasItemElement(
         computedProps.extendTypes[computedProps.item.type].children,
         {
           scene: 'description',
@@ -124,48 +149,6 @@ function DescriptionItemContent<T = any>(
       )
     throw Error(`${computedProps.item.type} requires children or render`)
   }
-
-  if (computedProps.item.descriptionChildren === null) return null
-
-  if (computedProps.item.descriptionChildren)
-    return cloneElement(computedProps.item.descriptionChildren, {
-      scene: 'description',
-      value: computedProps.value,
-      values: computedProps.values,
-    })
-
-  if (computedProps.item.children === null) return null
-
-  if (computedProps.item.children)
-    return cloneElement(computedProps.item.children, {
-      scene: 'description',
-      value: computedProps.value,
-      values: computedProps.values,
-    })
-
-  if (computedProps.item.descriptionRender)
-    return (
-      <>
-        {computedProps.item.descriptionRender(
-          computedProps.value,
-          computedProps.values,
-          0,
-          'description'
-        )}
-      </>
-    )
-
-  if (computedProps.item.render)
-    return (
-      <>
-        {computedProps.item.render(
-          computedProps.value,
-          computedProps.values,
-          0,
-          'description'
-        )}
-      </>
-    )
 
   if (
     computedProps.value === null ||

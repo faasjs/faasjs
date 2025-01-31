@@ -16,7 +16,7 @@ import type {
 } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
 import { cloneDeep, isNil, uniqBy } from 'lodash-es'
-import { type JSX, cloneElement, createElement, isValidElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import { Description } from './Description'
@@ -31,7 +31,7 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { transferOptions, transferValue, upperFirst } from './data'
+import { cloneUnionFaasItemElement, transferOptions, transferValue, upperFirst } from './data'
 
 export interface TableItemProps<T = any>
   extends FaasItemProps,
@@ -45,7 +45,7 @@ export interface TableItemProps<T = any>
 }
 
 export type ExtendTableTypeProps<T = any> = {
-  children?: JSX.Element
+  children?: UnionFaasItemElement<T>
   render?: UnionFaasItemRender<T>
 }
 
@@ -231,7 +231,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
       if (children) {
         item.render = (value: any, values: any) =>
-          cloneElement(isValidElement(children) ? children : createElement(children), {
+          cloneUnionFaasItemElement(children, {
             scene: 'table',
             value,
             values,
@@ -256,15 +256,17 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
       }
 
       if (props.extendTypes?.[item.type]) {
-        if (props.extendTypes[item.type].children)
+        if (props.extendTypes[item.type].children) {
           item.render = (value: any, values: any) =>
-            cloneElement(props.extendTypes[item.type].children, {
+            cloneUnionFaasItemElement(props.extendTypes[item.type].children, {
               scene: 'table',
               value,
               values,
+              index: 0,
             })
+        }
         else if (props.extendTypes[item.type].render)
-          item.render = props.extendTypes[item.type].render
+          item.render = (value: any, values: any) => props.extendTypes[item.type].render(value, values, 0, 'table')
         else throw Error(`${item.type} requires children or render`)
         continue
       }

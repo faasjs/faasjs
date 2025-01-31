@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import type { FC, ReactElement } from 'react'
+import { type FC, type ReactElement, cloneElement, createElement, isValidElement } from 'react'
 import type { DescriptionItemProps } from './Description'
 import type { FormItemProps } from './FormItem'
 import type { TableItemProps } from './Table'
@@ -225,6 +225,30 @@ export type UnionFaasItemElement<Value = any, Values = any> = ReactElement<
  *
  * The UnionFaas item can be used in a form, description, or table.
  *
+ * ### Render Priority Order
+ *
+ * 1. **Null Rendering**
+ *    1. Returns `null` if specific children props are null:
+ *        - `formChildren` / `descriptionChildren` / `tableChildren`
+ *    2. Returns `null` if `children` prop is null
+ * 2. **Children Rendering**
+ *    1. First priority: Component-specific children
+ *        - `formChildren` for Form
+ *        - `descriptionChildren` for Description
+ *        - `tableChildren` for Table
+ *    2. Second priority: Generic `children` prop
+ * 3. **Custom Render Functions**
+ *    1. First priority: Component-specific render functions
+ *        - `formRender` for Form
+ *        - `descriptionRender` for Description
+ *        - `tableRender` for Table
+ *    2. Second priority: Generic `render` prop
+ * 4. **Extended Types**
+ *    - Renders based on registered extended type handlers
+ * 5. **Default Rendering**
+ *    - Renders primitive types (string, number, etc.)
+ *    - Uses default formatting based on data type
+ *
  * @example
  * ```tsx
  * import { type UnionFaasItemProps, Form, Table, Description } from '@faasjs/ant-design'
@@ -267,4 +291,19 @@ export interface UnionFaasItemProps<Value = any, Values = any>
   children?: UnionFaasItemElement<UnionFaasItemProps<Value, Values>> | null
   render?: UnionFaasItemRender
   object?: UnionFaasItemProps<Value, Values>[]
+}
+
+/**
+ * Clone a UnionFaasItemElement with the given props.
+ *
+ * This function takes a UnionFaasItemElement and props, and returns a cloned element.
+ * If the provided element is a valid React element, it clones it with the new props.
+ * Otherwise, it creates a new element from the provided element and props.
+ *
+ * @param element - The UnionFaasItemElement to be cloned.
+ * @param props - The props to be applied to the cloned element.
+ * @returns The cloned element with the applied props.
+ */
+export function cloneUnionFaasItemElement(element: UnionFaasItemElement, props: any) {
+  return cloneElement(isValidElement(element) ? element : createElement(element), props)
 }

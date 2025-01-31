@@ -20,7 +20,7 @@ import {
   type SwitchProps,
 } from 'antd'
 import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
-import { cloneElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { type ConfigProviderProps, useConfigContext } from './Config'
 import type {
   BaseItemProps,
@@ -28,7 +28,7 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { type BaseOption, transferOptions, upperFirst } from './data'
+import { type BaseOption, cloneUnionFaasItemElement, transferOptions, upperFirst } from './data'
 
 type OptionsProps = {
   options: BaseOption[]
@@ -58,7 +58,7 @@ type InputTypeMap<T> = {
 
 export interface FormItemProps<T = any>
   extends BaseItemProps,
-    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+  Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number
@@ -232,42 +232,30 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       </AntdForm.Item>
     )
 
+  if (computedProps.formChildren === null || computedProps.children === null) return null
+
+  const children = computedProps.formChildren || computedProps.children
+
+  if (children)
+    return (
+      <AntdForm.Item {...computedProps}>
+        {cloneUnionFaasItemElement(children, { scene: 'form' })}
+      </AntdForm.Item>
+    )
+
+  const render = computedProps.formRender || computedProps.render
+
+  if (render)
+    return (
+      <AntdForm.Item {...computedProps}>
+        {render(null, null, 0, 'form')}
+      </AntdForm.Item>
+    )
+
   if (extendTypes?.[computedProps.type])
     return (
       <AntdForm.Item {...computedProps}>
-        {extendTypes[computedProps.type].children}
-      </AntdForm.Item>
-    )
-
-  if (computedProps.formChildren === null) return null
-
-  if (computedProps.formChildren)
-    return (
-      <AntdForm.Item {...computedProps}>
-        {cloneElement(computedProps.formChildren, { scene: 'form' })}
-      </AntdForm.Item>
-    )
-
-  if (computedProps.children === null) return null
-
-  if (computedProps.children)
-    return (
-      <AntdForm.Item {...computedProps}>
-        {cloneElement(computedProps.children, { scene: 'form' })}
-      </AntdForm.Item>
-    )
-
-  if (computedProps.formRender)
-    return (
-      <AntdForm.Item {...computedProps}>
-        {computedProps.formRender(null, null, 0, 'form')}
-      </AntdForm.Item>
-    )
-
-  if (computedProps.render)
-    return (
-      <AntdForm.Item {...computedProps}>
-        {computedProps.render(null, null, 0, 'form')}
+        {cloneUnionFaasItemElement(extendTypes[computedProps.type].children, { scene: 'form' })}
       </AntdForm.Item>
     )
 
