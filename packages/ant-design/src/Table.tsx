@@ -35,7 +35,7 @@ import { transferOptions, transferValue, upperFirst } from './data'
 
 export interface TableItemProps<T = any>
   extends FaasItemProps,
-    Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
+  Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
   children?: UnionFaasItemElement<T>
   tableChildren?: UnionFaasItemElement<T>
@@ -529,11 +529,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                            [
-                              dates[0].startOf('day').toISOString(),
-                              dates[1].endOf('day').toISOString(),
-                            ],
-                          ] as any)
+                          [
+                            dates[0].startOf('day').toISOString(),
+                            dates[1].endOf('day').toISOString(),
+                          ],
+                        ] as any)
                         : []
                     )
                     confirm()
@@ -578,11 +578,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                            [
-                              dates[0].startOf('day').toISOString(),
-                              dates[1].endOf('day').toISOString(),
-                            ],
-                          ] as any)
+                          [
+                            dates[0].startOf('day').toISOString(),
+                            dates[1].endOf('day').toISOString(),
+                          ],
+                        ] as any)
                         : []
                     )
                     confirm()
@@ -777,15 +777,15 @@ function FaasDataTable({
       rowKey={props.rowKey || 'id'}
       columns={currentColumns as any[]}
       dataSource={(data as any).rows}
-      pagination={{
-        ...props.pagination,
-        ...(data as any).pagination,
+      pagination={props.pagination === false ? false : {
+        ...props.pagination || Object.create(null),
+        ...(data as any).pagination || Object.create(null),
       }}
       onChange={(pagination, filters, sorter, extra) => {
         if (props.onChange) {
           const processed = props.onChange(pagination, filters, sorter, extra)
           reload({
-            ...params,
+            ...params || Object.create(null),
             pagination: processed.pagination,
             filters: processed.filters,
             sorter: processed.sorter,
@@ -794,7 +794,7 @@ function FaasDataTable({
           return
         }
         reload({
-          ...params,
+          ...params || Object.create(null),
           pagination,
           filters,
           sorter,
