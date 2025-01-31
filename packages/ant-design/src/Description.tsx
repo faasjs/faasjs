@@ -23,10 +23,10 @@ export interface ExtendDescriptionTypeProps<T = any> {
 export type ExtendDescriptionItemProps = BaseItemProps
 
 export interface DescriptionItemProps<T = any> extends FaasItemProps {
-  children?: UnionFaasItemElement<T>
-  descriptionChildren?: UnionFaasItemElement<T>
-  render?: UnionFaasItemRender<T>
-  descriptionRender?: UnionFaasItemRender<T>
+  children?: UnionFaasItemElement<T> | null
+  descriptionChildren?: UnionFaasItemElement<T> | null
+  render?: UnionFaasItemRender<T> | null
+  descriptionRender?: UnionFaasItemRender<T> | null
   if?: (values: Record<string, any>) => boolean
   object?: DescriptionItemProps<T>[]
 }
@@ -98,7 +98,9 @@ function DescriptionItemContent<T = any>(
 
   if (
     computedProps.item.descriptionChildren === null ||
-    computedProps.item.children === null
+    computedProps.item.children === null ||
+    computedProps.item.descriptionRender === null ||
+    computedProps.item.render === null
   )
     return null
 

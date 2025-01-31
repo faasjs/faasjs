@@ -63,7 +63,7 @@ type InputTypeMap<T> = {
 
 export interface FormItemProps<T = any>
   extends BaseItemProps,
-    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+  Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number
@@ -71,10 +71,10 @@ export interface FormItemProps<T = any>
   disabled?: boolean
   required?: boolean
   col?: number
-  children?: UnionFaasItemElement<T>
-  formChildren?: UnionFaasItemElement<T>
-  render?: UnionFaasItemRender<T>
-  formRender?: UnionFaasItemRender<T>
+  children?: UnionFaasItemElement<T> | null
+  formChildren?: UnionFaasItemElement<T> | null
+  render?: UnionFaasItemRender<T> | null
+  formRender?: UnionFaasItemRender<T> | null
   rules?: RuleObject[]
   label?: string | false
   extendTypes?: ExtendTypes
@@ -237,7 +237,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       </AntdForm.Item>
     )
 
-  if (computedProps.formChildren === null || computedProps.children === null)
+  if (computedProps.formChildren === null || computedProps.children === null || computedProps.formRender === null || computedProps.render === null)
     return null
 
   const children = computedProps.formChildren || computedProps.children

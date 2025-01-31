@@ -39,9 +39,9 @@ export type BaseOption =
   | string
   | number
   | {
-      label: string
-      value?: any
-    }
+    label: string
+    value?: any
+  }
 
 export interface BaseItemProps {
   id: string
@@ -74,9 +74,9 @@ export function transferOptions(options: BaseOption[]): {
     typeof item === 'object'
       ? item
       : {
-          label: upperFirst(item.toString()),
-          value: item,
-        }
+        label: upperFirst(item.toString()),
+        value: item,
+      }
   )
 }
 
@@ -233,9 +233,9 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  * ### Render Priority Order
  *
  * 1. **Null Rendering**
- *    1. Returns `null` if specific children props are null:
- *        - `formChildren` / `descriptionChildren` / `tableChildren`
- *    2. Returns `null` if `children` prop is null
+ *    1. Returns `null` if specific children or render props are null:
+ *        - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
+ *    2. Returns `null` if `children` or `render` prop is null
  * 2. **Children Rendering**
  *    1. First priority: Component-specific children
  *        - `formChildren` for Form
@@ -291,10 +291,10 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  */
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps,
-    DescriptionItemProps,
-    TableItemProps {
-  children?: UnionFaasItemElement<UnionFaasItemProps<Value, Values>> | null
-  render?: UnionFaasItemRender<Value, Values>
+  DescriptionItemProps,
+  TableItemProps {
+  children?: UnionFaasItemElement<Value, Values> | null
+  render?: UnionFaasItemRender<Value, Values> | null
   object?: UnionFaasItemProps<Value, Values>[]
 }
 
