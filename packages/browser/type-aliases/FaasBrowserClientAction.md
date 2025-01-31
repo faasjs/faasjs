@@ -6,13 +6,13 @@
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasAction`
+• **PathOrData** *extends* `FaasActionUnionType`
 
 ## Parameters
 
 ### action
 
-`PathOrData` | `string`
+`FaasAction`\<`PathOrData`\>
 
 ### params?
 

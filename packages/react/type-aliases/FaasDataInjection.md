@@ -8,13 +8,13 @@ Injects FaasData props.
 
 ## Type Parameters
 
-• **PathOrData** *extends* [`FaasAction`](FaasAction.md) = `any`
+• **PathOrData** *extends* `FaasActionUnionType` = `any`
 
 ## Type declaration
 
 ### action
 
-> **action**: `PathOrData` \| `string`
+> **action**: [`FaasAction`](FaasAction.md)\<`PathOrData`\>
 
 ### data
 
@@ -30,7 +30,7 @@ Injects FaasData props.
 
 ### params
 
-> **params**: `Record`\<`string`, `any`\>
+> **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
 ### promise
 

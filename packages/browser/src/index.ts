@@ -70,7 +70,12 @@
  *
  * @packageDocumentation
  */
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import type {
+  FaasAction,
+  FaasActionUnionType,
+  FaasData,
+  FaasParams,
+} from '@faasjs/types'
 
 import { generateId } from './generateId'
 

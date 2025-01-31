@@ -62,7 +62,7 @@ custom request
 
 #### Type Parameters
 
-• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
+• **PathOrData** *extends* `FaasActionUnionType`
 
 #### Parameters
 

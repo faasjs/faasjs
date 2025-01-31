@@ -19,7 +19,7 @@ describe('faas', () => {
   })
 
   it('should work', async () => {
-    expect(await faas('test', {})).toMatchObject({ data: 1 })
+    expect(await faas('t', {})).toMatchObject({ data: 1 })
   })
 
   it('should work with server action', async () => {

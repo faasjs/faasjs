@@ -63,9 +63,7 @@ export function withFaasData<
 >(
   Component: React.FC<TComponentProps & Record<string, any>>,
   faasProps: FaasDataWrapperProps<PathOrData>
-): React.FC<
-  Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>
-> {
+): React.FC<Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>> {
   return OriginWithFaasData<PathOrData, any>(Component, {
     fallback: faasProps.loading || <Loading {...faasProps.loadingProps} />,
     ...faasProps,

@@ -1,5 +1,10 @@
 import type { BaseUrl, Response } from '@faasjs/browser'
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import type {
+  FaasAction,
+  FaasActionUnionType,
+  FaasData,
+  FaasParams,
+} from '@faasjs/types'
 import { useRef, useState } from 'react'
 import type { FaasDataInjection } from './FaasDataWrapper'
 import { getClient } from './client'

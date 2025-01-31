@@ -16,13 +16,13 @@
 
 #### Type Parameters
 
-• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
+• **PathOrData** *extends* `FaasActionUnionType`
 
 #### Parameters
 
 ##### action
 
-`PathOrData` | `string`
+[`FaasAction`](FaasAction.md)\<`PathOrData`\>
 
 ##### params
 
@@ -50,13 +50,13 @@
 
 #### Type Parameters
 
-• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
+• **PathOrData** *extends* `FaasActionUnionType`
 
 #### Parameters
 
 ##### action
 
-`PathOrData` | `string`
+[`FaasAction`](FaasAction.md)\<`PathOrData`\>
 
 ##### defaultParams
 
@@ -74,7 +74,7 @@
 
 #### Type Parameters
 
-• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
+• **PathOrData** *extends* `FaasActionUnionType`
 
 #### Parameters
 

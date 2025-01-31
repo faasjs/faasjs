@@ -83,6 +83,7 @@ npm install @faasjs/react react
 - [FaasData](type-aliases/FaasData.md)
 - [FaasDataInjection](type-aliases/FaasDataInjection.md)
 - [FaasDataWrapperProps](type-aliases/FaasDataWrapperProps.md)
+- [FaasDataWrapperRef](type-aliases/FaasDataWrapperRef.md)
 - [FaasParams](type-aliases/FaasParams.md)
 - [FaasReactClientInstance](type-aliases/FaasReactClientInstance.md)
 - [FaasReactClientOptions](type-aliases/FaasReactClientOptions.md)

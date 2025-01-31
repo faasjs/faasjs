@@ -3,7 +3,12 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRef, useState } from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { type FaasDataInjection, FaasDataWrapper, type FaasDataWrapperRef, withFaasData } from '..'
+import {
+  type FaasDataInjection,
+  FaasDataWrapper,
+  type FaasDataWrapperRef,
+  withFaasData,
+} from '..'
 
 describe('FaasDataWrapper', () => {
   let current = 0
@@ -44,7 +49,7 @@ describe('FaasDataWrapper', () => {
     }
 
     render(
-      <FaasDataWrapper action='test'>
+      <FaasDataWrapper action='t'>
         <Test />
       </FaasDataWrapper>
     )
@@ -69,7 +74,7 @@ describe('FaasDataWrapper', () => {
           <button type='button' onClick={() => setParams({ v: 10 })}>
             Reload
           </button>
-          <FaasDataWrapper action='test' params={params}>
+          <FaasDataWrapper action='t' params={params}>
             <Test />
           </FaasDataWrapper>
         </>

@@ -2,18 +2,18 @@
 
 # Function: FaasDataWrapper()
 
-> **FaasDataWrapper**\<`PathOrData`\>(`props`): `JSX.Element`
+> **FaasDataWrapper**\<`PathOrData`\>(`props`): `ReactElement`
 
 ## Type Parameters
 
-• **PathOrData** *extends* [`FaasAction`](../type-aliases/FaasAction.md)
+• **PathOrData** *extends* `FaasActionUnionType` = `any`
 
 ## Parameters
 
 ### props
 
-[`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\>
+[`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\> & `RefAttributes`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`PathOrData`\>\>
 
 ## Returns
 
-`JSX.Element`
+`ReactElement`

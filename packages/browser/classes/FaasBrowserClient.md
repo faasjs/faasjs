@@ -5,6 +5,8 @@
 FaasJS browser client
 
 ```ts
+import { FaasBrowserClient } from '@faasjs/browser'
+
 const client = new FaasBrowserClient('http://localhost:8080/')
 
 await client.action('func', { key: 'value' })
@@ -40,15 +42,15 @@ Request a FaasJS function
 
 #### Type Parameters
 
-• **PathOrData** *extends* `FaasAction`
+• **PathOrData** *extends* `FaasActionUnionType`
 
 #### Parameters
 
 ##### action
 
-function's path or react's server action
+`FaasAction`\<`PathOrData`\>
 
-`string` | `PathOrData`
+function's path or react's server action
 
 ##### params?
 

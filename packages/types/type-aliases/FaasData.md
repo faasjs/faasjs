@@ -2,9 +2,9 @@
 
 # Type Alias: FaasData\<T\>
 
-> **FaasData**\<`T`\>: `T` *extends* [`FaasActionPaths`](FaasActionPaths.md) ? `FaasActions`\[`T`\]\[`"Data"`\] : `T` *extends* `ReactServerAction` ? `Awaited`\<`ReturnType`\<`T`\>\> : `T`
+> **FaasData**\<`T`\>: `T` *extends* [`FaasActionPaths`](FaasActionPaths.md) ? `FaasActions`\[`T`\]\[`"Data"`\] : `T` *extends* [`ReactServerAction`](ReactServerAction.md) ? `Awaited`\<`ReturnType`\<`T`\>\> : `T` *extends* `Record`\<`string`, `any`\> ? `T` : `Record`\<`string`, `any`\>
 
-Get the returning data type of the action.
+Infer the returning data type.
 
 ## Type Parameters
 

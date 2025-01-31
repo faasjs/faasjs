@@ -95,7 +95,11 @@ describe('Form/submit', () => {
   it('when submit to server function', async () => {
     let values: any
 
-    render(<Form submit={{ to: { action: params => (values = params) } }} />)
+    render(
+      <Form
+        submit={{ to: { action: async (params: any) => (values = params) } }}
+      />
+    )
 
     screen.debug()
 

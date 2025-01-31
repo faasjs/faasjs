@@ -6,13 +6,13 @@
 
 ## Type Parameters
 
-• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
+• **PathOrData** *extends* `FaasActionUnionType`
 
 ## Type declaration
 
 ### action
 
-> **action**: `PathOrData` \| `string`
+> **action**: [`FaasAction`](FaasAction.md)\<`PathOrData`\>
 
 ### baseUrl?
 
@@ -35,6 +35,10 @@ use custom data, should work with setData
 ### params?
 
 > `optional` **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
+
+### ref?
+
+> `optional` **ref**: `React.Ref`\<[`FaasDataWrapperRef`](FaasDataWrapperRef.md)\<`PathOrData`\>\>
 
 ### setData?
 

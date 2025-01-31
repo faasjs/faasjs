@@ -44,9 +44,13 @@ describe('FaasActionUnionType', () => {
   })
 
   it('be react server action', () => {
-    type TestServerAction = (params: { props: string }) => Promise<{ data: string }>
-    assertType<FaasActionUnionType>(async () => { })
-    expectTypeOf<FaasAction<TestServerAction>>().toEqualTypeOf(async (params: { props: string }) => ({ data: params.props }))
+    type TestServerAction = (params: { props: string }) => Promise<{
+      data: string
+    }>
+    assertType<FaasActionUnionType>(async () => {})
+    expectTypeOf<FaasAction<TestServerAction>>().toEqualTypeOf(
+      async (params: { props: string }) => ({ data: params.props })
+    )
     expectTypeOf<FaasParams<TestServerAction>>().toEqualTypeOf({ props: '' })
     expectTypeOf<FaasData<TestServerAction>>().toEqualTypeOf({ data: '' })
   })

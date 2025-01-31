@@ -52,7 +52,7 @@
 
 ### action
 
-> **action**: `string` \| `T`
+> **action**: `FaasAction`\<`T`\>
 
 #### Inherited from
 
@@ -107,6 +107,14 @@ use custom data, should work with setData
 #### Inherited from
 
 `OriginProps.params`
+
+### ref?
+
+> `optional` **ref**: `Ref`\<`FaasDataWrapperRef`\<`T`\>\>
+
+#### Inherited from
+
+`OriginProps.ref`
 
 ### setData?
 

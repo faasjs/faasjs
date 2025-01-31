@@ -1,6 +1,17 @@
 import type { BaseUrl, Response } from '@faasjs/browser'
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams, } from '@faasjs/types'
-import { type JSX, cloneElement, forwardRef, useImperativeHandle, useState } from 'react'
+import type {
+  FaasAction,
+  FaasActionUnionType,
+  FaasData,
+  FaasParams,
+} from '@faasjs/types'
+import {
+  type JSX,
+  cloneElement,
+  forwardRef,
+  useImperativeHandle,
+  useState,
+} from 'react'
 import { getClient } from './client'
 import { useEqualEffect, useEqualMemo } from './equal'
 
@@ -44,13 +55,14 @@ export type FaasDataWrapperProps<PathOrData extends FaasActionUnionType> = {
   ref?: React.Ref<FaasDataWrapperRef<PathOrData>>
 }
 
-export type FaasDataWrapperRef<PathOrData extends FaasActionUnionType = any> = FaasDataInjection<PathOrData>
+export type FaasDataWrapperRef<PathOrData extends FaasActionUnionType = any> =
+  FaasDataInjection<PathOrData>
 
 type FixedForwardRef = <T, P = Record<string, unknown>>(
-  render: (props: P, ref: React.Ref<T>) => React.ReactElement | null,
-) => (props: P & React.RefAttributes<T>) => React.ReactElement | null;
+  render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
+) => (props: P & React.RefAttributes<T>) => React.ReactElement | null
 
-const fixedForwardRef = forwardRef as FixedForwardRef;
+const fixedForwardRef = forwardRef as FixedForwardRef
 
 export const FaasDataWrapper = fixedForwardRef(
   <PathOrData extends FaasActionUnionType = any>(
@@ -94,9 +106,13 @@ export const FaasDataWrapper = fixedForwardRef(
     ])
 
     return child
-  })
+  }
+)
 
-Object.assign(FaasDataWrapper, { displayName: 'FaasDataWrapper', whyDidYouRender: true })
+Object.assign(FaasDataWrapper, {
+  displayName: 'FaasDataWrapper',
+  whyDidYouRender: true,
+})
 
 /**
  * HOC to wrap a component with FaasDataWrapper
@@ -116,7 +132,7 @@ export function withFaasData<
   faasProps: FaasDataWrapperProps<PathOrData>
 ): React.FC<
   Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> &
-  Record<string, any>
+    Record<string, any>
 > {
   return (
     props: Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>

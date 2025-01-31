@@ -1,7 +1,11 @@
 [@faasjs/types](../README.md) / FaasAction
 
-# Type Alias: FaasAction
+# Type Alias: FaasAction\<T\>
 
-> **FaasAction**: [`FaasActionPaths`](FaasActionPaths.md) \| `ReactServerAction` \| `Record`\<`string`, `any`\>
+> **FaasAction**\<`T`\>: `T` *extends* [`ReactServerAction`](ReactServerAction.md) ? `T` : `T` *extends* [`FaasActionPaths`](FaasActionPaths.md) ? `T` : `string`
 
-The type of FaasJS actions.
+Infer the action type.
+
+## Type Parameters
+
+• **T** = `any`

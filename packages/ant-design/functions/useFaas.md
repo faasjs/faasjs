@@ -8,15 +8,15 @@ Request faas server with React hook
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasAction`
+• **PathOrData** *extends* `FaasActionUnionType`
 
 ## Parameters
 
 ### action
 
-{string} action name
+`FaasAction`\<`PathOrData`\>
 
-`string` | `PathOrData`
+{string} action name
 
 ### defaultParams
 
