@@ -6,7 +6,7 @@ import type {
   FaasDataInjection as OriginFaasDataInjection,
   FaasDataWrapperProps as OriginProps,
 } from '@faasjs/react'
-import type { FaasAction } from '@faasjs/types'
+import type { FaasActionUnionType } from '@faasjs/types'
 import type { JSX } from 'react'
 import { Loading } from './Loading'
 import type { LoadingProps } from './Loading'
@@ -56,7 +56,7 @@ FaasDataWrapper.whyDidYouRender = true
  * ```
  */
 export function withFaasData<
-  PathOrData extends FaasAction,
+  PathOrData extends FaasActionUnionType,
   TComponentProps extends Required<FaasDataInjection<PathOrData>> = Required<
     FaasDataInjection<PathOrData>
   >,
@@ -64,8 +64,7 @@ export function withFaasData<
   Component: React.FC<TComponentProps & Record<string, any>>,
   faasProps: FaasDataWrapperProps<PathOrData>
 ): React.FC<
-  Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> &
-    Record<string, any>
+  Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>
 > {
   return OriginWithFaasData<PathOrData, any>(Component, {
     fallback: faasProps.loading || <Loading {...faasProps.loadingProps} />,

@@ -1,6 +1,6 @@
 import type { BaseUrl, Options, Response, ResponseError } from '@faasjs/browser'
 import { FaasBrowserClient } from '@faasjs/browser'
-import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams, } from '@faasjs/types'
 import type { JSX } from 'react'
 import {
   type FaasDataInjection,
@@ -36,17 +36,17 @@ export type FaasReactClientOptions = {
 
 export type FaasReactClientInstance = {
   id: string
-  faas: <PathOrData extends FaasAction>(
-    action: PathOrData | string,
+  faas: <PathOrData extends FaasActionUnionType>(
+    action: FaasAction<PathOrData>,
     params: FaasParams<PathOrData>,
     options?: Options
   ) => Promise<Response<FaasData<PathOrData>>>
-  useFaas: <PathOrData extends FaasAction>(
-    action: PathOrData | string,
+  useFaas: <PathOrData extends FaasActionUnionType>(
+    action: FaasAction<PathOrData>,
     defaultParams: FaasParams<PathOrData>,
     options?: useFaasOptions<PathOrData>
   ) => FaasDataInjection<PathOrData>
-  FaasDataWrapper<PathOrData extends FaasAction>(
+  FaasDataWrapper<PathOrData extends FaasActionUnionType>(
     props: FaasDataWrapperProps<PathOrData>
   ): JSX.Element
   onError?: OnError
@@ -76,19 +76,19 @@ export function FaasReactClient(
 
   const reactClient = {
     id: client.id,
-    faas: async <PathOrData extends FaasAction>(
-      action: PathOrData | string,
+    faas: async <PathOrData extends FaasActionUnionType>(
+      action: FaasAction<PathOrData>,
       params: FaasParams<PathOrData>,
       options?: Options
     ): Promise<Response<FaasData<PathOrData>>> =>
       faas<PathOrData>(action, params, { baseUrl, ...options }),
-    useFaas: <PathOrData extends FaasAction>(
-      action: PathOrData | string,
+    useFaas: <PathOrData extends FaasActionUnionType>(
+      action: FaasAction<PathOrData>,
       defaultParams: FaasParams<PathOrData>,
       options?: useFaasOptions<PathOrData>
     ): FaasDataInjection<PathOrData> =>
       useFaas<PathOrData>(action, defaultParams, { baseUrl, ...options }),
-    FaasDataWrapper: <PathOrData extends FaasAction>(
+    FaasDataWrapper: <PathOrData extends FaasActionUnionType>(
       props: FaasDataWrapperProps<PathOrData>
     ) => <FaasDataWrapper<PathOrData> baseUrl={baseUrl} {...props} />,
     onError,

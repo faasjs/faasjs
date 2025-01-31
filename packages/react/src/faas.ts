@@ -1,5 +1,5 @@
 import type { Options, Response } from '@faasjs/browser'
-import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams, } from '@faasjs/types'
 import { getClient } from './client'
 
 /**
@@ -16,8 +16,8 @@ import { getClient } from './client'
  * })
  * ```
  */
-export async function faas<PathOrData extends FaasAction>(
-  action: PathOrData | string,
+export async function faas<PathOrData extends FaasActionUnionType>(
+  action: FaasAction<PathOrData>,
   params: FaasParams<PathOrData>,
   options?: Options
 ): Promise<Response<FaasData<PathOrData>>> {

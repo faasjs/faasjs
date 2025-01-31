@@ -1,6 +1,7 @@
 import { useFunc } from '@faasjs/func'
 import type {
   FaasAction,
+  FaasActionUnionType,
   FaasActions,
   FaasData,
   FaasParams,
@@ -10,33 +11,49 @@ import { assertType, describe, expectTypeOf, it } from 'vitest'
 
 declare module '@faasjs/types' {
   interface FaasActions {
-    '/test': {
+    test: {
       Params: { key: string }
       Data: { value: string }
     }
   }
 }
 
-describe('types', () => {
-  it('FaasAction', () => {
-    assertType<FaasAction>({})
-    assertType<FaasAction>('/test')
+describe('FaasActionUnionType', () => {
+  it('be string', () => {
+    assertType<FaasActionUnionType>('')
+    expectTypeOf<FaasAction<string>>().toEqualTypeOf('')
+    expectTypeOf<FaasParams<string>>().toEqualTypeOf({} as Record<string, any>)
+    expectTypeOf<FaasData<string>>().toEqualTypeOf({} as Record<string, any>)
   })
 
-  it('FaasParams', () => {
-    assertType<FaasParams>({})
-    assertType<FaasParams<'/test'>>({ key: 'key' })
+  it('be key of FaasActions', () => {
+    assertType<FaasActionUnionType>('/test')
+    expectTypeOf<FaasAction<'test'>>().toEqualTypeOf('test' as const)
+    expectTypeOf<FaasParams<'test'>>().toEqualTypeOf({ key: '' })
+    expectTypeOf<FaasData<'test'>>().toEqualTypeOf({ value: '' })
   })
 
-  it('FaasData', () => {
-    assertType<FaasData>({})
-    assertType<FaasData<'/test'>>({ value: 'value' })
-    expectTypeOf({ value: true }).not.toEqualTypeOf({ value: 'value' })
+  it('be Record<string, any>', () => {
+    type Test = {
+      a: string
+    }
+    assertType<FaasActionUnionType>({})
+    expectTypeOf<FaasAction<Test>>().toEqualTypeOf('')
+    expectTypeOf<FaasParams<Test>>().toEqualTypeOf({} as Record<string, any>)
+    expectTypeOf<FaasData<Test>>().toEqualTypeOf({ a: '' })
+  })
+
+  it('be react server action', () => {
+    type TestServerAction = (params: { props: string }) => Promise<{ data: string }>
+    assertType<FaasActionUnionType>(async () => { })
+    expectTypeOf<FaasAction<TestServerAction>>().toEqualTypeOf(async (params: { props: string }) => ({ data: params.props }))
+    expectTypeOf<FaasParams<TestServerAction>>().toEqualTypeOf({ props: '' })
+    expectTypeOf<FaasData<TestServerAction>>().toEqualTypeOf({ data: '' })
   })
 
   it('FaasActions', () => {
-    assertType<FaasActions['/test']['Params']>({ key: 'key' })
-    assertType<FaasActions['/test']['Data']>({ value: 'value' })
+    assertType<FaasActions['test']['Params']>({ key: 'key' })
+    assertType<FaasActions['test']['Data']>({ value: 'value' })
   })
 
   it('InferFaasAction', () => {

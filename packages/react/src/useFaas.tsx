@@ -1,5 +1,5 @@
 import type { BaseUrl, Response } from '@faasjs/browser'
-import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import { useRef, useState } from 'react'
 import type { FaasDataInjection } from './FaasDataWrapper'
 import { getClient } from './client'
@@ -35,8 +35,8 @@ export type useFaasOptions<PathOrData extends FaasAction> = {
  * }
  * ```
  */
-export function useFaas<PathOrData extends FaasAction>(
-  action: PathOrData | string,
+export function useFaas<PathOrData extends FaasActionUnionType>(
+  action: FaasAction<PathOrData>,
   defaultParams: FaasParams<PathOrData>,
   options: useFaasOptions<PathOrData> = {}
 ): FaasDataInjection<PathOrData> {

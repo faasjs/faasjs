@@ -1,9 +1,9 @@
 import { setMock } from '@faasjs/browser'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { type FaasDataInjection, FaasDataWrapper, withFaasData } from '..'
+import { type FaasDataInjection, FaasDataWrapper, type FaasDataWrapperRef, withFaasData } from '..'
 
 describe('FaasDataWrapper', () => {
   let current = 0
@@ -121,5 +121,46 @@ describe('FaasDataWrapper', () => {
 
     expect(await screen.findByText('2')).toBeDefined()
     expect(renderTimes).toEqual(3)
+  })
+
+  it('ref', async () => {
+    let current = 0
+
+    setMock(async () => {
+      current++
+
+      return {
+        data: current,
+      }
+    })
+
+    function Test(props: Partial<FaasDataInjection>) {
+      return <div>{props.data}</div>
+    }
+
+    function App() {
+      const ref = useRef<FaasDataWrapperRef>(null)
+
+      return (
+        <>
+          <button type='button' onClick={() => ref.current?.reload()}>
+            Reload
+          </button>
+          <FaasDataWrapper action='test' ref={ref}>
+            <Test />
+          </FaasDataWrapper>
+        </>
+      )
+    }
+
+    render(<App />)
+
+    expect(await screen.findByText('1')).toBeDefined()
+    expect(current).toEqual(1)
+
+    await userEvent.click(screen.getByRole('button'))
+
+    expect(await screen.findByText('2')).toBeDefined()
+    expect(current).toEqual(2)
   })
 })

@@ -1,15 +1,15 @@
 import type { BaseUrl, Response } from '@faasjs/browser'
-import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
-import { type JSX, cloneElement, useEffect, useState } from 'react'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams, } from '@faasjs/types'
+import { type JSX, cloneElement, forwardRef, useImperativeHandle, useState } from 'react'
 import { getClient } from './client'
 import { useEqualEffect, useEqualMemo } from './equal'
 
 /**
  * Injects FaasData props.
  */
-export type FaasDataInjection<PathOrData extends FaasAction = any> = {
-  action: PathOrData | string
-  params: Record<string, any>
+export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
+  action: FaasAction<PathOrData>
+  params: FaasParams<PathOrData>
   loading: boolean
   reloadTimes: number
   data: FaasData<PathOrData>
@@ -29,11 +29,11 @@ export type FaasDataInjection<PathOrData extends FaasAction = any> = {
   setError: React.Dispatch<React.SetStateAction<any>>
 }
 
-export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
+export type FaasDataWrapperProps<PathOrData extends FaasActionUnionType> = {
   render?(args: FaasDataInjection<PathOrData>): JSX.Element | JSX.Element[]
   children?: React.ReactElement<Partial<FaasDataInjection<PathOrData>>>
   fallback?: JSX.Element | false
-  action: PathOrData | string
+  action: FaasAction<PathOrData>
   params?: FaasParams<PathOrData>
   onDataChange?(args: FaasDataInjection<PathOrData>): void
   /** use custom data, should work with setData */
@@ -41,50 +41,62 @@ export type FaasDataWrapperProps<PathOrData extends FaasAction> = {
   /** use custom setData, should work with data */
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
   baseUrl?: BaseUrl
+  ref?: React.Ref<FaasDataWrapperRef<PathOrData>>
 }
 
-export function FaasDataWrapper<PathOrData extends FaasAction>(
-  props: FaasDataWrapperProps<PathOrData>
-): JSX.Element {
-  const request = getClient(props.baseUrl).useFaas<PathOrData>(
-    props.action,
-    props.params,
-    {
-      data: props.data,
-      setData: props.setData,
-    }
-  )
-  const [loaded, setLoaded] = useState<boolean>(false)
+export type FaasDataWrapperRef<PathOrData extends FaasActionUnionType = any> = FaasDataInjection<PathOrData>
 
-  useEffect(() => {
-    if (!request.loading) setLoaded(prev => (prev === false ? true : prev))
-  }, [request.loading])
+type FixedForwardRef = <T, P = Record<string, unknown>>(
+  render: (props: P, ref: React.Ref<T>) => React.ReactElement | null,
+) => (props: P & React.RefAttributes<T>) => React.ReactElement | null;
 
-  useEqualEffect(() => {
-    if (props.onDataChange) props.onDataChange(request)
-  }, [request.data])
+const fixedForwardRef = forwardRef as FixedForwardRef;
 
-  const child = useEqualMemo(() => {
-    if (loaded) {
-      if (props.children) return cloneElement(props.children, request)
-      if (props.render) return props.render(request) as JSX.Element
-    }
+export const FaasDataWrapper = fixedForwardRef(
+  <PathOrData extends FaasActionUnionType = any>(
+    props: FaasDataWrapperProps<PathOrData>,
+    ref: React.ForwardedRef<FaasDataWrapperRef<PathOrData>>
+  ): JSX.Element => {
+    const request = getClient(props.baseUrl).useFaas<PathOrData>(
+      props.action,
+      props.params,
+      {
+        data: props.data,
+        setData: props.setData,
+      }
+    )
+    const [loaded, setLoaded] = useState<boolean>(false)
 
-    return props.fallback || null
-  }, [
-    loaded,
-    request.action,
-    request.params,
-    request.data,
-    request.error,
-    request.loading,
-  ])
+    useImperativeHandle(ref, () => request, [request])
 
-  return child
-}
+    useEqualEffect(() => {
+      if (!request.loading) setLoaded(prev => (prev === false ? true : prev))
+    }, [request.loading])
 
-FaasDataWrapper.displayName = 'FaasDataWrapper'
-FaasDataWrapper.whyDidYouRender = true
+    useEqualEffect(() => {
+      if (props.onDataChange) props.onDataChange(request)
+    }, [request.data])
+
+    const child = useEqualMemo(() => {
+      if (loaded) {
+        if (props.children) return cloneElement(props.children, request)
+        if (props.render) return props.render(request) as JSX.Element
+      }
+
+      return props.fallback || null
+    }, [
+      loaded,
+      request.action,
+      request.params,
+      request.data,
+      request.error,
+      request.loading,
+    ])
+
+    return child
+  })
+
+Object.assign(FaasDataWrapper, { displayName: 'FaasDataWrapper', whyDidYouRender: true })
 
 /**
  * HOC to wrap a component with FaasDataWrapper
@@ -100,11 +112,11 @@ export function withFaasData<
     FaasDataInjection<PathOrData>
   >,
 >(
-  Component: React.FC<TComponentProps & Record<string, any>>,
+  Component: React.FC<TComponentProps>,
   faasProps: FaasDataWrapperProps<PathOrData>
 ): React.FC<
   Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> &
-    Record<string, any>
+  Record<string, any>
 > {
   return (
     props: Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>

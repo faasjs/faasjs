@@ -70,7 +70,7 @@
  *
  * @packageDocumentation
  */
-import type { FaasAction, FaasData, FaasParams } from '@faasjs/types'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 
 import { generateId } from './generateId'
 
@@ -93,7 +93,7 @@ export type Options = RequestInit & {
     headers: Record<string, string>
   }) => Promise<void>
   /** custom request */
-  request?: <PathOrData extends FaasAction>(
+  request?: <PathOrData extends FaasActionUnionType>(
     url: string,
     options: Options
   ) => Promise<Response<FaasData<PathOrData>>>
@@ -104,8 +104,8 @@ export type ResponseHeaders = {
   [key: string]: string
 }
 
-export type FaasBrowserClientAction = <PathOrData extends FaasAction>(
-  action: PathOrData | string,
+export type FaasBrowserClientAction = <PathOrData extends FaasActionUnionType>(
+  action: FaasAction<PathOrData>,
   params?: FaasParams<PathOrData>,
   options?: Options
 ) => Promise<Response<FaasData<PathOrData>>>
@@ -258,6 +258,8 @@ export function setMock(handler: MockHandler | null) {
  * FaasJS browser client
 
  * ```ts
+ * import { FaasBrowserClient } from '@faasjs/browser'
+ *
  * const client = new FaasBrowserClient('http://localhost:8080/')
  *
  * await client.action('func', { key: 'value' })
@@ -288,8 +290,8 @@ export class FaasBrowserClient {
    * await client.action('func', { key: 'value' })
    * ```
    */
-  public async action<PathOrData extends FaasAction>(
-    action: PathOrData | string,
+  public async action<PathOrData extends FaasActionUnionType>(
+    action: FaasAction<PathOrData>,
     params?: FaasParams<PathOrData>,
     options?: Options
   ): Promise<Response<FaasData<PathOrData>>> {

@@ -6,7 +6,7 @@
  *
  * ## Install
  *
- * Normally you don't need to install this package manually. It's a dependency of `@faasjs/func` and `@faasjs/react`.
+ * Normally you don't need to install this package manually. It's a dependency of `@faasjs/func` and `@faasjs/browser`.
  *
  * ## Usage
  *
@@ -23,45 +23,73 @@ import type { Func } from '@faasjs/func'
 
 /**
  * Interface for defining FaasJS actions.
+ *
+ * @example
+ * ```typescript
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     demo: {
+ *       Params: {
+ *         key: string
+ *       }
+ *       Data: {
+ *         value: string
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
  */
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-export interface FaasActions {}
+export interface FaasActions { }
 
 /**
  * Paths of FaasJS actions.
  */
 export type FaasActionPaths = keyof FaasActions
 
-type ReactServerAction = (...args: any[]) => Promise<any>
+export type ReactServerAction = (...args: any[]) => Promise<any>
 
 /**
- * The type of FaasJS actions.
+ * Union type of all action types.
  */
-export type FaasAction =
+export type FaasActionUnionType =
   // Action paths defined in FaasActions
   | FaasActionPaths
-  // React server action type
+  // React server action
   | ReactServerAction
-  // Generic record type for dynamic actions
+  // Returning data type
   | Record<string, any>
+  // action path as string
+  | string
 
 /**
- * Get the parameters type of the action.
+ * Infer the action type.
+ */
+export type FaasAction<T extends FaasActionUnionType = any> = T extends ReactServerAction
+  ? T
+  : T extends FaasActionPaths
+  ? T
+  : string
+
+/**
+ * Infer the parameters type.
  */
 export type FaasParams<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
   : T extends ReactServerAction
-    ? Parameters<T>[0]
-    : T
+  ? Parameters<T>[0]
+  : Record<string, any>
 
 /**
- * Get the returning data type of the action.
+ * Infer the returning data type.
  */
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
   : T extends ReactServerAction
-    ? Awaited<ReturnType<T>>
-    : T
+  ? Awaited<ReturnType<T>>
+  : T extends Record<string, any>
+  ? T : Record<string, any>
 
 /**
  * Infer the FaasAction type from a Func.
