@@ -197,7 +197,16 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
   }
 
   useEffect(() => {
-    const items = cloneDeep(props.items) as TableItemProps[]
+    const items = (cloneDeep(props.items) as TableItemProps[]).filter(
+      item =>
+        !(
+          item.tableChildren === null ||
+          item.children === null ||
+          item.tableRender === null ||
+          item.render === null
+        )
+    )
+
     for (const item of items) {
       if (!item.key) item.key = item.id
       if (!item.dataIndex) item.dataIndex = item.id
@@ -221,19 +230,6 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           })
 
         generateFilterDropdown(item)
-      }
-
-      // custom render
-      const isNull =
-        item.tableChildren === null ||
-        item.children === null ||
-        item.tableRender === null ||
-        item.render === null
-
-      if (isNull) {
-        item.render = () => null
-
-        continue
       }
 
       const children = item.tableChildren || item.children

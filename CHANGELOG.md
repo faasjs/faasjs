@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v6.4.2 (2025-01-31)`](https://github.com/faasjs/faasjs/compare/v6.3.2...v6.4.2)
+[`v6.4.3 (2025-01-31)`](https://github.com/faasjs/faasjs/compare/v6.3.2...v6.4.3)
 
 - `@faasjs/types`, `@faasjs/browser`, `@faasjs/react` and `@faasjs/ant-design`
   - [Feature] Add `FaasActionUnionType` type and change `FaasAction` to infer action's type.
@@ -13,6 +13,8 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Feature] Add `ref` to `FaasDataWrapper`.
 
 - `@faasjs/ant-design`
+  - [Feature] Add `useThemeToken`.
+  - [Feature] Don't render table and description column when children or render is null.
   - [Fix] Fix `tableRender`.
   - [Fix] Fix `UnionFaasItemProps`.
 

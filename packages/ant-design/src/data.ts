@@ -183,9 +183,6 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
 /**
  * Represents a React element that is used in the UnionFaasItem context.
  *
- * @template Value - The type of the value associated with the element. Defaults to `any`.
- * @template Values - The type of the values associated with the element. Defaults to `any`.
- *
  * This type can either be a React element with the specified injection types or `null`.
  *
  * @example
@@ -232,7 +229,7 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  *
  * ### Render Priority Order
  *
- * 1. **Null Rendering**
+ * 1. **Null Rendering** (Notice: it also doesn't render column in table and description)
  *    1. Returns `null` if specific children or render props are null:
  *        - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
  *    2. Returns `null` if `children` or `render` prop is null

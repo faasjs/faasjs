@@ -26,9 +26,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "ioredis": "*",
     "@faasjs/deep_merge": "6.4.2",

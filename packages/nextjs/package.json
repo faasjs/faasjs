@@ -26,9 +26,7 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts --external next"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
     "@faasjs/react": "6.4.2",
     "@faasjs/func": "6.4.2"

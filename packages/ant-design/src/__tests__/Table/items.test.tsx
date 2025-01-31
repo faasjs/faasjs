@@ -555,6 +555,7 @@ describe('Table/items', () => {
         />
       )
 
+      expect(() => screen.getByText('test')).toThrow()
       expect(() => screen.getByText('value')).toThrow()
     })
 
@@ -576,6 +577,7 @@ describe('Table/items', () => {
         />
       )
 
+      expect(() => screen.getByText('test')).toThrow()
       expect(() => screen.getByText('value')).toThrow()
     })
   })

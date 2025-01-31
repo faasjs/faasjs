@@ -269,7 +269,17 @@ export function Description<T extends Record<string, any> = any>({
           : props.title
       }
       items={props.items
-        .filter(item => item && (!item.if || item.if(dataSource)))
+        .filter(
+          item =>
+            item &&
+            !(
+              item.descriptionChildren === null ||
+              item.children === null ||
+              item.descriptionRender === null ||
+              item.render === null
+            ) &&
+            (!item.if || item.if(dataSource))
+        )
         .map(item => ({
           ...item,
           key: item.id,
