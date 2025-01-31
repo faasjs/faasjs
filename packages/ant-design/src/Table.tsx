@@ -16,7 +16,7 @@ import type {
 } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
 import { cloneDeep, isNil, uniqBy } from 'lodash-es'
-import { type JSX, cloneElement, useEffect, useState } from 'react'
+import { type JSX, cloneElement, createElement, isValidElement, useEffect, useState } from 'react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import { Description } from './Description'
@@ -218,26 +218,44 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         generateFilterDropdown(item)
       }
 
-      if (item.tableChildren === null) item.render = () => null
-      else if (item.tableChildren)
+      // custom render
+      const isNull = item.tableChildren === null || item.children === null
+
+      if (isNull) {
+        item.render = () => null
+
+        continue
+      }
+
+      const children = item.tableChildren || item.children
+
+      if (children) {
         item.render = (value: any, values: any) =>
-          cloneElement(item.tableChildren, {
+          cloneElement(isValidElement(children) ? children : createElement(children), {
             scene: 'table',
             value,
             values,
+            index: 0,
           })
-      else if (item.children === null) item.render = () => null
-      else if (item.children)
+
+        delete item.children
+        delete item.tableChildren
+
+        continue
+      }
+
+      const render = item.tableRender || item.render
+
+      if (render) {
         item.render = (value: any, values: any) =>
-          cloneElement(item.children, {
-            scene: 'table',
-            value,
-            values,
-          })
+          render(value, values, 0, 'table')
 
-      if (item.tableRender) item.render = item.tableRender
+        delete item.tableRender
 
-      if (!item.render && props.extendTypes?.[item.type]) {
+        continue
+      }
+
+      if (props.extendTypes?.[item.type]) {
         if (props.extendTypes[item.type].children)
           item.render = (value: any, values: any) =>
             cloneElement(props.extendTypes[item.type].children, {

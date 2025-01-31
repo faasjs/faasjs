@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import type { ReactElement } from 'react'
+import type { FC, ReactElement } from 'react'
 import type { DescriptionItemProps } from './Description'
 import type { FormItemProps } from './FormItem'
 import type { TableItemProps } from './Table'
@@ -139,7 +139,7 @@ export type UnionFaasItemInjection<Value = any, Values = any> = {
  * ```tsx
  * import { type UnionFaasItemRender, Form, Description, Table } from '@faasjs/ant-design'
  *
- * const render: UnionFaasItemRender = (value, values, index, scene) => {
+ * const nameReader: UnionFaasItemRender = (value, values, index, scene) => {
  *   switch (scene) {
  *     case 'form':
  *       return <input />
@@ -154,7 +154,7 @@ export type UnionFaasItemInjection<Value = any, Values = any> = {
  * const items = [
  *   {
  *     id: 'name',
- *     render,
+ *     render: nameReader,
  *   }
  * ]
  *
@@ -174,9 +174,51 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
   scene: UnionScene
 ) => React.ReactNode
 
+
+/**
+ * Represents a React element that is used in the UnionFaasItem context.
+ *
+ * @template Value - The type of the value associated with the element. Defaults to `any`.
+ * @template Values - The type of the values associated with the element. Defaults to `any`.
+ *
+ * This type can either be a React element with the specified injection types or `null`.
+ *
+ * @example
+ * ```tsx
+ * import { type UnionFaasItemElement, Form, Description, Table } from '@faasjs/ant-design'
+ *
+ * const NameComponent: UnionFaasItemElement = ({ scene, value }) => {
+ *   switch (scene) {
+ *     switch (scene) {
+ *     case 'form':
+ *       return <input />
+ *     case 'description':
+ *     case 'table':
+ *       return <span>{value}</span>
+ *     default:
+ *       return null
+ *   }
+ * }
+ *
+ * const items = [
+ *   {
+ *    id: 'name',
+ *    children: NameComponent // both `NameComponent` and `<NameComponent />` is valid
+ *   }
+ * ]
+ *
+ * function App() {
+ *   return <>
+ *    <Form items={items} /> // Will render an input
+ *    <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
+ *    <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
+ *  </>
+ * }
+ * ```
+ */
 export type UnionFaasItemElement<Value = any, Values = any> = ReactElement<
   UnionFaasItemInjection<Value, Values>
-> | null
+> | FC<UnionFaasItemInjection<Value, Values>>
 
 /**
  * Interface representing the properties of a UnionFaas item.

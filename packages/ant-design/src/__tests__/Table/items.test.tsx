@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import dayjs from 'dayjs'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { Table } from '../../Table'
+import type { UnionFaasItemElement, UnionFaasItemRender } from '../../data'
 
 describe('Table/items', () => {
   it('should work', () => {
@@ -392,5 +393,189 @@ describe('Table/items', () => {
     )
 
     expect(screen.getByText('value')).toBeDefined()
+  })
+
+  describe('render', () => {
+    it('pure render', () => {
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              render: (value) => value.toUpperCase(),
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      expect(screen.getByText('VALUE')).toBeDefined()
+    })
+
+    it('union render', () => {
+      const renderItem: UnionFaasItemRender = (value, _values, _index, scene) => scene === 'table' && <span>{value.toUpperCase()}</span>
+
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              render: renderItem,
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      expect(screen.getByText('VALUE')).toBeDefined()
+    })
+
+    it('union element', () => {
+      const Item: UnionFaasItemElement = ({ scene, value }) => {
+        return scene === 'table' ? <span>{value.toUpperCase()}</span> : null
+      }
+
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              children: Item,
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      expect(screen.getByText('VALUE')).toBeDefined()
+    })
+
+    it('children', () => {
+      const Item = ({ value }: { value?: string }) => {
+        return <span>{value.toUpperCase()}</span>
+      }
+
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              children: Item,
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      expect(screen.getByText('VALUE')).toBeDefined()
+    })
+
+    it('tableChildren', () => {
+      const Item = ({ value }: { value?: string }) => {
+        return <span>{value.toUpperCase()}</span>
+      }
+
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              tableChildren: Item,
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      expect(screen.getByText('VALUE')).toBeDefined()
+    })
+
+    it('tableRender', () => {
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              tableRender: (value) => value.toUpperCase(),
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      expect(screen.getByText('VALUE')).toBeDefined()
+    })
+
+    it('children is null', () => {
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              children: null,
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      expect(() => screen.getByText('value')).toThrow()
+    })
+
+    it('tableChildren is null', () => {
+      render(
+        <Table
+          items={[
+            {
+              id: 'test',
+              tableChildren: null,
+            },
+          ]}
+          dataSource={[
+            {
+              id: 'id',
+              test: 'value',
+            },
+          ]}
+        />
+      )
+
+      expect(() => screen.getByText('value')).toThrow()
+    })
   })
 })
