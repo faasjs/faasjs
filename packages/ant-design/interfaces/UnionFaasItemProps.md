@@ -9,9 +9,9 @@ The UnionFaas item can be used in a form, description, or table.
 ### Render Priority Order
 
 1. **Null Rendering**
-   1. Returns `null` if specific children props are null:
-       - `formChildren` / `descriptionChildren` / `tableChildren`
-   2. Returns `null` if `children` prop is null
+   1. Returns `null` if specific children or render props are null:
+       - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
+   2. Returns `null` if `children` or `render` prop is null
 2. **Children Rendering**
    1. First priority: Component-specific children
        - `formChildren` for Form
@@ -80,7 +80,7 @@ function App() {
 
 ### children?
 
-> `optional` **children**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<[`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>, `any`\>
+> `optional` **children**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`Value`, `Values`\>
 
 #### Overrides
 

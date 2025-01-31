@@ -39,9 +39,9 @@ export type BaseOption =
   | string
   | number
   | {
-    label: string
-    value?: any
-  }
+      label: string
+      value?: any
+    }
 
 export interface BaseItemProps {
   id: string
@@ -74,9 +74,9 @@ export function transferOptions(options: BaseOption[]): {
     typeof item === 'object'
       ? item
       : {
-        label: upperFirst(item.toString()),
-        value: item,
-      }
+          label: upperFirst(item.toString()),
+          value: item,
+        }
   )
 }
 
@@ -291,8 +291,8 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  */
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps,
-  DescriptionItemProps,
-  TableItemProps {
+    DescriptionItemProps,
+    TableItemProps {
   children?: UnionFaasItemElement<Value, Values> | null
   render?: UnionFaasItemRender<Value, Values> | null
   object?: UnionFaasItemProps<Value, Values>[]
