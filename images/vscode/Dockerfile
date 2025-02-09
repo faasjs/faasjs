@@ -42,11 +42,6 @@ RUN npm install -g npm@latest tsx && npm cache clean --force
 ENV PNPM_HOME="/root/.pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN corepack enable
-RUN corepack prepare pnpm@latest --activate
-RUN pnpm config set script-shell "/usr/bin/zsh"
-RUN pnpm add -g pnpm@latest
-
 # Install bun
 RUN curl -fsSL https://bun.sh/install | bash
 
