@@ -2,7 +2,7 @@
 
 # Function: Blank()
 
-> **Blank**(`options`?): `JSX.Element`
+> **Blank**(`options`?): `Element`
 
 Blank component.
 
@@ -16,7 +16,7 @@ If value is undefined or null, return text, otherwise return value.
 
 ## Returns
 
-`JSX.Element`
+`Element`
 
 ## Example
 

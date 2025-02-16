@@ -2,7 +2,7 @@
 
 # Function: useMiddlewares()
 
-> **useMiddlewares**(`handlers`): `Promise`\<`Func`\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md)\>\>
+> **useMiddlewares**(`handlers`): `Promise`\<`Func`\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
 
 Apply an array of middleware functions to an event.
 
@@ -16,7 +16,7 @@ An array of middleware functions to be applied.
 
 ## Returns
 
-`Promise`\<`Func`\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md)\>\>
+`Promise`\<`Func`\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
 
 A promise that resolves when all middleware functions have been applied.
 

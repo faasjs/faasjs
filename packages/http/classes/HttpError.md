@@ -20,7 +20,7 @@
 
 `string`
 
-###### statusCode
+###### statusCode?
 
 `number`
 

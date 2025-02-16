@@ -2,7 +2,7 @@
 
 # Function: FaasDataWrapper()
 
-> **FaasDataWrapper**\<`T`\>(`props`): `JSX.Element`
+> **FaasDataWrapper**\<`T`\>(`props`): `Element`
 
 FaasDataWrapper component with Loading
 
@@ -18,7 +18,7 @@ FaasDataWrapper component with Loading
 
 ## Returns
 
-`JSX.Element`
+`Element`
 
 ## Example
 

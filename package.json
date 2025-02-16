@@ -14,20 +14,23 @@
     "ci": "vitest run --silent --coverage"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
+    "@vitejs/plugin-react": "*",
+    "@vitest/coverage-v8": "*",
+    "commander": ">=13.0.0",
+    "happy-dom": "*",
     "tsup": "*",
     "turbo": "*",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "@testing-library/react": "*",
-    "@testing-library/user-event": "*",
-    "@happy-dom/global-registrator": "*",
-    "vitest": "*",
-    "@vitejs/plugin-react": "*",
-    "happy-dom": "*",
-    "@vitest/coverage-v8": "*",
+    "typescript": "^5.8.0-beta",
     "vite-tsconfig-paths": "*",
-    "commander": ">=13.0.0"
+    "vitest": "*"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "packageManager": "npm@11.0.0"
 }

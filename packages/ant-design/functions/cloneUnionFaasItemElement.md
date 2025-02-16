@@ -2,7 +2,7 @@
 
 # Function: cloneUnionFaasItemElement()
 
-> **cloneUnionFaasItemElement**(`element`, `props`): `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`\>\>
+> **cloneUnionFaasItemElement**(`element`, `props`): `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 Clone a UnionFaasItemElement with the given props.
 
@@ -14,7 +14,7 @@ Otherwise, it creates a new element from the provided element and props.
 
 ### element
 
-[`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`, `any`\>
+[`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)
 
 The UnionFaasItemElement to be cloned.
 
@@ -26,6 +26,6 @@ The props to be applied to the cloned element.
 
 ## Returns
 
-`ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`\>\>
+`ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 The cloned element with the applied props.

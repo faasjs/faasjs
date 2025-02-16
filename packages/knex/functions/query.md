@@ -4,7 +4,7 @@
 
 ## Call Signature
 
-> **query**\<`TName`\>(`table`): `OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `object`[]\>
+> **query**\<`TName`\>(`table`): `QueryBuilder`\<`TableType`\<`TName`\>, `object`[]\>
 
 ### Type Parameters
 
@@ -18,11 +18,11 @@
 
 ### Returns
 
-`OriginKnex.QueryBuilder`\<`OriginKnex.TableType`\<`TName`\>, `object`[]\>
+`QueryBuilder`\<`TableType`\<`TName`\>, `object`[]\>
 
 ## Call Signature
 
-> **query**\<`TName`, `TResult`\>(`table`): `OriginKnex.QueryBuilder`\<`TName`, `TResult`\>
+> **query**\<`TName`, `TResult`\>(`table`): `QueryBuilder`\<`TName`, `TResult`\>
 
 ### Type Parameters
 
@@ -38,4 +38,4 @@
 
 ### Returns
 
-`OriginKnex.QueryBuilder`\<`TName`, `TResult`\>
+`QueryBuilder`\<`TName`, `TResult`\>

@@ -48,7 +48,7 @@ ResponseError class
 
 ### response
 
-> **response**: [`Response`](../type-aliases/Response.md)\<`any`\>
+> **response**: [`Response`](../type-aliases/Response.md)
 
 ### statusCode?
 

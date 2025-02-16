@@ -40,14 +40,14 @@ logger.error('error message')
 - [Logger](classes/Logger.md)
 - [Transport](classes/Transport.md)
 
-## Enumerations
-
-- [Color](enumerations/Color.md)
-- [LevelColor](enumerations/LevelColor.md)
-
 ## Type Aliases
 
 - [Level](type-aliases/Level.md)
 - [LoggerMessage](type-aliases/LoggerMessage.md)
 - [TransportHandler](type-aliases/TransportHandler.md)
 - [TransportOptions](type-aliases/TransportOptions.md)
+
+## Variables
+
+- [Color](variables/Color.md)
+- [LevelColor](variables/LevelColor.md)

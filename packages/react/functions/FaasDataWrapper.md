@@ -2,7 +2,7 @@
 
 # Function: FaasDataWrapper()
 
-> **FaasDataWrapper**\<`PathOrData`\>(`props`): `ReactElement`
+> **FaasDataWrapper**\<`PathOrData`\>(`props`): `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 ## Type Parameters
 
@@ -16,4 +16,4 @@
 
 ## Returns
 
-`ReactElement`
+`ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\>

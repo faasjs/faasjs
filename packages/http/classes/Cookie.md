@@ -90,27 +90,27 @@
 
 ##### opts?
 
-###### domain
+###### domain?
 
 `string`
 
-###### expires
+###### expires?
 
 `string` \| `number`
 
-###### httpOnly
+###### httpOnly?
 
 `boolean`
 
-###### path
+###### path?
 
 `string`
 
-###### sameSite
+###### sameSite?
 
 `"Strict"` \| `"Lax"` \| `"None"`
 
-###### secure
+###### secure?
 
 `boolean`
 

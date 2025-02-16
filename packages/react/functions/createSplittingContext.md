@@ -30,7 +30,7 @@ The hook to use the splitting context.
 
 #### Type Parameters
 
-• **NewT** *extends* `T` = `T`
+• **NewT** *extends* `Record`\<`string`, `any`\> = `T`
 
 #### Returns
 
@@ -66,7 +66,7 @@ The provider component of the splitting context.
 
 `ReactNode`
 
-###### initializeStates
+###### initializeStates?
 
 `Partial`\<`NewT`\>
 
@@ -83,7 +83,7 @@ An object containing initial values that will be automatically converted into st
   // Children will have access to: value, setValue
 </Provider>
 
-###### memo
+###### memo?
 
 `true` \| `any`[]
 
@@ -96,7 +96,7 @@ false
 `true`: memoize the children without dependencies.
 `any[]`: memoize the children with specific dependencies.
 
-###### value
+###### value?
 
 `Partial`\<`NewT`\>
 

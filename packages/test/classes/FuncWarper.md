@@ -71,15 +71,15 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ##### options?
 
-###### cookie
+###### cookie?
 
 \{\}
 
-###### headers
+###### headers?
 
 \{\}
 
-###### session
+###### session?
 
 \{\}
 

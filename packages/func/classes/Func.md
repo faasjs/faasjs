@@ -26,7 +26,7 @@ Create a cloud function
 
 ##### config
 
-[`FuncConfig`](../type-aliases/FuncConfig.md)\<`TEvent`, `TContext`, `any`\>
+[`FuncConfig`](../type-aliases/FuncConfig.md)\<`TEvent`, `TContext`\>
 
 {object} config
 
@@ -78,7 +78,7 @@ First time mount the function
 
 ##### data
 
-###### config
+###### config?
 
 [`Config`](../type-aliases/Config.md)
 
@@ -90,7 +90,7 @@ First time mount the function
 
 `TEvent`
 
-###### logger
+###### logger?
 
 `Logger`
 

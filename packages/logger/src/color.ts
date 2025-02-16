@@ -1,22 +1,22 @@
 import type { Level } from './logger'
 
-export enum Color {
-  DEFAULT = 39,
-  BLACK = 30,
-  RED = 31,
-  GREEN = 32,
-  ORANGE = 33,
-  BLUE = 34,
-  MAGENTA = 35,
-  CYAN = 36,
-  GRAY = 90,
+export const Color = {
+  DEFAULT: 39,
+  BLACK: 30,
+  RED: 31,
+  GREEN: 32,
+  ORANGE: 33,
+  BLUE: 34,
+  MAGENTA: 35,
+  CYAN: 36,
+  GRAY: 90,
 }
 
-export enum LevelColor {
-  debug = Color.GRAY,
-  info = Color.GREEN,
-  warn = Color.ORANGE,
-  error = Color.RED,
+export const LevelColor = {
+  debug: Color.GRAY,
+  info: Color.GREEN,
+  warn: Color.ORANGE,
+  error: Color.RED,
 }
 
 /**

@@ -2,7 +2,7 @@
 
 # Function: Title()
 
-> **Title**(`props`): `JSX.Element`
+> **Title**(`props`): `Element`
 
 Title is used to change the title of the page
 
@@ -29,4 +29,4 @@ Return null by default.
 
 ## Returns
 
-`JSX.Element`
+`Element`

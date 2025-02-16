@@ -12,11 +12,11 @@
 
 ### options?
 
-#### filename
+#### filename?
 
 `string`
 
-#### jsc
+#### jsc?
 
 `JscConfig`
 
@@ -26,13 +26,13 @@ swc compilation
 
 https://swc.rs/docs/configuration/compilation
 
-#### root
+#### root?
 
 `string`
 
 default: process.cwd()
 
-#### target
+#### target?
 
 `JscTarget`
 

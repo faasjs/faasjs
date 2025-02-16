@@ -42,7 +42,7 @@ trigger before request
 
 [`Options`](Options.md)
 
-###### params
+###### params?
 
 `Record`\<`string`, `any`\>
 

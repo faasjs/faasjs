@@ -18,7 +18,7 @@ The provider component of the splitting context.
 
 `ReactNode`
 
-#### initializeStates
+#### initializeStates?
 
 `Partial`\<`NewT`\>
 
@@ -35,7 +35,7 @@ An object containing initial values that will be automatically converted into st
   // Children will have access to: value, setValue
 </Provider>
 
-#### memo
+#### memo?
 
 `true` \| `any`[]
 
@@ -48,7 +48,7 @@ false
 `true`: memoize the children without dependencies.
 `any[]`: memoize the children with specific dependencies.
 
-#### value
+#### value?
 
 `Partial`\<`NewT`\>
 

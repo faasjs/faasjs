@@ -2,7 +2,7 @@
 
 # Function: raw()
 
-> **raw**\<`TResult`\>(`sql`, `bindings`): `Promise`\<`OriginKnex.Raw`\<`TResult`\>\>
+> **raw**\<`TResult`\>(`sql`, `bindings`): `Promise`\<`Raw`\<`TResult`\>\>
 
 ## Type Parameters
 
@@ -20,4 +20,4 @@
 
 ## Returns
 
-`Promise`\<`OriginKnex.Raw`\<`TResult`\>\>
+`Promise`\<`Raw`\<`TResult`\>\>

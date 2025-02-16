@@ -80,7 +80,7 @@ Start server.
 
 ##### res
 
-`ServerResponse` & `object`
+`ServerResponse`\<`IncomingMessage`\> & `object`
 
 ##### requestedAt
 

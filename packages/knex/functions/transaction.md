@@ -20,7 +20,7 @@
 
 ### options?
 
-#### trx
+#### trx?
 
 `Transaction`
 

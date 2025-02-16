@@ -10,7 +10,7 @@ A wrapper component that conditionally wraps its children with a provided wrappe
 
 ### props
 
-[`OptionalWrapperProps`](../type-aliases/OptionalWrapperProps.md)\<`any`\>
+[`OptionalWrapperProps`](../type-aliases/OptionalWrapperProps.md)
 
 ## Returns
 

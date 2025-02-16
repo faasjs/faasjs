@@ -8,7 +8,7 @@
 
 ### options
 
-#### externalModules
+#### externalModules?
 
 `string`[]
 
@@ -18,13 +18,13 @@ has excluded node builtin modules
 
 `string`
 
-#### jscTarget
+#### jscTarget?
 
 `JscTarget`
 
 default: `es2019`
 
-#### root
+#### root?
 
 `string`
 

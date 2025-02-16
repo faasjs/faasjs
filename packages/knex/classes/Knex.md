@@ -130,7 +130,7 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 ##### options?
 
-###### trx
+###### trx?
 
 `Transaction`
 

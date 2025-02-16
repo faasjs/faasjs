@@ -40,7 +40,7 @@
 
 #### Index Signature
 
-\[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)
+\[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)\<`any`\>
 
 ### faasData?
 
@@ -48,4 +48,4 @@
 
 ### items
 
-> **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md))[]
+> **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>)[]

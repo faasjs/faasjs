@@ -8,7 +8,7 @@
 
 ### props
 
-[`FormItemProps`](../type-aliases/FormItemProps.md)\<[`FormElementTypes`](../type-aliases/FormElementTypes.md), [`InferFormRulesOptions`](../type-aliases/InferFormRulesOptions.md)\<[`FormRules`](../type-aliases/FormRules.md)\>\>
+[`FormItemProps`](../type-aliases/FormItemProps.md)
 
 ## Returns
 

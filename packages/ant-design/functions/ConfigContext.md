@@ -8,7 +8,7 @@
 
 ### props
 
-`ProviderProps`\<`Partial`\<[`ConfigProviderProps`](../interfaces/ConfigProviderProps.md)\>\>
+`ProviderProps`
 
 ## Returns
 
