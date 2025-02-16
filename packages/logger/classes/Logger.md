@@ -212,6 +212,10 @@ The Logger instance for chaining.
 
 > **colorfyOutput**: `boolean` = `true`
 
+### disableTransport
+
+> **disableTransport**: `boolean` = `false`
+
 ### label?
 
 > `optional` **label**: `string`

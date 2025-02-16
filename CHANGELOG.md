@@ -4,9 +4,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v6.4.4 (2025-02-16)`](https://github.com/faasjs/faasjs/compare/v6.4.3...v6.4.4)
+[`v6.5.0 (2025-02-16)`](https://github.com/faasjs/faasjs/compare/v6.4.3...v6.5.0)
 
 - `@faasjs/logger`
+  - [Feature] Add `disableTransport`.
   - [Fix] Add length limit to formatter.
 
 [`v6.4.3 (2025-01-31)`](https://github.com/faasjs/faasjs/compare/v6.3.2...v6.4.3)

@@ -66,7 +66,7 @@ for (const item of list) {
   publish(item)
 }
 
-run('npm install')
+run('npm install --force')
 run('git add .')
 run(`git commit -am 'release ${version}'`)
 run(`git tag v${version}`)
