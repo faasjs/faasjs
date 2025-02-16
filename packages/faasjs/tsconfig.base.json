@@ -13,7 +13,6 @@
     "strictNullChecks": true,
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
-    "exactOptionalPropertyTypes": true,
-    "erasableSyntaxOnly": true
+    "exactOptionalPropertyTypes": true
   }
 }
