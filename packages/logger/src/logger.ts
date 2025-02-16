@@ -69,6 +69,7 @@ export class Logger {
   public colorfyOutput = true
   public label?: string
   public size = 1000
+  public disableTransport = false
   public stdout: (text: string) => void
   public stderr: (text: string) => void
   private cachedTimers: Record<string, Timer> = {}
@@ -218,13 +219,14 @@ export class Logger {
 
     if (!formattedMessage && !args.length) return this
 
-    getTransport().insert({
-      level,
-      labels: this.label?.split(/\]\s*\[/) || [],
-      message: formattedMessage,
-      timestamp: Date.now(),
-      extra: args,
-    })
+    if (!this.disableTransport)
+      getTransport().insert({
+        level,
+        labels: this.label?.split(/\]\s*\[/) || [],
+        message: formattedMessage,
+        timestamp: Date.now(),
+        extra: args,
+      })
 
     let output = `${level.toUpperCase()} ${this.label ? `[${this.label}] ` : ''}${formattedMessage}`
 
