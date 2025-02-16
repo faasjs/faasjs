@@ -18,11 +18,31 @@ const LevelPriority = {
 }
 
 function formatLogger(...args: any[]): string {
-  return format(
-    ...args.filter(
-      (a: any) => !a || typeof a !== 'object' || a.__hidden__ !== true
-    )
+  const filteredArgs = args.filter(
+    (a: any) => !a || typeof a !== 'object' || a.__hidden__ !== true
   )
+
+  try {
+    return format(...filteredArgs)
+  } catch (_) {
+    return filteredArgs.map(arg => {
+      try {
+        if (typeof arg === 'object') {
+          const str = JSON.stringify(arg, (_, value) => {
+            if (typeof value === 'string' && value.length > 1000)
+              return `${value.slice(0, 500)}...[truncated]...${value.slice(value.length - 500)}`
+
+            return value
+          })
+
+          return str
+        }
+        return String(arg);
+      } catch (_) {
+        return '[Unable to format]';
+      }
+    }).join(' ');
+  }
 }
 
 /**
@@ -216,7 +236,7 @@ export class Logger {
       output.length > this.size &&
       !['error', 'warn'].includes(level)
     )
-      output = `${output.slice(0, this.size - 100)}...${output.slice(
+      output = `${output.slice(0, this.size - 100)}...[truncated]...${output.slice(
         output.length - 100
       )}`
 
