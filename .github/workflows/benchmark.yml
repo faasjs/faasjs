@@ -21,13 +21,13 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: |
-          npm ci
+          npm install --force
           node --run build
       - name: Run benchmark
         run: |
           cd benchmarks
           npm install -g tsx
-          npm ci
+          npm install --force
           tsx func.mjs | tee output.txt
       - name: Download previous benchmark data
         uses: actions/cache@v4

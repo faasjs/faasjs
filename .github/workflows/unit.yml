@@ -41,7 +41,7 @@ jobs:
           cache: npm
           node-version: 22
       - name: Install
-        run: npm install
+        run: npm install --force
       - name: Prepack
         run: node --run build
       - name: Run Tests
