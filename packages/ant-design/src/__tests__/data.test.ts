@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { describe, expect, it } from 'vitest'
-import { transferValue } from '../data'
+import { idToTitle, transferValue } from '../data'
 
 describe('transferValue', () => {
   it('should return null', () => {
@@ -63,4 +63,11 @@ describe('transferValue', () => {
     expect(transferValue('time', 1617235200).format('YYYY-MM-DD')).toBe(date)
     expect(transferValue('time', '2021-04-01').format('YYYY-MM-DD')).toBe(date)
   })
+})
+
+it('idToTitle', () => {
+  expect(idToTitle('HELLO')).toBe('Hello')
+  expect(idToTitle('HELLO World')).toBe('Hello World')
+  expect(idToTitle('hello-world')).toBe('Hello World')
+  expect(idToTitle('hello_world')).toBe('Hello World')
 })
