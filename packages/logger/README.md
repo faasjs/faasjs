@@ -33,6 +33,7 @@ logger.error('error message')
 ## Functions
 
 - [colorfy](functions/colorfy.md)
+- [formatLogger](functions/formatLogger.md)
 - [getTransport](functions/getTransport.md)
 
 ## Classes

@@ -1,6 +1,6 @@
-import { describe, expect, it, } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { Color } from '../color'
-import { type Level, Logger, } from '../logger'
+import { type Level, Logger } from '../logger'
 
 let lastOutput = ''
 

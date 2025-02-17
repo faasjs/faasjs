@@ -40,7 +40,7 @@ import {
 
 export interface TableItemProps<T = any>
   extends FaasItemProps,
-  Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
+    Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
   children?: UnionFaasItemElement<T> | null
   tableChildren?: UnionFaasItemElement<T> | null
@@ -556,11 +556,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                          [
-                            dates[0].startOf('day').toISOString(),
-                            dates[1].endOf('day').toISOString(),
-                          ],
-                        ] as any)
+                            [
+                              dates[0].startOf('day').toISOString(),
+                              dates[1].endOf('day').toISOString(),
+                            ],
+                          ] as any)
                         : []
                     )
                     confirm()
@@ -605,11 +605,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                          [
-                            dates[0].startOf('day').toISOString(),
-                            dates[1].endOf('day').toISOString(),
-                          ],
-                        ] as any)
+                            [
+                              dates[0].startOf('day').toISOString(),
+                              dates[1].endOf('day').toISOString(),
+                            ],
+                          ] as any)
                         : []
                     )
                     confirm()
@@ -808,9 +808,9 @@ function FaasDataTable({
         props.pagination === false
           ? false
           : {
-            ...(props.pagination || Object.create(null)),
-            ...((data as any).pagination || Object.create(null)),
-          }
+              ...(props.pagination || Object.create(null)),
+              ...((data as any).pagination || Object.create(null)),
+            }
       }
       onChange={(pagination, filters, sorter, extra) => {
         if (props.onChange) {

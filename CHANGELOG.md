@@ -4,6 +4,13 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.6.0 (2025-02-17)`](https://github.com/faasjs/faasjs/compare/v6.5.0...v6.6.0)
+
+- `@faasjs/ant-design`
+  - [Feature] Replace upperFirst with idToTitle for title generation consistency.
+  - [Feature] Export `FaasDataWrapperRef` from `@faasjs/react`.
+  - [Fix] Use nullish coalescing for title assignment in Description, Table, and Tabs components.
+
 [`v6.5.0 (2025-02-16)`](https://github.com/faasjs/faasjs/compare/v6.4.3...v6.5.0)
 
 - `@faasjs/logger`

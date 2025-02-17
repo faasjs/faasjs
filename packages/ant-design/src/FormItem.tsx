@@ -63,7 +63,7 @@ type InputTypeMap<T> = {
 
 export interface FormItemProps<T = any>
   extends BaseItemProps,
-  Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number

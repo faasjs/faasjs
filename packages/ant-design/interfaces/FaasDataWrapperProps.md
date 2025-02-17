@@ -110,7 +110,7 @@ use custom data, should work with setData
 
 ### ref?
 
-> `optional` **ref**: `Ref`\<`FaasDataWrapperRef`\<`T`\>\>
+> `optional` **ref**: `Ref`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`T`\>\>
 
 #### Inherited from
 

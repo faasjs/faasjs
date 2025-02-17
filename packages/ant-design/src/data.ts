@@ -39,9 +39,9 @@ export type BaseOption =
   | string
   | number
   | {
-    label: string
-    value?: any
-  }
+      label: string
+      value?: any
+    }
 
 export interface BaseItemProps {
   id: string
@@ -72,7 +72,8 @@ export interface FaasItemProps extends BaseItemProps {
  * ```
  */
 export function idToTitle(id: string) {
-  const splitted = id.split(/(\s|_|-)/)
+  const splitted = id
+    .split(/(\s|_|-)/)
     .filter(word => !/(\s|_|-)/.test(word))
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
@@ -93,9 +94,9 @@ export function transferOptions(options: BaseOption[]): {
     typeof item === 'object'
       ? item
       : {
-        label: idToTitle(item.toString()),
-        value: item,
-      }
+          label: idToTitle(item.toString()),
+          value: item,
+        }
   )
 }
 
@@ -307,8 +308,8 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  */
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps,
-  DescriptionItemProps,
-  TableItemProps {
+    DescriptionItemProps,
+    TableItemProps {
   children?: UnionFaasItemElement<Value, Values> | null
   render?: UnionFaasItemRender<Value, Values> | null
   object?: UnionFaasItemProps<Value, Values>[]
