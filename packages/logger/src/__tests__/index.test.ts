@@ -6,6 +6,7 @@ it('should work', () => {
     'Color',
     'LevelColor',
     'colorfy',
+    'formatLogger',
     'Logger',
     'Transport',
     'getTransport',
