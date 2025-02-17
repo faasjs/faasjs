@@ -33,14 +33,14 @@ import type {
 } from './data'
 import {
   cloneUnionFaasItemElement,
+  idToTitle,
   transferOptions,
   transferValue,
-  upperFirst,
 } from './data'
 
 export interface TableItemProps<T = any>
   extends FaasItemProps,
-    Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
+  Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
   children?: UnionFaasItemElement<T> | null
   tableChildren?: UnionFaasItemElement<T> | null
@@ -210,7 +210,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     for (const item of items) {
       if (!item.key) item.key = item.id
       if (!item.dataIndex) item.dataIndex = item.id
-      if (!item.title) item.title = upperFirst(item.id)
+      if (!item.title) item.title = idToTitle(item.id)
       if (!item.type) item.type = 'string'
       if (item.options?.length) {
         item.options = transferOptions(item.options)
@@ -556,11 +556,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                            [
-                              dates[0].startOf('day').toISOString(),
-                              dates[1].endOf('day').toISOString(),
-                            ],
-                          ] as any)
+                          [
+                            dates[0].startOf('day').toISOString(),
+                            dates[1].endOf('day').toISOString(),
+                          ],
+                        ] as any)
                         : []
                     )
                     confirm()
@@ -605,11 +605,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
-                            [
-                              dates[0].startOf('day').toISOString(),
-                              dates[1].endOf('day').toISOString(),
-                            ],
-                          ] as any)
+                          [
+                            dates[0].startOf('day').toISOString(),
+                            dates[1].endOf('day').toISOString(),
+                          ],
+                        ] as any)
                         : []
                     )
                     confirm()
@@ -808,9 +808,9 @@ function FaasDataTable({
         props.pagination === false
           ? false
           : {
-              ...(props.pagination || Object.create(null)),
-              ...((data as any).pagination || Object.create(null)),
-            }
+            ...(props.pagination || Object.create(null)),
+            ...((data as any).pagination || Object.create(null)),
+          }
       }
       onChange={(pagination, filters, sorter, extra) => {
         if (props.onChange) {

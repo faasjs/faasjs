@@ -10,9 +10,9 @@ import {
   type UnionFaasItemElement,
   type UnionFaasItemRender,
   cloneUnionFaasItemElement,
+  idToTitle,
   transferOptions,
   transferValue,
-  upperFirst,
 } from './data'
 
 export interface ExtendDescriptionTypeProps<T = any> {
@@ -61,7 +61,7 @@ function DescriptionItemContent<T = any>(
     const propsCopy = { ...props }
 
     if (!propsCopy.item.title)
-      propsCopy.item.title = upperFirst(propsCopy.item.id)
+      propsCopy.item.title = idToTitle(propsCopy.item.id)
     if (!propsCopy.item.type) propsCopy.item.type = 'string'
     if (propsCopy.item.options?.length) {
       propsCopy.item.options = transferOptions(propsCopy.item.options)
@@ -283,7 +283,7 @@ export function Description<T extends Record<string, any> = any>({
         .map(item => ({
           ...item,
           key: item.id,
-          label: item.title || upperFirst(item.id),
+          label: item.title || idToTitle(item.id),
           children: (
             <DescriptionItemContent
               item={item}

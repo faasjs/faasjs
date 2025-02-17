@@ -39,9 +39,9 @@ export type BaseOption =
   | string
   | number
   | {
-      label: string
-      value?: any
-    }
+    label: string
+    value?: any
+  }
 
 export interface BaseItemProps {
   id: string
@@ -57,8 +57,24 @@ export interface FaasItemProps extends BaseItemProps {
   type?: FaasItemType
 }
 
-export function upperFirst(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
+/**
+ * Converts an identifier string to a title case string.
+ *
+ * This function takes an identifier string with words separated by underscores,
+ * capitalizes the first letter of each word, and joins them together without spaces.
+ *
+ * @param id - The identifier string to convert.
+ * @returns The converted title case string.
+ *
+ * @example
+ * ```typescript
+ * idToTitle('example_id'); // returns 'ExampleId'
+ * ```
+ */
+export function idToTitle(id: string) {
+  return id.split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('')
 }
 
 /**
@@ -74,9 +90,9 @@ export function transferOptions(options: BaseOption[]): {
     typeof item === 'object'
       ? item
       : {
-          label: upperFirst(item.toString()),
-          value: item,
-        }
+        label: idToTitle(item.toString()),
+        value: item,
+      }
   )
 }
 
@@ -288,8 +304,8 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  */
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps,
-    DescriptionItemProps,
-    TableItemProps {
+  DescriptionItemProps,
+  TableItemProps {
   children?: UnionFaasItemElement<Value, Values> | null
   render?: UnionFaasItemRender<Value, Values> | null
   object?: UnionFaasItemProps<Value, Values>[]

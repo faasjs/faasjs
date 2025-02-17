@@ -31,8 +31,8 @@ import type {
 import {
   type BaseOption,
   cloneUnionFaasItemElement,
+  idToTitle,
   transferOptions,
-  upperFirst,
 } from './data'
 
 type OptionsProps = {
@@ -63,7 +63,7 @@ type InputTypeMap<T> = {
 
 export interface FormItemProps<T = any>
   extends BaseItemProps,
-    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+  Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number
@@ -129,7 +129,7 @@ function processProps(
   propsCopy: FormItemProps,
   config: ConfigProviderProps['theme']['common']
 ): FormItemProps {
-  if (!propsCopy.title) propsCopy.title = upperFirst(propsCopy.id)
+  if (!propsCopy.title) propsCopy.title = idToTitle(propsCopy.id)
   if (!propsCopy.label && propsCopy.label !== false)
     propsCopy.label = propsCopy.title
   if (!propsCopy.name) propsCopy.name = propsCopy.id

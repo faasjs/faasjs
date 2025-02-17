@@ -18,6 +18,8 @@ export interface FaasDataWrapperProps<T = any> extends OriginProps<T> {
   loading?: JSX.Element
 }
 
+export type { FaasDataWrapperRef } from '@faasjs/react'
+
 /**
  * FaasDataWrapper component with Loading
  *
