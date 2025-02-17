@@ -17,33 +17,21 @@ const LevelPriority = {
   error: 3,
 }
 
-function formatLogger(...args: any[]): string {
-  const filteredArgs = args.filter(
-    (a: any) => !a || typeof a !== 'object' || a.__hidden__ !== true
-  )
-
+/**
+ * Formats the provided arguments into a string, filtering out any objects
+ * with a `__hidden__` property set to `true`. If formatting fails, it attempts
+ * to stringify each argument individually.
+ *
+ * @param {...any[]} args - The arguments to format.
+ * @returns {string} The formatted string.
+ */
+export function formatLogger(...args: any[]): string {
   try {
-    return format(...filteredArgs)
+    return format(...args.filter(
+      (a: any) => !a || typeof a !== 'object' || a.__hidden__ !== true
+    ))
   } catch (_) {
-    return filteredArgs
-      .map(arg => {
-        try {
-          if (typeof arg === 'object') {
-            const str = JSON.stringify(arg, (_, value) => {
-              if (typeof value === 'string' && value.length > 1000)
-                return `${value.slice(0, 500)}...[truncated]...${value.slice(value.length - 500)}`
-
-              return value
-            })
-
-            return str
-          }
-          return String(arg)
-        } catch (_) {
-          return '[Unable to format]'
-        }
-      })
-      .join(' ')
+    return '[Unable to format]'
   }
 }
 
