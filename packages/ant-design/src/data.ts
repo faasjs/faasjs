@@ -74,7 +74,7 @@ export interface FaasItemProps extends BaseItemProps {
 export function idToTitle(id: string) {
   const splitted = id.split(/(\s|_|-)/)
     .filter(word => !/(\s|_|-)/.test(word))
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
 
   return splitted.charAt(0).toUpperCase() + splitted.slice(1)

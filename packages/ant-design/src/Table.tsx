@@ -210,7 +210,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     for (const item of items) {
       if (!item.key) item.key = item.id
       if (!item.dataIndex) item.dataIndex = item.id
-      if (!item.title) item.title = idToTitle(item.id)
+      item.title = item.title ?? idToTitle(item.id)
       if (!item.type) item.type = 'string'
       if (item.options?.length) {
         item.options = transferOptions(item.options)

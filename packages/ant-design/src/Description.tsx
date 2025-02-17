@@ -60,8 +60,7 @@ function DescriptionItemContent<T = any>(
   useEffect(() => {
     const propsCopy = { ...props }
 
-    if (!propsCopy.item.title)
-      propsCopy.item.title = idToTitle(propsCopy.item.id)
+    propsCopy.item.title = propsCopy.item.title ?? idToTitle(propsCopy.item.id)
     if (!propsCopy.item.type) propsCopy.item.type = 'string'
     if (propsCopy.item.options?.length) {
       propsCopy.item.options = transferOptions(propsCopy.item.options)
@@ -283,7 +282,7 @@ export function Description<T extends Record<string, any> = any>({
         .map(item => ({
           ...item,
           key: item.id,
-          label: item.title || idToTitle(item.id),
+          label: item.title ?? idToTitle(item.id),
           children: (
             <DescriptionItemContent
               item={item}

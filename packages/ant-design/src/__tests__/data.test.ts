@@ -66,8 +66,8 @@ describe('transferValue', () => {
 })
 
 it('idToTitle', () => {
-  expect(idToTitle('HELLO')).toBe('Hello')
-  expect(idToTitle('HELLO World')).toBe('Hello World')
+  expect(idToTitle('HelloWorld')).toBe('HelloWorld')
+  expect(idToTitle('Hello World')).toBe('Hello World')
   expect(idToTitle('hello-world')).toBe('Hello World')
   expect(idToTitle('hello_world')).toBe('Hello World')
 })

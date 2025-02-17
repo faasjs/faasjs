@@ -43,8 +43,8 @@ export function Tabs(props: TabsProps) {
       {...props}
       items={(props.items.filter(Boolean) as TabProps[]).map(i => ({
         ...i,
-        key: i.key || i.id,
-        label: i.label || i.title || i.id,
+        key: i.key ?? i.id,
+        label: i.label ?? i.title ?? i.id,
       }))}
     />
   )

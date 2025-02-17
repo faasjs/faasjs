@@ -129,7 +129,7 @@ function processProps(
   propsCopy: FormItemProps,
   config: ConfigProviderProps['theme']['common']
 ): FormItemProps {
-  if (!propsCopy.title) propsCopy.title = idToTitle(propsCopy.id)
+  propsCopy.title = propsCopy.title ?? idToTitle(propsCopy.id)
   if (!propsCopy.label && propsCopy.label !== false)
     propsCopy.label = propsCopy.title
   if (!propsCopy.name) propsCopy.name = propsCopy.id
