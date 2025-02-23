@@ -1,6 +1,6 @@
 import { Func } from '@faasjs/func'
 
-export default new Func({
+export const func = new Func({
   async handler() {
     throw Error('error')
   },

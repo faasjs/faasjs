@@ -27,7 +27,7 @@ import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
 import type { InferFaasAction } from '@faasjs/types'
 
-const func = useFunc<
+export const func = useFunc<
   {
     params: { // define the params type
       number: number
@@ -50,7 +50,4 @@ declare module '@faasjs/types' {
     'demo': InferFaasAction<typeof func>
   }
 }
-
-// export the func
-export default func
 ```

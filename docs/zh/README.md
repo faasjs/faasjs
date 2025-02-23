@@ -35,7 +35,7 @@ FaasJS 拥有简单易用的插件机制，可以让开发者可以自由扩展�
 import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
 
-export default useFunc(function() {
+export const func = useFunc(function() {
   useHttp() // 引入 http 插件
 
   return async function () {

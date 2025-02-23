@@ -1,6 +1,6 @@
 import { staticHandler, useMiddleware } from '../../../middleware'
 
-export default useMiddleware(
+export const func = useMiddleware(
   staticHandler({
     root: __dirname,
     notFound: true,

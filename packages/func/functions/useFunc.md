@@ -28,7 +28,7 @@ Create a cloud function.
 
 ```ts
 // pure function
-export default useFunc(() => {
+export const func = useFunc(() => {
   return () => {
     return 'Hello World'
   }
@@ -37,7 +37,7 @@ export default useFunc(() => {
 // with http
 import { useHttp } from '@faasjs/http'
 
-export default useFunc<{
+export const func = useFunc<{
   params: { name: string }
 }>(() => {
   useHttp()

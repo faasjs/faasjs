@@ -79,7 +79,7 @@ export default function (name: string, plugins: string[]): void {
   logger.info(`Writing ${join(folder, name)}`)
   writeFileSync(
     join(folder, name),
-    `${imports}\nexport default useFunc(function () {
+    `${imports}\nexport const func = useFunc(function () {
 ${initials}
   return async function () {
     // let's code
@@ -101,13 +101,13 @@ ${initials}
     writeFileSync(
       testFile,
       `import { FuncWarper } from '@faasjs/test'
-import Func from '../${name.replace('.ts', '')}'
+import { func } from '../${name.replace('.ts', '')}'
 
 describe('${name}', function () {
   test('should work', async function () {
-    const func = new FuncWarper(Func)
+    const testFunc = new FuncWarper(func)
 
-    const res = await func.handler({})
+    const res = await testFunc.handler({})
 
     expect(res).toEqual({})
   })

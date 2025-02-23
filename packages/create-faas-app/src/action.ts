@@ -143,7 +143,7 @@ coverage/
     `import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
 
-export default useFunc(() => {
+export const func = useFunc(() => {
   const http = useHttp<{ name: string }>()
 
   return async () => \`Hello, \${http.params.name}\`
@@ -155,13 +155,13 @@ export default useFunc(() => {
   writeFileSync(
     join(answers.name, '__tests__', 'index.test.ts'),
     `import { test } from '@faasjs/test'
-import Func from '../index.func'
+import { func } from '../index.func'
 
 describe('hello', () => {
   it('should work', async () => {
-    const func = test(Func)
+    const testFunc = test(func)
 
-    const { statusCode, data } = await func.JSONhandler<string>({ name: 'world' })
+    const { statusCode, data } = await testFunc.JSONhandler<string>({ name: 'world' })
 
     expect(statusCode).toEqual(200)
     expect(data).toEqual('Hello, world')

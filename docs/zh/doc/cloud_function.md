@@ -83,7 +83,7 @@ const cf = new CloudFunction({
   }
 });
 
-export default new Func({
+export const func = new Func({
   plugins: [cf], // 将实例放到云函数的插件中
   async handler(){
     // 显示入参

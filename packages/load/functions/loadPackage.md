@@ -2,7 +2,7 @@
 
 # Function: loadPackage()
 
-> **loadPackage**\<`T`\>(`name`): `Promise`\<`T`\>
+> **loadPackage**\<`T`\>(`name`, `defaultNames`): `Promise`\<`T`\>
 
 Asynchronously loads a package by its name, supporting both ESM and CommonJS runtimes.
 
@@ -21,6 +21,10 @@ The type of the module to be loaded.
 `string`
 
 The name of the package to load.
+
+### defaultNames
+
+`string` | `string`[]
 
 ## Returns
 

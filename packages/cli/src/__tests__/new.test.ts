@@ -16,7 +16,7 @@ describe('new', () => {
         readFileSync(`${__dirname}/tmp/basic.func.ts`).toString()
       ).toEqual(`import { useFunc } from '@faasjs/func'
 
-export default useFunc(function () {
+export const func = useFunc(function () {
 
   return async function () {
     // let's code
@@ -27,13 +27,13 @@ export default useFunc(function () {
       expect(
         readFileSync(`${__dirname}/tmp/__tests__/basic.test.ts`).toString()
       ).toEqual(`import { FuncWarper } from '@faasjs/test'
-import Func from '../basic.func'
+import { func } from '../basic.func'
 
 describe('basic.func.ts', function () {
   test('should work', async function () {
-    const func = new FuncWarper(Func)
+    const testFunc = new FuncWarper(func)
 
-    const res = await func.handler({})
+    const res = await testFunc.handler({})
 
     expect(res).toEqual({})
   })
@@ -50,7 +50,7 @@ describe('basic.func.ts', function () {
 import { useCloudFunction } from '@faasjs/cloud_function'
 import { useHttp } from '@faasjs/http'
 
-export default useFunc(function () {
+export const func = useFunc(function () {
   const cf = useCloudFunction()
   const http = useHttp()
 
@@ -63,13 +63,13 @@ export default useFunc(function () {
       expect(
         readFileSync(`${__dirname}/tmp/__tests__/plugin.test.ts`).toString()
       ).toEqual(`import { FuncWarper } from '@faasjs/test'
-import Func from '../plugin.func'
+import { func } from '../plugin.func'
 
 describe('plugin.func.ts', function () {
   test('should work', async function () {
-    const func = new FuncWarper(Func)
+    const testFunc = new FuncWarper(func)
 
-    const res = await func.handler({})
+    const res = await testFunc.handler({})
 
     expect(res).toEqual({})
   })

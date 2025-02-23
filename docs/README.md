@@ -69,7 +69,7 @@ bunx create-faas-app --name faasjs
 import { useFunc } from '@faasjs/func'
 import { useHttp } from '@faasjs/http'
 
-export default useFunc(function() {
+export const func = useFunc(function() {
   useHttp() // use http plugin
 
   return async function () {

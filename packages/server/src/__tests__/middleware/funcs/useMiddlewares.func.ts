@@ -1,6 +1,6 @@
 import { useMiddlewares } from '../../../middleware'
 
-export default useMiddlewares([
+export const func = useMiddlewares([
   function handle(_, response) {
     response.end('useMiddlewares')
   },

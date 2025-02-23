@@ -8,15 +8,15 @@ export default defineConfig({
   tsconfig: 'tsconfig.build.json',
   shims: true,
   outExtension({ format }) {
-    if (format === 'cjs')
-      return {
-        js: '.cjs',
-        dts: '.d.ts',
-      }
     if (format === 'esm')
       return {
         js: '.mjs',
         dts: '.d.ts',
       }
+
+    return {
+      js: '.cjs',
+      dts: '.d.ts',
+    }
   },
 })

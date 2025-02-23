@@ -69,7 +69,7 @@ import { useFunc } from '@faasjs/func';
 import { useKnex } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
 
-export default useFunc(function () {
+export const func = useFunc(function () {
   const knex = useKnex();
   const http = useHttp<{
     username: string;
@@ -167,7 +167,7 @@ import { useFunc } from '@faasjs/func';
 import { useKnex, query } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
 
-export default useFunc(function () {
+export const func = useFunc(function () {
   useKnex();
   const http = useHttp({
     validator: {
@@ -214,7 +214,7 @@ export default useFunc(function () {
 import { useFunc } from '@faasjs/func';
 import { useHttp } from '@faasjs/http';
 
-export default useFunc(function () {
+export const func = useFunc(function () {
   const http = useHttp()
 
   return async function () {
@@ -233,7 +233,7 @@ import { useFunc } from '@faasjs/func';
 import { useKnex, query } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
 
-export default useFunc(function () {
+export const func = useFunc(function () {
   useKnex()
   const http = useHttp({
     validator: {

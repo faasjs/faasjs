@@ -25,7 +25,7 @@ A function that processes the event and applies the middleware.
 ```typescript
 import { useMiddleware } from '@faasjs/server'
 
-export default useMiddleware((request, response, logger) => {
+export const func = useMiddleware((request, response, logger) => {
   response.setHeader('X-Hello', 'World')
   response.end('Hello, World!')
   logger.info('Hello, World!')

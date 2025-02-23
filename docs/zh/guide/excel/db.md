@@ -15,7 +15,7 @@ import { Redis } from '@faasjs/redis';
 
 const redis = new Redis();
 
-export default new Func({
+export const func = new Func({
   plugins: [redis], // 将实例放到云函数的插件中
   async handler(){
     return await redis.query('get', ['key']); // 查询数据库

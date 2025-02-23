@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { FuncWarper } from '../../src/index'
-import UseA from './funcs/use-a.func'
-import UseB from './funcs/use-b.func'
+import { func as UseA } from './funcs/use-a.func'
+import { func as UseB } from './funcs/use-b.func'
 
 it('use', async () => {
   const funcA = new FuncWarper(UseA)

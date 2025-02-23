@@ -25,7 +25,7 @@ A promise that resolves when all middleware functions have been applied.
 ```typescript
 import { useMiddlewares } from '@faasjs/server'
 
-export default useMiddlewares([
+export const func = useMiddlewares([
   (request, response) => {
     if (request.url === '/hi') return
     response.end('Hello, World!')

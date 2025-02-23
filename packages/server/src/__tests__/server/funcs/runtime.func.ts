@@ -4,7 +4,7 @@ import { detectNodeRuntime } from '@faasjs/load'
 
 const http = new Http()
 
-export default new Func({
+export const func = new Func({
   plugins: [http],
   async handler() {
     return detectNodeRuntime()

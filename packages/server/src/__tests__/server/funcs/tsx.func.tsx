@@ -8,7 +8,7 @@ function App() {
   return <h1>Hi</h1>
 }
 
-export default new Func({
+export const func = new Func({
   plugins: [http],
   async handler() {
     http.setContentType('html')

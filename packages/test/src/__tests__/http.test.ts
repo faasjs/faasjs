@@ -1,8 +1,8 @@
 import { expect, it } from 'vitest'
 import { FuncWarper } from '../../src/index'
-import HttpError from './funcs/http-error.func'
-import Http from './funcs/http.func'
-import Json from './funcs/json.func'
+import { func as HttpError } from './funcs/http-error.func'
+import { func as Http } from './funcs/http.func'
+import { func as Json } from './funcs/json.func'
 
 it('http', async () => {
   const func = new FuncWarper(Http)

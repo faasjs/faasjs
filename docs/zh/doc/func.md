@@ -10,10 +10,10 @@ import { useFunc } from '@faasjs/func'
 
 /**
  * 生成云函数主体，有以下注意点：
- * 1. 必须是 export default
+ * 1. 必须是 export const func = useFunc(function () {}) 的形式
  * 2. 入参为一个函数，函数需要返回一个业务函数，且须为 Promise 函数
  */
-export default useFunc(function () {
+export const func = useFunc(function () {
   // 若有需要初始化的插件，可以在这里初始化
 
   // 返回业务函数

@@ -49,7 +49,7 @@ import { Http } from '@faasjs/http';
 
 const http = new Http();
 
-export default new Func({
+export const func = new Func({
   plugins: [http],
   async handler(){
     return true;
@@ -65,7 +65,7 @@ import { Http } from '@faasjs/http';
 
 const http = new Http();
 
-export default new Func({
+export const func = new Func({
   plugins: [http],
   async handler(){
     throw Error('wrong');
@@ -149,7 +149,7 @@ const http = new Http({
   }
 });
 
-export default new Func({
+export const func = new Func({
   plugins: [http], // 将实例放到云函数的插件中
   async handler(){
     console.log(http.params); // 打印请求入参

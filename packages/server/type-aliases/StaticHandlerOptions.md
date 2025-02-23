@@ -52,5 +52,5 @@ Strip prefix from the URL.
 ```typescript
 import { useMiddleware, staticHandler } from '@faasjs/server'
 
-export default useMiddleware(staticHandler({ root: __dirname + '/public', stripPrefix: '/public' })) // /public/index.html -> /index.html
+export const func = useMiddleware(staticHandler({ root: __dirname + '/public', stripPrefix: '/public' })) // /public/index.html -> /index.html
 ```

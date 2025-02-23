@@ -56,7 +56,7 @@ async function invokeMiddleware(
  * ```typescript
  * import { useMiddleware } from '@faasjs/server'
  *
- * export default useMiddleware((request, response, logger) => {
+ * export const func = useMiddleware((request, response, logger) => {
  *   response.setHeader('X-Hello', 'World')
  *   response.end('Hello, World!')
  *   logger.info('Hello, World!')
@@ -84,7 +84,7 @@ export async function useMiddleware(handler: Middleware) {
  * ```typescript
  * import { useMiddlewares } from '@faasjs/server'
  *
- * export default useMiddlewares([
+ * export const func = useMiddlewares([
  *   (request, response) => {
  *     if (request.url === '/hi') return
  *     response.end('Hello, World!')
@@ -139,7 +139,7 @@ export type StaticHandlerOptions = {
    * ```typescript
    * import { useMiddleware, staticHandler } from '@faasjs/server'
    *
-   * export default useMiddleware(staticHandler({ root: __dirname + '/public', stripPrefix: '/public' })) // /public/index.html -> /index.html
+   * export const func = useMiddleware(staticHandler({ root: __dirname + '/public', stripPrefix: '/public' })) // /public/index.html -> /index.html
    * ```
    */
   stripPrefix?: string | RegExp
@@ -147,9 +147,9 @@ export type StaticHandlerOptions = {
 
 type StaticHandlerCache =
   | {
-      path: string
-      mimeType: string
-    }
+    path: string
+    mimeType: string
+  }
   | false
 
 const cachedStaticFiles = new Map<string, StaticHandlerCache>()
@@ -207,7 +207,7 @@ async function respondWithFile(
  * ```typescript
  * import { useMiddleware, staticHandler } from '@faasjs/server'
  *
- * export default useMiddleware(staticHandler({ root: __dirname + '/public' }))
+ * export const func = useMiddleware(staticHandler({ root: __dirname + '/public' }))
  * ```
  */
 export function staticHandler(options: StaticHandlerOptions): Middleware {

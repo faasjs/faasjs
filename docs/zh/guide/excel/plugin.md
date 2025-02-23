@@ -22,7 +22,7 @@ import { Plugin } from 'fakePlugin';
 
 const plugin = new Plugin();
 
-export default new Func({
+export const func = new Func({
   plugins: [plugin],
   handler(){}
 });
@@ -48,7 +48,7 @@ const plugin = new Plugin({
   name: 'special'
 });
 
-export default new Func({
+export const func = new Func({
   plugins: [plugin],
   handler(){}
 });
@@ -67,7 +67,7 @@ const plugin = new Plugin({
   }
 });
 
-export default new Func({
+export const func = new Func({
   plugins: [plugin],
   handler(){}
 });

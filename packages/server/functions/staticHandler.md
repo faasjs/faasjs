@@ -29,5 +29,5 @@ If the file does not exist, it does nothing.
 ```typescript
 import { useMiddleware, staticHandler } from '@faasjs/server'
 
-export default useMiddleware(staticHandler({ root: __dirname + '/public' }))
+export const func = useMiddleware(staticHandler({ root: __dirname + '/public' }))
 ```
