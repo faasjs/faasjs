@@ -4,6 +4,10 @@ export type NodeRuntime = 'commonjs' | 'module'
 
 let _runtime: NodeRuntime | null = null
 
+export function resetRuntime(): void {
+  _runtime = null
+}
+
 /**
  * Detect the current JavaScript runtime environment.
  *
@@ -43,7 +47,7 @@ const logger = new Logger('loadPackage')
  * const myModule = await loadPackage<MyModuleType>('my-module');
  * ```
  */
-export async function loadPackage<T = unknown>(name: string): Promise<T> {
+export async function loadPackage<T = unknown>(name: string, defaultName = 'default'): Promise<T> {
   const runtime = detectNodeRuntime()
 
   let module: any
@@ -64,7 +68,7 @@ export async function loadPackage<T = unknown>(name: string): Promise<T> {
 
     module = await import(name)
 
-    return module.default ? module.default : module
+    return defaultName in module ? module[defaultName] : module
   }
 
   if (runtime === 'commonjs') {
@@ -82,7 +86,7 @@ export async function loadPackage<T = unknown>(name: string): Promise<T> {
 
     module = globalThis.require(name)
 
-    return module.default ? module.default : module
+    return defaultName in module ? module[defaultName] : module
   }
 
   throw Error('Unknown runtime')
