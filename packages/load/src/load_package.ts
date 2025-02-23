@@ -47,7 +47,7 @@ const logger = new Logger('loadPackage')
  * const myModule = await loadPackage<MyModuleType>('my-module');
  * ```
  */
-export async function loadPackage<T = unknown>(name: string, defaultName = 'default'): Promise<T> {
+export async function loadPackage<T = unknown>(name: string, defaultNames: string | string[] = 'default'): Promise<T> {
   const runtime = detectNodeRuntime()
 
   let module: any
@@ -68,7 +68,13 @@ export async function loadPackage<T = unknown>(name: string, defaultName = 'defa
 
     module = await import(name)
 
-    return defaultName in module ? module[defaultName] : module
+    if (typeof defaultNames === 'string')
+      return defaultNames in module ? module[defaultNames] : module
+
+    for (const key of defaultNames)
+      if (key in module) return module[key]
+
+    return module
   }
 
   if (runtime === 'commonjs') {
@@ -86,7 +92,13 @@ export async function loadPackage<T = unknown>(name: string, defaultName = 'defa
 
     module = globalThis.require(name)
 
-    return defaultName in module ? module[defaultName] : module
+    if (typeof defaultNames === 'string')
+      return defaultNames in module ? module[defaultNames] : module
+
+    for (const key of defaultNames)
+      if (key in module) return module[key]
+
+    return module
   }
 
   throw Error('Unknown runtime')

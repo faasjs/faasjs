@@ -39,4 +39,14 @@ describe('loadPackage', () => {
     const result = await loadPackage('my-module', 'test')
     expect(result).toBe('my-module-default')
   })
+
+  it('should load a module with default name list', async () => {
+    // @ts-ignore
+    globalThis.require = vi.fn().mockImplementation((name: string) => {
+      if (name === 'tsx') return {}
+      if (name === 'my-module') return { test: 'my-module-default' }
+    })
+    const result = await loadPackage('my-module', ['default', 'test'])
+    expect(result).toBe('my-module-default')
+  })
 })
