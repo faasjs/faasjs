@@ -147,9 +147,9 @@ export type StaticHandlerOptions = {
 
 type StaticHandlerCache =
   | {
-    path: string
-    mimeType: string
-  }
+      path: string
+      mimeType: string
+    }
   | false
 
 const cachedStaticFiles = new Map<string, StaticHandlerCache>()

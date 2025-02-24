@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.7.0 (2025-02-24)`](https://github.com/faasjs/faasjs/compare/v6.6.0...v6.7.0)
+
+- `@faasjs/func`
+  - [Feature] Support `export const func = useFunc(...)` syntax.
+
+- `@faasjs/load`
+  - [Feature] `loadPackage` support `defaultNames`.
+
 [`v6.6.0 (2025-02-17)`](https://github.com/faasjs/faasjs/compare/v6.5.0...v6.6.0)
 
 - `@faasjs/ant-design`

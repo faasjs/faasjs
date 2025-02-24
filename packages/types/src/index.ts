@@ -41,7 +41,7 @@ import type { Func } from '@faasjs/func'
  * ```
  */
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-export interface FaasActions { }
+export interface FaasActions {}
 
 /**
  * Paths of FaasJS actions.
@@ -69,8 +69,8 @@ export type FaasActionUnionType =
 export type FaasAction<T = any> = T extends ReactServerAction
   ? T
   : T extends FaasActionPaths
-  ? T
-  : string
+    ? T
+    : string
 
 /**
  * Infer the parameters type.
@@ -78,8 +78,8 @@ export type FaasAction<T = any> = T extends ReactServerAction
 export type FaasParams<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
   : T extends ReactServerAction
-  ? Parameters<T>[0]
-  : Record<string, any>
+    ? Parameters<T>[0]
+    : Record<string, any>
 
 /**
  * Infer the returning data type.
@@ -87,10 +87,10 @@ export type FaasParams<T = any> = T extends FaasActionPaths
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
   : T extends ReactServerAction
-  ? Awaited<ReturnType<T>>
-  : T extends Record<string, any>
-  ? T
-  : Record<string, any>
+    ? Awaited<ReturnType<T>>
+    : T extends Record<string, any>
+      ? T
+      : Record<string, any>
 
 /**
  * Infer the FaasAction type from a Func.

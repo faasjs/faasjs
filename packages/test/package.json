@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/test",
-  "version": "6.6.0",
+  "version": "6.7.0",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -32,16 +32,16 @@
   "peerDependencies": {
     "regenerator-runtime": "*",
     "typescript": "*",
-    "@faasjs/func": "6.6.0",
-    "@faasjs/load": "6.6.0",
-    "@faasjs/logger": "6.6.0"
+    "@faasjs/func": "6.7.0",
+    "@faasjs/load": "6.7.0",
+    "@faasjs/logger": "6.7.0"
   },
   "devDependencies": {
     "regenerator-runtime": "*",
     "typescript": "*",
-    "@faasjs/func": "6.6.0",
-    "@faasjs/load": "6.6.0",
-    "@faasjs/logger": "6.6.0"
+    "@faasjs/func": "6.7.0",
+    "@faasjs/load": "6.7.0",
+    "@faasjs/logger": "6.7.0"
   },
   "engines": {
     "node": ">=22.0.0",
