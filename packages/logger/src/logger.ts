@@ -1,5 +1,5 @@
-import { format } from 'node:util'
 import { colorfy } from './color'
+import { format } from './format'
 import { getTransport } from './transport'
 
 /** Logger Level */
@@ -25,15 +25,16 @@ const LevelPriority = {
  * @param {...any[]} args - The arguments to format.
  * @returns {string} The formatted string.
  */
-export function formatLogger(...args: any[]): string {
+export function formatLogger(fmt: any, ...args: any[]): string {
   try {
     return format(
+      fmt,
       ...args.filter(
         (a: any) => !a || typeof a !== 'object' || a.__hidden__ !== true
       )
     )
-  } catch (_) {
-    return '[Unable to format]'
+  } catch (e: any) {
+    return `[Unable to format] ${e?.message}`
   }
 }
 
@@ -60,8 +61,8 @@ export class Logger {
   public label?: string
   public size = 1000
   public disableTransport = false
-  public stdout: (text: string) => void
-  public stderr: (text: string) => void
+  public stdout: (text: string) => void = console.log
+  public stderr: (text: string) => void = console.error
   private cachedTimers: Record<string, Timer> = {}
 
   /**
@@ -70,7 +71,8 @@ export class Logger {
   constructor(label?: string) {
     if (label) this.label = label
 
-    // When run with Jest and --silent, logger won't output anything
+    if (typeof process === 'undefined') return
+
     if (
       !process.env.FaasLog &&
       process.env.npm_config_argv &&
@@ -93,12 +95,7 @@ export class Logger {
     if (process.env.FaasLog)
       this.level = process.env.FaasLog.toLowerCase() as Level
 
-    this.cachedTimers = {}
-
     if (process.env.FaasLogSize) this.size = Number(process.env.FaasLogSize)
-
-    this.stdout = console.log
-    this.stderr = console.error
   }
 
   /**
