@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.8.0 (2025-03-09)`](https://github.com/faasjs/faasjs/compare/v6.7.0...v6.8.0)
+
+- `@faasjs/logger`
+  - [Feature] Added browser compatibility, allowing the logger to be used directly in browser environments.
+
 [`v6.7.0 (2025-02-24)`](https://github.com/faasjs/faasjs/compare/v6.6.0...v6.7.0)
 
 - `@faasjs/func`

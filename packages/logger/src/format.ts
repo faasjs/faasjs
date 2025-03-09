@@ -1,3 +1,12 @@
+/**
+ * Formats a string using placeholders and arguments.
+ *
+ * The function supports the following placeholders:
+ * - `%o`: Formats the argument as a JSON string if it's an array, otherwise falls through to `%s`.
+ * - `%s`: Converts the argument to a string.
+ * - `%d`: Converts the argument to a number.
+ * - `%j`: Formats the argument as a JSON string.
+ */
 export function format(fmt: any, ...args: any[]): string {
   const re = /(%?)(%([ojds]))/g
 
@@ -11,38 +20,36 @@ export function format(fmt: any, ...args: any[]): string {
     } else {
       fmtString = String(fmt)
     }
-  } else
-    fmtString = fmt
+  } else fmtString = fmt
 
   if (args.length)
     fmtString = fmtString.replace(re, (match, escaped, _, flag) => {
-      let arg = args.shift();
+      let arg = args.shift()
       switch (flag) {
         // biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
         case 'o':
           if (Array.isArray(arg)) {
-            arg = JSON.stringify(arg);
-            break;
+            arg = JSON.stringify(arg)
+            break
           }
         case 's':
-          arg = `${arg}`;
-          break;
+          arg = `${arg}`
+          break
         case 'd':
-          arg = Number(arg);
-          break;
+          arg = Number(arg)
+          break
         case 'j':
-          arg = JSON.stringify(arg);
-          break;
+          arg = JSON.stringify(arg)
+          break
       }
       if (!escaped) {
-        return arg;
+        return arg
       }
-      args.unshift(arg);
-      return match;
+      args.unshift(arg)
+      return match
     })
 
-  if (args.length)
-    fmtString += ` ${args.join(' ')}`
+  if (args.length) fmtString += ` ${args.join(' ')}`
 
   fmtString = fmtString.replace(/%{2,2}/g, '%')
 

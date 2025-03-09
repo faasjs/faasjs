@@ -234,7 +234,7 @@ The Logger instance for chaining.
 
 ### stderr()
 
-> **stderr**: (`text`) => `void`
+> **stderr**: (`text`) => `void` = `console.error`
 
 #### Parameters
 
@@ -248,7 +248,7 @@ The Logger instance for chaining.
 
 ### stdout()
 
-> **stdout**: (`text`) => `void`
+> **stdout**: (`text`) => `void` = `console.log`
 
 #### Parameters
 
