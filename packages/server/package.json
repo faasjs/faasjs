@@ -26,11 +26,8 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
-    "lodash": "*",
     "mime-types": "*",
     "@faasjs/func": "6.8.0",
     "@faasjs/load": "6.8.0",
@@ -38,7 +35,6 @@
     "@faasjs/http": "6.8.0"
   },
   "devDependencies": {
-    "lodash": "*",
     "react": "*",
     "mime-types": "*",
     "@types/mime-types": "*",
