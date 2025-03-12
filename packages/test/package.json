@@ -26,19 +26,13 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
-    "regenerator-runtime": "*",
-    "typescript": "*",
     "@faasjs/func": "6.8.0",
     "@faasjs/load": "6.8.0",
     "@faasjs/logger": "6.8.0"
   },
   "devDependencies": {
-    "regenerator-runtime": "*",
-    "typescript": "*",
     "@faasjs/func": "6.8.0",
     "@faasjs/load": "6.8.0",
     "@faasjs/logger": "6.8.0"
