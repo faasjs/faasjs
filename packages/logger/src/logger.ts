@@ -206,7 +206,7 @@ export class Logger {
 
     if (!formattedMessage && !args.length) return this
 
-    if (!this.disableTransport)
+    if (!this.disableTransport && process.env.FaasLogTransport !== 'false')
       getTransport().insert({
         level,
         labels: this.label?.split(/\]\s*\[/) || [],
