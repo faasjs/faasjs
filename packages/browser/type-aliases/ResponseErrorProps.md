@@ -2,9 +2,9 @@
 
 # Type Alias: ResponseErrorProps
 
-> **ResponseErrorProps**: `object`
+> **ResponseErrorProps** = `object`
 
-## Type declaration
+## Properties
 
 ### body?
 

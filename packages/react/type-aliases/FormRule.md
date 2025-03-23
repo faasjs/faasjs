@@ -2,13 +2,15 @@
 
 # Type Alias: FormRule()\<Options\>
 
-> **FormRule**\<`Options`\>: (`value`, `options`?, `lang`?) => `Promise`\<`void`\>
+> **FormRule**\<`Options`\> = (`value`, `options`?, `lang`?) => `Promise`\<`void`\>
 
 A type representing a form validation rule.
 
 ## Type Parameters
 
-• **Options** = `any`
+### Options
+
+`Options` = `any`
 
 The type of the options that can be passed to the rule.
 

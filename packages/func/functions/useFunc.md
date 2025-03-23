@@ -8,11 +8,17 @@ Create a cloud function.
 
 ## Type Parameters
 
-• **TEvent** = `any`
+### TEvent
 
-• **TContext** = `any`
+`TEvent` = `any`
 
-• **TResult** = `any`
+### TContext
+
+`TContext` = `any`
+
+### TResult
+
+`TResult` = `any`
 
 ## Parameters
 

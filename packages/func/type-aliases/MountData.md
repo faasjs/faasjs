@@ -2,13 +2,13 @@
 
 # Type Alias: MountData
 
-> **MountData**: `object`
+> **MountData** = `object`
 
-## Type declaration
-
-## Index Signature
+## Indexable
 
 \[`key`: `string`\]: `any`
+
+## Properties
 
 ### config
 

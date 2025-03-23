@@ -10,7 +10,9 @@ Form component with Ant Design & FaasJS
 
 ## Type Parameters
 
-• **Values** = `any`
+### Values
+
+`Values` = `any`
 
 ## Parameters
 

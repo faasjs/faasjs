@@ -2,13 +2,13 @@
 
 # Type Alias: CookieOptions
 
-> **CookieOptions**: `object`
+> **CookieOptions** = `object`
 
-## Type declaration
-
-## Index Signature
+## Indexable
 
 \[`key`: `string`\]: `any`
+
+## Properties
 
 ### domain?
 

@@ -2,7 +2,7 @@
 
 # Type Alias: RequestOptions
 
-> **RequestOptions**: `object` & `Pick`\<`https.RequestOptions`, `"pfx"` \| `"passphrase"` \| `"agent"`\>
+> **RequestOptions** = `object` & `Pick`\<`https.RequestOptions`, `"pfx"` \| `"passphrase"` \| `"agent"`\>
 
 ## Type declaration
 

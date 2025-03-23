@@ -8,7 +8,9 @@ A hook that initializes and splits state variables and their corresponding sette
 
 ## Type Parameters
 
-• **T** *extends* `Record`\<`string`, `unknown`\>
+### T
+
+`T` *extends* `Record`\<`string`, `unknown`\>
 
 A generic type that extends a record with string keys and any values.
 

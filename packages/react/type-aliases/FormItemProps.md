@@ -2,15 +2,19 @@
 
 # Type Alias: FormItemProps\<FormElements, FormRulesOptions\>
 
-> **FormItemProps**\<`FormElements`, `FormRulesOptions`\>: `object`
+> **FormItemProps**\<`FormElements`, `FormRulesOptions`\> = `object`
 
 ## Type Parameters
 
-• **FormElements** *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+### FormElements
 
-• **FormRulesOptions** *extends* `Record`\<`string`, `any`\> = [`FormDefaultRulesOptions`](FormDefaultRulesOptions.md)
+`FormElements` *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
 
-## Type declaration
+### FormRulesOptions
+
+`FormRulesOptions` *extends* `Record`\<`string`, `any`\> = [`FormDefaultRulesOptions`](FormDefaultRulesOptions.md)
+
+## Properties
 
 ### input?
 

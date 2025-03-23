@@ -2,11 +2,11 @@
 
 # Type Alias: ServerOptions
 
-> **ServerOptions**: `object`
+> **ServerOptions** = `object`
 
 Options for configuring the server.
 
-## Type declaration
+## Properties
 
 ### onClose()?
 

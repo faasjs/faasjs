@@ -4,11 +4,17 @@
 
 ## Type Parameters
 
-• **TParams** *extends* `Record`\<`string`, `any`\> = `any`
+### TParams
 
-• **TCookie** *extends* `Record`\<`string`, `string`\> = `any`
+`TParams` *extends* `Record`\<`string`, `any`\> = `any`
 
-• **TSession** *extends* `Record`\<`string`, `string`\> = `any`
+### TCookie
+
+`TCookie` *extends* `Record`\<`string`, `string`\> = `any`
+
+### TSession
+
+`TSession` *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Implements
 
@@ -18,7 +24,7 @@
 
 ### new Http()
 
-> **new Http**\<`TParams`, `TCookie`, `TSession`\>(`config`?): [`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+> **new Http**\<`TParams`, `TCookie`, `TSession`\>(`config`?): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
 #### Parameters
 
@@ -28,7 +34,7 @@
 
 #### Returns
 
-[`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+`Http`\<`TParams`, `TCookie`, `TSession`\>
 
 ## Methods
 
@@ -78,7 +84,7 @@
 
 ### setBody()
 
-> **setBody**(`body`): [`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+> **setBody**(`body`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
 set body
 
@@ -92,11 +98,11 @@ set body
 
 #### Returns
 
-[`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+`Http`\<`TParams`, `TCookie`, `TSession`\>
 
 ### setContentType()
 
-> **setContentType**(`type`, `charset`): [`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+> **setContentType**(`type`, `charset`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
 set Content-Type
 
@@ -116,11 +122,11 @@ set Content-Type
 
 #### Returns
 
-[`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+`Http`\<`TParams`, `TCookie`, `TSession`\>
 
 ### setHeader()
 
-> **setHeader**(`key`, `value`): [`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+> **setHeader**(`key`, `value`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
 set header
 
@@ -140,11 +146,11 @@ set header
 
 #### Returns
 
-[`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+`Http`\<`TParams`, `TCookie`, `TSession`\>
 
 ### setStatusCode()
 
-> **setStatusCode**(`code`): [`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+> **setStatusCode**(`code`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
 set status code
 
@@ -158,7 +164,7 @@ set status code
 
 #### Returns
 
-[`Http`](Http.md)\<`TParams`, `TCookie`, `TSession`\>
+`Http`\<`TParams`, `TCookie`, `TSession`\>
 
 ## Properties
 

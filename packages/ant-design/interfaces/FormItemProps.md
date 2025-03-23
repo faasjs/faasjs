@@ -12,7 +12,9 @@
 
 ## Type Parameters
 
-• **T** = `any`
+### T
+
+`T` = `any`
 
 ## Properties
 
@@ -82,7 +84,7 @@ trigger when any item's value changed
 
 ### object?
 
-> `optional` **object**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
+> `optional` **object**: `FormItemProps`\<`any`\>[]
 
 ### onValueChange()?
 

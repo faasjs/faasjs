@@ -12,7 +12,7 @@ ResponseError class
 
 ### new ResponseError()
 
-> **new ResponseError**(`message`, `response`): [`ResponseError`](ResponseError.md)
+> **new ResponseError**(`message`, `response`): `ResponseError`
 
 #### Parameters
 
@@ -26,7 +26,7 @@ ResponseError class
 
 #### Returns
 
-[`ResponseError`](ResponseError.md)
+`ResponseError`
 
 #### Overrides
 

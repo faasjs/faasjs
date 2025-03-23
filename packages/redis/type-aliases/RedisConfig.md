@@ -2,9 +2,9 @@
 
 # Type Alias: RedisConfig
 
-> **RedisConfig**: `object`
+> **RedisConfig** = `object`
 
-## Type declaration
+## Properties
 
 ### config?
 

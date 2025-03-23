@@ -2,13 +2,15 @@
 
 # Type Alias: useFaasOptions\<PathOrData\>
 
-> **useFaasOptions**\<`PathOrData`\>: `object`
+> **useFaasOptions**\<`PathOrData`\> = `object`
 
 ## Type Parameters
 
-• **PathOrData** *extends* [`FaasAction`](FaasAction.md)
+### PathOrData
 
-## Type declaration
+`PathOrData` *extends* [`FaasAction`](FaasAction.md)
+
+## Properties
 
 ### baseUrl?
 

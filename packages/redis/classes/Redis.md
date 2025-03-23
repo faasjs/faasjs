@@ -12,7 +12,7 @@ Redis Plugin
 
 ### new Redis()
 
-> **new Redis**(`config`?): [`Redis`](Redis.md)
+> **new Redis**(`config`?): `Redis`
 
 #### Parameters
 
@@ -22,7 +22,7 @@ Redis Plugin
 
 #### Returns
 
-[`Redis`](Redis.md)
+`Redis`
 
 ## Methods
 
@@ -32,7 +32,9 @@ Redis Plugin
 
 #### Type Parameters
 
-• **TData** = `any`
+##### TData
+
+`TData` = `any`
 
 #### Parameters
 
@@ -50,7 +52,9 @@ Redis Plugin
 
 #### Type Parameters
 
-• **TData** = `any`
+##### TData
+
+`TData` = `any`
 
 #### Parameters
 
@@ -154,7 +158,9 @@ Publish message
 
 #### Type Parameters
 
-• **TResult** = `any`
+##### TResult
+
+`TResult` = `any`
 
 #### Parameters
 
@@ -184,7 +190,9 @@ Publish message
 
 #### Type Parameters
 
-• **TResult** = `void`
+##### TResult
+
+`TResult` = `void`
 
 #### Parameters
 
@@ -210,7 +218,9 @@ Publish message
 
 #### Type Parameters
 
-• **TResult** = `void`
+##### TResult
+
+`TResult` = `void`
 
 #### Parameters
 

@@ -2,9 +2,9 @@
 
 # Type Alias: CloudFunctionAdapter
 
-> **CloudFunctionAdapter**: `object`
+> **CloudFunctionAdapter** = `object`
 
-## Type declaration
+## Properties
 
 ### invokeCloudFunction()
 
@@ -34,7 +34,9 @@
 
 #### Type Parameters
 
-• **TResult**
+##### TResult
+
+`TResult`
 
 #### Parameters
 

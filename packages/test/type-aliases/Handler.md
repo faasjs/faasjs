@@ -2,15 +2,21 @@
 
 # Type Alias: Handler()\<TEvent, TContext, TResult\>
 
-> **Handler**\<`TEvent`, `TContext`, `TResult`\>: (`data`) => `Promise`\<`TResult`\>
+> **Handler**\<`TEvent`, `TContext`, `TResult`\> = (`data`) => `Promise`\<`TResult`\>
 
 ## Type Parameters
 
-• **TEvent** = `any`
+### TEvent
 
-• **TContext** = `any`
+`TEvent` = `any`
 
-• **TResult** = `any`
+### TContext
+
+`TContext` = `any`
+
+### TResult
+
+`TResult` = `any`
 
 ## Parameters
 

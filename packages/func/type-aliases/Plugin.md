@@ -2,13 +2,13 @@
 
 # Type Alias: Plugin
 
-> **Plugin**: `object`
+> **Plugin** = `object`
 
-## Type declaration
-
-## Index Signature
+## Indexable
 
 \[`key`: `string`\]: `any`
+
+## Properties
 
 ### name
 

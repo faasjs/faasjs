@@ -2,9 +2,9 @@
 
 # Type Alias: KnexConfig
 
-> **KnexConfig**: `object`
+> **KnexConfig** = `object`
 
-## Type declaration
+## Properties
 
 ### config?
 

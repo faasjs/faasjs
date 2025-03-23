@@ -2,9 +2,9 @@
 
 # Type Alias: Request
 
-> **Request**: `object`
+> **Request** = `object`
 
-## Type declaration
+## Properties
 
 ### body?
 

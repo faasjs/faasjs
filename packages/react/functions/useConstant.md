@@ -8,7 +8,9 @@ Returns a constant value that is created by the given function.
 
 ## Type Parameters
 
-• **T**
+### T
+
+`T`
 
 ## Parameters
 

@@ -2,8 +2,10 @@
 
 # Type Alias: FaasDataWrapperRef\<PathOrData\>
 
-> **FaasDataWrapperRef**\<`PathOrData`\>: [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+> **FaasDataWrapperRef**\<`PathOrData`\> = [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType` = `any`
+### PathOrData
+
+`PathOrData` *extends* `FaasActionUnionType` = `any`

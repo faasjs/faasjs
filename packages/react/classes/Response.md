@@ -16,13 +16,15 @@ new Response({
 
 ## Type Parameters
 
-• **T** = `any`
+### T
+
+`T` = `any`
 
 ## Constructors
 
 ### new Response()
 
-> **new Response**\<`T`\>(`props`): [`Response`](Response.md)\<`T`\>
+> **new Response**\<`T`\>(`props`): `Response`\<`T`\>
 
 #### Parameters
 
@@ -32,7 +34,7 @@ new Response({
 
 #### Returns
 
-[`Response`](Response.md)\<`T`\>
+`Response`\<`T`\>
 
 ## Properties
 

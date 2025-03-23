@@ -8,7 +8,9 @@ Request faas server
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType`
+### PathOrData
+
+`PathOrData` *extends* `FaasActionUnionType`
 
 ## Parameters
 

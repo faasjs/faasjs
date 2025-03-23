@@ -4,6 +4,13 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.9.0 (2025-03-23)`](https://github.com/faasjs/faasjs/compare/v6.8.0...v6.9.0)
+
+- Remove unused dependencies: lodash, typescript.
+
+- `@faasjs/logger`
+  - [Feature] Add `FaasLogTransport` environment variable to enable/disable transports.
+
 [`v6.8.0 (2025-03-09)`](https://github.com/faasjs/faasjs/compare/v6.7.0...v6.8.0)
 
 - `@faasjs/logger`

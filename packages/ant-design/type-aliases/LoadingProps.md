@@ -2,9 +2,9 @@
 
 # Type Alias: LoadingProps
 
-> **LoadingProps**: `object`
+> **LoadingProps** = `object`
 
-## Type declaration
+## Properties
 
 ### children?
 

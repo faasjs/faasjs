@@ -2,11 +2,11 @@
 
 # Type Alias: FaasItemTypeValue
 
-> **FaasItemTypeValue**: `object`
+> **FaasItemTypeValue** = `object`
 
 FaasItemType's value type
 
-## Type declaration
+## Properties
 
 ### boolean
 

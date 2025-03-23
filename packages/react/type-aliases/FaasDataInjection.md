@@ -2,15 +2,37 @@
 
 # Type Alias: FaasDataInjection\<PathOrData\>
 
-> **FaasDataInjection**\<`PathOrData`\>: `object`
+> **FaasDataInjection**\<`PathOrData`\> = `object`
 
 Injects FaasData props.
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType` = `any`
+### PathOrData
 
-## Type declaration
+`PathOrData` *extends* `FaasActionUnionType` = `any`
+
+## Methods
+
+### reload()
+
+> **reload**(`params`?): `Promise`\<[`Response`](../classes/Response.md)\<`PathOrData`\>\>
+
+Reloads data with new or existing parameters.
+
+**Note**: It will sets skip to false before loading data.
+
+#### Parameters
+
+##### params?
+
+`Record`\<`string`, `any`\>
+
+#### Returns
+
+`Promise`\<[`Response`](../classes/Response.md)\<`PathOrData`\>\>
+
+## Properties
 
 ### action
 
@@ -55,19 +77,3 @@ Injects FaasData props.
 ### setPromise
 
 > **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>\>\>
-
-### reload()
-
-Reloads data with new or existing parameters.
-
-**Note**: It will sets skip to false before loading data.
-
-#### Parameters
-
-##### params?
-
-`Record`\<`string`, `any`\>
-
-#### Returns
-
-`Promise`\<[`Response`](../classes/Response.md)\<`PathOrData`\>\>

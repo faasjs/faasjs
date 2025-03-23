@@ -2,7 +2,7 @@
 
 # Type Alias: Middleware()
 
-> **Middleware**: (`request`, `response`, `logger`) => `void` \| `Promise`\<`void`\>
+> **Middleware** = (`request`, `response`, `logger`) => `void` \| `Promise`\<`void`\>
 
 ## Parameters
 

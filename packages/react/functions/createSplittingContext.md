@@ -8,7 +8,9 @@ Creates a splitting context with the given default value.
 
 ## Type Parameters
 
-• **T** *extends* `Record`\<`string`, `any`\>
+### T
+
+`T` *extends* `Record`\<`string`, `any`\>
 
 ## Parameters
 
@@ -30,7 +32,9 @@ The hook to use the splitting context.
 
 #### Type Parameters
 
-• **NewT** *extends* `Record`\<`string`, `any`\> = `T`
+##### NewT
+
+`NewT` *extends* `Record`\<`string`, `any`\> = `T`
 
 #### Returns
 
@@ -56,7 +60,9 @@ The provider component of the splitting context.
 
 #### Type Parameters
 
-• **NewT** *extends* `Record`\<`string`, `any`\> = `T`
+##### NewT
+
+`NewT` *extends* `Record`\<`string`, `any`\> = `T`
 
 #### Parameters
 

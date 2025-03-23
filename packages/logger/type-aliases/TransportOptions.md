@@ -2,9 +2,9 @@
 
 # Type Alias: TransportOptions
 
-> **TransportOptions**: `object`
+> **TransportOptions** = `object`
 
-## Type declaration
+## Properties
 
 ### debug?
 

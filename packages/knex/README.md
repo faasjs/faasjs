@@ -13,7 +13,6 @@ npm install @faasjs/knex
 
 ## Functions
 
-- [originKnex](functions/originKnex.md)
 - [query](functions/query.md)
 - [raw](functions/raw.md)
 - [transaction](functions/transaction.md)
@@ -26,3 +25,7 @@ npm install @faasjs/knex
 ## Type Aliases
 
 - [KnexConfig](type-aliases/KnexConfig.md)
+
+## Variables
+
+- [originKnex](variables/originKnex.md)

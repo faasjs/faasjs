@@ -2,4 +2,4 @@
 
 # Type Alias: FormDefaultRulesOptions
 
-> **FormDefaultRulesOptions**: [`InferFormRulesOptions`](InferFormRulesOptions.md)\<*typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)\>
+> **FormDefaultRulesOptions** = [`InferFormRulesOptions`](InferFormRulesOptions.md)\<*typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)\>

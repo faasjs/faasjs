@@ -2,4 +2,4 @@
 
 # Type Alias: UnionScene
 
-> **UnionScene**: `"form"` \| `"description"` \| `"table"`
+> **UnionScene** = `"form"` \| `"description"` \| `"table"`

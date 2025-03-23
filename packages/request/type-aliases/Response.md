@@ -2,13 +2,15 @@
 
 # Type Alias: Response\<T\>
 
-> **Response**\<`T`\>: `object`
+> **Response**\<`T`\> = `object`
 
 ## Type Parameters
 
-• **T** = `any`
+### T
 
-## Type declaration
+`T` = `any`
+
+## Properties
 
 ### body
 

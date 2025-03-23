@@ -2,7 +2,7 @@
 
 # Type Alias: MockHandler()
 
-> **MockHandler**: (`action`, `params`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<`any`\> \| [`ResponseProps`](ResponseProps.md)\> \| `Promise`\<`void`\>
+> **MockHandler** = (`action`, `params`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<`any`\> \| [`ResponseProps`](ResponseProps.md)\> \| `Promise`\<`void`\>
 
 ## Parameters
 

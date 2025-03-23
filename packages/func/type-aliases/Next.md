@@ -2,7 +2,7 @@
 
 # Type Alias: Next()
 
-> **Next**: () => `Promise`\<`void`\>
+> **Next** = () => `Promise`\<`void`\>
 
 ## Returns
 

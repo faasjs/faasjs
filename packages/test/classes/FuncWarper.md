@@ -21,7 +21,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### new FuncWarper()
 
-> **new FuncWarper**(`initBy`): [`FuncWarper`](FuncWarper.md)
+> **new FuncWarper**(`initBy`): `FuncWarper`
 
 #### Parameters
 
@@ -31,7 +31,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Returns
 
-[`FuncWarper`](FuncWarper.md)
+`FuncWarper`
 
 ## Methods
 
@@ -41,7 +41,9 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Type Parameters
 
-• **TResult** = `any`
+##### TResult
+
+`TResult` = `any`
 
 #### Parameters
 
@@ -63,7 +65,9 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Type Parameters
 
-• **TData** = `any`
+##### TData
+
+`TData` = `any`
 
 #### Parameters
 

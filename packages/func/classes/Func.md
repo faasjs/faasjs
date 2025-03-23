@@ -4,11 +4,17 @@
 
 ## Type Parameters
 
-• **TEvent** = `any`
+### TEvent
 
-• **TContext** = `any`
+`TEvent` = `any`
 
-• **TResult** = `any`
+### TContext
+
+`TContext` = `any`
+
+### TResult
+
+`TResult` = `any`
 
 ## Indexable
 
@@ -18,7 +24,7 @@
 
 ### new Func()
 
-> **new Func**\<`TEvent`, `TContext`, `TResult`\>(`config`): [`Func`](Func.md)\<`TEvent`, `TContext`, `TResult`\>
+> **new Func**\<`TEvent`, `TContext`, `TResult`\>(`config`): `Func`\<`TEvent`, `TContext`, `TResult`\>
 
 Create a cloud function
 
@@ -32,7 +38,7 @@ Create a cloud function
 
 #### Returns
 
-[`Func`](Func.md)\<`TEvent`, `TContext`, `TResult`\>
+`Func`\<`TEvent`, `TContext`, `TResult`\>
 
 ## Methods
 

@@ -6,7 +6,9 @@
 
 ## Type Parameters
 
-• **TResult** = `void`
+### TResult
+
+`TResult` = `void`
 
 ## Parameters
 

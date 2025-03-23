@@ -2,13 +2,45 @@
 
 # Type Alias: FaasDataWrapperProps\<PathOrData\>
 
-> **FaasDataWrapperProps**\<`PathOrData`\>: `object`
+> **FaasDataWrapperProps**\<`PathOrData`\> = `object`
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType`
+### PathOrData
 
-## Type declaration
+`PathOrData` *extends* `FaasActionUnionType`
+
+## Methods
+
+### onDataChange()?
+
+> `optional` **onDataChange**(`args`): `void`
+
+#### Parameters
+
+##### args
+
+[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+
+#### Returns
+
+`void`
+
+### render()?
+
+> `optional` **render**(`args`): `Element` \| `Element`[]
+
+#### Parameters
+
+##### args
+
+[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+
+#### Returns
+
+`Element` \| `Element`[]
+
+## Properties
 
 ### action
 
@@ -45,27 +77,3 @@ use custom data, should work with setData
 > `optional` **setData**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 use custom setData, should work with data
-
-### onDataChange()?
-
-#### Parameters
-
-##### args
-
-[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
-
-#### Returns
-
-`void`
-
-### render()?
-
-#### Parameters
-
-##### args
-
-[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
-
-#### Returns
-
-`Element` \| `Element`[]

@@ -10,11 +10,11 @@
 
 ### new NextJsPlugin()
 
-> **new NextJsPlugin**(): [`NextJsPlugin`](NextJsPlugin.md)
+> **new NextJsPlugin**(): `NextJsPlugin`
 
 #### Returns
 
-[`NextJsPlugin`](NextJsPlugin.md)
+`NextJsPlugin`
 
 ## Methods
 

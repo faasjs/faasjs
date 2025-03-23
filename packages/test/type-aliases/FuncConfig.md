@@ -2,17 +2,23 @@
 
 # Type Alias: FuncConfig\<TEvent, TContext, TResult\>
 
-> **FuncConfig**\<`TEvent`, `TContext`, `TResult`\>: `object`
+> **FuncConfig**\<`TEvent`, `TContext`, `TResult`\> = `object`
 
 ## Type Parameters
 
-• **TEvent** = `any`
+### TEvent
 
-• **TContext** = `any`
+`TEvent` = `any`
 
-• **TResult** = `any`
+### TContext
 
-## Type declaration
+`TContext` = `any`
+
+### TResult
+
+`TResult` = `any`
+
+## Properties
 
 ### handler?
 

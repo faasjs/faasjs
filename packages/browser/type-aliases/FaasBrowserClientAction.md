@@ -2,11 +2,13 @@
 
 # Type Alias: FaasBrowserClientAction()
 
-> **FaasBrowserClientAction**: \<`PathOrData`\>(`action`, `params`?, `options`?) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
+> **FaasBrowserClientAction** = \<`PathOrData`\>(`action`, `params`?, `options`?) => `Promise`\<[`Response`](../classes/Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType`
+### PathOrData
+
+`PathOrData` *extends* `FaasActionUnionType`
 
 ## Parameters
 

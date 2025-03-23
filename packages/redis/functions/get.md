@@ -6,7 +6,9 @@
 
 ## Type Parameters
 
-• **TResult** = `any`
+### TResult
+
+`TResult` = `any`
 
 ## Parameters
 

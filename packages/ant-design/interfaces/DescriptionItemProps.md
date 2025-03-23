@@ -12,7 +12,9 @@
 
 ## Type Parameters
 
-• **T** = `any`
+### T
+
+`T` = `any`
 
 ## Properties
 
@@ -52,7 +54,7 @@
 
 ### object?
 
-> `optional` **object**: [`DescriptionItemProps`](DescriptionItemProps.md)\<`T`\>[]
+> `optional` **object**: `DescriptionItemProps`\<`T`\>[]
 
 ### options?
 

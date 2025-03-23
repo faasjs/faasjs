@@ -2,13 +2,15 @@
 
 # Type Alias: OptionalWrapperProps\<TWrapper\>
 
-> **OptionalWrapperProps**\<`TWrapper`\>: `object`
+> **OptionalWrapperProps**\<`TWrapper`\> = `object`
 
 ## Type Parameters
 
-• **TWrapper** *extends* `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
+### TWrapper
 
-## Type declaration
+`TWrapper` *extends* `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
+
+## Properties
 
 ### children
 

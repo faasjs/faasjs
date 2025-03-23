@@ -1,8 +1,8 @@
 [@faasjs/ant-design](../README.md) / useApp
 
-# Function: useApp()
+# Variable: useApp()
 
-> **useApp**\<`NewT`\>(): `Readonly`\<`NewT`\>
+> `const` **useApp**: \<`NewT`\>() => `Readonly`\<`NewT`\> = `AppContext.use`
 
 Get app context.
 
@@ -14,7 +14,9 @@ const { message, notification, setModalProps, setDrawerProps } = useApp()
 
 ## Type Parameters
 
-• **NewT** *extends* [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+### NewT
+
+`NewT` *extends* [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
 
 ## Returns
 

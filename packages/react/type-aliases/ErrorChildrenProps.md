@@ -2,9 +2,9 @@
 
 # Type Alias: ErrorChildrenProps
 
-> **ErrorChildrenProps**: `object`
+> **ErrorChildrenProps** = `object`
 
-## Type declaration
+## Properties
 
 ### error?
 

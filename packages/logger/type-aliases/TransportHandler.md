@@ -2,7 +2,7 @@
 
 # Type Alias: TransportHandler()
 
-> **TransportHandler**: (`messages`) => `Promise`\<`void`\>
+> **TransportHandler** = (`messages`) => `Promise`\<`void`\>
 
 ## Parameters
 

@@ -2,13 +2,15 @@
 
 # Type Alias: ExtendFormTypeProps\<T\>
 
-> **ExtendFormTypeProps**\<`T`\>: `object`
+> **ExtendFormTypeProps**\<`T`\> = `object`
 
 ## Type Parameters
 
-• **T** = `any`
+### T
 
-## Type declaration
+`T` = `any`
+
+## Properties
 
 ### children?
 

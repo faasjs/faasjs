@@ -22,7 +22,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ### new Logger()
 
-> **new Logger**(`label`?): [`Logger`](Logger.md)
+> **new Logger**(`label`?): `Logger`
 
 #### Parameters
 
@@ -34,13 +34,13 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Returns
 
-[`Logger`](Logger.md)
+`Logger`
 
 ## Methods
 
 ### debug()
 
-> **debug**(`message`, ...`args`): [`Logger`](Logger.md)
+> **debug**(`message`, ...`args`): `Logger`
 
 #### Parameters
 
@@ -58,11 +58,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Returns
 
-[`Logger`](Logger.md)
+`Logger`
 
 ### error()
 
-> **error**(`message`, ...`args`): [`Logger`](Logger.md)
+> **error**(`message`, ...`args`): `Logger`
 
 #### Parameters
 
@@ -80,11 +80,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Returns
 
-[`Logger`](Logger.md)
+`Logger`
 
 ### info()
 
-> **info**(`message`, ...`args`): [`Logger`](Logger.md)
+> **info**(`message`, ...`args`): `Logger`
 
 #### Parameters
 
@@ -102,11 +102,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Returns
 
-[`Logger`](Logger.md)
+`Logger`
 
 ### raw()
 
-> **raw**(`message`, ...`args`): [`Logger`](Logger.md)
+> **raw**(`message`, ...`args`): `Logger`
 
 #### Parameters
 
@@ -124,11 +124,11 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 #### Returns
 
-[`Logger`](Logger.md)
+`Logger`
 
 ### time()
 
-> **time**(`key`, `level`): [`Logger`](Logger.md)
+> **time**(`key`, `level`): `Logger`
 
 Start a timer with a specific key and log level.
 
@@ -148,13 +148,13 @@ The log level for the timer. Defaults to 'debug'.
 
 #### Returns
 
-[`Logger`](Logger.md)
+`Logger`
 
 The Logger instance for chaining.
 
 ### timeEnd()
 
-> **timeEnd**(`key`, `message`, ...`args`): [`Logger`](Logger.md)
+> **timeEnd**(`key`, `message`, ...`args`): `Logger`
 
 End a timer with a specific key and log the elapsed time.
 
@@ -180,13 +180,13 @@ Additional arguments to log with the message.
 
 #### Returns
 
-[`Logger`](Logger.md)
+`Logger`
 
 The Logger instance for chaining.
 
 ### warn()
 
-> **warn**(`message`, ...`args`): [`Logger`](Logger.md)
+> **warn**(`message`, ...`args`): `Logger`
 
 #### Parameters
 
@@ -204,7 +204,7 @@ The Logger instance for chaining.
 
 #### Returns
 
-[`Logger`](Logger.md)
+`Logger`
 
 ## Properties
 

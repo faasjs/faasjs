@@ -1,14 +1,16 @@
 [@faasjs/react](../README.md) / FormContextProvider
 
-# Function: FormContextProvider()
+# Variable: FormContextProvider()
 
-> **FormContextProvider**\<`NewT`\>(`props`): `ReactNode`
+> `const` **FormContextProvider**: \<`NewT`\>(`props`) => `ReactNode` = `FormContext.Provider`
 
 The provider component of the splitting context.
 
 ## Type Parameters
 
-• **NewT** *extends* [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormElementTypes`](../type-aliases/FormElementTypes.md), [`FormRules`](../type-aliases/FormRules.md)\> = [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormElementTypes`](../type-aliases/FormElementTypes.md), [`FormRules`](../type-aliases/FormRules.md)\>
+### NewT
+
+`NewT` *extends* [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormElementTypes`](../type-aliases/FormElementTypes.md), [`FormRules`](../type-aliases/FormRules.md)\> = [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormElementTypes`](../type-aliases/FormElementTypes.md), [`FormRules`](../type-aliases/FormRules.md)\>
 
 ## Parameters
 
@@ -22,7 +24,7 @@ The provider component of the splitting context.
 
 `Partial`\<`NewT`\>
 
-An object containing initial values that will be automatically converted into state variables using [useSplittingState](useSplittingState.md) hook. Each property will create both a state value and its setter following the pattern: value/setValue.
+An object containing initial values that will be automatically converted into state variables using [useSplittingState](../functions/useSplittingState.md) hook. Each property will create both a state value and its setter following the pattern: value/setValue.
 
 **Example**
 

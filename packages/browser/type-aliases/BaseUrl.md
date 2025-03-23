@@ -2,4 +2,4 @@
 
 # Type Alias: BaseUrl
 
-> **BaseUrl**: `` `${string}/` ``
+> **BaseUrl** = `` `${string}/` ``

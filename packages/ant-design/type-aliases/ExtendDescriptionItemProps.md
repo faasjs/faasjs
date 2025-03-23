@@ -2,4 +2,4 @@
 
 # Type Alias: ExtendDescriptionItemProps
 
-> **ExtendDescriptionItemProps**: [`BaseItemProps`](../interfaces/BaseItemProps.md)
+> **ExtendDescriptionItemProps** = [`BaseItemProps`](../interfaces/BaseItemProps.md)

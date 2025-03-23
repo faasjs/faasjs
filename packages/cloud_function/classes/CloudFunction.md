@@ -10,7 +10,7 @@
 
 ### new CloudFunction()
 
-> **new CloudFunction**(`config`?): [`CloudFunction`](CloudFunction.md)
+> **new CloudFunction**(`config`?): `CloudFunction`
 
 创建云函数配置
 
@@ -24,7 +24,7 @@
 
 #### Returns
 
-[`CloudFunction`](CloudFunction.md)
+`CloudFunction`
 
 ## Methods
 
@@ -36,7 +36,9 @@
 
 #### Type Parameters
 
-• **TData** = `any`
+##### TData
+
+`TData` = `any`
 
 #### Parameters
 
@@ -70,9 +72,13 @@
 
 #### Type Parameters
 
-• **TResult** = `any`
+##### TResult
 
-• **TData** = `any`
+`TResult` = `any`
+
+##### TData
+
+`TData` = `any`
 
 #### Parameters
 

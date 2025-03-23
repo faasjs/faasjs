@@ -2,15 +2,15 @@
 
 # Type Alias: CloudFunctionConfig
 
-> **CloudFunctionConfig**: `object`
+> **CloudFunctionConfig** = `object`
 
 云函数配置项
 
-## Type declaration
-
-## Index Signature
+## Indexable
 
 \[`key`: `string`\]: `any`
+
+## Properties
 
 ### config?
 
@@ -22,37 +22,37 @@
 
 \[`key`: `string`\]: `any`
 
-#### config.memorySize?
+#### memorySize?
 
 > `optional` **memorySize**: `64` \| `128` \| `256` \| `384` \| `512` \| `640` \| `768` \| `896` \| `1024` \| `number`
 
 内存大小，单位为MB，默认 64
 
-#### config.name?
+#### name?
 
 > `optional` **name**: `string`
 
 配置名称
 
-#### config.provisionedConcurrent?
+#### provisionedConcurrent?
 
 > `optional` **provisionedConcurrent**: `object`
 
 预制并发配置
 
-#### config.provisionedConcurrent.executions
+##### provisionedConcurrent.executions
 
 > **executions**: `number`
 
 预制并发数量
 
-#### config.timeout?
+#### timeout?
 
 > `optional` **timeout**: `number`
 
 执行超时时间，单位为秒，默认 30
 
-#### config.triggers?
+#### triggers?
 
 > `optional` **triggers**: `object`[]
 
@@ -68,6 +68,6 @@
 
 > `optional` **validator**: `object`
 
-#### validator.event?
+#### event?
 
 > `optional` **event**: `ValidatorConfig`

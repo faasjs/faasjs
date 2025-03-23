@@ -8,7 +8,9 @@ Custom hook that works like `useCallback` but uses deep comparison on dependenci
 
 ## Type Parameters
 
-• **T** *extends* (...`args`) => `any`
+### T
+
+`T` *extends* (...`args`) => `any`
 
 ## Parameters
 

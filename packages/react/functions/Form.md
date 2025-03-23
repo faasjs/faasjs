@@ -9,15 +9,21 @@ It initializes form states such as values, errors, submitting status, elements, 
 
 ## Type Parameters
 
-• **Values** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+### Values
+
+`Values` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
 The type of form values, defaults to Record<string, any>.
 
-• **FormElements** *extends* [`FormElementTypes`](../type-aliases/FormElementTypes.md) = [`FormElementTypes`](../type-aliases/FormElementTypes.md)
+### FormElements
+
+`FormElements` *extends* [`FormElementTypes`](../type-aliases/FormElementTypes.md) = [`FormElementTypes`](../type-aliases/FormElementTypes.md)
 
 The type of form elements, defaults to FormElementTypes.
 
-• **Rules** *extends* [`FormRules`](../type-aliases/FormRules.md) = [`FormRules`](../type-aliases/FormRules.md)
+### Rules
+
+`Rules` *extends* [`FormRules`](../type-aliases/FormRules.md) = [`FormRules`](../type-aliases/FormRules.md)
 
 The type of form rules, defaults to FormDefaultRules.
 

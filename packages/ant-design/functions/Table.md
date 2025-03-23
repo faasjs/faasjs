@@ -13,9 +13,13 @@ Table component with Ant Design & FaasJS
 
 ## Type Parameters
 
-• **T** *extends* `Record`\<`string`, `any`\>
+### T
 
-• **ExtendTypes** = `any`
+`T` *extends* `Record`\<`string`, `any`\>
+
+### ExtendTypes
+
+`ExtendTypes` = `any`
 
 ## Parameters
 

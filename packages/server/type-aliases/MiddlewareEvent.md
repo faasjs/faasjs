@@ -2,9 +2,9 @@
 
 # Type Alias: MiddlewareEvent
 
-> **MiddlewareEvent**: `object`
+> **MiddlewareEvent** = `object`
 
-## Type declaration
+## Properties
 
 ### body
 
@@ -14,10 +14,10 @@
 
 > **raw**: `object`
 
-#### raw.request
+#### request
 
 > **request**: `IncomingMessage`
 
-#### raw.response
+#### response
 
 > **response**: `ServerResponse`

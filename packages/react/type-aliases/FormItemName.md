@@ -2,4 +2,4 @@
 
 # Type Alias: FormItemName
 
-> **FormItemName**: `string`
+> **FormItemName** = `string`

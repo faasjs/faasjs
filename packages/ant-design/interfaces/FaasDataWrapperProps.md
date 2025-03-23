@@ -8,7 +8,9 @@
 
 ## Type Parameters
 
-• **T** = `any`
+### T
+
+`T` = `any`
 
 ## Methods
 

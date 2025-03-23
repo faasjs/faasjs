@@ -30,7 +30,7 @@ new ResponseError({ message: 'not found', status: 404 })
 
 ### new ResponseError()
 
-> **new ResponseError**(`msg`, `options`?): [`ResponseError`](ResponseError.md)
+> **new ResponseError**(`msg`, `options`?): `ResponseError`
 
 #### Parameters
 
@@ -44,7 +44,7 @@ new ResponseError({ message: 'not found', status: 404 })
 
 #### Returns
 
-[`ResponseError`](ResponseError.md)
+`ResponseError`
 
 #### Overrides
 
@@ -52,7 +52,7 @@ new ResponseError({ message: 'not found', status: 404 })
 
 ### new ResponseError()
 
-> **new ResponseError**(`props`): [`ResponseError`](ResponseError.md)
+> **new ResponseError**(`props`): `ResponseError`
 
 #### Parameters
 
@@ -62,7 +62,7 @@ new ResponseError({ message: 'not found', status: 404 })
 
 #### Returns
 
-[`ResponseError`](ResponseError.md)
+`ResponseError`
 
 #### Overrides
 

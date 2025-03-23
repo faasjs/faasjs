@@ -72,9 +72,13 @@ function App() {
 
 ## Type Parameters
 
-• **Value** = `any`
+### Value
 
-• **Values** = `any`
+`Value` = `any`
+
+### Values
+
+`Values` = `any`
 
 ## Properties
 
@@ -196,7 +200,7 @@ trigger when any item's value changed
 
 ### object?
 
-> `optional` **object**: [`UnionFaasItemProps`](UnionFaasItemProps.md)\<`Value`, `Values`\>[]
+> `optional` **object**: `UnionFaasItemProps`\<`Value`, `Values`\>[]
 
 #### Overrides
 

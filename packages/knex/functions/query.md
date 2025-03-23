@@ -8,7 +8,9 @@
 
 ### Type Parameters
 
-• **TName** *extends* `"test"`
+#### TName
+
+`TName` *extends* `"test"`
 
 ### Parameters
 
@@ -26,9 +28,13 @@
 
 ### Type Parameters
 
-• **TName** *extends* `object` = `any`
+#### TName
 
-• **TResult** = `any`[]
+`TName` *extends* `object` = `any`
+
+#### TResult
+
+`TResult` = `any`[]
 
 ### Parameters
 

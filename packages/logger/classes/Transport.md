@@ -39,11 +39,11 @@ process.on('SIGINT', async () => {
 
 ### new Transport()
 
-> **new Transport**(): [`Transport`](Transport.md)
+> **new Transport**(): `Transport`
 
 #### Returns
 
-[`Transport`](Transport.md)
+`Transport`
 
 ## Methods
 

@@ -10,7 +10,7 @@
 
 ### new Knex()
 
-> **new Knex**(`config`?): [`Knex`](Knex.md)
+> **new Knex**(`config`?): `Knex`
 
 #### Parameters
 
@@ -20,7 +20,7 @@
 
 #### Returns
 
-[`Knex`](Knex.md)
+`Knex`
 
 ## Methods
 
@@ -82,7 +82,9 @@
 
 #### Type Parameters
 
-• **TResult** = `any`
+##### TResult
+
+`TResult` = `any`
 
 #### Parameters
 
@@ -116,7 +118,9 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 #### Type Parameters
 
-• **TResult** = `any`
+##### TResult
+
+`TResult` = `any`
 
 #### Parameters
 

@@ -2,9 +2,9 @@
 
 # Type Alias: Response
 
-> **Response**: `object`
+> **Response** = `object`
 
-## Type declaration
+## Properties
 
 ### body?
 

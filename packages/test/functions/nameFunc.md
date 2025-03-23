@@ -8,7 +8,9 @@ Assigns a name to a given function handler, which will be displayed in logs and 
 
 ## Type Parameters
 
-• **T** *extends* (...`args`) => `any`
+### T
+
+`T` *extends* (...`args`) => `any`
 
 The type of the function handler.
 

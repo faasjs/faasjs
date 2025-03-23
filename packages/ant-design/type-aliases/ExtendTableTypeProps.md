@@ -2,13 +2,15 @@
 
 # Type Alias: ExtendTableTypeProps\<T\>
 
-> **ExtendTableTypeProps**\<`T`\>: `object`
+> **ExtendTableTypeProps**\<`T`\> = `object`
 
 ## Type Parameters
 
-• **T** = `any`
+### T
 
-## Type declaration
+`T` = `any`
+
+## Properties
 
 ### children?
 

@@ -8,9 +8,13 @@ HOC to wrap a component with FaasDataWrapper and Loading
 
 ## Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType`
+### PathOrData
 
-• **TComponentProps** *extends* `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\> = `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\>
+`PathOrData` *extends* `FaasActionUnionType`
+
+### TComponentProps
+
+`TComponentProps` *extends* `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\> = `Required`\<`Partial`\<`FaasDataInjection`\<`PathOrData`\>\>\>
 
 ## Parameters
 

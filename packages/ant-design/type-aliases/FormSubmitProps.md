@@ -2,9 +2,9 @@
 
 # Type Alias: FormSubmitProps
 
-> **FormSubmitProps**: `object`
+> **FormSubmitProps** = `object`
 
-## Type declaration
+## Properties
 
 ### text?
 
@@ -40,11 +40,11 @@ If use onFinish, you should call submit manually.
 }
 ```
 
-#### to.action
+#### action
 
 > **action**: `FaasAction` \| `string`
 
-#### to.catch()?
+#### catch()?
 
 > `optional` **catch**: (`error`) => `void`
 
@@ -58,7 +58,7 @@ If use onFinish, you should call submit manually.
 
 `void`
 
-#### to.finally()?
+#### finally()?
 
 > `optional` **finally**: () => `void`
 
@@ -66,13 +66,13 @@ If use onFinish, you should call submit manually.
 
 `void`
 
-#### to.params?
+#### params?
 
 > `optional` **params**: `Record`\<`string`, `any`\>
 
 params will overwrite form values before submit
 
-#### to.then()?
+#### then()?
 
 > `optional` **then**: (`result`) => `void`
 

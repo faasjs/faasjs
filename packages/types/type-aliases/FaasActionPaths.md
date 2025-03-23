@@ -2,6 +2,6 @@
 
 # Type Alias: FaasActionPaths
 
-> **FaasActionPaths**: keyof `FaasActions`
+> **FaasActionPaths** = keyof `FaasActions`
 
 Paths of FaasJS actions.

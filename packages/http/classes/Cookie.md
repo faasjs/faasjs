@@ -4,15 +4,19 @@
 
 ## Type Parameters
 
-• **C** *extends* `Record`\<`string`, `string`\> = `any`
+### C
 
-• **S** *extends* `Record`\<`string`, `string`\> = `any`
+`C` *extends* `Record`\<`string`, `string`\> = `any`
+
+### S
+
+`S` *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Constructors
 
 ### new Cookie()
 
-> **new Cookie**\<`C`, `S`\>(`config`, `logger`?): [`Cookie`](Cookie.md)\<`C`, `S`\>
+> **new Cookie**\<`C`, `S`\>(`config`, `logger`?): `Cookie`\<`C`, `S`\>
 
 #### Parameters
 
@@ -26,7 +30,7 @@
 
 #### Returns
 
-[`Cookie`](Cookie.md)\<`C`, `S`\>
+`Cookie`\<`C`, `S`\>
 
 ## Methods
 
@@ -44,7 +48,7 @@
 
 ### invoke()
 
-> **invoke**(`cookie`, `logger`): [`Cookie`](Cookie.md)\<`C`, `S`\>
+> **invoke**(`cookie`, `logger`): `Cookie`\<`C`, `S`\>
 
 #### Parameters
 
@@ -58,7 +62,7 @@
 
 #### Returns
 
-[`Cookie`](Cookie.md)\<`C`, `S`\>
+`Cookie`\<`C`, `S`\>
 
 ### read()
 
@@ -76,7 +80,7 @@
 
 ### write()
 
-> **write**(`key`, `value`, `opts`?): [`Cookie`](Cookie.md)\<`C`, `S`\>
+> **write**(`key`, `value`, `opts`?): `Cookie`\<`C`, `S`\>
 
 #### Parameters
 
@@ -116,7 +120,7 @@
 
 #### Returns
 
-[`Cookie`](Cookie.md)\<`C`, `S`\>
+`Cookie`\<`C`, `S`\>
 
 ## Properties
 

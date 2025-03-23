@@ -2,7 +2,7 @@
 
 # Type Alias: TableProps\<T, ExtendTypes\>
 
-> **TableProps**\<`T`, `ExtendTypes`\>: `object` & `AntdTableProps`\<`T`\>
+> **TableProps**\<`T`, `ExtendTypes`\> = `object` & `AntdTableProps`\<`T`\>
 
 ## Type declaration
 
@@ -66,6 +66,10 @@
 
 ## Type Parameters
 
-• **T** = `any`
+### T
 
-• **ExtendTypes** = `any`
+`T` = `any`
+
+### ExtendTypes
+
+`ExtendTypes` = `any`

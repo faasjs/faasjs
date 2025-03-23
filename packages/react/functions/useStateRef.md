@@ -8,7 +8,9 @@ Custom hook that returns a stateful value and a ref to that value.
 
 ## Type Parameters
 
-• **T** = `any`
+### T
+
+`T` = `any`
 
 The type of the value.
 

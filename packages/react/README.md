@@ -46,20 +46,16 @@ npm install @faasjs/react react
 - [createSplittingContext](functions/createSplittingContext.md)
 - [equal](functions/equal.md)
 - [faas](functions/faas.md)
-- [FaasDataWrapper](functions/FaasDataWrapper.md)
 - [FaasReactClient](functions/FaasReactClient.md)
 - [Form](functions/Form.md)
-- [FormContextProvider](functions/FormContextProvider.md)
 - [FormItem](functions/FormItem.md)
 - [getClient](functions/getClient.md)
-- [OptionalWrapper](functions/OptionalWrapper.md)
 - [useConstant](functions/useConstant.md)
 - [useEqualCallback](functions/useEqualCallback.md)
 - [useEqualEffect](functions/useEqualEffect.md)
 - [useEqualMemo](functions/useEqualMemo.md)
 - [useEqualMemoize](functions/useEqualMemoize.md)
 - [useFaas](functions/useFaas.md)
-- [useFormContext](functions/useFormContext.md)
 - [usePrevious](functions/usePrevious.md)
 - [useSplittingState](functions/useSplittingState.md)
 - [useStateRef](functions/useStateRef.md)
@@ -75,6 +71,10 @@ npm install @faasjs/react react
 ## Interfaces
 
 - [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
+
+## Namespaces
+
+- [OptionalWrapper](@faasjs/namespaces/OptionalWrapper/README.md)
 
 ## Type Aliases
 
@@ -108,6 +108,10 @@ npm install @faasjs/react react
 
 ## Variables
 
+- [FaasDataWrapper](variables/FaasDataWrapper.md)
+- [FormContextProvider](variables/FormContextProvider.md)
 - [FormDefaultElements](variables/FormDefaultElements.md)
 - [FormDefaultLang](variables/FormDefaultLang.md)
 - [FormDefaultRules](variables/FormDefaultRules.md)
+- [OptionalWrapper](variables/OptionalWrapper.md)
+- [useFormContext](variables/useFormContext.md)

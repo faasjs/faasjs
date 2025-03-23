@@ -2,7 +2,7 @@
 
 # Type Alias: Options
 
-> **Options**: `RequestInit` & `object`
+> **Options** = `RequestInit` & `object`
 
 ## Type declaration
 
@@ -40,7 +40,7 @@ trigger before request
 
 ###### options
 
-[`Options`](Options.md)
+`Options`
 
 ###### params?
 
@@ -62,7 +62,9 @@ custom request
 
 #### Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType`
+##### PathOrData
+
+`PathOrData` *extends* `FaasActionUnionType`
 
 #### Parameters
 
@@ -72,7 +74,7 @@ custom request
 
 ##### options
 
-[`Options`](Options.md)
+`Options`
 
 #### Returns
 

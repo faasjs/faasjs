@@ -2,4 +2,4 @@
 
 # Type Alias: NodeRuntime
 
-> **NodeRuntime**: `"commonjs"` \| `"module"`
+> **NodeRuntime** = `"commonjs"` \| `"module"`

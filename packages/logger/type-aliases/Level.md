@@ -2,6 +2,6 @@
 
 # Type Alias: Level
 
-> **Level**: `"debug"` \| `"info"` \| `"warn"` \| `"error"`
+> **Level** = `"debug"` \| `"info"` \| `"warn"` \| `"error"`
 
 Logger Level

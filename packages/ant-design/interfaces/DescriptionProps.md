@@ -8,9 +8,13 @@
 
 ## Type Parameters
 
-• **T** = `any`
+### T
 
-• **ExtendItemProps** = `any`
+`T` = `any`
+
+### ExtendItemProps
+
+`ExtendItemProps` = `any`
 
 ## Methods
 

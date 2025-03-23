@@ -8,7 +8,9 @@ Custom hook that works like `useMemo` but uses deep comparison on dependencies.
 
 ## Type Parameters
 
-• **T**
+### T
+
+`T`
 
 ## Parameters
 

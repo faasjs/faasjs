@@ -4,15 +4,19 @@
 
 ## Type Parameters
 
-• **S** *extends* `Record`\<`string`, `string`\> = `any`
+### S
 
-• **C** *extends* `Record`\<`string`, `string`\> = `any`
+`S` *extends* `Record`\<`string`, `string`\> = `any`
+
+### C
+
+`C` *extends* `Record`\<`string`, `string`\> = `any`
 
 ## Constructors
 
 ### new Session()
 
-> **new Session**\<`S`, `C`\>(`cookie`, `config`): [`Session`](Session.md)\<`S`, `C`\>
+> **new Session**\<`S`, `C`\>(`cookie`, `config`): `Session`\<`S`, `C`\>
 
 #### Parameters
 
@@ -26,7 +30,7 @@
 
 #### Returns
 
-[`Session`](Session.md)\<`S`, `C`\>
+`Session`\<`S`, `C`\>
 
 ## Methods
 
@@ -36,7 +40,9 @@
 
 #### Type Parameters
 
-• **TData** = `any`
+##### TData
+
+`TData` = `any`
 
 #### Parameters
 
@@ -96,15 +102,15 @@
 
 ### update()
 
-> **update**(): [`Session`](Session.md)\<`S`, `C`\>
+> **update**(): `Session`\<`S`, `C`\>
 
 #### Returns
 
-[`Session`](Session.md)\<`S`, `C`\>
+`Session`\<`S`, `C`\>
 
 ### write()
 
-> **write**(`key`, `value`?): [`Session`](Session.md)\<`S`, `C`\>
+> **write**(`key`, `value`?): `Session`\<`S`, `C`\>
 
 #### Parameters
 
@@ -118,7 +124,7 @@
 
 #### Returns
 
-[`Session`](Session.md)\<`S`, `C`\>
+`Session`\<`S`, `C`\>
 
 ## Properties
 

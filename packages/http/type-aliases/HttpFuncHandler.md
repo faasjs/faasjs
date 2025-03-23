@@ -2,17 +2,25 @@
 
 # Type Alias: HttpFuncHandler()\<TParams, TCookie, TSession, TResult\>
 
-> **HttpFuncHandler**\<`TParams`, `TCookie`, `TSession`, `TResult`\>: (`data`) => `Promise`\<`TResult`\>
+> **HttpFuncHandler**\<`TParams`, `TCookie`, `TSession`, `TResult`\> = (`data`) => `Promise`\<`TResult`\>
 
 ## Type Parameters
 
-• **TParams** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+### TParams
 
-• **TCookie** *extends* `Record`\<`string`, `string`\> = `Record`\<`string`, `string`\>
+`TParams` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
-• **TSession** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+### TCookie
 
-• **TResult** = `any`
+`TCookie` *extends* `Record`\<`string`, `string`\> = `Record`\<`string`, `string`\>
+
+### TSession
+
+`TSession` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+
+### TResult
+
+`TResult` = `any`
 
 ## Parameters
 

@@ -10,7 +10,7 @@
 
 ### new HttpError()
 
-> **new HttpError**(`__namedParameters`): [`HttpError`](HttpError.md)
+> **new HttpError**(`__namedParameters`): `HttpError`
 
 #### Parameters
 
@@ -26,7 +26,7 @@
 
 #### Returns
 
-[`HttpError`](HttpError.md)
+`HttpError`
 
 #### Overrides
 

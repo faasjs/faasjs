@@ -2,17 +2,23 @@
 
 # Type Alias: FormContextProps\<Values, FormElements, Rules\>
 
-> **FormContextProps**\<`Values`, `FormElements`, `Rules`\>: `object`
+> **FormContextProps**\<`Values`, `FormElements`, `Rules`\> = `object`
 
 ## Type Parameters
 
-• **Values** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+### Values
 
-• **FormElements** *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+`Values` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
-• **Rules** *extends* [`FormRules`](FormRules.md) = *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)
+### FormElements
 
-## Type declaration
+`FormElements` *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+
+### Rules
+
+`Rules` *extends* [`FormRules`](FormRules.md) = *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)
+
+## Properties
 
 ### Elements
 

@@ -2,13 +2,13 @@
 
 # Type Alias: Config
 
-> **Config**: `object`
+> **Config** = `object`
 
-## Type declaration
-
-## Index Signature
+## Indexable
 
 \[`key`: `string`\]: `any`
+
+## Properties
 
 ### plugins?
 

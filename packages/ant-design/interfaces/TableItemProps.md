@@ -12,7 +12,9 @@
 
 ## Type Parameters
 
-• **T** = `any`
+### T
+
+`T` = `any`
 
 ## Properties
 
@@ -30,7 +32,7 @@
 
 ### object?
 
-> `optional` **object**: [`TableItemProps`](TableItemProps.md)\<`T`\>[]
+> `optional` **object**: `TableItemProps`\<`T`\>[]
 
 ### options?
 

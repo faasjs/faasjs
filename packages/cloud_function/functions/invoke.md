@@ -8,7 +8,9 @@
 
 ## Type Parameters
 
-• **TData** = `any`
+### TData
+
+`TData` = `any`
 
 ## Parameters
 

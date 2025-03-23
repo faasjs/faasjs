@@ -8,9 +8,13 @@ HOC to wrap a component with FaasDataWrapper
 
 ## Type Parameters
 
-• **PathOrData** *extends* `unknown`
+### PathOrData
 
-• **TComponentProps** *extends* `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\>
+`PathOrData` *extends* `unknown`
+
+### TComponentProps
+
+`TComponentProps` *extends* `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\>
 
 ## Parameters
 

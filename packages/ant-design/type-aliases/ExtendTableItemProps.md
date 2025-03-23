@@ -2,8 +2,10 @@
 
 # Type Alias: ExtendTableItemProps\<T\>
 
-> **ExtendTableItemProps**\<`T`\>: [`BaseItemProps`](../interfaces/BaseItemProps.md) & `Omit`\<`AntdTableColumnProps`\<`T`\>, `"children"`\>
+> **ExtendTableItemProps**\<`T`\> = [`BaseItemProps`](../interfaces/BaseItemProps.md) & `Omit`\<`AntdTableColumnProps`\<`T`\>, `"children"`\>
 
 ## Type Parameters
 
-• **T** = `any`
+### T
+
+`T` = `any`

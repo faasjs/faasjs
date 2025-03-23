@@ -2,9 +2,9 @@
 
 # Type Alias: SessionOptions
 
-> **SessionOptions**: `object`
+> **SessionOptions** = `object`
 
-## Type declaration
+## Properties
 
 ### cipherName?
 

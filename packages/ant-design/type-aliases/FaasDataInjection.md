@@ -2,8 +2,10 @@
 
 # Type Alias: FaasDataInjection\<T\>
 
-> **FaasDataInjection**\<`T`\>: `Partial`\<`OriginFaasDataInjection`\<`T`\>\>
+> **FaasDataInjection**\<`T`\> = `Partial`\<`OriginFaasDataInjection`\<`T`\>\>
 
 ## Type Parameters
 
-• **T** = `any`
+### T
+
+`T` = `any`

@@ -2,7 +2,7 @@
 
 # Type Alias: UnionFaasItemElement\<Value, Values\>
 
-> **UnionFaasItemElement**\<`Value`, `Values`\>: `ReactElement`\<[`UnionFaasItemInjection`](UnionFaasItemInjection.md)\<`Value`, `Values`\>\> \| `FC`\<[`UnionFaasItemInjection`](UnionFaasItemInjection.md)\<`Value`, `Values`\>\>
+> **UnionFaasItemElement**\<`Value`, `Values`\> = `ReactElement`\<[`UnionFaasItemInjection`](UnionFaasItemInjection.md)\<`Value`, `Values`\>\> \| `FC`\<[`UnionFaasItemInjection`](UnionFaasItemInjection.md)\<`Value`, `Values`\>\>
 
 Represents a React element that is used in the UnionFaasItem context.
 
@@ -10,9 +10,13 @@ This type can either be a React element with the specified injection types or `n
 
 ## Type Parameters
 
-• **Value** = `any`
+### Value
 
-• **Values** = `any`
+`Value` = `any`
+
+### Values
+
+`Values` = `any`
 
 ## Example
 

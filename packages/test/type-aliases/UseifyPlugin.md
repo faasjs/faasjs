@@ -2,7 +2,7 @@
 
 # Type Alias: UseifyPlugin\<T\>
 
-> **UseifyPlugin**\<`T`\>: `T` & `object`
+> **UseifyPlugin**\<`T`\> = `T` & `object`
 
 ## Type declaration
 
@@ -22,4 +22,6 @@
 
 ## Type Parameters
 
-• **T**
+### T
+
+`T`

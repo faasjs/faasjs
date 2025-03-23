@@ -2,9 +2,9 @@
 
 # Type Alias: LoggerMessage
 
-> **LoggerMessage**: `object`
+> **LoggerMessage** = `object`
 
-## Type declaration
+## Properties
 
 ### extra?
 

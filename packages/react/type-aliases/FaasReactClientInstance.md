@@ -2,9 +2,31 @@
 
 # Type Alias: FaasReactClientInstance
 
-> **FaasReactClientInstance**: `object`
+> **FaasReactClientInstance** = `object`
 
-## Type declaration
+## Methods
+
+### FaasDataWrapper()
+
+> **FaasDataWrapper**\<`PathOrData`\>(`props`): `Element`
+
+#### Type Parameters
+
+##### PathOrData
+
+`PathOrData` *extends* `FaasActionUnionType`
+
+#### Parameters
+
+##### props
+
+[`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`PathOrData`\>
+
+#### Returns
+
+`Element`
+
+## Properties
 
 ### browserClient
 
@@ -16,7 +38,9 @@
 
 #### Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType`
+##### PathOrData
+
+`PathOrData` *extends* `FaasActionUnionType`
 
 #### Parameters
 
@@ -50,7 +74,9 @@
 
 #### Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType`
+##### PathOrData
+
+`PathOrData` *extends* `FaasActionUnionType`
 
 #### Parameters
 
@@ -69,19 +95,3 @@
 #### Returns
 
 [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
-
-### FaasDataWrapper()
-
-#### Type Parameters
-
-• **PathOrData** *extends* `FaasActionUnionType`
-
-#### Parameters
-
-##### props
-
-[`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`PathOrData`\>
-
-#### Returns
-
-`Element`

@@ -2,21 +2,27 @@
 
 # Type Alias: InvokeData\<TEvent, TContext, TResult\>
 
-> **InvokeData**\<`TEvent`, `TContext`, `TResult`\>: `object`
+> **InvokeData**\<`TEvent`, `TContext`, `TResult`\> = `object`
 
 ## Type Parameters
 
-• **TEvent** = `any`
+### TEvent
 
-• **TContext** = `any`
+`TEvent` = `any`
 
-• **TResult** = `any`
+### TContext
 
-## Type declaration
+`TContext` = `any`
 
-## Index Signature
+### TResult
+
+`TResult` = `any`
+
+## Indexable
 
 \[`key`: `string`\]: `any`
+
+## Properties
 
 ### callback
 

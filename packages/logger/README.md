@@ -29,6 +29,7 @@ logger.error('error message')
 - **FaasLog**: debug, info, warn, error (default: debug)
 - **FaasLogSize**: 1000 (default: 1000, 0 for unlimited)
 - **FaasLogMode**: plain, pretty (default: pretty)
+- **FaasLogTransport**: true, false (default: true)
 
 ## Functions
 

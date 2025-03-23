@@ -2,13 +2,15 @@
 
 # Type Alias: ResponseProps\<T\>
 
-> **ResponseProps**\<`T`\>: `object`
+> **ResponseProps**\<`T`\> = `object`
 
 ## Type Parameters
 
-• **T** = `any`
+### T
 
-## Type declaration
+`T` = `any`
+
+## Properties
 
 ### body?
 

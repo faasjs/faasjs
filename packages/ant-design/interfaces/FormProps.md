@@ -8,9 +8,13 @@
 
 ## Type Parameters
 
-• **Values** *extends* `Record`\<`string`, `any`\> = `any`
+### Values
 
-• **ExtendItemProps** *extends* [`ExtendFormItemProps`](ExtendFormItemProps.md) = [`ExtendFormItemProps`](ExtendFormItemProps.md)
+`Values` *extends* `Record`\<`string`, `any`\> = `any`
+
+### ExtendItemProps
+
+`ExtendItemProps` *extends* [`ExtendFormItemProps`](ExtendFormItemProps.md) = [`ExtendFormItemProps`](ExtendFormItemProps.md)
 
 ## Properties
 

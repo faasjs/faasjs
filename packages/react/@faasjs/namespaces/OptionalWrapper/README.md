@@ -1,20 +1,8 @@
-[@faasjs/react](../README.md) / OptionalWrapper
+[@faasjs/react](../../../README.md) / OptionalWrapper
 
-# Function: OptionalWrapper()
-
-> **OptionalWrapper**(`props`): `ReactNode` \| `Promise`\<`ReactNode`\>
+# OptionalWrapper
 
 A wrapper component that conditionally wraps its children with a provided wrapper component.
-
-## Parameters
-
-### props
-
-[`OptionalWrapperProps`](../type-aliases/OptionalWrapperProps.md)
-
-## Returns
-
-`ReactNode` \| `Promise`\<`ReactNode`\>
 
 ## Example
 
@@ -31,3 +19,8 @@ const App = () => (
   </OptionalWrapper>
 )
 ```
+
+## Variables
+
+- [displayName](variables/displayName.md)
+- [whyDidYouRender](variables/whyDidYouRender.md)

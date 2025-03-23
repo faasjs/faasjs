@@ -28,7 +28,7 @@ server.listen()
 
 ### new Server()
 
-> **new Server**(`root`, `opts`?): [`Server`](Server.md)
+> **new Server**(`root`, `opts`?): `Server`
 
 #### Parameters
 
@@ -42,7 +42,7 @@ server.listen()
 
 #### Returns
 
-[`Server`](Server.md)
+`Server`
 
 ## Methods
 

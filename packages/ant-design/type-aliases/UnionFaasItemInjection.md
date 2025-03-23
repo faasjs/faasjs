@@ -2,15 +2,19 @@
 
 # Type Alias: UnionFaasItemInjection\<Value, Values\>
 
-> **UnionFaasItemInjection**\<`Value`, `Values`\>: `object`
+> **UnionFaasItemInjection**\<`Value`, `Values`\> = `object`
 
 ## Type Parameters
 
-• **Value** = `any`
+### Value
 
-• **Values** = `any`
+`Value` = `any`
 
-## Type declaration
+### Values
+
+`Values` = `any`
+
+## Properties
 
 ### index?
 

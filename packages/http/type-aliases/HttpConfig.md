@@ -2,13 +2,13 @@
 
 # Type Alias: HttpConfig
 
-> **HttpConfig**: `object`
+> **HttpConfig** = `object`
 
-## Type declaration
-
-## Index Signature
+## Indexable
 
 \[`key`: `string`\]: `any`
+
+## Properties
 
 ### config?
 
@@ -18,31 +18,31 @@
 
 \[`key`: `string`\]: `any`
 
-#### config.cookie?
+#### cookie?
 
 > `optional` **cookie**: [`CookieOptions`](CookieOptions.md)
 
-#### config.functionName?
+#### functionName?
 
 > `optional` **functionName**: `string`
 
-#### config.ignorePathPrefix?
+#### ignorePathPrefix?
 
 > `optional` **ignorePathPrefix**: `string`
 
-#### config.method?
+#### method?
 
 > `optional` **method**: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
 
 POST as default
 
-#### config.path?
+#### path?
 
 > `optional` **path**: `string`
 
 file relative path as default
 
-#### config.timeout?
+#### timeout?
 
 > `optional` **timeout**: `number`
 

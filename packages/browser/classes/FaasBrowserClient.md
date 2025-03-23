@@ -16,7 +16,7 @@ await client.action('func', { key: 'value' })
 
 ### new FaasBrowserClient()
 
-> **new FaasBrowserClient**(`baseUrl`, `options`): [`FaasBrowserClient`](FaasBrowserClient.md)
+> **new FaasBrowserClient**(`baseUrl`, `options`): `FaasBrowserClient`
 
 #### Parameters
 
@@ -30,7 +30,7 @@ await client.action('func', { key: 'value' })
 
 #### Returns
 
-[`FaasBrowserClient`](FaasBrowserClient.md)
+`FaasBrowserClient`
 
 ## Methods
 
@@ -42,7 +42,9 @@ Request a FaasJS function
 
 #### Type Parameters
 
-• **PathOrData** *extends* `FaasActionUnionType`
+##### PathOrData
+
+`PathOrData` *extends* `FaasActionUnionType`
 
 #### Parameters
 

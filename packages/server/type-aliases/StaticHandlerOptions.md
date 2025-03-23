@@ -2,9 +2,9 @@
 
 # Type Alias: StaticHandlerOptions
 
-> **StaticHandlerOptions**: `object`
+> **StaticHandlerOptions** = `object`
 
-## Type declaration
+## Properties
 
 ### cache?
 

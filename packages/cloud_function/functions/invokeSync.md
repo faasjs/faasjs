@@ -8,9 +8,13 @@
 
 ## Type Parameters
 
-• **TResult** = `any`
+### TResult
 
-• **TData** = `any`
+`TResult` = `any`
+
+### TData
+
+`TData` = `any`
 
 ## Parameters
 

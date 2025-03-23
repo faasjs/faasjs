@@ -8,19 +8,27 @@ A hook to create an HTTP function with specified handler and configuration.
 
 ## Type Parameters
 
-• **TParams** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+### TParams
+
+`TParams` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
 The type of the parameters object.
 
-• **TCookie** *extends* `Record`\<`string`, `string`\> = `Record`\<`string`, `string`\>
+### TCookie
+
+`TCookie` *extends* `Record`\<`string`, `string`\> = `Record`\<`string`, `string`\>
 
 The type of the cookies object.
 
-• **TSession** *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+### TSession
+
+`TSession` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
 The type of the session object.
 
-• **TResult** = `any`
+### TResult
+
+`TResult` = `any`
 
 The type of the result.
 

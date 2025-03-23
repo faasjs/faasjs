@@ -2,4 +2,4 @@
 
 # Type Alias: LifeCycleKey
 
-> **LifeCycleKey**: `"onMount"` \| `"onInvoke"`
+> **LifeCycleKey** = `"onMount"` \| `"onInvoke"`

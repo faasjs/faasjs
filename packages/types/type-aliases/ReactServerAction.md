@@ -2,7 +2,7 @@
 
 # Type Alias: ReactServerAction()
 
-> **ReactServerAction**: (...`args`) => `Promise`\<`any`\>
+> **ReactServerAction** = (...`args`) => `Promise`\<`any`\>
 
 ## Parameters
 

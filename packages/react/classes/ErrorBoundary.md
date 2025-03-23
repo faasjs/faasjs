@@ -10,7 +10,7 @@
 
 ### new ErrorBoundary()
 
-> **new ErrorBoundary**(`props`): [`ErrorBoundary`](ErrorBoundary.md)
+> **new ErrorBoundary**(`props`): `ErrorBoundary`
 
 #### Parameters
 
@@ -20,7 +20,7 @@
 
 #### Returns
 
-[`ErrorBoundary`](ErrorBoundary.md)
+`ErrorBoundary`
 
 #### Overrides
 

@@ -2,9 +2,9 @@
 
 # Type Alias: FaasReactClientOptions
 
-> **FaasReactClientOptions**: `object`
+> **FaasReactClientOptions** = `object`
 
-## Type declaration
+## Properties
 
 ### baseUrl?
 

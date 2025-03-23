@@ -10,7 +10,9 @@ Also supports loading TypeScript and TSX files by checking for the presence of t
 
 ## Type Parameters
 
-• **T** = `unknown`
+### T
+
+`T` = `unknown`
 
 The type of the module to be loaded.
 

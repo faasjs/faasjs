@@ -8,9 +8,13 @@ Generate a function with NextJsPlugin.
 
 ## Type Parameters
 
-• **TParams** *extends* `Record`\<`string`, `any`\> = `any`
+### TParams
 
-• **TResult** = `any`
+`TParams` *extends* `Record`\<`string`, `any`\> = `any`
+
+### TResult
+
+`TResult` = `any`
 
 ## Parameters
 

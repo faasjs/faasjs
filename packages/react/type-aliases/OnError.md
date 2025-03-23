@@ -2,7 +2,7 @@
 
 # Type Alias: OnError()
 
-> **OnError**: (`action`, `params`) => (`res`) => `Promise`\<`void`\>
+> **OnError** = (`action`, `params`) => (`res`) => `Promise`\<`void`\>
 
 ## Parameters
 

@@ -2,19 +2,23 @@
 
 # Type Alias: FormInputElementProps
 
-> **FormInputElementProps**: `object`
+> **FormInputElementProps** = `object`
 
 Props for the Form Input Element component.
 
-## Type declaration
+## Properties
 
 ### name
 
 > **name**: `string`
 
+The name of the input element.
+
 ### onChange()
 
 > **onChange**: (`value`) => `void`
+
+Callback function to handle changes to the input value.
 
 #### Parameters
 
@@ -29,3 +33,5 @@ Props for the Form Input Element component.
 ### value
 
 > **value**: `any`
+
+The current value of the input element.

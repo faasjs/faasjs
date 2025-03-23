@@ -2,15 +2,19 @@
 
 # Type Alias: UnionFaasItemRender()\<Value, Values\>
 
-> **UnionFaasItemRender**\<`Value`, `Values`\>: (`value`, `values`, `index`, `scene`) => `React.ReactNode`
+> **UnionFaasItemRender**\<`Value`, `Values`\> = (`value`, `values`, `index`, `scene`) => `React.ReactNode`
 
 A type representing a function that renders a React node for a given item in a list.
 
 ## Type Parameters
 
-• **Value** = `any`
+### Value
 
-• **Values** = `any`
+`Value` = `any`
+
+### Values
+
+`Values` = `any`
 
 ## Parameters
 

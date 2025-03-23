@@ -40,10 +40,8 @@ type FaasItemProps = {
 - [App](functions/App.md)
 - [Blank](functions/Blank.md)
 - [cloneUnionFaasItemElement](functions/cloneUnionFaasItemElement.md)
-- [ConfigContext](functions/ConfigContext.md)
 - [ConfigProvider](functions/ConfigProvider.md)
 - [Description](functions/Description.md)
-- [Drawer](functions/Drawer.md)
 - [ErrorBoundary](functions/ErrorBoundary.md)
 - [faas](functions/faas.md)
 - [FaasDataWrapper](functions/FaasDataWrapper.md)
@@ -52,7 +50,6 @@ type FaasItemProps = {
 - [idToTitle](functions/idToTitle.md)
 - [Link](functions/Link.md)
 - [Loading](functions/Loading.md)
-- [Modal](functions/Modal.md)
 - [PageNotFound](functions/PageNotFound.md)
 - [Routes](functions/Routes.md)
 - [Table](functions/Table.md)
@@ -60,7 +57,6 @@ type FaasItemProps = {
 - [Title](functions/Title.md)
 - [transferOptions](functions/transferOptions.md)
 - [transferValue](functions/transferValue.md)
-- [useApp](functions/useApp.md)
 - [useConfigContext](functions/useConfigContext.md)
 - [useDrawer](functions/useDrawer.md)
 - [useFaas](functions/useFaas.md)
@@ -116,3 +112,10 @@ type FaasItemProps = {
 - [UnionFaasItemInjection](type-aliases/UnionFaasItemInjection.md)
 - [UnionFaasItemRender](type-aliases/UnionFaasItemRender.md)
 - [UnionScene](type-aliases/UnionScene.md)
+
+## Variables
+
+- [ConfigContext](variables/ConfigContext.md)
+- [Drawer](variables/Drawer.md)
+- [Modal](variables/Modal.md)
+- [useApp](variables/useApp.md)
