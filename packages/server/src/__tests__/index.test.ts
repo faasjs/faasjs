@@ -8,6 +8,7 @@ it('exports', () => {
     'staticHandler',
     'getAll',
     'closeAll',
+    'getRouteFiles',
     'Server',
   ])
 })

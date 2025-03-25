@@ -32,7 +32,7 @@ describe('server', () => {
         statusCode: 404,
         body: {
           error: {
-            message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404.func.tsx\n- ${server.root}404/index.func.ts\n- ${server.root}404/index.func.tsx\n- ${server.root}default.func.ts\n- ${server.root}default.func.tsx`,
+            message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404.func.tsx\n- ${server.root}404/index.func.ts\n- ${server.root}404/index.func.tsx\n- ${server.root}404/default.func.ts\n- ${server.root}404/default.func.tsx\n- ${server.root}default.func.ts\n- ${server.root}default.func.tsx`,
           },
         },
       }

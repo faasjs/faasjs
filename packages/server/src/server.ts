@@ -102,6 +102,32 @@ export type ServerOptions = {
   onClose?: (context: { logger: Logger }) => Promise<void>
 }
 
+export function getRouteFiles(root: string, path: string): string[] {
+  const deeps = path.replace(root, '').split('/').length
+  const parents = path.replace(root, '').split('/').filter(Boolean)
+  const searchPaths = [
+    `${path}.func.ts`,
+    `${path}.func.tsx`,
+    `${path}/index.func.ts`,
+    `${path}/index.func.tsx`,
+    `${path}/default.func.ts`,
+    `${path}/default.func.tsx`,
+  ].concat(
+    ...Array(deeps)
+      .fill(0)
+      .flatMap((_, i) => {
+        const folder = root + parents.slice(0, -(i + 1)).join('/')
+
+        return [
+          join(folder, 'default.func.ts'),
+          join(folder, 'default.func.tsx'),
+        ]
+      })
+  )
+
+  return searchPaths
+}
+
 /**
  * FaasJS Server.
  *
@@ -383,19 +409,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -607,25 +633,7 @@ export class Server {
     // Safe check
     if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
 
-    const deeps = path.replace(this.root, '').split('/').length
-    const parents = path.replace(this.root, '').split('/').filter(Boolean)
-    const searchPaths = [
-      `${path}.func.ts`,
-      `${path}.func.tsx`,
-      `${path}/index.func.ts`,
-      `${path}/index.func.tsx`,
-    ].concat(
-      ...Array(deeps)
-        .fill(0)
-        .flatMap((_, i) => {
-          const folder = this.root + parents.slice(0, -(i + 1)).join('/')
-
-          return [
-            join(folder, 'default.func.ts'),
-            join(folder, 'default.func.tsx'),
-          ]
-        })
-    )
+    const searchPaths = getRouteFiles(this.root, path)
 
     for (const path of searchPaths) {
       if (existsSync(path)) return path
@@ -635,9 +643,11 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+          .map(p => `- ${p}`)
+          .join('\n')}`
+
     this.onError(message)
+
     throw new HttpError({
       statusCode: 404,
       message,
