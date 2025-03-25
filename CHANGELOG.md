@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.10.0 (2025)`](https://github.com/faasjs/faasjs/compare/v6.9.0...v6.10.0)
+
+- `@faasjs/server`
+  - [Feature] Add `getRouteFiles` to get all route files.
+
 [`v6.9.0 (2025-03-23)`](https://github.com/faasjs/faasjs/compare/v6.8.0...v6.9.0)
 
 - Remove unused dependencies: lodash, typescript.
