@@ -11,6 +11,7 @@ function loadJson(path: string) {
 }
 
 const version = loadJson('./package.json').version
+const dependencyVersion = `>=${version}`
 
 const channel = version.includes('beta') ? 'beta' : 'stable'
 
@@ -25,26 +26,17 @@ function publish(path: string) {
   console.log(pkg.name)
 
   pkg.version = version
-  if (pkg.dependencies) {
-    for (const name of Object.keys(pkg.dependencies)) {
-      if (name.startsWith('@faasjs/')) pkg.dependencies[name] = version
-    }
-  }
-  if (pkg.peerDependencies) {
-    for (const name of Object.keys(pkg.peerDependencies)) {
-      if (name.startsWith('@faasjs/')) pkg.peerDependencies[name] = version
-    }
-  }
-  if (pkg.devDependencies) {
-    for (const name of Object.keys(pkg.devDependencies)) {
-      if (name.startsWith('@faasjs/')) pkg.devDependencies[name] = version
-    }
-  }
-  if (pkg.optionalDependencies) {
-    for (const name of Object.keys(pkg.optionalDependencies)) {
-      if (name.startsWith('@faasjs/')) pkg.optionalDependencies[name] = version
-    }
-  }
+
+  for (const type of [
+    'dependencies',
+    'peerDependencies',
+    'devDependencies',
+    'optionalDependencies'
+  ])
+    if (pkg[type])
+      for (const name of Object.keys(pkg[type]))
+        if (name.startsWith('@faasjs/')) pkg[type][name] = dependencyVersion
+
   writeFileSync(path, `${JSON.stringify(pkg, null, 2)}\n`)
 
   try {
