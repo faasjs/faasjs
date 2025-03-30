@@ -22,7 +22,7 @@ new Response({
 
 ## Constructors
 
-### new Response()
+### Constructor
 
 > **new Response**\<`T`\>(`props`): `Response`\<`T`\>
 

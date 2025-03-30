@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new ErrorBoundary()
+### Constructor
 
 > **new ErrorBoundary**(`props`): `ErrorBoundary`
 

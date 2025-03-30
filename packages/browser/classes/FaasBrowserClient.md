@@ -14,7 +14,7 @@ await client.action('func', { key: 'value' })
 
 ## Constructors
 
-### new FaasBrowserClient()
+### Constructor
 
 > **new FaasBrowserClient**(`baseUrl`, `options`): `FaasBrowserClient`
 

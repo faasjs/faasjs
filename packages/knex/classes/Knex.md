@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new Knex()
+### Constructor
 
 > **new Knex**(`config`?): `Knex`
 

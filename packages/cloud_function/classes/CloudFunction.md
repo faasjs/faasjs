@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new CloudFunction()
+### Constructor
 
 > **new CloudFunction**(`config`?): `CloudFunction`
 

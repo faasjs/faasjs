@@ -46,6 +46,7 @@ Dynamic routing:
 
 - [closeAll](functions/closeAll.md)
 - [getAll](functions/getAll.md)
+- [getRouteFiles](functions/getRouteFiles.md)
 - [staticHandler](functions/staticHandler.md)
 - [useMiddleware](functions/useMiddleware.md)
 - [useMiddlewares](functions/useMiddlewares.md)

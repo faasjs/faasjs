@@ -20,7 +20,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ## Constructors
 
-### new Logger()
+### Constructor
 
 > **new Logger**(`label`?): `Logger`
 

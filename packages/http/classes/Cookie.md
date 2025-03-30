@@ -14,7 +14,7 @@
 
 ## Constructors
 
-### new Cookie()
+### Constructor
 
 > **new Cookie**\<`C`, `S`\>(`config`, `logger`?): `Cookie`\<`C`, `S`\>
 

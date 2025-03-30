@@ -37,7 +37,7 @@ process.on('SIGINT', async () => {
 
 ## Constructors
 
-### new Transport()
+### Constructor
 
 > **new Transport**(): `Transport`
 

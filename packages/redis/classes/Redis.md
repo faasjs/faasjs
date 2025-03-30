@@ -10,7 +10,7 @@ Redis Plugin
 
 ## Constructors
 
-### new Redis()
+### Constructor
 
 > **new Redis**(`config`?): `Redis`
 

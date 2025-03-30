@@ -22,7 +22,7 @@
 
 ## Constructors
 
-### new Http()
+### Constructor
 
 > **new Http**\<`TParams`, `TCookie`, `TSession`\>(`config`?): `Http`\<`TParams`, `TCookie`, `TSession`\>
 

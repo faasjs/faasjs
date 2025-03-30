@@ -19,7 +19,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ## Constructors
 
-### new FuncWarper()
+### Constructor
 
 > **new FuncWarper**(`initBy`): `FuncWarper`
 

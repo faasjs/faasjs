@@ -26,7 +26,7 @@ server.listen()
 
 ## Constructors
 
-### new Server()
+### Constructor
 
 > **new Server**(`root`, `opts`?): `Server`
 

@@ -31,7 +31,7 @@ function publish(path: string) {
     'dependencies',
     'peerDependencies',
     'devDependencies',
-    'optionalDependencies'
+    'optionalDependencies',
   ])
     if (pkg[type])
       for (const name of Object.keys(pkg[type]))

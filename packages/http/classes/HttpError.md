@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new HttpError()
+### Constructor
 
 > **new HttpError**(`__namedParameters`): `HttpError`
 

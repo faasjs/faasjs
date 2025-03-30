@@ -8,7 +8,7 @@
 
 ## Constructors
 
-### new NextJsPlugin()
+### Constructor
 
 > **new NextJsPlugin**(): `NextJsPlugin`
 

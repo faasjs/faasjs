@@ -14,7 +14,7 @@
 
 ## Constructors
 
-### new Session()
+### Constructor
 
 > **new Session**\<`S`, `C`\>(`cookie`, `config`): `Session`\<`S`, `C`\>
 

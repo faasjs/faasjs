@@ -28,7 +28,7 @@ new ResponseError({ message: 'not found', status: 404 })
 
 ## Constructors
 
-### new ResponseError()
+### Constructor
 
 > **new ResponseError**(`msg`, `options`?): `ResponseError`
 
@@ -50,7 +50,7 @@ new ResponseError({ message: 'not found', status: 404 })
 
 `Error.constructor`
 
-### new ResponseError()
+### Constructor
 
 > **new ResponseError**(`props`): `ResponseError`
 

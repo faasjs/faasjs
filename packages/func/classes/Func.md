@@ -22,7 +22,7 @@
 
 ## Constructors
 
-### new Func()
+### Constructor
 
 > **new Func**\<`TEvent`, `TContext`, `TResult`\>(`config`): `Func`\<`TEvent`, `TContext`, `TResult`\>
 
