@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.10.1 (2025-03-30)`](https://github.com/faasjs/faasjs/compare/v6.10.0...v6.10.1)
+
+- `faasjs`
+  - [Fix] Fix `tsconfig.react.json`.
+
 [`v6.10.0 (2025-03-30)`](https://github.com/faasjs/faasjs/compare/v6.9.0...v6.10.0)
 
 - `@faasjs/server`
