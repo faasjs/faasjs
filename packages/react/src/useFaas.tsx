@@ -58,6 +58,11 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
   )
   const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>>>(null)
   const controllerRef = useRef<AbortController | null>(null)
+  const pendingReloadsRef = useRef<Map<number, {
+    resolve: (value: FaasData<PathOrData>) => void
+    reject: (reason: any) => void
+  }>>(new Map());
+  const reloadCounterRef = useRef(0);
 
   useEqualEffect(() => {
     setSkip(
@@ -95,6 +100,11 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
         .then(r => {
           options.setData ? options.setData(r.data) : setData(r.data)
           setLoading(false)
+
+          for (const { resolve } of pendingReloadsRef.current.values())
+            resolve(r.data)
+
+          pendingReloadsRef.current.clear()
         })
         .catch(async e => {
           if (
@@ -121,6 +131,12 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
             }
           else setError(e)
           setLoading(false)
+
+          for (const { reject } of pendingReloadsRef.current.values())
+            reject(e)
+
+          pendingReloadsRef.current.clear()
+
           return Promise.reject(e)
         })
     }
@@ -148,9 +164,14 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
       if (skip) setSkip(false)
       if (params) setParams(params)
 
-      setReloadTimes(prev => prev + 1)
+      const reloadCounter = ++reloadCounterRef.current;
 
-      return promiseRef.current
+      setReloadTimes((prev) => prev + 1);
+
+      return new Promise<Response<FaasData<PathOrData>>>((resolve, reject) => {
+        pendingReloadsRef.current.set(reloadCounter, { resolve, reject });
+        setReloadTimes((prev) => prev + 1)
+      })
     },
     [params, skip]
   )
