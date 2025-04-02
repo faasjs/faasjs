@@ -162,7 +162,7 @@ export class Server {
   private server: HttpServer
   private sockets: Set<Socket> = new Set()
 
-  constructor(root: string, opts?: ServerOptions) {
+  constructor(root: string, opts: ServerOptions = {}) {
     if (!process.env.FaasEnv && process.env.NODE_ENV === 'development')
       process.env.FaasEnv = 'development'
 
@@ -171,14 +171,14 @@ export class Server {
       {
         port: 3000,
       },
-      opts || {}
+      opts
     )
 
-    if (opts.onClose && !types.isAsyncFunction(opts.onClose))
+    if (this.options.onClose && !types.isAsyncFunction(this.options.onClose))
       throw Error('onClose must be async function')
-    if (opts.onError && !types.isAsyncFunction(opts.onError))
+    if (this.options.onError && !types.isAsyncFunction(this.options.onError))
       throw Error('onError must be async function')
-    if (opts.onStart && !types.isAsyncFunction(opts.onStart))
+    if (this.options.onStart && !types.isAsyncFunction(this.options.onStart))
       throw Error('onStart must be async function')
 
     if (!process.env.FaasMode) process.env.FaasMode = 'mono'
@@ -199,9 +199,9 @@ export class Server {
 
       this.logger.error(error)
 
-      if (opts?.onError)
+      if (this.options.onError)
         try {
-          opts.onError(error, {
+          this.options.onError(error, {
             logger: this.logger,
           })
         } catch (error: any) {
@@ -409,19 +409,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -643,8 +643,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+          .map(p => `- ${p}`)
+          .join('\n')}`
 
     this.onError(message)
 
