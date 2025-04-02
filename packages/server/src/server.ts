@@ -108,9 +108,9 @@ export type ServerOptions = {
 }
 
 export function getRouteFiles(root: string, path: string): string[] {
-  const normalizedRoot = root.endsWith(sep) ? root : `${root}${sep}`;
+  const normalizedRoot = root.endsWith(sep) ? root : `${root}${sep}`
 
-  const normalizedPath = path.endsWith(sep) ? path.slice(0, -1) : path;
+  const normalizedPath = path.endsWith(sep) ? path.slice(0, -1) : path
 
   const searchPaths = [
     `${normalizedPath}.func.ts`,
@@ -119,24 +119,24 @@ export function getRouteFiles(root: string, path: string): string[] {
     `${normalizedPath}${sep}index.func.tsx`,
     `${normalizedPath}${sep}default.func.ts`,
     `${normalizedPath}${sep}default.func.tsx`,
-  ];
+  ]
 
-  let currentPath = normalizedPath;
+  let currentPath = normalizedPath
   while (currentPath.length > normalizedRoot.length) {
-    const lastSepIndex = currentPath.lastIndexOf(sep);
-    if (lastSepIndex === -1) break;
+    const lastSepIndex = currentPath.lastIndexOf(sep)
+    if (lastSepIndex === -1) break
 
-    currentPath = currentPath.substring(0, lastSepIndex);
+    currentPath = currentPath.substring(0, lastSepIndex)
 
-    if (currentPath.length < normalizedRoot.length - 1) break;
+    if (currentPath.length < normalizedRoot.length - 1) break
 
     searchPaths.push(
       `${currentPath}${sep}default.func.ts`,
       `${currentPath}${sep}default.func.tsx`
-    );
+    )
   }
 
-  return searchPaths;
+  return searchPaths
 }
 
 /**
@@ -418,19 +418,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-              type: 'br',
-              compress: createBrotliCompress(),
-            }
+                type: 'br',
+                compress: createBrotliCompress(),
+              }
             : encoding.includes('gzip')
               ? {
-                type: 'gzip',
-                compress: createGzip(),
-              }
+                  type: 'gzip',
+                  compress: createGzip(),
+                }
               : encoding.includes('deflate')
                 ? {
-                  type: 'deflate',
-                  compress: createDeflate(),
-                }
+                    type: 'deflate',
+                    compress: createDeflate(),
+                  }
                 : false
 
           if (compression) {
@@ -527,7 +527,7 @@ export class Server {
       mounted[path].pending = []
       for (const event of pending)
         await this.handle(event[0], event[1], {
-          requestedAt: event[2]
+          requestedAt: event[2],
         })
     })
       .on('connection', socket => {
@@ -657,7 +657,9 @@ export class Server {
     next: () => void
   ): Promise<void> {
     try {
-      const filepath = this.getFilePath(join(this.root, req.url).replace(/\?.*/, ''))
+      const filepath = this.getFilePath(
+        join(this.root, req.url).replace(/\?.*/, '')
+      )
 
       await this.handle(req, res, {
         requestedAt: Date.now(),
@@ -684,8 +686,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-          .map(p => `- ${p}`)
-          .join('\n')}`
+            .map(p => `- ${p}`)
+            .join('\n')}`
 
     this.onError(message)
 

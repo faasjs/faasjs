@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "6.10.0",
+  "version": "6.11.0",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -30,10 +30,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/browser": ">=6.10.0"
+    "@faasjs/browser": ">=6.11.0"
   },
   "devDependencies": {
-    "@faasjs/browser": ">=6.10.0",
+    "@faasjs/browser": ">=6.11.0",
     "@types/react": "*",
     "react": "*"
   },

@@ -59,5 +59,6 @@ Dynamic routing:
 
 - [Middleware](type-aliases/Middleware.md)
 - [MiddlewareEvent](type-aliases/MiddlewareEvent.md)
+- [ServerHandlerOptions](type-aliases/ServerHandlerOptions.md)
 - [ServerOptions](type-aliases/ServerOptions.md)
 - [StaticHandlerOptions](type-aliases/StaticHandlerOptions.md)

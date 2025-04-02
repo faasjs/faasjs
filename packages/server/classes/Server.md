@@ -28,7 +28,7 @@ server.listen()
 
 ### Constructor
 
-> **new Server**(`root`, `opts`?): `Server`
+> **new Server**(`root`, `opts`): `Server`
 
 #### Parameters
 
@@ -36,9 +36,9 @@ server.listen()
 
 `string`
 
-##### opts?
+##### opts
 
-[`ServerOptions`](../type-aliases/ServerOptions.md)
+[`ServerOptions`](../type-aliases/ServerOptions.md) = `{}`
 
 #### Returns
 
@@ -49,6 +49,30 @@ server.listen()
 ### close()
 
 > **close**(): `Promise`\<`void`\>
+
+Close server.
+
+#### Returns
+
+`Promise`\<`void`\>
+
+### handle()
+
+> **handle**(`req`, `res`, `options`): `Promise`\<`void`\>
+
+#### Parameters
+
+##### req
+
+`IncomingMessage`
+
+##### res
+
+`ServerResponse`\<`IncomingMessage`\>
+
+##### options
+
+[`ServerHandlerOptions`](../type-aliases/ServerHandlerOptions.md) = `{}`
 
 #### Returns
 
@@ -64,31 +88,37 @@ Start server.
 
 `Server`
 
-### processRequest()
+### middleware()
 
-> **processRequest**(`path`, `req`, `res`, `requestedAt`): `Promise`\<`void`\>
+> **middleware**(`req`, `res`, `next`): `Promise`\<`void`\>
+
+Middleware function to handle incoming HTTP requests.
 
 #### Parameters
-
-##### path
-
-`string`
 
 ##### req
 
 `IncomingMessage`
 
+The incoming HTTP request object.
+
 ##### res
 
-`ServerResponse`\<`IncomingMessage`\> & `object`
+`ServerResponse`\<`IncomingMessage`\>
 
-##### requestedAt
+The server response object.
 
-`number`
+##### next
+
+() => `void`
+
+A callback function to pass control to the next middleware.
 
 #### Returns
 
 `Promise`\<`void`\>
+
+A promise that resolves when the middleware processing is complete.
 
 ## Properties
 
