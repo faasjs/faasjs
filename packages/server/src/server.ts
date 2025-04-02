@@ -7,7 +7,7 @@ import {
   createServer,
 } from 'node:http'
 import type { Socket } from 'node:net'
-import { join, resolve as pathResolve, sep } from 'node:path'
+import { join, resolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
 import { types } from 'node:util'
 import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
@@ -16,6 +16,11 @@ import type { Func } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
 import { loadConfig, loadPackage } from '@faasjs/load'
 import { Logger, getTransport } from '@faasjs/logger'
+
+export type ServerHandlerOptions = {
+  requestedAt?: number
+  filepath?: string
+}
 
 type Cache = {
   file?: string
@@ -103,29 +108,35 @@ export type ServerOptions = {
 }
 
 export function getRouteFiles(root: string, path: string): string[] {
-  const deeps = path.replace(root, '').split('/').length
-  const parents = path.replace(root, '').split('/').filter(Boolean)
+  const normalizedRoot = root.endsWith(sep) ? root : `${root}${sep}`;
+
+  const normalizedPath = path.endsWith(sep) ? path.slice(0, -1) : path;
+
   const searchPaths = [
-    `${path}.func.ts`,
-    `${path}.func.tsx`,
-    `${path}/index.func.ts`,
-    `${path}/index.func.tsx`,
-    `${path}/default.func.ts`,
-    `${path}/default.func.tsx`,
-  ].concat(
-    ...Array(deeps)
-      .fill(0)
-      .flatMap((_, i) => {
-        const folder = root + parents.slice(0, -(i + 1)).join('/')
+    `${normalizedPath}.func.ts`,
+    `${normalizedPath}.func.tsx`,
+    `${normalizedPath}${sep}index.func.ts`,
+    `${normalizedPath}${sep}index.func.tsx`,
+    `${normalizedPath}${sep}default.func.ts`,
+    `${normalizedPath}${sep}default.func.tsx`,
+  ];
 
-        return [
-          join(folder, 'default.func.ts'),
-          join(folder, 'default.func.tsx'),
-        ]
-      })
-  )
+  let currentPath = normalizedPath;
+  while (currentPath.length > normalizedRoot.length) {
+    const lastSepIndex = currentPath.lastIndexOf(sep);
+    if (lastSepIndex === -1) break;
 
-  return searchPaths
+    currentPath = currentPath.substring(0, lastSepIndex);
+
+    if (currentPath.length < normalizedRoot.length - 1) break;
+
+    searchPaths.push(
+      `${currentPath}${sep}default.func.ts`,
+      `${currentPath}${sep}default.func.tsx`
+    );
+  }
+
+  return searchPaths;
 }
 
 /**
@@ -212,17 +223,13 @@ export class Server {
     servers.push(this)
   }
 
-  public async processRequest(
-    path: string,
+  public async handle(
     req: IncomingMessage,
-    res: ServerResponse & {
-      statusCode: number
-      write: (body: string | Buffer) => void
-      end: () => void
-      setHeader: (key: string, value: string) => void
-    },
-    requestedAt: number
+    res: ServerResponse<IncomingMessage>,
+    options: ServerHandlerOptions = {}
   ): Promise<void> {
+    const requestedAt = options.requestedAt || Date.now()
+
     const requestId =
       (req.headers['x-faasjs-request-id'] as string) ||
       (req.headers['x-request-id'] as string) ||
@@ -233,7 +240,9 @@ export class Server {
 
     const startedAt = Date.now()
 
-    return await new Promise(resolve => {
+    const path = join(this.root, req.url).replace(/\?.*/, '')
+
+    await new Promise<void>(resolve => {
       let body = ''
 
       req.on('readable', () => {
@@ -270,7 +279,7 @@ export class Server {
             cache = this.cachedFuncs[path]
             logger.debug('response with cached %s', cache.file)
           } else {
-            cache.file = pathResolve('.', this.getFilePath(path))
+            cache.file = options.filepath || this.getFilePath(path)
             logger.debug('response with %s', cache.file)
 
             const func = await loadPackage<Func>(cache.file, [
@@ -517,7 +526,9 @@ export class Server {
       const pending = mounted[path].pending
       mounted[path].pending = []
       for (const event of pending)
-        await this.processRequest(path, event[0], event[1], event[2])
+        await this.handle(event[0], event[1], {
+          requestedAt: event[2]
+        })
     })
       .on('connection', socket => {
         this.sockets.add(socket)
@@ -567,6 +578,9 @@ export class Server {
     return this.server
   }
 
+  /**
+   * Close server.
+   */
   public async close(): Promise<void> {
     if (this.closed) {
       this.logger.debug('already closed')
@@ -629,6 +643,33 @@ export class Server {
     this.closed = true
   }
 
+  /**
+   * Middleware function to handle incoming HTTP requests.
+   *
+   * @param req - The incoming HTTP request object.
+   * @param res - The server response object.
+   * @param next - A callback function to pass control to the next middleware.
+   * @returns A promise that resolves when the middleware processing is complete.
+   */
+  public async middleware(
+    req: IncomingMessage,
+    res: ServerResponse<IncomingMessage>,
+    next: () => void
+  ): Promise<void> {
+    try {
+      const filepath = this.getFilePath(join(this.root, req.url).replace(/\?.*/, ''))
+
+      await this.handle(req, res, {
+        requestedAt: Date.now(),
+        filepath,
+      })
+    } catch (error: any) {
+      this.logger.debug('middleware error', error)
+    }
+
+    next()
+  }
+
   private getFilePath(path: string) {
     // Safe check
     if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
@@ -636,7 +677,7 @@ export class Server {
     const searchPaths = getRouteFiles(this.root, path)
 
     for (const path of searchPaths) {
-      if (existsSync(path)) return path
+      if (existsSync(path)) return resolve('.', path)
     }
 
     const message =
