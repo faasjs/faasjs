@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/logger",
-  "version": "6.11.0",
+  "version": "6.11.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
