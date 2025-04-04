@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v6.11.1 (2025-04-04)`](https://github.com/faasjs/faasjs/compare/v6.11.0...v6.11.1)
+
+- `@faasjs/server`
+  - [Fix] Fix `middleware` to handle option request.
+
 [`v6.11.0 (2025-04-02)`](https://github.com/faasjs/faasjs/compare/v6.10.0...v6.11.0)
 
 - `@faasjs/server`

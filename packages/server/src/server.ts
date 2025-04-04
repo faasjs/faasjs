@@ -174,8 +174,8 @@ export class Server {
   private sockets: Set<Socket> = new Set()
 
   constructor(root: string, opts: ServerOptions = {}) {
-    if (!process.env.FaasEnv && process.env.NODE_ENV === 'development')
-      process.env.FaasEnv = 'development'
+    if (!process.env.FaasEnv && process.env.NODE_ENV)
+      process.env.FaasEnv = process.env.NODE_ENV
 
     this.root = root.endsWith(sep) ? root : root + sep
     this.options = deepMerge(
@@ -193,8 +193,6 @@ export class Server {
       throw Error('onStart must be async function')
 
     if (!process.env.FaasMode) process.env.FaasMode = 'mono'
-
-    process.env.FaasLocal = `http://localhost:${this.options.port}`
 
     this.logger = new Logger(`server][${randomBytes(16).toString('hex')}`)
     this.logger.debug(
@@ -228,6 +226,11 @@ export class Server {
     res: ServerResponse<IncomingMessage>,
     options: ServerHandlerOptions = {}
   ): Promise<void> {
+    if (req.method === 'OPTIONS') {
+      this.handleOptionRequest(req, res)
+      return
+    }
+
     const requestedAt = options.requestedAt || Date.now()
 
     const requestId =
@@ -418,19 +421,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
+              type: 'br',
+              compress: createBrotliCompress(),
+            }
             : encoding.includes('gzip')
               ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
+                type: 'gzip',
+                compress: createGzip(),
+              }
               : encoding.includes('deflate')
                 ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
+                  type: 'deflate',
+                  compress: createDeflate(),
+                }
                 : false
 
           if (compression) {
@@ -497,25 +500,8 @@ export class Server {
       res.on('finish', () => this.activeRequests--)
 
       // don't lock options request
-      if (req.method === 'OPTIONS') {
-        res.writeHead(204, {
-          'Access-Control-Allow-Origin': req.headers.origin || '*',
-          'Access-Control-Allow-Credentials': 'true',
-          'Access-Control-Allow-Methods': 'OPTIONS, POST',
-          'Access-Control-Allow-Headers': Object.keys(req.headers)
-            .concat(req.headers['access-control-request-headers'] || [])
-            .filter(
-              key =>
-                !key.startsWith('access-control-') &&
-                !['host', 'connection'].includes(key) &&
-                !AdditionalHeaders.includes(key)
-            )
-            .concat(AdditionalHeaders)
-            .join(', '),
-        })
-        res.end()
-        return
-      }
+      if (req.method === 'OPTIONS')
+        return this.handleOptionRequest(req, res)
 
       const path = join(this.root, req.url).replace(/\?.*/, '')
 
@@ -686,14 +672,35 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
-
-    this.onError(message)
+          .map(p => `- ${p}`)
+          .join('\n')}`
 
     throw new HttpError({
       statusCode: 404,
       message,
     })
+  }
+
+  private handleOptionRequest(
+    req: IncomingMessage,
+    res: ServerResponse<IncomingMessage>
+  ): void {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': req.headers.origin || '*',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Methods': 'OPTIONS, POST',
+      'Access-Control-Allow-Headers': Object.keys(req.headers)
+        .concat(req.headers['access-control-request-headers'] || [])
+        .filter(
+          key =>
+            !key.startsWith('access-control-') &&
+            !['host', 'connection'].includes(key) &&
+            !AdditionalHeaders.includes(key)
+        )
+        .concat(AdditionalHeaders)
+        .join(', '),
+    })
+    res.end()
+    return
   }
 }
