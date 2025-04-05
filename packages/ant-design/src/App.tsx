@@ -122,9 +122,9 @@ export function App(props: AppProps) {
 
   const styleProviderProps = useEqualMemo(
     () => ({
-      ...props.styleProviderProps,
       hashPriority: 'high' as const,
       transformers: [legacyLogicalPropertiesTransformer],
+      ...props.styleProviderProps,
     }),
     [props.styleProviderProps]
   )
