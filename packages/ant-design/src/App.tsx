@@ -150,7 +150,19 @@ export function App(props: AppProps) {
             setModalProps,
           }}
         >
-          <FaasConfigProvider {...props.faasConfigProviderProps}>
+          <FaasConfigProvider
+            {...props.faasConfigProviderProps}
+            faasClientOptions={{
+              onError: (action) => async (res) => {
+                if ('message' in res && res.message.includes('AbortError')) return
+
+                console.error(`[FaasJS][${action}]`, res)
+
+                messageApi.error('message' in res ? res.message : 'Unknown error')
+              },
+              ...props.faasConfigProviderProps ? props.faasConfigProviderProps.faasClientOptions : {},
+            }}
+          >
             <ErrorBoundary {...props.errorBoundaryProps}>
               <OptionalWrapper
                 condition={

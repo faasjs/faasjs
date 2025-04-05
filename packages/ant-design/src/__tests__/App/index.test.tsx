@@ -1,9 +1,11 @@
+import { setMock } from '@faasjs/browser'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, } from 'vitest'
 import { App, useApp } from '../../App'
+import { useFaas } from '../../FaasDataWrapper'
 
 describe('App', () => {
   it('should work', async () => {
@@ -85,34 +87,54 @@ describe('App', () => {
     expect(ButtonTimes).toBe(1)
     expect(ComponentTimes).toBe(1)
   })
-})
 
-it('disable BrowserRouter', () => {
-  function Nav() {
-    const navigate = useNavigate()
+  it('disable BrowserRouter', () => {
+    function Nav() {
+      const navigate = useNavigate()
 
-    return (
-      <button type='button' onClick={() => navigate('/')}>
-        Nav
-      </button>
+      return (
+        <button type='button' onClick={() => navigate('/')}>
+          Nav
+        </button>
+      )
+    }
+
+    render(
+      <App browserRouterProps={false}>
+        <Nav />
+      </App>
     )
-  }
 
-  render(
-    <App browserRouterProps={false}>
-      <Nav />
-    </App>
-  )
+    expect(
+      screen.getByText(/useNavigate\(\) may be used only in the context/)
+    ).toBeDefined()
 
-  expect(
-    screen.getByText(/useNavigate\(\) may be used only in the context/)
-  ).toBeDefined()
+    render(
+      <App browserRouterProps={false}>
+        <div>OK</div>
+      </App>
+    )
 
-  render(
-    <App browserRouterProps={false}>
-      <div>OK</div>
-    </App>
-  )
+    expect(screen.getByText('OK')).toBeDefined()
+  })
 
-  expect(screen.getByText('OK')).toBeDefined()
+  it('error notification should work', async () => {
+    setMock(async () => Error('error message'))
+
+    function Component() {
+      const { loading } = useFaas('test', { key: 'value' })
+
+      if (loading) return null
+
+      return <div>test</div>
+    }
+
+    render(
+      <App faasConfigProviderProps={{ faasClientOptions: {} }}>
+        <Component />
+      </App>
+    )
+
+    expect(await screen.findAllByText('error message')).toHaveLength(2)
+  })
 })

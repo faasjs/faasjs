@@ -1,15 +1,19 @@
 import {
+  FaasReactClient,
+  type FaasReactClientOptions,
   FaasDataWrapper as Origin,
+  type FaasDataInjection as OriginFaasDataInjection,
+  type FaasDataWrapperProps as OriginProps,
   withFaasData as OriginWithFaasData,
-} from '@faasjs/react'
-import type {
-  FaasDataInjection as OriginFaasDataInjection,
-  FaasDataWrapperProps as OriginProps,
+  faas,
+  useFaas,
 } from '@faasjs/react'
 import type { FaasActionUnionType } from '@faasjs/types'
 import type { JSX } from 'react'
 import { Loading } from './Loading'
 import type { LoadingProps } from './Loading'
+
+export { faas, useFaas, FaasReactClient, type FaasReactClientOptions }
 
 export type FaasDataInjection<T = any> = Partial<OriginFaasDataInjection<T>>
 

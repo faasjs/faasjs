@@ -100,7 +100,7 @@ export function FaasReactClient(
     browserClient: client,
   }
 
-  clients[baseUrl as string] = reactClient
+  clients[baseUrl] = reactClient
 
   return reactClient
 }

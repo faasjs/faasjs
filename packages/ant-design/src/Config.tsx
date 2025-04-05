@@ -1,10 +1,9 @@
 import {
-  FaasReactClient,
-  type FaasReactClientOptions,
   useEqualEffect,
 } from '@faasjs/react'
 import { defaultsDeep } from 'lodash-es'
 import { type CSSProperties, createContext, useContext, useState } from 'react'
+import { FaasReactClient, type FaasReactClientOptions } from './FaasDataWrapper'
 
 export interface ConfigProviderProps {
   faasClientOptions?: FaasReactClientOptions
@@ -98,7 +97,7 @@ export const ConfigContext = createContext<Partial<ConfigProviderProps>>({
  * ```
  */
 export function ConfigProvider(props: ConfigProviderProps) {
-  const [theme, setTheme] = useState<ConfigProviderProps['theme']>(baseTheme)
+  const [theme, setTheme] = useState<ConfigProviderProps['theme']>()
 
   useEqualEffect(() => {
     const lang =
@@ -120,6 +119,7 @@ export function ConfigProvider(props: ConfigProviderProps) {
     } else setTheme(defaultsDeep(props.theme, baseTheme))
 
     if (props.faasClientOptions) FaasReactClient(props.faasClientOptions)
+    console.log('ConfigProvider', props.faasClientOptions)
   }, [props.theme])
 
   if (!theme) return null

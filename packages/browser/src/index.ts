@@ -228,7 +228,7 @@ export type MockHandler = (
   action: string,
   params: Record<string, any> | undefined,
   options: Options
-) => Promise<Response<any> | ResponseProps> | Promise<void>
+) => Promise<Response<any> | ResponseProps> | Promise<void> | Promise<Error>
 
 let mock: MockHandler | null
 
@@ -336,7 +336,12 @@ export class FaasBrowserClient {
     if (mock) {
       console.debug(`[FaasJS] Mock request: ${action} %j`, params)
       const response = await mock(action as string, params, parsedOptions)
-      if (response instanceof Error) return Promise.reject(response)
+      if (response instanceof Error) return Promise.reject(new ResponseError({
+        status: 500,
+        headers: {},
+        message: response.message,
+        body: response,
+      }))
       if (response instanceof Response) return response
       return new Response(response || {})
     }
