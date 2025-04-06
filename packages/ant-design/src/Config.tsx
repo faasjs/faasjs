@@ -119,7 +119,6 @@ export function ConfigProvider(props: ConfigProviderProps) {
     } else setTheme(defaultsDeep(props.theme, baseTheme))
 
     if (props.faasClientOptions) FaasReactClient(props.faasClientOptions)
-    console.log('ConfigProvider', props.faasClientOptions)
   }, [props.theme])
 
   if (!theme) return null
