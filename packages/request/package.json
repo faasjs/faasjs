@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/request",
-  "version": "6.12.0",
+  "version": "6.12.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -30,10 +30,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/logger": ">=6.12.0"
+    "@faasjs/logger": ">=6.12.1"
   },
   "devDependencies": {
-    "@faasjs/logger": ">=6.12.0"
+    "@faasjs/logger": ">=6.12.1"
   },
   "engines": {
     "node": ">=22.0.0",

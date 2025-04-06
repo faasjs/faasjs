@@ -28,7 +28,7 @@ Generate a function with NextJsPlugin.
 
 ## Returns
 
-`Function`
+> (`params`?): `Promise`\<`TResult`\>
 
 ### Parameters
 

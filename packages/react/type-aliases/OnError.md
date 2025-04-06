@@ -16,7 +16,7 @@
 
 ## Returns
 
-`Function`
+> (`res`): `Promise`\<`void`\>
 
 ### Parameters
 

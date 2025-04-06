@@ -26,7 +26,7 @@
 
 ### data
 
-`InvokeData`\<\{ `[key: string]`: `any`;  `params`: `TParams`; \}\> & `object`
+`InvokeData`\<\{[`key`: `string`]: `any`; `params`: `TParams`; \}\> & `object`
 
 ## Returns
 

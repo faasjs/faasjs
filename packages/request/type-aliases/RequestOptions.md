@@ -16,7 +16,7 @@ Format: `username:password`
 
 ### body?
 
-> `optional` **body**: \{\} \| `string`
+> `optional` **body**: \{[`key`: `string`]: `any`; \} \| `string`
 
 ### downloadFile?
 

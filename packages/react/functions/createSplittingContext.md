@@ -56,6 +56,8 @@ function ChildComponent() {
 
 ### Provider()
 
+> **Provider**\<`NewT`\>(`props`): `ReactNode`
+
 The provider component of the splitting context.
 
 #### Type Parameters
