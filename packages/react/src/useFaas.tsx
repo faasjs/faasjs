@@ -153,7 +153,7 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
 
       return () => {
         clearTimeout(timeout)
-        controllerRef.current?.abort()
+        controllerRef.current?.abort('debounce')
         setLoading(false)
       }
     }
@@ -161,7 +161,7 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
     send()
 
     return () => {
-      controllerRef.current?.abort()
+      controllerRef.current?.abort('unmount')
       setLoading(false)
     }
   }, [action, options.params || params, reloadTimes, skip])

@@ -154,7 +154,10 @@ export function App(props: AppProps) {
             {...props.faasConfigProviderProps}
             faasClientOptions={{
               onError: action => async res => {
-                if ('message' in res && res.message.includes('AbortError'))
+                if (
+                  ('message' in res && res.message.includes('AbortError')) ||
+                  res.body?.name === 'AbortError'
+                )
                   return
 
                 console.error(`[FaasJS][${action}]`, res)
