@@ -336,12 +336,7 @@ export class FaasBrowserClient {
     if (mock) {
       console.debug(`[FaasJS] Mock request: ${action} %j`, params)
       const response = await mock(action as string, params, parsedOptions)
-      if (response instanceof Error) return Promise.reject(new ResponseError({
-        status: 500,
-        headers: {},
-        message: response.message,
-        body: response,
-      }))
+      if (response instanceof Error) return Promise.reject(new ResponseError(response))
       if (response instanceof Response) return response
       return new Response(response || {})
     }

@@ -128,20 +128,22 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
             return send()
           }
 
+          let error = e
           if (client.onError)
             try {
               await client.onError(action as string, params)(e)
-            } catch (error) {
-              setError(error)
+            } catch (newError) {
+              error = newError
             }
-          else setError(e)
+
+          setError(error)
           setLoading(false)
 
-          for (const { reject } of pendingReloadsRef.current.values()) reject(e)
+          for (const { reject } of pendingReloadsRef.current.values()) reject(error)
 
           pendingReloadsRef.current.clear()
 
-          return Promise.reject(e)
+          return
         })
     }
 
