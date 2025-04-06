@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v6.12.2 (2025-04-06)`](https://github.com/faasjs/faasjs/compare/v6.11.1...v6.12.2)
+[`v6.12.3 (2025-04-06)`](https://github.com/faasjs/faasjs/compare/v6.11.1...v6.12.3)
 
 - `@faasjs/ant-design`
   - [Feature] Using Ant Design's message component as the default error notification when API calls fail, providing a consistent and user-friendly error feedback mechanism.
