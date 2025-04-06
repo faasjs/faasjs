@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/lint",
-  "version": "6.12.1",
+  "version": "6.12.2",
   "license": "MIT",
   "type": "module",
   "files": [
