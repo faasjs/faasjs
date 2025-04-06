@@ -153,14 +153,19 @@ export function App(props: AppProps) {
           <FaasConfigProvider
             {...props.faasConfigProviderProps}
             faasClientOptions={{
-              onError: (action) => async (res) => {
-                if ('message' in res && res.message.includes('AbortError')) return
+              onError: action => async res => {
+                if ('message' in res && res.message.includes('AbortError'))
+                  return
 
                 console.error(`[FaasJS][${action}]`, res)
 
-                messageApi.error('message' in res ? res.message : 'Unknown error')
+                messageApi.error(
+                  'message' in res ? res.message : 'Unknown error'
+                )
               },
-              ...props.faasConfigProviderProps ? props.faasConfigProviderProps.faasClientOptions : {},
+              ...(props.faasConfigProviderProps
+                ? props.faasConfigProviderProps.faasClientOptions
+                : {}),
             }}
           >
             <ErrorBoundary {...props.errorBoundaryProps}>

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { describe, expect, it, } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { App, useApp } from '../../App'
 import { useFaas } from '../../FaasDataWrapper'
 

@@ -10,7 +10,7 @@
 
 ### faasClientOptions?
 
-> `optional` **faasClientOptions**: `FaasReactClientOptions`
+> `optional` **faasClientOptions**: [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md)
 
 ### theme?
 

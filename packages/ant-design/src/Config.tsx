@@ -1,6 +1,4 @@
-import {
-  useEqualEffect,
-} from '@faasjs/react'
+import { useEqualEffect } from '@faasjs/react'
 import { defaultsDeep } from 'lodash-es'
 import { type CSSProperties, createContext, useContext, useState } from 'react'
 import { FaasReactClient, type FaasReactClientOptions } from './FaasDataWrapper'

@@ -139,7 +139,8 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
           setError(error)
           setLoading(false)
 
-          for (const { reject } of pendingReloadsRef.current.values()) reject(error)
+          for (const { reject } of pendingReloadsRef.current.values())
+            reject(error)
 
           pendingReloadsRef.current.clear()
 
