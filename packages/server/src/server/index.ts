@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process'
 import { randomBytes } from 'node:crypto'
 import { existsSync } from 'node:fs'
 import {
@@ -472,13 +473,6 @@ export class Server {
   public listen(): HttpServer {
     if (this.server) throw Error('Server already running')
 
-    this.logger.info(
-      '[%s] Listen http://localhost:%s with',
-      process.env.FaasEnv,
-      this.options.port,
-      this.root
-    )
-
     const mounted: Record<string, Mounted> = {}
 
     if (this.options.onStart) {
@@ -521,7 +515,19 @@ export class Server {
           this.sockets.delete(socket)
         })
       })
-      .on('error', this.onError)
+      .on('error', (e) => {
+        if ('code' in e && e.code === 'EADDRINUSE') {
+          execSync(`lsof -i :${this.options.port}`, {
+            stdio: 'inherit'
+          })
+          this.logger.error(
+            'Port %s is already in use. Please kill the process or use another port.',
+            this.options.port
+          )
+        }
+
+        this.onError(e)
+      })
       .listen(this.options.port, '0.0.0.0')
 
     process
@@ -559,6 +565,13 @@ export class Server {
         if (!process.env.JEST_WORKER_ID && !process.env.VITEST_POOL_ID)
           process.exit(0)
       })
+
+    this.logger.info(
+      '[%s] Listen http://localhost:%s with',
+      process.env.FaasEnv,
+      this.options.port,
+      this.root
+    )
 
     return this.server
   }
