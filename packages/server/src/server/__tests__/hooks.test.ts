@@ -87,4 +87,43 @@ describe('server/hooks', () => {
 
     expect(times).toBe(2)
   })
+
+  it('should handle beforeHandle', async () => {
+    const port = 3006 + Number(process.env.VITEST_POOL_ID)
+    let times = 0
+    const beforeHandle = async () => {
+      times++
+    }
+    const server = new Server(join(__dirname, 'funcs'), { port, beforeHandle })
+    server.listen()
+
+    await server.middleware(
+      {
+        method: 'GET',
+        url: '/hello',
+        headers: {},
+        body: null,
+        on: (type: string, handler: () => void) => {
+          if (type === 'end') handler()
+        },
+      } as any,
+      {
+        statusCode: 200,
+        headers: {},
+        writableEnded: false,
+        setHeader: () => {
+          return this
+        },
+        write: () => {
+          return this
+        },
+        end: () => {
+          return this
+        },
+      } as any,
+      () => { }
+    )
+
+    expect(times).toBe(1)
+  })
 })

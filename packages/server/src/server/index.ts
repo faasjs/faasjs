@@ -17,6 +17,7 @@ import type { Func } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
 import { loadConfig, loadPackage } from '@faasjs/load'
 import { Logger, getTransport } from '@faasjs/logger'
+import type { Middleware } from '../middleware'
 import { getRouteFiles } from './routes'
 
 export type ServerHandlerOptions = {
@@ -55,59 +56,98 @@ const AdditionalHeaders = [
 /**
  * Options for configuring the server.
  */
+/**
+ * Configuration options for the server.
+ */
 export type ServerOptions = {
   /**
    * The port on which the server will listen.
+   *
    * @default 3000
    */
-  port?: number
+  port?: number;
 
   /**
-   * Callback function that is called when the server starts.
+   * Callback function that is invoked when the server starts.
    *
-   * Note: It will not break the server if an error occurs.
+   * This function is executed asynchronously and will not interrupt the server
+   * if an error occurs during its execution.
    *
-   * @param context - The context object containing the logger.
+   * @param context - An object containing the logger instance.
+   *
    * @example
-   * ```ts
+   * ```typescript
    * const server = new Server(process.cwd(), {
    *   onStart: async ({ logger }) => {
-   *     logger.info('Server started')
-   *   })
-   * })
+   *     logger.info('Server started');
+   *   }
+   * });
    * ```
    */
-  onStart?: (context: { logger: Logger }) => Promise<void>
+  onStart?: (context: { logger: Logger }) => Promise<void>;
 
   /**
-   * Callback function that is called when an error occurs.
+   * Callback function that is invoked when an error occurs.
+   *
+   * This function is executed asynchronously and allows handling of errors
+   * that occur during server operation.
+   *
    * @param error - The error that occurred.
-   * @param context - The context object containing the logger.
+   * @param context - An object containing the logger instance.
+   *
    * @example
-   * ```ts
+   * ```typescript
    * const server = new Server(process.cwd(), {
    *   onError: async (error, { logger }) => {
-   *     logger.error(error)
-   *   })
-   * })
+   *     logger.error(error);
+   *   }
+   * });
    * ```
    */
-  onError?: (error: Error, context: { logger: Logger }) => Promise<void>
+  onError?: (error: Error, context: { logger: Logger }) => Promise<void>;
 
   /**
-   * Callback function that is called when the server is closed.
-   * @param context - The context object containing the logger.
+   * Callback function that is invoked when the server is closed.
+   *
+   * This function is executed asynchronously and can be used to perform
+   * cleanup tasks or log server shutdown events.
+   *
+   * @param context - An object containing the logger instance.
+   *
    * @example
-   * ```ts
+   * ```typescript
    * const server = new Server(process.cwd(), {
    *   onClose: async ({ logger }) => {
-   *     logger.info('Server closed')
-   *   })
-   * })
+   *     logger.info('Server closed');
+   *   }
+   * });
    * ```
    */
-  onClose?: (context: { logger: Logger }) => Promise<void>
-}
+  onClose?: (context: { logger: Logger }) => Promise<void>;
+
+  /**
+   * Callback function that is invoked before handling each request.
+   *
+   * This function is executed asynchronously before the main request handling logic.
+   * It can be used for request preprocessing, authentication, logging, etc.
+   *
+   * @param req - The incoming HTTP request object.
+   * @param res - The server response object.
+   *
+   * @example
+   * ```typescript
+   * const server = new Server(process.cwd(), {
+   *   beforeHandle: async (req, res) => {
+   *     console.log(`Processing ${req.method} request to ${req.url}`);
+   *
+   *     if (req.method !== 'POST')
+   *       res.writeHead(405, { 'Allow': 'POST' });
+   *   }
+   * });
+   * ```
+   */
+  beforeHandle?: Middleware
+};
 
 /**
  * FaasJS Server.
@@ -223,6 +263,27 @@ export class Server {
       })
 
       req.on('end', async () => {
+        if (this.options.beforeHandle) {
+          try {
+            await this.options.beforeHandle(req, res, {
+              logger,
+            })
+
+            if (res.writableEnded) {
+              resolve()
+              return
+            }
+          } catch (error: any) {
+            logger.error(error)
+            if (!res.headersSent) {
+              res.statusCode = 500
+              res.setHeader('Content-Type', 'application/json')
+              res.write(JSON.stringify({ error: { message: error.message } }))
+            }
+            resolve()
+            return
+          }
+        }
         let headers: {
           [key: string]: string
         } = {
