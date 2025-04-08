@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getRouteFiles } from '../../server'
+import { getRouteFiles } from '../routes'
 
 describe('getRouteFiles', () => {
   it('should work', () => {
