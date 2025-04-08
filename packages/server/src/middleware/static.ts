@@ -6,19 +6,19 @@ import type { Logger } from '@faasjs/logger'
 import { lookup } from 'mime-types'
 import type { Middleware } from './middleware'
 
-
 export type StaticHandlerOptions = {
   root: string
   /**
    * Not found handler.
    *
    * If set to `true`, the middleware will respond with a default 404 status code.
+   * If set to a string as a fallback path, the middleware will respond with the file at that path.
    * If set to a function, the middleware will call the function with the request, response, and logger.
    * If set to `false`, the middleware will do nothing.
    *
    * @default false
    */
-  notFound?: Middleware | boolean
+  notFound?: Middleware | boolean | string
   /**
    * Cache static files.
    * If set to `true`, the middleware will cache static files.
@@ -41,7 +41,6 @@ export type StaticHandlerOptions = {
   stripPrefix?: string | RegExp
 }
 
-
 type StaticHandlerCache =
   | {
     path: string
@@ -52,21 +51,28 @@ type StaticHandlerCache =
 const cachedStaticFiles = new Map<string, StaticHandlerCache>()
 
 async function respondWithNotFound(
-  options: StaticHandlerOptions['notFound'],
+  options: StaticHandlerOptions,
   request: IncomingMessage & {
     body?: any
   },
   response: ServerResponse,
   logger: Logger
 ) {
-  if (!options) return
-  if (options === true) {
+  if (!options.notFound) return
+
+  if (options.notFound === true) {
     response.statusCode = 404
     response.end('Not Found')
     return
   }
 
-  return await options(request, response, { logger })
+  if (typeof options.notFound === 'string') {
+    const path = resolve(options.root, options.notFound)
+
+    return await respondWithFile(path, lookup(path) || 'application/octet-stream', response)
+  }
+
+  return await options.notFound(request, response, { logger })
 }
 
 async function respondWithFile(
@@ -121,7 +127,7 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
 
       if (cached === false)
         return await respondWithNotFound(
-          options.notFound,
+          options,
           request,
           response,
           logger
@@ -152,7 +158,7 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
       if (cacheKey) cachedStaticFiles.set(cacheKey, false)
 
       return await respondWithNotFound(
-        options.notFound,
+        options,
         request,
         response,
         logger

@@ -9,8 +9,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/server`
   - [Break] All header names are lowercase.
   - [Break] 3rd of middleware argument changes to `MiddlewareContext`.
-  - [Feature] Add port in use notification.
+  - [Feature] Enhanced port binding notifications.
   - [Feature] Add `beforeHandle` to `Server`.
+  - [Feature] The `staticHandler`'s `notFound` option supports string path as fallback path.
 
 [`v6.12.3 (2025-04-06)`](https://github.com/faasjs/faasjs/compare/v6.11.1...v6.12.3)
 
