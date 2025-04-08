@@ -32,6 +32,7 @@ import { sep } from 'node:path'
 import { Logger } from '@faasjs/logger'
 import { Command } from 'commander'
 import { version } from '../package.json'
+import { DevCommand } from './commands/dev'
 import { NewCommand } from './commands/new'
 import { ServerCommand } from './commands/server'
 
@@ -68,6 +69,7 @@ commander
 // load commands
 NewCommand(commander)
 ServerCommand(commander)
+DevCommand(commander)
 
 export async function main(argv: string[]) {
   try {

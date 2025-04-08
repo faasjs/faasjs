@@ -13,6 +13,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Feature] Add `beforeHandle` to `Server`.
   - [Feature] The `staticHandler`'s `notFound` option supports string path as fallback path.
 
+- `@faasjs/cli`
+  - [Feature] Add `faas dev` command to start a development server.
+
 [`v6.12.3 (2025-04-06)`](https://github.com/faasjs/faasjs/compare/v6.11.1...v6.12.3)
 
 - `@faasjs/ant-design`
