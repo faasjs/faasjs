@@ -33,7 +33,7 @@ describe('middleware', () => {
           return this
         },
       } as any,
-      () => {}
+      () => { }
     )
 
     expect(responseData).toEqual(JSON.stringify({ data: 'hello' }))
@@ -69,7 +69,7 @@ describe('middleware', () => {
           return this
         },
       } as any,
-      () => {}
+      () => { }
     )
 
     expect(responseData).toBeNull()
@@ -104,7 +104,7 @@ describe('middleware', () => {
           return this
         },
       } as any,
-      () => {}
+      () => { }
     )
 
     expect(statusCode).toBe(204)
