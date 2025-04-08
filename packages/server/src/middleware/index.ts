@@ -14,10 +14,14 @@ export type MiddlewareEvent = {
   }
 }
 
+export type MiddlewareContext = {
+  logger: Logger
+}
+
 export type Middleware = (
   request: IncomingMessage & { body?: any },
   response: ServerResponse,
-  logger: Logger
+  context: MiddlewareContext
 ) => void | Promise<void>
 
 async function invokeMiddleware(
@@ -35,7 +39,7 @@ async function invokeMiddleware(
     await handler(
       Object.assign(event.raw.request, { body: event.body }),
       event.raw.response,
-      handlerLogger
+      { logger: handlerLogger }
     )
   } catch (error) {
     handlerLogger.error('error:', error)
@@ -147,9 +151,9 @@ export type StaticHandlerOptions = {
 
 type StaticHandlerCache =
   | {
-      path: string
-      mimeType: string
-    }
+    path: string
+    mimeType: string
+  }
   | false
 
 const cachedStaticFiles = new Map<string, StaticHandlerCache>()
@@ -169,7 +173,7 @@ async function respondWithNotFound(
     return
   }
 
-  return await options(request, response, logger)
+  return await options(request, response, { logger })
 }
 
 async function respondWithFile(
@@ -211,7 +215,7 @@ async function respondWithFile(
  * ```
  */
 export function staticHandler(options: StaticHandlerOptions): Middleware {
-  const handler: Middleware = async (request, response, logger) => {
+  const handler: Middleware = async (request, response, { logger }) => {
     if (request.method !== 'GET' || request.url.slice(0, 2) === '/.') return
 
     const cacheKey =
