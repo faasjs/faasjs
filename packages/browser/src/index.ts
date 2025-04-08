@@ -322,7 +322,7 @@ export class FaasBrowserClient {
       ...options,
     }
 
-    if (!parsedOptions.headers['X-FaasJS-Request-Id'])
+    if (!parsedOptions.headers['X-FaasJS-Request-Id'] && !parsedOptions.headers['x-faasjs-request-id'])
       parsedOptions.headers['X-FaasJS-Request-Id'] = id
 
     if (parsedOptions.beforeRequest)

@@ -18,6 +18,7 @@ import { HttpError } from '@faasjs/http'
 import { loadConfig, loadPackage } from '@faasjs/load'
 import { Logger, getTransport } from '@faasjs/logger'
 import type { Middleware } from '../middleware'
+import { buildCORSHeaders } from './headers'
 import { getRouteFiles } from './routes'
 
 export type ServerHandlerOptions = {
@@ -44,15 +45,6 @@ export async function closeAll(): Promise<void> {
   for (const server of servers) await server.close()
 }
 
-const AdditionalHeaders = [
-  'content-type',
-  'authorization',
-  'x-faasjs-request-id',
-  'x-faasjs-timing-pending',
-  'x-faasjs-timing-processing',
-  'x-faasjs-timing-total',
-]
-
 /**
  * Options for configuring the server.
  */
@@ -61,7 +53,7 @@ const AdditionalHeaders = [
  */
 export type ServerOptions = {
   /**
-   * The port on which the server will listen.
+   * The port on which the server will listen. Defaults to `3000` if not provided.
    *
    * @default 3000
    */
@@ -138,10 +130,10 @@ export type ServerOptions = {
    * ```typescript
    * const server = new Server(process.cwd(), {
    *   beforeHandle: async (req, res) => {
-   *     console.log(`Processing ${req.method} request to ${req.url}`);
+   *     console.log(`Processing ${req.method} request to ${req.url}`)
    *
    *     if (req.method !== 'POST')
-   *       res.writeHead(405, { 'Allow': 'POST' });
+   *       res.writeHead(405, { 'Allow': 'POST' }) // If you write response, it will finish the request
    *   }
    * });
    * ```
@@ -284,22 +276,10 @@ export class Server {
             return
           }
         }
-        let headers: {
-          [key: string]: string
-        } = {
-          'Access-Control-Allow-Origin': req.headers.origin || '*',
-          'Access-Control-Allow-Credentials': 'true',
-          'Access-Control-Allow-Methods': 'OPTIONS, POST',
-          'Access-Control-Expose-Headers': (
-            req.headers['access-control-expose-headers'] || ''
-          )
-            .split(',')
-            .filter(Boolean)
-            .concat(AdditionalHeaders)
-            .join(','),
-          'X-FaasJS-Request-Id': requestId,
-          'X-FaasJS-Timing-Pending': (startedAt - requestedAt).toString(),
-        }
+        let headers = buildCORSHeaders(req.headers, {
+          'x-faasjs-request-id': requestId,
+          'x-faasjs-timing-pending': (startedAt - requestedAt).toString()
+        })
 
         // get and remove accept-encoding to avoid http module compression
         const encoding = req.headers['accept-encoding'] || ''
@@ -362,13 +342,13 @@ export class Server {
 
         if (data.headers) headers = Object.assign(headers, data.headers)
 
-        if (!headers['X-FaasJS-Timing-Processing'])
-          headers['X-FaasJS-Timing-Processing'] = (
+        if (!headers['x-faasjs-timing-processing'])
+          headers['x-faasjs-timing-processing'] = (
             finishedAt - startedAt
           ).toString()
 
-        if (!headers['X-FaasJS-Timing-Total'])
-          headers['X-FaasJS-Timing-Total'] = (
+        if (!headers['x-faasjs-timing-total'])
+          headers['x-faasjs-timing-total'] = (
             finishedAt - requestedAt
           ).toString()
 
@@ -468,8 +448,8 @@ export class Server {
                 : false
 
           if (compression) {
-            res.setHeader('Vary', 'Accept-Encoding')
-            res.writeHead(200, { 'Content-Encoding': compression.type })
+            res.setHeader('Vary', 'accept-encoding')
+            res.writeHead(200, { 'content-encoding': compression.type })
 
             Readable.from(resBody)
               .pipe(compression.compress)
@@ -727,21 +707,7 @@ export class Server {
     req: IncomingMessage,
     res: ServerResponse<IncomingMessage>
   ): void {
-    res.writeHead(204, {
-      'Access-Control-Allow-Origin': req.headers.origin || '*',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Methods': 'OPTIONS, POST',
-      'Access-Control-Allow-Headers': Object.keys(req.headers)
-        .concat(req.headers['access-control-request-headers'] || [])
-        .filter(
-          key =>
-            !key.startsWith('access-control-') &&
-            !['host', 'connection'].includes(key) &&
-            !AdditionalHeaders.includes(key)
-        )
-        .concat(AdditionalHeaders)
-        .join(', '),
-    })
+    res.writeHead(204, buildCORSHeaders(req.headers))
     res.end()
     return
   }
