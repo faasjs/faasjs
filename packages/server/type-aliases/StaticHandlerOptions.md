@@ -23,11 +23,12 @@ true
 
 ### notFound?
 
-> `optional` **notFound**: [`Middleware`](Middleware.md) \| `boolean`
+> `optional` **notFound**: [`Middleware`](Middleware.md) \| `boolean` \| `string`
 
 Not found handler.
 
 If set to `true`, the middleware will respond with a default 404 status code.
+If set to a string as a fallback path, the middleware will respond with the file at that path.
 If set to a function, the middleware will call the function with the request, response, and logger.
 If set to `false`, the middleware will do nothing.
 

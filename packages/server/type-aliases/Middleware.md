@@ -2,7 +2,7 @@
 
 # Type Alias: Middleware()
 
-> **Middleware** = (`request`, `response`, `logger`) => `void` \| `Promise`\<`void`\>
+> **Middleware** = (`request`, `response`, `context`) => `void` \| `Promise`\<`void`\>
 
 ## Parameters
 
@@ -14,9 +14,9 @@
 
 `ServerResponse`
 
-### logger
+### context
 
-`Logger`
+[`MiddlewareContext`](MiddlewareContext.md)
 
 ## Returns
 

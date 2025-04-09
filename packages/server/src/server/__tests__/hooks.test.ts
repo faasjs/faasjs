@@ -121,7 +121,7 @@ describe('server/hooks', () => {
           return this
         },
       } as any,
-      () => { }
+      () => {}
     )
 
     expect(times).toBe(1)

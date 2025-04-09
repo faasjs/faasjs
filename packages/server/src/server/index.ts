@@ -57,7 +57,7 @@ export type ServerOptions = {
    *
    * @default 3000
    */
-  port?: number;
+  port?: number
 
   /**
    * Callback function that is invoked when the server starts.
@@ -76,7 +76,7 @@ export type ServerOptions = {
    * });
    * ```
    */
-  onStart?: (context: { logger: Logger }) => Promise<void>;
+  onStart?: (context: { logger: Logger }) => Promise<void>
 
   /**
    * Callback function that is invoked when an error occurs.
@@ -96,7 +96,7 @@ export type ServerOptions = {
    * });
    * ```
    */
-  onError?: (error: Error, context: { logger: Logger }) => Promise<void>;
+  onError?: (error: Error, context: { logger: Logger }) => Promise<void>
 
   /**
    * Callback function that is invoked when the server is closed.
@@ -115,7 +115,7 @@ export type ServerOptions = {
    * });
    * ```
    */
-  onClose?: (context: { logger: Logger }) => Promise<void>;
+  onClose?: (context: { logger: Logger }) => Promise<void>
 
   /**
    * Callback function that is invoked before handling each request.
@@ -139,7 +139,7 @@ export type ServerOptions = {
    * ```
    */
   beforeHandle?: Middleware
-};
+}
 
 /**
  * FaasJS Server.
@@ -278,7 +278,7 @@ export class Server {
         }
         let headers = buildCORSHeaders(req.headers, {
           'x-faasjs-request-id': requestId,
-          'x-faasjs-timing-pending': (startedAt - requestedAt).toString()
+          'x-faasjs-timing-pending': (startedAt - requestedAt).toString(),
         })
 
         // get and remove accept-encoding to avoid http module compression
@@ -432,19 +432,19 @@ export class Server {
 
           const compression = encoding.includes('br')
             ? {
-              type: 'br',
-              compress: createBrotliCompress(),
-            }
+                type: 'br',
+                compress: createBrotliCompress(),
+              }
             : encoding.includes('gzip')
               ? {
-                type: 'gzip',
-                compress: createGzip(),
-              }
+                  type: 'gzip',
+                  compress: createGzip(),
+                }
               : encoding.includes('deflate')
                 ? {
-                  type: 'deflate',
-                  compress: createDeflate(),
-                }
+                    type: 'deflate',
+                    compress: createDeflate(),
+                  }
                 : false
 
           if (compression) {
@@ -525,10 +525,10 @@ export class Server {
           this.sockets.delete(socket)
         })
       })
-      .on('error', (e) => {
+      .on('error', e => {
         if ('code' in e && e.code === 'EADDRINUSE') {
           execSync(`lsof -i :${this.options.port}`, {
-            stdio: 'inherit'
+            stdio: 'inherit',
           })
           this.logger.error(
             'Port %s is already in use. Please kill the process or use another port.',
@@ -694,8 +694,8 @@ export class Server {
       process.env.FaasEnv === 'production'
         ? 'Not found.'
         : `Not found function file.\nSearch paths:\n${searchPaths
-          .map(p => `- ${p}`)
-          .join('\n')}`
+            .map(p => `- ${p}`)
+            .join('\n')}`
 
     throw new HttpError({
       statusCode: 404,

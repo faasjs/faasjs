@@ -4,7 +4,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v7.0.0 (2025-04-06)`](https://github.com/faasjs/faasjs/compare/v6.12.3...v7.0.0)
+[`v7.0.0 (2025-04-09)`](https://github.com/faasjs/faasjs/compare/v6.12.3...v7.0.0)
 
 - `@faasjs/server`
   - [Break] All header names are lowercase.

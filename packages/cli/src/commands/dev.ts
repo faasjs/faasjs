@@ -1,4 +1,4 @@
-import { spawn, } from 'node:child_process'
+import { spawn } from 'node:child_process'
 import { join } from 'node:path'
 import type { Command } from 'commander'
 import { defaultsEnv } from '../helper'
@@ -8,14 +8,17 @@ export function action(opts: {
 }): void {
   defaultsEnv()
 
-  const childProcess = spawn(`FaasRoot=${process.env.FaasRoot} FaasPort=${opts.port || 3000} npm exec tsx watch ${join(__dirname, '..', 'devServer.ts')}`, {
-    stdio: 'pipe',
-    shell: true,
-  })
+  const childProcess = spawn(
+    `FaasRoot=${process.env.FaasRoot} FaasPort=${opts.port || 3000} npm exec tsx watch ${join(__dirname, '..', 'devServer.ts')}`,
+    {
+      stdio: 'pipe',
+      shell: true,
+    }
+  )
 
-  childProcess.stdout.on('data', data => console.log(data.toString()));
+  childProcess.stdout.on('data', data => console.log(data.toString()))
 
-  childProcess.stderr.on('data', data => console.error(data.toString()));
+  childProcess.stderr.on('data', data => console.error(data.toString()))
 }
 
 export function DevCommand(program: Command): void {

@@ -181,10 +181,7 @@ export class CloudFunction implements Plugin {
         await loadPackage<typeof import('@faasjs/test')>('@faasjs/test')
       const originFunc = await loadPackage<Func>(
         `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`,
-        [
-          'func',
-          'default',
-        ]
+        ['func', 'default']
       )
       const func = new test.FuncWarper(originFunc)
       return func.handler(data, { request_id: this.logger.label })
@@ -210,10 +207,7 @@ export class CloudFunction implements Plugin {
         await loadPackage<typeof import('@faasjs/test')>('@faasjs/test')
       const originFunc = await loadPackage<Func>(
         `${process.env.FaasRoot || ''}${name.toLowerCase()}.func`,
-        [
-          'func',
-          'default',
-        ]
+        ['func', 'default']
       )
       const func = new test.FuncWarper(originFunc)
       return func.handler(data, { request_id: this.logger.label })

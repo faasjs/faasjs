@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest"
-import { buildCORSHeaders } from "../headers"
+import { describe, expect, it } from 'vitest'
+import { buildCORSHeaders } from '../headers'
 
 describe('buildCORSHeaders', () => {
   it('should return default CORS headers when no headers are provided', () => {
@@ -10,8 +10,10 @@ describe('buildCORSHeaders', () => {
       'access-control-allow-origin': '*',
       'access-control-allow-credentials': 'true',
       'access-control-allow-methods': 'OPTIONS, POST',
-      'access-control-allow-headers': 'content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total, x-header',
-      'access-control-expose-headers': 'content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total, x-header',
+      'access-control-allow-headers':
+        'content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total, x-header',
+      'access-control-expose-headers':
+        'content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total, x-header',
     })
   })
 

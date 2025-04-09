@@ -9,7 +9,10 @@ const AdditionalHeaders = [
   'x-faasjs-timing-total',
 ]
 
-export function buildCORSHeaders(headers: IncomingHttpHeaders, extra: IncomingHttpHeaders = {}): IncomingHttpHeaders {
+export function buildCORSHeaders(
+  headers: IncomingHttpHeaders,
+  extra: IncomingHttpHeaders = {}
+): IncomingHttpHeaders {
   const commonHeaderNames = [
     ...AdditionalHeaders,
     ...Object.keys(headers),
@@ -21,18 +24,30 @@ export function buildCORSHeaders(headers: IncomingHttpHeaders, extra: IncomingHt
       !!key &&
       !key.startsWith('access-control-') &&
       !['host', 'connection'].includes(key)
-  );
+  )
 
   return {
     'access-control-allow-origin': headers.origin || '*',
     'access-control-allow-credentials': 'true',
     'access-control-allow-methods': 'OPTIONS, POST',
-    'access-control-allow-headers': Array.from(new Set(commonHeaderNames
-      .concat(extra['access-control-allow-headers'] || headers['access-control-allow-headers'] || [])))
-      .join(', '),
-    'access-control-expose-headers': Array.from(new Set(commonHeaderNames
-      .concat(extra['access-control-expose-headers'] || headers['access-control-expose-headers'] || [])))
-      .join(', '),
+    'access-control-allow-headers': Array.from(
+      new Set(
+        commonHeaderNames.concat(
+          extra['access-control-allow-headers'] ||
+            headers['access-control-allow-headers'] ||
+            []
+        )
+      )
+    ).join(', '),
+    'access-control-expose-headers': Array.from(
+      new Set(
+        commonHeaderNames.concat(
+          extra['access-control-expose-headers'] ||
+            headers['access-control-expose-headers'] ||
+            []
+        )
+      )
+    ).join(', '),
     ...extra,
   }
 }

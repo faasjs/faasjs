@@ -36,7 +36,9 @@ describe('cloud_function', () => {
       event: { key: 1 },
     })
 
-    expect(await useCloudFunction().invoke(`${__dirname}/funcs/test`, { key: 1 })).toMatchObject({
+    expect(
+      await useCloudFunction().invoke(`${__dirname}/funcs/test`, { key: 1 })
+    ).toMatchObject({
       event: { key: 1 },
     })
   })
@@ -55,11 +57,15 @@ describe('cloud_function', () => {
 
     expect(res).toMatchObject({ event: { key: 1 } })
 
-    expect(await invokeSync(`${__dirname}/funcs/test`, { key: 1 })).toMatchObject({
+    expect(
+      await invokeSync(`${__dirname}/funcs/test`, { key: 1 })
+    ).toMatchObject({
       event: { key: 1 },
     })
 
-    expect(await useCloudFunction().invokeSync(`${__dirname}/funcs/test`, { key: 1 })).toMatchObject({
+    expect(
+      await useCloudFunction().invokeSync(`${__dirname}/funcs/test`, { key: 1 })
+    ).toMatchObject({
       event: { key: 1 },
     })
   })

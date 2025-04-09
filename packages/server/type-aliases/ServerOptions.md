@@ -4,21 +4,54 @@
 
 > **ServerOptions** = `object`
 
-Options for configuring the server.
+Configuration options for the server.
 
 ## Properties
+
+### beforeHandle?
+
+> `optional` **beforeHandle**: [`Middleware`](Middleware.md)
+
+Callback function that is invoked before handling each request.
+
+This function is executed asynchronously before the main request handling logic.
+It can be used for request preprocessing, authentication, logging, etc.
+
+#### Param
+
+The incoming HTTP request object.
+
+#### Param
+
+The server response object.
+
+#### Example
+
+```typescript
+const server = new Server(process.cwd(), {
+  beforeHandle: async (req, res) => {
+    console.log(`Processing ${req.method} request to ${req.url}`)
+
+    if (req.method !== 'POST')
+      res.writeHead(405, { 'Allow': 'POST' }) // If you write response, it will finish the request
+  }
+});
+```
 
 ### onClose()?
 
 > `optional` **onClose**: (`context`) => `Promise`\<`void`\>
 
-Callback function that is called when the server is closed.
+Callback function that is invoked when the server is closed.
+
+This function is executed asynchronously and can be used to perform
+cleanup tasks or log server shutdown events.
 
 #### Parameters
 
 ##### context
 
-The context object containing the logger.
+An object containing the logger instance.
 
 ###### logger
 
@@ -30,19 +63,22 @@ The context object containing the logger.
 
 #### Example
 
-```ts
+```typescript
 const server = new Server(process.cwd(), {
   onClose: async ({ logger }) => {
-    logger.info('Server closed')
-  })
-})
+    logger.info('Server closed');
+  }
+});
 ```
 
 ### onError()?
 
 > `optional` **onError**: (`error`, `context`) => `Promise`\<`void`\>
 
-Callback function that is called when an error occurs.
+Callback function that is invoked when an error occurs.
+
+This function is executed asynchronously and allows handling of errors
+that occur during server operation.
 
 #### Parameters
 
@@ -54,7 +90,7 @@ The error that occurred.
 
 ##### context
 
-The context object containing the logger.
+An object containing the logger instance.
 
 ###### logger
 
@@ -66,27 +102,28 @@ The context object containing the logger.
 
 #### Example
 
-```ts
+```typescript
 const server = new Server(process.cwd(), {
   onError: async (error, { logger }) => {
-    logger.error(error)
-  })
-})
+    logger.error(error);
+  }
+});
 ```
 
 ### onStart()?
 
 > `optional` **onStart**: (`context`) => `Promise`\<`void`\>
 
-Callback function that is called when the server starts.
+Callback function that is invoked when the server starts.
 
-Note: It will not break the server if an error occurs.
+This function is executed asynchronously and will not interrupt the server
+if an error occurs during its execution.
 
 #### Parameters
 
 ##### context
 
-The context object containing the logger.
+An object containing the logger instance.
 
 ###### logger
 
@@ -98,19 +135,19 @@ The context object containing the logger.
 
 #### Example
 
-```ts
+```typescript
 const server = new Server(process.cwd(), {
   onStart: async ({ logger }) => {
-    logger.info('Server started')
-  })
-})
+    logger.info('Server started');
+  }
+});
 ```
 
 ### port?
 
 > `optional` **port**: `number`
 
-The port on which the server will listen.
+The port on which the server will listen. Defaults to `3000` if not provided.
 
 #### Default
 

@@ -46,7 +46,6 @@ Dynamic routing:
 
 - [closeAll](functions/closeAll.md)
 - [getAll](functions/getAll.md)
-- [getRouteFiles](functions/getRouteFiles.md)
 - [staticHandler](functions/staticHandler.md)
 - [useMiddleware](functions/useMiddleware.md)
 - [useMiddlewares](functions/useMiddlewares.md)
@@ -58,6 +57,7 @@ Dynamic routing:
 ## Type Aliases
 
 - [Middleware](type-aliases/Middleware.md)
+- [MiddlewareContext](type-aliases/MiddlewareContext.md)
 - [MiddlewareEvent](type-aliases/MiddlewareEvent.md)
 - [ServerHandlerOptions](type-aliases/ServerHandlerOptions.md)
 - [ServerOptions](type-aliases/ServerOptions.md)
