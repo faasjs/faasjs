@@ -16,6 +16,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/cli`
   - [Feature] Add `faas dev` command to start a development server.
 
+- `@faasjs/cloud_function`
+  - [Fix] Support `export const func = useFunc(...)` syntax.
+
 [`v6.12.3 (2025-04-06)`](https://github.com/faasjs/faasjs/compare/v6.11.1...v6.12.3)
 
 - `@faasjs/ant-design`
