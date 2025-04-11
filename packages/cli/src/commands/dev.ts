@@ -16,9 +16,19 @@ export function action(opts: {
     }
   )
 
-  childProcess.stdout.on('data', data => console.log(data.toString()))
+  childProcess.stdout.on('data', data => console.log(data.toString().trim()))
 
-  childProcess.stderr.on('data', data => console.error(data.toString()))
+  childProcess.stderr.on('data', data => console.error(data.toString().trim()))
+
+  process
+    .on('SIGTERM', async () => {
+      childProcess.kill('SIGTERM')
+      process.exit(0)
+    })
+    .on('SIGINT', async () => {
+      childProcess.kill('SIGINT')
+      process.exit(0)
+    })
 }
 
 export function DevCommand(program: Command): void {
