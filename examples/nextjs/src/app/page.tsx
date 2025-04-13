@@ -10,13 +10,15 @@ export default function Home() {
   console.log('error', error)
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-    }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
       <h1>FaasJS Example for Next.js</h1>
       <p>Now: {data}</p>
       {error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
@@ -25,25 +27,33 @@ export default function Home() {
         onClick={() => {
           setType('toString')
         }}
-      >toString</button>
+      >
+        toString
+      </button>
       <button
         type='button'
         onClick={() => {
           setType('toISOString')
         }}
-      >toISOString</button>
+      >
+        toISOString
+      </button>
       <button
         type='button'
         onClick={() => {
           setType('toTimestamp')
         }}
-      >toTimestamp</button>
+      >
+        toTimestamp
+      </button>
       <button
         type='button'
         onClick={() => {
           setType('throw Error')
         }}
-      >throw Error</button>
+      >
+        throw Error
+      </button>
     </div>
   )
 }

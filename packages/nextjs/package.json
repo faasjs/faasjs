@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/nextjs",
-  "version": "7.0.0-beta.0",
+  "version": "7.0.0-beta.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -30,12 +30,12 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/react": ">=7.0.0-beta.0",
-    "@faasjs/func": ">=7.0.0-beta.0"
+    "@faasjs/react": ">=7.0.0-beta.1",
+    "@faasjs/func": ">=7.0.0-beta.1"
   },
   "devDependencies": {
-    "@faasjs/react": ">=7.0.0-beta.0",
-    "@faasjs/func": ">=7.0.0-beta.0",
+    "@faasjs/react": ">=7.0.0-beta.1",
+    "@faasjs/func": ">=7.0.0-beta.1",
     "next": "*"
   },
   "engines": {
