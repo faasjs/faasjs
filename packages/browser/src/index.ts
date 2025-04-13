@@ -349,6 +349,16 @@ export class FaasBrowserClient {
       try {
         const result = await action(params)
 
+        if (result.error?.message)
+          return Promise.reject(
+            new ResponseError({
+              message: result.error.message,
+              status: 500,
+              headers: {},
+              body: result,
+            })
+          )
+
         return new Response({
           status: result ? 200 : 201,
           data: result.data,
@@ -382,6 +392,17 @@ export class FaasBrowserClient {
             })
 
           const body = JSON.parse(res)
+
+          if (body.error?.message)
+            return Promise.reject(
+              new ResponseError({
+                message: body.error.message,
+                status: response.status,
+                headers,
+                body,
+              })
+            )
+
           return new Response({
             status: response.status,
             headers,

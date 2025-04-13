@@ -103,6 +103,8 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
 
       request
         .then(r => {
+          setFails(0)
+          setError(null)
           options.setData ? options.setData(r.data) : setData(r.data)
           setLoading(false)
 
