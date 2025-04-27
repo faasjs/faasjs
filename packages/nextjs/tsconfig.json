@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "target": "es2018",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "jsx": "react-jsx"
-  }
-}

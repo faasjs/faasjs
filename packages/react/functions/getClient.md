@@ -2,7 +2,7 @@
 
 # Function: getClient()
 
-> **getClient**(`host`?): [`FaasReactClientInstance`](../type-aliases/FaasReactClientInstance.md)
+> **getClient**(`host?`): [`FaasReactClientInstance`](../type-aliases/FaasReactClientInstance.md)
 
 Get FaasReactClient instance
 

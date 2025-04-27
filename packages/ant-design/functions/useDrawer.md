@@ -2,7 +2,7 @@
 
 # Function: useDrawer()
 
-> **useDrawer**(`init`?): `object`
+> **useDrawer**(`init?`): `object`
 
 Hook style drawer
 

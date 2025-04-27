@@ -10,7 +10,7 @@
 
 ### Constructor
 
-> **new CloudFunction**(`config`?): `CloudFunction`
+> **new CloudFunction**(`config?`): `CloudFunction`
 
 创建云函数配置
 
@@ -30,7 +30,7 @@
 
 ### invoke()
 
-> **invoke**\<`TData`\>(`name`, `data`?, `options`?): `Promise`\<`void`\>
+> **invoke**\<`TData`\>(`name`, `data?`, `options?`): `Promise`\<`void`\>
 
 异步触发云函数
 
@@ -66,7 +66,7 @@
 
 ### invokeSync()
 
-> **invokeSync**\<`TResult`, `TData`\>(`name`, `data`?, `options`?): `Promise`\<`TResult`\>
+> **invokeSync**\<`TResult`, `TData`\>(`name`, `data?`, `options?`): `Promise`\<`TResult`\>
 
 同步调用云函数
 

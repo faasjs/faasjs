@@ -1,5 +1,5 @@
 {
-  "name": "@faasjs/nextjs",
+  "name": "@faasjs/vite",
   "version": "7.0.0-beta.1",
   "license": "MIT",
   "type": "module",
@@ -13,30 +13,27 @@
       "require": "./dist/index.cjs"
     }
   },
-  "homepage": "https://faasjs.com/doc/nextjs/",
+  "homepage": "https://faasjs.com/doc/vite",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",
-    "directory": "packages/nextjs"
+    "directory": "packages/vite"
   },
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --config ../../tsup.config.ts --external next"
+    "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "peerDependencies": {
-    "@faasjs/react": ">=7.0.0-beta.1",
-    "@faasjs/func": ">=7.0.0-beta.1"
+    "@faasjs/cli": ">=7.0.0-beta.1",
+    "vite": "*"
   },
   "devDependencies": {
-    "@faasjs/react": ">=7.0.0-beta.1",
-    "@faasjs/func": ">=7.0.0-beta.1",
-    "next": "*"
+    "@faasjs/cli": ">=7.0.0-beta.1",
+    "vite": "*"
   },
   "engines": {
     "node": ">=22.0.0",

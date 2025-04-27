@@ -16,7 +16,7 @@
 
 ### Constructor
 
-> **new Cookie**\<`C`, `S`\>(`config`, `logger`?): `Cookie`\<`C`, `S`\>
+> **new Cookie**\<`C`, `S`\>(`config`, `logger?`): `Cookie`\<`C`, `S`\>
 
 #### Parameters
 
@@ -80,7 +80,7 @@
 
 ### write()
 
-> **write**(`key`, `value`, `opts`?): `Cookie`\<`C`, `S`\>
+> **write**(`key`, `value`, `opts?`): `Cookie`\<`C`, `S`\>
 
 #### Parameters
 

@@ -2,7 +2,7 @@
 
 # Function: invokeSync()
 
-> **invokeSync**\<`TResult`, `TData`\>(`name`, `data`?, `options`?): `Promise`\<`TResult`\>
+> **invokeSync**\<`TResult`, `TData`\>(`name`, `data?`, `options?`): `Promise`\<`TResult`\>
 
 同步触发云函数
 

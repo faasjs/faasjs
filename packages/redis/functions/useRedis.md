@@ -2,7 +2,7 @@
 
 # Function: useRedis()
 
-> **useRedis**(`config`?): `UseifyPlugin`\<[`Redis`](../classes/Redis.md)\>
+> **useRedis**(`config?`): `UseifyPlugin`\<[`Redis`](../classes/Redis.md)\>
 
 ## Parameters
 

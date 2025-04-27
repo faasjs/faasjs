@@ -22,8 +22,6 @@ The default value of the splitting context.
 
 ## Returns
 
-`object`
-
 ### use()
 
 > **use**: \<`NewT`\>() => `Readonly`\<`NewT`\>

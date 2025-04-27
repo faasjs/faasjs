@@ -2,7 +2,7 @@
 
 # Function: request()
 
-> **request**\<`T`\>(`url`, `options`?): `Promise`\<[`Response`](../type-aliases/Response.md)\<`T`\>\>
+> **request**\<`T`\>(`url`, `options?`): `Promise`\<[`Response`](../type-aliases/Response.md)\<`T`\>\>
 
 Request
 

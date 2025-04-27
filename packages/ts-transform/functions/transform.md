@@ -2,7 +2,7 @@
 
 # Function: transform()
 
-> **transform**(`code`, `options`?): `Output`
+> **transform**(`code`, `options?`): `Output`
 
 ## Parameters
 

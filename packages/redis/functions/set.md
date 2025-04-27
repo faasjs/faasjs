@@ -2,7 +2,7 @@
 
 # Function: set()
 
-> **set**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
+> **set**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
 
 ## Type Parameters
 

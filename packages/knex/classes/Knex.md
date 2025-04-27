@@ -10,7 +10,7 @@
 
 ### Constructor
 
-> **new Knex**(`config`?): `Knex`
+> **new Knex**(`config?`): `Knex`
 
 #### Parameters
 
@@ -110,7 +110,7 @@
 
 ### transaction()
 
-> **transaction**\<`TResult`\>(`scope`, `config`?, `options`?): `Promise`\<`TResult`\>
+> **transaction**\<`TResult`\>(`scope`, `config?`, `options?`): `Promise`\<`TResult`\>
 
 Wraps a transaction, returning a promise that resolves to the return value of the callback.
 

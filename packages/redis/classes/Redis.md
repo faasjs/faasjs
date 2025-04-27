@@ -12,7 +12,7 @@ Redis Plugin
 
 ### Constructor
 
-> **new Redis**(`config`?): `Redis`
+> **new Redis**(`config?`): `Redis`
 
 #### Parameters
 
@@ -186,7 +186,7 @@ Publish message
 
 ### set()
 
-> **set**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
+> **set**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
 
 #### Type Parameters
 
@@ -214,7 +214,7 @@ Publish message
 
 ### setJSON()
 
-> **setJSON**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
+> **setJSON**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
 
 #### Type Parameters
 
@@ -272,7 +272,7 @@ Unlock by key
 
 ### multi()
 
-> **multi**: (`options`?) => `ChainableCommander`
+> **multi**: (`options?`) => `ChainableCommander`
 
 #### Parameters
 
@@ -294,7 +294,7 @@ Unlock by key
 
 ### pipeline()
 
-> **pipeline**: (`commands`?) => `ChainableCommander`
+> **pipeline**: (`commands?`) => `ChainableCommander`
 
 #### Parameters
 

@@ -2,7 +2,7 @@
 
 # Function: useKnex()
 
-> **useKnex**(`config`?): `UseifyPlugin`\<[`Knex`](../classes/Knex.md)\>
+> **useKnex**(`config?`): `UseifyPlugin`\<[`Knex`](../classes/Knex.md)\>
 
 ## Parameters
 

@@ -8,7 +8,7 @@
 
 ### mount()
 
-> **mount**: (`data`?) => `Promise`\<`T`\>
+> **mount**: (`data?`) => `Promise`\<`T`\>
 
 #### Parameters
 

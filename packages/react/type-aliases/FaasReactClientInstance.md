@@ -34,7 +34,7 @@
 
 ### faas()
 
-> **faas**: \<`PathOrData`\>(`action`, `params`, `options`?) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **faas**: \<`PathOrData`\>(`action`, `params`, `options?`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 #### Type Parameters
 
@@ -70,7 +70,7 @@
 
 ### useFaas()
 
-> **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options`?) => [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+> **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options?`) => [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
 #### Type Parameters
 

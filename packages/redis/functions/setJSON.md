@@ -2,7 +2,7 @@
 
 # Function: setJSON()
 
-> **setJSON**\<`TResult`\>(`key`, `value`, `options`?): `Promise`\<`TResult`\>
+> **setJSON**\<`TResult`\>(`key`, `value`, `options?`): `Promise`\<`TResult`\>
 
 ## Type Parameters
 

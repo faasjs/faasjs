@@ -109,6 +109,8 @@ type FaasItemProps = {
 - [LoadingProps](type-aliases/LoadingProps.md)
 - [setDrawerProps](type-aliases/setDrawerProps.md)
 - [setModalProps](type-aliases/setModalProps.md)
+- [TableFaasDataParams](type-aliases/TableFaasDataParams.md)
+- [TableFaasDataResponse](type-aliases/TableFaasDataResponse.md)
 - [TableProps](type-aliases/TableProps.md)
 - [UnionFaasItemElement](type-aliases/UnionFaasItemElement.md)
 - [UnionFaasItemInjection](type-aliases/UnionFaasItemInjection.md)

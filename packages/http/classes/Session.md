@@ -70,7 +70,7 @@
 
 ### invoke()
 
-> **invoke**(`cookie`?, `logger`?): `void`
+> **invoke**(`cookie?`, `logger?`): `void`
 
 #### Parameters
 
@@ -110,7 +110,7 @@
 
 ### write()
 
-> **write**(`key`, `value`?): `Session`\<`S`, `C`\>
+> **write**(`key`, `value?`): `Session`\<`S`, `C`\>
 
 #### Parameters
 

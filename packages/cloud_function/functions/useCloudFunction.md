@@ -2,7 +2,7 @@
 
 # Function: useCloudFunction()
 
-> **useCloudFunction**(`config`?): `UseifyPlugin`\<[`CloudFunction`](../classes/CloudFunction.md)\>
+> **useCloudFunction**(`config?`): `UseifyPlugin`\<[`CloudFunction`](../classes/CloudFunction.md)\>
 
 ## Parameters
 

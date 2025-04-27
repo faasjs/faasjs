@@ -6,6 +6,13 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v7.0.0 (2025-04-09)`](https://github.com/faasjs/faasjs/compare/v6.12.3...v7.0.0)
 
+- `@faasjs/next`
+  - [Break] Remove `@faasjs/next`.
+  - [Feature] Add next.js example to [examples/nextjs](https://github.com/faasjs/faasjs/blob/a10f193bc925b84c8627f95722df768cf8145b62/examples/nextjs).
+
+- `@faasjs/vite`
+  - [Feature] New `@faasjs/vite` for improved development experience and integration with Vite.
+
 - `@faasjs/server`
   - [Break] All header names are lowercase.
   - [Break] 3rd of middleware argument changes to `MiddlewareContext`.

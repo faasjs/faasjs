@@ -30,7 +30,7 @@ new ResponseError({ message: 'not found', status: 404 })
 
 ### Constructor
 
-> **new ResponseError**(`msg`, `options`?): `ResponseError`
+> **new ResponseError**(`msg`, `options?`): `ResponseError`
 
 #### Parameters
 

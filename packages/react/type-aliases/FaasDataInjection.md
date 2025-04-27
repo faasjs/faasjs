@@ -16,7 +16,7 @@ Injects FaasData props.
 
 ### reload()
 
-> **reload**(`params`?): `Promise`\<[`Response`](../classes/Response.md)\<`PathOrData`\>\>
+> **reload**(`params?`): `Promise`\<[`Response`](../classes/Response.md)\<`PathOrData`\>\>
 
 Reloads data with new or existing parameters.
 

@@ -36,7 +36,7 @@ await client.action('func', { key: 'value' })
 
 ### action()
 
-> **action**\<`PathOrData`\>(`action`, `params`?, `options`?): `Promise`\<[`Response`](Response.md)\<`FaasData`\<`PathOrData`\>\>\>
+> **action**\<`PathOrData`\>(`action`, `params?`, `options?`): `Promise`\<[`Response`](Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 Request a FaasJS function
 

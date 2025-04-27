@@ -2,7 +2,7 @@
 
 # Function: transaction()
 
-> **transaction**\<`TResult`\>(`scope`, `config`?, `options`?): `Promise`\<`TResult`\>
+> **transaction**\<`TResult`\>(`scope`, `config?`, `options?`): `Promise`\<`TResult`\>
 
 ## Type Parameters
 

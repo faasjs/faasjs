@@ -44,7 +44,7 @@
 
 ### onFinish()?
 
-> `optional` **onFinish**: (`values`, `submit`?) => `Promise`\<`any`\>
+> `optional` **onFinish**: (`values`, `submit?`) => `Promise`\<`any`\>
 
 #### Parameters
 

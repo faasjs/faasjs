@@ -2,7 +2,7 @@
 
 # Function: useModal()
 
-> **useModal**(`init`?): `object`
+> **useModal**(`init?`): `object`
 
 Hook style modal
 

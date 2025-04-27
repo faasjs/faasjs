@@ -2,7 +2,7 @@
 
 # Function: Blank()
 
-> **Blank**(`options`?): `Element`
+> **Blank**(`options?`): `Element`
 
 Blank component.
 

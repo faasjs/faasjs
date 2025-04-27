@@ -8,7 +8,7 @@
 
 ### invokeCloudFunction()
 
-> **invokeCloudFunction**: (`name`, `data`, `options`?) => `Promise`\<`void`\>
+> **invokeCloudFunction**: (`name`, `data`, `options?`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -30,7 +30,7 @@
 
 ### invokeSyncCloudFunction()
 
-> **invokeSyncCloudFunction**: \<`TResult`\>(`name`, `data`, `options`?) => `Promise`\<`TResult`\>
+> **invokeSyncCloudFunction**: \<`TResult`\>(`name`, `data`, `options?`) => `Promise`\<`TResult`\>
 
 #### Type Parameters
 

@@ -2,7 +2,7 @@
 
 # Function: invoke()
 
-> **invoke**\<`TData`\>(`name`, `data`?, `options`?): `Promise`\<`void`\>
+> **invoke**\<`TData`\>(`name`, `data?`, `options?`): `Promise`\<`void`\>
 
 异步触发云函数
 

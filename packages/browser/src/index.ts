@@ -173,7 +173,6 @@ export type ResponseErrorProps = {
  * @property {any} body - The body of the response, or the original error if available.
  * @property {Error} [originalError] - The original error, if any.
  *
- * @constructor
  * @param {string | Error | ResponseErrorProps} data - The error message, an Error object, or a ResponseErrorProps object.
  * @param {Omit<ResponseErrorProps, 'message' | 'originalError'>} [options] - Additional options for the error.
  *
