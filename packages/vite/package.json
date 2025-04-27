@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/vite",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.2",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -26,17 +26,19 @@
   "scripts": {
     "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
-    "@faasjs/cli": ">=7.0.0-beta.1",
+    "@faasjs/cli": ">=7.0.0-beta.2",
     "vite": "*"
   },
   "devDependencies": {
-    "@faasjs/cli": ">=7.0.0-beta.1",
+    "@faasjs/cli": ">=7.0.0-beta.2",
     "vite": "*"
   },
   "engines": {
     "node": ">=22.0.0",
-    "npm": ">=10.0.0"
+    "npm": ">=11.0.0"
   }
 }

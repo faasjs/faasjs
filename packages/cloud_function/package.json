@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cloud_function",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.2",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -30,22 +30,22 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/deep_merge": ">=7.0.0-beta.1",
-    "@faasjs/func": ">=7.0.0-beta.1",
-    "@faasjs/logger": ">=7.0.0-beta.1",
-    "@faasjs/load": ">=7.0.0-beta.1"
+    "@faasjs/deep_merge": ">=7.0.0-beta.2",
+    "@faasjs/func": ">=7.0.0-beta.2",
+    "@faasjs/logger": ">=7.0.0-beta.2",
+    "@faasjs/load": ">=7.0.0-beta.2"
   },
   "devDependencies": {
-    "@faasjs/deep_merge": ">=7.0.0-beta.1",
-    "@faasjs/func": ">=7.0.0-beta.1",
-    "@faasjs/logger": ">=7.0.0-beta.1",
-    "@faasjs/load": ">=7.0.0-beta.1"
+    "@faasjs/deep_merge": ">=7.0.0-beta.2",
+    "@faasjs/func": ">=7.0.0-beta.2",
+    "@faasjs/logger": ">=7.0.0-beta.2",
+    "@faasjs/load": ">=7.0.0-beta.2"
   },
   "optionalDependencies": {
-    "@faasjs/test": ">=7.0.0-beta.1"
+    "@faasjs/test": ">=7.0.0-beta.2"
   },
   "engines": {
     "node": ">=22.0.0",
-    "npm": ">=10.0.0"
+    "npm": ">=11.0.0"
   }
 }

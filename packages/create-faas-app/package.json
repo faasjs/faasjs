@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.2",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -39,6 +39,6 @@
   },
   "engines": {
     "node": ">=22.0.0",
-    "npm": ">=10.0.0"
+    "npm": ">=11.0.0"
   }
 }

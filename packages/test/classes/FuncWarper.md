@@ -61,7 +61,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### JSONhandler()
 
-> **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any`; `cookie`: `Record`\<`string`, `any`\>; `data`: `TData`; `error`: \{ `message`: `string`; \}; `headers`: \{[`key`: `string`]: `string`; \}; `session`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
+> **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{[`key`: `string`]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
 
 #### Type Parameters
 
@@ -89,7 +89,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Returns
 
-`Promise`\<\{ `body`: `any`; `cookie`: `Record`\<`string`, `any`\>; `data`: `TData`; `error`: \{ `message`: `string`; \}; `headers`: \{[`key`: `string`]: `string`; \}; `session`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
+`Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{[`key`: `string`]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
 
 ### mount()
 

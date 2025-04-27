@@ -63,7 +63,9 @@ export function viteFaasJsServer(
         root,
         base,
         port,
-        command: options.command || `npm exec faas dev -- -p ${port} -r ${root}${base} -v`,
+        command:
+          options.command ||
+          `npm exec faas dev -- -p ${port} -r ${root}${base} -v`,
       }
     },
     configureServer: async ({ middlewares }) => {
@@ -79,9 +81,13 @@ export function viteFaasJsServer(
         shell: true,
       })
 
-      childProcess.stdout.on('data', data => console.log(data.toString().trim()))
+      childProcess.stdout.on('data', data =>
+        console.log(data.toString().trim())
+      )
 
-      childProcess.stderr.on('data', data => console.error(data.toString().trim()))
+      childProcess.stderr.on('data', data =>
+        console.error(data.toString().trim())
+      )
 
       middlewares.use(async (req, res, next) => {
         if (!req.url || req.method !== 'POST') return next()
@@ -107,14 +113,14 @@ export function viteFaasJsServer(
           for (const [key, value] of Object.entries(req.headers))
             if (!['host', 'connection'].includes(key)) headers[key] = value
 
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             const proxyReq = request(
               targetUrl,
               {
                 method: 'POST',
                 headers,
               },
-              (proxyRes) => {
+              proxyRes => {
                 res.statusCode = proxyRes.statusCode || 200
 
                 for (const key of Object.keys(proxyRes.headers)) {
@@ -130,7 +136,7 @@ export function viteFaasJsServer(
               proxyReq.write(JSON.stringify(body))
             }
 
-            proxyReq.on('error', (err) => {
+            proxyReq.on('error', err => {
               console.error(`\u001b[031m${err.toString()}\u001b[39m`)
               next()
               resolve()

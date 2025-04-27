@@ -44,17 +44,22 @@ describe('viteFaasJsServer', () => {
       root: '/test/root',
       base: '/test/base',
       logLevel: 'silent',
-      plugins: [viteFaasJsServer({
-        root: '/custom/root',
-        base: '/custom/base',
-        port: 4000,
-      })],
+      plugins: [
+        viteFaasJsServer({
+          root: '/custom/root',
+          base: '/custom/base',
+          port: 4000,
+        }),
+      ],
     })
 
-    expect(spawn).toHaveBeenCalledWith('npm exec faas dev -- -p 4000 -r /custom/root/custom/base -v', {
-      stdio: 'pipe',
-      shell: true,
-    })
+    expect(spawn).toHaveBeenCalledWith(
+      'npm exec faas dev -- -p 4000 -r /custom/root/custom/base -v',
+      {
+        stdio: 'pipe',
+        shell: true,
+      }
+    )
   })
 
   it('should resolve config with custom command', async () => {
@@ -63,12 +68,14 @@ describe('viteFaasJsServer', () => {
       root: '/test/root',
       base: '/test/base',
       logLevel: 'silent',
-      plugins: [viteFaasJsServer({
-        root: '/custom/root',
-        base: '/custom/base',
-        port: 4000,
-        command: 'custom-command',
-      })],
+      plugins: [
+        viteFaasJsServer({
+          root: '/custom/root',
+          base: '/custom/base',
+          port: 4000,
+          command: 'custom-command',
+        }),
+      ],
     })
 
     expect(spawn).toHaveBeenCalledWith('custom-command', {
