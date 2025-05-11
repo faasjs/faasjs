@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "7.0.0-beta.2",
+  "version": "7.0.0",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
