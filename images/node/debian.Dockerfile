@@ -6,5 +6,4 @@ RUN apt-get update -y \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
 
-RUN corepack enable
 RUN npm install -g npm@latest tsx && npm cache clean --force
