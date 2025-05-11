@@ -124,11 +124,11 @@ Open source projects (in alphabetical order):
 
 <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:2em">
   <a href="https://biomejs.dev/" target="_blank">Biome</a>,
-  <a href="https://jestjs.io/" target="_blank">Jest</a>,
   <a href="https://knexjs.org/" target="_blank">Knex</a>,
   <a href="https://nodejs.org/" target="_blank">Node.js</a>,
   <a href="https://react.dev/" target="_blank">React</a>,
   <a href="https://rollupjs.org/" target="_blank">Rollup.js</a>,
+  <a href="https://vitest.dev/" target="_blank">Vitest</a>,
   <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>,
   <a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a>
 </div>

@@ -58,27 +58,13 @@ production:
   "private": true,
   "scripts": {
     "serve": "faas server",
-    "test": "jest"
+    "test": "vitest run"
   },
   "dependencies": {
     "faasjs": "*"
   },
   "devDependencies": {
-    "@faasjs/jest": "*"
-  },
-  "jest": {
-    "transform": {
-      ".(jsx|tsx?)": "@faasjs/jest"
-    },
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.ts"
-    ],
-    "testRegex": "/*\\\\.test\\\\.ts$",
-    "modulePathIgnorePatterns": [
-      "/tmp/",
-      "/coverage/"
-    ]
+    "vitest": "*"
   }
 }`
   )

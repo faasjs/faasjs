@@ -26,7 +26,6 @@
 |[@faasjs/request](https://github.com/faasjs/faasjs/tree/main/packages/request)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/request.svg)](https://www.npmjs.com/package/@faasjs/request)|
 |[@faasjs/server](https://github.com/faasjs/faasjs/tree/main/packages/server)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/server.svg)](https://www.npmjs.com/package/@faasjs/server)|
 |[@faasjs/ts-transform](https://github.com/faasjs/faasjs/tree/main/packages/ts-transform)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/ts-transform.svg)](https://www.npmjs.com/package/@faasjs/ts-transform)|
-|[@faasjs/jest](https://github.com/faasjs/faasjs/tree/main/packages/jest)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/jest.svg)](https://www.npmjs.com/package/@faasjs/jest)|
 |[@faasjs/lint](https://github.com/faasjs/faasjs/tree/main/packages/lint)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/lint.svg)](https://www.npmjs.com/package/@faasjs/lint)|
 
 ## Http
@@ -49,9 +48,3 @@
 |[@faasjs/browser](https://github.com/faasjs/faasjs/tree/main/packages/browser)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/browser.svg)](https://www.npmjs.com/package/@faasjs/browser)|
 |[@faasjs/react](https://github.com/faasjs/faasjs/tree/main/packages/react)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/react.svg)](https://www.npmjs.com/package/@faasjs/react)|
 |[@faasjs/ant-design](https://github.com/faasjs/faasjs/tree/main/packages/ant-design)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/ant-design.svg)](https://www.npmjs.com/package/@faasjs/ant-design)|
-
-## Full stack frameworks
-
-|Name|Version|
-|---|---|
-|[@faasjs/nextjs](https://github.com/faasjs/faasjs/tree/main/packages/nextjs)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/nextjs.svg)](https://www.npmjs.com/package/@faasjs/nextjs)|
