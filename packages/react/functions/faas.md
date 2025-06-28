@@ -2,7 +2,7 @@
 
 # Function: faas()
 
-> **faas**\<`PathOrData`\>(`action`, `params`, `options?`): `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
+> **faas**\<`PathOrData`\>(`action`, `params`, `options?`): `Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
 
 Request faas server
 
@@ -32,7 +32,7 @@ Request faas server
 
 ## Returns
 
-`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
+`Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
 
 ## Example
 

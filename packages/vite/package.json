@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/vite",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -30,11 +30,11 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/cli": ">=7.0.0",
+    "@faasjs/cli": ">=7.0.1",
     "vite": "*"
   },
   "devDependencies": {
-    "@faasjs/cli": ">=7.0.0",
+    "@faasjs/cli": ">=7.0.1",
     "vite": "*"
   },
   "engines": {

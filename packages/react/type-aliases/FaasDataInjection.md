@@ -16,7 +16,7 @@ Injects FaasData props.
 
 ### reload()
 
-> **reload**(`params?`): `Promise`\<[`Response`](../classes/Response.md)\<`PathOrData`\>\>
+> **reload**(`params?`): `Promise`\<[`Response`](../interfaces/Response.md)\<`PathOrData`\>\>
 
 Reloads data with new or existing parameters.
 
@@ -30,7 +30,7 @@ Reloads data with new or existing parameters.
 
 #### Returns
 
-`Promise`\<[`Response`](../classes/Response.md)\<`PathOrData`\>\>
+`Promise`\<[`Response`](../interfaces/Response.md)\<`PathOrData`\>\>
 
 ## Properties
 
@@ -56,7 +56,7 @@ Reloads data with new or existing parameters.
 
 ### promise
 
-> **promise**: `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **promise**: `Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 ### reloadTimes
 
@@ -76,4 +76,4 @@ Reloads data with new or existing parameters.
 
 ### setPromise
 
-> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>\>\>
+> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>\>\>

@@ -65,12 +65,12 @@ npm install @faasjs/react react
 ## Classes
 
 - [ErrorBoundary](classes/ErrorBoundary.md)
-- [Response](classes/Response.md)
-- [ResponseError](classes/ResponseError.md)
 
 ## Interfaces
 
 - [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
+- [Response](interfaces/Response.md)
+- [ResponseError](interfaces/ResponseError.md)
 
 ## Namespaces
 

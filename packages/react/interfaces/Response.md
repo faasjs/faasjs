@@ -1,40 +1,12 @@
 [@faasjs/react](../README.md) / Response
 
-# Class: Response\<T\>
-
-Response class
-
-Example:
-```ts
-new Response({
-  status: 200,
-  data: {
-    name: 'FaasJS'
-  }
-})
-```
+# Interface: Response\<T\>
 
 ## Type Parameters
 
 ### T
 
 `T` = `any`
-
-## Constructors
-
-### Constructor
-
-> **new Response**\<`T`\>(`props`): `Response`\<`T`\>
-
-#### Parameters
-
-##### props
-
-`ResponseProps`\<`T`\> = `{}`
-
-#### Returns
-
-`Response`\<`T`\>
 
 ## Properties
 

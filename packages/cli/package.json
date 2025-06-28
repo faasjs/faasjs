@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/cli",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -35,17 +35,17 @@
     "devServer.ts"
   ],
   "dependencies": {
-    "@faasjs/test": ">=7.0.0",
+    "@faasjs/test": ">=7.0.1",
     "commander": "*",
     "enquirer": "*"
   },
   "peerDependencies": {
-    "@faasjs/func": ">=7.0.0",
-    "@faasjs/server": ">=7.0.0"
+    "@faasjs/func": ">=7.0.1",
+    "@faasjs/server": ">=7.0.1"
   },
   "devDependencies": {
-    "@faasjs/func": ">=7.0.0",
-    "@faasjs/server": ">=7.0.0"
+    "@faasjs/func": ">=7.0.1",
+    "@faasjs/server": ">=7.0.1"
   },
   "engines": {
     "node": ">=22.0.0",
