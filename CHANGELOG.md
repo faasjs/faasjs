@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v7.0.1 (2025-06-28)`](https://github.com/faasjs/faasjs/compare/v7.0.0...v7.0.1)
+
+- `@faasjs/lint`
+  - [Fix] Fix `@faasjs/lint` to use `@biomejs/biome` v2.
+
 [`v7.0.0 (2025-04-11)`](https://github.com/faasjs/faasjs/compare/v6.12.3...v7.0.0)
 
 - `@faasjs/jest`
