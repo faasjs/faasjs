@@ -18,7 +18,8 @@
  */
 
 import { Command } from 'commander'
-import PackageJSON from '../package.json' assert { type: 'json' }
+import PackageJSON from '../package.json' with { type: 'json' }
+
 import action from './action'
 
 const commander = new Command()

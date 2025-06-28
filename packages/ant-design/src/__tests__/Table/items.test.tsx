@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import dayjs from 'dayjs'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { Table } from '../../Table'
 import type { UnionFaasItemElement, UnionFaasItemRender } from '../../data'
+import { Table } from '../../Table'
 
 describe('Table/items', () => {
   it('should work', () => {

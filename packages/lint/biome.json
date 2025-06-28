@@ -1,21 +1,18 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+  "root": false,
   "files": {
-    "ignore": [
-      "dist/*",
-      "tmp/*",
-      "out/*",
-      "build/*",
-      ".cache/*",
-      "docs/*",
-      "coverage/*",
-      ".next/*",
-      ".vercel/*",
-      "node_modules/*",
-      ".pnp/*",
-      ".yarn/*",
-      ".turbo/*",
-      "*.astro"
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/build",
+      "!**/coverage",
+      "!**/.next",
+      "!**/.vercel",
+      "!**/.nuxt",
+      "!**/.output",
+      "!**/.vuepress",
+      "!**/.vitepress",
+      "!**/.turbo"
     ]
   },
   "linter": {
@@ -44,7 +41,8 @@
         "noDelete": "off"
       },
       "a11y": {
-        "noLabelWithoutControl": "off"
+        "noLabelWithoutControl": "off",
+        "noStaticElementInteractions": "warn"
       }
     }
   },

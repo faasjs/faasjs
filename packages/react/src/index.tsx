@@ -44,30 +44,26 @@
  */
 
 export type {
+  Options,
+  Response,
+  ResponseError,
+  ResponseHeaders,
+} from '@faasjs/browser'
+export type {
   FaasAction,
   FaasData,
   FaasParams,
 } from '@faasjs/types'
-
-export type {
-  Options,
-  Response,
-  ResponseHeaders,
-  ResponseError,
-} from '@faasjs/browser'
-
+export * from './client'
 export * from './constant'
+export * from './ErrorBoundary'
 export * from './equal'
+export * from './FaasDataWrapper'
+export * from './Form'
+export * from './faas'
+export * from './OptionalWrapper'
 export * from './splittingContext'
 export * from './splittingState'
+export * from './useFaas'
 export * from './usePrevious'
 export * from './useStateRef'
-
-export * from './client'
-export * from './faas'
-export * from './ErrorBoundary'
-export * from './FaasDataWrapper'
-export * from './OptionalWrapper'
-export * from './useFaas'
-
-export * from './Form'

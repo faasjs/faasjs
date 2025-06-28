@@ -68,10 +68,7 @@ export function useFaasAction<
   TParams extends Record<string, any> = any,
   TResult = any,
 >(
-  handler: (data: {
-    params: TParams
-    logger: Logger
-  }) => Promise<TResult>,
+  handler: (data: { params: TParams; logger: Logger }) => Promise<TResult>,
   plugins?: Plugin[]
 ) {
   const func = new Func<TParams, null, TResult>({

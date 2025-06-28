@@ -19,7 +19,9 @@
     "vscode": "^1.60.0"
   },
   "icon": "logo.jpg",
-  "categories": ["Snippets"],
+  "categories": [
+    "Snippets"
+  ],
   "contributes": {
     "snippets": [
       {

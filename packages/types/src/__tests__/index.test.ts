@@ -1,8 +1,8 @@
 import { useFunc } from '@faasjs/func'
 import type {
   FaasAction,
-  FaasActionUnionType,
   FaasActions,
+  FaasActionUnionType,
   FaasData,
   FaasParams,
   InferFaasAction,

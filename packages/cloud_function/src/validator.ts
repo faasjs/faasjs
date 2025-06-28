@@ -40,11 +40,7 @@ export class Validator {
     this.logger = new Logger('CloudFunction.Validator')
   }
 
-  public valid({
-    event,
-  }: {
-    event?: any
-  }): void {
+  public valid({ event }: { event?: any }): void {
     this.request = { event }
     this.logger.debug('Begin')
 
@@ -123,7 +119,6 @@ export class Validator {
                   Object.prototype.toString.call(value) === '[object Object]'
                 break
               default:
-                // biome-ignore lint/suspicious/useValidTypeof: <explanation>
                 typed = typeof value === rule.type
                 break
             }

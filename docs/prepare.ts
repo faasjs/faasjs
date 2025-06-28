@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process'
-import { dirname } from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { Glob } from "bun"
+import { dirname } from 'node:path'
+import { Glob } from 'bun'
 
 function run(cmd: string) {
   console.log(cmd)
@@ -51,8 +51,7 @@ for (const file of images) {
 
   if (file === '../images/README.md') continue
 
-  const content = readFileSync(target, 'utf-8')
-    .toString()
+  const content = readFileSync(target, 'utf-8').toString()
 
   writeFileSync(
     target,

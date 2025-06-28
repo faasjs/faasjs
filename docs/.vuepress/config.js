@@ -1,20 +1,31 @@
-import { defineUserConfig } from '@vuepress/cli'
 import { viteBundler } from '@vuepress/bundler-vite'
-import { defaultTheme } from '@vuepress/theme-default'
+import { defineUserConfig } from '@vuepress/cli'
 import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics'
 import { searchPlugin } from '@vuepress/plugin-search'
 import { sitemapPlugin } from '@vuepress/plugin-sitemap'
+import { defaultTheme } from '@vuepress/theme-default'
 
 export default defineUserConfig({
   lang: 'en',
   title: 'FaasJS',
-  description: 'An atomic application framework built for the TypeScript developer.',
-  head: [['link', { rel: 'icon', href: '/logo.jpg' }], ['script', {src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0049636498302507', crossorigin: 'anonymous'}]],
+  description:
+    'An atomic application framework built for the TypeScript developer.',
+  head: [
+    ['link', { rel: 'icon', href: '/logo.jpg' }],
+    [
+      'script',
+      {
+        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0049636498302507',
+        crossorigin: 'anonymous',
+      },
+    ],
+  ],
   locales: {
     '/': {
       lang: 'en',
       title: 'FaasJS',
-      description: 'An atomic application framework built for the TypeScript developer.',
+      description:
+        'An atomic application framework built for the TypeScript developer.',
     },
     '/zh/': {
       lang: 'zh',
@@ -89,12 +100,8 @@ export default defineUserConfig({
           },
         ],
         sidebar: {
-          '/guide/': [
-            '/guide/',
-            '/guide/request-spec',
-            '/guide/Dockerize',
-          ],
-        }
+          '/guide/': ['/guide/', '/guide/request-spec', '/guide/Dockerize'],
+        },
       },
       '/zh/': {
         selectText: '选择语言',
@@ -239,6 +246,6 @@ export default defineUserConfig({
     }),
     sitemapPlugin({
       hostname: 'https://faasjs.com',
-    })
+    }),
   ],
 })

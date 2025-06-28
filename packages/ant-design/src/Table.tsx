@@ -20,11 +20,6 @@ import { useEffect, useState } from 'react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import { Description } from './Description'
-import {
-  type FaasDataInjection,
-  FaasDataWrapper,
-  type FaasDataWrapperProps,
-} from './FaasDataWrapper'
 import type {
   BaseItemProps,
   FaasItemProps,
@@ -37,6 +32,11 @@ import {
   transferOptions,
   transferValue,
 } from './data'
+import {
+  type FaasDataInjection,
+  FaasDataWrapper,
+  type FaasDataWrapperProps,
+} from './FaasDataWrapper'
 
 export interface TableItemProps<T = any>
   extends FaasItemProps,

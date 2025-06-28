@@ -6,9 +6,9 @@ import type {
   FaasParams,
 } from '@faasjs/types'
 import { useRef, useState } from 'react'
-import type { FaasDataInjection } from './FaasDataWrapper'
 import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
+import type { FaasDataInjection } from './FaasDataWrapper'
 
 export type useFaasOptions<PathOrData extends FaasAction> = {
   params?: FaasParams<PathOrData>

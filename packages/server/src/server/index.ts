@@ -2,10 +2,10 @@ import { execSync } from 'node:child_process'
 import { randomBytes } from 'node:crypto'
 import { existsSync } from 'node:fs'
 import {
+  createServer,
   type Server as HttpServer,
   type IncomingMessage,
   type ServerResponse,
-  createServer,
 } from 'node:http'
 import type { Socket } from 'node:net'
 import { join, resolve, sep } from 'node:path'
@@ -16,7 +16,7 @@ import { deepMerge } from '@faasjs/deep_merge'
 import type { Func } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
 import { loadConfig, loadPackage } from '@faasjs/load'
-import { Logger, getTransport } from '@faasjs/logger'
+import { getTransport, Logger } from '@faasjs/logger'
 import type { Middleware } from '../middleware'
 import { buildCORSHeaders } from './headers'
 import { getRouteFiles } from './routes'

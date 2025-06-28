@@ -28,7 +28,9 @@
     "vite-tsconfig-paths": "*",
     "vitest": "*"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "packageManager": "npm@11.3.0",
   "engines": {
     "node": ">=22.0.0",

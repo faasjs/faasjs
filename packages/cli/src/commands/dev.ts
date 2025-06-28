@@ -3,9 +3,7 @@ import { join } from 'node:path'
 import type { Command } from 'commander'
 import { defaultsEnv } from '../helper'
 
-export function action(opts: {
-  port?: number
-}): void {
+export function action(opts: { port?: number }): void {
   defaultsEnv()
 
   const childProcess = spawn(

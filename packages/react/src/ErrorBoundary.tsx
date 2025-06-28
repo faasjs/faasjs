@@ -1,8 +1,8 @@
 import {
   Component,
+  cloneElement,
   type ReactElement,
   type ReactNode,
-  cloneElement,
 } from 'react'
 
 export interface ErrorBoundaryProps {

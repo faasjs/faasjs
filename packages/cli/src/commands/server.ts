@@ -2,9 +2,7 @@ import { Server } from '@faasjs/server'
 import type { Command } from 'commander'
 import { defaultsEnv } from '../helper'
 
-export function action(opts: {
-  port?: number
-}): void {
+export function action(opts: { port?: number }): void {
   defaultsEnv()
 
   const server = new Server(process.env.FaasRoot, {

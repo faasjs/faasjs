@@ -1,11 +1,11 @@
 import {
+  legacyLogicalPropertiesTransformer,
   StyleProvider,
   type StyleProviderProps,
-  legacyLogicalPropertiesTransformer,
 } from '@ant-design/cssinjs'
 import {
-  OptionalWrapper,
   createSplittingContext,
+  OptionalWrapper,
   useEqualEffect,
   useEqualMemo,
 } from '@faasjs/react'
@@ -17,8 +17,8 @@ import {
 } from 'antd'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
-import { BrowserRouter, useLocation } from 'react-router-dom'
 import type { BrowserRouterProps } from 'react-router-dom'
+import { BrowserRouter, useLocation } from 'react-router-dom'
 import {
   ConfigProvider as FaasConfigProvider,
   type ConfigProviderProps as FaasConfigProviderProps,
@@ -69,9 +69,7 @@ const AppContext = createSplittingContext<useAppProps>({
   setDrawerProps: null,
 })
 
-function RoutesApp(props: {
-  children: React.ReactNode
-}) {
+function RoutesApp(props: { children: React.ReactNode }) {
   const location = useLocation()
   const { drawerProps, setDrawerProps, modalProps, setModalProps } = useApp()
 

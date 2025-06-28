@@ -1,8 +1,8 @@
 import type { ComponentType } from 'react'
-import { FormInput, type FormInputProps } from './Input'
 import { useFormContext } from './context'
 import type { FormElementTypes } from './elements'
 import type { FormLabelElementProps } from './elements/Label'
+import { FormInput, type FormInputProps } from './Input'
 import type { FormDefaultRulesOptions } from './rules'
 
 export type FormItemName = string

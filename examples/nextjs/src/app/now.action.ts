@@ -7,7 +7,7 @@ export const now = useFaasAction(async ({ params }) => {
     case 'toString':
       return new Date().toString()
     case 'toTimestamp':
-      return new Date().getTime()
+      return Date.now()
     case 'toISOString':
       return new Date().toISOString()
     default:

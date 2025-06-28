@@ -4,16 +4,16 @@ import type { Dayjs } from 'dayjs'
 import { type JSX, type ReactNode, useEffect, useState } from 'react'
 import type { BaseItemProps } from '.'
 import { Blank } from './Blank'
-import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
 import {
-  type FaasItemProps,
-  type UnionFaasItemElement,
-  type UnionFaasItemRender,
   cloneUnionFaasItemElement,
+  type FaasItemProps,
   idToTitle,
   transferOptions,
   transferValue,
+  type UnionFaasItemElement,
+  type UnionFaasItemRender,
 } from './data'
+import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
 
 export interface ExtendDescriptionTypeProps<T = any> {
   children?: UnionFaasItemElement<T>

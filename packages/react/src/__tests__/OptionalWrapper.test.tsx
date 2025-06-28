@@ -31,9 +31,10 @@ describe('OptionalWrapper', () => {
     const Wrapper = ({
       children,
       className,
-    }: { children: React.ReactNode; className?: string }) => (
-      <div className={className}>{children}</div>
-    )
+    }: {
+      children: React.ReactNode
+      className?: string
+    }) => <div className={className}>{children}</div>
     const { container } = render(
       <OptionalWrapper
         condition={true}

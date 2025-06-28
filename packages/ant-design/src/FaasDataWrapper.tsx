@@ -1,17 +1,17 @@
 import {
   FaasReactClient,
   type FaasReactClientOptions,
+  faas,
   FaasDataWrapper as Origin,
   type FaasDataInjection as OriginFaasDataInjection,
   type FaasDataWrapperProps as OriginProps,
   withFaasData as OriginWithFaasData,
-  faas,
   useFaas,
 } from '@faasjs/react'
 import type { FaasActionUnionType } from '@faasjs/types'
 import type { JSX } from 'react'
-import { Loading } from './Loading'
 import type { LoadingProps } from './Loading'
+import { Loading } from './Loading'
 
 export { faas, useFaas, FaasReactClient, type FaasReactClientOptions }
 

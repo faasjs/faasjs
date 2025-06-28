@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { colorfy } from '../color'
-import { LevelColor } from '../color'
+import { colorfy, LevelColor } from '../color'
 
 describe('colorfy', () => {
   it('should colorfy debug level message', () => {

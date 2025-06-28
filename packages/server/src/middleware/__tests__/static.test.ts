@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { request } from '@faasjs/request'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { Server, closeAll } from '../../server'
+import { closeAll, Server } from '../../server'
 
 describe('staticHandler', () => {
   let server: Server

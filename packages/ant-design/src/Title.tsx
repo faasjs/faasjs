@@ -1,4 +1,4 @@
-import { type JSX, cloneElement, useEffect } from 'react'
+import { cloneElement, type JSX, useEffect } from 'react'
 import { useConfigContext } from './Config'
 
 export interface TitleProps {

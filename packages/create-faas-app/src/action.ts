@@ -15,11 +15,7 @@ const Validator = {
   },
 }
 
-export async function action(
-  options: {
-    name?: string
-  } = {}
-): Promise<void> {
+export async function action(options: { name?: string } = {}): Promise<void> {
   const answers: {
     name?: string
   } = Object.assign(options, {})

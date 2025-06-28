@@ -13,7 +13,7 @@ import { createWriteStream, readFileSync } from 'node:fs'
  * ```
  * @packageDocumentation
  */
-import http, { type OutgoingHttpHeaders, type IncomingMessage } from 'node:http'
+import http, { type IncomingMessage, type OutgoingHttpHeaders } from 'node:http'
 import https from 'node:https'
 import { basename } from 'node:path'
 import { URL } from 'node:url'
@@ -114,7 +114,7 @@ export function querystringify(obj: any) {
   let key: string
 
   for (key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+    if (Object.hasOwn(obj, key)) {
       value = obj[key]
 
       if (

@@ -22,7 +22,7 @@ import {
   usePlugin,
 } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
-import IORedis, { type RedisOptions, type ChainableCommander } from 'ioredis'
+import IORedis, { type ChainableCommander, type RedisOptions } from 'ioredis'
 
 export type RedisConfig = {
   name?: string

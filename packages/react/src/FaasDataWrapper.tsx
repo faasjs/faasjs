@@ -6,9 +6,9 @@ import type {
   FaasParams,
 } from '@faasjs/types'
 import {
-  type JSX,
   cloneElement,
   forwardRef,
+  type JSX,
   useImperativeHandle,
   useState,
 } from 'react'

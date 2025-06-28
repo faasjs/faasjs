@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { main } from '..'
 import { version } from '../../package.json'
+import { main } from '..'
 
 describe('create-faas-app', () => {
   it('should work', async () => {

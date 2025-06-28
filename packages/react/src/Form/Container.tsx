@@ -1,9 +1,9 @@
 import { useStateRef } from '../useStateRef'
 import { FormBody } from './Body'
-import { FormFooter } from './Footer'
-import type { FormItemProps } from './Item'
 import { type FormContextProps, FormContextProvider } from './context'
 import { FormDefaultElements, type FormElementTypes } from './elements'
+import { FormFooter } from './Footer'
+import type { FormItemProps } from './Item'
 import { FormDefaultLang, type FormLang } from './lang'
 import {
   FormDefaultRules,

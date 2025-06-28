@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { getTransport } from '../transport'
 import type { TransportHandler } from '../transport'
+import { getTransport } from '../transport'
 
 describe('transport', () => {
   afterEach(() => {
