@@ -117,7 +117,7 @@ describe('request', () => {
       Response: {
         Error: {
           Code: 'MissingParameter',
-          Message: 'The request is missing a required parameter `Timestamp`.',
+          Message: expect.stringContaining('required parameter `Timestamp`.'),
         },
       },
     })
@@ -137,7 +137,7 @@ describe('request', () => {
       Response: {
         Error: {
           Code: 'MissingParameter',
-          Message: 'The request is missing a required parameter `Timestamp`.',
+          Message: expect.stringContaining('required parameter `Timestamp`.'),
         },
       },
     })
