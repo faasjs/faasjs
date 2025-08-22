@@ -197,7 +197,7 @@ function DescriptionItemContent<T = any>(
           {(computedProps.value as Record<string, any>[]).map(
             (value, index) => (
               <Description
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                // biome-ignore lint/suspicious/noArrayIndexKey: use index as key
                 key={index}
                 items={computedProps.item.object}
                 dataSource={value}

@@ -58,7 +58,7 @@ export async function loadPackage<T = unknown>(
   if (runtime === 'module') {
     if (tsxLoaded === null) {
       try {
-        // @ts-ignore
+        // @ts-expect-error
         await import('tsx')
         tsxLoaded = true
       } catch (_) {

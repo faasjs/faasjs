@@ -4,7 +4,7 @@ import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
 
 export const Modal = AntdModal
 
-// @ts-ignore
+// @ts-expect-error
 Modal.whyDidYouRender = true
 
 export interface ModalProps extends AntdModalProps {

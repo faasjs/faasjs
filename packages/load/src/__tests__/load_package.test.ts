@@ -7,7 +7,7 @@ describe('loadPackage', () => {
 
   beforeEach(() => {
     originalRequire = globalThis.require
-    // @ts-ignore
+    // @ts-expect-error
     originalImportMeta = globalThis.import?.meta || {}
     vi.resetModules()
     resetRuntime()
@@ -15,12 +15,12 @@ describe('loadPackage', () => {
 
   afterEach(() => {
     globalThis.require = originalRequire
-    // @ts-ignore
+    // @ts-expect-error
     globalThis.import = { meta: originalImportMeta }
   })
 
   it('should load a module', async () => {
-    // @ts-ignore
+    // @ts-expect-error
     globalThis.require = vi.fn().mockImplementation((name: string) => {
       if (name === 'tsx') return {}
       if (name === 'my-module') return { default: 'my-module-default' }
@@ -30,7 +30,7 @@ describe('loadPackage', () => {
   })
 
   it('should load a module with default name', async () => {
-    // @ts-ignore
+    // @ts-expect-error
     globalThis.require = vi.fn().mockImplementation((name: string) => {
       if (name === 'tsx') return {}
       if (name === 'my-module') return { test: 'my-module-default' }
@@ -40,7 +40,7 @@ describe('loadPackage', () => {
   })
 
   it('should load a module with default name list', async () => {
-    // @ts-ignore
+    // @ts-expect-error
     globalThis.require = vi.fn().mockImplementation((name: string) => {
       if (name === 'tsx') return {}
       if (name === 'my-module') return { test: 'my-module-default' }

@@ -21,6 +21,9 @@
       "recommended": true,
       "correctness": {
         "useExhaustiveDependencies": "warn",
+        "useHookAtTopLevel": "warn",
+        "useUniqueElementIds": "warn",
+        "noNestedComponentDefinitions": "warn",
         "noUnusedVariables": "error",
         "noUnusedImports": "error"
       },
