@@ -45,7 +45,7 @@
 
 👉 Visit [faasjs.com](https://faasjs.com) to learn more.
 
-🔨 Try [the starter template for FaasJS & Next.js](https://github.com/faasjs/nextjs-starter) using Codespaces.
+🔨 Try [the starter template for FaasJS](https://github.com/faasjs/starter) using Codespaces.
 
 📄 See recent updates in the [CHANGELOG](https://faasjs.com/CHANGELOG.html).
 
