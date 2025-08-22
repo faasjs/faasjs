@@ -19,7 +19,7 @@
     "@testing-library/user-event": "*",
     "@vitejs/plugin-react": "*",
     "@vitest/coverage-v8": "*",
-    "commander": ">=13.0.0",
+    "commander": ">=14.0.0",
     "happy-dom": "*",
     "tsup": "*",
     "turbo": "*",
@@ -33,7 +33,7 @@
   ],
   "packageManager": "npm@11.3.0",
   "engines": {
-    "node": ">=22.0.0",
+    "node": ">=24.0.0",
     "npm": ">=11.0.0"
   }
 }
