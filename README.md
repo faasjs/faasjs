@@ -6,7 +6,6 @@
 [![Unit Status](https://github.com/faasjs/faasjs/actions/workflows/unit.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/unit.yml)
 [![Lint Status](https://github.com/faasjs/faasjs/actions/workflows/lint.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/lint.yml)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/ed918d6b0ecc951f7924/maintainability)](https://codeclimate.com/github/faasjs/faasjs/maintainability)
 [![Coverage Status](https://img.shields.io/codecov/c/github/faasjs/faasjs.svg)](https://app.codecov.io/gh/faasjs/faasjs)
 [![Commits](https://img.shields.io/github/commit-activity/y/faasjs/faasjs)](https://github.com/faasjs/faasjs)
 [![Downloads](https://img.shields.io/npm/dm/@faasjs/func)](https://github.com/faasjs/faasjs)
