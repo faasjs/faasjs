@@ -27,7 +27,8 @@
     "typedoc-plugin-markdown": "*",
     "vite-tsconfig-paths": "*",
     "vitest": "*",
-    "typescript": "*"
+    "typescript": "*",
+    "@types/node": "*"
   },
   "workspaces": [
     "packages/*"
