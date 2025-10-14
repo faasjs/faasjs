@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-const AsyncFunction = (async () => {}).constructor
+const AsyncFunction = (async () => { }).constructor
 
 /**
  * Compares two values for deep equality.
@@ -21,7 +21,7 @@ export function equal(a: any, b: any): boolean {
 
   if (typeof a !== typeof b) return false
 
-  if (b === null || b === undefined) return false
+  if (a === null || a === undefined || b === null || b === undefined) return false
 
   const ctor = a.constructor
 
