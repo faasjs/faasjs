@@ -4,7 +4,7 @@
 
 > `const` **Drawer**: `FC`\<[`DrawerProps`](../interfaces/DrawerProps.md)\> & `object`
 
-## Type declaration
+## Type Declaration
 
 ### whyDidYouRender?
 

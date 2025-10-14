@@ -6,7 +6,6 @@ describe('create-faas-app', () => {
   it('should work', async () => {
     const commander = await main(['node', 'script', '--help'])
 
-    // @ts-expect-error
     expect(commander.version()).toBe(version)
   })
 })

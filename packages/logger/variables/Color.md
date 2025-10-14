@@ -4,7 +4,7 @@
 
 > `const` **Color**: `object`
 
-## Type declaration
+## Type Declaration
 
 ### BLACK
 

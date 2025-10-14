@@ -88,7 +88,7 @@ function App() {
 
 #### Overrides
 
-[`TableItemProps`](TableItemProps.md).[`children`](TableItemProps.md#children)
+[`FormItemProps`](FormItemProps.md).[`children`](FormItemProps.md#children)
 
 ### col?
 
@@ -152,7 +152,7 @@ function App() {
 
 #### Inherited from
 
-[`TableItemProps`](TableItemProps.md).[`id`](TableItemProps.md#id)
+[`FormItemProps`](FormItemProps.md).[`id`](FormItemProps.md#id)
 
 ### if()?
 
@@ -172,7 +172,7 @@ trigger when any item's value changed
 
 #### Inherited from
 
-[`DescriptionItemProps`](DescriptionItemProps.md).[`if`](DescriptionItemProps.md#if)
+[`FormItemProps`](FormItemProps.md).[`if`](FormItemProps.md#if)
 
 ### input?
 
@@ -204,7 +204,7 @@ trigger when any item's value changed
 
 #### Overrides
 
-[`TableItemProps`](TableItemProps.md).[`object`](TableItemProps.md#object)
+[`FormItemProps`](FormItemProps.md).[`object`](FormItemProps.md#object)
 
 ### onValueChange()?
 
@@ -240,7 +240,7 @@ trigger when current item's value changed
 
 #### Inherited from
 
-[`TableItemProps`](TableItemProps.md).[`options`](TableItemProps.md#options)
+[`FormItemProps`](FormItemProps.md).[`options`](FormItemProps.md#options)
 
 ### optionsType?
 
@@ -256,7 +256,7 @@ trigger when current item's value changed
 
 #### Overrides
 
-[`TableItemProps`](TableItemProps.md).[`render`](TableItemProps.md#render)
+[`FormItemProps`](FormItemProps.md).[`render`](FormItemProps.md#render)
 
 ### required?
 
@@ -296,7 +296,7 @@ trigger when current item's value changed
 
 #### Inherited from
 
-[`TableItemProps`](TableItemProps.md).[`title`](TableItemProps.md#title)
+[`FormItemProps`](FormItemProps.md).[`title`](FormItemProps.md#title)
 
 ### type?
 
@@ -312,4 +312,4 @@ Support string, string[], number, number[], boolean, date, time, object, object[
 
 #### Inherited from
 
-[`TableItemProps`](TableItemProps.md).[`type`](TableItemProps.md#type)
+[`FormItemProps`](FormItemProps.md).[`type`](FormItemProps.md#type)

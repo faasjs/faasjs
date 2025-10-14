@@ -2,6 +2,18 @@
 
 # Interface: Response\<T\>
 
+Response class
+
+Example:
+```ts
+new Response({
+  status: 200,
+  data: {
+    name: 'FaasJS'
+  }
+})
+```
+
 ## Type Parameters
 
 ### T

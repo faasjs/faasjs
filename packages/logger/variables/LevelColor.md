@@ -4,7 +4,7 @@
 
 > `const` **LevelColor**: `object`
 
-## Type declaration
+## Type Declaration
 
 ### debug
 

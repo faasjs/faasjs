@@ -51,8 +51,8 @@ describe('equal function', () => {
   })
 
   it('should return true for identical functions', () => {
-    const fn1 = () => { }
-    const fn2 = () => { }
+    const fn1 = () => {}
+    const fn2 = () => {}
     expect(equal(fn1, fn2)).toBe(true)
   })
 
@@ -63,14 +63,14 @@ describe('equal function', () => {
   })
 
   it('should return true for async identical functions', () => {
-    const fn1 = async () => { }
-    const fn2 = async () => { }
+    const fn1 = async () => {}
+    const fn2 = async () => {}
     expect(equal(fn1, fn2)).toBe(true)
   })
 
   it('should return false for sync and async functions', () => {
-    const fn1 = async () => { }
-    const fn2 = () => { }
+    const fn1 = async () => {}
+    const fn2 = () => {}
     expect(equal(fn1, fn2)).toBe(false)
   })
 

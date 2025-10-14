@@ -15,7 +15,6 @@ describe('main function', () => {
       '--help',
     ])
 
-    // @ts-expect-error
     expect(commander.version()).toBe(version)
     expect(process.env.verbose).toBe('1')
     expect(process.env.FaasRoot).toBe('./')

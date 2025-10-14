@@ -4,7 +4,7 @@
 
 > **RequestOptions** = `object` & `Pick`\<`https.RequestOptions`, `"pfx"` \| `"passphrase"` \| `"agent"`\>
 
-## Type declaration
+## Type Declaration
 
 ### auth?
 
@@ -16,7 +16,7 @@ Format: `username:password`
 
 ### body?
 
-> `optional` **body**: \{[`key`: `string`]: `any`; \} \| `string`
+> `optional` **body**: \{\[`key`: `string`\]: `any`; \} \| `string`
 
 ### downloadFile?
 

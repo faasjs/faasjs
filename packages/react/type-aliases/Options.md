@@ -4,7 +4,7 @@
 
 > **Options** = `RequestInit` & `object`
 
-## Type declaration
+## Type Declaration
 
 ### baseUrl?
 

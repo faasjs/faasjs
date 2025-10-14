@@ -55,7 +55,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 #### Inherited from
 
-`Omit.col`
+[`UnionFaasItemProps`](UnionFaasItemProps.md).[`col`](UnionFaasItemProps.md#col)
 
 ### disabled?
 
@@ -63,7 +63,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 #### Inherited from
 
-`Omit.disabled`
+[`UnionFaasItemProps`](UnionFaasItemProps.md).[`disabled`](UnionFaasItemProps.md#disabled)
 
 ### extendTypes?
 
@@ -71,7 +71,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 #### Inherited from
 
-`Omit.extendTypes`
+[`UnionFaasItemProps`](UnionFaasItemProps.md).[`extendTypes`](UnionFaasItemProps.md#extendtypes)
 
 ### formChildren?
 
@@ -95,7 +95,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 #### Inherited from
 
-`Omit.id`
+[`BaseItemProps`](BaseItemProps.md).[`id`](BaseItemProps.md#id)
 
 ### if()?
 
@@ -131,7 +131,7 @@ trigger when any item's value changed
 
 #### Inherited from
 
-`Omit.label`
+[`UnionFaasItemProps`](UnionFaasItemProps.md).[`label`](UnionFaasItemProps.md#label)
 
 ### maxCount?
 
@@ -139,7 +139,7 @@ trigger when any item's value changed
 
 #### Inherited from
 
-`Omit.maxCount`
+[`UnionFaasItemProps`](UnionFaasItemProps.md).[`maxCount`](UnionFaasItemProps.md#maxcount)
 
 ### object?
 
@@ -183,7 +183,7 @@ trigger when current item's value changed
 
 #### Inherited from
 
-`Omit.options`
+[`BaseItemProps`](BaseItemProps.md).[`options`](BaseItemProps.md#options)
 
 ### render?
 
@@ -199,7 +199,7 @@ trigger when current item's value changed
 
 #### Inherited from
 
-`Omit.required`
+[`UnionFaasItemProps`](UnionFaasItemProps.md).[`required`](UnionFaasItemProps.md#required)
 
 ### rules?
 
@@ -207,7 +207,7 @@ trigger when current item's value changed
 
 #### Inherited from
 
-`Omit.rules`
+[`UnionFaasItemProps`](UnionFaasItemProps.md).[`rules`](UnionFaasItemProps.md#rules)
 
 ### title?
 
@@ -215,7 +215,7 @@ trigger when current item's value changed
 
 #### Inherited from
 
-`Omit.title`
+[`BaseItemProps`](BaseItemProps.md).[`title`](BaseItemProps.md#title)
 
 ### type?
 

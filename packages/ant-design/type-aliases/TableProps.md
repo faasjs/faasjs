@@ -4,7 +4,7 @@
 
 > **TableProps**\<`T`, `ExtendTypes`\> = `object` & `AntdTableProps`\<`T`\>
 
-## Type declaration
+## Type Declaration
 
 ### extendTypes?
 

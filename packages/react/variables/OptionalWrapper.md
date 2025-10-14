@@ -6,7 +6,7 @@
 
 A wrapper component that conditionally wraps its children with a provided wrapper component.
 
-## Type declaration
+## Type Declaration
 
 ### whyDidYouRender
 

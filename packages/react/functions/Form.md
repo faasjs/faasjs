@@ -2,7 +2,7 @@
 
 # Function: Form()
 
-> **Form**\<`Values`, `FormElements`, `Rules`\>(`__namedParameters`): `Element`
+> **Form**\<`Values`, `FormElements`, `Rules`\>(`props`): `Element`
 
 FormContainer component is a wrapper that provides context and state management for form elements.
 It initializes form states such as values, errors, submitting status, elements, language, and rules.
@@ -29,9 +29,11 @@ The type of form rules, defaults to FormDefaultRules.
 
 ## Parameters
 
-### \_\_namedParameters
+### props
 
 [`FormProps`](../type-aliases/FormProps.md)\<`Values`, `FormElements`, `Rules`\>
+
+The properties for the FormContainer component.
 
 ## Returns
 

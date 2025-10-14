@@ -4,7 +4,7 @@
 
 > `const` **FormDefaultLang**: `object`
 
-## Type declaration
+## Type Declaration
 
 ### number
 

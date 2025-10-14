@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/server",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -31,20 +31,20 @@
   ],
   "peerDependencies": {
     "mime-types": "*",
-    "@faasjs/func": ">=7.0.1",
-    "@faasjs/load": ">=7.0.1",
-    "@faasjs/logger": ">=7.0.1",
-    "@faasjs/http": ">=7.0.1"
+    "@faasjs/func": ">=7.0.2",
+    "@faasjs/load": ">=7.0.2",
+    "@faasjs/logger": ">=7.0.2",
+    "@faasjs/http": ">=7.0.2"
   },
   "devDependencies": {
     "react": "*",
     "mime-types": "*",
     "@types/mime-types": "*",
     "@types/react-dom": "*",
-    "@faasjs/func": ">=7.0.1",
-    "@faasjs/load": ">=7.0.1",
-    "@faasjs/logger": ">=7.0.1",
-    "@faasjs/http": ">=7.0.1"
+    "@faasjs/func": ">=7.0.2",
+    "@faasjs/load": ">=7.0.2",
+    "@faasjs/logger": ">=7.0.2",
+    "@faasjs/http": ">=7.0.2"
   },
   "engines": {
     "node": ">=24.0.0",

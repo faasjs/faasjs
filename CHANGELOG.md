@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v7.0.2 (2025-10-14)`](https://github.com/faasjs/faasjs/compare/v7.0.1...v7.0.2)
+
+- `@faasjs/react`
+  - [Fix] Fix `equal` compare function.
+
 [`v7.0.1 (2025-06-28)`](https://github.com/faasjs/faasjs/compare/v7.0.0...v7.0.1)
 
 - `@faasjs/lint`
