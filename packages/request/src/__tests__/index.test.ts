@@ -4,34 +4,34 @@ import { request } from '..'
 
 describe('request', () => {
   it('200', async () => {
-    const gzip = await request('https://www.npmjs.com/', {
+    const gzip = await request('https://mock.httpstatus.io/200', {
       headers: { 'Accept-Encoding': 'gzip', 'user-agent': 'faasjs' },
     })
 
     expect(gzip.statusCode).toEqual(200)
     expect(gzip.headers['content-encoding']).toEqual('gzip')
-    expect(gzip.body).toContain('<!doctype html>')
+    expect(gzip.body).toContain('200 OK')
 
-    const br = await request('https://www.npmjs.com/', {
+    const br = await request('https://mock.httpstatus.io/200', {
       headers: { 'Accept-Encoding': 'br', 'user-agent': 'faasjs' },
     })
 
     expect(br.statusCode).toEqual(200)
     expect(br.headers['content-encoding']).toEqual('br')
-    expect(br.body).toContain('<!doctype html>')
+    expect(br.body).toContain('200 OK')
 
-    const normal = await request('https://www.npmjs.com/', {
+    const normal = await request('https://mock.httpstatus.io/200', {
       headers: { 'user-agent': 'faasjs' },
     })
 
     expect(normal.statusCode).toEqual(200)
     expect(normal.headers['content-encoding']).toEqual('br')
-    expect(normal.body).toContain('<!doctype html>')
+    expect(normal.body).toContain('200 OK')
   })
 
   it('404', async () => {
     expect(
-      async () => await request('https://www.npmjs.com/package/404404')
+      async () => await request('https://mock.httpstatus.io/404')
     ).rejects.toThrow('Not Found')
   })
 
