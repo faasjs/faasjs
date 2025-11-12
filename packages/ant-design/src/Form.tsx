@@ -230,7 +230,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
     }
 
     setComputedProps(propsCopy)
-  }, [props])
+  }, [props, form, initialValues])
 
   const onValuesChange = useEqualCallback(
     (changedValues: Record<string, any>, allValues: Values) => {
@@ -261,7 +261,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
 
     form.setFieldsValue(initialValues as any)
     setInitialValues(null)
-  }, [computedProps])
+  }, [form, initialValues])
 
   if (!computedProps) return null
 

@@ -57,7 +57,7 @@ describe('App', () => {
 
       useEffect(() => {
         message.info('Hi')
-      }, [])
+      }, [message])
 
       ComponentTimes++
 

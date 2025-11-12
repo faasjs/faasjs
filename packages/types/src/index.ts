@@ -40,7 +40,7 @@ import type { Func } from '@faasjs/func'
  * }
  * ```
  */
-// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
+// biome-ignore lint/suspicious/noEmptyInterface: intended to be extended by user
 export interface FaasActions {}
 
 /**

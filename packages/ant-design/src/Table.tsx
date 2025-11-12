@@ -16,7 +16,7 @@ import type {
 } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
 import { cloneDeep, isNil, uniqBy } from 'lodash-es'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import { Description } from './Description'
@@ -160,67 +160,71 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
   const [columns, setColumns] = useState<TableItemProps[]>()
   const { theme } = useConfigContext()
 
-  const generateFilterDropdown = (item: TableItemProps) => {
-    if (item.filterDropdown && item.filterDropdown !== true) return
+  const generateFilterDropdown = useCallback(
+    (item: TableItemProps) => {
+      if (item.filterDropdown && item.filterDropdown !== true) return
 
-    if (item.options.length < 11) {
-      if (!item.filters)
-        item.filters = (
-          item.options as {
-            label: string
-            value: any
-          }[]
-        ).map(o => ({
-          text: o.label,
-          value: o.value,
-        }))
-      return
-    }
-
-    item.filterDropdown = ({ setSelectedKeys, selectedKeys, confirm }) => (
-      <div
-        style={{
-          padding: 8,
-          width: '200px',
-        }}
-        onKeyDown={e => e.stopPropagation()}
-      >
-        <Select<React.Key[]>
-          options={
+      if (item.options.length < 11) {
+        if (!item.filters)
+          item.filters = (
             item.options as {
               label: string
-              value: string
+              value: any
             }[]
-          }
-          allowClear
-          showSearch
-          style={{ width: '100%' }}
-          placeholder={`${theme.common.search} ${item.title}`}
-          value={selectedKeys}
-          onChange={v => {
-            setSelectedKeys(v?.length ? v : [])
-            confirm()
+          ).map(o => ({
+            text: o.label,
+            value: o.value,
+          }))
+        return
+      }
+
+      item.filterDropdown = ({ setSelectedKeys, selectedKeys, confirm }) => (
+        <div
+          role='search'
+          style={{
+            padding: 8,
+            width: '200px',
           }}
-          mode='multiple'
-          filterOption={(input, option) => {
-            if (!input || !option || !option.label) return true
+          onKeyDown={e => e.stopPropagation()}
+        >
+          <Select<React.Key[]>
+            options={
+              item.options as {
+                label: string
+                value: string
+              }[]
+            }
+            allowClear
+            showSearch
+            style={{ width: '100%' }}
+            placeholder={`${theme.common.search} ${item.title}`}
+            value={selectedKeys}
+            onChange={v => {
+              setSelectedKeys(v?.length ? v : [])
+              confirm()
+            }}
+            mode='multiple'
+            filterOption={(input, option) => {
+              if (!input || !option || !option.label) return true
 
-            input = input.trim()
+              input = input.trim()
 
-            return (
-              option.value === input ||
-              option.label
-                .toString()
-                .toLowerCase()
-                .includes(input.toLowerCase())
-            )
-          }}
-        />
-      </div>
-    )
+              return (
+                option.value === input ||
+                option.label
+                  .toString()
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              )
+            }}
+          />
+        </div>
+      )
 
-    return item
-  }
+      return item
+    },
+    [theme]
+  )
 
   useEffect(() => {
     const items = (cloneDeep(props.items) as TableItemProps[]).filter(
@@ -407,7 +411,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 if (value === null) return true
                 if (isNil(row[item.id])) return false
 
-                // biome-ignore lint/suspicious/noDoubleEquals: <explanation>
+                // biome-ignore lint/suspicious/noDoubleEquals: intentional loose equality for type coercion
                 return value == row[item.id]
               }
 
@@ -673,7 +677,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               <>
                 {value.map((v, i) => (
                   <Description
-                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    // biome-ignore lint/suspicious/noArrayIndexKey: array index is safe here as items are not reordered
                     key={i}
                     items={item.object}
                     dataSource={v || []}
@@ -703,7 +707,13 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     }
 
     setColumns(items as TableItemProps[])
-  }, [props.items])
+  }, [
+    props.items,
+    props.extendTypes,
+    props.faasData,
+    theme,
+    generateFilterDropdown,
+  ])
 
   useEffect(() => {
     if (!props.dataSource || !columns) return
@@ -724,7 +734,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           })
       }
     }
-  }, [props.dataSource, columns])
+  }, [props.dataSource, columns, generateFilterDropdown])
 
   if (!columns) return null
 
