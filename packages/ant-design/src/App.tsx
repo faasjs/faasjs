@@ -60,14 +60,7 @@ export interface useAppProps {
   setDrawerProps: setDrawerProps
 }
 
-const AppContext = createSplittingContext<useAppProps>({
-  message: null,
-  notification: null,
-  modalProps: {},
-  setModalProps: null,
-  drawerProps: {},
-  setDrawerProps: null,
-})
+const AppContext = createSplittingContext<useAppProps>(['message', 'notification', 'modalProps', 'setModalProps', 'drawerProps', 'setDrawerProps'])
 
 function RoutesApp(props: { children: React.ReactNode }) {
   const location = useLocation()

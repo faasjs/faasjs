@@ -8,87 +8,159 @@ import { App, useApp } from '../../App'
 import { useFaas } from '../../FaasDataWrapper'
 
 describe('App', () => {
-  it('should work', async () => {
-    let ContainerTimes = 0
-    let ButtonTimes = 0
-    let ComponentTimes = 0
+  it('should render children', () => {
+    render(
+      <App>
+        <div>Test</div>
+      </App>
+    )
 
-    function Container() {
-      ContainerTimes++
+    expect(screen.getByText('Test')).toBeDefined()
+  })
 
-      return (
-        <>
-          <Component />
-          <Button />
-        </>
-      )
-    }
-
-    Container.whyDidYouRender = true
-
-    function Button() {
-      const { setModalProps, setDrawerProps } = useApp()
-
-      ButtonTimes++
-
-      return (
-        <button
-          type='button'
-          onClick={() => {
-            setDrawerProps({
-              open: true,
-              title: 'Hi Drawer',
-            })
-            setModalProps({
-              open: true,
-              title: 'Hi Modal',
-            })
-          }}
-        >
-          Button
-        </button>
-      )
-    }
-
-    Button.whyDidYouRender = true
+  it('should provide message', async () => {
+    let renderUseEffectCount = 0
+    let renderComponentCount = 0
 
     function Component() {
       const { message } = useApp()
 
       useEffect(() => {
-        message.info('Hi')
-      }, [])
+        message.info('Hello')
+        renderUseEffectCount++
+      }, [message])
 
-      ComponentTimes++
+      renderComponentCount++
 
-      return <div>Component</div>
+      return <button type='button' onClick={() => message.info('Hi')}>Component</button>
     }
-
-    Component.whyDidYouRender = true
 
     const user = userEvent.setup()
 
     render(
       <App>
-        <Container />
+        <Component />
       </App>
     )
 
-    expect(screen.getByText('Hi')).toBeDefined()
-    expect(ContainerTimes).toBe(1)
-    expect(ButtonTimes).toBe(1)
-    expect(ComponentTimes).toBe(1)
+    expect(screen.getByText('Hello')).toBeDefined()
+    expect(renderUseEffectCount).toBe(1)
+    expect(renderComponentCount).toBe(1)
 
     await user.click(screen.getByRole('button'))
 
-    expect(await screen.findByText('Hi Drawer')).toBeDefined()
-    expect(await screen.findByText('Hi Modal')).toBeDefined()
-    expect(ContainerTimes).toBe(1)
-    expect(ButtonTimes).toBe(1)
-    expect(ComponentTimes).toBe(1)
+    expect(screen.getByText('Hi')).toBeDefined()
+    expect(renderUseEffectCount).toBe(1)
+    expect(renderComponentCount).toBe(1)
   })
 
-  it('disable BrowserRouter', () => {
+  it('should provide notification', async () => {
+    let renderUseEffectCount = 0
+    let renderComponentCount = 0
+
+    function Component() {
+      const { notification } = useApp()
+
+      useEffect(() => {
+        notification.info({
+          message: 'Hello',
+        })
+        renderUseEffectCount++
+      }, [notification])
+
+      renderComponentCount++
+
+      return <button type='button' onClick={() => notification.info({ message: 'Hi' })}>Component</button>
+    }
+
+    const user = userEvent.setup()
+
+    render(
+      <App>
+        <Component />
+      </App>
+    )
+
+    expect(screen.getByText('Hello')).toBeDefined()
+    expect(renderUseEffectCount).toBe(1)
+    expect(renderComponentCount).toBe(1)
+
+    await user.click(screen.getByRole('button'))
+
+    expect(screen.getByText('Hi')).toBeDefined()
+    expect(renderUseEffectCount).toBe(1)
+    expect(renderComponentCount).toBe(1)
+  })
+
+  it('should provide modal', async () => {
+    const user = userEvent.setup()
+    let renderComponentCount = 0
+
+    function Component() {
+      const { setModalProps } = useApp()
+
+      renderComponentCount++
+
+      return (
+        <button type='button' onClick={() => setModalProps({
+          open: true,
+          title: 'Hi Modal',
+        })}>
+          Component
+        </button>
+      )
+    }
+
+    render(
+      <App>
+        <Component />
+      </App>
+    )
+
+    expect(screen.queryByText('Hi Modal')).toBeNull()
+    expect(renderComponentCount).toBe(1)
+
+    await user.click(screen.getByRole('button'))
+
+    expect(screen.getByText('Hi Modal')).toBeDefined()
+    expect(renderComponentCount).toBe(1)
+  })
+
+  it('should provide drawer', async () => {
+    const user = userEvent.setup()
+    let renderComponentCount = 0
+
+    function Component() {
+      const { setDrawerProps } = useApp()
+
+      renderComponentCount++
+
+      return (
+        <button type='button' onClick={() => setDrawerProps({
+          open: true,
+          title: 'Hi Drawer',
+        })}>
+          Component
+        </button>
+      )
+    }
+
+    render(
+      <App>
+        <Component />
+      </App>
+    )
+
+    expect(screen.queryByText('Hi Drawer')).toBeNull()
+    expect(renderComponentCount).toBe(1)
+
+    await user.click(screen.getByRole('button'))
+
+    expect(screen.getByText('Hi Drawer')).toBeDefined()
+    expect(renderComponentCount).toBe(1)
+  })
+
+  it('should work without BrowserRouter', () => {
     function Nav() {
       const navigate = useNavigate()
 
