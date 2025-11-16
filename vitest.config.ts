@@ -19,7 +19,6 @@ export default defineConfig({
     typecheck: {
       enabled: true,
     },
-    setupFiles: ['vitest.setup.ts'],
     coverage: {
       provider: 'v8',
       include: ['packages/**/*.ts', 'packages/**/*.tsx'],
@@ -29,7 +28,7 @@ export default defineConfig({
     reporters: ['default', ['junit', { outputFile: 'test-report.junit.xml' }]],
     projects: [
       {
-        extends: './vitest.config.ts',
+        extends: true,
         test: {
           include: ['packages/**/*.test.ts'],
           exclude: browsers,
@@ -37,10 +36,11 @@ export default defineConfig({
         },
       },
       {
-        extends: './vitest.config.ts',
+        extends: true,
         test: {
           include: browsers,
           environment: 'happy-dom',
+          setupFiles: ['vitest.setup.ts'],
         },
       },
     ],

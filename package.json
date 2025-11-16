@@ -14,9 +14,9 @@
     "ci": "vitest run --silent --coverage"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
+    "@testing-library/jest-dom": "*",
     "@vitejs/plugin-react": "*",
     "@vitest/coverage-v8": "*",
     "commander": ">=14.0.0",
