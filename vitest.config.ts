@@ -19,7 +19,6 @@ export default defineConfig({
     typecheck: {
       enabled: true,
     },
-    setupFiles: ['vitest.setup.ts'],
     coverage: {
       provider: 'v8',
       include: ['packages/**/*.ts', 'packages/**/*.tsx'],
@@ -40,7 +39,8 @@ export default defineConfig({
         extends: true,
         test: {
           include: browsers,
-          environment: 'happy-dom',
+          environment: 'jsdom',
+          setupFiles: ['vitest.jsdom.setup.ts'],
         },
       },
     ],
