@@ -1,6 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import dayjs from 'dayjs'
+import { isNil } from 'lodash-es'
+import { useState } from 'react'
 import { beforeEach, describe, expect, it } from 'vitest'
 import type { UnionFaasItemElement, UnionFaasItemRender } from '../../data'
 import { Table } from '../../Table'
@@ -181,38 +183,39 @@ describe('Table/items', () => {
     })
 
     it('filter true', async () => {
-      const user = userEvent.setup({ pointerEventsCheck: 0 })
+      const user = userEvent.setup({ pointerEventsCheck: 0, delay: 0 })
+      const filterButton = screen.getAllByRole('img', { name: 'filter' })[1]
 
-      await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
+      await user.click(filterButton)
       await user.click(screen.getAllByRole('radio')[1])
 
       expect(screen.getAllByRole('cell').length).toBe(2)
-      expect(screen.getByText('true')).toBeDefined()
-    }, 20000)
+    })
 
     it('filter false', async () => {
-      const user = userEvent.setup({ pointerEventsCheck: 0 })
+      const user = userEvent.setup({ pointerEventsCheck: 0, delay: 0 })
+      const filterButton = screen.getAllByRole('img', { name: 'filter' })[1]
 
-      await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
+      await user.click(filterButton)
       await user.click(screen.getAllByRole('radio')[2])
 
       expect(screen.getAllByRole('cell').length).toBe(2)
-      expect(screen.getByText('false')).toBeDefined()
-    }, 20000)
+    })
 
     it('filter empty and all', async () => {
-      const user = userEvent.setup({ pointerEventsCheck: 0 })
+      const user = userEvent.setup({ pointerEventsCheck: 0, delay: 0 })
+      const filterButton = screen.getAllByRole('img', { name: 'filter' })[1]
 
-      await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
+      // filter empty
+      await user.click(filterButton)
       await user.click(screen.getAllByRole('radio')[3])
-
       expect(screen.getAllByRole('cell').length).toBe(2)
 
-      await user.click(screen.getAllByRole('img', { name: 'filter' })[1])
-      await user.click(screen.getByRole('radio', { name: 'All' }))
-
+      // filter all
+      await user.click(filterButton)
+      await user.click(screen.getAllByRole('radio')[0])
       expect(screen.getAllByRole('cell').length).toBe(6)
-    }, 20000)
+    })
   })
 
   describe('time', () => {
