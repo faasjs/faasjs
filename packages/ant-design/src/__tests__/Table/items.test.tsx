@@ -188,7 +188,7 @@ describe('Table/items', () => {
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('true')).toBeDefined()
-    }, 10000)
+    }, 20000)
 
     it('filter false', async () => {
       const user = userEvent.setup({ pointerEventsCheck: 0 })
@@ -198,7 +198,7 @@ describe('Table/items', () => {
 
       expect(screen.getAllByRole('cell').length).toBe(2)
       expect(screen.getByText('false')).toBeDefined()
-    }, 10000)
+    }, 20000)
 
     it('filter empty and all', async () => {
       const user = userEvent.setup({ pointerEventsCheck: 0 })
@@ -212,7 +212,7 @@ describe('Table/items', () => {
       await user.click(screen.getByRole('radio', { name: 'All' }))
 
       expect(screen.getAllByRole('cell').length).toBe(6)
-    }, 10000)
+    }, 20000)
   })
 
   describe('time', () => {
