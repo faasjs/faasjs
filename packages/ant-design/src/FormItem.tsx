@@ -317,30 +317,33 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                   </label>
                 </div>
               )}
-              {fields.map(field => (
-                <AntdForm.Item key={field.key}>
-                  <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
-                    <Col span={23}>
-                      <AntdForm.Item {...field} noStyle>
-                        <Input {...(computedProps.input as InputProps)} />
-                      </AntdForm.Item>
-                    </Col>
-                    <Col span={1}>
-                      {!computedProps.input?.disabled &&
-                        (!computedProps.rules.find(r => r.required) ||
-                          field.key > 0) && (
-                          <Button
-                            danger
-                            type='link'
-                            style={{ float: 'right' }}
-                            icon={<MinusCircleOutlined />}
-                            onClick={() => remove(field.name)}
-                          />
-                        )}
-                    </Col>
-                  </Row>
-                </AntdForm.Item>
-              ))}
+              {fields.map(field => {
+                const { key, ...fieldProps } = field
+                return (
+                  <AntdForm.Item key={key}>
+                    <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
+                      <Col span={23}>
+                        <AntdForm.Item {...fieldProps} noStyle>
+                          <Input {...(computedProps.input as InputProps)} />
+                        </AntdForm.Item>
+                      </Col>
+                      <Col span={1}>
+                        {!computedProps.input?.disabled &&
+                          (!computedProps.rules.find(r => r.required) ||
+                            key > 0) && (
+                            <Button
+                              danger
+                              type='link'
+                              style={{ float: 'right' }}
+                              icon={<MinusCircleOutlined />}
+                              onClick={() => remove(field.name)}
+                            />
+                          )}
+                      </Col>
+                    </Row>
+                  </AntdForm.Item>
+                )
+              })}
               <AntdForm.Item>
                 {!computedProps.input?.disabled &&
                   (!computedProps.maxCount ||
@@ -411,33 +414,36 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                   </label>
                 </div>
               )}
-              {fields.map(field => (
-                <AntdForm.Item key={field.key}>
-                  <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
-                    <Col span={23}>
-                      <AntdForm.Item {...field} noStyle>
-                        <InputNumber
-                          style={{ width: '100%' }}
-                          {...(computedProps.input as InputNumberProps)}
-                        />
-                      </AntdForm.Item>
-                    </Col>
-                    <Col span={1}>
-                      {!computedProps.input?.disabled &&
-                        (!computedProps.rules.find(r => r.required) ||
-                          field.key > 0) && (
-                          <Button
-                            danger
-                            type='link'
-                            style={{ float: 'right' }}
-                            icon={<MinusCircleOutlined />}
-                            onClick={() => remove(field.name)}
+              {fields.map(field => {
+                const { key, ...fieldProps } = field
+                return (
+                  <AntdForm.Item key={key}>
+                    <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
+                      <Col span={23}>
+                        <AntdForm.Item {...fieldProps} noStyle>
+                          <InputNumber
+                            style={{ width: '100%' }}
+                            {...(computedProps.input as InputNumberProps)}
                           />
-                        )}
-                    </Col>
-                  </Row>
-                </AntdForm.Item>
-              ))}
+                        </AntdForm.Item>
+                      </Col>
+                      <Col span={1}>
+                        {!computedProps.input?.disabled &&
+                          (!computedProps.rules.find(r => r.required) ||
+                            key > 0) && (
+                            <Button
+                              danger
+                              type='link'
+                              style={{ float: 'right' }}
+                              icon={<MinusCircleOutlined />}
+                              onClick={() => remove(field.name)}
+                            />
+                          )}
+                      </Col>
+                    </Row>
+                  </AntdForm.Item>
+                )
+              })}
               <AntdForm.Item>
                 {!computedProps.input?.disabled &&
                   (!computedProps.maxCount ||

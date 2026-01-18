@@ -32,7 +32,11 @@ describe('App', () => {
 
       renderComponentCount++
 
-      return <button type='button' onClick={() => message.info('Hi')}>Component</button>
+      return (
+        <button type='button' onClick={() => message.info('Hi')}>
+          Component
+        </button>
+      )
     }
 
     const user = userEvent.setup()
@@ -63,14 +67,21 @@ describe('App', () => {
 
       useEffect(() => {
         notification.info({
-          message: 'Hello',
+          title: 'Hello',
         })
         renderUseEffectCount++
       }, [notification])
 
       renderComponentCount++
 
-      return <button type='button' onClick={() => notification.info({ message: 'Hi' })}>Component</button>
+      return (
+        <button
+          type='button'
+          onClick={() => notification.info({ title: 'Hi' })}
+        >
+          Component
+        </button>
+      )
     }
 
     const user = userEvent.setup()
@@ -85,7 +96,7 @@ describe('App', () => {
     expect(renderUseEffectCount).toBe(1)
     expect(renderComponentCount).toBe(1)
 
-    await user.click(screen.getByRole('button'))
+    await user.click(screen.getByText('Component'))
 
     expect(screen.getByText('Hi')).toBeDefined()
     expect(renderUseEffectCount).toBe(1)
@@ -102,10 +113,15 @@ describe('App', () => {
       renderComponentCount++
 
       return (
-        <button type='button' onClick={() => setModalProps({
-          open: true,
-          title: 'Hi Modal',
-        })}>
+        <button
+          type='button'
+          onClick={() =>
+            setModalProps({
+              open: true,
+              title: 'Hi Modal',
+            })
+          }
+        >
           Component
         </button>
       )
@@ -136,10 +152,15 @@ describe('App', () => {
       renderComponentCount++
 
       return (
-        <button type='button' onClick={() => setDrawerProps({
-          open: true,
-          title: 'Hi Drawer',
-        })}>
+        <button
+          type='button'
+          onClick={() =>
+            setDrawerProps({
+              open: true,
+              title: 'Hi Drawer',
+            })
+          }
+        >
           Component
         </button>
       )
