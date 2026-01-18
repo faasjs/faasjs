@@ -4,6 +4,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v7.0.3 (2026-01-18)`](https://github.com/faasjs/faasjs/compare/v7.0.2...v7.0.3)
+
+- `@faasjs/ant-design`
+  - [Fix] Upgrade antd to 6.x.
+
 [`v7.0.2 (2025-10-14)`](https://github.com/faasjs/faasjs/compare/v7.0.1...v7.0.2)
 
 - `@faasjs/react`
