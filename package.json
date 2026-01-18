@@ -11,7 +11,8 @@
     "build:doc": "typedoc",
     "build:docs": "node build-docs.cjs",
     "lint": "npx biome check . --write",
-    "ci": "vitest run --silent --coverage"
+    "ci": "vitest run --silent --coverage",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@testing-library/react": "*",
@@ -28,7 +29,8 @@
     "vite-tsconfig-paths": "*",
     "vitest": "*",
     "typescript": "*",
-    "@types/node": "*"
+    "@types/node": "*",
+    "husky": "*"
   },
   "workspaces": [
     "packages/*"
