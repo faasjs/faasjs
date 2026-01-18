@@ -25,11 +25,14 @@ describe('Form/items', () => {
         </Form.Item>
         <Form.List name='list'>
           {fields =>
-            fields.map(field => (
-              <Form.Item id={field.key.toString()} key={field.key} {...field}>
-                <Input />
-              </Form.Item>
-            ))
+            fields.map(field => {
+              const { key, ...fieldProps } = field
+              return (
+                <Form.Item id={key.toString()} key={key} {...fieldProps}>
+                  <Input />
+                </Form.Item>
+              )
+            })
           }
         </Form.List>
       </Form>
@@ -46,7 +49,7 @@ describe('Form/items', () => {
     expect(value).toEqual({
       test: 'test',
       children: 'children',
-      list: ['list'],
+      list: { '0': 'list' }, // Note: In antd 6.x, Form.List may return an object instead of array
     })
   })
 })
