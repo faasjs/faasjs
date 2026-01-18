@@ -104,8 +104,7 @@ export function viteFaasJsServer(
           body = Buffer.concat(chunks).toString()
 
           try {
-            if (body)
-              body = JSON.parse(body)
+            if (body) body = JSON.parse(body)
           } catch (e) {
             console.error('Failed to parse JSON:', e)
           }

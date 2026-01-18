@@ -5,17 +5,9 @@
     "exactOptionalPropertyTypes": false,
     "baseUrl": ".",
     "paths": {
-      "@faasjs/*": [
-        "./packages/*/src"
-      ]
+      "@faasjs/*": ["./packages/*/src"]
     },
-    "types": [
-      "node",
-      "@testing-library/jest-dom"
-    ]
+    "types": ["node", "@testing-library/jest-dom"]
   },
-  "include": [
-    "packages/*/src/**/*.ts",
-    "packages/*/src/**/*.tsx"
-  ]
+  "include": ["packages/*/src/**/*.ts", "packages/*/src/**/*.tsx"]
 }

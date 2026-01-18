@@ -16,6 +16,14 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 })
 
+class ResizeObserverMock {
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
+}
+
+vi.stubGlobal('ResizeObserver', ResizeObserverMock)
+
 beforeEach(() => {
   document.body.innerHTML = ''
   window.location.href = 'http://localhost/'

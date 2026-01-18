@@ -28,7 +28,7 @@ describe('viteFaasJsServer', () => {
         headers: {
           'content-type': 'application/json',
         },
-        pipe: vi.fn((res) => {
+        pipe: vi.fn(res => {
           res.write(JSON.stringify({ success: true }))
           res.end()
           return res
@@ -118,7 +118,12 @@ describe('viteFaasJsServer', () => {
 
     await server.listen()
 
-    expect(await fetch(`http://localhost:${server.config.server.port}/test/base/123`, { method: 'POST' }).then(res => res.text())).toBe(JSON.stringify({ success: true }))
+    expect(
+      await fetch(
+        `http://localhost:${server.config.server.port}/test/base/123`,
+        { method: 'POST' }
+      ).then(res => res.text())
+    ).toBe(JSON.stringify({ success: true }))
 
     expect(request).toHaveBeenCalled()
   })

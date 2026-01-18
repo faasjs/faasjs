@@ -49,7 +49,7 @@ describe('Form/items', () => {
     expect(value).toEqual({
       test: 'test',
       children: 'children',
-      list: { '0': 'list' }, // Note: In antd 6.x, Form.List may return an object instead of array
+      list: ['list'],
     })
   })
 })

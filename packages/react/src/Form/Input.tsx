@@ -10,9 +10,10 @@ import type { FormDefaultRulesOptions } from './rules'
 
 export type InferFormInputProps<
   T extends ComponentType<FormInputElementProps> | JSXElementConstructor<any>,
-> = T extends ComponentType<FormInputElementProps>
-  ? Omit<ComponentProps<T>, 'name' | 'value' | 'onChange'>
-  : Omit<ComponentProps<T>, 'name' | 'value'>
+> =
+  T extends ComponentType<FormInputElementProps>
+    ? Omit<ComponentProps<T>, 'name' | 'value' | 'onChange'>
+    : Omit<ComponentProps<T>, 'name' | 'value'>
 
 export type FormInputProps<
   FormElements extends FormElementTypes = FormElementTypes,

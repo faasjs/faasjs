@@ -860,5 +860,3 @@ function FaasDataTable({
     />
   )
 }
-
-

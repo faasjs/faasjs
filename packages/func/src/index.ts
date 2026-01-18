@@ -96,13 +96,8 @@ type CachedFunction = {
  * FuncEventType<typeof func> // => { counter: number }
  * ```
  */
-export type FuncEventType<T extends Func<any, any, any>> = T extends Func<
-  infer P,
-  any,
-  any
->
-  ? P
-  : any
+export type FuncEventType<T extends Func<any, any, any>> =
+  T extends Func<infer P, any, any> ? P : any
 
 /**
  * Get the return type of a func
@@ -116,13 +111,8 @@ export type FuncEventType<T extends Func<any, any, any>> = T extends Func<
  * FuncReturnType<typeof func> // => number
  * ```
  */
-export type FuncReturnType<T extends Func<any, any, any>> = T extends Func<
-  any,
-  any,
-  infer R
->
-  ? R
-  : any
+export type FuncReturnType<T extends Func<any, any, any>> =
+  T extends Func<any, any, infer R> ? R : any
 
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any
