@@ -8,23 +8,25 @@ describe('FormItem number[]', () => {
   it('with object options', async () => {
     const user = userEvent.setup()
     const { container } = render(
-      <FormItem
-        id='test'
-        type='number[]'
-        options={[
-          {
-            label: 'label',
-            value: 'value',
-          },
-        ]}
-      />
+      <Form>
+        <FormItem
+          id='test'
+          type='number[]'
+          options={[
+            {
+              label: 'label',
+              value: 'value',
+            },
+          ]}
+        />
+      </Form>
     )
 
     expect(
-      container.getElementsByClassName('ant-select-selector').length
+      container.getElementsByClassName('ant-select').length
     ).toEqual(1)
 
-    await user.click(container.getElementsByClassName('ant-select-selector')[0])
+    await user.click(container.getElementsByClassName('ant-select')[0])
 
     expect(await screen.findByText('label')).toBeDefined()
   })
@@ -32,14 +34,16 @@ describe('FormItem number[]', () => {
   it('with number options', async () => {
     const user = userEvent.setup()
     const { container } = render(
-      <FormItem id='test' type='number[]' options={['value']} />
+      <Form>
+        <FormItem id='test' type='number[]' options={['value']} />
+      </Form>
     )
 
     expect(
-      container.getElementsByClassName('ant-select-selector').length
+      container.getElementsByClassName('ant-select').length
     ).toEqual(1)
 
-    await user.click(container.getElementsByClassName('ant-select-selector')[0])
+    await user.click(container.getElementsByClassName('ant-select')[0])
 
     expect(await screen.findByText('Value')).toBeDefined()
   })

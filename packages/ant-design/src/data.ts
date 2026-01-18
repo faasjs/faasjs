@@ -44,7 +44,7 @@ export type BaseOption =
     }
 
 export interface BaseItemProps {
-  id: string
+  id: string | number
   title?: string
   options?: BaseOption[]
 }
@@ -71,7 +71,9 @@ export interface FaasItemProps extends BaseItemProps {
  * idToTitle('example_id'); // returns 'ExampleId'
  * ```
  */
-export function idToTitle(id: string) {
+export function idToTitle(id: string | number): string {
+  if (typeof id === 'number') return id.toString()
+
   const splitted = id
     .split(/(\s|_|-)/)
     .filter(word => !/(\s|_|-)/.test(word))
