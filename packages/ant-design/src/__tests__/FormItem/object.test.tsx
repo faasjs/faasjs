@@ -6,7 +6,7 @@ import { Form } from '../../Form'
 describe('FormItem object', () => {
   it('should work', async () => {
     const user = userEvent.setup()
-    let values: string
+    let values: Record<string, any> = {}
     render(
       <Form
         onValuesChange={v => (values = v)}

@@ -2,7 +2,7 @@
 
 # Function: viteFaasJsServer()
 
-> **viteFaasJsServer**(`options`): `Plugin$1`
+> **viteFaasJsServer**(`options`): `Plugin`
 
 ## Parameters
 
@@ -12,4 +12,4 @@
 
 ## Returns
 
-`Plugin$1`
+`Plugin`

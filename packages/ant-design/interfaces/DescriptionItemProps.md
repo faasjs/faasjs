@@ -32,7 +32,7 @@
 
 ### id
 
-> **id**: `string`
+> **id**: `string` \| `number`
 
 #### Inherited from
 

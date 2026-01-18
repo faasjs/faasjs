@@ -11,7 +11,7 @@
 
 ### id
 
-> **id**: `string`
+> **id**: `string` \| `number`
 
 ### options?
 

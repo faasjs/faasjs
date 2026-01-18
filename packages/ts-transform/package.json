@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/ts-transform",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -31,11 +31,11 @@
   ],
   "peerDependencies": {
     "@swc/core": "*",
-    "@faasjs/deep_merge": ">=7.0.2"
+    "@faasjs/deep_merge": ">=7.0.3"
   },
   "devDependencies": {
     "@swc/core": "*",
-    "@faasjs/deep_merge": ">=7.0.2"
+    "@faasjs/deep_merge": ">=7.0.3"
   },
   "engines": {
     "node": ">=24.0.0",

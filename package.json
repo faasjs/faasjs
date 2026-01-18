@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "type": "module",
   "private": true,
   "scripts": {
@@ -35,7 +35,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "packageManager": "npm@11.3.0",
+  "packageManager": "npm@11.7.0",
   "engines": {
     "node": ">=24.0.0",
     "npm": ">=11.0.0"

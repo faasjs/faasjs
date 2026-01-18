@@ -91,7 +91,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 ### id
 
-> **id**: `string`
+> **id**: `string` \| `number`
 
 #### Inherited from
 
