@@ -710,10 +710,12 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
     for (const column of columns) {
       if (column.optionsType === 'auto' && !column.options && !column.filters) {
-        const options = uniqBy<any>(props.dataSource, column.id).map(v => ({
-          label: v[column.id],
-          value: v[column.id],
-        }))
+        const options = uniqBy(props.dataSource, column.id).map(
+          (v: Record<string, any>) => ({
+            label: v[column.id],
+            value: v[column.id],
+          })
+        )
         if (options.length)
           setColumns(prev => {
             const newColumns = [...prev]
@@ -786,10 +788,12 @@ function FaasDataTable({
           !column.options &&
           !column.filters
         ) {
-          const filters = uniqBy<any>(props.dataSource, column.id).map(v => ({
-            text: v[column.id],
-            value: v[column.id],
-          }))
+          const filters = uniqBy(props.dataSource, column.id).map(
+            (v: Record<string, any>) => ({
+              text: v[column.id],
+              value: v[column.id],
+            })
+          )
           if (filters.length)
             column.filters = filters.concat({
               text: <Blank />,

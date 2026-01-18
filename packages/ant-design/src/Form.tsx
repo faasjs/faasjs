@@ -233,7 +233,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
   }, [props])
 
   const onValuesChange = useEqualCallback(
-    (changedValues: Record<string, any>, allValues: Values) => {
+    (changedValues: Partial<Values>, allValues: Values) => {
       console.debug('Form:onValuesChange', changedValues, allValues)
 
       if (props.onValuesChange) {

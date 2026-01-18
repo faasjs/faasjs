@@ -1,4 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import type { ValidatorRule } from '@rc-component/form/lib/interface'
 import {
   Form as AntdForm,
   type FormItemProps as AntdFormItemProps,
@@ -19,7 +20,7 @@ import {
   Switch,
   type SwitchProps,
 } from 'antd'
-import type { RuleObject, ValidatorRule } from 'rc-field-form/lib/interface'
+import type { RuleObject } from 'antd/es/form'
 import { useEffect, useState } from 'react'
 import { type ConfigProviderProps, useConfigContext } from './Config'
 import type {
