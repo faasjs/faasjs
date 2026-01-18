@@ -10,7 +10,7 @@
     "build": "npm run clean && npm exec turbo build && rm packages/*/dist/*.d.cts",
     "build:doc": "typedoc",
     "build:docs": "node build-docs.cjs",
-    "lint": "biome check . --write",
+    "lint": "npx biome check . --write",
     "ci": "vitest run --silent --coverage"
   },
   "devDependencies": {

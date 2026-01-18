@@ -22,9 +22,7 @@ describe('FormItem number[]', () => {
       </Form>
     )
 
-    expect(
-      container.getElementsByClassName('ant-select').length
-    ).toEqual(1)
+    expect(container.getElementsByClassName('ant-select').length).toEqual(1)
 
     await user.click(container.getElementsByClassName('ant-select')[0])
 
@@ -39,9 +37,7 @@ describe('FormItem number[]', () => {
       </Form>
     )
 
-    expect(
-      container.getElementsByClassName('ant-select').length
-    ).toEqual(1)
+    expect(container.getElementsByClassName('ant-select').length).toEqual(1)
 
     await user.click(container.getElementsByClassName('ant-select')[0])
 
