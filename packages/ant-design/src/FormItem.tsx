@@ -233,7 +233,12 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
 
   if (hidden)
     return (
-      <AntdForm.Item {...computedProps} noStyle rules={[]}>
+      <AntdForm.Item
+        {...computedProps}
+        id={computedProps.id.toString()}
+        noStyle
+        rules={[]}
+      >
         <Input type='hidden' hidden />
       </AntdForm.Item>
     )
@@ -250,7 +255,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
 
   if (children)
     return (
-      <AntdForm.Item {...computedProps}>
+      <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
         {cloneUnionFaasItemElement(children, { scene: 'form' })}
       </AntdForm.Item>
     )
@@ -259,14 +264,14 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
 
   if (render)
     return (
-      <AntdForm.Item {...computedProps}>
+      <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
         {render(null, null, 0, 'form')}
       </AntdForm.Item>
     )
 
   if (extendTypes?.[computedProps.type])
     return (
-      <AntdForm.Item {...computedProps}>
+      <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
         {cloneUnionFaasItemElement(extendTypes[computedProps.type].children, {
           scene: 'form',
         })}
@@ -277,7 +282,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     case 'string':
       if (isOptionsProps(computedProps))
         return (
-          <AntdForm.Item {...computedProps}>
+          <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
             {computedProps.options.length > 10 ? (
               <Select {...(computedProps.input as SelectProps)} />
             ) : (
@@ -287,14 +292,14 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
         )
 
       return (
-        <AntdForm.Item {...computedProps}>
+        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
           <Input {...(computedProps.input as InputProps)} />
         </AntdForm.Item>
       )
     case 'string[]':
       if (isOptionsProps(computedProps))
         return (
-          <AntdForm.Item {...computedProps}>
+          <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
             <Select mode='multiple' {...(computedProps.input as SelectProps)} />
           </AntdForm.Item>
         )
@@ -321,7 +326,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
               {fields.map(field => {
                 const { key, ...fieldProps } = field
                 return (
-                  <AntdForm.Item key={key}>
+                  <AntdForm.Item key={key} id={key.toString()}>
                     <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
                       <Col span={23}>
                         <AntdForm.Item {...fieldProps} noStyle>
@@ -370,7 +375,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     case 'number':
       if ((computedProps as OptionsProps).options)
         return (
-          <AntdForm.Item {...computedProps}>
+          <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
             {computedProps.options.length > 10 ? (
               <Select {...(computedProps.input as SelectProps)} />
             ) : (
@@ -380,7 +385,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
         )
 
       return (
-        <AntdForm.Item {...computedProps}>
+        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
           <InputNumber
             style={{ width: '100%' }}
             {...(computedProps.input as InputNumberProps)}
@@ -390,7 +395,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     case 'number[]':
       if ((computedProps as OptionsProps).options)
         return (
-          <AntdForm.Item {...computedProps}>
+          <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
             <Select mode='multiple' {...(computedProps.input as SelectProps)} />
           </AntdForm.Item>
         )
@@ -418,7 +423,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
               {fields.map(field => {
                 const { key, ...fieldProps } = field
                 return (
-                  <AntdForm.Item key={key}>
+                  <AntdForm.Item key={key} id={key.toString()}>
                     <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
                       <Col span={23}>
                         <AntdForm.Item {...fieldProps} noStyle>
@@ -469,19 +474,19 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       )
     case 'boolean':
       return (
-        <AntdForm.Item {...computedProps}>
+        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
           <Switch {...(computedProps.input as SwitchProps)} />
         </AntdForm.Item>
       )
     case 'date':
       return (
-        <AntdForm.Item {...computedProps}>
+        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
           <DatePicker {...(computedProps.input as DatePickerProps)} />
         </AntdForm.Item>
       )
     case 'time':
       return (
-        <AntdForm.Item {...computedProps}>
+        <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
           <DatePicker
             {...{ ...(computedProps.input as DatePickerProps), showTime: true }}
           />
@@ -516,7 +521,11 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
           {(fields, { add, remove }, { errors }) => (
             <>
               {fields.map(field => (
-                <AntdForm.Item key={field.key} style={{ marginBottom: 0 }}>
+                <AntdForm.Item
+                  key={field.key}
+                  id={field.key.toString()}
+                  style={{ marginBottom: 0 }}
+                >
                   <div className='ant-form-item-label'>
                     <label>
                       {computedProps.label} {field.name + 1}
