@@ -9,21 +9,17 @@ FaasJS 内置插件，无需额外安装。
 可以在 package.json 中添加如下配置：
 
 ```json
-"jest": {
-  "verbose": false,
-  "transform": {
-    ".(jsx|tsx?)": "@faasjs/jest"
+{
+  "scripts": {
+    "test": "vitest run"
   },
-  "collectCoverageFrom": [
-    "**/*.ts"
-  ],
-  "testRegex": "/*\\.test\\.ts$",
-  "modulePathIgnorePatterns": [
-    "/tmp/"
-  ],
-  "setupFilesAfterEnv": [
-    "@faasjs/test/lib/jest.setup.js"
-  ]
+  "vitest": {
+    "coverage": {
+      "provider": "v8",
+      "include": ["**/*.ts"],
+      "exclude": ["**/*.test.ts", "**/*.d.ts"]
+    }
+  }
 }
 ```
 
@@ -32,21 +28,21 @@ FaasJS 内置插件，无需额外安装。
 在完成 `package.json` 配置后，可以使用以下命令进行自动化测试：
 
 ```bash
-  npm exec jest
+npm run test
 ```
 
 ## 编写测试用例
 
 ```typescript
-// 引入 FaasJS 的测试函数封装类
-import { FuncWarper } from '@faasjs/test'
+// 引入 FaasJS 的测试函数
+import { test } from '@faasjs/test'
 // 引入云函数文件，假设云函数文件在 `../index.func`
 import Func from '../index.func'
 
 describe('hello', function () {
   test('should work', async function () {
-    // 读取目标云函数文件
-    const func = new FuncWarper(Func)
+    // 创建测试实例
+    const func = test(Func)
 
     // 触发云函数
     const res = await func.handler({})
@@ -59,5 +55,5 @@ describe('hello', function () {
 
 ## 相关文档
 
-- [Jest](https://jestjs.io/)
-- [Jest Expect](https://jestjs.io/docs/en/expect)
+- [Vitest](https://vitest.dev/)
+- [Vitest Expect](https://vitest.dev/guide/assertion.html)
