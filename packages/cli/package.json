@@ -36,7 +36,7 @@
   ],
   "dependencies": {
     "@faasjs/test": ">=7.0.3",
-    "commander": "*",
+    "commander": ">=14.0.0",
     "enquirer": "*"
   },
   "peerDependencies": {
