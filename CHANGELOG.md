@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v7.0.4 (2026-01-19)`](https://github.com/faasjs/faasjs/compare/v7.0.3...v7.0.4)
+
+- `@faasjs/cli`
+  - [Fix] Lock commander version to >=14.0.0.
+
+- `create-faas-app`
+  - [Fix] Lock commander version to >=14.0.0.
+
 [`v7.0.3 (2026-01-18)`](https://github.com/faasjs/faasjs/compare/v7.0.2...v7.0.3)
 
 - `@faasjs/ant-design`
