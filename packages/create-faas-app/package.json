@@ -34,7 +34,7 @@
     "index.js"
   ],
   "dependencies": {
-    "commander": "*",
+    "commander": ">=14.0.0",
     "enquirer": "*"
   },
   "engines": {
