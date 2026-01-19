@@ -12,6 +12,12 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `create-faas-app`
   - [Fix] Lock commander version to >=14.0.0.
 
+- `@faasjs/logger`
+  - [Fix] Allow message's type to be unknown.
+
+- `@faasjs/vite`
+  - [Fix] Fix server base path.
+
 [`v7.0.3 (2026-01-18)`](https://github.com/faasjs/faasjs/compare/v7.0.2...v7.0.3)
 
 - `@faasjs/ant-design`

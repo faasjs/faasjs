@@ -32,12 +32,13 @@
  */
 import { type ChildProcessWithoutNullStreams, spawn } from 'node:child_process'
 import { request } from 'node:http'
+import { Logger } from '@faasjs/logger'
 import type { Plugin } from 'vite'
 
 export type ViteFaasJsServerOptions = {
   /** faas server root path, default is vite's root */
   root: string
-  /** faas server base path, default is as same as vite's base */
+  /** faas server base path, default is vite's base */
   base: string
   /** faas server port, 3000 as default */
   port: number
@@ -50,6 +51,7 @@ export function viteFaasJsServer(
 ): Plugin {
   let config: ViteFaasJsServerOptions
   let childProcess: ChildProcessWithoutNullStreams | null = null
+  const logger = new Logger('FaasJs:Vite')
 
   return {
     name: 'vite:faasjs',
@@ -81,19 +83,15 @@ export function viteFaasJsServer(
         shell: true,
       })
 
-      childProcess.stdout.on('data', data =>
-        console.log(data.toString().trim())
-      )
+      childProcess.stdout.on('data', data => logger.raw(data.toString().trim()))
 
-      childProcess.stderr.on('data', data =>
-        console.error(data.toString().trim())
-      )
+      childProcess.stderr.on('data', data => logger.raw(data.toString().trim()))
 
       middlewares.use(async (req, res, next) => {
         if (!req.url || req.method !== 'POST') return next()
 
         try {
-          const targetUrl = `http://localhost:${config.port}${req.url.replace(config.base, '')}`
+          const targetUrl = `http://localhost:${config.port}${req.url.replace(config.base, '/')}`
 
           let body = null
 
@@ -106,7 +104,7 @@ export function viteFaasJsServer(
           try {
             if (body) body = JSON.parse(body)
           } catch (e) {
-            console.error('Failed to parse JSON:', e)
+            logger.error('Failed to parse JSON:', e)
           }
 
           const headers: Record<string, any> = {}
@@ -114,38 +112,54 @@ export function viteFaasJsServer(
             if (!['host', 'connection'].includes(key)) headers[key] = value
 
           return new Promise(resolve => {
-            const proxyReq = request(
-              targetUrl,
-              {
-                method: 'POST',
-                headers,
-              },
-              proxyRes => {
-                res.statusCode = proxyRes.statusCode || 200
+            logger.debug(`Request ${targetUrl}`)
+            try {
+              const proxyReq = request(
+                targetUrl,
+                {
+                  method: 'POST',
+                  headers,
+                },
+                proxyRes => {
+                  res.statusCode = proxyRes.statusCode || 200
 
-                for (const key of Object.keys(proxyRes.headers)) {
-                  const value = proxyRes.headers[key]
-                  if (value) res.setHeader(key, value)
+                  for (const key of Object.keys(proxyRes.headers)) {
+                    const value = proxyRes.headers[key]
+                    if (value) res.setHeader(key, value)
+                  }
+
+                  proxyRes.pipe(res)
                 }
+              )
 
-                proxyRes.pipe(res)
+              if (body) {
+                proxyReq.write(JSON.stringify(body))
               }
-            )
 
-            if (body) {
-              proxyReq.write(JSON.stringify(body))
-            }
+              proxyReq.on('error', err => {
+                logger.error(err)
+                next()
+                resolve()
+              })
 
-            proxyReq.on('error', err => {
-              console.error(`\u001b[031m${err.toString()}\u001b[39m`)
+              proxyReq.end()
+            } catch (err) {
+              logger.error(err)
+              if (!res.headersSent) {
+                res.writeHead(500, { 'Content-Type': 'application/json' })
+                res.write(
+                  JSON.stringify({
+                    error: { message: 'Internal Server Error' },
+                  })
+                )
+                res.end()
+              }
               next()
               resolve()
-            })
-
-            proxyReq.end()
+            }
           })
         } catch (error: any) {
-          console.error(`\u001b[031m${error.toString()}\u001b[39m`)
+          logger.error(error)
 
           return next()
         }
