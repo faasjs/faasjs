@@ -10,7 +10,7 @@
 
 > **base**: `string`
 
-faas server base path, default is as same as vite's base
+faas server base path, default is vite's base
 
 ### command
 

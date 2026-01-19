@@ -68,9 +68,9 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ##### message
 
-{any} message or Error object
+`unknown`
 
-`string` | `Error`
+{any} message or Error object
 
 ##### args
 

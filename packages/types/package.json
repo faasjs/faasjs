@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/types",
-  "version": "7.0.3",
+  "version": "7.0.4",
   "license": "MIT",
   "type": "module",
   "types": "src/index.ts",
