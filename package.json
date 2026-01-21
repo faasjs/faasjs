@@ -1,11 +1,11 @@
 {
   "name": "faasjs-mono",
-  "version": "7.0.4",
+  "version": "7.1.0",
   "type": "module",
   "private": true,
   "scripts": {
     "test": "vitest run",
-    "pub": "npm run build && node build-docs.cjs && tsx publish.ts",
+    "pub": "npm run build && node build-docs.cjs && node publish.ts",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log .turbo",
     "build": "npm run lint && npm run clean && npm exec turbo build && rm packages/*/dist/*.d.cts",
     "build:doc": "typedoc",
