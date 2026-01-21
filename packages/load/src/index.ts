@@ -14,4 +14,5 @@
  */
 
 export { loadConfig } from './load_config'
+export { loadFunc } from './load_func'
 export * from './load_package'

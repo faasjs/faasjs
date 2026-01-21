@@ -119,6 +119,7 @@ async function respondWithFile(
  */
 export function staticHandler(options: StaticHandlerOptions): Middleware {
   const handler: Middleware = async (request, response, { logger }) => {
+    if (response.writableEnded) return
     if (request.method !== 'GET' || request.url.slice(0, 2) === '/.') return
 
     const cacheKey =

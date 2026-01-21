@@ -4,6 +4,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
+[`v7.1.0 (2026-01-21)`](https://github.com/faasjs/faasjs/compare/v7.0.4...v7.1.0)
+
+- `@faasjs/load`
+  - [Feature] Add `loadFunc` to load Func directly.
+
+- `@faasjs/server`
+  - [Fix] Prevent further processing if the response has already been sent in `staticHandler`.
+
 [`v7.0.4 (2026-01-19)`](https://github.com/faasjs/faasjs/compare/v7.0.3...v7.0.4)
 
 - `@faasjs/cli`
