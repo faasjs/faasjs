@@ -31,13 +31,11 @@
   ],
   "peerDependencies": {
     "js-yaml": "*",
-    "tsx": "*",
     "@faasjs/deep_merge": ">=7.1.0",
     "@faasjs/func": ">=7.1.0"
   },
   "devDependencies": {
     "js-yaml": "*",
-    "tsx": "*",
     "@types/js-yaml": "*",
     "@faasjs/deep_merge": ">=7.1.0",
     "@faasjs/func": ">=7.1.0"

@@ -22,7 +22,6 @@ describe('loadPackage', () => {
   it('should load a module', async () => {
     // @ts-expect-error
     globalThis.require = vi.fn().mockImplementation((name: string) => {
-      if (name === 'tsx') return {}
       if (name === 'my-module') return { default: 'my-module-default' }
     })
     const result = await loadPackage('my-module')
@@ -32,7 +31,6 @@ describe('loadPackage', () => {
   it('should load a module with default name', async () => {
     // @ts-expect-error
     globalThis.require = vi.fn().mockImplementation((name: string) => {
-      if (name === 'tsx') return {}
       if (name === 'my-module') return { test: 'my-module-default' }
     })
     const result = await loadPackage('my-module', 'test')
@@ -42,7 +40,6 @@ describe('loadPackage', () => {
   it('should load a module with default name list', async () => {
     // @ts-expect-error
     globalThis.require = vi.fn().mockImplementation((name: string) => {
-      if (name === 'tsx') return {}
       if (name === 'my-module') return { test: 'my-module-default' }
     })
     const result = await loadPackage('my-module', ['default', 'test'])

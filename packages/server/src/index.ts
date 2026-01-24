@@ -7,8 +7,7 @@
  * ## Install
  *
  * ```sh
- * # If you are using bun, tsx is not required.
- * npm install @faasjs/server tsx
+ * npm install @faasjs/server
  * ```
  *
  * ## Usage
@@ -26,20 +25,20 @@
  * ```
  * 2. Run the server:
  * ```sh
- * tsx server.ts // or `bun server.ts` if you are not using bun
+ * node server.ts
  * ```
  *
  * ## Routing
  *
  * Static routing:
  *
- * - `/` -> `index.func.ts` or `index.func.tsx`
- * - `/path` -> `path.func.ts` or `path.func.tsx` or `path/index.func.ts` or `path/index.func.tsx`
+ * - `/` -> `index.func.ts`
+ * - `/path` -> `path.func.ts` or `path/index.func.ts`
  *
  * Dynamic routing:
  *
- * - `/*` -> `default.func.ts` or `default.func.tsx`
- * - `/path/*` -> `path/default.func.ts` or `path/default.func.tsx`
+ * - `/*` -> `default.func.ts`
+ * - `/path/*` -> `path/default.func.ts`
  *
  * @packageDocumentation
  */

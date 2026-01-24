@@ -6,8 +6,6 @@
 
 Asynchronously loads a package by its name, supporting both ESM and CommonJS runtimes.
 
-Also supports loading TypeScript and TSX files by checking for the presence of the "tsx" package.
-
 ## Type Parameters
 
 ### T

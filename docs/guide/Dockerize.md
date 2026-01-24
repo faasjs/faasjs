@@ -65,5 +65,5 @@ ENV FaasLog=debug
 
 EXPOSE 3000
 
-CMD ["tsx", "server.ts"]
+CMD ["node", "dist/server.ts"]
 ```

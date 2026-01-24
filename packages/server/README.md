@@ -8,7 +8,7 @@ FaasJS's server module.
 ## Install
 
 ```sh
-npm install @faasjs/server tsx
+npm install @faasjs/server
 ```
 
 ## Usage
@@ -24,22 +24,22 @@ const server = new Server({
 
 server.start()
 ```
-2. Run the server:
+2. Run server:
 ```sh
-tsx server.ts
+node server.ts
 ```
 
 ## Routing
 
 Static routing:
 
-- `/` -> `index.func.ts` or `index.func.tsx`
-- `/path` -> `path.func.ts` or `path.func.tsx` or `path/index.func.ts` or `path/index.func.tsx`
+- `/` -> `index.func.ts`
+- `/path` -> `path.func.ts` or `path/index.func.ts`
 
 Dynamic routing:
 
-- `/*` -> `default.func.ts` or `default.func.tsx`
-- `/path/*` -> `path/default.func.ts` or `path/default.func.tsx`
+- `/*` -> `default.func.ts`
+- `/path/*` -> `path/default.func.ts`
 
 ## Functions
 

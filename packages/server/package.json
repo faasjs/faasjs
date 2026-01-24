@@ -37,11 +37,8 @@
     "@faasjs/http": ">=7.1.0"
   },
   "devDependencies": {
-    "react": "^19.0.0",
     "mime-types": "*",
     "@types/mime-types": "*",
-    "@types/react-dom": "^19.0.0",
-    "@types/react": "^19.0.0",
     "@faasjs/func": ">=7.1.0",
     "@faasjs/load": ">=7.1.0",
     "@faasjs/logger": ">=7.1.0",

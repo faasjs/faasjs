@@ -34,6 +34,13 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Remove `StyleProvider` support from `App` component.
   - [Fix] Fix type casting in `Description` component.
 
+- `@faasjs/server`
+  - [Break] Remove `.func.tsx` file support.
+  - [Fix] Update documentation to remove tsx references.
+
+- `@faasjs/load`
+  - [Break] Remove `tsx` file support.
+
 [`v7.0.4 (2026-01-19)`](https://github.com/faasjs/faasjs/compare/v7.0.3...v7.0.4)
 
 - `@faasjs/cli`
