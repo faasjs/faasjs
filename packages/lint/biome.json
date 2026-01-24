@@ -6,7 +6,6 @@
       "!**/dist",
       "!**/build",
       "!**/coverage",
-      "!**/.next",
       "!**/.vercel",
       "!**/.nuxt",
       "!**/.output",

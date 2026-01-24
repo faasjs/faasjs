@@ -91,20 +91,4 @@ describe('Form/submit', () => {
       extraProps: 'extra',
     })
   })
-
-  it('when submit to server function', async () => {
-    let values: any
-
-    render(
-      <Form
-        submit={{ to: { action: async (params: any) => (values = params) } }}
-      />
-    )
-
-    screen.debug()
-
-    await userEvent.click(screen.getByRole('button'))
-
-    expect(values).toEqual({})
-  })
 })

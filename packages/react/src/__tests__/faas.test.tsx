@@ -21,13 +21,4 @@ describe('faas', () => {
   it('should work', async () => {
     expect(await faas('t', {})).toMatchObject({ data: 1 })
   })
-
-  it('should work with server action', async () => {
-    setMock(null)
-    expect(
-      await faas(async params => ({ data: JSON.parse(params) + 1 }), 1)
-    ).toMatchObject({
-      data: 2,
-    })
-  })
 })

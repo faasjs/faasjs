@@ -48,16 +48,12 @@ export interface FaasActions {}
  */
 export type FaasActionPaths = keyof FaasActions
 
-export type ReactServerAction = (...args: any[]) => Promise<any>
-
 /**
  * Union type of all action types.
  */
 export type FaasActionUnionType =
   // Action paths defined in FaasActions
   | FaasActionPaths
-  // React server action
-  | ReactServerAction
   // Returning data type
   | Record<string, any>
   // action path as string
@@ -66,31 +62,23 @@ export type FaasActionUnionType =
 /**
  * Infer the action type.
  */
-export type FaasAction<T = any> = T extends ReactServerAction
-  ? T
-  : T extends FaasActionPaths
-    ? T
-    : string
+export type FaasAction<T = any> = T extends FaasActionPaths ? T : string
 
 /**
  * Infer the parameters type.
  */
 export type FaasParams<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
-  : T extends ReactServerAction
-    ? Parameters<T>[0]
-    : Record<string, any>
+  : Record<string, any>
 
 /**
  * Infer the returning data type.
  */
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
-  : T extends ReactServerAction
-    ? Awaited<ReturnType<T>>
-    : T extends Record<string, any>
-      ? T
-      : Record<string, any>
+  : T extends Record<string, any>
+    ? T
+    : Record<string, any>
 
 /**
  * Infer the FaasAction type from a Func.

@@ -4,13 +4,18 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Stable
 
-[`v7.1.0 (2026-01-21)`](https://github.com/faasjs/faasjs/compare/v7.0.4...v7.1.0)
+## Beta
 
-- `@faasjs/load`
-  - [Feature] Add `loadFunc` to load Func directly.
+[`v8.0.0-beta.0 (2026-01-21)`](https://github.com/faasjs/faasjs/compare/v7.0.4...v8.0.0-beta.0)
 
-- `@faasjs/server`
-  - [Fix] Prevent further processing if the response has already been sent in `staticHandler`.
+- `@faasjs/types`
+  - [Break] Remove `ReactServerAction` type and related Server Actions support.
+
+- `@faasjs/browser`
+  - [Break] Remove Server Actions handling logic.
+
+- `@faasjs/react`
+  - [Break] Remove Server Actions support from feature list.
 
 [`v7.0.4 (2026-01-19)`](https://github.com/faasjs/faasjs/compare/v7.0.3...v7.0.4)
 

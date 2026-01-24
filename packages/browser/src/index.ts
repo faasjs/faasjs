@@ -287,7 +287,7 @@ export class FaasBrowserClient {
 
   /**
    * Request a FaasJS function
-   * @param action function's path or react's server action
+   * @param action function's path
    * @param params function's params
    * @param options request options
    * ```ts
@@ -303,10 +303,7 @@ export class FaasBrowserClient {
 
     const id = `F-${generateId()}`
 
-    const url =
-      typeof action === 'string'
-        ? `${(options?.baseUrl || this.baseUrl) + action.toLowerCase()}?_=${id}`
-        : ''
+    const url = `${(options?.baseUrl || this.baseUrl) + action.toLowerCase()}?_=${id}`
 
     if (!params) params = Object.create(null)
     if (!options) options = Object.create(null)
@@ -342,36 +339,6 @@ export class FaasBrowserClient {
         return Promise.reject(new ResponseError(response))
       if (response instanceof Response) return response
       return new Response(response || {})
-    }
-
-    if (typeof action === 'function') {
-      try {
-        const result = await action(params)
-
-        if (result.error?.message)
-          return Promise.reject(
-            new ResponseError({
-              message: result.error.message,
-              status: 500,
-              headers: {},
-              body: result,
-            })
-          )
-
-        return new Response({
-          status: result ? 200 : 201,
-          data: result.data,
-        })
-      } catch (error: any) {
-        return Promise.reject(
-          new ResponseError({
-            message: error.message,
-            status: 500,
-            headers: {},
-            body: error,
-          })
-        )
-      }
     }
 
     if (parsedOptions.request) return parsedOptions.request(url, parsedOptions)

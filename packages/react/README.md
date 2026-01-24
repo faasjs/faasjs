@@ -11,7 +11,6 @@ React plugin for FaasJS.
 
 - Support [FaasJS Request Specifications](https://faasjs.com/guide/request-spec.html).
 - Support global and per-request configurations.
-- Support [React Server Actions](https://react.dev/reference/rsc/server-actions).
 - Compatible with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
 - Additional React functions:
   - Utils:

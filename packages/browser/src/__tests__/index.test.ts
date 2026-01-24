@@ -133,34 +133,6 @@ describe('client', () => {
 
     setMock(null)
   })
-
-  describe('react server action', () => {
-    it('returns success', async () => {
-      const client = new FaasBrowserClient('/')
-
-      const response = await client.action(
-        async (params: { key: number }) => ({
-          data: params.key,
-        }),
-        {
-          key: 1,
-        }
-      )
-
-      expect(response.status).toEqual(200)
-      expect(response.data).toEqual(1)
-    })
-
-    it('returns error', async () => {
-      const client = new FaasBrowserClient('/')
-
-      await expect(
-        client.action(async () => {
-          throw Error('error')
-        })
-      ).rejects.toThrow(new ResponseError(Error('error')))
-    })
-  })
 })
 
 declare module '@faasjs/types' {
