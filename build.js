@@ -42,7 +42,6 @@ async function buildAll() {
     'ant-design',
     'logger',
     'deep_merge',
-    'ts-transform',
     'func',
     'load',
     'http',
