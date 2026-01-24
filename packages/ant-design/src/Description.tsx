@@ -250,7 +250,7 @@ export function Description<T extends Record<string, any> = any>({
         render={({ data }) => (
           <Description
             {...props}
-            dataSource={data}
+            dataSource={data as T}
             renderTitle={renderTitle}
             extendTypes={extendTypes}
           />

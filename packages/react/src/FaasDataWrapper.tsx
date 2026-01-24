@@ -31,7 +31,7 @@ export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
    *
    * **Note**: It will sets skip to false before loading data.
    */
-  reload(params?: Record<string, any>): Promise<Response<PathOrData>>
+  reload(params?: Record<string, any>): Promise<FaasData<PathOrData>>
   setData: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   setPromise: React.Dispatch<
@@ -123,7 +123,7 @@ Object.assign(FaasDataWrapper, {
  * ```
  */
 export function withFaasData<
-  PathOrData extends FaasAction,
+  PathOrData extends FaasActionUnionType,
   TComponentProps extends Required<FaasDataInjection<PathOrData>> = Required<
     FaasDataInjection<PathOrData>
   >,

@@ -50,6 +50,7 @@ export type {
 } from '@faasjs/browser'
 export type {
   FaasAction,
+  FaasActionUnionType,
   FaasData,
   FaasParams,
 } from '@faasjs/types'

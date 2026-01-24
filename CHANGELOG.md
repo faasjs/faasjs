@@ -6,7 +6,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Beta
 
-[`v8.0.0-beta.0 (2026-01-21)`](https://github.com/faasjs/faasjs/compare/v7.0.4...v8.0.0-beta.0)
+[`v8.0.0-beta.0 (2026-01-24)`](https://github.com/faasjs/faasjs/compare/v7.0.4...v8.0.0-beta.0)
 
 - `faasjs`
   - [Break] Remove Bun support from documentation and examples.
@@ -14,12 +14,23 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/types`
   - [Break] Remove `ReactServerAction` type and related Server Actions support.
+  - [Fix] Update biome ignore comment for empty interface.
+  - [Fix] Remove Server Actions tests.
 
 - `@faasjs/browser`
   - [Break] Remove Server Actions handling logic.
 
 - `@faasjs/react`
   - [Break] Remove Server Actions support from feature list.
+  - [Feature] Export `FaasActionUnionType` type.
+  - [Refactor] Simplify `FaasReactClientInstance` type definitions using `typeof`.
+  - [Fix] Update type definitions to use `FaasActionUnionType` consistently.
+  - [Fix] Change `reload` return type from `Response<T>` to `FaasData<T>`.
+
+- `@faasjs/ant-design`
+  - [Fix] Upgrade antd version to ~6.
+  - [Break] Remove `StyleProvider` support from `App` component.
+  - [Fix] Fix type casting in `Description` component.
 
 [`v7.0.4 (2026-01-19)`](https://github.com/faasjs/faasjs/compare/v7.0.3...v7.0.4)
 

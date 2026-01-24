@@ -6,7 +6,6 @@ import type {
   FaasData,
   FaasParams,
 } from '@faasjs/types'
-import type { JSX } from 'react'
 import {
   type FaasDataInjection,
   FaasDataWrapper,
@@ -41,19 +40,9 @@ export type FaasReactClientOptions = {
 
 export type FaasReactClientInstance = {
   id: string
-  faas: <PathOrData extends FaasActionUnionType>(
-    action: FaasAction<PathOrData>,
-    params: FaasParams<PathOrData>,
-    options?: Options
-  ) => Promise<Response<FaasData<PathOrData>>>
-  useFaas: <PathOrData extends FaasActionUnionType>(
-    action: FaasAction<PathOrData>,
-    defaultParams: FaasParams<PathOrData>,
-    options?: useFaasOptions<PathOrData>
-  ) => FaasDataInjection<PathOrData>
-  FaasDataWrapper<PathOrData extends FaasActionUnionType>(
-    props: FaasDataWrapperProps<PathOrData>
-  ): JSX.Element
+  faas: typeof faas
+  useFaas: typeof useFaas
+  FaasDataWrapper: typeof FaasDataWrapper
   onError?: OnError
   browserClient: FaasBrowserClient
 }

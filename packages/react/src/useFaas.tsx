@@ -10,7 +10,7 @@ import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
 import type { FaasDataInjection } from './FaasDataWrapper'
 
-export type useFaasOptions<PathOrData extends FaasAction> = {
+export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
   params?: FaasParams<PathOrData>
   data?: FaasData<PathOrData>
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
@@ -177,7 +177,7 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
 
       setReloadTimes(prev => prev + 1)
 
-      return new Promise<Response<FaasData<PathOrData>>>((resolve, reject) => {
+      return new Promise<FaasData<PathOrData>>((resolve, reject) => {
         pendingReloadsRef.current.set(reloadCounter, { resolve, reject })
         setReloadTimes(prev => prev + 1)
       })
@@ -203,5 +203,3 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
     setError,
   }
 }
-
-useFaas.whyDidYouRender = true
