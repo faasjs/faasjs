@@ -10,13 +10,13 @@ Injects FaasData props.
 
 ### PathOrData
 
-`PathOrData` *extends* `FaasActionUnionType` = `any`
+`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
 
 ## Methods
 
 ### reload()
 
-> **reload**(`params?`): `Promise`\<[`Response`](../interfaces/Response.md)\<`PathOrData`\>\>
+> **reload**(`params?`): `Promise`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
 
 Reloads data with new or existing parameters.
 
@@ -30,7 +30,7 @@ Reloads data with new or existing parameters.
 
 #### Returns
 
-`Promise`\<[`Response`](../interfaces/Response.md)\<`PathOrData`\>\>
+`Promise`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
 
 ## Properties
 

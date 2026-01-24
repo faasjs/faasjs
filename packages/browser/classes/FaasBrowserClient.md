@@ -52,7 +52,7 @@ Request a FaasJS function
 
 `FaasAction`\<`PathOrData`\>
 
-function's path or react's server action
+function's path
 
 ##### params?
 

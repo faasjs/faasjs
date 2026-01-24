@@ -10,7 +10,7 @@ Request faas server with React hook
 
 ### PathOrData
 
-`PathOrData` *extends* `FaasActionUnionType`
+`PathOrData` *extends* [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
 
 ## Parameters
 

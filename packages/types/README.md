@@ -23,4 +23,3 @@ Normally you don't need to install this package manually. It's a dependency of `
 - [FaasData](type-aliases/FaasData.md)
 - [FaasParams](type-aliases/FaasParams.md)
 - [InferFaasAction](type-aliases/InferFaasAction.md)
-- [ReactServerAction](type-aliases/ReactServerAction.md)

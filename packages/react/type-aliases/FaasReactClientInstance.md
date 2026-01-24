@@ -4,61 +4,19 @@
 
 > **FaasReactClientInstance** = `object`
 
-## Methods
-
-### FaasDataWrapper()
-
-> **FaasDataWrapper**\<`PathOrData`\>(`props`): `Element`
-
-#### Type Parameters
-
-##### PathOrData
-
-`PathOrData` *extends* `FaasActionUnionType`
-
-#### Parameters
-
-##### props
-
-[`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`PathOrData`\>
-
-#### Returns
-
-`Element`
-
 ## Properties
 
 ### browserClient
 
 > **browserClient**: `FaasBrowserClient`
 
-### faas()
+### faas
 
-> **faas**: \<`PathOrData`\>(`action`, `params`, `options?`) => `Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **faas**: *typeof* [`faas`](../functions/faas.md)
 
-#### Type Parameters
+### FaasDataWrapper
 
-##### PathOrData
-
-`PathOrData` *extends* `FaasActionUnionType`
-
-#### Parameters
-
-##### action
-
-[`FaasAction`](FaasAction.md)\<`PathOrData`\>
-
-##### params
-
-[`FaasParams`](FaasParams.md)\<`PathOrData`\>
-
-##### options?
-
-[`Options`](Options.md)
-
-#### Returns
-
-`Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **FaasDataWrapper**: *typeof* [`FaasDataWrapper`](../variables/FaasDataWrapper.md)
 
 ### id
 
@@ -68,30 +26,6 @@
 
 > `optional` **onError**: [`OnError`](OnError.md)
 
-### useFaas()
+### useFaas
 
-> **useFaas**: \<`PathOrData`\>(`action`, `defaultParams`, `options?`) => [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
-
-#### Type Parameters
-
-##### PathOrData
-
-`PathOrData` *extends* `FaasActionUnionType`
-
-#### Parameters
-
-##### action
-
-[`FaasAction`](FaasAction.md)\<`PathOrData`\>
-
-##### defaultParams
-
-[`FaasParams`](FaasParams.md)\<`PathOrData`\>
-
-##### options?
-
-[`useFaasOptions`](useFaasOptions.md)\<`PathOrData`\>
-
-#### Returns
-
-[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
+> **useFaas**: *typeof* [`useFaas`](../functions/useFaas.md)

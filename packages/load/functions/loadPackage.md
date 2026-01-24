@@ -12,7 +12,7 @@ Asynchronously loads a package by its name, supporting both ESM and CommonJS run
 
 `T` = `unknown`
 
-The type of the module to be loaded.
+The type of module to be loaded.
 
 ## Parameters
 
@@ -20,7 +20,7 @@ The type of the module to be loaded.
 
 `string`
 
-The name of the package to load.
+The name of package to load.
 
 ### defaultNames
 
@@ -30,11 +30,11 @@ The name of the package to load.
 
 `Promise`\<`T`\>
 
-A promise that resolves to the loaded module.
+A promise that resolves to loaded module.
 
 ## Throws
 
-If the runtime is unknown.
+If runtime is unknown.
 
 ## Example
 

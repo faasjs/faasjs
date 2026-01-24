@@ -10,7 +10,7 @@ HOC to wrap a component with FaasDataWrapper
 
 ### PathOrData
 
-`PathOrData` *extends* `unknown`
+`PathOrData` *extends* [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
 
 ### TComponentProps
 

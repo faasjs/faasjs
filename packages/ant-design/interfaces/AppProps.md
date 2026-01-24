@@ -43,13 +43,3 @@ https://faasjs.com/doc/ant-design/#errorboundary
 #### See
 
 https://faasjs.com/doc/ant-design/#configprovider
-
-### styleProviderProps?
-
-> `optional` **styleProviderProps**: `false` \| `StyleProviderProps`
-
-`false` to disable StyleProvider.
-
-#### See
-
-https://github.com/ant-design/cssinjs?tab=readme-ov-file#styleprovider

@@ -79,6 +79,7 @@ npm install @faasjs/react react
 
 - [ErrorChildrenProps](type-aliases/ErrorChildrenProps.md)
 - [FaasAction](type-aliases/FaasAction.md)
+- [FaasActionUnionType](type-aliases/FaasActionUnionType.md)
 - [FaasData](type-aliases/FaasData.md)
 - [FaasDataInjection](type-aliases/FaasDataInjection.md)
 - [FaasDataWrapperProps](type-aliases/FaasDataWrapperProps.md)

@@ -8,7 +8,7 @@
 
 ### PathOrData
 
-`PathOrData` *extends* [`FaasAction`](FaasAction.md)
+`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
 
 ## Properties
 

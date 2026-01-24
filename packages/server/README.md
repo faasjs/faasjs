@@ -24,7 +24,7 @@ const server = new Server({
 
 server.start()
 ```
-2. Run server:
+2. Run the server:
 ```sh
 node server.ts
 ```
