@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "@faasjs/browser": ">=7.1.0",
-    "@types/react": "*",
-    "react": "*"
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0"
   },
   "engines": {
     "node": ">=24.0.0",

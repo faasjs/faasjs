@@ -31,22 +31,24 @@
   ],
   "peerDependencies": {
     "@faasjs/react": ">=7.1.0",
-    "antd": "~6",
+    "antd": "^6.0.0",
     "@ant-design/icons": "*",
     "lodash-es": "*",
-    "react": "*",
-    "react-dom": "*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-router-dom": "*"
   },
   "devDependencies": {
     "@types/lodash-es": "*",
     "@faasjs/react": ">=7.1.0",
-    "antd": "~6",
+    "antd": "^6.0.0",
     "@ant-design/icons": "*",
     "lodash-es": "*",
-    "react": "*",
-    "react-dom": "*",
-    "react-router-dom": "*"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "*",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
   },
   "engines": {
     "node": ">=24.0.0",
