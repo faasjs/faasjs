@@ -9,7 +9,6 @@
 - Includes latest [node](https://nodejs.org/) and package managers:
   - [npm](https://www.npmjs.com/)
   - [pnpm](https://pnpm.io/)
-  - [bun](https://bun.sh/).
 - Includes [ohmyzsh](https://ohmyz.sh/) with below plugins:
   - git
   - zsh-completions
@@ -20,7 +19,6 @@
   - [autoupdate](https://github.com/tamcore/autoupdate-oh-my-zsh-plugins)
   - [zsh-npm](https://github.com/zfben/zsh-npm)
   - [zsh-pnpm](https://github.com/zfben/zsh-pnpm)
-  - [zsh-bun](https://github.com/zfben/zsh-bun)
 
 ## Before you use
 

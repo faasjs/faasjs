@@ -50,11 +50,7 @@ footer: An atomic application framework built for the TypeScript developer. | MI
 ### Start with Command Line
 
 ```bash
-# use npm
 npx create-faas-app --name faasjs
-
-# use bun
-bunx create-faas-app --name faasjs
 ```
 
 ## Examples

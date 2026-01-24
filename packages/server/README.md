@@ -8,7 +8,6 @@ FaasJS's server module.
 ## Install
 
 ```sh
-# If you are using bun, tsx is not required.
 npm install @faasjs/server tsx
 ```
 
@@ -27,7 +26,7 @@ server.start()
 ```
 2. Run the server:
 ```sh
-tsx server.ts // or `bun server.ts` if you are not using bun
+tsx server.ts
 ```
 
 ## Routing

@@ -30,10 +30,9 @@ RUN git clone --depth=1 https://github.com/zsh-users/zsh-history-substring-searc
 RUN git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 RUN git clone --depth=1 https://github.com/MichaelAquilina/zsh-you-should-use.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/you-should-use
 RUN git clone --depth=1 https://github.com/zfben/zsh-npm.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-npm
-RUN git clone --depth=1 https://github.com/zfben/zsh-bun.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-bun
 RUN git clone --depth=1 https://github.com/zfben/zsh-pnpm.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-pnpm
 RUN git clone --depth=1 https://github.com/tamcore/autoupdate-oh-my-zsh-plugins.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/autoupdate
-RUN sed -i "s/plugins=(git)/plugins=(git zsh-completions zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting you-should-use zsh-npm zsh-bun zsh-pnpm autoupdate)/" /root/.zshrc
+RUN sed -i "s/plugins=(git)/plugins=(git zsh-completions zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting you-should-use zsh-npm zsh-pnpm autoupdate)/" /root/.zshrc
 
 # Upgrade npm
 RUN npm install -g npm@latest tsx && npm cache clean --force
@@ -41,12 +40,6 @@ RUN npm install -g npm@latest tsx && npm cache clean --force
 # Install pnpm
 ENV PNPM_HOME="/root/.pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-
-# Install bun
-RUN curl -fsSL https://bun.sh/install | bash
-
-RUN echo 'export BUN_INSTALL="$HOME/.bun"' >> /root/.zshrc
-RUN echo 'export PATH=$BUN_INSTALL/bin:$PATH' >> /root/.zshrc
 
 # Prepare the shell
 RUN chsh "$(id -un)" --shell "/usr/bin/zsh"

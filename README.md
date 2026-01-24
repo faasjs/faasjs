@@ -14,7 +14,6 @@
 [![faasjs/nginx](https://img.shields.io/badge/Docker-faasjs%2Fnginx-blue)](https://hub.docker.com/repository/docker/faasjs/nginx)
 [![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/repository/docker/faasjs/vscode)
 [![faasjs/node](https://img.shields.io/badge/Docker-faasjs%2Fnode-blue)](https://hub.docker.com/repository/docker/faasjs/node)
-[![faasjs/bun](https://img.shields.io/badge/Docker-faasjs%2Fbun-blue)](https://hub.docker.com/repository/docker/faasjs/bun)
 
 🚀 FaasJS is an atomic application framework built for the TypeScript developer.
 

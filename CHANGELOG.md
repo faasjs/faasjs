@@ -8,6 +8,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v8.0.0-beta.0 (2026-01-21)`](https://github.com/faasjs/faasjs/compare/v7.0.4...v8.0.0-beta.0)
 
+- `faasjs`
+  - [Break] Remove Bun support from documentation and examples.
+  - [Break] Remove `images/bun` Docker image.
+
 - `@faasjs/types`
   - [Break] Remove `ReactServerAction` type and related Server Actions support.
 

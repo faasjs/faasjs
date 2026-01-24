@@ -26,14 +26,6 @@ Node Image for FaasJS projects.
 [![Image size](https://img.shields.io/docker/image-size/faasjs/node/latest)](https://hub.docker.com/r/faasjs/node)
 [![Build faasjs/node](https://github.com/faasjs/faasjs/actions/workflows/build-node-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-node-image.yml)
 
-### [faasjs/bun](https://faasjs.com/doc/images/bun/)
-
-Bun Image for FaasJS projects.
-
-[![faasjs/bun](https://img.shields.io/badge/Docker-faasjs%2Fbun-blue)](https://hub.docker.com/r/faasjs/bun)
-[![Image size](https://img.shields.io/docker/image-size/faasjs/bun/latest)](https://hub.docker.com/r/faasjs/bun)
-[![Build faasjs/bun](https://github.com/faasjs/faasjs/actions/workflows/build-bun-image.yml/badge.svg)](https://github.com/faasjs/faasjs/actions/workflows/build-bun-image.yml)
-
 ## Tips for using in China
 
 ### Use Aliyun mirror
