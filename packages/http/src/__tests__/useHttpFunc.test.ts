@@ -43,8 +43,8 @@ describe('useHttpFunc', () => {
 
     type InferredAction = InferFaasAction<typeof func>
 
-    expectTypeOf({ counter: 0 }).toMatchTypeOf<InferredAction['Params']>()
-    expectTypeOf(2).toMatchTypeOf<InferredAction['Data']>()
+    expectTypeOf({ counter: 0 }).toExtend<InferredAction['Params']>()
+    expectTypeOf(2).toExtend<InferredAction['Data']>()
   })
 
   it('should work with cookie', async () => {

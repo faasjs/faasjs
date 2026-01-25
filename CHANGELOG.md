@@ -34,6 +34,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Remove `StyleProvider` support from `App` component.
   - [Fix] Fix type casting in `Description` component.
 
+- `@faasjs/http`
+  - [Feature] Add ReadableStream support to response body.
+
 - `@faasjs/server`
   - [Break] Remove `.func.tsx` file support.
   - [Fix] Update documentation to remove tsx references.

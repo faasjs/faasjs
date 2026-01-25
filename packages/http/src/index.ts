@@ -80,7 +80,7 @@ export type Response = {
   headers?: {
     [key: string]: string
   }
-  body?: string
+  body?: string | ReadableStream
   message?: string
 }
 
@@ -273,6 +273,9 @@ export class Http<
       )
         // for directly response
         this.response = data.response
+      else if (data.response instanceof ReadableStream)
+        // for direct ReadableStream return
+        this.response.body = data.response
       else this.response.body = JSON.stringify({ data: data.response })
 
     // generate statusCode
@@ -282,7 +285,10 @@ export class Http<
     // generate headers
     this.response.headers = Object.assign(
       {
-        'content-type': 'application/json; charset=utf-8',
+        'content-type':
+          this.response.body instanceof ReadableStream
+            ? 'text/plain; charset=utf-8'
+            : 'application/json; charset=utf-8',
         'cache-control': 'no-cache, no-store',
         'x-faasjs-request-id': data.context.request_id,
       },
@@ -295,18 +301,16 @@ export class Http<
     const originBody = data.response.body
     data.response.originBody = originBody
 
-    // convert response body to string
-    if (
-      originBody &&
-      !data.response.isBase64Encoded &&
-      typeof originBody !== 'string'
-    )
+    if (data.response.body instanceof ReadableStream) {
+      data.response.isBase64Encoded = true
+      return
+    }
+
+    if (originBody && typeof originBody !== 'string')
       data.response.body = JSON.stringify(originBody)
 
-    // determine if the body needs to be compressed
     if (
       !data.response.body ||
-      data.response.isBase64Encoded ||
       typeof data.response.body !== 'string' ||
       data.response.body.length < 1024
     )
@@ -329,9 +333,7 @@ export class Http<
       } else throw Error('No matched compression.')
 
       data.response.isBase64Encoded = true
-    } catch (error) {
-      console.error(error)
-      // restore the original body
+    } catch {
       data.response.body = originBody
       delete data.response.headers['Content-Encoding']
     }
