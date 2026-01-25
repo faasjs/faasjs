@@ -8,7 +8,7 @@
 
 ### body?
 
-> `optional` **body**: `string`
+> `optional` **body**: `string` \| `ReadableStream`
 
 ### headers?
 
