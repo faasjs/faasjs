@@ -157,6 +157,31 @@ export class FuncWarper {
       body: typeof body === 'string' ? body : JSON.stringify(body),
     })
 
+    if (response?.body instanceof ReadableStream) {
+      const textStream = response.body.pipeThrough(new TextDecoderStream())
+      const chunks: string[] = []
+      const reader = textStream.getReader()
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          chunks.push(value)
+        }
+
+        response.body = chunks.join('')
+      } catch (error) {
+        this.logger.error('Failed to read ReadableStream: %s', error)
+        response.body = JSON.stringify({
+          error: { message: (error as Error).message },
+        })
+        response.error = { message: (error as Error).message }
+        if (!response.statusCode) response.statusCode = 500
+      } finally {
+        reader.releaseLock()
+      }
+    }
+
     if (
       response?.headers &&
       response.body &&
