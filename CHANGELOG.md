@@ -6,6 +6,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Beta
 
+[`v8.0.0-beta.1 (2026-01-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.0...v8.0.0-beta.1)
+
+- `@faasjs/http`
+  - [Feature] Add ReadableStream support to response body.
+
+- `@faasjs/test`
+  - [Feature] Support auto read stream and decompress for http response.
+
 [`v8.0.0-beta.0 (2026-01-24)`](https://github.com/faasjs/faasjs/compare/v7.0.4...v8.0.0-beta.0)
 
 - `faasjs`
@@ -33,9 +41,6 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Fix] Upgrade antd version to 6.
   - [Break] Remove `StyleProvider` support from `App` component.
   - [Fix] Fix type casting in `Description` component.
-
-- `@faasjs/http`
-  - [Feature] Add ReadableStream support to response body.
 
 - `@faasjs/server`
   - [Break] Remove `.func.tsx` file support.

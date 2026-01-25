@@ -1,5 +1,3 @@
-import { brotliCompressSync, deflateSync, gzipSync } from 'node:zlib'
-import { deepMerge } from '@faasjs/deep_merge'
 /**
  * FaasJS's http plugin.
  *
@@ -14,6 +12,8 @@ import { deepMerge } from '@faasjs/deep_merge'
  *
  * @packageDocumentation
  */
+import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
+import { deepMerge } from '@faasjs/deep_merge'
 import {
   type InvokeData,
   type MountData,
@@ -114,8 +114,7 @@ function deepClone(obj: Record<string, any>) {
   const clone: Record<string, any> = {}
 
   for (const key in obj) {
-    // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
-    if (!obj.hasOwnProperty(key)) continue
+    if (!Object.hasOwn(obj, key)) continue
 
     if (typeof obj[key] === 'function') {
       clone[key] = obj[key]
@@ -126,6 +125,44 @@ function deepClone(obj: Record<string, any>) {
   }
 
   return clone
+}
+
+function createCompressedStream(
+  body: string,
+  encoding: 'br' | 'gzip' | 'deflate'
+): ReadableStream<Uint8Array> {
+  const compressStream =
+    encoding === 'br'
+      ? createBrotliCompress()
+      : encoding === 'gzip'
+        ? createGzip()
+        : createDeflate()
+
+  return new ReadableStream<Uint8Array>({
+    async start(controller) {
+      try {
+        const compressed = await new Promise<Buffer>((resolve, reject) => {
+          const chunks: Buffer[] = []
+
+          compressStream.on('data', (chunk: Buffer) => chunks.push(chunk))
+          compressStream.on('end', () => resolve(Buffer.concat(chunks)))
+          compressStream.on('error', reject)
+
+          compressStream.write(Buffer.from(body))
+          compressStream.end()
+        })
+
+        const chunkSize = 16 * 1024
+        for (let i = 0; i < compressed.length; i += chunkSize) {
+          controller.enqueue(compressed.subarray(i, i + chunkSize))
+        }
+
+        controller.close()
+      } catch (error) {
+        controller.error(error)
+      }
+    },
+  })
 }
 
 export class Http<
@@ -321,19 +358,16 @@ export class Http<
     if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
 
     try {
-      if (acceptEncoding.includes('br')) {
-        data.response.headers['Content-Encoding'] = 'br'
-        data.response.body = brotliCompressSync(originBody).toString('base64')
-      } else if (acceptEncoding.includes('gzip')) {
-        data.response.headers['Content-Encoding'] = 'gzip'
-        data.response.body = gzipSync(originBody).toString('base64')
-      } else if (acceptEncoding.includes('deflate')) {
-        data.response.headers['Content-Encoding'] = 'deflate'
-        data.response.body = deflateSync(originBody).toString('base64')
-      } else throw Error('No matched compression.')
+      const encoding: 'br' | 'gzip' | 'deflate' = acceptEncoding.includes('br')
+        ? 'br'
+        : acceptEncoding.includes('gzip')
+          ? 'gzip'
+          : 'deflate'
 
-      data.response.isBase64Encoded = true
-    } catch {
+      data.response.headers['Content-Encoding'] = encoding
+      data.response.body = createCompressedStream(originBody, encoding)
+    } catch (error) {
+      data.logger.error('Compression failed: %s', (error as Error).message)
       data.response.body = originBody
       delete data.response.headers['Content-Encoding']
     }

@@ -24,6 +24,7 @@
  * @packageDocumentation
  */
 
+import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 import { deepMerge } from '@faasjs/deep_merge'
 import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
 import { Http } from '@faasjs/http'
@@ -144,7 +145,7 @@ export class FuncWarper {
       }
       const cookie = this.http.cookie
         .headers()
-        ['Set-Cookie']?.map(c => c.split(';')[0])
+        ['Set-Cookie']?.map((c: string) => c.split(';')[0])
         .join(';')
       if (cookie)
         if (headers.cookie) headers.cookie += `;${cookie}`
@@ -158,27 +159,87 @@ export class FuncWarper {
     })
 
     if (response?.body instanceof ReadableStream) {
-      const textStream = response.body.pipeThrough(new TextDecoderStream())
-      const chunks: string[] = []
-      const reader = textStream.getReader()
+      let stream: ReadableStream = response.body
+
+      const encoding =
+        response.headers?.['Content-Encoding'] ||
+        response.headers?.['content-encoding']
+
+      if (encoding) {
+        const chunks: Uint8Array[] = []
+        const reader = stream.getReader()
+
+        try {
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            if (value) chunks.push(value)
+          }
+        } catch (error) {
+          this.logger.error('Failed to read ReadableStream: %s', error)
+          response.body = JSON.stringify({
+            error: { message: (error as Error).message },
+          })
+          response.error = { message: (error as Error).message }
+          response.statusCode = 500
+          reader.releaseLock()
+          return response
+        }
+
+        reader.releaseLock()
+
+        const compressedBuffer = Buffer.concat(chunks)
+
+        try {
+          let decompressed: Buffer
+          if (encoding === 'br') {
+            decompressed = brotliDecompressSync(compressedBuffer)
+          } else if (encoding === 'gzip') {
+            decompressed = gunzipSync(compressedBuffer)
+          } else if (encoding === 'deflate') {
+            decompressed = inflateSync(compressedBuffer)
+          } else {
+            throw new Error(`Unsupported encoding: ${encoding}`)
+          }
+
+          stream = new ReadableStream<Uint8Array>({
+            start(controller) {
+              controller.enqueue(new Uint8Array(decompressed))
+              controller.close()
+            },
+          })
+        } catch (error) {
+          this.logger.error('Failed to decompress: %s', error)
+          response.body = JSON.stringify({
+            error: { message: (error as Error).message },
+          })
+          response.error = { message: (error as Error).message }
+          response.statusCode = 500
+          return response
+        }
+      }
+
+      const textStream = stream.pipeThrough(new TextDecoderStream())
+      const textChunks: string[] = []
+      const textReader = textStream.getReader()
 
       try {
         while (true) {
-          const { done, value } = await reader.read()
+          const { done, value } = await textReader.read()
           if (done) break
-          chunks.push(value)
+          textChunks.push(value as string)
         }
 
-        response.body = chunks.join('')
+        response.body = textChunks.join('')
       } catch (error) {
-        this.logger.error('Failed to read ReadableStream: %s', error)
+        this.logger.error('Failed to decode ReadableStream: %s', error)
         response.body = JSON.stringify({
           error: { message: (error as Error).message },
         })
         response.error = { message: (error as Error).message }
-        if (!response.statusCode) response.statusCode = 500
+        response.statusCode = 500
       } finally {
-        reader.releaseLock()
+        textReader.releaseLock()
       }
     }
 
