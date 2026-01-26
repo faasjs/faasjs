@@ -12,8 +12,8 @@ RUN apt-get update -y \
   && chmod 0440 /etc/sudoers.d/node
 
 # Install Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
-RUN apt-get install -y nodejs=22.* \
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
+RUN apt-get install -y nodejs=24.* \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
 
