@@ -80,6 +80,9 @@ export class Logger {
     )
       this.silent = true
 
+    if (process.env.VITEST || process.env.FaasLogTransport === 'false')
+      this.disableTransport = true
+
     switch (process.env.FaasLogMode) {
       case 'plain':
         this.colorfyOutput = false
@@ -210,7 +213,7 @@ export class Logger {
 
     if (!formattedMessage && !args.length) return this
 
-    if (!this.disableTransport && process.env.FaasLogTransport !== 'false')
+    if (!this.disableTransport)
       getTransport().insert({
         level,
         labels: this.label?.split(/\]\s*\[/) || [],

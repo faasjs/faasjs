@@ -71,6 +71,11 @@ export function viteFaasJsServer(
       }
     },
     configureServer: async ({ middlewares }) => {
+      if (process.env.VITEST) {
+        logger.debug('Skipping faas server in vitest environment')
+        return
+      }
+
       if (!config) throw new Error('viteFaasJsServer: config is not resolved')
 
       if (childProcess) {
