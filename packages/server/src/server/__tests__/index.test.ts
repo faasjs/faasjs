@@ -229,4 +229,32 @@ describe('server', () => {
       body: 'hello world',
     })
   })
+
+  it('POST with body', async () => {
+    const testBody = { message: 'test', value: 123 }
+    const result = await request(`http://127.0.0.1:${port}/post-body`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-faasjs-request-id': 'test',
+      },
+      body: testBody,
+    })
+
+    expect(result.statusCode).toBe(200)
+    expect(result.body).toEqual({
+      data: {
+        receivedBody: testBody,
+        method: 'POST',
+      },
+    })
+    expect(result.headers['x-faasjs-request-id']).toBe('test')
+  })
+
+  it('no return (204)', async () => {
+    const result = await request(`http://127.0.0.1:${port}/no-return`)
+    expect(result.statusCode).toBe(204)
+    expect(result.body).toBeUndefined()
+    expect(result.headers['x-faasjs-request-id']).toBeDefined()
+  })
 })
