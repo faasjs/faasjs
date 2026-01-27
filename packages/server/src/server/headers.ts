@@ -9,6 +9,19 @@ const AdditionalHeaders = [
   'x-faasjs-timing-total',
 ]
 
+// Headers that should not be exposed in CORS (standard browser request headers)
+const ExposedHeadersBlacklist = [
+  'host',
+  'connection',
+  'user-agent',
+  'accept',
+  'accept-language',
+  'referer',
+  'origin',
+  'content-length',
+  'content-md5',
+]
+
 export function buildCORSHeaders(
   headers: IncomingHttpHeaders,
   extra: IncomingHttpHeaders = {}
@@ -23,7 +36,7 @@ export function buildCORSHeaders(
     key =>
       !!key &&
       !key.startsWith('access-control-') &&
-      !['host', 'connection'].includes(key)
+      !ExposedHeadersBlacklist.includes(key.toLowerCase())
   )
 
   return {
@@ -38,7 +51,9 @@ export function buildCORSHeaders(
             []
         )
       )
-    ).join(', '),
+    )
+      .sort()
+      .join(', '),
     'access-control-expose-headers': Array.from(
       new Set(
         commonHeaderNames.concat(
@@ -47,7 +62,9 @@ export function buildCORSHeaders(
             []
         )
       )
-    ).join(', '),
+    )
+      .sort()
+      .join(', '),
     ...extra,
   }
 }

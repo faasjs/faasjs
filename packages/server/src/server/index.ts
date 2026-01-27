@@ -11,7 +11,6 @@ import type { Socket } from 'node:net'
 import { join, resolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
 import { types } from 'node:util'
-import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
 import { deepMerge } from '@faasjs/deep_merge'
 import type { Func } from '@faasjs/func'
 import { HttpError } from '@faasjs/http'
@@ -281,10 +280,6 @@ export class Server {
           'x-faasjs-timing-pending': (startedAt - requestedAt).toString(),
         })
 
-        // get and remove accept-encoding to avoid http module compression
-        const encoding = req.headers['accept-encoding'] || ''
-        delete req.headers['accept-encoding']
-
         let data: any
         try {
           let cache: Cache = {}
@@ -396,6 +391,43 @@ export class Server {
           return
         }
 
+        // Handle ReadableStream from http plugin
+        if (data.body instanceof ReadableStream) {
+          const stream = Readable.fromWeb(data.body as any)
+
+          // Check if response supports streaming (has .on method)
+          if (typeof res.on === 'function') {
+            stream
+              .pipe(res)
+              .on('finish', () => {
+                res.end()
+                resolve()
+              })
+              .on('error', err => {
+                this.onError(err)
+                if (!res.headersSent) {
+                  res.statusCode = 500
+                  res.setHeader('Content-Type', 'application/json')
+                  res.write(JSON.stringify({ error: { message: err.message } }))
+                }
+                resolve()
+              })
+
+            return
+          } else {
+            // For mock responses (in tests), consume stream and write directly
+            const chunks: Buffer[] = []
+            for await (const chunk of stream) {
+              chunks.push(Buffer.from(chunk))
+            }
+            const body = Buffer.concat(chunks).toString('utf-8')
+            res.write(body)
+            res.end()
+            resolve()
+            return
+          }
+        }
+
         let resBody: string | Buffer
         if (
           data instanceof Error ||
@@ -411,62 +443,11 @@ export class Server {
         } else {
           if (data.statusCode) res.statusCode = data.statusCode
 
-          if (data.body)
-            if (data.isBase64Encoded) resBody = Buffer.from(data.body, 'base64')
-            else resBody = data.body
+          if (data.body) resBody = data.body
         }
 
         if (resBody) {
           logger.debug('Response %s %j', res.statusCode, headers)
-
-          if (
-            res.statusCode !== 200 ||
-            typeof resBody !== 'string' ||
-            Buffer.byteLength(resBody) < 600
-          ) {
-            res.write(resBody)
-            res.end()
-            resolve()
-            return
-          }
-
-          const compression = encoding.includes('br')
-            ? {
-                type: 'br',
-                compress: createBrotliCompress(),
-              }
-            : encoding.includes('gzip')
-              ? {
-                  type: 'gzip',
-                  compress: createGzip(),
-                }
-              : encoding.includes('deflate')
-                ? {
-                    type: 'deflate',
-                    compress: createDeflate(),
-                  }
-                : false
-
-          if (compression) {
-            res.setHeader('Vary', 'accept-encoding')
-            res.writeHead(200, { 'content-encoding': compression.type })
-
-            Readable.from(resBody)
-              .pipe(compression.compress)
-              .pipe(res)
-              .on('error', (err: any) => {
-                if (err) logger.error(err)
-
-                res.end()
-                resolve()
-              })
-              .on('close', () => {
-                res.end()
-                resolve()
-              })
-            return
-          }
-
           res.write(resBody)
         }
 

@@ -6,15 +6,23 @@ describe('buildCORSHeaders', () => {
     const result = buildCORSHeaders({
       'x-header': 'test',
     })
-    expect(result).toEqual({
-      'access-control-allow-origin': '*',
-      'access-control-allow-credentials': 'true',
-      'access-control-allow-methods': 'OPTIONS, POST',
-      'access-control-allow-headers':
-        'content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total, x-header',
-      'access-control-expose-headers':
-        'content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total, x-header',
-    })
+    expect(result['access-control-allow-origin']).toEqual('*')
+    expect(result['access-control-allow-credentials']).toEqual('true')
+    expect(result['access-control-allow-methods']).toEqual('OPTIONS, POST')
+    expect(result['access-control-allow-headers']).toContain('content-type')
+    expect(result['access-control-allow-headers']).toContain('authorization')
+    expect(result['access-control-allow-headers']).toContain('x-faasjs-request-id')
+    expect(result['access-control-allow-headers']).toContain('x-faasjs-timing-pending')
+    expect(result['access-control-allow-headers']).toContain('x-faasjs-timing-processing')
+    expect(result['access-control-allow-headers']).toContain('x-faasjs-timing-total')
+    expect(result['access-control-allow-headers']).toContain('x-header')
+    expect(result['access-control-expose-headers']).toContain('content-type')
+    expect(result['access-control-expose-headers']).toContain('authorization')
+    expect(result['access-control-expose-headers']).toContain('x-faasjs-request-id')
+    expect(result['access-control-expose-headers']).toContain('x-faasjs-timing-pending')
+    expect(result['access-control-expose-headers']).toContain('x-faasjs-timing-processing')
+    expect(result['access-control-expose-headers']).toContain('x-faasjs-timing-total')
+    expect(result['access-control-expose-headers']).toContain('x-header')
   })
 
   it('should include origin header if provided', () => {

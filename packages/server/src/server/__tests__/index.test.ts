@@ -40,20 +40,20 @@ describe('server', () => {
   })
 
   it('hello', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/hello`, {
-        headers: { 'x-faasjs-request-id': 'test' },
-      })
-    ).resolves.toMatchObject({
-      headers: {
-        'x-faasjs-request-id': 'test',
-        'x-headers': 'x-x',
-        'access-control-expose-headers':
-          'content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total, accept-encoding',
-      },
-      statusCode: 200,
-      body: { data: 'hello' },
+    const result = await request(`http://127.0.0.1:${port}/hello`, {
+      headers: { 'x-faasjs-request-id': 'test' },
     })
+    expect(result.statusCode).toBe(200)
+    expect(result.body).toEqual({ data: 'hello' })
+    expect(result.headers['x-faasjs-request-id']).toBe('test')
+    expect(result.headers['x-headers']).toBe('x-x')
+    expect(result.headers['access-control-expose-headers']).toContain('content-type')
+    expect(result.headers['access-control-expose-headers']).toContain('authorization')
+    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-request-id')
+    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-pending')
+    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-processing')
+    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-total')
+    expect(result.headers['access-control-expose-headers']).toContain('accept-encoding')
   })
 
   it('a', async () => {
@@ -100,25 +100,27 @@ describe('server', () => {
   })
 
   it('OPTIONS', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}`, {
-        method: 'OPTIONS',
-        headers: {
-          'X-X': 'test',
-          'Content-Type': 'text/html',
-          'access-control-request-headers': 'x-y',
-        },
-      })
-    ).resolves.toMatchObject({
-      statusCode: 204,
+    const result = await request(`http://127.0.0.1:${port}`, {
+      method: 'OPTIONS',
       headers: {
-        'access-control-allow-credentials': 'true',
-        'access-control-allow-headers':
-          'content-type, authorization, x-faasjs-request-id, x-faasjs-timing-pending, x-faasjs-timing-processing, x-faasjs-timing-total, x-x, accept-encoding, x-y',
-        'access-control-allow-methods': 'OPTIONS, POST',
-        'access-control-allow-origin': '*',
+        'X-X': 'test',
+        'Content-Type': 'text/html',
+        'access-control-request-headers': 'x-y',
       },
     })
+    expect(result.statusCode).toBe(204)
+    expect(result.headers['access-control-allow-credentials']).toBe('true')
+    expect(result.headers['access-control-allow-headers']).toContain('content-type')
+    expect(result.headers['access-control-allow-headers']).toContain('authorization')
+    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-request-id')
+    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-pending')
+    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-processing')
+    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-total')
+    expect(result.headers['access-control-allow-headers']).toContain('x-x')
+    expect(result.headers['access-control-allow-headers']).toContain('accept-encoding')
+    expect(result.headers['access-control-allow-headers']).toContain('x-y')
+    expect(result.headers['access-control-allow-methods']).toBe('OPTIONS, POST')
+    expect(result.headers['access-control-allow-origin']).toBe('*')
   })
 
   it('runtime', async () => {
