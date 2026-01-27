@@ -106,6 +106,20 @@ export class HttpError extends Error {
 
 const Name = 'http'
 
+function stringToStream(text: string): ReadableStream<Uint8Array> {
+  return new ReadableStream<Uint8Array>({
+    start(controller) {
+      try {
+        const encoder = new TextEncoder()
+        controller.enqueue(encoder.encode(text))
+        controller.close()
+      } catch (error) {
+        controller.error(error)
+      }
+    },
+  })
+}
+
 function deepClone(obj: Record<string, any>) {
   if (obj === null || typeof obj !== 'object') return obj
 
@@ -286,6 +300,11 @@ export class Http<
     // update session
     this.session.update()
 
+    // handle setBody case - merge this.response.body into data.response
+    if (this.response.body && !data.response) {
+      data.response = this.response.body
+    }
+
     // generate body
     if (data.response)
       if (
@@ -313,11 +332,14 @@ export class Http<
       else if (data.response instanceof ReadableStream)
         // for direct ReadableStream return
         this.response.body = data.response
-      else this.response.body = JSON.stringify({ data: data.response })
+      else
+        this.response.body = JSON.stringify({
+          data: data.response === undefined ? null : data.response,
+        })
 
     // generate statusCode
     if (!this.response.statusCode)
-      this.response.statusCode = this.response.body ? 200 : 201
+      this.response.statusCode = data.response ? 200 : 201
 
     // generate headers
     this.response.headers = Object.assign(
@@ -343,15 +365,24 @@ export class Http<
       return
     }
 
+    // If body is undefined and statusCode is 201, return without body
+    if (originBody === undefined && data.response.statusCode === 201) {
+      return
+    }
+
     if (originBody && typeof originBody !== 'string')
       data.response.body = JSON.stringify(originBody)
+    else if (originBody === undefined)
+      data.response.body = JSON.stringify({ data: null })
 
     if (
       !data.response.body ||
       typeof data.response.body !== 'string' ||
       data.response.body.length < 1024
-    )
+    ) {
+      data.response.body = stringToStream(data.response.body as string)
       return
+    }
 
     const acceptEncoding =
       this.headers['accept-encoding'] || this.headers['Accept-Encoding']

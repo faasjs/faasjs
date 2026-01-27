@@ -6,13 +6,16 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Beta
 
-[`v8.0.0-beta.2 (2026-01-26)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.1...v8.0.0-beta.2)
+[`v8.0.0-beta.2 (2026-01-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.1...v8.0.0-beta.2)
 
 - `@faasjs/logger`
   - [Fix] Disable Transport in vitest.
 
 - `@faasjs/vite`
   - [Fix] Disable in vitest.
+
+- `@faasjs/test`
+  - [Feature] Export `streamToString`.
 
 [`v8.0.0-beta.1 (2026-01-25)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.0...v8.0.0-beta.1)
 

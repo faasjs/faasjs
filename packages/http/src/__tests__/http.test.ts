@@ -1,4 +1,5 @@
 import { Func } from '@faasjs/func'
+import { streamToString } from '@faasjs/test'
 import { describe, expect, it } from 'vitest'
 import { Http, HttpError } from '..'
 
@@ -18,7 +19,10 @@ describe('http', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual('{"data":1}')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"data":1}'
+    )
   })
 
   it('with config name', async () => {
@@ -41,7 +45,10 @@ describe('http', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual('{"data":1}')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"data":1}'
+    )
   })
 
   it('throw error', async () => {
@@ -56,7 +63,10 @@ describe('http', () => {
     const res = await handler({})
 
     expect(res.statusCode).toEqual(500)
-    expect(res.body).toEqual('{"error":{"message":"wrong"}}')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"error":{"message":"wrong"}}'
+    )
   })
 
   it('HttpError', async () => {
@@ -74,6 +84,9 @@ describe('http', () => {
     const res = await handler({})
 
     expect(res.statusCode).toEqual(400)
-    expect(res.body).toEqual('{"error":{"message":"wrong"}}')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"error":{"message":"wrong"}}'
+    )
   })
 })

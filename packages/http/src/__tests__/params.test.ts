@@ -1,4 +1,5 @@
 import { Func } from '@faasjs/func'
+import { streamToString } from '@faasjs/test'
 import { describe, expect, it } from 'vitest'
 import { Http } from '..'
 
@@ -15,7 +16,10 @@ describe('params', () => {
     const res = await handler({})
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual('{"data":{}}')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"data":{}}'
+    )
   })
 
   it('raw', async () => {
@@ -30,7 +34,10 @@ describe('params', () => {
     const res = await handler({ body: 'raw' })
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual('{"data":"raw"}')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"data":"raw"}'
+    )
   })
 
   it('queryString', async () => {
@@ -52,7 +59,10 @@ describe('params', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual('{"data":{"a":"b","b":"b"}}')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"data":{"a":"b","b":"b"}}'
+    )
   })
 
   it('json', async () => {
@@ -70,6 +80,9 @@ describe('params', () => {
     })
 
     expect(res.statusCode).toEqual(200)
-    expect(res.body).toEqual('{"data":{"key":true}}')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"data":{"key":true}}'
+    )
   })
 })

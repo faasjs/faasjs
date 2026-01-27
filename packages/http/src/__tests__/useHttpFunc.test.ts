@@ -4,6 +4,7 @@ import {
   type Plugin,
   usePlugin,
 } from '@faasjs/func'
+import { streamToString } from '@faasjs/test'
 import type { InferFaasAction } from '@faasjs/types'
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import { useHttpFunc } from '..'
@@ -39,7 +40,8 @@ describe('useHttpFunc', () => {
 
     const res = await func.export().handler({ params: { counter: 0 } })
 
-    expect(res.body).toEqual(JSON.stringify({ data: 2 }))
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body)).toEqual(JSON.stringify({ data: 2 }))
 
     type InferredAction = InferFaasAction<typeof func>
 
@@ -75,6 +77,9 @@ describe('useHttpFunc', () => {
       },
     })
 
-    expect(res.body).toEqual(JSON.stringify({ data: '1value' }))
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body)).toEqual(
+      JSON.stringify({ data: '1value' })
+    )
   })
 })

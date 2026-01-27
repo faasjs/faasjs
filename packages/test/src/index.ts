@@ -34,6 +34,35 @@ import { Logger } from '@faasjs/logger'
 export * from '@faasjs/func'
 
 /**
+ * Convert ReadableStream to string
+ * @param stream {ReadableStream<Uint8Array>} The stream to convert
+ * @returns {Promise<string>} The string content of stream
+ * @throws {TypeError} If stream is not a ReadableStream instance
+ */
+export async function streamToString(
+  stream: ReadableStream<Uint8Array>
+): Promise<string> {
+  if (!(stream instanceof ReadableStream))
+    throw new TypeError('stream must be a ReadableStream instance')
+
+  const reader = stream.getReader()
+  const chunks: Uint8Array[] = []
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      if (value) chunks.push(value)
+    }
+  } finally {
+    reader.releaseLock()
+  }
+
+  const decoder = new TextDecoder()
+  return decoder.decode(Buffer.concat(chunks.map(c => Buffer.from(c))))
+}
+
+/**
  * Test Wrapper for a func
  *
  * ```ts
@@ -159,7 +188,7 @@ export class FuncWarper {
     })
 
     if (response?.body instanceof ReadableStream) {
-      let stream: ReadableStream = response.body
+      let stream: ReadableStream<Uint8Array> = response.body
 
       const encoding =
         response.headers?.['Content-Encoding'] ||
@@ -219,18 +248,8 @@ export class FuncWarper {
         }
       }
 
-      const textStream = stream.pipeThrough(new TextDecoderStream())
-      const textChunks: string[] = []
-      const textReader = textStream.getReader()
-
       try {
-        while (true) {
-          const { done, value } = await textReader.read()
-          if (done) break
-          textChunks.push(value as string)
-        }
-
-        response.body = textChunks.join('')
+        response.body = await streamToString(stream)
       } catch (error) {
         this.logger.error('Failed to decode ReadableStream: %s', error)
         response.body = JSON.stringify({
@@ -238,8 +257,6 @@ export class FuncWarper {
         })
         response.error = { message: (error as Error).message }
         response.statusCode = 500
-      } finally {
-        textReader.releaseLock()
       }
     }
 

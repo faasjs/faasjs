@@ -1,4 +1,5 @@
 import { Func, type InvokeData } from '@faasjs/func'
+import { streamToString } from '@faasjs/test'
 import { describe, expect, it } from 'vitest'
 import { Http } from '..'
 
@@ -17,13 +18,15 @@ describe('cookie', () => {
         headers: { cookie: 'a=1; b=2' },
         key: 'a',
       })
-      expect(res.body).toEqual('{"data":"1"}')
+      expect(res.body).toBeInstanceOf(ReadableStream)
+      expect(await streamToString(res.body)).toEqual('{"data":"1"}')
 
       res = await handler({
         headers: { cookie: 'a=1; b=2' },
         key: 'b',
       })
-      expect(res.body).toEqual('{"data":"2"}')
+      expect(res.body).toBeInstanceOf(ReadableStream)
+      expect(await streamToString(res.body)).toEqual('{"data":"2"}')
 
       res = await handler({
         headers: { cookie: 'a=1; b=2' },

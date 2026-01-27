@@ -1,4 +1,5 @@
 import { Func, type InvokeData } from '@faasjs/func'
+import { streamToString } from '@faasjs/test'
 import { describe, expect, it } from 'vitest'
 import { Http } from '..'
 import { Session } from '../session'
@@ -38,7 +39,10 @@ describe('session', () => {
         key: 'key',
       })
 
-      expect(res.body).toEqual('{"data":"value"}')
+      expect(res.body).toBeInstanceOf(ReadableStream)
+      expect(await streamToString(res.body as ReadableStream)).toEqual(
+        '{"data":"value"}'
+      )
     })
 
     it('no value', async () => {

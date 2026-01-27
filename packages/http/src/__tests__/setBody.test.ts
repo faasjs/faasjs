@@ -1,4 +1,5 @@
 import { Func } from '@faasjs/func'
+import { streamToString } from '@faasjs/test'
 import { describe, expect, it } from 'vitest'
 import { Http } from '..'
 
@@ -14,6 +15,7 @@ describe('setBody', () => {
 
     const res = await handler({})
 
-    expect(res.body).toEqual('body')
+    expect(res.body).toBeInstanceOf(ReadableStream)
+    expect(await streamToString(res.body)).toEqual('{"data":"body"}')
   })
 })
