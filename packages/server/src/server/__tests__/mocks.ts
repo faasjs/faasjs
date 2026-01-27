@@ -35,12 +35,12 @@ export function createMockRes(options?: {
   res.headersSent = false
   res._capturedData = null
 
-  res.setHeader = function(key: string, value: string) {
+  res.setHeader = function (key: string, value: string) {
     this.headers[key] = value
     return this
   }
 
-  res.write = function(data: any) {
+  res.write = function (data: any) {
     this._capturedData = data
     this.headersSent = true
     if (options?.onDataCapture) {
@@ -49,7 +49,7 @@ export function createMockRes(options?: {
     return this
   }
 
-  res.end = function(data?: any) {
+  res.end = function (data?: any) {
     if (data !== undefined) {
       this._capturedData = data
       this.headersSent = true
@@ -65,11 +65,14 @@ export function createMockRes(options?: {
     return this
   }
 
-  res.once = function(event: string, handler: (...args: any[]) => void) {
+  res.once = function (event: string, handler: (...args: any[]) => void) {
     return EventEmitter.prototype.once.call(this, event, handler)
   }
 
-  res.removeListener = function(event: string, handler: (...args: any[]) => void) {
+  res.removeListener = function (
+    event: string,
+    handler: (...args: any[]) => void
+  ) {
     return EventEmitter.prototype.removeListener.call(this, event, handler)
   }
 

@@ -66,7 +66,7 @@ describe('middleware', () => {
 
     const res = createMockRes()
 
-    const mockWriteHead = function(this: typeof res, code: number) {
+    const mockWriteHead = function (this: typeof res, code: number) {
       res.statusCode = code
       return this
     }

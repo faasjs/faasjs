@@ -20,6 +20,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/test`
   - [Feature] Export `streamToString`.
 
+- `@faasjs/server`
+  - [Refactor] Simplify Response body handling logic.
+
 [`v8.0.0-beta.1 (2026-01-25)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.0...v8.0.0-beta.1)
 
 - `@faasjs/http`

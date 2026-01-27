@@ -25,6 +25,7 @@ expect(await func.handler()).toEqual('Hello, world')
 ## Functions
 
 - [nameFunc](functions/nameFunc.md)
+- [streamToString](functions/streamToString.md)
 - [test](functions/test.md)
 - [useFunc](functions/useFunc.md)
 - [usePlugin](functions/usePlugin.md)
