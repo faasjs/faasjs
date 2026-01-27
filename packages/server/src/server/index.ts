@@ -391,41 +391,26 @@ export class Server {
           return
         }
 
-        // Handle ReadableStream from http plugin
         if (data.body instanceof ReadableStream) {
-          const stream = Readable.fromWeb(data.body as any)
+          const stream = Readable.fromWeb(data.body)
 
-          // Check if response supports streaming (has .on method)
-          if (typeof res.on === 'function') {
-            stream
-              .pipe(res)
-              .on('finish', () => {
-                res.end()
-                resolve()
-              })
-              .on('error', err => {
-                this.onError(err)
-                if (!res.headersSent) {
-                  res.statusCode = 500
-                  res.setHeader('Content-Type', 'application/json')
-                  res.write(JSON.stringify({ error: { message: err.message } }))
-                }
-                resolve()
-              })
+          stream
+            .pipe(res)
+            .on('finish', () => {
+              res.end()
+              resolve()
+            })
+            .on('error', err => {
+              this.onError(err)
+              if (!res.headersSent) {
+                res.statusCode = 500
+                res.setHeader('Content-Type', 'application/json')
+                res.write(JSON.stringify({ error: { message: err.message } }))
+              }
+              resolve()
+            })
 
-            return
-          } else {
-            // For mock responses (in tests), consume stream and write directly
-            const chunks: Buffer[] = []
-            for await (const chunk of stream) {
-              chunks.push(Buffer.from(chunk))
-            }
-            const body = Buffer.concat(chunks).toString('utf-8')
-            res.write(body)
-            res.end()
-            resolve()
-            return
-          }
+          return
         }
 
         let resBody: string | Buffer

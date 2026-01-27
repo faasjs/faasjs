@@ -1,6 +1,7 @@
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { Server } from '../../server'
+import { createMockReq, createMockRes, triggerReqEvents } from './mocks'
 
 describe('middleware', () => {
   it('should work', async () => {
@@ -8,33 +9,22 @@ describe('middleware', () => {
 
     let responseData: any = null
 
-    await server.middleware(
-      {
-        method: 'GET',
-        url: '/hello',
-        headers: {},
-        body: null,
-        on: (type: string, handler: () => void) => {
-          if (type === 'end') handler()
-        },
-      } as any,
-      {
-        statusCode: 200,
-        headers: {},
-        writableEnded: false,
-        setHeader: () => {
-          return this
-        },
-        write: (data: any) => {
-          responseData = data
-          return this
-        },
-        end: () => {
-          return this
-        },
-      } as any,
-      () => {}
-    )
+    const req = createMockReq({
+      method: 'GET',
+      url: '/hello',
+      headers: {},
+      body: null,
+    })
+
+    const res = createMockRes({
+      onDataCapture: (data: any) => {
+        responseData = Buffer.isBuffer(data) ? data.toString() : data
+      },
+    })
+
+    triggerReqEvents(req)
+
+    await server.middleware(req as any, res as any, () => {})
 
     expect(responseData).toEqual(JSON.stringify({ data: 'hello' }))
   })
@@ -44,33 +34,22 @@ describe('middleware', () => {
 
     let responseData: any = null
 
-    await server.middleware(
-      {
-        method: 'GET',
-        url: '/404',
-        headers: {},
-        body: null,
-        on: (type: string, handler: () => void) => {
-          if (type === 'end') handler()
-        },
-      } as any,
-      {
-        statusCode: 200,
-        headers: {},
-        writableEnded: false,
-        setHeader: () => {
-          return this
-        },
-        write: (data: any) => {
-          responseData = data
-          return this
-        },
-        end: () => {
-          return this
-        },
-      } as any,
-      () => {}
-    )
+    const req = createMockReq({
+      method: 'GET',
+      url: '/404',
+      headers: {},
+      body: null,
+    })
+
+    const res = createMockRes({
+      onDataCapture: (data: any) => {
+        responseData = Buffer.isBuffer(data) ? data.toString() : data
+      },
+    })
+
+    triggerReqEvents(req)
+
+    await server.middleware(req as any, res as any, () => {})
 
     expect(responseData).toBeNull()
   })
@@ -78,36 +57,26 @@ describe('middleware', () => {
   it('should handle option method', async () => {
     const server = new Server(join(__dirname, 'funcs'))
 
-    let statusCode = 200
-    let writableEnded = false
+    const req = createMockReq({
+      method: 'OPTIONS',
+      url: '/hello',
+      headers: {},
+      body: null,
+    })
 
-    await server.middleware(
-      {
-        method: 'OPTIONS',
-        url: '/hello',
-        headers: {},
-        body: null,
-        on: (type: string, handler: () => void) => {
-          if (type === 'end') handler()
-        },
-      } as any,
-      {
-        statusCode,
-        headers: {},
-        writableEnded,
-        writeHead: (code: number) => {
-          statusCode = code
-          return this
-        },
-        end: () => {
-          writableEnded = true
-          return this
-        },
-      } as any,
-      () => {}
-    )
+    const res = createMockRes()
 
-    expect(statusCode).toBe(204)
-    expect(writableEnded).toBe(true)
+    const mockWriteHead = function(this: typeof res, code: number) {
+      res.statusCode = code
+      return this
+    }
+    Object.assign(res, { writeHead: mockWriteHead })
+
+    triggerReqEvents(req)
+
+    await server.middleware(req as any, res as any, () => {})
+
+    expect(res.statusCode).toBe(204)
+    expect(res.writableEnded).toBe(true)
   })
 })

@@ -2,6 +2,7 @@ import { join } from 'node:path'
 import { request } from '@faasjs/request'
 import { describe, expect, it } from 'vitest'
 import { Server } from '../../server'
+import { createMockReq, createMockRes, triggerReqEvents } from './mocks'
 
 describe('server/hooks', () => {
   it('should handle onStart', async () => {
@@ -97,32 +98,18 @@ describe('server/hooks', () => {
     const server = new Server(join(__dirname, 'funcs'), { port, beforeHandle })
     server.listen()
 
-    await server.middleware(
-      {
-        method: 'GET',
-        url: '/hello',
-        headers: {},
-        body: null,
-        on: (type: string, handler: () => void) => {
-          if (type === 'end') handler()
-        },
-      } as any,
-      {
-        statusCode: 200,
-        headers: {},
-        writableEnded: false,
-        setHeader: () => {
-          return this
-        },
-        write: () => {
-          return this
-        },
-        end: () => {
-          return this
-        },
-      } as any,
-      () => {}
-    )
+    const req = createMockReq({
+      method: 'GET',
+      url: '/hello',
+      headers: {},
+      body: null,
+    })
+
+    const res = createMockRes()
+
+    triggerReqEvents(req)
+
+    await server.middleware(req as any, res as any, () => {})
 
     expect(times).toBe(1)
   })

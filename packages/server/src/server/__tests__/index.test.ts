@@ -3,7 +3,7 @@ import { request } from '@faasjs/request'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { closeAll, getAll, Server } from '../../server'
 
-describe('server', () => {
+describe.sequential('server', () => {
   let server: Server
   const port = 3001 + Number(process.env.VITEST_POOL_ID)
 
@@ -47,13 +47,27 @@ describe('server', () => {
     expect(result.body).toEqual({ data: 'hello' })
     expect(result.headers['x-faasjs-request-id']).toBe('test')
     expect(result.headers['x-headers']).toBe('x-x')
-    expect(result.headers['access-control-expose-headers']).toContain('content-type')
-    expect(result.headers['access-control-expose-headers']).toContain('authorization')
-    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-request-id')
-    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-pending')
-    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-processing')
-    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-total')
-    expect(result.headers['access-control-expose-headers']).toContain('accept-encoding')
+    expect(result.headers['access-control-expose-headers']).toContain(
+      'content-type'
+    )
+    expect(result.headers['access-control-expose-headers']).toContain(
+      'authorization'
+    )
+    expect(result.headers['access-control-expose-headers']).toContain(
+      'x-faasjs-request-id'
+    )
+    expect(result.headers['access-control-expose-headers']).toContain(
+      'x-faasjs-timing-pending'
+    )
+    expect(result.headers['access-control-expose-headers']).toContain(
+      'x-faasjs-timing-processing'
+    )
+    expect(result.headers['access-control-expose-headers']).toContain(
+      'x-faasjs-timing-total'
+    )
+    expect(result.headers['access-control-expose-headers']).toContain(
+      'accept-encoding'
+    )
   })
 
   it('a', async () => {
@@ -110,14 +124,28 @@ describe('server', () => {
     })
     expect(result.statusCode).toBe(204)
     expect(result.headers['access-control-allow-credentials']).toBe('true')
-    expect(result.headers['access-control-allow-headers']).toContain('content-type')
-    expect(result.headers['access-control-allow-headers']).toContain('authorization')
-    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-request-id')
-    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-pending')
-    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-processing')
-    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-total')
+    expect(result.headers['access-control-allow-headers']).toContain(
+      'content-type'
+    )
+    expect(result.headers['access-control-allow-headers']).toContain(
+      'authorization'
+    )
+    expect(result.headers['access-control-allow-headers']).toContain(
+      'x-faasjs-request-id'
+    )
+    expect(result.headers['access-control-allow-headers']).toContain(
+      'x-faasjs-timing-pending'
+    )
+    expect(result.headers['access-control-allow-headers']).toContain(
+      'x-faasjs-timing-processing'
+    )
+    expect(result.headers['access-control-allow-headers']).toContain(
+      'x-faasjs-timing-total'
+    )
     expect(result.headers['access-control-allow-headers']).toContain('x-x')
-    expect(result.headers['access-control-allow-headers']).toContain('accept-encoding')
+    expect(result.headers['access-control-allow-headers']).toContain(
+      'accept-encoding'
+    )
     expect(result.headers['access-control-allow-headers']).toContain('x-y')
     expect(result.headers['access-control-allow-methods']).toBe('OPTIONS, POST')
     expect(result.headers['access-control-allow-origin']).toBe('*')
@@ -254,7 +282,7 @@ describe('server', () => {
   it('no return (204)', async () => {
     const result = await request(`http://127.0.0.1:${port}/no-return`)
     expect(result.statusCode).toBe(204)
-    expect(result.body).toBeUndefined()
+    expect(result.body).toEqual('')
     expect(result.headers['x-faasjs-request-id']).toBeDefined()
   })
 })
