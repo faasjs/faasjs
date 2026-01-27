@@ -132,7 +132,7 @@ describe('signin', function () {
     });
 
     expect(func.http.session.decode(res.headers['Set-Cookie'][0].match(/key=([^;]+)/)[1])).toEqual({ user_id: 1 });
-    expect(res.statusCode).toEqual(201);
+    expect(res.statusCode).toEqual(204);
   });
 
   test('wrong username', async function () {

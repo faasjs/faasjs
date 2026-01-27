@@ -33,7 +33,7 @@ Empty or formatted in JSON.
 #### Status Codes
 
 * **200** Request successful with response data.
-* **201** Request successful but without response data.
+* **204** Request successful with no content (no response data).
 * **500** Request failed.
 
 Additional status codes can be implemented based on specific business needs.
@@ -64,9 +64,9 @@ Returns an object.
 }
 ```
 
-#### 201 Status
+#### 204 Status
 
-No body included.
+No body included (204 No Content).
 
 #### 500 Status
 

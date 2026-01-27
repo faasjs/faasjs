@@ -32,7 +32,7 @@ describe('cookie', () => {
         headers: { cookie: 'a=1; b=2' },
         key: 'c',
       })
-      expect(res.statusCode).toEqual(201)
+      expect(res.statusCode).toEqual(204)
       expect(res.body).toBeUndefined()
     })
 

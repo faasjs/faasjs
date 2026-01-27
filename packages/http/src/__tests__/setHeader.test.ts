@@ -14,7 +14,7 @@ describe('setHeader', () => {
 
     const res = await handler({})
 
-    expect(res.statusCode).toEqual(201)
+    expect(res.statusCode).toEqual(204)
     expect(res.headers.key).toEqual('value')
   })
 })

@@ -339,7 +339,7 @@ export class Http<
 
     // generate statusCode
     if (!this.response.statusCode)
-      this.response.statusCode = data.response ? 200 : 201
+      this.response.statusCode = data.response ? 200 : 204
 
     // generate headers
     this.response.headers = Object.assign(
@@ -365,8 +365,8 @@ export class Http<
       return
     }
 
-    // If body is undefined and statusCode is 201, return without body
-    if (originBody === undefined && data.response.statusCode === 201) {
+    // If body is undefined and statusCode is 204, return without body
+    if (originBody === undefined && data.response.statusCode === 204) {
       return
     }
 

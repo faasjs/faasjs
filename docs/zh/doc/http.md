@@ -37,7 +37,7 @@ Http 插件可以使云函数能够接收和处理网络请求。
 
 自动在 `headers` 中添加 `Content-Type` 和 `X-Request-Id`。
 
-当 handler 直接 `return` 没有返回内容时，`statusCode` 自动设为 `201`；有返回内容时，`statusCode` 自动设为 `200`。
+当 handler 直接 `return` 没有返回内容时，`statusCode` 自动设为 `204`（无内容）；有返回内容时，`statusCode` 自动设为 `200`。
 
 当 handler 中抛异常时，`statusCode` 自动设为 `500`。
 
