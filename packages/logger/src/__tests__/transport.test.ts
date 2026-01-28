@@ -1,9 +1,14 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { TransportHandler } from '../transport'
 import { getTransport } from '../transport'
 
 describe('transport', () => {
+  beforeEach(() => {
+    process.env.FaasLogTransport = 'true'
+  })
+
   afterEach(() => {
+    process.env.FaasLogTransport = 'false'
     getTransport().reset()
   })
 

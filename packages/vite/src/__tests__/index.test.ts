@@ -16,6 +16,7 @@ describe('viteFaasJsServer', () => {
   let mockChildProcess: any
 
   beforeEach(async () => {
+    process.env.VITEST = ''
     mockChildProcess = {
       stdout: { on: vi.fn() },
       stderr: { on: vi.fn() },
@@ -43,6 +44,7 @@ describe('viteFaasJsServer', () => {
   })
 
   afterEach(() => {
+    process.env.VITEST = '1'
     vi.clearAllMocks()
   })
 

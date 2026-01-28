@@ -80,7 +80,10 @@ export class Logger {
     )
       this.silent = true
 
-    if (process.env.VITEST || process.env.FaasLogTransport === 'false')
+    if (
+      process.env.FaasLogTransport !== 'true' &&
+      (process.env.VITEST || process.env.FaasLogTransport === 'false')
+    )
       this.disableTransport = true
 
     switch (process.env.FaasLogMode) {
