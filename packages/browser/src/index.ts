@@ -103,6 +103,7 @@ export type Options = RequestInit & {
     options: Options
   ) => Promise<Response<FaasData<PathOrData>>>
   baseUrl?: BaseUrl
+  stream?: boolean
 }
 
 export type ResponseHeaders = {
@@ -113,7 +114,7 @@ export type FaasBrowserClientAction = <PathOrData extends FaasActionUnionType>(
   action: FaasAction<PathOrData>,
   params?: FaasParams<PathOrData>,
   options?: Options
-) => Promise<Response<FaasData<PathOrData>>>
+) => Promise<Response<FaasData<PathOrData>> | Response>
 
 export type ResponseProps<T = any> = {
   status?: number
@@ -260,7 +261,7 @@ export function setMock(handler: MockHandler | null) {
 
 /**
  * FaasJS browser client
-
+ *
  * ```ts
  * import { FaasBrowserClient } from '@faasjs/browser'
  *
@@ -342,6 +343,12 @@ export class FaasBrowserClient {
     }
 
     if (parsedOptions.request) return parsedOptions.request(url, parsedOptions)
+
+    if (parsedOptions.stream) {
+      return fetch(url, parsedOptions) as unknown as Promise<
+        Response<FaasData<PathOrData>>
+      >
+    }
 
     return fetch(url, parsedOptions).then(async response => {
       const headers: {

@@ -8,6 +8,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v8.0.0-beta.2 (2026-01-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.1...v8.0.0-beta.2)
 
+- `@faasjs/browser`
+  - [Feature] Support stream response with `stream` option.
+
+[`v8.0.0-beta.2 (2026-01-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.1...v8.0.0-beta.2)
+
 - `@faasjs/http`
   - [Break] Replace 201 status code with 204 for empty response body.
 

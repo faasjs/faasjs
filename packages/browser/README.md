@@ -69,6 +69,71 @@ function App() {
 
 Please use [@faasjs/react](https://faasjs.com/doc/react/) for React.
 
+## Stream Support
+
+### Use Native Stream
+
+Set `stream: true` to get native fetch Response with ReadableStream:
+
+```ts
+import { FaasBrowserClient } from '@faasjs/browser'
+
+const client = new FaasBrowserClient('/')
+
+const response = await client.action('chat', { prompt }, { stream: true })
+
+const reader = response.body.getReader()
+const decoder = new TextDecoder()
+
+while (true) {
+  const { done, value } = await reader.read()
+  if (done) break
+
+  const chunk = decoder.decode(value)
+  console.log('Chunk:', chunk)
+}
+```
+
+### Abort Streaming
+
+Use AbortController to cancel streaming:
+
+```ts
+const controller = new AbortController()
+
+const response = await client.action('chat', { prompt }, {
+  stream: true,
+  signal: controller.signal
+})
+
+controller.abort()
+```
+
+### Custom Parser
+
+Parse streaming data with custom logic:
+
+```ts
+const response = await client.action('chat', { prompt }, { stream: true })
+const reader = response.body.getReader()
+const decoder = new TextDecoder()
+let fullText = ''
+
+while (true) {
+  const { done, value } = await reader.read()
+  if (done) break
+
+  const chunk = decoder.decode(value)
+
+  if (chunk.startsWith('data: ')) {
+    const json = JSON.parse(chunk.slice(6))
+    fullText += json.content
+  }
+}
+```
+
+**Note**: When `stream: true`, returns native Response object, not FaasJS Response wrapper.
+
 ## Functions
 
 - [generateId](functions/generateId.md)
