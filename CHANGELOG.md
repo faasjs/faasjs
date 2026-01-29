@@ -8,6 +8,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v8.0.0-beta.3 (2026-01-29)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.2...v8.0.0-beta.3)
 
+- `faasjs`
+  - [Break] Remove `@faasjs/redis` package.
+
 - `@faasjs/browser`
   - [Feature] Support stream response with `stream` option.
   - [Feature] `setMock` support response as argument directly.

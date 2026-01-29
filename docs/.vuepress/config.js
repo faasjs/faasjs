@@ -216,7 +216,7 @@ export default defineUserConfig({
             {
               title: '数据库插件',
               collapsable: false,
-              children: ['knex', 'redis'],
+              children: ['knex'],
             },
             {
               title: '前端插件',

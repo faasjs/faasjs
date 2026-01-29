@@ -50,6 +50,7 @@ npm install @faasjs/react react
 - [Form](functions/Form.md)
 - [FormItem](functions/FormItem.md)
 - [getClient](functions/getClient.md)
+- [OptionalWrapper](functions/OptionalWrapper.md)
 - [useConstant](functions/useConstant.md)
 - [useEqualCallback](functions/useEqualCallback.md)
 - [useEqualEffect](functions/useEqualEffect.md)
@@ -72,10 +73,6 @@ npm install @faasjs/react react
 - [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
 - [Response](interfaces/Response.md)
 - [ResponseError](interfaces/ResponseError.md)
-
-## Namespaces
-
-- [OptionalWrapper](@faasjs/namespaces/OptionalWrapper/README.md)
 
 ## Type Aliases
 
@@ -117,5 +114,4 @@ npm install @faasjs/react react
 - [FormDefaultElements](variables/FormDefaultElements.md)
 - [FormDefaultLang](variables/FormDefaultLang.md)
 - [FormDefaultRules](variables/FormDefaultRules.md)
-- [OptionalWrapper](variables/OptionalWrapper.md)
 - [useFormContext](variables/useFormContext.md)

@@ -27,17 +27,15 @@ export type OptionalWrapperProps<
  * )
  * ```
  */
-export const OptionalWrapper: React.FC<OptionalWrapperProps> = ({
+export function OptionalWrapper({
   condition,
   Wrapper,
   wrapperProps,
   children,
-}) => {
-  return condition ? (
-    <Wrapper {...wrapperProps}>{children}</Wrapper>
-  ) : (
-    <>{children}</>
-  )
+}: OptionalWrapperProps) {
+  if (condition) return <Wrapper {...wrapperProps}>{children}</Wrapper>
+
+  return children
 }
 
 OptionalWrapper.displayName = 'OptionalWrapper'

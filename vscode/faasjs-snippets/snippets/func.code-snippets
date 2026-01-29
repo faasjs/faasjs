@@ -47,23 +47,6 @@
       ""
     ]
   },
-  "useFunc with redis": {
-    "description": "Generate a useFunc module with redis",
-    "prefix": ["ufk", "useFuncWithRedis"],
-    "body": [
-      "import { useFunc } from '@faasjs/func'",
-      "import { useRedis, query } from '@faasjs/redis'",
-      "",
-      "export const func = useFunc(function () {",
-      "  useRedis()",
-      "",
-      "  return async function () {",
-      "    $1",
-      "  }",
-      "})",
-      ""
-    ]
-  },
   "useFunc with http, knex": {
     "description": "Generate a useFunc module with http and knex",
     "prefix": ["ufhk", "useFuncWithHttpKnex"],
@@ -74,27 +57,6 @@
       "",
       "export const func = useFunc(function () {",
       "  useKnex()",
-      "  const http = useHttp<{$1}>($2)",
-      "",
-      "  return async function () {",
-      "    $3",
-      "  }",
-      "})",
-      ""
-    ]
-  },
-  "useFunc with http, knex and redis": {
-    "description": "Generate a useFunc module with http, knex and redis",
-    "prefix": ["ufhkr", "useFuncWithHttpKnexRedis"],
-    "body": [
-      "import { useFunc } from '@faasjs/func'",
-      "import { useHttp } from '@faasjs/http'",
-      "import { useKnex } from '@faasjs/knex'",
-      "import { useRedis } from '@faasjs/redis'",
-      "",
-      "export const func = useFunc(function () {",
-      "  useKnex()",
-      "  useRedis()",
       "  const http = useHttp<{$1}>($2)",
       "",
       "  return async function () {",

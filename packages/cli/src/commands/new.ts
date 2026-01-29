@@ -20,7 +20,7 @@ export function NewCommand(program: Command): void {
       console.log(`
 Examples:
   npm exec faas new func hello
-  npm exec faas new func folder/demo cf http sql redis`)
+  npm exec faas new func folder/demo cf http sql`)
     })
     .action(action)
 }

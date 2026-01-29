@@ -19,11 +19,6 @@ const Plugins: {
     kls: 'Http',
     key: 'http',
   },
-  redis: {
-    name: '@faasjs/redis',
-    kls: 'Redis',
-    key: 'redis',
-  },
   knex: {
     name: '@faasjs/knex',
     kls: 'Knex',

@@ -38,7 +38,6 @@
 |Name|Version|
 |---|---|
 |[@faasjs/knex](https://github.com/faasjs/faasjs/tree/main/packages/knex)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/knex.svg)](https://www.npmjs.com/package/@faasjs/knex)|
-|[@faasjs/redis](https://github.com/faasjs/faasjs/tree/main/packages/redis)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/redis.svg)](https://www.npmjs.com/package/@faasjs/redis)|
 
 ## Browsers
 

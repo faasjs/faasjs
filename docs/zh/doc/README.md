@@ -41,7 +41,6 @@
 | Name                                                                       | Stable                                                                                                                      | Beta                                                                                                                    |
 | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | [@faasjs/knex](https://github.com/faasjs/faasjs/tree/main/packages/knex)   | [![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/knex/stable.svg)](https://www.npmjs.com/package/@faasjs/knex)   | [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/knex/beta.svg)](https://www.npmjs.com/package/@faasjs/knex)   |
-| [@faasjs/redis](https://github.com/faasjs/faasjs/tree/main/packages/redis) | [![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/redis/stable.svg)](https://www.npmjs.com/package/@faasjs/redis) | [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/redis/beta.svg)](https://www.npmjs.com/package/@faasjs/redis) |
 
 ## 前端插件
 
