@@ -30,6 +30,7 @@
  *   - Fetch Data:
  *     - [faas](functions/faas.md): Fetch data from FaasJS.
  *     - [useFaas](functions/useFaas.md): Fetch data from FaasJS with hooks.
+ *     - [useFaasStream](functions/useFaasStream.md): Fetch streaming data from FaasJS with hooks.
  *     - [FaasDataWrapper](functions/FaasDataWrapper.md): Fetch data from FaasJS with a wrapper component.
  *     - [withFaasData](functions/withFaasData.md): Fetch data from FaasJS using a higher-order component (HOC).
  *
@@ -65,5 +66,6 @@ export * from './OptionalWrapper'
 export * from './splittingContext'
 export * from './splittingState'
 export * from './useFaas'
+export * from './useFaasStream'
 export * from './usePrevious'
 export * from './useStateRef'

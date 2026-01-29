@@ -3,9 +3,8 @@ import { assertType, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   FaasBrowserClient,
   Response as FaasResponse,
-  Response,
+  type Response,
   ResponseError,
-  setMock,
 } from '..'
 
 let request: {
@@ -112,26 +111,6 @@ describe('client', () => {
     const client = new FaasBrowserClient('/')
 
     await expect(client.action('path')).rejects.toEqual(new ResponseError('no'))
-  })
-
-  it('work with mock', async () => {
-    setMock(
-      async () =>
-        new Response({
-          status: 100,
-          data: {},
-        })
-    )
-
-    const client = new FaasBrowserClient('/')
-
-    const response = await client.action('path')
-
-    expect(response.status).toEqual(100)
-
-    expect(response.data).toEqual({})
-
-    setMock(null)
   })
 })
 

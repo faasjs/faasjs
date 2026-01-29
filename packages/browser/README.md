@@ -69,70 +69,93 @@ function App() {
 
 Please use [@faasjs/react](https://faasjs.com/doc/react/) for React.
 
-## Stream Support
+## Error Handling
 
-### Use Native Stream
+FaasJS throws [ResponseError](classes/ResponseError.md) when API requests fail. You can catch these errors
+to handle different scenarios like network errors, server errors, or validation errors.
 
-Set `stream: true` to get native fetch Response with ReadableStream:
+The [ResponseError](classes/ResponseError.md) class provides additional information about the failed request,
+including the HTTP status code, response headers, and the full response body.
 
-```ts
-import { FaasBrowserClient } from '@faasjs/browser'
-
-const client = new FaasBrowserClient('/')
-
-const response = await client.action('chat', { prompt }, { stream: true })
-
-const reader = response.body.getReader()
-const decoder = new TextDecoder()
-
-while (true) {
-  const { done, value } = await reader.read()
-  if (done) break
-
-  const chunk = decoder.decode(value)
-  console.log('Chunk:', chunk)
-}
-```
-
-### Abort Streaming
-
-Use AbortController to cancel streaming:
+## Examples
 
 ```ts
-const controller = new AbortController()
+import { FaasBrowserClient, ResponseError } from '@faasjs/browser'
 
-const response = await client.action('chat', { prompt }, {
-  stream: true,
-  signal: controller.signal
-})
+const client = new FaasBrowserClient('https://api.example.com/')
 
-controller.abort()
-```
+try {
+  const response = await client.action('user', { id: 123 })
+  console.log(response.data)
+} catch (error) {
+  if (error instanceof ResponseError) {
+    console.error(`Request failed with status ${error.status}`)
+    console.error(`Error message: ${error.message}`)
+    console.error('Response body:', error.body)
 
-### Custom Parser
-
-Parse streaming data with custom logic:
-
-```ts
-const response = await client.action('chat', { prompt }, { stream: true })
-const reader = response.body.getReader()
-const decoder = new TextDecoder()
-let fullText = ''
-
-while (true) {
-  const { done, value } = await reader.read()
-  if (done) break
-
-  const chunk = decoder.decode(value)
-
-  if (chunk.startsWith('data: ')) {
-    const json = JSON.parse(chunk.slice(6))
-    fullText += json.content
+    if (error.status === 404) {
+      console.log('Resource not found')
+    } else if (error.status >= 500) {
+      console.log('Server error, please try again later')
+    }
+  } else {
+    console.error('Unexpected error:', error)
   }
 }
 ```
 
-**Note**: When `stream: true`, returns native Response object, not FaasJS Response wrapper.
+## Mock for Testing
+
+Use the global [setMock](functions/setMock.md) function to mock API calls during tests. This allows you
+to test your application without making actual network requests.
+
+Mocks are useful for:
+- Unit testing client-side logic
+- Integration testing with predictable responses
+- Testing error handling scenarios
+- Offline development
+
+```ts
+import { FaasBrowserClient, setMock, ResponseError } from '@faasjs/browser'
+
+// Set up a mock function
+setMock(async (action, params) => {
+  if (action === 'user') {
+    // Return a successful response
+    return { data: { id: params.id, name: 'Mock User' } }
+  } else if (action === 'error') {
+    // Throw an error to test error handling
+    throw new ResponseError('Not found', 404, {
+      body: { message: 'User not found' }
+    })
+  }
+})
+
+// Create client - it will use the mock
+const client = new FaasBrowserClient('https://api.example.com/')
+
+// This will use the mock and return the mocked data
+const response = await client.action('user', { id: 123 })
+console.log(response.data) // { id: 123, name: 'Mock User' }
+```
+
+## API Reference
+
+### Classes
+- [FaasBrowserClient](classes/FaasBrowserClient.md) - Main client class for making API requests to FaasJS functions
+- [Response](classes/Response.md) - Response wrapper class containing status, headers, body, and data
+- [ResponseError](classes/ResponseError.md) - Custom error class for handling API request failures
+
+### Types
+- [Options](type-aliases/Options.md) - Request options type for customizing client behavior
+- [ResponseProps](type-aliases/ResponseProps.md) - Response properties type for constructing Response objects
+- [ResponseHeaders](type-aliases/ResponseHeaders.md) - Headers type representing HTTP response headers
+- [BaseUrl](type-aliases/BaseUrl.md) - Base URL type with trailing slash requirement
+- [MockHandler](type-aliases/MockHandler.md) - Mock handler function type for testing
+- [FaasBrowserClientAction](type-aliases/FaasBrowserClientAction.md) - Action method type definition
+
+### Functions
+- [setMock](functions/setMock.md) - Global mock function for intercepting API calls during testing
 
 ## Functions
 

@@ -55,6 +55,7 @@ npm install @faasjs/react react
 - [useEqualMemo](functions/useEqualMemo.md)
 - [useEqualMemoize](functions/useEqualMemoize.md)
 - [useFaas](functions/useFaas.md)
+- [useFaasStream](functions/useFaasStream.md)
 - [usePrevious](functions/usePrevious.md)
 - [useSplittingState](functions/useSplittingState.md)
 - [useStateRef](functions/useStateRef.md)
@@ -105,6 +106,8 @@ npm install @faasjs/react react
 - [Options](type-aliases/Options.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
 - [useFaasOptions](type-aliases/useFaasOptions.md)
+- [UseFaasStreamOptions](type-aliases/UseFaasStreamOptions.md)
+- [UseFaasStreamResult](type-aliases/UseFaasStreamResult.md)
 
 ## Variables
 

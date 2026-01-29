@@ -4,35 +4,61 @@
 
 > **setMock**(`handler`): `void`
 
-Set mock handler for testing
+Set global mock handler for testing. Mock affects all FaasBrowserClient instances.
 
 ## Parameters
 
 ### handler
 
-[`MockHandler`](../type-aliases/MockHandler.md)
+Mock handler, can be:
+  - MockHandler function: receives (action, params, options) and returns response data
+  - ResponseProps object: static response data
+  - Response instance: pre-configured Response object
+  - null or undefined: clear mock
 
-mock handler, set `null` or `undefined` to clear mock
+[`Response`](../classes/Response.md)\<`any`\> | [`ResponseProps`](../type-aliases/ResponseProps.md)\<`any`\> | [`MockHandler`](../type-aliases/MockHandler.md)
 
 ## Returns
 
 `void`
 
-## Example
+## Examples
 
 ```ts
-import { setMock } from '@faasjs/browser'
-
 setMock(async (action, params, options) => {
-  return {
-    status: 200,
-    data: {
-      name: 'FaasJS'
-    }
+  if (action === 'user') {
+    return { data: { name: 'John' } }
   }
+  return { status: 404, data: { error: 'Not found' } }
 })
 
-const client = new FaasBrowserClient('/')
+const response = await client.action('user')
+```
 
-const response = await client.action('path') // response.data.name === 'FaasJS'
+```ts
+setMock({
+  status: 200,
+  data: { result: 'success' },
+  headers: { 'X-Custom': 'value' }
+})
+```
+
+```ts
+setMock(new Response({
+  status: 200,
+  data: { result: 'success' }
+}))
+```
+
+```ts
+setMock(null)
+// or
+setMock(undefined)
+```
+
+```ts
+setMock(async () => {
+  throw new Error('Internal error')
+})
+// This will reject with ResponseError
 ```

@@ -10,6 +10,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/browser`
   - [Feature] Support stream response with `stream` option.
+  - [Feature] `setMock` support response as argument directly.
+
+- `@faasjs/react`
+  - [Feature] Add `useFaasStream` hook to handle streaming response.
 
 [`v8.0.0-beta.2 (2026-01-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.1...v8.0.0-beta.2)
 
