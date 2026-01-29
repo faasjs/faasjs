@@ -120,6 +120,4 @@ type FaasItemProps = {
 ## Variables
 
 - [ConfigContext](variables/ConfigContext.md)
-- [Drawer](variables/Drawer.md)
-- [Modal](variables/Modal.md)
 - [useApp](variables/useApp.md)

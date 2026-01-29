@@ -1,12 +1,8 @@
 import { useEqualCallback } from '@faasjs/react'
-import { Drawer as AntdDrawer, type DrawerProps as AntdDrawerProps } from 'antd'
+import { type DrawerProps as AntdDrawerProps, Drawer } from 'antd'
 import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
 
-export const Drawer = AntdDrawer as React.FC<DrawerProps> & {
-  whyDidYouRender?: boolean
-}
-
-Drawer.whyDidYouRender = true
+export { Drawer }
 
 export interface DrawerProps extends AntdDrawerProps {
   children?: JSX.Element | JSX.Element[]

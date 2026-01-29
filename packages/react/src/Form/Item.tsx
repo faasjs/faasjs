@@ -31,4 +31,3 @@ export function FormItem(props: FormItemProps) {
 }
 
 FormItem.displayName = 'FormItem'
-FormItem.whyDidYouRender = true

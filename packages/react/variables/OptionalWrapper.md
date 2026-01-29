@@ -2,15 +2,9 @@
 
 # Variable: OptionalWrapper
 
-> `const` **OptionalWrapper**: `React.FC`\<[`OptionalWrapperProps`](../type-aliases/OptionalWrapperProps.md)\> & `object`
+> `const` **OptionalWrapper**: `React.FC`\<[`OptionalWrapperProps`](../type-aliases/OptionalWrapperProps.md)\>
 
 A wrapper component that conditionally wraps its children with a provided wrapper component.
-
-## Type Declaration
-
-### whyDidYouRender
-
-> **whyDidYouRender**: `boolean`
 
 ## Example
 

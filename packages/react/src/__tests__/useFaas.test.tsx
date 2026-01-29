@@ -43,8 +43,6 @@ describe('useFaas', () => {
       )
     }
 
-    Test.whyDidYouRender = true
-
     render(<Test />)
 
     expect(await screen.findByText('1')).toBeDefined()

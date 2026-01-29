@@ -1,11 +1,8 @@
 import { useEqualCallback } from '@faasjs/react'
-import { Modal as AntdModal, type ModalProps as AntdModalProps } from 'antd'
+import { type ModalProps as AntdModalProps, Modal } from 'antd'
 import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
 
-export const Modal = AntdModal
-
-// @ts-expect-error
-Modal.whyDidYouRender = true
+export { Modal }
 
 export interface ModalProps extends AntdModalProps {
   children?: JSX.Element | JSX.Element[] | string

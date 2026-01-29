@@ -580,6 +580,4 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   }
 }
 
-FormItem.whyDidYouRender = true
-
 FormItem.useStatus = AntdForm.Item.useStatus

@@ -28,7 +28,6 @@ export class ErrorBoundary extends Component<
   }
 > {
   static displayName = 'ErrorBoundary'
-  static whyDidYouRender = true
 
   constructor(props: ErrorBoundaryProps) {
     super(props)

@@ -29,4 +29,3 @@ export const FormButtonElement = forwardRef<
 ))
 
 FormButtonElement.displayName = 'FormButtonElement'
-Object.assign(FormButtonElement, { whyDidYouRender: true })

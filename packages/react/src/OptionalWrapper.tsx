@@ -27,9 +27,12 @@ export type OptionalWrapperProps<
  * )
  * ```
  */
-export const OptionalWrapper: React.FC<OptionalWrapperProps> & {
-  whyDidYouRender: boolean
-} = ({ condition, Wrapper, wrapperProps, children }) => {
+export const OptionalWrapper: React.FC<OptionalWrapperProps> = ({
+  condition,
+  Wrapper,
+  wrapperProps,
+  children,
+}) => {
   return condition ? (
     <Wrapper {...wrapperProps}>{children}</Wrapper>
   ) : (
@@ -38,4 +41,3 @@ export const OptionalWrapper: React.FC<OptionalWrapperProps> & {
 }
 
 OptionalWrapper.displayName = 'OptionalWrapper'
-OptionalWrapper.whyDidYouRender = true

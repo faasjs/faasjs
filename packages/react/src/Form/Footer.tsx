@@ -43,4 +43,3 @@ export function FormFooter() {
 }
 
 FormFooter.displayName = 'FormFooter'
-FormFooter.whyDidYouRender = true

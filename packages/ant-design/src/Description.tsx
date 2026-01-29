@@ -213,7 +213,6 @@ function DescriptionItemContent<T = any>(
 }
 
 DescriptionItemContent.displayName = 'DescriptionItemContent'
-DescriptionItemContent.whyDidYouRender = true
 
 /**
  * Description component
@@ -299,4 +298,3 @@ export function Description<T extends Record<string, any> = any>({
 }
 
 Description.displayName = 'Description'
-Description.whyDidYouRender = true

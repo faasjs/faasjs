@@ -51,8 +51,6 @@ export function FaasDataWrapper<T = any>(
   )
 }
 
-FaasDataWrapper.whyDidYouRender = true
-
 /**
  * HOC to wrap a component with FaasDataWrapper and Loading
  *

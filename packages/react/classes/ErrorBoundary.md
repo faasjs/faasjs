@@ -70,7 +70,3 @@ the entire component tree to unmount.
 ### displayName
 
 > `static` **displayName**: `string` = `'ErrorBoundary'`
-
-### whyDidYouRender
-
-> `static` **whyDidYouRender**: `boolean` = `true`

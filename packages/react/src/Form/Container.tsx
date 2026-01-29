@@ -110,4 +110,3 @@ export function FormContainer<
 }
 
 FormContainer.displayName = 'FormContainer'
-FormContainer.whyDidYouRender = true

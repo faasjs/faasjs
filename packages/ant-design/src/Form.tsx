@@ -284,8 +284,6 @@ export function Form<Values = any>(props: FormProps<Values>) {
   )
 }
 
-Form.whyDidYouRender = true
-
 Form.useForm = AntdForm.useForm
 Form.useFormInstance = AntdForm.useFormInstance
 Form.useWatch = AntdForm.useWatch

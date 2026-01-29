@@ -176,4 +176,3 @@ export function App(props: AppProps) {
 export const useApp = AppContext.use
 
 App.useApp = useApp
-App.whyDidYouRender = true

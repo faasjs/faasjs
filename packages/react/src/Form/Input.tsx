@@ -77,4 +77,3 @@ export function FormInput({
 }
 
 FormInput.displayName = 'FormInput'
-FormInput.whyDidYouRender = true

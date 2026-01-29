@@ -6,14 +6,18 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Beta
 
-[`v8.0.0-beta.2 (2026-01-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.1...v8.0.0-beta.2)
+[`v8.0.0-beta.3 (2026-01-29)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.2...v8.0.0-beta.3)
 
 - `@faasjs/browser`
   - [Feature] Support stream response with `stream` option.
   - [Feature] `setMock` support response as argument directly.
 
 - `@faasjs/react`
+  - [Break] Remove `whyDidYouRender` from components.
   - [Feature] Add `useFaasStream` hook to handle streaming response.
+
+- `@faasjs/ant-design`
+  - [Break] Remove `whyDidYouRender` from components.
 
 [`v8.0.0-beta.2 (2026-01-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.1...v8.0.0-beta.2)
 

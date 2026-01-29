@@ -111,7 +111,6 @@ export const FaasDataWrapper = fixedForwardRef(
 
 Object.assign(FaasDataWrapper, {
   displayName: 'FaasDataWrapper',
-  whyDidYouRender: true,
 })
 
 /**

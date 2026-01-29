@@ -8,4 +8,3 @@ export function FormBody() {
 }
 
 FormBody.displayName = 'FormBody'
-FormBody.whyDidYouRender = true

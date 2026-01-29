@@ -22,4 +22,3 @@ export const FormInputElement = forwardRef<
 ))
 
 FormInputElement.displayName = 'FormInputElement'
-Object.assign(FormInputElement, { whyDidYouRender: true })

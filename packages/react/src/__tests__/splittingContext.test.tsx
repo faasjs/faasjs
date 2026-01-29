@@ -95,8 +95,6 @@ describe('createSplittingContext', () => {
       return <div>reader:{value}</div>
     }
 
-    ReaderComponent.whyDidYouRender = true
-
     function WriterComponent() {
       const { setValue, optional } = use()
 
@@ -112,8 +110,6 @@ describe('createSplittingContext', () => {
       )
     }
 
-    WriterComponent.whyDidYouRender = true
-
     function Container() {
       const [value, setValue] = useState(0)
 
@@ -126,8 +122,6 @@ describe('createSplittingContext', () => {
         </Provider>
       )
     }
-
-    Container.whyDidYouRender = true
 
     const user = userEvent.setup()
 
