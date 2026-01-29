@@ -162,11 +162,7 @@ describe('mock', () => {
       await client.action('test', params as any)
 
       expect(handler).toHaveBeenCalledTimes(1)
-      expect(handler).toHaveBeenCalledWith(
-        'test',
-        params,
-        expect.any(Object)
-      )
+      expect(handler).toHaveBeenCalledWith('test', params, expect.any(Object))
     })
 
     it('should receive correct options parameter', async () => {
@@ -182,7 +178,9 @@ describe('mock', () => {
       setMock(handler)
 
       const client = new FaasBrowserClient('/')
-      await client.action('test', {} as any, { headers: { 'X-Custom': 'test' } })
+      await client.action('test', {} as any, {
+        headers: { 'X-Custom': 'test' },
+      })
 
       expect(handler).toHaveBeenCalledTimes(1)
       const optionsArg = handler.mock.calls[0][2]
@@ -194,9 +192,11 @@ describe('mock', () => {
     })
 
     it('should receive X-FaasJS-Request-Id header in options', async () => {
-      const handler = vi.fn(async (action: string, params: any, options: any) => ({
-        data: { requestId: options.headers['X-FaasJS-Request-Id'] } as any,
-      }))
+      const handler = vi.fn(
+        async (action: string, params: any, options: any) => ({
+          data: { requestId: options.headers['X-FaasJS-Request-Id'] } as any,
+        })
+      )
 
       setMock(handler)
 
@@ -282,7 +282,9 @@ describe('mock', () => {
 
       const client = new FaasBrowserClient('/')
 
-      const premiumResponse = await client.action('features', { type: 'premium' })
+      const premiumResponse = await client.action('features', {
+        type: 'premium',
+      })
       expect(premiumResponse.data).toEqual({ features: ['all'] })
 
       const basicResponse = await client.action('features', { type: 'basic' })
@@ -314,11 +316,13 @@ describe('mock', () => {
     })
 
     it('should interact with beforeRequest', async () => {
-      const handler = vi.fn(async (action: string, params: any, options: any) => ({
-        data: {
-          modifiedHeader: options.headers['X-Modified'],
-        } as any,
-      }))
+      const handler = vi.fn(
+        async (action: string, params: any, options: any) => ({
+          data: {
+            modifiedHeader: options.headers['X-Modified'],
+          } as any,
+        })
+      )
 
       setMock(handler)
 
@@ -356,7 +360,9 @@ describe('mock', () => {
 
       const client = new FaasBrowserClient('/')
 
-      await expect(client.action('test')).rejects.toThrow('Internal Server Error')
+      await expect(client.action('test')).rejects.toThrow(
+        'Internal Server Error'
+      )
     })
 
     it('should work with empty ResponseProps', async () => {
@@ -453,7 +459,9 @@ describe('mock', () => {
     })
 
     it('should work with various HTTP status codes', async () => {
-      const statusCodes = [200, 201, 202, 204, 301, 400, 401, 403, 404, 500, 503]
+      const statusCodes = [
+        200, 201, 202, 204, 301, 400, 401, 403, 404, 500, 503,
+      ]
 
       for (const status of statusCodes) {
         setMock({
@@ -542,7 +550,9 @@ describe('mock', () => {
       const client = new FaasBrowserClient('/')
       const response = await client.action('test')
 
-      expect(response.headers['X-Special']).toBe('!@#$%^&*()_+-={}[]|\\:";\'<>?,./~`')
+      expect(response.headers['X-Special']).toBe(
+        '!@#$%^&*()_+-={}[]|\\:";\'<>?,./~`'
+      )
       expect(response.headers['X-Unicode']).toBe('你好世界🌍🎉')
       expect(response.headers['X-Long-Value']).toBe('a'.repeat(1000))
     })
@@ -557,11 +567,7 @@ describe('mock', () => {
       const client = new FaasBrowserClient('/')
       await client.action('test', {} as any)
 
-      expect(handler).toHaveBeenCalledWith(
-        'test',
-        {},
-        expect.any(Object)
-      )
+      expect(handler).toHaveBeenCalledWith('test', {}, expect.any(Object))
     })
 
     it('should handle ResponseError with full props', async () => {
