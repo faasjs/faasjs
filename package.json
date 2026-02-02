@@ -19,7 +19,7 @@
     "@testing-library/jest-dom": "*",
     "@vitejs/plugin-react": "*",
     "@vitest/coverage-v8": "*",
-    "commander": ">=14.0.0",
+    "commander": ">=14.0.3",
     "jsdom": "*",
     "tsup": "*",
     "turbo": "*",
