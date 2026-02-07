@@ -10,7 +10,7 @@ npx create-faas-app --name faasjs
 
 ### Start with Codespace
 
-[FaasJS Stater](https://github.com/faasjs/starter)
+[FaasJS Starter](https://github.com/faasjs/starter)
 
 ## File Structure
 

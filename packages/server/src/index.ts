@@ -17,11 +17,11 @@
  * // server.ts
  * import { Server } from '@faasjs/server'
  *
- * const server = new Server({
+ * const server = new Server(process.cwd(), {
  *  // options
  * })
  *
- * server.start()
+ * server.listen()
  * ```
  * 2. Run the server:
  * ```sh

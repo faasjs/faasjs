@@ -3,7 +3,7 @@ home: true
 heroImage: /logo.jpg
 heroText: 🚀 FaasJS
 tagline: null
-footer: An atomic application framework built for the TypeScript developer. | MIT Licensed | Copyright © 2019-2024 Zhu Feng
+footer: An atomic application framework built for the TypeScript developer. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
 ---
 
 <div style="width:100%;line-height:1.7">
@@ -45,7 +45,7 @@ footer: An atomic application framework built for the TypeScript developer. | MI
 
 ### Start with Codespace and Template
 
-[🔨 FaasJS Stater](https://github.com/faasjs/starter)
+[🔨 FaasJS Starter](https://github.com/faasjs/starter)
 
 ### Start with Command Line
 

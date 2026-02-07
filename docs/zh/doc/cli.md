@@ -1,29 +1,11 @@
 # @faasjs/cli
 
-## 发布
-
-将云函数发布到云服务商。
-
-### 命令
-
-```
-faas deploy <env> [files...]
-```
-
-### 参数
-
-#### env
-
-发布环境名。
-
-#### files
-
-文件名或文件夹名，如果是文件夹名，会发布该文件夹下全部云函数。
+命令行工具，用于创建函数文件和启动本地服务。
 
 ## 启动服务器
 
-- 支持 HTTP 请求模拟
-- 支持热加载云函数代码
+- `faas server`：启动本地服务。
+- `faas dev`：基于 `tsx watch` 的开发模式。
 
 ### 命令
 
@@ -37,10 +19,37 @@ faas server [options]
 
 端口号，默认为 `3000`
 
-#### -cache
+### 命令
 
-是否开启缓存，开启后不会热读取云函数源代码，默认为热读取
+```
+faas dev [options]
+```
 
-#### -v
+### 参数
 
-是否显示 DEBUG 级别日志，默认不显示
+#### -p
+
+端口号，默认为 `3000`
+
+## 创建新函数
+
+### 命令
+
+```
+faas new <type> <name> [plugins...]
+```
+
+目前 `type` 仅支持 `func`。
+
+示例：
+
+```bash
+npm exec faas new func hello
+npm exec faas new func folder/demo cf http knex
+```
+
+## 全局参数
+
+- `-v, --verbose`：显示 DEBUG 级别日志。
+- `-r, --root <path>`：指定 FaasRoot。
+- `-e, --env <name>`：指定运行环境，默认 `development`。

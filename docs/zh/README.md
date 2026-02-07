@@ -3,10 +3,10 @@ home: true
 heroImage: /logo.jpg
 heroText: FaasJS
 tagline: null
-footer: 一个基于 Typescript 的原子化应用框架 | MIT Licensed | Copyright © 2019-2024 Zhu Feng
+footer: 一个基于 TypeScript 的原子化应用框架 | MIT Licensed | Copyright © 2019-2026 Zhu Feng
 ---
 
-<div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:2em">一个基于 Typescript 的原子化应用框架</div>
+<div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:2em">一个基于 TypeScript 的原子化应用框架</div>
 
 ## 为什么要使用 FaasJS ？
 
@@ -48,29 +48,29 @@ export const func = useFunc(function() {
 
 ```ts
 // __tests__/index.test.ts 文件，单元测试文件名都以 .test.ts 结尾
-import { FuncWarper } from '@faasjs/test'
-import Func from '../index.func'
+import { test } from '@faasjs/test'
+import { func } from '../index.func'
 
 describe('index', function () {
-  test('should work', async function () {
-    // 引用云函数文件
-    const func = new FuncWarper(Func);
+  it('should work', async function () {
+    const testFunc = test(func)
 
     // 模拟调用
-    const { statusCode, data } = await func.JSONhandler()
+    const { statusCode, data } = await testFunc.JSONhandler<string>({
+      name: 'world'
+    })
 
     // 返回 200 状态
     expect(statusCode).toEqual(200)
-    // 返回的 data 内容为 'Hello, world'
     expect(data).toEqual('Hello, world')
-  });
-});
+  })
+})
 ```
 
 ## 立即开始
 
 ```bash
-npx create-faas-app --name faasjs --example --noprovider
+npx create-faas-app --name faasjs
 ```
 
 <div style="padding:0 2.5rem;text-align:center">

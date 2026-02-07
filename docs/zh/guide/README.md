@@ -15,9 +15,9 @@ FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 24.0
 
 ## 创建项目
 
-你可以直接使用 npx 一键创建新项目，初次创建可以先跳过 Provider 配置：
+你可以直接使用 npx 一键创建新项目：
 
-    npx create-faas-app --example --noprovider
+    npx create-faas-app --name faasjs
 
 ## 启动项目
 
@@ -47,4 +47,6 @@ FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 24.0
 
 ## 完整示例
 
-在 [https://github.com/faasjs/faasjs/tree/main/examples/simple](https://github.com/faasjs/faasjs/tree/main/examples/simple) 可以看到一个包含了代码检查、自动化测试的简单例子。
+可以参考官方 starter 模板：
+
+- [faasjs/starter](https://github.com/faasjs/starter)

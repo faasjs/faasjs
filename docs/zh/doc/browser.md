@@ -31,7 +31,9 @@ module.exports = {
 
 ### constructor (baseUrl?: string): FaasBrowserClient
 
-构建插件实例，`baseUrl` 为云函数网关的网址，若不传值则视为开发环境，会在当前域名下请求 `/_faas/` 路径下的接口。
+构建插件实例，`baseUrl` 默认为 `/`。
+
+注意：`baseUrl` 必须以 `/` 结尾，例如 `https://api.example.com/`。
 
 ### action (action: string, params?: any): Promise\<Response\>
 
