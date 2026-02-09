@@ -32,9 +32,12 @@ import { sep } from 'node:path'
 import { Logger } from '@faasjs/logger'
 import { Command } from 'commander'
 import { version } from '../package.json'
+import { BuildCommand } from './commands/build'
+import { CheckCommand } from './commands/check'
 import { DevCommand } from './commands/dev'
+import { InitCommand } from './commands/init'
 import { NewCommand } from './commands/new'
-import { ServerCommand } from './commands/server'
+import { StartCommand } from './commands/start'
 
 const commander = new Command()
 const logger = new Logger('Cli')
@@ -67,9 +70,12 @@ commander
   })
 
 // load commands
+InitCommand(commander)
 NewCommand(commander)
-ServerCommand(commander)
 DevCommand(commander)
+BuildCommand(commander)
+StartCommand(commander)
+CheckCommand(commander)
 
 export async function main(argv: string[]) {
   try {

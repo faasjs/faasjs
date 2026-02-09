@@ -67,7 +67,7 @@ export function viteFaasJsServer(
         port,
         command:
           options.command ||
-          `npm exec faas dev -- -p ${port} -r ${root}${base} -v`,
+          `npm exec faas start -- --api-only -p ${port} -r ${root} -v`,
       }
     },
     configureServer: async ({ middlewares }) => {

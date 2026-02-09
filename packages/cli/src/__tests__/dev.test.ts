@@ -1,10 +1,26 @@
-import { describe, it } from 'vitest'
+import { spawn } from 'node:child_process'
+import { describe, expect, it, vi } from 'vitest'
 import { action } from '../commands/dev'
 
-describe('server', () => {
-  it('should work', async () => {
-    const port = 4001 + Math.floor(Math.random() * 10)
+vi.mock('node:child_process', () => ({
+  spawn: vi.fn(() => ({
+    kill: vi.fn(),
+  })),
+}))
 
-    action({ port })
+describe('dev command', () => {
+  it('should start vite dev server', () => {
+    process.env.FaasRoot = '/tmp/faas-dev'
+
+    action({ port: 5173 })
+
+    expect(spawn).toHaveBeenCalledWith(
+      'npm exec vite -- --host 0.0.0.0 --port 5173',
+      {
+        cwd: '/tmp/faas-dev',
+        shell: true,
+        stdio: 'inherit',
+      }
+    )
   })
 })

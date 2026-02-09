@@ -1,22 +1,16 @@
 import { spawn } from 'node:child_process'
-import { join } from 'node:path'
 import type { Command } from 'commander'
-import { defaultsEnv } from '../helper'
+import { getRootPath } from '../helper'
 
-export function action(opts: { port?: number }): void {
-  defaultsEnv()
+export function action(opts: { port?: number | string }): void {
+  const port = Number(opts.port || 5173)
+  const rootPath = getRootPath()
 
-  const childProcess = spawn(
-    `FaasRoot=${process.env.FaasRoot} FaasPort=${opts.port || 3000} npm exec tsx watch ${join(__dirname, '..', 'devServer.ts')}`,
-    {
-      stdio: 'pipe',
-      shell: true,
-    }
-  )
-
-  childProcess.stdout.on('data', data => console.log(data.toString().trim()))
-
-  childProcess.stderr.on('data', data => console.error(data.toString().trim()))
+  const childProcess = spawn(`npm exec vite -- --host 0.0.0.0 --port ${port}`, {
+    cwd: rootPath,
+    stdio: 'inherit',
+    shell: true,
+  })
 
   process
     .on('SIGTERM', async () => {
@@ -32,13 +26,12 @@ export function action(opts: { port?: number }): void {
 export function DevCommand(program: Command): void {
   program
     .command('dev')
-    .name('dev')
-    .description('Start faas development server')
+    .description('Start Vite dev server')
+    .option('-p, --port <port>', 'Port', '5173')
     .on('--help', () => {
-      console.log(`
-Examples:
-  npm exec faas dev`)
+      console.log(
+        '\nExamples:\n  npm exec faas dev\n  npm exec faas dev -- --port 5173'
+      )
     })
-    .option('-p, --port <port>', 'Port', '3000')
     .action(action)
 }

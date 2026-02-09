@@ -20,8 +20,11 @@ bunx create-faas-app --name faasjs
 
 默认会生成：
 
-- `faas.yaml`
+- `src/faas.yaml`
 - `package.json`
 - `tsconfig.json`
-- `index.func.ts`
-- `__tests__/index.test.ts`
+- `vite.config.ts`
+- `server.ts`
+- `src/pages/home/index.tsx`
+- `src/pages/home/api/hello.func.ts`
+- `src/pages/home/api/__tests__/hello.test.ts`

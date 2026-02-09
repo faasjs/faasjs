@@ -36,22 +36,28 @@ describe('action', () => {
       name: 'test',
     })
 
-    expect(execs).toEqual(['cd test && npm install', 'cd test && npm run test'])
-    expect(dirs).toEqual(['test', 'test/.vscode', 'test/__tests__'])
-    expect(Object.keys(files)).toEqual([
-      'test/faas.yaml',
-      'test/package.json',
-      'test/tsconfig.json',
-      'test/.gitignore',
-      'test/.vscode/settings.json',
-      'test/.vscode/extensions.json',
-      'test/index.func.ts',
-      'test/__tests__/index.test.ts',
-    ])
+    expect(execs).toHaveLength(2)
+    expect(execs[0]).toMatch(/^cd test && (npm|bun) install$/)
+    expect(execs[1]).toMatch(/^cd test && (npm run test|bun test)$/)
+    expect(dirs).toContain('test')
+    expect(Object.keys(files)).toEqual(
+      expect.arrayContaining([
+        'test/package.json',
+        'test/tsconfig.json',
+        'test/biome.json',
+        'test/index.html',
+        'test/vite.config.ts',
+        'test/server.ts',
+        'test/src/faas.yaml',
+        'test/src/main.tsx',
+        'test/src/pages/home/index.tsx',
+        'test/src/pages/home/api/hello.func.ts',
+        'test/src/pages/home/api/__tests__/hello.test.ts',
+      ])
+    )
     expect(files['test/.gitignore']).toEqual(`node_modules/
-tmp/
+dist/
 coverage/
-*.tmp.js
 `)
   })
 })

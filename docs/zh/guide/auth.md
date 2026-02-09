@@ -59,12 +59,12 @@
 
 我们先通过命令行创建云函数文件：
 
-    npm exec faas new func users/signup http knex
+    npm exec faas new api users/signup
 
 然后在云函数文件中写业务代码：
 
 ```typescript
-// users/signup.func.ts
+// users/api/signup.func.ts
 import { useFunc } from '@faasjs/func';
 import { useKnex } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
@@ -114,7 +114,7 @@ export const func = useFunc(function () {
 为了验证我们写的代码是否正确，我们需要写单元测试代码。
 
 ```typescript
-// users/__tests__/signup.test.ts
+// users/api/__tests__/signup.test.ts
 import { useKnex } from '@faasjs/knex';
 import { FuncWarper } from '@faasjs/test';
 
@@ -159,10 +159,10 @@ describe('signin', function () {
 
 ## 登录流程
 
-    npm exec faas new func users/signin http knex
+    npm exec faas new api users/signin
 
 ```typescript
-// users/signin.func.ts
+// users/api/signin.func.ts
 import { useFunc } from '@faasjs/func';
 import { useKnex, query } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';
@@ -207,10 +207,10 @@ export const func = useFunc(function () {
 
 ## 登出流程
 
-    npm exec faas new func users/signout http
+    npm exec faas new api users/signout
 
 ```typescript
-// users/signout.func.ts
+// users/api/signout.func.ts
 import { useFunc } from '@faasjs/func';
 import { useHttp } from '@faasjs/http';
 
@@ -225,10 +225,10 @@ export const func = useFunc(function () {
 
 ## 修改密码流程
 
-    npm exec faas new func users/change-password http knex
+    npm exec faas new api users/change-password
 
 ```typescript
-// users/change-password.func.ts
+// users/api/change-password.func.ts
 import { useFunc } from '@faasjs/func';
 import { useKnex, query } from '@faasjs/knex';
 import { useHttp } from '@faasjs/http';

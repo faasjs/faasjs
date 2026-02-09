@@ -1,84 +1,93 @@
-import { execSync } from 'node:child_process'
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs'
+import { basename, dirname, join, resolve } from 'node:path'
+import { Logger } from '@faasjs/logger'
 import type { Command } from 'commander'
-import { prompt } from 'enquirer'
+import { getRootPath } from '../helper'
 
-const Validator = {
-  name(input: string) {
-    const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_'
-    if (match !== true) return match
-    if (existsSync(input))
-      return `${input} folder exists, please try another name`
+const logger = new Logger('Cli:init')
 
-    return true
-  },
+type InitOptions = {
+  force?: boolean
 }
 
-function writeFile(path: string, content: string): void {
-  mkdirSync(dirname(path), {
-    recursive: true,
-  })
+function writeFile(path: string, content: string, force = false): void {
+  if (existsSync(path) && !force) return
+
+  mkdirSync(dirname(path), { recursive: true })
   writeFileSync(path, content)
+  logger.info('Created %s', path)
 }
 
-function buildPackageJSON(name: string): string {
-  return `${JSON.stringify(
-    {
-      name,
-      private: true,
-      type: 'module',
-      version: '1.0.0',
-      scripts: {
-        dev: 'faas dev',
-        build: 'faas build',
-        start: 'faas start',
-        check: 'faas check',
-        test: 'vitest run',
-      },
-      dependencies: {
-        '@faasjs/http': '*',
-        faasjs: '*',
-        react: '*',
-        'react-dom': '*',
-        zod: '*',
-      },
-      devDependencies: {
-        '@biomejs/biome': '*',
-        '@faasjs/lint': '*',
-        '@faasjs/test': '*',
-        '@faasjs/vite': '*',
-        '@types/node': '*',
-        '@types/react': '*',
-        '@types/react-dom': '*',
-        '@vitejs/plugin-react': '*',
-        jsdom: '*',
-        typescript: '*',
-        vite: '*',
-        vitest: '*',
-      },
-    },
-    null,
-    2
-  )}
-`
+function ensureTargetDirectory(rootPath: string, force = false): void {
+  if (!existsSync(rootPath)) {
+    mkdirSync(rootPath, { recursive: true })
+    return
+  }
+
+  if (!force && readdirSync(rootPath).length > 0)
+    throw Error(
+      `Directory is not empty: ${rootPath}. Use --force to initialize anyway.`
+    )
 }
 
-function scaffold(rootPath: string): void {
+export function action(name: string | undefined, opts: InitOptions): void {
+  const rootPath = name ? resolve(process.cwd(), name) : getRootPath()
+
+  ensureTargetDirectory(rootPath, opts.force)
+
+  const projectName = basename(rootPath)
+
   writeFile(
     join(rootPath, '.gitignore'),
     `node_modules/
 dist/
 coverage/
-`
+`,
+    opts.force
   )
 
   writeFile(
-    join(rootPath, 'biome.json'),
-    `{
-  "extends": ["@faasjs/lint/biome"]
-}
-`
+    join(rootPath, 'package.json'),
+    `${JSON.stringify(
+      {
+        name: projectName,
+        private: true,
+        type: 'module',
+        version: '1.0.0',
+        scripts: {
+          dev: 'faas dev',
+          build: 'faas build',
+          start: 'faas start',
+          check: 'faas check',
+          test: 'vitest run',
+        },
+        dependencies: {
+          '@faasjs/http': '*',
+          faasjs: '*',
+          react: '*',
+          'react-dom': '*',
+          zod: '*',
+        },
+        devDependencies: {
+          '@biomejs/biome': '*',
+          '@faasjs/lint': '*',
+          '@faasjs/test': '*',
+          '@faasjs/vite': '*',
+          '@types/node': '*',
+          '@types/react': '*',
+          '@types/react-dom': '*',
+          '@vitejs/plugin-react': '*',
+          jsdom: '*',
+          typescript: '*',
+          vite: '*',
+          vitest: '*',
+        },
+      },
+      null,
+      2
+    )}
+`,
+    opts.force
   )
 
   writeFile(
@@ -94,7 +103,17 @@ coverage/
   },
   "include": ["src", "vite.config.ts", "server.ts"]
 }
-`
+`,
+    opts.force
+  )
+
+  writeFile(
+    join(rootPath, 'biome.json'),
+    `{
+  "extends": ["@faasjs/lint/biome"]
+}
+`,
+    opts.force
   )
 
   writeFile(
@@ -111,7 +130,8 @@ coverage/
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-`
+`,
+    opts.force
   )
 
   writeFile(
@@ -126,7 +146,8 @@ export default defineConfig({
   },
   plugins: [react(), viteFaasJsServer()],
 })
-`
+`,
+    opts.force
   )
 
   writeFile(
@@ -156,7 +177,8 @@ new Server(join(__dirname, 'src'), {
     await distHandler(req, res, ctx)
   },
 }).listen()
-`
+`,
+    opts.force
   )
 
   writeFile(
@@ -172,7 +194,8 @@ new Server(join(__dirname, 'src'), {
 development:
 testing:
 production:
-`
+`,
+    opts.force
   )
 
   writeFile(
@@ -181,7 +204,8 @@ production:
 import HomePage from './pages/home'
 
 createRoot(document.getElementById('root') as HTMLElement).render(<HomePage />)
-`
+`,
+    opts.force
   )
 
   writeFile(
@@ -232,7 +256,8 @@ export default function HomePage() {
     </main>
   )
 }
-`
+`,
+    opts.force
   )
 
   writeFile(
@@ -257,7 +282,8 @@ export const func = useHttpFunc<z.infer<typeof schema>>(() => {
     }
   }
 })
-`
+`,
+    opts.force
   )
 
   writeFile(
@@ -279,48 +305,28 @@ describe('home/api/hello', () => {
     })
   })
 })
-`
-  )
-}
-
-export async function action(options: { name?: string } = {}): Promise<void> {
-  const answers: {
-    name?: string
-  } = Object.assign(options, {})
-
-  if (!options.name || Validator.name(options.name) !== true)
-    answers.name = await prompt<{ value: string }>({
-      type: 'input',
-      name: 'value',
-      message: 'Project name',
-      initial: 'faasjs',
-      validate: Validator.name,
-    }).then(res => res.value)
-
-  if (!answers.name) return
-
-  const runtime = process.versions.bun ? 'bun' : 'npm'
-
-  mkdirSync(answers.name)
-
-  writeFileSync(
-    join(answers.name, 'package.json'),
-    buildPackageJSON(answers.name)
+`,
+    opts.force
   )
 
-  scaffold(answers.name)
-
-  execSync(`cd ${answers.name} && ${runtime} install`, { stdio: 'inherit' })
-
-  if (runtime === 'bun') {
-    execSync(`cd ${answers.name} && bun test`, { stdio: 'inherit' })
-  } else execSync(`cd ${answers.name} && npm run test`, { stdio: 'inherit' })
+  logger.info('Done. Run npm install to install dependencies.')
 }
 
-export default function (program: Command): void {
+export function InitCommand(program: Command): void {
   program
-    .description('Create a new faas app')
-    .on('--help', () => console.log('Examples:\nnpx create-faas-app'))
-    .option('--name <name>', 'Project name')
+    .command('init [name]')
+    .description(
+      'Initialize a FaasJS app in current directory or target folder'
+    )
+    .option(
+      '-f, --force',
+      'Initialize even if target directory is not empty',
+      false
+    )
+    .on('--help', () => {
+      console.log(
+        '\nExamples:\n  npm exec faas init\n  npm exec faas init my-app'
+      )
+    })
     .action(action)
 }

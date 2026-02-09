@@ -58,7 +58,7 @@ describe('viteFaasJsServer', () => {
     })
 
     expect(spawn).toHaveBeenCalledWith(
-      'npm exec faas dev -- -p 3000 -r /test/root/test/base/ -v',
+      'npm exec faas start -- --api-only -p 3000 -r /test/root -v',
       { stdio: 'pipe', shell: true }
     )
   })
@@ -79,7 +79,7 @@ describe('viteFaasJsServer', () => {
     })
 
     expect(spawn).toHaveBeenCalledWith(
-      'npm exec faas dev -- -p 4000 -r /custom/root/custom/base -v',
+      'npm exec faas start -- --api-only -p 4000 -r /custom/root -v',
       {
         stdio: 'pipe',
         shell: true,

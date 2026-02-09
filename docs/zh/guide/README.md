@@ -21,7 +21,7 @@ FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 24.0
 
 ## 启动项目
 
-执行 `npm exec faas server`，用浏览器打开 `http://localhost:3000/hello` 即可看到 hello.func.ts 的执行结果。
+执行 `npm run dev` 启动开发环境；若要启动生产服务，执行 `npm run build && npm run start`。
 
 ## 文件结构
 
@@ -31,9 +31,9 @@ FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 24.0
 
 ### tsconfig.json
 
-这个文件的内容仅仅为 `{}`，因为 FaasJS 本身对 Typescript 没有特殊的配置需求，你可以根据实际情况进行定制化配置。
+这个文件默认包含 TypeScript 严格模式、React JSX 以及 `vitest/globals` 类型配置，可在此基础上按需扩展。
 
-### faas.yaml
+### src/faas.yaml
 
 这是 FaasJS 的配置文件，记录了云服务商的配置项和插件的配置项。
 
