@@ -41,9 +41,7 @@ Dynamic routing:
 - `/*` -> `default.func.ts`
 - `/path/*` -> `path/default.func.ts`
 
-### Zero-mapping SPA API convention (recommended)
-
-For full-stack SPA projects, we recommend placing files under `src/pages`:
+## Zero-mapping SPA API convention (recommended)
 
 - page component: `src/pages/<page>/index.tsx`
 - page APIs: `src/pages/<page>/api/*.func.ts`

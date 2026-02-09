@@ -12,7 +12,7 @@ const packages = new Glob('../packages/**/*.md').scanSync()
 
 for (const file of packages) {
   const target = file.replace('../packages/', './doc/')
-  run(`mkdir -p ${dirname(target)} &`)
+  run(`mkdir -p ${dirname(target)}`)
   run(`cp ${file} ${target}`)
 }
 
@@ -46,7 +46,7 @@ const images = new Glob('../images/**/*.md').scanSync()
 
 for (const file of images) {
   const target = file.replace('../images/', './doc/images/')
-  run(`mkdir -p ${dirname(target)} &`)
+  run(`mkdir -p ${dirname(target)}`)
   run(`cp ${file} ${target}`)
 
   if (file === '../images/README.md') continue
