@@ -55,6 +55,17 @@ describe('action', () => {
         'test/src/pages/home/api/__tests__/hello.test.ts',
       ])
     )
+
+    const packageJSON = JSON.parse(files['test/package.json'])
+
+    expect(packageJSON.scripts).toEqual({
+      dev: 'vite',
+      build: 'vite build',
+      start: 'node server.ts',
+      check: 'tsc --noEmit && biome check .',
+      test: 'vitest run',
+    })
+
     expect(files['test/.gitignore']).toEqual(`node_modules/
 dist/
 coverage/

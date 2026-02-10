@@ -30,10 +30,10 @@ function buildPackageJSON(name: string): string {
       type: 'module',
       version: '1.0.0',
       scripts: {
-        dev: 'faas dev',
-        build: 'faas build',
-        start: 'faas start',
-        check: 'faas check',
+        dev: 'vite',
+        build: 'vite build',
+        start: 'node server.ts',
+        check: 'tsc --noEmit && biome check .',
         test: 'vitest run',
       },
       dependencies: {
