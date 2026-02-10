@@ -24,33 +24,53 @@
  * })
  * ```
  *
+ * The plugin starts an in-process FaasJS server during Vite development.
+ *
  * ## Options
  *
  * See {@link ViteFaasJsServerOptions} for more options.
  *
  * @packageDocumentation
  */
-import { type ChildProcessWithoutNullStreams, spawn } from 'node:child_process'
-import { request } from 'node:http'
+import { join } from 'node:path'
 import { Logger } from '@faasjs/logger'
+import { Server } from '@faasjs/server'
 import type { Plugin } from 'vite'
 
 export type ViteFaasJsServerOptions = {
-  /** faas server root path, default is vite's root */
+  /** faas project root path, default is vite's root */
   root: string
   /** faas server base path, default is vite's base */
   base: string
-  /** faas server port, 3000 as default */
-  port: number
-  /** custom command to run the faas server */
-  command: string
+}
+
+function normalizeBase(base: string): string {
+  const normalized = base.startsWith('/') ? base : `/${base}`
+
+  if (normalized === '/') return '/'
+
+  return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
+}
+
+function stripBase(url: string, base: string): string {
+  if (base === '/') return url
+
+  const queryIndex = url.indexOf('?')
+  const pathname = queryIndex >= 0 ? url.slice(0, queryIndex) : url
+  const search = queryIndex >= 0 ? url.slice(queryIndex) : ''
+
+  if (pathname === base) return `/${search}`
+
+  if (pathname.startsWith(`${base}/`)) return `${pathname.slice(base.length)}${search}`
+
+  return url
 }
 
 export function viteFaasJsServer(
-  options: Partial<ViteFaasJsServerOptions> = {}
+  options: Partial<ViteFaasJsServerOptions> & Record<string, unknown> = {}
 ): Plugin {
   let config: ViteFaasJsServerOptions
-  let childProcess: ChildProcessWithoutNullStreams | null = null
+  let server: Server | null = null
   const logger = new Logger('FaasJs:Vite')
 
   return {
@@ -58,16 +78,11 @@ export function viteFaasJsServer(
     enforce: 'pre' as const,
     configResolved(resolvedConfig) {
       const root = options.root || resolvedConfig.root
-      const base = options.base || resolvedConfig.base
-      const port = options.port || 3000
+      const base = normalizeBase(options.base || resolvedConfig.base)
 
       config = {
         root,
         base,
-        port,
-        command:
-          options.command ||
-          `npm exec faas start -- --api-only -p ${port} -r ${root} -v`,
       }
     },
     configureServer: async ({ middlewares }) => {
@@ -78,103 +93,39 @@ export function viteFaasJsServer(
 
       if (!config) throw new Error('viteFaasJsServer: config is not resolved')
 
-      if (childProcess) {
-        childProcess.kill()
-        childProcess = null
-      }
-
-      childProcess = spawn(config.command, {
-        stdio: 'pipe',
-        shell: true,
-      })
-
-      childProcess.stdout.on('data', data => logger.raw(data.toString().trim()))
-
-      childProcess.stderr.on('data', data => logger.raw(data.toString().trim()))
+      server = new Server(join(config.root, 'src'))
 
       middlewares.use(async (req, res, next) => {
-        if (!req.url || req.method !== 'POST') return next()
+        if (!req.url || req.method !== 'POST' || !server) return next()
+
+        const originalUrl = req.url
+        const strippedUrl = stripBase(req.url, config.base)
+        req.url = strippedUrl
 
         try {
-          const targetUrl = `http://localhost:${config.port}${req.url.replace(config.base, '/')}`
+          logger.debug(`Request ${req.url}`)
 
-          let body = null
-
-          const chunks = []
-          for await (const chunk of req) {
-            chunks.push(chunk)
-          }
-          body = Buffer.concat(chunks).toString()
-
-          try {
-            if (body) body = JSON.parse(body)
-          } catch (e) {
-            logger.error('Failed to parse JSON:', e)
-          }
-
-          const headers: Record<string, any> = {}
-          for (const [key, value] of Object.entries(req.headers))
-            if (!['host', 'connection'].includes(key)) headers[key] = value
-
-          return new Promise(resolve => {
-            logger.debug(`Request ${targetUrl}`)
-            try {
-              const proxyReq = request(
-                targetUrl,
-                {
-                  method: 'POST',
-                  headers,
-                },
-                proxyRes => {
-                  res.statusCode = proxyRes.statusCode || 200
-
-                  for (const key of Object.keys(proxyRes.headers)) {
-                    const value = proxyRes.headers[key]
-                    if (value) res.setHeader(key, value)
-                  }
-
-                  proxyRes.pipe(res)
-                }
-              )
-
-              if (body) {
-                proxyReq.write(JSON.stringify(body))
-              }
-
-              proxyReq.on('error', err => {
-                logger.error(err)
-                next()
-                resolve()
-              })
-
-              proxyReq.end()
-            } catch (err) {
-              logger.error(err)
-              if (!res.headersSent) {
-                res.writeHead(500, { 'Content-Type': 'application/json' })
-                res.write(
-                  JSON.stringify({
-                    error: { message: 'Internal Server Error' },
-                  })
-                )
-                res.end()
-              }
-              next()
-              resolve()
-            }
+          await server.handle(req, res, {
+            requestedAt: Date.now(),
           })
         } catch (error: any) {
           logger.error(error)
 
-          return next()
+          if (!res.headersSent && !res.writableEnded) {
+            res.writeHead(500, { 'Content-Type': 'application/json' })
+            res.write(
+              JSON.stringify({
+                error: { message: 'Internal Server Error' },
+              })
+            )
+            res.end()
+          }
+        } finally {
+          req.url = originalUrl
         }
+
+        if (!res.writableEnded) next()
       })
-    },
-    closeBundle() {
-      if (childProcess) {
-        childProcess.kill()
-        childProcess = null
-      }
     },
   }
 }

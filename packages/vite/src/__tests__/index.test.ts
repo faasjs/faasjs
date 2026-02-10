@@ -1,46 +1,47 @@
-import { spawn } from 'node:child_process'
-import { request } from 'node:http'
+import type { AddressInfo } from 'node:net'
+import { join } from 'node:path'
 import { createServer } from 'vite'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { viteFaasJsServer } from '../index'
 
-vi.mock('node:child_process', () => ({
-  spawn: vi.fn(),
-}))
+const mocks = vi.hoisted(() => {
+  const calls: any[][] = []
+  const handle = vi.fn(async (req: any, res: any, _options?: any) => {
+    res.statusCode = 200
+    res.setHeader('content-type', 'application/json')
+    res.end(
+      JSON.stringify({
+        success: true,
+        method: req.method,
+        url: req.url,
+      })
+    )
+  })
 
-vi.mock('node:http', async () => ({
-  request: vi.fn(),
+  class ServerMock {
+    constructor(...args: any[]) {
+      calls.push(args)
+    }
+
+    handle = handle
+  }
+
+  return {
+    calls,
+    handle,
+    ServerMock,
+  }
+})
+
+vi.mock('@faasjs/server', () => ({
+  Server: mocks.ServerMock,
 }))
 
 describe('viteFaasJsServer', () => {
-  let mockChildProcess: any
-
-  beforeEach(async () => {
+  beforeEach(() => {
     process.env.VITEST = ''
-    mockChildProcess = {
-      stdout: { on: vi.fn() },
-      stderr: { on: vi.fn() },
-      kill: vi.fn(),
-    }
-    vi.mocked(spawn).mockReturnValue(mockChildProcess)
-    vi.mocked(request).mockImplementation((_url, _options, callback) => {
-      callback({
-        statusCode: 200,
-        headers: {
-          'content-type': 'application/json',
-        },
-        pipe: vi.fn(res => {
-          res.write(JSON.stringify({ success: true }))
-          res.end()
-          return res
-        }),
-      } as any)
-      return {
-        on: vi.fn(),
-        end: vi.fn(),
-        write: vi.fn(),
-      } as any
-    })
+    mocks.calls.length = 0
+    vi.clearAllMocks()
   })
 
   afterEach(() => {
@@ -49,84 +50,93 @@ describe('viteFaasJsServer', () => {
   })
 
   it('should resolve config with default options', async () => {
-    await createServer({
+    const server = await createServer({
       configFile: false,
       root: '/test/root',
-      base: '/test/base',
+      base: '/test/base/',
       logLevel: 'silent',
       plugins: [viteFaasJsServer()],
     })
 
-    expect(spawn).toHaveBeenCalledWith(
-      'npm exec faas start -- --api-only -p 3000 -r /test/root -v',
-      { stdio: 'pipe', shell: true }
-    )
+    expect(mocks.calls).toHaveLength(1)
+    expect(mocks.calls[0][0]).toBe(join('/test/root', 'src'))
+
+    await server.close()
   })
 
-  it('should resolve config with custom options', async () => {
-    await createServer({
-      configFile: false,
-      root: '/test/root',
-      base: '/test/base',
-      logLevel: 'silent',
-      plugins: [
-        viteFaasJsServer({
-          root: '/custom/root',
-          base: '/custom/base',
-          port: 4000,
-        }),
-      ],
-    })
-
-    expect(spawn).toHaveBeenCalledWith(
-      'npm exec faas start -- --api-only -p 4000 -r /custom/root -v',
-      {
-        stdio: 'pipe',
-        shell: true,
-      }
-    )
-  })
-
-  it('should resolve config with custom command', async () => {
-    await createServer({
-      configFile: false,
-      root: '/test/root',
-      base: '/test/base',
-      logLevel: 'silent',
-      plugins: [
-        viteFaasJsServer({
-          root: '/custom/root',
-          base: '/custom/base',
-          port: 4000,
-          command: 'custom-command',
-        }),
-      ],
-    })
-
-    expect(spawn).toHaveBeenCalledWith('custom-command', {
-      stdio: 'pipe',
-      shell: true,
-    })
-  })
-
-  it('should work with request', async () => {
+  it('should resolve config with custom root and ignore removed options', async () => {
     const server = await createServer({
       configFile: false,
       root: '/test/root',
-      base: '/test/base',
+      base: '/test/base/',
+      logLevel: 'silent',
+      plugins: [
+        viteFaasJsServer({
+          root: '/custom/root',
+          base: '/custom/base/',
+          port: 4000,
+          command: 'ignored',
+        }),
+      ],
+    })
+
+    expect(mocks.calls).toHaveLength(1)
+    expect(mocks.calls[0][0]).toBe(join('/custom/root', 'src'))
+
+    await server.close()
+  })
+
+  it('should route post request to in-process server with stripped base', async () => {
+    const server = await createServer({
+      configFile: false,
+      root: '/test/root',
+      base: '/test/base/',
       logLevel: 'silent',
       plugins: [viteFaasJsServer()],
     })
 
     await server.listen()
 
-    expect(
-      await fetch(
-        `http://localhost:${server.config.server.port}/test/base/123`,
-        { method: 'POST' }
-      ).then(res => res.text())
-    ).toBe(JSON.stringify({ success: true }))
+    const port = (server.httpServer?.address() as AddressInfo).port
+    const response = await fetch(
+      `http://localhost:${port}/test/base/home/api/hello?name=world`,
+      {
+        method: 'POST',
+      }
+    ).then(res => res.json())
 
-    expect(request).toHaveBeenCalled()
+    expect(response).toEqual({
+      success: true,
+      method: 'POST',
+      url: '/home/api/hello?name=world',
+    })
+
+    expect(mocks.handle).toHaveBeenCalledTimes(1)
+    expect(mocks.handle.mock.calls[0][2]).toEqual({
+      requestedAt: expect.any(Number),
+    })
+
+    await server.close()
+  })
+
+  it('should skip non-post request', async () => {
+    const server = await createServer({
+      configFile: false,
+      root: '/test/root',
+      base: '/test/base/',
+      logLevel: 'silent',
+      plugins: [viteFaasJsServer()],
+    })
+
+    await server.listen()
+
+    const port = (server.httpServer?.address() as AddressInfo).port
+    await fetch(`http://localhost:${port}/test/base/home/api/hello`, {
+      method: 'GET',
+    })
+
+    expect(mocks.handle).not.toHaveBeenCalled()
+
+    await server.close()
   })
 })

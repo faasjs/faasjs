@@ -8,7 +8,7 @@
 
 ### options
 
-`Partial`\<[`ViteFaasJsServerOptions`](../type-aliases/ViteFaasJsServerOptions.md)\> = `{}`
+`Partial`\<[`ViteFaasJsServerOptions`](../type-aliases/ViteFaasJsServerOptions.md)\> & `Record`\<`string`, `unknown`\> = `{}`
 
 ## Returns
 

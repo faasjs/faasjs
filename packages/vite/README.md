@@ -25,6 +25,8 @@ export default defineConfig({
 })
 ```
 
+The plugin starts an in-process FaasJS server during Vite development.
+
 ## Options
 
 See [ViteFaasJsServerOptions](type-aliases/ViteFaasJsServerOptions.md) for more options.
