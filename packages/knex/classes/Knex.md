@@ -78,7 +78,7 @@
 
 ### raw()
 
-> **raw**\<`TResult`\>(`sql`, `bindings`): `Promise`\<`Raw`\<`TResult`\>\>
+> **raw**\<`TResult`\>(`sql`, `bindings?`): `Promise`\<`Raw`\<`TResult`\>\>
 
 #### Type Parameters
 
@@ -92,7 +92,7 @@
 
 `string`
 
-##### bindings
+##### bindings?
 
 `ValueDict` | `RawBinding`[]
 

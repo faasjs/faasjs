@@ -6,6 +6,20 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Beta
 
+[`v8.0.0-beta.4 (2026-02-10)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.3...v8.0.0-beta.4)
+
+- `faasjs`
+  - [Break] Remove `@faasjs/cli` package.
+
+- `create-faas-app`
+  - [Break] Switch scaffold to SPA-first structure with `vite.config.ts`, `server.ts` and `src/pages/**`.
+  - [Feature] Scaffold example page, API and test files aligned with zero-mapping route convention.
+
+- `@faasjs/vite`
+  - [Break] Remove `command` and `port` options from `viteFaasJsServer`, keep `root` and `base`.
+  - [Feature] Run Faas API in-process with `@faasjs/server` during Vite development.
+  - [Fix] Normalize base-path routing before handing requests to FaasJS server.
+
 [`v8.0.0-beta.3 (2026-01-29)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.2...v8.0.0-beta.3)
 
 - `faasjs`

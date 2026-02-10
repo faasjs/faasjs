@@ -201,7 +201,7 @@ export default defineUserConfig({
             {
               title: '命令行插件',
               collapsable: false,
-              children: ['cli', 'create-faas-app'],
+              children: ['create-faas-app'],
             },
             {
               title: '工具插件',

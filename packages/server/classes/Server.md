@@ -28,7 +28,7 @@ server.listen()
 
 ### Constructor
 
-> **new Server**(`root`, `opts`): `Server`
+> **new Server**(`root`, `opts?`): `Server`
 
 #### Parameters
 
@@ -36,7 +36,7 @@ server.listen()
 
 `string`
 
-##### opts
+##### opts?
 
 [`ServerOptions`](../type-aliases/ServerOptions.md) = `{}`
 
@@ -58,7 +58,7 @@ Close server.
 
 ### handle()
 
-> **handle**(`req`, `res`, `options`): `Promise`\<`void`\>
+> **handle**(`req`, `res`, `options?`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -70,7 +70,7 @@ Close server.
 
 `ServerResponse`\<`IncomingMessage`\>
 
-##### options
+##### options?
 
 [`ServerHandlerOptions`](../type-aliases/ServerHandlerOptions.md) = `{}`
 

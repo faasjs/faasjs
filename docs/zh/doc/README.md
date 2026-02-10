@@ -15,8 +15,7 @@
 
 | Name                                                                       | Stable                                                                                                                          | Beta                                                                                                                        |
 | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| [@faasjs/cli](https://github.com/faasjs/faasjs/tree/main/packages/cli)     | [![NPM Stable Version](https://img.shields.io/npm/v/@faasjs/cli/stable.svg)](https://www.npmjs.com/package/@faasjs/cli)         | [![NPM Beta Version](https://img.shields.io/npm/v/@faasjs/cli/beta.svg)](https://www.npmjs.com/package/@faasjs/cli)         |
-| [create-faas-app](https://github.com/faasjs/faasjs/tree/main/packages/cli) | [![NPM Stable Version](https://img.shields.io/npm/v/create-faas-app/stable.svg)](https://www.npmjs.com/package/create-faas-app) | [![NPM Beta Version](https://img.shields.io/npm/v/create-faas-app/beta.svg)](https://www.npmjs.com/package/create-faas-app) |
+| [create-faas-app](https://github.com/faasjs/faasjs/tree/main/packages/create-faas-app) | [![NPM Stable Version](https://img.shields.io/npm/v/create-faas-app/stable.svg)](https://www.npmjs.com/package/create-faas-app) | [![NPM Beta Version](https://img.shields.io/npm/v/create-faas-app/beta.svg)](https://www.npmjs.com/package/create-faas-app) |
 
 ## 工具插件
 

@@ -2,19 +2,19 @@
 
 # Function: generateId()
 
-> **generateId**(`prefix`, `length`): `string`
+> **generateId**(`prefix?`, `length?`): `string`
 
 Generate random id with prefix
 
 ## Parameters
 
-### prefix
+### prefix?
 
 `string` = `''`
 
 prefix of id
 
-### length
+### length?
 
 `number` = `18`
 

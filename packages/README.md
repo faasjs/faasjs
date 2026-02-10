@@ -13,8 +13,7 @@
 
 |Name|Version|
 |---|---|
-|[@faasjs/cli](https://github.com/faasjs/faasjs/tree/main/packages/cli)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/cli.svg)](https://www.npmjs.com/package/@faasjs/cli)|
-|[create-faas-app](https://github.com/faasjs/faasjs/tree/main/packages/cli)|[![NPM Version](https://img.shields.io/npm/v/create-faas-app.svg)](https://www.npmjs.com/package/create-faas-app)|
+|[create-faas-app](https://github.com/faasjs/faasjs/tree/main/packages/create-faas-app)|[![NPM Version](https://img.shields.io/npm/v/create-faas-app.svg)](https://www.npmjs.com/package/create-faas-app)|
 
 ## Utils
 

@@ -2,7 +2,7 @@
 
 # Function: useFaasStream()
 
-> **useFaasStream**(`action`, `defaultParams`, `options`): [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)
+> **useFaasStream**(`action`, `defaultParams`, `options?`): [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)
 
 Stream faas server response with React hook
 
@@ -20,7 +20,7 @@ Stream faas server response with React hook
 
 {object} initial action params
 
-### options
+### options?
 
 [`UseFaasStreamOptions`](../type-aliases/UseFaasStreamOptions.md) = `{}`
 

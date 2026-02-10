@@ -37,7 +37,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### handler()
 
-> **handler**\<`TResult`\>(`event`, `context`): `Promise`\<`TResult`\>
+> **handler**\<`TResult`\>(`event?`, `context?`): `Promise`\<`TResult`\>
 
 #### Type Parameters
 
@@ -47,11 +47,11 @@ expect(await func.handler()).toEqual('Hello, world')
 
 #### Parameters
 
-##### event
+##### event?
 
 `any` = `...`
 
-##### context
+##### context?
 
 `any` = `...`
 

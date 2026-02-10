@@ -57,9 +57,7 @@
 
 我们按上面列出的业务逻辑顺序，来写云函数，首先是注册流程。
 
-我们先通过命令行创建云函数文件：
-
-    npm exec faas new api users/signup
+我们先手动创建云函数文件 `users/api/signup.func.ts`：
 
 然后在云函数文件中写业务代码：
 
@@ -159,7 +157,7 @@ describe('signin', function () {
 
 ## 登录流程
 
-    npm exec faas new api users/signin
+先创建 `users/api/signin.func.ts` 文件：
 
 ```typescript
 // users/api/signin.func.ts
@@ -207,7 +205,7 @@ export const func = useFunc(function () {
 
 ## 登出流程
 
-    npm exec faas new api users/signout
+先创建 `users/api/signout.func.ts` 文件：
 
 ```typescript
 // users/api/signout.func.ts
@@ -225,7 +223,7 @@ export const func = useFunc(function () {
 
 ## 修改密码流程
 
-    npm exec faas new api users/change-password
+先创建 `users/api/change-password.func.ts` 文件：
 
 ```typescript
 // users/api/change-password.func.ts

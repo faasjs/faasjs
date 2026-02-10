@@ -128,7 +128,7 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 ### time()
 
-> **time**(`key`, `level`): `Logger`
+> **time**(`key`, `level?`): `Logger`
 
 Start a timer with a specific key and log level.
 
@@ -140,7 +140,7 @@ Start a timer with a specific key and log level.
 
 The unique identifier for the timer.
 
-##### level
+##### level?
 
 [`Level`](../type-aliases/Level.md) = `'debug'`
 

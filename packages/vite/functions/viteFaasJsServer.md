@@ -2,11 +2,11 @@
 
 # Function: viteFaasJsServer()
 
-> **viteFaasJsServer**(`options`): `Plugin`
+> **viteFaasJsServer**(`options?`): `Plugin`
 
 ## Parameters
 
-### options
+### options?
 
 `Partial`\<[`ViteFaasJsServerOptions`](../type-aliases/ViteFaasJsServerOptions.md)\> & `Record`\<`string`, `unknown`\> = `{}`
 

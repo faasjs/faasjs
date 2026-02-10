@@ -102,7 +102,7 @@ set body
 
 ### setContentType()
 
-> **setContentType**(`type`, `charset`): `Http`\<`TParams`, `TCookie`, `TSession`\>
+> **setContentType**(`type`, `charset?`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
 set Content-Type
 
@@ -114,7 +114,7 @@ set Content-Type
 
 {string} 类型
 
-##### charset
+##### charset?
 
 `string` = `'utf-8'`
 

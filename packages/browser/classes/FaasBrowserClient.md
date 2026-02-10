@@ -79,19 +79,19 @@ When baseUrl does not end with '/'
 
 ### Constructor
 
-> **new FaasBrowserClient**(`baseUrl`, `options`): `FaasBrowserClient`
+> **new FaasBrowserClient**(`baseUrl?`, `options?`): `FaasBrowserClient`
 
 Creates a new FaasBrowserClient instance.
 
 #### Parameters
 
-##### baseUrl
+##### baseUrl?
 
 `` `${string}/` `` = `'/'`
 
 Base URL for all API requests. Must end with '/'. Defaults to '/' for relative requests.
 
-##### options
+##### options?
 
 [`Options`](../type-aliases/Options.md) = `...`
 

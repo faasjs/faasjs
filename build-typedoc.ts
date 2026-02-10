@@ -32,7 +32,13 @@ function findNodeBinary(): string | null {
   return null
 }
 
-const typedocCli = join(process.cwd(), 'node_modules', 'typedoc', 'bin', 'typedoc')
+const typedocCli = join(
+  process.cwd(),
+  'node_modules',
+  'typedoc',
+  'bin',
+  'typedoc'
+)
 
 if (!existsSync(typedocCli)) {
   console.error(`Cannot find TypeDoc CLI: ${typedocCli}`)

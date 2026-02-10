@@ -2,13 +2,13 @@
 
 # Function: FaasReactClient()
 
-> **FaasReactClient**(`__namedParameters`): `FaasReactClientInstance`
+> **FaasReactClient**(`__namedParameters?`): `FaasReactClientInstance`
 
 Before use faas, you should initialize a FaasReactClient.
 
 ## Parameters
 
-### \_\_namedParameters
+### \_\_namedParameters?
 
 [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md) = `...`
 

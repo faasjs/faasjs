@@ -2,7 +2,7 @@
 
 # Function: useFaas()
 
-> **useFaas**\<`PathOrData`\>(`action`, `defaultParams`, `options`): `FaasDataInjection`\<`PathOrData`\>
+> **useFaas**\<`PathOrData`\>(`action`, `defaultParams`, `options?`): `FaasDataInjection`\<`PathOrData`\>
 
 Request faas server with React hook
 
@@ -26,7 +26,7 @@ Request faas server with React hook
 
 {object} initial action params
 
-### options
+### options?
 
 `useFaasOptions`\<`PathOrData`\> = `{}`
 

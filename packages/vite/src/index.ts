@@ -61,7 +61,8 @@ function stripBase(url: string, base: string): string {
 
   if (pathname === base) return `/${search}`
 
-  if (pathname.startsWith(`${base}/`)) return `${pathname.slice(base.length)}${search}`
+  if (pathname.startsWith(`${base}/`))
+    return `${pathname.slice(base.length)}${search}`
 
   return url
 }

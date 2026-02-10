@@ -76,13 +76,13 @@ Invoke the function
 
 ### mount()
 
-> **mount**(`data`): `Promise`\<`void`\>
+> **mount**(`data?`): `Promise`\<`void`\>
 
 First time mount the function
 
 #### Parameters
 
-##### data
+##### data?
 
 ###### config?
 
