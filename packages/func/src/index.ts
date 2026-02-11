@@ -18,6 +18,7 @@
  */
 
 import { randomBytes } from 'node:crypto'
+import { fileURLToPath } from 'node:url'
 import { Logger } from '@faasjs/logger'
 import { RunHandler } from './plugins/run_handler'
 
@@ -114,6 +115,40 @@ export type FuncEventType<T extends Func<any, any, any>> =
 export type FuncReturnType<T extends Func<any, any, any>> =
   T extends Func<any, any, infer R> ? R : any
 
+export function parseFuncFilenameFromStack(
+  stack?: string
+): string | undefined {
+  if (!stack) return
+
+  const frame = stack
+    .split('\n')
+    .map(line => line.trim())
+    .find(line => line.includes('.func.ts'))
+
+  if (!frame) return
+
+  const content = frame.replace(/^at\s+/, '')
+  const location =
+    content.endsWith(')') && content.includes('(')
+      ? content.slice(content.lastIndexOf('(') + 1, -1)
+      : content
+  const match = location.match(/^(.+\.func\.ts):\d+:\d+$/)
+
+  if (!match) return
+
+  const filename = match[1]
+
+  if (filename.startsWith('file://')) {
+    try {
+      return fileURLToPath(filename)
+    } catch (_) {
+      return filename
+    }
+  }
+
+  return filename
+}
+
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any
   public plugins: Plugin[]
@@ -140,16 +175,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
 
     try {
-      const stack = new Error().stack
-      if (stack) {
-        const match = stack
-          .split('\n')
-          .find(s => /[^/]\.func\.ts/.test(s))
-          ?.match(/\((.*\.func\.ts).*\)/)
-        if (match) {
-          this.filename = match[1]
-        }
-      }
+      this.filename = parseFuncFilenameFromStack(new Error().stack)
     } catch (_) {}
   }
 
