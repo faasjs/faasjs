@@ -1,14 +1,18 @@
 import { execSync } from 'node:child_process'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { globSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
-import { Glob } from 'bun'
 
 function run(cmd: string) {
   console.log(cmd)
   execSync(cmd, { stdio: 'inherit' })
 }
 
-const packages = new Glob('../packages/**/*.md').scanSync()
+// Clear previously generated docs to avoid stale pages breaking VuePress build.
+rmSync('./doc', { recursive: true, force: true })
+run('mkdir -p ./doc')
+writeFileSync('./doc/.keep', '')
+
+const packages = globSync('../packages/**/*.md')
 
 for (const file of packages) {
   const target = file.replace('../packages/', './doc/')
@@ -18,7 +22,7 @@ for (const file of packages) {
 
 writeFileSync(
   './doc/README.md',
-  readFileSync(`${__dirname}/../packages/README.md`, 'utf-8')
+  readFileSync(`../packages/README.md`, 'utf-8')
     .toString()
     .replaceAll(
       /https:\/\/github.com\/faasjs\/faasjs\/tree\/main\/packages\/([^)]+)/g,
@@ -26,7 +30,7 @@ writeFileSync(
     )
 )
 
-const files = new Glob('./doc/**/*.md').scanSync()
+const files = globSync('./doc/**/*.md')
 
 for (const file of files) {
   if (file === 'doc/README.md') continue
@@ -42,7 +46,7 @@ for (const file of files) {
   writeFileSync(file, content)
 }
 
-const images = new Glob('../images/**/*.md').scanSync()
+const images = globSync('../images/**/*.md')
 
 for (const file of images) {
   const target = file.replace('../images/', './doc/images/')
@@ -61,12 +65,12 @@ for (const file of images) {
 
 writeFileSync(
   './doc/images/README.md',
-  readFileSync(`${__dirname}/doc/images/README.md`, 'utf-8')
+  readFileSync(`./doc/images/README.md`, 'utf-8')
     .toString()
     .replaceAll('https://faasjs.com', '')
 )
 
-const roots = new Glob('../*.md').scanSync()
+const roots = globSync('../*.md')
 
 for (const file of roots) {
   if (file === '../README.md') continue

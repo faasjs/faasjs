@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vuepress dev . --debug",
-    "build": "bun prepare.ts && vuepress build ."
+    "build": "node prepare.ts && vuepress build ."
   },
   "devDependencies": {
     "vuepress": "next",
@@ -14,7 +14,6 @@
     "@vuepress/plugin-google-analytics": "next",
     "@vuepress/plugin-search": "next",
     "@vuepress/plugin-sitemap": "next",
-    "sass-embedded": "^1.82.0",
-    "@types/bun": "^1.1.14"
+    "sass-embedded": "^1.82.0"
   }
 }

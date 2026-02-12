@@ -12,7 +12,7 @@ Convert ReadableStream to string.
 
 `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`\>\>
 
-{ReadableStream<Uint8Array>} The stream to convert
+`ReadableStream<Uint8Array>` The stream to convert
 
 ## Returns
 

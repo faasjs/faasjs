@@ -1,10 +1,10 @@
+import { streamToString } from '@faasjs/dev'
 import {
   type InvokeData,
   type Next,
   type Plugin,
   usePlugin,
 } from '@faasjs/func'
-import { streamToString } from '@faasjs/dev'
 import type { InferFaasAction } from '@faasjs/types'
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import { useHttpFunc } from '..'
