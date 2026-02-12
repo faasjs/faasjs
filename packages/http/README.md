@@ -14,7 +14,6 @@ npm install @faasjs/http
 ## Functions
 
 - [useHttp](functions/useHttp.md)
-- [useHttpFunc](functions/useHttpFunc.md)
 
 ## Classes
 

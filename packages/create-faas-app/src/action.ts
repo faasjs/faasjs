@@ -37,6 +37,7 @@ function buildPackageJSON(name: string): string {
         test: 'vitest run',
       },
       dependencies: {
+        '@faasjs/func': '*',
         '@faasjs/http': '*',
         faasjs: '*',
         react: '*',
@@ -236,7 +237,7 @@ export default function HomePage() {
 
   writeFile(
     join(rootPath, 'src', 'pages', 'home', 'api', 'hello.func.ts'),
-    `import { useHttpFunc } from '@faasjs/http'
+    `import { defineFunc } from '@faasjs/func'
 import { z } from 'zod'
 
 const schema = z
@@ -245,9 +246,9 @@ const schema = z
   })
   .required()
 
-export const func = useHttpFunc<z.infer<typeof schema>>(() => {
-  return async ({ params }) => {
-    const parsed = schema.parse(params || {})
+export const func = defineFunc<{ params?: z.infer<typeof schema> }>(
+  async ({ event }) => {
+    const parsed = schema.parse(event.params || {})
 
     return {
       ok: true,
@@ -255,7 +256,7 @@ export const func = useHttpFunc<z.infer<typeof schema>>(() => {
       error: null,
     }
   }
-})
+)
 `
   )
 

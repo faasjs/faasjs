@@ -66,6 +66,20 @@ describe('action', () => {
       test: 'vitest run',
     })
 
+    expect(packageJSON.dependencies).toEqual(
+      expect.objectContaining({
+        '@faasjs/func': '*',
+        '@faasjs/http': '*',
+      })
+    )
+
+    expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
+      "import { defineFunc } from '@faasjs/func'"
+    )
+    expect(files['test/src/pages/home/api/hello.func.ts']).not.toContain(
+      'useHttpFunc'
+    )
+
     expect(files['test/.gitignore']).toEqual(`node_modules/
 dist/
 coverage/

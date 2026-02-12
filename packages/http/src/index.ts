@@ -20,7 +20,6 @@ import {
   type Next,
   type Plugin,
   type UseifyPlugin,
-  useFunc,
   usePlugin,
 } from '@faasjs/func'
 import { Cookie, type CookieOptions } from './cookie'
@@ -474,37 +473,3 @@ export type HttpFuncHandler<
     session?: Session<TSession, TCookie>
   }
 ) => Promise<TResult>
-
-/**
- * A hook to create an HTTP function with specified handler and configuration.
- *
- * @template TParams - The type of the parameters object.
- * @template TCookie - The type of the cookies object.
- * @template TSession - The type of the session object.
- * @template TResult - The type of the result.
- *
- * @param {() => HttpFuncHandler<TParams, TCookie, TSession, TResult>} handler - The function handler to be used.
- * @param {Object} [config] - Optional configuration object.
- * @param {HttpConfig} [config.http] - Optional HTTP configuration.
- *
- * @returns {Function} The created HTTP function.
- */
-export function useHttpFunc<
-  TParams extends Record<string, any> = Record<string, any>,
-  TCookie extends Record<string, string> = Record<string, string>,
-  TSession extends Record<string, any> = Record<string, any>,
-  TResult = any,
->(
-  handler: () => HttpFuncHandler<TParams, TCookie, TSession, TResult>,
-  config?: {
-    http?: HttpConfig
-  }
-) {
-  const func = useFunc(() => {
-    useHttp(config?.http)
-
-    return handler()
-  })
-
-  return func
-}

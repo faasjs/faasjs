@@ -26,6 +26,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Replace scaffold dependency from `@faasjs/vite` to `@faasjs/dev`.
   - [Break] Replace scaffold dependency from `@faasjs/test` to `@faasjs/dev`.
 
+- `@faasjs/http`
+  - [Break] Remove `useHttpFunc`.
+
 [`v8.0.0-beta.4 (2026-02-10)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.3...v8.0.0-beta.4)
 
 - `faasjs`
