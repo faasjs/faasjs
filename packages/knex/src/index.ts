@@ -51,6 +51,30 @@ if (!global.FaasJS_Knex) {
   global.FaasJS_Knex = {}
 }
 
+export async function initPostgresTypeParsers() {
+  const pg = await loadPackage<typeof import('pg')>('pg')
+
+  pg.types.setTypeParser(pg.types.builtins.INT2, (v: string) =>
+    Number.parseInt(v, 10)
+  )
+  pg.types.setTypeParser(pg.types.builtins.INT4, (v: string) =>
+    Number.parseInt(v, 10)
+  )
+  pg.types.setTypeParser(pg.types.builtins.INT8, (v: string) =>
+    Number.parseInt(v, 10)
+  )
+
+  pg.types.setTypeParser(pg.types.builtins.FLOAT4, (v: string) =>
+    Number.parseFloat(v)
+  )
+  pg.types.setTypeParser(pg.types.builtins.FLOAT8, (v: string) =>
+    Number.parseFloat(v)
+  )
+  pg.types.setTypeParser(pg.types.builtins.NUMERIC, (v: string) =>
+    Number.parseFloat(v)
+  )
+}
+
 export class Knex implements Plugin {
   public readonly type = 'knex'
   public readonly name: string = Name
@@ -154,29 +178,7 @@ export class Knex implements Plugin {
 
     this.adapter = knex(this.config)
 
-    if (this.config.client === 'pg') {
-      const pg = await loadPackage<typeof import('pg')>('pg')
-
-      pg.types.setTypeParser(pg.types.builtins.INT2, (v: string) =>
-        Number.parseInt(v)
-      )
-      pg.types.setTypeParser(pg.types.builtins.INT4, (v: string) =>
-        Number.parseInt(v)
-      )
-      pg.types.setTypeParser(pg.types.builtins.INT8, (v: string) =>
-        Number.parseInt(v)
-      )
-
-      pg.types.setTypeParser(pg.types.builtins.FLOAT4, (v: string) =>
-        Number.parseFloat(v)
-      )
-      pg.types.setTypeParser(pg.types.builtins.FLOAT8, (v: string) =>
-        Number.parseFloat(v)
-      )
-      pg.types.setTypeParser(pg.types.builtins.NUMERIC, (v: string) =>
-        Number.parseFloat(v)
-      )
-    }
+    if (this.config.client === 'pg') await initPostgresTypeParsers()
 
     this.query = this.adapter
 

@@ -351,10 +351,6 @@ describe('Knex', () => {
         name: 'pg',
         config: {
           client: 'pg',
-          connection: {
-            connectionString:
-              'postgres://postgres:postgres@localhost:5432/testing',
-          },
         },
       })
 
@@ -362,12 +358,24 @@ describe('Knex', () => {
         plugins: [knex],
         async handler() {
           return await knex
-            .raw('SELECT 1+1 AS value')
+            .raw(
+              'SELECT 1+1 AS value, 1::int2 AS int2, 2::int4 AS int4, 9007199254740993::int8 AS int8, 1.25::float4 AS float4, 2.5::float8 AS float8, 3.75::numeric AS numeric'
+            )
             .then((res: any) => res.rows)
         },
       }).export().handler
 
-      expect(await handler({})).toEqual([{ value: 2 }])
+      expect(await handler({})).toEqual([
+        {
+          value: 2,
+          int2: 1,
+          int4: 2,
+          int8: Number.parseInt('9007199254740993', 10),
+          float4: 1.25,
+          float8: 2.5,
+          numeric: 3.75,
+        },
+      ])
     } finally {
       await db.destroy()
       unmountFaasKnex('pg')

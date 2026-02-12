@@ -61,7 +61,7 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 ## API
 
 - Vite: [viteFaasJsServer](functions/viteFaasJsServer.md), [ViteFaasJsServerOptions](type-aliases/ViteFaasJsServerOptions.md)
-- PGlite: [createPgliteKnex](functions/createPgliteKnex.md), [mountFaasKnex](functions/mountFaasKnex.md), [runPgliteSql](functions/runPgliteSql.md), [runPgliteSqlFile](functions/runPgliteSqlFile.md), [unmountFaasKnex](functions/unmountFaasKnex.md), [MountFaasKnexOptions](type-aliases/MountFaasKnexOptions.md)
+- PGlite: [createPgliteKnex](functions/createPgliteKnex.md), [mountFaasKnex](functions/mountFaasKnex.md), [unmountFaasKnex](functions/unmountFaasKnex.md), [MountFaasKnexOptions](type-aliases/MountFaasKnexOptions.md)
 - Test: [test](functions/test.md), [FuncWarper](classes/FuncWarper.md), [streamToString](functions/streamToString.md)
 
 ## Functions
@@ -71,8 +71,6 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 - [mountFaasKnex](functions/mountFaasKnex.md)
 - [nameFunc](functions/nameFunc.md)
 - [parseFuncFilenameFromStack](functions/parseFuncFilenameFromStack.md)
-- [runPgliteSql](functions/runPgliteSql.md)
-- [runPgliteSqlFile](functions/runPgliteSqlFile.md)
 - [streamToString](functions/streamToString.md)
 - [test](functions/test.md)
 - [unmountFaasKnex](functions/unmountFaasKnex.md)

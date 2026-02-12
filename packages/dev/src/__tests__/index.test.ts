@@ -12,8 +12,6 @@ describe('index exports', () => {
   it('should export pglite helpers', () => {
     expect(dev.createPgliteKnex).toBe(pglite.createPgliteKnex)
     expect(dev.mountFaasKnex).toBe(pglite.mountFaasKnex)
-    expect(dev.runPgliteSql).toBe(pglite.runPgliteSql)
-    expect(dev.runPgliteSqlFile).toBe(pglite.runPgliteSqlFile)
     expect(dev.unmountFaasKnex).toBe(pglite.unmountFaasKnex)
   })
 

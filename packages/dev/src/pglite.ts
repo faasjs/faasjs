@@ -1,6 +1,20 @@
-import { readFileSync } from 'node:fs'
-import { type Knex, knex } from 'knex'
+import { PGlite, types } from '@electric-sql/pglite'
+import knex, { type Knex } from 'knex'
 import PgliteDialect from 'knex-pglite'
+
+const postgresTypeParsers: Record<number, (v: string) => number> = {
+  [types.INT2]: (v: string) => Number.parseInt(v, 10),
+  [types.INT4]: (v: string) => Number.parseInt(v, 10),
+  [types.INT8]: (v: string) => Number.parseInt(v, 10),
+  [types.FLOAT4]: (v: string) => Number.parseFloat(v),
+  [types.FLOAT8]: (v: string) => Number.parseFloat(v),
+  [types.NUMERIC]: (v: string) => Number.parseFloat(v),
+}
+
+type PgliteConnection = Record<string, unknown> & {
+  filename?: string
+  connectionString?: string
+}
 
 type FaasKnexGlobal = {
   FaasJS_Knex?: Record<
@@ -27,10 +41,29 @@ export function createPgliteKnex(
   config: Partial<Knex.Config> = {},
   connection: Record<string, unknown> = {}
 ): Knex {
+  const pgliteConnection = connection as PgliteConnection
+  const dataDir =
+    typeof pgliteConnection.filename === 'string'
+      ? pgliteConnection.filename
+      : typeof pgliteConnection.connectionString === 'string'
+        ? pgliteConnection.connectionString
+        : undefined
+
+  const pglite = new PGlite({
+    ...(dataDir ? { dataDir } : {}),
+    parsers: postgresTypeParsers,
+  })
+
+  // Always use parser-configured instance to align with @faasjs/knex pg parsing.
+  const pgliteKnexConnection = {
+    ...connection,
+    pglite,
+  } as Knex.StaticConnectionConfig
+
   return knex({
     ...config,
     client: PgliteDialect,
-    connection,
+    connection: pgliteKnexConnection,
   })
 }
 
@@ -62,33 +95,4 @@ export function unmountFaasKnex(name = 'knex'): void {
   if (!globalWithFaasKnex.FaasJS_Knex) return
 
   delete globalWithFaasKnex.FaasJS_Knex[name]
-}
-
-/**
- * Run a SQL string on a PGlite-backed knex instance.
- */
-export async function runPgliteSql(db: Knex, sql: string): Promise<void> {
-  if (!sql.trim()) return
-
-  await db.raw(sql)
-}
-
-/**
- * Run SQL from file on a PGlite-backed knex instance.
- */
-export async function runPgliteSqlFile(
-  db: Knex,
-  filePath: string,
-  options: {
-    stripUuidOsspExtension?: boolean
-  } = {}
-): Promise<void> {
-  const stripUuidOsspExtension = options.stripUuidOsspExtension !== false
-
-  let sql = readFileSync(filePath, 'utf8')
-
-  if (stripUuidOsspExtension)
-    sql = sql.replace(/CREATE EXTENSION IF NOT EXISTS "uuid-ossp";\s*/gi, '')
-
-  await runPgliteSql(db, sql)
 }

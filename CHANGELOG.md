@@ -6,6 +6,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Beta
 
+[`v8.0.0-beta.6 (2026-02-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.5...v8.0.0-beta.6)
+
+- `@faasjs/dev`
+  - [Fix] Fix knex exporter.
+
 [`v8.0.0-beta.5 (2026-02-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.4...v8.0.0-beta.5)
 
 - `faasjs`

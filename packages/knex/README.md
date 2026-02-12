@@ -13,6 +13,7 @@ npm install @faasjs/knex
 
 ## Functions
 
+- [initPostgresTypeParsers](functions/initPostgresTypeParsers.md)
 - [query](functions/query.md)
 - [raw](functions/raw.md)
 - [transaction](functions/transaction.md)

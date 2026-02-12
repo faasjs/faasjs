@@ -60,7 +60,7 @@
  * ## API
  *
  * - Vite: {@link viteFaasJsServer}, {@link ViteFaasJsServerOptions}
- * - PGlite: {@link createPgliteKnex}, {@link mountFaasKnex}, {@link runPgliteSql}, {@link runPgliteSqlFile}, {@link unmountFaasKnex}, {@link MountFaasKnexOptions}
+ * - PGlite: {@link createPgliteKnex}, {@link mountFaasKnex}, {@link unmountFaasKnex}, {@link MountFaasKnexOptions}
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToString}
  *
  * @packageDocumentation
