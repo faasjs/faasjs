@@ -1,36 +1,6 @@
 import { spawnSync } from 'node:child_process'
-import { existsSync, realpathSync } from 'node:fs'
-import { basename, delimiter, join } from 'node:path'
-
-function isBunBinary(binaryPath: string): boolean {
-  try {
-    const realPath = realpathSync(binaryPath)
-
-    return basename(realPath).toLowerCase().startsWith('bun')
-  } catch {
-    return false
-  }
-}
-
-function findNodeBinary(): string | null {
-  if (!process.versions.bun) return process.execPath
-
-  const pathValue = process.env.PATH || ''
-  const binName = process.platform === 'win32' ? 'node.exe' : 'node'
-
-  for (const dir of pathValue.split(delimiter)) {
-    if (!dir) continue
-
-    const candidate = join(dir, binName)
-
-    if (!existsSync(candidate)) continue
-    if (isBunBinary(candidate)) continue
-
-    return candidate
-  }
-
-  return null
-}
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 
 const typedocCli = join(
   process.cwd(),
@@ -46,14 +16,6 @@ if (!existsSync(typedocCli)) {
   process.exit(1)
 }
 
-const nodeBinary = findNodeBinary()
-
-if (!nodeBinary) {
-  console.error('Cannot find a Node.js binary that is not Bun in PATH.')
-  console.error('Please install Node.js and ensure it is available in PATH.')
-  process.exit(1)
-}
-
 const userArgs = process.argv.slice(2)
 
 if (userArgs.length === 0) {
@@ -64,7 +26,7 @@ if (userArgs.length === 0) {
     process.exit(1)
   }
 
-  const fallback = spawnSync(nodeBinary, [buildAllDocsScript], {
+  const fallback = spawnSync('node', [buildAllDocsScript], {
     stdio: 'inherit',
     env: process.env,
   })
@@ -77,7 +39,7 @@ if (userArgs.length === 0) {
   process.exit(fallback.status ?? 1)
 }
 
-const result = spawnSync(nodeBinary, [typedocCli, ...userArgs], {
+const result = spawnSync('node', [typedocCli, ...userArgs], {
   stdio: 'inherit',
   env: process.env,
 })

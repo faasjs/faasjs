@@ -6,8 +6,6 @@
 |---|---|
 |[faasjs](https://github.com/faasjs/faasjs/tree/main/packages/faasjs)|[![NPM Version](https://img.shields.io/npm/v/faasjs.svg)](https://www.npmjs.com/package/faasjs)|
 |[@faasjs/func](https://github.com/faasjs/faasjs/tree/main/packages/func)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/func.svg)](https://www.npmjs.com/package/@faasjs/func)|
-|[@faasjs/cloud_function](https://github.com/faasjs/faasjs/tree/main/packages/cloud_function)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/cloud_function.svg)](https://www.npmjs.com/package/@faasjs/cloud_function)|
-|[@faasjs/test](https://github.com/faasjs/faasjs/tree/main/packages/test)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/test.svg)](https://www.npmjs.com/package/@faasjs/test)|
 
 ## Command Lines
 
@@ -25,6 +23,7 @@
 |[@faasjs/request](https://github.com/faasjs/faasjs/tree/main/packages/request)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/request.svg)](https://www.npmjs.com/package/@faasjs/request)|
 |[@faasjs/server](https://github.com/faasjs/faasjs/tree/main/packages/server)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/server.svg)](https://www.npmjs.com/package/@faasjs/server)|
 |[@faasjs/lint](https://github.com/faasjs/faasjs/tree/main/packages/lint)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/lint.svg)](https://www.npmjs.com/package/@faasjs/lint)|
+|[@faasjs/dev](https://github.com/faasjs/faasjs/tree/main/packages/dev)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/dev.svg)](https://www.npmjs.com/package/@faasjs/dev)|
 
 ## Http
 

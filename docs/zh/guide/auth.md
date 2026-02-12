@@ -114,7 +114,7 @@ export const func = useFunc(function () {
 ```typescript
 // users/api/__tests__/signup.test.ts
 import { useKnex } from '@faasjs/knex';
-import { FuncWarper } from '@faasjs/test';
+import { FuncWarper } from '@faasjs/dev';
 
 describe('signin', function () {
   const func = new FuncWarper(require.resolve('../signin.func'));

@@ -1,5 +1,5 @@
 import { Func } from '@faasjs/func'
-import { streamToString } from '@faasjs/test'
+import { streamToString } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 import { Http } from '..'
 

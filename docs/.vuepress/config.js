@@ -196,7 +196,7 @@ export default defineUserConfig({
             {
               title: '核心插件',
               collapsable: false,
-              children: ['func', 'cloud_function', 'test'],
+              children: ['func'],
             },
             {
               title: '命令行插件',
@@ -206,7 +206,7 @@ export default defineUserConfig({
             {
               title: '工具插件',
               collapsable: false,
-              children: ['deep_merge', 'load', 'logger', 'request', 'server'],
+              children: ['deep_merge', 'dev', 'load', 'logger', 'request', 'server'],
             },
             {
               title: '网络插件',

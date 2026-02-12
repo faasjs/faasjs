@@ -6,6 +6,26 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Beta
 
+[`v8.0.0-beta.5 (2026-02-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.4...v8.0.0-beta.5)
+
+- `faasjs`
+  - [Break] Remove `@faasjs/cloud_function` package.
+  - [Break] Rename `@faasjs/vite` to `@faasjs/dev`.
+  - [Break] Remove `@faasjs/test` package and merge it into `@faasjs/dev`.
+
+- `@faasjs/func`
+  - [Feature] Add `defineFunc` to define business logic directly and auto-load plugins from `func.config.plugins`.
+  - [Fix] Normalize `.func.ts` filename parsing from stack.
+
+- `@faasjs/dev`
+  - [Break] Rename `@faasjs/vite` to `@faasjs/dev`.
+  - [Feature] Add PGlite helpers for testing and development database setup.
+  - [Feature] Merge testing helpers (`test`, `FuncWarper`, `streamToString`) from `@faasjs/test`.
+
+- `create-faas-app`
+  - [Break] Replace scaffold dependency from `@faasjs/vite` to `@faasjs/dev`.
+  - [Break] Replace scaffold dependency from `@faasjs/test` to `@faasjs/dev`.
+
 [`v8.0.0-beta.4 (2026-02-10)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.3...v8.0.0-beta.4)
 
 - `faasjs`

@@ -4,7 +4,7 @@ import {
   type Plugin,
   usePlugin,
 } from '@faasjs/func'
-import { streamToString } from '@faasjs/test'
+import { streamToString } from '@faasjs/dev'
 import type { InferFaasAction } from '@faasjs/types'
 import { describe, expect, expectTypeOf, it } from 'vitest'
 import { useHttpFunc } from '..'

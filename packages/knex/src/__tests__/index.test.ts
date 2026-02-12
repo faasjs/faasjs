@@ -1,3 +1,4 @@
+import { createPgliteKnex, mountFaasKnex, unmountFaasKnex } from '@faasjs/dev'
 import { Func, useFunc } from '@faasjs/func'
 import type { Tables } from 'knex/types/tables'
 import { afterEach, assertType, describe, expect, it } from 'vitest'
@@ -13,8 +14,36 @@ declare module 'knex/types/tables' {
 
 describe('Knex', () => {
   afterEach(async () => {
-    await useKnex().schema().dropTableIfExists('test')
-    await useKnex().quit()
+    const globalWithKnex = globalThis as typeof globalThis & {
+      FaasJS_Knex?: Record<
+        string,
+        {
+          schema?: () => {
+            dropTableIfExists: (name: string) => Promise<unknown>
+          }
+          quit?: () => Promise<void>
+          adapter?: {
+            schema?: {
+              dropTableIfExists?: (name: string) => Promise<unknown>
+            }
+            destroy?: () => Promise<unknown>
+          }
+        }
+      >
+    }
+    const knex = globalWithKnex.FaasJS_Knex?.knex
+
+    if (!knex) return
+
+    if (typeof knex.schema === 'function')
+      await knex.schema().dropTableIfExists('test')
+    else await knex.adapter?.schema?.dropTableIfExists?.('test')
+
+    if (typeof knex.quit === 'function') await knex.quit()
+    else {
+      await knex.adapter?.destroy?.()
+      if (globalWithKnex.FaasJS_Knex) delete globalWithKnex.FaasJS_Knex.knex
+    }
   })
 
   describe('config', () => {
@@ -307,24 +336,41 @@ describe('Knex', () => {
     )
   })
 
-  it('should work with pg', async () => {
-    const knex = new Knex({
+  it('should work with pg via pglite', async () => {
+    const db = createPgliteKnex()
+
+    mountFaasKnex(db, {
+      name: 'pg',
       config: {
         client: 'pg',
-        connection: {
-          connectionString:
-            'postgres://postgres:postgres@localhost:5432/testing',
-        },
       },
     })
 
-    const handler = new Func({
-      plugins: [knex],
-      async handler() {
-        return await knex.raw('SELECT 1+1').then((res: any) => res.rows)
-      },
-    }).export().handler
+    try {
+      const knex = new Knex({
+        name: 'pg',
+        config: {
+          client: 'pg',
+          connection: {
+            connectionString:
+              'postgres://postgres:postgres@localhost:5432/testing',
+          },
+        },
+      })
 
-    expect(await handler({})).toEqual([{ '?column?': 2 }])
+      const handler = new Func({
+        plugins: [knex],
+        async handler() {
+          return await knex
+            .raw('SELECT 1+1 AS value')
+            .then((res: any) => res.rows)
+        },
+      }).export().handler
+
+      expect(await handler({})).toEqual([{ value: 2 }])
+    } finally {
+      await db.destroy()
+      unmountFaasKnex('pg')
+    }
   })
 })

@@ -77,7 +77,7 @@ export const func = useFunc(function() {
 ```ts
 // __tests__/index.test.ts
 // all unit test file should be ended with .test.ts
-import { test } from '@faasjs/test'
+import { test } from '@faasjs/dev'
 import Func from '../index.func'
 
 describe('index', function () {

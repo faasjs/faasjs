@@ -45,9 +45,8 @@ function buildPackageJSON(name: string): string {
       },
       devDependencies: {
         '@biomejs/biome': '*',
+        '@faasjs/dev': '*',
         '@faasjs/lint': '*',
-        '@faasjs/test': '*',
-        '@faasjs/vite': '*',
         '@types/node': '*',
         '@types/react': '*',
         '@types/react-dom': '*',
@@ -116,7 +115,7 @@ coverage/
 
   writeFile(
     join(rootPath, 'vite.config.ts'),
-    `import { viteFaasJsServer } from '@faasjs/vite'
+    `import { viteFaasJsServer } from '@faasjs/dev'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
@@ -262,7 +261,7 @@ export const func = useHttpFunc<z.infer<typeof schema>>(() => {
 
   writeFile(
     join(rootPath, 'src', 'pages', 'home', 'api', '__tests__', 'hello.test.ts'),
-    `import { test } from '@faasjs/test'
+    `import { test } from '@faasjs/dev'
 import { func } from '../hello.func'
 
 describe('home/api/hello', () => {

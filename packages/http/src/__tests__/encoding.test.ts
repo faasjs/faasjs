@@ -1,5 +1,5 @@
 import { Func } from '@faasjs/func'
-import { test } from '@faasjs/test'
+import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 import { Http } from '..'
 

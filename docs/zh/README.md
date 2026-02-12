@@ -48,7 +48,7 @@ export const func = useFunc(function() {
 
 ```ts
 // __tests__/index.test.ts 文件，单元测试文件名都以 .test.ts 结尾
-import { test } from '@faasjs/test'
+import { test } from '@faasjs/dev'
 import { func } from '../index.func'
 
 describe('index', function () {
