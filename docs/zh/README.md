@@ -110,7 +110,6 @@ npx create-faas-app --name faasjs
     <a href="https://knexjs.org/" target="_blank">Knex</a>,
     <a href="https://nodejs.org/" target="_blank">Node.js</a>,
     <a href="https://rollupjs.org/" target="_blank">Rollup.js</a>,
-    <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>,
-    <a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a>
+    <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>
   </div>
 </div>

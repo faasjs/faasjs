@@ -7,7 +7,7 @@ function run(cmd: string) {
   execSync(cmd, { stdio: 'inherit' })
 }
 
-// Clear previously generated docs to avoid stale pages breaking VuePress build.
+// Clear previously generated docs to avoid stale pages in SSG output.
 rmSync('./doc', { recursive: true, force: true })
 run('mkdir -p ./doc')
 writeFileSync('./doc/.keep', '')
