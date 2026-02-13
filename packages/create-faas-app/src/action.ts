@@ -162,6 +162,9 @@ new Server(join(__dirname, 'src'), {
   writeFile(
     join(rootPath, 'src', 'faas.yaml'),
     `defaults:
+  server:
+    root: .
+    base: /
   plugins:
     http:
       config:

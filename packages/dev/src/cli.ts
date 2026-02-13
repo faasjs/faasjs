@@ -3,9 +3,6 @@ import { generateFaasTypes } from './typegen'
 
 type CliOptions = {
   root?: string
-  src?: string
-  output?: string
-  staging?: string
 }
 
 const HelpText = `Generate FaasJS API/event type declarations.
@@ -15,9 +12,6 @@ Usage:
 
 Options:
   --root <path>      Project root path (default: process.cwd())
-  --src <path>       Source directory (default: <root>/src)
-  --output <path>    Output file (default: <src>/.faasjs/types.d.ts)
-  --staging <name>   Config staging in faas.yaml (default: development)
   -h, --help         Show help
   -v, --version      Show version
 `
@@ -52,24 +46,6 @@ function parseCliArgs(argv: string[]): {
 
     if (arg === '--root') {
       options.root = readValue(i, arg)
-      i++
-      continue
-    }
-
-    if (arg === '--src') {
-      options.src = readValue(i, arg)
-      i++
-      continue
-    }
-
-    if (arg === '--output') {
-      options.output = readValue(i, arg)
-      i++
-      continue
-    }
-
-    if (arg === '--staging') {
-      options.staging = readValue(i, arg)
       i++
       continue
     }

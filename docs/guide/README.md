@@ -16,7 +16,7 @@ npx create-faas-app --name faasjs
 
 ### faas.yaml
 
-This is the configuration file for FaasJS, which records the configuration items of cloud service providers and plugins.
+This is the configuration file for FaasJS, which records cloud providers, plugins, and local development server (`server`) settings.
 
 ### *.func.ts
 

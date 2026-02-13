@@ -60,7 +60,7 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 
 ## API
 
-- Vite: [viteFaasJsServer](functions/viteFaasJsServer.md), [ViteFaasJsServerOptions](type-aliases/ViteFaasJsServerOptions.md)
+- Vite: [viteFaasJsServer](functions/viteFaasJsServer.md)
 - PGlite: [createPgliteKnex](functions/createPgliteKnex.md), [mountFaasKnex](functions/mountFaasKnex.md), [unmountFaasKnex](functions/unmountFaasKnex.md), [MountFaasKnexOptions](type-aliases/MountFaasKnexOptions.md)
 - Test: [test](functions/test.md), [FuncWarper](classes/FuncWarper.md), [streamToString](functions/streamToString.md)
 
@@ -111,5 +111,3 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 - [Simplify](type-aliases/Simplify.md)
 - [UnionToIntersection](type-aliases/UnionToIntersection.md)
 - [UseifyPlugin](type-aliases/UseifyPlugin.md)
-- [ViteFaasJsServerOptions](type-aliases/ViteFaasJsServerOptions.md)
-- [ViteFaasTypegenOptions](type-aliases/ViteFaasTypegenOptions.md)

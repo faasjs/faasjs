@@ -2,18 +2,12 @@
 
 # Function: viteFaasJsServer()
 
-> **viteFaasJsServer**(`options?`): `Plugin`
+> **viteFaasJsServer**(): `Plugin`
 
 Create a Vite plugin that proxies POST requests to an in-process FaasJS server.
 
-It resolves project root/base from Vite config and strips `base` from request URL
-before forwarding to `@faasjs/server`.
-
-## Parameters
-
-### options?
-
-`Partial`\<[`ViteFaasJsServerOptions`](../type-aliases/ViteFaasJsServerOptions.md)\> & `Record`\<`string`, `unknown`\> = `{}`
+It resolves server root/base from `src/faas.yaml` and strips `base` from
+request URL before forwarding to `@faasjs/server`.
 
 ## Returns
 

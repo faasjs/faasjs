@@ -1,8 +1,9 @@
 import { existsSync } from 'node:fs'
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
+import { dirname, join, relative } from 'node:path'
 import { loadConfig } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
+import { resolveServerConfig } from './server_config'
 
 type RouteTypeItem = {
   route: string
@@ -14,12 +15,6 @@ type RouteTypeItem = {
 export type GenerateFaasTypesOptions = {
   /** faas project root path, default is process.cwd() */
   root?: string
-  /** faas source directory, default is <root>/src */
-  src?: string
-  /** output declaration file path, default is <src>/.faasjs/types.d.ts */
-  output?: string
-  /** staging for faas.yaml config resolution, default is development */
-  staging?: string
   /** optional logger instance */
   logger?: Logger
 }
@@ -29,12 +24,6 @@ export type GenerateFaasTypesResult = {
   changed: boolean
   fileCount: number
   routeCount: number
-}
-
-function resolveFrom(base: string, target: string): string {
-  if (isAbsolute(target)) return target
-
-  return resolve(base, target)
 }
 
 function normalizeSlashes(path: string): string {
@@ -201,14 +190,13 @@ export function isTypegenSourceFile(filePath: string): boolean {
 export async function generateFaasTypes(
   options: GenerateFaasTypesOptions = {}
 ): Promise<GenerateFaasTypesResult> {
-  const projectRoot = resolve(options.root || process.cwd())
-  const srcRoot = resolveFrom(projectRoot, options.src || 'src')
-  const output =
-    typeof options.output === 'string'
-      ? resolveFrom(projectRoot, options.output)
-      : join(srcRoot, '.faasjs', 'types.d.ts')
-  const staging = options.staging || 'development'
   const logger = options.logger || new Logger('FaasJs:Typegen')
+  const { root: projectRoot, staging } = resolveServerConfig(
+    options.root || process.cwd(),
+    logger
+  )
+  const srcRoot = join(projectRoot, 'src')
+  const output = join(srcRoot, '.faasjs', 'types.d.ts')
 
   if (!existsSync(srcRoot))
     throw Error(`[faas-types] Source directory not found: ${srcRoot}`)

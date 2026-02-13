@@ -35,7 +35,7 @@ FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 24.0
 
 ### src/faas.yaml
 
-这是 FaasJS 的配置文件，记录了云服务商的配置项和插件的配置项。
+这是 FaasJS 的配置文件，记录了服务商、插件以及本地开发服务（`server`）等配置项。
 
 ### *.func.ts
 

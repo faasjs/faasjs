@@ -145,11 +145,39 @@ describe('typegen', () => {
 
     await expect(
       generateFaasTypes({
-        root,
-        src: 'api',
+        root: join(root, 'api'),
         logger,
       })
     ).rejects.toThrow('[faas-types] Source directory not found:')
+  })
+
+  it('should resolve source directory from defaults.server.root', async () => {
+    const root = await createTempProject()
+    const logger = new Logger('typegen:test')
+    logger.silent = true
+
+    await writeFixture(
+      join(root, 'src', 'faas.yaml'),
+      `defaults:
+  server:
+    root: app
+`
+    )
+    await writeFixture(
+      join(root, 'app', 'src', 'index.func.ts'),
+      'export const func = {} as any\n'
+    )
+
+    const result = await generateFaasTypes({
+      root,
+      logger,
+    })
+
+    expect(result.output).toBe(
+      join(root, 'app', 'src', '.faasjs', 'types.d.ts')
+    )
+    expect(result.fileCount).toBe(1)
+    expect(result.routeCount).toBe(1)
   })
 
   it('should detect typegen source files', () => {

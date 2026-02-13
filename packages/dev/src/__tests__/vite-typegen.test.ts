@@ -95,26 +95,7 @@ describe('viteFaasJsServer typegen', () => {
     expect(mocks.generateFaasTypes).toHaveBeenCalledTimes(1)
     expect(mocks.generateFaasTypes).toHaveBeenCalledWith({
       root,
-      src: 'src',
-      output: 'src/.faasjs/types.d.ts',
-      staging: 'development',
     })
-
-    await server.close()
-  })
-
-  it('should skip typegen when disabled', async () => {
-    const root = await createTempProject()
-
-    const server = await createServer({
-      configFile: false,
-      root,
-      base: '/test/base/',
-      logLevel: 'silent',
-      plugins: [viteFaasJsServer({ types: false })],
-    })
-
-    expect(mocks.generateFaasTypes).not.toHaveBeenCalled()
 
     await server.close()
   })
@@ -127,13 +108,7 @@ describe('viteFaasJsServer typegen', () => {
       root,
       base: '/test/base/',
       logLevel: 'silent',
-      plugins: [
-        viteFaasJsServer({
-          types: {
-            debounce: 20,
-          },
-        }),
-      ],
+      plugins: [viteFaasJsServer()],
     })
 
     expect(mocks.generateFaasTypes).toHaveBeenCalledTimes(1)
@@ -143,7 +118,7 @@ describe('viteFaasJsServer typegen', () => {
     server.watcher.emit('all', 'change', join(root, 'src', 'faas.yaml'))
     server.watcher.emit('all', 'change', join(root, 'src', 'ignore.ts'))
 
-    await wait(100)
+    await wait(220)
 
     expect(mocks.generateFaasTypes).toHaveBeenCalledTimes(2)
     expect(mocks.isTypegenSourceFile).toHaveBeenCalledWith(

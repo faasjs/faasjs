@@ -47,7 +47,24 @@
 
 * **providers** 服务商节点，用于配置服务商的 Token 等全局信息。
 * **plugins** 插件节点，各个插件会读取此处的配置作为默认配置。
+* **server** 服务节点，用于配置本地开发服务读取路径和请求基路径。
 * **deploy** 部署节点
+
+### server 节点
+
+`server` 节点用于 `@faasjs/dev` 的本地开发服务器：
+
+* **root** 项目根目录，默认 `.`。
+* **base** API 基路径，默认 `/`。
+
+约定如下：
+
+1. `server.root` 始终表示项目根目录。
+2. 云函数目录固定为 `<server.root>/src`。
+3. `@faasjs/dev` 入口配置默认读取 `<root>/src/faas.yaml`（`root` 来自 Vite 的 `root` 或 `faas-types --root`）。
+4. typegen 输出固定为 `<server.root>/src/.faasjs/types.d.ts`。
+
+> `types` 自定义配置已移除，不再支持在 `faas.yaml` 中配置。
 
 ### 三级节点：具体配置
 

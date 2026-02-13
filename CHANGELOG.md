@@ -5,9 +5,17 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 [`v8.0.0-beta.6 (2026-02-13)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.5...v8.0.0-beta.6)
 
 - `@faasjs/dev`
+  - [Break] Read local server config from `faas.yaml` (`<staging>.server`) and remove custom `viteFaasJsServer` options.
+  - [Break] Remove `faas-types` CLI options `--src`, `--output`, and `--staging`.
   - [Feature] Add `generateFaasTypes` and `faas-types` CLI to generate action/event types from `.func.ts` routes and `faas.yaml`.
   - [Feature] Add `types` option to `viteFaasJsServer` with startup generation and watched regeneration for `.func.ts` and `faas.yaml`.
   - [Fix] Fix knex exporter.
+
+- `@faasjs/load`
+  - [Feature] Validate `faas.yaml` key structure when loading config and reject removed `types` config.
+
+- `create-faas-app`
+  - [Feature] Add default `server` section to scaffolded `src/faas.yaml`.
 
 - `@faasjs/func`
   - [Feature] Add `FaasPluginEventMap` and `InferPluginEvent` type utilities for plugin-driven event inference.
