@@ -1,4 +1,33 @@
 ;(() => {
+  const EXTERNAL_LINK_RE = /^(?:[a-zA-Z][a-zA-Z\d+.-]*:|\/\/)/
+
+  function isExternalLink(href) {
+    return EXTERNAL_LINK_RE.test(href)
+  }
+
+  function applyExternalLinkTargets() {
+    const links = document.querySelectorAll('a[href]')
+
+    links.forEach(link => {
+      const href = link.getAttribute('href')
+
+      if (!href || !isExternalLink(href)) {
+        return
+      }
+
+      link.setAttribute('target', '_blank')
+
+      const rel = link.getAttribute('rel') ?? ''
+      const relTokens = new Set(rel.split(/\s+/).filter(Boolean))
+      relTokens.add('noopener')
+      relTokens.add('noreferrer')
+      link.setAttribute('rel', Array.from(relTokens).join(' '))
+      link.classList.add('external-link')
+    })
+  }
+
+  applyExternalLinkTargets()
+
   const container = document.querySelector('.vp-theme-container')
   const sidebarButton = document.querySelector('.vp-toggle-sidebar-button')
   const sidebarMask = document.querySelector('.vp-sidebar-mask')
