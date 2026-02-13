@@ -295,15 +295,9 @@ function renderHomeHero(page: Page, locale: LocaleConfig): string {
     typeof page.frontmatter.heroText === 'string'
       ? page.frontmatter.heroText
       : locale.title
-  const tagline =
-    typeof page.frontmatter.tagline === 'string' ? page.frontmatter.tagline : ''
-  const finalTagline = tagline || locale.description
-
   return `<header class="vp-hero"><img class="vp-hero-image" src="${escapeHtml(
     heroImage
-  )}" alt="${escapeHtml(heroText)}" /><h1>${escapeHtml(heroText)}</h1>${
-    finalTagline ? `<p class="description">${escapeHtml(finalTagline)}</p>` : ''
-  }</header>`
+  )}" alt="${escapeHtml(heroText)}" /><h1>${escapeHtml(heroText)}</h1></header>`
 }
 
 function renderDefaultSitemapXsl(): string {
