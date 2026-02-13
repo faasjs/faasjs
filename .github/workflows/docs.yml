@@ -24,17 +24,18 @@ jobs:
           cd docs
           npm install
           npm run build
-          cp ./CNAME ./.vuepress/dist/CNAME
-          cp ../README.md ./.vuepress/dist/README.md
-          touch ./.vuepress/dist/.nojekyll
-          mkdir ./.vuepress/dist/.github
-          cp ../.github/FUNDING.yml ./.vuepress/dist/.github/FUNDING.yml
+          npm run check:mobile
+          npm run check:links
+          npm run check:routes
+          cp ../README.md ./dist/README.md
+          mkdir -p ./dist/.github
+          cp ../.github/FUNDING.yml ./dist/.github/FUNDING.yml
       - name: Deploy
         if: success()
         uses: peaceiris/actions-gh-pages@v4
         with:
           external_repository: faasjs/faasjs.github.io
           publish_branch: main
-          publish_dir: ./docs/.vuepress/dist
+          publish_dir: ./docs/dist
           personal_token: ${{ secrets.FAASJS_TOKEN }}
           exclude_assets: ''

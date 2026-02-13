@@ -123,6 +123,5 @@ Open source projects (in alphabetical order):
   <a href="https://react.dev/" target="_blank">React</a>,
   <a href="https://rollupjs.org/" target="_blank">Rollup.js</a>,
   <a href="https://vitest.dev/" target="_blank">Vitest</a>,
-  <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>,
-  <a href="https://vuepress.vuejs.org/" target="_blank">VuePress</a>
+  <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>
 </div>

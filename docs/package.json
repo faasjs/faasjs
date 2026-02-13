@@ -3,17 +3,17 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "vuepress dev . --debug",
-    "build": "node prepare.ts && vuepress build ."
+    "check:links": "node scripts/check-links.ts",
+    "check:mobile": "node scripts/check-mobile-interactions.ts",
+    "check:routes": "node scripts/check-routes.ts",
+    "build:ssg": "node scripts/build-site.ts",
+    "build": "node prepare.ts && npm run build:ssg"
   },
   "devDependencies": {
-    "vuepress": "next",
-    "@vuepress/client": "next",
-    "@vuepress/bundler-vite": "next",
-    "@vuepress/theme-default": "next",
-    "@vuepress/plugin-google-analytics": "next",
-    "@vuepress/plugin-search": "next",
-    "@vuepress/plugin-sitemap": "next",
-    "sass-embedded": "^1.82.0"
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.11.1",
+    "jsdom": "^28.0.0",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0"
   }
 }
