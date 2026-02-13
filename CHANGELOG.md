@@ -2,10 +2,6 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Stable
-
-## Beta
-
 [`v8.0.0-beta.6 (2026-02-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.5...v8.0.0-beta.6)
 
 - `@faasjs/dev`

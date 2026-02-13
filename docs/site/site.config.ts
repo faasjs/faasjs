@@ -70,7 +70,7 @@ export const siteConfig: SiteConfig = {
             },
             {
               text: 'Changelog',
-              link: '/CHANGELOG',
+              link: '/CHANGELOG.html',
             },
             {
               text: 'Ecosystem',
@@ -96,7 +96,7 @@ export const siteConfig: SiteConfig = {
             },
             {
               text: 'Contributing',
-              link: '/CONTRIBUTING',
+              link: '/CONTRIBUTING.html',
             },
             {
               text: 'Sponsor',
@@ -104,7 +104,7 @@ export const siteConfig: SiteConfig = {
             },
             {
               text: 'Security',
-              link: '/SECURITY',
+              link: '/SECURITY.html',
             },
           ],
         },
@@ -138,7 +138,7 @@ export const siteConfig: SiteConfig = {
             },
             {
               text: '更新日志',
-              link: '/CHANGELOG',
+              link: '/CHANGELOG.html',
             },
           ],
         },
@@ -177,7 +177,7 @@ export const siteConfig: SiteConfig = {
             },
             {
               text: '支持 FaasJS',
-              link: '/CONTRIBUTING.md',
+              link: '/CONTRIBUTING.html',
             },
             {
               text: '赞助 FaasJS',
@@ -189,61 +189,21 @@ export const siteConfig: SiteConfig = {
       sidebar: {
         '/zh/guide/': [
           '/zh/guide/',
-          '/zh/guide/auth',
+          '/zh/guide/auth.html',
           {
             title: '进阶学习',
             collapsable: false,
             children: [
-              '/zh/guide/excel/faas-yaml',
-              '/zh/guide/excel/plugin',
-              '/zh/guide/excel/http',
-              '/zh/guide/excel/db',
-              '/zh/guide/excel/request-spec',
-              '/zh/guide/excel/env',
-              '/zh/guide/excel/react',
+              '/zh/guide/excel/faas-yaml.html',
+              '/zh/guide/excel/plugin.html',
+              '/zh/guide/excel/http.html',
+              '/zh/guide/excel/db.html',
+              '/zh/guide/excel/request-spec.html',
+              '/zh/guide/excel/env.html',
+              '/zh/guide/excel/react.html',
             ],
           },
-          '/zh/guide/story',
-        ],
-        '/zh/doc/': [
-          ['', '总览'],
-          {
-            title: '核心插件',
-            collapsable: false,
-            children: ['func'],
-          },
-          {
-            title: '命令行插件',
-            collapsable: false,
-            children: ['create-faas-app'],
-          },
-          {
-            title: '工具插件',
-            collapsable: false,
-            children: [
-              'deep_merge',
-              'dev',
-              'load',
-              'logger',
-              'request',
-              'server',
-            ],
-          },
-          {
-            title: '网络插件',
-            collapsable: false,
-            children: ['http'],
-          },
-          {
-            title: '数据库插件',
-            collapsable: false,
-            children: ['knex'],
-          },
-          {
-            title: '前端插件',
-            collapsable: false,
-            children: ['browser', 'react'],
-          },
+          '/zh/guide/story.html',
         ],
       },
     },

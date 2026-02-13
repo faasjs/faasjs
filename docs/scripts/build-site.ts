@@ -28,11 +28,9 @@ import {
 } from '../templates/partials.ts'
 import { buildSitemapXml, type SitemapRoute } from './build-sitemap.ts'
 import {
-  hasExtension,
   isExternalLink,
   joinSitePath,
   splitHref,
-  toAliasKey,
   toPosixPath,
   toRouteFromMarkdownPath,
   walkMarkdownFiles,
@@ -52,6 +50,15 @@ type Page = {
   lastmod: string
   isHome: boolean
 }
+
+type BuildContext = {
+  pages: Page[]
+  pageBySource: Map<string, Page>
+  pageByRoute: Map<string, Page>
+  titleByRoute: Map<string, string>
+}
+
+type ResolveConfigLink = (link: string) => string
 
 const scriptPath = fileURLToPath(import.meta.url)
 const scriptsDirectory = dirname(scriptPath)
@@ -82,54 +89,6 @@ function extractTitle(
   }
 
   return fallback
-}
-
-function registerAliases(page: Page, aliasMap: Map<string, string>): void {
-  const markdownPath = `/${page.relativePath}`
-
-  const addAlias = (alias: string) => {
-    if (!alias) return
-    aliasMap.set(toAliasKey(alias), page.routePath)
-  }
-
-  addAlias(page.routePath)
-  if (page.routePath !== '/' && page.routePath.endsWith('/')) {
-    addAlias(page.routePath.slice(0, -1))
-  }
-
-  addAlias(markdownPath)
-
-  if (
-    markdownPath.toLowerCase().endsWith('/readme.md') ||
-    markdownPath === '/README.md'
-  ) {
-    const dirPath = markdownPath.replace(/README\.md$/i, '') || '/'
-    addAlias(dirPath)
-    if (dirPath !== '/' && dirPath.endsWith('/')) {
-      addAlias(dirPath.slice(0, -1))
-    }
-    addAlias(`${dirPath}README`)
-    addAlias(`${dirPath}README.md`)
-  } else {
-    const pathWithoutMd = markdownPath.replace(/\.md$/i, '')
-    addAlias(pathWithoutMd)
-    addAlias(`${pathWithoutMd}.html`)
-  }
-}
-
-function resolveAliasLink(
-  path: string,
-  aliasMap: Map<string, string>
-): string | undefined {
-  const direct = aliasMap.get(toAliasKey(path))
-  if (direct) return direct
-
-  if (!hasExtension(path) && !path.endsWith('/')) {
-    const html = aliasMap.get(toAliasKey(`${path}.html`))
-    if (html) return html
-  }
-
-  return undefined
 }
 
 function isPrefixActive(currentRoute: string, link: string): boolean {
@@ -393,20 +352,13 @@ function writeStaticAssets(): void {
     copyFileSync(item.source, item.target)
   }
 
-  const sitemapXslSource = join(siteRoot, 'public', 'sitemap.xsl')
-  const sitemapXslTarget = join(distRoot, 'sitemap.xsl')
-  if (existsSync(sitemapXslSource)) {
-    copyFileSync(sitemapXslSource, sitemapXslTarget)
-  } else {
-    writeFileSync(sitemapXslTarget, renderDefaultSitemapXsl())
-  }
+  writeFileSync(join(distRoot, 'sitemap.xsl'), renderDefaultSitemapXsl())
 
   writeFileSync(join(distRoot, '.nojekyll'), '')
 }
 
 function createMarkdownRenderer(
-  pageBySource: Map<string, Page>,
-  aliasMap: Map<string, string>
+  pageBySource: Map<string, Page>
 ): MarkdownIt {
   const markdown = new MarkdownIt({
     html: true,
@@ -440,8 +392,7 @@ function createMarkdownRenderer(
         const rewritten = rewriteLink(
           originalHref,
           env.sourcePath,
-          pageBySource,
-          aliasMap
+          pageBySource
         )
         tokens[idx].attrs[hrefIndex][1] = rewritten
 
@@ -462,8 +413,7 @@ function createMarkdownRenderer(
 function rewriteLink(
   rawHref: string,
   sourcePath: string,
-  pageBySource: Map<string, Page>,
-  aliasMap: Map<string, string>
+  pageBySource: Map<string, Page>
 ): string {
   if (!rawHref || rawHref.startsWith('#') || isExternalLink(rawHref)) {
     return rawHref
@@ -472,13 +422,9 @@ function rewriteLink(
   const href = splitHref(rawHref)
   if (!href.path) return rawHref
 
-  const resolvedPath = href.path.startsWith('/')
-    ? (resolveAliasLink(href.path, aliasMap) ?? href.path)
+  const link = href.path.startsWith('/')
+    ? href.path
     : resolveRelativeLink(href.path, sourcePath, pageBySource)
-
-  const link = resolvedPath.startsWith('/')
-    ? (resolveAliasLink(resolvedPath, aliasMap) ?? resolvedPath)
-    : resolvedPath
 
   return `${link}${href.query}${href.hash}`
 }
@@ -526,12 +472,18 @@ function resolveRelativeLink(
   return rawPath
 }
 
-function buildSite(): void {
-  rmSync(distRoot, { recursive: true, force: true })
-  mkdirSync(distRoot, { recursive: true })
+function sortRoutePaths(routes: string[]): string[] {
+  return [...routes].sort((a, b) => {
+    if (a === '/') return -1
+    if (b === '/') return 1
+    return a.localeCompare(b)
+  })
+}
 
+function collectPages(): Page[] {
   const markdownFiles = walkMarkdownFiles(docsRoot)
-  const pages: Page[] = markdownFiles.map(sourcePath => {
+
+  return markdownFiles.map(sourcePath => {
     const relativePath = toPosixPath(relative(docsRoot, sourcePath))
     const route = toRouteFromMarkdownPath(relativePath)
     const source = readFileSync(sourcePath, 'utf8')
@@ -552,168 +504,202 @@ function buildSite(): void {
       lastmod: statSync(sourcePath).mtime.toISOString(),
     }
   })
+}
 
+function createBuildContext(pages: Page[]): BuildContext {
   const pageBySource = new Map<string, Page>()
   const pageByRoute = new Map<string, Page>()
-  const aliasMap = new Map<string, string>()
   const titleByRoute = new Map<string, string>()
 
   for (const page of pages) {
     pageBySource.set(page.sourcePath, page)
     pageByRoute.set(page.routePath, page)
     titleByRoute.set(page.routePath, page.title)
-    registerAliases(page, aliasMap)
   }
 
-  const resolveConfigLink = (link: string): string => {
-    if (isExternalLink(link) || link.startsWith('#')) {
-      return link
-    }
-
-    const href = splitHref(link)
-    if (!href.path) return link
-
-    const resolved = href.path.startsWith('/')
-      ? (resolveAliasLink(href.path, aliasMap) ?? href.path)
-      : href.path
-
-    return `${resolved}${href.query}${href.hash}`
+  return {
+    pages,
+    pageBySource,
+    pageByRoute,
+    titleByRoute,
   }
+}
 
-  const markdown = createMarkdownRenderer(pageBySource, aliasMap)
+function createResolveConfigLink(): ResolveConfigLink {
+  return (link: string): string => {
+    return link
+  }
+}
 
-  for (const page of pages) {
-    const localeConfig = siteConfig.locales[page.locale]
-    const languageItems = createLanguageItems(page.routePath, pageByRoute)
+function createNavbarItems(
+  localeConfig: LocaleConfig,
+  currentRoute: string,
+  pageByRoute: Map<string, Page>
+): NavbarItem[] {
+  return [
+    ...localeConfig.navbar,
+    {
+      text: localeConfig.selectLanguageName,
+      children: createLanguageItems(currentRoute, pageByRoute),
+    },
+  ]
+}
 
-    const navbarItems = [
-      ...localeConfig.navbar,
-      {
-        text: localeConfig.selectLanguageName,
-        children: languageItems,
-      },
-    ]
-
-    const navbarHtml = renderNavbar(
+function renderNavbarPair(
+  navbarItems: NavbarItem[],
+  currentRoute: string,
+  resolveConfigLink: ResolveConfigLink
+): { desktop: string; mobile: string } {
+  return {
+    desktop: renderNavbar(
       navbarItems,
-      page.routePath,
+      currentRoute,
       resolveConfigLink,
       'vp-navbar-items vp-hide-mobile'
-    )
-
-    const mobileNavbarHtml = renderNavbar(
+    ),
+    mobile: renderNavbar(
       navbarItems,
-      page.routePath,
+      currentRoute,
       resolveConfigLink,
       'vp-navbar-items',
       true
-    )
+    ),
+  }
+}
 
-    const sidebarPrefix = findSidebarPrefix(
-      page.routePath,
-      localeConfig.sidebar
-    )
-    const sidebarEntries = sidebarPrefix
-      ? (localeConfig.sidebar[sidebarPrefix] ?? [])
-      : []
-    const hasSidebar = Boolean(sidebarPrefix && sidebarEntries.length)
+function renderSidebar(
+  localeConfig: LocaleConfig,
+  currentRoute: string,
+  resolveConfigLink: ResolveConfigLink,
+  titleByRoute: Map<string, string>
+): { hasSidebar: boolean; linksHtml: string } {
+  const sidebarPrefix = findSidebarPrefix(currentRoute, localeConfig.sidebar)
+  const sidebarEntries = sidebarPrefix
+    ? (localeConfig.sidebar[sidebarPrefix] ?? [])
+    : []
+  const hasSidebar = Boolean(sidebarPrefix && sidebarEntries.length)
 
-    const sidebarLinks =
-      hasSidebar && sidebarPrefix
-        ? `<ul class="vp-sidebar-items">${sidebarEntries
-            .map(entry =>
-              renderSidebarEntry(
-                entry,
-                sidebarPrefix,
-                page.routePath,
-                resolveConfigLink,
-                titleByRoute
-              )
-            )
-            .join('')}</ul>`
-        : ''
-
-    const markdownHtml = markdown.render(page.markdown, {
-      sourcePath: page.sourcePath,
-    })
-
-    const contentHtml = page.isHome
-      ? `<div class="vp-home">${renderHomeHero(
-          page,
-          localeConfig
-        )}<div class="theme-default-content">${markdownHtml}</div></div>`
-      : `<div class="theme-default-content">${markdownHtml}</div>`
-
-    const footerText =
-      page.isHome &&
-      (typeof page.frontmatter.footer === 'string'
-        ? page.frontmatter.footer
-        : localeConfig.footer)
-
-    const pageTitle =
-      page.routePath === '/' || page.routePath === '/zh/'
-        ? localeConfig.title
-        : `${page.title} | ${localeConfig.title}`
-
-    const description =
-      typeof page.frontmatter.description === 'string'
-        ? page.frontmatter.description
-        : localeConfig.description
-
-    const homeLink = page.locale === '/zh/' ? '/zh/' : '/'
-
-    const html = renderLayout({
-      lang: localeConfig.lang,
-      title: pageTitle,
-      description,
-      homeLink,
+  if (!hasSidebar || !sidebarPrefix) {
+    return {
       hasSidebar,
-      navbarHtml,
-      sidebarHtml: `${mobileNavbarHtml}${sidebarLinks}`,
-      contentHtml,
-      footerHtml: footerText
-        ? `<footer class="vp-footer">${escapeHtml(footerText)}</footer>`
-        : undefined,
-      gaId: siteConfig.gaId,
-      adsScript: siteConfig.adsScript,
-    })
-
-    const outputFile = join(distRoot, page.outputPath)
-    mkdirSync(dirname(outputFile), { recursive: true })
-    writeFileSync(outputFile, html)
+      linksHtml: '',
+    }
   }
 
-  const notFoundNavbar = renderNavbar(
-    [
-      ...siteConfig.locales['/'].navbar,
-      {
-        text: siteConfig.locales['/'].selectLanguageName,
-        children: createLanguageItems('/', pageByRoute),
-      },
-    ],
-    '/404.html',
-    resolveConfigLink,
-    'vp-navbar-items vp-hide-mobile'
+  return {
+    hasSidebar,
+    linksHtml: `<ul class="vp-sidebar-items">${sidebarEntries
+      .map(entry =>
+        renderSidebarEntry(
+          entry,
+          sidebarPrefix,
+          currentRoute,
+          resolveConfigLink,
+          titleByRoute
+        )
+      )
+      .join('')}</ul>`,
+  }
+}
+
+function renderAndWritePage(options: {
+  page: Page
+  pageByRoute: Map<string, Page>
+  titleByRoute: Map<string, string>
+  markdown: MarkdownIt
+  resolveConfigLink: ResolveConfigLink
+}): void {
+  const localeConfig = siteConfig.locales[options.page.locale]
+  const navbarItems = createNavbarItems(
+    localeConfig,
+    options.page.routePath,
+    options.pageByRoute
+  )
+  const { desktop: navbarHtml, mobile: mobileNavbarHtml } = renderNavbarPair(
+    navbarItems,
+    options.page.routePath,
+    options.resolveConfigLink
+  )
+  const { hasSidebar, linksHtml: sidebarLinks } = renderSidebar(
+    localeConfig,
+    options.page.routePath,
+    options.resolveConfigLink,
+    options.titleByRoute
   )
 
-  const notFoundSidebar = renderNavbar(
-    [
-      ...siteConfig.locales['/'].navbar,
-      {
-        text: siteConfig.locales['/'].selectLanguageName,
-        children: createLanguageItems('/', pageByRoute),
-      },
-    ],
+  const markdownHtml = options.markdown.render(options.page.markdown, {
+    sourcePath: options.page.sourcePath,
+  })
+
+  const contentHtml = options.page.isHome
+    ? `<div class="vp-home">${renderHomeHero(
+        options.page,
+        localeConfig
+      )}<div class="theme-default-content">${markdownHtml}</div></div>`
+    : `<div class="theme-default-content">${markdownHtml}</div>`
+
+  const footerText =
+    options.page.isHome &&
+    (typeof options.page.frontmatter.footer === 'string'
+      ? options.page.frontmatter.footer
+      : localeConfig.footer)
+
+  const pageTitle =
+    options.page.routePath === '/' || options.page.routePath === '/zh/'
+      ? localeConfig.title
+      : `${options.page.title} | ${localeConfig.title}`
+
+  const description =
+    typeof options.page.frontmatter.description === 'string'
+      ? options.page.frontmatter.description
+      : localeConfig.description
+
+  const homeLink = options.page.locale === '/zh/' ? '/zh/' : '/'
+
+  const html = renderLayout({
+    lang: localeConfig.lang,
+    title: pageTitle,
+    description,
+    homeLink,
+    hasSidebar,
+    navbarHtml,
+    sidebarHtml: `${mobileNavbarHtml}${sidebarLinks}`,
+    contentHtml,
+    footerHtml: footerText
+      ? `<footer class="vp-footer">${escapeHtml(footerText)}</footer>`
+      : undefined,
+    gaId: siteConfig.gaId,
+    adsScript: siteConfig.adsScript,
+  })
+
+  const outputFile = join(distRoot, options.page.outputPath)
+  mkdirSync(dirname(outputFile), { recursive: true })
+  writeFileSync(outputFile, html)
+}
+
+function writeNotFoundPage(
+  pageByRoute: Map<string, Page>,
+  resolveConfigLink: ResolveConfigLink
+): void {
+  const localeConfig = siteConfig.locales['/']
+  const navbarItems: NavbarItem[] = [
+    ...localeConfig.navbar,
+    {
+      text: localeConfig.selectLanguageName,
+      children: createLanguageItems('/', pageByRoute),
+    },
+  ]
+
+  const { desktop: notFoundNavbar, mobile: notFoundSidebar } = renderNavbarPair(
+    navbarItems,
     '/404.html',
-    resolveConfigLink,
-    'vp-navbar-items',
-    true
+    resolveConfigLink
   )
 
   const notFoundHtml = renderLayout({
     lang: 'en',
     title: '404 | FaasJS',
-    description: siteConfig.locales['/'].description,
+    description: localeConfig.description,
     homeLink: '/',
     hasSidebar: false,
     navbarHtml: notFoundNavbar,
@@ -725,9 +711,9 @@ function buildSite(): void {
   })
 
   writeFileSync(join(distRoot, '404.html'), notFoundHtml)
+}
 
-  writeStaticAssets()
-
+function writeSitemapAndRoutes(pages: Page[]): void {
   const sitemapRoutes: SitemapRoute[] = pages.map(page => ({
     route: page.routePath,
     lastmod: page.lastmod,
@@ -744,19 +730,37 @@ function buildSite(): void {
   writeFileSync(
     join(distRoot, 'routes.json'),
     JSON.stringify(
-      sitemapRoutes
-        .map(item => item.route)
-        .sort((a, b) => {
-          if (a === '/') return -1
-          if (b === '/') return 1
-          return a.localeCompare(b)
-        }),
+      sortRoutePaths(sitemapRoutes.map(item => item.route)),
       null,
       2
     )
   )
+}
 
-  console.log(`Generated ${pages.length} pages into ${distRoot}`)
+function buildSite(): void {
+  rmSync(distRoot, { recursive: true, force: true })
+  mkdirSync(distRoot, { recursive: true })
+
+  const pages = collectPages()
+  const context = createBuildContext(pages)
+  const resolveConfigLink = createResolveConfigLink()
+  const markdown = createMarkdownRenderer(context.pageBySource)
+
+  for (const page of context.pages) {
+    renderAndWritePage({
+      page,
+      pageByRoute: context.pageByRoute,
+      titleByRoute: context.titleByRoute,
+      markdown,
+      resolveConfigLink,
+    })
+  }
+
+  writeNotFoundPage(context.pageByRoute, resolveConfigLink)
+  writeStaticAssets()
+  writeSitemapAndRoutes(context.pages)
+
+  console.log(`Generated ${context.pages.length} pages into ${distRoot}`)
 }
 
 buildSite()
