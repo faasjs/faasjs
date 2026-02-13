@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/knex",
-  "version": "v8.0.0-beta.5",
+  "version": "8.0.0-beta.6",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -31,16 +31,16 @@
   ],
   "peerDependencies": {
     "knex": "*",
-    "@faasjs/deep_merge": ">=v8.0.0-beta.5",
-    "@faasjs/func": ">=v8.0.0-beta.5",
-    "@faasjs/logger": ">=v8.0.0-beta.5"
+    "@faasjs/deep_merge": ">=8.0.0-beta.6",
+    "@faasjs/func": ">=8.0.0-beta.6",
+    "@faasjs/logger": ">=8.0.0-beta.6"
   },
   "devDependencies": {
     "knex": "*",
-    "@faasjs/deep_merge": ">=v8.0.0-beta.5",
-    "@faasjs/func": ">=v8.0.0-beta.5",
-    "@faasjs/logger": ">=v8.0.0-beta.5",
-    "@faasjs/load": ">=v8.0.0-beta.5",
+    "@faasjs/deep_merge": ">=8.0.0-beta.6",
+    "@faasjs/func": ">=8.0.0-beta.6",
+    "@faasjs/logger": ">=8.0.0-beta.6",
+    "@faasjs/load": ">=8.0.0-beta.6",
     "@types/mysql": "*",
     "@types/node": "*",
     "@types/pg": "*",
