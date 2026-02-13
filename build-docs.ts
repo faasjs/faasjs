@@ -18,8 +18,13 @@ function build(path: string) {
     `rm -rf ${packagePath}/classes ${packagePath}/functions ${packagePath}/interfaces ${packagePath}/type-aliases ${packagePath}/modules ${packagePath}/variables`
   )
 
+  const intentionallyNotExportedArgs =
+    packagePath === 'packages/types'
+      ? ' --intentionallyNotExported FaasActions --intentionallyNotExported FaasEvents'
+      : ''
+
   run(
-    `npm exec typedoc -- ${packagePath}/src/index.ts --tsconfig ${packagePath}/tsconfig.json --out ${path.replace('/package.json', '/')}`
+    `npm exec typedoc -- ${packagePath}/src/index.ts --tsconfig ${packagePath}/tsconfig.json --out ${path.replace('/package.json', '/')}${intentionallyNotExportedArgs}`
   )
 
   const files = globSync(path.replace('/package.json', '/**/*.md'))

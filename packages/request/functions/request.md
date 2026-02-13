@@ -18,18 +18,20 @@ Request
 
 `string`
 
-Url
+Request target URL.
 
 ### options?
 
 [`RequestOptions`](../type-aliases/RequestOptions.md) = `...`
 
-Options
+Request options.
 
 ## Returns
 
 `Promise`\<[`Response`](../type-aliases/Response.md)\<`T`\>\>
 
-## Url
+Request response.
+
+## See
 
 https://faasjs.com/doc/request.html

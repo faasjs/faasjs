@@ -68,4 +68,5 @@
 
 export * from './pglite'
 export * from './test'
+export * from './typegen'
 export * from './vite'

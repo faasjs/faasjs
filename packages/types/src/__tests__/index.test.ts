@@ -4,6 +4,8 @@ import type {
   FaasActions,
   FaasActionUnionType,
   FaasData,
+  FaasEvent,
+  FaasEvents,
   FaasParams,
   InferFaasAction,
 } from '@faasjs/types'
@@ -14,6 +16,14 @@ declare module '@faasjs/types' {
     test: {
       Params: { key: string }
       Data: { value: string }
+    }
+  }
+
+  interface FaasEvents {
+    test: {
+      params?: {
+        key: string
+      }
     }
   }
 }
@@ -46,6 +56,16 @@ describe('FaasActionUnionType', () => {
   it('FaasActions', () => {
     assertType<FaasActions['test']['Params']>({ key: 'key' })
     assertType<FaasActions['test']['Data']>({ value: 'value' })
+  })
+
+  it('FaasEvent', () => {
+    assertType<FaasEvents['test']>({ params: { key: 'key' } })
+    expectTypeOf<FaasEvent<'test'>>().toEqualTypeOf<{
+      params?: {
+        key: string
+      }
+    }>()
+    expectTypeOf<FaasEvent<'unknown'>>().toEqualTypeOf<Record<string, any>>()
   })
 
   it('InferFaasAction', () => {

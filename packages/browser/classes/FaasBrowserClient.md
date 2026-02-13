@@ -95,7 +95,9 @@ Base URL for all API requests. Must end with '/'. Defaults to '/' for relative r
 
 [`Options`](../type-aliases/Options.md) = `...`
 
-Configuration options for the client
+Configuration options for the client.
+  Supports default headers, beforeRequest hook, custom request function,
+  baseUrl override, and streaming mode.
 
 #### Returns
 

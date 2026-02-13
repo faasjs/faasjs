@@ -2,6 +2,6 @@
 
 # Type Alias: FaasActionPaths
 
-> **FaasActionPaths** = keyof `FaasActions`
+> **FaasActionPaths** = `Exclude`\<`Extract`\<keyof `FaasActions`, `string`\>, `"faasjsActionsPlaceholder"`\>
 
 Paths of FaasJS actions.

@@ -6,6 +6,9 @@
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "bin": {
+    "faas-types": "faas-types.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -24,10 +27,11 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
+    "build": "tsup-node --entry src/index.ts --entry src/cli.ts --config ../../tsup.config.ts"
   },
   "files": [
-    "dist"
+    "dist",
+    "faas-types.mjs"
   ],
   "peerDependencies": {
     "@electric-sql/pglite": "*",

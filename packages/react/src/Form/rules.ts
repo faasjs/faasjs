@@ -26,7 +26,7 @@ export type FormRule<Options = any> = (
   lang?: FormLang
 ) => Promise<void>
 
-type InferRuleOption<T> = T extends (
+export type InferRuleOption<T> = T extends (
   value: any,
   options: infer O,
   lang?: FormLang
@@ -49,9 +49,6 @@ export type InferFormRulesOptions<T> = {
 
 /**
  * Default validation rules for a form.
- *
- * @constant
- * @type {FormRules}
  */
 export const FormDefaultRules: FormRules = {
   required: async (value, _, lang) => {

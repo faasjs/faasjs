@@ -2,7 +2,7 @@
 
 # Function: useSplittingState()
 
-> **useSplittingState**\<`T`\>(`initialStates`): `StatesWithSetters`\<`T`\>
+> **useSplittingState**\<`T`\>(`initialStates`): [`StatesWithSetters`](../type-aliases/StatesWithSetters.md)\<`T`\>
 
 A hook that initializes and splits state variables and their corresponding setters.
 
@@ -24,7 +24,7 @@ An object containing the initial states.
 
 ## Returns
 
-`StatesWithSetters`\<`T`\>
+[`StatesWithSetters`](../type-aliases/StatesWithSetters.md)\<`T`\>
 
 ## Example
 

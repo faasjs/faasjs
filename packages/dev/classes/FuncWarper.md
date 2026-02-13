@@ -29,6 +29,13 @@ expect(await func.handler()).toEqual('Hello, world')
 
 [`Func`](Func.md)
 
+{Func} A FaasJS function
+```ts
+import { FuncWarper } from '@faasjs/dev'
+
+new FuncWarper(__dirname + '/../demo.func.ts')
+```
+
 #### Returns
 
 `FuncWarper`

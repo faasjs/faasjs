@@ -13,26 +13,26 @@
  * - Compatible with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
  * - Additional React functions:
  *   - Utils:
- *     - [equal](functions/equal.md): Compare two values for deep equality.
- *     - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
- *     - [splittingState](functions/splittingState.md): Create a splitting states.
+ *     - `equal`: Compare two values for deep equality.
+ *     - `createSplittingContext`: Create a context for code splitting.
+ *     - `useSplittingState`: Create splitting states.
  *   - Hooks:
- *     - [useEqualMemoize](functions/useEqualMemoize.md): Memoize a value with deep equality.
- *     - [useEqualEffect](functions/useEqualEffect.md): Run an effect with deep equality.
- *     - [useEqualMemo](functions/useEqualMemo.md): Memoize a value with deep equality.
- *     - [useEqualCallback](functions/useEqualCallback.md): Memoize a callback with deep equality.
- *     - [useConstant](functions/useConstant.md): Create a constant value with hooks.
- *     - [usePrevious](functions/usePrevious.md): Get the previous value of a state.
- *     - [useStateRef](functions/useStateRef.md): Create a state with a ref.
+ *     - `useEqualMemoize`: Memoize a value with deep equality.
+ *     - `useEqualEffect`: Run an effect with deep equality.
+ *     - `useEqualMemo`: Memoize a value with deep equality.
+ *     - `useEqualCallback`: Memoize a callback with deep equality.
+ *     - `useConstant`: Create a constant value with hooks.
+ *     - `usePrevious`: Get the previous value of a state.
+ *     - `useStateRef`: Create a state with a ref.
  *   - Components:
- *     - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
- *     - [ErrorBoundary](classes/ErrorBoundary.md): Catch errors in the component tree.
+ *     - `OptionalWrapper`: Render a component optionally.
+ *     - `ErrorBoundary`: Catch errors in the component tree.
  *   - Fetch Data:
- *     - [faas](functions/faas.md): Fetch data from FaasJS.
- *     - [useFaas](functions/useFaas.md): Fetch data from FaasJS with hooks.
- *     - [useFaasStream](functions/useFaasStream.md): Fetch streaming data from FaasJS with hooks.
- *     - [FaasDataWrapper](functions/FaasDataWrapper.md): Fetch data from FaasJS with a wrapper component.
- *     - [withFaasData](functions/withFaasData.md): Fetch data from FaasJS using a higher-order component (HOC).
+ *     - `faas`: Fetch data from FaasJS.
+ *     - `useFaas`: Fetch data from FaasJS with hooks.
+ *     - `useFaasStream`: Fetch streaming data from FaasJS with hooks.
+ *     - `FaasDataWrapper`: Fetch data from FaasJS with a wrapper component.
+ *     - `withFaasData`: Fetch data from FaasJS using a higher-order component (HOC).
  *
  * ## Install
  *

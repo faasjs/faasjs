@@ -1,6 +1,7 @@
 export { FormContainer as Form, type FormProps } from './Container'
 export * from './context'
 export * from './elements'
+export * from './Input'
 export * from './Item'
 export * from './lang'
 export * from './rules'

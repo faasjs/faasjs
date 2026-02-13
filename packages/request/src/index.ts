@@ -95,7 +95,7 @@ export type RequestOptions = {
   logger?: Logger
 } & Pick<https.RequestOptions, 'pfx' | 'passphrase' | 'agent'>
 
-type Mock = (url: string, options: RequestOptions) => Promise<Response>
+export type Mock = (url: string, options: RequestOptions) => Promise<Response>
 
 let mock: Mock | null = null
 
@@ -160,25 +160,10 @@ export class ResponseError extends Error {
 /**
  * Request
  *
- * @param {string} url Url
- * @param {object=} [options={}] Options
- * @param {string} [options.method=GET] Method
- * @param {object} [options.query={}] Query
- * @param {object} [options.headers={}] Headers
- * @param {object=} options.body Body
- * @param {number=} options.timeout Timeout
- * @param {string=} options.auth Auth, format: user:password
- * @param {string=} options.file Upload file path
- * @param {WritableStream=} options.downloadStream Download stream
- * @param {string=} options.downloadFile Download to file
- * @param {Buffer=} options.pfx pfx
- * @param {string=} options.passphrase passphrase
- * @param {boolean=} options.agent agent
- * @param {parse=} options.parse body parser, default is JSON.parse
- *
- * @returns {promise}
- *
- * @url https://faasjs.com/doc/request.html
+ * @param url - Request target URL.
+ * @param options - Request options.
+ * @returns Request response.
+ * @see https://faasjs.com/doc/request.html
  */
 export async function request<T = any>(
   url: string,

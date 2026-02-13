@@ -10,7 +10,7 @@ Mock requests
 
 ### handler
 
-`Mock`
+[`Mock`](../type-aliases/Mock.md)
 
 {function | null} null to disable mock
 

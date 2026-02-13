@@ -32,6 +32,7 @@ export {
 
 export {
   Session,
+  type SessionContent,
   type SessionOptions,
 } from './session'
 
@@ -473,3 +474,20 @@ export type HttpFuncHandler<
     session?: Session<TSession, TCookie>
   }
 ) => Promise<TResult>
+
+declare module '@faasjs/func' {
+  interface FaasPluginEventMap {
+    http: {
+      headers?: Record<string, any>
+      body?: any
+      params?: Record<string, any>
+      queryString?: Record<string, any>
+      httpMethod?: string
+      path?: string
+      raw?: {
+        request?: unknown
+        response?: unknown
+      }
+    }
+  }
+}

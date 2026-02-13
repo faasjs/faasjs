@@ -2,10 +2,28 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.6 (2026-02-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.5...v8.0.0-beta.6)
+[`v8.0.0-beta.6 (2026-02-13)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.5...v8.0.0-beta.6)
 
 - `@faasjs/dev`
+  - [Feature] Add `generateFaasTypes` and `faas-types` CLI to generate action/event types from `.func.ts` routes and `faas.yaml`.
+  - [Feature] Add `types` option to `viteFaasJsServer` with startup generation and watched regeneration for `.func.ts` and `faas.yaml`.
   - [Fix] Fix knex exporter.
+
+- `@faasjs/func`
+  - [Feature] Add `FaasPluginEventMap` and `InferPluginEvent` type utilities for plugin-driven event inference.
+
+- `@faasjs/http`
+  - [Feature] Export `SessionContent` type.
+  - [Feature] Register `http` plugin event shape via `FaasPluginEventMap` augmentation.
+
+- `@faasjs/types`
+  - [Feature] Add `FaasEvents`, `FaasEventPaths`, and `FaasEvent` for event type inference.
+
+- `@faasjs/react`
+  - [Feature] Export `FormInput` and related helper types (`FormInputProps`, `InferFormInputProps`, `InferRuleOption`, `StateSetters`, `StatesWithSetters`).
+
+- `@faasjs/request`
+  - [Feature] Export `Mock` type for `setMock` handler signatures.
 
 [`v8.0.0-beta.5 (2026-02-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.4...v8.0.0-beta.5)
 

@@ -18,7 +18,7 @@
 
 ### input?
 
-> `optional` **input**: `FormInputProps`\<`FormElements`\>
+> `optional` **input**: [`FormInputProps`](FormInputProps.md)\<`FormElements`\>
 
 ### label?
 

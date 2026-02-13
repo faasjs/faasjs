@@ -36,7 +36,7 @@
 
 ### decode()
 
-> **decode**\<`TData`\>(`text`): `SessionContent` \| `TData`
+> **decode**\<`TData`\>(`text`): [`SessionContent`](../type-aliases/SessionContent.md) \| `TData`
 
 #### Type Parameters
 
@@ -52,7 +52,7 @@
 
 #### Returns
 
-`SessionContent` \| `TData`
+[`SessionContent`](../type-aliases/SessionContent.md) \| `TData`
 
 ### encode()
 
@@ -62,7 +62,7 @@
 
 ##### text
 
-`SessionContent`
+[`SessionContent`](../type-aliases/SessionContent.md)
 
 #### Returns
 

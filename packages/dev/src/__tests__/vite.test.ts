@@ -55,7 +55,7 @@ describe('viteFaasJsServer', () => {
       root: '/test/root',
       base: '/test/base/',
       logLevel: 'silent',
-      plugins: [viteFaasJsServer()],
+      plugins: [viteFaasJsServer({ types: false })],
     })
 
     expect(mocks.calls).toHaveLength(1)
@@ -74,6 +74,7 @@ describe('viteFaasJsServer', () => {
         viteFaasJsServer({
           root: '/custom/root',
           base: '/custom/base/',
+          types: false,
           port: 4000,
           command: 'ignored',
         }),
@@ -92,7 +93,7 @@ describe('viteFaasJsServer', () => {
       root: '/test/root',
       base: '/test/base/',
       logLevel: 'silent',
-      plugins: [viteFaasJsServer()],
+      plugins: [viteFaasJsServer({ types: false })],
     })
 
     await server.listen()
@@ -125,7 +126,7 @@ describe('viteFaasJsServer', () => {
       root: '/test/root',
       base: '/test/base/',
       logLevel: 'silent',
-      plugins: [viteFaasJsServer()],
+      plugins: [viteFaasJsServer({ types: false })],
     })
 
     await server.listen()

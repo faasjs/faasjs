@@ -50,9 +50,7 @@ export type FaasReactClientInstance = {
 /**
  * Before use faas, you should initialize a FaasReactClient.
  *
- * @param props.baseUrl {string} The baseUrl of your faas server
- * @param props.options {Options} The options of client
- * @returns {FaasReactClientInstance}
+ * @returns FaasReactClient instance.
  *
  * @example
  * ```ts

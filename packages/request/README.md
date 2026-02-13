@@ -12,6 +12,7 @@
 
 ## Type Aliases
 
+- [Mock](type-aliases/Mock.md)
 - [Request](type-aliases/Request.md)
 - [RequestOptions](type-aliases/RequestOptions.md)
 - [Response](type-aliases/Response.md)

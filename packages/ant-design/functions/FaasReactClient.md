@@ -16,6 +16,8 @@ Before use faas, you should initialize a FaasReactClient.
 
 `FaasReactClientInstance`
 
+FaasReactClient instance.
+
 ## Example
 
 ```ts

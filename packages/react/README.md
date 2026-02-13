@@ -14,26 +14,26 @@ React plugin for FaasJS.
 - Compatible with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
 - Additional React functions:
   - Utils:
-    - [equal](functions/equal.md): Compare two values for deep equality.
-    - [createSplittingContext](functions/createSplittingContext.md): Create a context for code splitting.
-    - [splittingState](functions/splittingState.md): Create a splitting states.
+    - `equal`: Compare two values for deep equality.
+    - `createSplittingContext`: Create a context for code splitting.
+    - `useSplittingState`: Create splitting states.
   - Hooks:
-    - [useEqualMemoize](functions/useEqualMemoize.md): Memoize a value with deep equality.
-    - [useEqualEffect](functions/useEqualEffect.md): Run an effect with deep equality.
-    - [useEqualMemo](functions/useEqualMemo.md): Memoize a value with deep equality.
-    - [useEqualCallback](functions/useEqualCallback.md): Memoize a callback with deep equality.
-    - [useConstant](functions/useConstant.md): Create a constant value with hooks.
-    - [usePrevious](functions/usePrevious.md): Get the previous value of a state.
-    - [useStateRef](functions/useStateRef.md): Create a state with a ref.
+    - `useEqualMemoize`: Memoize a value with deep equality.
+    - `useEqualEffect`: Run an effect with deep equality.
+    - `useEqualMemo`: Memoize a value with deep equality.
+    - `useEqualCallback`: Memoize a callback with deep equality.
+    - `useConstant`: Create a constant value with hooks.
+    - `usePrevious`: Get the previous value of a state.
+    - `useStateRef`: Create a state with a ref.
   - Components:
-    - [OptionalWrapper](functions/OptionalWrapper.md): Render a component optionally.
-    - [ErrorBoundary](classes/ErrorBoundary.md): Catch errors in the component tree.
+    - `OptionalWrapper`: Render a component optionally.
+    - `ErrorBoundary`: Catch errors in the component tree.
   - Fetch Data:
-    - [faas](functions/faas.md): Fetch data from FaasJS.
-    - [useFaas](functions/useFaas.md): Fetch data from FaasJS with hooks.
-    - [useFaasStream](functions/useFaasStream.md): Fetch streaming data from FaasJS with hooks.
-    - [FaasDataWrapper](functions/FaasDataWrapper.md): Fetch data from FaasJS with a wrapper component.
-    - [withFaasData](functions/withFaasData.md): Fetch data from FaasJS using a higher-order component (HOC).
+    - `faas`: Fetch data from FaasJS.
+    - `useFaas`: Fetch data from FaasJS with hooks.
+    - `useFaasStream`: Fetch streaming data from FaasJS with hooks.
+    - `FaasDataWrapper`: Fetch data from FaasJS with a wrapper component.
+    - `withFaasData`: Fetch data from FaasJS using a higher-order component (HOC).
 
 ## Install
 
@@ -48,6 +48,7 @@ npm install @faasjs/react react
 - [faas](functions/faas.md)
 - [FaasReactClient](functions/FaasReactClient.md)
 - [Form](functions/Form.md)
+- [FormInput](functions/FormInput.md)
 - [FormItem](functions/FormItem.md)
 - [getClient](functions/getClient.md)
 - [OptionalWrapper](functions/OptionalWrapper.md)
@@ -91,6 +92,7 @@ npm install @faasjs/react react
 - [FormDefaultRulesOptions](type-aliases/FormDefaultRulesOptions.md)
 - [FormElementTypes](type-aliases/FormElementTypes.md)
 - [FormInputElementProps](type-aliases/FormInputElementProps.md)
+- [FormInputProps](type-aliases/FormInputProps.md)
 - [FormItemName](type-aliases/FormItemName.md)
 - [FormItemProps](type-aliases/FormItemProps.md)
 - [FormLabelElementProps](type-aliases/FormLabelElementProps.md)
@@ -98,11 +100,15 @@ npm install @faasjs/react react
 - [FormProps](type-aliases/FormProps.md)
 - [FormRule](type-aliases/FormRule.md)
 - [FormRules](type-aliases/FormRules.md)
+- [InferFormInputProps](type-aliases/InferFormInputProps.md)
 - [InferFormRulesOptions](type-aliases/InferFormRulesOptions.md)
+- [InferRuleOption](type-aliases/InferRuleOption.md)
 - [OnError](type-aliases/OnError.md)
 - [OptionalWrapperProps](type-aliases/OptionalWrapperProps.md)
 - [Options](type-aliases/Options.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
+- [StateSetters](type-aliases/StateSetters.md)
+- [StatesWithSetters](type-aliases/StatesWithSetters.md)
 - [useFaasOptions](type-aliases/useFaasOptions.md)
 - [UseFaasStreamOptions](type-aliases/UseFaasStreamOptions.md)
 - [UseFaasStreamResult](type-aliases/UseFaasStreamResult.md)

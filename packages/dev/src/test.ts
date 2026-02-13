@@ -59,8 +59,7 @@ export class FuncWarper {
   private readonly _handler: ExportedHandler
 
   /**
-   * @param file {string} Full file path
-   * @param func {Func} A FaasJs function
+   * @param initBy {Func} A FaasJS function
    * ```ts
    * import { FuncWarper } from '@faasjs/dev'
    *

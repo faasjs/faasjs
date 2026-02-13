@@ -21,5 +21,7 @@ Normally you don't need to install this package manually. It's a dependency of `
 - [FaasActionPaths](type-aliases/FaasActionPaths.md)
 - [FaasActionUnionType](type-aliases/FaasActionUnionType.md)
 - [FaasData](type-aliases/FaasData.md)
+- [FaasEvent](type-aliases/FaasEvent.md)
+- [FaasEventPaths](type-aliases/FaasEventPaths.md)
 - [FaasParams](type-aliases/FaasParams.md)
 - [InferFaasAction](type-aliases/InferFaasAction.md)

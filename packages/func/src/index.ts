@@ -116,6 +116,52 @@ export type FuncEventType<T extends Func<any, any, any>> =
 export type FuncReturnType<T extends Func<any, any, any>> =
   T extends Func<any, any, infer R> ? R : any
 
+export type NormalizePluginType<TType extends string> =
+  TType extends `npm:${infer Name}`
+    ? Name
+    : TType extends `@faasjs/${infer Name}`
+      ? Name
+      : TType
+
+export type UnionToIntersection<T> = (
+  T extends unknown
+    ? (arg: T) => void
+    : never
+) extends (arg: infer TResult) => void
+  ? TResult
+  : never
+
+export type Simplify<T> = {
+  [K in keyof T]: T[K]
+} & {}
+
+/**
+ * Plugin event augmentation map.
+ *
+ * Extend this interface in plugin packages to describe which event fields are
+ * injected when the plugin is enabled through `faas.yaml`.
+ */
+// biome-ignore lint/suspicious/noEmptyInterface: declaration merging entrypoint for plugin packages
+export interface FaasPluginEventMap {}
+
+export type ResolvePluginEvent<TType extends string> =
+  NormalizePluginType<TType> extends keyof FaasPluginEventMap
+    ? FaasPluginEventMap[NormalizePluginType<TType>]
+    : Record<never, never>
+
+/**
+ * Infer event type from plugin type names.
+ *
+ * @example
+ * ```ts
+ * type Event = InferPluginEvent<['http']>
+ * ```
+ */
+export type InferPluginEvent<TPlugins extends readonly string[]> = Simplify<
+  Record<string, any> &
+    UnionToIntersection<ResolvePluginEvent<TPlugins[number]>>
+>
+
 export function parseFuncFilenameFromStack(stack?: string): string | undefined {
   if (!stack) return
 

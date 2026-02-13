@@ -28,6 +28,7 @@ npm install @faasjs/http
 - [HttpConfig](type-aliases/HttpConfig.md)
 - [HttpFuncHandler](type-aliases/HttpFuncHandler.md)
 - [Response](type-aliases/Response.md)
+- [SessionContent](type-aliases/SessionContent.md)
 - [SessionOptions](type-aliases/SessionOptions.md)
 
 ## Variables

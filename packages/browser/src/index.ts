@@ -855,12 +855,9 @@ export class FaasBrowserClient {
    *
    * @param baseUrl - Base URL for all API requests. Must end with '/'. Defaults to '/' for relative requests.
    *   @throws {Error} If baseUrl does not end with '/'
-   * @param options - Configuration options for the client
-   *   @param options.headers - Default headers for all requests. Headers are merged with per-request headers, with per-request headers taking precedence.
-   *   @param options.beforeRequest - Async hook called before each request. Useful for logging, authentication, or request modification.
-   *   @param options.request - Custom request function to replace the default fetch. Allows using axios, XMLHttpRequest, or other HTTP clients.
-   *   @param options.baseUrl - Optional override baseUrl for this client instance
-   *   @param options.stream - Enable streaming mode for large responses. When true, returns the raw fetch Response instead of a wrapped Response.
+   * @param options - Configuration options for the client.
+   *   Supports default headers, beforeRequest hook, custom request function,
+   *   baseUrl override, and streaming mode.
    *
    * @example Basic initialization
    * ```ts

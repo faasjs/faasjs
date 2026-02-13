@@ -29,6 +29,10 @@ npm install @faasjs/func
 
 - [Func](classes/Func.md)
 
+## Interfaces
+
+- [FaasPluginEventMap](interfaces/FaasPluginEventMap.md)
+
 ## Type Aliases
 
 - [Config](type-aliases/Config.md)
@@ -37,9 +41,14 @@ npm install @faasjs/func
 - [FuncEventType](type-aliases/FuncEventType.md)
 - [FuncReturnType](type-aliases/FuncReturnType.md)
 - [Handler](type-aliases/Handler.md)
+- [InferPluginEvent](type-aliases/InferPluginEvent.md)
 - [InvokeData](type-aliases/InvokeData.md)
 - [LifeCycleKey](type-aliases/LifeCycleKey.md)
 - [MountData](type-aliases/MountData.md)
 - [Next](type-aliases/Next.md)
+- [NormalizePluginType](type-aliases/NormalizePluginType.md)
 - [Plugin](type-aliases/Plugin.md)
+- [ResolvePluginEvent](type-aliases/ResolvePluginEvent.md)
+- [Simplify](type-aliases/Simplify.md)
+- [UnionToIntersection](type-aliases/UnionToIntersection.md)
 - [UseifyPlugin](type-aliases/UseifyPlugin.md)

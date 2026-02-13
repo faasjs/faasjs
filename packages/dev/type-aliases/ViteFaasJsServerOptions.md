@@ -17,3 +17,9 @@ faas server base path, default is vite's base
 > **root**: `string`
 
 faas project root path, default is vite's root
+
+### types
+
+> **types**: `boolean` \| `Partial`\<[`ViteFaasTypegenOptions`](ViteFaasTypegenOptions.md)\>
+
+api/event type generation options

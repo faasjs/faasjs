@@ -1,15 +1,13 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
 
-type SetPrefix<S extends string | number | symbol> = S extends string
-  ? S extends `${infer First}${infer Rest}`
-    ? `set${Capitalize<First>}${Rest}`
-    : never
-  : never
-
-type StateSetters<T> = {
-  [K in keyof T as SetPrefix<K>]: Dispatch<SetStateAction<T[K]>>
+export type StateSetters<T> = {
+  [K in keyof T as K extends string
+    ? K extends `${infer First}${infer Rest}`
+      ? `set${Capitalize<First>}${Rest}`
+      : never
+    : never]: Dispatch<SetStateAction<T[K]>>
 }
-type StatesWithSetters<T> = T & StateSetters<T>
+export type StatesWithSetters<T> = T & StateSetters<T>
 
 /**
  * A hook that initializes and splits state variables and their corresponding setters.
