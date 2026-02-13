@@ -357,9 +357,7 @@ function writeStaticAssets(): void {
   writeFileSync(join(distRoot, '.nojekyll'), '')
 }
 
-function createMarkdownRenderer(
-  pageBySource: Map<string, Page>
-): MarkdownIt {
+function createMarkdownRenderer(pageBySource: Map<string, Page>): MarkdownIt {
   const markdown = new MarkdownIt({
     html: true,
     linkify: true,
