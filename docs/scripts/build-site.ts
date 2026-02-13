@@ -59,25 +59,6 @@ const docsRoot = resolve(scriptsDirectory, '..')
 const distRoot = join(docsRoot, 'dist')
 const siteRoot = join(docsRoot, 'site')
 
-const LEGACY_ROUTE_REDIRECTS: Record<string, string> = {
-  '/doc/react/functions/splittingState.md':
-    '/doc/react/functions/useSplittingState.html',
-  '/doc/react/functions/FaasDataWrapper.md':
-    '/doc/react/variables/FaasDataWrapper.html',
-  '/doc/dev/functions/runPgliteSql.html':
-    '/doc/dev/functions/createPgliteKnex.html',
-  '/doc/dev/functions/runPgliteSqlFile.html':
-    '/doc/dev/functions/createPgliteKnex.html',
-  '/doc/http/functions/useHttpFunc.html': '/doc/http/functions/useHttp.html',
-}
-
-const legacyRedirectMap = new Map(
-  Object.entries(LEGACY_ROUTE_REDIRECTS).map(([from, to]) => [
-    toAliasKey(from),
-    to,
-  ])
-)
-
 function findLocale(routePath: string): LocaleKey {
   return routePath.startsWith('/zh/') ? '/zh/' : '/'
 }
@@ -148,43 +129,7 @@ function resolveAliasLink(
     if (html) return html
   }
 
-  const legacyRedirect = legacyRedirectMap.get(toAliasKey(path))
-  if (legacyRedirect) return legacyRedirect
-
   return undefined
-}
-
-function toOutputPathFromRoute(route: string): string {
-  if (route === '/') {
-    return 'index.html'
-  }
-
-  const normalized = route.startsWith('/') ? route.slice(1) : route
-  if (normalized.endsWith('/')) {
-    return `${normalized}index.html`
-  }
-
-  if (!hasExtension(normalized)) {
-    return `${normalized}.html`
-  }
-
-  return normalized
-}
-
-function renderRedirectHtml(to: string): string {
-  const escaped = escapeHtml(to)
-  return `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0; url=${escaped}" />
-    <link rel="canonical" href="${escaped}" />
-    <title>Redirecting...</title>
-  </head>
-  <body>
-    <p>Redirecting to <a href="${escaped}">${escaped}</a>.</p>
-  </body>
-</html>`
 }
 
 function isPrefixActive(currentRoute: string, link: string): boolean {
@@ -744,27 +689,6 @@ function buildSite(): void {
     writeFileSync(outputFile, html)
   }
 
-  const redirectRoutes: SitemapRoute[] = []
-
-  for (const [from, to] of Object.entries(LEGACY_ROUTE_REDIRECTS)) {
-    if (!(from.endsWith('.html') || from.endsWith('/'))) {
-      continue
-    }
-
-    const outputPath = toOutputPathFromRoute(from)
-    const outputFile = join(distRoot, outputPath)
-
-    if (!existsSync(outputFile)) {
-      mkdirSync(dirname(outputFile), { recursive: true })
-      writeFileSync(outputFile, renderRedirectHtml(to))
-    }
-
-    redirectRoutes.push({
-      route: from,
-      lastmod: new Date().toISOString(),
-    })
-  }
-
   const notFoundNavbar = renderNavbar(
     [
       ...siteConfig.locales['/'].navbar,
@@ -810,13 +734,10 @@ function buildSite(): void {
 
   writeStaticAssets()
 
-  const sitemapRoutes: SitemapRoute[] = [
-    ...pages.map(page => ({
-      route: page.routePath,
-      lastmod: page.lastmod,
-    })),
-    ...redirectRoutes,
-  ]
+  const sitemapRoutes: SitemapRoute[] = pages.map(page => ({
+    route: page.routePath,
+    lastmod: page.lastmod,
+  }))
 
   writeFileSync(
     join(distRoot, 'sitemap.xml'),
