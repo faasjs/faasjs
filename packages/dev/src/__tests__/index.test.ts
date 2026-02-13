@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import * as dev from '../index'
-import * as pglite from '../pglite'
 import * as testKit from '../test'
 import * as typegen from '../typegen'
 import * as vite from '../vite'
@@ -8,12 +7,6 @@ import * as vite from '../vite'
 describe('index exports', () => {
   it('should export vite helpers', () => {
     expect(dev.viteFaasJsServer).toBe(vite.viteFaasJsServer)
-  })
-
-  it('should export pglite helpers', () => {
-    expect(dev.createPgliteKnex).toBe(pglite.createPgliteKnex)
-    expect(dev.mountFaasKnex).toBe(pglite.mountFaasKnex)
-    expect(dev.unmountFaasKnex).toBe(pglite.unmountFaasKnex)
   })
 
   it('should export test helpers', () => {

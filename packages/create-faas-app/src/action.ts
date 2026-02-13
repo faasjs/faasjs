@@ -39,13 +39,16 @@ function buildPackageJSON(name: string): string {
       dependencies: {
         '@faasjs/func': '*',
         '@faasjs/http': '*',
+        '@faasjs/knex': '*',
         faasjs: '*',
+        pg: '*',
         react: '*',
         'react-dom': '*',
         zod: '*',
       },
       devDependencies: {
         '@biomejs/biome': '*',
+        '@electric-sql/pglite': '*',
         '@faasjs/dev': '*',
         '@faasjs/lint': '*',
         '@types/node': '*',
@@ -53,6 +56,7 @@ function buildPackageJSON(name: string): string {
         '@types/react-dom': '*',
         '@vitejs/plugin-react': '*',
         jsdom: '*',
+        'knex-pglite': '*',
         typescript: '*',
         vite: '*',
         vitest: '*',
@@ -70,6 +74,7 @@ function scaffold(rootPath: string): void {
     `node_modules/
 dist/
 coverage/
+.pglite_dev/
 `
   )
 
@@ -172,9 +177,28 @@ new Server(join(__dirname, 'src'), {
           secure: false
           session:
             secret: secret
+    knex:
+      config:
+        client: pg
+        pool:
+          min: 0
+          max: 10
 development:
+  plugins:
+    knex:
+      config:
+        client: pglite
+        connection: ./.pglite_dev
 testing:
+  plugins:
+    knex:
+      config:
+        client: pglite
 production:
+  plugins:
+    knex:
+      config:
+        client: pg
 `
   )
 

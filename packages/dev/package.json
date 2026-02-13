@@ -34,7 +34,6 @@
     "faas-types.mjs"
   ],
   "peerDependencies": {
-    "@electric-sql/pglite": "*",
     "@faasjs/deep_merge": ">=8.0.0-beta.6",
     "@faasjs/func": ">=8.0.0-beta.6",
     "@faasjs/http": ">=8.0.0-beta.6",
@@ -45,11 +44,9 @@
     "@types/node": "*",
     "knex": "*",
     "vite": "*",
-    "vitest": "*",
-    "knex-pglite": "*"
+    "vitest": "*"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "*",
     "@faasjs/deep_merge": ">=8.0.0-beta.6",
     "@faasjs/func": ">=8.0.0-beta.6",
     "@faasjs/http": ">=8.0.0-beta.6",
@@ -60,8 +57,7 @@
     "@types/node": "*",
     "knex": "*",
     "vite": "*",
-    "vitest": "*",
-    "knex-pglite": "*"
+    "vitest": "*"
   },
   "engines": {
     "node": ">=24.0.0",

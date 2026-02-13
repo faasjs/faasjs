@@ -25,6 +25,7 @@ import {
 import { loadPackage } from '@faasjs/load'
 import type { Logger } from '@faasjs/logger'
 import knex, { type Knex as OriginKnex } from 'knex'
+import { createPgliteKnex, type MountedKnexAdapter } from './pglite'
 
 /**
  * Origin [knex](https://knexjs.org/) instance.
@@ -44,7 +45,7 @@ export type KnexConfig = {
 const Name = 'knex'
 
 declare let global: {
-  FaasJS_Knex?: Record<string, Knex>
+  FaasJS_Knex?: Record<string, Knex | MountedKnexAdapter>
 }
 
 if (!global.FaasJS_Knex) {
@@ -95,9 +96,11 @@ export class Knex implements Plugin {
   public async onMount(data: MountData, next: Next): Promise<void> {
     this.logger = data.logger
 
-    if (global.FaasJS_Knex[this.name]) {
-      this.config = global.FaasJS_Knex[this.name].config
-      this.adapter = global.FaasJS_Knex[this.name].adapter
+    const existsAdapter = global.FaasJS_Knex[this.name]
+
+    if (existsAdapter) {
+      this.config = existsAdapter.config as OriginKnex.Config
+      this.adapter = existsAdapter.adapter
       this.query = this.adapter
       this.logger.debug('use exists adapter')
       await next()
@@ -112,7 +115,12 @@ export class Knex implements Plugin {
         key = key.replace(prefix, '').toLowerCase()
         if (typeof (this.config as any)[key] === 'undefined')
           if (key.startsWith('connection_')) {
-            if (!this.config.connection) {
+            if (typeof this.config.connection === 'string') continue
+
+            if (
+              !this.config.connection ||
+              typeof this.config.connection !== 'object'
+            ) {
               this.config.connection = Object.create(null)
             }
             ;(this.config as any).connection[key.replace('connection_', '')] =
@@ -126,59 +134,72 @@ export class Knex implements Plugin {
         this.config
       )
 
-    switch (this.config.client) {
-      case 'sqlite3':
-        this.config.client = 'better-sqlite3'
-        this.config.useNullAsDefault = true
-        break
-      case 'pg':
-        if (!this.config.pool) this.config.pool = Object.create(null)
+    if (this.config.client === 'pglite') {
+      const connectionEnvKeys = Object.keys(process.env).filter(key =>
+        key.startsWith(`${prefix}CONNECTION_`)
+      )
 
-        this.config.pool = Object.assign(
-          {
-            propagateCreateError: false,
-            min: 0,
-            max: 10,
-            acquireTimeoutMillis: 5000,
-            idleTimeoutMillis: 30000,
-          },
-          this.config.pool
+      if (connectionEnvKeys.length)
+        throw Error(
+          `[Knex] Invalid "pglite" env keys: ${connectionEnvKeys.join(', ')}. Use ${prefix}CONNECTION instead.`
         )
 
-        if (
-          typeof this.config.connection === 'string' &&
-          !this.config.connection.includes('json=true')
-        )
-          this.config.connection = `${this.config.connection}?json=true`
-        break
-      default:
-        if (typeof this.config.client === 'string') {
-          if (this.config.client.startsWith('npm:')) {
-            const client = await loadPackage<any>(
-              this.config.client.replace('npm:', '')
-            )
+      this.adapter = await createPgliteKnex(this.config)
+    } else {
+      switch (this.config.client) {
+        case 'sqlite3':
+          this.config.client = 'better-sqlite3'
+          this.config.useNullAsDefault = true
+          break
+        case 'pg':
+          if (!this.config.pool) this.config.pool = Object.create(null)
 
-            if (!client) throw Error(`Invalid client: ${this.config.client}`)
+          this.config.pool = Object.assign(
+            {
+              propagateCreateError: false,
+              min: 0,
+              max: 10,
+              acquireTimeoutMillis: 5000,
+              idleTimeoutMillis: 30000,
+            },
+            this.config.pool
+          )
 
-            if (typeof client === 'function') {
-              this.config.client = client
-              break
+          if (
+            typeof this.config.connection === 'string' &&
+            !this.config.connection.includes('json=true')
+          )
+            this.config.connection = `${this.config.connection}?json=true`
+          break
+        default:
+          if (typeof this.config.client === 'string') {
+            if (this.config.client.startsWith('npm:')) {
+              const client = await loadPackage<any>(
+                this.config.client.replace('npm:', '')
+              )
+
+              if (!client) throw Error(`Invalid client: ${this.config.client}`)
+
+              if (typeof client === 'function') {
+                this.config.client = client
+                break
+              }
+
+              if (client.default && typeof client.default === 'function') {
+                this.config.client = client.default
+                break
+              }
+
+              throw Error(`Invalid client: ${this.config.client}`)
             }
-
-            if (client.default && typeof client.default === 'function') {
-              this.config.client = client.default
-              break
-            }
-
-            throw Error(`Invalid client: ${this.config.client}`)
           }
-        }
-        break
+          break
+      }
+
+      this.adapter = knex(this.config)
+
+      if (this.config.client === 'pg') await initPostgresTypeParsers()
     }
-
-    this.adapter = knex(this.config)
-
-    if (this.config.client === 'pg') await initPostgresTypeParsers()
 
     this.query = this.adapter
 
@@ -301,7 +322,8 @@ export class Knex implements Plugin {
 export function useKnex(config?: KnexConfig): UseifyPlugin<Knex> {
   const name = config?.name || Name
 
-  if (global.FaasJS_Knex[name]) return usePlugin<Knex>(global.FaasJS_Knex[name])
+  if (global.FaasJS_Knex[name])
+    return usePlugin<Knex>(global.FaasJS_Knex[name] as unknown as Knex)
 
   return usePlugin<Knex>(new Knex(config))
 }
@@ -386,3 +408,10 @@ export async function raw<TResult = any>(
 ): Promise<OriginKnex.Raw<TResult>> {
   return useKnex().raw<TResult>(sql, bindings)
 }
+
+export {
+  createPgliteKnex,
+  type MountFaasKnexOptions,
+  mountFaasKnex,
+  unmountFaasKnex,
+} from './pglite'

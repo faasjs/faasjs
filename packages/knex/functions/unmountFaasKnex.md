@@ -1,4 +1,4 @@
-[@faasjs/dev](../README.md) / unmountFaasKnex
+[@faasjs/knex](../README.md) / unmountFaasKnex
 
 # Function: unmountFaasKnex()
 

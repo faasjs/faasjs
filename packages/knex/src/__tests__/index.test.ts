@@ -1,8 +1,20 @@
-import { createPgliteKnex, mountFaasKnex, unmountFaasKnex } from '@faasjs/dev'
+import { randomUUID } from 'node:crypto'
+import { rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { Func, useFunc } from '@faasjs/func'
 import type { Tables } from 'knex/types/tables'
 import { afterEach, assertType, describe, expect, it } from 'vitest'
-import { Knex, query, raw, transaction, useKnex } from '..'
+import {
+  createPgliteKnex,
+  Knex,
+  mountFaasKnex,
+  query,
+  raw,
+  transaction,
+  unmountFaasKnex,
+  useKnex,
+} from '..'
 
 declare module 'knex/types/tables' {
   interface Tables {
@@ -336,8 +348,8 @@ describe('Knex', () => {
     )
   })
 
-  it('should work with pg via pglite', async () => {
-    const db = createPgliteKnex()
+  it('should work with pg via mounted pglite adapter', async () => {
+    const db = await createPgliteKnex({}, `memory://${randomUUID()}`)
 
     mountFaasKnex(db, {
       name: 'pg',
@@ -379,6 +391,211 @@ describe('Knex', () => {
     } finally {
       await db.destroy()
       unmountFaasKnex('pg')
+    }
+  })
+
+  it('should work with pglite client', async () => {
+    const knex = new Knex({
+      config: {
+        client: 'pglite',
+        connection: `memory://${randomUUID()}`,
+      },
+    })
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        return await knex
+          .raw('SELECT 1+1 AS value')
+          .then((res: any) => res.rows)
+      },
+    }).export().handler
+
+    expect(await handler({})).toEqual([{ value: 2 }])
+  })
+
+  it('should ignore pool config for pglite client', async () => {
+    const knex = new Knex({
+      config: {
+        client: 'pglite',
+        connection: `memory://${randomUUID()}`,
+        pool: {
+          min: 0,
+          max: 10,
+        },
+      } as any,
+    })
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        return await knex
+          .raw('SELECT 1+1 AS value')
+          .then((res: any) => res.rows)
+      },
+    }).export().handler
+
+    expect(await handler({})).toEqual([{ value: 2 }])
+  })
+
+  it('should reject pglite object connection', async () => {
+    const knex = new Knex({
+      config: {
+        client: 'pglite',
+        connection: {
+          filename: './tmp',
+        } as any,
+      },
+    })
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        return await knex.raw('SELECT 1+1')
+      },
+    }).export().handler
+
+    await expect(handler({})).rejects.toThrow('Invalid "pglite" connection')
+  })
+
+  it('should default to memory when pglite connection is missing', async () => {
+    const knex = new Knex({
+      config: {
+        client: 'pglite',
+      },
+    })
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        return await knex
+          .raw('SELECT 1+1 AS value')
+          .then((res: any) => res.rows)
+      },
+    }).export().handler
+
+    expect(await handler({})).toEqual([{ value: 2 }])
+  })
+
+  it('should reject empty pglite connection string', async () => {
+    const knex = new Knex({
+      config: {
+        client: 'pglite',
+        connection: '',
+      },
+    })
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        return await knex.raw('SELECT 1+1')
+      },
+    }).export().handler
+
+    await expect(handler({})).rejects.toThrow('Invalid "pglite" connection')
+  })
+
+  it('should reject pglite connection env fragments', async () => {
+    process.env.SECRET_KNEX_CLIENT = 'pglite'
+    process.env.SECRET_KNEX_CONNECTION = `memory://${randomUUID()}`
+    process.env.SECRET_KNEX_CONNECTION_FILENAME = './tmp'
+
+    const knex = new Knex()
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        return await knex.raw('SELECT 1+1')
+      },
+    }).export().handler
+
+    try {
+      await expect(handler({})).rejects.toThrow(
+        'Use SECRET_KNEX_CONNECTION instead.'
+      )
+    } finally {
+      delete process.env.SECRET_KNEX_CLIENT
+      delete process.env.SECRET_KNEX_CONNECTION
+      delete process.env.SECRET_KNEX_CONNECTION_FILENAME
+    }
+  })
+
+  it('should create parent directory for pglite path connection', async () => {
+    const rootDir = join(tmpdir(), `faasjs-knex-pglite-${randomUUID()}`)
+    const dataDir = join(rootDir, 'data', 'knex')
+    let knex: Knex | undefined
+
+    try {
+      knex = new Knex({
+        config: {
+          client: 'pglite',
+          connection: dataDir,
+        },
+      })
+
+      const handler = new Func({
+        plugins: [knex],
+        async handler() {
+          return await knex
+            .raw('SELECT 1+1 AS value')
+            .then((res: any) => res.rows)
+        },
+      }).export().handler
+
+      expect(await handler({})).toEqual([{ value: 2 }])
+    } finally {
+      if (knex) await knex.quit()
+      await rm(rootDir, { recursive: true, force: true })
+    }
+  })
+
+  it('should persist pglite data with directory connection', async () => {
+    const dataDir = join(tmpdir(), `faasjs-knex-pglite-${randomUUID()}`)
+    let writer: Knex | undefined
+    let reader: Knex | undefined
+
+    try {
+      writer = new Knex({
+        config: {
+          client: 'pglite',
+          connection: dataDir,
+        },
+      })
+
+      const writeHandler = new Func({
+        plugins: [writer],
+        async handler() {
+          await writer.schema().createTable('test', t => {
+            t.integer('id').primary()
+          })
+
+          await writer.query('test').insert({ id: '1' })
+
+          return await writer.query('test')
+        },
+      }).export().handler
+
+      expect(await writeHandler({})).toEqual([{ id: 1 }])
+
+      reader = new Knex({
+        config: {
+          client: 'pglite',
+          connection: dataDir,
+        },
+      })
+
+      const readHandler = new Func({
+        plugins: [reader],
+        async handler() {
+          return await reader.query('test')
+        },
+      }).export().handler
+
+      expect(await readHandler({})).toEqual([{ id: 1 }])
+    } finally {
+      if (reader) await reader.quit()
+      if (writer) await writer.quit()
+      await rm(dataDir, { recursive: true, force: true })
     }
   })
 })

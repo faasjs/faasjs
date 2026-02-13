@@ -14,8 +14,9 @@ npm install @faasjs/dev
 ## Features
 
 - Vite integration for in-process FaasJS API during local development.
-- PGlite helpers for lightweight database setup in tests.
 - Test helpers to invoke and assert FaasJS functions.
+
+> PGlite helpers are moved to `@faasjs/knex`.
 
 ## Usage: Vite integration
 
@@ -25,24 +26,6 @@ import { viteFaasJsServer } from '@faasjs/dev'
 export default defineConfig({
   plugins: [viteFaasJsServer()],
 })
-```
-
-## Usage: PGlite helpers
-
-```ts
-import {
-  createPgliteKnex,
-  mountFaasKnex,
-  unmountFaasKnex,
-} from '@faasjs/dev'
-
-const db = createPgliteKnex()
-mountFaasKnex(db)
-
-// run tests...
-
-await db.destroy()
-unmountFaasKnex()
 ```
 
 ## Usage: Test helpers
@@ -61,21 +44,17 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 ## API
 
 - Vite: [viteFaasJsServer](functions/viteFaasJsServer.md)
-- PGlite: [createPgliteKnex](functions/createPgliteKnex.md), [mountFaasKnex](functions/mountFaasKnex.md), [unmountFaasKnex](functions/unmountFaasKnex.md), [MountFaasKnexOptions](type-aliases/MountFaasKnexOptions.md)
 - Test: [test](functions/test.md), [FuncWarper](classes/FuncWarper.md), [streamToString](functions/streamToString.md)
 
 ## Functions
 
-- [createPgliteKnex](functions/createPgliteKnex.md)
 - [defineFunc](functions/defineFunc.md)
 - [generateFaasTypes](functions/generateFaasTypes.md)
 - [isTypegenSourceFile](functions/isTypegenSourceFile.md)
-- [mountFaasKnex](functions/mountFaasKnex.md)
 - [nameFunc](functions/nameFunc.md)
 - [parseFuncFilenameFromStack](functions/parseFuncFilenameFromStack.md)
 - [streamToString](functions/streamToString.md)
 - [test](functions/test.md)
-- [unmountFaasKnex](functions/unmountFaasKnex.md)
 - [useFunc](functions/useFunc.md)
 - [usePlugin](functions/usePlugin.md)
 - [viteFaasJsServer](functions/viteFaasJsServer.md)
@@ -103,7 +82,6 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 - [InvokeData](type-aliases/InvokeData.md)
 - [LifeCycleKey](type-aliases/LifeCycleKey.md)
 - [MountData](type-aliases/MountData.md)
-- [MountFaasKnexOptions](type-aliases/MountFaasKnexOptions.md)
 - [Next](type-aliases/Next.md)
 - [NormalizePluginType](type-aliases/NormalizePluginType.md)
 - [Plugin](type-aliases/Plugin.md)

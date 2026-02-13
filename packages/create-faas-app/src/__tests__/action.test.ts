@@ -70,6 +70,15 @@ describe('action', () => {
       expect.objectContaining({
         '@faasjs/func': '*',
         '@faasjs/http': '*',
+        '@faasjs/knex': '*',
+        pg: '*',
+      })
+    )
+
+    expect(packageJSON.devDependencies).toEqual(
+      expect.objectContaining({
+        '@electric-sql/pglite': '*',
+        'knex-pglite': '*',
       })
     )
 
@@ -83,6 +92,22 @@ describe('action', () => {
     expect(files['test/.gitignore']).toEqual(`node_modules/
 dist/
 coverage/
+.pglite_dev/
 `)
+
+    expect(files['test/src/faas.yaml']).toContain('connection: ./.pglite_dev')
+    expect(files['test/src/faas.yaml']).toContain('production:')
+
+    const testingSection = files['test/src/faas.yaml']
+      .split('testing:')[1]
+      .split('production:')[0]
+
+    expect(testingSection).toContain('client: pglite')
+    expect(testingSection).not.toContain('connection:')
+
+    const productionSection =
+      files['test/src/faas.yaml'].split('production:')[1]
+
+    expect(productionSection).toContain('client: pg')
   })
 })

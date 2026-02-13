@@ -13,7 +13,6 @@
  * ## Features
  *
  * - Vite integration for in-process FaasJS API during local development.
- * - PGlite helpers for lightweight database setup in tests.
  * - Test helpers to invoke and assert FaasJS functions.
  *
  * ## Usage: Vite integration
@@ -24,24 +23,6 @@
  * export default defineConfig({
  *   plugins: [viteFaasJsServer()],
  * })
- * ```
- *
- * ## Usage: PGlite helpers
- *
- * ```ts
- * import {
- *   createPgliteKnex,
- *   mountFaasKnex,
- *   unmountFaasKnex,
- * } from '@faasjs/dev'
- *
- * const db = createPgliteKnex()
- * mountFaasKnex(db)
- *
- * // run tests...
- *
- * await db.destroy()
- * unmountFaasKnex()
  * ```
  *
  * ## Usage: Test helpers
@@ -60,13 +41,11 @@
  * ## API
  *
  * - Vite: {@link viteFaasJsServer}
- * - PGlite: {@link createPgliteKnex}, {@link mountFaasKnex}, {@link unmountFaasKnex}, {@link MountFaasKnexOptions}
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToString}
  *
  * @packageDocumentation
  */
 
-export * from './pglite'
 export * from './test'
 export * from './typegen'
 export * from './vite'

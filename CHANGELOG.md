@@ -2,6 +2,20 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.7 (2026-02-14)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.6...v8.0.0-beta.7)
+
+- `@faasjs/dev`
+  - [Break] Remove PGlite helpers (`createPgliteKnex`, `mountFaasKnex`, `unmountFaasKnex`).
+
+- `@faasjs/knex`
+  - [Break] Move PGlite helpers from `@faasjs/dev` to `@faasjs/knex`.
+  - [Break] `client: pglite` only accepts `connection` as string (when provided) and rejects `connection_*` env fragments.
+  - [Feature] Add native `client: pglite` support.
+  - [Feature] Default `client: pglite` to in-memory when `connection` is missing, ignore `pool`, and create parent directories automatically for path connections.
+
+- `create-faas-app`
+  - [Feature] Scaffold knex defaults with `production: pg`, `development: pglite` (persisted at `./.pglite_dev`), and `testing: pglite` in-memory.
+
 [`v8.0.0-beta.6 (2026-02-13)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.5...v8.0.0-beta.6)
 
 - `@faasjs/dev`
