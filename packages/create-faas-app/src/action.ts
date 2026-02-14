@@ -2,7 +2,9 @@ import { execSync } from 'node:child_process'
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import type { Command } from 'commander'
-import { prompt } from 'enquirer'
+import enquirer from 'enquirer'
+
+const prompt = enquirer.prompt
 
 const Validator = {
   name(input: string) {

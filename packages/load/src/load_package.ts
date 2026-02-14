@@ -9,8 +9,8 @@ export function resetRuntime(): void {
 /**
  * Detect current JavaScript runtime environment.
  *
- * This function checks for presence of `import.meta` and `require` to determine
- * whether runtime is using ECMAScript modules (ESM) or CommonJS modules (CJS).
+ * This function checks for presence of `require` first, then falls back to Node.js
+ * ESM detection via `process.versions.node`.
  *
  * @returns {NodeRuntime} - Returns 'module' if runtime is using ECMAScript modules,
  *                            and 'cjs' if the runtime is using CommonJS modules.
@@ -22,7 +22,8 @@ export function detectNodeRuntime(): NodeRuntime {
   if (typeof globalThis.require === 'function' && typeof module !== 'undefined')
     return (_runtime = 'commonjs')
 
-  if (typeof import.meta !== 'undefined') return (_runtime = 'module')
+  if (typeof process !== 'undefined' && process.versions?.node)
+    return (_runtime = 'module')
 
   throw Error('Unknown runtime')
 }

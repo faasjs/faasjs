@@ -36,7 +36,15 @@ action(commander as Command)
 export async function main(argv: string[]) {
   try {
     await commander.parseAsync(argv)
-  } catch (error) {
+  } catch (error: unknown) {
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      (error as { code?: string }).code === 'commander.helpDisplayed'
+    )
+      return commander
+
     console.error(error)
   }
 

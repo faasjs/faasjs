@@ -24,7 +24,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup src/index.ts --config ../../tsup.config.ts --external react"
+    "build": "tsdown src/index.ts --config ../../tsdown.config.ts --external react --dts.eager --no-sourcemap --no-dts.sourcemap"
   },
   "files": [
     "dist"

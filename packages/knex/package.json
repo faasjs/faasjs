@@ -24,7 +24,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsup-node src/index.ts --config ../../tsup.config.ts"
+    "build": "tsdown src/index.ts --config ../../tsdown.config.ts"
   },
   "files": [
     "dist"
@@ -44,7 +44,8 @@
     "better-sqlite3": "*",
     "knex-pglite": "*",
     "@types/pg": "*",
-    "pg": "*"
+    "pg": "*",
+    "cloudflare-d1-http-knex": "*"
   },
   "engines": {
     "node": ">=24.0.0",

@@ -16,6 +16,26 @@ import {
   useKnex,
 } from '..'
 
+const originalSecretKnexClient = process.env.SECRET_KNEX_CLIENT
+const originalSecretKnexConnection = process.env.SECRET_KNEX_CONNECTION
+const originalSecretKnexConnectionFilename =
+  process.env.SECRET_KNEX_CONNECTION_FILENAME
+
+function restoreSecretKnexEnv() {
+  if (typeof originalSecretKnexClient === 'string')
+    process.env.SECRET_KNEX_CLIENT = originalSecretKnexClient
+  else delete process.env.SECRET_KNEX_CLIENT
+
+  if (typeof originalSecretKnexConnection === 'string')
+    process.env.SECRET_KNEX_CONNECTION = originalSecretKnexConnection
+  else delete process.env.SECRET_KNEX_CONNECTION
+
+  if (typeof originalSecretKnexConnectionFilename === 'string')
+    process.env.SECRET_KNEX_CONNECTION_FILENAME =
+      originalSecretKnexConnectionFilename
+  else delete process.env.SECRET_KNEX_CONNECTION_FILENAME
+}
+
 declare module 'knex/types/tables' {
   interface Tables {
     test: {
@@ -43,6 +63,9 @@ describe('Knex', () => {
         }
       >
     }
+
+    restoreSecretKnexEnv()
+
     const knex = globalWithKnex.FaasJS_Knex?.knex
 
     if (!knex) return

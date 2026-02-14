@@ -1,14 +1,19 @@
-import { defineConfig } from 'tsup'
+import { defineConfig } from 'tsdown'
 
 export default defineConfig({
+  cwd: process.cwd(),
   format: ['esm', 'cjs'],
   clean: true,
-  dts: true,
+  dts: {
+    sourcemap: false,
+  },
+  sourcemap: false,
   treeshake: true,
+  skipNodeModulesBundle: true,
   tsconfig: 'tsconfig.build.json',
   shims: true,
-  outExtension({ format }) {
-    if (format === 'esm')
+  outExtensions({ format }) {
+    if (format === 'es')
       return {
         js: '.mjs',
         dts: '.d.ts',
