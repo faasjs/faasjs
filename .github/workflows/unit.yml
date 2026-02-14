@@ -27,11 +27,11 @@ jobs:
           cache: npm
           node-version: 24
       - name: Install
-        run: npm install --force
+        run: npm install
       - name: Prepack
-        run: node --run build
+        run: npm run build
       - name: Run Tests
-        run: node --run ci
+        run: npm run ci
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
