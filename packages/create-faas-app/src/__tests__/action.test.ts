@@ -85,9 +85,7 @@ describe('action', () => {
     expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
       "import { defineFunc, z } from '@faasjs/core'"
     )
-    expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
-      'schema,'
-    )
+    expect(files['test/src/pages/home/api/hello.func.ts']).toContain('schema,')
 
     expect(files['test/.gitignore']).toEqual(`node_modules/
 dist/
