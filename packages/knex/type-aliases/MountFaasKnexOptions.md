@@ -8,8 +8,12 @@
 
 ### config?
 
-> `optional` **config**: `Record`<`string`, `unknown`>
+> `optional` **config**: `Record`\<`string`, `unknown`\>
+
+optional config metadata passed through to `@faasjs/knex`
 
 ### name?
 
 > `optional` **name**: `string`
+
+key of `globalThis.FaasJS_Knex`, default is `knex`

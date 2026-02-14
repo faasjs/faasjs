@@ -6,8 +6,8 @@
 
 Detect current JavaScript runtime environment.
 
-This function checks for presence of `import.meta` and `require` to determine
-whether runtime is using ECMAScript modules (ESM) or CommonJS modules (CJS).
+This function checks for presence of `require` first, then falls back to Node.js
+ESM detection via `process.versions.node`.
 
 ## Returns
 

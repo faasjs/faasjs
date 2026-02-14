@@ -3,6 +3,7 @@
   "compilerOptions": {
     "strictNullChecks": false,
     "exactOptionalPropertyTypes": false,
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]

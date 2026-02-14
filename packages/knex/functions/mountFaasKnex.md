@@ -4,7 +4,7 @@
 
 > **mountFaasKnex**(`db`, `options?`): `void`
 
-Mount a knex adapter to `globalThis.FaasJS_Knex`.
+Mount a knex adapter to `globalThis.FaasJS_Knex` for `@faasjs/knex`.
 
 ## Parameters
 

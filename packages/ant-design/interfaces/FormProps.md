@@ -40,7 +40,7 @@
 
 ### items?
 
-> `optional` **items**: (`Element` \| `ExtendItemProps` *extends* [`ExtendFormItemProps`](ExtendFormItemProps.md) ? [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps`\<`ExtendItemProps`\> : [`FormItemProps`](FormItemProps.md)\<`any`\>)[]
+> `optional` **items**: (`Element` \| `ExtendItemProps` *extends* [`ExtendFormItemProps`](ExtendFormItemProps.md) ? [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps` : [`FormItemProps`](FormItemProps.md)\<`any`\>)[]
 
 ### onFinish()?
 

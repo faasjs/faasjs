@@ -11,13 +11,6 @@ FaasJS's sql plugin, base on [Knex](https://knexjs.org/).
 npm install @faasjs/knex
 ```
 
-## PGlite Notes
-
-- Use `client: pglite` with string `connection`.
-- If `connection` is missing, it defaults to an in-memory database.
-- Install `@electric-sql/pglite` and `knex-pglite` in your project.
-- `pool` is ignored for PGlite, and parent directories are created automatically for path connections.
-
 ## Functions
 
 - [createPgliteKnex](functions/createPgliteKnex.md)

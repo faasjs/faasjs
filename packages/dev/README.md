@@ -16,8 +16,6 @@ npm install @faasjs/dev
 - Vite integration for in-process FaasJS API during local development.
 - Test helpers to invoke and assert FaasJS functions.
 
-> PGlite helpers are moved to `@faasjs/knex`.
-
 ## Usage: Vite integration
 
 ```ts

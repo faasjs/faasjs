@@ -2,15 +2,16 @@
 
 # Function: createPgliteKnex()
 
-> **createPgliteKnex**(`config?`, `connection?`): `Promise`<`Knex`>
+> **createPgliteKnex**(`config?`, `connection?`): `Promise`\<`Knex`\<`any`, `any`[]\>\>
 
 Create a knex instance backed by `knex-pglite`.
+If connection is missing, it defaults to an in-memory database.
 
 ## Parameters
 
 ### config?
 
-`Partial`<`OriginKnex.Config`> = `{}`
+`Partial`\<`OriginKnex.Config`\> = `{}`
 
 ### connection?
 
@@ -18,4 +19,4 @@ Create a knex instance backed by `knex-pglite`.
 
 ## Returns
 
-`Promise`<`Knex`>
+`Promise`\<`Knex`\<`any`, `any`[]\>\>
