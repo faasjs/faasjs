@@ -1,4 +1,4 @@
-[@faasjs/load](../README.md) / resetRuntime
+[@faasjs/node-utils](../README.md) / resetRuntime
 
 # Function: resetRuntime()
 

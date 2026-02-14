@@ -1,4 +1,4 @@
-[@faasjs/load](../README.md) / NodeRuntime
+[@faasjs/node-utils](../README.md) / NodeRuntime
 
 # Type Alias: NodeRuntime
 

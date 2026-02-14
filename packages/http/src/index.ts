@@ -13,7 +13,6 @@
  * @packageDocumentation
  */
 import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
-import { deepMerge } from '@faasjs/deep_merge'
 import {
   type InvokeData,
   type MountData,
@@ -22,6 +21,7 @@ import {
   type UseifyPlugin,
   usePlugin,
 } from '@faasjs/func'
+import { deepMerge } from '@faasjs/node-utils'
 import { Cookie, type CookieOptions } from './cookie'
 import type { Session } from './session'
 

@@ -4,8 +4,15 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v8.0.0-beta.7 (2026-02-14)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.6...v8.0.0-beta.7)
 
+- `faasjs`
+  - [Break] Remove `@faasjs/load` and `@faasjs/deep_merge`, and merge their APIs into `@faasjs/node-utils`.
+
+- `@faasjs/node-utils`
+  - [Feature] Add Node-side utility package with `deepMerge`, load helpers, and stream helpers (`streamToText`, `streamToObject`, `streamToString`).
+
 - `@faasjs/dev`
   - [Break] Remove PGlite helpers (`createPgliteKnex`, `mountFaasKnex`, `unmountFaasKnex`).
+  - [Feature] Re-export stream helpers from `@faasjs/node-utils`.
 
 - `@faasjs/knex`
   - [Break] Move PGlite helpers from `@faasjs/dev` to `@faasjs/knex`.

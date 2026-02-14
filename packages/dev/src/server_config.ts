@@ -1,6 +1,6 @@
 import { join, resolve } from 'node:path'
-import { loadConfig } from '@faasjs/load'
 import type { Logger } from '@faasjs/logger'
+import { loadConfig } from '@faasjs/node-utils'
 
 export type ServerConfig = {
   root: string

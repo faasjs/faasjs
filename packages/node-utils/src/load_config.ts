@@ -1,9 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, sep } from 'node:path'
-import { deepMerge } from '@faasjs/deep_merge'
 import type { Config as FuncConfig } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
 import { load } from 'js-yaml'
+import { deepMerge } from './deep_merge'
 
 type YamlConfig = {
   [key: string]: any

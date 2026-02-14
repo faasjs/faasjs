@@ -1,41 +1,18 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
-import { deepMerge } from '@faasjs/deep_merge'
 import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
 import { Http } from '@faasjs/http'
-import { loadConfig } from '@faasjs/load'
 import { Logger } from '@faasjs/logger'
+import {
+  deepMerge,
+  loadConfig,
+  streamToObject,
+  streamToString,
+  streamToText,
+} from '@faasjs/node-utils'
 
 export * from '@faasjs/func'
 
-/**
- * Convert ReadableStream to text.
- * @param stream {ReadableStream<Uint8Array>} The stream to convert
- * @returns {Promise<string>} The string content of stream
- * @throws {TypeError} If stream is not a ReadableStream instance
- */
-export async function streamToText(
-  stream: ReadableStream<Uint8Array>
-): Promise<string> {
-  if (!(stream instanceof ReadableStream))
-    throw new TypeError('stream must be a ReadableStream instance')
-
-  return new Response(stream).text()
-}
-
-/**
- * Convert ReadableStream to object.
- * @param stream {ReadableStream<Uint8Array>} The stream to convert
- * @returns {Promise<any>} The string content of stream
- * @throws {TypeError} If stream is not a ReadableStream instance
- */
-export async function streamToObject<T = any>(
-  stream: ReadableStream<Uint8Array>
-): Promise<T> {
-  if (!(stream instanceof ReadableStream))
-    throw new TypeError('stream must be a ReadableStream instance')
-
-  return new Response(stream).json()
-}
+export { streamToObject, streamToString, streamToText }
 
 /**
  * Test wrapper for a function.

@@ -1,5 +1,5 @@
 {
-  "name": "@faasjs/deep_merge",
+  "name": "@faasjs/node-utils",
   "version": "8.0.0-beta.6",
   "license": "MIT",
   "type": "module",
@@ -13,11 +13,11 @@
       "require": "./dist/index.cjs"
     }
   },
-  "homepage": "https://faasjs.com/doc/deep_merge.html",
+  "homepage": "https://faasjs.com/doc/node-utils",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",
-    "directory": "packages/deep_merge"
+    "directory": "packages/node-utils"
   },
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -29,6 +29,17 @@
   "files": [
     "dist"
   ],
+  "peerDependencies": {
+    "@faasjs/func": ">=8.0.0-beta.6",
+    "@faasjs/logger": ">=8.0.0-beta.6",
+    "js-yaml": "*"
+  },
+  "devDependencies": {
+    "@faasjs/func": ">=8.0.0-beta.6",
+    "@faasjs/logger": ">=8.0.0-beta.6",
+    "@types/js-yaml": "*",
+    "js-yaml": "*"
+  },
   "engines": {
     "node": ">=24.0.0",
     "npm": ">=11.0.0"

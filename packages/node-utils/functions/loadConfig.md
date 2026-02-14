@@ -1,4 +1,4 @@
-[@faasjs/load](../README.md) / loadConfig
+[@faasjs/node-utils](../README.md) / loadConfig
 
 # Function: loadConfig()
 

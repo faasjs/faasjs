@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { loadPackage } from '@faasjs/load'
+import { loadPackage } from '@faasjs/node-utils'
 import knex, { type Knex as OriginKnex } from 'knex'
 
 type PGliteModule = typeof import('@electric-sql/pglite')

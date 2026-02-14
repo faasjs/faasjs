@@ -9,12 +9,11 @@ export function resetRuntime(): void {
 /**
  * Detect current JavaScript runtime environment.
  *
- * This function checks for presence of `require` first, then falls back to Node.js
- * ESM detection via `process.versions.node`.
+ * This function checks for presence of `require` first, then falls back to
+ * Node.js ESM detection via `process.versions.node`.
  *
- * @returns {NodeRuntime} - Returns 'module' if runtime is using ECMAScript modules,
- *                            and 'cjs' if the runtime is using CommonJS modules.
- * @throws {Error} - Throws an error if runtime cannot be determined.
+ * @returns {NodeRuntime} Returns `module` for ESM and `commonjs` for CJS.
+ * @throws {Error} Throws an error if runtime cannot be determined.
  */
 export function detectNodeRuntime(): NodeRuntime {
   if (_runtime) return _runtime
@@ -29,17 +28,12 @@ export function detectNodeRuntime(): NodeRuntime {
 }
 
 /**
- * Asynchronously loads a package by its name, supporting both ESM and CommonJS runtimes.
+ * Asynchronously loads a package by its name, supporting both ESM and CJS.
  *
- * @template T - The type of module to be loaded.
- * @param {string} name - The name of package to load.
- * @returns {Promise<T>} A promise that resolves to loaded module.
- * @throws {Error} If runtime is unknown.
- *
- * @example
- * ```typescript
- * const myModule = await loadPackage<MyModuleType>('my-module');
- * ```
+ * @template T The type of module to be loaded.
+ * @param name The package name to load.
+ * @param defaultNames Preferred export keys used to resolve default values.
+ * @returns Loaded module or resolved default export.
  */
 export async function loadPackage<T = unknown>(
   name: string,

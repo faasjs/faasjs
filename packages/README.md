@@ -17,9 +17,8 @@
 
 |Name|Version|
 |---|---|
-|[@faasjs/deep_merge](https://github.com/faasjs/faasjs/tree/main/packages/deep_merge)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/deep_merge.svg)](https://www.npmjs.com/package/@faasjs/deep_merge)|
-|[@faasjs/load](https://github.com/faasjs/faasjs/tree/main/packages/load)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/load.svg)](https://www.npmjs.com/package/@faasjs/load)|
 |[@faasjs/logger](https://github.com/faasjs/faasjs/tree/main/packages/logger)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/logger.svg)](https://www.npmjs.com/package/@faasjs/logger)|
+|[@faasjs/node-utils](https://github.com/faasjs/faasjs/tree/main/packages/node-utils)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/node-utils.svg)](https://www.npmjs.com/package/@faasjs/node-utils)|
 |[@faasjs/request](https://github.com/faasjs/faasjs/tree/main/packages/request)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/request.svg)](https://www.npmjs.com/package/@faasjs/request)|
 |[@faasjs/server](https://github.com/faasjs/faasjs/tree/main/packages/server)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/server.svg)](https://www.npmjs.com/package/@faasjs/server)|
 |[@faasjs/lint](https://github.com/faasjs/faasjs/tree/main/packages/lint)|[![NPM Version](https://img.shields.io/npm/v/@faasjs/lint.svg)](https://www.npmjs.com/package/@faasjs/lint)|

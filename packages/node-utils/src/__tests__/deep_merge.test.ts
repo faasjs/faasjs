@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { deepMerge } from '..'
+import { deepMerge } from '../deep_merge'
 
 describe('deepMerge', () => {
   it('should work', () => {

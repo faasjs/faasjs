@@ -31,16 +31,15 @@
   ],
   "peerDependencies": {
     "knex": "*",
-    "@faasjs/deep_merge": ">=8.0.0-beta.6",
     "@faasjs/func": ">=8.0.0-beta.6",
-    "@faasjs/logger": ">=8.0.0-beta.6"
+    "@faasjs/logger": ">=8.0.0-beta.6",
+    "@faasjs/node-utils": ">=8.0.0-beta.6"
   },
   "devDependencies": {
     "knex": "*",
-    "@faasjs/deep_merge": ">=8.0.0-beta.6",
     "@faasjs/func": ">=8.0.0-beta.6",
     "@faasjs/logger": ">=8.0.0-beta.6",
-    "@faasjs/load": ">=8.0.0-beta.6",
+    "@faasjs/node-utils": ">=8.0.0-beta.6",
     "better-sqlite3": "*",
     "knex-pglite": "*",
     "@types/pg": "*",

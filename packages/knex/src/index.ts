@@ -13,7 +13,6 @@
  */
 
 import { randomUUID } from 'node:crypto'
-import { deepMerge } from '@faasjs/deep_merge'
 import {
   type InvokeData,
   type MountData,
@@ -22,8 +21,8 @@ import {
   type UseifyPlugin,
   usePlugin,
 } from '@faasjs/func'
-import { loadPackage } from '@faasjs/load'
 import type { Logger } from '@faasjs/logger'
+import { deepMerge, loadPackage } from '@faasjs/node-utils'
 import knex, { type Knex as OriginKnex } from 'knex'
 import { createPgliteKnex, type MountedKnexAdapter } from './pglite'
 

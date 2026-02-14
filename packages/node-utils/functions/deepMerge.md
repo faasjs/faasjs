@@ -1,4 +1,4 @@
-[@faasjs/deep_merge](../README.md) / deepMerge
+[@faasjs/node-utils](../README.md) / deepMerge
 
 # Function: deepMerge()
 

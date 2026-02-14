@@ -1,4 +1,4 @@
-[@faasjs/load](../README.md) / detectNodeRuntime
+[@faasjs/node-utils](../README.md) / detectNodeRuntime
 
 # Function: detectNodeRuntime()
 
@@ -13,8 +13,8 @@ ESM detection via `process.versions.node`.
 
 [`NodeRuntime`](../type-aliases/NodeRuntime.md)
 
-- Returns 'module' if runtime is using ECMAScript modules,
-                           and 'cjs' if the runtime is using CommonJS modules.
+- Returns `module` if runtime is using ECMAScript modules,
+  and `commonjs` if the runtime is using CommonJS modules.
 
 ## Throws
 

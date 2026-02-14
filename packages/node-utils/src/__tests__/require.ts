@@ -1,4 +1,4 @@
-import { deepMerge } from '@faasjs/deep_merge'
+import { deepMerge } from '..'
 
 const required = require('./required')
 

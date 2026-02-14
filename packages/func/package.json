@@ -30,11 +30,9 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/deep_merge": ">=8.0.0-beta.6",
     "@faasjs/logger": ">=8.0.0-beta.6"
   },
   "devDependencies": {
-    "@faasjs/deep_merge": ">=8.0.0-beta.6",
     "@faasjs/logger": ">=8.0.0-beta.6"
   },
   "engines": {
