@@ -3,6 +3,9 @@ import { defineConfig } from 'tsdown'
 export default defineConfig({
   cwd: process.cwd(),
   format: ['esm', 'cjs'],
+  checks: {
+    legacyCjs: false,
+  },
   clean: true,
   dts: {
     sourcemap: false,
