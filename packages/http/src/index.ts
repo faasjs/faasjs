@@ -459,22 +459,6 @@ export function useHttp<
   return usePlugin(new Http<TParams, TCookie, TSession>(config))
 }
 
-export type HttpFuncHandler<
-  TParams extends Record<string, any> = Record<string, any>,
-  TCookie extends Record<string, string> = Record<string, string>,
-  TSession extends Record<string, any> = Record<string, any>,
-  TResult = any,
-> = (
-  data: InvokeData<{
-    [key: string]: any
-    params?: TParams
-  }> & {
-    params?: TParams
-    cookie?: Cookie<TCookie, TSession>
-    session?: Session<TSession, TCookie>
-  }
-) => Promise<TResult>
-
 declare module '@faasjs/func' {
   interface FaasPluginEventMap {
     http: {

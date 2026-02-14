@@ -68,7 +68,7 @@ describe('action', () => {
 
     expect(packageJSON.dependencies).toEqual(
       expect.objectContaining({
-        '@faasjs/func': '*',
+        '@faasjs/core': '*',
         '@faasjs/http': '*',
         '@faasjs/knex': '*',
         pg: '*',
@@ -83,10 +83,10 @@ describe('action', () => {
     )
 
     expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
-      "import { defineFunc } from '@faasjs/func'"
+      "import { defineFunc, z } from '@faasjs/core'"
     )
-    expect(files['test/src/pages/home/api/hello.func.ts']).not.toContain(
-      'useHttpFunc'
+    expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
+      'schema,'
     )
 
     expect(files['test/.gitignore']).toEqual(`node_modules/

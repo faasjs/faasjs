@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { FuncWarper, streamToString } from '../../src/index'
+import { FuncWarper, streamToObject } from '../../src/index'
 import { func as ErrorStreamFunc } from './funcs/error-stream.func'
 import { func as Http } from './funcs/http.func'
 import { func as HttpError } from './funcs/http-error.func'
@@ -11,7 +11,7 @@ it('http', async () => {
 
   const res = await func.handler({}, {})
 
-  expect(await streamToString(res.body)).toEqual('{"data":true}')
+  expect(await streamToObject(res.body)).toMatchObject({ data: true })
 })
 
 it('JSONhandler data', async () => {

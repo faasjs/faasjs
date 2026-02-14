@@ -46,7 +46,6 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 
 ## Functions
 
-- [defineFunc](functions/defineFunc.md)
 - [generateFaasTypes](functions/generateFaasTypes.md)
 - [isTypegenSourceFile](functions/isTypegenSourceFile.md)
 - [nameFunc](functions/nameFunc.md)

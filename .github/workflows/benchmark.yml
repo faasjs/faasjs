@@ -9,26 +9,23 @@ on:
       - 'packages/**'
       - 'benchmarks/**'
       - '.github/workflows/benchmark.yml'
+      - '.mise.toml'
 
 jobs:
   benchmark:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          cache: npm
-          node-version: 24
+      - uses: jdx/mise-action@v3
       - name: Install dependencies
         run: |
-          npm install
-          npm run build
+          mise exec -- npm install
+          mise exec -- npm run build
       - name: Run benchmark
         run: |
           cd benchmarks
-          npm install -g tsx
-          npm install
-          tsx func.mjs | tee output.txt
+          mise exec -- npm install
+          mise exec -- npm exec --package tsx -- tsx func.mjs | tee output.txt
       - name: Download previous benchmark data
         uses: actions/cache@v5
         with:

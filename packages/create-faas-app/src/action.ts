@@ -39,14 +39,10 @@ function buildPackageJSON(name: string): string {
         test: 'vitest run',
       },
       dependencies: {
-        '@faasjs/func': '*',
-        '@faasjs/http': '*',
-        '@faasjs/knex': '*',
         faasjs: '*',
         pg: '*',
         react: '*',
         'react-dom': '*',
-        zod: '*',
       },
       devDependencies: {
         '@biomejs/biome': '*',
@@ -266,8 +262,7 @@ export default function HomePage() {
 
   writeFile(
     join(rootPath, 'src', 'pages', 'home', 'api', 'hello.func.ts'),
-    `import { defineFunc } from '@faasjs/func'
-import { z } from 'zod'
+    `import { defineFunc, z } from '@faasjs/core'
 
 const schema = z
   .object({
@@ -275,17 +270,16 @@ const schema = z
   })
   .required()
 
-export const func = defineFunc<{ params?: z.infer<typeof schema> }>(
-  async ({ event }) => {
-    const parsed = schema.parse(event.params || {})
-
+export const func = defineFunc({
+  schema,
+  async handler({ params }) {
     return {
       ok: true,
-      data: \`Hello, \${parsed.name || 'FaasJS'}\`,
+      data: \`Hello, \${params.name || 'FaasJS'}\`,
       error: null,
     }
-  }
-)
+  },
+})
 `
   )
 

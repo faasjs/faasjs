@@ -19,7 +19,6 @@ npm install @faasjs/func
 
 ## Functions
 
-- [defineFunc](functions/defineFunc.md)
 - [nameFunc](functions/nameFunc.md)
 - [parseFuncFilenameFromStack](functions/parseFuncFilenameFromStack.md)
 - [useFunc](functions/useFunc.md)

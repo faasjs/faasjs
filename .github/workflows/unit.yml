@@ -8,11 +8,13 @@ on:
     paths:
       - packages/**
       - .github/workflows/unit.yml
+      - .mise.toml
       - package-lock.json
       - package.json
   pull_request:
     paths:
       - .github/workflows/unit.yml
+      - .mise.toml
       - packages/**
       - package-lock.json
       - package.json
@@ -22,16 +24,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          cache: npm
-          node-version: 24
+      - uses: jdx/mise-action@v3
       - name: Install
-        run: npm install
+        run: mise exec -- npm install
       - name: Prepack
-        run: npm run build
+        run: mise exec -- npm run build
       - name: Run Tests
-        run: npm run ci
+        run: mise exec -- npm run ci
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

@@ -8,32 +8,33 @@ import { Logger } from '@faasjs/logger'
 export * from '@faasjs/func'
 
 /**
- * Convert ReadableStream to string.
+ * Convert ReadableStream to text.
  * @param stream {ReadableStream<Uint8Array>} The stream to convert
  * @returns {Promise<string>} The string content of stream
  * @throws {TypeError} If stream is not a ReadableStream instance
  */
-export async function streamToString(
+export async function streamToText(
   stream: ReadableStream<Uint8Array>
 ): Promise<string> {
   if (!(stream instanceof ReadableStream))
     throw new TypeError('stream must be a ReadableStream instance')
 
-  const reader = stream.getReader()
-  const chunks: Uint8Array[] = []
+  return new Response(stream).text()
+}
 
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      if (value) chunks.push(value)
-    }
-  } finally {
-    reader.releaseLock()
-  }
+/**
+ * Convert ReadableStream to object.
+ * @param stream {ReadableStream<Uint8Array>} The stream to convert
+ * @returns {Promise<any>} The string content of stream
+ * @throws {TypeError} If stream is not a ReadableStream instance
+ */
+export async function streamToObject<T = any>(
+  stream: ReadableStream<Uint8Array>
+): Promise<T> {
+  if (!(stream instanceof ReadableStream))
+    throw new TypeError('stream must be a ReadableStream instance')
 
-  const decoder = new TextDecoder()
-  return decoder.decode(Buffer.concat(chunks.map(c => Buffer.from(c))))
+  return new Response(stream).json()
 }
 
 /**
@@ -222,7 +223,7 @@ export class FuncWarper {
       }
 
       try {
-        response.body = await streamToString(stream)
+        response.body = await streamToText(stream)
       } catch (error) {
         this.logger.error('Failed to decode ReadableStream: %s', error)
         response.body = JSON.stringify({

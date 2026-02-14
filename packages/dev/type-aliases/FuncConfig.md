@@ -20,10 +20,6 @@
 
 ## Properties
 
-### autoLoadPluginsFromConfig?
-
-> `optional` **autoLoadPluginsFromConfig**: `boolean`
-
 ### handler?
 
 > `optional` **handler**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>

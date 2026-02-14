@@ -78,7 +78,6 @@ export type LifeCycleKey = 'onMount' | 'onInvoke'
 export type FuncConfig<TEvent = any, TContext = any, TResult = any> = {
   plugins?: Plugin[]
   handler?: Handler<TEvent, TContext, TResult>
-  autoLoadPluginsFromConfig?: boolean
 }
 
 type CachedFunction = {
@@ -194,29 +193,6 @@ export function parseFuncFilenameFromStack(stack?: string): string | undefined {
   return filename
 }
 
-function formatPluginModuleName(type: string): string {
-  if (type.startsWith('npm:')) return type.slice(4)
-
-  if (
-    type.startsWith('@') ||
-    type.startsWith('.') ||
-    type.startsWith('/') ||
-    type.includes(':')
-  )
-    return type
-
-  return `@faasjs/${type}`
-}
-
-function formatPluginClassName(type: string): string {
-  return type
-    .replace(/^@[^/]+\//, '')
-    .split(/[^A-Za-z0-9]+/)
-    .filter(Boolean)
-    .map(item => item.slice(0, 1).toUpperCase() + item.slice(1))
-    .join('')
-}
-
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any
   public plugins: Plugin[]
@@ -224,8 +200,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   public config: Config
   public mounted = false
   public filename?: string
-  private readonly autoLoadPluginsFromConfig: boolean
-  private loadedConfigPlugins = false
   private cachedFunctions: {
     [cycleKey in LifeCycleKey]: CachedFunction[]
   } = Object.create(null)
@@ -240,7 +214,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     this.handler = config.handler
     this.plugins = config.plugins || []
     this.plugins.push(new RunHandler())
-    this.autoLoadPluginsFromConfig = !!config.autoLoadPluginsFromConfig
     this.config = {
       plugins: Object.create(null),
     }
@@ -248,127 +221,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     try {
       this.filename = parseFuncFilenameFromStack(new Error().stack)
     } catch (_) {}
-  }
-
-  private insertPluginBeforeRunHandler(plugin: Plugin): void {
-    const index = this.plugins.findIndex(
-      p => p.type === 'handler' && p.name === 'handler'
-    )
-
-    if (index === -1) this.plugins.push(plugin)
-    else this.plugins.splice(index, 0, plugin)
-
-    this.cachedFunctions = Object.create(null)
-  }
-
-  private async resolvePluginConstructor(
-    moduleName: string,
-    className: string,
-    pluginName: string
-  ): Promise<new (config?: any) => Plugin> {
-    let mod: any
-
-    try {
-      mod = await import(moduleName)
-    } catch (error: any) {
-      throw Error(
-        `[defineFunc] Failed to load plugin "${pluginName}" from "${moduleName}": ${error.message}`
-      )
-    }
-
-    const constructors: any[] = []
-
-    if (className && mod[className]) constructors.push(mod[className])
-    if (typeof mod.default === 'function') constructors.push(mod.default)
-
-    if (
-      mod.default &&
-      typeof mod.default === 'object' &&
-      className &&
-      mod.default[className]
-    )
-      constructors.push(mod.default[className])
-
-    for (const key in mod) {
-      if (key === className || key === 'default') continue
-      constructors.push(mod[key])
-    }
-
-    if (mod.default && typeof mod.default === 'object')
-      for (const key in mod.default) {
-        if (key === className) continue
-        constructors.push(mod.default[key])
-      }
-
-    const PluginConstructor = constructors.find(
-      pluginConstructor =>
-        typeof pluginConstructor === 'function' &&
-        pluginConstructor.prototype &&
-        (typeof pluginConstructor.prototype.onMount === 'function' ||
-          typeof pluginConstructor.prototype.onInvoke === 'function')
-    )
-
-    if (!PluginConstructor)
-      throw Error(
-        `[defineFunc] Failed to resolve plugin class "${className}" from "${moduleName}" for plugin "${pluginName}".`
-      )
-
-    return PluginConstructor
-  }
-
-  private async loadPluginsFromConfig(config: Config): Promise<void> {
-    const pluginConfigs = config.plugins || Object.create(null)
-
-    for (const key in pluginConfigs) {
-      const rawConfig = pluginConfigs[key]
-      const configValue =
-        rawConfig && typeof rawConfig === 'object'
-          ? Object.assign(Object.create(null), rawConfig)
-          : Object.create(null)
-
-      const pluginName =
-        typeof configValue.name === 'string' && configValue.name.length
-          ? configValue.name
-          : key
-
-      if (this.plugins.find(plugin => plugin.name === pluginName)) continue
-
-      const pluginType =
-        (typeof configValue.type === 'string' && configValue.type) ||
-        (typeof rawConfig === 'string' && rawConfig) ||
-        key
-
-      const moduleName = formatPluginModuleName(pluginType)
-      const className = formatPluginClassName(pluginType)
-      const PluginConstructor = await this.resolvePluginConstructor(
-        moduleName,
-        className,
-        pluginName
-      )
-
-      let plugin: Plugin
-
-      try {
-        plugin = new PluginConstructor({
-          ...configValue,
-          name: pluginName,
-          type: pluginType,
-        })
-      } catch (error: any) {
-        throw Error(
-          `[defineFunc] Failed to initialize plugin "${pluginName}" from "${moduleName}": ${error.message}`
-        )
-      }
-
-      if (!plugin || typeof plugin !== 'object')
-        throw Error(
-          `[defineFunc] Invalid plugin instance for "${pluginName}" from "${moduleName}".`
-        )
-
-      this.insertPluginBeforeRunHandler(plugin)
-    }
-
-    this.loadedConfigPlugins = true
   }
 
   private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
@@ -455,9 +307,6 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
 
     if (!data.config) data.config = this.config
-
-    if (this.autoLoadPluginsFromConfig && !this.loadedConfigPlugins)
-      await this.loadPluginsFromConfig(data.config)
 
     data.logger.debug(
       `plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
@@ -595,31 +444,6 @@ export function useFunc<TEvent = any, TContext = any, TResult = any>(
   const func = new Func<TEvent, TContext, TResult>({
     plugins,
     handler: invokeHandler,
-  })
-
-  plugins = []
-
-  return func
-}
-
-/**
- * Create a cloud function from business logic and auto-load plugins from
- * `func.config.plugins`.
- *
- * `defineFunc` receives business logic directly (no wrapper function), and
- * resolves plugin modules during the first mount based on config from
- * `faas.yaml` (already loaded into `func.config` by `@faasjs/load`,
- * `@faasjs/server`, or `@faasjs/dev`).
- */
-export function defineFunc<TEvent = any, TContext = any, TResult = any>(
-  handler: Handler<TEvent, TContext, TResult>
-) {
-  plugins = []
-
-  const func = new Func<TEvent, TContext, TResult>({
-    plugins,
-    handler,
-    autoLoadPluginsFromConfig: true,
   })
 
   plugins = []
