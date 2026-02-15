@@ -69,8 +69,6 @@ describe('action', () => {
     expect(packageJSON.dependencies).toEqual(
       expect.objectContaining({
         '@faasjs/core': '*',
-        '@faasjs/http': '*',
-        '@faasjs/knex': '*',
         pg: '*',
       })
     )

@@ -87,7 +87,7 @@ describe('faas-types cli', () => {
 
     expect(content).toContain("declare module '@faasjs/types'")
     expect(content).toContain(
-      '"/": __FaasFuncAction<__FaasModuleFunc<typeof import("../index.func")>>'
+      '"/": InferFaasAction<InferFaasFunc<typeof import("../index.func")>>'
     )
 
     logSpy.mockClear()

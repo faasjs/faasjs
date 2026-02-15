@@ -39,7 +39,7 @@ function buildPackageJSON(name: string): string {
         test: 'vitest run',
       },
       dependencies: {
-        faasjs: '*',
+        '@faasjs/core': '*',
         pg: '*',
         react: '*',
         'react-dom': '*',

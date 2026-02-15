@@ -107,19 +107,19 @@ describe('typegen', () => {
     const content = await readFile(result.output, 'utf8')
 
     expect(content).toContain(
-      '"/*": __FaasFuncAction<__FaasModuleFunc<typeof import("../default.func")>>'
+      '"/*": InferFaasAction<InferFaasFunc<typeof import("../default.func")>>'
     )
     expect(content).toContain(
-      '"/": __FaasFuncAction<__FaasModuleFunc<typeof import("../index.func")>>'
+      '"/": InferFaasAction<InferFaasFunc<typeof import("../index.func")>>'
     )
     expect(content).toContain(
-      '"/posts": __FaasFuncAction<__FaasModuleFunc<typeof import("../posts.func")>>'
+      '"/posts": InferFaasAction<InferFaasFunc<typeof import("../posts.func")>>'
     )
     expect(content).toContain(
-      '"/users/*": __FaasFuncAction<__FaasModuleFunc<typeof import("../users/default.func")>>'
+      '"/users/*": InferFaasAction<InferFaasFunc<typeof import("../users/default.func")>>'
     )
     expect(content).toContain(
-      '"/users/profile": __FaasFuncAction<__FaasModuleFunc<typeof import("../users/profile.func")>>'
+      '"/users/profile": InferFaasAction<InferFaasFunc<typeof import("../users/profile.func")>>'
     )
     expect(content).not.toContain('import("../posts/index.func")')
 
