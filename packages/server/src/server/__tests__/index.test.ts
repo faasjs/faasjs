@@ -5,7 +5,8 @@ import { closeAll, getAll, Server } from '../../server'
 
 describe.sequential('server', () => {
   let server: Server
-  const port = 3001 + Number(process.env.VITEST_POOL_ID)
+  const poolId = Number(process.env.VITEST_POOL_ID || 0)
+  const port = 31201 + poolId
 
   beforeAll(() => {
     server = new Server(join(__dirname, 'funcs'), {
@@ -109,7 +110,25 @@ describe.sequential('server', () => {
       request(`http://127.0.0.1:${port}/error`)
     ).rejects.toMatchObject({
       statusCode: 500,
-      body: { error: { message: 'error' } },
+      body: 'Internal Server Error',
+    })
+  })
+
+  it('business 500', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/business-500`)
+    ).rejects.toMatchObject({
+      statusCode: 500,
+      body: { error: { message: 'business-500' } },
+    })
+  })
+
+  it('business 500 return', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/business-500-return`)
+    ).rejects.toMatchObject({
+      statusCode: 500,
+      body: { error: { message: 'business-500-return' } },
     })
   })
 

@@ -88,14 +88,16 @@ function isFormItemProps(item: any): item is FormItemProps {
  *
  * - Based on [Ant Design Form](https://ant.design/components/form/).
  */
-export function Form<Values = any>(props: FormProps<Values>) {
+export function Form<Values extends Record<string, any> = any>(
+  props: FormProps<Values>
+) {
   const [loading, setLoading] = useState(false)
   const [computedProps, setComputedProps] = useState<FormProps<Values>>()
   const [submit, setSubmit] = useState<FormSubmitProps | false>()
   const config = useConfigContext()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const [form] = AntdForm.useForm<Values>(props.form)
-  const [initialValues, setInitialValues] = useState<Partial<Values>>(
+  const [initialValues, setInitialValues] = useState<Partial<Values> | null>(
     props.initialValues || Object.create(null)
   )
 
@@ -125,100 +127,56 @@ export function Form<Values = any>(props: FormProps<Values>) {
           item.hidden = !item.if(initialValues || Object.create(null))
       }
 
+    const submitTo = typeof submit === 'object' ? submit.to : undefined
+
     if (propsCopy.onFinish) {
+      const originOnFinish = propsCopy.onFinish
+
       propsCopy.onFinish = async values => {
         setLoading(true)
 
         try {
-          if ((submit as FormSubmitProps)?.to?.action) {
-            await props.onFinish(values, async values =>
+          if (submitTo?.action)
+            await originOnFinish(values, async nextValues =>
               faas(
-                (
-                  submit as {
-                    to: {
-                      action: string
-                    }
-                  }
-                ).to.action,
-                (
-                  submit as {
-                    to: {
-                      params?: Record<string, any>
-                    }
-                  }
-                ).to.params
+                submitTo.action,
+                submitTo.params
                   ? {
-                      ...values,
-                      ...(
-                        submit as {
-                          to: {
-                            params?: Record<string, any>
-                          }
-                        }
-                      ).to.params,
+                      ...nextValues,
+                      ...submitTo.params,
                     }
-                  : values
+                  : nextValues
               )
             )
-          } else await props.onFinish(values)
+          else await originOnFinish(values)
         } catch (error) {
           console.error(error)
         }
 
         setLoading(false)
       }
-    } else if (
-      submit &&
-      (
-        submit as {
-          to?: {
-            action: string
-          }
-        }
-      ).to?.action
-    ) {
+    } else if (submitTo?.action) {
       propsCopy.onFinish = async values => {
         setLoading(true)
         return faas(
-          (
-            submit as {
-              to: {
-                action: string
-              }
-            }
-          ).to.action,
-          (
-            submit as {
-              to: {
-                params?: Record<string, any>
-              }
-            }
-          ).to.params
+          submitTo.action,
+          submitTo.params
             ? {
                 ...values,
-                ...(
-                  submit as {
-                    to: {
-                      params?: Record<string, any>
-                    }
-                  }
-                ).to.params,
+                ...submitTo.params,
               }
             : values
         )
           .then(result => {
-            if ((submit as FormSubmitProps).to.then)
-              (submit as FormSubmitProps).to.then(result)
+            submitTo.then?.(result)
             return result
           })
           .catch(error => {
-            if ((submit as FormSubmitProps).to.catch)
-              (submit as FormSubmitProps).to.catch(error)
+            submitTo.catch?.(error)
             return Promise.reject(error)
           })
           .finally(() => {
-            if ((submit as FormSubmitProps).to.finally)
-              (submit as FormSubmitProps).to.finally()
+            submitTo.finally?.()
             setLoading(false)
           })
       }
@@ -243,7 +201,7 @@ export function Form<Values = any>(props: FormProps<Values>) {
       if (!props.items) return
 
       for (const key in changedValues) {
-        const item = computedProps.items.find(
+        const item = computedProps?.items?.find(
           i => isFormItemProps(i) && i.id === key
         ) as FormItemProps
 
@@ -270,7 +228,13 @@ export function Form<Values = any>(props: FormProps<Values>) {
       {computedProps.beforeItems}
       {computedProps.items?.map(item => {
         if (isFormItemProps(item))
-          return <FormItem key={item.id} {...item} extendTypes={extendTypes} />
+          return (
+            <FormItem
+              key={item.id}
+              {...item}
+              {...(extendTypes ? { extendTypes } : {})}
+            />
+          )
         return item as JSX.Element
       })}
       {computedProps.children}

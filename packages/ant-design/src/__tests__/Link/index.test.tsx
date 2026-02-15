@@ -27,8 +27,11 @@ describe('Link', () => {
       </BrowserRouter>
     )
 
-    expect(container.querySelector('a').style.display).toEqual('block')
-    expect(container.querySelector('a').style.width).toEqual('100%')
+    const link = container.querySelector('a')
+
+    expect(link).not.toBeNull()
+    expect(link?.style.display).toEqual('block')
+    expect(link?.style.width).toEqual('100%')
   })
 
   it('work with global style', async () => {
@@ -40,7 +43,10 @@ describe('Link', () => {
       </ConfigProvider>
     )
 
-    expect(container.querySelector('a').style.fontWeight).toEqual('bold')
+    const link = container.querySelector('a')
+
+    expect(link).not.toBeNull()
+    expect(link?.style.fontWeight).toEqual('bold')
   })
 
   it('work with copyable', async () => {

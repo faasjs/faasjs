@@ -83,7 +83,7 @@ describe('createSplittingContext', () => {
       optional?: string
     }>({
       value: 0,
-      setValue: undefined,
+      setValue: null,
       optional: 'optional',
     })
 

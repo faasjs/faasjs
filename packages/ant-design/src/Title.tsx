@@ -40,7 +40,7 @@ export interface TitleProps {
  * <Title title='hi'><CustomTitle /></Title> // => <CustomTitle />
  * ```
  */
-export function Title(props: TitleProps): JSX.Element {
+export function Title(props: TitleProps): JSX.Element | null {
   const { theme } = useConfigContext()
 
   useEffect(() => {

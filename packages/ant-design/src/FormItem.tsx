@@ -22,7 +22,7 @@ import {
 } from 'antd'
 import type { RuleObject } from 'antd/es/form'
 import { useEffect, useState } from 'react'
-import { type ConfigProviderProps, useConfigContext } from './Config'
+import { type ResolvedTheme, useConfigContext } from './Config'
 import type {
   BaseItemProps,
   FaasItemType,
@@ -128,7 +128,7 @@ function isOptionsProps(item: any): item is OptionsProps {
 
 function processProps(
   propsCopy: FormItemProps,
-  config: ConfigProviderProps['theme']['common']
+  config: ResolvedTheme['common']
 ): FormItemProps {
   propsCopy.title = propsCopy.title ?? idToTitle(propsCopy.id)
   if (!propsCopy.label && propsCopy.label !== false)
@@ -163,7 +163,7 @@ function processProps(
       break
     case 'object':
       if (!Array.isArray(propsCopy.name)) propsCopy.name = [propsCopy.name]
-      for (const sub of propsCopy.object) {
+      for (const sub of propsCopy.object || []) {
         if (!sub.name) sub.name = propsCopy.name.concat(sub.id)
         processProps(sub, config)
       }
@@ -208,7 +208,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       const originShouldUpdate = propsCopy.shouldUpdate
 
       propsCopy.shouldUpdate = (prev, cur) => {
-        const show = condition(cur)
+        const show = condition(cur as Record<string, any>)
         const shouldUpdate = hidden !== show
 
         setHidden(!show)
@@ -230,6 +230,8 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   }, [props])
 
   if (!computedProps) return null
+
+  const itemType = computedProps.type ?? 'string'
 
   if (hidden)
     return (
@@ -265,20 +267,22 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   if (render)
     return (
       <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-        {render(null, null, 0, 'form')}
+        {render(undefined as unknown as T, Object.create(null), 0, 'form')}
       </AntdForm.Item>
     )
 
-  if (extendTypes?.[computedProps.type])
+  const extendType = extendTypes?.[itemType]
+
+  if (extendType?.children)
     return (
       <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-        {cloneUnionFaasItemElement(extendTypes[computedProps.type].children, {
+        {cloneUnionFaasItemElement(extendType.children, {
           scene: 'form',
         })}
       </AntdForm.Item>
     )
 
-  switch (computedProps.type) {
+  switch (itemType) {
     case 'string':
       if (isOptionsProps(computedProps))
         return (
@@ -315,7 +319,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                 <div className='ant-form-item-label'>
                   <label
                     className={
-                      computedProps.rules.find(r => r.required) &&
+                      (computedProps.rules || []).find(r => r.required) &&
                       'ant-form-item-required'
                     }
                   >
@@ -335,7 +339,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                       </Col>
                       <Col span={1}>
                         {!computedProps.input?.disabled &&
-                          (!computedProps.rules.find(r => r.required) ||
+                          (!(computedProps.rules || []).find(r => r.required) ||
                             key > 0) && (
                             <Button
                               danger
@@ -373,7 +377,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
         </AntdForm.List>
       )
     case 'number':
-      if ((computedProps as OptionsProps).options)
+      if (isOptionsProps(computedProps))
         return (
           <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
             {computedProps.options.length > 10 ? (
@@ -393,7 +397,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
         </AntdForm.Item>
       )
     case 'number[]':
-      if ((computedProps as OptionsProps).options)
+      if (isOptionsProps(computedProps))
         return (
           <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
             <Select mode='multiple' {...(computedProps.input as SelectProps)} />
@@ -435,7 +439,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                       </Col>
                       <Col span={1}>
                         {!computedProps.input?.disabled &&
-                          (!computedProps.rules.find(r => r.required) ||
+                          (!(computedProps.rules || []).find(r => r.required) ||
                             key > 0) && (
                             <Button
                               danger
@@ -492,7 +496,9 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
           />
         </AntdForm.Item>
       )
-    case 'object':
+    case 'object': {
+      const objectItems = computedProps.object || []
+
       return (
         <>
           {computedProps.label && (
@@ -507,11 +513,12 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
               </label>
             </div>
           )}
-          {computedProps.object.map(o => (
+          {objectItems.map(o => (
             <FormItem key={o.id} {...o} />
           ))}
         </>
       )
+    }
     case 'object[]':
       return (
         <AntdForm.List
@@ -530,7 +537,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                     <label>
                       {computedProps.label} {field.name + 1}
                       {!computedProps.disabled &&
-                        (!computedProps.rules.find(r => r.required) ||
+                        (!(computedProps.rules || []).find(r => r.required) ||
                           field.key > 0) && (
                           <Button
                             danger
@@ -543,7 +550,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                     </label>
                   </div>
                   <Row gutter={24}>
-                    {computedProps.object.map(o => (
+                    {(computedProps.object || []).map(o => (
                       <Col key={o.id} span={o.col || 24}>
                         <FormItem {...o} name={[field.name, o.id]} />
                       </Col>

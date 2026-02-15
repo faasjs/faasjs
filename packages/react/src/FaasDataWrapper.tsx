@@ -68,14 +68,16 @@ export const FaasDataWrapper = fixedForwardRef(
   <PathOrData extends FaasActionUnionType = any>(
     props: FaasDataWrapperProps<PathOrData>,
     ref: React.ForwardedRef<FaasDataWrapperRef<PathOrData>>
-  ): JSX.Element => {
+  ): JSX.Element | null => {
+    const requestOptions = {
+      ...(props.data !== undefined ? { data: props.data } : {}),
+      ...(props.setData ? { setData: props.setData } : {}),
+    }
+
     const request = getClient(props.baseUrl).useFaas<PathOrData>(
       props.action,
-      props.params,
-      {
-        data: props.data,
-        setData: props.setData,
-      }
+      props.params ?? ({} as FaasParams<PathOrData>),
+      requestOptions
     )
     const [loaded, setLoaded] = useState<boolean>(false)
 

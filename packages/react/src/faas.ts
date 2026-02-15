@@ -27,12 +27,13 @@ export async function faas<PathOrData extends FaasActionUnionType>(
   options?: Options
 ): Promise<Response<FaasData<PathOrData>>> {
   const client = getClient(options?.baseUrl)
+  const onError = client.onError
 
-  if (client.onError)
+  if (onError)
     return client.browserClient
       .action<PathOrData>(action, params, options)
       .catch(async res => {
-        await client.onError(action as string, params)(res)
+        await onError(action as string, params)(res)
         return Promise.reject(res)
       })
   return client.browserClient.action(action, params, options)

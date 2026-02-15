@@ -555,11 +555,12 @@ describe('Knex', () => {
           connection: dataDir,
         },
       })
+      const mountedKnex = knex
 
       const handler = new Func({
-        plugins: [knex],
+        plugins: [mountedKnex],
         async handler() {
-          return await knex
+          return await mountedKnex
             .raw('SELECT 1+1 AS value')
             .then((res: any) => res.rows)
         },
@@ -584,17 +585,18 @@ describe('Knex', () => {
           connection: dataDir,
         },
       })
+      const writerKnex = writer
 
       const writeHandler = new Func({
-        plugins: [writer],
+        plugins: [writerKnex],
         async handler() {
-          await writer.schema().createTable('test', t => {
+          await writerKnex.schema().createTable('test', t => {
             t.integer('id').primary()
           })
 
-          await writer.query('test').insert({ id: '1' })
+          await writerKnex.query('test').insert({ id: '1' })
 
-          return await writer.query('test')
+          return await writerKnex.query('test')
         },
       }).export().handler
 
@@ -606,11 +608,12 @@ describe('Knex', () => {
           connection: dataDir,
         },
       })
+      const readerKnex = reader
 
       const readHandler = new Func({
-        plugins: [reader],
+        plugins: [readerKnex],
         async handler() {
-          return await reader.query('test')
+          return await readerKnex.query('test')
         },
       }).export().handler
 

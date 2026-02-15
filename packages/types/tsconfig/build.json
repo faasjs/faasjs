@@ -15,6 +15,11 @@
     "forceConsistentCasingInFileNames": true,
     "exactOptionalPropertyTypes": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node"
+    "declaration": true,
+    "declarationMap": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "sourceMap": true,
+    "noEmit": true
   }
 }

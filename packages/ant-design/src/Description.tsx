@@ -39,7 +39,7 @@ export interface DescriptionProps<T = any, ExtendItemProps = any>
     [key: string]: ExtendDescriptionTypeProps
   }
   dataSource?: T
-  faasData?: FaasDataWrapperProps<T>
+  faasData?: FaasDataWrapperProps<any>
 }
 
 export interface DescriptionItemContentProps<T = any> {
@@ -53,7 +53,7 @@ export interface DescriptionItemContentProps<T = any> {
 
 function DescriptionItemContent<T = any>(
   props: DescriptionItemContentProps<T>
-): JSX.Element {
+): JSX.Element | null {
   const [computedProps, setComputedProps] =
     useState<DescriptionItemContentProps<T>>()
 
@@ -95,6 +95,8 @@ function DescriptionItemContent<T = any>(
 
   if (!computedProps) return null
 
+  const itemType = computedProps.item.type ?? 'string'
+
   if (
     computedProps.item.descriptionChildren === null ||
     computedProps.item.children === null ||
@@ -121,20 +123,19 @@ function DescriptionItemContent<T = any>(
       <>{render(computedProps.value, computedProps.values, 0, 'description')}</>
     )
 
-  if (computedProps.extendTypes?.[computedProps.item.type]) {
-    if (computedProps.extendTypes[computedProps.item.type].children)
-      return cloneUnionFaasItemElement(
-        computedProps.extendTypes[computedProps.item.type].children,
-        {
-          scene: 'description',
-          value: computedProps.value,
-          values: computedProps.values,
-        }
-      )
-    if (computedProps.extendTypes[computedProps.item.type].render)
+  if (computedProps.extendTypes?.[itemType]) {
+    const extendType = computedProps.extendTypes[itemType]
+
+    if (extendType.children)
+      return cloneUnionFaasItemElement(extendType.children, {
+        scene: 'description',
+        value: computedProps.value,
+        values: computedProps.values,
+      })
+    if (extendType.render)
       return (
         <>
-          {computedProps.extendTypes[computedProps.item.type].render(
+          {extendType.render(
             computedProps.value,
             computedProps.values,
             0,
@@ -142,7 +143,7 @@ function DescriptionItemContent<T = any>(
           )}
         </>
       )
-    throw Error(`${computedProps.item.type} requires children or render`)
+    throw Error(`${itemType} requires children or render`)
   }
 
   if (
@@ -151,7 +152,7 @@ function DescriptionItemContent<T = any>(
   )
     return <Blank />
 
-  switch (computedProps.item.type) {
+  switch (itemType) {
     case 'string[]':
       return <>{(computedProps.value as string[]).join(', ')}</>
     case 'number':
@@ -178,16 +179,19 @@ function DescriptionItemContent<T = any>(
       return <>{(computedProps.value as Dayjs).format('YYYY-MM-DD HH:mm:ss')}</>
     case 'date':
       return <>{(computedProps.value as Dayjs).format('YYYY-MM-DD')}</>
-    case 'object':
+    case 'object': {
       if (!computedProps.value) return <Blank />
+
+      const objectItems = computedProps.item.object || []
 
       return (
         <Description
-          items={computedProps.item.object}
+          items={objectItems}
           dataSource={computedProps.value}
           column={1}
         />
       )
+    }
     case 'object[]':
       if (!(computedProps.value as Record<string, any>[])?.length)
         return <Blank />
@@ -196,10 +200,10 @@ function DescriptionItemContent<T = any>(
         <Space direction='vertical'>
           {(computedProps.value as Record<string, any>[]).map(
             (value, index) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: use index as key
               <Description
-                // biome-ignore lint/suspicious/noArrayIndexKey: use index as key
                 key={index}
-                items={computedProps.item.object}
+                items={computedProps.item.object || []}
                 dataSource={value}
                 column={1}
               />
@@ -250,8 +254,8 @@ export function Description<T extends Record<string, any> = any>({
           <Description
             {...props}
             dataSource={data as T}
-            renderTitle={renderTitle}
-            extendTypes={extendTypes}
+            {...(renderTitle ? { renderTitle } : {})}
+            {...(extendTypes ? { extendTypes } : {})}
           />
         )}
         {...faasData}
@@ -263,7 +267,7 @@ export function Description<T extends Record<string, any> = any>({
       {...props}
       title={
         typeof renderTitle === 'function'
-          ? renderTitle(dataSource)
+          ? renderTitle(dataSource as T)
           : props.title
       }
       items={props.items
@@ -288,8 +292,8 @@ export function Description<T extends Record<string, any> = any>({
               value={
                 dataSource ? (dataSource as Record<string, any>)[item.id] : null
               }
-              values={dataSource}
-              extendTypes={extendTypes}
+              {...(dataSource ? { values: dataSource } : {})}
+              {...(extendTypes ? { extendTypes } : {})}
             />
           ),
         }))}

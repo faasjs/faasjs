@@ -211,7 +211,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * @param config.handler {Handler} business logic
    */
   constructor(config: FuncConfig<TEvent, TContext>) {
-    this.handler = config.handler
+    if (config.handler) this.handler = config.handler
     this.plugins = config.plugins || []
     this.plugins.push(new RunHandler())
     this.config = {
@@ -219,7 +219,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
 
     try {
-      this.filename = parseFuncFilenameFromStack(new Error().stack)
+      const filename = parseFuncFilenameFromStack(new Error().stack)
+
+      if (filename) this.filename = filename
     } catch (_) {}
   }
 
@@ -359,9 +361,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         context,
         callback,
         response: undefined,
-        handler: this.handler,
         logger,
         config: this.config,
+        ...(this.handler ? { handler: this.handler } : {}),
       }
 
       await this.invoke(data)

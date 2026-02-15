@@ -102,7 +102,10 @@ export function transferOptions(options: BaseOption[]): {
   )
 }
 
-export function transferValue(type: FaasItemType, value: any): any {
+export function transferValue(
+  type: FaasItemType | null | undefined,
+  value: any
+): any {
   if (!type) type = 'string'
 
   if (

@@ -1,9 +1,6 @@
 {
-  "extends": "./packages/faasjs/tsconfig.build.json",
+  "extends": "./packages/types/tsconfig/build",
   "compilerOptions": {
-    "strictNullChecks": false,
-    "exactOptionalPropertyTypes": false,
-    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]

@@ -45,15 +45,23 @@ export class FuncWarper {
    * ```
    */
   constructor(initBy: Func) {
-    this.staging = process.env.FaasEnv
+    this.staging = process.env.FaasEnv ?? 'default'
     this.logger = new Logger('TestCase')
 
     this.func = initBy.default ? initBy.default : initBy
     if (this.func.filename)
       this.func.config = deepMerge(
-        loadConfig(process.cwd(), initBy.filename, this.staging, this.logger),
-        initBy.config
+        loadConfig(
+          process.cwd(),
+          this.func.filename,
+          this.staging,
+          this.logger
+        ),
+        this.func.config
       )
+
+    this.file = this.func.filename || ''
+    this.config = this.func.config
 
     this.plugins = this.func.plugins || []
     for (const plugin of this.plugins) {
@@ -90,7 +98,7 @@ export class FuncWarper {
   }
 
   public async JSONhandler<TData = any>(
-    body?: { [key: string]: any },
+    body?: Record<string, any> | string | null,
     options: {
       headers?: { [key: string]: any }
       cookie?: { [key: string]: any }

@@ -5,7 +5,8 @@ import { closeAll, Server } from '../../server'
 
 describe('middleware', () => {
   let server: Server
-  const port = 3001 + Number(process.env.VITEST_POOL_ID)
+  const poolId = Number(process.env.VITEST_POOL_ID || 0)
+  const port = 31001 + poolId
 
   beforeAll(() => {
     server = new Server(join(__dirname, 'funcs'), { port })
@@ -62,7 +63,17 @@ describe('middleware', () => {
     ).rejects.toMatchObject({
       statusCode: 500,
       headers: {},
-      body: 'Error: useMiddleware',
+      body: 'Internal Server Error',
+    })
+  })
+
+  it('middleware business 500', async () => {
+    await expect(
+      request(`http://127.0.0.1:${port}/business-500`)
+    ).rejects.toMatchObject({
+      statusCode: 500,
+      headers: {},
+      body: { error: { message: 'business-500' } },
     })
   })
 })

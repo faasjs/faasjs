@@ -79,4 +79,33 @@ describe('middleware', () => {
     expect(res.statusCode).toBe(204)
     expect(res.writableEnded).toBe(true)
   })
+
+  it('should respond 400 if url is missing', async () => {
+    const server = new Server(join(__dirname, 'funcs'))
+
+    let responseData: any = null
+    let nextCalled = false
+
+    const req = createMockReq({
+      method: 'GET',
+      url: '/hello',
+      headers: {},
+      body: null,
+    })
+    req.url = undefined as any
+
+    const res = createMockRes({
+      onDataCapture: (data: any) => {
+        responseData = Buffer.isBuffer(data) ? data.toString() : data
+      },
+    })
+
+    await server.middleware(req as any, res as any, () => {
+      nextCalled = true
+    })
+
+    expect(res.statusCode).toBe(400)
+    expect(responseData).toBe('Bad Request: url is undefined')
+    expect(nextCalled).toBe(true)
+  })
 })

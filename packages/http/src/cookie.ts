@@ -28,7 +28,7 @@ export class Cookie<
     sameSite?: 'Strict' | 'Lax' | 'None'
     session: SessionOptions
   }
-  public logger: Logger
+  public logger: Logger | undefined
 
   private setCookie: {
     [key: string]: string
@@ -81,7 +81,7 @@ export class Cookie<
 
   public write(
     key: string,
-    value: string,
+    value: string | null | undefined,
     opts?: {
       domain?: string
       path?: string

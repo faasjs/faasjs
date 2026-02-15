@@ -140,9 +140,9 @@ export function querystringify(obj: any) {
  */
 export class ResponseError extends Error {
   public response: Response
-  public request?: Request
-  public statusCode?: number
-  public statusMessage?: string
+  public request: Request | undefined
+  public statusCode: number
+  public statusMessage: string
   public headers: OutgoingHttpHeaders
   public body: any
 
@@ -150,8 +150,8 @@ export class ResponseError extends Error {
     super(message)
     this.response = response
     this.request = response.request
-    this.statusCode = response.statusCode
-    this.statusMessage = response.statusMessage
+    this.statusCode = response.statusCode || 500
+    this.statusMessage = response.statusMessage || 'Error'
     this.headers = response.headers
     this.body = response.body
   }

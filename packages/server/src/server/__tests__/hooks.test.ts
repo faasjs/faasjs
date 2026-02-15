@@ -5,8 +5,10 @@ import { Server } from '../../server'
 import { createMockReq, createMockRes, triggerReqEvents } from './mocks'
 
 describe('server/hooks', () => {
+  const poolId = Number(process.env.VITEST_POOL_ID || 0)
+
   it('should handle onStart', async () => {
-    const port = 3002 + Number(process.env.VITEST_POOL_ID)
+    const port = 31301 + poolId
     let times = 0
     const onStart = async () => {
       times++
@@ -22,7 +24,7 @@ describe('server/hooks', () => {
   })
 
   it('should handle onError', async () => {
-    const port = 3004 + Number(process.env.VITEST_POOL_ID)
+    const port = 31401 + poolId
     let times = 0
     const onError = async () => {
       times++
@@ -44,7 +46,7 @@ describe('server/hooks', () => {
   })
 
   it('should handle SIGTERM and SIGINT with onClose', async () => {
-    const port = 3005 + Number(process.env.VITEST_POOL_ID)
+    const port = 31501 + poolId
     let times = 0
     const onClose = async () => {
       times++
@@ -90,7 +92,7 @@ describe('server/hooks', () => {
   })
 
   it('should handle beforeHandle', async () => {
-    const port = 3006 + Number(process.env.VITEST_POOL_ID)
+    const port = 31601 + poolId
     let times = 0
     const beforeHandle = async () => {
       times++

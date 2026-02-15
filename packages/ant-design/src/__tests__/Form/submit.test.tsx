@@ -75,6 +75,8 @@ describe('Form/submit', () => {
           },
         }}
         onFinish={async (values, submit) => {
+          if (!submit) throw Error('submit not initialized')
+
           await submit({
             ...values,
             extraProps: 'extra',

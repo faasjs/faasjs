@@ -31,8 +31,8 @@ import {
  */
 export function useStateRef<T = any>(
   initialValue?: T
-): [T, Dispatch<SetStateAction<T>>, RefObject<T>] {
-  const [state, setState] = useState(initialValue ?? null)
+): [T | null, Dispatch<SetStateAction<T | null>>, RefObject<T | null>] {
+  const [state, setState] = useState<T | null>(initialValue ?? null)
   const ref = useRef(state)
 
   useEffect(() => {

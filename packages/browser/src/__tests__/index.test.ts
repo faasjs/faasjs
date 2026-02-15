@@ -8,16 +8,19 @@ import {
 } from '..'
 
 let request: {
-  url?: string
-  method?: string
+  url: string
+  method: string
   headers?: HeadersInit
-} = {}
+} = {
+  url: '',
+  method: '',
+}
 
 const defaultMock = async (url: RequestInfo | URL, options: RequestInit) => {
   request = {
-    url: url as any,
-    method: options.method,
-    headers: options.headers,
+    url: String(url),
+    method: options.method ?? '',
+    ...(options.headers ? { headers: options.headers } : {}),
   }
   return Promise.resolve({
     status: 200,
@@ -28,7 +31,10 @@ const defaultMock = async (url: RequestInfo | URL, options: RequestInit) => {
 
 describe('client', () => {
   beforeEach(() => {
-    request = {}
+    request = {
+      url: '',
+      method: '',
+    }
 
     window.fetch = vi.fn(defaultMock) as any
   })
@@ -96,9 +102,9 @@ describe('client', () => {
     window.fetch = vi.fn(
       async (url: RequestInfo | URL, options: RequestInit) => {
         request = {
-          url: url as string,
-          method: options.method,
-          headers: options.headers,
+          url: String(url),
+          method: options.method ?? '',
+          ...(options.headers ? { headers: options.headers } : {}),
         }
         return Promise.resolve({
           status: 500,
@@ -125,7 +131,10 @@ declare module '@faasjs/types' {
 
 describe('types', () => {
   beforeEach(() => {
-    request = {}
+    request = {
+      url: '',
+      method: '',
+    }
 
     window.fetch = vi.fn(defaultMock) as any
   })
@@ -141,7 +150,11 @@ describe('types', () => {
       await client.action('/type', { key: 'key' })
     )
     assertType<string>(
-      await client.action('/type', { key: 'key' }).then(res => res.data.value)
+      await client.action('/type', { key: 'key' }).then(res => {
+        if (!res.data) throw new Error('missing data')
+
+        return res.data.value
+      })
     )
   })
 })

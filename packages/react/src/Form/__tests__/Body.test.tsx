@@ -3,8 +3,12 @@ import { describe, expect, it } from 'vitest'
 import { FormBody } from '../Body'
 import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
+import type { FormItemProps } from '../Item'
 
-const renderWithContext = (ui: React.ReactElement, { items = [] } = {}) =>
+const renderWithContext = (
+  ui: React.ReactElement,
+  { items = [] as FormItemProps[] } = {}
+) =>
   render(
     <FormContextProvider
       value={

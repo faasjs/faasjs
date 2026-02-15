@@ -2,10 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.7 (2026-02-14)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.6...v8.0.0-beta.7)
+[`v8.0.0-beta.7 (2026-02-15)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.6...v8.0.0-beta.7)
 
 - `faasjs`
   - [Break] Remove `@faasjs/load` and `@faasjs/deep_merge`, and merge their APIs into `@faasjs/node-utils`.
+  - [Break] Remove `faasjs`, all tsconfig files moved to `@faasjs/types`.
 
 - `@faasjs/node-utils`
   - [Feature] Add Node-side utility package with `deepMerge`, load helpers, and stream helpers (`streamToText`, `streamToObject`, `streamToString`).

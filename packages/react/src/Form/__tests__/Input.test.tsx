@@ -33,11 +33,11 @@ describe('FormInput', () => {
     children: React.ReactElement,
     props: { values?: any; setValues?: (values: any) => void }
   ) => {
-    return render(
-      <Provider values={props.values} setValues={props.setValues}>
-        {children}
-      </Provider>
-    )
+    const providerProps = props.setValues
+      ? { values: props.values, setValues: props.setValues }
+      : { values: props.values }
+
+    return render(<Provider {...providerProps}>{children}</Provider>)
   }
 
   it('should render input with initial value', () => {

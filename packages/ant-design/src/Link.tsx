@@ -51,10 +51,15 @@ export function Link(props: LinkProps) {
       computedStyle
     )
 
+  const buttonProps =
+    props.button && typeof props.button === 'object' ? props.button : undefined
+  const copyableProps =
+    typeof props.copyable === 'undefined' ? {} : { copyable: props.copyable }
+
   if (props.button)
     return (
       <Button
-        {...(props.button || ({} as any))}
+        {...buttonProps}
         style={computedStyle}
         onClick={e => {
           props.onClick
@@ -74,7 +79,7 @@ export function Link(props: LinkProps) {
       href={props.href}
       target={target}
       style={computedStyle}
-      copyable={props.copyable}
+      {...copyableProps}
       onClick={e => {
         e.preventDefault()
 

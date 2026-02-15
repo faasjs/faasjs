@@ -4,6 +4,8 @@ import { resolve } from 'node:path'
 import { nameFunc } from '@faasjs/func'
 import type { Logger } from '@faasjs/logger'
 import { lookup } from 'mime-types'
+import { ensureRequestUrl } from '../request-url'
+import { respondWithInternalServerError } from '../response-error'
 import type { Middleware } from './middleware'
 
 export type StaticHandlerOptions = {
@@ -90,8 +92,7 @@ async function respondWithFile(
   await new Promise<void>((resolve, reject) => {
     stream
       .on('error', error => {
-        response.statusCode = 500
-        response.end(error?.message || 'Internal Server Error')
+        respondWithInternalServerError(response)
         reject(error)
       })
       .on('end', resolve)
@@ -120,11 +121,15 @@ async function respondWithFile(
 export function staticHandler(options: StaticHandlerOptions): Middleware {
   const handler: Middleware = async (request, response, { logger }) => {
     if (response.writableEnded) return
-    if (request.method !== 'GET' || request.url.slice(0, 2) === '/.') return
+
+    const requestUrl = ensureRequestUrl(request, response)
+    if (!requestUrl) return
+
+    if (request.method !== 'GET' || requestUrl.slice(0, 2) === '/.') return
 
     const cacheKey =
       options.cache !== false
-        ? `${options.cache || options.root}${request.url}`
+        ? `${options.cache || options.root}${requestUrl}`
         : null
 
     if (cacheKey) {
@@ -141,14 +146,14 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     }
 
     let url = options.stripPrefix
-      ? request.url.replace(options.stripPrefix, '')
-      : request.url
+      ? requestUrl.replace(options.stripPrefix, '')
+      : requestUrl
 
     if (url === '/') url = '/index.html'
 
     if (url.startsWith('/')) url = url.slice(1)
 
-    logger.debug('finding:', request.url)
+    logger.debug('finding:', requestUrl)
 
     const path = resolve(options.root, url)
 

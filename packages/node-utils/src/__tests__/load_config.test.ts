@@ -12,18 +12,18 @@ describe('loadConfig', () => {
       'defaults'
     )
 
-    expect(config.plugins.test.type).toEqual('defaults')
-    expect(config.plugins.func.name).toEqual('func')
+    expect(config.plugins?.test?.type).toEqual('defaults')
+    expect(config.plugins?.func?.name).toEqual('func')
   })
 
   it('local', () => {
     const config = loadConfig(__dirname, `${__dirname}/fake.func.ts`, 'local')
 
-    expect(config.plugins.func.type).toEqual('function')
-    expect(config.plugins.func.name).toEqual('func')
+    expect(config.plugins?.func?.type).toEqual('function')
+    expect(config.plugins?.func?.name).toEqual('func')
 
-    expect(config.plugins.test.type).toEqual('local')
-    expect(config.plugins.func.config.env).toEqual('defaults')
+    expect(config.plugins?.test?.type).toEqual('local')
+    expect(config.plugins?.func?.config?.env).toEqual('defaults')
   })
 
   it('sub local', () => {
@@ -33,10 +33,10 @@ describe('loadConfig', () => {
       'local'
     )
 
-    expect(config.plugins.func.type).toEqual('function')
-    expect(config.plugins.func.name).toEqual('func')
+    expect(config.plugins?.func?.type).toEqual('function')
+    expect(config.plugins?.func?.name).toEqual('func')
 
-    expect(config.plugins.test.type).toEqual('sublocal')
+    expect(config.plugins?.test?.type).toEqual('sublocal')
   })
 
   it('should throw when types config exists', () => {

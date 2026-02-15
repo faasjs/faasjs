@@ -30,7 +30,7 @@ describe('FaasDataWrapper', () => {
   })
 
   afterEach(() => {
-    setMock(undefined)
+    setMock(null)
   })
 
   it('should work', async () => {
@@ -41,7 +41,7 @@ describe('FaasDataWrapper', () => {
       return (
         <div>
           {props.data}
-          <button type='button' onClick={() => props.reload()}>
+          <button type='button' onClick={() => props.reload?.()}>
             Reload
           </button>
         </div>

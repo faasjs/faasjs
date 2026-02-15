@@ -103,14 +103,16 @@ export function useFaasStream(
     setLoading(true)
     setData('')
 
-    controllerRef.current = new AbortController()
+    const controller = new AbortController()
+    controllerRef.current = controller
 
     const client = getClient(options.baseUrl)
+    const requestParams = options.params ?? params
 
     function send() {
       client.browserClient
-        .action(action, options.params || params, {
-          signal: controllerRef.current.signal,
+        .action(action, requestParams, {
+          signal: controller.signal,
           stream: true,
         })
         .then(async response => {
@@ -166,7 +168,7 @@ export function useFaasStream(
           let error = e
           if (client.onError)
             try {
-              await client.onError(action as string, params)(e)
+              await client.onError(action as string, requestParams)(e)
             } catch (newError) {
               error = newError
             }

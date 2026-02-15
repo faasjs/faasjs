@@ -42,7 +42,7 @@ describe('request', () => {
       })
 
       expect(res.statusCode).toEqual(200)
-      expect(res.request.path).toEqual('/?test=1')
+      expect(res.request?.path).toEqual('/?test=1')
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
 
@@ -52,7 +52,7 @@ describe('request', () => {
       })
 
       expect(res.statusCode).toEqual(200)
-      expect(res.request.path).toEqual('/?a=1&test=1%2C2')
+      expect(res.request?.path).toEqual('/?a=1&test=1%2C2')
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
   })
@@ -64,17 +64,17 @@ describe('request', () => {
       })
 
       expect(res.statusCode).toEqual(200)
-      expect(res.request.headers['Content-Type']).toEqual('text/xml')
+      expect(res.request?.headers?.['Content-Type']).toEqual('text/xml')
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
 
     it('without value', async () => {
       const res = await request('https://cvm.tencentcloudapi.com', {
-        headers: { 'X-HEADER': null },
+        headers: { 'X-HEADER': null as unknown as string },
       })
 
       expect(res.statusCode).toEqual(200)
-      expect(res.request.headers['X-HEADER']).toBeUndefined()
+      expect(res.request?.headers?.['X-HEADER']).toBeUndefined()
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
   })
@@ -88,7 +88,7 @@ describe('request', () => {
       })
 
       expect(res.statusCode).toEqual(200)
-      expect(res.request.body).toEqual('test=1')
+      expect(res.request?.body).toEqual('test=1')
       expect(res.body.Response.Error.Code).toEqual('MissingParameter')
     })
 
@@ -99,7 +99,7 @@ describe('request', () => {
       })
 
       expect(res.statusCode).toEqual(200)
-      expect(res.request.body).toEqual('{"test":1}')
+      expect(res.request?.body).toEqual('{"test":1}')
       expect(res.body.Response.Error.Code).toEqual('InvalidParameter')
     })
   })

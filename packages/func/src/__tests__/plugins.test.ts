@@ -11,8 +11,8 @@ describe('plugins', () => {
   it('onMount', async () => {
     const results: string[] = []
     class P1 implements Plugin {
-      public readonly type: string
-      public readonly name: string
+      public readonly type = 'mount'
+      public readonly name = 'p1'
 
       public async onMount(_: MountData, next: Next) {
         results.push('before1')
@@ -21,8 +21,8 @@ describe('plugins', () => {
       }
     }
     class P2 implements Plugin {
-      public readonly type: string
-      public readonly name: string
+      public readonly type = 'mount'
+      public readonly name = 'p2'
 
       public async onMount(_: MountData, next: Next) {
         results.push('before2')
@@ -57,8 +57,8 @@ describe('plugins', () => {
   it('onInvoke', async () => {
     const results: string[] = []
     class P1 implements Plugin {
-      public readonly type: string
-      public readonly name: string
+      public readonly type = 'invoke'
+      public readonly name = 'p1'
 
       public async onInvoke(data: InvokeData, next: Next) {
         results.push('before1')
@@ -69,8 +69,8 @@ describe('plugins', () => {
       }
     }
     class P2 implements Plugin {
-      public readonly type: string
-      public readonly name: string
+      public readonly type = 'invoke'
+      public readonly name = 'p2'
 
       public async onInvoke(data: InvokeData, next: Next) {
         results.push('before2')
@@ -121,8 +121,8 @@ describe('plugins', () => {
 
   it('call multiple times next', async () => {
     class P implements Plugin {
-      public readonly type: string
-      public readonly name: string
+      public readonly type = 'mount'
+      public readonly name = 'double-next'
 
       public async onMount(_: MountData, next: Next) {
         await next()

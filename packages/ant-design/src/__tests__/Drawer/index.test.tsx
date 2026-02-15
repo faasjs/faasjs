@@ -4,7 +4,7 @@ import { type DrawerProps, useDrawer } from '../../Drawer'
 
 describe('Drawer', () => {
   it('should work', async () => {
-    let setDrawerProps: (changes: Partial<DrawerProps>) => void
+    let setDrawerProps: ((changes: Partial<DrawerProps>) => void) | undefined
 
     function App() {
       const drawer = useDrawer({
@@ -21,15 +21,18 @@ describe('Drawer', () => {
 
     expect(screen.getByText('title')).toBeDefined()
 
+    if (!setDrawerProps) throw Error('setDrawerProps not initialized')
     setDrawerProps({ title: 'new title' })
 
     expect(await screen.findByText('new title')).toBeDefined()
   })
 
   it('should work with handler', async () => {
-    let setDrawerProps: (
-      changes: (prev: Partial<DrawerProps>) => Partial<DrawerProps>
-    ) => void
+    let setDrawerProps:
+      | ((
+          changes: (prev: Partial<DrawerProps>) => Partial<DrawerProps>
+        ) => void)
+      | undefined
 
     function App() {
       const drawer = useDrawer({
@@ -46,6 +49,7 @@ describe('Drawer', () => {
 
     expect(screen.getByText('title')).toBeDefined()
 
+    if (!setDrawerProps) throw Error('setDrawerProps not initialized')
     setDrawerProps(() => ({ title: 'new title' }))
 
     expect(await screen.findByText('new title')).toBeDefined()

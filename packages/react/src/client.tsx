@@ -60,34 +60,50 @@ export type FaasReactClientInstance = {
  * ```
  */
 export function FaasReactClient(
-  { baseUrl, options, onError }: FaasReactClientOptions = {
+  { baseUrl, options: clientOptions, onError }: FaasReactClientOptions = {
     baseUrl: '/',
   }
 ): FaasReactClientInstance {
-  const client = new FaasBrowserClient(baseUrl, options)
+  const resolvedBaseUrl: BaseUrl = baseUrl ?? '/'
+  const client = new FaasBrowserClient(resolvedBaseUrl, clientOptions)
 
-  const reactClient = {
+  function withBaseUrl<T extends { baseUrl?: BaseUrl }>(
+    options?: T
+  ): T & { baseUrl: BaseUrl } {
+    if (options?.baseUrl) return options as T & { baseUrl: BaseUrl }
+
+    return {
+      ...(options ?? ({} as T)),
+      baseUrl: resolvedBaseUrl,
+    }
+  }
+
+  const reactClient: FaasReactClientInstance = {
     id: client.id,
     faas: async <PathOrData extends FaasActionUnionType>(
       action: FaasAction<PathOrData>,
       params: FaasParams<PathOrData>,
-      options?: Options
+      requestOptions?: Options
     ): Promise<Response<FaasData<PathOrData>>> =>
-      faas<PathOrData>(action, params, { baseUrl, ...options }),
+      faas<PathOrData>(action, params, withBaseUrl(requestOptions)),
     useFaas: <PathOrData extends FaasActionUnionType>(
       action: FaasAction<PathOrData>,
       defaultParams: FaasParams<PathOrData>,
-      options?: useFaasOptions<PathOrData>
+      requestOptions?: useFaasOptions<PathOrData>
     ): FaasDataInjection<PathOrData> =>
-      useFaas<PathOrData>(action, defaultParams, { baseUrl, ...options }),
+      useFaas<PathOrData>(
+        action,
+        defaultParams,
+        withBaseUrl<useFaasOptions<PathOrData>>(requestOptions)
+      ),
     FaasDataWrapper: <PathOrData extends FaasActionUnionType>(
       props: FaasDataWrapperProps<PathOrData>
-    ) => <FaasDataWrapper<PathOrData> baseUrl={baseUrl} {...props} />,
-    onError,
+    ) => <FaasDataWrapper<PathOrData> {...props} baseUrl={resolvedBaseUrl} />,
+    ...(onError ? { onError } : {}),
     browserClient: client,
   }
 
-  clients[baseUrl] = reactClient
+  clients[resolvedBaseUrl] = reactClient
 
   return reactClient
 }

@@ -3,6 +3,41 @@ import { defaultsDeep } from 'lodash-es'
 import { type CSSProperties, createContext, useContext, useState } from 'react'
 import { FaasReactClient, type FaasReactClientOptions } from './FaasDataWrapper'
 
+export type ResolvedTheme = {
+  lang: string
+  common: {
+    blank: string
+    all: string
+    submit: string
+    pageNotFound: string
+    add: string
+    delete: string
+    required: string
+    search: string
+    reset: string
+  }
+  Blank: {
+    text: string
+  }
+  Form: {
+    submit: {
+      text: string
+    }
+  }
+  Title: {
+    separator: string
+    suffix: string
+  }
+  Link: {
+    target?: string
+    style: CSSProperties
+  }
+}
+
+type ConfigContextValue = {
+  theme: ResolvedTheme
+}
+
 export interface ConfigProviderProps {
   faasClientOptions?: FaasReactClientOptions
   children: React.ReactNode
@@ -66,7 +101,7 @@ const en = {
   reset: 'Reset',
 }
 
-const baseTheme = {
+const baseTheme: ResolvedTheme = {
   lang: 'en',
   common: en,
   Blank: { text: en.blank },
@@ -78,7 +113,7 @@ const baseTheme = {
   Link: { style: {} },
 }
 
-export const ConfigContext = createContext<Partial<ConfigProviderProps>>({
+export const ConfigContext = createContext<ConfigContextValue>({
   theme: baseTheme,
 })
 
@@ -95,7 +130,7 @@ export const ConfigContext = createContext<Partial<ConfigProviderProps>>({
  * ```
  */
 export function ConfigProvider(props: ConfigProviderProps) {
-  const [theme, setTheme] = useState<ConfigProviderProps['theme']>()
+  const [theme, setTheme] = useState<ResolvedTheme>()
 
   useEqualEffect(() => {
     const lang =
@@ -112,9 +147,9 @@ export function ConfigProvider(props: ConfigProviderProps) {
             Form: { submit: { text: zh.submit } },
           },
           baseTheme
-        )
+        ) as ResolvedTheme
       )
-    } else setTheme(defaultsDeep(props.theme, baseTheme))
+    } else setTheme(defaultsDeep(props.theme, baseTheme) as ResolvedTheme)
 
     if (props.faasClientOptions) FaasReactClient(props.faasClientOptions)
   }, [props.theme])

@@ -51,6 +51,12 @@ if (!global.FaasJS_Knex) {
   global.FaasJS_Knex = {}
 }
 
+function getGlobalKnexAdapters(): Record<string, Knex | MountedKnexAdapter> {
+  if (!global.FaasJS_Knex) global.FaasJS_Knex = {}
+
+  return global.FaasJS_Knex
+}
+
 export async function initPostgresTypeParsers() {
   const pg = await loadPackage<typeof import('pg')>('pg')
 
@@ -79,9 +85,9 @@ export class Knex implements Plugin {
   public readonly type = 'knex'
   public readonly name: string = Name
   public config: OriginKnex.Config
-  public adapter: OriginKnex
-  public query: OriginKnex
-  public logger: Logger
+  public adapter!: OriginKnex
+  public query!: OriginKnex
+  public logger!: Logger
 
   constructor(config?: KnexConfig) {
     if (config) {
@@ -95,7 +101,7 @@ export class Knex implements Plugin {
   public async onMount(data: MountData, next: Next): Promise<void> {
     this.logger = data.logger
 
-    const existsAdapter = global.FaasJS_Knex[this.name]
+    const existsAdapter = getGlobalKnexAdapters()[this.name]
 
     if (existsAdapter) {
       this.config = existsAdapter.config as OriginKnex.Config
@@ -240,7 +246,7 @@ export class Knex implements Plugin {
 
     data.logger.debug('connected')
 
-    global.FaasJS_Knex[this.name] = this
+    getGlobalKnexAdapters()[this.name] = this
 
     await next()
   }
@@ -307,11 +313,13 @@ export class Knex implements Plugin {
   }
 
   public async quit(): Promise<void> {
-    if (!global.FaasJS_Knex[this.name]) return
+    const adapters = getGlobalKnexAdapters()
+
+    if (!adapters[this.name]) return
 
     try {
-      await global.FaasJS_Knex[this.name].adapter.destroy()
-      delete global.FaasJS_Knex[this.name]
+      await adapters[this.name].adapter.destroy()
+      delete adapters[this.name]
     } catch (error) {
       console.error(error)
     }
@@ -321,8 +329,9 @@ export class Knex implements Plugin {
 export function useKnex(config?: KnexConfig): UseifyPlugin<Knex> {
   const name = config?.name || Name
 
-  if (global.FaasJS_Knex[name])
-    return usePlugin<Knex>(global.FaasJS_Knex[name] as unknown as Knex)
+  const adapters = getGlobalKnexAdapters()
+
+  if (adapters[name]) return usePlugin<Knex>(adapters[name] as unknown as Knex)
 
   return usePlugin<Knex>(new Knex(config))
 }

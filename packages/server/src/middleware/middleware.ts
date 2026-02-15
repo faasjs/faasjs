@@ -2,6 +2,12 @@ import { randomUUID } from 'node:crypto'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { useFunc } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
+import {
+  getErrorMessage,
+  getErrorStatusCode,
+  respondWithInternalServerError,
+  respondWithJsonError,
+} from '../response-error'
 
 export type MiddlewareEvent = {
   body: any
@@ -40,8 +46,11 @@ async function invokeMiddleware(
     )
   } catch (error) {
     handlerLogger.error('error:', error)
-    event.raw.response.statusCode = 500
-    event.raw.response.end(error.toString())
+
+    const statusCode = getErrorStatusCode(error)
+    if (statusCode === 500)
+      respondWithJsonError(event.raw.response, 500, getErrorMessage(error))
+    else respondWithInternalServerError(event.raw.response)
   } finally {
     handlerLogger.timeEnd(loggerKey, 'end')
   }

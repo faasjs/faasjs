@@ -6,7 +6,8 @@ import { closeAll, Server } from '../../server'
 
 describe('staticHandler', () => {
   let server: Server
-  const port = 3003 + Number(process.env.VITEST_POOL_ID)
+  const poolId = Number(process.env.VITEST_POOL_ID || 0)
+  const port = 31101 + poolId
 
   beforeAll(() => {
     server = new Server(join(__dirname, 'funcs'), { port })

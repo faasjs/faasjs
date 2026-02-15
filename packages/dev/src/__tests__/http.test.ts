@@ -30,6 +30,7 @@ it('JSONhandler error', async () => {
 
   const res = await func.JSONhandler()
 
+  if (!res.error) throw new Error('Expected JSONhandler to return error')
   expect(res.error.message).toEqual('message')
 })
 
@@ -47,5 +48,6 @@ it('JSONhandler with error ReadableStream', async () => {
 
   const res = await func.JSONhandler()
 
+  if (!res.error) throw new Error('Expected JSONhandler to return error')
   expect(res.error.message).toEqual('Stream error')
 })

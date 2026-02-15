@@ -202,6 +202,9 @@ export class Http<
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
+    this.cookie = new Cookie(this.config.cookie || {})
+    this.session = this.cookie.session
+    this.response = { headers: Object.create(null) }
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
@@ -413,7 +416,10 @@ export class Http<
     key: string,
     value: string
   ): Http<TParams, TCookie, TSession> {
-    this.response.headers[key.toLowerCase()] = value
+    const headers =
+      this.response.headers || (this.response.headers = Object.create(null))
+
+    headers[key.toLowerCase()] = value
     return this
   }
 

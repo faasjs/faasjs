@@ -25,11 +25,15 @@ describe('Form/items', () => {
         </Form.Item>
         <Form.List name={['list']}>
           {fields =>
-            fields.map(field => (
-              <Form.Item id={field.key} key={field.key} {...field}>
-                <Input />
-              </Form.Item>
-            ))
+            fields.map(field => {
+              const { key, ...fieldProps } = field
+
+              return (
+                <Form.Item id={key} key={key} {...fieldProps}>
+                  <Input />
+                </Form.Item>
+              )
+            })
           }
         </Form.List>
       </Form>

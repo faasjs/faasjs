@@ -51,7 +51,7 @@ export class Session<
   constructor(cookie: Cookie<C, S>, config: SessionOptions) {
     this.cookie = cookie
 
-    if (!config?.secret) cookie.logger.warn("Session's secret is missing.")
+    if (!config?.secret) cookie.logger?.warn("Session's secret is missing.")
 
     this.config = Object.assign(
       {

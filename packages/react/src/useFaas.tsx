@@ -56,8 +56,13 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
       ? options.skip(defaultParams)
       : options.skip
   )
-  const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>>>(null)
+  const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>> | null>(
+    null
+  )
   const controllerRef = useRef<AbortController | null>(null)
+  const localSetData = setData as React.Dispatch<
+    React.SetStateAction<FaasData<PathOrData>>
+  >
   const pendingReloadsRef = useRef<
     Map<
       number,
@@ -89,27 +94,29 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
 
     setLoading(true)
 
-    controllerRef.current = new AbortController()
+    const controller = new AbortController()
+    controllerRef.current = controller
 
     const client = getClient(options.baseUrl)
+    const requestParams = options.params ?? params
 
     function send() {
-      const request = client.faas<PathOrData>(
-        action,
-        options.params || params,
-        { signal: controllerRef.current.signal }
-      )
+      const request = client.faas<PathOrData>(action, requestParams, {
+        signal: controller.signal,
+      })
       promiseRef.current = request
 
       request
         .then(r => {
+          const nextData = r.data as FaasData<PathOrData>
+
           setFails(0)
           setError(null)
-          options.setData ? options.setData(r.data) : setData(r.data)
+          options.setData ? options.setData(nextData) : localSetData(nextData)
           setLoading(false)
 
           for (const { resolve } of pendingReloadsRef.current.values())
-            resolve(r.data)
+            resolve(nextData)
 
           pendingReloadsRef.current.clear()
         })
@@ -133,7 +140,7 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
           let error = e
           if (client.onError)
             try {
-              await client.onError(action as string, params)(e)
+              await client.onError(action as string, requestParams)(e)
             } catch (newError) {
               error = newError
             }
@@ -185,21 +192,30 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
     [params, skip]
   )
 
+  const currentData = (options.data ?? data) as FaasData<PathOrData>
+  const currentPromise =
+    promiseRef.current ?? Promise.resolve({} as Response<FaasData<PathOrData>>)
+  const updateData = (options.setData ?? localSetData) as React.Dispatch<
+    React.SetStateAction<FaasData<PathOrData>>
+  >
+
   return {
     action,
     params,
     loading,
-    data: options.data || data,
+    data: currentData,
     reloadTimes,
     error,
-    promise: promiseRef.current,
+    promise: currentPromise,
     reload,
-    setData: options.setData || setData,
+    setData: updateData,
     setLoading,
-    setPromise: newPromise =>
-      typeof newPromise === 'function'
-        ? newPromise(promiseRef.current)
-        : (promiseRef.current = newPromise),
+    setPromise: newPromise => {
+      promiseRef.current =
+        typeof newPromise === 'function'
+          ? newPromise(currentPromise)
+          : newPromise
+    },
     setError,
   }
 }

@@ -83,9 +83,9 @@ describe('FormContainer', () => {
       ],
     }
 
-    assertType<{ key: string }>(props.defaultValues)
+    assertType<{ key: string }>(props.defaultValues!)
 
-    assertType<{ custom?: boolean }>(props.items[0].input.props)
+    assertType<{ custom?: boolean }>(props.items[0]!.input!.props!)
   })
 
   it('should work with rules', async () => {

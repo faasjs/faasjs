@@ -13,7 +13,7 @@ describe('useFaas', () => {
   })
 
   afterEach(() => {
-    setMock(undefined)
+    setMock(null)
   })
 
   it('should work', async () => {

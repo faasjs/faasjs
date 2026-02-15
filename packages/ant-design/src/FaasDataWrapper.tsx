@@ -15,9 +15,12 @@ import { Loading } from './Loading'
 
 export { faas, useFaas, FaasReactClient, type FaasReactClientOptions }
 
-export type FaasDataInjection<T = any> = Partial<OriginFaasDataInjection<T>>
+export type FaasDataInjection<T extends FaasActionUnionType = any> = Partial<
+  OriginFaasDataInjection<T>
+>
 
-export interface FaasDataWrapperProps<T = any> extends OriginProps<T> {
+export interface FaasDataWrapperProps<T extends FaasActionUnionType = any>
+  extends OriginProps<T> {
   loadingProps?: LoadingProps
   loading?: JSX.Element
 }
@@ -40,7 +43,7 @@ export type { FaasDataWrapperRef } from '@faasjs/react'
  * }
  * ```
  */
-export function FaasDataWrapper<T = any>(
+export function FaasDataWrapper<T extends FaasActionUnionType = any>(
   props: FaasDataWrapperProps<T>
 ): JSX.Element {
   return (

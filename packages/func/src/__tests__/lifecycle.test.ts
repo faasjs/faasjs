@@ -11,8 +11,8 @@ describe('lifecycle', () => {
   describe('mount', () => {
     it('plugin throw error', async () => {
       class P implements Plugin {
-        public readonly type: string
-        public readonly name: string
+        public readonly type = 'mount'
+        public readonly name = 'throw-error'
 
         public async onMount() {
           throw Error('wrong')
@@ -41,8 +41,8 @@ describe('lifecycle', () => {
       let times = 0
 
       class P implements Plugin {
-        public readonly type: string
-        public readonly name: string
+        public readonly type = 'mount'
+        public readonly name = 'mount-once'
 
         public async onMount(_: MountData, next: Next) {
           times++
@@ -73,8 +73,8 @@ describe('lifecycle', () => {
   describe('invoke', () => {
     it('plugin throw error', async () => {
       class P implements Plugin {
-        public readonly type: string
-        public readonly name: string
+        public readonly type = 'invoke'
+        public readonly name = 'invoke-error'
 
         public async onInvoke(data: InvokeData, next: Next) {
           data.event.headers.cookie
@@ -90,11 +90,15 @@ describe('lifecycle', () => {
       try {
         await func.export().handler(null)
       } catch (error: any) {
-        expect(error.message).toEqual(
-          !(globalThis as any).Bun
-            ? "Cannot read properties of undefined (reading 'cookie')"
-            : `null is not an object (evaluating 'data.event.headers')`
-        )
+        if (!(globalThis as any).Bun)
+          expect(error.message).toEqual(
+            "Cannot read properties of undefined (reading 'cookie')"
+          )
+        else
+          expect([
+            `null is not an object (evaluating 'data.event.headers')`,
+            `undefined is not an object (evaluating 'data.event.headers.cookie')`,
+          ]).toContain(error.message)
       }
     })
   })

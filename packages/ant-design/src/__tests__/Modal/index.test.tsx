@@ -4,7 +4,7 @@ import { type ModalProps, useModal } from '../../Modal'
 
 describe('Modal', () => {
   it('should work', async () => {
-    let setModalProps: (changes: Partial<ModalProps>) => void
+    let setModalProps: ((changes: Partial<ModalProps>) => void) | undefined
 
     function App() {
       const Modal = useModal({
@@ -21,15 +21,16 @@ describe('Modal', () => {
 
     expect(screen.getByText('title')).toBeDefined()
 
+    if (!setModalProps) throw Error('setModalProps not initialized')
     setModalProps({ title: 'new title' })
 
     expect(await screen.findByText('new title')).toBeDefined()
   })
 
   it('should work with handler', async () => {
-    let setModalProps: (
-      changes: (prev: Partial<ModalProps>) => Partial<ModalProps>
-    ) => void
+    let setModalProps:
+      | ((changes: (prev: Partial<ModalProps>) => Partial<ModalProps>) => void)
+      | undefined
 
     function App() {
       const Modal = useModal({
@@ -46,6 +47,7 @@ describe('Modal', () => {
 
     expect(screen.getByText('title')).toBeDefined()
 
+    if (!setModalProps) throw Error('setModalProps not initialized')
     setModalProps(() => ({ title: 'new title' }))
 
     expect(await screen.findByText('new title')).toBeDefined()

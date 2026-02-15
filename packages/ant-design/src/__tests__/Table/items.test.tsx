@@ -468,7 +468,7 @@ describe('Table/items', () => {
     })
 
     it('children', () => {
-      const Item = ({ value }: { value?: string }) => {
+      const Item = ({ value = '' }: { value?: string }) => {
         return <span>{value.toUpperCase()}</span>
       }
 
@@ -493,7 +493,7 @@ describe('Table/items', () => {
     })
 
     it('tableChildren', () => {
-      const Item = ({ value }: { value?: string }) => {
+      const Item = ({ value = '' }: { value?: string }) => {
         return <span>{value.toUpperCase()}</span>
       }
 

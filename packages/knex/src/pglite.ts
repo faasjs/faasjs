@@ -107,13 +107,15 @@ export async function createPgliteKnex(
     parsers: postgresTypeParsers,
   })
 
-  return knex({
+  const knexConfig: OriginKnex.Config = {
     ...restConfig,
-    client: PgliteDialect as OriginKnex.Config['client'],
+    client: PgliteDialect as NonNullable<OriginKnex.Config['client']>,
     connection: {
       pglite,
     } as OriginKnex.StaticConnectionConfig,
-  })
+  }
+
+  return knex(knexConfig)
 }
 
 /**

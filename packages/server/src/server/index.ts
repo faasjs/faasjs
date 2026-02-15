@@ -16,6 +16,14 @@ import { HttpError } from '@faasjs/http'
 import { getTransport, Logger } from '@faasjs/logger'
 import { deepMerge, loadConfig, loadPackage } from '@faasjs/node-utils'
 import type { Middleware } from '../middleware'
+import { ensureRequestUrl } from '../request-url'
+import {
+  getErrorMessage,
+  getErrorStatusCode,
+  INTERNAL_SERVER_ERROR_MESSAGE,
+  respondWithInternalServerError,
+  respondWithJsonError,
+} from '../response-error'
 import { buildCORSHeaders } from './headers'
 import { getRouteFiles } from './routes'
 
@@ -170,7 +178,7 @@ export class Server {
 
   private onError: (error: any) => void
 
-  private server: HttpServer
+  private server: HttpServer | undefined
   private sockets: Set<Socket> = new Set()
 
   constructor(root: string, opts: ServerOptions = {}) {
@@ -241,9 +249,12 @@ export class Server {
 
     logger.info('%s %s', req.method, req.url)
 
+    const requestUrl = ensureRequestUrl(req, res)
+    if (!requestUrl) return
+
     const startedAt = Date.now()
 
-    const path = join(this.root, req.url).replace(/\?.*/, '')
+    const path = join(this.root, requestUrl).replace(/\?.*/, '')
 
     await new Promise<void>(resolve => {
       let body = ''
@@ -265,11 +276,7 @@ export class Server {
             }
           } catch (error: any) {
             logger.error(error)
-            if (!res.headersSent) {
-              res.statusCode = 500
-              res.setHeader('Content-Type', 'application/json')
-              res.write(JSON.stringify({ error: { message: error.message } }))
-            }
+            respondWithInternalServerError(res)
             resolve()
             return
           }
@@ -308,7 +315,9 @@ export class Server {
             this.cachedFuncs[path] = cache
           }
 
-          const url = new URL(req.url, `http://${req.headers.host}`)
+          const url = new URL(requestUrl, `http://${req.headers.host}`)
+
+          if (!cache.handler) throw Error('handler is undefined')
 
           data = await cache.handler(
             {
@@ -348,49 +357,52 @@ export class Server {
 
         Object.freeze(headers)
 
-        for (const key in headers) res.setHeader(key, headers[key])
+        for (const key in headers) res.setHeader(key, headers[key] as string)
 
         if (data instanceof Response) {
           res.statusCode = data.status
 
-          const reader = data.body.getReader()
+          const reader = data.body?.getReader()
 
-          const stream = Readable.from(
-            (async function* () {
-              while (true) {
-                try {
-                  const { done, value } = await reader.read()
-                  if (done) break
-                  if (value) yield value
-                } catch (error: any) {
-                  logger.error(error)
-                  stream.emit(error)
-                  break
+          if (reader) {
+            const stream = Readable.from(
+              (async function* () {
+                while (true) {
+                  try {
+                    const { done, value } = await reader.read()
+                    if (done) break
+                    if (value) yield value
+                  } catch (error: any) {
+                    logger.error(error)
+                    break
+                  }
                 }
-              }
-            })()
-          )
+              })()
+            )
 
-          stream
-            .pipe(res)
-            .on('finish', () => {
-              res.end()
-              resolve()
-            })
-            .on('error', err => {
-              this.onError(err)
-              if (!res.headersSent) {
-                res.statusCode = 500
-                res.setHeader('Content-Type', 'application/json')
-                res.write(JSON.stringify({ error: { message: err.message } }))
-              }
-              resolve()
-            })
+            stream
+              .pipe(res)
+              .on('finish', () => {
+                res.end()
+                resolve()
+              })
+              .on('error', err => {
+                this.onError(err)
+                respondWithInternalServerError(res)
+                resolve()
+              })
 
+            return
+          }
+
+          res.end()
           return
         }
 
         if (data.body instanceof ReadableStream) {
+          if (typeof data.statusCode === 'number')
+            res.statusCode = data.statusCode
+
           const stream = Readable.fromWeb(data.body)
 
           stream
@@ -401,36 +413,50 @@ export class Server {
             })
             .on('error', err => {
               this.onError(err)
-              if (!res.headersSent) {
-                res.statusCode = 500
-                res.setHeader('Content-Type', 'application/json')
-                res.write(JSON.stringify({ error: { message: err.message } }))
-              }
+              respondWithInternalServerError(res)
               resolve()
             })
 
           return
         }
 
-        let resBody: string | Buffer
+        const statusCode = getErrorStatusCode(data)
+
+        if (statusCode === 500) {
+          respondWithJsonError(res, 500, getErrorMessage(data))
+          resolve()
+          return
+        }
+
+        let resBody: string | Buffer | undefined
         if (
           data instanceof Error ||
           data?.constructor?.name?.includes('Error') ||
           typeof data === 'undefined' ||
           data === null
         ) {
-          res.statusCode = data?.statusCode || 500
-          res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          resBody = JSON.stringify({
-            error: { message: data?.message || 'No response' },
-          })
-        } else {
-          if (data.statusCode) res.statusCode = data.statusCode
+          if (typeof statusCode === 'number')
+            respondWithJsonError(
+              res,
+              statusCode,
+              getErrorMessage(
+                data,
+                statusCode === 500
+                  ? INTERNAL_SERVER_ERROR_MESSAGE
+                  : 'No response'
+              )
+            )
+          else respondWithInternalServerError(res)
 
-          if (data.body) resBody = data.body
+          resolve()
+          return
         }
 
-        if (resBody) {
+        if (typeof statusCode === 'number') res.statusCode = statusCode
+
+        if (data.body) resBody = data.body
+
+        if (typeof resBody !== 'undefined') {
           logger.debug('Response %s %j', res.statusCode, headers)
           res.write(resBody)
         }
@@ -471,7 +497,10 @@ export class Server {
       // don't lock options request
       if (req.method === 'OPTIONS') return this.handleOptionRequest(req, res)
 
-      const path = join(this.root, req.url).replace(/\?.*/, '')
+      const requestUrl = ensureRequestUrl(req, res)
+      if (!requestUrl) return
+
+      const path = join(this.root, requestUrl).replace(/\?.*/, '')
 
       if (!mounted[path]) mounted[path] = { pending: [] } as Mounted
 
@@ -588,13 +617,15 @@ export class Server {
         this.sockets.delete(socket)
       }
 
-    await new Promise<void>(resolve => {
-      this.server.close(err => {
-        if (err) this.onError(err)
+    const server = this.server
+    if (server)
+      await new Promise<void>(resolve => {
+        server.close(err => {
+          if (err) this.onError(err)
 
-        resolve()
+          resolve()
+        })
       })
-    })
 
     if (this.options.onClose) {
       this.logger.debug('[onClose] begin')
@@ -629,9 +660,15 @@ export class Server {
     res: ServerResponse<IncomingMessage>,
     next: () => void
   ): Promise<void> {
+    const requestUrl = ensureRequestUrl(req, res)
+    if (!requestUrl) {
+      next()
+      return
+    }
+
     try {
       const filepath = this.getFilePath(
-        join(this.root, req.url).replace(/\?.*/, '')
+        join(this.root, requestUrl).replace(/\?.*/, '')
       )
 
       await this.handle(req, res, {

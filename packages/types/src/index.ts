@@ -10,16 +10,25 @@
  *
  * ## Usage
  *
- * @see {@link InferFaasAction}
+ * ### TypeScript config presets
+ *
+ * `@faasjs/types` also provides shared TypeScript presets under `tsconfig/`:
+ *
+ * - `@faasjs/types/tsconfig/base`: strict base options for common TypeScript projects.
+ * - `@faasjs/types/tsconfig/react`: base options with `jsx: "react-jsx"` for React projects.
+ * - `@faasjs/types/tsconfig/build`: build-oriented options for package development.
+ *
+ * In your tsconfig.json:
+ *
+ * ```json
+ * {
+ *   "extends": "@faasjs/types/tsconfig/build"
+ * }
+ * ```
  *
  * @packageDocumentation
  */
 import type { Func } from '@faasjs/func'
-/**
- * The type of the actions.
- *
- * @see https://faasjs.com/doc/types/
- */
 
 /**
  * Interface for defining FaasJS actions.
@@ -74,7 +83,7 @@ export interface FaasEvents {
 }
 
 /**
- * Paths of FaasJS actions.
+ * Infer all action paths declared in {@link FaasActions}.
  */
 export type FaasActionPaths = Exclude<
   Extract<keyof FaasActions, string>,
@@ -82,7 +91,7 @@ export type FaasActionPaths = Exclude<
 >
 
 /**
- * Paths of FaasJS event types.
+ * Infer all event paths declared in {@link FaasEvents}.
  */
 export type FaasEventPaths = Exclude<
   Extract<keyof FaasEvents, string>,
@@ -90,7 +99,7 @@ export type FaasEventPaths = Exclude<
 >
 
 /**
- * Union type of all action types.
+ * Union type accepted by action helpers.
  */
 export type FaasActionUnionType =
   // Action paths defined in FaasActions
@@ -101,19 +110,41 @@ export type FaasActionUnionType =
   | string
 
 /**
- * Infer the action type.
+ * Infer the action path type.
+ *
+ * Returns the original type when `T` is a known action path,
+ * otherwise falls back to `string`.
+ *
+ * @example
+ * ```typescript
+ * type A = FaasAction<'demo'> // 'demo'
+ * type B = FaasAction<number> // string
+ * ```
  */
 export type FaasAction<T = any> = T extends FaasActionPaths ? T : string
 
 /**
- * Infer the parameters type.
+ * Infer params type by action path.
+ *
+ * @example
+ * ```typescript
+ * type DemoParams = FaasParams<'demo'>
+ * ```
  */
 export type FaasParams<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Params']
   : Record<string, any>
 
 /**
- * Infer the returning data type.
+ * Infer response data type by action path.
+ *
+ * If `T` is already a plain object type, it is returned directly.
+ *
+ * @example
+ * ```typescript
+ * type DemoData = FaasData<'demo'>
+ * type CustomData = FaasData<{ value: number }> // { value: number }
+ * ```
  */
 export type FaasData<T = any> = T extends FaasActionPaths
   ? FaasActions[T]['Data']
@@ -122,7 +153,12 @@ export type FaasData<T = any> = T extends FaasActionPaths
     : Record<string, any>
 
 /**
- * Infer the event type.
+ * Infer event payload type by event path.
+ *
+ * @example
+ * ```typescript
+ * type DemoEvent = FaasEvent<'demo'>
+ * ```
  */
 export type FaasEvent<T = any> = T extends FaasEventPaths
   ? FaasEvents[T]
@@ -163,6 +199,36 @@ export type FaasEvent<T = any> = T extends FaasEventPaths
  * ```
  */
 export type InferFaasAction<TFunc extends Func> = {
-  Params: Parameters<ReturnType<TFunc['export']>['handler']>[0]['params']
+  Params: NonNullable<
+    Parameters<ReturnType<TFunc['export']>['handler']>[0]
+  >['params']
   Data: Awaited<ReturnType<ReturnType<TFunc['export']>['handler']>>
 }
+
+/**
+ * Infer the Func type from a module.
+ *
+ * Supports both `export const func = defineFunc(...)` and `export default defineFunc(...)`.
+ *
+ * @example
+ * ```typescript
+ * import type { InferFaasAction, InferFaasFunc } from '@faasjs/types'
+ *
+ * declare module '@faasjs/types' {
+ *   interface FaasActions {
+ *     demo: InferFaasAction<
+ *       InferFaasFunc<typeof import('./functions/demo')>
+ *     >
+ *   }
+ * }
+ * ```
+ */
+export type InferFaasFunc<TModule> = TModule extends { func: infer TFunc }
+  ? TFunc extends Func
+    ? TFunc
+    : never
+  : TModule extends { default: infer TFunc }
+    ? TFunc extends Func
+      ? TFunc
+      : never
+    : never

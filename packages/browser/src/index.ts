@@ -239,7 +239,7 @@ export type Options = RequestInit & {
     headers,
   }: {
     action: string
-    params?: Record<string, any>
+    params?: Record<string, any> | undefined
     options: Options
     headers: Record<string, string>
   }) => Promise<void>
@@ -472,7 +472,7 @@ export class Response<T = any> {
     this.status = props.status || (props.data || props.body ? 200 : 204)
     this.headers = props.headers || {}
     this.body = props.body
-    this.data = props.data
+    if (props.data !== undefined) this.data = props.data
 
     if (props.data && !props.body) this.body = JSON.stringify(props.data)
   }

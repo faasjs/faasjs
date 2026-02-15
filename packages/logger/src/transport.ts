@@ -58,7 +58,7 @@ export class Transport {
   private logger: Logger
   public messages: LoggerMessage[] = []
   private flushing = false
-  private interval?: NodeJS.Timeout
+  private interval: NodeJS.Timeout | undefined
   private intervalTime = 5000
 
   constructor() {

@@ -62,7 +62,7 @@ export type TableProps<T = any, ExtendTypes = any> = {
   extendTypes?: {
     [key: string]: ExtendTableTypeProps
   }
-  faasData?: FaasDataWrapperProps<T>
+  faasData?: FaasDataWrapperProps<any>
   onChange?: (
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
@@ -103,7 +103,8 @@ export type TableFaasDataResponse<T = any> = {
 }
 
 function processValue(item: TableItemProps, value: any) {
-  const transferred = transferValue(item.type, value)
+  const itemType = item.type ?? 'string'
+  const transferred = transferValue(itemType, value)
 
   if (
     transferred === null ||
@@ -112,7 +113,7 @@ function processValue(item: TableItemProps, value: any) {
     return <Blank />
 
   if (item.options) {
-    if (item.type.endsWith('[]'))
+    if (itemType.endsWith('[]'))
       return (transferred as any[])
         .map(
           (v: any) =>
@@ -125,7 +126,7 @@ function processValue(item: TableItemProps, value: any) {
         )
         .join(', ')
 
-    if (['string', 'number', 'boolean'].includes(item.type))
+    if (['string', 'number', 'boolean'].includes(itemType))
       return (
         (
           item.options as {
@@ -136,14 +137,14 @@ function processValue(item: TableItemProps, value: any) {
       )
   }
 
-  if (item.type.endsWith('[]')) return transferred.join(', ')
+  if (itemType.endsWith('[]')) return (transferred as any[]).join(', ')
 
-  if (['date', 'time'].includes(item.type))
-    return transferred.format(
-      item.type === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
+  if (['date', 'time'].includes(itemType))
+    return (transferred as dayjs.Dayjs).format(
+      itemType === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
     )
 
-  return value
+  return transferred
 }
 
 /**
@@ -162,6 +163,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
   const generateFilterDropdown = (item: TableItemProps) => {
     if (item.filterDropdown && item.filterDropdown !== true) return
+    if (!item.options?.length) return
 
     if (item.options.length < 11) {
       if (!item.filters)
@@ -236,8 +238,10 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     for (const item of items) {
       if (!item.key) item.key = item.id
       if (!item.dataIndex) item.dataIndex = item.id
+      const itemType = item.type ?? 'string'
+
       item.title = item.title ?? idToTitle(item.id)
-      if (!item.type) item.type = 'string'
+      item.type = itemType
       if (item.options?.length) {
         item.options = transferOptions(item.options)
         item.filters = (
@@ -286,23 +290,31 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         continue
       }
 
-      if (props.extendTypes?.[item.type]) {
-        if (props.extendTypes[item.type].children) {
+      const extendType = props.extendTypes?.[itemType]
+
+      if (extendType) {
+        const extendChildren = extendType.children
+
+        if (extendChildren) {
           item.render = (value: any, values: any) =>
-            cloneUnionFaasItemElement(props.extendTypes[item.type].children, {
+            cloneUnionFaasItemElement(extendChildren, {
               scene: 'table',
               value,
               values,
               index: 0,
             })
-        } else if (props.extendTypes[item.type].render)
-          item.render = (value: any, values: any) =>
-            props.extendTypes[item.type].render(value, values, 0, 'table')
-        else throw Error(`${item.type} requires children or render`)
+        } else {
+          const extendRender = extendType.render
+
+          if (extendRender)
+            item.render = (value: any, values: any) =>
+              extendRender(value, values, 0, 'table')
+          else throw Error(`${itemType} requires children or render`)
+        }
         continue
       }
 
-      switch (item.type) {
+      switch (itemType) {
         case 'string':
           // render
           if (!item.render) item.render = value => processValue(item, value)
@@ -339,7 +351,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                       setSelectedKeys([v])
                     } else {
                       setSelectedKeys([])
-                      clearFilters()
+                      clearFilters?.()
                     }
                     confirm()
                   }}
@@ -384,7 +396,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                       setSelectedKeys([v])
                     } else {
                       setSelectedKeys([])
-                      clearFilters()
+                      clearFilters?.()
                     }
                     confirm()
                   }}
@@ -425,7 +437,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                       setSelectedKeys([Number(v)])
                     } else {
                       setSelectedKeys([])
-                      clearFilters()
+                      clearFilters?.()
                     }
                     confirm()
                   }}
@@ -464,7 +476,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                       setSelectedKeys([Number(v)])
                     } else {
                       setSelectedKeys([])
-                      clearFilters()
+                      clearFilters?.()
                     }
                     confirm()
                   }}
@@ -660,7 +672,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           if (!item.render)
             item.render = value => (
               <Description
-                items={item.object}
+                items={item.object || []}
                 dataSource={value || {}}
                 column={1}
               />
@@ -675,7 +687,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                   <Description
                     // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                     key={i}
-                    items={item.object}
+                    items={item.object || []}
                     dataSource={v || []}
                     column={1}
                   />
@@ -718,8 +730,9 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         )
         if (options.length)
           setColumns(prev => {
-            const newColumns = [...prev]
+            const newColumns = [...(prev || [])]
             const index = newColumns.findIndex(item => item.id === column.id)
+            if (index < 0) return newColumns
             newColumns[index].options = options
             generateFilterDropdown(newColumns[index])
             return newColumns
@@ -740,8 +753,10 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
       />
     )
 
+  if (!props.faasData) return <FaasDataTable props={props} columns={columns} />
+
   return (
-    <FaasDataWrapper<T> {...props.faasData}>
+    <FaasDataWrapper<any> {...props.faasData}>
       <FaasDataTable props={props} columns={columns} />
     </FaasDataWrapper>
   )
@@ -809,7 +824,7 @@ function FaasDataTable({
     return (
       <AntdTable
         {...props}
-        loading={loading}
+        {...(typeof loading === 'undefined' ? {} : { loading })}
         rowKey={props.rowKey || 'id'}
         columns={currentColumns as any[]}
         dataSource={[]}
@@ -820,7 +835,7 @@ function FaasDataTable({
     return (
       <AntdTable
         {...props}
-        loading={loading}
+        {...(typeof loading === 'undefined' ? {} : { loading })}
         rowKey={props.rowKey || 'id'}
         columns={currentColumns as any[]}
         dataSource={data as any}
@@ -830,7 +845,7 @@ function FaasDataTable({
   return (
     <AntdTable
       {...props}
-      loading={loading}
+      {...(typeof loading === 'undefined' ? {} : { loading })}
       rowKey={props.rowKey || 'id'}
       columns={currentColumns as any[]}
       dataSource={(data as any).rows}
@@ -843,6 +858,8 @@ function FaasDataTable({
             }
       }
       onChange={(pagination, filters, sorter, extra) => {
+        if (!reload) return
+
         if (props.onChange) {
           const processed = props.onChange(pagination, filters, sorter, extra)
           reload({

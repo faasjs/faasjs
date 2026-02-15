@@ -51,27 +51,32 @@ export interface RoutesProps {
 export function Routes(props: RoutesProps) {
   return (
     <OriginRoutes>
-      {props.routes.map(r => (
-        <Route
-          key={r.path as string}
-          {...r}
-          element={
-            r.element || (
-              <Suspense
-                fallback={
-                  props.fallback || (
-                    <div style={{ padding: '24px' }}>
-                      <Skeleton active />
-                    </div>
-                  )
-                }
-              >
-                <r.page />
-              </Suspense>
-            )
-          }
-        />
-      ))}
+      {props.routes.map(r => {
+        const Page = r.page
+
+        return (
+          <Route
+            key={r.path as string}
+            {...r}
+            element={
+              r.element ||
+              (Page ? (
+                <Suspense
+                  fallback={
+                    props.fallback || (
+                      <div style={{ padding: '24px' }}>
+                        <Skeleton active />
+                      </div>
+                    )
+                  }
+                >
+                  <Page />
+                </Suspense>
+              ) : undefined)
+            }
+          />
+        )
+      })}
       <Route key='*' path='*' element={props.notFound || <PageNotFound />} />
     </OriginRoutes>
   )
