@@ -1,8 +1,8 @@
-[@faasjs/node-utils](../README.md) / streamToText
+[@faasjs/dev](../README.md) / streamToString
 
-# Function: streamToText()
+# Variable: streamToString()
 
-> **streamToText**(`stream`): `Promise`\<`string`\>
+> `const` **streamToString**: (`stream`) => `Promise`\<`string`\> = `streamToText`
 
 Convert ReadableStream to text.
 

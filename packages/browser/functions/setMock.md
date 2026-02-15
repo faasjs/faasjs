@@ -16,7 +16,7 @@ Mock handler, can be:
   - Response instance: pre-configured Response object
   - null or undefined: clear mock
 
-[`Response`](../classes/Response.md)\<`any`\> | [`ResponseProps`](../type-aliases/ResponseProps.md)\<`any`\> | [`MockHandler`](../type-aliases/MockHandler.md)
+[`Response`](../classes/Response.md)\<`any`\> | [`ResponseProps`](../type-aliases/ResponseProps.md)\<`any`\> | [`MockHandler`](../type-aliases/MockHandler.md) | `null`
 
 ## Returns
 

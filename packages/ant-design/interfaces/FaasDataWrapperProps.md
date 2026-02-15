@@ -10,7 +10,7 @@
 
 ### T
 
-`T` = `any`
+`T` *extends* `FaasActionUnionType` = `any`
 
 ## Methods
 
@@ -70,7 +70,7 @@
 
 ### children?
 
-> `optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>\>
+> `optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 #### Inherited from
 

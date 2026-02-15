@@ -1,4 +1,4 @@
-[@faasjs/node-utils](../README.md) / streamToText
+[@faasjs/dev](../README.md) / streamToText
 
 # Function: streamToText()
 

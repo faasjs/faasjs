@@ -20,9 +20,12 @@ npm install @faasjs/node-utils
 - [loadPackage](functions/loadPackage.md)
 - [resetRuntime](functions/resetRuntime.md)
 - [streamToObject](functions/streamToObject.md)
-- [streamToString](functions/streamToString.md)
 - [streamToText](functions/streamToText.md)
 
 ## Type Aliases
 
 - [NodeRuntime](type-aliases/NodeRuntime.md)
+
+## Variables
+
+- [streamToString](variables/streamToString.md)

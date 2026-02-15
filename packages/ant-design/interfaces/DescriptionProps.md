@@ -48,7 +48,7 @@
 
 ### faasData?
 
-> `optional` **faasData**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`T`\>
+> `optional` **faasData**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`any`\>
 
 ### items
 

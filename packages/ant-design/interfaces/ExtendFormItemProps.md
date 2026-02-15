@@ -43,7 +43,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 ### children?
 
-> `optional` **children**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\>
+> `optional` **children**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -75,7 +75,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 ### formChildren?
 
-> `optional` **formChildren**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\>
+> `optional` **formChildren**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -83,7 +83,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 ### formRender?
 
-> `optional` **formRender**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\>
+> `optional` **formRender**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -187,7 +187,7 @@ trigger when current item's value changed
 
 ### render?
 
-> `optional` **render**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\>
+> `optional` **render**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
 
 #### Inherited from
 

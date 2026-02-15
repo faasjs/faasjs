@@ -52,4 +52,4 @@ declare module '@faasjs/types' {
 
 ### Params
 
-> **Params**: `Parameters`\<`ReturnType`\<`TFunc`\[`"export"`\]\>\[`"handler"`\]\>\[`0`\]\[`"params"`\]
+> **Params**: `NonNullable`\<`Parameters`\<`ReturnType`\<`TFunc`\[`"export"`\]\>\[`"handler"`\]\>\[`0`\]\>\[`"params"`\]

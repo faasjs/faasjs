@@ -58,12 +58,6 @@ Notes:
 - Do not use implicit rewrites such as `actions -> api`.
 - Do not place `*.func.ts` files in `components/`.
 
-## Error responses
-
-- Unhandled server errors respond with `500` and plain text: `Internal Server Error`.
-- Explicit business `500` errors (for example, throwing/returning an object with `statusCode: 500`) respond with JSON: `{ "error": { "message": "..." } }`.
-- Invalid requests with missing `req.url` respond with `400` and plain text: `Bad Request: url is undefined`.
-
 ## Functions
 
 - [closeAll](functions/closeAll.md)

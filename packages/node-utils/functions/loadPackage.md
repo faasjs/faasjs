@@ -4,7 +4,7 @@
 
 > **loadPackage**\<`T`\>(`name`, `defaultNames?`): `Promise`\<`T`\>
 
-Asynchronously loads a package by its name, supporting both ESM and CJS runtimes.
+Asynchronously loads a package by its name, supporting both ESM and CJS.
 
 ## Type Parameters
 
@@ -24,22 +24,12 @@ The package name to load.
 
 ### defaultNames?
 
-`string` | `string`[]
-
 Preferred export keys used to resolve default values.
+
+`string` | `string`[]
 
 ## Returns
 
 `Promise`\<`T`\>
 
-A promise that resolves to loaded module.
-
-## Throws
-
-If runtime is unknown.
-
-## Example
-
-```ts
-const myModule = await loadPackage<MyModuleType>('my-module')
-```
+Loaded module or resolved default export.

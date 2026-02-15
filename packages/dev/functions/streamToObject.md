@@ -1,4 +1,4 @@
-[@faasjs/node-utils](../README.md) / streamToObject
+[@faasjs/dev](../README.md) / streamToObject
 
 # Function: streamToObject()
 

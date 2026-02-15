@@ -10,6 +10,6 @@
 
 ### items
 
-> **items**: (`false` \| [`TabProps`](TabProps.md))[]
+> **items**: (`false` \| [`TabProps`](TabProps.md) \| `null`)[]
 
 auto skip null tab

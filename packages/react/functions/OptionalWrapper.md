@@ -2,7 +2,7 @@
 
 # Function: OptionalWrapper()
 
-> **OptionalWrapper**(`__namedParameters`): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\>
+> **OptionalWrapper**(`__namedParameters`): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null` \| `undefined`
 
 A wrapper component that conditionally wraps its children with a provided wrapper component.
 
@@ -14,7 +14,7 @@ A wrapper component that conditionally wraps its children with a provided wrappe
 
 ## Returns
 
-`string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\>
+`string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null` \| `undefined`
 
 ## Example
 

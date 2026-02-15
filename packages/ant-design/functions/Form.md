@@ -2,7 +2,7 @@
 
 # Function: Form()
 
-> **Form**\<`Values`\>(`props`): `Element`
+> **Form**\<`Values`\>(`props`): `Element` \| `null`
 
 Form component with Ant Design & FaasJS
 
@@ -12,7 +12,7 @@ Form component with Ant Design & FaasJS
 
 ### Values
 
-`Values` = `any`
+`Values` *extends* `Record`\<`string`, `any`\> = `any`
 
 ## Parameters
 
@@ -22,4 +22,4 @@ Form component with Ant Design & FaasJS
 
 ## Returns
 
-`Element`
+`Element` \| `null`

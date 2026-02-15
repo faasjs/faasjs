@@ -11,9 +11,21 @@ Normally you don't need to install this package manually. It's a dependency of `
 
 ## Usage
 
-## See
+### TypeScript config presets
 
-[InferFaasAction](type-aliases/InferFaasAction.md)
+`@faasjs/types` also provides shared TypeScript presets under `tsconfig/`:
+
+- `@faasjs/types/tsconfig/base`: strict base options for common TypeScript projects.
+- `@faasjs/types/tsconfig/react`: base options with `jsx: "react-jsx"` for React projects.
+- `@faasjs/types/tsconfig/build`: build-oriented options for package development.
+
+In your tsconfig.json:
+
+```json
+{
+  "extends": "@faasjs/types/tsconfig/build"
+}
+```
 
 ## Type Aliases
 
@@ -25,3 +37,4 @@ Normally you don't need to install this package manually. It's a dependency of `
 - [FaasEventPaths](type-aliases/FaasEventPaths.md)
 - [FaasParams](type-aliases/FaasParams.md)
 - [InferFaasAction](type-aliases/InferFaasAction.md)
+- [InferFaasFunc](type-aliases/InferFaasFunc.md)

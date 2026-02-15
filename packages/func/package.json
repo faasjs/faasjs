@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/func",
-  "version": "8.0.0-beta.6",
+  "version": "8.0.0-beta.7",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -30,10 +30,10 @@
     "dist"
   ],
   "peerDependencies": {
-    "@faasjs/logger": ">=8.0.0-beta.6"
+    "@faasjs/logger": ">=8.0.0-beta.7"
   },
   "devDependencies": {
-    "@faasjs/logger": ">=8.0.0-beta.6"
+    "@faasjs/logger": ">=8.0.0-beta.7"
   },
   "engines": {
     "node": ">=24.0.0",

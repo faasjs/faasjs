@@ -4,10 +4,19 @@
 
 > **FaasData**\<`T`\> = `T` *extends* `FaasActionPaths` ? `FaasActions`\[`T`\]\[`"Data"`\] : `T` *extends* `Record`\<`string`, `any`\> ? `T` : `Record`\<`string`, `any`\>
 
-Infer the returning data type.
+Infer response data type by action path.
+
+If `T` is already a plain object type, it is returned directly.
 
 ## Type Parameters
 
 ### T
 
 `T` = `any`
+
+## Example
+
+```typescript
+type DemoData = FaasData<'demo'>
+type CustomData = FaasData<{ value: number }> // { value: number }
+```

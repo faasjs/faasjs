@@ -54,7 +54,7 @@
 
 ##### cookie
 
-`string`
+`string` | `undefined`
 
 ##### logger
 
@@ -90,7 +90,7 @@
 
 ##### value
 
-`string`
+`string` | `null` | `undefined`
 
 ##### opts?
 
@@ -162,7 +162,7 @@
 
 ### logger
 
-> **logger**: `Logger`
+> **logger**: `Logger` \| `undefined`
 
 ### session
 

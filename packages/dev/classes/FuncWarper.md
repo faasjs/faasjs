@@ -80,6 +80,8 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 ##### body?
 
+`string` | `Record`\<`string`, `any`\> | `null`
+
 ##### options?
 
 ###### cookie?

@@ -4,10 +4,16 @@
 
 > **FaasParams**\<`T`\> = `T` *extends* `FaasActionPaths` ? `FaasActions`\[`T`\]\[`"Params"`\] : `Record`\<`string`, `any`\>
 
-Infer the parameters type.
+Infer params type by action path.
 
 ## Type Parameters
 
 ### T
 
 `T` = `any`
+
+## Example
+
+```typescript
+type DemoParams = FaasParams<'demo'>
+```

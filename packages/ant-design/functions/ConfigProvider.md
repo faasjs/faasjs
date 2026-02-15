@@ -2,7 +2,7 @@
 
 # Function: ConfigProvider()
 
-> **ConfigProvider**(`props`): `Element`
+> **ConfigProvider**(`props`): `Element` \| `null`
 
 Config for `@faasjs/ant-design` components.
 
@@ -14,7 +14,7 @@ Config for `@faasjs/ant-design` components.
 
 ## Returns
 
-`Element`
+`Element` \| `null`
 
 ## Example
 

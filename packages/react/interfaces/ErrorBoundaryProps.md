@@ -10,7 +10,7 @@
 
 ### errorChildren?
 
-> `optional` **errorChildren**: `ReactElement`\<[`ErrorChildrenProps`](../type-aliases/ErrorChildrenProps.md)\>
+> `optional` **errorChildren**: `ReactElement`\<[`ErrorChildrenProps`](../type-aliases/ErrorChildrenProps.md), `string` \| `JSXElementConstructor`\<`any`\>\>
 
 ### onError()?
 
@@ -20,7 +20,7 @@
 
 ##### error
 
-`Error`
+`Error` | `null`
 
 ##### info
 

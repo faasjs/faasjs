@@ -2,7 +2,7 @@
 
 # Function: usePrevious()
 
-> **usePrevious**\<`T`\>(`value`): `T`
+> **usePrevious**\<`T`\>(`value`): `T` \| `undefined`
 
 Hook to store the previous value of a state or prop.
 
@@ -24,6 +24,6 @@ The current value to be stored.
 
 ## Returns
 
-`T`
+`T` \| `undefined`
 
 - The previous value, or undefined if there is no previous value.

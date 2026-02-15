@@ -6,16 +6,15 @@
 
 Detect current JavaScript runtime environment.
 
-This function checks for presence of `require` first, then falls back to Node.js
-ESM detection via `process.versions.node`.
+This function checks for presence of `require` first, then falls back to
+Node.js ESM detection via `process.versions.node`.
 
 ## Returns
 
 [`NodeRuntime`](../type-aliases/NodeRuntime.md)
 
-- Returns `module` if runtime is using ECMAScript modules,
-  and `commonjs` if the runtime is using CommonJS modules.
+Returns `module` for ESM and `commonjs` for CJS.
 
 ## Throws
 
-- Throws an error if runtime cannot be determined.
+Throws an error if runtime cannot be determined.

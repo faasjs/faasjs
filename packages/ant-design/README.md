@@ -107,6 +107,7 @@ type FaasItemProps = {
 - [FaasReactClientOptions](type-aliases/FaasReactClientOptions.md)
 - [FormSubmitProps](type-aliases/FormSubmitProps.md)
 - [LoadingProps](type-aliases/LoadingProps.md)
+- [ResolvedTheme](type-aliases/ResolvedTheme.md)
 - [setDrawerProps](type-aliases/setDrawerProps.md)
 - [setModalProps](type-aliases/setModalProps.md)
 - [TableFaasDataParams](type-aliases/TableFaasDataParams.md)

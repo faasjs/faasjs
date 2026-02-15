@@ -4,7 +4,7 @@
 
 ## Extends
 
-- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), \{ `error?`: `Error`; `info?`: \{ `componentStack?`: `string`; \}; \}\>
+- `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), \{ `error`: `Error` \| `null`; `info`: `ErrorInfo`; \}\>
 
 ## Constructors
 
@@ -24,7 +24,7 @@
 
 #### Overrides
 
-`Component< ErrorBoundaryProps, { error?: Error info?: { componentStack?: string } } >.constructor`
+Component\< ErrorBoundaryProps, \{ error: Error \| null info: ErrorInfo \} \>.constructor
 
 ## Methods
 
@@ -43,7 +43,7 @@ the entire component tree to unmount.
 
 ##### info
 
-`any`
+`ErrorInfo`
 
 #### Returns
 
@@ -55,11 +55,11 @@ the entire component tree to unmount.
 
 ### render()
 
-> **render**(): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\>
+> **render**(): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null`
 
 #### Returns
 
-`string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\>
+`string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null`
 
 #### Overrides
 

@@ -8,7 +8,7 @@
 
 ### type
 
-[`FaasItemType`](../type-aliases/FaasItemType.md)
+[`FaasItemType`](../type-aliases/FaasItemType.md) | `null` | `undefined`
 
 ### value
 

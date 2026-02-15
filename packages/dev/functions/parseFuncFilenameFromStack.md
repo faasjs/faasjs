@@ -2,7 +2,7 @@
 
 # Function: parseFuncFilenameFromStack()
 
-> **parseFuncFilenameFromStack**(`stack?`): `string`
+> **parseFuncFilenameFromStack**(`stack?`): `string` \| `undefined`
 
 ## Parameters
 
@@ -12,4 +12,4 @@
 
 ## Returns
 
-`string`
+`string` \| `undefined`

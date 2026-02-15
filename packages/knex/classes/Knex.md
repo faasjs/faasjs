@@ -136,7 +136,7 @@ Wraps a transaction, returning a promise that resolves to the return value of th
 
 ###### trx?
 
-`Transaction`
+`Transaction`\<`any`, `any`[]\>
 
 #### Returns
 

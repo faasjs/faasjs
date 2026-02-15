@@ -18,7 +18,7 @@ Creates a splitting context with the given default value.
 
 The default value of the splitting context.
 
-\{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \} | keyof `T`[]
+\{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \| null \} | keyof `T`[]
 
 ## Returns
 

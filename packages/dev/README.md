@@ -42,7 +42,7 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 ## API
 
 - Vite: [viteFaasJsServer](functions/viteFaasJsServer.md)
-- Test: [test](functions/test.md), [FuncWarper](classes/FuncWarper.md), [streamToString](functions/streamToString.md)
+- Test: [test](functions/test.md), [FuncWarper](classes/FuncWarper.md), [streamToText](functions/streamToText.md), [streamToObject](functions/streamToObject.md), [streamToString](variables/streamToString.md)
 
 ## Functions
 
@@ -50,7 +50,8 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 - [isTypegenSourceFile](functions/isTypegenSourceFile.md)
 - [nameFunc](functions/nameFunc.md)
 - [parseFuncFilenameFromStack](functions/parseFuncFilenameFromStack.md)
-- [streamToString](functions/streamToString.md)
+- [streamToObject](functions/streamToObject.md)
+- [streamToText](functions/streamToText.md)
 - [test](functions/test.md)
 - [useFunc](functions/useFunc.md)
 - [usePlugin](functions/usePlugin.md)
@@ -86,3 +87,7 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 - [Simplify](type-aliases/Simplify.md)
 - [UnionToIntersection](type-aliases/UnionToIntersection.md)
 - [UseifyPlugin](type-aliases/UseifyPlugin.md)
+
+## Variables
+
+- [streamToString](variables/streamToString.md)

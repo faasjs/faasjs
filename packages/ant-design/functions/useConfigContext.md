@@ -2,8 +2,8 @@
 
 # Function: useConfigContext()
 
-> **useConfigContext**(): `Partial`\<[`ConfigProviderProps`](../interfaces/ConfigProviderProps.md)\>
+> **useConfigContext**(): `ConfigContextValue`
 
 ## Returns
 
-`Partial`\<[`ConfigProviderProps`](../interfaces/ConfigProviderProps.md)\>
+`ConfigContextValue`

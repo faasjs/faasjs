@@ -10,7 +10,7 @@ FaasDataWrapper component with Loading
 
 ### T
 
-`T` = `any`
+`T` *extends* `FaasActionUnionType` = `any`
 
 ## Parameters
 

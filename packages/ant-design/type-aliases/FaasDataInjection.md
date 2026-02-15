@@ -8,4 +8,4 @@
 
 ### T
 
-`T` = `any`
+`T` *extends* `FaasActionUnionType` = `any`

@@ -2,7 +2,7 @@
 
 # Function: Title()
 
-> **Title**(`props`): `Element`
+> **Title**(`props`): `Element` \| `null`
 
 Title is used to change the title of the page
 
@@ -29,4 +29,4 @@ Return null by default.
 
 ## Returns
 
-`Element`
+`Element` \| `null`

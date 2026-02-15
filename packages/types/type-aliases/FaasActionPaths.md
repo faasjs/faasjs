@@ -4,4 +4,4 @@
 
 > **FaasActionPaths** = `Exclude`\<`Extract`\<keyof `FaasActions`, `string`\>, `"faasjsActionsPlaceholder"`\>
 
-Paths of FaasJS actions.
+Infer all action paths declared in FaasActions.

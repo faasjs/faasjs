@@ -4,10 +4,16 @@
 
 > **FaasEvent**\<`T`\> = `T` *extends* [`FaasEventPaths`](FaasEventPaths.md) ? `FaasEvents`\[`T`\] : `Record`\<`string`, `any`\>
 
-Infer the event type.
+Infer event payload type by event path.
 
 ## Type Parameters
 
 ### T
 
 `T` = `any`
+
+## Example
+
+```typescript
+type DemoEvent = FaasEvent<'demo'>
+```

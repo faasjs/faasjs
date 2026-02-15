@@ -2,7 +2,7 @@
 
 # Function: FormItem()
 
-> **FormItem**\<`T`\>(`props`): `Element`
+> **FormItem**\<`T`\>(`props`): `Element` \| `null`
 
 FormItem
 
@@ -23,7 +23,7 @@ FormItem
 
 ## Returns
 
-`Element`
+`Element` \| `null`
 
 ## Example
 

@@ -2,7 +2,7 @@
 
 # Function: Table()
 
-> **Table**\<`T`, `ExtendTypes`\>(`props`): `Element`
+> **Table**\<`T`, `ExtendTypes`\>(`props`): `Element` \| `null`
 
 Table component with Ant Design & FaasJS
 
@@ -29,4 +29,4 @@ Table component with Ant Design & FaasJS
 
 ## Returns
 
-`Element`
+`Element` \| `null`

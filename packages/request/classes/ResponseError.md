@@ -42,18 +42,18 @@ ResponseError class
 
 > **headers**: `OutgoingHttpHeaders`
 
-### request?
+### request
 
-> `optional` **request**: [`Request`](../type-aliases/Request.md)
+> **request**: [`Request`](../type-aliases/Request.md) \| `undefined`
 
 ### response
 
 > **response**: [`Response`](../type-aliases/Response.md)
 
-### statusCode?
+### statusCode
 
-> `optional` **statusCode**: `number`
+> **statusCode**: `number`
 
-### statusMessage?
+### statusMessage
 
-> `optional` **statusMessage**: `string`
+> **statusMessage**: `string`
