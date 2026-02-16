@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/knex",
-  "version": "8.0.0-beta.7",
+  "version": "8.0.0-beta.8",
   "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
@@ -31,15 +31,15 @@
   ],
   "peerDependencies": {
     "knex": "*",
-    "@faasjs/func": ">=8.0.0-beta.7",
-    "@faasjs/logger": ">=8.0.0-beta.7",
-    "@faasjs/node-utils": ">=8.0.0-beta.7"
+    "@faasjs/func": ">=8.0.0-beta.8",
+    "@faasjs/logger": ">=8.0.0-beta.8",
+    "@faasjs/node-utils": ">=8.0.0-beta.8"
   },
   "devDependencies": {
     "knex": "*",
-    "@faasjs/func": ">=8.0.0-beta.7",
-    "@faasjs/logger": ">=8.0.0-beta.7",
-    "@faasjs/node-utils": ">=8.0.0-beta.7",
+    "@faasjs/func": ">=8.0.0-beta.8",
+    "@faasjs/logger": ">=8.0.0-beta.8",
+    "@faasjs/node-utils": ">=8.0.0-beta.8",
     "better-sqlite3": "*",
     "knex-pglite": "*",
     "@types/pg": "*",

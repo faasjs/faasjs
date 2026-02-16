@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "8.0.0-beta.7",
+  "version": "8.0.0-beta.8",
   "type": "module",
   "private": true,
   "scripts": {

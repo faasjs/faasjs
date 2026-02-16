@@ -30,6 +30,7 @@ npm install @faasjs/knex
 ## Type Aliases
 
 - [KnexConfig](type-aliases/KnexConfig.md)
+- [MountedKnexAdapter](type-aliases/MountedKnexAdapter.md)
 - [MountFaasKnexOptions](type-aliases/MountFaasKnexOptions.md)
 
 ## Variables

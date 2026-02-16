@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.8 (2026-02-16)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.7...v8.0.0-beta.8)
+
+- `@faasjs/knex`
+  - [Feature] Add `KnexSchema` for db migration.
+
 [`v8.0.0-beta.7 (2026-02-15)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.6...v8.0.0-beta.7)
 
 - `faasjs`
