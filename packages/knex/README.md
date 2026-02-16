@@ -25,6 +25,7 @@ npm install @faasjs/knex
 ## Classes
 
 - [Knex](classes/Knex.md)
+- [KnexSchema](classes/KnexSchema.md)
 
 ## Type Aliases
 

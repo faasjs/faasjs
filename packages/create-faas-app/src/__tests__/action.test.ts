@@ -49,6 +49,7 @@ describe('action', () => {
         'test/vite.config.ts',
         'test/server.ts',
         'test/src/faas.yaml',
+        'test/src/db/migrations/.gitkeep',
         'test/src/main.tsx',
         'test/src/pages/home/index.tsx',
         'test/src/pages/home/api/hello.func.ts',
@@ -58,13 +59,28 @@ describe('action', () => {
 
     const packageJSON = JSON.parse(files['test/package.json'])
 
-    expect(packageJSON.scripts).toEqual({
+    expect(packageJSON.scripts).toMatchObject({
       dev: 'vite',
       build: 'vite build',
       start: 'node server.ts',
       check: 'tsc --noEmit && biome check .',
       test: 'vitest run',
+      'migrate:latest': expect.any(String),
+      'migrate:rollback': expect.any(String),
+      'migrate:status': expect.any(String),
+      'migrate:current': expect.any(String),
+      'migrate:make': expect.any(String),
     })
+
+    const migrationScript = packageJSON.scripts['migrate:latest']
+
+    expect(migrationScript).toContain('npm_lifecycle_event')
+    expect(migrationScript).toContain('KnexSchema')
+    expect(migrationScript).toContain('migrateMake')
+    expect(packageJSON.scripts['migrate:rollback']).toEqual(migrationScript)
+    expect(packageJSON.scripts['migrate:status']).toEqual(migrationScript)
+    expect(packageJSON.scripts['migrate:current']).toEqual(migrationScript)
+    expect(packageJSON.scripts['migrate:make']).toEqual(migrationScript)
 
     expect(packageJSON.dependencies).toEqual(
       expect.objectContaining({
@@ -92,6 +108,10 @@ coverage/
 `)
 
     expect(files['test/src/faas.yaml']).toContain('connection: ./.pglite_dev')
+    expect(files['test/src/faas.yaml']).toContain(
+      'directory: ./src/db/migrations'
+    )
+    expect(files['test/src/faas.yaml']).toContain('extension: ts')
     expect(files['test/src/faas.yaml']).toContain('production:')
 
     const testingSection = files['test/src/faas.yaml']
