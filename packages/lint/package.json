@@ -20,10 +20,10 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "devDependencies": {
-    "@biomejs/biome": ">=2.0.0"
+    "@biomejs/biome": ">=2.4.0"
   },
   "peerDependencies": {
-    "@biomejs/biome": ">=2.0.0"
+    "@biomejs/biome": ">=2.4.0"
   },
   "engines": {
     "node": ">=24.0.0",
