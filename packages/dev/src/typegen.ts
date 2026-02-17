@@ -38,6 +38,12 @@ function normalizeRoute(path: string): string {
   return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
 }
 
+function normalizeTypegenRoute(path: string): string {
+  if (path === '/') return '/'
+
+  return path.replace(/^\/+/, '')
+}
+
 function toRoute(
   srcRoot: string,
   file: string
@@ -140,7 +146,7 @@ async function readFuncFiles(dir: string): Promise<string[]> {
 
 function formatTypes(items: RouteTypeItem[]): string {
   const actionLines = items.map(item => {
-    return `    ${JSON.stringify(item.route)}: InferFaasAction<InferFaasFunc<typeof import(${JSON.stringify(item.importPath)})>>`
+    return `    ${JSON.stringify(normalizeTypegenRoute(item.route))}: InferFaasAction<InferFaasFunc<typeof import(${JSON.stringify(item.importPath)})>>`
   })
 
   const eventLines = items.map(item => {
@@ -148,7 +154,7 @@ function formatTypes(items: RouteTypeItem[]): string {
       ? `[${item.pluginTypes.map(type => JSON.stringify(type)).join(', ')}]`
       : '[]'
 
-    return `    ${JSON.stringify(item.route)}: InferPluginEvent<${plugins}>`
+    return `    ${JSON.stringify(normalizeTypegenRoute(item.route))}: InferPluginEvent<${plugins}>`
   })
 
   return `/**

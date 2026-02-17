@@ -107,25 +107,25 @@ describe('typegen', () => {
     const content = await readFile(result.output, 'utf8')
 
     expect(content).toContain(
-      '"/*": InferFaasAction<InferFaasFunc<typeof import("../default.func")>>'
+      '"*": InferFaasAction<InferFaasFunc<typeof import("../default.func")>>'
     )
     expect(content).toContain(
       '"/": InferFaasAction<InferFaasFunc<typeof import("../index.func")>>'
     )
     expect(content).toContain(
-      '"/posts": InferFaasAction<InferFaasFunc<typeof import("../posts.func")>>'
+      '"posts": InferFaasAction<InferFaasFunc<typeof import("../posts.func")>>'
     )
     expect(content).toContain(
-      '"/users/*": InferFaasAction<InferFaasFunc<typeof import("../users/default.func")>>'
+      '"users/*": InferFaasAction<InferFaasFunc<typeof import("../users/default.func")>>'
     )
     expect(content).toContain(
-      '"/users/profile": InferFaasAction<InferFaasFunc<typeof import("../users/profile.func")>>'
+      '"users/profile": InferFaasAction<InferFaasFunc<typeof import("../users/profile.func")>>'
     )
     expect(content).not.toContain('import("../posts/index.func")')
 
-    expect(content).toContain('"/posts": InferPluginEvent<["custom", "http"]>')
+    expect(content).toContain('"posts": InferPluginEvent<["custom", "http"]>')
     expect(content).toContain(
-      '"/users/profile": InferPluginEvent<["admin", "http"]>'
+      '"users/profile": InferPluginEvent<["admin", "http"]>'
     )
 
     const second = await generateFaasTypes({
