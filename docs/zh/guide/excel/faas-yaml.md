@@ -61,7 +61,7 @@
 
 1. `server.root` 始终表示项目根目录。
 2. 云函数目录固定为 `<server.root>/src`。
-3. `@faasjs/dev` 入口配置默认读取 `<root>/src/faas.yaml`（`root` 来自 Vite 的 `root` 或 `faas-types --root`）。
+3. `@faasjs/dev` 入口配置默认读取 `<root>/src/faas.yaml`（`root` 来自 Vite 的 `root` 或 `faas types --root`）。
 4. typegen 输出固定为 `<server.root>/src/.faasjs/types.d.ts`。
 
 > `types` 自定义配置已移除，不再支持在 `faas.yaml` 中配置。

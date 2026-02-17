@@ -148,7 +148,7 @@ describe('typegen', () => {
         root: join(root, 'api'),
         logger,
       })
-    ).rejects.toThrow('[faas-types] Source directory not found:')
+    ).rejects.toThrow('[faas types] Source directory not found:')
   })
 
   it('should resolve source directory from defaults.server.root', async () => {

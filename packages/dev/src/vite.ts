@@ -50,15 +50,15 @@ export function viteFaasJsServer(): Plugin {
     name: 'vite:faasjs',
     enforce: 'pre' as const,
     configResolved(resolvedConfig) {
-      const serverConfig = resolveServerConfig(
+      const { root, base } = resolveServerConfig(
         resolvedConfig.root,
         logger,
         resolvedConfig.base
       )
 
       config = {
-        root: serverConfig.root,
-        base: normalizeBase(serverConfig.base),
+        root,
+        base: normalizeBase(base),
       }
     },
     configureServer: async ({ middlewares, watcher }) => {
@@ -78,41 +78,24 @@ export function viteFaasJsServer(): Plugin {
           })
 
           logger.debug(
-            '[faas-types] %s %s (%i routes)',
+            '[faas types] %s %s (%i routes)',
             result.changed ? 'generated' : 'up-to-date',
             result.output,
             result.routeCount
           )
         } catch (error: any) {
-          logger.error('[faas-types] %s', error.message)
+          logger.error('[faas types] %s', error.message)
         }
       }
 
-      let timer: ReturnType<typeof setTimeout> | null = null
-      let runningTypegen = false
-      let pendingTypegen = false
-
-      const flushTypegen = async () => {
-        if (runningTypegen || !pendingTypegen) return
-
-        pendingTypegen = false
-        runningTypegen = true
-
-        try {
-          await runTypegen()
-        } finally {
-          runningTypegen = false
-          if (pendingTypegen) void flushTypegen()
-        }
-      }
+      let timer: ReturnType<typeof setTimeout> | undefined
+      let typegenChain = Promise.resolve()
 
       const scheduleTypegen = () => {
-        pendingTypegen = true
-
         if (timer) clearTimeout(timer)
 
         timer = setTimeout(() => {
-          void flushTypegen()
+          typegenChain = typegenChain.then(runTypegen)
         }, TYPEGEN_DEBOUNCE)
       }
 
@@ -128,8 +111,7 @@ export function viteFaasJsServer(): Plugin {
         if (!req.url || req.method !== 'POST' || !server) return next()
 
         const originalUrl = req.url
-        const strippedUrl = stripBase(req.url, config.base)
-        req.url = strippedUrl
+        req.url = stripBase(req.url, config.base)
 
         try {
           logger.debug(`Request ${req.url}`)

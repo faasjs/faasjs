@@ -33,8 +33,8 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/dev`
   - [Break] Read local server config from `faas.yaml` (`<staging>.server`) and remove custom `viteFaasJsServer` options.
-  - [Break] Remove `faas-types` CLI options `--src`, `--output`, and `--staging`.
-  - [Feature] Add `generateFaasTypes` and `faas-types` CLI to generate action/event types from `.func.ts` routes and `faas.yaml`.
+  - [Break] Remove `faas types` CLI options `--src`, `--output`, and `--staging`.
+  - [Feature] Add `generateFaasTypes` and `faas types` CLI to generate action/event types from `.func.ts` routes and `faas.yaml`.
   - [Feature] Add `types` option to `viteFaasJsServer` with startup generation and watched regeneration for `.func.ts` and `faas.yaml`.
   - [Fix] Fix knex exporter.
 

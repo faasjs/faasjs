@@ -26,30 +26,25 @@ export type GenerateFaasTypesResult = {
   routeCount: number
 }
 
-function normalizeSlashes(path: string): string {
-  return path.replace(/\\/g, '/')
-}
-
 function normalizeRoute(path: string): string {
-  const normalized = path.replace(/\/+/g, '/')
+  const normalized = path.replace(/\\/g, '/').replace(/\/+/g, '/')
 
   if (!normalized.length || normalized === '/') return '/'
 
   return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
 }
 
-function normalizeTypegenRoute(path: string): string {
-  if (path === '/') return '/'
-
-  return path.replace(/^\/+/, '')
+function toTypegenRoute(route: string): string {
+  return route === '/' ? '/' : route.replace(/^\/+/, '')
 }
 
 function toRoute(
   srcRoot: string,
   file: string
 ): { route: string; priority: number } {
-  const relativePath = normalizeSlashes(relative(srcRoot, file))
-  const noTsPath = relativePath.replace(/\.ts$/, '')
+  const noTsPath = relative(srcRoot, file)
+    .replace(/\\/g, '/')
+    .replace(/\.ts$/, '')
 
   if (noTsPath === 'index.func') return { route: '/', priority: 2 }
 
@@ -73,15 +68,13 @@ function toRoute(
       priority: 3,
     }
 
-  throw Error(`[faas-types] Invalid func filename: ${file}`)
+  throw Error(`[faas types] Invalid func filename: ${file}`)
 }
 
 function toImportPath(fromFile: string, targetFile: string): string {
-  const fromDir = dirname(fromFile)
-  const importPath = normalizeSlashes(relative(fromDir, targetFile)).replace(
-    /\.ts$/,
-    ''
-  )
+  const importPath = relative(dirname(fromFile), targetFile)
+    .replace(/\\/g, '/')
+    .replace(/\.ts$/, '')
 
   if (importPath.startsWith('.')) return importPath
 
@@ -118,8 +111,10 @@ function parsePluginTypes(config: Record<string, any>): string[] {
 
 async function readFuncFiles(dir: string): Promise<string[]> {
   const result: string[] = []
+  const pendingDirs = [dir]
 
-  async function walk(currentDir: string): Promise<void> {
+  while (pendingDirs.length) {
+    const currentDir = pendingDirs.pop() as string
     const entries = await readdir(currentDir, {
       withFileTypes: true,
     })
@@ -130,7 +125,7 @@ async function readFuncFiles(dir: string): Promise<string[]> {
       const filePath = join(currentDir, entry.name)
 
       if (entry.isDirectory()) {
-        await walk(filePath)
+        pendingDirs.push(filePath)
         continue
       }
 
@@ -139,14 +134,12 @@ async function readFuncFiles(dir: string): Promise<string[]> {
     }
   }
 
-  await walk(dir)
-
   return result.sort((a, b) => a.localeCompare(b))
 }
 
 function formatTypes(items: RouteTypeItem[]): string {
   const actionLines = items.map(item => {
-    return `    ${JSON.stringify(normalizeTypegenRoute(item.route))}: InferFaasAction<InferFaasFunc<typeof import(${JSON.stringify(item.importPath)})>>`
+    return `    ${JSON.stringify(toTypegenRoute(item.route))}: InferFaasAction<InferFaasFunc<typeof import(${JSON.stringify(item.importPath)})>>`
   })
 
   const eventLines = items.map(item => {
@@ -154,7 +147,7 @@ function formatTypes(items: RouteTypeItem[]): string {
       ? `[${item.pluginTypes.map(type => JSON.stringify(type)).join(', ')}]`
       : '[]'
 
-    return `    ${JSON.stringify(normalizeTypegenRoute(item.route))}: InferPluginEvent<${plugins}>`
+    return `    ${JSON.stringify(toTypegenRoute(item.route))}: InferPluginEvent<${plugins}>`
   })
 
   return `/**
@@ -182,34 +175,34 @@ export function isTypegenSourceFile(filePath: string): boolean {
 export async function generateFaasTypes(
   options: GenerateFaasTypesOptions = {}
 ): Promise<GenerateFaasTypesResult> {
-  const logger = options.logger || new Logger('FaasJs:Typegen')
+  const logger = options.logger ?? new Logger('FaasJs:Typegen')
   const { root: projectRoot, staging } = resolveServerConfig(
-    options.root || process.cwd(),
+    options.root ?? process.cwd(),
     logger
   )
   const srcRoot = join(projectRoot, 'src')
   const output = join(srcRoot, '.faasjs', 'types.d.ts')
 
   if (!existsSync(srcRoot))
-    throw Error(`[faas-types] Source directory not found: ${srcRoot}`)
+    throw Error(`[faas types] Source directory not found: ${srcRoot}`)
 
   const files = await readFuncFiles(srcRoot)
   const routeMap = new Map<string, RouteTypeItem>()
 
   for (const file of files) {
     const { route, priority } = toRoute(srcRoot, file)
-    const config = loadConfig(srcRoot, file, staging, logger)
-    const pluginTypes = parsePluginTypes(config as Record<string, any>)
-    const importPath = toImportPath(output, file)
     const prev = routeMap.get(route)
 
-    if (!prev || priority > prev.priority)
-      routeMap.set(route, {
-        route,
-        importPath,
-        pluginTypes,
-        priority,
-      })
+    if (prev && priority <= prev.priority) continue
+
+    routeMap.set(route, {
+      route,
+      importPath: toImportPath(output, file),
+      pluginTypes: parsePluginTypes(
+        loadConfig(srcRoot, file, staging, logger) as Record<string, any>
+      ),
+      priority,
+    })
   }
 
   const items = Array.from(routeMap.values()).sort((a, b) =>
@@ -220,10 +213,8 @@ export async function generateFaasTypes(
   let changed = true
 
   try {
-    const previous = await readFile(output, 'utf8')
-
-    if (previous === content) changed = false
-  } catch (_error) {}
+    if ((await readFile(output, 'utf8')) === content) changed = false
+  } catch {}
 
   if (changed) {
     await mkdir(dirname(output), {

@@ -72,15 +72,13 @@ describe('action', () => {
       'migrate:make': expect.any(String),
     })
 
-    const migrationScript = packageJSON.scripts['migrate:latest']
-
-    expect(migrationScript).toContain('npm_lifecycle_event')
-    expect(migrationScript).toContain('KnexSchema')
-    expect(migrationScript).toContain('migrateMake')
-    expect(packageJSON.scripts['migrate:rollback']).toEqual(migrationScript)
-    expect(packageJSON.scripts['migrate:status']).toEqual(migrationScript)
-    expect(packageJSON.scripts['migrate:current']).toEqual(migrationScript)
-    expect(packageJSON.scripts['migrate:make']).toEqual(migrationScript)
+    expect(packageJSON.scripts['migrate:latest']).toEqual('faas knex latest')
+    expect(packageJSON.scripts['migrate:rollback']).toEqual(
+      'faas knex rollback'
+    )
+    expect(packageJSON.scripts['migrate:status']).toEqual('faas knex status')
+    expect(packageJSON.scripts['migrate:current']).toEqual('faas knex current')
+    expect(packageJSON.scripts['migrate:make']).toEqual('faas knex make')
 
     expect(packageJSON.dependencies).toEqual(
       expect.objectContaining({

@@ -28,22 +28,18 @@ export function resolveServerConfig(
   )
   const server =
     config && typeof config === 'object'
-      ? (config.server as Record<string, any>)
+      ? ((config as Record<string, any>).server as Record<string, any>)
       : undefined
 
-  const resolvedRoot =
-    server && typeof server.root === 'string' && server.root.length
-      ? resolve(projectRoot, server.root)
-      : projectRoot
-
-  const resolvedBase =
-    server && typeof server.base === 'string' && server.base.length
-      ? server.base
-      : defaultBase
-
   return {
-    root: resolvedRoot,
-    base: resolvedBase,
+    root:
+      typeof server?.root === 'string' && server.root.length
+        ? resolve(projectRoot, server.root)
+        : projectRoot,
+    base:
+      typeof server?.base === 'string' && server.base.length
+        ? server.base
+        : defaultBase,
     staging,
   }
 }

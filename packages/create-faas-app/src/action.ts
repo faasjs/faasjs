@@ -24,32 +24,6 @@ function writeFile(path: string, content: string): void {
   writeFileSync(path, content)
 }
 
-const MigrationScript = [
-  'node -e "const run=async()=>{',
-  "const action=(process.env.npm_lifecycle_event||'').split(':')[1]||'latest';",
-  "const staging=process.env.FaasEnv||'development';",
-  "const [{loadConfig},{useKnex,KnexSchema}]=await Promise.all([import('@faasjs/node-utils'),import('@faasjs/knex')]);",
-  "const srcRoot=process.cwd()+'/src';",
-  "const config=loadConfig(srcRoot,srcRoot+'/index.func.ts',staging);",
-  'const knex=useKnex({config:config.plugins?.knex?.config});',
-  'await knex.mount();',
-  'const schema=new KnexSchema(knex);',
-  'try{',
-  "if(action==='latest') await schema.migrateLatest();",
-  "else if(action==='rollback') await schema.migrateRollback();",
-  "else if(action==='status') console.log(await schema.migrateStatus());",
-  "else if(action==='current') console.log(await schema.migrateCurrentVersion());",
-  "else if(action==='make'){",
-  'const name=process.argv[1]||process.argv[2];',
-  "if(!name) throw Error('[migrate:make] Missing migration name. Usage: npm run migrate:make -- create_users');",
-  'console.log(await schema.migrateMake(name));',
-  "}else throw Error('[migrate] Unknown action: '+action);",
-  '}finally{',
-  'await knex.quit();',
-  '}',
-  '};run().catch(error=>{console.error(error);process.exit(1)});"',
-].join(' ')
-
 function buildPackageJSON(name: string): string {
   return `${JSON.stringify(
     {
@@ -63,11 +37,11 @@ function buildPackageJSON(name: string): string {
         start: 'node server.ts',
         check: 'tsc --noEmit && biome check .',
         test: 'vitest run',
-        'migrate:latest': MigrationScript,
-        'migrate:rollback': MigrationScript,
-        'migrate:status': MigrationScript,
-        'migrate:current': MigrationScript,
-        'migrate:make': MigrationScript,
+        'migrate:latest': 'faas knex latest',
+        'migrate:rollback': 'faas knex rollback',
+        'migrate:status': 'faas knex status',
+        'migrate:current': 'faas knex current',
+        'migrate:make': 'faas knex make',
       },
       dependencies: {
         '@faasjs/core': '*',

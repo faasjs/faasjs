@@ -7,7 +7,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "bin": {
-    "faas-types": "faas-types.mjs"
+    "faas": "faas.mjs"
   },
   "exports": {
     ".": {
@@ -27,11 +27,11 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
-    "build": "tsdown --entry src/index.ts --entry src/cli.ts --config ../../tsdown.config.ts"
+    "build": "tsdown --entry src/index.ts --entry src/cli/index.ts --config ../../tsdown.config.ts"
   },
   "files": [
     "dist",
-    "faas-types.mjs"
+    "faas.mjs"
   ],
   "peerDependencies": {
     "@faasjs/func": ">=8.0.0-beta.8",

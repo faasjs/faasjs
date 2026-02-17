@@ -14,6 +14,27 @@
 - `@faasjs/knex` 提供 `KnexSchema`，用于显式执行 migration。
 - 推荐在测试 setup 或部署脚本中执行 migration，不建议放在请求链路自动执行。
 
+### CLI（推荐）
+
+安装 `@faasjs/dev` 后，可通过 `faas knex <action>` 执行 migration：
+
+```bash
+# 执行待迁移
+mise exec -- npm run migrate:latest
+
+# 回滚最近一次迁移批次
+mise exec -- npm run migrate:rollback
+
+# 查看待迁移数量
+mise exec -- npm run migrate:status
+
+# 查看当前迁移版本
+mise exec -- npm run migrate:current
+
+# 创建 migration
+mise exec -- npm run migrate:make -- create_users
+```
+
 ```ts
 import { KnexSchema, useKnex } from '@faasjs/knex'
 

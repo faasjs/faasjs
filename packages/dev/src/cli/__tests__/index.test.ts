@@ -2,12 +2,12 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { main } from '../cli'
+import { main } from '../index'
 
 const tempDirs: string[] = []
 
 async function createTempProject(): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), 'faas-types-cli-'))
+  const root = await mkdtemp(join(tmpdir(), 'faas-cli-'))
   tempDirs.push(root)
 
   await mkdir(join(root, 'src'), {
@@ -38,11 +38,11 @@ afterEach(async () => {
   )
 })
 
-describe('faas-types cli', () => {
+describe('faas cli', () => {
   it('should print help text', async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
-    const code = await main(['node', 'faas-types', '--help'])
+    const code = await main(['node', 'faas', '--help'])
 
     expect(code).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Usage:'))
@@ -51,7 +51,7 @@ describe('faas-types cli', () => {
   it('should print version text', async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
-    const code = await main(['node', 'faas-types', '--version'])
+    const code = await main(['node', 'faas', '--version'])
 
     expect(code).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(expect.stringMatching(/^v?\d+/))
@@ -75,11 +75,11 @@ describe('faas-types cli', () => {
 
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
-    const firstCode = await main(['node', 'faas-types', '--root', root])
+    const firstCode = await main(['node', 'faas', 'types', '--root', root])
 
     expect(firstCode).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(
-      expect.stringContaining('[faas-types] Generated')
+      expect.stringContaining('[faas types] Generated')
     )
 
     const outputPath = join(root, 'src', '.faasjs', 'types.d.ts')
@@ -92,11 +92,11 @@ describe('faas-types cli', () => {
 
     logSpy.mockClear()
 
-    const secondCode = await main(['node', 'faas-types', '--root', root])
+    const secondCode = await main(['node', 'faas', 'types', '--root', root])
 
     expect(secondCode).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(
-      expect.stringContaining('[faas-types] Up to date')
+      expect.stringContaining('[faas types] Up to date')
     )
   })
 
@@ -105,11 +105,22 @@ describe('faas-types cli', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => undefined)
 
-    const code = await main(['node', 'faas-types', '--unknown'])
+    const code = await main(['node', 'faas', 'types', '--unknown'])
 
     expect(code).toBe(1)
     expect(errorSpy).toHaveBeenCalledWith(
-      '[faas-types] Unknown option: --unknown'
+      '[faas types] Unknown option: --unknown'
     )
+  })
+
+  it('should return error code for unknown command', async () => {
+    const errorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+
+    const code = await main(['node', 'faas', 'unknown'])
+
+    expect(code).toBe(1)
+    expect(errorSpy).toHaveBeenCalledWith('[faas] Unknown command: unknown')
   })
 })
