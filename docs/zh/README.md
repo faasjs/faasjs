@@ -32,15 +32,12 @@ FaasJS 拥有简单易用的插件机制，可以让开发者可以自由扩展�
 
 ```ts
 // index.func.ts 文件，云函数文件名都以 .func.ts 结尾
-import { useFunc } from '@faasjs/func'
-import { useHttp } from '@faasjs/http'
+import { defineFunc } from '@faasjs/core'
 
-export const func = useFunc(function() {
-  useHttp() // 引入 http 插件
-
-  return async function () {
+export const func = defineFunc({
+  async handler() {
     return 'Hello, world' // 返回的内容
-  }
+  },
 })
 ```
 
@@ -70,7 +67,7 @@ describe('index', function () {
 ## 立即开始
 
 ```bash
-npx create-faas-app --name faasjs
+mise exec -- npx create-faas-app --name faasjs
 ```
 
 <div style="padding:0 2.5rem;text-align:center">

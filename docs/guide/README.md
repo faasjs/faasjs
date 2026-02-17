@@ -1,11 +1,19 @@
 # Getting Started
 
+## Prerequisites
+
+FaasJS uses Node.js and npm managed by [mise](https://mise.jdx.dev/).
+
+```bash
+mise install
+```
+
 ## Quick Start
 
 ### Start with Command Line
 
 ```bash
-npx create-faas-app --name faasjs
+mise exec -- npx create-faas-app --name faasjs
 ```
 
 ### Start with Codespace

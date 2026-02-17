@@ -12,8 +12,6 @@
  *
  * ## Usage
  *
- * @see {@link useFunc}
- *
  * @packageDocumentation
  */
 
@@ -90,9 +88,14 @@ type CachedFunction = {
  *
  * @example
  * ```ts
- * import { useFunc, type FuncEventType } from '@faasjs/func'
+ * import { defineFunc } from '@faasjs/core'
+ * import type { FuncEventType } from '@faasjs/func'
  *
- * const func = useFunc<{ counter: number }>(() => async () => {})
+ * const func = defineFunc<undefined, { counter: number }>({
+ *   async handler() {
+ *     return null
+ *   },
+ * })
  *
  * FuncEventType<typeof func> // => { counter: number }
  * ```
@@ -105,9 +108,14 @@ export type FuncEventType<T extends Func<any, any, any>> =
  *
  * @example
  * ```ts
- * import { useFunc, type FuncReturnType } from '@faasjs/func'
+ * import { defineFunc } from '@faasjs/core'
+ * import type { FuncReturnType } from '@faasjs/func'
  *
- * const func = useFunc(() => async () => 1)
+ * const func = defineFunc<undefined, any, any, number>({
+ *   async handler() {
+ *     return 1
+ *   },
+ * })
  *
  * FuncReturnType<typeof func> // => number
  * ```
@@ -412,29 +420,6 @@ export function usePlugin<T extends Plugin>(
 
 /**
  * Create a cloud function.
- *
- * @example
- * ```ts
- * // pure function
- * export const func = useFunc(() => {
- *   return () => {
- *     return 'Hello World'
- *   }
- * })
- *
- * // with http
- * import { useHttp } from '@faasjs/http'
- *
- * export const func = useFunc<{
- *   params: { name: string }
- * }>(() => {
- *   useHttp()
- *
- *   return ({ event }) => {
- *     return `Hello ${event.params.name}`
- *   }
- * })
- * ```
  */
 export function useFunc<TEvent = any, TContext = any, TResult = any>(
   handler: () => Handler<TEvent, TContext, TResult>

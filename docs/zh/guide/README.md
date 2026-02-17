@@ -7,9 +7,13 @@
 
 ## 准备工作
 
-FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 24.0.0。
+FaasJS 基于 Node.js 构建，推荐通过 [mise](https://mise.jdx.dev/) 管理本地环境，当前要求至少 Node.js 24.0.0。
 
-若使用的是 OS X，可以使用 brew 来安装：`brew install node`。
+先在项目根目录执行：
+
+```bash
+mise install
+```
 
 由于 FaasJS 基于 TypeScript，因此建议使用 [Visual Studio Code](https://code.visualstudio.com/) 作为编辑器。
 
@@ -17,11 +21,11 @@ FaasJS 基于 Node.js 构建，因此需要本地环境支持至少 Node.js 24.0
 
 你可以直接使用 npx 一键创建新项目：
 
-    npx create-faas-app --name faasjs
+    mise exec -- npx create-faas-app --name faasjs
 
 ## 启动项目
 
-执行 `npm run dev` 启动开发环境；若要启动生产服务，执行 `npm run build && npm run start`。
+执行 `mise exec -- npm run dev` 启动开发环境；若要启动生产服务，执行 `mise exec -- npm run build && mise exec -- npm run start`。
 
 ## 文件结构
 

@@ -9,23 +9,21 @@ Infer the FaasAction type from a Func.
 ## Example
 
 ```typescript
-import { useFunc } from '@faasjs/func'
-import { useHttp } from '@faasjs/http'
+import { defineFunc, z } from '@faasjs/core'
 import type { InferFaasAction } from '@faasjs/types'
 
-export const func = useFunc<
-  {
-    params: { // define the params type
-      number: number
-    }
-  },
-  unknown, // context type, can be skipped
-  number // define the return type
->(() => {
-  useHttp()
+const schema = z
+  .object({
+    number: z.number(),
+  })
+  .required()
 
-  return ({ event}) => {
-    return event.params.number + 1
+export const func = defineFunc({
+  schema,
+  async handler({ params }) {
+    if (!params) throw Error('params is required')
+
+    return params.number + 1
   }
 })
 

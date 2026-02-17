@@ -13,10 +13,6 @@ npm install @faasjs/func
 
 ## Usage
 
-## See
-
-[useFunc](functions/useFunc.md)
-
 ## Functions
 
 - [nameFunc](functions/nameFunc.md)

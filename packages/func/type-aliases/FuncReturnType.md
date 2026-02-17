@@ -15,9 +15,14 @@ Get the return type of a func
 ## Example
 
 ```ts
-import { useFunc, type FuncReturnType } from '@faasjs/func'
+import { defineFunc } from '@faasjs/core'
+import type { FuncReturnType } from '@faasjs/func'
 
-const func = useFunc(() => async () => 1)
+const func = defineFunc<undefined, any, any, number>({
+  async handler() {
+    return 1
+  },
+})
 
 FuncReturnType<typeof func> // => number
 ```

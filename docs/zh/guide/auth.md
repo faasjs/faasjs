@@ -63,48 +63,34 @@
 
 ```typescript
 // users/api/signup.func.ts
-import { useFunc } from '@faasjs/func';
-import { useKnex } from '@faasjs/knex';
-import { useHttp } from '@faasjs/http';
+import { defineFunc, z } from '@faasjs/core';
 
-export const func = useFunc(function () {
-  const knex = useKnex();
-  const http = useHttp<{
-    username: string;
-    password: string;
-  }>({
-    validator: {
-      params: {
-        whitelist: 'error',
-        rules: {
-          username: {
-            required: true,
-            type: 'string'
-          },
-          password: {
-            required: true,
-            type: 'string'
-          }
-        }
-      }
+const schema = z.object({
+  username: z.string(),
+  password: z.string()
+}).required();
+
+export const func = defineFunc({
+  schema,
+  async handler({ knex, params, session }) {
+    if (!knex || !params) {
+      throw Error('缺少插件配置');
     }
-  });
 
-  return async function () {
-    const row = await knex.query('users')
+    const row = await knex('users')
       .select('id', 'password')
-      .where('username', '=', http.params.username)
+      .where('username', '=', params.username)
       .first();
 
     if (!row) {
       throw Error('用户名错误');
     }
 
-    if (row.password !== http.params.password) {
+    if (row.password !== params.password) {
       throw Error('用户名或密码错误');
     }
 
-    http.session.write('user_id', row.id);
+    session.write('user_id', row.id);
   }
 });
 ```
@@ -161,44 +147,33 @@ describe('signin', function () {
 
 ```typescript
 // users/api/signin.func.ts
-import { useFunc } from '@faasjs/func';
-import { useKnex, query } from '@faasjs/knex';
-import { useHttp } from '@faasjs/http';
+import { defineFunc, z } from '@faasjs/core';
 
-export const func = useFunc(function () {
-  useKnex();
-  const http = useHttp({
-    validator: {
-      params: {
-        whitelist: 'error',
-        rules: {
-          username: {
-            required: true,
-            type: 'string'
-          },
-          password: {
-            required: true,
-            type: 'string'
-          }
-        }
-      }
+const schema = z.object({
+  username: z.string(),
+  password: z.string()
+}).required();
+
+export const func = defineFunc({
+  schema,
+  async handler({ knex, params, session }) {
+    if (!knex || !params) {
+      throw Error('缺少插件配置');
     }
-  });
 
-  return async function () {
-    const row = await query('users')
-      .where({ username: http.params.username })
+    const row = await knex('users')
+      .where({ username: params.username })
       .select('id', 'password')
       .first();
     if (!row) {
       // 在云函数中，建议直接通过抛异常的方式来告知前端错误信息
       throw Error('用户名错误');
     }
-    if (row.password !== http.params.password) {
+    if (row.password !== params.password) {
       throw Error('用户名或密码错误');
     }
 
-    http.session.write('user_id', row.id);
+    session.write('user_id', row.id);
   }
 });
 ```
@@ -209,14 +184,11 @@ export const func = useFunc(function () {
 
 ```typescript
 // users/api/signout.func.ts
-import { useFunc } from '@faasjs/func';
-import { useHttp } from '@faasjs/http';
+import { defineFunc } from '@faasjs/core';
 
-export const func = useFunc(function () {
-  const http = useHttp()
-
-  return async function () {
-    http.session.write('user_id', null);
+export const func = defineFunc({
+  async handler({ session }) {
+    session.write('user_id', null);
   }
 });
 ```
@@ -227,49 +199,36 @@ export const func = useFunc(function () {
 
 ```typescript
 // users/api/change-password.func.ts
-import { useFunc } from '@faasjs/func';
-import { useKnex, query } from '@faasjs/knex';
-import { useHttp } from '@faasjs/http';
+import { defineFunc, z } from '@faasjs/core';
 
-export const func = useFunc(function () {
-  useKnex()
-  const http = useHttp({
-    validator: {
-      session: {
-        rules: {
-          user_id: {
-            required: true,
-            type: 'number'
-          }
-        }
-      },
-      params: {
-        whitelist: 'error',
-        rules: {
-          new_password: {
-            required: true,
-            type: 'string'
-          },
-          old_password: {
-            required: true,
-            type: 'string'
-          }
-        }
-      }
+const schema = z.object({
+  new_password: z.string(),
+  old_password: z.string()
+}).required();
+
+export const func = defineFunc({
+  schema,
+  async handler({ knex, params, session }) {
+    if (!knex || !params) {
+      throw Error('缺少插件配置');
     }
-  });
 
-  return async function () {
-    const row = await query('users')
-    .select('password')
-    .where('id', '=', http.session.read('user_id'))
-    .first();
-    if (row.password !== http.params.old_password) {
+    const userId = session.read('user_id');
+
+    if (typeof userId !== 'number') {
+      throw Error('未登录');
+    }
+
+    const row = await knex('users')
+      .select('password')
+      .where('id', '=', userId)
+      .first();
+    if (row.password !== params.old_password) {
       throw Error('旧密码错误');
     }
-    await query('users').where('id', '=', http.session.read('user_id')).update({
-      password: http.params.new_password
-    })
+    await knex('users').where('id', '=', userId).update({
+      password: params.new_password
+    });
   }
 });
 ```

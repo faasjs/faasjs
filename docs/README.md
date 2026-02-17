@@ -60,15 +60,12 @@ npx create-faas-app --name faasjs
 ```ts
 // index.func.ts
 // all cloud function file should be ended with .func.ts
-import { useFunc } from '@faasjs/func'
-import { useHttp } from '@faasjs/http'
+import { defineFunc } from '@faasjs/core'
 
-export const func = useFunc(function() {
-  useHttp() // use http plugin
-
-  return async function () {
+export const func = defineFunc({
+  async handler() {
     return 'Hello, world' // response content
-  }
+  },
 })
 ```
 
