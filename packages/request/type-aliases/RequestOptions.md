@@ -2,7 +2,7 @@
 
 # Type Alias: RequestOptions
 
-> **RequestOptions** = `object` & `Pick`\<`https.RequestOptions`, `"pfx"` \| `"passphrase"` \| `"agent"`\>
+> **RequestOptions** = `object`
 
 ## Type Declaration
 
@@ -94,9 +94,3 @@ Body parser. Defaults to `JSON.parse`.
 > `optional` **timeout**: `number`
 
 Timeout in milliseconds,
-
-#### Default
-
-```ts
-5000
-```

@@ -60,6 +60,14 @@ export type MountData = {
   context: any
 }
 
+type MutableMountData = {
+  [key: string]: any
+  config?: Config
+  event?: any
+  context?: any
+  logger?: Logger
+}
+
 export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
   [key: string]: any
   event: TEvent
@@ -201,6 +209,28 @@ export function parseFuncFilenameFromStack(stack?: string): string | undefined {
   return filename
 }
 
+function normalizeMountData(
+  data: MutableMountData | undefined,
+  options: {
+    loggerLabel: string
+    defaultConfig?: Config
+    ensureEventAndContext?: boolean
+  }
+): MountData {
+  const mountData = (data || Object.create(null)) as MutableMountData
+  const ensureEventAndContext = options.ensureEventAndContext ?? true
+
+  if (!mountData.config)
+    mountData.config = options.defaultConfig || Object.create(null)
+  if (ensureEventAndContext) {
+    if (!mountData.context) mountData.context = Object.create(null)
+    if (!mountData.event) mountData.event = Object.create(null)
+  }
+  if (!mountData.logger) mountData.logger = new Logger(options.loggerLabel)
+
+  return mountData as MountData
+}
+
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any
   public plugins: Plugin[]
@@ -233,22 +263,28 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     } catch (_) {}
   }
 
-  private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
-    let list: CachedFunction[] = []
+  private getCachedFunctions(key: LifeCycleKey): CachedFunction[] {
+    const cached = this.cachedFunctions[key]
+    if (cached) return cached
 
-    if (this.cachedFunctions[key]) list = this.cachedFunctions[key]
-    else {
-      for (const plugin of this.plugins) {
-        const handler = plugin[key]
-        if (typeof handler === 'function')
-          list.push({
-            key: plugin.name,
-            handler: handler.bind(plugin),
-          })
-      }
+    const list: CachedFunction[] = []
+    for (const plugin of this.plugins) {
+      const handler = plugin[key]
+      if (typeof handler !== 'function') continue
 
-      this.cachedFunctions[key] = list
+      list.push({
+        key: plugin.name,
+        handler: handler.bind(plugin),
+      })
     }
+
+    this.cachedFunctions[key] = list
+
+    return list
+  }
+
+  private compose(key: LifeCycleKey): (data: any, next?: () => void) => any {
+    const list = this.getCachedFunctions(key)
 
     return async (data: any, next?: () => void): Promise<any> => {
       let index = -1
@@ -309,19 +345,21 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       context: Object.create(null),
     }
   ): Promise<void> {
-    if (!data.logger) data.logger = new Logger('Func')
+    const mountData = normalizeMountData(data as MutableMountData, {
+      loggerLabel: 'Func',
+      defaultConfig: this.config,
+      ensureEventAndContext: false,
+    })
 
     if (this.mounted) {
-      data.logger.warn('mount() has been called, skipped.')
+      mountData.logger.warn('mount() has been called, skipped.')
       return
     }
 
-    if (!data.config) data.config = this.config
-
-    data.logger.debug(
+    mountData.logger.debug(
       `plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
     )
-    await this.compose('onMount')(data)
+    await this.compose('onMount')(mountData)
     this.mounted = true
   }
 
@@ -403,14 +441,12 @@ export function usePlugin<T extends Plugin>(
 
   if (!plugin.mount)
     plugin.mount = async (data?: MountData) => {
-      const parsedData = data || Object.create(null)
-      if (!parsedData.config) parsedData.config = Object.create(null)
-      if (!parsedData.context) parsedData.context = Object.create(null)
-      if (!parsedData.event) parsedData.event = Object.create(null)
-      if (!parsedData.logger) parsedData.logger = new Logger(plugin.name)
+      const mountData = normalizeMountData(data as MutableMountData, {
+        loggerLabel: plugin.name,
+      })
 
       if (plugin.onMount)
-        await plugin.onMount(parsedData, async () => Promise.resolve())
+        await plugin.onMount(mountData, async () => Promise.resolve())
 
       return plugin
     }

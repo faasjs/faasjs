@@ -253,218 +253,262 @@ export class Server {
     if (!requestUrl) return
 
     const startedAt = Date.now()
-
     const path = join(this.root, requestUrl).replace(/\?.*/, '')
+    const body = await this.readRequestBody(req)
 
-    await new Promise<void>(resolve => {
+    if (!(await this.runBeforeHandle(req, res, logger))) return
+
+    let data: any
+    try {
+      const cache = await this.getOrLoadHandler(path, options.filepath, logger)
+      data = await this.invokeHandler(
+        cache,
+        req,
+        res,
+        requestUrl,
+        body,
+        requestId
+      )
+    } catch (error: any) {
+      logger.error(error)
+      data = error
+    }
+
+    if (res.writableEnded) return
+
+    const headers = this.buildResponseHeaders(
+      req,
+      requestId,
+      requestedAt,
+      startedAt,
+      data
+    )
+    for (const key in headers) res.setHeader(key, headers[key] as string)
+
+    if (data instanceof Response) {
+      res.statusCode = data.status
+
+      const reader = data.body?.getReader()
+
+      if (reader) {
+        const stream = Readable.from(
+          (async function* () {
+            while (true) {
+              try {
+                const { done, value } = await reader.read()
+                if (done) break
+                if (value) yield value
+              } catch (error: any) {
+                logger.error(error)
+                break
+              }
+            }
+          })()
+        )
+
+        await new Promise<void>(done => {
+          this.pipeToResponse(stream, res, done)
+        })
+
+        return
+      }
+
+      res.end()
+      return
+    }
+
+    if (data.body instanceof ReadableStream) {
+      if (typeof data.statusCode === 'number') res.statusCode = data.statusCode
+
+      await new Promise<void>(done => {
+        this.pipeToResponse(Readable.fromWeb(data.body), res, done)
+      })
+
+      return
+    }
+
+    const statusCode = getErrorStatusCode(data)
+
+    if (statusCode === 500) {
+      respondWithJsonError(res, 500, getErrorMessage(data))
+      return
+    }
+
+    let resBody: string | Buffer | undefined
+    if (
+      data instanceof Error ||
+      data?.constructor?.name?.includes('Error') ||
+      typeof data === 'undefined' ||
+      data === null
+    ) {
+      if (typeof statusCode === 'number')
+        respondWithJsonError(
+          res,
+          statusCode,
+          getErrorMessage(
+            data,
+            statusCode === 500 ? INTERNAL_SERVER_ERROR_MESSAGE : 'No response'
+          )
+        )
+      else respondWithInternalServerError(res)
+
+      return
+    }
+
+    if (typeof statusCode === 'number') res.statusCode = statusCode
+
+    if (data.body) resBody = data.body
+
+    if (typeof resBody !== 'undefined') {
+      logger.debug('Response %s %j', res.statusCode, headers)
+      res.write(resBody)
+    }
+
+    res.end()
+  }
+
+  private readRequestBody(req: IncomingMessage): Promise<string> {
+    return new Promise(resolve => {
       let body = ''
 
       req.on('readable', () => {
         body += req.read() || ''
       })
 
-      req.on('end', async () => {
-        if (this.options.beforeHandle) {
-          try {
-            await this.options.beforeHandle(req, res, {
-              logger,
-            })
-
-            if (res.writableEnded) {
-              resolve()
-              return
-            }
-          } catch (error: any) {
-            logger.error(error)
-            respondWithInternalServerError(res)
-            resolve()
-            return
-          }
-        }
-        let headers = buildCORSHeaders(req.headers, {
-          'x-faasjs-request-id': requestId,
-          'x-faasjs-timing-pending': (startedAt - requestedAt).toString(),
-        })
-
-        let data: any
-        try {
-          let cache: Cache = {}
-
-          if (this.cachedFuncs[path]?.handler) {
-            cache = this.cachedFuncs[path]
-            logger.debug('response with cached %s', cache.file)
-          } else {
-            cache.file = options.filepath || this.getFilePath(path)
-            logger.debug('response with %s', cache.file)
-
-            const func = await loadPackage<Func>(cache.file, [
-              'func',
-              'default',
-            ])
-
-            func.config = loadConfig(
-              this.root,
-              path,
-              process.env.FaasEnv || 'development',
-              logger
-            )
-            if (!func.config) throw Error('No config file found')
-
-            cache.handler = func.export().handler
-
-            this.cachedFuncs[path] = cache
-          }
-
-          const url = new URL(requestUrl, `http://${req.headers.host}`)
-
-          if (!cache.handler) throw Error('handler is undefined')
-
-          data = await cache.handler(
-            {
-              headers: req.headers,
-              httpMethod: req.method,
-              path: url.pathname,
-              queryString: Object.fromEntries(new URLSearchParams(url.search)),
-              body,
-              raw: {
-                request: req,
-                response: res,
-              },
-            },
-            { request_id: requestId }
-          )
-        } catch (error: any) {
-          logger.error(error)
-          data = error
-        }
-
-        if (res.writableEnded) return resolve()
-
-        // process headers
-        const finishedAt = Date.now()
-
-        if (data.headers) headers = Object.assign(headers, data.headers)
-
-        if (!headers['x-faasjs-timing-processing'])
-          headers['x-faasjs-timing-processing'] = (
-            finishedAt - startedAt
-          ).toString()
-
-        if (!headers['x-faasjs-timing-total'])
-          headers['x-faasjs-timing-total'] = (
-            finishedAt - requestedAt
-          ).toString()
-
-        Object.freeze(headers)
-
-        for (const key in headers) res.setHeader(key, headers[key] as string)
-
-        if (data instanceof Response) {
-          res.statusCode = data.status
-
-          const reader = data.body?.getReader()
-
-          if (reader) {
-            const stream = Readable.from(
-              (async function* () {
-                while (true) {
-                  try {
-                    const { done, value } = await reader.read()
-                    if (done) break
-                    if (value) yield value
-                  } catch (error: any) {
-                    logger.error(error)
-                    break
-                  }
-                }
-              })()
-            )
-
-            stream
-              .pipe(res)
-              .on('finish', () => {
-                res.end()
-                resolve()
-              })
-              .on('error', err => {
-                this.onError(err)
-                respondWithInternalServerError(res)
-                resolve()
-              })
-
-            return
-          }
-
-          res.end()
-          return
-        }
-
-        if (data.body instanceof ReadableStream) {
-          if (typeof data.statusCode === 'number')
-            res.statusCode = data.statusCode
-
-          const stream = Readable.fromWeb(data.body)
-
-          stream
-            .pipe(res)
-            .on('finish', () => {
-              res.end()
-              resolve()
-            })
-            .on('error', err => {
-              this.onError(err)
-              respondWithInternalServerError(res)
-              resolve()
-            })
-
-          return
-        }
-
-        const statusCode = getErrorStatusCode(data)
-
-        if (statusCode === 500) {
-          respondWithJsonError(res, 500, getErrorMessage(data))
-          resolve()
-          return
-        }
-
-        let resBody: string | Buffer | undefined
-        if (
-          data instanceof Error ||
-          data?.constructor?.name?.includes('Error') ||
-          typeof data === 'undefined' ||
-          data === null
-        ) {
-          if (typeof statusCode === 'number')
-            respondWithJsonError(
-              res,
-              statusCode,
-              getErrorMessage(
-                data,
-                statusCode === 500
-                  ? INTERNAL_SERVER_ERROR_MESSAGE
-                  : 'No response'
-              )
-            )
-          else respondWithInternalServerError(res)
-
-          resolve()
-          return
-        }
-
-        if (typeof statusCode === 'number') res.statusCode = statusCode
-
-        if (data.body) resBody = data.body
-
-        if (typeof resBody !== 'undefined') {
-          logger.debug('Response %s %j', res.statusCode, headers)
-          res.write(resBody)
-        }
-
-        res.end()
-        resolve()
+      req.on('end', () => {
+        resolve(body)
       })
     })
+  }
+
+  private async runBeforeHandle(
+    req: IncomingMessage,
+    res: ServerResponse<IncomingMessage>,
+    logger: Logger
+  ): Promise<boolean> {
+    if (!this.options.beforeHandle) return true
+
+    try {
+      await this.options.beforeHandle(req, res, {
+        logger,
+      })
+
+      return !res.writableEnded
+    } catch (error: any) {
+      logger.error(error)
+      respondWithInternalServerError(res)
+
+      return false
+    }
+  }
+
+  private async getOrLoadHandler(
+    path: string,
+    filepath: string | undefined,
+    logger: Logger
+  ): Promise<Cache> {
+    const cached = this.cachedFuncs[path]
+    if (cached?.handler) {
+      logger.debug('response with cached %s', cached.file)
+      return cached
+    }
+
+    const file = filepath || this.getFilePath(path)
+    const cache: Cache = {
+      file,
+    }
+    logger.debug('response with %s', cache.file)
+
+    const func = await loadPackage<Func>(file, ['func', 'default'])
+
+    func.config = loadConfig(
+      this.root,
+      path,
+      process.env.FaasEnv || 'development',
+      logger
+    )
+    if (!func.config) throw Error('No config file found')
+
+    cache.handler = func.export().handler
+
+    this.cachedFuncs[path] = cache
+
+    return cache
+  }
+
+  private async invokeHandler(
+    cache: Cache,
+    req: IncomingMessage,
+    res: ServerResponse<IncomingMessage>,
+    requestUrl: string,
+    body: string,
+    requestId: string
+  ): Promise<any> {
+    const url = new URL(requestUrl, `http://${req.headers.host}`)
+
+    if (!cache.handler) throw Error('handler is undefined')
+
+    return cache.handler(
+      {
+        headers: req.headers,
+        httpMethod: req.method,
+        path: url.pathname,
+        queryString: Object.fromEntries(new URLSearchParams(url.search)),
+        body,
+        raw: {
+          request: req,
+          response: res,
+        },
+      },
+      { request_id: requestId }
+    )
+  }
+
+  private buildResponseHeaders(
+    req: IncomingMessage,
+    requestId: string,
+    requestedAt: number,
+    startedAt: number,
+    data: any
+  ) {
+    const finishedAt = Date.now()
+
+    let headers = buildCORSHeaders(req.headers, {
+      'x-faasjs-request-id': requestId,
+      'x-faasjs-timing-pending': (startedAt - requestedAt).toString(),
+    })
+
+    if (data.headers) headers = Object.assign(headers, data.headers)
+
+    if (!headers['x-faasjs-timing-processing'])
+      headers['x-faasjs-timing-processing'] = (
+        finishedAt - startedAt
+      ).toString()
+
+    if (!headers['x-faasjs-timing-total'])
+      headers['x-faasjs-timing-total'] = (finishedAt - requestedAt).toString()
+
+    Object.freeze(headers)
+
+    return headers
+  }
+
+  private pipeToResponse(
+    stream: Readable,
+    res: ServerResponse<IncomingMessage>,
+    done: () => void
+  ): void {
+    stream
+      .pipe(res)
+      .on('finish', () => {
+        res.end()
+        done()
+      })
+      .on('error', err => {
+        this.onError(err)
+        respondWithInternalServerError(res)
+        done()
+      })
   }
 
   /**
@@ -682,7 +726,7 @@ export class Server {
     next()
   }
 
-  private getFilePath(path: string) {
+  private getFilePath(path: string): string {
     // Safe check
     if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
 

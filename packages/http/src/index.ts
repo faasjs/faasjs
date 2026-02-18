@@ -106,41 +106,6 @@ export class HttpError extends Error {
 
 const Name = 'http'
 
-function stringToStream(text: string): ReadableStream<Uint8Array> {
-  return new ReadableStream<Uint8Array>({
-    start(controller) {
-      try {
-        const encoder = new TextEncoder()
-        controller.enqueue(encoder.encode(text))
-        controller.close()
-      } catch (error) {
-        controller.error(error)
-      }
-    },
-  })
-}
-
-function deepClone(obj: Record<string, any>) {
-  if (obj === null || typeof obj !== 'object') return obj
-
-  if (Array.isArray(obj)) return JSON.parse(JSON.stringify(obj))
-
-  const clone: Record<string, any> = {}
-
-  for (const key in obj) {
-    if (!Object.hasOwn(obj, key)) continue
-
-    if (typeof obj[key] === 'function') {
-      clone[key] = obj[key]
-      continue
-    }
-
-    clone[key] = deepClone(obj[key])
-  }
-
-  return clone
-}
-
 function createCompressedStream(
   body: string,
   encoding: 'br' | 'gzip' | 'deflate'
@@ -248,35 +213,7 @@ export class Http<
     this.params = data.event.queryString || Object.create(null)
     this.response = { headers: Object.create(null) }
 
-    if (data.event.body) {
-      if (
-        this.headers['content-type']?.includes('application/json') &&
-        typeof data.event.body === 'string' &&
-        data.event.body.length > 1
-      ) {
-        data.logger.debug('Parse params from json body')
-        try {
-          this.params = Object.keys(this.params).length
-            ? Object.assign(this.params, JSON.parse(data.event.body))
-            : JSON.parse(data.event.body)
-        } catch (error: any) {
-          data.logger.error(
-            'Parse params from json body failed: %s',
-            error.message
-          )
-        }
-      } else {
-        data.logger.debug('Parse params from raw body')
-        this.params = data.event.body || Object.create(null)
-      }
-
-      if (this.params && typeof this.params === 'object' && this.params._)
-        delete (this.params as Record<string, any>)._
-
-      data.event.params = deepClone(this.params)
-
-      data.logger.debug('Params: %j', this.params)
-    }
+    this.parseEventParams(data)
 
     data.params = data.event.params
 
@@ -300,29 +237,67 @@ export class Http<
       data.response = error
     }
 
-    // update session
     this.session.update()
+    this.buildResponse(data)
+    this.finalizeBody(data)
+  }
 
-    // handle setBody case - merge this.response.body into data.response
-    if (this.response.body && !data.response) {
-      data.response = this.response.body
+  private parseEventParams(data: InvokeData): void {
+    if (!data.event.body) return
+
+    const contentType = this.headers['content-type']
+
+    if (
+      contentType?.includes('application/json') &&
+      typeof data.event.body === 'string' &&
+      data.event.body.length > 1
+    ) {
+      data.logger.debug('Parse params from json body')
+      try {
+        this.params = Object.keys(this.params).length
+          ? Object.assign(this.params, JSON.parse(data.event.body))
+          : JSON.parse(data.event.body)
+      } catch (error: any) {
+        data.logger.error(
+          'Parse params from json body failed: %s',
+          error.message
+        )
+      }
+    } else {
+      data.logger.debug('Parse params from raw body')
+      this.params = data.event.body || Object.create(null)
     }
 
-    // generate body
+    if (this.params && typeof this.params === 'object' && this.params._)
+      delete (this.params as Record<string, any>)._
+
+    if (this.params && typeof this.params === 'object') {
+      try {
+        data.event.params = structuredClone(this.params)
+      } catch {
+        data.event.params = this.params
+      }
+    } else data.event.params = this.params
+
+    data.logger.debug('Params: %j', this.params)
+  }
+
+  private buildResponse(data: InvokeData): void {
+    if (this.response.body && !data.response) data.response = this.response.body
+
     if (data.response)
       if (
         data.response instanceof Error ||
         data.response.constructor?.name === 'Error'
       ) {
-        // generate error response
         data.logger.error(data.response)
         this.response.body = JSON.stringify({
           error: { message: data.response.message },
         })
         try {
           this.response.statusCode = data.response.statusCode || 500
-        } catch (e: any) {
-          data.logger.error(e)
+        } catch (error: any) {
+          data.logger.error(error)
           this.response.statusCode = 500
         }
       } else if (
@@ -330,21 +305,17 @@ export class Http<
         data.response.statusCode &&
         data.response.headers
       )
-        // for directly response
         this.response = data.response
       else if (data.response instanceof ReadableStream)
-        // for direct ReadableStream return
         this.response.body = data.response
       else
         this.response.body = JSON.stringify({
           data: data.response === undefined ? null : data.response,
         })
 
-    // generate statusCode
     if (!this.response.statusCode)
       this.response.statusCode = data.response ? 200 : 204
 
-    // generate headers
     this.response.headers = Object.assign(
       {
         'content-type':
@@ -359,50 +330,59 @@ export class Http<
     )
 
     data.response = Object.assign({}, data.response, this.response)
+  }
 
+  private finalizeBody(data: InvokeData): void {
     const originBody = data.response.body
     data.response.originBody = originBody
 
-    if (data.response.body instanceof ReadableStream) {
+    if (originBody instanceof ReadableStream) {
       data.response.isBase64Encoded = true
       return
     }
 
-    // If body is undefined and statusCode is 204, return without body
-    if (originBody === undefined && data.response.statusCode === 204) {
+    if (originBody === undefined && data.response.statusCode === 204) return
+
+    const normalizedBody =
+      originBody === undefined
+        ? JSON.stringify({ data: null })
+        : typeof originBody === 'string'
+          ? originBody
+          : JSON.stringify(originBody)
+
+    if (normalizedBody.length < 1024) {
+      data.response.body = new ReadableStream<Uint8Array>({
+        start(controller) {
+          try {
+            controller.enqueue(new TextEncoder().encode(normalizedBody))
+            controller.close()
+          } catch (error) {
+            controller.error(error)
+          }
+        },
+      })
       return
     }
 
-    if (originBody && typeof originBody !== 'string')
-      data.response.body = JSON.stringify(originBody)
-    else if (originBody === undefined)
-      data.response.body = JSON.stringify({ data: null })
-
-    if (
-      !data.response.body ||
-      typeof data.response.body !== 'string' ||
-      data.response.body.length < 1024
-    ) {
-      data.response.body = stringToStream(data.response.body as string)
-      return
-    }
+    data.response.body = normalizedBody
 
     const acceptEncoding =
       this.headers['accept-encoding'] || this.headers['Accept-Encoding']
     if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
 
-    try {
-      const encoding: 'br' | 'gzip' | 'deflate' = acceptEncoding.includes('br')
-        ? 'br'
-        : acceptEncoding.includes('gzip')
-          ? 'gzip'
-          : 'deflate'
+    const encoding: 'br' | 'gzip' | 'deflate' = acceptEncoding.includes('br')
+      ? 'br'
+      : acceptEncoding.includes('gzip')
+        ? 'gzip'
+        : 'deflate'
 
-      data.response.headers['Content-Encoding'] = encoding
-      data.response.body = createCompressedStream(originBody, encoding)
+    data.response.headers['Content-Encoding'] = encoding
+
+    try {
+      data.response.body = createCompressedStream(normalizedBody, encoding)
     } catch (error) {
       data.logger.error('Compression failed: %s', (error as Error).message)
-      data.response.body = originBody
+      data.response.body = normalizedBody
       delete data.response.headers['Content-Encoding']
     }
   }
@@ -416,10 +396,9 @@ export class Http<
     key: string,
     value: string
   ): Http<TParams, TCookie, TSession> {
-    const headers =
-      this.response.headers || (this.response.headers = Object.create(null))
-
-    headers[key.toLowerCase()] = value
+    ;(this.response.headers || (this.response.headers = Object.create(null)))[
+      key.toLowerCase()
+    ] = value
     return this
   }
 
@@ -432,9 +411,10 @@ export class Http<
     type: string,
     charset = 'utf-8'
   ): Http<TParams, TCookie, TSession> {
-    if (ContentType[type])
-      this.setHeader('Content-Type', `${ContentType[type]}; charset=${charset}`)
-    else this.setHeader('Content-Type', `${type}; charset=${charset}`)
+    this.setHeader(
+      'Content-Type',
+      `${ContentType[type] || type}; charset=${charset}`
+    )
     return this
   }
 

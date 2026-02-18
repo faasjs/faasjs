@@ -2,6 +2,13 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.9 (2026-02-18)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.8...v8.0.0-beta.9)
+
+- `@faasjs/request`
+  - [Break] Remove `pfx`, `passphrase` and `agent`.
+  - [Break] Replaced `http`/`https` with `fetch`.
+  - [Break] Remove default timeout.
+
 [`v8.0.0-beta.8 (2026-02-16)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.7...v8.0.0-beta.8)
 
 - `@faasjs/knex`

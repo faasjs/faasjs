@@ -82,6 +82,19 @@ function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
   return config
 }
 
+function readFaasYaml(filePath: string): YamlConfig {
+  return validateFaasYaml(filePath, load(readFileSync(filePath).toString()))
+}
+
+function assignPluginNames(config: FuncConfig): void {
+  if (!config.plugins) return
+
+  for (const pluginKey in config.plugins) {
+    const plugin = config.plugins[pluginKey]
+    plugin.name = pluginKey
+  }
+}
+
 /**
  * Load configuration from faas.yaml
  */
@@ -115,38 +128,30 @@ export class Config {
       dirname(filename.replace(root, '')).split(sep)
     )
 
-    paths.reduce((base: string, path: string) => {
-      const root = join(base, path)
-      if (root === base) return base
+    let base = paths[0]
+    for (const path of paths.slice(1)) {
+      const currentRoot = join(base, path)
+      if (currentRoot === base) continue
 
-      const faas = join(root, 'faas.yaml')
+      const faas = join(currentRoot, 'faas.yaml')
+      if (existsSync(faas)) configs.push(readFaasYaml(faas))
 
-      if (existsSync(faas))
-        configs.push(
-          validateFaasYaml(
-            faas,
-            load(readFileSync(faas).toString()) as { [key: string]: FuncConfig }
-          )
-        )
-
-      return root
-    })
+      base = currentRoot
+    }
 
     this.origin = deepMerge(...configs)
 
     this.defaults = deepMerge(this.origin.defaults || {})
 
     for (const key in this.origin) {
-      if (key !== 'defaults')
-        this[key] = deepMerge(this.defaults, this.origin[key])
+      const data =
+        key === 'defaults'
+          ? this.defaults
+          : deepMerge(this.defaults, this.origin[key])
 
-      const data = this[key]
+      if (key !== 'defaults') this[key] = data
 
-      if (data.plugins)
-        for (const pluginKey in data.plugins) {
-          const plugin = data.plugins[pluginKey]
-          plugin.name = pluginKey
-        }
+      assignPluginNames(data)
     }
   }
 

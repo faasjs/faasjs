@@ -26,6 +26,17 @@ type ZodSchema = ZodTypeAny
 type KnexQuery = FaasKnex['query']
 type PluginConstructor = new (config?: any) => Plugin
 type KnexPlugin = Plugin & { query?: KnexQuery }
+type PluginConfigValue = {
+  [key: string]: any
+  name?: string
+  type?: string
+}
+type RawPluginConfig = PluginConfigValue | string | undefined
+type ResolvedPluginConfig = {
+  configValue: PluginConfigValue
+  pluginName: string
+  pluginType: string
+}
 
 type CoreMountData<TEvent = any, TContext = any> = {
   event: TEvent
@@ -126,6 +137,32 @@ function findPluginByType<TPlugin extends Plugin = Plugin>(
     | undefined
 }
 
+function resolvePluginConfig(
+  key: string,
+  rawConfig: RawPluginConfig
+): ResolvedPluginConfig {
+  const configValue =
+    rawConfig && typeof rawConfig === 'object'
+      ? Object.assign(Object.create(null), rawConfig)
+      : Object.create(null)
+
+  const pluginName =
+    typeof configValue.name === 'string' && configValue.name.length
+      ? configValue.name
+      : key
+
+  const pluginType =
+    (typeof configValue.type === 'string' && configValue.type) ||
+    (typeof rawConfig === 'string' && rawConfig) ||
+    key
+
+  return {
+    configValue,
+    pluginName,
+    pluginType,
+  }
+}
+
 class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
   TEvent,
   TContext,
@@ -167,25 +204,21 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
   }
 
   private async loadPluginsFromConfig(config: Config): Promise<void> {
-    const pluginConfigs = config.plugins || Object.create(null)
+    const pluginConfigs = (config.plugins || Object.create(null)) as Record<
+      string,
+      RawPluginConfig
+    >
 
-    for (const [key, rawConfig] of Object.entries(pluginConfigs)) {
-      const configValue =
-        rawConfig && typeof rawConfig === 'object'
-          ? Object.assign(Object.create(null), rawConfig)
-          : Object.create(null)
+    for (const key in pluginConfigs) {
+      if (!Object.hasOwn(pluginConfigs, key)) continue
 
-      const pluginName =
-        typeof configValue.name === 'string' && configValue.name.length
-          ? configValue.name
-          : key
+      const rawConfig = pluginConfigs[key]
+      const { configValue, pluginName, pluginType } = resolvePluginConfig(
+        key,
+        rawConfig
+      )
 
       if (this.plugins.find(plugin => plugin.name === pluginName)) continue
-
-      const pluginType =
-        (typeof configValue.type === 'string' && configValue.type) ||
-        (typeof rawConfig === 'string' && rawConfig) ||
-        key
 
       const moduleName = formatPluginModuleName(pluginType)
       const className = formatPluginClassName(pluginType)
@@ -256,15 +289,13 @@ export function defineFunc<
   let hasHttp = false
   let knexQuery: KnexQuery | undefined
 
-  const resolvePluginRefs = (): void => {
-    if (pluginRefsResolved) return
-
-    hasHttp = !!findPluginByType(func, 'http')
-    knexQuery = findPluginByType<KnexPlugin>(func, 'knex')?.query
-    pluginRefsResolved = true
-  }
-
   const parseParams = async (event: TEvent): Promise<Params> => {
+    if (!pluginRefsResolved) {
+      hasHttp = !!findPluginByType(func, 'http')
+      knexQuery = findPluginByType<KnexPlugin>(func, 'knex')?.query
+      pluginRefsResolved = true
+    }
+
     if (!hasHttp) return undefined
 
     if (!options.schema) return {} as Params
@@ -283,8 +314,6 @@ export function defineFunc<
   }
 
   const invokeHandler: Handler<TEvent, TContext, TResult> = async data => {
-    resolvePluginRefs()
-
     const params = await parseParams(data.event)
 
     const invokeData = {

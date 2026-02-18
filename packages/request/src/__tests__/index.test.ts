@@ -30,9 +30,9 @@ describe('request', () => {
   })
 
   it('404', async () => {
-    expect(
-      async () => await request('https://mock.httpstatus.io/404')
-    ).rejects.toThrow('Not Found')
+    await expect(request('https://mock.httpstatus.io/404')).rejects.toThrow(
+      'Not Found'
+    )
   })
 
   describe('query', () => {

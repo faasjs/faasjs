@@ -160,10 +160,7 @@ export class Session<
 
   public update(): Session<S, C> {
     if (this.changed)
-      this.cookie.write(
-        this.config.key,
-        this.encode(JSON.stringify(this.content))
-      )
+      this.cookie.write(this.config.key, this.encode(this.content))
 
     return this
   }

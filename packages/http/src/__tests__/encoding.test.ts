@@ -81,4 +81,28 @@ describe('Accept-Encoding', () => {
     expect(res.headers['Content-Encoding']).toBeUndefined()
     expect(res.data).toEqual(data)
   })
+
+  it('direct response object body', async () => {
+    const payload = { text: new Array(1025).join('1') }
+    const func = test(
+      new Func({
+        plugins: [new Http()],
+        async handler() {
+          return {
+            statusCode: 200,
+            headers: { 'x-direct': '1' },
+            body: payload,
+          }
+        },
+      })
+    )
+
+    const res = await func.JSONhandler(null, {
+      headers: { 'accept-encoding': 'gzip' },
+    })
+
+    expect(res.statusCode).toEqual(200)
+    expect(res.headers['Content-Encoding']).toEqual('gzip')
+    expect(JSON.parse(res.body)).toEqual(payload)
+  })
 })

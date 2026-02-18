@@ -13,11 +13,10 @@ import { createWriteStream, readFileSync } from 'node:fs'
  * ```
  * @packageDocumentation
  */
-import http, { type IncomingMessage, type OutgoingHttpHeaders } from 'node:http'
-import https from 'node:https'
+import type { OutgoingHttpHeaders } from 'node:http'
 import { basename } from 'node:path'
-import { URL } from 'node:url'
-import { createBrotliDecompress, createGunzip } from 'node:zlib'
+import { Readable } from 'node:stream'
+import { pipeline } from 'node:stream/promises'
 import { Logger } from '@faasjs/logger'
 
 export type Request = {
@@ -26,9 +25,11 @@ export type Request = {
   host?: string
   path?: string
   query?: OutgoingHttpHeaders
-  body?: {
-    [key: string]: any
-  }
+  body?:
+    | {
+        [key: string]: any
+      }
+    | string
 }
 
 export type Response<T = any> = {
@@ -53,7 +54,7 @@ export type RequestOptions = {
         [key: string]: any
       }
     | string
-  /** Timeout in milliseconds, @default 5000 */
+  /** Timeout in milliseconds */
   timeout?: number
   /**
    * The authentication credentials to use for the request.
@@ -93,7 +94,7 @@ export type RequestOptions = {
    */
   parse?: (body: string) => any
   logger?: Logger
-} & Pick<https.RequestOptions, 'pfx' | 'passphrase' | 'agent'>
+}
 
 export type Mock = (url: string, options: RequestOptions) => Promise<Response>
 
@@ -109,30 +110,17 @@ export function setMock(handler: Mock | null): void {
 }
 
 export function querystringify(obj: any) {
-  const pairs: string[] = []
-  let value: string
-  let key: string
+  return Object.keys(obj)
+    .map(key => {
+      const raw = obj[key]
+      const value =
+        !raw && (raw === null || raw === undefined || Number.isNaN(raw))
+          ? ''
+          : raw
 
-  for (key in obj) {
-    if (Object.hasOwn(obj, key)) {
-      value = obj[key]
-
-      if (
-        !value &&
-        (value === null || value === undefined || Number.isNaN(value))
-      ) {
-        value = ''
-      }
-
-      key = encodeURIComponent(key)
-      value = encodeURIComponent(value)
-
-      if (key === null || value === null) continue
-      pairs.push(`${key}=${value}`)
-    }
-  }
-
-  return pairs.length ? pairs.join('&') : ''
+      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+    })
+    .join('&')
 }
 
 /**
@@ -157,6 +145,54 @@ export class ResponseError extends Error {
   }
 }
 
+function appendQueryToUrl(
+  url: string,
+  query?: RequestOptions['query']
+): string {
+  if (!query) return url
+
+  if (!url.includes('?')) url += '?'
+  else if (!url.endsWith('?')) url += '&'
+
+  return url + querystringify(query)
+}
+
+type HeaderMap = Record<string, string>
+
+function normalizeHeaders(source: OutgoingHttpHeaders = {}): HeaderMap {
+  const headers: HeaderMap = {}
+
+  for (const key in source) {
+    const value = source[key]
+
+    if (Array.isArray(value)) headers[key] = value.join(',')
+    else if (typeof value === 'string' || typeof value === 'number')
+      headers[key] = `${value}`
+  }
+
+  return headers
+}
+
+function findHeaderKey(headers: HeaderMap, target: string): string | undefined {
+  const lowerTarget = target.toLowerCase()
+
+  for (const key in headers) if (key.toLowerCase() === lowerTarget) return key
+
+  return undefined
+}
+
+async function writeResponseBody(
+  response: globalThis.Response,
+  stream: NodeJS.WritableStream
+): Promise<void> {
+  if (!response.body) {
+    stream.end()
+    return
+  }
+
+  await pipeline(Readable.fromWeb(response.body as any), stream as any)
+}
+
 /**
  * Request
  *
@@ -177,216 +213,174 @@ export async function request<T = any>(
     return mock(url, options)
   }
 
-  if (options.query) {
-    if (!url.includes('?')) url += '?'
-    else if (!url.endsWith('?')) url += '&'
-
-    url += querystringify(options.query)
-  }
-
-  if (!options.headers) options.headers = {}
+  url = appendQueryToUrl(url, options.query)
 
   const uri = new URL(url)
-  const protocol = uri.protocol === 'https:' ? https : http
-
   if (!uri.protocol) throw Error('Unknown protocol')
 
-  const requestOptions: https.RequestOptions & {
-    headers: OutgoingHttpHeaders
-  } = {
-    headers: {},
-    host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
-    method: options.method ? options.method.toUpperCase() : 'GET',
-    path: uri.pathname + uri.search,
-    port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
-    timeout: options.timeout || 5000,
-    auth: options.auth,
-    pfx: options.pfx,
-    passphrase: options.passphrase,
-    agent: options.agent,
-  }
+  const method = options.method ? options.method.toUpperCase() : 'GET'
+  const headers = normalizeHeaders(options.headers)
 
   if (
-    !options.headers['Accept-Encoding'] &&
+    !findHeaderKey(headers, 'Accept-Encoding') &&
     !options.downloadFile &&
     !options.downloadStream
   )
-    options.headers['Accept-Encoding'] = 'br,gzip'
+    headers['Accept-Encoding'] = 'br,gzip'
 
-  for (const key in options.headers)
-    if (
-      typeof options.headers[key] !== 'undefined' &&
-      options.headers[key] !== null
+  if (options.auth && !findHeaderKey(headers, 'Authorization'))
+    headers.Authorization = `Basic ${Buffer.from(options.auth).toString('base64')}`
+
+  let body: BodyInit | undefined
+  let requestBody: string | undefined
+
+  if (options.file) {
+    const contentType = findHeaderKey(headers, 'Content-Type')
+    if (contentType) delete headers[contentType]
+
+    const contentLength = findHeaderKey(headers, 'Content-Length')
+    if (contentLength) delete headers[contentLength]
+
+    const formData = new FormData()
+    formData.append(
+      'file',
+      new File([readFileSync(options.file)], basename(options.file))
     )
-      requestOptions.headers[key] = options.headers[key]
+    body = formData
+  }
 
-  let body = options.body
-  if (body && typeof body !== 'string')
-    if (
-      options.headers['Content-Type']
-        ?.toString()
-        .includes('application/x-www-form-urlencoded')
-    )
-      body = querystringify(body)
-    else body = JSON.stringify(body)
+  if (!options.file && typeof options.body !== 'undefined') {
+    if (typeof options.body === 'string') requestBody = options.body
+    else {
+      const contentType = findHeaderKey(headers, 'Content-Type')
 
-  if (body && !options.headers['Content-Length'])
-    requestOptions.headers['Content-Length'] = Buffer.byteLength(body as string)
-
-  return await new Promise((resolve, reject) => {
-    logger.debug('request %j', {
-      ...options,
-      body,
-    })
-
-    const req = protocol.request(requestOptions, (res: IncomingMessage) => {
-      if (options.downloadStream) {
-        options.downloadStream
-          .on('error', (error: Error) => {
-            logger.timeEnd(requestId, 'response.error %j', error)
-            reject(error)
-          })
-          .on('finish', () => {
-            logger.timeEnd(
-              requestId,
-              'response %s %s',
-              res.statusCode,
-              res.headers['content-type']
-            )
-            options.downloadStream?.end()
-            resolve(undefined as any)
-          })
-        res.pipe(options.downloadStream, { end: true })
-        return
-      }
-
-      if (options.downloadFile) {
-        const stream = createWriteStream(options.downloadFile)
-          .on('error', (error: Error) => {
-            logger.timeEnd(requestId, 'response.error %j', error)
-            stream.destroy()
-            reject(error)
-          })
-          .on('finish', () => {
-            logger.timeEnd(
-              requestId,
-              'response %s %s %s',
-              res.statusCode,
-              res.headers['content-type'],
-              stream.bytesWritten
-            )
-            resolve(undefined as any)
-          })
-
-        res.pipe(stream, { end: true })
-
-        return
-      }
-
-      let stream: NodeJS.ReadableStream = res
-
-      switch (res.headers['content-encoding']) {
-        case 'br':
-          stream = res.pipe(createBrotliDecompress())
-          break
-        case 'gzip':
-          stream = res.pipe(createGunzip())
-          break
-      }
-
-      let raw = ''
-      stream
-        .on('data', (chunk: any) => (raw += chunk))
-        .on('error', (e: Error) => {
-          logger.timeEnd(requestId, 'response.error %j', e)
-          reject(e)
-        })
-        .on('end', () => {
-          logger.timeEnd(
-            requestId,
-            'response %s %s %s %j',
-            res.statusCode,
-            res.headers['content-type'],
-            res.headers['content-encoding'],
-            raw
-          )
-
-          const response = Object.create(null)
-          response.request = requestOptions
-          response.request.body = body
-          response.statusCode = res.statusCode
-          response.statusMessage = res.statusMessage
-          response.headers = res.headers
-          response.body = raw
-
-          if (
-            response.body &&
-            response.headers['content-type'] &&
-            response.headers['content-type'].includes('application/json') &&
-            typeof response.body === 'string' &&
-            (response.body.startsWith('{') || response.body.startsWith('['))
-          )
-            try {
-              response.body = (options.parse || JSON.parse)(response.body)
-              logger.debug('response.parse JSON')
-            } catch (error: any) {
-              logger.warn('response plain body', response.body)
-              logger.error(error)
-            }
-
-          if (response.statusCode >= 200 && response.statusCode < 400)
-            resolve(response)
-          else {
-            logger.debug('response.error %j', response)
-            reject(
-              new ResponseError(
-                `${res.statusMessage || res.statusCode} ${
-                  requestOptions.host
-                }${requestOptions.path}`,
-                response
-              )
-            )
-          }
-        })
-    })
-
-    if (body) req.write(body)
-
-    if (options.file) {
-      const crlf = '\r\n'
-      const boundary = `--${Math.random().toString(16)}`
-      const delimiter = `${crlf}--${boundary}`
-      const headers = [
-        `Content-Disposition: form-data; name="file"; filename="${basename(
-          options.file
-        )}"${crlf}`,
-      ]
-
-      const multipartBody = Buffer.concat([
-        Buffer.from(delimiter + crlf + headers.join('') + crlf),
-        readFileSync(options.file),
-        Buffer.from(`${delimiter}--`),
-      ])
-
-      req.setHeader('Content-Type', `multipart/form-data; boundary=${boundary}`)
-      req.setHeader('Content-Length', multipartBody.length)
-
-      req.write(multipartBody)
+      requestBody =
+        contentType &&
+        headers[contentType]
+          .toLowerCase()
+          .includes('application/x-www-form-urlencoded')
+          ? querystringify(options.body)
+          : JSON.stringify(options.body)
     }
 
-    req.on('error', (e: Error) => {
-      logger.timeEnd(requestId, 'response.error %j', e)
-      reject(e)
-    })
+    body = requestBody
+  }
 
-    req.on('timeout', () => {
-      logger.timeEnd(requestId, 'response.timeout')
-      req.destroy()
-      reject(Error(`Timeout ${url}`))
-    })
+  const requestSnapshot: Request = {
+    headers,
+    host: uri.host ? uri.host.replace(/:[0-9]+$/, '') : uri.host,
+    method,
+    path: uri.pathname + uri.search,
+  }
 
-    logger.time(requestId)
+  if (typeof options.query !== 'undefined')
+    requestSnapshot.query = options.query as OutgoingHttpHeaders
+  if (typeof requestBody !== 'undefined') requestSnapshot.body = requestBody
 
-    req.end()
+  const init: RequestInit = {
+    method,
+    headers,
+  }
+
+  if (typeof options.timeout === 'number')
+    init.signal = AbortSignal.timeout(options.timeout)
+
+  if (typeof body !== 'undefined') init.body = body
+
+  logger.debug('request %j', {
+    ...options,
+    body: options.file ? '[form-data]' : requestBody,
   })
+
+  logger.time(requestId)
+
+  try {
+    const res = await fetch(url, init)
+
+    const fileStream = options.downloadFile
+      ? createWriteStream(options.downloadFile)
+      : undefined
+    const downloadStream = options.downloadStream || fileStream
+
+    if (downloadStream) {
+      try {
+        await writeResponseBody(res, downloadStream)
+      } catch (error: any) {
+        fileStream?.destroy()
+        throw error
+      }
+
+      if (fileStream)
+        logger.timeEnd(
+          requestId,
+          'response %s %s %s',
+          res.status,
+          res.headers.get('content-type'),
+          fileStream.bytesWritten
+        )
+      else
+        logger.timeEnd(
+          requestId,
+          'response %s %s',
+          res.status,
+          res.headers.get('content-type')
+        )
+
+      return undefined as any
+    }
+
+    const raw = await res.text()
+
+    logger.timeEnd(
+      requestId,
+      'response %s %s %s %j',
+      res.status,
+      res.headers.get('content-type'),
+      res.headers.get('content-encoding'),
+      raw
+    )
+
+    const response: Response = {
+      request: requestSnapshot,
+      statusCode: res.status,
+      statusMessage: res.statusText,
+      headers: Object.fromEntries(res.headers.entries()) as OutgoingHttpHeaders,
+      body: raw,
+    }
+
+    const contentType = response.headers['content-type']
+
+    if (
+      typeof response.body === 'string' &&
+      response.body &&
+      typeof contentType === 'string' &&
+      contentType.includes('application/json') &&
+      (response.body.startsWith('{') || response.body.startsWith('['))
+    )
+      try {
+        response.body = (options.parse || JSON.parse)(response.body)
+        logger.debug('response.parse JSON')
+      } catch (error: any) {
+        logger.warn('response plain body', response.body)
+        logger.error(error)
+      }
+
+    if (res.status >= 200 && res.status < 400) return response as Response<T>
+
+    logger.debug('response.error %j', response)
+    throw new ResponseError(
+      `${res.statusText || res.status} ${requestSnapshot.host}${requestSnapshot.path}`,
+      response
+    )
+  } catch (error: any) {
+    if (error?.name === 'TimeoutError' || error?.name === 'AbortError') {
+      logger.timeEnd(requestId, 'response.timeout')
+      throw Error(`Timeout ${url}`)
+    }
+
+    if (!(error instanceof ResponseError))
+      logger.timeEnd(requestId, 'response.error %j', error)
+
+    throw error
+  }
 }

@@ -91,31 +91,32 @@ export class Cookie<
       sameSite?: 'Strict' | 'Lax' | 'None'
     }
   ): Cookie<C, S> {
-    opts = Object.assign(this.config, opts || {})
+    const options = Object.assign({}, this.config, opts || {})
 
     let cookie: string
     if (value === null || typeof value === 'undefined') {
-      opts.expires = 'Thu, 01 Jan 1970 00:00:01 GMT'
       cookie = `${key}=;`
+      cookie += 'expires=Thu, 01 Jan 1970 00:00:01 GMT;'
       delete this.content[key]
     } else {
       cookie = `${key}=${encodeURIComponent(value)};`
       this.content[key] = value
+
+      if (typeof options.expires === 'number')
+        cookie += `max-age=${options.expires};`
+      else if (typeof options.expires === 'string')
+        cookie += `expires=${options.expires};`
     }
 
-    if (typeof opts.expires === 'number') cookie += `max-age=${opts.expires};`
-    else if (typeof opts.expires === 'string')
-      cookie += `expires=${opts.expires};`
+    cookie += `path=${options.path || '/'};`
 
-    cookie += `path=${opts.path || '/'};`
+    if (options.domain) cookie += `domain=${options.domain};`
 
-    if (opts.domain) cookie += `domain=${opts.domain};`
+    if (options.secure) cookie += 'Secure;'
 
-    if (opts.secure) cookie += 'Secure;'
+    if (options.httpOnly) cookie += 'HttpOnly;'
 
-    if (opts.httpOnly) cookie += 'HttpOnly;'
-
-    if (opts.sameSite) cookie += `SameSite=${opts.sameSite};`
+    if (options.sameSite) cookie += `SameSite=${options.sameSite};`
 
     this.setCookie[key] = cookie
 
