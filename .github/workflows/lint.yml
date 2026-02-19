@@ -9,9 +9,6 @@ on:
       - 'packages/**'
       - .github/workflows/lint.yml
   pull_request:
-    paths:
-      - 'packages/**'
-      - .github/workflows/lint.yml
 
 jobs:
   test:

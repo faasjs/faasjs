@@ -12,12 +12,6 @@ on:
       - package-lock.json
       - package.json
   pull_request:
-    paths:
-      - .github/workflows/unit.yml
-      - .mise.toml
-      - packages/**
-      - package-lock.json
-      - package.json
 
 jobs:
   test:

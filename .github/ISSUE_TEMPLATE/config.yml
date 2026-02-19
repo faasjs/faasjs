@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and Discussions / 问题咨询与讨论
+    url: https://github.com/orgs/faasjs/discussions
+    about: Ask usage questions or share ideas before opening a feature issue.
+  - name: Security report / 安全问题反馈
+    url: https://github.com/faasjs/faasjs/blob/main/SECURITY.md
+    about: Please follow SECURITY.md for responsible disclosure.

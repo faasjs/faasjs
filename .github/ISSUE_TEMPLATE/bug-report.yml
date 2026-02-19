@@ -1,0 +1,92 @@
+name: Bug report
+description: Report a reproducible bug in FaasJS
+title: "[Bug] "
+labels:
+  - type:bug
+  - status:needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug.
+        Please provide enough detail so maintainers can reproduce quickly.
+        感谢反馈问题，请尽量提供可复现信息，方便维护者快速定位。
+
+  - type: input
+    id: faasjs-version
+    attributes:
+      label: FaasJS version / FaasJS 版本
+      placeholder: e.g. 8.0.0-beta.9
+    validations:
+      required: true
+
+  - type: input
+    id: affected-package
+    attributes:
+      label: Affected package / 受影响包
+      description: Which package is affected? (for example @faasjs/func)
+      placeholder: e.g. @faasjs/func
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug description / 问题描述
+      description: What is wrong?
+      placeholder: Describe the problem clearly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: Reproduction steps / 复现步骤
+      description: Please provide stable and minimal steps.
+      placeholder: |
+        1. Run `...`
+        2. Open `...`
+        3. See error `...`
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior / 期望行为
+      placeholder: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior / 实际行为
+      placeholder: What happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots / 日志或截图
+      render: shell
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment / 运行环境
+      description: OS, Node, npm, and other key dependencies
+      placeholder: macOS 15, Node 24.x, npm 11.x
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Checklist / 检查项
+      options:
+        - label: I searched existing issues first. / 我已先搜索过现有 issue。
+          required: true
+        - label: I can provide a PR to fix this. / 我愿意提交 PR 修复此问题。
+          required: false

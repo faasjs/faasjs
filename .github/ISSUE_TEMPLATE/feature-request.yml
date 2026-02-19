@@ -1,0 +1,78 @@
+name: Feature request
+description: Suggest a new feature or improvement
+title: "[Feature] "
+labels:
+  - type:feature
+  - status:needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your suggestion.
+        Please focus on problem, proposal, and acceptance criteria.
+        感谢你的建议，请重点描述问题、方案和验收标准。
+
+  - type: input
+    id: related-package
+    attributes:
+      label: Related package / 相关包
+      description: Which package should this change target?
+      placeholder: e.g. @faasjs/http
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement / 问题背景
+      description: What problem are you trying to solve?
+      placeholder: Describe the current pain point.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution / 建议方案
+      description: What should be added or changed?
+      placeholder: Describe the suggested API or behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered / 备选方案
+      placeholder: Describe alternatives and why they are not enough.
+
+  - type: dropdown
+    id: breaking-change
+    attributes:
+      label: Breaking change / 是否为破坏性变更
+      options:
+        - No / 否
+        - Yes / 是
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria / 验收标准
+      description: Define clear, testable outcomes.
+      placeholder: |
+        - [ ] API supports ...
+        - [ ] Test cases added for ...
+        - [ ] Docs updated for ...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist / 检查项
+      options:
+        - label: I searched existing issues first. / 我已先搜索过现有 issue。
+          required: true
+        - label: I can provide a PR for this feature. / 我愿意为该需求提交 PR。
+          required: false
