@@ -32,9 +32,9 @@ FaasJS 拥有简单易用的插件机制，可以让开发者可以自由扩展�
 
 ```ts
 // index.func.ts 文件，云函数文件名都以 .func.ts 结尾
-import { defineFunc } from '@faasjs/core'
+import { defineApi } from '@faasjs/core'
 
-export const func = defineFunc({
+export const func = defineApi({
   async handler() {
     return 'Hello, world' // 返回的内容
   },
@@ -54,7 +54,7 @@ describe('index', function () {
 
     // 模拟调用
     const { statusCode, data } = await testFunc.JSONhandler<string>({
-      name: 'world'
+      name: 'world',
     })
 
     // 返回 200 状态
@@ -102,7 +102,7 @@ mise exec -- npx create-faas-app --name faasjs
     <a href="https://github.com/zfben" target="_blank">zfben</a>
     <p>FaasJS 基于以下开源项目（按字母排序）</p>
     <a href="https://www.apollographql.com/" target="_blank">Apollo</a>,
-    <a href="https://biomejs.dev/" target="_blank">Biome</a>,
+    <a href="https://oxc.rs/" target="_blank">Oxc</a>,
     <a href="https://vitest.dev/" target="_blank">Vitest</a>,
     <a href="https://knexjs.org/" target="_blank">Knex</a>,
     <a href="https://nodejs.org/" target="_blank">Node.js</a>,

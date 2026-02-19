@@ -111,12 +111,9 @@ export function setMock(handler: Mock | null): void {
 
 export function querystringify(obj: any) {
   return Object.keys(obj)
-    .map(key => {
+    .map((key) => {
       const raw = obj[key]
-      const value =
-        !raw && (raw === null || raw === undefined || Number.isNaN(raw))
-          ? ''
-          : raw
+      const value = !raw && (raw === null || raw === undefined || Number.isNaN(raw)) ? '' : raw
 
       return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     })
@@ -145,10 +142,7 @@ export class ResponseError extends Error {
   }
 }
 
-function appendQueryToUrl(
-  url: string,
-  query?: RequestOptions['query']
-): string {
+function appendQueryToUrl(url: string, query?: RequestOptions['query']): string {
   if (!query) return url
 
   if (!url.includes('?')) url += '?'
@@ -166,8 +160,7 @@ function normalizeHeaders(source: OutgoingHttpHeaders = {}): HeaderMap {
     const value = source[key]
 
     if (Array.isArray(value)) headers[key] = value.join(',')
-    else if (typeof value === 'string' || typeof value === 'number')
-      headers[key] = `${value}`
+    else if (typeof value === 'string' || typeof value === 'number') headers[key] = `${value}`
   }
 
   return headers
@@ -183,7 +176,7 @@ function findHeaderKey(headers: HeaderMap, target: string): string | undefined {
 
 async function writeResponseBody(
   response: globalThis.Response,
-  stream: NodeJS.WritableStream
+  stream: NodeJS.WritableStream,
 ): Promise<void> {
   if (!response.body) {
     stream.end()
@@ -203,7 +196,7 @@ async function writeResponseBody(
  */
 export async function request<T = any>(
   url: string,
-  options: RequestOptions = { headers: {} }
+  options: RequestOptions = { headers: {} },
 ): Promise<Response<T>> {
   const requestId = randomUUID()
   const logger = options.logger || new Logger(`request][${requestId}`)
@@ -242,10 +235,7 @@ export async function request<T = any>(
     if (contentLength) delete headers[contentLength]
 
     const formData = new FormData()
-    formData.append(
-      'file',
-      new File([readFileSync(options.file)], basename(options.file))
-    )
+    formData.append('file', new File([readFileSync(options.file)], basename(options.file)))
     body = formData
   }
 
@@ -256,9 +246,7 @@ export async function request<T = any>(
 
       requestBody =
         contentType &&
-        headers[contentType]
-          .toLowerCase()
-          .includes('application/x-www-form-urlencoded')
+        headers[contentType].toLowerCase().includes('application/x-www-form-urlencoded')
           ? querystringify(options.body)
           : JSON.stringify(options.body)
     }
@@ -282,8 +270,7 @@ export async function request<T = any>(
     headers,
   }
 
-  if (typeof options.timeout === 'number')
-    init.signal = AbortSignal.timeout(options.timeout)
+  if (typeof options.timeout === 'number') init.signal = AbortSignal.timeout(options.timeout)
 
   if (typeof body !== 'undefined') init.body = body
 
@@ -297,9 +284,7 @@ export async function request<T = any>(
   try {
     const res = await fetch(url, init)
 
-    const fileStream = options.downloadFile
-      ? createWriteStream(options.downloadFile)
-      : undefined
+    const fileStream = options.downloadFile ? createWriteStream(options.downloadFile) : undefined
     const downloadStream = options.downloadStream || fileStream
 
     if (downloadStream) {
@@ -316,15 +301,9 @@ export async function request<T = any>(
           'response %s %s %s',
           res.status,
           res.headers.get('content-type'),
-          fileStream.bytesWritten
+          fileStream.bytesWritten,
         )
-      else
-        logger.timeEnd(
-          requestId,
-          'response %s %s',
-          res.status,
-          res.headers.get('content-type')
-        )
+      else logger.timeEnd(requestId, 'response %s %s', res.status, res.headers.get('content-type'))
 
       return undefined as any
     }
@@ -337,7 +316,7 @@ export async function request<T = any>(
       res.status,
       res.headers.get('content-type'),
       res.headers.get('content-encoding'),
-      raw
+      raw,
     )
 
     const response: Response = {
@@ -370,7 +349,7 @@ export async function request<T = any>(
     logger.debug('response.error %j', response)
     throw new ResponseError(
       `${res.statusText || res.status} ${requestSnapshot.host}${requestSnapshot.path}`,
-      response
+      response,
     )
   } catch (error: any) {
     if (error?.name === 'TimeoutError' || error?.name === 'AbortError') {
@@ -378,8 +357,7 @@ export async function request<T = any>(
       throw Error(`Timeout ${url}`)
     }
 
-    if (!(error instanceof ResponseError))
-      logger.timeEnd(requestId, 'response.error %j', error)
+    if (!(error instanceof ResponseError)) logger.timeEnd(requestId, 'response.error %j', error)
 
     throw error
   }

@@ -62,7 +62,7 @@ describe('useFaas', () => {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
           data: params,
-        })
+        }),
       )
     })
 
@@ -96,7 +96,7 @@ describe('useFaas', () => {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
           data: params,
-        })
+        }),
       )
     })
 
@@ -107,7 +107,7 @@ describe('useFaas', () => {
       return (
         <div>
           {data?.count}
-          <button type='button' onClick={() => setCount(p => p + 1)}>
+          <button type='button' onClick={() => setCount((p) => p + 1)}>
             Add
           </button>
         </div>
@@ -132,7 +132,7 @@ describe('useFaas', () => {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
           data: params,
-        })
+        }),
       )
     })
 

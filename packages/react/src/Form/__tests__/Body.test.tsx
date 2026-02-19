@@ -5,18 +5,13 @@ import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
 import type { FormItemProps } from '../Item'
 
-const renderWithContext = (
-  ui: React.ReactElement,
-  { items = [] as FormItemProps[] } = {}
-) =>
+const renderWithContext = (ui: React.ReactElement, { items = [] as FormItemProps[] } = {}) =>
   render(
     <FormContextProvider
-      value={
-        { items, Elements: FormDefaultElements, values: {}, errors: {} } as any
-      }
+      value={{ items, Elements: FormDefaultElements, values: {}, errors: {} } as any}
     >
       {ui}
-    </FormContextProvider>
+    </FormContextProvider>,
   )
 
 describe('FormBody', () => {

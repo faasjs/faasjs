@@ -29,9 +29,7 @@ export function formatLogger(fmt: any, ...args: any[]): string {
   try {
     return format(
       fmt,
-      ...args.filter(
-        (a: any) => !a || typeof a !== 'object' || a.__hidden__ !== true
-      )
+      ...args.filter((a: any) => !a || typeof a !== 'object' || a.__hidden__ !== true),
     )
   } catch (e: any) {
     return `[Unable to format] ${e?.message}`
@@ -98,8 +96,7 @@ export class Logger {
         break
     }
 
-    if (process.env.FaasLog)
-      this.level = process.env.FaasLog.toLowerCase() as Level
+    if (process.env.FaasLog) this.level = process.env.FaasLog.toLowerCase() as Level
 
     if (process.env.FaasLogSize) this.size = Number(process.env.FaasLogSize)
   }
@@ -203,11 +200,7 @@ export class Logger {
     return this
   }
 
-  private log(
-    level: Level,
-    message: string | Error | unknown,
-    ...args: any
-  ): Logger {
+  private log(level: Level, message: string | Error | unknown, ...args: any): Logger {
     if (this.silent) return this
 
     if (LevelPriority[level] < LevelPriority[this.level]) return this
@@ -232,13 +225,9 @@ export class Logger {
 
     if (!output) return this
 
-    if (
-      this.size > 0 &&
-      output.length > this.size &&
-      !['error', 'warn'].includes(level)
-    )
+    if (this.size > 0 && output.length > this.size && !['error', 'warn'].includes(level))
       output = `${output.slice(0, this.size - 100)}...[truncated]...${output.slice(
-        output.length - 100
+        output.length - 100,
       )}`
 
     if (level === 'error') this.stderr(output)

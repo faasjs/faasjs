@@ -17,12 +17,10 @@ describe('FormItem string', () => {
             value: 'value',
           },
         ]}
-      />
+      />,
     )
 
-    expect(container.getElementsByClassName('ant-radio-input').length).toEqual(
-      1
-    )
+    expect(container.getElementsByClassName('ant-radio-input').length).toEqual(1)
 
     await user.click(container.getElementsByClassName('ant-radio-input')[0])
 

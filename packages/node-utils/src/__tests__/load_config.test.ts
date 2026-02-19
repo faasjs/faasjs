@@ -6,11 +6,7 @@ import { loadConfig } from '../load_config'
 
 describe('loadConfig', () => {
   it('defaults', () => {
-    const config = loadConfig(
-      __dirname,
-      `${__dirname}/fake.func.ts`,
-      'defaults'
-    )
+    const config = loadConfig(__dirname, `${__dirname}/fake.func.ts`, 'defaults')
 
     expect(config.plugins?.test?.type).toEqual('defaults')
     expect(config.plugins?.func?.name).toEqual('func')
@@ -27,11 +23,7 @@ describe('loadConfig', () => {
   })
 
   it('sub local', () => {
-    const config = loadConfig(
-      __dirname,
-      `${__dirname}/sub/fake.func.ts`,
-      'local'
-    )
+    const config = loadConfig(__dirname, `${__dirname}/sub/fake.func.ts`, 'local')
 
     expect(config.plugins?.func?.type).toEqual('function')
     expect(config.plugins?.func?.name).toEqual('func')
@@ -54,12 +46,12 @@ describe('loadConfig', () => {
         `defaults:
   types:
     enabled: true
-`
+`,
       )
 
-      expect(() =>
-        loadConfig(src, join(src, 'fake.func.ts'), 'development')
-      ).toThrow('defaults.types')
+      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+        'defaults.types',
+      )
     } finally {
       rmSync(root, {
         recursive: true,
@@ -83,12 +75,48 @@ describe('loadConfig', () => {
         `defaults:
   server:
     root: 1
-`
+`,
       )
 
-      expect(() =>
-        loadConfig(src, join(src, 'fake.func.ts'), 'development')
-      ).toThrow('defaults.server.root')
+      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+        'defaults.server.root',
+      )
+    } finally {
+      rmSync(root, {
+        recursive: true,
+        force: true,
+      })
+    }
+  })
+
+  it('should load anchors and aliases in faas.yaml', () => {
+    const root = mkdtempSync(join(tmpdir(), 'faas-load-config-'))
+
+    try {
+      const src = join(root, 'src')
+
+      mkdirSync(src, {
+        recursive: true,
+      })
+
+      writeFileSync(
+        join(src, 'faas.yaml'),
+        `defaults: &defaults
+  plugins:
+    base:
+      type: http
+development:
+  <<: *defaults
+  plugins:
+    local:
+      type: mysql
+`,
+      )
+
+      const config = loadConfig(src, join(src, 'fake.func.ts'), 'development')
+
+      expect(config.plugins?.base?.type).toEqual('http')
+      expect(config.plugins?.local?.type).toEqual('mysql')
     } finally {
       rmSync(root, {
         recursive: true,

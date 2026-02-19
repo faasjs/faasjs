@@ -93,10 +93,7 @@ export type FaasActionPaths = Exclude<
 /**
  * Infer all event paths declared in {@link FaasEvents}.
  */
-export type FaasEventPaths = Exclude<
-  Extract<keyof FaasEvents, string>,
-  'faasjsEventsPlaceholder'
->
+export type FaasEventPaths = Exclude<Extract<keyof FaasEvents, string>, 'faasjsEventsPlaceholder'>
 
 /**
  * Union type accepted by action helpers.
@@ -160,16 +157,14 @@ export type FaasData<T = any> = T extends FaasActionPaths
  * type DemoEvent = FaasEvent<'demo'>
  * ```
  */
-export type FaasEvent<T = any> = T extends FaasEventPaths
-  ? FaasEvents[T]
-  : Record<string, any>
+export type FaasEvent<T = any> = T extends FaasEventPaths ? FaasEvents[T] : Record<string, any>
 
 /**
  * Infer the FaasAction type from a Func.
  *
  * @example
  * ```typescript
- * import { defineFunc, z } from '@faasjs/core'
+ * import { defineApi, z } from '@faasjs/core'
  * import type { InferFaasAction } from '@faasjs/types'
  *
  * const schema = z
@@ -178,7 +173,7 @@ export type FaasEvent<T = any> = T extends FaasEventPaths
  *   })
  *   .required()
  *
- * export const func = defineFunc({
+ * export const func = defineApi({
  *   schema,
  *   async handler({ params }) {
  *     if (!params) throw Error('params is required')
@@ -197,16 +192,14 @@ export type FaasEvent<T = any> = T extends FaasEventPaths
  * ```
  */
 export type InferFaasAction<TFunc extends Func> = {
-  Params: NonNullable<
-    Parameters<ReturnType<TFunc['export']>['handler']>[0]
-  >['params']
+  Params: NonNullable<Parameters<ReturnType<TFunc['export']>['handler']>[0]>['params']
   Data: Awaited<ReturnType<ReturnType<TFunc['export']>['handler']>>
 }
 
 /**
  * Infer the Func type from a module.
  *
- * Supports both `export const func = defineFunc(...)` and `export default defineFunc(...)`.
+ * Supports both `export const func = defineApi(...)` and `export default defineApi(...)`.
  *
  * @example
  * ```typescript

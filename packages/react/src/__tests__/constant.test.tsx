@@ -13,7 +13,7 @@ describe('useConstant', () => {
       const [times, setTimes] = useState(0)
 
       return (
-        <button type='button' onClick={() => setTimes(p => p + 1)}>
+        <button type='button' onClick={() => setTimes((p) => p + 1)}>
           {times} {data}
         </button>
       )

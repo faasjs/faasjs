@@ -17,9 +17,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"data":{}}'
-    )
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{}}')
   })
 
   it('raw', async () => {
@@ -35,9 +33,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"data":"raw"}'
-    )
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":"raw"}')
   })
 
   it('queryString', async () => {
@@ -60,9 +56,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"data":{"a":"b","b":"b"}}'
-    )
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"a":"b","b":"b"}}')
   })
 
   it('json', async () => {
@@ -81,8 +75,6 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"data":{"key":true}}'
-    )
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"key":true}}')
   })
 })

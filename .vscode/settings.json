@@ -2,10 +2,10 @@
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.fixAll.oxc": "explicit"
   },
-  "editor.defaultFormatter": "biomejs.biome",
+  "oxc.fmt.configPath": "packages/dev/configs/oxfmt.base.json",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.wordWrap": "on",
   "editor.formatOnSave": true,
   "files.insertFinalNewline": true,
@@ -14,13 +14,15 @@
   "cSpell.words": [
     "Antd",
     "anticon",
-    "biomejs",
     "builtins",
     "colorfy",
     "Faas",
     "faasjs",
     "Millis",
     "onwarn",
+    "oxc",
+    "oxfmt",
+    "oxlint",
     "querystringify",
     "RUNENV",
     "SECRETID",

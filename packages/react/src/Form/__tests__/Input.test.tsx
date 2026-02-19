@@ -31,7 +31,7 @@ describe('FormInput', () => {
 
   const renderWithContext = (
     children: React.ReactElement,
-    props: { values?: any; setValues?: (values: any) => void }
+    props: { values?: any; setValues?: (values: any) => void },
   ) => {
     const providerProps = props.setValues
       ? { values: props.values, setValues: props.setValues }
@@ -76,18 +76,15 @@ describe('FormInput', () => {
           data-testid='custom-input'
           name={name}
           value={value}
-          onChange={e => onChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
         />
       )
     }
 
-    const { getByRole } = renderWithContext(
-      <FormInput name='test' Input={CustomInput} />,
-      {
-        setValues: vi.fn().mockImplementation(v => (values = v(values))),
-        values,
-      }
-    )
+    const { getByRole } = renderWithContext(<FormInput name='test' Input={CustomInput} />, {
+      setValues: vi.fn().mockImplementation((v) => (values = v(values))),
+      values,
+    })
 
     fireEvent.change(getByRole('textbox'), { target: { value: 'changed' } })
 
@@ -102,7 +99,7 @@ describe('FormInput', () => {
       }
 
       const { getByRole } = renderWithContext(<FormInput name='test' />, {
-        setValues: vi.fn().mockImplementation(v => (values = v(values))),
+        setValues: vi.fn().mockImplementation((v) => (values = v(values))),
         values,
       })
 
@@ -117,11 +114,11 @@ describe('FormInput', () => {
       const { getByRole } = renderWithContext(
         <FormInput name='test' rules={{ type: 'string' }} />,
         {
-          setValues: vi.fn().mockImplementation(v => (values = v({}))),
+          setValues: vi.fn().mockImplementation((v) => (values = v({}))),
           values: {
             test: '',
           },
-        }
+        },
       )
 
       fireEvent.change(getByRole('textbox'), { target: { value: 1 } })
@@ -135,11 +132,11 @@ describe('FormInput', () => {
       const { getByRole } = renderWithContext(
         <FormInput name='test' rules={{ type: 'number' }} />,
         {
-          setValues: vi.fn().mockImplementation(v => (values = v({}))),
+          setValues: vi.fn().mockImplementation((v) => (values = v({}))),
           values: {
             test: 0,
           },
-        }
+        },
       )
 
       fireEvent.change(getByRole('textbox'), { target: { value: '123' } })

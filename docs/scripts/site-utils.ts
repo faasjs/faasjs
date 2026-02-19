@@ -90,10 +90,7 @@ export function normalizeRouteForCompare(route: string): string {
   return normalized || '/'
 }
 
-export function extractRoutesFromSitemapXml(
-  xml: string,
-  hostname: string
-): string[] {
+export function extractRoutesFromSitemapXml(xml: string, hostname: string): string[] {
   const routes = new Set<string>()
   const regex = /<loc>([^<]+)<\/loc>/g
 

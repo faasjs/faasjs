@@ -1,11 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  Func,
-  type InvokeData,
-  type MountData,
-  type Next,
-  type Plugin,
-} from '../index'
+import { Func, type InvokeData, type MountData, type Next, type Plugin } from '../index'
 
 describe('plugins', () => {
   it('onMount', async () => {
@@ -44,14 +38,7 @@ describe('plugins', () => {
     })
     results.push('end')
 
-    expect(results).toEqual([
-      'begin',
-      'before1',
-      'before2',
-      'after2',
-      'after1',
-      'end',
-    ])
+    expect(results).toEqual(['begin', 'before1', 'before2', 'after2', 'after1', 'end'])
   })
 
   it('onInvoke', async () => {
@@ -108,14 +95,7 @@ describe('plugins', () => {
     await func.invoke(data)
     results.push('end')
 
-    expect(results).toEqual([
-      'begin',
-      'before1',
-      'before2',
-      'after2',
-      'after1',
-      'end',
-    ])
+    expect(results).toEqual(['begin', 'before1', 'before2', 'after2', 'after1', 'end'])
     expect(data.response).toEqual('baseafter2after1')
   })
 

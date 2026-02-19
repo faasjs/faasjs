@@ -7,7 +7,7 @@ describe('OptionalWrapper', () => {
     const { container } = render(
       <OptionalWrapper condition={false} Wrapper={() => <div />}>
         <span>Test</span>
-      </OptionalWrapper>
+      </OptionalWrapper>,
     )
     expect(container.innerHTML).toBe('<span>Test</span>')
   })
@@ -19,12 +19,10 @@ describe('OptionalWrapper', () => {
     const { container } = render(
       <OptionalWrapper condition={true} Wrapper={Wrapper}>
         <span>Test</span>
-      </OptionalWrapper>
+      </OptionalWrapper>,
     )
     expect(container.querySelector('.wrapper')).not.toBeNull()
-    expect(container.querySelector('.wrapper')?.innerHTML).toBe(
-      '<span>Test</span>'
-    )
+    expect(container.querySelector('.wrapper')?.innerHTML).toBe('<span>Test</span>')
   })
 
   it('should pass wrapperProps to the wrapper component', () => {
@@ -42,11 +40,9 @@ describe('OptionalWrapper', () => {
         wrapperProps={{ className: 'custom-class' }}
       >
         <span>Test</span>
-      </OptionalWrapper>
+      </OptionalWrapper>,
     )
     expect(container.querySelector('.custom-class')).not.toBeNull()
-    expect(container.querySelector('.custom-class')?.innerHTML).toBe(
-      '<span>Test</span>'
-    )
+    expect(container.querySelector('.custom-class')?.innerHTML).toBe('<span>Test</span>')
   })
 })

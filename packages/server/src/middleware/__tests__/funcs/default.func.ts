@@ -6,5 +6,5 @@ export const func = useMiddleware(
     notFound: true,
     stripPrefix: '/default.',
     cache: 'test',
-  })
+  }),
 )

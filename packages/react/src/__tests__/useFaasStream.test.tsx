@@ -225,7 +225,7 @@ describe('useFaasStream', () => {
 
     setMock(() => {
       requestCount++
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         requests.push(resolve)
       }) as any
     })
@@ -237,7 +237,7 @@ describe('useFaasStream', () => {
       return (
         <div>
           <div>{data}</div>
-          <button type='button' onClick={() => setCount(p => p + 1)}>
+          <button type='button' onClick={() => setCount((p) => p + 1)}>
             Add
           </button>
         </div>
@@ -246,7 +246,7 @@ describe('useFaasStream', () => {
 
     render(<Test />)
 
-    await new Promise(resolve => setTimeout(resolve, 250))
+    await new Promise((resolve) => setTimeout(resolve, 250))
 
     requests[0]({
       status: 200,
@@ -254,7 +254,7 @@ describe('useFaasStream', () => {
       headers: { 'Content-Type': 'text/plain' },
     } as Response)
 
-    await new Promise(resolve => setTimeout(resolve, 50))
+    await new Promise((resolve) => setTimeout(resolve, 50))
     expect(screen.queryByText('initial')).toBeDefined()
     expect(requestCount).toBe(1)
 
@@ -262,7 +262,7 @@ describe('useFaasStream', () => {
     await userEvent.click(screen.getByRole('button'))
     await userEvent.click(screen.getByRole('button'))
 
-    await new Promise(resolve => setTimeout(resolve, 250))
+    await new Promise((resolve) => setTimeout(resolve, 250))
 
     requests[1]({
       status: 200,
@@ -270,7 +270,7 @@ describe('useFaasStream', () => {
       headers: { 'Content-Type': 'text/plain' },
     } as Response)
 
-    await new Promise(resolve => setTimeout(resolve, 50))
+    await new Promise((resolve) => setTimeout(resolve, 50))
 
     expect(screen.queryByText('request1')).toBeDefined()
     expect(requestCount).toBe(2)
@@ -311,8 +311,8 @@ describe('useFaasStream', () => {
         'test',
         { hasValue },
         {
-          skip: params => !params.hasValue,
-        }
+          skip: (params) => !params.hasValue,
+        },
       )
 
       return (
@@ -350,7 +350,7 @@ describe('useFaasStream', () => {
         {
           data: 'initial',
           setData: () => {},
-        }
+        },
       )
 
       return <div>{data}</div>

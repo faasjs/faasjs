@@ -24,32 +24,23 @@ export type MiddlewareContext = {
 export type Middleware = (
   request: IncomingMessage & { body?: any },
   response: ServerResponse,
-  context: MiddlewareContext
+  context: MiddlewareContext,
 ) => void | Promise<void>
 
-async function invokeMiddleware(
-  event: MiddlewareEvent,
-  logger: Logger,
-  handler: Middleware
-) {
+async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler: Middleware) {
   const loggerKey = randomUUID()
-  const handlerLogger = new Logger(
-    `${logger.label}] [middleware] [${handler.name || 'uname'}`
-  )
+  const handlerLogger = new Logger(`${logger.label}] [middleware] [${handler.name || 'uname'}`)
   handlerLogger.debug('begin')
   handlerLogger.time(loggerKey, 'debug')
   try {
-    await handler(
-      Object.assign(event.raw.request, { body: event.body }),
-      event.raw.response,
-      { logger: handlerLogger }
-    )
+    await handler(Object.assign(event.raw.request, { body: event.body }), event.raw.response, {
+      logger: handlerLogger,
+    })
   } catch (error) {
     handlerLogger.error('error:', error)
 
     const statusCode = getErrorStatusCode(error)
-    if (statusCode === 500)
-      respondWithJsonError(event.raw.response, 500, getErrorMessage(error))
+    if (statusCode === 500) respondWithJsonError(event.raw.response, 500, getErrorMessage(error))
     else respondWithInternalServerError(event.raw.response)
   } finally {
     handlerLogger.timeEnd(loggerKey, 'end')

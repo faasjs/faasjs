@@ -16,7 +16,7 @@ describe('server/hooks', () => {
     const server = new Server(join(__dirname, 'funcs'), { port, onStart })
     server.listen()
 
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
 
     await server.close()
 
@@ -38,7 +38,7 @@ describe('server/hooks', () => {
     })
     server.listen()
 
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
 
     await server.close()
 
@@ -54,9 +54,9 @@ describe('server/hooks', () => {
     const serverA = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverA.listen()
 
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise((resolve) => setTimeout(resolve, 10))
     const resA = request(`http://127.0.0.1:${port}/timeout`)
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise((resolve) => setTimeout(resolve, 10))
     process.emit('SIGTERM')
 
     expect(await resA).toMatchObject({
@@ -64,7 +64,7 @@ describe('server/hooks', () => {
       body: { data: 'done' },
     })
 
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
 
     await serverA.close()
 
@@ -73,10 +73,10 @@ describe('server/hooks', () => {
     const serverB = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverB.listen()
 
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise((resolve) => setTimeout(resolve, 10))
 
     const resB = request(`http://127.0.0.1:${port}/timeout`)
-    await new Promise(resolve => setTimeout(resolve, 10))
+    await new Promise((resolve) => setTimeout(resolve, 10))
     process.emit('SIGINT')
 
     await expect(resB).resolves.toMatchObject({
@@ -84,7 +84,7 @@ describe('server/hooks', () => {
       body: { data: 'done' },
     })
 
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
 
     await serverB.close()
 

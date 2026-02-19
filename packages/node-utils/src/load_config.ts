@@ -2,8 +2,8 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, sep } from 'node:path'
 import type { Config as FuncConfig } from '@faasjs/func'
 import { Logger } from '@faasjs/logger'
-import { load } from 'js-yaml'
 import { deepMerge } from './deep_merge'
+import { parseYaml } from './parse_yaml'
 
 type YamlConfig = {
   [key: string]: any
@@ -13,66 +13,44 @@ function isObject(value: unknown): value is Record<string, any> {
   return !!value && typeof value === 'object' && !Array.isArray(value)
 }
 
-function createConfigError(
-  filePath: string,
-  keyPath: string,
-  reason: string
-): Error {
-  return Error(
-    `[loadConfig] Invalid faas.yaml ${filePath} at "${keyPath}": ${reason}`
-  )
+function createConfigError(filePath: string, keyPath: string, reason: string): Error {
+  return Error(`[loadConfig] Invalid faas.yaml ${filePath} at "${keyPath}": ${reason}`)
 }
 
-function validateServerConfig(
-  filePath: string,
-  staging: string,
-  server: unknown
-): void {
-  if (!isObject(server))
-    throw createConfigError(filePath, `${staging}.server`, 'must be an object')
+function validateServerConfig(filePath: string, staging: string, server: unknown): void {
+  if (!isObject(server)) throw createConfigError(filePath, `${staging}.server`, 'must be an object')
 
   if (typeof server.root !== 'undefined' && typeof server.root !== 'string')
-    throw createConfigError(
-      filePath,
-      `${staging}.server.root`,
-      'must be a string'
-    )
+    throw createConfigError(filePath, `${staging}.server.root`, 'must be a string')
 
   if (typeof server.base !== 'undefined' && typeof server.base !== 'string')
-    throw createConfigError(
-      filePath,
-      `${staging}.server.base`,
-      'must be a string'
-    )
+    throw createConfigError(filePath, `${staging}.server.base`, 'must be a string')
 }
 
 function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
-  if (typeof config === 'undefined' || config === null)
-    return Object.create(null)
+  if (typeof config === 'undefined' || config === null) return Object.create(null)
 
-  if (!isObject(config))
-    throw createConfigError(filePath, '<root>', 'must be an object')
+  if (!isObject(config)) throw createConfigError(filePath, '<root>', 'must be an object')
 
   for (const staging in config) {
     if (staging === 'types')
       throw createConfigError(
         filePath,
         'types',
-        'has been removed, move related settings out of faas.yaml'
+        'has been removed, move related settings out of faas.yaml',
       )
 
     const stageConfig = config[staging]
 
     if (typeof stageConfig === 'undefined' || stageConfig === null) continue
 
-    if (!isObject(stageConfig))
-      throw createConfigError(filePath, staging, 'must be an object')
+    if (!isObject(stageConfig)) throw createConfigError(filePath, staging, 'must be an object')
 
     if (Object.hasOwn(stageConfig, 'types'))
       throw createConfigError(
         filePath,
         `${staging}.types`,
-        'has been removed, move related settings out of faas.yaml'
+        'has been removed, move related settings out of faas.yaml',
       )
 
     if (Object.hasOwn(stageConfig, 'server'))
@@ -80,10 +58,6 @@ function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
   }
 
   return config
-}
-
-function readFaasYaml(filePath: string): YamlConfig {
-  return validateFaasYaml(filePath, load(readFileSync(filePath).toString()))
 }
 
 function assignPluginNames(config: FuncConfig): void {
@@ -110,9 +84,7 @@ export class Config {
   private logger: Logger
 
   constructor(root: string, filename: string, logger?: Logger) {
-    this.logger = new Logger(
-      logger?.label ? `${logger.label}] [config` : 'config'
-    )
+    this.logger = new Logger(logger?.label ? `${logger.label}] [config` : 'config')
 
     this.root = root
 
@@ -124,9 +96,7 @@ export class Config {
 
     const configs: { [key: string]: FuncConfig }[] = []
 
-    const paths = [this.root, '.'].concat(
-      dirname(filename.replace(root, '')).split(sep)
-    )
+    const paths = [this.root, '.'].concat(dirname(filename.replace(root, '')).split(sep))
 
     let base = paths[0]
     for (const path of paths.slice(1)) {
@@ -134,7 +104,8 @@ export class Config {
       if (currentRoot === base) continue
 
       const faas = join(currentRoot, 'faas.yaml')
-      if (existsSync(faas)) configs.push(readFaasYaml(faas))
+      if (existsSync(faas))
+        configs.push(validateFaasYaml(faas, parseYaml(readFileSync(faas, 'utf8'))))
 
       base = currentRoot
     }
@@ -144,10 +115,7 @@ export class Config {
     this.defaults = deepMerge(this.origin.defaults || {})
 
     for (const key in this.origin) {
-      const data =
-        key === 'defaults'
-          ? this.defaults
-          : deepMerge(this.defaults, this.origin[key])
+      const data = key === 'defaults' ? this.defaults : deepMerge(this.defaults, this.origin[key])
 
       if (key !== 'defaults') this[key] = data
 
@@ -167,7 +135,7 @@ export function loadConfig(
   root: string,
   filename: string,
   staging: string,
-  logger?: Logger
+  logger?: Logger,
 ): FuncConfig {
   return new Config(root, filename, logger).get(staging)
 }

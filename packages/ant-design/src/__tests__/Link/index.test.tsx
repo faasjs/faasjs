@@ -10,7 +10,7 @@ describe('Link', () => {
     render(
       <BrowserRouter>
         <Link href='/test' text='text' />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
 
     expect(screen.getByText('text')).toBeDefined()
@@ -24,7 +24,7 @@ describe('Link', () => {
     const { container } = render(
       <BrowserRouter>
         <Link href='/' text='text' block />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
 
     const link = container.querySelector('a')
@@ -40,7 +40,7 @@ describe('Link', () => {
         <BrowserRouter>
           <Link href='/' text='text' />
         </BrowserRouter>
-      </ConfigProvider>
+      </ConfigProvider>,
     )
 
     const link = container.querySelector('a')
@@ -53,7 +53,7 @@ describe('Link', () => {
     const { container } = render(
       <BrowserRouter>
         <Link href='/' text='text' copyable />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
 
     expect(container.querySelector('.ant-typography-copy')).toBeDefined()
@@ -63,7 +63,7 @@ describe('Link', () => {
     const { container } = render(
       <BrowserRouter>
         <Link href='/' text='text' target='_blank' />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
 
     expect(container.querySelector('[target="_blank"]')).toBeDefined()
@@ -75,7 +75,7 @@ describe('Link', () => {
         <BrowserRouter>
           <Link href='/' text='text' />
         </BrowserRouter>
-      </ConfigProvider>
+      </ConfigProvider>,
     )
 
     expect(container.querySelector('[target="_blank"]')).toBeDefined()
@@ -87,7 +87,7 @@ describe('Link', () => {
     render(
       <BrowserRouter>
         <Link href='/' text='text' onClick={() => (called = true)} />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
 
     await userEvent.click(screen.getByText('text'))
@@ -102,7 +102,7 @@ describe('Link', () => {
     const { container } = render(
       <BrowserRouter>
         <Link href='http://test.com' text='text' />
-      </BrowserRouter>
+      </BrowserRouter>,
     )
 
     expect(container.querySelector('[target="_blank"]')).toBeDefined()
@@ -124,7 +124,7 @@ describe('Link', () => {
         <Link href='http://testtest.com'>
           <div>Child</div>
         </Link>
-      </BrowserRouter>
+      </BrowserRouter>,
     )
 
     await userEvent.click(screen.getByText('Child'))
@@ -140,7 +140,7 @@ describe('Link', () => {
       const { container } = render(
         <BrowserRouter>
           <Link href='/' text='text' button />
-        </BrowserRouter>
+        </BrowserRouter>,
       )
 
       expect(container.querySelector('button.ant-btn')).toBeDefined()
@@ -152,7 +152,7 @@ describe('Link', () => {
       render(
         <BrowserRouter>
           <Link href='/' text='text' onClick={() => (called = true)} button />
-        </BrowserRouter>
+        </BrowserRouter>,
       )
 
       await userEvent.click(screen.getByText('text'))
@@ -167,7 +167,7 @@ describe('Link', () => {
       render(
         <BrowserRouter>
           <Link href='http://test.com' text='text' button />
-        </BrowserRouter>
+        </BrowserRouter>,
       )
 
       await userEvent.click(screen.getByText('text'))

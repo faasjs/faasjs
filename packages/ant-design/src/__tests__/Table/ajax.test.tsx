@@ -34,13 +34,7 @@ describe('Table/ajax', () => {
   })
 
   it('with faas', async () => {
-    render(
-      <Table
-        rowKey='test'
-        items={[{ id: 'test' }]}
-        faasData={{ action: 'test' }}
-      />
-    )
+    render(<Table rowKey='test' items={[{ id: 'test' }]} faasData={{ action: 'test' }} />)
 
     expect(await screen.findByText('Test')).toBeDefined()
     expect(await screen.findByText('value1')).toBeDefined()

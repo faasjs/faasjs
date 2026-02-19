@@ -4,35 +4,33 @@ import { FormDefaultRules, validValues } from '../rules'
 
 describe('validValues', () => {
   describe('required', () => {
-    it.each([
-      ['string'],
-      [0],
-    ])('should return undefined if the field is not required and the value is %s', async value => {
-      const result = await validValues(
-        FormDefaultRules,
-        [{ name: 'test', rules: { required: true } }],
-        { test: value },
-        FormDefaultLang
-      )
+    it.each([['string'], [0]])(
+      'should return undefined if the field is not required and the value is %s',
+      async (value) => {
+        const result = await validValues(
+          FormDefaultRules,
+          [{ name: 'test', rules: { required: true } }],
+          { test: value },
+          FormDefaultLang,
+        )
 
-      expect(result).toEqual({})
-    })
+        expect(result).toEqual({})
+      },
+    )
 
-    it.each([
-      [undefined],
-      [null],
-      [''],
-      [Number.NaN],
-    ])('should return an error if the field is required and the value is %s', async value => {
-      const result = await validValues(
-        FormDefaultRules,
-        [{ name: 'test', rules: { required: true } }],
-        { test: value },
-        FormDefaultLang
-      )
+    it.each([[undefined], [null], [''], [Number.NaN]])(
+      'should return an error if the field is required and the value is %s',
+      async (value) => {
+        const result = await validValues(
+          FormDefaultRules,
+          [{ name: 'test', rules: { required: true } }],
+          { test: value },
+          FormDefaultLang,
+        )
 
-      expect(result).toEqual({ test: Error('This field is required') })
-    })
+        expect(result).toEqual({ test: Error('This field is required') })
+      },
+    )
   })
 
   describe('type is string', () => {
@@ -41,28 +39,27 @@ describe('validValues', () => {
         FormDefaultRules,
         [{ name: 'test', rules: { type: 'string' } }],
         { test: '' },
-        FormDefaultLang
+        FormDefaultLang,
       )
 
       expect(result).toEqual({})
     })
 
-    it.each([
-      [0],
-      [123],
-      [Number.NaN],
-    ])('should return an error if the field type is string and the value is %s', async value => {
-      const result = await validValues(
-        FormDefaultRules,
-        [{ name: 'test', rules: { type: 'string' } }],
-        { test: value },
-        FormDefaultLang
-      )
+    it.each([[0], [123], [Number.NaN]])(
+      'should return an error if the field type is string and the value is %s',
+      async (value) => {
+        const result = await validValues(
+          FormDefaultRules,
+          [{ name: 'test', rules: { type: 'string' } }],
+          { test: value },
+          FormDefaultLang,
+        )
 
-      expect(result).toEqual({
-        test: Error('This field must be a string'),
-      })
-    })
+        expect(result).toEqual({
+          test: Error('This field must be a string'),
+        })
+      },
+    )
   })
 
   describe('type is number', () => {
@@ -71,27 +68,27 @@ describe('validValues', () => {
         FormDefaultRules,
         [{ name: 'test', rules: { type: 'number' } }],
         { test: 1 },
-        FormDefaultLang
+        FormDefaultLang,
       )
 
       expect(result).toEqual({})
     })
 
-    it.each([
-      ['not a number'],
-      [Number.NaN],
-    ])('should return an error if the field type is number and the value is %s', async value => {
-      const result = await validValues(
-        FormDefaultRules,
-        [{ name: 'test', rules: { type: 'number' } }],
-        { test: value },
-        FormDefaultLang
-      )
+    it.each([['not a number'], [Number.NaN]])(
+      'should return an error if the field type is number and the value is %s',
+      async (value) => {
+        const result = await validValues(
+          FormDefaultRules,
+          [{ name: 'test', rules: { type: 'number' } }],
+          { test: value },
+          FormDefaultLang,
+        )
 
-      expect(result).toEqual({
-        test: Error('This field must be a number'),
-      })
-    })
+        expect(result).toEqual({
+          test: Error('This field must be a number'),
+        })
+      },
+    )
   })
 
   it('should return the result of the custom validation function', async () => {
@@ -101,7 +98,7 @@ describe('validValues', () => {
       FormDefaultRules,
       [{ name: 'test', rules: { custom: customValidation } }],
       { test: value },
-      FormDefaultLang
+      FormDefaultLang,
     )
 
     expect(result).toEqual({ test: Error('Custom error') })
@@ -113,7 +110,7 @@ describe('validValues', () => {
       FormDefaultRules,
       [{ name: 'test', rules: {} }],
       { test: '' },
-      FormDefaultLang
+      FormDefaultLang,
     )
 
     expect(result).toEqual({})

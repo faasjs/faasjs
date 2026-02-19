@@ -1,14 +1,29 @@
 {
   "name": "@faasjs/dev",
   "version": "8.0.0-beta.8",
+  "homepage": "https://faasjs.com/doc/dev",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/dev"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "bin": {
+    "faas": "faas.mjs"
+  },
+  "files": [
+    "dist",
+    "faas.mjs",
+    "configs"
+  ],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "bin": {
-    "faas": "faas.mjs"
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -16,34 +31,8 @@
       "require": "./dist/index.cjs"
     }
   },
-  "homepage": "https://faasjs.com/doc/dev",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/faasjs/faasjs.git",
-    "directory": "packages/dev"
-  },
-  "bugs": {
-    "url": "https://github.com/faasjs/faasjs/issues"
-  },
-  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "build": "tsdown --entry src/index.ts --entry src/cli/index.ts --config ../../tsdown.config.ts"
-  },
-  "files": [
-    "dist",
-    "faas.mjs"
-  ],
-  "peerDependencies": {
-    "@faasjs/func": ">=8.0.0-beta.8",
-    "@faasjs/http": ">=8.0.0-beta.8",
-    "@faasjs/knex": ">=8.0.0-beta.8",
-    "@faasjs/logger": ">=8.0.0-beta.8",
-    "@faasjs/node-utils": ">=8.0.0-beta.8",
-    "@faasjs/server": ">=8.0.0-beta.8",
-    "@types/node": "*",
-    "knex": "*",
-    "vite": "*",
-    "vitest": "*"
   },
   "devDependencies": {
     "@faasjs/func": ">=8.0.0-beta.8",
@@ -54,6 +43,22 @@
     "@faasjs/server": ">=8.0.0-beta.8",
     "@types/node": "*",
     "knex": "*",
+    "oxfmt": "*",
+    "oxlint": "*",
+    "vite": "*",
+    "vitest": "*"
+  },
+  "peerDependencies": {
+    "@faasjs/func": ">=8.0.0-beta.8",
+    "@faasjs/http": ">=8.0.0-beta.8",
+    "@faasjs/knex": ">=8.0.0-beta.8",
+    "@faasjs/logger": ">=8.0.0-beta.8",
+    "@faasjs/node-utils": ">=8.0.0-beta.8",
+    "@faasjs/server": ">=8.0.0-beta.8",
+    "@types/node": "*",
+    "knex": "*",
+    "oxfmt": "*",
+    "oxlint": "*",
     "vite": "*",
     "vitest": "*"
   },

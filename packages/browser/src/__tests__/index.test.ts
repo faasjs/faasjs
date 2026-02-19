@@ -1,11 +1,6 @@
 import type { FaasActions } from '@faasjs/types'
 import { assertType, beforeEach, describe, expect, it, vi } from 'vitest'
-import {
-  FaasBrowserClient,
-  Response as FaasResponse,
-  type Response,
-  ResponseError,
-} from '..'
+import { FaasBrowserClient, Response as FaasResponse, type Response, ResponseError } from '..'
 
 let request: {
   url: string
@@ -83,9 +78,7 @@ describe('client', () => {
     const client = new FaasBrowserClient('/', {
       request: (_, options) => {
         return new Promise((resolve, reject) => {
-          JSON.parse(options.body as any).success
-            ? resolve(resData)
-            : reject('error')
+          JSON.parse(options.body as any).success ? resolve(resData) : reject('error')
         })
       },
     })
@@ -93,26 +86,22 @@ describe('client', () => {
     const response = await client.action('/success', { success: true })
 
     expect(response.data).toEqual(response.data)
-    await expect(client.action('/error', { success: false })).rejects.toEqual(
-      'error'
-    )
+    await expect(client.action('/error', { success: false })).rejects.toEqual('error')
   })
 
   it('when error', async () => {
-    window.fetch = vi.fn(
-      async (url: RequestInfo | URL, options: RequestInit) => {
-        request = {
-          url: String(url),
-          method: options.method ?? '',
-          ...(options.headers ? { headers: options.headers } : {}),
-        }
-        return Promise.resolve({
-          status: 500,
-          headers: new Map(),
-          text: async () => Promise.resolve('{"error":{"message":"no"}}'),
-        }) as unknown as Promise<Response>
+    window.fetch = vi.fn(async (url: RequestInfo | URL, options: RequestInit) => {
+      request = {
+        url: String(url),
+        method: options.method ?? '',
+        ...(options.headers ? { headers: options.headers } : {}),
       }
-    ) as any
+      return Promise.resolve({
+        status: 500,
+        headers: new Map(),
+        text: async () => Promise.resolve('{"error":{"message":"no"}}'),
+      }) as unknown as Promise<Response>
+    }) as any
 
     const client = new FaasBrowserClient('/')
 
@@ -144,17 +133,17 @@ describe('types', () => {
 
     assertType<FaasResponse<any>>(await client.action('/', {}))
     assertType<FaasResponse<{ value: number }>>(
-      await client.action<{ value: number }>('/', { value: 1 })
+      await client.action<{ value: number }>('/', { value: 1 }),
     )
     assertType<FaasResponse<FaasActions['/type']['Data']>>(
-      await client.action('/type', { key: 'key' })
+      await client.action('/type', { key: 'key' }),
     )
     assertType<string>(
-      await client.action('/type', { key: 'key' }).then(res => {
+      await client.action('/type', { key: 'key' }).then((res) => {
         if (!res.data) throw new Error('missing data')
 
         return res.data.value
-      })
+      }),
     )
   })
 })

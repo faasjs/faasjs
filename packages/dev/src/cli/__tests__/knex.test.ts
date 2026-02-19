@@ -105,7 +105,7 @@ describe('faas knex cli', () => {
     expect(mocks.loadConfig).toHaveBeenCalledWith(
       `${process.cwd()}/src`,
       `${process.cwd()}/src/index.func.ts`,
-      'development'
+      'development',
     )
     expect(mocks.useKnex).toHaveBeenCalledWith({
       config: {
@@ -121,14 +121,7 @@ describe('faas knex cli', () => {
     const customRoot = '/tmp/custom-root'
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
-    const code = await main([
-      'node',
-      'faas',
-      'knex',
-      'status',
-      '--root',
-      customRoot,
-    ])
+    const code = await main(['node', 'faas', 'knex', 'status', '--root', customRoot])
 
     expect(code).toBe(0)
     expect(mocks.resolveServerConfig).toHaveBeenCalledWith(customRoot)
@@ -173,9 +166,7 @@ describe('faas knex cli', () => {
   })
 
   it('should return error for unknown action', async () => {
-    const errorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => undefined)
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 
     const code = await main(['node', 'faas', 'knex', 'unknown'])
 
@@ -184,15 +175,13 @@ describe('faas knex cli', () => {
   })
 
   it('should return error when migration name is missing', async () => {
-    const errorSpy = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => undefined)
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 
     const code = await main(['node', 'faas', 'knex', 'make'])
 
     expect(code).toBe(1)
     expect(errorSpy).toHaveBeenCalledWith(
-      '[faas knex] Missing migration name. Usage: faas knex make create_users'
+      '[faas knex] Missing migration name. Usage: faas knex make create_users',
     )
   })
 })

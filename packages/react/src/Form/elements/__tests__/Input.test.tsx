@@ -6,7 +6,7 @@ describe('FormInputElement', () => {
   it('renders input element and handles change', () => {
     const handleChange = vi.fn()
     const { getByRole } = render(
-      <FormInputElement name='test' value='initial' onChange={handleChange} />
+      <FormInputElement name='test' value='initial' onChange={handleChange} />,
     )
     const input = getByRole('textbox') as HTMLInputElement
 

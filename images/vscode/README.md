@@ -31,19 +31,17 @@
 1. Create a folder `.devcontainer` in your project root.
 2. Create `devcontainer.json` in `.devcontainer` folder.
 3. Copy below code into `devcontainer.json`:
+
 ```json
 {
-	"name": "dev",
-	"image": "faasjs/vscode",
-	"extensions": [
-		"eamodio.gitlens",
-    "faasjs.faasjs-snippets",
-    "biomejs.biome"
-	],
-	"settings": {
-		"terminal.integrated.shell.linux": "/bin/zsh"
-	}
+  "name": "dev",
+  "image": "faasjs/vscode",
+  "extensions": ["eamodio.gitlens", "faasjs.faasjs-snippets", "oxc.oxc-vscode"],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/zsh"
+  }
 }
 ```
+
 4. Open your project with VSCode.
 5. Click popup window with `Remote-Containers: Reopen in Container`.

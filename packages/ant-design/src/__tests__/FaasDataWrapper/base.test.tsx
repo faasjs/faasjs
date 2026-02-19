@@ -25,19 +25,16 @@ describe('FaasDataWrapper', () => {
       <FaasDataWrapper<{ test: string }>
         action='test'
         render={({ data }) => <div>{data.test}</div>}
-      />
+      />,
     )
 
     expect(await screen.findByText('value')).toBeDefined()
   })
 
   it('using withFaasData', async () => {
-    const App = withFaasData<{ test: string }>(
-      props => <div>{props.data.test}</div>,
-      {
-        action: 'test',
-      }
-    )
+    const App = withFaasData<{ test: string }>((props) => <div>{props.data.test}</div>, {
+      action: 'test',
+    })
 
     render(<App />)
 

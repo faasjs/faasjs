@@ -46,25 +46,13 @@ function getGlobalKnexAdapters(): Record<string, Knex | MountedKnexAdapter> {
 export async function initPostgresTypeParsers() {
   const pg = await loadPackage<typeof import('pg')>('pg')
 
-  pg.types.setTypeParser(pg.types.builtins.INT2, (v: string) =>
-    Number.parseInt(v, 10)
-  )
-  pg.types.setTypeParser(pg.types.builtins.INT4, (v: string) =>
-    Number.parseInt(v, 10)
-  )
-  pg.types.setTypeParser(pg.types.builtins.INT8, (v: string) =>
-    Number.parseInt(v, 10)
-  )
+  pg.types.setTypeParser(pg.types.builtins.INT2, (v: string) => Number.parseInt(v, 10))
+  pg.types.setTypeParser(pg.types.builtins.INT4, (v: string) => Number.parseInt(v, 10))
+  pg.types.setTypeParser(pg.types.builtins.INT8, (v: string) => Number.parseInt(v, 10))
 
-  pg.types.setTypeParser(pg.types.builtins.FLOAT4, (v: string) =>
-    Number.parseFloat(v)
-  )
-  pg.types.setTypeParser(pg.types.builtins.FLOAT8, (v: string) =>
-    Number.parseFloat(v)
-  )
-  pg.types.setTypeParser(pg.types.builtins.NUMERIC, (v: string) =>
-    Number.parseFloat(v)
-  )
+  pg.types.setTypeParser(pg.types.builtins.FLOAT4, (v: string) => Number.parseFloat(v))
+  pg.types.setTypeParser(pg.types.builtins.FLOAT8, (v: string) => Number.parseFloat(v))
+  pg.types.setTypeParser(pg.types.builtins.NUMERIC, (v: string) => Number.parseFloat(v))
 }
 
 export class Knex implements Plugin {
@@ -108,31 +96,24 @@ export class Knex implements Plugin {
           if (key.startsWith('connection_')) {
             if (typeof this.config.connection === 'string') continue
 
-            if (
-              !this.config.connection ||
-              typeof this.config.connection !== 'object'
-            ) {
+            if (!this.config.connection || typeof this.config.connection !== 'object') {
               this.config.connection = Object.create(null)
             }
-            ;(this.config as any).connection[key.replace('connection_', '')] =
-              value
+            ;(this.config as any).connection[key.replace('connection_', '')] = value
           } else (this.config as any)[key] = value
       }
 
     if (data.config.plugins?.[this.name || this.type]?.config)
-      this.config = deepMerge(
-        data.config.plugins[this.name || this.type].config,
-        this.config
-      )
+      this.config = deepMerge(data.config.plugins[this.name || this.type].config, this.config)
 
     if (this.config.client === 'pglite') {
-      const connectionEnvKeys = Object.keys(process.env).filter(key =>
-        key.startsWith(`${prefix}CONNECTION_`)
+      const connectionEnvKeys = Object.keys(process.env).filter((key) =>
+        key.startsWith(`${prefix}CONNECTION_`),
       )
 
       if (connectionEnvKeys.length)
         throw Error(
-          `[Knex] Invalid "pglite" env keys: ${connectionEnvKeys.join(', ')}. Use ${prefix}CONNECTION instead.`
+          `[Knex] Invalid "pglite" env keys: ${connectionEnvKeys.join(', ')}. Use ${prefix}CONNECTION instead.`,
         )
 
       this.adapter = await createPgliteKnex(this.config)
@@ -153,7 +134,7 @@ export class Knex implements Plugin {
               acquireTimeoutMillis: 5000,
               idleTimeoutMillis: 30000,
             },
-            this.config.pool
+            this.config.pool,
           )
 
           if (
@@ -165,9 +146,7 @@ export class Knex implements Plugin {
         default:
           if (typeof this.config.client === 'string') {
             if (this.config.client.startsWith('npm:')) {
-              const client = await loadPackage<any>(
-                this.config.client.replace('npm:', '')
-              )
+              const client = await loadPackage<any>(this.config.client.replace('npm:', ''))
 
               if (!client) throw Error(`Invalid client: ${this.config.client}`)
 
@@ -199,12 +178,7 @@ export class Knex implements Plugin {
         if (!__knexQueryUid) return
 
         this.logger.time(`Knex${this.name}${__knexQueryUid}`)
-        this.logger.debug(
-          '[%s] query begin: %s %j',
-          __knexQueryUid,
-          sql,
-          bindings
-        )
+        this.logger.debug('[%s] query begin: %s %j', __knexQueryUid, sql, bindings)
       })
       .on('query-response', (response, { sql, __knexQueryUid, bindings }) => {
         if (!__knexQueryUid) return
@@ -215,7 +189,7 @@ export class Knex implements Plugin {
           __knexQueryUid,
           sql,
           bindings,
-          response
+          response,
         )
       })
       .on('query-error', (_, { __knexQueryUid, sql, bindings }) => {
@@ -226,7 +200,7 @@ export class Knex implements Plugin {
           '[%s] query failed: %s %j',
           __knexQueryUid,
           sql,
-          bindings
+          bindings,
         )
       })
 
@@ -244,7 +218,7 @@ export class Knex implements Plugin {
 
   public async raw<TResult = any>(
     sql: string,
-    bindings: OriginKnex.RawBinding[] | OriginKnex.ValueDict = []
+    bindings: OriginKnex.RawBinding[] | OriginKnex.ValueDict = [],
   ): Promise<OriginKnex.Raw<TResult>> {
     if (!this.adapter) throw Error('[Knex] Client not initialized.')
 
@@ -261,7 +235,7 @@ export class Knex implements Plugin {
     config?: OriginKnex.TransactionConfig,
     options?: {
       trx?: OriginKnex.Transaction
-    }
+    },
   ): Promise<TResult> {
     if (!this.adapter) throw Error(`[${this.name}] Client not initialized.`)
 
@@ -323,7 +297,7 @@ export function useKnex(config?: KnexConfig): UseifyPlugin<Knex> {
 }
 
 export function query<TName extends OriginKnex.TableNames>(
-  table: TName
+  table: TName,
 ): OriginKnex.QueryBuilder<
   OriginKnex.TableType<TName>,
   {
@@ -339,14 +313,14 @@ export function query<TName extends OriginKnex.TableNames>(
   }[]
 >
 export function query<TName extends {} = any, TResult = any[]>(
-  table: string
+  table: string,
 ): OriginKnex.QueryBuilder<TName, TResult>
 export function query<
   // biome-ignore lint/complexity/noBannedTypes: <explanation>
   TName extends OriginKnex.TableNames | {} = any,
   TResult = any[],
 >(
-  table: TName extends OriginKnex.TableNames ? TName : string
+  table: TName extends OriginKnex.TableNames ? TName : string,
 ): TName extends OriginKnex.TableNames
   ? OriginKnex.QueryBuilder<
       OriginKnex.TableType<TName>,
@@ -363,16 +337,11 @@ export function query<
       }[]
     >
   : OriginKnex.QueryBuilder<TName, TResult> {
-  return useKnex().query<TName, TResult>(
-    table
-  ) as TName extends OriginKnex.TableNames
+  return useKnex().query<TName, TResult>(table) as TName extends OriginKnex.TableNames
     ? OriginKnex.QueryBuilder<
         OriginKnex.TableType<TName>,
         {
-          _base: OriginKnex.ResolveTableType<
-            OriginKnex.TableType<TName>,
-            'base'
-          >
+          _base: OriginKnex.ResolveTableType<OriginKnex.TableType<TName>, 'base'>
           _hasSelection: false
           _keys: never
           // biome-ignore lint/complexity/noBannedTypes: <explanation>
@@ -391,14 +360,14 @@ export async function transaction<TResult = any>(
   config?: OriginKnex.TransactionConfig,
   options?: {
     trx?: OriginKnex.Transaction
-  }
+  },
 ): Promise<TResult> {
   return useKnex().transaction<TResult>(scope, config, options)
 }
 
 export async function raw<TResult = any>(
   sql: string,
-  bindings: OriginKnex.RawBinding[] | OriginKnex.ValueDict = []
+  bindings: OriginKnex.RawBinding[] | OriginKnex.ValueDict = [],
 ): Promise<OriginKnex.Raw<TResult>> {
   return useKnex().raw<TResult>(sql, bindings)
 }

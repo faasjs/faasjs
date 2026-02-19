@@ -20,9 +20,7 @@ describe('http', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"data":1}'
-    )
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":1}')
   })
 
   it('with config name', async () => {
@@ -46,9 +44,7 @@ describe('http', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"data":1}'
-    )
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":1}')
   })
 
   it('throw error', async () => {
@@ -65,7 +61,7 @@ describe('http', () => {
     expect(res.statusCode).toEqual(500)
     expect(res.body).toBeInstanceOf(ReadableStream)
     expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"error":{"message":"wrong"}}'
+      '{"error":{"message":"wrong"}}',
     )
   })
 
@@ -86,7 +82,7 @@ describe('http', () => {
     expect(res.statusCode).toEqual(400)
     expect(res.body).toBeInstanceOf(ReadableStream)
     expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"error":{"message":"wrong"}}'
+      '{"error":{"message":"wrong"}}',
     )
   })
 })

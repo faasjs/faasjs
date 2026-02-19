@@ -1,0 +1,16 @@
+{
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "semi": false,
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/build/**",
+    "**/coverage/**",
+    "**/.vercel/**",
+    "**/.nuxt/**",
+    "**/.output/**",
+    "**/.vuepress/**",
+    "**/.vitepress/**",
+    "**/.turbo/**"
+  ]
+}

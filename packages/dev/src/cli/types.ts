@@ -27,7 +27,7 @@ export async function run(args: string[]): Promise<number> {
   const result = await generateFaasTypes(options)
 
   console.log(
-    `[faas types] ${result.changed ? 'Generated' : 'Up to date'} ${result.output} (${result.routeCount} routes from ${result.fileCount} files)`
+    `[faas types] ${result.changed ? 'Generated' : 'Up to date'} ${result.output} (${result.routeCount} routes from ${result.fileCount} files)`,
   )
 
   return 0

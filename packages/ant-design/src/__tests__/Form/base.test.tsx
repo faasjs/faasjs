@@ -17,20 +17,20 @@ describe('if', () => {
         items={[
           { id: 'true', if: () => true },
           { id: 'false', if: () => false },
-          { id: 'condition', if: values => !!values.true },
+          { id: 'condition', if: (values) => !!values.true },
           {
             id: 'object',
             type: 'object',
-            if: values => !!values.true,
+            if: (values) => !!values.true,
             object: [
               {
                 id: 'object-condition',
-                if: values => values.true === 'test',
+                if: (values) => values.true === 'test',
               },
             ],
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('True')).not.toBeNull()
@@ -51,20 +51,20 @@ describe('if', () => {
         items={[
           { id: 'true', if: () => true },
           { id: 'false', if: () => false },
-          { id: 'condition', if: values => !!values.true },
+          { id: 'condition', if: (values) => !!values.true },
           {
             id: 'object',
             type: 'object',
-            if: values => !!values.true,
+            if: (values) => !!values.true,
             object: [
               {
                 id: 'object-condition',
-                if: values => values.true === 'test',
+                if: (values) => values.true === 'test',
               },
             ],
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('True')).not.toBeNull()

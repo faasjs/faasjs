@@ -1,15 +1,18 @@
 {
   "name": "faasjs-mono",
   "version": "8.0.0-beta.8",
-  "type": "module",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "type": "module",
   "scripts": {
     "test": "vitest run",
     "pub": "npm run build && npm run build:doc && node publish.ts",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log .turbo",
     "build": "npm run lint && npm run clean && npm exec turbo build && rm -f packages/*/dist/*.d.cts",
     "build:doc": "node build-docs.ts",
-    "lint": "tsc --noEmit && biome check . --write",
+    "lint": "oxfmt -c packages/dev/configs/oxfmt.base.json . && oxlint -c packages/dev/configs/oxlint.base.json --fix .",
     "ci": "vitest run --silent --coverage"
   },
   "devDependencies": {
@@ -20,6 +23,8 @@
     "@vitejs/plugin-react": "*",
     "@vitest/coverage-v8": "*",
     "jsdom": "*",
+    "oxfmt": "*",
+    "oxlint": "*",
     "tsdown": "*",
     "turbo": "*",
     "typedoc": "*",
@@ -30,12 +35,9 @@
   "overrides": {
     "vite": "npm:vite@8.0.0-beta.14"
   },
-  "workspaces": [
-    "packages/*"
-  ],
-  "packageManager": "npm@11.8.0",
   "engines": {
     "node": ">=24.0.0",
     "npm": ">=11.0.0"
-  }
+  },
+  "packageManager": "npm@11.8.0"
 }

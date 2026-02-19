@@ -19,7 +19,7 @@ describe('FormItem string[]', () => {
             },
           ]}
         />
-      </Form>
+      </Form>,
     )
 
     expect(container.getElementsByClassName('ant-select').length).toEqual(1)
@@ -34,7 +34,7 @@ describe('FormItem string[]', () => {
     const { container } = render(
       <Form>
         <FormItem id='test' type='string[]' options={['value']} />
-      </Form>
+      </Form>,
     )
 
     expect(container.getElementsByClassName('ant-select').length).toEqual(1)
@@ -50,7 +50,7 @@ describe('FormItem string[]', () => {
       const { container } = render(
         <Form>
           <FormItem id='test' type='string[]' />
-        </Form>
+        </Form>,
       )
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
@@ -60,9 +60,7 @@ describe('FormItem string[]', () => {
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
       expect(container.getElementsByClassName('ant-input').length).toEqual(2)
-      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(
-        1
-      )
+      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(1)
     })
 
     it('with maxCount', async () => {
@@ -70,7 +68,7 @@ describe('FormItem string[]', () => {
       const { container } = render(
         <Form>
           <FormItem id='test' type='string[]' maxCount={2} />
-        </Form>
+        </Form>,
       )
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
@@ -80,9 +78,7 @@ describe('FormItem string[]', () => {
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
       expect(container.getElementsByClassName('ant-input').length).toEqual(2)
-      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(
-        0
-      )
+      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(0)
     })
   })
 
@@ -92,23 +88,17 @@ describe('FormItem string[]', () => {
       const { container } = render(
         <Form>
           <FormItem id='test' type='string[]' />
-        </Form>
+        </Form>,
       )
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(1)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(1)
       expect(container.getElementsByClassName('ant-input').length).toEqual(1)
 
-      await user.click(
-        container.getElementsByClassName('anticon-minus-circle')[0]
-      )
+      await user.click(container.getElementsByClassName('anticon-minus-circle')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(0)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
       expect(container.getElementsByClassName('ant-input').length).toEqual(0)
     })
 
@@ -117,30 +107,22 @@ describe('FormItem string[]', () => {
       const { container } = render(
         <Form>
           <FormItem id='test' type='string[]' required />
-        </Form>
+        </Form>,
       )
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(0)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
       expect(container.getElementsByClassName('ant-input').length).toEqual(1)
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(1)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(1)
       expect(container.getElementsByClassName('ant-input').length).toEqual(2)
 
-      await user.click(
-        container.getElementsByClassName('anticon-minus-circle')[0]
-      )
+      await user.click(container.getElementsByClassName('anticon-minus-circle')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(0)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
       expect(container.getElementsByClassName('ant-input').length).toEqual(1)
     })
   })

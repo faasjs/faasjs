@@ -1,22 +1,21 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { loadPackage, resetRuntime } from '../load_package'
+import { detectNodeRuntime, loadPackage, resetRuntime } from '../load_package'
 
 describe('loadPackage', () => {
   let originalRequire: any
-  let originalImportMeta: any
+  let originalProcess: any
 
   beforeEach(() => {
     originalRequire = globalThis.require
-    // @ts-expect-error
-    originalImportMeta = globalThis.import?.meta || {}
+    originalProcess = globalThis.process
     vi.resetModules()
     resetRuntime()
   })
 
   afterEach(() => {
     globalThis.require = originalRequire
-    // @ts-expect-error
-    globalThis.import = { meta: originalImportMeta }
+    globalThis.process = originalProcess
+    resetRuntime()
   })
 
   it('should load a module', async () => {
@@ -44,5 +43,24 @@ describe('loadPackage', () => {
     })
     const result = await loadPackage('my-module', ['default', 'test'])
     expect(result).toBe('my-module-default')
+  })
+
+  it('should load esm module when require is unavailable', async () => {
+    // @ts-expect-error
+    globalThis.require = undefined
+
+    const path = await import('node:path')
+    const result = await loadPackage<string>('node:path', 'sep')
+
+    expect(result).toBe(path.sep)
+  })
+
+  it('should throw when runtime cannot be detected', () => {
+    // @ts-expect-error
+    globalThis.require = undefined
+    // @ts-expect-error
+    globalThis.process = undefined
+
+    expect(() => detectNodeRuntime()).toThrow('Unknown runtime')
   })
 })

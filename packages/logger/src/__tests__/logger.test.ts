@@ -22,15 +22,13 @@ describe('logger', () => {
     logger.level = 'debug'
     logger[level as Level]('message')
 
-    expect(lastOutput).toContain(
-      `\u001b[0${color}m${level.toUpperCase()} message\u001b[39m`
-    )
+    expect(lastOutput).toContain(`\u001b[0${color}m${level.toUpperCase()} message\u001b[39m`)
 
     logger.label = 'label'
     logger[level as Level]('message')
 
     expect(lastOutput).toContain(
-      `\u001b[0${color}m${level.toUpperCase()} [label] message\u001b[39m`
+      `\u001b[0${color}m${level.toUpperCase()} [label] message\u001b[39m`,
     )
   })
 
@@ -58,14 +56,14 @@ describe('logger', () => {
     logger.level = 'debug'
     logger.time('key')
 
-    await new Promise(resolve =>
+    await new Promise((resolve) =>
       setTimeout(() => {
         logger.timeEnd('key', 'message')
 
         expect(lastOutput).toMatch(/DEBUG message \+[0-9]+ms/)
 
         resolve(null)
-      }, 100)
+      }, 100),
     )
   })
 

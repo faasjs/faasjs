@@ -124,7 +124,7 @@ export class Transport {
    */
   async flush() {
     if (this.flushing)
-      return new Promise<void>(resolve => {
+      return new Promise<void>((resolve) => {
         const interval = setInterval(() => {
           if (!this.flushing) {
             clearInterval(interval)
@@ -147,11 +147,7 @@ export class Transport {
 
     const messages = this.messages.splice(0, this.messages.length)
 
-    this.logger.debug(
-      'flushing %d messages with %d handlers',
-      messages.length,
-      this.handlers.size
-    )
+    this.logger.debug('flushing %d messages with %d handlers', messages.length, this.handlers.size)
 
     for (const handler of this.handlers.values())
       try {
@@ -213,8 +209,7 @@ export class Transport {
   config(options: TransportOptions) {
     if (options.label) this.logger.label = options.label
 
-    if (typeof options.debug === 'boolean')
-      this.logger.level = options.debug ? 'debug' : 'info'
+    if (typeof options.debug === 'boolean') this.logger.level = options.debug ? 'debug' : 'info'
 
     if (options.interval && options.interval !== this.intervalTime) {
       this.intervalTime = options.interval

@@ -19,8 +19,7 @@ export type FaasDataInjection<T extends FaasActionUnionType = any> = Partial<
   OriginFaasDataInjection<T>
 >
 
-export interface FaasDataWrapperProps<T extends FaasActionUnionType = any>
-  extends OriginProps<T> {
+export interface FaasDataWrapperProps<T extends FaasActionUnionType = any> extends OriginProps<T> {
   loadingProps?: LoadingProps
   loading?: JSX.Element
 }
@@ -44,14 +43,9 @@ export type { FaasDataWrapperRef } from '@faasjs/react'
  * ```
  */
 export function FaasDataWrapper<T extends FaasActionUnionType = any>(
-  props: FaasDataWrapperProps<T>
+  props: FaasDataWrapperProps<T>,
 ): JSX.Element {
-  return (
-    <Origin<T>
-      fallback={props.loading || <Loading {...props.loadingProps} />}
-      {...props}
-    />
-  )
+  return <Origin<T> fallback={props.loading || <Loading {...props.loadingProps} />} {...props} />
 }
 
 /**
@@ -69,7 +63,7 @@ export function withFaasData<
   >,
 >(
   Component: React.FC<TComponentProps & Record<string, any>>,
-  faasProps: FaasDataWrapperProps<PathOrData>
+  faasProps: FaasDataWrapperProps<PathOrData>,
 ): React.FC<Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>> {
   return OriginWithFaasData<PathOrData, any>(Component, {
     fallback: faasProps.loading || <Loading {...faasProps.loadingProps} />,

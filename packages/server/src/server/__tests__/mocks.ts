@@ -25,9 +25,7 @@ export function createMockReq(options?: {
   return req
 }
 
-export function createMockRes(options?: {
-  onDataCapture?: (data: any) => void
-}) {
+export function createMockRes(options?: { onDataCapture?: (data: any) => void }) {
   const res = new EventEmitter() as any
   res.statusCode = 200
   res.headers = {} as Record<string, string>
@@ -69,10 +67,7 @@ export function createMockRes(options?: {
     return EventEmitter.prototype.once.call(this, event, handler)
   }
 
-  res.removeListener = function (
-    event: string,
-    handler: (...args: any[]) => void
-  ) {
+  res.removeListener = function (event: string, handler: (...args: any[]) => void) {
     return EventEmitter.prototype.removeListener.call(this, event, handler)
   }
 

@@ -17,13 +17,7 @@ export const FormButtonElement = forwardRef<
   HTMLButtonElement,
   ButtonHTMLAttributes<HTMLButtonElement> & FormButtonElementProps
 >(({ children, submit, submitting, ...props }, ref) => (
-  <button
-    type='button'
-    disabled={submitting}
-    onClick={submit}
-    {...props}
-    ref={ref}
-  >
+  <button type='button' disabled={submitting} onClick={submit} {...props} ref={ref}>
     {children}
   </button>
 ))

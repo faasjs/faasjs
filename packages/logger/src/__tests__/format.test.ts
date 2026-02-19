@@ -20,7 +20,7 @@ describe('format', () => {
 
   it('should format string with multiple placeholders', () => {
     expect(format('Hello %s, you have %d new messages', 'Alice', 5)).toBe(
-      'Hello Alice, you have 5 new messages'
+      'Hello Alice, you have 5 new messages',
     )
   })
 

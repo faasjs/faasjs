@@ -9,11 +9,7 @@ import {
   Select,
   type TablePaginationConfig,
 } from 'antd'
-import type {
-  FilterValue,
-  SorterResult,
-  TableCurrentDataSource,
-} from 'antd/es/table/interface'
+import type { FilterValue, SorterResult, TableCurrentDataSource } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
 import { cloneDeep, isNil, uniqBy } from 'lodash-es'
 import { useEffect, useState } from 'react'
@@ -26,12 +22,7 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import {
-  cloneUnionFaasItemElement,
-  idToTitle,
-  transferOptions,
-  transferValue,
-} from './data'
+import { cloneUnionFaasItemElement, idToTitle, transferOptions, transferValue } from './data'
 import {
   type FaasDataInjection,
   FaasDataWrapper,
@@ -39,8 +30,7 @@ import {
 } from './FaasDataWrapper'
 
 export interface TableItemProps<T = any>
-  extends FaasItemProps,
-    Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
+  extends FaasItemProps, Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
   children?: UnionFaasItemElement<T> | null
   tableChildren?: UnionFaasItemElement<T> | null
@@ -67,7 +57,7 @@ export type TableProps<T = any, ExtendTypes = any> = {
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
     sorter: SorterResult<T> | SorterResult<T>[],
-    extra: TableCurrentDataSource<T>
+    extra: TableCurrentDataSource<T>,
   ) => {
     pagination: TablePaginationConfig
     filters: Record<string, FilterValue | null>
@@ -106,10 +96,7 @@ function processValue(item: TableItemProps, value: any) {
   const itemType = item.type ?? 'string'
   const transferred = transferValue(itemType, value)
 
-  if (
-    transferred === null ||
-    (Array.isArray(transferred) && transferred.length === 0)
-  )
+  if (transferred === null || (Array.isArray(transferred) && transferred.length === 0))
     return <Blank />
 
   if (item.options) {
@@ -122,7 +109,7 @@ function processValue(item: TableItemProps, value: any) {
                 label: string
                 value: any
               }[]
-            ).find(option => option.value === v)?.label || v
+            ).find((option) => option.value === v)?.label || v,
         )
         .join(', ')
 
@@ -133,7 +120,7 @@ function processValue(item: TableItemProps, value: any) {
             label: string
             value: any
           }[]
-        ).find(option => option.value === transferred)?.label || transferred
+        ).find((option) => option.value === transferred)?.label || transferred
       )
   }
 
@@ -141,7 +128,7 @@ function processValue(item: TableItemProps, value: any) {
 
   if (['date', 'time'].includes(itemType))
     return (transferred as dayjs.Dayjs).format(
-      itemType === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
+      itemType === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss',
     )
 
   return transferred
@@ -156,7 +143,7 @@ function processValue(item: TableItemProps, value: any) {
  * - Auto generate sorter (disable with `sorter: false`).
  */
 export function Table<T extends Record<string, any>, ExtendTypes = any>(
-  props: TableProps<T, ExtendTypes>
+  props: TableProps<T, ExtendTypes>,
 ) {
   const [columns, setColumns] = useState<TableItemProps[]>()
   const { theme } = useConfigContext()
@@ -172,7 +159,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             label: string
             value: any
           }[]
-        ).map(o => ({
+        ).map((o) => ({
           text: o.label,
           value: o.value,
         }))
@@ -185,7 +172,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           padding: 8,
           width: '200px',
         }}
-        onKeyDown={e => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       >
         <Select<React.Key[]>
           options={
@@ -199,7 +186,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           style={{ width: '100%' }}
           placeholder={`${theme.common.search} ${item.title}`}
           value={selectedKeys}
-          onChange={v => {
+          onChange={(v) => {
             setSelectedKeys(v?.length ? v : [])
             confirm()
           }}
@@ -211,10 +198,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
             return (
               option.value === input ||
-              option.label
-                .toString()
-                .toLowerCase()
-                .includes(input.toLowerCase())
+              option.label.toString().toLowerCase().includes(input.toLowerCase())
             )
           }}
         />
@@ -226,13 +210,13 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
   useEffect(() => {
     const items = (cloneDeep(props.items) as TableItemProps[]).filter(
-      item =>
+      (item) =>
         !(
           item.tableChildren === null ||
           item.children === null ||
           item.tableRender === null ||
           item.render === null
-        )
+        ),
     )
 
     for (const item of items) {
@@ -250,7 +234,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             value: any
           }[]
         )
-          .map(o => ({
+          .map((o) => ({
             text: o.label,
             value: o.value,
           }))
@@ -282,8 +266,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
       const render = item.tableRender || item.render
 
       if (render) {
-        item.render = (value: any, values: any) =>
-          render(value, values, 0, 'table')
+        item.render = (value: any, values: any) => render(value, values, 0, 'table')
 
         delete item.tableRender
 
@@ -307,8 +290,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           const extendRender = extendType.render
 
           if (extendRender)
-            item.render = (value: any, values: any) =>
-              extendRender(value, values, 0, 'table')
+            item.render = (value: any, values: any) => extendRender(value, values, 0, 'table')
           else throw Error(`${itemType} requires children or render`)
         }
         continue
@@ -317,7 +299,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
       switch (itemType) {
         case 'string':
           // render
-          if (!item.render) item.render = value => processValue(item, value)
+          if (!item.render) item.render = (value) => processValue(item, value)
 
           // filter
           if (item.filterDropdown !== false) {
@@ -338,15 +320,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               !item.filters &&
               item.optionsType !== 'auto'
             )
-              item.filterDropdown = ({
-                setSelectedKeys,
-                confirm,
-                clearFilters,
-              }) => (
+              item.filterDropdown = ({ setSelectedKeys, confirm, clearFilters }) => (
                 <Input.Search
                   placeholder={`${theme.common.search} ${item.title}`}
                   allowClear
-                  onSearch={v => {
+                  onSearch={(v) => {
                     if (v) {
                       setSelectedKeys([v])
                     } else {
@@ -361,20 +339,18 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           break
         case 'string[]':
           // render
-          if (!item.render) item.render = value => processValue(item, value)
+          if (!item.render) item.render = (value) => processValue(item, value)
 
           // filter
           if (item.filterDropdown !== false) {
             if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
-                if (value === null && (!row[item.id] || !row[item.id].length))
-                  return true
+                if (value === null && (!row[item.id] || !row[item.id].length)) return true
 
-                if (!row[item.id] || !row[item.id].length || !value)
-                  return false
+                if (!row[item.id] || !row[item.id].length || !value) return false
 
-                return (row[item.id] as string[]).some(v =>
-                  v.trim().toLowerCase().includes(value.trim().toLowerCase())
+                return (row[item.id] as string[]).some((v) =>
+                  v.trim().toLowerCase().includes(value.trim().toLowerCase()),
                 )
               }
 
@@ -383,15 +359,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               !item.filters &&
               item.optionsType !== 'auto'
             )
-              item.filterDropdown = ({
-                setSelectedKeys,
-                confirm,
-                clearFilters,
-              }) => (
+              item.filterDropdown = ({ setSelectedKeys, confirm, clearFilters }) => (
                 <Input.Search
                   placeholder={`${theme.common.search} ${item.title}`}
                   allowClear
-                  onSearch={v => {
+                  onSearch={(v) => {
                     if (v) {
                       setSelectedKeys([v])
                     } else {
@@ -406,7 +378,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           break
         case 'number':
           // render
-          if (!item.render) item.render = value => processValue(item, value)
+          if (!item.render) item.render = (value) => processValue(item, value)
 
           // sorter
           if (typeof item.sorter === 'undefined')
@@ -424,15 +396,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               }
 
             if (typeof item.filterDropdown === 'undefined' && !item.filters)
-              item.filterDropdown = ({
-                setSelectedKeys,
-                confirm,
-                clearFilters,
-              }) => (
+              item.filterDropdown = ({ setSelectedKeys, confirm, clearFilters }) => (
                 <Input.Search
                   placeholder={`${theme.common.search} ${item.title}`}
                   allowClear
-                  onSearch={v => {
+                  onSearch={(v) => {
                     if (v) {
                       setSelectedKeys([Number(v)])
                     } else {
@@ -447,15 +415,13 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           break
         case 'number[]':
           // render
-          if (!item.render)
-            item.render = value => processValue(item, value).join(', ')
+          if (!item.render) item.render = (value) => processValue(item, value).join(', ')
 
           // filter
           if (item.filterDropdown !== false) {
             if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
-                if (value === null && (!row[item.id] || !row[item.id].length))
-                  return true
+                if (value === null && (!row[item.id] || !row[item.id].length)) return true
 
                 if (!row[item.id] || !row[item.id].length) return false
 
@@ -463,15 +429,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               }
 
             if (typeof item.filterDropdown === 'undefined' && !item.filters)
-              item.filterDropdown = ({
-                setSelectedKeys,
-                confirm,
-                clearFilters,
-              }) => (
+              item.filterDropdown = ({ setSelectedKeys, confirm, clearFilters }) => (
                 <Input.Search
                   placeholder={`${theme.common.search} ${item.title}`}
                   allowClear
-                  onSearch={v => {
+                  onSearch={(v) => {
                     if (v) {
                       setSelectedKeys([Number(v)])
                     } else {
@@ -487,7 +449,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         case 'boolean':
           // render
           if (!item.render)
-            item.render = value =>
+            item.render = (value) =>
               isNil(value) ? (
                 <Blank />
               ) : value ? (
@@ -522,15 +484,13 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                   style={{ padding: 8 }}
                   buttonStyle='solid'
                   value={JSON.stringify(selectedKeys[0])}
-                  onChange={e => {
+                  onChange={(e) => {
                     const Values: Record<string, any> = {
                       true: true,
                       false: false,
                       null: null,
                     }
-                    setSelectedKeys(
-                      e.target.value ? [Values[e.target.value]] : []
-                    )
+                    setSelectedKeys(e.target.value ? [Values[e.target.value]] : [])
                     confirm()
                   }}
                 >
@@ -551,9 +511,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                       }}
                     />
                   </Radio.Button>
-                  <Radio.Button value={'null'}>
-                    {theme.common.blank}
-                  </Radio.Button>
+                  <Radio.Button value={'null'}>{theme.common.blank}</Radio.Button>
                 </Radio.Group>
               )
 
@@ -572,17 +530,14 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           break
         case 'date':
           // render
-          if (!item.render) item.render = value => processValue(item, value)
+          if (!item.render) item.render = (value) => processValue(item, value)
 
           // sorter
           if (typeof item.sorter === 'undefined')
             item.sorter = (a, b, order) => {
               if (isNil(a[item.id])) return order === 'ascend' ? 1 : -1
               if (isNil(b[item.id])) return order === 'ascend' ? -1 : 1
-              return new Date(a[item.id]).getTime() <
-                new Date(b[item.id]).getTime()
-                ? -1
-                : 1
+              return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
             }
 
           // filter
@@ -590,7 +545,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             if (typeof item.filterDropdown === 'undefined')
               item.filterDropdown = ({ setSelectedKeys, confirm }) => (
                 <DatePicker.RangePicker
-                  onChange={dates => {
+                  onChange={(dates) => {
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
@@ -599,7 +554,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                               dates[1].endOf('day').toISOString(),
                             ],
                           ] as any)
-                        : []
+                        : [],
                     )
                     confirm()
                   }}
@@ -612,8 +567,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 if (isNil(row[item.id])) return false
 
                 return (
-                  dayjs(row[item.id]) >= dayjs(value[0]) &&
-                  dayjs(row[item.id]) <= dayjs(value[1])
+                  dayjs(row[item.id]) >= dayjs(value[0]) && dayjs(row[item.id]) <= dayjs(value[1])
                 )
               }
           }
@@ -621,17 +575,14 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         case 'time':
           item.width = item.width ?? 200
           // render
-          if (!item.render) item.render = value => processValue(item, value)
+          if (!item.render) item.render = (value) => processValue(item, value)
 
           // sorter
           if (typeof item.sorter === 'undefined')
             item.sorter = (a, b, order) => {
               if (isNil(a[item.id])) return order === 'ascend' ? 1 : -1
               if (isNil(b[item.id])) return order === 'ascend' ? -1 : 1
-              return new Date(a[item.id]).getTime() <
-                new Date(b[item.id]).getTime()
-                ? -1
-                : 1
+              return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
             }
 
           // filter
@@ -639,7 +590,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             if (typeof item.filterDropdown === 'undefined')
               item.filterDropdown = ({ setSelectedKeys, confirm }) => (
                 <DatePicker.RangePicker
-                  onChange={dates => {
+                  onChange={(dates) => {
                     setSelectedKeys(
                       dates?.[0] && dates[1]
                         ? ([
@@ -648,7 +599,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                               dates[1].endOf('day').toISOString(),
                             ],
                           ] as any)
-                        : []
+                        : [],
                     )
                     confirm()
                   }}
@@ -661,8 +612,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 if (isNil(row[item.id])) return false
 
                 return (
-                  dayjs(row[item.id]) >= dayjs(value[0]) &&
-                  dayjs(row[item.id]) <= dayjs(value[1])
+                  dayjs(row[item.id]) >= dayjs(value[0]) && dayjs(row[item.id]) <= dayjs(value[1])
                 )
               }
           }
@@ -670,12 +620,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         case 'object':
           // render
           if (!item.render)
-            item.render = value => (
-              <Description
-                items={item.object || []}
-                dataSource={value || {}}
-                column={1}
-              />
+            item.render = (value) => (
+              <Description items={item.object || []} dataSource={value || {}} column={1} />
             )
           break
         case 'object[]':
@@ -697,14 +643,10 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           break
         default:
           // render
-          if (!item.render) item.render = value => processValue(item, value)
+          if (!item.render) item.render = (value) => processValue(item, value)
 
           // filter
-          if (
-            item.filterDropdown !== false &&
-            !item.onFilter &&
-            !props.faasData
-          )
+          if (item.filterDropdown !== false && !item.onFilter && !props.faasData)
             item.onFilter = (value: any, row) => {
               if (value === null && isNil(row[item.id])) return true
 
@@ -722,16 +664,14 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
     for (const column of columns) {
       if (column.optionsType === 'auto' && !column.options && !column.filters) {
-        const options = uniqBy(props.dataSource, column.id).map(
-          (v: Record<string, any>) => ({
-            label: v[column.id],
-            value: v[column.id],
-          })
-        )
+        const options = uniqBy(props.dataSource, column.id).map((v: Record<string, any>) => ({
+          label: v[column.id],
+          value: v[column.id],
+        }))
         if (options.length)
-          setColumns(prev => {
+          setColumns((prev) => {
             const newColumns = [...(prev || [])]
-            const index = newColumns.findIndex(item => item.id === column.id)
+            const index = newColumns.findIndex((item) => item.id === column.id)
             if (index < 0) return newColumns
             newColumns[index].options = options
             generateFilterDropdown(newColumns[index])
@@ -773,13 +713,12 @@ function FaasDataTable({
   props: TableProps
   columns: TableItemProps[]
 }) {
-  const [currentColumns, setCurrentColumns] =
-    useState<TableItemProps[]>(columns)
+  const [currentColumns, setCurrentColumns] = useState<TableItemProps[]>(columns)
 
   useEffect(() => {
     if (!data || Array.isArray(data)) return
 
-    setCurrentColumns(prev => {
+    setCurrentColumns((prev) => {
       const newColumns = [...prev]
       for (const column of newColumns) {
         if (data.options?.[column.id]) {
@@ -798,17 +737,11 @@ function FaasDataTable({
           continue
         }
 
-        if (
-          column.optionsType === 'auto' &&
-          !column.options &&
-          !column.filters
-        ) {
-          const filters = uniqBy(props.dataSource, column.id).map(
-            (v: Record<string, any>) => ({
-              text: v[column.id],
-              value: v[column.id],
-            })
-          )
+        if (column.optionsType === 'auto' && !column.options && !column.filters) {
+          const filters = uniqBy(props.dataSource, column.id).map((v: Record<string, any>) => ({
+            text: v[column.id],
+            value: v[column.id],
+          }))
           if (filters.length)
             column.filters = filters.concat({
               text: <Blank />,

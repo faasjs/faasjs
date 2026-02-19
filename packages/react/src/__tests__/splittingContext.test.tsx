@@ -29,7 +29,7 @@ describe('createSplittingContext', () => {
     render(
       <Provider>
         <ChildComponent />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.getByText('Hello')).not.toBeNull()
@@ -64,7 +64,7 @@ describe('createSplittingContext', () => {
     render(
       <Provider value={{ value: { value1: 'value1', value2: 'value2' } }}>
         <ChildComponent />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.getByText('value1')).not.toBeNull()
@@ -159,7 +159,7 @@ describe('createSplittingContext', () => {
     render(
       <Provider value={{ value1: 'Hello', value2: 'World' }}>
         <ChildComponent />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.getByText('Hello')).not.toBeNull()
@@ -194,7 +194,7 @@ describe('createSplittingContext', () => {
 
       return (
         <>
-          <button type='button' onClick={() => setCount(c => c + 1)}>
+          <button type='button' onClick={() => setCount((c) => c + 1)}>
             Increment
           </button>
           <button type='button' onClick={() => setName('Alice')}>
@@ -216,7 +216,7 @@ describe('createSplittingContext', () => {
       >
         <ReaderComponent />
         <WriterComponent />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.getByText('count:0 name:Bob')).not.toBeNull()
@@ -250,7 +250,7 @@ describe('createSplittingContext', () => {
     render(
       <Provider initializeStates={{ count: 0 }} value={{ name: 'Bob' }}>
         <Component />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.getByText('count:0 name:Bob')).not.toBeNull()
@@ -266,7 +266,7 @@ describe('createSplittingContext', () => {
       Provider<{
         value: { a: number }
         setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
-      }>({ value: { value: { a: 1 }, setValue: () => 1 }, children: null })
+      }>({ value: { value: { a: 1 }, setValue: () => 1 }, children: null }),
     )
     assertType<
       () => {
@@ -277,7 +277,7 @@ describe('createSplittingContext', () => {
       use<{
         value: { a: number }
         setValue: React.Dispatch<React.SetStateAction<{ a: number }>>
-      }>
+      }>,
     )
   })
 })

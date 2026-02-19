@@ -48,15 +48,13 @@ export function Title(props: TitleProps): JSX.Element | null {
 
     document.title = title
       .concat(props.suffix || theme.Title.suffix)
-      .filter(t => !!t)
+      .filter((t) => !!t)
       .join(props.separator || theme.Title.separator)
   }, [props, theme.Title])
 
   if (props.h1) {
     if (typeof props.h1 === 'boolean')
-      return (
-        <h1>{Array.isArray(props.title) ? props.title[0] : props.title}</h1>
-      )
+      return <h1>{Array.isArray(props.title) ? props.title[0] : props.title}</h1>
 
     return (
       <h1 className={props.h1.className} style={props.h1.style}>
@@ -65,11 +63,9 @@ export function Title(props: TitleProps): JSX.Element | null {
     )
   }
 
-  if (props.plain)
-    return <>{Array.isArray(props.title) ? props.title[0] : props.title}</>
+  if (props.plain) return <>{Array.isArray(props.title) ? props.title[0] : props.title}</>
 
-  if (props.children)
-    return cloneElement(props.children, { title: props.title })
+  if (props.children) return cloneElement(props.children, { title: props.title })
 
   return null
 }

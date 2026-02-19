@@ -11,16 +11,12 @@ export function getErrorStatusCode(error: unknown): number | undefined {
   if (!error || typeof error !== 'object') return undefined
 
   const statusCode = (error as ErrorWithStatusCode).statusCode
-  if (typeof statusCode !== 'number' || !Number.isFinite(statusCode))
-    return undefined
+  if (typeof statusCode !== 'number' || !Number.isFinite(statusCode)) return undefined
 
   return statusCode
 }
 
-export function getErrorMessage(
-  error: unknown,
-  fallback = INTERNAL_SERVER_ERROR_MESSAGE
-): string {
+export function getErrorMessage(error: unknown, fallback = INTERNAL_SERVER_ERROR_MESSAGE): string {
   if (error && typeof error === 'object') {
     const message = (error as ErrorWithStatusCode).message
     if (typeof message === 'string' && message.length) return message
@@ -32,7 +28,7 @@ export function getErrorMessage(
 export function respondWithJsonError(
   res: ServerResponse,
   statusCode: number,
-  message: string
+  message: string,
 ): void {
   if (res.writableEnded) return
 
@@ -48,7 +44,7 @@ export function respondWithJsonError(
       error: {
         message,
       },
-    })
+    }),
   )
 }
 

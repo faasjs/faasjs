@@ -9,7 +9,7 @@ Infer the FaasAction type from a Func.
 ## Example
 
 ```typescript
-import { defineFunc, z } from '@faasjs/core'
+import { defineApi, z } from '@faasjs/core'
 import type { InferFaasAction } from '@faasjs/types'
 
 const schema = z
@@ -18,7 +18,7 @@ const schema = z
   })
   .required()
 
-export const func = defineFunc({
+export const func = defineApi({
   schema,
   async handler({ params }) {
     if (!params) throw Error('params is required')

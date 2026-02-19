@@ -73,7 +73,7 @@ function findLocale(routePath: string): LocaleKey {
 function extractTitle(
   markdown: string,
   frontmatter: Record<string, unknown>,
-  fallback: string
+  fallback: string,
 ): string {
   if (typeof frontmatter.title === 'string' && frontmatter.title.trim()) {
     return frontmatter.title.trim()
@@ -116,11 +116,11 @@ function fallbackLabel(link: string): string {
 function renderDropdownItem(
   item: NavbarItem,
   currentRoute: string,
-  resolveConfigLink: (link: string) => string
+  resolveConfigLink: (link: string) => string,
 ): string {
   if (item.children?.length) {
     return `<li class="vp-navbar-dropdown-item"><h4 class="vp-navbar-dropdown-subtitle"><span>${escapeHtml(item.text)}</span></h4><ul class="vp-navbar-dropdown-subitem-wrapper">${item.children
-      .map(child => {
+      .map((child) => {
         const href = child.link ? resolveConfigLink(child.link) : '#'
         return `<li class="vp-navbar-dropdown-subitem">${renderAutoLink({
           text: child.text,
@@ -144,11 +144,11 @@ function renderNavbarItem(
   item: NavbarItem,
   currentRoute: string,
   resolveConfigLink: (link: string) => string,
-  mobileDropdown: boolean
+  mobileDropdown: boolean,
 ): string {
   if (item.children?.length) {
     const dropdownItems = item.children
-      .map(child => renderDropdownItem(child, currentRoute, resolveConfigLink))
+      .map((child) => renderDropdownItem(child, currentRoute, resolveConfigLink))
       .join('')
 
     return `<div class="vp-navbar-item"><div class="${classNames('vp-navbar-dropdown-wrapper', mobileDropdown && 'mobile')}"><button class="vp-navbar-dropdown-title" type="button" aria-label="${escapeHtml(item.text)}"><span class="title">${escapeHtml(item.text)}</span><span class="arrow down"></span></button><button class="vp-navbar-dropdown-title-mobile" type="button" aria-label="${escapeHtml(item.text)}"><span class="title">${escapeHtml(item.text)}</span><span class="right arrow"></span></button><ul class="vp-navbar-dropdown">${dropdownItems}</ul></div></div>`
@@ -168,12 +168,10 @@ function renderNavbar(
   currentRoute: string,
   resolveConfigLink: (link: string) => string,
   className: string,
-  mobileDropdown = false
+  mobileDropdown = false,
 ): string {
   return `<nav class="${className}" aria-label="site navigation">${items
-    .map(item =>
-      renderNavbarItem(item, currentRoute, resolveConfigLink, mobileDropdown)
-    )
+    .map((item) => renderNavbarItem(item, currentRoute, resolveConfigLink, mobileDropdown))
     .join('')}</nav>`
 }
 
@@ -182,26 +180,22 @@ function renderSidebarEntry(
   prefix: string,
   currentRoute: string,
   resolveConfigLink: (link: string) => string,
-  titleByRoute: Map<string, string>
+  titleByRoute: Map<string, string>,
 ): string {
   if (typeof entry === 'string' || Array.isArray(entry)) {
     const target = Array.isArray(entry) ? entry[0] : entry
     const candidate = target === '' ? prefix : target
     const link = resolveConfigLink(
-      candidate.startsWith('/') ? candidate : joinSitePath(prefix, candidate)
+      candidate.startsWith('/') ? candidate : joinSitePath(prefix, candidate),
     )
-    const label = Array.isArray(entry)
-      ? entry[1]
-      : (titleByRoute.get(link) ?? fallbackLabel(link))
+    const label = Array.isArray(entry) ? entry[1] : (titleByRoute.get(link) ?? fallbackLabel(link))
 
     return `<li><a class="${classNames('vp-sidebar-item', 'vp-sidebar-heading', isExactActive(currentRoute, link) && 'active')}" href="${escapeHtml(link)}" aria-label="${escapeHtml(label)}">${escapeHtml(label)}</a></li>`
   }
 
   const children = entry.children
-    .map(child => {
-      const candidate = child.startsWith('/')
-        ? child
-        : joinSitePath(prefix, child)
+    .map((child) => {
+      const candidate = child.startsWith('/') ? child : joinSitePath(prefix, child)
       const link = resolveConfigLink(candidate)
       const label = titleByRoute.get(link) ?? fallbackLabel(link)
       return `<li><a class="${classNames('vp-sidebar-item', isExactActive(currentRoute, link) && 'active')}" href="${escapeHtml(link)}" aria-label="${escapeHtml(label)}">${escapeHtml(label)}</a></li>`
@@ -213,17 +207,14 @@ function renderSidebarEntry(
 
 function findSidebarPrefix(
   currentRoute: string,
-  sidebar: Record<string, SidebarItem[]>
+  sidebar: Record<string, SidebarItem[]>,
 ): string | undefined {
   return Object.keys(sidebar)
     .sort((a, b) => b.length - a.length)
-    .find(prefix => currentRoute.startsWith(prefix))
+    .find((prefix) => currentRoute.startsWith(prefix))
 }
 
-function createLanguageItems(
-  currentRoute: string,
-  routeMap: Map<string, Page>
-): NavbarItem[] {
+function createLanguageItems(currentRoute: string, routeMap: Map<string, Page>): NavbarItem[] {
   const enCandidate = currentRoute.startsWith('/zh/')
     ? `/${currentRoute.slice('/zh/'.length)}`
     : currentRoute
@@ -247,15 +238,11 @@ function createLanguageItems(
 
 function renderHomeHero(page: Page, locale: LocaleConfig): string {
   const heroImage =
-    typeof page.frontmatter.heroImage === 'string'
-      ? page.frontmatter.heroImage
-      : '/logo.jpg'
+    typeof page.frontmatter.heroImage === 'string' ? page.frontmatter.heroImage : '/logo.jpg'
   const heroText =
-    typeof page.frontmatter.heroText === 'string'
-      ? page.frontmatter.heroText
-      : locale.title
+    typeof page.frontmatter.heroText === 'string' ? page.frontmatter.heroText : locale.title
   return `<header class="vp-hero"><img class="vp-hero-image" src="${escapeHtml(
-    heroImage
+    heroImage,
   )}" alt="${escapeHtml(heroText)}" /><h1>${escapeHtml(heroText)}</h1></header>`
 }
 
@@ -317,9 +304,7 @@ function writeStaticAssets(): void {
 
   const baseThemeCss = readFileSync(join(siteRoot, 'legacy-theme.css'), 'utf8')
   const overridesPath = join(siteRoot, 'theme-overrides.css')
-  const overridesCss = existsSync(overridesPath)
-    ? readFileSync(overridesPath, 'utf8')
-    : ''
+  const overridesCss = existsSync(overridesPath) ? readFileSync(overridesPath, 'utf8') : ''
   const style = [baseThemeCss, overridesCss].filter(Boolean).join('\n\n')
   writeFileSync(join(assetsDirectory, 'style.css'), style)
 
@@ -365,7 +350,7 @@ function createMarkdownRenderer(pageBySource: Map<string, Page>): MarkdownIt {
       if (language && hljs.getLanguage(language)) {
         const highlighted = hljs.highlight(code, { language }).value
         return `<pre><code class="hljs language-${escapeHtml(
-          language
+          language,
         )}">${highlighted}</code></pre>`
       }
 
@@ -379,19 +364,14 @@ function createMarkdownRenderer(pageBySource: Map<string, Page>): MarkdownIt {
 
   const defaultLinkRender =
     markdown.renderer.rules.link_open ??
-    ((tokens, idx, options, _env, self) =>
-      self.renderToken(tokens, idx, options))
+    ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options))
 
   markdown.renderer.rules.link_open = (tokens, idx, options, env, self) => {
     const hrefIndex = tokens[idx].attrIndex('href')
     if (hrefIndex >= 0 && tokens[idx].attrs) {
       const originalHref = tokens[idx].attrs[hrefIndex]?.[1]
       if (originalHref && typeof env?.sourcePath === 'string') {
-        const rewritten = rewriteLink(
-          originalHref,
-          env.sourcePath,
-          pageBySource
-        )
+        const rewritten = rewriteLink(originalHref, env.sourcePath, pageBySource)
         tokens[idx].attrs[hrefIndex][1] = rewritten
 
         if (isExternalLink(rewritten)) {
@@ -408,11 +388,7 @@ function createMarkdownRenderer(pageBySource: Map<string, Page>): MarkdownIt {
   return markdown
 }
 
-function rewriteLink(
-  rawHref: string,
-  sourcePath: string,
-  pageBySource: Map<string, Page>
-): string {
+function rewriteLink(rawHref: string, sourcePath: string, pageBySource: Map<string, Page>): string {
   if (!rawHref || rawHref.startsWith('#') || isExternalLink(rawHref)) {
     return rawHref
   }
@@ -430,12 +406,9 @@ function rewriteLink(
 function resolveRelativeLink(
   rawPath: string,
   sourcePath: string,
-  pageBySource: Map<string, Page>
+  pageBySource: Map<string, Page>,
 ): string {
-  const absoluteTarget = resolve(
-    dirname(sourcePath),
-    decodeURIComponent(rawPath)
-  )
+  const absoluteTarget = resolve(dirname(sourcePath), decodeURIComponent(rawPath))
   const normalizedTarget = toPosixPath(absoluteTarget)
 
   const candidates: string[] = []
@@ -481,7 +454,7 @@ function sortRoutePaths(routes: string[]): string[] {
 function collectPages(): Page[] {
   const markdownFiles = walkMarkdownFiles(docsRoot)
 
-  return markdownFiles.map(sourcePath => {
+  return markdownFiles.map((sourcePath) => {
     const relativePath = toPosixPath(relative(docsRoot, sourcePath))
     const route = toRouteFromMarkdownPath(relativePath)
     const source = readFileSync(sourcePath, 'utf8')
@@ -532,7 +505,7 @@ function createResolveConfigLink(): ResolveConfigLink {
 function createNavbarItems(
   localeConfig: LocaleConfig,
   currentRoute: string,
-  pageByRoute: Map<string, Page>
+  pageByRoute: Map<string, Page>,
 ): NavbarItem[] {
   return [
     ...localeConfig.navbar,
@@ -546,22 +519,16 @@ function createNavbarItems(
 function renderNavbarPair(
   navbarItems: NavbarItem[],
   currentRoute: string,
-  resolveConfigLink: ResolveConfigLink
+  resolveConfigLink: ResolveConfigLink,
 ): { desktop: string; mobile: string } {
   return {
     desktop: renderNavbar(
       navbarItems,
       currentRoute,
       resolveConfigLink,
-      'vp-navbar-items vp-hide-mobile'
+      'vp-navbar-items vp-hide-mobile',
     ),
-    mobile: renderNavbar(
-      navbarItems,
-      currentRoute,
-      resolveConfigLink,
-      'vp-navbar-items',
-      true
-    ),
+    mobile: renderNavbar(navbarItems, currentRoute, resolveConfigLink, 'vp-navbar-items', true),
   }
 }
 
@@ -569,12 +536,10 @@ function renderSidebar(
   localeConfig: LocaleConfig,
   currentRoute: string,
   resolveConfigLink: ResolveConfigLink,
-  titleByRoute: Map<string, string>
+  titleByRoute: Map<string, string>,
 ): { hasSidebar: boolean; linksHtml: string } {
   const sidebarPrefix = findSidebarPrefix(currentRoute, localeConfig.sidebar)
-  const sidebarEntries = sidebarPrefix
-    ? (localeConfig.sidebar[sidebarPrefix] ?? [])
-    : []
+  const sidebarEntries = sidebarPrefix ? (localeConfig.sidebar[sidebarPrefix] ?? []) : []
   const hasSidebar = Boolean(sidebarPrefix && sidebarEntries.length)
 
   if (!hasSidebar || !sidebarPrefix) {
@@ -587,14 +552,8 @@ function renderSidebar(
   return {
     hasSidebar,
     linksHtml: `<ul class="vp-sidebar-items">${sidebarEntries
-      .map(entry =>
-        renderSidebarEntry(
-          entry,
-          sidebarPrefix,
-          currentRoute,
-          resolveConfigLink,
-          titleByRoute
-        )
+      .map((entry) =>
+        renderSidebarEntry(entry, sidebarPrefix, currentRoute, resolveConfigLink, titleByRoute),
       )
       .join('')}</ul>`,
   }
@@ -608,21 +567,17 @@ function renderAndWritePage(options: {
   resolveConfigLink: ResolveConfigLink
 }): void {
   const localeConfig = siteConfig.locales[options.page.locale]
-  const navbarItems = createNavbarItems(
-    localeConfig,
-    options.page.routePath,
-    options.pageByRoute
-  )
+  const navbarItems = createNavbarItems(localeConfig, options.page.routePath, options.pageByRoute)
   const { desktop: navbarHtml, mobile: mobileNavbarHtml } = renderNavbarPair(
     navbarItems,
     options.page.routePath,
-    options.resolveConfigLink
+    options.resolveConfigLink,
   )
   const { hasSidebar, linksHtml: sidebarLinks } = renderSidebar(
     localeConfig,
     options.page.routePath,
     options.resolveConfigLink,
-    options.titleByRoute
+    options.titleByRoute,
   )
 
   const markdownHtml = options.markdown.render(options.page.markdown, {
@@ -632,7 +587,7 @@ function renderAndWritePage(options: {
   const contentHtml = options.page.isHome
     ? `<div class="vp-home">${renderHomeHero(
         options.page,
-        localeConfig
+        localeConfig,
       )}<div class="theme-default-content">${markdownHtml}</div></div>`
     : `<div class="theme-default-content">${markdownHtml}</div>`
 
@@ -677,7 +632,7 @@ function renderAndWritePage(options: {
 
 function writeNotFoundPage(
   pageByRoute: Map<string, Page>,
-  resolveConfigLink: ResolveConfigLink
+  resolveConfigLink: ResolveConfigLink,
 ): void {
   const localeConfig = siteConfig.locales['/']
   const navbarItems: NavbarItem[] = [
@@ -691,7 +646,7 @@ function writeNotFoundPage(
   const { desktop: notFoundNavbar, mobile: notFoundSidebar } = renderNavbarPair(
     navbarItems,
     '/404.html',
-    resolveConfigLink
+    resolveConfigLink,
   )
 
   const notFoundHtml = renderLayout({
@@ -712,7 +667,7 @@ function writeNotFoundPage(
 }
 
 function writeSitemapAndRoutes(pages: Page[]): void {
-  const sitemapRoutes: SitemapRoute[] = pages.map(page => ({
+  const sitemapRoutes: SitemapRoute[] = pages.map((page) => ({
     route: page.routePath,
     lastmod: page.lastmod,
   }))
@@ -722,16 +677,12 @@ function writeSitemapAndRoutes(pages: Page[]): void {
     buildSitemapXml({
       routes: sitemapRoutes,
       hostname: siteConfig.hostname,
-    })
+    }),
   )
 
   writeFileSync(
     join(distRoot, 'routes.json'),
-    JSON.stringify(
-      sortRoutePaths(sitemapRoutes.map(item => item.route)),
-      null,
-      2
-    )
+    JSON.stringify(sortRoutePaths(sitemapRoutes.map((item) => item.route)), null, 2),
   )
 }
 

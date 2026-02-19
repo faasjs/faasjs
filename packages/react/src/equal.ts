@@ -16,13 +16,11 @@ const AsyncFunction = (async () => {}).constructor
 export function equal(a: any, b: any): boolean {
   if (a === b) return true
 
-  if ((a === null || a === undefined) && (b === null || b === undefined))
-    return true
+  if ((a === null || a === undefined) && (b === null || b === undefined)) return true
 
   if (typeof a !== typeof b) return false
 
-  if (a === null || a === undefined || b === null || b === undefined)
-    return false
+  if (a === null || a === undefined || b === null || b === undefined) return false
 
   const ctor = a.constructor
 
@@ -97,10 +95,7 @@ export function useEqualMemoize(value: any) {
  * @param dependencies - The list of dependencies for the effect.
  * @returns The result of the `useEffect` hook with memoized dependencies.
  */
-export function useEqualEffect(
-  callback: React.EffectCallback,
-  dependencies: any[]
-) {
+export function useEqualEffect(callback: React.EffectCallback, dependencies: any[]) {
   return useEffect(callback, useEqualMemoize(dependencies))
 }
 
@@ -124,10 +119,7 @@ export function useEqualMemo<T>(callback: () => T, dependencies: any[]): T {
  */
 export function useEqualCallback<T extends (...args: any[]) => any>(
   callback: T,
-  dependencies: any[]
+  dependencies: any[],
 ): T {
-  return useCallback<any>(
-    (...args: any) => callback(...args),
-    useEqualMemoize(dependencies)
-  )
+  return useCallback<any>((...args: any) => callback(...args), useEqualMemoize(dependencies))
 }

@@ -5,12 +5,7 @@ import { Description } from '../../Description'
 
 describe('Description/items', () => {
   it('should work', () => {
-    render(
-      <Description
-        items={[{ id: 'test' }, null]}
-        dataSource={{ test: 'value' }}
-      />
-    )
+    render(<Description items={[{ id: 'test' }, null]} dataSource={{ test: 'value' }} />)
 
     expect(screen.getByText('Test')).toBeDefined()
     expect(screen.getByText('value')).toBeDefined()
@@ -26,7 +21,7 @@ describe('Description/items', () => {
           },
         ]}
         dataSource={{ test: 'value' }}
-      />
+      />,
     )
 
     expect(screen.getByText('Test')).toBeDefined()
@@ -44,7 +39,7 @@ describe('Description/items', () => {
           },
         ]}
         dataSource={{ test: 'value' }}
-      />
+      />,
     )
 
     expect(screen.getByText('Test')).toBeDefined()
@@ -67,7 +62,7 @@ describe('Description/items', () => {
             },
           ]}
           dataSource={{ test: 'value' }}
-        />
+        />,
       )
 
       expect(screen.getByText('Test')).toBeDefined()
@@ -90,7 +85,7 @@ describe('Description/items', () => {
             },
           ]}
           dataSource={{ test: ['value', 'value'] }}
-        />
+        />,
       )
 
       expect(screen.getByText('Test')).toBeDefined()
@@ -112,7 +107,7 @@ describe('Description/items', () => {
             id: 'undefined',
             test: undefined,
           }}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
     })
@@ -127,7 +122,7 @@ describe('Description/items', () => {
             },
           ]}
           dataSource={{ test: now.unix() }}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
@@ -143,7 +138,7 @@ describe('Description/items', () => {
             },
           ]}
           dataSource={{ test: now }}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
@@ -159,7 +154,7 @@ describe('Description/items', () => {
             },
           ]}
           dataSource={{ test: now.format() }}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
@@ -177,7 +172,7 @@ describe('Description/items', () => {
             },
           ]}
           dataSource={{ test: undefined }}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
     })
@@ -195,7 +190,7 @@ describe('Description/items', () => {
             id: 'number',
             test: now.unix(),
           }}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
@@ -214,7 +209,7 @@ describe('Description/items', () => {
             id: 'dayjs',
             test: now,
           }}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
@@ -233,7 +228,7 @@ describe('Description/items', () => {
             id: 'string',
             test: now.format(),
           }}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()

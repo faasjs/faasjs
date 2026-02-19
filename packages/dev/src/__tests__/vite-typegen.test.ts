@@ -13,8 +13,7 @@ const mocks = vi.hoisted(() => {
     routeCount: 1,
   }))
   const isTypegenSourceFile = vi.fn(
-    (filePath: string) =>
-      /\.func\.ts$/.test(filePath) || /(^|[\\/])faas\.ya?ml$/.test(filePath)
+    (filePath: string) => filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
   )
 
   class ServerMock {
@@ -58,7 +57,7 @@ async function createTempProject(): Promise<string> {
 }
 
 async function wait(ms: number): Promise<void> {
-  await new Promise(resolve => setTimeout(resolve, ms))
+  await new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 beforeEach(() => {
@@ -71,12 +70,12 @@ afterEach(async () => {
   process.env.VITEST = '1'
 
   await Promise.all(
-    tempDirs.splice(0).map(path =>
+    tempDirs.splice(0).map((path) =>
       rm(path, {
         recursive: true,
         force: true,
-      })
-    )
+      }),
+    ),
   )
 })
 
@@ -121,9 +120,7 @@ describe('viteFaasJsServer typegen', () => {
     await wait(220)
 
     expect(mocks.generateFaasTypes).toHaveBeenCalledTimes(2)
-    expect(mocks.isTypegenSourceFile).toHaveBeenCalledWith(
-      join(root, 'src', 'ignore.ts')
-    )
+    expect(mocks.isTypegenSourceFile).toHaveBeenCalledWith(join(root, 'src', 'ignore.ts'))
 
     await server.close()
   })

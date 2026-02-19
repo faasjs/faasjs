@@ -6,7 +6,7 @@
 
 ### Headers
 
-* **Content-Type**: application/json; charset=UTF-8
+- **Content-Type**: application/json; charset=UTF-8
 
 ### Method
 
@@ -28,13 +28,13 @@
 
 ### Headers
 
-* **Content-Type**: application/json; charset=UTF-8
+- **Content-Type**: application/json; charset=UTF-8
 
 #### StatusCode
 
-* **200** 请求成功且有返回信息
-* **204** 请求成功且无内容（无返回信息）
-* **500** 请求失败
+- **200** 请求成功且有返回信息
+- **204** 请求成功且无内容（无返回信息）
+- **500** 请求失败
 
 其它状态可根据具体业务情况添加。
 
@@ -42,7 +42,7 @@
 
 #### 200 状态
 
-* **data** 必有，业务信息
+- **data** 必有，业务信息
 
 例：
 
@@ -51,6 +51,7 @@
   "data": "value"
 }
 ```
+
 ```json
 {
   "data": {
@@ -65,8 +66,8 @@
 
 ### 500 状态
 
-* **error** 必有，Error 对象
-  * **message** 必有，错误信息内容
+- **error** 必有，Error 对象
+  - **message** 必有，错误信息内容
 
 例：
 

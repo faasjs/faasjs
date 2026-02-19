@@ -10,10 +10,7 @@ type ParsedCommonArgs = {
   rest: string[]
 }
 
-export function parseCommonCliArgs(
-  args: string[],
-  scope: string
-): ParsedCommonArgs {
+export function parseCommonCliArgs(args: string[], scope: string): ParsedCommonArgs {
   const options: CliOptions = {}
   const rest: string[] = []
 
@@ -32,8 +29,7 @@ export function parseCommonCliArgs(
     if (arg === '--root') {
       const value = args[i + 1]
 
-      if (!value || value.startsWith('-'))
-        throw Error(`[${scope}] Missing value for ${arg}`)
+      if (!value || value.startsWith('-')) throw Error(`[${scope}] Missing value for ${arg}`)
 
       options.root = value
       i += 1
@@ -68,6 +64,5 @@ export async function runCli(handler: () => Promise<number>): Promise<number> {
 }
 
 export function createMain(run: (args: string[]) => Promise<number>) {
-  return async (argv = process.argv): Promise<number> =>
-    runCli(() => run(argv.slice(2)))
+  return async (argv = process.argv): Promise<number> => runCli(() => run(argv.slice(2)))
 }

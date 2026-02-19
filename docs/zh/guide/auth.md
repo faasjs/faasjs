@@ -63,82 +63,86 @@
 
 ```typescript
 // users/api/signup.func.ts
-import { defineFunc, z } from '@faasjs/core';
+import { defineApi, z } from '@faasjs/core'
 
-const schema = z.object({
-  username: z.string(),
-  password: z.string()
-}).required();
+const schema = z
+  .object({
+    username: z.string(),
+    password: z.string(),
+  })
+  .required()
 
-export const func = defineFunc({
+export const func = defineApi({
   schema,
   async handler({ knex, params, session }) {
-    if (!knex || !params) {
-      throw Error('缺少插件配置');
+    if (!knex) {
+      throw Error('缺少插件配置')
     }
 
     const row = await knex('users')
       .select('id', 'password')
       .where('username', '=', params.username)
-      .first();
+      .first()
 
     if (!row) {
-      throw Error('用户名错误');
+      throw Error('用户名错误')
     }
 
     if (row.password !== params.password) {
-      throw Error('用户名或密码错误');
+      throw Error('用户名或密码错误')
     }
 
-    session.write('user_id', row.id);
-  }
-});
+    session.write('user_id', row.id)
+  },
+})
 ```
 
 为了验证我们写的代码是否正确，我们需要写单元测试代码。
 
 ```typescript
 // users/api/__tests__/signup.test.ts
-import { useKnex } from '@faasjs/knex';
-import { FuncWarper } from '@faasjs/dev';
+import { useKnex } from '@faasjs/knex'
+import { FuncWarper } from '@faasjs/dev'
 
 describe('signin', function () {
-  const func = new FuncWarper(require.resolve('../signin.func'));
+  const func = new FuncWarper(require.resolve('../signin.func'))
 
   beforeEach(async function () {
-    await useKnex().raw('INSERT INTO users (id,username,password) VALUES (1,\'hello\',\'world\')');
-  });
+    await useKnex().raw("INSERT INTO users (id,username,password) VALUES (1,'hello','world')")
+  })
 
   test('should work', async function () {
     const res = await func.JSONhandler({
       username: 'hello',
-      password: 'world'
-    });
+      password: 'world',
+    })
 
-    expect(func.http.session.decode(res.headers['Set-Cookie'][0].match(/key=([^;]+)/)[1])).toEqual({ user_id: 1 });
-    expect(res.statusCode).toEqual(204);
-  });
+    expect(func.http.session.decode(res.headers['Set-Cookie'][0].match(/key=([^;]+)/)[1])).toEqual({
+      user_id: 1,
+    })
+    expect(res.statusCode).toEqual(204)
+  })
 
   test('wrong username', async function () {
     const res = await func.JSONhandler({
       username: '',
-      password: ''
-    });
+      password: '',
+    })
 
-    expect(res.statusCode).toEqual(500);
-    expect(res.body).toEqual('{"error":{"message":"用户名错误"}}');
-  });
+    expect(res.statusCode).toEqual(500)
+    expect(res.body).toEqual('{"error":{"message":"用户名错误"}}')
+  })
 
   test('wrong password', async function () {
     const res = await func.JSONhandler({
       username: 'hello',
-      password: ''
-    });
+      password: '',
+    })
 
-    expect(res.statusCode).toEqual(500);
-    expect(res.body).toEqual('{"error":{"message":"用户名或密码错误"}}');
-  });
-});
+    expect(res.statusCode).toEqual(500)
+    expect(res.body).toEqual('{"error":{"message":"用户名或密码错误"}}')
+  })
+})
 ```
 
 ## 登录流程
@@ -147,35 +151,37 @@ describe('signin', function () {
 
 ```typescript
 // users/api/signin.func.ts
-import { defineFunc, z } from '@faasjs/core';
+import { defineApi, z } from '@faasjs/core'
 
-const schema = z.object({
-  username: z.string(),
-  password: z.string()
-}).required();
+const schema = z
+  .object({
+    username: z.string(),
+    password: z.string(),
+  })
+  .required()
 
-export const func = defineFunc({
+export const func = defineApi({
   schema,
   async handler({ knex, params, session }) {
-    if (!knex || !params) {
-      throw Error('缺少插件配置');
+    if (!knex) {
+      throw Error('缺少插件配置')
     }
 
     const row = await knex('users')
       .where({ username: params.username })
       .select('id', 'password')
-      .first();
+      .first()
     if (!row) {
       // 在云函数中，建议直接通过抛异常的方式来告知前端错误信息
-      throw Error('用户名错误');
+      throw Error('用户名错误')
     }
     if (row.password !== params.password) {
-      throw Error('用户名或密码错误');
+      throw Error('用户名或密码错误')
     }
 
-    session.write('user_id', row.id);
-  }
-});
+    session.write('user_id', row.id)
+  },
+})
 ```
 
 ## 登出流程
@@ -184,13 +190,13 @@ export const func = defineFunc({
 
 ```typescript
 // users/api/signout.func.ts
-import { defineFunc } from '@faasjs/core';
+import { defineApi } from '@faasjs/core'
 
-export const func = defineFunc({
+export const func = defineApi({
   async handler({ session }) {
-    session.write('user_id', null);
-  }
-});
+    session.write('user_id', null)
+  },
+})
 ```
 
 ## 修改密码流程
@@ -199,38 +205,37 @@ export const func = defineFunc({
 
 ```typescript
 // users/api/change-password.func.ts
-import { defineFunc, z } from '@faasjs/core';
+import { defineApi, z } from '@faasjs/core'
 
-const schema = z.object({
-  new_password: z.string(),
-  old_password: z.string()
-}).required();
+const schema = z
+  .object({
+    new_password: z.string(),
+    old_password: z.string(),
+  })
+  .required()
 
-export const func = defineFunc({
+export const func = defineApi({
   schema,
   async handler({ knex, params, session }) {
-    if (!knex || !params) {
-      throw Error('缺少插件配置');
+    if (!knex) {
+      throw Error('缺少插件配置')
     }
 
-    const userId = session.read('user_id');
+    const userId = session.read('user_id')
 
     if (typeof userId !== 'number') {
-      throw Error('未登录');
+      throw Error('未登录')
     }
 
-    const row = await knex('users')
-      .select('password')
-      .where('id', '=', userId)
-      .first();
+    const row = await knex('users').select('password').where('id', '=', userId).first()
     if (row.password !== params.old_password) {
-      throw Error('旧密码错误');
+      throw Error('旧密码错误')
     }
     await knex('users').where('id', '=', userId).update({
-      password: params.new_password
-    });
-  }
-});
+      password: params.new_password,
+    })
+  },
+})
 ```
 
 ## 完整项目代码

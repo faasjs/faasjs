@@ -1,7 +1,20 @@
 {
   "name": "@faasjs/node-utils",
   "version": "8.0.0-beta.8",
+  "homepage": "https://faasjs.com/doc/node-utils",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/node-utils"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -13,32 +26,16 @@
       "require": "./dist/index.cjs"
     }
   },
-  "homepage": "https://faasjs.com/doc/node-utils",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/faasjs/faasjs.git",
-    "directory": "packages/node-utils"
-  },
-  "bugs": {
-    "url": "https://github.com/faasjs/faasjs/issues"
-  },
-  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "build": "tsdown src/index.ts --config ../../tsdown.config.ts"
   },
-  "files": [
-    "dist"
-  ],
-  "peerDependencies": {
-    "@faasjs/func": ">=8.0.0-beta.8",
-    "@faasjs/logger": ">=8.0.0-beta.8",
-    "js-yaml": "*"
-  },
   "devDependencies": {
     "@faasjs/func": ">=8.0.0-beta.8",
-    "@faasjs/logger": ">=8.0.0-beta.8",
-    "@types/js-yaml": "*",
-    "js-yaml": "*"
+    "@faasjs/logger": ">=8.0.0-beta.8"
+  },
+  "peerDependencies": {
+    "@faasjs/func": ">=8.0.0-beta.8",
+    "@faasjs/logger": ">=8.0.0-beta.8"
   },
   "engines": {
     "node": ">=24.0.0",

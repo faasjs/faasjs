@@ -43,7 +43,7 @@ describe('plugins.runHandler', () => {
     const handler = new Func({
       plugins: [new RunHandler()],
       async handler(data: InvokeData) {
-        await new Promise<void>(resolve => {
+        await new Promise<void>((resolve) => {
           data.callback(null, data.event + 1)
           resolve()
         })
@@ -104,7 +104,7 @@ describe('plugins.runHandler', () => {
       await new Func({
         plugins: [new RunHandler()],
         async handler(data: InvokeData) {
-          await new Promise<void>(resolve => {
+          await new Promise<void>((resolve) => {
             data.callback(Error('wrong'))
             resolve()
           })

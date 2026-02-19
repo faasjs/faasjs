@@ -13,21 +13,21 @@ describe('FormLabelElement', () => {
   it('should render without title and description', () => {
     render(<FormLabelElement name='testName'>{null}</FormLabelElement>)
 
-    expect(screen.getByText(c => c.includes('testName'))).not.toBeNull()
+    expect(screen.getByText((c) => c.includes('testName'))).not.toBeNull()
   })
 
   it('should render label title and description', () => {
     render(<FormLabelElement {...defaultProps} />)
 
-    expect(screen.getByText(c => c.includes('Test Label'))).not.toBeNull()
-    expect(screen.getByText(c => c.includes('Test Description'))).not.toBeNull()
+    expect(screen.getByText((c) => c.includes('Test Label'))).not.toBeNull()
+    expect(screen.getByText((c) => c.includes('Test Description'))).not.toBeNull()
   })
 
   it('should render input element with correct value', () => {
     render(
       <FormLabelElement {...defaultProps}>
         <input title='test' value='testValue' />
-      </FormLabelElement>
+      </FormLabelElement>,
     )
 
     expect(screen.getByDisplayValue('testValue')).not.toBeNull()
@@ -36,6 +36,6 @@ describe('FormLabelElement', () => {
   it('should render error message', () => {
     render(<FormLabelElement {...defaultProps} error={Error('Test Error')} />)
 
-    expect(screen.getByText(c => c.includes('Test Error'))).not.toBeNull()
+    expect(screen.getByText((c) => c.includes('Test Error'))).not.toBeNull()
   })
 })

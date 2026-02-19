@@ -13,7 +13,7 @@ describe('Accept-Encoding', () => {
         async handler() {
           return data
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler(null, {
@@ -32,7 +32,7 @@ describe('Accept-Encoding', () => {
         async handler() {
           return data
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler(null, {
@@ -51,7 +51,7 @@ describe('Accept-Encoding', () => {
         async handler() {
           return data
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler(null, {
@@ -70,7 +70,7 @@ describe('Accept-Encoding', () => {
         async handler() {
           return data
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler(null, {
@@ -94,7 +94,7 @@ describe('Accept-Encoding', () => {
             body: payload,
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler(null, {

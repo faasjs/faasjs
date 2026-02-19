@@ -60,9 +60,9 @@ npx create-faas-app --name faasjs
 ```ts
 // index.func.ts
 // all cloud function file should be ended with .func.ts
-import { defineFunc } from '@faasjs/core'
+import { defineApi } from '@faasjs/core'
 
-export const func = defineFunc({
+export const func = defineApi({
   async handler() {
     return 'Hello, world' // response content
   },
@@ -114,7 +114,7 @@ Code contributors (in alphabetical order):
 Open source projects (in alphabetical order):
 
 <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:2em">
-  <a href="https://biomejs.dev/" target="_blank">Biome</a>,
+  <a href="https://oxc.rs/" target="_blank">Oxc</a>,
   <a href="https://knexjs.org/" target="_blank">Knex</a>,
   <a href="https://nodejs.org/" target="_blank">Node.js</a>,
   <a href="https://react.dev/" target="_blank">React</a>,

@@ -12,7 +12,7 @@ export const func = new Func({
             controller.error(new Error('error'))
           })
         },
-      })
+      }),
     )
   },
 })

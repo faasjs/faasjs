@@ -4,10 +4,21 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v8.0.0-beta.9 (2026-02-18)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.8...v8.0.0-beta.9)
 
+- `faasjs`
+  - [Break] Remove `@faasjs/lint`. Linter and formatter moved to `@faasjs/dev`.
+
 - `@faasjs/request`
   - [Break] Remove `pfx`, `passphrase` and `agent`.
   - [Break] Replaced `http`/`https` with `fetch`.
   - [Break] Remove default timeout.
+
+- `@faasjs/dev`
+  - [Feature] All cli tools be merged in `faas` cli.
+  - [Feature] New linter and formatter based on `oxlint` and `oxfmt`.
+
+- `@faasjs/code`
+  - [Break] Rename `defineFunc` to `defineApi`.
+  - [Break] `defineApi` required `http` config.
 
 [`v8.0.0-beta.8 (2026-02-16)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.7...v8.0.0-beta.8)
 
@@ -1315,12 +1326,14 @@ Happy New Year! 🎉
   - [Fix] Fix logger.
 
 [`v0.0.2-beta.402 (2022-08-20)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.400...v0.0.2-beta.402)
+
 - `@faasjs/func`
   - [Fix] Fix logger for testing.
 - `@faasjs/knex`
   - [Fix] Fix logger.
 
 [`v0.0.2-beta.400 (2022-08-19)`](https://github.com/faasjs/faasjs/compare/v0.0.2-beta.399...v0.0.2-beta.400)
+
 - [Break] Add request_id to all logs.
 - [Break] Add `node >= 16.0.0` to `package.json`.
 

@@ -25,9 +25,7 @@ describe('parseFuncFilenameFromStack', () => {
   })
 
   it('normalizes file URL to file path', () => {
-    const stack = ['Error', '    at file:///repo/a%20file.func.ts:12:34'].join(
-      '\n'
-    )
+    const stack = ['Error', '    at file:///repo/a%20file.func.ts:12:34'].join('\n')
 
     expect(parseFuncFilenameFromStack(stack)).toEqual('/repo/a file.func.ts')
   })

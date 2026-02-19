@@ -14,11 +14,7 @@ function escapeXml(value: string): string {
     .replace(/'/g, '&apos;')
 }
 
-function getAlternateRoutes(
-  route: string,
-  routeSet: Set<string>,
-  hostname: string
-): string {
+function getAlternateRoutes(route: string, routeSet: Set<string>, hostname: string): string {
   const isZh = route.startsWith('/zh/')
   const enRoute = isZh ? `/${route.slice('/zh/'.length)}` : route
   const normalizedEnRoute = enRoute === '//' ? '/' : enRoute
@@ -33,17 +29,14 @@ function getAlternateRoutes(
   }
 
   return `${`<xhtml:link rel="alternate" hreflang="en" href="${escapeXml(
-    `${hostname}${normalizedEnRoute}`
+    `${hostname}${normalizedEnRoute}`,
   )}"/>`}${`<xhtml:link rel="alternate" hreflang="zh" href="${escapeXml(
-    `${hostname}${zhRoute}`
+    `${hostname}${zhRoute}`,
   )}"/>`}`
 }
 
-export function buildSitemapXml(options: {
-  routes: SitemapRoute[]
-  hostname: string
-}): string {
-  const routeSet = new Set(options.routes.map(item => toAliasKey(item.route)))
+export function buildSitemapXml(options: { routes: SitemapRoute[]; hostname: string }): string {
+  const routeSet = new Set(options.routes.map((item) => toAliasKey(item.route)))
   const lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>',
@@ -59,11 +52,9 @@ export function buildSitemapXml(options: {
   for (const item of sortedRoutes) {
     const loc = `${options.hostname}${item.route}`
     const alternate = getAlternateRoutes(item.route, routeSet, options.hostname)
-    const lastmod = item.lastmod
-      ? `<lastmod>${escapeXml(item.lastmod)}</lastmod>`
-      : ''
+    const lastmod = item.lastmod ? `<lastmod>${escapeXml(item.lastmod)}</lastmod>` : ''
     lines.push(
-      `<url><loc>${escapeXml(loc)}</loc>${lastmod}<changefreq>daily</changefreq>${alternate}</url>`
+      `<url><loc>${escapeXml(loc)}</loc>${lastmod}<changefreq>daily</changefreq>${alternate}</url>`,
     )
   }
 

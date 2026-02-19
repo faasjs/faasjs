@@ -158,12 +158,7 @@
  *
  * @packageDocumentation
  */
-import type {
-  FaasAction,
-  FaasActionUnionType,
-  FaasData,
-  FaasParams,
-} from '@faasjs/types'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 
 import { generateId } from './generateId'
 
@@ -246,7 +241,7 @@ export type Options = RequestInit & {
   /** custom request */
   request?: <PathOrData extends FaasActionUnionType>(
     url: string,
-    options: Options
+    options: Options,
   ) => Promise<Response<FaasData<PathOrData>>>
   baseUrl?: BaseUrl
   stream?: boolean
@@ -304,7 +299,7 @@ export type ResponseHeaders = {
 export type FaasBrowserClientAction = <PathOrData extends FaasActionUnionType>(
   action: FaasAction<PathOrData>,
   params?: FaasParams<PathOrData>,
-  options?: Options
+  options?: Options,
 ) => Promise<Response<FaasData<PathOrData>> | Response>
 
 /**
@@ -595,22 +590,16 @@ export class ResponseError extends Error {
   public readonly body: any
   public readonly originalError?: Error
 
-  constructor(
-    msg: string | Error,
-    options?: Omit<ResponseErrorProps, 'message' | 'originalError'>
-  )
+  constructor(msg: string | Error, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>)
   constructor(props: ResponseErrorProps)
   constructor(
     data: string | Error | ResponseErrorProps,
-    options?: Omit<ResponseErrorProps, 'message' | 'originalError'>
+    options?: Omit<ResponseErrorProps, 'message' | 'originalError'>,
   ) {
     let props: ResponseErrorProps
     if (typeof data === 'string') {
       props = { message: data, ...options }
-    } else if (
-      data instanceof Error ||
-      data?.constructor?.name?.includes('Error')
-    ) {
+    } else if (data instanceof Error || data?.constructor?.name?.includes('Error')) {
       props = {
         message: data.message,
         originalError: data as Error,
@@ -624,8 +613,7 @@ export class ResponseError extends Error {
 
     this.status = props.status || 500
     this.headers = props.headers || {}
-    this.body = props.body ||
-      props.originalError || { error: { message: props.message } }
+    this.body = props.body || props.originalError || { error: { message: props.message } }
   }
 }
 
@@ -712,7 +700,7 @@ export class ResponseError extends Error {
 export type MockHandler = (
   action: string,
   params: Record<string, any> | undefined,
-  options: Options
+  options: Options,
 ) => Promise<ResponseProps> | Promise<void> | Promise<Error>
 
 let mock: MockHandler | ResponseProps | Response | null = null
@@ -770,9 +758,7 @@ let mock: MockHandler | ResponseProps | Response | null = null
  * // This will reject with ResponseError
  * ```
  */
-export function setMock(
-  handler: MockHandler | ResponseProps | Response | null
-) {
+export function setMock(handler: MockHandler | ResponseProps | Response | null) {
   mock = handler
 }
 
@@ -911,8 +897,7 @@ export class FaasBrowserClient {
    * @throws {Error} When baseUrl does not end with '/'
    */
   constructor(baseUrl: BaseUrl = '/', options: Options = Object.create(null)) {
-    if (baseUrl && !baseUrl.endsWith('/'))
-      throw Error('[FaasJS] baseUrl should end with /')
+    if (baseUrl && !baseUrl.endsWith('/')) throw Error('[FaasJS] baseUrl should end with /')
 
     this.id = `FBC-${generateId()}`
     this.baseUrl = baseUrl
@@ -1029,7 +1014,7 @@ export class FaasBrowserClient {
   public async action<PathOrData extends FaasActionUnionType>(
     action: FaasAction<PathOrData>,
     params?: FaasParams<PathOrData>,
-    options?: Options
+    options?: Options,
   ): Promise<Response<FaasData<PathOrData>>> {
     if (!action) throw Error('[FaasJS] action required')
 
@@ -1068,8 +1053,7 @@ export class FaasBrowserClient {
       console.debug(`[FaasJS] Mock request: ${action} %j`, params)
       if (typeof mock === 'function') {
         const response = await mock(action as string, params, parsedOptions)
-        if (response instanceof Error)
-          return Promise.reject(new ResponseError(response))
+        if (response instanceof Error) return Promise.reject(new ResponseError(response))
         if (response instanceof Response) return response
         return new Response(response || {})
       }
@@ -1080,18 +1064,16 @@ export class FaasBrowserClient {
     if (parsedOptions.request) return parsedOptions.request(url, parsedOptions)
 
     if (parsedOptions.stream) {
-      return fetch(url, parsedOptions) as unknown as Promise<
-        Response<FaasData<PathOrData>>
-      >
+      return fetch(url, parsedOptions) as unknown as Promise<Response<FaasData<PathOrData>>>
     }
 
-    return fetch(url, parsedOptions).then(async response => {
+    return fetch(url, parsedOptions).then(async (response) => {
       const headers: {
         [key: string]: string
       } = {}
       for (const values of response.headers) headers[values[0]] = values[1]
 
-      return response.text().then(res => {
+      return response.text().then((res) => {
         if (response.status >= 200 && response.status < 300) {
           if (!res)
             return new Response({
@@ -1108,7 +1090,7 @@ export class FaasBrowserClient {
                 status: response.status,
                 headers,
                 body,
-              })
+              }),
             )
 
           return new Response({
@@ -1129,7 +1111,7 @@ export class FaasBrowserClient {
                 status: response.status,
                 headers,
                 body,
-              })
+              }),
             )
 
           return Promise.reject(
@@ -1138,7 +1120,7 @@ export class FaasBrowserClient {
               status: response.status,
               headers,
               body,
-            })
+            }),
           )
         } catch (_) {
           return Promise.reject(
@@ -1147,7 +1129,7 @@ export class FaasBrowserClient {
               status: response.status,
               headers,
               body: res,
-            })
+            }),
           )
         }
       })

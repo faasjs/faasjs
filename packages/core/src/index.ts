@@ -45,41 +45,30 @@ type CoreMountData<TEvent = any, TContext = any> = {
   logger?: any
 }
 
-export type DefineFuncData<
+export type DefineApiData<
   TSchema extends ZodSchema | undefined = undefined,
   TEvent = any,
   TContext = any,
   TResult = any,
 > = InvokeData<TEvent, TContext, TResult> & {
-  params:
-    | (TSchema extends ZodSchema
-        ? output<NonNullable<TSchema>>
-        : Record<string, never>)
-    | undefined
+  params: TSchema extends ZodSchema ? output<NonNullable<TSchema>> : Record<string, never>
   knex: KnexQuery | undefined
 }
 
-export type DefineFuncOptions<
+export type DefineApiOptions<
   TSchema extends ZodSchema | undefined = undefined,
   TEvent = any,
   TContext = any,
   TResult = any,
 > = {
   schema?: TSchema
-  handler: (
-    data: DefineFuncData<TSchema, TEvent, TContext, TResult>
-  ) => Promise<TResult>
+  handler: (data: DefineApiData<TSchema, TEvent, TContext, TResult>) => Promise<TResult>
 }
 
 function formatPluginModuleName(type: string): string {
   if (type.startsWith('npm:')) return type.slice(4)
 
-  if (
-    type.startsWith('@') ||
-    type.startsWith('.') ||
-    type.startsWith('/') ||
-    type.includes(':')
-  )
+  if (type.startsWith('@') || type.startsWith('.') || type.startsWith('/') || type.includes(':'))
     return type
 
   return `@faasjs/${type}`
@@ -90,7 +79,7 @@ function formatPluginClassName(type: string): string {
     .replace(/^@[^/]+\//, '')
     .split(/[^A-Za-z0-9]+/)
     .filter(Boolean)
-    .map(item => item.slice(0, 1).toUpperCase() + item.slice(1))
+    .map((item) => item.slice(0, 1).toUpperCase() + item.slice(1))
     .join('')
 }
 
@@ -101,26 +90,18 @@ function isPluginConstructor(value: unknown): value is PluginConstructor {
 
   if (!prototype || typeof prototype !== 'object') return false
 
-  return (
-    typeof prototype.onMount === 'function' ||
-    typeof prototype.onInvoke === 'function'
-  )
+  return typeof prototype.onMount === 'function' || typeof prototype.onInvoke === 'function'
 }
 
 function normalizeIssueMessage(message: string): string {
-  return message
-    .replace(': expected', ', expected')
-    .replace(/>=\s+/g, '>=')
-    .replace(/<=\s+/g, '<=')
+  return message.replace(': expected', ', expected').replace(/>=\s+/g, '>=').replace(/<=\s+/g, '<=')
 }
 
 function formatZodErrorMessage(error: ZodError): string {
   const lines = ['Invalid params']
 
   for (const issue of error.issues) {
-    const path = issue.path.length
-      ? issue.path.map(item => String(item)).join('.')
-      : '<root>'
+    const path = issue.path.length ? issue.path.map((item) => String(item)).join('.') : '<root>'
 
     lines.push(`${path}: ${normalizeIssueMessage(issue.message)}`)
   }
@@ -130,26 +111,19 @@ function formatZodErrorMessage(error: ZodError): string {
 
 function findPluginByType<TPlugin extends Plugin = Plugin>(
   func: Func,
-  type: string
+  type: string,
 ): TPlugin | undefined {
-  return func.plugins.find(plugin => plugin.type === type) as
-    | TPlugin
-    | undefined
+  return func.plugins.find((plugin) => plugin.type === type) as TPlugin | undefined
 }
 
-function resolvePluginConfig(
-  key: string,
-  rawConfig: RawPluginConfig
-): ResolvedPluginConfig {
+function resolvePluginConfig(key: string, rawConfig: RawPluginConfig): ResolvedPluginConfig {
   const configValue =
     rawConfig && typeof rawConfig === 'object'
       ? Object.assign(Object.create(null), rawConfig)
       : Object.create(null)
 
   const pluginName =
-    typeof configValue.name === 'string' && configValue.name.length
-      ? configValue.name
-      : key
+    typeof configValue.name === 'string' && configValue.name.length ? configValue.name : key
 
   const pluginType =
     (typeof configValue.type === 'string' && configValue.type) ||
@@ -172,7 +146,7 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
 
   private insertPluginBeforeRunHandler(plugin: Plugin): void {
     const index = this.plugins.findIndex(
-      item => item.type === 'handler' && item.name === 'handler'
+      (item) => item.type === 'handler' && item.name === 'handler',
     )
 
     if (index === -1) this.plugins.push(plugin)
@@ -182,7 +156,7 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
   private async resolvePluginConstructor(
     moduleName: string,
     className: string,
-    pluginName: string
+    pluginName: string,
   ): Promise<PluginConstructor> {
     let mod: any
 
@@ -190,7 +164,7 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
       mod = await import(moduleName)
     } catch (error: any) {
       throw Error(
-        `[defineFunc] Failed to load plugin "${pluginName}" from "${moduleName}": ${error.message}`
+        `[defineApi] Failed to load plugin "${pluginName}" from "${moduleName}": ${error.message}`,
       )
     }
 
@@ -199,33 +173,27 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
     if (isPluginConstructor(mod.default)) return mod.default
 
     throw Error(
-      `[defineFunc] Failed to resolve plugin class "${className}" from "${moduleName}" for plugin "${pluginName}". Supported exports are named class "${className}" or default class export.`
+      `[defineApi] Failed to resolve plugin class "${className}" from "${moduleName}" for plugin "${pluginName}". Supported exports are named class "${className}" or default class export.`,
     )
   }
 
   private async loadPluginsFromConfig(config: Config): Promise<void> {
-    const pluginConfigs = (config.plugins || Object.create(null)) as Record<
-      string,
-      RawPluginConfig
-    >
+    const pluginConfigs = (config.plugins || Object.create(null)) as Record<string, RawPluginConfig>
 
     for (const key in pluginConfigs) {
       if (!Object.hasOwn(pluginConfigs, key)) continue
 
       const rawConfig = pluginConfigs[key]
-      const { configValue, pluginName, pluginType } = resolvePluginConfig(
-        key,
-        rawConfig
-      )
+      const { configValue, pluginName, pluginType } = resolvePluginConfig(key, rawConfig)
 
-      if (this.plugins.find(plugin => plugin.name === pluginName)) continue
+      if (this.plugins.find((plugin) => plugin.name === pluginName)) continue
 
       const moduleName = formatPluginModuleName(pluginType)
       const className = formatPluginClassName(pluginType)
       const PluginConstructor = await this.resolvePluginConstructor(
         moduleName,
         className,
-        pluginName
+        pluginName,
       )
 
       let plugin: Plugin
@@ -238,14 +206,12 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
         })
       } catch (error: any) {
         throw Error(
-          `[defineFunc] Failed to initialize plugin "${pluginName}" from "${moduleName}": ${error.message}`
+          `[defineApi] Failed to initialize plugin "${pluginName}" from "${moduleName}": ${error.message}`,
         )
       }
 
       if (!plugin || typeof plugin !== 'object')
-        throw Error(
-          `[defineFunc] Invalid plugin instance for "${pluginName}" from "${moduleName}".`
-        )
+        throw Error(`[defineApi] Invalid plugin instance for "${pluginName}" from "${moduleName}".`)
 
       this.insertPluginBeforeRunHandler(plugin)
     }
@@ -257,7 +223,7 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
     data: CoreMountData<TEvent, TContext> = {
       event: Object.create(null) as TEvent,
       context: Object.create(null) as TContext,
-    }
+    },
   ): Promise<void> {
     if (!data.config) data.config = this.config
 
@@ -268,22 +234,22 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
 }
 
 /**
- * Create a cloud function with optional Zod validation.
+ * Create an HTTP API function with optional Zod validation.
  *
  * Plugins are always auto-loaded from `func.config.plugins`.
  * Plugin module exports must be either a named class (normalized from
  * plugin type) or a default class export.
+ *
+ * The `http` plugin is required.
  */
-export function defineFunc<
+export function defineApi<
   TSchema extends ZodSchema | undefined = undefined,
   TEvent = any,
   TContext = any,
   TResult = any,
->(
-  options: DefineFuncOptions<TSchema, TEvent, TContext, TResult>
-): Func<TEvent, TContext, TResult> {
+>(options: DefineApiOptions<TSchema, TEvent, TContext, TResult>): Func<TEvent, TContext, TResult> {
   let func: CoreFunc<TEvent, TContext, TResult>
-  type Params = DefineFuncData<TSchema, TEvent, TContext, TResult>['params']
+  type Params = DefineApiData<TSchema, TEvent, TContext, TResult>['params']
 
   let pluginRefsResolved = false
   let hasHttp = false
@@ -296,13 +262,14 @@ export function defineFunc<
       pluginRefsResolved = true
     }
 
-    if (!hasHttp) return undefined
+    if (!hasHttp)
+      throw Error(
+        '[defineApi] Missing required "http" plugin. Please configure it in func.config.plugins.',
+      )
 
     if (!options.schema) return {} as Params
 
-    const result = await options.schema.safeParseAsync(
-      (event as any)?.params ?? {}
-    )
+    const result = await options.schema.safeParseAsync((event as any)?.params ?? {})
 
     if (!result.success)
       throw new HttpError({
@@ -313,14 +280,14 @@ export function defineFunc<
     return result.data as Params
   }
 
-  const invokeHandler: Handler<TEvent, TContext, TResult> = async data => {
+  const invokeHandler: Handler<TEvent, TContext, TResult> = async (data) => {
     const params = await parseParams(data.event)
 
     const invokeData = {
       ...data,
       params,
       knex: knexQuery,
-    } as DefineFuncData<TSchema, TEvent, TContext, TResult>
+    } as DefineApiData<TSchema, TEvent, TContext, TResult>
 
     return options.handler(invokeData)
   }

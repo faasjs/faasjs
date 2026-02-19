@@ -43,18 +43,8 @@
  * @packageDocumentation
  */
 
-export type {
-  Options,
-  Response,
-  ResponseError,
-  ResponseHeaders,
-} from '@faasjs/browser'
-export type {
-  FaasAction,
-  FaasActionUnionType,
-  FaasData,
-  FaasParams,
-} from '@faasjs/types'
+export type { Options, Response, ResponseError, ResponseHeaders } from '@faasjs/browser'
+export type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 export * from './client'
 export * from './constant'
 export * from './ErrorBoundary'

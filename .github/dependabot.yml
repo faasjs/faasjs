@@ -5,27 +5,27 @@
 
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/"
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/docs"
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/docs'
     schedule:
-      interval: "daily"
-  - package-ecosystem: "docker"
+      interval: 'daily'
+  - package-ecosystem: 'docker'
     directory: /images/nginx
     schedule:
-      interval: "daily"
-  - package-ecosystem: "docker"
+      interval: 'daily'
+  - package-ecosystem: 'docker'
     directory: /images/node
     schedule:
-      interval: "daily"
-  - package-ecosystem: "docker"
+      interval: 'daily'
+  - package-ecosystem: 'docker'
     directory: /images/vscode
     schedule:
-      interval: "daily"
+      interval: 'daily'

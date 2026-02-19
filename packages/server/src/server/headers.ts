@@ -24,7 +24,7 @@ const ExposedHeadersBlacklist = [
 
 export function buildCORSHeaders(
   headers: IncomingHttpHeaders,
-  extra: IncomingHttpHeaders = {}
+  extra: IncomingHttpHeaders = {},
 ): IncomingHttpHeaders {
   const commonHeaderNames = [
     ...AdditionalHeaders,
@@ -33,10 +33,10 @@ export function buildCORSHeaders(
     extra['access-control-request-headers'],
     headers['access-control-request-headers'],
   ].filter(
-    key =>
+    (key) =>
       !!key &&
       !key.startsWith('access-control-') &&
-      !ExposedHeadersBlacklist.includes(key.toLowerCase())
+      !ExposedHeadersBlacklist.includes(key.toLowerCase()),
   )
 
   return {
@@ -46,22 +46,18 @@ export function buildCORSHeaders(
     'access-control-allow-headers': Array.from(
       new Set(
         commonHeaderNames.concat(
-          extra['access-control-allow-headers'] ||
-            headers['access-control-allow-headers'] ||
-            []
-        )
-      )
+          extra['access-control-allow-headers'] || headers['access-control-allow-headers'] || [],
+        ),
+      ),
     )
       .sort()
       .join(', '),
     'access-control-expose-headers': Array.from(
       new Set(
         commonHeaderNames.concat(
-          extra['access-control-expose-headers'] ||
-            headers['access-control-expose-headers'] ||
-            []
-        )
-      )
+          extra['access-control-expose-headers'] || headers['access-control-expose-headers'] || [],
+        ),
+      ),
     )
       .sort()
       .join(', '),

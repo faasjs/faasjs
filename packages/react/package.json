@@ -1,7 +1,20 @@
 {
   "name": "@faasjs/react",
   "version": "8.0.0-beta.8",
+  "homepage": "https://faasjs.com/doc/react/",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/react"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -13,29 +26,16 @@
       "require": "./dist/index.cjs"
     }
   },
-  "homepage": "https://faasjs.com/doc/react/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/faasjs/faasjs.git",
-    "directory": "packages/react"
-  },
-  "bugs": {
-    "url": "https://github.com/faasjs/faasjs/issues"
-  },
-  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "build": "tsdown src/index.ts --config ../../tsdown.config.ts --external react --dts.eager --no-sourcemap --no-dts.sourcemap"
-  },
-  "files": [
-    "dist"
-  ],
-  "peerDependencies": {
-    "@faasjs/browser": ">=8.0.0-beta.8"
   },
   "devDependencies": {
     "@faasjs/browser": ">=8.0.0-beta.8",
     "@types/react": "^19.0.0",
     "react": "^19.0.0"
+  },
+  "peerDependencies": {
+    "@faasjs/browser": ">=8.0.0-beta.8"
   },
   "engines": {
     "node": ">=24.0.0",

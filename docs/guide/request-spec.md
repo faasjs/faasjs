@@ -6,7 +6,7 @@ To ensure consistency and avoid confusion during team collaboration, FaasJS offe
 
 ### Headers
 
-* **Content-Type:** `application/json; charset=UTF-8`
+- **Content-Type:** `application/json; charset=UTF-8`
 
 ### Method
 
@@ -28,13 +28,13 @@ Empty or formatted in JSON.
 
 ### Headers
 
-* **Content-Type:** `application/json; charset=UTF-8`
+- **Content-Type:** `application/json; charset=UTF-8`
 
 #### Status Codes
 
-* **200** Request successful with response data.
-* **204** Request successful with no content (no response data).
-* **500** Request failed.
+- **200** Request successful with response data.
+- **204** Request successful with no content (no response data).
+- **500** Request failed.
 
 Additional status codes can be implemented based on specific business needs.
 
@@ -42,7 +42,7 @@ Additional status codes can be implemented based on specific business needs.
 
 #### 200 Status
 
-* **data** (Required): Contains business information.
+- **data** (Required): Contains business information.
 
 **Examples:**
 
@@ -70,8 +70,8 @@ No body included (204 No Content).
 
 #### 500 Status
 
-* **error** (Required): Error object
-  * **message** (Required): Description of the error. (Using `\n` to separate multiple error messages).
+- **error** (Required): Error object
+  - **message** (Required): Description of the error. (Using `\n` to separate multiple error messages).
 
 Example:
 

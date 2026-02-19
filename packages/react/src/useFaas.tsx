@@ -1,10 +1,5 @@
 import type { BaseUrl, Response } from '@faasjs/browser'
-import type {
-  FaasAction,
-  FaasActionUnionType,
-  FaasData,
-  FaasParams,
-} from '@faasjs/types'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import { useRef, useState } from 'react'
 import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
@@ -43,7 +38,7 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
 export function useFaas<PathOrData extends FaasActionUnionType>(
   action: FaasAction<PathOrData>,
   defaultParams: FaasParams<PathOrData>,
-  options: useFaasOptions<PathOrData> = {}
+  options: useFaasOptions<PathOrData> = {},
 ): FaasDataInjection<PathOrData> {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<FaasData<PathOrData>>()
@@ -52,17 +47,11 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
   const [reloadTimes, setReloadTimes] = useState(0)
   const [fails, setFails] = useState(0)
   const [skip, setSkip] = useState(
-    typeof options.skip === 'function'
-      ? options.skip(defaultParams)
-      : options.skip
+    typeof options.skip === 'function' ? options.skip(defaultParams) : options.skip,
   )
-  const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>> | null>(
-    null
-  )
+  const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>> | null>(null)
   const controllerRef = useRef<AbortController | null>(null)
-  const localSetData = setData as React.Dispatch<
-    React.SetStateAction<FaasData<PathOrData>>
-  >
+  const localSetData = setData as React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
   const pendingReloadsRef = useRef<
     Map<
       number,
@@ -75,9 +64,7 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
   const reloadCounterRef = useRef(0)
 
   useEqualEffect(() => {
-    setSkip(
-      typeof options.skip === 'function' ? options.skip(params) : options.skip
-    )
+    setSkip(typeof options.skip === 'function' ? options.skip(params) : options.skip)
   }, [typeof options.skip === 'function' ? params : options.skip])
 
   useEqualEffect(() => {
@@ -107,7 +94,7 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
       promiseRef.current = request
 
       request
-        .then(r => {
+        .then((r) => {
           const nextData = r.data as FaasData<PathOrData>
 
           setFails(0)
@@ -115,12 +102,11 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
           options.setData ? options.setData(nextData) : localSetData(nextData)
           setLoading(false)
 
-          for (const { resolve } of pendingReloadsRef.current.values())
-            resolve(nextData)
+          for (const { resolve } of pendingReloadsRef.current.values()) resolve(nextData)
 
           pendingReloadsRef.current.clear()
         })
-        .catch(async e => {
+        .catch(async (e) => {
           if (
             typeof e?.message === 'string' &&
             (e.message as string).toLowerCase().indexOf('aborted') >= 0
@@ -148,8 +134,7 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
           setError(error)
           setLoading(false)
 
-          for (const { reject } of pendingReloadsRef.current.values())
-            reject(error)
+          for (const { reject } of pendingReloadsRef.current.values()) reject(error)
 
           pendingReloadsRef.current.clear()
 
@@ -182,19 +167,18 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
 
       const reloadCounter = ++reloadCounterRef.current
 
-      setReloadTimes(prev => prev + 1)
+      setReloadTimes((prev) => prev + 1)
 
       return new Promise<FaasData<PathOrData>>((resolve, reject) => {
         pendingReloadsRef.current.set(reloadCounter, { resolve, reject })
-        setReloadTimes(prev => prev + 1)
+        setReloadTimes((prev) => prev + 1)
       })
     },
-    [params, skip]
+    [params, skip],
   )
 
   const currentData = (options.data ?? data) as FaasData<PathOrData>
-  const currentPromise =
-    promiseRef.current ?? Promise.resolve({} as Response<FaasData<PathOrData>>)
+  const currentPromise = promiseRef.current ?? Promise.resolve({} as Response<FaasData<PathOrData>>)
   const updateData = (options.setData ?? localSetData) as React.Dispatch<
     React.SetStateAction<FaasData<PathOrData>>
   >
@@ -210,11 +194,9 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
     reload,
     setData: updateData,
     setLoading,
-    setPromise: newPromise => {
+    setPromise: (newPromise) => {
       promiseRef.current =
-        typeof newPromise === 'function'
-          ? newPromise(currentPromise)
-          : newPromise
+        typeof newPromise === 'function' ? newPromise(currentPromise) : newPromise
     },
     setError,
   }

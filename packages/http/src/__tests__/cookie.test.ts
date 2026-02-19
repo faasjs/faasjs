@@ -206,9 +206,7 @@ describe('cookie', () => {
         value: null,
       })
 
-      expect(res.headers['Set-Cookie']).toEqual([
-        'key=1;max-age=1;path=/;Secure;HttpOnly;',
-      ])
+      expect(res.headers['Set-Cookie']).toEqual(['key=1;max-age=1;path=/;Secure;HttpOnly;'])
     })
 
     it('expires string', async () => {
@@ -233,9 +231,7 @@ describe('cookie', () => {
         value: null,
       })
 
-      expect(res.headers['Set-Cookie']).toEqual([
-        'key=1;expires=1;path=/;Secure;HttpOnly;',
-      ])
+      expect(res.headers['Set-Cookie']).toEqual(['key=1;expires=1;path=/;Secure;HttpOnly;'])
     })
   })
 })

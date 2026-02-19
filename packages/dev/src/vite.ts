@@ -29,8 +29,7 @@ function stripBase(url: string, base: string): string {
 
   if (pathname === base) return `/${search}`
 
-  if (pathname.startsWith(`${base}/`))
-    return `${pathname.slice(base.length)}${search}`
+  if (pathname.startsWith(`${base}/`)) return `${pathname.slice(base.length)}${search}`
 
   return url
 }
@@ -50,11 +49,7 @@ export function viteFaasJsServer(): Plugin {
     name: 'vite:faasjs',
     enforce: 'pre' as const,
     configResolved(resolvedConfig) {
-      const { root, base } = resolveServerConfig(
-        resolvedConfig.root,
-        logger,
-        resolvedConfig.base
-      )
+      const { root, base } = resolveServerConfig(resolvedConfig.root, logger, resolvedConfig.base)
 
       config = {
         root,
@@ -81,7 +76,7 @@ export function viteFaasJsServer(): Plugin {
             '[faas types] %s %s (%i routes)',
             result.changed ? 'generated' : 'up-to-date',
             result.output,
-            result.routeCount
+            result.routeCount,
           )
         } catch (error: any) {
           logger.error('[faas types] %s', error.message)
@@ -127,7 +122,7 @@ export function viteFaasJsServer(): Plugin {
             res.write(
               JSON.stringify({
                 error: { message: 'Internal Server Error' },
-              })
+              }),
             )
             res.end()
           }

@@ -11,7 +11,7 @@ describe('request(fetch)', () => {
       new Response('ok', {
         status: 200,
         headers: { 'content-type': 'text/plain' },
-      })
+      }),
     )
 
     await request('https://example.com')
@@ -27,7 +27,7 @@ describe('request(fetch)', () => {
       new Response('ok', {
         status: 200,
         headers: { 'content-type': 'text/plain' },
-      })
+      }),
     )
 
     await request('https://example.com', { timeout: 1234, headers: {} })
@@ -42,7 +42,7 @@ describe('request(fetch)', () => {
       new Response('ok', {
         status: 200,
         headers: { 'content-type': 'text/plain' },
-      })
+      }),
     )
 
     await request('https://example.com', {
@@ -51,9 +51,7 @@ describe('request(fetch)', () => {
     })
 
     const init = fetchMock.mock.calls[0][1] as RequestInit
-    expect((init.headers as { [key: string]: string }).Authorization).toBe(
-      'Basic Zm9vOmJhcg=='
-    )
+    expect((init.headers as { [key: string]: string }).Authorization).toBe('Basic Zm9vOmJhcg==')
   })
 
   it('does not override existing authorization header', async () => {
@@ -61,7 +59,7 @@ describe('request(fetch)', () => {
       new Response('ok', {
         status: 200,
         headers: { 'content-type': 'text/plain' },
-      })
+      }),
     )
 
     await request('https://example.com', {
@@ -72,9 +70,7 @@ describe('request(fetch)', () => {
     })
 
     const init = fetchMock.mock.calls[0][1] as RequestInit
-    expect((init.headers as { [key: string]: string }).Authorization).toBe(
-      'Bearer token'
-    )
+    expect((init.headers as { [key: string]: string }).Authorization).toBe('Bearer token')
   })
 
   it('uses custom parser for json response body', async () => {
@@ -83,7 +79,7 @@ describe('request(fetch)', () => {
       new Response('{"ok":true}', {
         status: 200,
         headers: { 'content-type': 'application/json' },
-      })
+      }),
     )
 
     const response = await request('https://example.com', {
@@ -101,7 +97,7 @@ describe('request(fetch)', () => {
         status: 500,
         statusText: 'Internal Server Error',
         headers: { 'content-type': 'text/plain' },
-      })
+      }),
     )
 
     try {
@@ -135,7 +131,7 @@ describe('request(fetch)', () => {
       new Response('{"ok":true}', {
         status: 200,
         headers: { 'content-type': 'application/json' },
-      })
+      }),
     )
 
     try {
@@ -163,7 +159,7 @@ describe('request(fetch)', () => {
       new Response('stream-data', {
         status: 200,
         headers: { 'content-type': 'text/plain' },
-      })
+      }),
     )
 
     const chunks: Buffer[] = []
@@ -180,9 +176,7 @@ describe('request(fetch)', () => {
     })
 
     const init = fetchMock.mock.calls[0][1] as RequestInit
-    expect((init.headers as { [key: string]: string })['Accept-Encoding']).toBe(
-      undefined
-    )
+    expect((init.headers as { [key: string]: string })['Accept-Encoding']).toBe(undefined)
     expect(result).toBeUndefined()
     expect(Buffer.concat(chunks).toString()).toBe('stream-data')
   })
@@ -195,7 +189,7 @@ describe('request(fetch)', () => {
       new Response('file-data', {
         status: 200,
         headers: { 'content-type': 'text/plain' },
-      })
+      }),
     )
 
     try {
@@ -205,9 +199,7 @@ describe('request(fetch)', () => {
       })
 
       const init = fetchMock.mock.calls[0][1] as RequestInit
-      expect(
-        (init.headers as { [key: string]: string })['Accept-Encoding']
-      ).toBeUndefined()
+      expect((init.headers as { [key: string]: string })['Accept-Encoding']).toBeUndefined()
       expect(result).toBeUndefined()
       expect(readFileSync(filePath).toString()).toBe('file-data')
     } finally {
@@ -217,13 +209,13 @@ describe('request(fetch)', () => {
 
   it('converts abort errors to timeout errors', async () => {
     vi.spyOn(globalThis, 'fetch').mockRejectedValue(
-      Object.assign(new Error('aborted'), { name: 'AbortError' })
+      Object.assign(new Error('aborted'), { name: 'AbortError' }),
     )
 
     await expect(
       request('https://example.com', {
         timeout: 1,
-      })
+      }),
     ).rejects.toThrow('Timeout https://example.com')
   })
 })

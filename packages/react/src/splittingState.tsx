@@ -24,9 +24,7 @@ export type StatesWithSetters<T> = T & StateSetters<T>
  * }
  * ```
  */
-export function useSplittingState<T extends Record<string, unknown>>(
-  initialStates: T
-) {
+export function useSplittingState<T extends Record<string, unknown>>(initialStates: T) {
   const states = {} as StatesWithSetters<T>
 
   for (const key of Object.keys(initialStates) as (keyof T)[]) {
@@ -34,8 +32,7 @@ export function useSplittingState<T extends Record<string, unknown>>(
 
     Object.assign(states, {
       [key]: state[0],
-      [`set${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}`]:
-        state[1],
+      [`set${String(key).charAt(0).toUpperCase()}${String(key).slice(1)}`]: state[1],
     })
   }
 

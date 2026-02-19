@@ -1,13 +1,13 @@
 {
   "name": "@faasjs/benchmark",
-  "type": "module",
   "private": true,
+  "type": "module",
   "dependencies": {
-    "benchmark": "*",
     "@faasjs/func": "file:../packages/func",
     "@faasjs/http": "file:../packages/http",
     "@faasjs/server": "file:../packages/server",
-    "koa": "*",
-    "express": "*"
+    "benchmark": "*",
+    "express": "*",
+    "koa": "*"
   }
 }

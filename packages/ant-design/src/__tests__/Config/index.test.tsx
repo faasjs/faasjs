@@ -10,7 +10,7 @@ describe('Config', () => {
       <ConfigProvider theme={{ Blank: { text: 'text' } }}>
         <Blank />
         <PageNotFound />
-      </ConfigProvider>
+      </ConfigProvider>,
     )
 
     expect(screen.getByText('text')).toBeDefined()
@@ -22,7 +22,7 @@ describe('Config', () => {
       <ConfigProvider theme={{ lang: 'zh', Blank: { text: 'text' } }}>
         <Blank />
         <PageNotFound />
-      </ConfigProvider>
+      </ConfigProvider>,
     )
 
     expect(screen.getByText('text')).toBeDefined()
@@ -30,15 +30,13 @@ describe('Config', () => {
   })
 
   it('should work with navigator.language', () => {
-    const mock = vi
-      .spyOn(window.navigator, 'language', 'get')
-      .mockReturnValueOnce('zh-CN')
+    const mock = vi.spyOn(window.navigator, 'language', 'get').mockReturnValueOnce('zh-CN')
 
     render(
       <ConfigProvider theme={{ Blank: { text: 'text' } }}>
         <Blank />
         <PageNotFound />
-      </ConfigProvider>
+      </ConfigProvider>,
     )
 
     expect(screen.getByText('text')).toBeDefined()

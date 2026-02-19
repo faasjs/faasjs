@@ -56,10 +56,7 @@ export type FormSubmitProps = {
 export interface FormProps<
   Values extends Record<string, any> = any,
   ExtendItemProps extends ExtendFormItemProps = ExtendFormItemProps,
-> extends Omit<
-    AntdFormProps<Values>,
-    'onFinish' | 'children' | 'initialValues'
-  > {
+> extends Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'> {
   items?: (
     | (ExtendItemProps extends ExtendFormItemProps
         ? ExtendItemProps | FormItemProps
@@ -68,10 +65,7 @@ export interface FormProps<
   )[]
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | FormSubmitProps
-  onFinish?: (
-    values: Values,
-    submit?: (values: any) => Promise<any>
-  ) => Promise<any>
+  onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
   beforeItems?: JSX.Element | JSX.Element[]
   footer?: JSX.Element | JSX.Element[]
   extendTypes?: ExtendTypes
@@ -88,9 +82,7 @@ function isFormItemProps(item: any): item is FormItemProps {
  *
  * - Based on [Ant Design Form](https://ant.design/components/form/).
  */
-export function Form<Values extends Record<string, any> = any>(
-  props: FormProps<Values>
-) {
+export function Form<Values extends Record<string, any> = any>(props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)
   const [computedProps, setComputedProps] = useState<FormProps<Values>>()
   const [submit, setSubmit] = useState<FormSubmitProps | false>()
@@ -98,7 +90,7 @@ export function Form<Values extends Record<string, any> = any>(
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const [form] = AntdForm.useForm<Values>(props.form)
   const [initialValues, setInitialValues] = useState<Partial<Values> | null>(
-    props.initialValues || Object.create(null)
+    props.initialValues || Object.create(null),
   )
 
   useEffect(() => {
@@ -112,9 +104,8 @@ export function Form<Values extends Record<string, any> = any>(
     if (propsCopy.initialValues && propsCopy.items?.length) {
       for (const key in propsCopy.initialValues) {
         propsCopy.initialValues[key] = transferValue(
-          propsCopy.items.find(item => isFormItemProps(item) && item.id === key)
-            ?.type,
-          propsCopy.initialValues[key]
+          propsCopy.items.find((item) => isFormItemProps(item) && item.id === key)?.type,
+          propsCopy.initialValues[key],
         )
       }
       setInitialValues(propsCopy.initialValues)
@@ -132,12 +123,12 @@ export function Form<Values extends Record<string, any> = any>(
     if (propsCopy.onFinish) {
       const originOnFinish = propsCopy.onFinish
 
-      propsCopy.onFinish = async values => {
+      propsCopy.onFinish = async (values) => {
         setLoading(true)
 
         try {
           if (submitTo?.action)
-            await originOnFinish(values, async nextValues =>
+            await originOnFinish(values, async (nextValues) =>
               faas(
                 submitTo.action,
                 submitTo.params
@@ -145,8 +136,8 @@ export function Form<Values extends Record<string, any> = any>(
                       ...nextValues,
                       ...submitTo.params,
                     }
-                  : nextValues
-              )
+                  : nextValues,
+              ),
             )
           else await originOnFinish(values)
         } catch (error) {
@@ -156,7 +147,7 @@ export function Form<Values extends Record<string, any> = any>(
         setLoading(false)
       }
     } else if (submitTo?.action) {
-      propsCopy.onFinish = async values => {
+      propsCopy.onFinish = async (values) => {
         setLoading(true)
         return faas(
           submitTo.action,
@@ -165,13 +156,13 @@ export function Form<Values extends Record<string, any> = any>(
                 ...values,
                 ...submitTo.params,
               }
-            : values
+            : values,
         )
-          .then(result => {
+          .then((result) => {
             submitTo.then?.(result)
             return result
           })
-          .catch(error => {
+          .catch((error) => {
             submitTo.catch?.(error)
             return Promise.reject(error)
           })
@@ -202,14 +193,13 @@ export function Form<Values extends Record<string, any> = any>(
 
       for (const key in changedValues) {
         const item = computedProps?.items?.find(
-          i => isFormItemProps(i) && i.id === key
+          (i) => isFormItemProps(i) && i.id === key,
         ) as FormItemProps
 
-        if (item?.onValueChange)
-          item.onValueChange(changedValues[key], allValues, form)
+        if (item?.onValueChange) item.onValueChange(changedValues[key], allValues, form)
       }
     },
-    [computedProps]
+    [computedProps],
   )
 
   useEffect(() => {
@@ -226,15 +216,9 @@ export function Form<Values extends Record<string, any> = any>(
   return (
     <AntdForm {...computedProps} onValuesChange={onValuesChange}>
       {computedProps.beforeItems}
-      {computedProps.items?.map(item => {
+      {computedProps.items?.map((item) => {
         if (isFormItemProps(item))
-          return (
-            <FormItem
-              key={item.id}
-              {...item}
-              {...(extendTypes ? { extendTypes } : {})}
-            />
-          )
+          return <FormItem key={item.id} {...item} {...(extendTypes ? { extendTypes } : {})} />
         return item as JSX.Element
       })}
       {computedProps.children}

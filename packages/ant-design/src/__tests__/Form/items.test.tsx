@@ -18,14 +18,14 @@ describe('Form/items', () => {
       <Form
         initialValues={{ list: [''] }}
         items={[{ id: 'test' }]}
-        onFinish={values => (value = values as any)}
+        onFinish={(values) => (value = values as any)}
       >
         <Form.Item id='children'>
           <Input />
         </Form.Item>
         <Form.List name={['list']}>
-          {fields =>
-            fields.map(field => {
+          {(fields) =>
+            fields.map((field) => {
               const { key, ...fieldProps } = field
 
               return (
@@ -36,7 +36,7 @@ describe('Form/items', () => {
             })
           }
         </Form.List>
-      </Form>
+      </Form>,
     )
 
     expect(screen.getByText('Test')).not.toBeNull()

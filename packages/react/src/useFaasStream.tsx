@@ -57,7 +57,7 @@ export type UseFaasStreamResult = {
 export function useFaasStream(
   action: string,
   defaultParams: Record<string, any>,
-  options: UseFaasStreamOptions = {}
+  options: UseFaasStreamOptions = {},
 ): UseFaasStreamResult {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<string>(options.data || '')
@@ -66,9 +66,7 @@ export function useFaasStream(
   const [reloadTimes, setReloadTimes] = useState(0)
   const [fails, setFails] = useState(0)
   const [skip, setSkip] = useState(
-    typeof options.skip === 'function'
-      ? options.skip(defaultParams)
-      : options.skip
+    typeof options.skip === 'function' ? options.skip(defaultParams) : options.skip,
   )
   const controllerRef = useRef<AbortController | null>(null)
   const pendingReloadsRef = useRef<
@@ -83,9 +81,7 @@ export function useFaasStream(
   const reloadCounterRef = useRef(0)
 
   useEqualEffect(() => {
-    setSkip(
-      typeof options.skip === 'function' ? options.skip(params) : options.skip
-    )
+    setSkip(typeof options.skip === 'function' ? options.skip(params) : options.skip)
   }, [typeof options.skip === 'function' ? params : options.skip])
 
   useEqualEffect(() => {
@@ -115,7 +111,7 @@ export function useFaasStream(
           signal: controller.signal,
           stream: true,
         })
-        .then(async response => {
+        .then(async (response) => {
           if (!response.body) {
             setError(new Error('Response body is null'))
             setLoading(false)
@@ -139,8 +135,7 @@ export function useFaasStream(
             setError(null)
             setLoading(false)
 
-            for (const { resolve } of pendingReloadsRef.current.values())
-              resolve(accumulatedText)
+            for (const { resolve } of pendingReloadsRef.current.values()) resolve(accumulatedText)
 
             pendingReloadsRef.current.clear()
           } catch (readError) {
@@ -148,7 +143,7 @@ export function useFaasStream(
             throw readError
           }
         })
-        .catch(async e => {
+        .catch(async (e) => {
           if (
             typeof e?.message === 'string' &&
             (e.message as string).toLowerCase().indexOf('aborted') >= 0
@@ -176,8 +171,7 @@ export function useFaasStream(
           setError(error)
           setLoading(false)
 
-          for (const { reject } of pendingReloadsRef.current.values())
-            reject(error)
+          for (const { reject } of pendingReloadsRef.current.values()) reject(error)
 
           pendingReloadsRef.current.clear()
 
@@ -212,10 +206,10 @@ export function useFaasStream(
 
       return new Promise<string>((resolve, reject) => {
         pendingReloadsRef.current.set(reloadCounter, { resolve, reject })
-        setReloadTimes(prev => prev + 1)
+        setReloadTimes((prev) => prev + 1)
       })
     },
-    [params, skip]
+    [params, skip],
   )
 
   return {

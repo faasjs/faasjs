@@ -1,12 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  type InvokeData,
-  type MountData,
-  type Next,
-  type Plugin,
-  useFunc,
-  usePlugin,
-} from '..'
+import { type InvokeData, type MountData, type Next, type Plugin, useFunc, usePlugin } from '..'
 
 describe('fp', () => {
   it('should work', async () => {
@@ -69,11 +62,7 @@ describe('fp', () => {
       public readonly name = 'P'
       private key: string
 
-      constructor({
-        key,
-      }: {
-        key: string
-      }) {
+      constructor({ key }: { key: string }) {
         this.key = key
       }
 
@@ -113,11 +102,7 @@ describe('fp', () => {
       public readonly name = 'A'
       private key: string
 
-      constructor({
-        key,
-      }: {
-        key: string
-      }) {
+      constructor({ key }: { key: string }) {
         this.key = key
       }
 
@@ -133,11 +118,7 @@ describe('fp', () => {
       public readonly name = 'B'
       private key: string
 
-      constructor({
-        key,
-      }: {
-        key: string
-      }) {
+      constructor({ key }: { key: string }) {
         this.key = key
       }
 

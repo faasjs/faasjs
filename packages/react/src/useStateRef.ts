@@ -30,7 +30,7 @@ import {
  * )
  */
 export function useStateRef<T = any>(
-  initialValue?: T
+  initialValue?: T,
 ): [T | null, Dispatch<SetStateAction<T | null>>, RefObject<T | null>] {
   const [state, setState] = useState<T | null>(initialValue ?? null)
   const ref = useRef(state)

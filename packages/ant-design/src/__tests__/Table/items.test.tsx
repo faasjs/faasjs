@@ -16,7 +16,7 @@ describe('Table/items', () => {
             test: 'value',
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('Test')).toBeDefined()
@@ -45,7 +45,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.getByText('Test')).toBeDefined()
@@ -87,7 +87,7 @@ describe('Table/items', () => {
               test: null,
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.getByText('Test')).toBeDefined()
@@ -115,7 +115,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       await user.click(screen.getByRole('img', { name: 'filter' }))
@@ -138,7 +138,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       await userEvent.click(screen.getByRole('img', { name: 'filter' }))
@@ -172,7 +172,7 @@ describe('Table/items', () => {
               test: false,
             },
           ]}
-        />
+        />,
       )
     })
 
@@ -233,7 +233,7 @@ describe('Table/items', () => {
               test: now.unix(),
             },
           ]}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
@@ -255,7 +255,7 @@ describe('Table/items', () => {
               test: now,
             },
           ]}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
@@ -277,7 +277,7 @@ describe('Table/items', () => {
               test: now.format(),
             },
           ]}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD HH:mm:ss'))).toBeDefined()
@@ -301,7 +301,7 @@ describe('Table/items', () => {
               test: now.unix(),
             },
           ]}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
@@ -323,7 +323,7 @@ describe('Table/items', () => {
               test: now,
             },
           ]}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
@@ -345,7 +345,7 @@ describe('Table/items', () => {
               test: now.format(),
             },
           ]}
-        />
+        />,
       )
       expect(screen.getByText('Test')).toBeDefined()
       expect(screen.getByText(now.format('YYYY-MM-DD'))).toBeDefined()
@@ -368,7 +368,7 @@ describe('Table/items', () => {
             test: { key: 'value' },
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('value')).toBeDefined()
@@ -390,7 +390,7 @@ describe('Table/items', () => {
             test: [{ key: 'value' }],
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('value')).toBeDefined()
@@ -403,7 +403,7 @@ describe('Table/items', () => {
           items={[
             {
               id: 'test',
-              render: value => value.toUpperCase(),
+              render: (value) => value.toUpperCase(),
             },
           ]}
           dataSource={[
@@ -412,7 +412,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.getByText('VALUE')).toBeDefined()
@@ -436,7 +436,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.getByText('VALUE')).toBeDefined()
@@ -461,7 +461,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.getByText('VALUE')).toBeDefined()
@@ -486,7 +486,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.getByText('VALUE')).toBeDefined()
@@ -511,7 +511,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.getByText('VALUE')).toBeDefined()
@@ -523,7 +523,7 @@ describe('Table/items', () => {
           items={[
             {
               id: 'test',
-              tableRender: value => value.toUpperCase(),
+              tableRender: (value) => value.toUpperCase(),
             },
           ]}
           dataSource={[
@@ -532,7 +532,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(screen.getByText('VALUE')).toBeDefined()
@@ -553,7 +553,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(() => screen.getByText('test')).toThrow()
@@ -575,7 +575,7 @@ describe('Table/items', () => {
               test: 'value',
             },
           ]}
-        />
+        />,
       )
 
       expect(() => screen.getByText('test')).toThrow()

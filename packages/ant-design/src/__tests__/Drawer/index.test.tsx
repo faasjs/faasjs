@@ -29,9 +29,7 @@ describe('Drawer', () => {
 
   it('should work with handler', async () => {
     let setDrawerProps:
-      | ((
-          changes: (prev: Partial<DrawerProps>) => Partial<DrawerProps>
-        ) => void)
+      | ((changes: (prev: Partial<DrawerProps>) => Partial<DrawerProps>) => void)
       | undefined
 
     function App() {

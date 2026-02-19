@@ -14,9 +14,7 @@ describe('FaasReactClient', () => {
   })
 
   it('faas', async () => {
-    setMock(
-      async (action, params) => new Response({ data: { action, params } })
-    )
+    setMock(async (action, params) => new Response({ data: { action, params } }))
 
     const client = FaasReactClient({
       baseUrl: '/api/',

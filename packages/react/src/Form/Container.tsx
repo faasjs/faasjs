@@ -5,11 +5,7 @@ import { FormDefaultElements, type FormElementTypes } from './elements'
 import { FormFooter } from './Footer'
 import type { FormItemProps } from './Item'
 import { FormDefaultLang, type FormLang } from './lang'
-import {
-  FormDefaultRules,
-  type FormRules,
-  type InferFormRulesOptions,
-} from './rules'
+import { FormDefaultRules, type FormRules, type InferFormRulesOptions } from './rules'
 
 export type FormProps<
   Values extends Record<string, any> = Record<string, any>,
@@ -26,12 +22,11 @@ export type FormProps<
 
 function mergeValues<Values extends Record<string, any>>(
   items: FormItemProps[],
-  defaultValues: Values = {} as Values
+  defaultValues: Values = {} as Values,
 ) {
   const values = {} as Values
 
-  for (const item of items)
-    values[item.name as keyof Values] = defaultValues[item.name] ?? ''
+  for (const item of items) values[item.name as keyof Values] = defaultValues[item.name] ?? ''
 
   return values
 }
@@ -78,9 +73,7 @@ export function FormContainer<
   items,
   ...props
 }: FormProps<Values, FormElements, Rules>) {
-  const [values, setValues, valuesRef] = useStateRef(
-    mergeValues(items, defaultValues)
-  )
+  const [values, setValues, valuesRef] = useStateRef(mergeValues(items, defaultValues))
   return (
     <FormContextProvider
       initializeStates={{

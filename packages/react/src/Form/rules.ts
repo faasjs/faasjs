@@ -23,13 +23,13 @@ import type { FormLang } from './lang'
 export type FormRule<Options = any> = (
   value: any,
   options?: Options,
-  lang?: FormLang
+  lang?: FormLang,
 ) => Promise<void>
 
 export type InferRuleOption<T> = T extends (
   value: any,
   options: infer O,
-  lang?: FormLang
+  lang?: FormLang,
 ) => Promise<void>
   ? O
   : never
@@ -52,12 +52,7 @@ export type InferFormRulesOptions<T> = {
  */
 export const FormDefaultRules: FormRules = {
   required: async (value, _, lang) => {
-    if (
-      value === null ||
-      value === undefined ||
-      value === '' ||
-      Number.isNaN(value)
-    ) {
+    if (value === null || value === undefined || value === '' || Number.isNaN(value)) {
       throw Error(lang?.required)
     }
   },
@@ -78,15 +73,13 @@ export const FormDefaultRules: FormRules = {
   },
 } as const
 
-export type FormDefaultRulesOptions = InferFormRulesOptions<
-  typeof FormDefaultRules
->
+export type FormDefaultRulesOptions = InferFormRulesOptions<typeof FormDefaultRules>
 
 export async function validValues(
   rules: FormRules,
   items: FormItemProps[],
   values: Record<string, any>,
-  lang: FormLang
+  lang: FormLang,
 ): Promise<Record<string, Error>> {
   const errors: Record<string, Error> = {}
 

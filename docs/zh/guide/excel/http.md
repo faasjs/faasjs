@@ -10,8 +10,8 @@
 ## 校验示例
 
 ```typescript
-import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
+import { Func } from '@faasjs/func'
+import { Http } from '@faasjs/http'
 
 const http = new Http({
   validator: {
@@ -22,70 +22,70 @@ const http = new Http({
           required: true, // 配置 id 为必填项
           type: 'number', // 配置 id 必须为数字类型
           in: [0, 1, 2], // status 的值必须为 0, 1, 2 中的一种
-        }
-      }
-    }
-  }
-});
+        },
+      },
+    },
+  },
+})
 
 export const func = new Func({
   plugins: [http],
-  handler(){
-    return http.params.id; // 返回传入的 id
-  }
-});
+  handler() {
+    return http.params.id // 返回传入的 id
+  },
+})
 ```
 
 ## Cookie 使用示例
 
 ```typescript
-import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
+import { Func } from '@faasjs/func'
+import { Http } from '@faasjs/http'
 
 const http = new Http({
   validator: {
     cookie: {
       rules: {
         distinct_id: {
-          required: true // 若 cookie 中没有 distinct_id 则报错
-        }
-      }
-    }
-  }
-});
+          required: true, // 若 cookie 中没有 distinct_id 则报错
+        },
+      },
+    },
+  },
+})
 
 export const func = new Func({
   plugins: [http],
-  handler(){
-    http.cookie.write('user_id', http.cookie.read('distinct_id')); // 将 cookie 中的 distinct_id 写入为 user_id
-  }
-});
+  handler() {
+    http.cookie.write('user_id', http.cookie.read('distinct_id')) // 将 cookie 中的 distinct_id 写入为 user_id
+  },
+})
 ```
 
 ## Session 使用示例
 
 ```typescript
-import { Func } from '@faasjs/func';
-import { Http } from '@faasjs/http';
+import { Func } from '@faasjs/func'
+import { Http } from '@faasjs/http'
 
 const http = new Http({
   validator: {
     session: {
       rules: {
         distinct_id: {
-          required: true // 若 session 中没有 distinct_id 则报错
-        }
-      }
-    }
-  }
-});
+          required: true, // 若 session 中没有 distinct_id 则报错
+        },
+      },
+    },
+  },
+})
 
 export const func = new Func({
   plugins: [http],
-  handler(){
-    http.session.write('user_id', http.session.read('distinct_id')); // 将 session 中的 distinct_id 写入为 user_id
-  }
-});
+  handler() {
+    http.session.write('user_id', http.session.read('distinct_id')) // 将 session 中的 distinct_id 写入为 user_id
+  },
+})
 ```
 
 ## Http 插件文档

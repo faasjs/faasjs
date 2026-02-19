@@ -3,11 +3,7 @@ import { FormButtonElement, type FormButtonElementProps } from './Button'
 import { FormInputElement, type FormInputElementProps } from './Input'
 import { FormLabelElement, type FormLabelElementProps } from './Label'
 
-export type {
-  FormLabelElementProps,
-  FormInputElementProps,
-  FormButtonElementProps,
-}
+export type { FormLabelElementProps, FormInputElementProps, FormButtonElementProps }
 
 /**
  * Represents the types of form elements used in the form.

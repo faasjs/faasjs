@@ -1,11 +1,6 @@
 import type { BaseUrl, Options, Response, ResponseError } from '@faasjs/browser'
 import { FaasBrowserClient } from '@faasjs/browser'
-import type {
-  FaasAction,
-  FaasActionUnionType,
-  FaasData,
-  FaasParams,
-} from '@faasjs/types'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import {
   type FaasDataInjection,
   FaasDataWrapper,
@@ -20,7 +15,7 @@ const clients: {
 
 export type OnError = (
   action: string,
-  params: Record<string, any>
+  params: Record<string, any>,
 ) => (res: ResponseError) => Promise<void>
 
 export type FaasReactClientOptions = {
@@ -62,14 +57,12 @@ export type FaasReactClientInstance = {
 export function FaasReactClient(
   { baseUrl, options: clientOptions, onError }: FaasReactClientOptions = {
     baseUrl: '/',
-  }
+  },
 ): FaasReactClientInstance {
   const resolvedBaseUrl: BaseUrl = baseUrl ?? '/'
   const client = new FaasBrowserClient(resolvedBaseUrl, clientOptions)
 
-  function withBaseUrl<T extends { baseUrl?: BaseUrl }>(
-    options?: T
-  ): T & { baseUrl: BaseUrl } {
+  function withBaseUrl<T extends { baseUrl?: BaseUrl }>(options?: T): T & { baseUrl: BaseUrl } {
     if (options?.baseUrl) return options as T & { baseUrl: BaseUrl }
 
     return {
@@ -83,21 +76,21 @@ export function FaasReactClient(
     faas: async <PathOrData extends FaasActionUnionType>(
       action: FaasAction<PathOrData>,
       params: FaasParams<PathOrData>,
-      requestOptions?: Options
+      requestOptions?: Options,
     ): Promise<Response<FaasData<PathOrData>>> =>
       faas<PathOrData>(action, params, withBaseUrl(requestOptions)),
     useFaas: <PathOrData extends FaasActionUnionType>(
       action: FaasAction<PathOrData>,
       defaultParams: FaasParams<PathOrData>,
-      requestOptions?: useFaasOptions<PathOrData>
+      requestOptions?: useFaasOptions<PathOrData>,
     ): FaasDataInjection<PathOrData> =>
       useFaas<PathOrData>(
         action,
         defaultParams,
-        withBaseUrl<useFaasOptions<PathOrData>>(requestOptions)
+        withBaseUrl<useFaasOptions<PathOrData>>(requestOptions),
       ),
     FaasDataWrapper: <PathOrData extends FaasActionUnionType>(
-      props: FaasDataWrapperProps<PathOrData>
+      props: FaasDataWrapperProps<PathOrData>,
     ) => <FaasDataWrapper<PathOrData> {...props} baseUrl={resolvedBaseUrl} />,
     ...(onError ? { onError } : {}),
     browserClient: client,

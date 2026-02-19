@@ -28,16 +28,14 @@ describe.sequential('server', () => {
   })
 
   it('404', async () => {
-    await expect(request(`http://127.0.0.1:${port}/404`)).rejects.toMatchObject(
-      {
-        statusCode: 404,
-        body: {
-          error: {
-            message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404/index.func.ts\n- ${server.root}404/default.func.ts\n- ${server.root}default.func.ts`,
-          },
+    await expect(request(`http://127.0.0.1:${port}/404`)).rejects.toMatchObject({
+      statusCode: 404,
+      body: {
+        error: {
+          message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404/index.func.ts\n- ${server.root}404/default.func.ts\n- ${server.root}default.func.ts`,
         },
-      }
-    )
+      },
+    })
   })
 
   it('hello', async () => {
@@ -48,27 +46,13 @@ describe.sequential('server', () => {
     expect(result.body).toEqual({ data: 'hello' })
     expect(result.headers['x-faasjs-request-id']).toBe('test')
     expect(result.headers['x-headers']).toBe('x-x')
-    expect(result.headers['access-control-expose-headers']).toContain(
-      'content-type'
-    )
-    expect(result.headers['access-control-expose-headers']).toContain(
-      'authorization'
-    )
-    expect(result.headers['access-control-expose-headers']).toContain(
-      'x-faasjs-request-id'
-    )
-    expect(result.headers['access-control-expose-headers']).toContain(
-      'x-faasjs-timing-pending'
-    )
-    expect(result.headers['access-control-expose-headers']).toContain(
-      'x-faasjs-timing-processing'
-    )
-    expect(result.headers['access-control-expose-headers']).toContain(
-      'x-faasjs-timing-total'
-    )
-    expect(result.headers['access-control-expose-headers']).toContain(
-      'accept-encoding'
-    )
+    expect(result.headers['access-control-expose-headers']).toContain('content-type')
+    expect(result.headers['access-control-expose-headers']).toContain('authorization')
+    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-request-id')
+    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-pending')
+    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-processing')
+    expect(result.headers['access-control-expose-headers']).toContain('x-faasjs-timing-total')
+    expect(result.headers['access-control-expose-headers']).toContain('accept-encoding')
   })
 
   it('a', async () => {
@@ -79,54 +63,42 @@ describe.sequential('server', () => {
   })
 
   it('a/default', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/a/a`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/a/a`)).resolves.toMatchObject({
       statusCode: 200,
       body: { data: 'default' },
     })
   })
 
   it('deep default', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/a/a/a/a/a`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/a/a/a/a/a`)).resolves.toMatchObject({
       statusCode: 200,
       body: { data: 'default' },
     })
   })
 
   it('query', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/query?key=value`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/query?key=value`)).resolves.toMatchObject({
       statusCode: 200,
       body: { data: { key: 'value' } },
     })
   })
 
   it('500', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/error`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/error`)).rejects.toMatchObject({
       statusCode: 500,
       body: 'Internal Server Error',
     })
   })
 
   it('business 500', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/business-500`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/business-500`)).rejects.toMatchObject({
       statusCode: 500,
       body: { error: { message: 'business-500' } },
     })
   })
 
   it('business 500 return', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/business-500-return`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/business-500-return`)).rejects.toMatchObject({
       statusCode: 500,
       body: { error: { message: 'business-500-return' } },
     })
@@ -143,37 +115,21 @@ describe.sequential('server', () => {
     })
     expect(result.statusCode).toBe(204)
     expect(result.headers['access-control-allow-credentials']).toBe('true')
-    expect(result.headers['access-control-allow-headers']).toContain(
-      'content-type'
-    )
-    expect(result.headers['access-control-allow-headers']).toContain(
-      'authorization'
-    )
-    expect(result.headers['access-control-allow-headers']).toContain(
-      'x-faasjs-request-id'
-    )
-    expect(result.headers['access-control-allow-headers']).toContain(
-      'x-faasjs-timing-pending'
-    )
-    expect(result.headers['access-control-allow-headers']).toContain(
-      'x-faasjs-timing-processing'
-    )
-    expect(result.headers['access-control-allow-headers']).toContain(
-      'x-faasjs-timing-total'
-    )
+    expect(result.headers['access-control-allow-headers']).toContain('content-type')
+    expect(result.headers['access-control-allow-headers']).toContain('authorization')
+    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-request-id')
+    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-pending')
+    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-processing')
+    expect(result.headers['access-control-allow-headers']).toContain('x-faasjs-timing-total')
     expect(result.headers['access-control-allow-headers']).toContain('x-x')
-    expect(result.headers['access-control-allow-headers']).toContain(
-      'accept-encoding'
-    )
+    expect(result.headers['access-control-allow-headers']).toContain('accept-encoding')
     expect(result.headers['access-control-allow-headers']).toContain('x-y')
     expect(result.headers['access-control-allow-methods']).toBe('OPTIONS, POST')
     expect(result.headers['access-control-allow-origin']).toBe('*')
   })
 
   it('runtime', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/runtime`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/runtime`)).resolves.toMatchObject({
       statusCode: 200,
       body: {
         data: 'module',
@@ -224,36 +180,28 @@ describe.sequential('server', () => {
   })
 
   it('raw', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/raw`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/raw`)).resolves.toMatchObject({
       statusCode: 200,
       body: 'hello',
     })
   })
 
   it('Response', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/response`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/response`)).resolves.toMatchObject({
       statusCode: 200,
       body: 'hello',
     })
   })
 
   it('stream', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/stream`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/stream`)).resolves.toMatchObject({
       statusCode: 200,
       body: 'hello world',
     })
   })
 
   it('stream error', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/stream-error`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/stream-error`)).resolves.toMatchObject({
       statusCode: 200,
       body: 'hello',
     })

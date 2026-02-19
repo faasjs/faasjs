@@ -51,13 +51,8 @@ export class FuncWarper {
     this.func = initBy.default ? initBy.default : initBy
     if (this.func.filename)
       this.func.config = deepMerge(
-        loadConfig(
-          process.cwd(),
-          this.func.filename,
-          this.staging,
-          this.logger
-        ),
-        this.func.config
+        loadConfig(process.cwd(), this.func.filename, this.staging, this.logger),
+        this.func.config,
       )
 
     this.file = this.func.filename || ''
@@ -65,21 +60,14 @@ export class FuncWarper {
 
     this.plugins = this.func.plugins || []
     for (const plugin of this.plugins) {
-      if (
-        ['handler', 'config', 'plugins', 'logger', 'mount'].includes(
-          plugin.type
-        )
-      )
-        continue
+      if (['handler', 'config', 'plugins', 'logger', 'mount'].includes(plugin.type)) continue
       this[plugin.type] = plugin
     }
 
     this._handler = this.func.export().handler
   }
 
-  public async mount(
-    handler?: (func: FuncWarper) => Promise<void> | void
-  ): Promise<void> {
+  public async mount(handler?: (func: FuncWarper) => Promise<void> | void): Promise<void> {
     if (!this.func.mounted) await this.func.mount()
 
     if (handler) await handler(this)
@@ -87,7 +75,7 @@ export class FuncWarper {
 
   public async handler<TResult = any>(
     event: any = Object.create(null),
-    context: any = Object.create(null)
+    context: any = Object.create(null),
   ): Promise<TResult> {
     await this.mount()
 
@@ -103,7 +91,7 @@ export class FuncWarper {
       headers?: { [key: string]: any }
       cookie?: { [key: string]: any }
       session?: { [key: string]: any }
-    } = Object.create(null)
+    } = Object.create(null),
   ): Promise<{
     statusCode: number
     headers: {
@@ -123,12 +111,10 @@ export class FuncWarper {
 
     if (this.http && this.http instanceof Http) {
       if (options.cookie)
-        for (const key in options.cookie)
-          this.http.cookie.write(key, options.cookie[key])
+        for (const key in options.cookie) this.http.cookie.write(key, options.cookie[key])
 
       if (options.session) {
-        for (const key in options.session)
-          this.http.session.write(key, options.session[key])
+        for (const key in options.session) this.http.session.write(key, options.session[key])
         this.http.session.update()
       }
       const cookie = this.http.cookie
@@ -150,8 +136,7 @@ export class FuncWarper {
       let stream: ReadableStream<Uint8Array> = response.body
 
       const encoding =
-        response.headers?.['Content-Encoding'] ||
-        response.headers?.['content-encoding']
+        response.headers?.['Content-Encoding'] || response.headers?.['content-encoding']
 
       if (encoding) {
         const chunks: Uint8Array[] = []
@@ -219,11 +204,7 @@ export class FuncWarper {
       }
     }
 
-    if (
-      response?.headers &&
-      response.body &&
-      response.headers['content-type']?.includes('json')
-    ) {
+    if (response?.headers && response.body && response.headers['content-type']?.includes('json')) {
       const parsedBody = JSON.parse(response.body)
       response.data = parsedBody.data
       response.error = parsedBody.error

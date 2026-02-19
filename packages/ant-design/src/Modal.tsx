@@ -28,19 +28,19 @@ export function useModal(init?: ModalProps) {
   const [props, setProps] = useState<ModalProps>({ open: false, ...init })
 
   const setModalProps: setModalProps = useEqualCallback(
-    changes => {
+    (changes) => {
       const changed = typeof changes === 'function' ? changes(props) : changes
 
-      setProps(prev => ({ ...prev, ...changed }))
+      setProps((prev) => ({ ...prev, ...changed }))
     },
-    [setProps]
+    [setProps],
   )
 
   return {
     modal: (
       <Modal
         onCancel={() =>
-          setProps(prev => ({
+          setProps((prev) => ({
             ...prev,
             open: false,
           }))

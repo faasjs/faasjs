@@ -25,16 +25,9 @@ import { deepMerge } from '@faasjs/node-utils'
 import { Cookie, type CookieOptions } from './cookie'
 import type { Session } from './session'
 
-export {
-  Cookie,
-  type CookieOptions,
-} from './cookie'
+export { Cookie, type CookieOptions } from './cookie'
 
-export {
-  Session,
-  type SessionContent,
-  type SessionOptions,
-} from './session'
+export { Session, type SessionContent, type SessionOptions } from './session'
 
 export const ContentType: {
   [key: string]: string
@@ -88,13 +81,7 @@ export class HttpError extends Error {
   public readonly statusCode: number
   public override readonly message: string
 
-  constructor({
-    statusCode,
-    message,
-  }: {
-    statusCode?: number
-    message: string
-  }) {
+  constructor({ statusCode, message }: { statusCode?: number; message: string }) {
     super(message)
 
     if (Error.captureStackTrace) Error.captureStackTrace(this, HttpError)
@@ -108,7 +95,7 @@ const Name = 'http'
 
 function createCompressedStream(
   body: string,
-  encoding: 'br' | 'gzip' | 'deflate'
+  encoding: 'br' | 'gzip' | 'deflate',
 ): ReadableStream<Uint8Array> {
   const compressStream =
     encoding === 'br'
@@ -148,8 +135,7 @@ export class Http<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
-> implements Plugin
-{
+> implements Plugin {
   public readonly type = 'http'
   public readonly name: string = Name
 
@@ -197,7 +183,7 @@ export class Http<
     if (data.config.plugins?.[this.name || this.type])
       this.config = deepMerge(
         this.config,
-        data.config.plugins[this.name || (this.type as string)].config
+        data.config.plugins[this.name || (this.type as string)].config,
       )
 
     data.logger.debug('prepare cookie & session')
@@ -221,11 +207,7 @@ export class Http<
 
     if (this.headers.cookie) {
       data.logger.debug('Cookie: %j', this.cookie.content)
-      data.logger.debug(
-        'Session: %s %j',
-        this.session.config.key,
-        this.session.content
-      )
+      data.logger.debug('Session: %s %j', this.session.config.key, this.session.content)
     }
 
     data.cookie = this.cookie
@@ -258,10 +240,7 @@ export class Http<
           ? Object.assign(this.params, JSON.parse(data.event.body))
           : JSON.parse(data.event.body)
       } catch (error: any) {
-        data.logger.error(
-          'Parse params from json body failed: %s',
-          error.message
-        )
+        data.logger.error('Parse params from json body failed: %s', error.message)
       }
     } else {
       data.logger.debug('Parse params from raw body')
@@ -286,10 +265,7 @@ export class Http<
     if (this.response.body && !data.response) data.response = this.response.body
 
     if (data.response)
-      if (
-        data.response instanceof Error ||
-        data.response.constructor?.name === 'Error'
-      ) {
+      if (data.response instanceof Error || data.response.constructor?.name === 'Error') {
         data.logger.error(data.response)
         this.response.body = JSON.stringify({
           error: { message: data.response.message },
@@ -306,15 +282,13 @@ export class Http<
         data.response.headers
       )
         this.response = data.response
-      else if (data.response instanceof ReadableStream)
-        this.response.body = data.response
+      else if (data.response instanceof ReadableStream) this.response.body = data.response
       else
         this.response.body = JSON.stringify({
           data: data.response === undefined ? null : data.response,
         })
 
-    if (!this.response.statusCode)
-      this.response.statusCode = data.response ? 200 : 204
+    if (!this.response.statusCode) this.response.statusCode = data.response ? 200 : 204
 
     this.response.headers = Object.assign(
       {
@@ -326,7 +300,7 @@ export class Http<
         'x-faasjs-request-id': data.context.request_id,
       },
       this.cookie.headers(),
-      this.response.headers
+      this.response.headers,
     )
 
     data.response = Object.assign({}, data.response, this.response)
@@ -366,8 +340,7 @@ export class Http<
 
     data.response.body = normalizedBody
 
-    const acceptEncoding =
-      this.headers['accept-encoding'] || this.headers['Accept-Encoding']
+    const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding']
     if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
 
     const encoding: 'br' | 'gzip' | 'deflate' = acceptEncoding.includes('br')
@@ -392,13 +365,9 @@ export class Http<
    * @param key {string} key
    * @param value {string} value
    */
-  public setHeader(
-    key: string,
-    value: string
-  ): Http<TParams, TCookie, TSession> {
-    ;(this.response.headers || (this.response.headers = Object.create(null)))[
-      key.toLowerCase()
-    ] = value
+  public setHeader(key: string, value: string): Http<TParams, TCookie, TSession> {
+    ;(this.response.headers || (this.response.headers = Object.create(null)))[key.toLowerCase()] =
+      value
     return this
   }
 
@@ -407,14 +376,8 @@ export class Http<
    * @param type {string} 类型
    * @param charset {string} 编码
    */
-  public setContentType(
-    type: string,
-    charset = 'utf-8'
-  ): Http<TParams, TCookie, TSession> {
-    this.setHeader(
-      'Content-Type',
-      `${ContentType[type] || type}; charset=${charset}`
-    )
+  public setContentType(type: string, charset = 'utf-8'): Http<TParams, TCookie, TSession> {
+    this.setHeader('Content-Type', `${ContentType[type] || type}; charset=${charset}`)
     return this
   }
 

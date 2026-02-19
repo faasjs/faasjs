@@ -32,9 +32,7 @@ export function Link(props: LinkProps) {
   const { theme } = useConfigContext()
   const navigate = useNavigate()
   const target =
-    props.target ||
-    theme.Link?.target ||
-    (props.href.startsWith('http') ? '_blank' : undefined)
+    props.target || theme.Link?.target || (props.href.startsWith('http') ? '_blank' : undefined)
 
   let computedStyle = {
     ...(theme.Link.style || {}),
@@ -48,20 +46,18 @@ export function Link(props: LinkProps) {
         display: 'block',
         width: '100%',
       },
-      computedStyle
+      computedStyle,
     )
 
-  const buttonProps =
-    props.button && typeof props.button === 'object' ? props.button : undefined
-  const copyableProps =
-    typeof props.copyable === 'undefined' ? {} : { copyable: props.copyable }
+  const buttonProps = props.button && typeof props.button === 'object' ? props.button : undefined
+  const copyableProps = typeof props.copyable === 'undefined' ? {} : { copyable: props.copyable }
 
   if (props.button)
     return (
       <Button
         {...buttonProps}
         style={computedStyle}
-        onClick={e => {
+        onClick={(e) => {
           props.onClick
             ? props.onClick(e)
             : target === '_blank'
@@ -80,7 +76,7 @@ export function Link(props: LinkProps) {
       target={target}
       style={computedStyle}
       {...copyableProps}
-      onClick={e => {
+      onClick={(e) => {
         e.preventDefault()
 
         if (props.onClick) {

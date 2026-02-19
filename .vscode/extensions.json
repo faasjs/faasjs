@@ -3,6 +3,6 @@
     "github.copilot",
     "eamodio.gitlens",
     "faasjs.faasjs-snippets",
-    "biomejs.biome"
+    "oxc.oxc-vscode"
   ]
 }

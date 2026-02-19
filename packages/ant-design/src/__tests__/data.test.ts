@@ -49,16 +49,12 @@ describe('transferValue', () => {
   it('should return dayjs', () => {
     const date = dayjs(1617235200000).format('YYYY-MM-DD')
 
-    expect(
-      transferValue('date', dayjs(1617235200000)).format('YYYY-MM-DD')
-    ).toBe(date)
+    expect(transferValue('date', dayjs(1617235200000)).format('YYYY-MM-DD')).toBe(date)
     expect(transferValue('date', 1617235200000).format('YYYY-MM-DD')).toBe(date)
     expect(transferValue('date', 1617235200).format('YYYY-MM-DD')).toBe(date)
     expect(transferValue('date', '2021-04-01').format('YYYY-MM-DD')).toBe(date)
 
-    expect(
-      transferValue('time', dayjs(1617235200000)).format('YYYY-MM-DD')
-    ).toBe(date)
+    expect(transferValue('time', dayjs(1617235200000)).format('YYYY-MM-DD')).toBe(date)
     expect(transferValue('time', 1617235200000).format('YYYY-MM-DD')).toBe(date)
     expect(transferValue('time', 1617235200).format('YYYY-MM-DD')).toBe(date)
     expect(transferValue('time', '2021-04-01').format('YYYY-MM-DD')).toBe(date)

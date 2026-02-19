@@ -10,8 +10,8 @@
       "    $1",
       "  }",
       "})",
-      ""
-    ]
+      "",
+    ],
   },
   "useFunc with http": {
     "description": "Generate a useFunc module with http",
@@ -27,8 +27,8 @@
       "    $3",
       "  }",
       "})",
-      ""
-    ]
+      "",
+    ],
   },
   "useFunc with knex": {
     "description": "Generate a useFunc module with knex",
@@ -44,8 +44,8 @@
       "    $1",
       "  }",
       "})",
-      ""
-    ]
+      "",
+    ],
   },
   "useFunc with http, knex": {
     "description": "Generate a useFunc module with http and knex",
@@ -63,8 +63,8 @@
       "    $3",
       "  }",
       "})",
-      ""
-    ]
+      "",
+    ],
   },
   "test func": {
     "description": "Test a func",
@@ -82,8 +82,8 @@
       "    expect(res).toEqual($4)",
       "  })",
       "})",
-      ""
-    ]
+      "",
+    ],
   },
   "test func with http": {
     "description": "Test a func with http",
@@ -102,8 +102,8 @@
       "    expect(data).toEqual($5)",
       "  })",
       "})",
-      ""
-    ]
+      "",
+    ],
   },
   "test func with knex": {
     "description": "Test a func with knex",
@@ -122,8 +122,8 @@
       "    expect(res).toEqual($4)",
       "  })",
       "})",
-      ""
-    ]
+      "",
+    ],
   },
   "test func with http and knex": {
     "description": "Test a func with http and knex",
@@ -143,7 +143,7 @@
       "    expect(data).toEqual($5)",
       "  })",
       "})",
-      ""
-    ]
-  }
+      "",
+    ],
+  },
 }

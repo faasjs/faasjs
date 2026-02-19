@@ -19,7 +19,7 @@ suite
   .add('Http func', async () => {
     await http({})
   })
-  .on('cycle', event => {
+  .on('cycle', (event) => {
     console.log(String(event.target))
   })
   .run({ async: true })

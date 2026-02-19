@@ -19,28 +19,18 @@ describe('staticHandler', () => {
   })
 
   it('should work', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/useMiddleware.func.ts`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/useMiddleware.func.ts`)).resolves.toMatchObject({
       statusCode: 200,
       headers: {},
-      body: readFileSync(
-        join(__dirname, 'funcs', 'useMiddleware.func.ts'),
-        'utf-8'
-      ),
+      body: readFileSync(join(__dirname, 'funcs', 'useMiddleware.func.ts'), 'utf-8'),
     })
-    await expect(
-      request(`http://127.0.0.1:${port}/useMiddleware.func.ts`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/useMiddleware.func.ts`)).resolves.toMatchObject({
       statusCode: 200,
       headers: {},
-      body: readFileSync(
-        join(__dirname, 'funcs', 'useMiddleware.func.ts'),
-        'utf-8'
-      ),
+      body: readFileSync(join(__dirname, 'funcs', 'useMiddleware.func.ts'), 'utf-8'),
     })
     await expect(
-      request(`http://127.0.0.1:${port}/default.default.func.ts`)
+      request(`http://127.0.0.1:${port}/default.default.func.ts`),
     ).resolves.toMatchObject({
       statusCode: 200,
       headers: {},
@@ -49,46 +39,33 @@ describe('staticHandler', () => {
   })
 
   it('notFound', async () => {
-    await expect(request(`http://127.0.0.1:${port}/404`)).rejects.toMatchObject(
-      {
-        statusCode: 404,
-        headers: {},
-        body: 'Not Found',
-      }
-    )
-    await expect(request(`http://127.0.0.1:${port}/404`)).rejects.toMatchObject(
-      {
-        statusCode: 404,
-        headers: {},
-        body: 'Not Found',
-      }
-    )
+    await expect(request(`http://127.0.0.1:${port}/404`)).rejects.toMatchObject({
+      statusCode: 404,
+      headers: {},
+      body: 'Not Found',
+    })
+    await expect(request(`http://127.0.0.1:${port}/404`)).rejects.toMatchObject({
+      statusCode: 404,
+      headers: {},
+      body: 'Not Found',
+    })
   })
 
   it('notFound with fallback path', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/fallback404`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/fallback404`)).resolves.toMatchObject({
       statusCode: 200,
       headers: {},
-      body: readFileSync(
-        join(__dirname, 'funcs', 'useMiddleware.func.ts'),
-        'utf-8'
-      ),
+      body: readFileSync(join(__dirname, 'funcs', 'useMiddleware.func.ts'), 'utf-8'),
     })
   })
 
   it('notFound with handle function', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/custom404`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/custom404`)).rejects.toMatchObject({
       statusCode: 404,
       headers: {},
       body: 'custom404',
     })
-    await expect(
-      request(`http://127.0.0.1:${port}/custom404`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/custom404`)).rejects.toMatchObject({
       statusCode: 404,
       headers: {},
       body: 'custom404',

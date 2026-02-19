@@ -40,9 +40,7 @@ describe('session', () => {
       })
 
       expect(res.body).toBeInstanceOf(ReadableStream)
-      expect(await streamToString(res.body as ReadableStream)).toEqual(
-        '{"data":"value"}'
-      )
+      expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":"value"}')
     })
 
     it('no value', async () => {
@@ -113,9 +111,7 @@ describe('session', () => {
       })
 
       expect(
-        session.decode(
-          res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]
-        )
+        session.decode(res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]),
       ).toEqual({ key: 'value' })
     })
 
@@ -130,9 +126,7 @@ describe('session', () => {
       })
 
       expect(
-        session.decode(
-          res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]
-        )
+        session.decode(res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]),
       ).toEqual({})
     })
 
@@ -169,9 +163,7 @@ describe('session', () => {
       })
 
       expect(
-        session.decode(
-          res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]
-        )
+        session.decode(res.headers['Set-Cookie'][0].match('(^|;)\\s*key\\s*=\\s*([^;]+)')[2]),
       ).toEqual({
         a: 2,
         b: 1,

@@ -24,12 +24,11 @@ export type MountFaasKnexOptions = {
 }
 
 function parsePgliteConnection(connection: unknown): string {
-  if (typeof connection === 'undefined' || connection === null)
-    return `memory://${randomUUID()}`
+  if (typeof connection === 'undefined' || connection === null) return `memory://${randomUUID()}`
 
   if (typeof connection !== 'string' || !connection.trim().length)
     throw Error(
-      '[Knex] Invalid "pglite" connection, expected non-empty string in config.connection or SECRET_<NAME>_CONNECTION.'
+      '[Knex] Invalid "pglite" connection, expected non-empty string in config.connection or SECRET_<NAME>_CONNECTION.',
     )
 
   return connection
@@ -48,17 +47,13 @@ async function loadPglitePackages(): Promise<{
   PgliteDialect: unknown
 }> {
   try {
-    const pgliteModule = await loadPackage<PGliteModule>(
-      '@electric-sql/pglite',
-      []
-    )
+    const pgliteModule = await loadPackage<PGliteModule>('@electric-sql/pglite', [])
     const PgliteDialect = await loadPackage<unknown>('knex-pglite')
 
     if (typeof pgliteModule.PGlite !== 'function' || !pgliteModule.types)
       throw Error('Invalid @electric-sql/pglite exports')
 
-    if (typeof PgliteDialect !== 'function')
-      throw Error('Invalid knex-pglite exports')
+    if (typeof PgliteDialect !== 'function') throw Error('Invalid knex-pglite exports')
 
     return {
       PGlite: pgliteModule.PGlite,
@@ -67,7 +62,7 @@ async function loadPglitePackages(): Promise<{
     }
   } catch {
     throw Error(
-      '[Knex] client "pglite" requires dependencies "@electric-sql/pglite" and "knex-pglite". Please install both packages in your project.'
+      '[Knex] client "pglite" requires dependencies "@electric-sql/pglite" and "knex-pglite". Please install both packages in your project.',
     )
   }
 }
@@ -78,21 +73,14 @@ async function loadPglitePackages(): Promise<{
  */
 export async function createPgliteKnex(
   config: Partial<OriginKnex.Config> = {},
-  connection?: string
+  connection?: string,
 ): Promise<OriginKnex> {
-  const resolvedConnection = parsePgliteConnection(
-    connection ?? config.connection
-  )
+  const resolvedConnection = parsePgliteConnection(connection ?? config.connection)
   ensurePgliteConnectionPath(resolvedConnection)
 
   const { PGlite, types, PgliteDialect } = await loadPglitePackages()
 
-  const {
-    client: _client,
-    connection: _connection,
-    pool: _pool,
-    ...restConfig
-  } = config
+  const { client: _client, connection: _connection, pool: _pool, ...restConfig } = config
 
   const postgresTypeParsers: Record<number, (v: string) => number> = {
     [types.INT2]: (v: string) => Number.parseInt(v, 10),
@@ -121,10 +109,7 @@ export async function createPgliteKnex(
 /**
  * Mount a knex adapter to `globalThis.FaasJS_Knex` for `@faasjs/knex`.
  */
-export function mountFaasKnex(
-  db: OriginKnex,
-  options: MountFaasKnexOptions = {}
-): void {
+export function mountFaasKnex(db: OriginKnex, options: MountFaasKnexOptions = {}): void {
   const globalWithFaasKnex = globalThis as typeof globalThis & FaasKnexGlobal
   const name = options.name || 'knex'
 

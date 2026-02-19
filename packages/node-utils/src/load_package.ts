@@ -21,8 +21,7 @@ export function detectNodeRuntime(): NodeRuntime {
   if (typeof globalThis.require === 'function' && typeof module !== 'undefined')
     return (_runtime = 'commonjs')
 
-  if (typeof process !== 'undefined' && process.versions?.node)
-    return (_runtime = 'module')
+  if (typeof process !== 'undefined' && process.versions?.node) return (_runtime = 'module')
 
   throw Error('Unknown runtime')
 }
@@ -37,33 +36,20 @@ export function detectNodeRuntime(): NodeRuntime {
  */
 export async function loadPackage<T = unknown>(
   name: string,
-  defaultNames: string | string[] = 'default'
+  defaultNames: string | string[] = 'default',
 ): Promise<T> {
   const runtime = detectNodeRuntime()
 
   let module: any
 
-  if (runtime === 'module') {
-    module = await import(name)
+  if (runtime === 'module') module = await import(name)
+  else if (runtime === 'commonjs') module = globalThis.require(name)
+  else throw Error('Unknown runtime')
 
-    if (typeof defaultNames === 'string')
-      return defaultNames in module ? module[defaultNames] : module
+  if (typeof defaultNames === 'string')
+    return defaultNames in module ? module[defaultNames] : module
 
-    for (const key of defaultNames) if (key in module) return module[key]
+  for (const key of defaultNames) if (key in module) return module[key]
 
-    return module
-  }
-
-  if (runtime === 'commonjs') {
-    module = globalThis.require(name)
-
-    if (typeof defaultNames === 'string')
-      return defaultNames in module ? module[defaultNames] : module
-
-    for (const key of defaultNames) if (key in module) return module[key]
-
-    return module
-  }
-
-  throw Error('Unknown runtime')
+  return module
 }

@@ -1,10 +1,5 @@
 import type { Options, Response } from '@faasjs/browser'
-import type {
-  FaasAction,
-  FaasActionUnionType,
-  FaasData,
-  FaasParams,
-} from '@faasjs/types'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import { getClient } from './client'
 
 /**
@@ -24,17 +19,15 @@ import { getClient } from './client'
 export async function faas<PathOrData extends FaasActionUnionType>(
   action: FaasAction<PathOrData>,
   params: FaasParams<PathOrData>,
-  options?: Options
+  options?: Options,
 ): Promise<Response<FaasData<PathOrData>>> {
   const client = getClient(options?.baseUrl)
   const onError = client.onError
 
   if (onError)
-    return client.browserClient
-      .action<PathOrData>(action, params, options)
-      .catch(async res => {
-        await onError(action as string, params)(res)
-        return Promise.reject(res)
-      })
+    return client.browserClient.action<PathOrData>(action, params, options).catch(async (res) => {
+      await onError(action as string, params)(res)
+      return Promise.reject(res)
+    })
   return client.browserClient.action(action, params, options)
 }

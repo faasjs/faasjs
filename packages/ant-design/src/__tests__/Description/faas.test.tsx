@@ -17,10 +17,10 @@ describe('Description/faas', () => {
   it('with faas', async () => {
     render(
       <Description
-        renderTitle={data => data.title}
+        renderTitle={(data) => data.title}
         items={[{ id: 'test' }]}
         faasData={{ action: 'test' }}
-      />
+      />,
     )
 
     expect(await screen.findAllByText('title')).toHaveLength(1)

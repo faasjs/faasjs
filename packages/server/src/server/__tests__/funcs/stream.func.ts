@@ -13,7 +13,7 @@ export const func = new Func({
             controller.close()
           }, 1000)
         },
-      })
+      }),
     )
   },
 })

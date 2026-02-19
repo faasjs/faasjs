@@ -15,17 +15,12 @@ export function resolveFaasStaging(): string {
 export function resolveServerConfig(
   root: string,
   logger?: Logger,
-  defaultBase = '/'
+  defaultBase = '/',
 ): ServerConfig {
   const projectRoot = resolve(root)
   const staging = resolveFaasStaging()
   const srcRoot = join(projectRoot, 'src')
-  const config = loadConfig(
-    srcRoot,
-    join(srcRoot, 'index.func.ts'),
-    staging,
-    logger
-  )
+  const config = loadConfig(srcRoot, join(srcRoot, 'index.func.ts'), staging, logger)
   const server =
     config && typeof config === 'object'
       ? ((config as Record<string, any>).server as Record<string, any>)
@@ -36,10 +31,7 @@ export function resolveServerConfig(
       typeof server?.root === 'string' && server.root.length
         ? resolve(projectRoot, server.root)
         : projectRoot,
-    base:
-      typeof server?.base === 'string' && server.base.length
-        ? server.base
-        : defaultBase,
+    base: typeof server?.base === 'string' && server.base.length ? server.base : defaultBase,
     staging,
   }
 }

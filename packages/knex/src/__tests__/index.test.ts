@@ -18,8 +18,7 @@ import {
 
 const originalSecretKnexClient = process.env.SECRET_KNEX_CLIENT
 const originalSecretKnexConnection = process.env.SECRET_KNEX_CONNECTION
-const originalSecretKnexConnectionFilename =
-  process.env.SECRET_KNEX_CONNECTION_FILENAME
+const originalSecretKnexConnectionFilename = process.env.SECRET_KNEX_CONNECTION_FILENAME
 
 function restoreSecretKnexEnv() {
   if (typeof originalSecretKnexClient === 'string')
@@ -31,8 +30,7 @@ function restoreSecretKnexEnv() {
   else delete process.env.SECRET_KNEX_CONNECTION
 
   if (typeof originalSecretKnexConnectionFilename === 'string')
-    process.env.SECRET_KNEX_CONNECTION_FILENAME =
-      originalSecretKnexConnectionFilename
+    process.env.SECRET_KNEX_CONNECTION_FILENAME = originalSecretKnexConnectionFilename
   else delete process.env.SECRET_KNEX_CONNECTION_FILENAME
 }
 
@@ -70,8 +68,7 @@ describe('Knex', () => {
 
     if (!knex) return
 
-    if (typeof knex.schema === 'function')
-      await knex.schema().dropTableIfExists('test')
+    if (typeof knex.schema === 'function') await knex.schema().dropTableIfExists('test')
     else await knex.adapter?.schema?.dropTableIfExists?.('test')
 
     if (typeof knex.quit === 'function') await knex.quit()
@@ -148,7 +145,7 @@ describe('Knex', () => {
       const handler = new Func({
         plugins: [knex],
         async handler() {
-          await knex.schema().createTable('test', t => {
+          await knex.schema().createTable('test', (t) => {
             t.increments('id')
           })
           return knex.query('test')
@@ -177,9 +174,7 @@ describe('Knex', () => {
       try {
         await handler({})
       } catch (error: any) {
-        expect(error.message).toEqual(
-          'SELECT a from a - SQLITE_ERROR: no such table: a'
-        )
+        expect(error.message).toEqual('SELECT a from a - SQLITE_ERROR: no such table: a')
       }
     })
   })
@@ -198,11 +193,11 @@ describe('Knex', () => {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        await knex.schema().createTable('test', t => {
+        await knex.schema().createTable('test', (t) => {
           t.increments('id')
         })
 
-        return await knex.transaction(async trx => {
+        return await knex.transaction(async (trx) => {
           trx.on('commit', () => (commit = true))
           return await trx.insert({}).into('test').returning('id')
         })
@@ -225,7 +220,7 @@ describe('Knex', () => {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        await knex.schema().createTable('test', t => {
+        await knex.schema().createTable('test', (t) => {
           t.increments('id')
         })
 
@@ -234,18 +229,16 @@ describe('Knex', () => {
         await transaction.commit()
 
         await knex.transaction(
-          async trx => await trx.insert({}).into('test'),
+          async (trx) => await trx.insert({}).into('test'),
           {},
-          { trx: transaction }
+          { trx: transaction },
         )
 
         return knex.query('test')
       },
     }).export().handler
 
-    expect(() => handler({})).rejects.toThrow(
-      'Transaction query already complete'
-    )
+    expect(() => handler({})).rejects.toThrow('Transaction query already complete')
   })
 
   it('transaction with error', async () => {
@@ -261,11 +254,11 @@ describe('Knex', () => {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        await knex.schema().createTable('test', t => {
+        await knex.schema().createTable('test', (t) => {
           t.increments('id')
         })
 
-        await knex.transaction(async trx => {
+        await knex.transaction(async (trx) => {
           trx.on('rollback', () => (rollback = true))
           await trx.insert({}).into('test')
           throw Error('test')
@@ -293,7 +286,7 @@ describe('Knex', () => {
       return async () => {
         await useKnex()
           .schema()
-          .createTable('test', t => {
+          .createTable('test', (t) => {
             t.increments('id')
           })
 
@@ -316,16 +309,14 @@ describe('Knex', () => {
       return async () => {
         await useKnex()
           .schema()
-          .createTable('test', t => {
+          .createTable('test', (t) => {
             t.increments('id')
             t.integer('value')
           })
 
-        const value = await raw('SELECT 1+1 AS count').then(
-          (res: any) => res[0].count
-        )
+        const value = await raw('SELECT 1+1 AS count').then((res: any) => res[0].count)
 
-        await transaction(async trx => {
+        await transaction(async (trx) => {
           await trx
             .insert({
               value,
@@ -352,10 +343,10 @@ describe('Knex', () => {
       return async () => {
         await knex
           .schema()
-          .createTable('test', t => {
+          .createTable('test', (t) => {
             t.increments('id')
           })
-          .createTable('testtest', t => {
+          .createTable('testtest', (t) => {
             t.increments('id')
           })
       }
@@ -366,9 +357,7 @@ describe('Knex', () => {
 
     assertType<any>(await query('testtest'))
 
-    assertType<{ value: string }>(
-      await query<any, { value: string }>('testtest')
-    )
+    assertType<{ value: string }>(await query<any, { value: string }>('testtest'))
   })
 
   it('should work with pg via mounted pglite adapter', async () => {
@@ -394,7 +383,7 @@ describe('Knex', () => {
         async handler() {
           return await knex
             .raw(
-              'SELECT 1+1 AS value, 1::int2 AS int2, 2::int4 AS int4, 9007199254740993::int8 AS int8, 1.25::float4 AS float4, 2.5::float8 AS float8, 3.75::numeric AS numeric'
+              'SELECT 1+1 AS value, 1::int2 AS int2, 2::int4 AS int4, 9007199254740993::int8 AS int8, 1.25::float4 AS float4, 2.5::float8 AS float8, 3.75::numeric AS numeric',
             )
             .then((res: any) => res.rows)
         },
@@ -428,9 +417,7 @@ describe('Knex', () => {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        return await knex
-          .raw('SELECT 1+1 AS value')
-          .then((res: any) => res.rows)
+        return await knex.raw('SELECT 1+1 AS value').then((res: any) => res.rows)
       },
     }).export().handler
 
@@ -452,9 +439,7 @@ describe('Knex', () => {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        return await knex
-          .raw('SELECT 1+1 AS value')
-          .then((res: any) => res.rows)
+        return await knex.raw('SELECT 1+1 AS value').then((res: any) => res.rows)
       },
     }).export().handler
 
@@ -491,9 +476,7 @@ describe('Knex', () => {
     const handler = new Func({
       plugins: [knex],
       async handler() {
-        return await knex
-          .raw('SELECT 1+1 AS value')
-          .then((res: any) => res.rows)
+        return await knex.raw('SELECT 1+1 AS value').then((res: any) => res.rows)
       },
     }).export().handler
 
@@ -533,9 +516,7 @@ describe('Knex', () => {
     }).export().handler
 
     try {
-      await expect(handler({})).rejects.toThrow(
-        'Use SECRET_KNEX_CONNECTION instead.'
-      )
+      await expect(handler({})).rejects.toThrow('Use SECRET_KNEX_CONNECTION instead.')
     } finally {
       delete process.env.SECRET_KNEX_CLIENT
       delete process.env.SECRET_KNEX_CONNECTION
@@ -560,9 +541,7 @@ describe('Knex', () => {
       const handler = new Func({
         plugins: [mountedKnex],
         async handler() {
-          return await mountedKnex
-            .raw('SELECT 1+1 AS value')
-            .then((res: any) => res.rows)
+          return await mountedKnex.raw('SELECT 1+1 AS value').then((res: any) => res.rows)
         },
       }).export().handler
 
@@ -590,7 +569,7 @@ describe('Knex', () => {
       const writeHandler = new Func({
         plugins: [writerKnex],
         async handler() {
-          await writerKnex.schema().createTable('test', t => {
+          await writerKnex.schema().createTable('test', (t) => {
             t.integer('id').primary()
           })
 

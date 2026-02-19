@@ -17,10 +17,7 @@
  * console.log(handler.name) // => 'myHandler'
  * ```
  */
-export function nameFunc<T extends (...args: any[]) => any>(
-  name: string,
-  handler: T
-): T {
+export function nameFunc<T extends (...args: any[]) => any>(name: string, handler: T): T {
   Object.defineProperty(handler, 'name', { value: name })
   return handler
 }

@@ -41,11 +41,11 @@ mise install
 
 这是 FaasJS 的配置文件，记录了服务商、插件以及本地开发服务（`server`）等配置项。
 
-### *.func.ts
+### \*.func.ts
 
 这是云函数文件，在 FaasJS 中，所有云函数文件都必须以 `.func.ts` 结尾。
 
-### *.test.ts
+### \*.test.ts
 
 这是单元测试文件，在 FaasJS 中，所有单元测试文件都必须以 `.test.ts` 结尾。
 

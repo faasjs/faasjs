@@ -19,7 +19,7 @@ describe('FormItem number[]', () => {
             },
           ]}
         />
-      </Form>
+      </Form>,
     )
 
     expect(container.getElementsByClassName('ant-select').length).toEqual(1)
@@ -34,7 +34,7 @@ describe('FormItem number[]', () => {
     const { container } = render(
       <Form>
         <FormItem id='test' type='number[]' options={['value']} />
-      </Form>
+      </Form>,
     )
 
     expect(container.getElementsByClassName('ant-select').length).toEqual(1)
@@ -50,23 +50,17 @@ describe('FormItem number[]', () => {
       const { container } = render(
         <Form>
           <FormItem id='test' type='number[]' />
-        </Form>
+        </Form>,
       )
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(1)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(2)
-      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(
-        1
-      )
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(2)
+      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(1)
     })
 
     it('with maxCount', async () => {
@@ -74,23 +68,17 @@ describe('FormItem number[]', () => {
       const { container } = render(
         <Form>
           <FormItem id='test' type='number[]' maxCount={2} />
-        </Form>
+        </Form>,
       )
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(1)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(2)
-      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(
-        0
-      )
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(2)
+      expect(container.getElementsByClassName('ant-btn-dashed').length).toEqual(0)
     })
   })
 
@@ -100,28 +88,18 @@ describe('FormItem number[]', () => {
       const { container } = render(
         <Form>
           <FormItem id='test' type='number[]' />
-        </Form>
+        </Form>,
       )
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(1)
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(1)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(1)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
 
-      await user.click(
-        container.getElementsByClassName('anticon-minus-circle')[0]
-      )
+      await user.click(container.getElementsByClassName('anticon-minus-circle')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(0)
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(0)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(0)
     })
 
     it('with required', async () => {
@@ -129,37 +107,23 @@ describe('FormItem number[]', () => {
       const { container } = render(
         <Form>
           <FormItem id='test' type='number[]' required />
-        </Form>
+        </Form>,
       )
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(0)
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(1)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
 
       await user.click(container.getElementsByClassName('ant-btn-dashed')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(1)
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(2)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(1)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(2)
 
-      await user.click(
-        container.getElementsByClassName('anticon-minus-circle')[0]
-      )
+      await user.click(container.getElementsByClassName('anticon-minus-circle')[0])
 
-      expect(
-        container.getElementsByClassName('anticon-minus-circle').length
-      ).toEqual(0)
-      expect(
-        container.getElementsByClassName('ant-input-number-input').length
-      ).toEqual(1)
+      expect(container.getElementsByClassName('anticon-minus-circle').length).toEqual(0)
+      expect(container.getElementsByClassName('ant-input-number-input').length).toEqual(1)
     })
   })
 })

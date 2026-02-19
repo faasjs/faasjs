@@ -50,7 +50,7 @@ describe('Title', () => {
       const { container } = render(
         <Title title='title'>
           <h2>h2</h2>
-        </Title>
+        </Title>,
       )
 
       expect(document.title).toEqual('title')
@@ -65,7 +65,7 @@ describe('Title', () => {
       const { container } = render(
         <Title title='title'>
           <CustomTitle className='class' />
-        </Title>
+        </Title>,
       )
 
       expect(document.title).toEqual('title')

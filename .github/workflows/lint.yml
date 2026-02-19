@@ -18,7 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Setup Biome CLI
-        uses: biomejs/setup-biome@v2
+      - uses: jdx/mise-action@v3
+      - name: Install
+        run: mise exec -- npm install
       - name: Run Lint
-        run: biome ci
+        run: mise exec -- npm run lint

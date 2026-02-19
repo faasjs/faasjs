@@ -8,11 +8,7 @@
 
 ### body?
 
-> `optional` **body**: `object`
-
-#### Index Signature
-
-\[`key`: `string`\]: `any`
+> `optional` **body**: \{\[`key`: `string`\]: `any`; \} \| `string`
 
 ### headers?
 

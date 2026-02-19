@@ -8,7 +8,7 @@ describe('encoding', () => {
 
   function compressBody(
     body: string,
-    encoding: 'br' | 'gzip' | 'deflate'
+    encoding: 'br' | 'gzip' | 'deflate',
   ): ReadableStream<Uint8Array> {
     const buffer = Buffer.from(body)
 
@@ -41,7 +41,7 @@ describe('encoding', () => {
             body: compressBody(JSON.stringify({ data }), 'br'),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()
@@ -67,7 +67,7 @@ describe('encoding', () => {
             body: compressBody(JSON.stringify({ data }), 'gzip'),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()
@@ -93,7 +93,7 @@ describe('encoding', () => {
             body: compressBody(JSON.stringify({ data }), 'deflate'),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()
@@ -123,7 +123,7 @@ describe('encoding', () => {
             }),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()
@@ -150,7 +150,7 @@ describe('encoding', () => {
             }),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()
@@ -178,7 +178,7 @@ describe('encoding', () => {
             }),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()
@@ -206,7 +206,7 @@ describe('encoding', () => {
             }),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()
@@ -234,7 +234,7 @@ describe('encoding', () => {
             }),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()
@@ -262,7 +262,7 @@ describe('encoding', () => {
             }),
           }
         },
-      })
+      }),
     )
 
     const res = await func.JSONhandler()

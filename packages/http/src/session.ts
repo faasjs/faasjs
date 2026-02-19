@@ -1,10 +1,4 @@
-import {
-  createCipheriv,
-  createDecipheriv,
-  createHmac,
-  pbkdf2Sync,
-  randomBytes,
-} from 'node:crypto'
+import { createCipheriv, createDecipheriv, createHmac, pbkdf2Sync, randomBytes } from 'node:crypto'
 import type { Logger } from '@faasjs/logger'
 import type { Cookie } from './cookie'
 
@@ -19,12 +13,7 @@ export type SessionOptions = {
   cipherName?: string
 }
 
-export type SessionContent =
-  | string
-  | number
-  | { [key: string]: any }
-  | null
-  | undefined
+export type SessionContent = string | number | { [key: string]: any } | null | undefined
 
 export class Session<
   S extends Record<string, string> = any,
@@ -64,7 +53,7 @@ export class Session<
         digest: 'sha256',
         cipherName: 'aes-256-cbc',
       },
-      config
+      config,
     )
 
     this.secret = pbkdf2Sync(
@@ -72,7 +61,7 @@ export class Session<
       this.config.salt,
       this.config.iterations,
       this.config.keylen / 2,
-      this.config.digest
+      this.config.digest,
     )
 
     this.signedSecret = pbkdf2Sync(
@@ -80,7 +69,7 @@ export class Session<
       this.config.signedSalt,
       this.config.iterations,
       this.config.keylen,
-      this.config.digest
+      this.config.digest,
     )
 
     this.content = Object.create(null)
@@ -102,14 +91,9 @@ export class Session<
     const iv = randomBytes(16)
 
     const cipher = createCipheriv(this.config.cipherName, this.secret, iv)
-    const encrypted = Buffer.concat([
-      cipher.update(text),
-      cipher.final(),
-    ]).toString('base64')
+    const encrypted = Buffer.concat([cipher.update(text), cipher.final()]).toString('base64')
 
-    const main = Buffer.from(
-      [encrypted, iv.toString('base64')].join('--')
-    ).toString('base64')
+    const main = Buffer.from([encrypted, iv.toString('base64')].join('--')).toString('base64')
 
     const hmac = createHmac(this.config.digest, this.signedSecret)
 
@@ -131,13 +115,9 @@ export class Session<
     if (signedParts[1] !== digest) throw Error('Session Not valid')
 
     const message = Buffer.from(signedParts[0], 'base64').toString()
-    const parts = message.split('--').map(part => Buffer.from(part, 'base64'))
+    const parts = message.split('--').map((part) => Buffer.from(part, 'base64'))
 
-    const cipher = createDecipheriv(
-      this.config.cipherName,
-      this.secret,
-      parts[1]
-    )
+    const cipher = createDecipheriv(this.config.cipherName, this.secret, parts[1])
     const part = Buffer.from(cipher.update(parts[0])).toString('utf8')
     const final = cipher.final('utf8')
 
@@ -159,8 +139,7 @@ export class Session<
   }
 
   public update(): Session<S, C> {
-    if (this.changed)
-      this.cookie.write(this.config.key, this.encode(this.content))
+    if (this.changed) this.cookie.write(this.config.key, this.encode(this.content))
 
     return this
   }

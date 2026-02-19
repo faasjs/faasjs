@@ -23,18 +23,8 @@ import {
 import type { RuleObject } from 'antd/es/form'
 import { useEffect, useState } from 'react'
 import { type ResolvedTheme, useConfigContext } from './Config'
-import type {
-  BaseItemProps,
-  FaasItemType,
-  UnionFaasItemElement,
-  UnionFaasItemRender,
-} from './data'
-import {
-  type BaseOption,
-  cloneUnionFaasItemElement,
-  idToTitle,
-  transferOptions,
-} from './data'
+import type { BaseItemProps, FaasItemType, UnionFaasItemElement, UnionFaasItemRender } from './data'
+import { type BaseOption, cloneUnionFaasItemElement, idToTitle, transferOptions } from './data'
 
 type OptionsProps = {
   options: BaseOption[]
@@ -63,8 +53,7 @@ type InputTypeMap<T> = {
 }
 
 export interface FormItemProps<T = any>
-  extends BaseItemProps,
-    Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+  extends BaseItemProps, Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType
   input?: InputTypeMap<T>[FaasItemType]
   maxCount?: number
@@ -126,13 +115,9 @@ function isOptionsProps(item: any): item is OptionsProps {
   return item && Array.isArray(item.options)
 }
 
-function processProps(
-  propsCopy: FormItemProps,
-  config: ResolvedTheme['common']
-): FormItemProps {
+function processProps(propsCopy: FormItemProps, config: ResolvedTheme['common']): FormItemProps {
   propsCopy.title = propsCopy.title ?? idToTitle(propsCopy.id)
-  if (!propsCopy.label && propsCopy.label !== false)
-    propsCopy.label = propsCopy.title
+  if (!propsCopy.label && propsCopy.label !== false) propsCopy.label = propsCopy.title
   if (!propsCopy.name) propsCopy.name = propsCopy.id
   if (!propsCopy.type) propsCopy.type = 'string'
   if (!propsCopy.rules) propsCopy.rules = []
@@ -142,9 +127,7 @@ function processProps(
         required: true,
         validator: async (_, values) => {
           if (!values || values.length < 1)
-            return Promise.reject(
-              Error(`${propsCopy.label || propsCopy.title} ${config.required}`)
-            )
+            return Promise.reject(Error(`${propsCopy.label || propsCopy.title} ${config.required}`))
         },
       })
     else
@@ -154,8 +137,7 @@ function processProps(
       })
   }
   if (!propsCopy.input) propsCopy.input = {}
-  if (isOptionsProps(propsCopy))
-    propsCopy.input.options = transferOptions(propsCopy.options)
+  if (isOptionsProps(propsCopy)) propsCopy.input.options = transferOptions(propsCopy.options)
 
   switch (propsCopy.type) {
     case 'boolean':
@@ -235,12 +217,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
 
   if (hidden)
     return (
-      <AntdForm.Item
-        {...computedProps}
-        id={computedProps.id.toString()}
-        noStyle
-        rules={[]}
-      >
+      <AntdForm.Item {...computedProps} id={computedProps.id.toString()} noStyle rules={[]}>
         <Input type='hidden' hidden />
       </AntdForm.Item>
     )
@@ -319,7 +296,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                 <div className='ant-form-item-label'>
                   <label
                     className={
-                      (computedProps.rules || []).find(r => r.required) &&
+                      (computedProps.rules || []).find((r) => r.required) &&
                       'ant-form-item-required'
                     }
                   >
@@ -327,7 +304,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                   </label>
                 </div>
               )}
-              {fields.map(field => {
+              {fields.map((field) => {
                 const { key, ...fieldProps } = field
                 return (
                   <AntdForm.Item key={key} id={key.toString()}>
@@ -339,8 +316,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                       </Col>
                       <Col span={1}>
                         {!computedProps.input?.disabled &&
-                          (!(computedProps.rules || []).find(r => r.required) ||
-                            key > 0) && (
+                          (!(computedProps.rules || []).find((r) => r.required) || key > 0) && (
                             <Button
                               danger
                               type='link'
@@ -356,19 +332,11 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
               })}
               <AntdForm.Item>
                 {!computedProps.input?.disabled &&
-                  (!computedProps.maxCount ||
-                    computedProps.maxCount > fields.length) && (
-                    <Button
-                      type='dashed'
-                      block
-                      onClick={() => add()}
-                      icon={<PlusOutlined />}
-                    />
+                  (!computedProps.maxCount || computedProps.maxCount > fields.length) && (
+                    <Button type='dashed' block onClick={() => add()} icon={<PlusOutlined />} />
                   )}
                 {computedProps.extra && (
-                  <div className='ant-form-item-extra'>
-                    {computedProps.extra}
-                  </div>
+                  <div className='ant-form-item-extra'>{computedProps.extra}</div>
                 )}
                 <AntdForm.ErrorList errors={errors} />
               </AntdForm.Item>
@@ -390,10 +358,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
 
       return (
         <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-          <InputNumber
-            style={{ width: '100%' }}
-            {...(computedProps.input as InputNumberProps)}
-          />
+          <InputNumber style={{ width: '100%' }} {...(computedProps.input as InputNumberProps)} />
         </AntdForm.Item>
       )
     case 'number[]':
@@ -415,16 +380,15 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                 <div className='ant-form-item-label'>
                   <label
                     className={
-                      computedProps.rules?.find(
-                        (r: RuleObject) => r.required
-                      ) && 'ant-form-item-required'
+                      computedProps.rules?.find((r: RuleObject) => r.required) &&
+                      'ant-form-item-required'
                     }
                   >
                     {computedProps.label}
                   </label>
                 </div>
               )}
-              {fields.map(field => {
+              {fields.map((field) => {
                 const { key, ...fieldProps } = field
                 return (
                   <AntdForm.Item key={key} id={key.toString()}>
@@ -439,8 +403,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                       </Col>
                       <Col span={1}>
                         {!computedProps.input?.disabled &&
-                          (!(computedProps.rules || []).find(r => r.required) ||
-                            key > 0) && (
+                          (!(computedProps.rules || []).find((r) => r.required) || key > 0) && (
                             <Button
                               danger
                               type='link'
@@ -456,19 +419,11 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
               })}
               <AntdForm.Item>
                 {!computedProps.input?.disabled &&
-                  (!computedProps.maxCount ||
-                    computedProps.maxCount > fields.length) && (
-                    <Button
-                      type='dashed'
-                      block
-                      onClick={() => add()}
-                      icon={<PlusOutlined />}
-                    />
+                  (!computedProps.maxCount || computedProps.maxCount > fields.length) && (
+                    <Button type='dashed' block onClick={() => add()} icon={<PlusOutlined />} />
                   )}
                 {computedProps.extra && (
-                  <div className='ant-form-item-extra'>
-                    {computedProps.extra}
-                  </div>
+                  <div className='ant-form-item-extra'>{computedProps.extra}</div>
                 )}
                 <AntdForm.ErrorList errors={errors} />
               </AntdForm.Item>
@@ -491,9 +446,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     case 'time':
       return (
         <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-          <DatePicker
-            {...{ ...(computedProps.input as DatePickerProps), showTime: true }}
-          />
+          <DatePicker {...{ ...(computedProps.input as DatePickerProps), showTime: true }} />
         </AntdForm.Item>
       )
     case 'object': {
@@ -513,7 +466,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
               </label>
             </div>
           )}
-          {objectItems.map(o => (
+          {objectItems.map((o) => (
             <FormItem key={o.id} {...o} />
           ))}
         </>
@@ -527,7 +480,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
         >
           {(fields, { add, remove }, { errors }) => (
             <>
-              {fields.map(field => (
+              {fields.map((field) => (
                 <AntdForm.Item
                   key={field.key}
                   id={field.key.toString()}
@@ -537,20 +490,15 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                     <label>
                       {computedProps.label} {field.name + 1}
                       {!computedProps.disabled &&
-                        (!(computedProps.rules || []).find(r => r.required) ||
-                          field.key > 0) && (
-                          <Button
-                            danger
-                            type='link'
-                            onClick={() => remove(field.name)}
-                          >
+                        (!(computedProps.rules || []).find((r) => r.required) || field.key > 0) && (
+                          <Button danger type='link' onClick={() => remove(field.name)}>
                             {theme.common.delete}
                           </Button>
                         )}
                     </label>
                   </div>
                   <Row gutter={24}>
-                    {(computedProps.object || []).map(o => (
+                    {(computedProps.object || []).map((o) => (
                       <Col key={o.id} span={o.col || 24}>
                         <FormItem {...o} name={[field.name, o.id]} />
                       </Col>
@@ -560,21 +508,13 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
               ))}
               <AntdForm.Item>
                 {!computedProps.disabled &&
-                  (!computedProps.maxCount ||
-                    computedProps.maxCount > fields.length) && (
-                    <Button
-                      type='dashed'
-                      block
-                      onClick={() => add()}
-                      icon={<PlusOutlined />}
-                    >
+                  (!computedProps.maxCount || computedProps.maxCount > fields.length) && (
+                    <Button type='dashed' block onClick={() => add()} icon={<PlusOutlined />}>
                       {theme.common.add} {computedProps.label}
                     </Button>
                   )}
                 {computedProps.extra && (
-                  <div className='ant-form-item-extra'>
-                    {computedProps.extra}
-                  </div>
+                  <div className='ant-form-item-extra'>{computedProps.extra}</div>
                 )}
                 <AntdForm.ErrorList errors={errors} />
               </AntdForm.Item>

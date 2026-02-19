@@ -37,7 +37,7 @@ const __dirname = dirname(__filename)
 process.env.FaasRoot = `${__dirname}/`
 
 const server = new Server(process.env.FaasRoot, {
-  port: 3000
+  port: 3000,
 })
 
 server.listen()

@@ -13,9 +13,7 @@ export function escapeHtml(value: string): string {
     .replace(/'/g, '&#39;')
 }
 
-export function classNames(
-  ...names: Array<string | false | null | undefined>
-): string {
+export function classNames(...names: Array<string | false | null | undefined>): string {
   return names.filter(Boolean).join(' ')
 }
 
@@ -31,11 +29,9 @@ export function renderAutoLink(options: {
     !external && 'route-link',
     options.active && 'route-link-active',
     external && 'external-link',
-    options.extraClass
+    options.extraClass,
   )
-  const attributes = external
-    ? ' rel="noopener noreferrer" target="_blank"'
-    : ''
+  const attributes = external ? ' rel="noopener noreferrer" target="_blank"' : ''
 
   return `<a class="${classes}" href="${escapeHtml(options.href)}" aria-label="${escapeHtml(options.text)}"${attributes}>${escapeHtml(options.text)}</a>`
 }

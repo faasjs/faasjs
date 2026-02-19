@@ -8,7 +8,7 @@
   function applyExternalLinkTargets() {
     const links = document.querySelectorAll('a[href]')
 
-    links.forEach(link => {
+    links.forEach((link) => {
       const href = link.getAttribute('href')
 
       if (!href || !isExternalLink(href)) {
@@ -56,7 +56,7 @@
 
   if (sidebarButton) {
     sidebarButton.addEventListener('click', toggleSidebar)
-    sidebarButton.addEventListener('keydown', event => {
+    sidebarButton.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
         toggleSidebar()
@@ -71,7 +71,7 @@
   const wrappers = document.querySelectorAll('.vp-navbar-dropdown-wrapper')
 
   function closeAllDropdowns(exceptWrapper) {
-    wrappers.forEach(wrapper => {
+    wrappers.forEach((wrapper) => {
       if (exceptWrapper && wrapper === exceptWrapper) {
         return
       }
@@ -80,11 +80,9 @@
     })
   }
 
-  wrappers.forEach(wrapper => {
+  wrappers.forEach((wrapper) => {
     const desktopButton = wrapper.querySelector('.vp-navbar-dropdown-title')
-    const mobileButton = wrapper.querySelector(
-      '.vp-navbar-dropdown-title-mobile'
-    )
+    const mobileButton = wrapper.querySelector('.vp-navbar-dropdown-title-mobile')
 
     function toggleDropdown() {
       const willOpen = !wrapper.classList.contains('open')
@@ -93,36 +91,34 @@
     }
 
     if (desktopButton) {
-      desktopButton.addEventListener('click', event => {
+      desktopButton.addEventListener('click', (event) => {
         event.preventDefault()
         toggleDropdown()
       })
     }
 
     if (mobileButton) {
-      mobileButton.addEventListener('click', event => {
+      mobileButton.addEventListener('click', (event) => {
         event.preventDefault()
         toggleDropdown()
       })
     }
   })
 
-  document.addEventListener('click', event => {
+  document.addEventListener('click', (event) => {
     const target = event.target
     if (!(target instanceof Node)) {
       return
     }
 
-    const insideDropdown = Array.from(wrappers).some(wrapper =>
-      wrapper.contains(target)
-    )
+    const insideDropdown = Array.from(wrappers).some((wrapper) => wrapper.contains(target))
 
     if (!insideDropdown) {
       closeAllDropdowns(null)
     }
   })
 
-  document.addEventListener('keydown', event => {
+  document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeSidebar()
       closeAllDropdowns(null)

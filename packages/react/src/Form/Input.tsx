@@ -1,8 +1,4 @@
-import type {
-  ComponentProps,
-  ComponentType,
-  JSXElementConstructor,
-} from 'react'
+import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react'
 import { useFormContext } from './context'
 import type { FormElementTypes } from './elements'
 import type { FormInputElementProps } from './elements/Input'
@@ -15,9 +11,7 @@ export type InferFormInputProps<
     ? Omit<ComponentProps<T>, 'name' | 'value' | 'onChange'>
     : Omit<ComponentProps<T>, 'name' | 'value'>
 
-export type FormInputProps<
-  FormElements extends FormElementTypes = FormElementTypes,
-> = {
+export type FormInputProps<FormElements extends FormElementTypes = FormElementTypes> = {
   Input?: ComponentType<FormInputElementProps>
   props?: InferFormInputProps<FormElements['Input']>
 }
@@ -50,8 +44,8 @@ export function FormInput({
       <rest.Input
         name={name}
         value={value}
-        onChange={v =>
-          setValues(prev => ({
+        onChange={(v) =>
+          setValues((prev) => ({
             ...prev,
             [name]: processValue(v, rules),
           }))
@@ -65,8 +59,8 @@ export function FormInput({
     <Elements.Input
       name={name}
       value={value}
-      onChange={v =>
-        setValues(prev => ({
+      onChange={(v) =>
+        setValues((prev) => ({
           ...prev,
           [name]: processValue(v, rules),
         }))

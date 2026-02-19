@@ -1,14 +1,16 @@
-[@faasjs/core](../README.md) / defineFunc
+[@faasjs/core](../README.md) / defineApi
 
-# Function: defineFunc()
+# Function: defineApi()
 
-> **defineFunc**\<`TSchema`, `TEvent`, `TContext`, `TResult`\>(`options`): `Func`\<`TEvent`, `TContext`, `TResult`\>
+> **defineApi**\<`TSchema`, `TEvent`, `TContext`, `TResult`\>(`options`): `Func`\<`TEvent`, `TContext`, `TResult`\>
 
-Create a cloud function with optional Zod validation.
+Create an HTTP API function with optional Zod validation.
 
 Plugins are always auto-loaded from `func.config.plugins`.
 Plugin module exports must be either a named class (normalized from
 plugin type) or a default class export.
+
+The `http` plugin is required.
 
 ## Type Parameters
 
@@ -32,7 +34,7 @@ plugin type) or a default class export.
 
 ### options
 
-[`DefineFuncOptions`](../type-aliases/DefineFuncOptions.md)\<`TSchema`, `TEvent`, `TContext`, `TResult`\>
+[`DefineApiOptions`](../type-aliases/DefineApiOptions.md)\<`TSchema`, `TEvent`, `TContext`, `TResult`\>
 
 ## Returns
 

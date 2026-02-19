@@ -1,8 +1,6 @@
 import type { ComponentProps, ComponentType, ReactNode } from 'react'
 
-export type OptionalWrapperProps<
-  TWrapper extends ComponentType<{ children: ReactNode }> = any,
-> = {
+export type OptionalWrapperProps<TWrapper extends ComponentType<{ children: ReactNode }> = any> = {
   condition: boolean
   Wrapper: TWrapper
   wrapperProps?: ComponentProps<TWrapper>

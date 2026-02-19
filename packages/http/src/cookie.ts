@@ -45,7 +45,7 @@ export class Cookie<
         httpOnly: true,
         session: {},
       },
-      config
+      config,
     )
 
     this.session = new Session(this, this.config.session)
@@ -65,7 +65,7 @@ export class Cookie<
         const k = /([^=]+)/.exec(trimX)
         if (k !== null)
           (this.content as any)[k[0]] = decodeURIComponent(
-            trimX.replace(`${k[0]}=`, '').replace(/;$/, '')
+            trimX.replace(`${k[0]}=`, '').replace(/;$/, ''),
           )
       }
 
@@ -89,7 +89,7 @@ export class Cookie<
       secure?: boolean
       httpOnly?: boolean
       sameSite?: 'Strict' | 'Lax' | 'None'
-    }
+    },
   ): Cookie<C, S> {
     const options = Object.assign({}, this.config, opts || {})
 
@@ -102,10 +102,8 @@ export class Cookie<
       cookie = `${key}=${encodeURIComponent(value)};`
       this.content[key] = value
 
-      if (typeof options.expires === 'number')
-        cookie += `max-age=${options.expires};`
-      else if (typeof options.expires === 'string')
-        cookie += `expires=${options.expires};`
+      if (typeof options.expires === 'number') cookie += `max-age=${options.expires};`
+      else if (typeof options.expires === 'string') cookie += `expires=${options.expires};`
     }
 
     cookie += `path=${options.path || '/'};`

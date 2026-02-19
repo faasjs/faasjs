@@ -1,4 +1,5 @@
 import { run as runKnexCli } from './knex'
+import { run as runLintCli } from './lint'
 import { createMain, printVersion } from './shared'
 import { run as runTypesCli } from './types'
 
@@ -10,6 +11,7 @@ Usage:
 Commands:
   types [options]                 Generate FaasJS API/event type declarations
   knex <action> [name] [options]  Run FaasJS knex migrations
+  lint [options]                  Run formatter and lint with Oxc
 
 Options:
   -h, --help                      Show help
@@ -19,6 +21,7 @@ Options:
 const Commands = {
   types: runTypesCli,
   knex: runKnexCli,
+  lint: runLintCli,
 } as const
 
 export async function run(args: string[]): Promise<number> {

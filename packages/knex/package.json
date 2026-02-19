@@ -1,7 +1,20 @@
 {
   "name": "@faasjs/knex",
   "version": "8.0.0-beta.8",
+  "homepage": "https://faasjs.com/doc/knex",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/knex"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -13,38 +26,25 @@
       "require": "./dist/index.cjs"
     }
   },
-  "homepage": "https://faasjs.com/doc/knex",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/faasjs/faasjs.git",
-    "directory": "packages/knex"
-  },
-  "bugs": {
-    "url": "https://github.com/faasjs/faasjs/issues"
-  },
-  "funding": "https://github.com/sponsors/faasjs",
   "scripts": {
     "build": "tsdown src/index.ts --config ../../tsdown.config.ts"
   },
-  "files": [
-    "dist"
-  ],
-  "peerDependencies": {
-    "knex": "*",
-    "@faasjs/func": ">=8.0.0-beta.8",
-    "@faasjs/logger": ">=8.0.0-beta.8",
-    "@faasjs/node-utils": ">=8.0.0-beta.8"
-  },
   "devDependencies": {
-    "knex": "*",
     "@faasjs/func": ">=8.0.0-beta.8",
     "@faasjs/logger": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
-    "better-sqlite3": "*",
-    "knex-pglite": "*",
     "@types/pg": "*",
-    "pg": "*",
-    "cloudflare-d1-http-knex": "*"
+    "better-sqlite3": "*",
+    "cloudflare-d1-http-knex": "*",
+    "knex": "*",
+    "knex-pglite": "*",
+    "pg": "*"
+  },
+  "peerDependencies": {
+    "@faasjs/func": ">=8.0.0-beta.8",
+    "@faasjs/logger": ">=8.0.0-beta.8",
+    "@faasjs/node-utils": ">=8.0.0-beta.8",
+    "knex": "*"
   },
   "engines": {
     "node": ">=24.0.0",

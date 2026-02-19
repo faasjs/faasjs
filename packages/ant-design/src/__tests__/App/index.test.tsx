@@ -12,7 +12,7 @@ describe('App', () => {
     render(
       <App>
         <div>Test</div>
-      </App>
+      </App>,
     )
 
     expect(screen.getByText('Test')).toBeDefined()
@@ -44,7 +44,7 @@ describe('App', () => {
     render(
       <App>
         <Component />
-      </App>
+      </App>,
     )
 
     expect(screen.getByText('Hello')).toBeDefined()
@@ -75,10 +75,7 @@ describe('App', () => {
       renderComponentCount++
 
       return (
-        <button
-          type='button'
-          onClick={() => notification.info({ title: 'Hi' })}
-        >
+        <button type='button' onClick={() => notification.info({ title: 'Hi' })}>
           Component
         </button>
       )
@@ -89,7 +86,7 @@ describe('App', () => {
     render(
       <App>
         <Component />
-      </App>
+      </App>,
     )
 
     expect(screen.getByText('Hello')).toBeDefined()
@@ -130,7 +127,7 @@ describe('App', () => {
     render(
       <App>
         <Component />
-      </App>
+      </App>,
     )
 
     expect(screen.queryByText('Hi Modal')).toBeNull()
@@ -169,7 +166,7 @@ describe('App', () => {
     render(
       <App>
         <Component />
-      </App>
+      </App>,
     )
 
     expect(screen.queryByText('Hi Drawer')).toBeNull()
@@ -195,17 +192,15 @@ describe('App', () => {
     render(
       <App browserRouterProps={false}>
         <Nav />
-      </App>
+      </App>,
     )
 
-    expect(
-      screen.getByText(/useNavigate\(\) may be used only in the context/)
-    ).toBeDefined()
+    expect(screen.getByText(/useNavigate\(\) may be used only in the context/)).toBeDefined()
 
     render(
       <App browserRouterProps={false}>
         <div>OK</div>
-      </App>
+      </App>,
     )
 
     expect(screen.getByText('OK')).toBeDefined()
@@ -225,7 +220,7 @@ describe('App', () => {
     render(
       <App faasConfigProviderProps={{ faasClientOptions: {} }}>
         <Component />
-      </App>
+      </App>,
     )
 
     expect(await screen.findAllByText('error message')).toHaveLength(2)

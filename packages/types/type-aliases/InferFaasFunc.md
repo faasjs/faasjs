@@ -6,7 +6,7 @@
 
 Infer the Func type from a module.
 
-Supports both `export const func = defineFunc(...)` and `export default defineFunc(...)`.
+Supports both `export const func = defineApi(...)` and `export default defineApi(...)`.
 
 ## Type Parameters
 

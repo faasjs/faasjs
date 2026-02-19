@@ -9,9 +9,7 @@ type ExtendTypes = {
 describe('Table/extend', () => {
   it('children', () => {
     function ExtendTable(props: TableProps<any, ExtendTypes>) {
-      return (
-        <Table {...props} extendTypes={{ password: { children: <>***</> } }} />
-      )
+      return <Table {...props} extendTypes={{ password: { children: <>***</> } }} />
     }
 
     render(
@@ -28,7 +26,7 @@ describe('Table/extend', () => {
             test: 'value',
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('Test')).toBeDefined()
@@ -37,12 +35,7 @@ describe('Table/extend', () => {
 
   it('render', () => {
     function ExtendTable(props: TableProps<any, ExtendTypes>) {
-      return (
-        <Table
-          {...props}
-          extendTypes={{ password: { render: () => <>***</> } }}
-        />
-      )
+      return <Table {...props} extendTypes={{ password: { render: () => <>***</> } }} />
     }
 
     render(
@@ -59,7 +52,7 @@ describe('Table/extend', () => {
             test: 'value',
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('Test')).toBeDefined()

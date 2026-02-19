@@ -3,11 +3,7 @@ import { createSplittingContext } from '../splittingContext'
 import type { FormElementTypes } from './elements'
 import type { FormItemProps } from './Item'
 import type { FormLang } from './lang'
-import type {
-  FormDefaultRules,
-  FormRules,
-  InferFormRulesOptions,
-} from './rules'
+import type { FormDefaultRules, FormRules, InferFormRulesOptions } from './rules'
 
 export type FormContextProps<
   Values extends Record<string, any> = Record<string, any>,

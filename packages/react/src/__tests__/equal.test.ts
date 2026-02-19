@@ -1,12 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import {
-  equal,
-  useEqualCallback,
-  useEqualEffect,
-  useEqualMemo,
-  useEqualMemoize,
-} from '../equal'
+import { equal, useEqualCallback, useEqualEffect, useEqualMemo, useEqualMemoize } from '../equal'
 
 describe('equal function', () => {
   it('should return true for identical primitives', () => {
@@ -76,12 +70,8 @@ describe('equal function', () => {
 
   it('should return true for identical objects', () => {
     expect(equal({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true)
-    expect(equal({ a: 1, b: 2, c: undefined, d: null }, { a: 1, b: 2 })).toBe(
-      true
-    )
-    expect(equal({ a: 1, b: 2 }, { a: 1, b: 2, c: undefined, d: null })).toBe(
-      true
-    )
+    expect(equal({ a: 1, b: 2, c: undefined, d: null }, { a: 1, b: 2 })).toBe(true)
+    expect(equal({ a: 1, b: 2 }, { a: 1, b: 2, c: undefined, d: null })).toBe(true)
   })
 
   it('should return false for different objects', () => {
@@ -107,12 +97,9 @@ describe('equal function', () => {
 
 describe('useEqualMemoize hook', () => {
   it('should memoize the value if it is equal to the previous value', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useEqualMemoize(value),
-      {
-        initialProps: { value: { a: 1, b: 2 } },
-      }
-    )
+    const { result, rerender } = renderHook(({ value }) => useEqualMemoize(value), {
+      initialProps: { value: { a: 1, b: 2 } },
+    })
 
     expect(result.current).toEqual({ a: 1, b: 2 })
 
@@ -121,12 +108,9 @@ describe('useEqualMemoize hook', () => {
   })
 
   it('should update the memoized value if it is not equal to the previous value', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useEqualMemoize(value),
-      {
-        initialProps: { value: { a: 1, b: 2 } },
-      }
-    )
+    const { result, rerender } = renderHook(({ value }) => useEqualMemoize(value), {
+      initialProps: { value: { a: 1, b: 2 } },
+    })
 
     expect(result.current).toEqual({ a: 1, b: 2 })
 
@@ -135,12 +119,9 @@ describe('useEqualMemoize hook', () => {
   })
 
   it('should handle primitive values', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useEqualMemoize(value),
-      {
-        initialProps: { value: 1 },
-      }
-    )
+    const { result, rerender } = renderHook(({ value }) => useEqualMemoize(value), {
+      initialProps: { value: 1 },
+    })
 
     expect(result.current).toBe(1)
 
@@ -152,12 +133,9 @@ describe('useEqualMemoize hook', () => {
   })
 
   it('should handle arrays', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useEqualMemoize(value),
-      {
-        initialProps: { value: [1, 2, 3] },
-      }
-    )
+    const { result, rerender } = renderHook(({ value }) => useEqualMemoize(value), {
+      initialProps: { value: [1, 2, 3] },
+    })
 
     expect(result.current).toEqual([1, 2, 3])
 
@@ -172,12 +150,9 @@ describe('useEqualMemoize hook', () => {
 describe('useEqualEffect hook', () => {
   it('should call the callback when dependencies change', () => {
     const callback = vi.fn()
-    const { rerender } = renderHook(
-      ({ deps }) => useEqualEffect(callback, deps),
-      {
-        initialProps: { deps: [1, 2, 3] },
-      }
-    )
+    const { rerender } = renderHook(({ deps }) => useEqualEffect(callback, deps), {
+      initialProps: { deps: [1, 2, 3] },
+    })
 
     expect(callback).toHaveBeenCalledTimes(1)
 
@@ -190,12 +165,9 @@ describe('useEqualEffect hook', () => {
 
   it('should not call the callback when dependencies are equal', () => {
     const callback = vi.fn()
-    const { rerender } = renderHook(
-      ({ deps }) => useEqualEffect(callback, deps),
-      {
-        initialProps: { deps: [1, 2, 3] },
-      }
-    )
+    const { rerender } = renderHook(({ deps }) => useEqualEffect(callback, deps), {
+      initialProps: { deps: [1, 2, 3] },
+    })
 
     expect(callback).toHaveBeenCalledTimes(1)
 
@@ -205,12 +177,9 @@ describe('useEqualEffect hook', () => {
 
   it('should handle primitive dependencies', () => {
     const callback = vi.fn()
-    const { rerender } = renderHook(
-      ({ deps }) => useEqualEffect(callback, deps),
-      {
-        initialProps: { deps: [1] },
-      }
-    )
+    const { rerender } = renderHook(({ deps }) => useEqualEffect(callback, deps), {
+      initialProps: { deps: [1] },
+    })
 
     expect(callback).toHaveBeenCalledTimes(1)
 
@@ -223,12 +192,9 @@ describe('useEqualEffect hook', () => {
 
   it('should handle object dependencies', () => {
     const callback = vi.fn()
-    const { rerender } = renderHook(
-      ({ deps }) => useEqualEffect(callback, deps),
-      {
-        initialProps: { deps: [{ a: 1 }] },
-      }
-    )
+    const { rerender } = renderHook(({ deps }) => useEqualEffect(callback, deps), {
+      initialProps: { deps: [{ a: 1 }] },
+    })
 
     expect(callback).toHaveBeenCalledTimes(1)
 
@@ -243,12 +209,9 @@ describe('useEqualEffect hook', () => {
 describe('useEqualMemo hook', () => {
   it('should memoize the result if dependencies are equal', () => {
     const callback = vi.fn(() => 42)
-    const { result, rerender } = renderHook(
-      ({ deps }) => useEqualMemo(callback, deps),
-      {
-        initialProps: { deps: [1, 2, 3] },
-      }
-    )
+    const { result, rerender } = renderHook(({ deps }) => useEqualMemo(callback, deps), {
+      initialProps: { deps: [1, 2, 3] },
+    })
 
     expect(result.current).toBe(42)
     expect(callback).toHaveBeenCalledTimes(1)
@@ -260,12 +223,9 @@ describe('useEqualMemo hook', () => {
 
   it('should recompute the result if dependencies change', () => {
     const callback = vi.fn(() => 42)
-    const { result, rerender } = renderHook(
-      ({ deps }) => useEqualMemo(callback, deps),
-      {
-        initialProps: { deps: [1, 2, 3] },
-      }
-    )
+    const { result, rerender } = renderHook(({ deps }) => useEqualMemo(callback, deps), {
+      initialProps: { deps: [1, 2, 3] },
+    })
 
     expect(result.current).toBe(42)
     expect(callback).toHaveBeenCalledTimes(1)
@@ -277,12 +237,9 @@ describe('useEqualMemo hook', () => {
 
   it('should handle primitive dependencies', () => {
     const callback = vi.fn(() => 42)
-    const { result, rerender } = renderHook(
-      ({ deps }) => useEqualMemo(callback, deps),
-      {
-        initialProps: { deps: [1] },
-      }
-    )
+    const { result, rerender } = renderHook(({ deps }) => useEqualMemo(callback, deps), {
+      initialProps: { deps: [1] },
+    })
 
     expect(result.current).toBe(42)
     expect(callback).toHaveBeenCalledTimes(1)
@@ -298,12 +255,9 @@ describe('useEqualMemo hook', () => {
 
   it('should handle object dependencies', () => {
     const callback = vi.fn(() => 42)
-    const { result, rerender } = renderHook(
-      ({ deps }) => useEqualMemo(callback, deps),
-      {
-        initialProps: { deps: [{ a: 1 }] },
-      }
-    )
+    const { result, rerender } = renderHook(({ deps }) => useEqualMemo(callback, deps), {
+      initialProps: { deps: [{ a: 1 }] },
+    })
 
     expect(result.current).toBe(42)
     expect(callback).toHaveBeenCalledTimes(1)
@@ -321,12 +275,9 @@ describe('useEqualMemo hook', () => {
 describe('useEqualCallback hook', () => {
   it('should memoize the callback if dependencies are equal', () => {
     const callback = vi.fn()
-    const { result, rerender } = renderHook(
-      ({ deps }) => useEqualCallback(callback, deps),
-      {
-        initialProps: { deps: [1, 2, 3] },
-      }
-    )
+    const { result, rerender } = renderHook(({ deps }) => useEqualCallback(callback, deps), {
+      initialProps: { deps: [1, 2, 3] },
+    })
 
     const memoizedCallback = result.current
     memoizedCallback()
@@ -340,12 +291,9 @@ describe('useEqualCallback hook', () => {
 
   it('should update the memoized callback if dependencies change', () => {
     const callback = vi.fn()
-    const { result, rerender } = renderHook(
-      ({ deps }) => useEqualCallback(callback, deps),
-      {
-        initialProps: { deps: [1, 2, 3] },
-      }
-    )
+    const { result, rerender } = renderHook(({ deps }) => useEqualCallback(callback, deps), {
+      initialProps: { deps: [1, 2, 3] },
+    })
 
     const memoizedCallback = result.current
     memoizedCallback()
@@ -359,12 +307,9 @@ describe('useEqualCallback hook', () => {
 
   it('should handle primitive dependencies', () => {
     const callback = vi.fn()
-    const { result, rerender } = renderHook(
-      ({ deps }) => useEqualCallback(callback, deps),
-      {
-        initialProps: { deps: [1] },
-      }
-    )
+    const { result, rerender } = renderHook(({ deps }) => useEqualCallback(callback, deps), {
+      initialProps: { deps: [1] },
+    })
 
     const memoizedCallback = result.current
     memoizedCallback()
@@ -383,12 +328,9 @@ describe('useEqualCallback hook', () => {
 
   it('should handle object dependencies', () => {
     const callback = vi.fn()
-    const { result, rerender } = renderHook(
-      ({ deps }) => useEqualCallback(callback, deps),
-      {
-        initialProps: { deps: [{ a: 1 }] },
-      }
-    )
+    const { result, rerender } = renderHook(({ deps }) => useEqualCallback(callback, deps), {
+      initialProps: { deps: [{ a: 1 }] },
+    })
 
     const memoizedCallback = result.current
     memoizedCallback()

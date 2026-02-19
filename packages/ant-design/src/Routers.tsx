@@ -1,15 +1,6 @@
 import { Result, Skeleton } from 'antd'
-import {
-  type ComponentType,
-  type JSX,
-  type LazyExoticComponent,
-  Suspense,
-} from 'react'
-import {
-  Routes as OriginRoutes,
-  Route,
-  type RouteProps,
-} from 'react-router-dom'
+import { type ComponentType, type JSX, type LazyExoticComponent, Suspense } from 'react'
+import { Routes as OriginRoutes, Route, type RouteProps } from 'react-router-dom'
 import { useConfigContext } from './Config'
 
 export { lazy } from 'react'
@@ -51,7 +42,7 @@ export interface RoutesProps {
 export function Routes(props: RoutesProps) {
   return (
     <OriginRoutes>
-      {props.routes.map(r => {
+      {props.routes.map((r) => {
         const Page = r.page
 
         return (

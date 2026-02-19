@@ -31,8 +31,10 @@ export interface DescriptionItemProps<T = any> extends FaasItemProps {
   object?: DescriptionItemProps<T>[]
 }
 
-export interface DescriptionProps<T = any, ExtendItemProps = any>
-  extends Omit<DescriptionsProps, 'items'> {
+export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
+  DescriptionsProps,
+  'items'
+> {
   renderTitle?(values: T): ReactNode
   items: (DescriptionItemProps | ExtendItemProps)[]
   extendTypes?: {
@@ -52,10 +54,9 @@ export interface DescriptionItemContentProps<T = any> {
 }
 
 function DescriptionItemContent<T = any>(
-  props: DescriptionItemContentProps<T>
+  props: DescriptionItemContentProps<T>,
 ): JSX.Element | null {
-  const [computedProps, setComputedProps] =
-    useState<DescriptionItemContentProps<T>>()
+  const [computedProps, setComputedProps] = useState<DescriptionItemContentProps<T>>()
 
   useEffect(() => {
     const propsCopy = { ...props }
@@ -77,7 +78,7 @@ function DescriptionItemContent<T = any>(
                 label: string
                 value: any
               }[]
-            ).find(option => option.value === v)?.label || v
+            ).find((option) => option.value === v)?.label || v,
         ) as unknown as T
       else if (['string', 'number', 'boolean'].includes(propsCopy.item.type))
         propsCopy.value =
@@ -86,8 +87,7 @@ function DescriptionItemContent<T = any>(
               label: string
               value: any
             }[]
-          ).find(option => option.value === props.value)
-            ?.label as unknown as T) || props.value
+          ).find((option) => option.value === props.value)?.label as unknown as T) || props.value
     }
 
     setComputedProps(propsCopy)
@@ -105,8 +105,7 @@ function DescriptionItemContent<T = any>(
   )
     return null
 
-  const children =
-    computedProps.item.descriptionChildren || computedProps.item.children
+  const children = computedProps.item.descriptionChildren || computedProps.item.children
   if (children)
     return cloneUnionFaasItemElement(children, {
       scene: 'description',
@@ -115,13 +114,9 @@ function DescriptionItemContent<T = any>(
       index: 0,
     })
 
-  const render =
-    computedProps.item.descriptionRender || computedProps.item.render
+  const render = computedProps.item.descriptionRender || computedProps.item.render
 
-  if (render)
-    return (
-      <>{render(computedProps.value, computedProps.values, 0, 'description')}</>
-    )
+  if (render) return <>{render(computedProps.value, computedProps.values, 0, 'description')}</>
 
   if (computedProps.extendTypes?.[itemType]) {
     const extendType = computedProps.extendTypes[itemType]
@@ -133,16 +128,7 @@ function DescriptionItemContent<T = any>(
         values: computedProps.values,
       })
     if (extendType.render)
-      return (
-        <>
-          {extendType.render(
-            computedProps.value,
-            computedProps.values,
-            0,
-            'description'
-          )}
-        </>
-      )
+      return <>{extendType.render(computedProps.value, computedProps.values, 0, 'description')}</>
     throw Error(`${itemType} requires children or render`)
   }
 
@@ -184,31 +170,22 @@ function DescriptionItemContent<T = any>(
 
       const objectItems = computedProps.item.object || []
 
-      return (
-        <Description
-          items={objectItems}
-          dataSource={computedProps.value}
-          column={1}
-        />
-      )
+      return <Description items={objectItems} dataSource={computedProps.value} column={1} />
     }
     case 'object[]':
-      if (!(computedProps.value as Record<string, any>[])?.length)
-        return <Blank />
+      if (!(computedProps.value as Record<string, any>[])?.length) return <Blank />
 
       return (
         <Space direction='vertical'>
-          {(computedProps.value as Record<string, any>[]).map(
-            (value, index) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: use index as key
-              <Description
-                key={index}
-                items={computedProps.item.object || []}
-                dataSource={value}
-                column={1}
-              />
-            )
-          )}
+          {(computedProps.value as Record<string, any>[]).map((value, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: use index as key
+            <Description
+              key={index}
+              items={computedProps.item.object || []}
+              dataSource={value}
+              column={1}
+            />
+          ))}
         </Space>
       )
     default:
@@ -265,14 +242,10 @@ export function Description<T extends Record<string, any> = any>({
   return (
     <Descriptions
       {...props}
-      title={
-        typeof renderTitle === 'function'
-          ? renderTitle(dataSource as T)
-          : props.title
-      }
+      title={typeof renderTitle === 'function' ? renderTitle(dataSource as T) : props.title}
       items={props.items
         .filter(
-          item =>
+          (item) =>
             item &&
             !(
               item.descriptionChildren === null ||
@@ -280,18 +253,16 @@ export function Description<T extends Record<string, any> = any>({
               item.descriptionRender === null ||
               item.render === null
             ) &&
-            (!item.if || item.if(dataSource))
+            (!item.if || item.if(dataSource)),
         )
-        .map(item => ({
+        .map((item) => ({
           ...item,
           key: item.id,
           label: item.title ?? idToTitle(item.id),
           children: (
             <DescriptionItemContent
               item={item}
-              value={
-                dataSource ? (dataSource as Record<string, any>)[item.id] : null
-              }
+              value={dataSource ? (dataSource as Record<string, any>)[item.id] : null}
               {...(dataSource ? { values: dataSource } : {})}
               {...(extendTypes ? { extendTypes } : {})}
             />

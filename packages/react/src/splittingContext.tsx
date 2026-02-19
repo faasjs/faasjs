@@ -51,7 +51,7 @@ export function createSplittingContext<T extends Record<string, any>>(
     | {
         [K in keyof T]: Partial<T[K]> | null
       }
-    | (keyof T)[]
+    | (keyof T)[],
 ): {
   /**
    * The provider component of the splitting context.
@@ -116,23 +116,18 @@ export function createSplittingContext<T extends Record<string, any>>(
    */
   use: <NewT extends T = T>() => Readonly<NewT>
 } {
-  const keys = Array.isArray(defaultValue)
-    ? defaultValue
-    : Object.keys(defaultValue)
+  const keys = Array.isArray(defaultValue) ? defaultValue : Object.keys(defaultValue)
   const defaultValues = Array.isArray(defaultValue)
     ? keys.reduce<{ [K in keyof T]: Partial<T[K]> | null }>(
         (prev, cur) => {
           prev[cur] = null
           return prev
         },
-        {} as { [K in keyof T]: Partial<T[K]> | null }
+        {} as { [K in keyof T]: Partial<T[K]> | null },
       )
     : defaultValue
 
-  const contexts = {} as Record<
-    keyof T,
-    Context<{ [K in keyof T]: Partial<T[K]> | null }[keyof T]>
-  >
+  const contexts = {} as Record<keyof T, Context<{ [K in keyof T]: Partial<T[K]> | null }[keyof T]>>
   for (const key of keys) contexts[key] = createContext(defaultValues[key])
 
   function Provider<NewT extends T = T>(props: {
@@ -141,15 +136,10 @@ export function createSplittingContext<T extends Record<string, any>>(
     memo?: true | any[]
     initializeStates?: Partial<NewT>
   }) {
-    const states = props.initializeStates
-      ? useSplittingState(props.initializeStates)
-      : ({} as NewT)
+    const states = props.initializeStates ? useSplittingState(props.initializeStates) : ({} as NewT)
 
     let children = props.memo
-      ? useEqualMemo(
-          () => props.children,
-          props.memo === true ? [] : props.memo
-        )
+      ? useEqualMemo(() => props.children, props.memo === true ? [] : props.memo)
       : props.children
 
     for (const key of keys) {

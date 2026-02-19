@@ -12,7 +12,7 @@ describe('mock', () => {
           status: 200,
           headers: new Headers({ 'Content-Type': 'application/json' }),
           text: () => Promise.resolve('{"data":{"default":"fetch"}}'),
-        }) as unknown as Promise<Response>
+        }) as unknown as Promise<Response>,
     ) as any
   })
 
@@ -69,7 +69,7 @@ describe('mock', () => {
 
     it('should work with async MockHandler', async () => {
       setMock(async () => {
-        await new Promise(resolve => setTimeout(resolve, 10))
+        await new Promise((resolve) => setTimeout(resolve, 10))
         return {
           status: 200,
           data: { async: true },
@@ -143,11 +143,7 @@ describe('mock', () => {
       await client.action('my-action')
 
       expect(handler).toHaveBeenCalledTimes(1)
-      expect(handler).toHaveBeenCalledWith(
-        'my-action',
-        expect.any(Object),
-        expect.any(Object)
-      )
+      expect(handler).toHaveBeenCalledWith('my-action', expect.any(Object), expect.any(Object))
     })
 
     it('should receive correct params parameter', async () => {
@@ -166,14 +162,12 @@ describe('mock', () => {
     })
 
     it('should receive correct options parameter', async () => {
-      const handler = vi.fn(
-        async (action: string, params: any, options: any) => ({
-          data: {
-            headers: options.headers,
-            method: options.method,
-          } as any,
-        })
-      )
+      const handler = vi.fn(async (action: string, params: any, options: any) => ({
+        data: {
+          headers: options.headers,
+          method: options.method,
+        } as any,
+      }))
 
       setMock(handler)
 
@@ -192,11 +186,9 @@ describe('mock', () => {
     })
 
     it('should receive X-FaasJS-Request-Id header in options', async () => {
-      const handler = vi.fn(
-        async (action: string, params: any, options: any) => ({
-          data: { requestId: options.headers['X-FaasJS-Request-Id'] } as any,
-        })
-      )
+      const handler = vi.fn(async (action: string, params: any, options: any) => ({
+        data: { requestId: options.headers['X-FaasJS-Request-Id'] } as any,
+      }))
 
       setMock(handler)
 
@@ -316,13 +308,11 @@ describe('mock', () => {
     })
 
     it('should interact with beforeRequest', async () => {
-      const handler = vi.fn(
-        async (action: string, params: any, options: any) => ({
-          data: {
-            modifiedHeader: options.headers['X-Modified'],
-          } as any,
-        })
-      )
+      const handler = vi.fn(async (action: string, params: any, options: any) => ({
+        data: {
+          modifiedHeader: options.headers['X-Modified'],
+        } as any,
+      }))
 
       setMock(handler)
 
@@ -360,9 +350,7 @@ describe('mock', () => {
 
       const client = new FaasBrowserClient('/')
 
-      await expect(client.action('test')).rejects.toThrow(
-        'Internal Server Error'
-      )
+      await expect(client.action('test')).rejects.toThrow('Internal Server Error')
     })
 
     it('should work with empty ResponseProps', async () => {
@@ -459,9 +447,7 @@ describe('mock', () => {
     })
 
     it('should work with various HTTP status codes', async () => {
-      const statusCodes = [
-        200, 201, 202, 204, 301, 400, 401, 403, 404, 500, 503,
-      ]
+      const statusCodes = [200, 201, 202, 204, 301, 400, 401, 403, 404, 500, 503]
 
       for (const status of statusCodes) {
         setMock({
@@ -520,7 +506,7 @@ describe('mock', () => {
         new Response({
           status: 200,
           data: { from: 'custom' },
-        })
+        }),
       )
 
       const client = new FaasBrowserClient('/', {
@@ -550,9 +536,7 @@ describe('mock', () => {
       const client = new FaasBrowserClient('/')
       const response = await client.action('test')
 
-      expect(response.headers['X-Special']).toBe(
-        '!@#$%^&*()_+-={}[]|\\:";\'<>?,./~`'
-      )
+      expect(response.headers['X-Special']).toBe('!@#$%^&*()_+-={}[]|\\:";\'<>?,./~`')
       expect(response.headers['X-Unicode']).toBe('你好世界🌍🎉')
       expect(response.headers['X-Long-Value']).toBe('a'.repeat(1000))
     })

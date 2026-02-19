@@ -1,12 +1,6 @@
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import {
-  cloneElement,
-  createElement,
-  type FC,
-  isValidElement,
-  type ReactElement,
-} from 'react'
+import { cloneElement, createElement, type FC, isValidElement, type ReactElement } from 'react'
 import type { DescriptionItemProps } from './Description'
 import type { FormItemProps } from './FormItem'
 import type { TableItemProps } from './Table'
@@ -76,8 +70,8 @@ export function idToTitle(id: string | number): string {
 
   const splitted = id
     .split(/(\s|_|-)/)
-    .filter(word => !/(\s|_|-)/.test(word))
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .filter((word) => !/(\s|_|-)/.test(word))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
 
   return splitted.charAt(0).toUpperCase() + splitted.slice(1)
@@ -98,14 +92,11 @@ export function transferOptions(options: BaseOption[]): {
       : {
           label: idToTitle(item.toString()),
           value: item,
-        }
+        },
   )
 }
 
-export function transferValue(
-  type: FaasItemType | null | undefined,
-  value: any
-): any {
+export function transferValue(type: FaasItemType | null | undefined, value: any): any {
   if (!type) type = 'string'
 
   if (
@@ -125,9 +116,7 @@ export function transferValue(
 
     if (!Array.isArray(value)) value = [value]
 
-    value = value.map((item: any) =>
-      transferValue(type.replace('[]', '') as FaasItemType, item)
-    )
+    value = value.map((item: any) => transferValue(type.replace('[]', '') as FaasItemType, item))
   }
 
   switch (type) {
@@ -139,8 +128,7 @@ export function transferValue(
       break
     case 'date':
     case 'time':
-      if (typeof value === 'number' && value.toString().length === 10)
-        value = value * 1000
+      if (typeof value === 'number' && value.toString().length === 10) value = value * 1000
 
       if (!dayjs.isDayjs(value)) value = dayjs(value)
       break
@@ -202,7 +190,7 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
   value: Value,
   values: Values,
   index: number,
-  scene: UnionScene
+  scene: UnionScene,
 ) => React.ReactNode
 
 /**
@@ -312,9 +300,7 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  * ```
  */
 export interface UnionFaasItemProps<Value = any, Values = any>
-  extends FormItemProps,
-    DescriptionItemProps,
-    TableItemProps {
+  extends FormItemProps, DescriptionItemProps, TableItemProps {
   children?: UnionFaasItemElement<Value, Values> | null
   render?: UnionFaasItemRender<Value, Values> | null
   object?: UnionFaasItemProps<Value, Values>[]
@@ -331,12 +317,6 @@ export interface UnionFaasItemProps<Value = any, Values = any>
  * @param props - The props to be applied to the cloned element.
  * @returns The cloned element with the applied props.
  */
-export function cloneUnionFaasItemElement(
-  element: UnionFaasItemElement,
-  props: any
-) {
-  return cloneElement(
-    isValidElement(element) ? element : createElement(element),
-    props
-  )
+export function cloneUnionFaasItemElement(element: UnionFaasItemElement, props: any) {
+  return cloneElement(isValidElement(element) ? element : createElement(element), props)
 }

@@ -15,7 +15,7 @@ function build(path: string) {
   const packagePath = path.replace('/package.json', '')
 
   run(
-    `rm -rf ${packagePath}/classes ${packagePath}/functions ${packagePath}/interfaces ${packagePath}/type-aliases ${packagePath}/modules ${packagePath}/variables`
+    `rm -rf ${packagePath}/classes ${packagePath}/functions ${packagePath}/interfaces ${packagePath}/type-aliases ${packagePath}/modules ${packagePath}/variables`,
   )
 
   const intentionallyNotExportedArgs =
@@ -24,21 +24,20 @@ function build(path: string) {
       : ''
 
   run(
-    `npm exec typedoc -- ${packagePath}/src/index.ts --tsconfig ${packagePath}/tsconfig.json --out ${path.replace('/package.json', '/')}${intentionallyNotExportedArgs}`
+    `npm exec typedoc -- ${packagePath}/src/index.ts --tsconfig ${packagePath}/tsconfig.json --out ${path.replace('/package.json', '/')}${intentionallyNotExportedArgs}`,
   )
 
   const files = globSync(path.replace('/package.json', '/**/*.md'))
 
   for (const file of files) {
     const content = readFileSync(file, 'utf8').toString()
-    if (content.includes('***'))
-      writeFileSync(file, content.replaceAll('\n***\n', ''))
+    if (content.includes('***')) writeFileSync(file, content.replaceAll('\n***\n', ''))
   }
 }
 
 function buildAll() {
   const list = globSync('packages/*/package.json').filter(
-    (path: string) => !['/cli', '/create-faas-app'].includes(path)
+    (path: string) => !['/cli', '/create-faas-app'].includes(path),
   )
 
   for (const file of list) {

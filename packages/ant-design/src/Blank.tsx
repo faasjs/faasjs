@@ -27,9 +27,7 @@ export function Blank(options?: BlankProps): JSX.Element {
     options.value === null ||
     (Array.isArray(options.value) && !options.value.length) ||
     options.value === '' ? (
-    <Typography.Text disabled>
-      {options?.text || theme.Blank.text}
-    </Typography.Text>
+    <Typography.Text disabled>{options?.text || theme.Blank.text}</Typography.Text>
   ) : (
     options.value
   )

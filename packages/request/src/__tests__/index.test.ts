@@ -30,9 +30,7 @@ describe('request', () => {
   })
 
   it('404', async () => {
-    await expect(request('https://mock.httpstatus.io/404')).rejects.toThrow(
-      'Not Found'
-    )
+    await expect(request('https://mock.httpstatus.io/404')).rejects.toThrow('Not Found')
   })
 
   describe('query', () => {
@@ -111,9 +109,7 @@ describe('request', () => {
 
     expect(res).toBeUndefined()
 
-    expect(
-      JSON.parse(readFileSync(`${__dirname}/downloadFile.tmp`).toString())
-    ).toMatchObject({
+    expect(JSON.parse(readFileSync(`${__dirname}/downloadFile.tmp`).toString())).toMatchObject({
       Response: {
         Error: {
           Code: 'MissingParameter',
@@ -131,9 +127,7 @@ describe('request', () => {
 
     expect(res).toBeUndefined()
 
-    expect(
-      JSON.parse(readFileSync(`${__dirname}/downloadStream.tmp`).toString())
-    ).toMatchObject({
+    expect(JSON.parse(readFileSync(`${__dirname}/downloadStream.tmp`).toString())).toMatchObject({
       Response: {
         Error: {
           Code: 'MissingParameter',

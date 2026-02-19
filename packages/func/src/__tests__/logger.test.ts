@@ -5,9 +5,7 @@ describe('logger', () => {
   it('should work', async () => {
     const logs: string[] = []
 
-    vi.spyOn(console, 'log').mockImplementation((...args) =>
-      logs.push(args.join(' '))
-    )
+    vi.spyOn(console, 'log').mockImplementation((...args) => logs.push(args.join(' ')))
 
     const func = useFunc(() => {
       return async ({ logger }) => {

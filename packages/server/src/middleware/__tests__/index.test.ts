@@ -18,9 +18,7 @@ describe('middleware', () => {
   })
 
   it('useMiddleware', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/useMiddleware`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/useMiddleware`)).resolves.toMatchObject({
       statusCode: 200,
       headers: {},
       body: 'useMiddleware',
@@ -28,9 +26,7 @@ describe('middleware', () => {
   })
 
   it('emptyMiddleware', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/emptyUseMiddleware`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/emptyUseMiddleware`)).rejects.toMatchObject({
       statusCode: 404,
       headers: {},
       body: 'Not Found',
@@ -38,9 +34,7 @@ describe('middleware', () => {
   })
 
   it('useMiddlewares', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/useMiddlewares`)
-    ).resolves.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/useMiddlewares`)).resolves.toMatchObject({
       statusCode: 200,
       headers: {},
       body: 'useMiddlewares',
@@ -48,9 +42,7 @@ describe('middleware', () => {
   })
 
   it('emptyMiddlewares', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/emptyUseMiddlewares`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/emptyUseMiddlewares`)).rejects.toMatchObject({
       statusCode: 404,
       headers: {},
       body: 'Not Found',
@@ -58,9 +50,7 @@ describe('middleware', () => {
   })
 
   it('middleware error', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/error`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/error`)).rejects.toMatchObject({
       statusCode: 500,
       headers: {},
       body: 'Internal Server Error',
@@ -68,9 +58,7 @@ describe('middleware', () => {
   })
 
   it('middleware business 500', async () => {
-    await expect(
-      request(`http://127.0.0.1:${port}/business-500`)
-    ).rejects.toMatchObject({
+    await expect(request(`http://127.0.0.1:${port}/business-500`)).rejects.toMatchObject({
       statusCode: 500,
       headers: {},
       body: { error: { message: 'business-500' } },

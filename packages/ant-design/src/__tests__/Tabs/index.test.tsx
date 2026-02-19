@@ -16,7 +16,7 @@ describe('Tabs', () => {
             children: 'content',
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('id')).toBeDefined()

@@ -26,8 +26,8 @@ writeFileSync(
     .toString()
     .replaceAll(
       /https:\/\/github.com\/faasjs\/faasjs\/tree\/main\/packages\/([^)]+)/g,
-      (_, name) => `/doc/${name}/`
-    )
+      (_, name) => `/doc/${name}/`,
+    ),
 )
 
 const files = globSync('./doc/**/*.md')
@@ -57,17 +57,12 @@ for (const file of images) {
 
   const content = readFileSync(target, 'utf-8').toString()
 
-  writeFileSync(
-    target,
-    `[Images](../) / faasjs/${target.split('/')[3]}\n\n${content}`
-  )
+  writeFileSync(target, `[Images](../) / faasjs/${target.split('/')[3]}\n\n${content}`)
 }
 
 writeFileSync(
   './doc/images/README.md',
-  readFileSync(`./doc/images/README.md`, 'utf-8')
-    .toString()
-    .replaceAll('https://faasjs.com', '')
+  readFileSync(`./doc/images/README.md`, 'utf-8').toString().replaceAll('https://faasjs.com', ''),
 )
 
 const roots = globSync('../*.md')

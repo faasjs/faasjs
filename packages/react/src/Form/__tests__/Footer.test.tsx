@@ -50,7 +50,7 @@ function Provider(props: {
 
 const renderWithContext = (
   children: React.ReactElement,
-  props: Omit<ComponentProps<typeof Provider>, 'children'> = {}
+  props: Omit<ComponentProps<typeof Provider>, 'children'> = {},
 ) => render(<Provider {...props}>{children}</Provider>)
 
 describe('FormFooter', () => {
@@ -62,7 +62,7 @@ describe('FormFooter', () => {
 
   it('should call onSubmit and setSubmitting when button is clicked', async () => {
     const { getByText } = renderWithContext(<FormFooter />, {
-      onSubmit: () => new Promise(r => setTimeout(r, 200)),
+      onSubmit: () => new Promise((r) => setTimeout(r, 200)),
     })
     const button = getByText('Submit') as HTMLButtonElement
 
@@ -70,11 +70,11 @@ describe('FormFooter', () => {
 
     expect(button.disabled).toBeTruthy()
 
-    await act(async () => new Promise(r => setTimeout(r, 100)))
+    await act(async () => new Promise((r) => setTimeout(r, 100)))
 
     expect(button.disabled).toBeTruthy()
 
-    await act(async () => new Promise(r => setTimeout(r, 200)))
+    await act(async () => new Promise((r) => setTimeout(r, 200)))
 
     expect(button.disabled).toBeFalsy()
   })

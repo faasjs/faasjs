@@ -27,7 +27,7 @@ import { loadPackage } from './load_package'
 export async function loadFunc<TEvent = any, TContext = any, TResult = any>(
   root: string,
   filename: string,
-  staging: string
+  staging: string,
 ): Promise<ExportedHandler<TEvent, TContext, TResult>> {
   const func = await loadPackage<Func>(filename)
 

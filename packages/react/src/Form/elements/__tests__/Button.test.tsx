@@ -8,7 +8,7 @@ describe('FormButtonElement', () => {
     const { getByText } = render(
       <FormButtonElement submitting={false} submit={async () => undefined}>
         Click Me
-      </FormButtonElement>
+      </FormButtonElement>,
     )
     expect(getByText('Click Me')).not.toBeNull()
   })
@@ -19,7 +19,7 @@ describe('FormButtonElement', () => {
     const { getByText } = render(
       <FormButtonElement submitting={false} submit={handleClick}>
         Click Me
-      </FormButtonElement>
+      </FormButtonElement>,
     )
     fireEvent.click(getByText('Click Me'))
 
@@ -30,7 +30,7 @@ describe('FormButtonElement', () => {
     const { getByText } = render(
       <FormButtonElement submitting submit={async () => undefined}>
         Click Me
-      </FormButtonElement>
+      </FormButtonElement>,
     )
 
     expect((getByText('Click Me') as HTMLButtonElement).disabled).toBeTruthy()
@@ -40,13 +40,9 @@ describe('FormButtonElement', () => {
     const ref = createRef<HTMLButtonElement>()
 
     render(
-      <FormButtonElement
-        ref={ref}
-        submitting={false}
-        submit={async () => undefined}
-      >
+      <FormButtonElement ref={ref} submitting={false} submit={async () => undefined}>
         Click Me
-      </FormButtonElement>
+      </FormButtonElement>,
     )
 
     expect(ref.current).not.toBeNull()

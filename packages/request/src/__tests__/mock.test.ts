@@ -8,7 +8,7 @@ describe('mock', () => {
         statusCode: 200,
         headers: {},
         body: 'world',
-      })
+      }),
     )
 
     const res = await request('hello')

@@ -44,9 +44,7 @@ function publish(path: string) {
       run(`npm publish -w ${path.replace('/package.json', '')} --access public`)
       run(`npm dist-tag add ${pkg.name}@${version} stable`)
     } else
-      run(
-        `npm publish -w ${path.replace('/package.json', '')} --access public --tag ${channel}`
-      )
+      run(`npm publish -w ${path.replace('/package.json', '')} --access public --tag ${channel}`)
   } catch (error) {
     console.warn(error)
   }

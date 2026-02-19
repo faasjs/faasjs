@@ -12,7 +12,7 @@ const renderWithContext = (
     },
     setValues = vi.fn(),
     error = undefined,
-  } = {}
+  } = {},
 ) =>
   render(
     <FormContextProvider
@@ -33,14 +33,14 @@ const renderWithContext = (
       }
     >
       {ui}
-    </FormContextProvider>
+    </FormContextProvider>,
   )
 
 describe('FormItem', () => {
   it('should render label and input with correct props', () => {
     renderWithContext(<FormItem name='testName' />)
 
-    const label = screen.getByText(c => c.includes('testName')).closest('label')
+    const label = screen.getByText((c) => c.includes('testName')).closest('label')
     expect(label).not.toBeNull()
 
     const input = screen.getByDisplayValue('testValue')

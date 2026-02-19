@@ -10,12 +10,7 @@ interface ExtendTypes extends ExtendFormItemProps {
 describe('Form/extend', () => {
   it('children', () => {
     function ExtendForm(props: FormProps<any, ExtendTypes>) {
-      return (
-        <Form
-          {...props}
-          extendTypes={{ password: { children: <Input.Password /> } }}
-        />
-      )
+      return <Form {...props} extendTypes={{ password: { children: <Input.Password /> } }} />
     }
 
     const { container } = render(
@@ -34,7 +29,7 @@ describe('Form/extend', () => {
             type: 'string',
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('Test')).toBeDefined()

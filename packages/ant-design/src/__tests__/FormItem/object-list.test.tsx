@@ -10,7 +10,7 @@ describe('FormItem object', () => {
     render(
       <Form
         initialValues={{ test: [{}] }}
-        onValuesChange={v => (values = v)}
+        onValuesChange={(v) => (values = v)}
         items={[
           {
             id: 'test',
@@ -57,7 +57,7 @@ describe('FormItem object', () => {
             ],
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('String')).toBeDefined()

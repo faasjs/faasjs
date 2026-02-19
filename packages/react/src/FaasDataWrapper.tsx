@@ -1,17 +1,6 @@
 import type { BaseUrl, Response } from '@faasjs/browser'
-import type {
-  FaasAction,
-  FaasActionUnionType,
-  FaasData,
-  FaasParams,
-} from '@faasjs/types'
-import {
-  cloneElement,
-  forwardRef,
-  type JSX,
-  useImperativeHandle,
-  useState,
-} from 'react'
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import { cloneElement, forwardRef, type JSX, useImperativeHandle, useState } from 'react'
 import { getClient } from './client'
 import { useEqualEffect, useEqualMemo } from './equal'
 
@@ -34,9 +23,7 @@ export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
   reload(params?: Record<string, any>): Promise<FaasData<PathOrData>>
   setData: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
-  setPromise: React.Dispatch<
-    React.SetStateAction<Promise<Response<FaasData<PathOrData>>>>
-  >
+  setPromise: React.Dispatch<React.SetStateAction<Promise<Response<FaasData<PathOrData>>>>>
   setError: React.Dispatch<React.SetStateAction<any>>
 }
 
@@ -59,7 +46,7 @@ export type FaasDataWrapperRef<PathOrData extends FaasActionUnionType = any> =
   FaasDataInjection<PathOrData>
 
 type FixedForwardRef = <T, P = Record<string, unknown>>(
-  render: (props: P, ref: React.Ref<T>) => React.ReactElement | null
+  render: (props: P, ref: React.Ref<T>) => React.ReactElement | null,
 ) => (props: P & React.RefAttributes<T>) => React.ReactElement | null
 
 const fixedForwardRef = forwardRef as FixedForwardRef
@@ -67,7 +54,7 @@ const fixedForwardRef = forwardRef as FixedForwardRef
 export const FaasDataWrapper = fixedForwardRef(
   <PathOrData extends FaasActionUnionType = any>(
     props: FaasDataWrapperProps<PathOrData>,
-    ref: React.ForwardedRef<FaasDataWrapperRef<PathOrData>>
+    ref: React.ForwardedRef<FaasDataWrapperRef<PathOrData>>,
   ): JSX.Element | null => {
     const requestOptions = {
       ...(props.data !== undefined ? { data: props.data } : {}),
@@ -77,14 +64,14 @@ export const FaasDataWrapper = fixedForwardRef(
     const request = getClient(props.baseUrl).useFaas<PathOrData>(
       props.action,
       props.params ?? ({} as FaasParams<PathOrData>),
-      requestOptions
+      requestOptions,
     )
     const [loaded, setLoaded] = useState<boolean>(false)
 
     useImperativeHandle(ref, () => request, [request])
 
     useEqualEffect(() => {
-      if (!request.loading) setLoaded(prev => (prev === false ? true : prev))
+      if (!request.loading) setLoaded((prev) => (prev === false ? true : prev))
     }, [request.loading])
 
     useEqualEffect(() => {
@@ -98,17 +85,10 @@ export const FaasDataWrapper = fixedForwardRef(
       }
 
       return props.fallback || null
-    }, [
-      loaded,
-      request.action,
-      request.params,
-      request.data,
-      request.error,
-      request.loading,
-    ])
+    }, [loaded, request.action, request.params, request.data, request.error, request.loading])
 
     return child
-  }
+  },
 )
 
 Object.assign(FaasDataWrapper, {
@@ -130,14 +110,9 @@ export function withFaasData<
   >,
 >(
   Component: React.FC<TComponentProps>,
-  faasProps: FaasDataWrapperProps<PathOrData>
-): React.FC<
-  Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> &
-    Record<string, any>
-> {
-  return (
-    props: Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>
-  ) => (
+  faasProps: FaasDataWrapperProps<PathOrData>,
+): React.FC<Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> & Record<string, any>> {
+  return (props: Omit<TComponentProps, keyof FaasDataInjection<PathOrData>>) => (
     <FaasDataWrapper {...faasProps}>
       <Component {...(props as TComponentProps)} />
     </FaasDataWrapper>

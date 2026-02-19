@@ -45,7 +45,7 @@ describe('Form/submit', () => {
             params: { params: 'params' },
           },
         }}
-      />
+      />,
     )
 
     await userEvent.click(screen.getByRole('button'))
@@ -82,7 +82,7 @@ describe('Form/submit', () => {
             extraProps: 'extra',
           })
         }}
-      />
+      />,
     )
 
     await userEvent.click(screen.getByRole('button'))

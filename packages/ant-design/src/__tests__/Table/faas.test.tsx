@@ -13,7 +13,7 @@ describe('Table/faas', () => {
           status: 200,
           headers: new Map([['Content-Type', 'application/json']]),
           text: async () => Promise.resolve('{"data":[{"test":"value"}]}'),
-        }) as unknown as Promise<Response>
+        }) as unknown as Promise<Response>,
     )
   })
 
@@ -22,13 +22,7 @@ describe('Table/faas', () => {
   })
 
   it('with faas', async () => {
-    render(
-      <Table
-        rowKey='test'
-        items={[{ id: 'test' }]}
-        faasData={{ action: 'test' }}
-      />
-    )
+    render(<Table rowKey='test' items={[{ id: 'test' }]} faasData={{ action: 'test' }} />)
 
     expect(await screen.findByText('Test')).toBeDefined()
     expect(await screen.findByText('value')).toBeDefined()

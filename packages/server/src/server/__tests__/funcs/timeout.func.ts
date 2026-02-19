@@ -6,7 +6,7 @@ const http = new Http()
 export const func = new Func({
   plugins: [http],
   async handler() {
-    await new Promise(resolve => setTimeout(resolve, 50))
+    await new Promise((resolve) => setTimeout(resolve, 50))
     return 'done'
   },
 })

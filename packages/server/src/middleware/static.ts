@@ -58,7 +58,7 @@ async function respondWithNotFound(
     body?: any
   },
   response: ServerResponse,
-  logger: Logger
+  logger: Logger,
 ) {
   if (!options.notFound) return
 
@@ -71,27 +71,19 @@ async function respondWithNotFound(
   if (typeof options.notFound === 'string') {
     const path = resolve(options.root, options.notFound)
 
-    return await respondWithFile(
-      path,
-      lookup(path) || 'application/octet-stream',
-      response
-    )
+    return await respondWithFile(path, lookup(path) || 'application/octet-stream', response)
   }
 
   return await options.notFound(request, response, { logger })
 }
 
-async function respondWithFile(
-  path: string,
-  mimeType: string,
-  response: ServerResponse
-) {
+async function respondWithFile(path: string, mimeType: string, response: ServerResponse) {
   const stream = createReadStream(path)
   response.setHeader('Content-Type', mimeType)
 
   await new Promise<void>((resolve, reject) => {
     stream
-      .on('error', error => {
+      .on('error', (error) => {
         respondWithInternalServerError(response)
         reject(error)
       })
@@ -128,15 +120,12 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
     if (request.method !== 'GET' || requestUrl.slice(0, 2) === '/.') return
 
     const cacheKey =
-      options.cache !== false
-        ? `${options.cache || options.root}${requestUrl}`
-        : null
+      options.cache !== false ? `${options.cache || options.root}${requestUrl}` : null
 
     if (cacheKey) {
       const cached = cachedStaticFiles.get(cacheKey)
 
-      if (cached === false)
-        return await respondWithNotFound(options, request, response, logger)
+      if (cached === false) return await respondWithNotFound(options, request, response, logger)
 
       if (cached) {
         response.setHeader('Content-Type', cached.mimeType)
@@ -145,9 +134,7 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
       }
     }
 
-    let url = options.stripPrefix
-      ? requestUrl.replace(options.stripPrefix, '')
-      : requestUrl
+    let url = options.stripPrefix ? requestUrl.replace(options.stripPrefix, '') : requestUrl
 
     if (url === '/') url = '/index.html'
 

@@ -7,5 +7,5 @@ export const func = useMiddleware(
       res.statusCode = 404
       res.end('custom404')
     },
-  })
+  }),
 )

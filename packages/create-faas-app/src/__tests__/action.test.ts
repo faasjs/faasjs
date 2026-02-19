@@ -44,7 +44,6 @@ describe('action', () => {
       expect.arrayContaining([
         'test/package.json',
         'test/tsconfig.json',
-        'test/biome.json',
         'test/index.html',
         'test/vite.config.ts',
         'test/server.ts',
@@ -54,7 +53,7 @@ describe('action', () => {
         'test/src/pages/home/index.tsx',
         'test/src/pages/home/api/hello.func.ts',
         'test/src/pages/home/api/__tests__/hello.test.ts',
-      ])
+      ]),
     )
 
     const packageJSON = JSON.parse(files['test/package.json'])
@@ -63,7 +62,7 @@ describe('action', () => {
       dev: 'vite',
       build: 'vite build',
       start: 'node server.ts',
-      check: 'tsc --noEmit && biome check .',
+      check: 'faas lint',
       test: 'vitest run',
       'migrate:latest': expect.any(String),
       'migrate:rollback': expect.any(String),
@@ -73,9 +72,7 @@ describe('action', () => {
     })
 
     expect(packageJSON.scripts['migrate:latest']).toEqual('faas knex latest')
-    expect(packageJSON.scripts['migrate:rollback']).toEqual(
-      'faas knex rollback'
-    )
+    expect(packageJSON.scripts['migrate:rollback']).toEqual('faas knex rollback')
     expect(packageJSON.scripts['migrate:status']).toEqual('faas knex status')
     expect(packageJSON.scripts['migrate:current']).toEqual('faas knex current')
     expect(packageJSON.scripts['migrate:make']).toEqual('faas knex make')
@@ -84,18 +81,20 @@ describe('action', () => {
       expect.objectContaining({
         '@faasjs/core': '*',
         pg: '*',
-      })
+      }),
     )
 
     expect(packageJSON.devDependencies).toEqual(
       expect.objectContaining({
         '@electric-sql/pglite': '*',
         'knex-pglite': '*',
-      })
+        oxfmt: '*',
+        oxlint: '*',
+      }),
     )
 
     expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
-      "import { defineFunc, z } from '@faasjs/core'"
+      "import { defineApi, z } from '@faasjs/core'",
     )
     expect(files['test/src/pages/home/api/hello.func.ts']).toContain('schema,')
 
@@ -106,21 +105,16 @@ coverage/
 `)
 
     expect(files['test/src/faas.yaml']).toContain('connection: ./.pglite_dev')
-    expect(files['test/src/faas.yaml']).toContain(
-      'directory: ./src/db/migrations'
-    )
+    expect(files['test/src/faas.yaml']).toContain('directory: ./src/db/migrations')
     expect(files['test/src/faas.yaml']).toContain('extension: ts')
     expect(files['test/src/faas.yaml']).toContain('production:')
 
-    const testingSection = files['test/src/faas.yaml']
-      .split('testing:')[1]
-      .split('production:')[0]
+    const testingSection = files['test/src/faas.yaml'].split('testing:')[1].split('production:')[0]
 
     expect(testingSection).toContain('client: pglite')
     expect(testingSection).not.toContain('connection:')
 
-    const productionSection =
-      files['test/src/faas.yaml'].split('production:')[1]
+    const productionSection = files['test/src/faas.yaml'].split('production:')[1]
 
     expect(productionSection).toContain('client: pg')
   })

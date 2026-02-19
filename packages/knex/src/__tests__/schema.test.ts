@@ -28,20 +28,20 @@ async function mountKnex(knex: Knex): Promise<void> {
 
 afterEach(async () => {
   await Promise.all(
-    clients.splice(0).map(async client => {
+    clients.splice(0).map(async (client) => {
       try {
         await client.quit()
       } catch (_) {}
-    })
+    }),
   )
 
   await Promise.all(
-    tempDirs.splice(0).map(path =>
+    tempDirs.splice(0).map((path) =>
       rm(path, {
         recursive: true,
         force: true,
-      })
-    )
+      }),
+    ),
   )
 })
 
@@ -60,9 +60,7 @@ describe('KnexSchema', () => {
 
     const schema = new KnexSchema(knex)
 
-    await expect(schema.migrateLatest()).rejects.toThrow(
-      'Client not initialized'
-    )
+    await expect(schema.migrateLatest()).rejects.toThrow('Client not initialized')
   })
 
   it('should support latest, status, currentVersion and rollback', async () => {
@@ -86,7 +84,7 @@ export async function up(knex: Knex): Promise<void> {
 export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTableIfExists('users')
 }
-`
+`,
     )
 
     const knex = new Knex({

@@ -17,15 +17,15 @@ defaults:
 
 ```typescript
 // demo.func.ts
-import { Func } from '@faasjs/func';
-import { Plugin } from 'fakePlugin';
+import { Func } from '@faasjs/func'
+import { Plugin } from 'fakePlugin'
 
-const plugin = new Plugin();
+const plugin = new Plugin()
 
 export const func = new Func({
   plugins: [plugin],
-  handler(){}
-});
+  handler() {},
+})
 ```
 
 ### 使用指定配置
@@ -41,36 +41,36 @@ defaults:
 
 ```typescript
 // demo.func.ts
-import { Func } from '@faasjs/func';
-import { Plugin } from 'fakePlugin';
+import { Func } from '@faasjs/func'
+import { Plugin } from 'fakePlugin'
 
 const plugin = new Plugin({
-  name: 'special'
-});
+  name: 'special',
+})
 
 export const func = new Func({
   plugins: [plugin],
-  handler(){}
-});
+  handler() {},
+})
 ```
 
 ### 自定义配置
 
 ```typescript
 // demo.func.ts
-import { Func } from '@faasjs/func';
-import { Plugin } from 'fakePlugin';
+import { Func } from '@faasjs/func'
+import { Plugin } from 'fakePlugin'
 
 const plugin = new Plugin({
   config: {
-    key: 'value'
-  }
-});
+    key: 'value',
+  },
+})
 
 export const func = new Func({
   plugins: [plugin],
-  handler(){}
-});
+  handler() {},
+})
 ```
 
 自定义配置也可以跟指定配置混合使用，覆盖指定配置中部分配置项。

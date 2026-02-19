@@ -13,9 +13,9 @@ npm install @faasjs/core
 
 ## Functions
 
-- [defineFunc](functions/defineFunc.md)
+- [defineApi](functions/defineApi.md)
 
 ## Type Aliases
 
-- [DefineFuncData](type-aliases/DefineFuncData.md)
-- [DefineFuncOptions](type-aliases/DefineFuncOptions.md)
+- [DefineApiData](type-aliases/DefineApiData.md)
+- [DefineApiOptions](type-aliases/DefineApiOptions.md)

@@ -2,20 +2,9 @@ import { join } from 'node:path'
 import { useKnex as createKnex, KnexSchema } from '@faasjs/knex'
 import { loadConfig } from '@faasjs/node-utils'
 import { resolveServerConfig } from '../server_config'
-import {
-  type CliOptions,
-  createMain,
-  parseCommonCliArgs,
-  printVersion,
-} from './shared'
+import { type CliOptions, createMain, parseCommonCliArgs, printVersion } from './shared'
 
-const MigrateActions = [
-  'latest',
-  'rollback',
-  'status',
-  'current',
-  'make',
-] as const
+const MigrateActions = ['latest', 'rollback', 'status', 'current', 'make'] as const
 
 type MigrateAction = (typeof MigrateActions)[number]
 
@@ -48,12 +37,12 @@ const ActionHandlers: Record<
   Exclude<MigrateAction, 'make'>,
   (schema: KnexSchema) => Promise<void>
 > = {
-  latest: schema => schema.migrateLatest(),
-  rollback: schema => schema.migrateRollback(),
-  status: async schema => {
+  latest: (schema) => schema.migrateLatest(),
+  rollback: (schema) => schema.migrateRollback(),
+  status: async (schema) => {
     console.log(await schema.migrateStatus())
   },
-  current: async schema => {
+  current: async (schema) => {
     console.log(await schema.migrateCurrentVersion())
   },
 }
@@ -85,11 +74,10 @@ function parseCliArgs(args: string[]): ParsedKnexArgs {
 
   if (!action)
     throw Error(
-      '[faas knex] Missing action. Usage: faas knex <latest|rollback|status|current|make>'
+      '[faas knex] Missing action. Usage: faas knex <latest|rollback|status|current|make>',
     )
 
-  if (!isMigrateAction(action))
-    throw Error(`[faas knex] Unknown action: ${action}`)
+  if (!isMigrateAction(action)) throw Error(`[faas knex] Unknown action: ${action}`)
 
   if (action !== 'make') {
     if (name) throw Error(`[faas knex] Unexpected argument: ${name}`)
@@ -101,10 +89,7 @@ function parseCliArgs(args: string[]): ParsedKnexArgs {
     }
   }
 
-  if (!name)
-    throw Error(
-      '[faas knex] Missing migration name. Usage: faas knex make create_users'
-    )
+  if (!name) throw Error('[faas knex] Missing migration name. Usage: faas knex make create_users')
 
   if (extra) throw Error(`[faas knex] Unexpected argument: ${extra}`)
 
@@ -126,15 +111,9 @@ export async function run(args: string[]): Promise<number> {
 
   if (parsed.mode === 'version') return printVersion()
 
-  const { root: projectRoot, staging } = resolveServerConfig(
-    parsed.options.root ?? process.cwd()
-  )
+  const { root: projectRoot, staging } = resolveServerConfig(parsed.options.root ?? process.cwd())
   const srcRoot = join(projectRoot, 'src')
-  const config = loadConfig(
-    srcRoot,
-    join(srcRoot, 'index.func.ts'),
-    staging
-  ) as {
+  const config = loadConfig(srcRoot, join(srcRoot, 'index.func.ts'), staging) as {
     plugins?: {
       knex?: {
         config?: any
@@ -150,8 +129,7 @@ export async function run(args: string[]): Promise<number> {
   const schema = new KnexSchema(knex)
 
   try {
-    if (parsed.action === 'make')
-      console.log(await schema.migrateMake(parsed.name))
+    if (parsed.action === 'make') console.log(await schema.migrateMake(parsed.name))
     else await ActionHandlers[parsed.action](schema)
   } finally {
     await knex.quit()

@@ -63,9 +63,7 @@ describe('transport', () => {
 
     await Promise.all([transport.flush(), transport.flush()])
 
-    expect(handler).toHaveBeenCalledWith([
-      { level, labels: [], message, timestamp },
-    ])
+    expect(handler).toHaveBeenCalledWith([{ level, labels: [], message, timestamp }])
   })
 
   it('should handle errors in transport handlers', async () => {

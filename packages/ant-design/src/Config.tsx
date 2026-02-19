@@ -134,8 +134,7 @@ export function ConfigProvider(props: ConfigProviderProps) {
 
   useEqualEffect(() => {
     const lang =
-      props.theme?.lang ||
-      (!props.theme?.lang && /^zh/i.test(navigator.language) ? 'zh' : 'en')
+      props.theme?.lang || (!props.theme?.lang && /^zh/i.test(navigator.language) ? 'zh' : 'en')
     if (lang === 'zh') {
       setTheme(
         defaultsDeep(
@@ -146,8 +145,8 @@ export function ConfigProvider(props: ConfigProviderProps) {
             Blank: { text: zh.blank },
             Form: { submit: { text: zh.submit } },
           },
-          baseTheme
-        ) as ResolvedTheme
+          baseTheme,
+        ) as ResolvedTheme,
       )
     } else setTheme(defaultsDeep(props.theme, baseTheme) as ResolvedTheme)
 
@@ -156,11 +155,7 @@ export function ConfigProvider(props: ConfigProviderProps) {
 
   if (!theme) return null
 
-  return (
-    <ConfigContext.Provider value={{ theme }}>
-      {props.children}
-    </ConfigContext.Provider>
-  )
+  return <ConfigContext.Provider value={{ theme }}>{props.children}</ConfigContext.Provider>
 }
 
 export function useConfigContext() {

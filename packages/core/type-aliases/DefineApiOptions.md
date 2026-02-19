@@ -1,8 +1,8 @@
-[@faasjs/core](../README.md) / DefineFuncOptions
+[@faasjs/core](../README.md) / DefineApiOptions
 
-# Type Alias: DefineFuncOptions\<TSchema, TEvent, TContext, TResult\>
+# Type Alias: DefineApiOptions\<TSchema, TEvent, TContext, TResult\>
 
-> **DefineFuncOptions**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = `object`
+> **DefineApiOptions**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = `object`
 
 ## Type Parameters
 
@@ -32,7 +32,7 @@
 
 ##### data
 
-[`DefineFuncData`](DefineFuncData.md)\<`TSchema`, `TEvent`, `TContext`, `TResult`\>
+[`DefineApiData`](DefineApiData.md)\<`TSchema`, `TEvent`, `TContext`, `TResult`\>
 
 #### Returns
 

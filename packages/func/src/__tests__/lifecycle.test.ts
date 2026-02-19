@@ -1,11 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  Func,
-  type InvokeData,
-  type MountData,
-  type Next,
-  type Plugin,
-} from '../index'
+import { Func, type InvokeData, type MountData, type Next, type Plugin } from '../index'
 
 describe('lifecycle', () => {
   describe('mount', () => {
@@ -91,9 +85,7 @@ describe('lifecycle', () => {
         await func.export().handler(null)
       } catch (error: any) {
         if (!(globalThis as any).Bun)
-          expect(error.message).toEqual(
-            "Cannot read properties of undefined (reading 'cookie')"
-          )
+          expect(error.message).toEqual("Cannot read properties of undefined (reading 'cookie')")
         else
           expect([
             `null is not an object (evaluating 'data.event.headers')`,

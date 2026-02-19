@@ -182,15 +182,14 @@ export class Server {
   private sockets: Set<Socket> = new Set()
 
   constructor(root: string, opts: ServerOptions = {}) {
-    if (!process.env.FaasEnv && process.env.NODE_ENV)
-      process.env.FaasEnv = process.env.NODE_ENV
+    if (!process.env.FaasEnv && process.env.NODE_ENV) process.env.FaasEnv = process.env.NODE_ENV
 
     this.root = root.endsWith(sep) ? root : root + sep
     this.options = deepMerge(
       {
         port: 3000,
       },
-      opts
+      opts,
     )
 
     if (this.options.onClose && !types.isAsyncFunction(this.options.onClose))
@@ -208,7 +207,7 @@ export class Server {
       process.env.FaasEnv,
       process.env.FaasMode,
       this.root,
-      this.options
+      this.options,
     )
 
     this.onError = (error: any) => {
@@ -232,7 +231,7 @@ export class Server {
   public async handle(
     req: IncomingMessage,
     res: ServerResponse<IncomingMessage>,
-    options: ServerHandlerOptions = {}
+    options: ServerHandlerOptions = {},
   ): Promise<void> {
     if (req.method === 'OPTIONS') {
       this.handleOptionRequest(req, res)
@@ -261,14 +260,7 @@ export class Server {
     let data: any
     try {
       const cache = await this.getOrLoadHandler(path, options.filepath, logger)
-      data = await this.invokeHandler(
-        cache,
-        req,
-        res,
-        requestUrl,
-        body,
-        requestId
-      )
+      data = await this.invokeHandler(cache, req, res, requestUrl, body, requestId)
     } catch (error: any) {
       logger.error(error)
       data = error
@@ -276,13 +268,7 @@ export class Server {
 
     if (res.writableEnded) return
 
-    const headers = this.buildResponseHeaders(
-      req,
-      requestId,
-      requestedAt,
-      startedAt,
-      data
-    )
+    const headers = this.buildResponseHeaders(req, requestId, requestedAt, startedAt, data)
     for (const key in headers) res.setHeader(key, headers[key] as string)
 
     if (data instanceof Response) {
@@ -303,10 +289,10 @@ export class Server {
                 break
               }
             }
-          })()
+          })(),
         )
 
-        await new Promise<void>(done => {
+        await new Promise<void>((done) => {
           this.pipeToResponse(stream, res, done)
         })
 
@@ -320,7 +306,7 @@ export class Server {
     if (data.body instanceof ReadableStream) {
       if (typeof data.statusCode === 'number') res.statusCode = data.statusCode
 
-      await new Promise<void>(done => {
+      await new Promise<void>((done) => {
         this.pipeToResponse(Readable.fromWeb(data.body), res, done)
       })
 
@@ -345,10 +331,7 @@ export class Server {
         respondWithJsonError(
           res,
           statusCode,
-          getErrorMessage(
-            data,
-            statusCode === 500 ? INTERNAL_SERVER_ERROR_MESSAGE : 'No response'
-          )
+          getErrorMessage(data, statusCode === 500 ? INTERNAL_SERVER_ERROR_MESSAGE : 'No response'),
         )
       else respondWithInternalServerError(res)
 
@@ -368,7 +351,7 @@ export class Server {
   }
 
   private readRequestBody(req: IncomingMessage): Promise<string> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let body = ''
 
       req.on('readable', () => {
@@ -384,7 +367,7 @@ export class Server {
   private async runBeforeHandle(
     req: IncomingMessage,
     res: ServerResponse<IncomingMessage>,
-    logger: Logger
+    logger: Logger,
   ): Promise<boolean> {
     if (!this.options.beforeHandle) return true
 
@@ -405,7 +388,7 @@ export class Server {
   private async getOrLoadHandler(
     path: string,
     filepath: string | undefined,
-    logger: Logger
+    logger: Logger,
   ): Promise<Cache> {
     const cached = this.cachedFuncs[path]
     if (cached?.handler) {
@@ -421,12 +404,7 @@ export class Server {
 
     const func = await loadPackage<Func>(file, ['func', 'default'])
 
-    func.config = loadConfig(
-      this.root,
-      path,
-      process.env.FaasEnv || 'development',
-      logger
-    )
+    func.config = loadConfig(this.root, path, process.env.FaasEnv || 'development', logger)
     if (!func.config) throw Error('No config file found')
 
     cache.handler = func.export().handler
@@ -442,7 +420,7 @@ export class Server {
     res: ServerResponse<IncomingMessage>,
     requestUrl: string,
     body: string,
-    requestId: string
+    requestId: string,
   ): Promise<any> {
     const url = new URL(requestUrl, `http://${req.headers.host}`)
 
@@ -460,7 +438,7 @@ export class Server {
           response: res,
         },
       },
-      { request_id: requestId }
+      { request_id: requestId },
     )
   }
 
@@ -469,7 +447,7 @@ export class Server {
     requestId: string,
     requestedAt: number,
     startedAt: number,
-    data: any
+    data: any,
   ) {
     const finishedAt = Date.now()
 
@@ -481,9 +459,7 @@ export class Server {
     if (data.headers) headers = Object.assign(headers, data.headers)
 
     if (!headers['x-faasjs-timing-processing'])
-      headers['x-faasjs-timing-processing'] = (
-        finishedAt - startedAt
-      ).toString()
+      headers['x-faasjs-timing-processing'] = (finishedAt - startedAt).toString()
 
     if (!headers['x-faasjs-timing-total'])
       headers['x-faasjs-timing-total'] = (finishedAt - requestedAt).toString()
@@ -496,7 +472,7 @@ export class Server {
   private pipeToResponse(
     stream: Readable,
     res: ServerResponse<IncomingMessage>,
-    done: () => void
+    done: () => void,
   ): void {
     stream
       .pipe(res)
@@ -504,7 +480,7 @@ export class Server {
         res.end()
         done()
       })
-      .on('error', err => {
+      .on('error', (err) => {
         this.onError(err)
         respondWithInternalServerError(res)
         done()
@@ -528,9 +504,7 @@ export class Server {
           logger: this.logger,
         })
         .catch(this.onError)
-        .finally(() =>
-          this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end')
-        )
+        .finally(() => this.logger.timeEnd(`${this.logger.label}onStart`, '[onStart] end'))
     }
 
     this.server = createServer(async (req, res) => {
@@ -557,20 +531,20 @@ export class Server {
           requestedAt: event[2],
         })
     })
-      .on('connection', socket => {
+      .on('connection', (socket) => {
         this.sockets.add(socket)
         socket.on('close', () => {
           this.sockets.delete(socket)
         })
       })
-      .on('error', e => {
+      .on('error', (e) => {
         if ('code' in e && e.code === 'EADDRINUSE') {
           execSync(`lsof -i :${this.options.port}`, {
             stdio: 'inherit',
           })
           this.logger.error(
             'Port %s is already in use. Please kill the process or use another port.',
-            this.options.port
+            this.options.port,
           )
         }
 
@@ -579,11 +553,11 @@ export class Server {
       .listen(this.options.port, '0.0.0.0')
 
     process
-      .on('uncaughtException', e => {
+      .on('uncaughtException', (e) => {
         this.logger.debug('Uncaught exception')
         this.onError(e)
       })
-      .on('unhandledRejection', e => {
+      .on('unhandledRejection', (e) => {
         this.logger.debug('Unhandled rejection')
         this.onError(e)
       })
@@ -597,8 +571,7 @@ export class Server {
 
         await this.close()
 
-        if (!process.env.JEST_WORKER_ID && !process.env.VITEST_POOL_ID)
-          process.exit(0)
+        if (!process.env.JEST_WORKER_ID && !process.env.VITEST_POOL_ID) process.exit(0)
       })
       .on('SIGINT', async () => {
         this.logger.debug('received SIGINT')
@@ -610,15 +583,14 @@ export class Server {
 
         await this.close()
 
-        if (!process.env.JEST_WORKER_ID && !process.env.VITEST_POOL_ID)
-          process.exit(0)
+        if (!process.env.JEST_WORKER_ID && !process.env.VITEST_POOL_ID) process.exit(0)
       })
 
     this.logger.info(
       '[%s] Listen http://localhost:%s with',
       process.env.FaasEnv,
       this.options.port,
-      this.root
+      this.root,
     )
 
     return this.server
@@ -637,7 +609,7 @@ export class Server {
     this.logger.time(`${this.logger.label}close`)
 
     if (this.activeRequests) {
-      await new Promise<void>(resolve => {
+      await new Promise<void>((resolve) => {
         const check = () => {
           if (this.activeRequests === 0) {
             resolve()
@@ -663,8 +635,8 @@ export class Server {
 
     const server = this.server
     if (server)
-      await new Promise<void>(resolve => {
-        server.close(err => {
+      await new Promise<void>((resolve) => {
+        server.close((err) => {
           if (err) this.onError(err)
 
           resolve()
@@ -702,7 +674,7 @@ export class Server {
   public async middleware(
     req: IncomingMessage,
     res: ServerResponse<IncomingMessage>,
-    next: () => void
+    next: () => void,
   ): Promise<void> {
     const requestUrl = ensureRequestUrl(req, res)
     if (!requestUrl) {
@@ -711,9 +683,7 @@ export class Server {
     }
 
     try {
-      const filepath = this.getFilePath(
-        join(this.root, requestUrl).replace(/\?.*/, '')
-      )
+      const filepath = this.getFilePath(join(this.root, requestUrl).replace(/\?.*/, ''))
 
       await this.handle(req, res, {
         requestedAt: Date.now(),
@@ -739,9 +709,7 @@ export class Server {
     const message =
       process.env.FaasEnv === 'production'
         ? 'Not found.'
-        : `Not found function file.\nSearch paths:\n${searchPaths
-            .map(p => `- ${p}`)
-            .join('\n')}`
+        : `Not found function file.\nSearch paths:\n${searchPaths.map((p) => `- ${p}`).join('\n')}`
 
     throw new HttpError({
       statusCode: 404,
@@ -749,10 +717,7 @@ export class Server {
     })
   }
 
-  private handleOptionRequest(
-    req: IncomingMessage,
-    res: ServerResponse<IncomingMessage>
-  ): void {
+  private handleOptionRequest(req: IncomingMessage, res: ServerResponse<IncomingMessage>): void {
     res.writeHead(204, buildCORSHeaders(req.headers))
     res.end()
     return

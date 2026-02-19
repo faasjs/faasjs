@@ -9,7 +9,7 @@ describe('FormItem object', () => {
     let values: Record<string, any> = {}
     render(
       <Form
-        onValuesChange={v => (values = v)}
+        onValuesChange={(v) => (values = v)}
         items={[
           {
             id: 'test',
@@ -56,7 +56,7 @@ describe('FormItem object', () => {
             ],
           },
         ]}
-      />
+      />,
     )
 
     expect(screen.getByText('String')).toBeDefined()

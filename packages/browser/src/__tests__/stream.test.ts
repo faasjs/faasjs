@@ -20,15 +20,11 @@ describe('stream', () => {
         status: 200,
         body: stream,
         headers: new Headers({ 'Content-Type': 'text/plain' }),
-      } as Response)
+      } as Response),
     ) as any
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action(
-      'test',
-      { key: 'value' },
-      { stream: true }
-    )
+    const response = await client.action('test', { key: 'value' }, { stream: true })
 
     expect(response).not.toBeInstanceOf(FaasResponse)
     expect(response.body).toBeInstanceOf(ReadableStream)
@@ -45,7 +41,7 @@ describe('stream', () => {
         status: 200,
         headers: new Headers({ 'Content-Type': 'application/json' }),
         text: () => Promise.resolve('{"data":{"value":"test"}}'),
-      } as Response)
+      } as Response),
     ) as any
 
     const client = new FaasBrowserClient('/')
@@ -54,11 +50,7 @@ describe('stream', () => {
     expect(response1).toBeInstanceOf(FaasResponse)
     expect(response1.data).toEqual({ value: 'test' })
 
-    const response2 = await client.action(
-      'test',
-      { key: 'value' },
-      { stream: false }
-    )
+    const response2 = await client.action('test', { key: 'value' }, { stream: false })
     expect(response2).toBeInstanceOf(FaasResponse)
     expect(response2.data).toEqual({ value: 'test' })
   })
@@ -68,7 +60,7 @@ describe('stream', () => {
 
     const stream = new ReadableStream({
       start(controller) {
-        chunks.forEach(chunk => {
+        chunks.forEach((chunk) => {
           controller.enqueue(new TextEncoder().encode(chunk))
         })
         controller.close()
@@ -81,15 +73,11 @@ describe('stream', () => {
         status: 200,
         body: stream,
         headers: new Headers({ 'Content-Type': 'text/plain' }),
-      } as Response)
+      } as Response),
     ) as any
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action(
-      'test',
-      { key: 'value' },
-      { stream: true }
-    )
+    const response = await client.action('test', { key: 'value' }, { stream: true })
 
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
@@ -130,7 +118,7 @@ describe('stream', () => {
       {
         stream: true,
         signal: controller.signal,
-      }
+      },
     )
 
     const reader = response.body.getReader()
@@ -148,9 +136,7 @@ describe('stream', () => {
     })
 
     window.fetch = vi.fn((url: string, options: any) => {
-      expect(options.headers['Content-Type']).toBe(
-        'application/json; charset=UTF-8'
-      )
+      expect(options.headers['Content-Type']).toBe('application/json; charset=UTF-8')
       expect(options.headers['X-FaasJS-Request-Id']).toBeDefined()
 
       return Promise.resolve({
@@ -178,18 +164,14 @@ describe('stream', () => {
         status: 200,
         body: stream,
         headers: new Headers(),
-      } as Response)
+      } as Response),
     )
 
     const client = new FaasBrowserClient('/', {
       request: customRequest as any,
     })
 
-    const response = await client.action(
-      'test',
-      { key: 'value' },
-      { stream: true }
-    )
+    const response = await client.action('test', { key: 'value' }, { stream: true })
 
     expect(customRequest).toHaveBeenCalled()
     expect(response.body).toBeInstanceOf(ReadableStream)
@@ -205,22 +187,18 @@ describe('stream', () => {
 
     setMock(
       async () =>
-        new Promise(resolve => {
+        new Promise((resolve) => {
           resolve({
             ok: true,
             status: 200,
             body: stream,
             headers: new Headers(),
           } as Response)
-        }) as any
+        }) as any,
     )
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action(
-      'test',
-      { key: 'value' },
-      { stream: true }
-    )
+    const response = await client.action('test', { key: 'value' }, { stream: true })
 
     expect(response.body).toBeInstanceOf(ReadableStream)
 
@@ -241,15 +219,11 @@ describe('stream', () => {
         status: 500,
         body: stream,
         headers: new Headers({ 'Content-Type': 'text/plain' }),
-      } as Response)
+      } as Response),
     ) as any
 
     const client = new FaasBrowserClient('/')
-    const response = await client.action(
-      'test',
-      { key: 'value' },
-      { stream: true }
-    )
+    const response = await client.action('test', { key: 'value' }, { stream: true })
 
     expect(response.status).toBe(500)
     expect(response.body).toBeInstanceOf(ReadableStream)

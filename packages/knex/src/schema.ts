@@ -15,17 +15,12 @@ export class KnexSchema {
     config: OriginKnex.Config
   }
 
-  constructor(knex: {
-    name: string
-    adapter?: OriginKnex
-    config: OriginKnex.Config
-  }) {
+  constructor(knex: { name: string; adapter?: OriginKnex; config: OriginKnex.Config }) {
     this.knex = knex
   }
 
   private getAdapter(): OriginKnex {
-    if (!this.knex.adapter)
-      throw Error(`[${this.knex.name}] Client not initialized.`)
+    if (!this.knex.adapter) throw Error(`[${this.knex.name}] Client not initialized.`)
 
     return this.knex.adapter
   }
@@ -34,7 +29,7 @@ export class KnexSchema {
     return Object.assign(
       {},
       DefaultMigratorConfig,
-      this.knex.config?.migrations || Object.create(null)
+      this.knex.config?.migrations || Object.create(null),
     )
   }
 
@@ -59,12 +54,9 @@ export class KnexSchema {
 
     if (!migrationName)
       throw Error(
-        '[KnexSchema] Missing migration name. Usage: npm run migrate:make -- create_users'
+        '[KnexSchema] Missing migration name. Usage: npm run migrate:make -- create_users',
       )
 
-    return this.getAdapter().migrate.make(
-      migrationName,
-      this.getMigratorConfig()
-    )
+    return this.getAdapter().migrate.make(migrationName, this.getMigratorConfig())
   }
 }

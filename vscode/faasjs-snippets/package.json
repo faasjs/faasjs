@@ -1,27 +1,23 @@
 {
   "name": "faasjs-snippets",
   "displayName": "FaasJS Snippets",
-  "description": "Snippets for FaasJS",
-  "publisher": "faasjs",
   "version": "4.0.0",
-  "license": "MIT",
+  "description": "Snippets for FaasJS",
+  "categories": [
+    "Snippets"
+  ],
   "homepage": "https://faasjs.com",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",
     "directory": "vscode/faasjs-snippets"
   },
-  "bugs": {
-    "url": "https://github.com/faasjs/faasjs/issues"
-  },
   "funding": "https://github.com/sponsors/faasjs",
-  "engines": {
-    "vscode": "^1.60.0"
-  },
-  "icon": "logo.jpg",
-  "categories": [
-    "Snippets"
-  ],
+  "publisher": "faasjs",
   "contributes": {
     "snippets": [
       {
@@ -29,5 +25,9 @@
         "path": "./snippets/func.code-snippets"
       }
     ]
+  },
+  "icon": "logo.jpg",
+  "engines": {
+    "vscode": "^1.60.0"
   }
 }

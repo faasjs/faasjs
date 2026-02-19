@@ -23,13 +23,13 @@ import { RunHandler } from './plugins/run_handler'
 export * from './utils'
 
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
-  data: InvokeData<TEvent, TContext>
+  data: InvokeData<TEvent, TContext>,
 ) => Promise<TResult>
 export type Next = () => Promise<void>
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
   context?: TContext,
-  callback?: (...args: any) => any
+  callback?: (...args: any) => any,
 ) => Promise<TResult>
 
 export type Plugin = {
@@ -96,10 +96,10 @@ type CachedFunction = {
  *
  * @example
  * ```ts
- * import { defineFunc } from '@faasjs/core'
+ * import { defineApi } from '@faasjs/core'
  * import type { FuncEventType } from '@faasjs/func'
  *
- * const func = defineFunc<undefined, { counter: number }>({
+ * const func = defineApi<undefined, { counter: number }>({
  *   async handler() {
  *     return null
  *   },
@@ -116,10 +116,10 @@ export type FuncEventType<T extends Func<any, any, any>> =
  *
  * @example
  * ```ts
- * import { defineFunc } from '@faasjs/core'
+ * import { defineApi } from '@faasjs/core'
  * import type { FuncReturnType } from '@faasjs/func'
  *
- * const func = defineFunc<undefined, any, any, number>({
+ * const func = defineApi<undefined, any, any, number>({
  *   async handler() {
  *     return 1
  *   },
@@ -131,18 +131,15 @@ export type FuncEventType<T extends Func<any, any, any>> =
 export type FuncReturnType<T extends Func<any, any, any>> =
   T extends Func<any, any, infer R> ? R : any
 
-export type NormalizePluginType<TType extends string> =
-  TType extends `npm:${infer Name}`
+export type NormalizePluginType<TType extends string> = TType extends `npm:${infer Name}`
+  ? Name
+  : TType extends `@faasjs/${infer Name}`
     ? Name
-    : TType extends `@faasjs/${infer Name}`
-      ? Name
-      : TType
+    : TType
 
-export type UnionToIntersection<T> = (
-  T extends unknown
-    ? (arg: T) => void
-    : never
-) extends (arg: infer TResult) => void
+export type UnionToIntersection<T> = (T extends unknown ? (arg: T) => void : never) extends (
+  arg: infer TResult,
+) => void
   ? TResult
   : never
 
@@ -173,8 +170,7 @@ export type ResolvePluginEvent<TType extends string> =
  * ```
  */
 export type InferPluginEvent<TPlugins extends readonly string[]> = Simplify<
-  Record<string, any> &
-    UnionToIntersection<ResolvePluginEvent<TPlugins[number]>>
+  Record<string, any> & UnionToIntersection<ResolvePluginEvent<TPlugins[number]>>
 >
 
 export function parseFuncFilenameFromStack(stack?: string): string | undefined {
@@ -182,8 +178,8 @@ export function parseFuncFilenameFromStack(stack?: string): string | undefined {
 
   const frame = stack
     .split('\n')
-    .map(line => line.trim())
-    .find(line => line.includes('.func.ts'))
+    .map((line) => line.trim())
+    .find((line) => line.includes('.func.ts'))
 
   if (!frame) return
 
@@ -215,13 +211,12 @@ function normalizeMountData(
     loggerLabel: string
     defaultConfig?: Config
     ensureEventAndContext?: boolean
-  }
+  },
 ): MountData {
   const mountData = (data || Object.create(null)) as MutableMountData
   const ensureEventAndContext = options.ensureEventAndContext ?? true
 
-  if (!mountData.config)
-    mountData.config = options.defaultConfig || Object.create(null)
+  if (!mountData.config) mountData.config = options.defaultConfig || Object.create(null)
   if (ensureEventAndContext) {
     if (!mountData.context) mountData.context = Object.create(null)
     if (!mountData.event) mountData.event = Object.create(null)
@@ -291,8 +286,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       if (!data.logger) data.logger = new Logger()
 
       const dispatch = async (i: number): Promise<any> => {
-        if (i <= index)
-          return Promise.reject(Error('next() called multiple times'))
+        if (i <= index) return Promise.reject(Error('next() called multiple times'))
 
         index = i
         let fn: any = list[i]
@@ -305,17 +299,14 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
         if (!data.context) data.context = Object.create(null)
 
-        if (!data.context.request_at)
-          data.context.request_at = randomBytes(16).toString('hex')
+        if (!data.context.request_at) data.context.request_at = randomBytes(16).toString('hex')
 
         const label = `${data.context.request_id}] [${fn.key}] [${key}`
         data.logger.label = label
         data.logger.debug('begin')
         data.logger.time(label)
         try {
-          const res = await Promise.resolve(
-            fn.handler(data, dispatch.bind(null, i + 1))
-          )
+          const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)))
           data.logger.label = label
           data.logger.timeEnd(label, 'end')
           return res
@@ -343,7 +334,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     } = {
       event: Object.create(null),
       context: Object.create(null),
-    }
+    },
   ): Promise<void> {
     const mountData = normalizeMountData(data as MutableMountData, {
       loggerLabel: 'Func',
@@ -356,9 +347,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       return
     }
 
-    mountData.logger.debug(
-      `plugins: ${this.plugins.map(p => `${p.type}#${p.name}`).join(',')}`
-    )
+    mountData.logger.debug(`plugins: ${this.plugins.map((p) => `${p.type}#${p.name}`).join(',')}`)
     await this.compose('onMount')(mountData)
     this.mounted = true
   }
@@ -367,9 +356,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * Invoke the function
    * @param data {object} data
    */
-  public async invoke(
-    data: InvokeData<TEvent, TContext, TResult>
-  ): Promise<void> {
+  public async invoke(data: InvokeData<TEvent, TContext, TResult>): Promise<void> {
     if (!this.mounted) await this.mount(data)
 
     try {
@@ -389,15 +376,13 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     const handler = async (
       event?: TEvent,
       context?: TContext | any,
-      callback?: (...args: any) => any
+      callback?: (...args: any) => any,
     ): Promise<TResult> => {
       if (typeof context === 'undefined') context = {}
       if (!context.request_id)
         context.request_id =
-          (event as any)?.headers?.['x-faasjs-request-id'] ||
-          randomBytes(16).toString('hex')
-      if (!context.request_at)
-        context.request_at = randomBytes(16).toString('hex')
+          (event as any)?.headers?.['x-faasjs-request-id'] || randomBytes(16).toString('hex')
+      if (!context.request_at) context.request_at = randomBytes(16).toString('hex')
       context.callbackWaitsForEmptyEventLoop = false
 
       const logger = new Logger(context.request_id)
@@ -414,8 +399,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
       await this.invoke(data)
 
-      if (Object.prototype.toString.call(data.response) === '[object Error]')
-        throw data.response
+      if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response
 
       return data.response
     }
@@ -435,9 +419,9 @@ export type UseifyPlugin<T> = T & {
 export function usePlugin<T extends Plugin>(
   plugin: T & {
     mount?: (data?: MountData) => Promise<T>
-  }
+  },
 ) {
-  if (!plugins.find(p => p.name === plugin.name)) plugins.push(plugin)
+  if (!plugins.find((p) => p.name === plugin.name)) plugins.push(plugin)
 
   if (!plugin.mount)
     plugin.mount = async (data?: MountData) => {
@@ -445,8 +429,7 @@ export function usePlugin<T extends Plugin>(
         loggerLabel: plugin.name,
       })
 
-      if (plugin.onMount)
-        await plugin.onMount(mountData, async () => Promise.resolve())
+      if (plugin.onMount) await plugin.onMount(mountData, async () => Promise.resolve())
 
       return plugin
     }
@@ -458,7 +441,7 @@ export function usePlugin<T extends Plugin>(
  * Create a cloud function.
  */
 export function useFunc<TEvent = any, TContext = any, TResult = any>(
-  handler: () => Handler<TEvent, TContext, TResult>
+  handler: () => Handler<TEvent, TContext, TResult>,
 ) {
   plugins = []
 

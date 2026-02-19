@@ -33,19 +33,19 @@ export function useDrawer(init?: DrawerProps) {
   })
 
   const setDrawerProps: setDrawerProps = useEqualCallback(
-    changes => {
+    (changes) => {
       const changed = typeof changes === 'function' ? changes(props) : changes
 
-      setProps(prev => ({ ...prev, ...changed }))
+      setProps((prev) => ({ ...prev, ...changed }))
     },
-    [setProps]
+    [setProps],
   )
 
   return {
     drawer: (
       <Drawer
         onClose={() =>
-          setProps(prev => ({
+          setProps((prev) => ({
             ...prev,
             open: false,
           }))

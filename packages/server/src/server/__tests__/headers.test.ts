@@ -11,33 +11,17 @@ describe('buildCORSHeaders', () => {
     expect(result['access-control-allow-methods']).toEqual('OPTIONS, POST')
     expect(result['access-control-allow-headers']).toContain('content-type')
     expect(result['access-control-allow-headers']).toContain('authorization')
-    expect(result['access-control-allow-headers']).toContain(
-      'x-faasjs-request-id'
-    )
-    expect(result['access-control-allow-headers']).toContain(
-      'x-faasjs-timing-pending'
-    )
-    expect(result['access-control-allow-headers']).toContain(
-      'x-faasjs-timing-processing'
-    )
-    expect(result['access-control-allow-headers']).toContain(
-      'x-faasjs-timing-total'
-    )
+    expect(result['access-control-allow-headers']).toContain('x-faasjs-request-id')
+    expect(result['access-control-allow-headers']).toContain('x-faasjs-timing-pending')
+    expect(result['access-control-allow-headers']).toContain('x-faasjs-timing-processing')
+    expect(result['access-control-allow-headers']).toContain('x-faasjs-timing-total')
     expect(result['access-control-allow-headers']).toContain('x-header')
     expect(result['access-control-expose-headers']).toContain('content-type')
     expect(result['access-control-expose-headers']).toContain('authorization')
-    expect(result['access-control-expose-headers']).toContain(
-      'x-faasjs-request-id'
-    )
-    expect(result['access-control-expose-headers']).toContain(
-      'x-faasjs-timing-pending'
-    )
-    expect(result['access-control-expose-headers']).toContain(
-      'x-faasjs-timing-processing'
-    )
-    expect(result['access-control-expose-headers']).toContain(
-      'x-faasjs-timing-total'
-    )
+    expect(result['access-control-expose-headers']).toContain('x-faasjs-request-id')
+    expect(result['access-control-expose-headers']).toContain('x-faasjs-timing-pending')
+    expect(result['access-control-expose-headers']).toContain('x-faasjs-timing-processing')
+    expect(result['access-control-expose-headers']).toContain('x-faasjs-timing-total')
     expect(result['access-control-expose-headers']).toContain('x-header')
   })
 

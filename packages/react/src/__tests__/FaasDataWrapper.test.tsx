@@ -3,12 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRef, useState } from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import {
-  type FaasDataInjection,
-  FaasDataWrapper,
-  type FaasDataWrapperRef,
-  withFaasData,
-} from '..'
+import { type FaasDataInjection, FaasDataWrapper, type FaasDataWrapperRef, withFaasData } from '..'
 
 describe('FaasDataWrapper', () => {
   let current = 0
@@ -19,12 +14,12 @@ describe('FaasDataWrapper', () => {
     setMock(async (_action, params) => {
       current++
 
-      return new Promise<any>(res =>
+      return new Promise<any>((res) =>
         setTimeout(() =>
           res({
             data: params?.v ? params : current,
-          })
-        )
+          }),
+        ),
       )
     })
   })
@@ -51,7 +46,7 @@ describe('FaasDataWrapper', () => {
     render(
       <FaasDataWrapper action='t'>
         <Test />
-      </FaasDataWrapper>
+      </FaasDataWrapper>,
     )
 
     expect(await screen.findByText('1')).toBeDefined()
@@ -103,7 +98,7 @@ describe('FaasDataWrapper', () => {
     let renderTimes = 0
 
     const Test = withFaasData(
-      props => {
+      (props) => {
         renderTimes++
         return (
           <div>
@@ -114,7 +109,7 @@ describe('FaasDataWrapper', () => {
           </div>
         )
       },
-      { action: 'test' }
+      { action: 'test' },
     )
 
     render(<Test a={1} />)

@@ -26,10 +26,10 @@ mise exec -- npx create-faas-app --name faasjs
 
 This is the configuration file for FaasJS, which records cloud providers, plugins, and local development server (`server`) settings.
 
-### *.func.ts
+### \*.func.ts
 
 This is the cloud function file. In FaasJS, all cloud function files must end with `.func.ts`.
 
-### *.test.ts
+### \*.test.ts
 
 This is the unit test file. In FaasJS, all unit test files must end with `.test.ts`.

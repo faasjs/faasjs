@@ -43,8 +43,7 @@ export const siteConfig: SiteConfig = {
     '/': {
       lang: 'en',
       title: 'FaasJS',
-      description:
-        'An atomic application framework built for the TypeScript developer.',
+      description: 'An atomic application framework built for the TypeScript developer.',
       footer:
         'An atomic application framework built for the TypeScript developer. | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
       selectLanguageName: 'English',

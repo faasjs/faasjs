@@ -36,12 +36,12 @@ afterEach(async () => {
   else delete process.env.FaasLog
 
   await Promise.all(
-    tempDirs.splice(0).map(path =>
+    tempDirs.splice(0).map((path) =>
       rm(path, {
         recursive: true,
         force: true,
-      })
-    )
+      }),
+    ),
   )
 })
 
@@ -59,23 +59,14 @@ describe('typegen', () => {
       type: http
     custom:
       type: custom
-`
+`,
     )
-    await writeFixture(
-      join(root, 'src', 'index.func.ts'),
-      'export const func = {} as any\n'
-    )
-    await writeFixture(
-      join(root, 'src', 'default.func.ts'),
-      'export const func = {} as any\n'
-    )
-    await writeFixture(
-      join(root, 'src', 'posts.func.ts'),
-      'export const func = {} as any\n'
-    )
+    await writeFixture(join(root, 'src', 'index.func.ts'), 'export const func = {} as any\n')
+    await writeFixture(join(root, 'src', 'default.func.ts'), 'export const func = {} as any\n')
+    await writeFixture(join(root, 'src', 'posts.func.ts'), 'export const func = {} as any\n')
     await writeFixture(
       join(root, 'src', 'posts', 'index.func.ts'),
-      'export const func = {} as any\n'
+      'export const func = {} as any\n',
     )
     await writeFixture(
       join(root, 'src', 'users', 'faas.yaml'),
@@ -83,15 +74,15 @@ describe('typegen', () => {
   plugins:
     custom:
       type: admin
-`
+`,
     )
     await writeFixture(
       join(root, 'src', 'users', 'default.func.ts'),
-      'export const func = {} as any\n'
+      'export const func = {} as any\n',
     )
     await writeFixture(
       join(root, 'src', 'users', 'profile.func.ts'),
-      'export const func = {} as any\n'
+      'export const func = {} as any\n',
     )
 
     const result = await generateFaasTypes({
@@ -107,26 +98,22 @@ describe('typegen', () => {
     const content = await readFile(result.output, 'utf8')
 
     expect(content).toContain(
-      '"*": InferFaasAction<InferFaasFunc<typeof import("../default.func")>>'
+      '"*": InferFaasAction<InferFaasFunc<typeof import("../default.func")>>',
+    )
+    expect(content).toContain('"/": InferFaasAction<InferFaasFunc<typeof import("../index.func")>>')
+    expect(content).toContain(
+      '"posts": InferFaasAction<InferFaasFunc<typeof import("../posts.func")>>',
     )
     expect(content).toContain(
-      '"/": InferFaasAction<InferFaasFunc<typeof import("../index.func")>>'
+      '"users/*": InferFaasAction<InferFaasFunc<typeof import("../users/default.func")>>',
     )
     expect(content).toContain(
-      '"posts": InferFaasAction<InferFaasFunc<typeof import("../posts.func")>>'
-    )
-    expect(content).toContain(
-      '"users/*": InferFaasAction<InferFaasFunc<typeof import("../users/default.func")>>'
-    )
-    expect(content).toContain(
-      '"users/profile": InferFaasAction<InferFaasFunc<typeof import("../users/profile.func")>>'
+      '"users/profile": InferFaasAction<InferFaasFunc<typeof import("../users/profile.func")>>',
     )
     expect(content).not.toContain('import("../posts/index.func")')
 
     expect(content).toContain('"posts": InferPluginEvent<["custom", "http"]>')
-    expect(content).toContain(
-      '"users/profile": InferPluginEvent<["admin", "http"]>'
-    )
+    expect(content).toContain('"users/profile": InferPluginEvent<["admin", "http"]>')
 
     const second = await generateFaasTypes({
       root,
@@ -147,7 +134,7 @@ describe('typegen', () => {
       generateFaasTypes({
         root: join(root, 'api'),
         logger,
-      })
+      }),
     ).rejects.toThrow('[faas types] Source directory not found:')
   })
 
@@ -161,21 +148,16 @@ describe('typegen', () => {
       `defaults:
   server:
     root: app
-`
+`,
     )
-    await writeFixture(
-      join(root, 'app', 'src', 'index.func.ts'),
-      'export const func = {} as any\n'
-    )
+    await writeFixture(join(root, 'app', 'src', 'index.func.ts'), 'export const func = {} as any\n')
 
     const result = await generateFaasTypes({
       root,
       logger,
     })
 
-    expect(result.output).toBe(
-      join(root, 'app', 'src', '.faasjs', 'types.d.ts')
-    )
+    expect(result.output).toBe(join(root, 'app', 'src', '.faasjs', 'types.d.ts'))
     expect(result.fileCount).toBe(1)
     expect(result.routeCount).toBe(1)
   })

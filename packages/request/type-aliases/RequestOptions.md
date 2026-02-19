@@ -4,7 +4,7 @@
 
 > **RequestOptions** = `object`
 
-## Type Declaration
+## Properties
 
 ### auth?
 
@@ -93,4 +93,4 @@ Body parser. Defaults to `JSON.parse`.
 
 > `optional` **timeout**: `number`
 
-Timeout in milliseconds,
+Timeout in milliseconds

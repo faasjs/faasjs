@@ -1,14 +1,5 @@
-import {
-  createSplittingContext,
-  OptionalWrapper,
-  useEqualEffect,
-} from '@faasjs/react'
-import {
-  ConfigProvider,
-  type ConfigProviderProps,
-  message,
-  notification,
-} from 'antd'
+import { createSplittingContext, OptionalWrapper, useEqualEffect } from '@faasjs/react'
+import { ConfigProvider, type ConfigProviderProps, message, notification } from 'antd'
 import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
 import type { BrowserRouterProps } from 'react-router-dom'
@@ -101,8 +92,7 @@ function RoutesApp(props: { children: React.ReactNode }) {
  */
 export function App(props: AppProps) {
   const [messageApi, messageContextHolder] = message.useMessage()
-  const [notificationApi, notificationContextHolder] =
-    notification.useNotification()
+  const [notificationApi, notificationContextHolder] = notification.useNotification()
   const { modal, modalProps, setModalProps } = useModal()
   const { drawer, drawerProps, setDrawerProps } = useDrawer()
 
@@ -125,9 +115,8 @@ export function App(props: AppProps) {
         <FaasConfigProvider
           {...props.faasConfigProviderProps}
           faasClientOptions={{
-            onError: action => async res => {
-              if ('message' in res && res.toString().includes('AbortError'))
-                return
+            onError: (action) => async (res) => {
+              if ('message' in res && res.toString().includes('AbortError')) return
 
               console.error(`[FaasJS][${action}]`, res)
 
@@ -140,10 +129,7 @@ export function App(props: AppProps) {
         >
           <ErrorBoundary {...props.errorBoundaryProps}>
             <OptionalWrapper
-              condition={
-                typeof document !== 'undefined' &&
-                props.browserRouterProps !== false
-              }
+              condition={typeof document !== 'undefined' && props.browserRouterProps !== false}
               Wrapper={BrowserRouter}
               wrapperProps={props.browserRouterProps}
             >

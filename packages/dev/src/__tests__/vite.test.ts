@@ -16,7 +16,7 @@ const mocks = vi.hoisted(() => {
         success: true,
         method: req.method,
         url: req.url,
-      })
+      }),
     )
   })
 
@@ -47,8 +47,7 @@ vi.mock('../typegen', () => ({
     routeCount: 0,
   })),
   isTypegenSourceFile: vi.fn(
-    (filePath: string) =>
-      /\.func\.ts$/.test(filePath) || /(^|[\\/])faas\.ya?ml$/.test(filePath)
+    (filePath: string) => filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
   ),
 }))
 
@@ -62,8 +61,7 @@ async function createTempProject(faasYaml?: string): Promise<string> {
     recursive: true,
   })
 
-  if (faasYaml)
-    await writeFile(join(root, 'src', 'faas.yaml'), faasYaml, 'utf8')
+  if (faasYaml) await writeFile(join(root, 'src', 'faas.yaml'), faasYaml, 'utf8')
 
   return root
 }
@@ -80,12 +78,12 @@ describe('viteFaasJsServer', () => {
     vi.clearAllMocks()
 
     await Promise.all(
-      tempDirs.splice(0).map(path =>
+      tempDirs.splice(0).map((path) =>
         rm(path, {
           recursive: true,
           force: true,
-        })
-      )
+        }),
+      ),
     )
   })
 
@@ -123,12 +121,9 @@ describe('viteFaasJsServer', () => {
     await server.listen()
 
     const port = (server.httpServer?.address() as AddressInfo).port
-    const response = await fetch(
-      `http://localhost:${port}/api/home/api/hello?name=world`,
-      {
-        method: 'POST',
-      }
-    ).then(res => res.json())
+    const response = await fetch(`http://localhost:${port}/api/home/api/hello?name=world`, {
+      method: 'POST',
+    }).then((res) => res.json())
 
     expect(response).toEqual({
       success: true,
@@ -153,12 +148,9 @@ describe('viteFaasJsServer', () => {
     await server.listen()
 
     const port = (server.httpServer?.address() as AddressInfo).port
-    const response = await fetch(
-      `http://localhost:${port}/test/base/home/api/hello?name=world`,
-      {
-        method: 'POST',
-      }
-    ).then(res => res.json())
+    const response = await fetch(`http://localhost:${port}/test/base/home/api/hello?name=world`, {
+      method: 'POST',
+    }).then((res) => res.json())
 
     expect(response).toEqual({
       success: true,

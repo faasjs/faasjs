@@ -38,13 +38,8 @@ function toTypegenRoute(route: string): string {
   return route === '/' ? '/' : route.replace(/^\/+/, '')
 }
 
-function toRoute(
-  srcRoot: string,
-  file: string
-): { route: string; priority: number } {
-  const noTsPath = relative(srcRoot, file)
-    .replace(/\\/g, '/')
-    .replace(/\.ts$/, '')
+function toRoute(srcRoot: string, file: string): { route: string; priority: number } {
+  const noTsPath = relative(srcRoot, file).replace(/\\/g, '/').replace(/\.ts$/, '')
 
   if (noTsPath === 'index.func') return { route: '/', priority: 2 }
 
@@ -97,8 +92,7 @@ function parsePluginTypes(config: Record<string, any>): string[] {
     }
 
     if (data && typeof data === 'object') {
-      if (typeof data.type === 'string' && data.type.length)
-        pluginTypes.add(data.type)
+      if (typeof data.type === 'string' && data.type.length) pluginTypes.add(data.type)
       else pluginTypes.add(key)
       continue
     }
@@ -129,8 +123,7 @@ async function readFuncFiles(dir: string): Promise<string[]> {
         continue
       }
 
-      if (entry.isFile() && entry.name.endsWith('.func.ts'))
-        result.push(filePath)
+      if (entry.isFile() && entry.name.endsWith('.func.ts')) result.push(filePath)
     }
   }
 
@@ -138,13 +131,13 @@ async function readFuncFiles(dir: string): Promise<string[]> {
 }
 
 function formatTypes(items: RouteTypeItem[]): string {
-  const actionLines = items.map(item => {
+  const actionLines = items.map((item) => {
     return `    ${JSON.stringify(toTypegenRoute(item.route))}: InferFaasAction<InferFaasFunc<typeof import(${JSON.stringify(item.importPath)})>>`
   })
 
-  const eventLines = items.map(item => {
+  const eventLines = items.map((item) => {
     const plugins = item.pluginTypes.length
-      ? `[${item.pluginTypes.map(type => JSON.stringify(type)).join(', ')}]`
+      ? `[${item.pluginTypes.map((type) => JSON.stringify(type)).join(', ')}]`
       : '[]'
 
     return `    ${JSON.stringify(toTypegenRoute(item.route))}: InferPluginEvent<${plugins}>`
@@ -169,22 +162,18 @@ ${eventLines.length ? `${eventLines.join('\n')}\n` : ''}  }
 }
 
 export function isTypegenSourceFile(filePath: string): boolean {
-  return /\.func\.ts$/.test(filePath) || /(^|[\\/])faas\.ya?ml$/.test(filePath)
+  return filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath)
 }
 
 export async function generateFaasTypes(
-  options: GenerateFaasTypesOptions = {}
+  options: GenerateFaasTypesOptions = {},
 ): Promise<GenerateFaasTypesResult> {
   const logger = options.logger ?? new Logger('FaasJs:Typegen')
-  const { root: projectRoot, staging } = resolveServerConfig(
-    options.root ?? process.cwd(),
-    logger
-  )
+  const { root: projectRoot, staging } = resolveServerConfig(options.root ?? process.cwd(), logger)
   const srcRoot = join(projectRoot, 'src')
   const output = join(srcRoot, '.faasjs', 'types.d.ts')
 
-  if (!existsSync(srcRoot))
-    throw Error(`[faas types] Source directory not found: ${srcRoot}`)
+  if (!existsSync(srcRoot)) throw Error(`[faas types] Source directory not found: ${srcRoot}`)
 
   const files = await readFuncFiles(srcRoot)
   const routeMap = new Map<string, RouteTypeItem>()
@@ -199,15 +188,13 @@ export async function generateFaasTypes(
       route,
       importPath: toImportPath(output, file),
       pluginTypes: parsePluginTypes(
-        loadConfig(srcRoot, file, staging, logger) as Record<string, any>
+        loadConfig(srcRoot, file, staging, logger) as Record<string, any>,
       ),
       priority,
     })
   }
 
-  const items = Array.from(routeMap.values()).sort((a, b) =>
-    a.route.localeCompare(b.route)
-  )
+  const items = Array.from(routeMap.values()).sort((a, b) => a.route.localeCompare(b.route))
   const content = formatTypes(items)
 
   let changed = true
