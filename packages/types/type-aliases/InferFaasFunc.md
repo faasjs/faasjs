@@ -2,7 +2,7 @@
 
 # Type Alias: InferFaasFunc\<TModule\>
 
-> **InferFaasFunc**\<`TModule`\> = `TModule` *extends* `object` ? `TFunc` *extends* `Func` ? `TFunc` : `never` : `TModule` *extends* `object` ? `TFunc` *extends* `Func` ? `TFunc` : `never` : `never`
+> **InferFaasFunc**\<`TModule`\> = `TModule` _extends_ `object` ? `TFunc` _extends_ `Func` ? `TFunc` : `never` : `TModule` _extends_ `object` ? `TFunc` _extends_ `Func` ? `TFunc` : `never` : `never`
 
 Infer the Func type from a module.
 
@@ -21,9 +21,7 @@ import type { InferFaasAction, InferFaasFunc } from '@faasjs/types'
 
 declare module '@faasjs/types' {
   interface FaasActions {
-    demo: InferFaasAction<
-      InferFaasFunc<typeof import('./functions/demo')>
-    >
+    demo: InferFaasAction<InferFaasFunc<typeof import('./functions/demo')>>
   }
 }
 ```

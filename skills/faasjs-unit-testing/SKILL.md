@@ -15,15 +15,18 @@ Apply this skill when writing, refactoring, or reviewing unit tests in FaasJS pr
 ## Guides
 
 See [Test-only workflow](./test-only.md) for:
+
 - Standard `test(func)` usage patterns
 - HTTP-style assertions via `JSONhandler`
 - Non-HTTP assertions via `handler`
 
 See [Shared testing kit](./shared-testing.md) for:
+
 - Shared mock lifecycle for repeated module mocks
 - Reusable caller helper to remove repeated request setup
 - Recommended `shared/` directory layout
 
 See [Test matrix](./test-matrix.md) for:
+
 - Minimal behavior coverage checklist
 - Incremental run strategy for fast feedback

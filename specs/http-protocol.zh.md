@@ -7,7 +7,7 @@
 - 状态: 已采纳（Accepted）
 - 版本: v1.0
 - 维护者: FaasJS Maintainers
-- 适用范围: `@faasjs/browser`、`@faasjs/server`、`@faasjs/http` 及基于 FaasJS 的 API 项目
+- 适用范围: `@faasjs/browser`、`@faasjs/server`、`@faasjs/core` 及基于 FaasJS 的 API 项目
 - 最后更新: 2026-02-19
 
 ## 背景
@@ -105,7 +105,7 @@ Internal Server Error
 
 ## 兼容性
 
-- 当前 `@faasjs/http` 的实现使用顶层 `data`/`error` 包装，与本规范一致。
+- 当前 `@faasjs/core` 中 HTTP 插件的实现使用顶层 `data`/`error` 包装，与本规范一致。
 - 当前服务端在底层异常场景下，可能返回纯文本 `500 Internal Server Error`。
 - 历史文档曾提到 `action + params`；V1 对路由式 API 统一为“直接 JSON 对象”请求体。
 - 现有项目若返回了其它状态码，属于本版基线之外，需要在项目文档中单独说明。

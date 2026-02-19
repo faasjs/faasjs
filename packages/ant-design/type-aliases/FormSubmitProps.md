@@ -19,6 +19,7 @@ Default: Submit
 Submit to FaasJS server.
 
 If use onFinish, you should call submit manually.
+
 ```ts
 {
   submit: {

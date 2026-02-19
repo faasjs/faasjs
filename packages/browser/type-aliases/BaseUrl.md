@@ -19,5 +19,5 @@ which is required for proper URL construction when appending action paths.
 
 ## See
 
- - FaasBrowserClient for usage in client creation
- - Options for usage in request options
+- FaasBrowserClient for usage in client creation
+- Options for usage in request options

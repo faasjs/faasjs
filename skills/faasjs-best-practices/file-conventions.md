@@ -28,12 +28,12 @@ src/pages/
 
 ## Special Files
 
-| File | Purpose |
-|------|---------|
-| `index.tsx` | Page entry UI |
-| `*.func.ts` | API endpoint file |
-| `index.func.ts` | Segment root endpoint |
-| `default.func.ts` | Fallback endpoint |
+| File              | Purpose               |
+| ----------------- | --------------------- |
+| `index.tsx`       | Page entry UI         |
+| `*.func.ts`       | API endpoint file     |
+| `index.func.ts`   | Segment root endpoint |
+| `default.func.ts` | Fallback endpoint     |
 
 ## Route Resolution Order
 
@@ -68,6 +68,7 @@ Use consistent action verbs in `*.func.ts` filenames to keep routes predictable.
 - Prefer these verbs over synonyms like `add`, `remove`, `fetch`
 
 Examples:
+
 - `create-message.func.ts` -> `POST /.../create-message`
 - `list-messages.func.ts` -> `POST /.../list-messages`
 

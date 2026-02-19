@@ -1,6 +1,6 @@
 import { Func } from '@faasjs/func'
 import { describe, expect, it } from 'vitest'
-import { Http } from '..'
+import { Http } from '../index'
 
 describe('stream', () => {
   it('should handle Web ReadableStream', async () => {

@@ -27,7 +27,7 @@ defaults:
 Notes:
 
 - `plugins.<key>` is the plugin name.
-- If `type` is omitted, the key is used as plugin type (`http` -> `@faasjs/http`).
+- If `type` is omitted, the key is used as plugin type (`http` -> `@faasjs/core`).
 - Set `type` explicitly when plugin name and module type should differ.
 
 ## Example Endpoint
@@ -44,17 +44,15 @@ const schema = z
   })
   .required()
 
-export const func = defineFunc<{ params?: z.infer<typeof schema> }>(
-  async ({ event }) => {
-    const parsed = schema.parse(event.params || {})
+export const func = defineFunc<{ params?: z.infer<typeof schema> }>(async ({ event }) => {
+  const parsed = schema.parse(event.params || {})
 
-    return {
-      ok: true,
-      data: `Hello, ${parsed.name || 'FaasJS'}`,
-      error: null,
-    }
+  return {
+    ok: true,
+    data: `Hello, ${parsed.name || 'FaasJS'}`,
+    error: null,
   }
-)
+})
 ```
 
 ## Common Errors

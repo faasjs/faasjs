@@ -1,6 +1,6 @@
 name: Feature request
 description: Suggest a new feature or improvement
-title: "[Feature] "
+title: '[Feature] '
 labels:
   - type:feature
   - status:needs-triage
@@ -17,7 +17,7 @@ body:
     attributes:
       label: Related package / 相关包
       description: Which package should this change target?
-      placeholder: e.g. @faasjs/http
+      placeholder: e.g. @faasjs/core
     validations:
       required: true
 

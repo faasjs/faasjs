@@ -9,6 +9,7 @@ Browser client for FaasJS - provides HTTP client functionality for making API re
 Type parameter extending FaasActionUnionType for type-safe requests
 
 Features:
+
 - Type-safe API requests with TypeScript support
 - Built-in mock support for testing
 - Custom request function support
@@ -39,7 +40,7 @@ const client = new FaasBrowserClient('https://api.example.com/', {
   headers: { 'X-API-Key': 'secret' },
   beforeRequest: async ({ action, params, headers }) => {
     console.log(`Calling ${action} with params:`, params)
-  }
+  },
 })
 ```
 
@@ -72,8 +73,8 @@ When baseUrl does not end with '/'
 
 ## See
 
- - setMock for testing support
- - ResponseError for error handling
+- setMock for testing support
+- ResponseError for error handling
 
 ## Constructors
 
@@ -96,8 +97,8 @@ Base URL for all API requests. Must end with '/'. Defaults to '/' for relative r
 [`Options`](../type-aliases/Options.md) = `...`
 
 Configuration options for the client.
-  Supports default headers, beforeRequest hook, custom request function,
-  baseUrl override, and streaming mode.
+Supports default headers, beforeRequest hook, custom request function,
+baseUrl override, and streaming mode.
 
 #### Returns
 
@@ -120,9 +121,9 @@ const client = new FaasBrowserClient('https://api.example.com/')
 ```ts
 const client = new FaasBrowserClient('https://api.example.com/', {
   headers: {
-    'Authorization': 'Bearer token123',
-    'X-Custom-Header': 'value'
-  }
+    Authorization: 'Bearer token123',
+    'X-Custom-Header': 'value',
+  },
 })
 ```
 
@@ -132,7 +133,7 @@ const client = new FaasBrowserClient('https://api.example.com/', {
     console.log(`Requesting ${action}`, params)
     // Modify headers before request
     headers['X-Timestamp'] = Date.now().toString()
-  }
+  },
 })
 ```
 
@@ -142,14 +143,14 @@ import axios from 'axios'
 const client = new FaasBrowserClient('/', {
   request: async (url, options) => {
     const response = await axios.post(url, options.body, {
-      headers: options.headers
+      headers: options.headers,
     })
     return new Response({
       status: response.status,
       headers: response.headers,
-      data: response.data
+      data: response.data,
     })
-  }
+  },
 })
 ```
 
@@ -169,7 +170,7 @@ Makes a request to a FaasJS function.
 
 ##### PathOrData
 
-`PathOrData` *extends* `FaasActionUnionType`
+`PathOrData` _extends_ `FaasActionUnionType`
 
 The function path or data type for type safety
 
@@ -180,28 +181,28 @@ The function path or data type for type safety
 `FaasAction`\<`PathOrData`\>
 
 The function path to call. Converted to lowercase when constructing the URL.
-  Must be a non-empty string.
+Must be a non-empty string.
 
 ##### params?
 
 `FaasParams`\<`PathOrData`\>
 
 The parameters to send to the function. Will be serialized as JSON.
-  Optional if the function accepts no parameters.
+Optional if the function accepts no parameters.
 
 ##### options?
 
 [`Options`](../type-aliases/Options.md)
 
 Optional request options that override client defaults.
-  Supports headers, beforeRequest hook, custom request function, baseUrl override, and streaming mode.
+Supports headers, beforeRequest hook, custom request function, baseUrl override, and streaming mode.
 
 #### Returns
 
 `Promise`\<[`Response`](Response.md)\<`FaasData`\<`PathOrData`\>\>\>
 
 A Promise that resolves to a Response object containing status, headers, body, and data.
-  The data property is typed based on the PathOrData generic parameter.
+The data property is typed based on the PathOrData generic parameter.
 
 #### Throws
 
@@ -240,20 +241,28 @@ console.log(response.data.status)
 ```
 
 ```ts
-const response = await client.action('data', {
-  limit: 10,
-  offset: 0
-}, {
-  headers: { 'X-Custom-Header': 'value' }
-})
+const response = await client.action(
+  'data',
+  {
+    limit: 10,
+    offset: 0,
+  },
+  {
+    headers: { 'X-Custom-Header': 'value' },
+  },
+)
 ```
 
 ```ts
-const response = await client.action('stream', {
-  format: 'json'
-}, {
-  stream: true
-})
+const response = await client.action(
+  'stream',
+  {
+    format: 'json',
+  },
+  {
+    stream: true,
+  },
+)
 // response is native fetch Response with streaming support
 const reader = response.body.getReader()
 ```
@@ -290,11 +299,11 @@ try {
 ```ts
 const userId = await client.action('createUser', {
   name: 'John',
-  email: 'john@example.com'
+  email: 'john@example.com',
 })
 
 const profile = await client.action('getProfile', {
-  userId: userId.data.id
+  userId: userId.data.id,
 })
 ```
 

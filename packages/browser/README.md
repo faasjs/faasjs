@@ -110,6 +110,7 @@ Use the global [setMock](functions/setMock.md) function to mock API calls during
 to test your application without making actual network requests.
 
 Mocks are useful for:
+
 - Unit testing client-side logic
 - Integration testing with predictable responses
 - Testing error handling scenarios
@@ -126,7 +127,7 @@ setMock(async (action, params) => {
   } else if (action === 'error') {
     // Throw an error to test error handling
     throw new ResponseError('Not found', 404, {
-      body: { message: 'User not found' }
+      body: { message: 'User not found' },
     })
   }
 })
@@ -142,11 +143,13 @@ console.log(response.data) // { id: 123, name: 'Mock User' }
 ## API Reference
 
 ### Classes
+
 - [FaasBrowserClient](classes/FaasBrowserClient.md) - Main client class for making API requests to FaasJS functions
 - [Response](classes/Response.md) - Response wrapper class containing status, headers, body, and data
 - [ResponseError](classes/ResponseError.md) - Custom error class for handling API request failures
 
 ### Types
+
 - [Options](type-aliases/Options.md) - Request options type for customizing client behavior
 - [ResponseProps](type-aliases/ResponseProps.md) - Response properties type for constructing Response objects
 - [ResponseHeaders](type-aliases/ResponseHeaders.md) - Headers type representing HTTP response headers
@@ -155,6 +158,7 @@ console.log(response.data) // { id: 123, name: 'Mock User' }
 - [FaasBrowserClientAction](type-aliases/FaasBrowserClientAction.md) - Action method type definition
 
 ### Functions
+
 - [setMock](functions/setMock.md) - Global mock function for intercepting API calls during testing
 
 ## Functions

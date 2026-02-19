@@ -19,8 +19,8 @@ or returned from mock handlers.
 
 ## See
 
- - Response for the class that uses these properties
- - ResponseErrorProps for error response properties
+- Response for the class that uses these properties
+- ResponseErrorProps for error response properties
 
 ## Type Parameters
 
@@ -37,25 +37,25 @@ The type of the data property for type-safe response creation
 > `optional` **body**: `any`
 
 The raw response body as a string or object.
-  Optional: if not provided, body is automatically populated from data using JSON.stringify.
+Optional: if not provided, body is automatically populated from data using JSON.stringify.
 
 ### data?
 
 > `optional` **data**: `T`
 
 The parsed JSON data to include in the response.
-  Optional: contains the response payload when JSON data is provided.
+Optional: contains the response payload when JSON data is provided.
 
 ### headers?
 
 > `optional` **headers**: [`ResponseHeaders`](ResponseHeaders.md)
 
 The response headers as a key-value object.
-  Optional: defaults to an empty object if not provided.
+Optional: defaults to an empty object if not provided.
 
 ### status?
 
 > `optional` **status**: `number`
 
 The HTTP status code for the response.
-  Optional: defaults to 200 if data or body is provided, 204 otherwise.
+Optional: defaults to 200 if data or body is provided, 204 otherwise.

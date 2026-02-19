@@ -496,7 +496,9 @@ export default class ThrowingPlugin {
       },
     }
 
-    await expect(func.export().handler({})).rejects.toThrow(/Failed to initialize plugin "throwing"/)
+    await expect(func.export().handler({})).rejects.toThrow(
+      /Failed to initialize plugin "throwing"/,
+    )
   })
 
   it('throws when constructor returns a non-object plugin instance', async () => {

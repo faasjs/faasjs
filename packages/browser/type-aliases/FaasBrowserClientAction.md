@@ -13,7 +13,7 @@ Provides type-safe parameter and return value handling.
 
 ### PathOrData
 
-`PathOrData` *extends* `FaasActionUnionType`
+`PathOrData` _extends_ `FaasActionUnionType`
 
 The function path or data type for type safety
 
@@ -53,6 +53,6 @@ Optional request options
 
 ## See
 
- - FaasBrowserClient for the class that uses this type
- - Response for the return type
- - Options for the options parameter type
+- FaasBrowserClient for the class that uses this type
+- Response for the return type
+- Options for the options parameter type

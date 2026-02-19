@@ -6,6 +6,7 @@
 | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | [faasjs](https://github.com/faasjs/faasjs/tree/main/packages/faasjs)     | [![NPM Version](https://img.shields.io/npm/v/faasjs.svg)](https://www.npmjs.com/package/faasjs)             |
 | [@faasjs/func](https://github.com/faasjs/faasjs/tree/main/packages/func) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/func.svg)](https://www.npmjs.com/package/@faasjs/func) |
+| [@faasjs/core](https://github.com/faasjs/faasjs/tree/main/packages/core) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/core.svg)](https://www.npmjs.com/package/@faasjs/core) |
 
 ## Command Lines
 
@@ -22,12 +23,6 @@
 | [@faasjs/request](https://github.com/faasjs/faasjs/tree/main/packages/request)       | [![NPM Version](https://img.shields.io/npm/v/@faasjs/request.svg)](https://www.npmjs.com/package/@faasjs/request)       |
 | [@faasjs/server](https://github.com/faasjs/faasjs/tree/main/packages/server)         | [![NPM Version](https://img.shields.io/npm/v/@faasjs/server.svg)](https://www.npmjs.com/package/@faasjs/server)         |
 | [@faasjs/dev](https://github.com/faasjs/faasjs/tree/main/packages/dev)               | [![NPM Version](https://img.shields.io/npm/v/@faasjs/dev.svg)](https://www.npmjs.com/package/@faasjs/dev)               |
-
-## Http
-
-| Name                                                                     | Version                                                                                                     |
-| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| [@faasjs/http](https://github.com/faasjs/faasjs/tree/main/packages/http) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/http.svg)](https://www.npmjs.com/package/@faasjs/http) |
 
 ## Databases
 

@@ -58,12 +58,12 @@ FaasJS 路由解析基于文件系统。此规范用于固定映射规则，并�
 
 ## 示例
 
-| 文件 | 路由 |
-| --- | --- |
-| `src/pages/todo/api/list.func.ts` | `POST /todo/api/list` |
-| `src/pages/todo/api/index.func.ts` | `POST /todo/api` |
-| `src/pages/todo/default.func.ts` | `/todo/*` 的兜底 |
-| `src/pages/default.func.ts` | `src/pages` 下未命中路径的兜底 |
+| 文件                               | 路由                           |
+| ---------------------------------- | ------------------------------ |
+| `src/pages/todo/api/list.func.ts`  | `POST /todo/api/list`          |
+| `src/pages/todo/api/index.func.ts` | `POST /todo/api`               |
+| `src/pages/todo/default.func.ts`   | `/todo/*` 的兜底               |
+| `src/pages/default.func.ts`        | `src/pages` 下未命中路径的兜底 |
 
 回退示例：
 

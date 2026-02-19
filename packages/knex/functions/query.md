@@ -10,7 +10,7 @@
 
 #### TName
 
-`TName` *extends* `"test"`
+`TName` _extends_ `"test"`
 
 ### Parameters
 
@@ -30,7 +30,7 @@
 
 #### TName
 
-`TName` *extends* `object` = `any`
+`TName` _extends_ `object` = `any`
 
 #### TResult
 

@@ -1,6 +1,6 @@
 name: Bug report
 description: Report a reproducible bug in FaasJS
-title: "[Bug] "
+title: '[Bug] '
 labels:
   - type:bug
   - status:needs-triage

@@ -10,7 +10,7 @@ Assigns a name to a given function handler, which will be displayed in logs and 
 
 ### T
 
-`T` *extends* (...`args`) => `any`
+`T` _extends_ (...`args`) => `any`
 
 The type of the function handler.
 
@@ -40,7 +40,7 @@ The function handler to which the name will be assigned.
 import { nameFunc } from '@faasjs/func'
 
 const handler = nameFunc('myHandler', () => {
- return 'Hello World'
+  return 'Hello World'
 })
 
 console.log(handler.name) // => 'myHandler'

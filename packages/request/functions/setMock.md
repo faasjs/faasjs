@@ -21,5 +21,7 @@ Mock requests
 ## Example
 
 ```ts
-setMock(async (url, options) => Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }))
+setMock(async (url, options) =>
+  Promise.resolve({ headers: {}, statusCode: 200, body: { data: 'ok' } }),
+)
 ```

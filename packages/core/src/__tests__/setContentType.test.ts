@@ -1,6 +1,6 @@
 import { Func } from '@faasjs/func'
 import { describe, expect, it } from 'vitest'
-import { ContentType, Http } from '..'
+import { ContentType, Http } from '../index'
 
 describe('setContentType', () => {
   it.each(Object.keys(ContentType))('type is %s', async (type) => {

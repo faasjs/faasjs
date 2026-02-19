@@ -12,11 +12,11 @@
 
 ### faas
 
-> **faas**: *typeof* [`faas`](../functions/faas.md)
+> **faas**: _typeof_ [`faas`](../functions/faas.md)
 
 ### FaasDataWrapper
 
-> **FaasDataWrapper**: *typeof* [`FaasDataWrapper`](../variables/FaasDataWrapper.md)
+> **FaasDataWrapper**: _typeof_ [`FaasDataWrapper`](../variables/FaasDataWrapper.md)
 
 ### id
 
@@ -28,4 +28,4 @@
 
 ### useFaas
 
-> **useFaas**: *typeof* [`useFaas`](../functions/useFaas.md)
+> **useFaas**: _typeof_ [`useFaas`](../functions/useFaas.md)

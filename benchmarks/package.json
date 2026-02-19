@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@faasjs/core": "file:../packages/core",
     "@faasjs/func": "file:../packages/func",
-    "@faasjs/http": "file:../packages/http",
     "@faasjs/server": "file:../packages/server",
     "benchmark": "*",
     "express": "*",

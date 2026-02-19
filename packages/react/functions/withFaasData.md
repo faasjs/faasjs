@@ -10,11 +10,11 @@ HOC to wrap a component with FaasDataWrapper
 
 ### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
+`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
 
 ### TComponentProps
 
-`TComponentProps` *extends* `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\>
+`TComponentProps` _extends_ `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> = `Required`\<[`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\>
 
 ## Parameters
 
@@ -33,5 +33,8 @@ HOC to wrap a component with FaasDataWrapper
 ## Example
 
 ```tsx
-const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, { action: 'test', params: { a: 1 } })
+const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, {
+  action: 'test',
+  params: { a: 1 },
+})
 ```

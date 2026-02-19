@@ -14,17 +14,20 @@ npm install @faasjs/server
 ## Usage
 
 1. Create a `server.ts` file:
+
 ```ts
 // server.ts
 import { Server } from '@faasjs/server'
 
 const server = new Server(process.cwd(), {
- // options
+  // options
 })
 
 server.listen()
 ```
+
 2. Run the server:
+
 ```sh
 node server.ts
 ```

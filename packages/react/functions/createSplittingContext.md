@@ -10,7 +10,7 @@ Creates a splitting context with the given default value.
 
 ### T
 
-`T` *extends* `Record`\<`string`, `any`\>
+`T` _extends_ `Record`\<`string`, `any`\>
 
 ## Parameters
 
@@ -32,7 +32,7 @@ The hook to use the splitting context.
 
 ##### NewT
 
-`NewT` *extends* `Record`\<`string`, `any`\> = `T`
+`NewT` _extends_ `Record`\<`string`, `any`\> = `T`
 
 #### Returns
 
@@ -48,7 +48,12 @@ https://faasjs.com/doc/react/functions/createSplittingContext.html#use
 function ChildComponent() {
   const { value, setValue } = use()
 
-  return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
+  return (
+    <div>
+      {value}
+      <button onClick={() => setValue(1)}>change value</button>
+    </div>
+  )
 }
 ```
 
@@ -62,7 +67,7 @@ The provider component of the splitting context.
 
 ##### NewT
 
-`NewT` *extends* `Record`\<`string`, `any`\> = `T`
+`NewT` _extends_ `Record`\<`string`, `any`\> = `T`
 
 #### Parameters
 
@@ -80,7 +85,7 @@ An object containing initial values that will be automatically converted into st
 
 **Example**
 
-```tsx
+````tsx
 <Provider
  initializeStates={{
    value: 0,
@@ -127,7 +132,7 @@ function App() {
     </Provider>
   )
 }
-```
+````
 
 ## Example
 

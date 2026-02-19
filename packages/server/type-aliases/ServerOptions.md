@@ -32,10 +32,9 @@ const server = new Server(process.cwd(), {
   beforeHandle: async (req, res) => {
     console.log(`Processing ${req.method} request to ${req.url}`)
 
-    if (req.method !== 'POST')
-      res.writeHead(405, { 'Allow': 'POST' }) // If you write response, it will finish the request
-  }
-});
+    if (req.method !== 'POST') res.writeHead(405, { Allow: 'POST' }) // If you write response, it will finish the request
+  },
+})
 ```
 
 ### onClose()?
@@ -66,9 +65,9 @@ An object containing the logger instance.
 ```typescript
 const server = new Server(process.cwd(), {
   onClose: async ({ logger }) => {
-    logger.info('Server closed');
-  }
-});
+    logger.info('Server closed')
+  },
+})
 ```
 
 ### onError()?
@@ -105,9 +104,9 @@ An object containing the logger instance.
 ```typescript
 const server = new Server(process.cwd(), {
   onError: async (error, { logger }) => {
-    logger.error(error);
-  }
-});
+    logger.error(error)
+  },
+})
 ```
 
 ### onStart()?
@@ -138,9 +137,9 @@ An object containing the logger instance.
 ```typescript
 const server = new Server(process.cwd(), {
   onStart: async ({ logger }) => {
-    logger.info('Server started');
-  }
-});
+    logger.info('Server started')
+  },
+})
 ```
 
 ### port?

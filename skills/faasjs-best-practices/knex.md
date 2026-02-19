@@ -17,11 +17,13 @@ Use these rules when writing or reviewing FaasJS code with `@faasjs/knex`.
 ## Raw SQL (Escape Hatch)
 
 `raw` is allowed only when query-builder cannot express the SQL clearly, for example:
+
 - vendor-specific SQL features/functions
 - performance-sensitive statements that must stay handwritten
 - DDL or maintenance scripts
 
 When using `raw`:
+
 1. Add a one-line comment explaining why query-builder is not enough.
 2. Use parameter bindings (`?` or named bindings), never template strings.
 3. Keep raw snippets small and local; avoid large dynamic SQL assembly.
@@ -60,27 +62,20 @@ defaults:
 import { defineFunc } from '@faasjs/func'
 import { query, transaction } from '@faasjs/knex'
 
-export const func = defineFunc<{ params: { userId: number } }>(
-  async ({ event }) => {
-    const user = await query('users')
-      .select('id', 'email')
-      .where({ id: event.params.userId })
-      .first()
+export const func = defineFunc<{ params: { userId: number } }>(async ({ event }) => {
+  const user = await query('users').select('id', 'email').where({ id: event.params.userId }).first()
 
-    if (!user) throw Error('User not found')
+  if (!user) throw Error('User not found')
 
-    await transaction(async trx => {
-      await trx('audit_logs').insert({
-        user_id: user.id,
-        action: 'login',
-      })
-
-      await trx('users')
-        .where({ id: user.id })
-        .update({ last_login_at: new Date() })
+  await transaction(async (trx) => {
+    await trx('audit_logs').insert({
+      user_id: user.id,
+      action: 'login',
     })
-  }
-)
+
+    await trx('users').where({ id: user.id }).update({ last_login_at: new Date() })
+  })
+})
 ```
 
 ### Avoid

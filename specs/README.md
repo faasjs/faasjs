@@ -26,14 +26,14 @@ The keywords `MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, and `MAY` are used as d
 
 ## Spec Index
 
-| Spec | Status | Version | English | Chinese |
-| --- | --- | --- | --- | --- |
-| HTTP Protocol | Accepted | v1.0 | [http-protocol.md](./http-protocol.md) | [http-protocol.zh.md](./http-protocol.zh.md) |
-| Routing Mapping | Accepted | v1.0 | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
+| Spec            | Status   | Version | English                                    | Chinese                                          |
+| --------------- | -------- | ------- | ------------------------------------------ | ------------------------------------------------ |
+| HTTP Protocol   | Accepted | v1.0    | [http-protocol.md](./http-protocol.md)     | [http-protocol.zh.md](./http-protocol.zh.md)     |
+| Routing Mapping | Accepted | v1.0    | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
 
 ## Authoring Workflow
 
-1. Start from [_template.md](./_template.md) and [_template.zh.md](./_template.zh.md).
+1. Start from [\_template.md](./_template.md) and [\_template.zh.md](./_template.zh.md).
 2. Write/update English first, then update Chinese mirror.
 3. Keep examples and rule numbers aligned across languages.
 4. Update `Status`, `Version`, and `Last Updated` on every meaningful change.

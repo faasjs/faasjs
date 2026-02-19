@@ -2,7 +2,7 @@
 
 # Type Alias: FuncEventType\<T\>
 
-> **FuncEventType**\<`T`\> = `T` *extends* [`Func`](../classes/Func.md)\<infer P, `any`, `any`\> ? `P` : `any`
+> **FuncEventType**\<`T`\> = `T` _extends_ [`Func`](../classes/Func.md)\<infer P, `any`, `any`\> ? `P` : `any`
 
 Get the event type of a func
 
@@ -10,7 +10,7 @@ Get the event type of a func
 
 ### T
 
-`T` *extends* [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+`T` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
 ## Example
 

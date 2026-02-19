@@ -58,12 +58,12 @@ If no candidate exists, the request is treated as not found.
 
 ## Examples
 
-| File | Route |
-| --- | --- |
-| `src/pages/todo/api/list.func.ts` | `POST /todo/api/list` |
-| `src/pages/todo/api/index.func.ts` | `POST /todo/api` |
-| `src/pages/todo/default.func.ts` | fallback for `/todo/*` |
-| `src/pages/default.func.ts` | fallback for unmatched routes under `src/pages` |
+| File                               | Route                                           |
+| ---------------------------------- | ----------------------------------------------- |
+| `src/pages/todo/api/list.func.ts`  | `POST /todo/api/list`                           |
+| `src/pages/todo/api/index.func.ts` | `POST /todo/api`                                |
+| `src/pages/todo/default.func.ts`   | fallback for `/todo/*`                          |
+| `src/pages/default.func.ts`        | fallback for unmatched routes under `src/pages` |
 
 Fallback example:
 

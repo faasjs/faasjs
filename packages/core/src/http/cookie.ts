@@ -63,10 +63,11 @@ export class Cookie<
       for (const x of cookie.split(';')) {
         const trimX = x.trim()
         const k = /([^=]+)/.exec(trimX)
-        if (k !== null)
-          (this.content as any)[k[0]] = decodeURIComponent(
+        if (k !== null) {
+          ;(this.content as any)[k[0]] = decodeURIComponent(
             trimX.replace(`${k[0]}=`, '').replace(/;$/, ''),
           )
+        }
       }
 
     this.setCookie = Object.create(null)

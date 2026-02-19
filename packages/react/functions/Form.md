@@ -11,19 +11,19 @@ It initializes form states such as values, errors, submitting status, elements, 
 
 ### Values
 
-`Values` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+`Values` _extends_ `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
 The type of form values, defaults to Record<string, any>.
 
 ### FormElements
 
-`FormElements` *extends* [`FormElementTypes`](../type-aliases/FormElementTypes.md) = [`FormElementTypes`](../type-aliases/FormElementTypes.md)
+`FormElements` _extends_ [`FormElementTypes`](../type-aliases/FormElementTypes.md) = [`FormElementTypes`](../type-aliases/FormElementTypes.md)
 
 The type of form elements, defaults to FormElementTypes.
 
 ### Rules
 
-`Rules` *extends* [`FormRules`](../type-aliases/FormRules.md) = [`FormRules`](../type-aliases/FormRules.md)
+`Rules` _extends_ [`FormRules`](../type-aliases/FormRules.md) = [`FormRules`](../type-aliases/FormRules.md)
 
 The type of form rules, defaults to FormDefaultRules.
 
@@ -47,10 +47,6 @@ The FormContainer component.
 import { Form } from '@faasjs/react'
 
 function MyForm() {
-  return <Form
-    items={[
-      { name: 'name' },
-    ]}
-  />
+  return <Form items={[{ name: 'name' }]} />
 }
 ```

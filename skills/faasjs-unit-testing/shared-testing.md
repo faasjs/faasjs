@@ -78,7 +78,7 @@ export function createJsonCaller(func: Func) {
 
   return async function invoke(
     body?: Record<string, unknown> | string | null,
-    options: JsonCallOptions = {}
+    options: JsonCallOptions = {},
   ) {
     return await call.JSONhandler(body, {
       headers: {

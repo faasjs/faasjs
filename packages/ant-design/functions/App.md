@@ -30,10 +30,10 @@ import { App } from '@faasjs/ant-design'
 export default function () {
   return (
     <App
-     configProviderProps={{}} // https://ant.design/components/config-provider/#API
-     browserRouterProps={{}} // https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
-     errorBoundaryProps={{}} // https://faasjs.com/doc/ant-design/#errorboundary
-     faasConfigProviderProps={{}} // https://faasjs.com/doc/ant-design/#configprovider
+      configProviderProps={{}} // https://ant.design/components/config-provider/#API
+      browserRouterProps={{}} // https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
+      errorBoundaryProps={{}} // https://faasjs.com/doc/ant-design/#errorboundary
+      faasConfigProviderProps={{}} // https://faasjs.com/doc/ant-design/#configprovider
     >
       <div>content</div>
     </App>

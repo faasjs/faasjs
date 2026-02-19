@@ -10,7 +10,7 @@ Infer event type from plugin type names.
 
 ### TPlugins
 
-`TPlugins` *extends* readonly `string`[]
+`TPlugins` _extends_ readonly `string`[]
 
 ## Example
 

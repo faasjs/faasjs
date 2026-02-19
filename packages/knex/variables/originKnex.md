@@ -2,6 +2,6 @@
 
 # Variable: originKnex
 
-> `const` **originKnex**: *typeof* `knex` = `knex`
+> `const` **originKnex**: _typeof_ `knex` = `knex`
 
 Origin [knex](https://knexjs.org/) instance.

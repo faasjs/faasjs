@@ -33,6 +33,6 @@ export const func = useMiddlewares([
   (request, response) => {
     if (request.url === '/hello') return
     response.end('Hi, World!')
-  }
+  },
 ])
 ```

@@ -12,13 +12,13 @@
 
 ### params
 
-> **params**: `TSchema` *extends* `ZodSchema` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>
+> **params**: `TSchema` _extends_ `ZodSchema` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>
 
 ## Type Parameters
 
 ### TSchema
 
-`TSchema` *extends* `ZodSchema` \| `undefined` = `undefined`
+`TSchema` _extends_ `ZodSchema` \| `undefined` = `undefined`
 
 ### TEvent
 

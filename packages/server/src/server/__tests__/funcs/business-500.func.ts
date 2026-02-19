@@ -1,5 +1,5 @@
 import { Func } from '@faasjs/func'
-import { HttpError } from '@faasjs/http'
+import { HttpError } from '@faasjs/core'
 
 export const func = new Func({
   async handler() {

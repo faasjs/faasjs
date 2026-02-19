@@ -1,7 +1,7 @@
 import { streamToString } from '@faasjs/dev'
 import { Func } from '@faasjs/func'
 import { describe, expect, it } from 'vitest'
-import { Http } from '..'
+import { Http } from '../index'
 
 describe('setBody', () => {
   it('should work', async () => {

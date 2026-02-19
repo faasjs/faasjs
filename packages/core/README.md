@@ -19,3 +19,7 @@ npm install @faasjs/core
 
 - [DefineApiData](type-aliases/DefineApiData.md)
 - [DefineApiOptions](type-aliases/DefineApiOptions.md)
+
+## HTTP plugin
+
+HTTP helpers (`Http`, `useHttp`, `HttpError`, `Cookie`, `Session`) are now exported from `@faasjs/core`.

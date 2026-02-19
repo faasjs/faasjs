@@ -7,7 +7,7 @@ Chinese: [HTTP 协议规范](./http-protocol.zh.md)
 - Status: Accepted
 - Version: v1.0
 - Owner: FaasJS Maintainers
-- Applies To: `@faasjs/browser`, `@faasjs/server`, `@faasjs/http`, and API projects built on FaasJS
+- Applies To: `@faasjs/browser`, `@faasjs/server`, `@faasjs/core`, and API projects built on FaasJS
 - Last Updated: 2026-02-19
 
 ## Background
@@ -105,7 +105,7 @@ Internal Server Error
 
 ## Compatibility
 
-- Current runtime behavior is consistent with top-level `data`/`error` wrapping in `@faasjs/http`.
+- Current runtime behavior is consistent with top-level `data`/`error` wrapping in `@faasjs/core`.
 - Current server fallback behavior can return plain-text `500 Internal Server Error` in low-level failures.
 - Historical docs mention `action + params`; V1 standardizes direct JSON object request body for route-based APIs.
 - Existing projects may return additional status codes in custom logic. Those are outside this V1 baseline.

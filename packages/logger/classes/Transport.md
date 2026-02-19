@@ -14,8 +14,7 @@ import { getTransport } from '@faasjs/logger'
 const transport = getTransport()
 
 transport.register('test', async (messages) => {
- for (const { level, message } of messages)
-   console.log(level, message)
+  for (const { level, message } of messages) console.log(level, message)
 })
 
 transport.config({ label: 'test', debug: true })
@@ -26,7 +25,7 @@ transport.insert({
   level: 'info',
   labels: ['server'],
   message: 'test message',
-  timestamp: Date.now()
+  timestamp: Date.now(),
 })
 
 process.on('SIGINT', async () => {
@@ -143,6 +142,7 @@ If an interval is set, it will be cleared.
 Stops the logger transport.
 
 This method performs the following actions:
+
 1. Logs a 'stopping' message.
 2. Clears the interval if it is set.
 3. Flushes any remaining logs.

@@ -2,7 +2,7 @@
 
 # Type Alias: FaasEvent\<T\>
 
-> **FaasEvent**\<`T`\> = `T` *extends* [`FaasEventPaths`](FaasEventPaths.md) ? `FaasEvents`\[`T`\] : `Record`\<`string`, `any`\>
+> **FaasEvent**\<`T`\> = `T` _extends_ [`FaasEventPaths`](FaasEventPaths.md) ? `FaasEvents`\[`T`\] : `Record`\<`string`, `any`\>
 
 Infer event payload type by event path.
 

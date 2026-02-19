@@ -26,14 +26,14 @@
 
 ## 规范索引
 
-| 规范 | 状态 | 版本 | 英文 | 中文 |
-| --- | --- | --- | --- | --- |
-| HTTP 协议 | 已采纳 | v1.0 | [http-protocol.md](./http-protocol.md) | [http-protocol.zh.md](./http-protocol.zh.md) |
-| 路由映射 | 已采纳 | v1.0 | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
+| 规范      | 状态   | 版本 | 英文                                       | 中文                                             |
+| --------- | ------ | ---- | ------------------------------------------ | ------------------------------------------------ |
+| HTTP 协议 | 已采纳 | v1.0 | [http-protocol.md](./http-protocol.md)     | [http-protocol.zh.md](./http-protocol.zh.md)     |
+| 路由映射  | 已采纳 | v1.0 | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
 
 ## 编写流程
 
-1. 从 [_template.md](./_template.md) 与 [_template.zh.md](./_template.zh.md) 开始。
+1. 从 [\_template.md](./_template.md) 与 [\_template.zh.md](./_template.zh.md) 开始。
 2. 先更新英文主文档，再同步中文镜像。
 3. 保持双语文档的规则编号和示例一致。
 4. 每次实质修改都更新 `状态`、`版本`、`最后更新`。
