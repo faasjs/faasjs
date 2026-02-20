@@ -1,7 +1,7 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { Logger } from '@faasjs/logger'
+import { Logger } from '@faasjs/node-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { generateFaasTypes, isTypegenSourceFile } from '../typegen'
 

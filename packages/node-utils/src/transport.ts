@@ -26,7 +26,7 @@ export type TransportOptions = {
  *
  * @example
  * ```typescript
- * import { getTransport } from '@faasjs/logger'
+ * import { getTransport } from '@faasjs/node-utils'
  *
  * const transport = getTransport()
  *

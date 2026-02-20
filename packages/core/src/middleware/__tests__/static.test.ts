@@ -18,7 +18,10 @@ describe('staticHandler', () => {
   })
 
   it('should work', async () => {
-    const useMiddlewareBody = readFileSync(join(__dirname, 'funcs', 'useMiddleware.func.ts'), 'utf-8')
+    const useMiddlewareBody = readFileSync(
+      join(__dirname, 'funcs', 'useMiddleware.func.ts'),
+      'utf-8',
+    )
     const defaultBody = readFileSync(join(__dirname, 'funcs', 'default.func.ts'), 'utf-8')
 
     const response1 = await fetch(`http://127.0.0.1:${port}/useMiddleware.func.ts`)

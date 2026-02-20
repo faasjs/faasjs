@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / getTransport
+[@faasjs/node-utils](../README.md) / getTransport
 
 # Function: getTransport()
 

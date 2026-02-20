@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / LoggerMessage
+[@faasjs/node-utils](../README.md) / LoggerMessage
 
 # Type Alias: LoggerMessage
 

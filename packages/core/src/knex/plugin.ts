@@ -7,8 +7,8 @@ import {
   type UseifyPlugin,
   usePlugin,
 } from '@faasjs/func'
-import type { Logger } from '@faasjs/logger'
 import { deepMerge, loadPackage } from '@faasjs/node-utils'
+import type { Logger } from '@faasjs/node-utils'
 import knex, { type Knex as OriginKnex } from 'knex'
 import { createPgliteKnex, type MountedKnexAdapter } from './pglite'
 

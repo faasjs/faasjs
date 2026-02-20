@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / Level
+[@faasjs/node-utils](../README.md) / Level
 
 # Type Alias: Level
 

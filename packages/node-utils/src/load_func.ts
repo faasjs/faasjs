@@ -1,6 +1,20 @@
-import type { ExportedHandler, Func } from '@faasjs/func'
 import { loadConfig } from './load_config'
 import { loadPackage } from './load_package'
+
+export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
+  event?: TEvent,
+  context?: TContext,
+  callback?: (...args: any) => any,
+) => Promise<TResult>
+
+type FuncLike<TEvent = any, TContext = any, TResult = any> = {
+  config?: {
+    [key: string]: any
+  }
+  export: () => {
+    handler: ExportedHandler<TEvent, TContext, TResult>
+  }
+}
 
 /**
  * Load a FaasJS function and its configuration, returning the handler.
@@ -29,7 +43,7 @@ export async function loadFunc<TEvent = any, TContext = any, TResult = any>(
   filename: string,
   staging: string,
 ): Promise<ExportedHandler<TEvent, TContext, TResult>> {
-  const func = await loadPackage<Func>(filename)
+  const func = await loadPackage<FuncLike<TEvent, TContext, TResult>>(filename)
 
   func.config = await loadConfig(root, filename, staging)
 

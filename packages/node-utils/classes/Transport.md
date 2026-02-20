@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / Transport
+[@faasjs/node-utils](../README.md) / Transport
 
 # Class: Transport
 
@@ -9,7 +9,7 @@ The transport class that manages the transport handlers and log messages.
 ## Example
 
 ```typescript
-import { getTransport } from '@faasjs/logger'
+import { getTransport } from '@faasjs/node-utils'
 
 const transport = getTransport()
 

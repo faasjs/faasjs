@@ -26,7 +26,7 @@ export function format(fmt: any, ...args: any[]): string {
     fmtString = fmtString.replace(re, (match, escaped, _, flag) => {
       let arg = args.shift()
       switch (flag) {
-        // biome-ignore lint/suspicious/noFallthroughSwitchClause: <explanation>
+        // biome-ignore lint/suspicious/noFallthroughSwitchClause: `o` falls back to `%s` unless array
         case 'o':
           if (Array.isArray(arg)) {
             arg = JSON.stringify(arg)

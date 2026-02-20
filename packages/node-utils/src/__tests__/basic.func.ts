@@ -1,7 +1,8 @@
-import { Func } from '@faasjs/func'
-
-export default new Func({
-  async handler({ event }) {
-    return event
+export default {
+  config: Object.create(null),
+  export() {
+    return {
+      handler: async (event?: string) => event,
+    }
   },
-})
+}

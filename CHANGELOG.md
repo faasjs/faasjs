@@ -8,6 +8,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Remove `@faasjs/lint`. Linter and formatter moved to `@faasjs/dev`.
   - [Break] Remove `@faasjs/request`.
   - [Break] Merge `@faasjs/func`, `@faasjs/http`, `@faasjs/knex` to `@faasjs/core`.
+  - [Break] Merge `@faasjs/logger` to `@faasjs/node-utils`.
 
 - `@faasjs/dev`
   - [Feature] All cli tools be merged in `faas` cli.

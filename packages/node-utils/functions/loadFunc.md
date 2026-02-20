@@ -2,7 +2,7 @@
 
 # Function: loadFunc()
 
-> **loadFunc**\<`TEvent`, `TContext`, `TResult`\>(`root`, `filename`, `staging`): `Promise`\<`ExportedHandler`\<`TEvent`, `TContext`, `TResult`\>\>
+> **loadFunc**\<`TEvent`, `TContext`, `TResult`\>(`root`, `filename`, `staging`): `Promise`\<[`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>\>
 
 Load a FaasJS function and its configuration, returning the handler.
 
@@ -42,7 +42,7 @@ Staging directory name (used when locating config).
 
 ## Returns
 
-`Promise`\<`ExportedHandler`\<`TEvent`, `TContext`, `TResult`\>\>
+`Promise`\<[`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>\>
 
 A promise that resolves to the function handler.
 

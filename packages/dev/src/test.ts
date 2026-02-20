@@ -1,10 +1,10 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 import { Http } from '@faasjs/core'
 import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
-import { Logger } from '@faasjs/logger'
 import {
   deepMerge,
   loadConfig,
+  Logger,
   streamToObject,
   streamToString,
   streamToText,

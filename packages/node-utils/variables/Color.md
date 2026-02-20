@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / Color
+[@faasjs/node-utils](../README.md) / Color
 
 # Variable: Color
 

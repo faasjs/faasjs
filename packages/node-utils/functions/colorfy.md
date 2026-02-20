@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / colorfy
+[@faasjs/node-utils](../README.md) / colorfy
 
 # Function: colorfy()
 

@@ -17,7 +17,7 @@
 
 import { randomBytes } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
-import { Logger } from '@faasjs/logger'
+import { Logger } from '@faasjs/node-utils'
 import { RunHandler } from './plugins/run_handler'
 
 export * from './utils'

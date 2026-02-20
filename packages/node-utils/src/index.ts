@@ -14,8 +14,15 @@
  */
 
 export { deepMerge } from './deep_merge'
+export { colorfy, Color, LevelColor } from './color'
+export type { Level } from './logger'
+export { formatLogger, Logger } from './logger'
+export type { FuncConfig, FuncPluginConfig } from './load_config'
 export { loadConfig } from './load_config'
+export type { ExportedHandler } from './load_func'
 export { loadFunc } from './load_func'
 export type { NodeRuntime } from './load_package'
 export { detectNodeRuntime, loadPackage, resetRuntime } from './load_package'
 export { streamToObject, streamToString, streamToText } from './stream'
+export type { LoggerMessage, TransportHandler, TransportOptions } from './transport'
+export { getTransport, Transport } from './transport'

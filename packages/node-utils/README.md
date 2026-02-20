@@ -13,8 +13,11 @@ npm install @faasjs/node-utils
 
 ## Functions
 
+- [colorfy](functions/colorfy.md)
 - [deepMerge](functions/deepMerge.md)
 - [detectNodeRuntime](functions/detectNodeRuntime.md)
+- [formatLogger](functions/formatLogger.md)
+- [getTransport](functions/getTransport.md)
 - [loadConfig](functions/loadConfig.md)
 - [loadFunc](functions/loadFunc.md)
 - [loadPackage](functions/loadPackage.md)
@@ -22,10 +25,24 @@ npm install @faasjs/node-utils
 - [streamToObject](functions/streamToObject.md)
 - [streamToText](functions/streamToText.md)
 
+## Classes
+
+- [Logger](classes/Logger.md)
+- [Transport](classes/Transport.md)
+
 ## Type Aliases
 
+- [ExportedHandler](type-aliases/ExportedHandler.md)
+- [FuncConfig](type-aliases/FuncConfig.md)
+- [FuncPluginConfig](type-aliases/FuncPluginConfig.md)
+- [Level](type-aliases/Level.md)
+- [LoggerMessage](type-aliases/LoggerMessage.md)
 - [NodeRuntime](type-aliases/NodeRuntime.md)
+- [TransportHandler](type-aliases/TransportHandler.md)
+- [TransportOptions](type-aliases/TransportOptions.md)
 
 ## Variables
 
+- [Color](variables/Color.md)
+- [LevelColor](variables/LevelColor.md)
 - [streamToString](variables/streamToString.md)

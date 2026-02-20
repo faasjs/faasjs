@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / LevelColor
+[@faasjs/node-utils](../README.md) / LevelColor
 
 # Variable: LevelColor
 

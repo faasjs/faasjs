@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / Logger
+[@faasjs/node-utils](../README.md) / Logger
 
 # Class: Logger
 

@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / TransportOptions
+[@faasjs/node-utils](../README.md) / TransportOptions
 
 # Type Alias: TransportOptions
 

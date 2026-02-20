@@ -1,12 +1,27 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, sep } from 'node:path'
-import type { Config as FuncConfig } from '@faasjs/func'
-import { Logger } from '@faasjs/logger'
 import { deepMerge } from './deep_merge'
+import { Logger } from './logger'
 import { parseYaml } from './parse_yaml'
 
 type YamlConfig = {
   [key: string]: any
+}
+
+export type FuncPluginConfig = {
+  [key: string]: any
+  type?: string
+  config?: {
+    [key: string]: any
+  }
+  name?: string
+}
+
+export type FuncConfig = {
+  [key: string]: any
+  plugins?: {
+    [key: string]: FuncPluginConfig
+  }
 }
 
 function isObject(value: unknown): value is Record<string, any> {

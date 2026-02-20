@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / TransportHandler
+[@faasjs/node-utils](../README.md) / TransportHandler
 
 # Type Alias: TransportHandler()
 

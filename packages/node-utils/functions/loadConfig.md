@@ -2,7 +2,7 @@
 
 # Function: loadConfig()
 
-> **loadConfig**(`root`, `filename`, `staging`, `logger?`): `Config`
+> **loadConfig**(`root`, `filename`, `staging`, `logger?`): [`FuncConfig`](../type-aliases/FuncConfig.md)
 
 Load configuration from faas.yaml
 
@@ -22,8 +22,8 @@ Load configuration from faas.yaml
 
 ### logger?
 
-`Logger`
+[`Logger`](../classes/Logger.md)
 
 ## Returns
 
-`Config`
+[`FuncConfig`](../type-aliases/FuncConfig.md)

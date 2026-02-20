@@ -1,4 +1,4 @@
-[@faasjs/logger](../README.md) / formatLogger
+[@faasjs/node-utils](../README.md) / formatLogger
 
 # Function: formatLogger()
 
