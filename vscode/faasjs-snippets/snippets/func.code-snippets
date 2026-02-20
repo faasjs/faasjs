@@ -35,7 +35,7 @@
     "prefix": ["ufk", "useFuncWithKnex"],
     "body": [
       "import { useFunc } from '@faasjs/func'",
-      "import { useKnex, query } from '@faasjs/knex'",
+      "import { useKnex, query } from '@faasjs/core'",
       "",
       "export const func = useFunc(function () {",
       "  useKnex()",
@@ -53,7 +53,7 @@
     "body": [
       "import { useFunc } from '@faasjs/func'",
       "import { useHttp } from '@faasjs/core'",
-      "import { useKnex, query } from '@faasjs/knex'",
+      "import { useKnex, query } from '@faasjs/core'",
       "",
       "export const func = useFunc(function () {",
       "  useKnex()",
@@ -111,7 +111,7 @@
     "body": [
       "import { test } from '@faasjs/dev'",
       "import { func } from '../$2.func'",
-      "import { query } from '@faasjs/knex'",
+      "import { query } from '@faasjs/core'",
       "",
       "describe('$1', () => {",
       "  const testFunc = test(func).handler",
@@ -131,7 +131,7 @@
     "body": [
       "import { test } from '@faasjs/dev'",
       "import { func } from '../$2.func'",
-      "import { query } from '@faasjs/knex'",
+      "import { query } from '@faasjs/core'",
       "",
       "describe('$1', () => {",
       "  const testFunc = test(func).JSONhandler",

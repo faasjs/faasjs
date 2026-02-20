@@ -1,8 +1,8 @@
 # 数据库操作
 
-数据库插件没有内置在 `faasjs` 中，使用前需自行安装依赖。
+Knex 能力已内置在 `@faasjs/core` 中，但数据库驱动需按实际 client 自行安装。
 
-- **@faasjs/knex** 基于 Knex 封装的云函数插件。
+- **@faasjs/core** 提供基于 Knex 封装的云函数插件能力。
   - `client: pg`：使用 PostgreSQL（需自行安装 `pg`）。
   - `client: pglite`：使用 PGlite（需自行安装 `@electric-sql/pglite` 与 `knex-pglite`，并使用字符串 `connection`）。
     - 未配置 `connection` 时默认使用内存数据库。
@@ -11,7 +11,7 @@
 
 ## Migration
 
-- `@faasjs/knex` 提供 `KnexSchema`，用于显式执行 migration。
+- `@faasjs/core` 提供 `KnexSchema`，用于显式执行 migration。
 - 推荐在测试 setup 或部署脚本中执行 migration，不建议放在请求链路自动执行。
 
 ### CLI（推荐）
@@ -36,7 +36,7 @@ mise exec -- npm run migrate:make -- create_users
 ```
 
 ```ts
-import { KnexSchema, useKnex } from '@faasjs/knex'
+import { KnexSchema, useKnex } from '@faasjs/core'
 
 const knex = useKnex({
   config: {

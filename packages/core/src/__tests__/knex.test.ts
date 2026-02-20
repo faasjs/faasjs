@@ -14,7 +14,7 @@ import {
   transaction,
   unmountFaasKnex,
   useKnex,
-} from '..'
+} from '../index'
 
 const originalSecretKnexClient = process.env.SECRET_KNEX_CLIENT
 const originalSecretKnexConnection = process.env.SECRET_KNEX_CONNECTION
@@ -238,7 +238,7 @@ describe('Knex', () => {
       },
     }).export().handler
 
-    expect(() => handler({})).rejects.toThrow('Transaction query already complete')
+    await expect(handler({})).rejects.toThrow('Transaction query already complete')
   })
 
   it('transaction with error', async () => {

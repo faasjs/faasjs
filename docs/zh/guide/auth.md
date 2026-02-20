@@ -101,7 +101,7 @@ export const func = defineApi({
 
 ```typescript
 // users/api/__tests__/signup.test.ts
-import { useKnex } from '@faasjs/knex'
+import { useKnex } from '@faasjs/core'
 import { FuncWarper } from '@faasjs/dev'
 
 describe('signin', function () {

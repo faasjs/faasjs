@@ -19,7 +19,7 @@ export type MountedKnexAdapter = {
 export type MountFaasKnexOptions = {
   /** key of `globalThis.FaasJS_Knex`, default is `knex` */
   name?: string
-  /** optional config metadata passed through to `@faasjs/knex` */
+  /** optional config metadata passed through to `@faasjs/core` */
   config?: Record<string, unknown>
 }
 
@@ -107,7 +107,7 @@ export async function createPgliteKnex(
 }
 
 /**
- * Mount a knex adapter to `globalThis.FaasJS_Knex` for `@faasjs/knex`.
+ * Mount a knex adapter to `globalThis.FaasJS_Knex` for `@faasjs/core`.
  */
 export function mountFaasKnex(db: OriginKnex, options: MountFaasKnexOptions = {}): void {
   const globalWithFaasKnex = globalThis as typeof globalThis & FaasKnexGlobal

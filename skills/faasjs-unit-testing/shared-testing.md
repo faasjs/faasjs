@@ -27,7 +27,7 @@ export const sharedMocks = vi.hoisted(() => ({
   now: vi.fn(() => '2026-02-17T00:00:00.000Z'),
 }))
 
-vi.mock('@faasjs/knex', () => ({
+vi.mock('@faasjs/core', () => ({
   query: sharedMocks.query,
   transaction: sharedMocks.transaction,
 }))

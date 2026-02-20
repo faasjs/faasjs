@@ -6,7 +6,7 @@ const DefaultMigratorConfig: OriginKnex.MigratorConfig = {
 }
 
 /**
- * Migration helper for FaasJS's knex plugin.
+ * Migration helper for FaasJS knex plugin.
  */
 export class KnexSchema {
   public readonly knex: {

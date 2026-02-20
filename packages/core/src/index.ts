@@ -15,9 +15,9 @@
 
 import type { Config, Handler, InvokeData, Plugin } from '@faasjs/func'
 import { Func } from '@faasjs/func'
-import type { Knex as FaasKnex } from '@faasjs/knex'
 import type { output, ZodError, ZodTypeAny } from 'zod'
 import * as z from 'zod'
+import type { Knex as FaasKnex } from './knex/plugin'
 import { HttpError } from './http'
 
 export { z }
@@ -44,6 +44,7 @@ export {
   type StaticHandlerOptions,
 } from './middleware'
 export { closeAll, getAll, Server, type ServerHandlerOptions, type ServerOptions } from './server'
+export * from './knex'
 
 type ZodSchema = ZodTypeAny
 type KnexQuery = FaasKnex['query']
@@ -91,7 +92,13 @@ export type DefineApiOptions<
 function formatPluginModuleName(type: string): string {
   const normalizedType = type.startsWith('npm:') ? type.slice(4) : type
 
-  if (normalizedType === 'http' || normalizedType === '@faasjs/http') return '@faasjs/core'
+  if (
+    normalizedType === 'http' ||
+    normalizedType === '@faasjs/http' ||
+    normalizedType === 'knex' ||
+    normalizedType === '@faasjs/knex'
+  )
+    return '@faasjs/core'
 
   if (
     normalizedType.startsWith('@') ||

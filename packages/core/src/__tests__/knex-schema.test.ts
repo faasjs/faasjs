@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Func } from '@faasjs/func'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Knex, KnexSchema } from '..'
+import { Knex, KnexSchema } from '../index'
 
 const tempDirs: string[] = []
 const clients: Knex[] = []

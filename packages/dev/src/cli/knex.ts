@@ -1,5 +1,5 @@
 import { join } from 'node:path'
-import { useKnex as createKnex, KnexSchema } from '@faasjs/knex'
+import { useKnex as createKnex, KnexSchema } from '@faasjs/core'
 import { loadConfig } from '@faasjs/node-utils'
 import { resolveServerConfig } from '../server_config'
 import { type CliOptions, createMain, parseCommonCliArgs, printVersion } from './shared'

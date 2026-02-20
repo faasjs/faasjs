@@ -6,17 +6,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `faasjs`
   - [Break] Remove `@faasjs/lint`. Linter and formatter moved to `@faasjs/dev`.
-
-- `@faasjs/request`
-  - [Break] Remove `pfx`, `passphrase` and `agent`.
-  - [Break] Replaced `http`/`https` with `fetch`.
-  - [Break] Remove default timeout.
+  - [Break] Remove `@faasjs/request`.
+  - [Break] Merge `@faasjs/func`, `@faasjs/http`, `@faasjs/knex` to `@faasjs/core`.
 
 - `@faasjs/dev`
   - [Feature] All cli tools be merged in `faas` cli.
   - [Feature] New linter and formatter based on `oxlint` and `oxfmt`.
 
-- `@faasjs/code`
+- `@faasjs/core`
   - [Break] Rename `defineFunc` to `defineApi`.
   - [Break] `defineApi` required `http` config.
 

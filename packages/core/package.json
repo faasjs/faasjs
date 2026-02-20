@@ -31,20 +31,25 @@
   },
   "devDependencies": {
     "@faasjs/func": ">=8.0.0-beta.8",
-    "@faasjs/knex": ">=8.0.0-beta.8",
     "@faasjs/logger": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
     "@faasjs/types": ">=8.0.0-beta.8",
     "@types/mime-types": "*",
+    "@types/pg": "*",
+    "better-sqlite3": "*",
+    "cloudflare-d1-http-knex": "*",
+    "knex": "*",
+    "knex-pglite": "*",
     "mime-types": "*",
+    "pg": "*",
     "zod": ">=4.0.0"
   },
   "peerDependencies": {
     "@faasjs/func": ">=8.0.0-beta.8",
-    "@faasjs/knex": ">=8.0.0-beta.8",
     "@faasjs/logger": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
     "@faasjs/types": ">=8.0.0-beta.8",
+    "knex": "*",
     "mime-types": "*",
     "zod": ">=4.0.0"
   },

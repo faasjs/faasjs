@@ -24,6 +24,10 @@ npm install @faasjs/core
 
 HTTP helpers (`Http`, `useHttp`, `HttpError`, `Cookie`, `Session`) are now exported from `@faasjs/core`.
 
+## Knex plugin
+
+Knex helpers (`Knex`, `useKnex`, `query`, `transaction`, `raw`, `KnexSchema`, `createPgliteKnex`) are exported from `@faasjs/core`.
+
 ## Server runtime
 
 Server helpers (`Server`, `closeAll`, `getAll`, `useMiddleware`, `useMiddlewares`, `staticHandler`) are exported from `@faasjs/core`.

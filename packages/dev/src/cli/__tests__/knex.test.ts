@@ -55,7 +55,7 @@ const mocks = vi.hoisted(() => {
   }
 })
 
-vi.mock('@faasjs/knex', () => ({
+vi.mock('@faasjs/core', () => ({
   useKnex: mocks.useKnex,
   KnexSchema: mocks.KnexSchema,
 }))

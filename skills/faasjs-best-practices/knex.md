@@ -1,6 +1,6 @@
 # Knex Rules
 
-Use these rules when writing or reviewing FaasJS code with `@faasjs/knex`.
+Use these rules when writing or reviewing FaasJS code with knex helpers from `@faasjs/core`.
 
 ## Core Rules
 
@@ -30,7 +30,7 @@ When using `raw`:
 
 ## Transactions
 
-- Prefer `transaction(async trx => { ... })` from `@faasjs/knex`.
+- Prefer `transaction(async trx => { ... })` from `@faasjs/core`.
 - Use `trx` for all reads/writes in that unit of work.
 - Let the helper manage commit/rollback automatically.
 - If an outer transaction exists, pass it via `options.trx` instead of creating unmanaged nested transactions.
@@ -60,7 +60,7 @@ defaults:
 
 ```ts
 import { defineFunc } from '@faasjs/func'
-import { query, transaction } from '@faasjs/knex'
+import { query, transaction } from '@faasjs/core'
 
 export const func = defineFunc<{ params: { userId: number } }>(async ({ event }) => {
   const user = await query('users').select('id', 'email').where({ id: event.params.userId }).first()
