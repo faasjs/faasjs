@@ -100,6 +100,33 @@ describe('faas cli', () => {
     expect(errorSpy).toHaveBeenCalledWith('[faas types] Unknown option: --unknown')
   })
 
+  it('should return error code for unexpected positional argument in types command', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+
+    const code = await main(['node', 'faas', 'types', 'unexpected'])
+
+    expect(code).toBe(1)
+    expect(errorSpy).toHaveBeenCalledWith('[faas types] Unknown option: unexpected')
+  })
+
+  it('should print types help text', async () => {
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
+
+    const code = await main(['node', 'faas', 'types', '--help'])
+
+    expect(code).toBe(0)
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Generate FaasJS API/event type declarations.'))
+  })
+
+  it('should print types version text', async () => {
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
+
+    const code = await main(['node', 'faas', 'types', '--version'])
+
+    expect(code).toBe(0)
+    expect(logSpy).toHaveBeenCalledWith(expect.stringMatching(/^v?\d+/))
+  })
+
   it('should return error code for unknown command', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 

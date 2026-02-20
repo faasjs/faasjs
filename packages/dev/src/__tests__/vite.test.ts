@@ -188,4 +188,80 @@ describe('viteFaasJsServer', () => {
 
     await server.close()
   })
+
+  it('should keep original url when request path does not match base', async () => {
+    const root = await createTempProject()
+
+    const server = await createServer({
+      configFile: false,
+      root,
+      base: '/test/base/',
+      logLevel: 'silent',
+      plugins: [viteFaasJsServer()],
+    })
+
+    await server.listen()
+
+    const port = (server.httpServer?.address() as AddressInfo).port
+    const response = await fetch(`http://localhost:${port}/other/path?name=world`, {
+      method: 'POST',
+    }).then((res) => res.json())
+
+    expect(response).toEqual({
+      success: true,
+      method: 'POST',
+      url: '/other/path?name=world',
+    })
+
+    await server.close()
+  })
+
+  it('should return internal server error when in-process server throws', async () => {
+    const root = await createTempProject()
+
+    mocks.handle.mockImplementationOnce(async () => {
+      throw Error('boom')
+    })
+
+    const server = await createServer({
+      configFile: false,
+      root,
+      base: '/test/base/',
+      logLevel: 'silent',
+      plugins: [viteFaasJsServer()],
+    })
+
+    await server.listen()
+
+    const port = (server.httpServer?.address() as AddressInfo).port
+    const response = await fetch(`http://localhost:${port}/test/base/home/api/error`, {
+      method: 'POST',
+    })
+
+    expect(response.status).toBe(500)
+    expect(await response.json()).toEqual({
+      error: {
+        message: 'Internal Server Error',
+      },
+    })
+
+    await server.close()
+  })
+
+  it('should skip creating faas server when running in vitest mode', async () => {
+    const root = await createTempProject()
+    process.env.VITEST = '1'
+
+    const server = await createServer({
+      configFile: false,
+      root,
+      base: '/test/base/',
+      logLevel: 'silent',
+      plugins: [viteFaasJsServer()],
+    })
+
+    expect(mocks.calls).toHaveLength(0)
+
+    await server.close()
+  })
 })

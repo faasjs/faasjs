@@ -168,4 +168,29 @@ describe('typegen', () => {
     expect(isTypegenSourceFile('C:\\repo\\src\\faas.yml')).toBe(true)
     expect(isTypegenSourceFile('/tmp/app/src/demo.ts')).toBe(false)
   })
+
+  it('should fallback to plugin key when plugin config has no type field', async () => {
+    const root = await createTempProject()
+    const logger = new Logger('typegen:test')
+    logger.silent = true
+
+    await writeFixture(
+      join(root, 'src', 'faas.yaml'),
+      `development:
+  plugins:
+    objectNoType:
+      enabled: true
+`,
+    )
+    await writeFixture(join(root, 'src', 'index.func.ts'), 'export const func = {} as any\n')
+
+    const result = await generateFaasTypes({
+      root,
+      logger,
+    })
+
+    const content = await readFile(result.output, 'utf8')
+
+    expect(content).toContain('"/": InferPluginEvent<["objectNoType"]>')
+  })
 })

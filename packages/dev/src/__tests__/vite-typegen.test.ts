@@ -124,4 +124,22 @@ describe('viteFaasJsServer typegen', () => {
 
     await server.close()
   })
+
+  it('should keep server available when typegen fails', async () => {
+    const root = await createTempProject()
+
+    mocks.generateFaasTypes.mockRejectedValueOnce(Error('typegen failed'))
+
+    const server = await createServer({
+      configFile: false,
+      root,
+      base: '/test/base/',
+      logLevel: 'silent',
+      plugins: [viteFaasJsServer()],
+    })
+
+    expect(mocks.generateFaasTypes).toHaveBeenCalledTimes(1)
+
+    await server.close()
+  })
 })

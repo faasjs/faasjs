@@ -174,6 +174,26 @@ describe('faas knex cli', () => {
     expect(errorSpy).toHaveBeenCalledWith('[faas knex] Unknown action: unknown')
   })
 
+  it('should return error when action is missing', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+
+    const code = await main(['node', 'faas', 'knex'])
+
+    expect(code).toBe(1)
+    expect(errorSpy).toHaveBeenCalledWith(
+      '[faas knex] Missing action. Usage: faas knex <latest|rollback|status|current|make>',
+    )
+  })
+
+  it('should return error for unexpected argument after non-make action', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+
+    const code = await main(['node', 'faas', 'knex', 'status', 'extra'])
+
+    expect(code).toBe(1)
+    expect(errorSpy).toHaveBeenCalledWith('[faas knex] Unexpected argument: extra')
+  })
+
   it('should return error when migration name is missing', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 
@@ -183,5 +203,14 @@ describe('faas knex cli', () => {
     expect(errorSpy).toHaveBeenCalledWith(
       '[faas knex] Missing migration name. Usage: faas knex make create_users',
     )
+  })
+
+  it('should return error for unexpected extra argument in make action', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+
+    const code = await main(['node', 'faas', 'knex', 'make', 'create_users', 'extra'])
+
+    expect(code).toBe(1)
+    expect(errorSpy).toHaveBeenCalledWith('[faas knex] Unexpected argument: extra')
   })
 })
