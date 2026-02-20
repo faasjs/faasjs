@@ -1,5 +1,4 @@
 import { join } from 'node:path'
-import { request } from '@faasjs/request'
 import { describe, expect, it } from 'vitest'
 import { Server } from '../../server'
 import { createMockReq, createMockRes, triggerReqEvents } from './mocks'
@@ -55,14 +54,13 @@ describe('server/hooks', () => {
     serverA.listen()
 
     await new Promise((resolve) => setTimeout(resolve, 10))
-    const resA = request(`http://127.0.0.1:${port}/timeout`)
+    const resA = fetch(`http://127.0.0.1:${port}/timeout`)
     await new Promise((resolve) => setTimeout(resolve, 10))
     process.emit('SIGTERM')
 
-    expect(await resA).toMatchObject({
-      statusCode: 200,
-      body: { data: 'done' },
-    })
+    const responseA = await resA
+    expect(responseA.status).toBe(200)
+    expect(await responseA.json()).toEqual({ data: 'done' })
 
     await new Promise((resolve) => setTimeout(resolve, 100))
 
@@ -75,14 +73,13 @@ describe('server/hooks', () => {
 
     await new Promise((resolve) => setTimeout(resolve, 10))
 
-    const resB = request(`http://127.0.0.1:${port}/timeout`)
+    const resB = fetch(`http://127.0.0.1:${port}/timeout`)
     await new Promise((resolve) => setTimeout(resolve, 10))
     process.emit('SIGINT')
 
-    await expect(resB).resolves.toMatchObject({
-      statusCode: 200,
-      body: { data: 'done' },
-    })
+    const responseB = await resB
+    expect(responseB.status).toBe(200)
+    expect(await responseB.json()).toEqual({ data: 'done' })
 
     await new Promise((resolve) => setTimeout(resolve, 100))
 

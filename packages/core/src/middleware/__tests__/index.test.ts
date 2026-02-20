@@ -1,5 +1,4 @@
 import { join } from 'node:path'
-import { request } from '@faasjs/request'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { closeAll, Server } from '../../server'
 
@@ -18,50 +17,38 @@ describe('middleware', () => {
   })
 
   it('useMiddleware', async () => {
-    await expect(request(`http://127.0.0.1:${port}/useMiddleware`)).resolves.toMatchObject({
-      statusCode: 200,
-      headers: {},
-      body: 'useMiddleware',
-    })
+    const response = await fetch(`http://127.0.0.1:${port}/useMiddleware`)
+    expect(response.status).toBe(200)
+    expect(await response.text()).toBe('useMiddleware')
   })
 
   it('emptyMiddleware', async () => {
-    await expect(request(`http://127.0.0.1:${port}/emptyUseMiddleware`)).rejects.toMatchObject({
-      statusCode: 404,
-      headers: {},
-      body: 'Not Found',
-    })
+    const response = await fetch(`http://127.0.0.1:${port}/emptyUseMiddleware`)
+    expect(response.status).toBe(404)
+    expect(await response.text()).toBe('Not Found')
   })
 
   it('useMiddlewares', async () => {
-    await expect(request(`http://127.0.0.1:${port}/useMiddlewares`)).resolves.toMatchObject({
-      statusCode: 200,
-      headers: {},
-      body: 'useMiddlewares',
-    })
+    const response = await fetch(`http://127.0.0.1:${port}/useMiddlewares`)
+    expect(response.status).toBe(200)
+    expect(await response.text()).toBe('useMiddlewares')
   })
 
   it('emptyMiddlewares', async () => {
-    await expect(request(`http://127.0.0.1:${port}/emptyUseMiddlewares`)).rejects.toMatchObject({
-      statusCode: 404,
-      headers: {},
-      body: 'Not Found',
-    })
+    const response = await fetch(`http://127.0.0.1:${port}/emptyUseMiddlewares`)
+    expect(response.status).toBe(404)
+    expect(await response.text()).toBe('Not Found')
   })
 
   it('middleware error', async () => {
-    await expect(request(`http://127.0.0.1:${port}/error`)).rejects.toMatchObject({
-      statusCode: 500,
-      headers: {},
-      body: 'Internal Server Error',
-    })
+    const response = await fetch(`http://127.0.0.1:${port}/error`)
+    expect(response.status).toBe(500)
+    expect(await response.text()).toBe('Internal Server Error')
   })
 
   it('middleware business 500', async () => {
-    await expect(request(`http://127.0.0.1:${port}/business-500`)).rejects.toMatchObject({
-      statusCode: 500,
-      headers: {},
-      body: { error: { message: 'business-500' } },
-    })
+    const response = await fetch(`http://127.0.0.1:${port}/business-500`)
+    expect(response.status).toBe(500)
+    expect(await response.json()).toEqual({ error: { message: 'business-500' } })
   })
 })
