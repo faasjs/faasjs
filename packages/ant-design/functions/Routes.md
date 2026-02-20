@@ -22,18 +22,14 @@ Routes with lazy loading and 404 page.
 import { Routes, lazy } from '@faasjs/ant-design'
 import { BrowserRouter } from 'react-router-dom'
 
-export function App() {
-  return (
-    <BrowserRouter>
-      <Routes
-        routes={[
-          {
-            path: '/',
-            page: lazy(() => import('./pages/home')),
-          },
-        ]}
-      />
-    </BrowserRouter>
-  )
+export function App () {
+  return <BrowserRouter>
+    <Routes routes={[
+      {
+        path: '/',
+        page: lazy(() => import('./pages/home'))
+      }
+    ]} />
+  </BrowserRouter>
 }
 ```

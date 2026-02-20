@@ -10,7 +10,7 @@ Custom hook that works like `useCallback` but uses deep comparison on dependenci
 
 ### T
 
-`T` _extends_ (...`args`) => `any`
+`T` *extends* (...`args`) => `any`
 
 ## Parameters
 

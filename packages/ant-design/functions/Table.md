@@ -15,7 +15,7 @@ Table component with Ant Design & FaasJS
 
 ### T
 
-`T` _extends_ `Record`\<`string`, `any`\>
+`T` *extends* `Record`\<`string`, `any`\>
 
 ### ExtendTypes
 

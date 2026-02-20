@@ -5,7 +5,7 @@ React plugin for FaasJS.
 [![License: MIT](https://img.shields.io/npm/l/@faasjs/react.svg)](https://github.com/faasjs/faasjs/blob/main/packages/react/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@faasjs/react.svg)](https://www.npmjs.com/package/@faasjs/react)
 
-`@faasjs/react` now includes browser client utilities (`FaasBrowserClient`, `ResponseError`, `setMock`) and React helpers in one package.
+Includes browser client utilities (`FaasBrowserClient`, `ResponseError`, `setMock`) and React helpers.
 
 ## Features
 
@@ -50,8 +50,10 @@ npm install @faasjs/react react
 - [Form](functions/Form.md)
 - [FormInput](functions/FormInput.md)
 - [FormItem](functions/FormItem.md)
+- [generateId](functions/generateId.md)
 - [getClient](functions/getClient.md)
 - [OptionalWrapper](functions/OptionalWrapper.md)
+- [setMock](functions/setMock.md)
 - [useConstant](functions/useConstant.md)
 - [useEqualCallback](functions/useEqualCallback.md)
 - [useEqualEffect](functions/useEqualEffect.md)
@@ -68,18 +70,21 @@ npm install @faasjs/react react
 ## Classes
 
 - [ErrorBoundary](classes/ErrorBoundary.md)
+- [FaasBrowserClient](classes/FaasBrowserClient.md)
+- [Response](classes/Response.md)
+- [ResponseError](classes/ResponseError.md)
 
 ## Interfaces
 
 - [ErrorBoundaryProps](interfaces/ErrorBoundaryProps.md)
-- [Response](interfaces/Response.md)
-- [ResponseError](interfaces/ResponseError.md)
 
 ## Type Aliases
 
+- [BaseUrl](type-aliases/BaseUrl.md)
 - [ErrorChildrenProps](type-aliases/ErrorChildrenProps.md)
 - [FaasAction](type-aliases/FaasAction.md)
 - [FaasActionUnionType](type-aliases/FaasActionUnionType.md)
+- [FaasBrowserClientAction](type-aliases/FaasBrowserClientAction.md)
 - [FaasData](type-aliases/FaasData.md)
 - [FaasDataInjection](type-aliases/FaasDataInjection.md)
 - [FaasDataWrapperProps](type-aliases/FaasDataWrapperProps.md)
@@ -103,10 +108,13 @@ npm install @faasjs/react react
 - [InferFormInputProps](type-aliases/InferFormInputProps.md)
 - [InferFormRulesOptions](type-aliases/InferFormRulesOptions.md)
 - [InferRuleOption](type-aliases/InferRuleOption.md)
+- [MockHandler](type-aliases/MockHandler.md)
 - [OnError](type-aliases/OnError.md)
 - [OptionalWrapperProps](type-aliases/OptionalWrapperProps.md)
 - [Options](type-aliases/Options.md)
+- [ResponseErrorProps](type-aliases/ResponseErrorProps.md)
 - [ResponseHeaders](type-aliases/ResponseHeaders.md)
+- [ResponseProps](type-aliases/ResponseProps.md)
 - [StateSetters](type-aliases/StateSetters.md)
 - [StatesWithSetters](type-aliases/StatesWithSetters.md)
 - [useFaasOptions](type-aliases/useFaasOptions.md)

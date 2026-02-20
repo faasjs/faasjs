@@ -92,7 +92,7 @@
 
 > `optional` **target**: `string`
 
-'\_blank' as default
+'_blank' as default
 
 #### Title?
 

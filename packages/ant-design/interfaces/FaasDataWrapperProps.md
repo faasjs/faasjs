@@ -10,7 +10,7 @@
 
 ### T
 
-`T` _extends_ `FaasActionUnionType` = `any`
+`T` *extends* `FaasActionUnionType` = `any`
 
 ## Methods
 

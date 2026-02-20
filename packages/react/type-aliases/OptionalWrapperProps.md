@@ -8,7 +8,7 @@
 
 ### TWrapper
 
-`TWrapper` _extends_ `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
+`TWrapper` *extends* `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
 
 ## Properties
 

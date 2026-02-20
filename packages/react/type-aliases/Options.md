@@ -13,31 +13,27 @@ customizing request behavior, adding request hooks, and overriding defaults.
 
 ### baseUrl?
 
-> `optional` **baseUrl**: `BaseUrl`
+> `optional` **baseUrl**: [`BaseUrl`](BaseUrl.md)
 
 ### beforeRequest()?
 
 > `optional` **beforeRequest**: (`{
-
     action,
     params,
     options,
     headers,
-
-}`) => `Promise`\<`void`\>
+  }`) => `Promise`\<`void`\>
 
 trigger before request
 
 #### Parameters
 
 ##### \{
-
     action,
     params,
     options,
     headers,
-
-\}
+  \}
 
 ###### action
 
@@ -65,7 +61,7 @@ trigger before request
 
 ### request()?
 
-> `optional` **request**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> `optional` **request**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 custom request
 
@@ -73,7 +69,7 @@ custom request
 
 ##### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
 
 #### Parameters
 
@@ -87,7 +83,7 @@ custom request
 
 #### Returns
 
-`Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 ### stream?
 
@@ -105,5 +101,5 @@ custom request
 
 ## See
 
-- FaasBrowserClient for client creation
-- Response for response object structure
+ - FaasBrowserClient for client creation
+ - Response for response object structure

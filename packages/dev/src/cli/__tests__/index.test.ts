@@ -115,7 +115,9 @@ describe('faas cli', () => {
     const code = await main(['node', 'faas', 'types', '--help'])
 
     expect(code).toBe(0)
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Generate FaasJS API/event type declarations.'))
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Generate FaasJS API/event type declarations.'),
+    )
   })
 
   it('should print types version text', async () => {

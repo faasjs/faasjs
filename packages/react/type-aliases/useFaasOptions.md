@@ -8,13 +8,13 @@
 
 ### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
 
 ## Properties
 
 ### baseUrl?
 
-> `optional` **baseUrl**: `BaseUrl`
+> `optional` **baseUrl**: [`BaseUrl`](BaseUrl.md)
 
 ### data?
 

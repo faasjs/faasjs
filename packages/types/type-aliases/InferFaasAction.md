@@ -24,14 +24,14 @@ export const func = defineApi({
     if (!params) throw Error('params is required')
 
     return params.number + 1
-  },
+  }
 })
 
 // declare the action type to FaasActions
 declare module '@faasjs/types' {
   interface FaasActions {
     // if 'demo' is the action path
-    demo: InferFaasAction<typeof func>
+    'demo': InferFaasAction<typeof func>
   }
 }
 ```
@@ -40,7 +40,7 @@ declare module '@faasjs/types' {
 
 ### TFunc
 
-`TFunc` _extends_ `Func`
+`TFunc` *extends* `FaasFuncLike`
 
 ## Properties
 

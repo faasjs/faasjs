@@ -1,0 +1,45 @@
+[@faasjs/react](../README.md) / ResponseErrorProps
+
+# Type Alias: ResponseErrorProps
+
+> **ResponseErrorProps** = `object`
+
+## Properties
+
+### body?
+
+> `optional` **body**: `any`
+
+#### Default
+
+```ts
+{ error: Error(message) }
+```
+
+### headers?
+
+> `optional` **headers**: [`ResponseHeaders`](ResponseHeaders.md)
+
+#### Default
+
+```ts
+{}
+```
+
+### message
+
+> **message**: `string`
+
+### originalError?
+
+> `optional` **originalError**: `Error`
+
+### status?
+
+> `optional` **status**: `number`
+
+#### Default
+
+```ts
+500
+```

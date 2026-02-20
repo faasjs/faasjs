@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.9 (2026-02-18)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.8...v8.0.0-beta.9)
+[`v8.0.0-beta.9 (2026-02-20)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.8...v8.0.0-beta.9)
 
 - `faasjs`
   - [Break] Merge `@faasjs/lint` to `@faasjs/dev`.

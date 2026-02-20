@@ -12,7 +12,7 @@ Form component with Ant Design & FaasJS
 
 ### Values
 
-`Values` _extends_ `Record`\<`string`, `any`\> = `any`
+`Values` *extends* `Record`\<`string`, `any`\> = `any`
 
 ## Parameters
 

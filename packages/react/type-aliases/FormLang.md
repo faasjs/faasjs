@@ -2,4 +2,4 @@
 
 # Type Alias: FormLang
 
-> **FormLang** = _typeof_ [`FormDefaultLang`](../variables/FormDefaultLang.md)
+> **FormLang** = *typeof* [`FormDefaultLang`](../variables/FormDefaultLang.md)

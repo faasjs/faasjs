@@ -10,7 +10,7 @@ Request faas server with React hook
 
 ### PathOrData
 
-`PathOrData` _extends_ `FaasActionUnionType`
+`PathOrData` *extends* `FaasActionUnionType`
 
 ## Parameters
 
@@ -37,7 +37,7 @@ Request faas server with React hook
 ## Example
 
 ```tsx
-function Post({ id }) {
+function Post ({ id }) {
   const { data } = useFaas<{ title: string }>('post/get', { id })
   return <h1>{data.title}</h1>
 }

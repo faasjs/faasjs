@@ -2,7 +2,7 @@
 
 # Function: faas()
 
-> **faas**\<`PathOrData`\>(`action`, `params`, `options?`): `Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
+> **faas**\<`PathOrData`\>(`action`, `params`, `options?`): `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
 
 Request faas server
 
@@ -10,7 +10,7 @@ Request faas server
 
 ### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
+`PathOrData` *extends* [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md)
 
 ## Parameters
 
@@ -32,12 +32,12 @@ Request faas server
 
 ## Returns
 
-`Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
+`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
 
 ## Example
 
 ```ts
-faas<{ title: string }>('post/get', { id: 1 }).then((res) => {
+faas<{ title: string }>('post/get', { id: 1 }).then(res => {
   console.log(res.data.title)
 })
 ```

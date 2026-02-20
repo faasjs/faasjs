@@ -51,7 +51,11 @@ A promise that resolves to the function handler.
 ```ts
 import { loadFunc } from '@faasjs/node-utils'
 
-const handler = await loadFunc(process.cwd(), __dirname + '/example.func.ts', 'development')
+const handler = await loadFunc(
+  process.cwd(),
+  __dirname + '/example.func.ts',
+  'development'
+)
 
 const result = await handler(event, context)
 console.log(result)

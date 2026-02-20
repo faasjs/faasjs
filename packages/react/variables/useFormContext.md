@@ -8,7 +8,7 @@
 
 ### NewT
 
-`NewT` _extends_ [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormElementTypes`](../type-aliases/FormElementTypes.md), [`FormRules`](../type-aliases/FormRules.md)\> = [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormElementTypes`](../type-aliases/FormElementTypes.md), [`FormRules`](../type-aliases/FormRules.md)\>
+`NewT` *extends* [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormElementTypes`](../type-aliases/FormElementTypes.md), [`FormRules`](../type-aliases/FormRules.md)\> = [`FormContextProps`](../type-aliases/FormContextProps.md)\<`Record`\<`string`, `any`\>, [`FormElementTypes`](../type-aliases/FormElementTypes.md), [`FormRules`](../type-aliases/FormRules.md)\>
 
 ## Returns
 

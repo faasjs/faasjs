@@ -10,12 +10,10 @@ Hook style modal
 function Example() {
   const { modal, setModalProps } = useModal()
 
-  return (
-    <>
-      <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>
-      {modal}
-    </>
-  )
+  return <>
+    <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>
+    {modal}
+  </>
 }
 ```
 

@@ -10,7 +10,7 @@ Injects FaasData props.
 
 ### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
+`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
 
 ## Methods
 
@@ -56,7 +56,7 @@ Reloads data with new or existing parameters.
 
 ### promise
 
-> **promise**: `Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> **promise**: `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 ### reloadTimes
 
@@ -76,4 +76,4 @@ Reloads data with new or existing parameters.
 
 ### setPromise
 
-> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../interfaces/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>\>\>
+> **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>\>\>

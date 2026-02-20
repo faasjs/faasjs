@@ -26,15 +26,13 @@
 
 > **new Func**\<`TEvent`, `TContext`, `TResult`\>(`config`): `Func`\<`TEvent`, `TContext`, `TResult`\>
 
-Create a cloud function
+Create a cloud function.
 
 #### Parameters
 
 ##### config
 
 [`FuncConfig`](../type-aliases/FuncConfig.md)\<`TEvent`, `TContext`\>
-
-{object} config
 
 #### Returns
 
@@ -46,7 +44,7 @@ Create a cloud function
 
 > **export**(): `object`
 
-Export the function
+Export the function.
 
 #### Returns
 
@@ -60,15 +58,13 @@ Export the function
 
 > **invoke**(`data`): `Promise`\<`void`\>
 
-Invoke the function
+Invoke the function.
 
 #### Parameters
 
 ##### data
 
 [`InvokeData`](../type-aliases/InvokeData.md)\<`TEvent`, `TContext`, `TResult`\>
-
-{object} data
 
 #### Returns
 
@@ -78,7 +74,7 @@ Invoke the function
 
 > **mount**(`data?`): `Promise`\<`void`\>
 
-First time mount the function
+First time mount the function.
 
 #### Parameters
 

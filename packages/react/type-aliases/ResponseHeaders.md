@@ -23,6 +23,6 @@ Used by Response, ResponseError, and Options types.
 
 ## See
 
-- Response for usage in response objects
-- ResponseError for usage in error objects
-- Options for usage in request options
+ - Response for usage in response objects
+ - ResponseError for usage in error objects
+ - Options for usage in request options

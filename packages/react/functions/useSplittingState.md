@@ -10,7 +10,7 @@ A hook that initializes and splits state variables and their corresponding sette
 
 ### T
 
-`T` _extends_ `Record`\<`string`, `unknown`\>
+`T` *extends* `Record`\<`string`, `unknown`\>
 
 A generic type that extends a record with string keys and any values.
 
@@ -30,12 +30,8 @@ An object containing the initial states.
 
 ```tsx
 function Counter() {
-  const { count, setCount, name, setName } = useSplittingState({ count: 0, name: 'John' })
+  const { count, setCount, name, setName } = useSplittingState({ count: 0, name: 'John' });
 
-  return (
-    <>
-      {name}: {count}
-    </>
-  )
+  return <>{name}: {count}</>
 }
 ```

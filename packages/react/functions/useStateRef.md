@@ -43,4 +43,3 @@ return (
     <button onClick={() => console.log(ref.current)}>Submit</button>
   </div>
 )
-```

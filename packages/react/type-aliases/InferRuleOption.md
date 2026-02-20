@@ -2,7 +2,7 @@
 
 # Type Alias: InferRuleOption\<T\>
 
-> **InferRuleOption**\<`T`\> = `T` _extends_ (`value`, `options`, `lang?`) => `Promise`\<`void`\> ? `O` : `never`
+> **InferRuleOption**\<`T`\> = `T` *extends* (`value`, `options`, `lang?`) => `Promise`\<`void`\> ? `O` : `never`
 
 ## Type Parameters
 

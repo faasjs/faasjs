@@ -26,5 +26,5 @@ The converted title case string.
 ## Example
 
 ```typescript
-idToTitle('example_id') // returns 'ExampleId'
+idToTitle('example_id'); // returns 'ExampleId'
 ```

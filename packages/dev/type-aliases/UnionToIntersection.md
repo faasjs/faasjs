@@ -2,7 +2,7 @@
 
 # Type Alias: UnionToIntersection\<T\>
 
-> **UnionToIntersection**\<`T`\> = `T` _extends_ `unknown` ? (`arg`) => `void` : `never` _extends_ (`arg`) => `void` ? `TResult` : `never`
+> **UnionToIntersection**\<`T`\> = `T` *extends* `unknown` ? (`arg`) => `void` : `never` *extends* (`arg`) => `void` ? `TResult` : `never`
 
 ## Type Parameters
 

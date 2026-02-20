@@ -20,7 +20,8 @@ Config for `@faasjs/ant-design` components.
 
 ```tsx
 import { ConfigProvider } from '@faasjs/ant-design'
-;<ConfigProvider theme={{ common: { blank: 'Empty' } }}>
+
+<ConfigProvider theme={{ common: { blank: 'Empty' } }}>
   <Blank />
 </ConfigProvider>
 ```

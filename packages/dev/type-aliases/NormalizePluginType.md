@@ -2,10 +2,10 @@
 
 # Type Alias: NormalizePluginType\<TType\>
 
-> **NormalizePluginType**\<`TType`\> = `TType` _extends_ `` `npm:${infer Name}` `` ? `Name` : `TType` _extends_ `` `@faasjs/${infer Name}` `` ? `Name` : `TType`
+> **NormalizePluginType**\<`TType`\> = `TType` *extends* `` `npm:${infer Name}` `` ? `Name` : `TType` *extends* `` `@faasjs/${infer Name}` `` ? `Name` : `TType`
 
 ## Type Parameters
 
 ### TType
 
-`TType` _extends_ `string`
+`TType` *extends* `string`

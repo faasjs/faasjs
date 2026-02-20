@@ -8,11 +8,11 @@
 
 ### FormElements
 
-`FormElements` _extends_ [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+`FormElements` *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
 
 ### FormRulesOptions
 
-`FormRulesOptions` _extends_ `Record`\<`string`, `any`\> = [`FormDefaultRulesOptions`](FormDefaultRulesOptions.md)
+`FormRulesOptions` *extends* `Record`\<`string`, `any`\> = [`FormDefaultRulesOptions`](FormDefaultRulesOptions.md)
 
 ## Properties
 

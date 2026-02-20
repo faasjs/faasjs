@@ -2,10 +2,10 @@
 
 # Type Alias: InferFormInputProps\<T\>
 
-> **InferFormInputProps**\<`T`\> = `T` _extends_ `ComponentType`\<[`FormInputElementProps`](FormInputElementProps.md)\> ? `Omit`\<`ComponentProps`\<`T`\>, `"name"` \| `"value"` \| `"onChange"`\> : `Omit`\<`ComponentProps`\<`T`\>, `"name"` \| `"value"`\>
+> **InferFormInputProps**\<`T`\> = `T` *extends* `ComponentType`\<[`FormInputElementProps`](FormInputElementProps.md)\> ? `Omit`\<`ComponentProps`\<`T`\>, `"name"` \| `"value"` \| `"onChange"`\> : `Omit`\<`ComponentProps`\<`T`\>, `"name"` \| `"value"`\>
 
 ## Type Parameters
 
 ### T
 
-`T` _extends_ `ComponentType`\<[`FormInputElementProps`](FormInputElementProps.md)\> \| `JSXElementConstructor`\<`any`\>
+`T` *extends* `ComponentType`\<[`FormInputElementProps`](FormInputElementProps.md)\> \| `JSXElementConstructor`\<`any`\>

@@ -22,15 +22,11 @@ In `@faasjs/ant-design`, we use `FaasItemProps` to provide data structures for c
 
 ```ts
 type FaasItemType =
-  | 'string'
-  | 'string[]'
-  | 'number'
-  | 'number[]'
-  | 'boolean'
-  | 'date'
-  | 'time'
-  | 'object'
-  | 'object[]'
+  'string' | 'string[]' |
+  'number' | 'number[]' |
+  'boolean' |
+  'date' | 'time' |
+  'object' | 'object[]'
 
 type FaasItemProps = {
   type: FaasItemTypes

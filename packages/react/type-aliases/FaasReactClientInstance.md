@@ -8,15 +8,15 @@
 
 ### browserClient
 
-> **browserClient**: `FaasBrowserClient`
+> **browserClient**: [`FaasBrowserClient`](../classes/FaasBrowserClient.md)
 
 ### faas
 
-> **faas**: _typeof_ [`faas`](../functions/faas.md)
+> **faas**: *typeof* [`faas`](../functions/faas.md)
 
 ### FaasDataWrapper
 
-> **FaasDataWrapper**: _typeof_ [`FaasDataWrapper`](../variables/FaasDataWrapper.md)
+> **FaasDataWrapper**: *typeof* [`FaasDataWrapper`](../variables/FaasDataWrapper.md)
 
 ### id
 
@@ -28,4 +28,4 @@
 
 ### useFaas
 
-> **useFaas**: _typeof_ [`useFaas`](../functions/useFaas.md)
+> **useFaas**: *typeof* [`useFaas`](../functions/useFaas.md)

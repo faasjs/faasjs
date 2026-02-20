@@ -10,7 +10,7 @@ FaasDataWrapper component with Loading
 
 ### T
 
-`T` _extends_ `FaasActionUnionType` = `any`
+`T` *extends* `FaasActionUnionType` = `any`
 
 ## Parameters
 
@@ -25,15 +25,13 @@ FaasDataWrapper component with Loading
 ## Example
 
 ```tsx
-function MyComponent(props: FaasDataInjection) {
-  return <div>{props.data}</div>
+function MyComponent (props: FaasDataInjection) {
+  return <div>{ props.data }</div>
 }
 
-function MyPage() {
-  return (
-    <FaasDataWrapper action='test' params={{ a: 1 }}>
-      <MyComponent />
-    </FaasDataWrapper>
-  )
+function MyPage () {
+  return <FaasDataWrapper action="test" params={{ a: 1 }}>
+    <MyComponent />
+  </FaasDataWrapper>
 }
 ```

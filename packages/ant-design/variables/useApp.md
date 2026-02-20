@@ -16,7 +16,7 @@ const { message, notification, setModalProps, setDrawerProps } = useApp()
 
 ### NewT
 
-`NewT` _extends_ [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+`NewT` *extends* [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
 
 ## Returns
 

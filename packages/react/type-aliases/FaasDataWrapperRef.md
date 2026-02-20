@@ -8,4 +8,4 @@
 
 ### PathOrData
 
-`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
+`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md) = `any`

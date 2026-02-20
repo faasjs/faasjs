@@ -10,19 +10,19 @@ The UnionFaas item can be used in a form, description, or table.
 
 1. **Null Rendering** (Notice: it also doesn't render column in table and description)
    1. Returns `null` if specific children or render props are null:
-      - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
+       - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
    2. Returns `null` if `children` or `render` prop is null
 2. **Children Rendering**
    1. First priority: Component-specific children
-      - `formChildren` for Form
-      - `descriptionChildren` for Description
-      - `tableChildren` for Table
+       - `formChildren` for Form
+       - `descriptionChildren` for Description
+       - `tableChildren` for Table
    2. Second priority: Generic `children` prop
 3. **Custom Render Functions**
    1. First priority: Component-specific render functions
-      - `formRender` for Form
-      - `descriptionRender` for Description
-      - `tableRender` for Table
+       - `formRender` for Form
+       - `descriptionRender` for Description
+       - `tableRender` for Table
    2. Second priority: Generic `render` prop
 4. **Extended Types**
    - Renders based on registered extended type handlers
@@ -48,7 +48,7 @@ const item: UnionFaasItemProps[] = [
     id: 'age',
     type: 'number', // Number type in form, description and table
     options: ['< 18', '>= 18'], // Options in form and table
-  },
+  }
 ]
 
 const data = {
@@ -58,13 +58,11 @@ const data = {
 }
 
 function App() {
-  return (
-    <>
-      <Form items={item} /> // Use in form
-      <Description items={item} dataSource={data} /> // Use in description
-      <Table items={item} dataSource={[data]} /> // Use in table
-    </>
-  )
+  return <>
+    <Form items={item} /> // Use in form
+    <Description items={item} dataSource={data} /> // Use in description
+    <Table items={item} dataSource={[ data ]} /> // Use in table
+  </>
 }
 ```
 

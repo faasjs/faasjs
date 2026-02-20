@@ -1,6 +1,6 @@
 {
   "name": "create-faas-app",
-  "version": "8.0.0-beta.8",
+  "version": "8.0.0-beta.9",
   "homepage": "https://faasjs.com/doc/create-faas-app",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"

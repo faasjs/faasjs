@@ -8,7 +8,7 @@
 
 ### FormElements
 
-`FormElements` _extends_ [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+`FormElements` *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
 
 ## Properties
 

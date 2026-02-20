@@ -8,15 +8,15 @@
 
 ### Values
 
-`Values` _extends_ `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+`Values` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
 ### FormElements
 
-`FormElements` _extends_ [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+`FormElements` *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
 
 ### Rules
 
-`Rules` _extends_ [`FormRules`](FormRules.md) = _typeof_ [`FormDefaultRules`](../variables/FormDefaultRules.md)
+`Rules` *extends* [`FormRules`](FormRules.md) = *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)
 
 ## Properties
 
@@ -52,7 +52,7 @@
 
 ### rules
 
-> **rules**: _typeof_ [`FormDefaultRules`](../variables/FormDefaultRules.md) & `Rules`
+> **rules**: *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md) & `Rules`
 
 ### setErrors
 

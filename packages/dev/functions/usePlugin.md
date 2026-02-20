@@ -8,7 +8,7 @@
 
 ### T
 
-`T` _extends_ [`Plugin`](../type-aliases/Plugin.md)
+`T` *extends* [`Plugin`](../type-aliases/Plugin.md)
 
 ## Parameters
 

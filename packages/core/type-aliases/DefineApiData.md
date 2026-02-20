@@ -2,7 +2,7 @@
 
 # Type Alias: DefineApiData\<TSchema, TEvent, TContext, TResult\>
 
-> **DefineApiData**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = `InvokeData`\<`TEvent`, `TContext`, `TResult`\> & `object`
+> **DefineApiData**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = [`InvokeData`](InvokeData.md)\<`TEvent`, `TContext`, `TResult`\> & `object`
 
 ## Type Declaration
 
@@ -12,13 +12,13 @@
 
 ### params
 
-> **params**: `TSchema` _extends_ `ZodSchema` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>
+> **params**: `TSchema` *extends* `ZodSchema` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>
 
 ## Type Parameters
 
 ### TSchema
 
-`TSchema` _extends_ `ZodSchema` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodSchema` \| `undefined` = `undefined`
 
 ### TEvent
 

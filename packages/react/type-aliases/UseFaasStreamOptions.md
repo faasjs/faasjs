@@ -8,7 +8,7 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: `BaseUrl`
+> `optional` **baseUrl**: [`BaseUrl`](BaseUrl.md)
 
 ### data?
 

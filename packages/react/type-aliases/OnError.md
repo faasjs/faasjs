@@ -22,7 +22,7 @@
 
 #### res
 
-[`ResponseError`](../interfaces/ResponseError.md)
+[`ResponseError`](../classes/ResponseError.md)
 
 ### Returns
 

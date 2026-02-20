@@ -1,13 +1,13 @@
 [@faasjs/react](../README.md) / ResponseError
 
-# Interface: ResponseError
+# Class: ResponseError
 
 Custom error class for handling HTTP response errors from FaasJS requests.
 
 Extends the built-in Error class to provide additional information about failed requests,
 including HTTP status code, response headers, response body, and the original error.
 
-ResponseError
+ ResponseError
 
 ## Param
 
@@ -33,7 +33,7 @@ try {
 } catch (error) {
   throw new ResponseError(error, {
     status: 500,
-    headers: { 'X-Error-Type': 'internal' },
+    headers: { 'X-Error-Type': 'internal' }
   })
 }
 ```
@@ -46,9 +46,9 @@ throw new ResponseError({
   body: {
     error: {
       message: 'Validation failed',
-      fields: ['email', 'password'],
-    },
-  },
+      fields: ['email', 'password']
+    }
+  }
 })
 ```
 
@@ -77,7 +77,7 @@ setMock(async (action, params) => {
       throw new ResponseError({
         message: 'Email and password are required',
         status: 400,
-        body: { error: 'missing_fields' },
+        body: { error: 'missing_fields' }
       })
     }
     return { data: { token: 'abc123' } }
@@ -96,13 +96,55 @@ setMock(async (action, params) => {
 
 ## See
 
-- FaasBrowserClient.action for how ResponseError is thrown in requests
-- ResponseProps for the structure of response data
-- setMock for mocking errors in tests
+ - FaasBrowserClient.action for how ResponseError is thrown in requests
+ - ResponseProps for the structure of response data
+ - setMock for mocking errors in tests
 
 ## Extends
 
 - `Error`
+
+## Constructors
+
+### Constructor
+
+> **new ResponseError**(`msg`, `options?`): `ResponseError`
+
+#### Parameters
+
+##### msg
+
+`string` | `Error`
+
+##### options?
+
+`Omit`\<[`ResponseErrorProps`](../type-aliases/ResponseErrorProps.md), `"message"` \| `"originalError"`\>
+
+#### Returns
+
+`ResponseError`
+
+#### Overrides
+
+`Error.constructor`
+
+### Constructor
+
+> **new ResponseError**(`props`): `ResponseError`
+
+#### Parameters
+
+##### props
+
+[`ResponseErrorProps`](../type-aliases/ResponseErrorProps.md)
+
+#### Returns
+
+`ResponseError`
+
+#### Overrides
+
+`Error.constructor`
 
 ## Properties
 

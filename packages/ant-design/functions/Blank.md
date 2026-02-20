@@ -22,5 +22,6 @@ If value is undefined or null, return text, otherwise return value.
 
 ```tsx
 import { Blank } from '@faasjs/ant-design'
-;<Blank value={undefined} text='Empty' />
+
+<Blank value={undefined} text="Empty" />
 ```
