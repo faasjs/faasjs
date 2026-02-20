@@ -135,4 +135,144 @@ target:
   it('should throw for tab indentation', () => {
     expect(() => parseYaml('\tdefaults:\n')).toThrow('Tabs are not supported for indentation')
   })
+
+  it('should parse escaped values and keep # inside quoted strings', () => {
+    const result = parseYaml(`value: "a\\n # kept" # outer
+single: 'it''s # kept' # outer
+`) as Record<string, any>
+
+    expect(result.value).toBe(`a
+ # kept`)
+    expect(result.single).toBe("it's # kept")
+  })
+
+  it('should parse quoted mapping keys', () => {
+    const result = parseYaml(`'a:b': value
+`) as Record<string, any>
+
+    expect(result['a:b']).toBe('value')
+  })
+
+  it('should parse empty collection shortcuts', () => {
+    const result = parseYaml(`emptyArray: []
+emptyObject: {}
+`) as Record<string, any>
+
+    expect(result.emptyArray).toEqual([])
+    expect(result.emptyObject).toEqual({})
+  })
+
+  it('should parse supported double-quoted escape sequences', () => {
+    const result = parseYaml(`value: "\\\"\\\\\\/\\b\\f\\n\\r\\t\\u0041"
+`) as Record<string, any>
+
+    expect(result.value).toBe('"\\/\b\f\n\r\tA')
+  })
+
+  it('should throw for invalid quoted strings', () => {
+    expect(() =>
+      parseYaml(`value: "abc"rest
+`),
+    ).toThrow('Invalid double quoted string')
+
+    expect(() =>
+      parseYaml(`value: 'abc'rest
+`),
+    ).toThrow('Invalid single quoted string')
+
+    expect(() =>
+      parseYaml(`value: "abc
+`),
+    ).toThrow('Unterminated double quoted string')
+
+    expect(() =>
+      parseYaml(`value: 'abc
+`),
+    ).toThrow('Unterminated single quoted string')
+  })
+
+  it('should throw for unsupported or invalid scalar syntax', () => {
+    expect(() =>
+      parseYaml(`value: !tag hello
+`),
+    ).toThrow('YAML tags are not supported')
+
+    expect(() =>
+      parseYaml(`value: [1, 2]
+`),
+    ).toThrow('Flow collection is not supported')
+
+    expect(() =>
+      parseYaml(`value: {a: 1}
+`),
+    ).toThrow('Flow collection is not supported')
+
+    expect(() =>
+      parseYaml(`value: "\\x"
+`),
+    ).toThrow('Unsupported escape sequence')
+
+    expect(() =>
+      parseYaml(`value: "\\u12G4"
+`),
+    ).toThrow('Invalid unicode escape sequence')
+  })
+
+  it('should throw for invalid keys and sequence syntax', () => {
+    expect(() =>
+      parseYaml(`[a]: 1
+`),
+    ).toThrow('Complex mapping key is not supported')
+
+    expect(() =>
+      parseYaml(`-item
+`),
+    ).toThrow('Invalid mapping entry, expected "key: value"')
+  })
+
+  it('should throw for invalid anchor and alias tokens', () => {
+    expect(() =>
+      parseYaml(`value: *
+`),
+    ).toThrow('Missing alias name')
+
+    expect(() =>
+      parseYaml(`value: &
+  key: value
+`),
+    ).toThrow('Missing anchor name')
+
+    expect(() =>
+      parseYaml(`value: &bad,name test
+`),
+    ).toThrow('Invalid anchor name')
+
+    expect(() =>
+      parseYaml(`value: *bad,name
+`),
+    ).toThrow('Invalid alias name')
+
+    expect(() =>
+      parseYaml(`value: *base extra
+`),
+    ).toThrow('Unexpected token after alias')
+  })
+
+  it('should throw for YAML document separators', () => {
+    expect(() => parseYaml('---\nkey: value\n')).toThrow(
+      'Multiple YAML documents are not supported',
+    )
+    expect(() => parseYaml('...\nkey: value\n')).toThrow(
+      'Multiple YAML documents are not supported',
+    )
+  })
+
+  it('should throw for trailing content after root parse', () => {
+    expect(() =>
+      parseYaml(`  defaults:
+    key: value
+local: true
+`),
+    ).toThrow('Unexpected trailing content')
+  })
 })

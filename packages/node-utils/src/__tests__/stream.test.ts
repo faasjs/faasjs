@@ -34,4 +34,9 @@ describe('stream helpers', () => {
 
     await expect(streamToString(stream)).resolves.toBe('alias')
   })
+
+  it('should throw when stream is invalid', async () => {
+    await expect(streamToText({} as any)).rejects.toThrow('ReadableStream instance')
+    await expect(streamToObject({} as any)).rejects.toThrow('ReadableStream instance')
+  })
 })

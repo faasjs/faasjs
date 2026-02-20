@@ -17,5 +17,14 @@ describe('getRouteFiles', () => {
       'a/b/default.func.ts',
       'a/default.func.ts',
     ])
+
+    expect(getRouteFiles('a', 'a/b/c/funcs/')).toEqual([
+      'a/b/c/funcs.func.ts',
+      'a/b/c/funcs/index.func.ts',
+      'a/b/c/funcs/default.func.ts',
+      'a/b/c/default.func.ts',
+      'a/b/default.func.ts',
+      'a/default.func.ts',
+    ])
   })
 })

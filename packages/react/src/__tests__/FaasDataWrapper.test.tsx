@@ -1,4 +1,4 @@
-import { setMock } from '@faasjs/browser'
+import { setMock } from '..'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRef, useState } from 'react'

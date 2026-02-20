@@ -1,6 +1,11 @@
 import type { FaasActions } from '@faasjs/types'
 import { assertType, beforeEach, describe, expect, it, vi } from 'vitest'
-import { FaasBrowserClient, Response as FaasResponse, type Response, ResponseError } from '..'
+import {
+  FaasBrowserClient,
+  Response as FaasResponse,
+  type Response,
+  ResponseError,
+} from '../../browser'
 
 let request: {
   url: string

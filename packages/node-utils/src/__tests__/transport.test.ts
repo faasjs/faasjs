@@ -93,6 +93,73 @@ describe('transport', () => {
     })
   })
 
+  it('should wait for an in-flight flush', async () => {
+    const transport = getTransport()
+    const handler: TransportHandler = vi.fn(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 150))
+    })
+
+    transport.register('slow', handler)
+    transport.insert({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+      timestamp: Date.now(),
+    })
+
+    await Promise.all([transport.flush(), transport.flush()])
+
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
+
+  it('should apply config options', () => {
+    const transport = getTransport()
+
+    transport.config({ label: 'CustomLabel', debug: true })
+    expect((transport as any).logger.label).toBe('CustomLabel')
+    expect((transport as any).logger.level).toBe('debug')
+
+    transport.config({ debug: false })
+    expect((transport as any).logger.level).toBe('info')
+  })
+
+  it('should re-enable transport after being disabled', () => {
+    const transport = getTransport()
+    const handler: TransportHandler = async () => {}
+    const handler2: TransportHandler = async () => {}
+
+    transport.register('a', handler)
+    transport.register('b', handler2)
+    transport.unregister('a')
+    expect((transport as any).enabled).toBe(true)
+
+    transport.unregister('b')
+    expect((transport as any).enabled).toBe(false)
+
+    transport.register('test', handler)
+    transport.unregister('test')
+    expect((transport as any).enabled).toBe(false)
+
+    transport.register('test2', handler)
+    expect((transport as any).enabled).toBe(true)
+
+    transport.unregister('test2')
+    expect((transport as any).enabled).toBe(false)
+
+    transport.config({})
+    expect((transport as any).enabled).toBe(true)
+  })
+
+  it('should stop even when interval has been cleared', async () => {
+    const transport = getTransport()
+
+    transport.reset()
+
+    await transport.stop()
+
+    expect((transport as any).enabled).toBe(false)
+  })
+
   it('should start and periodically flush cached messages', async () => {
     vi.useFakeTimers()
 

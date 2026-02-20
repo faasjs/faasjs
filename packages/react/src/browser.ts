@@ -1,15 +1,15 @@
 /**
  * FaasJS browser client.
  *
- * [![License: MIT](https://img.shields.io/npm/l/@faasjs/browser.svg)](https://github.com/faasjs/faasjs/blob/main/packages/browser/LICENSE)
- * [![NPM Version](https://img.shields.io/npm/v/@faasjs/browser.svg)](https://www.npmjs.com/package/@faasjs/browser)
+ * [![License: MIT](https://img.shields.io/npm/l/@faasjs/react.svg)](https://github.com/faasjs/faasjs/blob/main/packages/react/LICENSE)
+ * [![NPM Version](https://img.shields.io/npm/v/@faasjs/react.svg)](https://www.npmjs.com/package/@faasjs/react)
  *
- * Browser plugin for FaasJS.
+ * Browser client utilities for FaasJS.
  *
  * ## Install
  *
  * ```sh
- * npm install @faasjs/browser
+ * npm install @faasjs/react react
  * ```
  *
  * ## Usage
@@ -17,7 +17,7 @@
  * ### Use directly
  *
  * ```ts
- * import { FaasBrowserClient } from '@faasjs/browser'
+ * import { FaasBrowserClient } from '@faasjs/react'
  *
  * const client = new FaasBrowserClient('/')
  *
@@ -27,7 +27,7 @@
  * ### Use with SWR
  *
  * ```ts
- * import { FaasBrowserClient } from '@faasjs/browser'
+ * import { FaasBrowserClient } from '@faasjs/react'
  * import useSWR from 'swr'
  *
  * const client = new FaasBrowserClient('/')
@@ -40,7 +40,7 @@
  * ### Use with React Query
  *
  * ```ts
- * import { FaasBrowserClient } from '@faasjs/browser'
+ * import { FaasBrowserClient } from '@faasjs/react'
  * import { QueryClient } from 'react-query'
  *
  * const client = new FaasBrowserClient('/')
@@ -66,7 +66,7 @@
  *
  * ### Use with React
  *
- * Please use [@faasjs/react](https://faasjs.com/doc/react/) for React.
+ * `@faasjs/react` includes both this browser client and React hooks/components.
  *
  * ## Error Handling
  *
@@ -78,7 +78,7 @@
  *
  * @example
  * ```ts
- * import { FaasBrowserClient, ResponseError } from '@faasjs/browser'
+ * import { FaasBrowserClient, ResponseError } from '@faasjs/react'
  *
  * const client = new FaasBrowserClient('https://api.example.com/')
  *
@@ -115,7 +115,7 @@
  *
  * @example
  * ```ts
- * import { FaasBrowserClient, setMock, ResponseError } from '@faasjs/browser'
+ * import { FaasBrowserClient, setMock, ResponseError } from '@faasjs/react'
  *
  * // Set up a mock function
  * setMock(async (action, params) => {
@@ -156,7 +156,6 @@
  * ### Functions
  * - {@link setMock} - Global mock function for intercepting API calls during testing
  *
- * @packageDocumentation
  */
 import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 
@@ -784,7 +783,7 @@ export function setMock(handler: MockHandler | ResponseProps | Response | null) 
  *
  * @example Basic usage
  * ```ts
- * import { FaasBrowserClient } from '@faasjs/browser'
+ * import { FaasBrowserClient } from '@faasjs/react'
  *
  * const client = new FaasBrowserClient('http://localhost:8080/')
  * const response = await client.action('func', { key: 'value' })

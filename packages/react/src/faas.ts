@@ -1,4 +1,4 @@
-import type { Options, Response } from '@faasjs/browser'
+import type { Options, Response } from './browser'
 import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import { getClient } from './client'
 

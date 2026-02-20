@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { FaasBrowserClient, Response as FaasResponse, setMock } from '..'
+import { FaasBrowserClient, Response as FaasResponse, setMock } from '../../browser'
 
 describe('stream', () => {
   beforeEach(() => {

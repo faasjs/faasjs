@@ -44,4 +44,14 @@ describe('format', () => {
     const error = new Error('Test error')
     expect(format('', error)).toBe(' Error: Test error')
   })
+
+  it('should convert non-string fmt values', () => {
+    expect(format(Error('boom'))).toContain('Error: boom')
+    expect(format({ key: 'value' })).toBe('{"key":"value"}')
+    expect(format(123)).toBe('123')
+  })
+
+  it('should fallback %o to string for non-array values', () => {
+    expect(format('Object: %o', { a: 1 })).toBe('Object: [object Object]')
+  })
 })

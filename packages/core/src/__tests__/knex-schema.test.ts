@@ -46,6 +46,23 @@ afterEach(async () => {
 })
 
 describe('KnexSchema', () => {
+  it('should require migration name when making migration file', async () => {
+    const knex = new Knex({
+      name: `knex-schema-${randomUUID()}`,
+      config: {
+        client: 'sqlite3',
+        connection: {
+          filename: ':memory:',
+        },
+        useNullAsDefault: true,
+      },
+    })
+
+    const schema = new KnexSchema(knex)
+
+    await expect(schema.migrateMake('   ')).rejects.toThrow('Missing migration name')
+  })
+
   it('should throw when knex is not initialized', async () => {
     const knex = new Knex({
       name: `knex-schema-${randomUUID()}`,

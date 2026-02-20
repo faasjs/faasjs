@@ -4,7 +4,7 @@
  * [![License: MIT](https://img.shields.io/npm/l/@faasjs/react.svg)](https://github.com/faasjs/faasjs/blob/main/packages/react/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/@faasjs/react.svg)](https://www.npmjs.com/package/@faasjs/react)
  *
- * **If you use [SWR](https://swr.vercel.app) or [React Query / TanStack Query](https://tanstack.com/query), please use [`@faasjs/browser`](https://faasjs.com/doc/browser) directly.**
+ * Includes browser client utilities (`FaasBrowserClient`, `ResponseError`, `setMock`) and React helpers.
  *
  * ## Features
  *
@@ -43,8 +43,8 @@
  * @packageDocumentation
  */
 
-export type { Options, Response, ResponseError, ResponseHeaders } from '@faasjs/browser'
 export type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+export * from './browser'
 export * from './client'
 export * from './constant'
 export * from './ErrorBoundary'

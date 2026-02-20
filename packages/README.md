@@ -24,6 +24,5 @@
 
 | Name                                                                                 | Version                                                                                                                 |
 | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| [@faasjs/browser](https://github.com/faasjs/faasjs/tree/main/packages/browser)       | [![NPM Version](https://img.shields.io/npm/v/@faasjs/browser.svg)](https://www.npmjs.com/package/@faasjs/browser)       |
 | [@faasjs/react](https://github.com/faasjs/faasjs/tree/main/packages/react)           | [![NPM Version](https://img.shields.io/npm/v/@faasjs/react.svg)](https://www.npmjs.com/package/@faasjs/react)           |
 | [@faasjs/ant-design](https://github.com/faasjs/faasjs/tree/main/packages/ant-design) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/ant-design.svg)](https://www.npmjs.com/package/@faasjs/ant-design) |

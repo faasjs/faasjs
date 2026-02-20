@@ -7,7 +7,7 @@
 - 状态: 已采纳（Accepted）
 - 版本: v1.0
 - 维护者: FaasJS Maintainers
-- 适用范围: `@faasjs/browser`、`@faasjs/core` 及基于 FaasJS 的 API 项目
+- 适用范围: `@faasjs/react`、`@faasjs/core` 及基于 FaasJS 的 API 项目
 - 最后更新: 2026-02-19
 
 ## 背景

@@ -1,5 +1,5 @@
-import type { BaseUrl, Options, Response, ResponseError } from '@faasjs/browser'
-import { FaasBrowserClient } from '@faasjs/browser'
+import type { BaseUrl, Options, Response, ResponseError } from './browser'
+import { FaasBrowserClient } from './browser'
 import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import {
   type FaasDataInjection,

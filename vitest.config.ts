@@ -5,8 +5,6 @@ import { defineConfig } from 'vitest/config'
 const browsers = [
   'packages/ant-design/**/*.test.ts',
   'packages/ant-design/**/*.test.tsx',
-  'packages/browser/**/*.test.ts',
-  'packages/browser/**/*.test.tsx',
   'packages/react/**/*.test.ts',
   'packages/react/**/*.test.tsx',
 ]

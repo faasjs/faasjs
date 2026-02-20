@@ -22,6 +22,12 @@ describe('middleware', () => {
     expect(await response.text()).toBe('useMiddleware')
   })
 
+  it('anonymous useMiddleware', async () => {
+    const response = await fetch(`http://127.0.0.1:${port}/anonymousUseMiddleware`)
+    expect(response.status).toBe(200)
+    expect(await response.text()).toBe('anonymousUseMiddleware')
+  })
+
   it('emptyMiddleware', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/emptyUseMiddleware`)
     expect(response.status).toBe(404)
@@ -38,6 +44,14 @@ describe('middleware', () => {
     const response = await fetch(`http://127.0.0.1:${port}/emptyUseMiddlewares`)
     expect(response.status).toBe(404)
     expect(await response.text()).toBe('Not Found')
+  })
+
+  it('should stop later middlewares when response already ended', async () => {
+    const response = await fetch(`http://127.0.0.1:${port}/breakUseMiddlewares`)
+
+    expect(response.status).toBe(200)
+    expect(await response.text()).toBe('breakUseMiddlewares')
+    expect(response.headers.get('x-should-not-run')).toBeNull()
   })
 
   it('middleware error', async () => {

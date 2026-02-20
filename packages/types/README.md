@@ -7,7 +7,7 @@ Action Type definitions for FaasJS and cross backend and frontend.
 
 ## Install
 
-Normally you don't need to install this package manually. It's a dependency of `@faasjs/core` and `@faasjs/browser`.
+Normally you don't need to install this package manually. It's a dependency of `@faasjs/core` and `@faasjs/react`.
 
 ## Usage
 

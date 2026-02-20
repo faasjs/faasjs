@@ -1,4 +1,4 @@
-import type { BaseUrl, Response } from '@faasjs/browser'
+import type { BaseUrl, Response } from './browser'
 import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import { cloneElement, forwardRef, type JSX, useImperativeHandle, useState } from 'react'
 import { getClient } from './client'

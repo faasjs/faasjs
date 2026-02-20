@@ -1,7 +1,7 @@
 import { streamToString } from '@faasjs/dev'
-import { Func } from '..'
+import { Func, useFunc } from '..'
 import { describe, expect, it } from 'vitest'
-import { Http, HttpError } from '../index'
+import { Http, HttpError, useHttp } from '../index'
 
 describe('http', () => {
   it('should work', async () => {
@@ -84,5 +84,53 @@ describe('http', () => {
     expect(await streamToString(res.body as ReadableStream)).toEqual(
       '{"error":{"message":"wrong"}}',
     )
+  })
+
+  it('useHttp helper', async () => {
+    const func = useFunc(() => {
+      const http = useHttp<{ key: string }>()
+
+      return async () => http.params
+    })
+
+    const res = await func.export().handler({
+      queryString: {
+        key: 'value',
+      },
+    })
+
+    expect(res).toMatchObject({
+      key: 'value',
+      statusCode: 200,
+    })
+  })
+
+  it('should emit stream error when TextEncoder fails', async () => {
+    const TextEncoderBackup = globalThis.TextEncoder
+
+    ;(globalThis as any).TextEncoder = class {
+      encode() {
+        throw Error('encode failed')
+      }
+    }
+
+    try {
+      const http = new Http()
+      const handler = new Func({
+        plugins: [http],
+        async handler() {
+          return 1
+        },
+      }).export().handler
+
+      const res = await handler({
+        headers: {},
+        body: null,
+      })
+
+      await expect(streamToString(res.body as ReadableStream)).rejects.toThrow('encode failed')
+    } finally {
+      globalThis.TextEncoder = TextEncoderBackup
+    }
   })
 })

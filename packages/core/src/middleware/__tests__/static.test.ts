@@ -64,4 +64,35 @@ describe('staticHandler', () => {
     expect(response2.status).toBe(404)
     expect(await response2.text()).toBe('custom404')
   })
+
+  it('should support no-cache mode without using static cache map', async () => {
+    const response1 = await fetch(`http://127.0.0.1:${port}/noCache404`)
+    expect(response1.status).toBe(404)
+    expect(await response1.text()).toBe('Not Found')
+
+    const response2 = await fetch(`http://127.0.0.1:${port}/noCache404`)
+    expect(response2.status).toBe(404)
+    expect(await response2.text()).toBe('Not Found')
+  })
+
+  it('should skip static handling for non-GET and hidden paths', async () => {
+    const postResponse = await fetch(`http://127.0.0.1:${port}/default.anything`, {
+      method: 'POST',
+    })
+
+    expect(postResponse.status).toBe(404)
+    expect(await postResponse.text()).toBe('Not Found')
+
+    const hiddenResponse = await fetch(`http://127.0.0.1:${port}/.hidden`)
+
+    expect(hiddenResponse.status).toBe(404)
+    expect(await hiddenResponse.text()).toBe('Not Found')
+  })
+
+  it('should respond 500 when static target is a directory stream', async () => {
+    const response = await fetch(`http://127.0.0.1:${port}/default.dir`)
+
+    expect(response.status).toBe(500)
+    expect(await response.text()).toBe('Internal Server Error')
+  })
 })

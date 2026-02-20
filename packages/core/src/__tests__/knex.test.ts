@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Func, useFunc } from '..'
 import type { Tables } from 'knex/types/tables'
-import { afterEach, assertType, describe, expect, it } from 'vitest'
+import { afterEach, assertType, describe, expect, it, vi } from 'vitest'
 import {
   createPgliteKnex,
   Knex,
@@ -114,6 +114,24 @@ describe('Knex', () => {
       expect(await handler({})).toEqual([{ '1+1': 2 }])
     })
 
+    it('with better-sqlite3 client', async () => {
+      const knex = new Knex({
+        config: {
+          client: 'better-sqlite3',
+          connection: { filename: ':memory:' },
+        },
+      })
+
+      const handler = new Func({
+        plugins: [knex],
+        async handler() {
+          return await knex.raw('SELECT 1+1')
+        },
+      }).export().handler
+
+      expect(await handler({})).toEqual([{ '1+1': 2 }])
+    })
+
     it('with special npm package', async () => {
       const knex = new Knex({
         config: {
@@ -130,6 +148,37 @@ describe('Knex', () => {
 
       expect(await handler({})).toEqual([{ '1+1': 2 }])
     })
+
+    it('should reject invalid npm client exports', async () => {
+      const invalidClient = `npm:data:text/javascript,${encodeURIComponent('export default { driver: true }')}`
+      const knex = new Knex({
+        name: `knex-invalid-${randomUUID()}`,
+        config: {
+          client: invalidClient,
+        },
+      })
+
+      const handler = new Func({
+        plugins: [knex],
+        async handler() {
+          return true
+        },
+      }).export().handler
+
+      await expect(handler({})).rejects.toThrow(`Invalid client: ${invalidClient}`)
+    })
+  })
+
+  it('should throw when client is not initialized', async () => {
+    const knex = new Knex({
+      name: `knex-unmounted-${randomUUID()}`,
+    })
+
+    await expect(knex.raw('SELECT 1')).rejects.toThrow('[Knex] Client not initialized.')
+    await expect(knex.transaction(async () => null)).rejects.toThrow(
+      `[${knex.name}] Client not initialized.`,
+    )
+    expect(() => knex.schema()).toThrow(`[${knex.name}] Client not initialized.`)
   })
 
   describe('query', () => {
@@ -206,6 +255,41 @@ describe('Knex', () => {
 
     expect(await handler({})).toEqual([1])
     expect(commit).toBeTruthy()
+  })
+
+  it('transaction should skip extra commit when trx is completed', async () => {
+    const knex = new Knex({
+      config: {
+        client: 'sqlite3',
+        connection: { filename: ':memory:' },
+        useNullAsDefault: true,
+      },
+    })
+
+    const handler = new Func({
+      plugins: [knex],
+      async handler() {
+        await knex.schema().createTable('test', (t) => {
+          t.increments('id')
+        })
+
+        const result = await knex.transaction(async (trx) => {
+          await trx.insert({}).into('test')
+          await trx.commit()
+          return 'done'
+        })
+
+        return {
+          result,
+          rows: await knex.query('test'),
+        }
+      },
+    }).export().handler
+
+    expect(await handler({})).toEqual({
+      result: 'done',
+      rows: [{ id: 1 }],
+    })
   })
 
   it('transaction with trx', async () => {
@@ -601,6 +685,38 @@ describe('Knex', () => {
       if (reader) await reader.quit()
       if (writer) await writer.quit()
       await rm(dataDir, { recursive: true, force: true })
+    }
+  })
+
+  it('should swallow destroy errors in quit', async () => {
+    const name = `knex-quit-${randomUUID()}`
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    mountFaasKnex(
+      {
+        adapter: {
+          destroy: async () => {
+            throw Error('destroy failed')
+          },
+        },
+      } as any,
+      {
+        name,
+        config: {
+          client: 'pg',
+        },
+      },
+    )
+
+    try {
+      const knex = new Knex({ name })
+
+      await knex.quit()
+
+      expect(errorSpy).toHaveBeenCalled()
+    } finally {
+      errorSpy.mockRestore()
+      unmountFaasKnex(name)
     }
   })
 })

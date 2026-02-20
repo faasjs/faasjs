@@ -1,4 +1,4 @@
-import type { BaseUrl } from '@faasjs/browser'
+import type { BaseUrl } from './browser'
 import { useRef, useState } from 'react'
 import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'

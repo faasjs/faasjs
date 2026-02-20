@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { generateId } from '../generateId'
+import { generateId } from '../../generateId'
 
 describe('generateId', () => {
   it('should work', () => {

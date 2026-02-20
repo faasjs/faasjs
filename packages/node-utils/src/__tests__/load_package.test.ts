@@ -55,6 +55,42 @@ describe('loadPackage', () => {
     expect(result).toBe(path.sep)
   })
 
+  it('should fallback to module object when default export key is missing', async () => {
+    // @ts-expect-error
+    globalThis.require = vi.fn().mockImplementation((name: string) => {
+      if (name === 'my-module') return { key: 'value' }
+    })
+
+    const result = await loadPackage('my-module', 'default')
+
+    expect(result).toEqual({ key: 'value' })
+  })
+
+  it('should fallback to module object when default names are all missing', async () => {
+    // @ts-expect-error
+    globalThis.require = vi.fn().mockImplementation((name: string) => {
+      if (name === 'my-module') return { key: 'value' }
+    })
+
+    const result = await loadPackage('my-module', ['default', 'test'])
+
+    expect(result).toEqual({ key: 'value' })
+  })
+
+  it('should reuse cached runtime', () => {
+    // @ts-expect-error
+    globalThis.require = vi.fn()
+
+    expect(detectNodeRuntime()).toBe('commonjs')
+
+    // @ts-expect-error
+    globalThis.require = undefined
+    // @ts-expect-error
+    globalThis.process = undefined
+
+    expect(detectNodeRuntime()).toBe('commonjs')
+  })
+
   it('should throw when runtime cannot be detected', () => {
     // @ts-expect-error
     globalThis.require = undefined

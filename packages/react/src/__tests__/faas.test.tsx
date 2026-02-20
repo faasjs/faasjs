@@ -1,4 +1,4 @@
-import { Response, setMock } from '@faasjs/browser'
+import { Response, setMock } from '..'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { faas } from '../faas'
 
