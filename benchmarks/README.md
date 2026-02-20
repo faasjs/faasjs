@@ -1,6 +1,5 @@
 # Install
 
-    npm install -g tsx
     npm install
     brew install wrk
 
@@ -8,7 +7,7 @@
 
 Func performance:
 
-    tsx func.js
+    node func.mjs
 
 Server performance:
 
