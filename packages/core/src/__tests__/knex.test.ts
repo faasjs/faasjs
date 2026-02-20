@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Func, useFunc } from '@faasjs/func'
+import { Func, useFunc } from '..'
 import type { Tables } from 'knex/types/tables'
 import { afterEach, assertType, describe, expect, it } from 'vitest'
 import {

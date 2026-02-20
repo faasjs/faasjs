@@ -13,14 +13,15 @@
  * @packageDocumentation
  */
 
-import type { Config, Handler, InvokeData, Plugin } from '@faasjs/func'
-import { Func } from '@faasjs/func'
+import type { Config, Handler, InvokeData, Plugin } from './func'
+import { Func } from './func'
 import type { output, ZodError, ZodTypeAny } from 'zod'
 import * as z from 'zod'
 import type { Knex as FaasKnex } from './knex/plugin'
 import { HttpError } from './http'
 
 export { z }
+export * from './func'
 export {
   ContentType,
   Cookie,

@@ -3,7 +3,7 @@
     "description": "Generate a plain useFunc module",
     "prefix": ["uf", "useFunc"],
     "body": [
-      "import { useFunc } from '@faasjs/func'",
+      "import { useFunc } from '@faasjs/core'",
       "",
       "export const func = useFunc(function () {",
       "  return async function () {",
@@ -17,7 +17,7 @@
     "description": "Generate a useFunc module with http",
     "prefix": ["ufh", "useFuncWithHttp"],
     "body": [
-      "import { useFunc } from '@faasjs/func'",
+      "import { useFunc } from '@faasjs/core'",
       "import { useHttp } from '@faasjs/core'",
       "",
       "export const func = useFunc(function () {",
@@ -34,7 +34,7 @@
     "description": "Generate a useFunc module with knex",
     "prefix": ["ufk", "useFuncWithKnex"],
     "body": [
-      "import { useFunc } from '@faasjs/func'",
+      "import { useFunc } from '@faasjs/core'",
       "import { useKnex, query } from '@faasjs/core'",
       "",
       "export const func = useFunc(function () {",
@@ -51,7 +51,7 @@
     "description": "Generate a useFunc module with http and knex",
     "prefix": ["ufhk", "useFuncWithHttpKnex"],
     "body": [
-      "import { useFunc } from '@faasjs/func'",
+      "import { useFunc } from '@faasjs/core'",
       "import { useHttp } from '@faasjs/core'",
       "import { useKnex, query } from '@faasjs/core'",
       "",

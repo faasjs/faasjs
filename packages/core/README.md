@@ -15,6 +15,10 @@ npm install @faasjs/core
 
 - [defineApi](functions/defineApi.md)
 
+## Function runtime
+
+Function runtime helpers (`Func`, `useFunc`, `usePlugin`, `nameFunc`) are now exported from `@faasjs/core`.
+
 ## Type Aliases
 
 - [DefineApiData](type-aliases/DefineApiData.md)

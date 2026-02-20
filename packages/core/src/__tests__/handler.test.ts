@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { Func } from '../index'
+import { Func } from '..'
 
 describe('Func handler', () => {
   it('without handler', async () => {

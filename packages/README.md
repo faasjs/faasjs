@@ -5,7 +5,6 @@
 | Name                                                                     | Version                                                                                                     |
 | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | [faasjs](https://github.com/faasjs/faasjs/tree/main/packages/faasjs)     | [![NPM Version](https://img.shields.io/npm/v/faasjs.svg)](https://www.npmjs.com/package/faasjs)             |
-| [@faasjs/func](https://github.com/faasjs/faasjs/tree/main/packages/func) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/func.svg)](https://www.npmjs.com/package/@faasjs/func) |
 | [@faasjs/core](https://github.com/faasjs/faasjs/tree/main/packages/core) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/core.svg)](https://www.npmjs.com/package/@faasjs/core) |
 
 ## Command Lines

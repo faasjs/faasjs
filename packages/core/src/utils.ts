@@ -8,7 +8,7 @@
  *
  * @example
  * ```ts
- * import { nameFunc } from '@faasjs/func'
+ * import { nameFunc } from '@faasjs/core'
  *
  * const handler = nameFunc('myHandler', () => {
  *  return 'Hello World'

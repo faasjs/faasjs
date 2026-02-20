@@ -6,7 +6,7 @@ import {
   type Plugin,
   type UseifyPlugin,
   usePlugin,
-} from '@faasjs/func'
+} from '../func'
 import { deepMerge, loadPackage } from '@faasjs/node-utils'
 import type { Logger } from '@faasjs/node-utils'
 import knex, { type Knex as OriginKnex } from 'knex'

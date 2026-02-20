@@ -36,7 +36,6 @@
   },
   "devDependencies": {
     "@faasjs/core": ">=8.0.0-beta.8",
-    "@faasjs/func": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
     "@types/node": "*",
     "knex": "*",
@@ -47,7 +46,6 @@
   },
   "peerDependencies": {
     "@faasjs/core": ">=8.0.0-beta.8",
-    "@faasjs/func": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
     "@types/node": "*",
     "knex": "*",

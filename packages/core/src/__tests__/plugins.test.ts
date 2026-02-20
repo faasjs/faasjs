@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { Func, type InvokeData, type MountData, type Next, type Plugin } from '../index'
+import { Func, type InvokeData, type MountData, type Next, type Plugin } from '..'
 
 describe('plugins', () => {
   it('onMount', async () => {
     const results: string[] = []
+
     class P1 implements Plugin {
       public readonly type = 'mount'
       public readonly name = 'p1'
@@ -14,6 +15,7 @@ describe('plugins', () => {
         results.push('after1')
       }
     }
+
     class P2 implements Plugin {
       public readonly type = 'mount'
       public readonly name = 'p2'
@@ -43,6 +45,7 @@ describe('plugins', () => {
 
   it('onInvoke', async () => {
     const results: string[] = []
+
     class P1 implements Plugin {
       public readonly type = 'invoke'
       public readonly name = 'p1'
@@ -55,6 +58,7 @@ describe('plugins', () => {
         results.push('after1')
       }
     }
+
     class P2 implements Plugin {
       public readonly type = 'invoke'
       public readonly name = 'p2'

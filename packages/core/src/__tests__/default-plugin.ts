@@ -1,4 +1,4 @@
-import type { InvokeData, Next, Plugin } from '@faasjs/func'
+import type { InvokeData, Next, Plugin } from '..'
 
 type PluginConfig = {
   name: string

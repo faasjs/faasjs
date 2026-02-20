@@ -1,5 +1,5 @@
 import { streamToString } from '@faasjs/dev'
-import { Func, type InvokeData } from '@faasjs/func'
+import { Func, type InvokeData } from '..'
 import { describe, expect, it } from 'vitest'
 import { Http, Session } from '../index'
 

@@ -1,4 +1,4 @@
-import { useFunc } from '@faasjs/func'
+import { useFunc } from '@faasjs/core'
 import { useHttp } from '@faasjs/core'
 
 export const func = useFunc(() => {

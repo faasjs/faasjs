@@ -19,7 +19,7 @@
 
 ## Affected packages / 影响包
 
-<!-- List impacted packages, for example: @faasjs/func, @faasjs/core -->
+<!-- List impacted packages, for example: @faasjs/core, @faasjs/dev -->
 
 ## Validation / 验证
 

@@ -26,10 +26,11 @@ The keywords `MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, and `MAY` are used as d
 
 ## Spec Index
 
-| Spec            | Status   | Version | English                                    | Chinese                                          |
-| --------------- | -------- | ------- | ------------------------------------------ | ------------------------------------------------ |
-| HTTP Protocol   | Accepted | v1.0    | [http-protocol.md](./http-protocol.md)     | [http-protocol.zh.md](./http-protocol.zh.md)     |
-| Routing Mapping | Accepted | v1.0    | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
+| Spec             | Status   | Version | English                                    | Chinese                                          |
+| ---------------- | -------- | ------- | ------------------------------------------ | ------------------------------------------------ |
+| faas.yaml Config | Accepted | v1.0    | [faas-yaml.md](./faas-yaml.md)             | [faas-yaml.zh.md](./faas-yaml.zh.md)             |
+| HTTP Protocol    | Accepted | v1.0    | [http-protocol.md](./http-protocol.md)     | [http-protocol.zh.md](./http-protocol.zh.md)     |
+| Routing Mapping  | Accepted | v1.0    | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
 
 ## Authoring Workflow
 

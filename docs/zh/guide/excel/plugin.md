@@ -17,7 +17,7 @@ defaults:
 
 ```typescript
 // demo.func.ts
-import { Func } from '@faasjs/func'
+import { Func } from '@faasjs/core'
 import { Plugin } from 'fakePlugin'
 
 const plugin = new Plugin()
@@ -41,7 +41,7 @@ defaults:
 
 ```typescript
 // demo.func.ts
-import { Func } from '@faasjs/func'
+import { Func } from '@faasjs/core'
 import { Plugin } from 'fakePlugin'
 
 const plugin = new Plugin({
@@ -58,7 +58,7 @@ export const func = new Func({
 
 ```typescript
 // demo.func.ts
-import { Func } from '@faasjs/func'
+import { Func } from '@faasjs/core'
 import { Plugin } from 'fakePlugin'
 
 const plugin = new Plugin({

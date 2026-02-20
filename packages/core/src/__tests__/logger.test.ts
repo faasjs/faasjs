@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { useFunc } from '../index'
+import { useFunc } from '..'
 
 describe('logger', () => {
   it('should work', async () => {

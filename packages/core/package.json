@@ -30,7 +30,6 @@
     "build": "tsdown src/index.ts --config ../../tsdown.config.ts"
   },
   "devDependencies": {
-    "@faasjs/func": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
     "@faasjs/types": ">=8.0.0-beta.8",
     "@types/mime-types": "*",
@@ -44,7 +43,6 @@
     "zod": ">=4.0.0"
   },
   "peerDependencies": {
-    "@faasjs/func": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
     "@faasjs/types": ">=8.0.0-beta.8",
     "knex": "*",

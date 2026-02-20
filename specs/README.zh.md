@@ -26,10 +26,11 @@
 
 ## 规范索引
 
-| 规范      | 状态   | 版本 | 英文                                       | 中文                                             |
-| --------- | ------ | ---- | ------------------------------------------ | ------------------------------------------------ |
-| HTTP 协议 | 已采纳 | v1.0 | [http-protocol.md](./http-protocol.md)     | [http-protocol.zh.md](./http-protocol.zh.md)     |
-| 路由映射  | 已采纳 | v1.0 | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
+| 规范           | 状态   | 版本 | 英文                                       | 中文                                             |
+| -------------- | ------ | ---- | ------------------------------------------ | ------------------------------------------------ |
+| faas.yaml 配置 | 已采纳 | v1.0 | [faas-yaml.md](./faas-yaml.md)             | [faas-yaml.zh.md](./faas-yaml.zh.md)             |
+| HTTP 协议      | 已采纳 | v1.0 | [http-protocol.md](./http-protocol.md)     | [http-protocol.zh.md](./http-protocol.zh.md)     |
+| 路由映射       | 已采纳 | v1.0 | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
 
 ## 编写流程
 

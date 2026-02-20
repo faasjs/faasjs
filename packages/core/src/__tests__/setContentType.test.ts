@@ -1,4 +1,4 @@
-import { Func } from '@faasjs/func'
+import { Func } from '..'
 import { describe, expect, it } from 'vitest'
 import { ContentType, Http } from '../index'
 

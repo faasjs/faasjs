@@ -1,6 +1,6 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 import { Http } from '@faasjs/core'
-import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/func'
+import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/core'
 import {
   deepMerge,
   loadConfig,
@@ -10,7 +10,7 @@ import {
   streamToText,
 } from '@faasjs/node-utils'
 
-export * from '@faasjs/func'
+export * from '@faasjs/core'
 
 export { streamToObject, streamToString, streamToText }
 

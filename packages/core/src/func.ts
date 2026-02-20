@@ -1,20 +1,3 @@
-/**
- * FaasJS's function module.
- *
- * [![License: MIT](https://img.shields.io/npm/l/@faasjs/func.svg)](https://github.com/faasjs/faasjs/blob/main/packages/func/LICENSE)
- * [![NPM Version](https://img.shields.io/npm/v/@faasjs/func.svg)](https://www.npmjs.com/package/@faasjs/func)
- *
- * ## Install
- *
- * ```sh
- * npm install @faasjs/func
- * ```
- *
- * ## Usage
- *
- * @packageDocumentation
- */
-
 import { randomBytes } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { Logger } from '@faasjs/node-utils'
@@ -25,7 +8,9 @@ export * from './utils'
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
   data: InvokeData<TEvent, TContext>,
 ) => Promise<TResult>
+
 export type Next = () => Promise<void>
+
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
   context?: TContext,
@@ -92,12 +77,12 @@ type CachedFunction = {
 }
 
 /**
- * Get the event type of a func
+ * Get the event type of a func.
  *
  * @example
  * ```ts
  * import { defineApi } from '@faasjs/core'
- * import type { FuncEventType } from '@faasjs/func'
+ * import type { FuncEventType } from '@faasjs/core'
  *
  * const func = defineApi<undefined, { counter: number }>({
  *   async handler() {
@@ -112,12 +97,12 @@ export type FuncEventType<T extends Func<any, any, any>> =
   T extends Func<infer P, any, any> ? P : any
 
 /**
- * Get the return type of a func
+ * Get the return type of a func.
  *
  * @example
  * ```ts
  * import { defineApi } from '@faasjs/core'
- * import type { FuncReturnType } from '@faasjs/func'
+ * import type { FuncReturnType } from '@faasjs/core'
  *
  * const func = defineApi<undefined, any, any, number>({
  *   async handler() {
@@ -217,10 +202,12 @@ function normalizeMountData(
   const ensureEventAndContext = options.ensureEventAndContext ?? true
 
   if (!mountData.config) mountData.config = options.defaultConfig || Object.create(null)
+
   if (ensureEventAndContext) {
     if (!mountData.context) mountData.context = Object.create(null)
     if (!mountData.event) mountData.event = Object.create(null)
   }
+
   if (!mountData.logger) mountData.logger = new Logger(options.loggerLabel)
 
   return mountData as MountData
@@ -238,10 +225,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   } = Object.create(null)
 
   /**
-   * Create a cloud function
-   * @param config {object} config
-   * @param config.plugins {Plugin[]} plugins list
-   * @param config.handler {Handler} business logic
+   * Create a cloud function.
    */
   constructor(config: FuncConfig<TEvent, TContext>) {
     if (config.handler) this.handler = config.handler
@@ -263,8 +247,10 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     if (cached) return cached
 
     const list: CachedFunction[] = []
+
     for (const plugin of this.plugins) {
       const handler = plugin[key]
+
       if (typeof handler !== 'function') continue
 
       list.push({
@@ -283,6 +269,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
     return async (data: any, next?: () => void): Promise<any> => {
       let index = -1
+
       if (!data.logger) data.logger = new Logger()
 
       const dispatch = async (i: number): Promise<any> => {
@@ -305,6 +292,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
         data.logger.label = label
         data.logger.debug('begin')
         data.logger.time(label)
+
         try {
           const res = await Promise.resolve(fn.handler(data, dispatch.bind(null, i + 1)))
           data.logger.label = label
@@ -323,7 +311,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * First time mount the function
+   * First time mount the function.
    */
   public async mount(
     data: {
@@ -353,8 +341,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * Invoke the function
-   * @param data {object} data
+   * Invoke the function.
    */
   public async invoke(data: InvokeData<TEvent, TContext, TResult>): Promise<void> {
     if (!this.mounted) await this.mount(data)
@@ -368,7 +355,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * Export the function
+   * Export the function.
    */
   public export(): {
     handler: ExportedHandler<TEvent, TContext, TResult>
@@ -379,10 +366,13 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       callback?: (...args: any) => any,
     ): Promise<TResult> => {
       if (typeof context === 'undefined') context = {}
+
       if (!context.request_id)
         context.request_id =
           (event as any)?.headers?.['x-faasjs-request-id'] || randomBytes(16).toString('hex')
+
       if (!context.request_at) context.request_at = randomBytes(16).toString('hex')
+
       context.callbackWaitsForEmptyEventLoop = false
 
       const logger = new Logger(context.request_id)

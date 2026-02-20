@@ -4,7 +4,6 @@
   "type": "module",
   "dependencies": {
     "@faasjs/core": "file:../packages/core",
-    "@faasjs/func": "file:../packages/func",
     "benchmark": "*",
     "express": "*",
     "koa": "*"

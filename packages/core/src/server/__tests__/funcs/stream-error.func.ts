@@ -1,4 +1,4 @@
-import { Func } from '@faasjs/func'
+import { Func } from '@faasjs/core'
 
 export const func = new Func({
   async handler() {

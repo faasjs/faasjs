@@ -24,8 +24,8 @@ body:
     id: affected-package
     attributes:
       label: Affected package / 受影响包
-      description: Which package is affected? (for example @faasjs/func)
-      placeholder: e.g. @faasjs/func
+      description: Which package is affected? (for example @faasjs/core)
+      placeholder: e.g. @faasjs/core
     validations:
       required: true
 

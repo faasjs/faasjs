@@ -1,4 +1,4 @@
-import { Func } from '@faasjs/func'
+import { Func } from '@faasjs/core'
 import { Http } from '@faasjs/core'
 import { detectNodeRuntime } from '@faasjs/node-utils'
 

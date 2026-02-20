@@ -1,7 +1,7 @@
 import { createReadStream, existsSync } from 'node:fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
-import { nameFunc } from '@faasjs/func'
+import { nameFunc } from '../func'
 import type { Logger } from '@faasjs/node-utils'
 import { lookup } from 'mime-types'
 import { ensureRequestUrl } from '../request-url'

@@ -1,4 +1,4 @@
-import type { InvokeData, Plugin } from '../../index'
+import type { InvokeData, Next, Plugin } from '../../func'
 
 const Name = 'handler'
 
@@ -6,7 +6,7 @@ export class RunHandler implements Plugin {
   public readonly type = Name
   public readonly name = Name
 
-  public async onInvoke(data: InvokeData, next: () => Promise<void>): Promise<void> {
+  public async onInvoke(data: InvokeData, next: Next): Promise<void> {
     if (data.handler)
       if (!data.runHandler) {
         try {

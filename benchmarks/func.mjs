@@ -1,5 +1,4 @@
-import { useFunc } from '@faasjs/func'
-import { useHttp } from '@faasjs/core'
+import { useFunc, useHttp } from '@faasjs/core'
 import Benchmark from 'benchmark'
 
 const suite = new Benchmark.Suite()

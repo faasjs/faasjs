@@ -16,7 +16,7 @@ Get the return type of a func
 
 ```ts
 import { defineApi } from '@faasjs/core'
-import type { FuncReturnType } from '@faasjs/func'
+import type { FuncReturnType } from '@faasjs/core'
 
 const func = defineApi<undefined, any, any, number>({
   async handler() {

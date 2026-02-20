@@ -16,7 +16,7 @@ Get the event type of a func
 
 ```ts
 import { defineApi } from '@faasjs/core'
-import type { FuncEventType } from '@faasjs/func'
+import type { FuncEventType } from '@faasjs/core'
 
 const func = defineApi<undefined, { counter: number }>({
   async handler() {

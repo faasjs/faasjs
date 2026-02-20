@@ -6,7 +6,7 @@
  *
  * ## Install
  *
- * Normally you don't need to install this package manually. It's a dependency of `@faasjs/func` and `@faasjs/browser`.
+ * Normally you don't need to install this package manually. It's a dependency of `@faasjs/core` and `@faasjs/browser`.
  *
  * ## Usage
  *
@@ -28,7 +28,11 @@
  *
  * @packageDocumentation
  */
-import type { Func } from '@faasjs/func'
+type FaasFuncLike = {
+  export: () => {
+    handler: (...args: any[]) => any
+  }
+}
 
 /**
  * Interface for defining FaasJS actions.
@@ -191,7 +195,7 @@ export type FaasEvent<T = any> = T extends FaasEventPaths ? FaasEvents[T] : Reco
  * }
  * ```
  */
-export type InferFaasAction<TFunc extends Func> = {
+export type InferFaasAction<TFunc extends FaasFuncLike> = {
   Params: NonNullable<Parameters<ReturnType<TFunc['export']>['handler']>[0]>['params']
   Data: Awaited<ReturnType<ReturnType<TFunc['export']>['handler']>>
 }
@@ -215,11 +219,11 @@ export type InferFaasAction<TFunc extends Func> = {
  * ```
  */
 export type InferFaasFunc<TModule> = TModule extends { func: infer TFunc }
-  ? TFunc extends Func
+  ? TFunc extends FaasFuncLike
     ? TFunc
     : never
   : TModule extends { default: infer TFunc }
-    ? TFunc extends Func
+    ? TFunc extends FaasFuncLike
       ? TFunc
       : never
     : never

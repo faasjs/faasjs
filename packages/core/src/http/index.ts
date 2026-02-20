@@ -6,7 +6,7 @@ import {
   type Plugin,
   type UseifyPlugin,
   usePlugin,
-} from '@faasjs/func'
+} from '../func'
 import { deepMerge } from '@faasjs/node-utils'
 import { Cookie, type CookieOptions } from './cookie'
 import type { Session } from './session'
@@ -394,7 +394,7 @@ export function useHttp<
   return usePlugin(new Http<TParams, TCookie, TSession>(config))
 }
 
-declare module '@faasjs/func' {
+declare module '@faasjs/core' {
   interface FaasPluginEventMap {
     http: {
       headers?: Record<string, any>

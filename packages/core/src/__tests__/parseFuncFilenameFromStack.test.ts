@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseFuncFilenameFromStack } from '../index'
+import { parseFuncFilenameFromStack } from '..'
 
 describe('parseFuncFilenameFromStack', () => {
   it('parses stack frame with function name and parentheses', () => {

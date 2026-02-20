@@ -8,7 +8,7 @@
 
 [![Coverage Status](https://img.shields.io/codecov/c/github/faasjs/faasjs.svg)](https://app.codecov.io/gh/faasjs/faasjs)
 [![Commits](https://img.shields.io/github/commit-activity/y/faasjs/faasjs)](https://github.com/faasjs/faasjs)
-[![Downloads](https://img.shields.io/npm/dm/@faasjs/func)](https://github.com/faasjs/faasjs)
+[![Downloads](https://img.shields.io/npm/dm/@faasjs/core)](https://github.com/faasjs/faasjs)
 [![Pull requests](https://img.shields.io/github/issues-pr-closed/faasjs/faasjs)](https://github.com/faasjs/faasjs/pulls)
 
 [![faasjs/nginx](https://img.shields.io/badge/Docker-faasjs%2Fnginx-blue)](https://hub.docker.com/repository/docker/faasjs/nginx)

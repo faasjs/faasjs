@@ -1,5 +1,5 @@
 import { brotliCompressSync, deflateSync, gzipSync } from 'node:zlib'
-import { Func } from '@faasjs/func'
+import { Func } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
 import { FuncWarper } from '../../src/index'
 

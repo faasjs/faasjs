@@ -1,4 +1,4 @@
-import { Func } from '@faasjs/func'
+import { Func } from '@faasjs/core'
 import { Http } from '@faasjs/core'
 
 const http = new Http()
