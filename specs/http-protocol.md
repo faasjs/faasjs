@@ -7,7 +7,7 @@ Chinese: [HTTP 协议规范](./http-protocol.zh.md)
 - Status: Accepted
 - Version: v1.0
 - Owner: FaasJS Maintainers
-- Applies To: `@faasjs/browser`, `@faasjs/server`, `@faasjs/core`, and API projects built on FaasJS
+- Applies To: `@faasjs/browser`, `@faasjs/core`, and API projects built on FaasJS
 - Last Updated: 2026-02-19
 
 ## Background

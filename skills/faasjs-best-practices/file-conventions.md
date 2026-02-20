@@ -37,7 +37,7 @@ src/pages/
 
 ## Route Resolution Order
 
-`@faasjs/server` resolves request URLs by probing file candidates in this order:
+`@faasjs/core` resolves request URLs by probing file candidates in this order:
 
 1. `path.func.ts`
 2. `path/index.func.ts`

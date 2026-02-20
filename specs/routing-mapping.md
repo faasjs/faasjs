@@ -7,7 +7,7 @@ Chinese: [路由映射规范](./routing-mapping.zh.md)
 - Status: Accepted
 - Version: v1.0
 - Owner: FaasJS Maintainers
-- Applies To: `@faasjs/server`, `create-faas-app`, and API projects built on FaasJS
+- Applies To: `@faasjs/core`, `create-faas-app`, and API projects built on FaasJS
 - Last Updated: 2026-02-19
 
 ## Background
@@ -16,8 +16,8 @@ FaasJS route resolution is file-based. This spec standardizes the mapping and ke
 
 Related references:
 
-- `packages/server/src/server/routes.ts`
-- `packages/server/src/server/__tests__/routes.test.ts`
+- `packages/core/src/server/routes.ts`
+- `packages/core/src/server/__tests__/routes.test.ts`
 - `documents/projects/faasjs/rfc-spa-api-zero-mapping-v0.1-short.md`
 
 ## Goals

@@ -7,7 +7,7 @@
 - 状态: 已采纳（Accepted）
 - 版本: v1.0
 - 维护者: FaasJS Maintainers
-- 适用范围: `@faasjs/server`、`create-faas-app` 及基于 FaasJS 的 API 项目
+- 适用范围: `@faasjs/core`、`create-faas-app` 及基于 FaasJS 的 API 项目
 - 最后更新: 2026-02-19
 
 ## 背景
@@ -16,8 +16,8 @@ FaasJS 路由解析基于文件系统。此规范用于固定映射规则，并�
 
 相关参考：
 
-- `packages/server/src/server/routes.ts`
-- `packages/server/src/server/__tests__/routes.test.ts`
+- `packages/core/src/server/routes.ts`
+- `packages/core/src/server/__tests__/routes.test.ts`
 - `documents/projects/faasjs/rfc-spa-api-zero-mapping-v0.1-short.md`
 
 ## 目标

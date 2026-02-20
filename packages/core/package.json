@@ -35,6 +35,8 @@
     "@faasjs/logger": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
     "@faasjs/types": ">=8.0.0-beta.8",
+    "@types/mime-types": "*",
+    "mime-types": "*",
     "zod": ">=4.0.0"
   },
   "peerDependencies": {
@@ -43,6 +45,7 @@
     "@faasjs/logger": ">=8.0.0-beta.8",
     "@faasjs/node-utils": ">=8.0.0-beta.8",
     "@faasjs/types": ">=8.0.0-beta.8",
+    "mime-types": "*",
     "zod": ">=4.0.0"
   },
   "engines": {

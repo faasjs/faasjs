@@ -21,7 +21,6 @@
 | [@faasjs/logger](https://github.com/faasjs/faasjs/tree/main/packages/logger)         | [![NPM Version](https://img.shields.io/npm/v/@faasjs/logger.svg)](https://www.npmjs.com/package/@faasjs/logger)         |
 | [@faasjs/node-utils](https://github.com/faasjs/faasjs/tree/main/packages/node-utils) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/node-utils.svg)](https://www.npmjs.com/package/@faasjs/node-utils) |
 | [@faasjs/request](https://github.com/faasjs/faasjs/tree/main/packages/request)       | [![NPM Version](https://img.shields.io/npm/v/@faasjs/request.svg)](https://www.npmjs.com/package/@faasjs/request)       |
-| [@faasjs/server](https://github.com/faasjs/faasjs/tree/main/packages/server)         | [![NPM Version](https://img.shields.io/npm/v/@faasjs/server.svg)](https://www.npmjs.com/package/@faasjs/server)         |
 | [@faasjs/dev](https://github.com/faasjs/faasjs/tree/main/packages/dev)               | [![NPM Version](https://img.shields.io/npm/v/@faasjs/dev.svg)](https://www.npmjs.com/package/@faasjs/dev)               |
 
 ## Databases

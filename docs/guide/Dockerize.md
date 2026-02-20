@@ -27,7 +27,7 @@ The file structure of a FaasJS application is as follows:
 The following is an example of a `server.ts` file for a FaasJS application:
 
 ```typescript
-import { Server } from '@faasjs/server'
+import { Server } from '@faasjs/core'
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path'
 

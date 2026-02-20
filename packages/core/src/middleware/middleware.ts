@@ -55,7 +55,7 @@ async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler:
  *
  * @example
  * ```typescript
- * import { useMiddleware } from '@faasjs/server'
+ * import { useMiddleware } from '@faasjs/core'
  *
  * export const func = useMiddleware((request, response, logger) => {
  *   response.setHeader('X-Hello', 'World')
@@ -83,7 +83,7 @@ export async function useMiddleware(handler: Middleware) {
  *
  * @example
  * ```typescript
- * import { useMiddlewares } from '@faasjs/server'
+ * import { useMiddlewares } from '@faasjs/core'
  *
  * export const func = useMiddlewares([
  *   (request, response) => {

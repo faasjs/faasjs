@@ -34,6 +34,16 @@ export {
   type SessionContent,
   type SessionOptions,
 } from './http'
+export {
+  type Middleware,
+  type MiddlewareContext,
+  type MiddlewareEvent,
+  staticHandler,
+  useMiddleware,
+  useMiddlewares,
+  type StaticHandlerOptions,
+} from './middleware'
+export { closeAll, getAll, Server, type ServerHandlerOptions, type ServerOptions } from './server'
 
 type ZodSchema = ZodTypeAny
 type KnexQuery = FaasKnex['query']

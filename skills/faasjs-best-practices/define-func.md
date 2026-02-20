@@ -11,7 +11,7 @@
 ## Plugin config (`src/faas.yaml`)
 
 `defineFunc` reads plugin settings from `faas.yaml` (loaded into `func.config` by
-`@faasjs/load`, `@faasjs/server`, or `@faasjs/dev`).
+`@faasjs/load`, `@faasjs/core`, or `@faasjs/dev`).
 
 ```yaml
 defaults:

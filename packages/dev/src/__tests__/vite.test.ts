@@ -35,7 +35,7 @@ const mocks = vi.hoisted(() => {
   }
 })
 
-vi.mock('@faasjs/server', () => ({
+vi.mock('@faasjs/core', () => ({
   Server: mocks.ServerMock,
 }))
 

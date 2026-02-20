@@ -132,7 +132,7 @@ export default defineConfig({
     join(rootPath, 'server.ts'),
     `import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Server, staticHandler } from '@faasjs/server'
+import { Server, staticHandler } from '@faasjs/core'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

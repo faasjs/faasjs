@@ -7,7 +7,7 @@
 Create a Vite plugin that proxies POST requests to an in-process FaasJS server.
 
 It resolves server root/base from `src/faas.yaml` and strips `base` from
-request URL before forwarding to `@faasjs/server`.
+request URL before forwarding to `@faasjs/core`.
 
 ## Returns
 

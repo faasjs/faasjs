@@ -1,6 +1,6 @@
 import { join } from 'node:path'
+import { Server } from '@faasjs/core'
 import { Logger } from '@faasjs/logger'
-import { Server } from '@faasjs/server'
 import type { Plugin } from 'vite'
 import { resolveServerConfig } from './server_config'
 import { generateFaasTypes, isTypegenSourceFile } from './typegen'
@@ -38,7 +38,7 @@ function stripBase(url: string, base: string): string {
  * Create a Vite plugin that proxies POST requests to an in-process FaasJS server.
  *
  * It resolves server root/base from `src/faas.yaml` and strips `base` from
- * request URL before forwarding to `@faasjs/server`.
+ * request URL before forwarding to `@faasjs/core`.
  */
 export function viteFaasJsServer(): Plugin {
   let config: ResolvedViteFaasJsServerConfig

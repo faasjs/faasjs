@@ -23,3 +23,7 @@ npm install @faasjs/core
 ## HTTP plugin
 
 HTTP helpers (`Http`, `useHttp`, `HttpError`, `Cookie`, `Session`) are now exported from `@faasjs/core`.
+
+## Server runtime
+
+Server helpers (`Server`, `closeAll`, `getAll`, `useMiddleware`, `useMiddlewares`, `staticHandler`) are exported from `@faasjs/core`.

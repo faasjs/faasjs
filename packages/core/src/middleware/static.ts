@@ -35,7 +35,7 @@ export type StaticHandlerOptions = {
    *
    * @example
    * ```typescript
-   * import { useMiddleware, staticHandler } from '@faasjs/server'
+   * import { useMiddleware, staticHandler } from '@faasjs/core'
    *
    * export const func = useMiddleware(staticHandler({ root: __dirname + '/public', stripPrefix: '/public' })) // /public/index.html -> /index.html
    * ```
@@ -105,7 +105,7 @@ async function respondWithFile(path: string, mimeType: string, response: ServerR
  *
  * @example
  * ```typescript
- * import { useMiddleware, staticHandler } from '@faasjs/server'
+ * import { useMiddleware, staticHandler } from '@faasjs/core'
  *
  * export const func = useMiddleware(staticHandler({ root: __dirname + '/public' }))
  * ```

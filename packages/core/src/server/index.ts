@@ -11,7 +11,7 @@ import type { Socket } from 'node:net'
 import { join, resolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
 import { types } from 'node:util'
-import { HttpError } from '@faasjs/core'
+import { HttpError } from '../http'
 import type { Func } from '@faasjs/func'
 import { getTransport, Logger } from '@faasjs/logger'
 import { deepMerge, loadConfig, loadPackage } from '@faasjs/node-utils'
@@ -155,7 +155,7 @@ export type ServerOptions = {
  * @returns {Server}
  * @example
  * ```ts
- * import { Server } from '@faasjs/server'
+ * import { Server } from '@faasjs/core'
  *
  * const server = new Server(process.cwd(), {
  *   port: 8080,

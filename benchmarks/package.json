@@ -5,7 +5,6 @@
   "dependencies": {
     "@faasjs/core": "file:../packages/core",
     "@faasjs/func": "file:../packages/func",
-    "@faasjs/server": "file:../packages/server",
     "benchmark": "*",
     "express": "*",
     "koa": "*"
