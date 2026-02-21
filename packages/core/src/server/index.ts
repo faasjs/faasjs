@@ -11,7 +11,14 @@ import type { Socket } from 'node:net'
 import { join, resolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
 import { types } from 'node:util'
-import { deepMerge, getTransport, loadConfig, loadPackage, Logger } from '@faasjs/node-utils'
+import {
+  deepMerge,
+  getTransport,
+  loadConfig,
+  loadEnvFileIfExists,
+  loadPackage,
+  Logger,
+} from '@faasjs/node-utils'
 import { mountServerCronJobs, unmountServerCronJobs } from '../cron'
 import type { Func } from '../func'
 import { HttpError } from '../http'
@@ -192,6 +199,8 @@ export class Server {
   private sockets: Set<Socket> = new Set()
 
   constructor(root: string, opts: ServerOptions = {}) {
+    loadEnvFileIfExists()
+
     if (!process.env.FaasEnv && process.env.NODE_ENV) process.env.FaasEnv = process.env.NODE_ENV
 
     this.root = root.endsWith(sep) ? root : root + sep

@@ -18,6 +18,10 @@ Knex 能力已内置在 `@faasjs/core` 中，但数据库驱动需按实际 clie
 
 安装 `@faasjs/dev` 后，可通过 `faas knex <action>` 执行 migration：
 
+- 命令执行前会自动读取 `.env`：
+  - 传入 `--root <path>` 时读取 `<path>/.env`
+  - 未传入 `--root` 时读取 `process.cwd()/.env`
+
 ```bash
 # 执行待迁移
 mise exec -- npm run migrate:latest

@@ -34,6 +34,8 @@ const mocks = vi.hoisted(() => {
     },
   }))
 
+  const loadEnvFileIfExists = vi.fn(() => null)
+
   const resolveServerConfig = vi.fn((root: string) => ({
     root,
     base: '/',
@@ -51,6 +53,7 @@ const mocks = vi.hoisted(() => {
     useKnex,
     KnexSchema,
     loadConfig,
+    loadEnvFileIfExists,
     resolveServerConfig,
   }
 })
@@ -62,6 +65,7 @@ vi.mock('@faasjs/core', () => ({
 
 vi.mock('@faasjs/node-utils', () => ({
   loadConfig: mocks.loadConfig,
+  loadEnvFileIfExists: mocks.loadEnvFileIfExists,
 }))
 
 vi.mock('../../server_config', () => ({
@@ -102,6 +106,9 @@ describe('faas knex cli', () => {
 
     expect(code).toBe(0)
     expect(mocks.resolveServerConfig).toHaveBeenCalledWith(process.cwd())
+    expect(mocks.loadEnvFileIfExists).toHaveBeenCalledWith({
+      cwd: process.cwd(),
+    })
     expect(mocks.loadConfig).toHaveBeenCalledWith(
       `${process.cwd()}/src`,
       `${process.cwd()}/src/index.func.ts`,
@@ -124,6 +131,9 @@ describe('faas knex cli', () => {
     const code = await main(['node', 'faas', 'knex', 'status', '--root', customRoot])
 
     expect(code).toBe(0)
+    expect(mocks.loadEnvFileIfExists).toHaveBeenCalledWith({
+      cwd: customRoot,
+    })
     expect(mocks.resolveServerConfig).toHaveBeenCalledWith(customRoot)
     expect(logSpy).toHaveBeenCalledWith(2)
   })

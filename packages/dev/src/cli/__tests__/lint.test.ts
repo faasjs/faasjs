@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => {
   const execFileSync = vi.fn(() => undefined)
+  const loadEnvFileIfExists = vi.fn(() => null)
   const existsSync = vi.fn(
     (path: string) =>
       path === '/tooling/oxlint/package.json' ||
@@ -27,11 +28,16 @@ const mocks = vi.hoisted(() => {
 
   return {
     execFileSync,
+    loadEnvFileIfExists,
     existsSync,
     readFileSync,
     resolve,
   }
 })
+
+vi.mock('@faasjs/node-utils', () => ({
+  loadEnvFileIfExists: mocks.loadEnvFileIfExists,
+}))
 
 vi.mock('node:child_process', () => ({
   execFileSync: mocks.execFileSync,
@@ -52,6 +58,7 @@ import { main } from '../index'
 
 function resetMockImplementations(): void {
   mocks.execFileSync.mockImplementation(() => undefined)
+  mocks.loadEnvFileIfExists.mockImplementation(() => null)
   mocks.existsSync.mockImplementation(
     (path: string) =>
       path === '/tooling/oxlint/package.json' ||
@@ -110,8 +117,11 @@ describe('faas lint cli', () => {
     const code = await main(['node', 'faas', 'lint'])
 
     expect(code).toBe(0)
+    expect(mocks.loadEnvFileIfExists).toHaveBeenCalledWith({
+      cwd: process.cwd(),
+    })
     expect(mocks.execFileSync).toHaveBeenNthCalledWith(
-      2,
+      1,
       process.execPath,
       [
         '/tooling/oxlint/bin/oxlint',
@@ -135,9 +145,12 @@ describe('faas lint cli', () => {
     const code = await main(['node', 'faas', 'lint', '--root', root])
 
     expect(code).toBe(0)
-    expect(mocks.execFileSync).toHaveBeenCalledTimes(2)
+    expect(mocks.loadEnvFileIfExists).toHaveBeenCalledWith({
+      cwd: root,
+    })
+    expect(mocks.execFileSync).toHaveBeenCalledTimes(1)
     expect(mocks.execFileSync).toHaveBeenNthCalledWith(
-      2,
+      1,
       process.execPath,
       [
         '/tooling/oxlint/bin/oxlint',

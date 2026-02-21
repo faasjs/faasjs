@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
+import { loadEnvFileIfExists } from '@faasjs/node-utils'
 import { createMain, parseCommonCliArgs, printVersion } from './shared'
 
 type PackageJSON = {
@@ -129,6 +130,11 @@ export async function run(args: string[]): Promise<number> {
   if (rest.length) throw Error(`[faas lint] Unexpected argument: ${rest[0]}`)
 
   const projectRoot = options.root ?? process.cwd()
+
+  loadEnvFileIfExists({
+    cwd: projectRoot,
+  })
+
   const oxlintBinPath = resolveBinPath(projectRoot, 'oxlint', 'oxlint')
   const oxlintConfigPath = resolveSharedConfigPath(
     projectRoot,

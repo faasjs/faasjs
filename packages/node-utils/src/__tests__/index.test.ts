@@ -7,6 +7,7 @@ it('should export helpers', () => {
   expect(nodeUtils).toHaveProperty('colorfy')
   expect(nodeUtils).toHaveProperty('deepMerge')
   expect(nodeUtils).toHaveProperty('loadConfig')
+  expect(nodeUtils).toHaveProperty('loadEnvFileIfExists')
   expect(nodeUtils).toHaveProperty('loadFunc')
   expect(nodeUtils).toHaveProperty('loadPackage')
   expect(nodeUtils).toHaveProperty('detectNodeRuntime')

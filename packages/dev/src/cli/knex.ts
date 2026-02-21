@@ -1,6 +1,6 @@
 import { join } from 'node:path'
 import { useKnex as createKnex, KnexSchema } from '@faasjs/core'
-import { loadConfig } from '@faasjs/node-utils'
+import { loadConfig, loadEnvFileIfExists } from '@faasjs/node-utils'
 import { resolveServerConfig } from '../server_config'
 import { type CliOptions, createMain, parseCommonCliArgs, printVersion } from './shared'
 
@@ -111,7 +111,13 @@ export async function run(args: string[]): Promise<number> {
 
   if (parsed.mode === 'version') return printVersion()
 
-  const { root: projectRoot, staging } = resolveServerConfig(parsed.options.root ?? process.cwd())
+  const envRoot = parsed.options.root ?? process.cwd()
+
+  loadEnvFileIfExists({
+    cwd: envRoot,
+  })
+
+  const { root: projectRoot, staging } = resolveServerConfig(envRoot)
   const srcRoot = join(projectRoot, 'src')
   const config = loadConfig(srcRoot, join(srcRoot, 'index.func.ts'), staging) as {
     plugins?: {
