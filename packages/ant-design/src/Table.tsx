@@ -15,7 +15,6 @@ import { cloneDeep, isNil, uniqBy } from 'lodash-es'
 import { useEffect, useState } from 'react'
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
-import { Description } from './Description'
 import type {
   BaseItemProps,
   FaasItemProps,
@@ -23,6 +22,7 @@ import type {
   UnionFaasItemRender,
 } from './data'
 import { cloneUnionFaasItemElement, idToTitle, transferOptions, transferValue } from './data'
+import { Description } from './Description'
 import {
   type FaasDataInjection,
   FaasDataWrapper,

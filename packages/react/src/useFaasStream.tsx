@@ -1,5 +1,5 @@
-import type { BaseUrl } from './browser'
 import { useRef, useState } from 'react'
+import type { BaseUrl } from './browser'
 import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
 

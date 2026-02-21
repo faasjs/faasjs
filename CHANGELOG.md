@@ -2,6 +2,12 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.10 (2026-02-21)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.9...v8.0.0-beta.10)
+
+- `@faasjs/core`
+  - [Feature] Add `CronJob` feature.
+  - [Feature] Auto mount CronJob when server listen.
+
 [`v8.0.0-beta.9 (2026-02-20)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.8...v8.0.0-beta.9)
 
 - `faasjs`
@@ -13,7 +19,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/dev`
   - [Feature] All cli tools be merged in `faas` cli.
-  - [Feature] New linter and formatter based on `oxlint` and `oxfmt`.
+  - [Feature] New linter and formatter based on `oxlint`.
 
 - `@faasjs/core`
   - [Break] Rename `defineFunc` to `defineApi`.

@@ -43,6 +43,55 @@ const server = new Server(process.env.FaasRoot, {
 server.listen()
 ```
 
+## Optional: Run Cron Jobs with Server
+
+`@faasjs/core` provides a minimal built-in `CronJob` class. Create jobs with
+`createCronJob()`, and `Server.listen()` / `Server.close()` will manage their lifecycle
+automatically.
+
+```typescript
+import { createCronJob, Server } from '@faasjs/core'
+import { fileURLToPath } from 'node:url'
+import { dirname } from 'node:path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+process.env.FaasRoot = `${__dirname}/`
+
+createCronJob({
+  name: 'heartbeat',
+  expression: '*/5 * * * *',
+  handler: async ({ logger }) => {
+    logger.info('heartbeat job executed')
+  },
+})
+
+const server = new Server(process.env.FaasRoot, {
+  port: 3000,
+})
+
+server.listen()
+```
+
+If you need to disable cron lifecycle mounting for a server instance, set
+`cronJob: false`:
+
+```typescript
+const server = new Server(process.env.FaasRoot, {
+  port: 3000,
+  cronJob: false,
+})
+```
+
+Cron expression currently uses 5 fields:
+
+```text
+minute hour dayOfMonth month dayOfWeek
+```
+
+Supported syntax in each field is minimal: `*`, `*/n`, and `number`.
+
 ## Dockerfile
 
 The following is an example of a `Dockerfile` for a FaasJS application:

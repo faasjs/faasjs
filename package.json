@@ -8,11 +8,11 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "pub": "npm run build && npm run build:doc && node publish.ts",
+    "pub": "npm run build && npm run build:doc && npm run lint && node publish.ts",
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log .turbo",
     "build": "npm run lint && npm run clean && npm exec turbo build && rm -f packages/*/dist/*.d.cts",
     "build:doc": "node build-docs.ts",
-    "lint": "oxfmt -c packages/dev/configs/oxfmt.base.json . && oxlint -c packages/dev/configs/oxlint.base.json --fix .",
+    "lint": "oxlint --fix .",
     "ci": "vitest run --silent --coverage"
   },
   "devDependencies": {
@@ -23,8 +23,6 @@
     "@vitejs/plugin-react": "*",
     "@vitest/coverage-v8": "*",
     "jsdom": "*",
-    "oxfmt": "*",
-    "oxlint": "*",
     "tsdown": "*",
     "turbo": "*",
     "typedoc": "*",

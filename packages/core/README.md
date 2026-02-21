@@ -14,15 +14,18 @@ npm install @faasjs/core
 ## Functions
 
 - [closeAll](functions/closeAll.md)
+- [createCronJob](functions/createCronJob.md)
 - [createPgliteKnex](functions/createPgliteKnex.md)
 - [defineApi](functions/defineApi.md)
 - [getAll](functions/getAll.md)
 - [initPostgresTypeParsers](functions/initPostgresTypeParsers.md)
+- [listCronJobs](functions/listCronJobs.md)
 - [mountFaasKnex](functions/mountFaasKnex.md)
 - [nameFunc](functions/nameFunc.md)
 - [parseFuncFilenameFromStack](functions/parseFuncFilenameFromStack.md)
 - [query](functions/query.md)
 - [raw](functions/raw.md)
+- [removeCronJob](functions/removeCronJob.md)
 - [staticHandler](functions/staticHandler.md)
 - [transaction](functions/transaction.md)
 - [unmountFaasKnex](functions/unmountFaasKnex.md)
@@ -36,6 +39,7 @@ npm install @faasjs/core
 ## Classes
 
 - [Cookie](classes/Cookie.md)
+- [CronJob](classes/CronJob.md)
 - [Func](classes/Func.md)
 - [Http](classes/Http.md)
 - [HttpError](classes/HttpError.md)
@@ -52,6 +56,10 @@ npm install @faasjs/core
 
 - [Config](type-aliases/Config.md)
 - [CookieOptions](type-aliases/CookieOptions.md)
+- [CronJobContext](type-aliases/CronJobContext.md)
+- [CronJobErrorHandler](type-aliases/CronJobErrorHandler.md)
+- [CronJobHandler](type-aliases/CronJobHandler.md)
+- [CronJobOptions](type-aliases/CronJobOptions.md)
 - [DefineApiData](type-aliases/DefineApiData.md)
 - [DefineApiOptions](type-aliases/DefineApiOptions.md)
 - [ExportedHandler](type-aliases/ExportedHandler.md)

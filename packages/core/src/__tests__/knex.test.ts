@@ -2,9 +2,9 @@ import { randomUUID } from 'node:crypto'
 import { rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Func, useFunc } from '..'
 import type { Tables } from 'knex/types/tables'
 import { afterEach, assertType, describe, expect, it, vi } from 'vitest'
+import { Func, useFunc } from '..'
 import {
   createPgliteKnex,
   Knex,

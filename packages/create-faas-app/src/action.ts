@@ -10,7 +10,8 @@ const Validator = {
   name(input: string) {
     const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_'
     if (match !== true) return match
-    if (existsSync(input)) return `${input} folder exists, please try another name`
+    if (existsSync(input))
+      return `${input} folder exists, please try another name`
 
     return true
   },
@@ -57,7 +58,6 @@ function buildPackageJSON(name: string): string {
         '@vitejs/plugin-react': '*',
         jsdom: '*',
         'knex-pglite': '*',
-        oxfmt: '*',
         oxlint: '*',
         typescript: '*',
         vite: '*',
@@ -65,7 +65,7 @@ function buildPackageJSON(name: string): string {
       },
     },
     null,
-    2,
+    2
   )}
 `
 }
@@ -77,7 +77,7 @@ function scaffold(rootPath: string): void {
 dist/
 coverage/
 .pglite_dev/
-`,
+`
   )
 
   writeFile(
@@ -93,7 +93,7 @@ coverage/
   },
   "include": ["src", "vite.config.ts", "server.ts"]
 }
-`,
+`
   )
 
   writeFile(
@@ -110,7 +110,7 @@ coverage/
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-`,
+`
   )
 
   writeFile(
@@ -125,7 +125,7 @@ export default defineConfig({
   },
   plugins: [react(), viteFaasJsServer()],
 })
-`,
+`
   )
 
   writeFile(
@@ -155,7 +155,7 @@ new Server(join(__dirname, 'src'), {
     await distHandler(req, res, ctx)
   },
 }).listen()
-`,
+`
   )
 
   writeFile(
@@ -196,7 +196,7 @@ production:
     knex:
       config:
         client: pg
-`,
+`
   )
 
   writeFile(join(rootPath, 'src', 'db', 'migrations', '.gitkeep'), '')
@@ -207,7 +207,7 @@ production:
 import HomePage from './pages/home'
 
 createRoot(document.getElementById('root') as HTMLElement).render(<HomePage />)
-`,
+`
   )
 
   writeFile(
@@ -258,7 +258,7 @@ export default function HomePage() {
     </main>
   )
 }
-`,
+`
   )
 
   writeFile(
@@ -281,7 +281,7 @@ export const func = defineApi({
     }
   },
 })
-`,
+`
   )
 
   writeFile(
@@ -303,7 +303,7 @@ describe('home/api/hello', () => {
     })
   })
 })
-`,
+`
   )
 }
 
@@ -319,7 +319,7 @@ export async function action(options: { name?: string } = {}): Promise<void> {
       message: 'Project name',
       initial: 'faasjs',
       validate: Validator.name,
-    }).then((res) => res.value)
+    }).then(res => res.value)
 
   if (!answers.name) return
 
@@ -327,7 +327,10 @@ export async function action(options: { name?: string } = {}): Promise<void> {
 
   mkdirSync(answers.name)
 
-  writeFileSync(join(answers.name, 'package.json'), buildPackageJSON(answers.name))
+  writeFileSync(
+    join(answers.name, 'package.json'),
+    buildPackageJSON(answers.name)
+  )
 
   scaffold(answers.name)
 

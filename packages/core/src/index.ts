@@ -13,12 +13,12 @@
  * @packageDocumentation
  */
 
-import type { Config, Handler, InvokeData, Plugin } from './func'
-import { Func } from './func'
 import type { output, ZodError, ZodTypeAny } from 'zod'
 import * as z from 'zod'
-import type { Knex as FaasKnex } from './knex/plugin'
+import type { Config, Handler, InvokeData, Plugin } from './func'
+import { Func } from './func'
 import { HttpError } from './http'
+import type { Knex as FaasKnex } from './knex/plugin'
 
 export { z }
 export * from './func'
@@ -44,6 +44,16 @@ export {
   useMiddlewares,
   type StaticHandlerOptions,
 } from './middleware'
+export {
+  createCronJob,
+  CronJob,
+  listCronJobs,
+  removeCronJob,
+  type CronJobContext,
+  type CronJobErrorHandler,
+  type CronJobHandler,
+  type CronJobOptions,
+} from './cron'
 export { closeAll, getAll, Server, type ServerHandlerOptions, type ServerOptions } from './server'
 export * from './knex'
 

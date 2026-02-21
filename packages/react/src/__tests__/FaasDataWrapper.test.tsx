@@ -1,8 +1,8 @@
-import { setMock } from '..'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRef, useState } from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { setMock } from '..'
 import { type FaasDataInjection, FaasDataWrapper, type FaasDataWrapperRef, withFaasData } from '..'
 
 describe('FaasDataWrapper', () => {

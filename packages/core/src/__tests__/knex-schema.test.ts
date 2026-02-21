@@ -2,8 +2,8 @@ import { randomUUID } from 'node:crypto'
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Func } from '..'
 import { afterEach, describe, expect, it } from 'vitest'
+import { Func } from '..'
 import { Knex, KnexSchema } from '../index'
 
 const tempDirs: string[] = []

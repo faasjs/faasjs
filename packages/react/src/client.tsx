@@ -1,12 +1,12 @@
+import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import type { BaseUrl, Options, Response, ResponseError } from './browser'
 import { FaasBrowserClient } from './browser'
-import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
+import { faas } from './faas'
 import {
   type FaasDataInjection,
   FaasDataWrapper,
   type FaasDataWrapperProps,
 } from './FaasDataWrapper'
-import { faas } from './faas'
 import { useFaas, type useFaasOptions } from './useFaas'
 
 const clients: {

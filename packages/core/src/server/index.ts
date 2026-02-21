@@ -11,9 +11,10 @@ import type { Socket } from 'node:net'
 import { join, resolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
 import { types } from 'node:util'
-import { HttpError } from '../http'
-import type { Func } from '../func'
 import { deepMerge, getTransport, loadConfig, loadPackage, Logger } from '@faasjs/node-utils'
+import { mountServerCronJobs, unmountServerCronJobs } from '../cron'
+import type { Func } from '../func'
+import { HttpError } from '../http'
 import type { Middleware } from '../middleware'
 import { ensureRequestUrl } from '../request-url'
 import {
@@ -144,6 +145,16 @@ export type ServerOptions = {
    * ```
    */
   beforeHandle?: Middleware
+
+  /**
+   * Whether to mount cron job lifecycle with this server instance.
+   *
+   * When enabled, `server.listen()` mounts registered cron jobs and
+   * `server.close()` unmounts them.
+   *
+   * @default true
+   */
+  cronJob?: boolean
 }
 
 /**
@@ -187,6 +198,7 @@ export class Server {
     this.options = deepMerge(
       {
         port: 3000,
+        cronJob: true,
       },
       opts,
     )
@@ -551,6 +563,13 @@ export class Server {
       })
       .listen(this.options.port, '0.0.0.0')
 
+    if (this.options.cronJob)
+      try {
+        mountServerCronJobs()
+      } catch (error) {
+        this.onError(error)
+      }
+
     process
       .on('uncaughtException', (e) => {
         this.logger.debug('Uncaught exception')
@@ -606,6 +625,13 @@ export class Server {
 
     this.logger.debug('closing')
     this.logger.time(`${this.logger.label}close`)
+
+    if (this.options.cronJob)
+      try {
+        unmountServerCronJobs()
+      } catch (error) {
+        this.onError(error)
+      }
 
     if (this.activeRequests) {
       await new Promise<void>((resolve) => {

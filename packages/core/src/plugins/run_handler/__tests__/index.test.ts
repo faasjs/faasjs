@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { Func, type InvokeData } from '../../..'
 import { RunHandler } from '..'
+import { Func, type InvokeData } from '../../..'
 
 describe('plugins.runHandler', () => {
   it('return result', async () => {

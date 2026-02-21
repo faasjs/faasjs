@@ -1,8 +1,8 @@
-import { Response, setMock } from '..'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { Response, setMock } from '..'
 import { useFaas } from '../useFaas'
 
 describe('useFaas', () => {

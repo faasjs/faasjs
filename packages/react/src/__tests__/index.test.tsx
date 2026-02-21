@@ -1,5 +1,5 @@
-import { Response, setMock } from '..'
 import { describe, expect, it } from 'vitest'
+import { Response, setMock } from '..'
 import { FaasReactClient, getClient } from '..'
 
 describe('FaasReactClient', () => {

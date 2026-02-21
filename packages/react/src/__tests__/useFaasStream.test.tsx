@@ -1,8 +1,8 @@
-import { type Response, setMock } from '..'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { type Response, setMock } from '..'
 import { useFaasStream } from '../useFaasStream'
 
 function createAsyncMockStream(chunks: string[]): ReadableStream {

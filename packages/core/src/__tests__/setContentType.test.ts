@@ -1,5 +1,5 @@
-import { Func } from '..'
 import { describe, expect, it } from 'vitest'
+import { Func } from '..'
 import { ContentType, Http } from '../index'
 
 describe('setContentType', () => {

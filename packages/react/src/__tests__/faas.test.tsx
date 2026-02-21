@@ -1,5 +1,5 @@
-import { Response, setMock } from '..'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { Response, setMock } from '..'
 import { faas } from '../faas'
 
 describe('faas', () => {

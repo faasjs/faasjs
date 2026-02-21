@@ -4,7 +4,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
   },
-  "oxc.fmt.configPath": "packages/dev/configs/oxfmt.base.json",
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.wordWrap": "on",
   "editor.formatOnSave": true,
@@ -21,7 +20,6 @@
     "Millis",
     "onwarn",
     "oxc",
-    "oxfmt",
     "oxlint",
     "querystringify",
     "RUNENV",
