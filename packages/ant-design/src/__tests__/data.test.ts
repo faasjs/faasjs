@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
+import { createElement } from 'react'
 import { describe, expect, it } from 'vitest'
-import { idToTitle, transferValue } from '../data'
+import { cloneUnionFaasItemElement, idToTitle, transferOptions, transferValue } from '../data'
 
 describe('transferValue', () => {
   it('should return null', () => {
@@ -66,4 +67,40 @@ it('idToTitle', () => {
   expect(idToTitle('Hello World')).toBe('Hello World')
   expect(idToTitle('hello-world')).toBe('Hello World')
   expect(idToTitle('hello_world')).toBe('Hello World')
+})
+
+describe('transferOptions', () => {
+  it('should return empty array on falsy input', () => {
+    expect(transferOptions(undefined as any)).toEqual([])
+  })
+
+  it('should normalize primitive options', () => {
+    expect(transferOptions(['hello_world', 2])).toEqual([
+      { label: 'Hello World', value: 'hello_world' },
+      { label: '2', value: 2 },
+    ])
+  })
+})
+
+describe('cloneUnionFaasItemElement', () => {
+  it('should clone element and component with injected props', () => {
+    const clonedElement = cloneUnionFaasItemElement(createElement('span'), {
+      scene: 'table',
+      value: 'value',
+    })
+
+    expect((clonedElement as any).props.scene).toBe('table')
+    expect((clonedElement as any).props.value).toBe('value')
+
+    const clonedComponent = cloneUnionFaasItemElement(
+      (props: { value?: string }) => createElement('span', null, props.value),
+      {
+        scene: 'form',
+        value: 'component-value',
+      },
+    )
+
+    expect((clonedComponent as any).props.scene).toBe('form')
+    expect((clonedComponent as any).props.value).toBe('component-value')
+  })
 })

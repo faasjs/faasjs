@@ -14,4 +14,20 @@ describe('Loading', () => {
 
     expect(screen.getByText('children')).toBeDefined()
   })
+
+  it('should keep large layout when size is explicitly large', () => {
+    const { container } = render(<Loading size='large' />)
+
+    const wrapper = container.firstElementChild as HTMLDivElement
+    expect(wrapper.style.margin).toBe('20vh auto')
+    expect(wrapper.style.textAlign).toBe('center')
+  })
+
+  it('should skip large layout when size is small', () => {
+    const { container } = render(<Loading size='small' />)
+
+    const wrapper = container.firstElementChild as HTMLDivElement
+    expect(wrapper.style.margin).toBe('')
+    expect(wrapper.style.textAlign).toBe('')
+  })
 })

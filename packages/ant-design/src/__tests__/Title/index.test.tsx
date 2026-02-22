@@ -27,6 +27,23 @@ describe('Title', () => {
       expect(document.title).toEqual('a - b')
       expect(container.innerHTML).toEqual('<h1>a</h1>')
     })
+
+    it('when h1 is an object and title is a text', () => {
+      const { container } = render(
+        <Title title='title' h1={{ className: 'custom-title', style: { color: 'red' } }} />,
+      )
+
+      expect(document.title).toEqual('title')
+      expect(container.innerHTML).toContain('class="custom-title"')
+      expect(container.innerHTML).toContain('title')
+    })
+
+    it('when h1 is an object and title is an array', () => {
+      const { container } = render(<Title title={['first', 'second']} h1={{ className: 'custom' }} />)
+
+      expect(document.title).toEqual('first - second')
+      expect(container.innerHTML).toEqual('<h1 class="custom">first</h1>')
+    })
   })
 
   describe('should return plain', () => {

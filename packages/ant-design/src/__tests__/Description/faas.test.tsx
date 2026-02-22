@@ -27,4 +27,11 @@ describe('Description/faas', () => {
     expect(await screen.findAllByText('Test')).toHaveLength(1)
     expect(await screen.findAllByText('value')).toHaveLength(1)
   })
+
+  it('with faas without optional props', async () => {
+    render(<Description items={[{ id: 'test' }]} faasData={{ action: 'test' }} />)
+
+    expect(await screen.findAllByText('Test')).toHaveLength(1)
+    expect(await screen.findAllByText('value')).toHaveLength(1)
+  })
 })
