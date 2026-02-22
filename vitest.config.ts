@@ -9,13 +9,16 @@ const browsers = [
   'packages/react/**/*.test.tsx',
 ]
 
+const types = ['packages/**/*.types.test.ts']
+
 export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
     restoreMocks: true,
     clearMocks: true,
     typecheck: {
-      enabled: true
+      enabled: true,
+      include: types,
     },
     coverage: {
       provider: 'v8',
@@ -29,7 +32,7 @@ export default defineConfig({
         extends: true,
         test: {
           include: ['packages/**/*.test.ts'],
-          exclude: browsers,
+          exclude: browsers.concat(types),
           environment: 'node',
         },
       },
@@ -37,6 +40,7 @@ export default defineConfig({
         extends: true,
         test: {
           include: browsers,
+          exclude: types,
           environment: 'jsdom',
           setupFiles: ['vitest.jsdom.setup.ts'],
         },
