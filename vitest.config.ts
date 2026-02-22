@@ -15,8 +15,7 @@ export default defineConfig({
     restoreMocks: true,
     clearMocks: true,
     typecheck: {
-      enabled: true,
-      include: ['packages/**/*.test-d.ts'],
+      enabled: true
     },
     coverage: {
       provider: 'v8',
