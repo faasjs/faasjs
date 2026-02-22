@@ -1,6 +1,6 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 import { Http } from '@faasjs/core'
-import type { Config, ExportedHandler, Func, Plugin } from '@faasjs/core'
+import type { Config, ExportedHandler, Func, FuncEventType, Plugin } from '@faasjs/core'
 import {
   deepMerge,
   loadConfig,
@@ -14,6 +14,15 @@ export * from '@faasjs/core'
 
 export { streamToObject, streamToString, streamToText }
 
+type IsAny<T> = 0 extends 1 & T ? true : false
+type JSONhandlerBody<TFunc extends Func<any, any, any>> = FuncEventType<TFunc> extends {
+  params?: infer TParams
+}
+  ? IsAny<TParams> extends true
+    ? Record<string, any> | string | null
+    : TParams | string | null
+  : Record<string, any> | string | null
+
 /**
  * Test wrapper for a function.
  *
@@ -26,12 +35,12 @@ export { streamToObject, streamToString, streamToText }
  * expect(await func.handler()).toEqual('Hello, world')
  * ```
  */
-export class FuncWarper {
+export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>> {
   [key: string]: any
   public readonly file: string
   public readonly staging: string
   public readonly logger: Logger
-  public readonly func: Func
+  public readonly func: TFunc
   public readonly config: Config
   public readonly plugins: Plugin[]
   private readonly _handler: ExportedHandler
@@ -44,11 +53,11 @@ export class FuncWarper {
    * new FuncWarper(__dirname + '/../demo.func.ts')
    * ```
    */
-  constructor(initBy: Func) {
+  constructor(initBy: TFunc) {
     this.staging = process.env.FaasEnv ?? 'default'
     this.logger = new Logger('TestCase')
 
-    this.func = initBy.default ? initBy.default : initBy
+    this.func = (initBy.default ? initBy.default : initBy) as TFunc
     if (this.func.filename)
       this.func.config = deepMerge(
         loadConfig(process.cwd(), this.func.filename, this.staging, this.logger),
@@ -67,7 +76,7 @@ export class FuncWarper {
     this._handler = this.func.export().handler
   }
 
-  public async mount(handler?: (func: FuncWarper) => Promise<void> | void): Promise<void> {
+  public async mount(handler?: (func: FuncWarper<TFunc>) => Promise<void> | void): Promise<void> {
     if (!this.func.mounted) await this.func.mount()
 
     if (handler) await handler(this)
@@ -86,7 +95,7 @@ export class FuncWarper {
   }
 
   public async JSONhandler<TData = any>(
-    body?: Record<string, any> | string | null,
+    body?: JSONhandlerBody<TFunc>,
     options: {
       headers?: { [key: string]: any }
       cookie?: { [key: string]: any }
@@ -234,7 +243,7 @@ export class FuncWarper {
  * expect(await func.handler()).toEqual('Hello, world')
  * ```
  */
-export function test(initBy: Func): FuncWarper {
+export function test<TFunc extends Func<any, any, any>>(initBy: TFunc): FuncWarper<TFunc> {
   const warper = new FuncWarper(initBy)
 
   warper.mount = warper.mount.bind(warper)

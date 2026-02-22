@@ -18,6 +18,8 @@ import * as z from 'zod'
 import type { Config, Handler, InvokeData, Plugin } from './func'
 import { Func } from './func'
 import { HttpError } from './http'
+import type { Cookie } from './http/cookie'
+import type { Session } from './http/session'
 import type { Knex as FaasKnex } from './knex/plugin'
 
 export { z }
@@ -59,6 +61,17 @@ export * from './knex'
 
 type ZodSchema = ZodTypeAny
 type KnexQuery = FaasKnex['query']
+type IsAny<T> = 0 extends 1 & T ? true : false
+type DefineApiEventParams<TSchema extends ZodSchema | undefined = undefined> =
+  TSchema extends ZodSchema ? output<NonNullable<TSchema>> : Record<string, any>
+type DefineApiEvent<
+  TSchema extends ZodSchema | undefined = undefined,
+  TEvent = any,
+> = IsAny<TEvent> extends true
+  ? Record<string, any> & {
+      params?: DefineApiEventParams<TSchema>
+    }
+  : TEvent
 type PluginConstructor = new (config?: any) => Plugin
 type KnexPlugin = Plugin & { query?: KnexQuery }
 type PluginConfigValue = {
@@ -88,6 +101,8 @@ export type DefineApiData<
 > = InvokeData<TEvent, TContext, TResult> & {
   params: TSchema extends ZodSchema ? output<NonNullable<TSchema>> : Record<string, never>
   knex: KnexQuery | undefined
+  cookie: Cookie
+  session: Session
 }
 
 export type DefineApiOptions<
@@ -295,15 +310,19 @@ export function defineApi<
   TEvent = any,
   TContext = any,
   TResult = any,
->(options: DefineApiOptions<TSchema, TEvent, TContext, TResult>): Func<TEvent, TContext, TResult> {
-  let func: CoreFunc<TEvent, TContext, TResult>
+>(
+  options: DefineApiOptions<TSchema, TEvent, TContext, TResult>,
+): Func<DefineApiEvent<TSchema, TEvent>, TContext, TResult> {
+  type Event = DefineApiEvent<TSchema, TEvent>
+
+  let func: CoreFunc<Event, TContext, TResult>
   type Params = DefineApiData<TSchema, TEvent, TContext, TResult>['params']
 
   let pluginRefsResolved = false
   let hasHttp = false
   let knexQuery: KnexQuery | undefined
 
-  const parseParams = async (event: TEvent): Promise<Params> => {
+  const parseParams = async (event: Event): Promise<Params> => {
     if (!pluginRefsResolved) {
       hasHttp = !!findPluginByType(func, 'http')
       knexQuery = findPluginByType<KnexPlugin>(func, 'knex')?.query
@@ -328,7 +347,7 @@ export function defineApi<
     return result.data as Params
   }
 
-  const invokeHandler: Handler<TEvent, TContext, TResult> = async (data) => {
+  const invokeHandler: Handler<Event, TContext, TResult> = async (data) => {
     const params = await parseParams(data.event)
 
     const invokeData = {
@@ -340,7 +359,7 @@ export function defineApi<
     return options.handler(invokeData)
   }
 
-  func = new CoreFunc<TEvent, TContext, TResult>({
+  func = new CoreFunc<Event, TContext, TResult>({
     plugins: [],
     handler: invokeHandler,
   })

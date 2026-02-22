@@ -16,6 +16,7 @@ export default defineConfig({
     clearMocks: true,
     typecheck: {
       enabled: true,
+      include: ['packages/**/*.test-d.ts'],
     },
     coverage: {
       provider: 'v8',

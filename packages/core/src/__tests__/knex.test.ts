@@ -2,8 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import type { Tables } from 'knex/types/tables'
-import { afterEach, assertType, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Func, useFunc } from '..'
 import {
   createPgliteKnex,
@@ -32,14 +31,6 @@ function restoreSecretKnexEnv() {
   if (typeof originalSecretKnexConnectionFilename === 'string')
     process.env.SECRET_KNEX_CONNECTION_FILENAME = originalSecretKnexConnectionFilename
   else delete process.env.SECRET_KNEX_CONNECTION_FILENAME
-}
-
-declare module 'knex/types/tables' {
-  interface Tables {
-    test: {
-      id: string
-    }
-  }
 }
 
 describe('Knex', () => {
@@ -413,35 +404,6 @@ describe('Knex', () => {
     })
 
     expect(await func.export().handler({})).toEqual([{ id: 1, value: 2 }])
-  })
-
-  it('check types', async () => {
-    const func = useFunc(() => {
-      const knex = useKnex({
-        config: {
-          client: 'sqlite3',
-          connection: { filename: ':memory:' },
-        },
-      })
-
-      return async () => {
-        await knex
-          .schema()
-          .createTable('test', (t) => {
-            t.increments('id')
-          })
-          .createTable('testtest', (t) => {
-            t.increments('id')
-          })
-      }
-    })
-    await func.export().handler({})
-
-    assertType<Tables['test'][]>(await query('test'))
-
-    assertType<any>(await query('testtest'))
-
-    assertType<{ value: string }>(await query<any, { value: string }>('testtest'))
   })
 
   it('should work with pg via mounted pglite adapter', async () => {

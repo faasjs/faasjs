@@ -1,5 +1,4 @@
-import type { FaasActions } from '@faasjs/types'
-import { assertType, beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   FaasBrowserClient,
   Response as FaasResponse,
@@ -111,44 +110,5 @@ describe('client', () => {
     const client = new FaasBrowserClient('/')
 
     await expect(client.action('path')).rejects.toEqual(new ResponseError('no'))
-  })
-})
-
-declare module '@faasjs/types' {
-  interface FaasActions {
-    '/type': {
-      Params: { key: string }
-      Data: { value: string }
-    }
-  }
-}
-
-describe('types', () => {
-  beforeEach(() => {
-    request = {
-      url: '',
-      method: '',
-    }
-
-    window.fetch = vi.fn(defaultMock) as any
-  })
-
-  it('should work', async () => {
-    const client = new FaasBrowserClient('/')
-
-    assertType<FaasResponse<any>>(await client.action('/', {}))
-    assertType<FaasResponse<{ value: number }>>(
-      await client.action<{ value: number }>('/', { value: 1 }),
-    )
-    assertType<FaasResponse<FaasActions['/type']['Data']>>(
-      await client.action('/type', { key: 'key' }),
-    )
-    assertType<string>(
-      await client.action('/type', { key: 'key' }).then((res) => {
-        if (!res.data) throw new Error('missing data')
-
-        return res.data.value
-      }),
-    )
   })
 })
