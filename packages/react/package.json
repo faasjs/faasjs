@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "8.0.0-beta.9",
+  "version": "8.0.0-beta.10",
   "homepage": "https://faasjs.com/doc/react/",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -30,12 +30,12 @@
     "build": "tsdown src/index.ts --config ../../tsdown.config.ts --external react --dts.eager --no-sourcemap --no-dts.sourcemap"
   },
   "devDependencies": {
-    "@faasjs/types": ">=8.0.0-beta.9",
+    "@faasjs/types": ">=8.0.0-beta.10",
     "@types/react": "^19.0.0",
     "react": "^19.0.0"
   },
   "peerDependencies": {
-    "@faasjs/types": ">=8.0.0-beta.9"
+    "@faasjs/types": ">=8.0.0-beta.10"
   },
   "engines": {
     "node": ">=24.0.0",

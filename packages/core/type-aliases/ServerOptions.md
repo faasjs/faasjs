@@ -38,6 +38,21 @@ const server = new Server(process.cwd(), {
 });
 ```
 
+### cronJob?
+
+> `optional` **cronJob**: `boolean`
+
+Whether to mount cron job lifecycle with this server instance.
+
+When enabled, `server.listen()` mounts registered cron jobs and
+`server.close()` unmounts them.
+
+#### Default
+
+```ts
+true
+```
+
 ### onClose()?
 
 > `optional` **onClose**: (`context`) => `Promise`\<`void`\>

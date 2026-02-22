@@ -4,6 +4,18 @@
 
 Simple cron job scheduler with 5-field cron expression support.
 
+## Accessors
+
+### isStarted
+
+#### Get Signature
+
+> **get** **isStarted**(): `boolean`
+
+##### Returns
+
+`boolean`
+
 ## Constructors
 
 ### Constructor

@@ -1,7 +1,13 @@
 import dayjs from 'dayjs'
 import { createElement } from 'react'
 import { describe, expect, it } from 'vitest'
-import { cloneUnionFaasItemElement, idToTitle, transferOptions, transferValue } from '../data'
+import {
+  cloneUnionFaasItemElement,
+  idToTitle,
+  transferOptions,
+  transferValue,
+  type UnionFaasItemInjection,
+} from '../data'
 
 describe('transferValue', () => {
   it('should return null', () => {
@@ -84,7 +90,10 @@ describe('transferOptions', () => {
 
 describe('cloneUnionFaasItemElement', () => {
   it('should clone element and component with injected props', () => {
-    const clonedElement = cloneUnionFaasItemElement(createElement('span'), {
+    const InjectedElement = (props: UnionFaasItemInjection<string>) =>
+      createElement('span', null, props.value)
+
+    const clonedElement = cloneUnionFaasItemElement(createElement(InjectedElement), {
       scene: 'table',
       value: 'value',
     })

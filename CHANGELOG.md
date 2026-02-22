@@ -2,11 +2,18 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.10 (2026-02-21)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.9...v8.0.0-beta.10)
+[`v8.0.0-beta.10 (2026-02-22)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.9...v8.0.0-beta.10)
 
 - `@faasjs/core`
   - [Feature] Add `CronJob` feature.
   - [Feature] Auto mount CronJob when server listen.
+  - [Feature] Auto load `.env` when initializing `Server`.
+
+- `@faasjs/dev`
+  - [Feature] Auto load `.env` for `faas types`, `faas knex`, and `faas lint` commands.
+
+- `@faasjs/node-utils`
+  - [Feature] Add `loadEnvFileIfExists` helper for loading `.env` from a target root.
 
 [`v8.0.0-beta.9 (2026-02-20)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.8...v8.0.0-beta.9)
 
