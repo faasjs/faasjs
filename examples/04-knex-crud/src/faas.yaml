@@ -1,0 +1,37 @@
+defaults:
+  plugins:
+    http:
+      config:
+        cookie:
+          secure: false
+          session:
+            secret: knex-example-secret
+    knex:
+      config:
+        client: pg
+        pool:
+          min: 0
+          max: 10
+        migrations:
+          directory: ./src/db/migrations
+          extension: ts
+
+development:
+  plugins:
+    knex:
+      config:
+        client: pglite
+        connection: ./.pglite_dev
+
+testing:
+  plugins:
+    knex:
+      config:
+        client: pglite
+        connection: ./.pglite_test
+
+production:
+  plugins:
+    knex:
+      config:
+        client: pg

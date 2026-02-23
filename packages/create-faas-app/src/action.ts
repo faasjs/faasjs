@@ -250,7 +250,7 @@ export default function HomePage() {
 
   return (
     <main style={{ margin: '5rem auto', maxWidth: 420, padding: 24 }}>
-      <h1>FaasJS Starter</h1>
+      <h1>FaasJS App</h1>
       <p>{message}</p>
       <button type="button" onClick={fetchMessage} disabled={loading}>
         {loading ? 'Loading...' : 'Call /home/api/hello'}

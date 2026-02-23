@@ -1,0 +1,8 @@
+defaults:
+  plugins:
+    http:
+      config:
+        cookie:
+          secure: false
+          session:
+            secret: params-example-secret

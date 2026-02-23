@@ -1,0 +1,37 @@
+{
+  "name": "faasjs-examples",
+  "image": "faasjs/vscode:latest",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "remoteUser": "root",
+  "waitFor": "postCreateCommand",
+  "forwardPorts": [3000, 5173],
+  "portsAttributes": {
+    "3000": {
+      "label": "FaasJS API",
+      "onAutoForward": "notify"
+    },
+    "5173": {
+      "label": "Vite React Example",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      },
+      "extensions": [
+        "eamodio.gitlens",
+        "zfben.faasjs-snippets",
+        "streetsidesoftware.code-spell-checker",
+        "biomejs.biome"
+      ]
+    },
+    "codespaces": {
+      "openFiles": [
+        "examples/README.md"
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "faasjs-example-06-react-client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node server.ts",
+    "test": "vitest run",
+    "types": "faas types --root ."
+  },
+  "dependencies": {
+    "@faasjs/core": "file:../../packages/core",
+    "@faasjs/node-utils": "file:../../packages/node-utils",
+    "@faasjs/react": "file:../../packages/react",
+    "@faasjs/types": "file:../../packages/types",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {
+    "@faasjs/dev": "file:../../packages/dev",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@vitejs/plugin-react": "*",
+    "typescript": "*",
+    "vite": "*",
+    "vitest": "*"
+  }
+}

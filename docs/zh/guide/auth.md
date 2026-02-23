@@ -240,4 +240,4 @@ export const func = defineApi({
 
 ## 完整项目代码
 
-完整的项目代码在 [https://github.com/faasjs/faasjs/examples/tree/main/auth](https://github.com/faasjs/faasjs/examples/tree/main/auth) 其中还包括了完整的测试用例代码。
+完整的项目代码在 [examples/05-auth-session](https://github.com/faasjs/faasjs/tree/main/examples/05-auth-session) 其中还包括了完整的测试用例代码。

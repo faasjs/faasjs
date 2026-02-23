@@ -51,6 +51,6 @@ mise install
 
 ## 完整示例
 
-可以参考官方 starter 模板：
+可以参考官方 examples：
 
-- [faasjs/starter](https://github.com/faasjs/starter)
+- [faasjs/examples](https://github.com/faasjs/faasjs/tree/main/examples)

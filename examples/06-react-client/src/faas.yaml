@@ -1,0 +1,11 @@
+defaults:
+  server:
+    root: .
+    base: /
+  plugins:
+    http:
+      config:
+        cookie:
+          secure: false
+          session:
+            secret: react-example-secret

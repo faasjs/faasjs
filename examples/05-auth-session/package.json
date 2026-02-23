@@ -1,0 +1,30 @@
+{
+  "name": "faasjs-example-05-auth-session",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.ts",
+    "start": "node server.ts",
+    "test": "vitest run",
+    "types": "faas types --root .",
+    "migrate:latest": "faas knex latest",
+    "migrate:rollback": "faas knex rollback",
+    "migrate:status": "faas knex status",
+    "migrate:current": "faas knex current",
+    "migrate:make": "faas knex make"
+  },
+  "dependencies": {
+    "@faasjs/core": "file:../../packages/core",
+    "@faasjs/node-utils": "file:../../packages/node-utils",
+    "@faasjs/types": "file:../../packages/types",
+    "pg": "*"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "*",
+    "@faasjs/dev": "file:../../packages/dev",
+    "@types/node": "*",
+    "knex-pglite": "*",
+    "typescript": "*",
+    "vitest": "*"
+  }
+}

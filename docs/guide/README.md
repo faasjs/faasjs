@@ -18,7 +18,7 @@ mise exec -- npx create-faas-app --name faasjs
 
 ### Start with Codespace
 
-[FaasJS Starter](https://github.com/faasjs/starter)
+[FaasJS Examples](https://github.com/faasjs/faasjs/tree/main/examples)
 
 ## File Structure
 

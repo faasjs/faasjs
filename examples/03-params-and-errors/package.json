@@ -1,0 +1,22 @@
+{
+  "name": "faasjs-example-03-params-and-errors",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.ts",
+    "start": "node server.ts",
+    "test": "vitest run",
+    "types": "faas types --root ."
+  },
+  "dependencies": {
+    "@faasjs/core": "file:../../packages/core",
+    "@faasjs/node-utils": "file:../../packages/node-utils",
+    "@faasjs/types": "file:../../packages/types"
+  },
+  "devDependencies": {
+    "@faasjs/dev": "file:../../packages/dev",
+    "@types/node": "*",
+    "typescript": "*",
+    "vitest": "*"
+  }
+}
