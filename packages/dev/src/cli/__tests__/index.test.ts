@@ -116,7 +116,7 @@ describe('faas cli', () => {
 
     expect(code).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Generate FaasJS API/event type declarations.'),
+      expect.stringContaining('Generate FaasJS API type declarations.'),
     )
   })
 

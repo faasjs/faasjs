@@ -9,7 +9,7 @@ Usage:
   faas <command> [...args]
 
 Commands:
-  types [options]                 Generate FaasJS API/event type declarations
+  types [options]                 Generate FaasJS API type declarations
   knex <action> [name] [options]  Run FaasJS knex migrations
   lint [options]                  Run formatter and lint with Oxc
 

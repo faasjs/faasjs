@@ -178,6 +178,52 @@ describe('@faasjs/core defineApi', () => {
     })
   })
 
+  it('supports plugin-injected data fields alongside params', async () => {
+    const func = defineApi({
+      schema: z.object({
+        name: z.string(),
+      }),
+      async handler(data) {
+        return {
+          current_user: data.current_user,
+          params: data.params,
+        }
+      },
+    })
+
+    func.config = {
+      plugins: {
+        auth: {
+          type: './__tests__/auth-plugin',
+        },
+        http: {
+          config: Object.create(null),
+        },
+      },
+    }
+
+    const response: any = await func.export().handler({
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ name: 'FaasJS' }),
+    })
+
+    expect(response.statusCode).toEqual(200)
+
+    const body = await streamToObject(response.body)
+
+    expect(body).toEqual({
+      data: {
+        current_user: {
+          id: 1,
+          name: 'FaasJS',
+        },
+        params: {
+          name: 'FaasJS',
+        },
+      },
+    })
+  })
+
   it('throws when plugin cannot be loaded', async () => {
     const func = defineApi({
       async handler() {

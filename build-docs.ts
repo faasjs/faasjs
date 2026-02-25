@@ -20,7 +20,7 @@ function build(path: string) {
 
   const intentionallyNotExportedArgs =
     packagePath === 'packages/types'
-      ? ' --intentionallyNotExported FaasActions --intentionallyNotExported FaasEvents'
+      ? ' --intentionallyNotExported FaasActions'
       : ''
 
   run(

@@ -64,40 +64,12 @@ export interface FaasActions {
 }
 
 /**
- * Interface for defining inferred event types by action path.
- *
- * @example
- * ```typescript
- * declare module '@faasjs/types' {
- *   interface FaasEvents {
- *     demo: {
- *       params?: {
- *         key: string
- *       }
- *     }
- *   }
- * }
- * ```
- */
-export interface FaasEvents {
-  /**
-   * Internal placeholder to keep this interface visible in generated docs.
-   */
-  faasjsEventsPlaceholder?: Record<string, any>
-}
-
-/**
  * Infer all action paths declared in {@link FaasActions}.
  */
 export type FaasActionPaths = Exclude<
   Extract<keyof FaasActions, string>,
   'faasjsActionsPlaceholder'
 >
-
-/**
- * Infer all event paths declared in {@link FaasEvents}.
- */
-export type FaasEventPaths = Exclude<Extract<keyof FaasEvents, string>, 'faasjsEventsPlaceholder'>
 
 /**
  * Union type accepted by action helpers.
@@ -152,16 +124,6 @@ export type FaasData<T = any> = T extends FaasActionPaths
   : T extends Record<string, any>
     ? T
     : Record<string, any>
-
-/**
- * Infer event payload type by event path.
- *
- * @example
- * ```typescript
- * type DemoEvent = FaasEvent<'demo'>
- * ```
- */
-export type FaasEvent<T = any> = T extends FaasEventPaths ? FaasEvents[T] : Record<string, any>
 
 /**
  * Infer the FaasAction type from a Func.

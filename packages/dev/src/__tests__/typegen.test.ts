@@ -46,7 +46,7 @@ afterEach(async () => {
 })
 
 describe('typegen', () => {
-  it('should generate route action/event maps from func files and faas.yaml', async () => {
+  it('should generate route action map from func files', async () => {
     const root = await createTempProject()
     const logger = new Logger('typegen:test')
     logger.silent = true
@@ -112,9 +112,6 @@ describe('typegen', () => {
     )
     expect(content).not.toContain('import("../posts/index.func")')
 
-    expect(content).toContain('"posts": InferPluginEvent<["custom", "http"]>')
-    expect(content).toContain('"users/profile": InferPluginEvent<["admin", "http"]>')
-
     const second = await generateFaasTypes({
       root,
       logger,
@@ -167,30 +164,5 @@ describe('typegen', () => {
     expect(isTypegenSourceFile('/tmp/app/src/faas.yaml')).toBe(true)
     expect(isTypegenSourceFile('C:\\repo\\src\\faas.yml')).toBe(true)
     expect(isTypegenSourceFile('/tmp/app/src/demo.ts')).toBe(false)
-  })
-
-  it('should fallback to plugin key when plugin config has no type field', async () => {
-    const root = await createTempProject()
-    const logger = new Logger('typegen:test')
-    logger.silent = true
-
-    await writeFixture(
-      join(root, 'src', 'faas.yaml'),
-      `development:
-  plugins:
-    objectNoType:
-      enabled: true
-`,
-    )
-    await writeFixture(join(root, 'src', 'index.func.ts'), 'export const func = {} as any\n')
-
-    const result = await generateFaasTypes({
-      root,
-      logger,
-    })
-
-    const content = await readFile(result.output, 'utf8')
-
-    expect(content).toContain('"/": InferPluginEvent<["objectNoType"]>')
   })
 })

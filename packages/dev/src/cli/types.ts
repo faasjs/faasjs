@@ -2,7 +2,7 @@ import { loadEnvFileIfExists } from '@faasjs/node-utils'
 import { generateFaasTypes } from '../typegen'
 import { createMain, parseCommonCliArgs, printVersion } from './shared'
 
-const HelpText = `Generate FaasJS API/event type declarations.
+const HelpText = `Generate FaasJS API type declarations.
 
 Usage:
   faas types [options]

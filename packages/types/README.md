@@ -33,8 +33,6 @@ In your tsconfig.json:
 - [FaasActionPaths](type-aliases/FaasActionPaths.md)
 - [FaasActionUnionType](type-aliases/FaasActionUnionType.md)
 - [FaasData](type-aliases/FaasData.md)
-- [FaasEvent](type-aliases/FaasEvent.md)
-- [FaasEventPaths](type-aliases/FaasEventPaths.md)
 - [FaasParams](type-aliases/FaasParams.md)
 - [InferFaasAction](type-aliases/InferFaasAction.md)
 - [InferFaasFunc](type-aliases/InferFaasFunc.md)

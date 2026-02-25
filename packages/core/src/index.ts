@@ -103,7 +103,16 @@ export type DefineApiData<
   knex: KnexQuery | undefined
   cookie: Cookie
   session: Session
-}
+} & DefineApiInject
+
+/**
+ * API data augmentation map.
+ *
+ * Extend this interface in plugin packages to describe which data fields are
+ * injected into `defineApi` handler arguments.
+ */
+// biome-ignore lint/suspicious/noEmptyInterface: declaration merging entrypoint for plugin packages
+export interface DefineApiInject {}
 
 export type DefineApiOptions<
   TSchema extends ZodSchema | undefined = undefined,
