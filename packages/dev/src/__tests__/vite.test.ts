@@ -52,6 +52,11 @@ vi.mock('../typegen', () => ({
 }))
 
 const tempDirs: string[] = []
+const originalModuleVersion = process.env.FAASJS_MODULE_VERSION
+
+async function wait(ms: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, ms))
+}
 
 async function createTempProject(faasYaml?: string): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), 'faas-vite-'))
@@ -69,12 +74,18 @@ async function createTempProject(faasYaml?: string): Promise<string> {
 describe('viteFaasJsServer', () => {
   beforeEach(() => {
     process.env.VITEST = ''
+    process.env.FAASJS_MODULE_VERSION = ''
     mocks.calls.length = 0
     vi.clearAllMocks()
   })
 
   afterEach(async () => {
     process.env.VITEST = '1'
+
+    if (typeof originalModuleVersion === 'string')
+      process.env.FAASJS_MODULE_VERSION = originalModuleVersion
+    else delete process.env.FAASJS_MODULE_VERSION
+
     vi.clearAllMocks()
 
     await Promise.all(
@@ -162,6 +173,31 @@ describe('viteFaasJsServer', () => {
     expect(mocks.handle.mock.calls[0][2]).toEqual({
       requestedAt: expect.any(Number),
     })
+
+    await server.close()
+  })
+
+  it('should restart faas server when source files change', async () => {
+    const root = await createTempProject()
+
+    const server = await createServer({
+      configFile: false,
+      root,
+      base: '/test/base/',
+      logLevel: 'silent',
+      plugins: [viteFaasJsServer()],
+    })
+
+    const versionBefore = process.env.FAASJS_MODULE_VERSION
+
+    expect(mocks.calls).toHaveLength(1)
+
+    server.watcher.emit('all', 'change', join(root, 'src', 'a.func.ts'))
+
+    await wait(220)
+
+    expect(mocks.calls).toHaveLength(2)
+    expect(process.env.FAASJS_MODULE_VERSION).not.toBe(versionBefore)
 
     await server.close()
   })

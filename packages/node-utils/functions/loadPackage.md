@@ -2,7 +2,7 @@
 
 # Function: loadPackage()
 
-> **loadPackage**\<`T`\>(`name`, `defaultNames?`): `Promise`\<`T`\>
+> **loadPackage**\<`T`\>(`name`, `defaultNames?`, `options?`): `Promise`\<`T`\>
 
 Asynchronously loads a package by its name, supporting both ESM and CJS.
 
@@ -27,6 +27,12 @@ The package name to load.
 Preferred export keys used to resolve default values.
 
 `string` | `string`[]
+
+### options?
+
+[`LoadPackageOptions`](../type-aliases/LoadPackageOptions.md) = `{}`
+
+Optional runtime loader options.
 
 ## Returns
 

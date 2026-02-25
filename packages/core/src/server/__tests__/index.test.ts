@@ -64,6 +64,17 @@ describe.sequential('server', () => {
     expect(await response.json()).toEqual({ data: 'a' })
   })
 
+  it('path alias and extensionless imports', async () => {
+    const response = await fetch(`http://127.0.0.1:${port}/path-alias`)
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({
+      data: {
+        alias: 'alias',
+        relative: 'relative',
+      },
+    })
+  })
+
   it('a/default', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/a/a`)
     expect(response.status).toBe(200)

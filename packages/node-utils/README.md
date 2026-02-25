@@ -38,6 +38,7 @@ npm install @faasjs/node-utils
 - [FuncPluginConfig](type-aliases/FuncPluginConfig.md)
 - [Level](type-aliases/Level.md)
 - [LoadEnvFileIfExistsOptions](type-aliases/LoadEnvFileIfExistsOptions.md)
+- [LoadPackageOptions](type-aliases/LoadPackageOptions.md)
 - [LoggerMessage](type-aliases/LoggerMessage.md)
 - [NodeRuntime](type-aliases/NodeRuntime.md)
 - [TransportHandler](type-aliases/TransportHandler.md)

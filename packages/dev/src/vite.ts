@@ -7,6 +7,25 @@ import { generateFaasTypes, isTypegenSourceFile } from './typegen'
 
 const TYPEGEN_DEBOUNCE = 120
 
+function isFaasServerSourceFile(filePath: string): boolean {
+  const normalized = filePath.replace(/\\/g, '/')
+
+  if (normalized.includes('/node_modules/')) return false
+  if (normalized.includes('/.faasjs/')) return false
+  if (normalized.endsWith('.d.ts')) return false
+
+  if (/(^|\/)faas\.ya?ml$/.test(normalized)) return true
+  if (/(^|\/)tsconfig\.json$/.test(normalized)) return true
+
+  return (
+    normalized.endsWith('.func.ts') ||
+    normalized.endsWith('.ts') ||
+    normalized.endsWith('.tsx') ||
+    normalized.endsWith('.mts') ||
+    normalized.endsWith('.cts')
+  )
+}
+
 type ResolvedViteFaasJsServerConfig = {
   root: string
   base: string
@@ -64,7 +83,20 @@ export function viteFaasJsServer(): Plugin {
 
       if (!config) throw new Error('viteFaasJsServer: config is not resolved')
 
-      server = new Server(join(config.root, 'src'))
+      let moduleVersion = Number(process.env.FAASJS_MODULE_VERSION || Date.now())
+
+      const mountFaasServer = () => {
+        process.env.FAASJS_MODULE_VERSION = `${moduleVersion}`
+        server = new Server(join(config.root, 'src'))
+      }
+
+      const restartFaasServer = async () => {
+        moduleVersion += 1
+        mountFaasServer()
+        logger.debug('[faas server] restarted %s', process.env.FAASJS_MODULE_VERSION)
+      }
+
+      mountFaasServer()
 
       const runTypegen = async () => {
         try {
@@ -85,6 +117,8 @@ export function viteFaasJsServer(): Plugin {
 
       let timer: ReturnType<typeof setTimeout> | undefined
       let typegenChain = Promise.resolve()
+      let restartTimer: ReturnType<typeof setTimeout> | undefined
+      let restartChain = Promise.resolve()
 
       const scheduleTypegen = () => {
         if (timer) clearTimeout(timer)
@@ -94,12 +128,20 @@ export function viteFaasJsServer(): Plugin {
         }, TYPEGEN_DEBOUNCE)
       }
 
+      const scheduleRestart = () => {
+        if (restartTimer) clearTimeout(restartTimer)
+
+        restartTimer = setTimeout(() => {
+          restartChain = restartChain.then(restartFaasServer)
+        }, TYPEGEN_DEBOUNCE)
+      }
+
       await runTypegen()
 
       watcher.on('all', (_eventName, filePath) => {
-        if (!isTypegenSourceFile(filePath)) return
+        if (isTypegenSourceFile(filePath)) scheduleTypegen()
 
-        scheduleTypegen()
+        if (isFaasServerSourceFile(filePath)) scheduleRestart()
       })
 
       middlewares.use(async (req, res, next) => {
@@ -132,6 +174,12 @@ export function viteFaasJsServer(): Plugin {
 
         if (!res.writableEnded) next()
       })
+
+      return () => {
+        if (timer) clearTimeout(timer)
+
+        if (restartTimer) clearTimeout(restartTimer)
+      }
     },
   }
 }

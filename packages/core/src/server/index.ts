@@ -8,7 +8,7 @@ import {
   type ServerResponse,
 } from 'node:http'
 import type { Socket } from 'node:net'
-import { join, resolve, sep } from 'node:path'
+import { dirname, join, resolve, sep } from 'node:path'
 import { Readable } from 'node:stream'
 import { types } from 'node:util'
 import {
@@ -422,7 +422,24 @@ export class Server {
     }
     logger.debug('response with %s', cache.file)
 
-    const func = await loadPackage<Func>(file, ['func', 'default'])
+    const srcRoot = resolve(this.root)
+    const projectTsconfig = join(resolve(srcRoot, '..'), 'tsconfig.json')
+    const srcTsconfig = join(srcRoot, 'tsconfig.json')
+    const tsconfigPath = existsSync(projectTsconfig)
+      ? projectTsconfig
+      : existsSync(srcTsconfig)
+        ? srcTsconfig
+        : undefined
+
+    const loadOptions: Parameters<typeof loadPackage>[2] = {
+      root: tsconfigPath ? dirname(tsconfigPath) : resolve(srcRoot, '..'),
+    }
+
+    if (tsconfigPath) loadOptions.tsconfigPath = tsconfigPath
+
+    if (process.env.FAASJS_MODULE_VERSION) loadOptions.version = process.env.FAASJS_MODULE_VERSION
+
+    const func = await loadPackage<Func>(file, ['func', 'default'], loadOptions)
 
     func.config = loadConfig(this.root, path, process.env.FaasEnv || 'development', logger)
     if (!func.config) throw Error('No config file found')
