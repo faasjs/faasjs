@@ -2,15 +2,21 @@
 
 # Function: test()
 
-> **test**(`initBy`): [`FuncWarper`](../classes/FuncWarper.md)
+> **test**\<`TFunc`\>(`initBy`): [`FuncWarper`](../classes/FuncWarper.md)\<`TFunc`\>
 
 A simple way to wrap a FaasJS function.
+
+## Type Parameters
+
+### TFunc
+
+`TFunc` *extends* [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
 ## Parameters
 
 ### initBy
 
-[`Func`](../classes/Func.md)
+`TFunc`
 
 {Func} Full file path or a FaasJs function
 
@@ -25,4 +31,4 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ## Returns
 
-[`FuncWarper`](../classes/FuncWarper.md)
+[`FuncWarper`](../classes/FuncWarper.md)\<`TFunc`\>

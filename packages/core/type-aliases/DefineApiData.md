@@ -2,9 +2,13 @@
 
 # Type Alias: DefineApiData\<TSchema, TEvent, TContext, TResult\>
 
-> **DefineApiData**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = [`InvokeData`](InvokeData.md)\<`TEvent`, `TContext`, `TResult`\> & `object`
+> **DefineApiData**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = [`InvokeData`](InvokeData.md)\<`TEvent`, `TContext`, `TResult`\> & `object` & `DefineApiInject`
 
 ## Type Declaration
+
+### cookie
+
+> **cookie**: [`Cookie`](../classes/Cookie.md)
 
 ### knex
 
@@ -13,6 +17,10 @@
 ### params
 
 > **params**: `TSchema` *extends* `ZodSchema` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>
+
+### session
+
+> **session**: [`Session`](../classes/Session.md)
 
 ## Type Parameters
 

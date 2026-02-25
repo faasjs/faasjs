@@ -1,6 +1,6 @@
 [@faasjs/dev](../README.md) / FuncWarper
 
-# Class: FuncWarper
+# Class: FuncWarper\<TFunc\>
 
 Test wrapper for a function.
 
@@ -13,6 +13,12 @@ const func = new FuncWarper(Func)
 expect(await func.handler()).toEqual('Hello, world')
 ```
 
+## Type Parameters
+
+### TFunc
+
+`TFunc` *extends* [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
+
 ## Indexable
 
 \[`key`: `string`\]: `any`
@@ -21,13 +27,13 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### Constructor
 
-> **new FuncWarper**(`initBy`): `FuncWarper`
+> **new FuncWarper**\<`TFunc`\>(`initBy`): `FuncWarper`\<`TFunc`\>
 
 #### Parameters
 
 ##### initBy
 
-[`Func`](Func.md)
+`TFunc`
 
 {Func} A FaasJS function
 ```ts
@@ -38,7 +44,7 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 #### Returns
 
-`FuncWarper`
+`FuncWarper`\<`TFunc`\>
 
 ## Methods
 
@@ -80,7 +86,7 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 ##### body?
 
-`string` | `Record`\<`string`, `any`\> | `null`
+`JSONhandlerBody`\<`TFunc`\>
 
 ##### options?
 
@@ -126,7 +132,7 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 ### func
 
-> `readonly` **func**: [`Func`](Func.md)
+> `readonly` **func**: `TFunc`
 
 ### logger
 

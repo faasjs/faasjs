@@ -2,7 +2,7 @@
 
 # Function: defineApi()
 
-> **defineApi**\<`TSchema`, `TEvent`, `TContext`, `TResult`\>(`options`): [`Func`](../classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
+> **defineApi**\<`TSchema`, `TEvent`, `TContext`, `TResult`\>(`options`): [`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `TResult`\>
 
 Create an HTTP API function with optional Zod validation.
 
@@ -38,4 +38,4 @@ The `http` plugin is required.
 
 ## Returns
 
-[`Func`](../classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
+[`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `TResult`\>

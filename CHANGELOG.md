@@ -2,6 +2,25 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.11 (2026-02-25)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.10...v8.0.0-beta.11)
+
+- `@faasjs/core`
+  - [Feature] Add `DefineApiInject` so plugins can augment `defineApi` handler data fields.
+  - [Feature] Add typed `cookie` and `session` fields to `defineApi` handler data.
+  - [Feature] Use tsconfig-aware runtime loading in `Server` to support path aliases and extensionless imports.
+
+- `@faasjs/dev`
+  - [Break] `faas types` now generates API type declarations only (no `FaasEvents` output).
+  - [Feature] Restart Faas server on source changes in Vite with module-version cache busting.
+  - [Feature] Improve `FuncWarper` generics so `JSONhandler` body infers from function params.
+
+- `@faasjs/node-utils`
+  - [Feature] Add `LoadPackageOptions` (`root`, `tsconfigPath`, `version`) to `loadPackage`.
+  - [Feature] Add tsconfig-aware ESM resolving, extensionless import support, and version-token cache busting in `loadPackage`.
+
+- `@faasjs/types`
+  - [Break] Remove `FaasEvents`, `FaasEventPaths`, and `FaasEvent`.
+
 [`v8.0.0-beta.10 (2026-02-22)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.9...v8.0.0-beta.10)
 
 - `@faasjs/core`

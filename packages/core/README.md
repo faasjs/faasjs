@@ -50,6 +50,7 @@ npm install @faasjs/core
 
 ## Interfaces
 
+- [DefineApiInject](interfaces/DefineApiInject.md)
 - [FaasPluginEventMap](interfaces/FaasPluginEventMap.md)
 
 ## Type Aliases
