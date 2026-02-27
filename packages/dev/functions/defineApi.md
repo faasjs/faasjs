@@ -16,7 +16,7 @@ The `http` plugin is required.
 
 ### TSchema
 
-`TSchema` *extends* `ZodSchema` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
 
 ### TEvent
 

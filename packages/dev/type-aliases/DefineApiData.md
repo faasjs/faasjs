@@ -12,11 +12,11 @@
 
 ### knex
 
-> **knex**: `KnexQuery` \| `undefined`
+> **knex**: [`Knex`](../classes/Knex.md) \| `undefined`
 
 ### params
 
-> **params**: `TSchema` *extends* `ZodSchema` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>
+> **params**: `TSchema` *extends* `ZodType` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>
 
 ### session
 
@@ -26,7 +26,7 @@
 
 ### TSchema
 
-`TSchema` *extends* `ZodSchema` \| `undefined` = `undefined`
+`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
 
 ### TEvent
 

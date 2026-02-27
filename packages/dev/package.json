@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/dev",
-  "version": "8.0.0-beta.11",
+  "version": "8.0.0-beta.12",
   "homepage": "https://faasjs.com/doc/dev",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -35,8 +35,8 @@
     "build": "tsdown --entry src/index.ts --entry src/cli/index.ts --config ../../tsdown.config.ts"
   },
   "devDependencies": {
-    "@faasjs/core": ">=8.0.0-beta.11",
-    "@faasjs/node-utils": ">=8.0.0-beta.11",
+    "@faasjs/core": ">=8.0.0-beta.12",
+    "@faasjs/node-utils": ">=8.0.0-beta.12",
     "@types/node": "*",
     "knex": "*",
     "oxlint": "*",
@@ -44,8 +44,8 @@
     "vitest": "*"
   },
   "peerDependencies": {
-    "@faasjs/core": ">=8.0.0-beta.11",
-    "@faasjs/node-utils": ">=8.0.0-beta.11",
+    "@faasjs/core": ">=8.0.0-beta.12",
+    "@faasjs/node-utils": ">=8.0.0-beta.12",
     "@types/node": "*",
     "knex": "*",
     "oxlint": "*",
