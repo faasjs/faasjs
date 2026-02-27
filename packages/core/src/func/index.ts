@@ -1,9 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { Logger } from '@faasjs/node-utils'
-import { RunHandler } from './plugins/run_handler'
-
-export * from './utils'
+import { RunHandler } from '../plugins/run_handler'
 
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
   data: InvokeData<TEvent, TContext>,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { Func } from '..'
-import { ContentType, Http } from '../index'
+import { Func } from '../../..'
+import { ContentType, Http } from '..'
 
 describe('setContentType', () => {
   it.each(Object.keys(ContentType))('type is %s', async (type) => {

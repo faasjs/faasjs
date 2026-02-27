@@ -9,7 +9,7 @@ import {
   type Plugin,
   type UseifyPlugin,
   usePlugin,
-} from '../func'
+} from '../../func'
 import { createPgliteKnex, type MountedKnexAdapter } from './pglite'
 
 /**

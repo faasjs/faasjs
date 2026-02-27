@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.12 (2026-02-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.11...v8.0.0-beta.12)
+
+- `@faasjs/core`
+  - [Fix] Fix knex type.
+
 [`v8.0.0-beta.11 (2026-02-25)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.10...v8.0.0-beta.11)
 
 - `@faasjs/core`

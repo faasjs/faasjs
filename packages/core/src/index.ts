@@ -13,59 +13,27 @@
  * @packageDocumentation
  */
 
-import type { output, ZodError, ZodTypeAny } from 'zod'
+import type { output, ZodError, ZodType } from 'zod'
 import * as z from 'zod'
 import type { Config, Handler, InvokeData, Plugin } from './func'
 import { Func } from './func'
-import { HttpError } from './http'
-import type { Cookie } from './http/cookie'
-import type { Session } from './http/session'
-import type { Knex as FaasKnex } from './knex/plugin'
+import { HttpError, type Cookie, type Session } from './plugins/http'
+import type { Knex } from './plugins/knex/plugin'
 
 export { z }
 export * from './func'
-export {
-  ContentType,
-  Cookie,
-  Http,
-  HttpError,
-  type HttpConfig,
-  type Response,
-  Session,
-  useHttp,
-  type CookieOptions,
-  type SessionContent,
-  type SessionOptions,
-} from './http'
-export {
-  type Middleware,
-  type MiddlewareContext,
-  type MiddlewareEvent,
-  staticHandler,
-  useMiddleware,
-  useMiddlewares,
-  type StaticHandlerOptions,
-} from './middleware'
-export {
-  createCronJob,
-  CronJob,
-  listCronJobs,
-  removeCronJob,
-  type CronJobContext,
-  type CronJobErrorHandler,
-  type CronJobHandler,
-  type CronJobOptions,
-} from './cron'
-export { closeAll, getAll, Server, type ServerHandlerOptions, type ServerOptions } from './server'
-export * from './knex'
+export * from './plugins/http'
+export * from './middleware'
+export * from './cron'
+export * from './server'
+export * from './plugins/knex'
+export * from './utils'
 
-type ZodSchema = ZodTypeAny
-type KnexQuery = FaasKnex['query']
 type IsAny<T> = 0 extends 1 & T ? true : false
-type DefineApiEventParams<TSchema extends ZodSchema | undefined = undefined> =
-  TSchema extends ZodSchema ? output<NonNullable<TSchema>> : Record<string, any>
+type DefineApiEventParams<TSchema extends ZodType | undefined = undefined> =
+  TSchema extends ZodType ? output<NonNullable<TSchema>> : Record<string, any>
 type DefineApiEvent<
-  TSchema extends ZodSchema | undefined = undefined,
+  TSchema extends ZodType | undefined = undefined,
   TEvent = any,
 > = IsAny<TEvent> extends true
   ? Record<string, any> & {
@@ -73,7 +41,6 @@ type DefineApiEvent<
     }
   : TEvent
 type PluginConstructor = new (config?: any) => Plugin
-type KnexPlugin = Plugin & { query?: KnexQuery }
 type PluginConfigValue = {
   [key: string]: any
   name?: string
@@ -94,13 +61,13 @@ type CoreMountData<TEvent = any, TContext = any> = {
 }
 
 export type DefineApiData<
-  TSchema extends ZodSchema | undefined = undefined,
+  TSchema extends ZodType | undefined = undefined,
   TEvent = any,
   TContext = any,
   TResult = any,
 > = InvokeData<TEvent, TContext, TResult> & {
-  params: TSchema extends ZodSchema ? output<NonNullable<TSchema>> : Record<string, never>
-  knex: KnexQuery | undefined
+  params: TSchema extends ZodType ? output<NonNullable<TSchema>> : Record<string, never>
+  knex: Knex | undefined
   cookie: Cookie
   session: Session
 } & DefineApiInject
@@ -115,7 +82,7 @@ export type DefineApiData<
 export interface DefineApiInject {}
 
 export type DefineApiOptions<
-  TSchema extends ZodSchema | undefined = undefined,
+  TSchema extends ZodType | undefined = undefined,
   TEvent = any,
   TContext = any,
   TResult = any,
@@ -315,7 +282,7 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
  * The `http` plugin is required.
  */
 export function defineApi<
-  TSchema extends ZodSchema | undefined = undefined,
+  TSchema extends ZodType | undefined = undefined,
   TEvent = any,
   TContext = any,
   TResult = any,
@@ -329,12 +296,12 @@ export function defineApi<
 
   let pluginRefsResolved = false
   let hasHttp = false
-  let knexQuery: KnexQuery | undefined
+  let knex: Knex | undefined
 
   const parseParams = async (event: Event): Promise<Params> => {
     if (!pluginRefsResolved) {
       hasHttp = !!findPluginByType(func, 'http')
-      knexQuery = findPluginByType<KnexPlugin>(func, 'knex')?.query
+      knex = findPluginByType<Knex>(func, 'knex')
       pluginRefsResolved = true
     }
 
@@ -362,7 +329,7 @@ export function defineApi<
     const invokeData = {
       ...data,
       params,
-      knex: knexQuery,
+      knex,
     } as DefineApiData<TSchema, TEvent, TContext, TResult>
 
     return options.handler(invokeData)

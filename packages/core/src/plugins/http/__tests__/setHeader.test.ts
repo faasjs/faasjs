@@ -1,19 +1,20 @@
 import { describe, expect, it } from 'vitest'
-import { Func } from '..'
-import { Http } from '../index'
+import { Func } from '../../..'
+import { Http } from '..'
 
-describe('setStatusCode', () => {
+describe('setHeader', () => {
   it('should work', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
       async handler() {
-        http.setStatusCode(404)
+        http.setHeader('key', 'value')
       },
     }).export().handler
 
     const res = await handler({})
 
-    expect(res.statusCode).toEqual(404)
+    expect(res.statusCode).toEqual(204)
+    expect(res.headers.key).toEqual('value')
   })
 })

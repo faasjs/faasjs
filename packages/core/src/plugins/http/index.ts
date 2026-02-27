@@ -7,7 +7,7 @@ import {
   type Plugin,
   type UseifyPlugin,
   usePlugin,
-} from '../func'
+} from '../../func'
 import { Cookie, type CookieOptions } from './cookie'
 import type { Session } from './session'
 

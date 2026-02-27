@@ -1,7 +1,7 @@
 import { streamToString } from '@faasjs/dev'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Func } from '..'
-import { Http } from '../index'
+import { Func } from '../../..'
+import { Http } from '..'
 
 describe('params', () => {
   afterEach(() => {

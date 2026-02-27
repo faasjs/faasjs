@@ -1,6 +1,6 @@
 import type { Tables } from 'knex/types/tables'
 import { assertType, test } from 'vitest'
-import { query } from '../index'
+import { query } from '../../../index'
 
 declare module 'knex/types/tables' {
   interface Tables {

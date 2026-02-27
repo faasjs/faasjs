@@ -3,7 +3,7 @@ import { rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Func, useFunc } from '..'
+import { Func, useFunc } from '../../..'
 import {
   createPgliteKnex,
   Knex,
@@ -13,7 +13,7 @@ import {
   transaction,
   unmountFaasKnex,
   useKnex,
-} from '../index'
+} from '../../../index'
 
 const originalSecretKnexClient = process.env.SECRET_KNEX_CLIENT
 const originalSecretKnexConnection = process.env.SECRET_KNEX_CONNECTION

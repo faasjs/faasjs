@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { nameFunc } from '..'
+import { nameFunc } from '../utils'
 
 it('nameFunc assigns name to handler', () => {
   const originalHandler = () => 'Hello World'

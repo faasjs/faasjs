@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { createCronJob, CronJob, listCronJobs, removeCronJob } from '..'
+import { createCronJob, CronJob, listCronJobs, removeCronJob } from '../..'
 
 describe('cron', () => {
   afterEach(() => {

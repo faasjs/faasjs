@@ -21,7 +21,7 @@ import {
 } from '@faasjs/node-utils'
 import { mountServerCronJobs, unmountServerCronJobs } from '../cron'
 import type { Func } from '../func'
-import { HttpError } from '../http'
+import { HttpError } from '../plugins/http'
 import type { Middleware } from '../middleware'
 import { ensureRequestUrl } from '../request-url'
 import {
