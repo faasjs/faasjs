@@ -259,6 +259,66 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       </AntdForm.Item>
     )
 
+  const renderFormItemList = (inputElement: React.ReactNode) => (
+    <AntdForm.List
+      name={computedProps.name as [string]}
+      rules={computedProps.rules as ValidatorRule[]}
+    >
+      {(fields, { add, remove }, { errors }) => (
+        <>
+          {computedProps.label && (
+            <div className='ant-form-item-label'>
+              <label
+                className={
+                  (computedProps.rules || []).find((r) => r.required) &&
+                  'ant-form-item-required'
+                }
+              >
+                {computedProps.label}
+              </label>
+            </div>
+          )}
+          {fields.map((field) => {
+            const { key, ...fieldProps } = field
+            return (
+              <AntdForm.Item key={key} id={key.toString()}>
+                <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
+                  <Col span={23}>
+                    <AntdForm.Item {...fieldProps} noStyle>
+                      {inputElement}
+                    </AntdForm.Item>
+                  </Col>
+                  <Col span={1}>
+                    {!computedProps.input?.disabled &&
+                      (!(computedProps.rules || []).find((r) => r.required) || key > 0) && (
+                        <Button
+                          danger
+                          type='link'
+                          style={{ float: 'right' }}
+                          icon={<MinusCircleOutlined />}
+                          onClick={() => remove(field.name)}
+                        />
+                      )}
+                  </Col>
+                </Row>
+              </AntdForm.Item>
+            )
+          })}
+          <AntdForm.Item>
+            {!computedProps.input?.disabled &&
+              (!computedProps.maxCount || computedProps.maxCount > fields.length) && (
+                <Button type='dashed' block onClick={() => add()} icon={<PlusOutlined />} />
+              )}
+            {computedProps.extra && (
+              <div className='ant-form-item-extra'>{computedProps.extra}</div>
+            )}
+            <AntdForm.ErrorList errors={errors} />
+          </AntdForm.Item>
+        </>
+      )}
+    </AntdForm.List>
+  )
+
   switch (itemType) {
     case 'string':
       if (isOptionsProps(computedProps))
@@ -285,65 +345,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
           </AntdForm.Item>
         )
 
-      return (
-        <AntdForm.List
-          name={computedProps.name as [string]}
-          rules={computedProps.rules as ValidatorRule[]}
-        >
-          {(fields, { add, remove }, { errors }) => (
-            <>
-              {computedProps.label && (
-                <div className='ant-form-item-label'>
-                  <label
-                    className={
-                      (computedProps.rules || []).find((r) => r.required) &&
-                      'ant-form-item-required'
-                    }
-                  >
-                    {computedProps.label}
-                  </label>
-                </div>
-              )}
-              {fields.map((field) => {
-                const { key, ...fieldProps } = field
-                return (
-                  <AntdForm.Item key={key} id={key.toString()}>
-                    <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
-                      <Col span={23}>
-                        <AntdForm.Item {...fieldProps} noStyle>
-                          <Input {...(computedProps.input as InputProps)} />
-                        </AntdForm.Item>
-                      </Col>
-                      <Col span={1}>
-                        {!computedProps.input?.disabled &&
-                          (!(computedProps.rules || []).find((r) => r.required) || key > 0) && (
-                            <Button
-                              danger
-                              type='link'
-                              style={{ float: 'right' }}
-                              icon={<MinusCircleOutlined />}
-                              onClick={() => remove(field.name)}
-                            />
-                          )}
-                      </Col>
-                    </Row>
-                  </AntdForm.Item>
-                )
-              })}
-              <AntdForm.Item>
-                {!computedProps.input?.disabled &&
-                  (!computedProps.maxCount || computedProps.maxCount > fields.length) && (
-                    <Button type='dashed' block onClick={() => add()} icon={<PlusOutlined />} />
-                  )}
-                {computedProps.extra && (
-                  <div className='ant-form-item-extra'>{computedProps.extra}</div>
-                )}
-                <AntdForm.ErrorList errors={errors} />
-              </AntdForm.Item>
-            </>
-          )}
-        </AntdForm.List>
-      )
+      return renderFormItemList(<Input {...(computedProps.input as InputProps)} />)
     case 'number':
       if (isOptionsProps(computedProps))
         return (
@@ -369,67 +371,8 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
           </AntdForm.Item>
         )
 
-      return (
-        <AntdForm.List
-          name={computedProps.name as [string]}
-          rules={computedProps.rules as ValidatorRule[]}
-        >
-          {(fields, { add, remove }, { errors }) => (
-            <>
-              {computedProps.label && (
-                <div className='ant-form-item-label'>
-                  <label
-                    className={
-                      computedProps.rules?.find((r: RuleObject) => r.required) &&
-                      'ant-form-item-required'
-                    }
-                  >
-                    {computedProps.label}
-                  </label>
-                </div>
-              )}
-              {fields.map((field) => {
-                const { key, ...fieldProps } = field
-                return (
-                  <AntdForm.Item key={key} id={key.toString()}>
-                    <Row gutter={24} style={{ flexFlow: 'row nowrap' }}>
-                      <Col span={23}>
-                        <AntdForm.Item {...fieldProps} noStyle>
-                          <InputNumber
-                            style={{ width: '100%' }}
-                            {...(computedProps.input as InputNumberProps)}
-                          />
-                        </AntdForm.Item>
-                      </Col>
-                      <Col span={1}>
-                        {!computedProps.input?.disabled &&
-                          (!(computedProps.rules || []).find((r) => r.required) || key > 0) && (
-                            <Button
-                              danger
-                              type='link'
-                              style={{ float: 'right' }}
-                              icon={<MinusCircleOutlined />}
-                              onClick={() => remove(field.name)}
-                            />
-                          )}
-                      </Col>
-                    </Row>
-                  </AntdForm.Item>
-                )
-              })}
-              <AntdForm.Item>
-                {!computedProps.input?.disabled &&
-                  (!computedProps.maxCount || computedProps.maxCount > fields.length) && (
-                    <Button type='dashed' block onClick={() => add()} icon={<PlusOutlined />} />
-                  )}
-                {computedProps.extra && (
-                  <div className='ant-form-item-extra'>{computedProps.extra}</div>
-                )}
-                <AntdForm.ErrorList errors={errors} />
-              </AntdForm.Item>
-            </>
-          )}
-        </AntdForm.List>
+      return renderFormItemList(
+        <InputNumber style={{ width: '100%' }} {...(computedProps.input as InputNumberProps)} />,
       )
     case 'boolean':
       return (

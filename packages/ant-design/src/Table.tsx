@@ -219,6 +219,32 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         ),
     )
 
+    const createTextSearchFilterDropdown =
+      (item: TableItemProps, transformValue?: (v: string) => any) =>
+      ({
+        setSelectedKeys,
+        confirm,
+        clearFilters,
+      }: {
+        setSelectedKeys: (selectedKeys: React.Key[]) => void
+        confirm: () => void
+        clearFilters?: () => void
+      }) => (
+        <Input.Search
+          placeholder={`${theme.common.search} ${item.title}`}
+          allowClear
+          onSearch={(v) => {
+            if (v) {
+              setSelectedKeys(transformValue ? [transformValue(v)] : [v])
+            } else {
+              setSelectedKeys([])
+              clearFilters?.()
+            }
+            confirm()
+          }}
+        />
+      )
+
     for (const item of items) {
       if (!item.key) item.key = item.id
       if (!item.dataIndex) item.dataIndex = item.id
@@ -320,21 +346,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               !item.filters &&
               item.optionsType !== 'auto'
             )
-              item.filterDropdown = ({ setSelectedKeys, confirm, clearFilters }) => (
-                <Input.Search
-                  placeholder={`${theme.common.search} ${item.title}`}
-                  allowClear
-                  onSearch={(v) => {
-                    if (v) {
-                      setSelectedKeys([v])
-                    } else {
-                      setSelectedKeys([])
-                      clearFilters?.()
-                    }
-                    confirm()
-                  }}
-                />
-              )
+              item.filterDropdown = createTextSearchFilterDropdown(item)
           }
           break
         case 'string[]':
@@ -359,21 +371,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               !item.filters &&
               item.optionsType !== 'auto'
             )
-              item.filterDropdown = ({ setSelectedKeys, confirm, clearFilters }) => (
-                <Input.Search
-                  placeholder={`${theme.common.search} ${item.title}`}
-                  allowClear
-                  onSearch={(v) => {
-                    if (v) {
-                      setSelectedKeys([v])
-                    } else {
-                      setSelectedKeys([])
-                      clearFilters?.()
-                    }
-                    confirm()
-                  }}
-                />
-              )
+              item.filterDropdown = createTextSearchFilterDropdown(item)
           }
           break
         case 'number':
@@ -396,21 +394,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               }
 
             if (typeof item.filterDropdown === 'undefined' && !item.filters)
-              item.filterDropdown = ({ setSelectedKeys, confirm, clearFilters }) => (
-                <Input.Search
-                  placeholder={`${theme.common.search} ${item.title}`}
-                  allowClear
-                  onSearch={(v) => {
-                    if (v) {
-                      setSelectedKeys([Number(v)])
-                    } else {
-                      setSelectedKeys([])
-                      clearFilters?.()
-                    }
-                    confirm()
-                  }}
-                />
-              )
+              item.filterDropdown = createTextSearchFilterDropdown(item, Number)
           }
           break
         case 'number[]':
@@ -429,21 +413,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               }
 
             if (typeof item.filterDropdown === 'undefined' && !item.filters)
-              item.filterDropdown = ({ setSelectedKeys, confirm, clearFilters }) => (
-                <Input.Search
-                  placeholder={`${theme.common.search} ${item.title}`}
-                  allowClear
-                  onSearch={(v) => {
-                    if (v) {
-                      setSelectedKeys([Number(v)])
-                    } else {
-                      setSelectedKeys([])
-                      clearFilters?.()
-                    }
-                    confirm()
-                  }}
-                />
-              )
+              item.filterDropdown = createTextSearchFilterDropdown(item, Number)
           }
           break
         case 'boolean':
@@ -529,51 +499,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           }
           break
         case 'date':
-          // render
-          if (!item.render) item.render = (value) => processValue(item, value)
-
-          // sorter
-          if (typeof item.sorter === 'undefined')
-            item.sorter = (a, b, order) => {
-              if (isNil(a[item.id])) return order === 'ascend' ? 1 : -1
-              if (isNil(b[item.id])) return order === 'ascend' ? -1 : 1
-              return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
-            }
-
-          // filter
-          if (item.filterDropdown !== false) {
-            if (typeof item.filterDropdown === 'undefined')
-              item.filterDropdown = ({ setSelectedKeys, confirm }) => (
-                <DatePicker.RangePicker
-                  onChange={(dates) => {
-                    setSelectedKeys(
-                      dates?.[0] && dates[1]
-                        ? ([
-                            [
-                              dates[0].startOf('day').toISOString(),
-                              dates[1].endOf('day').toISOString(),
-                            ],
-                          ] as any)
-                        : [],
-                    )
-                    confirm()
-                  }}
-                />
-              )
-
-            if (!item.onFilter && !props.faasData)
-              item.onFilter = (value: any, row) => {
-                if (isNil(value[0])) return true
-                if (isNil(row[item.id])) return false
-
-                return (
-                  dayjs(row[item.id]) >= dayjs(value[0]) && dayjs(row[item.id]) <= dayjs(value[1])
-                )
-              }
-          }
-          break
         case 'time':
-          item.width = item.width ?? 200
+          if (itemType === 'time') item.width = item.width ?? 200
           // render
           if (!item.render) item.render = (value) => processValue(item, value)
 
