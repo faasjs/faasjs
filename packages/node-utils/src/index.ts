@@ -23,8 +23,17 @@ export type { LoadEnvFileIfExistsOptions } from './load_env'
 export { loadEnvFileIfExists } from './load_env'
 export type { ExportedHandler } from './load_func'
 export { loadFunc } from './load_func'
-export type { LoadPackageOptions, NodeRuntime } from './load_package'
-export { detectNodeRuntime, loadPackage, resetRuntime } from './load_package'
+export type {
+  LoadPackageOptions,
+  NodeRuntime,
+  RegisterNodeModuleHooksOptions,
+} from './load_package'
+export {
+  detectNodeRuntime,
+  loadPackage,
+  registerNodeModuleHooks,
+  resetRuntime,
+} from './load_package'
 export { streamToObject, streamToString, streamToText } from './stream'
 export type { LoggerMessage, TransportHandler, TransportOptions } from './transport'
 export { getTransport, Transport } from './transport'

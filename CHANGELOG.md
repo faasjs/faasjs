@@ -2,6 +2,15 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.13 (2026-03-01)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.12...v8.0.0-beta.13)
+
+- `@faasjs/node-utils`
+  - [Feature] Add `registerNodeModuleHooks` to install module-resolve hooks before startup imports.
+  - [Feature] Add `@faasjs/node-utils/register-hooks` preload entry for `node --import`.
+
+- `create-faas-app`
+  - [Feature] Scaffold `start` script with `node --import @faasjs/node-utils/register-hooks server.ts`.
+
 [`v8.0.0-beta.12 (2026-02-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.11...v8.0.0-beta.12)
 
 - `@faasjs/core`

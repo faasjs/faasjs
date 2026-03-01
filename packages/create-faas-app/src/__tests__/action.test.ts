@@ -61,7 +61,7 @@ describe('action', () => {
     expect(packageJSON.scripts).toMatchObject({
       dev: 'vite',
       build: 'vite build',
-      start: 'node server.ts',
+      start: 'node --import @faasjs/node-utils/register-hooks server.ts',
       check: 'faas lint',
       test: 'vitest run',
       'migrate:latest': expect.any(String),

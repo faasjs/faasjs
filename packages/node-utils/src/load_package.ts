@@ -14,6 +14,15 @@ export type LoadPackageOptions = {
   version?: string
 }
 
+export type RegisterNodeModuleHooksOptions = LoadPackageOptions & {
+  /**
+   * Optional entry file used to infer project root and tsconfig.
+   *
+   * Defaults to `process.argv[1]` when omitted.
+   */
+  entry?: string
+}
+
 type TsconfigPathRule = {
   key: string
   targets: string[]
@@ -87,6 +96,27 @@ function normalizeRoot(root: string): string {
   if (normalized === sep) return normalized
 
   return normalized.endsWith(sep) ? normalized.slice(0, -1) : normalized
+}
+
+function resolveLoaderEntryPath(entry: string | undefined): string | undefined {
+  if (!entry) return undefined
+
+  const normalizedEntry = entry.trim()
+  if (!normalizedEntry) return undefined
+
+  if (normalizedEntry.startsWith('file://')) {
+    try {
+      return normalizeFileSystemPath(fileURLToPath(normalizedEntry))
+    } catch {
+      return undefined
+    }
+  }
+
+  const absoluteEntry = isAbsolute(normalizedEntry)
+    ? normalizedEntry
+    : resolve(process.cwd(), normalizedEntry)
+
+  return normalizeFileSystemPath(absoluteEntry)
 }
 
 function isPathInsideRoot(filePath: string, root: string): boolean {
@@ -514,6 +544,34 @@ function installModuleHooks(): void {
   })
 
   hooksInstalled = true
+}
+
+export function registerNodeModuleHooks(
+  options: RegisterNodeModuleHooksOptions = {}
+): void {
+  const { entry, ...loadOptions } = options
+  const runtimeEntry =
+    typeof process !== 'undefined' && Array.isArray(process.argv)
+      ? process.argv[1]
+      : undefined
+  const resolvedEntry =
+    resolveLoaderEntryPath(entry) || resolveLoaderEntryPath(runtimeEntry)
+
+  if (resolvedEntry || loadOptions.root || loadOptions.tsconfigPath) {
+    const state = ensureLoaderState(
+      resolvedEntry || loadOptions.root || loadOptions.tsconfigPath || process.cwd(),
+      loadOptions
+    )
+
+    if (!state && resolvedEntry && !loadOptions.root && !loadOptions.tsconfigPath) {
+      ensureLoaderState(resolvedEntry, {
+        ...loadOptions,
+        root: dirname(resolvedEntry),
+      })
+    }
+  }
+
+  installModuleHooks()
 }
 
 /**

@@ -21,6 +21,30 @@ async function runNativeLoadPackage(root: string, script: string): Promise<strin
   return stdout.trim()
 }
 
+async function runNodeWithRegisterHooks(root: string, entry: string): Promise<string> {
+  const preloadPath = join(root, 'preload-loader.mjs')
+
+  await writeFile(
+    preloadPath,
+    `import { registerNodeModuleHooks } from ${JSON.stringify(loadPackageModuleURL)}
+
+registerNodeModuleHooks({
+  entry: ${JSON.stringify(entry)},
+})
+`,
+    'utf8'
+  )
+
+  const { stdout } = await execFileAsync(process.execPath, ['--import', preloadPath, entry], {
+    cwd: root,
+    env: {
+      ...process.env,
+    },
+  })
+
+  return stdout.trim()
+}
+
 describe('loadPackage', () => {
   let originalRequire: any
   let originalProcess: any
@@ -262,6 +286,84 @@ const value = await loaded.export().handler()
 process.stdout.write(String(value))
 `,
     )
+
+    expect(output).toBe('ok')
+  })
+})
+
+describe('register_hooks preload', () => {
+  const tempDirs: string[] = []
+
+  afterEach(async () => {
+    await Promise.all(
+      tempDirs.splice(0).map((path) =>
+        rm(path, {
+          recursive: true,
+          force: true,
+        })
+      )
+    )
+  })
+
+  it('should resolve extensionless imports via node --import', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'faas-loader-preload-relative-'))
+    tempDirs.push(root)
+
+    await mkdir(join(root, 'src'), {
+      recursive: true,
+    })
+
+    await writeFile(join(root, 'src', 'message.ts'), "export const message = 'ok'\n", 'utf8')
+    await writeFile(
+      join(root, 'server.ts'),
+      `import { message } from './src/message'
+
+process.stdout.write(message)
+`,
+      'utf8'
+    )
+
+    const output = await runNodeWithRegisterHooks(root, join(root, 'server.ts'))
+
+    expect(output).toBe('ok')
+  })
+
+  it('should resolve tsconfig paths via node --import', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'faas-loader-preload-tsconfig-'))
+    tempDirs.push(root)
+
+    await mkdir(join(root, 'src'), {
+      recursive: true,
+    })
+
+    await writeFile(
+      join(root, 'tsconfig.json'),
+      JSON.stringify(
+        {
+          compilerOptions: {
+            baseUrl: '.',
+            paths: {
+              '@/*': ['src/*'],
+            },
+          },
+        },
+        null,
+        2
+      ),
+      'utf8'
+    )
+
+    await writeFile(join(root, 'src', 'message.ts'), "export const message = 'ok'\n", 'utf8')
+    await writeFile(
+      join(root, 'server.ts'),
+      `import { message } from '@/message'
+
+process.stdout.write(message)
+`,
+      'utf8'
+    )
+
+    const output = await runNodeWithRegisterHooks(root, join(root, 'server.ts'))
 
     expect(output).toBe('ok')
   })
