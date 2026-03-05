@@ -22,6 +22,7 @@ npm install @faasjs/node-utils
 - [loadEnvFileIfExists](functions/loadEnvFileIfExists.md)
 - [loadFunc](functions/loadFunc.md)
 - [loadPackage](functions/loadPackage.md)
+- [registerNodeModuleHooks](functions/registerNodeModuleHooks.md)
 - [resetRuntime](functions/resetRuntime.md)
 - [streamToObject](functions/streamToObject.md)
 - [streamToText](functions/streamToText.md)
@@ -41,6 +42,7 @@ npm install @faasjs/node-utils
 - [LoadPackageOptions](type-aliases/LoadPackageOptions.md)
 - [LoggerMessage](type-aliases/LoggerMessage.md)
 - [NodeRuntime](type-aliases/NodeRuntime.md)
+- [RegisterNodeModuleHooksOptions](type-aliases/RegisterNodeModuleHooksOptions.md)
 - [TransportHandler](type-aliases/TransportHandler.md)
 - [TransportOptions](type-aliases/TransportOptions.md)
 
