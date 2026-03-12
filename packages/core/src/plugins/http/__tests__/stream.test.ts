@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { Func } from '../../..'
+
 import { Http } from '..'
+import { Func } from '../../..'
 
 describe('stream', () => {
   it('should handle Web ReadableStream', async () => {

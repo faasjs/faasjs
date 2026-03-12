@@ -1,5 +1,6 @@
 import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
+
 import { func } from '../hello.func'
 
 describe('hello/api/hello', () => {

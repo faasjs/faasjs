@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { parseYaml } from '../parse_yaml'
 
 describe('parseYaml', () => {

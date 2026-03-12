@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+
 import { Response, setMock } from '..'
 import { useFaas } from '../useFaas'
 
@@ -36,7 +37,7 @@ describe('useFaas', () => {
       return (
         <div>
           {data}
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => reload()}>
             Reload
           </button>
         </div>
@@ -72,7 +73,7 @@ describe('useFaas', () => {
 
       return (
         <>
-          <button type='button' onClick={() => setParams({ v: 10 })}>
+          <button type="button" onClick={() => setParams({ v: 10 })}>
             Reload
           </button>
           <div>{JSON.stringify(data)}</div>
@@ -107,7 +108,7 @@ describe('useFaas', () => {
       return (
         <div>
           {data?.count}
-          <button type='button' onClick={() => setCount((p) => p + 1)}>
+          <button type="button" onClick={() => setCount((p) => p + 1)}>
             Add
           </button>
         </div>
@@ -141,7 +142,7 @@ describe('useFaas', () => {
 
       return (
         <>
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => reload()}>
             Reload
           </button>
           <div>data:{data?.v}</div>

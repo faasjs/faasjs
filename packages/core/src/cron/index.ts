@@ -1,4 +1,5 @@
 import { randomBytes } from 'node:crypto'
+
 import { Logger } from '@faasjs/node-utils'
 
 type CronFieldName = 'minute' | 'hour' | 'dayOfMonth' | 'month' | 'dayOfWeek'

@@ -16,13 +16,13 @@ Mock handlers receive request parameters and return simulated responses or error
 `string`
 
 The function path/action being requested (e.g., 'user', 'data/list').
-  Converted to lowercase by the client before being passed to the handler.
+Converted to lowercase by the client before being passed to the handler.
 
 ### params
 
 The parameters passed to the action.
-  May be undefined if the action was called without parameters.
-  Parameters are passed as a plain object (already JSON-serialized if needed).
+May be undefined if the action was called without parameters.
+Parameters are passed as a plain object (already JSON-serialized if needed).
 
 `Record`\<`string`, `any`\> | `undefined`
 
@@ -31,8 +31,8 @@ The parameters passed to the action.
 [`Options`](Options.md)
 
 The full request options including headers, beforeRequest hook, and other config.
-  Includes X-FaasJS-Request-Id header in the headers object.
-  Contains merged client defaults and per-request options.
+Includes X-FaasJS-Request-Id header in the headers object.
+Contains merged client defaults and per-request options.
 
 ## Returns
 
@@ -59,7 +59,7 @@ setMock(async (action, params, options) => {
   if (action === 'user') {
     return {
       status: 200,
-      data: { id: params.id, name: 'Mock User' }
+      data: { id: params.id, name: 'Mock User' },
     }
   }
   return { status: 404, data: { error: 'Not found' } }
@@ -98,6 +98,6 @@ setMock(async (action) => {
 
 ## See
 
- - setMock for setting up mock handlers
- - ResponseProps for response structure
- - ResponseError for error handling
+- setMock for setting up mock handlers
+- ResponseProps for response structure
+- ResponseError for error handling

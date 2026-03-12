@@ -10,7 +10,7 @@ Injects FaasData props.
 
 ### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
+`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
 
 ## Methods
 

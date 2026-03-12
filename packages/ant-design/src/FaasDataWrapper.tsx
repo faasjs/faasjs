@@ -10,6 +10,7 @@ import {
 } from '@faasjs/react'
 import type { FaasActionUnionType } from '@faasjs/types'
 import type { JSX } from 'react'
+
 import type { LoadingProps } from './Loading'
 import { Loading } from './Loading'
 

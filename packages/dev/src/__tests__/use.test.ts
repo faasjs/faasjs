@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { FuncWarper } from '../../src/index'
 import { func as UseA } from './funcs/use-a.func'
 import { func as UseB } from './funcs/use-b.func'

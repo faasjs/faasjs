@@ -8,7 +8,7 @@
 
 ### TSchema
 
-`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
+`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
 ### TEvent
 

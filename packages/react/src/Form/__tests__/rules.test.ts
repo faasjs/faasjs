@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+
 import { FormDefaultLang } from '../lang'
 import { FormDefaultRules, validValues } from '../rules'
 

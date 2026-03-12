@@ -18,22 +18,26 @@ customizing request behavior, adding request hooks, and overriding defaults.
 ### beforeRequest()?
 
 > `optional` **beforeRequest**: (`{
+
     action,
     params,
     options,
     headers,
-  }`) => `Promise`\<`void`\>
+
+}`) => `Promise`\<`void`\>
 
 trigger before request
 
 #### Parameters
 
 ##### \{
+
     action,
     params,
     options,
     headers,
-  \}
+
+\}
 
 ###### action
 
@@ -69,7 +73,7 @@ custom request
 
 ##### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
 #### Parameters
 
@@ -101,5 +105,5 @@ custom request
 
 ## See
 
- - FaasBrowserClient for client creation
- - Response for response object structure
+- FaasBrowserClient for client creation
+- Response for response object structure

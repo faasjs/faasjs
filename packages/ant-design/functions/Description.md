@@ -12,7 +12,7 @@ Description component
 
 ### T
 
-`T` *extends* `Record`\<`string`, `any`\> = `any`
+`T` _extends_ `Record`\<`string`, `any`\> = `any`
 
 ## Parameters
 
@@ -29,7 +29,7 @@ Description component
 ```tsx
 import { Description } from '@faasjs/ant-design'
 
-<Description
+;<Description
   title="Title"
   items={[
     {

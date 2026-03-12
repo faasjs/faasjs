@@ -2,6 +2,7 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Descriptions, type DescriptionsProps, Space } from 'antd'
 import type { Dayjs } from 'dayjs'
 import { type JSX, type ReactNode, useEffect, useState } from 'react'
+
 import type { BaseItemProps } from '.'
 import { Blank } from './Blank'
 import {
@@ -176,7 +177,7 @@ function DescriptionItemContent<T = any>(
       if (!(computedProps.value as Record<string, any>[])?.length) return <Blank />
 
       return (
-        <Space direction='vertical'>
+        <Space direction="vertical">
           {(computedProps.value as Record<string, any>[]).map((value, index) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: use index as key
             <Description

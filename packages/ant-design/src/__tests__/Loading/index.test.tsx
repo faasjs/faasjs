@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
+
 import { Loading } from '../../Loading'
 
 describe('Loading', () => {
@@ -16,7 +17,7 @@ describe('Loading', () => {
   })
 
   it('should keep large layout when size is explicitly large', () => {
-    const { container } = render(<Loading size='large' />)
+    const { container } = render(<Loading size="large" />)
 
     const wrapper = container.firstElementChild as HTMLDivElement
     expect(wrapper.style.margin).toBe('20vh auto')
@@ -24,7 +25,7 @@ describe('Loading', () => {
   })
 
   it('should skip large layout when size is small', () => {
-    const { container } = render(<Loading size='small' />)
+    const { container } = render(<Loading size="small" />)
 
     const wrapper = container.firstElementChild as HTMLDivElement
     expect(wrapper.style.margin).toBe('')

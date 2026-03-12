@@ -4,6 +4,7 @@ import type { MessageInstance } from 'antd/es/message/interface'
 import type { NotificationInstance } from 'antd/es/notification/interface'
 import type { BrowserRouterProps } from 'react-router-dom'
 import { BrowserRouter, useLocation } from 'react-router-dom'
+
 import {
   ConfigProvider as FaasConfigProvider,
   type ConfigProviderProps as FaasConfigProviderProps,

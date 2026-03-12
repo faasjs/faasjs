@@ -2,6 +2,7 @@ import { setMock } from '@faasjs/react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
+
 import { Form } from '../../Form'
 
 describe('Form/submit', () => {

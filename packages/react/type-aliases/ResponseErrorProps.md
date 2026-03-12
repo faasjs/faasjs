@@ -13,7 +13,9 @@
 #### Default
 
 ```ts
-{ error: Error(message) }
+{
+  error: Error(message)
+}
 ```
 
 ### headers?
@@ -23,7 +25,8 @@
 #### Default
 
 ```ts
-{}
+{
+}
 ```
 
 ### message

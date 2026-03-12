@@ -10,7 +10,7 @@ A simple way to wrap a FaasJS function.
 
 ### TFunc
 
-`TFunc` *extends* [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
+`TFunc` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
 ## Parameters
 

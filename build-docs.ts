@@ -19,9 +19,7 @@ function build(path: string) {
   )
 
   const intentionallyNotExportedArgs =
-    packagePath === 'packages/types'
-      ? ' --intentionallyNotExported FaasActions'
-      : ''
+    packagePath === 'packages/types' ? ' --intentionallyNotExported FaasActions' : ''
 
   run(
     `npm exec typedoc -- ${packagePath}/src/index.ts --tsconfig ${packagePath}/tsconfig.json --out ${path.replace('/package.json', '/')}${intentionallyNotExportedArgs}`,

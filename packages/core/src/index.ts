@@ -15,6 +15,7 @@
 
 import type { output, ZodError, ZodType } from 'zod'
 import * as z from 'zod'
+
 import type { Config, Handler, InvokeData, Plugin } from './func'
 import { Func } from './func'
 import { HttpError, type Cookie, type Session } from './plugins/http'
@@ -28,16 +29,15 @@ export * from './server'
 export * from './utils'
 
 type IsAny<T> = 0 extends 1 & T ? true : false
-type DefineApiEventParams<TSchema extends ZodType | undefined = undefined> =
-  TSchema extends ZodType ? output<NonNullable<TSchema>> : Record<string, any>
-type DefineApiEvent<
-  TSchema extends ZodType | undefined = undefined,
-  TEvent = any,
-> = IsAny<TEvent> extends true
-  ? Record<string, any> & {
-      params?: DefineApiEventParams<TSchema>
-    }
-  : TEvent
+type DefineApiEventParams<TSchema extends ZodType | undefined = undefined> = TSchema extends ZodType
+  ? output<NonNullable<TSchema>>
+  : Record<string, any>
+type DefineApiEvent<TSchema extends ZodType | undefined = undefined, TEvent = any> =
+  IsAny<TEvent> extends true
+    ? Record<string, any> & {
+        params?: DefineApiEventParams<TSchema>
+      }
+    : TEvent
 type PluginConstructor = new (config?: any) => Plugin
 type PluginConfigValue = {
   [key: string]: any
@@ -91,11 +91,7 @@ export type DefineApiOptions<
 function formatPluginModuleName(type: string): string {
   const normalizedType = type.startsWith('npm:') ? type.slice(4) : type
 
-  if (
-    normalizedType === 'http' ||
-    normalizedType === '@faasjs/http'
-  )
-    return '@faasjs/core'
+  if (normalizedType === 'http' || normalizedType === '@faasjs/http') return '@faasjs/core'
 
   if (
     normalizedType.startsWith('@') ||

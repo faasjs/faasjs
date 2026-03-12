@@ -1,5 +1,7 @@
 import { join } from 'node:path'
+
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+
 import { closeAll, Server } from '../../server'
 
 describe('middleware', () => {

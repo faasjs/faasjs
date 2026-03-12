@@ -1,7 +1,9 @@
 import { join } from 'node:path'
+
 import { Server } from '@faasjs/core'
 import { Logger } from '@faasjs/node-utils'
 import type { Plugin } from 'vite'
+
 import { resolveServerConfig } from './server_config'
 import { generateFaasTypes, isTypegenSourceFile } from './typegen'
 

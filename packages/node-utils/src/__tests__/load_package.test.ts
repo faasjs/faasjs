@@ -3,7 +3,9 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { detectNodeRuntime, loadPackage, resetRuntime } from '../load_package'
 
 const execFileAsync = promisify(execFile)
@@ -32,7 +34,7 @@ registerNodeModuleHooks({
   entry: ${JSON.stringify(entry)},
 })
 `,
-    'utf8'
+    'utf8',
   )
 
   const { stdout } = await execFileAsync(process.execPath, ['--import', preloadPath, entry], {
@@ -195,7 +197,11 @@ describe('loadPackage tsconfig resolver', () => {
       'utf8',
     )
 
-    await writeFile(join(root, 'src', 'shared', 'message.ts'), `export const message = 'v1'\n`, 'utf8')
+    await writeFile(
+      join(root, 'src', 'shared', 'message.ts'),
+      `export const message = 'v1'\n`,
+      'utf8',
+    )
     await writeFile(
       join(root, 'src', 'entry.func.ts'),
       `import { message } from '@/shared/message'
@@ -298,7 +304,11 @@ process.stdout.write(String(value))
       recursive: true,
     })
 
-    await writeFile(join(root, 'src', 'message.json.ts'), `export const message = 'json-ts'\n`, 'utf8')
+    await writeFile(
+      join(root, 'src', 'message.json.ts'),
+      `export const message = 'json-ts'\n`,
+      'utf8',
+    )
     await writeFile(
       join(root, 'src', 'entry.func.ts'),
       `import { message } from './message.json'
@@ -347,7 +357,11 @@ process.stdout.write(String(value))
     })
 
     await writeFile(join(root, 'src', 'message.js'), `export const message = 'exact'\n`, 'utf8')
-    await writeFile(join(root, 'src', 'message.js.ts'), `export const message = 'fallback'\n`, 'utf8')
+    await writeFile(
+      join(root, 'src', 'message.js.ts'),
+      `export const message = 'fallback'\n`,
+      'utf8',
+    )
     await writeFile(
       join(root, 'src', 'entry.func.ts'),
       `import { message } from './message.js'
@@ -397,8 +411,8 @@ describe('register_hooks preload', () => {
         rm(path, {
           recursive: true,
           force: true,
-        })
-      )
+        }),
+      ),
     )
   })
 
@@ -417,7 +431,7 @@ describe('register_hooks preload', () => {
 
 process.stdout.write(message)
 `,
-      'utf8'
+      'utf8',
     )
 
     const output = await runNodeWithRegisterHooks(root, join(root, 'server.ts'))
@@ -440,7 +454,7 @@ process.stdout.write(message)
 
 process.stdout.write(message)
 `,
-      'utf8'
+      'utf8',
     )
 
     const output = await runNodeWithRegisterHooks(root, join(root, 'server.ts'))
@@ -468,9 +482,9 @@ process.stdout.write(message)
           },
         },
         null,
-        2
+        2,
       ),
-      'utf8'
+      'utf8',
     )
 
     await writeFile(join(root, 'src', 'message.ts'), "export const message = 'ok'\n", 'utf8')
@@ -480,7 +494,7 @@ process.stdout.write(message)
 
 process.stdout.write(message)
 `,
-      'utf8'
+      'utf8',
     )
 
     const output = await runNodeWithRegisterHooks(root, join(root, 'server.ts'))

@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { FaasBrowserClient, Response, ResponseError, setMock } from '../../browser'
 
 describe('mock', () => {

@@ -67,14 +67,16 @@ const items = [
   {
     id: 'name',
     render: nameReader,
-  }
+  },
 ]
 
 function App() {
-  return <>
-    <Form items={items} /> // Will render an input
-    <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
-    <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
-  </>
+  return (
+    <>
+      <Form items={items} /> // Will render an input
+      <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
+      <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
+    </>
+  )
 }
 ```

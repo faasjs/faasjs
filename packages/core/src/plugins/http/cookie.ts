@@ -1,5 +1,6 @@
 import { deepMerge } from '@faasjs/node-utils'
 import type { Logger } from '@faasjs/node-utils'
+
 import { Session, type SessionOptions } from './session'
 
 export type CookieOptions = {

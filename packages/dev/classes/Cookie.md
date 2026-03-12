@@ -6,11 +6,11 @@
 
 ### C
 
-`C` *extends* `Record`\<`string`, `string`\> = `any`
+`C` _extends_ `Record`\<`string`, `string`\> = `any`
 
 ### S
 
-`S` *extends* `Record`\<`string`, `string`\> = `any`
+`S` _extends_ `Record`\<`string`, `string`\> = `any`
 
 ## Constructors
 

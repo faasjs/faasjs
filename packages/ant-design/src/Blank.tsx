@@ -1,5 +1,6 @@
 import { Typography } from 'antd'
 import type { JSX } from 'react'
+
 import { useConfigContext } from './Config'
 
 export interface BlankProps {

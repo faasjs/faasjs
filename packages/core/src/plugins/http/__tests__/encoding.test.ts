@@ -1,7 +1,8 @@
 import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
-import { Func } from '../../..'
+
 import { Http } from '..'
+import { Func } from '../../..'
 
 describe('Accept-Encoding', () => {
   const data = new Array(1025).join('1')

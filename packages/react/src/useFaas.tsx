@@ -1,5 +1,6 @@
 import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import { useRef, useState } from 'react'
+
 import type { BaseUrl, Response } from './browser'
 import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'

@@ -230,7 +230,9 @@ describe('Table/logic', () => {
       expect(Array.isArray(getLatestTableProps().columns)).toBe(true)
     })
 
-    const statusColumn = (getLatestTableProps().columns as any[]).find((item) => item.id === 'status')
+    const statusColumn = (getLatestTableProps().columns as any[]).find(
+      (item) => item.id === 'status',
+    )
 
     expect(typeof statusColumn.filterDropdown).toBe('function')
 
@@ -276,7 +278,9 @@ describe('Table/logic', () => {
       expect(Array.isArray(getLatestTableProps().columns)).toBe(true)
     })
 
-    const statusColumn = (getLatestTableProps().columns as any[]).find((item) => item.id === 'status')
+    const statusColumn = (getLatestTableProps().columns as any[]).find(
+      (item) => item.id === 'status',
+    )
 
     expect(statusColumn.filterDropdown).toBe(customFilterDropdown)
   })
@@ -337,7 +341,12 @@ describe('Table/logic', () => {
     }))
 
     render(
-      <Table rowKey='id' items={[{ id: 'status' }]} faasData={{ action: 'table/list' }} onChange={onChange} />,
+      <Table
+        rowKey="id"
+        items={[{ id: 'status' }]}
+        faasData={{ action: 'table/list' }}
+        onChange={onChange}
+      />,
     )
 
     await waitFor(() => {

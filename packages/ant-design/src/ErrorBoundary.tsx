@@ -10,7 +10,7 @@ export type { ErrorBoundaryProps }
 function ErrorChildren(props: ErrorChildrenProps) {
   return (
     <Alert
-      type='error'
+      type="error"
       message={props.errorMessage}
       description={
         <pre

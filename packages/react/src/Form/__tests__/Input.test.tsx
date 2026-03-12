@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react'
 import { useState } from 'react'
 import { describe, expect, it, vi } from 'vitest'
+
 import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
 import { FormInput } from '../Input'
@@ -41,7 +42,7 @@ describe('FormInput', () => {
   }
 
   it('should render input with initial value', () => {
-    const { getByDisplayValue } = renderWithContext(<FormInput name='test' />, {
+    const { getByDisplayValue } = renderWithContext(<FormInput name="test" />, {
       values: {
         test: 'initial',
       },
@@ -52,7 +53,7 @@ describe('FormInput', () => {
   it('should call setValues on input change', () => {
     const mockSetValues = vi.fn()
 
-    const { getByRole } = renderWithContext(<FormInput name='test' />, {
+    const { getByRole } = renderWithContext(<FormInput name="test" />, {
       setValues: mockSetValues,
       values: {
         test: '',
@@ -72,8 +73,8 @@ describe('FormInput', () => {
     function CustomInput({ name, value, onChange }: any) {
       return (
         <input
-          title='test'
-          data-testid='custom-input'
+          title="test"
+          data-testid="custom-input"
           name={name}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -81,7 +82,7 @@ describe('FormInput', () => {
       )
     }
 
-    const { getByRole } = renderWithContext(<FormInput name='test' Input={CustomInput} />, {
+    const { getByRole } = renderWithContext(<FormInput name="test" Input={CustomInput} />, {
       setValues: vi.fn().mockImplementation((v) => (values = v(values))),
       values,
     })
@@ -98,7 +99,7 @@ describe('FormInput', () => {
         test: '',
       }
 
-      const { getByRole } = renderWithContext(<FormInput name='test' />, {
+      const { getByRole } = renderWithContext(<FormInput name="test" />, {
         setValues: vi.fn().mockImplementation((v) => (values = v(values))),
         values,
       })
@@ -112,7 +113,7 @@ describe('FormInput', () => {
       let values = {}
 
       const { getByRole } = renderWithContext(
-        <FormInput name='test' rules={{ type: 'string' }} />,
+        <FormInput name="test" rules={{ type: 'string' }} />,
         {
           setValues: vi.fn().mockImplementation((v) => (values = v({}))),
           values: {
@@ -130,7 +131,7 @@ describe('FormInput', () => {
       let values = {}
 
       const { getByRole } = renderWithContext(
-        <FormInput name='test' rules={{ type: 'number' }} />,
+        <FormInput name="test" rules={{ type: 'number' }} />,
         {
           setValues: vi.fn().mockImplementation((v) => (values = v({}))),
           values: {

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { ConfigProvider } from 'antd'
 import { describe, expect, it } from 'vitest'
+
 import { useThemeToken } from '../useThemeToken'
 
 describe('useThemeToken', () => {

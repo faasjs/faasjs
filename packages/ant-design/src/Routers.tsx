@@ -1,6 +1,7 @@
 import { Result, Skeleton } from 'antd'
 import { type ComponentType, type JSX, type LazyExoticComponent, Suspense } from 'react'
 import { Routes as OriginRoutes, Route, type RouteProps } from 'react-router-dom'
+
 import { useConfigContext } from './Config'
 
 export { lazy } from 'react'
@@ -8,7 +9,7 @@ export { lazy } from 'react'
 export function PageNotFound() {
   const { theme } = useConfigContext()
 
-  return <Result status='404' title={theme.common.pageNotFound} />
+  return <Result status="404" title={theme.common.pageNotFound} />
 }
 
 export interface RoutesProps {
@@ -68,7 +69,7 @@ export function Routes(props: RoutesProps) {
           />
         )
       })}
-      <Route key='*' path='*' element={props.notFound || <PageNotFound />} />
+      <Route key="*" path="*" element={props.notFound || <PageNotFound />} />
     </OriginRoutes>
   )
 }

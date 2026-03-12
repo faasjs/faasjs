@@ -1,6 +1,8 @@
 import { randomUUID } from 'node:crypto'
 import type { IncomingMessage, ServerResponse } from 'node:http'
+
 import { Logger } from '@faasjs/node-utils'
+
 import { useFunc } from '../func'
 import {
   getErrorMessage,

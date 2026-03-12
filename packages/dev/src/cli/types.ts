@@ -1,4 +1,5 @@
 import { loadEnvFileIfExists } from '@faasjs/node-utils'
+
 import { generateFaasTypes } from '../typegen'
 import { createMain, parseCommonCliArgs, printVersion } from './shared'
 

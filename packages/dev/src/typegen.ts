@@ -1,7 +1,9 @@
 import { existsSync } from 'node:fs'
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join, relative } from 'node:path'
+
 import { Logger } from '@faasjs/node-utils'
+
 import { resolveServerConfig } from './server_config'
 
 type RouteTypeItem = {

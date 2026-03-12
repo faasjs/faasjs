@@ -8,15 +8,15 @@
 
 ### TParams
 
-`TParams` *extends* `Record`\<`string`, `any`\> = `any`
+`TParams` _extends_ `Record`\<`string`, `any`\> = `any`
 
 ### TCookie
 
-`TCookie` *extends* `Record`\<`string`, `string`\> = `any`
+`TCookie` _extends_ `Record`\<`string`, `string`\> = `any`
 
 ### TSession
 
-`TSession` *extends* `Record`\<`string`, `string`\> = `any`
+`TSession` _extends_ `Record`\<`string`, `string`\> = `any`
 
 ## Parameters
 

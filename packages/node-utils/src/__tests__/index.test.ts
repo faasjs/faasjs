@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import * as nodeUtils from '../index'
 
 it('should export helpers', () => {

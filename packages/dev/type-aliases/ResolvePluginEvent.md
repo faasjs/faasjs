@@ -2,10 +2,10 @@
 
 # Type Alias: ResolvePluginEvent\<TType\>
 
-> **ResolvePluginEvent**\<`TType`\> = [`NormalizePluginType`](NormalizePluginType.md)\<`TType`\> *extends* keyof [`FaasPluginEventMap`](../interfaces/FaasPluginEventMap.md) ? [`FaasPluginEventMap`](../interfaces/FaasPluginEventMap.md)\[[`NormalizePluginType`](NormalizePluginType.md)\<`TType`\>\] : `Record`\<`never`, `never`\>
+> **ResolvePluginEvent**\<`TType`\> = [`NormalizePluginType`](NormalizePluginType.md)\<`TType`\> _extends_ keyof [`FaasPluginEventMap`](../interfaces/FaasPluginEventMap.md) ? [`FaasPluginEventMap`](../interfaces/FaasPluginEventMap.md)\[[`NormalizePluginType`](NormalizePluginType.md)\<`TType`\>\] : `Record`\<`never`, `never`\>
 
 ## Type Parameters
 
 ### TType
 
-`TType` *extends* `string`
+`TType` _extends_ `string`

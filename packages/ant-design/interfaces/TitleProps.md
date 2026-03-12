@@ -26,7 +26,7 @@ return a pure text element
 
 > `optional` **separator**: `string`
 
-` - ` as default
+`-` as default
 
 ### suffix?
 

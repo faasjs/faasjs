@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { FuncWarper, test as createTester } from '../../src/index'
 import { func } from './funcs/basic.func'
 

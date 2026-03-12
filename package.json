@@ -12,7 +12,7 @@
     "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log .turbo",
     "build": "npm run lint && npm run clean && npm exec turbo build && rm -f packages/*/dist/*.d.cts",
     "build:doc": "node build-docs.ts",
-    "lint": "oxlint --fix .",
+    "lint": "oxfmt -c packages/dev/configs/oxfmt.base.json . && oxlint --fix .",
     "ci": "vitest run --silent --coverage"
   },
   "devDependencies": {

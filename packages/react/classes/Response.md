@@ -10,7 +10,7 @@ body, and parsed data. Automatically handles JSON serialization and status code 
 ## Param
 
 Response properties including status, headers, body, and data.
-  All properties are optional with sensible defaults.
+All properties are optional with sensible defaults.
 
 ## Remarks
 
@@ -29,8 +29,8 @@ const response = new Response({
   status: 200,
   data: {
     id: 123,
-    name: 'John Doe'
-  }
+    name: 'John Doe',
+  },
 })
 console.log(response.status) // 200
 console.log(response.data.name) // 'John Doe'
@@ -47,8 +47,8 @@ const response = new Response<User>({
   data: {
     id: 123,
     name: 'John',
-    email: 'john@example.com'
-  }
+    email: 'john@example.com',
+  },
 })
 // TypeScript knows response.data.name is a string
 ```
@@ -60,8 +60,8 @@ const response = new Response({
   headers: {
     'Content-Type': 'application/json',
     'X-Request-Id': 'req-123',
-    'X-Cache-Key': 'user-123'
-  }
+    'X-Cache-Key': 'user-123',
+  },
 })
 ```
 
@@ -69,7 +69,7 @@ const response = new Response({
 const response = new Response({
   status: 200,
   body: JSON.stringify({ custom: 'format' }),
-  headers: { 'Content-Type': 'application/json' }
+  headers: { 'Content-Type': 'application/json' },
 })
 ```
 
@@ -84,9 +84,9 @@ const response = new Response({
   data: {
     error: {
       message: 'User not found',
-      code: 'USER_NOT_FOUND'
-    }
-  }
+      code: 'USER_NOT_FOUND',
+    },
+  },
 })
 ```
 
@@ -95,7 +95,7 @@ setMock(async (action, params) => {
   if (action === 'user') {
     return new Response({
       status: 200,
-      data: { id: params.id, name: 'Mock User' }
+      data: { id: params.id, name: 'Mock User' },
     })
   }
   return new Response({ status: 404, data: { error: 'Not found' } })
@@ -104,9 +104,9 @@ setMock(async (action, params) => {
 
 ## See
 
- - ResponseProps for response property type
- - ResponseError for error response handling
- - FaasBrowserClient.action for method returning Response
+- ResponseProps for response property type
+- ResponseError for error response handling
+- FaasBrowserClient.action for method returning Response
 
 ## Type Parameters
 
@@ -139,25 +139,25 @@ The type of the data property for type-safe response handling
 > `readonly` **body**: `any`
 
 The raw response body as a string or object.
-  If data is provided without body, body is automatically set to JSON.stringify(data).
+If data is provided without body, body is automatically set to JSON.stringify(data).
 
 ### data?
 
 > `readonly` `optional` **data**: `T`
 
 The parsed JSON data from the response.
-  Optional property that contains the response payload when JSON is provided.
+Optional property that contains the response payload when JSON is provided.
 
 ### headers
 
 > `readonly` **headers**: [`ResponseHeaders`](../type-aliases/ResponseHeaders.md)
 
 The response headers as a key-value object.
-  Empty object if no headers were provided.
+Empty object if no headers were provided.
 
 ### status
 
 > `readonly` **status**: `number`
 
 The HTTP status code of the response.
-  Defaults to 200 if data or body is provided, 204 if neither is present.
+Defaults to 200 if data or body is provided, 204 if neither is present.

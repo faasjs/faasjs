@@ -2,6 +2,7 @@ import { useEqualCallback } from '@faasjs/react'
 import type { FaasAction } from '@faasjs/types'
 import { Form as AntdForm, type FormProps as AntdFormProps, Button } from 'antd'
 import { type JSX, type ReactNode, useEffect, useState } from 'react'
+
 import { useConfigContext } from './Config'
 import { transferValue } from './data'
 import { faas } from './FaasDataWrapper'
@@ -223,7 +224,7 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
       })}
       {computedProps.children}
       {typeof submit !== 'boolean' && (
-        <Button htmlType='submit' type='primary' loading={loading}>
+        <Button htmlType="submit" type="primary" loading={loading}>
           {submit?.text || config.theme.Form.submit.text}
         </Button>
       )}

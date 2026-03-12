@@ -1,11 +1,13 @@
 import { createReadStream, existsSync } from 'node:fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
+
 import type { Logger } from '@faasjs/node-utils'
 import { lookup } from 'mime-types'
-import { nameFunc } from '../utils'
+
 import { ensureRequestUrl } from '../request-url'
 import { respondWithInternalServerError } from '../response-error'
+import { nameFunc } from '../utils'
 import type { Middleware } from './middleware'
 
 export type StaticHandlerOptions = {

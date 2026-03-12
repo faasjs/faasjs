@@ -10,12 +10,12 @@ All examples are independent projects.
 
 ## Learning Path 学习路径
 
-| Order | Example | You will learn | 你将学到 |
-| --- | --- | --- | --- |
-| 1 | [`01-hello-api`](./01-hello-api/) | Smallest `defineApi` + unit test | 最小可运行 API 与单测 |
-| 2 | [`02-routing-fallback`](./02-routing-fallback/) | `index.func.ts` and `default.func.ts` routing fallback | 路由命中与逐级兜底 |
-| 3 | [`03-params-and-errors`](./03-params-and-errors/) | Zod validation and API error handling | 参数校验与错误处理 |
-| 4 | [`06-react-client`](./06-react-client/) | React client calling FaasJS API | React 调用 FaasJS API |
+| Order | Example                                           | You will learn                                         | 你将学到              |
+| ----- | ------------------------------------------------- | ------------------------------------------------------ | --------------------- |
+| 1     | [`01-hello-api`](./01-hello-api/)                 | Smallest `defineApi` + unit test                       | 最小可运行 API 与单测 |
+| 2     | [`02-routing-fallback`](./02-routing-fallback/)   | `index.func.ts` and `default.func.ts` routing fallback | 路由命中与逐级兜底    |
+| 3     | [`03-params-and-errors`](./03-params-and-errors/) | Zod validation and API error handling                  | 参数校验与错误处理    |
+| 4     | [`06-react-client`](./06-react-client/)           | React client calling FaasJS API                        | React 调用 FaasJS API |
 
 ## Quick Start 快速开始
 

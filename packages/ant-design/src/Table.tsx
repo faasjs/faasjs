@@ -13,6 +13,7 @@ import type { FilterValue, SorterResult, TableCurrentDataSource } from 'antd/es/
 import dayjs from 'dayjs'
 import { cloneDeep, isNil, uniqBy } from 'lodash-es'
 import { useEffect, useState } from 'react'
+
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import type {
@@ -190,7 +191,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             setSelectedKeys(v?.length ? v : [])
             confirm()
           }}
-          mode='multiple'
+          mode="multiple"
           filterOption={(input, option) => {
             if (!input || !option || !option.label) return true
 
@@ -452,7 +453,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               }) => (
                 <Radio.Group
                   style={{ padding: 8 }}
-                  buttonStyle='solid'
+                  buttonStyle="solid"
                   value={JSON.stringify(selectedKeys[0])}
                   onChange={(e) => {
                     const Values: Record<string, any> = {

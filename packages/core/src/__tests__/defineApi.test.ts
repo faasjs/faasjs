@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { defineApi, z } from '../index'
 
 async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {

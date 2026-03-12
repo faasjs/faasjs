@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { streamToObject, streamToString, streamToText } from '../stream'
 
 describe('stream helpers', () => {

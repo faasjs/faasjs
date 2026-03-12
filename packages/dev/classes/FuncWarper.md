@@ -17,7 +17,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ### TFunc
 
-`TFunc` *extends* [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
+`TFunc` _extends_ [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
 
 ## Indexable
 
@@ -36,6 +36,7 @@ expect(await func.handler()).toEqual('Hello, world')
 `TFunc`
 
 {Func} A FaasJS function
+
 ```ts
 import { FuncWarper } from '@faasjs/dev'
 

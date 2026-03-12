@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
+
 import { ConfigProvider } from '../../Config'
 import { Link } from '../../Link'
 
@@ -9,7 +10,7 @@ describe('Link', () => {
   it('should work', async () => {
     render(
       <BrowserRouter>
-        <Link href='/test' text='text' />
+        <Link href="/test" text="text" />
       </BrowserRouter>,
     )
 
@@ -23,7 +24,7 @@ describe('Link', () => {
   it('work with block', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Link href='/' text='text' block />
+        <Link href="/" text="text" block />
       </BrowserRouter>,
     )
 
@@ -38,7 +39,7 @@ describe('Link', () => {
     const { container } = render(
       <ConfigProvider theme={{ Link: { style: { fontWeight: 'bold' } } }}>
         <BrowserRouter>
-          <Link href='/' text='text' />
+          <Link href="/" text="text" />
         </BrowserRouter>
       </ConfigProvider>,
     )
@@ -52,7 +53,7 @@ describe('Link', () => {
   it('work with copyable', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Link href='/' text='text' copyable />
+        <Link href="/" text="text" copyable />
       </BrowserRouter>,
     )
 
@@ -62,7 +63,7 @@ describe('Link', () => {
   it('work with special target', async () => {
     const { container } = render(
       <BrowserRouter>
-        <Link href='/' text='text' target='_blank' />
+        <Link href="/" text="text" target="_blank" />
       </BrowserRouter>,
     )
 
@@ -73,7 +74,7 @@ describe('Link', () => {
     const { container } = render(
       <ConfigProvider theme={{ Link: { target: '_blank' } }}>
         <BrowserRouter>
-          <Link href='/' text='text' />
+          <Link href="/" text="text" />
         </BrowserRouter>
       </ConfigProvider>,
     )
@@ -86,7 +87,7 @@ describe('Link', () => {
 
     render(
       <BrowserRouter>
-        <Link href='/' text='text' onClick={() => (called = true)} />
+        <Link href="/" text="text" onClick={() => (called = true)} />
       </BrowserRouter>,
     )
 
@@ -101,7 +102,7 @@ describe('Link', () => {
 
     const { container } = render(
       <BrowserRouter>
-        <Link href='http://test.com' text='text' />
+        <Link href="http://test.com" text="text" />
       </BrowserRouter>,
     )
 
@@ -121,7 +122,7 @@ describe('Link', () => {
 
     render(
       <BrowserRouter>
-        <Link href='http://testtest.com'>
+        <Link href="http://testtest.com">
           <div>Child</div>
         </Link>
       </BrowserRouter>,
@@ -139,7 +140,7 @@ describe('Link', () => {
     it('should work', async () => {
       const { container } = render(
         <BrowserRouter>
-          <Link href='/' text='text' button />
+          <Link href="/" text="text" button />
         </BrowserRouter>,
       )
 
@@ -151,7 +152,7 @@ describe('Link', () => {
 
       render(
         <BrowserRouter>
-          <Link href='/' text='text' onClick={() => (called = true)} button />
+          <Link href="/" text="text" onClick={() => (called = true)} button />
         </BrowserRouter>,
       )
 
@@ -166,7 +167,7 @@ describe('Link', () => {
 
       render(
         <BrowserRouter>
-          <Link href='http://test.com' text='text' button />
+          <Link href="http://test.com" text="text" button />
         </BrowserRouter>,
       )
 

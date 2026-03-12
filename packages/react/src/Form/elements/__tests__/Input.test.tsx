@@ -1,12 +1,13 @@
 import { fireEvent, render } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
+
 import { FormInputElement } from '../Input'
 
 describe('FormInputElement', () => {
   it('renders input element and handles change', () => {
     const handleChange = vi.fn()
     const { getByRole } = render(
-      <FormInputElement name='test' value='initial' onChange={handleChange} />,
+      <FormInputElement name="test" value="initial" onChange={handleChange} />,
     )
     const input = getByRole('textbox') as HTMLInputElement
 

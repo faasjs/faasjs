@@ -29,9 +29,7 @@
       ]
     },
     "codespaces": {
-      "openFiles": [
-        "examples/README.md"
-      ]
+      "openFiles": ["examples/README.md"]
     }
   }
 }

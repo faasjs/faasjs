@@ -59,7 +59,12 @@ export function resetRuntime(): void {
 }
 
 function isRelativeSpecifier(specifier: string): boolean {
-  return specifier === '.' || specifier === '..' || specifier.startsWith('./') || specifier.startsWith('../')
+  return (
+    specifier === '.' ||
+    specifier === '..' ||
+    specifier.startsWith('./') ||
+    specifier.startsWith('../')
+  )
 }
 
 function hasUrlScheme(specifier: string): boolean {
@@ -390,7 +395,8 @@ function resolveRelativeSpecifier(specifier: string, parentURL?: string): string
 
   if (isAbsolute(specifier)) return resolveScriptFile(specifier)
 
-  if (!isRelativeSpecifier(specifier) || !parentURL || !parentURL.startsWith('file://')) return undefined
+  if (!isRelativeSpecifier(specifier) || !parentURL || !parentURL.startsWith('file://'))
+    return undefined
 
   const parentPath = fileURLToPath(parentURL)
 
@@ -546,21 +552,16 @@ function installModuleHooks(): void {
   hooksInstalled = true
 }
 
-export function registerNodeModuleHooks(
-  options: RegisterNodeModuleHooksOptions = {}
-): void {
+export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions = {}): void {
   const { entry, ...loadOptions } = options
   const runtimeEntry =
-    typeof process !== 'undefined' && Array.isArray(process.argv)
-      ? process.argv[1]
-      : undefined
-  const resolvedEntry =
-    resolveLoaderEntryPath(entry) || resolveLoaderEntryPath(runtimeEntry)
+    typeof process !== 'undefined' && Array.isArray(process.argv) ? process.argv[1] : undefined
+  const resolvedEntry = resolveLoaderEntryPath(entry) || resolveLoaderEntryPath(runtimeEntry)
 
   if (resolvedEntry || loadOptions.root || loadOptions.tsconfigPath) {
     const state = ensureLoaderState(
       resolvedEntry || loadOptions.root || loadOptions.tsconfigPath || process.cwd(),
-      loadOptions
+      loadOptions,
     )
 
     if (!state && resolvedEntry && !loadOptions.root && !loadOptions.tsconfigPath) {

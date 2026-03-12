@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+
 import { Server } from '@faasjs/core'
 
 process.env.FaasLog = process.env.FaasLog || 'error'

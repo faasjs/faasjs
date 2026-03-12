@@ -1,5 +1,6 @@
 import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
+
 import { func } from '../create.func'
 
 describe('orders/api/create', () => {
@@ -24,7 +25,7 @@ describe('orders/api/create', () => {
     const response = await wrapped.JSONhandler({
       title: '',
       price: -1,
-      quantity: 1
+      quantity: 1,
     })
 
     expect(response.statusCode).toBe(400)
