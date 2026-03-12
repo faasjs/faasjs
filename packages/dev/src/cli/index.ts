@@ -9,7 +9,7 @@ Usage:
 
 Commands:
   types [options]                 Generate FaasJS API type declarations
-  lint [options]                  Run formatter and lint with Oxc
+  lint [options]                  Run formatter, lint, and type checks
 
 Options:
   -h, --help                      Show help
