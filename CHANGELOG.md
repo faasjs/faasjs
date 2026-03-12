@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.14 (2026-03-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.13...v8.0.0-beta.14)
+
+- `@faasjs/node-utils`
+  - [Fix] Resolve relative imports with existing suffixes to `.ts` files when the exact target is missing.
+
 [`v8.0.0-beta.13 (2026-03-01)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.12...v8.0.0-beta.13)
 
 - `@faasjs/node-utils`
