@@ -14,7 +14,7 @@ footer: 一个基于 TypeScript 的原子化应用框架 | MIT Licensed | Copyri
 
 原子化的开发模式，可以让开发和迭代降低到羽量级的程度，对团队开发也更友好。
 
-FaasJS 官方提供了诸如 HTTP、Knex 等插件，使开发者可以立刻上手开发业务。
+FaasJS 官方提供了诸如 HTTP 等插件，使开发者可以立刻上手开发业务。
 
 ### 可维护性高
 
@@ -104,7 +104,6 @@ mise exec -- npx create-faas-app --name faasjs
     <a href="https://www.apollographql.com/" target="_blank">Apollo</a>,
     <a href="https://oxc.rs/" target="_blank">Oxc</a>,
     <a href="https://vitest.dev/" target="_blank">Vitest</a>,
-    <a href="https://knexjs.org/" target="_blank">Knex</a>,
     <a href="https://nodejs.org/" target="_blank">Node.js</a>,
     <a href="https://rollupjs.org/" target="_blank">Rollup.js</a>,
     <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>

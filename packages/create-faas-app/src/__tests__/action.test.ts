@@ -48,7 +48,6 @@ describe('action', () => {
         'test/vite.config.ts',
         'test/server.ts',
         'test/src/faas.yaml',
-        'test/src/db/migrations/.gitkeep',
         'test/src/main.tsx',
         'test/src/pages/home/index.tsx',
         'test/src/pages/home/api/hello.func.ts',
@@ -58,41 +57,32 @@ describe('action', () => {
 
     const packageJSON = JSON.parse(files['test/package.json'])
 
-    expect(packageJSON.scripts).toMatchObject({
+    expect(packageJSON.scripts).toEqual({
       dev: 'vite',
       build: 'vite build',
       start: 'node --import @faasjs/node-utils/register-hooks server.ts',
       check: 'faas lint',
       test: 'vitest run',
-      'migrate:latest': expect.any(String),
-      'migrate:rollback': expect.any(String),
-      'migrate:status': expect.any(String),
-      'migrate:current': expect.any(String),
-      'migrate:make': expect.any(String),
     })
 
-    expect(packageJSON.scripts['migrate:latest']).toEqual('faas knex latest')
-    expect(packageJSON.scripts['migrate:rollback']).toEqual(
-      'faas knex rollback'
-    )
-    expect(packageJSON.scripts['migrate:status']).toEqual('faas knex status')
-    expect(packageJSON.scripts['migrate:current']).toEqual('faas knex current')
-    expect(packageJSON.scripts['migrate:make']).toEqual('faas knex make')
+    expect(packageJSON.dependencies).toEqual({
+      '@faasjs/core': '*',
+      react: '*',
+      'react-dom': '*',
+    })
 
-    expect(packageJSON.dependencies).toEqual(
-      expect.objectContaining({
-        '@faasjs/core': '*',
-        pg: '*',
-      })
-    )
-
-    expect(packageJSON.devDependencies).toEqual(
-      expect.objectContaining({
-        '@electric-sql/pglite': '*',
-        'knex-pglite': '*',
-        oxlint: '*',
-      })
-    )
+    expect(packageJSON.devDependencies).toEqual({
+      '@faasjs/dev': '*',
+      '@types/node': '*',
+      '@types/react': '*',
+      '@types/react-dom': '*',
+      '@vitejs/plugin-react': '*',
+      jsdom: '*',
+      oxlint: '*',
+      typescript: '*',
+      vite: '*',
+      vitest: '*',
+    })
 
     expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
       "import { defineApi, z } from '@faasjs/core'"
@@ -102,26 +92,19 @@ describe('action', () => {
     expect(files['test/.gitignore']).toEqual(`node_modules/
 dist/
 coverage/
-.pglite_dev/
 `)
 
-    expect(files['test/src/faas.yaml']).toContain('connection: ./.pglite_dev')
-    expect(files['test/src/faas.yaml']).toContain(
-      'directory: ./src/db/migrations'
-    )
-    expect(files['test/src/faas.yaml']).toContain('extension: ts')
-    expect(files['test/src/faas.yaml']).toContain('production:')
-
-    const testingSection = files['test/src/faas.yaml']
-      .split('testing:')[1]
-      .split('production:')[0]
-
-    expect(testingSection).toContain('client: pglite')
-    expect(testingSection).not.toContain('connection:')
-
-    const productionSection =
-      files['test/src/faas.yaml'].split('production:')[1]
-
-    expect(productionSection).toContain('client: pg')
+    expect(files['test/src/faas.yaml']).toEqual(`defaults:
+  server:
+    root: .
+    base: /
+  plugins:
+    http:
+      config:
+        cookie:
+          secure: false
+          session:
+            secret: secret
+`)
   })
 })

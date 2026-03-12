@@ -59,4 +59,4 @@ export const func = defineFunc<{ params?: z.infer<typeof schema> }>(async ({ eve
 
 - `Failed to load plugin "..."`: check `plugins.<name>.type` and package installation.
 - `Failed to resolve plugin class "..."`: use a valid plugin module that exports a plugin class.
-- `Client not initialized`: ensure required plugins (for example `http`/`knex`) are configured in `src/faas.yaml`.
+- `Client not initialized`: ensure required plugins (for example `http`) are configured in `src/faas.yaml`.

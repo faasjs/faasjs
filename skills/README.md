@@ -12,7 +12,6 @@ Core FaasJS knowledge:
 
 - [File Conventions](./faasjs-best-practices/file-conventions.md)
 - [defineFunc Guide](./faasjs-best-practices/define-func.md)
-- [Knex Rules](./faasjs-best-practices/knex.md)
 
 ### `faasjs-unit-testing`
 

@@ -19,7 +19,7 @@
 FaasJS 使用 Node.js 内置能力自动读取 `.env`（不依赖第三方库）：
 
 - `@faasjs/core` 的 `new Server(...)` 在初始化时会尝试读取 `process.cwd()/.env`。
-- `@faasjs/dev` 的 `faas` CLI（`types` / `knex` / `lint`）会自动读取：
+- `@faasjs/dev` 的 `faas` CLI（`types` / `lint`）会自动读取：
   - 传入 `--root` 时：`<root>/.env`
   - 未传入 `--root` 时：`process.cwd()/.env`
 

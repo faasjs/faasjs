@@ -38,7 +38,6 @@
     "@faasjs/core": ">=8.0.0-beta.13",
     "@faasjs/node-utils": ">=8.0.0-beta.13",
     "@types/node": "*",
-    "knex": "*",
     "oxlint": "*",
     "vite": "*",
     "vitest": "*"
@@ -47,7 +46,6 @@
     "@faasjs/core": ">=8.0.0-beta.13",
     "@faasjs/node-utils": ">=8.0.0-beta.13",
     "@types/node": "*",
-    "knex": "*",
     "oxlint": "*",
     "vite": "*",
     "vitest": "*"

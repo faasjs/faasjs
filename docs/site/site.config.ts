@@ -188,7 +188,6 @@ export const siteConfig: SiteConfig = {
       sidebar: {
         '/zh/guide/': [
           '/zh/guide/',
-          '/zh/guide/auth.html',
           {
             title: '进阶学习',
             collapsable: false,
@@ -196,7 +195,6 @@ export const siteConfig: SiteConfig = {
               '/zh/guide/excel/faas-yaml.html',
               '/zh/guide/excel/plugin.html',
               '/zh/guide/excel/http.html',
-              '/zh/guide/excel/db.html',
               '/zh/guide/excel/request-spec.html',
               '/zh/guide/excel/env.html',
               '/zh/guide/excel/react.html',
