@@ -141,8 +141,14 @@ function resolveScriptFile(candidate: string): string | undefined {
 
   if (directType === 'file') return resolved
 
+  const tsFallbackPath = `${resolved}.ts`
+
+  if (getPathType(tsFallbackPath) === 'file') return tsFallbackPath
+
   if (!extname(resolved)) {
     for (const extension of SCRIPT_EXTENSIONS) {
+      if (extension === '.ts') continue
+
       const filePath = `${resolved}${extension}`
 
       if (getPathType(filePath) === 'file') return filePath
@@ -382,15 +388,9 @@ function resolveRuleSpecifier(specifier: string, state: LoaderState): string | u
 function resolveRelativeSpecifier(specifier: string, parentURL?: string): string | undefined {
   if (hasUrlScheme(specifier) && !specifier.startsWith('file://')) return undefined
 
-  if (isAbsolute(specifier)) {
-    if (extname(specifier)) return undefined
-
-    return resolveScriptFile(specifier)
-  }
+  if (isAbsolute(specifier)) return resolveScriptFile(specifier)
 
   if (!isRelativeSpecifier(specifier) || !parentURL || !parentURL.startsWith('file://')) return undefined
-
-  if (extname(specifier)) return undefined
 
   const parentPath = fileURLToPath(parentURL)
 

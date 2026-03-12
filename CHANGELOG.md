@@ -2,6 +2,17 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.14 (2026-03-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.13...v8.0.0-beta.14)
+
+- `faasjs`
+  - [Break] Remove built-in Knex support, including `@faasjs/core` Knex APIs, `faas knex` CLI, Knex-based examples, scaffolded migration defaults, and related active docs/snippets.
+
+- `@faasjs/node-utils`
+  - [Fix] Resolve relative imports with existing suffixes to `.ts` files when the exact target is missing.
+
+- `@faasjs/dev`
+  - [Feature] Add TypeScript type checking to `faas lint` via `tsc --noEmit`.
+
 [`v8.0.0-beta.13 (2026-03-01)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.12...v8.0.0-beta.13)
 
 - `@faasjs/node-utils`

@@ -6,8 +6,10 @@ const mocks = vi.hoisted(() => {
   const existsSync = vi.fn(
     (path: string) =>
       path === '/tooling/oxlint/package.json' ||
+      path === '/tooling/typescript/package.json' ||
       path === '/tooling/faasjs-dev/package.json' ||
-      path === '/tooling/faasjs-dev/configs/oxlint.base.json'
+      path === '/tooling/faasjs-dev/configs/oxlint.base.json' ||
+      path.endsWith('/tsconfig.json')
   )
   const readFileSync = vi.fn((path: string) => {
     if (path.endsWith('/oxlint/package.json'))
@@ -17,10 +19,18 @@ const mocks = vi.hoisted(() => {
         },
       })
 
+    if (path.endsWith('/typescript/package.json'))
+      return JSON.stringify({
+        bin: {
+          tsc: 'bin/tsc',
+        },
+      })
+
     return '{}'
   })
   const resolve = vi.fn((name: string) => {
     if (name === 'oxlint') return '/tooling/oxlint/dist/index.js'
+    if (name === 'typescript') return '/tooling/typescript/lib/typescript.js'
     if (name === '@faasjs/dev') return '/tooling/faasjs-dev/dist/index.js'
 
     throw Error(`Unknown module: ${name}`)
@@ -62,8 +72,10 @@ function resetMockImplementations(): void {
   mocks.existsSync.mockImplementation(
     (path: string) =>
       path === '/tooling/oxlint/package.json' ||
+      path === '/tooling/typescript/package.json' ||
       path === '/tooling/faasjs-dev/package.json' ||
-      path === '/tooling/faasjs-dev/configs/oxlint.base.json'
+      path === '/tooling/faasjs-dev/configs/oxlint.base.json' ||
+      path.endsWith('/tsconfig.json')
   )
   mocks.readFileSync.mockImplementation((path: string) => {
     if (path.endsWith('/oxlint/package.json'))
@@ -73,10 +85,18 @@ function resetMockImplementations(): void {
         },
       })
 
+    if (path.endsWith('/typescript/package.json'))
+      return JSON.stringify({
+        bin: {
+          tsc: 'bin/tsc',
+        },
+      })
+
     return '{}'
   })
   mocks.resolve.mockImplementation((name: string) => {
     if (name === 'oxlint') return '/tooling/oxlint/dist/index.js'
+    if (name === 'typescript') return '/tooling/typescript/lib/typescript.js'
     if (name === '@faasjs/dev') return '/tooling/faasjs-dev/dist/index.js'
 
     throw Error(`Unknown module: ${name}`)
@@ -111,7 +131,7 @@ describe('faas lint cli', () => {
     expect(logSpy).toHaveBeenCalledWith(expect.stringMatching(/^v?\d+/))
   })
 
-  it('should run oxlint with fix', async () => {
+  it('should run oxlint and tsc checks', async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
     const code = await main(['node', 'faas', 'lint'])
@@ -135,6 +155,20 @@ describe('faas lint cli', () => {
         stdio: 'inherit',
       }
     )
+    expect(mocks.execFileSync).toHaveBeenNthCalledWith(
+      2,
+      process.execPath,
+      [
+        '/tooling/typescript/bin/tsc',
+        '--noEmit',
+        '--project',
+        `${process.cwd()}/tsconfig.json`,
+      ],
+      {
+        cwd: process.cwd(),
+        stdio: 'inherit',
+      }
+    )
     expect(logSpy).toHaveBeenCalledWith('[faas lint] Done')
   })
 
@@ -148,7 +182,7 @@ describe('faas lint cli', () => {
     expect(mocks.loadEnvFileIfExists).toHaveBeenCalledWith({
       cwd: root,
     })
-    expect(mocks.execFileSync).toHaveBeenCalledTimes(1)
+    expect(mocks.execFileSync).toHaveBeenCalledTimes(2)
     expect(mocks.execFileSync).toHaveBeenNthCalledWith(
       1,
       process.execPath,
@@ -164,7 +198,44 @@ describe('faas lint cli', () => {
         stdio: 'inherit',
       }
     )
+    expect(mocks.execFileSync).toHaveBeenNthCalledWith(
+      2,
+      process.execPath,
+      [
+        '/tooling/typescript/bin/tsc',
+        '--noEmit',
+        '--project',
+        `${root}/tsconfig.json`,
+      ],
+      {
+        cwd: root,
+        stdio: 'inherit',
+      }
+    )
     expect(logSpy).toHaveBeenCalledWith('[faas lint] Done')
+  })
+
+  it('should return error when tsconfig is missing', async () => {
+    const root = '/tmp/no-tsconfig'
+    const errorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+
+    mocks.existsSync.mockImplementation(
+      (path: string) =>
+        path === '/tooling/oxlint/package.json' ||
+        path === '/tooling/typescript/package.json' ||
+        path === '/tooling/faasjs-dev/package.json' ||
+        path === '/tooling/faasjs-dev/configs/oxlint.base.json'
+    )
+
+    const code = await main(['node', 'faas', 'lint', '--root', root])
+
+    expect(code).toBe(1)
+    expect(errorSpy).toHaveBeenCalledWith(
+      `[faas lint] Missing tsconfig.json: ${root}/tsconfig.json`
+    )
+    expect(mocks.execFileSync).not.toHaveBeenCalled()
   })
 
   it('should return error for unexpected argument', async () => {

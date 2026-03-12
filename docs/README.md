@@ -29,7 +29,7 @@ footer: An atomic application framework built for the TypeScript developer. | MI
 
 - Break down complex projects into manageable components with the **atomized development model**.
 - Enjoy **fast iterations** and **seamless** team collaboration.
-- Jump start development with **pre-built plugins** for common functionalities like HTTP and Knex.
+- Jump start development with **pre-built plugins** for common functionalities like HTTP.
 
 ### High maintainability
 
@@ -115,7 +115,6 @@ Open source projects (in alphabetical order):
 
 <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:2em">
   <a href="https://oxc.rs/" target="_blank">Oxc</a>,
-  <a href="https://knexjs.org/" target="_blank">Knex</a>,
   <a href="https://nodejs.org/" target="_blank">Node.js</a>,
   <a href="https://react.dev/" target="_blank">React</a>,
   <a href="https://rollupjs.org/" target="_blank">Rollup.js</a>,

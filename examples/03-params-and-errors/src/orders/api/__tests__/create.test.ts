@@ -24,7 +24,8 @@ describe('orders/api/create', () => {
     const response = await wrapped.JSONhandler({
       title: '',
       price: -1,
-    } as any)
+      quantity: 1
+    })
 
     expect(response.statusCode).toBe(400)
     expect(response.error?.message).toContain('Invalid params')

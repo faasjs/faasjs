@@ -9,7 +9,7 @@ type PackageJSON = {
   bin?: string | Record<string, string>
 }
 
-const HelpText = `Run formatter and lint checks with Oxc shared configs.
+const HelpText = `Run formatter, lint, and TypeScript type checks with shared configs.
 
 Usage:
   faas lint [options]
@@ -101,6 +101,15 @@ function resolveSharedConfigPath(
   return configPath
 }
 
+function resolveTsconfigPath(projectRoot: string): string {
+  const tsconfigPath = join(projectRoot, 'tsconfig.json')
+
+  if (!existsSync(tsconfigPath))
+    throw Error(`[faas lint] Missing tsconfig.json: ${tsconfigPath}`)
+
+  return tsconfigPath
+}
+
 function runNodeBin(
   projectRoot: string,
   command: string,
@@ -140,12 +149,20 @@ export async function run(args: string[]): Promise<number> {
     projectRoot,
     'oxlint.base.json'
   )
+  const tscBinPath = resolveBinPath(projectRoot, 'typescript', 'tsc')
+  const tsconfigPath = resolveTsconfigPath(projectRoot)
 
   runNodeBin(projectRoot, 'oxlint', oxlintBinPath, [
     '-c',
     oxlintConfigPath,
     '--fix',
     '.',
+  ])
+
+  runNodeBin(projectRoot, 'tsc', tscBinPath, [
+    '--noEmit',
+    '--project',
+    tsconfigPath,
   ])
 
   console.log('[faas lint] Done')
