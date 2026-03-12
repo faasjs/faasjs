@@ -18,7 +18,6 @@ import * as z from 'zod'
 import type { Config, Handler, InvokeData, Plugin } from './func'
 import { Func } from './func'
 import { HttpError, type Cookie, type Session } from './plugins/http'
-import type { Knex } from './plugins/knex/plugin'
 
 export { z }
 export * from './func'
@@ -26,7 +25,6 @@ export * from './plugins/http'
 export * from './middleware'
 export * from './cron'
 export * from './server'
-export * from './plugins/knex'
 export * from './utils'
 
 type IsAny<T> = 0 extends 1 & T ? true : false
@@ -67,7 +65,6 @@ export type DefineApiData<
   TResult = any,
 > = InvokeData<TEvent, TContext, TResult> & {
   params: TSchema extends ZodType ? output<NonNullable<TSchema>> : Record<string, never>
-  knex: Knex | undefined
   cookie: Cookie
   session: Session
 } & DefineApiInject
@@ -96,9 +93,7 @@ function formatPluginModuleName(type: string): string {
 
   if (
     normalizedType === 'http' ||
-    normalizedType === '@faasjs/http' ||
-    normalizedType === 'knex' ||
-    normalizedType === '@faasjs/knex'
+    normalizedType === '@faasjs/http'
   )
     return '@faasjs/core'
 
@@ -296,12 +291,10 @@ export function defineApi<
 
   let pluginRefsResolved = false
   let hasHttp = false
-  let knex: Knex | undefined
 
   const parseParams = async (event: Event): Promise<Params> => {
     if (!pluginRefsResolved) {
       hasHttp = !!findPluginByType(func, 'http')
-      knex = findPluginByType<Knex>(func, 'knex')
       pluginRefsResolved = true
     }
 
@@ -329,7 +322,6 @@ export function defineApi<
     const invokeData = {
       ...data,
       params,
-      knex,
     } as DefineApiData<TSchema, TEvent, TContext, TResult>
 
     return options.handler(invokeData)

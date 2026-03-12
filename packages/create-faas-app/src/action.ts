@@ -37,27 +37,19 @@ function buildPackageJSON(name: string): string {
         start: 'node --import @faasjs/node-utils/register-hooks server.ts',
         check: 'faas lint',
         test: 'vitest run',
-        'migrate:latest': 'faas knex latest',
-        'migrate:rollback': 'faas knex rollback',
-        'migrate:status': 'faas knex status',
-        'migrate:current': 'faas knex current',
-        'migrate:make': 'faas knex make',
       },
       dependencies: {
         '@faasjs/core': '*',
-        pg: '*',
         react: '*',
         'react-dom': '*',
       },
       devDependencies: {
-        '@electric-sql/pglite': '*',
         '@faasjs/dev': '*',
         '@types/node': '*',
         '@types/react': '*',
         '@types/react-dom': '*',
         '@vitejs/plugin-react': '*',
         jsdom: '*',
-        'knex-pglite': '*',
         oxlint: '*',
         typescript: '*',
         vite: '*',
@@ -76,7 +68,6 @@ function scaffold(rootPath: string): void {
     `node_modules/
 dist/
 coverage/
-.pglite_dev/
 `
   )
 
@@ -171,35 +162,8 @@ new Server(join(__dirname, 'src'), {
           secure: false
           session:
             secret: secret
-    knex:
-      config:
-        client: pg
-        pool:
-          min: 0
-          max: 10
-        migrations:
-          directory: ./src/db/migrations
-          extension: ts
-development:
-  plugins:
-    knex:
-      config:
-        client: pglite
-        connection: ./.pglite_dev
-testing:
-  plugins:
-    knex:
-      config:
-        client: pglite
-production:
-  plugins:
-    knex:
-      config:
-        client: pg
 `
   )
-
-  writeFile(join(rootPath, 'src', 'db', 'migrations', '.gitkeep'), '')
 
   writeFile(
     join(rootPath, 'src', 'main.tsx'),

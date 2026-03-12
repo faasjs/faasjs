@@ -115,28 +115,6 @@ defaults:
       config:
         cookie:
           secure: false
-    knex:
-      type: knex
-      config: &knex_config
-        client: pg
-        migrations:
-          directory: ./src/db/migrations
-          extension: ts
-
-development:
-  plugins:
-    knex:
-      config:
-        <<: *knex_config
-        client: pglite
-        connection: ./.pglite_dev
-
-testing:
-  plugins:
-    knex:
-      config:
-        <<: *knex_config
-        client: pglite
 ```
 
 ## 兼容性

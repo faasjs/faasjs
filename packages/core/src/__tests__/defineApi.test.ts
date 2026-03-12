@@ -95,7 +95,6 @@ describe('@faasjs/core defineApi', () => {
         return {
           params: data.params,
           raw: data.event.params,
-          knex: data.knex,
         }
       },
     })
@@ -149,31 +148,6 @@ describe('@faasjs/core defineApi', () => {
       error: {
         message:
           'Invalid params\npage: Too small, expected number to be >=1\nendAt: endAt must be greater than startedAt',
-      },
-    })
-  })
-
-  it('sets knex as undefined when knex plugin is not configured', async () => {
-    const func = defineApi({
-      async handler(data) {
-        return {
-          hasKnex: typeof data.knex !== 'undefined',
-        }
-      },
-    })
-
-    useHttpPlugin(func)
-
-    const response: any = await func.export().handler({
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({}),
-    })
-
-    const body = await streamToObject(response.body)
-
-    expect(body).toEqual({
-      data: {
-        hasKnex: false,
       },
     })
   })

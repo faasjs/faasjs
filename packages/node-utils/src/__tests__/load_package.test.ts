@@ -289,6 +289,103 @@ process.stdout.write(String(value))
 
     expect(output).toBe('ok')
   })
+
+  it('should resolve relative imports with existing suffix via .ts fallback', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'faas-load-package-suffix-'))
+    tempDirs.push(root)
+
+    await mkdir(join(root, 'src'), {
+      recursive: true,
+    })
+
+    await writeFile(join(root, 'src', 'message.json.ts'), `export const message = 'json-ts'\n`, 'utf8')
+    await writeFile(
+      join(root, 'src', 'entry.func.ts'),
+      `import { message } from './message.json'
+
+export const func = {
+  export() {
+    return {
+      handler: async () => message,
+    }
+  },
+}
+`,
+      'utf8',
+    )
+
+    const output = await runNativeLoadPackage(
+      root,
+      `
+import { join } from 'node:path'
+
+const root = process.env.FAAS_TEST_ROOT
+const moduleUrl = process.env.FAAS_LOAD_PACKAGE_MODULE_URL
+const { loadPackage, resetRuntime } = await import(moduleUrl)
+
+resetRuntime()
+
+const loaded = await loadPackage(join(root, 'src', 'entry.func.ts'), ['func'], {
+  root,
+  version: '4',
+})
+
+const value = await loaded.export().handler()
+process.stdout.write(String(value))
+`,
+    )
+
+    expect(output).toBe('json-ts')
+  })
+
+  it('should prefer an exact relative import match over .ts fallback', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'faas-load-package-exact-'))
+    tempDirs.push(root)
+
+    await mkdir(join(root, 'src'), {
+      recursive: true,
+    })
+
+    await writeFile(join(root, 'src', 'message.js'), `export const message = 'exact'\n`, 'utf8')
+    await writeFile(join(root, 'src', 'message.js.ts'), `export const message = 'fallback'\n`, 'utf8')
+    await writeFile(
+      join(root, 'src', 'entry.func.ts'),
+      `import { message } from './message.js'
+
+export const func = {
+  export() {
+    return {
+      handler: async () => message,
+    }
+  },
+}
+`,
+      'utf8',
+    )
+
+    const output = await runNativeLoadPackage(
+      root,
+      `
+import { join } from 'node:path'
+
+const root = process.env.FAAS_TEST_ROOT
+const moduleUrl = process.env.FAAS_LOAD_PACKAGE_MODULE_URL
+const { loadPackage, resetRuntime } = await import(moduleUrl)
+
+resetRuntime()
+
+const loaded = await loadPackage(join(root, 'src', 'entry.func.ts'), ['func'], {
+  root,
+  version: '5',
+})
+
+const value = await loaded.export().handler()
+process.stdout.write(String(value))
+`,
+    )
+
+    expect(output).toBe('exact')
+  })
 })
 
 describe('register_hooks preload', () => {
@@ -317,6 +414,29 @@ describe('register_hooks preload', () => {
     await writeFile(
       join(root, 'server.ts'),
       `import { message } from './src/message'
+
+process.stdout.write(message)
+`,
+      'utf8'
+    )
+
+    const output = await runNodeWithRegisterHooks(root, join(root, 'server.ts'))
+
+    expect(output).toBe('ok')
+  })
+
+  it('should resolve existing-suffix imports via .ts fallback with node --import', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'faas-loader-preload-suffix-'))
+    tempDirs.push(root)
+
+    await mkdir(join(root, 'src'), {
+      recursive: true,
+    })
+
+    await writeFile(join(root, 'src', 'message.json.ts'), "export const message = 'ok'\n", 'utf8')
+    await writeFile(
+      join(root, 'server.ts'),
+      `import { message } from './src/message.json'
 
 process.stdout.write(message)
 `,

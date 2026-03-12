@@ -25,7 +25,7 @@
 
 ✅ Enjoy **fast iterations** and **seamless** team collaboration.
 
-✅ Jumpstart development with **pre-built plugins** for common functionalities like HTTP and Knex.
+✅ Jumpstart development with **pre-built plugins** for common functionalities like HTTP.
 
 ### High maintainability
 

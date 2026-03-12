@@ -10,10 +10,6 @@
 
 > **cookie**: [`Cookie`](../classes/Cookie.md)
 
-### knex
-
-> **knex**: [`Knex`](../classes/Knex.md) \| `undefined`
-
 ### params
 
 > **params**: `TSchema` *extends* `ZodType` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>

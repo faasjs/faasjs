@@ -15,9 +15,7 @@ All examples are independent projects.
 | 1 | [`01-hello-api`](./01-hello-api/) | Smallest `defineApi` + unit test | 最小可运行 API 与单测 |
 | 2 | [`02-routing-fallback`](./02-routing-fallback/) | `index.func.ts` and `default.func.ts` routing fallback | 路由命中与逐级兜底 |
 | 3 | [`03-params-and-errors`](./03-params-and-errors/) | Zod validation and API error handling | 参数校验与错误处理 |
-| 4 | [`04-knex-crud`](./04-knex-crud/) | Knex migration, CRUD, and transaction | Migration、CRUD 与事务 |
-| 5 | [`05-auth-session`](./05-auth-session/) | Signup/signin/signout with session | 注册登录与 Session |
-| 6 | [`06-react-client`](./06-react-client/) | React client calling FaasJS API | React 调用 FaasJS API |
+| 4 | [`06-react-client`](./06-react-client/) | React client calling FaasJS API | React 调用 FaasJS API |
 
 ## Quick Start 快速开始
 
@@ -43,14 +41,6 @@ Then run any example directly:
 ```bash
 cd examples/01-hello-api
 npm run test
-npm run dev
-```
-
-For Knex examples:
-
-```bash
-cd examples/04-knex-crud
-npm run migrate:latest
 npm run dev
 ```
 
