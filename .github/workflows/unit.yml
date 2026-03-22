@@ -22,10 +22,11 @@ jobs:
         with:
           node-version: '24'
           cache: true
-      - run: vp install
-      - run: vp check
-      - run: vp pack
-      - run: vp run ci
+      - run: |
+          vp install
+          vp pack
+          vp check
+          vp run ci
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
