@@ -218,7 +218,7 @@ The Logger instance for chaining.
 
 ### label?
 
-> `optional` **label**: `string`
+> `optional` **label?**: `string`
 
 ### level
 
@@ -232,7 +232,7 @@ The Logger instance for chaining.
 
 > **size**: `number` = `1000`
 
-### stderr()
+### stderr
 
 > **stderr**: (`text`) => `void` = `console.error`
 
@@ -246,7 +246,7 @@ The Logger instance for chaining.
 
 `void`
 
-### stdout()
+### stdout
 
 > **stdout**: (`text`) => `void` = `console.log`
 

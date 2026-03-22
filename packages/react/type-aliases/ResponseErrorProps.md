@@ -8,7 +8,7 @@
 
 ### body?
 
-> `optional` **body**: `any`
+> `optional` **body?**: `any`
 
 #### Default
 
@@ -20,7 +20,7 @@
 
 ### headers?
 
-> `optional` **headers**: [`ResponseHeaders`](ResponseHeaders.md)
+> `optional` **headers?**: [`ResponseHeaders`](ResponseHeaders.md)
 
 #### Default
 
@@ -35,11 +35,11 @@
 
 ### originalError?
 
-> `optional` **originalError**: `Error`
+> `optional` **originalError?**: `Error`
 
 ### status?
 
-> `optional` **status**: `number`
+> `optional` **status?**: `number`
 
 #### Default
 

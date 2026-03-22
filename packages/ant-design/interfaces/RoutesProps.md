@@ -6,11 +6,11 @@
 
 ### fallback?
 
-> `optional` **fallback**: `Element`
+> `optional` **fallback?**: `Element`
 
 ### notFound?
 
-> `optional` **notFound**: `Element`
+> `optional` **notFound?**: `Element`
 
 ### routes
 

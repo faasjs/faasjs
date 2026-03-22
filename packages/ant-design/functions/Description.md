@@ -28,7 +28,6 @@ Description component
 
 ```tsx
 import { Description } from '@faasjs/ant-design'
-
 ;<Description
   title="Title"
   items={[

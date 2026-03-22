@@ -14,8 +14,8 @@
 
 ### Input?
 
-> `optional` **Input**: `ComponentType`\<[`FormInputElementProps`](FormInputElementProps.md)\>
+> `optional` **Input?**: `ComponentType`\<[`FormInputElementProps`](FormInputElementProps.md)\>
 
 ### props?
 
-> `optional` **props**: [`InferFormInputProps`](InferFormInputProps.md)\<`FormElements`\[`"Input"`\]\>
+> `optional` **props?**: [`InferFormInputProps`](InferFormInputProps.md)\<`FormElements`\[`"Input"`\]\>

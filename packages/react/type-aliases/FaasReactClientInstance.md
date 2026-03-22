@@ -24,7 +24,7 @@
 
 ### onError?
 
-> `optional` **onError**: [`OnError`](OnError.md)
+> `optional` **onError?**: [`OnError`](OnError.md)
 
 ### useFaas
 

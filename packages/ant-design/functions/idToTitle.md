@@ -13,9 +13,9 @@ capitalizes the first letter of each word, and joins them together without space
 
 ### id
 
-The identifier string to convert.
+`string` \| `number`
 
-`string` | `number`
+The identifier string to convert.
 
 ## Returns
 

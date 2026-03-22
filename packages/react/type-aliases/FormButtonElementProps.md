@@ -10,11 +10,11 @@ Props for the FormButtonElement component.
 
 ### children?
 
-> `optional` **children**: `React.ReactNode`
+> `optional` **children?**: `React.ReactNode`
 
 The content to be displayed inside the button.
 
-### submit()
+### submit
 
 > **submit**: () => `Promise`\<`void`\>
 

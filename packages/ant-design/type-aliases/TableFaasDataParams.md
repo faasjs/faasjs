@@ -8,20 +8,20 @@
 
 ### filters?
 
-> `optional` **filters**: `Record`\<`string`, `any`[]\>
+> `optional` **filters?**: `Record`\<`string`, `any`[]\>
 
 ### pagination?
 
-> `optional` **pagination**: `object`
+> `optional` **pagination?**: `object`
 
 #### current?
 
-> `optional` **current**: `number`
+> `optional` **current?**: `number`
 
 #### pageSize?
 
-> `optional` **pageSize**: `number`
+> `optional` **pageSize?**: `number`
 
 ### sorter?
 
-> `optional` **sorter**: \{ `field`: `string`; `order`: `"ascend"` \| `"descend"`; \} \| `object`[]
+> `optional` **sorter?**: \{ `field`: `string`; `order`: `"ascend"` \| `"descend"`; \} \| `object`[]

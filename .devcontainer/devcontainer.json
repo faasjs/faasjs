@@ -21,12 +21,7 @@
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh"
       },
-      "extensions": [
-        "eamodio.gitlens",
-        "zfben.faasjs-snippets",
-        "streetsidesoftware.code-spell-checker",
-        "biomejs.biome"
-      ]
+      "extensions": ["oxc.oxc-vscode", "VoidZero.vite-plus-extension-pack"]
     },
     "codespaces": {
       "openFiles": ["examples/README.md"]

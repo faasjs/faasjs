@@ -27,7 +27,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts --config ../../tsdown.config.ts"
+    "build": "vp pack src/index.ts --config ../../tsdown.config.ts"
   },
   "devDependencies": {
     "@faasjs/node-utils": ">=8.0.0-beta.14",

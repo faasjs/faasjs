@@ -20,31 +20,31 @@
 
 ### beforeItems?
 
-> `optional` **beforeItems**: `Element` \| `Element`[]
+> `optional` **beforeItems?**: `Element` \| `Element`[]
 
 ### children?
 
-> `optional` **children**: `ReactNode`
+> `optional` **children?**: `ReactNode`
 
 ### extendTypes?
 
-> `optional` **extendTypes**: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
+> `optional` **extendTypes?**: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
 
 ### footer?
 
-> `optional` **footer**: `Element` \| `Element`[]
+> `optional` **footer?**: `Element` \| `Element`[]
 
 ### initialValues?
 
-> `optional` **initialValues**: `Partial`\<`Values`\>
+> `optional` **initialValues?**: `Partial`\<`Values`\>
 
 ### items?
 
-> `optional` **items**: (`Element` \| `ExtendItemProps` _extends_ [`ExtendFormItemProps`](ExtendFormItemProps.md) ? [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps` : [`FormItemProps`](FormItemProps.md)\<`any`\>)[]
+> `optional` **items?**: (`Element` \| `ExtendItemProps` _extends_ [`ExtendFormItemProps`](ExtendFormItemProps.md) ? [`FormItemProps`](FormItemProps.md)\<`any`\> \| `ExtendItemProps` : [`FormItemProps`](FormItemProps.md)\<`any`\>)[]
 
-### onFinish()?
+### onFinish?
 
-> `optional` **onFinish**: (`values`, `submit?`) => `Promise`\<`any`\>
+> `optional` **onFinish?**: (`values`, `submit?`) => `Promise`\<`any`\>
 
 #### Parameters
 
@@ -62,6 +62,6 @@
 
 ### submit?
 
-> `optional` **submit**: `false` \| [`FormSubmitProps`](../type-aliases/FormSubmitProps.md)
+> `optional` **submit?**: `false` \| [`FormSubmitProps`](../type-aliases/FormSubmitProps.md)
 
 Default: { text: 'Submit' }, set false to disable it

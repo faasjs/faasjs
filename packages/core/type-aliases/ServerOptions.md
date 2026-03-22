@@ -10,7 +10,7 @@ Configuration options for the server.
 
 ### beforeHandle?
 
-> `optional` **beforeHandle**: [`Middleware`](Middleware.md)
+> `optional` **beforeHandle?**: [`Middleware`](Middleware.md)
 
 Callback function that is invoked before handling each request.
 
@@ -39,7 +39,7 @@ const server = new Server(process.cwd(), {
 
 ### cronJob?
 
-> `optional` **cronJob**: `boolean`
+> `optional` **cronJob?**: `boolean`
 
 Whether to mount cron job lifecycle with this server instance.
 
@@ -52,9 +52,9 @@ When enabled, `server.listen()` mounts registered cron jobs and
 true
 ```
 
-### onClose()?
+### onClose?
 
-> `optional` **onClose**: (`context`) => `Promise`\<`void`\>
+> `optional` **onClose?**: (`context`) => `Promise`\<`void`\>
 
 Callback function that is invoked when the server is closed.
 
@@ -85,9 +85,9 @@ const server = new Server(process.cwd(), {
 })
 ```
 
-### onError()?
+### onError?
 
-> `optional` **onError**: (`error`, `context`) => `Promise`\<`void`\>
+> `optional` **onError?**: (`error`, `context`) => `Promise`\<`void`\>
 
 Callback function that is invoked when an error occurs.
 
@@ -124,9 +124,9 @@ const server = new Server(process.cwd(), {
 })
 ```
 
-### onStart()?
+### onStart?
 
-> `optional` **onStart**: (`context`) => `Promise`\<`void`\>
+> `optional` **onStart?**: (`context`) => `Promise`\<`void`\>
 
 Callback function that is invoked when the server starts.
 
@@ -159,7 +159,7 @@ const server = new Server(process.cwd(), {
 
 ### port?
 
-> `optional` **port**: `number`
+> `optional` **port?**: `number`
 
 The port on which the server will listen. Defaults to `3000` if not provided.
 

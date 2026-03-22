@@ -8,8 +8,8 @@
 
 ### cwd?
 
-> `optional` **cwd**: `string`
+> `optional` **cwd?**: `string`
 
 ### filename?
 
-> `optional` **filename**: `string`
+> `optional` **filename?**: `string`

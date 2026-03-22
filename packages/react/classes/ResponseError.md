@@ -114,7 +114,7 @@ setMock(async (action, params) => {
 
 ##### msg
 
-`string` | `Error`
+`string` \| `Error`
 
 ##### options?
 
@@ -162,7 +162,7 @@ The response headers from the failed request.
 
 ### originalError?
 
-> `readonly` `optional` **originalError**: `Error`
+> `readonly` `optional` **originalError?**: `Error`
 
 The original Error object if this ResponseError was created from another Error.
 

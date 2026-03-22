@@ -36,11 +36,11 @@
 
 ### dataSource?
 
-> `optional` **dataSource**: `T`
+> `optional` **dataSource?**: `T`
 
 ### extendTypes?
 
-> `optional` **extendTypes**: `object`
+> `optional` **extendTypes?**: `object`
 
 #### Index Signature
 
@@ -48,7 +48,7 @@
 
 ### faasData?
 
-> `optional` **faasData**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`any`\>
+> `optional` **faasData?**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`any`\>
 
 ### items
 

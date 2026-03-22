@@ -143,7 +143,7 @@ If data is provided without body, body is automatically set to JSON.stringify(da
 
 ### data?
 
-> `readonly` `optional` **data**: `T`
+> `readonly` `optional` **data?**: `T`
 
 The parsed JSON data from the response.
 Optional property that contains the response payload when JSON is provided.

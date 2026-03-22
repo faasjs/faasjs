@@ -8,7 +8,7 @@
 
 ### debug?
 
-> `optional` **debug**: `boolean`
+> `optional` **debug?**: `boolean`
 
 #### Default
 
@@ -18,7 +18,7 @@ false
 
 ### interval?
 
-> `optional` **interval**: `number`
+> `optional` **interval?**: `number`
 
 #### Default
 
@@ -28,7 +28,7 @@ false
 
 ### label?
 
-> `optional` **label**: `string`
+> `optional` **label?**: `string`
 
 #### Default
 

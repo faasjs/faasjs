@@ -6,7 +6,7 @@
 
 ## Indexable
 
-\[`key`: `string`\]: `any`
+> \[`key`: `string`\]: `any`
 
 ## Properties
 
@@ -14,9 +14,9 @@
 
 > `readonly` **name**: `string`
 
-### onInvoke()?
+### onInvoke?
 
-> `optional` **onInvoke**: (`data`, `next`) => `Promise`\<`void`\>
+> `optional` **onInvoke?**: (`data`, `next`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -32,9 +32,9 @@
 
 `Promise`\<`void`\>
 
-### onMount()?
+### onMount?
 
-> `optional` **onMount**: (`data`, `next`) => `Promise`\<`void`\>
+> `optional` **onMount?**: (`data`, `next`) => `Promise`\<`void`\>
 
 #### Parameters
 

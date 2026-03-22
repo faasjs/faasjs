@@ -21,7 +21,7 @@ expect(await func.handler()).toEqual('Hello, world')
 
 ## Indexable
 
-\[`key`: `string`\]: `any`
+> \[`key`: `string`\]: `any`
 
 ## Constructors
 

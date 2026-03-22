@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / useFormContext
 
-# Variable: useFormContext()
+# Variable: useFormContext
 
 > `const` **useFormContext**: \<`NewT`\>() => `Readonly`\<`NewT`\> = `FormContext.use`
 

@@ -18,17 +18,17 @@
 
 ### input?
 
-> `optional` **input**: [`FormInputProps`](FormInputProps.md)\<`FormElements`\>
+> `optional` **input?**: [`FormInputProps`](FormInputProps.md)\<`FormElements`\>
 
 ### label?
 
-> `optional` **label**: `Omit`\<[`FormLabelElementProps`](FormLabelElementProps.md), `"name"` \| `"children"`\> & `object`
+> `optional` **label?**: `Omit`\<[`FormLabelElementProps`](FormLabelElementProps.md), `"name"` \| `"children"`\> & `object`
 
 #### Type Declaration
 
 ##### Label?
 
-> `optional` **Label**: `ComponentType`\<[`FormLabelElementProps`](FormLabelElementProps.md)\>
+> `optional` **Label?**: `ComponentType`\<[`FormLabelElementProps`](FormLabelElementProps.md)\>
 
 ### name
 
@@ -36,4 +36,4 @@
 
 ### rules?
 
-> `optional` **rules**: `FormRulesOptions`
+> `optional` **rules?**: `FormRulesOptions`

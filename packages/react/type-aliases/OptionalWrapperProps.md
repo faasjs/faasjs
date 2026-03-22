@@ -26,4 +26,4 @@
 
 ### wrapperProps?
 
-> `optional` **wrapperProps**: `ComponentProps`\<`TWrapper`\>
+> `optional` **wrapperProps?**: `ComponentProps`\<`TWrapper`\>

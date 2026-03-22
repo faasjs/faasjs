@@ -20,15 +20,15 @@
 
 ### children?
 
-> `optional` **children**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
+> `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
 
 ### descriptionChildren?
 
-> `optional` **descriptionChildren**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
+> `optional` **descriptionChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
 
 ### descriptionRender?
 
-> `optional` **descriptionRender**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
+> `optional` **descriptionRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
 
 ### id
 
@@ -38,9 +38,9 @@
 
 [`FaasItemProps`](FaasItemProps.md).[`id`](FaasItemProps.md#id)
 
-### if()?
+### if?
 
-> `optional` **if**: (`values`) => `boolean`
+> `optional` **if?**: (`values`) => `boolean`
 
 #### Parameters
 
@@ -54,11 +54,11 @@
 
 ### object?
 
-> `optional` **object**: `DescriptionItemProps`\<`T`\>[]
+> `optional` **object?**: `DescriptionItemProps`\<`T`\>[]
 
 ### options?
 
-> `optional` **options**: [`BaseOption`](../type-aliases/BaseOption.md)[]
+> `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
@@ -66,11 +66,11 @@
 
 ### render?
 
-> `optional` **render**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
+> `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
 
 ### title?
 
-> `optional` **title**: `string`
+> `optional` **title?**: `string`
 
 #### Inherited from
 
@@ -78,7 +78,7 @@
 
 ### type?
 
-> `optional` **type**: [`FaasItemType`](../type-aliases/FaasItemType.md)
+> `optional` **type?**: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 

@@ -36,7 +36,7 @@
 
 > **lang**: [`FormLang`](FormLang.md)
 
-### onSubmit()
+### onSubmit
 
 > **onSubmit**: (`values`) => `Promise`\<`void`\>
 

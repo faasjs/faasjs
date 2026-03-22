@@ -1,5 +1,5 @@
 import { FaasReactClient, Response, setMock } from '@faasjs/react'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 
 describe('react client', () => {
   afterEach(() => {

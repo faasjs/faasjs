@@ -13,11 +13,11 @@ customizing request behavior, adding request hooks, and overriding defaults.
 
 ### baseUrl?
 
-> `optional` **baseUrl**: [`BaseUrl`](BaseUrl.md)
+> `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
-### beforeRequest()?
+### beforeRequest?
 
-> `optional` **beforeRequest**: (`{
+> `optional` **beforeRequest?**: (`{
 
     action,
     params,
@@ -61,11 +61,11 @@ trigger before request
 
 ### headers?
 
-> `optional` **headers**: `Record`\<`string`, `string`\>
+> `optional` **headers?**: `Record`\<`string`, `string`\>
 
-### request()?
+### request?
 
-> `optional` **request**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> `optional` **request?**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 custom request
 
@@ -91,7 +91,7 @@ custom request
 
 ### stream?
 
-> `optional` **stream**: `boolean`
+> `optional` **stream?**: `boolean`
 
 ## Remarks
 

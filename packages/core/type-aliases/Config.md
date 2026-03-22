@@ -6,13 +6,13 @@
 
 ## Indexable
 
-\[`key`: `string`\]: `any`
+> \[`key`: `string`\]: `any`
 
 ## Properties
 
 ### plugins?
 
-> `optional` **plugins**: `object`
+> `optional` **plugins?**: `object`
 
 #### Index Signature
 

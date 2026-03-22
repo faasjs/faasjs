@@ -1,6 +1,6 @@
 [@faasjs/dev](../README.md) / Next
 
-# Type Alias: Next()
+# Type Alias: Next
 
 > **Next** = () => `Promise`\<`void`\>
 

@@ -62,7 +62,7 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: `` `${string}/` ``
+> `optional` **baseUrl?**: `` `${string}/` ``
 
 #### Inherited from
 
@@ -70,7 +70,7 @@
 
 ### children?
 
-> `optional` **children**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
+> `optional` **children?**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 #### Inherited from
 
@@ -78,7 +78,7 @@
 
 ### data?
 
-> `optional` **data**: `FaasData`\<`T`\>
+> `optional` **data?**: `FaasData`\<`T`\>
 
 use custom data, should work with setData
 
@@ -88,7 +88,7 @@ use custom data, should work with setData
 
 ### fallback?
 
-> `optional` **fallback**: `false` \| `Element`
+> `optional` **fallback?**: `false` \| `Element`
 
 #### Inherited from
 
@@ -96,15 +96,15 @@ use custom data, should work with setData
 
 ### loading?
 
-> `optional` **loading**: `Element`
+> `optional` **loading?**: `Element`
 
 ### loadingProps?
 
-> `optional` **loadingProps**: [`LoadingProps`](../type-aliases/LoadingProps.md)
+> `optional` **loadingProps?**: [`LoadingProps`](../type-aliases/LoadingProps.md)
 
 ### params?
 
-> `optional` **params**: `FaasParams`\<`T`\>
+> `optional` **params?**: `FaasParams`\<`T`\>
 
 #### Inherited from
 
@@ -112,7 +112,7 @@ use custom data, should work with setData
 
 ### ref?
 
-> `optional` **ref**: `Ref`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`T`\>\>
+> `optional` **ref?**: `Ref`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`T`\>\>
 
 #### Inherited from
 
@@ -120,7 +120,7 @@ use custom data, should work with setData
 
 ### setData?
 
-> `optional` **setData**: `Dispatch`\<`SetStateAction`\<`FaasData`\<`T`\>\>\>
+> `optional` **setData?**: `Dispatch`\<`SetStateAction`\<`FaasData`\<`T`\>\>\>
 
 use custom setData, should work with data
 

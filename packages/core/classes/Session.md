@@ -120,7 +120,7 @@
 
 ##### value?
 
-`string` | `number` | `null`
+`string` \| `number` \| `null`
 
 #### Returns
 

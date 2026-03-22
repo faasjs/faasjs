@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / FaasDataWrapper
 
-# Variable: FaasDataWrapper()
+# Variable: FaasDataWrapper
 
 > `const` **FaasDataWrapper**: \<`PathOrData`\>(`props`) => `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\> \| `null`
 

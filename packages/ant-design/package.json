@@ -27,7 +27,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts --config ../../tsdown.config.ts --dts.eager --no-sourcemap --no-dts.sourcemap"
+    "build": "vp pack src/index.ts --config ../../tsdown.config.ts --dts.eager --no-sourcemap --no-dts.sourcemap"
   },
   "devDependencies": {
     "@ant-design/icons": "*",

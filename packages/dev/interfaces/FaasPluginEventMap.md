@@ -15,36 +15,36 @@ injected when the plugin is enabled through `faas.yaml`.
 
 #### body?
 
-> `optional` **body**: `any`
+> `optional` **body?**: `any`
 
 #### headers?
 
-> `optional` **headers**: `Record`\<`string`, `any`\>
+> `optional` **headers?**: `Record`\<`string`, `any`\>
 
 #### httpMethod?
 
-> `optional` **httpMethod**: `string`
+> `optional` **httpMethod?**: `string`
 
 #### params?
 
-> `optional` **params**: `Record`\<`string`, `any`\>
+> `optional` **params?**: `Record`\<`string`, `any`\>
 
 #### path?
 
-> `optional` **path**: `string`
+> `optional` **path?**: `string`
 
 #### queryString?
 
-> `optional` **queryString**: `Record`\<`string`, `any`\>
+> `optional` **queryString?**: `Record`\<`string`, `any`\>
 
 #### raw?
 
-> `optional` **raw**: `object`
+> `optional` **raw?**: `object`
 
 ##### raw.request?
 
-> `optional` **request**: `unknown`
+> `optional` **request?**: `unknown`
 
 ##### raw.response?
 
-> `optional` **response**: `unknown`
+> `optional` **response?**: `unknown`

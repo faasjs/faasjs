@@ -1,4 +1,4 @@
-name: Unit
+name: Testing
 
 on:
   workflow_dispatch:
@@ -18,13 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: jdx/mise-action@v3
-      - name: Install
-        run: mise exec -- npm install
-      - name: Prepack
-        run: mise exec -- npm run build
-      - name: Run Tests
-        run: mise exec -- npm run ci
+      - uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: '24'
+          cache: true
+      - run: vp install
+      - run: vp check
+      - run: vp pack
+      - run: vp run ci
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

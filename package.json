@@ -7,31 +7,30 @@
   ],
   "type": "module",
   "scripts": {
-    "test": "vitest run",
-    "pub": "npm run build && npm run build:doc && npm run lint && node publish.ts",
-    "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log .turbo",
-    "build": "npm run lint && npm run clean && npm exec turbo build && rm -f packages/*/dist/*.d.cts",
-    "build:doc": "node build-docs.ts",
-    "lint": "oxfmt -c packages/dev/configs/oxfmt.base.json . && oxlint --fix .",
-    "ci": "vitest run --silent --coverage"
+    "lint": "vp check --fix",
+    "test": "vp test run",
+    "pack": "vp pack",
+    "pub": "vp run build && vp run build:doc && vp check --fix && node publish.ts",
+    "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
+    "prepare": "vp config"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "*",
-    "@testing-library/react": "*",
-    "@testing-library/user-event": "*",
-    "@types/node": "*",
-    "@vitejs/plugin-react": "*",
-    "@vitest/coverage-v8": "*",
-    "jsdom": "*",
-    "tsdown": "*",
-    "turbo": "*",
-    "typedoc": "*",
-    "typedoc-plugin-markdown": "*",
-    "typescript": "*",
-    "vite-tsconfig-paths": "*"
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/node": "latest",
+    "@vitejs/plugin-react": "latest",
+    "@vitest/coverage-v8": "latest",
+    "jsdom": "latest",
+    "typedoc": "latest",
+    "typedoc-plugin-markdown": "latest",
+    "typescript": "latest",
+    "vite-plus": "latest",
+    "vite-tsconfig-paths": "latest"
   },
   "overrides": {
-    "vite": "npm:rolldown-vite@latest"
+    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
   },
   "engines": {
     "node": ">=24.0.0",

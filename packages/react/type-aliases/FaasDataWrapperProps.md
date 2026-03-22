@@ -48,32 +48,32 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: [`BaseUrl`](BaseUrl.md)
+> `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
 ### children?
 
-> `optional` **children**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>\>\>
+> `optional` **children?**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>\>\>
 
 ### data?
 
-> `optional` **data**: [`FaasData`](FaasData.md)\<`PathOrData`\>
+> `optional` **data?**: [`FaasData`](FaasData.md)\<`PathOrData`\>
 
 use custom data, should work with setData
 
 ### fallback?
 
-> `optional` **fallback**: `JSX.Element` \| `false`
+> `optional` **fallback?**: `JSX.Element` \| `false`
 
 ### params?
 
-> `optional` **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
+> `optional` **params?**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
 ### ref?
 
-> `optional` **ref**: `React.Ref`\<[`FaasDataWrapperRef`](FaasDataWrapperRef.md)\<`PathOrData`\>\>
+> `optional` **ref?**: `React.Ref`\<[`FaasDataWrapperRef`](FaasDataWrapperRef.md)\<`PathOrData`\>\>
 
 ### setData?
 
-> `optional` **setData**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 use custom setData, should work with data

@@ -1,6 +1,6 @@
 [@faasjs/core](../README.md) / Handler
 
-# Type Alias: Handler()\<TEvent, TContext, TResult\>
+# Type Alias: Handler\<TEvent, TContext, TResult\>
 
 > **Handler**\<`TEvent`, `TContext`, `TResult`\> = (`data`) => `Promise`\<`TResult`\>
 

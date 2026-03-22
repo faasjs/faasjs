@@ -14,8 +14,8 @@
 
 ### children?
 
-> `optional` **children**: [`UnionFaasItemElement`](UnionFaasItemElement.md)\<`T`\>
+> `optional` **children?**: [`UnionFaasItemElement`](UnionFaasItemElement.md)\<`T`\>
 
 ### render?
 
-> `optional` **render**: [`UnionFaasItemRender`](UnionFaasItemRender.md)\<`T`\>
+> `optional` **render?**: [`UnionFaasItemRender`](UnionFaasItemRender.md)\<`T`\>

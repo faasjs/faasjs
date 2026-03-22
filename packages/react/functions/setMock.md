@@ -10,14 +10,14 @@ Set global mock handler for testing. Mock affects all FaasBrowserClient instance
 
 ### handler
 
+[`Response`](../classes/Response.md)\<`any`\> \| [`ResponseProps`](../type-aliases/ResponseProps.md)\<`any`\> \| [`MockHandler`](../type-aliases/MockHandler.md) \| `null`
+
 Mock handler, can be:
 
 - MockHandler function: receives (action, params, options) and returns response data
 - ResponseProps object: static response data
 - Response instance: pre-configured Response object
 - null or undefined: clear mock
-
-[`Response`](../classes/Response.md)\<`any`\> | [`ResponseProps`](../type-aliases/ResponseProps.md)\<`any`\> | [`MockHandler`](../type-aliases/MockHandler.md) | `null`
 
 ## Returns
 

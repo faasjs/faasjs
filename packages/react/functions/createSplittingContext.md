@@ -16,13 +16,13 @@ Creates a splitting context with the given default value.
 
 ### defaultValue
 
-The default value of the splitting context.
+\{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \| null \} \| keyof `T`[]
 
-\{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \| null \} | keyof `T`[]
+The default value of the splitting context.
 
 ## Returns
 
-### use()
+### use
 
 > **use**: \<`NewT`\>() => `Readonly`\<`NewT`\>
 

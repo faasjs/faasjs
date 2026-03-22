@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / FaasBrowserClientAction
 
-# Type Alias: FaasBrowserClientAction()
+# Type Alias: FaasBrowserClientAction
 
 > **FaasBrowserClientAction** = \<`PathOrData`\>(`action`, `params?`, `options?`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\> \| [`Response`](../classes/Response.md)\>
 

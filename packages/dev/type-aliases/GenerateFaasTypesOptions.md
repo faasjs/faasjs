@@ -8,12 +8,12 @@
 
 ### logger?
 
-> `optional` **logger**: `Logger`
+> `optional` **logger?**: `Logger`
 
 optional logger instance
 
 ### root?
 
-> `optional` **root**: `string`
+> `optional` **root?**: `string`
 
 faas project root path, default is process.cwd()

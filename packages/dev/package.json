@@ -32,17 +32,16 @@
     }
   },
   "scripts": {
-    "build": "tsdown --entry src/index.ts --entry src/cli/index.ts --config ../../tsdown.config.ts"
+    "build": "vp pack --entry src/index.ts --entry src/cli/index.ts --config ../../tsdown.config.ts"
   },
   "devDependencies": {
     "@faasjs/core": ">=8.0.0-beta.14",
     "@faasjs/node-utils": ">=8.0.0-beta.14",
     "@types/node": "*",
-    "oxfmt": "*",
-    "oxlint": "*",
     "typescript": "*",
-    "vite": "*",
-    "vitest": "*"
+    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
+    "vite-plus": "latest",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
   },
   "peerDependencies": {
     "@faasjs/core": ">=8.0.0-beta.14",

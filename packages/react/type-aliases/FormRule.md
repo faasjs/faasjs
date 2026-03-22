@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / FormRule
 
-# Type Alias: FormRule()\<Options\>
+# Type Alias: FormRule\<Options\>
 
 > **FormRule**\<`Options`\> = (`value`, `options?`, `lang?`) => `Promise`\<`void`\>
 

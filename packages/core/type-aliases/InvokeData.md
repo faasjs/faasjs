@@ -20,7 +20,7 @@
 
 ## Indexable
 
-\[`key`: `string`\]: `any`
+> \[`key`: `string`\]: `any`
 
 ## Properties
 
@@ -42,7 +42,7 @@
 
 ### handler?
 
-> `optional` **handler**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+> `optional` **handler?**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ### logger
 

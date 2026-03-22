@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / FormContextProvider
 
-# Variable: FormContextProvider()
+# Variable: FormContextProvider
 
 > `const` **FormContextProvider**: \<`NewT`\>(`props`) => `ReactNode` = `FormContext.Provider`
 

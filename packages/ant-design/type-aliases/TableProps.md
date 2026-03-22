@@ -8,7 +8,7 @@
 
 ### extendTypes?
 
-> `optional` **extendTypes**: `object`
+> `optional` **extendTypes?**: `object`
 
 #### Index Signature
 
@@ -16,15 +16,15 @@
 
 ### faasData?
 
-> `optional` **faasData**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`any`\>
+> `optional` **faasData?**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`any`\>
 
 ### items
 
 > **items**: ([`TableItemProps`](../interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](ExtendTableItemProps.md))[]
 
-### onChange()?
+### onChange?
 
-> `optional` **onChange**: (`pagination`, `filters`, `sorter`, `extra`) => `object`
+> `optional` **onChange?**: (`pagination`, `filters`, `sorter`, `extra`) => `object`
 
 #### Parameters
 
@@ -38,7 +38,7 @@
 
 ##### sorter
 
-`SorterResult`\<`T`\> | `SorterResult`\<`T`\>[]
+`SorterResult`\<`T`\> \| `SorterResult`\<`T`\>[]
 
 ##### extra
 

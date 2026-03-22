@@ -1,6 +1,6 @@
 [@faasjs/dev](../README.md) / Middleware
 
-# Type Alias: Middleware()
+# Type Alias: Middleware
 
 > **Middleware** = (`request`, `response`, `context`) => `void` \| `Promise`\<`void`\>
 

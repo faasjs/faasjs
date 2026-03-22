@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / MockHandler
 
-# Type Alias: MockHandler()
+# Type Alias: MockHandler
 
 > **MockHandler** = (`action`, `params`, `options`) => `Promise`\<[`ResponseProps`](ResponseProps.md)\> \| `Promise`\<`void`\> \| `Promise`\<`Error`\>
 
@@ -20,11 +20,11 @@ Converted to lowercase by the client before being passed to the handler.
 
 ### params
 
+`Record`\<`string`, `any`\> \| `undefined`
+
 The parameters passed to the action.
 May be undefined if the action was called without parameters.
 Parameters are passed as a plain object (already JSON-serialized if needed).
-
-`Record`\<`string`, `any`\> | `undefined`
 
 ### options
 

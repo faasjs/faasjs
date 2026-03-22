@@ -22,11 +22,11 @@
 
 ### defaultValues?
 
-> `optional` **defaultValues**: `Values`
+> `optional` **defaultValues?**: `Values`
 
 ### Elements?
 
-> `optional` **Elements**: `Partial`\<`FormElements`\>
+> `optional` **Elements?**: `Partial`\<`FormElements`\>
 
 ### items
 
@@ -34,11 +34,11 @@
 
 ### lang?
 
-> `optional` **lang**: `Partial`\<[`FormLang`](FormLang.md)\>
+> `optional` **lang?**: `Partial`\<[`FormLang`](FormLang.md)\>
 
-### onSubmit()?
+### onSubmit?
 
-> `optional` **onSubmit**: (`values`) => `Promise`\<`void`\>
+> `optional` **onSubmit?**: (`values`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -52,4 +52,4 @@
 
 ### rules?
 
-> `optional` **rules**: _typeof_ [`FormDefaultRules`](../variables/FormDefaultRules.md) & `Rules`
+> `optional` **rules?**: _typeof_ [`FormDefaultRules`](../variables/FormDefaultRules.md) & `Rules`
