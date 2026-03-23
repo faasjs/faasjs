@@ -1,23 +1,24 @@
 import { join } from 'node:path'
 
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite-plus'
 
+const browsers = [
+  'packages/ant-design/**/*.test.ts',
+  'packages/ant-design/**/*.test.tsx',
+  'packages/react/**/*.test.ts',
+  'packages/react/**/*.test.tsx',
+]
+
+const types = ['packages/**/*.types.test.ts']
+
 export default defineConfig({
+  plugins: [react()],
   staged: {
     '*': 'vp check --fix',
   },
   resolve: {
     tsconfigPaths: true,
-  },
-  run: {
-    tasks: {
-      doc: {
-        command: 'node build-docs.ts',
-      },
-      ci: {
-        command: 'vp test run --silent --coverage',
-      },
-    },
   },
   pack: ['ant-design', 'core', 'create-faas-app', 'dev', 'node-utils', 'react'].map((p) => ({
     platform: ['react', 'ant-design'].includes(p) ? 'browser' : 'node',
@@ -64,6 +65,11 @@ export default defineConfig({
       'import',
       'jsdoc',
     ],
+    env: {
+      builtin: true,
+      node: true,
+      browser: true,
+    },
     options: {
       typeAware: true,
       typeCheck: true,
@@ -76,11 +82,48 @@ export default defineConfig({
           fixStyle: 'separate-type-imports',
         },
       ],
+      'react-hooks/exhaustive-deps': ['warn'],
     },
   },
   fmt: {
     semi: false,
     singleQuote: true,
     sortImports: {},
+  },
+  test: {
+    restoreMocks: true,
+    clearMocks: true,
+    typecheck: {
+      enabled: true,
+      include: types,
+    },
+    coverage: {
+      provider: 'v8',
+      include: ['packages/**/*.ts', 'packages/**/*.tsx'],
+      exclude: ['packages/**/__tests/**', 'packages/**/dist/**'],
+      reporter: ['text', 'lcov', 'html'],
+    },
+    reporters: ['default', ['junit', { outputFile: 'test-report.junit.xml' }]],
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'node',
+          include: ['packages/**/*.test.ts'],
+          exclude: browsers.concat(types),
+          environment: 'node',
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'browser',
+          include: browsers,
+          exclude: types,
+          environment: 'jsdom',
+          setupFiles: ['vitest.jsdom.setup.ts'],
+        },
+      },
+    ],
   },
 })

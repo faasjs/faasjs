@@ -31,27 +31,31 @@
       "require": "./dist/index.cjs"
     }
   },
-  "scripts": {
-    "build": "vp pack --entry src/index.ts --entry src/cli/index.ts --config ../../tsdown.config.ts"
-  },
   "devDependencies": {
     "@faasjs/core": ">=8.0.0-beta.14",
     "@faasjs/node-utils": ">=8.0.0-beta.14",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
     "@types/node": "*",
+    "@vitejs/plugin-react": "*",
+    "@vitest/coverage-v8": "*",
+    "jsdom": "*",
     "typescript": "*",
-    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vite-plus": "latest",
-    "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
+    "vite-plus": "*"
   },
   "peerDependencies": {
     "@faasjs/core": ">=8.0.0-beta.14",
     "@faasjs/node-utils": ">=8.0.0-beta.14",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
     "@types/node": "*",
-    "oxfmt": "*",
-    "oxlint": "*",
+    "@vitejs/plugin-react": "*",
+    "@vitest/coverage-v8": "*",
+    "jsdom": "*",
     "typescript": "*",
-    "vite": "*",
-    "vitest": "*"
+    "vite-plus": "*"
   },
   "engines": {
     "node": ">=24.0.0",

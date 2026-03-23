@@ -7,30 +7,20 @@
   ],
   "type": "module",
   "scripts": {
-    "lint": "vp check --fix",
     "test": "vp test run",
-    "pack": "vp pack",
+    "ci": "vp test run --silent --coverage",
     "pub": "vp run build && vp run build:doc && vp check --fix && node publish.ts",
+    "doc": "node build-docs.ts",
     "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "prepare": "vp config"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "latest",
-    "@testing-library/react": "latest",
-    "@testing-library/user-event": "latest",
-    "@types/node": "latest",
-    "@vitejs/plugin-react": "latest",
-    "@vitest/coverage-v8": "latest",
-    "jsdom": "latest",
-    "typedoc": "latest",
-    "typedoc-plugin-markdown": "latest",
-    "typescript": "latest",
-    "vite-plus": "latest",
-    "vite-tsconfig-paths": "latest"
+    "typedoc": "*",
+    "typedoc-plugin-markdown": "*"
   },
   "overrides": {
-    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
+    "vite": "npm:@voidzero-dev/vite-plus-core",
+    "vitest": "npm:@voidzero-dev/vite-plus-test"
   },
   "engines": {
     "node": ">=24.0.0",

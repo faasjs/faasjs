@@ -26,9 +26,6 @@
       "require": "./dist/index.cjs"
     }
   },
-  "scripts": {
-    "build": "vp pack src/index.ts --config ../../tsdown.config.ts --dts.eager --no-sourcemap --no-dts.sourcemap"
-  },
   "devDependencies": {
     "@ant-design/icons": "*",
     "@faasjs/react": ">=8.0.0-beta.14",

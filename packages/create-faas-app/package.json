@@ -30,9 +30,6 @@
       "require": "./dist/index.cjs"
     }
   },
-  "scripts": {
-    "build": "vp pack src/index.ts --config ../../tsdown.config.ts"
-  },
   "dependencies": {
     "commander": ">=14.0.0",
     "enquirer": "*"

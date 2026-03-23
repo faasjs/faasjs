@@ -1,7 +1,6 @@
 {
   "extends": "./packages/types/tsconfig/build",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
     },

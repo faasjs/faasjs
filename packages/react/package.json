@@ -26,9 +26,6 @@
       "require": "./dist/index.cjs"
     }
   },
-  "scripts": {
-    "build": "vp pack src/index.ts --config ../../tsdown.config.ts --external react --dts.eager --no-sourcemap --no-dts.sourcemap"
-  },
   "devDependencies": {
     "@faasjs/types": ">=8.0.0-beta.14",
     "@types/react": "^19.0.0",
