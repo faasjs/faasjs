@@ -30,14 +30,12 @@
     "@faasjs/node-utils": ">=8.0.0-beta.16",
     "@faasjs/types": ">=8.0.0-beta.16",
     "@types/mime-types": "*",
-    "mime-types": "*",
-    "zod": ">=4.0.0"
+    "mime-types": "*"
   },
   "peerDependencies": {
     "@faasjs/node-utils": ">=8.0.0-beta.16",
     "@faasjs/types": ">=8.0.0-beta.16",
-    "mime-types": "*",
-    "zod": ">=4.0.0"
+    "mime-types": "*"
   },
   "engines": {
     "node": ">=24.0.0",
