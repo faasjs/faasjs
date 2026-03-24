@@ -10,21 +10,21 @@ Creates a splitting context with the given default value.
 
 ### T
 
-`T` *extends* `Record`\<`string`, `any`\>
+`T` _extends_ `Record`\<`string`, `any`\>
 
 ## Parameters
 
 ### defaultValue
 
-The default value of the splitting context.
+\{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \| null \} \| keyof `T`[]
 
-\{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \| null \} | keyof `T`[]
+The default value of the splitting context.
 
 ## Returns
 
-### use()
+### use
 
-> **use**: \<`NewT`\>() => `Readonly`\<`NewT`\>
+> **use**: \<`NewT`\>(`this`) => `Readonly`\<`NewT`\>
 
 The hook to use the splitting context.
 
@@ -32,7 +32,13 @@ The hook to use the splitting context.
 
 ##### NewT
 
-`NewT` *extends* `Record`\<`string`, `any`\> = `T`
+`NewT` _extends_ `Record`\<`string`, `any`\> = `T`
+
+#### Parameters
+
+##### this
+
+`void`
 
 #### Returns
 
@@ -48,13 +54,18 @@ https://faasjs.com/doc/react/functions/createSplittingContext.html#use
 function ChildComponent() {
   const { value, setValue } = use()
 
-  return <div>{value}<button onClick={() => setValue(1)}>change value</button></div>
+  return (
+    <div>
+      {value}
+      <button onClick={() => setValue(1)}>change value</button>
+    </div>
+  )
 }
 ```
 
 ### Provider()
 
-> **Provider**\<`NewT`\>(`props`): `ReactNode`
+> **Provider**\<`NewT`\>(`this`, `props`): `ReactNode`
 
 The provider component of the splitting context.
 
@@ -62,9 +73,13 @@ The provider component of the splitting context.
 
 ##### NewT
 
-`NewT` *extends* `Record`\<`string`, `any`\> = `T`
+`NewT` _extends_ `Record`\<`string`, `any`\> = `T`
 
 #### Parameters
+
+##### this
+
+`void`
 
 ##### props
 
@@ -80,7 +95,7 @@ An object containing initial values that will be automatically converted into st
 
 **Example**
 
-```tsx
+````tsx
 <Provider
  initializeStates={{
    value: 0,
@@ -127,7 +142,7 @@ function App() {
     </Provider>
   )
 }
-```
+````
 
 ## Example
 
@@ -150,7 +165,7 @@ function WriterComponent() {
   const { setValue } = use()
 
   return (
-    <button type='button' onClick={() => setValue((p: number) => p + 1)}>
+    <button type="button" onClick={() => setValue((p: number) => p + 1)}>
       Change
     </button>
   )

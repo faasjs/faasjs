@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { FaasBrowserClient, Response as FaasResponse, setMock } from '../../browser'
 
 describe('stream', () => {
@@ -201,8 +202,6 @@ describe('stream', () => {
     const response = await client.action('test', { key: 'value' }, { stream: true })
 
     expect(response.body).toBeInstanceOf(ReadableStream)
-
-    setMock(null)
   })
 
   it('handles errors in stream mode', async () => {

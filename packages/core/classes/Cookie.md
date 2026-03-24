@@ -6,11 +6,11 @@
 
 ### C
 
-`C` *extends* `Record`\<`string`, `string`\> = `any`
+`C` _extends_ `Record`\<`string`, `string`\> = `any`
 
 ### S
 
-`S` *extends* `Record`\<`string`, `string`\> = `any`
+`S` _extends_ `Record`\<`string`, `string`\> = `any`
 
 ## Constructors
 
@@ -44,7 +44,7 @@
 
 ##### Set-Cookie?
 
-> `optional` **Set-Cookie**: `string`[]
+> `optional` **Set-Cookie?**: `string`[]
 
 ### invoke()
 
@@ -54,7 +54,7 @@
 
 ##### cookie
 
-`string` | `undefined`
+`string` \| `undefined`
 
 ##### logger
 
@@ -90,7 +90,7 @@
 
 ##### value
 
-`string` | `null` | `undefined`
+`string` \| `null` \| `undefined`
 
 ##### opts?
 
@@ -130,7 +130,7 @@
 
 #### domain?
 
-> `optional` **domain**: `string`
+> `optional` **domain?**: `string`
 
 #### expires
 
@@ -146,7 +146,7 @@
 
 #### sameSite?
 
-> `optional` **sameSite**: `"Strict"` \| `"Lax"` \| `"None"`
+> `optional` **sameSite?**: `"Strict"` \| `"Lax"` \| `"None"`
 
 #### secure
 

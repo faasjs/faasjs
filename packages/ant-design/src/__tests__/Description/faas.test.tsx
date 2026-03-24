@@ -1,6 +1,7 @@
 import { setMock } from '@faasjs/react'
 import { render, screen } from '@testing-library/react'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { Description } from '../../Description'
 
 describe('Description/faas', () => {
@@ -8,10 +9,6 @@ describe('Description/faas', () => {
     setMock(async () => ({
       data: { title: 'title', test: 'value' },
     }))
-  })
-
-  afterEach(() => {
-    setMock(null)
   })
 
   it('with faas', async () => {

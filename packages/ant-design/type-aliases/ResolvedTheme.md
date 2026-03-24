@@ -80,7 +80,7 @@
 
 #### target?
 
-> `optional` **target**: `string`
+> `optional` **target?**: `string`
 
 ### Title
 

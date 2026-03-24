@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { FuncWarper, test as createTester } from '../../src/index'
 import { func } from './funcs/basic.func'
 
@@ -11,7 +12,7 @@ it('basic', async () => {
 
 it('test helper should bind handlers', async () => {
   const testedFunc = createTester(func)
-  const detachedHandler = testedFunc.handler
+  const detachedHandler = testedFunc.handler.bind(testedFunc)
 
   await expect(detachedHandler<boolean>({}, {})).resolves.toBe(true)
 })

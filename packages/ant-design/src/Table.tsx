@@ -1,4 +1,5 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { useEqualEffect } from '@faasjs/react'
 import {
   Table as AntdTable,
   type TableColumnProps as AntdTableColumnProps,
@@ -12,7 +13,8 @@ import {
 import type { FilterValue, SorterResult, TableCurrentDataSource } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
 import { cloneDeep, isNil, uniqBy } from 'lodash-es'
-import { useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
+
 import { Blank } from './Blank'
 import { useConfigContext } from './Config'
 import type {
@@ -147,68 +149,72 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 ) {
   const [columns, setColumns] = useState<TableItemProps[]>()
   const { theme } = useConfigContext()
+  const { all, blank, search } = theme.common
 
-  const generateFilterDropdown = (item: TableItemProps) => {
-    if (item.filterDropdown && item.filterDropdown !== true) return
-    if (!item.options?.length) return
+  const generateFilterDropdown = useCallback(
+    (item: TableItemProps) => {
+      if (item.filterDropdown && item.filterDropdown !== true) return
+      if (!item.options?.length) return
 
-    if (item.options.length < 11) {
-      if (!item.filters)
-        item.filters = (
-          item.options as {
-            label: string
-            value: any
-          }[]
-        ).map((o) => ({
-          text: o.label,
-          value: o.value,
-        }))
-      return
-    }
-
-    item.filterDropdown = ({ setSelectedKeys, selectedKeys, confirm }) => (
-      <div
-        style={{
-          padding: 8,
-          width: '200px',
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <Select<React.Key[]>
-          options={
+      if (item.options.length < 11) {
+        if (!item.filters)
+          item.filters = (
             item.options as {
               label: string
-              value: string
+              value: any
             }[]
-          }
-          allowClear
-          showSearch
-          style={{ width: '100%' }}
-          placeholder={`${theme.common.search} ${item.title}`}
-          value={selectedKeys}
-          onChange={(v) => {
-            setSelectedKeys(v?.length ? v : [])
-            confirm()
+          ).map((o) => ({
+            text: o.label,
+            value: o.value,
+          }))
+        return
+      }
+
+      item.filterDropdown = ({ setSelectedKeys, selectedKeys, confirm }) => (
+        <div
+          style={{
+            padding: 8,
+            width: '200px',
           }}
-          mode='multiple'
-          filterOption={(input, option) => {
-            if (!input || !option || !option.label) return true
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          <Select<React.Key[]>
+            options={
+              item.options as {
+                label: string
+                value: string
+              }[]
+            }
+            allowClear
+            showSearch
+            style={{ width: '100%' }}
+            placeholder={`${search} ${item.title}`}
+            value={selectedKeys}
+            onChange={(v) => {
+              setSelectedKeys(v?.length ? v : [])
+              confirm()
+            }}
+            mode="multiple"
+            filterOption={(input, option) => {
+              if (!input || !option) return true
+              if (typeof option.label !== 'string') return option.value === input
 
-            input = input.trim()
+              input = input.trim()
 
-            return (
-              option.value === input ||
-              option.label.toString().toLowerCase().includes(input.toLowerCase())
-            )
-          }}
-        />
-      </div>
-    )
+              return (
+                option.value === input || option.label.toLowerCase().includes(input.toLowerCase())
+              )
+            }}
+          />
+        </div>
+      )
 
-    return item
-  }
+      return item
+    },
+    [search],
+  )
 
-  useEffect(() => {
+  useEqualEffect(() => {
     const items = (cloneDeep(props.items) as TableItemProps[]).filter(
       (item) =>
         !(
@@ -231,7 +237,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         clearFilters?: () => void
       }) => (
         <Input.Search
-          placeholder={`${theme.common.search} ${item.title}`}
+          placeholder={`${search} ${item.title}`}
           allowClear
           onSearch={(v) => {
             if (v) {
@@ -399,7 +405,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           break
         case 'number[]':
           // render
-          if (!item.render) item.render = (value) => processValue(item, value).join(', ')
+          if (!item.render) item.render = (value) => processValue(item, value)
 
           // filter
           if (item.filterDropdown !== false) {
@@ -444,15 +450,15 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               item.filterDropdown = ({
                 setSelectedKeys,
                 selectedKeys,
-                confirm,
+                confirm: confirmFilter,
               }: {
                 setSelectedKeys: (selectedKeys: React.Key[]) => void
                 selectedKeys: React.Key[]
-                confirm(): void
+                confirm: () => void
               }) => (
                 <Radio.Group
                   style={{ padding: 8 }}
-                  buttonStyle='solid'
+                  buttonStyle="solid"
                   value={JSON.stringify(selectedKeys[0])}
                   onChange={(e) => {
                     const Values: Record<string, any> = {
@@ -461,10 +467,10 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                       null: null,
                     }
                     setSelectedKeys(e.target.value ? [Values[e.target.value]] : [])
-                    confirm()
+                    confirmFilter()
                   }}
                 >
-                  <Radio.Button>{theme.common.all}</Radio.Button>
+                  <Radio.Button>{all}</Radio.Button>
                   <Radio.Button value={'true'}>
                     <CheckOutlined
                       style={{
@@ -481,7 +487,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                       }}
                     />
                   </Radio.Button>
-                  <Radio.Button value={'null'}>{theme.common.blank}</Radio.Button>
+                  <Radio.Button value={'null'}>{blank}</Radio.Button>
                 </Radio.Group>
               )
 
@@ -518,13 +524,13 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               item.filterDropdown = ({ setSelectedKeys, confirm }) => (
                 <DatePicker.RangePicker
                   onChange={(dates) => {
+                    const start = dates?.[0]
+                    const end = dates?.[1]
+
                     setSelectedKeys(
-                      dates?.[0] && dates[1]
+                      start && end
                         ? ([
-                            [
-                              dates[0].startOf('day').toISOString(),
-                              dates[1].endOf('day').toISOString(),
-                            ],
+                            [start.startOf('day').toISOString(), end.endOf('day').toISOString()],
                           ] as any)
                         : [],
                     )
@@ -584,9 +590,9 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     }
 
     setColumns(items as TableItemProps[])
-  }, [props.items])
+  }, [all, blank, generateFilterDropdown, props.extendTypes, props.faasData, props.items, search])
 
-  useEffect(() => {
+  useEqualEffect(() => {
     if (!props.dataSource || !columns) return
 
     for (const column of columns) {
@@ -606,7 +612,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           })
       }
     }
-  }, [props.dataSource, columns])
+  }, [props.dataSource, columns, generateFilterDropdown])
 
   if (!columns) return null
 
@@ -642,7 +648,7 @@ function FaasDataTable({
 }) {
   const [currentColumns, setCurrentColumns] = useState<TableItemProps[]>(columns)
 
-  useEffect(() => {
+  useEqualEffect(() => {
     if (!data || Array.isArray(data)) return
 
     setCurrentColumns((prev) => {
@@ -722,7 +728,7 @@ function FaasDataTable({
 
         if (props.onChange) {
           const processed = props.onChange(pagination, filters, sorter, extra)
-          reload({
+          void reload({
             ...(params || Object.create(null)),
             pagination: processed.pagination,
             filters: processed.filters,
@@ -731,7 +737,7 @@ function FaasDataTable({
           })
           return
         }
-        reload({
+        void reload({
           ...(params || Object.create(null)),
           pagination,
           filters,

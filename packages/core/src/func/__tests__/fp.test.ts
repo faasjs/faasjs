@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { type InvokeData, type MountData, type Next, type Plugin, useFunc, usePlugin } from '..'
 
 describe('fp', () => {

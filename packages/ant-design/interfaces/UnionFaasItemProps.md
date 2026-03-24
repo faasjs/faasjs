@@ -10,19 +10,19 @@ The UnionFaas item can be used in a form, description, or table.
 
 1. **Null Rendering** (Notice: it also doesn't render column in table and description)
    1. Returns `null` if specific children or render props are null:
-       - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
+      - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
    2. Returns `null` if `children` or `render` prop is null
 2. **Children Rendering**
    1. First priority: Component-specific children
-       - `formChildren` for Form
-       - `descriptionChildren` for Description
-       - `tableChildren` for Table
+      - `formChildren` for Form
+      - `descriptionChildren` for Description
+      - `tableChildren` for Table
    2. Second priority: Generic `children` prop
 3. **Custom Render Functions**
    1. First priority: Component-specific render functions
-       - `formRender` for Form
-       - `descriptionRender` for Description
-       - `tableRender` for Table
+      - `formRender` for Form
+      - `descriptionRender` for Description
+      - `tableRender` for Table
    2. Second priority: Generic `render` prop
 4. **Extended Types**
    - Renders based on registered extended type handlers
@@ -48,7 +48,7 @@ const item: UnionFaasItemProps[] = [
     id: 'age',
     type: 'number', // Number type in form, description and table
     options: ['< 18', '>= 18'], // Options in form and table
-  }
+  },
 ]
 
 const data = {
@@ -58,11 +58,13 @@ const data = {
 }
 
 function App() {
-  return <>
-    <Form items={item} /> // Use in form
-    <Description items={item} dataSource={data} /> // Use in description
-    <Table items={item} dataSource={[ data ]} /> // Use in table
-  </>
+  return (
+    <>
+      <Form items={item} /> // Use in form
+      <Description items={item} dataSource={data} /> // Use in description
+      <Table items={item} dataSource={[data]} /> // Use in table
+    </>
+  )
 }
 ```
 
@@ -84,7 +86,7 @@ function App() {
 
 ### children?
 
-> `optional` **children**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`Value`, `Values`\> \| `null`
+> `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`Value`, `Values`\> \| `null`
 
 #### Overrides
 
@@ -92,7 +94,7 @@ function App() {
 
 ### col?
 
-> `optional` **col**: `number`
+> `optional` **col?**: `number`
 
 #### Inherited from
 
@@ -100,7 +102,7 @@ function App() {
 
 ### descriptionChildren?
 
-> `optional` **descriptionChildren**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
+> `optional` **descriptionChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -108,7 +110,7 @@ function App() {
 
 ### descriptionRender?
 
-> `optional` **descriptionRender**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+> `optional` **descriptionRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -116,7 +118,7 @@ function App() {
 
 ### disabled?
 
-> `optional` **disabled**: `boolean`
+> `optional` **disabled?**: `boolean`
 
 #### Inherited from
 
@@ -124,7 +126,7 @@ function App() {
 
 ### extendTypes?
 
-> `optional` **extendTypes**: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
+> `optional` **extendTypes?**: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
 
 #### Inherited from
 
@@ -132,7 +134,7 @@ function App() {
 
 ### formChildren?
 
-> `optional` **formChildren**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
+> `optional` **formChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -140,7 +142,7 @@ function App() {
 
 ### formRender?
 
-> `optional` **formRender**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+> `optional` **formRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -154,9 +156,9 @@ function App() {
 
 [`FormItemProps`](FormItemProps.md).[`id`](FormItemProps.md#id)
 
-### if()?
+### if?
 
-> `optional` **if**: (`values`) => `boolean`
+> `optional` **if?**: (`values`) => `boolean`
 
 trigger when any item's value changed
 
@@ -176,7 +178,7 @@ trigger when any item's value changed
 
 ### input?
 
-> `optional` **input**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
+> `optional` **input?**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
 
 #### Inherited from
 
@@ -184,7 +186,7 @@ trigger when any item's value changed
 
 ### label?
 
-> `optional` **label**: `string` \| `false`
+> `optional` **label?**: `string` \| `false`
 
 #### Inherited from
 
@@ -192,7 +194,7 @@ trigger when any item's value changed
 
 ### maxCount?
 
-> `optional` **maxCount**: `number`
+> `optional` **maxCount?**: `number`
 
 #### Inherited from
 
@@ -200,15 +202,15 @@ trigger when any item's value changed
 
 ### object?
 
-> `optional` **object**: `UnionFaasItemProps`\<`Value`, `Values`\>[]
+> `optional` **object?**: `UnionFaasItemProps`\<`Value`, `Values`\>[]
 
 #### Overrides
 
 [`FormItemProps`](FormItemProps.md).[`object`](FormItemProps.md#object)
 
-### onValueChange()?
+### onValueChange?
 
-> `optional` **onValueChange**: (`value`, `values`, `form`) => `void`
+> `optional` **onValueChange?**: (`value`, `values`, `form`) => `void`
 
 trigger when current item's value changed
 
@@ -236,7 +238,7 @@ trigger when current item's value changed
 
 ### options?
 
-> `optional` **options**: [`BaseOption`](../type-aliases/BaseOption.md)[]
+> `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
 #### Inherited from
 
@@ -244,7 +246,7 @@ trigger when current item's value changed
 
 ### optionsType?
 
-> `optional` **optionsType**: `"auto"`
+> `optional` **optionsType?**: `"auto"`
 
 #### Inherited from
 
@@ -252,7 +254,7 @@ trigger when current item's value changed
 
 ### render?
 
-> `optional` **render**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`Value`, `Values`\> \| `null`
+> `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`Value`, `Values`\> \| `null`
 
 #### Overrides
 
@@ -260,7 +262,7 @@ trigger when current item's value changed
 
 ### required?
 
-> `optional` **required**: `boolean`
+> `optional` **required?**: `boolean`
 
 #### Inherited from
 
@@ -268,7 +270,7 @@ trigger when current item's value changed
 
 ### rules?
 
-> `optional` **rules**: `RuleObject`[]
+> `optional` **rules?**: `RuleObject`[]
 
 #### Inherited from
 
@@ -276,7 +278,7 @@ trigger when current item's value changed
 
 ### tableChildren?
 
-> `optional` **tableChildren**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
+> `optional` **tableChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -284,7 +286,7 @@ trigger when current item's value changed
 
 ### tableRender?
 
-> `optional` **tableRender**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+> `optional` **tableRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
 
 #### Inherited from
 
@@ -292,7 +294,7 @@ trigger when current item's value changed
 
 ### title?
 
-> `optional` **title**: `string`
+> `optional` **title?**: `string`
 
 #### Inherited from
 
@@ -300,7 +302,7 @@ trigger when current item's value changed
 
 ### type?
 
-> `optional` **type**: [`FaasItemType`](../type-aliases/FaasItemType.md)
+> `optional` **type?**: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
 Support string, string[], number, number[], boolean, date, time, object, object[]
 

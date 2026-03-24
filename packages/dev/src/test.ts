@@ -1,4 +1,5 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
+
 import { Http } from '@faasjs/core'
 import type { Config, ExportedHandler, Func, FuncEventType, Plugin } from '@faasjs/core'
 import {
@@ -15,13 +16,14 @@ export * from '@faasjs/core'
 export { streamToObject, streamToString, streamToText }
 
 type IsAny<T> = 0 extends 1 & T ? true : false
-type JSONhandlerBody<TFunc extends Func<any, any, any>> = FuncEventType<TFunc> extends {
-  params?: infer TParams
-}
-  ? IsAny<TParams> extends true
-    ? Record<string, any> | string | null
-    : TParams | string | null
-  : Record<string, any> | string | null
+type JSONhandlerBody<TFunc extends Func<any, any, any>> =
+  FuncEventType<TFunc> extends {
+    params?: infer TParams
+  }
+    ? IsAny<TParams> extends true
+      ? Record<string, any> | string | null
+      : TParams | string | null
+    : Record<string, any> | string | null
 
 /**
  * Test wrapper for a function.

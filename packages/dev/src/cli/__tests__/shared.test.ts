@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+
 import { parseCommonCliArgs, runCli } from '../shared'
 
 describe('cli shared helpers', () => {

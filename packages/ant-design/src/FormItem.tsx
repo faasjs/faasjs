@@ -1,4 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { useEqualEffect } from '@faasjs/react'
 import type { ValidatorRule } from '@rc-component/form/lib/interface'
 import {
   Form as AntdForm,
@@ -21,7 +22,8 @@ import {
   type SwitchProps,
 } from 'antd'
 import type { RuleObject } from 'antd/es/form'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
 import { type ResolvedTheme, useConfigContext } from './Config'
 import type { BaseItemProps, FaasItemType, UnionFaasItemElement, UnionFaasItemRender } from './data'
 import { type BaseOption, cloneUnionFaasItemElement, idToTitle, transferOptions } from './data'
@@ -178,7 +180,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   const { theme } = useConfigContext()
   const [hidden, setHidden] = useState(props.hidden || false)
 
-  useEffect(() => {
+  useEqualEffect(() => {
     const { extendTypes, ...propsCopy } = { ...props }
 
     if (extendTypes) {
@@ -209,7 +211,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     }
 
     setComputedProps(processProps(propsCopy, theme.common))
-  }, [props])
+  }, [hidden, props, theme.common])
 
   if (!computedProps) return null
 
@@ -218,7 +220,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   if (hidden)
     return (
       <AntdForm.Item {...computedProps} id={computedProps.id.toString()} noStyle rules={[]}>
-        <Input type='hidden' hidden />
+        <Input type="hidden" hidden />
       </AntdForm.Item>
     )
 
@@ -267,11 +269,10 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       {(fields, { add, remove }, { errors }) => (
         <>
           {computedProps.label && (
-            <div className='ant-form-item-label'>
+            <div className="ant-form-item-label">
               <label
                 className={
-                  (computedProps.rules || []).find((r) => r.required) &&
-                  'ant-form-item-required'
+                  (computedProps.rules || []).find((r) => r.required) && 'ant-form-item-required'
                 }
               >
                 {computedProps.label}
@@ -293,7 +294,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                       (!(computedProps.rules || []).find((r) => r.required) || key > 0) && (
                         <Button
                           danger
-                          type='link'
+                          type="link"
                           style={{ float: 'right' }}
                           icon={<MinusCircleOutlined />}
                           onClick={() => remove(field.name)}
@@ -307,10 +308,10 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
           <AntdForm.Item>
             {!computedProps.input?.disabled &&
               (!computedProps.maxCount || computedProps.maxCount > fields.length) && (
-                <Button type='dashed' block onClick={() => add()} icon={<PlusOutlined />} />
+                <Button type="dashed" block onClick={() => add()} icon={<PlusOutlined />} />
               )}
             {computedProps.extra && (
-              <div className='ant-form-item-extra'>{computedProps.extra}</div>
+              <div className="ant-form-item-extra">{computedProps.extra}</div>
             )}
             <AntdForm.ErrorList errors={errors} />
           </AntdForm.Item>
@@ -341,7 +342,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       if (isOptionsProps(computedProps))
         return (
           <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-            <Select mode='multiple' {...(computedProps.input as SelectProps)} />
+            <Select mode="multiple" {...(computedProps.input as SelectProps)} />
           </AntdForm.Item>
         )
 
@@ -367,7 +368,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       if (isOptionsProps(computedProps))
         return (
           <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-            <Select mode='multiple' {...(computedProps.input as SelectProps)} />
+            <Select mode="multiple" {...(computedProps.input as SelectProps)} />
           </AntdForm.Item>
         )
 
@@ -398,7 +399,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       return (
         <>
           {computedProps.label && (
-            <div className='ant-form-item-label'>
+            <div className="ant-form-item-label">
               <label
                 className={
                   computedProps.rules?.find((r: RuleObject) => r.required) &&
@@ -429,12 +430,12 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
                   id={field.key.toString()}
                   style={{ marginBottom: 0 }}
                 >
-                  <div className='ant-form-item-label'>
+                  <div className="ant-form-item-label">
                     <label>
                       {computedProps.label} {field.name + 1}
                       {!computedProps.disabled &&
                         (!(computedProps.rules || []).find((r) => r.required) || field.key > 0) && (
-                          <Button danger type='link' onClick={() => remove(field.name)}>
+                          <Button danger type="link" onClick={() => remove(field.name)}>
                             {theme.common.delete}
                           </Button>
                         )}
@@ -452,12 +453,12 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
               <AntdForm.Item>
                 {!computedProps.disabled &&
                   (!computedProps.maxCount || computedProps.maxCount > fields.length) && (
-                    <Button type='dashed' block onClick={() => add()} icon={<PlusOutlined />}>
+                    <Button type="dashed" block onClick={() => add()} icon={<PlusOutlined />}>
                       {theme.common.add} {computedProps.label}
                     </Button>
                   )}
                 {computedProps.extra && (
-                  <div className='ant-form-item-extra'>{computedProps.extra}</div>
+                  <div className="ant-form-item-extra">{computedProps.extra}</div>
                 )}
                 <AntdForm.ErrorList errors={errors} />
               </AntdForm.Item>

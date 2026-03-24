@@ -1,5 +1,7 @@
 import { join } from 'node:path'
+
 import { describe, expect, it } from 'vitest'
+
 import { Server } from '../../server'
 import { createMockReq, createMockRes, triggerReqEvents } from './mocks'
 

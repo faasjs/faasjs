@@ -1,6 +1,6 @@
 [@faasjs/node-utils](../README.md) / TransportHandler
 
-# Type Alias: TransportHandler()
+# Type Alias: TransportHandler
 
 > **TransportHandler** = (`messages`) => `Promise`\<`void`\>
 

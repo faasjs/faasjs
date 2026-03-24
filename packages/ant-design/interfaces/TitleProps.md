@@ -6,31 +6,31 @@
 
 ### children?
 
-> `optional` **children**: `Element`
+> `optional` **children?**: `Element`
 
 return children
 
 ### h1?
 
-> `optional` **h1**: `boolean` \| \{ `className?`: `string`; `style?`: `CSSProperties`; \}
+> `optional` **h1?**: `boolean` \| \{ `className?`: `string`; `style?`: `CSSProperties`; \}
 
 return a h1 element
 
 ### plain?
 
-> `optional` **plain**: `boolean`
+> `optional` **plain?**: `boolean`
 
 return a pure text element
 
 ### separator?
 
-> `optional` **separator**: `string`
+> `optional` **separator?**: `string`
 
-` - ` as default
+`-` as default
 
 ### suffix?
 
-> `optional` **suffix**: `string`
+> `optional` **suffix?**: `string`
 
 ### title
 

@@ -8,22 +8,25 @@
 
 ### body?
 
-> `optional` **body**: `any`
+> `optional` **body?**: `any`
 
 #### Default
 
 ```ts
-{ error: Error(message) }
+{
+  error: Error(message)
+}
 ```
 
 ### headers?
 
-> `optional` **headers**: [`ResponseHeaders`](ResponseHeaders.md)
+> `optional` **headers?**: [`ResponseHeaders`](ResponseHeaders.md)
 
 #### Default
 
 ```ts
-{}
+{
+}
 ```
 
 ### message
@@ -32,11 +35,11 @@
 
 ### originalError?
 
-> `optional` **originalError**: `Error`
+> `optional` **originalError?**: `Error`
 
 ### status?
 
-> `optional` **status**: `number`
+> `optional` **status?**: `number`
 
 #### Default
 

@@ -22,6 +22,6 @@ FaasReactClient instance.
 
 ```ts
 const client = FaasReactClient({
-  baseUrl: 'localhost:8080/api/'
+  baseUrl: 'localhost:8080/api/',
 })
 ```

@@ -39,8 +39,6 @@
  * ```sh
  * npm install @faasjs/react react
  * ```
- *
- * @packageDocumentation
  */
 
 export type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
+
 import { FormItem } from '../../FormItem'
 
 describe('FormItem string', () => {
@@ -9,8 +10,8 @@ describe('FormItem string', () => {
 
     const { container } = render(
       <FormItem
-        id='test'
-        type='string'
+        id="test"
+        type="string"
         options={[
           {
             label: 'label',

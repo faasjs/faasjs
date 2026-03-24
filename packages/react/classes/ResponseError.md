@@ -7,7 +7,7 @@ Custom error class for handling HTTP response errors from FaasJS requests.
 Extends the built-in Error class to provide additional information about failed requests,
 including HTTP status code, response headers, response body, and the original error.
 
- ResponseError
+ResponseError
 
 ## Param
 
@@ -33,7 +33,7 @@ try {
 } catch (error) {
   throw new ResponseError(error, {
     status: 500,
-    headers: { 'X-Error-Type': 'internal' }
+    headers: { 'X-Error-Type': 'internal' },
   })
 }
 ```
@@ -46,9 +46,9 @@ throw new ResponseError({
   body: {
     error: {
       message: 'Validation failed',
-      fields: ['email', 'password']
-    }
-  }
+      fields: ['email', 'password'],
+    },
+  },
 })
 ```
 
@@ -77,7 +77,7 @@ setMock(async (action, params) => {
       throw new ResponseError({
         message: 'Email and password are required',
         status: 400,
-        body: { error: 'missing_fields' }
+        body: { error: 'missing_fields' },
       })
     }
     return { data: { token: 'abc123' } }
@@ -85,7 +85,7 @@ setMock(async (action, params) => {
 })
 ```
 
-## Remarks
+Notes:
 
 - ResponseError is automatically thrown by the action method when the server returns an error (status >= 400)
 - The error message from server responses is extracted from body.error.message if available
@@ -96,9 +96,9 @@ setMock(async (action, params) => {
 
 ## See
 
- - FaasBrowserClient.action for how ResponseError is thrown in requests
- - ResponseProps for the structure of response data
- - setMock for mocking errors in tests
+- FaasBrowserClient.action for how ResponseError is thrown in requests
+- ResponseProps for the structure of response data
+- setMock for mocking errors in tests
 
 ## Extends
 
@@ -114,7 +114,7 @@ setMock(async (action, params) => {
 
 ##### msg
 
-`string` | `Error`
+`string` \| `Error`
 
 ##### options?
 
@@ -162,7 +162,7 @@ The response headers from the failed request.
 
 ### originalError?
 
-> `readonly` `optional` **originalError**: `Error`
+> `readonly` `optional` **originalError?**: `Error`
 
 The original Error object if this ResponseError was created from another Error.
 

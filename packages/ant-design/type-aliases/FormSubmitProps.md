@@ -8,17 +8,18 @@
 
 ### text?
 
-> `optional` **text**: `string`
+> `optional` **text?**: `string`
 
 Default: Submit
 
 ### to?
 
-> `optional` **to**: `object`
+> `optional` **to?**: `object`
 
 Submit to FaasJS server.
 
 If use onFinish, you should call submit manually.
+
 ```ts
 {
   submit: {
@@ -42,11 +43,11 @@ If use onFinish, you should call submit manually.
 
 #### action
 
-> **action**: `FaasAction` \| `string`
+> **action**: `FaasAction`
 
-#### catch()?
+#### catch?
 
-> `optional` **catch**: (`error`) => `void`
+> `optional` **catch?**: (`error`) => `void`
 
 ##### Parameters
 
@@ -58,9 +59,9 @@ If use onFinish, you should call submit manually.
 
 `void`
 
-#### finally()?
+#### finally?
 
-> `optional` **finally**: () => `void`
+> `optional` **finally?**: () => `void`
 
 ##### Returns
 
@@ -68,13 +69,13 @@ If use onFinish, you should call submit manually.
 
 #### params?
 
-> `optional` **params**: `Record`\<`string`, `any`\>
+> `optional` **params?**: `Record`\<`string`, `any`\>
 
 params will overwrite form values before submit
 
-#### then()?
+#### then?
 
-> `optional` **then**: (`result`) => `void`
+> `optional` **then?**: (`result`) => `void`
 
 ##### Parameters
 

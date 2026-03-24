@@ -1,21 +1,22 @@
 import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
+
 import { Title } from '../../Title'
 
 describe('Title', () => {
   it('should change title', () => {
-    render(<Title title='title' />)
+    render(<Title title="title" />)
 
     expect(document.title).toEqual('title')
 
-    render(<Title title={['a', 'b']} separator='|' suffix='suffix' />)
+    render(<Title title={['a', 'b']} separator="|" suffix="suffix" />)
 
     expect(document.title).toEqual('a|b|suffix')
   })
 
   describe('should return h1', () => {
     it('when title is a text', () => {
-      const { container } = render(<Title title='title' h1 />)
+      const { container } = render(<Title title="title" h1 />)
 
       expect(document.title).toEqual('title')
       expect(container.innerHTML).toEqual('<h1>title</h1>')
@@ -30,7 +31,7 @@ describe('Title', () => {
 
     it('when h1 is an object and title is a text', () => {
       const { container } = render(
-        <Title title='title' h1={{ className: 'custom-title', style: { color: 'red' } }} />,
+        <Title title="title" h1={{ className: 'custom-title', style: { color: 'red' } }} />,
       )
 
       expect(document.title).toEqual('title')
@@ -39,7 +40,9 @@ describe('Title', () => {
     })
 
     it('when h1 is an object and title is an array', () => {
-      const { container } = render(<Title title={['first', 'second']} h1={{ className: 'custom' }} />)
+      const { container } = render(
+        <Title title={['first', 'second']} h1={{ className: 'custom' }} />,
+      )
 
       expect(document.title).toEqual('first - second')
       expect(container.innerHTML).toEqual('<h1 class="custom">first</h1>')
@@ -48,7 +51,7 @@ describe('Title', () => {
 
   describe('should return plain', () => {
     it('when title is a text', () => {
-      const { container } = render(<Title title='title' plain />)
+      const { container } = render(<Title title="title" plain />)
 
       expect(document.title).toEqual('title')
       expect(container.innerHTML).toEqual('title')
@@ -65,7 +68,7 @@ describe('Title', () => {
   describe('it should return children', () => {
     it('static children', () => {
       const { container } = render(
-        <Title title='title'>
+        <Title title="title">
           <h2>h2</h2>
         </Title>,
       )
@@ -80,8 +83,8 @@ describe('Title', () => {
       }
 
       const { container } = render(
-        <Title title='title'>
-          <CustomTitle className='class' />
+        <Title title="title">
+          <CustomTitle className="class" />
         </Title>,
       )
 

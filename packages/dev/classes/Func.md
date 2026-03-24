@@ -18,7 +18,7 @@
 
 ## Indexable
 
-\[`key`: `string`\]: `any`
+> \[`key`: `string`\]: `any`
 
 ## Constructors
 
@@ -108,11 +108,11 @@ First time mount the function.
 
 ### filename?
 
-> `optional` **filename**: `string`
+> `optional` **filename?**: `string`
 
 ### handler?
 
-> `optional` **handler**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+> `optional` **handler?**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ### mounted
 

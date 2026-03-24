@@ -10,100 +10,100 @@
 
 ### faasClientOptions?
 
-> `optional` **faasClientOptions**: [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md)
+> `optional` **faasClientOptions?**: [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md)
 
 ### theme?
 
-> `optional` **theme**: `object`
+> `optional` **theme?**: `object`
 
 #### Blank?
 
-> `optional` **Blank**: `object`
+> `optional` **Blank?**: `object`
 
 ##### Blank.text?
 
-> `optional` **text**: `string`
+> `optional` **text?**: `string`
 
 #### common?
 
-> `optional` **common**: `object`
+> `optional` **common?**: `object`
 
 ##### common.add?
 
-> `optional` **add**: `string`
+> `optional` **add?**: `string`
 
 ##### common.all?
 
-> `optional` **all**: `string`
+> `optional` **all?**: `string`
 
 ##### common.blank?
 
-> `optional` **blank**: `string`
+> `optional` **blank?**: `string`
 
 ##### common.delete?
 
-> `optional` **delete**: `string`
+> `optional` **delete?**: `string`
 
 ##### common.pageNotFound?
 
-> `optional` **pageNotFound**: `string`
+> `optional` **pageNotFound?**: `string`
 
 ##### common.required?
 
-> `optional` **required**: `string`
+> `optional` **required?**: `string`
 
 ##### common.reset?
 
-> `optional` **reset**: `string`
+> `optional` **reset?**: `string`
 
 ##### common.search?
 
-> `optional` **search**: `string`
+> `optional` **search?**: `string`
 
 ##### common.submit?
 
-> `optional` **submit**: `string`
+> `optional` **submit?**: `string`
 
 #### Form?
 
-> `optional` **Form**: `object`
+> `optional` **Form?**: `object`
 
 ##### Form.submit?
 
-> `optional` **submit**: `object`
+> `optional` **submit?**: `object`
 
 ##### Form.submit.text?
 
-> `optional` **text**: `string`
+> `optional` **text?**: `string`
 
 #### lang?
 
-> `optional` **lang**: `string`
+> `optional` **lang?**: `string`
 
 #### Link?
 
-> `optional` **Link**: `object`
+> `optional` **Link?**: `object`
 
 ##### Link.style?
 
-> `optional` **style**: `CSSProperties`
+> `optional` **style?**: `CSSProperties`
 
 ##### Link.target?
 
-> `optional` **target**: `string`
+> `optional` **target?**: `string`
 
-'_blank' as default
+'\_blank' as default
 
 #### Title?
 
-> `optional` **Title**: `object`
+> `optional` **Title?**: `object`
 
 ##### Title.separator?
 
-> `optional` **separator**: `string`
+> `optional` **separator?**: `string`
 
 ' - ' as default
 
 ##### Title.suffix?
 
-> `optional` **suffix**: `string`
+> `optional` **suffix?**: `string`

@@ -8,7 +8,7 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: [`BaseUrl`](BaseUrl.md)
+> `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
 #### Default
 
@@ -16,7 +16,7 @@
 
 ### onError?
 
-> `optional` **onError**: [`OnError`](OnError.md)
+> `optional` **onError?**: [`OnError`](OnError.md)
 
 #### Example
 
@@ -28,4 +28,4 @@ onError: (action, params) => async (res) => {
 
 ### options?
 
-> `optional` **options**: [`Options`](Options.md)
+> `optional` **options?**: [`Options`](Options.md)

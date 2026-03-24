@@ -8,7 +8,7 @@
 
 ### TWrapper
 
-`TWrapper` *extends* `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
+`TWrapper` _extends_ `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
 
 ## Properties
 
@@ -26,4 +26,4 @@
 
 ### wrapperProps?
 
-> `optional` **wrapperProps**: `ComponentProps`\<`TWrapper`\>
+> `optional` **wrapperProps?**: `ComponentProps`\<`TWrapper`\>

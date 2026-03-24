@@ -25,8 +25,6 @@
  *   "extends": "@faasjs/types/tsconfig/build"
  * }
  * ```
- *
- * @packageDocumentation
  */
 type FaasFuncLike = {
   export: () => {
@@ -75,8 +73,6 @@ export type FaasActionPaths = Exclude<
  * Union type accepted by action helpers.
  */
 export type FaasActionUnionType =
-  // Action paths defined in FaasActions
-  | FaasActionPaths
   // Returning data type
   | Record<string, any>
   // action path as string

@@ -1,6 +1,6 @@
 [@faasjs/node-utils](../README.md) / streamToString
 
-# Variable: streamToString()
+# Variable: streamToString
 
 > `const` **streamToString**: (`stream`) => `Promise`\<`string`\> = `streamToText`
 

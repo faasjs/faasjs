@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
+
 import { FormContextProvider } from '../context'
 import { FormDefaultElements } from '../elements'
 import { FormItem } from '../Item'
@@ -38,7 +39,7 @@ const renderWithContext = (
 
 describe('FormItem', () => {
   it('should render label and input with correct props', () => {
-    renderWithContext(<FormItem name='testName' />)
+    renderWithContext(<FormItem name="testName" />)
 
     const label = screen.getByText((c) => c.includes('testName')).closest('label')
     expect(label).not.toBeNull()
@@ -50,7 +51,7 @@ describe('FormItem', () => {
   it('should call setValues on input change', () => {
     const mockSetValues = vi.fn()
 
-    renderWithContext(<FormItem name='testName' />, {
+    renderWithContext(<FormItem name="testName" />, {
       setValues: mockSetValues,
     })
 

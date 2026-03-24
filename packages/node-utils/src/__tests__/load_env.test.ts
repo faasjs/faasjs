@@ -1,7 +1,9 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+
 import { afterEach, describe, expect, it, vi } from 'vitest'
+
 import { loadEnvFileIfExists } from '../load_env'
 
 describe('loadEnvFileIfExists', () => {
@@ -71,6 +73,6 @@ describe('loadEnvFileIfExists', () => {
 
     mkdirSync(join(root, '.env'))
 
-    expect(() => loadEnvFileIfExists({ cwd: root })).toThrow()
+    expect(() => loadEnvFileIfExists({ cwd: root })).toThrow(/EISDIR|directory|valid string/i)
   })
 })

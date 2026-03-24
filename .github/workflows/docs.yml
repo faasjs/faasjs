@@ -16,12 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: jdx/mise-action@v3
+      - uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: '24'
+          cache: true
+      - run: vp install
       - name: Build
         run: |
           cd docs
-          mise exec -- npm install
-          mise exec -- npm run build
+          vp install
+          vp run build
           cp ../README.md ./dist/README.md
           mkdir -p ./dist/.github
           cp ../.github/FUNDING.yml ./dist/.github/FUNDING.yml

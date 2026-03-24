@@ -24,8 +24,7 @@ Tabs component with Ant Design & FaasJS
 
 ```tsx
 import { Tabs } from '@faasjs/ant-design'
-
-<Tabs
+;<Tabs
   items={[
     {
       id: 'id',

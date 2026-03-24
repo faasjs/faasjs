@@ -8,11 +8,11 @@
 
 ### body?
 
-> `optional` **body**: `string` \| `ReadableStream`
+> `optional` **body?**: `string` \| `ReadableStream`
 
 ### headers?
 
-> `optional` **headers**: `object`
+> `optional` **headers?**: `object`
 
 #### Index Signature
 
@@ -20,8 +20,8 @@
 
 ### message?
 
-> `optional` **message**: `string`
+> `optional` **message?**: `string`
 
 ### statusCode?
 
-> `optional` **statusCode**: `number`
+> `optional` **statusCode?**: `number`

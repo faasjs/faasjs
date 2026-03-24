@@ -332,7 +332,7 @@ function parseReferenceToken(
   if (!name.length)
     throw createParseError(line, marker === '&' ? 'Missing anchor name' : 'Missing alias name')
 
-  if (!/^[^\s\[\]\{\},]+$/.test(name))
+  if (!/^[^\s[\]{},]+$/.test(name))
     throw createParseError(line, marker === '&' ? 'Invalid anchor name' : 'Invalid alias name')
 
   return {

@@ -8,7 +8,7 @@
 
 ### cache?
 
-> `optional` **cache**: `boolean` \| `string`
+> `optional` **cache?**: `boolean` \| `string`
 
 Cache static files.
 If set to `true`, the middleware will cache static files.
@@ -23,7 +23,7 @@ true
 
 ### notFound?
 
-> `optional` **notFound**: [`Middleware`](Middleware.md) \| `boolean` \| `string`
+> `optional` **notFound?**: [`Middleware`](Middleware.md) \| `boolean` \| `string`
 
 Not found handler.
 
@@ -44,7 +44,7 @@ false
 
 ### stripPrefix?
 
-> `optional` **stripPrefix**: `string` \| `RegExp`
+> `optional` **stripPrefix?**: `string` \| `RegExp`
 
 Strip prefix from the URL.
 
@@ -53,5 +53,7 @@ Strip prefix from the URL.
 ```typescript
 import { useMiddleware, staticHandler } from '@faasjs/core'
 
-export const func = useMiddleware(staticHandler({ root: __dirname + '/public', stripPrefix: '/public' })) // /public/index.html -> /index.html
+export const func = useMiddleware(
+  staticHandler({ root: __dirname + '/public', stripPrefix: '/public' }),
+) // /public/index.html -> /index.html
 ```

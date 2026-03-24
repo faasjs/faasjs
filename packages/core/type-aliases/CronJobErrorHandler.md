@@ -1,6 +1,6 @@
 [@faasjs/core](../README.md) / CronJobErrorHandler
 
-# Type Alias: CronJobErrorHandler()
+# Type Alias: CronJobErrorHandler
 
 > **CronJobErrorHandler** = (`error`, `context`) => `void` \| `Promise`\<`void`\>
 

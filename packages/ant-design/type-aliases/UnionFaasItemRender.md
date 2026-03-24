@@ -1,6 +1,6 @@
 [@faasjs/ant-design](../README.md) / UnionFaasItemRender
 
-# Type Alias: UnionFaasItemRender()\<Value, Values\>
+# Type Alias: UnionFaasItemRender\<Value, Values\>
 
 > **UnionFaasItemRender**\<`Value`, `Values`\> = (`value`, `values`, `index`, `scene`) => `React.ReactNode`
 
@@ -67,14 +67,16 @@ const items = [
   {
     id: 'name',
     render: nameReader,
-  }
+  },
 ]
 
 function App() {
-  return <>
-    <Form items={items} /> // Will render an input
-    <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
-    <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
-  </>
+  return (
+    <>
+      <Form items={items} /> // Will render an input
+      <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
+      <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
+    </>
+  )
 }
 ```

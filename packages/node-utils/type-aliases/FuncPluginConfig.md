@@ -6,13 +6,13 @@
 
 ## Indexable
 
-\[`key`: `string`\]: `any`
+> \[`key`: `string`\]: `any`
 
 ## Properties
 
 ### config?
 
-> `optional` **config**: `object`
+> `optional` **config?**: `object`
 
 #### Index Signature
 
@@ -20,8 +20,8 @@
 
 ### name?
 
-> `optional` **name**: `string`
+> `optional` **name?**: `string`
 
 ### type?
 
-> `optional` **type**: `string`
+> `optional` **type?**: `string`

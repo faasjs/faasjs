@@ -2,7 +2,9 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
+
 import { loadEnvFileIfExists } from '@faasjs/node-utils'
+
 import { createMain, parseCommonCliArgs, printVersion } from './shared'
 
 type PackageJSON = {
@@ -20,10 +22,7 @@ Options:
   -v, --version      Show version
 `
 
-function resolvePackageJsonPath(
-  projectRoot: string,
-  packageName: string
-): string {
+function resolvePackageJsonPath(projectRoot: string, packageName: string): string {
   const requireFromProject = createRequire(resolve(projectRoot, 'package.json'))
   let packageEntryPath = ''
 
@@ -31,7 +30,7 @@ function resolvePackageJsonPath(
     packageEntryPath = requireFromProject.resolve(packageName)
   } catch {
     throw Error(
-      `[faas lint] Missing dependency: ${packageName}. Please install ${packageName} in your project.`
+      `[faas lint] Missing dependency: ${packageName}. Please install ${packageName} in your project.`,
     )
   }
 
@@ -54,49 +53,28 @@ function resolvePackageJsonPath(
   }
 
   if (!packageJsonPath)
-    throw Error(
-      `[faas lint] Invalid dependency: Cannot find package.json for ${packageName}.`
-    )
+    throw Error(`[faas lint] Invalid dependency: Cannot find package.json for ${packageName}.`)
 
   return packageJsonPath
 }
 
-function resolveBinPath(
-  projectRoot: string,
-  packageName: string,
-  binName: string
-): string {
+function resolveBinPath(projectRoot: string, packageName: string, binName: string): string {
   const packageJsonPath = resolvePackageJsonPath(projectRoot, packageName)
 
-  const packageJSON = JSON.parse(
-    readFileSync(packageJsonPath, 'utf8')
-  ) as PackageJSON
-  const bin =
-    typeof packageJSON.bin === 'string'
-      ? packageJSON.bin
-      : packageJSON.bin?.[binName]
+  const packageJSON = JSON.parse(readFileSync(packageJsonPath, 'utf8')) as PackageJSON
+  const bin = typeof packageJSON.bin === 'string' ? packageJSON.bin : packageJSON.bin?.[binName]
 
   if (!bin)
-    throw Error(
-      `[faas lint] Invalid dependency: ${packageName} does not expose "${binName}" bin.`
-    )
+    throw Error(`[faas lint] Invalid dependency: ${packageName} does not expose "${binName}" bin.`)
 
   return resolve(dirname(packageJsonPath), bin)
 }
 
-function resolveSharedConfigPath(
-  projectRoot: string,
-  configFileName: string
-): string {
+function resolveSharedConfigPath(projectRoot: string, configFileName: string): string {
   const devPackageJsonPath = resolvePackageJsonPath(projectRoot, '@faasjs/dev')
-  const configPath = resolve(
-    dirname(devPackageJsonPath),
-    'configs',
-    configFileName
-  )
+  const configPath = resolve(dirname(devPackageJsonPath), 'configs', configFileName)
 
-  if (!existsSync(configPath))
-    throw Error(`[faas lint] Missing shared config: ${configPath}`)
+  if (!existsSync(configPath)) throw Error(`[faas lint] Missing shared config: ${configPath}`)
 
   return configPath
 }
@@ -104,18 +82,12 @@ function resolveSharedConfigPath(
 function resolveTsconfigPath(projectRoot: string): string {
   const tsconfigPath = join(projectRoot, 'tsconfig.json')
 
-  if (!existsSync(tsconfigPath))
-    throw Error(`[faas lint] Missing tsconfig.json: ${tsconfigPath}`)
+  if (!existsSync(tsconfigPath)) throw Error(`[faas lint] Missing tsconfig.json: ${tsconfigPath}`)
 
   return tsconfigPath
 }
 
-function runNodeBin(
-  projectRoot: string,
-  command: string,
-  binPath: string,
-  args: string[]
-): void {
+function runNodeBin(projectRoot: string, command: string, binPath: string, args: string[]): void {
   try {
     execFileSync(process.execPath, [binPath, ...args], {
       cwd: projectRoot,
@@ -144,26 +116,18 @@ export async function run(args: string[]): Promise<number> {
     cwd: projectRoot,
   })
 
+  const oxfmtBinPath = resolveBinPath(projectRoot, 'oxfmt', 'oxfmt')
+  const oxfmtConfigPath = resolveSharedConfigPath(projectRoot, 'oxfmt.base.json')
   const oxlintBinPath = resolveBinPath(projectRoot, 'oxlint', 'oxlint')
-  const oxlintConfigPath = resolveSharedConfigPath(
-    projectRoot,
-    'oxlint.base.json'
-  )
+  const oxlintConfigPath = resolveSharedConfigPath(projectRoot, 'oxlint.base.json')
   const tscBinPath = resolveBinPath(projectRoot, 'typescript', 'tsc')
   const tsconfigPath = resolveTsconfigPath(projectRoot)
 
-  runNodeBin(projectRoot, 'oxlint', oxlintBinPath, [
-    '-c',
-    oxlintConfigPath,
-    '--fix',
-    '.',
-  ])
+  runNodeBin(projectRoot, 'oxfmt', oxfmtBinPath, ['-c', oxfmtConfigPath, '.'])
 
-  runNodeBin(projectRoot, 'tsc', tscBinPath, [
-    '--noEmit',
-    '--project',
-    tsconfigPath,
-  ])
+  runNodeBin(projectRoot, 'oxlint', oxlintBinPath, ['-c', oxlintConfigPath, '--fix', '.'])
+
+  runNodeBin(projectRoot, 'tsc', tscBinPath, ['--noEmit', '--project', tsconfigPath])
 
   console.log('[faas lint] Done')
 

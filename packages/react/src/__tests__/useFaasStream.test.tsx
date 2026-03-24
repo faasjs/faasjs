@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+
 import { type Response, setMock } from '..'
 import { useFaasStream } from '../useFaasStream'
 
@@ -19,7 +20,6 @@ function createAsyncMockStream(chunks: string[]): ReadableStream {
 describe('useFaasStream', () => {
   afterEach(() => {
     vi.useRealTimers()
-    setMock(null)
   })
 
   it('should work with initial state', async () => {
@@ -137,7 +137,7 @@ describe('useFaasStream', () => {
       return (
         <div>
           <div>{data}</div>
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => reload()}>
             Reload
           </button>
         </div>
@@ -168,7 +168,7 @@ describe('useFaasStream', () => {
       return (
         <div>
           <div>{data}</div>
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => reload()}>
             Reload
           </button>
         </div>
@@ -199,7 +199,7 @@ describe('useFaasStream', () => {
       return (
         <div>
           <div>data-value:{data}</div>
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => reload()}>
             Reload
           </button>
         </div>
@@ -237,7 +237,7 @@ describe('useFaasStream', () => {
       return (
         <div>
           <div>{data}</div>
-          <button type='button' onClick={() => setCount((p) => p + 1)}>
+          <button type="button" onClick={() => setCount((p) => p + 1)}>
             Add
           </button>
         </div>
@@ -284,7 +284,7 @@ describe('useFaasStream', () => {
       return (
         <div>
           <div>data-value:{data}</div>
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => reload()}>
             Reload
           </button>
         </div>
@@ -318,7 +318,7 @@ describe('useFaasStream', () => {
       return (
         <div>
           <div>data-value:{data}</div>
-          <button type='button' onClick={() => setHasValue(true)}>
+          <button type="button" onClick={() => setHasValue(true)}>
             Set Value
           </button>
         </div>
@@ -367,7 +367,7 @@ describe('useFaasStream', () => {
 
       return (
         <>
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => reload()}>
             Reload
           </button>
           <div>data-value:{data}</div>
@@ -452,7 +452,7 @@ describe('useFaasStream', () => {
       }
 
       return (
-        <button type='button' onClick={handleClick}>
+        <button type="button" onClick={handleClick}>
           Reload
         </button>
       )
@@ -492,7 +492,7 @@ describe('useFaasStream', () => {
       }
 
       return (
-        <button type='button' onClick={handleClick}>
+        <button type="button" onClick={handleClick}>
           Reload
         </button>
       )
@@ -519,7 +519,7 @@ describe('useFaasStream', () => {
             <span>loading:</span>
             <span>{String(loading)}</span>
           </div>
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => reload()}>
             Reload
           </button>
         </div>

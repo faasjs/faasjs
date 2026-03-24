@@ -24,9 +24,9 @@ The package name to load.
 
 ### defaultNames?
 
-Preferred export keys used to resolve default values.
+`string` \| `string`[]
 
-`string` | `string`[]
+Preferred export keys used to resolve default values.
 
 ### options?
 

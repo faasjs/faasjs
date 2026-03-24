@@ -1,7 +1,8 @@
 import { streamToString } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
-import { Func, useFunc } from '../../..'
+
 import { Http, HttpError, useHttp } from '..'
+import { Func, useFunc } from '../../..'
 
 describe('http', () => {
   it('should work', async () => {

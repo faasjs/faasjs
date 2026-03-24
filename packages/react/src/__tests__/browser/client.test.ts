@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import {
   FaasBrowserClient,
   Response as FaasResponse,
@@ -15,9 +16,16 @@ let request: {
   method: '',
 }
 
+function formatRequestUrl(url: RequestInfo | URL): string {
+  if (typeof url === 'string') return url
+  if (url instanceof URL) return url.toString()
+
+  return url.url
+}
+
 const defaultMock = async (url: RequestInfo | URL, options: RequestInit) => {
   request = {
-    url: String(url),
+    url: formatRequestUrl(url),
     method: options.method ?? '',
     ...(options.headers ? { headers: options.headers } : {}),
   }
@@ -82,7 +90,8 @@ describe('client', () => {
     const client = new FaasBrowserClient('/', {
       request: (_, options) => {
         return new Promise((resolve, reject) => {
-          JSON.parse(options.body as any).success ? resolve(resData) : reject('error')
+          if (JSON.parse(options.body as any).success) resolve(resData)
+          else reject('error')
         })
       },
     })
@@ -96,7 +105,7 @@ describe('client', () => {
   it('when error', async () => {
     window.fetch = vi.fn(async (url: RequestInfo | URL, options: RequestInit) => {
       request = {
-        url: String(url),
+        url: formatRequestUrl(url),
         method: options.method ?? '',
         ...(options.headers ? { headers: options.headers } : {}),
       }

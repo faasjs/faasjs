@@ -2,7 +2,7 @@
 
 # Type Alias: FaasParams\<T\>
 
-> **FaasParams**\<`T`\> = `T` *extends* `FaasActionPaths` ? `FaasActions`\[`T`\]\[`"Params"`\] : `Record`\<`string`, `any`\>
+> **FaasParams**\<`T`\> = `T` _extends_ `FaasActionPaths` ? `FaasActions`\[`T`\]\[`"Params"`\] : `Record`\<`string`, `any`\>
 
 Infer params type by action path.
 

@@ -6,13 +6,13 @@
 
 ## Indexable
 
-\[`key`: `string`\]: `any`
+> \[`key`: `string`\]: `any`
 
 ## Properties
 
 ### config?
 
-> `optional` **config**: `object`
+> `optional` **config?**: `object`
 
 #### Index Signature
 
@@ -20,32 +20,32 @@
 
 #### cookie?
 
-> `optional` **cookie**: [`CookieOptions`](CookieOptions.md)
+> `optional` **cookie?**: [`CookieOptions`](CookieOptions.md)
 
 #### functionName?
 
-> `optional` **functionName**: `string`
+> `optional` **functionName?**: `string`
 
 #### ignorePathPrefix?
 
-> `optional` **ignorePathPrefix**: `string`
+> `optional` **ignorePathPrefix?**: `string`
 
 #### method?
 
-> `optional` **method**: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
+> `optional` **method?**: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
 
 POST as default
 
 #### path?
 
-> `optional` **path**: `string`
+> `optional` **path?**: `string`
 
 file relative path as default
 
 #### timeout?
 
-> `optional` **timeout**: `number`
+> `optional` **timeout?**: `number`
 
 ### name?
 
-> `optional` **name**: `string`
+> `optional` **name?**: `string`

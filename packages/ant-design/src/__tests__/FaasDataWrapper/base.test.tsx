@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { FaasDataWrapper, withFaasData } from '../../FaasDataWrapper'
 
 describe('FaasDataWrapper', () => {
@@ -23,7 +24,7 @@ describe('FaasDataWrapper', () => {
   it('using FaasDataWrapper', async () => {
     render(
       <FaasDataWrapper<{ test: string }>
-        action='test'
+        action="test"
         render={({ data }) => <div>{data.test}</div>}
       />,
     )

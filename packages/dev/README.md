@@ -1,49 +1,5 @@
 # @faasjs/dev
 
-FaasJS development toolkit for local development and testing.
-
-[![License: MIT](https://img.shields.io/npm/l/@faasjs/dev.svg)](https://github.com/faasjs/faasjs/blob/main/packages/dev/LICENSE)
-[![NPM Version](https://img.shields.io/npm/v/@faasjs/dev.svg)](https://www.npmjs.com/package/@faasjs/dev)
-
-## Install
-
-```sh
-npm install @faasjs/dev
-```
-
-## Features
-
-- Vite integration for in-process FaasJS API during local development.
-- Test helpers to invoke and assert FaasJS functions.
-
-## Usage: Vite integration
-
-```ts
-import { viteFaasJsServer } from '@faasjs/dev'
-
-export default defineConfig({
-  plugins: [viteFaasJsServer()],
-})
-```
-
-## Usage: Test helpers
-
-```ts
-import { test } from '@faasjs/dev'
-import Func from '../demo.func.ts'
-
-const func = test(Func)
-const response = await func.JSONhandler({ name: 'FaasJS' })
-
-expect(response.statusCode).toBe(200)
-expect(response.data).toEqual({ message: 'Hello, FaasJS' })
-```
-
-## API
-
-- Vite: [viteFaasJsServer](functions/viteFaasJsServer.md)
-- Test: [test](functions/test.md), [FuncWarper](classes/FuncWarper.md), [streamToText](functions/streamToText.md), [streamToObject](functions/streamToObject.md), [streamToString](variables/streamToString.md)
-
 ## Functions
 
 - [closeAll](functions/closeAll.md)
@@ -79,10 +35,6 @@ expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 - [HttpError](classes/HttpError.md)
 - [Server](classes/Server.md)
 - [Session](classes/Session.md)
-
-## Interfaces
-
-- [FaasPluginEventMap](interfaces/FaasPluginEventMap.md)
 
 ## Type Aliases
 

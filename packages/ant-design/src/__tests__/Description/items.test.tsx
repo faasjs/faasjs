@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import dayjs from 'dayjs'
 import { describe, expect, it } from 'vitest'
+
 import { Description } from '../../Description'
 
 describe('Description/items', () => {

@@ -16,13 +16,13 @@ The child elements, typically an input element.
 
 ### description?
 
-> `optional` **description**: `ReactNode`
+> `optional` **description?**: `ReactNode`
 
 Optional description for the form element.
 
 ### error?
 
-> `optional` **error**: `Error`
+> `optional` **error?**: `Error`
 
 Optional error associated with the form element.
 
@@ -34,6 +34,6 @@ The name of the form element.
 
 ### title?
 
-> `optional` **title**: `ReactNode`
+> `optional` **title?**: `ReactNode`
 
 Optional title for the form element.

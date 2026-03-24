@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { FuncWarper, streamToObject } from '../../src/index'
 import { func as ErrorStreamFunc } from './funcs/error-stream.func'
 import { func as HttpError } from './funcs/http-error.func'

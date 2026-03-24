@@ -2,7 +2,7 @@
 
 # Type Alias: FaasAction\<T\>
 
-> **FaasAction**\<`T`\> = `T` *extends* [`FaasActionPaths`](FaasActionPaths.md) ? `T` : `string`
+> **FaasAction**\<`T`\> = `T` _extends_ [`FaasActionPaths`](FaasActionPaths.md) ? `T` : `string`
 
 Infer the action path type.
 

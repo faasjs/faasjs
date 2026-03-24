@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { assertType, describe, expect, it } from 'vitest'
+
 import { createSplittingContext } from '../splittingContext'
 
 describe('createSplittingContext', () => {
@@ -102,7 +103,7 @@ describe('createSplittingContext', () => {
 
       return (
         <>
-          <button type='button' onClick={() => setValue((p: number) => p + 1)}>
+          <button type="button" onClick={() => setValue((p: number) => p + 1)}>
             Change
           </button>
           <div>writer:{optional}</div>
@@ -194,10 +195,10 @@ describe('createSplittingContext', () => {
 
       return (
         <>
-          <button type='button' onClick={() => setCount((c) => c + 1)}>
+          <button type="button" onClick={() => setCount((c) => c + 1)}>
             Increment
           </button>
-          <button type='button' onClick={() => setName('Alice')}>
+          <button type="button" onClick={() => setName('Alice')}>
             Change Name
           </button>
         </>

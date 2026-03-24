@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Input } from 'antd'
 import { describe, expect, it } from 'vitest'
+
 import { Form } from '../../Form'
 
 describe('Form/items', () => {
@@ -20,7 +21,7 @@ describe('Form/items', () => {
         items={[{ id: 'test' }]}
         onFinish={(values) => (value = values as any)}
       >
-        <Form.Item id='children'>
+        <Form.Item id="children">
           <Input />
         </Form.Item>
         <Form.List name={['list']}>

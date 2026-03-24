@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRef, useState } from 'react'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { setMock } from '..'
 import { type FaasDataInjection, FaasDataWrapper, type FaasDataWrapperRef, withFaasData } from '..'
 
@@ -24,10 +25,6 @@ describe('FaasDataWrapper', () => {
     })
   })
 
-  afterEach(() => {
-    setMock(null)
-  })
-
   it('should work', async () => {
     let renderTimes = 0
 
@@ -36,7 +33,7 @@ describe('FaasDataWrapper', () => {
       return (
         <div>
           {props.data}
-          <button type='button' onClick={() => props.reload?.()}>
+          <button type="button" onClick={() => props.reload?.()}>
             Reload
           </button>
         </div>
@@ -44,7 +41,7 @@ describe('FaasDataWrapper', () => {
     }
 
     render(
-      <FaasDataWrapper action='t'>
+      <FaasDataWrapper action="t">
         <Test />
       </FaasDataWrapper>,
     )
@@ -66,10 +63,10 @@ describe('FaasDataWrapper', () => {
 
       return (
         <>
-          <button type='button' onClick={() => setParams({ v: 10 })}>
+          <button type="button" onClick={() => setParams({ v: 10 })}>
             Reload
           </button>
-          <FaasDataWrapper action='t' params={params}>
+          <FaasDataWrapper action="t" params={params}>
             <Test />
           </FaasDataWrapper>
         </>
@@ -102,8 +99,8 @@ describe('FaasDataWrapper', () => {
         renderTimes++
         return (
           <div>
-            {props.data.toString()}
-            <button type='button' onClick={() => props.reload()}>
+            {JSON.stringify(props.data)}
+            <button type="button" onClick={() => props.reload()}>
               Reload
             </button>
           </div>
@@ -143,10 +140,10 @@ describe('FaasDataWrapper', () => {
 
       return (
         <>
-          <button type='button' onClick={() => ref.current?.reload()}>
+          <button type="button" onClick={() => ref.current?.reload()}>
             Reload
           </button>
-          <FaasDataWrapper action='test' ref={ref}>
+          <FaasDataWrapper action="test" ref={ref}>
             <Test />
           </FaasDataWrapper>
         </>

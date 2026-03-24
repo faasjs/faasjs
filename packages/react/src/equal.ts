@@ -78,6 +78,16 @@ export function equal(a: any, b: any): boolean {
  */
 export function useEqualMemoize(value: any) {
   const ref = useRef<any>(value)
+
+  if (!equal(value, ref.current)) {
+    ref.current = value
+  }
+
+  return ref.current
+}
+
+function useEqualSignal(value: any[]) {
+  const ref = useRef<any[]>(value)
   const signalRef = useRef(0)
 
   if (!equal(value, ref.current)) {
@@ -85,7 +95,7 @@ export function useEqualMemoize(value: any) {
     signalRef.current += 1
   }
 
-  return useMemo(() => ref.current, [signalRef.current])
+  return signalRef.current
 }
 
 /**
@@ -96,7 +106,10 @@ export function useEqualMemoize(value: any) {
  * @returns The result of the `useEffect` hook with memoized dependencies.
  */
 export function useEqualEffect(callback: React.EffectCallback, dependencies: any[]) {
-  return useEffect(callback, useEqualMemoize(dependencies))
+  const signal = useEqualSignal(dependencies)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- deep-compare hook owns dependency tracking
+  return useEffect(callback, [signal])
 }
 
 /**
@@ -107,7 +120,15 @@ export function useEqualEffect(callback: React.EffectCallback, dependencies: any
  * @returns The result of the `useMemo` hook with memoized dependencies.
  */
 export function useEqualMemo<T>(callback: () => T, dependencies: any[]): T {
-  return useMemo(callback, useEqualMemoize(dependencies))
+  const signal = useEqualSignal(dependencies)
+  const callbackRef = useRef(callback)
+
+  callbackRef.current = callback
+
+  return useMemo(() => {
+    void signal
+    return callbackRef.current()
+  }, [signal])
 }
 
 /**
@@ -121,5 +142,8 @@ export function useEqualCallback<T extends (...args: any[]) => any>(
   callback: T,
   dependencies: any[],
 ): T {
-  return useCallback<any>((...args: any) => callback(...args), useEqualMemoize(dependencies))
+  const signal = useEqualSignal(dependencies)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- deep-compare hook owns dependency tracking
+  return useCallback<any>((...args: any) => callback(...args), [signal])
 }

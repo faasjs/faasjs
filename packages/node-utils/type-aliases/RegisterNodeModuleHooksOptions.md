@@ -8,7 +8,7 @@
 
 ### entry?
 
-> `optional` **entry**: `string`
+> `optional` **entry?**: `string`
 
 Optional entry file used to infer project root and tsconfig.
 

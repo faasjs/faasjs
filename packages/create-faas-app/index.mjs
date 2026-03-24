@@ -2,4 +2,4 @@
 
 import { main } from './dist/index.mjs'
 
-main(process.argv)
+await main(process.argv)

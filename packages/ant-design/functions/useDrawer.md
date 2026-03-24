@@ -10,12 +10,12 @@ Hook style drawer
 function Example() {
   const { drawer, setDrawerProps } = useDrawer()
 
-  return <>
-    <Button onClick={ () => setDrawerProps(prev => ({ open: !prev.open})) }>
-      Toggle
-    </Button>
-    {drawer}
-  </>
+  return (
+    <>
+      <Button onClick={() => setDrawerProps((prev) => ({ open: !prev.open }))}>Toggle</Button>
+      {drawer}
+    </>
+  )
 }
 ```
 

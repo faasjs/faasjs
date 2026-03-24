@@ -14,7 +14,7 @@ Props for the Form Input Element component.
 
 The name of the input element.
 
-### onChange()
+### onChange
 
 > **onChange**: (`value`) => `void`
 

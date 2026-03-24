@@ -9,10 +9,12 @@ import {
 } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import matter from 'gray-matter'
 import hljs from 'highlight.js'
 import MarkdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
+
 import {
   type LocaleConfig,
   type NavbarItem,

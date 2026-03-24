@@ -10,7 +10,7 @@ Request faas server
 
 ### PathOrData
 
-`PathOrData` *extends* `FaasActionUnionType`
+`PathOrData` _extends_ `FaasActionUnionType`
 
 ## Parameters
 
@@ -37,7 +37,7 @@ Request faas server
 ## Example
 
 ```ts
-faas<{ title: string }>('post/get', { id: 1 }).then(res => {
+faas<{ title: string }>('post/get', { id: 1 }).then((res) => {
   console.log(res.data.title)
 })
 ```

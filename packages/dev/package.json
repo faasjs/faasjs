@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/dev",
-  "version": "8.0.0-beta.13",
+  "version": "8.0.0-beta.14",
   "homepage": "https://faasjs.com/doc/dev",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -31,26 +31,31 @@
       "require": "./dist/index.cjs"
     }
   },
-  "scripts": {
-    "build": "tsdown --entry src/index.ts --entry src/cli/index.ts --config ../../tsdown.config.ts"
-  },
   "devDependencies": {
-    "@faasjs/core": ">=8.0.0-beta.13",
-    "@faasjs/node-utils": ">=8.0.0-beta.13",
+    "@faasjs/core": ">=8.0.0-beta.14",
+    "@faasjs/node-utils": ">=8.0.0-beta.14",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
     "@types/node": "*",
-    "oxlint": "*",
+    "@vitejs/plugin-react": "*",
+    "@vitest/coverage-v8": "*",
+    "jsdom": "*",
     "typescript": "*",
-    "vite": "*",
-    "vitest": "*"
+    "vite-plus": "*"
   },
   "peerDependencies": {
-    "@faasjs/core": ">=8.0.0-beta.13",
-    "@faasjs/node-utils": ">=8.0.0-beta.13",
+    "@faasjs/core": ">=8.0.0-beta.14",
+    "@faasjs/node-utils": ">=8.0.0-beta.14",
+    "@testing-library/jest-dom": "*",
+    "@testing-library/react": "*",
+    "@testing-library/user-event": "*",
     "@types/node": "*",
-    "oxlint": "*",
+    "@vitejs/plugin-react": "*",
+    "@vitest/coverage-v8": "*",
+    "jsdom": "*",
     "typescript": "*",
-    "vite": "*",
-    "vitest": "*"
+    "vite-plus": "*"
   },
   "engines": {
     "node": ">=24.0.0",

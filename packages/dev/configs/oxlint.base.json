@@ -1,5 +1,13 @@
 {
+  "plugins": ["typescript", "react"],
   "rules": {
-    "typescript/no-explicit-any": "warn"
+    "typescript/no-explicit-any": "warn",
+    "typescript/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports",
+        "fixStyle": "separate-type-imports"
+      }
+    ]
   }
 }

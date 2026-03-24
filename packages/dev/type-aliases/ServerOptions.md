@@ -10,7 +10,7 @@ Configuration options for the server.
 
 ### beforeHandle?
 
-> `optional` **beforeHandle**: [`Middleware`](Middleware.md)
+> `optional` **beforeHandle?**: [`Middleware`](Middleware.md)
 
 Callback function that is invoked before handling each request.
 
@@ -32,15 +32,14 @@ const server = new Server(process.cwd(), {
   beforeHandle: async (req, res) => {
     console.log(`Processing ${req.method} request to ${req.url}`)
 
-    if (req.method !== 'POST')
-      res.writeHead(405, { 'Allow': 'POST' }) // If you write response, it will finish the request
-  }
-});
+    if (req.method !== 'POST') res.writeHead(405, { Allow: 'POST' }) // If you write response, it will finish the request
+  },
+})
 ```
 
 ### cronJob?
 
-> `optional` **cronJob**: `boolean`
+> `optional` **cronJob?**: `boolean`
 
 Whether to mount cron job lifecycle with this server instance.
 
@@ -53,9 +52,9 @@ When enabled, `server.listen()` mounts registered cron jobs and
 true
 ```
 
-### onClose()?
+### onClose?
 
-> `optional` **onClose**: (`context`) => `Promise`\<`void`\>
+> `optional` **onClose?**: (`context`) => `Promise`\<`void`\>
 
 Callback function that is invoked when the server is closed.
 
@@ -81,14 +80,14 @@ An object containing the logger instance.
 ```typescript
 const server = new Server(process.cwd(), {
   onClose: async ({ logger }) => {
-    logger.info('Server closed');
-  }
-});
+    logger.info('Server closed')
+  },
+})
 ```
 
-### onError()?
+### onError?
 
-> `optional` **onError**: (`error`, `context`) => `Promise`\<`void`\>
+> `optional` **onError?**: (`error`, `context`) => `Promise`\<`void`\>
 
 Callback function that is invoked when an error occurs.
 
@@ -120,14 +119,14 @@ An object containing the logger instance.
 ```typescript
 const server = new Server(process.cwd(), {
   onError: async (error, { logger }) => {
-    logger.error(error);
-  }
-});
+    logger.error(error)
+  },
+})
 ```
 
-### onStart()?
+### onStart?
 
-> `optional` **onStart**: (`context`) => `Promise`\<`void`\>
+> `optional` **onStart?**: (`context`) => `Promise`\<`void`\>
 
 Callback function that is invoked when the server starts.
 
@@ -153,14 +152,14 @@ An object containing the logger instance.
 ```typescript
 const server = new Server(process.cwd(), {
   onStart: async ({ logger }) => {
-    logger.info('Server started');
-  }
-});
+    logger.info('Server started')
+  },
+})
 ```
 
 ### port?
 
-> `optional` **port**: `number`
+> `optional` **port?**: `number`
 
 The port on which the server will listen. Defaults to `3000` if not provided.
 

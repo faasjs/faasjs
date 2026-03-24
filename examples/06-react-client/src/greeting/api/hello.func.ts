@@ -1,9 +1,8 @@
 import { defineApi, z } from '@faasjs/core'
 
-const schema = z
-  .object({
-    name: z.string().optional(),
-  })
+const schema = z.object({
+  name: z.string().optional(),
+})
 
 export const func = defineApi({
   schema,

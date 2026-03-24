@@ -26,7 +26,7 @@
 
 > **params**: `Record`\<`string`, `any`\>
 
-### reload()
+### reload
 
 > **reload**: (`params?`) => `Promise`\<`string`\>
 

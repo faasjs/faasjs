@@ -8,8 +8,8 @@
 
 ### filepath?
 
-> `optional` **filepath**: `string`
+> `optional` **filepath?**: `string`
 
 ### requestedAt?
 
-> `optional` **requestedAt**: `number`
+> `optional` **requestedAt?**: `number`

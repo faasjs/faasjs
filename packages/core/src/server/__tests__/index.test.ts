@@ -1,5 +1,7 @@
 import { join, sep } from 'node:path'
+
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+
 import { closeAll, getAll, Server } from '../../server'
 
 describe.sequential('server', () => {

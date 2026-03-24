@@ -1,9 +1,10 @@
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
-import type { AddressInfo } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+
 import { createServer } from 'vite'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { viteFaasJsServer } from '../vite'
 
 const mocks = vi.hoisted(() => {
@@ -56,6 +57,14 @@ const originalModuleVersion = process.env.FAASJS_MODULE_VERSION
 
 async function wait(ms: number): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+function getServerPort(server: Awaited<ReturnType<typeof createServer>>): number {
+  const address = server.httpServer?.address()
+
+  if (!address || typeof address === 'string') throw new Error('Vite server is not listening')
+
+  return address.port
 }
 
 async function createTempProject(faasYaml?: string): Promise<string> {
@@ -131,7 +140,7 @@ describe('viteFaasJsServer', () => {
 
     await server.listen()
 
-    const port = (server.httpServer?.address() as AddressInfo).port
+    const port = getServerPort(server)
     const response = await fetch(`http://localhost:${port}/api/home/api/hello?name=world`, {
       method: 'POST',
     }).then((res) => res.json())
@@ -158,7 +167,7 @@ describe('viteFaasJsServer', () => {
 
     await server.listen()
 
-    const port = (server.httpServer?.address() as AddressInfo).port
+    const port = getServerPort(server)
     const response = await fetch(`http://localhost:${port}/test/base/home/api/hello?name=world`, {
       method: 'POST',
     }).then((res) => res.json())
@@ -215,7 +224,7 @@ describe('viteFaasJsServer', () => {
 
     await server.listen()
 
-    const port = (server.httpServer?.address() as AddressInfo).port
+    const port = getServerPort(server)
     await fetch(`http://localhost:${port}/test/base/home/api/hello`, {
       method: 'GET',
     })
@@ -238,7 +247,7 @@ describe('viteFaasJsServer', () => {
 
     await server.listen()
 
-    const port = (server.httpServer?.address() as AddressInfo).port
+    const port = getServerPort(server)
     const response = await fetch(`http://localhost:${port}/other/path?name=world`, {
       method: 'POST',
     }).then((res) => res.json())
@@ -269,7 +278,7 @@ describe('viteFaasJsServer', () => {
 
     await server.listen()
 
-    const port = (server.httpServer?.address() as AddressInfo).port
+    const port = getServerPort(server)
     const response = await fetch(`http://localhost:${port}/test/base/home/api/error`, {
       method: 'POST',
     })

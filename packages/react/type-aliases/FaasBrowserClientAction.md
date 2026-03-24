@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / FaasBrowserClientAction
 
-# Type Alias: FaasBrowserClientAction()
+# Type Alias: FaasBrowserClientAction
 
 > **FaasBrowserClientAction** = \<`PathOrData`\>(`action`, `params?`, `options?`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\> \| [`Response`](../classes/Response.md)\>
 
@@ -13,7 +13,7 @@ Provides type-safe parameter and return value handling.
 
 ### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
 The function path or data type for type safety
 
@@ -43,7 +43,7 @@ Optional request options
 
 - A Promise resolving to a Response object
 
-## Remarks
+Notes:
 
 - Used internally by FaasBrowserClient.action method
 - Provides type-safe action method signature
@@ -53,6 +53,6 @@ Optional request options
 
 ## See
 
- - FaasBrowserClient for the class that uses this type
- - Response for the return type
- - Options for the options parameter type
+- FaasBrowserClient for the class that uses this type
+- Response for the return type
+- Options for the options parameter type

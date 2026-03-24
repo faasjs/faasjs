@@ -22,17 +22,27 @@ const ExposedHeadersBlacklist = [
   'content-md5',
 ]
 
+function normalizeHeaderNames(...values: Array<string | string[] | undefined>): string[] {
+  return values.flatMap((value) => {
+    if (!value) return []
+
+    return (Array.isArray(value) ? value : value.split(','))
+      .map((item) => item.trim())
+      .filter(Boolean)
+  })
+}
+
 export function buildCORSHeaders(
   headers: IncomingHttpHeaders,
   extra: IncomingHttpHeaders = {},
 ): IncomingHttpHeaders {
-  const commonHeaderNames = [
+  const commonHeaderNames = normalizeHeaderNames(
     ...AdditionalHeaders,
     ...Object.keys(headers),
     ...Object.keys(extra),
     extra['access-control-request-headers'],
     headers['access-control-request-headers'],
-  ].filter(
+  ).filter(
     (key) =>
       !!key &&
       !key.startsWith('access-control-') &&
@@ -46,20 +56,26 @@ export function buildCORSHeaders(
     'access-control-allow-headers': Array.from(
       new Set(
         commonHeaderNames.concat(
-          extra['access-control-allow-headers'] || headers['access-control-allow-headers'] || [],
+          normalizeHeaderNames(
+            extra['access-control-allow-headers'],
+            headers['access-control-allow-headers'],
+          ),
         ),
       ),
     )
-      .sort()
+      .sort((a, b) => a.localeCompare(b))
       .join(', '),
     'access-control-expose-headers': Array.from(
       new Set(
         commonHeaderNames.concat(
-          extra['access-control-expose-headers'] || headers['access-control-expose-headers'] || [],
+          normalizeHeaderNames(
+            extra['access-control-expose-headers'],
+            headers['access-control-expose-headers'],
+          ),
         ),
       ),
     )
-      .sort()
+      .sort((a, b) => a.localeCompare(b))
       .join(', '),
     ...extra,
   }

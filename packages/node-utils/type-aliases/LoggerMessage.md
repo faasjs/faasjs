@@ -8,7 +8,7 @@
 
 ### extra?
 
-> `optional` **extra**: `any`[]
+> `optional` **extra?**: `any`[]
 
 ### labels
 

@@ -23,13 +23,13 @@ Job handler.
 
 ### logger?
 
-> `optional` **logger**: `Logger`
+> `optional` **logger?**: `Logger`
 
 Custom logger for this cron job.
 
 ### name?
 
-> `optional` **name**: `string`
+> `optional` **name?**: `string`
 
 Name of the cron job, used in logs.
 
@@ -41,6 +41,6 @@ random name
 
 ### onError?
 
-> `optional` **onError**: [`CronJobErrorHandler`](CronJobErrorHandler.md)
+> `optional` **onError?**: [`CronJobErrorHandler`](CronJobErrorHandler.md)
 
 Called when handler throws.

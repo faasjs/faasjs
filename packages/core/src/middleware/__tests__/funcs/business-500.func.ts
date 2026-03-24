@@ -1,4 +1,5 @@
 import { HttpError } from '@faasjs/core'
+
 import { useMiddleware } from '../../../middleware'
 
 export const func = useMiddleware(function handle() {

@@ -1,6 +1,7 @@
 import { Button, type ButtonProps, Typography } from 'antd'
 import type { CSSProperties, ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import { useConfigContext } from './Config'
 
 export interface LinkProps {
@@ -35,7 +36,7 @@ export function Link(props: LinkProps) {
     props.target || theme.Link?.target || (props.href.startsWith('http') ? '_blank' : undefined)
 
   let computedStyle = {
-    ...(theme.Link.style || {}),
+    ...theme.Link.style,
     cursor: 'pointer',
     ...props.style,
   }
@@ -58,12 +59,19 @@ export function Link(props: LinkProps) {
         {...buttonProps}
         style={computedStyle}
         onClick={(e) => {
-          props.onClick
-            ? props.onClick(e)
-            : target === '_blank'
-              ? window.open(props.href)
-              : navigate(props.href)
           e.preventDefault()
+
+          if (props.onClick) {
+            props.onClick(e)
+            return
+          }
+
+          if (target === '_blank') {
+            window.open(props.href)
+            return
+          }
+
+          void navigate(props.href)
         }}
       >
         {props.children ?? props.text}
@@ -89,7 +97,7 @@ export function Link(props: LinkProps) {
           return
         }
 
-        navigate(props.href)
+        void navigate(props.href)
       }}
     >
       {props.children ?? props.text}

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { parseYaml } from '../parse_yaml'
 
 describe('parseYaml', () => {
@@ -163,7 +164,7 @@ emptyObject: {}
   })
 
   it('should parse supported double-quoted escape sequences', () => {
-    const result = parseYaml(`value: "\\\"\\\\\\/\\b\\f\\n\\r\\t\\u0041"
+    const result = parseYaml(`value: "\\"\\\\\\/\\b\\f\\n\\r\\t\\u0041"
 `) as Record<string, any>
 
     expect(result.value).toBe('"\\/\b\f\n\r\tA')

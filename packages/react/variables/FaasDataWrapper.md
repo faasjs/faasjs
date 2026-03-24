@@ -1,6 +1,6 @@
 [@faasjs/react](../README.md) / FaasDataWrapper
 
-# Variable: FaasDataWrapper()
+# Variable: FaasDataWrapper
 
 > `const` **FaasDataWrapper**: \<`PathOrData`\>(`props`) => `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\> \| `null`
 
@@ -8,7 +8,7 @@
 
 ### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md) = `any`
+`PathOrData` _extends_ [`FaasActionUnionType`](../type-aliases/FaasActionUnionType.md) = `any`
 
 ## Parameters
 

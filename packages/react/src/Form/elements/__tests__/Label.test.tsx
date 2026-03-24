@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
+
 import { FormLabelElement, type FormLabelElementProps } from '../Label'
 
 describe('FormLabelElement', () => {
@@ -11,7 +12,7 @@ describe('FormLabelElement', () => {
   }
 
   it('should render without title and description', () => {
-    render(<FormLabelElement name='testName'>{null}</FormLabelElement>)
+    render(<FormLabelElement name="testName">{null}</FormLabelElement>)
 
     expect(screen.getByText((c) => c.includes('testName'))).not.toBeNull()
   })
@@ -26,7 +27,7 @@ describe('FormLabelElement', () => {
   it('should render input element with correct value', () => {
     render(
       <FormLabelElement {...defaultProps}>
-        <input title='test' value='testValue' />
+        <input title="test" value="testValue" />
       </FormLabelElement>,
     )
 

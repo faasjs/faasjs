@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { Table } from '../../Table'
 
 describe('Table/faas', () => {
@@ -22,7 +23,7 @@ describe('Table/faas', () => {
   })
 
   it('with faas', async () => {
-    render(<Table rowKey='test' items={[{ id: 'test' }]} faasData={{ action: 'test' }} />)
+    render(<Table rowKey="test" items={[{ id: 'test' }]} faasData={{ action: 'test' }} />)
 
     expect(await screen.findByText('Test')).toBeDefined()
     expect(await screen.findByText('value')).toBeDefined()

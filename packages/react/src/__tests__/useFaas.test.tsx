@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { Response, setMock } from '..'
 import { useFaas } from '../useFaas'
 
@@ -10,10 +11,6 @@ describe('useFaas', () => {
 
   beforeEach(() => {
     current = 0
-  })
-
-  afterEach(() => {
-    setMock(null)
   })
 
   it('should work', async () => {
@@ -29,14 +26,14 @@ describe('useFaas', () => {
     let renderTimes = 0
 
     function Test() {
-      const { data, reload } = useFaas<any>('test', {})
+      const faas = useFaas<any>('test', {})
 
       renderTimes++
 
       return (
         <div>
-          {data}
-          <button type='button' onClick={() => reload()}>
+          {faas.data}
+          <button type="button" onClick={() => faas.reload()}>
             Reload
           </button>
         </div>
@@ -72,7 +69,7 @@ describe('useFaas', () => {
 
       return (
         <>
-          <button type='button' onClick={() => setParams({ v: 10 })}>
+          <button type="button" onClick={() => setParams({ v: 10 })}>
             Reload
           </button>
           <div>{JSON.stringify(data)}</div>
@@ -107,7 +104,7 @@ describe('useFaas', () => {
       return (
         <div>
           {data?.count}
-          <button type='button' onClick={() => setCount((p) => p + 1)}>
+          <button type="button" onClick={() => setCount((p) => p + 1)}>
             Add
           </button>
         </div>
@@ -137,14 +134,14 @@ describe('useFaas', () => {
     })
 
     function Test() {
-      const { data, reload } = useFaas<any>('test', { v: 1 }, { skip: true })
+      const faas = useFaas<any>('test', { v: 1 }, { skip: true })
 
       return (
         <>
-          <button type='button' onClick={() => reload()}>
+          <button type="button" onClick={() => faas.reload()}>
             Reload
           </button>
-          <div>data:{data?.v}</div>
+          <div>data:{faas.data?.v}</div>
         </>
       )
     }

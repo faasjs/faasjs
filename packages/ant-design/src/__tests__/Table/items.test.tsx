@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import dayjs from 'dayjs'
 import { beforeEach, describe, expect, it } from 'vitest'
+
 import type { UnionFaasItemElement, UnionFaasItemRender } from '../../data'
 import { Table } from '../../Table'
 
@@ -129,7 +130,7 @@ describe('Table/items', () => {
           items={[
             {
               id: 'test',
-              options: new Array(100).fill(0).map((_, i) => i),
+              options: Array.from({ length: 100 }, (_, i) => i),
             },
           ]}
           dataSource={[
@@ -556,8 +557,8 @@ describe('Table/items', () => {
         />,
       )
 
-      expect(() => screen.getByText('test')).toThrow()
-      expect(() => screen.getByText('value')).toThrow()
+      expect(screen.queryByText('test')).toBeNull()
+      expect(screen.queryByText('value')).toBeNull()
     })
 
     it('tableChildren is null', () => {
@@ -578,8 +579,8 @@ describe('Table/items', () => {
         />,
       )
 
-      expect(() => screen.getByText('test')).toThrow()
-      expect(() => screen.getByText('value')).toThrow()
+      expect(screen.queryByText('test')).toBeNull()
+      expect(screen.queryByText('value')).toBeNull()
     })
   })
 })

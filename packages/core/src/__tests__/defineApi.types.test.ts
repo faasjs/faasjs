@@ -1,5 +1,5 @@
 import { defineApi, z } from '@faasjs/core'
-import { assertType, test } from 'vitest'
+import { assertType, expect, test } from 'vitest'
 
 type CurrentUser = {
   id: number
@@ -13,7 +13,7 @@ declare module '@faasjs/core' {
 }
 
 test('defineApi should infer injected fields from DefineApiInject', () => {
-  defineApi({
+  const func = defineApi({
     schema: z.object({
       name: z.string(),
     }),
@@ -24,4 +24,6 @@ test('defineApi should infer injected fields from DefineApiInject', () => {
       return current_user?.name ?? params.name
     },
   })
+
+  expect(func).toBeDefined()
 })

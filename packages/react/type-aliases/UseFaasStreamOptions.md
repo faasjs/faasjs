@@ -8,29 +8,29 @@
 
 ### baseUrl?
 
-> `optional` **baseUrl**: [`BaseUrl`](BaseUrl.md)
+> `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
 ### data?
 
-> `optional` **data**: `string`
+> `optional` **data?**: `string`
 
 ### debounce?
 
-> `optional` **debounce**: `number`
+> `optional` **debounce?**: `number`
 
 Send the last request after milliseconds
 
 ### params?
 
-> `optional` **params**: `Record`\<`string`, `any`\>
+> `optional` **params?**: `Record`\<`string`, `any`\>
 
 ### setData?
 
-> `optional` **setData**: `React.Dispatch`\<`React.SetStateAction`\<`string`\>\>
+> `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<`string`\>\>
 
 ### skip?
 
-> `optional` **skip**: `boolean` \| (`params`) => `boolean`
+> `optional` **skip?**: `boolean` \| ((`params`) => `boolean`)
 
 If skip is true, the request will not be sent.
 

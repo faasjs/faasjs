@@ -1,10 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { FaasBrowserClient, Response, ResponseError, setMock } from '../../browser'
 
 describe('mock', () => {
   beforeEach(() => {
-    setMock(null)
-
     window.fetch = vi.fn(
       () =>
         Promise.resolve({
@@ -564,17 +563,13 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
+      const error = await client.action('test').catch((error: any) => error)
 
-      try {
-        await client.action('test')
-        throw new Error('Should have thrown')
-      } catch (error: any) {
-        expect(error).toBeInstanceOf(ResponseError)
-        expect(error.message).toBe('Custom error')
-        expect(error.status).toBe(418)
-        expect(error.headers['X-Custom']).toBe('value')
-        expect(error.body).toEqual({ custom: 'body' })
-      }
+      expect(error).toBeInstanceOf(ResponseError)
+      expect(error.message).toBe('Custom error')
+      expect(error.status).toBe(418)
+      expect(error.headers['X-Custom']).toBe('value')
+      expect(error.body).toEqual({ custom: 'body' })
     })
 
     it('should handle array data in ResponseProps', async () => {

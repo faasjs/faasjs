@@ -22,8 +22,8 @@
 
 ### handler?
 
-> `optional` **handler**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>
+> `optional` **handler?**: [`Handler`](Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
 ### plugins?
 
-> `optional` **plugins**: [`Plugin`](Plugin.md)[]
+> `optional` **plugins?**: [`Plugin`](Plugin.md)[]

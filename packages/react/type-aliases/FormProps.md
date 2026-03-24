@@ -8,25 +8,25 @@
 
 ### Values
 
-`Values` *extends* `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
+`Values` _extends_ `Record`\<`string`, `any`\> = `Record`\<`string`, `any`\>
 
 ### FormElements
 
-`FormElements` *extends* [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
+`FormElements` _extends_ [`FormElementTypes`](FormElementTypes.md) = [`FormElementTypes`](FormElementTypes.md)
 
 ### Rules
 
-`Rules` *extends* [`FormRules`](FormRules.md) = *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md)
+`Rules` _extends_ [`FormRules`](FormRules.md) = _typeof_ [`FormDefaultRules`](../variables/FormDefaultRules.md)
 
 ## Properties
 
 ### defaultValues?
 
-> `optional` **defaultValues**: `Values`
+> `optional` **defaultValues?**: `Values`
 
 ### Elements?
 
-> `optional` **Elements**: `Partial`\<`FormElements`\>
+> `optional` **Elements?**: `Partial`\<`FormElements`\>
 
 ### items
 
@@ -34,11 +34,11 @@
 
 ### lang?
 
-> `optional` **lang**: `Partial`\<[`FormLang`](FormLang.md)\>
+> `optional` **lang?**: `Partial`\<[`FormLang`](FormLang.md)\>
 
-### onSubmit()?
+### onSubmit?
 
-> `optional` **onSubmit**: (`values`) => `Promise`\<`void`\>
+> `optional` **onSubmit?**: (`values`) => `Promise`\<`void`\>
 
 #### Parameters
 
@@ -52,4 +52,4 @@
 
 ### rules?
 
-> `optional` **rules**: *typeof* [`FormDefaultRules`](../variables/FormDefaultRules.md) & `Rules`
+> `optional` **rules?**: _typeof_ [`FormDefaultRules`](../variables/FormDefaultRules.md) & `Rules`

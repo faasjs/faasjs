@@ -8,7 +8,7 @@
 
 ### TSchema
 
-`TSchema` *extends* `ZodType` \| `undefined` = `undefined`
+`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
 ### TEvent
 
@@ -24,7 +24,7 @@
 
 ## Properties
 
-### handler()
+### handler
 
 > **handler**: (`data`) => `Promise`\<`TResult`\>
 
@@ -40,4 +40,4 @@
 
 ### schema?
 
-> `optional` **schema**: `TSchema`
+> `optional` **schema?**: `TSchema`

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { Func } from '..'
 
 describe('Func handler', () => {
@@ -27,11 +28,7 @@ describe('Func handler', () => {
         },
       }).export().handler
 
-      try {
-        await handler({}, {})
-      } catch (error) {
-        expect(error).toEqual(Error('Error'))
-      }
+      await expect(handler({}, {})).rejects.toEqual(Error('Error'))
     })
   })
 })

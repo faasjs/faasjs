@@ -1,41 +1,34 @@
 {
   "name": "faasjs-mono",
-  "version": "8.0.0-beta.13",
+  "version": "8.0.0-beta.14",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "docs"
   ],
   "type": "module",
   "scripts": {
-    "test": "vitest run",
-    "pub": "npm run build && npm run build:doc && npm run lint && node publish.ts",
-    "clean": "rm -rf packages/*/node_modules packages/*/dist packages/*/.turbo coverage packages/*/*.log tmp *.log .turbo",
-    "build": "npm run lint && npm run clean && npm exec turbo build && rm -f packages/*/dist/*.d.cts",
-    "build:doc": "node build-docs.ts",
-    "lint": "oxlint --fix .",
-    "ci": "vitest run --silent --coverage"
+    "test": "vp test run",
+    "ci": "vp test run --silent --coverage",
+    "pub": "vp run build && vp run build:doc && vp check --fix && node publish.ts",
+    "doc": "node build-docs.ts",
+    "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
+    "prepare": "vp config"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "*",
-    "@testing-library/react": "*",
-    "@testing-library/user-event": "*",
-    "@types/node": "*",
     "@vitejs/plugin-react": "*",
-    "@vitest/coverage-v8": "*",
-    "jsdom": "*",
-    "tsdown": "*",
-    "turbo": "*",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
-    "typescript": "*",
-    "vite-tsconfig-paths": "*"
+    "vite-plus": "*"
   },
   "overrides": {
-    "vite": "npm:rolldown-vite@latest"
+    "vite": "npm:@voidzero-dev/vite-plus-core",
+    "vitest": "npm:@voidzero-dev/vite-plus-test"
   },
   "engines": {
     "node": ">=24.0.0",
     "npm": ">=11.0.0"
   },
-  "packageManager": "npm@11.8.0"
+  "packageManager": "npm@11.12.0"
 }

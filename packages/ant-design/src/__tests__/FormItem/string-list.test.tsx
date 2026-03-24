@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
+
 import { Form } from '../../Form'
 import { FormItem } from '../../FormItem'
 
@@ -10,8 +11,8 @@ describe('FormItem string[]', () => {
     const { container } = render(
       <Form>
         <FormItem
-          id='test'
-          type='string[]'
+          id="test"
+          type="string[]"
           options={[
             {
               label: 'label',
@@ -33,7 +34,7 @@ describe('FormItem string[]', () => {
     const user = userEvent.setup()
     const { container } = render(
       <Form>
-        <FormItem id='test' type='string[]' options={['value']} />
+        <FormItem id="test" type="string[]" options={['value']} />
       </Form>,
     )
 
@@ -49,7 +50,7 @@ describe('FormItem string[]', () => {
       const user = userEvent.setup()
       const { container } = render(
         <Form>
-          <FormItem id='test' type='string[]' />
+          <FormItem id="test" type="string[]" />
         </Form>,
       )
 
@@ -67,7 +68,7 @@ describe('FormItem string[]', () => {
       const user = userEvent.setup()
       const { container } = render(
         <Form>
-          <FormItem id='test' type='string[]' maxCount={2} />
+          <FormItem id="test" type="string[]" maxCount={2} />
         </Form>,
       )
 
@@ -87,7 +88,7 @@ describe('FormItem string[]', () => {
       const user = userEvent.setup()
       const { container } = render(
         <Form>
-          <FormItem id='test' type='string[]' />
+          <FormItem id="test" type="string[]" />
         </Form>,
       )
 
@@ -106,7 +107,7 @@ describe('FormItem string[]', () => {
       const user = userEvent.setup()
       const { container } = render(
         <Form>
-          <FormItem id='test' type='string[]' required />
+          <FormItem id="test" type="string[]" required />
         </Form>,
       )
 

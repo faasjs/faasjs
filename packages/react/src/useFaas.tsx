@@ -1,5 +1,6 @@
 import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
 import { useRef, useState } from 'react'
+
 import type { BaseUrl, Response } from './browser'
 import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
@@ -99,7 +100,8 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
 
           setFails(0)
           setError(null)
-          options.setData ? options.setData(nextData) : localSetData(nextData)
+          if (options.setData) options.setData(nextData)
+          else localSetData(nextData)
           setLoading(false)
 
           for (const { resolve } of pendingReloadsRef.current.values()) resolve(nextData)

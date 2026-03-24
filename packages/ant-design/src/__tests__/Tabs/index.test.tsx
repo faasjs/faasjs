@@ -1,9 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
+
 import { Tabs } from '../../Tabs'
 
 describe('Tabs', () => {
   it('should work', async () => {
+    let hidden = false
+
     render(
       <Tabs
         items={[
@@ -11,7 +14,7 @@ describe('Tabs', () => {
             id: 'id',
             children: 'content',
           },
-          false && {
+          hidden && {
             id: 'hidden',
             children: 'content',
           },

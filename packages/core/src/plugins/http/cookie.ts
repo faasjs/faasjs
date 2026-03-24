@@ -1,5 +1,6 @@
 import { deepMerge } from '@faasjs/node-utils'
 import type { Logger } from '@faasjs/node-utils'
+
 import { Session, type SessionOptions } from './session'
 
 export type CookieOptions = {
@@ -93,6 +94,7 @@ export class Cookie<
     },
   ): Cookie<C, S> {
     const options = Object.assign({}, this.config, opts || {})
+    const expires = opts?.expires ?? this.config.expires
 
     let cookie: string
     if (value === null || typeof value === 'undefined') {
@@ -103,8 +105,8 @@ export class Cookie<
       cookie = `${key}=${encodeURIComponent(value)};`
       this.content[key] = value
 
-      if (typeof options.expires === 'number') cookie += `max-age=${options.expires};`
-      else if (typeof options.expires === 'string') cookie += `expires=${options.expires};`
+      if (typeof expires === 'number') cookie += `max-age=${expires};`
+      else if (typeof expires === 'string') cookie += `expires=${expires};`
     }
 
     cookie += `path=${options.path || '/'};`

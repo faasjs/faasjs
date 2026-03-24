@@ -1,5 +1,6 @@
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import { Server, staticHandler } from '@faasjs/core'
 
 const __filename = fileURLToPath(import.meta.url)

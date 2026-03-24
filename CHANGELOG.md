@@ -12,6 +12,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/dev`
   - [Feature] Add TypeScript type checking to `faas lint` via `tsc --noEmit`.
+  - [Feature] Add oxfmt to `faas lint`.
 
 [`v8.0.0-beta.13 (2026-03-01)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.12...v8.0.0-beta.13)
 

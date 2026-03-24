@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
+
 import { App, useApp } from '../../App'
 import { useFaas } from '../../FaasDataWrapper'
 
@@ -33,7 +34,7 @@ describe('App', () => {
       renderComponentCount++
 
       return (
-        <button type='button' onClick={() => message.info('Hi')}>
+        <button type="button" onClick={() => message.info('Hi')}>
           Component
         </button>
       )
@@ -75,7 +76,7 @@ describe('App', () => {
       renderComponentCount++
 
       return (
-        <button type='button' onClick={() => notification.info({ title: 'Hi' })}>
+        <button type="button" onClick={() => notification.info({ title: 'Hi' })}>
           Component
         </button>
       )
@@ -111,7 +112,7 @@ describe('App', () => {
 
       return (
         <button
-          type='button'
+          type="button"
           onClick={() =>
             setModalProps({
               open: true,
@@ -150,7 +151,7 @@ describe('App', () => {
 
       return (
         <button
-          type='button'
+          type="button"
           onClick={() =>
             setDrawerProps({
               open: true,
@@ -183,7 +184,7 @@ describe('App', () => {
       const navigate = useNavigate()
 
       return (
-        <button type='button' onClick={() => navigate('/')}>
+        <button type="button" onClick={() => navigate('/')}>
           Nav
         </button>
       )

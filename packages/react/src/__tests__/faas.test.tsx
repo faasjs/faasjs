@@ -1,4 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import { Response, setMock } from '..'
 import { faas } from '../faas'
 
@@ -12,10 +13,6 @@ describe('faas', () => {
       current++
       return Promise.resolve(new Response({ data: current }))
     })
-  })
-
-  afterEach(() => {
-    setMock(null)
   })
 
   it('should work', async () => {

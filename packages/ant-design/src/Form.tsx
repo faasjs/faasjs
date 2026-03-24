@@ -1,7 +1,8 @@
-import { useEqualCallback } from '@faasjs/react'
+import { useEqualCallback, useEqualEffect } from '@faasjs/react'
 import type { FaasAction } from '@faasjs/types'
 import { Form as AntdForm, type FormProps as AntdFormProps, Button } from 'antd'
-import { type JSX, type ReactNode, useEffect, useState } from 'react'
+import { type JSX, type ReactNode, useState } from 'react'
+
 import { useConfigContext } from './Config'
 import { transferValue } from './data'
 import { faas } from './FaasDataWrapper'
@@ -44,7 +45,7 @@ export type FormSubmitProps = {
    * ```
    */
   to?: {
-    action: FaasAction | string
+    action: FaasAction
     /** params will overwrite form values before submit */
     params?: Record<string, any>
     then?: (result: any) => void
@@ -93,11 +94,12 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
     props.initialValues || Object.create(null),
   )
 
-  useEffect(() => {
+  useEqualEffect(() => {
     const { submit, ...propsCopy } = {
       ...props,
       form,
     }
+    let nextInitialValues = propsCopy.initialValues
 
     if (typeof submit !== 'undefined') setSubmit(submit)
 
@@ -108,6 +110,7 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
           propsCopy.initialValues[key],
         )
       }
+      nextInitialValues = propsCopy.initialValues
       setInitialValues(propsCopy.initialValues)
       delete propsCopy.initialValues
     }
@@ -115,7 +118,7 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
     if (propsCopy.items?.length)
       for (const item of propsCopy.items) {
         if (isFormItemProps(item) && item.if)
-          item.hidden = !item.if(initialValues || Object.create(null))
+          item.hidden = !item.if(nextInitialValues || Object.create(null))
       }
 
     const submitTo = typeof submit === 'object' ? submit.to : undefined
@@ -179,7 +182,7 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
     }
 
     setComputedProps(propsCopy)
-  }, [props])
+  }, [form, props])
 
   const onValuesChange = useEqualCallback(
     (changedValues: Partial<Values>, allValues: Values) => {
@@ -202,14 +205,14 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
     [computedProps],
   )
 
-  useEffect(() => {
+  useEqualEffect(() => {
     if (!initialValues) return
 
     console.debug('Form:initialValues', initialValues)
 
     form.setFieldsValue(initialValues as any)
     setInitialValues(null)
-  }, [computedProps])
+  }, [form, initialValues])
 
   if (!computedProps) return null
 
@@ -223,7 +226,7 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
       })}
       {computedProps.children}
       {typeof submit !== 'boolean' && (
-        <Button htmlType='submit' type='primary' loading={loading}>
+        <Button htmlType="submit" type="primary" loading={loading}>
           {submit?.text || config.theme.Form.submit.text}
         </Button>
       )}

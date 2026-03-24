@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { action } from '../action'
 
 let execs: string[] = []
@@ -52,7 +53,7 @@ describe('action', () => {
         'test/src/pages/home/index.tsx',
         'test/src/pages/home/api/hello.func.ts',
         'test/src/pages/home/api/__tests__/hello.test.ts',
-      ])
+      ]),
     )
 
     const packageJSON = JSON.parse(files['test/package.json'])
@@ -78,6 +79,7 @@ describe('action', () => {
       '@types/react-dom': '*',
       '@vitejs/plugin-react': '*',
       jsdom: '*',
+      oxfmt: '*',
       oxlint: '*',
       typescript: '*',
       vite: '*',
@@ -85,7 +87,7 @@ describe('action', () => {
     })
 
     expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
-      "import { defineApi, z } from '@faasjs/core'"
+      "import { defineApi, z } from '@faasjs/core'",
     )
     expect(files['test/src/pages/home/api/hello.func.ts']).toContain('schema,')
 

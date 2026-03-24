@@ -1,17 +1,18 @@
 import { execSync } from 'node:child_process'
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
+
 import type { Command } from 'commander'
 import enquirer from 'enquirer'
 
 const prompt = enquirer.prompt
+const validateName = (input: string) => Validator.name(input)
 
 const Validator = {
   name(input: string) {
     const match = /^[a-z0-9-_]+$/i.test(input) ? true : 'Must be a-z, 0-9 or -_'
     if (match !== true) return match
-    if (existsSync(input))
-      return `${input} folder exists, please try another name`
+    if (existsSync(input)) return `${input} folder exists, please try another name`
 
     return true
   },
@@ -50,6 +51,7 @@ function buildPackageJSON(name: string): string {
         '@types/react-dom': '*',
         '@vitejs/plugin-react': '*',
         jsdom: '*',
+        oxfmt: '*',
         oxlint: '*',
         typescript: '*',
         vite: '*',
@@ -57,7 +59,7 @@ function buildPackageJSON(name: string): string {
       },
     },
     null,
-    2
+    2,
   )}
 `
 }
@@ -68,7 +70,7 @@ function scaffold(rootPath: string): void {
     `node_modules/
 dist/
 coverage/
-`
+`,
   )
 
   writeFile(
@@ -84,7 +86,7 @@ coverage/
   },
   "include": ["src", "vite.config.ts", "server.ts"]
 }
-`
+`,
   )
 
   writeFile(
@@ -101,7 +103,7 @@ coverage/
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-`
+`,
   )
 
   writeFile(
@@ -116,7 +118,7 @@ export default defineConfig({
   },
   plugins: [react(), viteFaasJsServer()],
 })
-`
+`,
   )
 
   writeFile(
@@ -146,7 +148,7 @@ new Server(join(__dirname, 'src'), {
     await distHandler(req, res, ctx)
   },
 }).listen()
-`
+`,
   )
 
   writeFile(
@@ -162,7 +164,7 @@ new Server(join(__dirname, 'src'), {
           secure: false
           session:
             secret: secret
-`
+`,
   )
 
   writeFile(
@@ -171,7 +173,7 @@ new Server(join(__dirname, 'src'), {
 import HomePage from './pages/home'
 
 createRoot(document.getElementById('root') as HTMLElement).render(<HomePage />)
-`
+`,
   )
 
   writeFile(
@@ -222,7 +224,7 @@ export default function HomePage() {
     </main>
   )
 }
-`
+`,
   )
 
   writeFile(
@@ -245,7 +247,7 @@ export const func = defineApi({
     }
   },
 })
-`
+`,
   )
 
   writeFile(
@@ -267,7 +269,7 @@ describe('home/api/hello', () => {
     })
   })
 })
-`
+`,
   )
 }
 
@@ -282,8 +284,8 @@ export async function action(options: { name?: string } = {}): Promise<void> {
       name: 'value',
       message: 'Project name',
       initial: 'faasjs',
-      validate: Validator.name,
-    }).then(res => res.value)
+      validate: validateName,
+    }).then((res) => res.value)
 
   if (!answers.name) return
 
@@ -291,10 +293,7 @@ export async function action(options: { name?: string } = {}): Promise<void> {
 
   mkdirSync(answers.name)
 
-  writeFileSync(
-    join(answers.name, 'package.json'),
-    buildPackageJSON(answers.name)
-  )
+  writeFileSync(join(answers.name, 'package.json'), buildPackageJSON(answers.name))
 
   scaffold(answers.name)
 

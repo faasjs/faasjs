@@ -1,7 +1,8 @@
 import { streamToString } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
-import { Func, type InvokeData } from '../../..'
+
 import { Http } from '..'
+import { Func, type InvokeData } from '../../..'
 
 describe('cookie', () => {
   describe('read', () => {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { RunHandler } from '..'
 import { Func, type InvokeData } from '../../..'
 
@@ -55,53 +56,47 @@ describe('plugins.runHandler', () => {
   })
 
   it('throw error', async () => {
-    try {
-      await new Func({
+    await expect(
+      new Func({
         plugins: [new RunHandler()],
         async handler() {
           throw Error('wrong')
         },
       })
         .export()
-        .handler(0)
-    } catch (error) {
-      expect(error).toEqual(Error('wrong'))
-    }
+        .handler(0),
+    ).rejects.toEqual(Error('wrong'))
   })
 
   it('async throw error', async () => {
-    try {
-      await new Func({
+    await expect(
+      new Func({
         plugins: [new RunHandler()],
         async handler() {
           return await Promise.reject(Error('wrong'))
         },
       })
         .export()
-        .handler(0)
-    } catch (error) {
-      expect(error).toEqual(Error('wrong'))
-    }
+        .handler(0),
+    ).rejects.toEqual(Error('wrong'))
   })
 
   it('callback error', async () => {
-    try {
-      await new Func({
+    await expect(
+      new Func({
         plugins: [new RunHandler()],
         async handler(data: InvokeData) {
           data.callback(Error('wrong'))
         },
       })
         .export()
-        .handler(0)
-    } catch (error) {
-      expect(error).toEqual(Error('wrong'))
-    }
+        .handler(0),
+    ).rejects.toEqual(Error('wrong'))
   })
 
   it('async callback error', async () => {
-    try {
-      await new Func({
+    await expect(
+      new Func({
         plugins: [new RunHandler()],
         async handler(data: InvokeData) {
           await new Promise<void>((resolve) => {
@@ -111,9 +106,7 @@ describe('plugins.runHandler', () => {
         },
       })
         .export()
-        .handler(0)
-    } catch (error) {
-      expect(error).toEqual(Error('wrong'))
-    }
+        .handler(0),
+    ).rejects.toEqual(Error('wrong'))
   })
 })

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import type { JSX } from 'react'
 import { describe, expect, it, vi } from 'vitest'
+
 import { ErrorBoundary } from '../../ErrorBoundary'
 
 describe('ErrorBoundary', () => {

@@ -9,31 +9,45 @@ Configuration options for FaasJS requests.
 Extends the standard RequestInit interface with FaasJS-specific options for
 customizing request behavior, adding request hooks, and overriding defaults.
 
+Notes:
+
+- Options can be provided at client creation (defaultOptions) or per-request
+- Per-request options override client default options
+- headers are merged: per-request headers override default headers
+- beforeRequest hook is called before the request is sent, allowing modification
+- Custom request function completely replaces the default fetch implementation
+- baseUrl in options overrides the client's baseUrl for this specific request
+- When stream is true, returns the native fetch Response instead of wrapped Response
+
 ## Type Declaration
 
 ### baseUrl?
 
-> `optional` **baseUrl**: [`BaseUrl`](BaseUrl.md)
+> `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
-### beforeRequest()?
+### beforeRequest?
 
-> `optional` **beforeRequest**: (`{
+> `optional` **beforeRequest?**: (`{
+
     action,
     params,
     options,
     headers,
-  }`) => `Promise`\<`void`\>
+
+}`) => `Promise`\<`void`\>
 
 trigger before request
 
 #### Parameters
 
 ##### \{
+
     action,
     params,
     options,
     headers,
-  \}
+
+\}
 
 ###### action
 
@@ -57,11 +71,11 @@ trigger before request
 
 ### headers?
 
-> `optional` **headers**: `Record`\<`string`, `string`\>
+> `optional` **headers?**: `Record`\<`string`, `string`\>
 
-### request()?
+### request?
 
-> `optional` **request**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+> `optional` **request?**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
 custom request
 
@@ -69,7 +83,7 @@ custom request
 
 ##### PathOrData
 
-`PathOrData` *extends* [`FaasActionUnionType`](FaasActionUnionType.md)
+`PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
 #### Parameters
 
@@ -87,19 +101,9 @@ custom request
 
 ### stream?
 
-> `optional` **stream**: `boolean`
-
-## Remarks
-
-- Options can be provided at client creation (defaultOptions) or per-request
-- Per-request options override client default options
-- headers are merged: per-request headers override default headers
-- beforeRequest hook is called before the request is sent, allowing modification
-- Custom request function completely replaces the default fetch implementation
-- baseUrl in options overrides the client's baseUrl for this specific request
-- When stream is true, returns the native fetch Response instead of wrapped Response
+> `optional` **stream?**: `boolean`
 
 ## See
 
- - FaasBrowserClient for client creation
- - Response for response object structure
+- FaasBrowserClient for client creation
+- Response for response object structure

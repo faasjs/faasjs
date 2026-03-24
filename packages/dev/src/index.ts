@@ -42,8 +42,6 @@
  *
  * - Vite: {@link viteFaasJsServer}
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToText}, {@link streamToObject}, {@link streamToString}
- *
- * @packageDocumentation
  */
 
 export * from './test'
