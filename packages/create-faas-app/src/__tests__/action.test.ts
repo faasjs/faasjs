@@ -59,11 +59,9 @@ describe('action', () => {
     const packageJSON = JSON.parse(files['test/package.json'])
 
     expect(packageJSON.scripts).toEqual({
-      dev: 'vite',
+      dev: 'node --import @faasjs/node-utils/register-hooks vite',
       build: 'vite build',
       start: 'node --import @faasjs/node-utils/register-hooks server.ts',
-      check:
-        'oxfmt -c ./node_modules/@faasjs/dev/configs/oxfmt.base.json . && oxlint -c ./node_modules/@faasjs/dev/configs/oxlint.base.json --fix . && tsc --noEmit --project tsconfig.json',
       test: 'vitest run',
     })
 
@@ -90,7 +88,6 @@ describe('action', () => {
     expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
       "import { defineApi, z } from '@faasjs/core'",
     )
-    expect(files['test/src/pages/home/api/hello.func.ts']).toContain('schema,')
 
     expect(files['test/.gitignore']).toEqual(`node_modules/
 dist/

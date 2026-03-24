@@ -12,7 +12,7 @@
   "scripts": {
     "test": "vp test run",
     "ci": "vp test run --silent --coverage",
-    "pub": "vp run build && vp run build:doc && vp check --fix && node publish.ts",
+    "pub": "vp pack && vp run doc && vp check --fix && node publish.ts",
     "doc": "node build-docs.ts",
     "clean": "rm -rf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "prepare": "vp config"
