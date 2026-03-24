@@ -2,13 +2,16 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.15 (2026-03-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.13...v8.0.0-beta.14)
+[`v8.0.0-beta.16 (2026-03-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.14...v8.0.0-beta.16)
 
 - `@faasjs/types`
   - [Fix] Fix response type.
 
 - `@faasjs/dev`
   - [Break] Remove built-in `faas lint` command for now because the Vite lint toolchain is still unstable.
+
+- `@faasjs/ant-design`
+  - [Fix] Fix `useApp` type.
 
 [`v8.0.0-beta.14 (2026-03-12)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.13...v8.0.0-beta.14)
 
