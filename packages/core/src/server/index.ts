@@ -232,14 +232,14 @@ export class Server {
       this.options,
     )
 
-    this.onError = (error: any) => {
+    this.onError = async (error: any) => {
       if (!(error instanceof Error)) error = Error(error)
 
       this.logger.error(error)
 
       if (this.options.onError)
         try {
-          this.options.onError(error, {
+          await this.options.onError(error, {
             logger: this.logger,
           })
         } catch (error: any) {

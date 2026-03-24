@@ -6,5 +6,5 @@
     },
     "types": ["node", "@testing-library/jest-dom"]
   },
-  "include": ["packages/*/src/**/*.ts", "packages/*/src/**/*.tsx"]
+  "include": ["packages/**/*.ts", "packages/**/*.tsx"]
 }

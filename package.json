@@ -3,7 +3,8 @@
   "version": "8.0.0-beta.14",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "docs"
   ],
   "type": "module",
   "scripts": {
@@ -15,8 +16,11 @@
     "prepare": "vp config"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "*",
+    "@vitejs/plugin-react": "*",
     "typedoc": "*",
-    "typedoc-plugin-markdown": "*"
+    "typedoc-plugin-markdown": "*",
+    "vite-plus": "*"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core",
@@ -26,5 +30,5 @@
     "node": ">=24.0.0",
     "npm": ">=11.0.0"
   },
-  "packageManager": "npm@11.8.0"
+  "packageManager": "npm@11.12.0"
 }

@@ -64,10 +64,7 @@ export class Transport {
   constructor() {
     this.logger = new Logger('LoggerTransport')
     this.logger.level = 'info'
-
-    this.flush = this.flush.bind(this)
-
-    this.interval = setInterval(this.flush, this.intervalTime)
+    this.interval = setInterval(this.flush.bind(this), this.intervalTime)
   }
 
   /**

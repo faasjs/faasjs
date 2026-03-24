@@ -5,19 +5,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const tablePropsHistory: any[] = []
 
-vi.mock('antd', async () => {
-  const actual = await vi.importActual<typeof import('antd')>('antd')
-
-  return {
-    ...actual,
-    Table: ((props: any) => {
-      tablePropsHistory.push(props)
-
-      return null
-    }) as unknown as typeof actual.Table,
-  }
-})
-
 import { Table } from '../../Table'
 
 function getLatestTableProps() {
@@ -324,11 +311,11 @@ describe('Table/logic', () => {
 
     const onChange = vi.fn((pagination, filters, sorter, extra) => ({
       pagination: {
-        ...(pagination || {}),
+        ...pagination,
         current: 2,
       },
       filters: {
-        ...(filters || {}),
+        ...filters,
         status: ['offline'],
       },
       sorter: Array.isArray(sorter)

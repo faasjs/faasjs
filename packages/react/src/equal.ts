@@ -85,7 +85,7 @@ export function useEqualMemoize(value: any) {
     signalRef.current += 1
   }
 
-  return useMemo(() => ref.current, [signalRef.current])
+  return useMemo(() => ref.current, [])
 }
 
 /**

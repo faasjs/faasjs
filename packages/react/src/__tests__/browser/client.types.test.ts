@@ -1,7 +1,8 @@
 import type { FaasActions } from '@faasjs/types'
 import { assertType, test } from 'vitest'
 
-import { FaasBrowserClient, Response as FaasResponse } from '../../browser'
+import type { Response as FaasResponse } from '../../browser'
+import { FaasBrowserClient } from '../../browser'
 
 declare module '@faasjs/types' {
   interface FaasActions {

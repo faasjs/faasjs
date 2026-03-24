@@ -36,7 +36,7 @@ export function Link(props: LinkProps) {
     props.target || theme.Link?.target || (props.href.startsWith('http') ? '_blank' : undefined)
 
   let computedStyle = {
-    ...(theme.Link.style || {}),
+    ...theme.Link.style,
     cursor: 'pointer',
     ...props.style,
   }

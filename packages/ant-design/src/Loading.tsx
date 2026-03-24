@@ -25,7 +25,7 @@ export function Loading(props: LoadingProps) {
   return (
     <div
       style={{
-        ...(props.style || {}),
+        ...props.style,
         ...(!props.size || props.size === 'large'
           ? {
               margin: '20vh auto',

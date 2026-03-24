@@ -1,7 +1,8 @@
 import { join } from 'node:path'
 
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite-plus'
+import { defineConfig, type UserConfig } from 'vite-plus'
+import type { PackUserConfig } from 'vite-plus/pack'
 
 const browsers = [
   'packages/ant-design/**/*.test.ts',
@@ -12,47 +13,64 @@ const browsers = [
 
 const types = ['packages/**/*.types.test.ts']
 
+const pack: PackUserConfig[] = [
+  'ant-design',
+  'core',
+  'create-faas-app',
+  'dev',
+  'node-utils',
+  'react',
+].map((p) => ({
+  platform: ['react', 'ant-design'].includes(p) ? 'browser' : 'node',
+  cwd: join(process.cwd(), 'packages', p),
+  format: ['esm', 'cjs'],
+  checks: {
+    legacyCjs: false,
+  },
+  clean: true,
+  dts: {
+    sourcemap: false,
+    eager: true,
+  },
+  deps: {
+    skipNodeModulesBundle: true,
+  },
+  sourcemap: false,
+  treeshake: true,
+  tsconfig: join(process.cwd(), 'tsconfig.build.json'),
+  shims: true,
+  outExtensions({ format }) {
+    if (format === 'es')
+      return {
+        js: '.mjs',
+        dts: '.d.ts',
+      }
+
+    return {
+      js: '.cjs',
+      dts: '.d.ts',
+    }
+  },
+}))
+
+const ignorePatterns = ['**/dist/**', 'node_modules/**']
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: react(),
   staged: {
     '*': 'vp check --fix',
   },
   resolve: {
     tsconfigPaths: true,
   },
-  pack: ['ant-design', 'core', 'create-faas-app', 'dev', 'node-utils', 'react'].map((p) => ({
-    platform: ['react', 'ant-design'].includes(p) ? 'browser' : 'node',
-    cwd: join(process.cwd(), 'packages', p),
-    format: ['esm', 'cjs'],
-    checks: {
-      legacyCjs: false,
-    },
-    clean: true,
-    dts: {
-      sourcemap: false,
-      eager: true,
-    },
-    deps: {
-      skipNodeModulesBundle: true,
-    },
-    sourcemap: false,
-    treeshake: true,
-    tsconfig: join(process.cwd(), 'tsconfig.build.json'),
-    shims: true,
-    outExtensions({ format }) {
-      if (format === 'es')
-        return {
-          js: '.mjs',
-          dts: '.d.ts',
-        }
-
-      return {
-        js: '.cjs',
-        dts: '.d.ts',
-      }
-    },
-  })),
+  fmt: {
+    ignorePatterns,
+    semi: false,
+    singleQuote: true,
+    sortImports: {},
+  },
   lint: {
+    ignorePatterns,
     plugins: [
       'typescript',
       'react',
@@ -70,6 +88,11 @@ export default defineConfig({
       node: true,
       browser: true,
     },
+    settings: {
+      vitest: {
+        typecheck: true,
+      },
+    },
     options: {
       typeAware: true,
       typeCheck: true,
@@ -85,11 +108,7 @@ export default defineConfig({
       'react-hooks/exhaustive-deps': ['warn'],
     },
   },
-  fmt: {
-    semi: false,
-    singleQuote: true,
-    sortImports: {},
-  },
+  pack,
   test: {
     restoreMocks: true,
     clearMocks: true,
@@ -106,7 +125,7 @@ export default defineConfig({
     reporters: ['default', ['junit', { outputFile: 'test-report.junit.xml' }]],
     projects: [
       {
-        extends: true,
+        extends: true as const,
         test: {
           name: 'node',
           include: ['packages/**/*.test.ts'],
@@ -115,7 +134,7 @@ export default defineConfig({
         },
       },
       {
-        extends: true,
+        extends: true as const,
         test: {
           name: 'browser',
           include: browsers,
@@ -126,4 +145,4 @@ export default defineConfig({
       },
     ],
   },
-})
+} as UserConfig)
