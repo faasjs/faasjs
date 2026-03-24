@@ -23,6 +23,14 @@ const pack: PackUserConfig[] = [
 ].map((p) => ({
   platform: ['react', 'ant-design'].includes(p) ? 'browser' : 'node',
   cwd: join(process.cwd(), 'packages', p),
+  ...(p === 'node-utils'
+    ? {
+        entry: {
+          index: './src/index.ts',
+          register_hooks: './src/register_hooks.ts',
+        },
+      }
+    : {}),
   format: ['esm', 'cjs'],
   checks: {
     legacyCjs: false,
