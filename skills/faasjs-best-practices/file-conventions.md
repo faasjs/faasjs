@@ -107,9 +107,9 @@ Examples:
 
 - Method: `POST`
 - Content-Type: `application/json`
-- Response shape (recommended):
-  - Success: `{ "ok": true, "data": any, "error": null }`
-  - Failure: `{ "ok": false, "data": null, "error": { "code": string, "message": string } }`
+- Input mapping: request JSON body is exposed as `params` in `defineApi`
+- Response transport: successful JSON responses use top-level `data`
+- Error transport: JSON failures use top-level `error.message`
 
 ## Prohibited Patterns
 
@@ -123,11 +123,13 @@ Examples:
 `src/pages/page-a/api/submit.func.ts`:
 
 ```ts
-import { defineFunc } from '@faasjs/func'
+import { defineApi } from '@faasjs/core'
 
-export const func = defineFunc(async () => {
-  return {
-    accepted: true,
-  }
+export const func = defineApi({
+  async handler() {
+    return {
+      accepted: true,
+    }
+  },
 })
 ```

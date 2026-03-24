@@ -1,7 +1,7 @@
 import { defineApi, z } from '@faasjs/core'
 import { assertType, expect, test } from 'vitest'
 
-import { test as wrap } from '../test'
+import { test as wrap } from '..'
 
 test('JSONhandler should infer body from defineApi schema', () => {
   const schema = z.object({

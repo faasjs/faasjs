@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
-import * as dev from '../index'
-import * as testKit from '../test'
-import * as typegen from '../typegen'
-import * as vite from '../vite'
+import * as dev from '../../index'
+import * as testKit from '../../test'
+import * as typegen from '../../typegen'
+import * as vite from '../../vite'
 
 describe('index exports', () => {
   it('should export vite helpers', () => {

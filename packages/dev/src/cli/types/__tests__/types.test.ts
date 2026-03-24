@@ -9,11 +9,11 @@ vi.mock('@faasjs/node-utils', () => ({
   loadEnvFileIfExists: mocks.loadEnvFileIfExists,
 }))
 
-vi.mock('../../typegen', () => ({
+vi.mock('../../../typegen', () => ({
   generateFaasTypes: mocks.generateFaasTypes,
 }))
 
-import { main } from '../types'
+import { main } from '..'
 
 function resetMockImplementations(): void {
   mocks.loadEnvFileIfExists.mockImplementation(() => null)

@@ -28,11 +28,14 @@ Run incrementally for quick feedback, then full verification:
 
 ```bash
 # target file or pattern first
-mise exec -- npm run test -- path/to/file.test.ts
+vp test run path/to/file.test.ts
 
 # full unit suite
-mise exec -- npm run test
+vp test
 
 # ci mode with coverage
-mise exec -- npm run ci
+vp run ci
+
+# fallback when vp is not on PATH
+npx vp test run path/to/file.test.ts
 ```

@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { createServer } from 'vite'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { viteFaasJsServer } from '../vite'
+import { viteFaasJsServer } from '..'
 
 const mocks = vi.hoisted(() => {
   const calls: any[][] = []
@@ -40,7 +40,7 @@ vi.mock('@faasjs/core', () => ({
   Server: mocks.ServerMock,
 }))
 
-vi.mock('../typegen', () => ({
+vi.mock('../../typegen', () => ({
   generateFaasTypes: vi.fn(async () => ({
     output: '/tmp/types.d.ts',
     changed: false,

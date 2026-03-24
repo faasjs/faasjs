@@ -11,15 +11,10 @@ Start here. These background skills are auto-applied to prevent common mistakes.
 Core FaasJS knowledge:
 
 - [File Conventions](./faasjs-best-practices/file-conventions.md)
-- [defineFunc Guide](./faasjs-best-practices/define-func.md)
-
-### `faasjs-unit-testing`
-
-FaasJS unit testing playbook:
-
-- [Test-only Workflow](./faasjs-unit-testing/test-only.md)
-- [Shared Testing Kit](./faasjs-unit-testing/shared-testing.md)
-- [Test Matrix](./faasjs-unit-testing/test-matrix.md)
+- [defineApi Guide](./faasjs-best-practices/define-api.md)
+- [Test-only Workflow](./faasjs-best-practices/test-only.md)
+- [Shared Testing Kit](./faasjs-best-practices/shared-testing.md)
+- [Test Matrix](./faasjs-best-practices/test-matrix.md)
 
 ## Installation
 
@@ -29,7 +24,7 @@ npx skills add faasjs/faasjs
 
 ## Usage
 
-**Background skills** (`faasjs-best-practices`, `faasjs-unit-testing`) are automatically applied when relevant.
+**Background skill** (`faasjs-best-practices`) is automatically applied when relevant, including testability and unit testing guidance.
 
 ## Contributing
 

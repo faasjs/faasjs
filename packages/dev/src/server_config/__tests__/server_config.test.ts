@@ -8,7 +8,7 @@ vi.mock('@faasjs/node-utils', () => ({
   loadConfig: mocks.loadConfig,
 }))
 
-import { resolveFaasStaging, resolveServerConfig } from '../server_config'
+import { resolveFaasStaging, resolveServerConfig } from '..'
 
 const originalFaasEnv = process.env.FaasEnv
 

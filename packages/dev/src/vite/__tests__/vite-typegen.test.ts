@@ -37,12 +37,12 @@ vi.mock('@faasjs/core', () => ({
   Server: mocks.ServerMock,
 }))
 
-vi.mock('../typegen', () => ({
+vi.mock('../../typegen', () => ({
   generateFaasTypes: mocks.generateFaasTypes,
   isTypegenSourceFile: mocks.isTypegenSourceFile,
 }))
 
-import { viteFaasJsServer } from '../vite'
+import { viteFaasJsServer } from '..'
 
 const tempDirs: string[] = []
 

@@ -1,4 +1,4 @@
-import PackageJSON from '../../package.json' with { type: 'json' }
+import PackageJSON from '../../../package.json' with { type: 'json' }
 
 export type CliOptions = {
   root?: string

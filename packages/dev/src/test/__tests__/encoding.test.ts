@@ -3,7 +3,7 @@ import { brotliCompressSync, deflateSync, gzipSync } from 'node:zlib'
 import { Func } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
 
-import { FuncWarper } from '../../src/index'
+import { FuncWarper } from '../../index'
 
 describe('encoding', () => {
   const data = `hello world ${'x'.repeat(2000)}`

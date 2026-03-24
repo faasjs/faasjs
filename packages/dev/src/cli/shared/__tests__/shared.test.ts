@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { parseCommonCliArgs, runCli } from '../shared'
+import { parseCommonCliArgs, runCli } from '..'
 
 describe('cli shared helpers', () => {
   it('should parse run mode with root and rest arguments', () => {

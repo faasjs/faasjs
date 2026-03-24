@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest'
 
-import { FuncWarper, test as createTester } from '../../src/index'
+import { FuncWarper, test as createTester } from '../../index'
 import { func } from './funcs/basic.func'
 
 it('basic', async () => {

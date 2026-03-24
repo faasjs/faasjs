@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { Func, FuncWarper } from '../../src/index'
+import { Func, FuncWarper } from '../../index'
 
 describe('init by func', () => {
   it('200', async () => {
