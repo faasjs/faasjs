@@ -43,12 +43,14 @@ import { useFaasStream } from '@faasjs/react'
 
 function Chat() {
   const [prompt, setPrompt] = useState('')
- *   const { data, loading, reload } = useFaasStream('chat', { prompt })
+  const { data, loading, reload } = useFaasStream('chat', { prompt })
 
   return (
     <div>
-      <textarea value={prompt} onChange={e => setPrompt(e.target.value)} />
-      <button onClick={reload} disabled={loading}>Send</button>
+      <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} />
+      <button onClick={reload} disabled={loading}>
+        Send
+      </button>
       <div>{data}</div>
     </div>
   )

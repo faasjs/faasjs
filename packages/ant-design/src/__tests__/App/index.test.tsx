@@ -5,8 +5,9 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 
-import { App, useApp } from '../../App'
+import { App } from '../../App'
 import { useFaas } from '../../FaasDataWrapper'
+import { useApp } from '../../useApp'
 
 describe('App', () => {
   it('should render children', () => {

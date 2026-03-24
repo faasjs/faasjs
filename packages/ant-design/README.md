@@ -23,6 +23,7 @@
 - [Title](functions/Title.md)
 - [transferOptions](functions/transferOptions.md)
 - [transferValue](functions/transferValue.md)
+- [useApp](functions/useApp.md)
 - [useConfigContext](functions/useConfigContext.md)
 - [useDrawer](functions/useDrawer.md)
 - [useFaas](functions/useFaas.md)
@@ -85,5 +86,5 @@
 
 ## Variables
 
+- [AppContext](variables/AppContext.md)
 - [ConfigContext](variables/ConfigContext.md)
-- [useApp](variables/useApp.md)

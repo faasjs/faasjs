@@ -1,8 +1,8 @@
 [@faasjs/ant-design](../README.md) / useApp
 
-# Variable: useApp
+# Function: useApp()
 
-> `const` **useApp**: \<`NewT`\>(`this`) => `Readonly`\<`NewT`\> = `AppContext.use`
+> **useApp**\<`NewT`\>(`this`): `Readonly`\<`NewT`\>
 
 Get app context.
 

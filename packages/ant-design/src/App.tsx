@@ -1,7 +1,5 @@
-import { createSplittingContext, OptionalWrapper, useEqualEffect } from '@faasjs/react'
+import { OptionalWrapper, useEqualEffect } from '@faasjs/react'
 import { ConfigProvider, type ConfigProviderProps, message, notification } from 'antd'
-import type { MessageInstance } from 'antd/es/message/interface'
-import type { NotificationInstance } from 'antd/es/notification/interface'
 import type { BrowserRouterProps } from 'react-router-dom'
 import { BrowserRouter, useLocation } from 'react-router-dom'
 
@@ -9,9 +7,10 @@ import {
   ConfigProvider as FaasConfigProvider,
   type ConfigProviderProps as FaasConfigProviderProps,
 } from './Config'
-import { type DrawerProps, type setDrawerProps, useDrawer } from './Drawer'
+import { useDrawer } from './Drawer'
 import { ErrorBoundary, type ErrorBoundaryProps } from './ErrorBoundary'
-import { type ModalProps, type setModalProps, useModal } from './Modal'
+import { useModal } from './Modal'
+import { AppContext, useApp } from './useApp'
 
 export interface AppProps {
   children: React.ReactNode
@@ -30,24 +29,6 @@ export interface AppProps {
   /** @see https://faasjs.com/doc/ant-design/#configprovider */
   faasConfigProviderProps?: Omit<FaasConfigProviderProps, 'children'> | false
 }
-
-export interface useAppProps {
-  message: MessageInstance
-  notification: NotificationInstance
-  modalProps: ModalProps
-  setModalProps: setModalProps
-  drawerProps: DrawerProps
-  setDrawerProps: setDrawerProps
-}
-
-const AppContext = createSplittingContext<useAppProps>([
-  'message',
-  'notification',
-  'modalProps',
-  'setModalProps',
-  'drawerProps',
-  'setDrawerProps',
-])
 
 function RoutesApp(props: { children: React.ReactNode }) {
   const location = useLocation()
@@ -150,16 +131,3 @@ export function App(props: AppProps) {
     </OptionalWrapper>
   )
 }
-
-/**
- * Get app context.
- *
- * ```ts
- * import { useApp } from '@faasjs/ant-design'
- *
- * const { message, notification, setModalProps, setDrawerProps } = useApp()
- * ```
- */
-export const useApp = AppContext.use
-
-App.useApp = useApp
