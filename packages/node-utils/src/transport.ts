@@ -1,5 +1,8 @@
 import { type Level, Logger } from './logger'
 
+/**
+ * Serialized log entry sent to transport handlers.
+ */
 export type LoggerMessage = {
   level: Level
   labels: string[]
@@ -8,8 +11,14 @@ export type LoggerMessage = {
   extra?: any[]
 }
 
+/**
+ * Async callback used by {@link Transport} to flush buffered log messages.
+ */
 export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
 
+/**
+ * Options for configuring the shared logger transport.
+ */
 export type TransportOptions = {
   /** @default 'LoggerTransport' */
   label?: string
@@ -198,10 +207,7 @@ export class Transport {
   /**
    * Configure the transport options for the logger.
    *
-   * @param {TransportOptions} options - The configuration options for the transport.
-   * @param {string} [options.label] - The label to be used by the logger.
-   * @param {boolean} [options.debug] - If true, sets the logger level to 'debug', otherwise sets it to 'info'.
-   * @param {number} [options.interval] - The interval time in milliseconds for flushing the logs. If different from the current interval, it updates the interval and resets the timer.
+   * @param options - Transport configuration such as label, flush interval, and debug mode.
    */
   config(options: TransportOptions) {
     if (options.label) this.logger.label = options.label
@@ -220,6 +226,9 @@ export class Transport {
 
 let current: Transport
 
+/**
+ * Get the shared transport instance used by Logger.
+ */
 export function getTransport() {
   current ||= new Transport()
 

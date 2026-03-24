@@ -4,6 +4,8 @@
 
 > **LoadPackageOptions** = `object`
 
+Options for resolving packages with runtime hooks and tsconfig path aliases.
+
 ## Properties
 
 ### root?

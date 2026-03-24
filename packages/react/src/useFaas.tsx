@@ -6,9 +6,15 @@ import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
 import type { FaasDataInjection } from './FaasDataWrapper'
 
+/**
+ * Options for {@link useFaas}.
+ */
 export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
+  /** Override the request params without changing the hook's stored params state. */
   params?: FaasParams<PathOrData>
+  /** Controlled data value used instead of the hook's internal state. */
   data?: FaasData<PathOrData>
+  /** Controlled setter that is called instead of the hook's internal `setData`. */
   setData?: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
   /**
    * If skip is true, the request will not be sent.
@@ -18,20 +24,28 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
   skip?: boolean | ((params: FaasParams<PathOrData>) => boolean)
   /** Send the last request after milliseconds */
   debounce?: number
+  /** Override the default base URL for this hook instance. */
   baseUrl?: BaseUrl
 }
 
 /**
- * Request faas server with React hook
+ * Request FaasJS data and keep request state in React state.
  *
- * @param action {string} action name
- * @param defaultParams {object} initial action params
- * @returns {FaasDataInjection<any>}
+ * `useFaas` sends an initial request unless `skip` is enabled, and returns
+ * request state plus helpers for reloading, updating data, and handling errors.
+ *
+ * @param action - Action path to invoke.
+ * @param defaultParams - Params used for the initial request and future reloads.
+ * @param options - Optional hook configuration such as controlled data, debounce, and skip logic.
+ * @returns Request state and helper methods for the action.
  *
  * @example
  * ```tsx
- * function Post ({ id }) {
+ * import { useFaas } from '@faasjs/react'
+ *
+ * function Post({ id }: { id: number }) {
  *   const { data } = useFaas<{ title: string }>('post/get', { id })
+ *
  *   return <h1>{data.title}</h1>
  * }
  * ```

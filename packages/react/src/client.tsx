@@ -19,11 +19,17 @@ export type OnError = (
   params: Record<string, any>,
 ) => (res: ResponseError) => Promise<void>
 
+/**
+ * Options for creating a {@link FaasReactClient} instance.
+ */
 export type FaasReactClientOptions = {
   /** @default `/` */
   baseUrl?: BaseUrl
+  /** Default request options forwarded to the underlying browser client. */
   options?: Options
   /**
+   * Error hook invoked when `faas` or `useFaas` receives a failed response.
+   *
    * @example
    * ```ts
    * onError: (action, params) => async (res) => {
@@ -34,6 +40,9 @@ export type FaasReactClientOptions = {
   onError?: OnError
 }
 
+/**
+ * Public interface returned by {@link FaasReactClient}.
+ */
 export type FaasReactClientInstance = {
   id: string
   faas: typeof faas
@@ -44,14 +53,20 @@ export type FaasReactClientInstance = {
 }
 
 /**
- * Before use faas, you should initialize a FaasReactClient.
+ * Create and register a FaasReactClient instance.
  *
- * @returns FaasReactClient instance.
+ * The returned client is stored by `baseUrl` and becomes the default client
+ * used by helpers such as {@link faas} and {@link useFaas}.
+ *
+ * @param options - Client configuration including base URL, default request options, and error hooks.
+ * @returns Registered FaasReactClient instance.
  *
  * @example
  * ```ts
+ * import { FaasReactClient } from '@faasjs/react'
+ *
  * const client = FaasReactClient({
- *   baseUrl: 'localhost:8080/api/'
+ *   baseUrl: 'http://localhost:8080/api/',
  * })
  * ```
  */
@@ -103,16 +118,20 @@ export function FaasReactClient(
 }
 
 /**
- * Get FaasReactClient instance
+ * Get a registered FaasReactClient instance.
  *
- * @param host {string} empty string for default host
- * @returns {FaasReactClientInstance}
+ * When `host` is omitted, the first registered client is returned. If no client
+ * has been created yet, a default client is initialized automatically.
+ *
+ * @param host - Registered base URL to look up. Omit it to use the default client.
+ * @returns Registered or newly created FaasReactClient instance.
  *
  * @example
  * ```ts
+ * import { getClient } from '@faasjs/react'
+ *
  * getClient()
- * // or
- * getClient('another-host')
+ * getClient('http://localhost:8080/api/')
  * ```
  */
 export function getClient(host?: string): FaasReactClientInstance {

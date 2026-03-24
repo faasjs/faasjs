@@ -14,14 +14,16 @@ to stringify each argument individually.
 
 `any`
 
+Format string or first value to log.
+
 ### args
 
 ...`any`[]
 
-The arguments to format.
+Additional values passed to the formatter.
 
 ## Returns
 
 `string`
 
-The formatted string.
+Formatted log message.

@@ -52,19 +52,22 @@ type Mounted = {
 
 const servers: Server[] = []
 
+/**
+ * Return all server instances created in the current process.
+ */
 export function getAll(): Server[] {
   return servers
 }
 
+/**
+ * Close every tracked server instance.
+ */
 export async function closeAll(): Promise<void> {
   for (const server of servers) await server.close()
 }
 
 /**
- * Options for configuring the server.
- */
-/**
- * Configuration options for the server.
+ * Configuration options for {@link Server}.
  */
 export type ServerOptions = {
   /**
@@ -169,9 +172,6 @@ export type ServerOptions = {
 /**
  * FaasJS Server.
  *
- * @param {string} root The root path of the server.
- * @param {ServerOptions} opts The options of the server.
- * @returns {Server}
  * @example
  * ```ts
  * import { Server } from '@faasjs/core'
@@ -200,6 +200,13 @@ export class Server {
   private server: HttpServer | undefined
   private sockets: Set<Socket> = new Set()
 
+  /**
+   * Create a server rooted at a FaasJS project directory.
+   *
+   * @param root - Root directory used to resolve configuration and route files.
+   * @param opts - Server configuration overrides.
+   * @returns Server instance.
+   */
   constructor(root: string, opts: ServerOptions = {}) {
     loadEnvFileIfExists()
 

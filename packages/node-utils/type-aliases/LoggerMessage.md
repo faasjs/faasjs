@@ -4,6 +4,8 @@
 
 > **LoggerMessage** = `object`
 
+Serialized log entry sent to transport handlers.
+
 ## Properties
 
 ### extra?

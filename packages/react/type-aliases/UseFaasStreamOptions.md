@@ -4,15 +4,21 @@
 
 > **UseFaasStreamOptions** = `object`
 
+Options for [useFaasStream](../functions/useFaasStream.md).
+
 ## Properties
 
 ### baseUrl?
 
 > `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
+Override the default base URL for this hook instance.
+
 ### data?
 
 > `optional` **data?**: `string`
+
+Controlled stream text used instead of the hook's internal state.
 
 ### debounce?
 
@@ -24,9 +30,13 @@ Send the last request after milliseconds
 
 > `optional` **params?**: `Record`\<`string`, `any`\>
 
+Override the request params without changing the hook's stored params state.
+
 ### setData?
 
 > `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<`string`\>\>
+
+Controlled setter that is called instead of the hook's internal `setData`.
 
 ### skip?
 

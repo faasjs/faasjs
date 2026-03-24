@@ -2,7 +2,7 @@
 
 # Class: Logger
 
-Logger Class
+Logger with optional labels, colorized output, and transport forwarding.
 
 ## Example
 
@@ -24,13 +24,15 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 > **new Logger**(`label?`): `Logger`
 
+Create a logger with an optional label prefix.
+
 #### Parameters
 
 ##### label?
 
 `string`
 
-{string} Prefix label
+Prefix label shown in log output.
 
 #### Returns
 
@@ -42,27 +44,33 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 > **debug**(`message`, ...`args`): `Logger`
 
+Write a debug log entry.
+
 #### Parameters
 
 ##### message
 
 `string`
 
-{string} message
+Log message or format string.
 
 ##### args
 
 ...`any`[]
 
-{...any=} arguments
+Additional values forwarded to the formatter.
 
 #### Returns
 
 `Logger`
 
+Logger instance for chaining.
+
 ### error()
 
 > **error**(`message`, ...`args`): `Logger`
+
+Write an error log entry.
 
 #### Parameters
 
@@ -70,61 +78,71 @@ logger.timeEnd('timer name', 'message') // => 'message +1ms'
 
 `unknown`
 
-{any} message or Error object
+Log message, format string, or Error object.
 
 ##### args
 
 ...`any`[]
 
-{...any=} arguments
+Additional values forwarded to the formatter.
 
 #### Returns
 
 `Logger`
+
+Logger instance for chaining.
 
 ### info()
 
 > **info**(`message`, ...`args`): `Logger`
 
+Write an info log entry.
+
 #### Parameters
 
 ##### message
 
 `string`
 
-{string} message
+Log message or format string.
 
 ##### args
 
 ...`any`[]
 
-{...any=} arguments
+Additional values forwarded to the formatter.
 
 #### Returns
 
 `Logger`
+
+Logger instance for chaining.
 
 ### raw()
 
 > **raw**(`message`, ...`args`): `Logger`
 
+Write raw output without adding log level prefixes.
+
 #### Parameters
 
 ##### message
 
 `string`
 
-{string} message
+Log message or format string.
 
 ##### args
 
 ...`any`[]
 
-{...any=} arguments
+Additional values forwarded to the formatter.
 
 #### Returns
 
 `Logger`
+
+Logger instance for chaining.
 
 ### time()
 
@@ -188,23 +206,27 @@ The Logger instance for chaining.
 
 > **warn**(`message`, ...`args`): `Logger`
 
+Write a warning log entry.
+
 #### Parameters
 
 ##### message
 
 `string`
 
-{string} message
+Log message or format string.
 
 ##### args
 
 ...`any`[]
 
-{...any=} arguments
+Additional values forwarded to the formatter.
 
 #### Returns
 
 `Logger`
+
+Logger instance for chaining.
 
 ## Properties
 

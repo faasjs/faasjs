@@ -293,23 +293,41 @@ const cronJobRegistry = new CronJobRegistry()
  * Create and register a cron job.
  *
  * Registered jobs are managed by `Server` lifecycle automatically.
+ *
+ * @param options - Cron job definition.
+ * @returns Registered cron job instance.
  */
 export function createCronJob(options: CronJobOptions): CronJob {
   return cronJobRegistry.create(options)
 }
 
+/**
+ * Remove a previously registered cron job.
+ *
+ * @param cronJob - Cron job instance to remove.
+ * @returns `true` when the job was removed.
+ */
 export function removeCronJob(cronJob: CronJob): boolean {
   return cronJobRegistry.remove(cronJob)
 }
 
+/**
+ * List all registered cron jobs.
+ */
 export function listCronJobs(): CronJob[] {
   return cronJobRegistry.list()
 }
 
+/**
+ * Start cron jobs for the current mounted server lifecycle.
+ */
 export function mountServerCronJobs(): void {
   cronJobRegistry.mountServer()
 }
 
+/**
+ * Stop cron jobs when the last mounted server is unmounted.
+ */
 export function unmountServerCronJobs(): void {
   cronJobRegistry.unmountServer()
 }

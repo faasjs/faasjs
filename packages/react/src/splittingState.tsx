@@ -10,15 +10,16 @@ export type StateSetters<T> = {
 export type StatesWithSetters<T> = T & StateSetters<T>
 
 /**
- * A hook that initializes and splits state variables and their corresponding setters.
+ * Create local state entries and matching setters for each key in an object.
  *
  * @template T - A generic type that extends a record with string keys and any values.
- * @param {T} initialStates - An object containing the initial states.
+ * @param initialStates - Object whose keys become state values and `setXxx` setters.
+ * @returns Object containing the original keys plus generated setter functions.
  *
  * @example
  * ```tsx
  * function Counter() {
- *   const { count, setCount, name, setName } = useSplittingState({ count: 0, name: 'John' });
+ *   const { count, setCount, name, setName } = useSplittingState({ count: 0, name: 'John' })
  *
  *   return <>{name}: {count}</>
  * }

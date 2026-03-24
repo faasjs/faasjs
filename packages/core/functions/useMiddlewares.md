@@ -12,13 +12,13 @@ Apply an array of middleware functions to an event.
 
 [`Middleware`](../type-aliases/Middleware.md)[]
 
-An array of middleware functions to be applied.
+Middleware functions to run in order until one ends the response.
 
 ## Returns
 
 `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
 
-A promise that resolves when all middleware functions have been applied.
+Wrapper that applies each middleware to the incoming event.
 
 ## Example
 

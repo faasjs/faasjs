@@ -22,8 +22,9 @@ const LevelPriority = {
  * with a `__hidden__` property set to `true`. If formatting fails, it attempts
  * to stringify each argument individually.
  *
- * @param {...any[]} args - The arguments to format.
- * @returns {string} The formatted string.
+ * @param fmt - Format string or first value to log.
+ * @param args - Additional values passed to the formatter.
+ * @returns Formatted log message.
  */
 export function formatLogger(fmt: any, ...args: any[]): string {
   try {
@@ -37,7 +38,7 @@ export function formatLogger(fmt: any, ...args: any[]): string {
 }
 
 /**
- * Logger Class
+ * Logger with optional labels, colorized output, and transport forwarding.
  *
  * @example
  * ```ts
@@ -64,7 +65,9 @@ export class Logger {
   private cachedTimers: Record<string, Timer> = {}
 
   /**
-   * @param label {string} Prefix label
+   * Create a logger with an optional label prefix.
+   *
+   * @param label - Prefix label shown in log output.
    */
   constructor(label?: string) {
     if (label) this.label = label
@@ -102,8 +105,11 @@ export class Logger {
   }
 
   /**
-   * @param message {string} message
-   * @param args {...any=} arguments
+   * Write a debug log entry.
+   *
+   * @param message - Log message or format string.
+   * @param args - Additional values forwarded to the formatter.
+   * @returns Logger instance for chaining.
    */
   public debug(message: string, ...args: any[]): Logger {
     this.log('debug', message, ...args)
@@ -111,8 +117,11 @@ export class Logger {
   }
 
   /**
-   * @param message {string} message
-   * @param args {...any=} arguments
+   * Write an info log entry.
+   *
+   * @param message - Log message or format string.
+   * @param args - Additional values forwarded to the formatter.
+   * @returns Logger instance for chaining.
    */
   public info(message: string, ...args: any[]): Logger {
     this.log('info', message, ...args)
@@ -120,8 +129,11 @@ export class Logger {
   }
 
   /**
-   * @param message {string} message
-   * @param args {...any=} arguments
+   * Write a warning log entry.
+   *
+   * @param message - Log message or format string.
+   * @param args - Additional values forwarded to the formatter.
+   * @returns Logger instance for chaining.
    */
   public warn(message: string, ...args: any[]): Logger {
     this.log('warn', message, ...args)
@@ -129,8 +141,11 @@ export class Logger {
   }
 
   /**
-   * @param message {any} message or Error object
-   * @param args {...any=} arguments
+   * Write an error log entry.
+   *
+   * @param message - Log message, format string, or Error object.
+   * @param args - Additional values forwarded to the formatter.
+   * @returns Logger instance for chaining.
    */
   public error(message: unknown, ...args: any[]): Logger {
     this.log('error', message, ...args)
@@ -189,8 +204,11 @@ export class Logger {
   }
 
   /**
-   * @param message {string} message
-   * @param args {...any=} arguments
+   * Write raw output without adding log level prefixes.
+   *
+   * @param message - Log message or format string.
+   * @param args - Additional values forwarded to the formatter.
+   * @returns Logger instance for chaining.
    */
   public raw(message: string, ...args: any[]): Logger {
     if (this.silent) return this

@@ -4,6 +4,8 @@
 
 > **useFaasOptions**\<`PathOrData`\> = `object`
 
+Options for [useFaas](../functions/useFaas.md).
+
 ## Type Parameters
 
 ### PathOrData
@@ -16,9 +18,13 @@
 
 > `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
+Override the default base URL for this hook instance.
+
 ### data?
 
 > `optional` **data?**: [`FaasData`](FaasData.md)\<`PathOrData`\>
+
+Controlled data value used instead of the hook's internal state.
 
 ### debounce?
 
@@ -30,9 +36,13 @@ Send the last request after milliseconds
 
 > `optional` **params?**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
+Override the request params without changing the hook's stored params state.
+
 ### setData?
 
 > `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+
+Controlled setter that is called instead of the hook's internal `setData`.
 
 ### skip?
 

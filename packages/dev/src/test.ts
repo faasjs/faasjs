@@ -48,7 +48,9 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   private readonly _handler: ExportedHandler
 
   /**
-   * @param initBy {Func} A FaasJS function
+   * Create a test wrapper around a FaasJS function module.
+   *
+   * @param initBy - FaasJS function module or exported function instance.
    * ```ts
    * import { FuncWarper } from '@faasjs/dev'
    *
@@ -233,8 +235,9 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
 }
 
 /**
- * A simple way to wrap a FaasJS function.
- * @param initBy {Func} Full file path or a FaasJs function
+ * Create a {@link FuncWarper} for tests.
+ *
+ * @param initBy - FaasJS function module or exported function instance.
  *
  * ```ts
  * import { test } from '@faasjs/dev'

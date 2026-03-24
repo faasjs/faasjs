@@ -153,7 +153,7 @@ export type UnionFaasItemInjection<Value = any, Values = any> = {
  * @param value - The value of the current item.
  * @param values - The entire list of values.
  * @param index - The index of the current item in the list.
- * @param scene {@link UnionScene} - The scene in which the rendering is taking place.
+ * @param scene - The scene in which the rendering is taking place. See {@link UnionScene}.
  *
  * @example
  * ```tsx

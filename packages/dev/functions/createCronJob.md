@@ -14,6 +14,10 @@ Registered jobs are managed by `Server` lifecycle automatically.
 
 [`CronJobOptions`](../type-aliases/CronJobOptions.md)
 
+Cron job definition.
+
 ## Returns
 
 [`CronJob`](../classes/CronJob.md)
+
+Registered cron job instance.

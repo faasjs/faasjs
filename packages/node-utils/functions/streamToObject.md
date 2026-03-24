@@ -18,9 +18,13 @@ Convert ReadableStream to object.
 
 `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`\>\>
 
+Readable stream to decode as JSON.
+
 ## Returns
 
 `Promise`\<`T`\>
+
+Parsed JSON object from the stream body.
 
 ## Throws
 

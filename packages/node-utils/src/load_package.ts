@@ -3,8 +3,14 @@ import { registerHooks } from 'node:module'
 import { dirname, extname, isAbsolute, join, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
+/**
+ * JavaScript module runtime detected for the current process.
+ */
 export type NodeRuntime = 'commonjs' | 'module'
 
+/**
+ * Options for resolving packages with runtime hooks and tsconfig path aliases.
+ */
 export type LoadPackageOptions = {
   /** Project root used to scope tsconfig paths resolving. */
   root?: string
@@ -14,6 +20,9 @@ export type LoadPackageOptions = {
   version?: string
 }
 
+/**
+ * Options for registering Node module hooks before loading application modules.
+ */
 export type RegisterNodeModuleHooksOptions = LoadPackageOptions & {
   /**
    * Optional entry file used to infer project root and tsconfig.
@@ -53,6 +62,9 @@ const loaderStates = new Map<string, LoaderState>()
 let _runtime: NodeRuntime | null = null
 let hooksInstalled = false
 
+/**
+ * Reset cached runtime and loader state used by this module.
+ */
 export function resetRuntime(): void {
   _runtime = null
   loaderStates.clear()
@@ -552,6 +564,11 @@ function installModuleHooks(): void {
   hooksInstalled = true
 }
 
+/**
+ * Register Node module hooks for tsconfig path alias resolution.
+ *
+ * @param options - Hook registration options such as entry file, root, and tsconfig path.
+ */
 export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions = {}): void {
   const { entry, ...loadOptions } = options
   const runtimeEntry =
@@ -581,7 +598,7 @@ export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions 
  * This function checks for presence of `require` first, then falls back to
  * Node.js ESM detection via `process.versions.node`.
  *
- * @returns {NodeRuntime} Returns `module` for ESM and `commonjs` for CJS.
+ * @returns `module` for ESM and `commonjs` for CJS.
  * @throws {Error} Throws an error if runtime cannot be determined.
  */
 export function detectNodeRuntime(): NodeRuntime {
@@ -598,10 +615,10 @@ export function detectNodeRuntime(): NodeRuntime {
 /**
  * Asynchronously loads a package by its name, supporting both ESM and CJS.
  *
- * @template T The type of module to be loaded.
- * @param name The package name to load.
- * @param defaultNames Preferred export keys used to resolve default values.
- * @param options Optional runtime loader options.
+ * @template T - The type of module to be loaded.
+ * @param name - The package name to load.
+ * @param defaultNames - Preferred export keys used to resolve default values.
+ * @param options - Optional runtime loader options.
  * @returns Loaded module or resolved default export.
  */
 export async function loadPackage<T = unknown>(

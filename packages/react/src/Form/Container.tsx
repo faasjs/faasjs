@@ -32,32 +32,29 @@ function mergeValues<Values extends Record<string, any>>(
 }
 
 /**
- * FormContainer component is a wrapper that provides context and state management for form elements.
- * It initializes form states such as values, errors, submitting status, elements, language, and rules.
+ * Render a form with context, default elements, and validation state.
+ *
+ * `FormContainer` merges provided elements, language strings, and rules with
+ * the package defaults, then exposes them through form context.
  *
  * @template Values - The type of form values, defaults to Record<string, any>.
  * @template FormElements - The type of form elements, defaults to FormElementTypes.
  * @template Rules - The type of form rules, defaults to FormDefaultRules.
- *
- * @param {FormProps<Values, FormElements, Rules>} props - The properties for the FormContainer component.
- * @param {Values} props.defaultValues - The default values for the form fields.
- * @param {FormElements} props.Elements - The form elements to be used in the form.
- * @param {Rules} props.rules - The validation rules for the form fields.
- * @param {FormLang} props.lang - The language settings for the form.
- * @param {Partial<FormContextProps>} props - Additional properties for the form context.
- *
- * @returns {JSX.Element} The FormContainer component.
+ * @param props - Form items and optional overrides for defaults, language, rules, and submit behavior.
+ * @returns React form container with shared form context.
  *
  * @example
  * ```tsx
  * import { Form } from '@faasjs/react'
  *
  * function MyForm() {
- *   return <Form
- *     items={[
- *       { name: 'name' },
- *     ]}
- *   />
+ *   return (
+ *     <Form
+ *       items={[
+ *         { name: 'name' },
+ *       ]}
+ *     />
+ *   )
  * }
  * ```
  */

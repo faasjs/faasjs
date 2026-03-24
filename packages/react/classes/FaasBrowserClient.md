@@ -90,23 +90,17 @@ Creates a new FaasBrowserClient instance.
 
 `` `${string}/` `` = `'/'`
 
-Base URL for all API requests. Must end with '/'. Defaults to '/' for relative requests.
+Base URL for all API requests. Must end with `/`. Defaults to `/` for relative requests.
 
 ##### options?
 
 [`Options`](../type-aliases/Options.md) = `...`
 
-Configuration options for the client.
-Supports default headers, beforeRequest hook, custom request function,
-baseUrl override, and streaming mode.
+Default request options such as headers, hooks, request override, or stream mode.
 
 #### Returns
 
 `FaasBrowserClient`
-
-#### Throws
-
-If baseUrl does not end with '/'
 
 #### Examples
 
@@ -156,7 +150,7 @@ const client = new FaasBrowserClient('/', {
 
 #### Throws
 
-When baseUrl does not end with '/'
+When `baseUrl` does not end with `/`
 
 ## Methods
 
@@ -214,7 +208,7 @@ When the server returns an error response (status >= 400 or body.error exists)
 
 #### Throws
 
-When network request fails
+When the request fails before a response is received
 
 Notes:
 
@@ -274,11 +268,7 @@ interface UserData {
   email: string
 }
 
-const response = await client.action<{
-  action: 'user'
-  params: { id: number }
-  data: UserData
-}>('user', { id: 123 })
+const response = await client.action<UserData>('user', { id: 123 })
 console.log(response.data.name) // TypeScript knows it's a string
 ```
 
@@ -289,7 +279,7 @@ try {
 } catch (error) {
   if (error instanceof ResponseError) {
     console.error(`Server error: ${error.message}`, error.status)
-    if (error.data) console.error('Error details:', error.data)
+    if (error.body) console.error('Error details:', error.body)
   } else {
     console.error('Network error:', error)
   }

@@ -4,6 +4,8 @@
 
 > **RegisterNodeModuleHooksOptions** = [`LoadPackageOptions`](LoadPackageOptions.md) & `object`
 
+Options for registering Node module hooks before loading application modules.
+
 ## Type Declaration
 
 ### entry?

@@ -4,6 +4,8 @@
 
 > **TransportOptions** = `object`
 
+Options for configuring the shared logger transport.
+
 ## Properties
 
 ### debug?

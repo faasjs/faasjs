@@ -15,7 +15,7 @@ Mock handlers receive request parameters and return simulated responses or error
 
 `string`
 
-The function path/action being requested (e.g., 'user', 'data/list').
+The function path/action being requested (for example, `user` or `data/list`).
 Converted to lowercase by the client before being passed to the handler.
 
 ### params
@@ -38,10 +38,11 @@ Contains merged client defaults and per-request options.
 
 `Promise`\<[`ResponseProps`](ResponseProps.md)\> \| `Promise`\<`void`\> \| `Promise`\<`Error`\>
 
-- A Promise resolving to:
-  - ResponseProps: Mock response data (status, headers, body, data)
-  - void: Returns an empty response (204 No Content)
-  - Error: Throws ResponseError when returning an Error object
+A promise resolving to:
+
+- ResponseProps: Mock response data (status, headers, body, data)
+- void: Returns an empty response (204 No Content)
+- Error: Throws ResponseError when returning an Error object
 
 Notes:
 

@@ -20,10 +20,10 @@ The type of the value.
 
 `T`
 
-The current value to be stored.
+The current value to track.
 
 ## Returns
 
 `T` \| `undefined`
 
-- The previous value, or undefined if there is no previous value.
+Previous value from the prior render, or `undefined` on the first render.

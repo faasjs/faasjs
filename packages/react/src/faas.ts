@@ -4,17 +4,20 @@ import type { Options, Response } from './browser'
 import { getClient } from './client'
 
 /**
- * Request faas server
+ * Call the currently configured FaasReactClient.
  *
- * @param action {string} action name
- * @param params {object} action params
- * @returns {Promise<Response<any>>}
+ * @param action - Action path to invoke.
+ * @param params - Parameters sent to the action.
+ * @param options - Optional per-request overrides such as headers or base URL.
+ * @returns Response returned by the active browser client.
  *
  * @example
  * ```ts
- * faas<{ title: string }>('post/get', { id: 1 }).then(res => {
- *   console.log(res.data.title)
- * })
+ * import { faas } from '@faasjs/react'
+ *
+ * const response = await faas<{ title: string }>('post/get', { id: 1 })
+ *
+ * console.log(response.data.title)
  * ```
  */
 export async function faas<PathOrData extends FaasActionUnionType>(

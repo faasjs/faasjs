@@ -12,13 +12,13 @@ Middleware to handle static file requests.
 
 [`StaticHandlerOptions`](../type-aliases/StaticHandlerOptions.md)
 
-Options for the static handler.
+Static file serving options.
 
 ## Returns
 
 [`Middleware`](../type-aliases/Middleware.md)
 
-The middleware function.
+Middleware that serves files from the configured root directory.
 
 The middleware resolves the requested URL to a file path within the specified root directory.
 If the file exists, it reads the file content and sends it in the response.

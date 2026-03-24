@@ -23,25 +23,25 @@ The function path or data type for type safety
 
 [`FaasAction`](FaasAction.md)\<`PathOrData`\>
 
-The function path to call
+The function path to call.
 
 ### params?
 
 [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
-Optional parameters for the function
+Optional parameters for the function.
 
 ### options?
 
 [`Options`](Options.md)
 
-Optional request options
+Optional request overrides.
 
 ## Returns
 
 `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\> \| [`Response`](../classes/Response.md)\>
 
-- A Promise resolving to a Response object
+Promise resolving to the request response. In streaming mode the runtime returns the native fetch response.
 
 Notes:
 

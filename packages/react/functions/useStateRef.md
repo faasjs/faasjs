@@ -20,13 +20,13 @@ The type of the value.
 
 `T`
 
-The initial value of the state.
+Initial state value. When omitted, state starts as `null`.
 
 ## Returns
 
 \[`T` \| `null`, `Dispatch`\<`SetStateAction`\<`T` \| `null`\>\>, `RefObject`\<`T` \| `null`\>\]
 
-- The stateful value, a function to set the value, and a ref to the value.
+Tuple containing the current state, the state setter, and a ref that always points at the latest state.
 
 ## Example
 
@@ -34,13 +34,14 @@ The initial value of the state.
 import { useStateRef } from '@faasjs/react'
 
 function MyComponent() {
- const [value, setValue, ref] = useStateRef(0)
+  const [value, setValue, ref] = useStateRef(0)
 
-return (
-  <div>
-    <p>Value: {value}</p>
-    <button onClick={() => setValue(value + 1)}>Increment</button>
-    <button onClick={() => console.log(ref.current)}>Submit</button>
-  </div>
-)
+  return (
+    <div>
+      <p>Value: {value}</p>
+      <button onClick={() => setValue(value + 1)}>Increment</button>
+      <button onClick={() => console.log(ref.current)}>Submit</button>
+    </div>
+  )
+}
 ```

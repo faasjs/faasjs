@@ -4,7 +4,7 @@
 
 > **useSplittingState**\<`T`\>(`initialStates`): [`StatesWithSetters`](../type-aliases/StatesWithSetters.md)\<`T`\>
 
-A hook that initializes and splits state variables and their corresponding setters.
+Create local state entries and matching setters for each key in an object.
 
 ## Type Parameters
 
@@ -20,11 +20,13 @@ A generic type that extends a record with string keys and any values.
 
 `T`
 
-An object containing the initial states.
+Object whose keys become state values and `setXxx` setters.
 
 ## Returns
 
 [`StatesWithSetters`](../type-aliases/StatesWithSetters.md)\<`T`\>
+
+Object containing the original keys plus generated setter functions.
 
 ## Example
 

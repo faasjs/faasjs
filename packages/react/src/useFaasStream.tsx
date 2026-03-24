@@ -4,9 +4,15 @@ import type { BaseUrl } from './browser'
 import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
 
+/**
+ * Options for {@link useFaasStream}.
+ */
 export type UseFaasStreamOptions = {
+  /** Override the request params without changing the hook's stored params state. */
   params?: Record<string, any>
+  /** Controlled stream text used instead of the hook's internal state. */
   data?: string
+  /** Controlled setter that is called instead of the hook's internal `setData`. */
   setData?: React.Dispatch<React.SetStateAction<string>>
   /**
    * If skip is true, the request will not be sent.
@@ -16,9 +22,13 @@ export type UseFaasStreamOptions = {
   skip?: boolean | ((params: Record<string, any>) => boolean)
   /** Send the last request after milliseconds */
   debounce?: number
+  /** Override the default base URL for this hook instance. */
   baseUrl?: BaseUrl
 }
 
+/**
+ * Result returned by {@link useFaasStream}.
+ */
 export type UseFaasStreamResult = {
   action: string
   params: Record<string, any>
@@ -33,14 +43,21 @@ export type UseFaasStreamResult = {
 }
 
 /**
- * Stream faas server response with React hook
+ * Stream a FaasJS response into React state.
  *
- * @param action {string} action name
- * @param defaultParams {object} initial action params
- * @returns {UseFaasStreamResult}
+ * The hook sends a streaming request, appends decoded text chunks to `data`,
+ * and exposes reload helpers for retrying the same action.
+ *
+ * @param action - Action path to invoke.
+ * @param defaultParams - Params used for the initial request and future reloads.
+ * @param options - Optional hook configuration such as controlled data, debounce, and skip logic.
+ * @returns Streaming request state and helper methods.
  *
  * @example
  * ```tsx
+ * import { useState } from 'react'
+ * import { useFaasStream } from '@faasjs/react'
+ *
  * function Chat() {
  *   const [prompt, setPrompt] = useState('')
  *   const { data, loading, reload } = useFaasStream('chat', { prompt })

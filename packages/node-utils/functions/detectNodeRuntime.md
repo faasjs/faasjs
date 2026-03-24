@@ -13,7 +13,7 @@ Node.js ESM detection via `process.versions.node`.
 
 [`NodeRuntime`](../type-aliases/NodeRuntime.md)
 
-Returns `module` for ESM and `commonjs` for CJS.
+`module` for ESM and `commonjs` for CJS.
 
 ## Throws
 

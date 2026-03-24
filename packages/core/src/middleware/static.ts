@@ -98,8 +98,8 @@ async function respondWithFile(path: string, mimeType: string, response: ServerR
 /**
  * Middleware to handle static file requests.
  *
- * @param {StaticHandlerOptions} options - Options for the static handler.
- * @returns {Middleware} The middleware function.
+ * @param options - Static file serving options.
+ * @returns Middleware that serves files from the configured root directory.
  *
  * The middleware resolves the requested URL to a file path within the specified root directory.
  * If the file exists, it reads the file content and sends it in the response.

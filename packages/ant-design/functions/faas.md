@@ -4,7 +4,7 @@
 
 > **faas**\<`PathOrData`\>(`action`, `params`, `options?`): `Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
 
-Request faas server
+Call the currently configured FaasReactClient.
 
 ## Type Parameters
 
@@ -18,26 +18,32 @@ Request faas server
 
 `FaasAction`\<`PathOrData`\>
 
-{string} action name
+Action path to invoke.
 
 ### params
 
 `FaasParams`\<`PathOrData`\>
 
-{object} action params
+Parameters sent to the action.
 
 ### options?
 
 `Options`
 
+Optional per-request overrides such as headers or base URL.
+
 ## Returns
 
 `Promise`\<`Response`\<`FaasData`\<`PathOrData`\>\>\>
 
+Response returned by the active browser client.
+
 ## Example
 
 ```ts
-faas<{ title: string }>('post/get', { id: 1 }).then((res) => {
-  console.log(res.data.title)
-})
+import { faas } from '@faasjs/react'
+
+const response = await faas<{ title: string }>('post/get', { id: 1 })
+
+console.log(response.data.title)
 ```

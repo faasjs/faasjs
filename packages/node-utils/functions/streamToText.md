@@ -12,9 +12,13 @@ Convert ReadableStream to text.
 
 `ReadableStream`\<`Uint8Array`\<`ArrayBufferLike`\>\>
 
+Readable stream to decode as text.
+
 ## Returns
 
 `Promise`\<`string`\>
+
+Stream contents as a UTF-8 string.
 
 ## Throws
 

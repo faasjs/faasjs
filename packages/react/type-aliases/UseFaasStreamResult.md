@@ -4,6 +4,8 @@
 
 > **UseFaasStreamResult** = `object`
 
+Result returned by [useFaasStream](../functions/useFaasStream.md).
+
 ## Properties
 
 ### action

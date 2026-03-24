@@ -58,7 +58,7 @@ Configure the transport options for the logger.
 
 [`TransportOptions`](../type-aliases/TransportOptions.md)
 
-The configuration options for the transport.
+Transport configuration such as label, flush interval, and debug mode.
 
 #### Returns
 

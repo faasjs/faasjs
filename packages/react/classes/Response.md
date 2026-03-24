@@ -7,21 +7,6 @@ Wrapper class for HTTP responses from FaasJS functions.
 Provides a consistent interface for handling server responses with status code, headers,
 body, and parsed data. Automatically handles JSON serialization and status code defaults.
 
-## Param
-
-Response properties including status, headers, body, and data.
-All properties are optional with sensible defaults.
-
-Notes:
-
-- status defaults to 200 if data or body is present, 204 otherwise
-- body is automatically populated from data if not explicitly provided
-- headers defaults to an empty object if not provided
-- Use generic type parameter T for type-safe data access
-- Commonly used as the return type from client.action() method
-- Can be used in mock handlers to return structured responses
-- The data property is optional and may be undefined for responses without data
-
 ## Examples
 
 ```ts
@@ -122,15 +107,21 @@ The type of the data property for type-safe response handling
 
 > **new Response**\<`T`\>(`props?`): `Response`\<`T`\>
 
+Create a wrapped response object.
+
 #### Parameters
 
 ##### props?
 
 [`ResponseProps`](../type-aliases/ResponseProps.md)\<`T`\> = `{}`
 
+Response properties including status, headers, body, and data.
+
 #### Returns
 
 `Response`\<`T`\>
+
+Wrapped response instance.
 
 ## Properties
 
@@ -147,6 +138,16 @@ If data is provided without body, body is automatically set to JSON.stringify(da
 
 The parsed JSON data from the response.
 Optional property that contains the response payload when JSON is provided.
+
+Notes:
+
+- status defaults to 200 if data or body is present, 204 otherwise
+- body is automatically populated from data if not explicitly provided
+- headers defaults to an empty object if not provided
+- Use generic type parameter T for type-safe data access
+- Commonly used as the return type from client.action() method
+- Can be used in mock handlers to return structured responses
+- The data property is optional and may be undefined for responses without data
 
 ### headers
 

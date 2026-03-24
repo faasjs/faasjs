@@ -7,16 +7,6 @@ Custom error class for handling HTTP response errors from FaasJS requests.
 Extends the built-in Error class to provide additional information about failed requests,
 including HTTP status code, response headers, response body, and the original error.
 
-ResponseError
-
-## Param
-
-The error message, an Error object, or a ResponseErrorProps object.
-
-## Param
-
-Additional options for the error (status, headers, body).
-
 ## Examples
 
 ```ts
@@ -110,6 +100,8 @@ Notes:
 
 > **new ResponseError**(`msg`, `options?`): `ResponseError`
 
+Create a ResponseError from a message, Error, or structured response error payload.
+
 #### Parameters
 
 ##### msg
@@ -124,6 +116,14 @@ Notes:
 
 `ResponseError`
 
+#### Param
+
+Error message, Error object, or structured response error props.
+
+#### Param
+
+Additional options such as status, headers, and body.
+
 #### Overrides
 
 `Error.constructor`
@@ -131,6 +131,8 @@ Notes:
 ### Constructor
 
 > **new ResponseError**(`props`): `ResponseError`
+
+Create a ResponseError from a message, Error, or structured response error payload.
 
 #### Parameters
 
@@ -141,6 +143,14 @@ Notes:
 #### Returns
 
 `ResponseError`
+
+#### Param
+
+Error message, Error object, or structured response error props.
+
+#### Param
+
+Additional options such as status, headers, and body.
 
 #### Overrides
 

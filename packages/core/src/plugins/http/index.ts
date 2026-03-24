@@ -349,9 +349,10 @@ export class Http<
   }
 
   /**
-   * set header
-   * @param key {string} key
-   * @param value {string} value
+   * Set a response header.
+   *
+   * @param key - Header name.
+   * @param value - Header value.
    */
   public setHeader(key: string, value: string): Http<TParams, TCookie, TSession> {
     ;(this.response.headers || (this.response.headers = Object.create(null)))[key.toLowerCase()] =
@@ -360,9 +361,10 @@ export class Http<
   }
 
   /**
-   * set Content-Type
-   * @param type {string} 类型
-   * @param charset {string} 编码
+   * Set the `Content-Type` response header.
+   *
+   * @param type - Content type alias or full MIME type.
+   * @param charset - Charset appended to the header value.
    */
   public setContentType(type: string, charset = 'utf-8'): Http<TParams, TCookie, TSession> {
     this.setHeader('Content-Type', `${ContentType[type] || type}; charset=${charset}`)
@@ -370,8 +372,9 @@ export class Http<
   }
 
   /**
-   * set status code
-   * @param code {number} 状态码
+   * Set the HTTP status code for the response.
+   *
+   * @param code - HTTP status code.
    */
   public setStatusCode(code: number): Http<TParams, TCookie, TSession> {
     this.response.statusCode = code
@@ -379,8 +382,9 @@ export class Http<
   }
 
   /**
-   * set body
-   * @param body {*} 内容
+   * Set the response body.
+   *
+   * @param body - Response body content.
    */
   public setBody(body: string): Http<TParams, TCookie, TSession> {
     this.response.body = body
@@ -388,6 +392,12 @@ export class Http<
   }
 }
 
+/**
+ * Attach the HTTP plugin to a function.
+ *
+ * @param config - Optional HTTP plugin configuration.
+ * @returns HTTP plugin instance wrapped for `usePlugin`.
+ */
 export function useHttp<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,

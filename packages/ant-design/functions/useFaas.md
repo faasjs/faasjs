@@ -4,7 +4,10 @@
 
 > **useFaas**\<`PathOrData`\>(`action`, `defaultParams`, `options?`): `FaasDataInjection`\<`PathOrData`\>
 
-Request faas server with React hook
+Request FaasJS data and keep request state in React state.
+
+`useFaas` sends an initial request unless `skip` is enabled, and returns
+request state plus helpers for reloading, updating data, and handling errors.
 
 ## Type Parameters
 
@@ -18,27 +21,34 @@ Request faas server with React hook
 
 `FaasAction`\<`PathOrData`\>
 
-{string} action name
+Action path to invoke.
 
 ### defaultParams
 
 `FaasParams`\<`PathOrData`\>
 
-{object} initial action params
+Params used for the initial request and future reloads.
 
 ### options?
 
 `useFaasOptions`\<`PathOrData`\> = `{}`
 
+Optional hook configuration such as controlled data, debounce, and skip logic.
+
 ## Returns
 
 `FaasDataInjection`\<`PathOrData`\>
 
+Request state and helper methods for the action.
+
 ## Example
 
 ```tsx
-function Post({ id }) {
+import { useFaas } from '@faasjs/react'
+
+function Post({ id }: { id: number }) {
   const { data } = useFaas<{ title: string }>('post/get', { id })
+
   return <h1>{data.title}</h1>
 }
 ```

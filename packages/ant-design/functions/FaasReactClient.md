@@ -2,26 +2,33 @@
 
 # Function: FaasReactClient()
 
-> **FaasReactClient**(`__namedParameters?`): `FaasReactClientInstance`
+> **FaasReactClient**(`options?`): `FaasReactClientInstance`
 
-Before use faas, you should initialize a FaasReactClient.
+Create and register a FaasReactClient instance.
+
+The returned client is stored by `baseUrl` and becomes the default client
+used by helpers such as [faas](faas.md) and [useFaas](useFaas.md).
 
 ## Parameters
 
-### \_\_namedParameters?
+### options?
 
 [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md) = `...`
+
+Client configuration including base URL, default request options, and error hooks.
 
 ## Returns
 
 `FaasReactClientInstance`
 
-FaasReactClient instance.
+Registered FaasReactClient instance.
 
 ## Example
 
 ```ts
+import { FaasReactClient } from '@faasjs/react'
+
 const client = FaasReactClient({
-  baseUrl: 'localhost:8080/api/',
+  baseUrl: 'http://localhost:8080/api/',
 })
 ```

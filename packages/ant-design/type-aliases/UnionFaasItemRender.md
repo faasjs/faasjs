@@ -40,7 +40,7 @@ The index of the current item in the list.
 
 [`UnionScene`](UnionScene.md)
 
-[UnionScene](UnionScene.md) - The scene in which the rendering is taking place.
+The scene in which the rendering is taking place. See [UnionScene](UnionScene.md).
 
 ## Returns
 

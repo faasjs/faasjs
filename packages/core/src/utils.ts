@@ -2,9 +2,9 @@
  * Assigns a name to a given function handler, which will be displayed in logs and error messages.
  *
  * @template T - The type of the function handler.
- * @param {string} name - The name to assign to the function handler.
- * @param {T} handler - The function handler to which the name will be assigned.
- * @returns {T} - The original function handler with the assigned name.
+ * @param name - The name to assign to the function handler.
+ * @param handler - The function handler to which the name will be assigned.
+ * @returns The original function handler with the assigned name.
  *
  * @example
  * ```ts

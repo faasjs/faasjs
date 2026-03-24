@@ -4,14 +4,6 @@
 
 FaasJS Server.
 
-## Param
-
-The root path of the server.
-
-## Param
-
-The options of the server.
-
 ## Example
 
 ```ts
@@ -30,19 +22,27 @@ server.listen()
 
 > **new Server**(`root`, `opts?`): `Server`
 
+Create a server rooted at a FaasJS project directory.
+
 #### Parameters
 
 ##### root
 
 `string`
 
+Root directory used to resolve configuration and route files.
+
 ##### opts?
 
 [`ServerOptions`](../type-aliases/ServerOptions.md) = `{}`
 
+Server configuration overrides.
+
 #### Returns
 
 `Server`
+
+Server instance.
 
 ## Methods
 

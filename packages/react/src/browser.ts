@@ -278,11 +278,10 @@ export type ResponseHeaders = {
  *
  * @template PathOrData - The function path or data type for type safety
  *
- * @param {FaasAction<PathOrData>} action - The function path to call
- * @param {FaasParams<PathOrData>} [params] - Optional parameters for the function
- * @param {Options} [options] - Optional request options
- *
- * @returns {Promise<Response<FaasData<PathOrData>> | Response>} - A Promise resolving to a Response object
+ * @param action - The function path to call.
+ * @param params - Optional parameters for the function.
+ * @param options - Optional request overrides.
+ * @returns Promise resolving to the request response. In streaming mode the runtime returns the native fetch response.
  *
  * Notes:
  * - Used internally by FaasBrowserClient.action method
@@ -354,9 +353,6 @@ export type ResponseProps<T = any> = {
  *   If data is provided without body, body is automatically set to JSON.stringify(data).
  * @property {T} [data] - The parsed JSON data from the response.
  *   Optional property that contains the response payload when JSON is provided.
- *
- * @param {ResponseProps<T>} [props] - Response properties including status, headers, body, and data.
- *   All properties are optional with sensible defaults.
  *
  * Notes:
  * - status defaults to 200 if data or body is present, 204 otherwise
@@ -462,6 +458,12 @@ export class Response<T = any> {
   public readonly body: any
   public readonly data?: T
 
+  /**
+   * Create a wrapped response object.
+   *
+   * @param props - Response properties including status, headers, body, and data.
+   * @returns Wrapped response instance.
+   */
   constructor(props: ResponseProps<T> = {}) {
     this.status = props.status || (props.data || props.body ? 200 : 204)
     this.headers = props.headers || {}
@@ -489,16 +491,12 @@ export type ResponseErrorProps = {
  * Extends the built-in Error class to provide additional information about failed requests,
  * including HTTP status code, response headers, response body, and the original error.
  *
- * @class ResponseError
  * @augments Error
  *
  * @property {number} status - The HTTP status code of the failed response. Defaults to 500 if not provided.
  * @property {ResponseHeaders} headers - The response headers from the failed request.
  * @property {any} body - The response body containing error details or the original error if available.
  * @property {Error} [originalError] - The original Error object if this ResponseError was created from another Error.
- *
- * @param {string | Error | ResponseErrorProps} data - The error message, an Error object, or a ResponseErrorProps object.
- * @param {Omit<ResponseErrorProps, 'message' | 'originalError'>} [options] - Additional options for the error (status, headers, body).
  *
  * @example Basic error with message
  * ```ts
@@ -591,6 +589,13 @@ export class ResponseError extends Error {
 
   constructor(msg: string | Error, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>)
   constructor(props: ResponseErrorProps)
+  /**
+   * Create a ResponseError from a message, Error, or structured response error payload.
+   *
+   * @param data - Error message, Error object, or structured response error props.
+   * @param options - Additional options such as status, headers, and body.
+   * @returns ResponseError instance.
+   */
   constructor(
     data: string | Error | ResponseErrorProps,
     options?: Omit<ResponseErrorProps, 'message' | 'originalError'>,
@@ -628,18 +633,18 @@ export class ResponseError extends Error {
  * Defines the signature for functions that can mock API requests during testing.
  * Mock handlers receive request parameters and return simulated responses or errors.
  *
- * @param {string} action - The function path/action being requested (e.g., 'user', 'data/list').
+ * @param action - The function path/action being requested (for example, `user` or `data/list`).
  *   Converted to lowercase by the client before being passed to the handler.
  *
- * @param {Record<string, any> | undefined} params - The parameters passed to the action.
+ * @param params - The parameters passed to the action.
  *   May be undefined if the action was called without parameters.
  *   Parameters are passed as a plain object (already JSON-serialized if needed).
  *
- * @param {Options} options - The full request options including headers, beforeRequest hook, and other config.
+ * @param options - The full request options including headers, beforeRequest hook, and other config.
  *   Includes X-FaasJS-Request-Id header in the headers object.
  *   Contains merged client defaults and per-request options.
  *
- * @returns {Promise<ResponseProps> | Promise<void> | Promise<Error>} - A Promise resolving to:
+ * @returns A promise resolving to:
  *   - ResponseProps: Mock response data (status, headers, body, data)
  *   - void: Returns an empty response (204 No Content)
  *   - Error: Throws ResponseError when returning an Error object
@@ -844,11 +849,8 @@ export class FaasBrowserClient {
   /**
    * Creates a new FaasBrowserClient instance.
    *
-   * @param baseUrl - Base URL for all API requests. Must end with '/'. Defaults to '/' for relative requests.
-   *   @throws {Error} If baseUrl does not end with '/'
-   * @param options - Configuration options for the client.
-   *   Supports default headers, beforeRequest hook, custom request function,
-   *   baseUrl override, and streaming mode.
+   * @param baseUrl - Base URL for all API requests. Must end with `/`. Defaults to `/` for relative requests.
+   * @param options - Default request options such as headers, hooks, request override, or stream mode.
    *
    * @example Basic initialization
    * ```ts
@@ -899,7 +901,7 @@ export class FaasBrowserClient {
    * })
    * ```
    *
-   * @throws {Error} When baseUrl does not end with '/'
+   * @throws {Error} When `baseUrl` does not end with `/`
    */
   constructor(baseUrl: BaseUrl = '/', options: Options = Object.create(null)) {
     if (baseUrl && !baseUrl.endsWith('/')) throw Error('[FaasJS] baseUrl should end with /')
@@ -927,7 +929,7 @@ export class FaasBrowserClient {
    *
    * @throws {Error} When action is not provided or is empty
    * @throws {ResponseError} When the server returns an error response (status >= 400 or body.error exists)
-   * @throws {NetworkError} When network request fails
+   * @throws {Error} When the request fails before a response is received
    *
    * Notes:
    * - All requests are POST requests by default
@@ -981,11 +983,7 @@ export class FaasBrowserClient {
    *   email: string
    * }
    *
-   * const response = await client.action<{
-   *   action: 'user'
-   *   params: { id: number }
-   *   data: UserData
-   * }>('user', { id: 123 })
+   * const response = await client.action<UserData>('user', { id: 123 })
    * console.log(response.data.name) // TypeScript knows it's a string
    * ```
    *
@@ -997,7 +995,7 @@ export class FaasBrowserClient {
    * } catch (error) {
    *   if (error instanceof ResponseError) {
    *     console.error(`Server error: ${error.message}`, error.status)
-   *     if (error.data) console.error('Error details:', error.data)
+   *     if (error.body) console.error('Error details:', error.body)
    *   } else {
    *     console.error('Network error:', error)
    *   }

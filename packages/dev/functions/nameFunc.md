@@ -32,7 +32,7 @@ The function handler to which the name will be assigned.
 
 `T`
 
-- The original function handler with the assigned name.
+The original function handler with the assigned name.
 
 ## Example
 

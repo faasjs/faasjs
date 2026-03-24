@@ -80,8 +80,8 @@ export async function useMiddleware(handler: Middleware) {
 /**
  * Apply an array of middleware functions to an event.
  *
- * @param {Middleware[]} handlers - An array of middleware functions to be applied.
- * @returns {Promise<void>} A promise that resolves when all middleware functions have been applied.
+ * @param handlers - Middleware functions to run in order until one ends the response.
+ * @returns Wrapper that applies each middleware to the incoming event.
  *
  * @example
  * ```typescript

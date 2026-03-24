@@ -4,6 +4,8 @@
 
 > **useHttp**\<`TParams`, `TCookie`, `TSession`\>(`config?`): [`UseifyPlugin`](../type-aliases/UseifyPlugin.md)\<[`Http`](../classes/Http.md)\<`TParams`, `TCookie`, `TSession`\>\>
 
+Attach the HTTP plugin to a function.
+
 ## Type Parameters
 
 ### TParams
@@ -24,6 +26,10 @@
 
 [`HttpConfig`](../type-aliases/HttpConfig.md)
 
+Optional HTTP plugin configuration.
+
 ## Returns
 
 [`UseifyPlugin`](../type-aliases/UseifyPlugin.md)\<[`Http`](../classes/Http.md)\<`TParams`, `TCookie`, `TSession`\>\>
+
+HTTP plugin instance wrapped for `usePlugin`.

@@ -86,7 +86,7 @@
 
 > **setBody**(`body`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
-set body
+Set the response body.
 
 #### Parameters
 
@@ -94,7 +94,7 @@ set body
 
 `string`
 
-{\*} 内容
+Response body content.
 
 #### Returns
 
@@ -104,7 +104,7 @@ set body
 
 > **setContentType**(`type`, `charset?`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
-set Content-Type
+Set the `Content-Type` response header.
 
 #### Parameters
 
@@ -112,13 +112,13 @@ set Content-Type
 
 `string`
 
-{string} 类型
+Content type alias or full MIME type.
 
 ##### charset?
 
 `string` = `'utf-8'`
 
-{string} 编码
+Charset appended to the header value.
 
 #### Returns
 
@@ -128,7 +128,7 @@ set Content-Type
 
 > **setHeader**(`key`, `value`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
-set header
+Set a response header.
 
 #### Parameters
 
@@ -136,13 +136,13 @@ set header
 
 `string`
 
-{string} key
+Header name.
 
 ##### value
 
 `string`
 
-{string} value
+Header value.
 
 #### Returns
 
@@ -152,7 +152,7 @@ set header
 
 > **setStatusCode**(`code`): `Http`\<`TParams`, `TCookie`, `TSession`\>
 
-set status code
+Set the HTTP status code for the response.
 
 #### Parameters
 
@@ -160,7 +160,7 @@ set status code
 
 `number`
 
-{number} 状态码
+HTTP status code.
 
 #### Returns
 

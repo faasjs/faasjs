@@ -4,6 +4,8 @@
 
 > **FaasReactClientInstance** = `object`
 
+Public interface returned by [FaasReactClient](../functions/FaasReactClient.md).
+
 ## Properties
 
 ### browserClient

@@ -4,8 +4,10 @@
 
 > **Form**\<`Values`, `FormElements`, `Rules`\>(`props`): `Element`
 
-FormContainer component is a wrapper that provides context and state management for form elements.
-It initializes form states such as values, errors, submitting status, elements, language, and rules.
+Render a form with context, default elements, and validation state.
+
+`FormContainer` merges provided elements, language strings, and rules with
+the package defaults, then exposes them through form context.
 
 ## Type Parameters
 
@@ -33,13 +35,13 @@ The type of form rules, defaults to FormDefaultRules.
 
 [`FormProps`](../type-aliases/FormProps.md)\<`Values`, `FormElements`, `Rules`\>
 
-The properties for the FormContainer component.
+Form items and optional overrides for defaults, language, rules, and submit behavior.
 
 ## Returns
 
 `Element`
 
-The FormContainer component.
+React form container with shared form context.
 
 ## Example
 

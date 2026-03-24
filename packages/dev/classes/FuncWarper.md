@@ -29,13 +29,15 @@ expect(await func.handler()).toEqual('Hello, world')
 
 > **new FuncWarper**\<`TFunc`\>(`initBy`): `FuncWarper`\<`TFunc`\>
 
+Create a test wrapper around a FaasJS function module.
+
 #### Parameters
 
 ##### initBy
 
 `TFunc`
 
-{Func} A FaasJS function
+FaasJS function module or exported function instance.
 
 ```ts
 import { FuncWarper } from '@faasjs/dev'

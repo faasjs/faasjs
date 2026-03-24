@@ -4,6 +4,8 @@
 
 > **closeAll**(): `Promise`\<`void`\>
 
+Close every tracked server instance.
+
 ## Returns
 
 `Promise`\<`void`\>

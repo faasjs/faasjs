@@ -4,7 +4,7 @@
 
 > **test**\<`TFunc`\>(`initBy`): [`FuncWarper`](../classes/FuncWarper.md)\<`TFunc`\>
 
-A simple way to wrap a FaasJS function.
+Create a [FuncWarper](../classes/FuncWarper.md) for tests.
 
 ## Type Parameters
 
@@ -18,7 +18,7 @@ A simple way to wrap a FaasJS function.
 
 `TFunc`
 
-{Func} Full file path or a FaasJs function
+FaasJS function module or exported function instance.
 
 ```ts
 import { test } from '@faasjs/dev'

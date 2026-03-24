@@ -4,7 +4,7 @@
 
 > **ServerOptions** = `object`
 
-Configuration options for the server.
+Configuration options for [Server](../classes/Server.md).
 
 ## Properties
 
