@@ -45,7 +45,7 @@ export async function loadFunc<TEvent = any, TContext = any, TResult = any>(
 ): Promise<ExportedHandler<TEvent, TContext, TResult>> {
   const func = await loadPackage<FuncLike<TEvent, TContext, TResult>>(filename)
 
-  func.config = await loadConfig(root, filename, staging)
+  func.config = loadConfig(root, filename, staging)
 
   return func.export().handler
 }

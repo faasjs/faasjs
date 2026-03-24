@@ -20,9 +20,13 @@
 
 ### renderTitle()?
 
-> `optional` **renderTitle**(`values`): `ReactNode`
+> `optional` **renderTitle**(`this`, `values`): `ReactNode`
 
 #### Parameters
+
+##### this
+
+`void`
 
 ##### values
 

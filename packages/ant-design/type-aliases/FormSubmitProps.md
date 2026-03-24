@@ -43,7 +43,7 @@ If use onFinish, you should call submit manually.
 
 #### action
 
-> **action**: `FaasAction` \| `string`
+> **action**: `FaasAction`
 
 #### catch?
 

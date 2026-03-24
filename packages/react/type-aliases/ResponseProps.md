@@ -9,14 +9,6 @@ Properties for creating a Response object.
 Defines the structure of response data that can be passed to the Response constructor
 or returned from mock handlers.
 
-## Remarks
-
-- All properties are optional
-- At least one of data or body should be provided for meaningful responses
-- The Response class automatically defaults status to 200 or 204 based on content
-- If data is provided without body, body is automatically JSON.stringify(data)
-- Used by Response constructor and mock handlers
-
 ## See
 
 - Response for the class that uses these properties
@@ -45,6 +37,14 @@ Optional: if not provided, body is automatically populated from data using JSON.
 
 The parsed JSON data to include in the response.
 Optional: contains the response payload when JSON data is provided.
+
+Notes:
+
+- All properties are optional
+- At least one of data or body should be provided for meaningful responses
+- The Response class automatically defaults status to 200 or 204 based on content
+- If data is provided without body, body is automatically JSON.stringify(data)
+- Used by Response constructor and mock handlers
 
 ### headers?
 

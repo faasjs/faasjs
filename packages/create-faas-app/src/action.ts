@@ -6,6 +6,7 @@ import type { Command } from 'commander'
 import enquirer from 'enquirer'
 
 const prompt = enquirer.prompt
+const validateName = (input: string) => Validator.name(input)
 
 const Validator = {
   name(input: string) {
@@ -283,7 +284,7 @@ export async function action(options: { name?: string } = {}): Promise<void> {
       name: 'value',
       message: 'Project name',
       initial: 'faasjs',
-      validate: Validator.name,
+      validate: validateName,
     }).then((res) => res.value)
 
   if (!answers.name) return

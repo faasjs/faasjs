@@ -5,7 +5,7 @@ import { Http } from '..'
 import { Func } from '../../..'
 
 describe('Accept-Encoding', () => {
-  const data = new Array(1025).join('1')
+  const data = '1'.repeat(1024)
 
   it('br', async () => {
     const func = test(
@@ -84,7 +84,7 @@ describe('Accept-Encoding', () => {
   })
 
   it('direct response object body', async () => {
-    const payload = { text: new Array(1025).join('1') }
+    const payload = { text: '1'.repeat(1024) }
     const func = test(
       new Func({
         plugins: [new Http()],

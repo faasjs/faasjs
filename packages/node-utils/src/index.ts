@@ -9,8 +9,6 @@
  * ```sh
  * npm install @faasjs/node-utils
  * ```
- *
- * @packageDocumentation
  */
 
 export { deepMerge } from './deep_merge'

@@ -1,4 +1,5 @@
-import { cloneElement, type JSX, useEffect } from 'react'
+import { useEqualEffect } from '@faasjs/react'
+import { cloneElement, type JSX } from 'react'
 
 import { useConfigContext } from './Config'
 
@@ -44,7 +45,7 @@ export interface TitleProps {
 export function Title(props: TitleProps): JSX.Element | null {
   const { theme } = useConfigContext()
 
-  useEffect(() => {
+  useEqualEffect(() => {
     const title = Array.isArray(props.title) ? props.title : [props.title]
 
     document.title = title

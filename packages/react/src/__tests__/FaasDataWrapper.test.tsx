@@ -103,7 +103,7 @@ describe('FaasDataWrapper', () => {
         renderTimes++
         return (
           <div>
-            {props.data.toString()}
+            {JSON.stringify(props.data)}
             <button type="button" onClick={() => props.reload()}>
               Reload
             </button>

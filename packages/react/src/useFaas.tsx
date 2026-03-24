@@ -100,7 +100,8 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
 
           setFails(0)
           setError(null)
-          options.setData ? options.setData(nextData) : localSetData(nextData)
+          if (options.setData) options.setData(nextData)
+          else localSetData(nextData)
           setLoading(false)
 
           for (const { resolve } of pendingReloadsRef.current.values()) resolve(nextData)

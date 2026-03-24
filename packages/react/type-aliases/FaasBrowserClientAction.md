@@ -43,7 +43,7 @@ Optional request options
 
 - A Promise resolving to a Response object
 
-## Remarks
+Notes:
 
 - Used internally by FaasBrowserClient.action method
 - Provides type-safe action method signature

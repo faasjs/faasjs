@@ -565,17 +565,13 @@ describe('mock', () => {
       })
 
       const client = new FaasBrowserClient('/')
+      const error = await client.action('test').catch((error: any) => error)
 
-      try {
-        await client.action('test')
-        throw new Error('Should have thrown')
-      } catch (error: any) {
-        expect(error).toBeInstanceOf(ResponseError)
-        expect(error.message).toBe('Custom error')
-        expect(error.status).toBe(418)
-        expect(error.headers['X-Custom']).toBe('value')
-        expect(error.body).toEqual({ custom: 'body' })
-      }
+      expect(error).toBeInstanceOf(ResponseError)
+      expect(error.message).toBe('Custom error')
+      expect(error.status).toBe(418)
+      expect(error.headers['X-Custom']).toBe('value')
+      expect(error.body).toEqual({ custom: 'body' })
     })
 
     it('should handle array data in ResponseProps', async () => {

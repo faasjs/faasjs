@@ -1,5 +1,5 @@
 import { defineApi, z } from '@faasjs/core'
-import { assertType, test } from 'vitest'
+import { assertType, expect, test } from 'vitest'
 
 import {
   type Cookie,
@@ -57,7 +57,7 @@ test('FuncEventType should keep wide params when schema is missing', () => {
 })
 
 test('defineApi handler data should include cookie and session', () => {
-  defineApi({
+  const func = defineApi({
     async handler({ cookie, session }) {
       assertType<Cookie>(cookie)
       assertType<Session>(session)
@@ -65,4 +65,6 @@ test('defineApi handler data should include cookie and session', () => {
       return true
     },
   })
+
+  expect(func).toBeDefined()
 })

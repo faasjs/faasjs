@@ -1,16 +1,5 @@
 # @faasjs/node-utils
 
-FaasJS Node.js utility toolkit.
-
-[![License: MIT](https://img.shields.io/npm/l/@faasjs/node-utils.svg)](https://github.com/faasjs/faasjs/blob/main/packages/node-utils/LICENSE)
-[![NPM Version](https://img.shields.io/npm/v/@faasjs/node-utils.svg)](https://www.npmjs.com/package/@faasjs/node-utils)
-
-## Install
-
-```sh
-npm install @faasjs/node-utils
-```
-
 ## Functions
 
 - [colorfy](functions/colorfy.md)

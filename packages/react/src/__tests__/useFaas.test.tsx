@@ -30,14 +30,14 @@ describe('useFaas', () => {
     let renderTimes = 0
 
     function Test() {
-      const { data, reload } = useFaas<any>('test', {})
+      const faas = useFaas<any>('test', {})
 
       renderTimes++
 
       return (
         <div>
-          {data}
-          <button type="button" onClick={() => reload()}>
+          {faas.data}
+          <button type="button" onClick={() => faas.reload()}>
             Reload
           </button>
         </div>
@@ -138,14 +138,14 @@ describe('useFaas', () => {
     })
 
     function Test() {
-      const { data, reload } = useFaas<any>('test', { v: 1 }, { skip: true })
+      const faas = useFaas<any>('test', { v: 1 }, { skip: true })
 
       return (
         <>
-          <button type="button" onClick={() => reload()}>
+          <button type="button" onClick={() => faas.reload()}>
             Reload
           </button>
-          <div>data:{data?.v}</div>
+          <div>data:{faas.data?.v}</div>
         </>
       )
     }

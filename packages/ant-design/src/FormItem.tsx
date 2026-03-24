@@ -1,4 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { useEqualEffect } from '@faasjs/react'
 import type { ValidatorRule } from '@rc-component/form/lib/interface'
 import {
   Form as AntdForm,
@@ -21,7 +22,7 @@ import {
   type SwitchProps,
 } from 'antd'
 import type { RuleObject } from 'antd/es/form'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { type ResolvedTheme, useConfigContext } from './Config'
 import type { BaseItemProps, FaasItemType, UnionFaasItemElement, UnionFaasItemRender } from './data'
@@ -179,7 +180,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
   const { theme } = useConfigContext()
   const [hidden, setHidden] = useState(props.hidden || false)
 
-  useEffect(() => {
+  useEqualEffect(() => {
     const { extendTypes, ...propsCopy } = { ...props }
 
     if (extendTypes) {
@@ -210,7 +211,7 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
     }
 
     setComputedProps(processProps(propsCopy, theme.common))
-  }, [props])
+  }, [hidden, props, theme.common])
 
   if (!computedProps) return null
 

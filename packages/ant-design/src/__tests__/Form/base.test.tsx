@@ -35,8 +35,8 @@ describe('if', () => {
     )
 
     expect(screen.getByText('True')).not.toBeNull()
-    expect(() => screen.getByText('False')).toThrow()
-    expect(() => screen.getByText('Condition')).toThrow()
+    expect(screen.queryByText('False')).toBeNull()
+    expect(screen.queryByText('Condition')).toBeNull()
     expect(screen.getAllByRole('textbox')).toHaveLength(1)
 
     await userEvent.type(screen.getByRole('textbox'), 'test')
@@ -69,8 +69,8 @@ describe('if', () => {
     )
 
     expect(screen.getByText('True')).not.toBeNull()
-    expect(() => screen.getByText('False')).toThrow()
-    expect(() => screen.getByText('Condition')).not.toBeNull()
+    expect(screen.queryByText('False')).toBeNull()
+    expect(screen.getByText('Condition')).not.toBeNull()
     expect(screen.getAllByRole('textbox')).toHaveLength(3)
   })
 })

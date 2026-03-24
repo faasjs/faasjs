@@ -59,12 +59,19 @@ export function Link(props: LinkProps) {
         {...buttonProps}
         style={computedStyle}
         onClick={(e) => {
-          props.onClick
-            ? props.onClick(e)
-            : target === '_blank'
-              ? window.open(props.href)
-              : navigate(props.href)
           e.preventDefault()
+
+          if (props.onClick) {
+            props.onClick(e)
+            return
+          }
+
+          if (target === '_blank') {
+            window.open(props.href)
+            return
+          }
+
+          void navigate(props.href)
         }}
       >
         {props.children ?? props.text}
@@ -90,7 +97,7 @@ export function Link(props: LinkProps) {
           return
         }
 
-        navigate(props.href)
+        void navigate(props.href)
       }}
     >
       {props.children ?? props.text}

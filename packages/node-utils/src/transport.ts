@@ -211,7 +211,7 @@ export class Transport {
     if (options.interval && options.interval !== this.intervalTime) {
       this.intervalTime = options.interval
       clearInterval(this.interval)
-      this.interval = setInterval(this.flush, this.intervalTime)
+      this.interval = setInterval(this.flush.bind(this), this.intervalTime)
     }
 
     if (!this.enabled) this.enabled = true

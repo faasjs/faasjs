@@ -9,8 +9,6 @@
  * ```sh
  * npm install @faasjs/core
  * ```
- *
- * @packageDocumentation
  */
 
 import type { output, ZodError, ZodType } from 'zod'

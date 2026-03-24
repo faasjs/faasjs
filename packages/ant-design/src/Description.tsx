@@ -1,7 +1,8 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { useEqualEffect } from '@faasjs/react'
 import { Descriptions, type DescriptionsProps, Space } from 'antd'
 import type { Dayjs } from 'dayjs'
-import { type JSX, type ReactNode, useEffect, useState } from 'react'
+import { type JSX, type ReactNode, useState } from 'react'
 
 import type { BaseItemProps } from '.'
 import { Blank } from './Blank'
@@ -36,7 +37,7 @@ export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
   DescriptionsProps,
   'items'
 > {
-  renderTitle?(values: T): ReactNode
+  renderTitle?(this: void, values: T): ReactNode
   items: (DescriptionItemProps | ExtendItemProps)[]
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
@@ -59,7 +60,7 @@ function DescriptionItemContent<T = any>(
 ): JSX.Element | null {
   const [computedProps, setComputedProps] = useState<DescriptionItemContentProps<T>>()
 
-  useEffect(() => {
+  useEqualEffect(() => {
     const propsCopy = { ...props }
 
     propsCopy.item.title = propsCopy.item.title ?? idToTitle(propsCopy.item.id)

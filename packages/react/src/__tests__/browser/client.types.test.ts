@@ -1,5 +1,5 @@
 import type { FaasActions } from '@faasjs/types'
-import { assertType, test } from 'vitest'
+import { assertType, expect, test } from 'vitest'
 
 import type { Response as FaasResponse } from '../../browser'
 import { FaasBrowserClient } from '../../browser'
@@ -35,6 +35,8 @@ test('FaasBrowserClient.action should infer response data type', async () => {
 test('FaasBrowserClient.action should validate params by action path', () => {
   const client = new FaasBrowserClient('/')
 
+  expect(client).toBeInstanceOf(FaasBrowserClient)
+
   // @ts-expect-error key should be string
-  client.action('/type', { key: 1 })
+  void client.action('/type', { key: 1 })
 })

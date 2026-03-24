@@ -120,14 +120,12 @@ describe('plugins', () => {
       handler: async () => 1,
     })
 
-    try {
-      await func.mount({
+    await expect(
+      func.mount({
         config: func.config,
         event: null,
         context: null,
-      })
-    } catch (error: any) {
-      expect(error.message).toEqual('next() called multiple times')
-    }
+      }),
+    ).rejects.toThrow('next() called multiple times')
   })
 })

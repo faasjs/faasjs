@@ -33,7 +33,6 @@
  *   title?: string
  * }
  * ```
- * @packageDocumentation
  */
 
 export * from './App'

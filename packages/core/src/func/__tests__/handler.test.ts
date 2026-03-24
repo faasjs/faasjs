@@ -28,11 +28,7 @@ describe('Func handler', () => {
         },
       }).export().handler
 
-      try {
-        await handler({}, {})
-      } catch (error) {
-        expect(error).toEqual(Error('Error'))
-      }
+      await expect(handler({}, {})).rejects.toEqual(Error('Error'))
     })
   })
 })

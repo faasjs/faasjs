@@ -12,7 +12,7 @@ body, and parsed data. Automatically handles JSON serialization and status code 
 Response properties including status, headers, body, and data.
 All properties are optional with sensible defaults.
 
-## Remarks
+Notes:
 
 - status defaults to 200 if data or body is present, 204 otherwise
 - body is automatically populated from data if not explicitly provided

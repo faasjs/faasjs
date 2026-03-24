@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 
 import { useFormContext } from './context'
 import { validValues } from './rules'
@@ -15,6 +15,7 @@ export function FormFooter() {
     lang,
     rules,
   } = useFormContext()
+  const Button = Elements.Button
 
   const handleSubmit = useCallback(async () => {
     setSubmitting(true)
@@ -28,19 +29,14 @@ export function FormFooter() {
       return
     }
 
-    onSubmit(valuesRef.current).finally(() => setSubmitting(false))
-  }, [setSubmitting, setErrors, rules, items, lang, onSubmit])
+    void onSubmit(valuesRef.current).finally(() => setSubmitting(false))
+  }, [setSubmitting, setErrors, rules, items, valuesRef, lang, onSubmit])
 
-  const MemoizedButton = useMemo(
-    () => (
-      <Elements.Button submitting={submitting} submit={handleSubmit}>
-        {lang.submit}
-      </Elements.Button>
-    ),
-    [submitting, handleSubmit, lang.submit, Elements.Button],
+  return (
+    <Button submitting={submitting} submit={handleSubmit}>
+      {lang.submit}
+    </Button>
   )
-
-  return MemoizedButton
 }
 
 FormFooter.displayName = 'FormFooter'

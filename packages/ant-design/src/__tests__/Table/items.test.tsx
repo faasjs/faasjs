@@ -130,7 +130,7 @@ describe('Table/items', () => {
           items={[
             {
               id: 'test',
-              options: new Array(100).fill(0).map((_, i) => i),
+              options: Array.from({ length: 100 }, (_, i) => i),
             },
           ]}
           dataSource={[
@@ -557,8 +557,8 @@ describe('Table/items', () => {
         />,
       )
 
-      expect(() => screen.getByText('test')).toThrow()
-      expect(() => screen.getByText('value')).toThrow()
+      expect(screen.queryByText('test')).toBeNull()
+      expect(screen.queryByText('value')).toBeNull()
     })
 
     it('tableChildren is null', () => {
@@ -579,8 +579,8 @@ describe('Table/items', () => {
         />,
       )
 
-      expect(() => screen.getByText('test')).toThrow()
-      expect(() => screen.getByText('value')).toThrow()
+      expect(screen.queryByText('test')).toBeNull()
+      expect(screen.queryByText('value')).toBeNull()
     })
   })
 })

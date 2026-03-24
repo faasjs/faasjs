@@ -182,7 +182,7 @@ export function parseFuncFilenameFromStack(stack?: string): string | undefined {
   if (filename.startsWith('file://')) {
     try {
       return fileURLToPath(filename)
-    } catch (_) {
+    } catch {
       return filename
     }
   }
@@ -239,7 +239,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       const filename = parseFuncFilenameFromStack(new Error().stack)
 
       if (filename) this.filename = filename
-    } catch (_) {}
+    } catch {}
   }
 
   private getCachedFunctions(key: LifeCycleKey): CachedFunction[] {
@@ -362,24 +362,30 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   } {
     const handler = async (
       event?: TEvent,
-      context?: TContext | any,
+      context?: TContext,
       callback?: (...args: any) => any,
     ): Promise<TResult> => {
-      if (typeof context === 'undefined') context = {}
+      const runtimeContext = ((typeof context === 'undefined' ? Object.create(null) : context) ||
+        Object.create(null)) as TContext & {
+        request_id?: string
+        request_at?: string
+        callbackWaitsForEmptyEventLoop?: boolean
+        [key: string]: any
+      }
 
-      if (!context.request_id)
-        context.request_id =
+      if (!runtimeContext.request_id)
+        runtimeContext.request_id =
           (event as any)?.headers?.['x-faasjs-request-id'] || randomBytes(16).toString('hex')
 
-      if (!context.request_at) context.request_at = randomBytes(16).toString('hex')
+      if (!runtimeContext.request_at) runtimeContext.request_at = randomBytes(16).toString('hex')
 
-      context.callbackWaitsForEmptyEventLoop = false
+      runtimeContext.callbackWaitsForEmptyEventLoop = false
 
-      const logger = new Logger(context.request_id)
+      const logger = new Logger(runtimeContext.request_id)
 
       const data: InvokeData<TEvent, TContext, TResult> = {
         event: event ?? Object.create(null),
-        context,
+        context: runtimeContext as TContext,
         callback,
         response: undefined,
         logger,

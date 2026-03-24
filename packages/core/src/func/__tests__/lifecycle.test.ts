@@ -19,17 +19,8 @@ describe('lifecycle', () => {
         handler: async () => 1,
       })
 
-      try {
-        await func.export().handler(null)
-      } catch (error: any) {
-        expect(error.message).toEqual('wrong')
-      }
-
-      try {
-        await func.export().handler(null)
-      } catch (error: any) {
-        expect(error.message).toEqual('wrong')
-      }
+      await expect(func.export().handler(null)).rejects.toThrow('wrong')
+      await expect(func.export().handler(null)).rejects.toThrow('wrong')
     })
 
     it('mount called multiple times', async () => {
@@ -72,7 +63,9 @@ describe('lifecycle', () => {
         public readonly name = 'invoke-error'
 
         public async onInvoke(data: InvokeData, next: Next) {
-          data.event.headers.cookie
+          if (data.event.headers.cookie) {
+            // noop
+          }
           await next()
         }
       }
@@ -82,17 +75,19 @@ describe('lifecycle', () => {
         handler: async () => 1,
       })
 
-      try {
-        await func.export().handler(null)
-      } catch (error: any) {
-        if (!(globalThis as any).Bun)
-          expect(error.message).toEqual("Cannot read properties of undefined (reading 'cookie')")
-        else
-          expect([
+      const error = await func
+        .export()
+        .handler(null)
+        .catch((error: any) => error)
+
+      const expectedMessages = !(globalThis as any).Bun
+        ? ["Cannot read properties of undefined (reading 'cookie')"]
+        : [
             `null is not an object (evaluating 'data.event.headers')`,
             `undefined is not an object (evaluating 'data.event.headers.cookie')`,
-          ]).toContain(error.message)
-      }
+          ]
+
+      expect(expectedMessages).toContain(error.message)
     })
   })
 })

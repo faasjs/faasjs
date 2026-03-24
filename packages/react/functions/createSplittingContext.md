@@ -24,7 +24,7 @@ The default value of the splitting context.
 
 ### use
 
-> **use**: \<`NewT`\>() => `Readonly`\<`NewT`\>
+> **use**: \<`NewT`\>(`this`) => `Readonly`\<`NewT`\>
 
 The hook to use the splitting context.
 
@@ -33,6 +33,12 @@ The hook to use the splitting context.
 ##### NewT
 
 `NewT` _extends_ `Record`\<`string`, `any`\> = `T`
+
+#### Parameters
+
+##### this
+
+`void`
 
 #### Returns
 
@@ -59,7 +65,7 @@ function ChildComponent() {
 
 ### Provider()
 
-> **Provider**\<`NewT`\>(`props`): `ReactNode`
+> **Provider**\<`NewT`\>(`this`, `props`): `ReactNode`
 
 The provider component of the splitting context.
 
@@ -70,6 +76,10 @@ The provider component of the splitting context.
 `NewT` _extends_ `Record`\<`string`, `any`\> = `T`
 
 #### Parameters
+
+##### this
+
+`void`
 
 ##### props
 

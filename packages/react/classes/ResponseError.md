@@ -85,7 +85,7 @@ setMock(async (action, params) => {
 })
 ```
 
-## Remarks
+Notes:
 
 - ResponseError is automatically thrown by the action method when the server returns an error (status >= 400)
 - The error message from server responses is extracted from body.error.message if available

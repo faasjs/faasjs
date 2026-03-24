@@ -9,7 +9,7 @@ Template literal type for URL strings that must end with a forward slash.
 Ensures that base URLs used in FaasJS requests always have a trailing '/' character,
 which is required for proper URL construction when appending action paths.
 
-## Remarks
+Notes:
 
 - Type only accepts strings ending with '/' (e.g., 'https://api.example.com/', '/')
 - Strings without trailing '/' will fail TypeScript type checking

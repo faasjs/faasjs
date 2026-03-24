@@ -13,8 +13,6 @@
  * # use bun
  * bunx create-faas-app --name faasjs
  * ```
- *
- * @packageDocumentation
  */
 
 import { Command } from 'commander'

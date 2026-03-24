@@ -43,7 +43,7 @@ Contains merged client defaults and per-request options.
   - void: Returns an empty response (204 No Content)
   - Error: Throws ResponseError when returning an Error object
 
-## Remarks
+Notes:
 
 - Used by setMock() function to mock API calls during tests
 - Affects all FaasBrowserClient instances when set globally

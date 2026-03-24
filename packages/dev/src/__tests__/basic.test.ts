@@ -12,7 +12,7 @@ it('basic', async () => {
 
 it('test helper should bind handlers', async () => {
   const testedFunc = createTester(func)
-  const detachedHandler = testedFunc.handler
+  const detachedHandler = testedFunc.handler.bind(testedFunc)
 
   await expect(detachedHandler<boolean>({}, {})).resolves.toBe(true)
 })

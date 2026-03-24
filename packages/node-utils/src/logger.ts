@@ -200,7 +200,7 @@ export class Logger {
     return this
   }
 
-  private log(level: Level, message: string | Error | unknown, ...args: any): Logger {
+  private log(level: Level, message: unknown, ...args: any): Logger {
     if (this.silent) return this
 
     if (LevelPriority[level] < LevelPriority[this.level]) return this

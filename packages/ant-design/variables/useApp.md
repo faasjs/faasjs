@@ -2,7 +2,7 @@
 
 # Variable: useApp
 
-> `const` **useApp**: \<`NewT`\>() => `Readonly`\<`NewT`\> = `AppContext.use`
+> `const` **useApp**: \<`NewT`\>(`this`) => `Readonly`\<`NewT`\> = `AppContext.use`
 
 Get app context.
 
@@ -17,6 +17,12 @@ const { message, notification, setModalProps, setDrawerProps } = useApp()
 ### NewT
 
 `NewT` _extends_ [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
+
+## Parameters
+
+### this
+
+`void`
 
 ## Returns
 

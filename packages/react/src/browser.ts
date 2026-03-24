@@ -169,7 +169,7 @@ export { generateId } from './generateId'
  * Ensures that base URLs used in FaasJS requests always have a trailing '/' character,
  * which is required for proper URL construction when appending action paths.
  *
- * @remarks
+ * Notes:
  * - Type only accepts strings ending with '/' (e.g., 'https://api.example.com/', '/')
  * - Strings without trailing '/' will fail TypeScript type checking
  * - Used by FaasBrowserClient constructor and Options type
@@ -187,7 +187,7 @@ export type BaseUrl = `${string}/`
  * Extends the standard RequestInit interface with FaasJS-specific options for
  * customizing request behavior, adding request hooks, and overriding defaults.
  *
- * @remarks
+ * Notes:
  * - Options can be provided at client creation (defaultOptions) or per-request
  * - Per-request options override client default options
  * - headers are merged: per-request headers override default headers
@@ -219,7 +219,7 @@ export type BaseUrl = `${string}/`
  *   Useful for processing large data incrementally or working with binary data streams.
  *   When false or undefined, returns a wrapped Response with automatic JSON parsing.
  *
- * @extends RequestInit
+ * @augments RequestInit
  * @see FaasBrowserClient for client creation
  * @see Response for response object structure
  */
@@ -255,7 +255,7 @@ export type Options = RequestInit & {
  * @property {string} [key] - Dynamic string keys for header names (e.g., 'Content-Type', 'Authorization').
  *   Values must be strings. Multiple values for the same key are not supported.
  *
- * @remarks
+ * Notes:
  * - Headers are case-insensitive in HTTP but stored with exact casing in this object
  * - Common headers include: Content-Type, Authorization, X-Request-Id, X-Custom-Header
  * - No support for multi-value headers (use comma-separated values instead)
@@ -284,7 +284,7 @@ export type ResponseHeaders = {
  *
  * @returns {Promise<Response<FaasData<PathOrData>> | Response>} - A Promise resolving to a Response object
  *
- * @remarks
+ * Notes:
  * - Used internally by FaasBrowserClient.action method
  * - Provides type-safe action method signature
  * - Return type includes both typed and untyped Response variants
@@ -321,7 +321,7 @@ export type FaasBrowserClientAction = <PathOrData extends FaasActionUnionType>(
  * @property {T} [data] - The parsed JSON data to include in the response.
  *   Optional: contains the response payload when JSON data is provided.
  *
- * @remarks
+ * Notes:
  * - All properties are optional
  * - At least one of data or body should be provided for meaningful responses
  * - The Response class automatically defaults status to 200 or 204 based on content
@@ -358,7 +358,7 @@ export type ResponseProps<T = any> = {
  * @param {ResponseProps<T>} [props] - Response properties including status, headers, body, and data.
  *   All properties are optional with sensible defaults.
  *
- * @remarks
+ * Notes:
  * - status defaults to 200 if data or body is present, 204 otherwise
  * - body is automatically populated from data if not explicitly provided
  * - headers defaults to an empty object if not provided
@@ -490,7 +490,7 @@ export type ResponseErrorProps = {
  * including HTTP status code, response headers, response body, and the original error.
  *
  * @class ResponseError
- * @extends {Error}
+ * @augments Error
  *
  * @property {number} status - The HTTP status code of the failed response. Defaults to 500 if not provided.
  * @property {ResponseHeaders} headers - The response headers from the failed request.
@@ -571,7 +571,7 @@ export type ResponseErrorProps = {
  * })
  * ```
  *
- * @remarks
+ * Notes:
  * - ResponseError is automatically thrown by the action method when the server returns an error (status >= 400)
  * - The error message from server responses is extracted from body.error.message if available
  * - When created from an Error object, the original error is preserved in the originalError property
@@ -598,7 +598,13 @@ export class ResponseError extends Error {
     let props: ResponseErrorProps
     if (typeof data === 'string') {
       props = { message: data, ...options }
-    } else if (data instanceof Error || data?.constructor?.name?.includes('Error')) {
+    } else if (
+      data instanceof Error ||
+      (typeof data === 'object' &&
+        data !== null &&
+        typeof data.constructor?.name === 'string' &&
+        data.constructor.name.includes('Error'))
+    ) {
       props = {
         message: data.message,
         originalError: data as Error,
@@ -638,7 +644,7 @@ export class ResponseError extends Error {
  *   - void: Returns an empty response (204 No Content)
  *   - Error: Throws ResponseError when returning an Error object
  *
- * @remarks
+ * Notes:
  * - Used by setMock() function to mock API calls during tests
  * - Affects all FaasBrowserClient instances when set globally
  * - Can return different responses based on action or params
@@ -775,7 +781,7 @@ export function setMock(handler: MockHandler | ResponseProps | Response | null) 
  * - Streaming support for large responses
  * - Multiple instance support with unique IDs
  *
- * @remarks
+ * Notes:
  * - All requests are POST requests by default
  * - Automatically adds X-FaasJS-Request-Id header for request tracking
  * - baseUrl must end with '/' (will throw Error if not)
@@ -923,7 +929,7 @@ export class FaasBrowserClient {
    * @throws {ResponseError} When the server returns an error response (status >= 400 or body.error exists)
    * @throws {NetworkError} When network request fails
    *
-   * @remarks
+   * Notes:
    * - All requests are POST requests by default
    * - Action path is automatically converted to lowercase
    * - A unique request ID is generated for each request and sent in X-FaasJS-Request-Id header
@@ -1121,7 +1127,7 @@ export class FaasBrowserClient {
               body,
             }),
           )
-        } catch (_) {
+        } catch {
           return Promise.reject(
             new ResponseError({
               message: res,

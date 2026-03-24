@@ -18,7 +18,7 @@ Features:
 - Streaming support for large responses
 - Multiple instance support with unique IDs
 
-## Remarks
+Notes:
 
 - All requests are POST requests by default
 - Automatically adds X-FaasJS-Request-Id header for request tracking
@@ -216,7 +216,7 @@ When the server returns an error response (status >= 400 or body.error exists)
 
 When network request fails
 
-#### Remarks
+Notes:
 
 - All requests are POST requests by default
 - Action path is automatically converted to lowercase
