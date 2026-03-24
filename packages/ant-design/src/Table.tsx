@@ -405,7 +405,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           break
         case 'number[]':
           // render
-          if (!item.render) item.render = (value) => processValue(item, value).join(', ')
+          if (!item.render) item.render = (value) => processValue(item, value)
 
           // filter
           if (item.filterDropdown !== false) {

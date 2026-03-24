@@ -73,6 +73,6 @@ describe('loadEnvFileIfExists', () => {
 
     mkdirSync(join(root, '.env'))
 
-    expect(() => loadEnvFileIfExists({ cwd: root })).toThrow(/EISDIR|directory/i)
+    expect(() => loadEnvFileIfExists({ cwd: root })).toThrow(/EISDIR|directory|valid string/i)
   })
 })

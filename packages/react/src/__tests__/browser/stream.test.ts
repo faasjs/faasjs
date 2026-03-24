@@ -202,8 +202,6 @@ describe('stream', () => {
     const response = await client.action('test', { key: 'value' }, { stream: true })
 
     expect(response.body).toBeInstanceOf(ReadableStream)
-
-    setMock(null)
   })
 
   it('handles errors in stream mode', async () => {

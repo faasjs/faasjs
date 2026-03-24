@@ -4,8 +4,6 @@ import { FaasBrowserClient, Response, ResponseError, setMock } from '../../brows
 
 describe('mock', () => {
   beforeEach(() => {
-    setMock(null)
-
     window.fetch = vi.fn(
       () =>
         Promise.resolve({

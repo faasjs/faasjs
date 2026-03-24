@@ -20,7 +20,6 @@ function createAsyncMockStream(chunks: string[]): ReadableStream {
 describe('useFaasStream', () => {
   afterEach(() => {
     vi.useRealTimers()
-    setMock(null)
   })
 
   it('should work with initial state', async () => {

@@ -1,5 +1,6 @@
-import { cleanup } from '@testing-library/react'
+import { setMock } from '@faasjs/react'
 import '@testing-library/jest-dom/vitest'
+import { cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, vi } from 'vite-plus/test'
 
 Object.defineProperty(window, 'matchMedia', {
@@ -28,6 +29,7 @@ beforeEach(() => {
   document.body.innerHTML = ''
   window.location.href = 'http://localhost/'
   window.fetch = fetch
+  setMock(null)
 })
 
 afterEach(() => {
