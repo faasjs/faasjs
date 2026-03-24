@@ -9,7 +9,6 @@ on:
       - 'packages/**'
       - 'benchmarks/**'
       - '.github/workflows/benchmark.yml'
-      - '.mise.toml'
 
 jobs:
   benchmark:
@@ -24,9 +23,7 @@ jobs:
         run: |
           vp install
           vp pack
-          cd benchmarks
-          mise exec -- npm install
-          mise exec -- npm exec --package tsx -- tsx func.mjs | tee output.txt
+          vp exec node benchmarks/func.mjs | tee benchmarks/output.txt
       - name: Download previous benchmark data
         uses: actions/cache@v5
         with:
