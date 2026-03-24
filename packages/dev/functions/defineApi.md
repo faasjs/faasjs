@@ -2,7 +2,7 @@
 
 # Function: defineApi()
 
-> **defineApi**\<`TSchema`, `TEvent`, `TContext`, `TResult`\>(`options`): [`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `TResult`\>
+> **defineApi**\<`TSchema`, `TEvent`, `TContext`, `THandler`\>(`options`): [`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
 
 Create an HTTP API function with optional Zod validation.
 
@@ -26,16 +26,16 @@ The `http` plugin is required.
 
 `TContext` = `any`
 
-### TResult
+### THandler
 
-`TResult` = `any`
+`THandler` _extends_ (`data`) => `Promise`\<`any`\> = (`data`) => `Promise`\<`any`\>
 
 ## Parameters
 
 ### options
 
-[`DefineApiOptions`](../type-aliases/DefineApiOptions.md)\<`TSchema`, `TEvent`, `TContext`, `TResult`\>
+`Omit`\<[`DefineApiOptions`](../type-aliases/DefineApiOptions.md)\<`TSchema`, `TEvent`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>, `"handler"`\> & `object`
 
 ## Returns
 
-[`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `TResult`\>
+[`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>

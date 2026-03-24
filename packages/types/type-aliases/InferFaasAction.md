@@ -2,9 +2,15 @@
 
 # Type Alias: InferFaasAction\<TFunc\>
 
-> **InferFaasAction**\<`TFunc`\> = `object`
+> **InferFaasAction**\<`TFunc`\> = `TFunc` _extends_ `object` ? `object` : `never`
 
 Infer the FaasAction type from a Func.
+
+## Type Parameters
+
+### TFunc
+
+`TFunc` _extends_ `FaasFuncLike`
 
 ## Example
 
@@ -35,19 +41,3 @@ declare module '@faasjs/types' {
   }
 }
 ```
-
-## Type Parameters
-
-### TFunc
-
-`TFunc` _extends_ `FaasFuncLike`
-
-## Properties
-
-### Data
-
-> **Data**: `Awaited`\<`ReturnType`\<`ReturnType`\<`TFunc`\[`"export"`\]\>\[`"handler"`\]\>\>
-
-### Params
-
-> **Params**: `NonNullable`\<`Parameters`\<`ReturnType`\<`TFunc`\[`"export"`\]\>\[`"handler"`\]\>\[`0`\]\>\[`"params"`\]

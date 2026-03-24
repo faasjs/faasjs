@@ -153,10 +153,18 @@ export type FaasData<T = any> = T extends FaasActionPaths
  * }
  * ```
  */
-export type InferFaasAction<TFunc extends FaasFuncLike> = {
-  Params: NonNullable<Parameters<ReturnType<TFunc['export']>['handler']>[0]>['params']
-  Data: Awaited<ReturnType<ReturnType<TFunc['export']>['handler']>>
+export type InferFaasAction<TFunc extends FaasFuncLike> = TFunc extends {
+  export: () => {
+    handler: (event?: infer TEvent, ...args: any[]) => Promise<infer TData>
+  }
 }
+  ? {
+      Params: NonNullable<TEvent> extends { params?: infer TParams }
+        ? NonNullable<TParams>
+        : Record<string, any>
+      Data: TData
+    }
+  : never
 
 /**
  * Infer the Func type from a module.

@@ -33,10 +33,9 @@ function buildPackageJSON(name: string): string {
       type: 'module',
       version: '1.0.0',
       scripts: {
-        dev: 'vite',
+        dev: 'node --import @faasjs/node-utils/register-hooks vite',
         build: 'vite build',
         start: 'node --import @faasjs/node-utils/register-hooks server.ts',
-        check: 'faas lint',
         test: 'vitest run',
       },
       dependencies: {
@@ -231,14 +230,11 @@ export default function HomePage() {
     join(rootPath, 'src', 'pages', 'home', 'api', 'hello.func.ts'),
     `import { defineApi, z } from '@faasjs/core'
 
-const schema = z
-  .object({
-    name: z.string().optional(),
-  })
-  .required()
-
 export const func = defineApi({
-  schema,
+  schema: z
+    .object({
+      name: z.string().optional(),
+    }),
   async handler({ params }) {
     return {
       ok: true,

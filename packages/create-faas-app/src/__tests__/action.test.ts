@@ -62,7 +62,8 @@ describe('action', () => {
       dev: 'vite',
       build: 'vite build',
       start: 'node --import @faasjs/node-utils/register-hooks server.ts',
-      check: 'faas lint',
+      check:
+        'oxfmt -c ./node_modules/@faasjs/dev/configs/oxfmt.base.json . && oxlint -c ./node_modules/@faasjs/dev/configs/oxlint.base.json --fix . && tsc --noEmit --project tsconfig.json',
       test: 'vitest run',
     })
 

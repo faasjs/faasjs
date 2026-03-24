@@ -274,14 +274,22 @@ export function defineApi<
   TSchema extends ZodType | undefined = undefined,
   TEvent = any,
   TContext = any,
-  TResult = any,
+  THandler extends (data: DefineApiData<TSchema, TEvent, TContext, any>) => Promise<any> = (
+    data: DefineApiData<TSchema, TEvent, TContext, any>,
+  ) => Promise<any>,
 >(
-  options: DefineApiOptions<TSchema, TEvent, TContext, TResult>,
-): Func<DefineApiEvent<TSchema, TEvent>, TContext, TResult> {
+  options: Omit<
+    DefineApiOptions<TSchema, TEvent, TContext, Awaited<ReturnType<THandler>>>,
+    'handler'
+  > & {
+    handler: THandler
+  },
+): Func<DefineApiEvent<TSchema, TEvent>, TContext, Awaited<ReturnType<THandler>>> {
   type Event = DefineApiEvent<TSchema, TEvent>
+  type Result = Awaited<ReturnType<THandler>>
 
-  let func: CoreFunc<Event, TContext, TResult>
-  type Params = DefineApiData<TSchema, TEvent, TContext, TResult>['params']
+  let func: CoreFunc<Event, TContext, Result>
+  type Params = DefineApiData<TSchema, TEvent, TContext, Result>['params']
 
   let pluginRefsResolved = false
   let hasHttp = false
@@ -310,18 +318,18 @@ export function defineApi<
     return result.data as Params
   }
 
-  const invokeHandler: Handler<Event, TContext, TResult> = async (data) => {
+  const invokeHandler: Handler<Event, TContext, Result> = async (data) => {
     const params = await parseParams(data.event)
 
     const invokeData = {
       ...data,
       params,
-    } as DefineApiData<TSchema, TEvent, TContext, TResult>
+    } as DefineApiData<TSchema, TEvent, TContext, Result>
 
     return options.handler(invokeData)
   }
 
-  func = new CoreFunc<Event, TContext, TResult>({
+  func = new CoreFunc<Event, TContext, Result>({
     plugins: [],
     handler: invokeHandler,
   })

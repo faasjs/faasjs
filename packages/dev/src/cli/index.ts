@@ -1,4 +1,3 @@
-import { run as runLintCli } from './lint'
 import { createMain, printVersion } from './shared'
 import { run as runTypesCli } from './types'
 
@@ -9,7 +8,6 @@ Usage:
 
 Commands:
   types [options]                 Generate FaasJS API type declarations
-  lint [options]                  Run formatter, lint, and type checks
 
 Options:
   -h, --help                      Show help
@@ -18,7 +16,6 @@ Options:
 
 const Commands = {
   types: runTypesCli,
-  lint: runLintCli,
 } as const
 
 export async function run(args: string[]): Promise<number> {

@@ -48,6 +48,7 @@ describe('faas cli', () => {
 
     expect(code).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Usage:'))
+    expect(logSpy).toHaveBeenCalledWith(expect.not.stringContaining('lint [options]'))
   })
 
   it('should print version text', async () => {
@@ -138,5 +139,14 @@ describe('faas cli', () => {
 
     expect(code).toBe(1)
     expect(errorSpy).toHaveBeenCalledWith('[faas] Unknown command: unknown')
+  })
+
+  it('should return error code for lint command', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+
+    const code = await main(['node', 'faas', 'lint'])
+
+    expect(code).toBe(1)
+    expect(errorSpy).toHaveBeenCalledWith('[faas] Unknown command: lint')
   })
 })
