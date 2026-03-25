@@ -10,7 +10,7 @@ describe('cookie', () => {
     const handler = new Func({
       plugins: [http],
       async handler(data: InvokeData) {
-        return http.cookie.read(data.event.key)
+        return data.cookie.read(data.event.key)
       },
     }).export().handler
 
@@ -52,7 +52,7 @@ describe('cookie', () => {
     const func = new Func({
       plugins: [http],
       async handler(data: InvokeData) {
-        http.cookie.write(data.event.key, data.event.value)
+        data.cookie.write(data.event.key, data.event.value)
       },
     })
     func.config = {
@@ -88,9 +88,9 @@ describe('cookie', () => {
       const http = new Http()
       const handler = new Func({
         plugins: [http],
-        async handler() {
-          http.cookie.write('k1', 'v1')
-          http.cookie.write('k2', 'v2')
+        async handler({ cookie }) {
+          cookie.write('k1', 'v1')
+          cookie.write('k2', 'v2')
         },
       }).export().handler
 
@@ -108,8 +108,8 @@ describe('cookie', () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
-        async handler() {
-          http.cookie.write('key', null)
+        async handler({ cookie }) {
+          cookie.write('key', null)
         },
       })
       func.config = {
@@ -135,8 +135,8 @@ describe('cookie', () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
-        async handler() {
-          http.cookie.write('key', null)
+        async handler({ cookie }) {
+          cookie.write('key', null)
         },
       })
       func.config = {
@@ -162,8 +162,8 @@ describe('cookie', () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
-        async handler() {
-          http.cookie.write('key', null)
+        async handler({ cookie }) {
+          cookie.write('key', null)
         },
       })
       func.config = {
@@ -189,8 +189,8 @@ describe('cookie', () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
-        async handler() {
-          http.cookie.write('key', '1')
+        async handler({ cookie }) {
+          cookie.write('key', '1')
         },
       })
       func.config = {
@@ -214,8 +214,8 @@ describe('cookie', () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
-        async handler() {
-          http.cookie.write('key', '1')
+        async handler({ cookie }) {
+          cookie.write('key', '1')
         },
       })
       func.config = {

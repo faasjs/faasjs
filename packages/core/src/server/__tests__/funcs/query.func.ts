@@ -5,7 +5,7 @@ const http = new Http()
 
 export const func = new Func({
   plugins: [http],
-  async handler() {
-    return http.params
+  async handler({ params }) {
+    return params
   },
 })

@@ -9,8 +9,8 @@ describe('setBody', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        http.setBody('body')
+      async handler({ setBody }) {
+        setBody('body')
       },
     }).export().handler
 

@@ -5,9 +5,9 @@ const http = new Http()
 
 export const func = new Func({
   plugins: [http],
-  async handler() {
-    http.cookie.write('cookie', 'cookie')
-    http.session.write('session', 'session')
-    return http.params.key
+  async handler({ cookie, params, session }) {
+    cookie.write('cookie', 'cookie')
+    session.write('session', 'session')
+    return params.key
   },
 })

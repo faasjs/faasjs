@@ -5,10 +5,10 @@ const http = new Http()
 
 export const func = new Func({
   plugins: [http],
-  async handler({ event }) {
-    http.setHeader('x-faasjs-request-id', event.headers['x-faasjs-request-id'])
+  async handler({ event, params, setHeader }) {
+    setHeader('x-faasjs-request-id', event.headers['x-faasjs-request-id'])
     return {
-      receivedBody: event.params,
+      receivedBody: params,
       method: event.httpMethod,
     }
   },

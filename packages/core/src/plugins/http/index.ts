@@ -1,6 +1,6 @@
 import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
 
-import { deepMerge } from '@faasjs/node-utils'
+import { deepMerge, type Logger } from '@faasjs/node-utils'
 
 import {
   type InvokeData,
@@ -65,6 +65,29 @@ export type Response = {
   message?: string
 }
 
+export type HttpResponseBody = Exclude<Response['body'], undefined>
+export type HttpSetHeader = (key: string, value: string) => void
+export type HttpSetContentType = (type: string, charset?: string) => void
+export type HttpSetStatusCode = (code: number) => void
+export type HttpSetBody = (body: HttpResponseBody) => void
+
+type HttpInvokeState<
+  TParams extends Record<string, any>,
+  TCookie extends Record<string, string>,
+  TSession extends Record<string, string>,
+> = {
+  headers: Record<string, any>
+  body: any
+  params: TParams
+  cookie: Cookie<TCookie, TSession>
+  session: Session<TSession, TCookie>
+  response: Response
+  setHeader: HttpSetHeader
+  setContentType: HttpSetContentType
+  setStatusCode: HttpSetStatusCode
+  setBody: HttpSetBody
+}
+
 export class HttpError extends Error {
   public readonly statusCode: number
   public override readonly message: string
@@ -127,23 +150,66 @@ export class Http<
   public readonly type = 'http'
   public readonly name: string = Name
 
-  public headers: {
-    [key: string]: string
-  } = Object.create(null)
-  public body: any
-
-  public params: TParams = Object.create(null)
-  public cookie: Cookie<TCookie, TSession>
-  public session: Session<TSession, TCookie>
   public config: HttpConfig
-  private response: Response
 
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
-    this.cookie = new Cookie(this.config.cookie || {})
-    this.session = this.cookie.session
-    this.response = { headers: Object.create(null) }
+    this.normalizeCookieConfig()
+  }
+
+  private normalizeCookieConfig(logger?: Logger): void {
+    const cookie = new Cookie<TCookie, TSession>(this.config.cookie || {}, logger)
+
+    this.config.cookie = {
+      ...cookie.config,
+      session: {
+        ...cookie.session.config,
+      },
+    }
+  }
+
+  private createInvokeState(data: InvokeData): HttpInvokeState<TParams, TCookie, TSession> {
+    const response: Response = { headers: Object.create(null) }
+    const cookie = new Cookie<TCookie, TSession>(this.config.cookie || {})
+    cookie.logger = data.logger
+
+    const state: HttpInvokeState<TParams, TCookie, TSession> = {
+      headers: data.event.headers || Object.create(null),
+      body: data.event.body,
+      params: (data.event.queryString || Object.create(null)) as TParams,
+      cookie,
+      session: cookie.session,
+      response,
+      setHeader: (key, value) => {
+        ;(response.headers || (response.headers = Object.create(null)))[key.toLowerCase()] = value
+      },
+      setContentType: (type, charset = 'utf-8') => {
+        state.setHeader('Content-Type', `${ContentType[type] || type}; charset=${charset}`)
+      },
+      setStatusCode: (code) => {
+        response.statusCode = code
+      },
+      setBody: (body) => {
+        response.body = body
+      },
+    }
+
+    return state
+  }
+
+  private attachInvokeData(
+    data: InvokeData,
+    state: HttpInvokeState<TParams, TCookie, TSession>,
+  ): void {
+    data.headers = state.headers
+    data.body = state.body
+    data.cookie = state.cookie
+    data.session = state.session
+    data.setHeader = state.setHeader
+    data.setContentType = state.setContentType
+    data.setStatusCode = state.setStatusCode
+    data.setBody = state.setBody
   }
 
   public async onMount(data: MountData, next: Next): Promise<void> {
@@ -175,31 +241,24 @@ export class Http<
       )
 
     data.logger.debug('prepare cookie & session')
-    this.cookie = new Cookie(this.config.cookie || {}, data.logger)
-    this.session = this.cookie.session
+    this.normalizeCookieConfig(data.logger)
 
     await next()
   }
 
   public async onInvoke(data: InvokeData, next: Next): Promise<void> {
-    this.headers = data.event.headers || Object.create(null)
-    this.body = data.event.body
-    this.params = data.event.queryString || Object.create(null)
-    this.response = { headers: Object.create(null) }
+    const state = this.createInvokeState(data)
 
-    this.parseEventParams(data)
-
+    this.attachInvokeData(data, state)
+    this.parseEventParams(data, state)
     data.params = data.event.params
 
-    this.cookie.invoke(this.headers.cookie, data.logger)
+    state.cookie.invoke(state.headers.cookie, data.logger)
 
-    if (this.headers.cookie) {
-      data.logger.debug('Cookie: %j', this.cookie.content)
-      data.logger.debug('Session: %s %j', this.session.config.key, this.session.content)
+    if (state.headers.cookie) {
+      data.logger.debug('Cookie: %j', state.cookie.content)
+      data.logger.debug('Session: %s %j', state.session.config.key, state.session.content)
     }
-
-    data.cookie = this.cookie
-    data.session = this.session
 
     try {
       await next()
@@ -207,94 +266,100 @@ export class Http<
       data.response = error
     }
 
-    this.session.update()
-    this.buildResponse(data)
-    this.finalizeBody(data)
+    state.session.update()
+    this.buildResponse(data, state)
+    this.finalizeBody(data, state)
   }
 
-  private parseEventParams(data: InvokeData): void {
-    if (!data.event.body) return
+  private parseEventParams(
+    data: InvokeData,
+    state: HttpInvokeState<TParams, TCookie, TSession>,
+  ): void {
+    if (state.body) {
+      const contentType = state.headers['content-type']
 
-    const contentType = this.headers['content-type']
-
-    if (
-      contentType?.includes('application/json') &&
-      typeof data.event.body === 'string' &&
-      data.event.body.length > 1
-    ) {
-      data.logger.debug('Parse params from json body')
-      try {
-        this.params = Object.keys(this.params).length
-          ? Object.assign(this.params, JSON.parse(data.event.body))
-          : JSON.parse(data.event.body)
-      } catch (error: any) {
-        data.logger.error('Parse params from json body failed: %s', error.message)
+      if (
+        contentType?.includes('application/json') &&
+        typeof state.body === 'string' &&
+        state.body.length > 1
+      ) {
+        data.logger.debug('Parse params from json body')
+        try {
+          state.params = Object.keys(state.params).length
+            ? Object.assign(state.params, JSON.parse(state.body))
+            : JSON.parse(state.body)
+        } catch (error: any) {
+          data.logger.error('Parse params from json body failed: %s', error.message)
+        }
+      } else {
+        data.logger.debug('Parse params from raw body')
+        state.params = state.body || Object.create(null)
       }
-    } else {
-      data.logger.debug('Parse params from raw body')
-      this.params = data.event.body || Object.create(null)
     }
 
-    if (this.params && typeof this.params === 'object' && this.params._)
-      delete (this.params as Record<string, any>)._
+    if (state.params && typeof state.params === 'object' && state.params._)
+      delete (state.params as Record<string, any>)._
 
-    if (this.params && typeof this.params === 'object') {
+    if (state.params && typeof state.params === 'object') {
       try {
-        data.event.params = structuredClone(this.params)
+        data.event.params = structuredClone(state.params)
       } catch {
-        data.event.params = this.params
+        data.event.params = state.params
       }
-    } else data.event.params = this.params
+    } else data.event.params = state.params
 
-    data.logger.debug('Params: %j', this.params)
+    data.logger.debug('Params: %j', state.params)
   }
 
-  private buildResponse(data: InvokeData): void {
-    if (this.response.body && !data.response) data.response = this.response.body
+  private buildResponse(
+    data: InvokeData,
+    state: HttpInvokeState<TParams, TCookie, TSession>,
+  ): void {
+    if (state.response.body && !data.response) data.response = state.response.body
 
     if (data.response)
       if (data.response instanceof Error || data.response.constructor?.name === 'Error') {
         data.logger.error(data.response)
-        this.response.body = JSON.stringify({
+        state.response.body = JSON.stringify({
           error: { message: data.response.message },
         })
         try {
-          this.response.statusCode = data.response.statusCode || 500
+          state.response.statusCode = data.response.statusCode || 500
         } catch (error: any) {
           data.logger.error(error)
-          this.response.statusCode = 500
+          state.response.statusCode = 500
         }
       } else if (
         Object.prototype.toString.call(data.response) === '[object Object]' &&
         data.response.statusCode &&
         data.response.headers
       )
-        this.response = data.response
-      else if (data.response instanceof ReadableStream) this.response.body = data.response
+        state.response = data.response
+      else if (data.response instanceof ReadableStream) state.response.body = data.response
       else
-        this.response.body = JSON.stringify({
+        state.response.body = JSON.stringify({
           data: data.response === undefined ? null : data.response,
         })
 
-    if (!this.response.statusCode) this.response.statusCode = data.response ? 200 : 204
+    if (!state.response.statusCode) state.response.statusCode = data.response ? 200 : 204
 
-    this.response.headers = Object.assign(
+    state.response.headers = Object.assign(
       {
         'content-type':
-          this.response.body instanceof ReadableStream
+          state.response.body instanceof ReadableStream
             ? 'text/plain; charset=utf-8'
             : 'application/json; charset=utf-8',
         'cache-control': 'no-cache, no-store',
         'x-faasjs-request-id': data.context.request_id,
       },
-      this.cookie.headers(),
-      this.response.headers,
+      state.cookie.headers(),
+      state.response.headers,
     )
 
-    data.response = Object.assign({}, data.response, this.response)
+    data.response = Object.assign({}, data.response, state.response)
   }
 
-  private finalizeBody(data: InvokeData): void {
+  private finalizeBody(data: InvokeData, state: HttpInvokeState<TParams, TCookie, TSession>): void {
     const originBody = data.response.body
     data.response.originBody = originBody
 
@@ -328,7 +393,7 @@ export class Http<
 
     data.response.body = normalizedBody
 
-    const acceptEncoding = this.headers['accept-encoding'] || this.headers['Accept-Encoding']
+    const acceptEncoding = state.headers['accept-encoding'] || state.headers['Accept-Encoding']
     if (!acceptEncoding || !/(br|gzip|deflate)/.test(acceptEncoding)) return
 
     const encoding: 'br' | 'gzip' | 'deflate' = acceptEncoding.includes('br')
@@ -347,49 +412,6 @@ export class Http<
       delete data.response.headers['Content-Encoding']
     }
   }
-
-  /**
-   * Set a response header.
-   *
-   * @param key - Header name.
-   * @param value - Header value.
-   */
-  public setHeader(key: string, value: string): Http<TParams, TCookie, TSession> {
-    ;(this.response.headers || (this.response.headers = Object.create(null)))[key.toLowerCase()] =
-      value
-    return this
-  }
-
-  /**
-   * Set the `Content-Type` response header.
-   *
-   * @param type - Content type alias or full MIME type.
-   * @param charset - Charset appended to the header value.
-   */
-  public setContentType(type: string, charset = 'utf-8'): Http<TParams, TCookie, TSession> {
-    this.setHeader('Content-Type', `${ContentType[type] || type}; charset=${charset}`)
-    return this
-  }
-
-  /**
-   * Set the HTTP status code for the response.
-   *
-   * @param code - HTTP status code.
-   */
-  public setStatusCode(code: number): Http<TParams, TCookie, TSession> {
-    this.response.statusCode = code
-    return this
-  }
-
-  /**
-   * Set the response body.
-   *
-   * @param body - Response body content.
-   */
-  public setBody(body: string): Http<TParams, TCookie, TSession> {
-    this.response.body = body
-    return this
-  }
 }
 
 /**
@@ -407,6 +429,15 @@ export function useHttp<
 }
 
 declare module '@faasjs/core' {
+  interface DefineApiInject {
+    headers: Record<string, any>
+    body: any
+    setHeader: HttpSetHeader
+    setContentType: HttpSetContentType
+    setStatusCode: HttpSetStatusCode
+    setBody: HttpSetBody
+  }
+
   interface FaasPluginEventMap {
     http: {
       headers?: Record<string, any>

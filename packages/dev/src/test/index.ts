@@ -1,6 +1,6 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 
-import { Http } from '@faasjs/core'
+import { Cookie, Http } from '@faasjs/core'
 import type { Config, ExportedHandler, Func, FuncEventType, Plugin } from '@faasjs/core'
 import {
   deepMerge,
@@ -121,22 +121,31 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
     await this.mount()
 
     const headers = options.headers || Object.create(null)
+    let requestCookieHeader = headers.cookie
 
     if (this.http && this.http instanceof Http) {
-      if (options.cookie)
-        for (const key in options.cookie) this.http.cookie.write(key, options.cookie[key])
+      const cookie = new Cookie(this.http.config.cookie || {}, this.logger).invoke(
+        headers.cookie,
+        this.logger,
+      )
+
+      if (options.cookie) for (const key in options.cookie) cookie.write(key, options.cookie[key])
 
       if (options.session) {
-        for (const key in options.session) this.http.session.write(key, options.session[key])
-        this.http.session.update()
+        for (const key in options.session) cookie.session.write(key, options.session[key])
+        cookie.session.update()
       }
-      const cookie = this.http.cookie
+
+      const mergedCookie = cookie
         .headers()
-        ['Set-Cookie']?.map((c: string) => c.split(';')[0])
+        ['Set-Cookie']?.map((item: string) => item.split(';')[0])
         .join(';')
-      if (cookie)
-        if (headers.cookie) headers.cookie += `;${cookie}`
-        else headers.cookie = cookie
+
+      if (mergedCookie)
+        if (headers.cookie) headers.cookie += `;${mergedCookie}`
+        else headers.cookie = mergedCookie
+
+      requestCookieHeader = headers.cookie
     }
 
     const response = await this._handler({
@@ -223,9 +232,38 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
       response.error = parsedBody.error
     }
 
-    if (this.http) {
-      response.cookie = this.http.cookie.content
-      response.session = this.http.session.content
+    if (this.http && this.http instanceof Http) {
+      const cookie = new Cookie(this.http.config.cookie || {}, this.logger).invoke(
+        requestCookieHeader,
+        this.logger,
+      )
+      const setCookieHeaders =
+        response?.headers?.['Set-Cookie'] || response?.headers?.['set-cookie']
+      const cookies = Array.isArray(setCookieHeaders)
+        ? setCookieHeaders
+        : typeof setCookieHeaders === 'string'
+          ? [setCookieHeaders]
+          : []
+
+      for (const setCookie of cookies) {
+        const matched = /^([^=]+)=([^;]*)/.exec(setCookie)
+
+        if (!matched) continue
+
+        const key = matched[1]
+        const value = decodeURIComponent(matched[2] || '')
+        const expired =
+          /(?:^|;)\s*expires=Thu, 01 Jan 1970 00:00:01 GMT/i.test(setCookie) ||
+          /(?:^|;)\s*max-age=0/i.test(setCookie)
+
+        if (expired) delete cookie.content[key]
+        else cookie.content[key] = value
+      }
+
+      cookie.session.invoke(cookie.read(cookie.session.config.key), this.logger)
+
+      response.cookie = cookie.content
+      response.session = cookie.session.content
     }
 
     this.logger.debug('response: %j', response)

@@ -4,9 +4,10 @@ export const func = defineApi({
   schema: z.object({
     name: z.string().min(1).optional(),
   }),
-  async handler({ params }) {
+  async handler(data) {
+    data
     return {
-      message: `Hello, ${params.name || 'FaasJS'}!`,
+      message: `Hello, ${data.params.name || 'FaasJS'}!`,
     }
   },
 })

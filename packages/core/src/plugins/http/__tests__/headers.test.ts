@@ -9,8 +9,8 @@ describe('params', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        return http.headers
+      async handler(data) {
+        return data.headers
       },
     }).export().handler
 
@@ -25,8 +25,8 @@ describe('params', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        return http.headers
+      async handler(data) {
+        return data.headers
       },
     }).export().handler
 

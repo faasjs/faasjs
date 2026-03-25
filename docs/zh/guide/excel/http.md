@@ -30,8 +30,8 @@ const http = new Http({
 
 export const func = new Func({
   plugins: [http],
-  handler() {
-    return http.params.id // 返回传入的 id
+  handler(data) {
+    return data.params.id // 返回传入的 id
   },
 })
 ```
@@ -56,8 +56,8 @@ const http = new Http({
 
 export const func = new Func({
   plugins: [http],
-  handler() {
-    http.cookie.write('user_id', http.cookie.read('distinct_id')) // 将 cookie 中的 distinct_id 写入为 user_id
+  handler(data) {
+    data.cookie.write('user_id', data.cookie.read('distinct_id')) // 将 cookie 中的 distinct_id 写入为 user_id
   },
 })
 ```
@@ -82,8 +82,8 @@ const http = new Http({
 
 export const func = new Func({
   plugins: [http],
-  handler() {
-    http.session.write('user_id', http.session.read('distinct_id')) // 将 session 中的 distinct_id 写入为 user_id
+  handler(data) {
+    data.session.write('user_id', data.session.read('distinct_id')) // 将 session 中的 distinct_id 写入为 user_id
   },
 })
 ```

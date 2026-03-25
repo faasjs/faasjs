@@ -8,8 +8,8 @@ describe('setStatusCode', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        http.setStatusCode(404)
+      async handler({ setStatusCode }) {
+        setStatusCode(404)
       },
     }).export().handler
 

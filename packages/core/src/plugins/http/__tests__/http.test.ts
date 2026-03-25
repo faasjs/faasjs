@@ -1,7 +1,7 @@
 import { streamToString } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
-import { Http, HttpError, useHttp } from '..'
+import { Http, HttpError, type Response, useHttp } from '..'
 import { Func, useFunc } from '../../..'
 
 describe('http', () => {
@@ -89,9 +89,9 @@ describe('http', () => {
 
   it('useHttp helper', async () => {
     const func = useFunc(() => {
-      const http = useHttp<{ key: string }>()
+      useHttp<{ key: string }>()
 
-      return async () => http.params
+      return async ({ params }) => params
     })
 
     const res = await func.export().handler({
@@ -104,6 +104,52 @@ describe('http', () => {
       key: 'value',
       statusCode: 200,
     })
+  })
+
+  it('should isolate params between concurrent requests', async () => {
+    let pending = 0
+    let release: (() => void) | undefined
+    const ready = new Promise<void>((resolve) => {
+      release = resolve
+    })
+
+    const func = useFunc(() => {
+      useHttp<{ id: string }>()
+
+      return async ({ params }) => {
+        const first = params.id
+
+        pending += 1
+        if (pending === 2) release?.()
+
+        await ready
+
+        return {
+          first,
+          seen: params.id,
+        }
+      }
+    })
+
+    const handler = func.export().handler as (event?: {
+      queryString?: { id: string }
+    }) => Promise<Response>
+
+    const [resA, resB] = await Promise.all([
+      handler({
+        queryString: { id: 'A' },
+      }),
+      handler({
+        queryString: { id: 'B' },
+      }),
+    ])
+
+    expect(await streamToString(resA.body as ReadableStream)).toEqual(
+      '{"data":{"first":"A","seen":"A"}}',
+    )
+    expect(await streamToString(resB.body as ReadableStream)).toEqual(
+      '{"data":{"first":"B","seen":"B"}}',
+    )
   })
 
   it('should emit stream error when TextEncoder fails', async () => {

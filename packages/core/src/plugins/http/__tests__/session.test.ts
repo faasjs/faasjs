@@ -1,7 +1,7 @@
 import { streamToString } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
-import { Http, Session } from '..'
+import { Cookie, Http } from '..'
 import { Func, type InvokeData } from '../../..'
 
 describe('session', () => {
@@ -10,7 +10,7 @@ describe('session', () => {
     const func = new Func({
       plugins: [http],
       async handler(data: InvokeData) {
-        return http.session.read(data.event.key)
+        return data.session.read(data.event.key)
       },
     })
     func.config = {
@@ -79,7 +79,7 @@ describe('session', () => {
     const func = new Func({
       plugins: [http],
       async handler(data: InvokeData) {
-        http.session.write(data.event.key, data.event.value)
+        data.session.write(data.event.key, data.event.value)
       },
     })
     func.config = {
@@ -98,10 +98,12 @@ describe('session', () => {
       },
     }
     const handler = func.export().handler
-    const session = new Session(http.cookie, {
-      key: 'key',
-      secret: 'secret',
-    })
+    const session = new Cookie({
+      session: {
+        key: 'key',
+        secret: 'secret',
+      },
+    }).session
 
     it('add', async () => {
       const res = await handler({
@@ -134,10 +136,10 @@ describe('session', () => {
       const http = new Http()
       const func = new Func({
         plugins: [http],
-        async handler() {
-          http.session.write('a', 1)
-          http.session.write('a', 2)
-          http.session.write('b', 1)
+        async handler({ session }) {
+          session.write('a', 1)
+          session.write('a', 2)
+          session.write('b', 1)
         },
       })
       func.config = {

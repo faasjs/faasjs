@@ -13,8 +13,8 @@ describe('params', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        return http.params
+      async handler(data) {
+        return data.params
       },
     }).export().handler
 
@@ -29,8 +29,8 @@ describe('params', () => {
     const http = new Http<{ body: string }>()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        return http.params
+      async handler(data) {
+        return data.params
       },
     }).export().handler
 
@@ -45,8 +45,8 @@ describe('params', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        return http.params
+      async handler(data) {
+        return data.params
       },
     }).export().handler
 
@@ -68,8 +68,8 @@ describe('params', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        return http.params
+      async handler(data) {
+        return data.params
       },
     }).export().handler
 
@@ -87,8 +87,8 @@ describe('params', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        return http.params
+      async handler(data) {
+        return data.params
       },
     }).export().handler
 
@@ -107,8 +107,8 @@ describe('params', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        return http.params
+      async handler(data) {
+        return data.params
       },
     }).export().handler
 
@@ -135,8 +135,8 @@ describe('params', () => {
       plugins: [http],
       async handler(data) {
         return {
-          sameReference: http.params === data.event.params,
-          params: http.params,
+          sameReference: data.params === data.event.params,
+          params: data.params,
         }
       },
     }).export().handler

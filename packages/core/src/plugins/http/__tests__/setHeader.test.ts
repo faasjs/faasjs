@@ -8,8 +8,8 @@ describe('setHeader', () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
-      async handler() {
-        http.setHeader('key', 'value')
+      async handler({ setHeader }) {
+        setHeader('key', 'value')
       },
     }).export().handler
 
