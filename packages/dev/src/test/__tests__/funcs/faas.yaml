@@ -4,4 +4,3 @@ defaults:
       http: http
     http:
       type: http
-testing:
