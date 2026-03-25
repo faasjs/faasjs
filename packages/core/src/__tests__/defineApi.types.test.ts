@@ -1,3 +1,9 @@
+import type {
+  HttpSetBody,
+  HttpSetContentType,
+  HttpSetHeader,
+  HttpSetStatusCode,
+} from '@faasjs/core'
 import { defineApi, z } from '@faasjs/core'
 import { assertType, expect, test } from 'vitest'
 
@@ -22,6 +28,23 @@ test('defineApi should infer injected fields from DefineApiInject', () => {
       assertType<string>(params.name)
 
       return current_user?.name ?? params.name
+    },
+  })
+
+  expect(func).toBeDefined()
+})
+
+test('defineApi should expose http injections through DefineApiInject', () => {
+  const func = defineApi({
+    async handler({ body, headers, setBody, setContentType, setHeader, setStatusCode }) {
+      assertType<any>(body)
+      assertType<Record<string, any>>(headers)
+      assertType<HttpSetBody>(setBody)
+      assertType<HttpSetContentType>(setContentType)
+      assertType<HttpSetHeader>(setHeader)
+      assertType<HttpSetStatusCode>(setStatusCode)
+
+      return true
     },
   })
 

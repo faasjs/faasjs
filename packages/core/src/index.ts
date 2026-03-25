@@ -73,8 +73,7 @@ export type DefineApiData<
  * Extend this interface in plugin packages to describe which data fields are
  * injected into `defineApi` handler arguments.
  */
-// biome-ignore lint/suspicious/noEmptyInterface: declaration merging entrypoint for plugin packages
-export interface DefineApiInject {}
+export interface DefineApiInject extends Record<never, never> {}
 
 export type DefineApiOptions<
   TSchema extends ZodType | undefined = undefined,

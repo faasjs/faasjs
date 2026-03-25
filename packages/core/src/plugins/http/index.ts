@@ -437,19 +437,4 @@ declare module '@faasjs/core' {
     setStatusCode: HttpSetStatusCode
     setBody: HttpSetBody
   }
-
-  interface FaasPluginEventMap {
-    http: {
-      headers?: Record<string, any>
-      body?: any
-      params?: Record<string, any>
-      queryString?: Record<string, any>
-      httpMethod?: string
-      path?: string
-      raw?: {
-        request?: unknown
-        response?: unknown
-      }
-    }
-  }
 }

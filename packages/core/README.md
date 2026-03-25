@@ -29,10 +29,6 @@
 - [Server](classes/Server.md)
 - [Session](classes/Session.md)
 
-## Interfaces
-
-- [DefineApiInject](interfaces/DefineApiInject.md)
-
 ## Type Aliases
 
 - [Config](type-aliases/Config.md)
@@ -49,7 +45,11 @@
 - [FuncReturnType](type-aliases/FuncReturnType.md)
 - [Handler](type-aliases/Handler.md)
 - [HttpConfig](type-aliases/HttpConfig.md)
-- [InferPluginEvent](type-aliases/InferPluginEvent.md)
+- [HttpResponseBody](type-aliases/HttpResponseBody.md)
+- [HttpSetBody](type-aliases/HttpSetBody.md)
+- [HttpSetContentType](type-aliases/HttpSetContentType.md)
+- [HttpSetHeader](type-aliases/HttpSetHeader.md)
+- [HttpSetStatusCode](type-aliases/HttpSetStatusCode.md)
 - [InvokeData](type-aliases/InvokeData.md)
 - [LifeCycleKey](type-aliases/LifeCycleKey.md)
 - [Middleware](type-aliases/Middleware.md)
@@ -57,17 +57,13 @@
 - [MiddlewareEvent](type-aliases/MiddlewareEvent.md)
 - [MountData](type-aliases/MountData.md)
 - [Next](type-aliases/Next.md)
-- [NormalizePluginType](type-aliases/NormalizePluginType.md)
 - [Plugin](type-aliases/Plugin.md)
-- [ResolvePluginEvent](type-aliases/ResolvePluginEvent.md)
 - [Response](type-aliases/Response.md)
 - [ServerHandlerOptions](type-aliases/ServerHandlerOptions.md)
 - [ServerOptions](type-aliases/ServerOptions.md)
 - [SessionContent](type-aliases/SessionContent.md)
 - [SessionOptions](type-aliases/SessionOptions.md)
-- [Simplify](type-aliases/Simplify.md)
 - [StaticHandlerOptions](type-aliases/StaticHandlerOptions.md)
-- [UnionToIntersection](type-aliases/UnionToIntersection.md)
 - [UseifyPlugin](type-aliases/UseifyPlugin.md)
 
 ## Variables
