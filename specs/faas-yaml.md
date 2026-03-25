@@ -8,11 +8,11 @@ Chinese: [faas.yaml 配置规范](./faas-yaml.zh.md)
 - Version: v1.0
 - Owner: FaasJS Maintainers
 - Applies To: `@faasjs/node-utils`, `@faasjs/dev`, `@faasjs/core`, `create-faas-app`, and API projects built on FaasJS
-- Last Updated: 2026-02-20
+- Last Updated: 2026-03-25
 
 ## Background
 
-`faas.yaml` is the runtime configuration entry used by FaasJS config loading, local dev server resolution, and type generation. Historical docs describe parts of this behavior, but key rules are implemented in source code.
+`faas.yaml` is the runtime configuration entry used by FaasJS config loading, local dev server resolution, and type generation.
 
 This spec defines the internal baseline that matches current behavior.
 
@@ -23,22 +23,11 @@ Related references:
 - `packages/dev/src/server_config.ts`
 - `packages/dev/src/typegen.ts`
 
-Legacy references (kept unchanged in this phase):
-
-- `docs/guide/README.md`
-- `docs/zh/guide/excel/faas-yaml.md`
-
 ## Goals
 
 - Keep config discovery and merge order deterministic.
 - Keep staging-level validation predictable.
 - Define the supported YAML subset explicitly.
-
-## Non-goals
-
-- Defining plugin-specific business fields under `plugins.<name>.config`.
-- Defining provider/deploy inner schemas.
-- Replacing current parser with a full YAML 1.2 implementation.
 
 ## Normative Rules
 
@@ -62,10 +51,8 @@ Legacy references (kept unchanged in this phase):
 ### 3. Root object and staging keys
 
 1. The parsed root value MUST be an object when provided.
-2. Each top-level staging value MUST be an object or `null` when provided.
+2. Each top-level staging value MUST be an object when provided.
 3. `defaults` SHOULD exist and SHOULD contain shared baseline settings.
-4. Top-level `types` key MUST NOT be used.
-5. `<staging>.types` key MUST NOT be used.
 
 ### 4. `server` node contract
 
@@ -76,12 +63,14 @@ Legacy references (kept unchanged in this phase):
 5. In `@faasjs/dev`, source root MUST be `<server.root>/src`.
 6. In type generation, output path MUST be `<server.root>/src/.faasjs/types.d.ts`.
 
-### 5. `plugins` node contract
+### 5. `plugins` node authoring
 
-1. `<staging>.plugins`, when present, MUST be an object.
-2. Each plugin entry value in `faas.yaml` MUST be an object.
-3. Loader MUST inject `name` on each plugin entry with the plugin key as value.
-4. Fields not explicitly validated by loader MAY exist and MUST be preserved by merge.
+1. `<staging>.plugins` MAY be omitted.
+2. Recommended authoring shape is a mapping from plugin key to plugin config object.
+3. Plugin key SHOULD be stable within the same staging because `loadConfig()` derives runtime `name` from that key.
+4. `name` is a loader-generated runtime field and SHOULD NOT be authored manually in `faas.yaml`.
+5. A plugin config object MAY contain `type`, `config`, and other plugin-specific fields.
+6. Plugin-specific inner fields are outside the scope of this spec and are preserved during merge.
 
 ### 6. Supported YAML subset
 
@@ -116,18 +105,3 @@ defaults:
         cookie:
           secure: false
 ```
-
-## Compatibility
-
-- Existing projects without `defaults` still run, but using `defaults` is recommended.
-- Existing custom keys outside validated rules are currently passed through by loader.
-- `types` key in `faas.yaml` has been removed and is invalid.
-- Legacy guide docs remain available but are non-normative during this internal-spec phase.
-
-## Migration Checklist
-
-- [ ] Ensure all config files use `faas.yaml` (not `faas.yml`).
-- [ ] Move shared config into `defaults`.
-- [ ] Remove top-level `types` and `<staging>.types`.
-- [ ] Ensure `server.root` and `server.base` are strings when present.
-- [ ] Ensure each `plugins.<name>` entry is an object.

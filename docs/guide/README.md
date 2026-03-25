@@ -24,7 +24,7 @@ mise exec -- npx create-faas-app --name faasjs
 
 ### faas.yaml
 
-This is the configuration file for FaasJS, which records cloud providers, plugins, and local development server (`server`) settings.
+This is the configuration file for FaasJS, which records plugin and local development server (`server`) settings.
 
 ### \*.func.ts
 

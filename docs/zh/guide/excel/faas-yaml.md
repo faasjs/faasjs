@@ -43,12 +43,10 @@
 - **testing** 默认线上测试环境
 - **production** 默认线上正式环境
 
-### 二级节点：服务商、插件 & 部署节点
+### 二级节点：插件 & 服务节点
 
-- **providers** 服务商节点，用于配置服务商的 Token 等全局信息。
 - **plugins** 插件节点，各个插件会读取此处的配置作为默认配置。
 - **server** 服务节点，用于配置本地开发服务读取路径和请求基路径。
-- **deploy** 部署节点
 
 ### server 节点
 
@@ -64,8 +62,6 @@
 3. `@faasjs/dev` 入口配置默认读取 `<root>/src/faas.yaml`（`root` 来自 Vite 的 `root` 或 `faas types --root`）。
 4. typegen 输出固定为 `<server.root>/src/.faasjs/types.d.ts`。
 
-> `types` 自定义配置已移除，不再支持在 `faas.yaml` 中配置。
-
 ### 三级节点：具体配置
 
 #### 插件节点
@@ -75,7 +71,6 @@
 若节点名为插件的名字，则视为该插件的默认节点。
 
 - **type** 插件类型
-- **provider** 服务商名字，即 providers 中设置的 key；对于非服务商云资源（如数据库），此项不填写
 - **config** 具体配置项，不同类型有不同的可配置项
 
 例：
@@ -83,12 +78,10 @@
 ```yaml
 plugins:
   function:
-    provider: first
     type: faas
     config:
       MemorySize: 128
   second_faas:
-    provider: second
     type: faas
     config:
       MemorySize: 256

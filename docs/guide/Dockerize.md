@@ -18,7 +18,7 @@ The file structure of a FaasJS application is as follows:
 ```
 
 - `*.func.ts`: The cloud function file. In FaasJS, all cloud function files must end with `.func.ts`.
-- `faas.yaml`: The configuration file for FaasJS, which records the configuration items of cloud service providers and plugins.
+- `faas.yaml`: The configuration file for FaasJS, which records plugin and local development server settings.
 - `server.ts`: The entry file of the FaasJS application.
 - `Dockerfile`: The Dockerfile for building the FaasJS application.
 

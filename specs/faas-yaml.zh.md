@@ -8,11 +8,11 @@
 - 版本: v1.0
 - 维护者: FaasJS Maintainers
 - 适用范围: `@faasjs/node-utils`、`@faasjs/dev`、`@faasjs/core`、`create-faas-app` 及基于 FaasJS 的 API 项目
-- 最后更新: 2026-02-20
+- 最后更新: 2026-03-25
 
 ## 背景
 
-`faas.yaml` 是 FaasJS 运行时配置入口，影响配置加载、本地开发服务解析与类型生成。历史文档覆盖了部分规则，但关键行为由源码实现。
+`faas.yaml` 是 FaasJS 运行时配置入口，影响配置加载、本地开发服务解析与类型生成。
 
 本规范用于定义与当前实现一致的仓库内基线。
 
@@ -23,22 +23,11 @@
 - `packages/dev/src/server_config.ts`
 - `packages/dev/src/typegen.ts`
 
-历史参考（本阶段保持不变）：
-
-- `docs/guide/README.md`
-- `docs/zh/guide/excel/faas-yaml.md`
-
 ## 目标
 
 - 保持配置发现与合并顺序可预测。
 - 保持环境节点校验规则稳定。
 - 明确支持的 YAML 子集。
-
-## 非目标
-
-- 不定义 `plugins.<name>.config` 的插件业务字段。
-- 不定义 provider/deploy 的内部字段结构。
-- 不将当前解析器替换为完整 YAML 1.2 实现。
 
 ## 规范条款
 
@@ -62,10 +51,8 @@
 ### 3. 根对象与环境节点
 
 1. 解析后的根值在存在时必须是对象。
-2. 顶层环境节点在存在时必须是对象或 `null`。
+2. 顶层环境节点在存在时必须是对象。
 3. `defaults` 应该存在，并用于共享基线配置。
-4. 顶层 `types` 键禁止使用。
-5. `<staging>.types` 键禁止使用。
 
 ### 4. `server` 节点约定
 
@@ -76,12 +63,14 @@
 5. 在 `@faasjs/dev` 中，函数源码目录必须是 `<server.root>/src`。
 6. 在类型生成中，输出路径必须是 `<server.root>/src/.faasjs/types.d.ts`。
 
-### 5. `plugins` 节点约定
+### 5. `plugins` 节点写法
 
-1. `<staging>.plugins` 在存在时必须是对象。
-2. `faas.yaml` 中每个插件条目的值必须是对象。
-3. 加载器必须为每个插件条目注入 `name` 字段，值为插件键名。
-4. 加载器未显式校验的字段可以存在，且必须在合并后保留。
+1. `<staging>.plugins` 可以省略。
+2. 推荐写法是“插件键名 -> 插件配置对象”的映射。
+3. 同一环境中的插件键名应该保持稳定，因为 `loadConfig()` 会基于该键名派生运行时 `name`。
+4. `name` 是加载器生成的运行时字段，不应该手写在 `faas.yaml` 中。
+5. 插件配置对象可以包含 `type`、`config` 以及其他插件私有字段。
+6. 插件私有字段的内部结构不属于本规范范围，并且会在合并过程中保留。
 
 ### 6. 支持的 YAML 子集
 
@@ -116,18 +105,3 @@ defaults:
         cookie:
           secure: false
 ```
-
-## 兼容性
-
-- 现有项目即使没有 `defaults` 仍可运行，但推荐使用 `defaults`。
-- 校验规则之外的自定义键目前会被加载器透传。
-- `faas.yaml` 中的 `types` 键已移除，属于无效配置。
-- 历史教程文档继续保留，但在当前内部 spec 阶段不作为规范性来源。
-
-## 迁移检查清单
-
-- [ ] 确保配置文件统一为 `faas.yaml`（不是 `faas.yml`）。
-- [ ] 将共享配置收敛到 `defaults`。
-- [ ] 移除顶层 `types` 与 `<staging>.types`。
-- [ ] 确保 `server.root` 与 `server.base` 在存在时为字符串。
-- [ ] 确保每个 `plugins.<name>` 条目值为对象。

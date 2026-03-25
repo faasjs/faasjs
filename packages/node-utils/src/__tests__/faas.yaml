@@ -1,7 +1,6 @@
 defaults:
   plugins:
     func:
-      provider: tc
       type: function
       config:
         env: defaults

@@ -34,35 +34,6 @@ describe('loadConfig', () => {
     expect(config.plugins?.test?.type).toEqual('sublocal')
   })
 
-  it('should throw when types config exists', () => {
-    const root = mkdtempSync(join(tmpdir(), 'faas-load-config-'))
-
-    try {
-      const src = join(root, 'src')
-
-      mkdirSync(src, {
-        recursive: true,
-      })
-
-      writeFileSync(
-        join(src, 'faas.yaml'),
-        `defaults:
-  types:
-    enabled: true
-`,
-      )
-
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
-        'defaults.types',
-      )
-    } finally {
-      rmSync(root, {
-        recursive: true,
-        force: true,
-      })
-    }
-  })
-
   it('should throw when server.root is not string', () => {
     const root = mkdtempSync(join(tmpdir(), 'faas-load-config-'))
 
@@ -82,7 +53,7 @@ describe('loadConfig', () => {
       )
 
       expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
-        'defaults.server.root',
+        /"defaults\.server\.root": Invalid input: expected string, received number/,
       )
     } finally {
       rmSync(root, {
@@ -111,7 +82,7 @@ describe('loadConfig', () => {
       )
 
       expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
-        'defaults.server.base',
+        /"defaults\.server\.base": Invalid input: expected string, received number/,
       )
     } finally {
       rmSync(root, {
@@ -139,7 +110,7 @@ describe('loadConfig', () => {
       )
 
       expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
-        'defaults.server',
+        /"defaults\.server": Invalid input: expected object, received number/,
       )
     } finally {
       rmSync(root, {
@@ -161,33 +132,9 @@ describe('loadConfig', () => {
 
       writeFileSync(join(src, 'faas.yaml'), '- item\n')
 
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow('<root>')
-    } finally {
-      rmSync(root, {
-        recursive: true,
-        force: true,
-      })
-    }
-  })
-
-  it('should throw when top-level types config exists', () => {
-    const root = mkdtempSync(join(tmpdir(), 'faas-load-config-'))
-
-    try {
-      const src = join(root, 'src')
-
-      mkdirSync(src, {
-        recursive: true,
-      })
-
-      writeFileSync(
-        join(src, 'faas.yaml'),
-        `types:
-  enabled: true
-`,
+      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+        /"<root>": Invalid input: expected object, received array/,
       )
-
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow('types')
     } finally {
       rmSync(root, {
         recursive: true,
@@ -212,7 +159,9 @@ describe('loadConfig', () => {
 `,
       )
 
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow('development')
+      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+        /"development": Invalid input: expected object, received number/,
+      )
     } finally {
       rmSync(root, {
         recursive: true,
@@ -252,6 +201,41 @@ describe('loadConfig', () => {
     }
   })
 
+  it('should preserve custom stage fields', () => {
+    const root = mkdtempSync(join(tmpdir(), 'faas-load-config-'))
+
+    try {
+      const src = join(root, 'src')
+
+      mkdirSync(src, {
+        recursive: true,
+      })
+
+      writeFileSync(
+        join(src, 'faas.yaml'),
+        `defaults:
+  custom:
+    enabled: true
+development:
+  custom:
+    mode: local
+`,
+      )
+
+      const config = loadConfig(src, join(src, 'fake.func.ts'), 'development')
+
+      expect(config.custom).toEqual({
+        enabled: true,
+        mode: 'local',
+      })
+    } finally {
+      rmSync(root, {
+        recursive: true,
+        force: true,
+      })
+    }
+  })
+
   it('should return empty object for empty faas.yaml', () => {
     const root = mkdtempSync(join(tmpdir(), 'faas-load-config-'))
 
@@ -275,7 +259,7 @@ describe('loadConfig', () => {
     }
   })
 
-  it('should handle null stages and configs without plugins', () => {
+  it('should throw when staging config is null', () => {
     const root = mkdtempSync(join(tmpdir(), 'faas-load-config-'))
 
     try {
@@ -287,14 +271,13 @@ describe('loadConfig', () => {
 
       writeFileSync(
         join(src, 'faas.yaml'),
-        `defaults:
-development:
+        `development:
 `,
       )
 
-      const config = loadConfig(`${src}/`, join(src, 'fake.func.ts'), 'development')
-
-      expect(config).toEqual({})
+      expect(() => loadConfig(`${src}/`, join(src, 'fake.func.ts'), 'development')).toThrow(
+        /"development": Invalid input: expected object, received null/,
+      )
     } finally {
       rmSync(root, {
         recursive: true,

@@ -1,6 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, sep } from 'node:path'
 
+import * as z from 'zod'
+
 import { deepMerge } from './deep_merge'
 import { Logger } from './logger'
 import { parseYaml } from './parse_yaml'
@@ -25,55 +27,41 @@ export type FuncConfig = {
   }
 }
 
-function isObject(value: unknown): value is Record<string, any> {
-  return !!value && typeof value === 'object' && !Array.isArray(value)
-}
+const serverConfigSchema = z.looseObject({
+  root: z.string().optional(),
+  base: z.string().optional(),
+})
+
+const stageConfigSchema = z.looseObject({
+  server: serverConfigSchema.optional(),
+})
+
+const faasYamlSchema = z.object({}).catchall(stageConfigSchema)
 
 function createConfigError(filePath: string, keyPath: string, reason: string): Error {
   return Error(`[loadConfig] Invalid faas.yaml ${filePath} at "${keyPath}": ${reason}`)
 }
 
-function validateServerConfig(filePath: string, staging: string, server: unknown): void {
-  if (!isObject(server)) throw createConfigError(filePath, `${staging}.server`, 'must be an object')
-
-  if (typeof server.root !== 'undefined' && typeof server.root !== 'string')
-    throw createConfigError(filePath, `${staging}.server.root`, 'must be a string')
-
-  if (typeof server.base !== 'undefined' && typeof server.base !== 'string')
-    throw createConfigError(filePath, `${staging}.server.base`, 'must be a string')
+function formatIssuePath(path: PropertyKey[]): string {
+  return path.map((value) => String(value)).join('.')
 }
 
 function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
-  if (typeof config === 'undefined' || config === null) return Object.create(null)
+  if (typeof config === 'undefined') return Object.create(null)
 
-  if (!isObject(config)) throw createConfigError(filePath, '<root>', 'must be an object')
+  const result = faasYamlSchema.safeParse(config)
 
-  for (const staging in config) {
-    if (staging === 'types')
-      throw createConfigError(
-        filePath,
-        'types',
-        'has been removed, move related settings out of faas.yaml',
-      )
+  if (!result.success) {
+    const issue = result.error.issues[0]!
 
-    const stageConfig = config[staging]
-
-    if (typeof stageConfig === 'undefined' || stageConfig === null) continue
-
-    if (!isObject(stageConfig)) throw createConfigError(filePath, staging, 'must be an object')
-
-    if (Object.hasOwn(stageConfig, 'types'))
-      throw createConfigError(
-        filePath,
-        `${staging}.types`,
-        'has been removed, move related settings out of faas.yaml',
-      )
-
-    if (Object.hasOwn(stageConfig, 'server'))
-      validateServerConfig(filePath, staging, stageConfig.server)
+    throw createConfigError(
+      filePath,
+      issue.path.length ? formatIssuePath(issue.path) : '<root>',
+      issue.message,
+    )
   }
 
-  return config
+  return result.data
 }
 
 function assignPluginNames(config: FuncConfig): void {
