@@ -27,7 +27,7 @@ jobs:
           vp pack
           vp check
           vp run ci
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - uses: codecov/test-results-action@v1
