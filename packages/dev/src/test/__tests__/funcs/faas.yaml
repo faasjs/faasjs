@@ -1,6 +1,4 @@
 defaults:
   plugins:
-    defaults:
-      http: http
     http:
       type: http

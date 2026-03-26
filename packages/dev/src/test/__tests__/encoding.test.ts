@@ -1,6 +1,6 @@
 import { brotliCompressSync, deflateSync, gzipSync } from 'node:zlib'
 
-import { Func } from '@faasjs/core'
+import { Func, Http } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
 
 import { FuncWarper } from '../../index'
@@ -32,7 +32,7 @@ describe('encoding', () => {
   it('should decompress br compressed stream', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,
@@ -58,7 +58,7 @@ describe('encoding', () => {
   it('should decompress gzip compressed stream', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,
@@ -84,7 +84,7 @@ describe('encoding', () => {
   it('should decompress deflate compressed stream', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,
@@ -110,7 +110,7 @@ describe('encoding', () => {
   it('should handle uncompressed stream', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,
@@ -136,7 +136,7 @@ describe('encoding', () => {
   it('should handle decompression error with corrupted br data', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,
@@ -164,7 +164,7 @@ describe('encoding', () => {
   it('should handle decompression error with corrupted gzip data', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,
@@ -192,7 +192,7 @@ describe('encoding', () => {
   it('should handle decompression error with corrupted deflate data', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,
@@ -220,7 +220,7 @@ describe('encoding', () => {
   it('should handle unsupported encoding', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,
@@ -248,7 +248,7 @@ describe('encoding', () => {
   it('should handle stream read error', async () => {
     const func = new FuncWarper(
       new Func({
-        plugins: [],
+        plugins: [new Http()],
         async handler() {
           return {
             statusCode: 200,

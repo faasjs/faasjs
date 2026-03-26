@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { FuncWarper } from '../../index'
+import { test } from '../../index'
 import { func as Func } from './funcs/session.func'
 
 describe('JSONhandler', () => {
   it('session', async () => {
-    const func = new FuncWarper(Func)
+    const func = test(Func)
 
     const res = await func.JSONhandler(
       {},
@@ -21,7 +21,7 @@ describe('JSONhandler', () => {
   })
 
   it('should merge cookies when header cookie is not provided', async () => {
-    const func = new FuncWarper(Func)
+    const func = test(Func)
 
     const res = await func.JSONhandler(
       {},

@@ -70,6 +70,11 @@ export function viteFaasJsServer(): Plugin {
     name: 'vite:faasjs',
     enforce: 'pre' as const,
     configResolved(resolvedConfig) {
+      if (process.env.VITEST) {
+        logger.debug('Skipping faas server in vitest environment')
+        return
+      }
+
       const { root, base } = resolveServerConfig(resolvedConfig.root, logger, resolvedConfig.base)
 
       config = {
@@ -78,10 +83,7 @@ export function viteFaasJsServer(): Plugin {
       }
     },
     configureServer: async ({ middlewares, watcher }) => {
-      if (process.env.VITEST) {
-        logger.debug('Skipping faas server in vitest environment')
-        return
-      }
+      if (process.env.VITEST) return
 
       if (!config) throw new Error('viteFaasJsServer: config is not resolved')
 
