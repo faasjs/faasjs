@@ -12,6 +12,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/dev`
   - [Feature] Add test helpers back to `@faasjs/dev`, including `test`, `FuncWarper`, typed `JSONhandler`, cookie/session mocking, and compressed `ReadableStream` decoding.
 
+- `@faasjs/react`
+  - [Break] Remove `Form` component.
+
 [`v8.0.0-beta.16 (2026-03-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.14...v8.0.0-beta.16)
 
 - `@faasjs/types`
