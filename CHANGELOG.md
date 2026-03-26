@@ -2,7 +2,17 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.16 (2026-03-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.14...v8.0.0-beta.16)
+[`v8.0.0-beta.17 (2026-03-26)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.16...v8.0.0-beta.17)
+
+- `@faasjs/core`
+  - [Break] Remove `FaasPluginEventMap` and related `InferPluginEvent` utilities, and move HTTP request helpers from the `Http` instance to injected handler fields via `DefineApiInject`.
+  - [Feature] Export `HttpResponseBody`, `HttpSetBody`, `HttpSetContentType`, `HttpSetHeader`, and `HttpSetStatusCode` for typed HTTP handler injections.
+  - [Fix] Isolate HTTP request state per invocation so concurrent requests do not leak params, cookies, sessions, or response mutations.
+
+- `@faasjs/dev`
+  - [Feature] Add test helpers back to `@faasjs/dev`, including `test`, `FuncWarper`, typed `JSONhandler`, cookie/session mocking, and compressed `ReadableStream` decoding.
+
+[`v8.0.0-beta.16 (2026-03-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.14...v8.0.0-beta.16)
 
 - `@faasjs/types`
   - [Fix] Fix response type.
