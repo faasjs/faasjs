@@ -102,6 +102,10 @@ async function respondWithFile(path: string, mimeType: string, response: ServerR
  * Middleware to handle static file requests.
  *
  * @param options - Static file serving options.
+ * @param options.root - Root directory used to resolve requested files.
+ * @param options.notFound - Fallback behavior when a file is missing.
+ * @param options.cache - Cache toggle or cache namespace used for lookup results.
+ * @param options.stripPrefix - URL prefix removed before resolving the file path.
  * @returns Middleware that serves files from the configured root directory.
  *
  * The middleware resolves the requested URL to a file path within the specified root directory.

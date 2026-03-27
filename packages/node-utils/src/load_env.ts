@@ -17,6 +17,8 @@ export type LoadEnvFileIfExistsOptions = {
  * - Existing environment variables are preserved (Node.js behavior).
  *
  * @param options - Optional working directory and filename overrides.
+ * @param options.cwd - Working directory used to resolve the dotenv file.
+ * @param options.filename - Env filename relative to `cwd`. Defaults to `.env`.
  *
  * @example
  * ```ts

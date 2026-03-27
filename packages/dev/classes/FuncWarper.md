@@ -115,13 +115,19 @@ Extra headers, request cookies, and session seed values.
 
 \{\[`key`: `string`\]: `any`; \}
 
+Cookie key-value pairs preloaded into the request.
+
 ###### headers?
 
 \{\[`key`: `string`\]: `any`; \}
 
+Extra request headers merged into the JSON test request.
+
 ###### session?
 
 \{\[`key`: `string`\]: `any`; \}
+
+Session key-value pairs encoded into the request cookie before invocation.
 
 #### Returns
 

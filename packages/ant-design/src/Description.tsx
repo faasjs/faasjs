@@ -228,6 +228,12 @@ DescriptionItemContent.displayName = 'DescriptionItemContent'
  *
  * @template T - Data record shape rendered by the component.
  * @param props - Description props including items, data source, and optional Faas data config.
+ * @param props.renderTitle - Callback used to compute the title from the current data source.
+ * @param props.items - Description item definitions rendered by the component.
+ * @param props.extendTypes - Custom type renderers keyed by item type.
+ * @param props.dataSource - Data record rendered directly by the component.
+ * @param props.faasData - Request config used to fetch the data source before rendering.
+ * Other Ant Design `DescriptionsProps` fields are forwarded to the underlying component.
  *
  * @example
  * ```tsx
@@ -245,8 +251,6 @@ DescriptionItemContent.displayName = 'DescriptionItemContent'
  *   dataSource={{ id: 'value' }}
  * />
  * ```
- *
- * @param props - Description props including items, data source, and optional Faas data config.
  */
 export function Description<T extends Record<string, any> = any>(props: DescriptionProps<T>) {
   const { faasData, dataSource, renderTitle, extendTypes, ...descriptionProps } = props

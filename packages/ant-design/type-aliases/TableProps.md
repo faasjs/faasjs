@@ -12,6 +12,8 @@ Props for the FaasJS Ant Design [Table](../functions/Table.md) component.
 
 > `optional` **extendTypes?**: `object`
 
+Custom type renderers keyed by item type.
+
 #### Index Signature
 
 \[`key`: `string`\]: [`ExtendTableTypeProps`](ExtendTableTypeProps.md)\<`any`\>
@@ -20,13 +22,19 @@ Props for the FaasJS Ant Design [Table](../functions/Table.md) component.
 
 > `optional` **faasData?**: [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`any`\>
 
+Request config used to fetch table data before rendering.
+
 ### items
 
 > **items**: ([`TableItemProps`](../interfaces/TableItemProps.md) \| `ExtendTypes` & [`ExtendTableItemProps`](ExtendTableItemProps.md))[]
 
+Column definitions rendered by the table.
+
 ### onChange?
 
 > `optional` **onChange?**: (`pagination`, `filters`, `sorter`, `extra`) => `object`
+
+Change handler that can return rewritten pagination, filter, and sorter state.
 
 #### Parameters
 

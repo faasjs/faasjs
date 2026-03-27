@@ -178,6 +178,26 @@ function processProps(propsCopy: FormItemProps, config: ResolvedTheme['common'])
  *
  * @template T - Value type rendered or edited by the form item.
  * @param props - Form item props including field metadata, rules, and custom renderers.
+ * @param props.id - Stable field identifier used as the default `name`, title, and lookup key.
+ * @param props.title - Human-readable title used for labels and generated messages.
+ * @param props.type - Built-in FaasJS field type used to choose the default input.
+ * @param props.input - Input props forwarded to the generated Ant Design control.
+ * @param props.options - Choice options used by select-like field types.
+ * @param props.maxCount - Maximum item count for array-like object fields.
+ * @param props.object - Nested field definitions used by `object` and `object[]` item types.
+ * @param props.disabled - Whether the generated field is disabled.
+ * @param props.required - Whether the generated field adds a required validation rule.
+ * @param props.col - Grid span used by the built-in row layout.
+ * @param props.children - Generic custom field renderer or element.
+ * @param props.formChildren - Form-specific custom field renderer or element.
+ * @param props.render - Generic custom render callback.
+ * @param props.formRender - Form-specific custom render callback.
+ * @param props.rules - Validation rules forwarded to Ant Design `Form.Item`.
+ * @param props.label - Label override, or `false` to hide the label.
+ * @param props.extendTypes - Custom type renderers keyed by type name.
+ * @param props.onValueChange - Callback invoked when this field's value changes.
+ * @param props.if - Predicate used to show or hide the item from the current form values.
+ * Other Ant Design `FormItemProps` fields are forwarded to the underlying item.
  *
  * @example
  * ```tsx

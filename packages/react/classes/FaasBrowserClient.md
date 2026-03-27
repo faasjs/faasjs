@@ -97,6 +97,8 @@ Base URL for all API requests. Must end with `/`. Defaults to `/` for relative r
 [`Options`](../type-aliases/Options.md) = `...`
 
 Default request options such as headers, hooks, request override, or stream mode.
+See [Options](../type-aliases/Options.md) for supported request fields such as `headers`, `beforeRequest`,
+`request`, `baseUrl`, and `stream`.
 
 #### Returns
 
@@ -190,6 +192,8 @@ Optional if the function accepts no parameters.
 
 Optional request options that override client defaults.
 Supports headers, beforeRequest hook, custom request function, baseUrl override, and streaming mode.
+See [Options](../type-aliases/Options.md) for supported request fields such as `headers`, `beforeRequest`,
+`request`, `baseUrl`, and `stream`.
 
 #### Returns
 

@@ -62,6 +62,8 @@ Internal template reuse options.
 
 `Cookie`\<`C`, `S`\>
 
+Existing cookie template reused by `fork()`.
+
 #### Returns
 
 `Cookie`\<`C`, `S`\>
@@ -178,25 +180,37 @@ Per-cookie attribute overrides.
 
 `string`
 
+Cookie domain attribute override.
+
 ###### expires?
 
 `string` \| `number`
+
+`max-age` seconds or absolute `expires` string override.
 
 ###### httpOnly?
 
 `boolean`
 
+Whether the written cookie is hidden from client-side scripts.
+
 ###### path?
 
 `string`
+
+Cookie path attribute override.
 
 ###### sameSite?
 
 `"Strict"` \| `"Lax"` \| `"None"`
 
+SameSite attribute override.
+
 ###### secure?
 
 `boolean`
+
+Whether the written cookie requires HTTPS transport.
 
 #### Returns
 

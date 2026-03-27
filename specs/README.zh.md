@@ -30,7 +30,7 @@
 | -------------- | ------ | ---- | ------------------------------------------ | ------------------------------------------------ |
 | faas.yaml 配置 | 已采纳 | v1.0 | [faas-yaml.md](./faas-yaml.md)             | [faas-yaml.zh.md](./faas-yaml.zh.md)             |
 | HTTP 协议      | 已采纳 | v1.0 | [http-protocol.md](./http-protocol.md)     | [http-protocol.zh.md](./http-protocol.zh.md)     |
-| JSDoc 编写     | 草案   | v0.1 | [jsdoc-authoring.md](./jsdoc-authoring.md) | [jsdoc-authoring.zh.md](./jsdoc-authoring.zh.md) |
+| JSDoc 编写     | 草案   | v0.2 | [jsdoc-authoring.md](./jsdoc-authoring.md) | [jsdoc-authoring.zh.md](./jsdoc-authoring.zh.md) |
 | 路由映射       | 已采纳 | v1.0 | [routing-mapping.md](./routing-mapping.md) | [routing-mapping.zh.md](./routing-mapping.zh.md) |
 
 ## 编写流程

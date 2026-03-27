@@ -40,6 +40,9 @@ export interface RoutesProps {
  * Routes with lazy loading and 404 page.
  *
  * @param props - Route definitions and optional fallback or 404 elements.
+ * @param props.routes - Route records forwarded to React Router, with optional lazy `page` components.
+ * @param props.fallback - Fallback element rendered while lazy pages are loading.
+ * @param props.notFound - Element rendered for the generated catch-all 404 route.
  *
  * @example
  * ```tsx

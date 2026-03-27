@@ -33,6 +33,8 @@ Parameters are passed as a plain object (already JSON-serialized if needed).
 The full request options including headers, beforeRequest hook, and other config.
 Includes X-FaasJS-Request-Id header in the headers object.
 Contains merged client defaults and per-request options.
+See [Options](Options.md) for supported request fields such as `headers`, `beforeRequest`,
+`request`, `baseUrl`, and `stream`.
 
 ## Returns
 

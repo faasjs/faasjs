@@ -41,6 +41,12 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
  * @param action - Action path to invoke.
  * @param defaultParams - Params used for the initial request and future reloads.
  * @param options - Optional hook configuration such as controlled data, debounce, and skip logic.
+ * @param options.params - Request params override used without mutating the hook's stored params state.
+ * @param options.data - Controlled data value used instead of the hook's internal state.
+ * @param options.setData - Controlled setter used instead of the hook's internal `setData`.
+ * @param options.skip - Boolean or predicate that suppresses the automatic request until `reload()` runs.
+ * @param options.debounce - Milliseconds to wait before sending the latest request.
+ * @param options.baseUrl - Base URL override used for this hook instance.
  * @returns Request state and helper methods for the action.
  *
  * @example

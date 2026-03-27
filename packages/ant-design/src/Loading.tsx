@@ -14,6 +14,10 @@ export type LoadingProps = {
  * Loading component based on Spin
  *
  * @param props - Loading indicator props and optional wrapped children.
+ * @param props.style - Inline styles applied to the loading wrapper.
+ * @param props.size - Ant Design spinner size.
+ * @param props.loading - Whether the spinner should be shown. When `false`, render `children`.
+ * @param props.children - Content rendered when `loading` is `false`.
  *
  * @example
  * ```tsx

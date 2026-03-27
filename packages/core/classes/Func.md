@@ -116,17 +116,25 @@ Optional initial event, context, config, and logger used during mount.
 
 [`Config`](../type-aliases/Config.md)
 
+Function config override used during mount.
+
 ###### context
 
 `TContext`
+
+Initial context value passed through mount hooks.
 
 ###### event
 
 `TEvent`
 
+Initial event value passed through mount hooks.
+
 ###### logger?
 
 `Logger`
+
+Logger override used during mount.
 
 #### Returns
 

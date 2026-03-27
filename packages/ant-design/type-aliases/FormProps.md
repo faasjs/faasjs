@@ -12,25 +12,37 @@ Props for the FaasJS Ant Design [Form](../functions/Form.md) component.
 
 > `optional` **beforeItems?**: `JSX.Element` \| `JSX.Element`[]
 
+Extra content rendered before generated items.
+
 ### children?
 
 > `optional` **children?**: `ReactNode`
+
+Additional custom content rendered inside the form.
 
 ### extendTypes?
 
 > `optional` **extendTypes?**: [`ExtendTypes`](ExtendTypes.md)
 
+Custom form item type renderers keyed by type name.
+
 ### footer?
 
 > `optional` **footer?**: `JSX.Element` \| `JSX.Element`[]
+
+Extra content rendered after generated items.
 
 ### initialValues?
 
 > `optional` **initialValues?**: `Partial`\<`Values`\>
 
+Initial values applied to the underlying Ant Design form.
+
 ### items?
 
 > `optional` **items?**: (`ExtendItemProps` _extends_ [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md) ? `ExtendItemProps` \| [`FormItemProps`](../interfaces/FormItemProps.md) : [`FormItemProps`](../interfaces/FormItemProps.md) \| `JSX.Element`)[]
+
+Form item definitions or custom JSX blocks rendered inside the form.
 
 ### submit?
 

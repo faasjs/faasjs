@@ -110,6 +110,10 @@ Create a ResponseError from a message, Error, or structured response error paylo
 
 Error message, Error object, or structured response error props.
 
+`string`
+
+`Error`
+
 ##### options?
 
 `Omit`\<[`ResponseErrorProps`](../type-aliases/ResponseErrorProps.md), `"message"` \| `"originalError"`\>

@@ -21,6 +21,9 @@ export type setModalProps = Dispatch<SetStateAction<ModalProps>>
  *
  * @param init - Initial modal props.
  *
+ * Common initial props include `open`, `title`, and `children`.
+ * Other Ant Design `ModalProps` fields are forwarded to the managed modal instance.
+ *
  * @example
  * ```tsx
  * import { useModal } from '@faasjs/ant-design'

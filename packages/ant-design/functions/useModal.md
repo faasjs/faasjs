@@ -14,6 +14,9 @@ Hook style modal
 
 Initial modal props.
 
+Common initial props include `open`, `title`, and `children`.
+Other Ant Design `ModalProps` fields are forwarded to the managed modal instance.
+
 ## Returns
 
 `object`

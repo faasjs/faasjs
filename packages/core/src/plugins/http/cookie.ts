@@ -75,8 +75,16 @@ export class Cookie<
    * Create a cookie manager.
    *
    * @param config - Cookie defaults including session settings.
+   * @param config.domain - Cookie domain attribute.
+   * @param config.path - Cookie path attribute. Defaults to `/`.
+   * @param config.expires - Max age in seconds for persisted cookies.
+   * @param config.secure - Whether cookies require HTTPS transport.
+   * @param config.httpOnly - Whether cookies are hidden from client-side scripts.
+   * @param config.sameSite - SameSite attribute applied to written cookies.
+   * @param config.session - Session-cookie encryption and signing settings.
    * @param logger - Optional logger used by cookie and session helpers.
    * @param options - Internal template reuse options.
+   * @param options.template - Existing cookie template reused by `fork()`.
    */
   constructor(
     config: CookieOptions,
@@ -166,6 +174,12 @@ export class Cookie<
    * @param key - Cookie name.
    * @param value - Cookie value, or `null`/`undefined` to expire it.
    * @param opts - Per-cookie attribute overrides.
+   * @param opts.domain - Cookie domain attribute override.
+   * @param opts.path - Cookie path attribute override.
+   * @param opts.expires - `max-age` seconds or absolute `expires` string override.
+   * @param opts.secure - Whether the written cookie requires HTTPS transport.
+   * @param opts.httpOnly - Whether the written cookie is hidden from client-side scripts.
+   * @param opts.sameSite - SameSite attribute override.
    * @returns Current cookie manager for chaining.
    */
   public write(

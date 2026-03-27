@@ -34,6 +34,9 @@ Component that consumes injected Faas data props.
 
 Request configuration forwarded to `FaasDataWrapper`.
 
+Common `faasProps` fields include `render`, `children`, `fallback`, `action`,
+`params`, `onDataChange`, `data`, `setData`, and `baseUrl`.
+
 ## Returns
 
 `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>

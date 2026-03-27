@@ -62,6 +62,11 @@ export type FaasReactClientInstance = {
  * used by helpers such as {@link faas} and {@link useFaas}.
  *
  * @param options - Client configuration including base URL, default request options, and error hooks.
+ * @param options.baseUrl - Base URL used to register and route the client instance.
+ * @param options.options - Default browser-client request options forwarded to `FaasBrowserClient`.
+ * @param options.onError - Hook factory used to handle failed `faas` and `useFaas` requests.
+ * See {@link Options} for supported browser-client request fields such as `headers`,
+ * `beforeRequest`, `request`, `baseUrl`, and `stream`.
  * @returns Registered FaasReactClient instance.
  *
  * @example

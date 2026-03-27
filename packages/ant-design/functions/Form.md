@@ -25,6 +25,8 @@ Form values shape.
 [`FormProps`](../type-aliases/FormProps.md)\<`Values`\>
 
 Form props including items, submit behavior, and FaasJS integration.
+Other Ant Design `FormProps` fields are forwarded to the underlying form.
+See [FormProps](../type-aliases/FormProps.md), [FormSubmitProps](../type-aliases/FormSubmitProps.md), and [FormFaasProps](../type-aliases/FormFaasProps.md) for supported fields.
 
 ## Returns
 

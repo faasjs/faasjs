@@ -36,6 +36,8 @@ Optional parameters for the function.
 [`Options`](Options.md)
 
 Optional request overrides.
+See [Options](Options.md) for supported request fields such as `headers`, `beforeRequest`,
+`request`, `baseUrl`, and `stream`.
 
 ## Returns
 

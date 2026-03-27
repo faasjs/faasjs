@@ -71,11 +71,15 @@ export type ExtendTableItemProps<T = any> = BaseItemProps &
  * @template ExtendTypes - Additional item prop shape accepted by `items`.
  */
 export type TableProps<T = any, ExtendTypes = any> = {
+  /** Column definitions rendered by the table. */
   items: (TableItemProps | (ExtendTypes & ExtendTableItemProps))[]
+  /** Custom type renderers keyed by item type. */
   extendTypes?: {
     [key: string]: ExtendTableTypeProps
   }
+  /** Request config used to fetch table data before rendering. */
   faasData?: FaasDataWrapperProps<any>
+  /** Change handler that can return rewritten pagination, filter, and sorter state. */
   onChange?: (
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
@@ -176,6 +180,9 @@ function processValue(item: TableItemProps, value: any) {
  * @template T - Row record type rendered by the table.
  * @template ExtendTypes - Additional item prop shape accepted by `items`.
  * @param props - Table props including columns, data source, and optional Faas data config.
+ * Other Ant Design `TableProps` fields are forwarded to the underlying table.
+ * See {@link TableProps} for supported FaasJS-specific fields such as `items`, `extendTypes`,
+ * `faasData`, and `onChange`.
  *
  * @example
  * ```tsx

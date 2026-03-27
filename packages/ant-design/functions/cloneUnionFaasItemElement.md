@@ -30,6 +30,8 @@ The props to be applied to the cloned element.
 
 The cloned element with the applied props.
 
+Common injected props include `scene`, `value`, `values`, and `index`.
+
 ## Example
 
 ```tsx

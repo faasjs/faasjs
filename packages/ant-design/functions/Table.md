@@ -32,6 +32,9 @@ Additional item prop shape accepted by `items`.
 [`TableProps`](../type-aliases/TableProps.md)\<`T`, `ExtendTypes`\>
 
 Table props including columns, data source, and optional Faas data config.
+Other Ant Design `TableProps` fields are forwarded to the underlying table.
+See [TableProps](../type-aliases/TableProps.md) for supported FaasJS-specific fields such as `items`, `extendTypes`,
+`faasData`, and `onChange`.
 
 ## Returns
 

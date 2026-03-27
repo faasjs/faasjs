@@ -191,6 +191,11 @@ export class CronJob {
    * Create a cron job from an expression and handler.
    *
    * @param options - Cron job options including expression, handler, and logger.
+   * @param options.name - Optional job name used in logs and registry helpers.
+   * @param options.expression - Five-field cron expression in `minute hour dayOfMonth month dayOfWeek` format.
+   * @param options.handler - Callback invoked whenever the cron expression matches.
+   * @param options.onError - Optional error handler invoked when `handler` throws.
+   * @param options.logger - Optional logger instance used by this cron job.
    */
   constructor(options: CronJobOptions) {
     this.expression = options.expression
@@ -345,6 +350,11 @@ const cronJobRegistry = new CronJobRegistry()
  * Registered jobs are managed by `Server` lifecycle automatically.
  *
  * @param options - Cron job definition.
+ * @param options.name - Optional job name used in logs and registry helpers.
+ * @param options.expression - Five-field cron expression in `minute hour dayOfMonth month dayOfWeek` format.
+ * @param options.handler - Callback invoked whenever the cron expression matches.
+ * @param options.onError - Optional error handler invoked when `handler` throws.
+ * @param options.logger - Optional logger instance used by this cron job.
  * @returns Registered cron job instance.
  *
  * @example

@@ -11,6 +11,8 @@ import { getClient } from './client'
  * @param action - Action path to invoke.
  * @param params - Parameters sent to the action.
  * @param options - Optional per-request overrides such as headers or base URL.
+ * See the request `Options` type for supported fields such as `headers`, `beforeRequest`,
+ * `request`, `baseUrl`, and `stream`.
  * @returns Response returned by the active browser client.
  *
  * @example

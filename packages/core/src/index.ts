@@ -296,6 +296,8 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
  * @template TContext - Runtime context type.
  * @template THandler - Handler signature used to infer the response type.
  * @param options - Schema and handler used to build the API function.
+ * @param options.schema - Optional Zod schema used to validate `event.params`.
+ * @param options.handler - Async business handler executed after plugins and validation are ready.
  *
  * @example
  * ```ts

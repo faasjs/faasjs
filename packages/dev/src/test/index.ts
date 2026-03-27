@@ -129,6 +129,9 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    * @template TData - Expected JSON `data` payload returned by the function.
    * @param body - Request body object or raw JSON string.
    * @param options - Extra headers, request cookies, and session seed values.
+   * @param options.headers - Extra request headers merged into the JSON test request.
+   * @param options.cookie - Cookie key-value pairs preloaded into the request.
+   * @param options.session - Session key-value pairs encoded into the request cookie before invocation.
    * @returns Normalized HTTP response payload for assertions.
    * @throws {Error} When the wrapped function does not use the HTTP plugin.
    */

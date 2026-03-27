@@ -576,6 +576,8 @@ function installModuleHooks(): void {
  * Register Node module hooks for tsconfig path alias resolution.
  *
  * @param options - Hook registration options such as entry file, root, and tsconfig path.
+ * See {@link RegisterNodeModuleHooksOptions} for supported fields such as `entry`, `root`,
+ * `tsconfigPath`, and `version`.
  *
  * @example
  * ```ts
@@ -643,6 +645,9 @@ export function detectNodeRuntime(): NodeRuntime {
  * @param name - The package name to load.
  * @param defaultNames - Preferred export keys used to resolve default values.
  * @param options - Optional runtime loader options.
+ * @param options.root - Project root used to scope tsconfig path alias resolution.
+ * @param options.tsconfigPath - Explicit tsconfig path used to load path alias rules.
+ * @param options.version - Optional version token appended to file URLs to bust the ESM cache.
  * @returns Loaded module or resolved default export.
  *
  * @example

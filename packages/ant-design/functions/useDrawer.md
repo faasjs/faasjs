@@ -14,6 +14,9 @@ Hook style drawer
 
 Initial drawer props.
 
+Common initial props include `open`, `title`, and `children`.
+Other Ant Design `DrawerProps` fields are forwarded to the managed drawer instance.
+
 ## Returns
 
 `object`

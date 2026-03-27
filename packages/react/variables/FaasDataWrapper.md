@@ -18,6 +18,8 @@ Fetch FaasJS data and inject the result into a render prop or child element.
 
 [`FaasDataWrapperProps`](../type-aliases/FaasDataWrapperProps.md)\<`PathOrData`\> & `RefAttributes`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`PathOrData`\>\>
 
+Wrapper props controlling the request and rendered fallback.
+
 ## Returns
 
 `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\> \| `null`
@@ -35,3 +37,5 @@ export function Greeting() {
   )
 }
 ```
+
+When a ref is provided, it exposes the current Faas request state imperatively.

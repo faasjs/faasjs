@@ -150,6 +150,8 @@ export function isTypegenSourceFile(filePath: string): boolean {
  * Generate `src/.faasjs/types.d.ts` for a FaasJS project.
  *
  * @param options - Project root and optional logger.
+ * @param options.root - Project root used to resolve `src/` and route files.
+ * @param options.logger - Logger used to report generation progress.
  * @returns Summary describing the generated file and discovered routes.
  *
  * @example

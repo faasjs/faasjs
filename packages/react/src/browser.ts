@@ -281,6 +281,8 @@ export type ResponseHeaders = {
  * @param action - The function path to call.
  * @param params - Optional parameters for the function.
  * @param options - Optional request overrides.
+ * See {@link Options} for supported request fields such as `headers`, `beforeRequest`,
+ * `request`, `baseUrl`, and `stream`.
  * @returns Promise resolving to the request response. In streaming mode the runtime returns the native fetch response.
  *
  * Notes:
@@ -474,6 +476,10 @@ export class Response<T = any> {
    * Create a wrapped response object.
    *
    * @param props - Response properties including status, headers, body, and data.
+   * @param props.status - HTTP status code. Defaults to `200` when `data` or `body` exists, otherwise `204`.
+   * @param props.headers - Response headers keyed by header name.
+   * @param props.body - Raw response body to expose without additional parsing.
+   * @param props.data - Parsed response payload to expose on `response.data`.
    * @returns Wrapped response instance.
    */
   constructor(props: ResponseProps<T> = {}) {
@@ -618,7 +624,15 @@ export class ResponseError extends Error {
    * Create a ResponseError from a message, Error, or structured response error payload.
    *
    * @param data - Error message, Error object, or structured response error props.
+   * @param data.message - User-facing error message when `data` is a structured object.
+   * @param data.status - HTTP status code when `data` is a structured object.
+   * @param data.headers - Response headers returned with the error when `data` is a structured object.
+   * @param data.body - Raw error body or structured error payload when `data` is a structured object.
+   * @param data.originalError - Original error preserved on the instance when `data` is a structured object.
    * @param options - Additional options such as status, headers, and body.
+   * @param options.status - HTTP status override used when `data` is a string or `Error`.
+   * @param options.headers - Response headers override used when `data` is a string or `Error`.
+   * @param options.body - Raw error body override used when `data` is a string or `Error`.
    * @returns ResponseError instance.
    */
   constructor(data: string | Error, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>)
@@ -670,6 +684,8 @@ export class ResponseError extends Error {
  * @param options - The full request options including headers, beforeRequest hook, and other config.
  *   Includes X-FaasJS-Request-Id header in the headers object.
  *   Contains merged client defaults and per-request options.
+ *   See {@link Options} for supported request fields such as `headers`, `beforeRequest`,
+ *   `request`, `baseUrl`, and `stream`.
  *
  * @returns A promise resolving to:
  *   - ResponseProps: Mock response data (status, headers, body, data)
@@ -887,6 +903,8 @@ export class FaasBrowserClient {
    *
    * @param baseUrl - Base URL for all API requests. Must end with `/`. Defaults to `/` for relative requests.
    * @param options - Default request options such as headers, hooks, request override, or stream mode.
+   * See {@link Options} for supported request fields such as `headers`, `beforeRequest`,
+   * `request`, `baseUrl`, and `stream`.
    *
    * @example Basic initialization
    * ```ts
@@ -959,6 +977,8 @@ export class FaasBrowserClient {
    *   Optional if the function accepts no parameters.
    * @param options - Optional request options that override client defaults.
    *   Supports headers, beforeRequest hook, custom request function, baseUrl override, and streaming mode.
+   *   See {@link Options} for supported request fields such as `headers`, `beforeRequest`,
+   *   `request`, `baseUrl`, and `stream`.
    *
    * @returns A Promise that resolves to a Response object containing status, headers, body, and data.
    *   The data property is typed based on the PathOrData generic parameter.

@@ -5,10 +5,10 @@
 ## 元信息
 
 - 状态: 草案（Draft）
-- 版本: v0.1
+- 版本: v0.2
 - 维护者: FaasJS Maintainers
 - 适用范围: `packages/*/src` 下的公开导出，以及 `packages/*/{classes,functions,interfaces,type-aliases,variables}` 下生成的 API Markdown
-- 最后更新: 2026-03-24
+- 最后更新: 2026-03-28
 
 ## 背景
 
@@ -62,7 +62,7 @@ FaasJS 目前已经主要通过 TypeScript 源码中的 JSDoc 来描述公开 AP
 
 ### 4. 标签约定
 
-1. `@param` 在 TypeScript 源码中应该优先使用 `name - description` 风格。若 `{Type}` 能帮助读者或 TypeDoc 理解，可以保留，但不得与真实签名冲突。
+1. `@param` 在 TypeScript 源码中应该使用 `{Type} name - description` 风格。
 2. 当返回值、Promise 载荷或空返回并非从摘要就能直接看出时，应该使用 `@returns`。
 3. 对用法不够直观的公开 API，尤其是 class、hook、factory、配置对象与复杂类型，应该提供 `@example`。
 4. 调用方需要感知并处理的异常或校验错误，必须通过 `@throws` 说明。
@@ -70,7 +70,8 @@ FaasJS 目前已经主要通过 TypeScript 源码中的 JSDoc 来描述公开 AP
 6. 对对象形态的 options、response props 或 prop bag，当内联成员注释不足时，应该使用 `@property`。
 7. `@template`、`@see`、`@augments` 与 `@deprecated` 在能补充 TypeScript 语法无法直接表达的信息时可以使用。
 8. 指向其他 FaasJS API 符号时，应该优先使用 `{@link Symbol}`。外部文档或 URL 可以使用普通 Markdown 链接。
-9. 标签描述必须与真实运行时行为、默认值和错误语义保持一致。
+9. 当同一个 JSDoc 块里出现多个块级标签时，应该遵循以下规范顺序：`@template`、`@param`、`@returns`、`@throws`、`@default`、`@property`、`@see`、`@augments`、`@deprecated`、`@example`。日常修改中被触达的公开文档，应该逐步收敛到从 `@template` 到 `@example` 的这一顺序。
+10. 标签描述必须与真实运行时行为、默认值和错误语义保持一致。
 
 ### 5. 示例与引用
 
@@ -89,18 +90,20 @@ FaasJS 目前已经主要通过 TypeScript 源码中的 JSDoc 来描述公开 AP
 
 ## 示例
 
-```ts
+````ts
 /**
  * Load a package and resolve its preferred default export.
  *
  * @template T - The expected module shape.
- * @param name - The package name to load.
- * @param defaultNames - Preferred export keys used to resolve default values.
- * @param options - Optional runtime loader options.
+ * @param {string} name - The package name to load.
+ * @param {string | string[]} defaultNames - Preferred export keys used to resolve default values.
+ * @param {LoadPackageOptions} options - Optional runtime loader options.
  * @returns Loaded module or resolved default export.
  * @throws {Error} When runtime cannot be determined.
  * @example
+ * ```ts
  * const handler = await loadPackage('pkg', ['default', 'handler'])
+ * ```
  */
 export async function loadPackage<T = unknown>(
   name: string,
@@ -109,7 +112,7 @@ export async function loadPackage<T = unknown>(
 ): Promise<T> {
   // ...
 }
-```
+````
 
 ```ts
 /**
@@ -127,7 +130,7 @@ export type Options = RequestInit & {
 ## 兼容性
 
 - 当前 FaasJS 各 package 已经依赖 JSDoc 加 TypeDoc 的方式生成公开 API Markdown。
-- 历史注释里同时存在 `@param name {type}` 与 `@param name - description` 两种形式；两者目前都能渲染，但本规范优先推荐在 TypeScript 源码中使用短横线风格。
+- 历史注释里同时存在 `@param name {type}` 与 `@param name - description` 两种形式；两者目前都能渲染，但本规范优先推荐在 TypeScript 源码中使用 `{Type} name - description` 风格。
 - 一些历史注释包含非英文描述；被触达的公开文档应逐步迁移为英文。
 
 ## 迁移检查清单
@@ -135,5 +138,6 @@ export type Options = RequestInit & {
 - [ ] 公开导出符号只有一个规范性的 JSDoc 块。
 - [ ] 新增或修改的文档都以一句摘要开头。
 - [ ] 运行时默认值、错误语义与不直观的用法示例都已记录。
+- [ ] 多标签 JSDoc 块遵循从 `@template` 到 `@example` 的规范顺序。
 - [ ] 能用 `{@link ...}` 的跨符号引用已尽量使用。
 - [ ] 修改公开 API 文档后已运行 `vp run doc`。

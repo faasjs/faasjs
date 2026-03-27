@@ -42,6 +42,17 @@ export type { FaasDataWrapperRef } from '@faasjs/react'
  *
  * @template T - Action path or response data type used for inference.
  * @param props - Wrapper props including loading fallbacks and request configuration.
+ * @param props.loadingProps - Props forwarded to the built-in loading fallback.
+ * @param props.loading - Explicit loading element that overrides the built-in loading component.
+ * @param props.render - Render prop receiving injected Faas state.
+ * @param props.children - Child element receiving injected Faas state.
+ * @param props.fallback - Explicit fallback element that overrides the built-in loading UI.
+ * @param props.action - Request target action path.
+ * @param props.params - Params sent to the action.
+ * @param props.onDataChange - Callback invoked when the resolved data value changes.
+ * @param props.data - Controlled data value used instead of internal state.
+ * @param props.setData - Controlled setter used instead of internal state.
+ * @param props.baseUrl - Base URL override used for this wrapper instance.
  *
  * @example
  * ```tsx
@@ -69,6 +80,10 @@ export function FaasDataWrapper<T extends FaasActionUnionType = any>(
  * @template TComponentProps - Component props including injected Faas data fields.
  * @param Component - Component that consumes injected Faas data props.
  * @param faasProps - Request configuration forwarded to `FaasDataWrapper`.
+ *
+ * Common `faasProps` fields include `loadingProps`, `loading`, `render`,
+ * `children`, `fallback`, `action`, `params`, `onDataChange`, `data`,
+ * `setData`, and `baseUrl`.
  *
  * @example
  * ```tsx

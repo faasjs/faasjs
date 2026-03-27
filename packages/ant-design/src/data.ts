@@ -376,6 +376,8 @@ export interface UnionFaasItemProps<Value = any, Values = any>
  * @param props - The props to be applied to the cloned element.
  * @returns The cloned element with the applied props.
  *
+ * Common injected props include `scene`, `value`, `values`, and `index`.
+ *
  * @example
  * ```tsx
  * import { cloneUnionFaasItemElement, type UnionFaasItemElement } from '@faasjs/ant-design'

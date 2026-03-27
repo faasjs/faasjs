@@ -24,6 +24,15 @@ export interface LinkProps {
  * Link component with button
  *
  * @param props - Link props controlling navigation target, rendering mode, and button behavior.
+ * @param props.href - Target URL or route path.
+ * @param props.target - Link target. Defaults to `_blank` for absolute HTTP URLs.
+ * @param props.text - Displayed link text when `children` is not provided.
+ * @param props.children - Displayed link content rendered instead of `text` when present.
+ * @param props.style - Inline styles merged with theme defaults.
+ * @param props.button - Button mode config, or `true` to render with default Ant Design button props.
+ * @param props.block - Whether the rendered link or button should take the full width.
+ * @param props.copyable - Whether plain-text links should enable the Typography copy action.
+ * @param props.onClick - Custom click handler that overrides built-in navigation.
  *
  * @example
  * ```tsx

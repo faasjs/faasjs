@@ -46,10 +46,15 @@ type ConfigContextValue = {
  * Props for the `@faasjs/ant-design` {@link ConfigProvider}.
  */
 export interface ConfigProviderProps {
+  /** Optional FaasJS client options used to initialize {@link FaasReactClient}. */
   faasClientOptions?: FaasReactClientOptions
+  /** Descendant components that consume the resolved config context. */
   children: React.ReactNode
+  /** Theme overrides merged with the built-in defaults. */
   theme?: {
+    /** Language code used to select localized defaults. */
     lang?: string
+    /** Common shared copy and labels used across components. */
     common?: {
       blank?: string
       all?: string
@@ -61,19 +66,23 @@ export interface ConfigProviderProps {
       search?: string
       reset?: string
     }
+    /** Blank-component theme overrides. */
     Blank?: {
       text?: string
     }
+    /** Form-component theme overrides. */
     Form?: {
       submit?: {
         text?: string
       }
     }
+    /** Title-component theme overrides. */
     Title?: {
       /** ' - ' as default */
       separator?: string
       suffix?: string
     }
+    /** Link-component theme overrides. */
     Link?: {
       /** '_blank' as default */
       target?: string
@@ -130,7 +139,8 @@ export const ConfigContext = createContext<ConfigContextValue>({
 /**
  * Config for `@faasjs/ant-design` components.
  *
- * @param props - Theme overrides and optional FaasJS client configuration.
+ * @param {ConfigProviderProps} props - Theme overrides and optional FaasJS client configuration.
+ * Theme sections include `lang`, `common`, `Blank`, `Form`, `Title`, and `Link`.
  *
  * @example
  * ```tsx

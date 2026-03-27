@@ -41,9 +41,13 @@ Error details.
 
 `string`
 
+User-facing error message serialized in the response body.
+
 ###### statusCode?
 
 `number`
+
+HTTP status code returned to the client. Defaults to `500`.
 
 #### Returns
 

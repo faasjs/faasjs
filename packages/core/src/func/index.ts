@@ -13,6 +13,11 @@ import { RunHandler } from '../plugins/run_handler'
  * @template TResult - Async result type returned by the handler.
  *
  * @param data - Invocation data exposed to the handler.
+ * @param data.event - Runtime event payload received from the caller.
+ * @param data.context - Runtime context payload forwarded by the platform.
+ * @param data.logger - Request-scoped logger instance.
+ * @param data.response - Mutable response slot shared across plugins and the handler.
+ * @param data.config - Resolved function configuration loaded during mount.
  * @returns Handler result that becomes the function response.
  */
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
@@ -317,6 +322,8 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * Create a cloud function.
    *
    * @param config - Plugins and optional business handler used to configure the function.
+   * @param config.plugins - Ordered plugin list attached before the built-in run handler.
+   * @param config.handler - Final business handler invoked after plugins complete.
    */
   constructor(config: FuncConfig<TEvent, TContext>) {
     if (config.handler) this.handler = config.handler
@@ -405,6 +412,10 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * First time mount the function.
    *
    * @param data - Optional initial event, context, config, and logger used during mount.
+   * @param data.event - Initial event value passed through mount hooks.
+   * @param data.context - Initial context value passed through mount hooks.
+   * @param data.config - Function config override used during mount.
+   * @param data.logger - Logger override used during mount.
    */
   public async mount(
     data: {
@@ -437,6 +448,11 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
    * Invoke the function.
    *
    * @param data - Invocation state mutated by plugins and the final handler.
+   * @param data.event - Runtime event payload.
+   * @param data.context - Runtime context payload.
+   * @param data.logger - Request-scoped logger instance.
+   * @param data.response - Mutable response value shared across plugins and handlers.
+   * @param data.config - Resolved function configuration.
    */
   public async invoke(data: InvokeData<TEvent, TContext, TResult>): Promise<void> {
     if (!this.mounted) await this.mount(data)

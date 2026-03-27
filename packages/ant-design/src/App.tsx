@@ -57,6 +57,8 @@ function RoutesApp(props: { children: React.ReactNode }) {
  * - Integrated FaasJS's [Modal](https://faasjs.com/doc/ant-design/#usemodal), [Drawer](https://faasjs.com/doc/ant-design/#usedrawer) and [ErrorBoundary](https://faasjs.com/doc/ant-design/#errorboundary).
  * - Integrated React Router's [BrowserRouter](https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html).
  *
+ * @param {AppProps} props - App shell props including providers, routing, and error handling options.
+ *
  * @example
  * ```tsx
  * import { App } from '@faasjs/ant-design'
@@ -74,8 +76,6 @@ function RoutesApp(props: { children: React.ReactNode }) {
  *   )
  * }
  * ```
- *
- * @param props - App shell props including providers, routing, and error handling options.
  */
 export function App(props: AppProps) {
   const [messageApi, messageContextHolder] = message.useMessage()

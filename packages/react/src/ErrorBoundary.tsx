@@ -51,6 +51,9 @@ export class ErrorBoundary extends Component<
    * Create an error boundary with empty error state.
    *
    * @param props - Boundary props.
+   * @param props.children - Descendant elements protected by the boundary.
+   * @param props.onError - Callback invoked after a render error is captured.
+   * @param props.errorChildren - Custom fallback element that receives error details.
    */
   constructor(props: ErrorBoundaryProps) {
     super(props)

@@ -5,10 +5,10 @@ Chinese: [JSDoc 编写规范](./jsdoc-authoring.zh.md)
 ## Metadata
 
 - Status: Draft
-- Version: v0.1
+- Version: v0.2
 - Owner: FaasJS Maintainers
 - Applies To: `packages/*/src` public exports and generated API Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}`
-- Last Updated: 2026-03-24
+- Last Updated: 2026-03-28
 
 ## Background
 
@@ -62,7 +62,7 @@ The repository also contains style drift in tag syntax, language, and duplicatio
 
 ### 4. Tag Conventions
 
-1. `@param` SHOULD use `name - description` style in TypeScript source. A `{Type}` annotation MAY be included when it clarifies behavior for readers or TypeDoc, but it MUST NOT contradict the actual signature.
+1. `@param` SHOULD use `{Type} name - description` style in TypeScript source.
 2. `@returns` SHOULD be used when the returned value, promise payload, or empty result is not already obvious from the summary.
 3. `@example` SHOULD be provided for public APIs whose usage is non-trivial, especially classes, hooks, factories, configuration objects, and advanced types.
 4. `@throws` MUST document user-observable exceptions or validation errors that callers are expected to handle.
@@ -70,7 +70,8 @@ The repository also contains style drift in tag syntax, language, and duplicatio
 6. `@property` SHOULD be used for object-shaped options, response props, or prop bags when inline member comments are not sufficient.
 7. `@template`, `@see`, `@augments`, and `@deprecated` MAY be used when they add information that TypeScript syntax alone does not communicate.
 8. `{@link Symbol}` SHOULD be preferred for references to other FaasJS API symbols. Standard Markdown links MAY be used for external documents and URLs.
-9. Tag descriptions MUST stay consistent with actual runtime behavior, default values, and error semantics.
+9. When multiple block tags appear in the same JSDoc block, they SHOULD follow this canonical order: `@template`, `@param`, `@returns`, `@throws`, `@default`, `@property`, `@see`, `@augments`, `@deprecated`, `@example`. Public docs touched during normal work SHOULD move toward this ordering from `@template` through `@example`.
+10. Tag descriptions MUST stay consistent with actual runtime behavior, default values, and error semantics.
 
 ### 5. Examples and References
 
@@ -89,18 +90,20 @@ The repository also contains style drift in tag syntax, language, and duplicatio
 
 ## Examples
 
-```ts
+````ts
 /**
  * Load a package and resolve its preferred default export.
  *
  * @template T - The expected module shape.
- * @param name - The package name to load.
- * @param defaultNames - Preferred export keys used to resolve default values.
- * @param options - Optional runtime loader options.
+ * @param {string} name - The package name to load.
+ * @param {string | string[]} defaultNames - Preferred export keys used to resolve default values.
+ * @param {LoadPackageOptions} options - Optional runtime loader options.
  * @returns Loaded module or resolved default export.
  * @throws {Error} When runtime cannot be determined.
  * @example
+ * ```ts
  * const handler = await loadPackage('pkg', ['default', 'handler'])
+ * ```
  */
 export async function loadPackage<T = unknown>(
   name: string,
@@ -109,7 +112,7 @@ export async function loadPackage<T = unknown>(
 ): Promise<T> {
   // ...
 }
-```
+````
 
 ```ts
 /**
@@ -127,7 +130,7 @@ export type Options = RequestInit & {
 ## Compatibility
 
 - Current FaasJS packages already rely on JSDoc plus TypeDoc generation for public API Markdown.
-- Older comments may use both `@param name {type}` and `@param name - description`; both can render today, but this spec prefers dash style in TypeScript source.
+- Older comments may use both `@param name {type}` and `@param name - description`; both can render today, but this spec prefers `{Type} name - description` in TypeScript source.
 - Some legacy comments contain non-English descriptions. Touched public docs should migrate to English.
 
 ## Migration Checklist
@@ -135,5 +138,6 @@ export type Options = RequestInit & {
 - [ ] Public exported symbols have a single canonical JSDoc block.
 - [ ] New or touched docs start with a one-sentence summary.
 - [ ] Runtime defaults, errors, and non-obvious examples are documented.
+- [ ] Multi-tag JSDoc blocks follow the canonical tag order from `@template` to `@example`.
 - [ ] Cross-symbol references use `{@link ...}` where practical.
 - [ ] `vp run doc` has been run after public API doc changes.

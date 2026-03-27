@@ -21,6 +21,9 @@ export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
  *
  * @param init - Initial drawer props.
  *
+ * Common initial props include `open`, `title`, and `children`.
+ * Other Ant Design `DrawerProps` fields are forwarded to the managed drawer instance.
+ *
  * @example
  * ```tsx
  * import { useDrawer } from '@faasjs/ant-design'

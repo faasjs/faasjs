@@ -105,7 +105,8 @@ export type ServerOptions = {
    * This function is executed asynchronously and will not interrupt the server
    * if an error occurs during its execution.
    *
-   * @param context - An object containing the logger instance.
+   * @param context - Lifecycle context passed to the start hook.
+   * @param context.logger - Shared server logger instance.
    *
    * @example
    * ```typescript
@@ -125,7 +126,8 @@ export type ServerOptions = {
    * that occur during server operation.
    *
    * @param error - The error that occurred.
-   * @param context - An object containing the logger instance.
+   * @param context - Lifecycle context passed to the error hook.
+   * @param context.logger - Shared server logger instance.
    *
    * @example
    * ```typescript
@@ -144,7 +146,8 @@ export type ServerOptions = {
    * This function is executed asynchronously and can be used to perform
    * cleanup tasks or log server shutdown events.
    *
-   * @param context - An object containing the logger instance.
+   * @param context - Lifecycle context passed to the close hook.
+   * @param context.logger - Shared server logger instance.
    *
    * @example
    * ```typescript
@@ -236,6 +239,12 @@ export class Server {
    *
    * @param root - Root directory used to resolve configuration and route files.
    * @param opts - Server configuration overrides.
+   * @param opts.port - Port used by `listen()`. Defaults to `3000`.
+   * @param opts.onStart - Async hook invoked after the server starts listening.
+   * @param opts.onError - Async hook invoked when server-level errors occur.
+   * @param opts.onClose - Async hook invoked after the server closes.
+   * @param opts.beforeHandle - Middleware hook invoked before each request is dispatched.
+   * @param opts.cronJob - Whether server lifecycle should mount registered cron jobs.
    * @returns Server instance.
    */
   constructor(root: string, opts: ServerOptions = {}) {
@@ -294,6 +303,8 @@ export class Server {
    * @param req - Incoming Node.js request.
    * @param res - Node.js response writer.
    * @param options - Optional request metadata and forced filepath override.
+   * @param options.requestedAt - Explicit request start timestamp used for response headers.
+   * @param options.filepath - Force a specific function file path instead of route lookup.
    */
   public async handle(
     req: IncomingMessage,

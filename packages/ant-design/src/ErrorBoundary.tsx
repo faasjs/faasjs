@@ -30,6 +30,9 @@ function ErrorChildren(props: ErrorChildrenProps) {
  * Styled error boundary.
  *
  * @param props - Error boundary props forwarded to the underlying React implementation.
+ * @param props.children - Descendant elements protected by the boundary.
+ * @param props.onError - Callback invoked after a render error is captured.
+ * @param props.errorChildren - Optional custom fallback element that overrides the default alert.
  *
  * @example
  * ```tsx

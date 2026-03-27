@@ -57,6 +57,10 @@ Parent cookie store used for persistence.
 
 Session encryption and cookie key options.
 
+[`SessionOptions`](../type-aliases/SessionOptions.md)
+
+`SessionConfig`
+
 ##### secrets?
 
 `SessionSecrets`

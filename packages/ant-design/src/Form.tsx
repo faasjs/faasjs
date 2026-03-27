@@ -70,6 +70,7 @@ export type FormProps<
   Values extends Record<string, any> = any,
   ExtendItemProps extends ExtendFormItemProps = ExtendFormItemProps,
 > = Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'> & {
+  /** Form item definitions or custom JSX blocks rendered inside the form. */
   items?: (
     | (ExtendItemProps extends ExtendFormItemProps
         ? ExtendItemProps | FormItemProps
@@ -78,10 +79,15 @@ export type FormProps<
   )[]
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | FormSubmitProps
+  /** Extra content rendered before generated items. */
   beforeItems?: JSX.Element | JSX.Element[]
+  /** Extra content rendered after generated items. */
   footer?: JSX.Element | JSX.Element[]
+  /** Custom form item type renderers keyed by type name. */
   extendTypes?: ExtendTypes
+  /** Additional custom content rendered inside the form. */
   children?: ReactNode
+  /** Initial values applied to the underlying Ant Design form. */
   initialValues?: Partial<Values>
 } & (
     | {
@@ -109,6 +115,8 @@ function isFormItemProps(item: any): item is FormItemProps {
  *
  * @template Values - Form values shape.
  * @param props - Form props including items, submit behavior, and FaasJS integration.
+ * Other Ant Design `FormProps` fields are forwarded to the underlying form.
+ * See {@link FormProps}, {@link FormSubmitProps}, and {@link FormFaasProps} for supported fields.
  *
  * @example
  * ```tsx

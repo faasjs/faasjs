@@ -85,7 +85,17 @@ export class Session<
    *
    * @param cookie - Parent cookie store used for persistence.
    * @param config - Session encryption and cookie key options.
+   * @param config.key - Cookie key used to store the encrypted session payload.
+   * @param config.secret - Secret source used to derive encryption and signing keys.
+   * @param config.salt - Salt used for deriving the encryption key.
+   * @param config.signedSalt - Salt used for deriving the signing key.
+   * @param config.keylen - Total derived key length in bytes.
+   * @param config.iterations - PBKDF2 iteration count used for key derivation.
+   * @param config.digest - Hash algorithm used by PBKDF2 and HMAC.
+   * @param config.cipherName - Cipher name used to encrypt the session payload.
    * @param secrets - Precomputed secrets reused by forked sessions.
+   * @param secrets.secret - Derived encryption key reused by forked sessions.
+   * @param secrets.signedSecret - Derived signing key reused by forked sessions.
    */
   constructor(
     cookie: Cookie<C, S>,

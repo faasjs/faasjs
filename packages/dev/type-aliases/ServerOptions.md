@@ -65,11 +65,13 @@ cleanup tasks or log server shutdown events.
 
 ##### context
 
-An object containing the logger instance.
+Lifecycle context passed to the close hook.
 
 ###### logger
 
 `Logger`
+
+Shared server logger instance.
 
 #### Returns
 
@@ -104,11 +106,13 @@ The error that occurred.
 
 ##### context
 
-An object containing the logger instance.
+Lifecycle context passed to the error hook.
 
 ###### logger
 
 `Logger`
+
+Shared server logger instance.
 
 #### Returns
 
@@ -137,11 +141,13 @@ if an error occurs during its execution.
 
 ##### context
 
-An object containing the logger instance.
+Lifecycle context passed to the start hook.
 
 ###### logger
 
 `Logger`
+
+Shared server logger instance.
 
 #### Returns
 

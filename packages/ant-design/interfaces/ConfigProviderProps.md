@@ -10,17 +10,25 @@ Props for the `@faasjs/ant-design` [ConfigProvider](../functions/ConfigProvider.
 
 > **children**: `ReactNode`
 
+Descendant components that consume the resolved config context.
+
 ### faasClientOptions?
 
 > `optional` **faasClientOptions?**: [`FaasReactClientOptions`](../type-aliases/FaasReactClientOptions.md)
+
+Optional FaasJS client options used to initialize [FaasReactClient](../functions/FaasReactClient.md).
 
 ### theme?
 
 > `optional` **theme?**: `object`
 
+Theme overrides merged with the built-in defaults.
+
 #### Blank?
 
 > `optional` **Blank?**: `object`
+
+Blank-component theme overrides.
 
 ##### Blank.text?
 
@@ -29,6 +37,8 @@ Props for the `@faasjs/ant-design` [ConfigProvider](../functions/ConfigProvider.
 #### common?
 
 > `optional` **common?**: `object`
+
+Common shared copy and labels used across components.
 
 ##### common.add?
 
@@ -70,6 +80,8 @@ Props for the `@faasjs/ant-design` [ConfigProvider](../functions/ConfigProvider.
 
 > `optional` **Form?**: `object`
 
+Form-component theme overrides.
+
 ##### Form.submit?
 
 > `optional` **submit?**: `object`
@@ -82,9 +94,13 @@ Props for the `@faasjs/ant-design` [ConfigProvider](../functions/ConfigProvider.
 
 > `optional` **lang?**: `string`
 
+Language code used to select localized defaults.
+
 #### Link?
 
 > `optional` **Link?**: `object`
+
+Link-component theme overrides.
 
 ##### Link.style?
 
@@ -99,6 +115,8 @@ Props for the `@faasjs/ant-design` [ConfigProvider](../functions/ConfigProvider.
 #### Title?
 
 > `optional` **Title?**: `object`
+
+Title-component theme overrides.
 
 ##### Title.separator?
 

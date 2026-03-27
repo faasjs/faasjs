@@ -217,6 +217,9 @@ export class Transport {
    * Configure the transport options for the logger.
    *
    * @param options - Transport configuration such as label, flush interval, and debug mode.
+   * @param options.label - Logger label used by the internal transport logger.
+   * @param options.interval - Flush interval in milliseconds.
+   * @param options.debug - Whether transport internals should log at debug level.
    */
   config(options: TransportOptions) {
     if (options.label) this.logger.label = options.label

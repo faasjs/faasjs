@@ -26,6 +26,8 @@ export interface TabsProps extends Omit<OriginProps, 'items'> {
  * - Support `id` as key and label.
  *
  * @param props - Tabs props including tab items and Ant Design tab options.
+ * @param props.items - Tab definitions. `null` and `false` entries are skipped automatically.
+ * Other Ant Design `TabsProps` fields are forwarded to the underlying tabs component.
  *
  * @example
  * ```tsx

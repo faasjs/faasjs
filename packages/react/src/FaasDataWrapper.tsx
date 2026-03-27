@@ -67,6 +67,17 @@ const fixedForwardRef = forwardRef as FixedForwardRef
 /**
  * Fetch FaasJS data and inject the result into a render prop or child element.
  *
+ * @param props - Wrapper props controlling the request and rendered fallback.
+ * @param props.render - Render prop that receives the resolved Faas request state.
+ * @param props.children - Child element cloned with injected Faas request state.
+ * @param props.fallback - Element rendered before the first successful load.
+ * @param props.action - Action path to request.
+ * @param props.params - Params sent to the action.
+ * @param props.onDataChange - Callback invoked when the resolved data value changes.
+ * @param props.data - Controlled data value used instead of internal state.
+ * @param props.setData - Controlled setter used instead of internal state.
+ * @param props.baseUrl - Base URL override used for this wrapper instance.
+ *
  * @example
  * ```tsx
  * import { FaasDataWrapper } from '@faasjs/react'
@@ -79,6 +90,8 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  *   )
  * }
  * ```
+ *
+ * When a ref is provided, it exposes the current Faas request state imperatively.
  */
 export const FaasDataWrapper = fixedForwardRef(
   <PathOrData extends FaasActionUnionType = any>(
@@ -131,6 +144,9 @@ Object.assign(FaasDataWrapper, {
  * @template TComponentProps - Component props including injected Faas data fields.
  * @param Component - Component that consumes injected Faas data props.
  * @param faasProps - Request configuration forwarded to `FaasDataWrapper`.
+ *
+ * Common `faasProps` fields include `render`, `children`, `fallback`, `action`,
+ * `params`, `onDataChange`, `data`, `setData`, and `baseUrl`.
  *
  * @example
  * ```tsx

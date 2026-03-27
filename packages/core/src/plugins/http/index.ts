@@ -151,6 +151,8 @@ export class HttpError extends Error {
    * Create an HTTP error with a status code and user-facing message.
    *
    * @param options - Error details.
+   * @param options.statusCode - HTTP status code returned to the client. Defaults to `500`.
+   * @param options.message - User-facing error message serialized in the response body.
    */
   constructor(options: { statusCode?: number; message: string }) {
     const { statusCode, message } = options
@@ -251,6 +253,10 @@ export class Http<
    * Create an HTTP plugin instance.
    *
    * @param config - Optional plugin name and HTTP configuration overrides.
+   * @param config.name - Instance name used to look up plugin config and label logs.
+   * @param config.config - Runtime HTTP behavior overrides merged during mount.
+   * See {@link HttpConfig} for nested `config` fields such as `method`, `timeout`, `path`,
+   * `ignorePathPrefix`, `functionName`, and `cookie`.
    */
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
@@ -314,6 +320,10 @@ export class Http<
    * Merge environment and function config into the plugin before first invoke.
    *
    * @param data - Mount data supplied by the parent function.
+   * @param data.config - Resolved function configuration used to merge plugin settings.
+   * @param data.event - Initial event payload forwarded during mount.
+   * @param data.context - Initial runtime context forwarded during mount.
+   * Request-scoped logging is also available during mount through the runtime-injected `logger`.
    * @param next - Continuation for the remaining mount chain.
    * @throws {Error} When function config is unavailable.
    */
@@ -355,6 +365,10 @@ export class Http<
    * Attach HTTP helpers, cookies, sessions, and response handling to invoke data.
    *
    * @param data - Invocation data for the current request.
+   * @param data.event - Raw request event payload before HTTP params are normalized.
+   * @param data.response - Mutable HTTP response object shared with the handler.
+   * The HTTP plugin also injects runtime helpers such as `headers`, `body`, `params`, `cookie`,
+   * and `session` before invoking the next handler in the chain.
    * @param next - Continuation for the remaining invoke chain.
    */
   public async onInvoke(data: InvokeData, next: Next): Promise<void> {
@@ -533,6 +547,10 @@ export class Http<
  * @template TSession - Session map exposed by the session helper.
  *
  * @param config - Optional HTTP plugin configuration.
+ * @param config.name - Instance name used to look up plugin config and label logs.
+ * @param config.config - Runtime HTTP behavior overrides merged during mount.
+ * See {@link HttpConfig} for nested `config` fields such as `method`, `timeout`, `path`,
+ * `ignorePathPrefix`, `functionName`, and `cookie`.
  * @returns HTTP plugin instance wrapped for `usePlugin`.
  *
  * @example

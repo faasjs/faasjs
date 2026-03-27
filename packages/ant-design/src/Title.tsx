@@ -33,6 +33,12 @@ export interface TitleProps {
  * Return null by default.
  *
  * @param props - Title props controlling document title updates and optional inline rendering.
+ * @param props.title - Title text or title segments used to update `document.title`.
+ * @param props.separator - Separator used when joining title segments.
+ * @param props.suffix - Suffix appended to the generated document title.
+ * @param props.h1 - Whether to render an `h1`, or the props used to style that `h1`.
+ * @param props.plain - Whether to render plain text instead of mutating children or returning `null`.
+ * @param props.children - Existing element cloned with a `title` prop.
  *
  * @example
  * ```tsx
