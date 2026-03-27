@@ -1,2 +1,4 @@
 defaults:
-development:
+  plugins:
+    http:
+      type: http
