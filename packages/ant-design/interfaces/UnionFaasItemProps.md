@@ -78,9 +78,13 @@ function App() {
 
 `Value` = `any`
 
+Current item value type.
+
 ### Values
 
 `Values` = `any`
+
+Whole record or row type that contains the value.
 
 ## Properties
 

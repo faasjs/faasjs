@@ -152,7 +152,9 @@ export class HttpError extends Error {
    *
    * @param options - Error details.
    */
-  constructor({ statusCode, message }: { statusCode?: number; message: string }) {
+  constructor(options: { statusCode?: number; message: string }) {
+    const { statusCode, message } = options
+
     super(message)
 
     if (Error.captureStackTrace) Error.captureStackTrace(this, HttpError)
@@ -204,6 +206,10 @@ function createCompressedStream(
 
 /**
  * HTTP lifecycle plugin that enriches invoke data with cookies, sessions, and response helpers.
+ *
+ * @template TParams - Parsed HTTP params type injected into invoke data.
+ * @template TCookie - Cookie map exposed by the cookie helper.
+ * @template TSession - Session map exposed by the session helper.
  *
  * @example
  * ```ts
@@ -521,6 +527,10 @@ export class Http<
 
 /**
  * Attach the HTTP plugin to a function.
+ *
+ * @template TParams - Parsed HTTP params type injected into invoke data.
+ * @template TCookie - Cookie map exposed by the cookie helper.
+ * @template TSession - Session map exposed by the session helper.
  *
  * @param config - Optional HTTP plugin configuration.
  * @returns HTTP plugin instance wrapped for `usePlugin`.

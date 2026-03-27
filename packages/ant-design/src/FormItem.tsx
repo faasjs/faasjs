@@ -36,6 +36,8 @@ type OptionsProps = {
 
 /**
  * Custom renderer registration for a form item type.
+ *
+ * @template T - Value type rendered by the custom form item type.
  */
 export type ExtendFormTypeProps<T = any> = {
   children?: UnionFaasItemElement<T>
@@ -62,6 +64,8 @@ type InputTypeMap<T> = {
 
 /**
  * Item definition used by the {@link FormItem} and {@link Form} components.
+ *
+ * @template T - Value type rendered or edited by the form item.
  */
 export interface FormItemProps<T = any>
   extends BaseItemProps, Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
@@ -171,6 +175,9 @@ function processProps(propsCopy: FormItemProps, config: ResolvedTheme['common'])
  *
  * - Based on [Ant Design Form.Item](https://ant.design/components/form#formitem).
  * - Can be used without [Form](https://faasjs.com/doc/ant-design/#form).
+ *
+ * @template T - Value type rendered or edited by the form item.
+ * @param props - Form item props including field metadata, rules, and custom renderers.
  *
  * @example
  * ```tsx

@@ -12,6 +12,8 @@ Config for `@faasjs/ant-design` components.
 
 [`ConfigProviderProps`](../interfaces/ConfigProviderProps.md)
 
+Theme overrides and optional FaasJS client configuration.
+
 ## Returns
 
 `Element` \| `null`

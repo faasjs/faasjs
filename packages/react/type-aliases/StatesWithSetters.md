@@ -11,3 +11,5 @@ State object returned by [useSplittingState](../functions/useSplittingState.md),
 ### T
 
 `T`
+
+Object shape returned together with generated setter functions.

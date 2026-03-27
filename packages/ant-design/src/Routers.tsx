@@ -39,6 +39,8 @@ export interface RoutesProps {
 /**
  * Routes with lazy loading and 404 page.
  *
+ * @param props - Route definitions and optional fallback or 404 elements.
+ *
  * @example
  * ```tsx
  * import { Routes, lazy } from '@faasjs/ant-design'

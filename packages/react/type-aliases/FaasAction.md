@@ -15,6 +15,8 @@ otherwise falls back to `string`.
 
 `T` = `any`
 
+Candidate action path type.
+
 ## Example
 
 ```typescript

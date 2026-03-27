@@ -12,11 +12,15 @@ FaasDataWrapper component with Loading
 
 `T` _extends_ `FaasActionUnionType` = `any`
 
+Action path or response data type used for inference.
+
 ## Parameters
 
 ### props
 
 [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`T`\>
+
+Wrapper props including loading fallbacks and request configuration.
 
 ## Returns
 

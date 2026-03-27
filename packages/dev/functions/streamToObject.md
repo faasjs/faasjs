@@ -12,6 +12,8 @@ Convert ReadableStream to object.
 
 `T` = `any`
 
+Parsed JSON value type expected from the stream.
+
 ## Parameters
 
 ### stream

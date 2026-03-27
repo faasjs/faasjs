@@ -28,6 +28,8 @@ type JSONhandlerBody<TFunc extends Func<any, any, any>> =
 /**
  * Test wrapper for a function.
  *
+ * @template TFunc - Wrapped FaasJS function type.
+ *
  * @example
  * ```ts
  * import { FuncWarper } from '@faasjs/dev'
@@ -104,6 +106,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   /**
    * Invoke the wrapped function with raw event and context payloads.
    *
+   * @template TResult - Expected response type returned by the handler.
    * @param event - Runtime event to pass to the exported handler.
    * @param context - Runtime context to pass to the exported handler.
    * @returns Handler result.
@@ -123,6 +126,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   /**
    * Invoke an HTTP-enabled function with JSON body helpers and decoded cookies.
    *
+   * @template TData - Expected JSON `data` payload returned by the function.
    * @param body - Request body object or raw JSON string.
    * @param options - Extra headers, request cookies, and session seed values.
    * @returns Normalized HTTP response payload for assertions.
@@ -302,6 +306,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
 /**
  * Create a {@link FuncWarper} for tests.
  *
+ * @template TFunc - Wrapped FaasJS function type.
  * @param initBy - FaasJS function module or exported function instance.
  *
  * @example

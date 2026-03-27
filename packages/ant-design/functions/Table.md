@@ -17,15 +17,21 @@ Table component with Ant Design & FaasJS
 
 `T` _extends_ `Record`\<`string`, `any`\>
 
+Row record type rendered by the table.
+
 ### ExtendTypes
 
 `ExtendTypes` = `any`
+
+Additional item prop shape accepted by `items`.
 
 ## Parameters
 
 ### props
 
 [`TableProps`](../type-aliases/TableProps.md)\<`T`, `ExtendTypes`\>
+
+Table props including columns, data source, and optional Faas data config.
 
 ## Returns
 

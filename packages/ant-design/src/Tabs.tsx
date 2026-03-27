@@ -25,6 +25,8 @@ export interface TabsProps extends Omit<OriginProps, 'items'> {
  * - Support auto skip null/false tab item.
  * - Support `id` as key and label.
  *
+ * @param props - Tabs props including tab items and Ant Design tab options.
+ *
  * @example
  * ```tsx
  * import { Tabs } from '@faasjs/ant-design'

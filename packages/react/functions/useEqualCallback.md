@@ -12,6 +12,8 @@ Custom hook that works like `useCallback` but uses deep comparison on dependenci
 
 `T` _extends_ (...`args`) => `any`
 
+Callback signature to memoize.
+
 ## Parameters
 
 ### callback

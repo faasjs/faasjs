@@ -13,6 +13,8 @@ export type LoadingProps = {
 /**
  * Loading component based on Spin
  *
+ * @param props - Loading indicator props and optional wrapped children.
+ *
  * @example
  * ```tsx
  * <Loading /> // display loading

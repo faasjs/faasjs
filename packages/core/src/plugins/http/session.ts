@@ -42,6 +42,9 @@ type SessionSecrets = {
 /**
  * Encrypted session storage backed by a signed cookie.
  *
+ * @template S - Session value map exposed by `read()` and `content`.
+ * @template C - Cookie value map exposed by the parent cookie store.
+ *
  * @example
  * ```ts
  * import { Cookie } from '@faasjs/core'

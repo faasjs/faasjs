@@ -12,6 +12,8 @@ Infer the FaasAction type from a Func.
 
 `TFunc` _extends_ `FaasFuncLike`
 
+Func-like export used to infer params and data.
+
 ## Example
 
 ```typescript

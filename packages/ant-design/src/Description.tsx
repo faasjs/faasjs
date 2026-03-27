@@ -19,6 +19,8 @@ import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
 
 /**
  * Custom renderer registration for a description item type.
+ *
+ * @template T - Value type rendered by the custom description item type.
  */
 export interface ExtendDescriptionTypeProps<T = any> {
   children?: UnionFaasItemElement<T>
@@ -32,6 +34,8 @@ export type ExtendDescriptionItemProps = BaseItemProps
 
 /**
  * Item definition used by {@link Description}.
+ *
+ * @template T - Value type rendered by the item.
  */
 export interface DescriptionItemProps<T = any> extends FaasItemProps {
   children?: UnionFaasItemElement<T> | null
@@ -44,6 +48,9 @@ export interface DescriptionItemProps<T = any> extends FaasItemProps {
 
 /**
  * Props for the {@link Description} component.
+ *
+ * @template T - Data record shape rendered by the component.
+ * @template ExtendItemProps - Additional item prop shape accepted by `items`.
  */
 export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
   DescriptionsProps,
@@ -60,6 +67,8 @@ export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
 
 /**
  * Props passed to the exported `DescriptionItemContent` helper shape.
+ *
+ * @template T - Value type rendered by the item content.
  */
 export interface DescriptionItemContentProps<T = any> {
   item: DescriptionItemProps
@@ -217,6 +226,9 @@ DescriptionItemContent.displayName = 'DescriptionItemContent'
  *
  * - Based on [Ant Design Descriptions](https://ant.design/components/descriptions/).
  *
+ * @template T - Data record shape rendered by the component.
+ * @param props - Description props including items, data source, and optional Faas data config.
+ *
  * @example
  * ```tsx
  * import { Description } from '@faasjs/ant-design'
@@ -233,20 +245,18 @@ DescriptionItemContent.displayName = 'DescriptionItemContent'
  *   dataSource={{ id: 'value' }}
  * />
  * ```
+ *
+ * @param props - Description props including items, data source, and optional Faas data config.
  */
-export function Description<T extends Record<string, any> = any>({
-  faasData,
-  dataSource,
-  renderTitle,
-  extendTypes,
-  ...props
-}: DescriptionProps<T>) {
+export function Description<T extends Record<string, any> = any>(props: DescriptionProps<T>) {
+  const { faasData, dataSource, renderTitle, extendTypes, ...descriptionProps } = props
+
   if (faasData && !dataSource)
     return (
       <FaasDataWrapper<T>
         render={({ data }) => (
           <Description
-            {...props}
+            {...descriptionProps}
             dataSource={data as T}
             {...(renderTitle ? { renderTitle } : {})}
             {...(extendTypes ? { extendTypes } : {})}
@@ -258,9 +268,11 @@ export function Description<T extends Record<string, any> = any>({
 
   return (
     <Descriptions
-      {...props}
-      title={typeof renderTitle === 'function' ? renderTitle(dataSource as T) : props.title}
-      items={props.items
+      {...descriptionProps}
+      title={
+        typeof renderTitle === 'function' ? renderTitle(dataSource as T) : descriptionProps.title
+      }
+      items={descriptionProps.items
         .filter(
           (item) =>
             item &&

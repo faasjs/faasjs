@@ -12,6 +12,8 @@ Hook style modal
 
 [`ModalProps`](../interfaces/ModalProps.md)
 
+Initial modal props.
+
 ## Returns
 
 `object`

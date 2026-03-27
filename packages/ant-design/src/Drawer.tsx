@@ -19,6 +19,8 @@ export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
 /**
  * Hook style drawer
  *
+ * @param init - Initial drawer props.
+ *
  * @example
  * ```tsx
  * import { useDrawer } from '@faasjs/ant-design'

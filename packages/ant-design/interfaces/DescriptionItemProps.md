@@ -18,6 +18,8 @@ Item definition used by [Description](../functions/Description.md).
 
 `T` = `any`
 
+Value type rendered by the item.
+
 ## Properties
 
 ### children?

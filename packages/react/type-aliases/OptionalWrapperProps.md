@@ -12,6 +12,8 @@ Props for the [OptionalWrapper](../functions/OptionalWrapper.md) helper componen
 
 `TWrapper` _extends_ `ComponentType`\<\{ `children`: `ReactNode`; \}\> = `any`
 
+Wrapper component type used when `condition` is true.
+
 ## Properties
 
 ### children

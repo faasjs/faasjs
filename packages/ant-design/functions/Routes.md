@@ -12,6 +12,8 @@ Routes with lazy loading and 404 page.
 
 [`RoutesProps`](../interfaces/RoutesProps.md)
 
+Route definitions and optional fallback or 404 elements.
+
 ## Returns
 
 `Element`

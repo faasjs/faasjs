@@ -12,6 +12,8 @@ Custom hook that works like `useMemo` but uses deep comparison on dependencies.
 
 `T`
 
+Memoized value type returned by the callback.
+
 ## Parameters
 
 ### callback

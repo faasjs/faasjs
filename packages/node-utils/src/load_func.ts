@@ -3,6 +3,10 @@ import { loadPackage } from './load_package'
 
 /**
  * Runtime-compatible handler signature exported by packaged FaasJS functions.
+ *
+ * @template TEvent - Runtime event type.
+ * @template TContext - Runtime context type.
+ * @template TResult - Async result type returned by the handler.
  */
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
@@ -22,9 +26,12 @@ type FuncLike<TEvent = any, TContext = any, TResult = any> = {
 /**
  * Load a FaasJS function and its configuration, returning the handler.
  *
- * @param root Project root directory used to resolve configuration.
- * @param filename Path to the packaged FaasJS function file to load.
- * @param staging Staging directory name (used when locating config).
+ * @template TEvent - Runtime event type.
+ * @template TContext - Runtime context type.
+ * @template TResult - Async result type returned by the handler.
+ * @param root - Project root directory used to resolve configuration.
+ * @param filename - Path to the packaged FaasJS function file to load.
+ * @param staging - Staging directory name used when locating config.
  * @returns A promise that resolves to the function handler.
  *
  * @example

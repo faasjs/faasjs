@@ -12,6 +12,8 @@ Custom renderer registration for a form item type.
 
 `T` = `any`
 
+Value type rendered by the custom form item type.
+
 ## Properties
 
 ### children?

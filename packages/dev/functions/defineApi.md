@@ -18,23 +18,33 @@ The `http` plugin is required.
 
 `TSchema` _extends_ `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\> \| `undefined` = `undefined`
 
+Zod schema used to validate `event.params`.
+
 ### TEvent
 
 `TEvent` = `any`
+
+Raw event type passed to the function.
 
 ### TContext
 
 `TContext` = `any`
 
+Runtime context type.
+
 ### THandler
 
 `THandler` _extends_ (`data`) => `Promise`\<`any`\> = (`data`) => `Promise`\<`any`\>
+
+Handler signature used to infer the response type.
 
 ## Parameters
 
 ### options
 
 `Omit`\<[`DefineApiOptions`](../type-aliases/DefineApiOptions.md)\<`TSchema`, `TEvent`, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>, `"handler"`\> & `object`
+
+Schema and handler used to build the API function.
 
 ## Returns
 

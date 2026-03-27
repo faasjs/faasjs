@@ -11,3 +11,5 @@ Shared fields for extending table item unions.
 ### T
 
 `T` = `any`
+
+Row record type rendered by the table.

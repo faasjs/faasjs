@@ -12,13 +12,19 @@ Mutable invocation state shared by plugins and the final handler.
 
 `TEvent` = `any`
 
+Runtime event type.
+
 ### TContext
 
 `TContext` = `any`
 
+Runtime context type.
+
 ### TResult
 
 `TResult` = `any`
+
+Async result type produced by the handler.
 
 ## Indexable
 

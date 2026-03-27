@@ -18,6 +18,8 @@ Column definition used by the FaasJS Ant Design [Table](../functions/Table.md) c
 
 `T` = `any`
 
+Row record type rendered by the table.
+
 ## Properties
 
 ### children?

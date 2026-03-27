@@ -12,11 +12,15 @@ Returns a constant value that is created by the given function.
 
 `T`
 
+Constant value type returned by the initializer.
+
 ## Parameters
 
 ### fn
 
 () => `T`
+
+Initializer that runs only once for the current component instance.
 
 ## Returns
 

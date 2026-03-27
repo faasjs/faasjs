@@ -23,6 +23,8 @@ export interface LinkProps {
 /**
  * Link component with button
  *
+ * @param props - Link props controlling navigation target, rendering mode, and button behavior.
+ *
  * @example
  * ```tsx
  * // pure link

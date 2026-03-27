@@ -16,6 +16,8 @@ export type LoadEnvFileIfExistsOptions = {
  * - Defaults to `${process.cwd()}/.env`.
  * - Existing environment variables are preserved (Node.js behavior).
  *
+ * @param options - Optional working directory and filename overrides.
+ *
  * @example
  * ```ts
  * import { loadEnvFileIfExists } from '@faasjs/node-utils'

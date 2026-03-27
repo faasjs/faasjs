@@ -30,6 +30,9 @@ type CookieConfig = {
 /**
  * Read, write, and serialize cookies for the HTTP plugin.
  *
+ * @template C - Cookie value map exposed by `read()` and `content`.
+ * @template S - Session value map exposed by the nested session helper.
+ *
  * @example
  * ```ts
  * import { Cookie } from '@faasjs/core'

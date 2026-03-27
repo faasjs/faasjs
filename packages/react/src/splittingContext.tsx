@@ -7,7 +7,8 @@ import { useSplittingState } from './splittingState'
 /**
  * Creates a splitting context with the given default value.
  *
- * @param defaultValue The default value of the splitting context.
+ * @template T - Context value shape exposed by the provider and hook.
+ * @param defaultValue - Default value map or key list used to create split contexts.
  *
  * @example
  * ```tsx

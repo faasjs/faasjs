@@ -72,6 +72,10 @@ Props for the FaasJS Ant Design [Table](../functions/Table.md) component.
 
 `T` = `any`
 
+Row record type rendered by the table.
+
 ### ExtendTypes
 
 `ExtendTypes` = `any`
+
+Additional item prop shape accepted by `items`.

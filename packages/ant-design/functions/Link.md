@@ -12,6 +12,8 @@ Link component with button
 
 [`LinkProps`](../interfaces/LinkProps.md)
 
+Link props controlling navigation target, rendering mode, and button behavior.
+
 ## Returns
 
 `Element`

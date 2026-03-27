@@ -29,6 +29,8 @@ export type FormSubmitProps = {
 /**
  * Built-in FaasJS submit handler for Form.
  *
+ * @template Values - Form values shape used by submit handlers.
+ *
  * @example
  * ```ts
  * {
@@ -60,6 +62,9 @@ export type FormFaasProps<Values extends Record<string, any> = any> = {
 
 /**
  * Props for the FaasJS Ant Design {@link Form} component.
+ *
+ * @template Values - Form values shape.
+ * @template ExtendItemProps - Additional item prop shape accepted by `items`.
  */
 export type FormProps<
   Values extends Record<string, any> = any,
@@ -101,6 +106,9 @@ function isFormItemProps(item: any): item is FormItemProps {
  * - Based on [Ant Design Form](https://ant.design/components/form/).
  * - Use `onFinish` for custom submit logic.
  * - Use `faas` for the built-in FaasJS submit flow.
+ *
+ * @template Values - Form values shape.
+ * @param props - Form props including items, submit behavior, and FaasJS integration.
  *
  * @example
  * ```tsx

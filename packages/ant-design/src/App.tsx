@@ -74,6 +74,8 @@ function RoutesApp(props: { children: React.ReactNode }) {
  *   )
  * }
  * ```
+ *
+ * @param props - App shell props including providers, routing, and error handling options.
  */
 export function App(props: AppProps) {
   const [messageApi, messageContextHolder] = message.useMessage()

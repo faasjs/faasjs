@@ -33,6 +33,8 @@ import {
 
 /**
  * Column definition used by the FaasJS Ant Design {@link Table} component.
+ *
+ * @template T - Row record type rendered by the table.
  */
 export interface TableItemProps<T = any>
   extends FaasItemProps, Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
@@ -46,6 +48,8 @@ export interface TableItemProps<T = any>
 
 /**
  * Custom renderer registration for a table item type.
+ *
+ * @template T - Row record type rendered by the custom table item type.
  */
 export type ExtendTableTypeProps<T = any> = {
   children?: UnionFaasItemElement<T>
@@ -54,12 +58,17 @@ export type ExtendTableTypeProps<T = any> = {
 
 /**
  * Shared fields for extending table item unions.
+ *
+ * @template T - Row record type rendered by the table.
  */
 export type ExtendTableItemProps<T = any> = BaseItemProps &
   Omit<AntdTableColumnProps<T>, 'children'>
 
 /**
  * Props for the FaasJS Ant Design {@link Table} component.
+ *
+ * @template T - Row record type rendered by the table.
+ * @template ExtendTypes - Additional item prop shape accepted by `items`.
  */
 export type TableProps<T = any, ExtendTypes = any> = {
   items: (TableItemProps | (ExtendTypes & ExtendTableItemProps))[]
@@ -102,6 +111,8 @@ export type TableFaasDataParams = {
 
 /**
  * Paginated response shape expected by {@link Table} when using `faasData`.
+ *
+ * @template T - Row record type contained in `rows`.
  */
 export type TableFaasDataResponse<T = any> = {
   rows: T[]
@@ -161,6 +172,10 @@ function processValue(item: TableItemProps, value: any) {
  * - Support FaasJS injection.
  * - Auto generate filter dropdown (disable with `filterDropdown: false`).
  * - Auto generate sorter (disable with `sorter: false`).
+ *
+ * @template T - Row record type rendered by the table.
+ * @template ExtendTypes - Additional item prop shape accepted by `items`.
+ * @param props - Table props including columns, data source, and optional Faas data config.
  *
  * @example
  * ```tsx

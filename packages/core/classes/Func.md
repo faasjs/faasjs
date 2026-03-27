@@ -28,13 +28,19 @@ const result = await func.export().handler({ name: 'FaasJS' })
 
 `TEvent` = `any`
 
+Runtime event type.
+
 ### TContext
 
 `TContext` = `any`
 
+Runtime context type.
+
 ### TResult
 
 `TResult` = `any`
+
+Async result type produced by the handler.
 
 ## Indexable
 
@@ -53,6 +59,8 @@ Create a cloud function.
 ##### config
 
 [`FuncConfig`](../type-aliases/FuncConfig.md)\<`TEvent`, `TContext`\>
+
+Plugins and optional business handler used to configure the function.
 
 #### Returns
 
@@ -86,6 +94,8 @@ Invoke the function.
 
 [`InvokeData`](../type-aliases/InvokeData.md)\<`TEvent`, `TContext`, `TResult`\>
 
+Invocation state mutated by plugins and the final handler.
+
 #### Returns
 
 `Promise`\<`void`\>
@@ -99,6 +109,8 @@ First time mount the function.
 #### Parameters
 
 ##### data?
+
+Optional initial event, context, config, and logger used during mount.
 
 ###### config?
 

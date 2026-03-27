@@ -12,6 +12,8 @@ Get the event type of a func.
 
 `T` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
+Func instance whose event type should be extracted.
+
 ## Example
 
 ```ts

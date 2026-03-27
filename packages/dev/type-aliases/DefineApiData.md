@@ -29,14 +29,22 @@ and any plugin-provided fields declared through `DefineApiInject`.
 
 `TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
+Zod schema used to validate `event.params`.
+
 ### TEvent
 
 `TEvent` = `any`
+
+Raw event type passed to the function.
 
 ### TContext
 
 `TContext` = `any`
 
+Runtime context type.
+
 ### TResult
 
 `TResult` = `any`
+
+Handler return type.

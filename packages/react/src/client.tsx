@@ -74,10 +74,11 @@ export type FaasReactClientInstance = {
  * ```
  */
 export function FaasReactClient(
-  { baseUrl, options: clientOptions, onError }: FaasReactClientOptions = {
+  options: FaasReactClientOptions = {
     baseUrl: '/',
   },
 ): FaasReactClientInstance {
+  const { baseUrl, options: clientOptions, onError } = options
   const resolvedBaseUrl: BaseUrl = baseUrl ?? '/'
   const client = new FaasBrowserClient(resolvedBaseUrl, clientOptions)
 

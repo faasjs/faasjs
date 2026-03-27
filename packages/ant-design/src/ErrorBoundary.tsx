@@ -29,6 +29,8 @@ function ErrorChildren(props: ErrorChildrenProps) {
 /**
  * Styled error boundary.
  *
+ * @param props - Error boundary props forwarded to the underlying React implementation.
+ *
  * @example
  * ```tsx
  * import { ErrorBoundary } from '@faasjs/ant-design'

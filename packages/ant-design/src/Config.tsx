@@ -130,6 +130,8 @@ export const ConfigContext = createContext<ConfigContextValue>({
 /**
  * Config for `@faasjs/ant-design` components.
  *
+ * @param props - Theme overrides and optional FaasJS client configuration.
+ *
  * @example
  * ```tsx
  * import { ConfigProvider } from '@faasjs/ant-design'

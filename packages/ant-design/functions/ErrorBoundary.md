@@ -12,6 +12,8 @@ Styled error boundary.
 
 [`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md)
 
+Error boundary props forwarded to the underlying React implementation.
+
 ## Returns
 
 `Element`

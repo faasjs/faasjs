@@ -12,6 +12,8 @@ Options for [useFaas](../functions/useFaas.md).
 
 `PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
+Action path or response data type used for inference.
+
 ## Properties
 
 ### baseUrl?

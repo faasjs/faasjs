@@ -2,15 +2,17 @@
 
 # Function: OptionalWrapper()
 
-> **OptionalWrapper**(`__namedParameters`): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null` \| `undefined`
+> **OptionalWrapper**(`props`): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null` \| `undefined`
 
 A wrapper component that conditionally wraps its children with a provided wrapper component.
 
 ## Parameters
 
-### \_\_namedParameters
+### props
 
 [`OptionalWrapperProps`](../type-aliases/OptionalWrapperProps.md)
+
+Wrapper condition, wrapper component, and child content.
 
 ## Returns
 

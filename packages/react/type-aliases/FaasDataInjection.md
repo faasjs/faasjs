@@ -12,6 +12,8 @@ Injects FaasData props.
 
 `PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md) = `any`
 
+Action path or response data type used for inference.
+
 ## Methods
 
 ### reload()

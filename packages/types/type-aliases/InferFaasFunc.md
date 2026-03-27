@@ -14,6 +14,8 @@ Supports both `export const func = defineApi(...)` and `export default defineApi
 
 `TModule`
 
+Module shape that may expose a FaasJS function.
+
 ## Example
 
 ```typescript

@@ -27,6 +27,8 @@ Built-in FaasJS submit handler for Form.
 
 `Values` _extends_ `Record`\<`string`, `any`\> = `any`
 
+Form values shape used by submit handlers.
+
 ## Properties
 
 ### action

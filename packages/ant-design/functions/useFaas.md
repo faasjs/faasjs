@@ -15,6 +15,8 @@ request state plus helpers for reloading, updating data, and handling errors.
 
 `PathOrData` _extends_ `FaasActionUnionType`
 
+Action path or response data type used for inference.
+
 ## Parameters
 
 ### action

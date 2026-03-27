@@ -93,6 +93,8 @@ export function idToTitle(id: string | number): string {
 /**
  * convert string[] or number[] to { label, value }[]
  *
+ * @param options - Raw option list to normalize.
+ *
  * @example
  * ```ts
  * import { transferOptions } from '@faasjs/ant-design'
@@ -183,6 +185,9 @@ export type UnionScene = 'form' | 'description' | 'table'
 
 /**
  * Props injected into custom union item components.
+ *
+ * @template Value - Current item value type.
+ * @template Values - Whole record or row type that contains the value.
  */
 export type UnionFaasItemInjection<Value = any, Values = any> = {
   scene?: UnionScene
@@ -193,6 +198,9 @@ export type UnionFaasItemInjection<Value = any, Values = any> = {
 
 /**
  * A type representing a function that renders a React node for a given item in a list.
+ *
+ * @template Value - Current item value type.
+ * @template Values - Whole record or row type that contains the value.
  *
  * @param value - The value of the current item.
  * @param values - The entire list of values.
@@ -242,6 +250,9 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
  * Represents a React element that is used in the UnionFaasItem context.
  *
  * This type can either be a React element with the specified injection types or `null`.
+ *
+ * @template Value - Current item value type.
+ * @template Values - Whole record or row type that contains the value.
  *
  * @example
  * ```tsx
@@ -308,6 +319,9 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  * 5. **Default Rendering**
  *    - Renders primitive types (string, number, etc.)
  *    - Uses default formatting based on data type
+ *
+ * @template Value - Current item value type.
+ * @template Values - Whole record or row type that contains the value.
  *
  * @example
  * ```tsx

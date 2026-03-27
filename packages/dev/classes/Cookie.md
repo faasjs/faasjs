@@ -24,9 +24,13 @@ cookie.headers()
 
 `C` _extends_ `Record`\<`string`, `string`\> = `any`
 
+Cookie value map exposed by `read()` and `content`.
+
 ### S
 
 `S` _extends_ `Record`\<`string`, `string`\> = `any`
+
+Session value map exposed by the nested session helper.
 
 ## Constructors
 

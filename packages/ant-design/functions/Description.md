@@ -2,7 +2,7 @@
 
 # Function: Description()
 
-> **Description**\<`T`\>(`__namedParameters`): `Element`
+> **Description**\<`T`\>(`props`): `Element`
 
 Description component
 
@@ -14,11 +14,15 @@ Description component
 
 `T` _extends_ `Record`\<`string`, `any`\> = `any`
 
+Data record shape rendered by the component.
+
 ## Parameters
 
-### \_\_namedParameters
+### props
 
 [`DescriptionProps`](../interfaces/DescriptionProps.md)\<`T`\>
+
+Description props including items, data source, and optional Faas data config.
 
 ## Returns
 

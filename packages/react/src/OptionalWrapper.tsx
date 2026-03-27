@@ -2,6 +2,8 @@ import type { ComponentProps, ComponentType, ReactNode } from 'react'
 
 /**
  * Props for the {@link OptionalWrapper} helper component.
+ *
+ * @template TWrapper - Wrapper component type used when `condition` is true.
  */
 export type OptionalWrapperProps<TWrapper extends ComponentType<{ children: ReactNode }> = any> = {
   condition: boolean
@@ -12,6 +14,8 @@ export type OptionalWrapperProps<TWrapper extends ComponentType<{ children: Reac
 
 /**
  * A wrapper component that conditionally wraps its children with a provided wrapper component.
+ *
+ * @param props - Wrapper condition, wrapper component, and child content.
  *
  * @example
  * ```tsx
@@ -28,12 +32,9 @@ export type OptionalWrapperProps<TWrapper extends ComponentType<{ children: Reac
  * )
  * ```
  */
-export function OptionalWrapper({
-  condition,
-  Wrapper,
-  wrapperProps,
-  children,
-}: OptionalWrapperProps) {
+export function OptionalWrapper(props: OptionalWrapperProps) {
+  const { condition, Wrapper, wrapperProps, children } = props
+
   if (condition) return <Wrapper {...wrapperProps}>{children}</Wrapper>
 
   return children

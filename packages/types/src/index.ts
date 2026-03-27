@@ -84,6 +84,8 @@ export type FaasActionUnionType =
  * Returns the original type when `T` is a known action path,
  * otherwise falls back to `string`.
  *
+ * @template T - Candidate action path type.
+ *
  * @example
  * ```typescript
  * type A = FaasAction<'demo'> // 'demo'
@@ -94,6 +96,8 @@ export type FaasAction<T = any> = T extends FaasActionPaths ? T : string
 
 /**
  * Infer params type by action path.
+ *
+ * @template T - Candidate action path type.
  *
  * @example
  * ```typescript
@@ -109,6 +113,8 @@ export type FaasParams<T = any> = T extends FaasActionPaths
  *
  * If `T` is already a plain object type, it is returned directly.
  *
+ * @template T - Candidate action path or response data type.
+ *
  * @example
  * ```typescript
  * type DemoData = FaasData<'demo'>
@@ -123,6 +129,8 @@ export type FaasData<T = any> = T extends FaasActionPaths
 
 /**
  * Infer the FaasAction type from a Func.
+ *
+ * @template TFunc - Func-like export used to infer params and data.
  *
  * @example
  * ```typescript
@@ -170,6 +178,8 @@ export type InferFaasAction<TFunc extends FaasFuncLike> = TFunc extends {
  * Infer the Func type from a module.
  *
  * Supports both `export const func = defineApi(...)` and `export default defineApi(...)`.
+ *
+ * @template TModule - Module shape that may expose a FaasJS function.
  *
  * @example
  * ```typescript

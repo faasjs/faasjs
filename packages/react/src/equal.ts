@@ -147,6 +147,8 @@ export function useEqualEffect(callback: React.EffectCallback, dependencies: any
 /**
  * Custom hook that works like `useMemo` but uses deep comparison on dependencies.
  *
+ * @template T - Memoized value type returned by the callback.
+ *
  * @param callback - The callback function to run.
  * @param dependencies - The list of dependencies.
  * @returns The result of the `useMemo` hook with memoized dependencies.
@@ -176,6 +178,8 @@ export function useEqualMemo<T>(callback: () => T, dependencies: any[]): T {
 
 /**
  * Custom hook that works like `useCallback` but uses deep comparison on dependencies.
+ *
+ * @template T - Callback signature to memoize.
  *
  * @param callback - The callback function to run.
  * @param dependencies - The list of dependencies.

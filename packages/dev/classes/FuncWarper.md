@@ -21,6 +21,8 @@ const response = await wrapped.JSONhandler({ name: 'FaasJS' })
 
 `TFunc` _extends_ [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
 
+Wrapped FaasJS function type.
+
 ## Constructors
 
 ### Constructor
@@ -61,6 +63,8 @@ Invoke the wrapped function with raw event and context payloads.
 
 `TResult` = `any`
 
+Expected response type returned by the handler.
+
 #### Parameters
 
 ##### event?
@@ -92,6 +96,8 @@ Invoke an HTTP-enabled function with JSON body helpers and decoded cookies.
 ##### TData
 
 `TData` = `any`
+
+Expected JSON `data` payload returned by the function.
 
 #### Parameters
 

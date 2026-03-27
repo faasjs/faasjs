@@ -14,6 +14,8 @@ If value is undefined or null, return text, otherwise return value.
 
 [`BlankProps`](../interfaces/BlankProps.md)
 
+Placeholder text and value to render.
+
 ## Returns
 
 `Element`

@@ -12,11 +12,15 @@ Get app context.
 
 `NewT` _extends_ [`useAppProps`](../interfaces/useAppProps.md) = [`useAppProps`](../interfaces/useAppProps.md)
 
+Narrowed app context shape to read from `AppContext`.
+
 ## Parameters
 
 ### this
 
 `void`
+
+Unused receiver to keep the hook callable without binding.
 
 ## Returns
 

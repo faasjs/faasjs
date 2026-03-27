@@ -12,6 +12,8 @@ convert string[] or number[] to { label, value }[]
 
 [`BaseOption`](../type-aliases/BaseOption.md)[]
 
+Raw option list to normalize.
+
 ## Returns
 
 `object`[]

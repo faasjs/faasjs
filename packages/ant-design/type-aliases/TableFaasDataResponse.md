@@ -12,6 +12,8 @@ Paginated response shape expected by [Table](../functions/Table.md) when using `
 
 `T` = `any`
 
+Row record type contained in `rows`.
+
 ## Properties
 
 ### pagination

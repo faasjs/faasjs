@@ -61,6 +61,11 @@ type CoreMountData<TEvent = any, TContext = any> = {
  *
  * Extends the normal invoke data with validated `params`, `cookie`, `session`,
  * and any plugin-provided fields declared through `DefineApiInject`.
+ *
+ * @template TSchema - Zod schema used to validate `event.params`.
+ * @template TEvent - Raw event type passed to the function.
+ * @template TContext - Runtime context type.
+ * @template TResult - Handler return type.
  */
 export type DefineApiData<
   TSchema extends ZodType | undefined = undefined,
@@ -83,6 +88,11 @@ export interface DefineApiInject extends Record<never, never> {}
 
 /**
  * Options for creating a typed API function with {@link defineApi}.
+ *
+ * @template TSchema - Zod schema used to validate `event.params`.
+ * @template TEvent - Raw event type passed to the function.
+ * @template TContext - Runtime context type.
+ * @template TResult - Handler return type.
  *
  * @property schema - Optional Zod schema used to validate `event.params`.
  * @property handler - Async business handler executed after plugin and schema setup.
@@ -280,6 +290,12 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
  * plugin type) or a default class export.
  *
  * The `http` plugin is required.
+ *
+ * @template TSchema - Zod schema used to validate `event.params`.
+ * @template TEvent - Raw event type passed to the function.
+ * @template TContext - Runtime context type.
+ * @template THandler - Handler signature used to infer the response type.
+ * @param options - Schema and handler used to build the API function.
  *
  * @example
  * ```ts

@@ -12,6 +12,8 @@ Loading component based on Spin
 
 [`LoadingProps`](../type-aliases/LoadingProps.md)
 
+Loading indicator props and optional wrapped children.
+
 ## Returns
 
 `Element`

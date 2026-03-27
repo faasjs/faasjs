@@ -44,6 +44,10 @@ Default: { text: 'Submit' }, set false to disable it
 
 `Values` _extends_ `Record`\<`string`, `any`\> = `any`
 
+Form values shape.
+
 ### ExtendItemProps
 
 `ExtendItemProps` _extends_ [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md) = [`ExtendFormItemProps`](../interfaces/ExtendFormItemProps.md)
+
+Additional item prop shape accepted by `items`.

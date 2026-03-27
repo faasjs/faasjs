@@ -8,6 +8,8 @@ import type { FaasDataInjection } from './FaasDataWrapper'
 
 /**
  * Options for {@link useFaas}.
+ *
+ * @template PathOrData - Action path or response data type used for inference.
  */
 export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
   /** Override the request params without changing the hook's stored params state. */
@@ -33,6 +35,8 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
  *
  * `useFaas` sends an initial request unless `skip` is enabled, and returns
  * request state plus helpers for reloading, updating data, and handling errors.
+ *
+ * @template PathOrData - Action path or response data type used for inference.
  *
  * @param action - Action path to invoke.
  * @param defaultParams - Params used for the initial request and future reloads.

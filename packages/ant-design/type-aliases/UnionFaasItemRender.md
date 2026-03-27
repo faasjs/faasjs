@@ -12,9 +12,13 @@ A type representing a function that renders a React node for a given item in a l
 
 `Value` = `any`
 
+Current item value type.
+
 ### Values
 
 `Values` = `any`
+
+Whole record or row type that contains the value.
 
 ## Parameters
 

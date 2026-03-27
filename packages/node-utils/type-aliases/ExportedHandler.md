@@ -12,13 +12,19 @@ Runtime-compatible handler signature exported by packaged FaasJS functions.
 
 `TEvent` = `any`
 
+Runtime event type.
+
 ### TContext
 
 `TContext` = `any`
 
+Runtime context type.
+
 ### TResult
 
 `TResult` = `any`
+
+Async result type returned by the handler.
 
 ## Parameters
 

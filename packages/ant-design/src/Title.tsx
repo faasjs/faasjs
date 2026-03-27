@@ -32,6 +32,8 @@ export interface TitleProps {
  *
  * Return null by default.
  *
+ * @param props - Title props controlling document title updates and optional inline rendering.
+ *
  * @example
  * ```tsx
  * import { Title } from '@faasjs/ant-design'

@@ -15,6 +15,8 @@ Load a dotenv file if it exists.
 
 [`LoadEnvFileIfExistsOptions`](../type-aliases/LoadEnvFileIfExistsOptions.md) = `{}`
 
+Optional working directory and filename overrides.
+
 ## Returns
 
 `string` \| `null`

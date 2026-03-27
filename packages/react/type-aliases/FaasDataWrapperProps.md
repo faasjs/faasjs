@@ -12,6 +12,8 @@ Props for the [FaasDataWrapper](../variables/FaasDataWrapper.md) render-prop com
 
 `PathOrData` _extends_ [`FaasActionUnionType`](FaasActionUnionType.md)
 
+Action path or response data type used for inference.
+
 ## Methods
 
 ### onDataChange()?

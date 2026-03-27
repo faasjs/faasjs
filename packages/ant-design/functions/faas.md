@@ -12,6 +12,8 @@ Call the currently configured FaasReactClient.
 
 `PathOrData` _extends_ `FaasActionUnionType`
 
+Action path or response data type used for inference.
+
 ## Parameters
 
 ### action

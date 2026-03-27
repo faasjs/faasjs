@@ -12,6 +12,8 @@ Get the return type of a func.
 
 `T` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
+Func instance whose return type should be extracted.
+
 ## Example
 
 ```ts

@@ -12,13 +12,19 @@ Load a FaasJS function and its configuration, returning the handler.
 
 `TEvent` = `any`
 
+Runtime event type.
+
 ### TContext
 
 `TContext` = `any`
 
+Runtime context type.
+
 ### TResult
 
 `TResult` = `any`
+
+Async result type returned by the handler.
 
 ## Parameters
 
@@ -38,7 +44,7 @@ Path to the packaged FaasJS function file to load.
 
 `string`
 
-Staging directory name (used when locating config).
+Staging directory name used when locating config.
 
 ## Returns
 

@@ -18,6 +18,8 @@ Features:
 
 ...`any`[]
 
+Objects or arrays merged from right to left.
+
 ## Returns
 
 `any`

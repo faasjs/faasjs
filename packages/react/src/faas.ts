@@ -6,6 +6,8 @@ import { getClient } from './client'
 /**
  * Call the currently configured FaasReactClient.
  *
+ * @template PathOrData - Action path or response data type used for inference.
+ *
  * @param action - Action path to invoke.
  * @param params - Parameters sent to the action.
  * @param options - Optional per-request overrides such as headers or base URL.

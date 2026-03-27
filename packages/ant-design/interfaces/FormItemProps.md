@@ -18,6 +18,8 @@ Item definition used by the [FormItem](../functions/FormItem.md) and [Form](../f
 
 `T` = `any`
 
+Value type rendered or edited by the form item.
+
 ## Properties
 
 ### children?

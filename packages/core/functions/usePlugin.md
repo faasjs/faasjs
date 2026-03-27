@@ -12,6 +12,8 @@ Register a plugin for the next [useFunc](useFunc.md) call and ensure it has a mo
 
 `T` _extends_ [`Plugin`](../type-aliases/Plugin.md)
 
+Plugin type to register and return.
+
 ## Parameters
 
 ### plugin

@@ -15,11 +15,15 @@ FormItem
 
 `T` = `any`
 
+Value type rendered or edited by the form item.
+
 ## Parameters
 
 ### props
 
 [`FormItemProps`](../interfaces/FormItemProps.md)\<`T`\>
+
+Form item props including field metadata, rules, and custom renderers.
 
 ## Returns
 

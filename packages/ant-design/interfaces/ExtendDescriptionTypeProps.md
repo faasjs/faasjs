@@ -10,6 +10,8 @@ Custom renderer registration for a description item type.
 
 `T` = `any`
 
+Value type rendered by the custom description item type.
+
 ## Properties
 
 ### children?

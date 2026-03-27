@@ -27,3 +27,5 @@ Plugin type augmented with a convenience `mount()` helper.
 ### T
 
 `T`
+
+Original plugin type.

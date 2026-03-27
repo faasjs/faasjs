@@ -14,6 +14,8 @@ Return null by default.
 
 [`TitleProps`](../interfaces/TitleProps.md)
 
+Title props controlling document title updates and optional inline rendering.
+
 ## Returns
 
 `Element` \| `null`

@@ -16,6 +16,8 @@ export interface BlankProps {
  *
  * If value is undefined or null, return text, otherwise return value.
  *
+ * @param options - Placeholder text and value to render.
+ *
  * @example
  * ```tsx
  * import { Blank } from '@faasjs/ant-design'

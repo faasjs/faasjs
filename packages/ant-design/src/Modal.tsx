@@ -19,6 +19,8 @@ export type setModalProps = Dispatch<SetStateAction<ModalProps>>
 /**
  * Hook style modal
  *
+ * @param init - Initial modal props.
+ *
  * @example
  * ```tsx
  * import { useModal } from '@faasjs/ant-design'

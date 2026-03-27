@@ -12,13 +12,19 @@ Attach the HTTP plugin to a function.
 
 `TParams` _extends_ `Record`\<`string`, `any`\> = `any`
 
+Parsed HTTP params type injected into invoke data.
+
 ### TCookie
 
 `TCookie` _extends_ `Record`\<`string`, `string`\> = `any`
 
+Cookie map exposed by the cookie helper.
+
 ### TSession
 
 `TSession` _extends_ `Record`\<`string`, `string`\> = `any`
+
+Session map exposed by the session helper.
 
 ## Parameters
 

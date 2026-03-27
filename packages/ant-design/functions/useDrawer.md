@@ -12,6 +12,8 @@ Hook style drawer
 
 [`DrawerProps`](../interfaces/DrawerProps.md)
 
+Initial drawer props.
+
 ## Returns
 
 `object`

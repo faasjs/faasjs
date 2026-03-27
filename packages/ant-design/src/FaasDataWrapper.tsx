@@ -18,6 +18,8 @@ export { faas, useFaas, FaasReactClient, type FaasReactClientOptions }
 
 /**
  * Partial data injection exposed to wrapped Ant Design components.
+ *
+ * @template T - Action path or response data type used for inference.
  */
 export type FaasDataInjection<T extends FaasActionUnionType = any> = Partial<
   OriginFaasDataInjection<T>
@@ -25,6 +27,8 @@ export type FaasDataInjection<T extends FaasActionUnionType = any> = Partial<
 
 /**
  * Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.
+ *
+ * @template T - Action path or response data type used for inference.
  */
 export interface FaasDataWrapperProps<T extends FaasActionUnionType = any> extends OriginProps<T> {
   loadingProps?: LoadingProps
@@ -35,6 +39,9 @@ export type { FaasDataWrapperRef } from '@faasjs/react'
 
 /**
  * FaasDataWrapper component with Loading
+ *
+ * @template T - Action path or response data type used for inference.
+ * @param props - Wrapper props including loading fallbacks and request configuration.
  *
  * @example
  * ```tsx
@@ -57,6 +64,11 @@ export function FaasDataWrapper<T extends FaasActionUnionType = any>(
 
 /**
  * HOC to wrap a component with FaasDataWrapper and Loading
+ *
+ * @template PathOrData - Action path or response data type used for inference.
+ * @template TComponentProps - Component props including injected Faas data fields.
+ * @param Component - Component that consumes injected Faas data props.
+ * @param faasProps - Request configuration forwarded to `FaasDataWrapper`.
  *
  * @example
  * ```tsx

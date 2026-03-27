@@ -8,6 +8,10 @@ import { RunHandler } from '../plugins/run_handler'
 /**
  * User-defined handler executed after plugins have prepared invoke data.
  *
+ * @template TEvent - Runtime event type.
+ * @template TContext - Runtime context type.
+ * @template TResult - Async result type returned by the handler.
+ *
  * @param data - Invocation data exposed to the handler.
  * @returns Handler result that becomes the function response.
  */
@@ -22,6 +26,10 @@ export type Next = () => Promise<void>
 
 /**
  * Runtime-compatible handler returned by {@link Func.export}.
+ *
+ * @template TEvent - Runtime event type.
+ * @template TContext - Runtime context type.
+ * @template TResult - Async result type returned by the handler.
  *
  * @param event - Runtime event payload.
  * @param context - Runtime context object.
@@ -93,6 +101,10 @@ type MutableMountData = {
 /**
  * Mutable invocation state shared by plugins and the final handler.
  *
+ * @template TEvent - Runtime event type.
+ * @template TContext - Runtime context type.
+ * @template TResult - Async result type produced by the handler.
+ *
  * @property event - Runtime event payload.
  * @property context - Runtime context payload.
  * @property callback - Optional callback forwarded from the runtime.
@@ -120,6 +132,10 @@ export type LifeCycleKey = 'onMount' | 'onInvoke'
 /**
  * Constructor options for {@link Func}.
  *
+ * @template TEvent - Runtime event type.
+ * @template TContext - Runtime context type.
+ * @template TResult - Async result type produced by the handler.
+ *
  * @property plugins - Ordered plugin list to attach before the run handler.
  * @property handler - Final business handler invoked after plugins complete.
  */
@@ -135,6 +151,8 @@ type CachedFunction = {
 
 /**
  * Get the event type of a func.
+ *
+ * @template T - Func instance whose event type should be extracted.
  *
  * @example
  * ```ts
@@ -155,6 +173,8 @@ export type FuncEventType<T extends Func<any, any, any>> =
 
 /**
  * Get the return type of a func.
+ *
+ * @template T - Func instance whose return type should be extracted.
  *
  * @example
  * ```ts
@@ -250,6 +270,10 @@ function normalizeMountData(
  * {@link Func.export}, and keeps function configuration available across mounts
  * and invokes.
  *
+ * @template TEvent - Runtime event type.
+ * @template TContext - Runtime context type.
+ * @template TResult - Async result type produced by the handler.
+ *
  * @example
  * ```ts
  * import { Func } from '@faasjs/core'
@@ -291,6 +315,8 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
   /**
    * Create a cloud function.
+   *
+   * @param config - Plugins and optional business handler used to configure the function.
    */
   constructor(config: FuncConfig<TEvent, TContext>) {
     if (config.handler) this.handler = config.handler
@@ -377,6 +403,8 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
   /**
    * First time mount the function.
+   *
+   * @param data - Optional initial event, context, config, and logger used during mount.
    */
   public async mount(
     data: {
@@ -407,6 +435,8 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
   /**
    * Invoke the function.
+   *
+   * @param data - Invocation state mutated by plugins and the final handler.
    */
   public async invoke(data: InvokeData<TEvent, TContext, TResult>): Promise<void> {
     if (!this.mounted) await this.mount(data)
@@ -475,6 +505,8 @@ let plugins: Plugin[] = []
 
 /**
  * Plugin type augmented with a convenience `mount()` helper.
+ *
+ * @template T - Original plugin type.
  */
 export type UseifyPlugin<T> = T & {
   mount: (data?: MountData) => Promise<T>
@@ -482,6 +514,8 @@ export type UseifyPlugin<T> = T & {
 
 /**
  * Register a plugin for the next {@link useFunc} call and ensure it has a mount helper.
+ *
+ * @template T - Plugin type to register and return.
  *
  * @param plugin - Plugin instance to register.
  * @returns The same plugin with a `mount()` convenience method.
@@ -527,6 +561,10 @@ export function usePlugin<T extends Plugin>(
 
 /**
  * Create a {@link Func} from plugins registered through {@link usePlugin}.
+ *
+ * @template TEvent - Runtime event type.
+ * @template TContext - Runtime context type.
+ * @template TResult - Async result type produced by the handler.
  *
  * @param handler - Factory that returns the final business handler.
  * @returns Function instance ready to export or test.

@@ -12,13 +12,19 @@ Create a [Func](../classes/Func.md) from plugins registered through [usePlugin](
 
 `TEvent` = `any`
 
+Runtime event type.
+
 ### TContext
 
 `TContext` = `any`
 
+Runtime context type.
+
 ### TResult
 
 `TResult` = `any`
+
+Async result type produced by the handler.
 
 ## Parameters
 

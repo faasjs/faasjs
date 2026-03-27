@@ -12,13 +12,19 @@ Constructor options for [Func](../classes/Func.md).
 
 `TEvent` = `any`
 
+Runtime event type.
+
 ### TContext
 
 `TContext` = `any`
 
+Runtime context type.
+
 ### TResult
 
 `TResult` = `any`
+
+Async result type produced by the handler.
 
 ## Properties
 

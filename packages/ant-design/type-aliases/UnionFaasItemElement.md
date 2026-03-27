@@ -14,9 +14,13 @@ This type can either be a React element with the specified injection types or `n
 
 `Value` = `any`
 
+Current item value type.
+
 ### Values
 
 `Values` = `any`
+
+Whole record or row type that contains the value.
 
 ## Example
 

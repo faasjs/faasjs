@@ -29,6 +29,8 @@ export async function streamToText(stream: ReadableStream<Uint8Array>): Promise<
 /**
  * Convert ReadableStream to object.
  *
+ * @template T - Parsed JSON value type expected from the stream.
+ *
  * @param stream - Readable stream to decode as JSON.
  * @returns Parsed JSON object from the stream body.
  * @throws {TypeError} If stream is not a ReadableStream instance.

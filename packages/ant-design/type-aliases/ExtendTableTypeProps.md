@@ -12,6 +12,8 @@ Custom renderer registration for a table item type.
 
 `T` = `any`
 
+Row record type rendered by the custom table item type.
+
 ## Properties
 
 ### children?

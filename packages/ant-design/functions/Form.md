@@ -16,11 +16,15 @@ Form component with Ant Design & FaasJS
 
 `Values` _extends_ `Record`\<`string`, `any`\> = `any`
 
+Form values shape.
+
 ## Parameters
 
 ### props
 
 [`FormProps`](../type-aliases/FormProps.md)\<`Values`\>
+
+Form props including items, submit behavior, and FaasJS integration.
 
 ## Returns
 

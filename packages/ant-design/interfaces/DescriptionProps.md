@@ -14,9 +14,13 @@ Props for the [Description](../functions/Description.md) component.
 
 `T` = `any`
 
+Data record shape rendered by the component.
+
 ### ExtendItemProps
 
 `ExtendItemProps` = `any`
+
+Additional item prop shape accepted by `items`.
 
 ## Methods
 

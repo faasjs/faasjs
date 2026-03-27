@@ -7,6 +7,8 @@ import { useEqualEffect, useEqualMemo } from './equal'
 
 /**
  * Injects FaasData props.
+ *
+ * @template PathOrData - Action path or response data type used for inference.
  */
 export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
   action: FaasAction<PathOrData>
@@ -30,6 +32,8 @@ export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
 
 /**
  * Props for the {@link FaasDataWrapper} render-prop component.
+ *
+ * @template PathOrData - Action path or response data type used for inference.
  */
 export type FaasDataWrapperProps<PathOrData extends FaasActionUnionType> = {
   render?(args: FaasDataInjection<PathOrData>): JSX.Element | JSX.Element[]
@@ -48,6 +52,8 @@ export type FaasDataWrapperProps<PathOrData extends FaasActionUnionType> = {
 
 /**
  * Imperative ref shape exposed by {@link FaasDataWrapper}.
+ *
+ * @template PathOrData - Action path or response data type used for inference.
  */
 export type FaasDataWrapperRef<PathOrData extends FaasActionUnionType = any> =
   FaasDataInjection<PathOrData>
@@ -120,6 +126,11 @@ Object.assign(FaasDataWrapper, {
 
 /**
  * HOC to wrap a component with FaasDataWrapper
+ *
+ * @template PathOrData - Action path or response data type used for inference.
+ * @template TComponentProps - Component props including injected Faas data fields.
+ * @param Component - Component that consumes injected Faas data props.
+ * @param faasProps - Request configuration forwarded to `FaasDataWrapper`.
  *
  * @example
  * ```tsx

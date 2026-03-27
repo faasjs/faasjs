@@ -18,6 +18,8 @@ App component with Ant Design & FaasJS
 
 [`AppProps`](../interfaces/AppProps.md)
 
+App shell props including providers, routing, and error handling options.
+
 ## Returns
 
 `Element`

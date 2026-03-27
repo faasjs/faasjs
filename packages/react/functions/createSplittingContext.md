@@ -12,13 +12,15 @@ Creates a splitting context with the given default value.
 
 `T` _extends_ `Record`\<`string`, `any`\>
 
+Context value shape exposed by the provider and hook.
+
 ## Parameters
 
 ### defaultValue
 
 \{ \[K in string \| number \| symbol\]: Partial\<T\[K\]\> \| null \} \| keyof `T`[]
 
-The default value of the splitting context.
+Default value map or key list used to create split contexts.
 
 ## Returns
 

@@ -16,6 +16,8 @@ Tabs component with Ant Design & FaasJS
 
 [`TabsProps`](../interfaces/TabsProps.md)
 
+Tabs props including tab items and Ant Design tab options.
+
 ## Returns
 
 `Element`

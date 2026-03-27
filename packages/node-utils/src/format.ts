@@ -6,6 +6,9 @@
  * - `%s`: Converts the argument to a string.
  * - `%d`: Converts the argument to a number.
  * - `%j`: Formats the argument as a JSON string.
+ *
+ * @param fmt - Format string or first value to stringify.
+ * @param args - Additional values consumed by format placeholders.
  */
 export function format(fmt: any, ...args: any[]): string {
   const re = /(%?)(%([ojds]))/g

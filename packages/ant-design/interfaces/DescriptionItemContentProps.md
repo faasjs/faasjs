@@ -10,6 +10,8 @@ Props passed to the exported `DescriptionItemContent` helper shape.
 
 `T` = `any`
 
+Value type rendered by the item content.
+
 ## Properties
 
 ### extendTypes?

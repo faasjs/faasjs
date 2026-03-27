@@ -12,6 +12,8 @@ Infer params type by action path.
 
 `T` = `any`
 
+Candidate action path type.
+
 ## Example
 
 ```typescript

@@ -32,6 +32,9 @@ export const AppContext = createSplittingContext<useAppProps>([
 /**
  * Get app context.
  *
+ * @template NewT - Narrowed app context shape to read from `AppContext`.
+ * @param this - Unused receiver to keep the hook callable without binding.
+ *
  * @example
  * ```ts
  * import { App, useApp } from '@faasjs/ant-design'
