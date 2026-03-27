@@ -4,7 +4,7 @@
 
 > **loadConfig**(`root`, `filename`, `staging`, `logger?`): [`FuncConfig`](../type-aliases/FuncConfig.md)
 
-Load configuration from faas.yaml
+Load resolved config for a function and staging.
 
 ## Parameters
 
@@ -12,18 +12,28 @@ Load configuration from faas.yaml
 
 `string`
 
+Project root.
+
 ### filename
 
 `string`
+
+Function filename.
 
 ### staging
 
 `string`
 
+Staging name to resolve.
+
 ### logger?
 
 [`Logger`](../classes/Logger.md)
 
+Optional logger.
+
 ## Returns
 
 [`FuncConfig`](../type-aliases/FuncConfig.md)
+
+Resolved config for the requested staging.

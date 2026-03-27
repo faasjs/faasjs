@@ -31,6 +31,9 @@ import {
   type FaasDataWrapperProps,
 } from './FaasDataWrapper'
 
+/**
+ * Column definition used by the FaasJS Ant Design {@link Table} component.
+ */
 export interface TableItemProps<T = any>
   extends FaasItemProps, Omit<AntdTableColumnProps<T>, 'title' | 'children' | 'render'> {
   optionsType?: 'auto'
@@ -41,14 +44,23 @@ export interface TableItemProps<T = any>
   object?: TableItemProps<T>[]
 }
 
+/**
+ * Custom renderer registration for a table item type.
+ */
 export type ExtendTableTypeProps<T = any> = {
   children?: UnionFaasItemElement<T>
   render?: UnionFaasItemRender<T>
 }
 
+/**
+ * Shared fields for extending table item unions.
+ */
 export type ExtendTableItemProps<T = any> = BaseItemProps &
   Omit<AntdTableColumnProps<T>, 'children'>
 
+/**
+ * Props for the FaasJS Ant Design {@link Table} component.
+ */
 export type TableProps<T = any, ExtendTypes = any> = {
   items: (TableItemProps | (ExtendTypes & ExtendTableItemProps))[]
   extendTypes?: {
@@ -68,6 +80,9 @@ export type TableProps<T = any, ExtendTypes = any> = {
   }
 } & AntdTableProps<T>
 
+/**
+ * Query params shape expected by table-backed FaasJS endpoints.
+ */
 export type TableFaasDataParams = {
   filters?: Record<string, any[]>
   pagination?: {
@@ -85,6 +100,9 @@ export type TableFaasDataParams = {
       }[]
 }
 
+/**
+ * Paginated response shape expected by {@link Table} when using `faasData`.
+ */
 export type TableFaasDataResponse<T = any> = {
   rows: T[]
   pagination: {

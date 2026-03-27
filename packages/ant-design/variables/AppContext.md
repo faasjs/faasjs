@@ -4,6 +4,8 @@
 
 > `const` **AppContext**: `object`
 
+Shared context storing message, notification, modal, and drawer helpers.
+
 ## Type Declaration
 
 ### use

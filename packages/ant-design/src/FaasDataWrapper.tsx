@@ -16,10 +16,16 @@ import { Loading } from './Loading'
 
 export { faas, useFaas, FaasReactClient, type FaasReactClientOptions }
 
+/**
+ * Partial data injection exposed to wrapped Ant Design components.
+ */
 export type FaasDataInjection<T extends FaasActionUnionType = any> = Partial<
   OriginFaasDataInjection<T>
 >
 
+/**
+ * Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.
+ */
 export interface FaasDataWrapperProps<T extends FaasActionUnionType = any> extends OriginProps<T> {
   loadingProps?: LoadingProps
   loading?: JSX.Element

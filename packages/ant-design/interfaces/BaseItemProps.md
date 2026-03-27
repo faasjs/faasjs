@@ -2,6 +2,8 @@
 
 # Interface: BaseItemProps
 
+Common metadata shared by form, table, and description items.
+
 ## Extended by
 
 - [`FaasItemProps`](FaasItemProps.md)

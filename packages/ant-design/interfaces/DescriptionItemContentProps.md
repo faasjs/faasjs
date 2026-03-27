@@ -2,6 +2,8 @@
 
 # Interface: DescriptionItemContentProps\<T\>
 
+Props passed to the exported `DescriptionItemContent` helper shape.
+
 ## Type Parameters
 
 ### T

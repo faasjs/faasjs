@@ -453,9 +453,21 @@ export type ResponseProps<T = any> = {
  * @see FaasBrowserClient.action for method returning Response
  */
 export class Response<T = any> {
+  /**
+   * HTTP status code exposed to callers.
+   */
   public readonly status: number
+  /**
+   * Response headers keyed by header name.
+   */
   public readonly headers: ResponseHeaders
+  /**
+   * Raw response body.
+   */
   public readonly body: any
+  /**
+   * Parsed response payload when JSON data is available.
+   */
   public readonly data?: T
 
   /**
@@ -474,6 +486,9 @@ export class Response<T = any> {
   }
 }
 
+/**
+ * Input accepted by the {@link ResponseError} constructor.
+ */
 export type ResponseErrorProps = {
   message: string
   /** @default 500 */
@@ -582,13 +597,23 @@ export type ResponseErrorProps = {
  * @see setMock for mocking errors in tests
  */
 export class ResponseError extends Error {
+  /**
+   * HTTP status code reported for the failed request.
+   */
   public readonly status: number
+  /**
+   * Response headers returned with the error.
+   */
   public readonly headers: ResponseHeaders
+  /**
+   * Raw error body or fallback error payload.
+   */
   public readonly body: any
+  /**
+   * Original error used to construct this instance, when available.
+   */
   public readonly originalError?: Error
 
-  constructor(msg: string | Error, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>)
-  constructor(props: ResponseErrorProps)
   /**
    * Create a ResponseError from a message, Error, or structured response error payload.
    *
@@ -596,6 +621,8 @@ export class ResponseError extends Error {
    * @param options - Additional options such as status, headers, and body.
    * @returns ResponseError instance.
    */
+  constructor(data: string | Error, options?: Omit<ResponseErrorProps, 'message' | 'originalError'>)
+  constructor(data: ResponseErrorProps)
   constructor(
     data: string | Error | ResponseErrorProps,
     options?: Omit<ResponseErrorProps, 'message' | 'originalError'>,
@@ -842,8 +869,17 @@ export function setMock(handler: MockHandler | ResponseProps | Response | null) 
  * @see ResponseError for error handling
  */
 export class FaasBrowserClient {
+  /**
+   * Unique identifier for this client instance.
+   */
   public readonly id: string
+  /**
+   * Base URL used to build action request URLs.
+   */
   public baseUrl: BaseUrl
+  /**
+   * Default request options merged into every request.
+   */
   public defaultOptions: Options
 
   /**

@@ -4,6 +4,8 @@
 
 > **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\> = (`event?`, `context?`, `callback?`) => `Promise`\<`TResult`\>
 
+Runtime-compatible handler returned by [Func.export](../classes/Func.md#export).
+
 ## Type Parameters
 
 ### TEvent
@@ -24,14 +26,22 @@
 
 `TEvent`
 
+Runtime event payload.
+
 ### context?
 
 `TContext`
+
+Runtime context object.
 
 ### callback?
 
 (...`args`) => `any`
 
+Optional callback supplied by callback-based runtimes.
+
 ## Returns
 
 `Promise`\<`TResult`\>
+
+Final function response.

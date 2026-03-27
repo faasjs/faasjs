@@ -4,6 +4,8 @@
 
 > **TableProps**\<`T`, `ExtendTypes`\> = `object` & `AntdTableProps`\<`T`\>
 
+Props for the FaasJS Ant Design [Table](../functions/Table.md) component.
+
 ## Type Declaration
 
 ### extendTypes?

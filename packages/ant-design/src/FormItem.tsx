@@ -34,10 +34,16 @@ type OptionsProps = {
   input?: SelectProps<any>
 }
 
+/**
+ * Custom renderer registration for a form item type.
+ */
 export type ExtendFormTypeProps<T = any> = {
   children?: UnionFaasItemElement<T>
 }
 
+/**
+ * Map of custom form item type registrations.
+ */
 export type ExtendTypes = {
   [type: string]: ExtendFormTypeProps
 }
@@ -54,6 +60,9 @@ type InputTypeMap<T> = {
   'object[]': never
 }
 
+/**
+ * Item definition used by the {@link FormItem} and {@link Form} components.
+ */
 export interface FormItemProps<T = any>
   extends BaseItemProps, Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
   type?: FaasItemType

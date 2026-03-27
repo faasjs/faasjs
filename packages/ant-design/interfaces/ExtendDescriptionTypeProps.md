@@ -2,6 +2,8 @@
 
 # Interface: ExtendDescriptionTypeProps\<T\>
 
+Custom renderer registration for a description item type.
+
 ## Type Parameters
 
 ### T

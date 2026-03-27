@@ -4,6 +4,8 @@
 
 > `const` **streamToString**: (`stream`) => `Promise`\<`string`\> = `streamToText`
 
+Alias of [streamToText](../functions/streamToText.md).
+
 Convert ReadableStream to text.
 
 ## Parameters

@@ -1,5 +1,8 @@
 import type { Level } from './logger'
 
+/**
+ * ANSI color codes used by the built-in logger formatter.
+ */
 export const Color = {
   DEFAULT: 39,
   BLACK: 30,
@@ -12,6 +15,9 @@ export const Color = {
   GRAY: 90,
 }
 
+/**
+ * Default ANSI color mapping for each log level.
+ */
 export const LevelColor = {
   debug: Color.GRAY,
   info: Color.GREEN,

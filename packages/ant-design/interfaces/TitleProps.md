@@ -2,6 +2,8 @@
 
 # Interface: TitleProps
 
+Props for the document-title helper component.
+
 ## Properties
 
 ### children?

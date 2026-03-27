@@ -4,6 +4,8 @@
 
 > **FaasDataInjection**\<`T`\> = `Partial`\<`OriginFaasDataInjection`\<`T`\>\>
 
+Partial data injection exposed to wrapped Ant Design components.
+
 ## Type Parameters
 
 ### T

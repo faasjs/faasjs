@@ -4,6 +4,9 @@ import type { Logger } from '@faasjs/node-utils'
 
 import type { Cookie } from './cookie'
 
+/**
+ * Encryption and signing options for the {@link Session} helper.
+ */
 export type SessionOptions = {
   key: string
   secret: string
@@ -15,6 +18,9 @@ export type SessionOptions = {
   cipherName?: string
 }
 
+/**
+ * Allowed payload values stored in the session cookie.
+ */
 export type SessionContent = string | number | { [key: string]: any } | null | undefined
 
 type SessionConfig = {
@@ -33,12 +39,21 @@ type SessionSecrets = {
   signedSecret: Buffer
 }
 
+/**
+ * Encrypted session storage backed by a signed cookie.
+ */
 export class Session<
   S extends Record<string, string> = any,
   C extends Record<string, string> = any,
 > {
+  /**
+   * Decoded session values for the current request.
+   */
   public content: Record<string, string | number>
 
+  /**
+   * Normalized session config with derived defaults.
+   */
   public readonly config: SessionConfig
 
   private readonly secret: Buffer
@@ -46,6 +61,13 @@ export class Session<
   private readonly cookie: Cookie<C, S>
   private changed?: boolean
 
+  /**
+   * Create a session helper bound to a cookie store.
+   *
+   * @param cookie - Parent cookie store used for persistence.
+   * @param config - Session encryption and cookie key options.
+   * @param secrets - Precomputed secrets reused by forked sessions.
+   */
   constructor(
     cookie: Cookie<C, S>,
     config: SessionOptions | SessionConfig,
@@ -94,6 +116,12 @@ export class Session<
     this.content = Object.create(null)
   }
 
+  /**
+   * Clone the session helper for a forked cookie store.
+   *
+   * @param cookie - Forked cookie store.
+   * @returns Session helper sharing the same derived secrets.
+   */
   public fork(cookie: Cookie<C, S>): Session<S, C> {
     return new Session(cookie, this.config, {
       secret: this.secret,
@@ -101,6 +129,12 @@ export class Session<
     })
   }
 
+  /**
+   * Decode the current session cookie into memory.
+   *
+   * @param cookie - Encoded session cookie value.
+   * @param logger - Optional logger for decode failures.
+   */
   public invoke(cookie?: string, logger?: Logger): void {
     try {
       this.content = cookie ? this.decode(cookie) : Object.create(null)
@@ -111,6 +145,12 @@ export class Session<
     this.changed = false
   }
 
+  /**
+   * Serialize session content into a signed, encrypted cookie string.
+   *
+   * @param text - Session payload to encode.
+   * @returns Encoded cookie value.
+   */
   public encode(text: SessionContent): string {
     if (typeof text !== 'string') text = JSON.stringify(text)
 
@@ -129,6 +169,14 @@ export class Session<
     return `${main}--${digest}`
   }
 
+  /**
+   * Decode and verify a session cookie value.
+   *
+   * @template TData - Expected decoded payload shape.
+   * @param text - Encoded cookie value.
+   * @returns Decoded session payload.
+   * @throws {Error} When the signature is invalid or the payload cannot be decrypted.
+   */
   public decode<TData = any>(text: string): TData | SessionContent {
     text = decodeURIComponent(text)
 
@@ -152,10 +200,23 @@ export class Session<
     return JSON.parse(decrypt)
   }
 
+  /**
+   * Read a session value by key.
+   *
+   * @param key - Session key.
+   * @returns Stored session value.
+   */
   public read(key: string) {
     return this.content[key]
   }
 
+  /**
+   * Set or remove a session value in memory.
+   *
+   * @param key - Session key.
+   * @param value - Session value, or `null`/`undefined` to delete it.
+   * @returns Current session helper for chaining.
+   */
   public write(key: string, value?: string | number | null): Session<S, C> {
     if (value === null || typeof value === 'undefined') delete this.content[key]
     else this.content[key] = value
@@ -164,6 +225,11 @@ export class Session<
     return this
   }
 
+  /**
+   * Persist pending in-memory changes back to the session cookie.
+   *
+   * @returns Current session helper for chaining.
+   */
   public update(): Session<S, C> {
     if (this.changed) this.cookie.write(this.config.key, this.encode(this.content))
 

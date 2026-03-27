@@ -4,6 +4,8 @@
 
 > **LoadingProps** = `object`
 
+Props for the [Loading](../functions/Loading.md) component.
+
 ## Properties
 
 ### children?

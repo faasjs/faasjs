@@ -6,6 +6,9 @@ import type { DescriptionItemProps } from './Description'
 import type { FormItemProps } from './FormItem'
 import type { TableItemProps } from './Table'
 
+/**
+ * Supported built-in field types shared by form, table, and description components.
+ */
 export type FaasItemType =
   | 'string'
   | 'string[]'
@@ -30,6 +33,9 @@ export type FaasItemTypeValue = {
   'object[]': any[]
 }
 
+/**
+ * Option item accepted by built-in choice inputs.
+ */
 export type BaseOption =
   | string
   | number
@@ -38,12 +44,18 @@ export type BaseOption =
       value?: any
     }
 
+/**
+ * Common metadata shared by form, table, and description items.
+ */
 export interface BaseItemProps {
   id: string | number
   title?: string
   options?: BaseOption[]
 }
 
+/**
+ * Base item props plus the shared built-in value type selector.
+ */
 export interface FaasItemProps extends BaseItemProps {
   /**
    * Support string, string[], number, number[], boolean, date, time, object, object[]
@@ -97,6 +109,13 @@ export function transferOptions(options: BaseOption[]): {
   )
 }
 
+/**
+ * Normalize raw values into the runtime shape expected by FaasJS Ant Design components.
+ *
+ * @param type - Target field type.
+ * @param value - Raw value to normalize.
+ * @returns Normalized value for rendering or form initialization.
+ */
 export function transferValue(type: FaasItemType | null | undefined, value: any): any {
   if (!type) type = 'string'
 
@@ -138,8 +157,14 @@ export function transferValue(type: FaasItemType | null | undefined, value: any)
   return value
 }
 
+/**
+ * Rendering surfaces supported by union item helpers.
+ */
 export type UnionScene = 'form' | 'description' | 'table'
 
+/**
+ * Props injected into custom union item components.
+ */
 export type UnionFaasItemInjection<Value = any, Values = any> = {
   scene?: UnionScene
   value?: Value

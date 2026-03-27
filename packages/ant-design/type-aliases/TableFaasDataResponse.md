@@ -4,6 +4,8 @@
 
 > **TableFaasDataResponse**\<`T`\> = `object`
 
+Paginated response shape expected by [Table](../functions/Table.md) when using `faasData`.
+
 ## Type Parameters
 
 ### T

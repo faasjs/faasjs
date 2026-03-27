@@ -4,6 +4,8 @@
 
 > **CookieOptions** = `object`
 
+Cookie defaults and session integration options used by [Cookie](../classes/Cookie.md).
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`

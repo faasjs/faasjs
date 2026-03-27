@@ -6,12 +6,18 @@ import { useConfigContext } from './Config'
 
 export { lazy } from 'react'
 
+/**
+ * Default 404 route element that uses the configured localized title.
+ */
 export function PageNotFound() {
   const { theme } = useConfigContext()
 
   return <Result status="404" title={theme.common.pageNotFound} />
 }
 
+/**
+ * Props for the lazy-loading {@link Routes} wrapper.
+ */
 export interface RoutesProps {
   routes: (RouteProps & {
     page?: LazyExoticComponent<ComponentType<any>>

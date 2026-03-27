@@ -4,6 +4,8 @@
 
 > **CronJobErrorHandler** = (`error`, `context`) => `void` \| `Promise`\<`void`\>
 
+Error handler invoked when a cron job throws.
+
 ## Parameters
 
 ### error

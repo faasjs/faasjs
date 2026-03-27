@@ -1,5 +1,8 @@
 import type { ComponentProps, ComponentType, ReactNode } from 'react'
 
+/**
+ * Props for the {@link OptionalWrapper} helper component.
+ */
 export type OptionalWrapperProps<TWrapper extends ComponentType<{ children: ReactNode }> = any> = {
   condition: boolean
   Wrapper: TWrapper

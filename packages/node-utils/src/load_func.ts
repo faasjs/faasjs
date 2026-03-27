@@ -1,6 +1,9 @@
 import { loadConfig } from './load_config'
 import { loadPackage } from './load_package'
 
+/**
+ * Runtime-compatible handler signature exported by packaged FaasJS functions.
+ */
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
   context?: TContext,

@@ -4,6 +4,8 @@
 
 > **OptionalWrapperProps**\<`TWrapper`\> = `object`
 
+Props for the [OptionalWrapper](../functions/OptionalWrapper.md) helper component.
+
 ## Type Parameters
 
 ### TWrapper

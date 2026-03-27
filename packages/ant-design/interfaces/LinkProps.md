@@ -2,6 +2,8 @@
 
 # Interface: LinkProps
 
+Props for the navigation-aware [Link](../functions/Link.md) component.
+
 ## Properties
 
 ### block?

@@ -1,5 +1,8 @@
 import { Spin } from 'antd'
 
+/**
+ * Props for the {@link Loading} component.
+ */
 export type LoadingProps = {
   style?: React.CSSProperties
   size?: 'small' | 'default' | 'large'

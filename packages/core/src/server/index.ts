@@ -36,6 +36,9 @@ import {
 import { buildCORSHeaders } from './headers'
 import { getRouteFiles } from './routes'
 
+/**
+ * Extra options for a single {@link Server.handle} call.
+ */
 export type ServerHandlerOptions = {
   requestedAt?: number
   filepath?: string
@@ -184,8 +187,17 @@ export type ServerOptions = {
  * ```
  */
 export class Server {
+  /**
+   * Normalized project root used to resolve route files.
+   */
   public readonly root: string
+  /**
+   * Shared server logger.
+   */
   public readonly logger: Logger
+  /**
+   * Effective server options with defaults applied.
+   */
   public readonly options: ServerOptions
 
   protected closed = false
@@ -257,6 +269,13 @@ export class Server {
     servers.push(this)
   }
 
+  /**
+   * Handle a single incoming HTTP request.
+   *
+   * @param req - Incoming Node.js request.
+   * @param res - Node.js response writer.
+   * @param options - Optional request metadata and forced filepath override.
+   */
   public async handle(
     req: IncomingMessage,
     res: ServerResponse<IncomingMessage>,

@@ -2,6 +2,8 @@
 
 # Interface: BlankProps
 
+Props for the [Blank](../functions/Blank.md) placeholder component.
+
 ## Properties
 
 ### text?

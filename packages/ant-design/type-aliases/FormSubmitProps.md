@@ -4,6 +4,8 @@
 
 > **FormSubmitProps** = `object`
 
+Props for the built-in submit button rendered by [Form](../functions/Form.md).
+
 ## Properties
 
 ### buttonProps?

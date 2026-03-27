@@ -26,4 +26,7 @@ export async function streamToObject<T = any>(stream: ReadableStream<Uint8Array>
   return new Response(stream).json() as Promise<T>
 }
 
+/**
+ * Alias of {@link streamToText}.
+ */
 export const streamToString = streamToText

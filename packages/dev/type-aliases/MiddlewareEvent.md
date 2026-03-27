@@ -4,6 +4,8 @@
 
 > **MiddlewareEvent** = `object`
 
+Event shape passed to middleware-backed functions.
+
 ## Properties
 
 ### body

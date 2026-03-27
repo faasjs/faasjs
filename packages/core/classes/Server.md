@@ -60,19 +60,27 @@ Close server.
 
 > **handle**(`req`, `res`, `options?`): `Promise`\<`void`\>
 
+Handle a single incoming HTTP request.
+
 #### Parameters
 
 ##### req
 
 `IncomingMessage`
 
+Incoming Node.js request.
+
 ##### res
 
 `ServerResponse`\<`IncomingMessage`\>
 
+Node.js response writer.
+
 ##### options?
 
 [`ServerHandlerOptions`](../type-aliases/ServerHandlerOptions.md) = `{}`
+
+Optional request metadata and forced filepath override.
 
 #### Returns
 
@@ -130,10 +138,16 @@ A promise that resolves when the middleware processing is complete.
 
 > `readonly` **logger**: `Logger`
 
+Shared server logger.
+
 ### options
 
 > `readonly` **options**: [`ServerOptions`](../type-aliases/ServerOptions.md)
 
+Effective server options with defaults applied.
+
 ### root
 
 > `readonly` **root**: `string`
+
+Normalized project root used to resolve route files.

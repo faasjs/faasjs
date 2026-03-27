@@ -31,6 +31,12 @@ commander
 
 action(commander as Command)
 
+/**
+ * Run the `create-faas-app` CLI with a provided argv array.
+ *
+ * @param argv - CLI arguments forwarded to Commander.
+ * @returns Commander program instance after parsing.
+ */
 export async function main(argv: string[]) {
   try {
     await commander.parseAsync(argv)

@@ -4,6 +4,8 @@
 
 > **ResolvedTheme** = `object`
 
+Fully resolved theme object consumed by `@faasjs/ant-design` components.
+
 ## Properties
 
 ### Blank

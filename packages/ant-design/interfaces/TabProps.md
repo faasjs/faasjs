@@ -2,6 +2,8 @@
 
 # Interface: TabProps
 
+Tab item accepted by the FaasJS Ant Design [Tabs](../functions/Tabs.md) wrapper.
+
 ## Extends
 
 - `Partial`\<`OriginTabProps`\>

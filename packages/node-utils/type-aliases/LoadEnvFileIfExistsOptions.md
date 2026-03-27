@@ -4,6 +4,8 @@
 
 > **LoadEnvFileIfExistsOptions** = `object`
 
+Options for [loadEnvFileIfExists](../functions/loadEnvFileIfExists.md).
+
 ## Properties
 
 ### cwd?

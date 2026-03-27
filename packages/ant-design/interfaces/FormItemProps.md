@@ -2,6 +2,8 @@
 
 # Interface: FormItemProps\<T\>
 
+Item definition used by the [FormItem](../functions/FormItem.md) and [Form](../functions/Form.md) components.
+
 ## Extends
 
 - [`BaseItemProps`](BaseItemProps.md).`Omit`\<`AntdFormItemProps`\<`T`\>, `"id"` \| `"children"` \| `"render"`\>

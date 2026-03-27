@@ -2,6 +2,8 @@
 
 # Interface: useAppProps
 
+Shared app services exposed by [AppContext](../variables/AppContext.md) and [useApp](../functions/useApp.md).
+
 ## Properties
 
 ### drawerProps

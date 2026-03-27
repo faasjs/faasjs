@@ -40,6 +40,8 @@ process.on('SIGINT', async () => {
 
 > **new Transport**(): `Transport`
 
+Create the shared transport and start its flush interval.
+
 #### Returns
 
 `Transport`
@@ -181,6 +183,10 @@ The name of the handler to unregister.
 
 > **handlers**: `Map`\<`string`, [`TransportHandler`](../type-aliases/TransportHandler.md)\>
 
+Registered flush handlers keyed by name.
+
 ### messages
 
 > **messages**: [`LoggerMessage`](../type-aliases/LoggerMessage.md)[] = `[]`
+
+Buffered messages waiting to be flushed.

@@ -4,6 +4,8 @@
 
 > **FuncPluginConfig** = `object`
 
+Plugin config entry loaded from `faas.yaml`.
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`

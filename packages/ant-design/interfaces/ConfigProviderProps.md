@@ -2,6 +2,8 @@
 
 # Interface: ConfigProviderProps
 
+Props for the `@faasjs/ant-design` [ConfigProvider](../functions/ConfigProvider.md).
+
 ## Properties
 
 ### children

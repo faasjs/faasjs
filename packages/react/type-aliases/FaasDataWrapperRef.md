@@ -4,6 +4,8 @@
 
 > **FaasDataWrapperRef**\<`PathOrData`\> = [`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>
 
+Imperative ref shape exposed by [FaasDataWrapper](../variables/FaasDataWrapper.md).
+
 ## Type Parameters
 
 ### PathOrData

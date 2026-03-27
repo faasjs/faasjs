@@ -303,10 +303,16 @@ const profile = await client.action('getProfile', {
 
 > **baseUrl**: `` `${string}/` ``
 
+Base URL used to build action request URLs.
+
 ### defaultOptions
 
 > **defaultOptions**: [`Options`](../type-aliases/Options.md)
 
+Default request options merged into every request.
+
 ### id
 
 > `readonly` **id**: `string`
+
+Unique identifier for this client instance.

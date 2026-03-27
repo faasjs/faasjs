@@ -1,11 +1,17 @@
 import { Component, cloneElement, type ErrorInfo, type ReactElement, type ReactNode } from 'react'
 
+/**
+ * Props for the {@link ErrorBoundary} component.
+ */
 export interface ErrorBoundaryProps {
   children?: ReactNode
   onError?: (error: Error | null, info: any) => void
   errorChildren?: ReactElement<ErrorChildrenProps>
 }
 
+/**
+ * Props injected into a custom error fallback element.
+ */
 export type ErrorChildrenProps = {
   error?: Error
   info?: any
@@ -13,6 +19,9 @@ export type ErrorChildrenProps = {
   errorDescription?: string
 }
 
+/**
+ * React error boundary with an optional custom fallback element.
+ */
 export class ErrorBoundary extends Component<
   ErrorBoundaryProps,
   {
@@ -20,8 +29,16 @@ export class ErrorBoundary extends Component<
     info: ErrorInfo
   }
 > {
+  /**
+   * Stable display name used by React DevTools.
+   */
   static displayName = 'ErrorBoundary'
 
+  /**
+   * Create an error boundary with empty error state.
+   *
+   * @param props - Boundary props.
+   */
   constructor(props: ErrorBoundaryProps) {
     super(props)
     this.state = {
@@ -30,6 +47,12 @@ export class ErrorBoundary extends Component<
     }
   }
 
+  /**
+   * Capture rendering errors from descendant components.
+   *
+   * @param error - Caught render error.
+   * @param info - React component stack metadata.
+   */
   override componentDidCatch(error: Error, info: ErrorInfo) {
     this.setState({
       error,
@@ -37,6 +60,9 @@ export class ErrorBoundary extends Component<
     })
   }
 
+  /**
+   * Render children or the configured fallback for the captured error.
+   */
   override render() {
     const { error, info } = this.state
     const errorMessage = String(error ?? '')

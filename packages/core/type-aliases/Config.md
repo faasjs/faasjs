@@ -4,6 +4,8 @@
 
 > **Config** = `object`
 
+Resolved config object loaded for a function.
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`
@@ -13,6 +15,8 @@
 ### plugins?
 
 > `optional` **plugins?**: `object`
+
+Plugin configuration keyed by plugin name.
 
 #### Index Signature
 

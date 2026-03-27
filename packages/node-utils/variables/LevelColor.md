@@ -4,6 +4,8 @@
 
 > `const` **LevelColor**: `object`
 
+Default ANSI color mapping for each log level.
+
 ## Type Declaration
 
 ### debug

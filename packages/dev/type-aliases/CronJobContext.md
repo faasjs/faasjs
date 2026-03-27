@@ -4,6 +4,8 @@
 
 > **CronJobContext** = `object`
 
+Runtime context passed to cron job handlers.
+
 ## Properties
 
 ### job

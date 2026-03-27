@@ -4,6 +4,8 @@
 
 > **GenerateFaasTypesResult** = `object`
 
+Result returned by [generateFaasTypes](../functions/generateFaasTypes.md).
+
 ## Properties
 
 ### changed

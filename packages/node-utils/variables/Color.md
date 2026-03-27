@@ -4,6 +4,8 @@
 
 > `const` **Color**: `object`
 
+ANSI color codes used by the built-in logger formatter.
+
 ## Type Declaration
 
 ### BLACK

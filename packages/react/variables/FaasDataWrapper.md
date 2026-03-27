@@ -4,6 +4,8 @@
 
 > `const` **FaasDataWrapper**: \<`PathOrData`\>(`props`) => `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\> \| `null`
 
+Fetch FaasJS data and inject the result into a render prop or child element.
+
 ## Type Parameters
 
 ### PathOrData

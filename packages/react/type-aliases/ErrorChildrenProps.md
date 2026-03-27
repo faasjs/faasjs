@@ -4,6 +4,8 @@
 
 > **ErrorChildrenProps** = `object`
 
+Props injected into a custom error fallback element.
+
 ## Properties
 
 ### error?

@@ -4,6 +4,8 @@
 
 > **HttpSetBody** = (`body`) => `void`
 
+Set the outgoing HTTP body payload.
+
 ## Parameters
 
 ### body

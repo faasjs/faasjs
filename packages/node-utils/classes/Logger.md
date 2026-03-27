@@ -234,29 +234,43 @@ Logger instance for chaining.
 
 > **colorfyOutput**: `boolean` = `true`
 
+Whether terminal output should use ANSI colors.
+
 ### disableTransport
 
 > **disableTransport**: `boolean` = `false`
+
+Disable forwarding log messages to the shared transport.
 
 ### label?
 
 > `optional` **label?**: `string`
 
+Optional label prefix included in log lines.
+
 ### level
 
 > **level**: [`Level`](../type-aliases/Level.md) = `'debug'`
+
+Minimum level that will be printed.
 
 ### silent
 
 > **silent**: `boolean` = `false`
 
+When true, suppresses all output.
+
 ### size
 
 > **size**: `number` = `1000`
 
+Maximum serialized payload size used by the formatter.
+
 ### stderr
 
 > **stderr**: (`text`) => `void` = `console.error`
+
+Output function used for error logs.
 
 #### Parameters
 
@@ -271,6 +285,8 @@ Logger instance for chaining.
 ### stdout
 
 > **stdout**: (`text`) => `void` = `console.log`
+
+Output function used for non-error logs.
 
 #### Parameters
 

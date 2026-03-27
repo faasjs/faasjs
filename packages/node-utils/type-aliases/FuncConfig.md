@@ -4,6 +4,8 @@
 
 > **FuncConfig** = `object`
 
+Resolved function config loaded from `faas.yaml`.
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`

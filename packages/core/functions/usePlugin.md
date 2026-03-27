@@ -4,6 +4,8 @@
 
 > **usePlugin**\<`T`\>(`plugin`): [`UseifyPlugin`](../type-aliases/UseifyPlugin.md)\<`T`\>
 
+Register a plugin for the next [useFunc](useFunc.md) call and ensure it has a mount helper.
+
 ## Type Parameters
 
 ### T
@@ -16,6 +18,10 @@
 
 `T` & `object`
 
+Plugin instance to register.
+
 ## Returns
 
 [`UseifyPlugin`](../type-aliases/UseifyPlugin.md)\<`T`\>
+
+The same plugin with a `mount()` convenience method.

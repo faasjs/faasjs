@@ -4,6 +4,8 @@
 
 > **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\> = (`event?`, `context?`, `callback?`) => `Promise`\<`TResult`\>
 
+Runtime-compatible handler signature exported by packaged FaasJS functions.
+
 ## Type Parameters
 
 ### TEvent

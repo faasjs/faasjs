@@ -5,18 +5,43 @@ import { Logger } from '@faasjs/node-utils'
 
 import { RunHandler } from '../plugins/run_handler'
 
+/**
+ * User-defined handler executed after plugins have prepared invoke data.
+ *
+ * @param data - Invocation data exposed to the handler.
+ * @returns Handler result that becomes the function response.
+ */
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
   data: InvokeData<TEvent, TContext>,
 ) => Promise<TResult>
 
+/**
+ * Continue to the next lifecycle hook in the current plugin chain.
+ */
 export type Next = () => Promise<void>
 
+/**
+ * Runtime-compatible handler returned by {@link Func.export}.
+ *
+ * @param event - Runtime event payload.
+ * @param context - Runtime context object.
+ * @param callback - Optional callback supplied by callback-based runtimes.
+ * @returns Final function response.
+ */
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
   context?: TContext,
   callback?: (...args: any) => any,
 ) => Promise<TResult>
 
+/**
+ * Lifecycle plugin attached to a {@link Func}.
+ *
+ * @property type - Stable plugin type identifier.
+ * @property name - Instance name used for ordering and logs.
+ * @property onMount - Optional hook that runs once before the first invoke.
+ * @property onInvoke - Optional hook that runs for every invocation.
+ */
 export type Plugin = {
   [key: string]: any
   readonly type: string
@@ -25,6 +50,11 @@ export type Plugin = {
   onInvoke?: (data: InvokeData, next: Next) => Promise<void>
 }
 
+/**
+ * Resolved config object loaded for a function.
+ *
+ * @property plugins - Plugin configuration keyed by plugin name.
+ */
 export type Config = {
   [key: string]: any
   plugins?: {
@@ -38,6 +68,13 @@ export type Config = {
   }
 }
 
+/**
+ * Data passed to plugin mount hooks.
+ *
+ * @property config - Function configuration available during mount.
+ * @property event - Initial event value used when mounting.
+ * @property context - Initial context value used when mounting.
+ */
 export type MountData = {
   [key: string]: any
   config: Config
@@ -53,6 +90,17 @@ type MutableMountData = {
   logger?: Logger
 }
 
+/**
+ * Mutable invocation state shared by plugins and the final handler.
+ *
+ * @property event - Runtime event payload.
+ * @property context - Runtime context payload.
+ * @property callback - Optional callback forwarded from the runtime.
+ * @property response - Response value produced by plugins or handlers.
+ * @property logger - Request-scoped logger instance.
+ * @property handler - Final business handler when one exists.
+ * @property config - Resolved function configuration.
+ */
 export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
   [key: string]: any
   event: TEvent
@@ -64,8 +112,17 @@ export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
   config: Config
 }
 
+/**
+ * Supported plugin lifecycle keys used by {@link Func}.
+ */
 export type LifeCycleKey = 'onMount' | 'onInvoke'
 
+/**
+ * Constructor options for {@link Func}.
+ *
+ * @property plugins - Ordered plugin list to attach before the run handler.
+ * @property handler - Final business handler invoked after plugins complete.
+ */
 export type FuncConfig<TEvent = any, TContext = any, TResult = any> = {
   plugins?: Plugin[]
   handler?: Handler<TEvent, TContext, TResult>
@@ -116,6 +173,12 @@ export type FuncEventType<T extends Func<any, any, any>> =
 export type FuncReturnType<T extends Func<any, any, any>> =
   T extends Func<any, any, infer R> ? R : any
 
+/**
+ * Extract a `.func.ts` file path from a captured stack trace.
+ *
+ * @param stack - Stack trace text to inspect.
+ * @returns Absolute or file URL converted source path when found.
+ */
 export function parseFuncFilenameFromStack(stack?: string): string | undefined {
   if (!stack) return
 
@@ -171,12 +234,34 @@ function normalizeMountData(
   return mountData as MountData
 }
 
+/**
+ * Core executable unit used by FaasJS runtimes and helpers.
+ *
+ * A {@link Func} composes lifecycle plugins, exposes a runtime handler via
+ * {@link Func.export}, and keeps function configuration available across mounts
+ * and invokes.
+ */
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any
+  /**
+   * Ordered plugin instances attached to this function.
+   */
   public plugins: Plugin[]
+  /**
+   * Final business handler invoked after plugins finish.
+   */
   public handler?: Handler<TEvent, TContext, TResult>
+  /**
+   * Mutable runtime configuration used by the function.
+   */
   public config: Config
+  /**
+   * Indicates whether mount hooks have already run.
+   */
   public mounted = false
+  /**
+   * Resolved source filename inferred from the constructor call stack.
+   */
   public filename?: string
   private cachedFunctions: {
     [cycleKey in LifeCycleKey]: CachedFunction[]
@@ -366,10 +451,19 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
 
 let plugins: Plugin[] = []
 
+/**
+ * Plugin type augmented with a convenience `mount()` helper.
+ */
 export type UseifyPlugin<T> = T & {
   mount: (data?: MountData) => Promise<T>
 }
 
+/**
+ * Register a plugin for the next {@link useFunc} call and ensure it has a mount helper.
+ *
+ * @param plugin - Plugin instance to register.
+ * @returns The same plugin with a `mount()` convenience method.
+ */
 export function usePlugin<T extends Plugin>(
   plugin: T & {
     mount?: (data?: MountData) => Promise<T>
@@ -392,7 +486,10 @@ export function usePlugin<T extends Plugin>(
 }
 
 /**
- * Create a cloud function.
+ * Create a {@link Func} from plugins registered through {@link usePlugin}.
+ *
+ * @param handler - Factory that returns the final business handler.
+ * @returns Function instance ready to export or test.
  */
 export function useFunc<TEvent = any, TContext = any, TResult = any>(
   handler: () => Handler<TEvent, TContext, TResult>,

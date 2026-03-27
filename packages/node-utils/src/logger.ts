@@ -54,13 +54,37 @@ export function formatLogger(fmt: any, ...args: any[]): string {
  * ```
  */
 export class Logger {
+  /**
+   * When true, suppresses all output.
+   */
   public silent = false
+  /**
+   * Minimum level that will be printed.
+   */
   public level: Level = 'debug'
+  /**
+   * Whether terminal output should use ANSI colors.
+   */
   public colorfyOutput = true
+  /**
+   * Optional label prefix included in log lines.
+   */
   public label?: string
+  /**
+   * Maximum serialized payload size used by the formatter.
+   */
   public size = 1000
+  /**
+   * Disable forwarding log messages to the shared transport.
+   */
   public disableTransport = false
+  /**
+   * Output function used for non-error logs.
+   */
   public stdout: (text: string) => void = console.log
+  /**
+   * Output function used for error logs.
+   */
   public stderr: (text: string) => void = console.error
   private cachedTimers: Record<string, Timer> = {}
 

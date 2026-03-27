@@ -11,6 +11,9 @@ import {
   respondWithJsonError,
 } from '../response-error'
 
+/**
+ * Event shape passed to middleware-backed functions.
+ */
 export type MiddlewareEvent = {
   body: any
   raw: {
@@ -19,10 +22,16 @@ export type MiddlewareEvent = {
   }
 }
 
+/**
+ * Context shared with middleware handlers.
+ */
 export type MiddlewareContext = {
   logger: Logger
 }
 
+/**
+ * Request middleware signature used by {@link useMiddleware} and {@link useMiddlewares}.
+ */
 export type Middleware = (
   request: IncomingMessage & { body?: any },
   response: ServerResponse,

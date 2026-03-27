@@ -2,6 +2,8 @@
 
 # Interface: TableItemProps\<T\>
 
+Column definition used by the FaasJS Ant Design [Table](../functions/Table.md) component.
+
 ## Extends
 
 - [`FaasItemProps`](FaasItemProps.md).`Omit`\<`AntdTableColumnProps`\<`T`\>, `"title"` \| `"children"` \| `"render"`\>

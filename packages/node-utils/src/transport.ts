@@ -63,13 +63,22 @@ export type TransportOptions = {
  */
 export class Transport {
   private enabled = true
+  /**
+   * Registered flush handlers keyed by name.
+   */
   public handlers: Map<string, TransportHandler> = new Map()
   private logger: Logger
+  /**
+   * Buffered messages waiting to be flushed.
+   */
   public messages: LoggerMessage[] = []
   private flushing = false
   private interval: NodeJS.Timeout | undefined
   private intervalTime = 5000
 
+  /**
+   * Create the shared transport and start its flush interval.
+   */
   constructor() {
     this.logger = new Logger('LoggerTransport')
     this.logger.level = 'info'

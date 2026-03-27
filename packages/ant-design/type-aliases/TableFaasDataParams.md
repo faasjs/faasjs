@@ -4,6 +4,8 @@
 
 > **TableFaasDataParams** = `object`
 
+Query params shape expected by table-backed FaasJS endpoints.
+
 ## Properties
 
 ### filters?

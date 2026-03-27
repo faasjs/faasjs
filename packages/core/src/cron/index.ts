@@ -12,16 +12,28 @@ type CronField = {
 
 type CronMatcher = (value: number) => boolean
 
+/**
+ * Runtime context passed to cron job handlers.
+ */
 export type CronJobContext = {
   now: Date
   logger: Logger
   job: CronJob
 }
 
+/**
+ * Handler invoked when a cron expression matches the current minute.
+ */
 export type CronJobHandler = (context: CronJobContext) => void | Promise<void>
 
+/**
+ * Error handler invoked when a cron job throws.
+ */
 export type CronJobErrorHandler = (error: Error, context: CronJobContext) => void | Promise<void>
 
+/**
+ * Options for creating a {@link CronJob}.
+ */
 export type CronJobOptions = {
   /**
    * Name of the cron job, used in logs.
@@ -141,8 +153,17 @@ function getDelayToNextMinute(nowMs = Date.now()): number {
  * Simple cron job scheduler with 5-field cron expression support.
  */
 export class CronJob {
+  /**
+   * Job name used in logs and registry helpers.
+   */
   public readonly name: string
+  /**
+   * Original 5-field cron expression.
+   */
   public readonly expression: string
+  /**
+   * Callback invoked when the expression matches.
+   */
   public readonly handler: CronJobHandler
   private readonly onError: CronJobErrorHandler | undefined
   private readonly logger: Logger
@@ -151,6 +172,11 @@ export class CronJob {
   private started = false
   private lastTickMinute = -1
 
+  /**
+   * Create a cron job from an expression and handler.
+   *
+   * @param options - Cron job options including expression, handler, and logger.
+   */
   constructor(options: CronJobOptions) {
     this.expression = options.expression
     this.handler = options.handler
@@ -160,6 +186,9 @@ export class CronJob {
     this.matchers = parseExpression(this.expression)
   }
 
+  /**
+   * Start checking the cron expression on minute boundaries.
+   */
   public start(): void {
     if (this.started) {
       this.logger.warn('start() has been called, skipped.')
@@ -173,6 +202,9 @@ export class CronJob {
     this.scheduleNext()
   }
 
+  /**
+   * Stop future cron checks for this job.
+   */
   public stop(): void {
     if (!this.started) return
 
@@ -186,6 +218,9 @@ export class CronJob {
     this.logger.debug('[stop]')
   }
 
+  /**
+   * Whether the cron job is currently scheduled.
+   */
   public get isStarted(): boolean {
     return this.started
   }

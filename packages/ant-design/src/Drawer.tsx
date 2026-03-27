@@ -4,10 +4,16 @@ import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
 
 export { Drawer }
 
+/**
+ * Props accepted by the hook-managed drawer wrapper.
+ */
 export interface DrawerProps extends AntdDrawerProps {
   children?: JSX.Element | JSX.Element[]
 }
 
+/**
+ * State setter used to update hook-managed drawer props.
+ */
 export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
 
 /**

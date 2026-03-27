@@ -4,6 +4,8 @@
 
 > **ResponseErrorProps** = `object`
 
+Input accepted by the [ResponseError](../classes/ResponseError.md) constructor.
+
 ## Properties
 
 ### body?

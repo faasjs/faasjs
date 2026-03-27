@@ -4,6 +4,8 @@
 
 > **FaasDataWrapperProps**\<`PathOrData`\> = `object`
 
+Props for the [FaasDataWrapper](../variables/FaasDataWrapper.md) render-prop component.
+
 ## Type Parameters
 
 ### PathOrData

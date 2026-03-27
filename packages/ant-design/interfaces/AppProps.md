@@ -2,6 +2,8 @@
 
 # Interface: AppProps
 
+Props for the root [App](../functions/App.md) shell.
+
 ## Properties
 
 ### browserRouterProps?

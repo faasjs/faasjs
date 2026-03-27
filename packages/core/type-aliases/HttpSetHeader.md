@@ -4,6 +4,8 @@
 
 > **HttpSetHeader** = (`key`, `value`) => `void`
 
+Set a response header by key.
+
 ## Parameters
 
 ### key

@@ -4,6 +4,8 @@
 
 > **ExtendFormTypeProps**\<`T`\> = `object`
 
+Custom renderer registration for a form item type.
+
 ## Type Parameters
 
 ### T

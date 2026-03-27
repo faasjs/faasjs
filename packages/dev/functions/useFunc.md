@@ -4,7 +4,7 @@
 
 > **useFunc**\<`TEvent`, `TContext`, `TResult`\>(`handler`): [`Func`](../classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
-Create a cloud function.
+Create a [Func](../classes/Func.md) from plugins registered through [usePlugin](usePlugin.md).
 
 ## Type Parameters
 
@@ -26,6 +26,10 @@ Create a cloud function.
 
 () => [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
+Factory that returns the final business handler.
+
 ## Returns
 
 [`Func`](../classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
+
+Function instance ready to export or test.

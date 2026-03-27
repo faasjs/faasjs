@@ -56,6 +56,12 @@ type CoreMountData<TEvent = any, TContext = any> = {
   logger?: any
 }
 
+/**
+ * Handler data passed to {@link defineApi}.
+ *
+ * Extends the normal invoke data with validated `params`, `cookie`, `session`,
+ * and any plugin-provided fields declared through `DefineApiInject`.
+ */
 export type DefineApiData<
   TSchema extends ZodType | undefined = undefined,
   TEvent = any,
@@ -75,6 +81,12 @@ export type DefineApiData<
  */
 export interface DefineApiInject extends Record<never, never> {}
 
+/**
+ * Options for creating a typed API function with {@link defineApi}.
+ *
+ * @property schema - Optional Zod schema used to validate `event.params`.
+ * @property handler - Async business handler executed after plugin and schema setup.
+ */
 export type DefineApiOptions<
   TSchema extends ZodType | undefined = undefined,
   TEvent = any,

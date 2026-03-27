@@ -98,31 +98,29 @@ Notes:
 
 ### Constructor
 
-> **new ResponseError**(`msg`, `options?`): `ResponseError`
+> **new ResponseError**(`data`, `options?`): `ResponseError`
 
 Create a ResponseError from a message, Error, or structured response error payload.
 
 #### Parameters
 
-##### msg
+##### data
 
 `string` \| `Error`
+
+Error message, Error object, or structured response error props.
 
 ##### options?
 
 `Omit`\<[`ResponseErrorProps`](../type-aliases/ResponseErrorProps.md), `"message"` \| `"originalError"`\>
 
+Additional options such as status, headers, and body.
+
 #### Returns
 
 `ResponseError`
 
-#### Param
-
-Error message, Error object, or structured response error props.
-
-#### Param
-
-Additional options such as status, headers, and body.
+ResponseError instance.
 
 #### Overrides
 
@@ -130,27 +128,17 @@ Additional options such as status, headers, and body.
 
 ### Constructor
 
-> **new ResponseError**(`props`): `ResponseError`
-
-Create a ResponseError from a message, Error, or structured response error payload.
+> **new ResponseError**(`data`): `ResponseError`
 
 #### Parameters
 
-##### props
+##### data
 
 [`ResponseErrorProps`](../type-aliases/ResponseErrorProps.md)
 
 #### Returns
 
 `ResponseError`
-
-#### Param
-
-Error message, Error object, or structured response error props.
-
-#### Param
-
-Additional options such as status, headers, and body.
 
 #### Overrides
 

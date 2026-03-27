@@ -4,6 +4,8 @@
 
 > **CronJobHandler** = (`context`) => `void` \| `Promise`\<`void`\>
 
+Handler invoked when a cron expression matches the current minute.
+
 ## Parameters
 
 ### context

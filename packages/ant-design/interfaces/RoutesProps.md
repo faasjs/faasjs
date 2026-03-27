@@ -2,6 +2,8 @@
 
 # Interface: RoutesProps
 
+Props for the lazy-loading [Routes](../functions/Routes.md) wrapper.
+
 ## Properties
 
 ### fallback?

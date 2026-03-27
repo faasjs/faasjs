@@ -4,6 +4,8 @@
 
 > **StaticHandlerOptions** = `object`
 
+Options for [staticHandler](../functions/staticHandler.md).
+
 ## Properties
 
 ### cache?

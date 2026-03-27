@@ -4,6 +4,8 @@
 
 > **HttpConfig** = `object`
 
+Configuration for the [Http](../classes/Http.md) plugin.
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`
@@ -13,6 +15,8 @@
 ### config?
 
 > `optional` **config?**: `object`
+
+Runtime HTTP behavior overrides.
 
 #### Index Signature
 
@@ -49,3 +53,5 @@ file relative path as default
 ### name?
 
 > `optional` **name?**: `string`
+
+Instance name used when mounting multiple HTTP plugins.

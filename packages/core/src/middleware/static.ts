@@ -10,6 +10,9 @@ import { respondWithInternalServerError } from '../response-error'
 import { nameFunc } from '../utils'
 import type { Middleware } from './middleware'
 
+/**
+ * Options for {@link staticHandler}.
+ */
 export type StaticHandlerOptions = {
   root: string
   /**

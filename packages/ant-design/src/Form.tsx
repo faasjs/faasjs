@@ -16,6 +16,9 @@ import { FormItem } from './FormItem'
 
 export type { ExtendFormTypeProps, ExtendFormItemProps }
 
+/**
+ * Props for the built-in submit button rendered by {@link Form}.
+ */
 export type FormSubmitProps = {
   /** Default: Submit */
   text?: string
@@ -55,6 +58,9 @@ export type FormFaasProps<Values extends Record<string, any> = any> = {
   onFinally?: () => void
 }
 
+/**
+ * Props for the FaasJS Ant Design {@link Form} component.
+ */
 export type FormProps<
   Values extends Record<string, any> = any,
   ExtendItemProps extends ExtendFormItemProps = ExtendFormItemProps,

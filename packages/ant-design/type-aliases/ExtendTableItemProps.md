@@ -4,6 +4,8 @@
 
 > **ExtendTableItemProps**\<`T`\> = [`BaseItemProps`](../interfaces/BaseItemProps.md) & `Omit`\<`AntdTableColumnProps`\<`T`\>, `"children"`\>
 
+Shared fields for extending table item unions.
+
 ## Type Parameters
 
 ### T

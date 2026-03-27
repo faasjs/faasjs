@@ -2,6 +2,8 @@
 
 # Interface: FaasItemProps
 
+Base item props plus the shared built-in value type selector.
+
 ## Extends
 
 - [`BaseItemProps`](BaseItemProps.md)

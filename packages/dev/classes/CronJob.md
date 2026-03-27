@@ -12,6 +12,8 @@ Simple cron job scheduler with 5-field cron expression support.
 
 > **get** **isStarted**(): `boolean`
 
+Whether the cron job is currently scheduled.
+
 ##### Returns
 
 `boolean`
@@ -22,11 +24,15 @@ Simple cron job scheduler with 5-field cron expression support.
 
 > **new CronJob**(`options`): `CronJob`
 
+Create a cron job from an expression and handler.
+
 #### Parameters
 
 ##### options
 
 [`CronJobOptions`](../type-aliases/CronJobOptions.md)
+
+Cron job options including expression, handler, and logger.
 
 #### Returns
 
@@ -38,6 +44,8 @@ Simple cron job scheduler with 5-field cron expression support.
 
 > **start**(): `void`
 
+Start checking the cron expression on minute boundaries.
+
 #### Returns
 
 `void`
@@ -45,6 +53,8 @@ Simple cron job scheduler with 5-field cron expression support.
 ### stop()
 
 > **stop**(): `void`
+
+Stop future cron checks for this job.
 
 #### Returns
 
@@ -56,10 +66,16 @@ Simple cron job scheduler with 5-field cron expression support.
 
 > `readonly` **expression**: `string`
 
+Original 5-field cron expression.
+
 ### handler
 
 > `readonly` **handler**: [`CronJobHandler`](../type-aliases/CronJobHandler.md)
 
+Callback invoked when the expression matches.
+
 ### name
 
 > `readonly` **name**: `string`
+
+Job name used in logs and registry helpers.

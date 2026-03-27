@@ -11,6 +11,9 @@ type YamlConfig = {
   [key: string]: any
 }
 
+/**
+ * Plugin config entry loaded from `faas.yaml`.
+ */
 export type FuncPluginConfig = {
   [key: string]: any
   type?: string
@@ -20,6 +23,9 @@ export type FuncPluginConfig = {
   name?: string
 }
 
+/**
+ * Resolved function config loaded from `faas.yaml`.
+ */
 export type FuncConfig = {
   [key: string]: any
   plugins?: {
@@ -78,15 +84,34 @@ function assignPluginNames(config: FuncConfig): void {
  */
 export class Config {
   [key: string]: any
+  /**
+   * Project root used while walking for `faas.yaml` files.
+   */
   public readonly root: string
+  /**
+   * Function filename used to derive nested config scopes.
+   */
   public readonly filename: string
+  /**
+   * Raw merged config tree keyed by stage name.
+   */
   public readonly origin: {
     [key: string]: FuncConfig
     defaults: FuncConfig
   }
+  /**
+   * Default config merged into every stage.
+   */
   public readonly defaults: FuncConfig
   private logger: Logger
 
+  /**
+   * Build a config reader for a function path.
+   *
+   * @param root - Project root.
+   * @param filename - Function filename used to resolve nested scopes.
+   * @param logger - Optional logger.
+   */
   constructor(root: string, filename: string, logger?: Logger) {
     this.logger = new Logger(logger?.label ? `${logger.label}] [config` : 'config')
 
@@ -127,13 +152,25 @@ export class Config {
     }
   }
 
+  /**
+   * Resolve config for a staging key, falling back to defaults.
+   *
+   * @param key - Staging name such as `development` or `production`.
+   * @returns Resolved stage config.
+   */
   public get(key: string): FuncConfig {
     return this[key] || this.defaults || Object.create(null)
   }
 }
 
 /**
- * Load configuration from faas.yaml
+ * Load resolved config for a function and staging.
+ *
+ * @param root - Project root.
+ * @param filename - Function filename.
+ * @param staging - Staging name to resolve.
+ * @param logger - Optional logger.
+ * @returns Resolved config for the requested staging.
  */
 export function loadConfig(
   root: string,

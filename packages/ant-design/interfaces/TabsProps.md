@@ -2,6 +2,8 @@
 
 # Interface: TabsProps
 
+Props for the FaasJS Ant Design [Tabs](../functions/Tabs.md) component.
+
 ## Extends
 
 - `Omit`\<`OriginProps`, `"items"`\>

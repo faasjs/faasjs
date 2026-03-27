@@ -1,12 +1,18 @@
 import type { Tab as OriginTabProps } from '@rc-component/tabs/lib/interface'
 import { Tabs as Origin, type TabsProps as OriginProps } from 'antd'
 
+/**
+ * Tab item accepted by the FaasJS Ant Design {@link Tabs} wrapper.
+ */
 export interface TabProps extends Partial<OriginTabProps> {
   id: string
   title?: React.ReactNode
   children: React.ReactNode
 }
 
+/**
+ * Props for the FaasJS Ant Design {@link Tabs} component.
+ */
 export interface TabsProps extends Omit<OriginProps, 'items'> {
   /** auto skip null tab */
   items: (TabProps | null | false)[]

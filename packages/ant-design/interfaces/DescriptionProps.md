@@ -2,6 +2,8 @@
 
 # Interface: DescriptionProps\<T, ExtendItemProps\>
 
+Props for the [Description](../functions/Description.md) component.
+
 ## Extends
 
 - `Omit`\<`DescriptionsProps`, `"items"`\>

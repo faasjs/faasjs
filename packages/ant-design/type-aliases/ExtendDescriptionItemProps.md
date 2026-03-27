@@ -3,3 +3,5 @@
 # Type Alias: ExtendDescriptionItemProps
 
 > **ExtendDescriptionItemProps** = [`BaseItemProps`](../interfaces/BaseItemProps.md)
+
+Shared fields for extending description item unions.

@@ -4,6 +4,8 @@
 
 > **useConfigContext**(): `ConfigContextValue`
 
+Read the current `@faasjs/ant-design` config context.
+
 ## Returns
 
 `ConfigContextValue`

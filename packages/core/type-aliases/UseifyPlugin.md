@@ -4,6 +4,8 @@
 
 > **UseifyPlugin**\<`T`\> = `T` & `object`
 
+Plugin type augmented with a convenience `mount()` helper.
+
 ## Type Declaration
 
 ### mount

@@ -3,6 +3,9 @@ import type { JSX } from 'react'
 
 import { useConfigContext } from './Config'
 
+/**
+ * Props for the {@link Blank} placeholder component.
+ */
 export interface BlankProps {
   value?: any
   text?: string

@@ -14,6 +14,9 @@ const clients: {
   [key: string]: FaasReactClientInstance
 } = {}
 
+/**
+ * Factory for per-request error handlers used by {@link FaasReactClient}.
+ */
 export type OnError = (
   action: string,
   params: Record<string, any>,

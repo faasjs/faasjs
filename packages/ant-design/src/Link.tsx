@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { useConfigContext } from './Config'
 
+/**
+ * Props for the navigation-aware {@link Link} component.
+ */
 export interface LinkProps {
   href: string
   target?: '_blank'

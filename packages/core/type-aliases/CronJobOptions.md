@@ -4,6 +4,8 @@
 
 > **CronJobOptions** = `object`
 
+Options for creating a [CronJob](../classes/CronJob.md).
+
 ## Properties
 
 ### expression

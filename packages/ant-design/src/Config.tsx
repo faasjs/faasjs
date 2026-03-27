@@ -4,6 +4,9 @@ import { type CSSProperties, createContext, useContext, useState } from 'react'
 
 import { FaasReactClient, type FaasReactClientOptions } from './FaasDataWrapper'
 
+/**
+ * Fully resolved theme object consumed by `@faasjs/ant-design` components.
+ */
 export type ResolvedTheme = {
   lang: string
   common: {
@@ -39,6 +42,9 @@ type ConfigContextValue = {
   theme: ResolvedTheme
 }
 
+/**
+ * Props for the `@faasjs/ant-design` {@link ConfigProvider}.
+ */
 export interface ConfigProviderProps {
   faasClientOptions?: FaasReactClientOptions
   children: React.ReactNode
@@ -114,6 +120,9 @@ const baseTheme: ResolvedTheme = {
   Link: { style: {} },
 }
 
+/**
+ * React context storing the resolved FaasJS Ant Design theme.
+ */
 export const ConfigContext = createContext<ConfigContextValue>({
   theme: baseTheme,
 })
@@ -159,6 +168,9 @@ export function ConfigProvider(props: ConfigProviderProps) {
   return <ConfigContext.Provider value={{ theme }}>{props.children}</ConfigContext.Provider>
 }
 
+/**
+ * Read the current `@faasjs/ant-design` config context.
+ */
 export function useConfigContext() {
   return useContext(ConfigContext)
 }

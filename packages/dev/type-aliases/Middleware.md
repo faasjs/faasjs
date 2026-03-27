@@ -4,6 +4,8 @@
 
 > **Middleware** = (`request`, `response`, `context`) => `void` \| `Promise`\<`void`\>
 
+Request middleware signature used by [useMiddleware](../functions/useMiddleware.md) and [useMiddlewares](../functions/useMiddlewares.md).
+
 ## Parameters
 
 ### request

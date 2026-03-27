@@ -2,6 +2,8 @@
 
 # Interface: DrawerProps
 
+Props accepted by the hook-managed drawer wrapper.
+
 ## Extends
 
 - `DrawerProps`

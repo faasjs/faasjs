@@ -3,6 +3,9 @@ import type { Logger } from '@faasjs/node-utils'
 
 import { Session, type SessionOptions } from './session'
 
+/**
+ * Cookie defaults and session integration options used by {@link Cookie}.
+ */
 export type CookieOptions = {
   domain?: string
   path?: string
@@ -24,19 +27,41 @@ type CookieConfig = {
   session: SessionOptions
 }
 
+/**
+ * Read, write, and serialize cookies for the HTTP plugin.
+ */
 export class Cookie<
   C extends Record<string, string> = any,
   S extends Record<string, string> = any,
 > {
+  /**
+   * Session helper bound to this cookie store.
+   */
   public session: Session<S, C>
+  /**
+   * Parsed cookie key-value pairs for the current request.
+   */
   public content: Record<string, string>
+  /**
+   * Normalized cookie configuration with defaults applied.
+   */
   public readonly config: CookieConfig
+  /**
+   * Optional logger used for warnings and debug output.
+   */
   public logger: Logger | undefined
 
   private setCookie: {
     [key: string]: string
   }
 
+  /**
+   * Create a cookie manager.
+   *
+   * @param config - Cookie defaults including session settings.
+   * @param logger - Optional logger used by cookie and session helpers.
+   * @param options - Internal template reuse options.
+   */
   constructor(
     config: CookieOptions,
     logger?: Logger,
@@ -69,12 +94,25 @@ export class Cookie<
     this.setCookie = Object.create(null)
   }
 
+  /**
+   * Clone the cookie manager while reusing normalized config and secrets.
+   *
+   * @param logger - Optional logger for the forked instance.
+   * @returns Forked cookie manager for a single invocation.
+   */
   public fork(logger?: Logger): Cookie<C, S> {
     return new Cookie(this.config, logger, {
       template: this,
     })
   }
 
+  /**
+   * Load request cookies and bootstrap the related session state.
+   *
+   * @param cookie - Raw `Cookie` header value.
+   * @param logger - Logger forwarded to the session helper.
+   * @returns Current cookie manager for chaining.
+   */
   public invoke(cookie: string | undefined, logger: Logger): Cookie<C, S> {
     this.content = Object.create(null)
 
@@ -96,10 +134,24 @@ export class Cookie<
     return this
   }
 
+  /**
+   * Read a cookie value by key.
+   *
+   * @param key - Cookie name.
+   * @returns Decoded cookie value for the current request.
+   */
   public read(key: string): any {
     return this.content[key]
   }
 
+  /**
+   * Queue a cookie write or removal for the outgoing response.
+   *
+   * @param key - Cookie name.
+   * @param value - Cookie value, or `null`/`undefined` to expire it.
+   * @param opts - Per-cookie attribute overrides.
+   * @returns Current cookie manager for chaining.
+   */
   public write(
     key: string,
     value: string | null | undefined,
@@ -143,6 +195,11 @@ export class Cookie<
     return this
   }
 
+  /**
+   * Build `Set-Cookie` headers for queued writes.
+   *
+   * @returns Header bag suitable for merging into an HTTP response.
+   */
   public headers(): { 'Set-Cookie'?: string[] } {
     if (Object.keys(this.setCookie).length === 0) return {}
 

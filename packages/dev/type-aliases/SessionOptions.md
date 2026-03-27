@@ -4,6 +4,8 @@
 
 > **SessionOptions** = `object`
 
+Encryption and signing options for the [Session](../classes/Session.md) helper.
+
 ## Properties
 
 ### cipherName?

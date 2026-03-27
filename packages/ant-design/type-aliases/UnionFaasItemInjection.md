@@ -4,6 +4,8 @@
 
 > **UnionFaasItemInjection**\<`Value`, `Values`\> = `object`
 
+Props injected into custom union item components.
+
 ## Type Parameters
 
 ### Value

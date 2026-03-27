@@ -4,6 +4,8 @@
 
 > **MiddlewareContext** = `object`
 
+Context shared with middleware handlers.
+
 ## Properties
 
 ### logger

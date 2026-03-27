@@ -2,6 +2,12 @@
 
 # Class: Func\<TEvent, TContext, TResult\>
 
+Core executable unit used by FaasJS runtimes and helpers.
+
+A Func composes lifecycle plugins, exposes a runtime handler via
+[Func.export](#export), and keeps function configuration available across mounts
+and invokes.
+
 ## Type Parameters
 
 ### TEvent
@@ -106,18 +112,28 @@ First time mount the function.
 
 > **config**: [`Config`](../type-aliases/Config.md)
 
+Mutable runtime configuration used by the function.
+
 ### filename?
 
 > `optional` **filename?**: `string`
+
+Resolved source filename inferred from the constructor call stack.
 
 ### handler?
 
 > `optional` **handler?**: [`Handler`](../type-aliases/Handler.md)\<`TEvent`, `TContext`, `TResult`\>
 
+Final business handler invoked after plugins finish.
+
 ### mounted
 
 > **mounted**: `boolean` = `false`
 
+Indicates whether mount hooks have already run.
+
 ### plugins
 
 > **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
+
+Ordered plugin instances attached to this function.

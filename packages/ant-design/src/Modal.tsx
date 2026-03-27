@@ -4,10 +4,16 @@ import { type Dispatch, type JSX, type SetStateAction, useState } from 'react'
 
 export { Modal }
 
+/**
+ * Props accepted by the hook-managed modal wrapper.
+ */
 export interface ModalProps extends AntdModalProps {
   children?: JSX.Element | JSX.Element[] | string
 }
 
+/**
+ * State setter used to update hook-managed modal props.
+ */
 export type setModalProps = Dispatch<SetStateAction<ModalProps>>
 
 /**

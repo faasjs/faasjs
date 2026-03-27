@@ -17,13 +17,22 @@ import {
 } from './data'
 import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
 
+/**
+ * Custom renderer registration for a description item type.
+ */
 export interface ExtendDescriptionTypeProps<T = any> {
   children?: UnionFaasItemElement<T>
   render?: UnionFaasItemRender<T>
 }
 
+/**
+ * Shared fields for extending description item unions.
+ */
 export type ExtendDescriptionItemProps = BaseItemProps
 
+/**
+ * Item definition used by {@link Description}.
+ */
 export interface DescriptionItemProps<T = any> extends FaasItemProps {
   children?: UnionFaasItemElement<T> | null
   descriptionChildren?: UnionFaasItemElement<T> | null
@@ -33,6 +42,9 @@ export interface DescriptionItemProps<T = any> extends FaasItemProps {
   object?: DescriptionItemProps<T>[]
 }
 
+/**
+ * Props for the {@link Description} component.
+ */
 export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
   DescriptionsProps,
   'items'
@@ -46,6 +58,9 @@ export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
   faasData?: FaasDataWrapperProps<any>
 }
 
+/**
+ * Props passed to the exported `DescriptionItemContent` helper shape.
+ */
 export interface DescriptionItemContentProps<T = any> {
   item: DescriptionItemProps
   value: T

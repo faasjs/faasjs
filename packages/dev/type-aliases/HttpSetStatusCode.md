@@ -4,6 +4,8 @@
 
 > **HttpSetStatusCode** = (`code`) => `void`
 
+Set the outgoing HTTP status code.
+
 ## Parameters
 
 ### code

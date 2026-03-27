@@ -4,6 +4,8 @@
 
 > **FormProps**\<`Values`, `ExtendItemProps`\> = `Omit`\<`AntdFormProps`\<`Values`\>, `"onFinish"` \| `"children"` \| `"initialValues"`\> & `object` & \{ `faas?`: [`FormFaasProps`](FormFaasProps.md)\<`Values`\>; `onFinish?`: `never`; \} \| \{ `faas?`: `never`; `onFinish?`: (`values`) => `void` \| `Promise`\<`void`\>; \}
 
+Props for the FaasJS Ant Design [Form](../functions/Form.md) component.
+
 ## Type Declaration
 
 ### beforeItems?

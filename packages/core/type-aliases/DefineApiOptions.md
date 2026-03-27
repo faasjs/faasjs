@@ -4,6 +4,8 @@
 
 > **DefineApiOptions**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = `object`
 
+Options for creating a typed API function with [defineApi](../functions/defineApi.md).
+
 ## Type Parameters
 
 ### TSchema
@@ -28,6 +30,8 @@
 
 > **handler**: (`data`) => `Promise`\<`TResult`\>
 
+Async business handler executed after plugin and schema setup.
+
 #### Parameters
 
 ##### data
@@ -41,3 +45,5 @@
 ### schema?
 
 > `optional` **schema?**: `TSchema`
+
+Optional Zod schema used to validate `event.params`.

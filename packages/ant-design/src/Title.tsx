@@ -3,6 +3,9 @@ import { cloneElement, type JSX } from 'react'
 
 import { useConfigContext } from './Config'
 
+/**
+ * Props for the document-title helper component.
+ */
 export interface TitleProps {
   title: string | string[]
   /** ` - ` as default */

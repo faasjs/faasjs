@@ -51,6 +51,8 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 > **handler**\<`TResult`\>(`event?`, `context?`): `Promise`\<`TResult`\>
 
+Invoke the wrapped function with raw event and context payloads.
+
 #### Type Parameters
 
 ##### TResult
@@ -63,17 +65,25 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 `any` = `...`
 
+Runtime event to pass to the exported handler.
+
 ##### context?
 
 `any` = `...`
+
+Runtime context to pass to the exported handler.
 
 #### Returns
 
 `Promise`\<`TResult`\>
 
+Handler result.
+
 ### JSONhandler()
 
 > **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{\[`key`: `string`\]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
+
+Invoke an HTTP-enabled function with JSON body helpers and decoded cookies.
 
 #### Type Parameters
 
@@ -87,7 +97,11 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 `JSONhandlerBody`\<`TFunc`\>
 
+Request body object or raw JSON string.
+
 ##### options?
+
+Extra headers, request cookies, and session seed values.
 
 ###### cookie?
 
@@ -105,15 +119,25 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 `Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{\[`key`: `string`\]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
 
+Normalized HTTP response payload for assertions.
+
+#### Throws
+
+When the wrapped function does not use the HTTP plugin.
+
 ### mount()
 
 > **mount**(`handler?`): `Promise`\<`void`\>
+
+Mount the wrapped function once before running assertions.
 
 #### Parameters
 
 ##### handler?
 
 (`func`) => `void` \| `Promise`\<`void`\>
+
+Optional callback invoked after mount.
 
 #### Returns
 
@@ -125,18 +149,28 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 
 > `readonly` **config**: [`Config`](../type-aliases/Config.md)
 
+Resolved config attached to the wrapped function.
+
 ### file
 
 > `readonly` **file**: `string`
+
+Source file path inferred from the wrapped function.
 
 ### func
 
 > `readonly` **func**: `TFunc`
 
+Wrapped function instance.
+
 ### logger
 
 > `readonly` **logger**: `Logger`
 
+Logger used by helper methods.
+
 ### staging
 
 > `readonly` **staging**: `string`
+
+Active staging name used while loading config.

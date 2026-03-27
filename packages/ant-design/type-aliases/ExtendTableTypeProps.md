@@ -4,6 +4,8 @@
 
 > **ExtendTableTypeProps**\<`T`\> = `object`
 
+Custom renderer registration for a table item type.
+
 ## Type Parameters
 
 ### T

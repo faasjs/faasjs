@@ -2,6 +2,8 @@
 
 # Interface: FaasDataWrapperProps\<T\>
 
+Ant Design wrapper props for the underlying `@faasjs/react` data wrapper.
+
 ## Extends
 
 - `FaasDataWrapperProps`\<`T`\>

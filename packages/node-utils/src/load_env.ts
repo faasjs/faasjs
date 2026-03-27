@@ -2,6 +2,9 @@ import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { loadEnvFile } from 'node:process'
 
+/**
+ * Options for {@link loadEnvFileIfExists}.
+ */
 export type LoadEnvFileIfExistsOptions = {
   cwd?: string
   filename?: string

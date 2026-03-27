@@ -2,6 +2,8 @@
 
 # Class: HttpError
 
+Error type that carries an HTTP status code for JSON error responses.
+
 ## Extends
 
 - `Error`
@@ -10,11 +12,15 @@
 
 ### Constructor
 
-> **new HttpError**(`__namedParameters`): `HttpError`
+> **new HttpError**(`options`): `HttpError`
+
+Create an HTTP error with a status code and user-facing message.
 
 #### Parameters
 
-##### \_\_namedParameters
+##### options
+
+Error details.
 
 ###### message
 
@@ -38,6 +44,8 @@
 
 > `readonly` **message**: `string`
 
+Error message exposed to callers.
+
 #### Overrides
 
 `Error.message`
@@ -45,3 +53,5 @@
 ### statusCode
 
 > `readonly` **statusCode**: `number`
+
+HTTP status code returned to the client.

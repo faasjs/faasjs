@@ -38,10 +38,25 @@ type JSONhandlerBody<TFunc extends Func<any, any, any>> =
  * ```
  */
 export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>> {
+  /**
+   * Source file path inferred from the wrapped function.
+   */
   public readonly file: string
+  /**
+   * Active staging name used while loading config.
+   */
   public readonly staging: string
+  /**
+   * Logger used by helper methods.
+   */
   public readonly logger: Logger
+  /**
+   * Wrapped function instance.
+   */
   public readonly func: TFunc
+  /**
+   * Resolved config attached to the wrapped function.
+   */
   public readonly config: Config
   private readonly _handler: ExportedHandler
 
@@ -72,6 +87,11 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
     this._handler = this.func.export().handler
   }
 
+  /**
+   * Mount the wrapped function once before running assertions.
+   *
+   * @param handler - Optional callback invoked after mount.
+   */
   public async mount(handler?: (func: FuncWarper<TFunc>) => Promise<void> | void): Promise<void> {
     if (!this.func.mounted) {
       await this.func.mount()
@@ -80,6 +100,13 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
     if (handler) await handler(this)
   }
 
+  /**
+   * Invoke the wrapped function with raw event and context payloads.
+   *
+   * @param event - Runtime event to pass to the exported handler.
+   * @param context - Runtime context to pass to the exported handler.
+   * @returns Handler result.
+   */
   public async handler<TResult = any>(
     event: any = Object.create(null),
     context: any = Object.create(null),
@@ -92,6 +119,14 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
     return response
   }
 
+  /**
+   * Invoke an HTTP-enabled function with JSON body helpers and decoded cookies.
+   *
+   * @param body - Request body object or raw JSON string.
+   * @param options - Extra headers, request cookies, and session seed values.
+   * @returns Normalized HTTP response payload for assertions.
+   * @throws {Error} When the wrapped function does not use the HTTP plugin.
+   */
   public async JSONhandler<TData = any>(
     body?: JSONhandlerBody<TFunc>,
     options: {

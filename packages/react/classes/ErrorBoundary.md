@@ -2,6 +2,8 @@
 
 # Class: ErrorBoundary
 
+React error boundary with an optional custom fallback element.
+
 ## Extends
 
 - `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), \{ `error`: `Error` \| `null`; `info`: `ErrorInfo`; \}\>
@@ -12,11 +14,15 @@
 
 > **new ErrorBoundary**(`props`): `ErrorBoundary`
 
+Create an error boundary with empty error state.
+
 #### Parameters
 
 ##### props
 
 [`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md)
+
+Boundary props.
 
 #### Returns
 
@@ -32,8 +38,7 @@ Component\< ErrorBoundaryProps, \{ error: Error \| null info: ErrorInfo \} \>.co
 
 > **componentDidCatch**(`error`, `info`): `void`
 
-Catches exceptions generated in descendant components. Unhandled exceptions will cause
-the entire component tree to unmount.
+Capture rendering errors from descendant components.
 
 #### Parameters
 
@@ -41,9 +46,13 @@ the entire component tree to unmount.
 
 `Error`
 
+Caught render error.
+
 ##### info
 
 `ErrorInfo`
+
+React component stack metadata.
 
 #### Returns
 
@@ -56,6 +65,8 @@ the entire component tree to unmount.
 ### render()
 
 > **render**(): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null`
+
+Render children or the configured fallback for the captured error.
 
 #### Returns
 
@@ -70,3 +81,5 @@ the entire component tree to unmount.
 ### displayName
 
 > `static` **displayName**: `string` = `'ErrorBoundary'`
+
+Stable display name used by React DevTools.

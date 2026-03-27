@@ -5,6 +5,9 @@ import type { NotificationInstance } from 'antd/es/notification/interface'
 import type { DrawerProps, setDrawerProps } from './Drawer'
 import type { ModalProps, setModalProps } from './Modal'
 
+/**
+ * Shared app services exposed by {@link AppContext} and {@link useApp}.
+ */
 export interface useAppProps {
   message: MessageInstance
   notification: NotificationInstance
@@ -14,6 +17,9 @@ export interface useAppProps {
   setDrawerProps: setDrawerProps
 }
 
+/**
+ * Shared context storing message, notification, modal, and drawer helpers.
+ */
 export const AppContext = createSplittingContext<useAppProps>([
   'message',
   'notification',

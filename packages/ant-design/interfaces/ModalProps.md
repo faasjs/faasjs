@@ -2,6 +2,8 @@
 
 # Interface: ModalProps
 
+Props accepted by the hook-managed modal wrapper.
+
 ## Extends
 
 - `ModalProps`

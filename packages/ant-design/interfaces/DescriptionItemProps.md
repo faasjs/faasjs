@@ -2,6 +2,8 @@
 
 # Interface: DescriptionItemProps\<T\>
 
+Item definition used by [Description](../functions/Description.md).
+
 ## Extends
 
 - [`FaasItemProps`](FaasItemProps.md)

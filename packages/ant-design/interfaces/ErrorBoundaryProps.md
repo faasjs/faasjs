@@ -2,6 +2,8 @@
 
 # Interface: ErrorBoundaryProps
 
+Props for the [ErrorBoundary](../functions/ErrorBoundary.md) component.
+
 ## Properties
 
 ### children?

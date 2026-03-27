@@ -28,6 +28,9 @@ export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
   setError: React.Dispatch<React.SetStateAction<any>>
 }
 
+/**
+ * Props for the {@link FaasDataWrapper} render-prop component.
+ */
 export type FaasDataWrapperProps<PathOrData extends FaasActionUnionType> = {
   render?(args: FaasDataInjection<PathOrData>): JSX.Element | JSX.Element[]
   children?: React.ReactElement<Partial<FaasDataInjection<PathOrData>>>
@@ -43,6 +46,9 @@ export type FaasDataWrapperProps<PathOrData extends FaasActionUnionType> = {
   ref?: React.Ref<FaasDataWrapperRef<PathOrData>>
 }
 
+/**
+ * Imperative ref shape exposed by {@link FaasDataWrapper}.
+ */
 export type FaasDataWrapperRef<PathOrData extends FaasActionUnionType = any> =
   FaasDataInjection<PathOrData>
 
@@ -52,6 +58,9 @@ type FixedForwardRef = <T, P = Record<string, unknown>>(
 
 const fixedForwardRef = forwardRef as FixedForwardRef
 
+/**
+ * Fetch FaasJS data and inject the result into a render prop or child element.
+ */
 export const FaasDataWrapper = fixedForwardRef(
   <PathOrData extends FaasActionUnionType = any>(
     props: FaasDataWrapperProps<PathOrData>,

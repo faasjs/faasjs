@@ -4,6 +4,8 @@
 
 > **GenerateFaasTypesOptions** = `object`
 
+Options for generating `@faasjs/types` route declarations.
+
 ## Properties
 
 ### logger?

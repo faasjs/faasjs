@@ -17,6 +17,9 @@ export { Cookie, type CookieOptions } from './cookie'
 
 export { Session, type SessionContent, type SessionOptions } from './session'
 
+/**
+ * Common content type aliases used by the HTTP plugin.
+ */
 export const ContentType: {
   [key: string]: string
 } = {
@@ -30,6 +33,12 @@ export const ContentType: {
   jsonp: 'application/javascript',
 }
 
+/**
+ * Configuration for the {@link Http} plugin.
+ *
+ * @property name - Instance name used when mounting multiple HTTP plugins.
+ * @property config - Runtime HTTP behavior overrides.
+ */
 export type HttpConfig = {
   [key: string]: any
   name?: string
@@ -56,6 +65,14 @@ export type HttpConfig = {
   }
 }
 
+/**
+ * Serializable HTTP response shape produced by FaasJS HTTP handlers.
+ *
+ * @property statusCode - HTTP status code to send.
+ * @property headers - Response headers keyed by header name.
+ * @property body - Plain string body or stream payload.
+ * @property message - Optional response message.
+ */
 export type Response = {
   statusCode?: number
   headers?: {
@@ -65,10 +82,25 @@ export type Response = {
   message?: string
 }
 
+/**
+ * Non-undefined HTTP response body value.
+ */
 export type HttpResponseBody = Exclude<Response['body'], undefined>
+/**
+ * Set a response header by key.
+ */
 export type HttpSetHeader = (key: string, value: string) => void
+/**
+ * Set the response content type, optionally overriding the charset.
+ */
 export type HttpSetContentType = (type: string, charset?: string) => void
+/**
+ * Set the outgoing HTTP status code.
+ */
 export type HttpSetStatusCode = (code: number) => void
+/**
+ * Set the outgoing HTTP body payload.
+ */
 export type HttpSetBody = (body: HttpResponseBody) => void
 
 type HttpInvokeState<
@@ -88,10 +120,24 @@ type HttpInvokeState<
   setBody: HttpSetBody
 }
 
+/**
+ * Error type that carries an HTTP status code for JSON error responses.
+ */
 export class HttpError extends Error {
+  /**
+   * HTTP status code returned to the client.
+   */
   public readonly statusCode: number
+  /**
+   * Error message exposed to callers.
+   */
   public override readonly message: string
 
+  /**
+   * Create an HTTP error with a status code and user-facing message.
+   *
+   * @param options - Error details.
+   */
   constructor({ statusCode, message }: { statusCode?: number; message: string }) {
     super(message)
 
@@ -142,17 +188,34 @@ function createCompressedStream(
   })
 }
 
+/**
+ * HTTP lifecycle plugin that enriches invoke data with cookies, sessions, and response helpers.
+ */
 export class Http<
   TParams extends Record<string, any> = any,
   TCookie extends Record<string, string> = any,
   TSession extends Record<string, string> = any,
 > implements Plugin {
+  /**
+   * Stable plugin type identifier.
+   */
   public readonly type = 'http'
+  /**
+   * Plugin instance name used in config lookup and logs.
+   */
   public readonly name: string = Name
 
+  /**
+   * Active HTTP plugin configuration after mount-time merging.
+   */
   public config: HttpConfig
   private cookieTemplate!: Cookie<TCookie, TSession>
 
+  /**
+   * Create an HTTP plugin instance.
+   *
+   * @param config - Optional plugin name and HTTP configuration overrides.
+   */
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
@@ -211,6 +274,13 @@ export class Http<
     data.setBody = state.setBody
   }
 
+  /**
+   * Merge environment and function config into the plugin before first invoke.
+   *
+   * @param data - Mount data supplied by the parent function.
+   * @param next - Continuation for the remaining mount chain.
+   * @throws {Error} When function config is unavailable.
+   */
   public async onMount(data: MountData, next: Next): Promise<void> {
     data.logger.debug('merge config')
 
@@ -245,6 +315,12 @@ export class Http<
     await next()
   }
 
+  /**
+   * Attach HTTP helpers, cookies, sessions, and response handling to invoke data.
+   *
+   * @param data - Invocation data for the current request.
+   * @param next - Continuation for the remaining invoke chain.
+   */
   public async onInvoke(data: InvokeData, next: Next): Promise<void> {
     const state = this.createInvokeState(data)
 

@@ -12,6 +12,9 @@ import { ErrorBoundary, type ErrorBoundaryProps } from './ErrorBoundary'
 import { useModal } from './Modal'
 import { AppContext, useApp } from './useApp'
 
+/**
+ * Props for the root {@link App} shell.
+ */
 export interface AppProps {
   children: React.ReactNode
   /** @see https://ant.design/components/config-provider/#API */

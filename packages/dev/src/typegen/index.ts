@@ -12,6 +12,9 @@ type RouteTypeItem = {
   priority: number
 }
 
+/**
+ * Options for generating `@faasjs/types` route declarations.
+ */
 export type GenerateFaasTypesOptions = {
   /** faas project root path, default is process.cwd() */
   root?: string
@@ -19,6 +22,9 @@ export type GenerateFaasTypesOptions = {
   logger?: Logger
 }
 
+/**
+ * Result returned by {@link generateFaasTypes}.
+ */
 export type GenerateFaasTypesResult = {
   output: string
   changed: boolean
@@ -122,10 +128,22 @@ ${actionLines.length ? `${actionLines.join('\n')}\n` : ''}  }
 `
 }
 
+/**
+ * Determine whether a file change should trigger Faas type generation.
+ *
+ * @param filePath - Absolute or relative file path.
+ * @returns `true` for `.func.ts` files and `faas.yaml` updates.
+ */
 export function isTypegenSourceFile(filePath: string): boolean {
   return filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath)
 }
 
+/**
+ * Generate `src/.faasjs/types.d.ts` for a FaasJS project.
+ *
+ * @param options - Project root and optional logger.
+ * @returns Summary describing the generated file and discovered routes.
+ */
 export async function generateFaasTypes(
   options: GenerateFaasTypesOptions = {},
 ): Promise<GenerateFaasTypesResult> {
