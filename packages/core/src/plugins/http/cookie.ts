@@ -14,46 +14,65 @@ export type CookieOptions = {
   [key: string]: any
 }
 
+type CookieConfig = {
+  domain?: string
+  path: string
+  expires: number
+  secure: boolean
+  httpOnly: boolean
+  sameSite?: 'Strict' | 'Lax' | 'None'
+  session: SessionOptions
+}
+
 export class Cookie<
   C extends Record<string, string> = any,
   S extends Record<string, string> = any,
 > {
   public session: Session<S, C>
   public content: Record<string, string>
-  public readonly config: {
-    domain?: string
-    path: string
-    expires: number
-    secure: boolean
-    httpOnly: boolean
-    sameSite?: 'Strict' | 'Lax' | 'None'
-    session: SessionOptions
-  }
+  public readonly config: CookieConfig
   public logger: Logger | undefined
 
   private setCookie: {
     [key: string]: string
   }
 
-  constructor(config: CookieOptions, logger?: Logger) {
+  constructor(
+    config: CookieOptions,
+    logger?: Logger,
+    options?: {
+      template?: Cookie<C, S>
+    },
+  ) {
     this.logger = logger
 
-    this.config = deepMerge(
-      {
-        path: '/',
-        expires: 31536000,
-        secure: true,
-        httpOnly: true,
-        session: {},
-      },
-      config,
-    )
+    if (options?.template) {
+      this.config = options.template.config
+      this.session = options.template.session.fork(this)
+    } else {
+      this.config = deepMerge(
+        {
+          path: '/',
+          expires: 31536000,
+          secure: true,
+          httpOnly: true,
+          session: {},
+        },
+        config,
+      ) as CookieConfig
 
-    this.session = new Session(this, this.config.session)
+      this.session = new Session(this, this.config.session)
+    }
 
     this.content = Object.create(null)
 
     this.setCookie = Object.create(null)
+  }
+
+  public fork(logger?: Logger): Cookie<C, S> {
+    return new Cookie(this.config, logger, {
+      template: this,
+    })
   }
 
   public invoke(cookie: string | undefined, logger: Logger): Cookie<C, S> {

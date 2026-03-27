@@ -17,64 +17,88 @@ export type SessionOptions = {
 
 export type SessionContent = string | number | { [key: string]: any } | null | undefined
 
+type SessionConfig = {
+  key: string
+  secret: string
+  salt: string
+  signedSalt: string
+  keylen: number
+  iterations: number
+  digest: string
+  cipherName: string
+}
+
+type SessionSecrets = {
+  secret: Buffer
+  signedSecret: Buffer
+}
+
 export class Session<
   S extends Record<string, string> = any,
   C extends Record<string, string> = any,
 > {
   public content: Record<string, string | number>
 
-  public readonly config: {
-    key: string
-    secret: string
-    salt: string
-    signedSalt: string
-    keylen: number
-    iterations: number
-    digest: string
-    cipherName: string
-  }
+  public readonly config: SessionConfig
 
   private readonly secret: Buffer
   private readonly signedSecret: Buffer
   private readonly cookie: Cookie<C, S>
   private changed?: boolean
 
-  constructor(cookie: Cookie<C, S>, config: SessionOptions) {
+  constructor(
+    cookie: Cookie<C, S>,
+    config: SessionOptions | SessionConfig,
+    secrets?: SessionSecrets,
+  ) {
     this.cookie = cookie
 
-    if (!config?.secret) cookie.logger?.warn("Session's secret is missing.")
+    if (secrets) {
+      this.config = config as SessionConfig
+      this.secret = secrets.secret
+      this.signedSecret = secrets.signedSecret
+    } else {
+      if (!config?.secret) cookie.logger?.warn("Session's secret is missing.")
 
-    this.config = Object.assign(
-      {
-        key: 'key',
-        secret: randomBytes(128).toString('hex'),
-        salt: 'salt',
-        signedSalt: 'signedSalt',
-        keylen: 64,
-        iterations: 100,
-        digest: 'sha256',
-        cipherName: 'aes-256-cbc',
-      },
-      config,
-    )
+      this.config = Object.assign(
+        {
+          key: 'key',
+          secret: randomBytes(128).toString('hex'),
+          salt: 'salt',
+          signedSalt: 'signedSalt',
+          keylen: 64,
+          iterations: 100,
+          digest: 'sha256',
+          cipherName: 'aes-256-cbc',
+        },
+        config,
+      )
 
-    this.secret = pbkdf2Sync(
-      this.config.secret,
-      this.config.salt,
-      this.config.iterations,
-      this.config.keylen / 2,
-      this.config.digest,
-    )
+      this.secret = pbkdf2Sync(
+        this.config.secret,
+        this.config.salt,
+        this.config.iterations,
+        this.config.keylen / 2,
+        this.config.digest,
+      )
 
-    this.signedSecret = pbkdf2Sync(
-      this.config.secret,
-      this.config.signedSalt,
-      this.config.iterations,
-      this.config.keylen,
-      this.config.digest,
-    )
+      this.signedSecret = pbkdf2Sync(
+        this.config.secret,
+        this.config.signedSalt,
+        this.config.iterations,
+        this.config.keylen,
+        this.config.digest,
+      )
+    }
 
     this.content = Object.create(null)
+  }
+
+  public fork(cookie: Cookie<C, S>): Session<S, C> {
+    return new Session(cookie, this.config, {
+      secret: this.secret,
+      signedSecret: this.signedSecret,
+    })
   }
 
   public invoke(cookie?: string, logger?: Logger): void {

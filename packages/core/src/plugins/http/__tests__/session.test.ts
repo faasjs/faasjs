@@ -72,6 +72,77 @@ describe('session', () => {
 
       expect(res.body).toBeUndefined()
     })
+
+    it('isolates session between concurrent requests', async () => {
+      let pending = 0
+      let release: (() => void) | undefined
+      const ready = new Promise<void>((resolve) => {
+        release = resolve
+      })
+
+      const http = new Http()
+      const func = new Func({
+        plugins: [http],
+        async handler(data: InvokeData) {
+          const first = data.session.read('value')
+
+          pending += 1
+          if (pending === 2) release?.()
+
+          await ready
+
+          return {
+            first,
+            seen: data.session.read('value'),
+          }
+        },
+      })
+      func.config = {
+        plugins: {
+          http: {
+            type: 'http',
+            config: {
+              cookie: {
+                session: {
+                  key: 'key',
+                  secret: 'secret',
+                },
+              },
+            },
+          },
+        },
+      }
+
+      const handler = func.export().handler
+      const session = new Cookie({
+        session: {
+          key: 'key',
+          secret: 'secret',
+        },
+      }).session
+      const createCookie = (value: string) =>
+        `key=${encodeURIComponent(session.encode({ value }))};`
+
+      const [resA, resB] = await Promise.all([
+        handler({
+          headers: {
+            cookie: createCookie('A'),
+          },
+        }),
+        handler({
+          headers: {
+            cookie: createCookie('B'),
+          },
+        }),
+      ])
+
+      expect(await streamToString(resA.body as ReadableStream)).toEqual(
+        '{"data":{"first":"A","seen":"A"}}',
+      )
+      expect(await streamToString(resB.body as ReadableStream)).toEqual(
+        '{"data":{"first":"B","seen":"B"}}',
+      )
+    })
   })
 
   describe('write', () => {

@@ -151,28 +151,27 @@ export class Http<
   public readonly name: string = Name
 
   public config: HttpConfig
+  private cookieTemplate!: Cookie<TCookie, TSession>
 
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
-    this.normalizeCookieConfig()
+    this.refreshCookieTemplate()
   }
 
-  private normalizeCookieConfig(logger?: Logger): void {
-    const cookie = new Cookie<TCookie, TSession>(this.config.cookie || {}, logger)
-
+  private refreshCookieTemplate(logger?: Logger): void {
+    this.cookieTemplate = new Cookie<TCookie, TSession>(this.config.cookie || {}, logger)
     this.config.cookie = {
-      ...cookie.config,
+      ...this.cookieTemplate.config,
       session: {
-        ...cookie.session.config,
+        ...this.cookieTemplate.session.config,
       },
     }
   }
 
   private createInvokeState(data: InvokeData): HttpInvokeState<TParams, TCookie, TSession> {
     const response: Response = { headers: Object.create(null) }
-    const cookie = new Cookie<TCookie, TSession>(this.config.cookie || {})
-    cookie.logger = data.logger
+    const cookie = this.cookieTemplate.fork(data.logger)
 
     const state: HttpInvokeState<TParams, TCookie, TSession> = {
       headers: data.event.headers || Object.create(null),
@@ -241,7 +240,7 @@ export class Http<
       )
 
     data.logger.debug('prepare cookie & session')
-    this.normalizeCookieConfig(data.logger)
+    this.refreshCookieTemplate(data.logger)
 
     await next()
   }
