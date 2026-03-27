@@ -19,10 +19,6 @@ expect(await func.handler()).toEqual('Hello, world')
 
 `TFunc` _extends_ [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
 
-## Indexable
-
-> \[`key`: `string`\]: `any`
-
 ## Constructors
 
 ### Constructor
@@ -140,10 +136,6 @@ new FuncWarper(__dirname + '/../demo.func.ts')
 ### logger
 
 > `readonly` **logger**: `Logger`
-
-### plugins
-
-> `readonly` **plugins**: [`Plugin`](../type-aliases/Plugin.md)[]
 
 ### staging
 

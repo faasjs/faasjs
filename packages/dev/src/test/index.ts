@@ -1,7 +1,7 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 
 import { Cookie, Http } from '@faasjs/core'
-import type { Config, ExportedHandler, Func, FuncEventType, Plugin } from '@faasjs/core'
+import type { Config, ExportedHandler, Func, FuncEventType } from '@faasjs/core'
 import {
   deepMerge,
   loadConfig,

@@ -1,6 +1,6 @@
 import { useEqualCallback, useEqualEffect } from '@faasjs/react'
 import type { FaasAction } from '@faasjs/types'
-import { Form as AntdForm, type FormProps as AntdFormProps, Button } from 'antd'
+import { Form as AntdForm, type ButtonProps, type FormProps as AntdFormProps, Button } from 'antd'
 import { type JSX, type ReactNode, useState } from 'react'
 
 import { useConfigContext } from './Config'
@@ -19,45 +19,46 @@ export type { ExtendFormTypeProps, ExtendFormItemProps }
 export type FormSubmitProps = {
   /** Default: Submit */
   text?: string
-  /**
-   * Submit to FaasJS server.
-   *
-   * If use onFinish, you should call submit manually.
-   * ```ts
-   * {
-   *   submit: {
-   *     to: {
-   *       action: 'action_name'
-   *     }
-   *   },
-   *   onFinish: (values, submit) => {
-   *     // do something before submit
-   *
-   *     // submit
-   *     await submit({
-   *      ...values,
-   *      extraProps: 'some extra props'
-   *     })
-   *
-   *     // do something after submit
-   *   }
-   * }
-   * ```
-   */
-  to?: {
-    action: FaasAction
-    /** params will overwrite form values before submit */
-    params?: Record<string, any>
-    then?: (result: any) => void
-    catch?: (error: any) => void
-    finally?: () => void
-  }
+  /** Props for the built-in submit button */
+  buttonProps?: ButtonProps
 }
 
-export interface FormProps<
+/**
+ * Built-in FaasJS submit handler for Form.
+ *
+ * @example
+ * ```ts
+ * {
+ *   action: 'user/create',
+ *   params: (values) => ({
+ *     ...values,
+ *     role: values.role || 'user',
+ *   }),
+ *   onSuccess: (result) => {
+ *     console.log(result)
+ *   },
+ * }
+ * ```
+ */
+export type FormFaasProps<Values extends Record<string, any> = any> = {
+  /** Action name to submit to */
+  action: FaasAction
+  /** params will overwrite form values before submit */
+  params?: Record<string, any> | ((values: Record<string, any>) => Record<string, any>)
+  /** Transform form values before sending the request */
+  transformValues?: (values: Values) => Record<string, any> | Promise<Record<string, any>>
+  /** Called when the request succeeds */
+  onSuccess?: (result: any, values: Record<string, any>) => void
+  /** Called when the request fails */
+  onError?: (error: any, values: Record<string, any>) => void
+  /** Called after the request settles */
+  onFinally?: () => void
+}
+
+export type FormProps<
   Values extends Record<string, any> = any,
   ExtendItemProps extends ExtendFormItemProps = ExtendFormItemProps,
-> extends Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'> {
+> = Omit<AntdFormProps<Values>, 'onFinish' | 'children' | 'initialValues'> & {
   items?: (
     | (ExtendItemProps extends ExtendFormItemProps
         ? ExtendItemProps | FormItemProps
@@ -66,13 +67,23 @@ export interface FormProps<
   )[]
   /** Default: { text: 'Submit' }, set false to disable it */
   submit?: false | FormSubmitProps
-  onFinish?: (values: Values, submit?: (values: any) => Promise<any>) => Promise<any>
   beforeItems?: JSX.Element | JSX.Element[]
   footer?: JSX.Element | JSX.Element[]
   extendTypes?: ExtendTypes
   children?: ReactNode
   initialValues?: Partial<Values>
-}
+} & (
+    | {
+        /** Built-in FaasJS submit handler, ignored when onFinish is provided */
+        faas?: FormFaasProps<Values>
+        onFinish?: never
+      }
+    | {
+        faas?: never
+        /** Custom submit handler, takes precedence over faas when both are provided */
+        onFinish?: (values: Values) => void | Promise<void>
+      }
+  )
 
 function isFormItemProps(item: any): item is FormItemProps {
   return item.id !== undefined
@@ -82,107 +93,184 @@ function isFormItemProps(item: any): item is FormItemProps {
  * Form component with Ant Design & FaasJS
  *
  * - Based on [Ant Design Form](https://ant.design/components/form/).
+ * - Use `onFinish` for custom submit logic.
+ * - Use `faas` for the built-in FaasJS submit flow.
+ *
+ * @example
+ * ```tsx
+ * import { Form } from '@faasjs/ant-design'
+ *
+ * export function ProfileForm() {
+ *   return (
+ *     <Form
+ *       items={[
+ *         { id: 'name', required: true },
+ *         { id: 'email', required: true },
+ *       ]}
+ *       onFinish={async (values) => {
+ *         console.log(values)
+ *       }}
+ *     />
+ *   )
+ * }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * import { Form } from '@faasjs/ant-design'
+ *
+ * export function CreateUserForm() {
+ *   return (
+ *     <Form
+ *       initialValues={{ role: 'user' }}
+ *       items={[
+ *         { id: 'name', required: true },
+ *         { id: 'role', options: ['user', 'admin'] },
+ *       ]}
+ *       faas={{
+ *         action: 'user/create',
+ *         params: (values) => ({
+ *           role: values.role || 'user',
+ *         }),
+ *       }}
+ *     />
+ *   )
+ * }
+ * ```
  */
 export function Form<Values extends Record<string, any> = any>(props: FormProps<Values>) {
   const [loading, setLoading] = useState(false)
-  const [computedProps, setComputedProps] = useState<FormProps<Values>>()
-  const [submit, setSubmit] = useState<FormSubmitProps | false>()
+  const [antdProps, setAntdProps] = useState<FormProps<Values>>()
+  const [submit, setSubmit] = useState<FormSubmitProps | false>(props.submit === false ? false : {})
+  const [items, setItems] = useState<Required<FormProps<Values>>['items']>([])
   const config = useConfigContext()
   const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const [form] = AntdForm.useForm<Values>(props.form)
   const [initialValues, setInitialValues] = useState<Partial<Values> | null>(
     props.initialValues || Object.create(null),
   )
+  const [onFinish, setOnFinish] = useState<AntdFormProps<Values>['onFinish']>()
 
   useEqualEffect(() => {
-    const { submit, ...propsCopy } = {
-      ...props,
-      form,
-    }
-    let nextInitialValues = propsCopy.initialValues
+    if (props.onFinish) {
+      setOnFinish(() => async (values: Values) => {
+        if (!props.onFinish) return
 
-    if (typeof submit !== 'undefined') setSubmit(submit)
-
-    if (propsCopy.initialValues && propsCopy.items?.length) {
-      for (const key in propsCopy.initialValues) {
-        propsCopy.initialValues[key] = transferValue(
-          propsCopy.items.find((item) => isFormItemProps(item) && item.id === key)?.type,
-          propsCopy.initialValues[key],
-        )
-      }
-      nextInitialValues = propsCopy.initialValues
-      setInitialValues(propsCopy.initialValues)
-      delete propsCopy.initialValues
-    }
-
-    if (propsCopy.items?.length)
-      for (const item of propsCopy.items) {
-        if (isFormItemProps(item) && item.if)
-          item.hidden = !item.if(nextInitialValues || Object.create(null))
-      }
-
-    const submitTo = typeof submit === 'object' ? submit.to : undefined
-
-    if (propsCopy.onFinish) {
-      const originOnFinish = propsCopy.onFinish
-
-      propsCopy.onFinish = async (values) => {
         setLoading(true)
 
         try {
-          if (submitTo?.action)
-            await originOnFinish(values, async (nextValues) =>
-              faas(
-                submitTo.action,
-                submitTo.params
-                  ? {
-                      ...nextValues,
-                      ...submitTo.params,
-                    }
-                  : nextValues,
-              ),
-            )
-          else await originOnFinish(values)
-        } catch (error) {
-          console.error(error)
+          return await props.onFinish(values)
+        } finally {
+          setLoading(false)
         }
+      })
 
-        setLoading(false)
-      }
-    } else if (submitTo?.action) {
-      propsCopy.onFinish = async (values) => {
+      return
+    }
+
+    if (props.faas?.action) {
+      setOnFinish(() => async (values: Values) => {
+        if (!props.faas?.action) return
+
         setLoading(true)
-        return faas(
-          submitTo.action,
-          submitTo.params
-            ? {
-                ...values,
-                ...submitTo.params,
-              }
-            : values,
-        )
-          .then((result) => {
-            submitTo.then?.(result)
-            return result
-          })
-          .catch((error) => {
-            submitTo.catch?.(error)
-            return Promise.reject(error)
-          })
-          .finally(() => {
-            submitTo.finally?.()
-            setLoading(false)
-          })
-      }
+
+        let submitValues = values as Record<string, any>
+
+        try {
+          if (props.faas?.transformValues) {
+            submitValues = await props.faas.transformValues(values)
+          }
+
+          const extraParams =
+            typeof props.faas?.params === 'function'
+              ? props.faas.params(submitValues)
+              : props.faas.params
+
+          if (extraParams) {
+            submitValues = {
+              ...submitValues,
+              ...extraParams,
+            }
+          }
+
+          const result = await faas(props.faas.action, submitValues)
+
+          props.faas.onSuccess?.(result, submitValues)
+
+          return result
+        } catch (error) {
+          props.faas.onError?.(error, submitValues)
+          throw error
+        } finally {
+          props.faas.onFinally?.()
+          setLoading(false)
+        }
+      })
+
+      return
     }
 
-    if (propsCopy.extendTypes) {
-      setExtendTypes(propsCopy.extendTypes)
-      delete propsCopy.extendTypes
+    setOnFinish(undefined)
+  }, [props.onFinish, props.faas])
+
+  useEqualEffect(() => {
+    setExtendTypes(props.extendTypes)
+  }, [props.extendTypes])
+
+  useEqualEffect(() => {
+    setSubmit(props.submit === false ? false : props.submit || {})
+  }, [props.submit])
+
+  useEqualEffect(() => {
+    const nextInitialValues = props.initialValues
+      ? (JSON.parse(JSON.stringify(props.initialValues)) as Partial<Values>)
+      : (Object.create(null) as Partial<Values>)
+
+    for (const key in nextInitialValues) {
+      nextInitialValues[key] = transferValue(
+        props.items?.find((item) => isFormItemProps(item) && item.id === key)?.type,
+        nextInitialValues[key],
+      )
     }
 
-    setComputedProps(propsCopy)
-  }, [form, props])
+    if (props.items?.length) {
+      setItems(
+        props.items.map((item) => {
+          if (!isFormItemProps(item) || !item.if) return item
+
+          return {
+            ...item,
+            hidden: !item.if(nextInitialValues),
+          }
+        }),
+      )
+    } else {
+      setItems([])
+    }
+
+    if (props.initialValues) {
+      setInitialValues(nextInitialValues)
+      return
+    }
+
+    setInitialValues(null)
+  }, [props.initialValues, props.items])
+
+  useEqualEffect(() => {
+    const propsCopy = {
+      ...props,
+    }
+
+    // Remove props that are not valid for Ant Design Form
+    delete propsCopy.onFinish
+    delete propsCopy.faas
+    delete propsCopy.extendTypes
+    delete propsCopy.submit
+    delete propsCopy.items
+    delete propsCopy.initialValues
+
+    setAntdProps(propsCopy)
+  }, [props])
 
   const onValuesChange = useEqualCallback(
     (changedValues: Partial<Values>, allValues: Values) => {
@@ -192,17 +280,15 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
         props.onValuesChange(changedValues, allValues)
       }
 
-      if (!props.items) return
+      if (!items.length) return
 
       for (const key in changedValues) {
-        const item = computedProps?.items?.find(
-          (i) => isFormItemProps(i) && i.id === key,
-        ) as FormItemProps
+        const item = items.find((i) => isFormItemProps(i) && i.id === key) as FormItemProps
 
         if (item?.onValueChange) item.onValueChange(changedValues[key], allValues, form)
       }
     },
-    [computedProps],
+    [items, props.onValuesChange, form],
   )
 
   useEqualEffect(() => {
@@ -212,25 +298,35 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
 
     form.setFieldsValue(initialValues as any)
     setInitialValues(null)
-  }, [form, initialValues])
+  }, [form, initialValues, items])
 
-  if (!computedProps) return null
+  if (!antdProps) return null
+
+  const submitButtonProps = typeof submit === 'object' ? submit.buttonProps : undefined
+  const submitButtonLoading: ButtonProps['loading'] = loading
+    ? true
+    : (submitButtonProps?.loading ?? false)
 
   return (
-    <AntdForm {...computedProps} onValuesChange={onValuesChange}>
-      {computedProps.beforeItems}
-      {computedProps.items?.map((item) => {
+    <AntdForm {...antdProps} form={form} onFinish={onFinish} onValuesChange={onValuesChange}>
+      {props.beforeItems}
+      {items.map((item) => {
         if (isFormItemProps(item))
           return <FormItem key={item.id} {...item} {...(extendTypes ? { extendTypes } : {})} />
         return item as JSX.Element
       })}
-      {computedProps.children}
+      {props.children}
       {typeof submit !== 'boolean' && (
-        <Button htmlType="submit" type="primary" loading={loading}>
+        <Button
+          {...submitButtonProps}
+          htmlType="submit"
+          type={submitButtonProps?.type || 'primary'}
+          loading={submitButtonLoading}
+        >
           {submit?.text || config.theme.Form.submit.text}
         </Button>
       )}
-      {computedProps.footer}
+      {props.footer}
     </AntdForm>
   )
 }

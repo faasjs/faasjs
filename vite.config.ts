@@ -106,6 +106,7 @@ export default defineConfig({
       typeCheck: true,
     },
     rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'typescript/consistent-type-imports': [
         'error',
         {

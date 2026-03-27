@@ -7,6 +7,8 @@
 Form component with Ant Design & FaasJS
 
 - Based on [Ant Design Form](https://ant.design/components/form/).
+- Use `onFinish` for custom submit logic.
+- Use `faas` for the built-in FaasJS submit flow.
 
 ## Type Parameters
 
@@ -18,8 +20,50 @@ Form component with Ant Design & FaasJS
 
 ### props
 
-[`FormProps`](../interfaces/FormProps.md)\<`Values`\>
+[`FormProps`](../type-aliases/FormProps.md)\<`Values`\>
 
 ## Returns
 
 `Element` \| `null`
+
+## Examples
+
+```tsx
+import { Form } from '@faasjs/ant-design'
+
+export function ProfileForm() {
+  return (
+    <Form
+      items={[
+        { id: 'name', required: true },
+        { id: 'email', required: true },
+      ]}
+      onFinish={async (values) => {
+        console.log(values)
+      }}
+    />
+  )
+}
+```
+
+```tsx
+import { Form } from '@faasjs/ant-design'
+
+export function CreateUserForm() {
+  return (
+    <Form
+      initialValues={{ role: 'user' }}
+      items={[
+        { id: 'name', required: true },
+        { id: 'role', options: ['user', 'admin'] },
+      ]}
+      faas={{
+        action: 'user/create',
+        params: (values) => ({
+          role: values.role || 'user',
+        }),
+      }}
+    />
+  )
+}
+```

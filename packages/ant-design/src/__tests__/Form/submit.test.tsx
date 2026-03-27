@@ -24,22 +24,28 @@ describe('Form/submit', () => {
     expect(screen.queryByText('Submit')).toBeNull()
   })
 
-  it('when submit to without onFinish', async () => {
+  it('when use faas', async () => {
     let values: any
+    let successValues: any
+    let finished = false
 
     setMock(async (_, params) => {
       values = params
-      return
+      return { data: 'result' }
     })
 
     render(
       <Form
         initialValues={{ id: 'initialValues' }}
         items={[{ id: 'id' }]}
-        submit={{
-          to: {
-            action: 'test',
-            params: { params: 'params' },
+        faas={{
+          action: 'test',
+          params: { params: 'params' },
+          onSuccess: (_, payload) => {
+            successValues = payload
+          },
+          onFinally: () => {
+            finished = true
           },
         }}
       />,
@@ -50,34 +56,66 @@ describe('Form/submit', () => {
     expect(values).toEqual({
       id: 'initialValues',
       params: 'params',
+    })
+    expect(successValues).toEqual({
+      id: 'initialValues',
+      params: 'params',
+    })
+    expect(finished).toBe(true)
+  })
+
+  it('when faas transformValues and params callback', async () => {
+    let values: any
+    let successValues: any
+
+    setMock(async (_, params) => {
+      values = params
+      return
+    })
+
+    render(
+      <Form
+        initialValues={{ id: 'initialValues' }}
+        items={[{ id: 'id' }]}
+        faas={{
+          action: 'test',
+          transformValues: async (values) => ({
+            ...values,
+            extraProps: 'extra',
+          }),
+          params: (values) => ({
+            params: values.extraProps,
+          }),
+          onSuccess: (_, payload) => {
+            successValues = payload
+          },
+        }}
+      />,
+    )
+
+    await userEvent.click(screen.getByRole('button'))
+
+    expect(values).toEqual({
+      id: 'initialValues',
+      extraProps: 'extra',
+      params: 'extra',
+    })
+    expect(successValues).toEqual({
+      id: 'initialValues',
+      extraProps: 'extra',
+      params: 'extra',
     })
   })
 
-  it('when submit to with onFinish', async () => {
+  it('when use onFinish', async () => {
     let values: any
-
-    setMock(async (_, params) => {
-      values = params
-      return
-    })
 
     render(
       <Form
         initialValues={{ id: 'initialValues' }}
         items={[{ id: 'id' }]}
-        submit={{
-          to: {
-            action: 'test',
-            params: { params: 'params' },
-          },
-        }}
-        onFinish={async (values, submit) => {
-          if (!submit) throw Error('submit not initialized')
-
-          await submit({
-            ...values,
-            extraProps: 'extra',
-          })
+        onFinish={async (nextValues: any) => {
+          values = nextValues
         }}
       />,
     )
@@ -86,8 +124,6 @@ describe('Form/submit', () => {
 
     expect(values).toEqual({
       id: 'initialValues',
-      params: 'params',
-      extraProps: 'extra',
     })
   })
 })

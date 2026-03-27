@@ -15,6 +15,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/react`
   - [Break] Remove `Form` component.
 
+- `@faasjs/ant-design`
+  - [Break] Replace `Form`'s old `submit.to` request API with a dedicated `faas` prop, and keep `submit` focused on built-in submit button options such as `text` and `buttonProps`.
+  - [Feature] Add `FormFaasProps` with `transformValues`, functional `params`, and `onSuccess` / `onError` / `onFinally` lifecycle hooks for the built-in submit flow.
+
 [`v8.0.0-beta.16 (2026-03-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.14...v8.0.0-beta.16)
 
 - `@faasjs/types`
