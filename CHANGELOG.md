@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.17 (2026-03-26)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.16...v8.0.0-beta.17)
+[`v8.0.0-beta.17 (2026-03-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.16...v8.0.0-beta.17)
 
 - `@faasjs/core`
   - [Break] Remove `FaasPluginEventMap` and related `InferPluginEvent` utilities, and move HTTP request helpers from the `Http` instance to injected handler fields via `DefineApiInject`.

@@ -16,7 +16,7 @@
 
 ### Constructor
 
-> **new Session**\<`S`, `C`\>(`cookie`, `config`): `Session`\<`S`, `C`\>
+> **new Session**\<`S`, `C`\>(`cookie`, `config`, `secrets?`): `Session`\<`S`, `C`\>
 
 #### Parameters
 
@@ -26,7 +26,11 @@
 
 ##### config
 
-[`SessionOptions`](../type-aliases/SessionOptions.md)
+[`SessionOptions`](../type-aliases/SessionOptions.md) \| `SessionConfig`
+
+##### secrets?
+
+`SessionSecrets`
 
 #### Returns
 
@@ -67,6 +71,20 @@
 #### Returns
 
 `string`
+
+### fork()
+
+> **fork**(`cookie`): `Session`\<`S`, `C`\>
+
+#### Parameters
+
+##### cookie
+
+[`Cookie`](Cookie.md)\<`C`, `S`\>
+
+#### Returns
+
+`Session`\<`S`, `C`\>
 
 ### invoke()
 
@@ -130,39 +148,7 @@
 
 ### config
 
-> `readonly` **config**: `object`
-
-#### cipherName
-
-> **cipherName**: `string`
-
-#### digest
-
-> **digest**: `string`
-
-#### iterations
-
-> **iterations**: `number`
-
-#### key
-
-> **key**: `string`
-
-#### keylen
-
-> **keylen**: `number`
-
-#### salt
-
-> **salt**: `string`
-
-#### secret
-
-> **secret**: `string`
-
-#### signedSalt
-
-> **signedSalt**: `string`
+> `readonly` **config**: `SessionConfig`
 
 ### content
 
