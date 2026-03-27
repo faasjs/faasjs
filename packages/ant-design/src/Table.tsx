@@ -161,6 +161,25 @@ function processValue(item: TableItemProps, value: any) {
  * - Support FaasJS injection.
  * - Auto generate filter dropdown (disable with `filterDropdown: false`).
  * - Auto generate sorter (disable with `sorter: false`).
+ *
+ * @example
+ * ```tsx
+ * import { Table } from '@faasjs/ant-design'
+ *
+ * const rows = [
+ *   { id: 1, name: 'Alice', active: true },
+ *   { id: 2, name: 'Bob', active: false },
+ * ]
+ *
+ * <Table
+ *   rowKey="id"
+ *   dataSource={rows}
+ *   items={[
+ *     { id: 'name', title: 'Name' },
+ *     { id: 'active', type: 'boolean', title: 'Active' },
+ *   ]}
+ * />
+ * ```
  */
 export function Table<T extends Record<string, any>, ExtendTypes = any>(
   props: TableProps<T, ExtendTypes>,

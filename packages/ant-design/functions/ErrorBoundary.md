@@ -15,3 +15,17 @@ Styled error boundary.
 ## Returns
 
 `Element`
+
+## Example
+
+```tsx
+import { ErrorBoundary } from '@faasjs/ant-design'
+
+export function Page() {
+  return (
+    <ErrorBoundary>
+      <DangerousWidget />
+    </ErrorBoundary>
+  )
+}
+```

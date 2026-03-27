@@ -21,6 +21,19 @@ export type ErrorChildrenProps = {
 
 /**
  * React error boundary with an optional custom fallback element.
+ *
+ * @example
+ * ```tsx
+ * import { ErrorBoundary } from '@faasjs/react'
+ *
+ * function Fallback({ errorMessage }: { errorMessage?: string }) {
+ *   return <div>{errorMessage}</div>
+ * }
+ *
+ * <ErrorBoundary errorChildren={<Fallback />}>
+ *   <DangerousWidget />
+ * </ErrorBoundary>
+ * ```
  */
 export class ErrorBoundary extends Component<
   ErrorBoundaryProps,

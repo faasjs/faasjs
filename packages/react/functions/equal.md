@@ -29,3 +29,12 @@ The second value to compare.
 `boolean`
 
 `true` if the values are deeply equal, `false` otherwise.
+
+## Example
+
+```ts
+import { equal } from '@faasjs/react'
+
+equal({ page: 1, filters: ['a'] }, { page: 1, filters: ['a'] }) // true
+equal({ page: 1 }, { page: 2 }) // false
+```

@@ -21,3 +21,17 @@ Cron job definition.
 [`CronJob`](../classes/CronJob.md)
 
 Registered cron job instance.
+
+## Example
+
+```ts
+import { createCronJob } from '@faasjs/core'
+
+const job = createCronJob({
+  name: 'cleanup',
+  expression: '0 3 * * *',
+  async handler() {
+    console.log('cleanup')
+  },
+})
+```

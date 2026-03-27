@@ -9,3 +9,14 @@ Close every tracked server instance.
 ## Returns
 
 `Promise`\<`void`\>
+
+## Example
+
+```ts
+import { Server, closeAll } from '@faasjs/core'
+
+const server = new Server(process.cwd())
+server.listen()
+
+await closeAll()
+```

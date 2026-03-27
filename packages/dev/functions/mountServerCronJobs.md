@@ -9,3 +9,17 @@ Start cron jobs for the current mounted server lifecycle.
 ## Returns
 
 `void`
+
+## Example
+
+```ts
+import { createCronJob, mountServerCronJobs, unmountServerCronJobs } from '@faasjs/core'
+
+createCronJob({
+  expression: '5 * * * *',
+  async handler() {},
+})
+
+mountServerCronJobs()
+unmountServerCronJobs()
+```

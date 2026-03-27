@@ -280,6 +280,24 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
  * plugin type) or a default class export.
  *
  * The `http` plugin is required.
+ *
+ * @example
+ * ```ts
+ * import { defineApi, z } from '@faasjs/core'
+ *
+ * const schema = z.object({
+ *   name: z.string().min(1),
+ * })
+ *
+ * export const func = defineApi({
+ *   schema,
+ *   async handler({ params }) {
+ *     return {
+ *       message: `Hello, ${params.name}`,
+ *     }
+ *   },
+ * })
+ * ```
  */
 export function defineApi<
   TSchema extends ZodType | undefined = undefined,

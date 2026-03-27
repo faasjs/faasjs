@@ -25,6 +25,13 @@ const LevelPriority = {
  * @param fmt - Format string or first value to log.
  * @param args - Additional values passed to the formatter.
  * @returns Formatted log message.
+ *
+ * @example
+ * ```ts
+ * import { formatLogger } from '@faasjs/node-utils'
+ *
+ * formatLogger('Hello %s', 'FaasJS') // 'Hello FaasJS'
+ * ```
  */
 export function formatLogger(fmt: any, ...args: any[]): string {
   try {

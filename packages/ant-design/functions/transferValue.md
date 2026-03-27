@@ -25,3 +25,13 @@ Raw value to normalize.
 `any`
 
 Normalized value for rendering or form initialization.
+
+## Example
+
+```ts
+import { transferValue } from '@faasjs/ant-design'
+
+transferValue('number', '42') // 42
+transferValue('boolean', 'true') // true
+transferValue('string[]', 'a,b') // ['a', 'b']
+```

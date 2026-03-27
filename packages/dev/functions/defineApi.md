@@ -39,3 +39,22 @@ The `http` plugin is required.
 ## Returns
 
 [`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
+
+## Example
+
+```ts
+import { defineApi, z } from '@faasjs/core'
+
+const schema = z.object({
+  name: z.string().min(1),
+})
+
+export const func = defineApi({
+  schema,
+  async handler({ params }) {
+    return {
+      message: `Hello, ${params.name}`,
+    }
+  },
+})
+```

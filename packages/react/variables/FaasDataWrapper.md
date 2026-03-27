@@ -21,3 +21,17 @@ Fetch FaasJS data and inject the result into a render prop or child element.
 ## Returns
 
 `ReactElement`\<`unknown`, `string` \| `JSXElementConstructor`\<`any`\>\> \| `null`
+
+## Example
+
+```tsx
+import { FaasDataWrapper } from '@faasjs/react'
+
+export function Greeting() {
+  return (
+    <FaasDataWrapper action="greeting/api/hello" params={{ name: 'FaasJS' }}>
+      <div />
+    </FaasDataWrapper>
+  )
+}
+```

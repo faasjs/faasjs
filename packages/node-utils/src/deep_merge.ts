@@ -11,7 +11,10 @@ const shouldMerge = (item: any) => {
  * * Merging order is from right to left.
  * * If an array include same objects, it will be unique to one.
  *
+ * @example
  * ```ts
+ * import { deepMerge } from '@faasjs/node-utils'
+ *
  * deepMerge({ a: 1 }, { a: 2 }) // { a: 2 }
  * deepMerge([1, 2], [2, 3]) // [1, 2, 3]
  * ```

@@ -21,3 +21,15 @@ Returns a constant value that is created by the given function.
 ## Returns
 
 `T`
+
+## Example
+
+```tsx
+import { useConstant } from '@faasjs/react'
+
+function Page() {
+  const requestId = useConstant(() => crypto.randomUUID())
+
+  return <span>{requestId}</span>
+}
+```

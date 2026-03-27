@@ -15,6 +15,16 @@ export type LoadEnvFileIfExistsOptions = {
  *
  * - Defaults to `${process.cwd()}/.env`.
  * - Existing environment variables are preserved (Node.js behavior).
+ *
+ * @example
+ * ```ts
+ * import { loadEnvFileIfExists } from '@faasjs/node-utils'
+ *
+ * loadEnvFileIfExists({
+ *   cwd: process.cwd(),
+ *   filename: '.env.local',
+ * })
+ * ```
  */
 export function loadEnvFileIfExists(options: LoadEnvFileIfExistsOptions = {}): string | null {
   const filePath = resolve(options.cwd || process.cwd(), options.filename || '.env')

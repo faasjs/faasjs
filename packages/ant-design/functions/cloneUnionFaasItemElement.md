@@ -29,3 +29,17 @@ The props to be applied to the cloned element.
 `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
 The cloned element with the applied props.
+
+## Example
+
+```tsx
+import { cloneUnionFaasItemElement, type UnionFaasItemElement } from '@faasjs/ant-design'
+
+const Cell: UnionFaasItemElement<string> = ({ value }) => <span>{value}</span>
+
+const element = cloneUnionFaasItemElement(Cell, {
+  scene: 'table',
+  value: 'Hello',
+  index: 0,
+})
+```

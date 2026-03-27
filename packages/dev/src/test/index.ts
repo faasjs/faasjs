@@ -28,13 +28,14 @@ type JSONhandlerBody<TFunc extends Func<any, any, any>> =
 /**
  * Test wrapper for a function.
  *
+ * @example
  * ```ts
  * import { FuncWarper } from '@faasjs/dev'
- * import Func from '../demo.func.ts'
+ * import { func } from './hello.func'
  *
- * const func = new FuncWarper(Func)
+ * const wrapped = new FuncWarper(func)
  *
- * expect(await func.handler()).toEqual('Hello, world')
+ * const response = await wrapped.JSONhandler({ name: 'FaasJS' })
  * ```
  */
 export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>> {
@@ -303,13 +304,14 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
  *
  * @param initBy - FaasJS function module or exported function instance.
  *
+ * @example
  * ```ts
  * import { test } from '@faasjs/dev'
- * import Func from '../demo.func.ts'
+ * import { func } from './hello.func'
  *
- * const func = test(Func)
+ * const wrapped = test(func)
  *
- * expect(await func.handler()).toEqual('Hello, world')
+ * const response = await wrapped.JSONhandler({ name: 'FaasJS' })
  * ```
  */
 export function test<TFunc extends Func<any, any, any>>(initBy: TFunc): FuncWarper<TFunc> {

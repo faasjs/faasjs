@@ -12,6 +12,14 @@ const AsyncFunction = (async () => {}).constructor
  * @param a - The first value to compare.
  * @param b - The second value to compare.
  * @returns `true` if the values are deeply equal, `false` otherwise.
+ *
+ * @example
+ * ```ts
+ * import { equal } from '@faasjs/react'
+ *
+ * equal({ page: 1, filters: ['a'] }, { page: 1, filters: ['a'] }) // true
+ * equal({ page: 1 }, { page: 2 }) // false
+ * ```
  */
 export function equal(a: any, b: any): boolean {
   if (a === b) return true
@@ -75,6 +83,17 @@ export function equal(a: any, b: any): boolean {
  *
  * @param value - The value to be memoized.
  * @returns The memoized value.
+ *
+ * @example
+ * ```tsx
+ * import { useEqualMemoize } from '@faasjs/react'
+ *
+ * function Filters({ filters }: { filters: Record<string, any> }) {
+ *   const memoizedFilters = useEqualMemoize(filters)
+ *
+ *   return <pre>{JSON.stringify(memoizedFilters)}</pre>
+ * }
+ * ```
  */
 export function useEqualMemoize(value: any) {
   const ref = useRef<any>(value)
@@ -104,6 +123,19 @@ function useEqualSignal(value: any[]) {
  * @param callback - The effect callback function to run.
  * @param dependencies - The list of dependencies for the effect.
  * @returns The result of the `useEffect` hook with memoized dependencies.
+ *
+ * @example
+ * ```tsx
+ * import { useEqualEffect } from '@faasjs/react'
+ *
+ * function Page({ filters }: { filters: Record<string, any> }) {
+ *   useEqualEffect(() => {
+ *     console.log('filters changed', filters)
+ *   }, [filters])
+ *
+ *   return null
+ * }
+ * ```
  */
 export function useEqualEffect(callback: React.EffectCallback, dependencies: any[]) {
   const signal = useEqualSignal(dependencies)
@@ -118,6 +150,17 @@ export function useEqualEffect(callback: React.EffectCallback, dependencies: any
  * @param callback - The callback function to run.
  * @param dependencies - The list of dependencies.
  * @returns The result of the `useMemo` hook with memoized dependencies.
+ *
+ * @example
+ * ```tsx
+ * import { useEqualMemo } from '@faasjs/react'
+ *
+ * function Page({ filters }: { filters: Record<string, any> }) {
+ *   const queryString = useEqualMemo(() => JSON.stringify(filters), [filters])
+ *
+ *   return <span>{queryString}</span>
+ * }
+ * ```
  */
 export function useEqualMemo<T>(callback: () => T, dependencies: any[]): T {
   const signal = useEqualSignal(dependencies)
@@ -137,6 +180,19 @@ export function useEqualMemo<T>(callback: () => T, dependencies: any[]): T {
  * @param callback - The callback function to run.
  * @param dependencies - The list of dependencies.
  * @returns The result of the `useCallback` hook with memoized dependencies.
+ *
+ * @example
+ * ```tsx
+ * import { useEqualCallback } from '@faasjs/react'
+ *
+ * function Search({ filters }: { filters: Record<string, any> }) {
+ *   const handleSubmit = useEqualCallback(() => {
+ *     console.log(filters)
+ *   }, [filters])
+ *
+ *   return <button onClick={handleSubmit}>Search</button>
+ * }
+ * ```
  */
 export function useEqualCallback<T extends (...args: any[]) => any>(
   callback: T,

@@ -33,3 +33,17 @@ Optional HTTP plugin configuration.
 [`UseifyPlugin`](../type-aliases/UseifyPlugin.md)\<[`Http`](../classes/Http.md)\<`TParams`, `TCookie`, `TSession`\>\>
 
 HTTP plugin instance wrapped for `usePlugin`.
+
+## Example
+
+```ts
+import { useFunc, useHttp } from '@faasjs/core'
+
+export const func = useFunc(() => {
+  useHttp()
+
+  return async ({ body }) => ({
+    received: body,
+  })
+})
+```

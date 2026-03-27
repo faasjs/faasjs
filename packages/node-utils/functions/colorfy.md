@@ -25,3 +25,11 @@ The message to be colorized.
 `string`
 
 The colorized message string.
+
+## Example
+
+```ts
+import { colorfy } from '@faasjs/node-utils'
+
+console.log(colorfy('warn', 'Low disk space'))
+```

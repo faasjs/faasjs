@@ -4,6 +4,21 @@
 
 Error type that carries an HTTP status code for JSON error responses.
 
+## Example
+
+```ts
+import { HttpError, defineApi } from '@faasjs/core'
+
+export const func = defineApi({
+  async handler() {
+    throw new HttpError({
+      statusCode: 403,
+      message: 'Forbidden',
+    })
+  },
+})
+```
+
 ## Extends
 
 - `Error`

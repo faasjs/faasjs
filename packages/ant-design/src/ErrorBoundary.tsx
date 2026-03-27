@@ -28,6 +28,19 @@ function ErrorChildren(props: ErrorChildrenProps) {
 
 /**
  * Styled error boundary.
+ *
+ * @example
+ * ```tsx
+ * import { ErrorBoundary } from '@faasjs/ant-design'
+ *
+ * export function Page() {
+ *   return (
+ *     <ErrorBoundary>
+ *       <DangerousWidget />
+ *     </ErrorBoundary>
+ *   )
+ * }
+ * ```
  */
 export function ErrorBoundary(props: ErrorBoundaryProps) {
   return <Origin errorChildren={<ErrorChildren />} {...props} />

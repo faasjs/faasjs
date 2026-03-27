@@ -8,6 +8,20 @@ A Func composes lifecycle plugins, exposes a runtime handler via
 [Func.export](#export), and keeps function configuration available across mounts
 and invokes.
 
+## Example
+
+```ts
+import { Func } from '@faasjs/core'
+
+const func = new Func({
+  async handler({ event }) {
+    return { echo: event }
+  },
+})
+
+const result = await func.export().handler({ name: 'FaasJS' })
+```
+
 ## Type Parameters
 
 ### TEvent

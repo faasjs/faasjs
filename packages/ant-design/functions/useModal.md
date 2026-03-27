@@ -6,19 +6,6 @@
 
 Hook style modal
 
-```tsx
-function Example() {
-  const { modal, setModalProps } = useModal()
-
-  return (
-    <>
-      <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>
-      {modal}
-    </>
-  )
-}
-```
-
 ## Parameters
 
 ### init?
@@ -40,3 +27,25 @@ function Example() {
 ### setModalProps
 
 > **setModalProps**: [`setModalProps`](../type-aliases/setModalProps.md)
+
+## Example
+
+```tsx
+import { useModal } from '@faasjs/ant-design'
+import { Button } from 'antd'
+
+function Example() {
+  const { modal, setModalProps } = useModal()
+
+  return (
+    <>
+      <Button
+        onClick={() => setModalProps({ open: true, title: 'Delete', children: 'Are you sure?' })}
+      >
+        Open Modal
+      </Button>
+      {modal}
+    </>
+  )
+}
+```

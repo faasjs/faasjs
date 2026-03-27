@@ -31,6 +31,13 @@ export const LevelColor = {
  * @param level - The log level to determine the color.
  * @param message - The message to be colorized.
  * @returns The colorized message string.
+ *
+ * @example
+ * ```ts
+ * import { colorfy } from '@faasjs/node-utils'
+ *
+ * console.log(colorfy('warn', 'Low disk space'))
+ * ```
  */
 export function colorfy(level: Level, message: string): string {
   return `\u001b[0${LevelColor[level]}m${message}\u001b[39m`

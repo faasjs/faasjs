@@ -4,13 +4,15 @@
 
 Test wrapper for a function.
 
+## Example
+
 ```ts
 import { FuncWarper } from '@faasjs/dev'
-import Func from '../demo.func.ts'
+import { func } from './hello.func'
 
-const func = new FuncWarper(Func)
+const wrapped = new FuncWarper(func)
 
-expect(await func.handler()).toEqual('Hello, world')
+const response = await wrapped.JSONhandler({ name: 'FaasJS' })
 ```
 
 ## Type Parameters

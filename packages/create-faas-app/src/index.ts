@@ -36,6 +36,13 @@ action(commander as Command)
  *
  * @param argv - CLI arguments forwarded to Commander.
  * @returns Commander program instance after parsing.
+ *
+ * @example
+ * ```ts
+ * import { main } from 'create-faas-app'
+ *
+ * await main(['node', 'create-faas-app', '--help'])
+ * ```
  */
 export async function main(argv: string[]) {
   try {

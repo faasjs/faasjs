@@ -12,3 +12,15 @@ request URL before forwarding to `@faasjs/core`.
 ## Returns
 
 `Plugin`
+
+## Example
+
+```ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { viteFaasJsServer } from '@faasjs/dev'
+
+export default defineConfig({
+  plugins: [react(), viteFaasJsServer()],
+})
+```

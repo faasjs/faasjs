@@ -57,6 +57,15 @@ const servers: Server[] = []
 
 /**
  * Return all server instances created in the current process.
+ *
+ * @example
+ * ```ts
+ * import { Server, getAll } from '@faasjs/core'
+ *
+ * const server = new Server(process.cwd())
+ *
+ * getAll().includes(server)
+ * ```
  */
 export function getAll(): Server[] {
   return servers
@@ -64,6 +73,16 @@ export function getAll(): Server[] {
 
 /**
  * Close every tracked server instance.
+ *
+ * @example
+ * ```ts
+ * import { Server, closeAll } from '@faasjs/core'
+ *
+ * const server = new Server(process.cwd())
+ * server.listen()
+ *
+ * await closeAll()
+ * ```
  */
 export async function closeAll(): Promise<void> {
   for (const server of servers) await server.close()

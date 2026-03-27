@@ -33,3 +33,17 @@ Factory that returns the final business handler.
 [`Func`](../classes/Func.md)\<`TEvent`, `TContext`, `TResult`\>
 
 Function instance ready to export or test.
+
+## Example
+
+```ts
+import { useFunc, useHttp } from '@faasjs/core'
+
+export const func = useFunc(() => {
+  useHttp()
+
+  return async ({ body }) => ({
+    received: body,
+  })
+})
+```

@@ -27,3 +27,11 @@ Additional values passed to the formatter.
 `string`
 
 Formatted log message.
+
+## Example
+
+```ts
+import { formatLogger } from '@faasjs/node-utils'
+
+formatLogger('Hello %s', 'FaasJS') // 'Hello FaasJS'
+```

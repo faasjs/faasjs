@@ -237,6 +237,20 @@ let current: Transport
 
 /**
  * Get the shared transport instance used by Logger.
+ *
+ * @example
+ * ```ts
+ * import { getTransport, Logger } from '@faasjs/node-utils'
+ *
+ * const transport = getTransport()
+ *
+ * transport.register('console', async (messages) => {
+ *   console.log(messages.length)
+ * })
+ *
+ * new Logger('app').info('hello')
+ * await transport.flush()
+ * ```
  */
 export function getTransport() {
   current ||= new Transport()

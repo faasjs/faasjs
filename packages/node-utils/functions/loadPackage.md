@@ -39,3 +39,11 @@ Optional runtime loader options.
 `Promise`\<`T`\>
 
 Loaded module or resolved default export.
+
+## Example
+
+```ts
+import { loadPackage } from '@faasjs/node-utils'
+
+const func = await loadPackage('./src/hello.func.ts', ['func', 'default'])
+```

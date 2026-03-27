@@ -178,6 +178,15 @@ export type FuncReturnType<T extends Func<any, any, any>> =
  *
  * @param stack - Stack trace text to inspect.
  * @returns Absolute or file URL converted source path when found.
+ *
+ * @example
+ * ```ts
+ * import { parseFuncFilenameFromStack } from '@faasjs/core'
+ *
+ * const filename = parseFuncFilenameFromStack(
+ *   'Error\\n    at file:///project/src/demo.func.ts:3:1',
+ * )
+ * ```
  */
 export function parseFuncFilenameFromStack(stack?: string): string | undefined {
   if (!stack) return
@@ -240,6 +249,19 @@ function normalizeMountData(
  * A {@link Func} composes lifecycle plugins, exposes a runtime handler via
  * {@link Func.export}, and keeps function configuration available across mounts
  * and invokes.
+ *
+ * @example
+ * ```ts
+ * import { Func } from '@faasjs/core'
+ *
+ * const func = new Func({
+ *   async handler({ event }) {
+ *     return { echo: event }
+ *   },
+ * })
+ *
+ * const result = await func.export().handler({ name: 'FaasJS' })
+ * ```
  */
 export class Func<TEvent = any, TContext = any, TResult = any> {
   [key: string]: any
@@ -463,6 +485,24 @@ export type UseifyPlugin<T> = T & {
  *
  * @param plugin - Plugin instance to register.
  * @returns The same plugin with a `mount()` convenience method.
+ *
+ * @example
+ * ```ts
+ * import { useFunc, usePlugin } from '@faasjs/core'
+ *
+ * export const func = useFunc(() => {
+ *   usePlugin({
+ *     name: 'trace',
+ *     type: 'trace',
+ *     async onInvoke(data, next) {
+ *       data.logger.info('before handler')
+ *       await next()
+ *     },
+ *   })
+ *
+ *   return async () => 'ok'
+ * })
+ * ```
  */
 export function usePlugin<T extends Plugin>(
   plugin: T & {
@@ -490,6 +530,19 @@ export function usePlugin<T extends Plugin>(
  *
  * @param handler - Factory that returns the final business handler.
  * @returns Function instance ready to export or test.
+ *
+ * @example
+ * ```ts
+ * import { useFunc, useHttp } from '@faasjs/core'
+ *
+ * export const func = useFunc(() => {
+ *   useHttp()
+ *
+ *   return async ({ body }) => ({
+ *     received: body,
+ *   })
+ * })
+ * ```
  */
 export function useFunc<TEvent = any, TContext = any, TResult = any>(
   handler: () => Handler<TEvent, TContext, TResult>,

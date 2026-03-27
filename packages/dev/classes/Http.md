@@ -4,6 +4,23 @@
 
 HTTP lifecycle plugin that enriches invoke data with cookies, sessions, and response helpers.
 
+## Example
+
+```ts
+import { Http } from '@faasjs/core'
+
+const http = new Http({
+  config: {
+    cookie: {
+      session: {
+        key: 'session_id',
+        secret: 'replace-me',
+      },
+    },
+  },
+})
+```
+
 ## Type Parameters
 
 ### TParams

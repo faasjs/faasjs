@@ -92,6 +92,17 @@ export function idToTitle(id: string | number): string {
 
 /**
  * convert string[] or number[] to { label, value }[]
+ *
+ * @example
+ * ```ts
+ * import { transferOptions } from '@faasjs/ant-design'
+ *
+ * transferOptions(['draft', { label: 'Published', value: 'published' }])
+ * // [
+ * //   { label: 'Draft', value: 'draft' },
+ * //   { label: 'Published', value: 'published' },
+ * // ]
+ * ```
  */
 export function transferOptions(options: BaseOption[]): {
   label: string
@@ -115,6 +126,14 @@ export function transferOptions(options: BaseOption[]): {
  * @param type - Target field type.
  * @param value - Raw value to normalize.
  * @returns Normalized value for rendering or form initialization.
+ * @example
+ * ```ts
+ * import { transferValue } from '@faasjs/ant-design'
+ *
+ * transferValue('number', '42') // 42
+ * transferValue('boolean', 'true') // true
+ * transferValue('string[]', 'a,b') // ['a', 'b']
+ * ```
  */
 export function transferValue(type: FaasItemType | null | undefined, value: any): any {
   if (!type) type = 'string'
@@ -342,6 +361,19 @@ export interface UnionFaasItemProps<Value = any, Values = any>
  * @param element - The UnionFaasItemElement to be cloned.
  * @param props - The props to be applied to the cloned element.
  * @returns The cloned element with the applied props.
+ *
+ * @example
+ * ```tsx
+ * import { cloneUnionFaasItemElement, type UnionFaasItemElement } from '@faasjs/ant-design'
+ *
+ * const Cell: UnionFaasItemElement<string> = ({ value }) => <span>{value}</span>
+ *
+ * const element = cloneUnionFaasItemElement(Cell, {
+ *   scene: 'table',
+ *   value: 'Hello',
+ *   index: 0,
+ * })
+ * ```
  */
 export function cloneUnionFaasItemElement(element: UnionFaasItemElement, props: any) {
   return cloneElement(isValidElement(element) ? element : createElement(element), props)

@@ -18,3 +18,14 @@ Load a dotenv file if it exists.
 ## Returns
 
 `string` \| `null`
+
+## Example
+
+```ts
+import { loadEnvFileIfExists } from '@faasjs/node-utils'
+
+loadEnvFileIfExists({
+  cwd: process.cwd(),
+  filename: '.env.local',
+})
+```

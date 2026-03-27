@@ -4,6 +4,20 @@
 
 React error boundary with an optional custom fallback element.
 
+## Example
+
+```tsx
+import { ErrorBoundary } from '@faasjs/react'
+
+function Fallback({ errorMessage }: { errorMessage?: string }) {
+  return <div>{errorMessage}</div>
+}
+
+;<ErrorBoundary errorChildren={<Fallback />}>
+  <DangerousWidget />
+</ErrorBoundary>
+```
+
 ## Extends
 
 - `Component`\<[`ErrorBoundaryProps`](../interfaces/ErrorBoundaryProps.md), \{ `error`: `Error` \| `null`; `info`: `ErrorInfo`; \}\>

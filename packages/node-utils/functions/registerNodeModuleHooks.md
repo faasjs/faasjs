@@ -17,3 +17,13 @@ Hook registration options such as entry file, root, and tsconfig path.
 ## Returns
 
 `void`
+
+## Example
+
+```ts
+import { registerNodeModuleHooks } from '@faasjs/node-utils'
+
+registerNodeModuleHooks({
+  root: process.cwd(),
+})
+```

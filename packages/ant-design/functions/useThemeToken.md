@@ -14,3 +14,15 @@ and returns the `token` property from the configuration.
 `GlobalToken`
 
 The theme token from the Ant Design theme configuration.
+
+## Example
+
+```tsx
+import { useThemeToken } from '@faasjs/ant-design'
+
+function PrimarySwatch() {
+  const { colorPrimary } = useThemeToken()
+
+  return <div style={{ width: 24, height: 24, background: colorPrimary }} />
+}
+```

@@ -31,3 +31,15 @@ The list of dependencies.
 `T`
 
 The result of the `useMemo` hook with memoized dependencies.
+
+## Example
+
+```tsx
+import { useEqualMemo } from '@faasjs/react'
+
+function Page({ filters }: { filters: Record<string, any> }) {
+  const queryString = useEqualMemo(() => JSON.stringify(filters), [filters])
+
+  return <span>{queryString}</span>
+}
+```

@@ -60,6 +60,17 @@ function stripBase(url: string, base: string): string {
  *
  * It resolves server root/base from `src/faas.yaml` and strips `base` from
  * request URL before forwarding to `@faasjs/core`.
+ *
+ * @example
+ * ```ts
+ * import { defineConfig } from 'vite'
+ * import react from '@vitejs/plugin-react'
+ * import { viteFaasJsServer } from '@faasjs/dev'
+ *
+ * export default defineConfig({
+ *   plugins: [react(), viteFaasJsServer()],
+ * })
+ * ```
  */
 export function viteFaasJsServer(): Plugin {
   let config: ResolvedViteFaasJsServerConfig

@@ -19,3 +19,11 @@ Stack trace text to inspect.
 `string` \| `undefined`
 
 Absolute or file URL converted source path when found.
+
+## Example
+
+```ts
+import { parseFuncFilenameFromStack } from '@faasjs/core'
+
+const filename = parseFuncFilenameFromStack('Error\\n    at file:///project/src/demo.func.ts:3:1')
+```

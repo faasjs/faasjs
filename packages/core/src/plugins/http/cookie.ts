@@ -29,6 +29,19 @@ type CookieConfig = {
 
 /**
  * Read, write, and serialize cookies for the HTTP plugin.
+ *
+ * @example
+ * ```ts
+ * import { Cookie } from '@faasjs/core'
+ *
+ * const cookie = new Cookie({
+ *   secure: false,
+ *   session: { secret: 'replace-me' },
+ * })
+ *
+ * cookie.write('theme', 'dark')
+ * cookie.headers()
+ * ```
  */
 export class Cookie<
   C extends Record<string, string> = any,

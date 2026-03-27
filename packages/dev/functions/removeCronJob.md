@@ -19,3 +19,16 @@ Cron job instance to remove.
 `boolean`
 
 `true` when the job was removed.
+
+## Example
+
+```ts
+import { createCronJob, removeCronJob } from '@faasjs/core'
+
+const job = createCronJob({
+  expression: '10 * * * *',
+  async handler() {},
+})
+
+removeCronJob(job)
+```

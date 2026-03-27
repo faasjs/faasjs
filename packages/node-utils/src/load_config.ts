@@ -81,6 +81,15 @@ function assignPluginNames(config: FuncConfig): void {
 
 /**
  * Load configuration from faas.yaml
+ *
+ * @example
+ * ```ts
+ * import { Config } from '@faasjs/node-utils'
+ *
+ * const config = new Config(process.cwd(), '/project/src/orders/create.func.ts')
+ *
+ * config.get('development')
+ * ```
  */
 export class Config {
   [key: string]: any
@@ -171,6 +180,17 @@ export class Config {
  * @param staging - Staging name to resolve.
  * @param logger - Optional logger.
  * @returns Resolved config for the requested staging.
+ *
+ * @example
+ * ```ts
+ * import { loadConfig } from '@faasjs/node-utils'
+ *
+ * const config = loadConfig(
+ *   process.cwd(),
+ *   '/project/src/orders/create.func.ts',
+ *   'development',
+ * )
+ * ```
  */
 export function loadConfig(
   root: string,

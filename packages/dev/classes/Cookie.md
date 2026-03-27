@@ -4,6 +4,20 @@
 
 Read, write, and serialize cookies for the HTTP plugin.
 
+## Example
+
+```ts
+import { Cookie } from '@faasjs/core'
+
+const cookie = new Cookie({
+  secure: false,
+  session: { secret: 'replace-me' },
+})
+
+cookie.write('theme', 'dark')
+cookie.headers()
+```
+
 ## Type Parameters
 
 ### C

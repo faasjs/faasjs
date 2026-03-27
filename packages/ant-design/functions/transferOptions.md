@@ -15,3 +15,15 @@ convert string[] or number[] to { label, value }[]
 ## Returns
 
 `object`[]
+
+## Example
+
+```ts
+import { transferOptions } from '@faasjs/ant-design'
+
+transferOptions(['draft', { label: 'Published', value: 'published' }])
+// [
+//   { label: 'Draft', value: 'draft' },
+//   { label: 'Published', value: 'published' },
+// ]
+```

@@ -25,3 +25,17 @@ The list of dependencies for the effect.
 `void`
 
 The result of the `useEffect` hook with memoized dependencies.
+
+## Example
+
+```tsx
+import { useEqualEffect } from '@faasjs/react'
+
+function Page({ filters }: { filters: Record<string, any> }) {
+  useEqualEffect(() => {
+    console.log('filters changed', filters)
+  }, [filters])
+
+  return null
+}
+```

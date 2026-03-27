@@ -151,6 +151,21 @@ function getDelayToNextMinute(nowMs = Date.now()): number {
 
 /**
  * Simple cron job scheduler with 5-field cron expression support.
+ *
+ * @example
+ * ```ts
+ * import { CronJob } from '@faasjs/core'
+ *
+ * const job = new CronJob({
+ *   expression: '5 * * * *',
+ *   async handler({ logger }) {
+ *     logger.info('run cleanup')
+ *   },
+ * })
+ *
+ * job.start()
+ * job.stop()
+ * ```
  */
 export class CronJob {
   /**
@@ -331,6 +346,19 @@ const cronJobRegistry = new CronJobRegistry()
  *
  * @param options - Cron job definition.
  * @returns Registered cron job instance.
+ *
+ * @example
+ * ```ts
+ * import { createCronJob } from '@faasjs/core'
+ *
+ * const job = createCronJob({
+ *   name: 'cleanup',
+ *   expression: '0 3 * * *',
+ *   async handler() {
+ *     console.log('cleanup')
+ *   },
+ * })
+ * ```
  */
 export function createCronJob(options: CronJobOptions): CronJob {
   return cronJobRegistry.create(options)
@@ -341,6 +369,18 @@ export function createCronJob(options: CronJobOptions): CronJob {
  *
  * @param cronJob - Cron job instance to remove.
  * @returns `true` when the job was removed.
+ *
+ * @example
+ * ```ts
+ * import { createCronJob, removeCronJob } from '@faasjs/core'
+ *
+ * const job = createCronJob({
+ *   expression: '10 * * * *',
+ *   async handler() {},
+ * })
+ *
+ * removeCronJob(job)
+ * ```
  */
 export function removeCronJob(cronJob: CronJob): boolean {
   return cronJobRegistry.remove(cronJob)
@@ -348,6 +388,19 @@ export function removeCronJob(cronJob: CronJob): boolean {
 
 /**
  * List all registered cron jobs.
+ *
+ * @example
+ * ```ts
+ * import { createCronJob, listCronJobs } from '@faasjs/core'
+ *
+ * createCronJob({
+ *   name: 'cleanup',
+ *   expression: '0 3 * * *',
+ *   async handler() {},
+ * })
+ *
+ * listCronJobs().map((job) => job.name)
+ * ```
  */
 export function listCronJobs(): CronJob[] {
   return cronJobRegistry.list()
@@ -355,6 +408,19 @@ export function listCronJobs(): CronJob[] {
 
 /**
  * Start cron jobs for the current mounted server lifecycle.
+ *
+ * @example
+ * ```ts
+ * import { createCronJob, mountServerCronJobs, unmountServerCronJobs } from '@faasjs/core'
+ *
+ * createCronJob({
+ *   expression: '5 * * * *',
+ *   async handler() {},
+ * })
+ *
+ * mountServerCronJobs()
+ * unmountServerCronJobs()
+ * ```
  */
 export function mountServerCronJobs(): void {
   cronJobRegistry.mountServer()
@@ -362,6 +428,14 @@ export function mountServerCronJobs(): void {
 
 /**
  * Stop cron jobs when the last mounted server is unmounted.
+ *
+ * @example
+ * ```ts
+ * import { mountServerCronJobs, unmountServerCronJobs } from '@faasjs/core'
+ *
+ * mountServerCronJobs()
+ * unmountServerCronJobs()
+ * ```
  */
 export function unmountServerCronJobs(): void {
   cronJobRegistry.unmountServer()

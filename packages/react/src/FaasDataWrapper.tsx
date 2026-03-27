@@ -60,6 +60,19 @@ const fixedForwardRef = forwardRef as FixedForwardRef
 
 /**
  * Fetch FaasJS data and inject the result into a render prop or child element.
+ *
+ * @example
+ * ```tsx
+ * import { FaasDataWrapper } from '@faasjs/react'
+ *
+ * export function Greeting() {
+ *   return (
+ *     <FaasDataWrapper action="greeting/api/hello" params={{ name: 'FaasJS' }}>
+ *       <div />
+ *     </FaasDataWrapper>
+ *   )
+ * }
+ * ```
  */
 export const FaasDataWrapper = fixedForwardRef(
   <PathOrData extends FaasActionUnionType = any>(

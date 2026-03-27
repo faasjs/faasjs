@@ -25,3 +25,22 @@ Plugin instance to register.
 [`UseifyPlugin`](../type-aliases/UseifyPlugin.md)\<`T`\>
 
 The same plugin with a `mount()` convenience method.
+
+## Example
+
+```ts
+import { useFunc, usePlugin } from '@faasjs/core'
+
+export const func = useFunc(() => {
+  usePlugin({
+    name: 'trace',
+    type: 'trace',
+    async onInvoke(data, next) {
+      data.logger.info('before handler')
+      await next()
+    },
+  })
+
+  return async () => 'ok'
+})
+```

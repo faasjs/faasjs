@@ -12,11 +12,6 @@ Features:
 - Merging order is from right to left.
 - If an array include same objects, it will be unique to one.
 
-```ts
-deepMerge({ a: 1 }, { a: 2 }) // { a: 2 }
-deepMerge([1, 2], [2, 3]) // [1, 2, 3]
-```
-
 ## Parameters
 
 ### sources
@@ -26,3 +21,12 @@ deepMerge([1, 2], [2, 3]) // [1, 2, 3]
 ## Returns
 
 `any`
+
+## Example
+
+```ts
+import { deepMerge } from '@faasjs/node-utils'
+
+deepMerge({ a: 1 }, { a: 2 }) // { a: 2 }
+deepMerge([1, 2], [2, 3]) // [1, 2, 3]
+```

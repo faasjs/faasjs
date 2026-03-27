@@ -4,6 +4,22 @@
 
 Simple cron job scheduler with 5-field cron expression support.
 
+## Example
+
+```ts
+import { CronJob } from '@faasjs/core'
+
+const job = new CronJob({
+  expression: '5 * * * *',
+  async handler({ logger }) {
+    logger.info('run cleanup')
+  },
+})
+
+job.start()
+job.stop()
+```
+
 ## Accessors
 
 ### isStarted

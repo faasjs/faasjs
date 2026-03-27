@@ -37,3 +37,11 @@ Optional logger.
 [`FuncConfig`](../type-aliases/FuncConfig.md)
 
 Resolved config for the requested staging.
+
+## Example
+
+```ts
+import { loadConfig } from '@faasjs/node-utils'
+
+const config = loadConfig(process.cwd(), '/project/src/orders/create.func.ts', 'development')
+```

@@ -19,14 +19,22 @@ export type setModalProps = Dispatch<SetStateAction<ModalProps>>
 /**
  * Hook style modal
  *
+ * @example
  * ```tsx
+ * import { useModal } from '@faasjs/ant-design'
+ * import { Button } from 'antd'
+ *
  * function Example() {
  *   const { modal, setModalProps } = useModal()
  *
- *   return <>
- *     <Button onClick={() => setModalProps({ open: true })}>Open Modal</Button>
- *     {modal}
- *   </>
+ *   return (
+ *     <>
+ *       <Button onClick={() => setModalProps({ open: true, title: 'Delete', children: 'Are you sure?' })}>
+ *         Open Modal
+ *       </Button>
+ *       {modal}
+ *     </>
+ *   )
  * }
  * ```
  */

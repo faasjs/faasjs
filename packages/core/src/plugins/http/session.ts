@@ -41,6 +41,22 @@ type SessionSecrets = {
 
 /**
  * Encrypted session storage backed by a signed cookie.
+ *
+ * @example
+ * ```ts
+ * import { Cookie } from '@faasjs/core'
+ *
+ * const cookie = new Cookie({
+ *   secure: false,
+ *   session: {
+ *     key: 'session_id',
+ *     secret: 'replace-me',
+ *   },
+ * })
+ *
+ * cookie.session.write('userId', '1').update()
+ * cookie.headers()
+ * ```
  */
 export class Session<
   S extends Record<string, string> = any,

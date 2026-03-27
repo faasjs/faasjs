@@ -19,3 +19,11 @@ CLI arguments forwarded to Commander.
 `Promise`\<`Command`\>
 
 Commander program instance after parsing.
+
+## Example
+
+```ts
+import { main } from 'create-faas-app'
+
+await main(['node', 'create-faas-app', '--help'])
+```

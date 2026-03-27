@@ -30,3 +30,23 @@ Table component with Ant Design & FaasJS
 ## Returns
 
 `Element` \| `null`
+
+## Example
+
+```tsx
+import { Table } from '@faasjs/ant-design'
+
+const rows = [
+  { id: 1, name: 'Alice', active: true },
+  { id: 2, name: 'Bob', active: false },
+]
+
+<Table
+  rowKey="id"
+  dataSource={rows}
+  items={[
+    { id: 'name', title: 'Name' },
+    { id: 'active', type: 'boolean', title: 'Active' },
+  ]}
+/>
+```

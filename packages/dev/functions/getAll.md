@@ -9,3 +9,13 @@ Return all server instances created in the current process.
 ## Returns
 
 [`Server`](../classes/Server.md)[]
+
+## Example
+
+```ts
+import { Server, getAll } from '@faasjs/core'
+
+const server = new Server(process.cwd())
+
+getAll().includes(server)
+```

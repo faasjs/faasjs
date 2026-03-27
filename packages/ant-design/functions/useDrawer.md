@@ -6,19 +6,6 @@
 
 Hook style drawer
 
-```tsx
-function Example() {
-  const { drawer, setDrawerProps } = useDrawer()
-
-  return (
-    <>
-      <Button onClick={() => setDrawerProps((prev) => ({ open: !prev.open }))}>Toggle</Button>
-      {drawer}
-    </>
-  )
-}
-```
-
 ## Parameters
 
 ### init?
@@ -40,3 +27,27 @@ function Example() {
 ### setDrawerProps
 
 > **setDrawerProps**: [`setDrawerProps`](../type-aliases/setDrawerProps.md)
+
+## Example
+
+```tsx
+import { useDrawer } from '@faasjs/ant-design'
+import { Button } from 'antd'
+
+function Example() {
+  const { drawer, setDrawerProps } = useDrawer()
+
+  return (
+    <>
+      <Button
+        onClick={() =>
+          setDrawerProps({ open: true, title: 'Details', children: <div>Content</div> })
+        }
+      >
+        Open
+      </Button>
+      {drawer}
+    </>
+  )
+}
+```

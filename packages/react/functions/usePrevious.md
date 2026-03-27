@@ -27,3 +27,15 @@ The current value to track.
 `T` \| `undefined`
 
 Previous value from the prior render, or `undefined` on the first render.
+
+## Example
+
+```tsx
+import { usePrevious } from '@faasjs/react'
+
+function Counter({ count }: { count: number }) {
+  const previous = usePrevious(count)
+
+  return <span>{previous} -> {count}</span>
+}
+```

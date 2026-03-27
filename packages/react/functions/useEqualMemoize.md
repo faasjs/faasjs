@@ -19,3 +19,15 @@ The value to be memoized.
 `any`
 
 The memoized value.
+
+## Example
+
+```tsx
+import { useEqualMemoize } from '@faasjs/react'
+
+function Filters({ filters }: { filters: Record<string, any> }) {
+  const memoizedFilters = useEqualMemoize(filters)
+
+  return <pre>{JSON.stringify(memoizedFilters)}</pre>
+}
+```

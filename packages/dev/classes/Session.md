@@ -4,6 +4,23 @@
 
 Encrypted session storage backed by a signed cookie.
 
+## Example
+
+```ts
+import { Cookie } from '@faasjs/core'
+
+const cookie = new Cookie({
+  secure: false,
+  session: {
+    key: 'session_id',
+    secret: 'replace-me',
+  },
+})
+
+cookie.session.write('userId', '1').update()
+cookie.headers()
+```
+
 ## Type Parameters
 
 ### S

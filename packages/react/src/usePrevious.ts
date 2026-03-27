@@ -6,6 +6,17 @@ import { useEffect, useRef } from 'react'
  * @template T - The type of the value.
  * @param value - The current value to track.
  * @returns Previous value from the prior render, or `undefined` on the first render.
+ *
+ * @example
+ * ```tsx
+ * import { usePrevious } from '@faasjs/react'
+ *
+ * function Counter({ count }: { count: number }) {
+ *   const previous = usePrevious(count)
+ *
+ *   return <span>{previous} -> {count}</span>
+ * }
+ * ```
  */
 export function usePrevious<T = any>(value: T): T | undefined {
   const ref = useRef<T>(undefined)

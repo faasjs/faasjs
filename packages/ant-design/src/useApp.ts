@@ -32,10 +32,29 @@ export const AppContext = createSplittingContext<useAppProps>([
 /**
  * Get app context.
  *
+ * @example
  * ```ts
- * import { useApp } from '@faasjs/ant-design'
+ * import { App, useApp } from '@faasjs/ant-design'
+ * import { Button } from 'antd'
  *
- * const { message, notification, setModalProps, setDrawerProps } = useApp()
+ * function Page() {
+ *   const { message, setModalProps } = useApp()
+ *
+ *   return (
+ *     <Button
+ *       onClick={() => {
+ *         message.success('Saved')
+ *         setModalProps({ open: true, title: 'Done', children: 'Profile updated.' })
+ *       }}
+ *     >
+ *       Save
+ *     </Button>
+ *   )
+ * }
+ *
+ * <App>
+ *   <Page />
+ * </App>
  * ```
  */
 export function useApp<NewT extends useAppProps = useAppProps>(this: void): Readonly<NewT> {

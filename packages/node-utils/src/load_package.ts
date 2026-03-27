@@ -64,6 +64,14 @@ let hooksInstalled = false
 
 /**
  * Reset cached runtime and loader state used by this module.
+ *
+ * @example
+ * ```ts
+ * import { loadPackage, resetRuntime } from '@faasjs/node-utils'
+ *
+ * await loadPackage('./src/hello.func.ts')
+ * resetRuntime()
+ * ```
  */
 export function resetRuntime(): void {
   _runtime = null
@@ -568,6 +576,15 @@ function installModuleHooks(): void {
  * Register Node module hooks for tsconfig path alias resolution.
  *
  * @param options - Hook registration options such as entry file, root, and tsconfig path.
+ *
+ * @example
+ * ```ts
+ * import { registerNodeModuleHooks } from '@faasjs/node-utils'
+ *
+ * registerNodeModuleHooks({
+ *   root: process.cwd(),
+ * })
+ * ```
  */
 export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions = {}): void {
   const { entry, ...loadOptions } = options
@@ -600,6 +617,13 @@ export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions 
  *
  * @returns `module` for ESM and `commonjs` for CJS.
  * @throws {Error} Throws an error if runtime cannot be determined.
+ *
+ * @example
+ * ```ts
+ * import { detectNodeRuntime } from '@faasjs/node-utils'
+ *
+ * const runtime = detectNodeRuntime()
+ * ```
  */
 export function detectNodeRuntime(): NodeRuntime {
   if (_runtime) return _runtime
@@ -620,6 +644,13 @@ export function detectNodeRuntime(): NodeRuntime {
  * @param defaultNames - Preferred export keys used to resolve default values.
  * @param options - Optional runtime loader options.
  * @returns Loaded module or resolved default export.
+ *
+ * @example
+ * ```ts
+ * import { loadPackage } from '@faasjs/node-utils'
+ *
+ * const func = await loadPackage('./src/hello.func.ts', ['func', 'default'])
+ * ```
  */
 export async function loadPackage<T = unknown>(
   name: string,

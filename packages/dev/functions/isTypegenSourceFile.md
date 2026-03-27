@@ -19,3 +19,12 @@ Absolute or relative file path.
 `boolean`
 
 `true` for `.func.ts` files and `faas.yaml` updates.
+
+## Example
+
+```ts
+import { isTypegenSourceFile } from '@faasjs/dev'
+
+isTypegenSourceFile('src/orders/create.func.ts') // true
+isTypegenSourceFile('src/orders/service.ts') // false
+```

@@ -122,6 +122,20 @@ type HttpInvokeState<
 
 /**
  * Error type that carries an HTTP status code for JSON error responses.
+ *
+ * @example
+ * ```ts
+ * import { HttpError, defineApi } from '@faasjs/core'
+ *
+ * export const func = defineApi({
+ *   async handler() {
+ *     throw new HttpError({
+ *       statusCode: 403,
+ *       message: 'Forbidden',
+ *     })
+ *   },
+ * })
+ * ```
  */
 export class HttpError extends Error {
   /**
@@ -190,6 +204,22 @@ function createCompressedStream(
 
 /**
  * HTTP lifecycle plugin that enriches invoke data with cookies, sessions, and response helpers.
+ *
+ * @example
+ * ```ts
+ * import { Http } from '@faasjs/core'
+ *
+ * const http = new Http({
+ *   config: {
+ *     cookie: {
+ *       session: {
+ *         key: 'session_id',
+ *         secret: 'replace-me',
+ *       },
+ *     },
+ *   },
+ * })
+ * ```
  */
 export class Http<
   TParams extends Record<string, any> = any,
@@ -494,6 +524,19 @@ export class Http<
  *
  * @param config - Optional HTTP plugin configuration.
  * @returns HTTP plugin instance wrapped for `usePlugin`.
+ *
+ * @example
+ * ```ts
+ * import { useFunc, useHttp } from '@faasjs/core'
+ *
+ * export const func = useFunc(() => {
+ *   useHttp()
+ *
+ *   return async ({ body }) => ({
+ *     received: body,
+ *   })
+ * })
+ * ```
  */
 export function useHttp<
   TParams extends Record<string, any> = any,

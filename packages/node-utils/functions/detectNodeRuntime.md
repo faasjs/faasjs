@@ -18,3 +18,11 @@ Node.js ESM detection via `process.versions.node`.
 ## Throws
 
 Throws an error if runtime cannot be determined.
+
+## Example
+
+```ts
+import { detectNodeRuntime } from '@faasjs/node-utils'
+
+const runtime = detectNodeRuntime()
+```

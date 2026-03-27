@@ -19,3 +19,15 @@ Project root and optional logger.
 `Promise`\<[`GenerateFaasTypesResult`](../type-aliases/GenerateFaasTypesResult.md)\>
 
 Summary describing the generated file and discovered routes.
+
+## Example
+
+```ts
+import { generateFaasTypes } from '@faasjs/dev'
+
+const result = await generateFaasTypes({
+  root: process.cwd(),
+})
+
+console.log(result.output, result.routeCount)
+```

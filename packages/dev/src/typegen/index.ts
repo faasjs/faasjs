@@ -133,6 +133,14 @@ ${actionLines.length ? `${actionLines.join('\n')}\n` : ''}  }
  *
  * @param filePath - Absolute or relative file path.
  * @returns `true` for `.func.ts` files and `faas.yaml` updates.
+ *
+ * @example
+ * ```ts
+ * import { isTypegenSourceFile } from '@faasjs/dev'
+ *
+ * isTypegenSourceFile('src/orders/create.func.ts') // true
+ * isTypegenSourceFile('src/orders/service.ts') // false
+ * ```
  */
 export function isTypegenSourceFile(filePath: string): boolean {
   return filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath)
@@ -143,6 +151,17 @@ export function isTypegenSourceFile(filePath: string): boolean {
  *
  * @param options - Project root and optional logger.
  * @returns Summary describing the generated file and discovered routes.
+ *
+ * @example
+ * ```ts
+ * import { generateFaasTypes } from '@faasjs/dev'
+ *
+ * const result = await generateFaasTypes({
+ *   root: process.cwd(),
+ * })
+ *
+ * console.log(result.output, result.routeCount)
+ * ```
  */
 export async function generateFaasTypes(
   options: GenerateFaasTypesOptions = {},
