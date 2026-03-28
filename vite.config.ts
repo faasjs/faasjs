@@ -66,7 +66,7 @@ const ignorePatterns = ['**/dist/**', 'node_modules/**']
 export default defineConfig({
   plugins: react(),
   staged: {
-    '*': 'vp check --fix',
+    '*': 'npx vp check --fix',
   },
   resolve: {
     tsconfigPaths: true,

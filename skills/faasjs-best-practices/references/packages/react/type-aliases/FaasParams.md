@@ -1,0 +1,21 @@
+[@faasjs/react](../README.md) / FaasParams
+
+# Type Alias: FaasParams\<T\>
+
+> **FaasParams**\<`T`\> = `T` _extends_ `FaasActionPaths` ? `FaasActions`\[`T`\]\[`"Params"`\] : `Record`\<`string`, `any`\>
+
+Infer params type by action path.
+
+## Type Parameters
+
+### T
+
+`T` = `any`
+
+Candidate action path type.
+
+## Example
+
+```typescript
+type DemoParams = FaasParams<'demo'>
+```

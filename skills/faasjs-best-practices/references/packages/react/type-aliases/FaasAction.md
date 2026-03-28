@@ -1,0 +1,25 @@
+[@faasjs/react](../README.md) / FaasAction
+
+# Type Alias: FaasAction\<T\>
+
+> **FaasAction**\<`T`\> = `T` _extends_ `FaasActionPaths` ? `T` : `string`
+
+Infer the action path type.
+
+Returns the original type when `T` is a known action path,
+otherwise falls back to `string`.
+
+## Type Parameters
+
+### T
+
+`T` = `any`
+
+Candidate action path type.
+
+## Example
+
+```typescript
+type A = FaasAction<'demo'> // 'demo'
+type B = FaasAction<number> // string
+```

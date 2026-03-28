@@ -1,0 +1,7 @@
+[@faasjs/dev](../README.md) / LifeCycleKey
+
+# Type Alias: LifeCycleKey
+
+> **LifeCycleKey** = `"onMount"` \| `"onInvoke"`
+
+Supported plugin lifecycle keys used by [Func](../classes/Func.md).
