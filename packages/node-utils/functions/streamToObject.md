@@ -4,7 +4,7 @@
 
 > **streamToObject**\<`T`\>(`stream`): `Promise`\<`T`\>
 
-Convert ReadableStream to object.
+Parse a JSON value from a byte stream.
 
 ## Type Parameters
 
@@ -26,11 +26,15 @@ Readable stream to decode as JSON.
 
 `Promise`\<`T`\>
 
-Parsed JSON object from the stream body.
+Parsed JSON value from the stream body.
 
 ## Throws
 
 If stream is not a ReadableStream instance.
+
+## Throws
+
+If the stream body is not valid JSON.
 
 ## Example
 

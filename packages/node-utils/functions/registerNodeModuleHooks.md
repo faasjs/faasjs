@@ -4,7 +4,10 @@
 
 > **registerNodeModuleHooks**(`options?`): `void`
 
-Register Node module hooks for tsconfig path alias resolution.
+Install Node module hooks for tsconfig path aliases and TypeScript-friendly local imports.
+
+Calling this function multiple times is safe. Hooks are installed once, while loader state is refreshed
+from the latest options when a root, entry, or tsconfig path can be inferred.
 
 ## Parameters
 
@@ -12,9 +15,7 @@ Register Node module hooks for tsconfig path alias resolution.
 
 [`RegisterNodeModuleHooksOptions`](../type-aliases/RegisterNodeModuleHooksOptions.md) = `{}`
 
-Hook registration options such as entry file, root, and tsconfig path.
-See [RegisterNodeModuleHooksOptions](../type-aliases/RegisterNodeModuleHooksOptions.md) for supported fields such as `entry`, `root`,
-`tsconfigPath`, and `version`.
+Hook registration options such as entry file, root, tsconfig path, and cache-busting version.
 
 ## Returns
 

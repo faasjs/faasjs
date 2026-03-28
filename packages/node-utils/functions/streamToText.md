@@ -4,7 +4,7 @@
 
 > **streamToText**(`stream`): `Promise`\<`string`\>
 
-Convert ReadableStream to text.
+Read a byte stream into a UTF-8 string.
 
 ## Parameters
 

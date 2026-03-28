@@ -4,13 +4,11 @@
 
 > **deepMerge**(...`sources`): `any`
 
-Deep merge two objects or arrays.
+Deeply clone and merge plain objects or arrays.
 
-Features:
-
-- All objects will be cloned before merging.
-- Merging order is from right to left.
-- If an array include same objects, it will be unique to one.
+Later sources override earlier object properties, and nested objects are merged recursively.
+Array values are deduplicated with `Set`, with items from newer sources appearing first.
+Non-object and non-array inputs are ignored.
 
 ## Parameters
 
@@ -18,11 +16,13 @@ Features:
 
 ...`any`[]
 
-Objects or arrays merged from right to left.
+Objects or arrays to merge from left to right.
 
 ## Returns
 
 `any`
+
+A cloned merged value built from the provided sources.
 
 ## Example
 
@@ -30,5 +30,5 @@ Objects or arrays merged from right to left.
 import { deepMerge } from '@faasjs/node-utils'
 
 deepMerge({ a: 1 }, { a: 2 }) // { a: 2 }
-deepMerge([1, 2], [2, 3]) // [1, 2, 3]
+deepMerge({ a: [0] }, { a: [1] }) // { a: [1, 0] }
 ```

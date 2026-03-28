@@ -4,20 +4,19 @@
 
 > **detectNodeRuntime**(): [`NodeRuntime`](../type-aliases/NodeRuntime.md)
 
-Detect current JavaScript runtime environment.
+Detect whether the current Node process should load modules through CommonJS or ESM.
 
-This function checks for presence of `require` first, then falls back to
-Node.js ESM detection via `process.versions.node`.
+The detected runtime is cached until [resetRuntime](resetRuntime.md) is called.
 
 ## Returns
 
 [`NodeRuntime`](../type-aliases/NodeRuntime.md)
 
-`module` for ESM and `commonjs` for CJS.
+`'module'` for ESM and `'commonjs'` for CommonJS.
 
 ## Throws
 
-Throws an error if runtime cannot be determined.
+If the runtime cannot be determined from the current global environment.
 
 ## Example
 

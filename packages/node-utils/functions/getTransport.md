@@ -4,11 +4,15 @@
 
 > **getTransport**(): [`Transport`](../classes/Transport.md)
 
-Get the shared transport instance used by Logger.
+Return the singleton transport used by [Logger](../classes/Logger.md).
+
+The instance is created lazily on first access.
 
 ## Returns
 
 [`Transport`](../classes/Transport.md)
+
+Shared transport instance.
 
 ## Example
 

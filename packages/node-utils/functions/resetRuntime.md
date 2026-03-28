@@ -4,7 +4,10 @@
 
 > **resetRuntime**(): `void`
 
-Reset cached runtime and loader state used by this module.
+Clear cached runtime detection and loader state used by this module.
+
+Installed Node module hooks remain active. This only resets in-memory state used by
+[detectNodeRuntime](detectNodeRuntime.md) and [loadPackage](loadPackage.md).
 
 ## Returns
 

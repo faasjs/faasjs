@@ -2,11 +2,17 @@ import { loadConfig } from './load_config'
 import { loadPackage } from './load_package'
 
 /**
- * Runtime-compatible handler signature exported by packaged FaasJS functions.
+ * Promise-based handler signature exported by packaged FaasJS function modules.
+ *
+ * The optional callback keeps compatibility with runtimes that still expose a Node-style completion API.
  *
  * @template TEvent - Runtime event type.
  * @template TContext - Runtime context type.
  * @template TResult - Async result type returned by the handler.
+ * @param {TEvent} [event] - Runtime event payload passed to the handler.
+ * @param {TContext} [context] - Runtime context object passed to the handler.
+ * @param {(...args: any[]) => any} [callback] - Optional callback supplied by callback-based runtimes.
+ * @returns {Promise<TResult>} Promise that resolves to the handler result.
  */
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
@@ -24,15 +30,18 @@ type FuncLike<TEvent = any, TContext = any, TResult = any> = {
 }
 
 /**
- * Load a FaasJS function and its configuration, returning the handler.
+ * Load a packaged FaasJS function, attach its resolved config, and return the exported handler.
+ *
+ * The loaded module is expected to expose an `export()` method that returns an object with a `handler`.
  *
  * @template TEvent - Runtime event type.
  * @template TContext - Runtime context type.
  * @template TResult - Async result type returned by the handler.
- * @param root - Project root directory used to resolve configuration.
- * @param filename - Path to the packaged FaasJS function file to load.
- * @param staging - Staging directory name used when locating config.
- * @returns A promise that resolves to the function handler.
+ * @param {string} root - Project root directory used to resolve configuration.
+ * @param {string} filename - Path to the packaged FaasJS function file to load.
+ * @param {string} staging - Staging name used when locating config.
+ * @returns {Promise<ExportedHandler<TEvent, TContext, TResult>>} Promise that resolves to the function handler.
+ * @throws {Error} If the function module or its `faas.yaml` configuration cannot be loaded.
  *
  * @example
  * ```ts

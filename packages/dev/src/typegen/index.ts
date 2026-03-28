@@ -16,19 +16,37 @@ type RouteTypeItem = {
  * Options for generating `@faasjs/types` route declarations.
  */
 export type GenerateFaasTypesOptions = {
-  /** faas project root path, default is process.cwd() */
+  /**
+   * Project root used to resolve `src/` and emit `src/.faasjs/types.d.ts`.
+   *
+   * @default process.cwd()
+   */
   root?: string
-  /** optional logger instance */
+  /**
+   * Logger used to report generation progress.
+   */
   logger?: Logger
 }
 
 /**
- * Result returned by {@link generateFaasTypes}.
+ * Summary returned by {@link generateFaasTypes}.
  */
 export type GenerateFaasTypesResult = {
+  /**
+   * Output path of the generated declaration file.
+   */
   output: string
+  /**
+   * Whether the generator wrote new content to disk.
+   */
   changed: boolean
+  /**
+   * Number of `*.func.ts` files discovered under `src/`.
+   */
   fileCount: number
+  /**
+   * Number of route entries emitted into the declaration file.
+   */
   routeCount: number
 }
 
@@ -131,9 +149,8 @@ ${actionLines.length ? `${actionLines.join('\n')}\n` : ''}  }
 /**
  * Determine whether a file change should trigger Faas type generation.
  *
- * @param filePath - Absolute or relative file path.
- * @returns `true` for `.func.ts` files and `faas.yaml` updates.
- *
+ * @param {string} filePath - Absolute or relative path reported by a file watcher.
+ * @returns `true` when the changed file can affect generated route declarations.
  * @example
  * ```ts
  * import { isTypegenSourceFile } from '@faasjs/dev'
@@ -149,11 +166,15 @@ export function isTypegenSourceFile(filePath: string): boolean {
 /**
  * Generate `src/.faasjs/types.d.ts` for a FaasJS project.
  *
- * @param options - Project root and optional logger.
- * @param options.root - Project root used to resolve `src/` and route files.
- * @param options.logger - Logger used to report generation progress.
- * @returns Summary describing the generated file and discovered routes.
+ * The generator scans the `src/` tree for `.func.ts` files, converts file
+ * names into routes, and keeps the most specific file when multiple files
+ * resolve to the same route.
  *
+ * @param {GenerateFaasTypesOptions} [options] - Project root and logger overrides.
+ * @param {string} [options.root] - Project root used to resolve `src/` and the output file.
+ * @param {Logger} [options.logger] - Logger used to report generation progress.
+ * @returns Summary describing the generated file and discovered routes.
+ * @throws {Error} When the resolved `src/` directory does not exist.
  * @example
  * ```ts
  * import { generateFaasTypes } from '@faasjs/dev'

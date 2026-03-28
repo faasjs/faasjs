@@ -4,7 +4,7 @@
 
 > **RegisterNodeModuleHooksOptions** = [`LoadPackageOptions`](LoadPackageOptions.md) & `object`
 
-Options for registering Node module hooks before loading application modules.
+Options for preloading Node module hooks that resolve tsconfig paths and local TypeScript files.
 
 ## Type Declaration
 
@@ -12,6 +12,10 @@ Options for registering Node module hooks before loading application modules.
 
 > `optional` **entry?**: `string`
 
-Optional entry file used to infer project root and tsconfig.
+Application entry file used to infer the project root and tsconfig path.
 
-Defaults to `process.argv[1]` when omitted.
+#### Default
+
+```ts
+process.argv[1]
+```

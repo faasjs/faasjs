@@ -2,7 +2,14 @@
 
 # Class: FuncWarper\<TFunc\>
 
-Test wrapper for a function.
+Wrap a FaasJS function with helpers for mounting and assertion-friendly invocations.
+
+The wrapper resolves config for the current `FaasEnv`, mounts lazily, and
+exposes helpers for raw handler calls and HTTP-style JSON assertions.
+
+## See
+
+[test](../functions/test.md)
 
 ## Example
 
@@ -29,7 +36,10 @@ Wrapped FaasJS function type.
 
 > **new FuncWarper**\<`TFunc`\>(`initBy`): `FuncWarper`\<`TFunc`\>
 
-Create a test wrapper around a FaasJS function module.
+Create a wrapper around a FaasJS function instance for repeated test calls.
+
+If a module object with a `default` export is passed at runtime, the
+default export is used.
 
 #### Parameters
 
@@ -37,17 +47,20 @@ Create a test wrapper around a FaasJS function module.
 
 `TFunc`
 
-FaasJS function module or exported function instance.
-
-```ts
-import { FuncWarper } from '@faasjs/dev'
-
-new FuncWarper(__dirname + '/../demo.func.ts')
-```
+Function instance to wrap.
 
 #### Returns
 
 `FuncWarper`\<`TFunc`\>
+
+#### Example
+
+```ts
+import { FuncWarper } from '@faasjs/dev'
+import { func } from './hello.func'
+
+const wrapped = new FuncWarper(func)
+```
 
 ## Methods
 
@@ -71,13 +84,13 @@ Expected response type returned by the handler.
 
 `any` = `...`
 
-Runtime event to pass to the exported handler.
+Runtime event passed to the exported handler.
 
 ##### context?
 
 `any` = `...`
 
-Runtime context to pass to the exported handler.
+Runtime context passed to the exported handler.
 
 #### Returns
 
@@ -90,6 +103,9 @@ Handler result.
 > **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{\[`key`: `string`\]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
 
 Invoke an HTTP-enabled function with JSON body helpers and decoded cookies.
+
+JSON responses populate `data` and `error`, while `Set-Cookie` headers are
+decoded into the returned `cookie` and `session` objects.
 
 #### Type Parameters
 
@@ -139,6 +155,18 @@ Normalized HTTP response payload for assertions.
 
 When the wrapped function does not use the HTTP plugin.
 
+#### Example
+
+```ts
+import { test } from '@faasjs/dev'
+import { func } from './hello.func'
+
+const wrapped = test(func)
+const response = await wrapped.JSONhandler({ name: 'FaasJS' }, { session: { userId: '1' } })
+
+expect(response.data).toEqual({ message: 'Hello, FaasJS' })
+```
+
 ### mount()
 
 > **mount**(`handler?`): `Promise`\<`void`\>
@@ -156,6 +184,8 @@ Optional callback invoked after mount.
 #### Returns
 
 `Promise`\<`void`\>
+
+Resolves after the function has been mounted and the callback has finished.
 
 ## Properties
 

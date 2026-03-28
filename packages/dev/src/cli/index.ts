@@ -18,6 +18,13 @@ const Commands = {
   types: runTypesCli,
 } as const
 
+/**
+ * Run the top-level `faas` CLI.
+ *
+ * @param {string[]} args - Arguments after the `faas` executable name.
+ * @returns Exit code for the selected subcommand.
+ * @throws {Error} When the subcommand name is unknown.
+ */
 export async function run(args: string[]): Promise<number> {
   const command = args[0]
 
@@ -35,4 +42,7 @@ export async function run(args: string[]): Promise<number> {
   return await handler(args.slice(1))
 }
 
+/**
+ * Default Node.js entrypoint for the `faas` binary.
+ */
 export const main = createMain(run)

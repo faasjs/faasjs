@@ -4,7 +4,10 @@
 
 > **test**\<`TFunc`\>(`initBy`): [`FuncWarper`](../classes/FuncWarper.md)\<`TFunc`\>
 
-Create a [FuncWarper](../classes/FuncWarper.md) for tests.
+Create a bound [FuncWarper](../classes/FuncWarper.md) for tests.
+
+The returned wrapper binds `mount()`, `handler()`, and `JSONhandler()` so
+they can be passed around without losing their instance context.
 
 ## Type Parameters
 
@@ -20,11 +23,17 @@ Wrapped FaasJS function type.
 
 `TFunc`
 
-FaasJS function module or exported function instance.
+Function instance passed to [FuncWarper](../classes/FuncWarper.md).
 
 ## Returns
 
 [`FuncWarper`](../classes/FuncWarper.md)\<`TFunc`\>
+
+Bound wrapper instance.
+
+## See
+
+[FuncWarper](../classes/FuncWarper.md)
 
 ## Example
 

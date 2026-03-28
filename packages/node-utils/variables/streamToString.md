@@ -4,9 +4,9 @@
 
 > `const` **streamToString**: (`stream`) => `Promise`\<`string`\> = `streamToText`
 
-Alias of [streamToText](../functions/streamToText.md).
+Alias of [streamToText](../functions/streamToText.md) for string-oriented call sites.
 
-Convert ReadableStream to text.
+Read a byte stream into a UTF-8 string.
 
 ## Parameters
 
@@ -39,4 +39,19 @@ const stream = new ReadableStream<Uint8Array>({
 })
 
 await streamToText(stream) // 'hello'
+```
+
+## Example
+
+```ts
+import { streamToString } from '@faasjs/node-utils'
+
+const stream = new ReadableStream<Uint8Array>({
+  start(controller) {
+    controller.enqueue(new TextEncoder().encode('hello'))
+    controller.close()
+  },
+})
+
+await streamToString(stream) // 'hello'
 ```

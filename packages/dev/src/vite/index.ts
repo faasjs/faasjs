@@ -56,11 +56,15 @@ function stripBase(url: string, base: string): string {
 }
 
 /**
- * Create a Vite plugin that proxies POST requests to an in-process FaasJS server.
+ * Create a Vite plugin that forwards POST requests to an in-process FaasJS server.
  *
- * It resolves server root/base from `src/faas.yaml` and strips `base` from
- * request URL before forwarding to `@faasjs/core`.
+ * The plugin resolves server settings from `src/faas.yaml`, strips the Vite
+ * `base` prefix from request URLs, restarts the in-process server when source
+ * files change, and refreshes generated route declarations for
+ * `@faasjs/types`.
  *
+ * @returns Vite plugin instance for local FaasJS development.
+ * @see {@link generateFaasTypes}
  * @example
  * ```ts
  * import { defineConfig } from 'vite'

@@ -4,7 +4,7 @@
 
 > **LoadPackageOptions** = `object`
 
-Options for resolving packages with runtime hooks and tsconfig path aliases.
+Options for loading modules with tsconfig path aliases and runtime-aware cache control.
 
 ## Properties
 
@@ -12,16 +12,22 @@ Options for resolving packages with runtime hooks and tsconfig path aliases.
 
 > `optional` **root?**: `string`
 
-Project root used to scope tsconfig paths resolving.
+Project root used to scope tsconfig path alias resolution.
 
 ### tsconfigPath?
 
 > `optional` **tsconfigPath?**: `string`
 
-Explicit tsconfig path, defaults to `<root>/tsconfig.json`.
+Explicit tsconfig file path used to load path alias rules.
+
+#### Default
+
+```ts
+'<root>/tsconfig.json'
+```
 
 ### version?
 
 > `optional` **version?**: `string`
 
-Optional version token used to bust ESM module cache.
+Version token appended to ESM file URLs to bypass Node's module cache.

@@ -14,6 +14,16 @@ Options:
   -v, --version      Show version
 `
 
+/**
+ * Run the `faas types` command.
+ *
+ * The command loads local environment files before generating
+ * `src/.faasjs/types.d.ts`.
+ *
+ * @param {string[]} args - Arguments after `faas types`.
+ * @returns Exit code for the command.
+ * @throws {Error} When unexpected positional arguments are provided.
+ */
 export async function run(args: string[]): Promise<number> {
   const { mode, options, rest } = parseCommonCliArgs(args, 'faas types')
 
@@ -39,4 +49,7 @@ export async function run(args: string[]): Promise<number> {
   return 0
 }
 
+/**
+ * Default Node.js entrypoint for `faas types`.
+ */
 export const main = createMain(run)

@@ -4,7 +4,10 @@
 
 > **loadConfig**(`root`, `filename`, `staging`, `logger?`): [`FuncConfig`](../type-aliases/FuncConfig.md)
 
-Load resolved config for a function and staging.
+Resolve the staged `faas.yaml` config for a function file.
+
+This walks from `root` to the function directory, merges every discovered `faas.yaml`,
+applies the `defaults` stage, and annotates plugin entries with their resolved `name`.
 
 ## Parameters
 
@@ -12,13 +15,13 @@ Load resolved config for a function and staging.
 
 `string`
 
-Project root.
+Project root directory used to scope config discovery.
 
 ### filename
 
 `string`
 
-Function filename.
+Function filename whose directory controls nested config lookup.
 
 ### staging
 
@@ -30,13 +33,17 @@ Staging name to resolve.
 
 [`Logger`](../classes/Logger.md)
 
-Optional logger.
+Optional logger used while loading config files.
 
 ## Returns
 
 [`FuncConfig`](../type-aliases/FuncConfig.md)
 
 Resolved config for the requested staging.
+
+## Throws
+
+If a discovered `faas.yaml` cannot be parsed or fails schema validation.
 
 ## Example
 

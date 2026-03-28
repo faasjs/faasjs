@@ -4,7 +4,7 @@
 
 > **FuncPluginConfig** = `object`
 
-Plugin config entry loaded from `faas.yaml`.
+Per-plugin configuration entry resolved from `faas.yaml`.
 
 ## Indexable
 
@@ -16,6 +16,8 @@ Plugin config entry loaded from `faas.yaml`.
 
 > `optional` **config?**: `object`
 
+Plugin-specific configuration payload.
+
 #### Index Signature
 
 \[`key`: `string`\]: `any`
@@ -24,6 +26,10 @@ Plugin config entry loaded from `faas.yaml`.
 
 > `optional` **name?**: `string`
 
+Plugin key assigned during config resolution.
+
 ### type?
 
 > `optional` **type?**: `string`
+
+Plugin type identifier consumed by the runtime or plugin loader.

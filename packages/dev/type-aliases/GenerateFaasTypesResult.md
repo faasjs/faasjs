@@ -4,7 +4,7 @@
 
 > **GenerateFaasTypesResult** = `object`
 
-Result returned by [generateFaasTypes](../functions/generateFaasTypes.md).
+Summary returned by [generateFaasTypes](../functions/generateFaasTypes.md).
 
 ## Properties
 
@@ -12,14 +12,22 @@ Result returned by [generateFaasTypes](../functions/generateFaasTypes.md).
 
 > **changed**: `boolean`
 
+Whether the generator wrote new content to disk.
+
 ### fileCount
 
 > **fileCount**: `number`
+
+Number of `*.func.ts` files discovered under `src/`.
 
 ### output
 
 > **output**: `string`
 
+Output path of the generated declaration file.
+
 ### routeCount
 
 > **routeCount**: `number`
+
+Number of route entries emitted into the declaration file.

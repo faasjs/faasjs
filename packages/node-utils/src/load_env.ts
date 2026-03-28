@@ -6,19 +6,28 @@ import { loadEnvFile } from 'node:process'
  * Options for {@link loadEnvFileIfExists}.
  */
 export type LoadEnvFileIfExistsOptions = {
+  /**
+   * Working directory used to resolve the env file path.
+   *
+   * @default process.cwd()
+   */
   cwd?: string
+  /**
+   * Env filename relative to `cwd`.
+   *
+   * @default '.env'
+   */
   filename?: string
 }
 
 /**
- * Load a dotenv file if it exists.
+ * Load a dotenv file with Node's built-in `loadEnvFile` when the file exists.
  *
- * - Defaults to `${process.cwd()}/.env`.
- * - Existing environment variables are preserved (Node.js behavior).
+ * Existing `process.env` values are preserved because Node.js does not overwrite them.
  *
- * @param options - Optional working directory and filename overrides.
- * @param options.cwd - Working directory used to resolve the dotenv file.
- * @param options.filename - Env filename relative to `cwd`. Defaults to `.env`.
+ * @param {LoadEnvFileIfExistsOptions} [options={}] - Optional working directory and filename overrides.
+ * @returns {string | null} Resolved env file path, or `null` when the file does not exist.
+ * @throws {Error} If the resolved path exists but cannot be read as a file.
  *
  * @example
  * ```ts

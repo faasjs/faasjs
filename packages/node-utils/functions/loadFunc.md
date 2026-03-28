@@ -4,7 +4,9 @@
 
 > **loadFunc**\<`TEvent`, `TContext`, `TResult`\>(`root`, `filename`, `staging`): `Promise`\<[`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>\>
 
-Load a FaasJS function and its configuration, returning the handler.
+Load a packaged FaasJS function, attach its resolved config, and return the exported handler.
+
+The loaded module is expected to expose an `export()` method that returns an object with a `handler`.
 
 ## Type Parameters
 
@@ -44,13 +46,17 @@ Path to the packaged FaasJS function file to load.
 
 `string`
 
-Staging directory name used when locating config.
+Staging name used when locating config.
 
 ## Returns
 
 `Promise`\<[`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>\>
 
-A promise that resolves to the function handler.
+Promise that resolves to the function handler.
+
+## Throws
+
+If the function module or its `faas.yaml` configuration cannot be loaded.
 
 ## Example
 

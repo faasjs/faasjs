@@ -4,7 +4,10 @@
 
 > **loadPackage**\<`T`\>(`name`, `defaultNames?`, `options?`): `Promise`\<`T`\>
 
-Asynchronously loads a package by its name, supporting both ESM and CJS.
+Load a module in the current Node runtime and optionally resolve a preferred export key.
+
+In ESM mode, the loader can install tsconfig-aware hooks and append a version query string to bust
+Node's import cache for project-local files.
 
 ## Type Parameters
 
@@ -20,25 +23,29 @@ The type of module to be loaded.
 
 `string`
 
-The package name to load.
+Package name, file path, or module specifier to load.
 
 ### defaultNames?
 
 `string` \| `string`[]
 
-Preferred export keys used to resolve default values.
+Preferred export key or keys to resolve before falling back to the full module object.
 
 ### options?
 
 [`LoadPackageOptions`](../type-aliases/LoadPackageOptions.md) = `{}`
 
-Optional runtime loader options.
+Optional loader overrides such as project root, tsconfig path, or cache-busting version.
 
 ## Returns
 
 `Promise`\<`T`\>
 
-Loaded module or resolved default export.
+Loaded export value or the full module namespace when no preferred key exists.
+
+## Throws
+
+If the runtime cannot be detected or the requested module fails to load.
 
 ## Example
 

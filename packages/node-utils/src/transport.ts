@@ -4,15 +4,33 @@ import { type Level, Logger } from './logger'
  * Serialized log entry sent to transport handlers.
  */
 export type LoggerMessage = {
+  /**
+   * Log level that produced the message.
+   */
   level: Level
+  /**
+   * Label segments captured from the logger.
+   */
   labels: string[]
+  /**
+   * Fully formatted log text.
+   */
   message: string
+  /**
+   * Unix timestamp in milliseconds for when the entry was created.
+   */
   timestamp: number
+  /**
+   * Original extra values forwarded alongside the formatted message.
+   */
   extra?: any[]
 }
 
 /**
  * Async callback used by {@link Transport} to flush buffered log messages.
+ *
+ * @param {LoggerMessage[]} messages - Buffered messages being flushed together.
+ * @returns {Promise<void>} Promise that resolves when the batch has been processed.
  */
 export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
 
@@ -20,39 +38,52 @@ export type TransportHandler = (messages: LoggerMessage[]) => Promise<void>
  * Options for configuring the shared logger transport.
  */
 export type TransportOptions = {
-  /** @default 'LoggerTransport' */
+  /**
+   * Label used by the transport's internal {@link Logger}.
+   *
+   * @default 'LoggerTransport'
+   */
   label?: string
-  /** @default 5000 */
+  /**
+   * Flush interval in milliseconds.
+   *
+   * @default 5000
+   */
   interval?: number
-  /** @default false */
+  /**
+   * When true, the transport's internal logger emits debug diagnostics.
+   *
+   * @default false
+   */
   debug?: boolean
 }
 
 /**
- * The transport class that manages the transport handlers and log messages.
+ * Buffer log messages and flush them to registered async handlers on an interval.
  *
- * **Note: This class is not meant to be used directly. Use the {@link getTransport} instead.**
+ * Use {@link getTransport} to access the shared singleton that {@link Logger} writes into by default.
  *
+ * @see {@link getTransport}
  * @example
- * ```typescript
+ * ```ts
  * import { getTransport } from '@faasjs/node-utils'
  *
  * const transport = getTransport()
  *
  * transport.register('test', async (messages) => {
- *  for (const { level, message } of messages)
- *    console.log(level, message)
+ *   for (const { level, message } of messages)
+ *     console.log(level, message)
  * })
  *
  * transport.config({ label: 'test', debug: true })
  *
- * // If you using Logger, it will automatically insert messages to the transport.
+ * // If you use Logger, it will automatically insert messages into the transport.
  * // Otherwise, you can insert messages manually.
  * transport.insert({
  *   level: 'info',
  *   labels: ['server'],
  *   message: 'test message',
- *   timestamp: Date.now()
+ *   timestamp: Date.now(),
  * })
  *
  * process.on('SIGINT', async () => {
@@ -86,10 +117,12 @@ export class Transport {
   }
 
   /**
-   * Registers a new transport handler.
+   * Register a named flush handler.
    *
-   * @param name - The name of the transport handler.
-   * @param handler - The transport handler function to be registered.
+   * Registering the same name again replaces the previous handler.
+   *
+   * @param {string} name - Transport handler name.
+   * @param {TransportHandler} handler - Async handler invoked for each flushed batch.
    */
   register(name: string, handler: TransportHandler) {
     this.logger.info('register', name)
@@ -100,12 +133,11 @@ export class Transport {
   }
 
   /**
-   * Unregister a handler by its name.
+   * Remove a named handler from the transport.
    *
-   * This method logs the unregistration process, removes the handler from the internal collection,
-   * and disables the logger if no handlers remain.
+   * When the last handler is removed, the transport stops accepting new messages until it is re-enabled.
    *
-   * @param name - The name of the handler to unregister.
+   * @param {string} name - Transport handler name to remove.
    */
   unregister(name: string) {
     this.logger.info('unregister', name)
@@ -116,9 +148,11 @@ export class Transport {
   }
 
   /**
-   * Inserts a log message into the transport if it is enabled.
+   * Queue a formatted log message for the next flush.
    *
-   * @param message - The log message to be inserted.
+   * This is a no-op when the transport is disabled.
+   *
+   * @param {LoggerMessage} message - Log message to buffer.
    */
   insert(message: LoggerMessage) {
     if (!this.enabled) return
@@ -127,15 +161,12 @@ export class Transport {
   }
 
   /**
-   * Flushes the current messages by processing them with the registered handlers.
+   * Flush the current message buffer through every registered handler.
    *
-   * If the transport is already flushing, it will wait until the current flush is complete.
-   * If the transport is disabled or there are no messages to flush, it will return immediately.
-   * If there are no handlers registered, it will log a warning, clear the messages, disable the transport, and stop the interval.
+   * Concurrent callers wait for the active flush to finish. If no handlers are registered, the transport clears
+   * the buffered messages, disables itself, and stops the interval until reconfigured.
    *
-   * The method processes all messages with each handler and logs any errors encountered during the process.
-   *
-   * @returns {Promise<void>} A promise that resolves when the flush operation is complete.
+   * @returns {Promise<void>} Promise that resolves after the active flush completes.
    */
   async flush() {
     if (this.flushing)
@@ -175,15 +206,9 @@ export class Transport {
   }
 
   /**
-   * Stops the logger transport.
+   * Stop periodic flushing and drain any buffered messages.
    *
-   * This method performs the following actions:
-   * 1. Logs a 'stopping' message.
-   * 2. Clears the interval if it is set.
-   * 3. Flushes any remaining logs.
-   * 4. Disables the transport.
-   *
-   * @returns {Promise<void>} A promise that resolves when the transport has been stopped.
+   * @returns {Promise<void>} Promise that resolves when the transport has fully stopped.
    */
   async stop() {
     this.logger.info('stopping')
@@ -199,8 +224,9 @@ export class Transport {
   }
 
   /**
-   * Resets the transport by clearing handlers, emptying messages, and re-enabling the transport.
-   * If an interval is set, it will be cleared.
+   * Clear handlers and buffered messages without destroying the singleton instance.
+   *
+   * This also clears the interval so tests or setup code can reconfigure the transport from a clean state.
    */
   reset() {
     this.handlers.clear()
@@ -214,12 +240,11 @@ export class Transport {
   }
 
   /**
-   * Configure the transport options for the logger.
+   * Update runtime options for the shared transport logger.
    *
-   * @param options - Transport configuration such as label, flush interval, and debug mode.
-   * @param options.label - Logger label used by the internal transport logger.
-   * @param options.interval - Flush interval in milliseconds.
-   * @param options.debug - Whether transport internals should log at debug level.
+   * Calling this method also re-enables a previously disabled transport.
+   *
+   * @param {TransportOptions} options - Transport configuration such as label, flush interval, and debug mode.
    */
   config(options: TransportOptions) {
     if (options.label) this.logger.label = options.label
@@ -239,8 +264,11 @@ export class Transport {
 let current: Transport
 
 /**
- * Get the shared transport instance used by Logger.
+ * Return the singleton transport used by {@link Logger}.
  *
+ * The instance is created lazily on first access.
+ *
+ * @returns {Transport} Shared transport instance.
  * @example
  * ```ts
  * import { getTransport, Logger } from '@faasjs/node-utils'

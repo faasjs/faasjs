@@ -4,30 +4,38 @@ import { dirname, extname, isAbsolute, join, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 /**
- * JavaScript module runtime detected for the current process.
+ * Supported Node.js module runtimes recognized by {@link detectNodeRuntime}.
  */
 export type NodeRuntime = 'commonjs' | 'module'
 
 /**
- * Options for resolving packages with runtime hooks and tsconfig path aliases.
+ * Options for loading modules with tsconfig path aliases and runtime-aware cache control.
  */
 export type LoadPackageOptions = {
-  /** Project root used to scope tsconfig paths resolving. */
+  /**
+   * Project root used to scope tsconfig path alias resolution.
+   */
   root?: string
-  /** Explicit tsconfig path, defaults to `<root>/tsconfig.json`. */
+  /**
+   * Explicit tsconfig file path used to load path alias rules.
+   *
+   * @default '<root>/tsconfig.json'
+   */
   tsconfigPath?: string
-  /** Optional version token used to bust ESM module cache. */
+  /**
+   * Version token appended to ESM file URLs to bypass Node's module cache.
+   */
   version?: string
 }
 
 /**
- * Options for registering Node module hooks before loading application modules.
+ * Options for preloading Node module hooks that resolve tsconfig paths and local TypeScript files.
  */
 export type RegisterNodeModuleHooksOptions = LoadPackageOptions & {
   /**
-   * Optional entry file used to infer project root and tsconfig.
+   * Application entry file used to infer the project root and tsconfig path.
    *
-   * Defaults to `process.argv[1]` when omitted.
+   * @default process.argv[1]
    */
   entry?: string
 }
@@ -63,7 +71,10 @@ let _runtime: NodeRuntime | null = null
 let hooksInstalled = false
 
 /**
- * Reset cached runtime and loader state used by this module.
+ * Clear cached runtime detection and loader state used by this module.
+ *
+ * Installed Node module hooks remain active. This only resets in-memory state used by
+ * {@link detectNodeRuntime} and {@link loadPackage}.
  *
  * @example
  * ```ts
@@ -573,11 +584,12 @@ function installModuleHooks(): void {
 }
 
 /**
- * Register Node module hooks for tsconfig path alias resolution.
+ * Install Node module hooks for tsconfig path aliases and TypeScript-friendly local imports.
  *
- * @param options - Hook registration options such as entry file, root, and tsconfig path.
- * See {@link RegisterNodeModuleHooksOptions} for supported fields such as `entry`, `root`,
- * `tsconfigPath`, and `version`.
+ * Calling this function multiple times is safe. Hooks are installed once, while loader state is refreshed
+ * from the latest options when a root, entry, or tsconfig path can be inferred.
+ *
+ * @param {RegisterNodeModuleHooksOptions} [options={}] - Hook registration options such as entry file, root, tsconfig path, and cache-busting version.
  *
  * @example
  * ```ts
@@ -612,13 +624,12 @@ export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions 
 }
 
 /**
- * Detect current JavaScript runtime environment.
+ * Detect whether the current Node process should load modules through CommonJS or ESM.
  *
- * This function checks for presence of `require` first, then falls back to
- * Node.js ESM detection via `process.versions.node`.
+ * The detected runtime is cached until {@link resetRuntime} is called.
  *
- * @returns `module` for ESM and `commonjs` for CJS.
- * @throws {Error} Throws an error if runtime cannot be determined.
+ * @returns {NodeRuntime} `'module'` for ESM and `'commonjs'` for CommonJS.
+ * @throws {Error} If the runtime cannot be determined from the current global environment.
  *
  * @example
  * ```ts
@@ -639,16 +650,17 @@ export function detectNodeRuntime(): NodeRuntime {
 }
 
 /**
- * Asynchronously loads a package by its name, supporting both ESM and CJS.
+ * Load a module in the current Node runtime and optionally resolve a preferred export key.
+ *
+ * In ESM mode, the loader can install tsconfig-aware hooks and append a version query string to bust
+ * Node's import cache for project-local files.
  *
  * @template T - The type of module to be loaded.
- * @param name - The package name to load.
- * @param defaultNames - Preferred export keys used to resolve default values.
- * @param options - Optional runtime loader options.
- * @param options.root - Project root used to scope tsconfig path alias resolution.
- * @param options.tsconfigPath - Explicit tsconfig path used to load path alias rules.
- * @param options.version - Optional version token appended to file URLs to bust the ESM cache.
- * @returns Loaded module or resolved default export.
+ * @param {string} name - Package name, file path, or module specifier to load.
+ * @param {string | string[]} [defaultNames='default'] - Preferred export key or keys to resolve before falling back to the full module object.
+ * @param {LoadPackageOptions} [options={}] - Optional loader overrides such as project root, tsconfig path, or cache-busting version.
+ * @returns {Promise<T>} Loaded export value or the full module namespace when no preferred key exists.
+ * @throws {Error} If the runtime cannot be detected or the requested module fails to load.
  *
  * @example
  * ```ts

@@ -4,4 +4,4 @@
 
 > **NodeRuntime** = `"commonjs"` \| `"module"`
 
-JavaScript module runtime detected for the current process.
+Supported Node.js module runtimes recognized by [detectNodeRuntime](../functions/detectNodeRuntime.md).

@@ -12,6 +12,8 @@ Options for configuring the shared logger transport.
 
 > `optional` **debug?**: `boolean`
 
+When true, the transport's internal logger emits debug diagnostics.
+
 #### Default
 
 ```ts
@@ -22,6 +24,8 @@ false
 
 > `optional` **interval?**: `number`
 
+Flush interval in milliseconds.
+
 #### Default
 
 ```ts
@@ -31,6 +35,8 @@ false
 ### label?
 
 > `optional` **label?**: `string`
+
+Label used by the transport's internal [Logger](../classes/Logger.md).
 
 #### Default
 

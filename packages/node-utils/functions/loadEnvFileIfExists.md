@@ -4,10 +4,9 @@
 
 > **loadEnvFileIfExists**(`options?`): `string` \| `null`
 
-Load a dotenv file if it exists.
+Load a dotenv file with Node's built-in `loadEnvFile` when the file exists.
 
-- Defaults to `${process.cwd()}/.env`.
-- Existing environment variables are preserved (Node.js behavior).
+Existing `process.env` values are preserved because Node.js does not overwrite them.
 
 ## Parameters
 
@@ -20,6 +19,12 @@ Optional working directory and filename overrides.
 ## Returns
 
 `string` \| `null`
+
+Resolved env file path, or `null` when the file does not exist.
+
+## Throws
+
+If the resolved path exists but cannot be read as a file.
 
 ## Example
 

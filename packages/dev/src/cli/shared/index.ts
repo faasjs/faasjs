@@ -1,6 +1,12 @@
 import PackageJSON from '../../../package.json' with { type: 'json' }
 
+/**
+ * Common CLI options shared by FaasJS subcommands.
+ */
 export type CliOptions = {
+  /**
+   * Project root used by commands that resolve files from disk.
+   */
   root?: string
 }
 
@@ -10,6 +16,14 @@ type ParsedCommonArgs = {
   rest: string[]
 }
 
+/**
+ * Parse flags shared by FaasJS CLI subcommands.
+ *
+ * @param {string[]} args - Raw arguments after the subcommand name.
+ * @param {string} scope - Error prefix used in thrown messages.
+ * @returns Parsed execution mode, normalized options, and remaining positional arguments.
+ * @throws {Error} When an option is unknown or `--root` is missing a value.
+ */
 export function parseCommonCliArgs(args: string[], scope: string): ParsedCommonArgs {
   const options: CliOptions = {}
   const rest: string[] = []
@@ -48,12 +62,23 @@ export function parseCommonCliArgs(args: string[], scope: string): ParsedCommonA
   }
 }
 
+/**
+ * Print the current `@faasjs/dev` package version.
+ *
+ * @returns Zero exit code after printing the version.
+ */
 export function printVersion(): number {
   console.log(PackageJSON.version)
 
   return 0
 }
 
+/**
+ * Run a CLI handler and convert thrown errors into a process-style exit code.
+ *
+ * @param {() => Promise<number>} handler - Async command handler that returns an exit code.
+ * @returns Exit code from the handler, or `1` after printing an error message.
+ */
 export async function runCli(handler: () => Promise<number>): Promise<number> {
   try {
     return await handler()
@@ -63,6 +88,12 @@ export async function runCli(handler: () => Promise<number>): Promise<number> {
   }
 }
 
+/**
+ * Create a Node.js CLI entrypoint that reads arguments from `process.argv`.
+ *
+ * @param {(args: string[]) => Promise<number>} run - Command runner that expects arguments after the executable name.
+ * @returns Async entrypoint suitable for CLI binaries.
+ */
 export function createMain(run: (args: string[]) => Promise<number>) {
   return async (argv = process.argv): Promise<number> => runCli(() => run(argv.slice(2)))
 }

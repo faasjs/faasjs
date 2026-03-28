@@ -12,10 +12,16 @@ Options for generating `@faasjs/types` route declarations.
 
 > `optional` **logger?**: `Logger`
 
-optional logger instance
+Logger used to report generation progress.
 
 ### root?
 
 > `optional` **root?**: `string`
 
-faas project root path, default is process.cwd()
+Project root used to resolve `src/` and emit `src/.faasjs/types.d.ts`.
+
+#### Default
+
+```ts
+process.cwd()
+```

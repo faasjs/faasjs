@@ -1,5 +1,5 @@
 /**
- * FaasJS development toolkit for local development and testing.
+ * FaasJS development toolkit for local servers, generated route types, and test helpers.
  *
  * [![License: MIT](https://img.shields.io/npm/l/@faasjs/dev.svg)](https://github.com/faasjs/faasjs/blob/main/packages/dev/LICENSE)
  * [![NPM Version](https://img.shields.io/npm/v/@faasjs/dev.svg)](https://www.npmjs.com/package/@faasjs/dev)
@@ -7,17 +7,19 @@
  * ## Install
  *
  * ```sh
- * npm install @faasjs/dev
+ * npm install -D @faasjs/dev
  * ```
  *
  * ## Features
  *
- * - Vite integration for in-process FaasJS API during local development.
- * - Test helpers to invoke and assert FaasJS functions.
+ * - `viteFaasJsServer()` runs a FaasJS server inside Vite during local development.
+ * - `generateFaasTypes()` emits route declarations for `@faasjs/types`.
+ * - `test()` and {@link FuncWarper} help invoke and assert FaasJS functions in tests.
  *
- * ## Usage: Vite integration
+ * ## Usage: Vite Integration
  *
  * ```ts
+ * import { defineConfig } from 'vite'
  * import { viteFaasJsServer } from '@faasjs/dev'
  *
  * export default defineConfig({
@@ -25,14 +27,22 @@
  * })
  * ```
  *
- * ## Usage: Test helpers
+ * ## Usage: Type Generation
+ *
+ * ```ts
+ * import { generateFaasTypes } from '@faasjs/dev'
+ *
+ * await generateFaasTypes()
+ * ```
+ *
+ * ## Usage: Test Helpers
  *
  * ```ts
  * import { test } from '@faasjs/dev'
- * import Func from '../demo.func.ts'
+ * import { func } from '../demo.func.ts'
  *
- * const func = test(Func)
- * const response = await func.JSONhandler({ name: 'FaasJS' })
+ * const wrapped = test(func)
+ * const response = await wrapped.JSONhandler({ name: 'FaasJS' })
  *
  * expect(response.statusCode).toBe(200)
  * expect(response.data).toEqual({ message: 'Hello, FaasJS' })
@@ -41,6 +51,7 @@
  * ## API
  *
  * - Vite: {@link viteFaasJsServer}
+ * - Typegen: {@link generateFaasTypes}, {@link isTypegenSourceFile}
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToText}, {@link streamToObject}, {@link streamToString}
  */
 

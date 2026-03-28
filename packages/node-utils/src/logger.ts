@@ -2,7 +2,9 @@ import { colorfy } from './color'
 import { format } from './format'
 import { getTransport } from './transport'
 
-/** Logger Level */
+/**
+ * Supported log levels used by {@link Logger} and {@link Transport}.
+ */
 export type Level = 'debug' | 'info' | 'warn' | 'error'
 
 type Timer = {
@@ -18,13 +20,14 @@ const LevelPriority = {
 }
 
 /**
- * Formats the provided arguments into a string, filtering out any objects
- * with a `__hidden__` property set to `true`. If formatting fails, it attempts
- * to stringify each argument individually.
+ * Format logger arguments into a printable string.
  *
- * @param fmt - Format string or first value to log.
- * @param args - Additional values passed to the formatter.
- * @returns Formatted log message.
+ * Values marked with `__hidden__: true` are skipped so callers can attach transport-only metadata.
+ * When formatting fails, the formatter returns a fallback error message instead of throwing.
+ *
+ * @param {any} fmt - Format string or first value to log.
+ * @param {any[]} args - Additional values passed to the formatter.
+ * @returns {string} Formatted log message.
  *
  * @example
  * ```ts
@@ -45,10 +48,16 @@ export function formatLogger(fmt: any, ...args: any[]): string {
 }
 
 /**
- * Logger with optional labels, colorized output, and transport forwarding.
+ * Write level-filtered log output with optional labels, colors, timers, and transport forwarding.
  *
+ * When `process` is available, the constructor reads `FaasLog`, `FaasLogMode`, `FaasLogSize`,
+ * and `FaasLogTransport` to derive the initial logger behavior.
+ *
+ * @see {@link getTransport}
  * @example
  * ```ts
+ * import { Logger } from '@faasjs/node-utils'
+ *
  * const logger = new Logger()
  *
  * logger.debug('debug message')
@@ -62,15 +71,21 @@ export function formatLogger(fmt: any, ...args: any[]): string {
  */
 export class Logger {
   /**
-   * When true, suppresses all output.
+   * When true, suppresses all output and transport forwarding.
+   *
+   * @default false
    */
   public silent = false
   /**
-   * Minimum level that will be printed.
+   * Minimum level that will be emitted.
+   *
+   * @default 'debug'
    */
   public level: Level = 'debug'
   /**
    * Whether terminal output should use ANSI colors.
+   *
+   * @default true
    */
   public colorfyOutput = true
   /**
@@ -78,19 +93,27 @@ export class Logger {
    */
   public label?: string
   /**
-   * Maximum serialized payload size used by the formatter.
+   * Maximum plain-text payload length before non-error logs are truncated.
+   *
+   * @default 1000
    */
   public size = 1000
   /**
    * Disable forwarding log messages to the shared transport.
+   *
+   * @default false
    */
   public disableTransport = false
   /**
    * Output function used for non-error logs.
+   *
+   * @default console.log
    */
   public stdout: (text: string) => void = console.log
   /**
    * Output function used for error logs.
+   *
+   * @default console.error
    */
   public stderr: (text: string) => void = console.error
   private cachedTimers: Record<string, Timer> = {}
@@ -98,7 +121,7 @@ export class Logger {
   /**
    * Create a logger with an optional label prefix.
    *
-   * @param label - Prefix label shown in log output.
+   * @param {string} [label] - Prefix label shown in log output.
    */
   constructor(label?: string) {
     if (label) this.label = label
@@ -138,9 +161,9 @@ export class Logger {
   /**
    * Write a debug log entry.
    *
-   * @param message - Log message or format string.
-   * @param args - Additional values forwarded to the formatter.
-   * @returns Logger instance for chaining.
+   * @param {string} message - Log message or format string.
+   * @param {any[]} args - Additional values forwarded to the formatter.
+   * @returns {Logger} The current logger for chaining.
    */
   public debug(message: string, ...args: any[]): Logger {
     this.log('debug', message, ...args)
@@ -150,9 +173,9 @@ export class Logger {
   /**
    * Write an info log entry.
    *
-   * @param message - Log message or format string.
-   * @param args - Additional values forwarded to the formatter.
-   * @returns Logger instance for chaining.
+   * @param {string} message - Log message or format string.
+   * @param {any[]} args - Additional values forwarded to the formatter.
+   * @returns {Logger} The current logger for chaining.
    */
   public info(message: string, ...args: any[]): Logger {
     this.log('info', message, ...args)
@@ -162,9 +185,9 @@ export class Logger {
   /**
    * Write a warning log entry.
    *
-   * @param message - Log message or format string.
-   * @param args - Additional values forwarded to the formatter.
-   * @returns Logger instance for chaining.
+   * @param {string} message - Log message or format string.
+   * @param {any[]} args - Additional values forwarded to the formatter.
+   * @returns {Logger} The current logger for chaining.
    */
   public warn(message: string, ...args: any[]): Logger {
     this.log('warn', message, ...args)
@@ -174,9 +197,9 @@ export class Logger {
   /**
    * Write an error log entry.
    *
-   * @param message - Log message, format string, or Error object.
-   * @param args - Additional values forwarded to the formatter.
-   * @returns Logger instance for chaining.
+   * @param {unknown} message - Log message, format string, or `Error` object.
+   * @param {any[]} args - Additional values forwarded to the formatter.
+   * @returns {Logger} The current logger for chaining.
    */
   public error(message: unknown, ...args: any[]): Logger {
     this.log('error', message, ...args)
@@ -185,11 +208,11 @@ export class Logger {
   }
 
   /**
-   * Start a timer with a specific key and log level.
+   * Start a named timer that will log its duration when ended.
    *
-   * @param key - The unique identifier for the timer.
-   * @param level - The log level for the timer. Defaults to 'debug'.
-   * @returns The Logger instance for chaining.
+   * @param {string} key - Unique identifier for the timer.
+   * @param {Level} [level='debug'] - Log level used when the timer ends.
+   * @returns {Logger} The current logger for chaining.
    */
   public time(key: string, level: Level = 'debug'): Logger {
     this.cachedTimers[key] = {
@@ -201,12 +224,14 @@ export class Logger {
   }
 
   /**
-   * End a timer with a specific key and log the elapsed time.
+   * Stop a named timer and log the elapsed duration.
    *
-   * @param key - The unique identifier for the timer.
-   * @param message - The message to log with the elapsed time.
-   * @param args - Additional arguments to log with the message.
-   * @returns The Logger instance for chaining.
+   * If the timer key does not exist, the logger emits a warning and then writes the provided message at debug level.
+   *
+   * @param {string} key - Unique identifier for the timer.
+   * @param {string} message - Message to log alongside the elapsed time.
+   * @param {any[]} args - Additional values forwarded to the formatter.
+   * @returns {Logger} The current logger for chaining.
    */
   public timeEnd(key: string, message: string, ...args: any[]): Logger {
     if (this.cachedTimers[key]) {
@@ -237,9 +262,9 @@ export class Logger {
   /**
    * Write raw output without adding log level prefixes.
    *
-   * @param message - Log message or format string.
-   * @param args - Additional values forwarded to the formatter.
-   * @returns Logger instance for chaining.
+   * @param {string} message - Log message or format string.
+   * @param {any[]} args - Additional values forwarded to the formatter.
+   * @returns {Logger} The current logger for chaining.
    */
   public raw(message: string, ...args: any[]): Logger {
     if (this.silent) return this

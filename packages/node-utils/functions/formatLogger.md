@@ -4,9 +4,10 @@
 
 > **formatLogger**(`fmt`, ...`args`): `string`
 
-Formats the provided arguments into a string, filtering out any objects
-with a `__hidden__` property set to `true`. If formatting fails, it attempts
-to stringify each argument individually.
+Format logger arguments into a printable string.
+
+Values marked with `__hidden__: true` are skipped so callers can attach transport-only metadata.
+When formatting fails, the formatter returns a fallback error message instead of throwing.
 
 ## Parameters
 

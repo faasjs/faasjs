@@ -2,13 +2,17 @@
 
 # Class: Transport
 
-The transport class that manages the transport handlers and log messages.
+Buffer log messages and flush them to registered async handlers on an interval.
 
-**Note: This class is not meant to be used directly. Use the [getTransport](../functions/getTransport.md) instead.**
+Use [getTransport](../functions/getTransport.md) to access the shared singleton that [Logger](Logger.md) writes into by default.
+
+## See
+
+[getTransport](../functions/getTransport.md)
 
 ## Example
 
-```typescript
+```ts
 import { getTransport } from '@faasjs/node-utils'
 
 const transport = getTransport()
@@ -19,7 +23,7 @@ transport.register('test', async (messages) => {
 
 transport.config({ label: 'test', debug: true })
 
-// If you using Logger, it will automatically insert messages to the transport.
+// If you use Logger, it will automatically insert messages into the transport.
 // Otherwise, you can insert messages manually.
 transport.insert({
   level: 'info',
@@ -52,7 +56,9 @@ Create the shared transport and start its flush interval.
 
 > **config**(`options`): `void`
 
-Configure the transport options for the logger.
+Update runtime options for the shared transport logger.
+
+Calling this method also re-enables a previously disabled transport.
 
 #### Parameters
 
@@ -70,25 +76,24 @@ Transport configuration such as label, flush interval, and debug mode.
 
 > **flush**(): `Promise`\<`void`\>
 
-Flushes the current messages by processing them with the registered handlers.
+Flush the current message buffer through every registered handler.
 
-If the transport is already flushing, it will wait until the current flush is complete.
-If the transport is disabled or there are no messages to flush, it will return immediately.
-If there are no handlers registered, it will log a warning, clear the messages, disable the transport, and stop the interval.
-
-The method processes all messages with each handler and logs any errors encountered during the process.
+Concurrent callers wait for the active flush to finish. If no handlers are registered, the transport clears
+the buffered messages, disables itself, and stops the interval until reconfigured.
 
 #### Returns
 
 `Promise`\<`void`\>
 
-A promise that resolves when the flush operation is complete.
+Promise that resolves after the active flush completes.
 
 ### insert()
 
 > **insert**(`message`): `void`
 
-Inserts a log message into the transport if it is enabled.
+Queue a formatted log message for the next flush.
+
+This is a no-op when the transport is disabled.
 
 #### Parameters
 
@@ -96,7 +101,7 @@ Inserts a log message into the transport if it is enabled.
 
 [`LoggerMessage`](../type-aliases/LoggerMessage.md)
 
-The log message to be inserted.
+Log message to buffer.
 
 #### Returns
 
@@ -106,7 +111,9 @@ The log message to be inserted.
 
 > **register**(`name`, `handler`): `void`
 
-Registers a new transport handler.
+Register a named flush handler.
+
+Registering the same name again replaces the previous handler.
 
 #### Parameters
 
@@ -114,13 +121,13 @@ Registers a new transport handler.
 
 `string`
 
-The name of the transport handler.
+Transport handler name.
 
 ##### handler
 
 [`TransportHandler`](../type-aliases/TransportHandler.md)
 
-The transport handler function to be registered.
+Async handler invoked for each flushed batch.
 
 #### Returns
 
@@ -130,8 +137,9 @@ The transport handler function to be registered.
 
 > **reset**(): `void`
 
-Resets the transport by clearing handlers, emptying messages, and re-enabling the transport.
-If an interval is set, it will be cleared.
+Clear handlers and buffered messages without destroying the singleton instance.
+
+This also clears the interval so tests or setup code can reconfigure the transport from a clean state.
 
 #### Returns
 
@@ -141,29 +149,21 @@ If an interval is set, it will be cleared.
 
 > **stop**(): `Promise`\<`void`\>
 
-Stops the logger transport.
-
-This method performs the following actions:
-
-1. Logs a 'stopping' message.
-2. Clears the interval if it is set.
-3. Flushes any remaining logs.
-4. Disables the transport.
+Stop periodic flushing and drain any buffered messages.
 
 #### Returns
 
 `Promise`\<`void`\>
 
-A promise that resolves when the transport has been stopped.
+Promise that resolves when the transport has fully stopped.
 
 ### unregister()
 
 > **unregister**(`name`): `void`
 
-Unregister a handler by its name.
+Remove a named handler from the transport.
 
-This method logs the unregistration process, removes the handler from the internal collection,
-and disables the logger if no handlers remain.
+When the last handler is removed, the transport stops accepting new messages until it is re-enabled.
 
 #### Parameters
 
@@ -171,7 +171,7 @@ and disables the logger if no handlers remain.
 
 `string`
 
-The name of the handler to unregister.
+Transport handler name to remove.
 
 #### Returns
 

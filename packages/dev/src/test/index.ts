@@ -26,10 +26,13 @@ type JSONhandlerBody<TFunc extends Func<any, any, any>> =
     : Record<string, any> | string | null
 
 /**
- * Test wrapper for a function.
+ * Wrap a FaasJS function with helpers for mounting and assertion-friendly invocations.
+ *
+ * The wrapper resolves config for the current `FaasEnv`, mounts lazily, and
+ * exposes helpers for raw handler calls and HTTP-style JSON assertions.
  *
  * @template TFunc - Wrapped FaasJS function type.
- *
+ * @see {@link test}
  * @example
  * ```ts
  * import { FuncWarper } from '@faasjs/dev'
@@ -64,13 +67,18 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   private readonly _handler: ExportedHandler
 
   /**
-   * Create a test wrapper around a FaasJS function module.
+   * Create a wrapper around a FaasJS function instance for repeated test calls.
    *
-   * @param initBy - FaasJS function module or exported function instance.
+   * If a module object with a `default` export is passed at runtime, the
+   * default export is used.
+   *
+   * @param {TFunc} initBy - Function instance to wrap.
+   * @example
    * ```ts
    * import { FuncWarper } from '@faasjs/dev'
+   * import { func } from './hello.func'
    *
-   * new FuncWarper(__dirname + '/../demo.func.ts')
+   * const wrapped = new FuncWarper(func)
    * ```
    */
   constructor(initBy: TFunc) {
@@ -93,7 +101,8 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   /**
    * Mount the wrapped function once before running assertions.
    *
-   * @param handler - Optional callback invoked after mount.
+   * @param {(func: FuncWarper<TFunc>) => Promise<void> | void} [handler] - Optional callback invoked after mount.
+   * @returns Resolves after the function has been mounted and the callback has finished.
    */
   public async mount(handler?: (func: FuncWarper<TFunc>) => Promise<void> | void): Promise<void> {
     if (!this.func.mounted) {
@@ -107,8 +116,8 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    * Invoke the wrapped function with raw event and context payloads.
    *
    * @template TResult - Expected response type returned by the handler.
-   * @param event - Runtime event to pass to the exported handler.
-   * @param context - Runtime context to pass to the exported handler.
+   * @param {any} [event=Object.create(null)] - Runtime event passed to the exported handler.
+   * @param {any} [context=Object.create(null)] - Runtime context passed to the exported handler.
    * @returns Handler result.
    */
   public async handler<TResult = any>(
@@ -126,14 +135,30 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   /**
    * Invoke an HTTP-enabled function with JSON body helpers and decoded cookies.
    *
+   * JSON responses populate `data` and `error`, while `Set-Cookie` headers are
+   * decoded into the returned `cookie` and `session` objects.
+   *
    * @template TData - Expected JSON `data` payload returned by the function.
-   * @param body - Request body object or raw JSON string.
-   * @param options - Extra headers, request cookies, and session seed values.
-   * @param options.headers - Extra request headers merged into the JSON test request.
-   * @param options.cookie - Cookie key-value pairs preloaded into the request.
-   * @param options.session - Session key-value pairs encoded into the request cookie before invocation.
+   * @param {JSONhandlerBody<TFunc>} [body] - Request body object or raw JSON string.
+   * @param {object} [options] - Extra headers, request cookies, and session seed values.
+   * @param {Record<string, any>} [options.headers] - Extra request headers merged into the JSON test request.
+   * @param {Record<string, any>} [options.cookie] - Cookie key-value pairs preloaded into the request.
+   * @param {Record<string, any>} [options.session] - Session key-value pairs encoded into the request cookie before invocation.
    * @returns Normalized HTTP response payload for assertions.
    * @throws {Error} When the wrapped function does not use the HTTP plugin.
+   * @example
+   * ```ts
+   * import { test } from '@faasjs/dev'
+   * import { func } from './hello.func'
+   *
+   * const wrapped = test(func)
+   * const response = await wrapped.JSONhandler(
+   *   { name: 'FaasJS' },
+   *   { session: { userId: '1' } },
+   * )
+   *
+   * expect(response.data).toEqual({ message: 'Hello, FaasJS' })
+   * ```
    */
   public async JSONhandler<TData = any>(
     body?: JSONhandlerBody<TFunc>,
@@ -307,11 +332,15 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
 }
 
 /**
- * Create a {@link FuncWarper} for tests.
+ * Create a bound {@link FuncWarper} for tests.
+ *
+ * The returned wrapper binds `mount()`, `handler()`, and `JSONhandler()` so
+ * they can be passed around without losing their instance context.
  *
  * @template TFunc - Wrapped FaasJS function type.
- * @param initBy - FaasJS function module or exported function instance.
- *
+ * @param {TFunc} initBy - Function instance passed to {@link FuncWarper}.
+ * @returns Bound wrapper instance.
+ * @see {@link FuncWarper}
  * @example
  * ```ts
  * import { test } from '@faasjs/dev'

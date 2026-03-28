@@ -12,6 +12,10 @@ Async callback used by [Transport](../classes/Transport.md) to flush buffered lo
 
 [`LoggerMessage`](LoggerMessage.md)[]
 
+Buffered messages being flushed together.
+
 ## Returns
 
 `Promise`\<`void`\>
+
+Promise that resolves when the batch has been processed.

@@ -12,22 +12,34 @@ type YamlConfig = {
 }
 
 /**
- * Plugin config entry loaded from `faas.yaml`.
+ * Per-plugin configuration entry resolved from `faas.yaml`.
  */
 export type FuncPluginConfig = {
   [key: string]: any
+  /**
+   * Plugin type identifier consumed by the runtime or plugin loader.
+   */
   type?: string
+  /**
+   * Plugin-specific configuration payload.
+   */
   config?: {
     [key: string]: any
   }
+  /**
+   * Plugin key assigned during config resolution.
+   */
   name?: string
 }
 
 /**
- * Resolved function config loaded from `faas.yaml`.
+ * Resolved stage config merged from matching `faas.yaml` files.
  */
 export type FuncConfig = {
   [key: string]: any
+  /**
+   * Named plugin configs keyed by plugin name.
+   */
   plugins?: {
     [key: string]: FuncPluginConfig
   }
@@ -80,16 +92,9 @@ function assignPluginNames(config: FuncConfig): void {
 }
 
 /**
- * Load configuration from faas.yaml
+ * Read and merge staged `faas.yaml` config for a function file.
  *
- * @example
- * ```ts
- * import { Config } from '@faasjs/node-utils'
- *
- * const config = new Config(process.cwd(), '/project/src/orders/create.func.ts')
- *
- * config.get('development')
- * ```
+ * This helper backs {@link loadConfig} when callers need to inspect multiple stages from one reader.
  */
 export class Config {
   [key: string]: any
@@ -117,9 +122,9 @@ export class Config {
   /**
    * Build a config reader for a function path.
    *
-   * @param root - Project root.
-   * @param filename - Function filename used to resolve nested scopes.
-   * @param logger - Optional logger.
+   * @param {string} root - Project root directory.
+   * @param {string} filename - Function filename used to resolve nested scopes.
+   * @param {Logger} [logger] - Optional logger used for debug output.
    */
   constructor(root: string, filename: string, logger?: Logger) {
     this.logger = new Logger(logger?.label ? `${logger.label}] [config` : 'config')
@@ -164,8 +169,8 @@ export class Config {
   /**
    * Resolve config for a staging key, falling back to defaults.
    *
-   * @param key - Staging name such as `development` or `production`.
-   * @returns Resolved stage config.
+   * @param {string} key - Staging name such as `development` or `production`.
+   * @returns {FuncConfig} Resolved stage config.
    */
   public get(key: string): FuncConfig {
     return this[key] || this.defaults || Object.create(null)
@@ -173,13 +178,17 @@ export class Config {
 }
 
 /**
- * Load resolved config for a function and staging.
+ * Resolve the staged `faas.yaml` config for a function file.
  *
- * @param root - Project root.
- * @param filename - Function filename.
- * @param staging - Staging name to resolve.
- * @param logger - Optional logger.
- * @returns Resolved config for the requested staging.
+ * This walks from `root` to the function directory, merges every discovered `faas.yaml`,
+ * applies the `defaults` stage, and annotates plugin entries with their resolved `name`.
+ *
+ * @param {string} root - Project root directory used to scope config discovery.
+ * @param {string} filename - Function filename whose directory controls nested config lookup.
+ * @param {string} staging - Staging name to resolve.
+ * @param {Logger} [logger] - Optional logger used while loading config files.
+ * @returns {FuncConfig} Resolved config for the requested staging.
+ * @throws {Error} If a discovered `faas.yaml` cannot be parsed or fails schema validation.
  *
  * @example
  * ```ts

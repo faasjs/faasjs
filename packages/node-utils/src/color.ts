@@ -16,7 +16,7 @@ export const Color = {
 }
 
 /**
- * Default ANSI color mapping for each log level.
+ * Default ANSI color mapping used by {@link Logger} for each log level.
  */
 export const LevelColor = {
   debug: Color.GRAY,
@@ -26,11 +26,11 @@ export const LevelColor = {
 }
 
 /**
- * Apply ANSI color codes to a message based on the log level.
+ * Wrap a log message with the ANSI foreground color for a log level.
  *
- * @param level - The log level to determine the color.
- * @param message - The message to be colorized.
- * @returns The colorized message string.
+ * @param {Level} level - Log level used to select the foreground color.
+ * @param {string} message - Plain text message to colorize.
+ * @returns {string} Message wrapped in ANSI color escape sequences.
  *
  * @example
  * ```ts

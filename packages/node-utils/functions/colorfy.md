@@ -4,7 +4,7 @@
 
 > **colorfy**(`level`, `message`): `string`
 
-Apply ANSI color codes to a message based on the log level.
+Wrap a log message with the ANSI foreground color for a log level.
 
 ## Parameters
 
@@ -12,19 +12,19 @@ Apply ANSI color codes to a message based on the log level.
 
 [`Level`](../type-aliases/Level.md)
 
-The log level to determine the color.
+Log level used to select the foreground color.
 
 ### message
 
 `string`
 
-The message to be colorized.
+Plain text message to colorize.
 
 ## Returns
 
 `string`
 
-The colorized message string.
+Message wrapped in ANSI color escape sequences.
 
 ## Example
 

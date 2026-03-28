@@ -2,11 +2,20 @@
 
 # Class: Logger
 
-Logger with optional labels, colorized output, and transport forwarding.
+Write level-filtered log output with optional labels, colors, timers, and transport forwarding.
+
+When `process` is available, the constructor reads `FaasLog`, `FaasLogMode`, `FaasLogSize`,
+and `FaasLogTransport` to derive the initial logger behavior.
+
+## See
+
+[getTransport](../functions/getTransport.md)
 
 ## Example
 
 ```ts
+import { Logger } from '@faasjs/node-utils'
+
 const logger = new Logger()
 
 logger.debug('debug message')
@@ -64,7 +73,7 @@ Additional values forwarded to the formatter.
 
 `Logger`
 
-Logger instance for chaining.
+The current logger for chaining.
 
 ### error()
 
@@ -78,7 +87,7 @@ Write an error log entry.
 
 `unknown`
 
-Log message, format string, or Error object.
+Log message, format string, or `Error` object.
 
 ##### args
 
@@ -90,7 +99,7 @@ Additional values forwarded to the formatter.
 
 `Logger`
 
-Logger instance for chaining.
+The current logger for chaining.
 
 ### info()
 
@@ -116,7 +125,7 @@ Additional values forwarded to the formatter.
 
 `Logger`
 
-Logger instance for chaining.
+The current logger for chaining.
 
 ### raw()
 
@@ -142,13 +151,13 @@ Additional values forwarded to the formatter.
 
 `Logger`
 
-Logger instance for chaining.
+The current logger for chaining.
 
 ### time()
 
 > **time**(`key`, `level?`): `Logger`
 
-Start a timer with a specific key and log level.
+Start a named timer that will log its duration when ended.
 
 #### Parameters
 
@@ -156,25 +165,27 @@ Start a timer with a specific key and log level.
 
 `string`
 
-The unique identifier for the timer.
+Unique identifier for the timer.
 
 ##### level?
 
 [`Level`](../type-aliases/Level.md) = `'debug'`
 
-The log level for the timer. Defaults to 'debug'.
+Log level used when the timer ends.
 
 #### Returns
 
 `Logger`
 
-The Logger instance for chaining.
+The current logger for chaining.
 
 ### timeEnd()
 
 > **timeEnd**(`key`, `message`, ...`args`): `Logger`
 
-End a timer with a specific key and log the elapsed time.
+Stop a named timer and log the elapsed duration.
+
+If the timer key does not exist, the logger emits a warning and then writes the provided message at debug level.
 
 #### Parameters
 
@@ -182,25 +193,25 @@ End a timer with a specific key and log the elapsed time.
 
 `string`
 
-The unique identifier for the timer.
+Unique identifier for the timer.
 
 ##### message
 
 `string`
 
-The message to log with the elapsed time.
+Message to log alongside the elapsed time.
 
 ##### args
 
 ...`any`[]
 
-Additional arguments to log with the message.
+Additional values forwarded to the formatter.
 
 #### Returns
 
 `Logger`
 
-The Logger instance for chaining.
+The current logger for chaining.
 
 ### warn()
 
@@ -226,7 +237,7 @@ Additional values forwarded to the formatter.
 
 `Logger`
 
-Logger instance for chaining.
+The current logger for chaining.
 
 ## Properties
 
@@ -236,11 +247,23 @@ Logger instance for chaining.
 
 Whether terminal output should use ANSI colors.
 
+#### Default
+
+```ts
+true
+```
+
 ### disableTransport
 
 > **disableTransport**: `boolean` = `false`
 
 Disable forwarding log messages to the shared transport.
+
+#### Default
+
+```ts
+false
+```
 
 ### label?
 
@@ -252,19 +275,37 @@ Optional label prefix included in log lines.
 
 > **level**: [`Level`](../type-aliases/Level.md) = `'debug'`
 
-Minimum level that will be printed.
+Minimum level that will be emitted.
+
+#### Default
+
+```ts
+'debug'
+```
 
 ### silent
 
 > **silent**: `boolean` = `false`
 
-When true, suppresses all output.
+When true, suppresses all output and transport forwarding.
+
+#### Default
+
+```ts
+false
+```
 
 ### size
 
 > **size**: `number` = `1000`
 
-Maximum serialized payload size used by the formatter.
+Maximum plain-text payload length before non-error logs are truncated.
+
+#### Default
+
+```ts
+1000
+```
 
 ### stderr
 
@@ -282,6 +323,12 @@ Output function used for error logs.
 
 `void`
 
+#### Default
+
+```ts
+console.error
+```
+
 ### stdout
 
 > **stdout**: (`text`) => `void` = `console.log`
@@ -297,3 +344,9 @@ Output function used for non-error logs.
 #### Returns
 
 `void`
+
+#### Default
+
+```ts
+console.log
+```

@@ -1,13 +1,24 @@
 /**
- * FaasJS Node.js utility toolkit.
+ * FaasJS utilities for Node.js runtimes and local development workflows.
  *
- * [![License: MIT](https://img.shields.io/npm/l/@faasjs/node-utils.svg)](https://github.com/faasjs/faasjs/blob/main/packages/node-utils/LICENSE)
- * [![NPM Version](https://img.shields.io/npm/v/@faasjs/node-utils.svg)](https://www.npmjs.com/package/@faasjs/node-utils)
+ * The package bundles logging helpers, transport primitives, stream readers,
+ * `faas.yaml` configuration loaders, and runtime-aware module loading helpers for Node.js.
  *
  * ## Install
  *
  * ```sh
  * npm install @faasjs/node-utils
+ * ```
+ *
+ * ## Usage
+ *
+ * ```ts
+ * import { Logger, loadConfig } from '@faasjs/node-utils'
+ *
+ * const logger = new Logger('app')
+ * const config = loadConfig(process.cwd(), '/project/src/hello.func.ts', 'development')
+ *
+ * logger.info('Loaded config %o', config)
  * ```
  */
 

@@ -4,4 +4,4 @@
 
 > **Level** = `"debug"` \| `"info"` \| `"warn"` \| `"error"`
 
-Logger Level
+Supported log levels used by [Logger](../classes/Logger.md) and [Transport](../classes/Transport.md).

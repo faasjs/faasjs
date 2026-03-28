@@ -1,8 +1,8 @@
 /**
- * Convert ReadableStream to text.
+ * Read a byte stream into a UTF-8 string.
  *
- * @param stream - Readable stream to decode as text.
- * @returns Stream contents as a UTF-8 string.
+ * @param {ReadableStream<Uint8Array>} stream - Readable stream to decode as text.
+ * @returns {Promise<string>} Stream contents as a UTF-8 string.
  * @throws {TypeError} If stream is not a ReadableStream instance.
  *
  * @example
@@ -27,13 +27,13 @@ export async function streamToText(stream: ReadableStream<Uint8Array>): Promise<
 }
 
 /**
- * Convert ReadableStream to object.
+ * Parse a JSON value from a byte stream.
  *
  * @template T - Parsed JSON value type expected from the stream.
- *
- * @param stream - Readable stream to decode as JSON.
- * @returns Parsed JSON object from the stream body.
+ * @param {ReadableStream<Uint8Array>} stream - Readable stream to decode as JSON.
+ * @returns {Promise<T>} Parsed JSON value from the stream body.
  * @throws {TypeError} If stream is not a ReadableStream instance.
+ * @throws {SyntaxError} If the stream body is not valid JSON.
  *
  * @example
  * ```ts
@@ -57,6 +57,20 @@ export async function streamToObject<T = any>(stream: ReadableStream<Uint8Array>
 }
 
 /**
- * Alias of {@link streamToText}.
+ * Alias of {@link streamToText} for string-oriented call sites.
+ *
+ * @example
+ * ```ts
+ * import { streamToString } from '@faasjs/node-utils'
+ *
+ * const stream = new ReadableStream<Uint8Array>({
+ *   start(controller) {
+ *     controller.enqueue(new TextEncoder().encode('hello'))
+ *     controller.close()
+ *   },
+ * })
+ *
+ * await streamToString(stream) // 'hello'
+ * ```
  */
 export const streamToString = streamToText

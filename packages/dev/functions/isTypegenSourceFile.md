@@ -12,13 +12,13 @@ Determine whether a file change should trigger Faas type generation.
 
 `string`
 
-Absolute or relative file path.
+Absolute or relative path reported by a file watcher.
 
 ## Returns
 
 `boolean`
 
-`true` for `.func.ts` files and `faas.yaml` updates.
+`true` when the changed file can affect generated route declarations.
 
 ## Example
 

@@ -4,7 +4,7 @@
 
 > **FuncConfig** = `object`
 
-Resolved function config loaded from `faas.yaml`.
+Resolved stage config merged from matching `faas.yaml` files.
 
 ## Indexable
 
@@ -15,6 +15,8 @@ Resolved function config loaded from `faas.yaml`.
 ### plugins?
 
 > `optional` **plugins?**: `object`
+
+Named plugin configs keyed by plugin name.
 
 #### Index Signature
 
