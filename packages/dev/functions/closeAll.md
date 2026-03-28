@@ -10,6 +10,8 @@ Close every tracked server instance.
 
 `Promise`\<`void`\>
 
+Promise that resolves after all servers close.
+
 ## Example
 
 ```ts

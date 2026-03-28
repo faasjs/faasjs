@@ -2,7 +2,10 @@
 
 # Class: Server
 
-FaasJS Server.
+HTTP server that loads and runs FaasJS function files from a project root.
+
+A Server resolves route files on demand, caches loaded handlers, and
+can optionally mount cron jobs for the process lifecycle.
 
 ## Example
 
@@ -42,7 +45,9 @@ Server configuration overrides.
 
 `Server`
 
-Server instance.
+#### Throws
+
+When `onStart`, `onError`, or `onClose` is not an async function.
 
 ## Methods
 
@@ -50,11 +55,13 @@ Server instance.
 
 > **close**(): `Promise`\<`void`\>
 
-Close server.
+Close the server and wait for active requests to finish.
 
 #### Returns
 
 `Promise`\<`void`\>
+
+Promise that resolves after sockets, cron jobs, and transports stop.
 
 ### handle()
 
@@ -86,21 +93,29 @@ Optional request metadata and forced filepath override.
 
 `Promise`\<`void`\>
 
+Promise that resolves after the request has been handled.
+
 ### listen()
 
 > **listen**(): `Server`
 
-Start server.
+Start the underlying Node.js HTTP server.
 
 #### Returns
 
 `Server`
 
+Underlying Node.js server instance.
+
+#### Throws
+
+When the server is already running.
+
 ### middleware()
 
 > **middleware**(`req`, `res`, `next`): `Promise`\<`void`\>
 
-Middleware function to handle incoming HTTP requests.
+Express-style middleware wrapper that delegates to [Server.handle](#handle).
 
 #### Parameters
 
@@ -108,25 +123,25 @@ Middleware function to handle incoming HTTP requests.
 
 `IncomingMessage`
 
-The incoming HTTP request object.
+Incoming HTTP request object.
 
 ##### res
 
 `ServerResponse`\<`IncomingMessage`\>
 
-The server response object.
+Server response object.
 
 ##### next
 
 () => `void`
 
-A callback function to pass control to the next middleware.
+Callback used to continue the middleware chain.
 
 #### Returns
 
 `Promise`\<`void`\>
 
-A promise that resolves when the middleware processing is complete.
+Promise that resolves when middleware processing finishes.
 
 ## Properties
 

@@ -50,6 +50,14 @@ Schema and handler used to build the API function.
 
 [`Func`](../classes/Func.md)\<`DefineApiEvent`\<`TSchema`, `TEvent`\>, `TContext`, `Awaited`\<`ReturnType`\<`THandler`\>\>\>
 
+## Throws
+
+When the required `http` plugin is missing from function config.
+
+## Throws
+
+When `event.params` fails schema validation.
+
 ## Example
 
 ```ts

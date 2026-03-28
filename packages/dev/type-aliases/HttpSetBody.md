@@ -12,6 +12,10 @@ Set the outgoing HTTP body payload.
 
 [`HttpResponseBody`](HttpResponseBody.md)
 
+Response body payload.
+
 ## Returns
 
 `void`
+
+No return value.

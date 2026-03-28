@@ -22,6 +22,10 @@ Cron job definition.
 
 Registered cron job instance.
 
+## Throws
+
+When the cron expression is invalid.
+
 ## Example
 
 ```ts

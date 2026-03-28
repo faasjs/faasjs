@@ -12,14 +12,22 @@ Request middleware signature used by [useMiddleware](../functions/useMiddleware.
 
 `IncomingMessage` & `object`
 
+Native request object extended with the parsed body.
+
 ### response
 
 `ServerResponse`
+
+Native response writer.
 
 ### context
 
 [`MiddlewareContext`](MiddlewareContext.md)
 
+Middleware-scoped utilities.
+
 ## Returns
 
 `void` \| `Promise`\<`void`\>
+
+Promise or void returned by the middleware.

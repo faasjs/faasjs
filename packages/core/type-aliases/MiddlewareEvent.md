@@ -12,9 +12,13 @@ Event shape passed to middleware-backed functions.
 
 > **body**: `any`
 
+Request body collected by the server.
+
 ### raw
 
 > **raw**: `object`
+
+Native request and response objects.
 
 #### request
 

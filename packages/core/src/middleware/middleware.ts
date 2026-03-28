@@ -13,6 +13,9 @@ import {
 
 /**
  * Event shape passed to middleware-backed functions.
+ *
+ * @property {any} body - Request body collected by the server.
+ * @property {{ request: IncomingMessage; response: ServerResponse }} raw - Native request and response objects.
  */
 export type MiddlewareEvent = {
   body: any
@@ -24,6 +27,8 @@ export type MiddlewareEvent = {
 
 /**
  * Context shared with middleware handlers.
+ *
+ * @property {Logger} logger - Middleware-scoped logger instance.
  */
 export type MiddlewareContext = {
   logger: Logger
@@ -31,6 +36,11 @@ export type MiddlewareContext = {
 
 /**
  * Request middleware signature used by {@link useMiddleware} and {@link useMiddlewares}.
+ *
+ * @param {IncomingMessage & { body?: any }} request - Native request object extended with the parsed body.
+ * @param {ServerResponse} response - Native response writer.
+ * @param {MiddlewareContext} context - Middleware-scoped utilities.
+ * @returns {void | Promise<void>} Promise or void returned by the middleware.
  */
 export type Middleware = (
   request: IncomingMessage & { body?: any },
@@ -59,17 +69,17 @@ async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler:
 }
 
 /**
- * Apply a middleware function to handle incoming requests.
+ * Create a function that runs one middleware and falls back to `404 Not Found`.
  *
- * @param handler - The middleware function to handle the request and response.
- * @returns A function that processes the event and applies the middleware.
+ * @param {Middleware} handler - Middleware to execute for each incoming request.
+ * @returns {Promise<any>} Promise that resolves to a function wrapper.
  *
  * @example
- * ```typescript
+ * ```ts
  * import { useMiddleware } from '@faasjs/core'
  *
- * export const func = useMiddleware((request, response, logger) => {
- *   response.setHeader('X-Hello', 'World')
+ * export const func = useMiddleware((request, response, { logger }) => {
+ *   response.setHeader('x-hello', 'World')
  *   response.end('Hello, World!')
  *   logger.info('Hello, World!')
  * })
@@ -87,13 +97,13 @@ export async function useMiddleware(handler: Middleware) {
 }
 
 /**
- * Apply an array of middleware functions to an event.
+ * Create a function that runs middleware handlers in sequence until one ends the response.
  *
- * @param handlers - Middleware functions to run in order until one ends the response.
- * @returns Wrapper that applies each middleware to the incoming event.
+ * @param {Middleware[]} handlers - Middleware functions to run in order.
+ * @returns {Promise<any>} Promise that resolves to a function wrapper.
  *
  * @example
- * ```typescript
+ * ```ts
  * import { useMiddlewares } from '@faasjs/core'
  *
  * export const func = useMiddlewares([
@@ -104,7 +114,7 @@ export async function useMiddleware(handler: Middleware) {
  *   (request, response) => {
  *     if (request.url === '/hello') return
  *     response.end('Hi, World!')
- *   }
+ *   },
  * ])
  * ```
  */

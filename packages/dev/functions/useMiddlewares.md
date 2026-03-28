@@ -4,7 +4,7 @@
 
 > **useMiddlewares**(`handlers`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
 
-Apply an array of middleware functions to an event.
+Create a function that runs middleware handlers in sequence until one ends the response.
 
 ## Parameters
 
@@ -12,17 +12,17 @@ Apply an array of middleware functions to an event.
 
 [`Middleware`](../type-aliases/Middleware.md)[]
 
-Middleware functions to run in order until one ends the response.
+Middleware functions to run in order.
 
 ## Returns
 
 `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
 
-Wrapper that applies each middleware to the incoming event.
+Promise that resolves to a function wrapper.
 
 ## Example
 
-```typescript
+```ts
 import { useMiddlewares } from '@faasjs/core'
 
 export const func = useMiddlewares([

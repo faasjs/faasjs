@@ -21,28 +21,28 @@ Supported syntax per field: wildcard (`*`), step (every n units), and fixed numb
 
 > **handler**: [`CronJobHandler`](CronJobHandler.md)
 
-Job handler.
+Callback invoked whenever the cron expression matches.
 
 ### logger?
 
 > `optional` **logger?**: `Logger`
 
-Custom logger for this cron job.
+Custom logger used by this cron job.
 
 ### name?
 
 > `optional` **name?**: `string`
 
-Name of the cron job, used in logs.
+Optional job name used in logs and registry helpers.
 
 #### Default
 
 ```ts
-random name
+random generated name
 ```
 
 ### onError?
 
 > `optional` **onError?**: [`CronJobErrorHandler`](CronJobErrorHandler.md)
 
-Called when handler throws.
+Error handler invoked when `handler` throws.

@@ -12,6 +12,10 @@ Set the outgoing HTTP status code.
 
 `number`
 
+HTTP status code.
+
 ## Returns
 
 `void`
+
+No return value.

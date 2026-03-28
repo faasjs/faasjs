@@ -12,27 +12,18 @@ Configuration options for [Server](../classes/Server.md).
 
 > `optional` **beforeHandle?**: [`Middleware`](Middleware.md)
 
-Callback function that is invoked before handling each request.
+Middleware invoked before each request is dispatched to a FaasJS function.
 
-This function is executed asynchronously before the main request handling logic.
-It can be used for request preprocessing, authentication, logging, etc.
-
-#### Param
-
-The incoming HTTP request object.
-
-#### Param
-
-The server response object.
+Write to the response to short-circuit normal request handling.
 
 #### Example
 
-```typescript
+```ts
 const server = new Server(process.cwd(), {
   beforeHandle: async (req, res) => {
     console.log(`Processing ${req.method} request to ${req.url}`)
 
-    if (req.method !== 'POST') res.writeHead(405, { Allow: 'POST' }) // If you write response, it will finish the request
+    if (req.method !== 'POST') res.writeHead(405, { Allow: 'POST' })
   },
 })
 ```
@@ -56,10 +47,9 @@ true
 
 > `optional` **onClose?**: (`context`) => `Promise`\<`void`\>
 
-Callback function that is invoked when the server is closed.
+Async hook invoked after the server closes.
 
-This function is executed asynchronously and can be used to perform
-cleanup tasks or log server shutdown events.
+Use this hook for cleanup or shutdown logging.
 
 #### Parameters
 
@@ -77,9 +67,11 @@ Shared server logger instance.
 
 `Promise`\<`void`\>
 
+Promise returned by the close hook.
+
 #### Example
 
-```typescript
+```ts
 const server = new Server(process.cwd(), {
   onClose: async ({ logger }) => {
     logger.info('Server closed')
@@ -91,10 +83,9 @@ const server = new Server(process.cwd(), {
 
 > `optional` **onError?**: (`error`, `context`) => `Promise`\<`void`\>
 
-Callback function that is invoked when an error occurs.
+Async hook invoked when server-level errors occur.
 
-This function is executed asynchronously and allows handling of errors
-that occur during server operation.
+This hook receives normalized `Error` instances.
 
 #### Parameters
 
@@ -102,7 +93,7 @@ that occur during server operation.
 
 `Error`
 
-The error that occurred.
+Error raised during server operation.
 
 ##### context
 
@@ -118,9 +109,11 @@ Shared server logger instance.
 
 `Promise`\<`void`\>
 
+Promise returned by the error hook.
+
 #### Example
 
-```typescript
+```ts
 const server = new Server(process.cwd(), {
   onError: async (error, { logger }) => {
     logger.error(error)
@@ -132,10 +125,9 @@ const server = new Server(process.cwd(), {
 
 > `optional` **onStart?**: (`context`) => `Promise`\<`void`\>
 
-Callback function that is invoked when the server starts.
+Async hook invoked after the server starts listening.
 
-This function is executed asynchronously and will not interrupt the server
-if an error occurs during its execution.
+Errors thrown by this hook are reported through the server error logger.
 
 #### Parameters
 
@@ -153,9 +145,11 @@ Shared server logger instance.
 
 `Promise`\<`void`\>
 
+Promise returned by the start hook.
+
 #### Example
 
-```typescript
+```ts
 const server = new Server(process.cwd(), {
   onStart: async ({ logger }) => {
     logger.info('Server started')
@@ -167,7 +161,7 @@ const server = new Server(process.cwd(), {
 
 > `optional` **port?**: `number`
 
-The port on which the server will listen. Defaults to `3000` if not provided.
+Port used by [Server.listen](../classes/Server.md#listen).
 
 #### Default
 

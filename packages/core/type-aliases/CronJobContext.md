@@ -12,10 +12,16 @@ Runtime context passed to cron job handlers.
 
 > **job**: [`CronJob`](../classes/CronJob.md)
 
+Cron job being executed.
+
 ### logger
 
 > **logger**: `Logger`
 
+Job-scoped logger instance.
+
 ### now
 
 > **now**: `Date`
+
+Current execution time used for the tick.

@@ -12,13 +12,13 @@ import { RunHandler } from '../plugins/run_handler'
  * @template TContext - Runtime context type.
  * @template TResult - Async result type returned by the handler.
  *
- * @param data - Invocation data exposed to the handler.
- * @param data.event - Runtime event payload received from the caller.
- * @param data.context - Runtime context payload forwarded by the platform.
- * @param data.logger - Request-scoped logger instance.
- * @param data.response - Mutable response slot shared across plugins and the handler.
- * @param data.config - Resolved function configuration loaded during mount.
- * @returns Handler result that becomes the function response.
+ * @param {InvokeData<TEvent, TContext, TResult>} data - Invocation data exposed to the handler.
+ * @param {TEvent} data.event - Runtime event payload received from the caller.
+ * @param {TContext} data.context - Runtime context payload forwarded by the platform.
+ * @param {Logger} data.logger - Request-scoped logger instance.
+ * @param {any} data.response - Mutable response slot shared across plugins and the handler.
+ * @param {Config} data.config - Resolved function configuration loaded during mount.
+ * @returns {Promise<TResult>} Handler result that becomes the function response.
  */
 export type Handler<TEvent = any, TContext = any, TResult = any> = (
   data: InvokeData<TEvent, TContext>,
@@ -36,10 +36,10 @@ export type Next = () => Promise<void>
  * @template TContext - Runtime context type.
  * @template TResult - Async result type returned by the handler.
  *
- * @param event - Runtime event payload.
- * @param context - Runtime context object.
- * @param callback - Optional callback supplied by callback-based runtimes.
- * @returns Final function response.
+ * @param {TEvent} [event] - Runtime event payload.
+ * @param {TContext} [context] - Runtime context object.
+ * @param {(...args: any) => any} [callback] - Optional callback supplied by callback-based runtimes.
+ * @returns {Promise<TResult>} Final function response.
  */
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
@@ -50,10 +50,10 @@ export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
 /**
  * Lifecycle plugin attached to a {@link Func}.
  *
- * @property type - Stable plugin type identifier.
- * @property name - Instance name used for ordering and logs.
- * @property onMount - Optional hook that runs once before the first invoke.
- * @property onInvoke - Optional hook that runs for every invocation.
+ * @property {string} type - Stable plugin type identifier.
+ * @property {string} name - Instance name used for ordering and logs.
+ * @property {(data: MountData, next: Next) => Promise<void>} [onMount] - Optional hook that runs once before the first invoke.
+ * @property {(data: InvokeData, next: Next) => Promise<void>} [onInvoke] - Optional hook that runs for every invocation.
  */
 export type Plugin = {
   [key: string]: any
@@ -66,7 +66,7 @@ export type Plugin = {
 /**
  * Resolved config object loaded for a function.
  *
- * @property plugins - Plugin configuration keyed by plugin name.
+ * @property {Record<string, { type?: string; config?: Record<string, any> }>} [plugins] - Plugin configuration keyed by plugin name.
  */
 export type Config = {
   [key: string]: any
@@ -84,9 +84,9 @@ export type Config = {
 /**
  * Data passed to plugin mount hooks.
  *
- * @property config - Function configuration available during mount.
- * @property event - Initial event value used when mounting.
- * @property context - Initial context value used when mounting.
+ * @property {Config} config - Function configuration available during mount.
+ * @property {any} event - Initial event value used when mounting.
+ * @property {any} context - Initial context value used when mounting.
  */
 export type MountData = {
   [key: string]: any
@@ -110,13 +110,13 @@ type MutableMountData = {
  * @template TContext - Runtime context type.
  * @template TResult - Async result type produced by the handler.
  *
- * @property event - Runtime event payload.
- * @property context - Runtime context payload.
- * @property callback - Optional callback forwarded from the runtime.
- * @property response - Response value produced by plugins or handlers.
- * @property logger - Request-scoped logger instance.
- * @property handler - Final business handler when one exists.
- * @property config - Resolved function configuration.
+ * @property {TEvent} event - Runtime event payload.
+ * @property {TContext} context - Runtime context payload.
+ * @property {any} callback - Optional callback forwarded from the runtime.
+ * @property {any} response - Response value produced by plugins or handlers.
+ * @property {Logger} logger - Request-scoped logger instance.
+ * @property {Handler<TEvent, TContext, TResult>} [handler] - Final business handler when one exists.
+ * @property {Config} config - Resolved function configuration.
  */
 export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
   [key: string]: any
@@ -141,8 +141,8 @@ export type LifeCycleKey = 'onMount' | 'onInvoke'
  * @template TContext - Runtime context type.
  * @template TResult - Async result type produced by the handler.
  *
- * @property plugins - Ordered plugin list to attach before the run handler.
- * @property handler - Final business handler invoked after plugins complete.
+ * @property {Plugin[]} [plugins] - Ordered plugin list to attach before the run handler.
+ * @property {Handler<TEvent, TContext, TResult>} [handler] - Final business handler invoked after plugins complete.
  */
 export type FuncConfig<TEvent = any, TContext = any, TResult = any> = {
   plugins?: Plugin[]
@@ -201,8 +201,8 @@ export type FuncReturnType<T extends Func<any, any, any>> =
 /**
  * Extract a `.func.ts` file path from a captured stack trace.
  *
- * @param stack - Stack trace text to inspect.
- * @returns Absolute or file URL converted source path when found.
+ * @param {string} [stack] - Stack trace text to inspect.
+ * @returns {string | undefined} Absolute or file URL converted source path when found.
  *
  * @example
  * ```ts
@@ -321,9 +321,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   /**
    * Create a cloud function.
    *
-   * @param config - Plugins and optional business handler used to configure the function.
-   * @param config.plugins - Ordered plugin list attached before the built-in run handler.
-   * @param config.handler - Final business handler invoked after plugins complete.
+   * @param {FuncConfig<TEvent, TContext, TResult>} config - Plugins and optional business handler used to configure the function.
+   * @param {Plugin[]} [config.plugins] - Ordered plugin list attached before the built-in run handler.
+   * @param {Handler<TEvent, TContext, TResult>} [config.handler] - Final business handler invoked after plugins complete.
    */
   constructor(config: FuncConfig<TEvent, TContext>) {
     if (config.handler) this.handler = config.handler
@@ -411,11 +411,12 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   /**
    * First time mount the function.
    *
-   * @param data - Optional initial event, context, config, and logger used during mount.
-   * @param data.event - Initial event value passed through mount hooks.
-   * @param data.context - Initial context value passed through mount hooks.
-   * @param data.config - Function config override used during mount.
-   * @param data.logger - Logger override used during mount.
+   * @param {{ event: TEvent; context: TContext; config?: Config; logger?: Logger }} [data] - Optional initial event, context, config, and logger used during mount.
+   * @param {TEvent} data.event - Initial event value passed through mount hooks.
+   * @param {TContext} data.context - Initial context value passed through mount hooks.
+   * @param {Config} [data.config] - Function config override used during mount.
+   * @param {Logger} [data.logger] - Logger override used during mount.
+   * @returns {Promise<void>} Promise that resolves after mount hooks complete.
    */
   public async mount(
     data: {
@@ -447,12 +448,13 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   /**
    * Invoke the function.
    *
-   * @param data - Invocation state mutated by plugins and the final handler.
-   * @param data.event - Runtime event payload.
-   * @param data.context - Runtime context payload.
-   * @param data.logger - Request-scoped logger instance.
-   * @param data.response - Mutable response value shared across plugins and handlers.
-   * @param data.config - Resolved function configuration.
+   * @param {InvokeData<TEvent, TContext, TResult>} data - Invocation state mutated by plugins and the final handler.
+   * @param {TEvent} data.event - Runtime event payload.
+   * @param {TContext} data.context - Runtime context payload.
+   * @param {Logger} data.logger - Request-scoped logger instance.
+   * @param {any} data.response - Mutable response value shared across plugins and handlers.
+   * @param {Config} data.config - Resolved function configuration.
+   * @returns {Promise<void>} Promise that resolves after invoke hooks complete.
    */
   public async invoke(data: InvokeData<TEvent, TContext, TResult>): Promise<void> {
     if (!this.mounted) await this.mount(data)
@@ -466,7 +468,9 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * Export the function.
+   * Build a runtime-compatible handler wrapper for the function.
+   *
+   * @returns {{ handler: ExportedHandler<TEvent, TContext, TResult> }} Object containing the exported handler.
    */
   public export(): {
     handler: ExportedHandler<TEvent, TContext, TResult>
@@ -523,6 +527,8 @@ let plugins: Plugin[] = []
  * Plugin type augmented with a convenience `mount()` helper.
  *
  * @template T - Original plugin type.
+ *
+ * @property {(data?: MountData) => Promise<T>} mount - Helper that mounts the plugin in isolation.
  */
 export type UseifyPlugin<T> = T & {
   mount: (data?: MountData) => Promise<T>
@@ -533,8 +539,8 @@ export type UseifyPlugin<T> = T & {
  *
  * @template T - Plugin type to register and return.
  *
- * @param plugin - Plugin instance to register.
- * @returns The same plugin with a `mount()` convenience method.
+ * @param {T & { mount?: (data?: MountData) => Promise<T> }} plugin - Plugin instance to register.
+ * @returns {UseifyPlugin<T>} The same plugin with a `mount()` convenience method.
  *
  * @example
  * ```ts
@@ -582,8 +588,8 @@ export function usePlugin<T extends Plugin>(
  * @template TContext - Runtime context type.
  * @template TResult - Async result type produced by the handler.
  *
- * @param handler - Factory that returns the final business handler.
- * @returns Function instance ready to export or test.
+ * @param {() => Handler<TEvent, TContext, TResult>} handler - Factory that returns the final business handler.
+ * @returns {Func<TEvent, TContext, TResult>} Function instance ready to export or test.
  *
  * @example
  * ```ts

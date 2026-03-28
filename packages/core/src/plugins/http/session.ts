@@ -8,13 +8,49 @@ import type { Cookie } from './cookie'
  * Encryption and signing options for the {@link Session} helper.
  */
 export type SessionOptions = {
+  /**
+   * Cookie key used to store the encrypted session payload.
+   */
   key: string
+  /**
+   * Secret source used to derive encryption and signing keys.
+   */
   secret: string
+  /**
+   * Salt used for deriving the encryption key.
+   *
+   * @default 'salt'
+   */
   salt?: string
+  /**
+   * Salt used for deriving the signing key.
+   *
+   * @default 'signedSalt'
+   */
   signedSalt?: string
+  /**
+   * Total derived key length in bytes.
+   *
+   * @default 64
+   */
   keylen?: number
+  /**
+   * PBKDF2 iteration count used for key derivation.
+   *
+   * @default 100
+   */
   iterations?: number
+  /**
+   * Hash algorithm used by PBKDF2 and HMAC.
+   *
+   * @default 'sha256'
+   */
   digest?: string
+  /**
+   * Cipher name used to encrypt the session payload.
+   *
+   * @default 'aes-256-cbc'
+   */
   cipherName?: string
 }
 
@@ -83,19 +119,19 @@ export class Session<
   /**
    * Create a session helper bound to a cookie store.
    *
-   * @param cookie - Parent cookie store used for persistence.
-   * @param config - Session encryption and cookie key options.
-   * @param config.key - Cookie key used to store the encrypted session payload.
-   * @param config.secret - Secret source used to derive encryption and signing keys.
-   * @param config.salt - Salt used for deriving the encryption key.
-   * @param config.signedSalt - Salt used for deriving the signing key.
-   * @param config.keylen - Total derived key length in bytes.
-   * @param config.iterations - PBKDF2 iteration count used for key derivation.
-   * @param config.digest - Hash algorithm used by PBKDF2 and HMAC.
-   * @param config.cipherName - Cipher name used to encrypt the session payload.
-   * @param secrets - Precomputed secrets reused by forked sessions.
-   * @param secrets.secret - Derived encryption key reused by forked sessions.
-   * @param secrets.signedSecret - Derived signing key reused by forked sessions.
+   * @param {Cookie<C, S>} cookie - Parent cookie store used for persistence.
+   * @param {SessionOptions | SessionConfig} config - Session encryption and cookie key options.
+   * @param {string} config.key - Cookie key used to store the encrypted session payload.
+   * @param {string} config.secret - Secret source used to derive encryption and signing keys.
+   * @param {string} [config.salt] - Salt used for deriving the encryption key.
+   * @param {string} [config.signedSalt] - Salt used for deriving the signing key.
+   * @param {number} [config.keylen] - Total derived key length in bytes.
+   * @param {number} [config.iterations] - PBKDF2 iteration count used for key derivation.
+   * @param {string} [config.digest] - Hash algorithm used by PBKDF2 and HMAC.
+   * @param {string} [config.cipherName] - Cipher name used to encrypt the session payload.
+   * @param {{ secret: Buffer; signedSecret: Buffer }} [secrets] - Precomputed secrets reused by forked sessions.
+   * @param {Buffer} [secrets.secret] - Derived encryption key reused by forked sessions.
+   * @param {Buffer} [secrets.signedSecret] - Derived signing key reused by forked sessions.
    */
   constructor(
     cookie: Cookie<C, S>,
@@ -148,8 +184,8 @@ export class Session<
   /**
    * Clone the session helper for a forked cookie store.
    *
-   * @param cookie - Forked cookie store.
-   * @returns Session helper sharing the same derived secrets.
+   * @param {Cookie<C, S>} cookie - Forked cookie store.
+   * @returns {Session<S, C>} Session helper sharing the same derived secrets.
    */
   public fork(cookie: Cookie<C, S>): Session<S, C> {
     return new Session(cookie, this.config, {
@@ -161,8 +197,9 @@ export class Session<
   /**
    * Decode the current session cookie into memory.
    *
-   * @param cookie - Encoded session cookie value.
-   * @param logger - Optional logger for decode failures.
+   * @param {string} [cookie] - Encoded session cookie value.
+   * @param {Logger} [logger] - Optional logger for decode failures.
+   * @returns {void} No return value.
    */
   public invoke(cookie?: string, logger?: Logger): void {
     try {
@@ -177,8 +214,10 @@ export class Session<
   /**
    * Serialize session content into a signed, encrypted cookie string.
    *
-   * @param text - Session payload to encode.
-   * @returns Encoded cookie value.
+   * Non-string payloads are JSON serialized before encryption.
+   *
+   * @param {SessionContent} text - Session payload to encode.
+   * @returns {string} Encoded cookie value.
    */
   public encode(text: SessionContent): string {
     if (typeof text !== 'string') text = JSON.stringify(text)
@@ -202,8 +241,8 @@ export class Session<
    * Decode and verify a session cookie value.
    *
    * @template TData - Expected decoded payload shape.
-   * @param text - Encoded cookie value.
-   * @returns Decoded session payload.
+   * @param {string} text - Encoded cookie value.
+   * @returns {TData | SessionContent} Decoded session payload.
    * @throws {Error} When the signature is invalid or the payload cannot be decrypted.
    */
   public decode<TData = any>(text: string): TData | SessionContent {
@@ -232,8 +271,8 @@ export class Session<
   /**
    * Read a session value by key.
    *
-   * @param key - Session key.
-   * @returns Stored session value.
+   * @param {string} key - Session key.
+   * @returns {string | number | undefined} Stored session value.
    */
   public read(key: string) {
     return this.content[key]
@@ -242,9 +281,9 @@ export class Session<
   /**
    * Set or remove a session value in memory.
    *
-   * @param key - Session key.
-   * @param value - Session value, or `null`/`undefined` to delete it.
-   * @returns Current session helper for chaining.
+   * @param {string} key - Session key.
+   * @param {string | number | null | undefined} value - Session value, or `null`/`undefined` to delete it.
+   * @returns {Session<S, C>} Current session helper for chaining.
    */
   public write(key: string, value?: string | number | null): Session<S, C> {
     if (value === null || typeof value === 'undefined') delete this.content[key]
@@ -257,7 +296,7 @@ export class Session<
   /**
    * Persist pending in-memory changes back to the session cookie.
    *
-   * @returns Current session helper for chaining.
+   * @returns {Session<S, C>} Current session helper for chaining.
    */
   public update(): Session<S, C> {
     if (this.changed) this.cookie.write(this.config.key, this.encode(this.content))

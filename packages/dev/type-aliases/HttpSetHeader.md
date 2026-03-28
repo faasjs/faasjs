@@ -12,10 +12,16 @@ Set a response header by key.
 
 `string`
 
+Header name.
+
 ### value
 
 `string`
 
+Header value.
+
 ## Returns
 
 `void`
+
+No return value.

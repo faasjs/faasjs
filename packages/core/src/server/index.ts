@@ -40,7 +40,13 @@ import { getRouteFiles } from './routes'
  * Extra options for a single {@link Server.handle} call.
  */
 export type ServerHandlerOptions = {
+  /**
+   * Explicit request start timestamp used for response timing headers.
+   */
   requestedAt?: number
+  /**
+   * Force a specific function file path instead of route lookup.
+   */
   filepath?: string
 }
 
@@ -58,6 +64,8 @@ const servers: Server[] = []
 /**
  * Return all server instances created in the current process.
  *
+ * @returns {Server[]} Server instances tracked by the current process.
+ *
  * @example
  * ```ts
  * import { Server, getAll } from '@faasjs/core'
@@ -73,6 +81,8 @@ export function getAll(): Server[] {
 
 /**
  * Close every tracked server instance.
+ *
+ * @returns {Promise<void>} Promise that resolves after all servers close.
  *
  * @example
  * ```ts
@@ -93,92 +103,87 @@ export async function closeAll(): Promise<void> {
  */
 export type ServerOptions = {
   /**
-   * The port on which the server will listen. Defaults to `3000` if not provided.
+   * Port used by {@link Server.listen}.
    *
    * @default 3000
    */
   port?: number
 
   /**
-   * Callback function that is invoked when the server starts.
+   * Async hook invoked after the server starts listening.
    *
-   * This function is executed asynchronously and will not interrupt the server
-   * if an error occurs during its execution.
+   * Errors thrown by this hook are reported through the server error logger.
    *
-   * @param context - Lifecycle context passed to the start hook.
-   * @param context.logger - Shared server logger instance.
+   * @param {{ logger: Logger }} context - Lifecycle context passed to the start hook.
+   * @param {Logger} context.logger - Shared server logger instance.
+   * @returns {Promise<void>} Promise returned by the start hook.
    *
    * @example
-   * ```typescript
+   * ```ts
    * const server = new Server(process.cwd(), {
    *   onStart: async ({ logger }) => {
-   *     logger.info('Server started');
-   *   }
-   * });
+   *     logger.info('Server started')
+   *   },
+   * })
    * ```
    */
   onStart?: (context: { logger: Logger }) => Promise<void>
 
   /**
-   * Callback function that is invoked when an error occurs.
+   * Async hook invoked when server-level errors occur.
    *
-   * This function is executed asynchronously and allows handling of errors
-   * that occur during server operation.
+   * This hook receives normalized `Error` instances.
    *
-   * @param error - The error that occurred.
-   * @param context - Lifecycle context passed to the error hook.
-   * @param context.logger - Shared server logger instance.
+   * @param {Error} error - Error raised during server operation.
+   * @param {{ logger: Logger }} context - Lifecycle context passed to the error hook.
+   * @param {Logger} context.logger - Shared server logger instance.
+   * @returns {Promise<void>} Promise returned by the error hook.
    *
    * @example
-   * ```typescript
+   * ```ts
    * const server = new Server(process.cwd(), {
    *   onError: async (error, { logger }) => {
-   *     logger.error(error);
-   *   }
-   * });
+   *     logger.error(error)
+   *   },
+   * })
    * ```
    */
   onError?: (error: Error, context: { logger: Logger }) => Promise<void>
 
   /**
-   * Callback function that is invoked when the server is closed.
+   * Async hook invoked after the server closes.
    *
-   * This function is executed asynchronously and can be used to perform
-   * cleanup tasks or log server shutdown events.
+   * Use this hook for cleanup or shutdown logging.
    *
-   * @param context - Lifecycle context passed to the close hook.
-   * @param context.logger - Shared server logger instance.
+   * @param {{ logger: Logger }} context - Lifecycle context passed to the close hook.
+   * @param {Logger} context.logger - Shared server logger instance.
+   * @returns {Promise<void>} Promise returned by the close hook.
    *
    * @example
-   * ```typescript
+   * ```ts
    * const server = new Server(process.cwd(), {
    *   onClose: async ({ logger }) => {
-   *     logger.info('Server closed');
-   *   }
-   * });
+   *     logger.info('Server closed')
+   *   },
+   * })
    * ```
    */
   onClose?: (context: { logger: Logger }) => Promise<void>
 
   /**
-   * Callback function that is invoked before handling each request.
+   * Middleware invoked before each request is dispatched to a FaasJS function.
    *
-   * This function is executed asynchronously before the main request handling logic.
-   * It can be used for request preprocessing, authentication, logging, etc.
-   *
-   * @param req - The incoming HTTP request object.
-   * @param res - The server response object.
+   * Write to the response to short-circuit normal request handling.
    *
    * @example
-   * ```typescript
+   * ```ts
    * const server = new Server(process.cwd(), {
    *   beforeHandle: async (req, res) => {
    *     console.log(`Processing ${req.method} request to ${req.url}`)
    *
-   *     if (req.method !== 'POST')
-   *       res.writeHead(405, { 'Allow': 'POST' }) // If you write response, it will finish the request
-   *   }
-   * });
+   *     if (req.method !== 'POST') res.writeHead(405, { Allow: 'POST' })
+   *   },
+   * })
    * ```
    */
   beforeHandle?: Middleware
@@ -195,7 +200,10 @@ export type ServerOptions = {
 }
 
 /**
- * FaasJS Server.
+ * HTTP server that loads and runs FaasJS function files from a project root.
+ *
+ * A {@link Server} resolves route files on demand, caches loaded handlers, and
+ * can optionally mount cron jobs for the process lifecycle.
  *
  * @example
  * ```ts
@@ -237,15 +245,15 @@ export class Server {
   /**
    * Create a server rooted at a FaasJS project directory.
    *
-   * @param root - Root directory used to resolve configuration and route files.
-   * @param opts - Server configuration overrides.
-   * @param opts.port - Port used by `listen()`. Defaults to `3000`.
-   * @param opts.onStart - Async hook invoked after the server starts listening.
-   * @param opts.onError - Async hook invoked when server-level errors occur.
-   * @param opts.onClose - Async hook invoked after the server closes.
-   * @param opts.beforeHandle - Middleware hook invoked before each request is dispatched.
-   * @param opts.cronJob - Whether server lifecycle should mount registered cron jobs.
-   * @returns Server instance.
+   * @param {string} root - Root directory used to resolve configuration and route files.
+   * @param {ServerOptions} [opts] - Server configuration overrides.
+   * @param {number} [opts.port] - Port used by `listen()`. Defaults to `3000`.
+   * @param {(context: { logger: Logger }) => Promise<void>} [opts.onStart] - Async hook invoked after the server starts listening.
+   * @param {(error: Error, context: { logger: Logger }) => Promise<void>} [opts.onError] - Async hook invoked when server-level errors occur.
+   * @param {(context: { logger: Logger }) => Promise<void>} [opts.onClose] - Async hook invoked after the server closes.
+   * @param {Middleware} [opts.beforeHandle] - Middleware hook invoked before each request is dispatched.
+   * @param {boolean} [opts.cronJob] - Whether server lifecycle should mount registered cron jobs.
+   * @throws {Error} When `onStart`, `onError`, or `onClose` is not an async function.
    */
   constructor(root: string, opts: ServerOptions = {}) {
     loadEnvFileIfExists()
@@ -300,11 +308,12 @@ export class Server {
   /**
    * Handle a single incoming HTTP request.
    *
-   * @param req - Incoming Node.js request.
-   * @param res - Node.js response writer.
-   * @param options - Optional request metadata and forced filepath override.
-   * @param options.requestedAt - Explicit request start timestamp used for response headers.
-   * @param options.filepath - Force a specific function file path instead of route lookup.
+   * @param {IncomingMessage} req - Incoming Node.js request.
+   * @param {ServerResponse<IncomingMessage>} res - Node.js response writer.
+   * @param {ServerHandlerOptions} [options] - Optional request metadata and forced filepath override.
+   * @param {number} [options.requestedAt] - Explicit request start timestamp used for response headers.
+   * @param {string} [options.filepath] - Force a specific function file path instead of route lookup.
+   * @returns {Promise<void>} Promise that resolves after the request has been handled.
    */
   public async handle(
     req: IncomingMessage,
@@ -583,8 +592,10 @@ export class Server {
   }
 
   /**
-   * Start server.
-   * @returns {Server}
+   * Start the underlying Node.js HTTP server.
+   *
+   * @returns {HttpServer} Underlying Node.js server instance.
+   * @throws {Error} When the server is already running.
    */
   public listen(): HttpServer {
     if (this.server) throw Error('Server already running')
@@ -699,7 +710,9 @@ export class Server {
   }
 
   /**
-   * Close server.
+   * Close the server and wait for active requests to finish.
+   *
+   * @returns {Promise<void>} Promise that resolves after sockets, cron jobs, and transports stop.
    */
   public async close(): Promise<void> {
     if (this.closed) {
@@ -773,12 +786,12 @@ export class Server {
   }
 
   /**
-   * Middleware function to handle incoming HTTP requests.
+   * Express-style middleware wrapper that delegates to {@link Server.handle}.
    *
-   * @param req - The incoming HTTP request object.
-   * @param res - The server response object.
-   * @param next - A callback function to pass control to the next middleware.
-   * @returns A promise that resolves when the middleware processing is complete.
+   * @param {IncomingMessage} req - Incoming HTTP request object.
+   * @param {ServerResponse<IncomingMessage>} res - Server response object.
+   * @param {() => void} next - Callback used to continue the middleware chain.
+   * @returns {Promise<void>} Promise that resolves when middleware processing finishes.
    */
   public async middleware(
     req: IncomingMessage,

@@ -12,6 +12,10 @@ Extra options for a single [Server.handle](../classes/Server.md#handle) call.
 
 > `optional` **filepath?**: `string`
 
+Force a specific function file path instead of route lookup.
+
 ### requestedAt?
 
 > `optional` **requestedAt?**: `number`
+
+Explicit request start timestamp used for response timing headers.

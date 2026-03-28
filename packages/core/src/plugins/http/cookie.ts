@@ -7,12 +7,41 @@ import { Session, type SessionOptions } from './session'
  * Cookie defaults and session integration options used by {@link Cookie}.
  */
 export type CookieOptions = {
+  /**
+   * Cookie domain attribute.
+   */
   domain?: string
+  /**
+   * Cookie path attribute.
+   *
+   * @default '/'
+   */
   path?: string
+  /**
+   * Max age in seconds for persisted cookies.
+   *
+   * @default 31536000
+   */
   expires?: number
+  /**
+   * Whether cookies require HTTPS transport.
+   *
+   * @default true
+   */
   secure?: boolean
+  /**
+   * Whether cookies are hidden from client-side scripts.
+   *
+   * @default true
+   */
   httpOnly?: boolean
+  /**
+   * SameSite attribute applied to written cookies.
+   */
   sameSite?: 'Strict' | 'Lax' | 'None'
+  /**
+   * Session encryption and signing settings.
+   */
   session?: SessionOptions
   [key: string]: any
 }
@@ -74,17 +103,17 @@ export class Cookie<
   /**
    * Create a cookie manager.
    *
-   * @param config - Cookie defaults including session settings.
-   * @param config.domain - Cookie domain attribute.
-   * @param config.path - Cookie path attribute. Defaults to `/`.
-   * @param config.expires - Max age in seconds for persisted cookies.
-   * @param config.secure - Whether cookies require HTTPS transport.
-   * @param config.httpOnly - Whether cookies are hidden from client-side scripts.
-   * @param config.sameSite - SameSite attribute applied to written cookies.
-   * @param config.session - Session-cookie encryption and signing settings.
-   * @param logger - Optional logger used by cookie and session helpers.
-   * @param options - Internal template reuse options.
-   * @param options.template - Existing cookie template reused by `fork()`.
+   * @param {CookieOptions} config - Cookie defaults including session settings.
+   * @param {string} [config.domain] - Cookie domain attribute.
+   * @param {string} [config.path] - Cookie path attribute. Defaults to `/`.
+   * @param {number} [config.expires] - Max age in seconds for persisted cookies.
+   * @param {boolean} [config.secure] - Whether cookies require HTTPS transport.
+   * @param {boolean} [config.httpOnly] - Whether cookies are hidden from client-side scripts.
+   * @param {'Strict' | 'Lax' | 'None'} [config.sameSite] - SameSite attribute applied to written cookies.
+   * @param {SessionOptions} [config.session] - Session-cookie encryption and signing settings.
+   * @param {Logger} [logger] - Optional logger used by cookie and session helpers.
+   * @param {{ template?: Cookie<C, S> }} [options] - Internal template reuse options.
+   * @param {Cookie<C, S>} [options.template] - Existing cookie template reused by `fork()`.
    */
   constructor(
     config: CookieOptions,
@@ -121,8 +150,8 @@ export class Cookie<
   /**
    * Clone the cookie manager while reusing normalized config and secrets.
    *
-   * @param logger - Optional logger for the forked instance.
-   * @returns Forked cookie manager for a single invocation.
+   * @param {Logger} [logger] - Optional logger for the forked instance.
+   * @returns {Cookie<C, S>} Forked cookie manager for a single invocation.
    */
   public fork(logger?: Logger): Cookie<C, S> {
     return new Cookie(this.config, logger, {
@@ -133,14 +162,14 @@ export class Cookie<
   /**
    * Load request cookies and bootstrap the related session state.
    *
-   * @param cookie - Raw `Cookie` header value.
-   * @param logger - Logger forwarded to the session helper.
-   * @returns Current cookie manager for chaining.
+   * @param {string | undefined} cookie - Raw `Cookie` header value.
+   * @param {Logger} logger - Logger forwarded to the session helper.
+   * @returns {Cookie<C, S>} Current cookie manager for chaining.
    */
   public invoke(cookie: string | undefined, logger: Logger): Cookie<C, S> {
     this.content = Object.create(null)
 
-    // 解析 cookie
+    // Parse cookies from the incoming request header.
     if (cookie)
       for (const x of cookie.split(';')) {
         const trimX = x.trim()
@@ -153,7 +182,7 @@ export class Cookie<
       }
 
     this.setCookie = Object.create(null)
-    // 预读取 session
+    // Preload session data before request handlers access it.
     this.session.invoke(this.read(this.session.config.key), logger)
     return this
   }
@@ -161,8 +190,8 @@ export class Cookie<
   /**
    * Read a cookie value by key.
    *
-   * @param key - Cookie name.
-   * @returns Decoded cookie value for the current request.
+   * @param {string} key - Cookie name.
+   * @returns {string | undefined} Decoded cookie value for the current request.
    */
   public read(key: string): any {
     return this.content[key]
@@ -171,16 +200,16 @@ export class Cookie<
   /**
    * Queue a cookie write or removal for the outgoing response.
    *
-   * @param key - Cookie name.
-   * @param value - Cookie value, or `null`/`undefined` to expire it.
-   * @param opts - Per-cookie attribute overrides.
-   * @param opts.domain - Cookie domain attribute override.
-   * @param opts.path - Cookie path attribute override.
-   * @param opts.expires - `max-age` seconds or absolute `expires` string override.
-   * @param opts.secure - Whether the written cookie requires HTTPS transport.
-   * @param opts.httpOnly - Whether the written cookie is hidden from client-side scripts.
-   * @param opts.sameSite - SameSite attribute override.
-   * @returns Current cookie manager for chaining.
+   * @param {string} key - Cookie name.
+   * @param {string | null | undefined} value - Cookie value, or `null`/`undefined` to expire it.
+   * @param {{ domain?: string; path?: string; expires?: number | string; secure?: boolean; httpOnly?: boolean; sameSite?: 'Strict' | 'Lax' | 'None' }} [opts] - Per-cookie attribute overrides.
+   * @param {string} [opts.domain] - Cookie domain attribute override.
+   * @param {string} [opts.path] - Cookie path attribute override.
+   * @param {number | string} [opts.expires] - `max-age` seconds or absolute `expires` string override.
+   * @param {boolean} [opts.secure] - Whether the written cookie requires HTTPS transport.
+   * @param {boolean} [opts.httpOnly] - Whether the written cookie is hidden from client-side scripts.
+   * @param {'Strict' | 'Lax' | 'None'} [opts.sameSite] - SameSite attribute override.
+   * @returns {Cookie<C, S>} Current cookie manager for chaining.
    */
   public write(
     key: string,
@@ -228,7 +257,7 @@ export class Cookie<
   /**
    * Build `Set-Cookie` headers for queued writes.
    *
-   * @returns Header bag suitable for merging into an HTTP response.
+   * @returns {{ 'Set-Cookie'?: string[] }} Header bag suitable for merging into an HTTP response.
    */
   public headers(): { 'Set-Cookie'?: string[] } {
     if (Object.keys(this.setCookie).length === 0) return {}

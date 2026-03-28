@@ -26,29 +26,49 @@ Runtime HTTP behavior overrides.
 
 > `optional` **cookie?**: [`CookieOptions`](CookieOptions.md)
 
+Cookie and session configuration injected into invoke data.
+
 #### functionName?
 
 > `optional` **functionName?**: `string`
+
+Explicit function name used by HTTP integrations.
 
 #### ignorePathPrefix?
 
 > `optional` **ignorePathPrefix?**: `string`
 
+Path prefix removed before route matching.
+
 #### method?
 
 > `optional` **method?**: `"BEGIN"` \| `"GET"` \| `"POST"` \| `"DELETE"` \| `"HEAD"` \| `"PUT"` \| `"OPTIONS"` \| `"TRACE"` \| `"PATCH"` \| `"ANY"`
 
-POST as default
+HTTP method accepted by the server route.
+
+##### Default
+
+```ts
+'POST'
+```
 
 #### path?
 
 > `optional` **path?**: `string`
 
-file relative path as default
+Route path matched by the server.
+
+##### Default
+
+```ts
+source file relative path
+```
 
 #### timeout?
 
 > `optional` **timeout?**: `number`
+
+Request timeout in milliseconds.
 
 ### name?
 

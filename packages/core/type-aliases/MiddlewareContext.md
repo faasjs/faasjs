@@ -11,3 +11,5 @@ Context shared with middleware handlers.
 ### logger
 
 > **logger**: `Logger`
+
+Middleware-scoped logger instance.

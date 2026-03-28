@@ -1,18 +1,16 @@
 /**
- * Assigns a name to a given function handler, which will be displayed in logs and error messages.
+ * Assign a stable name to a function for logs and stack traces.
  *
- * @template T - The type of the function handler.
- * @param name - The name to assign to the function handler.
- * @param handler - The function handler to which the name will be assigned.
- * @returns The original function handler with the assigned name.
+ * @template T - Function type to rename.
+ * @param {string} name - Name assigned to `handler.name`.
+ * @param {T} handler - Function to rename.
+ * @returns {T} The same handler with an updated `name` property.
  *
  * @example
  * ```ts
  * import { nameFunc } from '@faasjs/core'
  *
- * const handler = nameFunc('myHandler', () => {
- *  return 'Hello World'
- * })
+ * const handler = nameFunc('myHandler', () => 'Hello World')
  *
  * console.log(handler.name) // => 'myHandler'
  * ```

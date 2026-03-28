@@ -54,6 +54,10 @@ Cron job options including expression, handler, and logger.
 
 `CronJob`
 
+#### Throws
+
+When the cron expression is invalid.
+
 ## Methods
 
 ### start()

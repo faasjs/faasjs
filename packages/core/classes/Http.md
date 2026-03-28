@@ -73,6 +73,9 @@ Optional plugin name and HTTP configuration overrides.
 
 Attach HTTP helpers, cookies, sessions, and response handling to invoke data.
 
+The HTTP plugin also injects runtime helpers such as `headers`, `body`, `params`, `cookie`,
+and `session` before invoking the next handler in the chain.
+
 #### Parameters
 
 ##### data
@@ -91,6 +94,8 @@ Continuation for the remaining invoke chain.
 
 `Promise`\<`void`\>
 
+Promise that resolves after response helpers are applied.
+
 #### Implementation of
 
 `Plugin.onInvoke`
@@ -100,6 +105,8 @@ Continuation for the remaining invoke chain.
 > **onMount**(`data`, `next`): `Promise`\<`void`\>
 
 Merge environment and function config into the plugin before first invoke.
+
+Request-scoped logging is also available during mount through the runtime-injected `logger`.
 
 #### Parameters
 
@@ -118,6 +125,8 @@ Continuation for the remaining mount chain.
 #### Returns
 
 `Promise`\<`void`\>
+
+Promise that resolves after config merging completes.
 
 #### Throws
 

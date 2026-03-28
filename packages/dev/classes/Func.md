@@ -72,11 +72,13 @@ Plugins and optional business handler used to configure the function.
 
 > **export**(): `object`
 
-Export the function.
+Build a runtime-compatible handler wrapper for the function.
 
 #### Returns
 
 `object`
+
+Object containing the exported handler.
 
 ##### handler
 
@@ -99,6 +101,8 @@ Invocation state mutated by plugins and the final handler.
 #### Returns
 
 `Promise`\<`void`\>
+
+Promise that resolves after invoke hooks complete.
 
 ### mount()
 
@@ -139,6 +143,8 @@ Logger override used during mount.
 #### Returns
 
 `Promise`\<`void`\>
+
+Promise that resolves after mount hooks complete.
 
 ## Properties
 

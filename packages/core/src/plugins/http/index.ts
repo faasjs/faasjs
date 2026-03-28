@@ -36,15 +36,22 @@ export const ContentType: {
 /**
  * Configuration for the {@link Http} plugin.
  *
- * @property name - Instance name used when mounting multiple HTTP plugins.
- * @property config - Runtime HTTP behavior overrides.
+ * @property {string} [name] - Instance name used when mounting multiple HTTP plugins.
+ * @property {object} [config] - Runtime HTTP behavior overrides.
  */
 export type HttpConfig = {
   [key: string]: any
+  /**
+   * Instance name used to look up plugin-specific config.
+   */
   name?: string
   config?: {
     [key: string]: any
-    /** POST as default */
+    /**
+     * HTTP method accepted by the server route.
+     *
+     * @default 'POST'
+     */
     method?:
       | 'BEGIN'
       | 'GET'
@@ -56,11 +63,27 @@ export type HttpConfig = {
       | 'TRACE'
       | 'PATCH'
       | 'ANY'
+    /**
+     * Request timeout in milliseconds.
+     */
     timeout?: number
-    /** file relative path as default */
+    /**
+     * Route path matched by the server.
+     *
+     * @default source file relative path
+     */
     path?: string
+    /**
+     * Path prefix removed before route matching.
+     */
     ignorePathPrefix?: string
+    /**
+     * Explicit function name used by HTTP integrations.
+     */
     functionName?: string
+    /**
+     * Cookie and session configuration injected into invoke data.
+     */
     cookie?: CookieOptions
   }
 }
@@ -68,10 +91,10 @@ export type HttpConfig = {
 /**
  * Serializable HTTP response shape produced by FaasJS HTTP handlers.
  *
- * @property statusCode - HTTP status code to send.
- * @property headers - Response headers keyed by header name.
- * @property body - Plain string body or stream payload.
- * @property message - Optional response message.
+ * @property {number} [statusCode] - HTTP status code to send.
+ * @property {Record<string, string>} [headers] - Response headers keyed by header name.
+ * @property {string | ReadableStream} [body] - Plain string body or stream payload.
+ * @property {string} [message] - Optional response message.
  */
 export type Response = {
   statusCode?: number
@@ -88,18 +111,32 @@ export type Response = {
 export type HttpResponseBody = Exclude<Response['body'], undefined>
 /**
  * Set a response header by key.
+ *
+ * @param {string} key - Header name.
+ * @param {string} value - Header value.
+ * @returns {void} No return value.
  */
 export type HttpSetHeader = (key: string, value: string) => void
 /**
  * Set the response content type, optionally overriding the charset.
+ *
+ * @param {string} type - Content type alias or raw MIME type.
+ * @param {string} [charset] - Optional charset appended to the content type.
+ * @returns {void} No return value.
  */
 export type HttpSetContentType = (type: string, charset?: string) => void
 /**
  * Set the outgoing HTTP status code.
+ *
+ * @param {number} code - HTTP status code.
+ * @returns {void} No return value.
  */
 export type HttpSetStatusCode = (code: number) => void
 /**
  * Set the outgoing HTTP body payload.
+ *
+ * @param {HttpResponseBody} body - Response body payload.
+ * @returns {void} No return value.
  */
 export type HttpSetBody = (body: HttpResponseBody) => void
 
@@ -150,9 +187,9 @@ export class HttpError extends Error {
   /**
    * Create an HTTP error with a status code and user-facing message.
    *
-   * @param options - Error details.
-   * @param options.statusCode - HTTP status code returned to the client. Defaults to `500`.
-   * @param options.message - User-facing error message serialized in the response body.
+   * @param {{ statusCode?: number; message: string }} options - Error details.
+   * @param {number} [options.statusCode] - HTTP status code returned to the client. Defaults to `500`.
+   * @param {string} options.message - User-facing error message serialized in the response body.
    */
   constructor(options: { statusCode?: number; message: string }) {
     const { statusCode, message } = options
@@ -252,9 +289,9 @@ export class Http<
   /**
    * Create an HTTP plugin instance.
    *
-   * @param config - Optional plugin name and HTTP configuration overrides.
-   * @param config.name - Instance name used to look up plugin config and label logs.
-   * @param config.config - Runtime HTTP behavior overrides merged during mount.
+   * @param {HttpConfig} [config] - Optional plugin name and HTTP configuration overrides.
+   * @param {string} [config.name] - Instance name used to look up plugin config and label logs.
+   * @param {HttpConfig['config']} [config.config] - Runtime HTTP behavior overrides merged during mount.
    * See {@link HttpConfig} for nested `config` fields such as `method`, `timeout`, `path`,
    * `ignorePathPrefix`, `functionName`, and `cookie`.
    */
@@ -319,12 +356,14 @@ export class Http<
   /**
    * Merge environment and function config into the plugin before first invoke.
    *
-   * @param data - Mount data supplied by the parent function.
-   * @param data.config - Resolved function configuration used to merge plugin settings.
-   * @param data.event - Initial event payload forwarded during mount.
-   * @param data.context - Initial runtime context forwarded during mount.
    * Request-scoped logging is also available during mount through the runtime-injected `logger`.
-   * @param next - Continuation for the remaining mount chain.
+   *
+   * @param {MountData} data - Mount data supplied by the parent function.
+   * @param {Record<string, any>} data.config - Resolved function configuration used to merge plugin settings.
+   * @param {any} data.event - Initial event payload forwarded during mount.
+   * @param {any} data.context - Initial runtime context forwarded during mount.
+   * @param {Next} next - Continuation for the remaining mount chain.
+   * @returns {Promise<void>} Promise that resolves after config merging completes.
    * @throws {Error} When function config is unavailable.
    */
   public async onMount(data: MountData, next: Next): Promise<void> {
@@ -364,12 +403,14 @@ export class Http<
   /**
    * Attach HTTP helpers, cookies, sessions, and response handling to invoke data.
    *
-   * @param data - Invocation data for the current request.
-   * @param data.event - Raw request event payload before HTTP params are normalized.
-   * @param data.response - Mutable HTTP response object shared with the handler.
    * The HTTP plugin also injects runtime helpers such as `headers`, `body`, `params`, `cookie`,
    * and `session` before invoking the next handler in the chain.
-   * @param next - Continuation for the remaining invoke chain.
+   *
+   * @param {InvokeData} data - Invocation data for the current request.
+   * @param {any} data.event - Raw request event payload before HTTP params are normalized.
+   * @param {any} data.response - Mutable HTTP response object shared with the handler.
+   * @param {Next} next - Continuation for the remaining invoke chain.
+   * @returns {Promise<void>} Promise that resolves after response helpers are applied.
    */
   public async onInvoke(data: InvokeData, next: Next): Promise<void> {
     const state = this.createInvokeState(data)
@@ -546,12 +587,12 @@ export class Http<
  * @template TCookie - Cookie map exposed by the cookie helper.
  * @template TSession - Session map exposed by the session helper.
  *
- * @param config - Optional HTTP plugin configuration.
- * @param config.name - Instance name used to look up plugin config and label logs.
- * @param config.config - Runtime HTTP behavior overrides merged during mount.
+ * @param {HttpConfig} [config] - Optional HTTP plugin configuration.
+ * @param {string} [config.name] - Instance name used to look up plugin config and label logs.
+ * @param {HttpConfig['config']} [config.config] - Runtime HTTP behavior overrides merged during mount.
  * See {@link HttpConfig} for nested `config` fields such as `method`, `timeout`, `path`,
  * `ignorePathPrefix`, `functionName`, and `cookie`.
- * @returns HTTP plugin instance wrapped for `usePlugin`.
+ * @returns {UseifyPlugin<Http<TParams, TCookie, TSession>>} HTTP plugin instance wrapped for `usePlugin`.
  *
  * @example
  * ```ts

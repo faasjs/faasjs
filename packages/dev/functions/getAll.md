@@ -10,6 +10,8 @@ Return all server instances created in the current process.
 
 [`Server`](../classes/Server.md)[]
 
+Server instances tracked by the current process.
+
 ## Example
 
 ```ts

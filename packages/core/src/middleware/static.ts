@@ -14,35 +14,41 @@ import type { Middleware } from './middleware'
  * Options for {@link staticHandler}.
  */
 export type StaticHandlerOptions = {
+  /**
+   * Root directory used to resolve requested files.
+   */
   root: string
   /**
-   * Not found handler.
+   * Fallback behavior used when a file is missing.
    *
-   * If set to `true`, the middleware will respond with a default 404 status code.
-   * If set to a string as a fallback path, the middleware will respond with the file at that path.
-   * If set to a function, the middleware will call the function with the request, response, and logger.
-   * If set to `false`, the middleware will do nothing.
+   * Set `true` to send a default `404 Not Found` response, a string to serve a fallback file,
+   * a middleware function to handle the miss manually, or `false` to leave the response untouched.
    *
    * @default false
    */
   notFound?: Middleware | boolean | string
   /**
-   * Cache static files.
-   * If set to `true`, the middleware will cache static files.
-   * If set to a string, the middleware will cache static files with the specified key.
-   * If set to `false`, the middleware will not cache static files.
+   * Cache control for resolved static files.
+   *
+   * Set `true` to cache by root directory, a string to use a custom cache namespace,
+   * or `false` to disable lookup caching.
    *
    * @default true
    */
   cache?: boolean | string
   /**
-   * Strip prefix from the URL.
+   * URL prefix removed before resolving the file path.
    *
    * @example
-   * ```typescript
+   * ```ts
    * import { useMiddleware, staticHandler } from '@faasjs/core'
    *
-   * export const func = useMiddleware(staticHandler({ root: __dirname + '/public', stripPrefix: '/public' })) // /public/index.html -> /index.html
+   * export const func = useMiddleware(
+   *   staticHandler({
+   *     root: `${__dirname}/public`,
+   *     stripPrefix: '/public',
+   *   }),
+   * )
    * ```
    */
   stripPrefix?: string | RegExp
@@ -99,24 +105,27 @@ async function respondWithFile(path: string, mimeType: string, response: ServerR
 }
 
 /**
- * Middleware to handle static file requests.
+ * Create middleware that serves static files from a directory.
  *
- * @param options - Static file serving options.
- * @param options.root - Root directory used to resolve requested files.
- * @param options.notFound - Fallback behavior when a file is missing.
- * @param options.cache - Cache toggle or cache namespace used for lookup results.
- * @param options.stripPrefix - URL prefix removed before resolving the file path.
- * @returns Middleware that serves files from the configured root directory.
+ * The middleware resolves the request URL relative to `options.root`, serves the matching file,
+ * and optionally delegates missing files to `options.notFound`.
  *
- * The middleware resolves the requested URL to a file path within the specified root directory.
- * If the file exists, it reads the file content and sends it in the response.
- * If the file does not exist, it does nothing.
+ * @param {StaticHandlerOptions} options - Static file serving options.
+ * @param {string} options.root - Root directory used to resolve requested files.
+ * @param {Middleware | boolean | string} [options.notFound] - Fallback behavior when a file is missing.
+ * @param {boolean | string} [options.cache] - Cache toggle or cache namespace used for lookup results.
+ * @param {string | RegExp} [options.stripPrefix] - URL prefix removed before resolving the file path.
+ * @returns {Middleware} Middleware that serves files from the configured root directory.
  *
  * @example
- * ```typescript
- * import { useMiddleware, staticHandler } from '@faasjs/core'
+ * ```ts
+ * import { staticHandler, useMiddleware } from '@faasjs/core'
  *
- * export const func = useMiddleware(staticHandler({ root: __dirname + '/public' }))
+ * export const func = useMiddleware(
+ *   staticHandler({
+ *     root: `${__dirname}/public`,
+ *   }),
+ * )
  * ```
  */
 export function staticHandler(options: StaticHandlerOptions): Middleware {

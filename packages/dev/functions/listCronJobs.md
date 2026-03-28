@@ -10,6 +10,8 @@ List all registered cron jobs.
 
 [`CronJob`](../classes/CronJob.md)[]
 
+Registered cron jobs in insertion order.
+
 ## Example
 
 ```ts

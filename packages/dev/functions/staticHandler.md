@@ -4,7 +4,10 @@
 
 > **staticHandler**(`options`): [`Middleware`](../type-aliases/Middleware.md)
 
-Middleware to handle static file requests.
+Create middleware that serves static files from a directory.
+
+The middleware resolves the request URL relative to `options.root`, serves the matching file,
+and optionally delegates missing files to `options.notFound`.
 
 ## Parameters
 
@@ -20,14 +23,14 @@ Static file serving options.
 
 Middleware that serves files from the configured root directory.
 
-The middleware resolves the requested URL to a file path within the specified root directory.
-If the file exists, it reads the file content and sends it in the response.
-If the file does not exist, it does nothing.
-
 ## Example
 
-```typescript
-import { useMiddleware, staticHandler } from '@faasjs/core'
+```ts
+import { staticHandler, useMiddleware } from '@faasjs/core'
 
-export const func = useMiddleware(staticHandler({ root: __dirname + '/public' }))
+export const func = useMiddleware(
+  staticHandler({
+    root: `${__dirname}/public`,
+  }),
+)
 ```

@@ -73,8 +73,17 @@ export type DefineApiData<
   TContext = any,
   TResult = any,
 > = InvokeData<TEvent, TContext, TResult> & {
+  /**
+   * Params validated by the optional Zod schema.
+   */
   params: TSchema extends ZodType ? output<NonNullable<TSchema>> : Record<string, never>
+  /**
+   * Cookie helper injected by the HTTP plugin.
+   */
   cookie: Cookie
+  /**
+   * Session helper injected by the HTTP plugin.
+   */
   session: Session
 } & DefineApiInject
 
@@ -94,8 +103,6 @@ export interface DefineApiInject extends Record<never, never> {}
  * @template TContext - Runtime context type.
  * @template TResult - Handler return type.
  *
- * @property schema - Optional Zod schema used to validate `event.params`.
- * @property handler - Async business handler executed after plugin and schema setup.
  */
 export type DefineApiOptions<
   TSchema extends ZodType | undefined = undefined,
@@ -103,7 +110,13 @@ export type DefineApiOptions<
   TContext = any,
   TResult = any,
 > = {
+  /**
+   * Optional Zod schema used to validate `event.params`.
+   */
   schema?: TSchema
+  /**
+   * Async business handler executed after plugin and schema setup.
+   */
   handler: (data: DefineApiData<TSchema, TEvent, TContext, TResult>) => Promise<TResult>
 }
 
@@ -295,9 +308,11 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
  * @template TEvent - Raw event type passed to the function.
  * @template TContext - Runtime context type.
  * @template THandler - Handler signature used to infer the response type.
- * @param options - Schema and handler used to build the API function.
- * @param options.schema - Optional Zod schema used to validate `event.params`.
- * @param options.handler - Async business handler executed after plugins and validation are ready.
+ * @param {Omit<DefineApiOptions<TSchema, TEvent, TContext, Awaited<ReturnType<THandler>>>, 'handler'> & { handler: THandler }} options - Schema and handler used to build the API function.
+ * @param {TSchema} [options.schema] - Optional Zod schema used to validate `event.params`.
+ * @param {THandler} options.handler - Async business handler executed after plugins and validation are ready.
+ * @throws {Error} When the required `http` plugin is missing from function config.
+ * @throws {HttpError} When `event.params` fails schema validation.
  *
  * @example
  * ```ts

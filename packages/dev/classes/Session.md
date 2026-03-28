@@ -111,6 +111,8 @@ When the signature is invalid or the payload cannot be decrypted.
 
 Serialize session content into a signed, encrypted cookie string.
 
+Non-string payloads are JSON serialized before encryption.
+
 #### Parameters
 
 ##### text
@@ -168,6 +170,8 @@ Optional logger for decode failures.
 #### Returns
 
 `void`
+
+No return value.
 
 ### read()
 

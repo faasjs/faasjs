@@ -4,7 +4,7 @@
 
 > **useMiddleware**(`handler`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
 
-Apply a middleware function to handle incoming requests.
+Create a function that runs one middleware and falls back to `404 Not Found`.
 
 ## Parameters
 
@@ -12,21 +12,21 @@ Apply a middleware function to handle incoming requests.
 
 [`Middleware`](../type-aliases/Middleware.md)
 
-The middleware function to handle the request and response.
+Middleware to execute for each incoming request.
 
 ## Returns
 
 `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
 
-A function that processes the event and applies the middleware.
+Promise that resolves to a function wrapper.
 
 ## Example
 
-```typescript
+```ts
 import { useMiddleware } from '@faasjs/core'
 
-export const func = useMiddleware((request, response, logger) => {
-  response.setHeader('X-Hello', 'World')
+export const func = useMiddleware((request, response, { logger }) => {
+  response.setHeader('x-hello', 'World')
   response.end('Hello, World!')
   logger.info('Hello, World!')
 })

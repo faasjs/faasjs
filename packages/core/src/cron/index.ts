@@ -14,6 +14,10 @@ type CronMatcher = (value: number) => boolean
 
 /**
  * Runtime context passed to cron job handlers.
+ *
+ * @property {Date} now - Current execution time used for the tick.
+ * @property {Logger} logger - Job-scoped logger instance.
+ * @property {CronJob} job - Cron job being executed.
  */
 export type CronJobContext = {
   now: Date
@@ -23,11 +27,18 @@ export type CronJobContext = {
 
 /**
  * Handler invoked when a cron expression matches the current minute.
+ *
+ * @param {CronJobContext} context - Runtime context for the current execution.
+ * @returns {void | Promise<void>} Promise or void returned by the handler.
  */
 export type CronJobHandler = (context: CronJobContext) => void | Promise<void>
 
 /**
  * Error handler invoked when a cron job throws.
+ *
+ * @param {Error} error - Error thrown by the cron handler.
+ * @param {CronJobContext} context - Runtime context for the failed execution.
+ * @returns {void | Promise<void>} Promise or void returned by the error handler.
  */
 export type CronJobErrorHandler = (error: Error, context: CronJobContext) => void | Promise<void>
 
@@ -36,9 +47,9 @@ export type CronJobErrorHandler = (error: Error, context: CronJobContext) => voi
  */
 export type CronJobOptions = {
   /**
-   * Name of the cron job, used in logs.
+   * Optional job name used in logs and registry helpers.
    *
-   * @default random name
+   * @default random generated name
    */
   name?: string
   /**
@@ -49,15 +60,15 @@ export type CronJobOptions = {
    */
   expression: string
   /**
-   * Job handler.
+   * Callback invoked whenever the cron expression matches.
    */
   handler: CronJobHandler
   /**
-   * Called when handler throws.
+   * Error handler invoked when `handler` throws.
    */
   onError?: CronJobErrorHandler
   /**
-   * Custom logger for this cron job.
+   * Custom logger used by this cron job.
    */
   logger?: Logger
 }
@@ -190,12 +201,13 @@ export class CronJob {
   /**
    * Create a cron job from an expression and handler.
    *
-   * @param options - Cron job options including expression, handler, and logger.
-   * @param options.name - Optional job name used in logs and registry helpers.
-   * @param options.expression - Five-field cron expression in `minute hour dayOfMonth month dayOfWeek` format.
-   * @param options.handler - Callback invoked whenever the cron expression matches.
-   * @param options.onError - Optional error handler invoked when `handler` throws.
-   * @param options.logger - Optional logger instance used by this cron job.
+   * @param {CronJobOptions} options - Cron job options including expression, handler, and logger.
+   * @param {string} [options.name] - Optional job name used in logs and registry helpers.
+   * @param {string} options.expression - Five-field cron expression in `minute hour dayOfMonth month dayOfWeek` format.
+   * @param {CronJobHandler} options.handler - Callback invoked whenever the cron expression matches.
+   * @param {CronJobErrorHandler} [options.onError] - Optional error handler invoked when `handler` throws.
+   * @param {Logger} [options.logger] - Optional logger instance used by this cron job.
+   * @throws {Error} When the cron expression is invalid.
    */
   constructor(options: CronJobOptions) {
     this.expression = options.expression
@@ -349,13 +361,14 @@ const cronJobRegistry = new CronJobRegistry()
  *
  * Registered jobs are managed by `Server` lifecycle automatically.
  *
- * @param options - Cron job definition.
- * @param options.name - Optional job name used in logs and registry helpers.
- * @param options.expression - Five-field cron expression in `minute hour dayOfMonth month dayOfWeek` format.
- * @param options.handler - Callback invoked whenever the cron expression matches.
- * @param options.onError - Optional error handler invoked when `handler` throws.
- * @param options.logger - Optional logger instance used by this cron job.
- * @returns Registered cron job instance.
+ * @param {CronJobOptions} options - Cron job definition.
+ * @param {string} [options.name] - Optional job name used in logs and registry helpers.
+ * @param {string} options.expression - Five-field cron expression in `minute hour dayOfMonth month dayOfWeek` format.
+ * @param {CronJobHandler} options.handler - Callback invoked whenever the cron expression matches.
+ * @param {CronJobErrorHandler} [options.onError] - Optional error handler invoked when `handler` throws.
+ * @param {Logger} [options.logger] - Optional logger instance used by this cron job.
+ * @returns {CronJob} Registered cron job instance.
+ * @throws {Error} When the cron expression is invalid.
  *
  * @example
  * ```ts
@@ -377,8 +390,8 @@ export function createCronJob(options: CronJobOptions): CronJob {
 /**
  * Remove a previously registered cron job.
  *
- * @param cronJob - Cron job instance to remove.
- * @returns `true` when the job was removed.
+ * @param {CronJob} cronJob - Cron job instance to remove.
+ * @returns {boolean} `true` when the job was removed.
  *
  * @example
  * ```ts
@@ -398,6 +411,8 @@ export function removeCronJob(cronJob: CronJob): boolean {
 
 /**
  * List all registered cron jobs.
+ *
+ * @returns {CronJob[]} Registered cron jobs in insertion order.
  *
  * @example
  * ```ts

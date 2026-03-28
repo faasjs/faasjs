@@ -4,7 +4,7 @@
 
 > **nameFunc**\<`T`\>(`name`, `handler`): `T`
 
-Assigns a name to a given function handler, which will be displayed in logs and error messages.
+Assign a stable name to a function for logs and stack traces.
 
 ## Type Parameters
 
@@ -12,7 +12,7 @@ Assigns a name to a given function handler, which will be displayed in logs and 
 
 `T` _extends_ (...`args`) => `any`
 
-The type of the function handler.
+Function type to rename.
 
 ## Parameters
 
@@ -20,28 +20,26 @@ The type of the function handler.
 
 `string`
 
-The name to assign to the function handler.
+Name assigned to `handler.name`.
 
 ### handler
 
 `T`
 
-The function handler to which the name will be assigned.
+Function to rename.
 
 ## Returns
 
 `T`
 
-The original function handler with the assigned name.
+The same handler with an updated `name` property.
 
 ## Example
 
 ```ts
 import { nameFunc } from '@faasjs/core'
 
-const handler = nameFunc('myHandler', () => {
-  return 'Hello World'
-})
+const handler = nameFunc('myHandler', () => 'Hello World')
 
 console.log(handler.name) // => 'myHandler'
 ```

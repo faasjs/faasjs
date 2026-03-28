@@ -12,6 +12,10 @@ Handler invoked when a cron expression matches the current minute.
 
 [`CronJobContext`](CronJobContext.md)
 
+Runtime context for the current execution.
+
 ## Returns
 
 `void` \| `Promise`\<`void`\>
+
+Promise or void returned by the handler.
