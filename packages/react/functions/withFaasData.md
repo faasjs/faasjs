@@ -4,7 +4,7 @@
 
 > **withFaasData**\<`PathOrData`, `TComponentProps`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
 
-HOC to wrap a component with FaasDataWrapper
+Wrap a component with [FaasDataWrapper](../variables/FaasDataWrapper.md) and inject Faas request state as props.
 
 ## Type Parameters
 
@@ -34,16 +34,17 @@ Component that consumes injected Faas data props.
 
 Request configuration forwarded to `FaasDataWrapper`.
 
-Common `faasProps` fields include `render`, `children`, `fallback`, `action`,
-`params`, `onDataChange`, `data`, `setData`, and `baseUrl`.
-
 ## Returns
 
 `FC`\<`Omit`\<`TComponentProps`, keyof [`FaasDataInjection`](../type-aliases/FaasDataInjection.md)\<`PathOrData`\>\> & `Record`\<`string`, `any`\>\>
 
+Component that accepts the original props minus the injected Faas data fields.
+
 ## Example
 
 ```tsx
+import { withFaasData } from '@faasjs/react'
+
 const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, {
   action: 'test',
   params: { a: 1 },

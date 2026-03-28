@@ -12,6 +12,7 @@ export type StateSetters<T> = {
       : never
     : never]: Dispatch<SetStateAction<T[K]>>
 }
+
 /**
  * State object returned by {@link useSplittingState}, including generated setters.
  *

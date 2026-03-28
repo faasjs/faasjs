@@ -4,7 +4,7 @@
 
 > **UseFaasStreamOptions** = `object`
 
-Options for [useFaasStream](../functions/useFaasStream.md).
+Options that customize the [useFaasStream](../functions/useFaasStream.md) request lifecycle.
 
 ## Properties
 
@@ -24,13 +24,13 @@ Controlled stream text used instead of the hook's internal state.
 
 > `optional` **debounce?**: `number`
 
-Send the last request after milliseconds
+Delay the latest automatic request by the given number of milliseconds.
 
 ### params?
 
 > `optional` **params?**: `Record`\<`string`, `any`\>
 
-Override the request params without changing the hook's stored params state.
+Override the current request params without changing the hook's stored params state.
 
 ### setData?
 

@@ -5,10 +5,15 @@ import { useEqualMemo } from './equal'
 import { useSplittingState } from './splittingState'
 
 /**
- * Creates a splitting context with the given default value.
+ * Create a context whose keys can be consumed independently.
+ *
+ * `createSplittingContext` returns a `Provider` and a `use` hook. Each key in
+ * the provided shape is backed by a separate React context so readers only
+ * subscribe to the values they access.
  *
  * @template T - Context value shape exposed by the provider and hook.
  * @param defaultValue - Default value map or key list used to create split contexts.
+ * @returns Provider and hook helpers for the split context.
  *
  * @example
  * ```tsx
@@ -77,36 +82,40 @@ export function createSplittingContext<T extends Record<string, any>>(
   Provider<NewT extends T = T>(
     this: void,
     props: {
+      /** Partial context value supplied by the caller. */
       value?: Partial<NewT>
+      /** Descendant elements that should read from the split contexts. */
       children: ReactNode
       /**
-       * Whether to use memoization for the children.
+       * Memoization mode for `children`.
        *
        * @default false
        *
-       * `true`: memoize the children without dependencies.
-       * `any[]`: memoize the children with specific dependencies.
+       * Pass `true` to memoize without dependencies or an array to control the
+       * deep-equality dependency list manually.
        */
       memo?: true | any[]
       /**
-       * An object containing initial values that will be automatically converted into state variables using {@link useSplittingState} hook. Each property will create both a state value and its setter following the pattern: value/setValue.
+       * Initial values converted into local state via `useSplittingState`.
+       *
+       * Each key produces both a state value and its matching setter using the
+       * `value` / `setValue` naming convention.
        *
        * @example
        * ```tsx
-       * <Provider
-       *  initializeStates={{
-       *    value: 0,
-       *  }}
-       * >
-       *   // Children will have access to: value, setValue
+       * <Provider initializeStates={{ value: 0 }}>
+       *   <Child />
        * </Provider>
+       *
+       * // `Child` can read `value` and `setValue`
+       * ```
        */
       initializeStates?: Partial<NewT>
     },
   ): ReactNode
 
   /**
-   * The hook to use the splitting context.
+   * Hook used to read values from the splitting context.
    *
    * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#use
    *

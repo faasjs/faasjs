@@ -41,7 +41,7 @@ Optional hook configuration such as controlled data, debounce, and skip logic.
 
 `FaasDataInjection`\<`PathOrData`\>
 
-Request state and helper methods for the action.
+Request state and helper methods described by [FaasDataInjection](../type-aliases/FaasDataInjection.md).
 
 ## Example
 

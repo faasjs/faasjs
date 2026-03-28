@@ -6,6 +6,9 @@
 
 Fetch FaasJS data and inject the result into a render prop or child element.
 
+The wrapper defers rendering `children` or `render` until the first request
+completes, then keeps passing the latest request state to the rendered output.
+
 ## Type Parameters
 
 ### PathOrData

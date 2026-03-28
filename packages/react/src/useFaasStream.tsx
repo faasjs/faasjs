@@ -5,10 +5,10 @@ import { getClient } from './client'
 import { equal, useEqualCallback, useEqualEffect } from './equal'
 
 /**
- * Options for {@link useFaasStream}.
+ * Options that customize the {@link useFaasStream} request lifecycle.
  */
 export type UseFaasStreamOptions = {
-  /** Override the request params without changing the hook's stored params state. */
+  /** Override the current request params without changing the hook's stored params state. */
   params?: Record<string, any>
   /** Controlled stream text used instead of the hook's internal state. */
   data?: string
@@ -20,7 +20,7 @@ export type UseFaasStreamOptions = {
    * However, you can still use reload to send the request.
    */
   skip?: boolean | ((params: Record<string, any>) => boolean)
-  /** Send the last request after milliseconds */
+  /** Delay the latest automatic request by the given number of milliseconds. */
   debounce?: number
   /** Override the default base URL for this hook instance. */
   baseUrl?: BaseUrl
@@ -30,15 +30,25 @@ export type UseFaasStreamOptions = {
  * Result returned by {@link useFaasStream}.
  */
 export type UseFaasStreamResult = {
+  /** Action path currently associated with the stream request. */
   action: string
+  /** Params used for the most recent request attempt. */
   params: Record<string, any>
+  /** Whether the hook is currently waiting for stream data. */
   loading: boolean
+  /** Number of times `reload()` has triggered a new request. */
   reloadTimes: number
+  /** Accumulated text decoded from the stream response. */
   data: string
+  /** Last error raised while opening or consuming the stream. */
   error: any
+  /** Trigger a new streaming request with optional params. */
   reload: (params?: Record<string, any>) => Promise<string>
+  /** Controlled or internal setter for the accumulated text. */
   setData: React.Dispatch<React.SetStateAction<string>>
+  /** Setter for the loading flag. */
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  /** Setter for the last stream error. */
   setError: React.Dispatch<React.SetStateAction<any>>
 }
 
@@ -57,7 +67,7 @@ export type UseFaasStreamResult = {
  * @param options.skip - Boolean or predicate that suppresses the automatic request until `reload()` runs.
  * @param options.debounce - Milliseconds to wait before sending the latest request.
  * @param options.baseUrl - Base URL override used for this hook instance.
- * @returns Streaming request state and helper methods.
+ * @returns Streaming request state and helper methods described by {@link UseFaasStreamResult}.
  *
  * @example
  * ```tsx

@@ -4,7 +4,7 @@
 
 > **generateId**(`prefix?`, `length?`): `string`
 
-Generate random id with prefix
+Generate a random identifier with an optional prefix.
 
 ## Parameters
 
@@ -12,20 +12,28 @@ Generate random id with prefix
 
 `string` = `''`
 
-prefix of id
+Prefix prepended to the generated identifier.
 
 ### length?
 
 `number` = `18`
 
-length of id without prefix, range is 8 ~ 18, default is 18
+Length of the generated identifier excluding `prefix`. Must be between `8` and `18`.
 
 ## Returns
 
 `string`
 
+Generated identifier string.
+
+## Throws
+
+When `length` is outside the supported `8` to `18` range.
+
 ## Example
 
 ```ts
-generateId('prefix-') // prefix-1z3b4c5d6e
+const id = generateId('prefix-')
+
+id.startsWith('prefix-') // true
 ```

@@ -20,14 +20,22 @@ Wrapper component type used when `condition` is true.
 
 > **children**: `ReactNode`
 
+Content rendered directly or inside the wrapper.
+
 ### condition
 
 > **condition**: `boolean`
+
+When `true`, render `children` inside `Wrapper`.
 
 ### Wrapper
 
 > **Wrapper**: `TWrapper`
 
+Wrapper component used when `condition` passes.
+
 ### wrapperProps?
 
 > `optional` **wrapperProps?**: `ComponentProps`\<`TWrapper`\>
+
+Props forwarded to `Wrapper` together with `children`.

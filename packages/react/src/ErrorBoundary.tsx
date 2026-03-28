@@ -4,8 +4,11 @@ import { Component, cloneElement, type ErrorInfo, type ReactElement, type ReactN
  * Props for the {@link ErrorBoundary} component.
  */
 export interface ErrorBoundaryProps {
+  /** Descendant elements protected by the boundary. */
   children?: ReactNode
+  /** Callback invoked after a descendant throws during rendering or lifecycle work. */
   onError?: (error: Error | null, info: any) => void
+  /** Custom fallback element cloned with captured error details. */
   errorChildren?: ReactElement<ErrorChildrenProps>
 }
 
@@ -13,14 +16,22 @@ export interface ErrorBoundaryProps {
  * Props injected into a custom error fallback element.
  */
 export type ErrorChildrenProps = {
+  /** Captured error instance. */
   error?: Error
+  /** React component stack metadata for the captured error. */
   info?: any
+  /** Stringified error message shown by the default fallback. */
   errorMessage?: string
+  /** Component stack description shown by the default fallback. */
   errorDescription?: string
 }
 
 /**
  * React error boundary with an optional custom fallback element.
+ *
+ * The boundary renders its children until a descendant throws. After that it
+ * either clones `errorChildren` with injected error details or renders a simple
+ * built-in fallback.
  *
  * @example
  * ```tsx

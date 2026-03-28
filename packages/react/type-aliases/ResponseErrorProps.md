@@ -12,17 +12,23 @@ Input accepted by the [ResponseError](../classes/ResponseError.md) constructor.
 
 > `optional` **body?**: `any`
 
+Raw error body or structured error payload.
+
 #### Default
 
 ```ts
 {
-  error: Error(message)
+  error: {
+    message
+  }
 }
 ```
 
 ### headers?
 
 > `optional` **headers?**: [`ResponseHeaders`](ResponseHeaders.md)
+
+Response headers returned with the error.
 
 #### Default
 
@@ -35,13 +41,19 @@ Input accepted by the [ResponseError](../classes/ResponseError.md) constructor.
 
 > **message**: `string`
 
+User-facing error message.
+
 ### originalError?
 
 > `optional` **originalError?**: `Error`
 
+Original error preserved when this instance wraps another exception.
+
 ### status?
 
 > `optional` **status?**: `number`
+
+HTTP status code reported for the error.
 
 #### Default
 

@@ -4,7 +4,7 @@
 
 > **OptionalWrapper**(`props`): `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null` \| `undefined`
 
-A wrapper component that conditionally wraps its children with a provided wrapper component.
+Conditionally wrap children with another component.
 
 ## Parameters
 
@@ -17,6 +17,8 @@ Wrapper condition, wrapper component, and child content.
 ## Returns
 
 `string` \| `number` \| `bigint` \| `boolean` \| `Element` \| `Iterable`\<`ReactNode`, `any`, `any`\> \| `Promise`\<`AwaitedReactNode`\> \| `null` \| `undefined`
+
+Wrapped children or the original children when `condition` is false.
 
 ## Example
 

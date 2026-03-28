@@ -4,7 +4,7 @@
 
 > **FaasDataInjection**\<`PathOrData`\> = `object`
 
-Injects FaasData props.
+Request state injected by [useFaas](../functions/useFaas.md), [FaasDataWrapper](../variables/FaasDataWrapper.md), and [withFaasData](../functions/withFaasData.md).
 
 ## Type Parameters
 
@@ -22,7 +22,8 @@ Action path or response data type used for inference.
 
 Reloads data with new or existing parameters.
 
-**Note**: It will sets skip to false before loading data.
+When the source hook is currently skipped, calling `reload` clears the skip
+flag before starting the next request.
 
 #### Parameters
 
@@ -40,42 +41,64 @@ Reloads data with new or existing parameters.
 
 > **action**: [`FaasAction`](FaasAction.md)\<`PathOrData`\>
 
+Action path associated with the current request state.
+
 ### data
 
 > **data**: [`FaasData`](FaasData.md)\<`PathOrData`\>
+
+Current resolved data value.
 
 ### error
 
 > **error**: `any`
 
+Last request error, if one occurred.
+
 ### loading
 
 > **loading**: `boolean`
+
+Whether the request is currently in flight.
 
 ### params
 
 > **params**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
+Params used for the most recent request attempt.
+
 ### promise
 
 > **promise**: `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+
+Promise representing the latest request.
 
 ### reloadTimes
 
 > **reloadTimes**: `number`
 
+Number of times `reload()` has triggered a new request.
+
 ### setData
 
 > **setData**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
+
+Controlled or internal setter for the resolved data value.
 
 ### setError
 
 > **setError**: `React.Dispatch`\<`React.SetStateAction`\<`any`\>\>
 
+Setter for the last request error.
+
 ### setLoading
 
 > **setLoading**: `React.Dispatch`\<`React.SetStateAction`\<`boolean`\>\>
 
+Setter for the loading flag.
+
 ### setPromise
 
 > **setPromise**: `React.Dispatch`\<`React.SetStateAction`\<`Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>\>\>
+
+Setter for the latest request promise.

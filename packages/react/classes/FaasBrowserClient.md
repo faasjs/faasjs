@@ -199,8 +199,8 @@ See [Options](../type-aliases/Options.md) for supported request fields such as `
 
 `Promise`\<[`Response`](Response.md)\<[`FaasData`](../type-aliases/FaasData.md)\<`PathOrData`\>\>\>
 
-A Promise that resolves to a Response object containing status, headers, body, and data.
-The data property is typed based on the PathOrData generic parameter.
+A promise resolving to the wrapped FaasJS response. When `options.stream`
+is `true`, the runtime returns the native fetch response so callers can read the stream.
 
 #### Throws
 

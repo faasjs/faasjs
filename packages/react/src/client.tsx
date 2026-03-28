@@ -16,6 +16,10 @@ const clients: {
 
 /**
  * Factory for per-request error handlers used by {@link FaasReactClient}.
+ *
+ * @param action - Action name that failed.
+ * @param params - Params sent with the failed request.
+ * @returns Async callback invoked with the resulting {@link ResponseError}.
  */
 export type OnError = (
   action: string,
@@ -47,11 +51,17 @@ export type FaasReactClientOptions = {
  * Public interface returned by {@link FaasReactClient}.
  */
 export type FaasReactClientInstance = {
+  /** Unique identifier inherited from the underlying browser client. */
   id: string
+  /** Promise-based request helper bound to the registered base URL. */
   faas: typeof faas
+  /** Hook bound to the registered base URL. */
   useFaas: typeof useFaas
+  /** Wrapper component bound to the registered base URL. */
   FaasDataWrapper: typeof FaasDataWrapper
+  /** Optional error hook shared by `faas` and `useFaas`. */
   onError?: OnError
+  /** Underlying browser client used for the actual HTTP requests. */
   browserClient: FaasBrowserClient
 }
 

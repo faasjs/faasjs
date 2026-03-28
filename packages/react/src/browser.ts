@@ -124,8 +124,9 @@
  *     return { data: { id: params.id, name: 'Mock User' } }
  *   } else if (action === 'error') {
  *     // Throw an error to test error handling
- *     throw new ResponseError('Not found', 404, {
- *       body: { message: 'User not found' }
+ *     throw new ResponseError('Not found', {
+ *       status: 404,
+ *       body: { message: 'User not found' },
  *     })
  *   }
  * })
@@ -225,7 +226,7 @@ export type BaseUrl = `${string}/`
  */
 export type Options = RequestInit & {
   headers?: Record<string, string>
-  /** trigger before request */
+  /** Async hook called after request options are merged but before the request is sent. */
   beforeRequest?: ({
     action,
     params,
@@ -237,12 +238,14 @@ export type Options = RequestInit & {
     options: Options
     headers: Record<string, string>
   }) => Promise<void>
-  /** custom request */
+  /** Custom request implementation used instead of the native `fetch`. */
   request?: <PathOrData extends FaasActionUnionType>(
     url: string,
     options: Options,
   ) => Promise<Response<FaasData<PathOrData>>>
+  /** Base URL override for the current request. */
   baseUrl?: BaseUrl
+  /** When `true`, return the native fetch response so callers can consume the stream manually. */
   stream?: boolean
 }
 
@@ -496,13 +499,15 @@ export class Response<T = any> {
  * Input accepted by the {@link ResponseError} constructor.
  */
 export type ResponseErrorProps = {
+  /** User-facing error message. */
   message: string
-  /** @default 500 */
+  /** HTTP status code reported for the error. @default 500 */
   status?: number
-  /** @default {} */
+  /** Response headers returned with the error. @default {} */
   headers?: ResponseHeaders
-  /** @default { error: Error(message) } */
+  /** Raw error body or structured error payload. @default { error: { message } } */
   body?: any
+  /** Original error preserved when this instance wraps another exception. */
   originalError?: Error
 }
 
@@ -665,6 +670,7 @@ export class ResponseError extends Error {
     this.status = props.status || 500
     this.headers = props.headers || {}
     this.body = props.body || props.originalError || { error: { message: props.message } }
+    if (props.originalError) this.originalError = props.originalError
   }
 }
 
@@ -756,10 +762,10 @@ export type MockHandler = (
   options: Options,
 ) => Promise<ResponseProps> | Promise<void> | Promise<Error>
 
-let mock: MockHandler | ResponseProps | Response | null = null
+let mock: MockHandler | ResponseProps | Response | null | undefined = null
 
 /**
- * Set global mock handler for testing. Mock affects all FaasBrowserClient instances.
+ * Set the global mock handler used by all {@link FaasBrowserClient} instances.
  *
  * @param handler - Mock handler, can be:
  *   - MockHandler function: receives (action, params, options) and returns response data
@@ -799,8 +805,6 @@ let mock: MockHandler | ResponseProps | Response | null = null
  * @example Clear mock
  * ```ts
  * setMock(null)
- * // or
- * setMock(undefined)
  * ```
  *
  * @example Handle errors
@@ -811,7 +815,7 @@ let mock: MockHandler | ResponseProps | Response | null = null
  * // This will reject with ResponseError
  * ```
  */
-export function setMock(handler: MockHandler | ResponseProps | Response | null) {
+export function setMock(handler: MockHandler | ResponseProps | Response | null | undefined) {
   mock = handler
 }
 
@@ -980,8 +984,8 @@ export class FaasBrowserClient {
    *   See {@link Options} for supported request fields such as `headers`, `beforeRequest`,
    *   `request`, `baseUrl`, and `stream`.
    *
-   * @returns A Promise that resolves to a Response object containing status, headers, body, and data.
-   *   The data property is typed based on the PathOrData generic parameter.
+   * @returns A promise resolving to the wrapped FaasJS response. When `options.stream`
+   *   is `true`, the runtime returns the native fetch response so callers can read the stream.
    *
    * @throws {Error} When action is not provided or is empty
    * @throws {ResponseError} When the server returns an error response (status >= 400 or body.error exists)

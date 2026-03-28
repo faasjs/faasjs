@@ -22,6 +22,8 @@ Action path or response data type used for inference.
 
 > `optional` **onDataChange**(`args`): `void`
 
+Callback invoked whenever the resolved data value changes.
+
 #### Parameters
 
 ##### args
@@ -39,6 +41,8 @@ Action path or response data type used for inference.
 ### render()?
 
 > `optional` **render**(`args`): `Element` \| `Element`[]
+
+Render prop invoked with the resolved request state after the first load completes.
 
 #### Parameters
 
@@ -60,6 +64,8 @@ Action path or response data type used for inference.
 
 > **action**: `FaasAction`\<`T`\>
 
+Action path to request.
+
 #### Inherited from
 
 `OriginProps.action`
@@ -67,6 +73,8 @@ Action path or response data type used for inference.
 ### baseUrl?
 
 > `optional` **baseUrl?**: `` `${string}/` ``
+
+Base URL override used for this wrapper instance.
 
 #### Inherited from
 
@@ -76,6 +84,8 @@ Action path or response data type used for inference.
 
 > `optional` **children?**: `ReactElement`\<`Partial`\<`FaasDataInjection`\<`T`\>\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
+Child element cloned with injected request state after the first load completes.
+
 #### Inherited from
 
 `OriginProps.children`
@@ -84,7 +94,7 @@ Action path or response data type used for inference.
 
 > `optional` **data?**: `FaasData`\<`T`\>
 
-use custom data, should work with setData
+Controlled data value used instead of internal state.
 
 #### Inherited from
 
@@ -93,6 +103,8 @@ use custom data, should work with setData
 ### fallback?
 
 > `optional` **fallback?**: `false` \| `Element`
+
+Element rendered before the first successful load.
 
 #### Inherited from
 
@@ -114,6 +126,8 @@ Props forwarded to the built-in [Loading](../functions/Loading.md) fallback.
 
 > `optional` **params?**: `FaasParams`\<`T`\>
 
+Params sent to the action.
+
 #### Inherited from
 
 `OriginProps.params`
@@ -121,6 +135,8 @@ Props forwarded to the built-in [Loading](../functions/Loading.md) fallback.
 ### ref?
 
 > `optional` **ref?**: `Ref`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`T`\>\>
+
+Imperative ref exposing the current injected request state.
 
 #### Inherited from
 
@@ -130,7 +146,7 @@ Props forwarded to the built-in [Loading](../functions/Loading.md) fallback.
 
 > `optional` **setData?**: `Dispatch`\<`SetStateAction`\<`FaasData`\<`T`\>\>\>
 
-use custom setData, should work with data
+Controlled setter used instead of internal state.
 
 #### Inherited from
 

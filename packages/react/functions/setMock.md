@@ -4,13 +4,13 @@
 
 > **setMock**(`handler`): `void`
 
-Set global mock handler for testing. Mock affects all FaasBrowserClient instances.
+Set the global mock handler used by all [FaasBrowserClient](../classes/FaasBrowserClient.md) instances.
 
 ## Parameters
 
 ### handler
 
-[`Response`](../classes/Response.md)\<`any`\> \| [`ResponseProps`](../type-aliases/ResponseProps.md)\<`any`\> \| [`MockHandler`](../type-aliases/MockHandler.md) \| `null`
+[`Response`](../classes/Response.md)\<`any`\> \| [`ResponseProps`](../type-aliases/ResponseProps.md)\<`any`\> \| [`MockHandler`](../type-aliases/MockHandler.md) \| `null` \| `undefined`
 
 Mock handler, can be:
 
@@ -55,8 +55,6 @@ setMock(
 
 ```ts
 setMock(null)
-// or
-setMock(undefined)
 ```
 
 ```ts

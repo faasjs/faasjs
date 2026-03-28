@@ -4,7 +4,7 @@
 
 > **useFaasOptions**\<`PathOrData`\> = `object`
 
-Options for [useFaas](../functions/useFaas.md).
+Options that customize the [useFaas](../functions/useFaas.md) request lifecycle.
 
 ## Type Parameters
 
@@ -32,13 +32,13 @@ Controlled data value used instead of the hook's internal state.
 
 > `optional` **debounce?**: `number`
 
-Send the last request after milliseconds
+Delay the latest automatic request by the given number of milliseconds.
 
 ### params?
 
 > `optional` **params?**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
 
-Override the request params without changing the hook's stored params state.
+Override the current request params without changing the hook's stored params state.
 
 ### setData?
 

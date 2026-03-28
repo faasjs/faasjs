@@ -7,12 +7,12 @@ import { equal, useEqualCallback, useEqualEffect } from './equal'
 import type { FaasDataInjection } from './FaasDataWrapper'
 
 /**
- * Options for {@link useFaas}.
+ * Options that customize the {@link useFaas} request lifecycle.
  *
  * @template PathOrData - Action path or response data type used for inference.
  */
 export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
-  /** Override the request params without changing the hook's stored params state. */
+  /** Override the current request params without changing the hook's stored params state. */
   params?: FaasParams<PathOrData>
   /** Controlled data value used instead of the hook's internal state. */
   data?: FaasData<PathOrData>
@@ -24,7 +24,7 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
    * However, you can still use reload to send the request.
    */
   skip?: boolean | ((params: FaasParams<PathOrData>) => boolean)
-  /** Send the last request after milliseconds */
+  /** Delay the latest automatic request by the given number of milliseconds. */
   debounce?: number
   /** Override the default base URL for this hook instance. */
   baseUrl?: BaseUrl
@@ -47,7 +47,7 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = {
  * @param options.skip - Boolean or predicate that suppresses the automatic request until `reload()` runs.
  * @param options.debounce - Milliseconds to wait before sending the latest request.
  * @param options.baseUrl - Base URL override used for this hook instance.
- * @returns Request state and helper methods for the action.
+ * @returns Request state and helper methods described by {@link FaasDataInjection}.
  *
  * @example
  * ```tsx

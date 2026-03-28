@@ -33,7 +33,7 @@ Optional hook configuration such as controlled data, debounce, and skip logic.
 
 [`UseFaasStreamResult`](../type-aliases/UseFaasStreamResult.md)
 
-Streaming request state and helper methods.
+Streaming request state and helper methods described by [UseFaasStreamResult](../type-aliases/UseFaasStreamResult.md).
 
 ## Example
 

@@ -6,6 +6,9 @@ import { getClient } from './client'
 /**
  * Call the currently configured FaasReactClient.
  *
+ * This helper forwards the request to `getClient`. When the registered
+ * client defines `onError`, the hook is invoked before the promise rejects.
+ *
  * @template PathOrData - Action path or response data type used for inference.
  *
  * @param action - Action path to invoke.
@@ -14,12 +17,13 @@ import { getClient } from './client'
  * See the request `Options` type for supported fields such as `headers`, `beforeRequest`,
  * `request`, `baseUrl`, and `stream`.
  * @returns Response returned by the active browser client.
+ * @throws {ResponseError} When the request fails and the active client does not recover inside `onError`.
  *
  * @example
  * ```ts
  * import { faas } from '@faasjs/react'
  *
- * const response = await faas<{ title: string }>('post/get', { id: 1 })
+ * const response = await faas('posts/get', { id: 1 })
  *
  * console.log(response.data.title)
  * ```

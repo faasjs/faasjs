@@ -4,7 +4,11 @@
 
 > **createSplittingContext**\<`T`\>(`defaultValue`): `object`
 
-Creates a splitting context with the given default value.
+Create a context whose keys can be consumed independently.
+
+`createSplittingContext` returns a `Provider` and a `use` hook. Each key in
+the provided shape is backed by a separate React context so readers only
+subscribe to the values they access.
 
 ## Type Parameters
 
@@ -24,11 +28,13 @@ Default value map or key list used to create split contexts.
 
 ## Returns
 
+Provider and hook helpers for the split context.
+
 ### use
 
 > **use**: \<`NewT`\>(`this`) => `Readonly`\<`NewT`\>
 
-The hook to use the splitting context.
+Hook used to read values from the splitting context.
 
 #### Type Parameters
 
@@ -89,39 +95,45 @@ The provider component of the splitting context.
 
 `ReactNode`
 
+Descendant elements that should read from the split contexts.
+
 ###### initializeStates?
 
 `Partial`\<`NewT`\>
 
-An object containing initial values that will be automatically converted into state variables using [useSplittingState](useSplittingState.md) hook. Each property will create both a state value and its setter following the pattern: value/setValue.
+Initial values converted into local state via `useSplittingState`.
+
+Each key produces both a state value and its matching setter using the
+`value` / `setValue` naming convention.
 
 **Example**
 
-````tsx
-<Provider
- initializeStates={{
-   value: 0,
- }}
->
-  // Children will have access to: value, setValue
+```tsx
+<Provider initializeStates={{ value: 0 }}>
+  <Child />
 </Provider>
+
+// `Child` can read `value` and `setValue`
+```
 
 ###### memo?
 
 `true` \| `any`[]
 
-Whether to use memoization for the children.
+Memoization mode for `children`.
 
 **Default**
 
 false
 
-`true`: memoize the children without dependencies.
-`any[]`: memoize the children with specific dependencies.
+Pass `true` to memoize without dependencies or an array to control the
+deep-equality dependency list manually.
 
 ###### value?
 
 `Partial`\<`NewT`\>
+
+Partial context value supplied by the caller.
 
 #### Returns
 
@@ -144,7 +156,7 @@ function App() {
     </Provider>
   )
 }
-````
+```
 
 ## Example
 

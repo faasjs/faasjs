@@ -25,6 +25,8 @@ Notes:
 
 > `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
 
+Base URL override for the current request.
+
 ### beforeRequest?
 
 > `optional` **beforeRequest?**: (`{
@@ -36,7 +38,7 @@ Notes:
 
 }`) => `Promise`\<`void`\>
 
-trigger before request
+Async hook called after request options are merged but before the request is sent.
 
 #### Parameters
 
@@ -77,7 +79,7 @@ trigger before request
 
 > `optional` **request?**: \<`PathOrData`\>(`url`, `options`) => `Promise`\<[`Response`](../classes/Response.md)\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
-custom request
+Custom request implementation used instead of the native `fetch`.
 
 #### Type Parameters
 
@@ -102,6 +104,8 @@ custom request
 ### stream?
 
 > `optional` **stream?**: `boolean`
+
+When `true`, return the native fetch response so callers can consume the stream manually.
 
 ## See
 

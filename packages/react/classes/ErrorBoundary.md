@@ -4,6 +4,10 @@
 
 React error boundary with an optional custom fallback element.
 
+The boundary renders its children until a descendant throws. After that it
+either clones `errorChildren` with injected error details or renders a simple
+built-in fallback.
+
 ## Example
 
 ```tsx

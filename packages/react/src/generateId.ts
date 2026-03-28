@@ -1,12 +1,16 @@
 /**
- * Generate random id with prefix
+ * Generate a random identifier with an optional prefix.
  *
- * @param prefix prefix of id
- * @param length length of id without prefix, range is 8 ~ 18, default is 18
+ * @param prefix - Prefix prepended to the generated identifier.
+ * @param length - Length of the generated identifier excluding `prefix`. Must be between `8` and `18`.
+ * @returns Generated identifier string.
+ * @throws {Error} When `length` is outside the supported `8` to `18` range.
  *
  * @example
  * ```ts
- * generateId('prefix-') // prefix-1z3b4c5d6e
+ * const id = generateId('prefix-')
+ *
+ * id.startsWith('prefix-') // true
  * ```
  */
 export function generateId(prefix = '', length = 18): string {

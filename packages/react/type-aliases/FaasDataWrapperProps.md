@@ -20,6 +20,8 @@ Action path or response data type used for inference.
 
 > `optional` **onDataChange**(`args`): `void`
 
+Callback invoked whenever the resolved data value changes.
+
 #### Parameters
 
 ##### args
@@ -33,6 +35,8 @@ Action path or response data type used for inference.
 ### render()?
 
 > `optional` **render**(`args`): `Element` \| `Element`[]
+
+Render prop invoked with the resolved request state after the first load completes.
 
 #### Parameters
 
@@ -50,34 +54,46 @@ Action path or response data type used for inference.
 
 > **action**: [`FaasAction`](FaasAction.md)\<`PathOrData`\>
 
+Action path to request.
+
 ### baseUrl?
 
 > `optional` **baseUrl?**: [`BaseUrl`](BaseUrl.md)
+
+Base URL override used for this wrapper instance.
 
 ### children?
 
 > `optional` **children?**: `React.ReactElement`\<`Partial`\<[`FaasDataInjection`](FaasDataInjection.md)\<`PathOrData`\>\>\>
 
+Child element cloned with injected request state after the first load completes.
+
 ### data?
 
 > `optional` **data?**: [`FaasData`](FaasData.md)\<`PathOrData`\>
 
-use custom data, should work with setData
+Controlled data value used instead of internal state.
 
 ### fallback?
 
 > `optional` **fallback?**: `JSX.Element` \| `false`
 
+Element rendered before the first successful load.
+
 ### params?
 
 > `optional` **params?**: [`FaasParams`](FaasParams.md)\<`PathOrData`\>
+
+Params sent to the action.
 
 ### ref?
 
 > `optional` **ref?**: `React.Ref`\<[`FaasDataWrapperRef`](FaasDataWrapperRef.md)\<`PathOrData`\>\>
 
+Imperative ref exposing the current injected request state.
+
 ### setData?
 
 > `optional` **setData?**: `React.Dispatch`\<`React.SetStateAction`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>\>
 
-use custom setData, should work with data
+Controlled setter used instead of internal state.
