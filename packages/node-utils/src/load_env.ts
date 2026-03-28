@@ -25,7 +25,7 @@ export type LoadEnvFileIfExistsOptions = {
  *
  * Existing `process.env` values are preserved because Node.js does not overwrite them.
  *
- * @param {LoadEnvFileIfExistsOptions} [options={}] - Optional working directory and filename overrides.
+ * @param {LoadEnvFileIfExistsOptions} options - Optional working directory and filename overrides. @default {}
  * @returns {string | null} Resolved env file path, or `null` when the file does not exist.
  * @throws {Error} If the resolved path exists but cannot be read as a file.
  *

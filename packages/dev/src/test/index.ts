@@ -116,13 +116,13 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    * Invoke the wrapped function with raw event and context payloads.
    *
    * @template TResult - Expected response type returned by the handler.
-   * @param {any} [event=Object.create(null)] - Runtime event passed to the exported handler.
-   * @param {any} [context=Object.create(null)] - Runtime context passed to the exported handler.
+   * @param {Record<string, unknown>} - Runtime event passed to the exported handler.
+   * @param {Record<string, unknown>}  - Runtime context passed to the exported handler.
    * @returns Handler result.
    */
   public async handler<TResult = any>(
-    event: any = Object.create(null),
-    context: any = Object.create(null),
+    event: Record<string, unknown> = Object.create(null),
+    context: Record<string, unknown> = Object.create(null),
   ): Promise<TResult> {
     await this.mount()
 

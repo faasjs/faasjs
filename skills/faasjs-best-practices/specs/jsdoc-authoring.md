@@ -1,15 +1,5 @@
 # JSDoc Authoring Specification
 
-Chinese: [JSDoc 编写规范](./jsdoc-authoring.zh.md)
-
-## Metadata
-
-- Status: Draft
-- Version: v0.2
-- Owner: FaasJS Maintainers
-- Applies To: `packages/*/src` public exports and generated API Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}`
-- Last Updated: 2026-03-28
-
 ## Background
 
 FaasJS already documents public APIs primarily through JSDoc in TypeScript source. [`build-docs.ts`](../build-docs.ts) runs TypeDoc against each package entry and emits Markdown under `classes/`, `functions/`, `interfaces/`, `type-aliases/`, and `variables/`.
@@ -126,18 +116,3 @@ export type Options = RequestInit & {
   stream?: boolean
 }
 ```
-
-## Compatibility
-
-- Current FaasJS packages already rely on JSDoc plus TypeDoc generation for public API Markdown.
-- Older comments may use both `@param name {type}` and `@param name - description`; both can render today, but this spec prefers `{Type} name - description` in TypeScript source.
-- Some legacy comments contain non-English descriptions. Touched public docs should migrate to English.
-
-## Migration Checklist
-
-- [ ] Public exported symbols have a single canonical JSDoc block.
-- [ ] New or touched docs start with a one-sentence summary.
-- [ ] Runtime defaults, errors, and non-obvious examples are documented.
-- [ ] Multi-tag JSDoc blocks follow the canonical tag order from `@template` to `@example`.
-- [ ] Cross-symbol references use `{@link ...}` where practical.
-- [ ] `vp run doc` has been run after public API doc changes.

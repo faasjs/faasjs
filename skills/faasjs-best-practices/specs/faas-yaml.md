@@ -1,15 +1,5 @@
 # faas.yaml Configuration Specification
 
-Chinese: [faas.yaml 配置规范](./faas-yaml.zh.md)
-
-## Metadata
-
-- Status: Accepted
-- Version: v1.0
-- Owner: FaasJS Maintainers
-- Applies To: `@faasjs/node-utils`, `@faasjs/dev`, `@faasjs/core`, `create-faas-app`, and API projects built on FaasJS
-- Last Updated: 2026-03-25
-
 ## Background
 
 `faas.yaml` is the runtime configuration entry used by FaasJS config loading, local dev server resolution, and type generation.

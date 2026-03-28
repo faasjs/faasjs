@@ -37,8 +37,8 @@ export function resolveFaasStaging(): string {
  * falls back to the provided root and base when overrides are absent.
  *
  * @param {string} root - Project root passed by the caller.
- * @param {Logger} [logger] - Logger forwarded to `loadConfig`.
- * @param {string} [defaultBase='/'] - Base path used when config does not define `server.base`.
+ * @param {Logger} logger - Logger forwarded to `loadConfig`.
+ * @param {string} defaultBase - Base path used when config does not define `server.base`. @default '/'
  * @returns Resolved server configuration for the current project.
  * @throws {Error} When `faas.yaml` cannot be loaded or contains invalid server config.
  */

@@ -1,15 +1,5 @@
 # Routing Mapping Specification
 
-Chinese: [路由映射规范](./routing-mapping.zh.md)
-
-## Metadata
-
-- Status: Accepted
-- Version: v1.0
-- Owner: FaasJS Maintainers
-- Applies To: `@faasjs/core`, `create-faas-app`, and API projects built on FaasJS
-- Last Updated: 2026-02-19
-
 ## Background
 
 FaasJS route resolution is file-based. This spec standardizes the mapping and keeps the Zero-Mapping default explicit: file path and URL path stay in one-to-one alignment.
@@ -75,15 +65,3 @@ Fallback example:
   4. `src/pages/todo/item/default.func.ts`
   5. `src/pages/todo/default.func.ts`
   6. `src/pages/default.func.ts`
-
-## Compatibility
-
-- Existing projects with `actions/` naming can continue to run, but new or migrated code SHOULD use `api/` naming.
-- Legacy docs and RFC notes remain unchanged in this phase.
-
-## Migration Checklist
-
-- [ ] Remove custom route rewrite/alias logic from app layer.
-- [ ] Rename API folders from `actions/` to `api/` where applicable.
-- [ ] Ensure all API files use `.func.ts` suffix.
-- [ ] Ensure `components/` contains no API handlers.

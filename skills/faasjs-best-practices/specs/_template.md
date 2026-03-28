@@ -1,15 +1,5 @@
 # <Spec Title>
 
-Chinese: [<Spec Title in Chinese>](./<file>.zh.md)
-
-## Metadata
-
-- Status: Draft
-- Version: v0.1
-- Owner: FaasJS Maintainers
-- Applies To: <packages/modules>
-- Last Updated: YYYY-MM-DD
-
 ## Background
 
 <Why this spec exists and what pain point it addresses>
@@ -42,13 +32,3 @@ Chinese: [<Spec Title in Chinese>](./<file>.zh.md)
 ```ts
 // Minimal example
 ```
-
-## Compatibility
-
-- <Backward compatibility notes>
-- <Legacy docs/behavior notes>
-
-## Migration Checklist
-
-- [ ] <Migration step 1>
-- [ ] <Migration step 2>

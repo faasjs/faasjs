@@ -1,15 +1,5 @@
 # HTTP Protocol Specification
 
-Chinese: [HTTP 协议规范](./http-protocol.zh.md)
-
-## Metadata
-
-- Status: Accepted
-- Version: v1.0
-- Owner: FaasJS Maintainers
-- Applies To: `@faasjs/react`, `@faasjs/core`, and API projects built on FaasJS
-- Last Updated: 2026-02-19
-
 ## Background
 
 FaasJS has historical request/response guidance in docs, but contracts are spread across multiple locations. This spec defines a single internal baseline for transport behavior.

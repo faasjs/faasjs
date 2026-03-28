@@ -211,7 +211,7 @@ export class Logger {
    * Start a named timer that will log its duration when ended.
    *
    * @param {string} key - Unique identifier for the timer.
-   * @param {Level} [level='debug'] - Log level used when the timer ends.
+   * @param {Level} level - Log level used when the timer ends. @default 'debug'
    * @returns {Logger} The current logger for chaining.
    */
   public time(key: string, level: Level = 'debug'): Logger {

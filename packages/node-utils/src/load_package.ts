@@ -589,7 +589,7 @@ function installModuleHooks(): void {
  * Calling this function multiple times is safe. Hooks are installed once, while loader state is refreshed
  * from the latest options when a root, entry, or tsconfig path can be inferred.
  *
- * @param {RegisterNodeModuleHooksOptions} [options={}] - Hook registration options such as entry file, root, tsconfig path, and cache-busting version.
+ * @param {RegisterNodeModuleHooksOptions} options - Hook registration options such as entry file, root, tsconfig path, and cache-busting version. @default {}
  *
  * @example
  * ```ts
@@ -657,8 +657,8 @@ export function detectNodeRuntime(): NodeRuntime {
  *
  * @template T - The type of module to be loaded.
  * @param {string} name - Package name, file path, or module specifier to load.
- * @param {string | string[]} [defaultNames='default'] - Preferred export key or keys to resolve before falling back to the full module object.
- * @param {LoadPackageOptions} [options={}] - Optional loader overrides such as project root, tsconfig path, or cache-busting version.
+ * @param {string | string[]} defaultNames - Preferred export key or keys to resolve before falling back to the full module object. @default 'default'
+ * @param {LoadPackageOptions} options - Optional loader overrides such as project root, tsconfig path, or cache-busting version. @default {}
  * @returns {Promise<T>} Loaded export value or the full module namespace when no preferred key exists.
  * @throws {Error} If the runtime cannot be detected or the requested module fails to load.
  *
