@@ -3,6 +3,11 @@ name: faasjs-best-practices
 description: When working with FaasJS projects, must follow these best practices to ensure code quality, maintainability, and testability.
 ---
 
+## Guidelines
+
+- [File Conventions](./guidelines/file-conventions.md)
+- [defineApi Guide](./guidelines/define-api.md)
+
 ## Specs
 
 - [faas.yaml Configuration Specification](./references/specs/faas-yaml.md)

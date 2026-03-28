@@ -196,7 +196,7 @@ export default function HomePage() {
     setLoading(true)
 
     try {
-      const data = await fetch('/home/api/hello', {
+      const data = await fetch('/pages/home/api/hello', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -218,7 +218,7 @@ export default function HomePage() {
       <h1>FaasJS App</h1>
       <p>{message}</p>
       <button type="button" onClick={fetchMessage} disabled={loading}>
-        {loading ? 'Loading...' : 'Call /home/api/hello'}
+        {loading ? 'Loading...' : 'Call /pages/home/api/hello'}
       </button>
     </main>
   )
@@ -251,7 +251,7 @@ export const func = defineApi({
     `import { test } from '@faasjs/dev'
 import { func } from '../hello.func'
 
-describe('home/api/hello', () => {
+describe('pages/home/api/hello', () => {
   it('should work', async () => {
     const testFunc = test(func)
 

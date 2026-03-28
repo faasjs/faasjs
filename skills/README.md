@@ -8,13 +8,7 @@ Start here. These background skills are auto-applied to prevent common mistakes.
 
 ### `faasjs-best-practices`
 
-Core FaasJS knowledge:
-
-- [File Conventions](./faasjs-best-practices/file-conventions.md)
-- [defineApi Guide](./faasjs-best-practices/define-api.md)
-- [Test-only Workflow](./faasjs-best-practices/test-only.md)
-- [Shared Testing Kit](./faasjs-best-practices/shared-testing.md)
-- [Test Matrix](./faasjs-best-practices/test-matrix.md)
+Core FaasJS knowledge, best practices, and gotchas.
 
 ## Installation
 

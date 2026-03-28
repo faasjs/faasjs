@@ -48,16 +48,16 @@ If no candidate exists, the request is treated as not found.
 
 ## Examples
 
-| File                               | Route                                           |
-| ---------------------------------- | ----------------------------------------------- |
-| `src/pages/todo/api/list.func.ts`  | `POST /todo/api/list`                           |
-| `src/pages/todo/api/index.func.ts` | `POST /todo/api`                                |
-| `src/pages/todo/default.func.ts`   | fallback for `/todo/*`                          |
-| `src/pages/default.func.ts`        | fallback for unmatched routes under `src/pages` |
+| File                               | Route                                          |
+| ---------------------------------- | ---------------------------------------------- |
+| `src/pages/todo/api/list.func.ts`  | `POST /pages/todo/api/list`                    |
+| `src/pages/todo/api/index.func.ts` | `POST /pages/todo/api`                         |
+| `src/pages/todo/default.func.ts`   | fallback for `/pages/todo/*`                   |
+| `src/pages/default.func.ts`        | fallback for unmatched routes under `/pages/*` |
 
 Fallback example:
 
-- Request: `POST /todo/item/unknown`
+- Request: `POST /pages/todo/item/unknown`
 - Probe order:
   1. `src/pages/todo/item/unknown.func.ts`
   2. `src/pages/todo/item/unknown/index.func.ts`
