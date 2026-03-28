@@ -25,6 +25,6 @@
     "@vitejs/plugin-react": "*",
     "typescript": "*",
     "vite": "*",
-    "vitest": "*"
+    "vitest": "^4.1.2"
   }
 }
