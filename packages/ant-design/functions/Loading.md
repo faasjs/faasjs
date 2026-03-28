@@ -4,7 +4,7 @@
 
 > **Loading**(`props`): `Element`
 
-Loading component based on Spin
+Render an Ant Design loading spinner with an optional content fallback.
 
 ## Parameters
 
@@ -21,9 +21,16 @@ Loading indicator props and optional wrapped children.
 ## Example
 
 ```tsx
-<Loading /> // display loading
+import { Loading } from '@faasjs/ant-design'
 
-<Loading loading={ !remoteData }>
-  <div>{remoteData}</div>
-</Loading>
+export function Page({ remoteData }: { remoteData?: string }) {
+  return (
+    <>
+      <Loading />
+      <Loading loading={!remoteData}>
+        <div>{remoteData}</div>
+      </Loading>
+    </>
+  )
+}
 ```

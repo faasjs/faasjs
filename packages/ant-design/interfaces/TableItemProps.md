@@ -26,9 +26,13 @@ Row record type rendered by the table.
 
 > `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
 
+Generic custom element rendered when no table-specific child overrides it.
+
 ### id
 
 > **id**: `string` \| `number`
+
+Stable field identifier used as the default name and title source.
 
 #### Inherited from
 
@@ -38,9 +42,13 @@ Row record type rendered by the table.
 
 > `optional` **object?**: `TableItemProps`\<`T`\>[]
 
+Nested item definitions used by `object` and `object[]` item types.
+
 ### options?
 
 > `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
+
+Shared choice options used by select-like renderers.
 
 #### Inherited from
 
@@ -50,21 +58,31 @@ Row record type rendered by the table.
 
 > `optional` **optionsType?**: `"auto"`
 
+Use built-in option inference for filters when supported.
+
 ### render?
 
 > `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
+
+Generic custom render callback.
 
 ### tableChildren?
 
 > `optional` **tableChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\> \| `null`
 
+Table-specific custom element.
+
 ### tableRender?
 
 > `optional` **tableRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\> \| `null`
 
+Table-specific custom render callback.
+
 ### title?
 
 > `optional` **title?**: `string`
+
+Human-readable title used for labels and table headers.
 
 #### Inherited from
 
@@ -74,7 +92,7 @@ Row record type rendered by the table.
 
 > `optional` **type?**: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
-Support string, string[], number, number[], boolean, date, time, object, object[]
+Built-in FaasJS field type used to normalize and render values.
 
 #### Default
 

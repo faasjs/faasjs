@@ -4,12 +4,11 @@
 
 > **Table**\<`T`, `ExtendTypes`\>(`props`): `Element` \| `null`
 
-Table component with Ant Design & FaasJS
+Render an Ant Design table from FaasJS item metadata.
 
-- Based on [Ant Design Table](https://ant.design/components/table/).
-- Support FaasJS injection.
-- Auto generate filter dropdown (disable with `filterDropdown: false`).
-- Auto generate sorter (disable with `sorter: false`).
+The component can render local `dataSource` rows or resolve remote rows through `faasData`. It
+also generates default filters and sorters for built-in item types unless you disable them with
+the corresponding Ant Design column props.
 
 ## Type Parameters
 
@@ -32,13 +31,14 @@ Additional item prop shape accepted by `items`.
 [`TableProps`](../type-aliases/TableProps.md)\<`T`, `ExtendTypes`\>
 
 Table props including columns, data source, and optional Faas data config.
-Other Ant Design `TableProps` fields are forwarded to the underlying table.
-See [TableProps](../type-aliases/TableProps.md) for supported FaasJS-specific fields such as `items`, `extendTypes`,
-`faasData`, and `onChange`.
 
 ## Returns
 
 `Element` \| `null`
+
+## Throws
+
+When an entry in `extendTypes` omits both `children` and `render`.
 
 ## Example
 
@@ -50,12 +50,16 @@ const rows = [
   { id: 2, name: 'Bob', active: false },
 ]
 
-<Table
-  rowKey="id"
-  dataSource={rows}
-  items={[
-    { id: 'name', title: 'Name' },
-    { id: 'active', type: 'boolean', title: 'Active' },
-  ]}
-/>
+export function UserTable() {
+  return (
+    <Table
+      rowKey="id"
+      dataSource={rows}
+      items={[
+        { id: 'name', title: 'Name' },
+        { id: 'active', type: 'boolean', title: 'Active' },
+      ]}
+    />
+  )
+}
 ```

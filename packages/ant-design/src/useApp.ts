@@ -9,11 +9,17 @@ import type { ModalProps, setModalProps } from './Modal'
  * Shared app services exposed by {@link AppContext} and {@link useApp}.
  */
 export interface useAppProps {
+  /** Ant Design message API instance created by the root `App` component. */
   message: MessageInstance
+  /** Ant Design notification API instance created by the root `App` component. */
   notification: NotificationInstance
+  /** Current props of the hook-managed modal element. */
   modalProps: ModalProps
+  /** Setter that merges updates into the hook-managed modal props. */
   setModalProps: setModalProps
+  /** Current props of the hook-managed drawer element. */
   drawerProps: DrawerProps
+  /** Setter that merges updates into the hook-managed drawer props. */
   setDrawerProps: setDrawerProps
 }
 
@@ -30,13 +36,13 @@ export const AppContext = createSplittingContext<useAppProps>([
 ])
 
 /**
- * Get app context.
+ * Read app-level services exposed by the root `App` component.
  *
  * @template NewT - Narrowed app context shape to read from `AppContext`.
- * @param this - Unused receiver to keep the hook callable without binding.
+ * @returns Read-only app context value.
  *
  * @example
- * ```ts
+ * ```tsx
  * import { App, useApp } from '@faasjs/ant-design'
  * import { Button } from 'antd'
  *
@@ -55,9 +61,13 @@ export const AppContext = createSplittingContext<useAppProps>([
  *   )
  * }
  *
- * <App>
- *   <Page />
- * </App>
+ * export function Root() {
+ *   return (
+ *     <App>
+ *       <Page />
+ *     </App>
+ *   )
+ * }
  * ```
  */
 export function useApp<NewT extends useAppProps = useAppProps>(this: void): Readonly<NewT> {

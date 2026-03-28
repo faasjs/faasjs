@@ -4,7 +4,7 @@
 
 > **UnionFaasItemRender**\<`Value`, `Values`\> = (`value`, `values`, `index`, `scene`) => `React.ReactNode`
 
-A type representing a function that renders a React node for a given item in a list.
+Render callback signature shared by form, description, and table item definitions.
 
 ## Type Parameters
 
@@ -26,25 +26,25 @@ Whole record or row type that contains the value.
 
 `Value`
 
-The value of the current item.
+Current item value.
 
 ### values
 
 `Values`
 
-The entire list of values.
+Whole record or row containing the value.
 
 ### index
 
 `number`
 
-The index of the current item in the list.
+Current row or list index.
 
 ### scene
 
 [`UnionScene`](UnionScene.md)
 
-The scene in which the rendering is taking place. See [UnionScene](UnionScene.md).
+Rendering surface requesting the output.
 
 ## Returns
 

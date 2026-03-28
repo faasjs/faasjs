@@ -102,9 +102,13 @@ use custom data, should work with setData
 
 > `optional` **loading?**: `Element`
 
+Explicit loading element that overrides the built-in [Loading](../functions/Loading.md) fallback.
+
 ### loadingProps?
 
 > `optional` **loadingProps?**: [`LoadingProps`](../type-aliases/LoadingProps.md)
+
+Props forwarded to the built-in [Loading](../functions/Loading.md) fallback.
 
 ### params?
 

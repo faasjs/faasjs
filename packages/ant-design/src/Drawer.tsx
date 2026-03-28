@@ -8,6 +8,7 @@ export { Drawer }
  * Props accepted by the hook-managed drawer wrapper.
  */
 export interface DrawerProps extends AntdDrawerProps {
+  /** Drawer body content managed by {@link useDrawer}. */
   children?: JSX.Element | JSX.Element[]
 }
 
@@ -17,12 +18,13 @@ export interface DrawerProps extends AntdDrawerProps {
 export type setDrawerProps = Dispatch<SetStateAction<DrawerProps>>
 
 /**
- * Hook style drawer
+ * Create a hook-managed Ant Design drawer instance.
  *
- * @param init - Initial drawer props.
+ * The returned setter merges partial updates into the current drawer props instead of replacing the
+ * entire state object.
  *
- * Common initial props include `open`, `title`, and `children`.
- * Other Ant Design `DrawerProps` fields are forwarded to the managed drawer instance.
+ * @param {DrawerProps} [init] - Initial drawer props.
+ * @returns Hook-managed drawer element, current props, and a state-merging setter.
  *
  * @example
  * ```tsx

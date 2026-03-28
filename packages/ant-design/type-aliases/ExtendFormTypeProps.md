@@ -19,3 +19,5 @@ Value type rendered by the custom form item type.
 ### children?
 
 > `optional` **children?**: [`UnionFaasItemElement`](UnionFaasItemElement.md)\<`T`\>
+
+Custom element used to render the registered form item type.

@@ -4,10 +4,11 @@
 
 > **FormItem**\<`T`\>(`props`): `Element` \| `null`
 
-FormItem
+Render a FaasJS-aware Ant Design form field or nested field group.
 
-- Based on [Ant Design Form.Item](https://ant.design/components/form#formitem).
-- Can be used without [Form](https://faasjs.com/doc/ant-design/#form).
+The component derives default labels from `id`, applies required validation messages from the
+active theme, supports surface-specific union renderers, and can render nested `object` or
+`object[]` field structures.
 
 ## Type Parameters
 
@@ -32,11 +33,17 @@ Form item props including field metadata, rules, and custom renderers.
 ## Example
 
 ```tsx
-// use inline type
-<FormItem type='string' id='name' />
+import { FormItem } from '@faasjs/ant-design'
+import { Input } from 'antd'
 
-// use custom type
-<FormItem id='password'>
-  <Input.Password />
-</>
+export function AccountFields() {
+  return (
+    <>
+      <FormItem id="name" type="string" />
+      <FormItem id="password">
+        <Input.Password />
+      </FormItem>
+    </>
+  )
+}
 ```

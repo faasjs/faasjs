@@ -4,28 +4,43 @@ import { Spin } from 'antd'
  * Props for the {@link Loading} component.
  */
 export type LoadingProps = {
+  /** Inline styles applied to the loading wrapper. */
   style?: React.CSSProperties
+  /**
+   * Ant Design spinner size.
+   *
+   * @default 'large'
+   */
   size?: 'small' | 'default' | 'large'
+  /**
+   * Whether the loading indicator should be shown.
+   *
+   * @default true
+   */
   loading?: boolean
+  /** Content rendered when `loading` is `false`. */
   children?: React.ReactNode
 }
 
 /**
- * Loading component based on Spin
+ * Render an Ant Design loading spinner with an optional content fallback.
  *
- * @param props - Loading indicator props and optional wrapped children.
- * @param props.style - Inline styles applied to the loading wrapper.
- * @param props.size - Ant Design spinner size.
- * @param props.loading - Whether the spinner should be shown. When `false`, render `children`.
- * @param props.children - Content rendered when `loading` is `false`.
+ * @param {LoadingProps} props - Loading indicator props and optional wrapped children.
  *
  * @example
  * ```tsx
- * <Loading /> // display loading
+ * import { Loading } from '@faasjs/ant-design'
  *
- * <Loading loading={ !remoteData }>
- *   <div>{remoteData}</div>
- * </Loading>
+ * export function Page({ remoteData }: { remoteData?: string }) {
+ *   return (
+ *     <>
+ *       <Loading />
+ *       <Loading loading={!remoteData}>
+ *         <div>{remoteData}</div>
+ *       </Loading>
+ *     </>
+ *   )
+ * }
  * ```
  */
 export function Loading(props: LoadingProps) {

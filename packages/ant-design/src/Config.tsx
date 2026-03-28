@@ -8,7 +8,9 @@ import { FaasReactClient, type FaasReactClientOptions } from './FaasDataWrapper'
  * Fully resolved theme object consumed by `@faasjs/ant-design` components.
  */
 export type ResolvedTheme = {
+  /** Current language code used for built-in copy. */
   lang: string
+  /** Shared copy used by multiple components. */
   common: {
     blank: string
     all: string
@@ -20,18 +22,22 @@ export type ResolvedTheme = {
     search: string
     reset: string
   }
+  /** Theme values consumed by the `Blank` component. */
   Blank: {
     text: string
   }
+  /** Theme values consumed by the `Form` component. */
   Form: {
     submit: {
       text: string
     }
   }
+  /** Theme values consumed by the `Title` component. */
   Title: {
     separator: string
     suffix: string
   }
+  /** Theme values consumed by the `Link` component. */
   Link: {
     target?: string
     style: CSSProperties
@@ -78,14 +84,24 @@ export interface ConfigProviderProps {
     }
     /** Title-component theme overrides. */
     Title?: {
-      /** ' - ' as default */
+      /**
+       * Separator inserted between title segments.
+       *
+       * @default ' - '
+       */
       separator?: string
+      /** Suffix appended to generated page titles. */
       suffix?: string
     }
     /** Link-component theme overrides. */
     Link?: {
-      /** '_blank' as default */
+      /**
+       * Default target used by the `Link` component when `props.target` is omitted.
+       *
+       * @default '_blank'
+       */
       target?: string
+      /** Default inline styles merged into every `Link`. */
       style?: CSSProperties
     }
   }
@@ -137,18 +153,24 @@ export const ConfigContext = createContext<ConfigContextValue>({
 })
 
 /**
- * Config for `@faasjs/ant-design` components.
+ * Provide theme overrides and optional FaasJS client initialization for descendants.
+ *
+ * Theme overrides are merged with the built-in defaults. When `theme.lang` is omitted, the
+ * provider infers a default language from `navigator.language`.
  *
  * @param {ConfigProviderProps} props - Theme overrides and optional FaasJS client configuration.
- * Theme sections include `lang`, `common`, `Blank`, `Form`, `Title`, and `Link`.
  *
  * @example
  * ```tsx
- * import { ConfigProvider } from '@faasjs/ant-design'
+ * import { Blank, ConfigProvider } from '@faasjs/ant-design'
  *
- * <ConfigProvider theme={{ common: { blank: 'Empty' } }}>
- *   <Blank />
- * </ConfigProvider>
+ * export function Page() {
+ *   return (
+ *     <ConfigProvider theme={{ common: { blank: 'Empty' } }}>
+ *       <Blank />
+ *     </ConfigProvider>
+ *   )
+ * }
  * ```
  */
 export function ConfigProvider(props: ConfigProviderProps) {
@@ -183,9 +205,11 @@ export function ConfigProvider(props: ConfigProviderProps) {
 /**
  * Read the current `@faasjs/ant-design` config context.
  *
+ * @returns Current config context value containing the resolved theme.
+ *
  * @example
  * ```tsx
- * import { ConfigProvider, useConfigContext } from '@faasjs/ant-design'
+ * import { Blank, ConfigProvider, useConfigContext } from '@faasjs/ant-design'
  *
  * function EmptyState() {
  *   const { theme } = useConfigContext()

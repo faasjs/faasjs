@@ -4,7 +4,10 @@
 
 > **ConfigProvider**(`props`): `Element` \| `null`
 
-Config for `@faasjs/ant-design` components.
+Provide theme overrides and optional FaasJS client initialization for descendants.
+
+Theme overrides are merged with the built-in defaults. When `theme.lang` is omitted, the
+provider infers a default language from `navigator.language`.
 
 ## Parameters
 
@@ -21,8 +24,13 @@ Theme overrides and optional FaasJS client configuration.
 ## Example
 
 ```tsx
-import { ConfigProvider } from '@faasjs/ant-design'
-;<ConfigProvider theme={{ common: { blank: 'Empty' } }}>
-  <Blank />
-</ConfigProvider>
+import { Blank, ConfigProvider } from '@faasjs/ant-design'
+
+export function Page() {
+  return (
+    <ConfigProvider theme={{ common: { blank: 'Empty' } }}>
+      <Blank />
+    </ConfigProvider>
+  )
+}
 ```

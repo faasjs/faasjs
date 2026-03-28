@@ -26,14 +26,22 @@ Whole record or row type that contains the value.
 
 > `optional` **index?**: `number`
 
+Current row or list index when available.
+
 ### scene?
 
 > `optional` **scene?**: [`UnionScene`](UnionScene.md)
+
+Rendering surface requesting the injected element.
 
 ### value?
 
 > `optional` **value?**: `Value`
 
+Current field, cell, or item value.
+
 ### values?
 
 > `optional` **values?**: `Values`
+
+Full record or row containing the current value.

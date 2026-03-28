@@ -18,6 +18,8 @@ Value type rendered by the item content.
 
 > `optional` **extendTypes?**: `object`
 
+Custom type renderers keyed by item type.
+
 #### Index Signature
 
 \[`key`: `string`\]: [`ExtendDescriptionTypeProps`](ExtendDescriptionTypeProps.md)\<`any`\>
@@ -26,10 +28,16 @@ Value type rendered by the item content.
 
 > **item**: [`DescriptionItemProps`](DescriptionItemProps.md)
 
+Item definition describing how the value should render.
+
 ### value
 
 > **value**: `T`
 
+Current item value.
+
 ### values?
 
 > `optional` **values?**: `any`
+
+Full record containing the current value.

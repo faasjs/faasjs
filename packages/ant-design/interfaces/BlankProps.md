@@ -10,6 +10,10 @@ Props for the [Blank](../functions/Blank.md) placeholder component.
 
 > `optional` **text?**: `string`
 
+Placeholder text shown when `value` is empty.
+
 ### value?
 
 > `optional` **value?**: `any`
+
+Value to render when it is present.

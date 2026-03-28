@@ -40,6 +40,7 @@ type OptionsProps = {
  * @template T - Value type rendered by the custom form item type.
  */
 export type ExtendFormTypeProps<T = any> = {
+  /** Custom element used to render the registered form item type. */
   children?: UnionFaasItemElement<T>
 }
 
@@ -63,45 +64,62 @@ type InputTypeMap<T> = {
 }
 
 /**
- * Item definition used by the {@link FormItem} and {@link Form} components.
+ * Item definition used by the `FormItem` and `Form` components.
  *
  * @template T - Value type rendered or edited by the form item.
  */
 export interface FormItemProps<T = any>
   extends BaseItemProps, Omit<AntdFormItemProps<T>, 'id' | 'children' | 'render'> {
+  /**
+   * Built-in FaasJS field type used to choose the default Ant Design input.
+   *
+   * @default 'string'
+   */
   type?: FaasItemType
+  /** Input props forwarded to the generated Ant Design control. */
   input?: InputTypeMap<T>[FaasItemType]
+  /** Maximum item count allowed for list-style field types. */
   maxCount?: number
+  /** Nested field definitions used by `object` and `object[]` item types. */
   object?: FormItemProps[]
+  /** Whether the generated field is disabled. */
   disabled?: boolean
+  /** Whether the generated field adds a required validation rule. */
   required?: boolean
+  /** Grid span used by surrounding object-list layouts. */
   col?: number
+  /** Generic custom field renderer or element. */
   children?: UnionFaasItemElement<T> | null
+  /** Form-specific custom field renderer or element. */
   formChildren?: UnionFaasItemElement<T> | null
+  /** Generic custom render callback. */
   render?: UnionFaasItemRender<T> | null
+  /** Form-specific custom render callback. */
   formRender?: UnionFaasItemRender<T> | null
+  /** Validation rules forwarded to Ant Design `Form.Item`. */
   rules?: RuleObject[]
+  /** Label override, or `false` to hide the label completely. */
   label?: string | false
+  /** Custom form item type renderers keyed by type name. */
   extendTypes?: ExtendTypes
-  /** trigger when current item's value changed */
+  /** Callback invoked when this field's value changes. */
   onValueChange?: (value: T, values: any, form: FormInstance) => void
-  /** trigger when any item's value changed */
+  /** Predicate used to show or hide the item from the current form values. */
   if?: (values: Record<string, any>) => boolean
 }
 
 /**
- * Extend custom form item types.
+ * Item shape used to extend `Form` with custom type names.
  *
  * @example
- * ```ts
- * import type { ExtendFormItemProps, FormProps } from '@faasjs/ant-design'
+ * ```tsx
+ * import { Form, type ExtendFormItemProps, type FormProps } from '@faasjs/ant-design'
+ * import { Input } from 'antd'
  *
- * // define custom type
  * interface ExtendTypes extends ExtendFormItemProps {
  *   type: 'password'
  * }
  *
- * // extend form
  * function ExtendForm(props: FormProps<any, ExtendTypes>) {
  *   return (
  *     <Form
@@ -111,15 +129,18 @@ export interface FormItemProps<T = any>
  *   )
  * }
  *
- * // use custom type
- * <ExtendForm
- *   items={[
- *     {
- *       id: 'test',
- *       type: 'password',
- *     },
- *   ]}
- * />
+ * export function Page() {
+ *   return (
+ *     <ExtendForm
+ *       items={[
+ *         {
+ *           id: 'password',
+ *           type: 'password',
+ *         },
+ *       ]}
+ *     />
+ *   )
+ * }
  * ```
  */
 export interface ExtendFormItemProps extends Omit<FormItemProps, 'type'> {
@@ -171,43 +192,30 @@ function processProps(propsCopy: FormItemProps, config: ResolvedTheme['common'])
 }
 
 /**
- * FormItem
+ * Render a FaasJS-aware Ant Design form field or nested field group.
  *
- * - Based on [Ant Design Form.Item](https://ant.design/components/form#formitem).
- * - Can be used without [Form](https://faasjs.com/doc/ant-design/#form).
+ * The component derives default labels from `id`, applies required validation messages from the
+ * active theme, supports surface-specific union renderers, and can render nested `object` or
+ * `object[]` field structures.
  *
  * @template T - Value type rendered or edited by the form item.
- * @param props - Form item props including field metadata, rules, and custom renderers.
- * @param props.id - Stable field identifier used as the default `name`, title, and lookup key.
- * @param props.title - Human-readable title used for labels and generated messages.
- * @param props.type - Built-in FaasJS field type used to choose the default input.
- * @param props.input - Input props forwarded to the generated Ant Design control.
- * @param props.options - Choice options used by select-like field types.
- * @param props.maxCount - Maximum item count for array-like object fields.
- * @param props.object - Nested field definitions used by `object` and `object[]` item types.
- * @param props.disabled - Whether the generated field is disabled.
- * @param props.required - Whether the generated field adds a required validation rule.
- * @param props.col - Grid span used by the built-in row layout.
- * @param props.children - Generic custom field renderer or element.
- * @param props.formChildren - Form-specific custom field renderer or element.
- * @param props.render - Generic custom render callback.
- * @param props.formRender - Form-specific custom render callback.
- * @param props.rules - Validation rules forwarded to Ant Design `Form.Item`.
- * @param props.label - Label override, or `false` to hide the label.
- * @param props.extendTypes - Custom type renderers keyed by type name.
- * @param props.onValueChange - Callback invoked when this field's value changes.
- * @param props.if - Predicate used to show or hide the item from the current form values.
- * Other Ant Design `FormItemProps` fields are forwarded to the underlying item.
+ * @param {FormItemProps<T>} props - Form item props including field metadata, rules, and custom renderers.
  *
  * @example
  * ```tsx
- * // use inline type
- * <FormItem type='string' id='name' />
+ * import { FormItem } from '@faasjs/ant-design'
+ * import { Input } from 'antd'
  *
- * // use custom type
- * <FormItem id='password'>
- *   <Input.Password />
- * </>
+ * export function AccountFields() {
+ *   return (
+ *     <>
+ *       <FormItem id="name" type="string" />
+ *       <FormItem id="password">
+ *         <Input.Password />
+ *       </FormItem>
+ *     </>
+ *   )
+ * }
  * ```
  */
 export function FormItem<T = any>(props: FormItemProps<T>) {

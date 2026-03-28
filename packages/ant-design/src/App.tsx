@@ -14,22 +14,38 @@ import { AppContext, useApp } from './useApp'
 
 /**
  * Props for the root {@link App} shell.
+ *
+ * `App` composes the Ant Design provider tree, FaasJS config provider, shared modal and drawer
+ * state, and optional browser routing into a single wrapper component.
  */
 export interface AppProps {
+  /** Descendant elements rendered inside all configured providers. */
   children: React.ReactNode
-  /** @see https://ant.design/components/config-provider/#API */
+  /**
+   * Props forwarded to Ant Design's `ConfigProvider`.
+   *
+   * @see https://ant.design/components/config-provider/#API
+   */
   configProviderProps?: ConfigProviderProps
   /**
-   * `false` to disable BrowserRouter.
+   * Props forwarded to React Router's `BrowserRouter`, or `false` to disable browser routing.
    *
-   * Auto disable when not in browser.
+   * Routing is enabled automatically when running in a browser and this prop is not `false`.
    *
    * @see https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
    */
   browserRouterProps?: BrowserRouterProps | false
-  /** @see https://faasjs.com/doc/ant-design/#errorboundary */
+  /**
+   * Props forwarded to {@link ErrorBoundary}.
+   *
+   * @see https://faasjs.com/doc/ant-design/#errorboundary
+   */
   errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
-  /** @see https://faasjs.com/doc/ant-design/#configprovider */
+  /**
+   * Props forwarded to {@link ConfigProvider}, or `false` to skip the FaasJS config layer.
+   *
+   * @see https://faasjs.com/doc/ant-design/#configprovider
+   */
   faasConfigProviderProps?: Omit<FaasConfigProviderProps, 'children'> | false
 }
 
@@ -49,13 +65,11 @@ function RoutesApp(props: { children: React.ReactNode }) {
 }
 
 /**
- * App component with Ant Design & FaasJS
+ * Render the root provider shell for a FaasJS Ant Design application.
  *
- * - Based on Ant Design's [ConfigProvider](https://ant.design/components/config-provider/).
- * - Integrated Ant Design's [Message](https://ant.design/components/message/) and [Notification](https://ant.design/components/notification/).
- * - Based on FaasJS's [ConfigProvider](https://faasjs.com/doc/ant-design/#configprovider).
- * - Integrated FaasJS's [Modal](https://faasjs.com/doc/ant-design/#usemodal), [Drawer](https://faasjs.com/doc/ant-design/#usedrawer) and [ErrorBoundary](https://faasjs.com/doc/ant-design/#errorboundary).
- * - Integrated React Router's [BrowserRouter](https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html).
+ * `App` initializes Ant Design message and notification APIs, exposes hook-managed modal and
+ * drawer state through {@link AppContext}, wraps descendants with {@link ErrorBoundary}, and
+ * optionally mounts React Router's `BrowserRouter`.
  *
  * @param {AppProps} props - App shell props including providers, routing, and error handling options.
  *
@@ -63,13 +77,13 @@ function RoutesApp(props: { children: React.ReactNode }) {
  * ```tsx
  * import { App } from '@faasjs/ant-design'
  *
- * export default function () {
+ * export default function Page() {
  *   return (
  *     <App
- *      configProviderProps={{}} // https://ant.design/components/config-provider/#API
- *      browserRouterProps={{}} // https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
- *      errorBoundaryProps={{}} // https://faasjs.com/doc/ant-design/#errorboundary
- *      faasConfigProviderProps={{}} // https://faasjs.com/doc/ant-design/#configprovider
+ *       configProviderProps={{}}
+ *       browserRouterProps={{}}
+ *       errorBoundaryProps={{}}
+ *       faasConfigProviderProps={{}}
  *     >
  *       <div>content</div>
  *     </App>

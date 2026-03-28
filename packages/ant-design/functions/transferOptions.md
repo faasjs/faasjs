@@ -4,7 +4,10 @@
 
 > **transferOptions**(`options`): `object`[]
 
-convert string[] or number[] to { label, value }[]
+Normalize primitive options into explicit `{ label, value }` objects.
+
+String and number options are converted with [idToTitle](idToTitle.md), while pre-shaped option objects
+are returned as-is.
 
 ## Parameters
 
@@ -17,6 +20,8 @@ Raw option list to normalize.
 ## Returns
 
 `object`[]
+
+Normalized option list.
 
 ## Example
 

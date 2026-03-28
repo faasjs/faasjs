@@ -18,6 +18,10 @@ Value type rendered by the custom description item type.
 
 > `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`T`\>
 
+Custom element used to render the registered description item type.
+
 ### render?
 
 > `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`T`\>
+
+Custom render callback used when `children` is not provided.

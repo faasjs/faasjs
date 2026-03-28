@@ -4,11 +4,10 @@
 
 > **cloneUnionFaasItemElement**(`element`, `props`): `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
-Clone a UnionFaasItemElement with the given props.
+Clone a [UnionFaasItemElement](../type-aliases/UnionFaasItemElement.md) with FaasJS injection props.
 
-This function takes a UnionFaasItemElement and props, and returns a cloned element.
-If the provided element is a valid React element, it clones it with the new props.
-Otherwise, it creates a new element from the provided element and props.
+React elements are cloned directly, while component references are first wrapped with
+`createElement`.
 
 ## Parameters
 
@@ -16,21 +15,19 @@ Otherwise, it creates a new element from the provided element and props.
 
 [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)
 
-The UnionFaasItemElement to be cloned.
+Element or component to clone.
 
 ### props
 
 `any`
 
-The props to be applied to the cloned element.
+Injection props such as `scene`, `value`, `values`, and `index`.
 
 ## Returns
 
 `ReactElement`\<[`UnionFaasItemInjection`](../type-aliases/UnionFaasItemInjection.md)\<`any`, `any`\>, `string` \| `JSXElementConstructor`\<`any`\>\>
 
-The cloned element with the applied props.
-
-Common injected props include `scene`, `value`, `values`, and `index`.
+Cloned React element ready for rendering.
 
 ## Example
 

@@ -106,11 +106,19 @@ Link-component theme overrides.
 
 > `optional` **style?**: `CSSProperties`
 
+Default inline styles merged into every `Link`.
+
 ##### Link.target?
 
 > `optional` **target?**: `string`
 
-'\_blank' as default
+Default target used by the `Link` component when `props.target` is omitted.
+
+###### Default
+
+```ts
+'_blank'
+```
 
 #### Title?
 
@@ -122,8 +130,16 @@ Title-component theme overrides.
 
 > `optional` **separator?**: `string`
 
-' - ' as default
+Separator inserted between title segments.
+
+###### Default
+
+```ts
+' - '
+```
 
 ##### Title.suffix?
 
 > `optional` **suffix?**: `string`
+
+Suffix appended to generated page titles.

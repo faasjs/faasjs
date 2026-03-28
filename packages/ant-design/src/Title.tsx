@@ -7,12 +7,18 @@ import { useConfigContext } from './Config'
  * Props for the document-title helper component.
  */
 export interface TitleProps {
+  /** Title text or title segments used to update `document.title`. */
   title: string | string[]
-  /** ` - ` as default */
+  /**
+   * Separator used when joining title segments.
+   *
+   * @default ' - '
+   */
   separator?: string
+  /** Suffix appended to the generated document title. */
   suffix?: string
 
-  /** return a h1 element */
+  /** Whether to render an `h1`, or the props used to style that `h1`. */
   h1?:
     | boolean
     | {
@@ -20,25 +26,19 @@ export interface TitleProps {
         style?: React.CSSProperties
       }
 
-  /** return a pure text element */
+  /** Whether to render plain text instead of returning `null`. */
   plain?: boolean
 
-  /** return children */
+  /** Existing element cloned with a `title` prop. */
   children?: JSX.Element
 }
 
 /**
- * Title is used to change the title of the page
+ * Update `document.title` and optionally render the title inline.
  *
- * Return null by default.
+ * The component returns `null` by default and is often used only for its side effect.
  *
- * @param props - Title props controlling document title updates and optional inline rendering.
- * @param props.title - Title text or title segments used to update `document.title`.
- * @param props.separator - Separator used when joining title segments.
- * @param props.suffix - Suffix appended to the generated document title.
- * @param props.h1 - Whether to render an `h1`, or the props used to style that `h1`.
- * @param props.plain - Whether to render plain text instead of mutating children or returning `null`.
- * @param props.children - Existing element cloned with a `title` prop.
+ * @param {TitleProps} props - Title props controlling document title updates and optional inline rendering.
  *
  * @example
  * ```tsx

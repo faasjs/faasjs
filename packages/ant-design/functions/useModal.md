@@ -4,7 +4,10 @@
 
 > **useModal**(`init?`): `object`
 
-Hook style modal
+Create a hook-managed Ant Design modal instance.
+
+The returned setter merges partial updates into the current modal props instead of replacing the
+entire state object.
 
 ## Parameters
 
@@ -14,12 +17,11 @@ Hook style modal
 
 Initial modal props.
 
-Common initial props include `open`, `title`, and `children`.
-Other Ant Design `ModalProps` fields are forwarded to the managed modal instance.
-
 ## Returns
 
 `object`
+
+Hook-managed modal element, current props, and a state-merging setter.
 
 ### modal
 

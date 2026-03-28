@@ -4,7 +4,10 @@
 
 > **useDrawer**(`init?`): `object`
 
-Hook style drawer
+Create a hook-managed Ant Design drawer instance.
+
+The returned setter merges partial updates into the current drawer props instead of replacing the
+entire state object.
 
 ## Parameters
 
@@ -14,12 +17,11 @@ Hook style drawer
 
 Initial drawer props.
 
-Common initial props include `open`, `title`, and `children`.
-Other Ant Design `DrawerProps` fields are forwarded to the managed drawer instance.
-
 ## Returns
 
 `object`
+
+Hook-managed drawer element, current props, and a state-merging setter.
 
 ### drawer
 

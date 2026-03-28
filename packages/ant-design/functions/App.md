@@ -4,13 +4,11 @@
 
 > **App**(`props`): `Element`
 
-App component with Ant Design & FaasJS
+Render the root provider shell for a FaasJS Ant Design application.
 
-- Based on Ant Design's [ConfigProvider](https://ant.design/components/config-provider/).
-- Integrated Ant Design's [Message](https://ant.design/components/message/) and [Notification](https://ant.design/components/notification/).
-- Based on FaasJS's [ConfigProvider](https://faasjs.com/doc/ant-design/#configprovider).
-- Integrated FaasJS's [Modal](https://faasjs.com/doc/ant-design/#usemodal), [Drawer](https://faasjs.com/doc/ant-design/#usedrawer) and [ErrorBoundary](https://faasjs.com/doc/ant-design/#errorboundary).
-- Integrated React Router's [BrowserRouter](https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html).
+`App` initializes Ant Design message and notification APIs, exposes hook-managed modal and
+drawer state through [AppContext](../variables/AppContext.md), wraps descendants with [ErrorBoundary](ErrorBoundary.md), and
+optionally mounts React Router's `BrowserRouter`.
 
 ## Parameters
 
@@ -29,13 +27,13 @@ App shell props including providers, routing, and error handling options.
 ```tsx
 import { App } from '@faasjs/ant-design'
 
-export default function () {
+export default function Page() {
   return (
     <App
-      configProviderProps={{}} // https://ant.design/components/config-provider/#API
-      browserRouterProps={{}} // https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
-      errorBoundaryProps={{}} // https://faasjs.com/doc/ant-design/#errorboundary
-      faasConfigProviderProps={{}} // https://faasjs.com/doc/ant-design/#configprovider
+      configProviderProps={{}}
+      browserRouterProps={{}}
+      errorBoundaryProps={{}}
+      faasConfigProviderProps={{}}
     >
       <div>content</div>
     </App>

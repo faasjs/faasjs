@@ -4,12 +4,12 @@
 
 > **FormFaasProps**\<`Values`\> = `object`
 
-Built-in FaasJS submit handler for Form.
+Built-in FaasJS submit handler configuration for [Form](../functions/Form.md).
 
 ## Example
 
 ```ts
-{
+const faas = {
   action: 'user/create',
   params: (values) => ({
     ...values,
@@ -35,13 +35,13 @@ Form values shape used by submit handlers.
 
 > **action**: `FaasAction`
 
-Action name to submit to
+Action name submitted through `faas()`.
 
 ### onError?
 
 > `optional` **onError?**: (`error`, `values`) => `void`
 
-Called when the request fails
+Callback invoked when the request fails.
 
 #### Parameters
 
@@ -61,7 +61,7 @@ Called when the request fails
 
 > `optional` **onFinally?**: () => `void`
 
-Called after the request settles
+Callback invoked after the request settles.
 
 #### Returns
 
@@ -71,7 +71,7 @@ Called after the request settles
 
 > `optional` **onSuccess?**: (`result`, `values`) => `void`
 
-Called when the request succeeds
+Callback invoked when the request succeeds.
 
 #### Parameters
 
@@ -91,13 +91,13 @@ Called when the request succeeds
 
 > `optional` **params?**: `Record`\<`string`, `any`\> \| ((`values`) => `Record`\<`string`, `any`\>)
 
-params will overwrite form values before submit
+Extra params merged into the submitted payload after `transformValues` runs.
 
 ### transformValues?
 
 > `optional` **transformValues?**: (`values`) => `Record`\<`string`, `any`\> \| `Promise`\<`Record`\<`string`, `any`\>\>
 
-Transform form values before sending the request
+Transform form values before sending the request.
 
 #### Parameters
 

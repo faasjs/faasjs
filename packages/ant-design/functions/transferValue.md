@@ -6,6 +6,9 @@
 
 Normalize raw values into the runtime shape expected by FaasJS Ant Design components.
 
+Primitive strings such as `'null'` and `'undefined'` become `null`, comma-delimited array
+strings are split into arrays, and date or time values are converted to `dayjs` objects.
+
 ## Parameters
 
 ### type

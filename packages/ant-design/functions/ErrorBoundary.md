@@ -6,6 +6,9 @@
 
 Styled error boundary.
 
+When `errorChildren` is not provided, the fallback UI renders an Ant Design `Alert` containing
+the captured error message and description.
+
 ## Parameters
 
 ### props

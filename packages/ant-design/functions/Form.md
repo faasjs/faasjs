@@ -4,11 +4,11 @@
 
 > **Form**\<`Values`\>(`props`): `Element` \| `null`
 
-Form component with Ant Design & FaasJS
+Render a data-aware Ant Design form with optional FaasJS submission helpers.
 
-- Based on [Ant Design Form](https://ant.design/components/form/).
-- Use `onFinish` for custom submit logic.
-- Use `faas` for the built-in FaasJS submit flow.
+The component normalizes `initialValues` with [transferValue](transferValue.md), renders item definitions
+through [FormItem](FormItem.md), and can either delegate submission to a custom `onFinish` handler or
+the built-in FaasJS request flow configured by `faas`.
 
 ## Type Parameters
 
@@ -25,8 +25,6 @@ Form values shape.
 [`FormProps`](../type-aliases/FormProps.md)\<`Values`\>
 
 Form props including items, submit behavior, and FaasJS integration.
-Other Ant Design `FormProps` fields are forwarded to the underlying form.
-See [FormProps](../type-aliases/FormProps.md), [FormSubmitProps](../type-aliases/FormSubmitProps.md), and [FormFaasProps](../type-aliases/FormFaasProps.md) for supported fields.
 
 ## Returns
 

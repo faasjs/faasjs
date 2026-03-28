@@ -20,7 +20,9 @@ export type FaasItemType =
   | 'object'
   | 'object[]'
 
-/** FaasItemType's value type */
+/**
+ * Runtime value mapping for each built-in {@link FaasItemType}.
+ */
 export type FaasItemTypeValue = {
   string: string
   'string[]': string[]
@@ -40,7 +42,9 @@ export type BaseOption =
   | string
   | number
   | {
+      /** Display label rendered by Ant Design controls. */
       label: string
+      /** Raw option value submitted or matched by components. */
       value?: any
     }
 
@@ -48,8 +52,11 @@ export type BaseOption =
  * Common metadata shared by form, table, and description items.
  */
 export interface BaseItemProps {
+  /** Stable field identifier used as the default name and title source. */
   id: string | number
+  /** Human-readable title used for labels and table headers. */
   title?: string
+  /** Shared choice options used by select-like renderers. */
   options?: BaseOption[]
 }
 
@@ -58,24 +65,22 @@ export interface BaseItemProps {
  */
 export interface FaasItemProps extends BaseItemProps {
   /**
-   * Support string, string[], number, number[], boolean, date, time, object, object[]
+   * Built-in FaasJS field type used to normalize and render values.
+   *
    * @default 'string'
    */
   type?: FaasItemType
 }
 
 /**
- * Converts an identifier string to a title case string.
+ * Convert a snake_case, kebab-case, or spaced identifier into a title-style label.
  *
- * This function takes an identifier string with words separated by underscores,
- * capitalizes the first letter of each word, and joins them together without spaces.
- *
- * @param id - The identifier string to convert.
- * @returns The converted title case string.
+ * @param {string | number} id - Identifier to convert.
+ * @returns Generated label string.
  *
  * @example
- * ```typescript
- * idToTitle('example_id'); // returns 'ExampleId'
+ * ```ts
+ * idToTitle('example_id') // 'Example Id'
  * ```
  */
 export function idToTitle(id: string | number): string {
@@ -91,9 +96,13 @@ export function idToTitle(id: string | number): string {
 }
 
 /**
- * convert string[] or number[] to { label, value }[]
+ * Normalize primitive options into explicit `{ label, value }` objects.
  *
- * @param options - Raw option list to normalize.
+ * String and number options are converted with {@link idToTitle}, while pre-shaped option objects
+ * are returned as-is.
+ *
+ * @param {BaseOption[]} options - Raw option list to normalize.
+ * @returns Normalized option list.
  *
  * @example
  * ```ts
@@ -125,9 +134,13 @@ export function transferOptions(options: BaseOption[]): {
 /**
  * Normalize raw values into the runtime shape expected by FaasJS Ant Design components.
  *
- * @param type - Target field type.
- * @param value - Raw value to normalize.
+ * Primitive strings such as `'null'` and `'undefined'` become `null`, comma-delimited array
+ * strings are split into arrays, and date or time values are converted to `dayjs` objects.
+ *
+ * @param {FaasItemType | null | undefined} type - Target field type.
+ * @param {any} value - Raw value to normalize.
  * @returns Normalized value for rendering or form initialization.
+ *
  * @example
  * ```ts
  * import { transferValue } from '@faasjs/ant-design'
@@ -190,22 +203,26 @@ export type UnionScene = 'form' | 'description' | 'table'
  * @template Values - Whole record or row type that contains the value.
  */
 export type UnionFaasItemInjection<Value = any, Values = any> = {
+  /** Rendering surface requesting the injected element. */
   scene?: UnionScene
+  /** Current field, cell, or item value. */
   value?: Value
+  /** Full record or row containing the current value. */
   values?: Values
+  /** Current row or list index when available. */
   index?: number
 }
 
 /**
- * A type representing a function that renders a React node for a given item in a list.
+ * Render callback signature shared by form, description, and table item definitions.
  *
  * @template Value - Current item value type.
  * @template Values - Whole record or row type that contains the value.
  *
- * @param value - The value of the current item.
- * @param values - The entire list of values.
- * @param index - The index of the current item in the list.
- * @param scene - The scene in which the rendering is taking place. See {@link UnionScene}.
+ * @param {Value} value - Current item value.
+ * @param {Values} values - Whole record or row containing the value.
+ * @param {number} index - Current row or list index.
+ * @param {UnionScene} scene - Rendering surface requesting the output.
  *
  * @example
  * ```tsx
@@ -247,9 +264,7 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
 ) => React.ReactNode
 
 /**
- * Represents a React element that is used in the UnionFaasItem context.
- *
- * This type can either be a React element with the specified injection types or `null`.
+ * Custom React component or element accepted by union item definitions.
  *
  * @template Value - Current item value type.
  * @template Values - Whole record or row type that contains the value.
@@ -260,7 +275,6 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
  *
  * const NameComponent: UnionFaasItemElement = ({ scene, value }) => {
  *   switch (scene) {
- *     switch (scene) {
  *     case 'form':
  *       return <input />
  *     case 'description':
@@ -273,17 +287,19 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
  *
  * const items = [
  *   {
- *    id: 'name',
- *    children: NameComponent // both `NameComponent` and `<NameComponent />` is valid
+ *     id: 'name',
+ *     children: NameComponent, // both `NameComponent` and `<NameComponent />` are valid
  *   }
  * ]
  *
  * function App() {
- *   return <>
- *    <Form items={items} /> // Will render an input
- *    <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
- *    <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
- *  </>
+ *   return (
+ *     <>
+ *       <Form items={items} />
+ *       <Description items={items} dataSource={{ name: 'John' }} />
+ *       <Table items={items} dataSource={[{ name: 'John' }]} />
+ *     </>
+ *   )
  * }
  * ```
  */
@@ -292,33 +308,15 @@ export type UnionFaasItemElement<Value = any, Values = any> =
   | FC<UnionFaasItemInjection<Value, Values>>
 
 /**
- * Interface representing the properties of a UnionFaas item.
- *
- * The UnionFaas item can be used in a form, description, or table.
+ * Shared union item contract that can be reused across `Form`, `Description`, and `Table`.
  *
  * ### Render Priority Order
  *
- * 1. **Null Rendering** (Notice: it also doesn't render column in table and description)
- *    1. Returns `null` if specific children or render props are null:
- *        - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
- *    2. Returns `null` if `children` or `render` prop is null
- * 2. **Children Rendering**
- *    1. First priority: Component-specific children
- *        - `formChildren` for Form
- *        - `descriptionChildren` for Description
- *        - `tableChildren` for Table
- *    2. Second priority: Generic `children` prop
- * 3. **Custom Render Functions**
- *    1. First priority: Component-specific render functions
- *        - `formRender` for Form
- *        - `descriptionRender` for Description
- *        - `tableRender` for Table
- *    2. Second priority: Generic `render` prop
- * 4. **Extended Types**
- *    - Renders based on registered extended type handlers
- * 5. **Default Rendering**
- *    - Renders primitive types (string, number, etc.)
- *    - Uses default formatting based on data type
+ * 1. Component-specific null renderers hide the item for that surface.
+ * 2. Component-specific children override generic `children`.
+ * 3. Component-specific render callbacks override generic `render`.
+ * 4. Registered extended types handle unmatched items.
+ * 5. Built-in type renderers handle primitive and object values.
  *
  * @template Value - Current item value type.
  * @template Values - Whole record or row type that contains the value.
@@ -360,23 +358,23 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  */
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps, DescriptionItemProps, TableItemProps {
+  /** Shared custom element rendered when no surface-specific child overrides it. */
   children?: UnionFaasItemElement<Value, Values> | null
+  /** Shared render callback used when no surface-specific render overrides it. */
   render?: UnionFaasItemRender<Value, Values> | null
+  /** Nested item definitions used by `object` and `object[]` item types. */
   object?: UnionFaasItemProps<Value, Values>[]
 }
 
 /**
- * Clone a UnionFaasItemElement with the given props.
+ * Clone a {@link UnionFaasItemElement} with FaasJS injection props.
  *
- * This function takes a UnionFaasItemElement and props, and returns a cloned element.
- * If the provided element is a valid React element, it clones it with the new props.
- * Otherwise, it creates a new element from the provided element and props.
+ * React elements are cloned directly, while component references are first wrapped with
+ * `createElement`.
  *
- * @param element - The UnionFaasItemElement to be cloned.
- * @param props - The props to be applied to the cloned element.
- * @returns The cloned element with the applied props.
- *
- * Common injected props include `scene`, `value`, `values`, and `index`.
+ * @param {UnionFaasItemElement} element - Element or component to clone.
+ * @param {any} props - Injection props such as `scene`, `value`, `values`, and `index`.
+ * @returns Cloned React element ready for rendering.
  *
  * @example
  * ```tsx

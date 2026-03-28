@@ -4,10 +4,7 @@
 
 > **idToTitle**(`id`): `string`
 
-Converts an identifier string to a title case string.
-
-This function takes an identifier string with words separated by underscores,
-capitalizes the first letter of each word, and joins them together without spaces.
+Convert a snake_case, kebab-case, or spaced identifier into a title-style label.
 
 ## Parameters
 
@@ -15,16 +12,16 @@ capitalizes the first letter of each word, and joins them together without space
 
 `string` \| `number`
 
-The identifier string to convert.
+Identifier to convert.
 
 ## Returns
 
 `string`
 
-The converted title case string.
+Generated label string.
 
 ## Example
 
-```typescript
-idToTitle('example_id') // returns 'ExampleId'
+```ts
+idToTitle('example_id') // 'Example Id'
 ```

@@ -20,18 +20,28 @@ Row record type contained in `rows`.
 
 > **pagination**: `object`
 
+Pagination state returned by the endpoint.
+
 #### current
 
 > **current**: `number`
+
+Current page number.
 
 #### pageSize
 
 > **pageSize**: `number`
 
+Page size used for the result set.
+
 #### total
 
 > **total**: `number`
 
+Total number of available rows.
+
 ### rows
 
 > **rows**: `T`[]
+
+Rows rendered by the table.

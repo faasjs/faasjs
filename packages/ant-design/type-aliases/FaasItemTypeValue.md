@@ -4,7 +4,7 @@
 
 > **FaasItemTypeValue** = `object`
 
-FaasItemType's value type
+Runtime value mapping for each built-in [FaasItemType](FaasItemType.md).
 
 ## Properties
 

@@ -2,37 +2,34 @@
 
 # Interface: ExtendFormItemProps
 
-Extend custom form item types.
+Item shape used to extend `Form` with custom type names.
 
 ## Example
 
-```ts
-import type { ExtendFormItemProps, FormProps } from '@faasjs/ant-design'
+```tsx
+import { Form, type ExtendFormItemProps, type FormProps } from '@faasjs/ant-design'
+import { Input } from 'antd'
 
-// define custom type
 interface ExtendTypes extends ExtendFormItemProps {
   type: 'password'
 }
 
-// extend form
 function ExtendForm(props: FormProps<any, ExtendTypes>) {
+  return <Form {...props} extendTypes={{ password: { children: <Input.Password /> } }} />
+}
+
+export function Page() {
   return (
-    <Form
-      {...props}
-      extendTypes={{ password: { children: <Input.Password /> } }}
+    <ExtendForm
+      items={[
+        {
+          id: 'password',
+          type: 'password',
+        },
+      ]}
     />
   )
 }
-
-// use custom type
-<ExtendForm
-  items={[
-    {
-      id: 'test',
-      type: 'password',
-    },
-  ]}
-/>
 ```
 
 ## Extends
@@ -45,6 +42,8 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 > `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
+Generic custom field renderer or element.
+
 #### Inherited from
 
 `Omit.children`
@@ -52,6 +51,8 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 ### col?
 
 > `optional` **col?**: `number`
+
+Grid span used by surrounding object-list layouts.
 
 #### Inherited from
 
@@ -61,6 +62,8 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 > `optional` **disabled?**: `boolean`
 
+Whether the generated field is disabled.
+
 #### Inherited from
 
 [`UnionFaasItemProps`](UnionFaasItemProps.md).[`disabled`](UnionFaasItemProps.md#disabled)
@@ -68,6 +71,8 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 ### extendTypes?
 
 > `optional` **extendTypes?**: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
+
+Custom form item type renderers keyed by type name.
 
 #### Inherited from
 
@@ -77,6 +82,8 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 > `optional` **formChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
+Form-specific custom field renderer or element.
+
 #### Inherited from
 
 `Omit.formChildren`
@@ -84,6 +91,8 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 ### formRender?
 
 > `optional` **formRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+
+Form-specific custom render callback.
 
 #### Inherited from
 
@@ -93,6 +102,8 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 > **id**: `string` \| `number`
 
+Stable field identifier used as the default name and title source.
+
 #### Inherited from
 
 [`BaseItemProps`](BaseItemProps.md).[`id`](BaseItemProps.md#id)
@@ -101,7 +112,7 @@ function ExtendForm(props: FormProps<any, ExtendTypes>) {
 
 > `optional` **if?**: (`values`) => `boolean`
 
-trigger when any item's value changed
+Predicate used to show or hide the item from the current form values.
 
 #### Parameters
 
@@ -121,6 +132,8 @@ trigger when any item's value changed
 
 > `optional` **input?**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
 
+Input props forwarded to the generated Ant Design control.
+
 #### Inherited from
 
 `Omit.input`
@@ -128,6 +141,8 @@ trigger when any item's value changed
 ### label?
 
 > `optional` **label?**: `string` \| `false`
+
+Label override, or `false` to hide the label completely.
 
 #### Inherited from
 
@@ -137,6 +152,8 @@ trigger when any item's value changed
 
 > `optional` **maxCount?**: `number`
 
+Maximum item count allowed for list-style field types.
+
 #### Inherited from
 
 [`UnionFaasItemProps`](UnionFaasItemProps.md).[`maxCount`](UnionFaasItemProps.md#maxcount)
@@ -144,6 +161,8 @@ trigger when any item's value changed
 ### object?
 
 > `optional` **object?**: [`FormItemProps`](FormItemProps.md)\<`any`\>[]
+
+Nested field definitions used by `object` and `object[]` item types.
 
 #### Inherited from
 
@@ -153,7 +172,7 @@ trigger when any item's value changed
 
 > `optional` **onValueChange?**: (`value`, `values`, `form`) => `void`
 
-trigger when current item's value changed
+Callback invoked when this field's value changes.
 
 #### Parameters
 
@@ -181,6 +200,8 @@ trigger when current item's value changed
 
 > `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
+Shared choice options used by select-like renderers.
+
 #### Inherited from
 
 [`BaseItemProps`](BaseItemProps.md).[`options`](BaseItemProps.md#options)
@@ -188,6 +209,8 @@ trigger when current item's value changed
 ### render?
 
 > `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+
+Generic custom render callback.
 
 #### Inherited from
 
@@ -197,6 +220,8 @@ trigger when current item's value changed
 
 > `optional` **required?**: `boolean`
 
+Whether the generated field adds a required validation rule.
+
 #### Inherited from
 
 [`UnionFaasItemProps`](UnionFaasItemProps.md).[`required`](UnionFaasItemProps.md#required)
@@ -205,6 +230,8 @@ trigger when current item's value changed
 
 > `optional` **rules?**: `RuleObject`[]
 
+Validation rules forwarded to Ant Design `Form.Item`.
+
 #### Inherited from
 
 [`UnionFaasItemProps`](UnionFaasItemProps.md).[`rules`](UnionFaasItemProps.md#rules)
@@ -212,6 +239,8 @@ trigger when current item's value changed
 ### title?
 
 > `optional` **title?**: `string`
+
+Human-readable title used for labels and table headers.
 
 #### Inherited from
 

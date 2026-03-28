@@ -4,11 +4,9 @@
 
 > **Tabs**(`props`): `Element`
 
-Tabs component with Ant Design & FaasJS
+Render an Ant Design tabs wrapper that accepts FaasJS-style tab definitions.
 
-- Based on [Ant Design Tabs](https://ant.design/components/tabs/).
-- Support auto skip null/false tab item.
-- Support `id` as key and label.
+Missing `key` and `label` values are derived from each tab's `id` and `title`.
 
 ## Parameters
 
@@ -26,16 +24,21 @@ Tabs props including tab items and Ant Design tab options.
 
 ```tsx
 import { Tabs } from '@faasjs/ant-design'
-;<Tabs
-  items={[
-    {
-      id: 'id',
-      children: 'content',
-    },
-    1 === 0 && {
-      id: 'hidden',
-      children: 'content',
-    },
-  ]}
-/>
+
+export function Page() {
+  return (
+    <Tabs
+      items={[
+        {
+          id: 'id',
+          children: 'content',
+        },
+        1 === 0 && {
+          id: 'hidden',
+          children: 'content',
+        },
+      ]}
+    />
+  )
+}
 ```

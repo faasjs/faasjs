@@ -14,6 +14,8 @@ Props accepted by the hook-managed modal wrapper.
 
 > `optional` **children?**: `string` \| `Element` \| `Element`[]
 
+Modal body content managed by [useModal](../functions/useModal.md).
+
 #### Overrides
 
 `AntdModalProps.children`

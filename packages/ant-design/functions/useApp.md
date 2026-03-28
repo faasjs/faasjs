@@ -4,7 +4,7 @@
 
 > **useApp**\<`NewT`\>(`this`): `Readonly`\<`NewT`\>
 
-Get app context.
+Read app-level services exposed by the root `App` component.
 
 ## Type Parameters
 
@@ -20,15 +20,15 @@ Narrowed app context shape to read from `AppContext`.
 
 `void`
 
-Unused receiver to keep the hook callable without binding.
-
 ## Returns
 
 `Readonly`\<`NewT`\>
 
+Read-only app context value.
+
 ## Example
 
-```ts
+```tsx
 import { App, useApp } from '@faasjs/ant-design'
 import { Button } from 'antd'
 
@@ -47,7 +47,11 @@ function Page() {
   )
 }
 
-<App>
-  <Page />
-</App>
+export function Root() {
+  return (
+    <App>
+      <Page />
+    </App>
+  )
+}
 ```

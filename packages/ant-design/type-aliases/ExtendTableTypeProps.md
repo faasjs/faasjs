@@ -20,6 +20,10 @@ Row record type rendered by the custom table item type.
 
 > `optional` **children?**: [`UnionFaasItemElement`](UnionFaasItemElement.md)\<`T`\>
 
+Custom element used to render the registered table item type.
+
 ### render?
 
 > `optional` **render?**: [`UnionFaasItemRender`](UnionFaasItemRender.md)\<`T`\>
+
+Custom render callback used when `children` is not provided.

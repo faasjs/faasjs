@@ -4,9 +4,7 @@
 
 > **UnionFaasItemElement**\<`Value`, `Values`\> = `ReactElement`\<[`UnionFaasItemInjection`](UnionFaasItemInjection.md)\<`Value`, `Values`\>\> \| `FC`\<[`UnionFaasItemInjection`](UnionFaasItemInjection.md)\<`Value`, `Values`\>\>
 
-Represents a React element that is used in the UnionFaasItem context.
-
-This type can either be a React element with the specified injection types or `null`.
+Custom React component or element accepted by union item definitions.
 
 ## Type Parameters
 
@@ -29,7 +27,6 @@ import { type UnionFaasItemElement, Form, Description, Table } from '@faasjs/ant
 
 const NameComponent: UnionFaasItemElement = ({ scene, value }) => {
   switch (scene) {
-    switch (scene) {
     case 'form':
       return <input />
     case 'description':
@@ -42,16 +39,18 @@ const NameComponent: UnionFaasItemElement = ({ scene, value }) => {
 
 const items = [
   {
-   id: 'name',
-   children: NameComponent // both `NameComponent` and `<NameComponent />` is valid
-  }
+    id: 'name',
+    children: NameComponent, // both `NameComponent` and `<NameComponent />` are valid
+  },
 ]
 
 function App() {
-  return <>
-   <Form items={items} /> // Will render an input
-   <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
-   <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
- </>
+  return (
+    <>
+      <Form items={items} />
+      <Description items={items} dataSource={{ name: 'John' }} />
+      <Table items={items} dataSource={[{ name: 'John' }]} />
+    </>
+  )
 }
 ```

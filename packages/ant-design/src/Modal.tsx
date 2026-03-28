@@ -8,6 +8,7 @@ export { Modal }
  * Props accepted by the hook-managed modal wrapper.
  */
 export interface ModalProps extends AntdModalProps {
+  /** Modal body content managed by {@link useModal}. */
   children?: JSX.Element | JSX.Element[] | string
 }
 
@@ -17,12 +18,13 @@ export interface ModalProps extends AntdModalProps {
 export type setModalProps = Dispatch<SetStateAction<ModalProps>>
 
 /**
- * Hook style modal
+ * Create a hook-managed Ant Design modal instance.
  *
- * @param init - Initial modal props.
+ * The returned setter merges partial updates into the current modal props instead of replacing the
+ * entire state object.
  *
- * Common initial props include `open`, `title`, and `children`.
- * Other Ant Design `ModalProps` fields are forwarded to the managed modal instance.
+ * @param {ModalProps} [init] - Initial modal props.
+ * @returns Hook-managed modal element, current props, and a state-merging setter.
  *
  * @example
  * ```tsx

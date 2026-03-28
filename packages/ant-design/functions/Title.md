@@ -4,9 +4,9 @@
 
 > **Title**(`props`): `Element` \| `null`
 
-Title is used to change the title of the page
+Update `document.title` and optionally render the title inline.
 
-Return null by default.
+The component returns `null` by default and is often used only for its side effect.
 
 ## Parameters
 

@@ -12,10 +12,10 @@ Props for the built-in submit button rendered by [Form](../functions/Form.md).
 
 > `optional` **buttonProps?**: `ButtonProps`
 
-Props for the built-in submit button
+Additional props forwarded to the built-in submit button.
 
 ### text?
 
 > `optional` **text?**: `string`
 
-Default: Submit
+Text rendered by the built-in submit button.

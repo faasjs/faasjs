@@ -28,6 +28,8 @@ Additional item prop shape accepted by `items`.
 
 > `optional` **renderTitle**(`this`, `values`): `ReactNode`
 
+Callback used to derive the rendered title from the current record.
+
 #### Parameters
 
 ##### this
@@ -48,9 +50,13 @@ Additional item prop shape accepted by `items`.
 
 > `optional` **dataSource?**: `T`
 
+Local data record rendered directly by the component.
+
 ### extendTypes?
 
 > `optional` **extendTypes?**: `object`
+
+Custom type renderers keyed by item type.
 
 #### Index Signature
 
@@ -60,6 +66,10 @@ Additional item prop shape accepted by `items`.
 
 > `optional` **faasData?**: [`FaasDataWrapperProps`](FaasDataWrapperProps.md)\<`any`\>
 
+Request config used to fetch the record before rendering.
+
 ### items
 
 > **items**: (`ExtendItemProps` \| [`DescriptionItemProps`](DescriptionItemProps.md)\<`any`\>)[]
+
+Description item definitions rendered by the component.

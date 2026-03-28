@@ -2,33 +2,15 @@
 
 # Interface: UnionFaasItemProps\<Value, Values\>
 
-Interface representing the properties of a UnionFaas item.
-
-The UnionFaas item can be used in a form, description, or table.
+Shared union item contract that can be reused across `Form`, `Description`, and `Table`.
 
 ### Render Priority Order
 
-1. **Null Rendering** (Notice: it also doesn't render column in table and description)
-   1. Returns `null` if specific children or render props are null:
-      - `formChildren` / `descriptionChildren` / `tableChildren` / `formRender` / `descriptionRender` / `tableRender`
-   2. Returns `null` if `children` or `render` prop is null
-2. **Children Rendering**
-   1. First priority: Component-specific children
-      - `formChildren` for Form
-      - `descriptionChildren` for Description
-      - `tableChildren` for Table
-   2. Second priority: Generic `children` prop
-3. **Custom Render Functions**
-   1. First priority: Component-specific render functions
-      - `formRender` for Form
-      - `descriptionRender` for Description
-      - `tableRender` for Table
-   2. Second priority: Generic `render` prop
-4. **Extended Types**
-   - Renders based on registered extended type handlers
-5. **Default Rendering**
-   - Renders primitive types (string, number, etc.)
-   - Uses default formatting based on data type
+1. Component-specific null renderers hide the item for that surface.
+2. Component-specific children override generic `children`.
+3. Component-specific render callbacks override generic `render`.
+4. Registered extended types handle unmatched items.
+5. Built-in type renderers handle primitive and object values.
 
 ## Example
 
@@ -92,6 +74,8 @@ Whole record or row type that contains the value.
 
 > `optional` **children?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`Value`, `Values`\> \| `null`
 
+Shared custom element rendered when no surface-specific child overrides it.
+
 #### Overrides
 
 [`FormItemProps`](FormItemProps.md).[`children`](FormItemProps.md#children)
@@ -99,6 +83,8 @@ Whole record or row type that contains the value.
 ### col?
 
 > `optional` **col?**: `number`
+
+Grid span used by surrounding object-list layouts.
 
 #### Inherited from
 
@@ -108,6 +94,8 @@ Whole record or row type that contains the value.
 
 > `optional` **descriptionChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
+Description-specific custom element.
+
 #### Inherited from
 
 [`DescriptionItemProps`](DescriptionItemProps.md).[`descriptionChildren`](DescriptionItemProps.md#descriptionchildren)
@@ -115,6 +103,8 @@ Whole record or row type that contains the value.
 ### descriptionRender?
 
 > `optional` **descriptionRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+
+Description-specific custom render callback.
 
 #### Inherited from
 
@@ -124,6 +114,8 @@ Whole record or row type that contains the value.
 
 > `optional` **disabled?**: `boolean`
 
+Whether the generated field is disabled.
+
 #### Inherited from
 
 [`FormItemProps`](FormItemProps.md).[`disabled`](FormItemProps.md#disabled)
@@ -131,6 +123,8 @@ Whole record or row type that contains the value.
 ### extendTypes?
 
 > `optional` **extendTypes?**: [`ExtendTypes`](../type-aliases/ExtendTypes.md)
+
+Custom form item type renderers keyed by type name.
 
 #### Inherited from
 
@@ -140,6 +134,8 @@ Whole record or row type that contains the value.
 
 > `optional` **formChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
 
+Form-specific custom field renderer or element.
+
 #### Inherited from
 
 [`FormItemProps`](FormItemProps.md).[`formChildren`](FormItemProps.md#formchildren)
@@ -147,6 +143,8 @@ Whole record or row type that contains the value.
 ### formRender?
 
 > `optional` **formRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
+
+Form-specific custom render callback.
 
 #### Inherited from
 
@@ -156,6 +154,8 @@ Whole record or row type that contains the value.
 
 > **id**: `string` \| `number`
 
+Stable field identifier used as the default name and title source.
+
 #### Inherited from
 
 [`FormItemProps`](FormItemProps.md).[`id`](FormItemProps.md#id)
@@ -164,7 +164,7 @@ Whole record or row type that contains the value.
 
 > `optional` **if?**: (`values`) => `boolean`
 
-trigger when any item's value changed
+Predicate used to show or hide the item from the current form values.
 
 #### Parameters
 
@@ -184,6 +184,8 @@ trigger when any item's value changed
 
 > `optional` **input?**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
 
+Input props forwarded to the generated Ant Design control.
+
 #### Inherited from
 
 [`FormItemProps`](FormItemProps.md).[`input`](FormItemProps.md#input)
@@ -191,6 +193,8 @@ trigger when any item's value changed
 ### label?
 
 > `optional` **label?**: `string` \| `false`
+
+Label override, or `false` to hide the label completely.
 
 #### Inherited from
 
@@ -200,6 +204,8 @@ trigger when any item's value changed
 
 > `optional` **maxCount?**: `number`
 
+Maximum item count allowed for list-style field types.
+
 #### Inherited from
 
 [`FormItemProps`](FormItemProps.md).[`maxCount`](FormItemProps.md#maxcount)
@@ -207,6 +213,8 @@ trigger when any item's value changed
 ### object?
 
 > `optional` **object?**: `UnionFaasItemProps`\<`Value`, `Values`\>[]
+
+Nested item definitions used by `object` and `object[]` item types.
 
 #### Overrides
 
@@ -216,7 +224,7 @@ trigger when any item's value changed
 
 > `optional` **onValueChange?**: (`value`, `values`, `form`) => `void`
 
-trigger when current item's value changed
+Callback invoked when this field's value changes.
 
 #### Parameters
 
@@ -244,6 +252,8 @@ trigger when current item's value changed
 
 > `optional` **options?**: [`BaseOption`](../type-aliases/BaseOption.md)[]
 
+Shared choice options used by select-like renderers.
+
 #### Inherited from
 
 [`FormItemProps`](FormItemProps.md).[`options`](FormItemProps.md#options)
@@ -251,6 +261,8 @@ trigger when current item's value changed
 ### optionsType?
 
 > `optional` **optionsType?**: `"auto"`
+
+Use built-in option inference for filters when supported.
 
 #### Inherited from
 
@@ -260,6 +272,8 @@ trigger when current item's value changed
 
 > `optional` **render?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`Value`, `Values`\> \| `null`
 
+Shared render callback used when no surface-specific render overrides it.
+
 #### Overrides
 
 [`FormItemProps`](FormItemProps.md).[`render`](FormItemProps.md#render)
@@ -267,6 +281,8 @@ trigger when current item's value changed
 ### required?
 
 > `optional` **required?**: `boolean`
+
+Whether the generated field adds a required validation rule.
 
 #### Inherited from
 
@@ -276,6 +292,8 @@ trigger when current item's value changed
 
 > `optional` **rules?**: `RuleObject`[]
 
+Validation rules forwarded to Ant Design `Form.Item`.
+
 #### Inherited from
 
 [`FormItemProps`](FormItemProps.md).[`rules`](FormItemProps.md#rules)
@@ -283,6 +301,8 @@ trigger when current item's value changed
 ### tableChildren?
 
 > `optional` **tableChildren?**: [`UnionFaasItemElement`](../type-aliases/UnionFaasItemElement.md)\<`any`\> \| `null`
+
+Table-specific custom element.
 
 #### Inherited from
 
@@ -292,6 +312,8 @@ trigger when current item's value changed
 
 > `optional` **tableRender?**: [`UnionFaasItemRender`](../type-aliases/UnionFaasItemRender.md)\<`any`\> \| `null`
 
+Table-specific custom render callback.
+
 #### Inherited from
 
 [`TableItemProps`](TableItemProps.md).[`tableRender`](TableItemProps.md#tablerender)
@@ -299,6 +321,8 @@ trigger when current item's value changed
 ### title?
 
 > `optional` **title?**: `string`
+
+Human-readable title used for labels and table headers.
 
 #### Inherited from
 
@@ -308,7 +332,7 @@ trigger when current item's value changed
 
 > `optional` **type?**: [`FaasItemType`](../type-aliases/FaasItemType.md)
 
-Support string, string[], number, number[], boolean, date, time, object, object[]
+Built-in FaasJS field type used to choose the default Ant Design input.
 
 #### Default
 

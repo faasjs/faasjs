@@ -14,4 +14,4 @@ Props for the FaasJS Ant Design [Tabs](../functions/Tabs.md) component.
 
 > **items**: (`false` \| [`TabProps`](TabProps.md) \| `null`)[]
 
-auto skip null tab
+Tab definitions. `null` and `false` entries are skipped automatically.

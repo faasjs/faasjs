@@ -4,7 +4,7 @@
 
 > **withFaasData**\<`PathOrData`, `TComponentProps`\>(`Component`, `faasProps`): `FC`\<`Omit`\<`TComponentProps`, keyof `FaasDataInjection`\<`PathOrData`\>\>\>
 
-HOC to wrap a component with FaasDataWrapper and Loading
+Wrap a component with [FaasDataWrapper](FaasDataWrapper.md) and its Ant Design loading fallback.
 
 ## Type Parameters
 
@@ -32,20 +32,20 @@ Component that consumes injected Faas data props.
 
 [`FaasDataWrapperProps`](../interfaces/FaasDataWrapperProps.md)\<`PathOrData`\>
 
-Request configuration forwarded to `FaasDataWrapper`.
-
-Common `faasProps` fields include `loadingProps`, `loading`, `render`,
-`children`, `fallback`, `action`, `params`, `onDataChange`, `data`,
-`setData`, and `baseUrl`.
+Request configuration forwarded to [FaasDataWrapper](FaasDataWrapper.md).
 
 ## Returns
 
 `FC`\<`Omit`\<`TComponentProps`, keyof `FaasDataInjection`\<`PathOrData`\>\>\>
 
+Higher-order component that injects Faas data props.
+
 ## Example
 
 ```tsx
-const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, {
+import { withFaasData } from '@faasjs/ant-design'
+
+const UserCard = withFaasData(({ data }) => <div>{data.name}</div>, {
   action: 'test',
   params: { a: 1 },
 })

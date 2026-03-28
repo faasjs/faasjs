@@ -4,7 +4,10 @@
 
 > **Routes**(`props`): `Element`
 
-Routes with lazy loading and 404 page.
+Render React Router routes with lazy-page support and a default 404 route.
+
+The wrapper adds a catch-all route automatically and uses an Ant Design `Skeleton` fallback when
+`fallback` is not provided.
 
 ## Parameters
 

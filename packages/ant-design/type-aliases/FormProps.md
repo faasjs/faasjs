@@ -48,7 +48,7 @@ Form item definitions or custom JSX blocks rendered inside the form.
 
 > `optional` **submit?**: `false` \| [`FormSubmitProps`](FormSubmitProps.md)
 
-Default: { text: 'Submit' }, set false to disable it
+Built-in submit button config, or `false` to disable the generated submit button.
 
 ## Type Parameters
 

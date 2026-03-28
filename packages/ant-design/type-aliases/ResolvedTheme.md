@@ -12,6 +12,8 @@ Fully resolved theme object consumed by `@faasjs/ant-design` components.
 
 > **Blank**: `object`
 
+Theme values consumed by the `Blank` component.
+
 #### text
 
 > **text**: `string`
@@ -19,6 +21,8 @@ Fully resolved theme object consumed by `@faasjs/ant-design` components.
 ### common
 
 > **common**: `object`
+
+Shared copy used by multiple components.
 
 #### add
 
@@ -60,6 +64,8 @@ Fully resolved theme object consumed by `@faasjs/ant-design` components.
 
 > **Form**: `object`
 
+Theme values consumed by the `Form` component.
+
 #### submit
 
 > **submit**: `object`
@@ -72,9 +78,13 @@ Fully resolved theme object consumed by `@faasjs/ant-design` components.
 
 > **lang**: `string`
 
+Current language code used for built-in copy.
+
 ### Link
 
 > **Link**: `object`
+
+Theme values consumed by the `Link` component.
 
 #### style
 
@@ -87,6 +97,8 @@ Fully resolved theme object consumed by `@faasjs/ant-design` components.
 ### Title
 
 > **Title**: `object`
+
+Theme values consumed by the `Title` component.
 
 #### separator
 

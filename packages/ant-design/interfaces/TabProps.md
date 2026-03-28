@@ -14,6 +14,8 @@ Tab item accepted by the FaasJS Ant Design [Tabs](../functions/Tabs.md) wrapper.
 
 > **children**: `ReactNode`
 
+Tab panel content.
+
 #### Overrides
 
 `Partial.children`
@@ -22,6 +24,8 @@ Tab item accepted by the FaasJS Ant Design [Tabs](../functions/Tabs.md) wrapper.
 
 > **id**: `string`
 
+Stable tab identifier used as the default key and label.
+
 #### Overrides
 
 `Partial.id`
@@ -29,3 +33,5 @@ Tab item accepted by the FaasJS Ant Design [Tabs](../functions/Tabs.md) wrapper.
 ### title?
 
 > `optional` **title?**: `ReactNode`
+
+Title used as the default Ant Design tab label.

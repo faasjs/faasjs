@@ -4,9 +4,9 @@
 
 > **Blank**(`options?`): `Element`
 
-Blank component.
+Render a disabled placeholder when a value is empty.
 
-If value is undefined or null, return text, otherwise return value.
+Empty values include `undefined`, `null`, empty strings, and empty arrays.
 
 ## Parameters
 
@@ -20,9 +20,14 @@ Placeholder text and value to render.
 
 `Element`
 
+Rendered value or the configured placeholder text.
+
 ## Example
 
 ```tsx
 import { Blank } from '@faasjs/ant-design'
-;<Blank value={undefined} text="Empty" />
+
+export function FieldPreview() {
+  return <Blank value={undefined} text="Empty" />
+}
 ```

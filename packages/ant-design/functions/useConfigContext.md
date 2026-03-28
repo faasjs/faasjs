@@ -10,10 +10,12 @@ Read the current `@faasjs/ant-design` config context.
 
 `ConfigContextValue`
 
+Current config context value containing the resolved theme.
+
 ## Example
 
 ```tsx
-import { ConfigProvider, useConfigContext } from '@faasjs/ant-design'
+import { Blank, ConfigProvider, useConfigContext } from '@faasjs/ant-design'
 
 function EmptyState() {
   const { theme } = useConfigContext()

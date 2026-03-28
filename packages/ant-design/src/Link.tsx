@@ -8,39 +8,48 @@ import { useConfigContext } from './Config'
  * Props for the navigation-aware {@link Link} component.
  */
 export interface LinkProps {
+  /** Target URL or route path. */
   href: string
+  /** Explicit link target. Absolute HTTP URLs default to `_blank`. */
   target?: '_blank'
+  /** Text rendered when `children` is not provided. */
   text?: string | number
+  /** Custom link content rendered instead of `text`. */
   children?: ReactNode
+  /** Inline styles merged with the theme defaults. */
   style?: CSSProperties
+  /** Button mode config, or `true` to render with default Ant Design button props. */
   button?: ButtonProps | boolean
+  /** Whether the rendered link or button should take the full width. */
   block?: boolean
-  /** only use for text without button */
+  /** Whether plain-text links should enable the Typography copy action. */
   copyable?: boolean
+  /** Custom click handler that overrides the built-in navigation behavior. */
   onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
 /**
- * Link component with button
+ * Render a navigation-aware link or button.
  *
- * @param props - Link props controlling navigation target, rendering mode, and button behavior.
- * @param props.href - Target URL or route path.
- * @param props.target - Link target. Defaults to `_blank` for absolute HTTP URLs.
- * @param props.text - Displayed link text when `children` is not provided.
- * @param props.children - Displayed link content rendered instead of `text` when present.
- * @param props.style - Inline styles merged with theme defaults.
- * @param props.button - Button mode config, or `true` to render with default Ant Design button props.
- * @param props.block - Whether the rendered link or button should take the full width.
- * @param props.copyable - Whether plain-text links should enable the Typography copy action.
- * @param props.onClick - Custom click handler that overrides built-in navigation.
+ * Internal links are pushed through React Router, while links with `_blank` targets are opened
+ * with `window.open`.
+ *
+ * @param {LinkProps} props - Link props controlling navigation target, rendering mode, and button behavior.
  *
  * @example
  * ```tsx
- * // pure link
- * <Link href="/">Home</Link>
+ * import { Link } from '@faasjs/ant-design'
  *
- * // link with button
- * <Link href="/" button={{ type:'primary' }}>Home</Link>
+ * export function Navigation() {
+ *   return (
+ *     <>
+ *       <Link href="/">Home</Link>
+ *       <Link href="/users/new" button={{ type: 'primary' }}>
+ *         Create User
+ *       </Link>
+ *     </>
+ *   )
+ * }
  * ```
  */
 export function Link(props: LinkProps) {

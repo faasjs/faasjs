@@ -1,12 +1,9 @@
 import { type GlobalToken, theme } from 'antd'
 
 /**
- * Hook to retrieve the theme token from the Ant Design theme configuration.
+ * Read the current Ant Design theme token.
  *
- * This function uses the `theme.useToken` method to get the current theme configuration
- * and returns the `token` property from the configuration.
- *
- * @returns {GlobalToken} The theme token from the Ant Design theme configuration.
+ * @returns Ant Design global token object for the active theme.
  *
  * @example
  * ```tsx

@@ -31,39 +31,37 @@ export type FaasDataInjection<T extends FaasActionUnionType = any> = Partial<
  * @template T - Action path or response data type used for inference.
  */
 export interface FaasDataWrapperProps<T extends FaasActionUnionType = any> extends OriginProps<T> {
+  /** Props forwarded to the built-in {@link Loading} fallback. */
   loadingProps?: LoadingProps
+  /** Explicit loading element that overrides the built-in {@link Loading} fallback. */
   loading?: JSX.Element
 }
 
 export type { FaasDataWrapperRef } from '@faasjs/react'
 
 /**
- * FaasDataWrapper component with Loading
+ * Render the `@faasjs/react` data wrapper with an Ant Design loading fallback.
+ *
+ * When `loading` is not provided, the component renders {@link Loading} with `loadingProps` while
+ * the wrapped FaasJS request is pending.
  *
  * @template T - Action path or response data type used for inference.
- * @param props - Wrapper props including loading fallbacks and request configuration.
- * @param props.loadingProps - Props forwarded to the built-in loading fallback.
- * @param props.loading - Explicit loading element that overrides the built-in loading component.
- * @param props.render - Render prop receiving injected Faas state.
- * @param props.children - Child element receiving injected Faas state.
- * @param props.fallback - Explicit fallback element that overrides the built-in loading UI.
- * @param props.action - Request target action path.
- * @param props.params - Params sent to the action.
- * @param props.onDataChange - Callback invoked when the resolved data value changes.
- * @param props.data - Controlled data value used instead of internal state.
- * @param props.setData - Controlled setter used instead of internal state.
- * @param props.baseUrl - Base URL override used for this wrapper instance.
+ * @param {FaasDataWrapperProps<T>} props - Wrapper props including loading fallbacks and request configuration.
  *
  * @example
  * ```tsx
- * function MyComponent (props: FaasDataInjection) {
- *   return <div>{ props.data }</div>
+ * import { FaasDataWrapper, type FaasDataInjection } from '@faasjs/ant-design'
+ *
+ * function MyComponent(props: FaasDataInjection) {
+ *   return <div>{props.data}</div>
  * }
  *
- * function MyPage () {
- *   return <FaasDataWrapper action="test" params={{ a: 1 }}>
- *     <MyComponent />
- *   </FaasDataWrapper>
+ * function MyPage() {
+ *   return (
+ *     <FaasDataWrapper action="test" params={{ a: 1 }}>
+ *       <MyComponent />
+ *     </FaasDataWrapper>
+ *   )
  * }
  * ```
  */
@@ -74,20 +72,22 @@ export function FaasDataWrapper<T extends FaasActionUnionType = any>(
 }
 
 /**
- * HOC to wrap a component with FaasDataWrapper and Loading
+ * Wrap a component with {@link FaasDataWrapper} and its Ant Design loading fallback.
  *
  * @template PathOrData - Action path or response data type used for inference.
  * @template TComponentProps - Component props including injected Faas data fields.
- * @param Component - Component that consumes injected Faas data props.
- * @param faasProps - Request configuration forwarded to `FaasDataWrapper`.
- *
- * Common `faasProps` fields include `loadingProps`, `loading`, `render`,
- * `children`, `fallback`, `action`, `params`, `onDataChange`, `data`,
- * `setData`, and `baseUrl`.
+ * @param {React.FC<TComponentProps & Record<string, any>>} Component - Component that consumes injected Faas data props.
+ * @param {FaasDataWrapperProps<PathOrData>} faasProps - Request configuration forwarded to {@link FaasDataWrapper}.
+ * @returns Higher-order component that injects Faas data props.
  *
  * @example
  * ```tsx
- * const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, { action: 'test', params: { a: 1 } })
+ * import { withFaasData } from '@faasjs/ant-design'
+ *
+ * const UserCard = withFaasData(
+ *   ({ data }) => <div>{data.name}</div>,
+ *   { action: 'test', params: { a: 1 } },
+ * )
  * ```
  */
 export function withFaasData<

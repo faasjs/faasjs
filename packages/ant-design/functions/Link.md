@@ -4,7 +4,10 @@
 
 > **Link**(`props`): `Element`
 
-Link component with button
+Render a navigation-aware link or button.
+
+Internal links are pushed through React Router, while links with `_blank` targets are opened
+with `window.open`.
 
 ## Parameters
 
@@ -21,9 +24,16 @@ Link props controlling navigation target, rendering mode, and button behavior.
 ## Example
 
 ```tsx
-// pure link
-<Link href="/">Home</Link>
+import { Link } from '@faasjs/ant-design'
 
-// link with button
-<Link href="/" button={{ type:'primary' }}>Home</Link>
+export function Navigation() {
+  return (
+    <>
+      <Link href="/">Home</Link>
+      <Link href="/users/new" button={{ type: 'primary' }}>
+        Create User
+      </Link>
+    </>
+  )
+}
 ```

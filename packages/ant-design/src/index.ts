@@ -1,13 +1,8 @@
 /**
- * UI components based on [FaasJS](https://faasjs.com), [Ant Design](https://ant.design) and [React Router](https://reactrouter.com).
+ * React UI primitives and data-aware helpers for building FaasJS applications with Ant Design.
  *
- * [![License: MIT](https://img.shields.io/npm/l/@faasjs/ant-design.svg)](https://github.com/faasjs/faasjs/blob/main/packages/ant-design/LICENSE)
- * [![NPM Version](https://img.shields.io/npm/v/@faasjs/ant-design.svg)](https://www.npmjs.com/package/@faasjs/ant-design)
- *
- * ## Features
- *
- * - [App](https://faasjs.com/doc/ant-design/functions/App.html) component with Ant Design & FaasJS.
- * - [UnionFaasItemElement](https://faasjs.com/doc/ant-design/type-aliases/UnionFaasItemElement.html) and [UnionFaasItemRender](https://faasjs.com/doc/ant-design/type-aliases/UnionFaasItemRender.html) for custom union rendering.
+ * `@faasjs/ant-design` combines FaasJS request helpers, Ant Design components, and optional
+ * React Router integration behind a single public entrypoint.
  *
  * ## Install
  *
@@ -15,22 +10,23 @@
  * npm install @faasjs/ant-design
  * ```
  *
+ * ## Highlights
+ *
+ * - Use {@link App} to wire Ant Design feedback APIs, routing, and FaasJS config providers.
+ * - Use {@link Form}, {@link Description}, and {@link Table} with shared FaasJS item metadata.
+ * - Use {@link FaasDataWrapper} or {@link withFaasData} to bind components to FaasJS actions.
+ *
  * ## Usage
  *
- * In `@faasjs/ant-design`, we use `FaasItemProps` to provide data structures for components.
+ * ```tsx
+ * import { App, Form } from '@faasjs/ant-design'
  *
- * ```ts
- * type FaasItemType =
- *   'string' | 'string[]' |
- *   'number' | 'number[]' |
- *   'boolean' |
- *   'date' | 'time' |
- *   'object' | 'object[]'
- *
- * type FaasItemProps = {
- *   type: FaasItemTypes
- *   id: string
- *   title?: string
+ * export default function Page() {
+ *   return (
+ *     <App>
+ *       <Form items={[{ id: 'name', required: true }]} />
+ *     </App>
+ *   )
  * }
  * ```
  */

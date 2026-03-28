@@ -13,10 +13,14 @@ export { lazy } from 'react'
  * ```tsx
  * import { PageNotFound, Routes } from '@faasjs/ant-design'
  *
- * <Routes
- *   routes={[{ path: '/', element: <div>Home</div> }]}
- *   notFound={<PageNotFound />}
- * />
+ * export function AppRoutes() {
+ *   return (
+ *     <Routes
+ *       routes={[{ path: '/', element: <div>Home</div> }]}
+ *       notFound={<PageNotFound />}
+ *     />
+ *   )
+ * }
  * ```
  */
 export function PageNotFound() {
@@ -29,35 +33,42 @@ export function PageNotFound() {
  * Props for the lazy-loading {@link Routes} wrapper.
  */
 export interface RoutesProps {
+  /** Route records forwarded to React Router, with optional lazy `page` components. */
   routes: (RouteProps & {
     page?: LazyExoticComponent<ComponentType<any>>
   })[]
+  /** Fallback element rendered while lazy pages are loading. */
   fallback?: JSX.Element
+  /** Element rendered for the generated catch-all 404 route. */
   notFound?: JSX.Element
 }
 
 /**
- * Routes with lazy loading and 404 page.
+ * Render React Router routes with lazy-page support and a default 404 route.
  *
- * @param props - Route definitions and optional fallback or 404 elements.
- * @param props.routes - Route records forwarded to React Router, with optional lazy `page` components.
- * @param props.fallback - Fallback element rendered while lazy pages are loading.
- * @param props.notFound - Element rendered for the generated catch-all 404 route.
+ * The wrapper adds a catch-all route automatically and uses an Ant Design `Skeleton` fallback when
+ * `fallback` is not provided.
+ *
+ * @param {RoutesProps} props - Route definitions and optional fallback or 404 elements.
  *
  * @example
  * ```tsx
  * import { Routes, lazy } from '@faasjs/ant-design'
  * import { BrowserRouter } from 'react-router-dom'
  *
- * export function App () {
- *   return <BrowserRouter>
- *     <Routes routes={[
- *       {
- *         path: '/',
- *         page: lazy(() => import('./pages/home'))
- *       }
- *     ]} />
- *   </BrowserRouter>
+ * export function App() {
+ *   return (
+ *     <BrowserRouter>
+ *       <Routes
+ *         routes={[
+ *           {
+ *             path: '/',
+ *             page: lazy(() => import('./pages/home')),
+ *           },
+ *         ]}
+ *       />
+ *     </BrowserRouter>
+ *   )
  * }
  * ```
  */

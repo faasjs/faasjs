@@ -5,8 +5,11 @@ import { Tabs as Origin, type TabsProps as OriginProps } from 'antd'
  * Tab item accepted by the FaasJS Ant Design {@link Tabs} wrapper.
  */
 export interface TabProps extends Partial<OriginTabProps> {
+  /** Stable tab identifier used as the default key and label. */
   id: string
+  /** Title used as the default Ant Design tab label. */
   title?: React.ReactNode
+  /** Tab panel content. */
   children: React.ReactNode
 }
 
@@ -14,37 +17,37 @@ export interface TabProps extends Partial<OriginTabProps> {
  * Props for the FaasJS Ant Design {@link Tabs} component.
  */
 export interface TabsProps extends Omit<OriginProps, 'items'> {
-  /** auto skip null tab */
+  /** Tab definitions. `null` and `false` entries are skipped automatically. */
   items: (TabProps | null | false)[]
 }
 
 /**
- * Tabs component with Ant Design & FaasJS
+ * Render an Ant Design tabs wrapper that accepts FaasJS-style tab definitions.
  *
- * - Based on [Ant Design Tabs](https://ant.design/components/tabs/).
- * - Support auto skip null/false tab item.
- * - Support `id` as key and label.
+ * Missing `key` and `label` values are derived from each tab's `id` and `title`.
  *
- * @param props - Tabs props including tab items and Ant Design tab options.
- * @param props.items - Tab definitions. `null` and `false` entries are skipped automatically.
- * Other Ant Design `TabsProps` fields are forwarded to the underlying tabs component.
+ * @param {TabsProps} props - Tabs props including tab items and Ant Design tab options.
  *
  * @example
  * ```tsx
  * import { Tabs } from '@faasjs/ant-design'
  *
- * <Tabs
- *   items={[
- *     {
- *       id: 'id',
- *       children: 'content',
- *     },
- *     1 === 0 && {
- *       id: 'hidden',
- *       children: 'content',
- *     },
- *   ]}
- * />
+ * export function Page() {
+ *   return (
+ *     <Tabs
+ *       items={[
+ *         {
+ *           id: 'id',
+ *           children: 'content',
+ *         },
+ *         1 === 0 && {
+ *           id: 'hidden',
+ *           children: 'content',
+ *         },
+ *       ]}
+ *     />
+ *   )
+ * }
  * ```
  */
 export function Tabs(props: TabsProps) {

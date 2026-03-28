@@ -23,7 +23,9 @@ import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
  * @template T - Value type rendered by the custom description item type.
  */
 export interface ExtendDescriptionTypeProps<T = any> {
+  /** Custom element used to render the registered description item type. */
   children?: UnionFaasItemElement<T>
+  /** Custom render callback used when `children` is not provided. */
   render?: UnionFaasItemRender<T>
 }
 
@@ -38,11 +40,17 @@ export type ExtendDescriptionItemProps = BaseItemProps
  * @template T - Value type rendered by the item.
  */
 export interface DescriptionItemProps<T = any> extends FaasItemProps {
+  /** Generic custom element rendered when no description-specific child overrides it. */
   children?: UnionFaasItemElement<T> | null
+  /** Description-specific custom element. */
   descriptionChildren?: UnionFaasItemElement<T> | null
+  /** Generic custom render callback. */
   render?: UnionFaasItemRender<T> | null
+  /** Description-specific custom render callback. */
   descriptionRender?: UnionFaasItemRender<T> | null
+  /** Predicate used to hide the item for the current record. */
   if?: (values: Record<string, any>) => boolean
+  /** Nested item definitions used by `object` and `object[]` item types. */
   object?: DescriptionItemProps<T>[]
 }
 
@@ -56,12 +64,17 @@ export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
   DescriptionsProps,
   'items'
 > {
+  /** Callback used to derive the rendered title from the current record. */
   renderTitle?(this: void, values: T): ReactNode
+  /** Description item definitions rendered by the component. */
   items: (DescriptionItemProps | ExtendItemProps)[]
+  /** Custom type renderers keyed by item type. */
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
   }
+  /** Local data record rendered directly by the component. */
   dataSource?: T
+  /** Request config used to fetch the record before rendering. */
   faasData?: FaasDataWrapperProps<any>
 }
 
@@ -71,9 +84,13 @@ export interface DescriptionProps<T = any, ExtendItemProps = any> extends Omit<
  * @template T - Value type rendered by the item content.
  */
 export interface DescriptionItemContentProps<T = any> {
+  /** Item definition describing how the value should render. */
   item: DescriptionItemProps
+  /** Current item value. */
   value: T
+  /** Full record containing the current value. */
   values?: any
+  /** Custom type renderers keyed by item type. */
   extendTypes?: {
     [key: string]: ExtendDescriptionTypeProps
   }
@@ -222,34 +239,34 @@ function DescriptionItemContent<T = any>(
 DescriptionItemContent.displayName = 'DescriptionItemContent'
 
 /**
- * Description component
+ * Render an Ant Design description list from FaasJS item metadata.
  *
- * - Based on [Ant Design Descriptions](https://ant.design/components/descriptions/).
+ * The component can render a local `dataSource` directly or resolve one through `faasData`, and
+ * it applies the same item type normalization helpers used by the form and table components.
  *
  * @template T - Data record shape rendered by the component.
- * @param props - Description props including items, data source, and optional Faas data config.
- * @param props.renderTitle - Callback used to compute the title from the current data source.
- * @param props.items - Description item definitions rendered by the component.
- * @param props.extendTypes - Custom type renderers keyed by item type.
- * @param props.dataSource - Data record rendered directly by the component.
- * @param props.faasData - Request config used to fetch the data source before rendering.
- * Other Ant Design `DescriptionsProps` fields are forwarded to the underlying component.
+ * @param {DescriptionProps<T>} props - Description props including items, data source, and optional Faas data config.
+ * @throws {Error} When an entry in `extendTypes` omits both `children` and `render`.
  *
  * @example
  * ```tsx
  * import { Description } from '@faasjs/ant-design'
  *
- * <Description
- *   title="Title"
- *   items={[
- *     {
- *       id: 'id',
- *       title: 'Title',
- *       type: 'string',
- *     },
- *   ]}
- *   dataSource={{ id: 'value' }}
- * />
+ * export function Detail() {
+ *   return (
+ *     <Description
+ *       title="Title"
+ *       items={[
+ *         {
+ *           id: 'id',
+ *           title: 'Title',
+ *           type: 'string',
+ *         },
+ *       ]}
+ *       dataSource={{ id: 'value' }}
+ *     />
+ *   )
+ * }
  * ```
  */
 export function Description<T extends Record<string, any> = any>(props: DescriptionProps<T>) {

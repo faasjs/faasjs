@@ -20,20 +20,20 @@ export type { ExtendFormTypeProps, ExtendFormItemProps }
  * Props for the built-in submit button rendered by {@link Form}.
  */
 export type FormSubmitProps = {
-  /** Default: Submit */
+  /** Text rendered by the built-in submit button. */
   text?: string
-  /** Props for the built-in submit button */
+  /** Additional props forwarded to the built-in submit button. */
   buttonProps?: ButtonProps
 }
 
 /**
- * Built-in FaasJS submit handler for Form.
+ * Built-in FaasJS submit handler configuration for {@link Form}.
  *
  * @template Values - Form values shape used by submit handlers.
  *
  * @example
  * ```ts
- * {
+ * const faas = {
  *   action: 'user/create',
  *   params: (values) => ({
  *     ...values,
@@ -46,17 +46,17 @@ export type FormSubmitProps = {
  * ```
  */
 export type FormFaasProps<Values extends Record<string, any> = any> = {
-  /** Action name to submit to */
+  /** Action name submitted through `faas()`. */
   action: FaasAction
-  /** params will overwrite form values before submit */
+  /** Extra params merged into the submitted payload after `transformValues` runs. */
   params?: Record<string, any> | ((values: Record<string, any>) => Record<string, any>)
-  /** Transform form values before sending the request */
+  /** Transform form values before sending the request. */
   transformValues?: (values: Values) => Record<string, any> | Promise<Record<string, any>>
-  /** Called when the request succeeds */
+  /** Callback invoked when the request succeeds. */
   onSuccess?: (result: any, values: Record<string, any>) => void
-  /** Called when the request fails */
+  /** Callback invoked when the request fails. */
   onError?: (error: any, values: Record<string, any>) => void
-  /** Called after the request settles */
+  /** Callback invoked after the request settles. */
   onFinally?: () => void
 }
 
@@ -77,7 +77,7 @@ export type FormProps<
         : FormItemProps)
     | JSX.Element
   )[]
-  /** Default: { text: 'Submit' }, set false to disable it */
+  /** Built-in submit button config, or `false` to disable the generated submit button. */
   submit?: false | FormSubmitProps
   /** Extra content rendered before generated items. */
   beforeItems?: JSX.Element | JSX.Element[]
@@ -91,13 +91,13 @@ export type FormProps<
   initialValues?: Partial<Values>
 } & (
     | {
-        /** Built-in FaasJS submit handler, ignored when onFinish is provided */
+        /** Built-in FaasJS submit handler, ignored when `onFinish` is provided. */
         faas?: FormFaasProps<Values>
         onFinish?: never
       }
     | {
         faas?: never
-        /** Custom submit handler, takes precedence over faas when both are provided */
+        /** Custom submit handler used instead of the built-in FaasJS submit flow. */
         onFinish?: (values: Values) => void | Promise<void>
       }
   )
@@ -107,16 +107,14 @@ function isFormItemProps(item: any): item is FormItemProps {
 }
 
 /**
- * Form component with Ant Design & FaasJS
+ * Render a data-aware Ant Design form with optional FaasJS submission helpers.
  *
- * - Based on [Ant Design Form](https://ant.design/components/form/).
- * - Use `onFinish` for custom submit logic.
- * - Use `faas` for the built-in FaasJS submit flow.
+ * The component normalizes `initialValues` with {@link transferValue}, renders item definitions
+ * through {@link FormItem}, and can either delegate submission to a custom `onFinish` handler or
+ * the built-in FaasJS request flow configured by `faas`.
  *
  * @template Values - Form values shape.
- * @param props - Form props including items, submit behavior, and FaasJS integration.
- * Other Ant Design `FormProps` fields are forwarded to the underlying form.
- * See {@link FormProps}, {@link FormSubmitProps}, and {@link FormFaasProps} for supported fields.
+ * @param {FormProps<Values>} props - Form props including items, submit behavior, and FaasJS integration.
  *
  * @example
  * ```tsx
