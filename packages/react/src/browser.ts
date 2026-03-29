@@ -773,24 +773,52 @@ let mock: MockHandler | ResponseProps | Response | null | undefined = null
  *   - Response instance: pre-configured Response object
  *   - null or undefined: clear mock
  *
- * @example Use MockHandler function
+ * @example Reset in Vitest shared setup
  * ```ts
- * setMock(async (action, params, options) => {
- *   if (action === 'user') {
- *     return { data: { name: 'John' } }
- *   }
- *   return { status: 404, data: { error: 'Not found' } }
- * })
+ * import { afterEach } from 'vitest'
  *
- * const response = await client.action('user')
+ * afterEach(() => {
+ *   setMock(null)
+ * })
  * ```
  *
  * @example Use ResponseProps object
  * ```ts
  * setMock({
- *   status: 200,
- *   data: { result: 'success' },
- *   headers: { 'X-Custom': 'value' }
+ *   data: { name: 'FaasJS' },
+ * })
+ *
+ * setMock({
+ *   status: 500,
+ *   data: { message: 'Internal Server Error' },
+ * })
+ * ```
+ *
+ * @example Use MockHandler function
+ * ```ts
+ * setMock(async (action) => {
+ *   if (action === '/pages/users/get') {
+ *     return { data: { id: 1, name: 'FaasJS' } }
+ *   }
+ *
+ *   return { status: 404, data: { message: 'Not Found' } }
+ * })
+ *
+ * const response = await client.action('/pages/users/get')
+ * ```
+ *
+ * @example Branch by action and params
+ * ```ts
+ * setMock(async (action, params) => {
+ *   if (action === '/pages/users/get' && params?.id === 1) {
+ *     return { data: { id: 1, name: 'Admin' } }
+ *   }
+ *
+ *   if (action === '/pages/users/get' && params?.id === 2) {
+ *     return { data: { id: 2, name: 'Editor' } }
+ *   }
+ *
+ *   return { status: 404, data: { message: 'User not found' } }
  * })
  * ```
  *
@@ -800,6 +828,19 @@ let mock: MockHandler | ResponseProps | Response | null | undefined = null
  *   status: 200,
  *   data: { result: 'success' }
  * }))
+ * ```
+ *
+ * @example Streaming response
+ * ```ts
+ * setMock({
+ *   body: new ReadableStream({
+ *     start(controller) {
+ *       controller.enqueue(new TextEncoder().encode('hello'))
+ *       controller.enqueue(new TextEncoder().encode(' world'))
+ *       controller.close()
+ *     },
+ *   }),
+ * })
  * ```
  *
  * @example Clear mock

@@ -1,4 +1,4 @@
-import { streamToText } from '@faasjs/dev'
+import { streamToString } from '@faasjs/dev'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { Http } from '..'
@@ -22,7 +22,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":{}}')
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{}}')
   })
 
   it('raw', async () => {
@@ -38,7 +38,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":"raw"}')
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":"raw"}')
   })
 
   it('queryString', async () => {
@@ -61,7 +61,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":{"a":"b","b":"b"}}')
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"a":"b","b":"b"}}')
   })
 
   it('json', async () => {
@@ -80,7 +80,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":{"key":true}}')
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"key":true}}')
   })
 
   it('should keep query params when json body parse fails', async () => {
@@ -100,7 +100,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":{"fromQuery":"yes"}}')
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"fromQuery":"yes"}}')
   })
 
   it('should remove internal underscore key from params', async () => {
@@ -122,7 +122,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":{"key":"value"}}')
+    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"key":"value"}}')
   })
 
   it('should fallback to original params when structuredClone throws', async () => {
@@ -148,7 +148,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToText(res.body as ReadableStream)).toEqual(
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
       '{"data":{"sameReference":true,"params":{"key":"value"}}}',
     )
     expect(cloneMock).toHaveBeenCalled()

@@ -11,10 +11,12 @@
 - [loadEnvFileIfExists](functions/loadEnvFileIfExists.md)
 - [loadFunc](functions/loadFunc.md)
 - [loadPackage](functions/loadPackage.md)
+- [objectToStream](functions/objectToStream.md)
 - [registerNodeModuleHooks](functions/registerNodeModuleHooks.md)
 - [resetRuntime](functions/resetRuntime.md)
 - [streamToObject](functions/streamToObject.md)
-- [streamToText](functions/streamToText.md)
+- [streamToString](functions/streamToString.md)
+- [stringToStream](functions/stringToStream.md)
 
 ## Classes
 

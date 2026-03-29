@@ -6,8 +6,9 @@
 
 Request FaasJS data and keep request state in React state.
 
-`useFaas` sends an initial request unless `skip` is enabled, and returns
-request state plus helpers for reloading, updating data, and handling errors.
+`useFaas` is the default hook for standard FaasJS request-response flows in React.
+It sends an initial request unless `skip` is enabled, and returns request state
+plus helpers for reloading, updating data, and handling errors.
 
 ## Type Parameters
 
@@ -48,9 +49,29 @@ Request state and helper methods described by [FaasDataInjection](../type-aliase
 ```tsx
 import { useFaas } from '@faasjs/react'
 
-function Post({ id }: { id: number }) {
-  const { data } = useFaas<{ title: string }>('post/get', { id })
+function Profile({ id }: { id: number }) {
+  const { data, error, loading, reload } = useFaas('/pages/users/get', { id })
 
-  return <h1>{data.title}</h1>
+  if (loading) return <div>Loading...</div>
+
+  if (error) {
+    return (
+      <div>
+        <div>Load failed: {error.message}</div>
+        <button type="button" onClick={() => reload()}>
+          Retry
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <span>{data.name}</span>
+      <button type="button" onClick={() => reload()}>
+        Refresh
+      </button>
+    </div>
+  )
 }
 ```

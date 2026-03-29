@@ -132,7 +132,7 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * export function UserProfile(props: { id: number }) {
  *   return (
  *     <FaasDataWrapper<User>
- *       action="user/get"
+ *       action="/pages/users/get"
  *       params={{ id: props.id }}
  *       fallback={<div>Loading user...</div>}
  *       render={({ data, error, reload }) => {
@@ -157,7 +157,7 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * export function UserProfileWithChildren(props: { id: number }) {
  *   return (
  *     <FaasDataWrapper<User>
- *       action="user/get"
+ *       action="/pages/users/get"
  *       params={{ id: props.id }}
  *       fallback={<div>Loading user...</div>}
  *     >
@@ -216,6 +216,10 @@ Object.assign(FaasDataWrapper, {
 /**
  * Wrap a component with {@link FaasDataWrapper} and inject Faas request state as props.
  *
+ * `withFaasData` is most useful for wrapper-style exports or compatibility with
+ * an existing component boundary. For new code, prefer `useFaas` or
+ * `FaasDataWrapper` when they express the request ownership more directly.
+ *
  * @template PathOrData - Action path or response data type used for inference.
  * @template TComponentProps - Component props including injected Faas data fields.
  * @param Component - Component that consumes injected Faas data props.
@@ -238,7 +242,7 @@ Object.assign(FaasDataWrapper, {
  *
  *     return <div>{data.name}</div>
  *   },
- *   { action: 'user/get', params: { id: 1 } },
+ *   { action: '/pages/users/get', params: { id: 1 } },
  * )
  * ```
  */

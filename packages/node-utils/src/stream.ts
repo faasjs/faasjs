@@ -7,7 +7,7 @@
  *
  * @example
  * ```ts
- * import { streamToText } from '@faasjs/node-utils'
+ * import { streamToString } from '@faasjs/node-utils'
  *
  * const stream = new ReadableStream<Uint8Array>({
  *   start(controller) {
@@ -16,14 +16,55 @@
  *   },
  * })
  *
- * await streamToText(stream) // 'hello'
+ * await streamToString(stream) // 'hello'
  * ```
  */
-export async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string> {
+export async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
   if (!(stream instanceof ReadableStream))
     throw new TypeError('stream must be a ReadableStream instance')
 
   return new Response(stream).text()
+}
+
+/**
+ * Encode a string into a UTF-8 byte stream.
+ *
+ * @param {string} text - Text to encode.
+ * @returns {ReadableStream<Uint8Array>} Readable stream containing the encoded text.
+ *
+ * @example
+ * ```ts
+ * import { stringToStream } from '@faasjs/node-utils'
+ *
+ * const stream = stringToStream('hello')
+ * ```
+ */
+export function stringToStream(text: string): ReadableStream<Uint8Array> {
+  return new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode(text))
+      controller.close()
+    },
+  })
+}
+
+/**
+ * Encode a JSON-serializable value into a UTF-8 byte stream.
+ *
+ * @template T - JSON-serializable value type to encode.
+ * @param {T} object - Value to serialize as JSON.
+ * @returns {ReadableStream<Uint8Array>} Readable stream containing the JSON payload.
+ * @throws {TypeError} If the value cannot be serialized to JSON.
+ *
+ * @example
+ * ```ts
+ * import { objectToStream } from '@faasjs/node-utils'
+ *
+ * const stream = objectToStream({ ok: true })
+ * ```
+ */
+export function objectToStream<T = any>(object: T): ReadableStream<Uint8Array> {
+  return stringToStream(JSON.stringify(object))
 }
 
 /**

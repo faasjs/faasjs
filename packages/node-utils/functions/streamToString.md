@@ -1,8 +1,8 @@
-[@faasjs/dev](../README.md) / streamToText
+[@faasjs/node-utils](../README.md) / streamToString
 
-# Function: streamToText()
+# Function: streamToString()
 
-> **streamToText**(`stream`): `Promise`\<`string`\>
+> **streamToString**(`stream`): `Promise`\<`string`\>
 
 Read a byte stream into a UTF-8 string.
 
@@ -27,7 +27,7 @@ If stream is not a ReadableStream instance.
 ## Example
 
 ```ts
-import { streamToText } from '@faasjs/node-utils'
+import { streamToString } from '@faasjs/node-utils'
 
 const stream = new ReadableStream<Uint8Array>({
   start(controller) {
@@ -36,5 +36,5 @@ const stream = new ReadableStream<Uint8Array>({
   },
 })
 
-await streamToText(stream) // 'hello'
+await streamToString(stream) // 'hello'
 ```

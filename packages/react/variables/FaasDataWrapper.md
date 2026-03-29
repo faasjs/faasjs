@@ -55,7 +55,7 @@ function UserView(props: { data?: User; error?: Error; reload?: () => void }) {
 export function UserProfile(props: { id: number }) {
   return (
     <FaasDataWrapper<User>
-      action="user/get"
+      action="/pages/users/get"
       params={{ id: props.id }}
       fallback={<div>Loading user...</div>}
       render={({ data, error, reload }) => {
@@ -80,7 +80,7 @@ export function UserProfile(props: { id: number }) {
 export function UserProfileWithChildren(props: { id: number }) {
   return (
     <FaasDataWrapper<User>
-      action="user/get"
+      action="/pages/users/get"
       params={{ id: props.id }}
       fallback={<div>Loading user...</div>}
     >

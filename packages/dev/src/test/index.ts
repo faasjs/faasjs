@@ -2,11 +2,19 @@ import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 
 import { Cookie, Http } from '@faasjs/core'
 import type { Config, ExportedHandler, Func, FuncEventType } from '@faasjs/core'
-import { deepMerge, loadConfig, Logger, streamToObject, streamToText } from '@faasjs/node-utils'
+import {
+  deepMerge,
+  loadConfig,
+  Logger,
+  objectToStream,
+  streamToObject,
+  streamToString,
+  stringToStream,
+} from '@faasjs/node-utils'
 
 export * from '@faasjs/core'
 
-export { streamToObject, streamToText }
+export { objectToStream, streamToObject, streamToString, stringToStream }
 
 type IsAny<T> = 0 extends 1 & T ? true : false
 type JSONhandlerBody<TFunc extends Func<any, any, any>> =
@@ -274,7 +282,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
       }
 
       try {
-        response.body = await streamToText(stream)
+        response.body = await streamToString(stream)
       } catch (error) {
         this.logger.error('Failed to decode ReadableStream: %s', error)
         response.body = JSON.stringify({

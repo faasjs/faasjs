@@ -13,8 +13,10 @@ describe('index exports', () => {
   it('should export test helpers', () => {
     expect(dev.test).toBe(testKit.test)
     expect(dev.FuncWarper).toBe(testKit.FuncWarper)
-    expect(dev.streamToText).toBe(testKit.streamToText)
+    expect(dev.streamToString).toBe(testKit.streamToString)
     expect(dev.streamToObject).toBe(testKit.streamToObject)
+    expect(dev.stringToStream).toBe(testKit.stringToStream)
+    expect(dev.objectToStream).toBe(testKit.objectToStream)
   })
 
   it('should export typegen helpers', () => {

@@ -26,21 +26,47 @@ Mock handler, can be:
 ## Examples
 
 ```ts
-setMock(async (action, params, options) => {
-  if (action === 'user') {
-    return { data: { name: 'John' } }
-  }
-  return { status: 404, data: { error: 'Not found' } }
-})
+import { afterEach } from 'vitest'
 
-const response = await client.action('user')
+afterEach(() => {
+  setMock(null)
+})
 ```
 
 ```ts
 setMock({
-  status: 200,
-  data: { result: 'success' },
-  headers: { 'X-Custom': 'value' },
+  data: { name: 'FaasJS' },
+})
+
+setMock({
+  status: 500,
+  data: { message: 'Internal Server Error' },
+})
+```
+
+```ts
+setMock(async (action) => {
+  if (action === '/pages/users/get') {
+    return { data: { id: 1, name: 'FaasJS' } }
+  }
+
+  return { status: 404, data: { message: 'Not Found' } }
+})
+
+const response = await client.action('/pages/users/get')
+```
+
+```ts
+setMock(async (action, params) => {
+  if (action === '/pages/users/get' && params?.id === 1) {
+    return { data: { id: 1, name: 'Admin' } }
+  }
+
+  if (action === '/pages/users/get' && params?.id === 2) {
+    return { data: { id: 2, name: 'Editor' } }
+  }
+
+  return { status: 404, data: { message: 'User not found' } }
 })
 ```
 
@@ -51,6 +77,18 @@ setMock(
     data: { result: 'success' },
   }),
 )
+```
+
+```ts
+setMock({
+  body: new ReadableStream({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode('hello'))
+      controller.enqueue(new TextEncoder().encode(' world'))
+      controller.close()
+    },
+  }),
+})
 ```
 
 ```ts

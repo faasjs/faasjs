@@ -55,8 +55,9 @@ export type UseFaasStreamResult = {
 /**
  * Stream a FaasJS response into React state.
  *
- * The hook sends a streaming request, appends decoded text chunks to `data`,
- * and exposes reload helpers for retrying the same action.
+ * `useFaasStream` is the default hook for streaming FaasJS responses in React.
+ * It sends a streaming request, appends decoded text chunks to `data`, and
+ * exposes reload helpers for retrying the same action.
  *
  * @param action - Action path to invoke.
  * @param defaultParams - Params used for the initial request and future reloads.
@@ -71,20 +72,25 @@ export type UseFaasStreamResult = {
  *
  * @example
  * ```tsx
- * import { useState } from 'react'
  * import { useFaasStream } from '@faasjs/react'
  *
- * function Chat() {
- *   const [prompt, setPrompt] = useState('')
- *   const { data, loading, reload } = useFaasStream('chat', { prompt })
+ * function Chat({ prompt }: { prompt: string }) {
+ *   const { data, error, loading, reload } = useFaasStream('/pages/chat/stream', { prompt })
  *
- *   return (
- *     <div>
- *       <textarea value={prompt} onChange={e => setPrompt(e.target.value)} />
- *       <button onClick={reload} disabled={loading}>Send</button>
- *       <div>{data}</div>
- *     </div>
- *   )
+ *   if (loading) return <div>Streaming...</div>
+ *
+ *   if (error) {
+ *     return (
+ *       <div>
+ *         <div>Stream failed: {error.message}</div>
+ *         <button type="button" onClick={() => reload()}>
+ *           Retry
+ *         </button>
+ *       </div>
+ *     )
+ *   }
+ *
+ *   return <pre>{data}</pre>
  * }
  * ```
  */

@@ -6,6 +6,10 @@
 
 Wrap a component with [FaasDataWrapper](../variables/FaasDataWrapper.md) and inject Faas request state as props.
 
+`withFaasData` is most useful for wrapper-style exports or compatibility with
+an existing component boundary. For new code, prefer `useFaas` or
+`FaasDataWrapper` when they express the request ownership more directly.
+
 ## Type Parameters
 
 ### PathOrData
@@ -57,6 +61,6 @@ const MyComponent = withFaasData(
 
     return <div>{data.name}</div>
   },
-  { action: 'user/get', params: { id: 1 } },
+  { action: '/pages/users/get', params: { id: 1 } },
 )
 ```
