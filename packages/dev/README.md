@@ -78,4 +78,3 @@
 ## Variables
 
 - [ContentType](variables/ContentType.md)
-- [streamToString](variables/streamToString.md)

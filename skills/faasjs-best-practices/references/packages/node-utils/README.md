@@ -39,4 +39,3 @@
 
 - [Color](variables/Color.md)
 - [LevelColor](variables/LevelColor.md)
-- [streamToString](variables/streamToString.md)

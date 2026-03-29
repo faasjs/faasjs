@@ -1,4 +1,4 @@
-import { streamToString } from '@faasjs/dev'
+import { streamToText } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
 import { Http, HttpError, type Response, useHttp } from '..'
@@ -21,7 +21,7 @@ describe('http', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":1}')
+    expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":1}')
   })
 
   it('with config name', async () => {
@@ -45,7 +45,7 @@ describe('http', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":1}')
+    expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":1}')
   })
 
   it('throw error', async () => {
@@ -61,9 +61,7 @@ describe('http', () => {
 
     expect(res.statusCode).toEqual(500)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"error":{"message":"wrong"}}',
-    )
+    expect(await streamToText(res.body as ReadableStream)).toEqual('{"error":{"message":"wrong"}}')
   })
 
   it('HttpError', async () => {
@@ -82,9 +80,7 @@ describe('http', () => {
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual(
-      '{"error":{"message":"wrong"}}',
-    )
+    expect(await streamToText(res.body as ReadableStream)).toEqual('{"error":{"message":"wrong"}}')
   })
 
   it('useHttp helper', async () => {
@@ -144,10 +140,10 @@ describe('http', () => {
       }),
     ])
 
-    expect(await streamToString(resA.body as ReadableStream)).toEqual(
+    expect(await streamToText(resA.body as ReadableStream)).toEqual(
       '{"data":{"first":"A","seen":"A"}}',
     )
-    expect(await streamToString(resB.body as ReadableStream)).toEqual(
+    expect(await streamToText(resB.body as ReadableStream)).toEqual(
       '{"data":{"first":"B","seen":"B"}}',
     )
   })
@@ -175,7 +171,7 @@ describe('http', () => {
         body: null,
       })
 
-      await expect(streamToString(res.body as ReadableStream)).rejects.toThrow('encode failed')
+      await expect(streamToText(res.body as ReadableStream)).rejects.toThrow('encode failed')
     } finally {
       globalThis.TextEncoder = TextEncoderBackup
     }

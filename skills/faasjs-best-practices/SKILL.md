@@ -6,6 +6,9 @@ description: When working with FaasJS projects, must follow these best practices
 ## Guidelines
 
 - [File Conventions](./guidelines/file-conventions.md)
+- [React Guide](./guidelines/react.md)
+- [React Data Fetching Guide](./guidelines/react-data-fetching.md)
+- [React Testing Guide](./guidelines/react-testing.md)
 - [defineApi Guide](./guidelines/define-api.md)
 
 ## Specs

@@ -33,6 +33,7 @@ describe('useFaas', () => {
       return (
         <div>
           {faas.data}
+          <div>reloadTimes:{faas.reloadTimes}</div>
           <button type="button" onClick={() => faas.reload()}>
             Reload
           </button>
@@ -43,11 +44,13 @@ describe('useFaas', () => {
     render(<Test />)
 
     expect(await screen.findByText('1')).toBeDefined()
+    expect(screen.getByText('reloadTimes:0')).toBeDefined()
     expect(renderTimes).toBe(2)
 
     await userEvent.click(screen.getByRole('button'))
 
     expect(await screen.findByText('2')).toBeDefined()
+    expect(screen.getByText('reloadTimes:1')).toBeDefined()
     expect(renderTimes).toBe(5)
   })
 

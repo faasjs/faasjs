@@ -39,8 +39,15 @@ export type FaasReactClientOptions = {
    *
    * @example
    * ```ts
+   * import { ResponseError } from '@faasjs/react'
+   *
    * onError: (action, params) => async (res) => {
-   *   console.error(action, params, res)
+   *   if (res instanceof ResponseError) {
+   *     reportErrorToSentry(res, {
+   *       tags: { action },
+   *       extra: { params },
+   *     })
+   *   }
    * }
    * ```
    */
@@ -81,10 +88,18 @@ export type FaasReactClientInstance = {
  *
  * @example
  * ```ts
- * import { FaasReactClient } from '@faasjs/react'
+ * import { FaasReactClient, ResponseError } from '@faasjs/react'
  *
  * const client = FaasReactClient({
  *   baseUrl: 'http://localhost:8080/api/',
+ *   onError: (action, params) => async (res) => {
+ *     if (res instanceof ResponseError) {
+ *       reportErrorToSentry(res, {
+ *         tags: { action },
+ *         extra: { params },
+ *       })
+ *     }
+ *   },
  * })
  * ```
  */
@@ -147,10 +162,15 @@ export function FaasReactClient(
  *
  * @example
  * ```ts
- * import { getClient } from '@faasjs/react'
+ * import { FaasReactClient, getClient } from '@faasjs/react'
  *
- * getClient()
- * getClient('http://localhost:8080/api/')
+ * FaasReactClient({
+ *   baseUrl: 'http://localhost:8080/api/',
+ * })
+ *
+ * const client = getClient('http://localhost:8080/api/')
+ *
+ * await client.faas('posts/get', { id: 1 })
  * ```
  */
 export function getClient(host?: string): FaasReactClientInstance {

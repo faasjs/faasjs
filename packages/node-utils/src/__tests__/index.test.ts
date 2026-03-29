@@ -19,5 +19,4 @@ it('should export helpers', () => {
   expect(nodeUtils).toHaveProperty('getTransport')
   expect(nodeUtils).toHaveProperty('streamToText')
   expect(nodeUtils).toHaveProperty('streamToObject')
-  expect(nodeUtils).toHaveProperty('streamToString')
 })

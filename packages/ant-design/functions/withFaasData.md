@@ -45,8 +45,9 @@ Higher-order component that injects Faas data props.
 ```tsx
 import { withFaasData } from '@faasjs/ant-design'
 
-const UserCard = withFaasData(({ data }) => <div>{data.name}</div>, {
-  action: 'test',
-  params: { a: 1 },
-})
+const UserCard = withFaasData(
+  ({ data, error, reload }) =>
+    error ? <a onClick={() => reload()}>Retry</a> : <div>{data.name}</div>,
+  { action: 'user/get', params: { id: 1 } },
+)
 ```

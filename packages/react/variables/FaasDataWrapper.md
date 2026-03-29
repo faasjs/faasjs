@@ -32,10 +32,59 @@ Wrapper props controlling the request and rendered fallback.
 ```tsx
 import { FaasDataWrapper } from '@faasjs/react'
 
-export function Greeting() {
+type User = {
+  name: string
+}
+
+function UserView(props: { data?: User; error?: Error; reload?: () => void }) {
+  if (props.error) {
+    return (
+      <div>
+        <p>Failed to load user: {props.error.message}</p>
+        <button type="button" onClick={() => props.reload?.()}>
+          Retry
+        </button>
+      </div>
+    )
+  }
+
+  return <div>Hello, {props.data?.name}</div>
+}
+
+// Render-prop mode
+export function UserProfile(props: { id: number }) {
   return (
-    <FaasDataWrapper action="greeting/api/hello" params={{ name: 'FaasJS' }}>
-      <div />
+    <FaasDataWrapper<User>
+      action="user/get"
+      params={{ id: props.id }}
+      fallback={<div>Loading user...</div>}
+      render={({ data, error, reload }) => {
+        if (error) {
+          return (
+            <div>
+              <p>Failed to load user: {error.message}</p>
+              <button type="button" onClick={() => reload()}>
+                Retry
+              </button>
+            </div>
+          )
+        }
+
+        return <div>Hello, {data.name}</div>
+      }}
+    />
+  )
+}
+
+// Children injection mode
+export function UserProfileWithChildren(props: { id: number }) {
+  return (
+    <FaasDataWrapper<User>
+      action="user/get"
+      params={{ id: props.id }}
+      fallback={<div>Loading user...</div>}
+    >
+      <UserView />
     </FaasDataWrapper>
   )
 }

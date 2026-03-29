@@ -45,8 +45,18 @@ Component that accepts the original props minus the injected Faas data fields.
 ```tsx
 import { withFaasData } from '@faasjs/react'
 
-const MyComponent = withFaasData(({ data }) => <div>{data.name}</div>, {
-  action: 'test',
-  params: { a: 1 },
-})
+const MyComponent = withFaasData(
+  ({ data, error, reload }) => {
+    if (error) {
+      return (
+        <button type="button" onClick={() => reload()}>
+          Retry
+        </button>
+      )
+    }
+
+    return <div>{data.name}</div>
+  },
+  { action: 'user/get', params: { id: 1 } },
+)
 ```

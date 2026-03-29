@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import { defineApi, z } from '../index'
 
-async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
+async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string> {
   return await new Response(stream).text()
 }
 
 async function streamToObject(stream: ReadableStream<Uint8Array>): Promise<Record<string, any>> {
-  return JSON.parse(await streamToString(stream))
+  return JSON.parse(await streamToText(stream))
 }
 
 function useHttpPlugin(func: { config: any }): void {

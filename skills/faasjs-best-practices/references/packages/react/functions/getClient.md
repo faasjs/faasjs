@@ -26,8 +26,13 @@ Registered or newly created FaasReactClient instance.
 ## Example
 
 ```ts
-import { getClient } from '@faasjs/react'
+import { FaasReactClient, getClient } from '@faasjs/react'
 
-getClient()
-getClient('http://localhost:8080/api/')
+FaasReactClient({
+  baseUrl: 'http://localhost:8080/api/',
+})
+
+const client = getClient('http://localhost:8080/api/')
+
+await client.faas('posts/get', { id: 1 })
 ```

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { streamToObject, streamToString, streamToText } from '../stream'
+import { streamToObject, streamToText } from '../stream'
 
 describe('stream helpers', () => {
   it('streamToText should read text', async () => {
@@ -23,17 +23,6 @@ describe('stream helpers', () => {
     })
 
     await expect(streamToObject(stream)).resolves.toEqual({ ok: true })
-  })
-
-  it('streamToString should be alias of streamToText', async () => {
-    const stream = new ReadableStream<Uint8Array>({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode('alias'))
-        controller.close()
-      },
-    })
-
-    await expect(streamToString(stream)).resolves.toBe('alias')
   })
 
   it('should throw when stream is invalid', async () => {

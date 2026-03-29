@@ -1,4 +1,4 @@
-import { streamToString } from '@faasjs/dev'
+import { streamToText } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
 import { Cookie, Http } from '..'
@@ -40,7 +40,7 @@ describe('session', () => {
       })
 
       expect(res.body).toBeInstanceOf(ReadableStream)
-      expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":"value"}')
+      expect(await streamToText(res.body as ReadableStream)).toEqual('{"data":"value"}')
     })
 
     it('no value', async () => {
@@ -136,10 +136,10 @@ describe('session', () => {
         }),
       ])
 
-      expect(await streamToString(resA.body as ReadableStream)).toEqual(
+      expect(await streamToText(resA.body as ReadableStream)).toEqual(
         '{"data":{"first":"A","seen":"A"}}',
       )
-      expect(await streamToString(resB.body as ReadableStream)).toEqual(
+      expect(await streamToText(resB.body as ReadableStream)).toEqual(
         '{"data":{"first":"B","seen":"B"}}',
       )
     })

@@ -55,22 +55,3 @@ export async function streamToObject<T = any>(stream: ReadableStream<Uint8Array>
 
   return new Response(stream).json() as Promise<T>
 }
-
-/**
- * Alias of {@link streamToText} for string-oriented call sites.
- *
- * @example
- * ```ts
- * import { streamToString } from '@faasjs/node-utils'
- *
- * const stream = new ReadableStream<Uint8Array>({
- *   start(controller) {
- *     controller.enqueue(new TextEncoder().encode('hello'))
- *     controller.close()
- *   },
- * })
- *
- * await streamToString(stream) // 'hello'
- * ```
- */
-export const streamToString = streamToText

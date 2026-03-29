@@ -26,9 +26,17 @@ Registered FaasReactClient instance.
 ## Example
 
 ```ts
-import { FaasReactClient } from '@faasjs/react'
+import { FaasReactClient, ResponseError } from '@faasjs/react'
 
 const client = FaasReactClient({
   baseUrl: 'http://localhost:8080/api/',
+  onError: (action, params) => async (res) => {
+    if (res instanceof ResponseError) {
+      reportErrorToSentry(res, {
+        tags: { action },
+        extra: { params },
+      })
+    }
+  },
 })
 ```

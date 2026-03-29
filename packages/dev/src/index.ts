@@ -52,7 +52,7 @@
  *
  * - Vite: {@link viteFaasJsServer}
  * - Typegen: {@link generateFaasTypes}, {@link isTypegenSourceFile}
- * - Test: {@link test}, {@link FuncWarper}, {@link streamToText}, {@link streamToObject}, {@link streamToString}
+ * - Test: {@link test}, {@link FuncWarper}, {@link streamToText}, {@link streamToObject}
  */
 
 export * from './test'

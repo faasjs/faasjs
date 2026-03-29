@@ -1,4 +1,4 @@
-import { streamToString } from '@faasjs/dev'
+import { streamToText } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
 import { Http } from '..'
@@ -18,7 +18,7 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body)).toEqual('{"data":{}}')
+    expect(await streamToText(res.body)).toEqual('{"data":{}}')
   })
 
   it('should work', async () => {
@@ -34,6 +34,6 @@ describe('params', () => {
 
     expect(res.statusCode).toEqual(200)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body)).toEqual('{"data":{"key":"value"}}')
+    expect(await streamToText(res.body)).toEqual('{"data":{"key":"value"}}')
   })
 })

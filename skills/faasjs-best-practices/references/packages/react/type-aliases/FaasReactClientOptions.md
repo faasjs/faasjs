@@ -25,8 +25,15 @@ Error hook invoked when `faas` or `useFaas` receives a failed response.
 #### Example
 
 ```ts
+import { ResponseError } from '@faasjs/react'
+
 onError: (action, params) => async (res) => {
-  console.error(action, params, res)
+  if (res instanceof ResponseError) {
+    reportErrorToSentry(res, {
+      tags: { action },
+      extra: { params },
+    })
+  }
 }
 ```
 

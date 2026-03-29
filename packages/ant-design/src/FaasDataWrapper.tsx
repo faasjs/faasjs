@@ -50,16 +50,72 @@ export type { FaasDataWrapperRef } from '@faasjs/react'
  *
  * @example
  * ```tsx
- * import { FaasDataWrapper, type FaasDataInjection } from '@faasjs/ant-design'
+ * import { Alert, Button } from 'antd'
+ * import { FaasDataWrapper } from '@faasjs/ant-design'
  *
- * function MyComponent(props: FaasDataInjection) {
- *   return <div>{props.data}</div>
+ * type User = {
+ *   name: string
  * }
  *
- * function MyPage() {
+ * function UserView(props: {
+ *   data?: User
+ *   error?: Error
+ *   reload?: () => void
+ * }) {
+ *   if (props.error) {
+ *     return (
+ *       <Alert
+ *         type="error"
+ *         message={props.error.message}
+ *         action={
+ *           <Button size="small" onClick={() => props.reload?.()}>
+ *             Retry
+ *           </Button>
+ *         }
+ *       />
+ *     )
+ *   }
+ *
+ *   return <div>Hello, {props.data?.name}</div>
+ * }
+ *
+ * // Render-prop mode
+ * export function UserProfile(props: { id: number }) {
  *   return (
- *     <FaasDataWrapper action="test" params={{ a: 1 }}>
- *       <MyComponent />
+ *     <FaasDataWrapper<User>
+ *       action="user/get"
+ *       params={{ id: props.id }}
+ *       loading={<div>Loading user...</div>}
+ *       render={({ data, error, reload }) => {
+ *         if (error) {
+ *           return (
+ *             <Alert
+ *               type="error"
+ *               message={error.message}
+ *               action={
+ *                 <Button size="small" onClick={() => reload()}>
+ *                   Retry
+ *                 </Button>
+ *               }
+ *             />
+ *           )
+ *         }
+ *
+ *         return <div>Hello, {data.name}</div>
+ *       }}
+ *     />
+ *   )
+ * }
+ *
+ * // Children injection mode
+ * export function UserProfileWithChildren(props: { id: number }) {
+ *   return (
+ *     <FaasDataWrapper<User>
+ *       action="user/get"
+ *       params={{ id: props.id }}
+ *       loading={<div>Loading user...</div>}
+ *     >
+ *       <UserView />
  *     </FaasDataWrapper>
  *   )
  * }
@@ -85,8 +141,13 @@ export function FaasDataWrapper<T extends FaasActionUnionType = any>(
  * import { withFaasData } from '@faasjs/ant-design'
  *
  * const UserCard = withFaasData(
- *   ({ data }) => <div>{data.name}</div>,
- *   { action: 'test', params: { a: 1 } },
+ *   ({ data, error, reload }) =>
+ *     error ? (
+ *       <a onClick={() => reload()}>Retry</a>
+ *     ) : (
+ *       <div>{data.name}</div>
+ *     ),
+ *   { action: 'user/get', params: { id: 1 } },
  * )
  * ```
  */

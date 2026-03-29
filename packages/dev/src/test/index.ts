@@ -2,18 +2,11 @@ import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 
 import { Cookie, Http } from '@faasjs/core'
 import type { Config, ExportedHandler, Func, FuncEventType } from '@faasjs/core'
-import {
-  deepMerge,
-  loadConfig,
-  Logger,
-  streamToObject,
-  streamToString,
-  streamToText,
-} from '@faasjs/node-utils'
+import { deepMerge, loadConfig, Logger, streamToObject, streamToText } from '@faasjs/node-utils'
 
 export * from '@faasjs/core'
 
-export { streamToObject, streamToString, streamToText }
+export { streamToObject, streamToText }
 
 type IsAny<T> = 0 extends 1 & T ? true : false
 type JSONhandlerBody<TFunc extends Func<any, any, any>> =

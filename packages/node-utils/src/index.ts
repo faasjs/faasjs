@@ -43,6 +43,6 @@ export {
   registerNodeModuleHooks,
   resetRuntime,
 } from './load_package'
-export { streamToObject, streamToString, streamToText } from './stream'
+export { streamToObject, streamToText } from './stream'
 export type { LoggerMessage, TransportHandler, TransportOptions } from './transport'
 export { getTransport, Transport } from './transport'

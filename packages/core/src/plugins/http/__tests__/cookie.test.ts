@@ -1,4 +1,4 @@
-import { streamToString } from '@faasjs/dev'
+import { streamToText } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
 import { Http } from '..'
@@ -20,14 +20,14 @@ describe('cookie', () => {
         key: 'a',
       })
       expect(res.body).toBeInstanceOf(ReadableStream)
-      expect(await streamToString(res.body)).toEqual('{"data":"1"}')
+      expect(await streamToText(res.body)).toEqual('{"data":"1"}')
 
       res = await handler({
         headers: { cookie: 'a=1; b=2' },
         key: 'b',
       })
       expect(res.body).toBeInstanceOf(ReadableStream)
-      expect(await streamToString(res.body)).toEqual('{"data":"2"}')
+      expect(await streamToText(res.body)).toEqual('{"data":"2"}')
 
       res = await handler({
         headers: { cookie: 'a=1; b=2' },

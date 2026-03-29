@@ -193,8 +193,6 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
 
       const reloadCounter = ++reloadCounterRef.current
 
-      setReloadTimes((prev) => prev + 1)
-
       return new Promise<FaasData<PathOrData>>((resolve, reject) => {
         pendingReloadsRef.current.set(reloadCounter, { resolve, reject })
         setReloadTimes((prev) => prev + 1)
