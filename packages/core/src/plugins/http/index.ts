@@ -1,6 +1,7 @@
 import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
 
-import { deepMerge, type Logger } from '@faasjs/node-utils'
+import type { Logger } from '@faasjs/node-utils'
+import { deepMerge } from '@faasjs/utils'
 
 import {
   type InvokeData,

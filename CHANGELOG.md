@@ -2,6 +2,14 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.18 (2026-03-29)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.17...v8.0.0-beta.18)
+
+- `@faasjs/node-utils`
+  - [Break] Split generic helpers out of `@faasjs/node-utils` into `@faasjs/utils`, and stop exporting `deepMerge`, `streamToString`, `streamToObject`, `stringToStream`, and `objectToStream` from `@faasjs/node-utils`.
+
+- `@faasjs/utils`
+  - [Feature] Add a new cross-runtime utility package and export `deepMerge`, `streamToString`, `streamToObject`, `stringToStream`, and `objectToStream`.
+
 [`v8.0.0-beta.17 (2026-03-27)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.16...v8.0.0-beta.17)
 
 - `@faasjs/core`

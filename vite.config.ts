@@ -18,10 +18,11 @@ const pack: PackUserConfig[] = [
   'core',
   'create-faas-app',
   'dev',
+  'utils',
   'node-utils',
   'react',
 ].map((p) => ({
-  platform: ['react', 'ant-design'].includes(p) ? 'browser' : 'node',
+  platform: ['react', 'ant-design', 'utils'].includes(p) ? 'browser' : 'node',
   cwd: join(process.cwd(), 'packages', p),
   ...(p === 'node-utils'
     ? {

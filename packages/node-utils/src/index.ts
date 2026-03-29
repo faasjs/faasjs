@@ -1,8 +1,8 @@
 /**
  * FaasJS utilities for Node.js runtimes and local development workflows.
  *
- * The package bundles logging helpers, transport primitives, stream readers,
- * `faas.yaml` configuration loaders, and runtime-aware module loading helpers for Node.js.
+ * The package bundles logging helpers, transport primitives, `faas.yaml`
+ * configuration loaders, and runtime-aware module loading helpers for Node.js.
  *
  * ## Install
  *
@@ -22,7 +22,6 @@
  * ```
  */
 
-export { deepMerge } from './deep_merge'
 export { colorfy, Color, LevelColor } from './color'
 export type { Level } from './logger'
 export { formatLogger, Logger } from './logger'
@@ -43,6 +42,5 @@ export {
   registerNodeModuleHooks,
   resetRuntime,
 } from './load_package'
-export { objectToStream, streamToObject, streamToString, stringToStream } from './stream'
 export type { LoggerMessage, TransportHandler, TransportOptions } from './transport'
 export { getTransport, Transport } from './transport'

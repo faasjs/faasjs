@@ -1,4 +1,4 @@
-[@faasjs/node-utils](../README.md) / streamToObject
+[@faasjs/utils](../README.md) / streamToObject
 
 # Function: streamToObject()
 
@@ -39,7 +39,7 @@ If the stream body is not valid JSON.
 ## Example
 
 ```ts
-import { streamToObject } from '@faasjs/node-utils'
+import { streamToObject } from '@faasjs/utils'
 
 const stream = new ReadableStream<Uint8Array>({
   start(controller) {

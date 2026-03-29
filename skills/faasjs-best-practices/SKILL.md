@@ -5,6 +5,7 @@ description: When working with FaasJS projects, must follow these best practices
 
 ## Guidelines
 
+- [Ant Design Guide](./guidelines/ant-design.md)
 - [File Conventions](./guidelines/file-conventions.md)
 - [React Guide](./guidelines/react.md)
 - [React Data Fetching Guide](./guidelines/react-data-fetching.md)

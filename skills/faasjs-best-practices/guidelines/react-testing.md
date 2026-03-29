@@ -43,6 +43,7 @@ afterEach(() => {
 - Use a static object when one response is enough.
 - Use a handler when the response depends on path or params.
 - Use a streaming mock only when the code under test actually reads a stream.
+- Prefer `stringToStream` as a helper for simple text-stream scenarios so the test setup stays compact.
 
 Basic examples:
 
@@ -132,16 +133,11 @@ setMock(async (path, params) => {
 Streaming example:
 
 ```ts
+import { stringToStream } from '@faasjs/utils'
 import { setMock } from '@faasjs/react'
 
 setMock({
-  body: new ReadableStream({
-    start(controller) {
-      controller.enqueue(new TextEncoder().encode('hello'))
-      controller.enqueue(new TextEncoder().encode(' world'))
-      controller.close()
-    },
-  }),
+  body: stringToStream('hello world'),
 })
 ```
 

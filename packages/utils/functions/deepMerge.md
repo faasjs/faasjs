@@ -1,4 +1,4 @@
-[@faasjs/node-utils](../README.md) / deepMerge
+[@faasjs/utils](../README.md) / deepMerge
 
 # Function: deepMerge()
 
@@ -27,7 +27,7 @@ A cloned merged value built from the provided sources.
 ## Example
 
 ```ts
-import { deepMerge } from '@faasjs/node-utils'
+import { deepMerge } from '@faasjs/utils'
 
 deepMerge({ a: 1 }, { a: 2 }) // { a: 2 }
 deepMerge({ a: [0] }, { a: [1] }) // { a: [1, 0] }

@@ -1,5 +1,5 @@
-import { deepMerge } from '@faasjs/node-utils'
 import type { Logger } from '@faasjs/node-utils'
+import { deepMerge } from '@faasjs/utils'
 
 import { Session, type SessionOptions } from './session'
 

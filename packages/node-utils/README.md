@@ -3,7 +3,6 @@
 ## Functions
 
 - [colorfy](functions/colorfy.md)
-- [deepMerge](functions/deepMerge.md)
 - [detectNodeRuntime](functions/detectNodeRuntime.md)
 - [formatLogger](functions/formatLogger.md)
 - [getTransport](functions/getTransport.md)
@@ -11,12 +10,8 @@
 - [loadEnvFileIfExists](functions/loadEnvFileIfExists.md)
 - [loadFunc](functions/loadFunc.md)
 - [loadPackage](functions/loadPackage.md)
-- [objectToStream](functions/objectToStream.md)
 - [registerNodeModuleHooks](functions/registerNodeModuleHooks.md)
 - [resetRuntime](functions/resetRuntime.md)
-- [streamToObject](functions/streamToObject.md)
-- [streamToString](functions/streamToString.md)
-- [stringToStream](functions/stringToStream.md)
 
 ## Classes
 

@@ -60,14 +60,23 @@ Instead of extracting `schema` early without a reuse reason.
 ### 2. Use `params` for business input
 
 - `defineApi` validates parsed request params and passes the typed result to `handler`.
+- `params` is the parsed, validated view of `event.params`.
+- `event` keeps the raw request payload; reach for it only when you need transport-level details or unparsed input.
 - Prefer `params` over raw request fields for business logic.
 - Read `event`, `headers`, or `body` only when transport-level behavior matters.
 
-### 3. Use `HttpError` for expected failures
+### 3. Throw `Error` by default
 
-- Throw `HttpError({ statusCode, message })` for business or user-facing errors.
-- Throw a normal `Error` only for unexpected failures.
+- Prefer `throw Error(message)` for normal business or user-facing failures.
+- A plain `Error` keeps its message in the JSON error body and responds with HTTP `500`.
+- Use `HttpError` only when you need to control `statusCode` or other HTTP-specific behavior.
+- If the client contract depends on a specific non-`500` status, use `HttpError` explicitly.
 - Let Zod validation handle request-shape errors whenever possible.
+
+Response behavior summary:
+
+- `throw Error('message')` -> JSON error response with message and status `500`
+- `throw new HttpError({ statusCode: 409, message: 'message' })` -> JSON error response with message and status `409`
 
 Example:
 
@@ -82,9 +91,13 @@ export const func = defineApi({
   }),
   async handler({ params }) {
     if (params.title === 'duplicate') {
+      throw Error('Order title already exists')
+    }
+
+    if (params.title === 'conflict') {
       throw new HttpError({
         statusCode: 409,
-        message: 'Order title already exists',
+        message: 'Order title conflicts with an existing resource',
       })
     }
 
@@ -108,7 +121,12 @@ export const func = defineApi({
 
 ### 5. Remember the injected HTTP helpers
 
-`defineApi` handlers can also receive HTTP-related fields from the HTTP plugin, including:
+`defineApi` handlers always receive:
+
+- `params`
+- `event`
+
+With the HTTP plugin, handlers can also receive HTTP-related fields including:
 
 - `cookie`
 - `session`
@@ -144,6 +162,8 @@ After creating, renaming, or moving a `.func.ts` file, run:
 faas types
 ```
 
+Run this from your FaasJS app root, using the app's configured FaasJS CLI.
+
 This updates:
 
 ```text
@@ -158,7 +178,8 @@ Use `@faasjs/dev` and cover:
 
 - success path
 - invalid params -> `400`
-- expected business error via `HttpError`
+- plain `Error` -> `500` with the expected message
+- special HTTP error behavior via `HttpError` when used
 - unexpected error -> `500`
 - cookie/session behavior when used
 
@@ -182,6 +203,28 @@ describe('orders/api/create', () => {
 
     expect(response.statusCode).toBe(400)
     expect(response.error?.message).toContain('Invalid params')
+  })
+
+  it('returns 500 for plain Error', async () => {
+    const response = await wrapped.JSONhandler({
+      title: 'duplicate',
+      price: 10,
+      quantity: 1,
+    })
+
+    expect(response.statusCode).toBe(500)
+    expect(response.error?.message).toBe('Order title already exists')
+  })
+
+  it('returns custom status for HttpError', async () => {
+    const response = await wrapped.JSONhandler({
+      title: 'conflict',
+      price: 10,
+      quantity: 1,
+    })
+
+    expect(response.statusCode).toBe(409)
+    expect(response.error?.message).toBe('Order title conflicts with an existing resource')
   })
 })
 ```

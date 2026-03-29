@@ -1,4 +1,4 @@
-[@faasjs/node-utils](../README.md) / stringToStream
+[@faasjs/utils](../README.md) / stringToStream
 
 # Function: stringToStream()
 
@@ -23,7 +23,7 @@ Readable stream containing the encoded text.
 ## Example
 
 ```ts
-import { stringToStream } from '@faasjs/node-utils'
+import { stringToStream } from '@faasjs/utils'
 
 const stream = stringToStream('hello')
 ```

@@ -1,7 +1,7 @@
 {
-  "name": "@faasjs/core",
+  "name": "@faasjs/utils",
   "version": "8.0.0-beta.17",
-  "homepage": "https://faasjs.com/doc/core",
+  "homepage": "https://faasjs.com/doc/utils",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
   },
@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/faasjs/faasjs.git",
-    "directory": "packages/core"
+    "directory": "packages/utils"
   },
   "funding": "https://github.com/sponsors/faasjs",
   "files": [
@@ -25,19 +25,6 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     }
-  },
-  "devDependencies": {
-    "@faasjs/node-utils": ">=8.0.0-beta.17",
-    "@faasjs/types": ">=8.0.0-beta.17",
-    "@faasjs/utils": ">=8.0.0-beta.17",
-    "@types/mime-types": "*",
-    "mime-types": "*"
-  },
-  "peerDependencies": {
-    "@faasjs/node-utils": ">=8.0.0-beta.17",
-    "@faasjs/types": ">=8.0.0-beta.17",
-    "@faasjs/utils": ">=8.0.0-beta.17",
-    "mime-types": "*"
   },
   "engines": {
     "node": ">=24.0.0",

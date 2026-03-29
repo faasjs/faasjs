@@ -13,13 +13,13 @@ import { Readable } from 'node:stream'
 import { types } from 'node:util'
 
 import {
-  deepMerge,
   getTransport,
   loadConfig,
   loadEnvFileIfExists,
   loadPackage,
   Logger,
 } from '@faasjs/node-utils'
+import { deepMerge } from '@faasjs/utils'
 
 import { mountServerCronJobs, unmountServerCronJobs } from '../cron'
 import type { Func } from '../func'

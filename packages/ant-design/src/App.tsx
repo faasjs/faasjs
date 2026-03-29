@@ -94,8 +94,12 @@ function RoutesApp(props: { children: React.ReactNode }) {
 export function App(props: AppProps) {
   const [messageApi, messageContextHolder] = message.useMessage()
   const [notificationApi, notificationContextHolder] = notification.useNotification()
-  const { modal, modalProps, setModalProps } = useModal()
-  const { drawer, drawerProps, setDrawerProps } = useDrawer()
+  const { modal, modalProps, setModalProps } = useModal({
+    destroyOnHidden: true,
+  })
+  const { drawer, drawerProps, setDrawerProps } = useDrawer({
+    destroyOnHidden: true,
+  })
 
   return (
     <OptionalWrapper

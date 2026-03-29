@@ -17,6 +17,7 @@
 | Name                                                                                 | Version                                                                                                                 |
 | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
 | [@faasjs/node-utils](https://github.com/faasjs/faasjs/tree/main/packages/node-utils) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/node-utils.svg)](https://www.npmjs.com/package/@faasjs/node-utils) |
+| [@faasjs/utils](https://github.com/faasjs/faasjs/tree/main/packages/utils)           | [![NPM Version](https://img.shields.io/npm/v/@faasjs/utils.svg)](https://www.npmjs.com/package/@faasjs/utils)           |
 | [@faasjs/dev](https://github.com/faasjs/faasjs/tree/main/packages/dev)               | [![NPM Version](https://img.shields.io/npm/v/@faasjs/dev.svg)](https://www.npmjs.com/package/@faasjs/dev)               |
 
 ## Browsers

@@ -7,7 +7,7 @@
  *
  * @example
  * ```ts
- * import { streamToString } from '@faasjs/node-utils'
+ * import { streamToString } from '@faasjs/utils'
  *
  * const stream = new ReadableStream<Uint8Array>({
  *   start(controller) {
@@ -34,7 +34,7 @@ export async function streamToString(stream: ReadableStream<Uint8Array>): Promis
  *
  * @example
  * ```ts
- * import { stringToStream } from '@faasjs/node-utils'
+ * import { stringToStream } from '@faasjs/utils'
  *
  * const stream = stringToStream('hello')
  * ```
@@ -58,7 +58,7 @@ export function stringToStream(text: string): ReadableStream<Uint8Array> {
  *
  * @example
  * ```ts
- * import { objectToStream } from '@faasjs/node-utils'
+ * import { objectToStream } from '@faasjs/utils'
  *
  * const stream = objectToStream({ ok: true })
  * ```
@@ -78,7 +78,7 @@ export function objectToStream<T = any>(object: T): ReadableStream<Uint8Array> {
  *
  * @example
  * ```ts
- * import { streamToObject } from '@faasjs/node-utils'
+ * import { streamToObject } from '@faasjs/utils'
  *
  * const stream = new ReadableStream<Uint8Array>({
  *   start(controller) {

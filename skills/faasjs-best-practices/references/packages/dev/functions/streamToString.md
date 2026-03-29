@@ -27,7 +27,7 @@ If stream is not a ReadableStream instance.
 ## Example
 
 ```ts
-import { streamToString } from '@faasjs/node-utils'
+import { streamToString } from '@faasjs/utils'
 
 const stream = new ReadableStream<Uint8Array>({
   start(controller) {

@@ -23,7 +23,7 @@ Readable stream containing the encoded text.
 ## Example
 
 ```ts
-import { stringToStream } from '@faasjs/node-utils'
+import { stringToStream } from '@faasjs/utils'
 
 const stream = stringToStream('hello')
 ```

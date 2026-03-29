@@ -2,15 +2,14 @@ import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 
 import { Cookie, Http } from '@faasjs/core'
 import type { Config, ExportedHandler, Func, FuncEventType } from '@faasjs/core'
+import { loadConfig, Logger } from '@faasjs/node-utils'
 import {
   deepMerge,
-  loadConfig,
-  Logger,
   objectToStream,
   streamToObject,
   streamToString,
   stringToStream,
-} from '@faasjs/node-utils'
+} from '@faasjs/utils'
 
 export * from '@faasjs/core'
 

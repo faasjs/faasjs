@@ -1,4 +1,4 @@
-[@faasjs/node-utils](../README.md) / objectToStream
+[@faasjs/utils](../README.md) / objectToStream
 
 # Function: objectToStream()
 
@@ -35,7 +35,7 @@ If the value cannot be serialized to JSON.
 ## Example
 
 ```ts
-import { objectToStream } from '@faasjs/node-utils'
+import { objectToStream } from '@faasjs/utils'
 
 const stream = objectToStream({ ok: true })
 ```
