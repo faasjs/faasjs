@@ -16,15 +16,27 @@ type ParsedCommonArgs = {
   rest: string[]
 }
 
+type ParseCommonCliArgsOptions = {
+  /**
+   * Stop parsing options after the first positional argument and pass the rest through unchanged.
+   */
+  stopAtFirstPositional?: boolean
+}
+
 /**
  * Parse flags shared by FaasJS CLI subcommands.
  *
  * @param {string[]} args - Raw arguments after the subcommand name.
  * @param {string} scope - Error prefix used in thrown messages.
+ * @param {ParseCommonCliArgsOptions} parseOptions - Parsing controls such as whether to treat remaining arguments as passthrough after the first positional argument. @default {}
  * @returns Parsed execution mode, normalized options, and remaining positional arguments.
  * @throws {Error} When an option is unknown or `--root` is missing a value.
  */
-export function parseCommonCliArgs(args: string[], scope: string): ParsedCommonArgs {
+export function parseCommonCliArgs(
+  args: string[],
+  scope: string,
+  parseOptions: ParseCommonCliArgsOptions = {},
+): ParsedCommonArgs {
   const options: CliOptions = {}
   const rest: string[] = []
 
@@ -40,6 +52,11 @@ export function parseCommonCliArgs(args: string[], scope: string): ParsedCommonA
         rest,
       }
 
+    if (arg === '--') {
+      rest.push(...args.slice(i + 1))
+      break
+    }
+
     if (arg === '--root') {
       const value = args[i + 1]
 
@@ -53,6 +70,11 @@ export function parseCommonCliArgs(args: string[], scope: string): ParsedCommonA
     if (arg.startsWith('-')) throw Error(`[${scope}] Unknown option: ${arg}`)
 
     rest.push(arg)
+
+    if (parseOptions.stopAtFirstPositional) {
+      rest.push(...args.slice(i + 1))
+      break
+    }
   }
 
   return {

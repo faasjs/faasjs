@@ -1,3 +1,4 @@
+import { run as runFileCli } from './run'
 import { createMain, printVersion } from './shared'
 import { run as runTypesCli } from './types'
 
@@ -7,6 +8,7 @@ Usage:
   faas <command> [...args]
 
 Commands:
+  run [options] <file>            Run a TypeScript file with FaasJS loader hooks
   types [options]                 Generate FaasJS API type declarations
 
 Options:
@@ -15,6 +17,7 @@ Options:
 `
 
 const Commands = {
+  run: runFileCli,
   types: runTypesCli,
 } as const
 

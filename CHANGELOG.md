@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.19 (2026-03-31)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.18...v8.0.0-beta.19)
+
+- `@faasjs/dev`
+  - [Feature] Add `faas run <file>` to execute local TypeScript files with `@faasjs/node-utils/register-hooks` preloaded and auto load `.env`.
+
 [`v8.0.0-beta.18 (2026-03-29)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.17...v8.0.0-beta.18)
 
 - `@faasjs/node-utils`

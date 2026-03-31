@@ -13,6 +13,17 @@ const browsers = [
 
 const types = ['packages/**/*.types.test.ts']
 
+const packEntries: Record<string, Record<string, string>> = {
+  dev: {
+    index: './src/index.ts',
+    'cli/index': './src/cli/index.ts',
+  },
+  'node-utils': {
+    index: './src/index.ts',
+    register_hooks: './src/register_hooks.ts',
+  },
+}
+
 const pack: PackUserConfig[] = [
   'ant-design',
   'core',
@@ -24,14 +35,7 @@ const pack: PackUserConfig[] = [
 ].map((p) => ({
   platform: ['react', 'ant-design', 'utils'].includes(p) ? 'browser' : 'node',
   cwd: join(process.cwd(), 'packages', p),
-  ...(p === 'node-utils'
-    ? {
-        entry: {
-          index: './src/index.ts',
-          register_hooks: './src/register_hooks.ts',
-        },
-      }
-    : {}),
+  ...(packEntries[p] ? { entry: packEntries[p] } : {}),
   format: ['esm', 'cjs'],
   checks: {
     legacyCjs: false,
