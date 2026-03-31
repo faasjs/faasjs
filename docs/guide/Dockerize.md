@@ -108,7 +108,6 @@ RUN npm install --production && npm cache clean --force
 COPY . .
 
 ENV FaasEnv=production
-ENV FaasMode=mono
 ENV FaasLogMode=plain
 ENV FaasLog=debug
 

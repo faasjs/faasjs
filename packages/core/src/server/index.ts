@@ -276,13 +276,10 @@ export class Server {
     if (this.options.onStart && !types.isAsyncFunction(this.options.onStart))
       throw Error('onStart must be async function')
 
-    if (!process.env.FaasMode) process.env.FaasMode = 'mono'
-
     this.logger = new Logger(`server][${randomBytes(16).toString('hex')}`)
     this.logger.debug(
-      'FaasJS server initialized: [%s] [%s] %s %j',
+      'FaasJS server initialized: [%s] %s %j',
       process.env.FaasEnv,
-      process.env.FaasMode,
       this.root,
       this.options,
     )

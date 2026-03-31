@@ -141,7 +141,6 @@ describe('logger', () => {
     const original = {
       FaasLog: process.env.FaasLog,
       FaasLogMode: process.env.FaasLogMode,
-      FaasMode: process.env.FaasMode,
       FaasLogSize: process.env.FaasLogSize,
       FaasLogTransport: process.env.FaasLogTransport,
       FORCE_COLOR: process.env.FORCE_COLOR,
@@ -186,10 +185,6 @@ describe('logger', () => {
 
       delete process.env.NO_COLOR
       Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: true })
-      process.env.FaasMode = 'remote'
-      const remote = new Logger()
-      expect(remote.colorfyOutput).toBe(false)
-
       process.env.FaasLog = 'WARN'
       process.env.FaasLogSize = '12'
       process.env.FaasLogTransport = 'true'

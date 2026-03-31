@@ -149,8 +149,7 @@ export class Logger {
         this.colorfyOutput = true
         break
       default:
-        this.colorfyOutput =
-          process.env.FaasMode !== 'remote' && supportsColorfyOutput(process.stdout, process.env)
+        this.colorfyOutput = supportsColorfyOutput(process.stdout, process.env)
         break
     }
 
