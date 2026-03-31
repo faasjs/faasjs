@@ -11,6 +11,8 @@ description: When working with FaasJS projects, must follow these best practices
 - [React Data Fetching Guide](./guidelines/react-data-fetching.md)
 - [React Testing Guide](./guidelines/react-testing.md)
 - [defineApi Guide](./guidelines/define-api.md)
+- [Logger Guide](./guidelines/logger.md)
+- [Utils Guide](./guidelines/utils.md)
 
 ## Specs
 
@@ -28,3 +30,4 @@ description: When working with FaasJS projects, must follow these best practices
 - [@faasjs/node-utils](./references/packages/node-utils/README.md)
 - [@faasjs/react](./references/packages/react/README.md)
 - [@faasjs/types](./references/packages/types/README.md)
+- [@faasjs/utils](./references/packages/utils/README.md)

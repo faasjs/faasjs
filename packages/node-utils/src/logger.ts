@@ -1,4 +1,4 @@
-import { colorfy } from './color'
+import { colorfy, supportsColorfyOutput } from './color'
 import { format } from './format'
 import { getTransport } from './transport'
 
@@ -85,9 +85,9 @@ export class Logger {
   /**
    * Whether terminal output should use ANSI colors.
    *
-   * @default true
+   * Auto-detected from the current environment and can be overridden with `FaasLogMode`.
    */
-  public colorfyOutput = true
+  public colorfyOutput = false
   /**
    * Optional label prefix included in log lines.
    */
@@ -149,7 +149,8 @@ export class Logger {
         this.colorfyOutput = true
         break
       default:
-        this.colorfyOutput = process.env.FaasMode !== 'remote'
+        this.colorfyOutput =
+          process.env.FaasMode !== 'remote' && supportsColorfyOutput(process.stdout, process.env)
         break
     }
 

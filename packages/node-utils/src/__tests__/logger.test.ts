@@ -21,6 +21,7 @@ describe('logger', () => {
     logger.stderr = fake
     logger.silent = false
     logger.level = 'debug'
+    logger.colorfyOutput = true
     logger[level as Level]('message')
 
     expect(lastOutput).toContain(`\u001b[0${color}m${level.toUpperCase()} message\u001b[39m`)
@@ -74,6 +75,7 @@ describe('logger', () => {
     logger.stderr = fake
     logger.silent = false
     logger.level = 'debug'
+    logger.colorfyOutput = true
     logger.timeEnd('key', 'message')
 
     expect(lastOutput).toContain('\u001b[090mDEBUG [error] message\u001b[39m')
@@ -96,6 +98,7 @@ describe('logger', () => {
     logger.stderr = fake
     logger.silent = false
     logger.level = 'info'
+    logger.colorfyOutput = true
     logger.debug('debug')
 
     expect(lastOutput).not.toContain('debug')
@@ -141,8 +144,11 @@ describe('logger', () => {
       FaasMode: process.env.FaasMode,
       FaasLogSize: process.env.FaasLogSize,
       FaasLogTransport: process.env.FaasLogTransport,
+      FORCE_COLOR: process.env.FORCE_COLOR,
+      NO_COLOR: process.env.NO_COLOR,
       npm_config_argv: process.env.npm_config_argv,
     }
+    const originalStdoutIsTTY = process.stdout.isTTY
 
     try {
       process.env.FaasLogMode = 'plain'
@@ -154,6 +160,32 @@ describe('logger', () => {
       expect(pretty.colorfyOutput).toBe(true)
 
       delete process.env.FaasLogMode
+      delete process.env.NO_COLOR
+      delete process.env.FORCE_COLOR
+      Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: true })
+      const tty = new Logger()
+      expect(tty.colorfyOutput).toBe(true)
+
+      Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: false })
+      const noTty = new Logger()
+      expect(noTty.colorfyOutput).toBe(false)
+
+      process.env.FORCE_COLOR = '1'
+      const forced = new Logger()
+      expect(forced.colorfyOutput).toBe(true)
+
+      process.env.FORCE_COLOR = '0'
+      const forceDisabled = new Logger()
+      expect(forceDisabled.colorfyOutput).toBe(false)
+
+      delete process.env.FORCE_COLOR
+      process.env.NO_COLOR = ''
+      Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: true })
+      const noColor = new Logger()
+      expect(noColor.colorfyOutput).toBe(false)
+
+      delete process.env.NO_COLOR
+      Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: true })
       process.env.FaasMode = 'remote'
       const remote = new Logger()
       expect(remote.colorfyOutput).toBe(false)
@@ -171,6 +203,14 @@ describe('logger', () => {
       const silent = new Logger()
       expect(silent.silent).toBe(true)
     } finally {
+      if (typeof originalStdoutIsTTY === 'undefined') {
+        delete (process.stdout as any).isTTY
+      } else
+        Object.defineProperty(process.stdout, 'isTTY', {
+          configurable: true,
+          value: originalStdoutIsTTY,
+        })
+
       for (const key of Object.keys(original) as Array<keyof typeof original>) {
         const value = original[key]
 
@@ -190,6 +230,7 @@ describe('logger', () => {
       const logger = new Logger('no-process')
 
       expect(logger.label).toBe('no-process')
+      expect(logger.colorfyOutput).toBe(false)
       expect(logger.silent).toBe(false)
     } finally {
       globalThis.process = originalProcess

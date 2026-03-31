@@ -1,5 +1,11 @@
 import type { Level } from './logger'
 
+type ColorfyEnv = Record<string, string | undefined>
+
+type ColorfyStream = {
+  isTTY?: boolean
+}
+
 /**
  * ANSI color codes used by the built-in logger formatter.
  */
@@ -23,6 +29,30 @@ export const LevelColor = {
   info: Color.GREEN,
   warn: Color.ORANGE,
   error: Color.RED,
+}
+
+/**
+ * Detect whether the current output target should receive ANSI colors.
+ *
+ * `FORCE_COLOR` forces colors on or off, `NO_COLOR` disables them, and regular
+ * local output only enables colors when the target is a TTY.
+ *
+ * @param {ColorfyStream} [stream] - Output target used by the logger.
+ * @param {ColorfyEnv} [env] - Environment variables used to override detection.
+ * @returns {boolean} `true` when ANSI colors should be emitted.
+ */
+export function supportsColorfyOutput(stream?: ColorfyStream, env?: ColorfyEnv): boolean {
+  if (!env) return false
+
+  const forceColor = env.FORCE_COLOR?.toLowerCase()
+
+  if (typeof forceColor !== 'undefined') return !['0', 'false'].includes(forceColor)
+
+  if (typeof env.NO_COLOR !== 'undefined') return false
+
+  if (env.TERM === 'dumb') return false
+
+  return stream?.isTTY === true
 }
 
 /**

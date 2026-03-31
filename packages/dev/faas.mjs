@@ -2,6 +2,6 @@
 
 import { main } from './dist/cli/index.mjs'
 
-main(process.argv).then((code) => {
+await main(process.argv).then((code) => {
   if (code !== 0) process.exit(code)
 })

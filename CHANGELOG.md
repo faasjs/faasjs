@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.20 (2026-03-31)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.19...v8.0.0-beta.20)
+
+- `@faasjs/node-utils`
+  - [Fix] Auto detect whether logger output supports ANSI colors based on the current terminal environment, while still allowing `FaasLogMode`, `FORCE_COLOR`, and `NO_COLOR` to override the default behavior.
+
 [`v8.0.0-beta.19 (2026-03-31)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.18...v8.0.0-beta.19)
 
 - `@faasjs/dev`
