@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
-import { dirname, join, sep } from 'node:path'
+import { dirname, join, resolve, sep } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 import * as z from 'zod'
 
@@ -7,9 +8,7 @@ import { deepMerge } from './deep_merge'
 import { Logger } from './logger'
 import { parseYaml } from './parse_yaml'
 
-type YamlConfig = {
-  [key: string]: any
-}
+type YamlConfig = Record<string, FuncConfig>
 
 /**
  * Per-plugin configuration entry resolved from `faas.yaml`.
@@ -79,7 +78,29 @@ function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
     )
   }
 
-  return result.data
+  const data = result.data as YamlConfig
+
+  for (const stageName in data) {
+    const stage = data[stageName]
+
+    if (!stage?.plugins) continue
+
+    for (const pluginName in stage.plugins) {
+      const plugin = stage.plugins[pluginName]
+
+      if (typeof plugin?.type === 'string' && plugin.type.startsWith('file://./'))
+        plugin.type = pathToFileURL(
+          resolve(dirname(filePath), plugin.type.slice('file://'.length)),
+        ).href
+
+      if (typeof plugin?.type === 'string' && plugin.type.startsWith('file://../'))
+        plugin.type = pathToFileURL(
+          resolve(dirname(filePath), plugin.type.slice('file://'.length)),
+        ).href
+    }
+  }
+
+  return data
 }
 
 function assignPluginNames(config: FuncConfig): void {

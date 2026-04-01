@@ -11,6 +11,8 @@
  * ```
  */
 
+import { fileURLToPath } from 'node:url'
+
 import type { output, ZodError, ZodType } from 'zod'
 import * as z from 'zod'
 
@@ -136,15 +138,6 @@ function formatPluginModuleName(type: string): string {
   return `@faasjs/${normalizedType}`
 }
 
-function formatPluginClassName(type: string): string {
-  return type
-    .replace(/^@[^/]+\//, '')
-    .split(/[^A-Za-z0-9]+/)
-    .filter(Boolean)
-    .map((item) => item.slice(0, 1).toUpperCase() + item.slice(1))
-    .join('')
-}
-
 function isPluginConstructor(value: unknown): value is PluginConstructor {
   if (typeof value !== 'function') return false
 
@@ -217,7 +210,7 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
 
   private async resolvePluginConstructor(
     moduleName: string,
-    className: string,
+    pluginType: string,
     pluginName: string,
   ): Promise<PluginConstructor> {
     let mod: any
@@ -230,12 +223,76 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
       )
     }
 
-    if (className && isPluginConstructor(mod[className])) return mod[className]
+    const normalizedType = pluginType.startsWith('npm:') ? pluginType.slice(4) : pluginType
+    const classNames: string[] = []
+    const addClassName = (value: string): void => {
+      const className = value
+        .split(/[^A-Za-z0-9]+/)
+        .filter(Boolean)
+        .map((item) => item.slice(0, 1).toUpperCase() + item.slice(1))
+        .join('')
+
+      if (!className || classNames.includes(className)) return
+
+      classNames.push(className)
+    }
+
+    if (normalizedType.startsWith('@')) addClassName(normalizedType.replace(/^@[^/]+\//, ''))
+
+    if (
+      normalizedType.startsWith('file://') ||
+      normalizedType.startsWith('.') ||
+      normalizedType.startsWith('/') ||
+      /^[A-Za-z]:[\\/]/.test(normalizedType)
+    ) {
+      let resolvedType = normalizedType
+
+      if (resolvedType.startsWith('file://')) {
+        try {
+          resolvedType = fileURLToPath(resolvedType)
+        } catch {}
+      }
+
+      const segments = resolvedType
+        .split(/[\\/]+/)
+        .filter(Boolean)
+        .filter((segment) => segment !== '.')
+
+      if (segments.length) {
+        const normalizedSegments = [...segments]
+        normalizedSegments[normalizedSegments.length - 1] = normalizedSegments[
+          normalizedSegments.length - 1
+        ]!.replace(/(\.d)?\.(?:[cm]?[jt]sx?)$/i, '')
+
+        const maxDepth = Math.min(normalizedSegments.length, 3)
+
+        for (let depth = maxDepth; depth >= 1; depth--) {
+          addClassName(normalizedSegments.slice(-depth).join('/'))
+        }
+
+        if (normalizedSegments[normalizedSegments.length - 1] === 'index') {
+          const baseSegments = normalizedSegments.slice(0, -1)
+          const baseDepth = Math.min(baseSegments.length, 3)
+
+          for (let depth = baseDepth; depth >= 1; depth--) {
+            addClassName(baseSegments.slice(-depth).join('/'))
+          }
+        }
+      }
+    } else {
+      addClassName(normalizedType.replace(/^@[^/]+\//, ''))
+    }
+
+    addClassName(normalizedType)
+
+    for (const className of classNames) {
+      if (isPluginConstructor(mod[className])) return mod[className]
+    }
 
     if (isPluginConstructor(mod.default)) return mod.default
 
     throw Error(
-      `[defineApi] Failed to resolve plugin class "${className}" from "${moduleName}" for plugin "${pluginName}". Supported exports are named class "${className}" or default class export.`,
+      `[defineApi] Failed to resolve plugin class "${classNames[0]}" from "${moduleName}" for plugin "${pluginName}". Supported exports are named class "${classNames[0]}" or default class export.`,
     )
   }
 
@@ -251,10 +308,9 @@ class CoreFunc<TEvent = any, TContext = any, TResult = any> extends Func<
       if (this.plugins.find((plugin) => plugin.name === pluginName)) continue
 
       const moduleName = formatPluginModuleName(pluginType)
-      const className = formatPluginClassName(pluginType)
       const PluginConstructor = await this.resolvePluginConstructor(
         moduleName,
-        className,
+        pluginType,
         pluginName,
       )
 

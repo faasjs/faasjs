@@ -19,6 +19,7 @@ description: When working with FaasJS projects, must follow these best practices
 - [faas.yaml Configuration Specification](./references/specs/faas-yaml.md)
 - [HTTP Protocol Specification](./references/specs/http-protocol.md)
 - [JSDoc Authoring Specification](./references/specs/jsdoc-authoring.md)
+- [Plugin Specification](./references/specs/plugin.md)
 - [Routing Mapping Specification](./references/specs/routing-mapping.md)
 
 ## Packages

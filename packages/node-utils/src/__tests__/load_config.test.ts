@@ -1,6 +1,7 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 import { describe, expect, it } from 'vitest'
 
@@ -343,6 +344,39 @@ development:
 
       expect(config.plugins?.base?.type).toEqual('http')
       expect(config.plugins?.local?.type).toEqual('mysql')
+    } finally {
+      rmSync(root, {
+        recursive: true,
+        force: true,
+      })
+    }
+  })
+
+  it('should resolve relative file URL plugin type from faas.yaml directory', () => {
+    const root = mkdtempSync(join(tmpdir(), 'faas-load-config-'))
+
+    try {
+      const src = join(root, 'src')
+      const plugins = join(src, 'plugins')
+      const pluginFile = join(plugins, 'demo.ts')
+
+      mkdirSync(plugins, {
+        recursive: true,
+      })
+
+      writeFileSync(pluginFile, 'export {}\n')
+      writeFileSync(
+        join(src, 'faas.yaml'),
+        `defaults:
+  plugins:
+    demo:
+      type: file://./plugins/demo.ts
+`,
+      )
+
+      const config = loadConfig(src, join(src, 'fake.func.ts'), 'development')
+
+      expect(config.plugins?.demo?.type).toBe(pathToFileURL(pluginFile).href)
     } finally {
       rmSync(root, {
         recursive: true,

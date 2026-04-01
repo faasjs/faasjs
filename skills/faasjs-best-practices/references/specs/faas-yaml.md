@@ -60,7 +60,8 @@ Related references:
 3. Plugin key SHOULD be stable within the same staging because `loadConfig()` derives runtime `name` from that key.
 4. `name` is a loader-generated runtime field and SHOULD NOT be authored manually in `faas.yaml`.
 5. A plugin config object MAY contain `type`, `config`, and other plugin-specific fields.
-6. Plugin-specific inner fields are outside the scope of this spec and are preserved during merge.
+6. Plugin `type` MAY be authored as a built-in alias, bare package type, scoped package name, relative path, absolute path, or `file://` local file URL.
+7. Plugin-specific inner fields are outside the scope of this spec and are preserved during merge.
 
 ### 6. Supported YAML subset
 

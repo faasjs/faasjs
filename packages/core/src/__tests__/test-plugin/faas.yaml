@@ -1,0 +1,6 @@
+defaults:
+  plugins:
+    fileUrlFixture:
+      type: file://./file-url-plugin.ts
+    http:
+      config: {}

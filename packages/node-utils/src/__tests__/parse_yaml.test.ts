@@ -154,6 +154,16 @@ single: 'it''s # kept' # outer
     expect(result['a:b']).toBe('value')
   })
 
+  it('should parse unquoted file URL scalars', () => {
+    const result = parseYaml(`defaults:
+  plugins:
+    local:
+      type: file:///tmp/local-plugin.ts
+`) as Record<string, any>
+
+    expect(result.defaults.plugins.local.type).toBe('file:///tmp/local-plugin.ts')
+  })
+
   it('should parse empty collection shortcuts', () => {
     const result = parseYaml(`emptyArray: []
 emptyObject: {}

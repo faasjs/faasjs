@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
+import { loadConfig } from '../../../node-utils/src'
 import { defineApi, z } from '../index'
+import { func as TestPluginFunc } from './test-plugin/test.func'
 
 async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
   return await new Response(stream).text()
@@ -304,6 +306,59 @@ describe('@faasjs/core defineApi', () => {
     }
 
     const response = await func.export().handler({})
+
+    expect((response as any).statusCode).toEqual(200)
+
+    const body = await streamToObject((response as any).body)
+
+    expect(body).toEqual({
+      data: {
+        loaded: true,
+      },
+    })
+  })
+
+  it('supports loading plugin from file URL with named class export', async () => {
+    const func = defineApi({
+      async handler(data) {
+        return {
+          loaded: Boolean((data.context as any).namedPluginLoaded),
+        }
+      },
+    })
+
+    func.config = {
+      plugins: {
+        namedByFileUrl: {
+          type: new URL('./named-plugin.ts', import.meta.url).href,
+        },
+        http: {
+          config: Object.create(null),
+        },
+      },
+    }
+
+    const response = await func.export().handler({})
+
+    expect((response as any).statusCode).toEqual(200)
+
+    const body = await streamToObject((response as any).body)
+
+    expect(body).toEqual({
+      data: {
+        loaded: true,
+      },
+    })
+  })
+
+  it('reads file URL plugin type from faas.yaml and loads the plugin', async () => {
+    TestPluginFunc.config = loadConfig(process.cwd(), TestPluginFunc.filename!, 'default')
+
+    expect((TestPluginFunc.config as any).plugins.fileUrlFixture.type).toBe(
+      new URL('./test-plugin/file-url-plugin.ts', import.meta.url).href,
+    )
+
+    const response = await TestPluginFunc.export().handler({})
 
     expect((response as any).statusCode).toEqual(200)
 
