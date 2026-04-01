@@ -620,9 +620,11 @@ function renderAndWritePage(options: {
     navbarHtml,
     sidebarHtml: `${mobileNavbarHtml}${sidebarLinks}`,
     contentHtml,
-    footerHtml: footerText
-      ? `<footer class="vp-footer">${escapeHtml(footerText)}</footer>`
-      : undefined,
+    ...(footerText
+      ? {
+          footerHtml: `<footer class="vp-footer">${escapeHtml(footerText)}</footer>`,
+        }
+      : {}),
     gaId: siteConfig.gaId,
     adsScript: siteConfig.adsScript,
   })
