@@ -23,13 +23,21 @@ import type {
   UnionFaasItemElement,
   UnionFaasItemRender,
 } from './data'
-import { cloneUnionFaasItemElement, idToTitle, transferOptions, transferValue } from './data'
+import { transferOptions, transferValue } from './data'
 import { Description } from './Description'
 import {
   type FaasDataInjection,
   FaasDataWrapper,
   type FaasDataWrapperProps,
 } from './FaasDataWrapper'
+import {
+  getSceneChildren,
+  getSceneRender,
+  normalizeSceneItem,
+  renderSceneNode,
+  shouldRenderSceneItem,
+  transferOptionLabels,
+} from './itemHelpers'
 
 /**
  * Column definition used by the FaasJS Ant Design {@link Table} component.
@@ -151,35 +159,17 @@ export type TableFaasDataResponse<T = any> = {
 
 function processValue(item: TableItemProps, value: any) {
   const itemType = item.type ?? 'string'
-  const transferred = transferValue(itemType, value)
+  const transferred = transferOptionLabels(
+    itemType,
+    item.options as {
+      label: string
+      value: any
+    }[],
+    transferValue(itemType, value),
+  )
 
   if (transferred === null || (Array.isArray(transferred) && transferred.length === 0))
     return <Blank />
-
-  if (item.options) {
-    if (itemType.endsWith('[]'))
-      return (transferred as any[])
-        .map(
-          (v: any) =>
-            (
-              item.options as {
-                label: string
-                value: any
-              }[]
-            ).find((option) => option.value === v)?.label || v,
-        )
-        .join(', ')
-
-    if (['string', 'number', 'boolean'].includes(itemType))
-      return (
-        (
-          item.options as {
-            label: string
-            value: any
-          }[]
-        ).find((option) => option.value === transferred)?.label || transferred
-      )
-  }
 
   if (itemType.endsWith('[]')) return (transferred as any[]).join(', ')
 
@@ -297,14 +287,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
   )
 
   useEqualEffect(() => {
-    const items = (cloneDeep(props.items) as TableItemProps[]).filter(
-      (item) =>
-        !(
-          item.tableChildren === null ||
-          item.children === null ||
-          item.tableRender === null ||
-          item.render === null
-        ),
+    const items = (cloneDeep(props.items) as TableItemProps[]).filter((item) =>
+      shouldRenderSceneItem(item, 'table'),
     )
 
     const createTextSearchFilterDropdown =
@@ -336,12 +320,11 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
     for (const item of items) {
       if (!item.key) item.key = item.id
       if (!item.dataIndex) item.dataIndex = item.id
+      normalizeSceneItem(item)
+
       const itemType = item.type ?? 'string'
 
-      item.title = item.title ?? idToTitle(item.id)
-      item.type = itemType
       if (item.options?.length) {
-        item.options = transferOptions(item.options)
         item.filters = (
           item.options as {
             label: string
@@ -360,16 +343,19 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         generateFilterDropdown(item)
       }
 
-      const children = item.tableChildren || item.children
+      const children = getSceneChildren(item, 'table')
 
       if (children) {
+        const sceneItem = { ...item }
+
         item.render = (value: any, values: any) =>
-          cloneUnionFaasItemElement(children, {
+          renderSceneNode({
             scene: 'table',
+            item: sceneItem,
             value,
             values,
             index: 0,
-          })
+          }).node
 
         delete item.children
         delete item.tableChildren
@@ -377,7 +363,7 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         continue
       }
 
-      const render = item.tableRender || item.render
+      const render = getSceneRender(item, 'table')
 
       if (render) {
         item.render = (value: any, values: any) => render(value, values, 0, 'table')
@@ -393,13 +379,17 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         const extendChildren = extendType.children
 
         if (extendChildren) {
+          const sceneItem = { ...item }
+
           item.render = (value: any, values: any) =>
-            cloneUnionFaasItemElement(extendChildren, {
+            renderSceneNode({
               scene: 'table',
+              item: sceneItem,
               value,
               values,
               index: 0,
-            })
+              extendType,
+            }).node
         } else {
           const extendRender = extendType.render
 

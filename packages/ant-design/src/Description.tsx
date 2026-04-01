@@ -7,15 +7,19 @@ import { type JSX, type ReactNode, useState } from 'react'
 import type { BaseItemProps } from '.'
 import { Blank } from './Blank'
 import {
-  cloneUnionFaasItemElement,
   type FaasItemProps,
   idToTitle,
-  transferOptions,
   transferValue,
   type UnionFaasItemElement,
   type UnionFaasItemRender,
 } from './data'
 import { FaasDataWrapper, type FaasDataWrapperProps } from './FaasDataWrapper'
+import {
+  normalizeSceneItem,
+  renderSceneNode,
+  shouldRenderSceneItem,
+  transferOptionLabels,
+} from './itemHelpers'
 
 /**
  * Custom renderer registration for a description item type.
@@ -104,34 +108,17 @@ function DescriptionItemContent<T = any>(
   useEqualEffect(() => {
     const propsCopy = { ...props }
 
-    propsCopy.item.title = propsCopy.item.title ?? idToTitle(propsCopy.item.id)
-    if (!propsCopy.item.type) propsCopy.item.type = 'string'
-    if (propsCopy.item.options?.length) {
-      propsCopy.item.options = transferOptions(propsCopy.item.options)
-    }
+    normalizeSceneItem(propsCopy.item)
 
     propsCopy.value = transferValue(propsCopy.item.type, propsCopy.value)
-
-    if (propsCopy.item.options && propsCopy.value !== null) {
-      if (propsCopy.item.type.endsWith('[]'))
-        propsCopy.value = (propsCopy.value as unknown as any[]).map(
-          (v: any) =>
-            (
-              propsCopy.item.options as {
-                label: string
-                value: any
-              }[]
-            ).find((option) => option.value === v)?.label || v,
-        ) as unknown as T
-      else if (['string', 'number', 'boolean'].includes(propsCopy.item.type))
-        propsCopy.value =
-          ((
-            props.item.options as {
-              label: string
-              value: any
-            }[]
-          ).find((option) => option.value === props.value)?.label as unknown as T) || props.value
-    }
+    propsCopy.value = transferOptionLabels(
+      propsCopy.item.type,
+      propsCopy.item.options as {
+        label: string
+        value: any
+      }[],
+      propsCopy.value,
+    ) as T
 
     setComputedProps(propsCopy)
   }, [props])
@@ -140,40 +127,18 @@ function DescriptionItemContent<T = any>(
 
   const itemType = computedProps.item.type ?? 'string'
 
-  if (
-    computedProps.item.descriptionChildren === null ||
-    computedProps.item.children === null ||
-    computedProps.item.descriptionRender === null ||
-    computedProps.item.render === null
-  )
-    return null
+  if (!shouldRenderSceneItem(computedProps.item, 'description')) return null
 
-  const children = computedProps.item.descriptionChildren || computedProps.item.children
-  if (children)
-    return cloneUnionFaasItemElement(children, {
-      scene: 'description',
-      value: computedProps.value,
-      values: computedProps.values,
-      index: 0,
-    })
+  const customSceneNode = renderSceneNode({
+    scene: 'description',
+    item: computedProps.item as any,
+    value: computedProps.value,
+    values: computedProps.values,
+    index: 0,
+    extendType: computedProps.extendTypes?.[itemType] as any,
+  })
 
-  const render = computedProps.item.descriptionRender || computedProps.item.render
-
-  if (render) return <>{render(computedProps.value, computedProps.values, 0, 'description')}</>
-
-  if (computedProps.extendTypes?.[itemType]) {
-    const extendType = computedProps.extendTypes[itemType]
-
-    if (extendType.children)
-      return cloneUnionFaasItemElement(extendType.children, {
-        scene: 'description',
-        value: computedProps.value,
-        values: computedProps.values,
-      })
-    if (extendType.render)
-      return <>{extendType.render(computedProps.value, computedProps.values, 0, 'description')}</>
-    throw Error(`${itemType} requires children or render`)
-  }
+  if (customSceneNode.matched) return <>{customSceneNode.node}</>
 
   if (
     computedProps.value === null ||
@@ -296,14 +261,7 @@ export function Description<T extends Record<string, any> = any>(props: Descript
       items={descriptionProps.items
         .filter(
           (item) =>
-            item &&
-            !(
-              item.descriptionChildren === null ||
-              item.children === null ||
-              item.descriptionRender === null ||
-              item.render === null
-            ) &&
-            (!item.if || item.if(dataSource)),
+            item && shouldRenderSceneItem(item, 'description') && (!item.if || item.if(dataSource)),
         )
         .map((item) => ({
           ...item,

@@ -26,7 +26,8 @@ import { useState } from 'react'
 
 import { type ResolvedTheme, useConfigContext } from './Config'
 import type { BaseItemProps, FaasItemType, UnionFaasItemElement, UnionFaasItemRender } from './data'
-import { type BaseOption, cloneUnionFaasItemElement, idToTitle, transferOptions } from './data'
+import { type BaseOption } from './data'
+import { normalizeSceneItem, renderSceneNode, shouldRenderSceneItem } from './itemHelpers'
 
 type OptionsProps = {
   options: BaseOption[]
@@ -152,43 +153,43 @@ function isOptionsProps(item: any): item is OptionsProps {
 }
 
 function processProps(propsCopy: FormItemProps, config: ResolvedTheme['common']): FormItemProps {
-  propsCopy.title = propsCopy.title ?? idToTitle(propsCopy.id)
-  if (!propsCopy.label && propsCopy.label !== false) propsCopy.label = propsCopy.title
-  if (!propsCopy.name) propsCopy.name = propsCopy.id
-  if (!propsCopy.type) propsCopy.type = 'string'
-  if (!propsCopy.rules) propsCopy.rules = []
-  if (propsCopy.required) {
-    if (propsCopy.type.endsWith('[]'))
-      propsCopy.rules.push({
+  const item = normalizeSceneItem(propsCopy)
+
+  if (!item.label && item.label !== false) item.label = item.title
+  if (!item.name) item.name = item.id
+  if (!item.rules) item.rules = []
+  if (item.required) {
+    if (item.type.endsWith('[]'))
+      item.rules.push({
         required: true,
         validator: async (_, values) => {
           if (!values || values.length < 1)
-            return Promise.reject(Error(`${propsCopy.label || propsCopy.title} ${config.required}`))
+            return Promise.reject(Error(`${item.label || item.title} ${config.required}`))
         },
       })
     else
-      propsCopy.rules.push({
+      item.rules.push({
         required: true,
-        message: `${propsCopy.label || propsCopy.title} ${config.required}`,
+        message: `${item.label || item.title} ${config.required}`,
       })
   }
-  if (!propsCopy.input) propsCopy.input = {}
-  if (isOptionsProps(propsCopy)) propsCopy.input.options = transferOptions(propsCopy.options)
+  if (!item.input) item.input = {}
+  if (isOptionsProps(item)) (item.input as SelectProps<any>).options = item.options as any
 
-  switch (propsCopy.type) {
+  switch (item.type) {
     case 'boolean':
-      propsCopy.valuePropName = 'checked'
+      item.valuePropName = 'checked'
       break
     case 'object':
-      if (!Array.isArray(propsCopy.name)) propsCopy.name = [propsCopy.name]
-      for (const sub of propsCopy.object || []) {
-        if (!sub.name) sub.name = propsCopy.name.concat(sub.id)
+      if (!Array.isArray(item.name)) item.name = [item.name]
+      for (const sub of item.object || []) {
+        if (!sub.name) sub.name = item.name.concat(sub.id)
         processProps(sub, config)
       }
       break
   }
 
-  return propsCopy
+  return item
 }
 
 /**
@@ -268,40 +269,22 @@ export function FormItem<T = any>(props: FormItemProps<T>) {
       </AntdForm.Item>
     )
 
-  if (
-    computedProps.formChildren === null ||
-    computedProps.children === null ||
-    computedProps.formRender === null ||
-    computedProps.render === null
-  )
-    return null
-
-  const children = computedProps.formChildren || computedProps.children
-
-  if (children)
-    return (
-      <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-        {cloneUnionFaasItemElement(children, { scene: 'form' })}
-      </AntdForm.Item>
-    )
-
-  const render = computedProps.formRender || computedProps.render
-
-  if (render)
-    return (
-      <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-        {render(undefined as unknown as T, Object.create(null), 0, 'form')}
-      </AntdForm.Item>
-    )
+  if (!shouldRenderSceneItem(computedProps, 'form')) return null
 
   const extendType = extendTypes?.[itemType]
+  const customSceneNode = renderSceneNode({
+    scene: 'form',
+    item: computedProps as any,
+    value: undefined as unknown as T,
+    values: Object.create(null),
+    index: 0,
+    extendType: extendType as any,
+  })
 
-  if (extendType?.children)
+  if (customSceneNode.matched)
     return (
       <AntdForm.Item {...computedProps} id={computedProps.id.toString()}>
-        {cloneUnionFaasItemElement(extendType.children, {
-          scene: 'form',
-        })}
+        {customSceneNode.node}
       </AntdForm.Item>
     )
 
