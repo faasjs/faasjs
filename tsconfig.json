@@ -4,7 +4,7 @@
     "paths": {
       "@faasjs/*": ["./packages/*/src"]
     },
-    "types": ["node", "@testing-library/jest-dom"]
-  },
-  "include": ["packages/**/*.ts", "packages/**/*.tsx"]
+    "types": ["node", "@testing-library/jest-dom"],
+    "allowImportingTsExtensions": true
+  }
 }
