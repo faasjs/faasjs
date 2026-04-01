@@ -233,6 +233,36 @@ describe.sequential('server', () => {
     expect(await responses[1].text()).toBe('hello world')
   })
 
+  it('same-path requests share handler load without serializing execution', async () => {
+    const responses = await Promise.all([
+      fetch(`http://127.0.0.1:${port}/concurrency`, {
+        headers: { 'x-faasjs-request-id': 'concurrency-1' },
+      }),
+      fetch(`http://127.0.0.1:${port}/concurrency`, {
+        headers: { 'x-faasjs-request-id': 'concurrency-2' },
+      }),
+    ])
+
+    expect(responses).toHaveLength(2)
+
+    const bodies = await Promise.all(responses.map((response) => response.json()))
+
+    expect(responses[0].status).toBe(200)
+    expect(responses[1].status).toBe(200)
+    expect(bodies).toEqual([
+      {
+        data: {
+          maxActive: 2,
+        },
+      },
+      {
+        data: {
+          maxActive: 2,
+        },
+      },
+    ])
+  })
+
   it('POST with body', async () => {
     const testBody = { message: 'test', value: 123 }
     const response = await fetch(`http://127.0.0.1:${port}/post-body`, {

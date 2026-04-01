@@ -53,10 +53,7 @@ export type ServerHandlerOptions = {
 type Cache = {
   file?: string
   handler?: (...args: any) => Promise<any>
-}
-
-type Mounted = {
-  pending: [IncomingMessage, ServerResponse<IncomingMessage>, number][]
+  loading?: Promise<Cache>
 }
 
 const servers: Server[] = []
@@ -480,12 +477,38 @@ export class Server {
       return cached
     }
 
+    if (cached?.loading) {
+      logger.debug('wait for cached %s', cached.file)
+      return cached.loading
+    }
+
     const file = filepath || this.getFilePath(path)
-    const cache: Cache = {
+    const cache = cached || {
       file,
     }
+
+    cache.file = file
     logger.debug('response with %s', cache.file)
 
+    cache.loading = this.loadHandler(cache.file, path, logger)
+    this.cachedFuncs[path] = cache
+
+    try {
+      const loaded = await cache.loading
+
+      this.cachedFuncs[path] = loaded
+
+      return loaded
+    } catch (error) {
+      delete cache.loading
+
+      if (this.cachedFuncs[path] === cache) delete this.cachedFuncs[path]
+
+      throw error
+    }
+  }
+
+  private async loadHandler(file: string, path: string, logger: Logger): Promise<Cache> {
     const srcRoot = resolve(this.root)
     const projectTsconfig = join(resolve(srcRoot, '..'), 'tsconfig.json')
     const srcTsconfig = join(srcRoot, 'tsconfig.json')
@@ -508,11 +531,10 @@ export class Server {
     func.config = loadConfig(this.root, path, process.env.FaasEnv || 'development', logger)
     if (!func.config) throw Error('No config file found')
 
-    cache.handler = func.export().handler
-
-    this.cachedFuncs[path] = cache
-
-    return cache
+    return {
+      file,
+      handler: func.export().handler,
+    }
   }
 
   private async invokeHandler(
@@ -597,8 +619,6 @@ export class Server {
   public listen(): HttpServer {
     if (this.server) throw Error('Server already running')
 
-    const mounted: Record<string, Mounted> = {}
-
     if (this.options.onStart) {
       this.logger.debug('[onStart] begin')
       this.logger.time(`${this.logger.label}onStart`)
@@ -615,24 +635,9 @@ export class Server {
 
       res.on('finish', () => this.activeRequests--)
 
-      // don't lock options request
-      if (req.method === 'OPTIONS') return this.handleOptionRequest(req, res)
-
-      const requestUrl = ensureRequestUrl(req, res)
-      if (!requestUrl) return
-
-      const path = join(this.root, requestUrl).replace(/\?.*/, '')
-
-      if (!mounted[path]) mounted[path] = { pending: [] } as Mounted
-
-      mounted[path].pending.push([req, res, Date.now()])
-
-      const pending = mounted[path].pending
-      mounted[path].pending = []
-      for (const event of pending)
-        await this.handle(event[0], event[1], {
-          requestedAt: event[2],
-        })
+      await this.handle(req, res, {
+        requestedAt: Date.now(),
+      })
     })
       .on('connection', (socket) => {
         this.sockets.add(socket)
