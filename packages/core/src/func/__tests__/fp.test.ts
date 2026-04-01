@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { type InvokeData, type MountData, type Next, type Plugin, useFunc, usePlugin } from '..'
+import { Func, type InvokeData, type MountData, type Next, type Plugin } from '..'
 
-describe('fp', () => {
+describe('Func plugins', () => {
   it('should work', async () => {
     class DemoPlugin implements Plugin {
       public readonly type = 'P'
@@ -19,18 +19,12 @@ describe('fp', () => {
       }
     }
 
-    function useDemoPlugin() {
-      const p = new DemoPlugin()
-      usePlugin(p)
-      return p
-    }
-
-    const func = useFunc<{ counter: number }, any, number>(() => {
-      useDemoPlugin()
-      return async ({ event }) => {
+    const func = new Func<{ counter: number }, any, number>({
+      plugins: [new DemoPlugin()],
+      async handler({ event }) {
         event.counter++
         return event.counter
-      }
+      },
     })
 
     expect(func.plugins.length).toEqual(2)
@@ -44,12 +38,12 @@ describe('fp', () => {
 
     expect(res2).toEqual(2) // incremented by onInvoke only
 
-    const func2 = useFunc(() => {
-      useDemoPlugin()
-      return async ({ event }) => {
+    const func2 = new Func({
+      plugins: [new DemoPlugin()],
+      async handler({ event }) {
         event.counter--
         return event.counter
-      }
+      },
     })
 
     const res3 = await func2.export().handler({ counter: 0 })
@@ -74,20 +68,18 @@ describe('fp', () => {
       }
     }
 
-    function useDemoPlugin(config: { key: string }) {
-      const p = new DemoPlugin(config)
-      usePlugin(p)
-      return p
-    }
-
-    const funcA = useFunc(() => {
-      useDemoPlugin({ key: 'A' })
-      return async ({ event }) => event
+    const funcA = new Func({
+      plugins: [new DemoPlugin({ key: 'A' })],
+      async handler({ event }) {
+        return event
+      },
     }).export().handler
 
-    const funcB = useFunc(() => {
-      useDemoPlugin({ key: 'B' })
-      return async ({ event }) => event
+    const funcB = new Func({
+      plugins: [new DemoPlugin({ key: 'B' })],
+      async handler({ event }) {
+        return event
+      },
     }).export().handler
 
     const resA = await funcA({})
@@ -130,26 +122,12 @@ describe('fp', () => {
       }
     }
 
-    function useA(config: { key: string }) {
-      const p = new A(config)
-      usePlugin(p)
-      return p
-    }
-
-    function useB(config: { key: string }) {
-      const p = new B(config)
-      usePlugin(p)
-      return p
-    }
-
-    const func = useFunc<{ counter: number }, any, number>(() => {
-      useA({ key: 'counter' })
-      useB({ key: 'counter' })
-
-      return async ({ event }) => {
+    const func = new Func<{ counter: number }, any, number>({
+      plugins: [new A({ key: 'counter' }), new B({ key: 'counter' })],
+      async handler({ event }) {
         event.counter++
         return event.counter
-      }
+      },
     })
 
     expect(func.plugins.length).toEqual(3)

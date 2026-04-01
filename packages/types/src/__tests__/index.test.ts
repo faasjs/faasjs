@@ -1,4 +1,4 @@
-import { defineApi, useFunc, z } from '@faasjs/core'
+import { defineApi, Func, z } from '@faasjs/core'
 import type {
   FaasAction,
   FaasActions,
@@ -47,17 +47,17 @@ test('FaasActions should expose Params and Data', () => {
   assertType<FaasActions['test']['Data']>({ value: 'value' })
 })
 
-test('InferFaasAction should infer from useFunc', () => {
-  const func = useFunc<
+test('InferFaasAction should infer from Func', () => {
+  const func = new Func<
     {
       params: { key: string }
     },
     unknown,
     { value: string }
-  >(() => {
-    return async ({ event }) => {
+  >({
+    async handler({ event }) {
       return { value: event.params.key }
-    }
+    },
   })
 
   type InferredAction = InferFaasAction<typeof func>

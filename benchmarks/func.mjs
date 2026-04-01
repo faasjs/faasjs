@@ -1,14 +1,16 @@
-import { useFunc, useHttp } from '@faasjs/core'
+import { Func, Http } from '@faasjs/core'
 import Benchmark from 'benchmark'
 
 const suite = new Benchmark.Suite()
 
 process.env.FaasLog = 'error'
 
-const plain = useFunc(() => () => {}).export().handler
-const http = useFunc(() => {
-  useHttp()
-  return () => {}
+const plain = new Func({
+  async handler() {},
+}).export().handler
+const http = new Func({
+  plugins: [new Http()],
+  async handler() {},
 }).export().handler
 
 suite

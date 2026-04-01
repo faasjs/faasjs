@@ -3,7 +3,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 
 import { Logger } from '@faasjs/node-utils'
 
-import { useFunc } from '../func'
+import { Func } from '../func'
 import {
   getErrorMessage,
   getErrorStatusCode,
@@ -86,13 +86,15 @@ async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler:
  * ```
  */
 export async function useMiddleware(handler: Middleware) {
-  return useFunc<MiddlewareEvent>(() => async ({ event, logger }) => {
-    await invokeMiddleware(event, logger, handler)
+  return new Func<MiddlewareEvent>({
+    async handler({ event, logger }) {
+      await invokeMiddleware(event, logger, handler)
 
-    if (!event.raw.response.writableEnded) {
-      event.raw.response.statusCode = 404
-      event.raw.response.end('Not Found')
-    }
+      if (!event.raw.response.writableEnded) {
+        event.raw.response.statusCode = 404
+        event.raw.response.end('Not Found')
+      }
+    },
   })
 }
 
@@ -119,16 +121,18 @@ export async function useMiddleware(handler: Middleware) {
  * ```
  */
 export async function useMiddlewares(handlers: Middleware[]) {
-  return useFunc<MiddlewareEvent>(() => async ({ event, logger }) => {
-    for (const handler of handlers) {
-      if (event.raw.response.writableEnded) break
+  return new Func<MiddlewareEvent>({
+    async handler({ event, logger }) {
+      for (const handler of handlers) {
+        if (event.raw.response.writableEnded) break
 
-      await invokeMiddleware(event, logger, handler)
-    }
+        await invokeMiddleware(event, logger, handler)
+      }
 
-    if (!event.raw.response.writableEnded) {
-      event.raw.response.statusCode = 404
-      event.raw.response.end('Not Found')
-    }
+      if (!event.raw.response.writableEnded) {
+        event.raw.response.statusCode = 404
+        event.raw.response.end('Not Found')
+      }
+    },
   })
 }

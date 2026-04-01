@@ -1,8 +1,8 @@
 import { streamToString } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
-import { Http, HttpError, type Response, useHttp } from '..'
-import { Func, useFunc } from '../../..'
+import { Http, HttpError, type Response } from '..'
+import { Func } from '../../..'
 
 describe('http', () => {
   it('should work', async () => {
@@ -87,11 +87,12 @@ describe('http', () => {
     )
   })
 
-  it('useHttp helper', async () => {
-    const func = useFunc(() => {
-      useHttp<{ key: string }>()
-
-      return async ({ params }) => params
+  it('typed Http plugin', async () => {
+    const func = new Func({
+      plugins: [new Http<{ key: string }>()],
+      async handler({ params }) {
+        return params
+      },
     })
 
     const res = await func.export().handler({
@@ -113,10 +114,9 @@ describe('http', () => {
       release = resolve
     })
 
-    const func = useFunc(() => {
-      useHttp<{ id: string }>()
-
-      return async ({ params }) => {
+    const func = new Func({
+      plugins: [new Http<{ id: string }>()],
+      async handler({ params }) {
         const first = params.id
 
         pending += 1
@@ -128,7 +128,7 @@ describe('http', () => {
           first,
           seen: params.id,
         }
-      }
+      },
     })
 
     const handler = func.export().handler as (event?: {

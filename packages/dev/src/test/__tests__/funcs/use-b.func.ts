@@ -1,10 +1,8 @@
-import { useFunc } from '@faasjs/core'
-import { useHttp } from '@faasjs/core'
+import { Func, Http } from '@faasjs/core'
 
-export const func = useFunc(() => {
-  useHttp()
-
-  return async ({ params }) => {
+export const func = new Func({
+  plugins: [new Http()],
+  async handler({ params }) {
     if (!params.b) throw new Error('[params] b is required.')
-  }
+  },
 })

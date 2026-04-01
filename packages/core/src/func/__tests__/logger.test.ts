@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { useFunc } from '..'
+import { Func } from '..'
 
 describe('logger', () => {
   it('should work', async () => {
@@ -8,10 +8,10 @@ describe('logger', () => {
 
     vi.spyOn(console, 'log').mockImplementation((...args) => logs.push(args.join(' ')))
 
-    const func = useFunc(() => {
-      return async ({ logger }) => {
+    const func = new Func({
+      async handler({ logger }) {
         logger.info('test')
-      }
+      },
     })
 
     await func.mount()

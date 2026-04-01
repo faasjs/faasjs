@@ -5,6 +5,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 [`v8.0.0-beta.20 (2026-03-31)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.19...v8.0.0-beta.20)
 
 - `@faasjs/core`
+  - [Break] Remove `useFunc`, `usePlugin`, and `useHttp`. Create functions with `new Func({ plugins, handler })` or `defineApi(...)` instead, and attach HTTP support with `new Http(...)`.
   - [Break] Stop setting and logging the legacy `FaasMode` environment variable during `Server` initialization.
   - [Feature] Support loading plugins from `file://` module types when resolving named class exports in `defineApi`.
 

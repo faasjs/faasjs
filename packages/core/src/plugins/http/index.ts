@@ -3,14 +3,7 @@ import { createBrotliCompress, createDeflate, createGzip } from 'node:zlib'
 import type { Logger } from '@faasjs/node-utils'
 import { deepMerge } from '@faasjs/utils'
 
-import {
-  type InvokeData,
-  type MountData,
-  type Next,
-  type Plugin,
-  type UseifyPlugin,
-  usePlugin,
-} from '../../func'
+import { type MountData, type InvokeData, type Next, type Plugin } from '../../func'
 import { Cookie, type CookieOptions } from './cookie'
 import type { Session } from './session'
 
@@ -579,41 +572,6 @@ export class Http<
       delete data.response.headers['Content-Encoding']
     }
   }
-}
-
-/**
- * Attach the HTTP plugin to a function.
- *
- * @template TParams - Parsed HTTP params type injected into invoke data.
- * @template TCookie - Cookie map exposed by the cookie helper.
- * @template TSession - Session map exposed by the session helper.
- *
- * @param {HttpConfig} [config] - Optional HTTP plugin configuration.
- * @param {string} [config.name] - Instance name used to look up plugin config and label logs.
- * @param {HttpConfig['config']} [config.config] - Runtime HTTP behavior overrides merged during mount.
- * See {@link HttpConfig} for nested `config` fields such as `method`, `timeout`, `path`,
- * `ignorePathPrefix`, `functionName`, and `cookie`.
- * @returns {UseifyPlugin<Http<TParams, TCookie, TSession>>} HTTP plugin instance wrapped for `usePlugin`.
- *
- * @example
- * ```ts
- * import { useFunc, useHttp } from '@faasjs/core'
- *
- * export const func = useFunc(() => {
- *   useHttp()
- *
- *   return async ({ body }) => ({
- *     received: body,
- *   })
- * })
- * ```
- */
-export function useHttp<
-  TParams extends Record<string, any> = any,
-  TCookie extends Record<string, string> = any,
-  TSession extends Record<string, string> = any,
->(config?: HttpConfig): UseifyPlugin<Http<TParams, TCookie, TSession>> {
-  return usePlugin(new Http<TParams, TCookie, TSession>(config))
 }
 
 declare module '@faasjs/core' {

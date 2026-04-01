@@ -1,19 +1,14 @@
-import { defineApi, z } from '@faasjs/core'
+import { defineApi, Func, z } from '@faasjs/core'
 import { assertType, expect, test } from 'vitest'
 
-import {
-  type Cookie,
-  type Func,
-  type FuncEventType,
-  type FuncReturnType,
-  type Session,
-  useFunc,
-} from '..'
+import { type Cookie, type FuncEventType, type FuncReturnType, type Session } from '..'
 
-test('FuncEventType and FuncReturnType should infer from useFunc', () => {
-  const func = useFunc<{ counter: number }>(() => async ({ event }) => {
-    event.counter++
-    return event.counter
+test('FuncEventType and FuncReturnType should infer from Func', () => {
+  const func = new Func<{ counter: number }, any, number>({
+    async handler({ event }) {
+      event.counter++
+      return event.counter
+    },
   })
 
   assertType<Func<{ counter: number }, any, number>>(func)

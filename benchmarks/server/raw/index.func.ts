@@ -1,6 +1,10 @@
-import { useFunc } from '@faasjs/core'
+import { Func } from '@faasjs/core'
 
-export const func = useFunc(() => async () => ({
-  statusCode: 200,
-  body: 'Hello',
-}))
+export const func = new Func({
+  async handler() {
+    return {
+      statusCode: 200,
+      body: 'Hello',
+    }
+  },
+})

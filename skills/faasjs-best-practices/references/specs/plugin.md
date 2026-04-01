@@ -4,7 +4,7 @@
 
 FaasJS supports plugins in two complementary ways:
 
-- explicit plugin instances attached to `Func` or registered through `usePlugin()`
+- explicit plugin instances attached to `Func`
 - config-driven plugin loading used by `defineApi()`
 
 The runtime behavior is already stable across `@faasjs/core` and `@faasjs/node-utils`, but the contract is currently spread across source code, tests, and legacy docs.
@@ -53,9 +53,7 @@ Related references:
 ### 3. Manual Registration
 
 1. `new Func({ plugins: [...] })` MUST preserve the provided plugin order.
-2. `usePlugin()` MUST register only the first plugin instance for a given `name` during one `useFunc()` construction.
-3. `useFunc()` MUST reset the temporary `usePlugin()` registry after each function is created.
-4. `usePlugin()` SHOULD return the same plugin instance augmented with a `mount()` helper for isolated mounting and tests.
+2. Manual plugin arrays MUST NOT perform implicit deduplication; callers are responsible for avoiding duplicate plugin names when that matters.
 
 ### 4. Config-Driven Loading In `defineApi()`
 

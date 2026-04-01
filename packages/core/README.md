@@ -13,11 +13,8 @@
 - [removeCronJob](functions/removeCronJob.md)
 - [staticHandler](functions/staticHandler.md)
 - [unmountServerCronJobs](functions/unmountServerCronJobs.md)
-- [useFunc](functions/useFunc.md)
-- [useHttp](functions/useHttp.md)
 - [useMiddleware](functions/useMiddleware.md)
 - [useMiddlewares](functions/useMiddlewares.md)
-- [usePlugin](functions/usePlugin.md)
 
 ## Classes
 
@@ -64,7 +61,6 @@
 - [SessionContent](type-aliases/SessionContent.md)
 - [SessionOptions](type-aliases/SessionOptions.md)
 - [StaticHandlerOptions](type-aliases/StaticHandlerOptions.md)
-- [UseifyPlugin](type-aliases/UseifyPlugin.md)
 
 ## Variables
 
