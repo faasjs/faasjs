@@ -2,6 +2,7 @@ import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faa
 
 import type { Options, Response } from './browser'
 import { getClient } from './client'
+import { applyClientOnError } from './requestHelpers'
 
 /**
  * Call the currently configured FaasReactClient.
@@ -34,12 +35,9 @@ export async function faas<PathOrData extends FaasActionUnionType>(
   options?: Options,
 ): Promise<Response<FaasData<PathOrData>>> {
   const client = getClient(options?.baseUrl)
-  const onError = client.onError
-
-  if (onError)
-    return client.browserClient.action<PathOrData>(action, params, options).catch(async (res) => {
-      await onError(action as string, params)(res)
-      return Promise.reject(res)
-    })
-  return client.browserClient.action(action, params, options)
+  try {
+    return await client.browserClient.action(action, params, options)
+  } catch (error) {
+    return Promise.reject(await applyClientOnError(client, action as string, params, error))
+  }
 }

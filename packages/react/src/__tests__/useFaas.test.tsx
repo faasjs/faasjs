@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { Response, setMock } from '..'
+import { FaasReactClient, Response, setMock } from '..'
 import { useFaas } from '../useFaas'
 
 describe('useFaas', () => {
@@ -156,5 +156,31 @@ describe('useFaas', () => {
     await userEvent.click(screen.getByRole('button'))
 
     expect(await screen.findByText('data:1')).toBeDefined()
+  })
+
+  it('should only call onError once per failed request', async () => {
+    let onErrorTimes = 0
+
+    FaasReactClient({
+      baseUrl: '/use-faas-on-error/',
+      onError: () => async () => {
+        onErrorTimes++
+      },
+    })
+
+    setMock(async () => {
+      throw new Error('mock failed')
+    })
+
+    function Test() {
+      const faas = useFaas<any>('test', {}, { baseUrl: '/use-faas-on-error/' })
+
+      return <div>{faas.error?.message || 'loading'}</div>
+    }
+
+    render(<Test />)
+
+    expect(await screen.findByText('mock failed')).toBeDefined()
+    expect(onErrorTimes).toBe(1)
   })
 })

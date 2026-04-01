@@ -1,10 +1,10 @@
 import type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'
-import { useRef, useState } from 'react'
 
 import type { BaseUrl, Response } from './browser'
 import { getClient } from './client'
-import { equal, useEqualCallback, useEqualEffect } from './equal'
 import type { FaasDataInjection } from './FaasDataWrapper'
+import { applyClientOnError } from './requestHelpers'
+import { useManagedRequest } from './useManagedRequest'
 
 /**
  * Options that customize the {@link useFaas} request lifecycle.
@@ -86,163 +86,59 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
   defaultParams: FaasParams<PathOrData>,
   options: useFaasOptions<PathOrData> = {},
 ): FaasDataInjection<PathOrData> {
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState<FaasData<PathOrData>>()
-  const [error, setError] = useState<any>()
-  const [params, setParams] = useState(defaultParams)
-  const [reloadTimes, setReloadTimes] = useState(0)
-  const [fails, setFails] = useState(0)
-  const [skip, setSkip] = useState(
-    typeof options.skip === 'function' ? options.skip(defaultParams) : options.skip,
-  )
-  const promiseRef = useRef<Promise<Response<FaasData<PathOrData>>> | null>(null)
-  const controllerRef = useRef<AbortController | null>(null)
-  const localSetData = setData as React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
-  const pendingReloadsRef = useRef<
-    Map<
-      number,
-      {
-        resolve: (value: FaasData<PathOrData>) => void
-        reject: (reason: any) => void
-      }
-    >
-  >(new Map())
-  const reloadCounterRef = useRef(0)
+  const {
+    loading,
+    data,
+    error,
+    params,
+    reloadTimes,
+    reload,
+    setData,
+    setLoading,
+    setError,
+    currentPromise,
+    setPromise,
+  } = useManagedRequest<
+    FaasParams<PathOrData>,
+    FaasData<PathOrData>,
+    Promise<Response<FaasData<PathOrData>>>
+  >({
+    action: action as string,
+    defaultParams,
+    params: options.params,
+    data: options.data,
+    setData: options.setData,
+    skip: options.skip,
+    debounce: options.debounce,
+    initialData: undefined as FaasData<PathOrData>,
+    idlePromise: Promise.resolve({} as Response<FaasData<PathOrData>>),
+    execute: ({ params, signal, setPromise }) => {
+      const client = getClient(options.baseUrl)
+      const request = client.browserClient.action<PathOrData>(action, params, { signal })
 
-  useEqualEffect(() => {
-    setSkip(typeof options.skip === 'function' ? options.skip(params) : options.skip)
-  }, [typeof options.skip === 'function' ? params : options.skip])
+      setPromise(request)
 
-  useEqualEffect(() => {
-    if (!equal(defaultParams, params)) {
-      setParams(defaultParams)
-    }
-  }, [defaultParams])
-
-  useEqualEffect(() => {
-    if (!action || skip) {
-      setLoading(false)
-      return
-    }
-
-    setLoading(true)
-
-    const controller = new AbortController()
-    controllerRef.current = controller
-
-    const client = getClient(options.baseUrl)
-    const requestParams = options.params ?? params
-
-    function send() {
-      const request = client.faas<PathOrData>(action, requestParams, {
-        signal: controller.signal,
-      })
-      promiseRef.current = request
-
-      request
-        .then((r) => {
-          const nextData = r.data as FaasData<PathOrData>
-
-          setFails(0)
-          setError(null)
-          if (options.setData) options.setData(nextData)
-          else localSetData(nextData)
-          setLoading(false)
-
-          for (const { resolve } of pendingReloadsRef.current.values()) resolve(nextData)
-
-          pendingReloadsRef.current.clear()
-        })
-        .catch(async (e) => {
-          if (
-            typeof e?.message === 'string' &&
-            (e.message as string).toLowerCase().indexOf('aborted') >= 0
-          )
-            return
-
-          if (
-            !fails &&
-            typeof e?.message === 'string' &&
-            e.message.indexOf('Failed to fetch') >= 0
-          ) {
-            console.warn(`FaasReactClient: ${e.message} retry...`)
-            setFails(1)
-            return send()
-          }
-
-          let error = e
-          if (client.onError)
-            try {
-              await client.onError(action as string, requestParams)(e)
-            } catch (newError) {
-              error = newError
-            }
-
-          setError(error)
-          setLoading(false)
-
-          for (const { reject } of pendingReloadsRef.current.values()) reject(error)
-
-          pendingReloadsRef.current.clear()
-
-          return
-        })
-    }
-
-    if (options.debounce) {
-      const timeout = setTimeout(send, options.debounce)
-
-      return () => {
-        clearTimeout(timeout)
-        controllerRef.current?.abort()
-        setLoading(false)
-      }
-    }
-
-    send()
-
-    return () => {
-      controllerRef.current?.abort()
-      setLoading(false)
-    }
-  }, [action, options.params || params, reloadTimes, skip])
-
-  const reload = useEqualCallback(
-    (params?: FaasParams<PathOrData>) => {
-      if (skip) setSkip(false)
-      if (params) setParams(params)
-
-      const reloadCounter = ++reloadCounterRef.current
-
-      return new Promise<FaasData<PathOrData>>((resolve, reject) => {
-        pendingReloadsRef.current.set(reloadCounter, { resolve, reject })
-        setReloadTimes((prev) => prev + 1)
-      })
+      return request.then((response) => response.data as FaasData<PathOrData>)
     },
-    [params, skip],
-  )
+    handleError: async (requestError, requestParams) => {
+      const client = getClient(options.baseUrl)
 
-  const currentData = (options.data ?? data) as FaasData<PathOrData>
-  const currentPromise = promiseRef.current ?? Promise.resolve({} as Response<FaasData<PathOrData>>)
-  const updateData = (options.setData ?? localSetData) as React.Dispatch<
-    React.SetStateAction<FaasData<PathOrData>>
-  >
+      return applyClientOnError(client, action as string, requestParams, requestError)
+    },
+  })
 
   return {
     action,
     params,
     loading,
-    data: currentData,
+    data,
     reloadTimes,
     error,
     promise: currentPromise,
     reload,
-    setData: updateData,
+    setData,
     setLoading,
-    setPromise: (newPromise) => {
-      promiseRef.current =
-        typeof newPromise === 'function' ? newPromise(currentPromise) : newPromise
-    },
+    setPromise,
     setError,
   }
 }
