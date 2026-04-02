@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => ({
-  generateFaasTypes: vi.fn(),
-  loadEnvFileIfExists: vi.fn(() => null),
+  generateFaasTypes: vi.fn<(...args: any[]) => Promise<any>>(),
+  loadEnvFileIfExists: vi.fn<() => null>(() => null),
 }))
 
 vi.mock('@faasjs/node-utils', () => ({

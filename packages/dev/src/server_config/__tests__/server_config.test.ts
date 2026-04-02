@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => ({
-  loadConfig: vi.fn(),
+  loadConfig: vi.fn<(...args: any[]) => any>(),
 }))
 
 vi.mock('@faasjs/node-utils', () => ({

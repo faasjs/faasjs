@@ -4,7 +4,7 @@ import { FaasBrowserClient, Response as FaasResponse, setMock } from '../../brow
 
 describe('stream', () => {
   beforeEach(() => {
-    window.fetch = vi.fn()
+    window.fetch = vi.fn<typeof window.fetch>()
   })
 
   it('returns native Response when stream is true', async () => {
@@ -15,7 +15,7 @@ describe('stream', () => {
       },
     })
 
-    window.fetch = vi.fn(() =>
+    window.fetch = vi.fn<() => Promise<Response>>(() =>
       Promise.resolve({
         ok: true,
         status: 200,
@@ -36,7 +36,7 @@ describe('stream', () => {
   })
 
   it('maintains original behavior when stream is false or undefined', async () => {
-    window.fetch = vi.fn(() =>
+    window.fetch = vi.fn<() => Promise<Response>>(() =>
       Promise.resolve({
         ok: true,
         status: 200,
@@ -68,7 +68,7 @@ describe('stream', () => {
       },
     })
 
-    window.fetch = vi.fn(() =>
+    window.fetch = vi.fn<() => Promise<Response>>(() =>
       Promise.resolve({
         ok: true,
         status: 200,
@@ -96,20 +96,22 @@ describe('stream', () => {
   })
 
   it('supports abort controller', async () => {
-    window.fetch = vi.fn((url: string, options: any) => {
-      return Promise.resolve({
-        ok: true,
-        status: 200,
-        body: new ReadableStream({
-          start(controller) {
-            options.signal.addEventListener('abort', () => {
-              controller.close()
-            })
-          },
-        }),
-        headers: new Headers({ 'Content-Type': 'text/plain' }),
-      } as Response)
-    }) as any
+    window.fetch = vi.fn<(url: string, options: any) => Promise<Response>>(
+      (url: string, options: any) => {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          body: new ReadableStream({
+            start(controller) {
+              options.signal.addEventListener('abort', () => {
+                controller.close()
+              })
+            },
+          }),
+          headers: new Headers({ 'Content-Type': 'text/plain' }),
+        } as Response)
+      },
+    ) as any
 
     const controller = new AbortController()
     const client = new FaasBrowserClient('/')
@@ -136,17 +138,19 @@ describe('stream', () => {
       },
     })
 
-    window.fetch = vi.fn((url: string, options: any) => {
-      expect(options.headers['Content-Type']).toBe('application/json; charset=UTF-8')
-      expect(options.headers['X-FaasJS-Request-Id']).toBeDefined()
+    window.fetch = vi.fn<(url: string, options: any) => Promise<Response>>(
+      (url: string, options: any) => {
+        expect(options.headers['Content-Type']).toBe('application/json; charset=UTF-8')
+        expect(options.headers['X-FaasJS-Request-Id']).toBeDefined()
 
-      return Promise.resolve({
-        ok: true,
-        status: 200,
-        body: stream,
-        headers: new Headers(),
-      } as Response)
-    }) as any
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          body: stream,
+          headers: new Headers(),
+        } as Response)
+      },
+    ) as any
 
     const client = new FaasBrowserClient('/')
     await client.action('test', { key: 'value' }, { stream: true })
@@ -159,7 +163,7 @@ describe('stream', () => {
       },
     })
 
-    const customRequest = vi.fn(() =>
+    const customRequest = vi.fn<() => Promise<Response>>(() =>
       Promise.resolve({
         ok: true,
         status: 200,
@@ -212,7 +216,7 @@ describe('stream', () => {
       },
     })
 
-    window.fetch = vi.fn(() =>
+    window.fetch = vi.fn<() => Promise<Response>>(() =>
       Promise.resolve({
         ok: false,
         status: 500,

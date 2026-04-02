@@ -8,7 +8,7 @@ describe('Table/faas', () => {
 
   beforeEach(() => {
     originalFetch = window.fetch
-    window.fetch = vi.fn(
+    window.fetch = vi.fn<() => Promise<Response>>(
       async () =>
         ({
           status: 200,

@@ -150,7 +150,7 @@ describe('useEqualMemoize hook', () => {
 
 describe('useEqualEffect hook', () => {
   it('should call the callback when dependencies change', () => {
-    const callback = vi.fn()
+    const callback = vi.fn<() => void>()
     const { rerender } = renderHook(({ deps }) => useEqualEffect(callback, deps), {
       initialProps: { deps: [1, 2, 3] },
     })
@@ -165,7 +165,7 @@ describe('useEqualEffect hook', () => {
   })
 
   it('should not call the callback when dependencies are equal', () => {
-    const callback = vi.fn()
+    const callback = vi.fn<() => void>()
     const { rerender } = renderHook(({ deps }) => useEqualEffect(callback, deps), {
       initialProps: { deps: [1, 2, 3] },
     })
@@ -177,7 +177,7 @@ describe('useEqualEffect hook', () => {
   })
 
   it('should handle primitive dependencies', () => {
-    const callback = vi.fn()
+    const callback = vi.fn<() => void>()
     const { rerender } = renderHook(({ deps }) => useEqualEffect(callback, deps), {
       initialProps: { deps: [1] },
     })
@@ -192,7 +192,7 @@ describe('useEqualEffect hook', () => {
   })
 
   it('should handle object dependencies', () => {
-    const callback = vi.fn()
+    const callback = vi.fn<() => void>()
     const { rerender } = renderHook(({ deps }) => useEqualEffect(callback, deps), {
       initialProps: { deps: [{ a: 1 }] },
     })
@@ -209,7 +209,7 @@ describe('useEqualEffect hook', () => {
 
 describe('useEqualMemo hook', () => {
   it('should memoize the result if dependencies are equal', () => {
-    const callback = vi.fn(() => 42)
+    const callback = vi.fn<() => number>(() => 42)
     const { result, rerender } = renderHook(({ deps }) => useEqualMemo(callback, deps), {
       initialProps: { deps: [1, 2, 3] },
     })
@@ -223,7 +223,7 @@ describe('useEqualMemo hook', () => {
   })
 
   it('should recompute the result if dependencies change', () => {
-    const callback = vi.fn(() => 42)
+    const callback = vi.fn<() => number>(() => 42)
     const { result, rerender } = renderHook(({ deps }) => useEqualMemo(callback, deps), {
       initialProps: { deps: [1, 2, 3] },
     })
@@ -237,7 +237,7 @@ describe('useEqualMemo hook', () => {
   })
 
   it('should handle primitive dependencies', () => {
-    const callback = vi.fn(() => 42)
+    const callback = vi.fn<() => number>(() => 42)
     const { result, rerender } = renderHook(({ deps }) => useEqualMemo(callback, deps), {
       initialProps: { deps: [1] },
     })
@@ -255,7 +255,7 @@ describe('useEqualMemo hook', () => {
   })
 
   it('should handle object dependencies', () => {
-    const callback = vi.fn(() => 42)
+    const callback = vi.fn<() => number>(() => 42)
     const { result, rerender } = renderHook(({ deps }) => useEqualMemo(callback, deps), {
       initialProps: { deps: [{ a: 1 }] },
     })
@@ -275,7 +275,7 @@ describe('useEqualMemo hook', () => {
 
 describe('useEqualCallback hook', () => {
   it('should memoize the callback if dependencies are equal', () => {
-    const callback = vi.fn()
+    const callback = vi.fn<() => void>()
     const { result, rerender } = renderHook(({ deps }) => useEqualCallback(callback, deps), {
       initialProps: { deps: [1, 2, 3] },
     })
@@ -291,7 +291,7 @@ describe('useEqualCallback hook', () => {
   })
 
   it('should update the memoized callback if dependencies change', () => {
-    const callback = vi.fn()
+    const callback = vi.fn<() => void>()
     const { result, rerender } = renderHook(({ deps }) => useEqualCallback(callback, deps), {
       initialProps: { deps: [1, 2, 3] },
     })
@@ -307,7 +307,7 @@ describe('useEqualCallback hook', () => {
   })
 
   it('should handle primitive dependencies', () => {
-    const callback = vi.fn()
+    const callback = vi.fn<() => void>()
     const { result, rerender } = renderHook(({ deps }) => useEqualCallback(callback, deps), {
       initialProps: { deps: [1] },
     })
@@ -328,7 +328,7 @@ describe('useEqualCallback hook', () => {
   })
 
   it('should handle object dependencies', () => {
-    const callback = vi.fn()
+    const callback = vi.fn<() => void>()
     const { result, rerender } = renderHook(({ deps }) => useEqualCallback(callback, deps), {
       initialProps: { deps: [{ a: 1 }] },
     })

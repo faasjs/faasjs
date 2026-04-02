@@ -98,7 +98,7 @@ describe('Link', () => {
 
   it('work with external link', async () => {
     const origin = window.open
-    window.open = vi.fn()
+    window.open = vi.fn<typeof window.open>()
 
     const { container } = render(
       <BrowserRouter>
@@ -118,7 +118,7 @@ describe('Link', () => {
 
   it('work with external link and children', async () => {
     const origin = window.open
-    window.open = vi.fn()
+    window.open = vi.fn<typeof window.open>()
 
     render(
       <BrowserRouter>
@@ -163,7 +163,7 @@ describe('Link', () => {
 
     it('work with external link', async () => {
       const origin = window.open
-      window.open = vi.fn()
+      window.open = vi.fn<typeof window.open>()
 
       render(
         <BrowserRouter>

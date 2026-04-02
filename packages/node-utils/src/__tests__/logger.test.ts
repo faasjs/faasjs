@@ -234,7 +234,7 @@ describe('logger', () => {
 
   it('should drop empty messages and truncate long plain logs', () => {
     const logger = new Logger()
-    const stdout = vi.fn()
+    const stdout = vi.fn<(text: string) => void>()
 
     logger.stdout = stdout
     logger.stderr = stdout

@@ -10,7 +10,7 @@ describe('Table/ajax', () => {
 
   beforeEach(() => {
     originalFetch = window.fetch
-    window.fetch = vi.fn(async () => {
+    window.fetch = vi.fn<() => Promise<Response>>(async () => {
       current++
       return Promise.resolve({
         status: 200,

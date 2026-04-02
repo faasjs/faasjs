@@ -9,17 +9,19 @@ import { viteFaasJsServer } from '..'
 
 const mocks = vi.hoisted(() => {
   const calls: any[][] = []
-  const handle = vi.fn(async (req: any, res: any, _options?: any) => {
-    res.statusCode = 200
-    res.setHeader('content-type', 'application/json')
-    res.end(
-      JSON.stringify({
-        success: true,
-        method: req.method,
-        url: req.url,
-      }),
-    )
-  })
+  const handle = vi.fn<(req: any, res: any, _options?: any) => Promise<void>>(
+    async (req: any, res: any, _options?: any) => {
+      res.statusCode = 200
+      res.setHeader('content-type', 'application/json')
+      res.end(
+        JSON.stringify({
+          success: true,
+          method: req.method,
+          url: req.url,
+        }),
+      )
+    },
+  )
 
   class ServerMock {
     constructor(...args: any[]) {
@@ -41,13 +43,13 @@ vi.mock('@faasjs/core', () => ({
 }))
 
 vi.mock('../../typegen', () => ({
-  generateFaasTypes: vi.fn(async () => ({
+  generateFaasTypes: vi.fn<(...args: any[]) => Promise<any>>(async () => ({
     output: '/tmp/types.d.ts',
     changed: false,
     fileCount: 0,
     routeCount: 0,
   })),
-  isTypegenSourceFile: vi.fn(
+  isTypegenSourceFile: vi.fn<(filePath: string) => boolean>(
     (filePath: string) => filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
   ),
 }))

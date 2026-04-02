@@ -48,7 +48,7 @@ describe('transport', () => {
   })
 
   it('should flush transport handlers with cached messages', async () => {
-    const handler: TransportHandler = vi.fn(async () => {})
+    const handler: TransportHandler = vi.fn<TransportHandler>(async () => {})
 
     const transport = getTransport()
 
@@ -71,7 +71,7 @@ describe('transport', () => {
     const error = new Error('test error')
     const transport = getTransport()
 
-    const handler: TransportHandler = vi.fn(async () => {
+    const handler: TransportHandler = vi.fn<TransportHandler>(async () => {
       throw error
     })
 
@@ -96,7 +96,7 @@ describe('transport', () => {
 
   it('should wait for an in-flight flush', async () => {
     const transport = getTransport()
-    const handler: TransportHandler = vi.fn(async () => {
+    const handler: TransportHandler = vi.fn<TransportHandler>(async () => {
       await new Promise((resolve) => setTimeout(resolve, 150))
     })
 

@@ -7,7 +7,7 @@ import { useConstant } from '../constant'
 
 describe('useConstant', () => {
   it('should work', async () => {
-    const fn = vi.fn(() => 'test')
+    const fn = vi.fn<() => string>(() => 'test')
 
     function Test() {
       const data = useConstant(fn)

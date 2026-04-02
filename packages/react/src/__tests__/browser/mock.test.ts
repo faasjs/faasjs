@@ -4,7 +4,7 @@ import { FaasBrowserClient, Response, ResponseError, setMock } from '../../brows
 
 describe('mock', () => {
   beforeEach(() => {
-    window.fetch = vi.fn(
+    window.fetch = vi.fn<(...args: any[]) => Promise<any>>(
       () =>
         Promise.resolve({
           ok: true,
@@ -132,9 +132,11 @@ describe('mock', () => {
 
   describe('setMock parameters', () => {
     it('should receive correct action parameter', async () => {
-      const handler = vi.fn(async (action: string) => ({
-        data: { action: action },
-      }))
+      const handler = vi.fn<(action: string) => Promise<{ data: { action: string } }>>(
+        async (action: string) => ({
+          data: { action: action },
+        }),
+      )
 
       setMock(handler)
 
@@ -146,9 +148,11 @@ describe('mock', () => {
     })
 
     it('should receive correct params parameter', async () => {
-      const handler = vi.fn(async (action: string, params: any) => ({
-        data: { params: params },
-      }))
+      const handler = vi.fn<(action: string, params: any) => Promise<{ data: { params: any } }>>(
+        async (action: string, params: any) => ({
+          data: { params: params },
+        }),
+      )
 
       setMock(handler)
 
@@ -161,12 +165,14 @@ describe('mock', () => {
     })
 
     it('should receive correct options parameter', async () => {
-      const handler = vi.fn(async (action: string, params: any, options: any) => ({
-        data: {
-          headers: options.headers,
-          method: options.method,
-        } as any,
-      }))
+      const handler = vi.fn<(action: string, params: any, options: any) => Promise<{ data: any }>>(
+        async (action: string, params: any, options: any) => ({
+          data: {
+            headers: options.headers,
+            method: options.method,
+          } as any,
+        }),
+      )
 
       setMock(handler)
 
@@ -185,9 +191,11 @@ describe('mock', () => {
     })
 
     it('should receive X-FaasJS-Request-Id header in options', async () => {
-      const handler = vi.fn(async (action: string, params: any, options: any) => ({
-        data: { requestId: options.headers['X-FaasJS-Request-Id'] } as any,
-      }))
+      const handler = vi.fn<(action: string, params: any, options: any) => Promise<{ data: any }>>(
+        async (action: string, params: any, options: any) => ({
+          data: { requestId: options.headers['X-FaasJS-Request-Id'] } as any,
+        }),
+      )
 
       setMock(handler)
 
@@ -307,11 +315,13 @@ describe('mock', () => {
     })
 
     it('should interact with beforeRequest', async () => {
-      const handler = vi.fn(async (action: string, params: any, options: any) => ({
-        data: {
-          modifiedHeader: options.headers['X-Modified'],
-        } as any,
-      }))
+      const handler = vi.fn<(action: string, params: any, options: any) => Promise<{ data: any }>>(
+        async (action: string, params: any, options: any) => ({
+          data: {
+            modifiedHeader: options.headers['X-Modified'],
+          } as any,
+        }),
+      )
 
       setMock(handler)
 
@@ -501,7 +511,7 @@ describe('mock', () => {
     })
 
     it('should not use custom request function when mock is set', async () => {
-      const customRequest = vi.fn().mockResolvedValue(
+      const customRequest = vi.fn<() => Promise<Response>>().mockResolvedValue(
         new Response({
           status: 200,
           data: { from: 'custom' },
@@ -541,7 +551,7 @@ describe('mock', () => {
     })
 
     it('should handle empty params object', async () => {
-      const handler = vi.fn(async () => ({
+      const handler = vi.fn<() => Promise<{ data: { received: boolean } }>>(async () => ({
         data: { received: true },
       }))
 

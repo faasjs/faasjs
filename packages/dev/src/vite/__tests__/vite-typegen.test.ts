@@ -7,13 +7,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => {
   const serverCalls: any[][] = []
-  const generateFaasTypes = vi.fn(async () => ({
+  const generateFaasTypes = vi.fn<(...args: any[]) => Promise<any>>(async () => ({
     output: '/tmp/types.d.ts',
     changed: true,
     fileCount: 1,
     routeCount: 1,
   }))
-  const isTypegenSourceFile = vi.fn(
+  const isTypegenSourceFile = vi.fn<(filePath: string) => boolean>(
     (filePath: string) => filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
   )
 
@@ -22,7 +22,7 @@ const mocks = vi.hoisted(() => {
       serverCalls.push(args)
     }
 
-    handle = vi.fn()
+    handle = vi.fn<(...args: any[]) => any>()
   }
 
   return {

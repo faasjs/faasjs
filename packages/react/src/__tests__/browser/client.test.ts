@@ -43,7 +43,7 @@ describe('client', () => {
       method: '',
     }
 
-    window.fetch = vi.fn(defaultMock) as any
+    window.fetch = vi.fn<typeof defaultMock>(defaultMock) as any
   })
 
   it('should work', async () => {
@@ -103,18 +103,20 @@ describe('client', () => {
   })
 
   it('when error', async () => {
-    window.fetch = vi.fn(async (url: RequestInfo | URL, options: RequestInit) => {
-      request = {
-        url: formatRequestUrl(url),
-        method: options.method ?? '',
-        ...(options.headers ? { headers: options.headers } : {}),
-      }
-      return Promise.resolve({
-        status: 500,
-        headers: new Map(),
-        text: async () => Promise.resolve('{"error":{"message":"no"}}'),
-      }) as unknown as Promise<Response>
-    }) as any
+    window.fetch = vi.fn<typeof defaultMock>(
+      async (url: RequestInfo | URL, options: RequestInit) => {
+        request = {
+          url: formatRequestUrl(url),
+          method: options.method ?? '',
+          ...(options.headers ? { headers: options.headers } : {}),
+        }
+        return Promise.resolve({
+          status: 500,
+          headers: new Map(),
+          text: async () => Promise.resolve('{"error":{"message":"no"}}'),
+        }) as unknown as Promise<Response>
+      },
+    ) as any
 
     const client = new FaasBrowserClient('/')
 

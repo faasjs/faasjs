@@ -8,7 +8,7 @@ describe('FaasDataWrapper', () => {
 
   beforeEach(() => {
     originalFetch = window.fetch
-    window.fetch = vi.fn(async () => {
+    window.fetch = vi.fn<() => Promise<Response>>(async () => {
       return Promise.resolve({
         status: 200,
         headers: new Map([['Content-Type', 'application/json']]),

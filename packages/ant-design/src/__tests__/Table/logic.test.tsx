@@ -91,7 +91,9 @@ describe('Table/logic', () => {
 
   it('should keep custom filterDropdown when provided', async () => {
     const user = createUser()
-    const customFilterDropdown = vi.fn(() => <div>Custom Status Filter</div>)
+    const customFilterDropdown = vi.fn<(...args: any[]) => any>(() => (
+      <div>Custom Status Filter</div>
+    ))
 
     render(
       <Table
@@ -147,7 +149,7 @@ describe('Table/logic', () => {
       }
     })
 
-    const onChange = vi.fn((pagination, filters, sorter, extra) => ({
+    const onChange = vi.fn<(...args: any[]) => any>((pagination, filters, sorter, extra) => ({
       pagination: {
         ...pagination,
         current: 2,
