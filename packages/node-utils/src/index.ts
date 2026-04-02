@@ -31,6 +31,8 @@ export type { LoadEnvFileIfExistsOptions } from './load_env'
 export { loadEnvFileIfExists } from './load_env'
 export type { ExportedHandler } from './load_func'
 export { loadFunc } from './load_func'
+export type { LoadPluginsOptions } from './load_plugins'
+export { loadPlugins } from './load_plugins'
 export type {
   LoadPackageOptions,
   NodeRuntime,

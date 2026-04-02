@@ -75,6 +75,8 @@ Additional values forwarded to the formatter.
 
 The current logger for chaining.
 
+---
+
 ### error()
 
 > **error**(`message`, ...`args`): `Logger`
@@ -100,6 +102,8 @@ Additional values forwarded to the formatter.
 `Logger`
 
 The current logger for chaining.
+
+---
 
 ### info()
 
@@ -127,6 +131,8 @@ Additional values forwarded to the formatter.
 
 The current logger for chaining.
 
+---
+
 ### raw()
 
 > **raw**(`message`, ...`args`): `Logger`
@@ -152,6 +158,8 @@ Additional values forwarded to the formatter.
 `Logger`
 
 The current logger for chaining.
+
+---
 
 ### time()
 
@@ -184,6 +192,8 @@ The current logger for chaining.
 ```ts
 'debug'
 ```
+
+---
 
 ### timeEnd()
 
@@ -218,6 +228,8 @@ Additional values forwarded to the formatter.
 `Logger`
 
 The current logger for chaining.
+
+---
 
 ### warn()
 
@@ -255,6 +267,8 @@ Whether terminal output should use ANSI colors.
 
 Auto-detected from the current environment and can be overridden with `FaasLogMode`.
 
+---
+
 ### disableTransport
 
 > **disableTransport**: `boolean` = `false`
@@ -267,11 +281,15 @@ Disable forwarding log messages to the shared transport.
 false
 ```
 
+---
+
 ### label?
 
 > `optional` **label?**: `string`
 
 Optional label prefix included in log lines.
+
+---
 
 ### level
 
@@ -285,6 +303,8 @@ Minimum level that will be emitted.
 'debug'
 ```
 
+---
+
 ### silent
 
 > **silent**: `boolean` = `false`
@@ -297,6 +317,8 @@ When true, suppresses all output and transport forwarding.
 false
 ```
 
+---
+
 ### size
 
 > **size**: `number` = `1000`
@@ -308,6 +330,8 @@ Maximum plain-text payload length before non-error logs are truncated.
 ```ts
 1000
 ```
+
+---
 
 ### stderr
 
@@ -330,6 +354,8 @@ Output function used for error logs.
 ```ts
 console.error
 ```
+
+---
 
 ### stdout
 

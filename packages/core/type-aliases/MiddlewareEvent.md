@@ -14,6 +14,8 @@ Event shape passed to middleware-backed functions.
 
 Request body collected by the server.
 
+---
+
 ### raw
 
 > **raw**: `object`

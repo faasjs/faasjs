@@ -2,14 +2,8 @@ import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 
 import { Cookie, Http } from '@faasjs/core'
 import type { Config, ExportedHandler, Func, FuncEventType } from '@faasjs/core'
-import { loadConfig, Logger } from '@faasjs/node-utils'
-import {
-  deepMerge,
-  objectToStream,
-  streamToObject,
-  streamToString,
-  stringToStream,
-} from '@faasjs/utils'
+import { loadPlugins, Logger } from '@faasjs/node-utils'
+import { objectToStream, streamToObject, streamToString, stringToStream } from '@faasjs/utils'
 
 export * from '@faasjs/core'
 
@@ -65,6 +59,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    */
   public readonly config: Config
   private readonly _handler: ExportedHandler
+  private readonly loadPluginsTask?: Promise<void>
 
   /**
    * Create a wrapper around a FaasJS function instance for repeated test calls.
@@ -87,10 +82,12 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
 
     this.func = (initBy.default ? initBy.default : initBy) as TFunc
     if (this.func.filename)
-      this.func.config = deepMerge(
-        loadConfig(process.cwd(), this.func.filename, this.staging, this.logger),
-        this.func.config,
-      )
+      this.loadPluginsTask = loadPlugins(this.func, {
+        root: process.cwd(),
+        filename: this.func.filename,
+        staging: this.staging,
+        logger: this.logger,
+      }).then(() => undefined)
 
     this.file = this.func.filename || ''
     this.config = this.func.config
@@ -105,6 +102,8 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    * @returns Resolves after the function has been mounted and the callback has finished.
    */
   public async mount(handler?: (func: FuncWarper<TFunc>) => Promise<void> | void): Promise<void> {
+    if (this.loadPluginsTask) await this.loadPluginsTask
+
     if (!this.func.mounted) {
       await this.func.mount()
     }

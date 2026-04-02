@@ -2,7 +2,7 @@
 
 # Type Alias: DefineApiData\<TSchema, TEvent, TContext, TResult\>
 
-> **DefineApiData**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = [`InvokeData`](InvokeData.md)\<`TEvent`, `TContext`, `TResult`\> & `object` & `DefineApiInject`
+> **DefineApiData**\<`TSchema`, `TEvent`, `TContext`, `TResult`\> = [`InvokeData`](InvokeData.md)\<`TEvent`, `TContext`, `TResult`\> & `object` & [`DefineApiInject`](../interfaces/DefineApiInject.md)
 
 Handler data passed to [defineApi](../functions/defineApi.md).
 

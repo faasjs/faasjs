@@ -18,6 +18,8 @@ Cookie defaults and session integration options used by [Cookie](../classes/Cook
 
 Cookie domain attribute.
 
+---
+
 ### expires?
 
 > `optional` **expires?**: `number`
@@ -29,6 +31,8 @@ Max age in seconds for persisted cookies.
 ```ts
 31536000
 ```
+
+---
 
 ### httpOnly?
 
@@ -42,6 +46,8 @@ Whether cookies are hidden from client-side scripts.
 true
 ```
 
+---
+
 ### path?
 
 > `optional` **path?**: `string`
@@ -54,11 +60,15 @@ Cookie path attribute.
 '/'
 ```
 
+---
+
 ### sameSite?
 
 > `optional` **sameSite?**: `"Strict"` \| `"Lax"` \| `"None"`
 
 SameSite attribute applied to written cookies.
+
+---
 
 ### secure?
 
@@ -71,6 +81,8 @@ Whether cookies require HTTPS transport.
 ```ts
 true
 ```
+
+---
 
 ### session?
 

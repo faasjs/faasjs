@@ -17,17 +17,23 @@ minute hour dayOfMonth month dayOfWeek
 
 Supported syntax per field: wildcard (`*`), step (every n units), and fixed number.
 
+---
+
 ### handler
 
 > **handler**: [`CronJobHandler`](CronJobHandler.md)
 
 Callback invoked whenever the cron expression matches.
 
+---
+
 ### logger?
 
 > `optional` **logger?**: `Logger`
 
 Custom logger used by this cron job.
+
+---
 
 ### name?
 
@@ -40,6 +46,8 @@ Optional job name used in logs and registry helpers.
 ```ts
 random generated name
 ```
+
+---
 
 ### onError?
 

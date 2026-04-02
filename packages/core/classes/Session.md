@@ -59,6 +59,8 @@ Session encryption and cookie key options.
 
 [`SessionOptions`](../type-aliases/SessionOptions.md)
 
+---
+
 `SessionConfig`
 
 ##### secrets?
@@ -105,6 +107,8 @@ Decoded session payload.
 
 When the signature is invalid or the payload cannot be decrypted.
 
+---
+
 ### encode()
 
 > **encode**(`text`): `string`
@@ -127,6 +131,8 @@ Session payload to encode.
 
 Encoded cookie value.
 
+---
+
 ### fork()
 
 > **fork**(`cookie`): `Session`\<`S`, `C`\>
@@ -146,6 +152,8 @@ Forked cookie store.
 `Session`\<`S`, `C`\>
 
 Session helper sharing the same derived secrets.
+
+---
 
 ### invoke()
 
@@ -173,6 +181,8 @@ Optional logger for decode failures.
 
 No return value.
 
+---
+
 ### read()
 
 > **read**(`key`): `string` \| `number`
@@ -193,6 +203,8 @@ Session key.
 
 Stored session value.
 
+---
+
 ### update()
 
 > **update**(): `Session`\<`S`, `C`\>
@@ -204,6 +216,8 @@ Persist pending in-memory changes back to the session cookie.
 `Session`\<`S`, `C`\>
 
 Current session helper for chaining.
+
+---
 
 ### write()
 
@@ -238,6 +252,8 @@ Current session helper for chaining.
 > `readonly` **config**: `SessionConfig`
 
 Normalized session config with derived defaults.
+
+---
 
 ### content
 

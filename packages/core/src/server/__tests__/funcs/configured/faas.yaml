@@ -1,0 +1,12 @@
+defaults:
+  plugins:
+    http:
+      config:
+        cookie:
+          secure: false
+          session:
+            secret: configured-secret
+    shared:
+      type: yaml-shared
+      config:
+        fromYaml: true

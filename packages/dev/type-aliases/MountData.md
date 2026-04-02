@@ -18,11 +18,15 @@ Data passed to plugin mount hooks.
 
 Function configuration available during mount.
 
+---
+
 ### context
 
 > **context**: `any`
 
 Initial context value used when mounting.
+
+---
 
 ### event
 

@@ -69,6 +69,8 @@ Error message exposed to callers.
 
 `Error.message`
 
+---
+
 ### statusCode
 
 > `readonly` **statusCode**: `number`

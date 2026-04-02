@@ -38,11 +38,15 @@ Async result type produced by the handler.
 
 Optional callback forwarded from the runtime.
 
+---
+
 ### config
 
 > **config**: [`Config`](Config.md)
 
 Resolved function configuration.
+
+---
 
 ### context
 
@@ -50,11 +54,15 @@ Resolved function configuration.
 
 Runtime context payload.
 
+---
+
 ### event
 
 > **event**: `TEvent`
 
 Runtime event payload.
+
+---
 
 ### handler?
 
@@ -62,11 +70,15 @@ Runtime event payload.
 
 Final business handler when one exists.
 
+---
+
 ### logger
 
 > **logger**: `Logger`
 
 Request-scoped logger instance.
+
+---
 
 ### response
 

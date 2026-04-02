@@ -14,6 +14,8 @@ Options for generating `@faasjs/types` route declarations.
 
 Logger used to report generation progress.
 
+---
+
 ### root?
 
 > `optional` **root?**: `string`

@@ -20,6 +20,8 @@ When true, the transport's internal logger emits debug diagnostics.
 false
 ```
 
+---
+
 ### interval?
 
 > `optional` **interval?**: `number`
@@ -31,6 +33,8 @@ Flush interval in milliseconds.
 ```ts
 5000
 ```
+
+---
 
 ### label?
 

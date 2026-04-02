@@ -63,6 +63,8 @@ Close the server and wait for active requests to finish.
 
 Promise that resolves after sockets, cron jobs, and transports stop.
 
+---
+
 ### handle()
 
 > **handle**(`req`, `res`, `options?`): `Promise`\<`void`\>
@@ -95,6 +97,8 @@ Optional request metadata and forced filepath override.
 
 Promise that resolves after the request has been handled.
 
+---
+
 ### listen()
 
 > **listen**(): `Server`
@@ -110,6 +114,8 @@ Underlying Node.js server instance.
 #### Throws
 
 When the server is already running.
+
+---
 
 ### middleware()
 
@@ -149,17 +155,23 @@ Promise that resolves when middleware processing finishes.
 
 > `protected` **closed**: `boolean` = `false`
 
+---
+
 ### logger
 
 > `readonly` **logger**: `Logger`
 
 Shared server logger.
 
+---
+
 ### options
 
 > `readonly` **options**: [`ServerOptions`](../type-aliases/ServerOptions.md)
 
 Effective server options with defaults applied.
+
+---
 
 ### root
 

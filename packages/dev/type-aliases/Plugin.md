@@ -18,6 +18,8 @@ Lifecycle plugin attached to a [Func](../classes/Func.md).
 
 Instance name used for ordering and logs.
 
+---
+
 ### onInvoke?
 
 > `optional` **onInvoke?**: (`data`, `next`) => `Promise`\<`void`\>
@@ -38,6 +40,8 @@ Optional hook that runs for every invocation.
 
 `Promise`\<`void`\>
 
+---
+
 ### onMount?
 
 > `optional` **onMount?**: (`data`, `next`) => `Promise`\<`void`\>
@@ -57,6 +61,8 @@ Optional hook that runs once before the first invoke.
 #### Returns
 
 `Promise`\<`void`\>
+
+---
 
 ### type
 

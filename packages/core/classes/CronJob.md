@@ -70,6 +70,8 @@ Start checking the cron expression on minute boundaries.
 
 `void`
 
+---
+
 ### stop()
 
 > **stop**(): `void`
@@ -88,11 +90,15 @@ Stop future cron checks for this job.
 
 Original 5-field cron expression.
 
+---
+
 ### handler
 
 > `readonly` **handler**: [`CronJobHandler`](../type-aliases/CronJobHandler.md)
 
 Callback invoked when the expression matches.
+
+---
 
 ### name
 

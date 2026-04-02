@@ -1,5 +1,7 @@
-import { loadConfig } from './load_config'
+import type { Func } from '@faasjs/core'
+
 import { loadPackage } from './load_package'
+import { loadPlugins } from './load_plugins'
 
 /**
  * Promise-based handler signature exported by packaged FaasJS function modules.
@@ -19,15 +21,6 @@ export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   context?: TContext,
   callback?: (...args: any) => any,
 ) => Promise<TResult>
-
-type FuncLike<TEvent = any, TContext = any, TResult = any> = {
-  config?: {
-    [key: string]: any
-  }
-  export: () => {
-    handler: ExportedHandler<TEvent, TContext, TResult>
-  }
-}
 
 /**
  * Load a packaged FaasJS function, attach its resolved config, and return the exported handler.
@@ -62,9 +55,13 @@ export async function loadFunc<TEvent = any, TContext = any, TResult = any>(
   filename: string,
   staging: string,
 ): Promise<ExportedHandler<TEvent, TContext, TResult>> {
-  const func = await loadPackage<FuncLike<TEvent, TContext, TResult>>(filename)
+  const func = await loadPackage<Func<TEvent, TContext, TResult>>(filename)
 
-  func.config = loadConfig(root, filename, staging)
+  await loadPlugins(func, {
+    root,
+    filename,
+    staging,
+  })
 
   return func.export().handler
 }

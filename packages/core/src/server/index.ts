@@ -14,9 +14,9 @@ import { types } from 'node:util'
 
 import {
   getTransport,
-  loadConfig,
   loadEnvFileIfExists,
   loadPackage,
+  loadPlugins,
   Logger,
 } from '@faasjs/node-utils'
 import { deepMerge } from '@faasjs/utils'
@@ -505,7 +505,12 @@ export class Server {
 
     const func = await loadPackage<Func>(file, ['func', 'default'], loadOptions)
 
-    func.config = loadConfig(this.root, path, process.env.FaasEnv || 'development', logger)
+    await loadPlugins(func, {
+      root: this.root,
+      filename: path,
+      staging: process.env.FaasEnv || 'development',
+      logger,
+    })
     if (!func.config) throw Error('No config file found')
 
     cache.handler = func.export().handler

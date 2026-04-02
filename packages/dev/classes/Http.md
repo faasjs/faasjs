@@ -100,6 +100,8 @@ Promise that resolves after response helpers are applied.
 
 `Plugin.onInvoke`
 
+---
+
 ### onMount()
 
 > **onMount**(`data`, `next`): `Promise`\<`void`\>
@@ -144,6 +146,8 @@ When function config is unavailable.
 
 Active HTTP plugin configuration after mount-time merging.
 
+---
+
 ### name
 
 > `readonly` **name**: `string` = `Name`
@@ -153,6 +157,8 @@ Plugin instance name used in config lookup and logs.
 #### Implementation of
 
 `Plugin.name`
+
+---
 
 ### type
 

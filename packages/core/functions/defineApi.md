@@ -6,11 +6,7 @@
 
 Create an HTTP API function with optional Zod validation.
 
-Plugins are always auto-loaded from `func.config.plugins`.
-Plugin module exports must be either a named class (normalized from
-plugin type) or a default class export.
-
-The `http` plugin is required.
+The `http` plugin must come from `faas.yaml` or explicit code injection.
 
 ## Type Parameters
 
@@ -52,7 +48,7 @@ Schema and handler used to build the API function.
 
 ## Throws
 
-When the required `http` plugin is missing from function config.
+When the required `http` plugin is missing from `faas.yaml` and no plugin was injected in code.
 
 ## Throws
 

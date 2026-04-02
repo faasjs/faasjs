@@ -35,6 +35,10 @@
 - [Server](classes/Server.md)
 - [Session](classes/Session.md)
 
+## Interfaces
+
+- [DefineApiInject](interfaces/DefineApiInject.md)
+
 ## Type Aliases
 
 - [Config](type-aliases/Config.md)

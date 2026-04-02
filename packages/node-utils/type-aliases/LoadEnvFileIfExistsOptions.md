@@ -20,6 +20,8 @@ Working directory used to resolve the env file path.
 process.cwd()
 ```
 
+---
+
 ### filename?
 
 > `optional` **filename?**: `string`

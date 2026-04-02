@@ -50,6 +50,8 @@ Async business handler executed after plugin and schema setup.
 
 `Promise`\<`TResult`\>
 
+---
+
 ### schema?
 
 > `optional` **schema?**: `TSchema`

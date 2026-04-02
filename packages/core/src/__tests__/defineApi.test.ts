@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { loadConfig } from '../../../node-utils/src'
-import { defineApi, z } from '../index'
-import { func as TestPluginFunc } from './test-plugin/test.func'
+import { Http, defineApi, z } from '../index'
+import { TestsAuthPlugin } from './auth-plugin'
 
 async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
   return await new Response(stream).text()
@@ -12,22 +11,16 @@ async function streamToObject(stream: ReadableStream<Uint8Array>): Promise<Recor
   return JSON.parse(await streamToString(stream))
 }
 
-function useHttpPlugin(func: { config: any }): void {
-  func.config = {
-    plugins: {
-      http: {
-        config: Object.create(null),
-      },
-    },
-  }
-}
-
-function createDataModuleType(code: string): string {
-  return `data:text/javascript,${encodeURIComponent(code)}`
+function useHttpPlugin(func: { plugins: any[] }): void {
+  func.plugins.unshift(
+    new Http({
+      config: Object.create(null),
+    }),
+  )
 }
 
 describe('@faasjs/core defineApi', () => {
-  it('auto loads http plugin and passes parsed params', async () => {
+  it('parses params when http plugin is injected', async () => {
     const func = defineApi({
       schema: z.object({
         name: z.string().optional(),
@@ -49,10 +42,7 @@ describe('@faasjs/core defineApi', () => {
 
     expect(response.statusCode).toEqual(200)
     expect(response.body).toBeInstanceOf(ReadableStream)
-
-    const body = await streamToObject(response.body)
-
-    expect(body).toEqual({
+    expect(await streamToObject(response.body)).toEqual({
       data: {
         parsed: { name: 'FaasJS' },
         raw: { name: 'FaasJS' },
@@ -60,7 +50,7 @@ describe('@faasjs/core defineApi', () => {
     })
   })
 
-  it('uses empty params object when schema is missing and http plugin exists', async () => {
+  it('uses empty params object when schema is missing', async () => {
     const func = defineApi({
       async handler(data) {
         return {
@@ -78,10 +68,7 @@ describe('@faasjs/core defineApi', () => {
     })
 
     expect(response.statusCode).toEqual(200)
-
-    const body = await streamToObject(response.body)
-
-    expect(body).toEqual({
+    expect(await streamToObject(response.body)).toEqual({
       data: {
         params: {},
         raw: { name: 'FaasJS' },
@@ -97,14 +84,9 @@ describe('@faasjs/core defineApi', () => {
       async handler(data) {
         return {
           params: data.params,
-          raw: data.event.params,
         }
       },
     })
-
-    func.config = {
-      plugins: Object.create(null),
-    }
 
     await expect(
       func.export().handler({
@@ -144,10 +126,7 @@ describe('@faasjs/core defineApi', () => {
     })
 
     expect(response.statusCode).toEqual(400)
-
-    const body = await streamToObject(response.body)
-
-    expect(body).toEqual({
+    expect(await streamToObject(response.body)).toEqual({
       error: {
         message:
           'Invalid params\npage: Too small, expected number to be >=1\nendAt: endAt must be greater than startedAt',
@@ -155,7 +134,7 @@ describe('@faasjs/core defineApi', () => {
     })
   })
 
-  it('supports plugin-injected data fields alongside params', async () => {
+  it('supports manually injected plugin data alongside params', async () => {
     const func = defineApi({
       schema: z.object({
         name: z.string(),
@@ -168,16 +147,13 @@ describe('@faasjs/core defineApi', () => {
       },
     })
 
-    func.config = {
-      plugins: {
-        auth: {
-          type: './__tests__/auth-plugin',
-        },
-        http: {
-          config: Object.create(null),
-        },
-      },
-    }
+    func.plugins.unshift(
+      new TestsAuthPlugin({
+        name: 'auth',
+        type: 'auth',
+      }),
+    )
+    useHttpPlugin(func)
 
     const response: any = await func.export().handler({
       headers: { 'content-type': 'application/json' },
@@ -185,10 +161,7 @@ describe('@faasjs/core defineApi', () => {
     })
 
     expect(response.statusCode).toEqual(200)
-
-    const body = await streamToObject(response.body)
-
-    expect(body).toEqual({
+    expect(await streamToObject(response.body)).toEqual({
       data: {
         current_user: {
           id: 1,
@@ -197,312 +170,6 @@ describe('@faasjs/core defineApi', () => {
         params: {
           name: 'FaasJS',
         },
-      },
-    })
-  })
-
-  it('throws when plugin cannot be loaded', async () => {
-    const func = defineApi({
-      async handler() {
-        return true
-      },
-    })
-
-    func.config = {
-      plugins: {
-        unknown: {
-          type: 'plugin_not_exists_for_core_define_func',
-        },
-      },
-    }
-
-    await expect(func.export().handler({})).rejects.toThrow(/Failed to load plugin "unknown"/)
-  })
-
-  it('supports loading plugin from named class export', async () => {
-    const func = defineApi({
-      async handler(data) {
-        return {
-          loaded: Boolean((data.context as any).namedPluginLoaded),
-        }
-      },
-    })
-
-    func.config = {
-      plugins: {
-        named: {
-          type: './__tests__/named-plugin',
-        },
-        http: {
-          config: Object.create(null),
-        },
-      },
-    }
-
-    const response = await func.export().handler({})
-
-    expect((response as any).statusCode).toEqual(200)
-
-    const body = await streamToObject((response as any).body)
-
-    expect(body).toEqual({
-      data: {
-        loaded: true,
-      },
-    })
-  })
-
-  it('supports loading plugin from default class export', async () => {
-    const func = defineApi({
-      async handler(data) {
-        return {
-          loaded: Boolean((data.context as any).defaultPluginLoaded),
-        }
-      },
-    })
-
-    func.config = {
-      plugins: {
-        defaultClass: {
-          type: './__tests__/default-plugin',
-        },
-        http: {
-          config: Object.create(null),
-        },
-      },
-    }
-
-    const response = await func.export().handler({})
-
-    expect((response as any).statusCode).toEqual(200)
-
-    const body = await streamToObject((response as any).body)
-
-    expect(body).toEqual({
-      data: {
-        loaded: true,
-      },
-    })
-  })
-
-  it('supports loading plugin from npm-prefixed local module path', async () => {
-    const func = defineApi({
-      async handler(data) {
-        return {
-          loaded: Boolean((data.context as any).defaultPluginLoaded),
-        }
-      },
-    })
-
-    func.config = {
-      plugins: {
-        npmDefault: {
-          type: 'npm:./__tests__/default-plugin',
-        },
-        http: {
-          config: Object.create(null),
-        },
-      },
-    }
-
-    const response = await func.export().handler({})
-
-    expect((response as any).statusCode).toEqual(200)
-
-    const body = await streamToObject((response as any).body)
-
-    expect(body).toEqual({
-      data: {
-        loaded: true,
-      },
-    })
-  })
-
-  it('supports loading plugin from file URL with named class export', async () => {
-    const func = defineApi({
-      async handler(data) {
-        return {
-          loaded: Boolean((data.context as any).namedPluginLoaded),
-        }
-      },
-    })
-
-    func.config = {
-      plugins: {
-        namedByFileUrl: {
-          type: new URL('./named-plugin.ts', import.meta.url).href,
-        },
-        http: {
-          config: Object.create(null),
-        },
-      },
-    }
-
-    const response = await func.export().handler({})
-
-    expect((response as any).statusCode).toEqual(200)
-
-    const body = await streamToObject((response as any).body)
-
-    expect(body).toEqual({
-      data: {
-        loaded: true,
-      },
-    })
-  })
-
-  it('reads file URL plugin type from faas.yaml and loads the plugin', async () => {
-    TestPluginFunc.config = loadConfig(process.cwd(), TestPluginFunc.filename!, 'default')
-
-    expect((TestPluginFunc.config as any).plugins.fileUrlFixture.type).toBe(
-      new URL('./test-plugin/file-url-plugin.ts', import.meta.url).href,
-    )
-
-    const response = await TestPluginFunc.export().handler({})
-
-    expect((response as any).statusCode).toEqual(200)
-
-    const body = await streamToObject((response as any).body)
-
-    expect(body).toEqual({
-      data: {
-        loaded: true,
-      },
-    })
-  })
-
-  it('supports string plugin config and skips duplicate plugin names', async () => {
-    const func = defineApi({
-      async handler(data) {
-        return {
-          loaded: Boolean((data.context as any).namedPluginLoaded),
-        }
-      },
-    })
-
-    func.config = {
-      plugins: {
-        http: {
-          config: Object.create(null),
-        },
-        duplicateHttp: {
-          name: 'http',
-          type: '@faasjs/http',
-        },
-        namedByString: './__tests__/named-plugin',
-        namedByAlias: {
-          name: 'namedAlias',
-          type: './__tests__/named-plugin',
-        },
-      },
-    } as any
-
-    const response = await func.export().handler({})
-
-    expect((response as any).statusCode).toEqual(200)
-
-    const body = await streamToObject((response as any).body)
-
-    expect(body).toEqual({
-      data: {
-        loaded: true,
-      },
-    })
-  })
-
-  it('ignores inherited plugin config entries', async () => {
-    const func = defineApi({
-      async handler() {
-        return true
-      },
-    })
-
-    const plugins = Object.create({
-      inherited: {
-        type: 'plugin_not_exists_for_core_define_func',
-      },
-    })
-    plugins.http = {
-      config: Object.create(null),
-    }
-
-    func.config = {
-      plugins,
-    }
-
-    const response = await func.export().handler({})
-
-    expect((response as any).statusCode).toEqual(200)
-  })
-
-  it('mount loads plugins when handler plugin is missing and skips reloading on second mount', async () => {
-    const func = defineApi({
-      async handler() {
-        return true
-      },
-    })
-
-    func.config = {
-      plugins: {
-        http: {
-          config: Object.create(null),
-        },
-      },
-    }
-
-    ;(func as any).plugins = []
-
-    await (func as any).mount()
-
-    expect((func as any).plugins.some((plugin: any) => plugin.type === 'http')).toEqual(true)
-
-    await (func as any).mount()
-  })
-
-  it('mounts successfully when config.plugins is missing', async () => {
-    const func = defineApi({
-      async handler() {
-        return true
-      },
-    })
-
-    func.config = Object.create(null)
-
-    await (func as any).mount()
-
-    expect((func as any).mounted).toEqual(true)
-  })
-
-  it('reuses resolved plugin references and falls back to empty params', async () => {
-    const func = defineApi({
-      schema: z.object({
-        name: z.string().optional(),
-      }),
-      async handler(data) {
-        return {
-          params: data.params,
-        }
-      },
-    })
-
-    useHttpPlugin(func)
-
-    await func.export().handler({
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ name: 'FaasJS' }),
-    })
-
-    const response = await func.export().handler({
-      headers: Object.create(null),
-    })
-
-    expect((response as any).statusCode).toEqual(200)
-
-    const body = await streamToObject((response as any).body)
-
-    expect(body).toEqual({
-      data: {
-        params: {},
       },
     })
   })
@@ -519,127 +186,12 @@ describe('@faasjs/core defineApi', () => {
 
     const response: any = await func.export().handler({
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ value: 'x' }),
+      body: JSON.stringify({
+        value: 'x',
+      }),
     })
 
     expect(response.statusCode).toEqual(400)
-
-    const body = await streamToObject(response.body)
-
-    expect(body.error.message).toContain('<root>:')
-  })
-
-  it('rejects function exports without plugin lifecycle methods', async () => {
-    const func = defineApi({
-      async handler() {
-        return true
-      },
-    })
-
-    func.config = {
-      plugins: {
-        invalid: {
-          type: createDataModuleType('export default () => ({})'),
-        },
-      },
-    }
-
-    await expect(func.export().handler({})).rejects.toThrow(/Failed to resolve plugin class/)
-  })
-
-  it('throws when plugin constructor fails to initialize', async () => {
-    const func = defineApi({
-      async handler() {
-        return true
-      },
-    })
-
-    func.config = {
-      plugins: {
-        throwing: {
-          type: createDataModuleType(`
-export default class ThrowingPlugin {
-  constructor() {
-    throw new Error('boom')
-  }
-
-  async onInvoke(_data, next) {
-    await next()
-  }
-}
-`),
-        },
-      },
-    }
-
-    await expect(func.export().handler({})).rejects.toThrow(
-      /Failed to initialize plugin "throwing"/,
-    )
-  })
-
-  it('throws when constructor returns a non-object plugin instance', async () => {
-    const func = defineApi({
-      async handler() {
-        return true
-      },
-    })
-
-    func.config = {
-      plugins: {
-        invalidInstance: {
-          type: createDataModuleType(`
-function InvalidInstancePlugin() {
-  return () => true
-}
-
-InvalidInstancePlugin.prototype.onInvoke = async function (_data, next) {
-  await next()
-}
-
-export default InvalidInstancePlugin
-`),
-        },
-      },
-    }
-
-    await expect(func.export().handler({})).rejects.toThrow(/Invalid plugin instance/)
-  })
-
-  it('rejects object-wrapped class exports', async () => {
-    const func = defineApi({
-      async handler() {
-        return true
-      },
-    })
-
-    func.config = {
-      plugins: {
-        object: {
-          type: './__tests__/object-plugin',
-        },
-      },
-    }
-
-    await expect(func.export().handler({})).rejects.toThrow(
-      /Supported exports are named class "TestsObjectPlugin" or default class export/,
-    )
-  })
-
-  it('can still run object-wrapped plugin fixture directly', async () => {
-    const mod = await import('./object-plugin')
-    const plugin = new mod.default.TestsObjectPlugin({
-      name: 'object',
-      type: 'object',
-    })
-    const context = Object.create(null)
-
-    await plugin.onInvoke(
-      {
-        context,
-      } as any,
-      async () => {},
-    )
-
-    expect((context as any).objectPluginLoaded).toEqual(true)
+    expect((await streamToObject(response.body)).error.message).toContain('<root>:')
   })
 })

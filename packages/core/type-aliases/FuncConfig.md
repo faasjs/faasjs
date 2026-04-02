@@ -34,6 +34,8 @@ Async result type produced by the handler.
 
 Final business handler invoked after plugins complete.
 
+---
+
 ### plugins?
 
 > `optional` **plugins?**: [`Plugin`](Plugin.md)[]

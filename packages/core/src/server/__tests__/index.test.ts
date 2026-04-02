@@ -95,6 +95,37 @@ describe.sequential('server', () => {
     expect(await response.json()).toEqual({ data: { key: 'value' } })
   })
 
+  it('merges yaml config with inline func config', async () => {
+    const response = await fetch(`http://127.0.0.1:${port}/configured/merge`)
+    const body = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(body).toMatchObject({
+      data: {
+        http: {
+          config: {
+            cookie: {
+              secure: false,
+              session: {
+                secret: 'configured-secret',
+              },
+            },
+          },
+          name: 'http',
+        },
+        shared: {
+          config: {
+            fromCode: true,
+            fromYaml: true,
+          },
+          name: 'shared',
+          type: 'inline-shared',
+        },
+        sharedLoaded: true,
+      },
+    })
+  })
+
   it('500', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/error`)
     expect(response.status).toBe(500)

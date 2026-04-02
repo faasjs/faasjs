@@ -94,6 +94,8 @@ Expected response type returned by the handler.
 
 Handler result.
 
+---
+
 ### JSONhandler()
 
 > **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{\[`key`: `string`\]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
@@ -163,6 +165,8 @@ const response = await wrapped.JSONhandler({ name: 'FaasJS' }, { session: { user
 expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 ```
 
+---
+
 ### mount()
 
 > **mount**(`handler?`): `Promise`\<`void`\>
@@ -191,11 +195,15 @@ Resolves after the function has been mounted and the callback has finished.
 
 Resolved config attached to the wrapped function.
 
+---
+
 ### file
 
 > `readonly` **file**: `string`
 
 Source file path inferred from the wrapped function.
+
+---
 
 ### func
 
@@ -203,11 +211,15 @@ Source file path inferred from the wrapped function.
 
 Wrapped function instance.
 
+---
+
 ### logger
 
 > `readonly` **logger**: `Logger`
 
 Logger used by helper methods.
+
+---
 
 ### staging
 
