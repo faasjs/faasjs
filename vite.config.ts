@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, type UserConfig } from 'vite-plus'
 import type { PackUserConfig } from 'vite-plus/pack'
 
+import { oxfmtConfig, oxlintConfig } from './packages/dev/src/configs/index.ts'
+
 const browsers = [
   'packages/ant-design/**/*.test.ts',
   'packages/ant-design/**/*.test.tsx',
@@ -16,6 +18,7 @@ const types = ['packages/**/*.types.test.ts']
 const packEntries: Record<string, Record<string, string>> = {
   dev: {
     index: './src/index.ts',
+    'configs/index': './src/configs/index.ts',
     'cli/index': './src/cli/index.ts',
   },
   'node-utils': {
@@ -36,10 +39,7 @@ const pack: PackUserConfig[] = [
   platform: ['react', 'ant-design', 'utils'].includes(p) ? 'browser' : 'node',
   cwd: join(process.cwd(), 'packages', p),
   ...(packEntries[p] ? { entry: packEntries[p] } : {}),
-  format: ['esm', 'cjs'],
-  checks: {
-    legacyCjs: false,
-  },
+  format: ['esm'],
   clean: true,
   dts: {
     sourcemap: false,
@@ -52,21 +52,13 @@ const pack: PackUserConfig[] = [
   treeshake: true,
   tsconfig: join(process.cwd(), 'tsconfig.build.json'),
   shims: true,
-  outExtensions({ format }) {
-    if (format === 'es')
-      return {
-        js: '.mjs',
-        dts: '.d.ts',
-      }
-
+  outExtensions() {
     return {
-      js: '.cjs',
+      js: '.mjs',
       dts: '.d.ts',
     }
   },
 }))
-
-const ignorePatterns = ['**/dist/**', 'node_modules/**']
 
 export default defineConfig({
   plugins: react(),
@@ -76,52 +68,8 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
-  fmt: {
-    ignorePatterns,
-    semi: false,
-    singleQuote: true,
-    sortImports: {},
-  },
-  lint: {
-    ignorePatterns,
-    plugins: [
-      'typescript',
-      'react',
-      'react-perf',
-      'node',
-      'vitest',
-      'oxc',
-      'unicorn',
-      'eslint',
-      'import',
-      'jsdoc',
-    ],
-    env: {
-      builtin: true,
-      node: true,
-      browser: true,
-    },
-    settings: {
-      vitest: {
-        typecheck: true,
-      },
-    },
-    options: {
-      typeAware: true,
-      typeCheck: true,
-    },
-    rules: {
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      'typescript/consistent-type-imports': [
-        'error',
-        {
-          prefer: 'type-imports',
-          fixStyle: 'separate-type-imports',
-        },
-      ],
-      'react-hooks/exhaustive-deps': ['warn'],
-    },
-  },
+  fmt: oxfmtConfig,
+  lint: oxlintConfig,
   pack,
   test: {
     restoreMocks: true,

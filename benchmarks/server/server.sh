@@ -51,7 +51,7 @@ wrk 'http://localhost:3000/api' \
 kill $pid
 
 echo
-node server/koa.cjs &
+node server/koa.mjs &
 pid=$!
 
 curl -s http://localhost:3000/ > /dev/null
@@ -68,7 +68,7 @@ wrk 'http://localhost:3000/' \
 kill $pid
 
 echo
-node server/express.cjs &
+node server/express.mjs &
 pid=$!
 
 curl -s http://localhost:3000/ > /dev/null

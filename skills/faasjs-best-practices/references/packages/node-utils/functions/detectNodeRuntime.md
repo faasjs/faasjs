@@ -2,17 +2,17 @@
 
 # Function: detectNodeRuntime()
 
-> **detectNodeRuntime**(): [`NodeRuntime`](../type-aliases/NodeRuntime.md)
+> **detectNodeRuntime**(): `"module"`
 
-Detect whether the current Node process should load modules through CommonJS or ESM.
+Detect whether the current Node process is running in the supported ESM runtime.
 
 The detected runtime is cached until [resetRuntime](resetRuntime.md) is called.
 
 ## Returns
 
-[`NodeRuntime`](../type-aliases/NodeRuntime.md)
+`"module"`
 
-`'module'` for ESM and `'commonjs'` for CommonJS.
+`'module'` for ESM.
 
 ## Throws
 

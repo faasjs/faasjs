@@ -11,6 +11,10 @@ import { detectNodeRuntime, loadPackage, resetRuntime } from '../load_package'
 const execFileAsync = promisify(execFile)
 const loadPackageModuleURL = new URL('../load_package.ts', import.meta.url).href
 
+function createDataModuleURL(source: string): string {
+  return `data:text/javascript,${encodeURIComponent(source)}`
+}
+
 async function runNativeLoadPackage(root: string, script: string): Promise<string> {
   const { stdout } = await execFileAsync(process.execPath, ['--input-type=module', '-e', script], {
     env: {
@@ -48,53 +52,46 @@ registerNodeModuleHooks({
 }
 
 describe('loadPackage', () => {
-  let originalRequire: any
   let originalProcess: any
 
   beforeEach(() => {
-    originalRequire = globalThis.require
     originalProcess = globalThis.process
     vi.resetModules()
     resetRuntime()
   })
 
   afterEach(() => {
-    globalThis.require = originalRequire
     globalThis.process = originalProcess
     resetRuntime()
   })
 
   it('should load a module', async () => {
-    // @ts-expect-error
-    globalThis.require = vi.fn().mockImplementation((name: string) => {
-      if (name === 'my-module') return { default: 'my-module-default' }
-    })
-    const result = await loadPackage('my-module')
+    const result = await loadPackage<string>(
+      createDataModuleURL(`export default 'my-module-default'`),
+    )
+
     expect(result).toBe('my-module-default')
   })
 
   it('should load a module with default name', async () => {
-    // @ts-expect-error
-    globalThis.require = vi.fn().mockImplementation((name: string) => {
-      if (name === 'my-module') return { test: 'my-module-default' }
-    })
-    const result = await loadPackage('my-module', 'test')
+    const result = await loadPackage<string>(
+      createDataModuleURL(`export const test = 'my-module-default'`),
+      'test',
+    )
+
     expect(result).toBe('my-module-default')
   })
 
   it('should load a module with default name list', async () => {
-    // @ts-expect-error
-    globalThis.require = vi.fn().mockImplementation((name: string) => {
-      if (name === 'my-module') return { test: 'my-module-default' }
-    })
-    const result = await loadPackage('my-module', ['default', 'test'])
+    const result = await loadPackage<string>(
+      createDataModuleURL(`export const test = 'my-module-default'`),
+      ['default', 'test'],
+    )
+
     expect(result).toBe('my-module-default')
   })
 
-  it('should load esm module when require is unavailable', async () => {
-    // @ts-expect-error
-    globalThis.require = undefined
-
+  it('should load esm module in module runtime', async () => {
     const path = await import('node:path')
     const result = await loadPackage<string>('node:path', 'sep')
 
@@ -102,44 +99,29 @@ describe('loadPackage', () => {
   })
 
   it('should fallback to module object when default export key is missing', async () => {
-    // @ts-expect-error
-    globalThis.require = vi.fn().mockImplementation((name: string) => {
-      if (name === 'my-module') return { key: 'value' }
-    })
+    const result = await loadPackage(createDataModuleURL(`export const key = 'value'`), 'default')
 
-    const result = await loadPackage('my-module', 'default')
-
-    expect(result).toEqual({ key: 'value' })
+    expect(result).toMatchObject({ key: 'value' })
   })
 
   it('should fallback to module object when default names are all missing', async () => {
-    // @ts-expect-error
-    globalThis.require = vi.fn().mockImplementation((name: string) => {
-      if (name === 'my-module') return { key: 'value' }
-    })
+    const result = await loadPackage(createDataModuleURL(`export const key = 'value'`), [
+      'default',
+      'test',
+    ])
 
-    const result = await loadPackage('my-module', ['default', 'test'])
-
-    expect(result).toEqual({ key: 'value' })
+    expect(result).toMatchObject({ key: 'value' })
   })
 
   it('should reuse cached runtime', () => {
-    // @ts-expect-error
-    globalThis.require = vi.fn()
-
-    expect(detectNodeRuntime()).toBe('commonjs')
-
-    // @ts-expect-error
-    globalThis.require = undefined
+    expect(detectNodeRuntime()).toBe('module')
     // @ts-expect-error
     globalThis.process = undefined
 
-    expect(detectNodeRuntime()).toBe('commonjs')
+    expect(detectNodeRuntime()).toBe('module')
   })
 
   it('should throw when runtime cannot be detected', () => {
-    // @ts-expect-error
-    globalThis.require = undefined
     // @ts-expect-error
     globalThis.process = undefined
 
@@ -148,18 +130,13 @@ describe('loadPackage', () => {
 })
 
 describe('loadPackage tsconfig resolver', () => {
-  let originalRequire: any
   const tempDirs: string[] = []
 
   beforeEach(() => {
-    originalRequire = globalThis.require
-    // @ts-expect-error
-    globalThis.require = undefined
     resetRuntime()
   })
 
   afterEach(async () => {
-    globalThis.require = originalRequire
     resetRuntime()
 
     await Promise.all(

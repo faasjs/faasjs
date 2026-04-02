@@ -4,10 +4,10 @@
 
 > **loadPackage**\<`T`\>(`name`, `defaultNames?`, `options?`): `Promise`\<`T`\>
 
-Load a module in the current Node runtime and optionally resolve a preferred export key.
+Load a module in the current Node ESM runtime and optionally resolve a preferred export key.
 
-In ESM mode, the loader can install tsconfig-aware hooks and append a version query string to bust
-Node's import cache for project-local files.
+The loader can install tsconfig-aware hooks and append a version query string to bust Node's
+import cache for project-local files.
 
 ## Type Parameters
 

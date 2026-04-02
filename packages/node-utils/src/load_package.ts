@@ -4,9 +4,9 @@ import { dirname, extname, isAbsolute, join, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 /**
- * Supported Node.js module runtimes recognized by {@link detectNodeRuntime}.
+ * Supported Node.js module runtime recognized by {@link detectNodeRuntime}.
  */
-export type NodeRuntime = 'commonjs' | 'module'
+export type NodeRuntime = 'module'
 
 /**
  * Options for loading modules with tsconfig path aliases and runtime-aware cache control.
@@ -63,7 +63,7 @@ type LoaderState = {
 }
 
 const VERSION_QUERY_KEY = 'faasjsv'
-const SCRIPT_EXTENSIONS = ['.ts', '.tsx', '.mts', '.cts', '.js', '.jsx', '.mjs', '.cjs', '.json']
+const SCRIPT_EXTENSIONS = ['.ts', '.tsx', '.mts', '.js', '.jsx', '.mjs', '.json']
 
 const loaderStates = new Map<string, LoaderState>()
 
@@ -624,11 +624,11 @@ export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions 
 }
 
 /**
- * Detect whether the current Node process should load modules through CommonJS or ESM.
+ * Detect whether the current Node process is running in the supported ESM runtime.
  *
  * The detected runtime is cached until {@link resetRuntime} is called.
  *
- * @returns {NodeRuntime} `'module'` for ESM and `'commonjs'` for CommonJS.
+ * @returns {NodeRuntime} `'module'` for ESM.
  * @throws {Error} If the runtime cannot be determined from the current global environment.
  *
  * @example
@@ -641,19 +641,16 @@ export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions 
 export function detectNodeRuntime(): NodeRuntime {
   if (_runtime) return _runtime
 
-  if (typeof globalThis.require === 'function' && typeof module !== 'undefined')
-    return (_runtime = 'commonjs')
-
   if (typeof process !== 'undefined' && process.versions?.node) return (_runtime = 'module')
 
   throw Error('Unknown runtime')
 }
 
 /**
- * Load a module in the current Node runtime and optionally resolve a preferred export key.
+ * Load a module in the current Node ESM runtime and optionally resolve a preferred export key.
  *
- * In ESM mode, the loader can install tsconfig-aware hooks and append a version query string to bust
- * Node's import cache for project-local files.
+ * The loader can install tsconfig-aware hooks and append a version query string to bust Node's
+ * import cache for project-local files.
  *
  * @template T - The type of module to be loaded.
  * @param {string} name - Package name, file path, or module specifier to load.
@@ -678,12 +675,11 @@ export async function loadPackage<T = unknown>(
 
   let module: any
 
-  if (runtime === 'module') {
-    if (ensureLoaderState(name, options)) installModuleHooks()
+  if (runtime !== 'module') throw Error('Unknown runtime')
 
-    module = await import(name)
-  } else if (runtime === 'commonjs') module = globalThis.require(name)
-  else throw Error('Unknown runtime')
+  if (ensureLoaderState(name, options)) installModuleHooks()
+
+  module = await import(name)
 
   if (typeof defaultNames === 'string')
     return defaultNames in module ? module[defaultNames] : module

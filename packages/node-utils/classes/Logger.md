@@ -249,15 +249,11 @@ The current logger for chaining.
 
 ### colorfyOutput
 
-> **colorfyOutput**: `boolean` = `true`
+> **colorfyOutput**: `boolean` = `false`
 
 Whether terminal output should use ANSI colors.
 
-#### Default
-
-```ts
-true
-```
+Auto-detected from the current environment and can be overridden with `FaasLogMode`.
 
 ### disableTransport
 

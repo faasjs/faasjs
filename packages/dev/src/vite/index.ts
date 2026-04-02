@@ -23,8 +23,7 @@ function isFaasServerSourceFile(filePath: string): boolean {
     normalized.endsWith('.func.ts') ||
     normalized.endsWith('.ts') ||
     normalized.endsWith('.tsx') ||
-    normalized.endsWith('.mts') ||
-    normalized.endsWith('.cts')
+    normalized.endsWith('.mts')
   )
 }
 

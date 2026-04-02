@@ -16,19 +16,17 @@
     "dist"
   ],
   "type": "module",
-  "main": "dist/index.cjs",
+  "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "default": "./dist/index.mjs"
     },
     "./register-hooks": {
       "types": "./dist/register_hooks.d.ts",
-      "import": "./dist/register_hooks.mjs",
-      "require": "./dist/register_hooks.cjs"
+      "default": "./dist/register_hooks.mjs"
     }
   },
   "devDependencies": {

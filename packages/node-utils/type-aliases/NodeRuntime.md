@@ -2,6 +2,6 @@
 
 # Type Alias: NodeRuntime
 
-> **NodeRuntime** = `"commonjs"` \| `"module"`
+> **NodeRuntime** = `"module"`
 
-Supported Node.js module runtimes recognized by [detectNodeRuntime](../functions/detectNodeRuntime.md).
+Supported Node.js module runtime recognized by [detectNodeRuntime](../functions/detectNodeRuntime.md).
