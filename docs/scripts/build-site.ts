@@ -20,15 +20,15 @@ import {
   type NavbarItem,
   type SidebarItem,
   siteConfig,
-} from '../site/site.config.ts'
-import { renderLayout } from '../templates/layout.ts'
+} from '../site/site.config'
+import { renderLayout } from '../templates/layout'
 import {
   classNames,
   escapeHtml,
   isExternalLink as isTemplateExternal,
   renderAutoLink,
-} from '../templates/partials.ts'
-import { buildSitemapXml, type SitemapRoute } from './build-sitemap.ts'
+} from '../templates/partials'
+import { buildSitemapXml, type SitemapRoute } from './build-sitemap'
 import {
   isExternalLink,
   joinSitePath,
@@ -36,7 +36,7 @@ import {
   toPosixPath,
   toRouteFromMarkdownPath,
   walkMarkdownFiles,
-} from './site-utils.ts'
+} from './site-utils'
 
 type LocaleKey = '/' | '/zh/'
 
@@ -598,6 +598,9 @@ function renderAndWritePage(options: {
     (typeof options.page.frontmatter.footer === 'string'
       ? options.page.frontmatter.footer
       : localeConfig.footer)
+  const footerHtml = footerText
+    ? `<footer class="vp-footer">${escapeHtml(footerText)}</footer>`
+    : undefined
 
   const pageTitle =
     options.page.routePath === '/' || options.page.routePath === '/zh/'
@@ -620,9 +623,7 @@ function renderAndWritePage(options: {
     navbarHtml,
     sidebarHtml: `${mobileNavbarHtml}${sidebarLinks}`,
     contentHtml,
-    footerHtml: footerText
-      ? `<footer class="vp-footer">${escapeHtml(footerText)}</footer>`
-      : undefined,
+    ...(footerHtml ? { footerHtml } : {}),
     gaId: siteConfig.gaId,
     adsScript: siteConfig.adsScript,
   })
