@@ -17,6 +17,6 @@
     "@faasjs/dev": "file:../../packages/dev",
     "@types/node": "*",
     "typescript": "*",
-    "vitest": "*"
+    "vitest": "^4.1.2"
   }
 }
