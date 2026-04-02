@@ -1,4 +1,4 @@
-import type { Func, Plugin } from '@faasjs/core'
+import { Http, type Func, type Plugin } from '@faasjs/core'
 
 import { deepMerge } from './deep_merge'
 import { type FuncConfig, type FuncPluginConfig, loadConfig } from './load_config'
@@ -74,12 +74,7 @@ export async function loadPlugins<TFunc extends Func>(
       let plugin: Plugin
 
       if (pluginType === 'http') {
-        const mod = await import('@faasjs/core')
-
-        if (typeof mod.Http !== 'function')
-          throw Error('[loadPlugins] Failed to load built-in "http" plugin from "@faasjs/core".')
-
-        plugin = new mod.Http({
+        plugin = new Http({
           ...pluginConfig,
           name: pluginName,
           type: 'http',
