@@ -1,6 +1,7 @@
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 import { afterEach, describe, expect, it } from 'vitest'
 
@@ -173,6 +174,153 @@ describe('loadPlugins', () => {
     })
   })
 
+  it('merges layered yaml config and lets code config override the same plugin id', async () => {
+    const { src } = createProject({
+      'src/faas.yaml': `defaults:
+  plugins:
+    auth:
+      type: ./plugins/auth-plugin.ts
+      config:
+        provider: jwt
+        secret: from-root
+    http:
+      config: {}
+`,
+      'src/admin/faas.yaml': `defaults:
+  plugins:
+    auth:
+      config:
+        region: apac
+        secret: from-admin
+`,
+      'src/plugins/auth-plugin.ts': `export class AuthPlugin {
+  constructor(config) {
+    this.name = config.name
+    this.type = config.type
+  }
+
+  async onInvoke(data, next) {
+    data.current_user = data.config.plugins.auth
+    await next()
+  }
+}
+`,
+    })
+
+    const func = defineApi({
+      async handler(data) {
+        return {
+          config: data.config.plugins?.auth,
+          current_user: data.current_user,
+        }
+      },
+    })
+
+    func.filename = join(src, 'admin', 'demo.func.ts')
+    func.config = {
+      plugins: {
+        auth: {
+          config: {
+            secret: 'from-code',
+            scope: 'write',
+          },
+        },
+      },
+    }
+
+    await loadPlugins(func, {
+      root: src,
+      filename: func.filename,
+      staging: 'defaults',
+    })
+
+    const response: any = await func.export().handler({})
+
+    expect(func.plugins.filter((plugin) => plugin.name === 'auth')).toHaveLength(1)
+    expect(await streamToObject(response.body)).toEqual({
+      data: {
+        config: {
+          config: {
+            provider: 'jwt',
+            region: 'apac',
+            scope: 'write',
+            secret: 'from-code',
+          },
+          name: 'auth',
+          type: pathToFileURL(join(src, 'plugins', 'auth-plugin.ts')).href,
+        },
+        current_user: {
+          config: {
+            provider: 'jwt',
+            region: 'apac',
+            scope: 'write',
+            secret: 'from-code',
+          },
+          name: 'auth',
+          type: pathToFileURL(join(src, 'plugins', 'auth-plugin.ts')).href,
+        },
+      },
+    })
+  })
+
+  it('loads plugins declared only in code config', async () => {
+    const { src } = createProject({
+      'src/code-plugin.ts': `export class CodePlugin {
+  constructor(config) {
+    this.name = config.name
+    this.type = config.type
+  }
+
+  async onInvoke(data, next) {
+    data.current_user = {
+      source: 'code-config',
+    }
+
+    await next()
+  }
+}
+`,
+    })
+
+    const func = defineApi({
+      async handler(data) {
+        return data.current_user
+      },
+    })
+
+    func.filename = join(src, 'demo.func.ts')
+    func.config = {
+      plugins: {
+        auth: {
+          type: './code-plugin.ts',
+        },
+        http: {
+          config: {},
+        },
+      },
+    }
+
+    await loadPlugins(func, {
+      root: src,
+      filename: func.filename,
+      staging: 'defaults',
+    })
+
+    const response: any = await func.export().handler({})
+
+    expect(func.config.plugins?.auth).toMatchObject({
+      name: 'auth',
+      type: pathToFileURL(join(src, 'code-plugin.ts')).href,
+    })
+    expect(func.plugins.some((plugin) => plugin.name === 'auth')).toEqual(true)
+    expect(func.plugins.some((plugin) => plugin.type === 'http')).toEqual(true)
+    expect(await streamToObject(response.body)).toEqual({
+      data: {
+        source: 'code-config',
+      },
+    })
+  })
+
   it('requires an explicit type for non-http yaml plugins', async () => {
     const { src } = createProject({
       'src/faas.yaml': `defaults:
@@ -199,43 +347,68 @@ describe('loadPlugins', () => {
     ).rejects.toThrow(/requires an explicit "type"/)
   })
 
-  it('rejects relative plugin paths and asks for explicit file urls', async () => {
+  it('resolves relative plugin paths from faas.yaml and loads named exports', async () => {
     const { src } = createProject({
       'src/faas.yaml': `defaults:
   plugins:
     auth:
-      type: ./auth-plugin.ts
+      type: ./plugins/auth-plugin.ts
+    http:
+      config: {}
+`,
+      'src/plugins/auth-plugin.ts': `export class AuthPlugin {
+  constructor(config) {
+    this.name = config.name
+    this.type = config.type
+  }
+
+  async onInvoke(data, next) {
+    data.current_user = {
+      source: 'relative-path',
+    }
+
+    await next()
+  }
+}
 `,
     })
 
     const func = defineApi({
-      async handler() {
-        return true
+      async handler(data) {
+        return data.current_user
       },
     })
 
     func.filename = join(src, 'demo.func.ts')
 
-    await expect(
-      loadPlugins(func, {
-        root: src,
-        filename: func.filename,
-        staging: 'defaults',
-      }),
-    ).rejects.toThrow(/Relative plugin type/)
+    await loadPlugins(func, {
+      root: src,
+      filename: func.filename,
+      staging: 'defaults',
+    })
+
+    const response: any = await func.export().handler({})
+
+    expect(func.config.plugins?.auth).toMatchObject({
+      name: 'auth',
+      type: pathToFileURL(join(src, 'plugins', 'auth-plugin.ts')).href,
+    })
+    expect(await streamToObject(response.body)).toEqual({
+      data: {
+        source: 'relative-path',
+      },
+    })
   })
 
-  it('requires config-driven plugins to default export a lifecycle class', async () => {
+  it('requires config-driven plugins to export a lifecycle plugin class', async () => {
     const { src } = createProject({
       'src/faas.yaml': `defaults:
   plugins:
     auth:
       type: file://./auth-plugin.ts
 `,
-      'src/auth-plugin.ts': `export class AuthPlugin {
-  async onInvoke(_data, next) {
-    await next()
-  }
+      'src/auth-plugin.ts': `export const AuthPlugin = {
+  onInvoke() {},
 }
 `,
     })
@@ -254,6 +427,6 @@ describe('loadPlugins', () => {
         filename: func.filename,
         staging: 'defaults',
       }),
-    ).rejects.toThrow(/must default export a lifecycle plugin class/)
+    ).rejects.toThrow(/must export a lifecycle plugin class/)
   })
 })

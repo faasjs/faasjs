@@ -10,6 +10,7 @@
 - [loadEnvFileIfExists](functions/loadEnvFileIfExists.md)
 - [loadFunc](functions/loadFunc.md)
 - [loadPackage](functions/loadPackage.md)
+- [loadPlugins](functions/loadPlugins.md)
 - [registerNodeModuleHooks](functions/registerNodeModuleHooks.md)
 - [resetRuntime](functions/resetRuntime.md)
 
@@ -26,6 +27,7 @@
 - [Level](type-aliases/Level.md)
 - [LoadEnvFileIfExistsOptions](type-aliases/LoadEnvFileIfExistsOptions.md)
 - [LoadPackageOptions](type-aliases/LoadPackageOptions.md)
+- [LoadPluginsOptions](type-aliases/LoadPluginsOptions.md)
 - [LoggerMessage](type-aliases/LoggerMessage.md)
 - [NodeRuntime](type-aliases/NodeRuntime.md)
 - [RegisterNodeModuleHooksOptions](type-aliases/RegisterNodeModuleHooksOptions.md)

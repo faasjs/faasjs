@@ -2,14 +2,14 @@
 
 ## Background
 
-FaasJS supports plugins in two complementary ways:
+FaasJS supports plugins in two complementary layers:
 
-- explicit plugin instances attached to `Func`
-- config-driven plugin loading used by `defineApi()`
+- code registers plugin instances on `Func`
+- `faas.yaml` provides staged, directory-aware plugin configuration
 
 The runtime behavior is already stable across `@faasjs/core` and `@faasjs/node-utils`, but the contract is currently spread across source code, tests, and legacy docs.
 
-This specification defines the current baseline for plugin identity, lifecycle execution, and config-driven loading.
+This specification defines the baseline for plugin identity, lifecycle execution, config layering, and config-driven loading.
 
 Related references:
 
@@ -22,7 +22,8 @@ Related references:
 ## Goals
 
 - Keep plugin authoring and loading behavior predictable.
-- Define how plugin identity, ordering, and deduplication work.
+- Define how plugin identity, ordering, config precedence, and deduplication work.
+- Make code registration and `faas.yaml` config play together without ambiguous ownership.
 - Align config-driven loading with current `defineApi()` behavior.
 
 ## Non-goals
@@ -35,10 +36,11 @@ Related references:
 ### 1. Runtime Plugin Contract
 
 1. A plugin instance MUST expose string `type` and string `name` fields.
-2. A plugin MAY implement `onMount`, `onInvoke`, or both.
-3. Plugins auto-loaded by `defineApi()` MUST be created from a constructor whose prototype implements at least one lifecycle method: `onMount` or `onInvoke`.
+2. Plugin `name` MUST identify the runtime plugin id.
+3. Plugin `type` MUST identify the plugin source, family, or module specifier rather than the runtime instance id.
 4. Plugin `name` SHOULD stay stable within the same function because ordering, deduplication, logs, and config lookup rely on it.
-5. Plugin `type` SHOULD identify the plugin family or module source, while `name` SHOULD identify the runtime instance.
+5. A plugin MAY implement `onMount`, `onInvoke`, or both.
+6. Plugins auto-loaded by `defineApi()` MUST be created from a constructor whose prototype implements at least one lifecycle method: `onMount` or `onInvoke`.
 
 ### 2. Lifecycle Execution Model
 
@@ -50,22 +52,33 @@ Related references:
 6. Plugins MAY mutate mount or invoke data to inject fields, prepare context, or control the final response.
 7. Errors thrown by a plugin or downstream handler MUST stop the current chain and propagate to the caller.
 
-### 3. Manual Registration
+### 3. Configuration Layering And Precedence
+
+1. Plugin configuration MAY be authored in code, in `faas.yaml`, or both.
+2. `faas.yaml` plugin config MUST support directory-level layering from project root toward the target function directory.
+3. When multiple `faas.yaml` files contribute config for the same plugin id, the deeper directory MUST override the shallower directory while preserving unspecified fields through deep merge.
+4. Code-authored plugin config MUST override merged `faas.yaml` config for the same plugin id.
+5. Plugin config merging MUST use plugin `name` as the identity key.
+6. Resolved plugin config exposed on `func.config.plugins` MUST reflect the final merged view after directory layering and code overrides.
+
+### 4. Manual Registration
 
 1. `new Func({ plugins: [...] })` MUST preserve the provided plugin order.
 2. Manual plugin arrays MUST NOT perform implicit deduplication; callers are responsible for avoiding duplicate plugin names when that matters.
+3. When code registers a plugin instance, that instance remains the source of runtime behavior; config resolution MAY augment its settings but MUST NOT silently replace it with another instance from YAML.
 
-### 4. Config-Driven Loading In `defineApi()`
+### 5. Config-Driven Loading In `defineApi()`
 
-1. `defineApi()` MUST resolve `func.config.plugins` before the first mount or invoke.
+1. `defineApi()` MUST resolve staged `faas.yaml` config and `func.config.plugins` before the first mount or invoke.
 2. The loader MUST inspect only own enumerable keys on `config.plugins`.
-3. A string config entry MUST be treated as shorthand for plugin `type`.
-4. For an object config entry, resolved plugin `name` MUST default to the entry key unless `name` is provided explicitly.
-5. For an object config entry, resolved plugin `type` MUST default to `type`, then fall back to the entry key.
+3. Plugin config entries in `func.config.plugins` MUST be keyed by plugin id.
+4. For config-driven loading, resolved plugin `name` MUST default to the entry key and therefore represent the plugin id.
+5. For an object config entry, resolved plugin `type` MUST come from `type`, then fall back to the entry key only for built-in aliases explicitly supported by the runtime.
 6. The loader MUST instantiate plugins with the resolved config object plus resolved `name` and `type`.
-7. If a plugin with the same resolved `name` already exists on the function, config-driven loading MUST skip that duplicate entry.
+7. If a plugin with the same resolved `name` already exists on the function, config-driven loading MUST NOT create a duplicate runtime instance.
+8. When a plugin instance already exists in code and config exists for the same id, the resolved config MUST still be attached to `func.config.plugins[name]` with code values taking precedence.
 
-### 5. Module And Constructor Resolution
+### 6. Module And Constructor Resolution
 
 1. Plugin type `http` and alias `@faasjs/http` MUST resolve to module `@faasjs/core`.
 2. Unscoped bare plugin types such as `mysql` MUST resolve to `@faasjs/<type>`.
@@ -75,7 +88,7 @@ Related references:
 6. If neither export is a valid lifecycle plugin constructor, the loader MUST throw an error.
 7. If constructor execution throws or returns a non-object plugin instance, the loader MUST throw an error.
 
-### 6. `defineApi()` Requirements
+### 7. `defineApi()` Requirements
 
 1. A `defineApi()` function MUST have an `http` plugin available after plugin resolution.
 2. If the `http` plugin is missing, invocation MUST fail with an error that indicates the required `http` plugin is missing.
@@ -90,8 +103,8 @@ Related references:
 import { Func, type InvokeData, type Next, type Plugin } from '@faasjs/core'
 
 class TracePlugin implements Plugin {
-  public readonly type = 'trace'
   public readonly name = 'trace'
+  public readonly type = '@/plugins/trace'
 
   public async onInvoke(data: InvokeData, next: Next) {
     data.context.trace = ['before']
@@ -109,15 +122,36 @@ export const func = new Func({
 })
 ```
 
-### Config-driven plugin loading in `defineApi()`
+### Config layering with code precedence
+
+```yaml
+# src/faas.yaml
+defaults:
+  plugins:
+    auth:
+      type: file://./plugins/auth-plugin.ts
+      config:
+        provider: jwt
+        secret: from-root
+```
+
+```yaml
+# src/admin/faas.yaml
+defaults:
+  plugins:
+    auth:
+      config:
+        secret: from-admin
+```
 
 ```ts
 import { defineApi } from '@faasjs/core'
 
 export const func = defineApi({
-  async handler({ current_user }) {
+  async handler({ config, current_user }) {
     return {
       current_user,
+      auth: config.plugins?.auth,
     }
   },
 })
@@ -125,7 +159,9 @@ export const func = defineApi({
 func.config = {
   plugins: {
     auth: {
-      type: './auth-plugin',
+      config: {
+        secret: 'from-code',
+      },
     },
     http: {
       config: {},
@@ -133,3 +169,10 @@ func.config = {
   },
 }
 ```
+
+In the resolved config:
+
+- plugin id is `auth`, so runtime `name === 'auth'`
+- plugin source comes from the configured `type`
+- `secret` resolves to `'from-code'`
+- `provider` remains `'jwt'`

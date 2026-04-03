@@ -32,9 +32,11 @@ describe('loadFunc', () => {
           type: 'local',
         },
         extra: {
+          name: 'extra',
           type: 'inline-extra',
         },
         http: {
+          name: 'http',
           type: 'http',
         },
       },

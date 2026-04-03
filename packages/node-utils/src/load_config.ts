@@ -63,6 +63,18 @@ function formatIssuePath(path: PropertyKey[]): string {
   return path.map((value) => String(value)).join('.')
 }
 
+function normalizePluginTypeFromYaml(filePath: string, pluginType: string): string {
+  const normalizedType = pluginType.startsWith('npm:') ? pluginType.slice(4) : pluginType
+
+  if (normalizedType.startsWith('file://./') || normalizedType.startsWith('file://../'))
+    return pathToFileURL(resolve(dirname(filePath), normalizedType.slice('file://'.length))).href
+
+  if (normalizedType.startsWith('./') || normalizedType.startsWith('../'))
+    return pathToFileURL(resolve(dirname(filePath), normalizedType)).href
+
+  return normalizedType
+}
+
 function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
   if (typeof config === 'undefined') return Object.create(null)
 
@@ -88,26 +100,20 @@ function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
     for (const pluginName in stage.plugins) {
       const plugin = stage.plugins[pluginName]
 
-      if (typeof plugin?.type === 'string' && plugin.type.startsWith('file://./'))
-        plugin.type = pathToFileURL(
-          resolve(dirname(filePath), plugin.type.slice('file://'.length)),
-        ).href
-
-      if (typeof plugin?.type === 'string' && plugin.type.startsWith('file://../'))
-        plugin.type = pathToFileURL(
-          resolve(dirname(filePath), plugin.type.slice('file://'.length)),
-        ).href
+      if (typeof plugin?.type === 'string')
+        plugin.type = normalizePluginTypeFromYaml(filePath, plugin.type)
     }
   }
 
   return data
 }
 
-function assignPluginNames(config: FuncConfig): void {
+export function assignPluginNames(config: FuncConfig): void {
   if (!config.plugins) return
 
   for (const pluginKey in config.plugins) {
     const plugin = config.plugins[pluginKey]
+    if (!plugin || typeof plugin !== 'object') continue
     plugin.name = pluginKey
   }
 }

@@ -138,6 +138,13 @@ This maps directly to:
 - `/pages/feature-name/api`
 - `/pages/feature-name/api/*` fallback
 
+### 5. Keep imports readable
+
+- Read `tsconfig.json` and any config it extends before choosing import paths.
+- Prefer aliases already defined in TypeScript config over deep relative imports when the path would otherwise cross several directories.
+- Prefer short relative imports for nearby siblings such as `./UserCard` or `../hooks/useUser`.
+- Do not introduce a new alias style unless the project already configures it, or you are updating project config in the same change.
+
 ## Review Checklist
 
 - each component has its own file
@@ -152,6 +159,8 @@ This maps directly to:
 - frontend backend handlers live in `api/`
 - only page entries stay at the outer page or feature level
 - backend `.func.ts` files follow routing-mapping
+- imports follow aliases already defined in `tsconfig.json` when available
+- nearby imports stay relative instead of forcing alias usage everywhere
 
 ## Read Next
 
