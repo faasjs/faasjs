@@ -35,7 +35,7 @@
     "lodash-es": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "*"
+    "react-router-dom": "^7.14.0"
   },
   "peerDependencies": {
     "@ant-design/icons": "*",
