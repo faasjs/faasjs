@@ -174,6 +174,101 @@ describe('loadPlugins', () => {
     })
   })
 
+  it('applies merged config to an already-registered plugin instance', async () => {
+    const { src } = createProject({
+      'src/faas.yaml': `defaults:
+  plugins:
+    auth:
+      type: ./plugins/auth-plugin.ts
+      config:
+        provider: jwt
+        secret: from-root
+    http:
+      config: {}
+`,
+      'src/admin/faas.yaml': `defaults:
+  plugins:
+    auth:
+      config:
+        region: apac
+        secret: from-admin
+`,
+      'src/plugins/auth-plugin.ts': `export class AuthPlugin {
+  async onInvoke(_data, next) {
+    await next()
+  }
+}
+`,
+    })
+
+    class ManualAuthPlugin implements Plugin {
+      public readonly name = 'auth'
+      public readonly type = 'manual-auth'
+      public config: Record<string, any> = {
+        source: 'manual-instance',
+      }
+      public resolvedType?: string
+
+      public applyConfig(config: { type: string; name: string; config?: Record<string, any> }) {
+        this.resolvedType = config.type
+        this.config = {
+          ...this.config,
+          ...config.config,
+        }
+      }
+
+      public async onInvoke(data: InvokeData, next: Next) {
+        data.current_user = {
+          config: this.config,
+          resolvedType: this.resolvedType,
+        }
+
+        await next()
+      }
+    }
+
+    const func = defineApi({
+      async handler(data) {
+        return data.current_user
+      },
+    })
+
+    func.filename = join(src, 'admin', 'demo.func.ts')
+    func.plugins.unshift(new ManualAuthPlugin())
+    func.config = {
+      plugins: {
+        auth: {
+          config: {
+            secret: 'from-code',
+            scope: 'write',
+          },
+        },
+      },
+    }
+
+    await loadPlugins(func, {
+      root: src,
+      filename: func.filename,
+      staging: 'defaults',
+    })
+
+    const response: any = await func.export().handler({})
+
+    expect(func.plugins.filter((plugin) => plugin.name === 'auth')).toHaveLength(1)
+    expect(await streamToObject(response.body)).toEqual({
+      data: {
+        config: {
+          provider: 'jwt',
+          region: 'apac',
+          scope: 'write',
+          secret: 'from-code',
+          source: 'manual-instance',
+        },
+        resolvedType: pathToFileURL(join(src, 'plugins', 'auth-plugin.ts')).href,
+      },
+    })
+  })
+
   it('merges layered yaml config and lets code config override the same plugin id', async () => {
     const { src } = createProject({
       'src/faas.yaml': `defaults:

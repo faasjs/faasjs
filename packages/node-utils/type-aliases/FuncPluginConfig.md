@@ -22,15 +22,11 @@ Plugin-specific configuration payload.
 
 \[`key`: `string`\]: `any`
 
----
-
 ### name?
 
 > `optional` **name?**: `string`
 
 Plugin key assigned during config resolution.
-
----
 
 ### type?
 

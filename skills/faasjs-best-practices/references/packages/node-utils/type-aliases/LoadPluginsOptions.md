@@ -10,19 +10,13 @@
 
 > **filename**: `string`
 
----
-
 ### logger?
 
 > `optional` **logger?**: [`Logger`](../classes/Logger.md)
 
----
-
 ### root
 
 > **root**: `string`
-
----
 
 ### staging
 

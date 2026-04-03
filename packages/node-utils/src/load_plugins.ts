@@ -14,6 +14,11 @@ import type { Logger } from './logger'
 
 type PluginConstructor = new (config?: any) => Plugin
 
+type ConfigurablePlugin = Plugin & {
+  config?: Record<string, any>
+  applyConfig?: (config: FuncPluginConfig) => void | Promise<void>
+}
+
 export type LoadPluginsOptions = {
   root: string
   filename: string
@@ -134,6 +139,25 @@ function normalizeMergedPluginConfig(
   return normalizedConfig
 }
 
+async function applyPluginConfig(plugin: Plugin, pluginConfig: FuncPluginConfig): Promise<void> {
+  const configurablePlugin = plugin as ConfigurablePlugin
+
+  if (typeof configurablePlugin.applyConfig === 'function') {
+    await configurablePlugin.applyConfig(pluginConfig)
+    return
+  }
+
+  const nextConfig = pluginConfig.config
+  const currentConfig =
+    configurablePlugin.config && typeof configurablePlugin.config === 'object'
+      ? configurablePlugin.config
+      : undefined
+
+  if (typeof nextConfig === 'undefined' && typeof currentConfig === 'undefined') return
+
+  configurablePlugin.config = deepMerge(currentConfig || Object.create(null), nextConfig)
+}
+
 /**
  * Load staged `faas.yaml`, attach the merged config to a function, and
  * instantiate any plugins declared in YAML that are not already injected in code.
@@ -166,8 +190,6 @@ export async function loadPlugins<TFunc extends Func>(
     const plugins = func.plugins
 
     for (const pluginId of resolvedPluginIds) {
-      if (plugins.find((plugin) => plugin.name === pluginId)) continue
-
       const pluginConfig = normalizeMergedPluginConfig(
         pluginId,
         deepMerge(pluginConfigs[pluginId], inlinePluginConfigs[pluginId]) as FuncPluginConfig,
@@ -188,6 +210,13 @@ export async function loadPlugins<TFunc extends Func>(
 
       if (!pluginType)
         throw Error(`[loadPlugins] Plugin "${pluginId}" requires an explicit "type" in faas.yaml.`)
+
+      const existingPlugin = plugins.find((plugin) => plugin.name === pluginId)
+
+      if (existingPlugin) {
+        await applyPluginConfig(existingPlugin, pluginConfig)
+        continue
+      }
 
       const moduleSpecifier = resolvePluginModuleSpecifier(pluginType)
 

@@ -14,15 +14,11 @@ Runtime context passed to cron job handlers.
 
 Cron job being executed.
 
----
-
 ### logger
 
 > **logger**: `Logger`
 
 Job-scoped logger instance.
-
----
 
 ### now
 

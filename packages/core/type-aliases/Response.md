@@ -14,8 +14,6 @@ Serializable HTTP response shape produced by FaasJS HTTP handlers.
 
 Plain string body or stream payload.
 
----
-
 ### headers?
 
 > `optional` **headers?**: `object`
@@ -26,15 +24,11 @@ Response headers keyed by header name.
 
 \[`key`: `string`\]: `string`
 
----
-
 ### message?
 
 > `optional` **message?**: `string`
 
 Optional response message.
-
----
 
 ### statusCode?
 

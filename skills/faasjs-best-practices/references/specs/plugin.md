@@ -41,6 +41,7 @@ Related references:
 4. Plugin `name` SHOULD stay stable within the same function because ordering, deduplication, logs, and config lookup rely on it.
 5. A plugin MAY implement `onMount`, `onInvoke`, or both.
 6. Plugins auto-loaded by `defineApi()` MUST be created from a constructor whose prototype implements at least one lifecycle method: `onMount` or `onInvoke`.
+7. Plugins registered in code MAY implement `applyConfig(resolvedConfig)` to receive the final merged config for their plugin id before first mount.
 
 ### 2. Lifecycle Execution Model
 
@@ -66,6 +67,7 @@ Related references:
 1. `new Func({ plugins: [...] })` MUST preserve the provided plugin order.
 2. Manual plugin arrays MUST NOT perform implicit deduplication; callers are responsible for avoiding duplicate plugin names when that matters.
 3. When code registers a plugin instance, that instance remains the source of runtime behavior; config resolution MAY augment its settings but MUST NOT silently replace it with another instance from YAML.
+4. When a pre-registered plugin instance implements `applyConfig`, the loader SHOULD call it with the final merged config for that plugin id.
 
 ### 5. Config-Driven Loading In `defineApi()`
 

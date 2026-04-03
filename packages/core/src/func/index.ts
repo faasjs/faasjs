@@ -52,6 +52,7 @@ export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
  *
  * @property {string} type - Stable plugin type identifier.
  * @property {string} name - Instance name used for ordering and logs.
+ * @property {(config: { type: string; name: string; config?: Record<string, any> }) => void | Promise<void>} [applyConfig] - Optional hook that receives the resolved config for an already-registered plugin instance.
  * @property {(data: MountData, next: Next) => Promise<void>} [onMount] - Optional hook that runs once before the first invoke.
  * @property {(data: InvokeData, next: Next) => Promise<void>} [onInvoke] - Optional hook that runs for every invocation.
  */
@@ -59,6 +60,14 @@ export type Plugin = {
   [key: string]: any
   readonly type: string
   readonly name: string
+  applyConfig?: (config: {
+    [key: string]: any
+    readonly type: string
+    readonly name: string
+    config?: {
+      [key: string]: any
+    }
+  }) => void | Promise<void>
   onMount?: (data: MountData, next: Next) => Promise<void>
   onInvoke?: (data: InvokeData, next: Next) => Promise<void>
 }

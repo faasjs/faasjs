@@ -20,8 +20,6 @@ Cipher name used to encrypt the session payload.
 'aes-256-cbc'
 ```
 
----
-
 ### digest?
 
 > `optional` **digest?**: `string`
@@ -33,8 +31,6 @@ Hash algorithm used by PBKDF2 and HMAC.
 ```ts
 'sha256'
 ```
-
----
 
 ### iterations?
 
@@ -48,15 +44,11 @@ PBKDF2 iteration count used for key derivation.
 100
 ```
 
----
-
 ### key
 
 > **key**: `string`
 
 Cookie key used to store the encrypted session payload.
-
----
 
 ### keylen?
 
@@ -70,8 +62,6 @@ Total derived key length in bytes.
 64
 ```
 
----
-
 ### salt?
 
 > `optional` **salt?**: `string`
@@ -84,15 +74,11 @@ Salt used for deriving the encryption key.
 'salt'
 ```
 
----
-
 ### secret
 
 > **secret**: `string`
 
 Secret source used to derive encryption and signing keys.
-
----
 
 ### signedSalt?
 

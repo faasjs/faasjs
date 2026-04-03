@@ -72,8 +72,6 @@ Transport configuration such as label, flush interval, and debug mode.
 
 `void`
 
----
-
 ### flush()
 
 > **flush**(): `Promise`\<`void`\>
@@ -88,8 +86,6 @@ the buffered messages, disables itself, and stops the interval until reconfigure
 `Promise`\<`void`\>
 
 Promise that resolves after the active flush completes.
-
----
 
 ### insert()
 
@@ -110,8 +106,6 @@ Log message to buffer.
 #### Returns
 
 `void`
-
----
 
 ### register()
 
@@ -139,8 +133,6 @@ Async handler invoked for each flushed batch.
 
 `void`
 
----
-
 ### reset()
 
 > **reset**(): `void`
@@ -153,8 +145,6 @@ This also clears the interval so tests or setup code can reconfigure the transpo
 
 `void`
 
----
-
 ### stop()
 
 > **stop**(): `Promise`\<`void`\>
@@ -166,8 +156,6 @@ Stop periodic flushing and drain any buffered messages.
 `Promise`\<`void`\>
 
 Promise that resolves when the transport has fully stopped.
-
----
 
 ### unregister()
 
@@ -196,8 +184,6 @@ Transport handler name to remove.
 > **handlers**: `Map`\<`string`, [`TransportHandler`](../type-aliases/TransportHandler.md)\>
 
 Registered flush handlers keyed by name.
-
----
 
 ### messages
 

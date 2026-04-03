@@ -23,8 +23,6 @@ or `false` to disable lookup caching.
 true
 ```
 
----
-
 ### notFound?
 
 > `optional` **notFound?**: [`Middleware`](Middleware.md) \| `boolean` \| `string`
@@ -40,15 +38,11 @@ a middleware function to handle the miss manually, or `false` to leave the respo
 false
 ```
 
----
-
 ### root
 
 > **root**: `string`
 
 Root directory used to resolve requested files.
-
----
 
 ### stripPrefix?
 

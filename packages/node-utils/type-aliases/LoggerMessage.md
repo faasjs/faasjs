@@ -14,15 +14,11 @@ Serialized log entry sent to transport handlers.
 
 Original extra values forwarded alongside the formatted message.
 
----
-
 ### labels
 
 > **labels**: `string`[]
 
 Label segments captured from the logger.
-
----
 
 ### level
 
@@ -30,15 +26,11 @@ Label segments captured from the logger.
 
 Log level that produced the message.
 
----
-
 ### message
 
 > **message**: `string`
 
 Fully formatted log text.
-
----
 
 ### timestamp
 

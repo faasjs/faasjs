@@ -90,8 +90,6 @@ Optional logger for the forked instance.
 
 Forked cookie manager for a single invocation.
 
----
-
 ### headers()
 
 > **headers**(): `object`
@@ -107,8 +105,6 @@ Header bag suitable for merging into an HTTP response.
 ##### Set-Cookie?
 
 > `optional` **Set-Cookie?**: `string`[]
-
----
 
 ### invoke()
 
@@ -136,8 +132,6 @@ Logger forwarded to the session helper.
 
 Current cookie manager for chaining.
 
----
-
 ### read()
 
 > **read**(`key`): `any`
@@ -157,8 +151,6 @@ Cookie name.
 `any`
 
 Decoded cookie value for the current request.
-
----
 
 ### write()
 
@@ -234,23 +226,17 @@ Current cookie manager for chaining.
 
 Normalized cookie configuration with defaults applied.
 
----
-
 ### content
 
 > **content**: `Record`\<`string`, `string`\>
 
 Parsed cookie key-value pairs for the current request.
 
----
-
 ### logger
 
 > **logger**: `Logger` \| `undefined`
 
 Optional logger used for warnings and debug output.
-
----
 
 ### session
 

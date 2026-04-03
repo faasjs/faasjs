@@ -28,8 +28,6 @@ const server = new Server(process.cwd(), {
 })
 ```
 
----
-
 ### cronJob?
 
 > `optional` **cronJob?**: `boolean`
@@ -44,8 +42,6 @@ When enabled, `server.listen()` mounts registered cron jobs and
 ```ts
 true
 ```
-
----
 
 ### onClose?
 
@@ -82,8 +78,6 @@ const server = new Server(process.cwd(), {
   },
 })
 ```
-
----
 
 ### onError?
 
@@ -127,8 +121,6 @@ const server = new Server(process.cwd(), {
 })
 ```
 
----
-
 ### onStart?
 
 > `optional` **onStart?**: (`context`) => `Promise`\<`void`\>
@@ -164,8 +156,6 @@ const server = new Server(process.cwd(), {
   },
 })
 ```
-
----
 
 ### port?
 

@@ -12,13 +12,37 @@ Lifecycle plugin attached to a [Func](../classes/Func.md).
 
 ## Properties
 
+### applyConfig?
+
+> `optional` **applyConfig?**: (`config`) => `void` \| `Promise`\<`void`\>
+
+Optional hook that receives the resolved config for an already-registered plugin instance.
+
+#### Parameters
+
+##### config
+
+###### config?
+
+\{\[`key`: `string`\]: `any`; \}
+
+###### name
+
+`string`
+
+###### type
+
+`string`
+
+#### Returns
+
+`void` \| `Promise`\<`void`\>
+
 ### name
 
 > `readonly` **name**: `string`
 
 Instance name used for ordering and logs.
-
----
 
 ### onInvoke?
 
@@ -40,8 +64,6 @@ Optional hook that runs for every invocation.
 
 `Promise`\<`void`\>
 
----
-
 ### onMount?
 
 > `optional` **onMount?**: (`data`, `next`) => `Promise`\<`void`\>
@@ -61,8 +83,6 @@ Optional hook that runs once before the first invoke.
 #### Returns
 
 `Promise`\<`void`\>
-
----
 
 ### type
 

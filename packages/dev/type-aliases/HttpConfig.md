@@ -70,8 +70,6 @@ source file relative path
 
 Request timeout in milliseconds.
 
----
-
 ### name?
 
 > `optional` **name?**: `string`

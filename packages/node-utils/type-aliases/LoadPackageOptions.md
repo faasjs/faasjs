@@ -14,8 +14,6 @@ Options for loading modules with tsconfig path aliases and runtime-aware cache c
 
 Project root used to scope tsconfig path alias resolution.
 
----
-
 ### tsconfigPath?
 
 > `optional` **tsconfigPath?**: `string`
@@ -27,8 +25,6 @@ Explicit tsconfig file path used to load path alias rules.
 ```ts
 '<root>/tsconfig.json'
 ```
-
----
 
 ### version?
 

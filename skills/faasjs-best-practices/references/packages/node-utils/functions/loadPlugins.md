@@ -2,7 +2,7 @@
 
 # Function: loadPlugins()
 
-> **loadPlugins**<`TFunc`>(`func`, `options`): `Promise`<`TFunc`>
+> **loadPlugins**\<`TFunc`\>(`func`, `options`): `Promise`\<`TFunc`\>
 
 Load staged `faas.yaml`, attach the merged config to a function, and
 instantiate any plugins declared in YAML that are not already injected in code.
@@ -15,7 +15,7 @@ constructor.
 
 ### TFunc
 
-`TFunc` _extends_ `Func`<`any`, `any`, `any`>
+`TFunc` _extends_ `Func`\<`any`, `any`, `any`\>
 
 ## Parameters
 
@@ -29,4 +29,4 @@ constructor.
 
 ## Returns
 
-`Promise`<`TFunc`>
+`Promise`\<`TFunc`\>

@@ -84,8 +84,6 @@ Object containing the exported handler.
 
 > **handler**: [`ExportedHandler`](../type-aliases/ExportedHandler.md)\<`TEvent`, `TContext`, `TResult`\>
 
----
-
 ### invoke()
 
 > **invoke**(`data`): `Promise`\<`void`\>
@@ -105,8 +103,6 @@ Invocation state mutated by plugins and the final handler.
 `Promise`\<`void`\>
 
 Promise that resolves after invoke hooks complete.
-
----
 
 ### mount()
 
@@ -158,15 +154,11 @@ Promise that resolves after mount hooks complete.
 
 Mutable runtime configuration used by the function.
 
----
-
 ### filename?
 
 > `optional` **filename?**: `string`
 
 Resolved source filename inferred from the constructor call stack.
-
----
 
 ### handler?
 
@@ -174,15 +166,11 @@ Resolved source filename inferred from the constructor call stack.
 
 Final business handler invoked after plugins finish.
 
----
-
 ### mounted
 
 > **mounted**: `boolean` = `false`
 
 Indicates whether mount hooks have already run.
-
----
 
 ### plugins
 
