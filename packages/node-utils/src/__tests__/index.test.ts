@@ -10,6 +10,7 @@ it('should export helpers', () => {
   expect(nodeUtils).toHaveProperty('loadEnvFileIfExists')
   expect(nodeUtils).toHaveProperty('loadFunc')
   expect(nodeUtils).toHaveProperty('loadPackage')
+  expect(nodeUtils).toHaveProperty('parseYaml')
   expect(nodeUtils).toHaveProperty('registerNodeModuleHooks')
   expect(nodeUtils).toHaveProperty('detectNodeRuntime')
   expect(nodeUtils).toHaveProperty('formatLogger')

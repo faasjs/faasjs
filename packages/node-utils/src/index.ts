@@ -44,5 +44,6 @@ export {
   registerNodeModuleHooks,
   resetRuntime,
 } from './load_package'
+export { parseYaml } from './parse_yaml'
 export type { LoggerMessage, TransportHandler, TransportOptions } from './transport'
 export { getTransport, Transport } from './transport'

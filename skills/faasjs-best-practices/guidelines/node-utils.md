@@ -7,6 +7,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 - running FaasJS handlers, CLIs, tests, or bootstrap scripts directly in Node.js
 - loading `.env` files before bootstrapping the app
 - reading merged staged `faas.yaml` config for a specific function file
+- parsing the FaasJS YAML subset in custom Node.js tooling
 - turning a function module into a runnable exported handler
 - loading YAML-defined plugins into a `Func` instance
 - importing local TypeScript modules with tsconfig path aliases in plain Node
@@ -14,7 +15,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 
 ## What `@faasjs/node-utils` Gives You
 
-- environment and config loading: `loadEnvFileIfExists`, `loadConfig`
+- environment and config loading: `loadEnvFileIfExists`, `loadConfig`, `parseYaml`
 - function loading: `loadFunc`, `loadPlugins`
 - Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `detectNodeRuntime`, `resetRuntime`
 - logging and log shipping: `Logger`, `formatLogger`, `getTransport`, `Transport`, `colorfy`
@@ -24,9 +25,10 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 1. Keep `@faasjs/node-utils` imports in Node-only entrypoints, tests, CLIs, or adapters.
 2. Load env files early with `loadEnvFileIfExists()` if the process relies on local dotenv files.
 3. Use `loadConfig()` when you only need staged `faas.yaml` data.
-4. Use `loadFunc()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
-5. Use `loadPackage()` or `registerNodeModuleHooks()` when direct Node execution must understand local TypeScript files or tsconfig aliases.
-6. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
+4. Use `parseYaml()` when you need the raw FaasJS YAML subset in custom tooling without staged discovery.
+5. Use `loadFunc()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
+6. Use `loadPackage()` or `registerNodeModuleHooks()` when direct Node execution must understand local TypeScript files or tsconfig aliases.
+7. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
 
 ## Rules
 
@@ -70,15 +72,23 @@ console.log(config.plugins?.http)
 
 ### 4. Pick the smallest loader for the job
 
+- Use `parseYaml()` when your script receives YAML text directly and you want the same supported subset and error messages as FaasJS config parsing.
+- `parseYaml()` does not walk directories, apply staging fallbacks, or validate the `faas.yaml` schema, so validate the parsed shape yourself when you are not calling `loadConfig()`.
 - Use `loadFunc()` when you need the final handler that a runtime or test will invoke.
 - Use `loadPlugins()` when you already have a `Func` instance and want YAML-driven plugins and config attached before exporting or mounting it.
 - Use `loadPackage()` for general dynamic module loading in Node.js, especially when the target is a local TypeScript file or a path-alias-aware module.
 - Prefer these helpers over ad hoc `import()` wrappers so cache busting, tsconfig resolution, and plugin wiring stay consistent.
 
 ```ts
-import { loadEnvFileIfExists, loadFunc } from '@faasjs/node-utils'
+import { loadEnvFileIfExists, loadFunc, parseYaml } from '@faasjs/node-utils'
 
 loadEnvFileIfExists()
+
+const pluginDefaults = parseYaml(`defaults:
+  plugins:
+    http:
+      type: http
+`)
 
 const handler = await loadFunc(
   process.cwd(),
@@ -86,6 +96,7 @@ const handler = await loadFunc(
   process.env.NODE_ENV || 'development',
 )
 
+console.log(pluginDefaults)
 const result = await handler(event, context)
 ```
 
@@ -116,6 +127,7 @@ await import('./scripts/sync-users.ts')
 - `@faasjs/node-utils` imports stay in Node-only code
 - local scripts load `.env` before env-dependent bootstrap logic
 - staged `faas.yaml` is read through `loadConfig()` or `loadFunc()`, not custom merge code
+- raw FaasJS-compatible YAML parsing uses `parseYaml()` instead of a different YAML parser
 - loaders use `loadFunc()`, `loadPlugins()`, or `loadPackage()` instead of custom dynamic import wrappers
 - module hooks are registered at process startup, not deep inside feature code
 - tests that depend on fresh loader state use `resetRuntime()`
@@ -130,4 +142,5 @@ await import('./scripts/sync-users.ts')
 - [loadFunc](../references/packages/node-utils/functions/loadFunc.md)
 - [loadPackage](../references/packages/node-utils/functions/loadPackage.md)
 - [loadPlugins](../references/packages/node-utils/functions/loadPlugins.md)
+- [parseYaml](../references/packages/node-utils/functions/parseYaml.md)
 - [registerNodeModuleHooks](../references/packages/node-utils/functions/registerNodeModuleHooks.md)

@@ -4,7 +4,7 @@
 
 `faas.yaml` is the runtime configuration entry used by FaasJS config loading, local dev server resolution, and type generation.
 
-This spec defines the internal baseline that matches current behavior.
+This spec defines the current public baseline that matches FaasJS runtime behavior.
 
 Related references:
 
@@ -12,12 +12,14 @@ Related references:
 - `packages/node-utils/src/parse_yaml.ts`
 - `packages/dev/src/server_config.ts`
 - `packages/dev/src/typegen.ts`
+- `@faasjs/node-utils` `parseYaml()`
 
 ## Goals
 
 - Keep config discovery and merge order deterministic.
 - Keep staging-level validation predictable.
 - Define the supported YAML subset explicitly.
+- Give custom Node.js tooling a supported parser entrypoint for the same YAML subset.
 
 ## Normative Rules
 

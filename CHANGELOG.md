@@ -14,6 +14,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/node-utils`
   - [Break] Remove the legacy `FaasMode=remote` logger behavior and rely on terminal capability detection by default, while still allowing `FaasLogMode`, `FORCE_COLOR`, and `NO_COLOR` to override the output mode.
   - [Feature] Resolve relative `file://` plugin `type` values in `faas.yaml` from the directory of the `faas.yaml` file.
+  - [Feature] Export `parseYaml` as a public API for parsing the supported `faas.yaml` YAML subset in custom Node.js tooling.
 
 [`v8.0.0-beta.19 (2026-03-31)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.18...v8.0.0-beta.19)
 
