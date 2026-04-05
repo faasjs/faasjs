@@ -1,4 +1,4 @@
-import { toAliasKey } from './site-utils'
+import { toAliasKey } from './site-utils.ts'
 
 export type SitemapRoute = {
   route: string

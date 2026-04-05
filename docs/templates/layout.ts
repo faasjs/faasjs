@@ -1,4 +1,4 @@
-import { classNames, escapeHtml } from './partials'
+import { classNames, escapeHtml } from './partials.ts'
 
 type LayoutOptions = {
   lang: string

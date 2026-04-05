@@ -1,3 +1,7 @@
+import { registerNodeModuleHooks } from '../packages/node-utils/src/load_package.ts'
+
+registerNodeModuleHooks()
+
 import { execSync } from 'node:child_process'
 import { globSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'

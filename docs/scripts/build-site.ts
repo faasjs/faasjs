@@ -20,15 +20,15 @@ import {
   type NavbarItem,
   type SidebarItem,
   siteConfig,
-} from '../site/site.config'
-import { renderLayout } from '../templates/layout'
+} from '../site/site.config.ts'
+import { renderLayout } from '../templates/layout.ts'
 import {
   classNames,
   escapeHtml,
   isExternalLink as isTemplateExternal,
   renderAutoLink,
-} from '../templates/partials'
-import { buildSitemapXml, type SitemapRoute } from './build-sitemap'
+} from '../templates/partials.ts'
+import { buildSitemapXml, type SitemapRoute } from './build-sitemap.ts'
 import {
   isExternalLink,
   joinSitePath,
@@ -36,7 +36,7 @@ import {
   toPosixPath,
   toRouteFromMarkdownPath,
   walkMarkdownFiles,
-} from './site-utils'
+} from './site-utils.ts'
 
 type LocaleKey = '/' | '/zh/'
 
