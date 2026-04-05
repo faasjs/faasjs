@@ -6,6 +6,7 @@ description: When working with FaasJS projects, must follow these best practices
 ## Global Rules
 
 - Read `tsconfig.json` and any extended TypeScript config before choosing import paths.
+- Prefer FaasJS TypeScript loader support for direct Node execution, and keep local TypeScript imports extensionless instead of adding `.ts` or `.tsx` suffixes.
 - Prefer aliases already defined in TypeScript config over deep relative imports.
 - Keep short relative imports for nearby files in the same feature or directory.
 - Do not invent a new alias in code unless the corresponding `tsconfig.json` and runtime resolver are configured in the same change.

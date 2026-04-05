@@ -27,7 +27,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 3. Use `loadConfig()` when you only need staged `faas.yaml` data.
 4. Use `parseYaml()` when you need the raw FaasJS YAML subset in custom tooling without staged discovery.
 5. Use `loadFunc()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
-6. Use `loadPackage()` or `registerNodeModuleHooks()` when direct Node execution must understand local TypeScript files or tsconfig aliases.
+6. Prefer the FaasJS TypeScript loader when direct Node execution must understand local TypeScript files or tsconfig aliases, and keep local imports extensionless without `.ts` or `.tsx` suffixes.
 7. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
 
 ## Rules
@@ -103,6 +103,7 @@ const result = await handler(event, context)
 ### 5. Register module hooks only at process bootstrap
 
 - `registerNodeModuleHooks()` is for long-lived Node entrypoints such as CLIs, dev servers, or bootstrap scripts that need tsconfig path alias resolution.
+- Prefer the preload entry `node --import @faasjs/node-utils/register-hooks <entry>` for direct Node execution so scripts keep standard extensionless local imports.
 - Call it once near startup. Repeated calls are safe, but scattering it across modules makes startup intent harder to follow.
 - In isolated tests that depend on fresh loader state, call `resetRuntime()` between cases instead of reinitializing the whole process.
 
@@ -113,7 +114,7 @@ registerNodeModuleHooks({
   root: process.cwd(),
 })
 
-await import('./scripts/sync-users.ts')
+await import('./scripts/sync-users')
 ```
 
 ### 6. Keep Node-side logging on the shared primitives

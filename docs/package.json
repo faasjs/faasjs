@@ -4,10 +4,11 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build:ssg": "node scripts/build-site.ts",
-    "build": "node prepare.ts && npm run build:ssg"
+    "build:ssg": "node --import @faasjs/node-utils/register-hooks scripts/build-site.ts",
+    "build": "node --import @faasjs/node-utils/register-hooks prepare.ts && npm run build:ssg"
   },
   "devDependencies": {
+    "@faasjs/node-utils": "file:../packages/node-utils",
     "gray-matter": "*",
     "highlight.js": "*",
     "jsdom": "*",
