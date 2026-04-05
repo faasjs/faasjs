@@ -14,17 +14,19 @@ Use this guide when creating or reviewing frontend pages, React components, hook
 
 1. Put frontend pages under `pages/`.
 2. Use `index.tsx` as the page entry file.
-3. Split each React component into its own file.
-4. Split each hook into its own file.
+3. Keep one-off page-local logic inline until extraction is justified.
+4. When a component or hook earns its own abstraction, give it its own file.
 5. Group frontend code by page or feature.
 6. Place components in `components/`, hooks in `hooks/`, and backend handlers in `api/`.
 7. Place backend route files according to the routing-mapping specification.
 
 ## Rules
 
-### 1. One component per file
+### 1. Extract components only when they earn a boundary
 
-- A React component SHOULD live in its own file.
+- Do not split JSX into a new component just to satisfy folder structure.
+- Keep one-off page-local UI inline when extraction does not improve readability or reuse.
+- When a React component is extracted, it SHOULD live in its own file.
 - The file name SHOULD exactly match the component name.
 - Preserve the component's case in the file name.
 - Page files are the exception: page entry files SHOULD use `index.tsx`.
@@ -34,9 +36,11 @@ Examples:
 - `UserCard.tsx` -> `export function UserCard() {}`
 - `OrderList.tsx` -> `export default function OrderList() {}`
 
-### 2. One hook per file
+### 2. Extract hooks only when they earn a boundary
 
-- A hook SHOULD live in its own file.
+- Do not create a `useXxx` wrapper for one-off logic that is still clearer inline.
+- Extract a hook when the logic is reused, meaningfully simplifies the component, or deserves its own testable boundary.
+- When a hook is extracted, it SHOULD live in its own file.
 - The file name SHOULD exactly match the hook name.
 - Hook files SHOULD keep the `useXxx` naming pattern.
 
@@ -147,8 +151,9 @@ This maps directly to:
 
 ## Review Checklist
 
-- each component has its own file
-- each hook has its own file
+- one-off UI or state logic is not extracted without a readability or reuse reason
+- extracted components have their own file
+- extracted hooks have their own file
 - component file names match component names
 - hook file names match hook names
 - page entry files are named `index.tsx`

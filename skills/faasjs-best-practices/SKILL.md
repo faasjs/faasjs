@@ -9,6 +9,7 @@ description: When working with FaasJS projects, must follow these best practices
 - Prefer aliases already defined in TypeScript config over deep relative imports.
 - Keep short relative imports for nearby files in the same feature or directory.
 - Do not invent a new alias in code unless the corresponding `tsconfig.json` and runtime resolver are configured in the same change.
+- Do not create a new function unless the logic needs to be reused.
 
 ## Guidelines
 

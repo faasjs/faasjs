@@ -30,6 +30,8 @@ Most package source code lives in `packages/*/src`, and package entrypoints are 
 
 - Edit source files under `packages/*/src`, `examples/*/src`, or `docs/**`
 - Edit skill definitions and supporting guides under `skills/**`
+- `skills/faasjs-best-practices/**` is end-user guidance for building with FaasJS, not an internal guide for developing the FaasJS framework itself
+- When framework behavior, public APIs, file conventions, or recommended usage changes, update the matching `skills/faasjs-best-practices/**` content in the same change or verify it is still accurate so code and guidance do not drift apart
 - Edit framework specifications under `skills/*/references/specs/**`
 - Edit Docker image definitions and related docs/configs under `images/**`
 - Do not hand-edit `dist/**`; those directories are generated artifacts

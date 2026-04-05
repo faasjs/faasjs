@@ -2,7 +2,7 @@
 
 ## Background
 
-FaasJS already documents public APIs primarily through JSDoc in TypeScript source. [`build-docs.ts`](../build-docs.ts) runs TypeDoc against each package entry and emits Markdown under `classes/`, `functions/`, `interfaces/`, `type-aliases/`, and `variables/`.
+FaasJS already documents public APIs primarily through JSDoc in TypeScript source. [`build-docs.ts`](../../../../build-docs.ts) runs TypeDoc against each package entry and emits Markdown under `classes/`, `functions/`, `interfaces/`, `type-aliases/`, and `variables/`.
 
 Current package docs show stable patterns:
 
