@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url'
 
 import { loadEnvFileIfExists } from '@faasjs/node-utils'
 
-import { createMain, parseCommonCliArgs, printVersion } from '../shared'
+import { createMain, parseCommonCliArgs, printVersion } from '../../shared/index.ts'
 
 const HelpText = `Run a TypeScript file with FaasJS Node module hooks.
 

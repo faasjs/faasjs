@@ -1,10 +1,6 @@
-import { viteFaasJsServer } from '@faasjs/dev'
-import react from '@vitejs/plugin-react'
+import { viteConfig } from '@faasjs/dev'
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
-  server: {
-    host: '0.0.0.0',
-  },
-  plugins: [react(), viteFaasJsServer()],
+  ...viteConfig,
 })

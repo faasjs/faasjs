@@ -9,7 +9,7 @@ vi.mock('@faasjs/node-utils', () => ({
   loadEnvFileIfExists: mocks.loadEnvFileIfExists,
 }))
 
-vi.mock('../../../typegen', () => ({
+vi.mock('../../../../typegen', () => ({
   generateFaasTypes: mocks.generateFaasTypes,
 }))
 

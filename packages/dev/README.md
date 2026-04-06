@@ -82,3 +82,4 @@
 - [ContentType](variables/ContentType.md)
 - [oxfmtConfig](variables/oxfmtConfig.md)
 - [oxlintConfig](variables/oxlintConfig.md)
+- [viteConfig](variables/viteConfig.md)

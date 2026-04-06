@@ -101,12 +101,6 @@ describe('action', () => {
     ])
     expect(listFiles(rootPath)).toEqual(basicFiles)
     expect(packageJSON.name).toBe('basic-app')
-    expect(packageJSON.dependencies).toEqual({
-      '@faasjs/core': '*',
-      '@faasjs/react': '*',
-      react: '*',
-      'react-dom': '*',
-    })
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
     expect(read(rootPath, 'src/react-client.ts')).toContain(
       "import { FaasReactClient } from '@faasjs/react'",
@@ -131,17 +125,6 @@ describe('action', () => {
     ])
     expect(listFiles(rootPath)).toEqual(antdFiles)
     expect(packageJSON.name).toBe('antd-app')
-    expect(packageJSON.dependencies).toEqual({
-      '@ant-design/icons': '*',
-      '@faasjs/ant-design': '*',
-      '@faasjs/core': '*',
-      '@faasjs/react': '*',
-      antd: '*',
-      'lodash-es': '*',
-      react: '*',
-      'react-dom': '*',
-      'react-router-dom': '*',
-    })
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
     expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { oxfmtConfig, oxlintConfig } from '..'
+import { oxfmtConfig, oxlintConfig, viteConfig } from '..'
 
 describe('configs exports', () => {
   it('should export the shared oxfmt config', () => {
@@ -53,5 +53,21 @@ describe('configs exports', () => {
         'react-hooks/exhaustive-deps': ['warn'],
       },
     })
+  })
+
+  it('should export the shared vite config', () => {
+    expect(viteConfig.server).toEqual({
+      host: '0.0.0.0',
+      strictPort: false,
+      fs: {
+        strict: false,
+      },
+    })
+    expect(viteConfig.resolve).toEqual({
+      tsconfigPaths: true,
+    })
+    expect(viteConfig.fmt).toBe(oxfmtConfig)
+    expect(viteConfig.lint).toBe(oxlintConfig)
+    expect(viteConfig.plugins).toHaveLength(2)
   })
 })

@@ -14,7 +14,7 @@ npx create-faas-app --name faasjs
 npx create-faas-app --name faasjs-admin --template antd
 ```
 
-Generated projects reuse the shared `@faasjs/dev` config exports and the
+Generated projects reuse the shared `@faasjs/dev` `viteConfig` preset and the
 `@faasjs/types/tsconfig/build.json` preset.
 
 ## Functions

@@ -1,7 +1,7 @@
 import { loadEnvFileIfExists } from '@faasjs/node-utils'
 
-import { generateFaasTypes } from '../../typegen'
-import { createMain, parseCommonCliArgs, printVersion } from '../shared'
+import { generateFaasTypes } from '../../../typegen/index.ts'
+import { createMain, parseCommonCliArgs, printVersion } from '../../shared/index.ts'
 
 const HelpText = `Generate FaasJS API type declarations.
 

@@ -1,5 +1,7 @@
+import react from '@vitejs/plugin-react'
 import type { UserConfig } from 'vite-plus'
 
+import { viteFaasJsServer } from './server.ts'
 const ignorePatterns = ['**/dist/**', 'node_modules/**']
 
 /**
@@ -74,4 +76,51 @@ export const oxlintConfig: NonNullable<UserConfig['lint']> = {
     ],
     'react-hooks/exhaustive-deps': ['warn'],
   },
+}
+
+/**
+ * Shared Vite Plus configuration for standard FaasJS React apps.
+ *
+ * This preset combines the React plugin, `viteFaasJsServer()`, workspace-safe
+ * dev server defaults, `tsconfigPaths` resolution, and the shared FaasJS
+ * format and lint settings. Spread it into `defineConfig()` when the default
+ * stack matches your app, then override only the fields that differ.
+ *
+ * @example
+ * ```ts
+ * import { defineConfig } from 'vite-plus'
+ * import { viteConfig } from '@faasjs/dev'
+ *
+ * export default defineConfig({
+ *   ...viteConfig,
+ * })
+ * ```
+ *
+ * @example
+ * ```ts
+ * import { defineConfig } from 'vite-plus'
+ * import { viteConfig } from '@faasjs/dev'
+ *
+ * export default defineConfig({
+ *   ...viteConfig,
+ *   test: {
+ *     environment: 'jsdom',
+ *   },
+ * })
+ * ```
+ */
+export const viteConfig: UserConfig = {
+  plugins: [react(), viteFaasJsServer()],
+  server: {
+    host: '0.0.0.0',
+    strictPort: false,
+    fs: {
+      strict: false,
+    },
+  },
+  resolve: {
+    tsconfigPaths: true,
+  },
+  fmt: oxfmtConfig,
+  lint: oxlintConfig,
 }

@@ -14,9 +14,10 @@ Use this guide when creating or reviewing a FaasJS project's `tsconfig.json`, `v
 
 1. Start from the shared TypeScript preset in `@faasjs/types/tsconfig/*`.
 2. Keep local `tsconfig.json` focused on project-specific `types`, `include`, `exclude`, and aliases.
-3. Keep local `vite.config.ts` focused on runtime plugins and project behavior.
-4. Reuse `oxfmtConfig` and `oxlintConfig` from `@faasjs/dev` instead of duplicating common rules.
-5. Extend shared config when needed, rather than replacing it wholesale.
+3. Start from `viteConfig` when the project uses the standard FaasJS React + local server stack.
+4. Keep local `vite.config.ts` focused on runtime plugins and project behavior.
+5. Reuse `oxfmtConfig` and `oxlintConfig` from `@faasjs/dev` instead of duplicating common rules.
+6. Extend shared config when needed, rather than replacing it wholesale.
 
 ## Rules
 
@@ -100,11 +101,26 @@ Avoid this:
 
 ### 3. Keep Vite config focused on app behavior
 
+- If the project matches the standard FaasJS React setup, prefer `viteConfig` from `@faasjs/dev` as the base preset.
 - `vite.config.ts` SHOULD define project runtime behavior such as plugins, aliases, server options, tests, and build settings.
 - Shared formatting and lint rules SHOULD come from `@faasjs/dev`.
 - When using `fmt` and `lint`, `defineConfig` SHOULD come from `vite-plus`, not `vite`.
 
-Example:
+Preset example:
+
+```ts
+import { viteConfig } from '@faasjs/dev'
+import { defineConfig } from 'vite-plus'
+
+export default defineConfig({
+  ...viteConfig,
+  test: {
+    environment: 'jsdom',
+  },
+})
+```
+
+Manual composition example:
 
 ```ts
 import { viteFaasJsServer, oxfmtConfig, oxlintConfig } from '@faasjs/dev'
@@ -126,10 +142,28 @@ export default defineConfig({
 
 ### 4. Extend shared Vite rules instead of replacing them
 
-- If the project needs one or two local lint or format differences, spread the shared config and add only the delta.
+- If the project needs one or two local differences, spread `viteConfig` or the shared lint and format config and add only the delta.
 - Do not copy the entire FaasJS shared config into each app.
 
 Example:
+
+```ts
+import { viteConfig } from '@faasjs/dev'
+import { defineConfig } from 'vite-plus'
+
+export default defineConfig({
+  ...viteConfig,
+  server: {
+    ...viteConfig.server,
+    port: 3000,
+  },
+  test: {
+    environment: 'jsdom',
+  },
+})
+```
+
+If only lint or format differs, it is still fine to extend `oxfmtConfig` or `oxlintConfig` directly:
 
 ```ts
 import { oxfmtConfig, oxlintConfig } from '@faasjs/dev'
@@ -169,7 +203,7 @@ export default defineConfig({
 - `tsconfig.json` extends a shared preset from `@faasjs/types` when possible
 - local TypeScript overrides are limited to project-specific needs
 - `vite.config.ts` uses `vite-plus` when `fmt` or `lint` is configured
-- shared `fmt` and `lint` rules come from `@faasjs/dev`
+- `vite.config.ts` starts from `viteConfig` or reuses shared `fmt` and `lint` rules from `@faasjs/dev`
 - the config does not duplicate FaasJS baseline settings without a clear reason
 - local config files make project-specific behavior easy to identify
 - imports follow aliases already defined in `tsconfig.json` when appropriate
@@ -178,5 +212,6 @@ export default defineConfig({
 ## Read Next
 
 - [@faasjs/dev package reference](../references/packages/dev/README.md)
+- [viteConfig](../references/packages/dev/variables/viteConfig.md)
 - [viteFaasJsServer](../references/packages/dev/functions/viteFaasJsServer.md)
 - [@faasjs/types package reference](../references/packages/types/README.md)

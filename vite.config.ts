@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, type UserConfig } from 'vite-plus'
 import type { PackUserConfig } from 'vite-plus/pack'
 
-import { oxfmtConfig, oxlintConfig } from './packages/dev/src/configs/index.ts'
+import { oxfmtConfig, oxlintConfig } from './packages/dev/src/vite/configs.ts'
 
 const browsers = [
   'packages/ant-design/**/*.test.ts',
@@ -18,7 +18,7 @@ const types = ['packages/**/*.types.test.ts']
 const packEntries: Record<string, Record<string, string>> = {
   dev: {
     index: './src/index.ts',
-    'configs/index': './src/configs/index.ts',
+    'configs/index': './src/vite/configs.ts',
     'cli/index': './src/cli/index.ts',
   },
   'node-utils': {

@@ -3,11 +3,7 @@ import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 import { Cookie, Http } from '@faasjs/core'
 import type { Config, ExportedHandler, Func, FuncEventType } from '@faasjs/core'
 import { loadPlugins, Logger } from '@faasjs/node-utils'
-import { objectToStream, streamToObject, streamToString, stringToStream } from '@faasjs/utils'
-
-export * from '@faasjs/core'
-
-export { objectToStream, streamToObject, streamToString, stringToStream }
+import { streamToString } from '@faasjs/utils'
 
 type IsAny<T> = 0 extends 1 & T ? true : false
 type JSONhandlerBody<TFunc extends Func<any, any, any>> =
@@ -116,7 +112,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    *
    * @template TResult - Expected response type returned by the handler.
    * @param {Record<string, unknown>} - Runtime event passed to the exported handler.
-   * @param {Record<string, unknown>}  - Runtime context passed to the exported handler.
+   * @param {Record<string, unknown>} - Runtime context passed to the exported handler.
    * @returns Handler result.
    */
   public async handler<TResult = any>(

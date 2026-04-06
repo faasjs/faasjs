@@ -13,11 +13,23 @@
  * ## Features
  *
  * - `viteFaasJsServer()` runs a FaasJS server inside Vite during local development.
+ * - `viteConfig` bundles the standard FaasJS React and Vite Plus defaults.
  * - `oxfmtConfig` and `oxlintConfig` expose the shared FaasJS formatting and lint rules.
  * - `generateFaasTypes()` emits route declarations for `@faasjs/types`.
  * - `test()` and {@link FuncWarper} help invoke and assert FaasJS functions in tests.
  *
- * ## Usage: Vite Integration
+ * ## Usage: Shared Vite Preset
+ *
+ * ```ts
+ * import { viteConfig } from '@faasjs/dev'
+ * import { defineConfig } from 'vite-plus'
+ *
+ * export default defineConfig({
+ *   ...viteConfig,
+ * })
+ * ```
+ *
+ * ## Usage: Manual Vite Integration
  *
  * ```ts
  * import { viteFaasJsServer, oxfmtConfig, oxlintConfig } from '@faasjs/dev'
@@ -55,12 +67,11 @@
  * ## API
  *
  * - Vite: {@link viteFaasJsServer}
- * - Config: {@link oxfmtConfig}, {@link oxlintConfig}
+ * - Config: {@link viteConfig}, {@link oxfmtConfig}, {@link oxlintConfig}
  * - Typegen: {@link generateFaasTypes}, {@link isTypegenSourceFile}
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
  */
 
-export * from './configs'
-export * from './test'
-export * from './typegen'
-export * from './vite'
+export * from './testing/index.ts'
+export * from './typegen/index.ts'
+export * from './vite/index.ts'

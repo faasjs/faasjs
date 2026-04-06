@@ -22,7 +22,6 @@
     "@types/node": "*",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "@vitejs/plugin-react": "*",
     "typescript": "*",
     "vite": "*",
     "vitest": "*"
