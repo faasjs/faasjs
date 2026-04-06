@@ -14,7 +14,10 @@ mise install
 
 ```bash
 mise exec -- npx create-faas-app --name faasjs
+mise exec -- npx create-faas-app --name faasjs-admin --template antd
 ```
+
+The default starter is `basic`. Pass `--template antd` to scaffold the Ant Design app shell.
 
 ### Start with Codespace
 

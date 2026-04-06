@@ -1,15 +1,13 @@
 import { defineApi, HttpError, z } from '@faasjs/core'
 
-const schema = z
-  .object({
-    title: z.string().min(1),
-    price: z.number().positive(),
-    quantity: z.number().int().positive().default(1),
-  })
-  .required()
-
 export const func = defineApi({
-  schema,
+  schema: z
+    .object({
+      title: z.string().min(1),
+      price: z.number().positive(),
+      quantity: z.number().int().positive().default(1),
+    })
+    .required(),
   async handler({ params }) {
     if (params.title === 'duplicate') {
       throw new HttpError({

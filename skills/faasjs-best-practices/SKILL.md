@@ -14,16 +14,16 @@ description: When working with FaasJS projects, must follow these best practices
 
 ## Guidelines
 
-- [Ant Design Guide](./guidelines/ant-design.md)
-- [File Conventions](./guidelines/file-conventions.md)
-- [Node Utils Guide](./guidelines/node-utils.md)
-- [Project Config Guide](./guidelines/project-config.md)
-- [React Guide](./guidelines/react.md)
-- [React Data Fetching Guide](./guidelines/react-data-fetching.md)
-- [React Testing Guide](./guidelines/react-testing.md)
-- [defineApi Guide](./guidelines/define-api.md)
-- [Logger Guide](./guidelines/logger.md)
-- [Utils Guide](./guidelines/utils.md)
+- [Ant Design Guide](./guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
+- [File Conventions](./guidelines/file-conventions.md): Covers where to place pages, components, hooks, and `.func.ts` files, plus when separate files are worth creating.
+- [Node Utils Guide](./guidelines/node-utils.md): Covers Node-only helpers for env/config loading, function and plugin bootstrapping, module loading, and shared logging.
+- [Project Config Guide](./guidelines/project-config.md): Covers how to keep `tsconfig.json`, `vite.config.ts`, and shared tooling config aligned with FaasJS defaults.
+- [React Guide](./guidelines/react.md): Covers React component and hook patterns in FaasJS, especially avoiding native `useEffect` and handling non-primitive dependencies safely.
+- [React Data Fetching Guide](./guidelines/react-data-fetching.md): Covers when to use `useFaas`, `useFaasStream`, `faas`, or wrapper components, and how to handle loading, error, and retry states.
+- [React Testing Guide](./guidelines/react-testing.md): Covers testing `@faasjs/react` hooks and components with `setMock`, shared cleanup, and common request-flow scenarios.
+- [defineApi Guide](./guidelines/define-api.md): Covers building `.func.ts` endpoints with `defineApi`, inline schemas, typed `params`, error handling, and validation expectations.
+- [Logger Guide](./guidelines/logger.md): Covers when to reuse injected loggers versus creating `Logger` instances, how to choose log levels, and how to time slow operations.
+- [Utils Guide](./guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text or JSON to and from streams.
 
 ## Specs
 

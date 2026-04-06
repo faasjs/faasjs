@@ -1,4 +1,8 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join, relative } from 'node:path'
+
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { action } from '../action'
 
@@ -10,101 +14,153 @@ vi.mock('node:child_process', () => ({
   },
 }))
 
-let dirs: string[] = []
-let files: {
-  [key: string]: string
-} = {}
+const basicFiles = [
+  '.gitignore',
+  'index.html',
+  'package.json',
+  'server.ts',
+  'src/faas.yaml',
+  'src/main.tsx',
+  'src/pages/home/api/__tests__/hello.test.ts',
+  'src/pages/home/api/hello.func.ts',
+  'src/pages/home/index.tsx',
+  'src/react-client.ts',
+  'tsconfig.json',
+  'vite.config.ts',
+]
 
-vi.mock('node:fs', () => ({
-  mkdirSync(path: string) {
-    dirs.push(path)
-  },
-  writeFileSync(name: string, body: string) {
-    files[name] = body
-  },
-  existsSync() {},
-}))
+const antdFiles = [
+  '.gitignore',
+  'index.html',
+  'package.json',
+  'server.ts',
+  'src/faas.yaml',
+  'src/main.tsx',
+  'src/pages/home/api/__tests__/hello.test.ts',
+  'src/pages/home/api/hello.func.ts',
+  'src/pages/home/index.tsx',
+  'tsconfig.json',
+  'vite.config.ts',
+]
+
+function listFiles(rootPath: string): string[] {
+  const files: string[] = []
+
+  function walk(currentPath: string): void {
+    for (const entry of readdirSync(currentPath, { withFileTypes: true })) {
+      const nextPath = join(currentPath, entry.name)
+
+      if (entry.isDirectory()) {
+        walk(nextPath)
+        continue
+      }
+
+      files.push(relative(rootPath, nextPath))
+    }
+  }
+
+  walk(rootPath)
+
+  return files.sort()
+}
+
+function read(rootPath: string, path: string): string {
+  return readFileSync(join(rootPath, path), 'utf8')
+}
 
 describe('action', () => {
+  let currentDir = ''
+  let tempDir = ''
+
   beforeEach(() => {
     execs = []
-    dirs = []
-    files = {}
+    currentDir = process.cwd()
+    tempDir = mkdtempSync(join(tmpdir(), 'create-faas-app-'))
+    process.chdir(tempDir)
   })
 
-  it('should work', async () => {
+  afterEach(() => {
+    process.chdir(currentDir)
+    rmSync(tempDir, {
+      recursive: true,
+      force: true,
+    })
+  })
+
+  it('should create the basic template by default', async () => {
     await action({
-      name: 'test',
+      name: 'basic-app',
     })
 
-    expect(execs).toHaveLength(2)
-    expect(execs[0]).toMatch(/^cd test && (npm|bun) install$/)
-    expect(execs[1]).toMatch(/^cd test && (npm run test|bun test)$/)
-    expect(dirs).toContain('test')
-    expect(Object.keys(files)).toEqual(
-      expect.arrayContaining([
-        'test/package.json',
-        'test/tsconfig.json',
-        'test/index.html',
-        'test/vite.config.ts',
-        'test/server.ts',
-        'test/src/faas.yaml',
-        'test/src/main.tsx',
-        'test/src/pages/home/index.tsx',
-        'test/src/pages/home/api/hello.func.ts',
-        'test/src/pages/home/api/__tests__/hello.test.ts',
-      ]),
-    )
+    const rootPath = join(tempDir, 'basic-app')
+    const packageJSON = JSON.parse(read(rootPath, 'package.json'))
 
-    const packageJSON = JSON.parse(files['test/package.json'])
-
-    expect(packageJSON.scripts).toEqual({
-      dev: 'node --import @faasjs/node-utils/register-hooks vite',
-      build: 'vite build',
-      start: 'node --import @faasjs/node-utils/register-hooks server.ts',
-      test: 'vitest run',
-    })
-
+    expect(execs).toEqual([
+      expect.stringMatching(/^cd basic-app && (npm|bun) install$/),
+      expect.stringMatching(/^cd basic-app && (npm run test|bun test)$/),
+    ])
+    expect(listFiles(rootPath)).toEqual(basicFiles)
+    expect(packageJSON.name).toBe('basic-app')
     expect(packageJSON.dependencies).toEqual({
       '@faasjs/core': '*',
+      '@faasjs/react': '*',
       react: '*',
       'react-dom': '*',
     })
+    expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
+    expect(read(rootPath, 'src/react-client.ts')).toContain(
+      "import { FaasReactClient } from '@faasjs/react'",
+    )
+    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
+      "import { faas } from '../../react-client'",
+    )
+  })
 
-    expect(packageJSON.devDependencies).toEqual({
-      '@faasjs/dev': '*',
-      '@types/node': '*',
-      '@types/react': '*',
-      '@types/react-dom': '*',
-      '@vitejs/plugin-react': '*',
-      jsdom: '*',
-      oxfmt: '*',
-      oxlint: '*',
-      typescript: '*',
-      vite: '*',
-      vitest: '*',
+  it('should create the antd template when requested', async () => {
+    await action({
+      name: 'antd-app',
+      template: 'antd',
     })
 
-    expect(files['test/src/pages/home/api/hello.func.ts']).toContain(
-      "import { defineApi, z } from '@faasjs/core'",
+    const rootPath = join(tempDir, 'antd-app')
+    const packageJSON = JSON.parse(read(rootPath, 'package.json'))
+
+    expect(execs).toEqual([
+      expect.stringMatching(/^cd antd-app && (npm|bun) install$/),
+      expect.stringMatching(/^cd antd-app && (npm run test|bun test)$/),
+    ])
+    expect(listFiles(rootPath)).toEqual(antdFiles)
+    expect(packageJSON.name).toBe('antd-app')
+    expect(packageJSON.dependencies).toEqual({
+      '@ant-design/icons': '*',
+      '@faasjs/ant-design': '*',
+      '@faasjs/core': '*',
+      '@faasjs/react': '*',
+      antd: '*',
+      'lodash-es': '*',
+      react: '*',
+      'react-dom': '*',
+      'react-router-dom': '*',
+    })
+    expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
+    expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
+    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
+      "import { faas, useApp } from '@faasjs/ant-design'",
     )
+    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
+      "import { Button, Card, Input, Space, Typography } from 'antd'",
+    )
+    expect(listFiles(rootPath)).not.toContain('src/react-client.ts')
+  })
 
-    expect(files['test/.gitignore']).toEqual(`node_modules/
-dist/
-coverage/
-`)
+  it('should reject an unknown template', async () => {
+    await expect(
+      action({
+        name: 'broken-app',
+        template: 'unknown',
+      }),
+    ).rejects.toThrow('Unknown template "unknown". Available templates: antd, basic')
 
-    expect(files['test/src/faas.yaml']).toEqual(`defaults:
-  server:
-    root: .
-    base: /
-  plugins:
-    http:
-      config:
-        cookie:
-          secure: false
-          session:
-            secret: secret
-`)
+    expect(execs).toEqual([])
   })
 })

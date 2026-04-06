@@ -17,7 +17,8 @@
   },
   "files": [
     "dist",
-    "index.js"
+    "index.mjs",
+    "template"
   ],
   "type": "module",
   "main": "dist/index.mjs",

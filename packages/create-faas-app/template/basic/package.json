@@ -1,0 +1,27 @@
+{
+  "name": "{{name}}",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "start": "node --import @faasjs/node-utils/register-hooks server.ts",
+    "test": "vp test"
+  },
+  "dependencies": {
+    "@faasjs/core": "*",
+    "@faasjs/react": "*"
+  },
+  "devDependencies": {
+    "@faasjs/dev": "*"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core",
+    "vitest": "npm:@voidzero-dev/vite-plus-test"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  }
+}

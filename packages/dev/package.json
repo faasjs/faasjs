@@ -27,10 +27,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.mjs"
-    },
-    "./configs": {
-      "types": "./dist/configs/index.d.ts",
-      "default": "./dist/configs/index.mjs"
     }
   },
   "devDependencies": {

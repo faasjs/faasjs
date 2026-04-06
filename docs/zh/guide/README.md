@@ -22,6 +22,9 @@ mise install
 你可以直接使用 npx 一键创建新项目：
 
     mise exec -- npx create-faas-app --name faasjs
+    mise exec -- npx create-faas-app --name faasjs-admin --template antd
+
+默认模板是 `basic`，如果需要 Ant Design 管理台骨架，可以使用 `--template antd`。
 
 ## 启动项目
 
@@ -35,7 +38,7 @@ mise install
 
 ### tsconfig.json
 
-这个文件默认包含 TypeScript 严格模式、React JSX 以及 `vitest/globals` 类型配置，可在此基础上按需扩展。
+这个文件默认继承 `@faasjs/types/tsconfig/build.json`，把 TypeScript 严格模式、React JSX 以及构建相关选项集中在共享预设里；项目本地通常只需要补充 `include`、`types` 等少量覆盖项。
 
 ### src/faas.yaml
 

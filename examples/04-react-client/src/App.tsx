@@ -23,7 +23,7 @@ export default function App() {
 
       setMessage(data?.message || 'Empty response')
     } catch (error: unknown) {
-      setMessage((error as Error).message || 'Request failed')
+      setMessage(error instanceof Error ? error.message : 'Request failed')
     } finally {
       setLoading(false)
     }

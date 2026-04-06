@@ -51,7 +51,10 @@ footer: An atomic application framework built for the TypeScript developer. | MI
 
 ```bash
 npx create-faas-app --name faasjs
+npx create-faas-app --name faasjs-admin --template antd
 ```
+
+`basic` is the default starter. Use `--template antd` when you want the Ant Design app shell.
 
 ## Examples
 

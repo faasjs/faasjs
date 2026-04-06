@@ -13,17 +13,21 @@
  * ## Features
  *
  * - `viteFaasJsServer()` runs a FaasJS server inside Vite during local development.
+ * - `oxfmtConfig` and `oxlintConfig` expose the shared FaasJS formatting and lint rules.
  * - `generateFaasTypes()` emits route declarations for `@faasjs/types`.
  * - `test()` and {@link FuncWarper} help invoke and assert FaasJS functions in tests.
  *
  * ## Usage: Vite Integration
  *
  * ```ts
- * import { defineConfig } from 'vite'
- * import { viteFaasJsServer } from '@faasjs/dev'
+ * import { viteFaasJsServer, oxfmtConfig, oxlintConfig } from '@faasjs/dev'
+ * import react from '@vitejs/plugin-react'
+ * import { defineConfig } from 'vite-plus'
  *
  * export default defineConfig({
- *   plugins: [viteFaasJsServer()],
+ *   plugins: [react(), viteFaasJsServer()],
+ *   fmt: oxfmtConfig,
+ *   lint: oxlintConfig,
  * })
  * ```
  *
@@ -51,10 +55,12 @@
  * ## API
  *
  * - Vite: {@link viteFaasJsServer}
+ * - Config: {@link oxfmtConfig}, {@link oxlintConfig}
  * - Typegen: {@link generateFaasTypes}, {@link isTypegenSourceFile}
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
  */
 
+export * from './configs'
 export * from './test'
 export * from './typegen'
 export * from './vite'

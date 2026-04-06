@@ -18,8 +18,6 @@
     "prepare": "vp config"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "*",
-    "@vitejs/plugin-react": "*",
     "typedoc": "*",
     "typedoc-plugin-markdown": "*",
     "vite-plus": "*"

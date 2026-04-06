@@ -1,12 +1,14 @@
 import { execSync } from 'node:child_process'
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import type { Command } from 'commander'
 import enquirer from 'enquirer'
 
 const prompt = enquirer.prompt
 const validateName = (input: string) => Validator.name(input)
+const templateRoot = join(dirname(fileURLToPath(import.meta.url)), '..', 'template')
 
 const Validator = {
   name(input: string) {
@@ -18,258 +20,64 @@ const Validator = {
   },
 }
 
-function writeFile(path: string, content: string): void {
-  mkdirSync(dirname(path), {
+function getTemplateNames(): string[] {
+  return readdirSync(templateRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort()
+}
+
+function resolveTemplateName(template = 'basic'): string {
+  const templates = getTemplateNames()
+
+  if (templates.includes(template)) return template
+
+  throw new Error(`Unknown template "${template}". Available templates: ${templates.join(', ')}`)
+}
+
+function renderTemplate(content: string, replacements: Record<string, string>): string {
+  return Object.entries(replacements).reduce(
+    (result, [key, value]) => result.replaceAll(`{{${key}}}`, value),
+    content,
+  )
+}
+
+function copyTemplateDirectory(
+  sourcePath: string,
+  targetPath: string,
+  replacements: Record<string, string>,
+): void {
+  mkdirSync(targetPath, {
     recursive: true,
   })
-  writeFileSync(path, content)
-}
 
-function buildPackageJSON(name: string): string {
-  return `${JSON.stringify(
-    {
-      name,
-      private: true,
-      type: 'module',
-      version: '1.0.0',
-      scripts: {
-        dev: 'node --import @faasjs/node-utils/register-hooks vite',
-        build: 'vite build',
-        start: 'node --import @faasjs/node-utils/register-hooks server.ts',
-        test: 'vitest run',
-      },
-      dependencies: {
-        '@faasjs/core': '*',
-        react: '*',
-        'react-dom': '*',
-      },
-      devDependencies: {
-        '@faasjs/dev': '*',
-        '@types/node': '*',
-        '@types/react': '*',
-        '@types/react-dom': '*',
-        '@vitejs/plugin-react': '*',
-        jsdom: '*',
-        oxfmt: '*',
-        oxlint: '*',
-        typescript: '*',
-        vite: '*',
-        vitest: '*',
-      },
-    },
-    null,
-    2,
-  )}
-`
-}
+  for (const entry of readdirSync(sourcePath, { withFileTypes: true })) {
+    const nextSourcePath = join(sourcePath, entry.name)
+    const nextTargetPath = join(targetPath, entry.name === 'gitignore' ? '.gitignore' : entry.name)
 
-function scaffold(rootPath: string): void {
-  writeFile(
-    join(rootPath, '.gitignore'),
-    `node_modules/
-dist/
-coverage/
-`,
-  )
+    if (entry.isDirectory()) {
+      copyTemplateDirectory(nextSourcePath, nextTargetPath, replacements)
+      continue
+    }
 
-  writeFile(
-    join(rootPath, 'tsconfig.json'),
-    `{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "react-jsx",
-    "strict": true,
-    "types": ["vitest/globals"]
-  },
-  "include": ["src", "vite.config.ts", "server.ts"]
-}
-`,
-  )
-
-  writeFile(
-    join(rootPath, 'index.html'),
-    `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FaasJS App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
-`,
-  )
-
-  writeFile(
-    join(rootPath, 'vite.config.ts'),
-    `import { viteFaasJsServer } from '@faasjs/dev'
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  server: {
-    host: '0.0.0.0',
-  },
-  plugins: [react(), viteFaasJsServer()],
-})
-`,
-  )
-
-  writeFile(
-    join(rootPath, 'server.ts'),
-    `import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { Server, staticHandler } from '@faasjs/core'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
-const publicHandler = staticHandler({
-  root: join(__dirname, 'public'),
-  notFound: false,
-})
-
-const distHandler = staticHandler({
-  root: join(__dirname, 'dist'),
-  notFound: 'index.html',
-})
-
-new Server(join(__dirname, 'src'), {
-  beforeHandle: async (req, res, ctx) => {
-    if (!req.url || req.method !== 'GET') return
-
-    await publicHandler(req, res, ctx)
-    await distHandler(req, res, ctx)
-  },
-}).listen()
-`,
-  )
-
-  writeFile(
-    join(rootPath, 'src', 'faas.yaml'),
-    `defaults:
-  server:
-    root: .
-    base: /
-  plugins:
-    http:
-      config:
-        cookie:
-          secure: false
-          session:
-            secret: secret
-`,
-  )
-
-  writeFile(
-    join(rootPath, 'src', 'main.tsx'),
-    `import { createRoot } from 'react-dom/client'
-import HomePage from './pages/home'
-
-createRoot(document.getElementById('root') as HTMLElement).render(<HomePage />)
-`,
-  )
-
-  writeFile(
-    join(rootPath, 'src', 'pages', 'home', 'index.tsx'),
-    `import { useState } from 'react'
-
-type ApiResponse = {
-  ok: boolean
-  data: string
-  error: null | {
-    code?: string
-    message: string
+    writeFileSync(
+      nextTargetPath,
+      renderTemplate(readFileSync(nextSourcePath, 'utf8'), replacements),
+    )
   }
 }
 
-export default function HomePage() {
-  const [message, setMessage] = useState('Click button to call API')
-  const [loading, setLoading] = useState(false)
-
-  const fetchMessage = async () => {
-    setLoading(true)
-
-    try {
-      const data = await fetch('/pages/home/api/hello', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: 'world' }),
-      }).then(res => res.json() as Promise<ApiResponse>)
-
-      if (data.ok) setMessage(data.data)
-      else setMessage(data.error?.message || 'Unknown error')
-    } catch (error: any) {
-      setMessage(error?.message || 'Unknown error')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return (
-    <main style={{ margin: '5rem auto', maxWidth: 420, padding: 24 }}>
-      <h1>FaasJS App</h1>
-      <p>{message}</p>
-      <button type="button" onClick={fetchMessage} disabled={loading}>
-        {loading ? 'Loading...' : 'Call /pages/home/api/hello'}
-      </button>
-    </main>
-  )
-}
-`,
-  )
-
-  writeFile(
-    join(rootPath, 'src', 'pages', 'home', 'api', 'hello.func.ts'),
-    `import { defineApi, z } from '@faasjs/core'
-
-export const func = defineApi({
-  schema: z
-    .object({
-      name: z.string().optional(),
-    }),
-  async handler({ params }) {
-    return {
-      ok: true,
-      data: \`Hello, \${params.name || 'FaasJS'}\`,
-      error: null,
-    }
-  },
-})
-`,
-  )
-
-  writeFile(
-    join(rootPath, 'src', 'pages', 'home', 'api', '__tests__', 'hello.test.ts'),
-    `import { test } from '@faasjs/dev'
-import { func } from '../hello.func'
-
-describe('pages/home/api/hello', () => {
-  it('should work', async () => {
-    const testFunc = test(func)
-
-    const { statusCode, data } = await testFunc.JSONhandler({ name: 'world' })
-
-    expect(statusCode).toEqual(200)
-    expect(data).toEqual({
-      ok: true,
-      data: 'Hello, world',
-      error: null,
-    })
-  })
-})
-`,
-  )
+function scaffold(
+  rootPath: string,
+  replacements: Record<string, string>,
+  templateName: string,
+): void {
+  mkdirSync(rootPath)
+  copyTemplateDirectory(join(templateRoot, templateName), rootPath, replacements)
 }
 
-export async function action(options: { name?: string } = {}): Promise<void> {
+export async function action(options: { name?: string; template?: string } = {}): Promise<void> {
+  const templateName = resolveTemplateName(options.template)
   const answers: {
     name?: string
   } = Object.assign(options, {})
@@ -287,11 +95,13 @@ export async function action(options: { name?: string } = {}): Promise<void> {
 
   const runtime = process.versions.bun ? 'bun' : 'npm'
 
-  mkdirSync(answers.name)
-
-  writeFileSync(join(answers.name, 'package.json'), buildPackageJSON(answers.name))
-
-  scaffold(answers.name)
+  scaffold(
+    answers.name,
+    {
+      name: answers.name,
+    },
+    templateName,
+  )
 
   execSync(`cd ${answers.name} && ${runtime} install`, { stdio: 'inherit' })
 
@@ -303,7 +113,15 @@ export async function action(options: { name?: string } = {}): Promise<void> {
 export default function (program: Command): void {
   program
     .description('Create a new faas app')
-    .on('--help', () => console.log('Examples:\nnpx create-faas-app'))
+    .on('--help', () =>
+      console.log(`Examples:
+npx create-faas-app --name faasjs
+npx create-faas-app --name faasjs-admin --template antd
+
+Templates:
+${getTemplateNames().join(', ')}`),
+    )
     .option('--name <name>', 'Project name')
+    .option('--template <template>', 'Template name', 'basic')
     .action(action)
 }

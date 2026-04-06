@@ -68,7 +68,10 @@ describe('index', function () {
 
 ```bash
 mise exec -- npx create-faas-app --name faasjs
+mise exec -- npx create-faas-app --name faasjs-admin --template antd
 ```
+
+默认模板是 `basic`，如果想直接生成 Ant Design 管理台骨架，可以加上 `--template antd`。
 
 <div style="padding:0 2.5rem;text-align:center">
   <div class="features">

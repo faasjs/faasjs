@@ -12,17 +12,19 @@
  *
  * ### TypeScript config presets
  *
- * `@faasjs/types` also provides shared TypeScript presets under `tsconfig/`:
+ * `@faasjs/types` also provides shared TypeScript presets under `tsconfig/`.
+ * Both extensionless and `.json` subpaths are exported, so use whichever form
+ * your tooling prefers:
  *
- * - `@faasjs/types/tsconfig/base`: strict base options for common TypeScript projects.
- * - `@faasjs/types/tsconfig/react`: base options with `jsx: "react-jsx"` for React projects.
- * - `@faasjs/types/tsconfig/build`: build-oriented options for package development.
+ * - `@faasjs/types/tsconfig/base` or `@faasjs/types/tsconfig/base.json`: strict base options for common TypeScript projects.
+ * - `@faasjs/types/tsconfig/react` or `@faasjs/types/tsconfig/react.json`: base options with `jsx: "react-jsx"` for React projects.
+ * - `@faasjs/types/tsconfig/build` or `@faasjs/types/tsconfig/build.json`: build-oriented options for Vite apps, packages, and workspace modules.
  *
  * In your tsconfig.json:
  *
  * ```json
  * {
- *   "extends": "@faasjs/types/tsconfig/build"
+ *   "extends": "@faasjs/types/tsconfig/build.json"
  * }
  * ```
  */
