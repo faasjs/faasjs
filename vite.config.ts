@@ -4,7 +4,8 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, type UserConfig } from 'vite-plus'
 import type { PackUserConfig } from 'vite-plus/pack'
 
-import { oxfmtConfig, oxlintConfig } from './packages/dev/src/vite/configs.ts'
+import { oxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
+import { oxlintConfig } from './packages/dev/src/vite/oxlint.ts'
 
 const browsers = [
   'packages/ant-design/**/*.test.ts',
