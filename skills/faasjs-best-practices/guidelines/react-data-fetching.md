@@ -206,10 +206,10 @@ export function UserPanelWithChildren({ id }: { id: number }) {
 }
 ```
 
-### 5. Use `withFaasData` only for wrapper-style exports or compatibility
+### 5. Use `withFaasData` only for wrapper-style exports or fixed integration boundaries
 
 - Use `withFaasData` only when an HOC is the clearest integration point.
-- Typical cases are wrapper-style exports or compatibility with an existing component boundary.
+- Typical cases are wrapper-style exports or an existing component boundary that you cannot remove in the same change.
 - Do not default to HOCs for new code when `useFaas` or `FaasDataWrapper` is simpler.
 
 Example:

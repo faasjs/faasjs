@@ -12,7 +12,7 @@ When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 
 1. Export `const func = defineApi(...)`.
 2. Write the `schema` inline in `defineApi` unless it is reused elsewhere.
-3. Keep business logic in `handler({ params })`.
+3. Keep business logic direct inside `handler({ params })` unless a shared boundary already exists.
 4. Return business data directly unless protocol-level response control is required.
 5. After creating, renaming, or moving an API file, run `faas types` to update `src/.faasjs/types.d.ts`.
 6. Add a focused test with `test(func).JSONhandler(...)`.
@@ -64,6 +64,7 @@ Instead of extracting `schema` early without a reuse reason.
 - `event` keeps the raw request payload; reach for it only when you need transport-level details or unparsed input.
 - Prefer `params` over raw request fields for business logic.
 - Read `event`, `headers`, or `body` only when transport-level behavior matters.
+- Let `schema` cover request-shape validation at the boundary, then fail fast inside `handler` when domain state is invalid instead of layering extra fallback branches.
 
 ### 3. Throw `Error` by default
 

@@ -60,6 +60,7 @@ Examples:
 - Backend handlers for that page or feature SHOULD be placed under `api/`.
 - Only the page entry file MAY be placed directly in the outer page or feature directory.
 - Shared code that belongs to the same page or feature SHOULD stay inside that page or feature scope instead of being flattened at the root.
+- If a page or feature file grows too large to scan comfortably, split it at a real component, hook, or API boundary instead of creating placeholder helper files.
 
 Prefer this:
 
