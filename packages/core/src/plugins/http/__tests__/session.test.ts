@@ -1,4 +1,4 @@
-import { streamToString } from '@faasjs/dev'
+import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
 import { Cookie, Http } from '..'

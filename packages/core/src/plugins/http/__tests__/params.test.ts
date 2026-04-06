@@ -1,4 +1,4 @@
-import { streamToString } from '@faasjs/dev'
+import { streamToString } from '@faasjs/utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { Http } from '..'

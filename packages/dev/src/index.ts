@@ -72,6 +72,6 @@
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
  */
 
-export * from './testing/index.ts'
-export * from './typegen/index.ts'
-export * from './vite/index.ts'
+export * from './testing'
+export * from './typegen'
+export * from './vite'

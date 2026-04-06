@@ -1,6 +1,7 @@
+import { streamToObject } from '@faasjs/utils'
 import { expect, it } from 'vitest'
 
-import { FuncWarper, streamToObject, test as createTester } from '../../index'
+import { FuncWarper, test as createTester } from '../../index'
 import { func } from './funcs/basic.func'
 
 it('basic', async () => {
