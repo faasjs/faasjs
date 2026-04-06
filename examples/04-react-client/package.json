@@ -23,7 +23,7 @@
     "@types/react": "*",
     "@types/react-dom": "*",
     "typescript": "*",
-    "vite": "*",
+    "vite": "^8.0.5",
     "vitest": "*"
   }
 }
