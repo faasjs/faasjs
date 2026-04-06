@@ -19,7 +19,6 @@ const types = ['packages/**/*.types.test.ts']
 const packEntries: Record<string, Record<string, string>> = {
   dev: {
     index: './src/index.ts',
-    'configs/index': './src/vite/configs.ts',
     'cli/index': './src/cli/index.ts',
   },
   'node-utils': {
