@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.20 (unreleased)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.19...v8.0.0-beta.20)
+[`v8.0.0-beta.20 (2026-04-06)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.19...v8.0.0-beta.20)
 
 - [Break] Remove cjs exports.
 

@@ -26,5 +26,4 @@ Commander program instance after parsing.
 import { main } from 'create-faas-app'
 
 await main(['node', 'create-faas-app', '--help'])
-await main(['node', 'create-faas-app', '--name', 'faasjs-admin', '--template', 'antd'])
 ```
