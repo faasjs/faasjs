@@ -91,6 +91,28 @@ describe('useFaasStream', () => {
     expect(screen.queryByText('test')).toBeDefined()
   })
 
+  it('should handle null response body', async () => {
+    setMock({
+      status: 200,
+    } as Response)
+
+    function Test() {
+      const { error, loading } = useFaasStream('test', {})
+
+      return (
+        <div>
+          <div>loading:{String(loading)}</div>
+          <div>error:{error?.message || ''}</div>
+        </div>
+      )
+    }
+
+    render(<Test />)
+
+    expect(await screen.findByText('loading:false')).toBeDefined()
+    expect(screen.getByText('error:Response body is null')).toBeDefined()
+  })
+
   it('should handle error during streaming', async () => {
     const errorStream = new ReadableStream({
       start(controller) {

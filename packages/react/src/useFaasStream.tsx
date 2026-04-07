@@ -1,30 +1,11 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
-import type { BaseUrl } from './browser'
-import { getClient } from './client'
-import { equal, useEqualCallback, useEqualEffect } from './equal'
+import { useFaasRequest, type SharedUseFaasOptions } from './useFaasRequest'
 
 /**
  * Options that customize the {@link useFaasStream} request lifecycle.
  */
-export type UseFaasStreamOptions = {
-  /** Override the current request params without changing the hook's stored params state. */
-  params?: Record<string, any>
-  /** Controlled stream text used instead of the hook's internal state. */
-  data?: string
-  /** Controlled setter that is called instead of the hook's internal `setData`. */
-  setData?: React.Dispatch<React.SetStateAction<string>>
-  /**
-   * If skip is true, the request will not be sent.
-   *
-   * However, you can still use reload to send the request.
-   */
-  skip?: boolean | ((params: Record<string, any>) => boolean)
-  /** Delay the latest automatic request by the given number of milliseconds. */
-  debounce?: number
-  /** Override the default base URL for this hook instance. */
-  baseUrl?: BaseUrl
-}
+export type UseFaasStreamOptions = SharedUseFaasOptions<Record<string, any>, string>
 
 /**
  * Result returned by {@link useFaasStream}.
@@ -99,169 +80,51 @@ export function useFaasStream(
   defaultParams: Record<string, any>,
   options: UseFaasStreamOptions = {},
 ): UseFaasStreamResult {
-  const [loading, setLoading] = useState(true)
   const [data, setData] = useState<string>(options.data || '')
-  const [error, setError] = useState<any>()
-  const [params, setParams] = useState(defaultParams)
-  const [reloadTimes, setReloadTimes] = useState(0)
-  const [fails, setFails] = useState(0)
-  const [skip, setSkip] = useState(
-    typeof options.skip === 'function' ? options.skip(defaultParams) : options.skip,
-  )
-  const controllerRef = useRef<AbortController | null>(null)
-  const pendingReloadsRef = useRef<
-    Map<
-      number,
-      {
-        resolve: (value: string) => void
-        reject: (reason: any) => void
-      }
-    >
-  >(new Map())
-  const reloadCounterRef = useRef(0)
-
-  useEqualEffect(() => {
-    setSkip(typeof options.skip === 'function' ? options.skip(params) : options.skip)
-  }, [typeof options.skip === 'function' ? params : options.skip])
-
-  useEqualEffect(() => {
-    if (!equal(defaultParams, params)) {
-      setParams(defaultParams)
-    }
-  }, [defaultParams])
-
-  useEqualEffect(() => {
-    if (!action || skip) {
-      setLoading(false)
-      return
-    }
-
-    setLoading(true)
-    setData('')
-
-    const controller = new AbortController()
-    controllerRef.current = controller
-
-    const client = getClient(options.baseUrl)
-    const requestParams = options.params ?? params
-
-    function send() {
-      client.browserClient
-        .action(action, requestParams, {
-          signal: controller.signal,
-          stream: true,
-        })
-        .then(async (response) => {
-          if (!response.body) {
-            setError(new Error('Response body is null'))
-            setLoading(false)
-            return
-          }
-
-          const reader = response.body.getReader()
-          const decoder = new TextDecoder()
-          let accumulatedText = ''
-
-          try {
-            while (true) {
-              const { done, value } = await reader.read()
-              if (done) break
-
-              accumulatedText += decoder.decode(value, { stream: true })
-              setData(accumulatedText)
-            }
-
-            setFails(0)
-            setError(null)
-            setLoading(false)
-
-            for (const { resolve } of pendingReloadsRef.current.values()) resolve(accumulatedText)
-
-            pendingReloadsRef.current.clear()
-          } catch (readError) {
-            reader.releaseLock()
-            throw readError
-          }
-        })
-        .catch(async (e) => {
-          if (
-            typeof e?.message === 'string' &&
-            (e.message as string).toLowerCase().indexOf('aborted') >= 0
-          )
-            return
-
-          if (
-            !fails &&
-            typeof e?.message === 'string' &&
-            e.message.indexOf('Failed to fetch') >= 0
-          ) {
-            console.warn(`FaasReactClient: ${e.message} retry...`)
-            setFails(1)
-            return send()
-          }
-
-          let error = e
-          if (client.onError)
-            try {
-              await client.onError(action as string, requestParams)(e)
-            } catch (newError) {
-              error = newError
-            }
-
-          setError(error)
-          setLoading(false)
-
-          for (const { reject } of pendingReloadsRef.current.values()) reject(error)
-
-          pendingReloadsRef.current.clear()
-
-          return
-        })
-    }
-
-    if (options.debounce) {
-      const timeout = setTimeout(send, options.debounce)
-
-      return () => {
-        clearTimeout(timeout)
-        controllerRef.current?.abort()
-        setLoading(false)
-      }
-    }
-
-    send()
-
-    return () => {
-      controllerRef.current?.abort()
-      setLoading(false)
-    }
-  }, [action, options.params || params, reloadTimes, skip])
-
-  const reload = useEqualCallback(
-    (params?: Record<string, any>) => {
-      if (skip) setSkip(false)
-      if (params) setParams(params)
-
-      const reloadCounter = ++reloadCounterRef.current
-
-      return new Promise<string>((resolve, reject) => {
-        pendingReloadsRef.current.set(reloadCounter, { resolve, reject })
-        setReloadTimes((prev) => prev + 1)
+  const request = useFaasRequest<Record<string, any>, string>({
+    action,
+    defaultParams,
+    options,
+    beforeSend: () => setData(''),
+    send: async ({ action, params, signal, client }) => {
+      const response = await client.browserClient.action(action, params, {
+        signal,
+        stream: true,
       })
+
+      if (!response.body) throw new Error('Response body is null')
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let accumulatedText = ''
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          accumulatedText += decoder.decode(value, { stream: true })
+          setData(accumulatedText)
+        }
+
+        return accumulatedText
+      } catch (error) {
+        reader.releaseLock()
+        throw error
+      }
     },
-    [params, skip],
-  )
+  })
 
   return {
     action,
-    params,
-    loading,
+    params: request.params,
+    loading: request.loading,
+    reloadTimes: request.reloadTimes,
     data: options.data || data,
-    reloadTimes,
-    error,
-    reload,
+    error: request.error,
+    reload: request.reload,
     setData: options.setData || setData,
-    setLoading,
-    setError,
+    setLoading: request.setLoading,
+    setError: request.setError,
   }
 }
