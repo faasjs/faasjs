@@ -135,6 +135,12 @@ Cookie key-value pairs preloaded into the request.
 
 Extra request headers merged into the JSON test request.
 
+###### path?
+
+`string`
+
+Request path attached to `event.path` during invocation. Defaults to a filename-derived route path when available.
+
 ###### session?
 
 \{\[`key`: `string`\]: `any`; \}

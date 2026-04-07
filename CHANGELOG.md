@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+[`v8.0.0-beta.21 (Unreleased)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...HEAD)
+
+- `@faasjs/dev`
+  - [Feature] Let `FuncWarper.JSONhandler` infer `event.path` from the wrapped function filename by default, while still allowing an explicit `path` override in tests.
+
 [`v8.0.0-beta.20 (2026-04-06)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.19...v8.0.0-beta.20)
 
 - [Break] Remove cjs exports.

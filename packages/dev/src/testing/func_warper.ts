@@ -15,6 +15,43 @@ type JSONhandlerBody<TFunc extends Func<any, any, any>> =
       : TParams | string | null
     : Record<string, any> | string | null
 
+function normalizeInferredPath(path: string): string {
+  const normalized = path.replace(/\\/g, '/').replace(/\/+/g, '/')
+
+  if (!normalized.length || normalized === '/') return '/'
+
+  return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
+}
+
+function inferPathFromFilename(filename: string): string | undefined {
+  if (!filename) return undefined
+
+  const normalized = filename.replace(/\\/g, '/')
+  const srcIndex = normalized.lastIndexOf('/src/')
+
+  if (srcIndex === -1) return undefined
+
+  const relativeFile = normalized.slice(srcIndex + '/src/'.length)
+
+  if (!relativeFile.endsWith('.func.ts')) return undefined
+  if (/(^|\/)__tests__(\/|$)/.test(relativeFile)) return undefined
+
+  const noTsPath = relativeFile.slice(0, -'.ts'.length)
+
+  if (noTsPath === 'index.func' || noTsPath === 'default.func') return '/'
+
+  if (noTsPath.endsWith('/index.func'))
+    return normalizeInferredPath(`/${noTsPath.slice(0, -'/index.func'.length)}`)
+
+  if (noTsPath.endsWith('/default.func'))
+    return normalizeInferredPath(`/${noTsPath.slice(0, -'/default.func'.length)}`)
+
+  if (noTsPath.endsWith('.func'))
+    return normalizeInferredPath(`/${noTsPath.slice(0, -'.func'.length)}`)
+
+  return undefined
+}
+
 /**
  * Wrap a FaasJS function with helpers for mounting and assertion-friendly invocations.
  *
@@ -55,6 +92,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    */
   public readonly config: Config
   private readonly _handler: ExportedHandler
+  private readonly inferredPath: string | undefined
   private readonly loadPluginsTask?: Promise<void>
 
   /**
@@ -87,6 +125,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
 
     this.file = this.func.filename || ''
     this.config = this.func.config
+    this.inferredPath = inferPathFromFilename(this.file)
 
     this._handler = this.func.export().handler
   }
@@ -137,6 +176,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    * @param {JSONhandlerBody<TFunc>} [body] - Request body object or raw JSON string.
    * @param {object} [options] - Extra headers, request cookies, and session seed values.
    * @param {Record<string, any>} [options.headers] - Extra request headers merged into the JSON test request.
+   * @param {string} [options.path] - Request path attached to `event.path` during invocation. Defaults to a filename-derived route path when available.
    * @param {Record<string, any>} [options.cookie] - Cookie key-value pairs preloaded into the request.
    * @param {Record<string, any>} [options.session] - Session key-value pairs encoded into the request cookie before invocation.
    * @returns Normalized HTTP response payload for assertions.
@@ -159,6 +199,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
     body?: JSONhandlerBody<TFunc>,
     options: {
       headers?: { [key: string]: any }
+      path?: string
       cookie?: { [key: string]: any }
       session?: { [key: string]: any }
     } = Object.create(null),
@@ -212,6 +253,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
     const response = await this._handler({
       httpMethod: 'POST',
       headers: Object.assign({ 'content-type': 'application/json' }, headers),
+      path: options.path ?? this.inferredPath,
       body: typeof body === 'string' ? body : JSON.stringify(body),
     })
 

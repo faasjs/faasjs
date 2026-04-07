@@ -2,6 +2,7 @@ import { streamToObject } from '@faasjs/utils'
 import { expect, it } from 'vitest'
 
 import { FuncWarper } from '../../index'
+import { func as InferredPathFunc } from '../fixtures/src/blog/api/post/default.func'
 import { func as ErrorStreamFunc } from './funcs/error-stream.func'
 import { func as HttpError } from './funcs/http-error.func'
 import { func as Http } from './funcs/http.func'
@@ -34,6 +35,28 @@ it('JSONhandler error', async () => {
 
   if (!res.error) throw new Error('Expected JSONhandler to return error')
   expect(res.error.message).toEqual('message')
+})
+
+it('JSONhandler infers path from filename', async () => {
+  const func = new FuncWarper(InferredPathFunc)
+
+  const res = await func.JSONhandler()
+
+  expect(res.data).toEqual({
+    path: '/blog/api/post',
+  })
+})
+
+it('JSONhandler path override', async () => {
+  const func = new FuncWarper(InferredPathFunc)
+
+  const res = await func.JSONhandler(null, {
+    path: '/blog/api/post/not-found',
+  })
+
+  expect(res.data).toEqual({
+    path: '/blog/api/post/not-found',
+  })
 })
 
 it('JSONhandler with ReadableStream', async () => {
