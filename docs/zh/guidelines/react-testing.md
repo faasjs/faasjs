@@ -12,11 +12,12 @@
 
 ## 默认工作流
 
-1. 在共享 Vitest setup 中使用 `afterEach(() => setMock(null))` 清除全局 mock。
-2. 在每个测试或 `beforeEach` 中设置当前场景所需的具体 mock。
-3. 测试可观察行为，而不是实现细节。
-4. 当这些流程存在时，覆盖 loading、error、reload、skip、debounce 与 controlled-props 行为。
-5. hook 行为使用 hook tests，界面可见行为使用 component tests。
+1. 需要 `jsdom` 的 React hook 与组件测试，文件名使用 `.ui.test.ts` 或 `.ui.test.tsx`。
+2. 在共享 Vitest setup 中使用 `afterEach(() => setMock(null))` 清除全局 mock。
+3. 在每个测试或 `beforeEach` 中设置当前场景所需的具体 mock。
+4. 测试可观察行为，而不是实现细节。
+5. 当这些流程存在时，覆盖 loading、error、reload、skip、debounce 与 controlled-props 行为。
+6. hook 行为使用 hook tests，界面可见行为使用 component tests。
 
 ## 规则
 
@@ -25,6 +26,7 @@
 - 针对 `@faasjs/react` 请求流程的 React 单元测试，应使用 `setMock`。
 - 不要在单元测试中依赖外部服务、真实 fetch 时序或环境相关后端。
 - mock 设置应保持显式，并且局部化到具体测试场景。
+- 当测试依赖 `@testing-library/react`、`renderHook`、`window` 或其他 `jsdom` API 时，使用 `.ui.test.ts` 或 `.ui.test.tsx` 后缀，让 Vitest 可以按文件名把它路由到 `jsdom` project，而不是依赖 package 位置。
 
 Vitest setup 示例：
 
@@ -213,6 +215,7 @@ describe('useFaas', () => {
 
 ## 评审清单
 
+- 需要 `jsdom` 的测试使用 `.ui.test.ts` 或 `.ui.test.tsx` 后缀
 - 请求相关测试使用 `setMock`，而不是发真实网络请求
 - 共享 Vitest setup 通过 `setMock(null)` 清理 mocks
 - mocks 没有比当前场景需要的复杂度更高

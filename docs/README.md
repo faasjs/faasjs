@@ -76,7 +76,8 @@ export const func = defineApi({
 
 ```ts
 // __tests__/index.test.ts
-// all unit test file should be ended with .test.ts
+// unit test files should end with .test.ts
+// jsdom UI tests should use .ui.test.ts or .ui.test.tsx
 import { test } from '@faasjs/dev'
 import Func from '../index.func'
 

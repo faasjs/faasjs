@@ -77,9 +77,9 @@ If `vp` is not on PATH locally, use `npx vp ...` instead.
 
 ## Testing Notes
 
-- Node tests are primarily `packages/**/*.test.ts`
-- Browser tests live mainly in `packages/react` and `packages/ant-design` and run in `jsdom`
-- Type tests use `packages/**/*.types.test.ts`
+- Node tests are primarily `packages/**/*.test.ts` and `packages/**/*.test.tsx`
+- Tests that require `jsdom` must use `packages/**/*.ui.test.ts` or `packages/**/*.ui.test.tsx`
+- Type tests use `packages/**/*.types.test.ts` and `packages/**/*.types.test.tsx`
 - Examples also have local test scripts and are useful for targeted regression checks
 
 ## Docs And Generated Files

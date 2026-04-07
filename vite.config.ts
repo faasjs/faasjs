@@ -7,14 +7,11 @@ import type { PackUserConfig } from 'vite-plus/pack'
 import { oxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
 import { oxlintConfig } from './packages/dev/src/vite/oxlint.ts'
 
-const browsers = [
-  'packages/ant-design/**/*.test.ts',
-  'packages/ant-design/**/*.test.tsx',
-  'packages/react/**/*.test.ts',
-  'packages/react/**/*.test.tsx',
-]
+const tests = ['packages/**/*.test.ts', 'packages/**/*.test.tsx']
 
-const types = ['packages/**/*.types.test.ts']
+const uiTests = ['packages/**/*.ui.test.ts', 'packages/**/*.ui.test.tsx']
+
+const types = ['packages/**/*.types.test.ts', 'packages/**/*.types.test.tsx']
 
 const packEntries: Record<string, Record<string, string>> = {
   dev: {
@@ -90,19 +87,19 @@ export default defineConfig({
         extends: true as const,
         test: {
           name: 'node',
-          include: ['packages/**/*.test.ts'],
-          exclude: browsers.concat(types),
+          include: tests,
+          exclude: uiTests.concat(types),
           environment: 'node',
         },
       },
       {
         extends: true as const,
         test: {
-          name: 'browser',
-          include: browsers,
+          name: 'ui',
+          include: uiTests,
           exclude: types,
           environment: 'jsdom',
-          setupFiles: ['vitest.jsdom.setup.ts'],
+          setupFiles: ['vitest.ui.setup.ts'],
         },
       },
     ],

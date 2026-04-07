@@ -44,7 +44,8 @@ export const func = defineApi({
 ## 单元测试文件
 
 ```ts
-// __tests__/index.test.ts 文件，单元测试文件名都以 .test.ts 结尾
+// __tests__/index.test.ts 文件，普通单元测试文件名以 .test.ts 结尾
+// 需要 jsdom 的 UI 测试使用 .ui.test.ts 或 .ui.test.tsx
 import { test } from '@faasjs/dev'
 import { func } from '../index.func'
 

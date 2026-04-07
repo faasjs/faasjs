@@ -12,11 +12,12 @@ Use this guide when writing or reviewing unit tests for React hooks, components,
 
 ## Default Workflow
 
-1. Clear the global mock in shared Vitest setup with `afterEach(() => setMock(null))`.
-2. Set the specific mock for each test or `beforeEach`.
-3. Test observable behavior instead of implementation details.
-4. Cover loading, error, reload, skip, debounce, and controlled-props behavior when those flows exist.
-5. Use hook tests for hook behavior and component tests for visible UI behavior.
+1. Name React hook and component tests that require `jsdom` with `.ui.test.ts` or `.ui.test.tsx`.
+2. Clear the global mock in shared Vitest setup with `afterEach(() => setMock(null))`.
+3. Set the specific mock for each test or `beforeEach`.
+4. Test observable behavior instead of implementation details.
+5. Cover loading, error, reload, skip, debounce, and controlled-props behavior when those flows exist.
+6. Use hook tests for hook behavior and component tests for visible UI behavior.
 
 ## Rules
 
@@ -25,6 +26,7 @@ Use this guide when writing or reviewing unit tests for React hooks, components,
 - React unit tests that cover `@faasjs/react` request flows should use `setMock`.
 - Do not rely on external services, real fetch timing, or environment-specific backends in unit tests.
 - Keep mock setup explicit and local to the test scenario.
+- When a test needs `@testing-library/react`, `renderHook`, `window`, or other `jsdom` APIs, name it with `.ui.test.ts` or `.ui.test.tsx` so Vitest can route it to the `jsdom` project without relying on package location.
 
 Vitest setup example:
 
@@ -213,6 +215,7 @@ describe('useFaas', () => {
 
 ## Review Checklist
 
+- tests that require `jsdom` use the `.ui.test.ts` or `.ui.test.tsx` suffix
 - request-related tests use `setMock` instead of real network calls
 - shared Vitest setup clears mocks with `setMock(null)`
 - mocks are no more complex than the scenario requires
