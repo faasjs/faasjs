@@ -23,8 +23,9 @@ jobs:
       - run: vp install
       - name: Build
         run: |
-          cd docs
           vp install
+          vp pack
+          cd docs
           vp run build
           cp ../README.md ./dist/README.md
           mkdir -p ./dist/.github
