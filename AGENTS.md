@@ -32,6 +32,9 @@ Most package source code lives in `packages/*/src`, and package entrypoints are 
 - Edit skill definitions and supporting guides under `skills/**`
 - `skills/faasjs-best-practices/**` is end-user guidance for building with FaasJS, not an internal guide for developing the FaasJS framework itself
 - When framework behavior, public APIs, file conventions, or recommended usage changes, update the matching `skills/faasjs-best-practices/**` content in the same change or verify it is still accurate so code and guidance do not drift apart
+- `docs/guidelines/**` and `docs/specs/**` publish the English best-practices guides/specs from `skills/faasjs-best-practices/**`
+- `docs/zh/guidelines/**` and `docs/zh/specs/**` publish the Chinese docs for the same best-practices content
+- When updating `skills/faasjs-best-practices/**`, keep the matching `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, and `docs/zh/specs/**` pages in sync in the same change, or explicitly verify they still match
 - Edit framework specifications under `skills/*/references/specs/**`
 - Edit Docker image definitions and related docs/configs under `images/**`
 - Do not hand-edit `dist/**`; those directories are generated artifacts
@@ -83,6 +86,8 @@ If `vp` is not on PATH locally, use `npx vp ...` instead.
 
 - `vp run doc` runs [`build-docs.ts`](./build-docs.ts) and refreshes the tracked API Markdown under each package
 - The docs site build lives in [`docs/package.json`](./docs/package.json)
+- `docs/guide/README.md`, `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guide/README.md`, `docs/zh/guidelines/**`, and `docs/zh/specs/**` are tracked docs source files; `docs/dist/**` is generated output
+- For the code-to-doc sync workflow, use the repo-local skill at [`.agents/skills/faasjs-documentation-sync/SKILL.md`](./.agents/skills/faasjs-documentation-sync/SKILL.md)
 - Root `.gitignore` ignores local artifacts such as `dist`, `coverage`, `tmp`, logs, and generated report files
 
 ## Collaboration Expectations

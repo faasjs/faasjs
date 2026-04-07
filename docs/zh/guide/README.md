@@ -1,59 +1,38 @@
-# 1 分钟上手
+# 最佳实践
 
-通过本教程，你将学到：
+这里收录 FaasJS 当前公开维护的最佳实践与规范中文版，用来替换旧版教程内容。
 
-- 如何搭建本地开发环境？
-- FaasJS 项目的基本结构是什么？
+这些页面同步自 `faasjs-best-practices`，适合作为构建 FaasJS 项目时的默认开发指南。
 
-## 准备工作
+## 指南
 
-FaasJS 基于 Node.js 构建，推荐通过 [mise](https://mise.jdx.dev/) 管理本地环境，当前要求至少 Node.js 24.0.0。
+- [项目配置指南](../guidelines/project-config.md): 如何让 `tsconfig.json`、`vite.config.ts` 与 FaasJS 的共享默认配置保持一致。
+- [文件约定](../guidelines/file-conventions.md): 页面、组件、hooks 与 `.func.ts` 文件应该放在哪里，以及何时值得拆文件。
+- [defineApi 指南](../guidelines/define-api.md): 如何使用 `defineApi` 编写接口、内联 schema、typed params 与错误处理。
+- [React 指南](../guidelines/react.md): FaasJS 项目中的 React 组件、hooks、依赖处理与 `useEffect` 替代方案。
+- [React 数据请求指南](../guidelines/react-data-fetching.md): 何时使用 `useFaas`、`useFaasStream`、`faas`、`FaasDataWrapper` 或 `withFaasData`。
+- [React 测试指南](../guidelines/react-testing.md): 如何用 `setMock`、共享清理与可观察行为测试 FaasJS React 代码。
+- [Ant Design 指南](../guidelines/ant-design.md): 基于 `@faasjs/ant-design` 的页面结构、路由、CRUD 组合与交互反馈。
+- [Node Utils 指南](../guidelines/node-utils.md): Node 环境下的配置加载、函数引导、模块装载与日志能力。
+- [Logger 指南](../guidelines/logger.md): 何时复用注入 logger、何时创建 `Logger` 实例，以及如何选择日志级别。
+- [Utils 指南](../guidelines/utils.md): 如何使用 `@faasjs/utils` 处理 `deepMerge` 与 stream 转换。
 
-先在项目根目录执行：
+## 规范
 
-```bash
-mise install
-```
+- [faas.yaml 配置规范](../specs/faas-yaml.md): `faas.yaml` 的发现顺序、合并规则、`server` 节点约定与支持的 YAML 子集。
+- [HTTP 协议规范](../specs/http-protocol.md): FaasJS 请求与响应的默认 HTTP 约定，以及错误返回格式。
+- [JSDoc 编写规范](../specs/jsdoc-authoring.md): 公开 API 的 JSDoc 应如何书写、组织与生成。
+- [Plugin 规范](../specs/plugin.md): 插件的标识、生命周期、配置合并与 `defineApi` 自动装载规则。
+- [路由映射规范](../specs/routing-mapping.md): Zero-Mapping 路由规则、查找顺序与 `.func.ts` 文件约束。
 
-由于 FaasJS 基于 TypeScript，因此建议使用 [Visual Studio Code](https://code.visualstudio.com/) 作为编辑器。
+## API 文档
 
-## 创建项目
-
-你可以直接使用 npx 一键创建新项目：
-
-    mise exec -- npx create-faas-app --name faasjs
-    mise exec -- npx create-faas-app --name faasjs-admin --template antd
-
-默认模板是 `basic`，如果需要 Ant Design 管理台骨架，可以使用 `--template antd`。
-
-## 启动项目
-
-执行 `mise exec -- npm run dev` 启动开发环境；若要启动生产服务，执行 `mise exec -- npm run build && mise exec -- npm run start`。
-
-## 文件结构
-
-### package.json
-
-这是 Node.js 的项目配置，主要包含了依赖项和测试配置。
-
-### tsconfig.json
-
-这个文件默认继承 `@faasjs/types/tsconfig/build.json`，把 TypeScript 严格模式、React JSX 以及构建相关选项集中在共享预设里；项目本地通常只需要补充 `include`、`types` 等少量覆盖项。
-
-### src/faas.yaml
-
-这是 FaasJS 的配置文件，记录了服务商、插件以及本地开发服务（`server`）等配置项。
-
-### \*.func.ts
-
-这是云函数文件，在 FaasJS 中，所有云函数文件都必须以 `.func.ts` 结尾。
-
-### \*.test.ts
-
-这是单元测试文件，在 FaasJS 中，所有单元测试文件都必须以 `.test.ts` 结尾。
-
-## 完整示例
-
-可以参考官方 examples：
-
-- [faasjs/examples](https://github.com/faasjs/faasjs/tree/main/examples)
+- [文档总览](/doc/)
+- [@faasjs/core](/doc/core/)
+- [@faasjs/dev](/doc/dev/)
+- [@faasjs/react](/doc/react/)
+- [@faasjs/ant-design](/doc/ant-design/)
+- [@faasjs/node-utils](/doc/node-utils/)
+- [@faasjs/types](/doc/types/)
+- [@faasjs/utils](/doc/utils/)
+- [create-faas-app](/doc/create-faas-app/)

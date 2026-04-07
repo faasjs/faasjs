@@ -1,38 +1,49 @@
-# Getting Started
+# Best Practices
 
-## Prerequisites
+Use these guides and specifications as the current public guidance for building with FaasJS.
 
-FaasJS uses Node.js and npm managed by [mise](https://mise.jdx.dev/).
+## Global Rules
 
-```bash
-mise install
-```
+- Read `tsconfig.json` and any extended TypeScript config before choosing import paths.
+- Prefer FaasJS TypeScript loader support for direct Node execution, and keep local TypeScript imports extensionless instead of adding `.ts` or `.tsx` suffixes.
+- Prefer aliases already defined in TypeScript config over deep relative imports.
+- Keep short relative imports for nearby files in the same feature or directory.
+- Do not invent a new alias in code unless the corresponding `tsconfig.json` and runtime resolver are configured in the same change.
+- Keep changes minimal and task-scoped: no extra features, drive-by refactors, opportunistic cleanup, feature flags, compatibility shims, or speculative future-proofing.
+- Keep code direct: validate at system boundaries such as user input and external APIs, fail fast on invalid internal data, and do not add silent fallbacks or impossible-case handling.
+- Extract helpers, hooks, components, or abstractions only when they are reused, create a real boundary, or simplify a large block; keep one-off code inline unless the body is over about 20 lines.
+- Add comments only when the logic is not obvious; do not add comments, docstrings, or type annotations to untouched code.
+- Delete confirmed-dead code directly instead of leaving compatibility tricks such as `_unused` renames, type re-exports, or `// removed` markers.
+- Keep files under about 500 lines by splitting along real boundaries before they grow too large.
 
-## Quick Start
+## Guidelines
 
-### Start with Command Line
+- [Ant Design Guide](../guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
+- [File Conventions](../guidelines/file-conventions.md): Covers where to place pages, components, hooks, and `.func.ts` files, plus when separate files are worth creating.
+- [Node Utils Guide](../guidelines/node-utils.md): Covers Node-only helpers for env/config loading, function and plugin bootstrapping, module loading, and shared logging.
+- [Project Config Guide](../guidelines/project-config.md): Covers how to keep `tsconfig.json`, `vite.config.ts`, and shared tooling config aligned with FaasJS defaults.
+- [React Guide](../guidelines/react.md): Covers React component and hook patterns in FaasJS, especially avoiding native `useEffect` and handling non-primitive dependencies safely.
+- [React Data Fetching Guide](../guidelines/react-data-fetching.md): Covers when to use `useFaas`, `useFaasStream`, `faas`, or wrapper components, and how to handle loading, error, and retry states.
+- [React Testing Guide](../guidelines/react-testing.md): Covers testing `@faasjs/react` hooks and components with `setMock`, shared cleanup, and common request-flow scenarios.
+- [defineApi Guide](../guidelines/define-api.md): Covers building `.func.ts` endpoints with `defineApi`, inline schemas, typed `params`, error handling, and validation expectations.
+- [Logger Guide](../guidelines/logger.md): Covers when to reuse injected loggers versus creating `Logger` instances, how to choose log levels, and how to time slow operations.
+- [Utils Guide](../guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text or JSON to and from streams.
 
-```bash
-mise exec -- npx create-faas-app --name faasjs
-mise exec -- npx create-faas-app --name faasjs-admin --template antd
-```
+## Specs
 
-The default starter is `basic`. Pass `--template antd` to scaffold the Ant Design app shell.
+- [faas.yaml Configuration Specification](../specs/faas-yaml.md)
+- [HTTP Protocol Specification](../specs/http-protocol.md)
+- [JSDoc Authoring Specification](../specs/jsdoc-authoring.md)
+- [Plugin Specification](../specs/plugin.md)
+- [Routing Mapping Specification](../specs/routing-mapping.md)
 
-### Start with Codespace
+## Packages
 
-[FaasJS Examples](https://github.com/faasjs/faasjs/tree/main/examples)
-
-## File Structure
-
-### faas.yaml
-
-This is the configuration file for FaasJS, which records plugin and local development server (`server`) settings.
-
-### \*.func.ts
-
-This is the cloud function file. In FaasJS, all cloud function files must end with `.func.ts`.
-
-### \*.test.ts
-
-This is the unit test file. In FaasJS, all unit test files must end with `.test.ts`.
+- [@faasjs/ant-design](/doc/ant-design/)
+- [@faasjs/core](/doc/core/)
+- [create-faas-app](/doc/create-faas-app/)
+- [@faasjs/dev](/doc/dev/)
+- [@faasjs/node-utils](/doc/node-utils/)
+- [@faasjs/react](/doc/react/)
+- [@faasjs/types](/doc/types/)
+- [@faasjs/utils](/doc/utils/)
