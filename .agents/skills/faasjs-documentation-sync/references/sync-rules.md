@@ -2,6 +2,8 @@
 
 Use this reference when a FaasJS change may require docs updates and you need the detailed path map or checklist.
 
+Also review `CHANGELOG.md` for the same change when behavior, APIs, workflows, or user-visible guidance changed.
+
 ## What Counts As A Doc-Affecting Change
 
 Update docs when a change affects any of the following:
@@ -105,6 +107,8 @@ When code changes land, verify all relevant boxes:
 
 - [ ] public API behavior is documented in source JSDoc when needed
 - [ ] generated API docs were refreshed with `vp run doc` when exported APIs or JSDoc changed
+- [ ] `CHANGELOG.md` was updated or explicitly checked when the change is user-visible
+- [ ] `CHANGELOG.md` was based on the full change range since the previous released version, not only the current patch
 - [ ] matching best-practices skills were updated when recommended usage changed
 - [ ] matching published English docs under `docs/guidelines/**` or `docs/specs/**` were updated
 - [ ] matching published Chinese docs under `docs/zh/guidelines/**` or `docs/zh/specs/**` were updated
@@ -122,8 +126,11 @@ When code changes land, verify all relevant boxes:
 2. Map the affected docs using the sections above.
 3. Update source-of-truth docs first.
 4. Update published docs and translations in the same change.
-5. Regenerate generated docs when required.
-6. Run the smallest meaningful validation.
+5. Update `CHANGELOG.md` when the change should be called out to users.
+   - inspect the full range since the previous released version, using the latest released changelog entry or git tag as the lower bound
+   - keep only items that are meaningful to end users; skip internal-only churn
+6. Regenerate generated docs when required.
+7. Run the smallest meaningful validation.
 
 ## Validation
 
@@ -141,6 +148,7 @@ When handing off a change, call out:
 
 - which code areas changed
 - which docs were updated
+- whether `CHANGELOG.md` was updated
 - whether `vp run doc` was run
 - whether `cd docs && npm run build` was run
 - any intentionally deferred translation or docs follow-up

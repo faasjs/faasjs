@@ -1,0 +1,11 @@
+import { Func } from '@faasjs/core'
+import { Http } from '@faasjs/core'
+
+export const func = new Func({
+  plugins: [new Http()],
+  async handler({ event }) {
+    return {
+      path: event.path,
+    }
+  },
+})

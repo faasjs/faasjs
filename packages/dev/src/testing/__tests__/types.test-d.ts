@@ -26,6 +26,7 @@ test('JSONhandler should infer body from defineApi schema', () => {
 
   assertType<Parameters<typeof testedFunc.JSONhandler>[0]>({ name: 'FaasJS' })
   assertType<Parameters<typeof testedFunc.JSONhandler>[0]>({ name: 'FaasJS', age: 1 })
+  assertType<Parameters<typeof testedFunc.JSONhandler>[1]>({ path: '/hello' })
 
   // @ts-expect-error name should be string
   void testedFunc.JSONhandler({ name: 1 })

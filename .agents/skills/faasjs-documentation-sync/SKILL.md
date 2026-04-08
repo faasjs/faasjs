@@ -11,6 +11,8 @@ Use this skill after any FaasJS code or behavior change to decide which docs mus
 
 Keep source-of-truth docs, published docs, translations, generated API docs, and docs site navigation aligned before handoff.
 
+Also check whether `CHANGELOG.md` needs an update for the same change, especially when behavior, APIs, workflows, or user-visible guidance changed.
+
 ## Quick Triage
 
 Treat the change as doc-affecting if it touches:
@@ -38,10 +40,15 @@ If you are unsure, assume docs are affected and read `references/sync-rules.md` 
    - English: `docs/guidelines/**`, `docs/specs/**`
    - Chinese: `docs/zh/guidelines/**`, `docs/zh/specs/**`
    - indexes and navigation: `docs/guide/README.md`, `docs/zh/guide/README.md`, `docs/site/site.config.ts`
-4. Regenerate generated outputs only from their real source.
+4. Update release notes when needed.
+   - review user-visible behavior, API, workflow, and documentation changes since the previous released version, not just the current diff you are editing
+   - use the release boundary from the latest released changelog entry or git tag (for example `previous-version..HEAD`) to inspect the full set of commits/files that belong in the next entry
+   - turn that full change set into user-facing notes by keeping only items that matter to end users, and skip internal-only churn
+   - add or adjust the unreleased entry when the change should be called out to users
+5. Regenerate generated outputs only from their real source.
    - run `vp run doc` when exported APIs or JSDoc changed
    - do not hand-edit generated package API markdown or `docs/dist/**`
-5. Validate the smallest meaningful scope.
+6. Validate the smallest meaningful scope.
    - API docs only: `vp run doc`
    - docs content or navigation: `cd docs && npm run build`
    - cross-cutting changes: run both
@@ -50,6 +57,8 @@ If you are unsure, assume docs are affected and read `references/sync-rules.md` 
 
 - Update English and Chinese published docs together for the same best-practices or spec change unless the user explicitly scopes otherwise.
 - Do not update copied or generated docs while leaving the source-of-truth files stale.
+- Do not ship a user-visible change without checking whether `CHANGELOG.md` should mention it.
+- Do not regenerate `CHANGELOG.md` from only the files in your current patch; review the whole range since the previous released version and summarize only end-user-meaningful items.
 - When a change does not require docs edits, say why in the final handoff.
 
 ## Reference
