@@ -139,7 +139,7 @@ Extra request headers merged into the JSON test request.
 
 `string`
 
-Request path attached to `event.path` during invocation. Defaults to a filename-derived route path when available.
+Request path attached to `event.path` during invocation. This path is the URL pathname without the query string. Defaults to the inferred path from the wrapped function filename when available.
 
 ###### session?
 

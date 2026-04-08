@@ -176,7 +176,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    * @param {JSONhandlerBody<TFunc>} [body] - Request body object or raw JSON string.
    * @param {object} [options] - Extra headers, request cookies, and session seed values.
    * @param {Record<string, any>} [options.headers] - Extra request headers merged into the JSON test request.
-   * @param {string} [options.path] - Request path attached to `event.path` during invocation. Defaults to a filename-derived route path when available.
+   * @param {string} [options.path] - Request path attached to `event.path` during invocation. This path is the URL pathname without the query string. Defaults to the inferred path from the wrapped function filename when available.
    * @param {Record<string, any>} [options.cookie] - Cookie key-value pairs preloaded into the request.
    * @param {Record<string, any>} [options.session] - Session key-value pairs encoded into the request cookie before invocation.
    * @returns Normalized HTTP response payload for assertions.

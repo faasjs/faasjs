@@ -4,8 +4,16 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 [`v8.0.0-beta.21 (Unreleased)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...HEAD)
 
+- `faasjs`
+  - [Break] Require jsdom/browser tests to use the `.ui.test.*` suffix, rename the shared UI test setup file to `vitest.ui.setup.ts`, and update the related contributor/testing docs.
+  - [Feature] Reorganize the docs site into guidelines and specs, publish matching English and Chinese pages, and add documentation-sync guidance for contributors.
+  - [Fix] Exclude `packages/**/template/**` from test coverage collection.
+
+- `@faasjs/react`
+  - [Feature] Refactor `useFaas` and `useFaasStream` onto shared request lifecycle logic to improve retry, abort, reload, debounce/skip handling, and error management.
+
 - `@faasjs/dev`
-  - [Feature] Let `FuncWarper.JSONhandler` infer `event.path` from the wrapped function filename by default, while still allowing an explicit `path` override in tests.
+  - [Feature] Let `FuncWarper.JSONhandler` infer `event.path` from the wrapped function filename by default, and document that `path` maps to the request URL pathname without the query string while still allowing an explicit `path` override in tests.
 
 [`v8.0.0-beta.20 (2026-04-06)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.19...v8.0.0-beta.20)
 
