@@ -751,22 +751,10 @@ function FaasDataTable({
           if (column.filterDropdown) delete column.filterDropdown
           continue
         }
-
-        if (column.optionsType === 'auto' && !column.options && !column.filters) {
-          const filters = uniqBy(props.dataSource, column.id).map((v: Record<string, any>) => ({
-            text: v[column.id],
-            value: v[column.id],
-          }))
-          if (filters.length)
-            column.filters = filters.concat({
-              text: <Blank />,
-              value: null,
-            })
-        }
       }
       return newColumns
     })
-  }, [data, props.dataSource])
+  }, [data])
 
   if (!data)
     return (
