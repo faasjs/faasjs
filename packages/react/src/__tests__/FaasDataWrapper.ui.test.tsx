@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRef, useState } from 'react'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { setMock } from '..'
 import { type FaasDataInjection, FaasDataWrapper, type FaasDataWrapperRef, withFaasData } from '..'
@@ -159,5 +159,27 @@ describe('FaasDataWrapper', () => {
 
     expect(await screen.findByText('2')).toBeDefined()
     expect(current).toEqual(2)
+  })
+
+  it('should support render fallback, onDataChange, and controlled data options', async () => {
+    const setData = vi.fn()
+    const onDataChange = vi.fn()
+
+    render(
+      <FaasDataWrapper
+        action="test"
+        data={{ seeded: true } as any}
+        setData={setData}
+        onDataChange={onDataChange}
+        fallback={<div>Loading...</div>}
+        render={({ data }) => <div>{JSON.stringify(data)}</div>}
+      />,
+    )
+
+    expect(screen.getByText('Loading...')).toBeDefined()
+
+    expect(await screen.findByText('{"seeded":true}')).toBeDefined()
+    expect(onDataChange).toHaveBeenCalled()
+    expect(setData).toHaveBeenCalled()
   })
 })

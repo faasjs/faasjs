@@ -1,13 +1,27 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest'
 
-import { createCronJob, CronJob, listCronJobs, removeCronJob } from '../..'
+import {
+  createCronJob,
+  CronJob,
+  listCronJobs,
+  mountServerCronJobs,
+  removeCronJob,
+  unmountServerCronJobs,
+} from '../..'
 
 describe('cron', () => {
+  let warnSpy: MockInstance
+
+  beforeEach(() => {
+    warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+  })
+
   afterEach(() => {
     for (const cronJob of listCronJobs()) removeCronJob(cronJob)
 
     vi.clearAllTimers()
     vi.useRealTimers()
+    warnSpy.mockRestore()
   })
 
   it('should list jobs in registration order and remove jobs', () => {
@@ -188,5 +202,130 @@ describe('cron', () => {
     expect(errors).toEqual(['cron-failed'])
 
     cronJob.stop()
+  })
+
+  it('should normalize non-Error throws and ignore missing onError handlers', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-01-01T00:00:00.000Z'))
+
+    const logger = {
+      debug: vi.fn(),
+      error: vi.fn(),
+      warn: vi.fn(),
+    } as any
+
+    const cronJob = new CronJob({
+      expression: '* * * * *',
+      logger,
+      handler: async () => {
+        throw 'plain failure'
+      },
+    })
+
+    cronJob.start()
+
+    await vi.advanceTimersByTimeAsync(60_000)
+
+    expect(logger.error).toHaveBeenCalled()
+    expect(logger.error.mock.calls[0][0]).toBeInstanceOf(Error)
+    expect(logger.error.mock.calls[0][0].message).toBe('plain failure')
+
+    cronJob.stop()
+  })
+
+  it('should guard repeated starts, no-op stops, and manual tick helpers', async () => {
+    const logger = {
+      debug: vi.fn(),
+      error: vi.fn(),
+      warn: vi.fn(),
+    } as any
+
+    const cronJob = new CronJob({
+      expression: '* * * * *',
+      logger,
+      handler: async () => {},
+    })
+
+    cronJob.stop()
+    expect(cronJob.isStarted).toBe(false)
+
+    cronJob.start()
+    cronJob.start()
+    expect(logger.warn).toHaveBeenCalledWith('start() has been called, skipped.')
+
+    cronJob.stop()
+
+    ;(cronJob as any).scheduleNext()
+    ;(cronJob as any).tick()
+
+    expect(cronJob.isStarted).toBe(false)
+  })
+
+  it('should skip duplicate ticks in the same minute', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-01-01T00:00:00.000Z'))
+
+    const handler = vi.fn()
+    const cronJob = new CronJob({
+      expression: '* * * * *',
+      handler,
+    })
+
+    cronJob.start()
+
+    ;(cronJob as any).tick()
+    await Promise.resolve()
+
+    vi.setSystemTime(new Date('2026-01-01T00:00:30.000Z'))
+    ;(cronJob as any).tick()
+    await Promise.resolve()
+
+    expect(handler).toHaveBeenCalledTimes(1)
+
+    cronJob.stop()
+  })
+
+  it('should validate empty and invalid step expressions', () => {
+    expect(
+      () =>
+        new CronJob({
+          expression: '',
+          handler: async () => {},
+        }),
+    ).toThrow('[CronJob] expression is required.')
+
+    expect(
+      () =>
+        new CronJob({
+          expression: '*/0 * * * *',
+          handler: async () => {},
+        }),
+    ).toThrow('Invalid minute segment')
+  })
+
+  it('should mount and unmount registered jobs only on outer server transitions', () => {
+    const startSpy = vi.spyOn(CronJob.prototype, 'start')
+    const stopSpy = vi.spyOn(CronJob.prototype, 'stop')
+
+    const cronJob = createCronJob({
+      name: 'registry-job',
+      expression: '* * * * *',
+      handler: async () => {},
+    })
+
+    mountServerCronJobs()
+    mountServerCronJobs()
+
+    expect(startSpy).toHaveBeenCalledTimes(1)
+    expect(listCronJobs()).toContain(cronJob)
+
+    unmountServerCronJobs()
+    expect(stopSpy).toHaveBeenCalledTimes(0)
+
+    unmountServerCronJobs()
+    expect(stopSpy).toHaveBeenCalledTimes(1)
+
+    startSpy.mockRestore()
+    stopSpy.mockRestore()
   })
 })
