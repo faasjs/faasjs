@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-[`v8.0.0-beta.21 (Unreleased)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...HEAD)
+[`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...>v8.0.0-beta.21)
 
 - `faasjs`
   - [Break] Require jsdom/browser tests to use the `.ui.test.*` suffix, rename the shared UI test setup file to `vitest.ui.setup.ts`, and update the related contributor/testing docs.
