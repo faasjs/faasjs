@@ -10,7 +10,7 @@
   "devDependencies": {
     "gray-matter": "*",
     "highlight.js": "*",
-    "jsdom": "*",
+    "jsdom": "^29.0.2",
     "markdown-it": "*",
     "markdown-it-anchor": "*"
   }
