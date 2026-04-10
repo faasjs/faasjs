@@ -42,9 +42,9 @@
 
 👉 Visit [faasjs.com](https://faasjs.com) to learn more.
 
-🔨 Try [FaasJS onboarding examples](https://github.com/faasjs/faasjs/tree/main/examples) using Codespaces.
+🔨 Try [FaasJS starter templates](https://github.com/faasjs/faasjs/tree/main/templates) using Codespaces.
 
-🧪 Explore [onboarding examples](./examples/README.md) with the built-in devcontainer.
+🧪 Explore [starter templates](./templates/README.md) with the built-in devcontainer.
 
 📄 See recent updates in the [CHANGELOG](https://faasjs.com/CHANGELOG.html).
 

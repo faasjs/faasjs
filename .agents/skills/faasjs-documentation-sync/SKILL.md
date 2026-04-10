@@ -47,7 +47,9 @@ If you are unsure, assume docs are affected and read `references/sync-rules.md` 
    - add or adjust the unreleased entry when the change should be called out to users
 5. Regenerate generated outputs only from their real source.
    - run `vp run doc` when exported APIs or JSDoc changed
-   - do not hand-edit generated package API markdown or `docs/dist/**`
+   - never edit Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}` directly
+   - update JSDoc in `packages/*/src` first, then run `vp run doc` to refresh generated package API Markdown
+   - do not hand-edit `docs/dist/**`
 6. Validate the smallest meaningful scope.
    - API docs only: `vp run doc`
    - docs content or navigation: `cd docs && npm run build`
@@ -57,6 +59,7 @@ If you are unsure, assume docs are affected and read `references/sync-rules.md` 
 
 - Update English and Chinese published docs together for the same best-practices or spec change unless the user explicitly scopes otherwise.
 - Do not update copied or generated docs while leaving the source-of-truth files stale.
+- Do not directly edit generated Markdown under `packages/**`; change the source JSDoc and regenerate with `vp run doc`.
 - Do not ship a user-visible change without checking whether `CHANGELOG.md` should mention it.
 - Do not regenerate `CHANGELOG.md` from only the files in your current patch; review the whole range since the previous released version and summarize only end-user-meaningful items.
 - When a change does not require docs edits, say why in the final handoff.

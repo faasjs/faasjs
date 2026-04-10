@@ -6,14 +6,14 @@
 
 - 创建新页面、组件或 hook
 - 重组前端目录结构
-- 使用 `Routes` 与 `lazy` 接线路由
+- 在 `pages/` 下新增自动发现的页面路由
 - 创建或移动 `.func.ts` 后端文件
 - 评审文件名与文件位置是否对人类和 AI agent 都保持可预测
 
 ## 默认工作流
 
 1. 前端页面放到 `pages/` 下。
-2. 使用 `index.tsx` 作为页面入口文件。
+2. 精确页面入口使用 `index.tsx`，`default.tsx` 只用于 fallback 页面。
 3. 在有明确拆分理由前，把一次性的页面局部逻辑保留在当前文件内。
 4. 当组件或 hook 真正形成边界时，再给它单独文件。
 5. 以前端页面或 feature 为单位组织代码。
@@ -29,7 +29,7 @@
 - React 组件一旦被抽出，就应该放在自己的文件中。
 - 文件名应与组件名完全一致。
 - 文件名大小写应保留组件自身的命名大小写。
-- 页面文件是例外：页面入口文件应使用 `index.tsx`。
+- 页面文件是例外：页面入口文件应使用 `index.tsx` 或 `default.tsx`。
 
 示例：
 
@@ -53,8 +53,13 @@
 
 - 前端页面应放在 `pages/` 下。
 - 每个页面或 feature 应在 `pages/` 下使用自己的目录。
-- 页面入口文件必须命名为 `index.tsx`。
+- 精确页面入口文件必须命名为 `index.tsx`。
+- fallback 页面入口文件必须命名为 `default.tsx`。
 - 页面入口文件应 `export default` 页面组件。
+- 当 SSR 需要服务端数据时，页面入口文件可以导出 `loader`。
+- 自动发现的页面不需要单独的路由配置文件。
+- 默认的 React SSR 场景可以直接复用 `@faasjs/react/auto-pages/client-entry`、`server-entry` 和 `serve.js`，不必再保留本地 bootstrap 入口文件。
+- 名为 `api/` 的目录保留给后端处理器使用，不得生成网页路由。
 - 组件必须放在 `components/`。
 - hooks 必须放在 `hooks/`。
 - 该页面或 feature 的后端处理器应放在 `api/`。
@@ -66,6 +71,9 @@
 
 ```text
 src/pages/
+  index.tsx
+  docs/
+    default.tsx
   feature-name/
     index.tsx
     components/
@@ -76,7 +84,6 @@ src/pages/
       useFeatureNameFilters.ts
     api/
       list.func.ts
-  index.tsx
 ```
 
 避免这样组织：
@@ -94,31 +101,31 @@ src/pages/
 页面入口示例：
 
 ```tsx
-export default function FeatureNamePage() {
-  return null
+import type { PageLoaderContext } from '@faasjs/react/auto-pages'
+
+export async function loader(_context: PageLoaderContext) {
+  return {
+    props: {
+      title: 'Feature Name',
+    },
+  }
+}
+
+export default function FeatureNamePage(props: { title: string }) {
+  return <h1>{props.title}</h1>
 }
 ```
 
-基于 `@faasjs/ant-design` `Routes` 的根路由示例：
+页面路由发现示例：
 
-```tsx
-import { Routes, lazy } from '@faasjs/ant-design'
-
-export default function Pages() {
-  return (
-    <Routes
-      routes={[
-        {
-          path: 'feature-name',
-          page: lazy(() => import('./feature-name')),
-        },
-      ]}
-    />
-  )
-}
+```text
+src/pages/index.tsx         -> /
+src/pages/feature-name/index.tsx
+                         -> /feature-name
+src/pages/docs/default.tsx -> /docs 与未匹配 /docs/* 的 fallback
 ```
 
-前端页面路由由 `Routes` 配置定义。后端 API 路由是独立的，仍然遵循 `src/` 全路径上的 Zero-Mapping 规则。
+前端页面路由按照 routing-mapping 规范从 `src/pages` 自动发现。使用 React SSR auto-pages 时，优先使用内置的 `@faasjs/react/auto-pages`，不要在应用里重复实现页面发现或路由胶水代码。后端 API 路由是独立的，仍然遵循 `src/` 全路径上的 Zero-Mapping 规则。
 
 ### 4. 后端文件遵循 routing-mapping
 
@@ -156,8 +163,10 @@ src/pages/feature-name/api/default.func.ts
 - 抽离后的 hooks 拥有自己的文件
 - 组件文件名与组件名一致
 - hook 文件名与 hook 名一致
-- 页面入口文件命名为 `index.tsx`
+- 精确页面入口文件命名为 `index.tsx`
+- fallback 页面入口文件命名为 `default.tsx`
 - 页面入口文件默认导出页面组件
+- page `loader` 只用于 SSR 数据需求
 - 前端页面位于 `pages/`
 - 前端组件位于 `components/`
 - 前端 hooks 位于 `hooks/`

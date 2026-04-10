@@ -2,7 +2,7 @@
 
 # Function: useMiddleware()
 
-> **useMiddleware**(`handler`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
+> **useMiddleware**(`handler`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `Pick`\<[`MiddlewareContext`](../type-aliases/MiddlewareContext.md), `"root"`\>, `any`\>\>
 
 Create a function that runs one middleware and falls back to `404 Not Found`.
 
@@ -16,7 +16,7 @@ Middleware to execute for each incoming request.
 
 ## Returns
 
-`Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
+`Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `Pick`\<[`MiddlewareContext`](../type-aliases/MiddlewareContext.md), `"root"`\>, `any`\>\>
 
 Promise that resolves to a function wrapper.
 

@@ -43,9 +43,9 @@ footer: An atomic application framework built for the TypeScript developer. | MI
 
 ## Quick start
 
-### Start with Codespace and Examples
+### Start with Codespaces and Templates
 
-[🧪 FaasJS Examples](https://github.com/faasjs/faasjs/tree/main/examples)
+[🧪 FaasJS Templates](https://github.com/faasjs/faasjs/tree/main/templates)
 
 ### Start with Command Line
 

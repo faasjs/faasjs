@@ -2,7 +2,7 @@
 
 # Function: useMiddlewares()
 
-> **useMiddlewares**(`handlers`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
+> **useMiddlewares**(`handlers`): `Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `Pick`\<[`MiddlewareContext`](../type-aliases/MiddlewareContext.md), `"root"`\>, `any`\>\>
 
 Create a function that runs middleware handlers in sequence until one ends the response.
 
@@ -16,7 +16,7 @@ Middleware functions to run in order.
 
 ## Returns
 
-`Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `any`, `any`\>\>
+`Promise`\<[`Func`](../classes/Func.md)\<[`MiddlewareEvent`](../type-aliases/MiddlewareEvent.md), `Pick`\<[`MiddlewareContext`](../type-aliases/MiddlewareContext.md), `"root"`\>, `any`\>\>
 
 Promise that resolves to a function wrapper.
 

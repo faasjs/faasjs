@@ -29,9 +29,11 @@ export type MiddlewareEvent = {
  * Context shared with middleware handlers.
  *
  * @property {Logger} logger - Middleware-scoped logger instance.
+ * @property {string} root - Normalized project root provided by the server runtime.
  */
 export type MiddlewareContext = {
   logger: Logger
+  root: string
 }
 
 /**
@@ -48,7 +50,12 @@ export type Middleware = (
   context: MiddlewareContext,
 ) => void | Promise<void>
 
-async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler: Middleware) {
+async function invokeMiddleware(
+  event: MiddlewareEvent,
+  context: Pick<MiddlewareContext, 'root'>,
+  logger: Logger,
+  handler: Middleware,
+) {
   const loggerKey = randomUUID()
   const handlerLogger = new Logger(`${logger.label}] [middleware] [${handler.name || 'uname'}`)
   handlerLogger.debug('begin')
@@ -56,6 +63,7 @@ async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler:
   try {
     await handler(Object.assign(event.raw.request, { body: event.body }), event.raw.response, {
       logger: handlerLogger,
+      root: context.root,
     })
   } catch (error) {
     handlerLogger.error('error:', error)
@@ -85,10 +93,12 @@ async function invokeMiddleware(event: MiddlewareEvent, logger: Logger, handler:
  * })
  * ```
  */
-export async function useMiddleware(handler: Middleware) {
-  return new Func<MiddlewareEvent>({
-    async handler({ event, logger }) {
-      await invokeMiddleware(event, logger, handler)
+export async function useMiddleware(
+  handler: Middleware,
+): Promise<Func<MiddlewareEvent, Pick<MiddlewareContext, 'root'>>> {
+  return new Func<MiddlewareEvent, Pick<MiddlewareContext, 'root'>>({
+    async handler({ event, context, logger }) {
+      await invokeMiddleware(event, context, logger, handler)
 
       if (!event.raw.response.writableEnded) {
         event.raw.response.statusCode = 404
@@ -120,13 +130,15 @@ export async function useMiddleware(handler: Middleware) {
  * ])
  * ```
  */
-export async function useMiddlewares(handlers: Middleware[]) {
-  return new Func<MiddlewareEvent>({
-    async handler({ event, logger }) {
+export async function useMiddlewares(
+  handlers: Middleware[],
+): Promise<Func<MiddlewareEvent, Pick<MiddlewareContext, 'root'>>> {
+  return new Func<MiddlewareEvent, Pick<MiddlewareContext, 'root'>>({
+    async handler({ event, context, logger }) {
       for (const handler of handlers) {
         if (event.raw.response.writableEnded) break
 
-        await invokeMiddleware(event, logger, handler)
+        await invokeMiddleware(event, context, logger, handler)
       }
 
       if (!event.raw.response.writableEnded) {

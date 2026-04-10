@@ -64,8 +64,8 @@ export const siteConfig: SiteConfig = {
               link: '/doc/',
             },
             {
-              text: 'Examples',
-              link: 'https://github.com/faasjs/faasjs/tree/main/examples',
+              text: 'Templates',
+              link: 'https://github.com/faasjs/faasjs/tree/main/templates',
             },
             {
               text: 'Changelog',

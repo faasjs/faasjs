@@ -22,6 +22,12 @@ const packEntries: Record<string, Record<string, string>> = {
     index: './src/index.ts',
     register_hooks: './src/register_hooks.ts',
   },
+  react: {
+    index: './src/index.ts',
+    auto_pages: './src/auto_pages.ts',
+    auto_pages_client: './src/auto_pages_client.ts',
+    auto_pages_server: './src/auto_pages_server.ts',
+  },
 }
 
 const pack: PackUserConfig[] = [

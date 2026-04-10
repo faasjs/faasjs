@@ -175,10 +175,19 @@ describe('server/hooks', () => {
   it('should handle beforeHandle', async () => {
     const port = 31601 + poolId
     let times = 0
-    const beforeHandle = async () => {
+    let receivedRoot = ''
+    let receivedLogger = false
+    const serverRoot = join(__dirname, 'funcs')
+    const beforeHandle = async (
+      _: unknown,
+      __: unknown,
+      context: { root: string; logger?: unknown },
+    ) => {
       times++
+      receivedRoot = context.root
+      receivedLogger = typeof context.logger !== 'undefined'
     }
-    const server = new Server(join(__dirname, 'funcs'), { port, beforeHandle })
+    const server = new Server(serverRoot, { port, beforeHandle })
     server.listen()
 
     const req = createMockReq({
@@ -195,6 +204,8 @@ describe('server/hooks', () => {
     await server.middleware(req as any, res as any, () => {})
 
     expect(times).toBe(1)
+    expect(receivedRoot).toBe(server.root)
+    expect(receivedLogger).toBe(true)
   })
 
   it('should respond 500 when beforeHandle throws', async () => {

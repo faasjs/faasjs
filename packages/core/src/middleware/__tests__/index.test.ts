@@ -30,6 +30,13 @@ describe('middleware', () => {
     expect(await response.text()).toBe('anonymousUseMiddleware')
   })
 
+  it('injects root into middleware context', async () => {
+    const response = await fetch(`http://127.0.0.1:${port}/contextRoot`)
+
+    expect(response.status).toBe(200)
+    expect(await response.text()).toBe(server.root)
+  })
+
   it('emptyMiddleware', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/emptyUseMiddleware`)
     expect(response.status).toBe(404)

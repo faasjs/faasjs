@@ -21,11 +21,11 @@ fi
 echo "==> Installing workspace dependencies"
 run_npm install
 
-for example_dir in examples/*; do
-  if [ -f "$example_dir/package.json" ]; then
-    echo "==> Installing $example_dir dependencies"
+for template_dir in templates/*; do
+  if [ -f "$template_dir/package.json" ]; then
+    echo "==> Installing $template_dir dependencies"
     (
-      cd "$example_dir"
+      cd "$template_dir"
       run_npm install
     )
   fi
@@ -33,15 +33,15 @@ done
 
 cat <<'EOF'
 
-FaasJS examples bootstrap complete.
+FaasJS templates bootstrap complete.
 
-Try one example:
-  cd examples/01-hello-api
-  npm run test
-  npm run dev
+Try one template:
+  cd templates/hello-api
+  vp test
+  vp run dev
 
-Knex example:
-  cd examples/04-knex-crud
-  npm run migrate:latest
-  npm run dev
+React template:
+  cd templates/react-client
+  vp run build
+  vp run start
 EOF

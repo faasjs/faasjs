@@ -1,11 +1,19 @@
 import { EventEmitter } from 'node:events'
+import type { IncomingMessage, ServerResponse } from 'node:http'
+
+export type MockRequest = EventEmitter &
+  IncomingMessage & {
+    _body: string | null
+    _readIndex: number
+    read(): Buffer | null
+  }
 
 export function createMockReq(options?: {
   method?: string
   url?: string
   headers?: Record<string, string>
   body?: string | null
-}) {
+}): MockRequest {
   const req = Object.assign(new EventEmitter(), {
     method: options?.method || 'GET',
     url: options?.url || '/',
@@ -20,13 +28,36 @@ export function createMockReq(options?: {
       }
       return null
     },
-  })
+  }) as unknown as MockRequest
 
   return req
 }
 
-export function createMockRes(options?: { onDataCapture?: (data: any) => void }) {
-  const res = new EventEmitter() as any
+export type MockResponse = ServerResponse<IncomingMessage> & {
+  headers: Record<string, string>
+  _capturedData: any
+}
+
+export type MutableMockResponse = EventEmitter &
+  Omit<
+    MockResponse,
+    'headersSent' | 'writableEnded' | 'setHeader' | 'write' | 'end' | 'once' | 'removeListener'
+  > & {
+    headers: Record<string, string>
+    headersSent: boolean
+    writableEnded: boolean
+    _capturedData: any
+    setHeader(key: string, value: string): MutableMockResponse
+    write(data: any): boolean
+    end(data?: any): MutableMockResponse
+    once(event: string, handler: (...args: any[]) => void): MutableMockResponse
+    removeListener(event: string, handler: (...args: any[]) => void): MutableMockResponse
+  }
+
+export function createMockRes(options?: {
+  onDataCapture?: (data: any) => void
+}): MutableMockResponse {
+  const res = new EventEmitter() as unknown as MutableMockResponse
   res.statusCode = 200
   res.headers = {} as Record<string, string>
   res.writableEnded = false
@@ -44,7 +75,7 @@ export function createMockRes(options?: { onDataCapture?: (data: any) => void })
     if (options?.onDataCapture) {
       options.onDataCapture(data)
     }
-    return this
+    return true
   }
 
   res.end = function (data?: any) {
@@ -64,11 +95,11 @@ export function createMockRes(options?: { onDataCapture?: (data: any) => void })
   }
 
   res.once = function (event: string, handler: (...args: any[]) => void) {
-    return EventEmitter.prototype.once.call(this, event, handler)
+    return EventEmitter.prototype.once.call(this, event, handler) as MutableMockResponse
   }
 
   res.removeListener = function (event: string, handler: (...args: any[]) => void) {
-    return EventEmitter.prototype.removeListener.call(this, event, handler)
+    return EventEmitter.prototype.removeListener.call(this, event, handler) as MutableMockResponse
   }
 
   return res

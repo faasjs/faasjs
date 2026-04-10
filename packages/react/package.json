@@ -13,7 +13,8 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "files": [
-    "dist"
+    "dist",
+    "auto-pages"
   ],
   "type": "module",
   "main": "dist/index.mjs",
@@ -23,6 +24,27 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.mjs"
+    },
+    "./auto-pages": {
+      "types": "./dist/auto_pages.d.ts",
+      "default": "./dist/auto_pages.mjs"
+    },
+    "./auto-pages/client": {
+      "types": "./dist/auto_pages_client.d.ts",
+      "default": "./dist/auto_pages_client.mjs"
+    },
+    "./auto-pages/server": {
+      "types": "./dist/auto_pages_server.d.ts",
+      "default": "./dist/auto_pages_server.mjs"
+    },
+    "./auto-pages/client-entry": {
+      "default": "./auto-pages/client-entry.js"
+    },
+    "./auto-pages/server-entry": {
+      "default": "./auto-pages/server-entry.js"
+    },
+    "./auto-pages/serve": {
+      "default": "./auto-pages/serve.js"
     }
   },
   "devDependencies": {

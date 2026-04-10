@@ -1,5 +1,5 @@
 {
-  "name": "faasjs-examples",
+  "name": "faasjs-templates",
   "image": "faasjs/vscode:latest",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "remoteUser": "root",
@@ -11,7 +11,7 @@
       "onAutoForward": "notify"
     },
     "5173": {
-      "label": "Vite React Example",
+      "label": "Vite React Template",
       "onAutoForward": "openPreview"
     }
   },
@@ -24,7 +24,7 @@
       "extensions": ["oxc.oxc-vscode", "VoidZero.vite-plus-extension-pack"]
     },
     "codespaces": {
-      "openFiles": ["examples/README.md"]
+      "openFiles": ["templates/README.md"]
     }
   }
 }

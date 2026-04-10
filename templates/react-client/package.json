@@ -1,0 +1,29 @@
+{
+  "name": "faasjs-template-react-client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "start": "vp run build && node --input-type=module -e \"import('@faasjs/react/auto-pages/serve')\"",
+    "test": "vp test",
+    "types": "vp exec faas types --root ."
+  },
+  "dependencies": {
+    "@faasjs/core": "file:../../packages/core",
+    "@faasjs/node-utils": "file:../../packages/node-utils",
+    "@faasjs/react": "file:../../packages/react",
+    "@faasjs/types": "file:../../packages/types",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {
+    "@faasjs/dev": "file:../../packages/dev",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "typescript": "*",
+    "vite": "*",
+    "vitest": "*"
+  }
+}

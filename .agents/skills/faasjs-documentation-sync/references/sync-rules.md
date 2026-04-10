@@ -37,7 +37,7 @@ Workflow:
 3. Review the generated package Markdown.
 4. Rebuild the docs site if needed.
 
-Do not hand-edit generated API Markdown unless the task is explicitly about generated output maintenance and the same change also updates the true source.
+Never hand-edit generated API Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}`. Update the source JSDoc in `packages/*/src` and regenerate with `vp run doc` instead.
 
 ### Best-Practices Guides And Specs
 

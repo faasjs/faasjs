@@ -1,0 +1,22 @@
+{
+  "name": "faasjs-template-hello-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp exec faas run server.ts",
+    "start": "vp exec faas run server.ts",
+    "test": "vp test",
+    "types": "vp exec faas types --root ."
+  },
+  "dependencies": {
+    "@faasjs/core": "file:../../packages/core",
+    "@faasjs/node-utils": "file:../../packages/node-utils",
+    "@faasjs/types": "file:../../packages/types"
+  },
+  "devDependencies": {
+    "@faasjs/dev": "file:../../packages/dev",
+    "@types/node": "*",
+    "typescript": "*",
+    "vitest": "*"
+  }
+}

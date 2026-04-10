@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { oxfmtConfig, oxlintConfig, viteConfig } from '..'
+import { createReactAutoPagesViteConfig, oxfmtConfig, oxlintConfig, viteConfig } from '..'
 
 describe('configs exports', () => {
   it('should export the shared oxfmt config', () => {
@@ -69,5 +69,23 @@ describe('configs exports', () => {
     expect(viteConfig.fmt).toBe(oxfmtConfig)
     expect(viteConfig.lint).toBe(oxlintConfig)
     expect(viteConfig.plugins).toHaveLength(2)
+  })
+
+  it('should create the shared React SSR vite config', () => {
+    const config = createReactAutoPagesViteConfig()
+
+    expect(config.server).toEqual(viteConfig.server)
+    expect(config.resolve).toEqual(viteConfig.resolve)
+    expect(config.environments).toEqual({
+      ssr: {
+        build: {
+          ssr: expect.stringContaining('/auto-pages/server-entry.js'),
+          outDir: 'dist-server',
+        },
+      },
+    })
+    expect(config.builder).toEqual({
+      buildApp: expect.any(Function),
+    })
   })
 })

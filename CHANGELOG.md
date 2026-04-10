@@ -2,6 +2,21 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `@faasjs/core`
+  - [Feature] Add `reactSsrHandler()` to serve built assets first and fall back to HTML SSR through `Server.beforeHandle`.
+  - [Fix] Always expose `root` in middleware context for `Server.beforeHandle`, `useMiddleware()`, and `useMiddlewares()` so server-only middleware can share consistent path resolution.
+  - [Fix] Keep matched FaasJS function routes ahead of React SSR fallback pages and serve cache-busted static assets correctly.
+
+- `@faasjs/react`
+  - [Feature] Add `@faasjs/react/auto-pages`, `@faasjs/react/auto-pages/client`, and `@faasjs/react/auto-pages/server` so React SSR page discovery, loader execution, and hydration bootstrap can live in the framework instead of app templates.
+  - [Feature] Add built-in `@faasjs/react/auto-pages` client, SSR, and server entry modules so the React SSR template no longer needs local `src/main.tsx`, `src/entry-server.tsx`, or `server.ts`.
+
+- `@faasjs/dev`
+  - [Feature] Expose the `virtual:faasjs-pages` module from `viteFaasJsServer()` so `@faasjs/react/auto-pages` can discover `src/pages` during client and SSR builds.
+  - [Feature] Add `createReactAutoPagesViteConfig()` so React SSR auto-pages apps can emit both client and SSR bundles from a single `vp build`.
+
 [`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...>v8.0.0-beta.21)
 
 - `faasjs`

@@ -13,3 +13,9 @@ Context shared with middleware handlers.
 > **logger**: `Logger`
 
 Middleware-scoped logger instance.
+
+### root
+
+> **root**: `string`
+
+Normalized project root provided by the server runtime.

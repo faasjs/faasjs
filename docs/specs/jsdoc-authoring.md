@@ -74,9 +74,10 @@ The repository also contains style drift in tag syntax, language, and duplicatio
 ### 6. Generation and Maintenance
 
 1. When exported API shapes or public JSDoc change, contributors MUST regenerate API Markdown with `vp run doc` or `npx vp run doc` when `vp` is unavailable.
-2. Generated output SHOULD be reviewed to confirm that headings, parameter descriptions, examples, and links render as intended.
-3. Legacy comments that use older tag ordering, mixed language, or duplicate type annotations MAY remain temporarily, but touched public docs SHOULD move toward this specification.
-4. This spec governs source comments and generated API Markdown only. Docs site pages and other narrative docs MAY use a different structure.
+2. Contributors MUST NOT directly edit generated API Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}`. They MUST update the source JSDoc in `packages/*/src` and then regenerate with `vp run doc`.
+3. Generated output SHOULD be reviewed to confirm that headings, parameter descriptions, examples, and links render as intended.
+4. Legacy comments that use older tag ordering, mixed language, or duplicate type annotations MAY remain temporarily, but touched public docs SHOULD move toward this specification.
+5. This spec governs source comments and generated API Markdown only. Docs site pages and other narrative docs MAY use a different structure.
 
 ## Examples
 

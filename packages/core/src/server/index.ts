@@ -458,6 +458,7 @@ export class Server {
     try {
       await this.options.beforeHandle(req, res, {
         logger,
+        root: this.root,
       })
 
       return !res.writableEnded
@@ -544,7 +545,10 @@ export class Server {
           response: res,
         },
       },
-      { request_id: requestId },
+      {
+        request_id: requestId,
+        root: this.root,
+      },
     )
   }
 
