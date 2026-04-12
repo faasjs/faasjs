@@ -1,5 +1,5 @@
 declare module 'virtual:faasjs-pages' {
-  import type { PageModules } from './auto_pages'
+  import type { PageModules } from './routing'
 
   export const pageModules: PageModules
 }

@@ -1,4 +1,4 @@
-import type { PageLoaderContext } from '@faasjs/react/auto-pages'
+import type { PageLoaderContext } from '@faasjs/react/routing'
 
 import App from '../App'
 import { createGreeting } from '../greeting/createGreeting'

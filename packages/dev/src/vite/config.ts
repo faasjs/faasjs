@@ -12,7 +12,7 @@ import { viteFaasJsServer } from './server.ts'
  *
  * This preset combines the React plugin, `viteFaasJsServer()`, workspace-safe
  * dev server defaults, `tsconfigPaths` resolution, the `virtual:faasjs-pages`
- * module used by `@faasjs/react/auto-pages`, and the shared FaasJS format and
+ * module used by `@faasjs/react/routing`, and the shared FaasJS format and
  * lint settings. Spread it into `defineConfig()` when the default stack
  * matches your app, then override only the fields that differ.
  *
@@ -56,9 +56,9 @@ export const viteConfig = {
 } as UserConfig
 
 /**
- * Options for {@link createReactAutoPagesViteConfig}.
+ * Options for {@link createReactRoutingViteConfig}.
  */
-export type ReactAutoPagesViteConfigOptions = {
+export type ReactRoutingViteConfigOptions = {
   /**
    * SSR output directory used for the built `server-entry` bundle.
    *
@@ -68,45 +68,50 @@ export type ReactAutoPagesViteConfigOptions = {
   /**
    * Optional override for the React SSR server entry module.
    *
-   * Defaults to `@faasjs/react/auto-pages/server-entry`.
+   * Defaults to `@faasjs/react/routing/server-entry`.
    */
   serverEntry?: string
 }
 
-function resolveReactAutoPagesServerEntry(serverEntry?: string): string {
+/**
+ * @deprecated Use {@link ReactRoutingViteConfigOptions} instead.
+ */
+export type ReactAutoPagesViteConfigOptions = ReactRoutingViteConfigOptions
+
+function resolveReactRoutingServerEntry(serverEntry?: string): string {
   if (serverEntry) return serverEntry
 
-  return fileURLToPath(import.meta.resolve('@faasjs/react/auto-pages/server-entry'))
+  return fileURLToPath(import.meta.resolve('@faasjs/react/routing/server-entry'))
 }
 
 /**
- * Create the shared Vite config for React SSR apps that use auto-discovered pages.
+ * Create the shared Vite config for React SSR apps that use file-based routing.
  *
  * This extends {@link viteConfig} with a second SSR build environment so a plain
  * `vp build` emits both the client bundle and the React SSR `dist-server`
- * bundle. Use it when the app relies on `@faasjs/react/auto-pages` and should
+ * bundle. Use it when the app relies on `@faasjs/react/routing` and should
  * not keep a local SSR build script.
  *
- * @param {ReactAutoPagesViteConfigOptions} [options] - Optional SSR build overrides.
+ * @param {ReactRoutingViteConfigOptions} [options] - Optional SSR build overrides.
  * @returns {UserConfig} Vite config with both client and SSR builds configured.
  *
  * @example
  * ```ts
  * import { defineConfig } from 'vite-plus'
- * import { createReactAutoPagesViteConfig } from '@faasjs/dev'
+ * import { createReactRoutingViteConfig } from '@faasjs/dev'
  *
- * export default defineConfig(createReactAutoPagesViteConfig())
+ * export default defineConfig(createReactRoutingViteConfig())
  * ```
  */
-export function createReactAutoPagesViteConfig(
-  options: ReactAutoPagesViteConfigOptions = {},
+export function createReactRoutingViteConfig(
+  options: ReactRoutingViteConfigOptions = {},
 ): UserConfig {
   return {
     ...viteConfig,
     environments: {
       ssr: {
         build: {
-          ssr: resolveReactAutoPagesServerEntry(options.serverEntry),
+          ssr: resolveReactRoutingServerEntry(options.serverEntry),
           outDir: options.ssrOutDir || 'dist-server',
         },
       },
@@ -118,4 +123,13 @@ export function createReactAutoPagesViteConfig(
       },
     },
   }
+}
+
+/**
+ * @deprecated Use {@link createReactRoutingViteConfig} instead.
+ */
+export function createReactAutoPagesViteConfig(
+  options: ReactAutoPagesViteConfigOptions = {},
+): UserConfig {
+  return createReactRoutingViteConfig(options)
 }

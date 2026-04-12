@@ -1,13 +1,8 @@
 import { createElement } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import {
-  resolvePageModule,
-  resolvePageQuery,
-  type PageModule,
-  type PageModules,
-} from '../auto_pages'
-import { renderPage } from '../auto_pages_server_runtime'
+import { resolvePageModule, resolvePageQuery, type PageModule, type PageModules } from '../routing'
+import { renderPage } from '../routing_server_runtime'
 
 function createPage<Props = Record<string, unknown>>(
   overrides: Partial<PageModule<Props>> = {},
@@ -18,7 +13,7 @@ function createPage<Props = Record<string, unknown>>(
   }
 }
 
-describe('auto pages', () => {
+describe('routing', () => {
   it('matches the root page before the root fallback', () => {
     const rootIndex = createPage()
     const rootDefault = createPage()

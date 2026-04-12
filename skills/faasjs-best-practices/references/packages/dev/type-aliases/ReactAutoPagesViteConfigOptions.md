@@ -1,29 +1,9 @@
 [@faasjs/dev](../README.md) / ReactAutoPagesViteConfigOptions
 
-# Type Alias: ReactAutoPagesViteConfigOptions
+# ~~Type Alias: ReactAutoPagesViteConfigOptions~~
 
-> **ReactAutoPagesViteConfigOptions** = `object`
+> **ReactAutoPagesViteConfigOptions** = [`ReactRoutingViteConfigOptions`](ReactRoutingViteConfigOptions.md)
 
-Options for [createReactAutoPagesViteConfig](../functions/createReactAutoPagesViteConfig.md).
+## Deprecated
 
-## Properties
-
-### serverEntry?
-
-> `optional` **serverEntry?**: `string`
-
-Optional override for the React SSR server entry module.
-
-Defaults to `@faasjs/react/auto-pages/server-entry`.
-
-### ssrOutDir?
-
-> `optional` **ssrOutDir?**: `string`
-
-SSR output directory used for the built `server-entry` bundle.
-
-#### Default
-
-```ts
-'dist-server'
-```
+Use [ReactRoutingViteConfigOptions](ReactRoutingViteConfigOptions.md) instead.

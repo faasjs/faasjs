@@ -20,10 +20,10 @@ vi.mock('react-dom/client', () => ({
   hydrateRoot: mocks.hydrateRoot,
 }))
 
-import type { AutoPagesWindow, PageLoaderContext, PageModules } from '../auto_pages'
-import { bootstrapAutoPages } from '../auto_pages_client_runtime'
+import type { PageLoaderContext, PageModules, RoutingWindow } from '../routing'
+import { bootstrapRouting } from '../routing_client_runtime'
 
-describe('bootstrapAutoPages', () => {
+describe('bootstrapRouting', () => {
   afterEach(() => {
     vi.clearAllMocks()
   })
@@ -47,9 +47,9 @@ describe('bootstrapAutoPages', () => {
         pathname: '/',
         search: '',
       },
-    } as unknown as AutoPagesWindow
+    } as unknown as RoutingWindow
 
-    await bootstrapAutoPages({
+    await bootstrapRouting({
       pageModules,
       root,
       window: currentWindow,
@@ -92,9 +92,9 @@ describe('bootstrapAutoPages', () => {
         pathname: '/',
         search: '?name=Client',
       },
-    } as unknown as AutoPagesWindow
+    } as unknown as RoutingWindow
 
-    await bootstrapAutoPages({
+    await bootstrapRouting({
       pageModules,
       root,
       window: currentWindow,

@@ -14,7 +14,8 @@
   "funding": "https://github.com/sponsors/faasjs",
   "files": [
     "dist",
-    "auto-pages"
+    "auto-pages",
+    "routing"
   ],
   "type": "module",
   "main": "dist/index.mjs",
@@ -24,6 +25,27 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.mjs"
+    },
+    "./routing": {
+      "types": "./dist/routing.d.ts",
+      "default": "./dist/routing.mjs"
+    },
+    "./routing/client": {
+      "types": "./dist/routing_client.d.ts",
+      "default": "./dist/routing_client.mjs"
+    },
+    "./routing/server": {
+      "types": "./dist/routing_server.d.ts",
+      "default": "./dist/routing_server.mjs"
+    },
+    "./routing/client-entry": {
+      "default": "./routing/client-entry.js"
+    },
+    "./routing/server-entry": {
+      "default": "./routing/server-entry.js"
+    },
+    "./routing/serve": {
+      "default": "./routing/serve.js"
     },
     "./auto-pages": {
       "types": "./dist/auto_pages.d.ts",

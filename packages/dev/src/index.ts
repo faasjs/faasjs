@@ -13,9 +13,9 @@
  * ## Features
  *
  * - `viteFaasJsServer()` runs a FaasJS server inside Vite during local development.
- * - `viteFaasJsServer()` also exposes `virtual:faasjs-pages` for `@faasjs/react/auto-pages`.
+ * - `viteFaasJsServer()` also exposes `virtual:faasjs-pages` for `@faasjs/react/routing`.
  * - `viteConfig` bundles the standard FaasJS React and Vite Plus defaults.
- * - `createReactAutoPagesViteConfig()` adds the matching SSR build for `@faasjs/react/auto-pages`.
+ * - `createReactRoutingViteConfig()` adds the matching SSR build for `@faasjs/react/routing`.
  * - `oxfmtConfig` and `oxlintConfig` expose the shared FaasJS formatting and lint rules.
  * - `generateFaasTypes()` emits route declarations for `@faasjs/types`.
  * - `test()` and {@link FuncWarper} help invoke and assert FaasJS functions in tests.
@@ -31,13 +31,13 @@
  * })
  * ```
  *
- * ## Usage: React SSR Auto Pages
+ * ## Usage: React SSR Routing
  *
  * ```ts
- * import { createReactAutoPagesViteConfig } from '@faasjs/dev'
+ * import { createReactRoutingViteConfig } from '@faasjs/dev'
  * import { defineConfig } from 'vite-plus'
  *
- * export default defineConfig(createReactAutoPagesViteConfig())
+ * export default defineConfig(createReactRoutingViteConfig())
  * ```
  *
  * ## Usage: Manual Vite Integration
@@ -78,7 +78,7 @@
  * ## API
  *
  * - Vite: {@link viteFaasJsServer}
- * - Config: {@link viteConfig}, {@link createReactAutoPagesViteConfig}, {@link oxfmtConfig}, {@link oxlintConfig}
+ * - Config: {@link viteConfig}, {@link createReactRoutingViteConfig}, {@link createReactAutoPagesViteConfig}, {@link oxfmtConfig}, {@link oxlintConfig}
  * - Typegen: {@link generateFaasTypes}, {@link isTypegenSourceFile}
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
  */

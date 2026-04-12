@@ -10,12 +10,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Fix] Keep matched FaasJS function routes ahead of React SSR fallback pages and serve cache-busted static assets correctly.
 
 - `@faasjs/react`
-  - [Feature] Add `@faasjs/react/auto-pages`, `@faasjs/react/auto-pages/client`, and `@faasjs/react/auto-pages/server` so React SSR page discovery, loader execution, and hydration bootstrap can live in the framework instead of app templates.
-  - [Feature] Add built-in `@faasjs/react/auto-pages` client, SSR, and server entry modules so the React SSR template no longer needs local `src/main.tsx`, `src/entry-server.tsx`, or `server.ts`.
+  - [Feature] Add `@faasjs/react/routing`, plus matching client/server/entry subpaths, as the preferred name for React SSR file-based routing while keeping `@faasjs/react/auto-pages*` as compatibility aliases.
 
 - `@faasjs/dev`
-  - [Feature] Expose the `virtual:faasjs-pages` module from `viteFaasJsServer()` so `@faasjs/react/auto-pages` can discover `src/pages` during client and SSR builds.
-  - [Feature] Add `createReactAutoPagesViteConfig()` so React SSR auto-pages apps can emit both client and SSR bundles from a single `vp build`.
+  - [Feature] Expose the `virtual:faasjs-pages` module from `viteFaasJsServer()` so `@faasjs/react/routing` can discover `src/pages` during client and SSR builds.
+  - [Feature] Add `createReactRoutingViteConfig()` and `ReactRoutingViteConfigOptions`, while keeping `createReactAutoPagesViteConfig()` as a compatibility alias for existing apps.
 
 [`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...>v8.0.0-beta.21)
 

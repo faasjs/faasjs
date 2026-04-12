@@ -9,7 +9,7 @@
  * ## Features
  *
  * - Support [FaasJS Request Specifications](https://faasjs.com/guide/request-spec.html).
- * - Auto-discovered page routing helpers via `@faasjs/react/auto-pages`.
+ * - File-based routing helpers via `@faasjs/react/routing`.
  * - Support global and per-request configurations.
  * - Compatible with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
  * - Additional React functions:
@@ -41,12 +41,12 @@
  * npm install @faasjs/react react
  * ```
  *
- * ## Usage: Auto Pages
+ * ## Usage: Routing
  *
  * ```html
  * <!-- index.html -->
  * <script type="module">
- *   import '@faasjs/react/auto-pages/client-entry'
+ *   import '@faasjs/react/routing/client-entry'
  * </script>
  * ```
  *
@@ -54,17 +54,17 @@
  * {
  *   "scripts": {
  *     "build": "vp build",
- *     "start": "vp run build && node --input-type=module -e \"import('@faasjs/react/auto-pages/serve')\""
+ *     "start": "vp run build && node --input-type=module -e \"import('@faasjs/react/routing/serve')\""
  *   }
  * }
  * ```
  *
  * ```ts
  * // vite.config.ts
- * import { createReactAutoPagesViteConfig } from '@faasjs/dev'
+ * import { createReactRoutingViteConfig } from '@faasjs/dev'
  * import { defineConfig } from 'vite-plus'
  *
- * export default defineConfig(createReactAutoPagesViteConfig())
+ * export default defineConfig(createReactRoutingViteConfig())
  * ```
  */
 

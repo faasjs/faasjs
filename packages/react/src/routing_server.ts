@@ -1,7 +1,7 @@
 import { pageModules } from 'virtual:faasjs-pages'
 
-import type { RenderPageOptions, RenderPageResult } from './auto_pages'
-import { renderPage as renderAutoPage } from './auto_pages_server_runtime'
+import type { RenderPageOptions, RenderPageResult } from './routing'
+import { renderPage as renderRoutingPage } from './routing_server_runtime'
 
 /**
  * Render the matched Vite-discovered `src/pages` module for React SSR.
@@ -10,5 +10,5 @@ import { renderPage as renderAutoPage } from './auto_pages_server_runtime'
  * @returns SSR render result, or `null` when no page matches.
  */
 export function renderPage(options: RenderPageOptions): Promise<RenderPageResult | null> {
-  return renderAutoPage(pageModules, options)
+  return renderRoutingPage(pageModules, options)
 }

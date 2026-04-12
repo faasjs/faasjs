@@ -1,17 +1,17 @@
 import type { ComponentType } from 'react'
 
 /**
- * Query value passed to auto-discovered page loaders.
+ * Query value passed to file-based page loaders.
  */
 export type PageQueryValue = string | string[]
 
 /**
- * Parsed query object passed to auto-discovered page loaders.
+ * Parsed query object passed to file-based page loaders.
  */
 export type PageQuery = Record<string, PageQueryValue>
 
 /**
- * Route context passed to an auto-discovered page `loader`.
+ * Route context passed to a file-based page `loader`.
  */
 export type PageLoaderContext = {
   pathname: string
@@ -21,7 +21,7 @@ export type PageLoaderContext = {
 }
 
 /**
- * Result returned by an auto-discovered page `loader`.
+ * Result returned by a file-based page `loader`.
  */
 export type PageLoaderResult<Props = Record<string, unknown>> = {
   props?: Props
@@ -30,7 +30,7 @@ export type PageLoaderResult<Props = Record<string, unknown>> = {
 }
 
 /**
- * Auto-discovered page module contract.
+ * File-based page module contract.
  */
 export type PageModule<Props = Record<string, unknown>> = {
   default: ComponentType<Props>
@@ -40,7 +40,7 @@ export type PageModule<Props = Record<string, unknown>> = {
 }
 
 /**
- * Auto-discovered page module collection keyed by normalized `./pages/...` paths.
+ * File-based page module collection keyed by normalized `./pages/...` paths.
  */
 export type PageModules = Record<string, PageModule<any>>
 
@@ -60,14 +60,19 @@ export type PagePayload = {
 }
 
 /**
- * Window shape used by the auto-pages browser bootstrap.
+ * Window shape used by the routing browser bootstrap.
  */
-export type AutoPagesWindow = Window & {
+export type RoutingWindow = Window & {
   __FAASJS_REACT_SSR__?: PagePayload
 }
 
 /**
- * Result returned by the auto-pages SSR renderer.
+ * @deprecated Use {@link RoutingWindow} instead.
+ */
+export type AutoPagesWindow = RoutingWindow
+
+/**
+ * Result returned by the routing SSR renderer.
  */
 export type RenderPageResult = PageLoaderResult & {
   props: Record<string, unknown>
@@ -75,7 +80,7 @@ export type RenderPageResult = PageLoaderResult & {
 }
 
 /**
- * Options for the auto-pages SSR renderer.
+ * Options for the routing SSR renderer.
  */
 export type RenderPageOptions = {
   pathname: string
@@ -83,24 +88,29 @@ export type RenderPageOptions = {
 }
 
 /**
- * Options for the auto-pages browser bootstrap.
+ * Options for the routing browser bootstrap.
  */
-export type BootstrapAutoPagesOptions = {
+export type BootstrapRoutingOptions = {
   pageModules: PageModules
   pathname?: string
   search?: string
   root?: HTMLElement | null
   rootId?: string
   document?: Document
-  window?: AutoPagesWindow
+  window?: RoutingWindow
 }
+
+/**
+ * @deprecated Use {@link BootstrapRoutingOptions} instead.
+ */
+export type BootstrapAutoPagesOptions = BootstrapRoutingOptions
 
 function toRoutePath(segments: string[]): string {
   return segments.length ? `/${segments.join('/')}` : '/'
 }
 
 /**
- * Parse a URL search string into the query object used by auto-discovered pages.
+ * Parse a URL search string into the query object used by file-based routing.
  *
  * @param {string | URLSearchParams} search - Search string or `URLSearchParams`.
  * @returns Parsed query object where repeated keys become string arrays.
@@ -124,7 +134,7 @@ export function resolvePageQuery(search: string | URLSearchParams): PageQuery {
  * The lookup probes `index.tsx`, then `default.tsx`, then walks parent
  * `default.tsx` fallbacks toward the root scope.
  *
- * @param {PageModules} pageModules - Auto-discovered page module map.
+ * @param {PageModules} pageModules - File-based page module map.
  * @param {string} pathname - Browser pathname to resolve.
  * @param {PageQuery} query - Parsed query object for the current request.
  * @returns The matched page module with loader context, or `null` when no page matches.

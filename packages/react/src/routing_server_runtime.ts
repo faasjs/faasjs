@@ -6,12 +6,12 @@ import {
   type PageModules,
   type RenderPageOptions,
   type RenderPageResult,
-} from './auto_pages'
+} from './routing'
 
 /**
- * Render the matched auto-discovered page into an SSR HTML string.
+ * Render the matched routed page into an SSR HTML string.
  *
- * @param {PageModules} pageModules - Auto-discovered page module map.
+ * @param {PageModules} pageModules - File-based page module map.
  * @param {RenderPageOptions} options - Request pathname and query.
  * @returns SSR render result, or `null` when no page matches.
  */

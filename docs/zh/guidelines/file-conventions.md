@@ -58,7 +58,8 @@
 - 页面入口文件应 `export default` 页面组件。
 - 当 SSR 需要服务端数据时，页面入口文件可以导出 `loader`。
 - 自动发现的页面不需要单独的路由配置文件。
-- 默认的 React SSR 场景可以直接复用 `@faasjs/react/auto-pages/client-entry`、`server-entry` 和 `serve.js`，不必再保留本地 bootstrap 入口文件。
+- 默认的 React SSR 场景可以直接复用 `@faasjs/react/routing/client-entry`、`server-entry` 和 `serve`，不必再保留本地 bootstrap 入口文件。
+- 旧的 `@faasjs/react/auto-pages/*` 路径会继续作为兼容别名保留。
 - 名为 `api/` 的目录保留给后端处理器使用，不得生成网页路由。
 - 组件必须放在 `components/`。
 - hooks 必须放在 `hooks/`。
@@ -101,7 +102,7 @@ src/pages/
 页面入口示例：
 
 ```tsx
-import type { PageLoaderContext } from '@faasjs/react/auto-pages'
+import type { PageLoaderContext } from '@faasjs/react/routing'
 
 export async function loader(_context: PageLoaderContext) {
   return {
@@ -125,7 +126,7 @@ src/pages/feature-name/index.tsx
 src/pages/docs/default.tsx -> /docs 与未匹配 /docs/* 的 fallback
 ```
 
-前端页面路由按照 routing-mapping 规范从 `src/pages` 自动发现。使用 React SSR auto-pages 时，优先使用内置的 `@faasjs/react/auto-pages`，不要在应用里重复实现页面发现或路由胶水代码。后端 API 路由是独立的，仍然遵循 `src/` 全路径上的 Zero-Mapping 规则。
+前端页面路由按照 routing-mapping 规范从 `src/pages` 自动发现。使用 React SSR 路由时，优先使用内置的 `@faasjs/react/routing`，不要在应用里重复实现页面发现或路由胶水代码。旧的 `@faasjs/react/auto-pages` 路径会继续作为兼容别名保留。后端 API 路由是独立的，仍然遵循 `src/` 全路径上的 Zero-Mapping 规则。
 
 ### 4. 后端文件遵循 routing-mapping
 

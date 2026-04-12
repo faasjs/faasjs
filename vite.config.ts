@@ -24,9 +24,12 @@ const packEntries: Record<string, Record<string, string>> = {
   },
   react: {
     index: './src/index.ts',
-    auto_pages: './src/auto_pages.ts',
-    auto_pages_client: './src/auto_pages_client.ts',
-    auto_pages_server: './src/auto_pages_server.ts',
+    auto_pages: './src/routing_legacy.ts',
+    auto_pages_client: './src/routing_client_legacy.ts',
+    auto_pages_server: './src/routing_server_legacy.ts',
+    routing: './src/routing.ts',
+    routing_client: './src/routing_client.ts',
+    routing_server: './src/routing_server.ts',
   },
 }
 

@@ -58,7 +58,8 @@ Examples:
 - Page entry files SHOULD `export default` the page component.
 - Page entry files MAY export `loader` when SSR needs server-side data.
 - No separate route configuration file is required for discovered pages.
-- Default React SSR setups MAY reuse `@faasjs/react/auto-pages/client-entry`, `server-entry`, and `serve.js` instead of keeping local bootstrap entry files.
+- Default React SSR setups MAY reuse `@faasjs/react/routing/client-entry`, `server-entry`, and `serve` instead of keeping local bootstrap entry files.
+- The legacy `@faasjs/react/auto-pages/*` paths remain compatibility aliases during migration.
 - A directory named `api/` is reserved for backend handlers and MUST NOT create webpage routes.
 - Components MUST be placed under `components/`.
 - Hooks MUST be placed under `hooks/`.
@@ -101,7 +102,7 @@ src/pages/
 Page entry example:
 
 ```tsx
-import type { PageLoaderContext } from '@faasjs/react/auto-pages'
+import type { PageLoaderContext } from '@faasjs/react/routing'
 
 export async function loader(_context: PageLoaderContext) {
   return {
@@ -125,7 +126,7 @@ src/pages/feature-name/index.tsx
 src/pages/docs/default.tsx -> fallback for /docs and unmatched /docs/*
 ```
 
-Frontend page routes are auto-discovered from `src/pages` according to the routing-mapping specification. When using React SSR auto-pages, prefer the built-in `@faasjs/react/auto-pages` helpers instead of duplicating page discovery or routing glue in the app. Backend API routing is separate and still follows Zero-Mapping from the full path under `src/`.
+Frontend page routes are auto-discovered from `src/pages` according to the routing-mapping specification. When using React SSR routing, prefer the built-in `@faasjs/react/routing` helpers instead of duplicating page discovery or routing glue in the app. The legacy `@faasjs/react/auto-pages` path remains a compatibility alias. Backend API routing is separate and still follows Zero-Mapping from the full path under `src/`.
 
 ### 4. Follow routing-mapping for backend files
 

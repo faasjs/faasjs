@@ -4,13 +4,13 @@ import { createRoot, hydrateRoot } from 'react-dom/client'
 import {
   resolvePageModule,
   resolvePageQuery,
-  type AutoPagesWindow,
-  type BootstrapAutoPagesOptions,
+  type BootstrapRoutingOptions,
   type ResolvedPage,
-} from './auto_pages'
+  type RoutingWindow,
+} from './routing'
 
-function getDefaultWindow(): AutoPagesWindow | undefined {
-  return typeof window === 'undefined' ? undefined : (window as AutoPagesWindow)
+function getDefaultWindow(): RoutingWindow | undefined {
+  return typeof window === 'undefined' ? undefined : (window as RoutingWindow)
 }
 
 function getDefaultDocument(): Document | undefined {
@@ -24,14 +24,12 @@ async function resolvePageProps(page: ResolvedPage): Promise<Record<string, unkn
 }
 
 /**
- * Resolve the current browser page, load props when SSR payload is missing, and mount it.
+ * Resolve the current browser route, load props when SSR payload is missing, and mount it.
  *
- * @param {BootstrapAutoPagesOptions} options - Browser bootstrap options.
+ * @param {BootstrapRoutingOptions} options - Browser bootstrap options.
  * @returns The resolved page module and context for the mounted page.
  */
-export async function bootstrapAutoPages(
-  options: BootstrapAutoPagesOptions,
-): Promise<ResolvedPage> {
+export async function bootstrapRouting(options: BootstrapRoutingOptions): Promise<ResolvedPage> {
   const currentWindow = options.window ?? getDefaultWindow()
   const currentDocument = options.document ?? currentWindow?.document ?? getDefaultDocument()
   const pathname = options.pathname ?? currentWindow?.location.pathname
@@ -39,7 +37,7 @@ export async function bootstrapAutoPages(
   const rootId = options.rootId || 'root'
   const root = options.root ?? currentDocument?.getElementById(rootId)
 
-  if (!pathname) throw Error('Missing pathname for auto pages bootstrap.')
+  if (!pathname) throw Error('Missing pathname for routing bootstrap.')
   if (!root) throw Error(`Missing root element #${rootId}.`)
 
   const page = resolvePageModule(options.pageModules, pathname, resolvePageQuery(search))
@@ -54,3 +52,8 @@ export async function bootstrapAutoPages(
 
   return page
 }
+
+/**
+ * @deprecated Use {@link bootstrapRouting} instead.
+ */
+export const bootstrapAutoPages = bootstrapRouting
