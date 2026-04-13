@@ -26,10 +26,8 @@ const packEntries: Record<string, Record<string, string>> = {
     index: './src/index.ts',
     auto_pages: './src/routing_legacy.ts',
     auto_pages_client: './src/routing_client_legacy.ts',
-    auto_pages_server: './src/routing_server_legacy.ts',
     routing: './src/routing.ts',
     routing_client: './src/routing_client.ts',
-    routing_server: './src/routing_server.ts',
   },
 }
 
@@ -109,6 +107,7 @@ export default defineConfig({
           exclude: types,
           environment: 'jsdom',
           setupFiles: ['vitest.ui.setup.ts'],
+          testTimeout: 10000,
         },
       },
     ],

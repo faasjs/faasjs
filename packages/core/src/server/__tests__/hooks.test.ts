@@ -78,10 +78,12 @@ describe('server/hooks', () => {
     const serverA = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverA.listen()
 
+    const sigtermHandler = process.listeners('SIGTERM').at(-1) as (() => Promise<void>) | undefined
+
     await new Promise((resolve) => setTimeout(resolve, 10))
     const resA = fetch(`http://127.0.0.1:${port}/timeout`)
     await new Promise((resolve) => setTimeout(resolve, 10))
-    process.emit('SIGTERM')
+    await sigtermHandler?.()
 
     const responseA = await resA
     expect(responseA.status).toBe(200)
@@ -96,11 +98,13 @@ describe('server/hooks', () => {
     const serverB = new Server(join(__dirname, 'funcs'), { port, onClose })
     serverB.listen()
 
+    const sigintHandler = process.listeners('SIGINT').at(-1) as (() => Promise<void>) | undefined
+
     await new Promise((resolve) => setTimeout(resolve, 10))
 
     const resB = fetch(`http://127.0.0.1:${port}/timeout`)
     await new Promise((resolve) => setTimeout(resolve, 10))
-    process.emit('SIGINT')
+    await sigintHandler?.()
 
     const responseB = await resB
     expect(responseB.status).toBe(200)

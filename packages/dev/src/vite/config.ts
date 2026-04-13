@@ -38,6 +38,9 @@ import { viteFaasJsServer } from './server.ts'
  * ```
  */
 export const viteConfig = {
+  staged: {
+    '*': 'vp check --fix',
+  },
   plugins: [react(), viteFaasJsServer()],
   server: {
     host: '0.0.0.0',

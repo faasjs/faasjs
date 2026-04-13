@@ -2,7 +2,7 @@
   "extends": "../../../../../tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "@faasjs/*": ["./packages/*/src"],
+      "@faasjs/*": ["../../../../../packages/*/src"],
       "@fixtures/*": ["./funcs/shared/*"]
     }
   }
