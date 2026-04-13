@@ -40,7 +40,7 @@
     "@types/react": "*",
     "@types/react-dom": "*",
     "@vitejs/plugin-react": "*",
-    "@vitest/coverage-v8": "*",
+    "@vitest/coverage-v8": "^4.1.4",
     "jsdom": "*",
     "typescript": "*",
     "vite-plus": "*"
