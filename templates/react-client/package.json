@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vp dev",
     "build": "vp build",
-    "start": "vp run build && node --input-type=module -e \"import('@faasjs/react/routing/serve')\"",
+    "start": "vp run build && vp exec faas run server.ts",
     "test": "vp test",
     "types": "vp exec faas types --root ."
   },

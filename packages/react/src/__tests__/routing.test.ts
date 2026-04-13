@@ -1,14 +1,11 @@
 import { createElement } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { resolvePageModule, resolvePageQuery, type PageModule, type PageModules } from '../routing'
-import { renderPage } from '../routing_server_runtime'
+import { resolvePageModule, resolvePageQuery, type PageModule } from '../routing'
 
-function createPage<Props = Record<string, unknown>>(
-  overrides: Partial<PageModule<Props>> = {},
-): PageModule<Props> {
+function createPage(overrides: Partial<PageModule> = {}): PageModule {
   return {
-    default: ((props: Props) => createElement('main', null, JSON.stringify(props))) as any,
+    default: () => createElement('main', null, 'page'),
     ...overrides,
   }
 }
@@ -43,64 +40,25 @@ describe('routing', () => {
       {
         './pages/docs/default.tsx': docsFallback,
       },
-      '/docs/react/ssr',
+      '/docs/react/routing',
       {},
     )
 
     expect(page).toEqual({
       module: docsFallback,
       context: {
-        pathname: '/docs/react/ssr',
+        pathname: '/docs/react/routing',
         query: {},
         basePath: '/docs',
-        restPath: '/react/ssr',
+        restPath: '/react/routing',
       },
     })
   })
 
   it('parses repeated query parameters into arrays', () => {
-    expect(resolvePageQuery('?name=React&tag=ssr&tag=pages')).toEqual({
+    expect(resolvePageQuery('?name=React&tag=routing&tag=pages')).toEqual({
       name: 'React',
-      tag: ['ssr', 'pages'],
-    })
-  })
-
-  it('renders the matched page with loader props', async () => {
-    const pageModules: PageModules = {
-      './pages/index.tsx': createPage<{ message: string }>({
-        default: (props) => createElement('main', null, props.message),
-        loader: async ({ query }) => {
-          const name = Array.isArray(query.name) ? query.name.join(',') : query.name
-
-          return {
-            headers: {
-              'x-powered-by': 'faasjs',
-            },
-            statusCode: 201,
-            props: {
-              message: `Hello, ${name}`,
-            },
-          }
-        },
-      }),
-    }
-
-    const result = await renderPage(pageModules, {
-      pathname: '/',
-      query: {
-        name: 'React',
-      },
-    })
-
-    expect(result).toEqual({
-      headers: {
-        'x-powered-by': 'faasjs',
-      },
-      statusCode: 201,
-      props: {
-        message: 'Hello, React',
-      },
-      html: '<main>Hello, React</main>',
+      tag: ['routing', 'pages'],
     })
   })
 })

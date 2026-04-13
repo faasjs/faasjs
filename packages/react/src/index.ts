@@ -50,22 +50,18 @@
  * </script>
  * ```
  *
- * ```json
- * {
- *   "scripts": {
- *     "build": "vp build",
- *     "start": "vp run build && node --input-type=module -e \"import('@faasjs/react/routing/serve')\""
- *   }
- * }
- * ```
- *
  * ```ts
  * // vite.config.ts
- * import { createReactRoutingViteConfig } from '@faasjs/dev'
+ * import { viteConfig } from '@faasjs/dev'
  * import { defineConfig } from 'vite-plus'
  *
- * export default defineConfig(createReactRoutingViteConfig())
+ * export default defineConfig({
+ *   ...viteConfig,
+ * })
  * ```
+ *
+ * Serve the built app with any SPA host, or pair FaasJS `staticHandler()` with
+ * an `index.html` fallback when the same process also serves API routes.
  */
 
 export type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'

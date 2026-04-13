@@ -10,12 +10,12 @@ All templates are independent projects.
 
 ## Learning Path 学习路径
 
-| Order | Template                                    | You will learn                                         | 你将学到                                  |
-| ----- | ------------------------------------------- | ------------------------------------------------------ | ----------------------------------------- |
-| 1     | [`hello-api`](./hello-api/)                 | Smallest `defineApi` + unit test                       | 最小可运行 API 与单测                     |
-| 2     | [`routing-fallback`](./routing-fallback/)   | `index.func.ts` and `default.func.ts` routing fallback | 路由命中与逐级兜底                        |
-| 3     | [`params-and-errors`](./params-and-errors/) | Zod validation and API error handling                  | 参数校验与错误处理                        |
-| 4     | [`react-client`](./react-client/)           | Minimal React SSR with built-in routing and `loader`   | 内置 routing 与 `loader` 的最小 React SSR |
+| Order | Template                                    | You will learn                                            | 你将学到                            |
+| ----- | ------------------------------------------- | --------------------------------------------------------- | ----------------------------------- |
+| 1     | [`hello-api`](./hello-api/)                 | Smallest `defineApi` + unit test                          | 最小可运行 API 与单测               |
+| 2     | [`routing-fallback`](./routing-fallback/)   | `index.func.ts` and `default.func.ts` routing fallback    | 路由命中与逐级兜底                  |
+| 3     | [`params-and-errors`](./params-and-errors/) | Zod validation and API error handling                     | 参数校验与错误处理                  |
+| 4     | [`react-client`](./react-client/)           | Minimal React client routing with built-in page discovery | 内置页面发现的最小 React 客户端路由 |
 
 ## Quick Start 快速开始
 

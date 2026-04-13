@@ -1,5 +1,5 @@
 import { createElement } from 'react'
-import { createRoot, hydrateRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 
 import {
   resolvePageModule,
@@ -10,21 +10,15 @@ import {
 } from './routing'
 
 function getDefaultWindow(): RoutingWindow | undefined {
-  return typeof window === 'undefined' ? undefined : (window as RoutingWindow)
+  return typeof window === 'undefined' ? undefined : window
 }
 
 function getDefaultDocument(): Document | undefined {
   return typeof document === 'undefined' ? undefined : document
 }
 
-async function resolvePageProps(page: ResolvedPage): Promise<Record<string, unknown>> {
-  const loaderResult = page.module.loader ? await page.module.loader(page.context) : {}
-
-  return loaderResult.props || {}
-}
-
 /**
- * Resolve the current browser route, load props when SSR payload is missing, and mount it.
+ * Resolve the current browser route and mount it.
  *
  * @param {BootstrapRoutingOptions} options - Browser bootstrap options.
  * @returns The resolved page module and context for the mounted page.
@@ -44,11 +38,11 @@ export async function bootstrapRouting(options: BootstrapRoutingOptions): Promis
 
   if (!page) throw Error(`Cannot resolve page for ${pathname}`)
 
-  const props = currentWindow?.__FAASJS_REACT_SSR__?.props || (await resolvePageProps(page))
-  const element = createElement(page.module.default, props)
+  const element = createElement(page.module.default)
 
-  if (root.innerHTML.trim()) hydrateRoot(root, element)
-  else createRoot(root).render(element)
+  if (root.innerHTML.trim()) root.innerHTML = ''
+
+  createRoot(root).render(element)
 
   return page
 }

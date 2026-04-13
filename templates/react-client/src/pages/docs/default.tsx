@@ -1,18 +1,8 @@
-import type { PageLoaderContext } from '@faasjs/react/routing'
+import { getDocsRestPath } from '../../routing/route-data'
 
-type DocsFallbackPageProps = {
-  restPath: string
-}
+export default function DocsFallbackPage() {
+  const restPath = getDocsRestPath()
 
-export async function loader({ restPath }: Pick<PageLoaderContext, 'restPath'>) {
-  return {
-    props: {
-      restPath: restPath || '/',
-    },
-  }
-}
-
-export default function DocsFallbackPage(props: DocsFallbackPageProps) {
   return (
     <main style={{ margin: '4rem auto', maxWidth: 720, padding: 20, lineHeight: 1.7 }}>
       <h1>Docs Fallback Page</h1>
@@ -20,11 +10,11 @@ export default function DocsFallbackPage(props: DocsFallbackPageProps) {
         This route is served by <code>src/pages/docs/default.tsx</code>.
       </p>
       <p>
-        Unmatched docs path: <code>{props.restPath}</code>
+        Unmatched docs path: <code>{restPath}</code>
       </p>
       <p>
-        Try <a href="/">home</a> or a deeper path like <a href="/docs/react/ssr">/docs/react/ssr</a>
-        .
+        Try <a href="/">home</a> or a deeper path like{' '}
+        <a href="/docs/react/routing">/docs/react/routing</a>.
       </p>
     </main>
   )

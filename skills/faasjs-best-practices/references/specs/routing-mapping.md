@@ -14,7 +14,7 @@ Related references:
 
 - Keep API and webpage locations discoverable from URL without an extra mapping table.
 - Reduce ambiguity for humans and AI coding agents.
-- Keep route search order predictable across server rendering and API handling.
+- Keep route search order predictable across webpage rendering and API handling.
 
 ## Non-goals
 
@@ -58,13 +58,10 @@ If no candidate exists, the request is treated as not found.
 
 ### 4. Page module contract
 
-1. A webpage route module MAY export an async `loader`.
-2. When present, `loader` MUST run on the server before SSR for the matched page.
-3. `loader` MUST receive a route context that includes at least `pathname`, `query`, `basePath`, and `restPath`. Implementations MAY also provide raw request/response objects and logging helpers.
-4. `loader` results MUST be serializable for client hydration reuse.
-5. `loader` MAY return `props`, `statusCode`, and `headers`.
-6. When `loader` returns `props`, those props MUST be passed to the page component for SSR and reused during hydration.
-7. This V1 webpage routing spec MUST NOT require dynamic filename syntax; nested routing is represented only by directories plus `index.tsx` and `default.tsx`.
+1. A webpage route module MUST default-export the page component.
+2. Route resolution MUST depend only on the discovered file path plus the default export.
+3. Named exports MAY exist, but they MUST NOT affect route matching or page rendering semantics.
+4. This V1 webpage routing spec MUST NOT require dynamic filename syntax; nested routing is represented only by directories plus `index.tsx` and `default.tsx`.
 
 ### 5. API route file search order
 
@@ -90,10 +87,10 @@ If no candidate exists, the request is treated as not found.
 
 Webpage fallback example:
 
-- Request: `GET /docs/react/ssr`
+- Request: `GET /docs/react/routing`
 - Probe order:
-  1. `src/pages/docs/react/ssr/index.tsx`
-  2. `src/pages/docs/react/ssr/default.tsx`
+  1. `src/pages/docs/react/routing/index.tsx`
+  2. `src/pages/docs/react/routing/default.tsx`
   3. `src/pages/docs/react/default.tsx`
   4. `src/pages/docs/default.tsx`
   5. `src/pages/default.tsx`

@@ -56,9 +56,9 @@ Examples:
 - Exact page entry files MUST be named `index.tsx`.
 - Fallback page entry files MUST be named `default.tsx`.
 - Page entry files SHOULD `export default` the page component.
-- Page entry files MAY export `loader` when SSR needs server-side data.
+- Page entry files MUST NOT rely on special route loader exports.
 - No separate route configuration file is required for discovered pages.
-- Default React SSR setups MAY reuse `@faasjs/react/routing/client-entry`, `server-entry`, and `serve` instead of keeping local bootstrap entry files.
+- Default React routing setups MAY reuse `@faasjs/react/routing/client-entry` instead of keeping a local browser bootstrap entry file.
 - The legacy `@faasjs/react/auto-pages/*` paths remain compatibility aliases during migration.
 - A directory named `api/` is reserved for backend handlers and MUST NOT create webpage routes.
 - Components MUST be placed under `components/`.
@@ -102,18 +102,8 @@ src/pages/
 Page entry example:
 
 ```tsx
-import type { PageLoaderContext } from '@faasjs/react/routing'
-
-export async function loader(_context: PageLoaderContext) {
-  return {
-    props: {
-      title: 'Feature Name',
-    },
-  }
-}
-
-export default function FeatureNamePage(props: { title: string }) {
-  return <h1>{props.title}</h1>
+export default function FeatureNamePage() {
+  return <h1>Feature Name</h1>
 }
 ```
 
@@ -126,7 +116,7 @@ src/pages/feature-name/index.tsx
 src/pages/docs/default.tsx -> fallback for /docs and unmatched /docs/*
 ```
 
-Frontend page routes are auto-discovered from `src/pages` according to the routing-mapping specification. When using React SSR routing, prefer the built-in `@faasjs/react/routing` helpers instead of duplicating page discovery or routing glue in the app. The legacy `@faasjs/react/auto-pages` path remains a compatibility alias. Backend API routing is separate and still follows Zero-Mapping from the full path under `src/`.
+Frontend page routes are auto-discovered from `src/pages` according to the routing-mapping specification. When using React file-based routing, prefer the built-in `@faasjs/react/routing` helpers instead of duplicating page discovery or routing glue in the app. The legacy `@faasjs/react/auto-pages` path remains a compatibility alias. Backend API routing is separate and still follows Zero-Mapping from the full path under `src/`.
 
 ### 4. Follow routing-mapping for backend files
 
@@ -167,7 +157,7 @@ This maps directly to:
 - exact page entry files are named `index.tsx`
 - fallback page entry files are named `default.tsx`
 - page entry files default-export the page component
-- page `loader` usage is limited to SSR data needs
+- page entry files do not depend on special route loader exports
 - frontend pages live under `pages/`
 - frontend components live in `components/`
 - frontend hooks live in `hooks/`

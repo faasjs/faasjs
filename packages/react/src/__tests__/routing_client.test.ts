@@ -6,21 +6,18 @@ const mocks = vi.hoisted(() => {
   const createRoot = vi.fn<(root: HTMLElement) => { render: typeof render }>(() => ({
     render,
   }))
-  const hydrateRoot = vi.fn<(root: HTMLElement, element: unknown) => void>()
 
   return {
     createRoot,
-    hydrateRoot,
     render,
   }
 })
 
 vi.mock('react-dom/client', () => ({
   createRoot: mocks.createRoot,
-  hydrateRoot: mocks.hydrateRoot,
 }))
 
-import type { PageLoaderContext, PageModules, RoutingWindow } from '../routing'
+import type { PageModules, RoutingWindow } from '../routing'
 import { bootstrapRouting } from '../routing_client_runtime'
 
 describe('bootstrapRouting', () => {
@@ -28,21 +25,16 @@ describe('bootstrapRouting', () => {
     vi.clearAllMocks()
   })
 
-  it('hydrates from the serialized SSR payload', async () => {
+  it('mounts the matched page with createRoot', async () => {
     const root = {
-      innerHTML: '<main>Hello SSR</main>',
+      innerHTML: '<main>Old HTML</main>',
     } as HTMLElement
     const pageModules: PageModules = {
       './pages/index.tsx': {
-        default: (props: { message: string }) => createElement('main', null, props.message),
+        default: () => createElement('main', null, 'Hello routing'),
       },
     }
     const currentWindow = {
-      __FAASJS_REACT_SSR__: {
-        props: {
-          message: 'Hello SSR',
-        },
-      },
       location: {
         pathname: '/',
         search: '',
@@ -55,36 +47,22 @@ describe('bootstrapRouting', () => {
       window: currentWindow,
     })
 
-    expect(mocks.createRoot).not.toHaveBeenCalled()
-    expect(mocks.hydrateRoot).toHaveBeenCalledTimes(1)
-    expect(mocks.hydrateRoot.mock.calls[0][0]).toBe(root)
-    expect(mocks.hydrateRoot.mock.calls[0][1]).toMatchObject({
-      props: {
-        message: 'Hello SSR',
-      },
+    expect(root.innerHTML).toBe('')
+    expect(mocks.createRoot).toHaveBeenCalledWith(root)
+    expect(mocks.render).toHaveBeenCalledTimes(1)
+    expect(mocks.render.mock.calls[0][0]).toMatchObject({
+      props: {},
       type: pageModules['./pages/index.tsx'].default,
     })
   })
 
-  it('loads props on the client when the SSR payload is missing', async () => {
+  it('returns the resolved route context while rendering the page without props', async () => {
     const root = {
       innerHTML: '',
     } as HTMLElement
-    const loader = vi.fn<(context: PageLoaderContext) => Promise<{ props: { message: string } }>>(
-      async ({ query }) => {
-        const name = Array.isArray(query.name) ? query.name.join(',') : query.name
-
-        return {
-          props: {
-            message: `Hello ${name}`,
-          },
-        }
-      },
-    )
     const pageModules: PageModules = {
       './pages/index.tsx': {
-        default: (props: { message: string }) => createElement('main', null, props.message),
-        loader,
+        default: () => createElement('main', null, 'Hello Client'),
       },
     }
     const currentWindow = {
@@ -94,13 +72,13 @@ describe('bootstrapRouting', () => {
       },
     } as unknown as RoutingWindow
 
-    await bootstrapRouting({
+    const page = await bootstrapRouting({
       pageModules,
       root,
       window: currentWindow,
     })
 
-    expect(loader).toHaveBeenCalledWith({
+    expect(page.context).toEqual({
       pathname: '/',
       query: {
         name: 'Client',
@@ -108,13 +86,10 @@ describe('bootstrapRouting', () => {
       basePath: '/',
       restPath: '',
     })
-    expect(mocks.hydrateRoot).not.toHaveBeenCalled()
     expect(mocks.createRoot).toHaveBeenCalledWith(root)
     expect(mocks.render).toHaveBeenCalledTimes(1)
     expect(mocks.render.mock.calls[0][0]).toMatchObject({
-      props: {
-        message: 'Hello Client',
-      },
+      props: {},
       type: pageModules['./pages/index.tsx'].default,
     })
   })

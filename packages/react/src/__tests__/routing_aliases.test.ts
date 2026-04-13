@@ -8,8 +8,6 @@ import * as routing from '../routing'
 import { bootstrap as bootstrapRouting } from '../routing_client'
 import { bootstrap as bootstrapAutoPages } from '../routing_client_legacy'
 import * as autoPages from '../routing_legacy'
-import { renderPage as renderRouting } from '../routing_server'
-import { renderPage as renderAutoPages } from '../routing_server_legacy'
 
 describe('routing aliases', () => {
   it('re-exports the page resolution helpers', () => {
@@ -17,8 +15,7 @@ describe('routing aliases', () => {
     expect(routing.resolvePageQuery).toBe(autoPages.resolvePageQuery)
   })
 
-  it('re-exports the client and server entrypoints', () => {
+  it('re-exports the client bootstrap entrypoint', () => {
     expect(bootstrapRouting).toBe(bootstrapAutoPages)
-    expect(renderRouting).toBe(renderAutoPages)
   })
 })

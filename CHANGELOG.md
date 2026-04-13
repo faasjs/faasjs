@@ -2,20 +2,6 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
-
-- `@faasjs/core`
-  - [Feature] Add `reactSsrHandler()` to serve built assets first and fall back to HTML SSR through `Server.beforeHandle`.
-  - [Fix] Always expose `root` in middleware context for `Server.beforeHandle`, `useMiddleware()`, and `useMiddlewares()` so server-only middleware can share consistent path resolution.
-  - [Fix] Keep matched FaasJS function routes ahead of React SSR fallback pages and serve cache-busted static assets correctly.
-
-- `@faasjs/react`
-  - [Feature] Add `@faasjs/react/routing`, plus matching client/server/entry subpaths, as the preferred name for React SSR file-based routing while keeping `@faasjs/react/auto-pages*` as compatibility aliases.
-
-- `@faasjs/dev`
-  - [Feature] Expose the `virtual:faasjs-pages` module from `viteFaasJsServer()` so `@faasjs/react/routing` can discover `src/pages` during client and SSR builds.
-  - [Feature] Add `createReactRoutingViteConfig()` and `ReactRoutingViteConfigOptions`, while keeping `createReactAutoPagesViteConfig()` as a compatibility alias for existing apps.
-
 [`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...>v8.0.0-beta.21)
 
 - `faasjs`

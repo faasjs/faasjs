@@ -8,5 +8,5 @@
     "types": ["node", "vite/client", "vitest/globals"],
     "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "server.ts", "vite.config.ts"]
 }

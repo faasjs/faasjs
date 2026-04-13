@@ -1,24 +1,24 @@
-# React SSR
+# React Client Routing
 
-Use `@faasjs/react` in a Vite + React app, auto-discover pages under `src/pages`, and render them on the server without extra dependencies or local entry glue code.
+Use `@faasjs/react` in a Vite + React app, auto-discover pages under `src/pages`, and load each page on the client without extra routing glue code.
 
-在 Vite + React 项目中使用 `@faasjs/react`、自动发现 `src/pages` 页面，并在不增加额外依赖或本地路由胶水代码的前提下实现服务端渲染。
+在 Vite + React 项目中使用 `@faasjs/react`、自动发现 `src/pages` 页面，并在不增加额外路由胶水代码的前提下完成客户端页面加载。
 
 ## What you learn / 你将学到
 
 - How to initialize `FaasReactClient`.
 - How to auto-discover `index.tsx` and `default.tsx` pages with `@faasjs/react/routing`.
-- How to use a page-level `loader` for SSR props.
-- How to call an API action from hydrated React UI.
+- How to derive page state directly from the current browser URL.
+- How to call an API action from React UI.
 - How to mock API calls in unit tests with `setMock`.
-- How to rely on built-in `@faasjs/react/routing` entry modules so `src/` mostly contains business code and tests.
+- How to reuse the built-in `client-entry` plus a tiny `server.ts` for SPA fallback and API routes.
 
 - 如何初始化 `FaasReactClient`。
 - 如何通过 `@faasjs/react/routing` 自动发现 `index.tsx` 与 `default.tsx` 页面。
-- 如何通过页面级 `loader` 提供 SSR props。
-- 如何在 hydration 后的 React UI 中调用 API action。
+- 如何直接从当前浏览器 URL 推导页面状态。
+- 如何在 React UI 中调用 API action。
 - 如何通过 `setMock` 编写客户端单测。
-- 如何直接复用 `@faasjs/react/routing` 内置入口，让 `src/` 基本只保留业务代码与测试。
+- 如何复用内置 `client-entry`，再配合一个很小的 `server.ts` 处理 SPA fallback 与 API 路由。
 
 ## Run / 运行
 
@@ -28,29 +28,29 @@ vp test
 vp dev
 ```
 
-`vp dev` starts the normal Vite client dev server.
+`vp dev` starts the Vite client dev server and keeps FaasJS API requests available through the shared dev middleware.
 
-`vp dev` 会启动普通的 Vite 客户端开发服务器。
+`vp dev` 会启动 Vite 客户端开发服务器，并通过共享的开发中间件让 FaasJS API 请求继续可用。
 
-`vp build` now reads the SSR build directly from `vite.config.ts` through `createReactRoutingViteConfig()`, so no extra SSR build command is needed in `package.json`.
+`vp build` emits the client bundle only.
 
-`vp build` 现在会通过 `vite.config.ts` 里的 `createReactRoutingViteConfig()` 直接完成 SSR 构建，因此 `package.json` 里不再需要额外拼接一个 SSR build 命令。
+`vp build` 只会产出客户端 bundle。
 
-Build and run the SSR server:
+Build and run the production server:
 
-构建并启动 SSR 服务：
+构建并启动生产服务器：
 
 ```bash
 vp run start
 ```
 
-`vp run start` builds the client and SSR bundles before starting the production server.
+`vp run start` builds the client bundle, then starts `server.ts` to serve `dist/` with an `index.html` fallback plus FaasJS API routes.
 
-`vp run start` 会先构建客户端与 SSR 产物，再启动生产服务。
+`vp run start` 会先构建客户端产物，然后启动 `server.ts`，以 `index.html` fallback 的方式提供 `dist/`，并同时处理 FaasJS API 路由。
 
-The template uses framework-provided client, SSR, and server entry modules from `@faasjs/react/routing`, so there is no local `src/main.tsx`, `src/entry-server.tsx`, or `server.ts` to maintain.
+The template reuses the framework-provided `@faasjs/react/routing/client-entry`, so there is no local `src/main.tsx`; only the small `server.ts` remains for production hosting.
 
-这个模板直接使用 `@faasjs/react/routing` 提供的客户端、SSR 和服务端入口，因此不需要再维护本地的 `src/main.tsx`、`src/entry-server.tsx` 或 `server.ts`。
+这个模板直接复用框架提供的 `@faasjs/react/routing/client-entry`，因此不需要本地 `src/main.tsx`；只保留一个很小的 `server.ts` 负责生产环境托管。
 
 If port `3000` is already in use, override it:
 
@@ -64,5 +64,5 @@ Then visit:
 
 - `/`
 - `/?name=React`
-- `/docs/react/ssr`
+- `/docs/react/routing`
 - `/missing`

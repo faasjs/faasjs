@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  createReactAutoPagesViteConfig,
-  createReactRoutingViteConfig,
-  oxfmtConfig,
-  oxlintConfig,
-  viteConfig,
-} from '..'
+import { oxfmtConfig, oxlintConfig, viteConfig } from '..'
 
 describe('configs exports', () => {
   it('should export the shared oxfmt config', () => {
@@ -75,39 +69,5 @@ describe('configs exports', () => {
     expect(viteConfig.fmt).toBe(oxfmtConfig)
     expect(viteConfig.lint).toBe(oxlintConfig)
     expect(viteConfig.plugins).toHaveLength(2)
-  })
-
-  it('should create the shared React SSR vite config', () => {
-    const config = createReactRoutingViteConfig()
-
-    expect(config.server).toEqual(viteConfig.server)
-    expect(config.resolve).toEqual(viteConfig.resolve)
-    expect(config.environments).toEqual({
-      ssr: {
-        build: {
-          ssr: expect.stringContaining('/routing/server-entry.js'),
-          outDir: 'dist-server',
-        },
-      },
-    })
-    expect(config.builder).toEqual({
-      buildApp: expect.any(Function),
-    })
-  })
-
-  it('should keep the auto-pages helper as a compatibility alias', () => {
-    const config = createReactAutoPagesViteConfig()
-
-    expect(config.environments).toEqual({
-      ssr: {
-        build: {
-          ssr: expect.stringContaining('/routing/server-entry.js'),
-          outDir: 'dist-server',
-        },
-      },
-    })
-    expect(config.builder).toEqual({
-      buildApp: expect.any(Function),
-    })
   })
 })

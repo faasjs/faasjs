@@ -40,15 +40,15 @@ export default function App(props: AppProps) {
 
   return (
     <main style={{ margin: '4rem auto', maxWidth: 480, padding: 20, lineHeight: 1.6 }}>
-      <h1>FaasJS React SSR Example</h1>
+      <h1>FaasJS React Routing Example</h1>
       <p>{message}</p>
       <p>
-        This page is rendered on the server with a page-level <code>loader</code>, then hydrated on
+        This page is discovered from <code>src/pages/index.tsx</code> and reads the current URL on
         the client.
       </p>
       <p>
-        Try <a href="/?name=React">/?name=React</a>, <a href="/docs/react/ssr">/docs/react/ssr</a>,{' '}
-        or <a href="/missing">/missing</a>.
+        Try <a href="/?name=React">/?name=React</a>,{' '}
+        <a href="/docs/react/routing">/docs/react/routing</a>, or <a href="/missing">/missing</a>.
       </p>
 
       <label style={{ display: 'block', marginBottom: 12 }}>

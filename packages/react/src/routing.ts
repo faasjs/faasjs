@@ -1,19 +1,19 @@
 import type { ComponentType } from 'react'
 
 /**
- * Query value passed to file-based page loaders.
+ * Query value parsed from the current route search string.
  */
 export type PageQueryValue = string | string[]
 
 /**
- * Parsed query object passed to file-based page loaders.
+ * Parsed query object for the current route.
  */
 export type PageQuery = Record<string, PageQueryValue>
 
 /**
- * Route context passed to a file-based page `loader`.
+ * Route context returned by file-based page resolution.
  */
-export type PageLoaderContext = {
+export type PageRouteContext = {
   pathname: string
   query: PageQuery
   basePath: string
@@ -21,71 +21,34 @@ export type PageLoaderContext = {
 }
 
 /**
- * Result returned by a file-based page `loader`.
- */
-export type PageLoaderResult<Props = Record<string, unknown>> = {
-  props?: Props
-  statusCode?: number
-  headers?: Record<string, string>
-}
-
-/**
  * File-based page module contract.
  */
-export type PageModule<Props = Record<string, unknown>> = {
-  default: ComponentType<Props>
-  loader?:
-    | ((context: PageLoaderContext) => Promise<PageLoaderResult<Props>>)
-    | ((context: PageLoaderContext) => PageLoaderResult<Props>)
+export type PageModule = {
+  default: ComponentType
 }
 
 /**
  * File-based page module collection keyed by normalized `./pages/...` paths.
  */
-export type PageModules = Record<string, PageModule<any>>
+export type PageModules = Record<string, PageModule>
 
 /**
- * Resolved page module plus the matched loader context.
+ * Resolved page module plus the matched route context.
  */
 export type ResolvedPage = {
-  module: PageModule<any>
-  context: PageLoaderContext
-}
-
-/**
- * Serialized SSR payload exposed on `window.__FAASJS_REACT_SSR__`.
- */
-export type PagePayload = {
-  props?: Record<string, unknown>
+  module: PageModule
+  context: PageRouteContext
 }
 
 /**
  * Window shape used by the routing browser bootstrap.
  */
-export type RoutingWindow = Window & {
-  __FAASJS_REACT_SSR__?: PagePayload
-}
+export type RoutingWindow = Window
 
 /**
  * @deprecated Use {@link RoutingWindow} instead.
  */
 export type AutoPagesWindow = RoutingWindow
-
-/**
- * Result returned by the routing SSR renderer.
- */
-export type RenderPageResult = PageLoaderResult & {
-  props: Record<string, unknown>
-  html: string
-}
-
-/**
- * Options for the routing SSR renderer.
- */
-export type RenderPageOptions = {
-  pathname: string
-  query: PageQuery
-}
 
 /**
  * Options for the routing browser bootstrap.
@@ -137,7 +100,7 @@ export function resolvePageQuery(search: string | URLSearchParams): PageQuery {
  * @param {PageModules} pageModules - File-based page module map.
  * @param {string} pathname - Browser pathname to resolve.
  * @param {PageQuery} query - Parsed query object for the current request.
- * @returns The matched page module with loader context, or `null` when no page matches.
+ * @returns The matched page module with route context, or `null` when no page matches.
  */
 export function resolvePageModule(
   pageModules: PageModules,
