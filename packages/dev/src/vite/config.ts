@@ -37,9 +37,16 @@ import { viteFaasJsServer } from './server.ts'
  * })
  * ```
  */
-export const viteConfig = {
+export const viteConfig: {
+  staged: NonNullable<UserConfig['staged']>
+  plugins: NonNullable<UserConfig['plugins']>
+  server: NonNullable<UserConfig['server']>
+  resolve: NonNullable<UserConfig['resolve']>
+  fmt: NonNullable<UserConfig['fmt']>
+  lint: NonNullable<UserConfig['lint']>
+} = {
   staged: {
-    '*': 'vp check --fix',
+    '*': 'vp check --fix *',
   },
   plugins: [react(), viteFaasJsServer()],
   server: {
@@ -54,4 +61,4 @@ export const viteConfig = {
   },
   fmt: oxfmtConfig,
   lint: oxlintConfig,
-} as UserConfig
+}
