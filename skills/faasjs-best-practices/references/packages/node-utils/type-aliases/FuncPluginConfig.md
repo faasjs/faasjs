@@ -6,6 +6,17 @@
 
 Per-plugin configuration entry resolved from `faas.yaml`.
 
+## Example
+
+```ts
+const pluginConfig: FuncPluginConfig = {
+  type: 'http',
+  config: {
+    path: '/orders/create',
+  },
+}
+```
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`

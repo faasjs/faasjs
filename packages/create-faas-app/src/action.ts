@@ -76,6 +76,22 @@ function scaffold(
   copyTemplateDirectory(join(templateRoot, templateName), rootPath, replacements)
 }
 
+/**
+ * Scaffold a new FaasJS app from a bundled template and install its dependencies.
+ *
+ * @param {{ name?: string; template?: string }} [options] - Optional CLI arguments used to choose the project name and template.
+ * @param {string} [options.name] - Target folder name for the generated app.
+ * @param {string} [options.template] - Template name such as `basic` or `antd`.
+ * @returns {Promise<void>} Resolves after the project is generated and its test command finishes.
+ * @throws {Error} When the selected template is unknown.
+ * @example
+ * ```ts
+ * await action({
+ *   name: 'faasjs-demo',
+ *   template: 'basic',
+ * })
+ * ```
+ */
 export async function action(options: { name?: string; template?: string } = {}): Promise<void> {
   const templateName = resolveTemplateName(options.template)
   const answers: {
@@ -110,7 +126,19 @@ export async function action(options: { name?: string; template?: string } = {})
   } else execSync(`cd ${answers.name} && npm run test`, { stdio: 'inherit' })
 }
 
-export default function (program: Command): void {
+/**
+ * Register the `create-faas-app` command on a Commander program.
+ *
+ * @param {Command} program - Commander program instance extended with the generator command.
+ * @returns {void} No return value.
+ * @example
+ * ```ts
+ * const program = new Command()
+ *
+ * registerCreateFaasApp(program)
+ * ```
+ */
+export default function registerCreateFaasApp(program: Command): void {
   program
     .description('Create a new faas app')
     .on('--help', () =>

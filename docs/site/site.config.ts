@@ -117,6 +117,7 @@ export const siteConfig: SiteConfig = {
             children: [
               '/guidelines/project-config.html',
               '/guidelines/file-conventions.html',
+              '/guidelines/code-comments.html',
               '/guidelines/define-api.html',
               '/guidelines/react.html',
               '/guidelines/react-data-fetching.html',
@@ -143,6 +144,7 @@ export const siteConfig: SiteConfig = {
           ['/guide/', 'Guide'],
           '/guidelines/project-config.html',
           '/guidelines/file-conventions.html',
+          '/guidelines/code-comments.html',
           '/guidelines/define-api.html',
           '/guidelines/react.html',
           '/guidelines/react-data-fetching.html',
@@ -244,6 +246,7 @@ export const siteConfig: SiteConfig = {
             children: [
               '/zh/guidelines/project-config.html',
               '/zh/guidelines/file-conventions.html',
+              '/zh/guidelines/code-comments.html',
               '/zh/guidelines/define-api.html',
               '/zh/guidelines/react.html',
               '/zh/guidelines/react-data-fetching.html',
@@ -270,6 +273,7 @@ export const siteConfig: SiteConfig = {
           ['/zh/guide/', '最佳实践'],
           '/zh/guidelines/project-config.html',
           '/zh/guidelines/file-conventions.html',
+          '/zh/guidelines/code-comments.html',
           '/zh/guidelines/define-api.html',
           '/zh/guidelines/react.html',
           '/zh/guidelines/react-data-fetching.html',

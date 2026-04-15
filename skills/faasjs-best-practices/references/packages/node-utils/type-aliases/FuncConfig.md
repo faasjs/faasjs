@@ -6,6 +6,18 @@
 
 Resolved stage config merged from matching `faas.yaml` files.
 
+## Example
+
+```ts
+const config: FuncConfig = {
+  plugins: {
+    http: {
+      type: 'http',
+    },
+  },
+}
+```
+
 ## Indexable
 
 > \[`key`: `string`\]: `any`

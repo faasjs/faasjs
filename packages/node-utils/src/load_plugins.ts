@@ -19,6 +19,22 @@ type ConfigurablePlugin = Plugin & {
   applyConfig?: (config: FuncPluginConfig) => void | Promise<void>
 }
 
+/**
+ * Options used by {@link loadPlugins} while resolving staged plugin config.
+ *
+ * @property {string} root - Project root used to discover `faas.yaml`.
+ * @property {string} filename - Function filename whose directory scopes nested config lookup.
+ * @property {string} staging - Staging name such as `development` or `production`.
+ * @property {Logger} [logger] - Optional logger used for debug output during config and plugin loading.
+ * @example
+ * ```ts
+ * const options: LoadPluginsOptions = {
+ *   root: process.cwd(),
+ *   filename: '/project/src/orders/create.func.ts',
+ *   staging: 'development',
+ * }
+ * ```
+ */
 export type LoadPluginsOptions = {
   root: string
   filename: string
@@ -165,6 +181,30 @@ async function applyPluginConfig(plugin: Plugin, pluginConfig: FuncPluginConfig)
  * Only `http` is treated as a built-in plugin. Other config-driven plugins must
  * declare an explicit module `type` whose default export is a lifecycle plugin
  * constructor.
+ *
+ * @template TFunc - Function instance type enriched with config-driven plugins.
+ * @param {TFunc} func - Function instance whose config and plugin list should be updated.
+ * @param {LoadPluginsOptions} options - Project and staging metadata used to resolve plugin config.
+ * @returns {Promise<TFunc>} The same function instance after plugin config and instances are applied.
+ * @throws {Error} If plugin config is invalid, a plugin module cannot be loaded, or the plugin cannot be instantiated.
+ * @example
+ * ```ts
+ * import { Func } from '@faasjs/core'
+ * import { loadPlugins } from '@faasjs/node-utils'
+ *
+ * const func = await loadPlugins(
+ *   new Func({
+ *     async handler() {
+ *       return 'ok'
+ *     },
+ *   }),
+ *   {
+ *     root: process.cwd(),
+ *     filename: '/project/src/hello.func.ts',
+ *     staging: 'development',
+ *   },
+ * )
+ * ```
  */
 export async function loadPlugins<TFunc extends Func>(
   func: TFunc,

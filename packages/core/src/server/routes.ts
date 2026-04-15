@@ -1,5 +1,19 @@
 import { sep } from 'node:path'
 
+/**
+ * Enumerate candidate route files for a requested path in FaasJS lookup order.
+ *
+ * This includes the exact `.func.ts` file, nested `index.func.ts`, nested
+ * `default.func.ts`, and parent `default.func.ts` fallbacks while walking back to `root`.
+ *
+ * @param {string} root - Server root path used to stop parent fallback discovery.
+ * @param {string} path - Normalized request path resolved against the server root.
+ * @returns {string[]} Candidate route files in the order the server checks them.
+ * @example
+ * ```ts
+ * const files = getRouteFiles('/app/src', '/app/src/pages/users/profile')
+ * ```
+ */
 export function getRouteFiles(root: string, path: string): string[] {
   const normalizedRoot = root.endsWith(sep) ? root : `${root}${sep}`
 

@@ -8,6 +8,7 @@
 
 - [项目配置指南](../guidelines/project-config.md): 如何让 `tsconfig.json`、`vite.config.ts` 与 FaasJS 的共享默认配置保持一致。
 - [文件约定](../guidelines/file-conventions.md): 页面、组件、hooks 与 `.func.ts` 文件应该放在哪里，以及何时值得拆文件。
+- [代码注释指南](../guidelines/code-comments.md): 导出内容的 JSDoc 要求、内部函数何时需要简短注释，以及如何解释非常规实现的原因。
 - [defineApi 指南](../guidelines/define-api.md): 如何使用 `defineApi` 编写接口、内联 schema、typed params 与错误处理。
 - [React 指南](../guidelines/react.md): FaasJS 项目中的 React 组件、hooks、依赖处理与 `useEffect` 替代方案。
 - [React 数据请求指南](../guidelines/react-data-fetching.md): 何时使用 `useFaas`、`useFaasStream`、`faas`、`FaasDataWrapper` 或 `withFaasData`。

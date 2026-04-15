@@ -32,6 +32,17 @@ function normalizeHeaderNames(...values: Array<string | string[] | undefined>): 
   })
 }
 
+/**
+ * Build the default FaasJS CORS headers for a request and merge any extra overrides.
+ *
+ * @param {IncomingHttpHeaders} headers - Incoming request headers used to infer allowed and exposed headers.
+ * @param {IncomingHttpHeaders} [extra] - Additional response headers merged into the final CORS header map.
+ * @returns {IncomingHttpHeaders} CORS response headers ready to pass to `writeHead`.
+ * @example
+ * ```ts
+ * const corsHeaders = buildCORSHeaders({ origin: 'https://example.com' })
+ * ```
+ */
 export function buildCORSHeaders(
   headers: IncomingHttpHeaders,
   extra: IncomingHttpHeaders = {},

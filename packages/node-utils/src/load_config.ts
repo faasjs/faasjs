@@ -12,6 +12,16 @@ type YamlConfig = Record<string, FuncConfig>
 
 /**
  * Per-plugin configuration entry resolved from `faas.yaml`.
+ *
+ * @example
+ * ```ts
+ * const pluginConfig: FuncPluginConfig = {
+ *   type: 'http',
+ *   config: {
+ *     path: '/orders/create',
+ *   },
+ * }
+ * ```
  */
 export type FuncPluginConfig = {
   [key: string]: any
@@ -33,6 +43,17 @@ export type FuncPluginConfig = {
 
 /**
  * Resolved stage config merged from matching `faas.yaml` files.
+ *
+ * @example
+ * ```ts
+ * const config: FuncConfig = {
+ *   plugins: {
+ *     http: {
+ *       type: 'http',
+ *     },
+ *   },
+ * }
+ * ```
  */
 export type FuncConfig = {
   [key: string]: any
@@ -108,6 +129,22 @@ function validateFaasYaml(filePath: string, config: unknown): YamlConfig {
   return data
 }
 
+/**
+ * Copy each plugin map key onto the corresponding plugin config as `name`.
+ *
+ * @param {FuncConfig} config - Config object whose `plugins` entries are updated in place.
+ * @returns {void} No return value.
+ * @example
+ * ```ts
+ * const config: FuncConfig = {
+ *   plugins: {
+ *     http: {},
+ *   },
+ * }
+ *
+ * assignPluginNames(config)
+ * ```
+ */
 export function assignPluginNames(config: FuncConfig): void {
   if (!config.plugins) return
 
@@ -122,6 +159,13 @@ export function assignPluginNames(config: FuncConfig): void {
  * Read and merge staged `faas.yaml` config for a function file.
  *
  * This helper backs {@link loadConfig} when callers need to inspect multiple stages from one reader.
+ *
+ * @example
+ * ```ts
+ * const config = new Config(process.cwd(), '/project/src/orders/create.func.ts')
+ *
+ * const development = config.get('development')
+ * ```
  */
 export class Config {
   [key: string]: any

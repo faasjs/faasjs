@@ -30,31 +30,32 @@ The repository also contains style drift in tag syntax, language, and duplicatio
 
 1. Public API documentation MUST be authored in JSDoc adjacent to the exported declaration in `packages/*/src`.
 2. Generated Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}` MUST be treated as derived output and MUST NOT be hand-edited.
-3. Every exported class, function, hook, React component, interface, type alias, and public variable SHOULD have a JSDoc block when it is intended for direct package consumption.
-4. Re-exports MAY rely on the original symbol's JSDoc, but package entrypoints SHOULD still provide a package or module overview when the package is user-facing.
+3. Every exported class, function, hook, React component, interface, type alias, and public variable MUST have a JSDoc block.
+4. Re-exports MAY rely on the original symbol's JSDoc, but the original declaration MUST still be documented and package entrypoints SHOULD still provide a package or module overview when the package is user-facing.
 5. Each declaration MUST have a single canonical JSDoc block. Duplicate lead comments for the same declaration are not allowed.
 
 ### 2. Language and Prose
 
 1. Public JSDoc MUST be written in English so generated API Markdown has one primary language.
-2. The first sentence MUST summarize what the symbol is or does.
+2. The first sentence MUST summarize what feature, capability, or responsibility the symbol provides.
 3. Additional paragraphs SHOULD explain behavior, constraints, lifecycle, or notable caveats instead of restating the TypeScript signature.
 4. Text MUST describe observable behavior and contracts. It SHOULD NOT duplicate implementation details that are likely to drift.
 5. When a doc block is updated, touched comments SHOULD be normalized to this spec even if nearby legacy comments still use an older style.
 
 ### 3. Symbol-Level Content
 
-1. Functions, hooks, and methods SHOULD document inputs, return shape, side effects, and failure cases when those are not obvious from the type signature alone.
-2. Classes and React components SHOULD have a top-level overview plus constructor or props usage details when they are part of the public surface.
-3. Interfaces and object-shaped type aliases SHOULD describe their purpose and SHOULD document important members with member JSDoc or `@property`.
-4. Conditional, inferred, template-literal, or otherwise non-obvious types SHOULD explain the mapping rule and SHOULD include an example when that improves comprehension.
-5. Package-level module comments in `src/index.ts` SHOULD include install and usage guidance when the package is meant to be consumed directly.
+1. Every exported declaration MUST give readers enough context to understand what feature, capability, or responsibility it provides.
+2. Callable exports MUST document their inputs with `@param`, and functions, hooks, and methods SHOULD also document return shape, side effects, and failure cases when those are not obvious from the type signature alone.
+3. Classes and React components SHOULD have a top-level overview plus constructor or props usage details when they are part of the public surface.
+4. Interfaces and object-shaped type aliases MUST describe their purpose and MUST document important members with member JSDoc or `@property`.
+5. Conditional, inferred, template-literal, or otherwise non-obvious types SHOULD explain the mapping rule and SHOULD include an example when that improves comprehension.
+6. Package-level module comments in `src/index.ts` SHOULD include install and usage guidance when the package is meant to be consumed directly.
 
 ### 4. Tag Conventions
 
 1. `@param` SHOULD use `{Type} name - description` style in TypeScript source.
 2. `@returns` SHOULD be used when the returned value, promise payload, or empty result is not already obvious from the summary.
-3. `@example` SHOULD be provided for public APIs whose usage is non-trivial, especially classes, hooks, factories, configuration objects, and advanced types.
+3. `@example` MUST be provided for exported APIs, and it SHOULD show the smallest realistic usage path.
 4. `@throws` MUST document user-observable exceptions or validation errors that callers are expected to handle.
 5. `@default` SHOULD be used for options or props with meaningful runtime defaults.
 6. `@property` SHOULD be used for object-shaped options, response props, or prop bags when inline member comments are not sufficient.
@@ -105,15 +106,22 @@ export async function loadPackage<T = unknown>(
 }
 ````
 
-```ts
+````ts
 /**
  * Configuration options for a request.
  *
  * @property {Record<string, string>} [headers] - Extra request headers.
  * @property {boolean} [stream] - When true, return the native fetch response.
+ * @example
+ * ```ts
+ * const options: Options = {
+ *   headers: { Authorization: 'Bearer token' },
+ *   stream: true,
+ * }
+ * ```
  */
 export type Options = RequestInit & {
   /** @default false */
   stream?: boolean
 }
-```
+````

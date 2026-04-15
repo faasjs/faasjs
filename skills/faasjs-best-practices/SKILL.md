@@ -13,7 +13,7 @@ description: When working with FaasJS projects, must follow these best practices
 - Keep changes minimal and task-scoped: no extra features, drive-by refactors, opportunistic cleanup, feature flags, compatibility shims, or speculative future-proofing.
 - Keep code direct: validate at system boundaries such as user input and external APIs, fail fast on invalid internal data, and do not add silent fallbacks or impossible-case handling.
 - Extract helpers, hooks, components, or abstractions only when they are reused, create a real boundary, or simplify a large block; keep one-off code inline unless the body is over about 20 lines.
-- Add comments only when the logic is not obvious; do not add comments, docstrings, or type annotations to untouched code.
+- Document every exported declaration with JSDoc, and add other comments only when names or logic are not obvious; do not add comments, docstrings, or type annotations to untouched code.
 - Delete confirmed-dead code directly instead of leaving compatibility tricks such as `_unused` renames, type re-exports, or `// removed` markers.
 - Keep files under about 500 lines by splitting along real boundaries before they grow too large.
 
@@ -21,6 +21,7 @@ description: When working with FaasJS projects, must follow these best practices
 
 - [Ant Design Guide](./guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
 - [File Conventions](./guidelines/file-conventions.md): Covers where to place pages, components, hooks, and `.func.ts` files, plus when separate files are worth creating.
+- [Code Comments Guide](./guidelines/code-comments.md): Covers required JSDoc for exports, when internal helpers need brief comments, and how to explain non-standard code without narrating it line by line.
 - [Node Utils Guide](./guidelines/node-utils.md): Covers Node-only helpers for env/config loading, function and plugin bootstrapping, module loading, and shared logging.
 - [Project Config Guide](./guidelines/project-config.md): Covers how to keep `tsconfig.json`, `vite.config.ts`, and shared tooling config aligned with FaasJS defaults.
 - [React Guide](./guidelines/react.md): Covers React component and hook patterns in FaasJS, especially avoiding native `useEffect` and handling non-primitive dependencies safely.
