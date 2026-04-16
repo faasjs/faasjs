@@ -26,6 +26,8 @@ Initializer that runs only once for the current component instance.
 
 `T`
 
+Stable value returned by the initializer.
+
 ## Example
 
 ```tsx

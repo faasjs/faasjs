@@ -79,7 +79,7 @@ function scaffold(
 /**
  * Scaffold a new FaasJS app from a bundled template and install its dependencies.
  *
- * @param {{ name?: string; template?: string }} [options] - Optional CLI arguments used to choose the project name and template.
+ * @param {object} [options] - Optional CLI arguments used to choose the project name and template.
  * @param {string} [options.name] - Target folder name for the generated app.
  * @param {string} [options.template] - Template name such as `basic` or `antd`.
  * @returns {Promise<void>} Resolves after the project is generated and its test command finishes.

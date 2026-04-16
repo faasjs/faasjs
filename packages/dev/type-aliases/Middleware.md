@@ -12,7 +12,7 @@ Request middleware signature used by [useMiddleware](../functions/useMiddleware.
 
 `IncomingMessage` & `object`
 
-Native request object extended with the parsed body.
+Native request object extended with the parsed body on `request.body`.
 
 ### response
 

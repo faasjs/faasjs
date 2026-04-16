@@ -11,12 +11,12 @@ import { getClient } from './client'
  *
  * @template PathOrData - Action path or response data type used for inference.
  *
- * @param action - Action path to invoke.
- * @param params - Parameters sent to the action.
- * @param options - Optional per-request overrides such as headers or base URL.
- * See the request `Options` type for supported fields such as `headers`, `beforeRequest`,
+ * @param {FaasAction<PathOrData>} action - Action path to invoke.
+ * @param {FaasParams<PathOrData>} params - Parameters sent to the action.
+ * @param {Options} [options] - Optional per-request overrides such as headers or base URL.
+ * See the browser-client `Options` type for supported fields such as `headers`, `beforeRequest`,
  * `request`, `baseUrl`, and `stream`.
- * @returns Response returned by the active browser client.
+ * @returns {Promise<Response<FaasData<PathOrData>>>} Response returned by the active browser client.
  * @throws {ResponseError} When the request fails and the active client does not recover inside `onError`.
  *
  * @example

@@ -61,10 +61,10 @@ export class ErrorBoundary extends Component<
   /**
    * Create an error boundary with empty error state.
    *
-   * @param props - Boundary props.
-   * @param props.children - Descendant elements protected by the boundary.
-   * @param props.onError - Callback invoked after a render error is captured.
-   * @param props.errorChildren - Custom fallback element that receives error details.
+   * @param {ErrorBoundaryProps} props - Boundary props.
+   * @param {ReactNode} [props.children] - Descendant elements protected by the boundary.
+   * @param {(error: Error | null, info: any) => void} [props.onError] - Callback invoked after a render error is captured.
+   * @param {ReactElement<ErrorChildrenProps>} [props.errorChildren] - Custom fallback element that receives error details.
    */
   constructor(props: ErrorBoundaryProps) {
     super(props)
@@ -77,8 +77,8 @@ export class ErrorBoundary extends Component<
   /**
    * Capture rendering errors from descendant components.
    *
-   * @param error - Caught render error.
-   * @param info - React component stack metadata.
+   * @param {Error} error - Caught render error.
+   * @param {ErrorInfo} info - React component stack metadata.
    */
   override componentDidCatch(error: Error, info: ErrorInfo) {
     this.setState({

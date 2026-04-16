@@ -1,13 +1,15 @@
 /**
  * Generate a random identifier with an optional prefix.
  *
- * @param prefix - Prefix prepended to the generated identifier.
- * @param length - Length of the generated identifier excluding `prefix`. Must be between `8` and `18`.
- * @returns Generated identifier string.
+ * @param {string} [prefix] - Prefix prepended to the generated identifier.
+ * @param {number} [length] - Length of the generated identifier excluding `prefix`. Must be between `8` and `18`.
+ * @returns {string} Generated identifier string.
  * @throws {Error} When `length` is outside the supported `8` to `18` range.
  *
  * @example
  * ```ts
+ * import { generateId } from '@faasjs/react'
+ *
  * const id = generateId('prefix-')
  *
  * id.startsWith('prefix-') // true

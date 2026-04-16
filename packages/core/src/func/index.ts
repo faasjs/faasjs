@@ -392,7 +392,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   /**
    * First time mount the function.
    *
-   * @param {{ event: TEvent; context: TContext; config?: Config; logger?: Logger }} [data] - Optional initial event, context, config, and logger used during mount.
+   * @param {object} [data] - Optional initial event, context, config, and logger used during mount.
    * @param {TEvent} data.event - Initial event value passed through mount hooks.
    * @param {TContext} data.context - Initial context value passed through mount hooks.
    * @param {Config} [data.config] - Function config override used during mount.

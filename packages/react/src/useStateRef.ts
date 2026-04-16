@@ -11,8 +11,8 @@ import {
  * Custom hook that returns a stateful value and a ref to that value.
  *
  * @template T - The type of the value.
- * @param initialValue - Initial state value. When omitted, state starts as `null`.
- * @returns Tuple containing the current state, the state setter, and a ref that always points at the latest state.
+ * @param {T} [initialValue] - Initial state value. When omitted, state starts as `null`.
+ * @returns {[T | null, Dispatch<SetStateAction<T | null>>, RefObject<T | null>]} Tuple containing the current state, the state setter, and a ref that always points at the latest state.
  *
  * @example
  * ```tsx

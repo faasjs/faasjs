@@ -11,8 +11,8 @@ or returned from mock handlers.
 
 ## See
 
-- Response for the class that uses these properties
-- ResponseErrorProps for error response properties
+- [Response](../classes/Response.md) for the class that uses these properties.
+- [ResponseErrorProps](ResponseErrorProps.md) for error response properties.
 
 ## Type Parameters
 

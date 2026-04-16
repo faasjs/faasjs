@@ -55,6 +55,6 @@ Notes:
 
 ## See
 
-- FaasBrowserClient for the class that uses this type
-- Response for the return type
-- Options for the options parameter type
+- [FaasBrowserClient](../classes/FaasBrowserClient.md) for the class that uses this type.
+- [Response](../classes/Response.md) for the return type.
+- [Options](Options.md) for the options parameter type.

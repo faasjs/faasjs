@@ -57,6 +57,6 @@ Notes:
 
 ## See
 
-- setMock for setting up mock handlers
-- ResponseProps for response structure
-- ResponseError for error handling
+- [setMock](../functions/setMock.md) for setting up mock handlers.
+- [ResponseProps](ResponseProps.md) for response structure.
+- [ResponseError](../classes/ResponseError.md) for error handling.

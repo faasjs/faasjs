@@ -15,7 +15,9 @@ import {
  * Event shape passed to middleware-backed functions.
  *
  * @property {any} body - Request body collected by the server.
- * @property {{ request: IncomingMessage; response: ServerResponse }} raw - Native request and response objects.
+ * @property {object} raw - Native request and response objects.
+ * @property {IncomingMessage} raw.request - Native request object before FaasJS middleware adapts it.
+ * @property {ServerResponse} raw.response - Native response writer for the current request.
  */
 export type MiddlewareEvent = {
   body: any
@@ -39,7 +41,7 @@ export type MiddlewareContext = {
 /**
  * Request middleware signature used by {@link useMiddleware} and {@link useMiddlewares}.
  *
- * @param {IncomingMessage & { body?: any }} request - Native request object extended with the parsed body.
+ * @param {IncomingMessage} request - Native request object extended with the parsed body on `request.body`.
  * @param {ServerResponse} response - Native response writer.
  * @param {MiddlewareContext} context - Middleware-scoped utilities.
  * @returns {void | Promise<void>} Promise or void returned by the middleware.

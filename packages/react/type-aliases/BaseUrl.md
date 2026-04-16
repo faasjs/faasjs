@@ -19,5 +19,5 @@ Notes:
 
 ## See
 
-- FaasBrowserClient for usage in client creation
-- Options for usage in request options
+- [FaasBrowserClient](../classes/FaasBrowserClient.md) for usage in client creation.
+- [Options](Options.md) for usage in request options.

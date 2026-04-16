@@ -24,7 +24,7 @@ export interface AppProps {
   /**
    * Props forwarded to Ant Design's `ConfigProvider`.
    *
-   * @see https://ant.design/components/config-provider/#API
+   * @see [Ant Design ConfigProvider API](https://ant.design/components/config-provider/#API)
    */
   configProviderProps?: ConfigProviderProps
   /**
@@ -32,19 +32,19 @@ export interface AppProps {
    *
    * Routing is enabled automatically when running in a browser and this prop is not `false`.
    *
-   * @see https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
+   * @see [React Router BrowserRouterProps](https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html)
    */
   browserRouterProps?: BrowserRouterProps | false
   /**
    * Props forwarded to {@link ErrorBoundary}.
    *
-   * @see https://faasjs.com/doc/ant-design/#errorboundary
+   * @see [FaasJS Ant Design ErrorBoundary docs](https://faasjs.com/doc/ant-design/#errorboundary)
    */
   errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
   /**
    * Props forwarded to {@link ConfigProvider}, or `false` to skip the FaasJS config layer.
    *
-   * @see https://faasjs.com/doc/ant-design/#configprovider
+   * @see [FaasJS Ant Design ConfigProvider docs](https://faasjs.com/doc/ant-design/#configprovider)
    */
   faasConfigProviderProps?: Omit<FaasConfigProviderProps, 'children'> | false
 }

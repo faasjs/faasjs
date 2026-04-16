@@ -19,12 +19,12 @@ export type OptionalWrapperProps<TWrapper extends ComponentType<{ children: Reac
 /**
  * Conditionally wrap children with another component.
  *
- * @param props - Wrapper condition, wrapper component, and child content.
- * @param props.condition - When `true`, wrap children with `Wrapper`.
- * @param props.Wrapper - Component used as the wrapper when the condition passes.
- * @param props.wrapperProps - Props forwarded to the wrapper component.
- * @param props.children - Content rendered directly or inside the wrapper.
- * @returns Wrapped children or the original children when `condition` is false.
+ * @param {OptionalWrapperProps} props - Wrapper condition, wrapper component, and child content.
+ * @param {boolean} props.condition - When `true`, wrap children with `Wrapper`.
+ * @param {OptionalWrapperProps['Wrapper']} props.Wrapper - Component used as the wrapper when the condition passes.
+ * @param {OptionalWrapperProps['wrapperProps']} [props.wrapperProps] - Props forwarded to the wrapper component.
+ * @param {ReactNode} props.children - Content rendered directly or inside the wrapper.
+ * @returns {ReactNode} Wrapped children or the original children when `condition` is false.
  *
  * @example
  * ```tsx

@@ -89,9 +89,9 @@ setMock(async (action, params) => {
 
 ## See
 
-- ResponseProps for response property type
-- ResponseError for error response handling
-- FaasBrowserClient.action for method returning Response
+- [ResponseProps](../type-aliases/ResponseProps.md) for response property type.
+- [ResponseError](ResponseError.md) for error response handling.
+- [FaasBrowserClient.action](FaasBrowserClient.md#action) for method returning Response.
 
 ## Type Parameters
 

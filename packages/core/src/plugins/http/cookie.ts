@@ -112,7 +112,7 @@ export class Cookie<
    * @param {'Strict' | 'Lax' | 'None'} [config.sameSite] - SameSite attribute applied to written cookies.
    * @param {SessionOptions} [config.session] - Session-cookie encryption and signing settings.
    * @param {Logger} [logger] - Optional logger used by cookie and session helpers.
-   * @param {{ template?: Cookie<C, S> }} [options] - Internal template reuse options.
+   * @param {object} [options] - Internal template reuse options.
    * @param {Cookie<C, S>} [options.template] - Existing cookie template reused by `fork()`.
    */
   constructor(
@@ -202,7 +202,7 @@ export class Cookie<
    *
    * @param {string} key - Cookie name.
    * @param {string | null | undefined} value - Cookie value, or `null`/`undefined` to expire it.
-   * @param {{ domain?: string; path?: string; expires?: number | string; secure?: boolean; httpOnly?: boolean; sameSite?: 'Strict' | 'Lax' | 'None' }} [opts] - Per-cookie attribute overrides.
+   * @param {object} [opts] - Per-cookie attribute overrides.
    * @param {string} [opts.domain] - Cookie domain attribute override.
    * @param {string} [opts.path] - Cookie path attribute override.
    * @param {number | string} [opts.expires] - `max-age` seconds or absolute `expires` string override.

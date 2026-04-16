@@ -90,16 +90,16 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * The wrapper defers rendering `children` or `render` until the first request
  * completes, then keeps passing the latest request state to the rendered output.
  *
- * @param props - Wrapper props controlling the request and rendered fallback.
- * @param props.render - Render prop that receives the resolved Faas request state.
- * @param props.children - Child element cloned with injected Faas request state.
- * @param props.fallback - Element rendered before the first successful load.
- * @param props.action - Action path to request.
- * @param props.params - Params sent to the action.
- * @param props.onDataChange - Callback invoked when the resolved data value changes.
- * @param props.data - Controlled data value used instead of internal state.
- * @param props.setData - Controlled setter used instead of internal state.
- * @param props.baseUrl - Base URL override used for this wrapper instance.
+ * @param {FaasDataWrapperProps<PathOrData>} props - Wrapper props controlling the request and rendered fallback.
+ * @param {(args: FaasDataInjection<PathOrData>) => JSX.Element | JSX.Element[]} [props.render] - Render prop that receives the resolved Faas request state.
+ * @param {React.ReactElement<Partial<FaasDataInjection<PathOrData>>>} [props.children] - Child element cloned with injected Faas request state.
+ * @param {JSX.Element | false} [props.fallback] - Element rendered before the first successful load.
+ * @param {FaasAction<PathOrData>} props.action - Action path to request.
+ * @param {FaasParams<PathOrData>} [props.params] - Params sent to the action.
+ * @param {(args: FaasDataInjection<PathOrData>) => void} [props.onDataChange] - Callback invoked when the resolved data value changes.
+ * @param {FaasData<PathOrData>} [props.data] - Controlled data value used instead of internal state.
+ * @param {React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>} [props.setData] - Controlled setter used instead of internal state.
+ * @param {BaseUrl} [props.baseUrl] - Base URL override used for this wrapper instance.
  *
  * @example
  * ```tsx
@@ -222,9 +222,9 @@ Object.assign(FaasDataWrapper, {
  *
  * @template PathOrData - Action path or response data type used for inference.
  * @template TComponentProps - Component props including injected Faas data fields.
- * @param Component - Component that consumes injected Faas data props.
- * @param faasProps - Request configuration forwarded to `FaasDataWrapper`.
- * @returns Component that accepts the original props minus the injected Faas data fields.
+ * @param {React.FC<TComponentProps>} Component - Component that consumes injected Faas data props.
+ * @param {FaasDataWrapperProps<PathOrData>} faasProps - Request configuration forwarded to `FaasDataWrapper`.
+ * @returns {React.FC<Omit<TComponentProps, keyof FaasDataInjection<PathOrData>> & Record<string, any>>} Component that accepts the original props minus the injected Faas data fields.
  *
  * @example
  * ```tsx

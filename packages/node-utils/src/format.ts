@@ -1,18 +1,20 @@
 /**
- * Formats a string using placeholders and arguments.
+ * Format values with placeholder tokens similar to `util.format`.
  *
- * The function supports the following placeholders:
- * - `%o`: Formats the argument as a JSON string if it's an array, otherwise falls through to `%s`.
- * - `%s`: Converts the argument to a string.
- * - `%d`: Converts the argument to a number.
- * - `%j`: Formats the argument as a JSON string.
+ * Supported placeholders:
+ * - `%o`: Stringify arrays as JSON and otherwise fall through to `%s`.
+ * - `%s`: Convert the argument to a string.
+ * - `%d`: Convert the argument to a number.
+ * - `%j`: Serialize the argument with `JSON.stringify`.
  *
- * @param fmt - Format string or first value to stringify.
- * @param args - Additional values consumed by format placeholders.
+ * @param {any} fmt - Format string or first value to stringify.
+ * @param {any[]} args - Additional values consumed by format placeholders.
+ * @returns {string} Formatted string.
  *
  * @example
  * ```ts
- * const value = format({}, [{}])
+ * format('User %s has %d tasks', 'alice', 3)
+ * // 'User alice has 3 tasks'
  * ```
  */
 export function format(fmt: any, ...args: any[]): string {

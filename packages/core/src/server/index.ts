@@ -114,7 +114,7 @@ export type ServerOptions = {
    *
    * Errors thrown by this hook are reported through the server error logger.
    *
-   * @param {{ logger: Logger }} context - Lifecycle context passed to the start hook.
+   * @param {object} context - Lifecycle context passed to the start hook.
    * @param {Logger} context.logger - Shared server logger instance.
    * @returns {Promise<void>} Promise returned by the start hook.
    *
@@ -135,7 +135,7 @@ export type ServerOptions = {
    * This hook receives normalized `Error` instances.
    *
    * @param {Error} error - Error raised during server operation.
-   * @param {{ logger: Logger }} context - Lifecycle context passed to the error hook.
+   * @param {object} context - Lifecycle context passed to the error hook.
    * @param {Logger} context.logger - Shared server logger instance.
    * @returns {Promise<void>} Promise returned by the error hook.
    *
@@ -155,7 +155,7 @@ export type ServerOptions = {
    *
    * Use this hook for cleanup or shutdown logging.
    *
-   * @param {{ logger: Logger }} context - Lifecycle context passed to the close hook.
+   * @param {object} context - Lifecycle context passed to the close hook.
    * @param {Logger} context.logger - Shared server logger instance.
    * @returns {Promise<void>} Promise returned by the close hook.
    *
@@ -248,9 +248,9 @@ export class Server {
    * @param {string} root - Root directory used to resolve configuration and route files.
    * @param {ServerOptions} [opts] - Server configuration overrides.
    * @param {number} [opts.port] - Port used by `listen()`. Defaults to `3000`.
-   * @param {(context: { logger: Logger }) => Promise<void>} [opts.onStart] - Async hook invoked after the server starts listening.
-   * @param {(error: Error, context: { logger: Logger }) => Promise<void>} [opts.onError] - Async hook invoked when server-level errors occur.
-   * @param {(context: { logger: Logger }) => Promise<void>} [opts.onClose] - Async hook invoked after the server closes.
+   * @param {ServerOptions['onStart']} [opts.onStart] - Async hook invoked after the server starts listening.
+   * @param {ServerOptions['onError']} [opts.onError] - Async hook invoked when server-level errors occur.
+   * @param {ServerOptions['onClose']} [opts.onClose] - Async hook invoked after the server closes.
    * @param {Middleware} [opts.beforeHandle] - Middleware hook invoked before each request is dispatched.
    * @param {boolean} [opts.cronJob] - Whether server lifecycle should mount registered cron jobs.
    * @throws {Error} When `onStart`, `onError`, or `onClose` is not an async function.

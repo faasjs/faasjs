@@ -125,7 +125,7 @@ function formatZodErrorMessage(error: ZodError): string {
  * @template TEvent - Raw event type passed to the function.
  * @template TContext - Runtime context type.
  * @template THandler - Handler signature used to infer the response type.
- * @param {Omit<DefineApiOptions<TSchema, TEvent, TContext, Awaited<ReturnType<THandler>>>, 'handler'> & { handler: THandler }} options - Schema and handler used to build the API function.
+ * @param {DefineApiOptions<TSchema, TEvent, TContext, Awaited<ReturnType<THandler>>>} options - Schema and handler used to build the API function.
  * @param {TSchema} [options.schema] - Optional Zod schema used to validate `event.params`.
  * @param {THandler} options.handler - Async business handler executed after plugins and validation are ready.
  * @throws {Error} When the required `http` plugin is missing from `faas.yaml` and no plugin was injected in code.

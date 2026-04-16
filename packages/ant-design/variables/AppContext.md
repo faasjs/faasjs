@@ -32,7 +32,7 @@ Hook used to read values from the splitting context.
 
 #### See
 
-https://faasjs.com/doc/react/functions/createSplittingContext.html#use
+[Hook docs](https://faasjs.com/doc/react/functions/createSplittingContext.html#use)
 
 #### Example
 
@@ -119,7 +119,7 @@ Partial context value supplied by the caller.
 
 #### See
 
-https://faasjs.com/doc/react/functions/createSplittingContext.html#provider
+[Provider docs](https://faasjs.com/doc/react/functions/createSplittingContext.html#provider)
 
 #### Example
 

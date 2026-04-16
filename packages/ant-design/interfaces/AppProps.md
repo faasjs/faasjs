@@ -19,7 +19,7 @@ Routing is enabled automatically when running in a browser and this prop is not 
 
 #### See
 
-https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html
+[React Router BrowserRouterProps](https://api.reactrouter.com/v7/interfaces/react_router.BrowserRouterProps.html)
 
 ### children
 
@@ -35,7 +35,7 @@ Props forwarded to Ant Design's `ConfigProvider`.
 
 #### See
 
-https://ant.design/components/config-provider/#API
+[Ant Design ConfigProvider API](https://ant.design/components/config-provider/#API)
 
 ### errorBoundaryProps?
 
@@ -45,7 +45,7 @@ Props forwarded to [ErrorBoundary](../functions/ErrorBoundary.md).
 
 #### See
 
-https://faasjs.com/doc/ant-design/#errorboundary
+[FaasJS Ant Design ErrorBoundary docs](https://faasjs.com/doc/ant-design/#errorboundary)
 
 ### faasConfigProviderProps?
 
@@ -55,4 +55,4 @@ Props forwarded to [ConfigProvider](../functions/ConfigProvider.md), or `false` 
 
 #### See
 
-https://faasjs.com/doc/ant-design/#configprovider
+[FaasJS Ant Design ConfigProvider docs](https://faasjs.com/doc/ant-design/#configprovider)

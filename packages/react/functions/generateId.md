@@ -33,6 +33,8 @@ When `length` is outside the supported `8` to `18` range.
 ## Example
 
 ```ts
+import { generateId } from '@faasjs/react'
+
 const id = generateId('prefix-')
 
 id.startsWith('prefix-') // true

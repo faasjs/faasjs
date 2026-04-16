@@ -186,7 +186,7 @@ export class HttpError extends Error {
   /**
    * Create an HTTP error with a status code and user-facing message.
    *
-   * @param {{ statusCode?: number; message: string }} options - Error details.
+   * @param {object} options - Error details.
    * @param {number} [options.statusCode] - HTTP status code returned to the client. Defaults to `500`.
    * @param {string} options.message - User-facing error message serialized in the response body.
    */

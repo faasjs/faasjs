@@ -24,8 +24,8 @@ export type StatesWithSetters<T> = T & StateSetters<T>
  * Create local state entries and matching setters for each key in an object.
  *
  * @template T - A generic type that extends a record with string keys and any values.
- * @param initialStates - Object whose keys become state values and `setXxx` setters.
- * @returns Object containing the original keys plus generated setter functions.
+ * @param {T} initialStates - Object whose keys become state values and `setXxx` setters.
+ * @returns {StatesWithSetters<T>} Object containing the original keys plus generated setter functions.
  *
  * @example
  * ```tsx

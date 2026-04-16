@@ -73,8 +73,8 @@ When baseUrl does not end with '/'
 
 ## See
 
-- setMock for testing support
-- ResponseError for error handling
+- [setMock](../functions/setMock.md) for testing support.
+- [ResponseError](ResponseError.md) for error handling.
 
 ## Constructors
 

@@ -17,9 +17,9 @@ const clients: {
 /**
  * Factory for per-request error handlers used by {@link FaasReactClient}.
  *
- * @param action - Action name that failed.
- * @param params - Params sent with the failed request.
- * @returns Async callback invoked with the resulting {@link ResponseError}.
+ * @param {string} action - Action name that failed.
+ * @param {Record<string, any>} params - Params sent with the failed request.
+ * @returns {(res: ResponseError) => Promise<void>} Async callback invoked with the resulting {@link ResponseError}.
  */
 export type OnError = (
   action: string,
@@ -78,13 +78,13 @@ export type FaasReactClientInstance = {
  * The returned client is stored by `baseUrl` and becomes the default client
  * used by helpers such as {@link faas} and {@link useFaas}.
  *
- * @param options - Client configuration including base URL, default request options, and error hooks.
- * @param options.baseUrl - Base URL used to register and route the client instance.
- * @param options.options - Default browser-client request options forwarded to `FaasBrowserClient`.
- * @param options.onError - Hook factory used to handle failed `faas` and `useFaas` requests.
+ * @param {FaasReactClientOptions} [options] - Client configuration including base URL, default request options, and error hooks.
+ * @param {BaseUrl} [options.baseUrl] - Base URL used to register and route the client instance.
+ * @param {Options} [options.options] - Default browser-client request options forwarded to `FaasBrowserClient`.
+ * @param {OnError} [options.onError] - Hook factory used to handle failed `faas` and `useFaas` requests.
  * See {@link Options} for supported browser-client request fields such as `headers`,
  * `beforeRequest`, `request`, `baseUrl`, and `stream`.
- * @returns Registered FaasReactClient instance.
+ * @returns {FaasReactClientInstance} Registered FaasReactClient instance.
  *
  * @example
  * ```ts
@@ -160,8 +160,8 @@ export function FaasReactClient(
  * different base URLs. In normal single-client app code, prefer the default
  * `faas`, `useFaas`, or `FaasReactClient` setup directly.
  *
- * @param host - Registered base URL to look up. Omit it to use the default client.
- * @returns Registered or newly created FaasReactClient instance.
+ * @param {string} [host] - Registered base URL to look up. Omit it to use the default client.
+ * @returns {FaasReactClientInstance} Registered or newly created FaasReactClient instance.
  *
  * @example
  * ```ts

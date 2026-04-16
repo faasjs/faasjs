@@ -36,7 +36,8 @@ Params used for the initial request and future reloads.
 
 `useFaasOptions`\<`PathOrData`\> = `{}`
 
-Optional hook configuration such as controlled data, debounce, and skip logic.
+Optional hook configuration such as controlled data, skip logic, debounce timing, and base URL overrides.
+See the `useFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, and `baseUrl`.
 
 ## Returns
 

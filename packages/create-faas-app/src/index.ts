@@ -36,8 +36,8 @@ action(commander as Command)
 /**
  * Run the `create-faas-app` CLI with a provided argv array.
  *
- * @param argv - CLI arguments forwarded to Commander.
- * @returns Commander program instance after parsing.
+ * @param {string[]} argv - CLI arguments forwarded to Commander.
+ * @returns {Promise<Command>} Commander program instance after parsing.
  *
  * @example
  * ```ts

@@ -109,5 +109,5 @@ When `true`, return the native fetch response so callers can consume the stream 
 
 ## See
 
-- FaasBrowserClient for client creation
-- Response for response object structure
+- [FaasBrowserClient](../classes/FaasBrowserClient.md) for client creation.
+- [Response](../classes/Response.md) for response object structure.

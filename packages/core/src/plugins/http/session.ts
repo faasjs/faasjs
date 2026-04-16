@@ -129,7 +129,7 @@ export class Session<
    * @param {number} [config.iterations] - PBKDF2 iteration count used for key derivation.
    * @param {string} [config.digest] - Hash algorithm used by PBKDF2 and HMAC.
    * @param {string} [config.cipherName] - Cipher name used to encrypt the session payload.
-   * @param {{ secret: Buffer; signedSecret: Buffer }} [secrets] - Precomputed secrets reused by forked sessions.
+   * @param {SessionSecrets} [secrets] - Precomputed secrets reused by forked sessions.
    * @param {Buffer} [secrets.secret] - Derived encryption key reused by forked sessions.
    * @param {Buffer} [secrets.signedSecret] - Derived signing key reused by forked sessions.
    */

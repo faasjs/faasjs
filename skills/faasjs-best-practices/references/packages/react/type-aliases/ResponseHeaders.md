@@ -15,6 +15,6 @@ Used by Response, ResponseError, and Options types.
 
 ## See
 
-- Response for usage in response objects
-- ResponseError for usage in error objects
-- Options for usage in request options
+- [Response](../classes/Response.md) for usage in response objects.
+- [ResponseError](../classes/ResponseError.md) for usage in error objects.
+- [Options](Options.md) for usage in request options.

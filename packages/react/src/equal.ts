@@ -9,9 +9,9 @@ const AsyncFunction = (async () => {}).constructor
  * It handles various data types including primitives, arrays, dates, regular expressions, functions,
  * maps, sets, and promises.
  *
- * @param a - The first value to compare.
- * @param b - The second value to compare.
- * @returns `true` if the values are deeply equal, `false` otherwise.
+ * @param {any} a - The first value to compare.
+ * @param {any} b - The second value to compare.
+ * @returns {boolean} `true` if the values are deeply equal, `false` otherwise.
  *
  * @example
  * ```ts
@@ -81,8 +81,8 @@ export function equal(a: any, b: any): boolean {
 /**
  * Custom hook that memoizes a value using deep equality comparison.
  *
- * @param value - The value to be memoized.
- * @returns The memoized value.
+ * @param {any} value - The value to be memoized.
+ * @returns {any} The memoized value.
  *
  * @example
  * ```tsx
@@ -120,9 +120,9 @@ function useEqualSignal(value: any[]) {
 /**
  * Custom hook that works like `useEffect` but uses deep comparison on dependencies.
  *
- * @param callback - The effect callback function to run.
- * @param dependencies - The list of dependencies for the effect.
- * @returns The result of the `useEffect` hook with memoized dependencies.
+ * @param {React.EffectCallback} callback - The effect callback function to run.
+ * @param {any[]} dependencies - The list of dependencies for the effect.
+ * @returns {void} The result of the `useEffect` hook with memoized dependencies.
  *
  * @example
  * ```tsx
@@ -149,9 +149,9 @@ export function useEqualEffect(callback: React.EffectCallback, dependencies: any
  *
  * @template T - Memoized value type returned by the callback.
  *
- * @param callback - The callback function to run.
- * @param dependencies - The list of dependencies.
- * @returns The result of the `useMemo` hook with memoized dependencies.
+ * @param {() => T} callback - The callback function to run.
+ * @param {any[]} dependencies - The list of dependencies.
+ * @returns {T} The result of the `useMemo` hook with memoized dependencies.
  *
  * @example
  * ```tsx
@@ -181,9 +181,9 @@ export function useEqualMemo<T>(callback: () => T, dependencies: any[]): T {
  *
  * @template T - Callback signature to memoize.
  *
- * @param callback - The callback function to run.
- * @param dependencies - The list of dependencies.
- * @returns The result of the `useCallback` hook with memoized dependencies.
+ * @param {T} callback - The callback function to run.
+ * @param {any[]} dependencies - The list of dependencies.
+ * @returns {T} The result of the `useCallback` hook with memoized dependencies.
  *
  * @example
  * ```tsx

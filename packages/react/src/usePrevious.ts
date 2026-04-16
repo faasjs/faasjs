@@ -4,8 +4,8 @@ import { useEffect, useRef } from 'react'
  * Hook to store the previous value of a state or prop.
  *
  * @template T - The type of the value.
- * @param value - The current value to track.
- * @returns Previous value from the prior render, or `undefined` on the first render.
+ * @param {T} value - The current value to track.
+ * @returns {T | undefined} Previous value from the prior render, or `undefined` on the first render.
  *
  * @example
  * ```tsx

@@ -40,16 +40,11 @@ export type UseFaasStreamResult = {
  * It sends a streaming request, appends decoded text chunks to `data`, and
  * exposes reload helpers for retrying the same action.
  *
- * @param action - Action path to invoke.
- * @param defaultParams - Params used for the initial request and future reloads.
- * @param options - Optional hook configuration such as controlled data, debounce, and skip logic.
- * @param options.params - Request params override used without mutating the hook's stored params state.
- * @param options.data - Controlled stream text used instead of the hook's internal state.
- * @param options.setData - Controlled setter used instead of the hook's internal `setData`.
- * @param options.skip - Boolean or predicate that suppresses the automatic request until `reload()` runs.
- * @param options.debounce - Milliseconds to wait before sending the latest request.
- * @param options.baseUrl - Base URL override used for this hook instance.
- * @returns Streaming request state and helper methods described by {@link UseFaasStreamResult}.
+ * @param {string} action - Action path to invoke.
+ * @param {Record<string, any>} defaultParams - Params used for the initial request and future reloads.
+ * @param {UseFaasStreamOptions} [options] - Optional hook configuration such as controlled stream text, skip logic, debounce timing, and base URL overrides.
+ * See the `UseFaasStreamOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, and `baseUrl`.
+ * @returns {UseFaasStreamResult} Streaming request state and helper methods described by {@link UseFaasStreamResult}.
  *
  * @example
  * ```tsx

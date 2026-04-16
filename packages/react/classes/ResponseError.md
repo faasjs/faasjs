@@ -86,9 +86,9 @@ Notes:
 
 ## See
 
-- FaasBrowserClient.action for how ResponseError is thrown in requests
-- ResponseProps for the structure of response data
-- setMock for mocking errors in tests
+- [FaasBrowserClient.action](FaasBrowserClient.md#action) for how ResponseError is thrown in requests.
+- [ResponseProps](../type-aliases/ResponseProps.md) for the structure of response data.
+- [setMock](../functions/setMock.md) for mocking errors in tests.
 
 ## Extends
 

@@ -36,7 +36,7 @@ Parameters sent to the action.
 [`Options`](../type-aliases/Options.md)
 
 Optional per-request overrides such as headers or base URL.
-See the request `Options` type for supported fields such as `headers`, `beforeRequest`,
+See the browser-client `Options` type for supported fields such as `headers`, `beforeRequest`,
 `request`, `baseUrl`, and `stream`.
 
 ## Returns

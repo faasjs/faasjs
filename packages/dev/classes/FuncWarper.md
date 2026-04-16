@@ -84,9 +84,13 @@ Expected response type returned by the handler.
 
 `Record`\<`string`, `unknown`\> = `...`
 
+Runtime event passed to the exported handler.
+
 ##### context?
 
 `Record`\<`string`, `unknown`\> = `...`
+
+Runtime context passed to the exported handler.
 
 #### Returns
 

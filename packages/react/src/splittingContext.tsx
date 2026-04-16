@@ -12,8 +12,8 @@ import { useSplittingState } from './splittingState'
  * subscribe to the values they access.
  *
  * @template T - Context value shape exposed by the provider and hook.
- * @param defaultValue - Default value map or key list used to create split contexts.
- * @returns Provider and hook helpers for the split context.
+ * @param {Record<string, any> | (keyof T)[]} defaultValue - Default value map or key list used to create split contexts.
+ * @returns {{ Provider<NewT extends T = T>(this: void, props: { value?: Partial<NewT>; children: ReactNode; memo?: true | any[]; initializeStates?: Partial<NewT> }): ReactNode; use<NewT extends T = T>(this: void): Readonly<NewT> }} Provider and hook helpers for the split context.
  *
  * @example
  * ```tsx
@@ -63,7 +63,7 @@ export function createSplittingContext<T extends Record<string, any>>(
   /**
    * The provider component of the splitting context.
    *
-   * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#provider
+   * @see [Provider docs](https://faasjs.com/doc/react/functions/createSplittingContext.html#provider)
    *
    * @example
    * ```tsx
@@ -117,7 +117,7 @@ export function createSplittingContext<T extends Record<string, any>>(
   /**
    * Hook used to read values from the splitting context.
    *
-   * @see https://faasjs.com/doc/react/functions/createSplittingContext.html#use
+   * @see [Hook docs](https://faasjs.com/doc/react/functions/createSplittingContext.html#use)
    *
    * @example
    * ```tsx

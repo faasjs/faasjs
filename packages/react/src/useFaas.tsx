@@ -24,16 +24,11 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFa
  *
  * @template PathOrData - Action path or response data type used for inference.
  *
- * @param action - Action path to invoke.
- * @param defaultParams - Params used for the initial request and future reloads.
- * @param options - Optional hook configuration such as controlled data, debounce, and skip logic.
- * @param options.params - Request params override used without mutating the hook's stored params state.
- * @param options.data - Controlled data value used instead of the hook's internal state.
- * @param options.setData - Controlled setter used instead of the hook's internal `setData`.
- * @param options.skip - Boolean or predicate that suppresses the automatic request until `reload()` runs.
- * @param options.debounce - Milliseconds to wait before sending the latest request.
- * @param options.baseUrl - Base URL override used for this hook instance.
- * @returns Request state and helper methods described by {@link FaasDataInjection}.
+ * @param {FaasAction<PathOrData>} action - Action path to invoke.
+ * @param {FaasParams<PathOrData>} defaultParams - Params used for the initial request and future reloads.
+ * @param {useFaasOptions<PathOrData>} [options] - Optional hook configuration such as controlled data, skip logic, debounce timing, and base URL overrides.
+ * See the `useFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, and `baseUrl`.
+ * @returns {FaasDataInjection<PathOrData>} Request state and helper methods described by {@link FaasDataInjection}.
  *
  * @example
  * ```tsx

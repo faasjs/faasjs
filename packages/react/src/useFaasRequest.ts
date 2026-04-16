@@ -58,7 +58,7 @@ type PendingReload<Result> = {
  * @param {Pick<SharedUseFaasOptions<Params, Result>, 'params' | 'skip' | 'debounce' | 'baseUrl'>} args.options - Shared request options used by the lifecycle.
  * @param {() => void} [args.beforeSend] - Optional callback invoked immediately before a request starts.
  * @param {(result: Result) => void} [args.onSuccess] - Optional callback invoked after a successful response.
- * @param {(args: { action: string; params: Params; signal: AbortSignal; client: FaasReactClientInstance; setPromise: (promise: RequestPromise) => void }) => Promise<Result>} args.send - Transport function responsible for creating and resolving the request.
+ * @param {UseFaasRequestArgs<Params, Result, RequestPromise>['send']} args.send - Transport function responsible for creating and resolving the request.
  * @returns Shared request state, reload helpers, and refs used by `useFaas` and `useFaasStream`.
  * @example
  * ```ts
