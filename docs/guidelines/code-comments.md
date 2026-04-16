@@ -1,6 +1,6 @@
 # Code Comments Guide
 
-Use this guide when adding or reviewing JSDoc, helper comments, or short intent notes in FaasJS code. For docs site pages or tutorials, use the structure that best fits the page instead of forcing source-JSDoc conventions.
+Use this guide when adding or reviewing JSDoc, helper comments, or short intent notes in a FaasJS app or package. For docs site pages or tutorials, use the structure that best fits the page instead of forcing source-JSDoc conventions.
 
 ## Use This Guide When
 
@@ -13,29 +13,29 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 ## Default Workflow
 
 1. Pick a clear name first so the code does not depend on comments for basic readability.
-2. Author public API docs as adjacent JSDoc in `packages/*/src`, and keep one canonical block per export.
-3. Write public JSDoc in English, covering the feature overview and caller inputs, and add at least one example for runtime-facing exports when it helps readers understand what changes for the caller.
-4. Use stable tag syntax, tag ordering, and links so generated API Markdown stays predictable.
+2. Author public API docs as adjacent JSDoc in the source file, and keep one canonical block per export.
+3. Write public JSDoc in one primary language across the package. Prefer English for packages shared across teams or published publicly, and add at least one example for runtime-facing exports when it helps readers understand what changes for the caller.
+4. Use stable tag syntax, tag ordering, and links so generated docs, IDE hovers, and review diffs stay predictable.
 5. Separate caller-facing contract details from maintainer-facing implementation notes.
 6. Add short inline comments only when a private helper name or a non-standard branch still needs context.
 7. Explain why the code exists or what constraint it preserves, not what each line literally does.
-8. When exported API shapes or public JSDoc change, regenerate derived docs with `vp run doc` or `npx vp run doc` and review the rendered output.
+8. If your project publishes derived API docs, regenerate them from the source JSDoc and review the rendered output after contract changes.
 9. Delete or rewrite comments as soon as the code changes enough that the old text could drift.
 
 ## Rules
 
 ### 1. Public API docs live in source JSDoc
 
-- Public API documentation MUST be authored in adjacent JSDoc in `packages/*/src`.
-- Generated Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}` is derived output and MUST NOT be hand-edited.
+- Public API documentation SHOULD be authored as adjacent JSDoc close to the exported declaration.
+- If your project generates reference pages from JSDoc, treat that output as derived and edit the source comments instead.
 - Every exported function, class, hook, React component, interface, type alias, and public variable MUST have a JSDoc block close to the declaration.
 - Re-exports may reuse the original declaration's canonical JSDoc, but the original exported symbol still needs the doc block.
 - Each declaration SHOULD have one canonical JSDoc block. Do not stack duplicate lead comments for the same export.
-- User-facing package entrypoints in `src/index.ts` SHOULD provide a package or module overview, and they SHOULD add install or direct-usage guidance when the package is meant to be consumed directly.
+- Public package entrypoints SHOULD provide a package or module overview, and they SHOULD add install or direct-usage guidance when the package is meant to be consumed directly.
 
 ### 2. Export JSDoc must explain the symbol's role and caller contract
 
-- Public JSDoc MUST be written in English so generated API Markdown has one primary language.
+- Public JSDoc SHOULD stay in one primary language within the same package. Prefer English when the code is shared across teams or published publicly.
 - The first sentence or short opening list MUST tell readers what feature, capability, or responsibility the symbol provides.
 - If the feature overview cannot stay clear in one sentence, switch to a short Markdown list or a short heading-plus-list structure instead of forcing a dense paragraph.
 - Callable exports MUST document their inputs with `@param`.
@@ -53,7 +53,7 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 - When multiple block tags appear in the same JSDoc block, prefer this order: `@template`, `@param`, `@returns`, `@throws`, `@default`, `@property`, `@see`, `@augments`, `@deprecated`, `@example`.
 - Examples MUST use fenced code blocks with an appropriate info string such as `ts`, `tsx`, `sh`, or `json`.
 - Example imports SHOULD come from the package's public entrypoint unless a documented deep import is intentionally public.
-- Use `{@link Symbol}` when pointing to another FaasJS API symbol, and use standard Markdown links for external docs or URLs.
+- Use `{@link Symbol}` when pointing to another public API symbol in the same codebase, and use standard Markdown links for external docs or URLs.
 - Use `@see`, `@augments`, and `@deprecated` when they add information that TypeScript syntax alone does not communicate.
 - Tag descriptions MUST stay consistent with real runtime behavior, default values, and error semantics.
 
@@ -95,11 +95,11 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 - Explain the constraint or reason, not the syntax.
 - Remove the comment once the workaround or special case disappears.
 
-### 9. Regenerate and review derived API docs when public JSDoc changes
+### 9. Keep derived docs synced from source comments
 
-- When exported API shapes or public JSDoc change, run `vp run doc` or `npx vp run doc`.
-- Review generated output to confirm that headings, parameter descriptions, examples, and links render as intended.
-- Fix the source JSDoc first, then regenerate. Do not patch the generated Markdown directly.
+- When public API contracts or public JSDoc change, update any derived docs from the source comments instead of patching copied output.
+- Review generated or published output to confirm that headings, parameter descriptions, examples, and links render as intended.
+- Fix the source JSDoc first, then regenerate. Do not patch copied output directly.
 
 ### 10. Keep comments short, stable, and current
 
@@ -208,9 +208,9 @@ plugins.unshift(systemPlugin)
 
 ## Review Checklist
 
-- public API docs live in source JSDoc, and generated package Markdown is never hand-edited
+- public API docs live in source JSDoc, and any derived reference pages are refreshed from the source instead of hand-edited
 - every export has one canonical JSDoc block
-- public JSDoc is written in English, and user-facing package entrypoints have module overviews when needed
+- public JSDoc stays in one primary language for the package, and package entrypoints have module overviews when needed
 - exported JSDoc covers feature overview, caller inputs, and an example when the export is runtime-facing or the example adds real clarity
 - classes, components, and non-obvious type helpers include the extra context callers need
 - tag syntax, tag ordering, and cross references follow the shared conventions
@@ -218,7 +218,7 @@ plugins.unshift(systemPlugin)
 - low-level APIs include enough surrounding setup in examples to make the flow understandable
 - edge cases, failure semantics, and hidden prerequisites are documented when they affect correct usage
 - performance and compatibility notes explain the specific constraint being preserved
-- public JSDoc changes are followed by `vp run doc` and a quick review of the generated output
+- public JSDoc changes are reflected in any derived docs, and the rendered output is briefly reviewed
 - private helpers only have comments when names are still not descriptive enough
 - unusual branches explain why they exist
 - TODO or FIXME notes include a reason and an exit condition

@@ -1,6 +1,6 @@
 # 代码注释指南
 
-当你为 FaasJS 代码新增或评审 JSDoc、辅助注释或意图说明时，请使用这份指南。对于文档站点页面或教程类文档，请按页面自身最合适的结构来写，不必强行套用源码 JSDoc 的写法。
+当你为 FaasJS 应用或 package 新增、评审 JSDoc、辅助注释或意图说明时，请使用这份指南。对于文档站点页面或教程类文档，请按页面自身最合适的结构来写，不必强行套用源码 JSDoc 的写法。
 
 ## 适用场景
 
@@ -14,28 +14,28 @@
 
 1. 先把命名写清楚，不要让代码的基本可读性依赖注释。
 2. 把公开 API 文档写成紧邻导出声明的 JSDoc，且每个导出只保留一份规范性的文档 block。
-3. 公开 JSDoc 使用英文书写，覆盖功能概述与调用方输入，并在示例确实能帮助读者理解“调用后会发生什么”时，为运行时导出补上至少一个示例。
-4. 使用稳定的 tag 语法、tag 顺序与链接写法，让生成的 API Markdown 保持可预测。
+3. 公开 JSDoc 在同一个 package 内保持单一主语言；如果代码会跨团队共享或对外发布，优先使用英文；并在示例确实能帮助读者理解“调用后会发生什么”时，为运行时导出补上至少一个示例。
+4. 使用稳定的 tag 语法、tag 顺序与链接写法，让生成文档、IDE 悬浮提示与评审 diff 保持可预测。
 5. 把面向调用者的契约信息和面向维护者的实现说明分开写。
 6. 只有当私有 helper 名称或非常规分支仍然不够清楚时，才补充简短行内注释。
 7. 注释应解释这段代码为什么这样写，或它在保护什么约束，而不是逐行复述代码字面行为。
-8. 当导出的 API 结构或公开 JSDoc 发生变化时，用 `vp run doc` 或 `npx vp run doc` 重新生成派生文档，并检查渲染结果。
+8. 如果项目会从 JSDoc 派生 API 文档，那么在契约变化后要从源码注释重新生成，并检查渲染结果。
 9. 一旦代码改动到旧注释可能漂移，就立即删除或重写注释。
 
 ## 规则
 
 ### 1. 公开 API 文档应写在源码 JSDoc 中
 
-- 公开 API 文档必须以紧邻导出声明的 JSDoc 形式写在 `packages/*/src` 中。
-- `packages/*/{classes,functions,interfaces,type-aliases,variables}` 下的 Markdown 是派生产物，禁止手工编辑。
+- 公开 API 文档应作为紧邻导出声明的 JSDoc 写在源码里。
+- 如果项目会从 JSDoc 生成参考文档，请把那些产物视为派生输出，并始终修改源码注释而不是直接修改生成结果。
 - 每个导出的 function、class、hook、React component、interface、type alias 和 public variable，都必须在声明附近拥有 JSDoc block。
 - Re-export 可以复用原始声明上的规范性 JSDoc，但原始导出 symbol 本身仍然需要那份文档。
 - 每个声明都应只有一个规范性的 JSDoc block，不要为同一导出叠加重复的前置注释。
-- 面向直接消费的 package，其 `src/index.ts` 应提供 package 或模块概述；如果该 package 会被用户直接安装使用，还应顺手补充安装或直接使用说明。
+- 面向直接消费的 package 入口应提供 package 或模块概述；如果该 package 会被用户直接安装使用，还应顺手补充安装或直接使用说明。
 
 ### 2. 导出 JSDoc 必须讲清楚 symbol 的角色和调用契约
 
-- 公开 JSDoc 必须使用英文书写，这样生成的 API Markdown 才能保持单一主语言。
+- 公开 JSDoc 在同一个 package 内应保持单一主语言；如果代码会跨团队共享或对外发布，优先使用英文。
 - 第一段首句，或最前面的简短列表，必须让读者知道这个 symbol 提供了什么功能、能力或职责。
 - 如果功能概述无法清楚地压缩成一句话，就改用简短的 Markdown 列表，或“短标题 + 列表”的结构，不要硬写成一段很密的说明。
 - 可调用导出必须使用 `@param` 记录输入。
@@ -53,7 +53,7 @@
 - 当同一个 JSDoc block 中出现多个 block tags 时，优先使用这个顺序：`@template`、`@param`、`@returns`、`@throws`、`@default`、`@property`、`@see`、`@augments`、`@deprecated`、`@example`。
 - 示例必须使用带有合适 info string 的 fenced code block，例如 `ts`、`tsx`、`sh` 或 `json`。
 - 示例中的 import 应优先来自 package 的公开入口，除非某个 deep import 被明确视作公开 API。
-- 指向其他 FaasJS API symbol 时，优先使用 `{@link Symbol}`；外部文档和 URL 则使用标准 Markdown links。
+- 指向同一代码库中的其他公开 API symbol 时，优先使用 `{@link Symbol}`；外部文档和 URL 则使用标准 Markdown links。
 - `@see`、`@augments` 和 `@deprecated` 只有在能表达 TypeScript 语法本身无法表达的信息时才值得使用。
 - 各 tag 的描述必须与真实运行时行为、默认值和错误语义保持一致。
 
@@ -95,11 +95,11 @@
 - 注释应解释约束或原因，而不是解释语法。
 - 一旦 workaround 或特殊分支消失，就把对应注释一并删掉。
 
-### 9. 公开 JSDoc 变化后要重新生成并检查派生 API 文档
+### 9. 公开 JSDoc 变化后要同步派生文档
 
-- 当导出的 API 结构或公开 JSDoc 发生变化时，运行 `vp run doc` 或 `npx vp run doc`。
-- 检查生成结果，确认标题、参数描述、示例与链接都能正确渲染。
-- 修正应先落在源码 JSDoc 上，再重新生成，不要直接改生成出来的 Markdown。
+- 当公开 API 契约或公开 JSDoc 发生变化时，任何派生文档都应从源码注释同步，而不是直接修补复制出来的输出。
+- 检查生成或发布后的结果，确认标题、参数描述、示例与链接都能正确渲染。
+- 修正应先落在源码 JSDoc 上，再重新生成，不要直接改复制出来的输出。
 
 ### 10. 注释保持简洁、稳定且持续准确
 
@@ -208,9 +208,9 @@ plugins.unshift(systemPlugin)
 
 ## 评审清单
 
-- 公开 API 文档都写在源码 JSDoc 中，且 package 下生成的 Markdown 没有被手工修改
+- 公开 API 文档都写在源码 JSDoc 中，任何派生参考文档都从源码同步，而不是被手工修改
 - 每个导出只有一个规范性的 JSDoc block
-- 公开 JSDoc 使用英文书写，面向直接消费的 package 在需要时提供模块概述
+- 公开 JSDoc 在同一个 package 内保持单一主语言，package 入口在需要时提供模块概述
 - 导出 JSDoc 覆盖了功能概述、调用方输入，以及在导出面向运行时或示例确实能增加理解时提供示例
 - classes、components 与不直观的类型 helper 都补充了调用者真正需要的额外上下文
 - tag 语法、tag 顺序和交叉引用遵循统一约定
@@ -218,7 +218,7 @@ plugins.unshift(systemPlugin)
 - 低层 API 的示例提供了足够的上下文，让读者能看懂调用链路
 - 会影响正确使用的边界条件、失败语义和隐藏前提都已写明
 - 性能和兼容性注释说明了具体在保护什么约束
-- 公开 JSDoc 变化后，已运行 `vp run doc` 并快速检查生成结果
+- 公开 JSDoc 变化后，相关派生文档已同步，并快速检查了渲染结果
 - 私有 helper 只有在命名仍不够清楚时才保留注释
 - 非常规分支说明的是“为什么存在”
 - TODO 或 FIXME 记录了原因和退出条件
