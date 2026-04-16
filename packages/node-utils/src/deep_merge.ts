@@ -10,6 +10,11 @@ import { deepMerge as utilsDeepMerge } from '@faasjs/utils'
  * @param {any[]} sources - Objects or arrays to merge from left to right.
  * @returns {any} A cloned merged value built from the provided sources.
  *
+ *
+ * @example
+ * ```ts
+ * const value = deepMerge([{}])
+ * ```
  */
 export function deepMerge(...sources: any[]): any {
   return utilsDeepMerge(...sources)

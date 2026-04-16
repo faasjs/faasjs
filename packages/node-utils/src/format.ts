@@ -9,6 +9,11 @@
  *
  * @param fmt - Format string or first value to stringify.
  * @param args - Additional values consumed by format placeholders.
+ *
+ * @example
+ * ```ts
+ * const value = format({}, [{}])
+ * ```
  */
 export function format(fmt: any, ...args: any[]): string {
   const re = /(%?)(%([ojds]))/g

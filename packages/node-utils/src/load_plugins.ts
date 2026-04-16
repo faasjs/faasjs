@@ -26,14 +26,6 @@ type ConfigurablePlugin = Plugin & {
  * @property {string} filename - Function filename whose directory scopes nested config lookup.
  * @property {string} staging - Staging name such as `development` or `production`.
  * @property {Logger} [logger] - Optional logger used for debug output during config and plugin loading.
- * @example
- * ```ts
- * const options: LoadPluginsOptions = {
- *   root: process.cwd(),
- *   filename: '/project/src/orders/create.func.ts',
- *   staging: 'development',
- * }
- * ```
  */
 export type LoadPluginsOptions = {
   root: string

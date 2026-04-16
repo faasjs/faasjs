@@ -15,10 +15,3 @@ If `T` is already a plain object type, it is returned directly.
 `T` = `any`
 
 Candidate action path or response data type.
-
-## Example
-
-```typescript
-type DemoData = FaasData<'demo'>
-type CustomData = FaasData<{ value: number }> // { value: number }
-```

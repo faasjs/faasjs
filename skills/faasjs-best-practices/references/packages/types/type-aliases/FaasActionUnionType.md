@@ -4,4 +4,4 @@
 
 > **FaasActionUnionType** = `Record`\<`string`, `any`\> \| `string`
 
-Union type accepted by action helpers.
+Union type accepted by action helpers when callers pass either an action path or inferred data shape.

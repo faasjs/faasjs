@@ -18,6 +18,11 @@ export type AutoPagesClientOptions = RoutingClientOptions
  *
  * @param {RoutingClientOptions} [options] - Optional browser overrides such as a custom root element.
  * @returns The resolved page module and context for the mounted page.
+ *
+ * @example
+ * ```ts
+ * const page = await bootstrap({ pathname: '/guide' })
+ * ```
  */
 export function bootstrap(options: RoutingClientOptions = {}): Promise<ResolvedPage> {
   return bootstrapRouting({

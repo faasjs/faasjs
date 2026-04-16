@@ -705,53 +705,6 @@ export class ResponseError extends Error {
  * - Returning an Error object causes the action() method to reject with ResponseError
  * - Async function - must return a Promise
  * - Receives the fully merged options including default headers
- *
- * @example Basic mock returning data
- * ```ts
- * setMock(async (action, params, options) => {
- *   if (action === 'user') {
- *     return {
- *       status: 200,
- *       data: { id: params.id, name: 'Mock User' }
- *     }
- *   }
- *   return { status: 404, data: { error: 'Not found' } }
- * })
- * ```
- *
- * @example Conditional mock based on parameters
- * ```ts
- * setMock(async (action, params) => {
- *   if (action === 'login') {
- *     if (params.email === 'admin@example.com' && params.password === 'admin') {
- *       return { data: { token: 'admin-token', role: 'admin' } }
- *     }
- *     return { status: 401, data: { error: 'Invalid credentials' } }
- *   }
- * })
- * ```
- *
- * @example Throwing error from mock
- * ```ts
- * setMock(async (action) => {
- *   if (action === 'protected') {
- *     return new Error('Unauthorized access')
- *     // This will be wrapped in ResponseError and thrown
- *   }
- * })
- * ```
- *
- * @example Returning void for empty response
- * ```ts
- * setMock(async (action) => {
- *   if (action === 'delete') {
- *     // Return void for 204 No Content
- *     return
- *   }
- *   return { data: { success: true } }
- * })
- * ```
- *
  * @see setMock for setting up mock handlers
  * @see ResponseProps for response structure
  * @see ResponseError for error handling

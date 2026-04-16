@@ -1,6 +1,6 @@
 # Code Comments Guide
 
-Use this guide when adding or reviewing JSDoc, helper comments, or short intent notes in FaasJS code.
+Use this guide when adding or reviewing JSDoc, helper comments, or short intent notes in FaasJS code. For docs site pages or tutorials, use the structure that best fits the page instead of forcing source-JSDoc conventions.
 
 ## Use This Guide When
 
@@ -13,50 +13,107 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 ## Default Workflow
 
 1. Pick a clear name first so the code does not depend on comments for basic readability.
-2. Add JSDoc to every exported declaration before finalizing the implementation.
-3. Make exported JSDoc cover the feature overview, caller inputs, and at least one example.
-4. Add short inline comments only when a private helper name or a non-standard branch still needs context.
-5. Explain why the code exists or what constraint it preserves, not what each line literally does.
-6. Delete or rewrite comments as soon as the code changes enough that the old text could drift.
+2. Author public API docs as adjacent JSDoc in `packages/*/src`, and keep one canonical block per export.
+3. Write public JSDoc in English, covering the feature overview and caller inputs, and add at least one example for runtime-facing exports when it helps readers understand what changes for the caller.
+4. Use stable tag syntax, tag ordering, and links so generated API Markdown stays predictable.
+5. Separate caller-facing contract details from maintainer-facing implementation notes.
+6. Add short inline comments only when a private helper name or a non-standard branch still needs context.
+7. Explain why the code exists or what constraint it preserves, not what each line literally does.
+8. When exported API shapes or public JSDoc change, regenerate derived docs with `vp run doc` or `npx vp run doc` and review the rendered output.
+9. Delete or rewrite comments as soon as the code changes enough that the old text could drift.
 
 ## Rules
 
-### 1. Every export needs JSDoc
+### 1. Public API docs live in source JSDoc
 
+- Public API documentation MUST be authored in adjacent JSDoc in `packages/*/src`.
+- Generated Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}` is derived output and MUST NOT be hand-edited.
 - Every exported function, class, hook, React component, interface, type alias, and public variable MUST have a JSDoc block close to the declaration.
 - Re-exports may reuse the original declaration's canonical JSDoc, but the original exported symbol still needs the doc block.
-- Treat exported JSDoc as part of the public contract because it feeds generated API docs and downstream AI or tooling usage.
+- Each declaration SHOULD have one canonical JSDoc block. Do not stack duplicate lead comments for the same export.
+- User-facing package entrypoints in `src/index.ts` SHOULD provide a package or module overview, and they SHOULD add install or direct-usage guidance when the package is meant to be consumed directly.
 
-### 2. Export JSDoc must cover features, params, and examples
+### 2. Export JSDoc must explain the symbol's role and caller contract
 
-- Exported JSDoc MUST include a short overview that tells readers what feature, capability, or responsibility the symbol provides.
-- If the feature overview cannot stay clear in one sentence, switch to a short Markdown list that breaks the feature into concrete points instead of forcing a dense paragraph.
+- Public JSDoc MUST be written in English so generated API Markdown has one primary language.
+- The first sentence or short opening list MUST tell readers what feature, capability, or responsibility the symbol provides.
+- If the feature overview cannot stay clear in one sentence, switch to a short Markdown list or a short heading-plus-list structure instead of forcing a dense paragraph.
 - Callable exports MUST document their inputs with `@param`.
-- If an export has no callable parameters, document the consumer-facing fields with `@property` or member JSDoc so the same input guidance is still available.
-- Exported APIs MUST include at least one `@example` that shows the smallest realistic usage.
+- If an export has no callable parameters but does expose consumer-facing fields, document those fields with `@property` or member JSDoc so the same input guidance is still available.
+- Exported JSDoc should prefer caller-facing contract details such as accepted inputs, returned outputs, defaults, observable side effects, and user-visible failure behavior.
+- Classes and React components that are part of the public surface SHOULD include a top-level overview plus constructor or props usage details when those are not obvious from the type signature alone.
+- Non-obvious conditional, inferred, template-literal, or similar type helpers SHOULD explain the mapping rule, and they SHOULD add an example when that materially improves comprehension.
+- Exported runtime APIs SHOULD include at least one `@example` that shows the smallest realistic usage.
+- Pure type exports such as shape-only interfaces or type aliases MAY omit `@example` when the overview plus any relevant `@property` or member JSDoc already make usage clear; for fieldless unions, primitives, template literal types, or marker aliases, the overview alone can be enough.
 - Add `@returns`, `@throws`, `@default`, or `@template` whenever those details matter to a caller.
 
-### 3. Comment internal helpers only when the name is not enough
+### 3. Use stable JSDoc tags and references
+
+- `@param` SHOULD use `{Type} name - description` style in TypeScript source.
+- When multiple block tags appear in the same JSDoc block, prefer this order: `@template`, `@param`, `@returns`, `@throws`, `@default`, `@property`, `@see`, `@augments`, `@deprecated`, `@example`.
+- Examples MUST use fenced code blocks with an appropriate info string such as `ts`, `tsx`, `sh`, or `json`.
+- Example imports SHOULD come from the package's public entrypoint unless a documented deep import is intentionally public.
+- Use `{@link Symbol}` when pointing to another FaasJS API symbol, and use standard Markdown links for external docs or URLs.
+- Use `@see`, `@augments`, and `@deprecated` when they add information that TypeScript syntax alone does not communicate.
+- Tag descriptions MUST stay consistent with real runtime behavior, default values, and error semantics.
+
+### 4. Separate caller contracts from maintainer notes
+
+- Write exported JSDoc primarily for callers, and write inline or helper comments primarily for maintainers reading the implementation.
+- Keep contract details such as `@param`, `@returns`, `@property`, defaults, and failure semantics in the exported JSDoc instead of scattering them across inline comments.
+- Keep implementation notes focused on reasons, sequencing, hidden constraints, and tradeoffs that a caller does not need to know.
+- For low-level APIs that are public but uncommon to call directly, say which higher-level helper or entrypoint most app code should use.
+
+### 5. Write examples to make the symbol's role obvious
+
+- Every `@example` should help readers answer "where does this value come from?" or "what changes when I use this API?".
+- Prefer a tiny end-to-end scenario over a context-free one-liner when the symbol's role depends on surrounding setup, such as provider/consumer, hook/context, callback registration, or request/response flow.
+- Examples SHOULD be minimal, runnable in principle, and focused on one behavior at a time.
+- For low-level APIs, show the surrounding setup and name the higher-level helper you would usually prefer if direct usage is uncommon.
+- Reuse one coherent scenario across related exports in the same module when that makes their relationship easier to understand.
+- Avoid placeholder-only examples such as `const value = thing` or `{} as Type` when they do not teach the reader anything new.
+- Keep examples small, but make the outcome observable through returned data, rendered text, or another concrete effect.
+
+### 6. Document boundaries, failures, and hidden constraints
+
+- Prefer documenting edge cases over restating the happy path, especially for `null`, `undefined`, empty collections, default behavior, and ordering-sensitive branches.
+- Make failure semantics explicit when they matter: say whether the code throws, returns a fallback, skips work, retries, or silently no-ops.
+- Call out hidden prerequisites that code alone may not make obvious, such as required providers, injected plugins, environment assumptions, or runtime-specific behavior.
+- When behavior depends on timing or lifecycle, mention the phase or ordering requirement directly, such as mount before invoke, defaults before overrides, or registration order before reads.
+
+### 7. Comment internal helpers only when the name is not enough
 
 - Prefer renaming vague helpers such as `run`, `handle`, or `format` before adding a comment.
 - Add one short comment above a private helper when its name does not fully explain side effects, normalization rules, lifecycle timing, or cache behavior.
 - Skip comments for straightforward control flow, data mapping, or TypeScript boilerplate.
 
-### 4. Comment non-standard code by explaining why
+### 8. Comment non-standard, performance-sensitive, or compatibility code by explaining why
 
 - Add a short note when code intentionally deviates from the obvious implementation, preserves runtime ordering, works around platform or tooling limits, or guards against a subtle regression.
+- For performance-sensitive code, explain the trigger and cost you are avoiding, not just that the code is "faster".
+- For compatibility notes, name the platform, library, tool, or generated-doc constraint that the code is working around.
 - Explain the constraint or reason, not the syntax.
 - Remove the comment once the workaround or special case disappears.
 
-### 5. Keep comments short and current
+### 9. Regenerate and review derived API docs when public JSDoc changes
 
-- Prefer one or two sentences.
+- When exported API shapes or public JSDoc change, run `vp run doc` or `npx vp run doc`.
+- Review generated output to confirm that headings, parameter descriptions, examples, and links render as intended.
+- Fix the source JSDoc first, then regenerate. Do not patch the generated Markdown directly.
+
+### 10. Keep comments short, stable, and current
+
+- Prefer each explanatory paragraph or inline note to stay within one or two sentences.
 - Avoid repeating types, variable names, or line-by-line behavior that TypeScript and the code already make obvious.
+- Prefer stable wording about purpose, constraints, and contracts over fragile wording that mirrors today's implementation details.
+- Use the same project terms as the public API so generated docs and source comments do not drift into different vocabularies.
+- When you touch a public JSDoc block, normalize it to these conventions even if nearby legacy comments still use older style.
+- Write TODO or FIXME notes only when they include a clear reason and an exit condition or follow-up trigger.
 - Update or delete comments in the same change that alters the behavior they describe.
 
 ## Examples
 
-Exported API example:
+Exported runtime API example:
 
 ````ts
 /**
@@ -77,7 +134,63 @@ export function createRouteMatcher(pathname: string, strict = false) {
 }
 ````
 
-Internal and non-standard code examples:
+Tag ordering and cross-reference example:
+
+````ts
+/**
+ * Load a package and resolve its preferred default export.
+ *
+ * @template T - Expected module shape.
+ * @param {string} name - Package name to load.
+ * @param {string | string[]} defaultNames - Preferred export keys used to resolve default values.
+ * @param {LoadPackageOptions} options - Optional runtime loader options.
+ * @returns Loaded module or resolved default export.
+ * @throws {Error} When runtime cannot be determined.
+ * @see {@link loadConfig}
+ * @example
+ * ```ts
+ * const handler = await loadPackage('pkg', ['default', 'handler'])
+ * ```
+ */
+export async function loadPackage<T = unknown>(
+  name: string,
+  defaultNames: string | string[] = 'default',
+  options: LoadPackageOptions = {},
+): Promise<T> {
+  // ...
+}
+````
+
+Low-level public API example:
+
+````ts
+/**
+ * Create a request-scoped logger for one invocation.
+ *
+ * Most app code should call `useLogger()` inside a handler. Call this directly
+ * only when you are wiring request context during server bootstrap.
+ *
+ * @param {LoggerTransport} transport - Shared transport created during app startup.
+ * @param {RequestLike} request - Current request metadata for this invocation.
+ * @returns Logger prefilled with request id and pathname.
+ * @see {@link useLogger}
+ * @example
+ * ```ts
+ * const transport = createConsoleTransport()
+ * const requestLogger = createRequestLogger(transport, {
+ *   requestId: 'req_123',
+ *   pathname: '/orders'
+ * })
+ *
+ * requestLogger.info('fetch order list')
+ * ```
+ */
+export function createRequestLogger(transport: LoggerTransport, request: RequestLike) {
+  // ...
+}
+````
+
+Internal, performance, and compatibility examples:
 
 ```ts
 // Normalize ids once so repeated lookups do not allocate on every render.
@@ -85,19 +198,28 @@ function buildIdIndex(records: RecordItem[]) {
   // ...
 }
 
+// Keep this branch for Node 18 stream adapters because they still deliver the
+// close event before the final buffered chunk is flushed.
+await drainLegacyStream(stream)
+
 // Keep this synchronous registration order because later plugins read earlier defaults.
 plugins.unshift(systemPlugin)
 ```
 
 ## Review Checklist
 
-- every export has a JSDoc block
-- exported JSDoc covers feature overview, caller inputs, and an example
-- complex features use a short list when one sentence would be too dense
+- public API docs live in source JSDoc, and generated package Markdown is never hand-edited
+- every export has one canonical JSDoc block
+- public JSDoc is written in English, and user-facing package entrypoints have module overviews when needed
+- exported JSDoc covers feature overview, caller inputs, and an example when the export is runtime-facing or the example adds real clarity
+- classes, components, and non-obvious type helpers include the extra context callers need
+- tag syntax, tag ordering, and cross references follow the shared conventions
+- examples explain the API's role with a concrete cause/effect instead of only repeating the symbol name
+- low-level APIs include enough surrounding setup in examples to make the flow understandable
+- edge cases, failure semantics, and hidden prerequisites are documented when they affect correct usage
+- performance and compatibility notes explain the specific constraint being preserved
+- public JSDoc changes are followed by `vp run doc` and a quick review of the generated output
 - private helpers only have comments when names are still not descriptive enough
 - unusual branches explain why they exist
+- TODO or FIXME notes include a reason and an exit condition
 - comments stay short and match current behavior
-
-## Read Next
-
-- [JSDoc Authoring Specification](../specs/jsdoc-authoring.md)

@@ -6,21 +6,6 @@
 
 Built-in FaasJS submit handler configuration for [Form](../functions/Form.md).
 
-## Example
-
-```ts
-const faas = {
-  action: 'user/create',
-  params: (values) => ({
-    ...values,
-    role: values.role || 'user',
-  }),
-  onSuccess: (result) => {
-    console.log(result)
-  },
-}
-```
-
 ## Type Parameters
 
 ### Values

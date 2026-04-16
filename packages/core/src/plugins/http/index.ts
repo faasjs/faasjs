@@ -13,6 +13,11 @@ export { Session, type SessionContent, type SessionOptions } from './session'
 
 /**
  * Common content type aliases used by the HTTP plugin.
+ *
+ * @example
+ * ```ts
+ * const contentType = ContentType.json
+ * ```
  */
 export const ContentType: {
   [key: string]: string

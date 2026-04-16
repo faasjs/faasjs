@@ -22,6 +22,13 @@ function getDefaultDocument(): Document | undefined {
  *
  * @param {BootstrapRoutingOptions} options - Browser bootstrap options.
  * @returns The resolved page module and context for the mounted page.
+ *
+ * @example
+ * ```ts
+ * const page = await bootstrapRouting({
+ *   pageModules: { './pages/index.tsx': { default: () => null } },
+ * })
+ * ```
  */
 export async function bootstrapRouting(options: BootstrapRoutingOptions): Promise<ResolvedPage> {
   const currentWindow = options.window ?? getDefaultWindow()
@@ -49,5 +56,12 @@ export async function bootstrapRouting(options: BootstrapRoutingOptions): Promis
 
 /**
  * @deprecated Use {@link bootstrapRouting} instead.
+ *
+ * @example
+ * ```ts
+ * const page = await bootstrapAutoPages({
+ *   pageModules: { './pages/index.tsx': { default: () => null } },
+ * })
+ * ```
  */
 export const bootstrapAutoPages = bootstrapRouting

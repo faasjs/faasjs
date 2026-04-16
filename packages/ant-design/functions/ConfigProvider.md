@@ -26,10 +26,19 @@ Theme overrides and optional FaasJS client configuration.
 ```tsx
 import { Blank, ConfigProvider } from '@faasjs/ant-design'
 
-export function Page() {
+function OrdersEmptyState() {
+  return <Blank />
+}
+
+export function OrdersPage() {
   return (
-    <ConfigProvider theme={{ common: { blank: 'Empty' } }}>
-      <Blank />
+    <ConfigProvider
+      theme={{
+        common: { blank: 'No orders yet' },
+        Title: { suffix: 'Acme Admin' },
+      }}
+    >
+      <OrdersEmptyState />
     </ConfigProvider>
   )
 }

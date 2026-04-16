@@ -49,38 +49,3 @@ Rendering surface requesting the output.
 ## Returns
 
 `React.ReactNode`
-
-## Example
-
-```tsx
-import { type UnionFaasItemRender, Form, Description, Table } from '@faasjs/ant-design'
-
-const nameReader: UnionFaasItemRender = (value, values, index, scene) => {
-  switch (scene) {
-    case 'form':
-      return <input />
-    case 'description':
-    case 'table':
-      return <span>{value}</span>
-    default:
-      return null
-  }
-}
-
-const items = [
-  {
-    id: 'name',
-    render: nameReader,
-  },
-]
-
-function App() {
-  return (
-    <>
-      <Form items={items} /> // Will render an input
-      <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
-      <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
-    </>
-  )
-}
-```

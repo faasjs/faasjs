@@ -8,6 +8,11 @@ type ColorfyStream = {
 
 /**
  * ANSI color codes used by the built-in logger formatter.
+ *
+ * @example
+ * ```ts
+ * const color = Color.RED
+ * ```
  */
 export const Color = {
   DEFAULT: 39,
@@ -23,6 +28,11 @@ export const Color = {
 
 /**
  * Default ANSI color mapping used by {@link Logger} for each log level.
+ *
+ * @example
+ * ```ts
+ * const levelColor = LevelColor.warn
+ * ```
  */
 export const LevelColor = {
   debug: Color.GRAY,
@@ -40,6 +50,11 @@ export const LevelColor = {
  * @param {ColorfyStream} [stream] - Output target used by the logger.
  * @param {ColorfyEnv} [env] - Environment variables used to override detection.
  * @returns {boolean} `true` when ANSI colors should be emitted.
+ *
+ * @example
+ * ```ts
+ * const enabled = supportsColorfyOutput({ isTTY: true }, process.env)
+ * ```
  */
 export function supportsColorfyOutput(stream?: ColorfyStream, env?: ColorfyEnv): boolean {
   if (!env) return false

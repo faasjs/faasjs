@@ -221,7 +221,7 @@ function DescriptionItemContent<T = any>(
       return (
         <Space direction="vertical">
           {(computedProps.value as Record<string, any>[]).map((value, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: use index as key
+            // biome-ignore lint/suspicious/noArrayIndexKey: Nested description items do not carry stable ids, but their order is preserved.
             <Description
               key={index}
               items={computedProps.item.object || []}

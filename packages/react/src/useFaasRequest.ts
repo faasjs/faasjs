@@ -13,14 +13,6 @@ import { equal, useEqualCallback, useEqualEffect } from './equal'
  * @property {boolean | ((params: Params) => boolean)} [skip] - Boolean or predicate that suppresses the automatic request.
  * @property {number} [debounce] - Milliseconds to wait before sending the latest request.
  * @property {BaseUrl} [baseUrl] - Base URL override used for this request lifecycle.
- * @example
- * ```ts
- * const options: SharedUseFaasOptions<{ id: number }, { name: string }> = {
- *   params: { id: 1 },
- *   skip: false,
- *   debounce: 100,
- * }
- * ```
  */
 export type SharedUseFaasOptions<Params, Data> = {
   params?: Params

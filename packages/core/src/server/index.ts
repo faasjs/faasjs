@@ -624,7 +624,7 @@ export class Server {
 
       res.on('finish', () => this.activeRequests--)
 
-      // don't lock options request
+      // Let CORS preflight requests bypass the per-route mount queue.
       if (req.method === 'OPTIONS') return this.handleOptionRequest(req, res)
 
       const requestUrl = ensureRequestUrl(req, res)
@@ -825,7 +825,7 @@ export class Server {
   }
 
   private getFilePath(path: string): string {
-    // Safe check
+    // Reject traversal-like inputs before expanding route lookup candidates.
     if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
 
     const searchPaths = getRouteFiles(this.root, path)

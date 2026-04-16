@@ -21,7 +21,7 @@ description: When working with FaasJS projects, must follow these best practices
 
 - [Ant Design Guide](./guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
 - [File Conventions](./guidelines/file-conventions.md): Covers where to place pages, components, hooks, and `.func.ts` files, plus when separate files are worth creating.
-- [Code Comments Guide](./guidelines/code-comments.md): Covers required JSDoc for exports, when internal helpers need brief comments, and how to explain non-standard code without narrating it line by line.
+- [Code Comments Guide](./guidelines/code-comments.md): Covers required JSDoc for exports, public JSDoc language/tag/generation conventions, when internal helpers need brief comments, and how to explain non-standard code without narrating it line by line.
 - [Node Utils Guide](./guidelines/node-utils.md): Covers Node-only helpers for env/config loading, function and plugin bootstrapping, module loading, and shared logging.
 - [Project Config Guide](./guidelines/project-config.md): Covers how to keep `tsconfig.json`, `vite.config.ts`, and shared tooling config aligned with FaasJS defaults.
 - [React Guide](./guidelines/react.md): Covers React component and hook patterns in FaasJS, especially avoiding native `useEffect` and handling non-primitive dependencies safely.
@@ -35,7 +35,6 @@ description: When working with FaasJS projects, must follow these best practices
 
 - [faas.yaml Configuration Specification](./references/specs/faas-yaml.md)
 - [HTTP Protocol Specification](./references/specs/http-protocol.md)
-- [JSDoc Authoring Specification](./references/specs/jsdoc-authoring.md)
 - [Plugin Specification](./references/specs/plugin.md)
 - [Routing Mapping Specification](./references/specs/routing-mapping.md)
 

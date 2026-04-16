@@ -25,6 +25,11 @@ export type ServerConfig = {
  * Resolve the active FaasJS staging name from the current environment.
  *
  * @returns `process.env.FaasEnv` or `'development'` when the variable is unset.
+ *
+ * @example
+ * ```ts
+ * const value = resolveFaasStaging()
+ * ```
  */
 export function resolveFaasStaging(): string {
   return process.env.FaasEnv || 'development'
@@ -41,6 +46,11 @@ export function resolveFaasStaging(): string {
  * @param {string} defaultBase - Base path used when config does not define `server.base`. @default '/'
  * @returns Resolved server configuration for the current project.
  * @throws {Error} When `faas.yaml` cannot be loaded or contains invalid server config.
+ *
+ * @example
+ * ```ts
+ * const value = resolveServerConfig('demo', {} as Logger, {})
+ * ```
  */
 export function resolveServerConfig(
   root: string,

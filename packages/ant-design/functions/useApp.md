@@ -20,6 +20,8 @@ Narrowed app context shape to read from `AppContext`.
 
 `void`
 
+Explicit void receiver that keeps the hook unbound.
+
 ## Returns
 
 `Readonly`\<`NewT`\>

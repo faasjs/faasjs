@@ -223,38 +223,6 @@ export type UnionFaasItemInjection<Value = any, Values = any> = {
  * @param {Values} values - Whole record or row containing the value.
  * @param {number} index - Current row or list index.
  * @param {UnionScene} scene - Rendering surface requesting the output.
- *
- * @example
- * ```tsx
- * import { type UnionFaasItemRender, Form, Description, Table } from '@faasjs/ant-design'
- *
- * const nameReader: UnionFaasItemRender = (value, values, index, scene) => {
- *   switch (scene) {
- *     case 'form':
- *       return <input />
- *     case 'description':
- *     case 'table':
- *       return <span>{value}</span>
- *     default:
- *       return null
- *   }
- * }
- *
- * const items = [
- *   {
- *     id: 'name',
- *     render: nameReader,
- *   }
- * ]
- *
- * function App() {
- *   return <>
- *     <Form items={items} /> // Will render an input
- *     <Description items={items} dataSource={{ name: 'John' }} /> // Will render a span
- *     <Table items={items} dataSource={[{ name: 'John' }]} /> // Will render a span
- *   </>
- * }
- * ```
  */
 export type UnionFaasItemRender<Value = any, Values = any> = (
   value: Value,
@@ -268,40 +236,6 @@ export type UnionFaasItemRender<Value = any, Values = any> = (
  *
  * @template Value - Current item value type.
  * @template Values - Whole record or row type that contains the value.
- *
- * @example
- * ```tsx
- * import { type UnionFaasItemElement, Form, Description, Table } from '@faasjs/ant-design'
- *
- * const NameComponent: UnionFaasItemElement = ({ scene, value }) => {
- *   switch (scene) {
- *     case 'form':
- *       return <input />
- *     case 'description':
- *     case 'table':
- *       return <span>{value}</span>
- *     default:
- *       return null
- *   }
- * }
- *
- * const items = [
- *   {
- *     id: 'name',
- *     children: NameComponent, // both `NameComponent` and `<NameComponent />` are valid
- *   }
- * ]
- *
- * function App() {
- *   return (
- *     <>
- *       <Form items={items} />
- *       <Description items={items} dataSource={{ name: 'John' }} />
- *       <Table items={items} dataSource={[{ name: 'John' }]} />
- *     </>
- *   )
- * }
- * ```
  */
 export type UnionFaasItemElement<Value = any, Values = any> =
   | ReactElement<UnionFaasItemInjection<Value, Values>>
@@ -320,41 +254,6 @@ export type UnionFaasItemElement<Value = any, Values = any> =
  *
  * @template Value - Current item value type.
  * @template Values - Whole record or row type that contains the value.
- *
- * @example
- * ```tsx
- * import { type UnionFaasItemProps, Form, Table, Description } from '@faasjs/ant-design'
- *
- * const item: UnionFaasItemProps[] = [
- *   {
- *     id: 'id',
- *     formChildren: null, // Don't show in form, only in description and table
- *   },
- *   {
- *     id: 'name',
- *     required: true, // Required in form
- *   },
- *   {
- *     id: 'age',
- *     type: 'number', // Number type in form, description and table
- *     options: ['< 18', '>= 18'], // Options in form and table
- *   }
- * ]
- *
- * const data = {
- *   id: '1',
- *   name: 'John',
- *   age: '>= 18',
- * }
- *
- * function App() {
- *   return <>
- *     <Form items={item} /> // Use in form
- *     <Description items={item} dataSource={data} /> // Use in description
- *     <Table items={item} dataSource={[ data ]} /> // Use in table
- *   </>
- * }
- * ```
  */
 export interface UnionFaasItemProps<Value = any, Values = any>
   extends FormItemProps, DescriptionItemProps, TableItemProps {

@@ -4,34 +4,6 @@
 
 Item shape used to extend `Form` with custom type names.
 
-## Example
-
-```tsx
-import { Form, type ExtendFormItemProps, type FormProps } from '@faasjs/ant-design'
-import { Input } from 'antd'
-
-interface ExtendTypes extends ExtendFormItemProps {
-  type: 'password'
-}
-
-function ExtendForm(props: FormProps<any, ExtendTypes>) {
-  return <Form {...props} extendTypes={{ password: { children: <Input.Password /> } }} />
-}
-
-export function Page() {
-  return (
-    <ExtendForm
-      items={[
-        {
-          id: 'password',
-          type: 'password',
-        },
-      ]}
-    />
-  )
-}
-```
-
 ## Extends
 
 - `Omit`\<[`FormItemProps`](FormItemProps.md), `"type"`\>

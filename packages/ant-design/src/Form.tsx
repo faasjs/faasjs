@@ -30,20 +30,6 @@ export type FormSubmitProps = {
  * Built-in FaasJS submit handler configuration for {@link Form}.
  *
  * @template Values - Form values shape used by submit handlers.
- *
- * @example
- * ```ts
- * const faas = {
- *   action: 'user/create',
- *   params: (values) => ({
- *     ...values,
- *     role: values.role || 'user',
- *   }),
- *   onSuccess: (result) => {
- *     console.log(result)
- *   },
- * }
- * ```
  */
 export type FormFaasProps<Values extends Record<string, any> = any> = {
   /** Action name submitted through `faas()`. */
@@ -281,7 +267,7 @@ export function Form<Values extends Record<string, any> = any>(props: FormProps<
       ...props,
     }
 
-    // Remove props that are not valid for Ant Design Form
+    // Strip FaasJS-only props before forwarding the rest to Ant Design Form.
     delete propsCopy.onFinish
     delete propsCopy.faas
     delete propsCopy.extendTypes

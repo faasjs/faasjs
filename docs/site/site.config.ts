@@ -134,7 +134,6 @@ export const siteConfig: SiteConfig = {
             children: [
               '/specs/faas-yaml.html',
               '/specs/http-protocol.html',
-              '/specs/jsdoc-authoring.html',
               '/specs/plugin.html',
               '/specs/routing-mapping.html',
             ],
@@ -158,7 +157,6 @@ export const siteConfig: SiteConfig = {
           ['/guide/', 'Guide'],
           '/specs/faas-yaml.html',
           '/specs/http-protocol.html',
-          '/specs/jsdoc-authoring.html',
           '/specs/plugin.html',
           '/specs/routing-mapping.html',
         ],
@@ -263,7 +261,6 @@ export const siteConfig: SiteConfig = {
             children: [
               '/zh/specs/faas-yaml.html',
               '/zh/specs/http-protocol.html',
-              '/zh/specs/jsdoc-authoring.html',
               '/zh/specs/plugin.html',
               '/zh/specs/routing-mapping.html',
             ],
@@ -287,7 +284,6 @@ export const siteConfig: SiteConfig = {
           ['/zh/guide/', '最佳实践'],
           '/zh/specs/faas-yaml.html',
           '/zh/specs/http-protocol.html',
-          '/zh/specs/jsdoc-authoring.html',
           '/zh/specs/plugin.html',
           '/zh/specs/routing-mapping.html',
         ],

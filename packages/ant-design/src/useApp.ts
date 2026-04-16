@@ -25,6 +25,11 @@ export interface useAppProps {
 
 /**
  * Shared context storing message, notification, modal, and drawer helpers.
+ *
+ * @example
+ * ```ts
+ * const { message } = AppContext.use()
+ * ```
  */
 export const AppContext = createSplittingContext<useAppProps>([
   'message',
@@ -39,6 +44,7 @@ export const AppContext = createSplittingContext<useAppProps>([
  * Read app-level services exposed by the root `App` component.
  *
  * @template NewT - Narrowed app context shape to read from `AppContext`.
+ * @param {void} this - Explicit void receiver that keeps the hook unbound.
  * @returns Read-only app context value.
  *
  * @example

@@ -12,16 +12,6 @@ type YamlConfig = Record<string, FuncConfig>
 
 /**
  * Per-plugin configuration entry resolved from `faas.yaml`.
- *
- * @example
- * ```ts
- * const pluginConfig: FuncPluginConfig = {
- *   type: 'http',
- *   config: {
- *     path: '/orders/create',
- *   },
- * }
- * ```
  */
 export type FuncPluginConfig = {
   [key: string]: any
@@ -43,17 +33,6 @@ export type FuncPluginConfig = {
 
 /**
  * Resolved stage config merged from matching `faas.yaml` files.
- *
- * @example
- * ```ts
- * const config: FuncConfig = {
- *   plugins: {
- *     http: {
- *       type: 'http',
- *     },
- *   },
- * }
- * ```
  */
 export type FuncConfig = {
   [key: string]: any

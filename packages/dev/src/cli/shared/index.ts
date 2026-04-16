@@ -31,6 +31,11 @@ type ParseCommonCliArgsOptions = {
  * @param {ParseCommonCliArgsOptions} parseOptions - Parsing controls such as whether to treat remaining arguments as passthrough after the first positional argument. @default {}
  * @returns Parsed execution mode, normalized options, and remaining positional arguments.
  * @throws {Error} When an option is unknown or `--root` is missing a value.
+ *
+ * @example
+ * ```ts
+ * const parsed = parseCommonCliArgs(['--root', '/project', 'run'], 'dev')
+ * ```
  */
 export function parseCommonCliArgs(
   args: string[],
@@ -88,6 +93,11 @@ export function parseCommonCliArgs(
  * Print the current `@faasjs/dev` package version.
  *
  * @returns Zero exit code after printing the version.
+ *
+ * @example
+ * ```ts
+ * printVersion()
+ * ```
  */
 export function printVersion(): number {
   console.log(PackageJSON.version)
@@ -100,6 +110,11 @@ export function printVersion(): number {
  *
  * @param {() => Promise<number>} handler - Async command handler that returns an exit code.
  * @returns Exit code from the handler, or `1` after printing an error message.
+ *
+ * @example
+ * ```ts
+ * const exitCode = await runCli(async () => 0)
+ * ```
  */
 export async function runCli(handler: () => Promise<number>): Promise<number> {
   try {
@@ -115,6 +130,14 @@ export async function runCli(handler: () => Promise<number>): Promise<number> {
  *
  * @param {(args: string[]) => Promise<number>} run - Command runner that expects arguments after the executable name.
  * @returns Async entrypoint suitable for CLI binaries.
+ *
+ * @example
+ * ```ts
+ * const main = createMain(async (args) => {
+ *   console.log(args)
+ *   return 0
+ * })
+ * ```
  */
 export function createMain(run: (args: string[]) => Promise<number>) {
   return async (argv = process.argv): Promise<number> => runCli(() => run(argv.slice(2)))

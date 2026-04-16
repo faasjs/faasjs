@@ -13,18 +13,3 @@ Get the event type of a func.
 `T` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
 Func instance whose event type should be extracted.
-
-## Example
-
-```ts
-import { defineApi } from '@faasjs/core'
-import type { FuncEventType } from '@faasjs/core'
-
-const func = defineApi<undefined, { counter: number }>({
-  async handler() {
-    return null
-  },
-})
-
-FuncEventType<typeof func> // => { counter: number }
-```

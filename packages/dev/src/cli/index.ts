@@ -27,6 +27,11 @@ const Commands = {
  * @param {string[]} args - Arguments after the `faas` executable name.
  * @returns Exit code for the selected subcommand.
  * @throws {Error} When the subcommand name is unknown.
+ *
+ * @example
+ * ```ts
+ * const result = await run(['demo'])
+ * ```
  */
 export async function run(args: string[]): Promise<number> {
   const command = args[0]
@@ -47,5 +52,10 @@ export async function run(args: string[]): Promise<number> {
 
 /**
  * Default Node.js entrypoint for the `faas` binary.
+ *
+ * @example
+ * ```ts
+ * const exitCode = await main(['node', 'faas', '--version'])
+ * ```
  */
 export const main = createMain(run)

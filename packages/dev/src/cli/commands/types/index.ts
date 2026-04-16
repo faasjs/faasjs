@@ -23,6 +23,11 @@ Options:
  * @param {string[]} args - Arguments after `faas types`.
  * @returns Exit code for the command.
  * @throws {Error} When unexpected positional arguments are provided.
+ *
+ * @example
+ * ```ts
+ * const result = await run(['demo'])
+ * ```
  */
 export async function run(args: string[]): Promise<number> {
   const { mode, options, rest } = parseCommonCliArgs(args, 'faas types')
@@ -51,5 +56,10 @@ export async function run(args: string[]): Promise<number> {
 
 /**
  * Default Node.js entrypoint for `faas types`.
+ *
+ * @example
+ * ```ts
+ * const exitCode = await main(['node', 'faas', '--version'])
+ * ```
  */
 export const main = createMain(run)

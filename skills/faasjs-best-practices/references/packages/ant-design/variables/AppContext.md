@@ -135,3 +135,9 @@ function App() {
   )
 }
 ```
+
+## Example
+
+```ts
+const { message } = AppContext.use()
+```

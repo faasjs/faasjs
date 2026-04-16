@@ -412,10 +412,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
 
       switch (itemType) {
         case 'string':
-          // render
           if (!item.render) item.render = (value) => processValue(item, value)
 
-          // filter
           if (item.filterDropdown !== false) {
             if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
@@ -438,10 +436,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           }
           break
         case 'string[]':
-          // render
           if (!item.render) item.render = (value) => processValue(item, value)
 
-          // filter
           if (item.filterDropdown !== false) {
             if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
@@ -463,21 +459,18 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           }
           break
         case 'number':
-          // render
           if (!item.render) item.render = (value) => processValue(item, value)
 
-          // sorter
           if (typeof item.sorter === 'undefined')
             item.sorter = (a: any, b: any) => a[item.id] - b[item.id]
 
-          // filter
           if (item.filterDropdown !== false) {
             if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
                 if (value === null) return true
                 if (isNil(row[item.id])) return false
 
-                // biome-ignore lint/suspicious/noDoubleEquals: <explanation>
+                // biome-ignore lint/suspicious/noDoubleEquals: Ant Design may pass numeric filter values as strings.
                 return value == row[item.id]
               }
 
@@ -486,10 +479,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           }
           break
         case 'number[]':
-          // render
           if (!item.render) item.render = (value) => processValue(item, value)
 
-          // filter
           if (item.filterDropdown !== false) {
             if (!item.onFilter && !props.faasData)
               item.onFilter = (value: any, row) => {
@@ -505,7 +496,6 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           }
           break
         case 'boolean':
-          // render
           if (!item.render)
             item.render = (value) =>
               isNil(value) ? (
@@ -526,7 +516,6 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
                 />
               )
 
-          // filter
           if (item.filterDropdown !== false) {
             if (typeof item.filterDropdown === 'undefined')
               item.filterDropdown = ({
@@ -589,10 +578,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
         case 'date':
         case 'time':
           if (itemType === 'time') item.width = item.width ?? 200
-          // render
           if (!item.render) item.render = (value) => processValue(item, value)
 
-          // sorter
           if (typeof item.sorter === 'undefined')
             item.sorter = (a, b, order) => {
               if (isNil(a[item.id])) return order === 'ascend' ? 1 : -1
@@ -600,7 +587,6 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
               return new Date(a[item.id]).getTime() < new Date(b[item.id]).getTime() ? -1 : 1
             }
 
-          // filter
           if (item.filterDropdown !== false) {
             if (typeof item.filterDropdown === 'undefined')
               item.filterDropdown = ({ setSelectedKeys, confirm }) => (
@@ -633,20 +619,18 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
           }
           break
         case 'object':
-          // render
           if (!item.render)
             item.render = (value) => (
               <Description items={item.object || []} dataSource={value || {}} column={1} />
             )
           break
         case 'object[]':
-          // render
           if (!item.render)
             item.render = (value: Record<string, any>[]) => (
               <>
                 {value.map((v, i) => (
                   <Description
-                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Nested records do not expose stable ids for these read-only rows.
                     key={i}
                     items={item.object || []}
                     dataSource={v || []}
@@ -657,10 +641,8 @@ export function Table<T extends Record<string, any>, ExtendTypes = any>(
             )
           break
         default:
-          // render
           if (!item.render) item.render = (value) => processValue(item, value)
 
-          // filter
           if (item.filterDropdown !== false && !item.onFilter && !props.faasData)
             item.onFilter = (value: any, row) => {
               if (value === null && isNil(row[item.id])) return true

@@ -12,44 +12,6 @@ Shared union item contract that can be reused across `Form`, `Description`, and 
 4. Registered extended types handle unmatched items.
 5. Built-in type renderers handle primitive and object values.
 
-## Example
-
-```tsx
-import { type UnionFaasItemProps, Form, Table, Description } from '@faasjs/ant-design'
-
-const item: UnionFaasItemProps[] = [
-  {
-    id: 'id',
-    formChildren: null, // Don't show in form, only in description and table
-  },
-  {
-    id: 'name',
-    required: true, // Required in form
-  },
-  {
-    id: 'age',
-    type: 'number', // Number type in form, description and table
-    options: ['< 18', '>= 18'], // Options in form and table
-  },
-]
-
-const data = {
-  id: '1',
-  name: 'John',
-  age: '>= 18',
-}
-
-function App() {
-  return (
-    <>
-      <Form items={item} /> // Use in form
-      <Description items={item} dataSource={data} /> // Use in description
-      <Table items={item} dataSource={[data]} /> // Use in table
-    </>
-  )
-}
-```
-
 ## Extends
 
 - [`FormItemProps`](FormItemProps.md).[`DescriptionItemProps`](DescriptionItemProps.md).[`TableItemProps`](TableItemProps.md)

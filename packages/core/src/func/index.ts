@@ -167,20 +167,6 @@ type CachedFunction = {
  * Get the event type of a func.
  *
  * @template T - Func instance whose event type should be extracted.
- *
- * @example
- * ```ts
- * import { defineApi } from '@faasjs/core'
- * import type { FuncEventType } from '@faasjs/core'
- *
- * const func = defineApi<undefined, { counter: number }>({
- *   async handler() {
- *     return null
- *   },
- * })
- *
- * FuncEventType<typeof func> // => { counter: number }
- * ```
  */
 export type FuncEventType<T extends Func<any, any, any>> =
   T extends Func<infer P, any, any> ? P : any
@@ -189,20 +175,6 @@ export type FuncEventType<T extends Func<any, any, any>> =
  * Get the return type of a func.
  *
  * @template T - Func instance whose return type should be extracted.
- *
- * @example
- * ```ts
- * import { defineApi } from '@faasjs/core'
- * import type { FuncReturnType } from '@faasjs/core'
- *
- * const func = defineApi<undefined, any, any, number>({
- *   async handler() {
- *     return 1
- *   },
- * })
- *
- * FuncReturnType<typeof func> // => number
- * ```
  */
 export type FuncReturnType<T extends Func<any, any, any>> =
   T extends Func<any, any, infer R> ? R : any

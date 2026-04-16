@@ -6,16 +6,6 @@
 
 Options used by [loadPlugins](../functions/loadPlugins.md) while resolving staged plugin config.
 
-## Example
-
-```ts
-const options: LoadPluginsOptions = {
-  root: process.cwd(),
-  filename: '/project/src/orders/create.func.ts',
-  staging: 'development',
-}
-```
-
 ## Properties
 
 ### filename

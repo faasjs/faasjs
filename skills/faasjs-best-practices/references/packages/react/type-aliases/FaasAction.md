@@ -16,10 +16,3 @@ otherwise falls back to `string`.
 `T` = `any`
 
 Candidate action path type.
-
-## Example
-
-```typescript
-type A = FaasAction<'demo'> // 'demo'
-type B = FaasAction<number> // string
-```

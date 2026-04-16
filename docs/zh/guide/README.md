@@ -8,7 +8,7 @@
 
 - [项目配置指南](../guidelines/project-config.md): 如何让 `tsconfig.json`、`vite.config.ts` 与 FaasJS 的共享默认配置保持一致。
 - [文件约定](../guidelines/file-conventions.md): 页面、组件、hooks 与 `.func.ts` 文件应该放在哪里，以及何时值得拆文件。
-- [代码注释指南](../guidelines/code-comments.md): 导出内容的 JSDoc 要求、内部函数何时需要简短注释，以及如何解释非常规实现的原因。
+- [代码注释指南](../guidelines/code-comments.md): 导出内容的 JSDoc 要求、公开 JSDoc 的语言与 tags 约定、生成流程，以及如何解释非常规实现的原因。
 - [defineApi 指南](../guidelines/define-api.md): 如何使用 `defineApi` 编写接口、内联 schema、typed params 与错误处理。
 - [React 指南](../guidelines/react.md): FaasJS 项目中的 React 组件、hooks、依赖处理与 `useEffect` 替代方案。
 - [React 数据请求指南](../guidelines/react-data-fetching.md): 何时使用 `useFaas`、`useFaasStream`、`faas`、`FaasDataWrapper` 或 `withFaasData`。
@@ -22,7 +22,6 @@
 
 - [faas.yaml 配置规范](../specs/faas-yaml.md): `faas.yaml` 的发现顺序、合并规则、`server` 节点约定与支持的 YAML 子集。
 - [HTTP 协议规范](../specs/http-protocol.md): FaasJS 请求与响应的默认 HTTP 约定，以及错误返回格式。
-- [JSDoc 编写规范](../specs/jsdoc-authoring.md): 公开 API 的 JSDoc 应如何书写、组织与生成。
 - [Plugin 规范](../specs/plugin.md): 插件的标识、生命周期、配置合并与 `defineApi` 自动装载规则。
 - [路由映射规范](../specs/routing-mapping.md): Zero-Mapping 路由规则、查找顺序与 `.func.ts` 文件约束。
 

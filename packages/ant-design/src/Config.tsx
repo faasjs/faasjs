@@ -146,7 +146,34 @@ const baseTheme: ResolvedTheme = {
 }
 
 /**
- * React context storing the resolved FaasJS Ant Design theme.
+ * Low-level React context that stores the resolved theme from {@link ConfigProvider}.
+ *
+ * Most app code should call {@link useConfigContext} instead of reading this context directly.
+ *
+ * @example
+ * ```tsx
+ * import { ConfigContext, ConfigProvider } from '@faasjs/ant-design'
+ * import { useContext } from 'react'
+ *
+ * function OrdersHeader() {
+ *   const { theme } = useContext(ConfigContext)
+ *
+ *   return <h1>{`Orders - ${theme.Title.suffix}`}</h1>
+ * }
+ *
+ * export function OrdersPage() {
+ *   return (
+ *     <ConfigProvider
+ *       theme={{
+ *         common: { blank: 'No orders yet' },
+ *         Title: { suffix: 'Acme Admin' },
+ *       }}
+ *     >
+ *       <OrdersHeader />
+ *     </ConfigProvider>
+ *   )
+ * }
+ * ```
  */
 export const ConfigContext = createContext<ConfigContextValue>({
   theme: baseTheme,
@@ -164,10 +191,19 @@ export const ConfigContext = createContext<ConfigContextValue>({
  * ```tsx
  * import { Blank, ConfigProvider } from '@faasjs/ant-design'
  *
- * export function Page() {
+ * function OrdersEmptyState() {
+ *   return <Blank />
+ * }
+ *
+ * export function OrdersPage() {
  *   return (
- *     <ConfigProvider theme={{ common: { blank: 'Empty' } }}>
- *       <Blank />
+ *     <ConfigProvider
+ *       theme={{
+ *         common: { blank: 'No orders yet' },
+ *         Title: { suffix: 'Acme Admin' },
+ *       }}
+ *     >
+ *       <OrdersEmptyState />
  *     </ConfigProvider>
  *   )
  * }
@@ -209,18 +245,28 @@ export function ConfigProvider(props: ConfigProviderProps) {
  *
  * @example
  * ```tsx
- * import { Blank, ConfigProvider, useConfigContext } from '@faasjs/ant-design'
+ * import { ConfigProvider, useConfigContext } from '@faasjs/ant-design'
  *
- * function EmptyState() {
+ * function OrdersSummary() {
  *   const { theme } = useConfigContext()
  *
- *   return <span>{theme.common.blank}</span>
+ *   return (
+ *     <>
+ *       <h1>{`Orders - ${theme.Title.suffix}`}</h1>
+ *       <p>{theme.common.blank}</p>
+ *     </>
+ *   )
  * }
  *
- * export function Page() {
+ * export function OrdersPage() {
  *   return (
- *     <ConfigProvider theme={{ common: { blank: 'N/A' } }}>
- *       <EmptyState />
+ *     <ConfigProvider
+ *       theme={{
+ *         common: { blank: 'No orders yet' },
+ *         Title: { suffix: 'Acme Admin' },
+ *       }}
+ *     >
+ *       <OrdersSummary />
  *     </ConfigProvider>
  *   )
  * }

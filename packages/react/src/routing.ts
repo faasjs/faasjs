@@ -77,6 +77,11 @@ function toRoutePath(segments: string[]): string {
  *
  * @param {string | URLSearchParams} search - Search string or `URLSearchParams`.
  * @returns Parsed query object where repeated keys become string arrays.
+ *
+ * @example
+ * ```ts
+ * const query = resolvePageQuery('?tag=faasjs&tag=docs')
+ * ```
  */
 export function resolvePageQuery(search: string | URLSearchParams): PageQuery {
   const query: PageQuery = {}
@@ -101,6 +106,15 @@ export function resolvePageQuery(search: string | URLSearchParams): PageQuery {
  * @param {string} pathname - Browser pathname to resolve.
  * @param {PageQuery} query - Parsed query object for the current request.
  * @returns The matched page module with route context, or `null` when no page matches.
+ *
+ * @example
+ * ```ts
+ * const page = resolvePageModule(
+ *   { './pages/index.tsx': { default: () => null } },
+ *   '/',
+ *   {},
+ * )
+ * ```
  */
 export function resolvePageModule(
   pageModules: PageModules,

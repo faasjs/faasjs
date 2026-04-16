@@ -23,3 +23,9 @@ Default ANSI color mapping used by [Logger](../classes/Logger.md) for each log l
 ### warn
 
 > **warn**: `number` = `Color.ORANGE`
+
+## Example
+
+```ts
+const levelColor = LevelColor.warn
+```

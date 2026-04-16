@@ -205,12 +205,10 @@ describe('Table/items', () => {
       const user = userEvent.setup({ pointerEventsCheck: 0, delay: 0 })
       const filterButton = screen.getAllByRole('img', { name: 'filter' })[1]
 
-      // filter empty
       await user.click(filterButton)
       await user.click(screen.getAllByRole('radio')[3])
       expect(screen.getAllByRole('cell').length).toBe(2)
 
-      // filter all
       await user.click(filterButton)
       await user.click(screen.getAllByRole('radio')[0])
       expect(screen.getAllByRole('cell').length).toBe(6)

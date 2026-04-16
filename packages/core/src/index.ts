@@ -83,7 +83,6 @@ export interface DefineApiInject extends Record<never, never> {}
  * @template TEvent - Raw event type passed to the function.
  * @template TContext - Runtime context type.
  * @template TResult - Handler return type.
- *
  */
 export type DefineApiOptions<
   TSchema extends ZodType | undefined = undefined,

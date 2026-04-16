@@ -15,18 +15,28 @@ Current config context value containing the resolved theme.
 ## Example
 
 ```tsx
-import { Blank, ConfigProvider, useConfigContext } from '@faasjs/ant-design'
+import { ConfigProvider, useConfigContext } from '@faasjs/ant-design'
 
-function EmptyState() {
+function OrdersSummary() {
   const { theme } = useConfigContext()
 
-  return <span>{theme.common.blank}</span>
+  return (
+    <>
+      <h1>{`Orders - ${theme.Title.suffix}`}</h1>
+      <p>{theme.common.blank}</p>
+    </>
+  )
 }
 
-export function Page() {
+export function OrdersPage() {
   return (
-    <ConfigProvider theme={{ common: { blank: 'N/A' } }}>
-      <EmptyState />
+    <ConfigProvider
+      theme={{
+        common: { blank: 'No orders yet' },
+        Title: { suffix: 'Acme Admin' },
+      }}
+    >
+      <OrdersSummary />
     </ConfigProvider>
   )
 }

@@ -62,6 +62,11 @@ async function runFile(file: string, args: string[], cwd: string): Promise<numbe
  * @param {string[]} args - Arguments after `faas run`.
  * @returns Exit code returned by the child process.
  * @throws {Error} When the file argument is missing.
+ *
+ * @example
+ * ```ts
+ * const result = await run(['demo'])
+ * ```
  */
 export async function run(args: string[]): Promise<number> {
   const { mode, options, rest } = parseCommonCliArgs(args, 'faas run', {
@@ -89,5 +94,10 @@ export async function run(args: string[]): Promise<number> {
 
 /**
  * Default Node.js entrypoint for `faas run`.
+ *
+ * @example
+ * ```ts
+ * const exitCode = await main(['node', 'faas', '--version'])
+ * ```
  */
 export const main = createMain(run)

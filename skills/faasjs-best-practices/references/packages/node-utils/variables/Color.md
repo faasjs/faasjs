@@ -43,3 +43,9 @@ ANSI color codes used by the built-in logger formatter.
 ### RED
 
 > **RED**: `number` = `31`
+
+## Example
+
+```ts
+const color = Color.RED
+```
