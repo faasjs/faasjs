@@ -175,7 +175,7 @@ Do this before handing off the change, so route-to-type mappings stay in sync.
 
 ## Testing Checklist
 
-Use `@faasjs/dev` and cover:
+Follow the shared [Testing Guide](./testing.md) first, then use `@faasjs/dev` and cover:
 
 - success path
 - invalid params -> `400`
@@ -232,6 +232,7 @@ describe('orders/api/create', () => {
 
 ## Read Next
 
+- [Testing Guide](./testing.md)
 - [defineApi API reference](../references/packages/core/functions/defineApi.md)
 - [DefineApiData](../references/packages/core/type-aliases/DefineApiData.md)
 - [DefineApiOptions](../references/packages/core/type-aliases/DefineApiOptions.md)

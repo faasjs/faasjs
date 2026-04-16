@@ -1,23 +1,29 @@
 # React 测试指南
 
-当你在 FaasJS 项目中编写或评审 React hooks、组件与请求流程的单元测试时，请使用这份指南。
+当你在 FaasJS 项目中编写或评审会覆盖 FaasJS 请求流程的 React hooks 或组件测试时，请使用这份指南。
+
+请先遵循共享的 [测试指南](./testing.md)，再使用下面这些 React 专项规则。
+
+如果只是纯展示组件，或是不涉及 FaasJS 请求流程的 hooks，请优先使用共享的 [测试指南](./testing.md) 和 [React 指南](./react.md)。
 
 ## 适用场景
 
-- 测试来自 `@faasjs/react` 的 React hooks
+- 测试会发起 FaasJS 请求的 hooks
 - 测试会触发 FaasJS 请求的组件
-- 决定如何使用 `setMock`
-- 在 Vitest 中设置共享 mock 清理
-- 在 hook tests 与 component tests 之间做选择
+- 决定如何在请求相关 React 测试中使用 `setMock`
+- 在 Vitest 中设置共享的请求 mock 清理
+- 在 request flow 场景里选择 hook tests 与 component tests
 
 ## 默认工作流
 
-1. 需要 `jsdom` 的 React hook 与组件测试，文件名使用 `.ui.test.ts` 或 `.ui.test.tsx`。
-2. 在共享 Vitest setup 中使用 `afterEach(() => setMock(null))` 清除全局 mock。
-3. 在每个测试或 `beforeEach` 中设置当前场景所需的具体 mock。
-4. 测试可观察行为，而不是实现细节。
-5. 当这些流程存在时，覆盖 loading、error、reload、skip、debounce 与 controlled-props 行为。
-6. hook 行为使用 hook tests，界面可见行为使用 component tests。
+1. 先从共享的 [测试指南](./testing.md) 开始。
+2. 需要 `jsdom` 的 React hook 与组件测试，文件名使用 `.ui.test.ts` 或 `.ui.test.tsx`。
+3. 在共享 Vitest setup 中使用 `afterEach(() => setMock(null))` 清除全局 mock。
+4. 在每个测试或 `beforeEach` 中设置当前场景所需的具体 mock。
+5. 能在请求层使用 `setMock` 时，优先不要去 mock 本地 hooks、函数或组件。
+6. 测试可观察行为，而不是实现细节。
+7. 当这些流程存在时，覆盖 loading、error、reload、skip、debounce 与 controlled-props 行为。
+8. hook 行为使用 hook tests，界面可见行为使用 component tests。
 
 ## 规则
 
@@ -143,7 +149,14 @@ setMock({
 })
 ```
 
-### 3. 为可见行为添加聚焦组件测试
+### 3. 尽量把 mock 边界放在请求层
+
+- 先遵循共享的 [测试指南](./testing.md) 中“不要无谓 mock”的规则。
+- 当 React 请求行为可以通过 `setMock` 覆盖时，优先不要去 mock 本地 hooks、组件或 helpers。
+- 除非清晰的外部边界确实要求隔离，否则让子组件与本地 helpers 保持真实实现。
+- 使用 `setMock` 时，模拟的是请求契约，而不是重建组件内部实现。
+
+### 4. 为可见行为添加聚焦组件测试
 
 - 组件测试优先使用 `@testing-library/react`。
 - 断言用户真正能看到或触发的行为。
@@ -180,7 +193,7 @@ describe('UserName', () => {
 })
 ```
 
-### 4. 为 hook 行为添加聚焦 hook 测试
+### 5. 为 hook 行为添加聚焦 hook 测试
 
 - 当无需渲染完整 UI 就能验证行为时，优先使用 `renderHook`。
 - 根据场景覆盖 reload、skip、debounce、loading、error 与 controlled props 等行为。
@@ -215,16 +228,19 @@ describe('useFaas', () => {
 
 ## 评审清单
 
+- 先满足共享的 [测试指南](./testing.md) 规则
 - 需要 `jsdom` 的测试使用 `.ui.test.ts` 或 `.ui.test.tsx` 后缀
 - 请求相关测试使用 `setMock`，而不是发真实网络请求
 - 共享 Vitest setup 通过 `setMock(null)` 清理 mocks
 - mocks 没有比当前场景需要的复杂度更高
+- 可以的话，请求类测试把 mock 边界保持在 `setMock` 或其他显式外部边界上
 - 组件通过可见行为进行测试
 - 合适时，hooks 通过 `renderHook` 进行测试
 - 测试覆盖了相关的 loading、error、reload、skip、debounce 或 controlled-props 流程
 
 ## 延伸阅读
 
+- [测试指南](./testing.md)
 - [React 指南](./react.md)
 - [React 数据请求指南](./react-data-fetching.md)
 - [setMock](/doc/react/functions/setMock.html)

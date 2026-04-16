@@ -7,12 +7,13 @@
 ## 指南
 
 - [项目配置指南](../guidelines/project-config.md): 如何让 `tsconfig.json`、`vite.config.ts` 与 FaasJS 的共享默认配置保持一致。
+- [测试指南](../guidelines/testing.md): 覆盖通用测试分层、mock 边界和避免不必要 mock 的原则。
 - [文件约定](../guidelines/file-conventions.md): 页面、组件、hooks 与 `.func.ts` 文件应该放在哪里，以及何时值得拆文件。
 - [代码注释指南](../guidelines/code-comments.md): 导出内容的 JSDoc 要求、公开 JSDoc 的语言与 tags 约定、何时给内部 helper 补充简短注释，以及如何解释非常规实现的原因。
 - [defineApi 指南](../guidelines/define-api.md): 如何使用 `defineApi` 编写接口、内联 schema、typed params 与错误处理。
 - [React 指南](../guidelines/react.md): FaasJS 项目中的 React 组件、hooks、依赖处理与 `useEffect` 替代方案。
 - [React 数据请求指南](../guidelines/react-data-fetching.md): 何时使用 `useFaas`、`useFaasStream`、`faas`、`FaasDataWrapper` 或 `withFaasData`。
-- [React 测试指南](../guidelines/react-testing.md): 如何用 `setMock`、共享清理与可观察行为测试 FaasJS React 代码。
+- [React 测试指南](../guidelines/react-testing.md): 在共享测试指南基础上，如何用 `setMock`、共享清理与 `jsdom` 测试请求相关的 FaasJS React 代码。
 - [Ant Design 指南](../guidelines/ant-design.md): 基于 `@faasjs/ant-design` 的页面结构、路由、CRUD 组合与交互反馈。
 - [Node Utils 指南](../guidelines/node-utils.md): Node 环境下的配置加载、函数引导、模块装载与日志能力。
 - [Logger 指南](../guidelines/logger.md): 何时复用注入 logger、何时创建 `Logger` 实例，以及如何选择日志级别。

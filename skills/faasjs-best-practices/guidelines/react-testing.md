@@ -1,23 +1,29 @@
 # React Testing Guide
 
-Use this guide when writing or reviewing unit tests for React hooks, components, and request flows in FaasJS projects.
+Use this guide when writing or reviewing React tests that exercise FaasJS request flows in hooks or components.
+
+Apply the shared [Testing Guide](./testing.md) first, then use the React-specific rules below.
+
+For pure presentational components or hooks that do not touch FaasJS request flows, follow the shared [Testing Guide](./testing.md) and [React Guide](./react.md) instead.
 
 ## Use This Guide When
 
-- testing React hooks from `@faasjs/react`
+- testing hooks that issue FaasJS requests
 - testing components that call FaasJS requests
-- deciding how to use `setMock`
-- setting up shared mock cleanup in Vitest
-- choosing between hook tests and component tests
+- deciding how to use `setMock` for request-related React tests
+- setting up shared request-mock cleanup in Vitest
+- choosing between hook tests and component tests for request flows
 
 ## Default Workflow
 
-1. Name React hook and component tests that require `jsdom` with `.ui.test.ts` or `.ui.test.tsx`.
-2. Clear the global mock in shared Vitest setup with `afterEach(() => setMock(null))`.
-3. Set the specific mock for each test or `beforeEach`.
-4. Test observable behavior instead of implementation details.
-5. Cover loading, error, reload, skip, debounce, and controlled-props behavior when those flows exist.
-6. Use hook tests for hook behavior and component tests for visible UI behavior.
+1. Start with the shared [Testing Guide](./testing.md).
+2. Name React hook and component tests that require `jsdom` with `.ui.test.ts` or `.ui.test.tsx`.
+3. Clear the global mock in shared Vitest setup with `afterEach(() => setMock(null))`.
+4. Set the specific mock for each test or `beforeEach`.
+5. Prefer request-layer mocks such as `setMock` over mocking local hooks, functions, or components.
+6. Test observable behavior instead of implementation details.
+7. Cover loading, error, reload, skip, debounce, and controlled-props behavior when those flows exist.
+8. Use hook tests for hook behavior and component tests for visible UI behavior.
 
 ## Rules
 
@@ -143,7 +149,14 @@ setMock({
 })
 ```
 
-### 3. Add focused component tests for visible behavior
+### 3. Keep mock boundaries at the request layer when possible
+
+- Follow the shared [Testing Guide](./testing.md) rule against unnecessary mocks.
+- When React request behavior can be exercised through `setMock`, prefer that over mocking local hooks, components, or helpers.
+- Keep child components and local helpers real unless a clear external boundary forces isolation.
+- Use `setMock` to model the request contract, not to recreate component internals.
+
+### 4. Add focused component tests for visible behavior
 
 - Prefer `@testing-library/react` for component tests.
 - Assert what users can see or trigger.
@@ -180,7 +193,7 @@ describe('UserName', () => {
 })
 ```
 
-### 4. Add focused hook tests for hook behavior
+### 5. Add focused hook tests for hook behavior
 
 - Prefer `renderHook` when the behavior can be verified without rendering a full UI.
 - Cover behavior such as reload, skip, debounce, loading, error, and controlled props when relevant.
@@ -215,16 +228,19 @@ describe('useFaas', () => {
 
 ## Review Checklist
 
+- shared [Testing Guide](./testing.md) rules are followed first
 - tests that require `jsdom` use the `.ui.test.ts` or `.ui.test.tsx` suffix
 - request-related tests use `setMock` instead of real network calls
 - shared Vitest setup clears mocks with `setMock(null)`
 - mocks are no more complex than the scenario requires
+- request tests keep mock boundaries at `setMock` or another explicit external boundary when possible
 - components are tested through visible behavior
 - hooks are tested through `renderHook` when appropriate
 - tests cover relevant loading, error, reload, skip, debounce, or controlled-props flows
 
 ## Read Next
 
+- [Testing Guide](./testing.md)
 - [React Guide](./react.md)
 - [React Data Fetching Guide](./react-data-fetching.md)
 - [setMock](../references/packages/react/functions/setMock.md)

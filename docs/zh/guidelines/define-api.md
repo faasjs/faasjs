@@ -175,7 +175,7 @@ src/.faasjs/types.d.ts
 
 ## 测试清单
 
-使用 `@faasjs/dev`，并覆盖：
+先遵循共享的 [测试指南](./testing.md)，再使用 `@faasjs/dev` 覆盖：
 
 - success path
 - invalid params -> `400`
@@ -232,6 +232,7 @@ describe('orders/api/create', () => {
 
 ## 延伸阅读
 
+- [测试指南](./testing.md)
 - [defineApi API reference](/doc/core/functions/defineApi.html)
 - [DefineApiData](/doc/core/type-aliases/DefineApiData.html)
 - [DefineApiOptions](/doc/core/type-aliases/DefineApiOptions.html)
