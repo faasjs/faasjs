@@ -6,6 +6,7 @@
 - [detectNodeRuntime](functions/detectNodeRuntime.md)
 - [formatLogger](functions/formatLogger.md)
 - [getTransport](functions/getTransport.md)
+- [isPathInsideRoot](functions/isPathInsideRoot.md)
 - [loadConfig](functions/loadConfig.md)
 - [loadEnvFileIfExists](functions/loadEnvFileIfExists.md)
 - [loadFunc](functions/loadFunc.md)

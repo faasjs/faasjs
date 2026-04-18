@@ -31,6 +31,7 @@ export type { LoadEnvFileIfExistsOptions } from './load_env'
 export { loadEnvFileIfExists } from './load_env'
 export type { ExportedHandler } from './load_func'
 export { loadFunc } from './load_func'
+export { isPathInsideRoot } from './is_path_inside_root'
 export type { LoadPluginsOptions } from './load_plugins'
 export { loadPlugins } from './load_plugins'
 export type {

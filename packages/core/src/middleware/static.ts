@@ -2,6 +2,7 @@ import { createReadStream, existsSync } from 'node:fs'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
 
+import { isPathInsideRoot } from '@faasjs/node-utils'
 import { lookup } from 'mime-types'
 
 import { ensureRequestUrl } from '../request-url'
@@ -128,6 +129,8 @@ async function respondWithFile(path: string, mimeType: string, response: ServerR
  * ```
  */
 export function staticHandler(options: StaticHandlerOptions): Middleware {
+  const root = resolve(options.root)
+
   const handler: Middleware = async (request, response, context) => {
     const { logger } = context
 
@@ -161,7 +164,15 @@ export function staticHandler(options: StaticHandlerOptions): Middleware {
 
     logger.debug('finding:', requestUrl)
 
-    const path = resolve(options.root, url)
+    const path = resolve(root, url)
+
+    if (!isPathInsideRoot(path, root)) {
+      logger.debug('blocked traversal:', requestUrl)
+
+      if (cacheKey) cachedStaticFiles.set(cacheKey, false)
+
+      return await respondWithNotFound(options, request, response, context)
+    }
 
     if (!existsSync(path)) {
       logger.debug('not found:', path)

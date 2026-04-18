@@ -3,6 +3,7 @@ import { join } from 'node:path'
 
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
+import { staticHandler } from '../../middleware'
 import { closeAll, Server } from '../../server'
 
 describe('staticHandler', () => {
@@ -96,5 +97,42 @@ describe('staticHandler', () => {
 
     expect(response.status).toBe(500)
     expect(await response.text()).toBe('Internal Server Error')
+  })
+
+  it('should block traversal attempts outside the static root', async () => {
+    const response = {
+      body: '',
+      headers: new Map<string, string>(),
+      setHeader(key: string, value: string) {
+        this.headers.set(key, value)
+      },
+      end(body = '') {
+        this.body = body
+        this.writableEnded = true
+      },
+      statusCode: 200,
+      writableEnded: false,
+    }
+
+    await staticHandler({
+      root: join(__dirname, 'funcs'),
+      notFound: true,
+      stripPrefix: '/public/',
+    })(
+      {
+        method: 'GET',
+        url: '/public/../../../request-url.ts',
+      } as any,
+      response as any,
+      {
+        logger: {
+          debug() {},
+        },
+        root: join(__dirname, 'funcs'),
+      } as any,
+    )
+
+    expect(response.statusCode).toBe(404)
+    expect(response.body).toBe('Not Found')
   })
 })

@@ -3,6 +3,8 @@ import { registerHooks } from 'node:module'
 import { dirname, extname, isAbsolute, join, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
+import { isPathInsideRoot } from './is_path_inside_root'
+
 /**
  * Supported Node.js module runtime recognized by {@link detectNodeRuntime}.
  */
@@ -153,11 +155,6 @@ function resolveLoaderEntryPath(entry: string | undefined): string | undefined {
     : resolve(process.cwd(), normalizedEntry)
 
   return normalizeFileSystemPath(absoluteEntry)
-}
-
-function isPathInsideRoot(filePath: string, root: string): boolean {
-  const normalizedFilePath = normalizeFileSystemPath(filePath)
-  return normalizedFilePath === root || normalizedFilePath.startsWith(`${root}${sep}`)
 }
 
 function getPathType(path: string): 'file' | 'directory' | undefined {

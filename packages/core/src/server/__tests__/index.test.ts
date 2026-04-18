@@ -1,3 +1,4 @@
+import { request as httpRequest } from 'node:http'
 import { join, sep } from 'node:path'
 
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
@@ -8,6 +9,36 @@ describe.sequential('server', () => {
   let server: Server
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31201 + poolId
+
+  async function requestRaw(path: string) {
+    return await new Promise<{ body: string; status: number }>((resolve, reject) => {
+      const request = httpRequest(
+        {
+          host: '127.0.0.1',
+          method: 'GET',
+          path,
+          port,
+        },
+        (response) => {
+          let body = ''
+
+          response.setEncoding('utf-8')
+          response.on('data', (chunk) => {
+            body += chunk
+          })
+          response.on('end', () => {
+            resolve({
+              body,
+              status: response.statusCode || 0,
+            })
+          })
+        },
+      )
+
+      request.on('error', reject)
+      request.end()
+    })
+  }
 
   beforeAll(() => {
     server = new Server(join(__dirname, 'funcs'), {
@@ -35,6 +66,17 @@ describe.sequential('server', () => {
     expect(await response.json()).toMatchObject({
       error: {
         message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404/index.func.ts\n- ${server.root}404/default.func.ts\n- ${server.root}default.func.ts`,
+      },
+    })
+  })
+
+  it('should block traversal attempts outside the server root', async () => {
+    const response = await requestRaw('/../escaped')
+
+    expect(response.status).toBe(404)
+    expect(JSON.parse(response.body)).toEqual({
+      error: {
+        message: 'Not found.',
       },
     })
   })

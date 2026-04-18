@@ -56,6 +56,31 @@ describe('middleware', () => {
     expect(responseData).toBeNull()
   })
 
+  it('should block traversal attempts outside the server root', async () => {
+    const server = new Server(join(__dirname, 'funcs'))
+
+    let responseData: any = null
+
+    const req = createMockReq({
+      method: 'GET',
+      url: '/../escaped',
+      headers: {},
+      body: null,
+    })
+
+    const res = createMockRes({
+      onDataCapture: (data: any) => {
+        responseData = Buffer.isBuffer(data) ? data.toString() : data
+      },
+    })
+
+    triggerReqEvents(req)
+
+    await server.middleware(req as any, res as any, () => {})
+
+    expect(responseData).toBeNull()
+  })
+
   it('should handle option method', async () => {
     const server = new Server(join(__dirname, 'funcs'))
 

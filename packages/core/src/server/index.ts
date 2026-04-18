@@ -14,6 +14,7 @@ import { types } from 'node:util'
 
 import {
   getTransport,
+  isPathInsideRoot,
   loadEnvFileIfExists,
   loadPackage,
   loadPlugins,
@@ -825,8 +826,11 @@ export class Server {
   }
 
   private getFilePath(path: string): string {
-    // Reject traversal-like inputs before expanding route lookup candidates.
-    if (/^(\.|\|\/)+$/.test(path)) throw Error('Illegal characters')
+    if (!isPathInsideRoot(path, this.root))
+      throw new HttpError({
+        statusCode: 404,
+        message: 'Not found.',
+      })
 
     const searchPaths = getRouteFiles(this.root, path)
 
