@@ -9,7 +9,7 @@ const plain = new Func({
   async handler() {},
 }).export().handler
 const http = new Func({
-  plugins: [new Http()],
+  plugins: [new Http({ config: { cookie: { session: { secret: 'benchmark-secret' } } } })],
   async handler() {},
 }).export().handler
 

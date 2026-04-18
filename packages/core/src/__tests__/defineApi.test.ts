@@ -1,6 +1,6 @@
+import { Http, defineApi, z } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
 
-import { Http, defineApi, z } from '../index'
 import { TestsAuthPlugin } from './auth-plugin'
 
 async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
@@ -12,11 +12,7 @@ async function streamToObject(stream: ReadableStream<Uint8Array>): Promise<Recor
 }
 
 function useHttpPlugin(func: { plugins: any[] }): void {
-  func.plugins.unshift(
-    new Http({
-      config: Object.create(null),
-    }),
-  )
+  func.plugins.unshift(new Http({ config: { cookie: { session: { secret: 'test-secret' } } } }))
 }
 
 describe('@faasjs/core defineApi', () => {

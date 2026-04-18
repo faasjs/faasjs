@@ -11,9 +11,12 @@ export type SessionOptions = {
   /**
    * Cookie key used to store the encrypted session payload.
    */
-  key: string
+  key?: string
   /**
    * Secret source used to derive encryption and signing keys.
+   *
+   * This must be configured explicitly. FaasJS throws during session
+   * initialization when it is missing.
    */
   secret: string
   /**
@@ -145,12 +148,10 @@ export class Session<
       this.secret = secrets.secret
       this.signedSecret = secrets.signedSecret
     } else {
-      if (!config?.secret) cookie.logger?.warn("Session's secret is missing.")
-
       this.config = Object.assign(
         {
           key: 'key',
-          secret: randomBytes(128).toString('hex'),
+          secret: '',
           salt: 'salt',
           signedSalt: 'signedSalt',
           keylen: 64,
@@ -160,6 +161,11 @@ export class Session<
         },
         config,
       )
+
+      if (!this.config.secret)
+        throw Error(
+          'Session secret is required. Configure `cookie.session.secret` before using sessions.',
+        )
 
       this.secret = pbkdf2Sync(
         this.config.secret,

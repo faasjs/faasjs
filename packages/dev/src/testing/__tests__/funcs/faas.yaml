@@ -2,3 +2,7 @@ defaults:
   plugins:
     http:
       type: http
+      config:
+        cookie:
+          session:
+            secret: test-secret

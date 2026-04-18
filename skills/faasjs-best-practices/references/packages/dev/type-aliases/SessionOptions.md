@@ -44,9 +44,9 @@ PBKDF2 iteration count used for key derivation.
 100
 ```
 
-### key
+### key?
 
-> **key**: `string`
+> `optional` **key?**: `string`
 
 Cookie key used to store the encrypted session payload.
 
@@ -79,6 +79,9 @@ Salt used for deriving the encryption key.
 > **secret**: `string`
 
 Secret source used to derive encryption and signing keys.
+
+This must be configured explicitly. FaasJS throws during session
+initialization when it is missing.
 
 ### signedSalt?
 

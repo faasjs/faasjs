@@ -1,12 +1,10 @@
+import { Http, Func } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
-import { Http } from '..'
-import { Func } from '../../..'
-
 describe('params', () => {
   it('blank', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data) {
@@ -22,7 +20,7 @@ describe('params', () => {
   })
 
   it('should work', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data) {

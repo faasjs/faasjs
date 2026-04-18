@@ -1,12 +1,10 @@
+import { Http, Func, type InvokeData } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
-import { Http } from '..'
-import { Func, type InvokeData } from '../../..'
-
 describe('cookie', () => {
   describe('read', () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data: InvokeData) {
@@ -48,7 +46,7 @@ describe('cookie', () => {
   })
 
   describe('write', () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const func = new Func({
       plugins: [http],
       async handler(data: InvokeData) {
@@ -85,7 +83,7 @@ describe('cookie', () => {
     })
 
     it('write multi keys', async () => {
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const handler = new Func({
         plugins: [http],
         async handler({ cookie }) {
@@ -105,7 +103,7 @@ describe('cookie', () => {
 
   describe('cookie options', () => {
     it('domain', async () => {
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const func = new Func({
         plugins: [http],
         async handler({ cookie }) {
@@ -132,7 +130,7 @@ describe('cookie', () => {
     })
 
     it('path', async () => {
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const func = new Func({
         plugins: [http],
         async handler({ cookie }) {
@@ -159,7 +157,7 @@ describe('cookie', () => {
     })
 
     it('sameSite', async () => {
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const func = new Func({
         plugins: [http],
         async handler({ cookie }) {
@@ -186,7 +184,7 @@ describe('cookie', () => {
     })
 
     it('expires number', async () => {
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const func = new Func({
         plugins: [http],
         async handler({ cookie }) {
@@ -211,7 +209,7 @@ describe('cookie', () => {
     })
 
     it('expires string', async () => {
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const func = new Func({
         plugins: [http],
         async handler({ cookie }) {

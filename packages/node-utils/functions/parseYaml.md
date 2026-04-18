@@ -38,5 +38,9 @@ const value = parseYaml(`defaults:
   plugins:
     http:
       type: http
+      config:
+        cookie:
+          session:
+            secret: replace-me
 `)
 ```

@@ -1,12 +1,10 @@
+import { Http, HttpError, type Response, Func } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
-import { Http, HttpError, type Response } from '..'
-import { Func } from '../../..'
-
 describe('http', () => {
   it('should work', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler() {
@@ -25,7 +23,10 @@ describe('http', () => {
   })
 
   it('with config name', async () => {
-    const http = new Http({ name: 'name' })
+    const http = new Http({
+      name: 'name',
+      config: { cookie: { session: { secret: 'test-secret' } } },
+    })
     const func = new Func({
       plugins: [http],
       async handler() {
@@ -49,7 +50,7 @@ describe('http', () => {
   })
 
   it('throw error', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler() {
@@ -67,7 +68,7 @@ describe('http', () => {
   })
 
   it('HttpError', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler() {
@@ -89,7 +90,9 @@ describe('http', () => {
 
   it('typed Http plugin', async () => {
     const func = new Func({
-      plugins: [new Http<{ key: string }>()],
+      plugins: [
+        new Http<{ key: string }>({ config: { cookie: { session: { secret: 'test-secret' } } } }),
+      ],
       async handler({ params }) {
         return params
       },
@@ -115,7 +118,9 @@ describe('http', () => {
     })
 
     const func = new Func({
-      plugins: [new Http<{ id: string }>()],
+      plugins: [
+        new Http<{ id: string }>({ config: { cookie: { session: { secret: 'test-secret' } } } }),
+      ],
       async handler({ params }) {
         const first = params.id
 
@@ -162,7 +167,7 @@ describe('http', () => {
     }
 
     try {
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const handler = new Func({
         plugins: [http],
         async handler() {

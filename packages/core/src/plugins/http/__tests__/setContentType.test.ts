@@ -1,11 +1,9 @@
+import { ContentType, Http, Func } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
-
-import { ContentType, Http } from '..'
-import { Func } from '../../..'
 
 describe('setContentType', () => {
   it.each(Object.keys(ContentType))('type is %s', async (type) => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler({ setContentType }) {
@@ -20,7 +18,7 @@ describe('setContentType', () => {
   })
 
   it('set charset', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler({ setContentType }) {

@@ -1,8 +1,6 @@
+import { Http, Func } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-
-import { Http } from '..'
-import { Func } from '../../..'
 
 describe('params', () => {
   afterEach(() => {
@@ -10,7 +8,7 @@ describe('params', () => {
   })
 
   it('blank', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data) {
@@ -26,7 +24,9 @@ describe('params', () => {
   })
 
   it('raw', async () => {
-    const http = new Http<{ body: string }>()
+    const http = new Http<{ body: string }>({
+      config: { cookie: { session: { secret: 'test-secret' } } },
+    })
     const handler = new Func({
       plugins: [http],
       async handler(data) {
@@ -42,7 +42,7 @@ describe('params', () => {
   })
 
   it('queryString', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data) {
@@ -65,7 +65,7 @@ describe('params', () => {
   })
 
   it('json', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data) {
@@ -84,7 +84,7 @@ describe('params', () => {
   })
 
   it('should return 400 when json body parse fails', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data) {
@@ -106,7 +106,7 @@ describe('params', () => {
   })
 
   it('should remove internal underscore key from params', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data) {
@@ -132,7 +132,7 @@ describe('params', () => {
       throw Error('clone not supported')
     })
 
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler(data) {

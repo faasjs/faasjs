@@ -97,4 +97,6 @@ defaults:
       config:
         cookie:
           secure: false
+          session:
+            secret: replace-me
 ```

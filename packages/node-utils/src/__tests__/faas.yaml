@@ -8,6 +8,10 @@ defaults:
       type: defaults
     http:
       type: http
+      config:
+        cookie:
+          session:
+            secret: test-secret
     mysql:
       type: mysql
 local:

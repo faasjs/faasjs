@@ -1,8 +1,6 @@
+import { Http, Func } from '@faasjs/core'
 import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
-
-import { Http } from '..'
-import { Func } from '../../..'
 
 describe('Accept-Encoding', () => {
   const data = '1'.repeat(1024)
@@ -10,7 +8,7 @@ describe('Accept-Encoding', () => {
   it('br', async () => {
     const func = test(
       new Func({
-        plugins: [new Http()],
+        plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
           return data
         },
@@ -29,7 +27,7 @@ describe('Accept-Encoding', () => {
   it('gzip', async () => {
     const func = test(
       new Func({
-        plugins: [new Http()],
+        plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
           return data
         },
@@ -48,7 +46,7 @@ describe('Accept-Encoding', () => {
   it('deflate', async () => {
     const func = test(
       new Func({
-        plugins: [new Http()],
+        plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
           return data
         },
@@ -67,7 +65,7 @@ describe('Accept-Encoding', () => {
   it('unknown', async () => {
     const func = test(
       new Func({
-        plugins: [new Http()],
+        plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
           return data
         },
@@ -87,7 +85,7 @@ describe('Accept-Encoding', () => {
     const payload = { text: '1'.repeat(1024) }
     const func = test(
       new Func({
-        plugins: [new Http()],
+        plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
           return {
             statusCode: 200,

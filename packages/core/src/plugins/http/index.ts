@@ -265,7 +265,27 @@ export class Http<
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
     this.config = config?.config || Object.create(null)
+    this.mergeEnvConfig()
     this.refreshCookieTemplate()
+  }
+
+  private mergeEnvConfig(): void {
+    const prefix = `SECRET_${this.name.toUpperCase()}_`
+
+    for (let key in process.env)
+      if (key.startsWith(prefix)) {
+        const value = process.env[key]
+        key = key.replace(prefix, '').toLowerCase()
+        if (key.includes('_')) {
+          let config: Record<string, any> = this.config
+          const keys = key.split('_')
+          for (const k of keys.slice(0, keys.length - 1)) {
+            if (!config[k]) config[k] = Object.create(null)
+            config = config[k]
+          }
+          config[keys[keys.length - 1] as string] = value
+        } else (this.config as Record<string, any>)[key] = value
+      }
   }
 
   private refreshCookieTemplate(logger?: Logger): void {
@@ -336,22 +356,7 @@ export class Http<
   public async onMount(data: MountData, next: Next): Promise<void> {
     data.logger.debug('merge config')
 
-    const prefix = `SECRET_${this.name.toUpperCase()}_`
-
-    for (let key in process.env)
-      if (key.startsWith(prefix)) {
-        const value = process.env[key]
-        key = key.replace(prefix, '').toLowerCase()
-        if (key.includes('_')) {
-          let config: Record<string, any> = this.config
-          const keys = key.split('_')
-          for (const k of keys.slice(0, keys.length - 1)) {
-            if (!config[k]) config[k] = Object.create(null)
-            config = config[k]
-          }
-          config[keys[keys.length - 1] as string] = value
-        } else (this.config as Record<string, any>)[key] = value
-      }
+    this.mergeEnvConfig()
 
     if (!data.config) throw Error(`[${this.name}] Config not found.`)
 

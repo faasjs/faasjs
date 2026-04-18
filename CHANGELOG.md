@@ -8,6 +8,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Fix] Block static file and server route traversal outside configured roots before loading files from user-controlled paths.
   - [Fix] Return HTTP 400 with an explicit invalid-JSON error when an `application/json` request body cannot be parsed, instead of silently falling back to partial params handling.
   - [Fix] Stop documenting legacy no-op `HttpConfig` route and deploy keys in `@faasjs/core`, and keep the public HTTP plugin config focused on the fields the current runtime actually consumes.
+  - [Fix] Stop silently generating ephemeral HTTP session secrets when `cookie.session.secret` is missing, and fail session initialization explicitly so misconfiguration shows up before restart-driven logouts.
 
 - `@faasjs/node-utils`
   - [Feature] Add `isPathInsideRoot` to normalize root containment checks, including symlink-aware validation for root-scoped file access.

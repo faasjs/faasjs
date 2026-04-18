@@ -1,11 +1,9 @@
+import { Http, Func } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
-
-import { Http } from '..'
-import { Func } from '../../..'
 
 describe('setStatusCode', () => {
   it('should work', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const handler = new Func({
       plugins: [http],
       async handler({ setStatusCode }) {

@@ -3,9 +3,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
+import { defineApi, z, type InvokeData, type Next, type Plugin } from '@faasjs/core'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { defineApi, z, type InvokeData, type Next, type Plugin } from '../../../core/src'
 import { loadPlugins } from '../load_plugins'
 
 async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
@@ -51,7 +51,10 @@ describe('loadPlugins', () => {
     auth:
       type: file://./auth-plugin.ts
     http:
-      config: {}
+      config:
+        cookie:
+          session:
+            secret: test-secret
 `,
       'src/auth-plugin.ts': `export default class AuthPlugin {
   constructor(config) {
@@ -117,7 +120,10 @@ describe('loadPlugins', () => {
     auth:
       type: file://./auth-plugin.ts
     http:
-      config: {}
+      config:
+        cookie:
+          session:
+            secret: test-secret
 `,
       'src/auth-plugin.ts': `export default class AuthPlugin {
   constructor(config) {
@@ -184,7 +190,10 @@ describe('loadPlugins', () => {
         provider: jwt
         secret: from-root
     http:
-      config: {}
+      config:
+        cookie:
+          session:
+            secret: test-secret
 `,
       'src/admin/faas.yaml': `defaults:
   plugins:
@@ -279,7 +288,10 @@ describe('loadPlugins', () => {
         provider: jwt
         secret: from-root
     http:
-      config: {}
+      config:
+        cookie:
+          session:
+            secret: test-secret
 `,
       'src/admin/faas.yaml': `defaults:
   plugins:
@@ -390,7 +402,13 @@ describe('loadPlugins', () => {
           type: './code-plugin.ts',
         },
         http: {
-          config: {},
+          config: {
+            cookie: {
+              session: {
+                secret: 'test-secret',
+              },
+            },
+          },
         },
       },
     }
@@ -449,7 +467,10 @@ describe('loadPlugins', () => {
     auth:
       type: ./plugins/auth-plugin.ts
     http:
-      config: {}
+      config:
+        cookie:
+          session:
+            secret: test-secret
 `,
       'src/plugins/auth-plugin.ts': `export class AuthPlugin {
   constructor(config) {

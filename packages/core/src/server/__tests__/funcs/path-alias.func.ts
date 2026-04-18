@@ -4,7 +4,7 @@ import { fromAlias } from '@fixtures/message'
 
 import { fromRelative } from './shared/relative'
 
-const http = new Http()
+const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
 
 export const func = new Func({
   plugins: [http],

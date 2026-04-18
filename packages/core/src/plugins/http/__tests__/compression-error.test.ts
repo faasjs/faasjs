@@ -1,3 +1,4 @@
+import { Http, Func } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { describe, expect, it, vi } from 'vitest'
 
@@ -30,13 +31,10 @@ vi.mock('node:zlib', () => {
   }
 })
 
-import { Http } from '..'
-import { Func } from '../../..'
-
 describe('http/compression error', () => {
   it('should surface compression stream failures', async () => {
     const handler = new Func({
-      plugins: [new Http()],
+      plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
       async handler() {
         return 'x'.repeat(2048)
       },

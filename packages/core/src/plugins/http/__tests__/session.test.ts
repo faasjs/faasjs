@@ -1,12 +1,16 @@
+import { Cookie, Http, Func, type InvokeData } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { describe, expect, it } from 'vitest'
 
-import { Cookie, Http } from '..'
-import { Func, type InvokeData } from '../../..'
-
 describe('session', () => {
+  it('requires an explicit secret during initialization', () => {
+    expect(() => new Cookie({})).toThrow(
+      'Session secret is required. Configure `cookie.session.secret` before using sessions.',
+    )
+  })
+
   describe('read', () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const func = new Func({
       plugins: [http],
       async handler(data: InvokeData) {
@@ -80,7 +84,7 @@ describe('session', () => {
         release = resolve
       })
 
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const func = new Func({
         plugins: [http],
         async handler(data: InvokeData) {
@@ -146,7 +150,7 @@ describe('session', () => {
   })
 
   describe('write', () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const func = new Func({
       plugins: [http],
       async handler(data: InvokeData) {
@@ -204,7 +208,7 @@ describe('session', () => {
     })
 
     it('multi change', async () => {
-      const http = new Http()
+      const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
       const func = new Func({
         plugins: [http],
         async handler({ session }) {

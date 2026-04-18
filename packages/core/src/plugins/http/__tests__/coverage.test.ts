@@ -1,15 +1,14 @@
+import { Http } from '@faasjs/core'
 import { streamToString } from '@faasjs/utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { Http } from '..'
-
 function createLogger() {
   return {
-    debug: vi.fn(),
-    error: vi.fn(),
-    info: vi.fn(),
-    trace: vi.fn(),
-    warn: vi.fn(),
+    debug: vi.fn<(message?: any, ...args: any[]) => void>(),
+    error: vi.fn<(message?: any, ...args: any[]) => void>(),
+    info: vi.fn<(message?: any, ...args: any[]) => void>(),
+    trace: vi.fn<(message?: any, ...args: any[]) => void>(),
+    warn: vi.fn<(message?: any, ...args: any[]) => void>(),
   }
 }
 
@@ -55,7 +54,7 @@ describe('http/coverage', () => {
 
     const http = new Http()
     const logger = createLogger()
-    const next = vi.fn(async () => undefined)
+    const next = vi.fn<() => Promise<void>>(async () => undefined)
 
     await http.onMount(
       {
@@ -90,7 +89,7 @@ describe('http/coverage', () => {
   })
 
   it('should convert thrown next errors into http responses', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const data = createInvokeData()
 
     await http.onInvoke(data as any, async () => {
@@ -105,7 +104,7 @@ describe('http/coverage', () => {
   })
 
   it('should fallback to status 500 when reading error.statusCode throws', async () => {
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const logger = createLogger()
     const error = new Error('status getter failed')
 
@@ -141,7 +140,7 @@ describe('http/coverage', () => {
       }
     } as any
 
-    const http = new Http()
+    const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
     const logger = createLogger()
     const payload = '1'.repeat(2048)
     const data = createInvokeData({
