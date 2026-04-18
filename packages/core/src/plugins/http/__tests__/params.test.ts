@@ -83,7 +83,7 @@ describe('params', () => {
     expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"key":true}}')
   })
 
-  it('should keep query params when json body parse fails', async () => {
+  it('should return 400 when json body parse fails', async () => {
     const http = new Http()
     const handler = new Func({
       plugins: [http],
@@ -98,9 +98,11 @@ describe('params', () => {
       body: '{not-json',
     })
 
-    expect(res.statusCode).toEqual(200)
+    expect(res.statusCode).toEqual(400)
     expect(res.body).toBeInstanceOf(ReadableStream)
-    expect(await streamToString(res.body as ReadableStream)).toEqual('{"data":{"fromQuery":"yes"}}')
+    expect(await streamToString(res.body as ReadableStream)).toEqual(
+      '{"error":{"message":"Invalid JSON request body"}}',
+    )
   })
 
   it('should remove internal underscore key from params', async () => {

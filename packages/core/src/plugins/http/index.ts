@@ -383,17 +383,17 @@ export class Http<
     const state = this.createInvokeState(data)
 
     this.attachInvokeData(data, state)
-    this.parseEventParams(data, state)
-    data.params = data.event.params
-
-    state.cookie.invoke(state.headers.cookie, data.logger)
-
-    if (state.headers.cookie) {
-      data.logger.debug('Cookie: %j', state.cookie.content)
-      data.logger.debug('Session: %s %j', state.session.config.key, state.session.content)
-    }
-
     try {
+      this.parseEventParams(data, state)
+      data.params = data.event.params
+
+      state.cookie.invoke(state.headers.cookie, data.logger)
+
+      if (state.headers.cookie) {
+        data.logger.debug('Cookie: %j', state.cookie.content)
+        data.logger.debug('Session: %s %j', state.session.config.key, state.session.content)
+      }
+
       await next()
     } catch (error) {
       data.response = error
@@ -423,6 +423,10 @@ export class Http<
             : JSON.parse(state.body)
         } catch (error: any) {
           data.logger.error('Parse params from json body failed: %s', error.message)
+          throw new HttpError({
+            statusCode: 400,
+            message: 'Invalid JSON request body',
+          })
         }
       } else {
         data.logger.debug('Parse params from raw body')

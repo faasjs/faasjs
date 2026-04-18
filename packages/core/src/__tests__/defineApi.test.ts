@@ -194,4 +194,30 @@ describe('@faasjs/core defineApi', () => {
     expect(response.statusCode).toEqual(400)
     expect((await streamToObject(response.body)).error.message).toContain('<root>:')
   })
+
+  it('returns invalid json errors before schema validation', async () => {
+    const func = defineApi({
+      schema: z.object({
+        name: z.string(),
+      }),
+      async handler(data) {
+        return data.params
+      },
+    })
+
+    useHttpPlugin(func)
+
+    const response: any = await func.export().handler({
+      headers: { 'content-type': 'application/json' },
+      queryString: { name: 'from-query' },
+      body: '{bad-json',
+    })
+
+    expect(response.statusCode).toEqual(400)
+    expect(await streamToObject(response.body)).toEqual({
+      error: {
+        message: 'Invalid JSON request body',
+      },
+    })
+  })
 })
