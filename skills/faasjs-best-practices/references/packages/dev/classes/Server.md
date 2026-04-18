@@ -135,7 +135,7 @@ Server response object.
 
 () => `void`
 
-Callback used to continue the middleware chain.
+Callback used to continue the middleware chain when FaasJS does not handle the request.
 
 #### Returns
 

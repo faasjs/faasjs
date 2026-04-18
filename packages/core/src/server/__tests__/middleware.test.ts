@@ -10,6 +10,7 @@ describe('middleware', () => {
     const server = new Server(join(__dirname, 'funcs'))
 
     let responseData: any = null
+    let nextCalled = false
 
     const req = createMockReq({
       method: 'GET',
@@ -26,15 +27,19 @@ describe('middleware', () => {
 
     triggerReqEvents(req)
 
-    await server.middleware(req as any, res as any, () => {})
+    await server.middleware(req as any, res as any, () => {
+      nextCalled = true
+    })
 
     expect(responseData).toEqual(JSON.stringify({ data: 'hello' }))
+    expect(nextCalled).toBe(false)
   })
 
   it('should not work if not found function', async () => {
     const server = new Server(join(__dirname, 'funcs'))
 
     let responseData: any = null
+    let nextCalled = false
 
     const req = createMockReq({
       method: 'GET',
@@ -51,15 +56,19 @@ describe('middleware', () => {
 
     triggerReqEvents(req)
 
-    await server.middleware(req as any, res as any, () => {})
+    await server.middleware(req as any, res as any, () => {
+      nextCalled = true
+    })
 
     expect(responseData).toBeNull()
+    expect(nextCalled).toBe(true)
   })
 
   it('should block traversal attempts outside the server root', async () => {
     const server = new Server(join(__dirname, 'funcs'))
 
     let responseData: any = null
+    let nextCalled = false
 
     const req = createMockReq({
       method: 'GET',
@@ -76,13 +85,17 @@ describe('middleware', () => {
 
     triggerReqEvents(req)
 
-    await server.middleware(req as any, res as any, () => {})
+    await server.middleware(req as any, res as any, () => {
+      nextCalled = true
+    })
 
     expect(responseData).toBeNull()
+    expect(nextCalled).toBe(true)
   })
 
   it('should handle option method', async () => {
     const server = new Server(join(__dirname, 'funcs'))
+    let nextCalled = false
 
     const req = createMockReq({
       method: 'OPTIONS',
@@ -101,10 +114,13 @@ describe('middleware', () => {
 
     triggerReqEvents(req)
 
-    await server.middleware(req as any, res as any, () => {})
+    await server.middleware(req as any, res as any, () => {
+      nextCalled = true
+    })
 
     expect(res.statusCode).toBe(204)
     expect(res.writableEnded).toBe(true)
+    expect(nextCalled).toBe(false)
   })
 
   it('should respond 400 if url is missing', async () => {
@@ -133,6 +149,6 @@ describe('middleware', () => {
 
     expect(res.statusCode).toBe(400)
     expect(responseData).toBe('Bad Request: url is undefined')
-    expect(nextCalled).toBe(true)
+    expect(nextCalled).toBe(false)
   })
 })

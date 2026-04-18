@@ -220,6 +220,7 @@ describe('server/hooks', () => {
     })
 
     let responseData: string | null = null
+    let nextCalled = false
 
     const req = createMockReq({
       method: 'GET',
@@ -236,10 +237,13 @@ describe('server/hooks', () => {
 
     triggerReqEvents(req)
 
-    await server.middleware(req as any, res as any, () => {})
+    await server.middleware(req as any, res as any, () => {
+      nextCalled = true
+    })
 
     expect(res.statusCode).toBe(500)
     expect(responseData).toBe('Internal Server Error')
+    expect(nextCalled).toBe(false)
   })
 
   it('should stop handler execution when beforeHandle already ends response', async () => {
@@ -251,6 +255,7 @@ describe('server/hooks', () => {
     })
 
     let responseData: string | null = null
+    let nextCalled = false
 
     const req = createMockReq({
       method: 'GET',
@@ -267,9 +272,12 @@ describe('server/hooks', () => {
 
     triggerReqEvents(req)
 
-    await server.middleware(req as any, res as any, () => {})
+    await server.middleware(req as any, res as any, () => {
+      nextCalled = true
+    })
 
     expect(res.statusCode).toBe(202)
     expect(responseData).toBe('before-handle')
+    expect(nextCalled).toBe(false)
   })
 })

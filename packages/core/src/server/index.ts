@@ -797,7 +797,7 @@ export class Server {
    *
    * @param {IncomingMessage} req - Incoming HTTP request object.
    * @param {ServerResponse<IncomingMessage>} res - Server response object.
-   * @param {() => void} next - Callback used to continue the middleware chain.
+   * @param {() => void} next - Callback used to continue the middleware chain when FaasJS does not handle the request.
    * @returns {Promise<void>} Promise that resolves when middleware processing finishes.
    */
   public async middleware(
@@ -806,10 +806,7 @@ export class Server {
     next: () => void,
   ): Promise<void> {
     const requestUrl = ensureRequestUrl(req, res)
-    if (!requestUrl) {
-      next()
-      return
-    }
+    if (!requestUrl) return
 
     try {
       const filepath = this.getFilePath(join(this.root, requestUrl).replace(/\?.*/, ''))
@@ -821,6 +818,8 @@ export class Server {
     } catch (error: any) {
       this.logger.debug('middleware error', error)
     }
+
+    if (res.headersSent || res.writableEnded) return
 
     next()
   }
