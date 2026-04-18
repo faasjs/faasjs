@@ -69,7 +69,7 @@ function read(rootPath: string, path: string): string {
 }
 
 function expectGeneratedSessionSecret(content: string): void {
-  expect(content).toMatch(/secret: [a-f0-9]{64}/)
+  expect(content).toMatch(/secret: '?[a-f0-9]{64}'?/)
   expect(content).not.toContain('secret: secret')
   expect(content).not.toContain('{{secret}}')
 }

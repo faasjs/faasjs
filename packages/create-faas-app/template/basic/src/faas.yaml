@@ -8,4 +8,4 @@ defaults:
         cookie:
           secure: false
           session:
-            secret: { { secret } }
+            secret: '{{secret}}'
