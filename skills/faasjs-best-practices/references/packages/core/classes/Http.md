@@ -140,9 +140,15 @@ When function config is unavailable.
 
 ### config
 
-> **config**: [`HttpConfig`](../type-aliases/HttpConfig.md)
+> **config**: `object`
 
 Active HTTP plugin configuration after mount-time merging.
+
+#### cookie?
+
+> `optional` **cookie?**: [`CookieOptions`](../type-aliases/CookieOptions.md)
+
+Cookie and session configuration injected into invoke data.
 
 ### name
 

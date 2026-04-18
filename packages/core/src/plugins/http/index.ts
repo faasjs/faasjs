@@ -36,56 +36,25 @@ export const ContentType: {
  * Configuration for the {@link Http} plugin.
  *
  * @property {string} [name] - Instance name used when mounting multiple HTTP plugins.
- * @property {object} [config] - Runtime HTTP behavior overrides.
+ * @property {object} [config] - Runtime HTTP behavior overrides consumed by the current core runtime.
  */
 export type HttpConfig = {
-  [key: string]: any
   /**
    * Instance name used to look up plugin-specific config.
    */
   name?: string
+  /**
+   * Runtime HTTP behavior overrides consumed by the current core runtime.
+   */
   config?: {
-    [key: string]: any
-    /**
-     * HTTP method accepted by the server route.
-     *
-     * @default 'POST'
-     */
-    method?:
-      | 'BEGIN'
-      | 'GET'
-      | 'POST'
-      | 'DELETE'
-      | 'HEAD'
-      | 'PUT'
-      | 'OPTIONS'
-      | 'TRACE'
-      | 'PATCH'
-      | 'ANY'
-    /**
-     * Request timeout in milliseconds.
-     */
-    timeout?: number
-    /**
-     * Route path matched by the server.
-     *
-     * @default source file relative path
-     */
-    path?: string
-    /**
-     * Path prefix removed before route matching.
-     */
-    ignorePathPrefix?: string
-    /**
-     * Explicit function name used by HTTP integrations.
-     */
-    functionName?: string
     /**
      * Cookie and session configuration injected into invoke data.
      */
     cookie?: CookieOptions
   }
 }
+
+type RuntimeHttpConfig = NonNullable<HttpConfig['config']>
 
 /**
  * Serializable HTTP response shape produced by FaasJS HTTP handlers.
@@ -282,7 +251,7 @@ export class Http<
   /**
    * Active HTTP plugin configuration after mount-time merging.
    */
-  public config: HttpConfig
+  public config: RuntimeHttpConfig
   private cookieTemplate!: Cookie<TCookie, TSession>
 
   /**
@@ -291,8 +260,7 @@ export class Http<
    * @param {HttpConfig} [config] - Optional plugin name and HTTP configuration overrides.
    * @param {string} [config.name] - Instance name used to look up plugin config and label logs.
    * @param {HttpConfig['config']} [config.config] - Runtime HTTP behavior overrides merged during mount.
-   * See {@link HttpConfig} for nested `config` fields such as `method`, `timeout`, `path`,
-   * `ignorePathPrefix`, `functionName`, and `cookie`.
+   * See {@link HttpConfig} for the nested `config` fields consumed by the current core runtime.
    */
   constructor(config?: HttpConfig) {
     this.name = config?.name || this.type
@@ -375,14 +343,14 @@ export class Http<
         const value = process.env[key]
         key = key.replace(prefix, '').toLowerCase()
         if (key.includes('_')) {
-          let config = this.config
+          let config: Record<string, any> = this.config
           const keys = key.split('_')
           for (const k of keys.slice(0, keys.length - 1)) {
             if (!config[k]) config[k] = Object.create(null)
             config = config[k]
           }
           config[keys[keys.length - 1] as string] = value
-        } else this.config[key] = value
+        } else (this.config as Record<string, any>)[key] = value
       }
 
     if (!data.config) throw Error(`[${this.name}] Config not found.`)
