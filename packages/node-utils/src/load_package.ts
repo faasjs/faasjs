@@ -3,7 +3,7 @@ import { registerHooks } from 'node:module'
 import { dirname, extname, isAbsolute, join, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-import { isPathInsideRoot } from './is_path_inside_root'
+import { isPathInsideRoot } from './is_path_inside_root.ts'
 
 /**
  * Supported Node.js module runtime recognized by {@link detectNodeRuntime}.

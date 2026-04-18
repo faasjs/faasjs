@@ -11,6 +11,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 - turning a function module into a runnable exported handler
 - loading YAML-defined plugins into a `Func` instance
 - importing local TypeScript modules with tsconfig path aliases in plain Node
+- validating whether a candidate file path still stays inside an allowed root directory
 - sharing runtime logs or shipping them through a transport
 
 ## What `@faasjs/node-utils` Gives You
@@ -18,6 +19,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 - environment and config loading: `loadEnvFileIfExists`, `loadConfig`, `parseYaml`
 - function loading: `loadFunc`, `loadPlugins`
 - Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `detectNodeRuntime`, `resetRuntime`
+- filesystem containment checks: `isPathInsideRoot`
 - logging and log shipping: `Logger`, `formatLogger`, `getTransport`, `Transport`, `colorfy`
 
 ## Default Workflow
@@ -28,7 +30,8 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 4. Use `parseYaml()` when you need the raw FaasJS YAML subset in custom tooling without staged discovery.
 5. Use `loadFunc()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
 6. Prefer the FaasJS TypeScript loader when direct Node execution must understand local TypeScript files or tsconfig aliases, and keep local imports extensionless without `.ts` or `.tsx` suffixes.
-7. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
+7. Use `isPathInsideRoot()` before reading or loading root-scoped files from user-controlled or URL-derived paths.
+8. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
 
 ## Rules
 
@@ -123,6 +126,25 @@ await import('./scripts/sync-users')
 - Use `getTransport()` only when logs must be buffered and forwarded to another sink.
 - `colorfy()` and `formatLogger()` are lower-level helpers; prefer the `Logger` class unless you are implementing logging infrastructure.
 
+### 7. Validate root-scoped file paths with `isPathInsideRoot()`
+
+- Use `isPathInsideRoot()` before opening files resolved from request URLs, CLI arguments, config values, or any other user-controlled fragments.
+- It normalizes both paths, follows existing symlinks with `realpath`, and still handles missing target files by normalizing through the nearest existing parent directory.
+- This makes it suitable for guarding static file serving, route lookup, template resolution, or any logic that must reject `../` traversal and symlink escapes.
+- Resolve the candidate path first, then validate that resolved path against the intended root.
+
+```ts
+import { isPathInsideRoot } from '@faasjs/node-utils'
+import { resolve } from 'node:path'
+
+const root = resolve(process.cwd(), 'public')
+const candidate = resolve(root, requestPath)
+
+if (!isPathInsideRoot(candidate, root)) {
+  throw Error('Path escapes the static root')
+}
+```
+
 ## Review Checklist
 
 - `@faasjs/node-utils` imports stay in Node-only code
@@ -131,6 +153,7 @@ await import('./scripts/sync-users')
 - raw FaasJS-compatible YAML parsing uses `parseYaml()` instead of a different YAML parser
 - loaders use `loadFunc()`, `loadPlugins()`, or `loadPackage()` instead of custom dynamic import wrappers
 - module hooks are registered at process startup, not deep inside feature code
+- root-scoped file access validates resolved paths with `isPathInsideRoot()`
 - tests that depend on fresh loader state use `resetRuntime()`
 - logging uses `Logger` or the shared transport instead of raw `console` wrappers
 
@@ -139,6 +162,7 @@ await import('./scripts/sync-users')
 - [Logger Guide](./logger.md)
 - [@faasjs/node-utils package reference](../references/packages/node-utils/README.md)
 - [loadEnvFileIfExists](../references/packages/node-utils/functions/loadEnvFileIfExists.md)
+- [isPathInsideRoot](../references/packages/node-utils/functions/isPathInsideRoot.md)
 - [loadConfig](../references/packages/node-utils/functions/loadConfig.md)
 - [loadFunc](../references/packages/node-utils/functions/loadFunc.md)
 - [loadPackage](../references/packages/node-utils/functions/loadPackage.md)

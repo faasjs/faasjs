@@ -2,6 +2,14 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `@faasjs/core`
+  - [Fix] Block static file and server route traversal outside configured roots before loading files from user-controlled paths.
+
+- `@faasjs/node-utils`
+  - [Feature] Add `isPathInsideRoot` to normalize root containment checks, including symlink-aware validation for root-scoped file access.
+
 [`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...>v8.0.0-beta.21)
 
 - `faasjs`

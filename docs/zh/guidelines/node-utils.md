@@ -11,6 +11,7 @@
 - 把一个函数模块变成可运行的导出 handler
 - 把 YAML 中定义的 plugins 加载到 `Func` 实例中
 - 在原生 Node 环境中导入带有 tsconfig path alias 的本地 TypeScript 模块
+- 校验候选文件路径在解析后是否仍然停留在允许的 root 目录内
 - 复用运行时日志，或把日志发往 transport
 
 ## `@faasjs/node-utils` 提供什么
@@ -18,6 +19,7 @@
 - 环境与配置加载：`loadEnvFileIfExists`、`loadConfig`、`parseYaml`
 - 函数加载：`loadFunc`、`loadPlugins`
 - Node 模块引导：`loadPackage`、`registerNodeModuleHooks`、`detectNodeRuntime`、`resetRuntime`
+- 文件系统边界校验：`isPathInsideRoot`
 - 日志与日志转运：`Logger`、`formatLogger`、`getTransport`、`Transport`、`colorfy`
 
 ## 默认工作流
@@ -28,7 +30,8 @@
 4. 当你需要在自定义工具中处理 FaasJS 原始 YAML 子集、且不需要 staged discovery 时，使用 `parseYaml()`。
 5. 当你需要最终可运行的导出 handler 时使用 `loadFunc()`；如果你已经有了 `Func` 实例，则使用 `loadPlugins()`。
 6. 当直接在 Node 中执行并且需要理解本地 TypeScript 文件或 tsconfig aliases 时，优先使用 FaasJS TypeScript loader，并保持本地导入不带 `.ts` 或 `.tsx` 后缀。
-7. 复用 `Logger` 和共享 transport，而不是自己再包一套日志封装。
+7. 当你要从用户输入或 URL 推导出 root-scoped 文件路径时，先用 `isPathInsideRoot()` 做校验。
+8. 复用 `Logger` 和共享 transport，而不是自己再包一套日志封装。
 
 ## 规则
 
@@ -123,6 +126,25 @@ await import('./scripts/sync-users')
 - 只有当日志必须被缓冲并转发到其他 sink 时，才使用 `getTransport()`。
 - `colorfy()` 和 `formatLogger()` 是更底层的 helpers；除非你在实现日志基础设施，否则优先使用 `Logger`。
 
+### 7. 用 `isPathInsideRoot()` 校验 root-scoped 文件路径
+
+- 在打开由 request URL、CLI 参数、配置值或其他用户可控片段拼出来的文件前，先调用 `isPathInsideRoot()`。
+- 它会先规范化两边路径，对已存在路径使用 `realpath` 跟随 symlink，并且在目标文件尚不存在时，也会通过最近的已存在父目录完成规范化。
+- 这让它很适合用于 static file serving、route lookup、template resolution，或任何必须拒绝 `../` traversal 和 symlink escape 的场景。
+- 先把候选路径 `resolve()` 成绝对路径，再拿这个结果和预期 root 做校验。
+
+```ts
+import { isPathInsideRoot } from '@faasjs/node-utils'
+import { resolve } from 'node:path'
+
+const root = resolve(process.cwd(), 'public')
+const candidate = resolve(root, requestPath)
+
+if (!isPathInsideRoot(candidate, root)) {
+  throw Error('Path escapes the static root')
+}
+```
+
 ## 评审清单
 
 - `@faasjs/node-utils` 的导入只出现在 Node-only 代码中
@@ -131,6 +153,7 @@ await import('./scripts/sync-users')
 - 原始 FaasJS 兼容 YAML 使用 `parseYaml()` 解析，而不是另一个 YAML parser
 - 加载逻辑使用 `loadFunc()`、`loadPlugins()` 或 `loadPackage()`，而不是自定义动态 import 包装
 - module hooks 在进程启动阶段注册，而不是深埋在 feature 代码中
+- root-scoped 文件访问会用 `isPathInsideRoot()` 校验已解析路径
 - 依赖全新 loader 状态的测试使用了 `resetRuntime()`
 - 日志使用 `Logger` 或共享 transport，而不是直接包裹 `console`
 
@@ -139,6 +162,7 @@ await import('./scripts/sync-users')
 - [Logger 指南](./logger.md)
 - [@faasjs/node-utils package reference](/doc/node-utils/)
 - [loadEnvFileIfExists](/doc/node-utils/functions/loadEnvFileIfExists.html)
+- [isPathInsideRoot](/doc/node-utils/functions/isPathInsideRoot.html)
 - [loadConfig](/doc/node-utils/functions/loadConfig.html)
 - [loadFunc](/doc/node-utils/functions/loadFunc.html)
 - [loadPackage](/doc/node-utils/functions/loadPackage.html)
