@@ -9,6 +9,7 @@ import { viteFaasJsServer } from '..'
 
 const mocks = vi.hoisted(() => {
   const calls: any[][] = []
+  const close = vi.fn<() => Promise<void>>(async () => {})
   const handle = vi.fn<(req: any, res: any, _options?: any) => Promise<void>>(
     async (req: any, res: any, _options?: any) => {
       res.statusCode = 200
@@ -28,11 +29,13 @@ const mocks = vi.hoisted(() => {
       calls.push(args)
     }
 
+    close = close
     handle = handle
   }
 
   return {
     calls,
+    close,
     handle,
     ServerMock,
   }
@@ -124,6 +127,8 @@ describe('viteFaasJsServer', () => {
     expect(mocks.calls[0][0]).toBe(join(root, 'src'))
 
     await server.close()
+
+    expect(mocks.close).toHaveBeenCalledTimes(1)
   })
 
   it('should use server base from faas.yaml', async () => {
@@ -208,6 +213,7 @@ describe('viteFaasJsServer', () => {
     await wait(220)
 
     expect(mocks.calls).toHaveLength(2)
+    expect(mocks.close).toHaveBeenCalledTimes(1)
     expect(process.env.FAASJS_MODULE_VERSION).not.toBe(versionBefore)
 
     await server.close()

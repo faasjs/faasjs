@@ -101,6 +101,16 @@ export function viteFaasJsServer(): Plugin {
   let server: Server | null = null
   const logger = new Logger('FaasJs:Vite')
 
+  const closeFaasServer = async (currentServer: Server | null) => {
+    if (!currentServer) return
+
+    try {
+      await currentServer.close()
+    } catch (error: any) {
+      logger.error('[faas server] failed to close: %s', error.message)
+    }
+  }
+
   return {
     name: 'vite:faasjs',
     enforce: 'pre' as const,
@@ -123,21 +133,29 @@ export function viteFaasJsServer(): Plugin {
         base: normalizeBase(base),
       }
     },
-    configureServer: async ({ middlewares, watcher }) => {
+    configureServer: async (viteServer) => {
       if (process.env.VITEST) return
 
       if (!config) throw new Error('viteFaasJsServer: config is not resolved')
+
+      const { middlewares, watcher } = viteServer
 
       let moduleVersion = Number(process.env.FAASJS_MODULE_VERSION || Date.now())
 
       const mountFaasServer = () => {
         process.env.FAASJS_MODULE_VERSION = `${moduleVersion}`
+
+        const previousServer = server
         server = new Server(join(config.root, 'src'))
+
+        return previousServer
       }
 
       const restartFaasServer = async () => {
         moduleVersion += 1
-        mountFaasServer()
+        const previousServer = mountFaasServer()
+
+        await closeFaasServer(previousServer)
         logger.debug('[faas server] restarted %s', process.env.FAASJS_MODULE_VERSION)
       }
 
@@ -183,11 +201,13 @@ export function viteFaasJsServer(): Plugin {
 
       await runTypegen()
 
-      watcher.on('all', (_eventName, filePath) => {
+      const handleWatcherChange = (_eventName: string, filePath: string) => {
         if (isTypegenSourceFile(filePath)) scheduleTypegen()
 
         if (isFaasServerSourceFile(filePath)) scheduleRestart()
-      })
+      }
+
+      watcher.on('all', handleWatcherChange)
 
       middlewares.use(async (req, res, next) => {
         if (!req.url || req.method !== 'POST' || !server) return next()
@@ -220,10 +240,32 @@ export function viteFaasJsServer(): Plugin {
         if (!res.writableEnded) next()
       })
 
-      return () => {
-        if (timer) clearTimeout(timer)
+      let disposePromise: Promise<void> | undefined
+      const dispose = () => {
+        disposePromise ||= (async () => {
+          if (timer) clearTimeout(timer)
 
-        if (restartTimer) clearTimeout(restartTimer)
+          if (restartTimer) clearTimeout(restartTimer)
+
+          watcher.off('all', handleWatcherChange)
+
+          await typegenChain
+          await restartChain
+
+          const currentServer = server
+          server = null
+
+          await closeFaasServer(currentServer)
+        })()
+
+        return disposePromise
+      }
+
+      const closeViteServer = viteServer.close.bind(viteServer)
+      viteServer.close = async () => {
+        await dispose()
+
+        return await closeViteServer()
       }
     },
   }

@@ -60,6 +60,16 @@ describe.sequential('server', () => {
     })
   })
 
+  it('should untrack closed servers', async () => {
+    const extraServer = new Server(join(__dirname, 'funcs'))
+
+    expect(getAll()).toContain(extraServer)
+
+    await extraServer.close()
+
+    expect(getAll()).not.toContain(extraServer)
+  })
+
   it('404', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/404`)
     expect(response.status).toBe(404)

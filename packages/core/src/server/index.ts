@@ -96,7 +96,7 @@ export function getAll(): Server[] {
  * ```
  */
 export async function closeAll(): Promise<void> {
-  for (const server of servers) await server.close()
+  for (const server of [...servers]) await server.close()
 }
 
 /**
@@ -787,7 +787,10 @@ export class Server {
 
     this.logger.timeEnd(`${this.logger.label}close`, 'closed')
 
-    await getTransport().stop()
+    const index = servers.indexOf(this)
+    if (index !== -1) servers.splice(index, 1)
+
+    if (servers.length === 0) await getTransport().stop()
 
     this.closed = true
   }

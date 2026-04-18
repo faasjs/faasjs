@@ -6,6 +6,7 @@ import { createServer } from 'vite'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => {
+  const close = vi.fn<() => Promise<void>>(async () => {})
   const serverCalls: any[][] = []
   const generateFaasTypes = vi.fn<(...args: any[]) => Promise<any>>(async () => ({
     output: '/tmp/types.d.ts',
@@ -22,10 +23,12 @@ const mocks = vi.hoisted(() => {
       serverCalls.push(args)
     }
 
+    close = close
     handle = vi.fn<(...args: any[]) => any>()
   }
 
   return {
+    close,
     serverCalls,
     generateFaasTypes,
     isTypegenSourceFile,
