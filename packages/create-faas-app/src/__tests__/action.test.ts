@@ -68,6 +68,12 @@ function read(rootPath: string, path: string): string {
   return readFileSync(join(rootPath, path), 'utf8')
 }
 
+function expectGeneratedSessionSecret(content: string): void {
+  expect(content).toMatch(/secret: [a-f0-9]{64}/)
+  expect(content).not.toContain('secret: secret')
+  expect(content).not.toContain('{{secret}}')
+}
+
 describe('action', () => {
   let currentDir = ''
   let tempDir = ''
@@ -102,6 +108,7 @@ describe('action', () => {
     expect(listFiles(rootPath)).toEqual(basicFiles)
     expect(packageJSON.name).toBe('basic-app')
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
+    expectGeneratedSessionSecret(read(rootPath, 'src/faas.yaml'))
     expect(read(rootPath, 'src/react-client.ts')).toContain(
       "import { FaasReactClient } from '@faasjs/react'",
     )
@@ -126,6 +133,7 @@ describe('action', () => {
     expect(listFiles(rootPath)).toEqual(antdFiles)
     expect(packageJSON.name).toBe('antd-app')
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
+    expectGeneratedSessionSecret(read(rootPath, 'src/faas.yaml'))
     expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
       "import { faas, useApp } from '@faasjs/ant-design'",

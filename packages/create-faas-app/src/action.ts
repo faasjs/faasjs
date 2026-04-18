@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process'
+import { randomBytes } from 'node:crypto'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -40,6 +41,10 @@ function renderTemplate(content: string, replacements: Record<string, string>): 
     (result, [key, value]) => result.replaceAll(`{{${key}}}`, value),
     content,
   )
+}
+
+function generateSessionSecret(): string {
+  return randomBytes(32).toString('hex')
 }
 
 function copyTemplateDirectory(
@@ -115,6 +120,7 @@ export async function action(options: { name?: string; template?: string } = {})
     answers.name,
     {
       name: answers.name,
+      secret: generateSessionSecret(),
     },
     templateName,
   )

@@ -14,6 +14,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/node-utils`
   - [Feature] Add `isPathInsideRoot` to normalize root containment checks, including symlink-aware validation for root-scoped file access.
 
+- `create-faas-app`
+  - [Feature] Generate a unique random `cookie.session.secret` in scaffolded `src/faas.yaml` instead of shipping the shared placeholder value.
+
 [`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...>v8.0.0-beta.21)
 
 - `faasjs`
