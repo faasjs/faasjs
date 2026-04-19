@@ -30,6 +30,11 @@ Use these guides and specifications as the current public guidance for building 
 - [defineApi Guide](../guidelines/define-api.md): Covers building `.func.ts` endpoints with `defineApi`, inline schemas, typed `params`, error handling, and validation expectations.
 - [Logger Guide](../guidelines/logger.md): Covers when to reuse injected loggers versus creating `Logger` instances, how to choose log levels, and how to time slow operations.
 - [Utils Guide](../guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text or JSON to and from streams.
+- [PG Query Builder Guide](../guidelines/pg-query-builder.md): Covers preferring `QueryBuilder` clauses, narrowing row shapes intentionally, and keeping write queries guarded.
+- [PG Table Types Guide](../guidelines/pg-table-types.md): Covers declaration merging on `Tables`, concrete row shapes, and keeping query inference aligned with table definitions.
+- [PG Schema and Migrations Guide](../guidelines/pg-schema-and-migrations.md): Covers timestamped migrations, `SchemaBuilder`, `TableBuilder`, and transactional schema changes.
+- [PG Raw SQL and Client Guide](../guidelines/pg-raw-sql-and-client.md): Covers when to use `client.raw(...)`, how to bootstrap clients with `getClient()`, and how to keep raw SQL trusted and parameterized.
+- [PG Testing Guide](../guidelines/pg-testing.md): Covers `TypedPgVitestPlugin()`, shared `DATABASE_URL` bootstrap, and pairing runtime assertions with `expectTypeOf(...)`.
 
 ## Specs
 
