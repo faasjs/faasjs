@@ -3,11 +3,11 @@ home: true
 heroImage: /logo.jpg
 heroText: 🚀 FaasJS
 tagline: null
-footer: 🚀 FaasJS is an agent-friendly TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
+footer: 🚀 FaasJS is an agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
 ---
 
 <div style="width:100%;line-height:1.7">
-  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">An agent-friendly TypeScript framework for building predictable, type-safe applications with minimal dependencies.</div>
+  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">An agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.</div>
   <div style="display:flex;gap:4px;align-items:center;justify-content:center;flex-wrap:wrap">
     <a href="https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
     <br>
@@ -22,6 +22,8 @@ footer: 🚀 FaasJS is an agent-friendly TypeScript framework for building predi
     <a href="https://github.com/faasjs/faasjs"><img src="https://badgen.net/github/last-commit/faasjs/faasjs"></a>
   </div>
 </div>
+
+<p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">FaasJS helps you ship full-stack products faster with clear conventions across frontend, backend, and shared types, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.</p>
 
 ## Features
 
@@ -48,9 +50,6 @@ footer: 🚀 FaasJS is an agent-friendly TypeScript framework for building predi
 ✅ Smaller supply-chain attack surface.
 
 ✅ Easier upgrades and dependency review.
-
-- Extend your application effortlessly with **flexible and simple plugin mechanisms**.
-- **Freely scale** your functions up or down based on demand.
 
 ## Quick start
 

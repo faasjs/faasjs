@@ -44,9 +44,9 @@ export const siteConfig: SiteConfig = {
       lang: 'en',
       title: 'FaasJS',
       description:
-        'An agent-friendly TypeScript framework for building predictable, type-safe applications with minimal dependencies.',
+        'An agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.',
       footer:
-        'An agent-friendly TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
+        'An agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
       selectLanguageName: 'English',
       navbar: [
         {
@@ -168,9 +168,9 @@ export const siteConfig: SiteConfig = {
     '/zh/': {
       lang: 'zh',
       title: 'FaasJS',
-      description: '一个对 Agent 友好的 TypeScript 框架，用精简依赖构建可预测、类型安全的应用',
+      description: '一个对 Agent 友好的全栈 TypeScript 框架，用精简依赖构建可预测、类型安全的应用',
       footer:
-        '一个对 Agent 友好的 TypeScript 框架，用精简依赖构建可预测、类型安全的应用 | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
+        '一个对 Agent 友好的全栈 TypeScript 框架，用精简依赖构建可预测、类型安全的应用 | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
       selectLanguageName: '简体中文',
       navbar: [
         {

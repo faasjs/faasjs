@@ -14,9 +14,9 @@
 [![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/repository/docker/faasjs/vscode)
 [![faasjs/node](https://img.shields.io/badge/Docker-faasjs%2Fnode-blue)](https://hub.docker.com/repository/docker/faasjs/node)
 
-🚀 FaasJS is an agent-friendly TypeScript framework for building predictable, type-safe applications with minimal dependencies.
+🚀 FaasJS is an agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.
 
-It helps you ship faster with clear conventions, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.
+It helps you ship full-stack products faster with clear conventions across frontend, backend, and shared types, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.
 
 ## Features
 
