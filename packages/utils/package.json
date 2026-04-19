@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/utils",
-  "version": "8.0.0-beta.22",
+  "version": "8.0.0-beta.23",
   "homepage": "https://faasjs.com/doc/utils",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
