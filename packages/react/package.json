@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/react",
-  "version": "8.0.0-beta.21",
+  "version": "8.0.0-beta.22",
   "homepage": "https://faasjs.com/doc/react/",
   "bugs": {
     "url": "https://github.com/faasjs/faasjs/issues"
@@ -13,9 +13,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "files": [
-    "dist",
-    "auto-pages",
-    "routing"
+    "dist"
   ],
   "type": "module",
   "main": "dist/index.mjs",
@@ -25,37 +23,15 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.mjs"
-    },
-    "./routing": {
-      "types": "./dist/routing.d.ts",
-      "default": "./dist/routing.mjs"
-    },
-    "./routing/client": {
-      "types": "./dist/routing_client.d.ts",
-      "default": "./dist/routing_client.mjs"
-    },
-    "./routing/client-entry": {
-      "default": "./routing/client-entry.js"
-    },
-    "./auto-pages": {
-      "types": "./dist/auto_pages.d.ts",
-      "default": "./dist/auto_pages.mjs"
-    },
-    "./auto-pages/client": {
-      "types": "./dist/auto_pages_client.d.ts",
-      "default": "./dist/auto_pages_client.mjs"
-    },
-    "./auto-pages/client-entry": {
-      "default": "./auto-pages/client-entry.js"
     }
   },
   "devDependencies": {
-    "@faasjs/types": ">=8.0.0-beta.21",
+    "@faasjs/types": ">=8.0.0-beta.22",
     "@types/react": "^19.0.0",
     "react": "^19.0.0"
   },
   "peerDependencies": {
-    "@faasjs/types": ">=8.0.0-beta.21"
+    "@faasjs/types": ">=8.0.0-beta.22"
   },
   "engines": {
     "node": ">=24.0.0",

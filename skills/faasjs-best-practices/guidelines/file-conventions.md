@@ -6,14 +6,14 @@ Use this guide when creating or reviewing frontend pages, React components, hook
 
 - creating a new page, component, or hook
 - reorganizing frontend folders
-- adding auto-discovered page routes under `pages/`
+- adding page or feature folders under `pages/`
 - creating or moving `.func.ts` backend files
 - reviewing whether file names and locations stay predictable for humans and agents
 
 ## Default Workflow
 
 1. Put frontend pages under `pages/`.
-2. Use `index.tsx` for exact page entries and `default.tsx` only for fallback pages.
+2. Use `index.tsx` for the main page entry when it keeps the folder easy to scan.
 3. Keep one-off page-local logic inline until extraction is justified.
 4. When a component or hook earns its own abstraction, give it its own file.
 5. Group frontend code by page or feature.
@@ -53,17 +53,13 @@ Examples:
 
 - Frontend pages SHOULD be placed under `pages/`.
 - Each page or feature SHOULD use its own directory under `pages/`.
-- Exact page entry files MUST be named `index.tsx`.
-- Fallback page entry files MUST be named `default.tsx`.
+- Main page entry files SHOULD use `index.tsx` when the folder maps cleanly to one feature page.
 - Page entry files SHOULD `export default` the page component.
-- Page entry files MUST NOT rely on special route loader exports.
-- No separate route configuration file is required for discovered pages.
-- Default React routing setups MAY reuse `@faasjs/react/routing/client-entry` instead of keeping a local browser bootstrap entry file.
-- The legacy `@faasjs/react/auto-pages/*` paths remain compatibility aliases during migration.
-- A directory named `api/` is reserved for backend handlers and MUST NOT create webpage routes.
+- Frontend routing SHOULD be defined explicitly in app code or the chosen UI framework.
+- A directory named `api/` is reserved for backend handlers.
 - Components MUST be placed under `components/`.
 - Hooks MUST be placed under `hooks/`.
-- Backend handlers for that page or feature SHOULD be placed under `api/`.
+- Backend handlers for that page or feature SHOULD be placed under `api/` when they are feature-local.
 - Only page entry files MAY be placed directly in the outer page or feature directory.
 - Shared code that belongs to the same page or feature SHOULD stay inside that page or feature scope instead of being flattened at the root.
 - If a page or feature file grows too large to scan comfortably, split it at a real component, hook, or API boundary instead of creating placeholder helper files.
@@ -74,7 +70,7 @@ Prefer this:
 src/pages/
   index.tsx
   docs/
-    default.tsx
+    index.tsx
   feature-name/
     index.tsx
     components/
@@ -107,16 +103,15 @@ export default function FeatureNamePage() {
 }
 ```
 
-Page route discovery example:
+Page layout example:
 
 ```text
-src/pages/index.tsx         -> /
+src/pages/index.tsx
 src/pages/feature-name/index.tsx
-                         -> /feature-name
-src/pages/docs/default.tsx -> fallback for /docs and unmatched /docs/*
+src/pages/docs/index.tsx
 ```
 
-Frontend page routes are auto-discovered from `src/pages` according to the routing-mapping specification. When using React file-based routing, prefer the built-in `@faasjs/react/routing` helpers instead of duplicating page discovery or routing glue in the app. The legacy `@faasjs/react/auto-pages` path remains a compatibility alias. Backend API routing is separate and still follows Zero-Mapping from the full path under `src/`.
+Frontend page organization under `src/pages` is a project convention, not an implicit FaasJS router. Define browser routes explicitly in your app or UI framework. Backend API routing is separate and still follows Zero-Mapping from the full path under `src/`.
 
 ### 4. Follow routing-mapping for backend files
 
@@ -154,10 +149,8 @@ This maps directly to:
 - extracted hooks have their own file
 - component file names match component names
 - hook file names match hook names
-- exact page entry files are named `index.tsx`
-- fallback page entry files are named `default.tsx`
+- main page entry files use `index.tsx` when that keeps the folder easy to scan
 - page entry files default-export the page component
-- page entry files do not depend on special route loader exports
 - frontend pages live under `pages/`
 - frontend components live in `components/`
 - frontend hooks live in `hooks/`

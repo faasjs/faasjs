@@ -8,26 +8,6 @@ import { resolveServerConfig } from '../shared/server_config.ts'
 import { generateFaasTypes, isTypegenSourceFile } from '../typegen/index.ts'
 
 const TYPEGEN_DEBOUNCE = 120
-const VIRTUAL_FAASJS_PAGES_ID = 'virtual:faasjs-pages'
-const RESOLVED_VIRTUAL_FAASJS_PAGES_ID = '\0virtual:faasjs-pages'
-
-function getVirtualFaasJsPagesModule(): string {
-  return `
-const rawPageModules = import.meta.glob(
-  ['/src/pages/index.tsx', '/src/pages/default.tsx', '/src/pages/**/index.tsx', '/src/pages/**/default.tsx'],
-  {
-    eager: true,
-  },
-)
-
-export const pageModules = Object.fromEntries(
-  Object.entries(rawPageModules).map(([file, module]) => [
-    file.replace(/^\\/src\\/pages/, './pages'),
-    module,
-  ]),
-)
-`
-}
 
 function isFaasServerSourceFile(filePath: string): boolean {
   const normalized = filePath.replace(/\\/g, '/')
@@ -79,9 +59,7 @@ function stripBase(url: string, base: string): string {
  *
  * The plugin resolves server settings from `src/faas.yaml`, strips the Vite
  * `base` prefix from request URLs, restarts the in-process server when source
- * files change, refreshes generated route declarations for `@faasjs/types`,
- * and exposes the `virtual:faasjs-pages` module used by
- * `@faasjs/react/routing` during client builds.
+ * files change, and refreshes generated route declarations for `@faasjs/types`.
  *
  * @returns Vite plugin instance for local FaasJS development.
  * @see {@link generateFaasTypes}
@@ -114,12 +92,6 @@ export function viteFaasJsServer(): Plugin {
   return {
     name: 'vite:faasjs',
     enforce: 'pre' as const,
-    resolveId(id) {
-      if (id === VIRTUAL_FAASJS_PAGES_ID) return RESOLVED_VIRTUAL_FAASJS_PAGES_ID
-    },
-    load(id) {
-      if (id === RESOLVED_VIRTUAL_FAASJS_PAGES_ID) return getVirtualFaasJsPagesModule()
-    },
     configResolved(resolvedConfig) {
       if (process.env.VITEST) {
         logger.debug('Skipping faas server in vitest environment')

@@ -6,14 +6,14 @@
 
 - 创建新页面、组件或 hook
 - 重组前端目录结构
-- 在 `pages/` 下新增自动发现的页面路由
+- 在 `pages/` 下新增页面或 feature 目录
 - 创建或移动 `.func.ts` 后端文件
 - 评审文件名与文件位置是否对人类和 AI agent 都保持可预测
 
 ## 默认工作流
 
 1. 前端页面放到 `pages/` 下。
-2. 精确页面入口使用 `index.tsx`，`default.tsx` 只用于 fallback 页面。
+2. 当目录天然对应一个主页面时，使用 `index.tsx` 作为主页面入口。
 3. 在有明确拆分理由前，把一次性的页面局部逻辑保留在当前文件内。
 4. 当组件或 hook 真正形成边界时，再给它单独文件。
 5. 以前端页面或 feature 为单位组织代码。
@@ -53,17 +53,13 @@
 
 - 前端页面应放在 `pages/` 下。
 - 每个页面或 feature 应在 `pages/` 下使用自己的目录。
-- 精确页面入口文件必须命名为 `index.tsx`。
-- fallback 页面入口文件必须命名为 `default.tsx`。
+- 当一个目录天然对应一个主页面时，主页面入口文件应使用 `index.tsx`。
 - 页面入口文件应 `export default` 页面组件。
-- 页面入口文件不得依赖特殊的路由 loader 导出。
-- 自动发现的页面不需要单独的路由配置文件。
-- 默认的 React 路由场景可以直接复用 `@faasjs/react/routing/client-entry`，不必再保留本地浏览器 bootstrap 入口文件。
-- 旧的 `@faasjs/react/auto-pages/*` 路径会继续作为兼容别名保留。
-- 名为 `api/` 的目录保留给后端处理器使用，不得生成网页路由。
+- 前端路由应在应用代码或所选 UI 框架中显式定义。
+- 名为 `api/` 的目录保留给后端处理器使用。
 - 组件必须放在 `components/`。
 - hooks 必须放在 `hooks/`。
-- 该页面或 feature 的后端处理器应放在 `api/`。
+- 当后端处理器是该 feature 的局部实现时，应放在 `api/`。
 - 只有页面入口文件可以直接放在最外层页面或 feature 目录。
 - 同一个页面或 feature 的共享代码，应保持在该 feature 作用域内，而不是扁平化到根目录。
 - 如果页面或 feature 文件大到难以快速浏览，应沿着真实的组件、hook 或 API 边界拆分，而不是创建占位 helper 文件。
@@ -74,7 +70,7 @@
 src/pages/
   index.tsx
   docs/
-    default.tsx
+    index.tsx
   feature-name/
     index.tsx
     components/
@@ -107,16 +103,15 @@ export default function FeatureNamePage() {
 }
 ```
 
-页面路由发现示例：
+页面目录示例：
 
 ```text
-src/pages/index.tsx         -> /
+src/pages/index.tsx
 src/pages/feature-name/index.tsx
-                         -> /feature-name
-src/pages/docs/default.tsx -> /docs 与未匹配 /docs/* 的 fallback
+src/pages/docs/index.tsx
 ```
 
-前端页面路由按照 routing-mapping 规范从 `src/pages` 自动发现。使用 React 文件路由时，优先使用内置的 `@faasjs/react/routing`，不要在应用里重复实现页面发现或路由胶水代码。旧的 `@faasjs/react/auto-pages` 路径会继续作为兼容别名保留。后端 API 路由是独立的，仍然遵循 `src/` 全路径上的 Zero-Mapping 规则。
+`src/pages` 下的前端页面组织是一种项目约定，不再是 FaasJS 的隐式路由器。浏览器路由应在应用代码或 UI 框架里显式声明。后端 API 路由是独立的，仍然遵循 `src/` 全路径上的 Zero-Mapping 规则。
 
 ### 4. 后端文件遵循 routing-mapping
 
@@ -154,10 +149,8 @@ src/pages/feature-name/api/default.func.ts
 - 抽离后的 hooks 拥有自己的文件
 - 组件文件名与组件名一致
 - hook 文件名与 hook 名一致
-- 精确页面入口文件命名为 `index.tsx`
-- fallback 页面入口文件命名为 `default.tsx`
+- 当目录天然对应一个主页面时，主页面入口文件使用 `index.tsx`
 - 页面入口文件默认导出页面组件
-- 页面入口文件不依赖特殊的路由 loader 导出
 - 前端页面位于 `pages/`
 - 前端组件位于 `components/`
 - 前端 hooks 位于 `hooks/`

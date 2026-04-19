@@ -9,7 +9,6 @@
  * ## Features
  *
  * - Support [FaasJS Request Specifications](https://faasjs.com/guide/request-spec.html).
- * - File-based routing helpers via `@faasjs/react/routing`.
  * - Support global and per-request configurations.
  * - Compatible with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
  * - Additional React functions:
@@ -40,28 +39,6 @@
  * ```sh
  * npm install @faasjs/react react
  * ```
- *
- * ## Usage: Routing
- *
- * ```html
- * <!-- index.html -->
- * <script type="module">
- *   import '@faasjs/react/routing/client-entry'
- * </script>
- * ```
- *
- * ```ts
- * // vite.config.ts
- * import { viteConfig } from '@faasjs/dev'
- * import { defineConfig } from 'vite-plus'
- *
- * export default defineConfig({
- *   ...viteConfig,
- * })
- * ```
- *
- * Serve the built app with any SPA host, or pair FaasJS `staticHandler()` with
- * an `index.html` fallback when the same process also serves API routes.
  */
 
 export type { FaasAction, FaasActionUnionType, FaasData, FaasParams } from '@faasjs/types'

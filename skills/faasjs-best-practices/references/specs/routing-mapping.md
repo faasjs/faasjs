@@ -2,7 +2,13 @@
 
 ## Background
 
-FaasJS route resolution is file-based. This spec standardizes both API routing and webpage routing so Zero-Mapping remains explicit: file path and URL path stay in one-to-one alignment by default.
+FaasJS API route resolution is file-based. This spec standardizes backend route
+mapping so Zero-Mapping remains explicit: file path and request path stay in
+one-to-one alignment by default.
+
+Frontend page components may still live under `src/pages`, but FaasJS does not
+auto-discover webpage routes for React applications anymore. Browser routing is
+an application concern and is out of scope for this spec.
 
 Related references:
 
@@ -12,58 +18,33 @@ Related references:
 
 ## Goals
 
-- Keep API and webpage locations discoverable from URL without an extra mapping table.
+- Keep API locations discoverable from the request path without an extra mapping table.
 - Reduce ambiguity for humans and AI coding agents.
-- Keep route search order predictable across webpage rendering and API handling.
+- Keep backend route search order predictable.
 
 ## Non-goals
 
 - Introducing path aliases or rewrite layers.
 - Replacing file-system routing with a registry-based router.
 - Adding dynamic filename segments such as `[id]` or `[...slug]` in this V1 spec.
-- Requiring a separate route configuration file for discovered pages.
+- Defining browser routing or SPA page discovery behavior.
 
 ## Normative Rules
 
 ### 1. File naming and placement
 
-1. Webpage route root MUST be `src/pages`.
-2. Webpage entry files MUST be named `index.tsx` or `default.tsx`.
-3. Webpage entry files MUST default-export the page component.
-4. A directory named `api/` is reserved for backend route files and MUST NOT create webpage routes.
-5. API entry files MUST end with `.func.ts`.
-6. API files SHOULD be placed under `api/` directories for SPA-style projects.
-7. API files MUST NOT be placed under `components/` directories.
-8. Files other than `index.tsx`, `default.tsx`, and `*.func.ts` MUST NOT create routes implicitly.
+1. API entry files MUST end with `.func.ts`.
+2. API files SHOULD be placed under `api/` directories for SPA-style projects.
+3. API files MUST NOT be placed under `components/` directories.
+4. Files other than `*.func.ts` MUST NOT create API routes implicitly.
 
 ### 2. Zero-mapping routing
 
-1. URL path and file path MUST keep direct mapping (Zero-Mapping by default).
-2. Webpage routes map relative to `src/pages` and MUST NOT use a `/pages` URL prefix. These routes are resolved for webpage requests such as `GET` and `HEAD`.
-3. API routes continue to map from the full path under `src/`; implementations MUST NOT rely on implicit rewrites such as `actions -> api`.
-4. Implementations MUST NOT add hidden alias routes that break path/file predictability.
+1. Request path and file path MUST keep direct mapping (Zero-Mapping by default).
+2. API routes MUST map from the full path under `src/`; implementations MUST NOT rely on implicit rewrites such as `actions -> api`.
+3. Implementations MUST NOT add hidden alias routes that break path/file predictability.
 
-### 3. Webpage route file search order
-
-Given browser path `<p>`, webpage route resolution MUST probe in this order:
-
-1. `src/pages<p>/index.tsx`
-2. `src/pages<p>/default.tsx`
-3. Parent fallback chain: `src/pages<parent>/default.tsx` up to `src/pages/default.tsx`
-
-Normalize `/` so the first probe is `src/pages/index.tsx`.
-
-If no candidate exists, the request is treated as not found.
-`default.tsx` acts as the fallback for the current scope and its descendants after exact `index.tsx` lookup misses.
-
-### 4. Page module contract
-
-1. A webpage route module MUST default-export the page component.
-2. Route resolution MUST depend only on the discovered file path plus the default export.
-3. Named exports MAY exist, but they MUST NOT affect route matching or page rendering semantics.
-4. This V1 webpage routing spec MUST NOT require dynamic filename syntax; nested routing is represented only by directories plus `index.tsx` and `default.tsx`.
-
-### 5. API route file search order
+### 3. API route file search order
 
 Given API request path `<p>`, route resolution MUST probe in this order:
 
@@ -75,27 +56,6 @@ Given API request path `<p>`, route resolution MUST probe in this order:
 If no candidate exists, the request is treated as not found.
 
 ## Examples
-
-### Webpages
-
-| File                         | Route                                                                       |
-| ---------------------------- | --------------------------------------------------------------------------- |
-| `src/pages/index.tsx`        | `GET /`                                                                     |
-| `src/pages/about/index.tsx`  | `GET /about`                                                                |
-| `src/pages/docs/default.tsx` | fallback for `/docs` and unmatched `/docs/*` after exact page lookup misses |
-| `src/pages/default.tsx`      | global fallback for unmatched webpage routes                                |
-
-Webpage fallback example:
-
-- Request: `GET /docs/react/routing`
-- Probe order:
-  1. `src/pages/docs/react/routing/index.tsx`
-  2. `src/pages/docs/react/routing/default.tsx`
-  3. `src/pages/docs/react/default.tsx`
-  4. `src/pages/docs/default.tsx`
-  5. `src/pages/default.tsx`
-
-### APIs
 
 | File                               | Route                                          |
 | ---------------------------------- | ---------------------------------------------- |

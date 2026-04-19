@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+[`v8.0.0-beta.22 (2026-04-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.21...>v8.0.0-beta.22)
 
 - `@faasjs/core`
   - [Fix] Block static file and server route traversal outside configured roots before loading files from user-controlled paths.
@@ -16,6 +16,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `create-faas-app`
   - [Feature] Generate a unique random `cookie.session.secret` in scaffolded `src/faas.yaml` instead of shipping the shared placeholder value.
+
+- `@faasjs/react`
+  - [Break] Remove the `@faasjs/react` routing and bootstrap helpers, including the `routing`, `auto-pages`, and `client-entry` subpath exports.
 
 [`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...>v8.0.0-beta.21)
 

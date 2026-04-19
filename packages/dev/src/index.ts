@@ -13,7 +13,6 @@
  * ## Features
  *
  * - `viteFaasJsServer()` runs a FaasJS server inside Vite during local development.
- * - `viteFaasJsServer()` also exposes `virtual:faasjs-pages` for `@faasjs/react/routing`.
  * - `viteConfig` bundles the standard FaasJS React and Vite Plus defaults.
  * - `oxfmtConfig` and `oxlintConfig` expose the shared FaasJS formatting and lint rules.
  * - `generateFaasTypes()` emits route declarations for `@faasjs/types`.

@@ -8,9 +8,7 @@ Create a Vite plugin that forwards POST requests to an in-process FaasJS server.
 
 The plugin resolves server settings from `src/faas.yaml`, strips the Vite
 `base` prefix from request URLs, restarts the in-process server when source
-files change, refreshes generated route declarations for `@faasjs/types`,
-and exposes the `virtual:faasjs-pages` module used by
-`@faasjs/react/routing` during client builds.
+files change, and refreshes generated route declarations for `@faasjs/types`.
 
 ## Returns
 
