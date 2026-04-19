@@ -3,28 +3,38 @@ home: true
 heroImage: /logo.jpg
 heroText: FaasJS
 tagline: null
-footer: 一个基于 TypeScript 的原子化应用框架 | MIT Licensed | Copyright © 2019-2026 Zhu Feng
+footer: 一个对 Agent 友好的 TypeScript 框架，用精简依赖构建可预测、类型安全的应用 | MIT Licensed | Copyright © 2019-2026 Zhu Feng
 ---
 
-<div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:2em">一个基于 TypeScript 的原子化应用框架</div>
+<div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:.75em">一个对 Agent 友好的 TypeScript 框架，用精简依赖构建可预测、类型安全的应用</div>
 
-## 为什么要使用 FaasJS ？
+<p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">FaasJS 通过清晰约定、更安全的重构体验和更小的依赖面，帮助你更快交付，也让依赖更容易信任、审计与维护。</p>
 
-### 开发效率高
+## 特性
 
-原子化的开发模式，可以让开发和迭代降低到羽量级的程度，对团队开发也更友好。
+### 对开发者与 AI Agent 都更可预测
 
-FaasJS 官方提供了诸如 HTTP 等插件，使开发者可以立刻上手开发业务。
+✅ 清晰的文件约定与路由规则。
 
-### 可维护性高
+✅ 减少生成、评审与维护时的歧义。
 
-FaaS 架构保证了云函数之间的独立性，避免单一错误导致整个系统的故障。
+✅ 让开发者与工具之间的协作更顺畅。
 
-FaasJS 内置自动化测试工具，方便开发者对云函数进行自动化测试。
+### 默认类型安全
 
-### 可扩展性高
+✅ 以 TypeScript 为先的应用架构。
 
-FaasJS 拥有简单易用的插件机制，可以让开发者可以自由扩展功能和插件。
+✅ 更安全的 API 与更清晰的契约。
+
+✅ 随着项目演进，也能更有信心地重构。
+
+### 精简依赖模型
+
+✅ 尽量减少外部依赖。
+
+✅ 更小的供应链攻击面。
+
+✅ 更容易升级、审计和管理依赖。
 
 ## 代码示例
 

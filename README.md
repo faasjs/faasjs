@@ -14,37 +14,41 @@
 [![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/repository/docker/faasjs/vscode)
 [![faasjs/node](https://img.shields.io/badge/Docker-faasjs%2Fnode-blue)](https://hub.docker.com/repository/docker/faasjs/node)
 
-🚀 FaasJS is an atomic application framework built for the TypeScript developer.
+🚀 FaasJS is an agent-friendly TypeScript framework for building predictable, type-safe applications with minimal dependencies.
+
+It helps you ship faster with clear conventions, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.
 
 ## Features
 
-### Featherweight Development & Collaboration
+### Predictable for humans and AI agents
 
-✅ Break down complex projects into manageable components with the **atomized development model**.
+✅ Clear file conventions and routing rules.
 
-✅ Enjoy **fast iterations** and **seamless** team collaboration.
+✅ Less ambiguity in generation, review, and maintenance.
 
-✅ Jumpstart development with **pre-built plugins** for common functionalities like HTTP.
+✅ Better collaboration across developers and tools.
 
-### High maintainability
+### Type-safe by default
 
-✅ The **FaaS architecture** ensures isolated cloud functions, preventing domino-effect errors.
+✅ TypeScript-first application architecture.
 
-✅ **Automated testing tools** built-in for **robust and efficient testing**.
+✅ Safer APIs and clearer contracts.
 
-### High scalability
+✅ More confident refactoring over time.
 
-✅ Extend your application effortlessly with **flexible and simple plugin mechanisms**.
+### Lean dependency model
 
-✅ **Freely scale** your functions up or down based on demand.
+✅ Minimal external dependencies.
+
+✅ Smaller supply-chain attack surface.
+
+✅ Easier upgrades and dependency review.
 
 ## Learn more
 
 👉 Visit [faasjs.com](https://faasjs.com) to learn more.
 
-🔨 Try [FaasJS starter templates](https://github.com/faasjs/faasjs/tree/main/templates) using Codespaces.
-
-🧪 Explore [starter templates](./templates/README.md) with the built-in devcontainer.
+🔨 Try [FaasJS](https://github.com/faasjs/faasjs/tree/main/templates) using Codespaces.
 
 📄 See recent updates in the [CHANGELOG](https://faasjs.com/CHANGELOG.html).
 

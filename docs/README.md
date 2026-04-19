@@ -3,11 +3,11 @@ home: true
 heroImage: /logo.jpg
 heroText: 🚀 FaasJS
 tagline: null
-footer: An atomic application framework built for the TypeScript developer. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
+footer: 🚀 FaasJS is an agent-friendly TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
 ---
 
 <div style="width:100%;line-height:1.7">
-  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">An atomic application framework built for the TypeScript developer.</div>
+  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">An agent-friendly TypeScript framework for building predictable, type-safe applications with minimal dependencies.</div>
   <div style="display:flex;gap:4px;align-items:center;justify-content:center;flex-wrap:wrap">
     <a href="https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
     <br>
@@ -25,18 +25,29 @@ footer: An atomic application framework built for the TypeScript developer. | MI
 
 ## Features
 
-### Featherweight Development & Collaboration
+### Predictable for humans and AI agents
 
-- Break down complex projects into manageable components with the **atomized development model**.
-- Enjoy **fast iterations** and **seamless** team collaboration.
-- Jump start development with **pre-built plugins** for common functionalities like HTTP.
+✅ Clear file conventions and routing rules.
 
-### High maintainability
+✅ Less ambiguity in generation, review, and maintenance.
 
-- The **FaaS architecture** ensures isolated cloud functions, preventing domino-effect errors.
-- **Automated testing tools** built-in for **robust and efficient testing**.
+✅ Better collaboration across developers and tools.
 
-### High scalability
+### Type-safe by default
+
+✅ TypeScript-first application architecture.
+
+✅ Safer APIs and clearer contracts.
+
+✅ More confident refactoring over time.
+
+### Lean dependency model
+
+✅ Minimal external dependencies.
+
+✅ Smaller supply-chain attack surface.
+
+✅ Easier upgrades and dependency review.
 
 - Extend your application effortlessly with **flexible and simple plugin mechanisms**.
 - **Freely scale** your functions up or down based on demand.
