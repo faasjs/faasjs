@@ -11,7 +11,7 @@ describe('cli/index', () => {
 
   beforeEach(() => {
     vi.resetModules()
-    process.argv = ['node', 'typed-pg', 'unknown']
+    process.argv = ['node', 'faasjs-pg', 'unknown']
     process.exitCode = undefined
     vi.spyOn(Logger.prototype, 'error').mockImplementation(noopLoggerMethod)
     vi.spyOn(console, 'error').mockImplementation(() => undefined)
@@ -28,6 +28,6 @@ describe('cli/index', () => {
     await Promise.resolve()
 
     expect(process.exitCode).toBe(1)
-    expect(console.error).toHaveBeenCalledWith('ERROR [TypedPg] Unknown operation: unknown')
+    expect(console.error).toHaveBeenCalledWith('ERROR [faasjs-pg] Unknown operation: unknown')
   })
 })

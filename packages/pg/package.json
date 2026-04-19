@@ -23,7 +23,7 @@
   },
   "funding": "https://github.com/sponsors/faasjs",
   "bin": {
-    "typed-pg": "dist/cli/index.mjs"
+    "faasjs-pg": "dist/cli/index.mjs"
   },
   "files": [
     "dist"

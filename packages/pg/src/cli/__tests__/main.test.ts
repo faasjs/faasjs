@@ -24,7 +24,7 @@ const originalCwd = process.cwd()
 const originalDatabaseUrl = process.env.DATABASE_URL
 
 function createTempDir() {
-  return mkdtempSync(join(tmpdir(), 'typed-pg-cli-'))
+  return mkdtempSync(join(tmpdir(), 'faasjs-pg-cli-'))
 }
 
 function noopLoggerMethod(this: Logger) {
@@ -96,7 +96,7 @@ describe('cli/main', () => {
     createdTables = []
 
     process.chdir(tempDir)
-    process.argv = ['node', 'typed-pg']
+    process.argv = ['node', 'faasjs-pg']
     process.env.DATABASE_URL = testingDatabaseUrl
 
     await withTestingClient(async (client) => {
@@ -241,7 +241,7 @@ export function down(builder) {
   it('shows an error when creating a migration without a name without touching the database', async () => {
     const logger = captureLogger()
 
-    process.argv = ['node', 'typed-pg', 'new', '']
+    process.argv = ['node', 'faasjs-pg', 'new', '']
 
     expect(await main('new')).toBe(1)
     expect(logger.error).toHaveBeenCalledWith(
@@ -253,7 +253,7 @@ export function down(builder) {
   it('creates the migration folder and file with the real filesystem', async () => {
     const logger = captureLogger()
 
-    process.argv = ['node', 'typed-pg', 'new', 'create_users']
+    process.argv = ['node', 'faasjs-pg', 'new', 'create_users']
 
     expect(await main('new')).toBe(0)
     expect(logger.error).not.toHaveBeenCalled()
@@ -271,7 +271,7 @@ export function down(builder) {
     const logger = captureLogger()
 
     mkdirSync(migrationsDir, { recursive: true })
-    process.argv = ['node', 'typed-pg', 'new', 'create_posts']
+    process.argv = ['node', 'faasjs-pg', 'new', 'create_posts']
 
     expect(await main('new')).toBe(0)
     expect(logger.error).not.toHaveBeenCalled()

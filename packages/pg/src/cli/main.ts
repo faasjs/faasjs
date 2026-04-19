@@ -6,8 +6,10 @@ import { Logger } from '@faasjs/node-utils'
 import { createClient, type Client } from '../client'
 import { Migrator } from '../migrator'
 
+const cliName = 'faasjs-pg'
+
 function printUsage(logger: Logger) {
-  logger.error(`Please provide a operation to run: typed-pg <operation>
+  logger.error(`Please provide a operation to run: ${cliName} <operation>
 - status: Show the status of migrations
 - migrate: Run all pending migrations
 - up: Run the next migration
@@ -28,7 +30,7 @@ async function closeClient(client?: Client) {
 
 function createMigration(logger: Logger, name = process.argv[3] as string) {
   if (!name) {
-    logger.error('Please provide a name for the migration: `typed-pg new <name>`')
+    logger.error(`Please provide a name for the migration: \`${cliName} new <name>\``)
     return 1
   }
 
@@ -57,7 +59,7 @@ export function down(builder: SchemaBuilder) {
 }
 
 export async function main(operation = process.argv[2] as string) {
-  const logger = new Logger('TypedPg')
+  const logger = new Logger(cliName)
 
   if (!operation) {
     printUsage(logger)
@@ -75,7 +77,7 @@ export async function main(operation = process.argv[2] as string) {
 
   if (!connection) {
     logger.error(
-      'DATABASE_URL not set, please run `DATABASE_URL=postgres://<your pg url> typed-pg`',
+      `DATABASE_URL not set, please run \`DATABASE_URL=postgres://<your pg url> ${cliName}\``,
     )
     return 1
   }

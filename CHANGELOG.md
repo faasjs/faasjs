@@ -2,6 +2,11 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `@faasjs/pg`
+  - [Break] Rename the `@faasjs/pg` CLI command from `typed-pg` to `faasjs-pg`.
+
 [`v8.0.0-beta.23 (2026-04-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.22...>v8.0.0-beta.23)
 
 - `@faasjs/pg`
