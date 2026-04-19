@@ -34,6 +34,8 @@
 - [@faasjs/react](/doc/react/)
 - [@faasjs/ant-design](/doc/ant-design/)
 - [@faasjs/node-utils](/doc/node-utils/)
+- [@faasjs/pg](/doc/pg/)
+- [@faasjs/pg-dev](/doc/pg-dev/)
 - [@faasjs/types](/doc/types/)
 - [@faasjs/utils](/doc/utils/)
 - [create-faas-app](/doc/create-faas-app/)

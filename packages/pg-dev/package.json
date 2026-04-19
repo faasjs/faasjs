@@ -1,0 +1,62 @@
+{
+  "name": "@faasjs/pg-dev",
+  "version": "8.0.0-beta.22",
+  "description": "PGlite-powered Vitest plugin for @faasjs/pg.",
+  "keywords": [
+    "@faasjs/pg",
+    "development",
+    "pglite",
+    "postgresql",
+    "testing",
+    "typescript",
+    "vitest"
+  ],
+  "homepage": "https://faasjs.com/doc/pg-dev",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/pg-dev"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.mjs"
+    },
+    "./typed-pg-vitest-global-setup": {
+      "types": "./dist/typed-pg-vitest-global-setup.d.ts",
+      "default": "./dist/typed-pg-vitest-global-setup.mjs"
+    },
+    "./typed-pg-vitest-setup": {
+      "types": "./dist/typed-pg-vitest-setup.d.ts",
+      "default": "./dist/typed-pg-vitest-setup.mjs"
+    }
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "*",
+    "@electric-sql/pglite-socket": "*",
+    "@faasjs/pg": ">=8.0.0-beta.22",
+    "postgres": "*"
+  },
+  "peerDependencies": {
+    "@electric-sql/pglite": "*",
+    "@electric-sql/pglite-socket": "*",
+    "@faasjs/pg": ">=8.0.0-beta.22",
+    "postgres": "*"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  }
+}

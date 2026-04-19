@@ -1,0 +1,53 @@
+{
+  "name": "@faasjs/pg",
+  "version": "8.0.0-beta.22",
+  "description": "A type-safe PostgreSQL query builder for TypeScript with a fluent API.",
+  "keywords": [
+    "api",
+    "builder",
+    "fluent",
+    "postgresql",
+    "query",
+    "type-safe",
+    "typescript"
+  ],
+  "homepage": "https://faasjs.com/doc/pg",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/pg"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "bin": {
+    "typed-pg": "dist/cli/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "devDependencies": {
+    "@faasjs/node-utils": ">=8.0.0-beta.22",
+    "postgres": "*"
+  },
+  "peerDependencies": {
+    "@faasjs/node-utils": ">=8.0.0-beta.22",
+    "postgres": "*"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  }
+}

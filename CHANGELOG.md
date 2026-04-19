@@ -2,6 +2,14 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `@faasjs/pg`
+  - [Feature] Bring the former `typed-pg` package into the FaasJS monorepo as `@faasjs/pg`, including the PostgreSQL query builder, schema builder, migrator, and `typed-pg` CLI.
+
+- `@faasjs/pg-dev`
+  - [Feature] Bring the former `typed-pg-dev` package into the FaasJS monorepo as `@faasjs/pg-dev`, including `TypedPgVitestPlugin` and the PGlite-backed Vitest test helpers.
+
 [`v8.0.0-beta.22 (2026-04-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.21...>v8.0.0-beta.22)
 
 - `@faasjs/core`

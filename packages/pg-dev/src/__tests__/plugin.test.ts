@@ -1,0 +1,191 @@
+import { describe, expect, expectTypeOf, it } from 'vitest'
+
+import { TypedPgVitestPlugin, type TypedPgVitestPluginOptions } from '../plugin'
+import {
+  requireTypedPgVitestDatabaseUrl,
+  resolveTypedPgVitestDatabaseUrl,
+  resolveTypedPgVitestWorkerId,
+} from '../plugin-context'
+
+function resolvePluginId(plugin: ReturnType<typeof TypedPgVitestPlugin>, id: string) {
+  const resolveId = plugin.resolveId as ((id: string) => string | undefined) | undefined
+
+  return resolveId?.(id)
+}
+
+function loadPluginModule(plugin: ReturnType<typeof TypedPgVitestPlugin>, id: string) {
+  const load = plugin.load as ((id: string) => string | undefined) | undefined
+
+  return load?.(id)
+}
+
+describe('TypedPgVitestPlugin', () => {
+  it('accepts an optional options object', () => {
+    expectTypeOf(TypedPgVitestPlugin).parameters.toEqualTypeOf<
+      [options?: TypedPgVitestPluginOptions | undefined]
+    >()
+  })
+
+  it('injects generated Vitest setup modules for node projects', () => {
+    const plugin = TypedPgVitestPlugin()
+    const project = {
+      config: {
+        environment: 'node',
+        fileParallelism: true,
+        globalSetup: ['custom-global-setup.ts'],
+        provide: {},
+        setupFiles: ['custom-setup.ts'],
+      },
+    }
+
+    plugin.configureVitest?.({
+      experimental_defineCacheKeyGenerator() {},
+      injectTestProjects: async () => [],
+      project: project as never,
+      vitest: {} as never,
+    })
+
+    expect(project.config.fileParallelism).toBe(true)
+    expect(project.config.globalSetup[0]).toMatch(/^virtual:typed-pg-dev\/vitest-global-setup-\d+$/)
+    expect(project.config.globalSetup[1]).toBe('custom-global-setup.ts')
+    expect(project.config.setupFiles[0]).toMatch(/^virtual:typed-pg-dev\/vitest-setup-\d+$/)
+    expect(project.config.setupFiles[1]).toBe('custom-setup.ts')
+    expect(project.config.provide).toEqual({})
+  })
+
+  it('deduplicates setup entries when configureVitest runs more than once', () => {
+    const plugin = TypedPgVitestPlugin()
+    const project = {
+      config: {
+        environment: 'node',
+        globalSetup: 'custom-global-setup.ts',
+        provide: {},
+        setupFiles: 'custom-setup.ts',
+      },
+    }
+
+    plugin.configureVitest?.({
+      experimental_defineCacheKeyGenerator() {},
+      injectTestProjects: async () => [],
+      project: project as never,
+      vitest: {} as never,
+    })
+    plugin.configureVitest?.({
+      experimental_defineCacheKeyGenerator() {},
+      injectTestProjects: async () => [],
+      project: project as never,
+      vitest: {} as never,
+    })
+
+    expect(project.config.globalSetup).toHaveLength(2)
+    expect(project.config.globalSetup[0]).toMatch(/^virtual:typed-pg-dev\/vitest-global-setup-\d+$/)
+    expect(project.config.globalSetup[1]).toBe('custom-global-setup.ts')
+    expect(project.config.setupFiles).toHaveLength(2)
+    expect(project.config.setupFiles[0]).toMatch(/^virtual:typed-pg-dev\/vitest-setup-\d+$/)
+    expect(project.config.setupFiles[1]).toBe('custom-setup.ts')
+  })
+
+  it('skips browser-like projects by default', () => {
+    const plugin = TypedPgVitestPlugin()
+    const project = {
+      config: {
+        environment: 'jsdom',
+        globalSetup: ['custom-global-setup.ts'],
+        provide: {},
+        setupFiles: ['custom-setup.ts'],
+      },
+    }
+
+    plugin.configureVitest?.({
+      experimental_defineCacheKeyGenerator() {},
+      injectTestProjects: async () => [],
+      project: project as never,
+      vitest: {} as never,
+    })
+
+    expect(project.config.globalSetup).toEqual(['custom-global-setup.ts'])
+    expect(project.config.setupFiles).toEqual(['custom-setup.ts'])
+  })
+
+  it('can target an explicit project name and environment', () => {
+    const plugin = TypedPgVitestPlugin({
+      environments: ['node'],
+      projects: ['api'],
+    })
+    const project = {
+      config: {
+        environment: 'node',
+        name: 'api',
+        globalSetup: [],
+        provide: {},
+        setupFiles: [],
+      },
+    }
+
+    plugin.configureVitest?.({
+      experimental_defineCacheKeyGenerator() {},
+      injectTestProjects: async () => [],
+      project: project as never,
+      vitest: {} as never,
+    })
+
+    expect(project.config.globalSetup).toHaveLength(1)
+    expect(project.config.setupFiles).toHaveLength(1)
+  })
+
+  it('can generate a setup module that wires the shared setup helper', () => {
+    const plugin = TypedPgVitestPlugin()
+    const setupId = 'virtual:typed-pg-dev/vitest-setup-999'
+    const resolvedSetupId = resolvePluginId(plugin, setupId)
+
+    expect(resolvedSetupId).toBeUndefined()
+
+    const project = {
+      config: {
+        environment: 'node',
+        globalSetup: [],
+        provide: {},
+        setupFiles: [],
+      },
+    }
+
+    plugin.configureVitest?.({
+      experimental_defineCacheKeyGenerator() {},
+      injectTestProjects: async () => [],
+      project: project as never,
+      vitest: {} as never,
+    })
+
+    const generatedSetupId = project.config.setupFiles[0] as string
+    const generatedSource = loadPluginModule(plugin, `\0${generatedSetupId}`)
+
+    expect(generatedSource).toContain("import { beforeEach, inject } from 'vitest'")
+    expect(generatedSource).toContain('import { setupTypedPgVitest } from')
+    expect(generatedSource).toContain('  { beforeEach, inject },')
+  })
+
+  it('prefers the Vitest pool id when resolving a worker id', () => {
+    expect(
+      resolveTypedPgVitestWorkerId({
+        VITEST_POOL_ID: '2',
+        VITEST_WORKER_ID: '7',
+      }),
+    ).toBe('2')
+  })
+
+  it('falls back to the first worker database when the current worker id is missing', () => {
+    expect(
+      resolveTypedPgVitestDatabaseUrl(
+        {
+          '1': 'postgresql://worker-1',
+          '2': 'postgresql://worker-2',
+        },
+        '999',
+      ),
+    ).toBe('postgresql://worker-1')
+  })
+
+  it('throws a helpful error when no worker database url is available', () => {
+    expect(() => requireTypedPgVitestDatabaseUrl(undefined, '3')).toThrow(/worker 3/)
+  })
+})

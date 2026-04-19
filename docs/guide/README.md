@@ -45,6 +45,8 @@ Use these guides and specifications as the current public guidance for building 
 - [create-faas-app](/doc/create-faas-app/)
 - [@faasjs/dev](/doc/dev/)
 - [@faasjs/node-utils](/doc/node-utils/)
+- [@faasjs/pg](/doc/pg/)
+- [@faasjs/pg-dev](/doc/pg-dev/)
 - [@faasjs/react](/doc/react/)
 - [@faasjs/types](/doc/types/)
 - [@faasjs/utils](/doc/utils/)

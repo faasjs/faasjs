@@ -13,6 +13,13 @@ const uiTests = ['packages/**/*.ui.test.ts', 'packages/**/*.ui.test.tsx']
 
 const types = ['packages/**/*.types.test.ts', 'packages/**/*.types.test.tsx']
 
+const pgTests = [
+  'packages/pg/**/*.test.ts',
+  'packages/pg/**/*.test.tsx',
+  'packages/pg-dev/**/*.test.ts',
+  'packages/pg-dev/**/*.test.tsx',
+]
+
 const packEntries: Record<string, Record<string, string>> = {
   dev: {
     index: './src/index.ts',
@@ -21,6 +28,15 @@ const packEntries: Record<string, Record<string, string>> = {
   'node-utils': {
     index: './src/index.ts',
     register_hooks: './src/register_hooks.ts',
+  },
+  pg: {
+    index: './src/index.ts',
+    'cli/index': './src/cli/index.ts',
+  },
+  'pg-dev': {
+    index: './src/index.ts',
+    'typed-pg-vitest-global-setup': './src/typed-pg-vitest-global-setup.ts',
+    'typed-pg-vitest-setup': './src/typed-pg-vitest-setup.ts',
   },
   react: {
     index: './src/index.ts',
@@ -32,6 +48,8 @@ const pack: PackUserConfig[] = [
   'core',
   'create-faas-app',
   'dev',
+  'pg',
+  'pg-dev',
   'utils',
   'node-utils',
   'react',
@@ -91,8 +109,19 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests.concat(types),
+          exclude: uiTests.concat(types, pgTests),
           environment: 'node',
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'pg',
+          include: pgTests,
+          exclude: types,
+          environment: 'node',
+          globalSetup: ['packages/pg/src/__tests__/global-setup.ts'],
+          setupFiles: ['packages/pg/src/__tests__/setup.ts'],
         },
       },
       {

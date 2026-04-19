@@ -20,6 +20,13 @@
 | [@faasjs/utils](https://github.com/faasjs/faasjs/tree/main/packages/utils)           | [![NPM Version](https://img.shields.io/npm/v/@faasjs/utils.svg)](https://www.npmjs.com/package/@faasjs/utils)           |
 | [@faasjs/dev](https://github.com/faasjs/faasjs/tree/main/packages/dev)               | [![NPM Version](https://img.shields.io/npm/v/@faasjs/dev.svg)](https://www.npmjs.com/package/@faasjs/dev)               |
 
+## Databases
+
+| Name                                                                         | Version                                                                                                         |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [@faasjs/pg](https://github.com/faasjs/faasjs/tree/main/packages/pg)         | [![NPM Version](https://img.shields.io/npm/v/@faasjs/pg.svg)](https://www.npmjs.com/package/@faasjs/pg)         |
+| [@faasjs/pg-dev](https://github.com/faasjs/faasjs/tree/main/packages/pg-dev) | [![NPM Version](https://img.shields.io/npm/v/@faasjs/pg-dev.svg)](https://www.npmjs.com/package/@faasjs/pg-dev) |
+
 ## Browsers
 
 | Name                                                                                 | Version                                                                                                                 |
