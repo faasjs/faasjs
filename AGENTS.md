@@ -4,8 +4,9 @@ This file routes agents to the right guide before making changes in this repo.
 
 ## Choose Your Path
 
-- If the user is building with FaasJS, using FaasJS APIs, following FaasJS app structure, or asking for FaasJS best practices, read [`skills/faasjs-best-practices/SKILL.md`](./skills/faasjs-best-practices/SKILL.md) first.
-- If the user is developing or maintaining the FaasJS framework in this monorepo, read [`CONTRIBUTING.md`](./CONTRIBUTING.md) first.
+- If you want to build an app with FaasJS, use FaasJS APIs, follow FaasJS app structure, or ask for FaasJS best practices, read [`skills/faasjs-best-practices/SKILL.md`](./skills/faasjs-best-practices/SKILL.md) first.
+- If you want to develop or maintain FaasJS itself in this monorepo, read [`CONTRIBUTING.md`](./CONTRIBUTING.md) first.
+- If a framework change could affect product positioning, supported stacks, dependency policy, abstractions, or default workflows, also read [`contributing/target-users.md`](./contributing/target-users.md).
 - If a framework change may affect docs, generated docs, translations, navigation, or changelog entries, also read [`contributing/documentation-sync.md`](./contributing/documentation-sync.md).
 
 ## Guide Boundaries

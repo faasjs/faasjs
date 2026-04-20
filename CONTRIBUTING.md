@@ -6,12 +6,14 @@ If the user is building with FaasJS instead of modifying the framework, read [`s
 
 ## Read In Order
 
-1. [`contributing/source-of-truth.md`](./contributing/source-of-truth.md) for edit locations, generated-file rules, and codebase conventions
-2. [`contributing/validation.md`](./contributing/validation.md) for environment requirements and validation commands
-3. [`contributing/documentation-sync.md`](./contributing/documentation-sync.md) when changes may affect docs, generated docs, translations, navigation, or changelog entries
+1. [`contributing/target-users.md`](./contributing/target-users.md) for product boundaries, target users, supported stacks, and core framework tradeoffs
+2. [`contributing/source-of-truth.md`](./contributing/source-of-truth.md) for edit locations, generated-file rules, and codebase conventions
+3. [`contributing/validation.md`](./contributing/validation.md) for environment requirements and validation commands
+4. [`contributing/documentation-sync.md`](./contributing/documentation-sync.md) when changes may affect docs, generated docs, translations, navigation, or changelog entries
 
 ## By Task
 
+- Product positioning, supported-stack, dependency-policy, or framework-abstraction changes: also follow [`contributing/target-users.md`](./contributing/target-users.md)
 - Framework code, templates, images, or contribution-guide changes: follow [`contributing/source-of-truth.md`](./contributing/source-of-truth.md) and [`contributing/validation.md`](./contributing/validation.md)
 - Public API, JSDoc, docs, docs navigation, generated docs, or user-facing workflow changes: also follow [`contributing/documentation-sync.md`](./contributing/documentation-sync.md)
 - Security reports: follow [`SECURITY.md`](./SECURITY.md)
