@@ -6,7 +6,7 @@
 
 Generate `src/.faasjs/types.d.ts` for a FaasJS project.
 
-The generator scans the `src/` tree for `.func.ts` files, converts file
+The generator scans the `src/` tree for `.api.ts` files, converts file
 names into routes, and keeps the most specific file when multiple files
 resolve to the same route.
 

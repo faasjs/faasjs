@@ -135,13 +135,13 @@ export function assignPluginNames(config: FuncConfig): void {
 }
 
 /**
- * Read and merge staged `faas.yaml` config for a function file.
+ * Read and merge staged `faas.yaml` config for an API file.
  *
  * This helper backs {@link loadConfig} when callers need to inspect multiple stages from one reader.
  *
  * @example
  * ```ts
- * const config = new Config(process.cwd(), '/project/src/orders/create.func.ts')
+ * const config = new Config(process.cwd(), '/project/src/orders/create.api.ts')
  *
  * const development = config.get('development')
  * ```
@@ -153,7 +153,7 @@ export class Config {
    */
   public readonly root: string
   /**
-   * Function filename used to derive nested config scopes.
+   * API filename used to derive nested config scopes.
    */
   public readonly filename: string
   /**
@@ -170,10 +170,10 @@ export class Config {
   private logger: Logger
 
   /**
-   * Build a config reader for a function path.
+   * Build a config reader for an API file path.
    *
    * @param {string} root - Project root directory.
-   * @param {string} filename - Function filename used to resolve nested scopes.
+   * @param {string} filename - API filename used to resolve nested scopes.
    * @param {Logger} [logger] - Optional logger used for debug output.
    */
   constructor(root: string, filename: string, logger?: Logger) {
@@ -228,13 +228,13 @@ export class Config {
 }
 
 /**
- * Resolve the staged `faas.yaml` config for a function file.
+ * Resolve the staged `faas.yaml` config for an API file.
  *
- * This walks from `root` to the function directory, merges every discovered `faas.yaml`,
+ * This walks from `root` to the API directory, merges every discovered `faas.yaml`,
  * applies the `defaults` stage, and annotates plugin entries with their resolved `name`.
  *
  * @param {string} root - Project root directory used to scope config discovery.
- * @param {string} filename - Function filename whose directory controls nested config lookup.
+ * @param {string} filename - API filename whose directory controls nested config lookup.
  * @param {string} staging - Staging name to resolve.
  * @param {Logger} [logger] - Optional logger used while loading config files.
  * @returns {FuncConfig} Resolved config for the requested staging.
@@ -246,7 +246,7 @@ export class Config {
  *
  * const config = loadConfig(
  *   process.cwd(),
- *   '/project/src/orders/create.func.ts',
+ *   '/project/src/orders/create.api.ts',
  *   'development',
  * )
  * ```

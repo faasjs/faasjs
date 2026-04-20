@@ -5,7 +5,9 @@ import type {
   FaasActionUnionType,
   FaasData,
   FaasParams,
+  InferFaasApi,
   InferFaasAction,
+  InferFaasFunc,
 } from '@faasjs/types'
 import { assertType, expectTypeOf, test } from 'vitest'
 
@@ -92,4 +94,78 @@ test('InferFaasAction should infer schema params from defineApi', () => {
   assertType<InferredAction['Params']>({ key: 1 })
 
   assertType<InferredAction['Data']>({ value: '' })
+})
+
+test('InferFaasApi should prefer default export before legacy func export', () => {
+  const defaultApi = defineApi({
+    schema: z.object({
+      slug: z.string(),
+    }),
+    async handler({ params }) {
+      return {
+        slug: params.slug,
+      }
+    },
+  })
+  const legacyFunc = defineApi({
+    schema: z.object({
+      count: z.number(),
+    }),
+    async handler({ params }) {
+      return {
+        count: params.count,
+      }
+    },
+  })
+
+  type InferredApi = InferFaasApi<{
+    default: typeof defaultApi
+    func: typeof legacyFunc
+  }>
+
+  assertType<InferFaasAction<InferredApi>['Params']>({ slug: 'post' })
+
+  // @ts-expect-error InferFaasApi should prefer the default export
+  assertType<InferFaasAction<InferredApi>['Params']>({ count: 1 })
+})
+
+test('InferFaasApi should fall back to legacy func exports', () => {
+  const legacyFunc = defineApi({
+    schema: z.object({
+      id: z.string(),
+    }),
+    async handler({ params }) {
+      return {
+        id: params.id,
+      }
+    },
+  })
+
+  type InferredApi = InferFaasApi<{
+    func: typeof legacyFunc
+  }>
+
+  assertType<InferFaasAction<InferredApi>['Params']>({ id: 'legacy' })
+})
+
+test('InferFaasFunc should remain as a deprecated alias', () => {
+  const api = defineApi({
+    schema: z.object({
+      name: z.string(),
+    }),
+    async handler({ params }) {
+      return {
+        name: params.name,
+      }
+    },
+  })
+
+  type InferredApi = InferFaasApi<{
+    default: typeof api
+  }>
+  type InferredFunc = InferFaasFunc<{
+    default: typeof api
+  }>
+
+  expectTypeOf<InferredFunc>().toEqualTypeOf<InferredApi>()
 })

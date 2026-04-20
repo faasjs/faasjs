@@ -55,9 +55,9 @@
  *
  * ```ts
  * import { test } from '@faasjs/dev'
- * import { func } from '../demo.func.ts'
+ * import api from '../demo.api.ts'
  *
- * const wrapped = test(func)
+ * const wrapped = test(api)
  * const response = await wrapped.JSONhandler({ name: 'FaasJS' })
  *
  * expect(response.statusCode).toBe(200)
@@ -68,7 +68,7 @@
  *
  * - Vite: {@link viteFaasJsServer}
  * - Config: {@link viteConfig}, {@link oxfmtConfig}, {@link oxlintConfig}
- * - Typegen: {@link generateFaasTypes}, {@link isTypegenSourceFile}
+ * - Typegen: {@link generateFaasTypes}, {@link isTypegenInputFile}, {@link isTypegenSourceFile}
  * - Test: {@link test}, {@link FuncWarper}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
  */
 

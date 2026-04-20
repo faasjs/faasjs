@@ -60,7 +60,7 @@ export function resolveServerConfig(
   const projectRoot = resolve(root)
   const staging = resolveFaasStaging()
   const srcRoot = join(projectRoot, 'src')
-  const config = loadConfig(srcRoot, join(srcRoot, 'index.func.ts'), staging, logger)
+  const config = loadConfig(srcRoot, join(srcRoot, 'index.api.ts'), staging, logger)
   const server =
     config && typeof config === 'object'
       ? ((config as Record<string, any>).server as Record<string, any>)

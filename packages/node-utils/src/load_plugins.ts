@@ -23,7 +23,7 @@ type ConfigurablePlugin = Plugin & {
  * Options used by {@link loadPlugins} while resolving staged plugin config.
  *
  * @property {string} root - Project root used to discover `faas.yaml`.
- * @property {string} filename - Function filename whose directory scopes nested config lookup.
+ * @property {string} filename - API filename whose directory scopes nested config lookup.
  * @property {string} staging - Staging name such as `development` or `production`.
  * @property {Logger} [logger] - Optional logger used for debug output during config and plugin loading.
  */
@@ -192,7 +192,7 @@ async function applyPluginConfig(plugin: Plugin, pluginConfig: FuncPluginConfig)
  *   }),
  *   {
  *     root: process.cwd(),
- *     filename: '/project/src/hello.func.ts',
+ *     filename: '/project/src/hello.api.ts',
  *     staging: 'development',
  *   },
  * )

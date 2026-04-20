@@ -72,7 +72,7 @@ describe('faas cli', () => {
       type: http
 `,
     )
-    await writeFixture(join(root, 'src', 'index.func.ts'), 'export const func = {} as any\n')
+    await writeFixture(join(root, 'src', 'index.api.ts'), 'export default {} as any\n')
 
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
@@ -85,7 +85,7 @@ describe('faas cli', () => {
     const content = await readFile(outputPath, 'utf8')
 
     expect(content).toContain("declare module '@faasjs/types'")
-    expect(content).toContain('"/": InferFaasAction<InferFaasFunc<typeof import("../index.func")>>')
+    expect(content).toContain('"/": InferFaasAction<InferFaasApi<typeof import("../index.api")>>')
 
     logSpy.mockClear()
 

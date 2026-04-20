@@ -10,14 +10,14 @@ import { Logger } from '../logger'
 
 describe('loadConfig', () => {
   it('defaults', () => {
-    const config = loadConfig(__dirname, `${__dirname}/fake.func.ts`, 'defaults')
+    const config = loadConfig(__dirname, `${__dirname}/fake.api.ts`, 'defaults')
 
     expect(config.plugins?.test?.type).toEqual('defaults')
     expect(config.plugins?.func?.name).toEqual('func')
   })
 
   it('local', () => {
-    const config = loadConfig(__dirname, `${__dirname}/fake.func.ts`, 'local')
+    const config = loadConfig(__dirname, `${__dirname}/fake.api.ts`, 'local')
 
     expect(config.plugins?.func?.type).toEqual('function')
     expect(config.plugins?.func?.name).toEqual('func')
@@ -27,7 +27,7 @@ describe('loadConfig', () => {
   })
 
   it('sub local', () => {
-    const config = loadConfig(__dirname, `${__dirname}/sub/fake.func.ts`, 'local')
+    const config = loadConfig(__dirname, `${__dirname}/sub/fake.api.ts`, 'local')
 
     expect(config.plugins?.func?.type).toEqual('function')
     expect(config.plugins?.func?.name).toEqual('func')
@@ -53,7 +53,7 @@ describe('loadConfig', () => {
 `,
       )
 
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+      expect(() => loadConfig(src, join(src, 'fake.api.ts'), 'development')).toThrow(
         /"defaults\.server\.root": Invalid input: expected string, received number/,
       )
     } finally {
@@ -82,7 +82,7 @@ describe('loadConfig', () => {
 `,
       )
 
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+      expect(() => loadConfig(src, join(src, 'fake.api.ts'), 'development')).toThrow(
         /"defaults\.server\.base": Invalid input: expected string, received number/,
       )
     } finally {
@@ -110,7 +110,7 @@ describe('loadConfig', () => {
 `,
       )
 
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+      expect(() => loadConfig(src, join(src, 'fake.api.ts'), 'development')).toThrow(
         /"defaults\.server": Invalid input: expected object, received number/,
       )
     } finally {
@@ -133,7 +133,7 @@ describe('loadConfig', () => {
 
       writeFileSync(join(src, 'faas.yaml'), '- item\n')
 
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+      expect(() => loadConfig(src, join(src, 'fake.api.ts'), 'development')).toThrow(
         /"<root>": Invalid input: expected object, received array/,
       )
     } finally {
@@ -160,7 +160,7 @@ describe('loadConfig', () => {
 `,
       )
 
-      expect(() => loadConfig(src, join(src, 'fake.func.ts'), 'development')).toThrow(
+      expect(() => loadConfig(src, join(src, 'fake.api.ts'), 'development')).toThrow(
         /"development": Invalid input: expected object, received number/,
       )
     } finally {
@@ -190,7 +190,7 @@ describe('loadConfig', () => {
 `,
       )
 
-      const config = loadConfig(src, join(src, 'fake.func.ts'), 'production')
+      const config = loadConfig(src, join(src, 'fake.api.ts'), 'production')
 
       expect(config.plugins?.demo?.type).toBe('test')
       expect(config.plugins?.demo?.name).toBe('demo')
@@ -223,7 +223,7 @@ development:
 `,
       )
 
-      const config = loadConfig(src, join(src, 'fake.func.ts'), 'development')
+      const config = loadConfig(src, join(src, 'fake.api.ts'), 'development')
 
       expect(config.custom).toEqual({
         enabled: true,
@@ -249,7 +249,7 @@ development:
 
       writeFileSync(join(src, 'faas.yaml'), '\n')
 
-      const config = loadConfig(src, join(src, 'fake.func.ts'), 'development')
+      const config = loadConfig(src, join(src, 'fake.api.ts'), 'development')
 
       expect(config).toEqual({})
     } finally {
@@ -276,7 +276,7 @@ development:
 `,
       )
 
-      expect(() => loadConfig(`${src}/`, join(src, 'fake.func.ts'), 'development')).toThrow(
+      expect(() => loadConfig(`${src}/`, join(src, 'fake.api.ts'), 'development')).toThrow(
         /"development": Invalid input: expected object, received null/,
       )
     } finally {
@@ -305,7 +305,7 @@ development:
 `,
       )
 
-      const config = loadConfig(`${src}/`, join(src, 'fake.func.ts'), 'defaults', new Logger('app'))
+      const config = loadConfig(`${src}/`, join(src, 'fake.api.ts'), 'defaults', new Logger('app'))
 
       expect(config.server.base).toBe('/api')
     } finally {
@@ -340,7 +340,7 @@ development:
 `,
       )
 
-      const config = loadConfig(src, join(src, 'fake.func.ts'), 'development')
+      const config = loadConfig(src, join(src, 'fake.api.ts'), 'development')
 
       expect(config.plugins?.base?.type).toEqual('http')
       expect(config.plugins?.local?.type).toEqual('mysql')
@@ -374,7 +374,7 @@ development:
 `,
       )
 
-      const config = loadConfig(src, join(src, 'fake.func.ts'), 'development')
+      const config = loadConfig(src, join(src, 'fake.api.ts'), 'development')
 
       expect(config.plugins?.demo?.type).toBe(pathToFileURL(pluginFile).href)
     } finally {
@@ -407,7 +407,7 @@ development:
 `,
       )
 
-      const config = loadConfig(src, join(src, 'fake.func.ts'), 'development')
+      const config = loadConfig(src, join(src, 'fake.api.ts'), 'development')
 
       expect(config.plugins?.demo?.type).toBe(pathToFileURL(pluginFile).href)
     } finally {

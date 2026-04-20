@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path'
 import { Logger } from '@faasjs/node-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { generateFaasTypes, isTypegenSourceFile } from '..'
+import { generateFaasTypes, isTypegenInputFile, isTypegenSourceFile } from '..'
 
 const tempDirs: string[] = []
 const originalFaasLog = process.env.FaasLog
@@ -48,7 +48,7 @@ afterEach(async () => {
 })
 
 describe('typegen', () => {
-  it('should generate route action map from func files', async () => {
+  it('should generate route action map from api files', async () => {
     const root = await createTempProject()
     const logger = new Logger('typegen:test')
     logger.silent = true
@@ -63,13 +63,10 @@ describe('typegen', () => {
       type: custom
 `,
     )
-    await writeFixture(join(root, 'src', 'index.func.ts'), 'export const func = {} as any\n')
-    await writeFixture(join(root, 'src', 'default.func.ts'), 'export const func = {} as any\n')
-    await writeFixture(join(root, 'src', 'posts.func.ts'), 'export const func = {} as any\n')
-    await writeFixture(
-      join(root, 'src', 'posts', 'index.func.ts'),
-      'export const func = {} as any\n',
-    )
+    await writeFixture(join(root, 'src', 'index.api.ts'), 'export default {} as any\n')
+    await writeFixture(join(root, 'src', 'default.api.ts'), 'export default {} as any\n')
+    await writeFixture(join(root, 'src', 'posts.api.ts'), 'export default {} as any\n')
+    await writeFixture(join(root, 'src', 'posts', 'index.api.ts'), 'export default {} as any\n')
     await writeFixture(
       join(root, 'src', 'users', 'faas.yaml'),
       `development:
@@ -78,14 +75,8 @@ describe('typegen', () => {
       type: admin
 `,
     )
-    await writeFixture(
-      join(root, 'src', 'users', 'default.func.ts'),
-      'export const func = {} as any\n',
-    )
-    await writeFixture(
-      join(root, 'src', 'users', 'profile.func.ts'),
-      'export const func = {} as any\n',
-    )
+    await writeFixture(join(root, 'src', 'users', 'default.api.ts'), 'export default {} as any\n')
+    await writeFixture(join(root, 'src', 'users', 'profile.api.ts'), 'export default {} as any\n')
 
     const result = await generateFaasTypes({
       root,
@@ -99,20 +90,18 @@ describe('typegen', () => {
 
     const content = await readFile(result.output, 'utf8')
 
+    expect(content).toContain('"*": InferFaasAction<InferFaasApi<typeof import("../default.api")>>')
+    expect(content).toContain('"/": InferFaasAction<InferFaasApi<typeof import("../index.api")>>')
     expect(content).toContain(
-      '"*": InferFaasAction<InferFaasFunc<typeof import("../default.func")>>',
-    )
-    expect(content).toContain('"/": InferFaasAction<InferFaasFunc<typeof import("../index.func")>>')
-    expect(content).toContain(
-      '"posts": InferFaasAction<InferFaasFunc<typeof import("../posts.func")>>',
+      '"posts": InferFaasAction<InferFaasApi<typeof import("../posts.api")>>',
     )
     expect(content).toContain(
-      '"users/*": InferFaasAction<InferFaasFunc<typeof import("../users/default.func")>>',
+      '"users/*": InferFaasAction<InferFaasApi<typeof import("../users/default.api")>>',
     )
     expect(content).toContain(
-      '"users/profile": InferFaasAction<InferFaasFunc<typeof import("../users/profile.func")>>',
+      '"users/profile": InferFaasAction<InferFaasApi<typeof import("../users/profile.api")>>',
     )
-    expect(content).not.toContain('import("../posts/index.func")')
+    expect(content).not.toContain('import("../posts/index.api")')
 
     const second = await generateFaasTypes({
       root,
@@ -149,7 +138,7 @@ describe('typegen', () => {
     root: app
 `,
     )
-    await writeFixture(join(root, 'app', 'src', 'index.func.ts'), 'export const func = {} as any\n')
+    await writeFixture(join(root, 'app', 'src', 'index.api.ts'), 'export default {} as any\n')
 
     const result = await generateFaasTypes({
       root,
@@ -161,10 +150,15 @@ describe('typegen', () => {
     expect(result.routeCount).toBe(1)
   })
 
-  it('should detect typegen source files', () => {
-    expect(isTypegenSourceFile('/tmp/app/src/demo.func.ts')).toBe(true)
-    expect(isTypegenSourceFile('/tmp/app/src/faas.yaml')).toBe(true)
-    expect(isTypegenSourceFile('C:\\repo\\src\\faas.yml')).toBe(true)
+  it('should detect typegen input files', () => {
+    expect(isTypegenInputFile('/tmp/app/src/demo.api.ts')).toBe(true)
+    expect(isTypegenInputFile('/tmp/app/src/faas.yaml')).toBe(true)
+    expect(isTypegenInputFile('C:\\repo\\src\\faas.yml')).toBe(true)
+    expect(isTypegenInputFile('/tmp/app/src/demo.ts')).toBe(false)
+  })
+
+  it('should keep the deprecated typegen source alias', () => {
+    expect(isTypegenSourceFile('/tmp/app/src/demo.api.ts')).toBe(true)
     expect(isTypegenSourceFile('/tmp/app/src/demo.ts')).toBe(false)
   })
 })

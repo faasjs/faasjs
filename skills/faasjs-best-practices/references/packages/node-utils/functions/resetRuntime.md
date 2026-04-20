@@ -18,6 +18,6 @@ Installed Node module hooks remain active. This only resets in-memory state used
 ```ts
 import { loadPackage, resetRuntime } from '@faasjs/node-utils'
 
-await loadPackage('./src/hello.func.ts')
+await loadPackage('./src/hello.api.ts')
 resetRuntime()
 ```

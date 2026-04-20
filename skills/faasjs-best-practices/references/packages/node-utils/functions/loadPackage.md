@@ -65,5 +65,5 @@ If the runtime cannot be detected or the requested module fails to load.
 ```ts
 import { loadPackage } from '@faasjs/node-utils'
 
-const func = await loadPackage('./src/hello.func.ts', ['func', 'default'])
+const api = await loadPackage('./src/hello.api.ts', ['default', 'func'])
 ```

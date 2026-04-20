@@ -5,7 +5,7 @@ import { Logger } from '@faasjs/node-utils'
 import type { Plugin } from 'vite'
 
 import { resolveServerConfig } from '../shared/server_config.ts'
-import { generateFaasTypes, isTypegenSourceFile } from '../typegen/index.ts'
+import { generateFaasTypes, isTypegenInputFile } from '../typegen/index.ts'
 
 const TYPEGEN_DEBOUNCE = 120
 
@@ -20,7 +20,7 @@ function isFaasServerSourceFile(filePath: string): boolean {
   if (/(^|\/)tsconfig\.json$/.test(normalized)) return true
 
   return (
-    normalized.endsWith('.func.ts') ||
+    normalized.endsWith('.api.ts') ||
     normalized.endsWith('.ts') ||
     normalized.endsWith('.tsx') ||
     normalized.endsWith('.mts')
@@ -174,7 +174,7 @@ export function viteFaasJsServer(): Plugin {
       await runTypegen()
 
       const handleWatcherChange = (_eventName: string, filePath: string) => {
-        if (isTypegenSourceFile(filePath)) scheduleTypegen()
+        if (isTypegenInputFile(filePath)) scheduleTypegen()
 
         if (isFaasServerSourceFile(filePath)) scheduleRestart()
       }

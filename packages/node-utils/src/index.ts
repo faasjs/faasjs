@@ -16,7 +16,7 @@
  * import { Logger, loadConfig } from '@faasjs/node-utils'
  *
  * const logger = new Logger('app')
- * const config = loadConfig(process.cwd(), '/project/src/hello.func.ts', 'development')
+ * const config = loadConfig(process.cwd(), '/project/src/hello.api.ts', 'development')
  *
  * logger.info('Loaded config %o', config)
  * ```
@@ -28,7 +28,7 @@ export { formatLogger, Logger } from './logger'
 export type { FuncConfig, FuncPluginConfig } from './load_config'
 export { loadConfig } from './load_config'
 export type { ExportedHandler } from './load_func'
-export { loadFunc } from './load_func'
+export { loadApiHandler, loadFunc } from './load_func'
 export { isPathInsideRoot } from './is_path_inside_root'
 export type { LoadPluginsOptions } from './load_plugins'
 export { loadPlugins } from './load_plugins'

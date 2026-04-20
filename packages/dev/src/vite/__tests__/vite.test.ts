@@ -52,8 +52,11 @@ vi.mock('../../typegen', () => ({
     fileCount: 0,
     routeCount: 0,
   })),
+  isTypegenInputFile: vi.fn<(filePath: string) => boolean>(
+    (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
+  ),
   isTypegenSourceFile: vi.fn<(filePath: string) => boolean>(
-    (filePath: string) => filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
+    (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
   ),
 }))
 
@@ -208,7 +211,7 @@ describe('viteFaasJsServer', () => {
 
     expect(mocks.calls).toHaveLength(1)
 
-    server.watcher.emit('all', 'change', join(root, 'src', 'a.func.ts'))
+    server.watcher.emit('all', 'change', join(root, 'src', 'a.api.ts'))
 
     await wait(220)
 

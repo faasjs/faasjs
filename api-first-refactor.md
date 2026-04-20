@@ -1,6 +1,6 @@
 # API-First Terminology Refactor
 
-Status: phase 1 complete in `packages/core`, remaining phases pending
+Status: phases 1-3 complete, remaining phases pending
 Owner: maintainers / framework contributors
 Scope: next major release
 
@@ -33,6 +33,19 @@ This is a major-breaking refactor. Do not merge it as a partial rename.
   - added `parseApiFilenameFromStack()` and kept `parseFuncFilenameFromStack()` as a deprecated alias
   - refreshed generated API docs with `npx vp run doc`
   - validated with `npx vp test run packages/core/src/server/__tests__ packages/core/src/__tests__/parseFuncFilenameFromStack.test.ts packages/core/src/func/__tests__/coverage.test.ts`
+- 2026-04-21: completed Phase 2 in `packages/dev` and added the Phase 3 type-surface prerequisite
+  - typegen now scans `.api.ts` files, emits `InferFaasApi`, and exposes `isTypegenInputFile()`
+  - kept `isTypegenSourceFile()` as a deprecated alias during migration
+  - Vite dev integration now anchors config discovery at `index.api.ts` and watches `.api.ts` inputs
+  - added `InferFaasApi<TModule>` in `packages/types` with default-export-first inference while keeping `InferFaasFunc<TModule>` as a deprecated alias
+  - refreshed generated API docs with `npx vp run doc`
+  - validated with `npx vp test run packages/dev/src/typegen/__tests__/typegen.test.ts packages/dev/src/vite/__tests__/vite.test.ts packages/dev/src/vite/__tests__/vite-typegen.test.ts packages/dev/src/shared/__tests__/server_config.test.ts packages/dev/src/cli/__tests__/index.test.ts packages/dev/src/__tests__/index.test.ts packages/types/src/__tests__/index.test.ts`
+- 2026-04-21: completed Phase 3 in `packages/node-utils` and `packages/types`
+  - added `loadApiHandler()` and kept `loadFunc()` as a deprecated alias
+  - updated node-utils examples and helper docs to use `.api.ts` wording and `['default', 'func']` loader preference
+  - exported `loadApiHandler` ahead of `loadFunc` from the package root while keeping legacy compatibility
+  - refreshed generated API docs with `npx vp run doc`
+  - validated with `npx vp test run packages/node-utils/src/__tests__/load_func.test.ts packages/node-utils/src/__tests__/load_package.test.ts packages/node-utils/src/__tests__/load_config.test.ts packages/node-utils/src/__tests__/load_plugins.test.ts packages/node-utils/src/__tests__/index.test.ts`
 
 ## Goals
 
@@ -161,25 +174,25 @@ Primary files:
 
 Checklist:
 
-- [ ] Rename internal typegen file scanning from `readFuncFiles()` to
+- [x] Rename internal typegen file scanning from `readFuncFiles()` to
       `readApiFiles()`.
-- [ ] Change typegen scanning from `.func.ts` to `.api.ts`.
-- [ ] Rename `isTypegenSourceFile()` to `isTypegenInputFile()`.
-- [ ] Keep `isTypegenSourceFile()` as a deprecated alias during migration.
-- [ ] Switch generated route imports from `InferFaasFunc` to `InferFaasApi`.
-- [ ] Update route normalization logic from `.func` endings to `.api` endings.
-- [ ] Update Vite watcher logic to restart on `.api.ts` changes.
-- [ ] Update any example or comment that still references `.func.ts`.
-- [ ] Update the default source anchor in server config helpers from
+- [x] Change typegen scanning from `.func.ts` to `.api.ts`.
+- [x] Rename `isTypegenSourceFile()` to `isTypegenInputFile()`.
+- [x] Keep `isTypegenSourceFile()` as a deprecated alias during migration.
+- [x] Switch generated route imports from `InferFaasFunc` to `InferFaasApi`.
+- [x] Update route normalization logic from `.func` endings to `.api` endings.
+- [x] Update Vite watcher logic to restart on `.api.ts` changes.
+- [x] Update any example or comment that still references `.func.ts`.
+- [x] Update the default source anchor in server config helpers from
       `index.func.ts` to `index.api.ts`.
 
 Tests to update in this phase:
 
-- [ ] `packages/dev/src/typegen/__tests__/typegen.test.ts`
-- [ ] `packages/dev/src/vite/__tests__/vite.test.ts`
-- [ ] `packages/dev/src/vite/__tests__/vite-typegen.test.ts`
-- [ ] `packages/dev/src/shared/__tests__/server_config.test.ts`
-- [ ] `packages/dev/src/cli/__tests__/index.test.ts`
+- [x] `packages/dev/src/typegen/__tests__/typegen.test.ts`
+- [x] `packages/dev/src/vite/__tests__/vite.test.ts`
+- [x] `packages/dev/src/vite/__tests__/vite-typegen.test.ts`
+- [x] `packages/dev/src/shared/__tests__/server_config.test.ts`
+- [x] `packages/dev/src/cli/__tests__/index.test.ts`
 
 ### Phase 3 - Node Utils, Type Surface, And Public Helper Names
 
@@ -194,29 +207,29 @@ Primary files:
 
 Checklist:
 
-- [ ] Add a new public helper named `loadApiHandler()`.
-- [ ] Keep `loadFunc()` as a deprecated alias that forwards to `loadApiHandler()`
+- [x] Add a new public helper named `loadApiHandler()`.
+- [x] Keep `loadFunc()` as a deprecated alias that forwards to `loadApiHandler()`
       for one release cycle.
-- [ ] Update `loadApiHandler()` docs and examples to reference `.api.ts`.
-- [ ] Update package root exports to expose the new name first.
-- [ ] Add `InferFaasApi<TModule>` in `packages/types/src/index.ts`.
-- [ ] Keep `InferFaasFunc<TModule>` as a deprecated alias during migration.
-- [ ] Make `InferFaasApi` prefer `default` export first, then fall back to legacy
+- [x] Update `loadApiHandler()` docs and examples to reference `.api.ts`.
+- [x] Update package root exports to expose the new name first.
+- [x] Add `InferFaasApi<TModule>` in `packages/types/src/index.ts`.
+- [x] Keep `InferFaasFunc<TModule>` as a deprecated alias during migration.
+- [x] Make `InferFaasApi` prefer `default` export first, then fall back to legacy
       `{ func }`.
-- [ ] Do not add `{ api }` inference support.
-- [ ] Update `loadPackage()` examples that currently show `['func', 'default']`
+- [x] Do not add `{ api }` inference support.
+- [x] Update `loadPackage()` examples that currently show `['func', 'default']`
       to prefer `['default', 'func']` during migration and `['default']` after alias
       removal.
-- [ ] Update helper docs that say "function file" when the text is application-
+- [x] Update helper docs that say "function file" when the text is application-
       facing; keep low-level `Func` wording when the API really is about `Func`.
 
 Tests to update in this phase:
 
-- [ ] `packages/node-utils/src/__tests__/load_func.test.ts`
-- [ ] `packages/node-utils/src/__tests__/load_package.test.ts`
-- [ ] `packages/node-utils/src/__tests__/load_config.test.ts`
-- [ ] `packages/node-utils/src/__tests__/load_plugins.test.ts`
-- [ ] `packages/node-utils/src/__tests__/index.test.ts`
+- [x] `packages/node-utils/src/__tests__/load_func.test.ts`
+- [x] `packages/node-utils/src/__tests__/load_package.test.ts`
+- [x] `packages/node-utils/src/__tests__/load_config.test.ts`
+- [x] `packages/node-utils/src/__tests__/load_plugins.test.ts`
+- [x] `packages/node-utils/src/__tests__/index.test.ts`
 
 ### Phase 4 - Test Helpers And Dev Ergonomics
 

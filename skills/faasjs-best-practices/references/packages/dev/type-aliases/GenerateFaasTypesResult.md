@@ -18,7 +18,7 @@ Whether the generator wrote new content to disk.
 
 > **fileCount**: `number`
 
-Number of `*.func.ts` files discovered under `src/`.
+Number of `*.api.ts` files discovered under `src/`.
 
 ### output
 

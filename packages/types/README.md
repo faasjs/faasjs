@@ -8,4 +8,5 @@
 - [FaasData](type-aliases/FaasData.md)
 - [FaasParams](type-aliases/FaasParams.md)
 - [InferFaasAction](type-aliases/InferFaasAction.md)
-- [InferFaasFunc](type-aliases/InferFaasFunc.md)
+- [InferFaasApi](type-aliases/InferFaasApi.md)
+- [~~InferFaasFunc~~](type-aliases/InferFaasFunc.md)

@@ -86,7 +86,7 @@ describe('loadPlugins', () => {
       },
     })
 
-    func.filename = join(src, 'demo.func.ts')
+    func.filename = join(src, 'demo.api.ts')
 
     await loadPlugins(func, {
       root: src,
@@ -161,7 +161,7 @@ describe('loadPlugins', () => {
       },
     })
 
-    func.filename = join(src, 'demo.func.ts')
+    func.filename = join(src, 'demo.api.ts')
     func.plugins.unshift(new ManualAuthPlugin())
 
     await loadPlugins(func, {
@@ -242,7 +242,7 @@ describe('loadPlugins', () => {
       },
     })
 
-    func.filename = join(src, 'admin', 'demo.func.ts')
+    func.filename = join(src, 'admin', 'demo.api.ts')
     func.plugins.unshift(new ManualAuthPlugin())
     func.config = {
       plugins: {
@@ -323,7 +323,7 @@ describe('loadPlugins', () => {
       },
     })
 
-    func.filename = join(src, 'admin', 'demo.func.ts')
+    func.filename = join(src, 'admin', 'demo.api.ts')
     func.config = {
       plugins: {
         auth: {
@@ -395,7 +395,7 @@ describe('loadPlugins', () => {
       },
     })
 
-    func.filename = join(src, 'demo.func.ts')
+    func.filename = join(src, 'demo.api.ts')
     func.config = {
       plugins: {
         auth: {
@@ -449,7 +449,7 @@ describe('loadPlugins', () => {
       },
     })
 
-    func.filename = join(src, 'demo.func.ts')
+    func.filename = join(src, 'demo.api.ts')
 
     await expect(
       loadPlugins(func, {
@@ -495,7 +495,7 @@ describe('loadPlugins', () => {
       },
     })
 
-    func.filename = join(src, 'demo.func.ts')
+    func.filename = join(src, 'demo.api.ts')
 
     await loadPlugins(func, {
       root: src,
@@ -535,7 +535,7 @@ describe('loadPlugins', () => {
       },
     })
 
-    func.filename = join(src, 'demo.func.ts')
+    func.filename = join(src, 'demo.api.ts')
 
     await expect(
       loadPlugins(func, {

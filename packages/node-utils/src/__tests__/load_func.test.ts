@@ -1,18 +1,34 @@
 import { describe, expect, it } from 'vitest'
 
-import { loadFunc } from '../load_func'
+import { loadApiHandler, loadFunc } from '../load_func'
 
-describe('loadFunc', () => {
-  it('should load a function and return handler', async () => {
-    const handler = await loadFunc(__dirname, `${__dirname}/basic.func.ts`, 'local')
+describe('loadApiHandler', () => {
+  it('should load an API file and return its handler', async () => {
+    const handler = await loadApiHandler(__dirname, `${__dirname}/basic.api.ts`, 'local')
 
     const result = await handler('Hello World')
 
     expect(result).toBe('Hello World')
   })
 
+  it('should keep support for legacy named func exports', async () => {
+    const handler = await loadApiHandler(__dirname, `${__dirname}/legacy.api.ts`, 'local')
+
+    const result = await handler()
+
+    expect(result).toBe('legacy')
+  })
+
+  it('should prefer default export before legacy func export', async () => {
+    const handler = await loadApiHandler(__dirname, `${__dirname}/priority.api.ts`, 'local')
+
+    const result = await handler()
+
+    expect(result).toBe('default')
+  })
+
   it('should merge yaml config with inline func config', async () => {
-    const handler = await loadFunc(__dirname, `${__dirname}/merge.func.ts`, 'local')
+    const handler = await loadApiHandler(__dirname, `${__dirname}/merge.api.ts`, 'local')
 
     const result = await handler()
 
@@ -41,5 +57,13 @@ describe('loadFunc', () => {
         },
       },
     })
+  })
+})
+
+describe('loadFunc', () => {
+  it('should remain as a deprecated alias for loadApiHandler', async () => {
+    const handler = await loadFunc(__dirname, `${__dirname}/basic.api.ts`, 'local')
+
+    await expect(handler('Hello World')).resolves.toBe('Hello World')
   })
 })

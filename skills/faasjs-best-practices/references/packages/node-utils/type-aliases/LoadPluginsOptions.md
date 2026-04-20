@@ -12,7 +12,7 @@ Options used by [loadPlugins](../functions/loadPlugins.md) while resolving stage
 
 > **filename**: `string`
 
-Function filename whose directory scopes nested config lookup.
+API filename whose directory scopes nested config lookup.
 
 ### logger?
 

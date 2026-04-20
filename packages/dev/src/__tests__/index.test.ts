@@ -20,6 +20,7 @@ describe('index exports', () => {
 
   it('should export typegen helpers', () => {
     expect(dev.generateFaasTypes).toBe(typegen.generateFaasTypes)
+    expect(dev.isTypegenInputFile).toBe(typegen.isTypegenInputFile)
     expect(dev.isTypegenSourceFile).toBe(typegen.isTypegenSourceFile)
   })
 })

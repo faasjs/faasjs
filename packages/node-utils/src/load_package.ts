@@ -82,7 +82,7 @@ let hooksInstalled = false
  * ```ts
  * import { loadPackage, resetRuntime } from '@faasjs/node-utils'
  *
- * await loadPackage('./src/hello.func.ts')
+ * await loadPackage('./src/hello.api.ts')
  * resetRuntime()
  * ```
  */
@@ -660,7 +660,7 @@ export function detectNodeRuntime(): NodeRuntime {
  * ```ts
  * import { loadPackage } from '@faasjs/node-utils'
  *
- * const func = await loadPackage('./src/hello.func.ts', ['func', 'default'])
+ * const api = await loadPackage('./src/hello.api.ts', ['default', 'func'])
  * ```
  */
 export async function loadPackage<T = unknown>(

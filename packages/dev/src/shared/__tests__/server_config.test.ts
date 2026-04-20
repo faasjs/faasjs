@@ -54,7 +54,7 @@ describe('server_config', () => {
     })
     expect(mocks.loadConfig).toHaveBeenCalledWith(
       '/tmp/demo/src',
-      '/tmp/demo/src/index.func.ts',
+      '/tmp/demo/src/index.api.ts',
       'development',
       undefined,
     )

@@ -57,7 +57,7 @@ const func = await loadPlugins(
   }),
   {
     root: process.cwd(),
-    filename: '/project/src/hello.func.ts',
+    filename: '/project/src/hello.api.ts',
     staging: 'development',
   },
 )

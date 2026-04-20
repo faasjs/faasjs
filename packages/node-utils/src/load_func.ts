@@ -23,7 +23,7 @@ export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
 ) => Promise<TResult>
 
 /**
- * Load a packaged FaasJS function, attach its resolved config, and return the exported handler.
+ * Load a packaged FaasJS API file, attach its resolved config, and return the exported handler.
  *
  * The loaded module is expected to expose an `export()` method that returns an object with a `handler`.
  *
@@ -31,18 +31,18 @@ export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
  * @template TContext - Runtime context type.
  * @template TResult - Async result type returned by the handler.
  * @param {string} root - Project root directory used to resolve configuration.
- * @param {string} filename - Path to the packaged FaasJS function file to load.
+ * @param {string} filename - Path to the packaged FaasJS API file to load.
  * @param {string} staging - Staging name used when locating config.
- * @returns {Promise<ExportedHandler<TEvent, TContext, TResult>>} Promise that resolves to the function handler.
- * @throws {Error} If the function module or its `faas.yaml` configuration cannot be loaded.
+ * @returns {Promise<ExportedHandler<TEvent, TContext, TResult>>} Promise that resolves to the API handler.
+ * @throws {Error} If the API module or its `faas.yaml` configuration cannot be loaded.
  *
  * @example
  * ```ts
- * import { loadFunc } from '@faasjs/node-utils'
+ * import { loadApiHandler } from '@faasjs/node-utils'
  *
- * const handler = await loadFunc(
+ * const handler = await loadApiHandler(
  *   process.cwd(),
- *   __dirname + '/example.func.ts',
+ *   __dirname + '/example.api.ts',
  *   'development'
  * )
  *
@@ -50,12 +50,12 @@ export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
  * console.log(result)
  * ```
  */
-export async function loadFunc<TEvent = any, TContext = any, TResult = any>(
+export async function loadApiHandler<TEvent = any, TContext = any, TResult = any>(
   root: string,
   filename: string,
   staging: string,
 ): Promise<ExportedHandler<TEvent, TContext, TResult>> {
-  const func = await loadPackage<Func<TEvent, TContext, TResult>>(filename)
+  const func = await loadPackage<Func<TEvent, TContext, TResult>>(filename, ['default', 'func'])
 
   await loadPlugins(func, {
     root,
@@ -64,4 +64,15 @@ export async function loadFunc<TEvent = any, TContext = any, TResult = any>(
   })
 
   return func.export().handler
+}
+
+/**
+ * @deprecated Use {@link loadApiHandler} instead.
+ */
+export async function loadFunc<TEvent = any, TContext = any, TResult = any>(
+  root: string,
+  filename: string,
+  staging: string,
+): Promise<ExportedHandler<TEvent, TContext, TResult>> {
+  return await loadApiHandler<TEvent, TContext, TResult>(root, filename, staging)
 }

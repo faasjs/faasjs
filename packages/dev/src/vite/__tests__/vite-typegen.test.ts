@@ -14,8 +14,11 @@ const mocks = vi.hoisted(() => {
     fileCount: 1,
     routeCount: 1,
   }))
+  const isTypegenInputFile = vi.fn<(filePath: string) => boolean>(
+    (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
+  )
   const isTypegenSourceFile = vi.fn<(filePath: string) => boolean>(
-    (filePath: string) => filePath.endsWith('.func.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
+    (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
   )
 
   class ServerMock {
@@ -31,6 +34,7 @@ const mocks = vi.hoisted(() => {
     close,
     serverCalls,
     generateFaasTypes,
+    isTypegenInputFile,
     isTypegenSourceFile,
     ServerMock,
   }
@@ -42,6 +46,7 @@ vi.mock('@faasjs/core', () => ({
 
 vi.mock('../../typegen', () => ({
   generateFaasTypes: mocks.generateFaasTypes,
+  isTypegenInputFile: mocks.isTypegenInputFile,
   isTypegenSourceFile: mocks.isTypegenSourceFile,
 }))
 
@@ -116,15 +121,15 @@ describe('viteFaasJsServer typegen', () => {
 
     expect(mocks.generateFaasTypes).toHaveBeenCalledTimes(1)
 
-    server.watcher.emit('all', 'change', join(root, 'src', 'a.func.ts'))
-    server.watcher.emit('all', 'change', join(root, 'src', 'b.func.ts'))
+    server.watcher.emit('all', 'change', join(root, 'src', 'a.api.ts'))
+    server.watcher.emit('all', 'change', join(root, 'src', 'b.api.ts'))
     server.watcher.emit('all', 'change', join(root, 'src', 'faas.yaml'))
     server.watcher.emit('all', 'change', join(root, 'src', 'ignore.ts'))
 
     await wait(220)
 
     expect(mocks.generateFaasTypes).toHaveBeenCalledTimes(2)
-    expect(mocks.isTypegenSourceFile).toHaveBeenCalledWith(join(root, 'src', 'ignore.ts'))
+    expect(mocks.isTypegenInputFile).toHaveBeenCalledWith(join(root, 'src', 'ignore.ts'))
 
     await server.close()
   })

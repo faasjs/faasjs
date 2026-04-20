@@ -4,9 +4,9 @@
 
 > **loadConfig**(`root`, `filename`, `staging`, `logger?`): [`FuncConfig`](../type-aliases/FuncConfig.md)
 
-Resolve the staged `faas.yaml` config for a function file.
+Resolve the staged `faas.yaml` config for an API file.
 
-This walks from `root` to the function directory, merges every discovered `faas.yaml`,
+This walks from `root` to the API directory, merges every discovered `faas.yaml`,
 applies the `defaults` stage, and annotates plugin entries with their resolved `name`.
 
 ## Parameters
@@ -21,7 +21,7 @@ Project root directory used to scope config discovery.
 
 `string`
 
-Function filename whose directory controls nested config lookup.
+API filename whose directory controls nested config lookup.
 
 ### staging
 
@@ -50,5 +50,5 @@ If a discovered `faas.yaml` cannot be parsed or fails schema validation.
 ```ts
 import { loadConfig } from '@faasjs/node-utils'
 
-const config = loadConfig(process.cwd(), '/project/src/orders/create.func.ts', 'development')
+const config = loadConfig(process.cwd(), '/project/src/orders/create.api.ts', 'development')
 ```
