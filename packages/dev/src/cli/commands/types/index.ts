@@ -1,5 +1,3 @@
-import { loadEnvFileIfExists } from '@faasjs/node-utils'
-
 import { generateFaasTypes } from '../../../typegen/index.ts'
 import { createMain, parseCommonCliArgs, printVersion } from '../../shared/index.ts'
 
@@ -16,9 +14,6 @@ Options:
 
 /**
  * Run the `faas types` command.
- *
- * The command loads local environment files before generating
- * `src/.faasjs/types.d.ts`.
  *
  * @param {string[]} args - Arguments after `faas types`.
  * @returns Exit code for the command.
@@ -40,10 +35,6 @@ export async function run(args: string[]): Promise<number> {
   if (mode === 'version') return printVersion()
 
   if (rest.length) throw Error(`[faas types] Unknown option: ${rest[0]}`)
-
-  loadEnvFileIfExists({
-    cwd: options.root ?? process.cwd(),
-  })
 
   const result = await generateFaasTypes(options)
 

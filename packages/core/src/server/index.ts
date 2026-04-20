@@ -15,7 +15,6 @@ import { types } from 'node:util'
 import {
   getTransport,
   isPathInsideRoot,
-  loadEnvFileIfExists,
   loadPackage,
   loadPlugins,
   Logger,
@@ -257,8 +256,6 @@ export class Server {
    * @throws {Error} When `onStart`, `onError`, or `onClose` is not an async function.
    */
   constructor(root: string, opts: ServerOptions = {}) {
-    loadEnvFileIfExists()
-
     if (!process.env.FaasEnv && process.env.NODE_ENV) process.env.FaasEnv = process.env.NODE_ENV
 
     this.root = root.endsWith(sep) ? root : root + sep

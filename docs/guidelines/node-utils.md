@@ -5,7 +5,6 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 ## Use This Guide When
 
 - running FaasJS handlers, CLIs, tests, or bootstrap scripts directly in Node.js
-- loading `.env` files before bootstrapping the app
 - reading merged staged `faas.yaml` config for a specific function file
 - parsing the FaasJS YAML subset in custom Node.js tooling
 - turning a function module into a runnable exported handler
@@ -16,7 +15,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 
 ## What `@faasjs/node-utils` Gives You
 
-- environment and config loading: `loadEnvFileIfExists`, `loadConfig`, `parseYaml`
+- config loading: `loadConfig`, `parseYaml`
 - function loading: `loadFunc`, `loadPlugins`
 - Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `detectNodeRuntime`, `resetRuntime`
 - filesystem containment checks: `isPathInsideRoot`
@@ -25,7 +24,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 ## Default Workflow
 
 1. Keep `@faasjs/node-utils` imports in Node-only entrypoints, tests, CLIs, or adapters.
-2. Load env files early with `loadEnvFileIfExists()` if the process relies on local dotenv files.
+2. Load env files early with Node's built-in `loadEnvFile()` if the process relies on local dotenv files.
 3. Use `loadConfig()` when you only need staged `faas.yaml` data.
 4. Use `parseYaml()` when you need the raw FaasJS YAML subset in custom tooling without staged discovery.
 5. Use `loadFunc()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
@@ -43,20 +42,18 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 
 ### 2. Load `.env` files explicitly and early
 
-- `loadEnvFileIfExists()` is the small, safe entrypoint when local scripts or tests depend on dotenv files.
+- `loadEnvFile()` from `node:process` is the direct entrypoint when local scripts or tests depend on dotenv files.
 - Call it before reading `process.env`, building config objects, or loading modules that depend on env values.
-- It returns the resolved filename or `null`, which is useful for debug logs.
+- Wrap it in `try/catch` when the env file is optional and startup should continue without it.
 
 ```ts
-import { loadEnvFileIfExists, Logger } from '@faasjs/node-utils'
+import { loadEnvFile } from 'node:process'
 
-const logger = new Logger('bootstrap')
-const envFile = loadEnvFileIfExists({
-  cwd: process.cwd(),
-  filename: '.env.local',
-})
-
-logger.info('env file: %s', envFile || 'not found')
+try {
+  loadEnvFile()
+} catch (error) {
+  console.warn('Failed to load env file', error)
+}
 ```
 
 ### 3. Let `loadConfig()` resolve staged `faas.yaml`
@@ -83,9 +80,10 @@ console.log(config.plugins?.http)
 - Prefer these helpers over ad hoc `import()` wrappers so cache busting, tsconfig resolution, and plugin wiring stay consistent.
 
 ```ts
-import { loadEnvFileIfExists, loadFunc, parseYaml } from '@faasjs/node-utils'
+import { loadEnvFile } from 'node:process'
+import { loadFunc, parseYaml } from '@faasjs/node-utils'
 
-loadEnvFileIfExists()
+loadEnvFile()
 
 const pluginDefaults = parseYaml(`defaults:
   plugins:
@@ -165,7 +163,6 @@ if (!isPathInsideRoot(candidate, root)) {
 
 - [Logger Guide](./logger.md)
 - [@faasjs/node-utils package reference](/doc/node-utils/)
-- [loadEnvFileIfExists](/doc/node-utils/functions/loadEnvFileIfExists.html)
 - [isPathInsideRoot](/doc/node-utils/functions/isPathInsideRoot.html)
 - [loadConfig](/doc/node-utils/functions/loadConfig.html)
 - [loadFunc](/doc/node-utils/functions/loadFunc.html)

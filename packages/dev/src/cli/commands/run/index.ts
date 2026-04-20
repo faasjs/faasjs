@@ -3,8 +3,6 @@ import { existsSync, realpathSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { loadEnvFileIfExists } from '@faasjs/node-utils'
-
 import { createMain, parseCommonCliArgs, printVersion } from '../../shared/index.ts'
 
 const HelpText = `Run a TypeScript file with FaasJS Node module hooks.
@@ -54,10 +52,9 @@ async function runFile(file: string, args: string[], cwd: string): Promise<numbe
 /**
  * Run a local script through Node with FaasJS loader hooks preloaded.
  *
- * The command loads `.env` from `--root` or `process.cwd()`, resolves the
- * target file, preloads `@faasjs/node-utils/register-hooks`, and then
- * delegates execution to a child Node process so the target script receives
- * a normal `process.argv`.
+ * The command resolves the target file, preloads
+ * `@faasjs/node-utils/register-hooks`, and then delegates execution to a
+ * child Node process so the target script receives a normal `process.argv`.
  *
  * @param {string[]} args - Arguments after `faas run`.
  * @returns Exit code returned by the child process.
@@ -84,10 +81,6 @@ export async function run(args: string[]): Promise<number> {
 
   const cwd = resolve(options.root ?? process.cwd())
   const file = resolve(cwd, rest[0])
-
-  loadEnvFileIfExists({
-    cwd,
-  })
 
   return await runFile(file, rest.slice(1), cwd)
 }

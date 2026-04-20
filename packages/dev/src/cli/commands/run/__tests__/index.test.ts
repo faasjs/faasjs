@@ -3,9 +3,8 @@ import { join, resolve } from 'node:path'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-const { existsSyncMock, loadEnvFileIfExistsMock, realpathSyncMock, spawnMock } = vi.hoisted(() => ({
+const { existsSyncMock, realpathSyncMock, spawnMock } = vi.hoisted(() => ({
   existsSyncMock: vi.fn(),
-  loadEnvFileIfExistsMock: vi.fn(),
   realpathSyncMock: vi.fn(),
   spawnMock: vi.fn(),
 }))
@@ -17,10 +16,6 @@ vi.mock('node:child_process', () => ({
 vi.mock('node:fs', () => ({
   existsSync: existsSyncMock,
   realpathSync: realpathSyncMock,
-}))
-
-vi.mock('@faasjs/node-utils', () => ({
-  loadEnvFileIfExists: loadEnvFileIfExistsMock,
 }))
 
 import { run } from '../index'
@@ -46,7 +41,6 @@ describe('faas run command coverage', () => {
     spawnMock.mockReset()
     existsSyncMock.mockReset()
     realpathSyncMock.mockReset()
-    loadEnvFileIfExistsMock.mockReset()
     process.argv[1] = '/mock/bin/faas.mjs'
   })
 
@@ -85,7 +79,6 @@ describe('faas run command coverage', () => {
     const code = await run(['runner.ts', '--flag'])
 
     expect(code).toBe(0)
-    expect(loadEnvFileIfExistsMock).toHaveBeenCalledWith({ cwd: process.cwd() })
     expect(spawnMock).toHaveBeenCalledWith(
       process.execPath,
       [
@@ -112,7 +105,6 @@ describe('faas run command coverage', () => {
     const code = await run(['--root', '/tmp/project', 'runner.ts'])
 
     expect(code).toBe(1)
-    expect(loadEnvFileIfExistsMock).toHaveBeenCalledWith({ cwd: '/tmp/project' })
     expect(spawnMock).toHaveBeenCalledWith(
       process.execPath,
       ['--import', expect.stringMatching(/^file:.*register_hooks\.mjs$/), '/tmp/project/runner.ts'],

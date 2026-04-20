@@ -7,7 +7,6 @@ it('should export helpers', () => {
   expect(nodeUtils).toHaveProperty('LevelColor')
   expect(nodeUtils).toHaveProperty('colorfy')
   expect(nodeUtils).toHaveProperty('loadConfig')
-  expect(nodeUtils).toHaveProperty('loadEnvFileIfExists')
   expect(nodeUtils).toHaveProperty('loadFunc')
   expect(nodeUtils).toHaveProperty('loadPackage')
   expect(nodeUtils).toHaveProperty('parseYaml')

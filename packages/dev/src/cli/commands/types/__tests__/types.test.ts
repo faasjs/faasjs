@@ -2,11 +2,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => ({
   generateFaasTypes: vi.fn<(...args: any[]) => Promise<any>>(),
-  loadEnvFileIfExists: vi.fn<() => null>(() => null),
-}))
-
-vi.mock('@faasjs/node-utils', () => ({
-  loadEnvFileIfExists: mocks.loadEnvFileIfExists,
 }))
 
 vi.mock('../../../../typegen', () => ({
@@ -16,7 +11,6 @@ vi.mock('../../../../typegen', () => ({
 import { main } from '..'
 
 function resetMockImplementations(): void {
-  mocks.loadEnvFileIfExists.mockImplementation(() => null)
   mocks.generateFaasTypes.mockImplementation(async () => ({
     changed: true,
     fileCount: 3,
@@ -44,7 +38,6 @@ describe('faas types cli', () => {
     expect(logSpy).toHaveBeenCalledWith(
       expect.stringContaining('Generate FaasJS API type declarations.'),
     )
-    expect(mocks.loadEnvFileIfExists).not.toHaveBeenCalled()
     expect(mocks.generateFaasTypes).not.toHaveBeenCalled()
   })
 
@@ -55,26 +48,22 @@ describe('faas types cli', () => {
 
     expect(code).toBe(0)
     expect(logSpy).toHaveBeenCalledWith(expect.stringMatching(/^v?\d+/))
-    expect(mocks.loadEnvFileIfExists).not.toHaveBeenCalled()
     expect(mocks.generateFaasTypes).not.toHaveBeenCalled()
   })
 
-  it('should load env file and generate types with default root', async () => {
+  it('should generate types with default root', async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
     const code = await main(['node', 'faas'])
 
     expect(code).toBe(0)
-    expect(mocks.loadEnvFileIfExists).toHaveBeenCalledWith({
-      cwd: process.cwd(),
-    })
     expect(mocks.generateFaasTypes).toHaveBeenCalledWith({})
     expect(logSpy).toHaveBeenCalledWith(
       '[faas types] Generated /tmp/faas-project/src/.faasjs/types.d.ts (2 routes from 3 files)',
     )
   })
 
-  it('should pass root option to env loading and type generation', async () => {
+  it('should pass root option to type generation', async () => {
     const root = '/tmp/faas-project'
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
@@ -88,9 +77,6 @@ describe('faas types cli', () => {
     const code = await main(['node', 'faas', '--root', root])
 
     expect(code).toBe(0)
-    expect(mocks.loadEnvFileIfExists).toHaveBeenCalledWith({
-      cwd: root,
-    })
     expect(mocks.generateFaasTypes).toHaveBeenCalledWith({
       root,
     })
@@ -106,7 +92,6 @@ describe('faas types cli', () => {
 
     expect(code).toBe(1)
     expect(errorSpy).toHaveBeenCalledWith('[faas types] Unknown option: --unknown')
-    expect(mocks.loadEnvFileIfExists).not.toHaveBeenCalled()
     expect(mocks.generateFaasTypes).not.toHaveBeenCalled()
   })
 
@@ -117,7 +102,6 @@ describe('faas types cli', () => {
 
     expect(code).toBe(1)
     expect(errorSpy).toHaveBeenCalledWith('[faas types] Missing value for --root')
-    expect(mocks.loadEnvFileIfExists).not.toHaveBeenCalled()
     expect(mocks.generateFaasTypes).not.toHaveBeenCalled()
   })
 
@@ -128,7 +112,6 @@ describe('faas types cli', () => {
 
     expect(code).toBe(1)
     expect(errorSpy).toHaveBeenCalledWith('[faas types] Unknown option: unexpected')
-    expect(mocks.loadEnvFileIfExists).not.toHaveBeenCalled()
     expect(mocks.generateFaasTypes).not.toHaveBeenCalled()
   })
 
@@ -140,9 +123,6 @@ describe('faas types cli', () => {
     const code = await main(['node', 'faas'])
 
     expect(code).toBe(1)
-    expect(mocks.loadEnvFileIfExists).toHaveBeenCalledWith({
-      cwd: process.cwd(),
-    })
     expect(mocks.generateFaasTypes).toHaveBeenCalledWith({})
     expect(errorSpy).toHaveBeenCalledWith('boom')
   })

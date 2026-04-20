@@ -813,6 +813,175 @@ export function setMock(handler: MockHandler | ResponseProps | Response | null |
   mock = handler
 }
 
+type ResolvedActionOptions = Options & {
+  body: string
+  credentials: RequestCredentials
+  headers: Record<string, string>
+  method: string
+  mode: RequestMode
+}
+
+type ParsedFetchResponse = {
+  headers: Iterable<[string, string]>
+  status: number
+  text(): Promise<string>
+}
+
+function buildActionUrl(
+  action: string,
+  baseUrl: BaseUrl,
+  options?: Options,
+  requestId?: string,
+): string {
+  return `${(options?.baseUrl || baseUrl) + action.toLowerCase()}?_=${requestId}`
+}
+
+function buildActionOptions(
+  defaultOptions: Options,
+  options: Options | undefined,
+  params: Record<string, any>,
+  requestId: string,
+): ResolvedActionOptions {
+  const resolvedOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+    mode: 'cors' as RequestMode,
+    credentials: 'include' as RequestCredentials,
+    body: JSON.stringify(params),
+    ...defaultOptions,
+    ...(options || Object.create(null)),
+  } as ResolvedActionOptions
+
+  if (
+    !resolvedOptions.headers['X-FaasJS-Request-Id'] &&
+    !resolvedOptions.headers['x-faasjs-request-id']
+  )
+    resolvedOptions.headers['X-FaasJS-Request-Id'] = requestId
+
+  return resolvedOptions
+}
+
+async function runBeforeRequest(
+  action: string,
+  params: Record<string, any>,
+  options: ResolvedActionOptions,
+): Promise<void> {
+  if (!options.beforeRequest) return
+
+  await options.beforeRequest({
+    action,
+    params,
+    options,
+    headers: options.headers,
+  })
+}
+
+function normalizeMockResponse<T>(
+  response: ResponseProps<T> | Response<T> | void | Error,
+): Response<T> {
+  if (response instanceof Error) throw new ResponseError(response)
+  if (response instanceof Response) return response
+
+  return new Response(response || {})
+}
+
+async function resolveMockResponse<PathOrData extends FaasActionUnionType>(
+  action: string,
+  params: Record<string, any>,
+  options: ResolvedActionOptions,
+): Promise<Response<FaasData<PathOrData>>> {
+  console.debug(`[FaasJS] Mock request: ${action} %j`, params)
+
+  if (typeof mock === 'function') {
+    const response = await mock(action, params, options)
+
+    return normalizeMockResponse(response as ResponseProps<FaasData<PathOrData>> | Error | void)
+  }
+
+  if (mock instanceof Response) return mock as Response<FaasData<PathOrData>>
+
+  return new Response(mock || {})
+}
+
+function toResponseHeaders(headers: Iterable<[string, string]>): ResponseHeaders {
+  const responseHeaders: ResponseHeaders = {}
+
+  for (const [key, value] of headers) responseHeaders[key] = value
+
+  return responseHeaders
+}
+
+function parseSuccessfulResponse<PathOrData extends FaasActionUnionType>(
+  status: number,
+  headers: ResponseHeaders,
+  text: string,
+): Response<FaasData<PathOrData>> {
+  if (!text)
+    return new Response({
+      status,
+      headers,
+    })
+
+  const body = JSON.parse(text)
+
+  if (body.error?.message)
+    throw new ResponseError({
+      message: body.error.message,
+      status,
+      headers,
+      body,
+    })
+
+  return new Response({
+    status,
+    headers,
+    body,
+    data: body.data,
+  })
+}
+
+function parseFailedResponse(status: number, headers: ResponseHeaders, text: string): never {
+  try {
+    const body = JSON.parse(text)
+
+    if (body.error?.message)
+      throw new ResponseError({
+        message: body.error.message,
+        status,
+        headers,
+        body,
+      })
+
+    throw new ResponseError({
+      message: text,
+      status,
+      headers,
+      body,
+    })
+  } catch (error) {
+    if (error instanceof ResponseError) throw error
+
+    throw new ResponseError({
+      message: text,
+      status,
+      headers,
+      body: text,
+    })
+  }
+}
+
+async function parseFetchResponse<PathOrData extends FaasActionUnionType>(
+  response: ParsedFetchResponse,
+): Promise<Response<FaasData<PathOrData>>> {
+  const headers = toResponseHeaders(response.headers)
+  const text = await response.text()
+
+  if (response.status >= 200 && response.status < 300)
+    return parseSuccessfulResponse<PathOrData>(response.status, headers, text)
+
+  return parseFailedResponse(response.status, headers, text)
+}
+
 /**
  * Browser client for FaasJS - provides HTTP client functionality for making API requests from web applications.
  *
@@ -1075,121 +1244,32 @@ export class FaasBrowserClient {
   ): Promise<Response<FaasData<PathOrData>>> {
     if (!action) throw Error('[FaasJS] action required')
 
-    const id = `F-${generateId()}`
-
-    const url = `${(options?.baseUrl || this.baseUrl) + action.toLowerCase()}?_=${id}`
-
     if (!params) params = Object.create(null)
-    if (!options) options = Object.create(null)
-
-    const parsedOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-      mode: 'cors' as RequestMode,
-      credentials: 'include' as RequestCredentials,
-      body: JSON.stringify(params),
-      ...this.defaultOptions,
-      ...options,
-    }
-
-    if (
-      !parsedOptions.headers['X-FaasJS-Request-Id'] &&
-      !parsedOptions.headers['x-faasjs-request-id']
+    const requestId = `F-${generateId()}`
+    const url = buildActionUrl(action as string, this.baseUrl, options, requestId)
+    const resolvedOptions = buildActionOptions(
+      this.defaultOptions,
+      options,
+      params as Record<string, any>,
+      requestId,
     )
-      parsedOptions.headers['X-FaasJS-Request-Id'] = id
 
-    if (parsedOptions.beforeRequest)
-      await parsedOptions.beforeRequest({
-        action: action as string,
-        params,
-        options: parsedOptions,
-        headers: parsedOptions.headers,
-      })
+    await runBeforeRequest(action as string, params as Record<string, any>, resolvedOptions)
 
-    if (mock) {
-      console.debug(`[FaasJS] Mock request: ${action} %j`, params)
-      if (typeof mock === 'function') {
-        const response = await mock(action as string, params, parsedOptions)
-        if (response instanceof Error) return Promise.reject(new ResponseError(response))
-        if (response instanceof Response) return response
-        return new Response(response || {})
-      }
-      if (mock instanceof Response) return mock
-      return new Response(mock || {})
-    }
+    if (mock)
+      return resolveMockResponse<PathOrData>(
+        action as string,
+        params as Record<string, any>,
+        resolvedOptions,
+      )
 
-    if (parsedOptions.request) return parsedOptions.request(url, parsedOptions)
+    if (resolvedOptions.request) return resolvedOptions.request(url, resolvedOptions)
 
-    if (parsedOptions.stream) {
-      return fetch(url, parsedOptions) as unknown as Promise<Response<FaasData<PathOrData>>>
-    }
+    if (resolvedOptions.stream)
+      return fetch(url, resolvedOptions) as unknown as Promise<Response<FaasData<PathOrData>>>
 
-    return fetch(url, parsedOptions).then(async (response) => {
-      const headers: {
-        [key: string]: string
-      } = {}
-      for (const values of response.headers) headers[values[0]] = values[1]
-
-      return response.text().then((res) => {
-        if (response.status >= 200 && response.status < 300) {
-          if (!res)
-            return new Response({
-              status: response.status,
-              headers,
-            })
-
-          const body = JSON.parse(res)
-
-          if (body.error?.message)
-            return Promise.reject(
-              new ResponseError({
-                message: body.error.message,
-                status: response.status,
-                headers,
-                body,
-              }),
-            )
-
-          return new Response({
-            status: response.status,
-            headers,
-            body,
-            data: body.data,
-          })
-        }
-
-        try {
-          const body = JSON.parse(res)
-
-          if (body.error?.message)
-            return Promise.reject(
-              new ResponseError({
-                message: body.error.message,
-                status: response.status,
-                headers,
-                body,
-              }),
-            )
-
-          return Promise.reject(
-            new ResponseError({
-              message: res,
-              status: response.status,
-              headers,
-              body,
-            }),
-          )
-        } catch {
-          return Promise.reject(
-            new ResponseError({
-              message: res,
-              status: response.status,
-              headers,
-              body: res,
-            }),
-          )
-        }
-      })
-    })
+    return parseFetchResponse<PathOrData>(
+      (await fetch(url, resolvedOptions)) as ParsedFetchResponse,
+    )
   }
 }

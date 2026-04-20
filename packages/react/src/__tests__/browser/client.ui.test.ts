@@ -122,4 +122,43 @@ describe('client', () => {
 
     await expect(client.action('path')).rejects.toEqual(new ResponseError('no'))
   })
+
+  it('returns an empty wrapped response when success status has no body', async () => {
+    window.fetch = vi.fn<typeof defaultMock>(
+      async () =>
+        Promise.resolve({
+          status: 204,
+          headers: new Map([['X-Empty', 'true']]),
+          text: async () => Promise.resolve(''),
+        }) as unknown as Promise<Response>,
+    ) as any
+
+    const client = new FaasBrowserClient('/')
+    const response = await client.action('path')
+
+    expect(response.status).toBe(204)
+    expect(response.headers).toMatchObject({
+      'X-Empty': 'true',
+    })
+    expect(response.data).toBeUndefined()
+  })
+
+  it('wraps non-JSON error responses in ResponseError', async () => {
+    window.fetch = vi.fn<typeof defaultMock>(
+      async () =>
+        Promise.resolve({
+          status: 503,
+          headers: new Map([['Content-Type', 'text/plain']]),
+          text: async () => Promise.resolve('service unavailable'),
+        }) as unknown as Promise<Response>,
+    ) as any
+
+    const client = new FaasBrowserClient('/')
+
+    await expect(client.action('path')).rejects.toMatchObject({
+      message: 'service unavailable',
+      status: 503,
+      body: 'service unavailable',
+    })
+  })
 })

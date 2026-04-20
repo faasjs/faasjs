@@ -144,7 +144,7 @@ describe('faas cli', () => {
     )
   })
 
-  it('should run a ts file with register hooks and forwarded args', async () => {
+  it('should run a ts file with register hooks and forwarded args without auto-loading .env', async () => {
     const root = await createTempProject()
     const outputPath = join(root, 'run-output.json')
     const originalArgv1 = process.argv[1]
@@ -159,7 +159,7 @@ import { message } from './src/message'
 
 writeFileSync(${JSON.stringify(outputPath)}, JSON.stringify({
   args: process.argv.slice(2),
-  env: process.env.FAAS_RUN_TEST_MESSAGE,
+  env: process.env.FAAS_RUN_TEST_MESSAGE ?? null,
   message,
 }))
 `,
@@ -183,7 +183,7 @@ writeFileSync(${JSON.stringify(outputPath)}, JSON.stringify({
       expect(code).toBe(0)
       expect(JSON.parse(await readFile(outputPath, 'utf8'))).toEqual({
         args: ['--greeting', 'hello'],
-        env: 'from-dotenv',
+        env: null,
         message: 'ok',
       })
     } finally {

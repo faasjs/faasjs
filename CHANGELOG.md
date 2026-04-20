@@ -4,6 +4,18 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- `@faasjs/core`
+  - [Break] Stop auto loading `.env` during `Server` initialization. Load env files explicitly in your entrypoint when needed.
+
+- `@faasjs/dev`
+  - [Break] Stop auto loading `.env` for `faas run` and `faas types`. Scripts that depend on dotenv files must load them explicitly.
+
+- `@faasjs/node-utils`
+  - [Break] Remove the `loadEnvFileIfExists` helper. Use Node's built-in `loadEnvFile()` directly in bootstrap code instead.
+
+- `create-faas-app`
+  - [Feature] Scaffold `server.ts` to call Node's built-in `loadEnvFile()` explicitly and warn without blocking startup when loading fails.
+
 - `@faasjs/pg`
   - [Break] Rename the `@faasjs/pg` CLI command from `typed-pg` to `faasjs-pg`.
 

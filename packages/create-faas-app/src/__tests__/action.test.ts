@@ -109,6 +109,12 @@ describe('action', () => {
     expect(packageJSON.name).toBe('basic-app')
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
     expectGeneratedSessionSecret(read(rootPath, 'src/faas.yaml'))
+    expect(read(rootPath, 'server.ts')).toContain("import { loadEnvFile } from 'node:process'")
+    expect(read(rootPath, 'server.ts')).toContain('try {')
+    expect(read(rootPath, 'server.ts')).toContain('loadEnvFile()')
+    expect(read(rootPath, 'server.ts')).toContain(
+      "console.warn('[faasjs] Failed to load env file', error)",
+    )
     expect(read(rootPath, 'src/react-client.ts')).toContain(
       "import { FaasReactClient } from '@faasjs/react'",
     )
@@ -134,6 +140,12 @@ describe('action', () => {
     expect(packageJSON.name).toBe('antd-app')
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
     expectGeneratedSessionSecret(read(rootPath, 'src/faas.yaml'))
+    expect(read(rootPath, 'server.ts')).toContain("import { loadEnvFile } from 'node:process'")
+    expect(read(rootPath, 'server.ts')).toContain('try {')
+    expect(read(rootPath, 'server.ts')).toContain('loadEnvFile()')
+    expect(read(rootPath, 'server.ts')).toContain(
+      "console.warn('[faasjs] Failed to load env file', error)",
+    )
     expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
       "import { faas, useApp } from '@faasjs/ant-design'",
