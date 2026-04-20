@@ -2,9 +2,9 @@
 
 # Class: Server
 
-HTTP server that loads and runs FaasJS function files from a project root.
+HTTP server that loads and runs FaasJS API files from a project root.
 
-A Server resolves route files on demand, caches loaded handlers, and
+A Server resolves API route files on demand, caches loaded handlers, and
 can optionally mount cron jobs for the process lifecycle.
 
 ## Example

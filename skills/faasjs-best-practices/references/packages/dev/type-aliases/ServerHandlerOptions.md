@@ -12,7 +12,7 @@ Extra options for a single [Server.handle](../classes/Server.md#handle) call.
 
 > `optional` **filepath?**: `string`
 
-Force a specific function file path instead of route lookup.
+Force a specific API file path instead of route lookup.
 
 ### requestedAt?
 

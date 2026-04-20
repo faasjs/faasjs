@@ -3,9 +3,9 @@ import { Http } from '@faasjs/core'
 
 const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })
 
-export const func = new Func({
+export default new Func({
   plugins: [http],
   async handler() {
-    return 'default'
+    return 'a'
   },
 })

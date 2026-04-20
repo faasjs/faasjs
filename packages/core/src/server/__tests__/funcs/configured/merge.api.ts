@@ -10,7 +10,7 @@ class SharedPlugin implements Plugin {
   }
 }
 
-export const func = defineApi({
+const api = defineApi({
   async handler({ config, context }) {
     return {
       http: config.plugins?.http,
@@ -20,8 +20,8 @@ export const func = defineApi({
   },
 })
 
-func.plugins.unshift(new SharedPlugin())
-func.config = {
+api.plugins.unshift(new SharedPlugin())
+api.config = {
   plugins: {
     shared: {
       config: {
@@ -31,3 +31,5 @@ func.config = {
     },
   },
 }
+
+export default api

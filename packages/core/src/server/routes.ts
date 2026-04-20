@@ -3,8 +3,8 @@ import { sep } from 'node:path'
 /**
  * Enumerate candidate route files for a requested path in FaasJS lookup order.
  *
- * This includes the exact `.func.ts` file, nested `index.func.ts`, nested
- * `default.func.ts`, and parent `default.func.ts` fallbacks while walking back to `root`.
+ * This includes the exact `.api.ts` file, nested `index.api.ts`, nested
+ * `default.api.ts`, and parent `default.api.ts` fallbacks while walking back to `root`.
  *
  * @param {string} root - Server root path used to stop parent fallback discovery.
  * @param {string} path - Normalized request path resolved against the server root.
@@ -20,9 +20,9 @@ export function getRouteFiles(root: string, path: string): string[] {
   const normalizedPath = path.endsWith(sep) ? path.slice(0, -1) : path
 
   const searchPaths = [
-    `${normalizedPath}.func.ts`,
-    `${normalizedPath}${sep}index.func.ts`,
-    `${normalizedPath}${sep}default.func.ts`,
+    `${normalizedPath}.api.ts`,
+    `${normalizedPath}${sep}index.api.ts`,
+    `${normalizedPath}${sep}default.api.ts`,
   ]
 
   let currentPath = normalizedPath
@@ -34,7 +34,7 @@ export function getRouteFiles(root: string, path: string): string[] {
 
     if (currentPath.length < normalizedRoot.length - 1) break
 
-    searchPaths.push(`${currentPath}${sep}default.func.ts`)
+    searchPaths.push(`${currentPath}${sep}default.api.ts`)
   }
 
   return searchPaths

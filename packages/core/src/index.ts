@@ -139,7 +139,7 @@ function formatZodErrorMessage(error: ZodError): string {
  *   name: z.string().min(1),
  * })
  *
- * export const func = defineApi({
+ * export default defineApi({
  *   schema,
  *   async handler({ params }) {
  *     return {

@@ -75,7 +75,7 @@ describe.sequential('server', () => {
     expect(response.status).toBe(404)
     expect(await response.json()).toMatchObject({
       error: {
-        message: `Not found function file.\nSearch paths:\n- ${server.root}404.func.ts\n- ${server.root}404/index.func.ts\n- ${server.root}404/default.func.ts\n- ${server.root}default.func.ts`,
+        message: `Not found API file.\nSearch paths:\n- ${server.root}404.api.ts\n- ${server.root}404/index.api.ts\n- ${server.root}404/default.api.ts\n- ${server.root}default.api.ts`,
       },
     })
   })
@@ -227,7 +227,10 @@ describe.sequential('server', () => {
     const response = await fetch(`http://127.0.0.1:${port}/runtime`)
     expect(response.status).toBe(200)
     expect(await response.json()).toEqual({
-      data: 'module',
+      data: {
+        exportOrder: 'default',
+        runtime: 'module',
+      },
     })
   })
 

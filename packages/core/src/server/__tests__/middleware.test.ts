@@ -35,7 +35,7 @@ describe('middleware', () => {
     expect(nextCalled).toBe(false)
   })
 
-  it('should not work if not found function', async () => {
+  it('should not work if the API file is not found', async () => {
     const server = new Server(join(__dirname, 'funcs'))
 
     let responseData: any = null

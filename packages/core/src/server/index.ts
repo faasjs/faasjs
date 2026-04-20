@@ -45,7 +45,7 @@ export type ServerHandlerOptions = {
    */
   requestedAt?: number
   /**
-   * Force a specific function file path instead of route lookup.
+   * Force a specific API file path instead of route lookup.
    */
   filepath?: string
 }
@@ -200,9 +200,9 @@ export type ServerOptions = {
 }
 
 /**
- * HTTP server that loads and runs FaasJS function files from a project root.
+ * HTTP server that loads and runs FaasJS API files from a project root.
  *
- * A {@link Server} resolves route files on demand, caches loaded handlers, and
+ * A {@link Server} resolves API route files on demand, caches loaded handlers, and
  * can optionally mount cron jobs for the process lifecycle.
  *
  * @example
@@ -307,7 +307,7 @@ export class Server {
    * @param {ServerResponse<IncomingMessage>} res - Node.js response writer.
    * @param {ServerHandlerOptions} [options] - Optional request metadata and forced filepath override.
    * @param {number} [options.requestedAt] - Explicit request start timestamp used for response headers.
-   * @param {string} [options.filepath] - Force a specific function file path instead of route lookup.
+   * @param {string} [options.filepath] - Force a specific API file path instead of route lookup.
    * @returns {Promise<void>} Promise that resolves after the request has been handled.
    */
   public async handle(
@@ -502,7 +502,7 @@ export class Server {
 
     if (process.env.FAASJS_MODULE_VERSION) loadOptions.version = process.env.FAASJS_MODULE_VERSION
 
-    const func = await loadPackage<Func>(file, ['func', 'default'], loadOptions)
+    const func = await loadPackage<Func>(file, ['default', 'func'], loadOptions)
 
     await loadPlugins(func, {
       root: this.root,
@@ -840,7 +840,7 @@ export class Server {
     const message =
       process.env.FaasEnv === 'production'
         ? 'Not found.'
-        : `Not found function file.\nSearch paths:\n${searchPaths.map((p) => `- ${p}`).join('\n')}`
+        : `Not found API file.\nSearch paths:\n${searchPaths.map((p) => `- ${p}`).join('\n')}`
 
     throw new HttpError({
       statusCode: 404,

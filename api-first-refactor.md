@@ -1,6 +1,6 @@
 # API-First Terminology Refactor
 
-Status: draft implementation plan
+Status: phase 1 complete in `packages/core`, remaining phases pending
 Owner: maintainers / framework contributors
 Scope: next major release
 
@@ -24,6 +24,15 @@ The low-level runtime surface stays intentionally stable:
 - keep plugin lifecycle terminology
 
 This is a major-breaking refactor. Do not merge it as a partial rename.
+
+## Progress Log
+
+- 2026-04-20: completed Phase 1 in `packages/core`
+  - route lookup now resolves `.api.ts`, `index.api.ts`, and `default.api.ts`
+  - server loader now prefers default exports and still falls back to legacy `{ func }`
+  - added `parseApiFilenameFromStack()` and kept `parseFuncFilenameFromStack()` as a deprecated alias
+  - refreshed generated API docs with `npx vp run doc`
+  - validated with `npx vp test run packages/core/src/server/__tests__ packages/core/src/__tests__/parseFuncFilenameFromStack.test.ts packages/core/src/func/__tests__/coverage.test.ts`
 
 ## Goals
 
@@ -117,28 +126,28 @@ Primary files:
 
 Checklist:
 
-- [ ] Update route lookup from `.func.ts` to `.api.ts`.
-- [ ] Update fallback lookup order to:
+- [x] Update route lookup from `.func.ts` to `.api.ts`.
+- [x] Update fallback lookup order to:
   1. `<p>.api.ts`
   2. `<p>/index.api.ts`
   3. `<p>/default.api.ts`
   4. parent fallback chain using `default.api.ts`
-- [ ] Update any user-facing route errors from "function file" to "API file".
-- [ ] Add `parseApiFilenameFromStack()` and make it detect `.api.ts`.
-- [ ] Keep `parseFuncFilenameFromStack()` as a deprecated alias that forwards to
+- [x] Update any user-facing route errors from "function file" to "API file".
+- [x] Add `parseApiFilenameFromStack()` and make it detect `.api.ts`.
+- [x] Keep `parseFuncFilenameFromStack()` as a deprecated alias that forwards to
       `parseApiFilenameFromStack()` during the migration window.
-- [ ] Update the `Func` constructor to use the new parser internally.
-- [ ] Update JSDoc examples and comments that still say `.func.ts`.
-- [ ] Update server loader export preference to default export first.
-- [ ] Keep legacy named `func` support temporarily in runtime loaders; do not add
+- [x] Update the `Func` constructor to use the new parser internally.
+- [x] Update JSDoc examples and comments that still say `.func.ts`.
+- [x] Update server loader export preference to default export first.
+- [x] Keep legacy named `func` support temporarily in runtime loaders; do not add
       named `api` support.
 
 Tests to update in this phase:
 
-- [ ] `packages/core/src/server/__tests__/**`
-- [ ] `packages/core/src/__tests__/parseFuncFilenameFromStack.test.ts`
-- [ ] `packages/core/src/func/__tests__/coverage.test.ts`
-- [ ] any fixtures under `packages/core/src/server/__tests__/**` that use
+- [x] `packages/core/src/server/__tests__/**`
+- [x] `packages/core/src/__tests__/parseFuncFilenameFromStack.test.ts`
+- [x] `packages/core/src/func/__tests__/coverage.test.ts`
+- [x] any fixtures under `packages/core/src/server/__tests__/**` that use
       `.func.ts` names
 
 ### Phase 2 - Typegen, Vite, And Dev Runtime Integration

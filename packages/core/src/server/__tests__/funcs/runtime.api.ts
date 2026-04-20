@@ -7,6 +7,19 @@ const http = new Http({ config: { cookie: { session: { secret: 'test-secret' } }
 export const func = new Func({
   plugins: [http],
   async handler() {
-    return detectNodeRuntime()
+    return {
+      exportOrder: 'func',
+      runtime: detectNodeRuntime(),
+    }
+  },
+})
+
+export default new Func({
+  plugins: [http],
+  async handler() {
+    return {
+      exportOrder: 'default',
+      runtime: detectNodeRuntime(),
+    }
   },
 })

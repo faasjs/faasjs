@@ -132,7 +132,7 @@ type HttpInvokeState<
  * ```ts
  * import { HttpError, defineApi } from '@faasjs/core'
  *
- * export const func = defineApi({
+ * export default defineApi({
  *   async handler() {
  *     throw new HttpError({
  *       statusCode: 403,

@@ -1,10 +1,8 @@
 [@faasjs/dev](../README.md) / parseFuncFilenameFromStack
 
-# Function: parseFuncFilenameFromStack()
+# ~~Function: parseFuncFilenameFromStack()~~
 
 > **parseFuncFilenameFromStack**(`stack?`): `string` \| `undefined`
-
-Extract a `.func.ts` file path from a captured stack trace.
 
 ## Parameters
 
@@ -12,18 +10,10 @@ Extract a `.func.ts` file path from a captured stack trace.
 
 `string`
 
-Stack trace text to inspect.
-
 ## Returns
 
 `string` \| `undefined`
 
-Absolute or file URL converted source path when found.
+## Deprecated
 
-## Example
-
-```ts
-import { parseFuncFilenameFromStack } from '@faasjs/core'
-
-const filename = parseFuncFilenameFromStack('Error\\n    at file:///project/src/demo.func.ts:3:1')
-```
+Use [parseApiFilenameFromStack](parseApiFilenameFromStack.md) instead.

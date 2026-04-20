@@ -180,27 +180,27 @@ export type FuncReturnType<T extends Func<any, any, any>> =
   T extends Func<any, any, infer R> ? R : any
 
 /**
- * Extract a `.func.ts` file path from a captured stack trace.
+ * Extract a `.api.ts` file path from a captured stack trace.
  *
  * @param {string} [stack] - Stack trace text to inspect.
  * @returns {string | undefined} Absolute or file URL converted source path when found.
  *
  * @example
  * ```ts
- * import { parseFuncFilenameFromStack } from '@faasjs/core'
+ * import { parseApiFilenameFromStack } from '@faasjs/core'
  *
- * const filename = parseFuncFilenameFromStack(
- *   'Error\\n    at file:///project/src/demo.func.ts:3:1',
+ * const filename = parseApiFilenameFromStack(
+ *   'Error\\n    at file:///project/src/demo.api.ts:3:1',
  * )
  * ```
  */
-export function parseFuncFilenameFromStack(stack?: string): string | undefined {
+export function parseApiFilenameFromStack(stack?: string): string | undefined {
   if (!stack) return
 
   const frame = stack
     .split('\n')
     .map((line) => line.trim())
-    .find((line) => line.includes('.func.ts'))
+    .find((line) => line.includes('.api.ts'))
 
   if (!frame) return
 
@@ -209,7 +209,7 @@ export function parseFuncFilenameFromStack(stack?: string): string | undefined {
     content.endsWith(')') && content.includes('(')
       ? content.slice(content.lastIndexOf('(') + 1, -1)
       : content
-  const match = location.match(/^(.+\.func\.ts):\d+:\d+$/)
+  const match = location.match(/^(.+\.api\.ts):\d+:\d+$/)
 
   if (!match) return
 
@@ -224,6 +224,13 @@ export function parseFuncFilenameFromStack(stack?: string): string | undefined {
   }
 
   return filename
+}
+
+/**
+ * @deprecated Use {@link parseApiFilenameFromStack} instead.
+ */
+export function parseFuncFilenameFromStack(stack?: string): string | undefined {
+  return parseApiFilenameFromStack(stack)
 }
 
 function normalizeMountData(
@@ -315,7 +322,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
 
     try {
-      const filename = parseFuncFilenameFromStack(new Error().stack)
+      const filename = parseApiFilenameFromStack(new Error().stack)
 
       if (filename) this.filename = filename
     } catch {}
