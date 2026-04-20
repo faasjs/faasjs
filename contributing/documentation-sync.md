@@ -1,13 +1,12 @@
----
-name: faasjs-documentation-sync
-description: Use when a change in the FaasJS repo may require documentation updates or validation. This covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, published docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, and docs navigation files such as `docs/guide/README.md`, `docs/zh/guide/README.md`, and `docs/site/site.config.ts`.
----
+# Documentation Sync
 
-# FaasJS Documentation Sync
+Use this guide after any FaasJS change that may require documentation updates or validation.
+
+It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, published docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, and docs navigation files such as `docs/guide/README.md`, `docs/zh/guide/README.md`, and `docs/site/site.config.ts`.
 
 ## Overview
 
-Use this skill after any FaasJS code or behavior change to decide which docs must be updated in the same change.
+Use this guide after any FaasJS code or behavior change to decide which docs must be updated in the same change.
 
 Keep source-of-truth docs, published docs, translations, generated API docs, and docs site navigation aligned before handoff.
 
@@ -23,7 +22,7 @@ Treat the change as doc-affecting if it touches:
 - `packages/create-faas-app/**`, `examples/**`, `images/**`, or commands shown to users
 - docs routes, page moves, new pages, deleted pages, or sidebar grouping changes
 
-If you are unsure, assume docs are affected and read `references/sync-rules.md` before finishing the task.
+If you are unsure, assume docs are affected and follow the workflow below before finishing the change.
 
 ## Workflow
 
@@ -63,7 +62,3 @@ If you are unsure, assume docs are affected and read `references/sync-rules.md` 
 - Do not ship a user-visible change without checking whether `CHANGELOG.md` should mention it.
 - Do not regenerate `CHANGELOG.md` from only the files in your current patch; review the whole range since the previous released version and summarize only end-user-meaningful items.
 - When a change does not require docs edits, say why in the final handoff.
-
-## Reference
-
-For the full path map, checklist, and handoff expectations, read `references/sync-rules.md`.
