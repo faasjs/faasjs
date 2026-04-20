@@ -11,15 +11,17 @@ When implementing or reviewing `@faasjs/pg` table typing, default to declaration
 
 ## Default Workflow
 
-1. Extend `Tables` in app code with `declare module '@faasjs/pg'`.
-2. Model each table as its runtime row shape, and keep JSON and JSONB object shapes in that merged interface.
-3. Let `client.query`, `TableType`, `ColumnName`, and `ColumnValue` infer from that source instead of forcing result types with `as`.
-4. Use a narrow assertion only when converting data returned by `client.raw(...)` or another raw boundary into an app-specific shape.
-5. Add or update `expectTypeOf(...)` coverage when a shared helper or package change affects inference.
+1. Put the augmentation in an app-owned type file such as `src/types/faasjs-pg.d.ts`, and make sure `tsconfig.json` includes that file before expecting inference to change.
+2. Extend `Tables` in that file with `declare module '@faasjs/pg'`.
+3. Model each table as its runtime row shape, and keep JSON and JSONB object shapes in that merged interface.
+4. Let `client.query`, `TableType`, `ColumnName`, and `ColumnValue` infer from that source instead of forcing result types with `as`.
+5. Use a narrow assertion only when converting data returned by `client.raw(...)` or another raw boundary into an app-specific shape.
+6. Add or update `expectTypeOf(...)` coverage when a shared helper or package change affects inference.
 
 ## Minimal Example
 
 ```ts
+// src/types/faasjs-pg.d.ts
 declare module '@faasjs/pg' {
   interface Tables {
     users: {
@@ -41,7 +43,9 @@ declare module '@faasjs/pg' {
 - `Tables` drives table-name inference and column-level type inference.
 - When a table shape changes, update the merged interface before adjusting query code.
 - Keep the type definition close to the application boundary that owns the table.
+- Keep the augmentation in a `.d.ts` or `.ts` file that TypeScript already includes for the app.
 - Define JSON and JSONB column shapes in `declare module '@faasjs/pg'` instead of scattering duplicate aliases elsewhere.
+- If inference does not update, check `tsconfig.json` `include`, `files`, and project references before adding casts.
 
 ### 2. Keep row shapes concrete
 
@@ -76,6 +80,7 @@ declare module '@faasjs/pg' {
 ## Review Checklist
 
 - `Tables` contains the new or changed table shape
+- the augmentation file lives in a source or type root included by `tsconfig.json`
 - JSON and JSONB columns use concrete object types defined in `declare module '@faasjs/pg'`
 - typed query results do not rely on `as` outside raw boundaries
 - declaration merging still works from consumer code

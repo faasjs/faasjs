@@ -74,7 +74,7 @@ export class Client {
    *
    * @example
    * ```ts
-   * const users = await client.query('users').select('*').where({ id: userId })
+   * const users = await client.query('users').where('id', userId)
    * ```
    */
   query<T extends TableName>(table: T): QueryBuilder<T> {
@@ -129,13 +129,13 @@ export class Client {
    * @example
    * ```ts
    * // using a template string array
-   * const users = await client.raw<User[]>`SELECT * FROM users`
+   * const users = await client.raw<User>`SELECT * FROM users`
    * // using a string
-   * const users = await client.raw<User[]>('SELECT * FROM users')
+   * const users = await client.raw<User>('SELECT * FROM users')
    * // template string array with parameters
-   * const users = await client.raw<User[]>`SELECT * FROM users WHERE id = ${userId}`
+   * const users = await client.raw<User>`SELECT * FROM users WHERE id = ${userId}`
    * // string with parameters
-   * const users = await client.raw<User[]>('SELECT * FROM users WHERE id = $1', userId)
+   * const users = await client.raw<User>('SELECT * FROM users WHERE id = ?', userId)
    * ```
    */
   async raw<T extends Record<string, any> = any>(

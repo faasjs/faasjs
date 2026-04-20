@@ -11,15 +11,17 @@
 
 ## 默认工作流
 
-1. 在应用代码里通过 `declare module '@faasjs/pg'` 扩展 `Tables`。
-2. 让每张表的定义都贴近它的真实运行时 row shape，并把 JSON 与 JSONB 的对象结构也统一放进这个 merged interface。
-3. 让 `client.query`、`TableType`、`ColumnName` 与 `ColumnValue` 都从这里推导，而不是用 `as` 强行指定结果类型。
-4. 只有在把 `client.raw(...)` 或其它 raw 边界返回的数据转换成应用类型时，才使用收敛范围明确的类型断言。
-5. 当共享 helper 或包级变更影响推导时，补上或更新 `expectTypeOf(...)` 覆盖。
+1. 在应用自己拥有的类型文件里放置 augmentation，例如 `src/types/faasjs-pg.d.ts`，并先确认 `tsconfig.json` 已经包含这个文件，再期待推导结果发生变化。
+2. 在这个文件里通过 `declare module '@faasjs/pg'` 扩展 `Tables`。
+3. 让每张表的定义都贴近它的真实运行时 row shape，并把 JSON 与 JSONB 的对象结构也统一放进这个 merged interface。
+4. 让 `client.query`、`TableType`、`ColumnName` 与 `ColumnValue` 都从这里推导，而不是用 `as` 强行指定结果类型。
+5. 只有在把 `client.raw(...)` 或其它 raw 边界返回的数据转换成应用类型时，才使用收敛范围明确的类型断言。
+6. 当共享 helper 或包级变更影响推导时，补上或更新 `expectTypeOf(...)` 覆盖。
 
 ## 最小示例
 
 ```ts
+// src/types/faasjs-pg.d.ts
 declare module '@faasjs/pg' {
   interface Tables {
     users: {
@@ -41,7 +43,9 @@ declare module '@faasjs/pg' {
 - `Tables` 驱动表名推导以及列级别类型推导。
 - 当表结构变化时，先更新 merged interface，再调整查询代码。
 - 让类型定义尽量靠近真正拥有这张表的应用边界。
+- augmentation 应放在 TypeScript 已经包含进应用的 `.d.ts` 或 `.ts` 文件里。
 - JSON 与 JSONB 列的类型统一定义在 `declare module '@faasjs/pg'` 里，不要在别处散落重复的类型别名。
+- 如果推导结果没有变化，先检查 `tsconfig.json` 的 `include`、`files` 或 project references，再考虑加类型断言。
 
 ### 2. 让行结构保持具体
 
@@ -76,6 +80,7 @@ declare module '@faasjs/pg' {
 ## 评审清单
 
 - `Tables` 里是否包含新的或变更后的表结构
+- augmentation 文件是否位于 `tsconfig.json` 已包含的 source/type root 中
 - JSON 与 JSONB 列是否在 `declare module '@faasjs/pg'` 中定义了具体对象类型
 - typed query 的结果是否没有在 raw 边界之外依赖 `as`
 - declaration merging 是否仍然能从消费者代码里生效

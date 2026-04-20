@@ -55,7 +55,7 @@ A new instance of the QueryBuilder for the specified table.
 #### Example
 
 ```ts
-const users = await client.query('users').select('*').where({ id: userId })
+const users = await client.query('users').where('id', userId)
 ```
 
 ### quit()
@@ -104,13 +104,13 @@ A promise that resolves to an array of objects of type `T`.
 
 ```ts
 // using a template string array
-const users = await client.raw<User[]>`SELECT * FROM users`
+const users = await client.raw<User>`SELECT * FROM users`
 // using a string
-const users = await client.raw<User[]>('SELECT * FROM users')
+const users = await client.raw<User>('SELECT * FROM users')
 // template string array with parameters
-const users = await client.raw<User[]>`SELECT * FROM users WHERE id = ${userId}`
+const users = await client.raw<User>`SELECT * FROM users WHERE id = ${userId}`
 // string with parameters
-const users = await client.raw<User[]>('SELECT * FROM users WHERE id = $1', userId)
+const users = await client.raw<User>('SELECT * FROM users WHERE id = ?', userId)
 ```
 
 ### transaction()

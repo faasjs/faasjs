@@ -14,8 +14,10 @@ When implementing or reviewing DDL with `@faasjs/pg`, default to `SchemaBuilder`
 1. Create a timestamped `.ts` migration file, usually with `faasjs-pg new <name>`.
 2. Implement `up(builder)` with `SchemaBuilder` and `TableBuilder` helpers first.
 3. Implement `down(builder)` for rollback when practical.
-4. Keep related DDL in one builder run so it stays transactional.
-5. Fall back to `raw()` only for SQL the current helpers do not support.
+4. Run `faasjs-pg status` from the project root to inspect migration history, then use `faasjs-pg migrate`, `faasjs-pg up`, or `faasjs-pg down` for the execution path you need.
+5. Keep migration files in `./migrations` unless you intentionally reconfigure tooling, because both the CLI and `TypedPgVitestPlugin()` look there by default.
+6. Keep related DDL in one builder run so it stays transactional.
+7. Fall back to `raw()` only for SQL the current helpers do not support.
 
 ## Minimal Example
 
@@ -24,7 +26,7 @@ import type { SchemaBuilder } from '@faasjs/pg'
 
 export function up(builder: SchemaBuilder) {
   builder.createTable('users', (table) => {
-    table.string('id').primary()
+    table.number('id').primary()
     table.string('name')
     table.jsonb('metadata').defaultTo('{}')
     table.timestamps()
@@ -69,10 +71,17 @@ export function down(builder: SchemaBuilder) {
 - `migrate()` applies all pending files, `up()` applies the next pending file, and `down()` rolls back the latest recorded file.
 - Treat those behaviors as the default mental model for app code, tooling, and troubleshooting.
 
+### 6. Keep the execution path obvious
+
+- Keep migrations in the project-root `./migrations` folder unless project tooling is configured otherwise.
+- Use `faasjs-pg status` to inspect history, `faasjs-pg migrate` to apply all pending files, `faasjs-pg up` for the next file, and `faasjs-pg down` for the latest rollback.
+- If a project customizes the folder or wrapper commands, document that override explicitly in the project README or contributor guide.
+
 ## Review Checklist
 
 - the migration file name remains timestamp-sorted
 - `up` and `down` are both present when rollback is practical
+- the `status`/`migrate`/`up`/`down` execution flow is obvious for the project
 - builder helpers are used before raw DDL
 - schema changes expect `SchemaBuilder.run()` to be atomic
 - risky schema changes are covered by focused migration or integration tests

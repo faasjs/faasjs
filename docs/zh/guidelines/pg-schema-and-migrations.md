@@ -14,8 +14,10 @@
 1. 先创建一个带时间戳的 `.ts` migration file，通常通过 `faasjs-pg new <name>`。
 2. 先用 `SchemaBuilder` 与 `TableBuilder` helpers 实现 `up(builder)`。
 3. 在可行时实现 `down(builder)` 用于回滚。
-4. 把相关 DDL 保持在同一次 builder run 里，以维持事务性。
-5. 只有在现有 helpers 不支持时，才回退到 `raw()`。
+4. 在项目根目录运行 `faasjs-pg status` 查看 migration history，再按需使用 `faasjs-pg migrate`、`faasjs-pg up` 或 `faasjs-pg down`。
+5. 除非你明确配置了别的位置，否则把 migration files 放在 `./migrations`，因为 CLI 和 `TypedPgVitestPlugin()` 默认都从这里读取。
+6. 把相关 DDL 保持在同一次 builder run 里，以维持事务性。
+7. 只有在现有 helpers 不支持时，才回退到 `raw()`。
 
 ## 最小示例
 
@@ -24,7 +26,7 @@ import type { SchemaBuilder } from '@faasjs/pg'
 
 export function up(builder: SchemaBuilder) {
   builder.createTable('users', (table) => {
-    table.string('id').primary()
+    table.number('id').primary()
     table.string('name')
     table.jsonb('metadata').defaultTo('{}')
     table.timestamps()
@@ -69,10 +71,17 @@ export function down(builder: SchemaBuilder) {
 - `migrate()` 会执行所有 pending files，`up()` 执行下一个 pending file，`down()` 回滚最近一次已记录的 file。
 - 对 app code、tooling 与问题排查来说，都把这套行为当作默认心智模型。
 
+### 6. 让执行入口保持明确
+
+- 除非工具配置另有说明，否则把 migrations 放在项目根目录的 `./migrations`。
+- 用 `faasjs-pg status` 查看 history，`faasjs-pg migrate` 执行全部 pending files，`faasjs-pg up` 执行下一个 file，`faasjs-pg down` 回滚最近一次记录。
+- 如果项目自定义了 migrations 目录或包装命令，就在项目 README 或 contributor guide 里显式写清楚。
+
 ## 评审清单
 
 - migration file name 是否仍然按时间戳排序
 - 在可回滚时，`up` 与 `down` 是否都已存在
+- 项目的 `status`/`migrate`/`up`/`down` 执行路径是否清晰可见
 - 是否先用了 builder helpers，再退回 raw DDL
 - schema changes 是否依赖 `SchemaBuilder.run()` 的原子性
 - 高风险 schema changes 是否有聚焦的 migration 或 integration tests 覆盖
