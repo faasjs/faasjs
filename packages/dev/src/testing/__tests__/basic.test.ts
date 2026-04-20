@@ -1,12 +1,12 @@
 import { streamToObject } from '@faasjs/utils'
 import { expect, it } from 'vitest'
 
-import { FuncWarper, test as createTester } from '../../index'
-import { func } from './funcs/basic.func'
+import { ApiTester, test as createTester } from '../../index'
+import basicApi from './funcs/basic.api'
 
 it('basic', async () => {
-  const testedFunc = new FuncWarper(func)
-  const res = await testedFunc.handler<any>({}, {})
+  const testedApi = new ApiTester(basicApi)
+  const res = await testedApi.handler<any>({}, {})
 
   expect(res.statusCode).toEqual(200)
   expect(await streamToObject(res.body)).toEqual({
@@ -15,8 +15,8 @@ it('basic', async () => {
 })
 
 it('test helper should bind handlers', async () => {
-  const testedFunc = createTester(func)
-  const detachedHandler = testedFunc.handler.bind(testedFunc)
+  const testedApi = createTester(basicApi)
+  const detachedHandler = testedApi.handler.bind(testedApi)
   const res = await detachedHandler<any>({}, {})
 
   expect(res.statusCode).toEqual(200)

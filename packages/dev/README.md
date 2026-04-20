@@ -24,10 +24,11 @@
 
 ## Classes
 
+- [ApiTester](classes/ApiTester.md)
 - [Cookie](classes/Cookie.md)
 - [CronJob](classes/CronJob.md)
 - [Func](classes/Func.md)
-- [FuncWarper](classes/FuncWarper.md)
+- [~~FuncWarper~~](classes/FuncWarper.md)
 - [Http](classes/Http.md)
 - [HttpError](classes/HttpError.md)
 - [Server](classes/Server.md)

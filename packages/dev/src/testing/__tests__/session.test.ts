@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
 import { test } from '../../index'
-import { func as Func } from './funcs/session.func'
+import sessionApi from './funcs/session.api'
 
 describe('JSONhandler', () => {
   it('session', async () => {
-    const func = test(Func)
+    const api = test(sessionApi)
 
-    const res = await func.JSONhandler(
+    const res = await api.JSONhandler(
       {},
       {
         headers: { cookie: 'h=1' },
@@ -21,9 +21,9 @@ describe('JSONhandler', () => {
   })
 
   it('should merge cookies when header cookie is not provided', async () => {
-    const func = test(Func)
+    const api = test(sessionApi)
 
-    const res = await func.JSONhandler(
+    const res = await api.JSONhandler(
       {},
       {
         cookie: { c: 2 },

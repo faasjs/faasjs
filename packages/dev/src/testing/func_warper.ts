@@ -1,19 +1,9 @@
 import { brotliDecompressSync, gunzipSync, inflateSync } from 'node:zlib'
 
-import { Cookie, Http } from '@faasjs/core'
-import type { Config, ExportedHandler, Func, FuncEventType } from '@faasjs/core'
+import { Cookie, Func, Http } from '@faasjs/core'
+import type { Config, ExportedHandler, FuncEventType } from '@faasjs/core'
 import { loadPlugins, Logger } from '@faasjs/node-utils'
 import { streamToString } from '@faasjs/utils'
-
-type IsAny<T> = 0 extends 1 & T ? true : false
-type JSONhandlerBody<TFunc extends Func<any, any, any>> =
-  FuncEventType<TFunc> extends {
-    params?: infer TParams
-  }
-    ? IsAny<TParams> extends true
-      ? Record<string, any> | string | null
-      : TParams | string | null
-    : Record<string, any> | string | null
 
 function normalizeInferredPath(path: string): string {
   const normalized = path.replace(/\\/g, '/').replace(/\/+/g, '/')
@@ -21,6 +11,17 @@ function normalizeInferredPath(path: string): string {
   if (!normalized.length || normalized === '/') return '/'
 
   return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
+}
+
+function resolveTestApi<TFunc extends Func<any, any, any>>(
+  input: TFunc | { default?: TFunc; func?: TFunc },
+): TFunc {
+  if (typeof input === 'object' && input !== null) {
+    if ('default' in input && input.default instanceof Func) return input.default as TFunc
+    if ('func' in input && input.func instanceof Func) return input.func as TFunc
+  }
+
+  return input as TFunc
 }
 
 function inferPathFromFilename(filename: string): string | undefined {
@@ -33,46 +34,46 @@ function inferPathFromFilename(filename: string): string | undefined {
 
   const relativeFile = normalized.slice(srcIndex + '/src/'.length)
 
-  if (!relativeFile.endsWith('.func.ts')) return undefined
+  if (!relativeFile.endsWith('.api.ts')) return undefined
   if (/(^|\/)__tests__(\/|$)/.test(relativeFile)) return undefined
 
   const noTsPath = relativeFile.slice(0, -'.ts'.length)
 
-  if (noTsPath === 'index.func' || noTsPath === 'default.func') return '/'
+  if (noTsPath === 'index.api' || noTsPath === 'default.api') return '/'
 
-  if (noTsPath.endsWith('/index.func'))
-    return normalizeInferredPath(`/${noTsPath.slice(0, -'/index.func'.length)}`)
+  if (noTsPath.endsWith('/index.api'))
+    return normalizeInferredPath(`/${noTsPath.slice(0, -'/index.api'.length)}`)
 
-  if (noTsPath.endsWith('/default.func'))
-    return normalizeInferredPath(`/${noTsPath.slice(0, -'/default.func'.length)}`)
+  if (noTsPath.endsWith('/default.api'))
+    return normalizeInferredPath(`/${noTsPath.slice(0, -'/default.api'.length)}`)
 
-  if (noTsPath.endsWith('.func'))
-    return normalizeInferredPath(`/${noTsPath.slice(0, -'.func'.length)}`)
+  if (noTsPath.endsWith('.api'))
+    return normalizeInferredPath(`/${noTsPath.slice(0, -'.api'.length)}`)
 
   return undefined
 }
 
 /**
- * Wrap a FaasJS function with helpers for mounting and assertion-friendly invocations.
+ * Wrap a FaasJS API with helpers for mounting and assertion-friendly invocations.
  *
- * The wrapper resolves config for the current `FaasEnv`, mounts lazily, and
+ * The tester resolves config for the current `FaasEnv`, mounts lazily, and
  * exposes helpers for raw handler calls and HTTP-style JSON assertions.
  *
- * @template TFunc - Wrapped FaasJS function type.
+ * @template TFunc - Wrapped FaasJS API type.
  * @see {@link test}
  * @example
  * ```ts
- * import { FuncWarper } from '@faasjs/dev'
- * import { func } from './hello.func'
+ * import { ApiTester } from '@faasjs/dev'
+ * import api from './hello.api.ts'
  *
- * const wrapped = new FuncWarper(func)
+ * const wrapped = new ApiTester(api)
  *
  * const response = await wrapped.JSONhandler({ name: 'FaasJS' })
  * ```
  */
-export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>> {
+export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> {
   /**
-   * Source file path inferred from the wrapped function.
+   * Source file path inferred from the wrapped API.
    */
   public readonly file: string
   /**
@@ -84,11 +85,11 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    */
   public readonly logger: Logger
   /**
-   * Wrapped function instance.
+   * Wrapped API instance.
    */
   public readonly func: TFunc
   /**
-   * Resolved config attached to the wrapped function.
+   * Resolved config attached to the wrapped API.
    */
   public readonly config: Config
   private readonly _handler: ExportedHandler
@@ -96,25 +97,26 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   private readonly loadPluginsTask?: Promise<void>
 
   /**
-   * Create a wrapper around a FaasJS function instance for repeated test calls.
+   * Create a tester around a FaasJS API instance for repeated test calls.
    *
    * If a module object with a `default` export is passed at runtime, the
-   * default export is used.
+   * default export is used. Legacy `{ func }` module objects still work during
+   * migration.
    *
-   * @param {TFunc} initBy - Function instance to wrap.
+   * @param {TFunc | { default?: TFunc; func?: TFunc }} initBy - API instance or module object to wrap.
    * @example
    * ```ts
-   * import { FuncWarper } from '@faasjs/dev'
-   * import { func } from './hello.func'
+   * import { ApiTester } from '@faasjs/dev'
+   * import api from './hello.api.ts'
    *
-   * const wrapped = new FuncWarper(func)
+   * const wrapped = new ApiTester(api)
    * ```
    */
-  constructor(initBy: TFunc) {
+  constructor(initBy: TFunc | { default?: TFunc; func?: TFunc }) {
     this.staging = process.env.FaasEnv ?? 'default'
     this.logger = new Logger('TestCase')
 
-    this.func = (initBy.default ? initBy.default : initBy) as TFunc
+    this.func = resolveTestApi(initBy)
     if (this.func.filename)
       this.loadPluginsTask = loadPlugins(this.func, {
         root: process.cwd(),
@@ -131,12 +133,12 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   }
 
   /**
-   * Mount the wrapped function once before running assertions.
+   * Mount the wrapped API once before running assertions.
    *
-   * @param {(func: FuncWarper<TFunc>) => Promise<void> | void} [handler] - Optional callback invoked after mount.
-   * @returns Resolves after the function has been mounted and the callback has finished.
+   * @param {(api: ApiTester<TFunc>) => Promise<void> | void} [handler] - Optional callback invoked after mount.
+   * @returns Resolves after the API has been mounted and the callback has finished.
    */
-  public async mount(handler?: (func: FuncWarper<TFunc>) => Promise<void> | void): Promise<void> {
+  public async mount(handler?: (api: ApiTester<TFunc>) => Promise<void> | void): Promise<void> {
     if (this.loadPluginsTask) await this.loadPluginsTask
 
     if (!this.func.mounted) {
@@ -147,7 +149,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   }
 
   /**
-   * Invoke the wrapped function with raw event and context payloads.
+   * Invoke the wrapped API with raw event and context payloads.
    *
    * @template TResult - Expected response type returned by the handler.
    * @param {Record<string, unknown>} [event] - Runtime event passed to the exported handler.
@@ -167,26 +169,26 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
   }
 
   /**
-   * Invoke an HTTP-enabled function with JSON body helpers and decoded cookies.
+   * Invoke an HTTP-enabled API with JSON body helpers and decoded cookies.
    *
    * JSON responses populate `data` and `error`, while `Set-Cookie` headers are
    * decoded into the returned `cookie` and `session` objects.
    *
-   * @template TData - Expected JSON `data` payload returned by the function.
+   * @template TData - Expected JSON `data` payload returned by the API.
    * @param {JSONhandlerBody<TFunc>} [body] - Request body object or raw JSON string.
    * @param {object} [options] - Extra headers, request cookies, and session seed values.
    * @param {Record<string, any>} [options.headers] - Extra request headers merged into the JSON test request.
-   * @param {string} [options.path] - Request path attached to `event.path` during invocation. This path is the URL pathname without the query string. Defaults to the inferred path from the wrapped function filename when available.
+   * @param {string} [options.path] - Request path attached to `event.path` during invocation. This path is the URL pathname without the query string. Defaults to the inferred path from the wrapped API filename when available.
    * @param {Record<string, any>} [options.cookie] - Cookie key-value pairs preloaded into the request.
    * @param {Record<string, any>} [options.session] - Session key-value pairs encoded into the request cookie before invocation.
    * @returns Normalized HTTP response payload for assertions.
-   * @throws {Error} When the wrapped function does not use the HTTP plugin.
+   * @throws {Error} When the wrapped API does not use the HTTP plugin.
    * @example
    * ```ts
    * import { test } from '@faasjs/dev'
-   * import { func } from './hello.func'
+   * import api from './hello.api.ts'
    *
-   * const wrapped = test(func)
+   * const wrapped = test(api)
    * const response = await wrapped.JSONhandler(
    *   { name: 'FaasJS' },
    *   { session: { userId: '1' } },
@@ -196,7 +198,13 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
    * ```
    */
   public async JSONhandler<TData = any>(
-    body?: JSONhandlerBody<TFunc>,
+    body?: FuncEventType<TFunc> extends {
+      params?: infer TParams
+    }
+      ? 0 extends 1 & TParams
+        ? Record<string, any> | string | null
+        : TParams | string | null
+      : Record<string, any> | string | null,
     options: {
       headers?: { [key: string]: any }
       path?: string
@@ -223,7 +231,7 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
 
     const http = this.func.plugins.find((plugin) => plugin instanceof Http)
 
-    if (!http) throw new Error('No Http plugin found in the function')
+    if (!http) throw new Error('No Http plugin found in the API')
 
     const cookie = new Cookie(http.config.cookie || {}, this.logger).invoke(
       requestCookieHeader,
@@ -369,31 +377,40 @@ export class FuncWarper<TFunc extends Func<any, any, any> = Func<any, any, any>>
 }
 
 /**
- * Create a bound {@link FuncWarper} for tests.
+ * @deprecated Use {@link ApiTester} instead.
+ */
+export class FuncWarper<
+  TFunc extends Func<any, any, any> = Func<any, any, any>,
+> extends ApiTester<TFunc> {}
+
+/**
+ * Create a bound {@link ApiTester} for tests.
  *
  * The returned wrapper binds `mount()`, `handler()`, and `JSONhandler()` so
  * they can be passed around without losing their instance context.
  *
- * @template TFunc - Wrapped FaasJS function type.
- * @param {TFunc} initBy - Function instance passed to {@link FuncWarper}.
+ * @template TFunc - Wrapped FaasJS API type.
+ * @param {TFunc | { default?: TFunc; func?: TFunc }} initBy - API instance passed to {@link ApiTester}.
  * @returns Bound wrapper instance.
- * @see {@link FuncWarper}
+ * @see {@link ApiTester}
  * @example
  * ```ts
  * import { test } from '@faasjs/dev'
- * import { func } from './hello.func'
+ * import api from './hello.api.ts'
  *
- * const wrapped = test(func)
+ * const wrapped = test(api)
  *
  * const response = await wrapped.JSONhandler({ name: 'FaasJS' })
  * ```
  */
-export function test<TFunc extends Func<any, any, any>>(initBy: TFunc): FuncWarper<TFunc> {
-  const warper = new FuncWarper(initBy)
+export function test<TFunc extends Func<any, any, any>>(
+  initBy: TFunc | { default?: TFunc; func?: TFunc },
+): ApiTester<TFunc> {
+  const tester = new ApiTester(initBy)
 
-  warper.mount = warper.mount.bind(warper)
-  warper.handler = warper.handler.bind(warper)
-  warper.JSONhandler = warper.JSONhandler.bind(warper)
+  tester.mount = tester.mount.bind(tester)
+  tester.handler = tester.handler.bind(tester)
+  tester.JSONhandler = tester.JSONhandler.bind(tester)
 
-  return warper
+  return tester
 }

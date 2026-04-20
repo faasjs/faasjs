@@ -2,9 +2,9 @@
 
 # Function: test()
 
-> **test**\<`TFunc`\>(`initBy`): [`FuncWarper`](../classes/FuncWarper.md)\<`TFunc`\>
+> **test**\<`TFunc`\>(`initBy`): [`ApiTester`](../classes/ApiTester.md)\<`TFunc`\>
 
-Create a bound [FuncWarper](../classes/FuncWarper.md) for tests.
+Create a bound [ApiTester](../classes/ApiTester.md) for tests.
 
 The returned wrapper binds `mount()`, `handler()`, and `JSONhandler()` so
 they can be passed around without losing their instance context.
@@ -15,33 +15,33 @@ they can be passed around without losing their instance context.
 
 `TFunc` _extends_ [`Func`](../classes/Func.md)\<`any`, `any`, `any`\>
 
-Wrapped FaasJS function type.
+Wrapped FaasJS API type.
 
 ## Parameters
 
 ### initBy
 
-`TFunc`
+`TFunc` \| \{ `default?`: `TFunc`; `func?`: `TFunc`; \}
 
-Function instance passed to [FuncWarper](../classes/FuncWarper.md).
+API instance passed to [ApiTester](../classes/ApiTester.md).
 
 ## Returns
 
-[`FuncWarper`](../classes/FuncWarper.md)\<`TFunc`\>
+[`ApiTester`](../classes/ApiTester.md)\<`TFunc`\>
 
 Bound wrapper instance.
 
 ## See
 
-[FuncWarper](../classes/FuncWarper.md)
+[ApiTester](../classes/ApiTester.md)
 
 ## Example
 
 ```ts
 import { test } from '@faasjs/dev'
-import { func } from './hello.func'
+import api from './hello.api.ts'
 
-const wrapped = test(func)
+const wrapped = test(api)
 
 const response = await wrapped.JSONhandler({ name: 'FaasJS' })
 ```

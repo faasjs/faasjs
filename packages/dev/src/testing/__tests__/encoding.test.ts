@@ -1,7 +1,7 @@
 import { brotliCompressSync, deflateSync, gzipSync } from 'node:zlib'
 
 import { Func, Http } from '@faasjs/core'
-import { FuncWarper } from '@faasjs/dev'
+import { ApiTester } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
 describe('encoding', () => {
@@ -29,7 +29,7 @@ describe('encoding', () => {
   }
 
   it('should decompress br compressed stream', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -55,7 +55,7 @@ describe('encoding', () => {
   })
 
   it('should decompress gzip compressed stream', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -81,7 +81,7 @@ describe('encoding', () => {
   })
 
   it('should decompress deflate compressed stream', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -107,7 +107,7 @@ describe('encoding', () => {
   })
 
   it('should handle uncompressed stream', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -133,7 +133,7 @@ describe('encoding', () => {
   })
 
   it('should handle decompression error with corrupted br data', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -161,7 +161,7 @@ describe('encoding', () => {
   })
 
   it('should handle decompression error with corrupted gzip data', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -189,7 +189,7 @@ describe('encoding', () => {
   })
 
   it('should handle decompression error with corrupted deflate data', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -217,7 +217,7 @@ describe('encoding', () => {
   })
 
   it('should handle unsupported encoding', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -245,7 +245,7 @@ describe('encoding', () => {
   })
 
   it('should handle stream read error', async () => {
-    const func = new FuncWarper(
+    const func = new ApiTester(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {

@@ -1,26 +1,14 @@
 [@faasjs/dev](../README.md) / FuncWarper
 
-# Class: FuncWarper\<TFunc\>
+# ~~Class: FuncWarper\<TFunc\>~~
 
-Wrap a FaasJS function with helpers for mounting and assertion-friendly invocations.
+## Deprecated
 
-The wrapper resolves config for the current `FaasEnv`, mounts lazily, and
-exposes helpers for raw handler calls and HTTP-style JSON assertions.
+Use [ApiTester](ApiTester.md) instead.
 
-## See
+## Extends
 
-[test](../functions/test.md)
-
-## Example
-
-```ts
-import { FuncWarper } from '@faasjs/dev'
-import { func } from './hello.func'
-
-const wrapped = new FuncWarper(func)
-
-const response = await wrapped.JSONhandler({ name: 'FaasJS' })
-```
+- [`ApiTester`](ApiTester.md)\<`TFunc`\>
 
 ## Type Parameters
 
@@ -28,26 +16,25 @@ const response = await wrapped.JSONhandler({ name: 'FaasJS' })
 
 `TFunc` _extends_ [`Func`](Func.md)\<`any`, `any`, `any`\> = [`Func`](Func.md)\<`any`, `any`, `any`\>
 
-Wrapped FaasJS function type.
-
 ## Constructors
 
 ### Constructor
 
 > **new FuncWarper**\<`TFunc`\>(`initBy`): `FuncWarper`\<`TFunc`\>
 
-Create a wrapper around a FaasJS function instance for repeated test calls.
+Create a tester around a FaasJS API instance for repeated test calls.
 
 If a module object with a `default` export is passed at runtime, the
-default export is used.
+default export is used. Legacy `{ func }` module objects still work during
+migration.
 
 #### Parameters
 
 ##### initBy
 
-`TFunc`
+`TFunc` \| \{ `default?`: `TFunc`; `func?`: `TFunc`; \}
 
-Function instance to wrap.
+API instance or module object to wrap.
 
 #### Returns
 
@@ -56,19 +43,23 @@ Function instance to wrap.
 #### Example
 
 ```ts
-import { FuncWarper } from '@faasjs/dev'
-import { func } from './hello.func'
+import { ApiTester } from '@faasjs/dev'
+import api from './hello.api.ts'
 
-const wrapped = new FuncWarper(func)
+const wrapped = new ApiTester(api)
 ```
+
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`constructor`](ApiTester.md#constructor)
 
 ## Methods
 
-### handler()
+### ~~handler()~~
 
 > **handler**\<`TResult`\>(`event?`, `context?`): `Promise`\<`TResult`\>
 
-Invoke the wrapped function with raw event and context payloads.
+Invoke the wrapped API with raw event and context payloads.
 
 #### Type Parameters
 
@@ -98,11 +89,15 @@ Runtime context passed to the exported handler.
 
 Handler result.
 
-### JSONhandler()
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`handler`](ApiTester.md#handler)
+
+### ~~JSONhandler()~~
 
 > **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{\[`key`: `string`\]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
 
-Invoke an HTTP-enabled function with JSON body helpers and decoded cookies.
+Invoke an HTTP-enabled API with JSON body helpers and decoded cookies.
 
 JSON responses populate `data` and `error`, while `Set-Cookie` headers are
 decoded into the returned `cookie` and `session` objects.
@@ -113,13 +108,13 @@ decoded into the returned `cookie` and `session` objects.
 
 `TData` = `any`
 
-Expected JSON `data` payload returned by the function.
+Expected JSON `data` payload returned by the API.
 
 #### Parameters
 
 ##### body?
 
-`JSONhandlerBody`\<`TFunc`\>
+[`FuncEventType`](../type-aliases/FuncEventType.md)\<`TFunc`\> _extends_ `object` ? `0` _extends_ `1` & `TParams` ? `string` \| `Record`\<`string`, `any`\> \| `null` : `string` \| `TParams` \| `null` : `string` \| `Record`\<`string`, `any`\> \| `null`
 
 Request body object or raw JSON string.
 
@@ -143,7 +138,7 @@ Extra request headers merged into the JSON test request.
 
 `string`
 
-Request path attached to `event.path` during invocation. This path is the URL pathname without the query string. Defaults to the inferred path from the wrapped function filename when available.
+Request path attached to `event.path` during invocation. This path is the URL pathname without the query string. Defaults to the inferred path from the wrapped API filename when available.
 
 ###### session?
 
@@ -159,31 +154,35 @@ Normalized HTTP response payload for assertions.
 
 #### Throws
 
-When the wrapped function does not use the HTTP plugin.
+When the wrapped API does not use the HTTP plugin.
 
 #### Example
 
 ```ts
 import { test } from '@faasjs/dev'
-import { func } from './hello.func'
+import api from './hello.api.ts'
 
-const wrapped = test(func)
+const wrapped = test(api)
 const response = await wrapped.JSONhandler({ name: 'FaasJS' }, { session: { userId: '1' } })
 
 expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 ```
 
-### mount()
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`JSONhandler`](ApiTester.md#jsonhandler)
+
+### ~~mount()~~
 
 > **mount**(`handler?`): `Promise`\<`void`\>
 
-Mount the wrapped function once before running assertions.
+Mount the wrapped API once before running assertions.
 
 #### Parameters
 
 ##### handler?
 
-(`func`) => `void` \| `Promise`\<`void`\>
+(`api`) => `void` \| `Promise`\<`void`\>
 
 Optional callback invoked after mount.
 
@@ -191,36 +190,60 @@ Optional callback invoked after mount.
 
 `Promise`\<`void`\>
 
-Resolves after the function has been mounted and the callback has finished.
+Resolves after the API has been mounted and the callback has finished.
+
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`mount`](ApiTester.md#mount)
 
 ## Properties
 
-### config
+### ~~config~~
 
 > `readonly` **config**: [`Config`](../type-aliases/Config.md)
 
-Resolved config attached to the wrapped function.
+Resolved config attached to the wrapped API.
 
-### file
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`config`](ApiTester.md#config)
+
+### ~~file~~
 
 > `readonly` **file**: `string`
 
-Source file path inferred from the wrapped function.
+Source file path inferred from the wrapped API.
 
-### func
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`file`](ApiTester.md#file)
+
+### ~~func~~
 
 > `readonly` **func**: `TFunc`
 
-Wrapped function instance.
+Wrapped API instance.
 
-### logger
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`func`](ApiTester.md#func)
+
+### ~~logger~~
 
 > `readonly` **logger**: `Logger`
 
 Logger used by helper methods.
 
-### staging
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`logger`](ApiTester.md#logger)
+
+### ~~staging~~
 
 > `readonly` **staging**: `string`
 
 Active staging name used while loading config.
+
+#### Inherited from
+
+[`ApiTester`](ApiTester.md).[`staging`](ApiTester.md#staging)

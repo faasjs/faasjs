@@ -15,6 +15,7 @@ describe('index exports', () => {
 
   it('should export test helpers', () => {
     expect(dev.test).toBe(testKit.test)
+    expect(dev.ApiTester).toBe(testKit.ApiTester)
     expect(dev.FuncWarper).toBe(testKit.FuncWarper)
   })
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { Func, FuncWarper } from '../../index'
+import { ApiTester, Func } from '../../index'
 
 describe('init by func', () => {
   it('200', async () => {
@@ -9,8 +9,8 @@ describe('init by func', () => {
         return true
       },
     })
-    const warper = new FuncWarper(func)
-    const res = await warper.handler({}, {})
+    const tester = new ApiTester(func)
+    const res = await tester.handler({}, {})
 
     expect(res).toEqual(true)
   })

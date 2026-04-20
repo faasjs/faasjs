@@ -16,7 +16,7 @@
  * - `viteConfig` bundles the standard FaasJS React and Vite Plus defaults.
  * - `oxfmtConfig` and `oxlintConfig` expose the shared FaasJS formatting and lint rules.
  * - `generateFaasTypes()` emits route declarations for `@faasjs/types`.
- * - `test()` and {@link FuncWarper} help invoke and assert FaasJS functions in tests.
+ * - `test()` and {@link ApiTester} help invoke and assert FaasJS APIs in tests.
  *
  * ## Usage: Shared Vite Preset
  *
@@ -69,7 +69,7 @@
  * - Vite: {@link viteFaasJsServer}
  * - Config: {@link viteConfig}, {@link oxfmtConfig}, {@link oxlintConfig}
  * - Typegen: {@link generateFaasTypes}, {@link isTypegenInputFile}, {@link isTypegenSourceFile}
- * - Test: {@link test}, {@link FuncWarper}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
+ * - Test: {@link test}, {@link ApiTester}, {@link FuncWarper}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
  */
 
 export * from './testing'

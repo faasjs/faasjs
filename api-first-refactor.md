@@ -1,6 +1,6 @@
 # API-First Terminology Refactor
 
-Status: phases 1-3 complete, remaining phases pending
+Status: phases 1-4 complete, remaining phases pending
 Owner: maintainers / framework contributors
 Scope: next major release
 
@@ -46,6 +46,12 @@ This is a major-breaking refactor. Do not merge it as a partial rename.
   - exported `loadApiHandler` ahead of `loadFunc` from the package root while keeping legacy compatibility
   - refreshed generated API docs with `npx vp run doc`
   - validated with `npx vp test run packages/node-utils/src/__tests__/load_func.test.ts packages/node-utils/src/__tests__/load_package.test.ts packages/node-utils/src/__tests__/load_config.test.ts packages/node-utils/src/__tests__/load_plugins.test.ts packages/node-utils/src/__tests__/index.test.ts`
+- 2026-04-21: completed Phase 4 in `packages/dev`
+  - renamed the public test helper to `ApiTester` and kept `FuncWarper` as a deprecated alias
+  - switched test-helper path inference to `.api.ts` and updated public JSDoc/examples to prefer default-exported API modules
+  - renamed dev testing fixtures from `.func.ts` to `.api.ts` and updated tests to import default exports
+  - refreshed generated API docs with `npx vp run doc`
+  - validated with `npx vp test run packages/dev/src/testing/__tests__ packages/dev/src/__tests__/index.test.ts`
 
 ## Goals
 
@@ -241,22 +247,22 @@ Primary files:
 
 Checklist:
 
-- [ ] Rename the public wrapper class from `FuncWarper` to `ApiTester`.
-- [ ] Keep `FuncWarper` as a deprecated alias during migration.
-- [ ] Keep `test()` as the convenience helper name.
-- [ ] Update path inference inside the tester to look for `.api.ts`.
-- [ ] Update examples to import default exports instead of named `func`.
-- [ ] Update JSDoc to talk about wrapped APIs where appropriate while keeping
+- [x] Rename the public wrapper class from `FuncWarper` to `ApiTester`.
+- [x] Keep `FuncWarper` as a deprecated alias during migration.
+- [x] Keep `test()` as the convenience helper name.
+- [x] Update path inference inside the tester to look for `.api.ts`.
+- [x] Update examples to import default exports instead of named `func`.
+- [x] Update JSDoc to talk about wrapped APIs where appropriate while keeping
       `Func` references only where the low-level type matters.
 
 Tests to update in this phase:
 
-- [ ] `packages/dev/src/testing/__tests__/basic.test.ts`
-- [ ] `packages/dev/src/testing/__tests__/encoding.test.ts`
-- [ ] `packages/dev/src/testing/__tests__/http.test.ts`
-- [ ] `packages/dev/src/testing/__tests__/initByFunc.test.ts`
-- [ ] `packages/dev/src/testing/__tests__/use.test.ts`
-- [ ] any fixtures under `packages/dev/src/testing/fixtures/**`
+- [x] `packages/dev/src/testing/__tests__/basic.test.ts`
+- [x] `packages/dev/src/testing/__tests__/encoding.test.ts`
+- [x] `packages/dev/src/testing/__tests__/http.test.ts`
+- [x] `packages/dev/src/testing/__tests__/initByFunc.test.ts`
+- [x] `packages/dev/src/testing/__tests__/use.test.ts`
+- [x] any fixtures under `packages/dev/src/testing/fixtures/**`
 
 ### Phase 5 - Templates, Scaffolding, Benchmarks, And Fixtures
 
