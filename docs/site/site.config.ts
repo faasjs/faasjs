@@ -131,7 +131,6 @@ export const siteConfig: SiteConfig = {
               '/guidelines/pg-query-builder.html',
               '/guidelines/pg-table-types.html',
               '/guidelines/pg-schema-and-migrations.html',
-              '/guidelines/pg-raw-sql-and-client.html',
               '/guidelines/pg-testing.html',
             ],
           },
@@ -163,7 +162,6 @@ export const siteConfig: SiteConfig = {
           '/guidelines/pg-query-builder.html',
           '/guidelines/pg-table-types.html',
           '/guidelines/pg-schema-and-migrations.html',
-          '/guidelines/pg-raw-sql-and-client.html',
           '/guidelines/pg-testing.html',
         ],
         '/specs/': [
@@ -270,7 +268,6 @@ export const siteConfig: SiteConfig = {
               '/zh/guidelines/pg-query-builder.html',
               '/zh/guidelines/pg-table-types.html',
               '/zh/guidelines/pg-schema-and-migrations.html',
-              '/zh/guidelines/pg-raw-sql-and-client.html',
               '/zh/guidelines/pg-testing.html',
             ],
           },
@@ -302,7 +299,6 @@ export const siteConfig: SiteConfig = {
           '/zh/guidelines/pg-query-builder.html',
           '/zh/guidelines/pg-table-types.html',
           '/zh/guidelines/pg-schema-and-migrations.html',
-          '/zh/guidelines/pg-raw-sql-and-client.html',
           '/zh/guidelines/pg-testing.html',
         ],
         '/zh/specs/': [

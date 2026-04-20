@@ -18,10 +18,9 @@
 - [Node Utils 指南](../guidelines/node-utils.md): Node 环境下的配置加载、函数引导、模块装载与日志能力。
 - [Logger 指南](../guidelines/logger.md): 何时复用注入 logger、何时创建 `Logger` 实例，以及如何选择日志级别。
 - [Utils 指南](../guidelines/utils.md): 如何使用 `@faasjs/utils` 处理 `deepMerge` 与 stream 转换。
-- [PG 查询构建指南](../guidelines/pg-query-builder.md): 如何优先使用 `QueryBuilder` clauses、有意识地收窄结果结构，并让写查询保持保护条件。
+- [PG 查询构建与原生 SQL 指南](../guidelines/pg-query-builder.md): 如何优先使用 `QueryBuilder` clauses、谨慎选择 raw SQL 回退、保持 client 引导路径一致，并有意识地收窄结果结构。
 - [PG 表类型指南](../guidelines/pg-table-types.md): 如何通过 `Tables` 声明合并维护具体行结构，并保持查询推导与表定义一致。
 - [PG Schema 与迁移指南](../guidelines/pg-schema-and-migrations.md): 如何使用时间戳 migrations、`SchemaBuilder`、`TableBuilder` 与事务性 schema 变更。
-- [PG 原生 SQL 与 Client 指南](../guidelines/pg-raw-sql-and-client.md): 何时使用 `client.raw(...)`、如何通过 `getClient()` 引导连接，以及如何安全处理 raw SQL。
 - [PG 测试指南](../guidelines/pg-testing.md): 如何使用 `TypedPgVitestPlugin()`、共享 `DATABASE_URL` 引导路径，并让运行时断言与 `expectTypeOf(...)` 配套。
 
 ## 规范
