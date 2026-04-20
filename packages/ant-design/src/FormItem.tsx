@@ -1,5 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { useEqualEffect } from '@faasjs/react'
+import { useEqualMemo } from '@faasjs/react'
 import type { ValidatorRule } from '@rc-component/form/lib/interface'
 import {
   Form as AntdForm,
@@ -22,6 +22,7 @@ import {
   type SwitchProps,
 } from 'antd'
 import type { RuleObject } from 'antd/es/form'
+import { cloneDeep } from 'lodash-es'
 import { useState } from 'react'
 
 import { type ResolvedTheme, useConfigContext } from './Config'
@@ -159,6 +160,42 @@ function processProps(propsCopy: FormItemProps, config: ResolvedTheme['common'])
   return propsCopy
 }
 
+function createComputedProps<T>(
+  props: FormItemProps<T>,
+  config: ResolvedTheme['common'],
+  hidden: boolean,
+  setConditionalHidden: (hidden: boolean) => void,
+): FormItemProps<T> {
+  const propsCopy = cloneDeep(props) as FormItemProps<T>
+
+  delete propsCopy.extendTypes
+
+  if (propsCopy.if) {
+    const condition = propsCopy.if
+    const originShouldUpdate = propsCopy.shouldUpdate
+
+    propsCopy.shouldUpdate = (prev, cur) => {
+      const show = condition(cur as Record<string, any>)
+      const shouldUpdate = hidden !== show
+
+      setConditionalHidden(!show)
+
+      const origin = originShouldUpdate
+        ? typeof originShouldUpdate === 'boolean'
+          ? originShouldUpdate
+          : originShouldUpdate(prev, cur, {})
+        : true
+
+      return shouldUpdate || origin
+    }
+
+    delete propsCopy.if
+    delete propsCopy.hidden
+  }
+
+  return processProps(propsCopy, config)
+}
+
 /**
  * Render a FaasJS-aware Ant Design form field or nested field group.
  *
@@ -187,45 +224,13 @@ function processProps(propsCopy: FormItemProps, config: ResolvedTheme['common'])
  * ```
  */
 export function FormItem<T = any>(props: FormItemProps<T>) {
-  const [computedProps, setComputedProps] = useState<FormItemProps<T>>()
-  const [extendTypes, setExtendTypes] = useState<ExtendTypes>()
   const { theme } = useConfigContext()
   const [hidden, setHidden] = useState(props.hidden || false)
-
-  useEqualEffect(() => {
-    const { extendTypes, ...propsCopy } = { ...props }
-
-    if (extendTypes) {
-      setExtendTypes(extendTypes)
-    }
-
-    if (propsCopy.if) {
-      const condition = propsCopy.if
-      const originShouldUpdate = propsCopy.shouldUpdate
-
-      propsCopy.shouldUpdate = (prev, cur) => {
-        const show = condition(cur as Record<string, any>)
-        const shouldUpdate = hidden !== show
-
-        setHidden(!show)
-
-        const origin = originShouldUpdate
-          ? typeof originShouldUpdate === 'boolean'
-            ? originShouldUpdate
-            : originShouldUpdate(prev, cur, {})
-          : true
-
-        return shouldUpdate || origin
-      }
-
-      delete propsCopy.if
-      delete propsCopy.hidden
-    }
-
-    setComputedProps(processProps(propsCopy, theme.common))
-  }, [hidden, props, theme.common])
-
-  if (!computedProps) return null
+  const computedProps = useEqualMemo(
+    () => createComputedProps(props, theme.common, hidden, setHidden),
+    [hidden, props, theme.common],
+  )
+  const extendTypes = props.extendTypes
 
   const itemType = computedProps.type ?? 'string'
 
