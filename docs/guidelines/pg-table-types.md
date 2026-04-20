@@ -12,9 +12,10 @@ When implementing or reviewing `@faasjs/pg` table typing, default to declaration
 ## Default Workflow
 
 1. Extend `Tables` in app code with `declare module '@faasjs/pg'`.
-2. Model each table as its runtime row shape.
-3. Let `client.query`, `TableType`, `ColumnName`, and `ColumnValue` infer from that source.
-4. Add or update `expectTypeOf(...)` coverage when a shared helper or package change affects inference.
+2. Model each table as its runtime row shape, and keep JSON and JSONB object shapes in that merged interface.
+3. Let `client.query`, `TableType`, `ColumnName`, and `ColumnValue` infer from that source instead of forcing result types with `as`.
+4. Use a narrow assertion only when converting data returned by `client.raw(...)` or another raw boundary into an app-specific shape.
+5. Add or update `expectTypeOf(...)` coverage when a shared helper or package change affects inference.
 
 ## Minimal Example
 
@@ -40,6 +41,7 @@ declare module '@faasjs/pg' {
 - `Tables` drives table-name inference and column-level type inference.
 - When a table shape changes, update the merged interface before adjusting query code.
 - Keep the type definition close to the application boundary that owns the table.
+- Define JSON and JSONB column shapes in `declare module '@faasjs/pg'` instead of scattering duplicate aliases elsewhere.
 
 ### 2. Keep row shapes concrete
 
@@ -47,19 +49,25 @@ declare module '@faasjs/pg' {
 - Prefer exact object types for JSON or JSONB columns instead of `any`.
 - Include optional properties only when the stored JSON shape is genuinely optional.
 
-### 3. Preserve the consumer extension pattern
+### 3. Prefer inference over assertions
+
+- Let typed query results flow from `Tables`, `select(...)`, `first()`, and shared helper generics.
+- Do not use `as` to force query result types unless the data comes from `client.raw(...)` or another raw boundary.
+- If typed query code seems to need a cast, fix the table definition, selected columns, or helper signature instead.
+
+### 4. Preserve the consumer extension pattern
 
 - App code should keep using module augmentation on `Tables`.
 - Do not replace declaration merging with an app-specific registry or runtime-only typing.
 - When contributing to `@faasjs/pg`, keep fallback behavior for untyped tables deliberate and documented.
 
-### 4. Keep helper types aligned
+### 5. Keep helper types aligned
 
 - `TableType<T>` should represent the row shape for a known table.
 - `ColumnName<T>` should stay aligned with actual keys of the table type.
 - `ColumnValue<T, C>` should resolve to the value type for that column.
 
-### 5. Update type coverage when the surface changes
+### 6. Update type coverage when the surface changes
 
 - Add or update `expectTypeOf(...)` assertions when changing declaration merging, shared helpers, or query inference.
 - If a new query-builder feature affects result shape, test both runtime output and inferred types.
@@ -68,7 +76,8 @@ declare module '@faasjs/pg' {
 ## Review Checklist
 
 - `Tables` contains the new or changed table shape
-- JSON and JSONB columns use concrete object types
+- JSON and JSONB columns use concrete object types defined in `declare module '@faasjs/pg'`
+- typed query results do not rely on `as` outside raw boundaries
 - declaration merging still works from consumer code
 - helper types stay aligned with the merged table definition
 - public or shared type changes include `expectTypeOf(...)` coverage
