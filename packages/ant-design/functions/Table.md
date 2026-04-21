@@ -2,7 +2,7 @@
 
 # Function: Table()
 
-> **Table**\<`T`, `ExtendTypes`\>(`props`): `Element` \| `null`
+> **Table**\<`T`, `ExtendTypes`\>(`props`): `Element`
 
 Render an Ant Design table from FaasJS item metadata.
 
@@ -34,7 +34,7 @@ Table props including columns, data source, and optional Faas data config.
 
 ## Returns
 
-`Element` \| `null`
+`Element`
 
 ## Throws
 
