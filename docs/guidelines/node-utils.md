@@ -5,9 +5,9 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 ## Use This Guide When
 
 - running FaasJS handlers, CLIs, tests, or bootstrap scripts directly in Node.js
-- reading merged staged `faas.yaml` config for a specific function file
+- reading merged staged `faas.yaml` config for a specific API file
 - parsing the FaasJS YAML subset in custom Node.js tooling
-- turning a function module into a runnable exported handler
+- turning an API module into a runnable exported handler
 - loading YAML-defined plugins into a `Func` instance
 - importing local TypeScript modules with tsconfig path aliases in plain Node
 - validating whether a candidate file path still stays inside an allowed root directory
@@ -59,7 +59,7 @@ try {
 ### 3. Let `loadConfig()` resolve staged `faas.yaml`
 
 - Do not reimplement directory walking or manual deep merging for `faas.yaml`.
-- `loadConfig()` walks from project root to the function directory, merges nested files, applies `defaults`, and annotates plugin entries with their resolved `name`.
+- `loadConfig()` walks from project root to the target API directory, merges nested files, applies `defaults`, and annotates plugin entries with their resolved `name`.
 - This keeps runtime behavior consistent with FaasJS plugin loading.
 
 ```ts

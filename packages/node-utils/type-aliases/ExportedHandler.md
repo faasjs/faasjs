@@ -4,7 +4,7 @@
 
 > **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\> = (`event?`, `context?`, `callback?`) => `Promise`\<`TResult`\>
 
-Promise-based handler signature exported by packaged FaasJS function modules.
+Promise-based handler signature exported by packaged FaasJS API modules.
 
 The optional callback keeps compatibility with runtimes that still expose a Node-style completion API.
 

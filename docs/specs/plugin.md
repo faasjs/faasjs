@@ -56,7 +56,7 @@ Related references:
 ### 3. Configuration Layering And Precedence
 
 1. Plugin configuration MAY be authored in code, in `faas.yaml`, or both.
-2. `faas.yaml` plugin config MUST support directory-level layering from project root toward the target function directory.
+2. `faas.yaml` plugin config MUST support directory-level layering from project root toward the target API directory.
 3. When multiple `faas.yaml` files contribute config for the same plugin id, the deeper directory MUST override the shallower directory while preserving unspecified fields through deep merge.
 4. Code-authored plugin config MUST override merged `faas.yaml` config for the same plugin id.
 5. Plugin config merging MUST use plugin `name` as the identity key.
