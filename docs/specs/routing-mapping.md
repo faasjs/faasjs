@@ -33,10 +33,10 @@ Related references:
 
 ### 1. File naming and placement
 
-1. API entry files MUST end with `.func.ts`.
+1. API entry files MUST end with `.api.ts`.
 2. API files SHOULD be placed under `api/` directories for SPA-style projects.
 3. API files MUST NOT be placed under `components/` directories.
-4. Files other than `*.func.ts` MUST NOT create API routes implicitly.
+4. Files other than `*.api.ts` MUST NOT create API routes implicitly.
 
 ### 2. Zero-mapping routing
 
@@ -48,29 +48,29 @@ Related references:
 
 Given API request path `<p>`, route resolution MUST probe in this order:
 
-1. `<p>.func.ts`
-2. `<p>/index.func.ts`
-3. `<p>/default.func.ts`
-4. Parent fallback chain: `<parent>/default.func.ts` up to root scope
+1. `<p>.api.ts`
+2. `<p>/index.api.ts`
+3. `<p>/default.api.ts`
+4. Parent fallback chain: `<parent>/default.api.ts` up to root scope
 
 If no candidate exists, the request is treated as not found.
 
 ## Examples
 
-| File                               | Route                                          |
-| ---------------------------------- | ---------------------------------------------- |
-| `src/pages/todo/api/list.func.ts`  | `POST /pages/todo/api/list`                    |
-| `src/pages/todo/api/index.func.ts` | `POST /pages/todo/api`                         |
-| `src/pages/todo/default.func.ts`   | fallback for `/pages/todo/*`                   |
-| `src/pages/default.func.ts`        | fallback for unmatched routes under `/pages/*` |
+| File                              | Route                                          |
+| --------------------------------- | ---------------------------------------------- |
+| `src/pages/todo/api/list.api.ts`  | `POST /pages/todo/api/list`                    |
+| `src/pages/todo/api/index.api.ts` | `POST /pages/todo/api`                         |
+| `src/pages/todo/default.api.ts`   | fallback for `/pages/todo/*`                   |
+| `src/pages/default.api.ts`        | fallback for unmatched routes under `/pages/*` |
 
 API fallback example:
 
 - Request: `POST /pages/todo/item/unknown`
 - Probe order:
-  1. `src/pages/todo/item/unknown.func.ts`
-  2. `src/pages/todo/item/unknown/index.func.ts`
-  3. `src/pages/todo/item/unknown/default.func.ts`
-  4. `src/pages/todo/item/default.func.ts`
-  5. `src/pages/todo/default.func.ts`
-  6. `src/pages/default.func.ts`
+  1. `src/pages/todo/item/unknown.api.ts`
+  2. `src/pages/todo/item/unknown/index.api.ts`
+  3. `src/pages/todo/item/unknown/default.api.ts`
+  4. `src/pages/todo/item/default.api.ts`
+  5. `src/pages/todo/default.api.ts`
+  6. `src/pages/default.api.ts`

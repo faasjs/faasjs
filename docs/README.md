@@ -68,14 +68,14 @@ npx create-faas-app --name faasjs-admin --template antd
 
 ## Examples
 
-### Cloud function's file
+### API file
 
 ```ts
-// index.func.ts
-// all cloud function file should be ended with .func.ts
+// index.api.ts
+// all API entry files should end with .api.ts
 import { defineApi } from '@faasjs/core'
 
-export const func = defineApi({
+export default defineApi({
   async handler() {
     return 'Hello, world' // response content
   },
@@ -89,15 +89,15 @@ export const func = defineApi({
 // unit test files should end with .test.ts
 // jsdom UI tests should use .ui.test.ts or .ui.test.tsx
 import { test } from '@faasjs/dev'
-import Func from '../index.func'
+import api from '../index.api'
 
 describe('index', function () {
   it('should work', async function () {
-    // wrap the cloud function
-    const func = test(Func)
+    // wrap the API module
+    const wrapped = test(api)
 
     // mock the request
-    const { statusCode, data } = await func.JSONhandler()
+    const { statusCode, data } = await wrapped.JSONhandler()
 
     // expect the response with 200 status
     expect(statusCode).toEqual(200)

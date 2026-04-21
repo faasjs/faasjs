@@ -16,7 +16,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 ## What `@faasjs/node-utils` Gives You
 
 - config loading: `loadConfig`, `parseYaml`
-- function loading: `loadFunc`, `loadPlugins`
+- API loading: `loadApiHandler`, `loadPlugins`
 - Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `detectNodeRuntime`, `resetRuntime`
 - filesystem containment checks: `isPathInsideRoot`
 - logging and log shipping: `Logger`, `formatLogger`, `getTransport`, `Transport`, `colorfy`
@@ -27,7 +27,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 2. Load env files early with Node's built-in `loadEnvFile()` if the process relies on local dotenv files.
 3. Use `loadConfig()` when you only need staged `faas.yaml` data.
 4. Use `parseYaml()` when you need the raw FaasJS YAML subset in custom tooling without staged discovery.
-5. Use `loadFunc()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
+5. Use `loadApiHandler()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
 6. Prefer the FaasJS TypeScript loader when direct Node execution must understand local TypeScript files or tsconfig aliases, and keep local imports extensionless without `.ts` or `.tsx` suffixes.
 7. Use `isPathInsideRoot()` before reading or loading root-scoped files from user-controlled or URL-derived paths.
 8. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
@@ -65,7 +65,7 @@ try {
 ```ts
 import { loadConfig } from '@faasjs/node-utils'
 
-const config = loadConfig(process.cwd(), '/project/src/orders/create.func.ts', 'production')
+const config = loadConfig(process.cwd(), '/project/src/orders/create.api.ts', 'production')
 
 console.log(config.plugins?.http)
 ```
@@ -74,14 +74,14 @@ console.log(config.plugins?.http)
 
 - Use `parseYaml()` when your script receives YAML text directly and you want the same supported subset and error messages as FaasJS config parsing.
 - `parseYaml()` does not walk directories, apply staging fallbacks, or validate the `faas.yaml` schema, so validate the parsed shape yourself when you are not calling `loadConfig()`.
-- Use `loadFunc()` when you need the final handler that a runtime or test will invoke.
+- Use `loadApiHandler()` when you need the final handler that a runtime or test will invoke.
 - Use `loadPlugins()` when you already have a `Func` instance and want YAML-driven plugins and config attached before exporting or mounting it.
 - Use `loadPackage()` for general dynamic module loading in Node.js, especially when the target is a local TypeScript file or a path-alias-aware module.
 - Prefer these helpers over ad hoc `import()` wrappers so cache busting, tsconfig resolution, and plugin wiring stay consistent.
 
 ```ts
 import { loadEnvFile } from 'node:process'
-import { loadFunc, parseYaml } from '@faasjs/node-utils'
+import { loadApiHandler, parseYaml } from '@faasjs/node-utils'
 
 loadEnvFile()
 
@@ -95,9 +95,9 @@ const pluginDefaults = parseYaml(`defaults:
             secret: 'replace-me'
 `)
 
-const handler = await loadFunc(
+const handler = await loadApiHandler(
   process.cwd(),
-  '/project/src/orders/create.func.ts',
+  '/project/src/orders/create.api.ts',
   process.env.NODE_ENV || 'development',
 )
 
@@ -151,9 +151,9 @@ if (!isPathInsideRoot(candidate, root)) {
 
 - `@faasjs/node-utils` imports stay in Node-only code
 - local scripts load `.env` before env-dependent bootstrap logic
-- staged `faas.yaml` is read through `loadConfig()` or `loadFunc()`, not custom merge code
+- staged `faas.yaml` is read through `loadConfig()` or `loadApiHandler()`, not custom merge code
 - raw FaasJS-compatible YAML parsing uses `parseYaml()` instead of a different YAML parser
-- loaders use `loadFunc()`, `loadPlugins()`, or `loadPackage()` instead of custom dynamic import wrappers
+- loaders use `loadApiHandler()`, `loadPlugins()`, or `loadPackage()` instead of custom dynamic import wrappers
 - module hooks are registered at process startup, not deep inside feature code
 - root-scoped file access validates resolved paths with `isPathInsideRoot()`
 - tests that depend on fresh loader state use `resetRuntime()`
@@ -162,11 +162,11 @@ if (!isPathInsideRoot(candidate, root)) {
 ## Read Next
 
 - [Logger Guide](./logger.md)
-- [@faasjs/node-utils package reference](/doc/node-utils/)
-- [isPathInsideRoot](/doc/node-utils/functions/isPathInsideRoot.html)
-- [loadConfig](/doc/node-utils/functions/loadConfig.html)
-- [loadFunc](/doc/node-utils/functions/loadFunc.html)
-- [loadPackage](/doc/node-utils/functions/loadPackage.html)
-- [loadPlugins](/doc/node-utils/functions/loadPlugins.html)
-- [parseYaml](/doc/node-utils/functions/parseYaml.html)
-- [registerNodeModuleHooks](/doc/node-utils/functions/registerNodeModuleHooks.html)
+- [@faasjs/node-utils package reference](../references/packages/node-utils/README.md)
+- [isPathInsideRoot](../references/packages/node-utils/functions/isPathInsideRoot.md)
+- [loadConfig](../references/packages/node-utils/functions/loadConfig.md)
+- [loadApiHandler](../references/packages/node-utils/functions/loadApiHandler.md)
+- [loadPackage](../references/packages/node-utils/functions/loadPackage.md)
+- [loadPlugins](../references/packages/node-utils/functions/loadPlugins.md)
+- [parseYaml](../references/packages/node-utils/functions/parseYaml.md)
+- [registerNodeModuleHooks](../references/packages/node-utils/functions/registerNodeModuleHooks.md)

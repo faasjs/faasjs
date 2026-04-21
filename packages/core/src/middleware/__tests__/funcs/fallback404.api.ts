@@ -1,8 +1,8 @@
 import { staticHandler, useMiddleware } from '../../../middleware'
 
-export const func = useMiddleware(
+export default useMiddleware(
   staticHandler({
     root: __dirname,
-    notFound: 'useMiddleware.func.ts',
+    notFound: 'useMiddleware.api.ts',
   }),
 )

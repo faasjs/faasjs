@@ -22,7 +22,7 @@ const basicFiles = [
   'src/faas.yaml',
   'src/main.tsx',
   'src/pages/home/api/__tests__/hello.test.ts',
-  'src/pages/home/api/hello.func.ts',
+  'src/pages/home/api/hello.api.ts',
   'src/pages/home/index.tsx',
   'src/react-client.ts',
   'tsconfig.json',
@@ -37,7 +37,7 @@ const antdFiles = [
   'src/faas.yaml',
   'src/main.tsx',
   'src/pages/home/api/__tests__/hello.test.ts',
-  'src/pages/home/api/hello.func.ts',
+  'src/pages/home/api/hello.api.ts',
   'src/pages/home/index.tsx',
   'tsconfig.json',
   'vite.config.ts',
@@ -115,6 +115,10 @@ describe('action', () => {
     expect(read(rootPath, 'server.ts')).toContain(
       "console.warn('[faasjs] Failed to load env file', error)",
     )
+    expect(read(rootPath, 'src/pages/home/api/hello.api.ts')).toContain('export default defineApi(')
+    expect(read(rootPath, 'src/pages/home/api/__tests__/hello.test.ts')).toContain(
+      "import api from '../hello.api'",
+    )
     expect(read(rootPath, 'src/react-client.ts')).toContain(
       "import { FaasReactClient } from '@faasjs/react'",
     )
@@ -145,6 +149,10 @@ describe('action', () => {
     expect(read(rootPath, 'server.ts')).toContain('loadEnvFile()')
     expect(read(rootPath, 'server.ts')).toContain(
       "console.warn('[faasjs] Failed to load env file', error)",
+    )
+    expect(read(rootPath, 'src/pages/home/api/hello.api.ts')).toContain('export default defineApi(')
+    expect(read(rootPath, 'src/pages/home/api/__tests__/hello.test.ts')).toContain(
+      "import api from '../hello.api'",
     )
     expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(

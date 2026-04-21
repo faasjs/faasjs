@@ -145,6 +145,7 @@ describe('logger', () => {
       FaasLogTransport: process.env.FaasLogTransport,
       FORCE_COLOR: process.env.FORCE_COLOR,
       NO_COLOR: process.env.NO_COLOR,
+      TERM: process.env.TERM,
       npm_config_argv: process.env.npm_config_argv,
     }
     const originalStdoutIsTTY = process.stdout.isTTY
@@ -161,6 +162,7 @@ describe('logger', () => {
       delete process.env.FaasLogMode
       delete process.env.NO_COLOR
       delete process.env.FORCE_COLOR
+      delete process.env.TERM
       Object.defineProperty(process.stdout, 'isTTY', { configurable: true, value: true })
       const tty = new Logger()
       expect(tty.colorfyOutput).toBe(true)

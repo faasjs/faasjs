@@ -7,7 +7,7 @@
 Infer the API type from a module.
 
 Supports `export default defineApi(...)` first and falls back to the legacy
-`export const func = defineApi(...)` pattern during migration.
+`func` export shape during migration.
 
 ## Type Parameters
 

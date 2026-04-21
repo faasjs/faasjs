@@ -53,14 +53,14 @@ npx create-faas-app --name faasjs-admin --template antd
 
 ## 代码示例
 
-### 云函数文件
+### API 文件
 
 ```ts
-// index.func.ts
-// 云函数文件都以 .func.ts 结尾
+// index.api.ts
+// API 入口文件都以 .api.ts 结尾
 import { defineApi } from '@faasjs/core'
 
-export const func = defineApi({
+export default defineApi({
   async handler() {
     return 'Hello, world' // 返回的内容
   },
@@ -74,15 +74,15 @@ export const func = defineApi({
 // 普通单元测试文件以 .test.ts 结尾
 // 需要 jsdom 的 UI 测试使用 .ui.test.ts 或 .ui.test.tsx
 import { test } from '@faasjs/dev'
-import { func } from '../index.func'
+import api from '../index.api'
 
 describe('index', function () {
   it('should work', async function () {
-    // 包装云函数
-    const testFunc = test(func)
+    // 包装 API 模块
+    const wrapped = test(api)
 
     // 模拟请求
-    const { statusCode, data } = await testFunc.JSONhandler()
+    const { statusCode, data } = await wrapped.JSONhandler()
 
     // 断言返回 200 状态
     expect(statusCode).toEqual(200)

@@ -31,7 +31,7 @@
 
 ### 2. 发现与合并顺序
 
-1. 对于位于 `<srcRoot>/<path>/<file>.func.ts` 的函数文件，loader 必须按从浅到深的顺序发现配置文件：
+1. 对于位于 `<srcRoot>/<path>/<file>.api.ts` 的 API 文件，loader 必须按从浅到深的顺序发现配置文件：
    - `<srcRoot>/faas.yaml`
    - `<srcRoot>/<path-segment-1>/faas.yaml`
    - ...

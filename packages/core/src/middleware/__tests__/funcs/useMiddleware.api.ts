@@ -1,5 +1,5 @@
 import { useMiddleware } from '../../../middleware'
 
-export const func = useMiddleware(function handle(_, response) {
+export default useMiddleware(function handle(_, response) {
   response.end('useMiddleware')
 })

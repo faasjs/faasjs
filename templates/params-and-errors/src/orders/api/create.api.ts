@@ -1,6 +1,6 @@
 import { defineApi, HttpError, z } from '@faasjs/core'
 
-export const func = defineApi({
+export default defineApi({
   schema: z
     .object({
       title: z.string().min(1),

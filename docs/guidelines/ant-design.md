@@ -37,11 +37,11 @@ src/pages/
     hooks/
       useUserItems.ts
     api/
-      create.func.ts
-      detail.func.ts
-      list.func.ts
-      remove.func.ts
-      update.func.ts
+      create.api.ts
+      detail.api.ts
+      list.api.ts
+      remove.api.ts
+      update.api.ts
 ```
 
 This keeps:
@@ -654,12 +654,12 @@ function UserForm(props: FormProps<any, UserFormItem>) {
 - [File Conventions](./file-conventions.md)
 - [defineApi Guide](./define-api.md)
 - [React Data Fetching Guide](./react-data-fetching.md)
-- [@faasjs/ant-design](/doc/ant-design/)
-- [App](/doc/ant-design/functions/App.html)
-- [Routes](/doc/ant-design/functions/Routes.html)
-- [Form](/doc/ant-design/functions/Form.html)
-- [Description](/doc/ant-design/functions/Description.html)
-- [Table](/doc/ant-design/functions/Table.html)
-- [useApp](/doc/ant-design/functions/useApp.html)
-- [useModal](/doc/ant-design/functions/useModal.html)
-- [useDrawer](/doc/ant-design/functions/useDrawer.html)
+- [@faasjs/ant-design](../references/packages/ant-design/README.md)
+- [App](../references/packages/ant-design/functions/App.md)
+- [Routes](../references/packages/ant-design/functions/Routes.md)
+- [Form](../references/packages/ant-design/functions/Form.md)
+- [Description](../references/packages/ant-design/functions/Description.md)
+- [Table](../references/packages/ant-design/functions/Table.md)
+- [useApp](../references/packages/ant-design/functions/useApp.md)
+- [useModal](../references/packages/ant-design/functions/useModal.md)
+- [useDrawer](../references/packages/ant-design/functions/useDrawer.md)

@@ -23,7 +23,7 @@ describe.sequential('routing fallback', () => {
     await closeAll()
   })
 
-  it('matches index.func.ts', async () => {
+  it('matches index.api.ts', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/blog/api`, {
       method: 'POST',
       headers: {
@@ -40,7 +40,7 @@ describe.sequential('routing fallback', () => {
     })
   })
 
-  it('falls back to blog/api/default.func.ts', async () => {
+  it('falls back to blog/api/default.api.ts', async () => {
     const response = await fetch(`http://127.0.0.1:${port}/blog/api/unknown`, {
       method: 'POST',
       headers: {

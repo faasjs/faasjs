@@ -1,9 +1,9 @@
 import { defineApi } from '@faasjs/core'
 
-export const func = defineApi({
+export default defineApi({
   async handler({ event }) {
     return {
-      route: 'blog/api/post/default',
+      route: 'blog/api/default',
       path: event.path,
     }
   },

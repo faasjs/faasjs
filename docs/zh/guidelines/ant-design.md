@@ -37,11 +37,11 @@ src/pages/
     hooks/
       useUserItems.ts
     api/
-      create.func.ts
-      detail.func.ts
-      list.func.ts
-      remove.func.ts
-      update.func.ts
+      create.api.ts
+      detail.api.ts
+      list.api.ts
+      remove.api.ts
+      update.api.ts
 ```
 
 这样可以把：

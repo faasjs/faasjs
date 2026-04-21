@@ -7,7 +7,7 @@ Use this guide when creating or reviewing frontend pages, React components, hook
 - creating a new page, component, or hook
 - reorganizing frontend folders
 - adding page or feature folders under `pages/`
-- creating or moving `.func.ts` backend files
+- creating or moving `.api.ts` backend files
 - reviewing whether file names and locations stay predictable for humans and agents
 
 ## Default Workflow
@@ -80,7 +80,7 @@ src/pages/
       useFeatureNameData.ts
       useFeatureNameFilters.ts
     api/
-      list.func.ts
+      list.api.ts
 ```
 
 Avoid this:
@@ -116,17 +116,17 @@ Frontend page organization under `src/pages` is a project convention, not an imp
 ### 4. Follow routing-mapping for backend files
 
 - Backend route files MUST follow the routing-mapping specification.
-- API entry files MUST end with `.func.ts`.
+- API entry files MUST end with `.api.ts`.
 - API files SHOULD be placed under the page or feature's `api/` directory.
 - Route paths and file paths MUST keep direct Zero-Mapping alignment.
-- Use `index.func.ts` and `default.func.ts` only for the meanings defined by the spec.
+- Use `index.api.ts` and `default.api.ts` only for the meanings defined by the spec.
 
 Prefer this:
 
 ```text
-src/pages/feature-name/api/list.func.ts
-src/pages/feature-name/api/index.func.ts
-src/pages/feature-name/api/default.func.ts
+src/pages/feature-name/api/list.api.ts
+src/pages/feature-name/api/index.api.ts
+src/pages/feature-name/api/default.api.ts
 ```
 
 This maps directly to:
@@ -156,7 +156,7 @@ This maps directly to:
 - frontend hooks live in `hooks/`
 - frontend backend handlers live in `api/`
 - only page entry files stay at the outer page or feature level
-- backend `.func.ts` files follow routing-mapping
+- backend `.api.ts` files follow routing-mapping
 - imports follow aliases already defined in `tsconfig.json` when available
 - nearby imports stay relative instead of forcing alias usage everywhere
 

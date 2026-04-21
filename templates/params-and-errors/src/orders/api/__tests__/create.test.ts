@@ -1,10 +1,10 @@
 import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { func } from '../create.func'
+import api from '../create.api'
 
 describe('orders/api/create', () => {
-  const wrapped = test(func)
+  const wrapped = test(api)
 
   it('returns success payload when params are valid', async () => {
     const response = await wrapped.JSONhandler({

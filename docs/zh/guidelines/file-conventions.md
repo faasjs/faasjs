@@ -7,7 +7,7 @@
 - 创建新页面、组件或 hook
 - 重组前端目录结构
 - 在 `pages/` 下新增页面或 feature 目录
-- 创建或移动 `.func.ts` 后端文件
+- 创建或移动 `.api.ts` 后端文件
 - 评审文件名与文件位置是否对人类和 AI agent 都保持可预测
 
 ## 默认工作流
@@ -80,7 +80,7 @@ src/pages/
       useFeatureNameData.ts
       useFeatureNameFilters.ts
     api/
-      list.func.ts
+      list.api.ts
 ```
 
 避免这样组织：
@@ -116,17 +116,17 @@ src/pages/docs/index.tsx
 ### 4. 后端文件遵循 routing-mapping
 
 - 后端路由文件必须遵循 routing-mapping 规范。
-- API 入口文件必须以 `.func.ts` 结尾。
+- API 入口文件必须以 `.api.ts` 结尾。
 - API 文件应放在该页面或 feature 的 `api/` 目录下。
 - 路由路径与文件路径必须保持直接的 Zero-Mapping 对齐。
-- 只有在规范定义的语义下，才使用 `index.func.ts` 和 `default.func.ts`。
+- 只有在规范定义的语义下，才使用 `index.api.ts` 和 `default.api.ts`。
 
 优先这样组织：
 
 ```text
-src/pages/feature-name/api/list.func.ts
-src/pages/feature-name/api/index.func.ts
-src/pages/feature-name/api/default.func.ts
+src/pages/feature-name/api/list.api.ts
+src/pages/feature-name/api/index.api.ts
+src/pages/feature-name/api/default.api.ts
 ```
 
 它会直接映射为：
@@ -156,7 +156,7 @@ src/pages/feature-name/api/default.func.ts
 - 前端 hooks 位于 `hooks/`
 - 前端对应的后端处理器位于 `api/`
 - 只有页面入口文件位于外层页面或 feature 目录
-- 后端 `.func.ts` 文件遵循 routing-mapping
+- 后端 `.api.ts` 文件遵循 routing-mapping
 - 导入路径在适用时遵循 `tsconfig.json` 已定义的 alias
 - 相邻模块保持相对导入，不强行把所有导入都改成 alias
 

@@ -114,7 +114,7 @@ export type InferFaasAction<TFunc extends FaasFuncLike> = TFunc extends {
  * Infer the API type from a module.
  *
  * Supports `export default defineApi(...)` first and falls back to the legacy
- * `export const func = defineApi(...)` pattern during migration.
+ * `func` export shape during migration.
  *
  * @template TModule - Module shape that may expose a FaasJS API.
  */

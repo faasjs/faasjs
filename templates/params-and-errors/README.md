@@ -7,10 +7,12 @@ Validate JSON input with Zod and handle API errors in a predictable way.
 ## What you learn / 你将学到
 
 - Schema-first API input validation.
+- Why the endpoint lives in `create.api.ts` and uses a default-exported API module.
 - Difference between `HttpError` (custom status) and generic `Error` (500).
 - How to write tests for success and failure paths.
 
 - 基于 schema 的参数校验方式。
+- 为什么接口入口使用 `create.api.ts` 并采用默认导出的 API 模块。
 - `HttpError`（可自定义状态码）与普通 `Error`（500）的区别。
 - 如何覆盖成功与失败分支测试。
 

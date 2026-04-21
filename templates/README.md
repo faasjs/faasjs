@@ -10,11 +10,11 @@ All templates are independent projects.
 
 ## Learning Path 学习路径
 
-| Order | Template                                    | You will learn                                         | 你将学到              |
-| ----- | ------------------------------------------- | ------------------------------------------------------ | --------------------- |
-| 1     | [`hello-api`](./hello-api/)                 | Smallest `defineApi` + unit test                       | 最小可运行 API 与单测 |
-| 2     | [`routing-fallback`](./routing-fallback/)   | `index.func.ts` and `default.func.ts` routing fallback | 路由命中与逐级兜底    |
-| 3     | [`params-and-errors`](./params-and-errors/) | Zod validation and API error handling                  | 参数校验与错误处理    |
+| Order | Template                                    | You will learn                                       | 你将学到              |
+| ----- | ------------------------------------------- | ---------------------------------------------------- | --------------------- |
+| 1     | [`hello-api`](./hello-api/)                 | Smallest `defineApi` + unit test                     | 最小可运行 API 与单测 |
+| 2     | [`routing-fallback`](./routing-fallback/)   | `index.api.ts` and `default.api.ts` routing fallback | 路由命中与逐级兜底    |
+| 3     | [`params-and-errors`](./params-and-errors/) | Zod validation and API error handling                | 参数校验与错误处理    |
 
 ## Quick Start 快速开始
 
@@ -45,6 +45,7 @@ vp run dev
 
 ## Conventions 约定
 
-- API files end with `.func.ts`.
+- API files end with `.api.ts`.
+- API modules prefer `export default defineApi(...)`.
 - `faas.yaml` is under `src/faas.yaml`.
 - Request style follows FaasJS defaults: POST + JSON.

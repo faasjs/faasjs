@@ -1,6 +1,6 @@
 import { Func, Http } from '@faasjs/core'
 
-export const func = new Func({
+export default new Func({
   plugins: [
     new Http({
       config: {

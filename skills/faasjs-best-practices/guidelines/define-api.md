@@ -4,25 +4,25 @@ When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 
 ## Use This Guide When
 
-- creating a new `.func.ts` API
+- creating a new `.api.ts` API module
 - reviewing request validation, error handling, return shape, or injected HTTP helpers
 - updating a route that should stay compatible with generated Faas action types
 
 ## Default Workflow
 
-1. Export `const func = defineApi(...)`.
+1. Export `default defineApi(...)`.
 2. Write the `schema` inline in `defineApi` unless it is reused elsewhere.
 3. Keep business logic direct inside `handler({ params })` unless a shared boundary already exists.
 4. Return business data directly unless protocol-level response control is required.
 5. After creating, renaming, or moving an API file, run `faas types` to update `src/.faasjs/types.d.ts`.
-6. Add a focused test with `test(func).JSONhandler(...)`.
+6. Add a focused test with `test(api).JSONhandler(...)`.
 
 ## Minimal Example
 
 ```ts
 import { defineApi, z } from '@faasjs/core'
 
-export const func = defineApi({
+export default defineApi({
   schema: z.object({
     name: z.string().min(1).optional(),
   }),
@@ -45,7 +45,7 @@ export const func = defineApi({
 Prefer this:
 
 ```ts
-export const func = defineApi({
+export default defineApi({
   schema: z.object({
     id: z.coerce.number().int().positive(),
   }),
@@ -84,7 +84,7 @@ Example:
 ```ts
 import { defineApi, HttpError, z } from '@faasjs/core'
 
-export const func = defineApi({
+export default defineApi({
   schema: z.object({
     title: z.string().min(1),
     price: z.number().positive(),
@@ -157,7 +157,7 @@ declare module '@faasjs/core' {
 
 ### 7. Run type generation after changing APIs
 
-After creating, renaming, or moving a `.func.ts` file, run:
+After creating, renaming, or moving a `.api.ts` file, run:
 
 ```bash
 faas types
@@ -190,10 +190,10 @@ Example:
 import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { func } from '../create.func'
+import api from '../create.api'
 
 describe('orders/api/create', () => {
-  const wrapped = test(func)
+  const wrapped = test(api)
 
   it('returns 400 when params are invalid', async () => {
     const response = await wrapped.JSONhandler({
@@ -238,5 +238,5 @@ describe('orders/api/create', () => {
 - [DefineApiOptions](../references/packages/core/type-aliases/DefineApiOptions.md)
 - [HttpError](../references/packages/core/classes/HttpError.md)
 - [test](../references/packages/dev/functions/test.md)
-- [FuncWarper](../references/packages/dev/classes/FuncWarper.md)
+- [ApiTester](../references/packages/dev/classes/ApiTester.md)
 - [generateFaasTypes](../references/packages/dev/functions/generateFaasTypes.md)

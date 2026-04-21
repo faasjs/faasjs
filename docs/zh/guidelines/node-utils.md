@@ -16,7 +16,7 @@
 ## `@faasjs/node-utils` 提供什么
 
 - 配置加载：`loadConfig`、`parseYaml`
-- 函数加载：`loadFunc`、`loadPlugins`
+- API 加载：`loadApiHandler`、`loadPlugins`
 - Node 模块引导：`loadPackage`、`registerNodeModuleHooks`、`detectNodeRuntime`、`resetRuntime`
 - 文件系统边界校验：`isPathInsideRoot`
 - 日志与日志转运：`Logger`、`formatLogger`、`getTransport`、`Transport`、`colorfy`
@@ -27,7 +27,7 @@
 2. 如果进程依赖本地 dotenv 文件，尽早用 Node 内置的 `loadEnvFile()` 加载 env。
 3. 当你只需要分阶段的 `faas.yaml` 数据时，使用 `loadConfig()`。
 4. 当你需要在自定义工具中处理 FaasJS 原始 YAML 子集、且不需要 staged discovery 时，使用 `parseYaml()`。
-5. 当你需要最终可运行的导出 handler 时使用 `loadFunc()`；如果你已经有了 `Func` 实例，则使用 `loadPlugins()`。
+5. 当你需要最终可运行的导出 handler 时使用 `loadApiHandler()`；如果你已经有了 `Func` 实例，则使用 `loadPlugins()`。
 6. 当直接在 Node 中执行并且需要理解本地 TypeScript 文件或 tsconfig aliases 时，优先使用 FaasJS TypeScript loader，并保持本地导入不带 `.ts` 或 `.tsx` 后缀。
 7. 当你要从用户输入或 URL 推导出 root-scoped 文件路径时，先用 `isPathInsideRoot()` 做校验。
 8. 复用 `Logger` 和共享 transport，而不是自己再包一套日志封装。
@@ -65,7 +65,7 @@ try {
 ```ts
 import { loadConfig } from '@faasjs/node-utils'
 
-const config = loadConfig(process.cwd(), '/project/src/orders/create.func.ts', 'production')
+const config = loadConfig(process.cwd(), '/project/src/orders/create.api.ts', 'production')
 
 console.log(config.plugins?.http)
 ```
@@ -74,14 +74,14 @@ console.log(config.plugins?.http)
 
 - 当脚本直接接收 YAML 文本，并且你希望得到与 FaasJS 配置解析相同的受支持子集与错误信息时，使用 `parseYaml()`。
 - `parseYaml()` 不会遍历目录、应用 staging fallback，也不会校验 `faas.yaml` schema；当你没有走 `loadConfig()` 时，需要自行校验解析结果的结构。
-- 需要最终 handler 时，使用 `loadFunc()`。
+- 需要最终 handler 时，使用 `loadApiHandler()`。
 - 当你已经有 `Func` 实例，并希望在导出或挂载前附加 YAML 驱动的 plugins 与 config 时，使用 `loadPlugins()`。
 - 一般性的 Node 动态模块加载，尤其目标是本地 TypeScript 文件或支持 path alias 的模块时，使用 `loadPackage()`。
 - 优先使用这些 helpers，而不是临时写 `import()` 包装，这样 cache busting、tsconfig 解析和 plugin 装载行为才能保持一致。
 
 ```ts
 import { loadEnvFile } from 'node:process'
-import { loadFunc, parseYaml } from '@faasjs/node-utils'
+import { loadApiHandler, parseYaml } from '@faasjs/node-utils'
 
 loadEnvFile()
 
@@ -95,9 +95,9 @@ const pluginDefaults = parseYaml(`defaults:
             secret: 'replace-me'
 `)
 
-const handler = await loadFunc(
+const handler = await loadApiHandler(
   process.cwd(),
-  '/project/src/orders/create.func.ts',
+  '/project/src/orders/create.api.ts',
   process.env.NODE_ENV || 'development',
 )
 
@@ -151,9 +151,9 @@ if (!isPathInsideRoot(candidate, root)) {
 
 - `@faasjs/node-utils` 的导入只出现在 Node-only 代码中
 - 本地脚本在依赖环境变量的 bootstrap 逻辑前先加载了 `.env`
-- staged `faas.yaml` 通过 `loadConfig()` 或 `loadFunc()` 读取，而不是自定义 merge 逻辑
+- staged `faas.yaml` 通过 `loadConfig()` 或 `loadApiHandler()` 读取，而不是自定义 merge 逻辑
 - 原始 FaasJS 兼容 YAML 使用 `parseYaml()` 解析，而不是另一个 YAML parser
-- 加载逻辑使用 `loadFunc()`、`loadPlugins()` 或 `loadPackage()`，而不是自定义动态 import 包装
+- 加载逻辑使用 `loadApiHandler()`、`loadPlugins()` 或 `loadPackage()`，而不是自定义动态 import 包装
 - module hooks 在进程启动阶段注册，而不是深埋在 feature 代码中
 - root-scoped 文件访问会用 `isPathInsideRoot()` 校验已解析路径
 - 依赖全新 loader 状态的测试使用了 `resetRuntime()`
@@ -165,7 +165,7 @@ if (!isPathInsideRoot(candidate, root)) {
 - [@faasjs/node-utils package reference](/doc/node-utils/)
 - [isPathInsideRoot](/doc/node-utils/functions/isPathInsideRoot.html)
 - [loadConfig](/doc/node-utils/functions/loadConfig.html)
-- [loadFunc](/doc/node-utils/functions/loadFunc.html)
+- [loadApiHandler](/doc/node-utils/functions/loadApiHandler.html)
 - [loadPackage](/doc/node-utils/functions/loadPackage.html)
 - [loadPlugins](/doc/node-utils/functions/loadPlugins.html)
 - [parseYaml](/doc/node-utils/functions/parseYaml.html)

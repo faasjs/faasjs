@@ -98,6 +98,7 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
   const failedOnceRef = useRef(false)
   const pendingReloadsRef = useRef<Map<number, PendingReload<Result>>>(new Map())
   const reloadCounterRef = useRef(0)
+  const requestVersionRef = useRef(0)
   const beforeSendRef = useRef(beforeSend)
   const onSuccessRef = useRef(onSuccess)
   const sendRef = useRef(send)
@@ -125,6 +126,7 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
     failedOnceRef.current = false
 
     const controller = new AbortController()
+    const requestVersion = ++requestVersionRef.current
     controllerRef.current = controller
 
     const client = getClient(options.baseUrl)
@@ -142,6 +144,9 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
       pendingReloadsRef.current.clear()
     }
 
+    const isCurrentRequest = () =>
+      requestVersion === requestVersionRef.current && controllerRef.current === controller
+
     const run = () => {
       void sendRef
         .current({
@@ -154,6 +159,8 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
           },
         })
         .then((result) => {
+          if (!isCurrentRequest()) return
+
           failedOnceRef.current = false
           setError(null)
           onSuccessRef.current?.(result)
@@ -161,6 +168,8 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
           resolvePending(result)
         })
         .catch(async (e) => {
+          if (!isCurrentRequest()) return
+
           if (
             typeof e?.message === 'string' &&
             (e.message as string).toLowerCase().includes('aborted')
@@ -190,6 +199,8 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
               nextError = newError
             }
 
+          if (!isCurrentRequest()) return
+
           setError(nextError)
           setLoading(false)
           rejectPending(nextError)
@@ -201,7 +212,8 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
 
       return () => {
         clearTimeout(timeout)
-        controllerRef.current?.abort()
+        if (controllerRef.current === controller) controllerRef.current = null
+        controller.abort()
         setLoading(false)
       }
     }
@@ -209,7 +221,8 @@ export function useFaasRequest<Params, Result, RequestPromise = Promise<Result>>
     run()
 
     return () => {
-      controllerRef.current?.abort()
+      if (controllerRef.current === controller) controllerRef.current = null
+      controller.abort()
       setLoading(false)
     }
   }, [action, options.params || params, reloadTimes, skip])

@@ -4,13 +4,13 @@
 
 ## 适用场景
 
-- 创建新的 `.func.ts` API
+- 创建新的 `.api.ts` API 模块
 - 评审请求校验、错误处理、返回结构或注入的 HTTP helpers
 - 更新需要保持与 Faas action 生成类型兼容的路由
 
 ## 默认工作流
 
-1. 导出 `const func = defineApi(...)`。
+1. 导出 `export default defineApi(...)`。
 2. 除非 schema 会复用，否则把 `schema` 直接写在 `defineApi` 内。
 3. 除非已存在可复用边界，否则让业务逻辑直接写在 `handler({ params })` 中。
 4. 除非确实需要协议层控制，否则直接返回业务数据。
@@ -22,7 +22,7 @@
 ```ts
 import { defineApi, z } from '@faasjs/core'
 
-export const func = defineApi({
+export default defineApi({
   schema: z.object({
     name: z.string().min(1).optional(),
   }),
@@ -45,7 +45,7 @@ export const func = defineApi({
 优先这样写：
 
 ```ts
-export const func = defineApi({
+export default defineApi({
   schema: z.object({
     id: z.coerce.number().int().positive(),
   }),
@@ -84,7 +84,7 @@ export const func = defineApi({
 ```ts
 import { defineApi, HttpError, z } from '@faasjs/core'
 
-export const func = defineApi({
+export default defineApi({
   schema: z.object({
     title: z.string().min(1),
     price: z.number().positive(),
@@ -157,7 +157,7 @@ declare module '@faasjs/core' {
 
 ### 7. 改动 API 后运行类型生成
 
-创建、重命名或移动 `.func.ts` 文件后，运行：
+创建、重命名或移动 `.api.ts` 文件后，运行：
 
 ```bash
 faas types
@@ -190,10 +190,10 @@ src/.faasjs/types.d.ts
 import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { func } from '../create.func'
+import api from '../create.api'
 
 describe('orders/api/create', () => {
-  const wrapped = test(func)
+  const wrapped = test(api)
 
   it('returns 400 when params are invalid', async () => {
     const response = await wrapped.JSONhandler({
@@ -238,5 +238,5 @@ describe('orders/api/create', () => {
 - [DefineApiOptions](/doc/core/type-aliases/DefineApiOptions.html)
 - [HttpError](/doc/core/classes/HttpError.html)
 - [test](/doc/dev/functions/test.html)
-- [FuncWarper](/doc/dev/classes/FuncWarper.html)
+- [ApiTester](/doc/dev/classes/ApiTester.html)
 - [generateFaasTypes](/doc/dev/functions/generateFaasTypes.html)

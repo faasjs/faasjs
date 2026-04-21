@@ -31,7 +31,7 @@ Related references:
 
 ### 2. Discovery and merge order
 
-1. For a function file under `<srcRoot>/<path>/<file>.func.ts`, the loader MUST discover files from shallow to deep:
+1. For an API file under `<srcRoot>/<path>/<file>.api.ts`, the loader MUST discover files from shallow to deep:
    - `<srcRoot>/faas.yaml`
    - `<srcRoot>/<path-segment-1>/faas.yaml`
    - ...

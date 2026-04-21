@@ -4,6 +4,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- `faasjs`
+  - [Break] Rename application API entry files from `.func.ts` to `.api.ts`, update fallback routing filenames to `index.api.ts` and `default.api.ts`, and make `export default defineApi(...)` the canonical authoring pattern across scaffolds, templates, and docs.
+  - [Feature] Add API-first migration aliases including `loadApiHandler`, `ApiTester`, `InferFaasApi`, `parseApiFilenameFromStack`, and `isTypegenInputFile`, while keeping `loadFunc`, `FuncWarper`, `InferFaasFunc`, `parseFuncFilenameFromStack`, and `isTypegenSourceFile` as deprecated compatibility aliases for the migration release.
+
 - `@faasjs/core`
   - [Break] Stop auto loading `.env` during `Server` initialization. Load env files explicitly in your entrypoint when needed.
 

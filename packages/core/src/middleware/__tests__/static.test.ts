@@ -22,20 +22,20 @@ describe('staticHandler', () => {
 
   it('should work', async () => {
     const useMiddlewareBody = readFileSync(
-      join(__dirname, 'funcs', 'useMiddleware.func.ts'),
+      join(__dirname, 'funcs', 'useMiddleware.api.ts'),
       'utf-8',
     )
-    const defaultBody = readFileSync(join(__dirname, 'funcs', 'default.func.ts'), 'utf-8')
+    const defaultBody = readFileSync(join(__dirname, 'funcs', 'default.api.ts'), 'utf-8')
 
-    const response1 = await fetch(`http://127.0.0.1:${port}/useMiddleware.func.ts`)
+    const response1 = await fetch(`http://127.0.0.1:${port}/useMiddleware.api.ts`)
     expect(response1.status).toBe(200)
     expect(await response1.text()).toBe(useMiddlewareBody)
 
-    const response2 = await fetch(`http://127.0.0.1:${port}/useMiddleware.func.ts`)
+    const response2 = await fetch(`http://127.0.0.1:${port}/useMiddleware.api.ts`)
     expect(response2.status).toBe(200)
     expect(await response2.text()).toBe(useMiddlewareBody)
 
-    const response3 = await fetch(`http://127.0.0.1:${port}/default.default.func.ts`)
+    const response3 = await fetch(`http://127.0.0.1:${port}/default.default.api.ts`)
     expect(response3.status).toBe(200)
     expect(await response3.text()).toBe(defaultBody)
   })
@@ -54,7 +54,7 @@ describe('staticHandler', () => {
     const response = await fetch(`http://127.0.0.1:${port}/fallback404`)
     expect(response.status).toBe(200)
     expect(await response.text()).toBe(
-      readFileSync(join(__dirname, 'funcs', 'useMiddleware.func.ts'), 'utf-8'),
+      readFileSync(join(__dirname, 'funcs', 'useMiddleware.api.ts'), 'utf-8'),
     )
   })
 

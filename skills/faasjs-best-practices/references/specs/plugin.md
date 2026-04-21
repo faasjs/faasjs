@@ -149,7 +149,7 @@ defaults:
 ```ts
 import { defineApi } from '@faasjs/core'
 
-export const func = defineApi({
+const api = defineApi({
   async handler({ config, current_user }) {
     return {
       current_user,
@@ -158,7 +158,7 @@ export const func = defineApi({
   },
 })
 
-func.config = {
+api.config = {
   plugins: {
     auth: {
       config: {
@@ -170,6 +170,8 @@ func.config = {
     },
   },
 }
+
+export default api
 ```
 
 In the resolved config:

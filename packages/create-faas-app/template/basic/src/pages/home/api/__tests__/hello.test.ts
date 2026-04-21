@@ -1,11 +1,11 @@
 import { test } from '@faasjs/dev'
 import { describe, it, expect } from 'vitest'
 
-import { func } from '../hello.func'
+import api from '../hello.api'
 
 describe('pages/home/api/hello', () => {
   it('should work', async () => {
-    const wrapped = test(func)
+    const wrapped = test(api)
 
     const { statusCode, data } = await wrapped.JSONhandler({ name: 'world' })
 

@@ -75,12 +75,13 @@ export function useFaasStream(
   defaultParams: Record<string, any>,
   options: UseFaasStreamOptions = {},
 ): UseFaasStreamResult {
-  const [data, setData] = useState<string>(options.data || '')
+  const [data, setData] = useState<string>(options.data ?? '')
+  const updateData = options.setData ?? setData
   const request = useFaasRequest<Record<string, any>, string>({
     action,
     defaultParams,
     options,
-    beforeSend: () => setData(''),
+    beforeSend: () => updateData(''),
     send: async ({ action, params, signal, client }) => {
       const response = await client.browserClient.action(action, params, {
         signal,
@@ -92,20 +93,41 @@ export function useFaasStream(
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let accumulatedText = ''
+      const onAbort = () => {
+        void reader.cancel().catch(() => undefined)
+      }
+
+      if (signal.aborted) {
+        onAbort()
+        throw new Error('Request aborted')
+      }
+
+      signal.addEventListener('abort', onAbort, { once: true })
 
       try {
         while (true) {
+          if (signal.aborted) throw new Error('Request aborted')
+
           const { done, value } = await reader.read()
           if (done) break
 
           accumulatedText += decoder.decode(value, { stream: true })
-          setData(accumulatedText)
+          updateData(accumulatedText)
         }
+
+        accumulatedText += decoder.decode()
 
         return accumulatedText
       } catch (error) {
-        reader.releaseLock()
+        if (signal.aborted) throw new Error('Request aborted')
+
         throw error
+      } finally {
+        signal.removeEventListener('abort', onAbort)
+
+        try {
+          reader.releaseLock()
+        } catch {}
       }
     },
   })
@@ -115,10 +137,10 @@ export function useFaasStream(
     params: request.params,
     loading: request.loading,
     reloadTimes: request.reloadTimes,
-    data: options.data || data,
+    data: options.data ?? data,
     error: request.error,
     reload: request.reload,
-    setData: options.setData || setData,
+    setData: updateData,
     setLoading: request.setLoading,
     setError: request.setError,
   }

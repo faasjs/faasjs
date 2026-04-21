@@ -1,11 +1,11 @@
 import { test } from '@faasjs/dev'
 import { describe, expect, it } from 'vite-plus/test'
 
-import { func } from '../hello.func'
+import api from '../hello.api'
 
 describe('hello/api/hello', () => {
   it('returns hello message with default name', async () => {
-    const wrapped = test(func)
+    const wrapped = test(api)
 
     const response = await wrapped.JSONhandler({})
 
@@ -16,7 +16,7 @@ describe('hello/api/hello', () => {
   })
 
   it('returns hello message with custom name', async () => {
-    const wrapped = test(func)
+    const wrapped = test(api)
 
     const response = await wrapped.JSONhandler({ name: 'world' })
 

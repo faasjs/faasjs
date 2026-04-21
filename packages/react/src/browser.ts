@@ -880,7 +880,45 @@ function normalizeMockResponse<T>(
   response: ResponseProps<T> | Response<T> | void | Error,
 ): Response<T> {
   if (response instanceof Error) throw new ResponseError(response)
-  if (response instanceof Response) return response
+  if (response instanceof Response) {
+    if (
+      typeof ReadableStream !== 'undefined' &&
+      response.body instanceof ReadableStream &&
+      response.body.locked === false
+    ) {
+      const [nextBody, currentBody] = response.body.tee()
+      ;(response as Response<T> & { body: ReadableStream }).body = nextBody
+
+      const clonedResponse: ResponseProps<T> = {
+        status: response.status,
+        headers: response.headers,
+        body: currentBody,
+      }
+
+      if (response.data !== undefined) clonedResponse.data = response.data
+
+      return new Response({
+        ...clonedResponse,
+      })
+    }
+
+    return response
+  }
+
+  if (
+    response &&
+    typeof ReadableStream !== 'undefined' &&
+    response.body instanceof ReadableStream &&
+    response.body.locked === false
+  ) {
+    const [nextBody, currentBody] = response.body.tee()
+    response.body = nextBody
+
+    return new Response({
+      ...response,
+      body: currentBody,
+    })
+  }
 
   return new Response(response || {})
 }
@@ -898,9 +936,7 @@ async function resolveMockResponse<PathOrData extends FaasActionUnionType>(
     return normalizeMockResponse(response as ResponseProps<FaasData<PathOrData>> | Error | void)
   }
 
-  if (mock instanceof Response) return mock as Response<FaasData<PathOrData>>
-
-  return new Response(mock || {})
+  return normalizeMockResponse(mock as ResponseProps<FaasData<PathOrData>> | Response)
 }
 
 function toResponseHeaders(headers: Iterable<[string, string]>): ResponseHeaders {

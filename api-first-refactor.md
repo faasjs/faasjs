@@ -1,6 +1,6 @@
 # API-First Terminology Refactor
 
-Status: phases 1-4 complete, remaining phases pending
+Status: phases 1-7 implemented, full validation green
 Owner: maintainers / framework contributors
 Scope: next major release
 
@@ -52,6 +52,30 @@ This is a major-breaking refactor. Do not merge it as a partial rename.
   - renamed dev testing fixtures from `.func.ts` to `.api.ts` and updated tests to import default exports
   - refreshed generated API docs with `npx vp run doc`
   - validated with `npx vp test run packages/dev/src/testing/__tests__ packages/dev/src/__tests__/index.test.ts`
+- 2026-04-21: completed Phase 5 in `packages/create-faas-app`, `templates`, and `benchmarks`
+  - renamed scaffolded and template API entry files from `.func.ts` to `.api.ts`
+  - switched scaffolded and template API modules to `export default defineApi(...)`
+  - updated `create-faas-app` expectations and template tests to import default-exported API modules
+  - refreshed local package builds with `npx vp pack` so standalone template validation used the current package outputs
+  - validated with `npx vp test run packages/create-faas-app/src/__tests__/action.test.ts`
+  - validated template examples with:
+    - `cd packages/create-faas-app/template/basic && npx vp test run src/pages/home/api/__tests__/hello.test.ts`
+    - `cd packages/create-faas-app/template/antd && npx vp test run src/pages/home/api/__tests__/hello.test.ts`
+    - `cd templates/hello-api && npx vp test run src/hello/api/__tests__/hello.test.ts`
+    - `cd templates/params-and-errors && npx vp test run src/orders/api/__tests__/create.test.ts`
+    - `cd templates/routing-fallback && npx vp test run src/blog/api/__tests__/routing.test.ts`
+- 2026-04-21: completed Phase 6 in `skills/faasjs-best-practices` and `docs`
+  - updated source-of-truth guidelines and specs to teach `.api.ts`, `export default defineApi(...)`, `loadApiHandler()`, `ApiTester`, and `InferFaasApi`
+  - synced the published English and Chinese docs plus guide indexes to the API-first terminology
+  - reviewed docs navigation and kept `docs/site/site.config.ts` unchanged because no route or label move was required
+  - validated with `cd docs && npx vp run build`
+- 2026-04-21: completed Phase 7 follow-up work across generated outputs, changelog, and validation
+  - updated `packages/types` JSDoc and regenerated API docs so `InferFaasApi` no longer teaches the legacy named-export pattern
+  - added an unreleased changelog entry covering the `.api.ts` rename, default-export authoring pattern, and deprecated compatibility aliases
+  - renamed missed `packages/core/src/middleware/__tests__/funcs/*.func.ts` fixtures to `.api.ts` and updated static-handler expectations after full-suite validation exposed the gap
+  - validated the middleware follow-up with `npx vp test run packages/core/src/middleware/__tests__/index.test.ts packages/core/src/middleware/__tests__/static.test.ts`
+  - stabilized `packages/node-utils/src/__tests__/logger.test.ts` against ambient `TERM` state and hardened the React request/stream helpers plus static stream mocks after wide validation exposed follow-up regressions
+  - final validation is now green, including `npx vp check`, `npx vp test`, `npx vp run doc`, `cd docs && npx vp install && npx vp run build`, and `npx vp run ci`
 
 ## Goals
 
@@ -276,24 +300,24 @@ Primary files and directories:
 
 Checklist:
 
-- [ ] Rename scaffolded API files from `.func.ts` to `.api.ts`.
-- [ ] Switch scaffolded API modules to `export default defineApi(...)`.
-- [ ] Update `create-faas-app` expectations and snapshot-style tests.
-- [ ] Update template READMEs to explain `.api.ts`.
-- [ ] Update routing fallback examples to `index.api.ts` and `default.api.ts`.
-- [ ] Rename benchmark fixtures that currently use `.func.ts`.
-- [ ] Update any hard-coded generated-path assertions to `.api.ts`.
-- [ ] Keep internal fixture directory names such as `funcs/` unchanged unless they
+- [x] Rename scaffolded API files from `.func.ts` to `.api.ts`.
+- [x] Switch scaffolded API modules to `export default defineApi(...)`.
+- [x] Update `create-faas-app` expectations and snapshot-style tests.
+- [x] Update template READMEs to explain `.api.ts`.
+- [x] Update routing fallback examples to `index.api.ts` and `default.api.ts`.
+- [x] Rename benchmark fixtures that currently use `.func.ts`.
+- [x] Update any hard-coded generated-path assertions to `.api.ts`.
+- [x] Keep internal fixture directory names such as `funcs/` unchanged unless they
       actively confuse the implementation. File suffixes are the priority.
 
 Minimum file groups to review:
 
-- [ ] `packages/create-faas-app/template/basic/**`
-- [ ] `packages/create-faas-app/template/antd/**`
-- [ ] `templates/hello-api/**`
-- [ ] `templates/params-and-errors/**`
-- [ ] `templates/routing-fallback/**`
-- [ ] `benchmarks/server/raw/**`
+- [x] `packages/create-faas-app/template/basic/**`
+- [x] `packages/create-faas-app/template/antd/**`
+- [x] `templates/hello-api/**`
+- [x] `templates/params-and-errors/**`
+- [x] `templates/routing-fallback/**`
+- [x] `benchmarks/server/raw/**`
 
 ### Phase 6 - Source-Of-Truth Docs, Published Docs, And Navigation
 
@@ -301,60 +325,60 @@ Follow `contributing/documentation-sync.md`.
 
 Source-of-truth docs to update first:
 
-- [ ] `skills/faasjs-best-practices/SKILL.md`
-- [ ] `skills/faasjs-best-practices/guidelines/file-conventions.md`
-- [ ] `skills/faasjs-best-practices/guidelines/define-api.md`
-- [ ] `skills/faasjs-best-practices/guidelines/node-utils.md`
-- [ ] `skills/faasjs-best-practices/guidelines/ant-design.md`
-- [ ] `skills/faasjs-best-practices/references/specs/routing-mapping.md`
-- [ ] `skills/faasjs-best-practices/references/specs/faas-yaml.md`
-- [ ] `skills/faasjs-best-practices/references/specs/plugin.md`
+- [x] `skills/faasjs-best-practices/SKILL.md`
+- [x] `skills/faasjs-best-practices/guidelines/file-conventions.md`
+- [x] `skills/faasjs-best-practices/guidelines/define-api.md`
+- [x] `skills/faasjs-best-practices/guidelines/node-utils.md`
+- [x] `skills/faasjs-best-practices/guidelines/ant-design.md`
+- [x] `skills/faasjs-best-practices/references/specs/routing-mapping.md`
+- [x] `skills/faasjs-best-practices/references/specs/faas-yaml.md`
+- [x] `skills/faasjs-best-practices/references/specs/plugin.md`
 
 Published docs to sync after source-of-truth updates:
 
-- [ ] `docs/guidelines/**`
-- [ ] `docs/specs/**`
-- [ ] `docs/zh/guidelines/**`
-- [ ] `docs/zh/specs/**`
-- [ ] `docs/README.md`
-- [ ] `docs/zh/README.md`
-- [ ] `docs/guide/README.md`
-- [ ] `docs/zh/guide/README.md`
-- [ ] `docs/site/site.config.ts` if navigation labels or routes change
+- [x] `docs/guidelines/**`
+- [x] `docs/specs/**`
+- [x] `docs/zh/guidelines/**`
+- [x] `docs/zh/specs/**`
+- [x] `docs/README.md`
+- [x] `docs/zh/README.md`
+- [x] `docs/guide/README.md`
+- [x] `docs/zh/guide/README.md`
+- [x] `docs/site/site.config.ts` if navigation labels or routes change
 
 Documentation content changes required:
 
-- [ ] replace `.func.ts` examples with `.api.ts`
-- [ ] replace `export const func = defineApi(...)` examples with default export
-- [ ] replace `loadFunc()` guidance with `loadApiHandler()`
-- [ ] replace `FuncWarper` guidance with `ApiTester`
-- [ ] replace `InferFaasFunc` examples with `InferFaasApi`
-- [ ] keep low-level `Func` examples only where the docs are intentionally about
+- [x] replace `.func.ts` examples with `.api.ts`
+- [x] replace `export const func = defineApi(...)` examples with default export
+- [x] replace `loadFunc()` guidance with `loadApiHandler()`
+- [x] replace `FuncWarper` guidance with `ApiTester`
+- [x] replace `InferFaasFunc` examples with `InferFaasApi`
+- [x] keep low-level `Func` examples only where the docs are intentionally about
       low-level runtime composition
-- [ ] update English and Chinese docs in the same change
+- [x] update English and Chinese docs in the same change
 
 ### Phase 7 - Generated Outputs, Changelog, And Validation
 
 Generated and derived outputs:
 
-- [ ] run `vp run doc` after JSDoc and public API changes
-- [ ] do not hand-edit generated API docs
-- [ ] review generated diffs under checked-in API doc outputs before merge
+- [x] run `vp run doc` after JSDoc and public API changes
+- [x] do not hand-edit generated API docs
+- [x] review generated diffs under checked-in API doc outputs before merge
 
 Release notes:
 
-- [ ] add a major-breaking changelog entry in `CHANGELOG.md`
-- [ ] call out the required file rename from `.func.ts` to `.api.ts`
-- [ ] call out the move to default export examples
-- [ ] call out deprecated aliases and their removal timeline
+- [x] add a major-breaking changelog entry in `CHANGELOG.md`
+- [x] call out the required file rename from `.func.ts` to `.api.ts`
+- [x] call out the move to default export examples
+- [x] call out deprecated aliases and their removal timeline
 
 Validation:
 
-- [ ] run `vp check`
-- [ ] run `vp test`
-- [ ] run `vp run doc`
-- [ ] run `cd docs && vp install && vp run build`
-- [ ] for a wide refactor branch, run `vp run ci` before merge
+- [x] run `vp check` (known `vitest.ui.setup.ts` warnings remain)
+- [x] run `vp test`
+- [x] run `vp run doc`
+- [x] run `cd docs && vp install && vp run build`
+- [x] for a wide refactor branch, run `vp run ci` before merge
 
 ## Deprecated Alias Plan
 

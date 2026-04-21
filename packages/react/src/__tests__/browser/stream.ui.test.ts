@@ -208,6 +208,39 @@ describe('stream', () => {
     expect(response.body).toBeInstanceOf(ReadableStream)
   })
 
+  it('reuses static stream mocks across requests', async () => {
+    setMock({
+      body: new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode('mocked'))
+          controller.close()
+        },
+      }),
+    })
+
+    const client = new FaasBrowserClient('/')
+    const response1 = await client.action('test', { key: 'value' }, { stream: true })
+    const response2 = await client.action('test', { key: 'value' }, { stream: true })
+
+    const readText = async (response: FaasResponse) => {
+      const reader = response.body!.getReader()
+      const decoder = new TextDecoder()
+      let text = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        text += decoder.decode(value, { stream: true })
+      }
+
+      return text + decoder.decode()
+    }
+
+    await expect(readText(response1)).resolves.toBe('mocked')
+    await expect(readText(response2)).resolves.toBe('mocked')
+  })
+
   it('handles errors in stream mode', async () => {
     const stream = new ReadableStream({
       start(controller) {
