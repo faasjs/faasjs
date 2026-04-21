@@ -127,8 +127,3 @@ export type InferFaasApi<TModule> = TModule extends { default: infer TFunc }
       ? TFunc
       : never
     : never
-
-/**
- * @deprecated Use {@link InferFaasApi} instead.
- */
-export type InferFaasFunc<TModule> = InferFaasApi<TModule>

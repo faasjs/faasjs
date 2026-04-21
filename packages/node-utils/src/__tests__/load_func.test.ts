@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { loadApiHandler, loadFunc } from '../load_func'
+import { loadApiHandler } from '../load_func'
 
 describe('loadApiHandler', () => {
   it('should load an API file and return its handler', async () => {
@@ -57,13 +57,5 @@ describe('loadApiHandler', () => {
         },
       },
     })
-  })
-})
-
-describe('loadFunc', () => {
-  it('should remain as a deprecated alias for loadApiHandler', async () => {
-    const handler = await loadFunc(__dirname, `${__dirname}/basic.api.ts`, 'local')
-
-    await expect(handler('Hello World')).resolves.toBe('Hello World')
   })
 })

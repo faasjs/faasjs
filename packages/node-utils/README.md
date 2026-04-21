@@ -9,7 +9,6 @@
 - [isPathInsideRoot](functions/isPathInsideRoot.md)
 - [loadApiHandler](functions/loadApiHandler.md)
 - [loadConfig](functions/loadConfig.md)
-- [~~loadFunc~~](functions/loadFunc.md)
 - [loadPackage](functions/loadPackage.md)
 - [loadPlugins](functions/loadPlugins.md)
 - [parseYaml](functions/parseYaml.md)

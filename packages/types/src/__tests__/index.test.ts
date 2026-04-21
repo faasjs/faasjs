@@ -7,7 +7,6 @@ import type {
   FaasParams,
   InferFaasApi,
   InferFaasAction,
-  InferFaasFunc,
 } from '@faasjs/types'
 import { assertType, expectTypeOf, test } from 'vitest'
 
@@ -146,26 +145,4 @@ test('InferFaasApi should fall back to legacy func exports', () => {
   }>
 
   assertType<InferFaasAction<InferredApi>['Params']>({ id: 'legacy' })
-})
-
-test('InferFaasFunc should remain as a deprecated alias', () => {
-  const api = defineApi({
-    schema: z.object({
-      name: z.string(),
-    }),
-    async handler({ params }) {
-      return {
-        name: params.name,
-      }
-    },
-  })
-
-  type InferredApi = InferFaasApi<{
-    default: typeof api
-  }>
-  type InferredFunc = InferFaasFunc<{
-    default: typeof api
-  }>
-
-  expectTypeOf<InferredFunc>().toEqualTypeOf<InferredApi>()
 })

@@ -12,7 +12,6 @@
 - [mountServerCronJobs](functions/mountServerCronJobs.md)
 - [nameFunc](functions/nameFunc.md)
 - [parseApiFilenameFromStack](functions/parseApiFilenameFromStack.md)
-- [~~parseFuncFilenameFromStack~~](functions/parseFuncFilenameFromStack.md)
 - [removeCronJob](functions/removeCronJob.md)
 - [staticHandler](functions/staticHandler.md)
 - [testApi](functions/testApi.md)

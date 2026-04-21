@@ -65,14 +65,3 @@ export async function loadApiHandler<TEvent = any, TContext = any, TResult = any
 
   return func.export().handler
 }
-
-/**
- * @deprecated Use {@link loadApiHandler} instead.
- */
-export async function loadFunc<TEvent = any, TContext = any, TResult = any>(
-  root: string,
-  filename: string,
-  staging: string,
-): Promise<ExportedHandler<TEvent, TContext, TResult>> {
-  return await loadApiHandler<TEvent, TContext, TResult>(root, filename, staging)
-}

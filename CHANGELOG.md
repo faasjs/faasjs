@@ -4,8 +4,17 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- `@faasjs/core`
+  - [Break] Remove the deprecated `parseFuncFilenameFromStack()` alias. Use `parseApiFilenameFromStack()` directly.
+
 - `@faasjs/dev`
   - [Break] Remove the legacy `test()` helper plus deprecated `FuncWarper` and `isTypegenSourceFile()` aliases, keep `testApi()` as the only callable JSON test helper, use `ApiTester` as the only public tester class, and keep `isTypegenInputFile()` as the only public typegen watcher helper.
+
+- `@faasjs/node-utils`
+  - [Break] Remove the deprecated `loadFunc()` alias. Use `loadApiHandler()` directly.
+
+- `@faasjs/types`
+  - [Break] Remove the deprecated `InferFaasFunc<TModule>` alias. Use `InferFaasApi<TModule>` directly.
 
 [`v8.0.0-beta.24 (2026-04-21)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.23...>v8.0.0-beta.24)
 

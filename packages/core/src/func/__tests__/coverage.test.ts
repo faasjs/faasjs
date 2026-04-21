@@ -1,17 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { Func, parseApiFilenameFromStack, parseFuncFilenameFromStack } from '..'
+import { Func, parseApiFilenameFromStack } from '..'
 
 describe('Func coverage', () => {
   it('should handle empty and malformed stack frames', () => {
     expect(parseApiFilenameFromStack()).toBeUndefined()
     expect(parseApiFilenameFromStack('Error\n    at demo.ts:1:1')).toBeUndefined()
     expect(parseApiFilenameFromStack('Error\n    at file://bad%.api.ts:1:1')).toBe(
-      'file://bad%.api.ts',
-    )
-    expect(parseFuncFilenameFromStack()).toBeUndefined()
-    expect(parseFuncFilenameFromStack('Error\n    at demo.ts:1:1')).toBeUndefined()
-    expect(parseFuncFilenameFromStack('Error\n    at file://bad%.api.ts:1:1')).toBe(
       'file://bad%.api.ts',
     )
   })

@@ -226,13 +226,6 @@ export function parseApiFilenameFromStack(stack?: string): string | undefined {
   return filename
 }
 
-/**
- * @deprecated Use {@link parseApiFilenameFromStack} instead.
- */
-export function parseFuncFilenameFromStack(stack?: string): string | undefined {
-  return parseApiFilenameFromStack(stack)
-}
-
 function normalizeMountData(
   data: MutableMountData | undefined,
   options: {

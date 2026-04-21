@@ -8,7 +8,6 @@ it('should export helpers', () => {
   expect(nodeUtils).toHaveProperty('colorfy')
   expect(nodeUtils).toHaveProperty('loadConfig')
   expect(nodeUtils).toHaveProperty('loadApiHandler')
-  expect(nodeUtils).toHaveProperty('loadFunc')
   expect(nodeUtils).toHaveProperty('loadPackage')
   expect(nodeUtils).toHaveProperty('parseYaml')
   expect(nodeUtils).toHaveProperty('registerNodeModuleHooks')
