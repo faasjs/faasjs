@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+[`v8.0.0-beta.24 (2026-04-21)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.23...>v8.0.0-beta.24)
 
 - `faasjs`
   - [Break] Rename application API entry files from `.func.ts` to `.api.ts`, update fallback routing filenames to `index.api.ts` and `default.api.ts`, and make `export default defineApi(...)` the canonical authoring pattern across scaffolds, templates, and docs.
