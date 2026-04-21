@@ -1,12 +1,12 @@
 import { Http, Func } from '@faasjs/core'
-import { test } from '@faasjs/dev'
+import { testApi } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
 
 describe('Accept-Encoding', () => {
   const data = '1'.repeat(1024)
 
   it('br', async () => {
-    const func = test(
+    const func = testApi(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -15,7 +15,7 @@ describe('Accept-Encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler(null, {
+    const res = await func(null, {
       headers: { 'accept-encoding': 'br' },
     })
 
@@ -25,7 +25,7 @@ describe('Accept-Encoding', () => {
   })
 
   it('gzip', async () => {
-    const func = test(
+    const func = testApi(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -34,7 +34,7 @@ describe('Accept-Encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler(null, {
+    const res = await func(null, {
       headers: { 'accept-encoding': 'gzip' },
     })
 
@@ -44,7 +44,7 @@ describe('Accept-Encoding', () => {
   })
 
   it('deflate', async () => {
-    const func = test(
+    const func = testApi(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -53,7 +53,7 @@ describe('Accept-Encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler(null, {
+    const res = await func(null, {
       headers: { 'accept-encoding': 'deflate' },
     })
 
@@ -63,7 +63,7 @@ describe('Accept-Encoding', () => {
   })
 
   it('unknown', async () => {
-    const func = test(
+    const func = testApi(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -72,7 +72,7 @@ describe('Accept-Encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler(null, {
+    const res = await func(null, {
       headers: { 'accept-encoding': 'unknown' },
     })
 
@@ -83,7 +83,7 @@ describe('Accept-Encoding', () => {
 
   it('direct response object body', async () => {
     const payload = { text: '1'.repeat(1024) }
-    const func = test(
+    const func = testApi(
       new Func({
         plugins: [new Http({ config: { cookie: { session: { secret: 'test-secret' } } } })],
         async handler() {
@@ -96,7 +96,7 @@ describe('Accept-Encoding', () => {
       }),
     )
 
-    const res = await func.JSONhandler(null, {
+    const res = await func(null, {
       headers: { 'accept-encoding': 'gzip' },
     })
 

@@ -9,7 +9,7 @@ exposes helpers for raw handler calls and HTTP-style JSON assertions.
 
 ## See
 
-[test](../functions/test.md)
+[testApi](../functions/testApi.md)
 
 ## Example
 
@@ -21,10 +21,6 @@ const wrapped = new ApiTester(api)
 
 const response = await wrapped.JSONhandler({ name: 'FaasJS' })
 ```
-
-## Extended by
-
-- [`FuncWarper`](FuncWarper.md)
 
 ## Type Parameters
 
@@ -105,7 +101,7 @@ Handler result.
 
 ### JSONhandler()
 
-> **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{\[`key`: `string`\]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
+> **JSONhandler**\<`TData`\>(`body?`, `options?`): `Promise`\<`JsonHandlerResult`\<`TData`\>\>
 
 Invoke an HTTP-enabled API with JSON body helpers and decoded cookies.
 
@@ -124,41 +120,19 @@ Expected JSON `data` payload returned by the API.
 
 ##### body?
 
-[`FuncEventType`](../type-aliases/FuncEventType.md)\<`TFunc`\> _extends_ `object` ? `0` _extends_ `1` & `TParams` ? `string` \| `Record`\<`string`, `any`\> \| `null` : `string` \| `TParams` \| `null` : `string` \| `Record`\<`string`, `any`\> \| `null`
+`JsonHandlerBody`\<`TFunc`\>
 
 Request body object or raw JSON string.
 
 ##### options?
 
+`JsonHandlerOptions` = `...`
+
 Extra headers, request cookies, and session seed values.
-
-###### cookie?
-
-\{\[`key`: `string`\]: `any`; \}
-
-Cookie key-value pairs preloaded into the request.
-
-###### headers?
-
-\{\[`key`: `string`\]: `any`; \}
-
-Extra request headers merged into the JSON test request.
-
-###### path?
-
-`string`
-
-Request path attached to `event.path` during invocation. This path is the URL pathname without the query string. Defaults to the inferred path from the wrapped API filename when available.
-
-###### session?
-
-\{\[`key`: `string`\]: `any`; \}
-
-Session key-value pairs encoded into the request cookie before invocation.
 
 #### Returns
 
-`Promise`\<\{ `body`: `any`; `cookie?`: `Record`\<`string`, `any`\>; `data?`: `TData`; `error?`: \{ `message`: `string`; \}; `headers`: \{\[`key`: `string`\]: `string`; \}; `session?`: `Record`\<`string`, `any`\>; `statusCode`: `number`; \}\>
+`Promise`\<`JsonHandlerResult`\<`TData`\>\>
 
 Normalized HTTP response payload for assertions.
 
@@ -169,11 +143,11 @@ When the wrapped API does not use the HTTP plugin.
 #### Example
 
 ```ts
-import { test } from '@faasjs/dev'
+import { testApi } from '@faasjs/dev'
 import api from './hello.api.ts'
 
-const wrapped = test(api)
-const response = await wrapped.JSONhandler({ name: 'FaasJS' }, { session: { userId: '1' } })
+const handler = testApi(api)
+const response = await handler({ name: 'FaasJS' }, { session: { userId: '1' } })
 
 expect(response.data).toEqual({ message: 'Hello, FaasJS' })
 ```

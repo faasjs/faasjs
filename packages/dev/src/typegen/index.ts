@@ -164,13 +164,6 @@ export function isTypegenInputFile(filePath: string): boolean {
 }
 
 /**
- * @deprecated Use {@link isTypegenInputFile} instead.
- */
-export function isTypegenSourceFile(filePath: string): boolean {
-  return isTypegenInputFile(filePath)
-}
-
-/**
  * Generate `src/.faasjs/types.d.ts` for a FaasJS project.
  *
  * The generator scans the `src/` tree for `.api.ts` files, converts file

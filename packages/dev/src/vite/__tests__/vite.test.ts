@@ -55,9 +55,6 @@ vi.mock('../../typegen', () => ({
   isTypegenInputFile: vi.fn<(filePath: string) => boolean>(
     (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
   ),
-  isTypegenSourceFile: vi.fn<(filePath: string) => boolean>(
-    (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
-  ),
 }))
 
 const tempDirs: string[] = []

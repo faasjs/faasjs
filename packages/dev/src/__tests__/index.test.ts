@@ -14,14 +14,12 @@ describe('index exports', () => {
   })
 
   it('should export test helpers', () => {
-    expect(dev.test).toBe(testKit.test)
+    expect(dev.testApi).toBe(testKit.testApi)
     expect(dev.ApiTester).toBe(testKit.ApiTester)
-    expect(dev.FuncWarper).toBe(testKit.FuncWarper)
   })
 
   it('should export typegen helpers', () => {
     expect(dev.generateFaasTypes).toBe(typegen.generateFaasTypes)
     expect(dev.isTypegenInputFile).toBe(typegen.isTypegenInputFile)
-    expect(dev.isTypegenSourceFile).toBe(typegen.isTypegenSourceFile)
   })
 })

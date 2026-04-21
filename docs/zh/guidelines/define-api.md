@@ -15,7 +15,7 @@
 3. 除非已存在可复用边界，否则让业务逻辑直接写在 `handler({ params })` 中。
 4. 除非确实需要协议层控制，否则直接返回业务数据。
 5. 创建、重命名或移动 API 文件后，运行 `faas types` 更新 `src/.faasjs/types.d.ts`。
-6. 使用 `test(func).JSONhandler(...)` 添加聚焦测试。
+6. 使用 `testApi(api)(data, options?)` 添加聚焦测试。
 
 ## 最小示例
 
@@ -187,16 +187,16 @@ src/.faasjs/types.d.ts
 示例：
 
 ```ts
-import { test } from '@faasjs/dev'
+import { testApi } from '@faasjs/dev'
 import { describe, expect, it } from 'vite-plus/test'
 
 import api from '../create.api'
 
 describe('orders/api/create', () => {
-  const wrapped = test(api)
+  const handler = testApi(api)
 
   it('returns 400 when params are invalid', async () => {
-    const response = await wrapped.JSONhandler({
+    const response = await handler({
       title: '',
       price: -1,
       quantity: 1,
@@ -207,7 +207,7 @@ describe('orders/api/create', () => {
   })
 
   it('returns 500 for plain Error', async () => {
-    const response = await wrapped.JSONhandler({
+    const response = await handler({
       title: 'duplicate',
       price: 10,
       quantity: 1,
@@ -218,7 +218,7 @@ describe('orders/api/create', () => {
   })
 
   it('returns custom status for HttpError', async () => {
-    const response = await wrapped.JSONhandler({
+    const response = await handler({
       title: 'conflict',
       price: 10,
       quantity: 1,
@@ -237,6 +237,6 @@ describe('orders/api/create', () => {
 - [DefineApiData](/doc/core/type-aliases/DefineApiData.html)
 - [DefineApiOptions](/doc/core/type-aliases/DefineApiOptions.html)
 - [HttpError](/doc/core/classes/HttpError.html)
-- [test](/doc/dev/functions/test.html)
+- [testApi](/doc/dev/functions/testApi.html)
 - [ApiTester](/doc/dev/classes/ApiTester.html)
 - [generateFaasTypes](/doc/dev/functions/generateFaasTypes.html)

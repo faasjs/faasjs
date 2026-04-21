@@ -17,9 +17,6 @@ const mocks = vi.hoisted(() => {
   const isTypegenInputFile = vi.fn<(filePath: string) => boolean>(
     (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
   )
-  const isTypegenSourceFile = vi.fn<(filePath: string) => boolean>(
-    (filePath: string) => filePath.endsWith('.api.ts') || /(^|[\\/])faas\.ya?ml$/.test(filePath),
-  )
 
   class ServerMock {
     constructor(...args: any[]) {
@@ -35,7 +32,6 @@ const mocks = vi.hoisted(() => {
     serverCalls,
     generateFaasTypes,
     isTypegenInputFile,
-    isTypegenSourceFile,
     ServerMock,
   }
 })
@@ -47,7 +43,6 @@ vi.mock('@faasjs/core', () => ({
 vi.mock('../../typegen', () => ({
   generateFaasTypes: mocks.generateFaasTypes,
   isTypegenInputFile: mocks.isTypegenInputFile,
-  isTypegenSourceFile: mocks.isTypegenSourceFile,
 }))
 
 import { viteFaasJsServer } from '..'

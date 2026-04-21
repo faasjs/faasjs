@@ -73,16 +73,16 @@ export default defineApi({
 // __tests__/index.test.ts
 // 普通单元测试文件以 .test.ts 结尾
 // 需要 jsdom 的 UI 测试使用 .ui.test.ts 或 .ui.test.tsx
-import { test } from '@faasjs/dev'
+import { testApi } from '@faasjs/dev'
 import api from '../index.api'
 
 describe('index', function () {
   it('should work', async function () {
-    // 包装 API 模块
-    const wrapped = test(api)
+    // 创建测试 handler
+    const handler = testApi(api)
 
     // 模拟请求
-    const { statusCode, data } = await wrapped.JSONhandler()
+    const { statusCode, data } = await handler()
 
     // 断言返回 200 状态
     expect(statusCode).toEqual(200)

@@ -1,7 +1,7 @@
 import { streamToObject } from '@faasjs/utils'
 import { expect, it } from 'vitest'
 
-import { ApiTester, test as createTester } from '../../index'
+import { ApiTester, testApi } from '../../index'
 import basicApi from './funcs/basic.api'
 
 it('basic', async () => {
@@ -15,8 +15,8 @@ it('basic', async () => {
 })
 
 it('test helper should bind handlers', async () => {
-  const testedApi = createTester(basicApi)
-  const detachedHandler = testedApi.handler.bind(testedApi)
+  const testedApi = testApi(basicApi)
+  const detachedHandler = testedApi.handler
   const res = await detachedHandler<any>({}, {})
 
   expect(res.statusCode).toEqual(200)

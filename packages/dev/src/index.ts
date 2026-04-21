@@ -16,7 +16,7 @@
  * - `viteConfig` bundles the standard FaasJS React and Vite Plus defaults.
  * - `oxfmtConfig` and `oxlintConfig` expose the shared FaasJS formatting and lint rules.
  * - `generateFaasTypes()` emits route declarations for `@faasjs/types`.
- * - `test()` and {@link ApiTester} help invoke and assert FaasJS APIs in tests.
+ * - `testApi()` and {@link ApiTester} help invoke and assert FaasJS APIs in tests.
  *
  * ## Usage: Shared Vite Preset
  *
@@ -54,11 +54,11 @@
  * ## Usage: Test Helpers
  *
  * ```ts
- * import { test } from '@faasjs/dev'
+ * import { testApi } from '@faasjs/dev'
  * import api from '../demo.api.ts'
  *
- * const wrapped = test(api)
- * const response = await wrapped.JSONhandler({ name: 'FaasJS' })
+ * const handler = testApi(api)
+ * const response = await handler({ name: 'FaasJS' })
  *
  * expect(response.statusCode).toBe(200)
  * expect(response.data).toEqual({ message: 'Hello, FaasJS' })
@@ -68,8 +68,8 @@
  *
  * - Vite: {@link viteFaasJsServer}
  * - Config: {@link viteConfig}, {@link oxfmtConfig}, {@link oxlintConfig}
- * - Typegen: {@link generateFaasTypes}, {@link isTypegenInputFile}, {@link isTypegenSourceFile}
- * - Test: {@link test}, {@link ApiTester}, {@link FuncWarper}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
+ * - Typegen: {@link generateFaasTypes}, {@link isTypegenInputFile}
+ * - Test: {@link testApi}, {@link ApiTester}, {@link streamToString}, {@link streamToObject}, {@link stringToStream}, {@link objectToStream}
  */
 
 export * from './testing'

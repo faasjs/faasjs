@@ -15,7 +15,7 @@ When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 3. Keep business logic direct inside `handler({ params })` unless a shared boundary already exists.
 4. Return business data directly unless protocol-level response control is required.
 5. After creating, renaming, or moving an API file, run `faas types` to update `src/.faasjs/types.d.ts`.
-6. Add a focused test with `test(api).JSONhandler(...)`.
+6. Add a focused test with `testApi(api)(data, options?)`.
 
 ## Minimal Example
 
@@ -187,16 +187,16 @@ Follow the shared [Testing Guide](./testing.md) first, then use `@faasjs/dev` an
 Example:
 
 ```ts
-import { test } from '@faasjs/dev'
+import { testApi } from '@faasjs/dev'
 import { describe, expect, it } from 'vite-plus/test'
 
 import api from '../create.api'
 
 describe('orders/api/create', () => {
-  const wrapped = test(api)
+  const handler = testApi(api)
 
   it('returns 400 when params are invalid', async () => {
-    const response = await wrapped.JSONhandler({
+    const response = await handler({
       title: '',
       price: -1,
       quantity: 1,
@@ -207,7 +207,7 @@ describe('orders/api/create', () => {
   })
 
   it('returns 500 for plain Error', async () => {
-    const response = await wrapped.JSONhandler({
+    const response = await handler({
       title: 'duplicate',
       price: 10,
       quantity: 1,
@@ -218,7 +218,7 @@ describe('orders/api/create', () => {
   })
 
   it('returns custom status for HttpError', async () => {
-    const response = await wrapped.JSONhandler({
+    const response = await handler({
       title: 'conflict',
       price: 10,
       quantity: 1,
@@ -237,6 +237,6 @@ describe('orders/api/create', () => {
 - [DefineApiData](../references/packages/core/type-aliases/DefineApiData.md)
 - [DefineApiOptions](../references/packages/core/type-aliases/DefineApiOptions.md)
 - [HttpError](../references/packages/core/classes/HttpError.md)
-- [test](../references/packages/dev/functions/test.md)
+- [testApi](../references/packages/dev/functions/testApi.md)
 - [ApiTester](../references/packages/dev/classes/ApiTester.md)
 - [generateFaasTypes](../references/packages/dev/functions/generateFaasTypes.md)

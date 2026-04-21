@@ -88,16 +88,16 @@ export default defineApi({
 // __tests__/index.test.ts
 // unit test files should end with .test.ts
 // jsdom UI tests should use .ui.test.ts or .ui.test.tsx
-import { test } from '@faasjs/dev'
+import { testApi } from '@faasjs/dev'
 import api from '../index.api'
 
 describe('index', function () {
   it('should work', async function () {
-    // wrap the API module
-    const wrapped = test(api)
+    // create a test handler
+    const handler = testApi(api)
 
     // mock the request
-    const { statusCode, data } = await wrapped.JSONhandler()
+    const { statusCode, data } = await handler()
 
     // expect the response with 200 status
     expect(statusCode).toEqual(200)

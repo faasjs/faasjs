@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path'
 import { Logger } from '@faasjs/node-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { generateFaasTypes, isTypegenInputFile, isTypegenSourceFile } from '..'
+import { generateFaasTypes, isTypegenInputFile } from '..'
 
 const tempDirs: string[] = []
 const originalFaasLog = process.env.FaasLog
@@ -155,10 +155,5 @@ describe('typegen', () => {
     expect(isTypegenInputFile('/tmp/app/src/faas.yaml')).toBe(true)
     expect(isTypegenInputFile('C:\\repo\\src\\faas.yml')).toBe(true)
     expect(isTypegenInputFile('/tmp/app/src/demo.ts')).toBe(false)
-  })
-
-  it('should keep the deprecated typegen source alias', () => {
-    expect(isTypegenSourceFile('/tmp/app/src/demo.api.ts')).toBe(true)
-    expect(isTypegenSourceFile('/tmp/app/src/demo.ts')).toBe(false)
   })
 })

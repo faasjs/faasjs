@@ -1,13 +1,13 @@
-import { test } from '@faasjs/dev'
+import { testApi } from '@faasjs/dev'
 import { describe, expect, it } from 'vite-plus/test'
 
 import api from '../hello.api'
 
 describe('hello/api/hello', () => {
-  it('returns hello message with default name', async () => {
-    const wrapped = test(api)
+  const handler = testApi(api)
 
-    const response = await wrapped.JSONhandler({})
+  it('returns hello message with default name', async () => {
+    const response = await handler({})
 
     expect(response.statusCode).toBe(200)
     expect(response.data).toEqual({
@@ -16,9 +16,7 @@ describe('hello/api/hello', () => {
   })
 
   it('returns hello message with custom name', async () => {
-    const wrapped = test(api)
-
-    const response = await wrapped.JSONhandler({ name: 'world' })
+    const response = await handler({ name: 'world' })
 
     expect(response.statusCode).toBe(200)
     expect(response.data).toEqual({
