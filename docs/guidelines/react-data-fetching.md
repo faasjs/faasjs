@@ -9,15 +9,17 @@ Use this guide when creating or reviewing FaasJS data requests in React componen
 - choosing between `useFaas`, `useFaasStream`, `faas`, `FaasDataWrapper`, and `withFaasData`
 - configuring `FaasReactClient`
 - handling request loading, error, and retry states
+- deciding whether a request should use `skip`, `debounce`, or `reload(nextParams)`
 
 ## Default Workflow
 
 1. Use `useFaas` for standard component-level requests.
 2. Use `useFaasStream` for streaming text or chunked output.
 3. Use `faas` for imperative requests inside event handlers.
-4. Reach for `FaasDataWrapper` or `withFaasData` only when composition benefits from them.
-5. Configure `FaasReactClient` once at app setup.
-6. Handle loading, error, and retry states explicitly.
+4. Use the built-in `skip`, `debounce`, and `reload(nextParams)` controls before adding custom request effects or timers.
+5. Reach for `FaasDataWrapper` or `withFaasData` only when composition benefits from them.
+6. Configure `FaasReactClient` once at app setup.
+7. Handle loading, error, and retry states explicitly.
 
 ## Rules
 
@@ -59,7 +61,40 @@ export function Profile({ id }: { id: number }) {
 }
 ```
 
-### 2. Use `useFaasStream` for streaming responses
+### 2. Use built-in request lifecycle controls before custom effects
+
+- Prefer `skip` or `skip: (params) => ...` when a request should wait for required params or user intent.
+- Prefer `debounce` for search boxes, filters, and other fast-changing inputs instead of hand-written `setTimeout` plus effect logic.
+- Use `reload(nextParams)` when a user action needs an immediate refetch with new params.
+- Let `useFaas` and `useFaasStream` own abort, retry, and reload state instead of rebuilding that lifecycle in each component.
+
+Example:
+
+```tsx
+import { useFaas } from '@faasjs/react'
+
+export function UserSearch({ keyword }: { keyword: string }) {
+  const { data, loading, reload } = useFaas(
+    '/pages/users/search',
+    { keyword },
+    {
+      skip: (params) => !params.keyword.trim(),
+      debounce: 300,
+    },
+  )
+
+  return (
+    <div>
+      <button type="button" onClick={() => reload({ keyword: 'admin' })}>
+        Load admins
+      </button>
+      {loading ? <div>Loading...</div> : <pre>{JSON.stringify(data, null, 2)}</pre>}
+    </div>
+  )
+}
+```
+
+### 3. Use `useFaasStream` for streaming responses
 
 - Use `useFaasStream` for chat, logs, incremental text output, or other streaming payloads.
 - Surface loading and error states explicitly.
@@ -90,7 +125,7 @@ export function Chat({ prompt }: { prompt: string }) {
 }
 ```
 
-### 3. Use `faas` for imperative requests
+### 4. Use `faas` for imperative requests
 
 - Use `faas` in event handlers, submit handlers, or other imperative flows.
 - Manage pending and failure state in the local component.
@@ -139,7 +174,7 @@ export function UserForm({ id }: { id: number }) {
 }
 ```
 
-### 4. Use `FaasDataWrapper` only when wrapper composition helps
+### 5. Use `FaasDataWrapper` only when wrapper composition helps
 
 - Use `FaasDataWrapper` when render-prop or wrapper composition fits the page structure better than calling `useFaas` directly.
 - When using `children`, `FaasDataWrapper` clones the child element and injects request props such as `data`, `error`, and `reload`.
@@ -206,7 +241,7 @@ export function UserPanelWithChildren({ id }: { id: number }) {
 }
 ```
 
-### 5. Use `withFaasData` only for wrapper-style exports or fixed integration boundaries
+### 6. Use `withFaasData` only for wrapper-style exports or fixed integration boundaries
 
 - Use `withFaasData` only when an HOC is the clearest integration point.
 - Typical cases are wrapper-style exports or an existing component boundary that you cannot remove in the same change.
@@ -233,7 +268,7 @@ export const UserName = withFaasData(
 )
 ```
 
-### 6. Keep `FaasReactClient` setup centralized
+### 7. Keep `FaasReactClient` setup centralized
 
 - Create and register the browser client configuration once at app setup.
 - Use `onError` to collect or report request errors in one place.
@@ -257,7 +292,7 @@ FaasReactClient({
 })
 ```
 
-### 7. Use `getClient` only for multiple-client scenarios
+### 8. Use `getClient` only for multiple-client scenarios
 
 - `getClient` is for special cases such as multiple Faas clients with different base URLs.
 - Do not reach for `getClient` in normal single-client app code.
@@ -281,6 +316,7 @@ const client = getClient('https://service-b.example.com/api/')
 ## Review Checklist
 
 - each request chooses the smallest fitting API: `useFaas`, `useFaasStream`, `faas`, `FaasDataWrapper`, or `withFaasData`
+- request timing and conditional fetching prefer built-in `skip`, `debounce`, and `reload(nextParams)` over custom effect orchestration
 - loading, error, and retry states are handled explicitly
 - action paths follow the file-conventions guide and use `/pages/...` mapping
 - wrapper-based request composition is used only when it improves structure

@@ -105,6 +105,7 @@ Package 示例：
 - `vite.config.ts` 应定义项目运行时行为，例如 plugins、aliases、server 选项、tests 和 build 设置。
 - 共享的格式化与 lint 规则应来自 `@faasjs/dev`。
 - 使用 `fmt` 和 `lint` 时，`defineConfig` 应来自 `vite-plus`，而不是 `vite`。
+- 当一个项目同时包含 Node 测试和 UI 测试时，把 UI 测试放进单独的 `test.projects` 项。`*.test.tsx` 按 UI 测试处理，而 `*.ui.test.ts` 只保留给那些不使用 TSX 语法的 UI 测试，而不是全局设置 `environment: 'jsdom'`。
 
 预设示例：
 
@@ -112,10 +113,32 @@ Package 示例：
 import { viteConfig } from '@faasjs/dev'
 import { defineConfig } from 'vite-plus'
 
+const tests = ['src/**/*.test.ts']
+const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
+
 export default defineConfig({
   ...viteConfig,
   test: {
-    environment: 'jsdom',
+    projects: [
+      {
+        extends: true as const,
+        test: {
+          name: 'node',
+          include: tests,
+          exclude: uiTests,
+          environment: 'node',
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'ui',
+          include: uiTests,
+          environment: 'jsdom',
+          setupFiles: ['vitest.ui.setup.ts'],
+        },
+      },
+    ],
   },
 })
 ```
@@ -151,6 +174,9 @@ export default defineConfig({
 import { viteConfig } from '@faasjs/dev'
 import { defineConfig } from 'vite-plus'
 
+const tests = ['src/**/*.test.ts']
+const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
+
 export default defineConfig({
   ...viteConfig,
   server: {
@@ -158,7 +184,26 @@ export default defineConfig({
     port: 3000,
   },
   test: {
-    environment: 'jsdom',
+    projects: [
+      {
+        extends: true as const,
+        test: {
+          name: 'node',
+          include: tests,
+          exclude: uiTests,
+          environment: 'node',
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'ui',
+          include: uiTests,
+          environment: 'jsdom',
+          setupFiles: ['vitest.ui.setup.ts'],
+        },
+      },
+    ],
   },
 })
 ```
@@ -205,6 +250,7 @@ export default defineConfig({
 - 配置了 `fmt` 或 `lint` 时，`vite.config.ts` 使用的是 `vite-plus`
 - `vite.config.ts` 以 `viteConfig` 为起点，或复用了 `@faasjs/dev` 的共享 `fmt` / `lint` 规则
 - 配置没有在无明确理由时重复 FaasJS 基线设置
+- 当一个项目混合 UI 与 Node 测试时，UI 测试放进单独且使用 `environment: 'jsdom'` 的 project，UI 分组里使用 `*.test.tsx`，以及那些不含 TSX 的 `*.ui.test.ts`
 - 本地配置文件让项目特有行为易于辨认
 - 导入路径在合适时遵循 `tsconfig.json` 已定义的 alias
 - `tsconfig.json` 中定义的 alias 也被运行时或 bundler 支持

@@ -40,8 +40,8 @@ vp run ci
 
 ## Testing Notes
 
-- Node tests are primarily `packages/**/*.test.ts` and `packages/**/*.test.tsx`
-- Tests that require `jsdom` must use `packages/**/*.ui.test.ts` or `packages/**/*.ui.test.tsx`
+- Node tests are primarily `packages/**/*.test.ts`
+- UI tests are primarily `packages/**/*.test.tsx`, and use `packages/**/*.ui.test.ts` when a UI test does not use TSX syntax
 - Type tests use `packages/**/*.types.test.ts` and `packages/**/*.types.test.tsx`
 - Templates also have local test scripts and are useful for targeted regression checks
 

@@ -72,7 +72,8 @@ export default defineApi({
 ```ts
 // __tests__/index.test.ts
 // 普通单元测试文件以 .test.ts 结尾
-// 需要 jsdom 的 UI 测试使用 .ui.test.ts 或 .ui.test.tsx
+// 带 TSX 的 UI 测试使用 .test.tsx
+// 不带 TSX 的 UI 测试使用 .ui.test.ts
 import { testApi } from '@faasjs/dev'
 import api from '../index.api'
 

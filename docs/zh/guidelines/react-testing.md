@@ -6,6 +6,8 @@
 
 如果只是纯展示组件，或是不涉及 FaasJS 请求流程的 hooks，请优先使用共享的 [测试指南](./testing.md) 和 [React 指南](./react.md)。
 
+本指南里的“UI 测试”指的是会被 Vitest 路由到 `ui` project、并以 `environment: 'jsdom'` 运行的测试。
+
 ## 适用场景
 
 - 测试会发起 FaasJS 请求的 hooks
@@ -17,7 +19,7 @@
 ## 默认工作流
 
 1. 先从共享的 [测试指南](./testing.md) 开始。
-2. 需要 `jsdom` 的 React hook 与组件测试，文件名使用 `.ui.test.ts` 或 `.ui.test.tsx`。
+2. React hook 与组件的 UI 测试，如果文件里使用 TSX，就命名为 `.test.tsx`；如果测试不使用 TSX 语法，就命名为 `.ui.test.ts`。
 3. 在共享 Vitest setup 中使用 `afterEach(() => setMock(null))` 清除全局 mock。
 4. 在每个测试或 `beforeEach` 中设置当前场景所需的具体 mock。
 5. 能在请求层使用 `setMock` 时，优先不要去 mock 本地 hooks、函数或组件。
@@ -32,7 +34,7 @@
 - 针对 `@faasjs/react` 请求流程的 React 单元测试，应使用 `setMock`。
 - 不要在单元测试中依赖外部服务、真实 fetch 时序或环境相关后端。
 - mock 设置应保持显式，并且局部化到具体测试场景。
-- 当测试依赖 `@testing-library/react`、`renderHook`、`window` 或其他 `jsdom` API 时，使用 `.ui.test.ts` 或 `.ui.test.tsx` 后缀，让 Vitest 可以按文件名把它路由到 `jsdom` project，而不是依赖 package 位置。
+- 当测试依赖 `@testing-library/react`、`renderHook`、`window` 或其他浏览器式 API 时，带 TSX 的 UI 测试使用 `.test.tsx`，不带 TSX 的 UI 测试使用 `.ui.test.ts`，让 Vitest 可以按文件名把它路由到 `ui` project，而不是依赖 package 位置。
 
 Vitest setup 示例：
 
@@ -229,7 +231,7 @@ describe('useFaas', () => {
 ## 评审清单
 
 - 先满足共享的 [测试指南](./testing.md) 规则
-- 需要 `jsdom` 的测试使用 `.ui.test.ts` 或 `.ui.test.tsx` 后缀
+- UI 测试如果包含 TSX 就使用 `.test.tsx`，否则使用 `.ui.test.ts`
 - 请求相关测试使用 `setMock`，而不是发真实网络请求
 - 共享 Vitest setup 通过 `setMock(null)` 清理 mocks
 - mocks 没有比当前场景需要的复杂度更高

@@ -87,7 +87,8 @@ export default defineApi({
 ```ts
 // __tests__/index.test.ts
 // unit test files should end with .test.ts
-// jsdom UI tests should use .ui.test.ts or .ui.test.tsx
+// TSX-based UI tests should use .test.tsx
+// UI tests without TSX should use .ui.test.ts
 import { testApi } from '@faasjs/dev'
 import api from '../index.api'
 

@@ -7,18 +7,13 @@ import type { PackUserConfig } from 'vite-plus/pack'
 import { oxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
 import { oxlintConfig } from './packages/dev/src/vite/oxlint.ts'
 
-const tests = ['packages/**/*.test.ts', 'packages/**/*.test.tsx']
+const tests = ['packages/**/*.test.ts']
 
-const uiTests = ['packages/**/*.ui.test.ts', 'packages/**/*.ui.test.tsx']
+const uiTests = ['packages/**/*.test.tsx', 'packages/**/*.ui.test.ts']
 
 const types = ['packages/**/*.types.test.ts', 'packages/**/*.types.test.tsx']
 
-const pgTests = [
-  'packages/pg/**/*.test.ts',
-  'packages/pg/**/*.test.tsx',
-  'packages/pg-dev/**/*.test.ts',
-  'packages/pg-dev/**/*.test.tsx',
-]
+const pgTests = ['packages/pg/**/*.test.ts', 'packages/pg-dev/**/*.test.ts']
 
 const packEntries: Record<string, Record<string, string>> = {
   dev: {

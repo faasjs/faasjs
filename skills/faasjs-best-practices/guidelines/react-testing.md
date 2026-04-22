@@ -6,6 +6,8 @@ Apply the shared [Testing Guide](./testing.md) first, then use the React-specifi
 
 For pure presentational components or hooks that do not touch FaasJS request flows, follow the shared [Testing Guide](./testing.md) and [React Guide](./react.md) instead.
 
+In this guide, "UI tests" means tests routed to the Vitest `ui` project with `environment: 'jsdom'`.
+
 ## Use This Guide When
 
 - testing hooks that issue FaasJS requests
@@ -17,7 +19,7 @@ For pure presentational components or hooks that do not touch FaasJS request flo
 ## Default Workflow
 
 1. Start with the shared [Testing Guide](./testing.md).
-2. Name React hook and component tests that require `jsdom` with `.ui.test.ts` or `.ui.test.tsx`.
+2. Name React hook and component UI tests with `.test.tsx` when the file uses TSX, or `.ui.test.ts` when the test does not use TSX syntax.
 3. Clear the global mock in shared Vitest setup with `afterEach(() => setMock(null))`.
 4. Set the specific mock for each test or `beforeEach`.
 5. Prefer request-layer mocks such as `setMock` over mocking local hooks, functions, or components.
@@ -32,7 +34,7 @@ For pure presentational components or hooks that do not touch FaasJS request flo
 - React unit tests that cover `@faasjs/react` request flows should use `setMock`.
 - Do not rely on external services, real fetch timing, or environment-specific backends in unit tests.
 - Keep mock setup explicit and local to the test scenario.
-- When a test needs `@testing-library/react`, `renderHook`, `window`, or other `jsdom` APIs, name it with `.ui.test.ts` or `.ui.test.tsx` so Vitest can route it to the `jsdom` project without relying on package location.
+- When a test uses `@testing-library/react`, `renderHook`, `window`, or other browser-like APIs, use `.test.tsx` for TSX-based UI tests and `.ui.test.ts` for non-TSX UI tests so Vitest can route them to the `ui` project without relying on package location.
 
 Vitest setup example:
 
@@ -229,7 +231,7 @@ describe('useFaas', () => {
 ## Review Checklist
 
 - shared [Testing Guide](./testing.md) rules are followed first
-- tests that require `jsdom` use the `.ui.test.ts` or `.ui.test.tsx` suffix
+- UI tests use `.test.tsx` when they contain TSX, or `.ui.test.ts` when they do not
 - request-related tests use `setMock` instead of real network calls
 - shared Vitest setup clears mocks with `setMock(null)`
 - mocks are no more complex than the scenario requires

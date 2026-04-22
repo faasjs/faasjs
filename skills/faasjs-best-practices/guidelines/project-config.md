@@ -105,6 +105,7 @@ Avoid this:
 - `vite.config.ts` SHOULD define project runtime behavior such as plugins, aliases, server options, tests, and build settings.
 - Shared formatting and lint rules SHOULD come from `@faasjs/dev`.
 - When using `fmt` and `lint`, `defineConfig` SHOULD come from `vite-plus`, not `vite`.
+- In mixed Node + UI test suites, keep UI tests in a dedicated `test.projects` entry. Treat `*.test.tsx` as UI tests, and use `*.ui.test.ts` only for UI tests that do not use TSX syntax, instead of setting `environment: 'jsdom'` globally.
 
 Preset example:
 
@@ -112,10 +113,32 @@ Preset example:
 import { viteConfig } from '@faasjs/dev'
 import { defineConfig } from 'vite-plus'
 
+const tests = ['src/**/*.test.ts']
+const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
+
 export default defineConfig({
   ...viteConfig,
   test: {
-    environment: 'jsdom',
+    projects: [
+      {
+        extends: true as const,
+        test: {
+          name: 'node',
+          include: tests,
+          exclude: uiTests,
+          environment: 'node',
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'ui',
+          include: uiTests,
+          environment: 'jsdom',
+          setupFiles: ['vitest.ui.setup.ts'],
+        },
+      },
+    ],
   },
 })
 ```
@@ -151,6 +174,9 @@ Example:
 import { viteConfig } from '@faasjs/dev'
 import { defineConfig } from 'vite-plus'
 
+const tests = ['src/**/*.test.ts']
+const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
+
 export default defineConfig({
   ...viteConfig,
   server: {
@@ -158,7 +184,26 @@ export default defineConfig({
     port: 3000,
   },
   test: {
-    environment: 'jsdom',
+    projects: [
+      {
+        extends: true as const,
+        test: {
+          name: 'node',
+          include: tests,
+          exclude: uiTests,
+          environment: 'node',
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'ui',
+          include: uiTests,
+          environment: 'jsdom',
+          setupFiles: ['vitest.ui.setup.ts'],
+        },
+      },
+    ],
   },
 })
 ```
@@ -205,6 +250,7 @@ export default defineConfig({
 - `vite.config.ts` uses `vite-plus` when `fmt` or `lint` is configured
 - `vite.config.ts` starts from `viteConfig` or reuses shared `fmt` and `lint` rules from `@faasjs/dev`
 - the config does not duplicate FaasJS baseline settings without a clear reason
+- UI tests use a dedicated project with `environment: 'jsdom'`, with `*.test.tsx` plus any non-TSX `*.ui.test.ts` files in that UI bucket
 - local config files make project-specific behavior easy to identify
 - imports follow aliases already defined in `tsconfig.json` when appropriate
 - aliases defined in `tsconfig.json` are also supported by the runtime or bundler
