@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+[`v8.0.0-beta.25 (2026-04-22)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.24...>v8.0.0-beta.25)
 
 - `@faasjs/core`
   - [Break] Remove the deprecated `parseFuncFilenameFromStack()` alias. Use `parseApiFilenameFromStack()` directly.

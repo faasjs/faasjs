@@ -1,6 +1,6 @@
 {
   "name": "@faasjs/pg-dev",
-  "version": "8.0.0-beta.24",
+  "version": "8.0.0-beta.25",
   "description": "PGlite-powered Vitest plugin for @faasjs/pg.",
   "keywords": [
     "@faasjs/pg",
@@ -46,13 +46,13 @@
   "devDependencies": {
     "@electric-sql/pglite": "*",
     "@electric-sql/pglite-socket": "*",
-    "@faasjs/pg": ">=8.0.0-beta.24",
+    "@faasjs/pg": ">=8.0.0-beta.25",
     "postgres": "*"
   },
   "peerDependencies": {
     "@electric-sql/pglite": "*",
     "@electric-sql/pglite-socket": "*",
-    "@faasjs/pg": ">=8.0.0-beta.24",
+    "@faasjs/pg": ">=8.0.0-beta.25",
     "postgres": "*"
   },
   "engines": {
