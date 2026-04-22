@@ -17,6 +17,38 @@ When changing `@faasjs/pg`-backed code, every behavior change should come with r
 4. Pair runtime assertions with `expectTypeOf(...)` when query inference, declaration merging, or shared wrappers affect types.
 5. Run the smallest validation command that matches the change surface.
 
+Mixed-workspace example:
+
+```ts
+import { TypedPgVitestPlugin } from '@faasjs/pg-dev'
+import { defineConfig } from 'vite-plus'
+
+export default defineConfig({
+  plugins: [TypedPgVitestPlugin({ projects: ['node'] })],
+  test: {
+    projects: [
+      {
+        extends: true as const,
+        test: {
+          name: 'node',
+          include: ['src/**/*.test.ts'],
+          exclude: ['src/**/*.types.test.ts'],
+          environment: 'node',
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'ui',
+          include: ['src/**/*.test.tsx', 'src/**/*.ui.test.ts'],
+          environment: 'jsdom',
+        },
+      },
+    ],
+  },
+})
+```
+
 ## Minimal Example
 
 ```ts
@@ -83,6 +115,7 @@ describe('users query', () => {
 
 - Prefer `TypedPgVitestPlugin()` for workspace test runs.
 - In mixed Vitest workspaces, pass `environments` or `projects` when `jsdom` or `happy-dom` suites should participate.
+- PG-backed runtime tests are still Node runtime tests. Prefer the regular `node` project, but if only that subset needs project-level setup, use a node-scoped project name such as `node-pg` instead of a standalone runtime bucket like `pg`.
 - In tests, let the plugin inject `DATABASE_URL` and use `getClient()` directly for fixture setup and assertions.
 - Reach for `createClient(process.env.DATABASE_URL, options)` only when a suite genuinely needs custom `postgres.js` options or an extra connection.
 - Keep lower-level database bootstrapping internal to the test support layer; public examples should only show the plugin.
@@ -93,6 +126,7 @@ describe('users query', () => {
 - type-sensitive changes have `expectTypeOf(...)` coverage
 - tests live close to the feature area that changed
 - mixed workspaces configure the plugin scope explicitly when browser-like projects need it
+- pg-backed runtime tests stay in a node-scoped project (`node` or `node-pg`) in mixed workspaces
 - suites either rely on the plugin reset or clean up their own extra setup
 - validation commands match the change surface
 

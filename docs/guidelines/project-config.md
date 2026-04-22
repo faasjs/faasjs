@@ -106,6 +106,8 @@ Avoid this:
 - Shared formatting and lint rules SHOULD come from `@faasjs/dev`.
 - When using `fmt` and `lint`, `defineConfig` SHOULD come from `vite-plus`, not `vite`.
 - In mixed Node + UI test suites, keep UI tests in a dedicated `test.projects` entry. Treat `*.test.tsx` as UI tests, and use `*.ui.test.ts` only for UI tests that do not use TSX syntax, instead of setting `environment: 'jsdom'` globally.
+- When a suite also includes `*.types.test.ts` or `*.types.test.tsx`, keep those files in a dedicated `types` project. Exclude them from runtime projects because globs such as `src/**/*.test.ts` also match `*.types.test.ts`. Only add `typecheck: { enabled: false }` to runtime projects when they inherit a shared root `typecheck` config that would otherwise run the same type tests multiple times.
+- PG-backed runtime tests are still Node runtime tests. Prefer keeping them in the main `node` project, but if project-level setup must only apply to that subset, split them into a node-scoped project such as `node-pg` rather than a standalone `pg` runtime bucket.
 
 Preset example:
 
@@ -115,6 +117,7 @@ import { defineConfig } from 'vite-plus'
 
 const tests = ['src/**/*.test.ts']
 const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
+const typeTests = ['src/**/*.types.test.ts', 'src/**/*.types.test.tsx']
 
 export default defineConfig({
   ...viteConfig,
@@ -125,7 +128,7 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests,
+          exclude: uiTests.concat(typeTests),
           environment: 'node',
         },
       },
@@ -136,6 +139,20 @@ export default defineConfig({
           include: uiTests,
           environment: 'jsdom',
           setupFiles: ['vitest.ui.setup.ts'],
+          exclude: typeTests,
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'types',
+          include: typeTests,
+          environment: 'node',
+          typecheck: {
+            enabled: true,
+            only: true,
+            include: typeTests,
+          },
         },
       },
     ],
@@ -176,6 +193,7 @@ import { defineConfig } from 'vite-plus'
 
 const tests = ['src/**/*.test.ts']
 const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
+const typeTests = ['src/**/*.types.test.ts', 'src/**/*.types.test.tsx']
 
 export default defineConfig({
   ...viteConfig,
@@ -190,7 +208,7 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests,
+          exclude: uiTests.concat(typeTests),
           environment: 'node',
         },
       },
@@ -201,6 +219,20 @@ export default defineConfig({
           include: uiTests,
           environment: 'jsdom',
           setupFiles: ['vitest.ui.setup.ts'],
+          exclude: typeTests,
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'types',
+          include: typeTests,
+          environment: 'node',
+          typecheck: {
+            enabled: true,
+            only: true,
+            include: typeTests,
+          },
         },
       },
     ],
@@ -251,6 +283,7 @@ export default defineConfig({
 - `vite.config.ts` starts from `viteConfig` or reuses shared `fmt` and `lint` rules from `@faasjs/dev`
 - the config does not duplicate FaasJS baseline settings without a clear reason
 - UI tests use a dedicated project with `environment: 'jsdom'`, with `*.test.tsx` plus any non-TSX `*.ui.test.ts` files in that UI bucket
+- type tests use a dedicated `types` project when present, instead of being mixed into runtime projects or re-run by every inherited runtime typecheck
 - local config files make project-specific behavior easy to identify
 - imports follow aliases already defined in `tsconfig.json` when appropriate
 - aliases defined in `tsconfig.json` are also supported by the runtime or bundler

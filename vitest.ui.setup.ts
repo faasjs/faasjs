@@ -43,11 +43,11 @@ vi.stubGlobal('ResizeObserver', ResizeObserverMock)
 
 beforeEach(() => {
   document.body.innerHTML = ''
-  window.location.href = 'http://localhost/'
   window.fetch = fetch
-  setMock(null)
+  window.history.replaceState(null, '', '/')
 })
 
 afterEach(() => {
   cleanup()
+  setMock(null)
 })

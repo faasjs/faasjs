@@ -106,6 +106,8 @@ Package 示例：
 - 共享的格式化与 lint 规则应来自 `@faasjs/dev`。
 - 使用 `fmt` 和 `lint` 时，`defineConfig` 应来自 `vite-plus`，而不是 `vite`。
 - 当一个项目同时包含 Node 测试和 UI 测试时，把 UI 测试放进单独的 `test.projects` 项。`*.test.tsx` 按 UI 测试处理，而 `*.ui.test.ts` 只保留给那些不使用 TSX 语法的 UI 测试，而不是全局设置 `environment: 'jsdom'`。
+- 当测试套件还包含 `*.types.test.ts` 或 `*.types.test.tsx` 时，把这些文件放进单独的 `types` project。把它们从运行时 project 中排除，因为像 `src/**/*.test.ts` 这样的 glob 也会匹配 `*.types.test.ts`。只有当运行时 project 会继承一份共享的根级 `typecheck` 配置，并因此可能重复执行同一批类型测试时，才需要额外写 `typecheck: { enabled: false }`。
+- 基于 PG 的 runtime tests 本质上仍然是 Node runtime tests。优先把它们放在主 `node` project 中；但如果某些 project-level setup 只能作用于这部分测试，就把它们拆到 `node-pg` 这类 node-scoped project，而不是单独做成一个独立的 `pg` runtime bucket。
 
 预设示例：
 
@@ -115,6 +117,7 @@ import { defineConfig } from 'vite-plus'
 
 const tests = ['src/**/*.test.ts']
 const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
+const typeTests = ['src/**/*.types.test.ts', 'src/**/*.types.test.tsx']
 
 export default defineConfig({
   ...viteConfig,
@@ -125,7 +128,7 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests,
+          exclude: uiTests.concat(typeTests),
           environment: 'node',
         },
       },
@@ -136,6 +139,20 @@ export default defineConfig({
           include: uiTests,
           environment: 'jsdom',
           setupFiles: ['vitest.ui.setup.ts'],
+          exclude: typeTests,
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'types',
+          include: typeTests,
+          environment: 'node',
+          typecheck: {
+            enabled: true,
+            only: true,
+            include: typeTests,
+          },
         },
       },
     ],
@@ -176,6 +193,7 @@ import { defineConfig } from 'vite-plus'
 
 const tests = ['src/**/*.test.ts']
 const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
+const typeTests = ['src/**/*.types.test.ts', 'src/**/*.types.test.tsx']
 
 export default defineConfig({
   ...viteConfig,
@@ -190,7 +208,7 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests,
+          exclude: uiTests.concat(typeTests),
           environment: 'node',
         },
       },
@@ -201,6 +219,20 @@ export default defineConfig({
           include: uiTests,
           environment: 'jsdom',
           setupFiles: ['vitest.ui.setup.ts'],
+          exclude: typeTests,
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'types',
+          include: typeTests,
+          environment: 'node',
+          typecheck: {
+            enabled: true,
+            only: true,
+            include: typeTests,
+          },
         },
       },
     ],
@@ -251,6 +283,7 @@ export default defineConfig({
 - `vite.config.ts` 以 `viteConfig` 为起点，或复用了 `@faasjs/dev` 的共享 `fmt` / `lint` 规则
 - 配置没有在无明确理由时重复 FaasJS 基线设置
 - 当一个项目混合 UI 与 Node 测试时，UI 测试放进单独且使用 `environment: 'jsdom'` 的 project，UI 分组里使用 `*.test.tsx`，以及那些不含 TSX 的 `*.ui.test.ts`
+- 当项目包含类型测试时，使用单独的 `types` project，而不是把它们混进运行时测试，或让继承到的运行时 typecheck 重复执行同一批类型测试
 - 本地配置文件让项目特有行为易于辨认
 - 导入路径在合适时遵循 `tsconfig.json` 已定义的 alias
 - `tsconfig.json` 中定义的 alias 也被运行时或 bundler 支持

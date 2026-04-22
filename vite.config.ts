@@ -11,7 +11,7 @@ const tests = ['packages/**/*.test.ts']
 
 const uiTests = ['packages/**/*.test.tsx', 'packages/**/*.ui.test.ts']
 
-const types = ['packages/**/*.types.test.ts', 'packages/**/*.types.test.tsx']
+const typeTests = ['packages/**/*.types.test.ts', 'packages/**/*.types.test.tsx']
 
 const pgTests = ['packages/pg/**/*.test.ts', 'packages/pg-dev/**/*.test.ts']
 
@@ -87,10 +87,6 @@ export default defineConfig({
   test: {
     restoreMocks: true,
     clearMocks: true,
-    typecheck: {
-      enabled: true,
-      include: types,
-    },
     coverage: {
       provider: 'v8',
       include: ['packages/**/*.ts', 'packages/**/*.tsx'],
@@ -104,16 +100,16 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests.concat(types, pgTests),
+          exclude: uiTests.concat(typeTests, pgTests),
           environment: 'node',
         },
       },
       {
         extends: true as const,
         test: {
-          name: 'pg',
+          name: 'node-pg',
           include: pgTests,
-          exclude: types,
+          exclude: typeTests,
           environment: 'node',
           globalSetup: ['packages/pg/src/__tests__/global-setup.ts'],
           setupFiles: ['packages/pg/src/__tests__/setup.ts'],
@@ -124,10 +120,23 @@ export default defineConfig({
         test: {
           name: 'ui',
           include: uiTests,
-          exclude: types,
+          exclude: typeTests,
           environment: 'jsdom',
           setupFiles: ['vitest.ui.setup.ts'],
           testTimeout: 10000,
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'types',
+          include: typeTests,
+          environment: 'node',
+          typecheck: {
+            enabled: true,
+            only: true,
+            include: typeTests,
+          },
         },
       },
     ],

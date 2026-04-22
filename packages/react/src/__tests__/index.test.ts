@@ -1,9 +1,13 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
 import { Response, setMock } from '..'
 import { FaasReactClient, getClient } from '..'
 
 describe('FaasReactClient', () => {
+  afterEach(() => {
+    setMock(null)
+  })
+
   it('should work', () => {
     const client = FaasReactClient()
 

@@ -17,6 +17,38 @@
 4. 当查询推导、declaration merging 或共享 wrappers 影响类型时，让 runtime assertions 和 `expectTypeOf(...)` 成对出现。
 5. 运行与变更面最匹配的最小验证命令。
 
+混合工作区示例：
+
+```ts
+import { TypedPgVitestPlugin } from '@faasjs/pg-dev'
+import { defineConfig } from 'vite-plus'
+
+export default defineConfig({
+  plugins: [TypedPgVitestPlugin({ projects: ['node'] })],
+  test: {
+    projects: [
+      {
+        extends: true as const,
+        test: {
+          name: 'node',
+          include: ['src/**/*.test.ts'],
+          exclude: ['src/**/*.types.test.ts'],
+          environment: 'node',
+        },
+      },
+      {
+        extends: true as const,
+        test: {
+          name: 'ui',
+          include: ['src/**/*.test.tsx', 'src/**/*.ui.test.ts'],
+          environment: 'jsdom',
+        },
+      },
+    ],
+  },
+})
+```
+
 ## 最小示例
 
 ```ts
@@ -83,6 +115,7 @@ describe('users query', () => {
 
 - 工作区测试默认优先使用 `TypedPgVitestPlugin()`。
 - 在混合 Vitest 工作区里，如果 `jsdom` 或 `happy-dom` suites 也要接入插件，就显式传 `environments` 或 `projects`。
+- 基于 PG 的 runtime tests 本质上仍然是 Node runtime tests。优先使用普通的 `node` project；但如果只有这部分测试需要 project-level setup，就使用 `node-pg` 这类 node-scoped project name，而不是单独拆成 `pg` 这种 runtime bucket。
 - 测试里让插件注入 `DATABASE_URL`，然后直接使用 `getClient()` 做 fixtures 与断言。
 - 只有在某个 suite 真的需要自定义 `postgres.js` options 或额外连接时，才使用 `createClient(process.env.DATABASE_URL, options)`。
 - 更底层的数据库 bootstrap 细节应留在 test support layer 内部，公开示例只展示插件用法。
@@ -93,6 +126,7 @@ describe('users query', () => {
 - 类型敏感变更是否有 `expectTypeOf(...)` 覆盖
 - 测试是否放在变更对应的功能区域附近
 - 混合工作区是否在需要浏览器类项目时显式配置了插件范围
+- 混合工作区里的 PG runtime tests 是否保持在 node-scoped project（如 `node` 或 `node-pg`）中
 - suites 是否依赖了插件重置，或自行清理了额外 setup
 - 验证命令是否与变更面匹配
 
