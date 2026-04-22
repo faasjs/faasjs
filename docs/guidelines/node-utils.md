@@ -24,7 +24,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 ## Default Workflow
 
 1. Keep `@faasjs/node-utils` imports in Node-only entrypoints, tests, CLIs, or adapters.
-2. Load env files early with Node's built-in `loadEnvFile()` if the process relies on local dotenv files.
+2. Let `Server` or `viteFaasJsServer()` auto-load the app `.env` when they own bootstrap, and call Node's built-in `loadEnvFile()` yourself for other entrypoints that rely on local dotenv files.
 3. Use `loadConfig()` when you only need staged `faas.yaml` data.
 4. Use `parseYaml()` when you need the raw FaasJS YAML subset in custom tooling without staged discovery.
 5. Use `loadApiHandler()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
@@ -40,9 +40,10 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 - Do not import it into browser code, React components, or code that must run on edge runtimes.
 - Use `@faasjs/utils` for portable helpers and `@faasjs/core` or `@faasjs/dev` for framework/runtime primitives.
 
-### 2. Load `.env` files explicitly and early
+### 2. Load `.env` files early when your entrypoint needs them
 
-- `loadEnvFile()` from `node:process` is the direct entrypoint when local scripts or tests depend on dotenv files.
+- `@faasjs/core` `Server` and `@faasjs/dev` `viteFaasJsServer()` already try to load the project `.env` before handlers run.
+- `loadEnvFile()` from `node:process` is still the direct entrypoint for local scripts, tests, CLIs, and config files that read `process.env` before those helpers start.
 - Call it before reading `process.env`, building config objects, or loading modules that depend on env values.
 - Wrap it in `try/catch` when the env file is optional and startup should continue without it.
 
@@ -150,7 +151,7 @@ if (!isPathInsideRoot(candidate, root)) {
 ## Review Checklist
 
 - `@faasjs/node-utils` imports stay in Node-only code
-- local scripts load `.env` before env-dependent bootstrap logic
+- local scripts load `.env` before env-dependent bootstrap logic unless `Server` or `viteFaasJsServer()` owns that bootstrap
 - staged `faas.yaml` is read through `loadConfig()` or `loadApiHandler()`, not custom merge code
 - raw FaasJS-compatible YAML parsing uses `parseYaml()` instead of a different YAML parser
 - loaders use `loadApiHandler()`, `loadPlugins()`, or `loadPackage()` instead of custom dynamic import wrappers

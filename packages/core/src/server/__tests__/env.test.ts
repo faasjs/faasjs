@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -38,6 +38,40 @@ describe('server env loading', () => {
 
     new Server(join(__dirname, 'funcs'))
 
+    expect(process.env[key]).toBeUndefined()
+  })
+
+  it('should load .env from the FaasJS project root when server root is src', () => {
+    const root = mkdtempSync(join(tmpdir(), 'faas-server-env-'))
+    temporaryRoots.push(root)
+
+    mkdirSync(join(root, 'src'), {
+      recursive: true,
+    })
+    writeFileSync(join(root, 'src', 'faas.yaml'), 'defaults:\n  plugins: {}\n')
+    writeFileSync(join(root, '.env'), `${key}=from-project-root\n`)
+    delete process.env[key]
+
+    new Server(join(root, 'src'))
+
+    expect(process.env[key]).toBe('from-project-root')
+  })
+
+  it('should warn instead of throwing when env file loading fails', () => {
+    const root = mkdtempSync(join(tmpdir(), 'faas-server-env-'))
+    temporaryRoots.push(root)
+
+    mkdirSync(join(root, 'src'), {
+      recursive: true,
+    })
+    writeFileSync(join(root, 'src', 'faas.yaml'), 'defaults:\n  plugins: {}\n')
+    mkdirSync(join(root, '.env'))
+    delete process.env[key]
+
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+
+    expect(() => new Server(join(root, 'src'))).not.toThrow()
+    expect(warn).toHaveBeenCalledWith('[faasjs] Failed to load env file', expect.any(Error))
     expect(process.env[key]).toBeUndefined()
   })
 })

@@ -6,9 +6,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/core`
   - [Break] Remove the deprecated `parseFuncFilenameFromStack()` alias. Use `parseApiFilenameFromStack()` directly.
+  - [Feature] Load the project `.env` automatically when `Server` starts from a FaasJS app root, and warn without blocking startup when the file is unreadable.
 
 - `@faasjs/dev`
   - [Break] Remove the legacy `test()` helper plus deprecated `FuncWarper` and `isTypegenSourceFile()` aliases, keep `testApi()` as the only callable JSON test helper, use `ApiTester` as the only public tester class, and keep `isTypegenInputFile()` as the only public typegen watcher helper.
+  - [Feature] Load the project `.env` automatically when `viteFaasJsServer()` starts, and warn without blocking startup when the file is unreadable.
 
 - `@faasjs/node-utils`
   - [Break] Remove the deprecated `loadFunc()` alias. Use `loadApiHandler()` directly.

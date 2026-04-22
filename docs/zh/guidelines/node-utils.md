@@ -24,7 +24,7 @@
 ## 默认工作流
 
 1. 仅在 Node-only entrypoints、tests、CLIs 或 adapters 中导入 `@faasjs/node-utils`。
-2. 如果进程依赖本地 dotenv 文件，尽早用 Node 内置的 `loadEnvFile()` 加载 env。
+2. 当 bootstrap 由 `Server` 或 `viteFaasJsServer()` 接管时，让它们自动加载应用 `.env`；其他依赖本地 dotenv 的 entrypoint 再自行调用 Node 内置 `loadEnvFile()`。
 3. 当你只需要分阶段的 `faas.yaml` 数据时，使用 `loadConfig()`。
 4. 当你需要在自定义工具中处理 FaasJS 原始 YAML 子集、且不需要 staged discovery 时，使用 `parseYaml()`。
 5. 当你需要最终可运行的导出 handler 时使用 `loadApiHandler()`；如果你已经有了 `Func` 实例，则使用 `loadPlugins()`。
@@ -40,9 +40,10 @@
 - 不要把它导入浏览器代码、React 组件，或必须运行在 edge runtime 的代码中。
 - 可移植 helpers 请使用 `@faasjs/utils`，框架 / runtime primitives 请使用 `@faasjs/core` 或 `@faasjs/dev`。
 
-### 2. 显式且尽早加载 `.env` 文件
+### 2. 在 entrypoint 需要时尽早加载 `.env` 文件
 
-- 当本地脚本或测试依赖 dotenv 文件时，直接使用 `node:process` 里的 `loadEnvFile()`。
+- `@faasjs/core` 的 `Server` 和 `@faasjs/dev` 的 `viteFaasJsServer()` 已经会在 handlers 运行前尝试加载项目 `.env`。
+- 对于本地脚本、测试、CLI，以及那些会在这些 helpers 启动前读取 `process.env` 的配置文件，仍然直接使用 `node:process` 里的 `loadEnvFile()`。
 - 在读取 `process.env`、构造配置对象，或加载依赖环境变量的模块之前调用它。
 - 当 `.env` 是可选项且启动不该被中断时，用 `try/catch` 包起来。
 
@@ -150,7 +151,7 @@ if (!isPathInsideRoot(candidate, root)) {
 ## 评审清单
 
 - `@faasjs/node-utils` 的导入只出现在 Node-only 代码中
-- 本地脚本在依赖环境变量的 bootstrap 逻辑前先加载了 `.env`
+- 本地脚本会在依赖环境变量的 bootstrap 逻辑前先加载 `.env`，除非 bootstrap 本身由 `Server` 或 `viteFaasJsServer()` 接管
 - staged `faas.yaml` 通过 `loadConfig()` 或 `loadApiHandler()` 读取，而不是自定义 merge 逻辑
 - 原始 FaasJS 兼容 YAML 使用 `parseYaml()` 解析，而不是另一个 YAML parser
 - 加载逻辑使用 `loadApiHandler()`、`loadPlugins()` 或 `loadPackage()`，而不是自定义动态 import 包装

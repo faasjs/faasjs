@@ -9,6 +9,7 @@ import {
 } from 'node:http'
 import type { Socket } from 'node:net'
 import { dirname, join, resolve, sep } from 'node:path'
+import { loadEnvFile } from 'node:process'
 import { Readable } from 'node:stream'
 import { types } from 'node:util'
 
@@ -60,6 +61,27 @@ type Mounted = {
 }
 
 const servers: Server[] = []
+
+function resolveEnvFilePath(root: string): string {
+  const normalizedRoot = root.endsWith(sep) ? root.slice(0, -1) : root
+  const parentRoot = dirname(normalizedRoot)
+
+  if (existsSync(join(normalizedRoot, 'faas.yaml'))) return join(parentRoot, '.env')
+  if (existsSync(join(parentRoot, 'src', 'faas.yaml'))) return join(parentRoot, '.env')
+
+  return join(normalizedRoot, '.env')
+}
+
+function loadServerEnvFile(root: string): void {
+  const envFile = resolveEnvFilePath(root)
+  if (!existsSync(envFile)) return
+
+  try {
+    loadEnvFile(envFile)
+  } catch (error) {
+    console.warn('[faasjs] Failed to load env file', error)
+  }
+}
 
 /**
  * Return all server instances created in the current process.
@@ -256,9 +278,11 @@ export class Server {
    * @throws {Error} When `onStart`, `onError`, or `onClose` is not an async function.
    */
   constructor(root: string, opts: ServerOptions = {}) {
+    this.root = root.endsWith(sep) ? root : root + sep
+    loadServerEnvFile(this.root)
+
     if (!process.env.FaasEnv && process.env.NODE_ENV) process.env.FaasEnv = process.env.NODE_ENV
 
-    this.root = root.endsWith(sep) ? root : root + sep
     this.options = deepMerge(
       {
         port: 3000,
