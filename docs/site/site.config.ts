@@ -76,10 +76,6 @@ export const siteConfig: SiteConfig = {
               text: 'Ecosystem',
               children: [
                 {
-                  text: 'VS Code Plugin',
-                  link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets',
-                },
-                {
                   text: 'Docker Images',
                   link: '/doc/images/',
                 },
@@ -205,10 +201,6 @@ export const siteConfig: SiteConfig = {
         {
           text: '生态',
           children: [
-            {
-              text: 'VS Code 插件',
-              link: 'https://marketplace.visualstudio.com/items?itemName=FaasJS.faasjs-snippets',
-            },
             {
               text: 'Docker 镜像',
               children: [

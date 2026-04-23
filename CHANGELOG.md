@@ -4,6 +4,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- `faasjs`
+  - [Break] Remove the discontinued `vscode/faasjs-snippets` VS Code snippets extension from the repo, docs navigation, and devcontainer example.
+
 - `@faasjs/core`
   - [Break] Require `.api.ts` modules loaded by `Server` to export their FaasJS API instance as `default`, and stop resolving the named `func` export.
 

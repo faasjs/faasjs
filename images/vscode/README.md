@@ -36,7 +36,7 @@
 {
   "name": "dev",
   "image": "faasjs/vscode",
-  "extensions": ["eamodio.gitlens", "faasjs.faasjs-snippets", "oxc.oxc-vscode"],
+  "extensions": ["eamodio.gitlens", "oxc.oxc-vscode"],
   "settings": {
     "terminal.integrated.shell.linux": "/bin/zsh"
   }
