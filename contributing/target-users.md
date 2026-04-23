@@ -2,116 +2,192 @@
 
 Use this guide when evaluating framework changes that could affect FaasJS positioning, supported stacks, dependency policy, abstractions, or default workflows.
 
-Its goal is to keep contributors aligned on who FaasJS is for and which tradeoffs the project should prefer.
+Its goal is to make product boundaries and framework trade-offs explicit, so contributors can review proposals against a shared standard.
 
-## Positioning
+This is a decision guide for framework direction. It is not marketing copy, a feature checklist, or a promise to optimize for every valid use case.
 
-FaasJS is a React-only, agent-friendly full-stack TypeScript framework.
+## Core Product Thesis
 
-It prioritizes:
+FaasJS is a React-only, agent-friendly full-stack TypeScript framework for teams that want predictable product delivery through clear conventions, low ambiguity, strong type safety, and minimal dependencies.
 
-- readability for humans and agents
-- low ambiguity and stable conventions
-- type safety
-- minimal dependencies
-- a simple core with an out-of-the-box main path
+It optimizes for a strong default path across frontend, backend, and shared types. It does not aim to be a highly configurable framework or a framework that treats many frontend stacks as equally first-class.
 
-FaasJS does not aim to be a highly configurable framework or a framework that supports every frontend stack.
+In FaasJS, "agent-friendly" means code structure, APIs, and conventions should be easy for agents to generate, inspect, review, and refactor. It does not mean preferring AI-oriented novelty over sound engineering.
 
-## Target Users
+## Primary Users
 
-FaasJS is for developers and teams who want:
+FaasJS is primarily for developers and teams who:
 
-- clear conventions instead of many competing styles
-- a React-only full-stack path
-- code that is easy to read, review, refactor, and maintain
-- a framework that works well with AI agent generation and review
-- a simple setup that is still ready for common product work
+- build admin panels, back-office systems, internal tools, BFF/API layers, SaaS products, and other business applications
+- want one clear React-based full-stack path instead of many equally official styles
+- care about code that is easy to read, review, refactor, and maintain over time
+- want architecture that works well for both humans and AI agents
+- prefer a smaller dependency surface and a more predictable upgrade story
 
-FaasJS is not optimized for users who primarily want maximum configurability, many interchangeable frontend choices, or broad support across multiple framework models.
+These users usually value steady product delivery, shared conventions, and long-term maintainability more than maximum abstraction power or stack optionality.
 
-## Supported Product Types
+## Non-Target Users
 
-FaasJS supports multiple product types, including:
+FaasJS is not primarily optimized for users who:
+
+- want multiple frontend frameworks to be equally first-class
+- want high configurability or plugin-driven architecture as a core design goal
+- expect the framework to adapt to many competing coding styles
+- prefer hidden magic and implicit behavior over explicit structure
+- want official support for every UI stack and database combination
+
+This does not mean such users cannot build with FaasJS. It means framework proposals should not be accepted mainly to satisfy these priorities.
+
+## Product Fit Gradient
+
+### Primary Fit
+
+FaasJS is especially well-suited for:
 
 - admin panels and back-office systems
 - internal tools
 - BFF and API projects
-- SaaS products
-- AI applications
-- content-driven or business websites
+- typical SaaS products
 
-These categories do not have a strict official ranking.
+These product types align strongly with FaasJS priorities: clear conventions, repeatable business workflows, predictable data handling, and maintainable full-stack code.
 
-The project goal is not to build a different framework personality for each category. The goal is to keep one simple, predictable full-stack path that works well across them.
+### Good Fit
 
-## Official Recommended Paths
+FaasJS is also a good fit for:
+
+- AI applications with standard product surfaces
+- business websites that also need application behavior, APIs, dashboards, or authenticated areas
+
+These products fit well when they benefit more from one predictable full-stack path than from stack variety or framework customization.
+
+### Supported But Not Optimized
+
+FaasJS can support:
+
+- content-driven websites with stronger editorial or publishing-first needs
+- projects with specialized requirements that pull toward broader stack optionality
+
+These can still be built with FaasJS, but they should not define core framework direction.
+
+## Main Path And Ecosystem Boundaries
 
 ### React
 
-FaasJS only supports React.
+React is a core product boundary.
 
-This is a deliberate product boundary that keeps the framework, docs, and contributor mental model simpler. Changes should not assume that support for more frontend frameworks is a default direction for the project.
+We choose a React-only path over multi-frontend support because it keeps the framework, documentation, templates, tooling, and contributor mental model simpler and more predictable.
+
+We accept a narrower official stack boundary and lower appeal for teams that want frontend optionality.
+
+Therefore, proposals that broaden official frontend scope need exceptional justification and are usually a poor fit for FaasJS.
 
 ### `@faasjs/ant-design`
 
-`@faasjs/ant-design` is an important but optional official ecosystem package.
+`@faasjs/ant-design` is an important official ecosystem package and the recommended UI happy path for many business systems.
 
-It is the recommended frontend path because it is ready out of the box for most business systems and reduces the amount of repeated UI scaffolding contributors and users need to build.
+We choose a strong recommended UI path over complete UI neutrality because it reduces repeated scaffolding and speeds up common business product work.
 
-It is deeply supported, but it is still an ecosystem package rather than the definition of the entire framework.
+We accept that this makes the official ecosystem less visually neutral and less optimized for every design culture.
+
+Therefore, `@faasjs/ant-design` should remain deeply supported, but core APIs and architecture should not assume it is mandatory everywhere.
 
 ### `@faasjs/pg`
 
-`@faasjs/pg` is an important but optional official ecosystem package.
+`@faasjs/pg` is an important official ecosystem package and the recommended database happy path for relational application work.
 
-It is the recommended database path and the default happy path for FaasJS database work, but it should still be treated as an ecosystem choice rather than a hard definition of the framework itself.
+We choose a strong PostgreSQL-oriented happy path over a totally abstract database story because it gives users a practical default for common product development.
 
-## Design Priorities
+We accept a narrower official database story and less emphasis on speculative database-agnostic abstractions.
 
-### 1. Agent readability and low ambiguity come first
+Therefore, core design should not be reshaped around multi-database flexibility unless there is a strong benefit to the main path.
 
-When flexibility and readability conflict, prefer readability.
+## Design Priorities And Explicit Trade-offs
 
-When more supported patterns and clearer conventions conflict, prefer clearer conventions.
+### 1. Readability Over Flexibility
 
-Good FaasJS design should make code easier for humans and agents to generate, review, refactor, and maintain.
+We choose code and conventions that are easier for humans and agents to read over support for many equally official styles.
 
-### 2. Simplicity is more important than configurability
+This means some flexible patterns will remain out of scope if they make review, refactoring, or generated code less predictable.
 
-FaasJS does not pursue a highly configurable design.
+### 2. Convention Over Configurability
 
-Do not assume that adding options, switches, or alternate paths is automatically an improvement. In many cases it only moves complexity into docs, reviews, maintenance, and agent behavior.
+We choose a strong default path over a growing set of switches, options, and alternate workflows.
 
-### 3. Minimal dependencies are a hard constraint in most cases
+This means convenience for niche preferences does not usually justify new framework-level configuration.
 
-New dependencies need a strong reason.
+### 3. Low Ambiguity Over Hidden Magic
 
-In most cases, adding a dependency is only justified when it brings clear value to the core path and that value outweighs the long-term cost in upgrades, auditing, supply-chain risk, and maintenance.
+We choose explicit structure and predictable behavior over clever indirection.
 
-### 4. Strengthen the main path instead of expanding edge cases
+This means proposals that rely on implicit rules, surprising defaults, or invisible coupling should be treated with skepticism.
 
-Prefer changes that make the main FaasJS path clearer and more capable.
+### 4. Minimal Dependencies Over Short-Term Convenience
 
-Avoid adding framework-level abstractions mainly to cover edge cases, alternate styles, or speculative future flexibility.
+We choose a smaller dependency surface over pulling in packages to solve every problem quickly.
 
-## Review Questions
+This means new dependencies need to improve the main path enough to outweigh long-term costs in upgrades, auditing, security review, and maintenance.
+
+### 5. Main-Path Strength Over Edge-Case Coverage
+
+We choose changes that strengthen the common React full-stack path over abstractions mainly created for edge cases, alternate styles, or speculative future flexibility.
+
+This means not every valid use case should produce a framework feature.
+
+### 6. Agent Readability As A Real Quality Bar
+
+We choose file structures, APIs, and conventions that help agents generate, inspect, review, and refactor code safely.
+
+This means agent-friendliness is part of maintainability, not a reason to accept novelty or reduce engineering rigor.
+
+### 7. Strong Ecosystem Recommendations Without Collapsing Core Boundaries
+
+We choose to offer official happy paths where they help common product work, while keeping a distinction between framework core and ecosystem packages.
+
+This means recommended packages can be first-class in docs and examples without becoming mandatory assumptions in core behavior.
+
+## Proposal Review Rubric
 
 Before accepting a framework proposal, ask:
 
-1. Does it improve readability for both humans and agents?
-2. Does it reduce ambiguity instead of introducing new implicit rules?
-3. Does it strengthen the main React-only path?
-4. Does it keep the framework simple instead of making it more configurable?
-5. Does it avoid new dependencies unless they are clearly worth the cost?
-6. Does it help common product work without turning FaasJS into a different kind of framework?
+1. Does it make the main React-only path clearer, stronger, or easier to adopt?
+2. Does it improve readability for both humans and agents?
+3. Does it reduce ambiguity instead of adding new implicit rules or equivalent alternatives?
+4. Does it keep the default path simple, or does it move complexity into configuration, documentation, templates, or review?
+5. Does it solve a common product need for primary users, rather than a niche or speculative case?
+6. If it adds a dependency, is the long-term cost clearly worth it?
+7. Does it preserve the boundary between core framework behavior and optional ecosystem choices?
+8. Who pays the complexity cost if this is accepted?
 
-If the answer to most of these questions is no, the proposal is usually a poor fit for FaasJS.
+If a proposal scores poorly on the first four questions, mainly serves non-target users, or spreads complexity across docs, templates, and contributor mental models, it is usually a poor fit for FaasJS.
+
+## Positive Signals
+
+Changes are usually a good fit when they:
+
+- make the default path more obvious
+- reduce repeated scaffolding in common business product work
+- strengthen types and explicit contracts
+- remove ambiguity or hidden behavior
+- improve consistency across docs, templates, examples, and code generation
+- keep optional ecosystem choices optional
+
+## Likely Rejections
+
+Proposals are usually a poor fit when they:
+
+- add official support for more frontend frameworks
+- introduce configuration mainly to avoid choosing a default path
+- add abstractions mainly for rare edge cases or speculative future needs
+- introduce dependencies mainly for convenience
+- make core APIs depend on `@faasjs/ant-design`, `@faasjs/pg`, or another ecosystem choice being present everywhere
+- expand scope mainly to satisfy users who want maximum stack variety
 
 ## Common Misreads To Avoid
 
 - FaasJS should gradually support more frontend frameworks.
-- FaasJS should become highly configurable to fit more styles.
-- Officially recommended ecosystem packages should become hard requirements everywhere.
-- More scope or more abstraction is automatically better.
+- FaasJS should become highly configurable to fit more coding styles.
+- Official ecosystem recommendations should become hard requirements.
+- Wider scope is automatically a better roadmap.
 - Convenience alone is enough reason to add a dependency.
+- Agent-friendly means optimizing for AI hype rather than maintainable engineering.
+- A supported product type should automatically reshape the framework around its special needs.
