@@ -26,7 +26,13 @@ const adminFiles = [
   'src/pages/home/api/auth/__tests__/me.test.ts',
   'src/pages/home/api/auth/me.api.ts',
   'src/pages/home/api/users/__tests__/create.test.ts',
+  'src/pages/home/api/users/__tests__/detail.test.ts',
+  'src/pages/home/api/users/__tests__/list.test.ts',
+  'src/pages/home/api/users/__tests__/update.test.ts',
   'src/pages/home/api/users/create.api.ts',
+  'src/pages/home/api/users/detail.api.ts',
+  'src/pages/home/api/users/list.api.ts',
+  'src/pages/home/api/users/update.api.ts',
   'src/pages/home/index.tsx',
   'src/plugins/auth.ts',
   'src/types/faasjs-auth.d.ts',
@@ -126,6 +132,15 @@ describe('action', () => {
     expect(read(rootPath, 'src/pages/home/api/users/create.api.ts')).toContain(
       "import { getClient } from '@faasjs/pg'",
     )
+    expect(read(rootPath, 'src/pages/home/api/users/list.api.ts')).toContain(
+      "orderBy('id', 'DESC')",
+    )
+    expect(read(rootPath, 'src/pages/home/api/users/detail.api.ts')).toContain(
+      "message: 'User not found'",
+    )
+    expect(read(rootPath, 'src/pages/home/api/users/update.api.ts')).toContain(
+      'message: `Updated user #${user.id}`',
+    )
     expect(read(rootPath, 'src/pages/home/api/users/__tests__/create.test.ts')).toContain(
       "import { getClient } from '@faasjs/pg'",
     )
@@ -147,6 +162,7 @@ describe('action', () => {
       "import { faas, useApp } from '@faasjs/ant-design'",
     )
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain('Call auth plugin demo')
+    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain('Load users slice')
     expect(listFiles(rootPath)).not.toContain('src/react-client.ts')
   })
 

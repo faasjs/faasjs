@@ -1,5 +1,5 @@
 import { faas, useApp } from '@faasjs/ant-design'
-import { Button, Card, Input, Space, Typography } from 'antd'
+import { Button, Card, Input, Space, Table, Typography } from 'antd'
 import { useState } from 'react'
 
 type CurrentUserResponse = {
@@ -10,13 +10,20 @@ type CurrentUserResponse = {
   }
 }
 
+type UserRecord = {
+  id: number
+  name: string
+}
+
+type ListUsersResponse = {
+  total?: number
+  users?: UserRecord[]
+}
+
 type CreateUserResponse = {
   message?: string
   total?: number
-  user?: {
-    id: number
-    name: string
-  }
+  user?: UserRecord
 }
 
 export default function HomePage() {
@@ -25,6 +32,16 @@ export default function HomePage() {
   const [messageText, setMessageText] = useState('Create your first user through the FaasJS API')
   const [loading, setLoading] = useState(false)
   const [authLoading, setAuthLoading] = useState(false)
+  const [users, setUsers] = useState<UserRecord[]>([])
+
+  const refreshUsers = async () => {
+    const response = await faas('/pages/home/api/users/list', {
+      limit: 10,
+    })
+    const data = (response.data as ListUsersResponse | undefined) || undefined
+
+    setUsers(data?.users || [])
+  }
 
   const callApi = async () => {
     setLoading(true)
@@ -40,6 +57,7 @@ export default function HomePage() {
           : data?.message || 'Empty response'
 
       setMessageText(nextMessage)
+      setUsers((current) => (data?.user ? [data.user, ...current].slice(0, 10) : current))
       app.message.success('User saved to PostgreSQL')
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Request failed'
@@ -121,6 +139,7 @@ export default function HomePage() {
           />
 
           <Space wrap>
+            <Button onClick={refreshUsers}>Load users slice</Button>
             <Button type="primary" loading={loading} onClick={callApi}>
               Create /pages/home/api/users/create
             </Button>
@@ -128,6 +147,23 @@ export default function HomePage() {
               Call auth plugin demo
             </Button>
           </Space>
+
+          <Table<UserRecord>
+            rowKey="id"
+            size="small"
+            pagination={false}
+            dataSource={users}
+            columns={[
+              {
+                title: 'ID',
+                dataIndex: 'id',
+              },
+              {
+                title: 'Name',
+                dataIndex: 'name',
+              },
+            ]}
+          />
 
           <Typography.Paragraph style={{ marginBottom: 0 }}>{messageText}</Typography.Paragraph>
         </Space>

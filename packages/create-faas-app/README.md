@@ -29,6 +29,7 @@ It includes:
 - React app structure powered by Vite Plus
 - `@faasjs/ant-design` and Ant Design for business UI
 - `defineApi` endpoints for typed backend APIs
+- a copyable users slice with create, list, detail, update, migration, table types, and API tests
 - `@faasjs/pg` for PostgreSQL access and migrations
 - `@faasjs/pg-dev` for pg-dev-powered tests
 - `.env.example` for local database configuration
@@ -69,7 +70,7 @@ The admin starter includes a small auth plugin demo. Treat it as a plugin patter
 - Read the FaasJS guide at <https://faasjs.com/guide/>.
 - Review the root README for the project direction and package overview.
 - Explore runnable templates in <https://github.com/faasjs/faasjs/tree/main/templates>.
-- Use the admin starter as the reference for future complete application slice examples.
+- Use the admin starter users slice as the reference for complete UI/API/database/test examples.
 
 ## API Docs
 
