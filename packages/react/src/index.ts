@@ -10,7 +10,6 @@
  *
  * - Support [FaasJS Request Specifications](https://faasjs.com/guide/request-spec.html).
  * - Support global and per-request configurations.
- * - Works with [why-did-you-render](https://github.com/welldone-software/why-did-you-render).
  * - Additional React functions:
  *   - Utils:
  *     - `equal`: Compare two values for deep equality.
