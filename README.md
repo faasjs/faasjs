@@ -14,13 +14,15 @@
 [![faasjs/vscode](https://img.shields.io/badge/Docker-faasjs%2Fvscode-blue)](https://hub.docker.com/repository/docker/faasjs/vscode)
 [![faasjs/node](https://img.shields.io/badge/Docker-faasjs%2Fnode-blue)](https://hub.docker.com/repository/docker/faasjs/node)
 
-🚀 FaasJS is an agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.
+🚀 FaasJS is a React-only, agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.
 
-It helps you ship full-stack products faster with clear conventions across frontend, backend, and shared types, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.
+It helps you ship React-based full-stack products faster through a strong default path across frontend, backend, and shared types, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.
+
+The official main path is React, with `@faasjs/ant-design` as the recommended UI happy path for common business systems and `@faasjs/pg` as the recommended relational database path.
 
 ## Features
 
-### Predictable for humans and AI agents
+### Predictable for humans and agents
 
 ✅ Clear file conventions and routing rules.
 

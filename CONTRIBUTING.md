@@ -1,12 +1,12 @@
 # Contributing to FaasJS
 
-This file is the entry point for contributors and AI agents developing the FaasJS framework in this monorepo.
+This file is the entry point for contributors and agents developing the FaasJS framework in this monorepo.
 
 If the user is building with FaasJS instead of modifying the framework, read [`skills/faasjs-best-practices/SKILL.md`](./skills/faasjs-best-practices/SKILL.md) instead.
 
 ## Read In Order
 
-1. [`contributing/target-users.md`](./contributing/target-users.md) for product boundaries, target users, supported stacks, and core framework tradeoffs
+1. [`contributing/target-users.md`](./contributing/target-users.md) for product boundaries, target users, supported stacks, and core framework trade-offs
 2. [`contributing/source-of-truth.md`](./contributing/source-of-truth.md) for edit locations, generated-file rules, and codebase conventions
 3. [`contributing/validation.md`](./contributing/validation.md) for environment requirements and validation commands
 4. [`contributing/documentation-sync.md`](./contributing/documentation-sync.md) when changes may affect docs, generated docs, translations, navigation, or changelog entries

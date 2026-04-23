@@ -21,7 +21,7 @@ FaasJS is primarily for developers and teams who:
 - build admin panels, back-office systems, internal tools, BFF/API layers, SaaS products, and other business applications
 - want one clear React-based full-stack path instead of many equally official styles
 - care about code that is easy to read, review, refactor, and maintain over time
-- want architecture that works well for both humans and AI agents
+- want architecture that works well for both humans and agents
 - prefer a smaller dependency surface and a more predictable upgrade story
 
 These users usually value steady product delivery, shared conventions, and long-term maintainability more than maximum abstraction power or stack optionality.

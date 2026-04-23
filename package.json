@@ -2,7 +2,7 @@
   "name": "faasjs-mono",
   "version": "8.0.0-beta.25",
   "private": true,
-  "description": "🚀 FaasJS is an agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.",
+  "description": "🚀 FaasJS is a React-only, agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.",
   "workspaces": [
     "packages/*",
     "docs",

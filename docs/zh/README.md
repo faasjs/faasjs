@@ -3,16 +3,18 @@ home: true
 heroImage: /logo.jpg
 heroText: FaasJS
 tagline: null
-footer: 一个对 Agent 友好的全栈 TypeScript 框架，用精简依赖构建可预测、类型安全的应用 | MIT Licensed | Copyright © 2019-2026 Zhu Feng
+footer: 一个仅支持 React、对 Agent 友好的全栈 TypeScript 框架，用精简依赖构建可预测、类型安全的应用 | MIT Licensed | Copyright © 2019-2026 Zhu Feng
 ---
 
-<div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:.75em">一个对 Agent 友好的全栈 TypeScript 框架，用精简依赖构建可预测、类型安全的应用</div>
+<div style="width:100%;text-align:center;font-size:1.6rem;line-height:2;color:#6a8bad;margin-bottom:.75em">一个仅支持 React、对 Agent 友好的全栈 TypeScript 框架，用精简依赖构建可预测、类型安全的应用</div>
 
-<p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">FaasJS 通过覆盖前端、后端与共享类型的清晰约定、更安全的重构体验和更小的依赖面，帮助你更快交付全栈产品，也让依赖更容易信任、审计与维护。</p>
+<p style="max-width:760px;margin:0 auto 1em;text-align:center;line-height:1.8;color:#5c7080">FaasJS 通过覆盖前端、后端与共享类型的稳定默认路径、清晰约定、更安全的重构体验和更小的依赖面，帮助你更快交付基于 React 的全栈产品，也让依赖更容易信任、审计与维护。</p>
+
+<p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">官方主路径基于 React；对常见业务系统，<code>@faasjs/ant-design</code> 是推荐的 UI 主路径，<code>@faasjs/pg</code> 是推荐的关系型数据库路径。</p>
 
 ## 特性
 
-### 对开发者与 AI Agent 都更可预测
+### 对开发者和 Agent 都更可预测
 
 ✅ 清晰的文件约定与路由规则。
 
@@ -49,7 +51,7 @@ npx create-faas-app --name faasjs
 npx create-faas-app --name faasjs-admin --template antd
 ```
 
-默认模板是 `basic`，如果你想直接生成 Ant Design 应用骨架，可以加上 `--template antd`。
+默认模板是 `basic`，如果你需要面向常见业务系统的推荐 Ant Design 应用骨架，可以加上 `--template antd`。
 
 ## 代码示例
 

@@ -3,11 +3,11 @@ home: true
 heroImage: /logo.jpg
 heroText: 🚀 FaasJS
 tagline: null
-footer: 🚀 FaasJS is an agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
+footer: 🚀 FaasJS is a React-only, agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
 ---
 
 <div style="width:100%;line-height:1.7">
-  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">An agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.</div>
+  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">A React-only, agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.</div>
   <div style="display:flex;gap:4px;align-items:center;justify-content:center;flex-wrap:wrap">
     <a href="https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
     <br>
@@ -23,11 +23,13 @@ footer: 🚀 FaasJS is an agent-friendly full-stack TypeScript framework for bui
   </div>
 </div>
 
-<p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">FaasJS helps you ship full-stack products faster with clear conventions across frontend, backend, and shared types, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.</p>
+<p style="max-width:760px;margin:0 auto 1em;text-align:center;line-height:1.8;color:#5c7080">FaasJS helps you ship React-based full-stack products faster through a strong default path across frontend, backend, and shared types, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.</p>
+
+<p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">The official main path is React, with <code>@faasjs/ant-design</code> as the recommended UI happy path for common business systems and <code>@faasjs/pg</code> as the recommended relational database path.</p>
 
 ## Features
 
-### Predictable for humans and AI agents
+### Predictable for humans and agents
 
 ✅ Clear file conventions and routing rules.
 
@@ -64,7 +66,7 @@ npx create-faas-app --name faasjs
 npx create-faas-app --name faasjs-admin --template antd
 ```
 
-`basic` is the default starter. Use `--template antd` when you want the Ant Design app shell.
+`basic` is the default starter. Use `--template antd` when you want the recommended Ant Design app shell for common business systems.
 
 ## Examples
 
