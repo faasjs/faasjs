@@ -23,9 +23,13 @@ const adminFiles = [
   'server.ts',
   'src/faas.yaml',
   'src/main.tsx',
+  'src/pages/home/api/auth/__tests__/me.test.ts',
+  'src/pages/home/api/auth/me.api.ts',
   'src/pages/home/api/users/__tests__/create.test.ts',
   'src/pages/home/api/users/create.api.ts',
   'src/pages/home/index.tsx',
+  'src/plugins/auth.ts',
+  'src/types/faasjs-auth.d.ts',
   'src/types/faasjs-pg.d.ts',
   'tsconfig.json',
   'vite.config.ts',
@@ -125,6 +129,14 @@ describe('action', () => {
     expect(read(rootPath, 'src/pages/home/api/users/__tests__/create.test.ts')).toContain(
       "import { getClient } from '@faasjs/pg'",
     )
+    expect(read(rootPath, 'src/pages/home/api/auth/me.api.ts')).toContain(
+      'api.plugins.unshift(new AuthPlugin())',
+    )
+    expect(read(rootPath, 'src/pages/home/api/auth/__tests__/me.test.ts')).toContain(
+      "authorization: 'Bearer demo-admin'",
+    )
+    expect(read(rootPath, 'src/plugins/auth.ts')).toContain('class AuthPlugin')
+    expect(read(rootPath, 'src/types/faasjs-auth.d.ts')).toContain('interface DefineApiInject')
     expect(read(rootPath, 'src/types/faasjs-pg.d.ts')).toContain("import '@faasjs/pg'")
     expect(read(rootPath, 'src/types/faasjs-pg.d.ts')).toContain('interface Tables')
     expect(read(rootPath, 'vite.config.ts')).toContain(
@@ -134,6 +146,7 @@ describe('action', () => {
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
       "import { faas, useApp } from '@faasjs/ant-design'",
     )
+    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain('Call auth plugin demo')
     expect(listFiles(rootPath)).not.toContain('src/react-client.ts')
   })
 

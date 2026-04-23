@@ -19,6 +19,8 @@ description: When working with FaasJS projects, must follow these best practices
 
 ## Guidelines
 
+- [Curated Stack Guide](./guidelines/curated-stack.md): Covers the Rails-inspired default stack, official React/Ant Design/PostgreSQL path, plugin extension boundaries, auth/permission scope, and replacement rules.
+- [Application Slices Guide](./guidelines/application-slices.md): Covers vertical UI/API/database/test slices, recommended file layout, agent workflow, and why FaasJS avoids generator-heavy development.
 - [Ant Design Guide](./guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
 - [File Conventions](./guidelines/file-conventions.md): Covers where to place pages, components, hooks, and `.api.ts` files, plus when separate files are worth creating.
 - [Code Comments Guide](./guidelines/code-comments.md): Covers export JSDoc expectations, public JSDoc language/tag conventions, when internal helpers need brief comments, and how to explain non-standard code without narrating it line by line.

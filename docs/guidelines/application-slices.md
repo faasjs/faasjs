@@ -1,0 +1,110 @@
+# Application Slices Guide
+
+Use this guide when adding a business feature to a FaasJS app or asking an AI coding agent to build one.
+
+A FaasJS application slice is a small, complete vertical feature that keeps UI, API, validation, database changes, types, and tests easy to find and review together. Slices replace generator-heavy workflows by giving humans and agents stable conventions to follow directly.
+
+## What A Slice Includes
+
+A database-driven React business slice usually includes:
+
+- a page or feature-local component under `src/pages/**`
+- one or more `.api.ts` files close to the page or feature they support
+- inline `defineApi` schemas for boundary validation
+- PostgreSQL migrations under `migrations/**` when data shape changes
+- `@faasjs/pg` table declarations under `src/types/**`
+- API tests near the API files
+- PG assertions when database behavior matters
+- React tests when UI request flow, loading, errors, or user interaction matters
+
+Keep the slice small enough that a reviewer can understand the behavior without jumping through unrelated framework layers.
+
+## Recommended Layout
+
+For a users slice, prefer a layout like:
+
+```text
+migrations/20250101000000_create_users.ts
+src/types/faasjs-pg.d.ts
+src/pages/users/index.tsx
+src/pages/users/api/list.api.ts
+src/pages/users/api/create.api.ts
+src/pages/users/api/__tests__/list.test.ts
+src/pages/users/api/__tests__/create.test.ts
+```
+
+For nested or feature-local APIs, keep the API path near the page that owns it:
+
+```text
+src/pages/settings/users/index.tsx
+src/pages/settings/users/api/list.api.ts
+src/pages/settings/users/api/update-role.api.ts
+src/pages/settings/users/api/__tests__/update-role.test.ts
+```
+
+Use short relative imports inside the slice unless an existing TypeScript alias is already configured.
+
+## API And Validation
+
+Use `defineApi` for every API entrypoint.
+
+Keep schemas close to the handler unless they are reused across multiple APIs or form a real boundary. Prefer explicit params, explicit returning columns, and narrow response shapes so UI code and tests stay type-aware.
+
+Avoid generic helpers that hide validation, database access, or response contracts. A little repetition is acceptable when it makes the slice easier for agents and reviewers to understand.
+
+## Database Changes
+
+When a slice changes data shape:
+
+- add a timestamped migration under `migrations/**`
+- update `@faasjs/pg` table declarations under `src/types/**`
+- keep table row types concrete
+- test important database behavior with `@faasjs/pg-dev`
+
+Do not rely on broad `Record<string, any>` row shapes for business tables.
+
+## UI Changes
+
+Use React and the FaasJS Ant Design path for business UI.
+
+Prefer `@faasjs/ant-design` wrappers such as `Form`, `Table`, `Description`, `Title`, `Tabs`, `Loading`, and `ErrorBoundary` when they cover the scenario. Drop to raw Ant Design components only when the wrapper does not fit or the custom UI is clearer.
+
+Keep page-level state and request flow readable. Extract components, hooks, or helpers only when they are reused, create a real boundary, or simplify a large block.
+
+## Tests
+
+Put API tests close to the API files under `__tests__`.
+
+Test the behavior that defines the slice:
+
+- valid input and expected output
+- validation failures and important error paths
+- database writes, reads, ordering, and counts when relevant
+- permission or current-user behavior when a plugin affects the API
+- UI request flow when the page contains meaningful interaction
+
+Avoid wide mocks that bypass FaasJS plugins, validation, or database behavior unless the test is intentionally unit-scoped.
+
+## Agent Workflow
+
+When asking an AI coding agent to add or change a feature, describe the slice instead of asking for a generator command.
+
+Good prompt shape:
+
+```text
+Add a users slice with a list page, create API, PostgreSQL migration, table types, and API tests. Follow the FaasJS curated stack and keep files near src/pages/users.
+```
+
+The agent should:
+
+- inspect nearby slices and guides first
+- create or update all files needed for the vertical behavior
+- keep business-specific concerns in app code or plugins
+- run the smallest meaningful tests
+- avoid unrelated refactors
+
+## Why Not Rails-style Generators
+
+Rails generators help humans create repetitive structure. FaasJS assumes AI coding agents can write that structure directly when conventions, examples, schemas, and tests are clear.
+
+Invest in better slices, examples, and docs before adding generator commands. Add a generator only when it clearly improves the curated path and cannot be replaced by better conventions or examples.

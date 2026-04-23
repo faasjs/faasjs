@@ -44,9 +44,9 @@ export const siteConfig: SiteConfig = {
       lang: 'en',
       title: 'FaasJS',
       description:
-        'A React-only, agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.',
+        'A Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications.',
       footer:
-        'A React-only, agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
+        'A Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications. | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
       selectLanguageName: 'English',
       navbar: [
         {
@@ -112,6 +112,8 @@ export const siteConfig: SiteConfig = {
             title: 'Guidelines',
             collapsable: false,
             children: [
+              '/guidelines/curated-stack.html',
+              '/guidelines/application-slices.html',
               '/guidelines/project-config.html',
               '/guidelines/file-conventions.html',
               '/guidelines/code-comments.html',
@@ -143,6 +145,8 @@ export const siteConfig: SiteConfig = {
         ],
         '/guidelines/': [
           ['/guide/', 'Guide'],
+          '/guidelines/curated-stack.html',
+          '/guidelines/application-slices.html',
           '/guidelines/project-config.html',
           '/guidelines/file-conventions.html',
           '/guidelines/code-comments.html',
@@ -172,10 +176,9 @@ export const siteConfig: SiteConfig = {
     '/zh/': {
       lang: 'zh',
       title: 'FaasJS',
-      description:
-        '一个仅支持 React、对 Agent 友好的全栈 TypeScript 框架，用精简依赖构建可预测、类型安全的应用',
+      description: '一个受 Rails 启发的精选式全栈 TypeScript 框架，面向数据库驱动的 React 业务应用',
       footer:
-        '一个仅支持 React、对 Agent 友好的全栈 TypeScript 框架，用精简依赖构建可预测、类型安全的应用 | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
+        '一个受 Rails 启发的精选式全栈 TypeScript 框架，面向数据库驱动的 React 业务应用 | MIT Licensed | Copyright © 2019-2026 Zhu Feng',
       selectLanguageName: '简体中文',
       navbar: [
         {
@@ -246,6 +249,8 @@ export const siteConfig: SiteConfig = {
             title: '指南索引',
             collapsable: false,
             children: [
+              '/zh/guidelines/curated-stack.html',
+              '/zh/guidelines/application-slices.html',
               '/zh/guidelines/project-config.html',
               '/zh/guidelines/file-conventions.html',
               '/zh/guidelines/code-comments.html',
@@ -277,6 +282,8 @@ export const siteConfig: SiteConfig = {
         ],
         '/zh/guidelines/': [
           ['/zh/guide/', '最佳实践'],
+          '/zh/guidelines/curated-stack.html',
+          '/zh/guidelines/application-slices.html',
           '/zh/guidelines/project-config.html',
           '/zh/guidelines/file-conventions.html',
           '/zh/guidelines/code-comments.html',

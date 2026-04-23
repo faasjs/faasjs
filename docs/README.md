@@ -3,11 +3,11 @@ home: true
 heroImage: /logo.jpg
 heroText: 🚀 FaasJS
 tagline: null
-footer: 🚀 FaasJS is a React-only, agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
+footer: 🚀 FaasJS is a Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications. | MIT Licensed | Copyright © 2019-2026 Zhu Feng
 ---
 
 <div style="width:100%;line-height:1.7">
-  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">A React-only, agent-friendly full-stack TypeScript framework for building predictable, type-safe applications with minimal dependencies.</div>
+  <div style="text-align:center;font-size:1.6rem;color:#6a8bad;margin-bottom:1em">A Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications.</div>
   <div style="display:flex;gap:4px;align-items:center;justify-content:center;flex-wrap:wrap">
     <a href="https://github.com/faasjs/faasjs/blob/main/packages/faasjs/LICENSE"><img src="https://img.shields.io/npm/l/faasjs.svg"></a>
     <br>
@@ -23,35 +23,35 @@ footer: 🚀 FaasJS is a React-only, agent-friendly full-stack TypeScript framew
   </div>
 </div>
 
-<p style="max-width:760px;margin:0 auto 1em;text-align:center;line-height:1.8;color:#5c7080">FaasJS helps you ship React-based full-stack products faster through a strong default path across frontend, backend, and shared types, safer refactoring, and a smaller dependency surface that is easier to trust, audit, and maintain.</p>
+<p style="max-width:760px;margin:0 auto 1em;text-align:center;line-height:1.8;color:#5c7080">FaasJS provides a chef-selected default path across React, Ant Design, typed APIs, PostgreSQL, validation, testing, plugins, and project conventions so teams can build predictable products without repeatedly assembling their own framework.</p>
 
-<p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">The official main path is React, with <code>@faasjs/ant-design</code> as the recommended UI happy path for common business systems and <code>@faasjs/pg</code> as the recommended relational database path.</p>
+<p style="max-width:760px;margin:0 auto 2em;text-align:center;line-height:1.8;color:#5c7080">The official frontend path is React. The curated business-app stack uses <code>@faasjs/ant-design</code> for UI, <code>@faasjs/pg</code> for PostgreSQL workflows, and agent-readable conventions for complete UI &rarr; API &rarr; DB &rarr; test slices.</p>
 
 ## Features
 
-### Predictable for humans and agents
+### Curated default stack
 
-✅ Clear file conventions and routing rules.
+✅ React, Ant Design, PostgreSQL, Vitest, and Vite Plus working together.
 
-✅ Less ambiguity in generation, review, and maintenance.
+✅ Strong defaults for database-driven admin panels, internal tools, SaaS dashboards, and BFF/API layers.
 
-✅ Better collaboration across developers and tools.
+✅ Replaceable choices without turning alternatives into parallel first-class tracks.
 
-### Type-safe by default
+### Typed full-stack workflow
 
-✅ TypeScript-first application architecture.
+✅ `defineApi` endpoints with explicit schemas and typed contracts.
 
-✅ Safer APIs and clearer contracts.
+✅ Shared API types across backend handlers and React clients.
 
-✅ More confident refactoring over time.
+✅ PostgreSQL query, migration, and testing workflows through `@faasjs/pg` and `@faasjs/pg-dev`.
 
-### Lean dependency model
+### Agent-readable conventions
 
-✅ Minimal external dependencies.
+✅ Stable file conventions and routing rules.
 
-✅ Smaller supply-chain attack surface.
+✅ Complete application slices that are easy for humans and AI coding agents to inspect, review, and refactor.
 
-✅ Easier upgrades and dependency review.
+✅ Plugin patterns for business-specific concerns such as auth context and permissions.
 
 ## Quick start
 
@@ -67,7 +67,7 @@ npx create-faas-app --name faasjs-admin --template admin
 npx create-faas-app --name faasjs-minimal --template minimal
 ```
 
-`admin` is the default starter. It follows the recommended FaasJS path with React, Ant Design, PostgreSQL, and `@faasjs/pg-dev`-powered tests. Use `--template minimal` when you want a lighter React starter without the database stack.
+`admin` is the default starter. It follows the curated FaasJS path with React, Ant Design, PostgreSQL, and `@faasjs/pg-dev`-powered tests. Use `--template minimal` when you want a lighter React starter without the database stack.
 
 ## Examples
 

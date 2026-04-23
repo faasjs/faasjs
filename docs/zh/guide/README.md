@@ -2,10 +2,30 @@
 
 这里收录 FaasJS 当前公开维护的最佳实践与规范中文版，用来替换旧版教程内容。
 
-这些页面同步自 `faasjs-best-practices`，适合作为构建 FaasJS 项目时的默认开发指南。
+FaasJS 是一个受 Rails 启发的精选式全栈 TypeScript 框架，面向数据库驱动的 React 业务应用。主路径包括 React、Ant Design、类型化 API、PostgreSQL、校验、测试、plugin 和稳定项目约定。
+
+## 主路径
+
+开始新功能，或让 AI coding agent 构建功能时，建议按以下顺序阅读：
+
+1. [精选栈指南](../guidelines/curated-stack.md)
+2. [项目配置指南](../guidelines/project-config.md)
+3. [文件约定](../guidelines/file-conventions.md)
+4. [defineApi 指南](../guidelines/define-api.md)
+5. [React 数据请求指南](../guidelines/react-data-fetching.md)
+6. [Ant Design 指南](../guidelines/ant-design.md)
+7. [PG 查询构建与原生 SQL 指南](../guidelines/pg-query-builder.md)
+8. [PG Schema 与迁移指南](../guidelines/pg-schema-and-migrations.md)
+9. [PG 测试指南](../guidelines/pg-testing.md)
+10. [Plugin 规范](../specs/plugin.md)
+11. [应用切片指南](../guidelines/application-slices.md)
+
+FaasJS 更重视完整应用切片，而不是 generator-heavy 工作流。一个切片应让 UI、API、校验、数据库变更和测试能被一起发现、评审和修改。
 
 ## 指南
 
+- [精选栈指南](../guidelines/curated-stack.md): 覆盖受 Rails 启发的默认栈、官方 React/Ant Design/PostgreSQL 路径、plugin 扩展边界、auth/权限范围和替换规则。
+- [应用切片指南](../guidelines/application-slices.md): 覆盖垂直 UI/API/数据库/测试切片、推荐文件布局、Agent 工作流，以及为什么 FaasJS 避免 generator-heavy 开发。
 - [项目配置指南](../guidelines/project-config.md): 如何让 `tsconfig.json`、`vite.config.ts` 与 FaasJS 的共享默认配置保持一致。
 - [测试指南](../guidelines/testing.md): 覆盖通用测试分层、mock 边界和避免不必要 mock 的原则。
 - [文件约定](../guidelines/file-conventions.md): 页面、组件、hooks 与 `.api.ts` 文件应该放在哪里，以及何时值得拆文件。

@@ -2,6 +2,26 @@
 
 Use these guides and specifications as the current public guidance for building with FaasJS.
 
+FaasJS is a Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications. The main path is React, Ant Design, typed APIs, PostgreSQL, validation, testing, plugins, and stable project conventions.
+
+## Main Path
+
+Read these guides in order when starting a new feature or asking an AI coding agent to build one:
+
+1. [Curated Stack Guide](../guidelines/curated-stack.md)
+2. [Project Config Guide](../guidelines/project-config.md)
+3. [File Conventions](../guidelines/file-conventions.md)
+4. [defineApi Guide](../guidelines/define-api.md)
+5. [React Data Fetching Guide](../guidelines/react-data-fetching.md)
+6. [Ant Design Guide](../guidelines/ant-design.md)
+7. [PG Query Builder and Raw SQL Guide](../guidelines/pg-query-builder.md)
+8. [PG Schema and Migrations Guide](../guidelines/pg-schema-and-migrations.md)
+9. [PG Testing Guide](../guidelines/pg-testing.md)
+10. [Plugin Specification](../specs/plugin.md)
+11. [Application Slices Guide](../guidelines/application-slices.md)
+
+FaasJS favors complete application slices over generator-heavy workflows. A slice should keep UI, API, validation, database changes, and tests easy to find, review, and modify together.
+
 ## Global Rules
 
 - Read `tsconfig.json` and any extended TypeScript config before choosing import paths.
@@ -18,6 +38,8 @@ Use these guides and specifications as the current public guidance for building 
 
 ## Guidelines
 
+- [Curated Stack Guide](../guidelines/curated-stack.md): Covers the Rails-inspired default stack, official React/Ant Design/PostgreSQL path, plugin extension boundaries, auth/permission scope, and replacement rules.
+- [Application Slices Guide](../guidelines/application-slices.md): Covers vertical UI/API/database/test slices, recommended file layout, agent workflow, and why FaasJS avoids generator-heavy development.
 - [Ant Design Guide](../guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
 - [File Conventions](../guidelines/file-conventions.md): Covers where to place pages, components, hooks, and `.api.ts` files, plus when separate files are worth creating.
 - [Code Comments Guide](../guidelines/code-comments.md): Covers export JSDoc expectations, public JSDoc language/tag conventions, when internal helpers need brief comments, and how to explain non-standard code without narrating it line by line.

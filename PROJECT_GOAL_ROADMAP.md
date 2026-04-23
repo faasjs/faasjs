@@ -37,97 +37,97 @@ FaasJS should provide a chef-selected default path across React, Ant Design, typ
 
 ## Phase 2: Sync Public Positioning
 
-- [ ] Update `README.md` opening copy with the new Rails-inspired curated framework positioning.
-- [ ] Rewrite `README.md` feature sections around concrete product outcomes: curated default stack, typed API workflow, PostgreSQL-first workflow, Ant Design business UI path, agent-readable conventions, and replaceable but opinionated defaults.
-- [ ] Update `README.md` learning links to prioritize `create-faas-app`, the admin template, the guide, and future application slice examples.
-- [ ] Update the root `package.json` `description` to match the new positioning.
-- [ ] Update `docs/site/site.config.ts` English description and footer to match the new positioning.
-- [ ] Update Chinese site description/footer if present in `docs/site/site.config.ts`.
-- [ ] Search the repo for old positioning terms such as `React-only`, `minimal dependencies`, and `agent-friendly full-stack` and update user-facing occurrences where appropriate.
-- [ ] Preserve technical statements where `React-only` is still needed to describe the official frontend boundary.
+- [x] Update `README.md` opening copy with the new Rails-inspired curated framework positioning.
+- [x] Rewrite `README.md` feature sections around concrete product outcomes: curated default stack, typed API workflow, PostgreSQL-first workflow, Ant Design business UI path, agent-readable conventions, and replaceable but opinionated defaults.
+- [x] Update `README.md` learning links to prioritize `create-faas-app`, the admin template, the guide, and future application slice examples.
+- [x] Update the root `package.json` `description` to match the new positioning.
+- [x] Update `docs/site/site.config.ts` English description and footer to match the new positioning.
+- [x] Update Chinese site description/footer if present in `docs/site/site.config.ts`.
+- [x] Search the repo for old positioning terms such as `React-only`, `minimal dependencies`, and `agent-friendly full-stack` and update user-facing occurrences where appropriate.
+- [x] Preserve technical statements where `React-only` is still needed to describe the official frontend boundary.
 
 ## Phase 3: Improve create-faas-app Onboarding
 
-- [ ] Rewrite `packages/create-faas-app/README.md` as a user-facing starter guide instead of only generated API-doc style content.
-- [ ] Add a `Quick Start` section with the recommended command to create a FaasJS app.
-- [ ] Add a `Templates` section comparing `admin` and `minimal`.
-- [ ] Document that `admin` is the default golden path for the curated stack.
-- [ ] Document that `minimal` is for core/API-only/custom UI starting points.
-- [ ] Add a `What The Admin Starter Shows` section covering React, Ant Design, typed API, PostgreSQL migration, pg-dev tests, type declarations, and `.env.example`.
-- [ ] Add a `Next Steps` section linking to guides and docs.
-- [ ] Make clear that auth is demonstrated as a plugin pattern when added, not as a core built-in.
-- [ ] Run create-faas-app tests after README or template-related changes if test fixtures depend on content.
+- [x] Rewrite `packages/create-faas-app/README.md` as a user-facing starter guide instead of only generated API-doc style content.
+- [x] Add a `Quick Start` section with the recommended command to create a FaasJS app.
+- [x] Add a `Templates` section comparing `admin` and `minimal`.
+- [x] Document that `admin` is the default golden path for the curated stack.
+- [x] Document that `minimal` is for core/API-only/custom UI starting points.
+- [x] Add a `What The Admin Starter Shows` section covering React, Ant Design, typed API, PostgreSQL migration, pg-dev tests, type declarations, and `.env.example`.
+- [x] Add a `Next Steps` section linking to guides and docs.
+- [x] Make clear that auth is demonstrated as a plugin pattern when added, not as a core built-in.
+- [x] Run create-faas-app tests after README or template-related changes if test fixtures depend on content.
 
 ## Phase 4: Add Curated Stack Guidance
 
-- [ ] Add `skills/faasjs-best-practices/guidelines/curated-stack.md` as the source-of-truth best-practice guide for the curated stack.
-- [ ] Add `docs/guidelines/curated-stack.md` with the English published version.
-- [ ] Add `docs/zh/guidelines/curated-stack.md` with the Chinese published version.
-- [ ] Cover React as the official frontend stack.
-- [ ] Cover Ant Design as the default business UI path.
-- [ ] Cover PostgreSQL as the default relational database path.
-- [ ] Cover `defineApi` and schema validation as the typed API path.
-- [ ] Cover plugin conventions as the business-specific extension mechanism.
-- [ ] Cover auth and permissions as plugin-based patterns, not core features.
-- [ ] Cover replacement paths as allowed escape hatches, not equal official tracks.
-- [ ] Add `curated-stack.md` to `skills/faasjs-best-practices/SKILL.md`.
-- [ ] Add the guide to `docs/guide/README.md`.
-- [ ] Add the guide to `docs/zh/guide/README.md`.
-- [ ] Add the guide to `docs/site/site.config.ts` navigation.
-- [ ] Build docs after navigation changes.
+- [x] Add `skills/faasjs-best-practices/guidelines/curated-stack.md` as the source-of-truth best-practice guide for the curated stack.
+- [x] Add `docs/guidelines/curated-stack.md` with the English published version.
+- [x] Add `docs/zh/guidelines/curated-stack.md` with the Chinese published version.
+- [x] Cover React as the official frontend stack.
+- [x] Cover Ant Design as the default business UI path.
+- [x] Cover PostgreSQL as the default relational database path.
+- [x] Cover `defineApi` and schema validation as the typed API path.
+- [x] Cover plugin conventions as the business-specific extension mechanism.
+- [x] Cover auth and permissions as plugin-based patterns, not core features.
+- [x] Cover replacement paths as allowed escape hatches, not equal official tracks.
+- [x] Add `curated-stack.md` to `skills/faasjs-best-practices/SKILL.md`.
+- [x] Add the guide to `docs/guide/README.md`.
+- [x] Add the guide to `docs/zh/guide/README.md`.
+- [x] Add the guide to `docs/site/site.config.ts` navigation.
+- [x] Build docs after navigation changes.
 
 ## Phase 5: Reframe Guide Information Architecture
 
-- [ ] Update `docs/guide/README.md` from a flat best-practices index into a main-path learning entry.
-- [ ] Update `docs/zh/guide/README.md` similarly.
-- [ ] Add a recommended reading order: curated stack, project config, file conventions, defineApi, React data fetching, Ant Design, PG guides, plugin spec, application slices.
-- [ ] Add a short explanation of how complete application slices replace a generator-heavy workflow.
-- [ ] Ensure English and Chinese guide indexes remain aligned.
-- [ ] Update `docs/site/site.config.ts` sidebar ordering if needed.
-- [ ] Run `cd docs && npm run build` after docs navigation updates.
+- [x] Update `docs/guide/README.md` from a flat best-practices index into a main-path learning entry.
+- [x] Update `docs/zh/guide/README.md` similarly.
+- [x] Add a recommended reading order: curated stack, project config, file conventions, defineApi, React data fetching, Ant Design, PG guides, plugin spec, application slices.
+- [x] Add a short explanation of how complete application slices replace a generator-heavy workflow.
+- [x] Ensure English and Chinese guide indexes remain aligned.
+- [x] Update `docs/site/site.config.ts` sidebar ordering if needed.
+- [x] Run `cd docs && npm run build` after docs navigation updates.
 
 ## Phase 6: Strengthen Admin Template As Golden Path
 
-- [ ] Audit `packages/create-faas-app/template/admin` for the full UI -> API -> DB -> test flow.
-- [ ] Ensure the admin template demonstrates React page structure clearly.
-- [ ] Ensure the admin template demonstrates Ant Design form/table/feedback patterns where practical.
-- [ ] Ensure the admin template demonstrates a typed API endpoint.
-- [ ] Ensure the admin template demonstrates a PostgreSQL migration.
-- [ ] Ensure the admin template demonstrates pg-dev-powered tests.
-- [ ] Ensure the admin template includes clear type declarations for `@faasjs/pg` table typing.
-- [ ] Ensure `.env.example` and related setup instructions are easy to follow.
-- [ ] Keep the template small enough to teach the pattern without becoming a full product.
-- [ ] Run create-faas-app tests and any relevant template tests.
+- [x] Audit `packages/create-faas-app/template/admin` for the full UI -> API -> DB -> test flow.
+- [x] Ensure the admin template demonstrates React page structure clearly.
+- [x] Ensure the admin template demonstrates Ant Design form/table/feedback patterns where practical.
+- [x] Ensure the admin template demonstrates a typed API endpoint.
+- [x] Ensure the admin template demonstrates a PostgreSQL migration.
+- [x] Ensure the admin template demonstrates pg-dev-powered tests.
+- [x] Ensure the admin template includes clear type declarations for `@faasjs/pg` table typing.
+- [x] Ensure `.env.example` and related setup instructions are easy to follow.
+- [x] Keep the template small enough to teach the pattern without becoming a full product.
+- [x] Run create-faas-app tests and any relevant template tests.
 
 ## Phase 7: Add Simple Auth Plugin Demo
 
-- [ ] Design a minimal auth plugin demo for `packages/create-faas-app/template/admin`.
-- [ ] Keep the demo scoped to plugin mechanics and current-user injection.
-- [ ] Add a plugin file, for example `src/plugins/auth.ts`, if it fits existing conventions.
-- [ ] Demonstrate reading a user from a simple request source such as a header, cookie, or mock token.
-- [ ] Demonstrate injecting `current_user` or equivalent request context into APIs.
-- [ ] Add one protected API example.
-- [ ] Add a frontend call or UI snippet showing authenticated context if it keeps the template readable.
-- [ ] Add tests for the protected API and auth plugin behavior.
-- [ ] Document that production auth, password login, OAuth, sessions, RBAC, and multi-tenancy are intentionally out of scope for the demo.
-- [ ] Update create-faas-app tests if generated file lists or content assertions change.
-- [ ] Run relevant tests.
+- [x] Design a minimal auth plugin demo for `packages/create-faas-app/template/admin`.
+- [x] Keep the demo scoped to plugin mechanics and current-user injection.
+- [x] Add a plugin file, for example `src/plugins/auth.ts`, if it fits existing conventions.
+- [x] Demonstrate reading a user from a simple request source such as a header, cookie, or mock token.
+- [x] Demonstrate injecting `current_user` or equivalent request context into APIs.
+- [x] Add one protected API example.
+- [x] Add a frontend call or UI snippet showing authenticated context if it keeps the template readable.
+- [x] Add tests for the protected API and auth plugin behavior.
+- [x] Document that production auth, password login, OAuth, sessions, RBAC, and multi-tenancy are intentionally out of scope for the demo.
+- [x] Update create-faas-app tests if generated file lists or content assertions change.
+- [x] Run relevant tests.
 
 ## Phase 8: Document Application Slices
 
-- [ ] Add `skills/faasjs-best-practices/guidelines/application-slices.md` as the source-of-truth guide.
-- [ ] Add `docs/guidelines/application-slices.md` with the English published version.
-- [ ] Add `docs/zh/guidelines/application-slices.md` with the Chinese published version.
-- [ ] Define a complete business application slice as page, API, schema, database migration/types, and tests.
-- [ ] Explain how agents should work along slice boundaries when adding or changing features.
-- [ ] Include a recommended file layout for a common slice such as users or orders.
-- [ ] Include guidance for when to keep code inline versus extracting helpers/components/hooks.
-- [ ] Explain why FaasJS does not prioritize Rails-style generators.
-- [ ] Add the guide to `skills/faasjs-best-practices/SKILL.md`.
-- [ ] Add the guide to `docs/guide/README.md`.
-- [ ] Add the guide to `docs/zh/guide/README.md`.
-- [ ] Add the guide to `docs/site/site.config.ts` navigation.
-- [ ] Build docs after navigation changes.
+- [x] Add `skills/faasjs-best-practices/guidelines/application-slices.md` as the source-of-truth guide.
+- [x] Add `docs/guidelines/application-slices.md` with the English published version.
+- [x] Add `docs/zh/guidelines/application-slices.md` with the Chinese published version.
+- [x] Define a complete business application slice as page, API, schema, database migration/types, and tests.
+- [x] Explain how agents should work along slice boundaries when adding or changing features.
+- [x] Include a recommended file layout for a common slice such as users or orders.
+- [x] Include guidance for when to keep code inline versus extracting helpers/components/hooks.
+- [x] Explain why FaasJS does not prioritize Rails-style generators.
+- [x] Add the guide to `skills/faasjs-best-practices/SKILL.md`.
+- [x] Add the guide to `docs/guide/README.md`.
+- [x] Add the guide to `docs/zh/guide/README.md`.
+- [x] Add the guide to `docs/site/site.config.ts` navigation.
+- [x] Build docs after navigation changes.
 
 ## Phase 9: Add Application Slice Examples
 
@@ -155,14 +155,14 @@ FaasJS should provide a chef-selected default path across React, Ant Design, typ
 
 ## Validation Checklist
 
-- [ ] For docs content or navigation changes, run `cd docs && npm run build`.
+- [x] For docs content or navigation changes, run `cd docs && npm run build`.
 - [ ] For JSDoc or exported API changes, run `vp run doc`.
-- [ ] For create-faas-app code or template changes, run the create-faas-app test suite.
-- [ ] For PG template changes, run relevant pg-dev/template tests.
+- [x] For create-faas-app code or template changes, run the create-faas-app test suite.
+- [x] For PG template changes, run relevant pg-dev/template tests.
 - [ ] For cross-cutting changes, run `npm test` or the smallest meaningful workspace-wide validation.
-- [ ] Confirm English and Chinese docs stay synchronized for new or changed best-practice guidance.
-- [ ] Confirm no generated docs were edited by hand.
-- [ ] Confirm `CHANGELOG.md` impact was considered for user-visible workflow or documentation changes.
+- [x] Confirm English and Chinese docs stay synchronized for new or changed best-practice guidance.
+- [x] Confirm no generated docs were edited by hand.
+- [x] Confirm `CHANGELOG.md` impact was considered for user-visible workflow or documentation changes.
 
 ## Suggested PR Order
 

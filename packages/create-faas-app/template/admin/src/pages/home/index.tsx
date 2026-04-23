@@ -2,6 +2,14 @@ import { faas, useApp } from '@faasjs/ant-design'
 import { Button, Card, Input, Space, Typography } from 'antd'
 import { useState } from 'react'
 
+type CurrentUserResponse = {
+  current_user?: {
+    id: number
+    name: string
+    role: string
+  }
+}
+
 type CreateUserResponse = {
   message?: string
   total?: number
@@ -16,6 +24,7 @@ export default function HomePage() {
   const [name, setName] = useState('FaasJS')
   const [messageText, setMessageText] = useState('Create your first user through the FaasJS API')
   const [loading, setLoading] = useState(false)
+  const [authLoading, setAuthLoading] = useState(false)
 
   const callApi = async () => {
     setLoading(true)
@@ -45,6 +54,36 @@ export default function HomePage() {
     }
   }
 
+  const callAuthDemo = async () => {
+    setAuthLoading(true)
+
+    try {
+      const response = await faas(
+        '/pages/home/api/auth/me',
+        {},
+        {
+          headers: {
+            authorization: 'Bearer demo-admin',
+          },
+        },
+      )
+      const data = (response.data as CurrentUserResponse | undefined) || undefined
+
+      setMessageText(`Auth plugin injected current user: ${data?.current_user?.name || 'unknown'}`)
+      app.message.success('Auth plugin demo loaded current_user')
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Auth demo failed'
+
+      setMessageText(errorMessage)
+      app.notification.error({
+        message: 'Auth demo failed',
+        description: errorMessage,
+      })
+    } finally {
+      setAuthLoading(false)
+    }
+  }
+
   return (
     <div
       style={{
@@ -66,8 +105,8 @@ export default function HomePage() {
           <div>
             <Typography.Title level={2}>FaasJS Admin App</Typography.Title>
             <Typography.Paragraph type="secondary">
-              This starter follows the recommended FaasJS path: React, Ant Design, PostgreSQL, and
-              pg-dev-powered tests.
+              This starter follows the curated FaasJS path: React, Ant Design, PostgreSQL,
+              pg-dev-powered tests, and a simple auth plugin demo.
             </Typography.Paragraph>
             <Typography.Paragraph type="secondary">
               Set <code>DATABASE_URL</code> from <code>.env.example</code> and run{' '}
@@ -81,9 +120,14 @@ export default function HomePage() {
             placeholder="Who should the admin app create?"
           />
 
-          <Button type="primary" loading={loading} onClick={callApi}>
-            Create /pages/home/api/users/create
-          </Button>
+          <Space wrap>
+            <Button type="primary" loading={loading} onClick={callApi}>
+              Create /pages/home/api/users/create
+            </Button>
+            <Button loading={authLoading} onClick={callAuthDemo}>
+              Call auth plugin demo
+            </Button>
+          </Space>
 
           <Typography.Paragraph style={{ marginBottom: 0 }}>{messageText}</Typography.Paragraph>
         </Space>
