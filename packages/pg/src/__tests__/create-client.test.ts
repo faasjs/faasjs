@@ -13,6 +13,10 @@ async function loadClientModule() {
   return import('../client')
 }
 
+async function loadBootstrapModule() {
+  return import('../bootstrap')
+}
+
 function createSqlMock() {
   const sql = vi.fn<(...args: any[]) => Promise<unknown[]>>(async () => [])
 
@@ -22,6 +26,7 @@ function createSqlMock() {
 }
 
 type ClientModule = Awaited<ReturnType<typeof loadClientModule>>
+type BootstrapModule = Awaited<ReturnType<typeof loadBootstrapModule>>
 type ClientInstance = InstanceType<ClientModule['Client']>
 type SqlMock = ReturnType<typeof createSqlMock>
 
@@ -39,6 +44,7 @@ function sqlMockFor(client: ClientInstance) {
 
 describe('createClient', () => {
   let clientModule: ClientModule
+  let bootstrapModule: BootstrapModule
   let previousDatabaseUrl: string | undefined
   let previousPoolMax: string | undefined
 
@@ -51,6 +57,7 @@ describe('createClient', () => {
     delete process.env.PG_POOL_MAX
     vi.resetModules()
     clientModule = await loadClientModule()
+    bootstrapModule = await loadBootstrapModule()
   })
 
   afterEach(() => {
@@ -110,7 +117,7 @@ describe('createClient', () => {
 
     expect(postgresMock).toHaveBeenCalledWith(exampleUrl, options)
     expect(client.postgres).toBe(lastSqlMock())
-    expect(clientModule.getClient(exampleUrl)).toBe(client)
+    return expect(clientModule.getClient(exampleUrl)).resolves.toBe(client)
   })
 
   it('rejects non-string constructor arguments', () => {
@@ -170,34 +177,87 @@ describe('createClient', () => {
     expect(errorSpy).toHaveBeenCalledTimes(1)
   })
 
-  it('caches clients by connection string and resolves the only cached client without a url', () => {
+  it('caches clients by connection string and resolves the only cached client without a url', async () => {
     const client = clientModule.createClient(exampleUrl)
 
-    expect(clientModule.getClient(exampleUrl)).toBe(client)
-    expect(clientModule.getClient()).toBe(client)
+    await expect(clientModule.getClient(exampleUrl)).resolves.toBe(client)
+    await expect(clientModule.getClient()).resolves.toBe(client)
   })
 
-  it('throws without a url when multiple cached clients exist', () => {
+  it('throws without a url when multiple cached clients exist', async () => {
     const firstClient = clientModule.createClient('postgres://typed-pg.test/first')
     const secondClient = clientModule.createClient('postgres://typed-pg.test/second')
 
-    expect(clientModule.getClient('postgres://typed-pg.test/first')).toBe(firstClient)
-    expect(clientModule.getClient('postgres://typed-pg.test/second')).toBe(secondClient)
-    expect(() => clientModule.getClient()).toThrowError(
+    await expect(clientModule.getClient('postgres://typed-pg.test/first')).resolves.toBe(
+      firstClient,
+    )
+    await expect(clientModule.getClient('postgres://typed-pg.test/second')).resolves.toBe(
+      secondClient,
+    )
+    await expect(clientModule.getClient()).rejects.toThrowError(
       'getClient() requires a connection URL when multiple clients are cached',
     )
   })
 
-  it('creates and caches a client from DATABASE_URL when the cache is empty', () => {
+  it('creates and caches a client from the default database bootstrap when the cache is empty', async () => {
     process.env.DATABASE_URL = exampleUrl
 
-    const client = clientModule.getClient()
+    const client = await clientModule.getClient()
 
     expect(client).toBeDefined()
     expect(postgresMock).toHaveBeenCalledWith(exampleUrl, { max: 10 })
-    expect(clientModule.getClient(exampleUrl)).toBe(client)
-    expect(clientModule.getClient()).toBe(client)
+    await expect(clientModule.getClient(exampleUrl)).resolves.toBe(client)
+    await expect(clientModule.getClient()).resolves.toBe(client)
     expect(postgresMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('supports overriding the default database bootstrap', async () => {
+    let bootstrapClient: ClientInstance | undefined
+    const databaseBootstrap = vi.fn(async () => {
+      bootstrapClient = clientModule.createClient(exampleUrl)
+    })
+
+    bootstrapModule.registerDatabaseBootstrap(databaseBootstrap)
+
+    const client = await clientModule.getClient()
+
+    expect(databaseBootstrap).toHaveBeenCalledTimes(1)
+    expect(postgresMock).toHaveBeenCalledWith(exampleUrl, { max: 10 })
+    expect(client).toBe(bootstrapClient)
+    await expect(clientModule.getClient()).resolves.toBe(client)
+    expect(databaseBootstrap).toHaveBeenCalledTimes(1)
+  })
+
+  it('waits for an in-flight bootstrap before resolving the default client', async () => {
+    let continueBootstrap: (() => void) | undefined
+    let bootstrapStarted: (() => void) | undefined
+    const bootstrapStartedPromise = new Promise<void>((resolve) => {
+      bootstrapStarted = resolve
+    })
+
+    bootstrapModule.registerDatabaseBootstrap(async () => {
+      bootstrapStarted?.()
+      await new Promise<void>((resolve) => {
+        continueBootstrap = resolve
+      })
+
+      clientModule.createClient(exampleUrl)
+    })
+
+    const firstGetClient = clientModule.getClient()
+
+    await bootstrapStartedPromise
+
+    const secondGetClient = clientModule.getClient()
+
+    continueBootstrap?.()
+
+    const [firstClient, secondClient] = await Promise.all([firstGetClient, secondGetClient])
+
+    expect(firstClient).toBe(secondClient)
+    expect(firstClient.options).toEqual({ max: 10 })
+    expect(postgresMock).toHaveBeenCalledTimes(1)
+    expect(postgresMock).toHaveBeenNthCalledWith(1, exampleUrl, { max: 10 })
   })
 
   it('throws when PG_POOL_MAX is invalid', async () => {
@@ -211,14 +271,22 @@ describe('createClient', () => {
     expect(postgresMock).not.toHaveBeenCalled()
   })
 
-  it('throws when no cached client exists and DATABASE_URL is missing', () => {
-    expect(() => clientModule.getClient()).toThrowError(
+  it('throws when no cached client exists and the default bootstrap cannot resolve a url', async () => {
+    await expect(clientModule.getClient()).rejects.toThrowError(
       'DATABASE_URL is required when no cached client is available',
     )
   })
 
-  it('throws when requesting an uncached client by url', () => {
-    expect(() => clientModule.getClient(exampleUrl)).toThrowError(
+  it('throws when the custom bootstrap does not initialize a default client', async () => {
+    bootstrapModule.registerDatabaseBootstrap(async () => {})
+
+    await expect(clientModule.getClient()).rejects.toThrowError(
+      'Database bootstrap did not initialize a default client',
+    )
+  })
+
+  it('throws when requesting an uncached client by url', async () => {
+    await expect(clientModule.getClient(exampleUrl)).rejects.toThrowError(
       `No cached client found for connection URL: ${exampleUrl}`,
     )
   })
@@ -248,11 +316,11 @@ describe('createClient', () => {
 
     await expect(firstClient.quit()).resolves.toBeUndefined()
     expect(firstSql.end).toHaveBeenCalledTimes(1)
-    expect(clientModule.getClient(exampleUrl)).toBe(secondClient)
+    await expect(clientModule.getClient(exampleUrl)).resolves.toBe(secondClient)
 
     await expect(secondClient.quit()).resolves.toBeUndefined()
     expect(secondSql.end).toHaveBeenCalledTimes(1)
-    expect(() => clientModule.getClient(exampleUrl)).toThrowError(
+    await expect(clientModule.getClient(exampleUrl)).rejects.toThrowError(
       `No cached client found for connection URL: ${exampleUrl}`,
     )
     expect(clientModule.getClients()).toEqual([])

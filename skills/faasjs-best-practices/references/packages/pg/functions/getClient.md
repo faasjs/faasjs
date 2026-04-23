@@ -2,14 +2,16 @@
 
 # Function: getClient()
 
-> **getClient**(`url?`): [`Client`](../classes/Client.md)
+> **getClient**(`url?`): `Promise`\<[`Client`](../classes/Client.md)\>
 
 Returns a cached client created by [createClient](createClient.md).
 
 When `url` is omitted and the cache contains exactly one client, that client
-is returned. When the cache is empty and `process.env.DATABASE_URL` is set,
-a client is created from that URL, cached, and returned. Throws when no
-client can be resolved.
+is returned. When the cache is empty, the registered async database bootstrap
+is awaited to initialize the default client. The built-in bootstrap creates
+that client from `process.env.DATABASE_URL`, while callers such as
+`@faasjs/pg-dev` can override it for lazy test setup. Throws when no client
+can be resolved.
 
 ## Parameters
 
@@ -19,7 +21,7 @@ client can be resolved.
 
 ## Returns
 
-[`Client`](../classes/Client.md)
+`Promise`\<[`Client`](../classes/Client.md)\>
 
 ## Throws
 
@@ -31,13 +33,13 @@ When multiple cached clients exist and `url` is omitted.
 
 ## Throws
 
-When no cached client exists and `process.env.DATABASE_URL` is not set.
+When the registered database bootstrap does not initialize exactly one default client.
 
 ## Example
 
 ```ts
 import { getClient } from '@faasjs/pg'
 
-const client = getClient()
+const client = await getClient()
 const users = await client.query('users')
 ```

@@ -10,6 +10,7 @@
  * ```
  */
 export * from './migrator'
+export * from './bootstrap'
 export * from './client'
 export * from './query-builder'
 export * from './types'

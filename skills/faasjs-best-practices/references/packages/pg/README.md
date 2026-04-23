@@ -10,6 +10,7 @@
 - [getClients](functions/getClients.md)
 - [isTemplateStringsArray](functions/isTemplateStringsArray.md)
 - [rawSql](functions/rawSql.md)
+- [registerDatabaseBootstrap](functions/registerDatabaseBootstrap.md)
 
 ## Classes
 
@@ -28,6 +29,7 @@
 - [ClientOptions](type-aliases/ClientOptions.md)
 - [ColumnName](type-aliases/ColumnName.md)
 - [ColumnValue](type-aliases/ColumnValue.md)
+- [DatabaseBootstrap](type-aliases/DatabaseBootstrap.md)
 - [RawSql](type-aliases/RawSql.md)
 - [TableName](type-aliases/TableName.md)
 - [TableType](type-aliases/TableType.md)

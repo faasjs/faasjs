@@ -11,7 +11,7 @@
 
 ## 默认工作流
 
-1. 先在环境里设置 `DATABASE_URL`，并优先使用 `getClient()`，这样应用代码和测试可以共享同一条引导路径。
+1. 默认 client 路径优先使用 `await getClient()`。内建 bootstrap 会读取 `DATABASE_URL`，而测试可以按需懒加载地覆盖这条 bootstrap。
 2. 从 `client.query('<table>')` 开始，能用 builder 方法表达的 `select`、`where`、`join`、`orderBy`、`limit`、`offset` 与 `returning` 都优先留在 builder 内。
 3. 当调用方不需要整行数据时，用 `select(...)`、`first()`、`pluck(...)` 或显式 `returning` 列来收窄结果。
 4. 只有当 builder 不能直接表达某个表达式或语句时，才使用 `whereRaw`、`orWhereRaw`、`orderByRaw` 或 `client.raw(...)`。
@@ -34,7 +34,7 @@ const rows = await client
 ```ts
 import { getClient } from '@faasjs/pg'
 
-const client = getClient()
+const client = await getClient()
 
 await client.transaction(async (trx) => {
   await trx.raw('UPDATE users SET name = ? WHERE id = ?', 'Alice', 1)
@@ -65,10 +65,10 @@ await client.transaction(async (trx) => {
 
 ### 4. 让不同环境下的数据库引导路径保持一致
 
-- 默认应用 client 优先使用 `getClient()`，让共享引导路径持续绑定在 `process.env.DATABASE_URL` 上。
+- 默认应用 client 优先使用 `await getClient()`，让共享引导路径始终走注册过的异步 bootstrap。默认情况下，这条 bootstrap 读取 `process.env.DATABASE_URL`。
 - 只有当你真的需要自定义 `postgres.js` options 或多连接时，才使用 `createClient(process.env.DATABASE_URL, options)`。
-- 如果 `getClient()` 抛错，应把它视为共享引导路径没有正确配置的信号。
-- 在测试里，让 `TypedPgVitestPlugin()` 负责填充 `DATABASE_URL`，不要再额外维护一条仅供测试使用的连接初始化路径。
+- 如果 `await getClient()` 抛错，应把它视为共享引导路径没有正确配置的信号。
+- 在测试里，让 `TypedPgVitestPlugin()` 负责注册懒加载的测试 bootstrap，不要再额外维护一条仅供测试使用的连接初始化路径。如果 suite 还要直接读取 `process.env.DATABASE_URL`，先调用一次 `await getClient()`。
 
 ### 5. 让写查询和事务边界保持保护条件
 
@@ -100,7 +100,7 @@ await client.transaction(async (trx) => {
 - 在回退到 raw SQL 之前，优先使用了 builder methods
 - 结果结构和调用方实际读取的字段一致
 - 值仍然参数化，并且可信 SQL 边界足够显式
-- 默认 client bootstrap 走的是 `getClient()` 和 `process.env.DATABASE_URL`
+- 默认 client bootstrap 走的是 `await getClient()` 和注册过的异步 bootstrap（默认读取 `process.env.DATABASE_URL`）
 - 在合适场景下使用了 `select`、`first`、`pluck` 或显式 `returning` 来收窄结果
 - `update` 与 `delete` 仍然受 `where` 保护，多步写入在需要原子性时使用了 `transaction(...)`
 - 共享查询 helper 或包内改动同时维护了运行时覆盖和类型覆盖

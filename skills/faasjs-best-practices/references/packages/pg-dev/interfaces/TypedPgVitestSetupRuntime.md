@@ -4,6 +4,20 @@
 
 ## Properties
 
+### afterAll
+
+> **afterAll**: (`callback`) => `void`
+
+#### Parameters
+
+##### callback
+
+() => `Awaitable`\<`void`\>
+
+#### Returns
+
+`void`
+
 ### beforeEach
 
 > **beforeEach**: (`callback`) => `void`
@@ -18,16 +32,6 @@
 
 `void`
 
-### inject
+### projectRoot?
 
-> **inject**: (`key`) => `Record`\<`string`, `string`\> \| `undefined`
-
-#### Parameters
-
-##### key
-
-`"__typedPgVitestDatabaseUrls"`
-
-#### Returns
-
-`Record`\<`string`, `string`\> \| `undefined`
+> `optional` **projectRoot?**: `string`

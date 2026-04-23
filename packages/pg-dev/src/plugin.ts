@@ -1,4 +1,4 @@
-import { dirname, extname, join } from 'node:path'
+import { dirname, extname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import type { Plugin } from 'vitest/config'
@@ -7,10 +7,9 @@ const moduleFilename = typeof __filename === 'string' ? __filename : fileURLToPa
 const moduleDirname = dirname(moduleFilename)
 const moduleExtension = extname(moduleFilename) === '.ts' ? '.ts' : extname(moduleFilename)
 const indexPath = join(moduleDirname, `index${moduleExtension}`)
-const globalSetupPath = join(moduleDirname, `typed-pg-vitest-global-setup${moduleExtension}`)
 
 const DEFAULT_SKIPPED_ENVIRONMENTS = new Set(['happy-dom', 'jsdom'])
-let nextVirtualModuleId = 0
+const SETUP_MODULE_PREFIX = 'virtual:typed-pg-dev/vitest-setup:'
 
 function prependUniqueValue(value: string | string[] | undefined, nextValue: string) {
   const values = typeof value === 'undefined' ? [] : Array.isArray(value) ? value : [value]
@@ -29,11 +28,34 @@ export interface TypedPgVitestPluginOptions {
   environments?: string[]
 }
 
+function createSetupModuleSource(projectRoot: string) {
+  return [
+    "import { afterAll, beforeEach } from 'vitest'",
+    `import { setupTypedPgVitest } from ${JSON.stringify(indexPath)}`,
+    '',
+    'setupTypedPgVitest(',
+    `  { afterAll, beforeEach, projectRoot: ${JSON.stringify(projectRoot)} },`,
+    ')',
+    '',
+  ].join('\n')
+}
+
+function createSetupModuleId(projectRoot: string) {
+  return `${SETUP_MODULE_PREFIX}${encodeURIComponent(projectRoot)}`
+}
+
+function resolveSetupModuleProjectRoot(id: string) {
+  if (!id.startsWith(SETUP_MODULE_PREFIX)) return
+
+  return decodeURIComponent(id.slice(SETUP_MODULE_PREFIX.length))
+}
+
 function shouldEnableForProject(
   project: {
     config: {
       environment?: string
       name?: string
+      root?: string
     }
   },
   options: TypedPgVitestPluginOptions,
@@ -55,9 +77,9 @@ function shouldEnableForProject(
 /**
  * Creates the Vitest plugin that wires `@faasjs/pg-dev` into the test runner.
  *
- * The plugin starts worker-isolated temporary databases, runs migrations from `./migrations`,
- * injects the connection string into `process.env.DATABASE_URL`, and clears table contents before
- * each test.
+ * The plugin registers a lazy setup module for each enabled project. The first `await getClient()`
+ * in a test file starts PGlite, runs migrations from `./migrations`, backfills
+ * `process.env.DATABASE_URL`, and later `beforeEach` hooks clear table contents before each test.
  *
  * By default the plugin skips browser-like projects such as `jsdom` and `happy-dom`. Pass
  * `environments` or `projects` to opt into a narrower set explicitly.
@@ -66,48 +88,24 @@ function shouldEnableForProject(
  * @returns Vitest/Vite plugin instance.
  */
 export function TypedPgVitestPlugin(options: TypedPgVitestPluginOptions = {}): Plugin {
-  const instanceId = (nextVirtualModuleId += 1)
-  const setupPublicId = `virtual:typed-pg-dev/vitest-setup-${instanceId}`
-  const globalSetupPublicId = `virtual:typed-pg-dev/vitest-global-setup-${instanceId}`
-  const setupResolvedId = `\0${setupPublicId}`
-  const globalSetupResolvedId = `\0${globalSetupPublicId}`
-
   return {
     name: 'typed-pg-vitest-plugin',
     resolveId(id) {
-      if (id === setupPublicId) return setupResolvedId
-      if (id === globalSetupPublicId) return globalSetupResolvedId
+      if (resolveSetupModuleProjectRoot(id)) return `\0${id}`
     },
     load(id) {
-      if (id === setupResolvedId) {
-        return [
-          "import { beforeEach, inject } from 'vitest'",
-          `import { setupTypedPgVitest } from ${JSON.stringify(indexPath)}`,
-          '',
-          'setupTypedPgVitest(',
-          '  { beforeEach, inject },',
-          ')',
-          '',
-        ].join('\n')
-      }
+      const projectRoot = resolveSetupModuleProjectRoot(id.startsWith('\0') ? id.slice(1) : id)
 
-      if (id === globalSetupResolvedId) {
-        return [
-          `import setup from ${JSON.stringify(globalSetupPath)}`,
-          '',
-          'export default setup',
-          '',
-        ].join('\n')
-      }
+      if (!projectRoot) return
+
+      return createSetupModuleSource(projectRoot)
     },
     configureVitest({ project }) {
       if (!shouldEnableForProject(project, options)) return
 
-      project.config.globalSetup = prependUniqueValue(
-        project.config.globalSetup,
-        globalSetupPublicId,
-      )
-      project.config.setupFiles = prependUniqueValue(project.config.setupFiles, setupPublicId)
+      const setupModuleId = createSetupModuleId(resolve(project.config.root ?? process.cwd()))
+
+      project.config.setupFiles = prependUniqueValue(project.config.setupFiles, setupModuleId)
     },
   }
 }

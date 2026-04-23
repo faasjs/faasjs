@@ -32,8 +32,6 @@ describe('TypedPgVitestPlugin', () => {
       config: {
         environment: 'node',
         fileParallelism: true,
-        globalSetup: ['custom-global-setup.ts'],
-        provide: {},
         setupFiles: ['custom-setup.ts'],
       },
     }
@@ -46,11 +44,8 @@ describe('TypedPgVitestPlugin', () => {
     })
 
     expect(project.config.fileParallelism).toBe(true)
-    expect(project.config.globalSetup[0]).toMatch(/^virtual:typed-pg-dev\/vitest-global-setup-\d+$/)
-    expect(project.config.globalSetup[1]).toBe('custom-global-setup.ts')
-    expect(project.config.setupFiles[0]).toMatch(/^virtual:typed-pg-dev\/vitest-setup-\d+$/)
+    expect(project.config.setupFiles[0]).toMatch(/^virtual:typed-pg-dev\/vitest-setup:/)
     expect(project.config.setupFiles[1]).toBe('custom-setup.ts')
-    expect(project.config.provide).toEqual({})
   })
 
   it('deduplicates setup entries when configureVitest runs more than once', () => {
@@ -58,8 +53,6 @@ describe('TypedPgVitestPlugin', () => {
     const project = {
       config: {
         environment: 'node',
-        globalSetup: 'custom-global-setup.ts',
-        provide: {},
         setupFiles: 'custom-setup.ts',
       },
     }
@@ -77,11 +70,8 @@ describe('TypedPgVitestPlugin', () => {
       vitest: {} as never,
     })
 
-    expect(project.config.globalSetup).toHaveLength(2)
-    expect(project.config.globalSetup[0]).toMatch(/^virtual:typed-pg-dev\/vitest-global-setup-\d+$/)
-    expect(project.config.globalSetup[1]).toBe('custom-global-setup.ts')
     expect(project.config.setupFiles).toHaveLength(2)
-    expect(project.config.setupFiles[0]).toMatch(/^virtual:typed-pg-dev\/vitest-setup-\d+$/)
+    expect(project.config.setupFiles[0]).toMatch(/^virtual:typed-pg-dev\/vitest-setup:/)
     expect(project.config.setupFiles[1]).toBe('custom-setup.ts')
   })
 
@@ -90,8 +80,6 @@ describe('TypedPgVitestPlugin', () => {
     const project = {
       config: {
         environment: 'jsdom',
-        globalSetup: ['custom-global-setup.ts'],
-        provide: {},
         setupFiles: ['custom-setup.ts'],
       },
     }
@@ -103,7 +91,6 @@ describe('TypedPgVitestPlugin', () => {
       vitest: {} as never,
     })
 
-    expect(project.config.globalSetup).toEqual(['custom-global-setup.ts'])
     expect(project.config.setupFiles).toEqual(['custom-setup.ts'])
   })
 
@@ -116,8 +103,6 @@ describe('TypedPgVitestPlugin', () => {
       config: {
         environment: 'node',
         name: 'api',
-        globalSetup: [],
-        provide: {},
         setupFiles: [],
       },
     }
@@ -129,22 +114,15 @@ describe('TypedPgVitestPlugin', () => {
       vitest: {} as never,
     })
 
-    expect(project.config.globalSetup).toHaveLength(1)
     expect(project.config.setupFiles).toHaveLength(1)
   })
 
   it('can generate a setup module that wires the shared setup helper', () => {
     const plugin = TypedPgVitestPlugin()
-    const setupId = 'virtual:typed-pg-dev/vitest-setup-999'
-    const resolvedSetupId = resolvePluginId(plugin, setupId)
-
-    expect(resolvedSetupId).toBeUndefined()
-
     const project = {
       config: {
         environment: 'node',
-        globalSetup: [],
-        provide: {},
+        root: '/repo/project',
         setupFiles: [],
       },
     }
@@ -157,11 +135,13 @@ describe('TypedPgVitestPlugin', () => {
     })
 
     const generatedSetupId = project.config.setupFiles[0] as string
+    const resolvedSetupId = resolvePluginId(plugin, generatedSetupId)
     const generatedSource = loadPluginModule(plugin, `\0${generatedSetupId}`)
 
-    expect(generatedSource).toContain("import { beforeEach, inject } from 'vitest'")
+    expect(resolvedSetupId).toBe(`\0${generatedSetupId}`)
+    expect(generatedSource).toContain("import { afterAll, beforeEach } from 'vitest'")
     expect(generatedSource).toContain('import { setupTypedPgVitest } from')
-    expect(generatedSource).toContain('  { beforeEach, inject },')
+    expect(generatedSource).toContain('  { afterAll, beforeEach, projectRoot: "/repo/project" },')
   })
 
   it('prefers the Vitest pool id when resolving a worker id', () => {

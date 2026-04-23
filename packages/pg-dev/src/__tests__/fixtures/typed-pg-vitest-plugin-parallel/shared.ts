@@ -37,15 +37,16 @@ async function waitForAllWorkers(stateDir: string) {
 
 export function defineParallelIsolationCase(caseName: string, userId: number) {
   const stateDir = resolveStateDir()
-  const databaseUrl = requireFixtureDatabaseUrl()
   const workerId = resolveWorkerId()
 
   it(`isolates ${caseName}`, async () => {
+    const databaseUrl = await requireFixtureDatabaseUrl()
+
     mkdirSync(stateDir, { recursive: true })
     writeFileSync(join(stateDir, `${caseName}.ready`), workerId)
     await waitForAllWorkers(stateDir)
 
-    const sql = createFixturePostgres(databaseUrl)
+    const sql = await createFixturePostgres(databaseUrl)
 
     try {
       await sql`INSERT INTO users (id, name) VALUES (${userId}, ${caseName})`

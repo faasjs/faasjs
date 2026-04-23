@@ -11,8 +11,8 @@ When changing `@faasjs/pg`-backed code, every behavior change should come with r
 
 ## Default Workflow
 
-1. Prefer `TypedPgVitestPlugin()` so Vitest boots a temporary database, provisions one database per worker when file parallelism is enabled, runs migrations, and clears table contents before each test. In mixed workspaces, remember it skips `jsdom` and `happy-dom` projects unless you opt in with `environments` or `projects`.
-2. Let `TypedPgVitestPlugin()` inject `DATABASE_URL`, then use `getClient()` to seed data and run assertions so app code and tests share the same connection bootstrap path.
+1. Prefer `TypedPgVitestPlugin()` so Vitest registers a lazy temporary database bootstrap, starts PGlite on the first `await getClient()`, runs migrations, backfills `DATABASE_URL`, and clears table contents before later tests in the same file. In mixed workspaces, remember it skips `jsdom` and `happy-dom` projects unless you opt in with `environments` or `projects`.
+2. Use `await getClient()` to seed data and run assertions so app code and tests share the same async bootstrap path.
 3. Add only the suite-specific setup or fixtures that the plugin does not already provide.
 4. Pair runtime assertions with `expectTypeOf(...)` when query inference, declaration merging, or shared wrappers affect types.
 5. Run the smallest validation command that matches the change surface.
@@ -67,7 +67,9 @@ import { describe, expect, it } from 'vitest'
 import { getClient } from '@faasjs/pg'
 
 async function seedUser() {
-  await getClient().query('users').insert({
+  const client = await getClient()
+
+  await client.query('users').insert({
     id: 1,
     name: 'Alice',
   })
@@ -75,7 +77,7 @@ async function seedUser() {
 
 describe('users query', () => {
   it('selects seeded rows', async () => {
-    const client = getClient()
+    const client = await getClient()
 
     await seedUser()
 
@@ -116,8 +118,8 @@ describe('users query', () => {
 - Prefer `TypedPgVitestPlugin()` for workspace test runs.
 - In mixed Vitest workspaces, pass `environments` or `projects` when `jsdom` or `happy-dom` suites should participate.
 - PG-backed runtime tests are still Node runtime tests. Prefer the regular `node` project, but if only that subset needs project-level setup, use a node-scoped project name such as `node-pg` instead of a standalone runtime bucket like `pg`.
-- In tests, let the plugin inject `DATABASE_URL` and use `getClient()` directly for fixture setup and assertions.
-- Reach for `createClient(process.env.DATABASE_URL, options)` only when a suite genuinely needs custom `postgres.js` options or an extra connection.
+- In tests, let the plugin lazy-bootstrap the default client through `await getClient()`. If a suite also reads `process.env.DATABASE_URL` directly, trigger the bootstrap with `await getClient()` first.
+- Reach for `createClient(process.env.DATABASE_URL, options)` only when a suite genuinely needs custom `postgres.js` options or an extra connection after the bootstrap URL exists.
 - Keep lower-level database bootstrapping internal to the test support layer; public examples should only show the plugin.
 
 ## Review Checklist

@@ -6,9 +6,9 @@
 
 Creates the Vitest plugin that wires `@faasjs/pg-dev` into the test runner.
 
-The plugin starts worker-isolated temporary databases, runs migrations from `./migrations`,
-injects the connection string into `process.env.DATABASE_URL`, and clears table contents before
-each test.
+The plugin registers a lazy setup module for each enabled project. The first `await getClient()`
+in a test file starts PGlite, runs migrations from `./migrations`, backfills
+`process.env.DATABASE_URL`, and later `beforeEach` hooks clear table contents before each test.
 
 By default the plugin skips browser-like projects such as `jsdom` and `happy-dom`. Pass
 `environments` or `projects` to opt into a narrower set explicitly.

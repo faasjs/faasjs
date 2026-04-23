@@ -11,7 +11,7 @@ When implementing or reviewing `@faasjs/pg` query code, default to the fluent `Q
 
 ## Default Workflow
 
-1. Set `DATABASE_URL` in the environment and prefer `getClient()` so app code and tests share one bootstrap path.
+1. Prefer `await getClient()` for the default client path. The built-in bootstrap reads `DATABASE_URL`, and tests can override that bootstrap lazily.
 2. Start from `client.query('<table>')` and keep `select`, `where`, `join`, `orderBy`, `limit`, `offset`, and `returning` in builder methods when available.
 3. Narrow results with `select(...)`, `first()`, `pluck(...)`, or explicit `returning` columns when the caller does not need full rows.
 4. Use `whereRaw`, `orWhereRaw`, `orderByRaw`, or `client.raw(...)` only for expressions or statements the builder cannot represent directly.
@@ -34,7 +34,7 @@ const rows = await client
 ```ts
 import { getClient } from '@faasjs/pg'
 
-const client = getClient()
+const client = await getClient()
 
 await client.transaction(async (trx) => {
   await trx.raw('UPDATE users SET name = ? WHERE id = ?', 'Alice', 1)
@@ -65,10 +65,10 @@ await client.transaction(async (trx) => {
 
 ### 4. Keep database bootstrap consistent across environments
 
-- Prefer `getClient()` for the default application client so the shared bootstrap path stays tied to `process.env.DATABASE_URL`.
+- Prefer `await getClient()` for the default application client so the shared bootstrap path always goes through the registered async bootstrap. By default that bootstrap reads `process.env.DATABASE_URL`.
 - Reach for `createClient(process.env.DATABASE_URL, options)` only when custom `postgres.js` options or multiple database connections are required.
-- Treat `getClient()` throwing as a signal that the shared bootstrap path was not configured.
-- In tests, let `TypedPgVitestPlugin()` populate `DATABASE_URL` instead of building a separate testing-only connection path.
+- Treat `await getClient()` throwing as a signal that the shared bootstrap path was not configured.
+- In tests, let `TypedPgVitestPlugin()` register the lazy test bootstrap instead of building a separate testing-only connection path. If a suite also reads `process.env.DATABASE_URL` directly, call `await getClient()` first.
 
 ### 5. Keep write queries and transactions guarded
 
@@ -100,7 +100,7 @@ await client.transaction(async (trx) => {
 - builder methods are used before falling back to raw SQL
 - the result shape matches what the caller actually reads
 - values stay parameterized and trusted SQL boundaries are explicit
-- the default client bootstrap goes through `getClient()` and `process.env.DATABASE_URL`
+- the default client bootstrap goes through `await getClient()` and the registered async bootstrap (`process.env.DATABASE_URL` by default)
 - `select`, `first`, `pluck`, or explicit `returning` narrow rows when appropriate
 - `update` and `delete` stay guarded by `where`, and multi-step writes use `transaction(...)` when atomicity matters
 - shared query helpers or package changes keep runtime and type coverage aligned

@@ -5,6 +5,7 @@ import * as TypedPg from '../index'
 describe('TypedPg', () => {
   it('should be defined', () => {
     expect(Object.keys(TypedPg)).toEqual([
+      'registerDatabaseBootstrap',
       'Migrator',
       'Client',
       'createClient',

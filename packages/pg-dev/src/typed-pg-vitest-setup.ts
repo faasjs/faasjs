@@ -1,5 +1,5 @@
-import { beforeEach, inject } from 'vitest'
+import { afterAll, beforeEach } from 'vitest'
 
 import { setupTypedPgVitest } from './setup-helper'
 
-setupTypedPgVitest({ beforeEach, inject })
+setupTypedPgVitest({ afterAll, beforeEach, projectRoot: process.cwd() })

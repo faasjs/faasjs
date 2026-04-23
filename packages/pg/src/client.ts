@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto'
 import { Logger } from '@faasjs/node-utils'
 import postgres, { type PostgresType, type Sql } from 'postgres'
 
+import { resolveDatabaseBootstrap } from './bootstrap'
 import { QueryBuilder } from './query-builder'
 import type { TableName } from './types'
 import { createTemplateStringsArray } from './utils'
@@ -193,35 +194,7 @@ export function createClient<T extends Record<string, PostgresType> = Record<str
   return new Client(url, options)
 }
 
-/**
- * Returns a cached client created by {@link createClient}.
- *
- * When `url` is omitted and the cache contains exactly one client, that client
- * is returned. When the cache is empty and `process.env.DATABASE_URL` is set,
- * a client is created from that URL, cached, and returned. Throws when no
- * client can be resolved.
- *
- * @throws {Error} When the requested URL is not cached.
- * @throws {Error} When multiple cached clients exist and `url` is omitted.
- * @throws {Error} When no cached client exists and `process.env.DATABASE_URL` is not set.
- *
- * @example
- * ```ts
- * import { getClient } from '@faasjs/pg'
- *
- * const client = getClient()
- * const users = await client.query('users')
- * ```
- */
-export function getClient(url?: string): Client {
-  if (url) {
-    const client = clients.get(url)
-
-    if (client) return client
-
-    throw new Error(`No cached client found for connection URL: ${url}`)
-  }
-
+function getOnlyCachedClient() {
   if (clients.size === 1) {
     const client = clients.values().next().value
 
@@ -233,10 +206,50 @@ export function getClient(url?: string): Client {
   if (clients.size !== 0) {
     throw new Error('getClient() requires a connection URL when multiple clients are cached')
   }
+}
 
-  if (process.env.DATABASE_URL) return createClient(process.env.DATABASE_URL)
+/**
+ * Returns a cached client created by {@link createClient}.
+ *
+ * When `url` is omitted and the cache contains exactly one client, that client
+ * is returned. When the cache is empty, the registered async database bootstrap
+ * is awaited to initialize the default client. The built-in bootstrap creates
+ * that client from `process.env.DATABASE_URL`, while callers such as
+ * `@faasjs/pg-dev` can override it for lazy test setup. Throws when no client
+ * can be resolved.
+ *
+ * @throws {Error} When the requested URL is not cached.
+ * @throws {Error} When multiple cached clients exist and `url` is omitted.
+ * @throws {Error} When the registered database bootstrap does not initialize exactly one default client.
+ *
+ * @example
+ * ```ts
+ * import { getClient } from '@faasjs/pg'
+ *
+ * const client = await getClient()
+ * const users = await client.query('users')
+ * ```
+ */
+export async function getClient(url?: string): Promise<Client> {
+  if (url) {
+    const client = clients.get(url)
 
-  throw new Error('DATABASE_URL is required when no cached client is available')
+    if (client) return client
+
+    throw new Error(`No cached client found for connection URL: ${url}`)
+  }
+
+  const cachedClient = getOnlyCachedClient()
+
+  if (cachedClient) return cachedClient
+
+  await resolveDatabaseBootstrap()
+
+  const bootstrappedClient = getOnlyCachedClient()
+
+  if (bootstrappedClient) return bootstrappedClient
+
+  throw new Error('Database bootstrap did not initialize a default client')
 }
 
 /**

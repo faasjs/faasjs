@@ -11,8 +11,8 @@
 
 ## 默认工作流
 
-1. 优先使用 `TypedPgVitestPlugin()`，让 Vitest 自动启动临时数据库、在开启 file parallelism 时为每个 worker 分配一个数据库、运行 migrations，并在每个测试前清空表数据。混合工作区里要记住：它默认会跳过 `jsdom` 和 `happy-dom` 项目，除非你通过 `environments` 或 `projects` 显式启用。
-2. 让 `TypedPgVitestPlugin()` 注入 `DATABASE_URL`，然后用 `getClient()` 做 seed 和断言，让应用代码与测试共享同一条连接 bootstrap 路径。
+1. 优先使用 `TypedPgVitestPlugin()`，让 Vitest 注册一条懒加载的临时数据库 bootstrap：第一次 `await getClient()` 时启动 PGlite、运行 migrations、回填 `DATABASE_URL`，并在同一个测试文件后续的每个测试前清空表数据。混合工作区里要记住：它默认会跳过 `jsdom` 和 `happy-dom` 项目，除非你通过 `environments` 或 `projects` 显式启用。
+2. 使用 `await getClient()` 做 seed 和断言，让应用代码与测试共享同一条异步 bootstrap 路径。
 3. 只补充该 suite 真正额外需要的 setup 或 fixtures。
 4. 当查询推导、declaration merging 或共享 wrappers 影响类型时，让 runtime assertions 和 `expectTypeOf(...)` 成对出现。
 5. 运行与变更面最匹配的最小验证命令。
@@ -67,7 +67,9 @@ import { describe, expect, it } from 'vitest'
 import { getClient } from '@faasjs/pg'
 
 async function seedUser() {
-  await getClient().query('users').insert({
+  const client = await getClient()
+
+  await client.query('users').insert({
     id: 1,
     name: 'Alice',
   })
@@ -75,7 +77,7 @@ async function seedUser() {
 
 describe('users query', () => {
   it('selects seeded rows', async () => {
-    const client = getClient()
+    const client = await getClient()
 
     await seedUser()
 
@@ -116,8 +118,8 @@ describe('users query', () => {
 - 工作区测试默认优先使用 `TypedPgVitestPlugin()`。
 - 在混合 Vitest 工作区里，如果 `jsdom` 或 `happy-dom` suites 也要接入插件，就显式传 `environments` 或 `projects`。
 - 基于 PG 的 runtime tests 本质上仍然是 Node runtime tests。优先使用普通的 `node` project；但如果只有这部分测试需要 project-level setup，就使用 `node-pg` 这类 node-scoped project name，而不是单独拆成 `pg` 这种 runtime bucket。
-- 测试里让插件注入 `DATABASE_URL`，然后直接使用 `getClient()` 做 fixtures 与断言。
-- 只有在某个 suite 真的需要自定义 `postgres.js` options 或额外连接时，才使用 `createClient(process.env.DATABASE_URL, options)`。
+- 测试里让插件通过 `await getClient()` 懒加载默认 client。若某个 suite 还要直接读取 `process.env.DATABASE_URL`，先调用一次 `await getClient()` 再读。
+- 只有在某个 suite 真的需要自定义 `postgres.js` options 或额外连接，而且 bootstrap URL 已经存在时，才使用 `createClient(process.env.DATABASE_URL, options)`。
 - 更底层的数据库 bootstrap 细节应留在 test support layer 内部，公开示例只展示插件用法。
 
 ## 评审清单

@@ -2,13 +2,14 @@
 
 # Function: setupTypedPgVitest()
 
-> **setupTypedPgVitest**(`runtime`): `string`
+> **setupTypedPgVitest**(`runtime`): `void`
 
 Wires `@faasjs/pg-dev` into a Vitest setup module without forcing consumers to import package
 setup files directly from `node_modules`.
 
-This is primarily used by the plugin's generated setup module so the active project imports
-`vitest` locally while reusing the shared database reset logic from `@faasjs/pg-dev`.
+The helper registers a lazy async bootstrap for `await getClient()`. The first default-client
+lookup starts PGlite, runs `./migrations`, and backfills `process.env.DATABASE_URL`. Later tests
+reuse that database within the current Vitest file while `beforeEach` resets table contents.
 
 ## Parameters
 
@@ -20,6 +21,4 @@ Runtime hooks from the active Vitest project.
 
 ## Returns
 
-`string`
-
-Temporary database URL for the current worker.
+`void`

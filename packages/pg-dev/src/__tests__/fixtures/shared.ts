@@ -1,26 +1,31 @@
+import { getClient } from '@faasjs/pg'
 import postgres from 'postgres'
 
 import { TYPED_PG_VITEST_DATABASE_URL_ENV_NAME } from '../../plugin-context'
 
-export function requireFixtureDatabaseUrl() {
+export async function requireFixtureDatabaseUrl() {
+  await getClient()
+
   const databaseUrl = process.env[TYPED_PG_VITEST_DATABASE_URL_ENV_NAME]
 
   if (!databaseUrl) {
-    throw Error(`${TYPED_PG_VITEST_DATABASE_URL_ENV_NAME} was not injected by TypedPgVitestPlugin`)
+    throw Error(
+      `${TYPED_PG_VITEST_DATABASE_URL_ENV_NAME} was not injected by TypedPgVitestPlugin after await getClient()`,
+    )
   }
 
   return databaseUrl
 }
 
-export function createFixturePostgres(databaseUrl = requireFixtureDatabaseUrl()) {
-  return postgres(databaseUrl, { max: 1, ssl: false })
+export async function createFixturePostgres(databaseUrl?: string) {
+  return postgres(databaseUrl ?? (await requireFixtureDatabaseUrl()), { max: 1, ssl: false })
 }
 
 export async function withFixturePostgres<T>(
-  run: (sql: ReturnType<typeof createFixturePostgres>, databaseUrl: string) => Promise<T>,
+  run: (sql: Awaited<ReturnType<typeof createFixturePostgres>>, databaseUrl: string) => Promise<T>,
 ) {
-  const databaseUrl = requireFixtureDatabaseUrl()
-  const sql = createFixturePostgres(databaseUrl)
+  const databaseUrl = await requireFixtureDatabaseUrl()
+  const sql = await createFixturePostgres(databaseUrl)
 
   try {
     return await run(sql, databaseUrl)

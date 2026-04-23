@@ -2,6 +2,7 @@ import type postgres from 'postgres'
 import { describe, it, expectTypeOf } from 'vitest'
 
 import type { User } from '../../test-utils/tables'
+import { type DatabaseBootstrap } from '../bootstrap'
 import { Client, createClient, getClient, getClients, type ClientOptions } from '../client'
 import type { ColumnName, ColumnValue, TableName, Tables, TableType } from '../types'
 
@@ -72,11 +73,15 @@ describe('types', () => {
   })
 
   it('getClient', () => {
-    type GetClient = (url?: string) => Client
+    type GetClient = (url?: string) => Promise<Client>
 
     const getCachedClient: GetClient = getClient
 
     expectTypeOf(getCachedClient).toEqualTypeOf<GetClient>()
+  })
+
+  it('DatabaseBootstrap', () => {
+    expectTypeOf<DatabaseBootstrap>().toEqualTypeOf<() => void | Promise<void>>()
   })
 
   it('getClients', () => {
