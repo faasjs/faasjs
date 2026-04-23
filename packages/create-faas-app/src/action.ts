@@ -28,7 +28,7 @@ function getTemplateNames(): string[] {
     .sort()
 }
 
-function resolveTemplateName(template = 'basic'): string {
+function resolveTemplateName(template = 'admin'): string {
   const templates = getTemplateNames()
 
   if (templates.includes(template)) return template
@@ -86,14 +86,14 @@ function scaffold(
  *
  * @param {object} [options] - Optional CLI arguments used to choose the project name and template.
  * @param {string} [options.name] - Target folder name for the generated app.
- * @param {string} [options.template] - Template name such as `basic` or `antd`.
+ * @param {string} [options.template] - Template name such as `admin` or `minimal`.
  * @returns {Promise<void>} Resolves after the project is generated and its test command finishes.
  * @throws {Error} When the selected template is unknown.
  * @example
  * ```ts
  * await action({
  *   name: 'faasjs-demo',
- *   template: 'basic',
+ *   template: 'admin',
  * })
  * ```
  */
@@ -141,16 +141,21 @@ export async function action(options: { name?: string; template?: string } = {})
  */
 export default function registerCreateFaasApp(program: Command): void {
   program
-    .description('Create a new faas app')
+    .description('Create a new FaasJS app')
     .on('--help', () =>
       console.log(`Examples:
 npx create-faas-app --name faasjs
-npx create-faas-app --name faasjs-admin --template antd
+npx create-faas-app --name faasjs-admin --template admin
+npx create-faas-app --name faasjs-minimal --template minimal
 
 Templates:
+admin: recommended React + Ant Design + PostgreSQL starter
+minimal: lighter React starter
+
+Available:
 ${getTemplateNames().join(', ')}`),
     )
     .option('--name <name>', 'Project name')
-    .option('--template <template>', 'Template name', 'basic')
+    .option('--template <template>', 'Template name', 'admin')
     .action(action)
 }

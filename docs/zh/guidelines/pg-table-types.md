@@ -12,7 +12,7 @@
 ## 默认工作流
 
 1. 在应用自己拥有的类型文件里放置 augmentation，例如 `src/types/faasjs-pg.d.ts`，并先确认 `tsconfig.json` 已经包含这个文件，再期待推导结果发生变化。
-2. 在这个文件里通过 `declare module '@faasjs/pg'` 扩展 `Tables`。
+2. 如果这是一个 `.d.ts` 文件，先导入 `@faasjs/pg`，再通过 `declare module '@faasjs/pg'` 扩展 `Tables`。
 3. 让每张表的定义都贴近它的真实运行时 row shape，并把 JSON 与 JSONB 的对象结构也统一放进这个 merged interface。
 4. 让 `client.query`、`TableType`、`ColumnName` 与 `ColumnValue` 都从这里推导，而不是用 `as` 强行指定结果类型。
 5. 只有在把 `client.raw(...)` 或其它 raw 边界返回的数据转换成应用类型时，才使用收敛范围明确的类型断言。
@@ -22,6 +22,8 @@
 
 ```ts
 // src/types/faasjs-pg.d.ts
+import '@faasjs/pg'
+
 declare module '@faasjs/pg' {
   interface Tables {
     users: {
@@ -44,6 +46,7 @@ declare module '@faasjs/pg' {
 - 当表结构变化时，先更新 merged interface，再调整查询代码。
 - 让类型定义尽量靠近真正拥有这张表的应用边界。
 - augmentation 应放在 TypeScript 已经包含进应用的 `.d.ts` 或 `.ts` 文件里。
+- 如果 augmentation 写在 `.d.ts` 中，先导入 `@faasjs/pg`，确保 TypeScript 是在增强真实模块，而不是声明一个独立的 ambient module。
 - JSON 与 JSONB 列的类型统一定义在 `declare module '@faasjs/pg'` 里，不要在别处散落重复的类型别名。
 - 如果推导结果没有变化，先检查 `tsconfig.json` 的 `include`、`files` 或 project references，再考虑加类型断言。
 

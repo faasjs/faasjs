@@ -63,10 +63,11 @@ footer: 🚀 FaasJS is a React-only, agent-friendly full-stack TypeScript framew
 
 ```bash
 npx create-faas-app --name faasjs
-npx create-faas-app --name faasjs-admin --template antd
+npx create-faas-app --name faasjs-admin --template admin
+npx create-faas-app --name faasjs-minimal --template minimal
 ```
 
-`basic` is the default starter. Use `--template antd` when you want the recommended Ant Design app shell for common business systems.
+`admin` is the default starter. It follows the recommended FaasJS path with React, Ant Design, PostgreSQL, and `@faasjs/pg-dev`-powered tests. Use `--template minimal` when you want a lighter React starter without the database stack.
 
 ## Examples
 

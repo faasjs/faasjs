@@ -8,7 +8,8 @@
  *
  * ```bash
  * npx create-faas-app --name faasjs
- * npx create-faas-app --name faasjs-admin --template antd
+ * npx create-faas-app --name faasjs-admin --template admin
+ * npx create-faas-app --name faasjs-minimal --template minimal
  * ```
  */
 

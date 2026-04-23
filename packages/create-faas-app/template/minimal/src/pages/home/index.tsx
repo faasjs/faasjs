@@ -31,7 +31,7 @@ export default function HomePage() {
 
   return (
     <main style={{ margin: '5rem auto', maxWidth: 420, padding: 24 }}>
-      <h1>FaasJS App</h1>
+      <h1>FaasJS Minimal App</h1>
       <p>{message}</p>
 
       <label style={{ display: 'block', marginBottom: 12 }}>

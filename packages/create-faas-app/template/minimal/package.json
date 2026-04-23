@@ -10,8 +10,10 @@
     "test": "vp test"
   },
   "dependencies": {
-    "@faasjs/ant-design": "*",
-    "@faasjs/core": "*"
+    "@faasjs/core": "*",
+    "@faasjs/react": "*",
+    "react": "*",
+    "react-dom": "*"
   },
   "devDependencies": {
     "@faasjs/dev": "*"

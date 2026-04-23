@@ -16,6 +16,7 @@ describe('create-faas-app', () => {
 
     expect(versionOption).toBeDefined()
     expect(templateOption).toBeDefined()
+    expect((templateOption as { defaultValue?: string }).defaultValue).toBe('admin')
     expect(internalCommander._version).toBe(version)
   })
 

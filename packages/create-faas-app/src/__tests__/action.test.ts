@@ -14,7 +14,24 @@ vi.mock('node:child_process', () => ({
   },
 }))
 
-const basicFiles = [
+const adminFiles = [
+  '.env.example',
+  '.gitignore',
+  'index.html',
+  'migrations/20250101000000_create_users.ts',
+  'package.json',
+  'server.ts',
+  'src/faas.yaml',
+  'src/main.tsx',
+  'src/pages/home/api/users/__tests__/create.test.ts',
+  'src/pages/home/api/users/create.api.ts',
+  'src/pages/home/index.tsx',
+  'src/types/faasjs-pg.d.ts',
+  'tsconfig.json',
+  'vite.config.ts',
+]
+
+const minimalFiles = [
   '.gitignore',
   'index.html',
   'package.json',
@@ -25,20 +42,6 @@ const basicFiles = [
   'src/pages/home/api/hello.api.ts',
   'src/pages/home/index.tsx',
   'src/react-client.ts',
-  'tsconfig.json',
-  'vite.config.ts',
-]
-
-const antdFiles = [
-  '.gitignore',
-  'index.html',
-  'package.json',
-  'server.ts',
-  'src/faas.yaml',
-  'src/main.tsx',
-  'src/pages/home/api/__tests__/hello.test.ts',
-  'src/pages/home/api/hello.api.ts',
-  'src/pages/home/index.tsx',
   'tsconfig.json',
   'vite.config.ts',
 ]
@@ -93,17 +96,59 @@ describe('action', () => {
     })
   })
 
-  it('should create the basic template by default', async () => {
+  it('should create the admin template by default', async () => {
     await action({
-      name: 'basic-app',
+      name: 'admin-app',
     })
 
-    const rootPath = join(tempDir, 'basic-app')
+    const rootPath = join(tempDir, 'admin-app')
     const packageJSON = JSON.parse(read(rootPath, 'package.json'))
 
-    expect(execs).toEqual(['cd basic-app && npm install', 'cd basic-app && npm run test'])
-    expect(listFiles(rootPath)).toEqual(basicFiles)
-    expect(packageJSON.name).toBe('basic-app')
+    expect(execs).toEqual(['cd admin-app && npm install', 'cd admin-app && npm run test'])
+    expect(listFiles(rootPath)).toEqual(adminFiles)
+    expect(packageJSON.name).toBe('admin-app')
+    expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
+    expectGeneratedSessionSecret(read(rootPath, 'src/faas.yaml'))
+    expect(read(rootPath, 'server.ts')).toContain("import { loadEnvFile } from 'node:process'")
+    expect(read(rootPath, 'server.ts')).toContain('try {')
+    expect(read(rootPath, 'server.ts')).toContain('loadEnvFile()')
+    expect(read(rootPath, 'server.ts')).toContain(
+      "console.warn('[faasjs] Failed to load env file', error)",
+    )
+    expect(read(rootPath, '.env.example')).toContain('DATABASE_URL=postgres://')
+    expect(read(rootPath, 'migrations/20250101000000_create_users.ts')).toContain(
+      "builder.createTable('users'",
+    )
+    expect(read(rootPath, 'src/pages/home/api/users/create.api.ts')).toContain(
+      "import { getClient } from '@faasjs/pg'",
+    )
+    expect(read(rootPath, 'src/pages/home/api/users/__tests__/create.test.ts')).toContain(
+      "import { getClient } from '@faasjs/pg'",
+    )
+    expect(read(rootPath, 'src/types/faasjs-pg.d.ts')).toContain("import '@faasjs/pg'")
+    expect(read(rootPath, 'src/types/faasjs-pg.d.ts')).toContain('interface Tables')
+    expect(read(rootPath, 'vite.config.ts')).toContain(
+      "import { TypedPgVitestPlugin } from '@faasjs/pg-dev'",
+    )
+    expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
+    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
+      "import { faas, useApp } from '@faasjs/ant-design'",
+    )
+    expect(listFiles(rootPath)).not.toContain('src/react-client.ts')
+  })
+
+  it('should create the minimal template when requested', async () => {
+    await action({
+      name: 'minimal-app',
+      template: 'minimal',
+    })
+
+    const rootPath = join(tempDir, 'minimal-app')
+    const packageJSON = JSON.parse(read(rootPath, 'package.json'))
+
+    expect(execs).toEqual(['cd minimal-app && npm install', 'cd minimal-app && npm run test'])
+    expect(listFiles(rootPath)).toEqual(minimalFiles)
+    expect(packageJSON.name).toBe('minimal-app')
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
     expectGeneratedSessionSecret(read(rootPath, 'src/faas.yaml'))
     expect(read(rootPath, 'server.ts')).toContain("import { loadEnvFile } from 'node:process'")
@@ -122,40 +167,7 @@ describe('action', () => {
     expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
       "import { faas } from '../../react-client'",
     )
-  })
-
-  it('should create the antd template when requested', async () => {
-    await action({
-      name: 'antd-app',
-      template: 'antd',
-    })
-
-    const rootPath = join(tempDir, 'antd-app')
-    const packageJSON = JSON.parse(read(rootPath, 'package.json'))
-
-    expect(execs).toEqual(['cd antd-app && npm install', 'cd antd-app && npm run test'])
-    expect(listFiles(rootPath)).toEqual(antdFiles)
-    expect(packageJSON.name).toBe('antd-app')
-    expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
-    expectGeneratedSessionSecret(read(rootPath, 'src/faas.yaml'))
-    expect(read(rootPath, 'server.ts')).toContain("import { loadEnvFile } from 'node:process'")
-    expect(read(rootPath, 'server.ts')).toContain('try {')
-    expect(read(rootPath, 'server.ts')).toContain('loadEnvFile()')
-    expect(read(rootPath, 'server.ts')).toContain(
-      "console.warn('[faasjs] Failed to load env file', error)",
-    )
-    expect(read(rootPath, 'src/pages/home/api/hello.api.ts')).toContain('export default defineApi(')
-    expect(read(rootPath, 'src/pages/home/api/__tests__/hello.test.ts')).toContain(
-      "import api from '../hello.api'",
-    )
-    expect(read(rootPath, 'src/main.tsx')).toContain("import { App } from '@faasjs/ant-design'")
-    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
-      "import { faas, useApp } from '@faasjs/ant-design'",
-    )
-    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain(
-      "import { Button, Card, Input, Space, Typography } from 'antd'",
-    )
-    expect(listFiles(rootPath)).not.toContain('src/react-client.ts')
+    expect(read(rootPath, 'src/pages/home/index.tsx')).toContain('FaasJS Minimal App')
   })
 
   it('should reject an unknown template', async () => {
@@ -164,7 +176,7 @@ describe('action', () => {
         name: 'broken-app',
         template: 'unknown',
       }),
-    ).rejects.toThrow('Unknown template "unknown". Available templates: antd, basic')
+    ).rejects.toThrow('Unknown template "unknown". Available templates: admin, minimal')
 
     expect(execs).toEqual([])
   })

@@ -7,14 +7,27 @@
     "dev": "vp dev",
     "build": "vp build",
     "start": "node --import @faasjs/node-utils/register-hooks server.ts",
-    "test": "vp test"
+    "test": "vp test",
+    "db:new": "faasjs-pg new",
+    "db:status": "faasjs-pg status",
+    "db:migrate": "faasjs-pg migrate",
+    "db:up": "faasjs-pg up",
+    "db:down": "faasjs-pg down"
   },
   "dependencies": {
+    "@faasjs/ant-design": "*",
     "@faasjs/core": "*",
-    "@faasjs/react": "*"
+    "@faasjs/pg": "*",
+    "antd": "*",
+    "postgres": "*",
+    "react": "*",
+    "react-dom": "*"
   },
   "devDependencies": {
-    "@faasjs/dev": "*"
+    "@electric-sql/pglite": "*",
+    "@electric-sql/pglite-socket": "*",
+    "@faasjs/dev": "*",
+    "@faasjs/pg-dev": "*"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core",
