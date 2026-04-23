@@ -1,0 +1,40 @@
+{
+  "name": "@faasjs/docgen",
+  "version": "8.0.0-beta.25",
+  "description": "Documentation generator for FaasJS monorepos.",
+  "homepage": "https://faasjs.com/doc/docgen",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/docgen"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "bin": {
+    "faasjs-docgen": "dist/cli.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "dependencies": {
+    "typedoc": "*",
+    "typedoc-plugin-markdown": "*"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  }
+}

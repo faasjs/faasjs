@@ -11,6 +11,7 @@
 | Name                                                                                   | Version                                                                                                           |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | [create-faas-app](https://github.com/faasjs/faasjs/tree/main/packages/create-faas-app) | [![NPM Version](https://img.shields.io/npm/v/create-faas-app.svg)](https://www.npmjs.com/package/create-faas-app) |
+| [@faasjs/docgen](https://github.com/faasjs/faasjs/tree/main/packages/docgen)           | [![NPM Version](https://img.shields.io/npm/v/@faasjs/docgen.svg)](https://www.npmjs.com/package/@faasjs/docgen)   |
 
 ## Utils
 

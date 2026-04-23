@@ -20,6 +20,10 @@ const packEntries: Record<string, Record<string, string>> = {
     index: './src/index.ts',
     'cli/index': './src/cli/index.ts',
   },
+  docgen: {
+    index: './src/index.ts',
+    cli: './src/cli.ts',
+  },
   'node-utils': {
     index: './src/index.ts',
     register_hooks: './src/register_hooks.ts',
@@ -43,6 +47,7 @@ const pack: PackUserConfig[] = [
   'core',
   'create-faas-app',
   'dev',
+  'docgen',
   'pg',
   'pg-dev',
   'utils',

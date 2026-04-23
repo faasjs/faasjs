@@ -14,13 +14,11 @@
     "test": "vp test run",
     "ci": "vp test run --silent --coverage",
     "pub": "vp pack && vp run doc && node publish.ts",
-    "doc": "node build-docs.ts && node sync-skill-references.ts && vp check --fix",
+    "doc": "node packages/docgen/src/cli.ts all",
     "clean": "rimraf packages/*/node_modules packages/*/dist coverage packages/*/*.log tmp *.log",
     "prepare": "vp config"
   },
   "devDependencies": {
-    "typedoc": "*",
-    "typedoc-plugin-markdown": "*",
     "vite-plus": "*"
   },
   "overrides": {
