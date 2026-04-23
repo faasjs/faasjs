@@ -5,13 +5,13 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 ## Unreleased
 
 - `@faasjs/core`
-  - [Break] Require `.api.ts` modules loaded by `Server` to export their FaasJS API instance as `default`, and stop resolving the legacy named `func` export.
+  - [Break] Require `.api.ts` modules loaded by `Server` to export their FaasJS API instance as `default`, and stop resolving the named `func` export.
 
 - `@faasjs/dev`
-  - [Break] Stop accepting legacy `{ func }` module objects in `ApiTester` and `testApi()`. Pass the API instance itself or a module object with `default`.
+  - [Break] Stop accepting `{ func }` module objects in `ApiTester` and `testApi()`. Pass the API instance itself or a module object with `default`.
 
 - `@faasjs/node-utils`
-  - [Break] Require `loadApiHandler()` callers to load API modules that export their FaasJS API instance as `default`, and remove the legacy named `func` fallback from tests and examples.
+  - [Break] Require `loadApiHandler()` callers to load API modules that export their FaasJS API instance as `default`, and remove the named `func` fallback from tests and examples.
 
 - `@faasjs/types`
   - [Break] Limit `InferFaasApi<TModule>` to modules with a `default` FaasJS API export.
@@ -23,7 +23,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Feature] Load the project `.env` automatically when `Server` starts from a FaasJS app root, and warn without blocking startup when the file is unreadable.
 
 - `@faasjs/dev`
-  - [Break] Remove the legacy `test()` helper plus deprecated `FuncWarper` and `isTypegenSourceFile()` aliases, keep `testApi()` as the only callable JSON test helper, use `ApiTester` as the only public tester class, and keep `isTypegenInputFile()` as the only public typegen watcher helper.
+  - [Break] Remove the `test()` helper plus deprecated `FuncWarper` and `isTypegenSourceFile()` aliases, keep `testApi()` as the only callable JSON test helper, use `ApiTester` as the only public tester class, and keep `isTypegenInputFile()` as the only public typegen watcher helper.
   - [Feature] Load the project `.env` automatically when `viteFaasJsServer()` starts, and warn without blocking startup when the file is unreadable.
 
 - `@faasjs/node-utils`
@@ -36,7 +36,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `faasjs`
   - [Break] Rename application API entry files from `.func.ts` to `.api.ts`, update fallback routing filenames to `index.api.ts` and `default.api.ts`, and make `export default defineApi(...)` the canonical authoring pattern across scaffolds, templates, and docs.
-  - [Feature] Add API-first migration aliases including `loadApiHandler`, `ApiTester`, `InferFaasApi`, `parseApiFilenameFromStack`, and `isTypegenInputFile`, while keeping `loadFunc`, `FuncWarper`, `InferFaasFunc`, `parseFuncFilenameFromStack`, and `isTypegenSourceFile` as deprecated compatibility aliases for the migration release.
+  - [Feature] Add API-first migration aliases including `loadApiHandler`, `ApiTester`, `InferFaasApi`, `parseApiFilenameFromStack`, and `isTypegenInputFile`, while keeping `loadFunc`, `FuncWarper`, `InferFaasFunc`, `parseFuncFilenameFromStack`, and `isTypegenSourceFile` as deprecated migration-release aliases.
 
 - `@faasjs/core`
   - [Break] Stop auto loading `.env` during `Server` initialization. Load env files explicitly in your entrypoint when needed.
@@ -66,7 +66,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/core`
   - [Fix] Block static file and server route traversal outside configured roots before loading files from user-controlled paths.
   - [Fix] Return HTTP 400 with an explicit invalid-JSON error when an `application/json` request body cannot be parsed, instead of silently falling back to partial params handling.
-  - [Fix] Stop documenting legacy no-op `HttpConfig` route and deploy keys in `@faasjs/core`, and keep the public HTTP plugin config focused on the fields the current runtime actually consumes.
+  - [Fix] Stop documenting unused `HttpConfig` route and deploy keys in `@faasjs/core`, and keep the public HTTP plugin config focused on the fields the current runtime actually consumes.
   - [Fix] Stop silently generating ephemeral HTTP session secrets when `cookie.session.secret` is missing, and fail session initialization explicitly so misconfiguration shows up before restart-driven logouts.
   - [Fix] Only call `Server.middleware()`'s `next()` callback when FaasJS leaves the request unhandled, avoiding duplicate dispatch after FaasJS has already written a response.
 
@@ -98,11 +98,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/core`
   - [Break] Remove `useFunc`, `usePlugin`, and `useHttp`. Create functions with `new Func({ plugins, handler })` or `defineApi(...)` instead, and attach HTTP support with `new Http(...)`.
-  - [Break] Stop setting and logging the legacy `FaasMode` environment variable during `Server` initialization.
+  - [Break] Stop setting and logging the `FaasMode` environment variable during `Server` initialization.
   - [Feature] Support loading plugins from `file://` module types when resolving named class exports in `defineApi`.
 
 - `@faasjs/node-utils`
-  - [Break] Remove the legacy `FaasMode=remote` logger behavior and rely on terminal capability detection by default, while still allowing `FaasLogMode`, `FORCE_COLOR`, and `NO_COLOR` to override the output mode.
+  - [Break] Remove the `FaasMode=remote` logger behavior and rely on terminal capability detection by default, while still allowing `FaasLogMode`, `FORCE_COLOR`, and `NO_COLOR` to override the output mode.
   - [Feature] Resolve relative `file://` plugin `type` values in `faas.yaml` from the directory of the `faas.yaml` file.
   - [Feature] Export `parseYaml` as a public API for parsing the supported `faas.yaml` YAML subset in custom Node.js tooling.
 
@@ -484,7 +484,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 [`v6.8.0 (2025-03-09)`](https://github.com/faasjs/faasjs/compare/v6.7.0...v6.8.0)
 
 - `@faasjs/logger`
-  - [Feature] Added browser compatibility, allowing the logger to be used directly in browser environments.
+  - [Feature] Added browser support, allowing the logger to be used directly in browser environments.
 
 [`v6.7.0 (2025-02-24)`](https://github.com/faasjs/faasjs/compare/v6.6.0...v6.7.0)
 

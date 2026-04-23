@@ -5,8 +5,8 @@ const Name = 'handler'
 /**
  * Built-in invoke plugin that executes `data.handler` at most once.
  *
- * It bridges callback-style and promise-returning handlers onto the shared
- * invoke lifecycle and stores the handler result on `data.response`.
+ * It normalizes handler completion onto the shared invoke lifecycle and stores
+ * the handler result on `data.response`.
  *
  * @example
  * ```ts
@@ -24,13 +24,7 @@ export class RunHandler implements Plugin {
     if (data.handler)
       if (!data.runHandler) {
         try {
-          data.response = await new Promise((resolve, reject) => {
-            data.callback = (error: Error, result: any): void => {
-              if (error) reject(error)
-              else resolve(result)
-            }
-            Promise.resolve(data.handler?.(data)).then(resolve).catch(reject)
-          })
+          data.response = await Promise.resolve(data.handler?.(data))
         } catch (error: any) {
           data.logger.error(error)
           data.response = error

@@ -4,8 +4,8 @@ import { cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, vi } from 'vite-plus/test'
 
 type MatchMediaMock = (query: string) => MediaQueryList
-type LegacyMediaQueryListListener = (this: MediaQueryList, event: MediaQueryListEvent) => void
-type MediaQueryListListenerMock = (listener: LegacyMediaQueryListListener | null) => void
+type MediaQueryListChangeListener = (this: MediaQueryList, event: MediaQueryListEvent) => void
+type MediaQueryListListenerMock = (listener: MediaQueryListChangeListener | null) => void
 type MediaQueryListEventListenerMock = (
   type: string,
   listener: EventListenerOrEventListenerObject | null,

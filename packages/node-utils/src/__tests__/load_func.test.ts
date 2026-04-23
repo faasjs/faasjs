@@ -11,10 +11,10 @@ describe('loadApiHandler', () => {
     expect(result).toBe('Hello World')
   })
 
-  it('should require a default export', async () => {
-    await expect(loadApiHandler(__dirname, `${__dirname}/legacy.api.ts`, 'local')).rejects.toThrow(
-      'must export a FaasJS API instance as default',
-    )
+  it('should reject modules without a default export', async () => {
+    await expect(
+      loadApiHandler(__dirname, `${__dirname}/named-export.api.ts`, 'local'),
+    ).rejects.toThrow('must export a FaasJS API instance as default')
   })
 
   it('should merge yaml config with inline func config', async () => {

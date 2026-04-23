@@ -154,7 +154,7 @@ if (!isPathInsideRoot(candidate, root)) {
 - `@faasjs/node-utils` 的导入只出现在 Node-only 代码中
 - `faas run` 入口文件和本地脚本会在依赖环境变量的 bootstrap 逻辑前先加载 `.env`，除非 bootstrap 本身完全由 `Server` 或 `viteFaasJsServer()` 接管
 - staged `faas.yaml` 通过 `loadConfig()` 或 `loadApiHandler()` 读取，而不是自定义 merge 逻辑
-- 原始 FaasJS 兼容 YAML 使用 `parseYaml()` 解析，而不是另一个 YAML parser
+- 原始 FaasJS YAML 使用 `parseYaml()` 解析，而不是另一个 YAML parser
 - 加载逻辑使用 `loadApiHandler()`、`loadPlugins()` 或 `loadPackage()`，而不是自定义动态 import 包装
 - module hooks 在进程启动阶段注册，而不是深埋在 feature 代码中
 - root-scoped 文件访问会用 `isPathInsideRoot()` 校验已解析路径

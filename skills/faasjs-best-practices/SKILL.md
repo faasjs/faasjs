@@ -10,11 +10,11 @@ description: When working with FaasJS projects, must follow these best practices
 - Prefer aliases already defined in TypeScript config over deep relative imports.
 - Keep short relative imports for nearby files in the same feature or directory.
 - Do not invent a new alias in code unless the corresponding `tsconfig.json` and runtime resolver are configured in the same change.
-- Keep changes minimal and task-scoped: no extra features, drive-by refactors, opportunistic cleanup, feature flags, compatibility shims, or speculative future-proofing.
+- Keep changes minimal and task-scoped: no extra features, drive-by refactors, opportunistic cleanup, feature flags, transition shims, or speculative future-proofing.
 - Keep code direct: validate at system boundaries such as user input and external APIs, fail fast on invalid internal data, and do not add silent fallbacks or impossible-case handling.
 - Extract helpers, hooks, components, or abstractions only when they are reused, create a real boundary, or simplify a large block; keep one-off code inline unless the body is over about 20 lines.
 - Document every exported declaration with JSDoc, and add other comments only when names or logic are not obvious; do not add comments, docstrings, or type annotations to untouched code.
-- Delete confirmed-dead code directly instead of leaving compatibility tricks such as `_unused` renames, type re-exports, or `// removed` markers.
+- Delete confirmed-dead code directly instead of leaving temporary tricks such as `_unused` renames, type re-exports, or `// removed` markers.
 - Keep files under about 500 lines by splitting along real boundaries before they grow too large.
 
 ## Guidelines

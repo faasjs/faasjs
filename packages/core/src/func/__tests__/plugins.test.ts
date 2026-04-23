@@ -84,7 +84,6 @@ describe('plugins', () => {
       type: -1,
       event: null,
       context: null,
-      callback: () => 1,
       response: null,
       handler: func.handler,
       logger: func.logger,

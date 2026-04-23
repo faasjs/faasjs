@@ -2,11 +2,9 @@
 
 # Type Alias: ExportedHandler\<TEvent, TContext, TResult\>
 
-> **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\> = (`event?`, `context?`, `callback?`) => `Promise`\<`TResult`\>
+> **ExportedHandler**\<`TEvent`, `TContext`, `TResult`\> = (`event?`, `context?`) => `Promise`\<`TResult`\>
 
 Promise-based handler signature exported by packaged FaasJS API modules.
-
-The optional callback keeps compatibility with runtimes that still expose a Node-style completion API.
 
 ## Type Parameters
 
@@ -41,12 +39,6 @@ Runtime event payload passed to the handler.
 `TContext`
 
 Runtime context object passed to the handler.
-
-### callback?
-
-(...`args`) => `any`
-
-Optional callback supplied by callback-based runtimes.
 
 ## Returns
 

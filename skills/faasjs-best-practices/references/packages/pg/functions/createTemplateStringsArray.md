@@ -18,4 +18,4 @@ SQL source string or template literal array.
 
 `TemplateStringsArray`
 
-Template-strings representation compatible with `postgres.js`.
+Template-strings representation for `postgres.js`.

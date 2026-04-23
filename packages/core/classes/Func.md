@@ -72,7 +72,7 @@ Plugins and optional business handler used to configure the function.
 
 > **export**(): `object`
 
-Build a runtime-compatible handler wrapper for the function.
+Build the exported handler wrapper for the function.
 
 #### Returns
 

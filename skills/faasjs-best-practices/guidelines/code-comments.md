@@ -87,11 +87,11 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 - Add one short comment above a private helper when its name does not fully explain side effects, normalization rules, lifecycle timing, or cache behavior.
 - Skip comments for straightforward control flow, data mapping, or TypeScript boilerplate.
 
-### 8. Comment non-standard, performance-sensitive, or compatibility code by explaining why
+### 8. Comment non-standard, performance-sensitive, or constraint-driven code by explaining why
 
 - Add a short note when code intentionally deviates from the obvious implementation, preserves runtime ordering, works around platform or tooling limits, or guards against a subtle regression.
 - For performance-sensitive code, explain the trigger and cost you are avoiding, not just that the code is "faster".
-- For compatibility notes, name the platform, library, tool, or generated-doc constraint that the code is working around.
+- For platform or tooling notes, name the platform, library, tool, or generated-doc constraint that the code is working around.
 - Explain the constraint or reason, not the syntax.
 - Remove the comment once the workaround or special case disappears.
 
@@ -107,7 +107,7 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 - Avoid repeating types, variable names, or line-by-line behavior that TypeScript and the code already make obvious.
 - Prefer stable wording about purpose, constraints, and contracts over fragile wording that mirrors today's implementation details.
 - Use the same project terms as the public API so generated docs and source comments do not drift into different vocabularies.
-- When you touch a public JSDoc block, normalize it to these conventions even if nearby legacy comments still use older style.
+- When you touch a public JSDoc block, normalize it to these conventions even if nearby comments still use older style.
 - Write TODO or FIXME notes only when they include a clear reason and an exit condition or follow-up trigger.
 - Update or delete comments in the same change that alters the behavior they describe.
 
@@ -190,7 +190,7 @@ export function createRequestLogger(transport: LoggerTransport, request: Request
 }
 ````
 
-Internal, performance, and compatibility examples:
+Internal, performance, and platform/tooling examples:
 
 ```ts
 // Normalize ids once so repeated lookups do not allocate on every render.
@@ -200,7 +200,7 @@ function buildIdIndex(records: RecordItem[]) {
 
 // Keep this branch for Node 18 stream adapters because they still deliver the
 // close event before the final buffered chunk is flushed.
-await drainLegacyStream(stream)
+await drainBufferedStream(stream)
 
 // Keep this synchronous registration order because later plugins read earlier defaults.
 plugins.unshift(systemPlugin)
@@ -217,7 +217,7 @@ plugins.unshift(systemPlugin)
 - examples explain the API's role with a concrete cause/effect instead of only repeating the symbol name
 - low-level APIs include enough surrounding setup in examples to make the flow understandable
 - edge cases, failure semantics, and hidden prerequisites are documented when they affect correct usage
-- performance and compatibility notes explain the specific constraint being preserved
+- performance and platform/tooling notes explain the specific constraint being preserved
 - public JSDoc changes are reflected in any derived docs, and the rendered output is briefly reviewed
 - private helpers only have comments when names are still not descriptive enough
 - unusual branches explain why they exist

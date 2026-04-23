@@ -101,7 +101,7 @@ export function isTemplateStringsArray(value: any): value is TemplateStringsArra
  * Normalizes a SQL string or template input into a `TemplateStringsArray`.
  *
  * @param str - SQL source string or template literal array.
- * @returns Template-strings representation compatible with `postgres.js`.
+ * @returns Template-strings representation for `postgres.js`.
  */
 export function createTemplateStringsArray(
   str: string | TemplateStringsArray,

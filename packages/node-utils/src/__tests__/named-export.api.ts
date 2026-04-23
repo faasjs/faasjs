@@ -2,7 +2,7 @@ export const func = {
   config: Object.create(null),
   export() {
     return {
-      handler: async () => 'legacy',
+      handler: async () => 'named-export',
     }
   },
 }

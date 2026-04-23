@@ -6,7 +6,7 @@ When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 
 - creating a new `.api.ts` API module
 - reviewing request validation, error handling, return shape, or injected HTTP helpers
-- updating a route that should stay compatible with generated Faas action types
+- updating a route that should stay aligned with generated Faas action types
 
 ## Default Workflow
 

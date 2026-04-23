@@ -11,6 +11,7 @@
 - [isTemplateStringsArray](functions/isTemplateStringsArray.md)
 - [rawSql](functions/rawSql.md)
 - [registerDatabaseBootstrap](functions/registerDatabaseBootstrap.md)
+- [resolveDatabaseBootstrap](functions/resolveDatabaseBootstrap.md)
 
 ## Classes
 

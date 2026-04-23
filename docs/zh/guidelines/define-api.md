@@ -6,7 +6,7 @@
 
 - 创建新的 `.api.ts` API 模块
 - 评审请求校验、错误处理、返回结构或注入的 HTTP helpers
-- 更新需要保持与 Faas action 生成类型兼容的路由
+- 更新需要与 Faas action 生成类型保持一致的路由
 
 ## 默认工作流
 

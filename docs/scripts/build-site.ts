@@ -304,7 +304,7 @@ function writeStaticAssets(): void {
   const assetsDirectory = join(distRoot, 'assets')
   mkdirSync(assetsDirectory, { recursive: true })
 
-  const baseThemeCss = readFileSync(join(siteRoot, 'legacy-theme.css'), 'utf8')
+  const baseThemeCss = readFileSync(join(siteRoot, 'base-theme.css'), 'utf8')
   const overridesPath = join(siteRoot, 'theme-overrides.css')
   const overridesCss = existsSync(overridesPath) ? readFileSync(overridesPath, 'utf8') : ''
   const style = [baseThemeCss, overridesCss].filter(Boolean).join('\n\n')

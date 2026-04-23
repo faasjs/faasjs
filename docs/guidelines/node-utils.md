@@ -154,7 +154,7 @@ if (!isPathInsideRoot(candidate, root)) {
 - `@faasjs/node-utils` imports stay in Node-only code
 - `faas run` entry files and local scripts load `.env` before env-dependent bootstrap logic unless `Server` or `viteFaasJsServer()` fully owns that bootstrap
 - staged `faas.yaml` is read through `loadConfig()` or `loadApiHandler()`, not custom merge code
-- raw FaasJS-compatible YAML parsing uses `parseYaml()` instead of a different YAML parser
+- raw FaasJS YAML parsing uses `parseYaml()` instead of a different YAML parser
 - loaders use `loadApiHandler()`, `loadPlugins()`, or `loadPackage()` instead of custom dynamic import wrappers
 - module hooks are registered at process startup, not deep inside feature code
 - root-scoped file access validates resolved paths with `isPathInsideRoot()`

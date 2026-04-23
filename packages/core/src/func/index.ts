@@ -30,7 +30,7 @@ export type Handler<TEvent = any, TContext = any, TResult = any> = (
 export type Next = () => Promise<void>
 
 /**
- * Runtime-compatible handler returned by {@link Func.export}.
+ * Handler returned by {@link Func.export}.
  *
  * @template TEvent - Runtime event type.
  * @template TContext - Runtime context type.
@@ -38,13 +38,11 @@ export type Next = () => Promise<void>
  *
  * @param {TEvent} [event] - Runtime event payload.
  * @param {TContext} [context] - Runtime context object.
- * @param {(...args: any) => any} [callback] - Optional callback supplied by callback-based runtimes.
  * @returns {Promise<TResult>} Final function response.
  */
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
   context?: TContext,
-  callback?: (...args: any) => any,
 ) => Promise<TResult>
 
 /**
@@ -121,7 +119,6 @@ type MutableMountData = {
  *
  * @property {TEvent} event - Runtime event payload.
  * @property {TContext} context - Runtime context payload.
- * @property {any} callback - Optional callback forwarded from the runtime.
  * @property {any} response - Response value produced by plugins or handlers.
  * @property {Logger} logger - Request-scoped logger instance.
  * @property {Handler<TEvent, TContext, TResult>} [handler] - Final business handler when one exists.
@@ -131,7 +128,6 @@ export type InvokeData<TEvent = any, TContext = any, TResult = any> = {
   [key: string]: any
   event: TEvent
   context: TContext
-  callback: any
   response: any
   logger: Logger
   handler?: Handler<TEvent, TContext, TResult>
@@ -449,18 +445,19 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
   }
 
   /**
-   * Build a runtime-compatible handler wrapper for the function.
+   * Build the exported handler wrapper for the function.
    *
    * @returns {{ handler: ExportedHandler<TEvent, TContext, TResult> }} Object containing the exported handler.
    */
   public export(): {
     handler: ExportedHandler<TEvent, TContext, TResult>
   } {
-    const handler = async (
+    const func = this
+
+    const handler: ExportedHandler<TEvent, TContext, TResult> = async function (
       event?: TEvent,
       context?: TContext,
-      callback?: (...args: any) => any,
-    ): Promise<TResult> => {
+    ): Promise<TResult> {
       const runtimeContext = ((typeof context === 'undefined' ? Object.create(null) : context) ||
         Object.create(null)) as TContext & {
         request_id?: string
@@ -482,14 +479,13 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
       const data: InvokeData<TEvent, TContext, TResult> = {
         event: event ?? Object.create(null),
         context: runtimeContext as TContext,
-        callback,
         response: undefined,
         logger,
-        config: this.config,
-        ...(this.handler ? { handler: this.handler } : {}),
+        config: func.config,
+        ...(func.handler ? { handler: func.handler } : {}),
       }
 
-      await this.invoke(data)
+      await func.invoke(data)
 
       if (Object.prototype.toString.call(data.response) === '[object Error]') throw data.response
 
@@ -497,7 +493,7 @@ export class Func<TEvent = any, TContext = any, TResult = any> {
     }
 
     return {
-      handler: handler.bind(this),
+      handler,
     }
   }
 }

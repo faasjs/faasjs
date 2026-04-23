@@ -32,12 +32,6 @@ Async result type produced by the handler.
 
 ## Properties
 
-### callback
-
-> **callback**: `any`
-
-Optional callback forwarded from the runtime.
-
 ### config
 
 > **config**: [`Config`](Config.md)

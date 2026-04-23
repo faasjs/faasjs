@@ -6,8 +6,8 @@
 
 Wrap a component with [FaasDataWrapper](../variables/FaasDataWrapper.md) and inject Faas request state as props.
 
-`withFaasData` is most useful for wrapper-style exports or compatibility with
-an existing component boundary. For new code, prefer `useFaas` or
+`withFaasData` is most useful for wrapper-style exports or when you want to
+preserve an existing component boundary. For new code, prefer `useFaas` or
 `FaasDataWrapper` when they express the request ownership more directly.
 
 ## Type Parameters

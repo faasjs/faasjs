@@ -28,7 +28,7 @@ FaasJS is for developers and teams who want:
 - a framework that works well with AI agent generation and review
 - a simple setup that is still ready for common product work
 
-FaasJS is not optimized for users who primarily want maximum configurability, many interchangeable frontend choices, or broad compatibility across multiple framework models.
+FaasJS is not optimized for users who primarily want maximum configurability, many interchangeable frontend choices, or broad support across multiple framework models.
 
 ## Supported Product Types
 

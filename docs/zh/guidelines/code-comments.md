@@ -87,11 +87,11 @@
 - 当某个私有 helper 的名字仍不足以说明副作用、归一化规则、生命周期时机或缓存行为时，再在函数上方补一条简短注释。
 - 对直白的控制流、数据映射或 TypeScript 样板代码，不要添加解释性注释。
 
-### 8. 对非常规、性能敏感或兼容性代码，重点写原因
+### 8. 对非常规、性能敏感或受平台/工具约束的代码，重点写原因
 
 - 当代码有意偏离直觉实现、依赖运行时顺序、绕过平台或工具限制，或是在防止某个隐蔽回归时，可以补一条简短说明。
 - 对性能相关注释，要说明触发条件以及在避免什么代价，而不是只写“为了性能”。
-- 对兼容性注释，要点名具体的平台、库、工具，或生成文档约束，而不是笼统写成 workaround。
+- 对平台或工具约束相关的注释，要点名具体的平台、库、工具，或生成文档约束，而不是笼统写成 workaround。
 - 注释应解释约束或原因，而不是解释语法。
 - 一旦 workaround 或特殊分支消失，就把对应注释一并删掉。
 
@@ -190,7 +190,7 @@ export function createRequestLogger(transport: LoggerTransport, request: Request
 }
 ````
 
-内部、性能与兼容性注释示例：
+内部、性能与平台/工具约束注释示例：
 
 ```ts
 // Normalize ids once so repeated lookups do not allocate on every render.
@@ -200,7 +200,7 @@ function buildIdIndex(records: RecordItem[]) {
 
 // Keep this branch for Node 18 stream adapters because they still deliver the
 // close event before the final buffered chunk is flushed.
-await drainLegacyStream(stream)
+await drainBufferedStream(stream)
 
 // Keep this synchronous registration order because later plugins read earlier defaults.
 plugins.unshift(systemPlugin)
@@ -217,7 +217,7 @@ plugins.unshift(systemPlugin)
 - 示例解释的是 API 在流程中的作用，并且能让读者看到具体的因果关系
 - 低层 API 的示例提供了足够的上下文，让读者能看懂调用链路
 - 会影响正确使用的边界条件、失败语义和隐藏前提都已写明
-- 性能和兼容性注释说明了具体在保护什么约束
+- 性能和平台/工具约束注释说明了具体在保护什么约束
 - 公开 JSDoc 变化后，相关派生文档已同步，并快速检查了渲染结果
 - 私有 helper 只有在命名仍不够清楚时才保留注释
 - 非常规分支说明的是“为什么存在”

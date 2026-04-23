@@ -6,20 +6,16 @@ import { loadPlugins } from './load_plugins'
 /**
  * Promise-based handler signature exported by packaged FaasJS API modules.
  *
- * The optional callback keeps compatibility with runtimes that still expose a Node-style completion API.
- *
  * @template TEvent - Runtime event type.
  * @template TContext - Runtime context type.
  * @template TResult - Async result type returned by the handler.
  * @param {TEvent} [event] - Runtime event payload passed to the handler.
  * @param {TContext} [context] - Runtime context object passed to the handler.
- * @param {(...args: any[]) => any} [callback] - Optional callback supplied by callback-based runtimes.
  * @returns {Promise<TResult>} Promise that resolves to the handler result.
  */
 export type ExportedHandler<TEvent = any, TContext = any, TResult = any> = (
   event?: TEvent,
   context?: TContext,
-  callback?: (...args: any) => any,
 ) => Promise<TResult>
 
 /**

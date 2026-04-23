@@ -21,15 +21,6 @@ describe('server/cron', () => {
     for (const cronJob of listCronJobs()) removeCronJob(cronJob)
   })
 
-  it('should ignore cronJobs option for compatibility', () => {
-    expect(
-      () =>
-        new Server(join(__dirname, 'funcs'), {
-          cronJobs: [],
-        } as any),
-    ).not.toThrow()
-  })
-
   it('should start and stop registered cron jobs with server lifecycle', async () => {
     const cronJob = createCronJob({
       name: 'server-boot-job',

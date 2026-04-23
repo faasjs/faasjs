@@ -216,8 +216,8 @@ Object.assign(FaasDataWrapper, {
 /**
  * Wrap a component with {@link FaasDataWrapper} and inject Faas request state as props.
  *
- * `withFaasData` is most useful for wrapper-style exports or compatibility with
- * an existing component boundary. For new code, prefer `useFaas` or
+ * `withFaasData` is most useful for wrapper-style exports or when you want to
+ * preserve an existing component boundary. For new code, prefer `useFaas` or
  * `FaasDataWrapper` when they express the request ownership more directly.
  *
  * @template PathOrData - Action path or response data type used for inference.
