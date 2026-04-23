@@ -25,7 +25,7 @@ Promise that resolves to a function wrapper.
 ```ts
 import { useMiddleware } from '@faasjs/core'
 
-export const func = useMiddleware((request, response, { logger }) => {
+export default useMiddleware((request, response, { logger }) => {
   response.setHeader('x-hello', 'World')
   response.end('Hello, World!')
   logger.info('Hello, World!')

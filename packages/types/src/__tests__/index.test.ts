@@ -95,8 +95,8 @@ test('InferFaasAction should infer schema params from defineApi', () => {
   assertType<InferredAction['Data']>({ value: '' })
 })
 
-test('InferFaasApi should prefer default export before legacy func export', () => {
-  const defaultApi = defineApi({
+test('InferFaasApi should infer the default export', () => {
+  const api = defineApi({
     schema: z.object({
       slug: z.string(),
     }),
@@ -106,30 +106,16 @@ test('InferFaasApi should prefer default export before legacy func export', () =
       }
     },
   })
-  const legacyFunc = defineApi({
-    schema: z.object({
-      count: z.number(),
-    }),
-    async handler({ params }) {
-      return {
-        count: params.count,
-      }
-    },
-  })
 
   type InferredApi = InferFaasApi<{
-    default: typeof defaultApi
-    func: typeof legacyFunc
+    default: typeof api
   }>
 
   assertType<InferFaasAction<InferredApi>['Params']>({ slug: 'post' })
-
-  // @ts-expect-error InferFaasApi should prefer the default export
-  assertType<InferFaasAction<InferredApi>['Params']>({ count: 1 })
 })
 
-test('InferFaasApi should fall back to legacy func exports', () => {
-  const legacyFunc = defineApi({
+test('InferFaasApi should reject modules without a default export', () => {
+  const api = defineApi({
     schema: z.object({
       id: z.string(),
     }),
@@ -140,9 +126,5 @@ test('InferFaasApi should fall back to legacy func exports', () => {
     },
   })
 
-  type InferredApi = InferFaasApi<{
-    func: typeof legacyFunc
-  }>
-
-  assertType<InferFaasAction<InferredApi>['Params']>({ id: 'legacy' })
+  expectTypeOf<InferFaasApi<{ func: typeof api }>>().toEqualTypeOf<never>()
 })

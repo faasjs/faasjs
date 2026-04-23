@@ -7,7 +7,7 @@ FaasJS supports plugins in two complementary layers:
 - code registers plugin instances on `Func`
 - `faas.yaml` provides staged, directory-aware plugin configuration
 
-The runtime behavior is already stable across `@faasjs/core` and `@faasjs/node-utils`, but the contract is currently spread across source code, tests, and legacy docs.
+The runtime behavior is already stable across `@faasjs/core` and `@faasjs/node-utils`, but the contract is currently spread across source code, tests, and published docs.
 
 This specification defines the baseline for plugin identity, lifecycle execution, config layering, and config-driven loading.
 
@@ -115,7 +115,7 @@ class TracePlugin implements Plugin {
   }
 }
 
-export const func = new Func({
+export default new Func({
   plugins: [new TracePlugin()],
   async handler({ context }) {
     context.trace.push('handler')

@@ -25,7 +25,7 @@ Promise that resolves to a function wrapper.
 ```ts
 import { useMiddlewares } from '@faasjs/core'
 
-export const func = useMiddlewares([
+export default useMiddlewares([
   (request, response) => {
     if (request.url === '/hi') return
     response.end('Hello, World!')

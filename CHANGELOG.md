@@ -2,6 +2,20 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `@faasjs/core`
+  - [Break] Require `.api.ts` modules loaded by `Server` to export their FaasJS API instance as `default`, and stop resolving the legacy named `func` export.
+
+- `@faasjs/dev`
+  - [Break] Stop accepting legacy `{ func }` module objects in `ApiTester` and `testApi()`. Pass the API instance itself or a module object with `default`.
+
+- `@faasjs/node-utils`
+  - [Break] Require `loadApiHandler()` callers to load API modules that export their FaasJS API instance as `default`, and remove the legacy named `func` fallback from tests and examples.
+
+- `@faasjs/types`
+  - [Break] Limit `InferFaasApi<TModule>` to modules with a `default` FaasJS API export.
+
 [`v8.0.0-beta.25 (2026-04-22)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.24...>v8.0.0-beta.25)
 
 - `@faasjs/core`

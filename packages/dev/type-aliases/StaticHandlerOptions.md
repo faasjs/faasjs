@@ -55,7 +55,7 @@ URL prefix removed before resolving the file path.
 ```ts
 import { useMiddleware, staticHandler } from '@faasjs/core'
 
-export const func = useMiddleware(
+export default useMiddleware(
   staticHandler({
     root: `${__dirname}/public`,
     stripPrefix: '/public',

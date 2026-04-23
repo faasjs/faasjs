@@ -88,7 +88,7 @@ async function invokeMiddleware(
  * ```ts
  * import { useMiddleware } from '@faasjs/core'
  *
- * export const func = useMiddleware((request, response, { logger }) => {
+ * export default useMiddleware((request, response, { logger }) => {
  *   response.setHeader('x-hello', 'World')
  *   response.end('Hello, World!')
  *   logger.info('Hello, World!')
@@ -120,7 +120,7 @@ export async function useMiddleware(
  * ```ts
  * import { useMiddlewares } from '@faasjs/core'
  *
- * export const func = useMiddlewares([
+ * export default useMiddlewares([
  *   (request, response) => {
  *     if (request.url === '/hi') return
  *     response.end('Hello, World!')

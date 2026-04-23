@@ -117,15 +117,6 @@ describe('loadPackage', () => {
     expect(result).toBe('my-module-default')
   })
 
-  it('should prefer default export before legacy func export names', async () => {
-    const result = await loadPackage<string>(
-      createDataModuleURL(`export const func = 'legacy'; export default 'modern'`),
-      ['default', 'func'],
-    )
-
-    expect(result).toBe('modern')
-  })
-
   it('should load esm module in module runtime', async () => {
     const path = await import('node:path')
     const result = await loadPackage<string>('node:path', 'sep')
@@ -218,7 +209,7 @@ describe('loadPackage tsconfig resolver', () => {
       join(root, 'src', 'entry.api.ts'),
       `import { message } from '@/shared/message'
 
-export const func = {
+export default {
   export() {
     return {
       handler: async () => message,
@@ -242,12 +233,12 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 resetRuntime()
 
 const entry = join(root, 'src', 'entry.api.ts')
-const first = await loadPackage(entry, ['default', 'func'], { root, version: '1' })
+const first = await loadPackage(entry, 'default', { root, version: '1' })
 const firstValue = await first.export().handler()
 
 writeFileSync(join(root, 'src', 'shared', 'message.ts'), "export const message = 'v2'\\n", 'utf8')
 
-const second = await loadPackage(entry, ['default', 'func'], { root, version: '2' })
+const second = await loadPackage(entry, 'default', { root, version: '2' })
 const secondValue = await second.export().handler()
 
 process.stdout.write(JSON.stringify({ firstValue, secondValue }))
@@ -273,7 +264,7 @@ process.stdout.write(JSON.stringify({ firstValue, secondValue }))
       join(root, 'src', 'entry.api.ts'),
       `import { message } from './message'
 
-export const func = {
+export default {
   export() {
     return {
       handler: async () => message,
@@ -295,7 +286,7 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 
 resetRuntime()
 
-const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'), ['default', 'func'], {
+const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'), 'default', {
   root,
   version: '3',
 })
@@ -325,7 +316,7 @@ process.stdout.write(String(value))
       join(root, 'src', 'entry.api.ts'),
       `import { message } from './message.json'
 
-export const func = {
+export default {
   export() {
     return {
       handler: async () => message,
@@ -347,7 +338,7 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 
 resetRuntime()
 
-const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'), ['default', 'func'], {
+const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'), 'default', {
   root,
   version: '4',
 })
@@ -378,7 +369,7 @@ process.stdout.write(String(value))
       join(root, 'src', 'entry.api.ts'),
       `import { message } from './message.js'
 
-export const func = {
+export default {
   export() {
     return {
       handler: async () => message,
@@ -400,7 +391,7 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 
 resetRuntime()
 
-const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'), ['default', 'func'], {
+const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'), 'default', {
   root,
   version: '5',
 })
@@ -454,7 +445,7 @@ process.stdout.write(String(value))
       `import { exact } from '@exact'
 import { message } from '@shared/message'
 
-export const func = {
+export default {
   export() {
     return {
       handler: async () => \`\${message}:\${exact}\`,
@@ -478,7 +469,7 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 resetRuntime()
 
 const entry = pathToFileURL(join(root, 'src', 'nested', 'entry.api.ts')).href
-const loaded = await loadPackage(entry, ['default', 'func'], {
+const loaded = await loadPackage(entry, 'default', {
   version: '6',
 })
 

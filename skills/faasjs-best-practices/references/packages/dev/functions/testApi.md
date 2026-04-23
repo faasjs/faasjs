@@ -22,7 +22,7 @@ Wrapped FaasJS API type.
 
 ### initBy
 
-`TFunc` \| \{ `default?`: `TFunc`; `func?`: `TFunc`; \}
+`TestApiInput`\<`TFunc`\>
 
 API instance or module object to wrap.
 

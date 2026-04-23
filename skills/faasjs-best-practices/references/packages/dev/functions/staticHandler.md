@@ -28,7 +28,7 @@ Middleware that serves files from the configured root directory.
 ```ts
 import { staticHandler, useMiddleware } from '@faasjs/core'
 
-export const func = useMiddleware(
+export default useMiddleware(
   staticHandler({
     root: `${__dirname}/public`,
   }),

@@ -11,20 +11,10 @@ describe('loadApiHandler', () => {
     expect(result).toBe('Hello World')
   })
 
-  it('should keep support for legacy named func exports', async () => {
-    const handler = await loadApiHandler(__dirname, `${__dirname}/legacy.api.ts`, 'local')
-
-    const result = await handler()
-
-    expect(result).toBe('legacy')
-  })
-
-  it('should prefer default export before legacy func export', async () => {
-    const handler = await loadApiHandler(__dirname, `${__dirname}/priority.api.ts`, 'local')
-
-    const result = await handler()
-
-    expect(result).toBe('default')
+  it('should require a default export', async () => {
+    await expect(loadApiHandler(__dirname, `${__dirname}/legacy.api.ts`, 'local')).rejects.toThrow(
+      'must export a FaasJS API instance as default',
+    )
   })
 
   it('should merge yaml config with inline func config', async () => {

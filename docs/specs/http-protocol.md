@@ -2,12 +2,7 @@
 
 ## Background
 
-FaasJS has historical request/response guidance in docs, but contracts are spread across multiple locations. This spec defines a single internal baseline for transport behavior.
-
-Legacy references (kept unchanged in this phase):
-
-- `docs/guide/request-spec.md`
-- `docs/zh/guide/excel/request-spec.md`
+FaasJS request/response guidance is spread across multiple locations. This spec defines a single internal baseline for transport behavior.
 
 ## Goals
 
@@ -93,17 +88,8 @@ Internal Server Error
 }
 ```
 
-## Compatibility
+## Current Behavior Notes
 
 - Current runtime behavior is consistent with top-level `data`/`error` wrapping in `@faasjs/core`.
 - Current server fallback behavior can return plain-text `500 Internal Server Error` in low-level failures.
-- Historical docs mention `action + params`; V1 standardizes direct JSON object request body for route-based APIs.
 - Existing projects may return additional status codes in custom logic. Those are outside this V1 baseline.
-
-## Migration Checklist
-
-- [ ] New APIs use `POST` + JSON object body.
-- [ ] Success responses use transport-level top `data`.
-- [ ] Failure responses use `500` (JSON `error.message` when possible).
-- [ ] Clients can handle both JSON and `text/plain` for `500`.
-- [ ] Existing custom status codes are documented locally when retained.

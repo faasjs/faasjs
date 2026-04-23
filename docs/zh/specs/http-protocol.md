@@ -2,12 +2,7 @@
 
 ## 背景
 
-FaasJS 过去在 docs 中已经有请求 / 响应方面的说明，但协议约定分散在多个位置。这份规范定义了一个统一的内部基线，用来描述传输层行为。
-
-历史参考（本阶段仅作背景说明）：
-
-- `docs/guide/request-spec.md`
-- `docs/zh/guide/excel/request-spec.md`
+FaasJS 的请求 / 响应说明分散在多个位置。这份规范定义了一个统一的内部基线，用来描述传输层行为。
 
 ## 目标
 
@@ -93,17 +88,8 @@ Internal Server Error
 }
 ```
 
-## 兼容性
+## 当前实现说明
 
 - 当前运行时行为与 `@faasjs/core` 中顶层 `data` / `error` 包裹约定一致。
 - 当前 server fallback 行为在底层故障时可能返回纯文本 `500 Internal Server Error`。
-- 历史文档提到过 `action + params`；V1 为基于路由的 API 标准化了“直接发送 JSON 对象 body”的方式。
 - 现有项目在自定义逻辑中可能返回额外状态码；这些不属于本 V1 基线范围。
-
-## 迁移清单
-
-- [ ] 新 API 使用 `POST` + JSON object body
-- [ ] 成功响应使用传输层顶级 `data`
-- [ ] 失败响应使用 `500`（尽量返回 JSON `error.message`）
-- [ ] client 能同时处理 `500` 下的 JSON 与 `text/plain`
-- [ ] 仍保留的自定义状态码已在本地文档中说明

@@ -1,6 +1,6 @@
 import { Func } from '@faasjs/core'
 
-export const func = new Func({
+export default new Func({
   async handler() {
     return new Response(
       new ReadableStream({

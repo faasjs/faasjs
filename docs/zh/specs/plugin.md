@@ -7,7 +7,7 @@ FaasJS 在两个互补层次上支持 plugins：
 - 代码直接把 plugin 实例注册到 `Func`
 - `faas.yaml` 提供分阶段、按目录感知的 plugin 配置
 
-运行时行为在 `@faasjs/core` 与 `@faasjs/node-utils` 中已经比较稳定，但契约目前仍分散在源码、测试和旧文档中。
+运行时行为在 `@faasjs/core` 与 `@faasjs/node-utils` 中已经比较稳定，但契约目前仍分散在源码、测试和已发布文档中。
 
 这份规范定义了 plugin 标识、生命周期执行、配置分层以及配置驱动加载的基线。
 
@@ -115,7 +115,7 @@ class TracePlugin implements Plugin {
   }
 }
 
-export const func = new Func({
+export default new Func({
   plugins: [new TracePlugin()],
   async handler({ context }) {
     context.trace.push('handler')

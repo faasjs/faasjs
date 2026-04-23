@@ -13,12 +13,11 @@ function normalizeInferredPath(path: string): string {
   return normalized.endsWith('/') ? normalized.slice(0, -1) : normalized
 }
 
-function resolveTestApi<TFunc extends Func<any, any, any>>(
-  input: TFunc | { default?: TFunc; func?: TFunc },
-): TFunc {
+type TestApiInput<TFunc extends Func<any, any, any>> = TFunc | { default?: TFunc }
+
+function resolveTestApi<TFunc extends Func<any, any, any>>(input: TestApiInput<TFunc>): TFunc {
   if (typeof input === 'object' && input !== null) {
     if ('default' in input && input.default instanceof Func) return input.default as TFunc
-    if ('func' in input && input.func instanceof Func) return input.func as TFunc
   }
 
   return input as TFunc
@@ -94,7 +93,7 @@ type TestApiHandler<TFunc extends Func<any, any, any>> = Pick<
 }
 
 function createTester<TFunc extends Func<any, any, any>>(
-  initBy: TFunc | { default?: TFunc; func?: TFunc },
+  initBy: TestApiInput<TFunc>,
 ): ApiTester<TFunc> {
   const tester = new ApiTester(initBy)
 
@@ -152,10 +151,9 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
    * Create a tester around a FaasJS API instance for repeated test calls.
    *
    * If a module object with a `default` export is passed at runtime, the
-   * default export is used. Legacy `{ func }` module objects still work during
-   * migration.
+   * default export is used.
    *
-   * @param {TFunc | { default?: TFunc; func?: TFunc }} initBy - API instance or module object to wrap.
+   * @param {TestApiInput<TFunc>} initBy - API instance or module object to wrap.
    * @example
    * ```ts
    * import { ApiTester } from '@faasjs/dev'
@@ -164,7 +162,7 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
    * const wrapped = new ApiTester(api)
    * ```
    */
-  constructor(initBy: TFunc | { default?: TFunc; func?: TFunc }) {
+  constructor(initBy: TestApiInput<TFunc>) {
     this.staging = process.env.FaasEnv ?? 'default'
     this.logger = new Logger('TestCase')
 
@@ -410,7 +408,7 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
  * methods for advanced cases.
  *
  * @template TFunc - Wrapped FaasJS API type.
- * @param {TFunc | { default?: TFunc; func?: TFunc }} initBy - API instance or module object to wrap.
+ * @param {TestApiInput<TFunc>} initBy - API instance or module object to wrap.
  * @returns Callable JSON test helper with bound tester methods attached.
  * @see {@link ApiTester}
  * @example
@@ -425,7 +423,7 @@ export class ApiTester<TFunc extends Func<any, any, any> = Func<any, any, any>> 
  * ```
  */
 export function testApi<TFunc extends Func<any, any, any>>(
-  initBy: TFunc | { default?: TFunc; func?: TFunc },
+  initBy: TestApiInput<TFunc>,
 ): TestApiHandler<TFunc> {
   const tester = createTester(initBy)
 

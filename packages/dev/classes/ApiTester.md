@@ -39,14 +39,13 @@ Wrapped FaasJS API type.
 Create a tester around a FaasJS API instance for repeated test calls.
 
 If a module object with a `default` export is passed at runtime, the
-default export is used. Legacy `{ func }` module objects still work during
-migration.
+default export is used.
 
 #### Parameters
 
 ##### initBy
 
-`TFunc` \| \{ `default?`: `TFunc`; `func?`: `TFunc`; \}
+`TestApiInput`\<`TFunc`\>
 
 API instance or module object to wrap.
 

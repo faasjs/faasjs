@@ -32,7 +32,7 @@ Middleware 示例：
 ```ts
 import { useMiddleware } from '@faasjs/core'
 
-export const func = useMiddleware((request, response, { logger }) => {
+export default useMiddleware((request, response, { logger }) => {
   logger.info('%s %s', request.method, request.url)
 
   response.end('ok')

@@ -526,7 +526,10 @@ export class Server {
 
     if (process.env.FAASJS_MODULE_VERSION) loadOptions.version = process.env.FAASJS_MODULE_VERSION
 
-    const func = await loadPackage<Func>(file, ['default', 'func'], loadOptions)
+    const func = await loadPackage<Func>(file, 'default', loadOptions)
+
+    if (!func || typeof func.export !== 'function')
+      throw Error(`API module "${file}" must export a FaasJS API instance as default`)
 
     await loadPlugins(func, {
       root: this.root,

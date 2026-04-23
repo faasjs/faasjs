@@ -660,7 +660,7 @@ export function detectNodeRuntime(): NodeRuntime {
  * ```ts
  * import { loadPackage } from '@faasjs/node-utils'
  *
- * const api = await loadPackage('./src/hello.api.ts', ['default', 'func'])
+ * const api = await loadPackage('./src/hello.api.ts')
  * ```
  */
 export async function loadPackage<T = unknown>(

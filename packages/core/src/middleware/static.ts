@@ -43,7 +43,7 @@ export type StaticHandlerOptions = {
    * ```ts
    * import { useMiddleware, staticHandler } from '@faasjs/core'
    *
-   * export const func = useMiddleware(
+   * export default useMiddleware(
    *   staticHandler({
    *     root: `${__dirname}/public`,
    *     stripPrefix: '/public',
@@ -121,7 +121,7 @@ async function respondWithFile(path: string, mimeType: string, response: ServerR
  * ```ts
  * import { staticHandler, useMiddleware } from '@faasjs/core'
  *
- * export const func = useMiddleware(
+ * export default useMiddleware(
  *   staticHandler({
  *     root: `${__dirname}/public`,
  *   }),
