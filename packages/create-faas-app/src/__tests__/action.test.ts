@@ -101,10 +101,7 @@ describe('action', () => {
     const rootPath = join(tempDir, 'basic-app')
     const packageJSON = JSON.parse(read(rootPath, 'package.json'))
 
-    expect(execs).toEqual([
-      expect.stringMatching(/^cd basic-app && (npm|bun) install$/),
-      expect.stringMatching(/^cd basic-app && (npm run test|bun test)$/),
-    ])
+    expect(execs).toEqual(['cd basic-app && npm install', 'cd basic-app && npm run test'])
     expect(listFiles(rootPath)).toEqual(basicFiles)
     expect(packageJSON.name).toBe('basic-app')
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')
@@ -136,10 +133,7 @@ describe('action', () => {
     const rootPath = join(tempDir, 'antd-app')
     const packageJSON = JSON.parse(read(rootPath, 'package.json'))
 
-    expect(execs).toEqual([
-      expect.stringMatching(/^cd antd-app && (npm|bun) install$/),
-      expect.stringMatching(/^cd antd-app && (npm run test|bun test)$/),
-    ])
+    expect(execs).toEqual(['cd antd-app && npm install', 'cd antd-app && npm run test'])
     expect(listFiles(rootPath)).toEqual(antdFiles)
     expect(packageJSON.name).toBe('antd-app')
     expect(read(rootPath, 'package.json')).not.toContain('{{name}}')

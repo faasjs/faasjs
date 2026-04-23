@@ -26,7 +26,6 @@ import { action } from '../action'
 describe('action coverage', () => {
   let currentDir = ''
   let tempDir = ''
-  const originalBun = process.versions.bun
 
   beforeEach(() => {
     execs.length = 0
@@ -42,9 +41,6 @@ describe('action coverage', () => {
       recursive: true,
       force: true,
     })
-
-    if (originalBun === undefined) delete (process.versions as Record<string, string>).bun
-    else (process.versions as Record<string, string>).bun = originalBun
   })
 
   it('should prompt when the provided name is invalid', async () => {
@@ -81,15 +77,5 @@ describe('action coverage', () => {
     expect(promptMock).toHaveBeenCalledTimes(1)
     expect(execs).toEqual([])
     expect(existsSync(join(tempDir, 'faasjs'))).toBe(false)
-  })
-
-  it('should use bun commands when bun is available', async () => {
-    ;(process.versions as Record<string, string>).bun = '1.2.3'
-
-    await action({
-      name: 'bun-app',
-    })
-
-    expect(execs).toEqual(['cd bun-app && bun install', 'cd bun-app && bun test'])
   })
 })

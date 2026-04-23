@@ -7,13 +7,8 @@
  * ## Usage
  *
  * ```bash
- * # use npm
  * npx create-faas-app --name faasjs
  * npx create-faas-app --name faasjs-admin --template antd
- *
- * # use bun
- * bunx create-faas-app --name faasjs
- * bunx create-faas-app --name faasjs-admin --template antd
  * ```
  */
 

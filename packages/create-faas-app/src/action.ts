@@ -114,8 +114,6 @@ export async function action(options: { name?: string; template?: string } = {})
 
   if (!answers.name) return
 
-  const runtime = process.versions.bun ? 'bun' : 'npm'
-
   scaffold(
     answers.name,
     {
@@ -125,11 +123,8 @@ export async function action(options: { name?: string; template?: string } = {})
     templateName,
   )
 
-  execSync(`cd ${answers.name} && ${runtime} install`, { stdio: 'inherit' })
-
-  if (runtime === 'bun') {
-    execSync(`cd ${answers.name} && bun test`, { stdio: 'inherit' })
-  } else execSync(`cd ${answers.name} && npm run test`, { stdio: 'inherit' })
+  execSync(`cd ${answers.name} && npm install`, { stdio: 'inherit' })
+  execSync(`cd ${answers.name} && npm run test`, { stdio: 'inherit' })
 }
 
 /**

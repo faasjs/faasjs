@@ -80,14 +80,7 @@ describe('lifecycle', () => {
         .handler(null)
         .catch((error: any) => error)
 
-      const expectedMessages = !(globalThis as any).Bun
-        ? ["Cannot read properties of undefined (reading 'cookie')"]
-        : [
-            `null is not an object (evaluating 'data.event.headers')`,
-            `undefined is not an object (evaluating 'data.event.headers.cookie')`,
-          ]
-
-      expect(expectedMessages).toContain(error.message)
+      expect(error.message).toBe("Cannot read properties of undefined (reading 'cookie')")
     })
   })
 })
