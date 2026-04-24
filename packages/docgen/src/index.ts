@@ -111,7 +111,6 @@ const packageOrder = [
   'types',
   'utils',
   'create-faas-app',
-  'docgen',
 ]
 
 function repoRoot(options: DocgenOptions = {}) {
@@ -276,7 +275,8 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
     packages: sortByOrder(
       globSync('packages/*/package.json', { cwd: root })
         .map(packagePathFromPackageJson)
-        .map((path) => path.replace('packages/', '')),
+        .map((path) => path.replace('packages/', ''))
+        .filter((name) => name !== 'docgen'),
       packageOrder,
       (name) => name,
     ),
@@ -418,7 +418,11 @@ export function buildApiDocs(options: BuildApiOptions = {}) {
     ? [`${options.packagePath.replace(/\/$/, '')}/package.json`]
     : globSync('packages/*/package.json', { cwd: root }).filter(
         (path: string) =>
-          !['packages/cli/package.json', 'packages/create-faas-app/package.json'].includes(path),
+          ![
+            'packages/cli/package.json',
+            'packages/create-faas-app/package.json',
+            'packages/docgen/package.json',
+          ].includes(path),
       )
 
   for (const path of packageJsons) {
@@ -470,6 +474,7 @@ export function syncSkillReferences(options: DocgenOptions = {}) {
     'packages/*/variables/**/*.md',
   ]
     .flatMap((pattern) => globSync(pattern, { cwd: root }))
+    .filter((file) => !file.startsWith('packages/docgen/'))
     .sort((a, b) => a.localeCompare(b))
 
   if (!files.length) {
@@ -506,7 +511,9 @@ export function prepareDocsSite(options: DocgenOptions = {}) {
   mkdirSync(join(docsRoot, 'doc'), { recursive: true })
   writeFileSync(join(docsRoot, 'doc/.keep'), '')
 
-  const packages = globSync('packages/**/*.md', { cwd: root })
+  const packages = globSync('packages/**/*.md', { cwd: root }).filter(
+    (file) => !file.startsWith('packages/docgen/'),
+  )
 
   for (const file of packages) {
     const target = join(docsRoot, file.replace('packages/', 'doc/'))

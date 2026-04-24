@@ -62,4 +62,3 @@ FaasJS favors complete application slices over generator-heavy workflows. A slic
 - [@faasjs/types](/doc/types/)
 - [@faasjs/utils](/doc/utils/)
 - [create-faas-app](/doc/create-faas-app/)
-- [@faasjs/docgen](/doc/docgen/)

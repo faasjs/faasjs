@@ -63,4 +63,3 @@ FaasJS 更重视完整应用切片，而不是 generator-heavy 工作流。一�
 - [@faasjs/types](/doc/types/)
 - [@faasjs/utils](/doc/utils/)
 - [create-faas-app](/doc/create-faas-app/)
-- [@faasjs/docgen](/doc/docgen/)
