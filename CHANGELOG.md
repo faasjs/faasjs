@@ -16,6 +16,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/node-utils`
   - [Break] Require `loadApiHandler()` callers to load API modules that export their FaasJS API instance as `default`, and remove the named `func` fallback from tests and examples.
 
+- `@faasjs/react`
+  - [Feature] Add polling-backed background refresh support to `useFaas`, `useFaasStream`, and `FaasDataWrapper`, with a separate `refreshing` state so automatic refreshes do not toggle the blocking `loading` state.
+
 - `@faasjs/types`
   - [Break] Limit `InferFaasApi<TModule>` to modules with a `default` FaasJS API export.
 
