@@ -7,5 +7,4 @@
 
 ## Interfaces
 
-- [TypedPgVitestPluginOptions](interfaces/TypedPgVitestPluginOptions.md)
 - [TypedPgVitestSetupRuntime](interfaces/TypedPgVitestSetupRuntime.md)

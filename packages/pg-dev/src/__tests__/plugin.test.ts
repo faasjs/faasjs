@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest'
 
-import { TypedPgVitestPlugin, type TypedPgVitestPluginOptions } from '../plugin'
+import { TypedPgVitestPlugin } from '../plugin'
 import {
   requireTypedPgVitestDatabaseUrl,
   resolveTypedPgVitestDatabaseUrl,
@@ -20,10 +20,8 @@ function loadPluginModule(plugin: ReturnType<typeof TypedPgVitestPlugin>, id: st
 }
 
 describe('TypedPgVitestPlugin', () => {
-  it('accepts an optional options object', () => {
-    expectTypeOf(TypedPgVitestPlugin).parameters.toEqualTypeOf<
-      [options?: TypedPgVitestPluginOptions | undefined]
-    >()
+  it('does not accept options', () => {
+    expectTypeOf(TypedPgVitestPlugin).parameters.toEqualTypeOf<[]>()
   })
 
   it('injects generated Vitest setup modules for node projects', () => {
@@ -92,29 +90,6 @@ describe('TypedPgVitestPlugin', () => {
     })
 
     expect(project.config.setupFiles).toEqual(['custom-setup.ts'])
-  })
-
-  it('can target an explicit project name and environment', () => {
-    const plugin = TypedPgVitestPlugin({
-      environments: ['node'],
-      projects: ['api'],
-    })
-    const project = {
-      config: {
-        environment: 'node',
-        name: 'api',
-        setupFiles: [],
-      },
-    }
-
-    plugin.configureVitest?.({
-      experimental_defineCacheKeyGenerator() {},
-      injectTestProjects: async () => [],
-      project: project as never,
-      vitest: {} as never,
-    })
-
-    expect(project.config.setupFiles).toHaveLength(1)
   })
 
   it('can generate a setup module that wires the shared setup helper', () => {

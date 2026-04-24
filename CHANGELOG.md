@@ -13,6 +13,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/dev`
   - [Break] Stop accepting `{ func }` module objects in `ApiTester` and `testApi()`. Pass the API instance itself or a module object with `default`.
 
+- `@faasjs/pg-dev`
+  - [Break] Remove the `TypedPgVitestPlugin()` options object and the `TypedPgVitestPluginOptions` export. Keep PG-backed tests in Node Vitest projects; browser-like projects are skipped automatically.
+
 - `@faasjs/node-utils`
   - [Break] Require `loadApiHandler()` callers to load API modules that export their FaasJS API instance as `default`, and remove the named `func` fallback from tests and examples.
 

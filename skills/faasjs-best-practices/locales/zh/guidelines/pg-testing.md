@@ -11,7 +11,7 @@
 
 ## 默认工作流
 
-1. 优先使用 `TypedPgVitestPlugin()`，让 Vitest 注册一条懒加载的临时数据库 bootstrap：第一次 `await getClient()` 时启动 PGlite、运行 migrations、回填 `DATABASE_URL`，并在同一个测试文件后续的每个测试前清空表数据。混合工作区里要记住：它默认会跳过 `jsdom` 和 `happy-dom` 项目，除非你通过 `environments` 或 `projects` 显式启用。
+1. 优先使用 `TypedPgVitestPlugin()`，让 Vitest 注册一条懒加载的临时数据库 bootstrap：第一次 `await getClient()` 时启动 PGlite、运行 migrations、回填 `DATABASE_URL`，并在同一个测试文件后续的每个测试前清空表数据。混合工作区里要把 PG 相关测试放在 Node 项目中，因为插件会跳过 `jsdom` 和 `happy-dom` 项目。
 2. 使用 `await getClient()` 做 seed 和断言，让应用代码与测试共享同一条异步 bootstrap 路径。
 3. 只补充该 suite 真正额外需要的 setup 或 fixtures。
 4. 当查询推导、declaration merging 或共享 wrappers 影响类型时，让 runtime assertions 和 `expectTypeOf(...)` 成对出现。
@@ -24,7 +24,7 @@ import { TypedPgVitestPlugin } from '@faasjs/pg-dev'
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
-  plugins: [TypedPgVitestPlugin({ projects: ['node'] })],
+  plugins: [TypedPgVitestPlugin()],
   test: {
     projects: [
       {
@@ -116,7 +116,6 @@ describe('users query', () => {
 ### 5. 通过 Vitest plugin 使用 `@faasjs/pg-dev`
 
 - 工作区测试默认优先使用 `TypedPgVitestPlugin()`。
-- 在混合 Vitest 工作区里，如果 `jsdom` 或 `happy-dom` suites 也要接入插件，就显式传 `environments` 或 `projects`。
 - 基于 PG 的 runtime tests 本质上仍然是 Node runtime tests。优先使用普通的 `node` project；但如果只有这部分测试需要 project-level setup，就使用 `node-pg` 这类 node-scoped project name，而不是单独拆成 `pg` 这种 runtime bucket。
 - 测试里让插件通过 `await getClient()` 懒加载默认 client。若某个 suite 还要直接读取 `process.env.DATABASE_URL`，先调用一次 `await getClient()` 再读。
 - 只有在某个 suite 真的需要自定义 `postgres.js` options 或额外连接，而且 bootstrap URL 已经存在时，才使用 `createClient(process.env.DATABASE_URL, options)`。
@@ -127,7 +126,7 @@ describe('users query', () => {
 - runtime behavior changes 是否有测试覆盖
 - 类型敏感变更是否有 `expectTypeOf(...)` 覆盖
 - 测试是否放在变更对应的功能区域附近
-- 混合工作区是否在需要浏览器类项目时显式配置了插件范围
+- 混合工作区是否把 PG 相关测试放在 Node 项目中，因为浏览器类项目会被跳过
 - 混合工作区里的 PG runtime tests 是否保持在 node-scoped project（如 `node` 或 `node-pg`）中
 - suites 是否依赖了插件重置，或自行清理了额外 setup
 - 验证命令是否与变更面匹配

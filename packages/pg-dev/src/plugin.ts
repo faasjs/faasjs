@@ -17,17 +17,6 @@ function prependUniqueValue(value: string | string[] | undefined, nextValue: str
   return [nextValue, ...values.filter((item) => item !== nextValue)]
 }
 
-export interface TypedPgVitestPluginOptions {
-  /**
-   * Restricts the plugin to the listed Vitest project names.
-   */
-  projects?: string[]
-  /**
-   * Restricts the plugin to the listed Vitest environments.
-   */
-  environments?: string[]
-}
-
 function createSetupModuleSource(projectRoot: string) {
   return [
     "import { afterAll, beforeEach } from 'vitest'",
@@ -50,26 +39,13 @@ function resolveSetupModuleProjectRoot(id: string) {
   return decodeURIComponent(id.slice(SETUP_MODULE_PREFIX.length))
 }
 
-function shouldEnableForProject(
-  project: {
-    config: {
-      environment?: string
-      name?: string
-      root?: string
-    }
-  },
-  options: TypedPgVitestPluginOptions,
-) {
-  const projectName = project.config.name
+function shouldEnableForProject(project: {
+  config: {
+    environment?: string
+    root?: string
+  }
+}) {
   const environment = project.config.environment ?? 'node'
-
-  if (options.projects?.length && (!projectName || !options.projects.includes(projectName))) {
-    return false
-  }
-
-  if (options.environments?.length) {
-    return options.environments.includes(environment)
-  }
 
   return !DEFAULT_SKIPPED_ENVIRONMENTS.has(environment)
 }
@@ -81,13 +57,11 @@ function shouldEnableForProject(
  * in a test file starts PGlite, runs migrations from `./migrations`, backfills
  * `process.env.DATABASE_URL`, and later `beforeEach` hooks clear table contents before each test.
  *
- * By default the plugin skips browser-like projects such as `jsdom` and `happy-dom`. Pass
- * `environments` or `projects` to opt into a narrower set explicitly.
+ * By default the plugin skips browser-like projects such as `jsdom` and `happy-dom`.
  *
- * @param {TypedPgVitestPluginOptions} [options] - Optional project filters.
  * @returns Vitest/Vite plugin instance.
  */
-export function TypedPgVitestPlugin(options: TypedPgVitestPluginOptions = {}): Plugin {
+export function TypedPgVitestPlugin(): Plugin {
   return {
     name: 'typed-pg-vitest-plugin',
     resolveId(id) {
@@ -101,7 +75,7 @@ export function TypedPgVitestPlugin(options: TypedPgVitestPluginOptions = {}): P
       return createSetupModuleSource(projectRoot)
     },
     configureVitest({ project }) {
-      if (!shouldEnableForProject(project, options)) return
+      if (!shouldEnableForProject(project)) return
 
       const setupModuleId = createSetupModuleId(resolve(project.config.root ?? process.cwd()))
 

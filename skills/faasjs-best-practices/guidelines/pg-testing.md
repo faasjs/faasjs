@@ -11,7 +11,7 @@ When changing `@faasjs/pg`-backed code, every behavior change should come with r
 
 ## Default Workflow
 
-1. Prefer `TypedPgVitestPlugin()` so Vitest registers a lazy temporary database bootstrap, starts PGlite on the first `await getClient()`, runs migrations, backfills `DATABASE_URL`, and clears table contents before later tests in the same file. In mixed workspaces, remember it skips `jsdom` and `happy-dom` projects unless you opt in with `environments` or `projects`.
+1. Prefer `TypedPgVitestPlugin()` so Vitest registers a lazy temporary database bootstrap, starts PGlite on the first `await getClient()`, runs migrations, backfills `DATABASE_URL`, and clears table contents before later tests in the same file. In mixed workspaces, keep PG-backed tests in a Node project because the plugin skips `jsdom` and `happy-dom` projects.
 2. Use `await getClient()` to seed data and run assertions so app code and tests share the same async bootstrap path.
 3. Add only the suite-specific setup or fixtures that the plugin does not already provide.
 4. Pair runtime assertions with `expectTypeOf(...)` when query inference, declaration merging, or shared wrappers affect types.
@@ -24,7 +24,7 @@ import { TypedPgVitestPlugin } from '@faasjs/pg-dev'
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
-  plugins: [TypedPgVitestPlugin({ projects: ['node'] })],
+  plugins: [TypedPgVitestPlugin()],
   test: {
     projects: [
       {
@@ -116,7 +116,6 @@ describe('users query', () => {
 ### 5. Use `@faasjs/pg-dev` through the Vitest plugin
 
 - Prefer `TypedPgVitestPlugin()` for workspace test runs.
-- In mixed Vitest workspaces, pass `environments` or `projects` when `jsdom` or `happy-dom` suites should participate.
 - PG-backed runtime tests are still Node runtime tests. Prefer the regular `node` project, but if only that subset needs project-level setup, use a node-scoped project name such as `node-pg` instead of a standalone runtime bucket like `pg`.
 - In tests, let the plugin lazy-bootstrap the default client through `await getClient()`. If a suite also reads `process.env.DATABASE_URL` directly, trigger the bootstrap with `await getClient()` first.
 - Reach for `createClient(process.env.DATABASE_URL, options)` only when a suite genuinely needs custom `postgres.js` options or an extra connection after the bootstrap URL exists.
@@ -127,7 +126,7 @@ describe('users query', () => {
 - runtime behavior changes have test coverage
 - type-sensitive changes have `expectTypeOf(...)` coverage
 - tests live close to the feature area that changed
-- mixed workspaces configure the plugin scope explicitly when browser-like projects need it
+- mixed workspaces keep PG-backed tests in a Node project because browser-like projects are skipped
 - pg-backed runtime tests stay in a node-scoped project (`node` or `node-pg`) in mixed workspaces
 - suites either rely on the plugin reset or clean up their own extra setup
 - validation commands match the change surface
