@@ -12,5 +12,6 @@
 
 - [DocgenOptions](type-aliases/DocgenOptions.md)
 - [DocsManifest](type-aliases/DocsManifest.md)
+- [ManifestLocale](type-aliases/ManifestLocale.md)
 - [ManifestPage](type-aliases/ManifestPage.md)
 - [ManifestPageKind](type-aliases/ManifestPageKind.md)

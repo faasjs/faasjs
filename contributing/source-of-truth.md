@@ -6,11 +6,12 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 
 - Framework source: `packages/*/src`
 - Templates and smoke-test references: `templates/*/src`
-- Docs site shell, Chinese docs, and navigation: `docs/**`
+- Docs site shell and navigation: `docs/**`
 - User-facing skills and guidance: `skills/**`
 - Framework contribution guides and maintainer workflows: `contributing/**`
 - Docker image definitions and related assets: `images/**`
 - Framework specifications: `skills/*/references/specs/**`
+- Chinese best-practices and specs translations: `skills/faasjs-best-practices/locales/zh/**`
 
 ## Guide Boundaries
 
@@ -23,7 +24,7 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - Do not hand-edit `dist/**`; those directories are generated artifacts.
 - Do not directly edit generated API Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}`.
 - Update JSDoc in `packages/*/src` first, then run `vp run doc` to refresh generated package API Markdown.
-- Do not hand-edit generated docs output such as `docs/guidelines/**`, `docs/specs/**`, or `docs/dist/**`.
+- Do not hand-edit generated docs output such as `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, `docs/zh/specs/**`, or `docs/dist/**`.
 
 ## Codebase Conventions
 

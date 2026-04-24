@@ -15,9 +15,11 @@ export type DocgenOptions = {
 }
 
 export type ManifestPageKind = 'guideline' | 'spec'
+export type ManifestLocale = 'en' | 'zh'
 
 export type ManifestPage = {
   kind: ManifestPageKind
+  locale: ManifestLocale
   slug: string
   title: string
   summary: string
@@ -133,14 +135,11 @@ function humanizeSlug(slug: string) {
 function extractTitleAndSummary(root: string, sourcePath: string, fallbackTitle: string) {
   const content = readFileSync(join(root, sourcePath), 'utf8')
   const title = content.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? fallbackTitle
-  const lines = content.split('\n').map((line) => line.trim())
-  const firstContentLine = lines.findIndex(
-    (line) => line && !line.startsWith('#') && !line.startsWith('```'),
-  )
+  const paragraphs = content.split(/\n{2,}/).map((paragraph) => paragraph.trim())
   const summary =
-    firstContentLine === -1
-      ? ''
-      : (lines.slice(firstContentLine).find((line) => line && !line.startsWith('```')) ?? '')
+    paragraphs.find(
+      (paragraph) => paragraph && !paragraph.startsWith('#') && !paragraph.includes('\n'),
+    ) ?? ''
 
   return { title, summary }
 }
@@ -148,6 +147,7 @@ function extractTitleAndSummary(root: string, sourcePath: string, fallbackTitle:
 function createPage(
   root: string,
   kind: ManifestPageKind,
+  locale: ManifestLocale,
   sourcePath: string,
   outputPath: string,
 ): ManifestPage {
@@ -157,6 +157,7 @@ function createPage(
 
   return {
     kind,
+    locale,
     slug,
     title: metadata.title,
     summary,
@@ -184,35 +185,61 @@ function sortByOrder<T>(
   })
 }
 
-export function buildManifest(options: DocgenOptions = {}): DocsManifest {
-  const root = repoRoot(options)
-  const guidelines = sortByOrder(
-    globSync('skills/faasjs-best-practices/guidelines/*.md', { cwd: root }).map((sourcePath) =>
-      createPage(
-        root,
-        'guideline',
-        sourcePath,
-        sourcePath.replace('skills/faasjs-best-practices/', 'docs/'),
-      ),
-    ),
-    guidelineOrder,
-  )
-  const specs = sortByOrder(
-    globSync('skills/faasjs-best-practices/references/specs/*.md', { cwd: root })
+function createPages(
+  root: string,
+  kind: ManifestPageKind,
+  locale: ManifestLocale,
+  sourceGlob: string,
+  outputRoot: string,
+  order: string[],
+) {
+  return sortByOrder(
+    globSync(sourceGlob, { cwd: root })
       .filter((sourcePath) => !sourcePath.endsWith('/_template.md'))
       .map((sourcePath) =>
-        createPage(
-          root,
-          'spec',
-          sourcePath,
-          sourcePath.replace('skills/faasjs-best-practices/references/', 'docs/'),
-        ),
+        createPage(root, kind, locale, sourcePath, `${outputRoot}/${slugFromPath(sourcePath)}.md`),
       ),
+    order,
+  )
+}
+
+export function buildManifest(options: DocgenOptions = {}): DocsManifest {
+  const root = repoRoot(options)
+  const enGuidelines = createPages(
+    root,
+    'guideline',
+    'en',
+    'skills/faasjs-best-practices/guidelines/*.md',
+    'docs/guidelines',
+    guidelineOrder,
+  )
+  const enSpecs = createPages(
+    root,
+    'spec',
+    'en',
+    'skills/faasjs-best-practices/references/specs/*.md',
+    'docs/specs',
+    specOrder,
+  )
+  const zhGuidelines = createPages(
+    root,
+    'guideline',
+    'zh',
+    'skills/faasjs-best-practices/locales/zh/guidelines/*.md',
+    'docs/zh/guidelines',
+    guidelineOrder,
+  )
+  const zhSpecs = createPages(
+    root,
+    'spec',
+    'zh',
+    'skills/faasjs-best-practices/locales/zh/specs/*.md',
+    'docs/zh/specs',
     specOrder,
   )
 
   return {
-    pages: [...guidelines, ...specs],
+    pages: [...enGuidelines, ...enSpecs, ...zhGuidelines, ...zhSpecs],
     packages: sortByOrder(
       globSync('packages/*/package.json', { cwd: root })
         .map(packagePathFromPackageJson)
@@ -223,7 +250,8 @@ export function buildManifest(options: DocgenOptions = {}): DocsManifest {
   }
 }
 
-function rewriteSkillLinksForDocs(content: string) {
+function rewriteSkillLinksForDocs(content: string, locale: ManifestLocale) {
+  const specsPrefix = locale === 'zh' ? '/zh/specs' : '/specs'
   return content
     .replaceAll(
       /\.\.\/references\/packages\/([^/)]+)\/README\.md/g,
@@ -233,7 +261,10 @@ function rewriteSkillLinksForDocs(content: string) {
       /\.\.\/references\/packages\/([^/)]+)\/([^/)]+)\/([^/)]+)\.md/g,
       (_match, packageName, group, name) => `/doc/${packageName}/${group}/${name}.html`,
     )
-    .replaceAll(/\.\.\/references\/specs\/([^/)]+)\.md/g, (_match, name) => `/specs/${name}.html`)
+    .replaceAll(
+      /\.\.\/references\/specs\/([^/)]+)\.md/g,
+      (_match, name) => `${specsPrefix}/${name}.html`,
+    )
 }
 
 function writeGeneratedPage(root: string, page: ManifestPage) {
@@ -241,7 +272,7 @@ function writeGeneratedPage(root: string, page: ManifestPage) {
   mkdirSync(dirname(outputPath), { recursive: true })
   writeFileSync(
     outputPath,
-    rewriteSkillLinksForDocs(readFileSync(join(root, page.sourcePath), 'utf8')),
+    rewriteSkillLinksForDocs(readFileSync(join(root, page.sourcePath), 'utf8'), page.locale),
   )
 }
 
@@ -250,8 +281,10 @@ function renderPackageName(name: string) {
 }
 
 function renderGuideIndex(manifest: DocsManifest) {
-  const guidelines = manifest.pages.filter((page) => page.kind === 'guideline')
-  const specs = manifest.pages.filter((page) => page.kind === 'spec')
+  const guidelines = manifest.pages.filter(
+    (page) => page.kind === 'guideline' && page.locale === 'en',
+  )
+  const specs = manifest.pages.filter((page) => page.kind === 'spec' && page.locale === 'en')
   const mainPathSlugs = [
     'curated-stack',
     'project-config',
@@ -397,6 +430,8 @@ export function prepareDocsSite(options: DocgenOptions = {}) {
 
   rmSync(join(docsRoot, 'guidelines'), { recursive: true, force: true })
   rmSync(join(docsRoot, 'specs'), { recursive: true, force: true })
+  rmSync(join(docsRoot, 'zh/guidelines'), { recursive: true, force: true })
+  rmSync(join(docsRoot, 'zh/specs'), { recursive: true, force: true })
 
   for (const page of manifest.pages) writeGeneratedPage(root, page)
   writeGeneratedGuideIndex(root, manifest)

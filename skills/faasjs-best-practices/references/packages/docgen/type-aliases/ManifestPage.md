@@ -10,6 +10,10 @@
 
 > **kind**: [`ManifestPageKind`](ManifestPageKind.md)
 
+### locale
+
+> **locale**: [`ManifestLocale`](ManifestLocale.md)
+
 ### outputPath
 
 > **outputPath**: `string`

@@ -28,3 +28,5 @@ junit.xml
 # Generated docs content
 docs/guidelines
 docs/specs
+docs/zh/guidelines
+docs/zh/specs

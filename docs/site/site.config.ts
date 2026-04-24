@@ -37,10 +37,10 @@ export type SiteConfig = {
 
 const navigationManifest = buildManifest()
 const enGuidelines = navigationManifest.pages
-  .filter((page) => page.kind === 'guideline')
+  .filter((page) => page.kind === 'guideline' && page.locale === 'en')
   .map((page) => page.routePath)
 const enSpecs = navigationManifest.pages
-  .filter((page) => page.kind === 'spec')
+  .filter((page) => page.kind === 'spec' && page.locale === 'en')
   .map((page) => page.routePath)
 const zhGuidelines = enGuidelines.map((link) => `/zh${link}`)
 const zhSpecs = enSpecs.map((link) => `/zh${link}`)
