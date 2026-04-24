@@ -18,6 +18,7 @@ Use this guide when writing or reviewing tests in FaasJS projects.
 5. Keep mock setup explicit, local to the scenario, and smaller than the real behavior it replaces.
 6. Cover the success path plus the failure or state-transition paths callers actually rely on.
 7. Reset shared global state, timers, env, and mocks between cases.
+8. Before handoff, run `vp check` and `vp test` as acceptance gates; if either command cannot run in the current environment, record the blocker and the narrower validation that still ran.
 
 ## Rules
 

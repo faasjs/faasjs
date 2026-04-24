@@ -16,6 +16,7 @@ description: When working with FaasJS projects, must follow these best practices
 - Document every exported declaration with JSDoc, and add other comments only when names or logic are not obvious; do not add comments, docstrings, or type annotations to untouched code.
 - Delete confirmed-dead code directly instead of leaving temporary tricks such as `_unused` renames, type re-exports, or `// removed` markers.
 - Keep files under about 500 lines by splitting along real boundaries before they grow too large.
+- Treat `vp check` and `vp test` as the default acceptance gates before handoff; if either cannot run, record the reason and the narrower validation that was completed.
 
 ## Guidelines
 
