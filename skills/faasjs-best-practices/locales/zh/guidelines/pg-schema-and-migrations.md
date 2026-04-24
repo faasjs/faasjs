@@ -63,6 +63,7 @@ export function down(builder: SchemaBuilder) {
 
 - `up` 和 `down` 应该直接、可读地描述 schema transition。
 - 除非确有必要，避免在 migration 里写依赖时间或环境的 SQL。
+- 不要在 migrations 中使用防御性的 `IF EXISTS` 或 `IF NOT EXISTS` DDL 语法；让非预期的 schema state 立即失败，以便在迁移时及时发现漂移。
 - 在可行时优先可逆变更，这样 `down()` 才能恢复旧状态。
 
 ### 5. 保持 migration history 语义稳定
@@ -83,6 +84,7 @@ export function down(builder: SchemaBuilder) {
 - 在可回滚时，`up` 与 `down` 是否都已存在
 - 项目的 `status`/`migrate`/`up`/`down` 执行路径是否清晰可见
 - 是否先用了 builder helpers，再退回 raw DDL
+- raw DDL 是否没有用 `IF EXISTS` 或 `IF NOT EXISTS` 隐藏 schema drift
 - schema changes 是否依赖 `SchemaBuilder.run()` 的原子性
 - 高风险 schema changes 是否有聚焦的 migration 或 integration tests 覆盖
 

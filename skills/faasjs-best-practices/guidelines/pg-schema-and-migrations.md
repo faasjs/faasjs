@@ -63,6 +63,7 @@ export function down(builder: SchemaBuilder) {
 
 - `up` and `down` should be direct, readable descriptions of the schema transition.
 - Avoid time-sensitive or environment-sensitive SQL inside migrations unless it is explicitly required.
+- Do not use defensive `IF EXISTS` or `IF NOT EXISTS` DDL clauses in migrations; let unexpected schema state fail immediately so drift is caught during migration.
 - Prefer reversible changes when practical so `down()` can restore the previous state.
 
 ### 5. Keep migration history semantics stable
@@ -83,6 +84,7 @@ export function down(builder: SchemaBuilder) {
 - `up` and `down` are both present when rollback is practical
 - the `status`/`migrate`/`up`/`down` execution flow is obvious for the project
 - builder helpers are used before raw DDL
+- raw DDL does not hide drift with `IF EXISTS` or `IF NOT EXISTS`
 - schema changes expect `SchemaBuilder.run()` to be atomic
 - risky schema changes are covered by focused migration or integration tests
 
