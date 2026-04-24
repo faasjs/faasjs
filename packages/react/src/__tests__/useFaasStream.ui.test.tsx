@@ -299,6 +299,56 @@ describe('useFaasStream', () => {
     expect(requests.length).toBe(2)
   })
 
+  it('should poll streams silently after the first request', async () => {
+    const requests: Array<(value: Response) => void> = []
+
+    setMock(
+      () =>
+        new Promise<Response>((resolve) => {
+          requests.push(resolve)
+        }),
+    )
+
+    function Test() {
+      const { data, loading, refreshing } = useFaasStream('test', {}, { polling: 20 })
+
+      return (
+        <>
+          <div>data:{data}</div>
+          <div>loading:{String(loading)}</div>
+          <div>refreshing:{String(refreshing)}</div>
+        </>
+      )
+    }
+
+    render(<Test />)
+
+    await waitFor(() => expect(requests.length).toBe(1))
+    requests[0]({
+      status: 200,
+      body: createAsyncMockStream(['first']),
+      headers: { 'Content-Type': 'text/plain' },
+    } as Response)
+
+    expect(await screen.findByText('data:first')).toBeDefined()
+    expect(screen.getByText('loading:false')).toBeDefined()
+
+    await waitFor(() => expect(requests.length).toBe(2))
+
+    expect(screen.getByText('data:first')).toBeDefined()
+    expect(screen.getByText('loading:false')).toBeDefined()
+    expect(screen.getByText('refreshing:true')).toBeDefined()
+
+    requests[1]({
+      status: 200,
+      body: createAsyncMockStream(['second']),
+      headers: { 'Content-Type': 'text/plain' },
+    } as Response)
+
+    expect(await screen.findByText('data:second')).toBeDefined()
+    expect(screen.getByText('refreshing:false')).toBeDefined()
+  })
+
   it('should work with skip option', async () => {
     function Test() {
       const { data, reload } = useFaasStream('test', {}, { skip: true })

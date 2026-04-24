@@ -15,9 +15,11 @@ export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
   action: FaasAction<PathOrData>
   /** Params used for the most recent request attempt. */
   params: FaasParams<PathOrData>
-  /** Whether the request is currently in flight. */
+  /** Whether the request is currently in flight and should block the main UI. */
   loading: boolean
-  /** Number of times `reload()` has triggered a new request. */
+  /** Whether a background refresh request is currently in flight. */
+  refreshing: boolean
+  /** Number of times `reload()` or polling has triggered a new request. */
   reloadTimes: number
   /** Current resolved data value. */
   data: FaasData<PathOrData>
@@ -31,7 +33,10 @@ export type FaasDataInjection<PathOrData extends FaasActionUnionType = any> = {
    * When the source hook is currently skipped, calling `reload` clears the skip
    * flag before starting the next request.
    */
-  reload(params?: Record<string, any>): Promise<FaasData<PathOrData>>
+  reload(
+    params?: Record<string, any>,
+    options?: { silent?: boolean },
+  ): Promise<FaasData<PathOrData>>
   /** Controlled or internal setter for the resolved data value. */
   setData: React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>
   /** Setter for the loading flag. */
@@ -58,6 +63,8 @@ export type FaasDataWrapperProps<PathOrData extends FaasActionUnionType> = {
   action: FaasAction<PathOrData>
   /** Params sent to the action. */
   params?: FaasParams<PathOrData>
+  /** Milliseconds to wait after each completed request before refreshing data in the background. */
+  polling?: number | false
   /** Callback invoked whenever the resolved data value changes. */
   onDataChange?(args: FaasDataInjection<PathOrData>): void
   /** Controlled data value used instead of internal state. */
@@ -96,6 +103,7 @@ const fixedForwardRef = forwardRef as FixedForwardRef
  * @param {JSX.Element | false} [props.fallback] - Element rendered before the first successful load.
  * @param {FaasAction<PathOrData>} props.action - Action path to request.
  * @param {FaasParams<PathOrData>} [props.params] - Params sent to the action.
+ * @param {number | false} [props.polling] - Milliseconds to wait after each completed request before refreshing data in the background.
  * @param {(args: FaasDataInjection<PathOrData>) => void} [props.onDataChange] - Callback invoked when the resolved data value changes.
  * @param {FaasData<PathOrData>} [props.data] - Controlled data value used instead of internal state.
  * @param {React.Dispatch<React.SetStateAction<FaasData<PathOrData>>>} [props.setData] - Controlled setter used instead of internal state.
@@ -177,6 +185,7 @@ export const FaasDataWrapper = fixedForwardRef(
     const requestOptions = {
       ...(props.data !== undefined ? { data: props.data } : {}),
       ...(props.setData ? { setData: props.setData } : {}),
+      ...(props.polling !== undefined ? { polling: props.polling } : {}),
     }
 
     const request = getClient(props.baseUrl).useFaas<PathOrData>(
@@ -203,7 +212,15 @@ export const FaasDataWrapper = fixedForwardRef(
       }
 
       return props.fallback || null
-    }, [loaded, request.action, request.params, request.data, request.error, request.loading])
+    }, [
+      loaded,
+      request.action,
+      request.params,
+      request.data,
+      request.error,
+      request.loading,
+      request.refreshing,
+    ])
 
     return child
   },

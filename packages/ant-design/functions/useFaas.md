@@ -8,7 +8,7 @@ Request FaasJS data and keep request state in React state.
 
 `useFaas` is the default hook for standard FaasJS request-response flows in React.
 It sends an initial request unless `skip` is enabled, and returns request state
-plus helpers for reloading, updating data, and handling errors.
+plus helpers for reloading, background refreshing, updating data, and handling errors.
 
 ## Type Parameters
 
@@ -36,8 +36,8 @@ Params used for the initial request and future reloads.
 
 `useFaasOptions`\<`PathOrData`\> = `{}`
 
-Optional hook configuration such as controlled data, skip logic, debounce timing, and base URL overrides.
-See the `useFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, and `baseUrl`.
+Optional hook configuration such as controlled data, skip logic, debounce timing, polling, and base URL overrides.
+See the `useFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
 
 ## Returns
 

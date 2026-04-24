@@ -18,7 +18,7 @@ Action path or response data type used for inference.
 
 ### reload()
 
-> **reload**(`params?`): `Promise`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
+> **reload**(`params?`, `options?`): `Promise`\<[`FaasData`](FaasData.md)\<`PathOrData`\>\>
 
 Reloads data with new or existing parameters.
 
@@ -30,6 +30,12 @@ flag before starting the next request.
 ##### params?
 
 `Record`\<`string`, `any`\>
+
+##### options?
+
+###### silent?
+
+`boolean`
 
 #### Returns
 
@@ -59,7 +65,7 @@ Last request error, if one occurred.
 
 > **loading**: `boolean`
 
-Whether the request is currently in flight.
+Whether the request is currently in flight and should block the main UI.
 
 ### params
 
@@ -73,11 +79,17 @@ Params used for the most recent request attempt.
 
 Promise representing the latest request.
 
+### refreshing
+
+> **refreshing**: `boolean`
+
+Whether a background refresh request is currently in flight.
+
 ### reloadTimes
 
 > **reloadTimes**: `number`
 
-Number of times `reload()` has triggered a new request.
+Number of times `reload()` or polling has triggered a new request.
 
 ### setData
 

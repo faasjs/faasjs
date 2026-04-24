@@ -28,8 +28,8 @@ Params used for the initial request and future reloads.
 
 [`UseFaasStreamOptions`](../type-aliases/UseFaasStreamOptions.md) = `{}`
 
-Optional hook configuration such as controlled stream text, skip logic, debounce timing, and base URL overrides.
-See the `UseFaasStreamOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, and `baseUrl`.
+Optional hook configuration such as controlled stream text, skip logic, debounce timing, polling, and base URL overrides.
+See the `UseFaasStreamOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
 
 ## Returns
 

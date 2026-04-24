@@ -15,16 +15,18 @@ export type UseFaasStreamResult = {
   action: string
   /** Params used for the most recent request attempt. */
   params: Record<string, any>
-  /** Whether the hook is currently waiting for stream data. */
+  /** Whether the hook is currently waiting for stream data and should block the main UI. */
   loading: boolean
-  /** Number of times `reload()` has triggered a new request. */
+  /** Whether a background stream refresh is currently in flight. */
+  refreshing: boolean
+  /** Number of times `reload()` or polling has triggered a new request. */
   reloadTimes: number
   /** Accumulated text decoded from the stream response. */
   data: string
   /** Last error raised while opening or consuming the stream. */
   error: any
   /** Trigger a new streaming request with optional params. */
-  reload: (params?: Record<string, any>) => Promise<string>
+  reload: (params?: Record<string, any>, options?: { silent?: boolean }) => Promise<string>
   /** Controlled or internal setter for the accumulated text. */
   setData: React.Dispatch<React.SetStateAction<string>>
   /** Setter for the loading flag. */
@@ -42,8 +44,8 @@ export type UseFaasStreamResult = {
  *
  * @param {string} action - Action path to invoke.
  * @param {Record<string, any>} defaultParams - Params used for the initial request and future reloads.
- * @param {UseFaasStreamOptions} [options] - Optional hook configuration such as controlled stream text, skip logic, debounce timing, and base URL overrides.
- * See the `UseFaasStreamOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, and `baseUrl`.
+ * @param {UseFaasStreamOptions} [options] - Optional hook configuration such as controlled stream text, skip logic, debounce timing, polling, and base URL overrides.
+ * See the `UseFaasStreamOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
  * @returns {UseFaasStreamResult} Streaming request state and helper methods described by {@link UseFaasStreamResult}.
  *
  * @example
@@ -81,7 +83,9 @@ export function useFaasStream(
     action,
     defaultParams,
     options,
-    beforeSend: () => updateData(''),
+    beforeSend: ({ silent }) => {
+      if (!silent) updateData('')
+    },
     send: async ({ action, params, signal, client }) => {
       const response = await client.browserClient.action(action, params, {
         signal,
@@ -136,6 +140,7 @@ export function useFaasStream(
     action,
     params: request.params,
     loading: request.loading,
+    refreshing: request.refreshing,
     reloadTimes: request.reloadTimes,
     data: options.data ?? data,
     error: request.error,

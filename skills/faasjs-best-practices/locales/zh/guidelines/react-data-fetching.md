@@ -8,18 +8,18 @@
 - 在 React 中请求 streaming 响应
 - 在 `useFaas`、`useFaasStream`、`faas`、`FaasDataWrapper` 和 `withFaasData` 之间做选择
 - 配置 `FaasReactClient`
-- 处理请求的 loading、error 与 retry 状态
-- 判断请求是否应该使用 `skip`、`debounce` 或 `reload(nextParams)`
+- 处理请求的 loading、refreshing、error 与 retry 状态
+- 判断请求是否应该使用 `skip`、`debounce`、`polling` 或 `reload(nextParams)`
 
 ## 默认工作流
 
 1. 标准组件级请求使用 `useFaas`。
 2. 流式文本或 chunked 输出使用 `useFaasStream`。
 3. 事件处理器中的命令式请求使用 `faas`。
-4. 在自己写请求副作用或定时器之前，先使用内建的 `skip`、`debounce` 与 `reload(nextParams)` 控制。
+4. 在自己写请求副作用或定时器之前，先使用内建的 `skip`、`debounce`、`polling` 与 `reload(nextParams)` 控制。
 5. 只有在组合方式确实受益时，才使用 `FaasDataWrapper` 或 `withFaasData`。
 6. 在应用初始化阶段统一配置一次 `FaasReactClient`。
-7. 显式处理 loading、error 与 retry 状态。
+7. 显式处理 loading、refreshing、error 与 retry 状态。
 
 ## 规则
 
@@ -65,8 +65,9 @@ export function Profile({ id }: { id: number }) {
 
 - 当请求需要等待必要参数或用户动作时，优先使用 `skip` 或 `skip: (params) => ...`。
 - 对搜索框、过滤器和其他高频变化输入，优先使用 `debounce`，不要手写 `setTimeout` 加 effect。
-- 当用户操作需要立刻带新参数重刷请求时，使用 `reload(nextParams)`。
-- 让 `useFaas` 和 `useFaasStream` 自己管理 abort、retry 与 reload 状态，而不是每个组件都重造一套请求生命周期。
+- 当仪表盘、队列或表格需要自动保持最新时，使用 `polling` 做后台刷新。
+- 当用户操作需要立刻带新参数重刷请求时，使用 `reload(nextParams)`；当这次重新请求不应该遮挡现有内容时，使用 `reload(nextParams, { silent: true })`。
+- 让 `useFaas` 和 `useFaasStream` 自己管理 abort、retry、polling 与 reload 状态，而不是每个组件都重造一套请求生命周期。
 
 示例：
 
@@ -94,7 +95,59 @@ export function UserSearch({ keyword }: { keyword: string }) {
 }
 ```
 
-### 3. 流式响应使用 `useFaasStream`
+### 3. 使用 polling 做非阻塞后台刷新
+
+- 当数据需要自动刷新时，优先使用 `polling`，不要手写 `setInterval` 或 `useEffect` 循环。
+- 把 `loading` 当作首次加载或阻塞式 reload 状态；polling 会使用 `refreshing`，这样 table、chart 和 list 在后台请求时仍然可浏览和操作。
+- `refreshing` 期间继续展示旧的 `data`，成功返回后由 `useFaas` 更新界面。
+- 当数据已经完成、用户离开相关模式或必需参数缺失时，用 `skip` 或 `polling: false` 停止 polling。
+- 只有在能帮助用户理解状态时，才用 `refreshing` 展示轻量提示；不要把它绑定到阻塞式表格或页面 loading。
+
+示例：
+
+```tsx
+import { useFaas } from '@faasjs/react'
+
+export function PendingOrdersTable({ status }: { status: 'pending' | 'done' }) {
+  const { data, error, loading, refreshing, reload } = useFaas(
+    '/pages/orders/list',
+    { status },
+    {
+      polling: status === 'pending' ? 5000 : false,
+    },
+  )
+
+  if (loading) return <div>Loading orders...</div>
+
+  if (error && !data) {
+    return (
+      <div>
+        <div>Load failed: {error.message}</div>
+        <button type="button" onClick={() => reload()}>
+          Retry
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <section>
+      {refreshing ? <div>Refreshing in background...</div> : null}
+      <table>
+        <tbody>
+          {(data?.items ?? []).map((order: { id: string; title: string }) => (
+            <tr key={order.id}>
+              <td>{order.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  )
+}
+```
+
+### 4. 流式响应使用 `useFaasStream`
 
 - 聊天、日志、增量文本输出或其他 streaming payload 场景使用 `useFaasStream`。
 - 要显式暴露 loading 与 error 状态。
@@ -125,7 +178,7 @@ export function Chat({ prompt }: { prompt: string }) {
 }
 ```
 
-### 4. 命令式请求使用 `faas`
+### 5. 命令式请求使用 `faas`
 
 - 在事件处理器、提交处理器或其他命令式流程中使用 `faas`。
 - 在本地组件中自行管理 pending 与 failure 状态。
@@ -174,7 +227,7 @@ export function UserForm({ id }: { id: number }) {
 }
 ```
 
-### 5. 只有 wrapper 组合更合适时才使用 `FaasDataWrapper`
+### 6. 只有 wrapper 组合更合适时才使用 `FaasDataWrapper`
 
 - 当 render-prop 或 wrapper 组合比直接调用 `useFaas` 更适合页面结构时，再使用 `FaasDataWrapper`。
 - 使用 `children` 时，`FaasDataWrapper` 会 clone 子元素，并注入 `data`、`error`、`reload` 等请求属性。
@@ -241,7 +294,7 @@ export function UserPanelWithChildren({ id }: { id: number }) {
 }
 ```
 
-### 6. 只有在 wrapper-style export 或固定集成边界时才使用 `withFaasData`
+### 7. 只有在 wrapper-style export 或固定集成边界时才使用 `withFaasData`
 
 - 只有当 HOC 是最清晰的集成点时，才使用 `withFaasData`。
 - 典型场景是 wrapper-style export，或一个你在本次改动中无法移除的既有组件边界。
@@ -268,7 +321,7 @@ export const UserName = withFaasData(
 )
 ```
 
-### 7. 让 `FaasReactClient` 配置集中化
+### 8. 让 `FaasReactClient` 配置集中化
 
 - 在应用初始化阶段创建并注册一次浏览器 client 配置。
 - 使用 `onError` 在统一位置收集或上报请求错误。
@@ -292,7 +345,7 @@ FaasReactClient({
 })
 ```
 
-### 8. `getClient` 只用于多 client 场景
+### 9. `getClient` 只用于多 client 场景
 
 - `getClient` 只适用于多个 Faas client 拥有不同 base URL 的特殊场景。
 - 对普通的单 client 应用代码，不要动不动就使用 `getClient`。
@@ -316,8 +369,8 @@ const client = getClient('https://service-b.example.com/api/')
 ## 评审清单
 
 - 每个请求都选择了最小且最合适的 API：`useFaas`、`useFaasStream`、`faas`、`FaasDataWrapper` 或 `withFaasData`
-- 请求时机与条件控制优先使用内建的 `skip`、`debounce` 与 `reload(nextParams)`，而不是自写 effect 编排
-- loading、error 与 retry 状态被显式处理
+- 请求时机与条件控制优先使用内建的 `skip`、`debounce`、`polling` 与 `reload(nextParams)`，而不是自写 effect 编排
+- loading、refreshing、error 与 retry 状态被显式处理
 - action 路径遵循 file-conventions 指南，并使用 `/pages/...` 映射
 - wrapper 风格的请求组合只在确实能改善结构时使用
 - `FaasReactClient` 配置保持集中

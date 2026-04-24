@@ -86,6 +86,12 @@ Element rendered before the first successful load.
 
 Params sent to the action.
 
+### polling?
+
+> `optional` **polling?**: `number` \| `false`
+
+Milliseconds to wait after each completed request before refreshing data in the background.
+
 ### ref?
 
 > `optional` **ref?**: `React.Ref`\<[`FaasDataWrapperRef`](FaasDataWrapperRef.md)\<`PathOrData`\>\>

@@ -124,6 +124,98 @@ describe('useFaas', () => {
     expect(times).toBe(1)
   })
 
+  it('should poll silently after the first request', async () => {
+    const requests: Array<(value: Response<any>) => void> = []
+
+    setMock(
+      async () =>
+        new Promise<Response<any>>((resolve) => {
+          requests.push(resolve)
+        }),
+    )
+
+    function Test() {
+      const { data, loading, refreshing, reloadTimes } = useFaas<any>('test', {}, { polling: 20 })
+
+      return (
+        <>
+          <div>data:{data?.value}</div>
+          <div>loading:{String(loading)}</div>
+          <div>refreshing:{String(refreshing)}</div>
+          <div>reloadTimes:{reloadTimes}</div>
+        </>
+      )
+    }
+
+    render(<Test />)
+
+    expect(await screen.findByText('loading:true')).toBeDefined()
+
+    requests[0](new Response({ data: { value: 1 } }))
+
+    expect(await screen.findByText('data:1')).toBeDefined()
+    expect(screen.getByText('loading:false')).toBeDefined()
+
+    await waitFor(() => expect(requests.length).toBe(2))
+
+    expect(screen.getByText('data:1')).toBeDefined()
+    expect(screen.getByText('loading:false')).toBeDefined()
+    expect(screen.getByText('refreshing:true')).toBeDefined()
+    expect(screen.getByText('reloadTimes:1')).toBeDefined()
+
+    requests[1](new Response({ data: { value: 2 } }))
+
+    expect(await screen.findByText('data:2')).toBeDefined()
+    expect(screen.getByText('loading:false')).toBeDefined()
+    expect(screen.getByText('refreshing:false')).toBeDefined()
+  })
+
+  it('should support silent reload', async () => {
+    const requests: Array<(value: Response<any>) => void> = []
+
+    setMock(
+      async () =>
+        new Promise<Response<any>>((resolve) => {
+          requests.push(resolve)
+        }),
+    )
+
+    function Test() {
+      const faas = useFaas<any>('test', {})
+
+      return (
+        <>
+          <div>data:{faas.data?.value}</div>
+          <div>loading:{String(faas.loading)}</div>
+          <div>refreshing:{String(faas.refreshing)}</div>
+          <button type="button" onClick={() => faas.reload(undefined, { silent: true })}>
+            Silent Reload
+          </button>
+        </>
+      )
+    }
+
+    render(<Test />)
+
+    await waitFor(() => expect(requests.length).toBe(1))
+    requests[0](new Response({ data: { value: 1 } }))
+
+    expect(await screen.findByText('data:1')).toBeDefined()
+
+    await userEvent.click(screen.getByText('Silent Reload'))
+
+    await waitFor(() => expect(requests.length).toBe(2))
+
+    expect(screen.getByText('data:1')).toBeDefined()
+    expect(screen.getByText('loading:false')).toBeDefined()
+    expect(screen.getByText('refreshing:true')).toBeDefined()
+
+    requests[1](new Response({ data: { value: 2 } }))
+
+    expect(await screen.findByText('data:2')).toBeDefined()
+    expect(screen.getByText('refreshing:false')).toBeDefined()
+  })
+
   it('should work with skip and reload', async () => {
     setMock(async (_, params) => {
       current++

@@ -30,7 +30,7 @@ Last error raised while opening or consuming the stream.
 
 > **loading**: `boolean`
 
-Whether the hook is currently waiting for stream data.
+Whether the hook is currently waiting for stream data and should block the main UI.
 
 ### params
 
@@ -38,9 +38,15 @@ Whether the hook is currently waiting for stream data.
 
 Params used for the most recent request attempt.
 
+### refreshing
+
+> **refreshing**: `boolean`
+
+Whether a background stream refresh is currently in flight.
+
 ### reload
 
-> **reload**: (`params?`) => `Promise`\<`string`\>
+> **reload**: (`params?`, `options?`) => `Promise`\<`string`\>
 
 Trigger a new streaming request with optional params.
 
@@ -50,6 +56,12 @@ Trigger a new streaming request with optional params.
 
 `Record`\<`string`, `any`\>
 
+##### options?
+
+###### silent?
+
+`boolean`
+
 #### Returns
 
 `Promise`\<`string`\>
@@ -58,7 +70,7 @@ Trigger a new streaming request with optional params.
 
 > **reloadTimes**: `number`
 
-Number of times `reload()` has triggered a new request.
+Number of times `reload()` or polling has triggered a new request.
 
 ### setData
 

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useRef, useState } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -89,6 +89,48 @@ describe('FaasDataWrapper', () => {
 
     expect(await screen.findByText('{"v":10}')).toBeDefined()
     expect(renderTimes).toEqual(4)
+  })
+
+  it('should poll without toggling loading after the first request', async () => {
+    const requests: Array<(value: any) => void> = []
+
+    setMock(
+      async () =>
+        new Promise<any>((resolve) => {
+          requests.push(resolve)
+        }),
+    )
+
+    render(
+      <FaasDataWrapper
+        action="t"
+        polling={20}
+        render={({ data, loading, refreshing }) => (
+          <>
+            <div>data:{data?.value}</div>
+            <div>loading:{String(loading)}</div>
+            <div>refreshing:{String(refreshing)}</div>
+          </>
+        )}
+      />,
+    )
+
+    await waitFor(() => expect(requests.length).toBe(1))
+    requests[0]({ data: { value: 1 } })
+
+    expect(await screen.findByText('data:1')).toBeDefined()
+    expect(screen.getByText('loading:false')).toBeDefined()
+
+    await waitFor(() => expect(requests.length).toBe(2))
+
+    expect(screen.getByText('data:1')).toBeDefined()
+    expect(screen.getByText('loading:false')).toBeDefined()
+    expect(screen.getByText('refreshing:true')).toBeDefined()
+
+    requests[1]({ data: { value: 2 } })
+
+    expect(await screen.findByText('data:2')).toBeDefined()
+    expect(screen.getByText('refreshing:false')).toBeDefined()
   })
 
   it('withFaasData', async () => {

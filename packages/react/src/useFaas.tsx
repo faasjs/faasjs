@@ -20,14 +20,14 @@ export type useFaasOptions<PathOrData extends FaasActionUnionType> = SharedUseFa
  *
  * `useFaas` is the default hook for standard FaasJS request-response flows in React.
  * It sends an initial request unless `skip` is enabled, and returns request state
- * plus helpers for reloading, updating data, and handling errors.
+ * plus helpers for reloading, background refreshing, updating data, and handling errors.
  *
  * @template PathOrData - Action path or response data type used for inference.
  *
  * @param {FaasAction<PathOrData>} action - Action path to invoke.
  * @param {FaasParams<PathOrData>} defaultParams - Params used for the initial request and future reloads.
- * @param {useFaasOptions<PathOrData>} [options] - Optional hook configuration such as controlled data, skip logic, debounce timing, and base URL overrides.
- * See the `useFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, and `baseUrl`.
+ * @param {useFaasOptions<PathOrData>} [options] - Optional hook configuration such as controlled data, skip logic, debounce timing, polling, and base URL overrides.
+ * See the `useFaasOptions` type for `params`, `data`, `setData`, `skip`, `debounce`, `polling`, and `baseUrl`.
  * @returns {FaasDataInjection<PathOrData>} Request state and helper methods described by {@link FaasDataInjection}.
  *
  * @example
@@ -102,6 +102,7 @@ export function useFaas<PathOrData extends FaasActionUnionType>(
     action,
     params: request.params,
     loading: request.loading,
+    refreshing: request.refreshing,
     data: currentData,
     reloadTimes: request.reloadTimes,
     error: request.error,

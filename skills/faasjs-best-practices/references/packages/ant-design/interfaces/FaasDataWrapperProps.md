@@ -132,6 +132,16 @@ Params sent to the action.
 
 `OriginProps.params`
 
+### polling?
+
+> `optional` **polling?**: `number` \| `false`
+
+Milliseconds to wait after each completed request before refreshing data in the background.
+
+#### Inherited from
+
+`OriginProps.polling`
+
 ### ref?
 
 > `optional` **ref?**: `Ref`\<[`FaasDataWrapperRef`](../type-aliases/FaasDataWrapperRef.md)\<`T`\>\>
