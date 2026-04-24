@@ -24,3 +24,7 @@ junit.xml
 *.sqlite3
 *.junit.xml
 .npmrc
+
+# Generated docs content
+docs/guidelines
+docs/specs

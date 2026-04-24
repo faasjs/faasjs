@@ -2,13 +2,13 @@
 
 Use this guide after any FaasJS change that may require documentation updates or validation.
 
-It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, published docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, and docs navigation files such as `docs/guide/README.md`, `docs/zh/guide/README.md`, and `docs/site/site.config.ts`.
+It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, generated English docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, and docs navigation files such as `docs/guide/README.md`, `docs/zh/guide/README.md`, and `docs/site/site.config.ts`.
 
 ## Overview
 
 Use this guide after any FaasJS code or behavior change to decide which docs must be updated in the same change.
 
-Keep source-of-truth docs, published docs, translations, generated API docs, and docs site navigation aligned before handoff.
+Keep source-of-truth docs, generated published docs, translations, generated API docs, and docs site navigation aligned before handoff.
 
 Also check whether `CHANGELOG.md` needs an update for the same change, especially when behavior, APIs, workflows, or user-visible guidance changed.
 
@@ -35,8 +35,8 @@ If you are unsure, assume docs are affected and follow the workflow below before
    - API docs start from JSDoc in `packages/*/src`
    - best practices start from `skills/faasjs-best-practices/**`
    - specs start from `skills/*/references/specs/**`
-3. Sync the published docs.
-   - English: `docs/guidelines/**`, `docs/specs/**`
+3. Generate the published docs.
+   - English: generated from `skills/faasjs-best-practices/guidelines/**` and `skills/*/references/specs/**` into `docs/guidelines/**` and `docs/specs/**` by `@faasjs/docgen`
    - Chinese: `docs/zh/guidelines/**`, `docs/zh/specs/**`
    - indexes and navigation: `docs/guide/README.md`, `docs/zh/guide/README.md`, `docs/site/site.config.ts`
 4. Update release notes when needed.
@@ -58,7 +58,7 @@ If you are unsure, assume docs are affected and follow the workflow below before
 
 - Update English and Chinese published docs together for the same best-practices or spec change unless the user explicitly scopes otherwise.
 - Do not update copied or generated docs while leaving the source-of-truth files stale.
-- Do not directly edit generated Markdown under `packages/**`; change the source JSDoc and regenerate with `vp run doc`.
+- Do not directly edit generated Markdown under `packages/**`, `docs/guidelines/**`, or `docs/specs/**`; change the source JSDoc or `skills/**` content and regenerate with `vp run doc`.
 - Do not ship a user-visible change without checking whether `CHANGELOG.md` should mention it.
 - Do not regenerate `CHANGELOG.md` from only the files in your current patch; review the whole range since the previous released version and summarize only end-user-meaningful items.
 - When a change does not require docs edits, say why in the final handoff.

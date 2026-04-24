@@ -1,5 +1,11 @@
 #!/usr/bin/env node
-import { buildAllDocs, buildApiDocs, prepareDocsSite, syncSkillReferences } from './index.ts'
+import {
+  buildAllDocs,
+  buildApiDocs,
+  buildManifest,
+  prepareDocsSite,
+  syncSkillReferences,
+} from './index.ts'
 
 const [command = 'all', target] = process.argv.slice(2)
 
@@ -13,6 +19,9 @@ switch (command) {
   case 'prepare-site':
     prepareDocsSite()
     break
+  case 'manifest':
+    console.log(JSON.stringify(buildManifest(), null, 2))
+    break
   case 'all':
     buildAllDocs()
     break
@@ -23,6 +32,6 @@ switch (command) {
     }
 
     throw new Error(
-      `Unknown faasjs-docgen command: ${command}. Use all, api [package], skill-references, or prepare-site.`,
+      `Unknown faasjs-docgen command: ${command}. Use all, api [package], skill-references, prepare-site, or manifest.`,
     )
 }

@@ -14,6 +14,20 @@ export type DocgenOptions = {
   root?: string
 }
 
+export type ManifestPageKind = 'guideline' | 'spec'
+
+export type ManifestPage = {
+  kind: ManifestPageKind
+  sourcePath: string
+  outputPath: string
+  routePath: string
+}
+
+export type DocsManifest = {
+  pages: ManifestPage[]
+  packages: string[]
+}
+
 type BuildApiOptions = DocgenOptions & {
   packagePath?: string
 }
@@ -45,6 +59,72 @@ function normalizePath(path: string) {
 
 function packagePathFromPackageJson(path: string) {
   return normalizePath(path).replace('/package.json', '')
+}
+
+function routeFromOutputPath(path: string) {
+  return `/${path
+    .replace(/^docs\//, '')
+    .replace(/README\.md$/, '')
+    .replace(/\.md$/, '.html')}`
+}
+
+function createPage(kind: ManifestPageKind, sourcePath: string, outputPath: string): ManifestPage {
+  return {
+    kind,
+    sourcePath,
+    outputPath,
+    routePath: routeFromOutputPath(outputPath),
+  }
+}
+
+export function buildManifest(options: DocgenOptions = {}): DocsManifest {
+  const root = repoRoot(options)
+  const guidelines = globSync('skills/faasjs-best-practices/guidelines/*.md', { cwd: root }).map(
+    (sourcePath) =>
+      createPage(
+        'guideline',
+        sourcePath,
+        sourcePath.replace('skills/faasjs-best-practices/', 'docs/'),
+      ),
+  )
+  const specs = globSync('skills/faasjs-best-practices/references/specs/*.md', { cwd: root })
+    .filter((sourcePath) => !sourcePath.endsWith('/_template.md'))
+    .map((sourcePath) =>
+      createPage(
+        'spec',
+        sourcePath,
+        sourcePath.replace('skills/faasjs-best-practices/references/', 'docs/'),
+      ),
+    )
+
+  return {
+    pages: [...guidelines, ...specs].sort((a, b) => a.outputPath.localeCompare(b.outputPath)),
+    packages: globSync('packages/*/package.json', { cwd: root })
+      .map(packagePathFromPackageJson)
+      .sort((a, b) => a.localeCompare(b)),
+  }
+}
+
+function rewriteSkillLinksForDocs(content: string) {
+  return content
+    .replaceAll(
+      /\.\.\/references\/packages\/([^/)]+)\/README\.md/g,
+      (_match, packageName) => `/doc/${packageName}/`,
+    )
+    .replaceAll(
+      /\.\.\/references\/packages\/([^/)]+)\/([^/)]+)\/([^/)]+)\.md/g,
+      (_match, packageName, group, name) => `/doc/${packageName}/${group}/${name}.html`,
+    )
+    .replaceAll(/\.\.\/references\/specs\/([^/)]+)\.md/g, (_match, name) => `/specs/${name}.html`)
+}
+
+function writeGeneratedPage(root: string, page: ManifestPage) {
+  const outputPath = join(root, page.outputPath)
+  mkdirSync(dirname(outputPath), { recursive: true })
+  writeFileSync(
+    outputPath,
+    rewriteSkillLinksForDocs(readFileSync(join(root, page.sourcePath), 'utf8')),
+  )
 }
 
 export function buildApiDocs(options: BuildApiOptions = {}) {
@@ -127,6 +207,12 @@ export function syncSkillReferences(options: DocgenOptions = {}) {
 export function prepareDocsSite(options: DocgenOptions = {}) {
   const root = repoRoot(options)
   const docsRoot = join(root, 'docs')
+  const manifest = buildManifest({ root })
+
+  rmSync(join(docsRoot, 'guidelines'), { recursive: true, force: true })
+  rmSync(join(docsRoot, 'specs'), { recursive: true, force: true })
+
+  for (const page of manifest.pages) writeGeneratedPage(root, page)
 
   rmSync(join(docsRoot, 'doc'), { recursive: true, force: true })
   mkdirSync(join(docsRoot, 'doc'), { recursive: true })
