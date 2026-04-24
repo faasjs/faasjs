@@ -18,6 +18,9 @@ export type ManifestPageKind = 'guideline' | 'spec'
 
 export type ManifestPage = {
   kind: ManifestPageKind
+  slug: string
+  title: string
+  summary: string
   sourcePath: string
   outputPath: string
   routePath: string
@@ -31,6 +34,50 @@ export type DocsManifest = {
 type BuildApiOptions = DocgenOptions & {
   packagePath?: string
 }
+
+const guidelineOrder = [
+  'curated-stack',
+  'application-slices',
+  'project-config',
+  'file-conventions',
+  'code-comments',
+  'define-api',
+  'testing',
+  'react',
+  'react-data-fetching',
+  'react-testing',
+  'ant-design',
+  'node-utils',
+  'logger',
+  'utils',
+  'pg-query-builder',
+  'pg-table-types',
+  'pg-schema-and-migrations',
+  'pg-testing',
+]
+
+const specOrder = ['faas-yaml', 'http-protocol', 'plugin', 'routing-mapping']
+
+const pageSummaries: Record<string, string> = {
+  plugin:
+    'Defines plugin identity, lifecycle execution, config layering, and config-driven loading.',
+  'routing-mapping':
+    'Standardizes backend route mapping so file paths and request paths stay predictable.',
+}
+
+const packageOrder = [
+  'core',
+  'dev',
+  'react',
+  'ant-design',
+  'node-utils',
+  'pg',
+  'pg-dev',
+  'types',
+  'utils',
+  'create-faas-app',
+  'docgen',
+]
 
 function repoRoot(options: DocgenOptions = {}) {
   if (options.root) return options.root
@@ -68,40 +115,111 @@ function routeFromOutputPath(path: string) {
     .replace(/\.md$/, '.html')}`
 }
 
-function createPage(kind: ManifestPageKind, sourcePath: string, outputPath: string): ManifestPage {
+function slugFromPath(path: string) {
+  return path.split('/').at(-1)?.replace(/\.md$/, '') ?? path
+}
+
+function humanizeSlug(slug: string) {
+  return slug
+    .split('-')
+    .map((word) =>
+      word.length <= 3 ? word.toUpperCase() : `${word[0]?.toUpperCase()}${word.slice(1)}`,
+    )
+    .join(' ')
+    .replace('PG', 'PG')
+    .replace('API', 'API')
+}
+
+function extractTitleAndSummary(root: string, sourcePath: string, fallbackTitle: string) {
+  const content = readFileSync(join(root, sourcePath), 'utf8')
+  const title = content.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? fallbackTitle
+  const lines = content.split('\n').map((line) => line.trim())
+  const firstContentLine = lines.findIndex(
+    (line) => line && !line.startsWith('#') && !line.startsWith('```'),
+  )
+  const summary =
+    firstContentLine === -1
+      ? ''
+      : (lines.slice(firstContentLine).find((line) => line && !line.startsWith('```')) ?? '')
+
+  return { title, summary }
+}
+
+function createPage(
+  root: string,
+  kind: ManifestPageKind,
+  sourcePath: string,
+  outputPath: string,
+): ManifestPage {
+  const slug = slugFromPath(sourcePath)
+  const metadata = extractTitleAndSummary(root, sourcePath, humanizeSlug(slug))
+  const summary = pageSummaries[slug] ?? metadata.summary
+
   return {
     kind,
+    slug,
+    title: metadata.title,
+    summary,
     sourcePath,
     outputPath,
     routePath: routeFromOutputPath(outputPath),
   }
 }
 
+function sortByOrder<T>(
+  items: T[],
+  order: string[],
+  getSlug = (item: T) => (item as { slug: string }).slug,
+) {
+  return items.sort((a, b) => {
+    const aSlug = getSlug(a)
+    const bSlug = getSlug(b)
+    const aIndex = order.indexOf(aSlug)
+    const bIndex = order.indexOf(bSlug)
+
+    if (aIndex === -1 && bIndex === -1) return aSlug.localeCompare(bSlug)
+    if (aIndex === -1) return 1
+    if (bIndex === -1) return -1
+    return aIndex - bIndex
+  })
+}
+
 export function buildManifest(options: DocgenOptions = {}): DocsManifest {
   const root = repoRoot(options)
-  const guidelines = globSync('skills/faasjs-best-practices/guidelines/*.md', { cwd: root }).map(
-    (sourcePath) =>
+  const guidelines = sortByOrder(
+    globSync('skills/faasjs-best-practices/guidelines/*.md', { cwd: root }).map((sourcePath) =>
       createPage(
+        root,
         'guideline',
         sourcePath,
         sourcePath.replace('skills/faasjs-best-practices/', 'docs/'),
       ),
+    ),
+    guidelineOrder,
   )
-  const specs = globSync('skills/faasjs-best-practices/references/specs/*.md', { cwd: root })
-    .filter((sourcePath) => !sourcePath.endsWith('/_template.md'))
-    .map((sourcePath) =>
-      createPage(
-        'spec',
-        sourcePath,
-        sourcePath.replace('skills/faasjs-best-practices/references/', 'docs/'),
+  const specs = sortByOrder(
+    globSync('skills/faasjs-best-practices/references/specs/*.md', { cwd: root })
+      .filter((sourcePath) => !sourcePath.endsWith('/_template.md'))
+      .map((sourcePath) =>
+        createPage(
+          root,
+          'spec',
+          sourcePath,
+          sourcePath.replace('skills/faasjs-best-practices/references/', 'docs/'),
+        ),
       ),
-    )
+    specOrder,
+  )
 
   return {
-    pages: [...guidelines, ...specs].sort((a, b) => a.outputPath.localeCompare(b.outputPath)),
-    packages: globSync('packages/*/package.json', { cwd: root })
-      .map(packagePathFromPackageJson)
-      .sort((a, b) => a.localeCompare(b)),
+    pages: [...guidelines, ...specs],
+    packages: sortByOrder(
+      globSync('packages/*/package.json', { cwd: root })
+        .map(packagePathFromPackageJson)
+        .map((path) => path.replace('packages/', '')),
+      packageOrder,
+      (name) => name,
+    ),
   }
 }
 
@@ -125,6 +243,74 @@ function writeGeneratedPage(root: string, page: ManifestPage) {
     outputPath,
     rewriteSkillLinksForDocs(readFileSync(join(root, page.sourcePath), 'utf8')),
   )
+}
+
+function renderPackageName(name: string) {
+  return name === 'create-faas-app' ? name : `@faasjs/${name}`
+}
+
+function renderGuideIndex(manifest: DocsManifest) {
+  const guidelines = manifest.pages.filter((page) => page.kind === 'guideline')
+  const specs = manifest.pages.filter((page) => page.kind === 'spec')
+  const mainPathSlugs = [
+    'curated-stack',
+    'project-config',
+    'file-conventions',
+    'define-api',
+    'react-data-fetching',
+    'ant-design',
+    'pg-query-builder',
+    'pg-schema-and-migrations',
+    'pg-testing',
+    'plugin',
+    'application-slices',
+  ]
+  const mainPath = mainPathSlugs
+    .map((slug) => [...guidelines, ...specs].find((page) => page.slug === slug))
+    .filter((page): page is ManifestPage => Boolean(page))
+  const numberedMainPath = mainPath
+    .map((page, index) => `${index + 1}. [${page.title}](${page.routePath})`)
+    .join('\n')
+  const guidelineList = guidelines
+    .map((page) => `- [${page.title}](${page.routePath}): ${page.summary}`)
+    .join('\n')
+  const specList = specs
+    .map((page) => `- [${page.title}](${page.routePath}): ${page.summary}`)
+    .join('\n')
+  const packageList = manifest.packages
+    .map((name) => `- [${renderPackageName(name)}](/doc/${name}/)`)
+    .join('\n')
+
+  return `# Best Practices
+
+Use these guides and specifications as the current public guidance for building with FaasJS.
+
+FaasJS is a Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications. The main path is React, Ant Design, typed APIs, PostgreSQL, validation, testing, plugins, and stable project conventions.
+
+## Main Path
+
+Read these guides in order when starting a new feature or asking an AI coding agent to build one:
+
+${numberedMainPath}
+
+FaasJS favors complete application slices over generator-heavy workflows. A slice should keep UI, API, validation, database changes, and tests easy to find, review, and modify together.
+
+## Guidelines
+
+${guidelineList}
+
+## Specifications
+
+${specList}
+
+## API Docs
+
+${packageList}
+`
+}
+
+function writeGeneratedGuideIndex(root: string, manifest: DocsManifest) {
+  writeFileSync(join(root, 'docs/guide/README.md'), renderGuideIndex(manifest))
 }
 
 export function buildApiDocs(options: BuildApiOptions = {}) {
@@ -213,6 +399,7 @@ export function prepareDocsSite(options: DocgenOptions = {}) {
   rmSync(join(docsRoot, 'specs'), { recursive: true, force: true })
 
   for (const page of manifest.pages) writeGeneratedPage(root, page)
+  writeGeneratedGuideIndex(root, manifest)
 
   rmSync(join(docsRoot, 'doc'), { recursive: true, force: true })
   mkdirSync(join(docsRoot, 'doc'), { recursive: true })

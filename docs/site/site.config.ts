@@ -1,3 +1,5 @@
+import { buildManifest } from '../../packages/docgen/src/index.ts'
+
 export type NavbarItem = {
   text: string
   link?: string
@@ -32,6 +34,16 @@ export type SiteConfig = {
     '/zh/': LocaleConfig
   }
 }
+
+const navigationManifest = buildManifest()
+const enGuidelines = navigationManifest.pages
+  .filter((page) => page.kind === 'guideline')
+  .map((page) => page.routePath)
+const enSpecs = navigationManifest.pages
+  .filter((page) => page.kind === 'spec')
+  .map((page) => page.routePath)
+const zhGuidelines = enGuidelines.map((link) => `/zh${link}`)
+const zhSpecs = enSpecs.map((link) => `/zh${link}`)
 
 export const siteConfig: SiteConfig = {
   title: 'FaasJS',
@@ -111,66 +123,16 @@ export const siteConfig: SiteConfig = {
           {
             title: 'Guidelines',
             collapsable: false,
-            children: [
-              '/guidelines/curated-stack.html',
-              '/guidelines/application-slices.html',
-              '/guidelines/project-config.html',
-              '/guidelines/file-conventions.html',
-              '/guidelines/code-comments.html',
-              '/guidelines/define-api.html',
-              '/guidelines/testing.html',
-              '/guidelines/react.html',
-              '/guidelines/react-data-fetching.html',
-              '/guidelines/react-testing.html',
-              '/guidelines/ant-design.html',
-              '/guidelines/node-utils.html',
-              '/guidelines/logger.html',
-              '/guidelines/utils.html',
-              '/guidelines/pg-query-builder.html',
-              '/guidelines/pg-table-types.html',
-              '/guidelines/pg-schema-and-migrations.html',
-              '/guidelines/pg-testing.html',
-            ],
+            children: enGuidelines,
           },
           {
             title: 'Specifications',
             collapsable: false,
-            children: [
-              '/specs/faas-yaml.html',
-              '/specs/http-protocol.html',
-              '/specs/plugin.html',
-              '/specs/routing-mapping.html',
-            ],
+            children: enSpecs,
           },
         ],
-        '/guidelines/': [
-          ['/guide/', 'Guide'],
-          '/guidelines/curated-stack.html',
-          '/guidelines/application-slices.html',
-          '/guidelines/project-config.html',
-          '/guidelines/file-conventions.html',
-          '/guidelines/code-comments.html',
-          '/guidelines/define-api.html',
-          '/guidelines/testing.html',
-          '/guidelines/react.html',
-          '/guidelines/react-data-fetching.html',
-          '/guidelines/react-testing.html',
-          '/guidelines/ant-design.html',
-          '/guidelines/node-utils.html',
-          '/guidelines/logger.html',
-          '/guidelines/utils.html',
-          '/guidelines/pg-query-builder.html',
-          '/guidelines/pg-table-types.html',
-          '/guidelines/pg-schema-and-migrations.html',
-          '/guidelines/pg-testing.html',
-        ],
-        '/specs/': [
-          ['/guide/', 'Guide'],
-          '/specs/faas-yaml.html',
-          '/specs/http-protocol.html',
-          '/specs/plugin.html',
-          '/specs/routing-mapping.html',
-        ],
+        '/guidelines/': [['/guide/', 'Guide'], ...enGuidelines],
+        '/specs/': [['/guide/', 'Guide'], ...enSpecs],
       },
     },
     '/zh/': {
@@ -248,66 +210,16 @@ export const siteConfig: SiteConfig = {
           {
             title: '指南索引',
             collapsable: false,
-            children: [
-              '/zh/guidelines/curated-stack.html',
-              '/zh/guidelines/application-slices.html',
-              '/zh/guidelines/project-config.html',
-              '/zh/guidelines/file-conventions.html',
-              '/zh/guidelines/code-comments.html',
-              '/zh/guidelines/define-api.html',
-              '/zh/guidelines/testing.html',
-              '/zh/guidelines/react.html',
-              '/zh/guidelines/react-data-fetching.html',
-              '/zh/guidelines/react-testing.html',
-              '/zh/guidelines/ant-design.html',
-              '/zh/guidelines/node-utils.html',
-              '/zh/guidelines/logger.html',
-              '/zh/guidelines/utils.html',
-              '/zh/guidelines/pg-query-builder.html',
-              '/zh/guidelines/pg-table-types.html',
-              '/zh/guidelines/pg-schema-and-migrations.html',
-              '/zh/guidelines/pg-testing.html',
-            ],
+            children: zhGuidelines,
           },
           {
             title: '规范索引',
             collapsable: false,
-            children: [
-              '/zh/specs/faas-yaml.html',
-              '/zh/specs/http-protocol.html',
-              '/zh/specs/plugin.html',
-              '/zh/specs/routing-mapping.html',
-            ],
+            children: zhSpecs,
           },
         ],
-        '/zh/guidelines/': [
-          ['/zh/guide/', '最佳实践'],
-          '/zh/guidelines/curated-stack.html',
-          '/zh/guidelines/application-slices.html',
-          '/zh/guidelines/project-config.html',
-          '/zh/guidelines/file-conventions.html',
-          '/zh/guidelines/code-comments.html',
-          '/zh/guidelines/define-api.html',
-          '/zh/guidelines/testing.html',
-          '/zh/guidelines/react.html',
-          '/zh/guidelines/react-data-fetching.html',
-          '/zh/guidelines/react-testing.html',
-          '/zh/guidelines/ant-design.html',
-          '/zh/guidelines/node-utils.html',
-          '/zh/guidelines/logger.html',
-          '/zh/guidelines/utils.html',
-          '/zh/guidelines/pg-query-builder.html',
-          '/zh/guidelines/pg-table-types.html',
-          '/zh/guidelines/pg-schema-and-migrations.html',
-          '/zh/guidelines/pg-testing.html',
-        ],
-        '/zh/specs/': [
-          ['/zh/guide/', '最佳实践'],
-          '/zh/specs/faas-yaml.html',
-          '/zh/specs/http-protocol.html',
-          '/zh/specs/plugin.html',
-          '/zh/specs/routing-mapping.html',
-        ],
+        '/zh/guidelines/': [['/zh/guide/', '最佳实践'], ...zhGuidelines],
+        '/zh/specs/': [['/zh/guide/', '最佳实践'], ...zhSpecs],
       },
     },
   },

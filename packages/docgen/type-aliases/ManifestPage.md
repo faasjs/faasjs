@@ -18,6 +18,18 @@
 
 > **routePath**: `string`
 
+### slug
+
+> **slug**: `string`
+
 ### sourcePath
 
 > **sourcePath**: `string`
+
+### summary
+
+> **summary**: `string`
+
+### title
+
+> **title**: `string`
