@@ -8,7 +8,7 @@
     "build": "node prepare.ts && npm run build:ssg"
   },
   "devDependencies": {
-    "gray-matter": "*",
+    "@faasjs/node-utils": "file:../packages/node-utils",
     "highlight.js": "*",
     "jsdom": "*",
     "markdown-it": "*",

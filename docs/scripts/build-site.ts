@@ -10,7 +10,7 @@ import {
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import matter from 'gray-matter'
+import { parseYaml } from '@faasjs/node-utils'
 import hljs from 'highlight.js'
 import MarkdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
@@ -70,6 +70,35 @@ const siteRoot = join(docsRoot, 'site')
 
 function findLocale(routePath: string): LocaleKey {
   return routePath.startsWith('/zh/') ? '/zh/' : '/'
+}
+
+function parseMarkdownFrontmatter(source: string): {
+  content: string
+  data: Record<string, unknown>
+} {
+  if (!source.startsWith('---\n') && !source.startsWith('---\r\n')) {
+    return { content: source, data: {} }
+  }
+
+  const lineBreak = source.startsWith('---\r\n') ? '\r\n' : '\n'
+  const endMarker = `${lineBreak}---${lineBreak}`
+  const endIndex = source.indexOf(endMarker, 3)
+
+  if (endIndex === -1) {
+    return { content: source, data: {} }
+  }
+
+  const rawData = source.slice(3 + lineBreak.length, endIndex)
+  const parsed = parseYaml(rawData)
+
+  if (parsed !== undefined && (typeof parsed !== 'object' || Array.isArray(parsed))) {
+    throw Error('[build-site] Markdown frontmatter must be a YAML object.')
+  }
+
+  return {
+    content: source.slice(endIndex + endMarker.length),
+    data: (parsed ?? {}) as Record<string, unknown>,
+  }
 }
 
 function extractTitle(
@@ -460,7 +489,7 @@ function collectPages(): Page[] {
     const relativePath = toPosixPath(relative(docsRoot, sourcePath))
     const route = toRouteFromMarkdownPath(relativePath)
     const source = readFileSync(sourcePath, 'utf8')
-    const parsed = matter(source)
+    const parsed = parseMarkdownFrontmatter(source)
     const locale = findLocale(route.routePath)
     const localeConfig = siteConfig.locales[locale]
 
