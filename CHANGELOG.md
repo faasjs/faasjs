@@ -2,7 +2,7 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+[`v8.0.0-beta.26 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.25...v8.0.0-beta.26)
 
 - `faasjs`
   - [Break] Remove the discontinued `vscode/faasjs-snippets` VS Code snippets extension from the repo, docs navigation, and devcontainer example.
@@ -25,7 +25,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/types`
   - [Break] Limit `InferFaasApi<TModule>` to modules with a `default` FaasJS API export.
 
-[`v8.0.0-beta.25 (2026-04-22)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.24...>v8.0.0-beta.25)
+[`v8.0.0-beta.25 (2026-04-22)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.24...v8.0.0-beta.25)
 
 - `@faasjs/core`
   - [Break] Remove the deprecated `parseFuncFilenameFromStack()` alias. Use `parseApiFilenameFromStack()` directly.
@@ -41,7 +41,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/types`
   - [Break] Remove the deprecated `InferFaasFunc<TModule>` alias. Use `InferFaasApi<TModule>` directly.
 
-[`v8.0.0-beta.24 (2026-04-21)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.23...>v8.0.0-beta.24)
+[`v8.0.0-beta.24 (2026-04-21)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.23...v8.0.0-beta.24)
 
 - `faasjs`
   - [Break] Rename application API entry files from `.func.ts` to `.api.ts`, update fallback routing filenames to `index.api.ts` and `default.api.ts`, and make `export default defineApi(...)` the canonical authoring pattern across scaffolds, templates, and docs.
@@ -62,7 +62,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/pg`
   - [Break] Rename the `@faasjs/pg` CLI command from `typed-pg` to `faasjs-pg`.
 
-[`v8.0.0-beta.23 (2026-04-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.22...>v8.0.0-beta.23)
+[`v8.0.0-beta.23 (2026-04-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.22...v8.0.0-beta.23)
 
 - `@faasjs/pg`
   - [Feature] Bring the former `typed-pg` package into the FaasJS monorepo as `@faasjs/pg`, including the PostgreSQL query builder, schema builder, migrator, and `typed-pg` CLI.
@@ -70,7 +70,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/pg-dev`
   - [Feature] Bring the former `typed-pg-dev` package into the FaasJS monorepo as `@faasjs/pg-dev`, including `TypedPgVitestPlugin` and the PGlite-backed Vitest test helpers.
 
-[`v8.0.0-beta.22 (2026-04-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.21...>v8.0.0-beta.22)
+[`v8.0.0-beta.22 (2026-04-19)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.21...v8.0.0-beta.22)
 
 - `@faasjs/core`
   - [Fix] Block static file and server route traversal outside configured roots before loading files from user-controlled paths.
@@ -88,7 +88,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/react`
   - [Break] Remove the `@faasjs/react` routing and bootstrap helpers, including the `routing`, `auto-pages`, and `client-entry` subpath exports.
 
-[`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...>v8.0.0-beta.21)
+[`v8.0.0-beta.21 (2026-04-08)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.20...v8.0.0-beta.21)
 
 - `faasjs`
   - [Break] Require jsdom/browser tests to use the `.ui.test.*` suffix, rename the shared UI test setup file to `vitest.ui.setup.ts`, and update the related contributor/testing docs.

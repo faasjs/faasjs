@@ -1,6 +1,6 @@
 {
   "name": "faasjs-mono",
-  "version": "8.0.0-beta.25",
+  "version": "8.0.0-beta.26",
   "private": true,
   "description": "A Rails-inspired, curated full-stack TypeScript framework for database-driven React business applications.",
   "workspaces": [
