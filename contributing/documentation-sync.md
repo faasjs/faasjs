@@ -8,6 +8,8 @@ It covers syncing best-practices content under `skills/faasjs-best-practices/**`
 
 Use this guide after any FaasJS code or behavior change to decide which docs must be updated in the same change.
 
+`@faasjs/docgen` is the documentation update and sync tool. In this repo it is invoked through `vp run doc`, which regenerates API Markdown, mirrors package references into skills, generates published English and Chinese guide/spec pages, and refreshes generated guide indexes.
+
 Keep source-of-truth docs, generated published docs, translations, generated API docs, and docs site navigation aligned before handoff.
 
 Also check whether `CHANGELOG.md` needs an update for the same change, especially when behavior, APIs, workflows, or user-visible guidance changed.
@@ -35,24 +37,27 @@ If you are unsure, assume docs are affected and follow the workflow below before
    - API docs start from JSDoc in `packages/*/src`
    - best practices start from `skills/faasjs-best-practices/**`
    - specs start from `skills/*/references/specs/**`
-3. Generate the published docs.
-   - English: generated from `skills/faasjs-best-practices/guidelines/**` and `skills/*/references/specs/**` into `docs/guidelines/**` and `docs/specs/**` by `@faasjs/docgen`
-   - Chinese: generated from `skills/faasjs-best-practices/locales/zh/**` into `docs/zh/guidelines/**` and `docs/zh/specs/**` by `@faasjs/docgen`
-   - generated indexes: `docs/guide/README.md`, `docs/zh/guide/README.md`
-   - navigation: `docs/site/site.config.ts`
+3. Run `vp run doc` to generate and sync docs with `@faasjs/docgen`.
+   - API Markdown: generated from JSDoc in `packages/*/src`
+   - skill package references: mirrored into `skills/faasjs-best-practices/references/packages/**`
+   - English published docs: generated from `skills/faasjs-best-practices/guidelines/**` and `skills/*/references/specs/**` into `docs/guidelines/**` and `docs/specs/**`
+   - Chinese published docs: generated from `skills/faasjs-best-practices/locales/zh/**` into `docs/zh/guidelines/**` and `docs/zh/specs/**`
+   - guide indexes: generated into `docs/guide/README.md` and `docs/zh/guide/README.md`
+   - navigation page lists: read from the `@faasjs/docgen` manifest in `docs/site/site.config.ts`
 4. Update release notes when needed.
    - review user-visible behavior, API, workflow, and documentation changes since the previous released version, not just the current diff you are editing
    - use the release boundary from the latest released changelog entry or git tag (for example `previous-version..HEAD`) to inspect the full set of commits/files that belong in the next entry
    - turn that full change set into user-facing notes by keeping only items that matter to end users, and skip internal-only churn
    - add or adjust the unreleased entry when the change should be called out to users
 5. Regenerate generated outputs only from their real source.
-   - run `vp run doc` when exported APIs or JSDoc changed
+   - run `vp run doc` after API docs, guides, specs, translations, or generated guide indexes need refreshing
    - never edit Markdown under `packages/*/{classes,functions,interfaces,type-aliases,variables}` directly
-   - update JSDoc in `packages/*/src` first, then run `vp run doc` to refresh generated package API Markdown
+   - never edit generated published docs under `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, `docs/zh/specs/**`, `docs/guide/README.md`, or `docs/zh/guide/README.md` directly
+   - update JSDoc or `skills/**` source first, then run `vp run doc`
    - do not hand-edit `docs/dist/**`
 6. Validate the smallest meaningful scope.
-   - API docs only: `vp run doc`
-   - docs content or navigation: `cd docs && npm run build`
+   - generated docs: `vp run doc`
+   - docs site rendering: `cd docs && npm run build`
    - cross-cutting changes: run both
 
 ## Working Rules

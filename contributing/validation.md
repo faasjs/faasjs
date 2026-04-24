@@ -16,15 +16,15 @@ Use this guide when developing or maintaining the FaasJS framework in this monor
 - Run coverage suite: `vp run ci`
 - Run lint, format, and static checks: `vp check`
 - Build packages: `vp pack`
-- Regenerate API docs: `vp run doc`
+- Regenerate and sync docs with `@faasjs/docgen`: `vp run doc`
 - Build docs site: `cd docs && vp install && vp run build`
 
 ## How To Choose Validation
 
 - Prefer the smallest useful validation for the files you touched.
 - For significant or cross-package changes, run broader checks before handoff.
-- If exported APIs or JSDoc changed, run `vp run doc`.
-- If docs content or navigation changed, build the docs site.
+- If exported APIs, JSDoc, best-practices guides, specs, translations, or generated guide indexes changed, run `vp run doc`.
+- If docs content or navigation changed, run `vp run doc` first, then build the docs site.
 - If you intentionally skip a check, explain why in the PR or handoff.
 
 ## CI Baseline

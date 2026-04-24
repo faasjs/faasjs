@@ -9,14 +9,20 @@ If the user is building with FaasJS instead of modifying the framework, read [`s
 1. [`contributing/target-users.md`](./contributing/target-users.md) for product boundaries, target users, supported stacks, and core framework trade-offs
 2. [`contributing/source-of-truth.md`](./contributing/source-of-truth.md) for edit locations, generated-file rules, and codebase conventions
 3. [`contributing/validation.md`](./contributing/validation.md) for environment requirements and validation commands
-4. [`contributing/documentation-sync.md`](./contributing/documentation-sync.md) when changes may affect docs, generated docs, translations, navigation, or changelog entries
+4. [`contributing/documentation-sync.md`](./contributing/documentation-sync.md) when changes may affect docs, generated docs, translations, navigation, or changelog entries; it uses `@faasjs/docgen` via `vp run doc` as the docs update and sync tool
 
 ## By Task
 
 - Product positioning, supported-stack, dependency-policy, or framework-abstraction changes: also follow [`contributing/target-users.md`](./contributing/target-users.md)
 - Framework code, templates, images, or contribution-guide changes: follow [`contributing/source-of-truth.md`](./contributing/source-of-truth.md) and [`contributing/validation.md`](./contributing/validation.md)
-- Public API, JSDoc, docs, docs navigation, generated docs, or user-facing workflow changes: also follow [`contributing/documentation-sync.md`](./contributing/documentation-sync.md)
+- Public API, JSDoc, docs, docs navigation, generated docs, or user-facing workflow changes: also follow [`contributing/documentation-sync.md`](./contributing/documentation-sync.md) and regenerate derived docs with `vp run doc`
 - Security reports: follow [`SECURITY.md`](./SECURITY.md)
+
+## Documentation Flow
+
+- Edit source-of-truth content first: JSDoc in `packages/*/src`, English guides in `skills/faasjs-best-practices/guidelines/**`, specs in `skills/*/references/specs/**`, and Chinese translations in `skills/faasjs-best-practices/locales/zh/**`.
+- Run `vp run doc` to invoke `@faasjs/docgen`, which refreshes API Markdown, skill references, generated published docs, and generated guide indexes.
+- Do not hand-edit generated docs under `packages/*/{classes,functions,interfaces,type-aliases,variables}`, `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, `docs/zh/specs/**`, `docs/guide/README.md`, or `docs/zh/guide/README.md`.
 
 ## Standard Flow
 
