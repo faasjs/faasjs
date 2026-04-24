@@ -2,13 +2,6 @@
 
 Use this guide when writing or reviewing tests in FaasJS projects.
 
-## Use This Guide When
-
-- writing or reviewing tests for APIs, utilities, hooks, components, or runtime helpers
-- deciding whether to keep a dependency real or replace it with a mock
-- choosing the smallest useful test level for a scenario
-- checking whether a test protects behavior instead of implementation details
-
 ## Default Workflow
 
 1. Start from the public behavior or regression the test should catch.
@@ -64,9 +57,3 @@ Use this guide when writing or reviewing tests in FaasJS projects.
 - the chosen test level matches the risk and avoids unnecessary internal mocking
 - success and meaningful failure paths are covered
 - shared state, timers, env, and globals are reset between cases
-
-## Read Next
-
-- [defineApi Guide](./define-api.md)
-- [React Testing Guide](./react-testing.md)
-- [Node Utils Guide](./node-utils.md)

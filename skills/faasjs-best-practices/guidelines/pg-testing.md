@@ -2,13 +2,6 @@
 
 When changing `@faasjs/pg`-backed code, every behavior change should come with runtime tests, and type-sensitive surface changes should come with `expectTypeOf(...)` coverage.
 
-## Use This Guide When
-
-- adding or changing query-builder usage in app code
-- changing shared query helpers, repository wrappers, or table typing
-- updating schema or migration helpers
-- writing integration tests for `@faasjs/pg` or `@faasjs/pg-dev`
-
 ## Default Workflow
 
 1. Prefer `TypedPgVitestPlugin()` so Vitest registers a lazy temporary database bootstrap, starts PGlite on the first `await getClient()`, runs migrations, backfills `DATABASE_URL`, and clears table contents before later tests in the same file. In mixed workspaces, keep PG-backed tests in a Node project because the plugin skips `jsdom` and `happy-dom` projects.
@@ -130,12 +123,3 @@ describe('users query', () => {
 - pg-backed runtime tests stay in a node-scoped project (`node` or `node-pg`) in mixed workspaces
 - suites either rely on the plugin reset or clean up their own extra setup
 - validation commands match the change surface
-
-## Read Next
-
-- [PG Query Builder Guide](./pg-query-builder.md)
-- [PG Schema and Migrations Guide](./pg-schema-and-migrations.md)
-- [@faasjs/pg-dev package reference](../references/packages/pg-dev/README.md)
-- [TypedPgVitestPlugin](../references/packages/pg-dev/functions/TypedPgVitestPlugin.md)
-- [setupTypedPgVitest](../references/packages/pg-dev/functions/setupTypedPgVitest.md)
-- [getClient](../references/packages/pg/functions/getClient.md)

@@ -2,13 +2,6 @@
 
 When implementing or reviewing `@faasjs/pg` query code, default to the fluent `QueryBuilder` surface, and fall back to `client.raw(...)` only when the builder cannot express the SQL cleanly.
 
-## Use This Guide When
-
-- creating or updating `SELECT`, `INSERT`, `UPDATE`, `DELETE`, or `UPSERT` queries
-- adding joins, ordering, pagination, aggregates, JSONB field selection, or custom predicates
-- deciding whether a query can stay inside the typed fluent API or needs a raw SQL fragment
-- choosing between `getClient()` and `createClient(...)`, or reviewing transaction boundaries
-
 ## Default Workflow
 
 1. Prefer `await getClient()` for the default client path. The built-in bootstrap reads `DATABASE_URL`, and tests can override that bootstrap lazily.
@@ -104,15 +97,3 @@ await client.transaction(async (trx) => {
 - `select`, `first`, `pluck`, or explicit `returning` narrow rows when appropriate
 - `update` and `delete` stay guarded by `where`, and multi-step writes use `transaction(...)` when atomicity matters
 - shared query helpers or package changes keep runtime and type coverage aligned
-
-## Read Next
-
-- [PG Testing Guide](./pg-testing.md)
-- [PG Table Types Guide](./pg-table-types.md)
-- [@faasjs/pg package reference](../references/packages/pg/README.md)
-- [QueryBuilder](../references/packages/pg/classes/QueryBuilder.md)
-- [Client](../references/packages/pg/classes/Client.md)
-- [getClient](../references/packages/pg/functions/getClient.md)
-- [createClient](../references/packages/pg/functions/createClient.md)
-- [rawSql](../references/packages/pg/functions/rawSql.md)
-- [escapeIdentifier](../references/packages/pg/functions/escapeIdentifier.md)

@@ -2,14 +2,6 @@
 
 Use this guide when you need readable runtime logs in FaasJS handlers, middleware, cron jobs, server hooks, or standalone Node.js scripts.
 
-## Use This Guide When
-
-- writing logs inside middleware, plugins, or cron jobs
-- adding request, lifecycle, or failure logs to a FaasJS server
-- creating a standalone script that needs a shared logger
-- timing slow operations
-- tuning log noise for local development, CI, or production
-
 ## Default Workflow
 
 1. Reuse the injected `logger` when FaasJS already gives you one.
@@ -166,13 +158,3 @@ process.on('SIGINT', async () => {
 - environment variables are used to change verbosity
 - secrets and sensitive payloads are not logged
 - transport handlers call `stop()` during shutdown when transport is enabled
-
-## Read Next
-
-- [@faasjs/node-utils package reference](../references/packages/node-utils/README.md)
-- [Logger](../references/packages/node-utils/classes/Logger.md)
-- [getTransport](../references/packages/node-utils/functions/getTransport.md)
-- [formatLogger](../references/packages/node-utils/functions/formatLogger.md)
-- [useMiddleware](../references/packages/core/functions/useMiddleware.md)
-- [CronJob](../references/packages/core/classes/CronJob.md)
-- [ServerOptions](../references/packages/core/type-aliases/ServerOptions.md)

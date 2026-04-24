@@ -2,14 +2,6 @@
 
 Use this guide when creating or reviewing frontend pages, React components, hooks, or FaasJS backend route files.
 
-## Use This Guide When
-
-- creating a new page, component, or hook
-- reorganizing frontend folders
-- adding page or feature folders under `pages/`
-- creating or moving `.api.ts` backend files
-- reviewing whether file names and locations stay predictable for humans and agents
-
 ## Default Workflow
 
 1. Put frontend pages under `pages/`.
@@ -159,8 +151,3 @@ This maps directly to:
 - backend `.api.ts` files follow routing-mapping
 - imports follow aliases already defined in `tsconfig.json` when available
 - nearby imports stay relative instead of forcing alias usage everywhere
-
-## Read Next
-
-- [Routing Mapping Specification](../references/specs/routing-mapping.md)
-- [defineApi Guide](./define-api.md)

@@ -1,73 +1,22 @@
 # Project Config Guide
 
-Use this guide when creating or reviewing a FaasJS project's `tsconfig.json`, `vite.config.ts`, or shared workspace tooling config.
-
-## Use This Guide When
-
-- bootstrapping a new FaasJS app or package
-- simplifying an existing `tsconfig.json`
-- simplifying an existing `vite.config.ts`
-- deciding whether a project should inherit framework defaults or define local tooling rules
-- reviewing whether config files duplicate settings that FaasJS already publishes
+Use for `tsconfig.json`, `vite.config.ts`, and shared workspace tooling config.
 
 ## Default Workflow
 
-1. Start from the shared TypeScript preset in `@faasjs/types/tsconfig/*`.
-2. Keep local `tsconfig.json` focused on project-specific `types`, `include`, `exclude`, and aliases.
-3. Start from `viteConfig` when the project uses the standard FaasJS React + local server stack.
-4. Keep local `vite.config.ts` focused on runtime plugins and project behavior.
-5. Reuse `oxfmtConfig` and `oxlintConfig` from `@faasjs/dev` instead of duplicating common rules.
-6. Extend shared config when needed, rather than replacing it wholesale.
+1. Start from `@faasjs/types/tsconfig/*` instead of hand-writing a TypeScript baseline.
+2. Keep local `tsconfig.json` focused on project-specific `types`, `include`, `exclude`, `baseUrl`, and `paths`.
+3. Start from `viteConfig` for standard FaasJS React + local server apps.
+4. Keep local `vite.config.ts` focused on runtime plugins, aliases, server options, tests, and build behavior.
+5. Reuse `oxfmtConfig` and `oxlintConfig` from `@faasjs/dev`; extend shared config instead of replacing it.
 
-## Rules
+## TypeScript Rules
 
-### 1. Prefer shared TypeScript presets
-
-- Do not hand-write a full TypeScript baseline when `@faasjs/types` already provides the shared one.
-- Use `@faasjs/types/tsconfig/build.json` for most FaasJS apps created with Vite, including the `create-faas-app` starters.
+- Use `@faasjs/types/tsconfig/build.json` for most Vite apps and packages.
 - Use `@faasjs/types/tsconfig/base.json` for non-React TypeScript apps.
-- Use `@faasjs/types/tsconfig/react.json` when a React project only needs the JSX defaults without the build-oriented module and declaration settings.
-- The extensionless `@faasjs/types/tsconfig/*` paths still work, but the explicit `.json` paths match the generated starters and avoid ambiguity.
-
-React app example:
-
-```json
-{
-  "extends": "@faasjs/types/tsconfig/build.json",
-  "compilerOptions": {
-    "types": ["node", "vitest/globals"]
-  },
-  "include": ["src", "vite.config.ts", "server.ts"]
-}
-```
-
-Non-React app example:
-
-```json
-{
-  "extends": "@faasjs/types/tsconfig/base.json",
-  "compilerOptions": {
-    "types": ["node", "vitest/globals"]
-  },
-  "include": ["src", "vite.config.ts", "server.ts"]
-}
-```
-
-Package example:
-
-```json
-{
-  "extends": "@faasjs/types/tsconfig/build.json"
-}
-```
-
-### 2. Keep local tsconfig overrides minimal
-
-- Local `compilerOptions` SHOULD only contain project-specific additions.
-- Good local additions include `types`, `paths`, `baseUrl`, `include`, and `exclude`.
-- Do not duplicate strict-mode, JSX, module resolution, or other shared baseline settings unless the project intentionally needs a different behavior.
-
-Prefer this:
+- Use `@faasjs/types/tsconfig/react.json` only when a React project needs JSX defaults without build-oriented settings.
+- Do not duplicate strict mode, JSX, module resolution, or other shared baseline settings unless intentionally changing behavior.
+- Prefer explicit `.json` preset paths because generated starters use them.
 
 ```json
 {
@@ -82,118 +31,19 @@ Prefer this:
 }
 ```
 
-Avoid this:
+## Vite Rules
 
-```json
-{
-  "compilerOptions": {
-    "target": "ESNext",
-    "jsx": "react-jsx",
-    "strict": true,
-    "moduleResolution": "bundler",
-    "exactOptionalPropertyTypes": true,
-    "verbatimModuleSyntax": true,
-    "types": ["node", "vitest/globals"]
-  },
-  "include": ["src", "vite.config.ts", "server.ts"]
-}
-```
-
-### 3. Keep Vite config focused on app behavior
-
-- If the project matches the standard FaasJS React setup, prefer `viteConfig` from `@faasjs/dev` as the base preset.
-- `vite.config.ts` SHOULD define project runtime behavior such as plugins, aliases, server options, tests, and build settings.
-- Shared formatting and lint rules SHOULD come from `@faasjs/dev`.
-- When using `fmt` and `lint`, `defineConfig` SHOULD come from `vite-plus`, not `vite`.
-- In mixed Node + UI test suites, keep UI tests in a dedicated `test.projects` entry. Treat `*.test.tsx` as UI tests, and use `*.ui.test.ts` only for UI tests that do not use TSX syntax, instead of setting `environment: 'jsdom'` globally.
-- When a suite also includes `*.types.test.ts` or `*.types.test.tsx`, keep those files in a dedicated `types` project. Exclude them from runtime projects because globs such as `src/**/*.test.ts` also match `*.types.test.ts`. Only add `typecheck: { enabled: false }` to runtime projects when they inherit a shared root `typecheck` config that would otherwise run the same type tests multiple times.
-- PG-backed runtime tests are still Node runtime tests. Prefer keeping them in the main `node` project, but if project-level setup must only apply to that subset, split them into a node-scoped project such as `node-pg` rather than a standalone `pg` runtime bucket.
-
-Preset example:
+- Import `defineConfig` from `vite-plus` when using `fmt` or `lint`.
+- Prefer `viteConfig` from `@faasjs/dev` when the standard stack fits.
+- For local differences, spread the shared config and add only the delta.
+- In mixed Node + UI tests, put UI tests in a dedicated `test.projects` entry with `environment: 'jsdom'`.
+- Treat `*.test.tsx` as UI tests; use `*.ui.test.ts` only for UI tests without TSX syntax.
+- Put `*.types.test.ts(x)` files in a dedicated `types` project and exclude them from runtime projects.
+- Keep PG-backed tests in the main Node runtime project unless setup must be isolated; then use a node-scoped project such as `node-pg`.
 
 ```ts
 import { viteConfig } from '@faasjs/dev'
 import { defineConfig } from 'vite-plus'
-
-const tests = ['src/**/*.test.ts']
-const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
-const typeTests = ['src/**/*.types.test.ts', 'src/**/*.types.test.tsx']
-
-export default defineConfig({
-  ...viteConfig,
-  test: {
-    projects: [
-      {
-        extends: true as const,
-        test: {
-          name: 'node',
-          include: tests,
-          exclude: uiTests.concat(typeTests),
-          environment: 'node',
-        },
-      },
-      {
-        extends: true as const,
-        test: {
-          name: 'ui',
-          include: uiTests,
-          environment: 'jsdom',
-          setupFiles: ['vitest.ui.setup.ts'],
-          exclude: typeTests,
-        },
-      },
-      {
-        extends: true as const,
-        test: {
-          name: 'types',
-          include: typeTests,
-          environment: 'node',
-          typecheck: {
-            enabled: true,
-            only: true,
-            include: typeTests,
-          },
-        },
-      },
-    ],
-  },
-})
-```
-
-Manual composition example:
-
-```ts
-import { viteFaasJsServer, oxfmtConfig, oxlintConfig } from '@faasjs/dev'
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite-plus'
-
-export default defineConfig({
-  plugins: [react(), viteFaasJsServer()],
-  resolve: {
-    tsconfigPaths: true,
-  },
-  server: {
-    host: '0.0.0.0',
-  },
-  fmt: oxfmtConfig,
-  lint: oxlintConfig,
-})
-```
-
-### 4. Extend shared Vite rules instead of replacing them
-
-- If the project needs one or two local differences, spread `viteConfig` or the shared lint and format config and add only the delta.
-- Do not copy the entire FaasJS shared config into each app.
-
-Example:
-
-```ts
-import { viteConfig } from '@faasjs/dev'
-import { defineConfig } from 'vite-plus'
-
-const tests = ['src/**/*.test.ts']
-const uiTests = ['src/**/*.test.tsx', 'src/**/*.ui.test.ts']
-const typeTests = ['src/**/*.types.test.ts', 'src/**/*.types.test.tsx']
 
 export default defineConfig({
   ...viteConfig,
@@ -201,96 +51,37 @@ export default defineConfig({
     ...viteConfig.server,
     port: 3000,
   },
-  test: {
-    projects: [
-      {
-        extends: true as const,
-        test: {
-          name: 'node',
-          include: tests,
-          exclude: uiTests.concat(typeTests),
-          environment: 'node',
-        },
-      },
-      {
-        extends: true as const,
-        test: {
-          name: 'ui',
-          include: uiTests,
-          environment: 'jsdom',
-          setupFiles: ['vitest.ui.setup.ts'],
-          exclude: typeTests,
-        },
-      },
-      {
-        extends: true as const,
-        test: {
-          name: 'types',
-          include: typeTests,
-          environment: 'node',
-          typecheck: {
-            enabled: true,
-            only: true,
-            include: typeTests,
-          },
-        },
-      },
-    ],
-  },
 })
 ```
 
-If only lint or format differs, it is still fine to extend `oxfmtConfig` or `oxlintConfig` directly:
+Manual composition is only for projects that cannot use `viteConfig` directly:
 
 ```ts
-import { oxfmtConfig, oxlintConfig } from '@faasjs/dev'
+import { oxfmtConfig, oxlintConfig, viteFaasJsServer } from '@faasjs/dev'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
-  fmt: {
-    ...oxfmtConfig,
-  },
-  lint: {
-    ...oxlintConfig,
-    rules: {
-      ...oxlintConfig.rules,
-      'no-console': 'warn',
-    },
-  },
+  plugins: [react(), viteFaasJsServer()],
+  resolve: { tsconfigPaths: true },
+  fmt: oxfmtConfig,
+  lint: oxlintConfig,
 })
 ```
 
-### 5. Make project-specific intent obvious
+## Alias Rules
 
-- A reader should be able to tell which settings come from FaasJS and which ones are local decisions.
-- Shared framework defaults SHOULD be inherited.
-- Local files SHOULD only highlight the settings that affect this specific app, package, or workspace.
-
-### 6. Respect existing alias config
-
-- Read `tsconfig.json` and any config it extends before choosing an import path style.
-- If `compilerOptions.paths` defines aliases, use those existing aliases instead of deep relative imports.
-- Prefer package imports such as `@faasjs/core` or `@faasjs/react` over long relative imports into another package.
-- Keep short relative imports for nearby files in the same feature or directory.
-- Do not introduce an alias unless `tsconfig.json` and the runtime or bundler resolver support it.
-- In FaasJS workspaces, enabling `resolve.tsconfigPaths` in `vite.config.ts` is the preferred way to make `tsconfig.json` path aliases work at runtime.
+- Read `tsconfig.json` and extended configs before choosing import paths.
+- Use aliases already defined in `compilerOptions.paths`; keep short relative imports for nearby files.
+- Prefer package imports such as `@faasjs/core` over long relative imports into another package.
+- Do not introduce an alias unless TypeScript and the runtime or bundler resolver are configured in the same change.
+- In FaasJS workspaces, `resolve.tsconfigPaths` in `vite.config.ts` is the preferred runtime support for path aliases.
 
 ## Review Checklist
 
-- `tsconfig.json` extends a shared preset from `@faasjs/types` when possible
-- local TypeScript overrides are limited to project-specific needs
-- `vite.config.ts` uses `vite-plus` when `fmt` or `lint` is configured
-- `vite.config.ts` starts from `viteConfig` or reuses shared `fmt` and `lint` rules from `@faasjs/dev`
-- the config does not duplicate FaasJS baseline settings without a clear reason
-- UI tests use a dedicated project with `environment: 'jsdom'`, with `*.test.tsx` plus any non-TSX `*.ui.test.ts` files in that UI bucket
-- type tests use a dedicated `types` project when present, instead of being mixed into runtime projects or re-run by every inherited runtime typecheck
-- local config files make project-specific behavior easy to identify
-- imports follow aliases already defined in `tsconfig.json` when appropriate
-- aliases defined in `tsconfig.json` are also supported by the runtime or bundler
-
-## Read Next
-
-- [@faasjs/dev package reference](../references/packages/dev/README.md)
-- [viteConfig](../references/packages/dev/variables/viteConfig.md)
-- [viteFaasJsServer](../references/packages/dev/functions/viteFaasJsServer.md)
-- [@faasjs/types package reference](../references/packages/types/README.md)
+- config inherits shared FaasJS presets where possible
+- local overrides only show project-specific behavior
+- `vite-plus` is used when `fmt` or `lint` is configured
+- shared `viteConfig`, `oxfmtConfig`, and `oxlintConfig` are extended rather than copied
+- UI and type tests are isolated into the right Vitest projects when present
+- imports follow existing aliases and runtime resolver support

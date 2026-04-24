@@ -8,14 +8,6 @@ For pure presentational components or hooks that do not touch FaasJS request flo
 
 In this guide, "UI tests" means tests routed to the Vitest `ui` project with `environment: 'jsdom'`.
 
-## Use This Guide When
-
-- testing hooks that issue FaasJS requests
-- testing components that call FaasJS requests
-- deciding how to use `setMock` for request-related React tests
-- setting up shared request-mock cleanup in Vitest
-- choosing between hook tests and component tests for request flows
-
 ## Default Workflow
 
 1. Start with the shared [Testing Guide](./testing.md).
@@ -239,12 +231,3 @@ describe('useFaas', () => {
 - components are tested through visible behavior
 - hooks are tested through `renderHook` when appropriate
 - tests cover relevant loading, error, reload, skip, debounce, or controlled-props flows
-
-## Read Next
-
-- [Testing Guide](./testing.md)
-- [React Guide](./react.md)
-- [React Data Fetching Guide](./react-data-fetching.md)
-- [setMock](../references/packages/react/functions/setMock.md)
-- [useFaas](../references/packages/react/functions/useFaas.md)
-- [useFaasStream](../references/packages/react/functions/useFaasStream.md)

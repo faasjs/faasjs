@@ -2,13 +2,6 @@
 
 When implementing or reviewing `@faasjs/pg` table typing, default to declaration merging on `Tables`.
 
-## Use This Guide When
-
-- defining application tables for `@faasjs/pg`
-- adding columns or JSONB shapes
-- reviewing how query inference should flow from the table definition
-- extracting helpers that depend on `TableType`, `ColumnName`, or `ColumnValue`
-
 ## Default Workflow
 
 1. Put the augmentation in an app-owned type file such as `src/types/faasjs-pg.d.ts`, and make sure `tsconfig.json` includes that file before expecting inference to change.
@@ -89,12 +82,3 @@ declare module '@faasjs/pg' {
 - declaration merging still works from consumer code
 - helper types stay aligned with the merged table definition
 - public or shared type changes include `expectTypeOf(...)` coverage
-
-## Read Next
-
-- [PG Query Builder Guide](./pg-query-builder.md)
-- [PG Testing Guide](./pg-testing.md)
-- [Tables](../references/packages/pg/interfaces/Tables.md)
-- [TableType](../references/packages/pg/type-aliases/TableType.md)
-- [ColumnName](../references/packages/pg/type-aliases/ColumnName.md)
-- [ColumnValue](../references/packages/pg/type-aliases/ColumnValue.md)

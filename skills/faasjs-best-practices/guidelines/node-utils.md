@@ -2,17 +2,6 @@
 
 Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrapping, local tooling, config resolution, or logging.
 
-## Use This Guide When
-
-- running FaasJS handlers, CLIs, tests, or bootstrap scripts directly in Node.js
-- reading merged staged `faas.yaml` config for a specific API file
-- parsing the FaasJS YAML subset in custom Node.js tooling
-- turning an API module into a runnable exported handler
-- loading YAML-defined plugins into a `Func` instance
-- importing local TypeScript modules with tsconfig path aliases in plain Node
-- validating whether a candidate file path still stays inside an allowed root directory
-- sharing runtime logs or shipping them through a transport
-
 ## What `@faasjs/node-utils` Gives You
 
 - config loading: `loadConfig`, `parseYaml`
@@ -160,15 +149,3 @@ if (!isPathInsideRoot(candidate, root)) {
 - root-scoped file access validates resolved paths with `isPathInsideRoot()`
 - tests that depend on fresh loader state use `resetRuntime()`
 - logging uses `Logger` or the shared transport instead of raw `console` wrappers
-
-## Read Next
-
-- [Logger Guide](./logger.md)
-- [@faasjs/node-utils package reference](../references/packages/node-utils/README.md)
-- [isPathInsideRoot](../references/packages/node-utils/functions/isPathInsideRoot.md)
-- [loadConfig](../references/packages/node-utils/functions/loadConfig.md)
-- [loadApiHandler](../references/packages/node-utils/functions/loadApiHandler.md)
-- [loadPackage](../references/packages/node-utils/functions/loadPackage.md)
-- [loadPlugins](../references/packages/node-utils/functions/loadPlugins.md)
-- [parseYaml](../references/packages/node-utils/functions/parseYaml.md)
-- [registerNodeModuleHooks](../references/packages/node-utils/functions/registerNodeModuleHooks.md)
