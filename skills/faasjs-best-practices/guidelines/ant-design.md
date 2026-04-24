@@ -250,13 +250,18 @@ export function UserDescription(props: { id: number }) {
 - Prefer `Form.faas` when the submit flow is one direct action call.
 - Load edit data outside the form, then pass it through `initialValues`.
 - Let `useApp` handle success and failure feedback.
+- After success, intentionally close the drawer, refresh the list/detail surface, or call a passed `onSuccess` callback.
 
 ```tsx
 import { Form, useApp } from '@faasjs/ant-design'
 
 import { useUserItems } from '../hooks/useUserItems'
 
-export function UserForm(props: { id?: number; initialValues?: Record<string, any> }) {
+export function UserForm(props: {
+  id?: number
+  initialValues?: Record<string, any>
+  onSuccess?: () => void
+}) {
   const { message, notification, setDrawerProps } = useApp()
   const items = useUserItems()
 
@@ -273,6 +278,7 @@ export function UserForm(props: { id?: number; initialValues?: Record<string, an
         onSuccess: () => {
           message.success(props.id ? 'User updated' : 'User created')
           setDrawerProps({ open: false })
+          props.onSuccess?.()
         },
         onError: (error) => {
           notification.error({
@@ -290,12 +296,13 @@ export function UserForm(props: { id?: number; initialValues?: Record<string, an
 
 - In normal app pages, prefer `useApp().setModalProps(...)` over ad hoc local modal instances.
 - Use `message` for short success feedback and `notification` for richer failure feedback.
+- After success, intentionally refresh the affected table/detail surface or call a passed `onSuccess` callback.
 
 ```tsx
 import { Button } from 'antd'
 import { faas, useApp } from '@faasjs/ant-design'
 
-export function RemoveButton(props: { id: number }) {
+export function RemoveButton(props: { id: number; onSuccess?: () => void }) {
   const { message, notification, setModalProps } = useApp()
 
   return (
@@ -311,6 +318,7 @@ export function RemoveButton(props: { id: number }) {
               await faas('/pages/users/api/remove', { id: props.id })
               message.success('User deleted')
               setModalProps({ open: false })
+              props.onSuccess?.()
             } catch (error: any) {
               notification.error({
                 message: 'Delete failed',
@@ -639,6 +647,7 @@ function UserForm(props: FormProps<any, UserFormItem>) {
 - the page entry mostly composes feature components instead of containing all logic inline
 - field definitions are modeled through shared `items` metadata
 - `faas` and `faasData` are used for straightforward request flows
+- create, update, and delete flows refresh, close, or invalidate the affected surface intentionally
 - CRUD pages primarily use `Table`, `Description`, and `Form`
 - FaasJS-provided wrappers are preferred over raw Ant Design primitives when they cover the scenario
 - custom `div`-based UI is avoided unless existing components do not fit

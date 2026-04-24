@@ -66,18 +66,19 @@ Instead of extracting `schema` early without a reuse reason.
 - Read `event`, `headers`, or `body` only when transport-level behavior matters.
 - Let `schema` cover request-shape validation at the boundary, then fail fast inside `handler` when domain state is invalid instead of layering extra fallback branches.
 
-### 3. Throw `Error` by default
+### 3. Choose error status deliberately
 
-- Prefer `throw Error(message)` for normal business or user-facing failures.
-- A plain `Error` keeps its message in the JSON error body and responds with HTTP `500`.
-- Use `HttpError` only when you need to control `statusCode` or other HTTP-specific behavior.
-- If the client contract depends on a specific non-`500` status, use `HttpError` explicitly.
 - Let Zod validation handle request-shape errors whenever possible.
+- Use `HttpError` when the failure is an expected client or business outcome and callers should see a non-`500` status.
+- Prefer common explicit statuses for expected failures: `400` for invalid business input not covered by schema, `401` for unauthenticated requests, `403` for permission failures, `404` for missing scoped resources, and `409` for conflicts.
+- Use plain `throw Error(message)` for unexpected internal failures or invariant breaks. A plain `Error` keeps its message in the JSON error body and responds with HTTP `500`.
+- Do not hide permission, tenant, or resource-scope failures behind broad fallback responses.
 
 Response behavior summary:
 
-- `throw Error('message')` -> JSON error response with message and status `500`
+- Zod schema failure -> validation error response from the framework
 - `throw new HttpError({ statusCode: 409, message: 'message' })` -> JSON error response with message and status `409`
+- `throw Error('message')` -> JSON error response with message and status `500`
 
 Example:
 
@@ -92,13 +93,16 @@ export default defineApi({
   }),
   async handler({ params }) {
     if (params.title === 'duplicate') {
-      throw Error('Order title already exists')
-    }
-
-    if (params.title === 'conflict') {
       throw new HttpError({
         statusCode: 409,
-        message: 'Order title conflicts with an existing resource',
+        message: 'Order title already exists',
+      })
+    }
+
+    if (params.title === 'forbidden') {
+      throw new HttpError({
+        statusCode: 403,
+        message: 'You cannot create this order',
       })
     }
 
@@ -179,9 +183,8 @@ Follow the shared [Testing Guide](./testing.md) first, then use `@faasjs/dev` an
 
 - success path
 - invalid params -> `400`
-- plain `Error` -> `500` with the expected message
-- special HTTP error behavior via `HttpError` when used
-- unexpected error -> `500`
+- expected business, auth, permission, missing-resource, or conflict errors via `HttpError` when used
+- unexpected or invariant errors via plain `Error` -> `500` with the expected message
 - cookie/session behavior when used
 
 Example:
@@ -206,26 +209,26 @@ describe('orders/api/create', () => {
     expect(response.error?.message).toContain('Invalid params')
   })
 
-  it('returns 500 for plain Error', async () => {
+  it('returns 409 for expected conflicts', async () => {
     const response = await handler({
       title: 'duplicate',
       price: 10,
       quantity: 1,
     })
 
-    expect(response.statusCode).toBe(500)
+    expect(response.statusCode).toBe(409)
     expect(response.error?.message).toBe('Order title already exists')
   })
 
-  it('returns custom status for HttpError', async () => {
+  it('returns 500 for unexpected internal failures', async () => {
     const response = await handler({
-      title: 'conflict',
+      title: 'explode',
       price: 10,
       quantity: 1,
     })
 
-    expect(response.statusCode).toBe(409)
-    expect(response.error?.message).toBe('Order title conflicts with an existing resource')
+    expect(response.statusCode).toBe(500)
+    expect(response.error?.message).toBe('Unexpected failure')
   })
 })
 ```

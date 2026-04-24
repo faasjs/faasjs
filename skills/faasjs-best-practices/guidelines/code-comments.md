@@ -13,14 +13,17 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 ## Default Workflow
 
 1. Pick a clear name first so the code does not depend on comments for basic readability.
-2. Author public API docs as adjacent JSDoc in the source file, and keep one canonical block per export.
-3. Write public JSDoc in one primary language across the package. Prefer English for packages shared across teams or published publicly, and add at least one example for runtime-facing exports when it helps readers understand what changes for the caller.
-4. Use stable tag syntax, tag ordering, and links so generated docs, IDE hovers, and review diffs stay predictable.
-5. Separate caller-facing contract details from maintainer-facing implementation notes.
-6. Add short inline comments only when a private helper name or a non-standard branch still needs context.
-7. Explain why the code exists or what constraint it preserves, not what each line literally does.
-8. If your project publishes derived API docs, regenerate them from the source JSDoc and review the rendered output after contract changes.
-9. Delete or rewrite comments as soon as the code changes enough that the old text could drift.
+2. Identify the export surface before adding JSDoc: package public API, shared app module, or feature-local implementation.
+3. Author package public API docs as adjacent JSDoc in the source file, and keep one canonical block per export.
+4. Add shared app JSDoc when the caller contract, side effects, or failure behavior is not obvious from names and types.
+5. Do not add routine JSDoc to feature-local components, hooks, API default exports, or test helpers unless it prevents real ambiguity.
+6. Write public JSDoc in one primary language across the package. Prefer English for packages shared across teams or published publicly, and add at least one example for runtime-facing exports when it helps readers understand what changes for the caller.
+7. Use stable tag syntax, tag ordering, and links so generated docs, IDE hovers, and review diffs stay predictable.
+8. Separate caller-facing contract details from maintainer-facing implementation notes.
+9. Add short inline comments only when a private helper name or a non-standard branch still needs context.
+10. Explain why the code exists or what constraint it preserves, not what each line literally does.
+11. If your project publishes derived API docs, regenerate them from the source JSDoc and review the rendered output after contract changes.
+12. Delete or rewrite comments as soon as the code changes enough that the old text could drift.
 
 ## Rules
 
@@ -28,9 +31,11 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 
 - Public API documentation SHOULD be authored as adjacent JSDoc close to the exported declaration.
 - If your project generates reference pages from JSDoc, treat that output as derived and edit the source comments instead.
-- Every exported function, class, hook, React component, interface, type alias, and public variable MUST have a JSDoc block close to the declaration.
-- Re-exports may reuse the original declaration's canonical JSDoc, but the original exported symbol still needs the doc block.
-- Each declaration SHOULD have one canonical JSDoc block. Do not stack duplicate lead comments for the same export.
+- Package public functions, classes, hooks, React components, interfaces, type aliases, and public variables MUST have a JSDoc block close to the declaration.
+- Shared app exports SHOULD have JSDoc when they form a reusable boundary or expose a caller contract not obvious from names and types.
+- Feature-local exports MAY omit JSDoc when they are only exported for local composition, routing, or tests and their contract is obvious.
+- Re-exports may reuse the original declaration's canonical JSDoc, but the original public exported symbol still needs the doc block.
+- Each documented declaration SHOULD have one canonical JSDoc block. Do not stack duplicate lead comments for the same export.
 - Public package entrypoints SHOULD provide a package or module overview, and they SHOULD add install or direct-usage guidance when the package is meant to be consumed directly.
 
 ### 2. Export JSDoc must explain the symbol's role and caller contract
@@ -38,7 +43,8 @@ Use this guide when adding or reviewing JSDoc, helper comments, or short intent 
 - Public JSDoc SHOULD stay in one primary language within the same package. Prefer English when the code is shared across teams or published publicly.
 - The first sentence or short opening list MUST tell readers what feature, capability, or responsibility the symbol provides.
 - If the feature overview cannot stay clear in one sentence, switch to a short Markdown list or a short heading-plus-list structure instead of forcing a dense paragraph.
-- Callable exports MUST document their inputs with `@param`.
+- Callable package public exports MUST document their inputs with `@param`.
+- Shared app exports SHOULD document inputs when names and types do not fully explain caller expectations.
 - If an export has no callable parameters but does expose consumer-facing fields, document those fields with `@property` or member JSDoc so the same input guidance is still available.
 - Exported JSDoc should prefer caller-facing contract details such as accepted inputs, returned outputs, defaults, observable side effects, and user-visible failure behavior.
 - Classes and React components that are part of the public surface SHOULD include a top-level overview plus constructor or props usage details when those are not obvious from the type signature alone.

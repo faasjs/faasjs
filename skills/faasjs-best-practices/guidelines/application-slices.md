@@ -44,13 +44,17 @@ src/pages/settings/users/api/__tests__/update-role.test.ts
 
 Use short relative imports inside the slice unless an existing TypeScript alias is already configured.
 
-## API And Validation
+## API, Validation, And Security
 
 Use `defineApi` for every API entrypoint.
 
 Keep schemas close to the handler unless they are reused across multiple APIs or form a real boundary. Prefer explicit params, explicit returning columns, and narrow response shapes so UI code and tests stay type-aware.
 
-Avoid generic helpers that hide validation, database access, or response contracts. A little repetition is acceptable when it makes the slice easier for agents and reviewers to understand.
+Before reading or mutating data, check whether the slice needs current-user, tenant, organization, project, role, or permission scoping. Put cross-cutting business context in project plugins, then type the injected fields so handlers stay explicit.
+
+Use explicit HTTP status codes for expected business, auth, permission, missing-resource, and conflict failures. Reserve plain unexpected failures for real internal errors.
+
+Avoid generic helpers that hide validation, authorization, database access, or response contracts. A little repetition is acceptable when it makes the slice easier for agents and reviewers to understand.
 
 ## Database Changes
 
@@ -69,7 +73,7 @@ Use React and the FaasJS Ant Design path for business UI.
 
 Prefer `@faasjs/ant-design` wrappers such as `Form`, `Table`, `Description`, `Title`, `Tabs`, `Loading`, and `ErrorBoundary` when they cover the scenario. Drop to raw Ant Design components only when the wrapper does not fit or the custom UI is clearer.
 
-Keep page-level state and request flow readable. Extract components, hooks, or helpers only when they are reused, create a real boundary, or simplify a large block.
+Keep page-level state and request flow readable. After create, update, or delete flows, intentionally refresh, close, or invalidate the affected surface and show user feedback. Extract components, hooks, or helpers only when they are reused, create a real boundary, or simplify a large block.
 
 ## Tests
 
@@ -80,7 +84,7 @@ Test the behavior that defines the slice:
 - valid input and expected output
 - validation failures and important error paths
 - database writes, reads, ordering, and counts when relevant
-- permission or current-user behavior when a plugin affects the API
+- permission, tenant, or current-user behavior when a plugin or scoped query affects the API
 - UI request flow when the page contains meaningful interaction
 
 Avoid wide mocks that bypass FaasJS plugins, validation, or database behavior unless the test is intentionally unit-scoped.
@@ -99,6 +103,7 @@ The agent should:
 
 - inspect nearby slices and guides first
 - create or update all files needed for the vertical behavior
+- include auth, tenant, and permission scope when the data is user- or organization-specific
 - keep business-specific concerns in app code or plugins
 - run the smallest meaningful tests
 - avoid unrelated refactors

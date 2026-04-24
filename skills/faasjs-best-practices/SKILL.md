@@ -3,6 +3,19 @@ name: faasjs-best-practices
 description: When working with FaasJS projects, must follow these best practices to ensure code quality, maintainability, and testability.
 ---
 
+## Start Here
+
+Before changing code, inspect nearby examples and read only the guides needed for the task. Prefer project conventions over generic TypeScript, React, Node, or SQL patterns.
+
+### Agent Task Routing
+
+- New business feature or vertical slice: read [Application Slices Guide](./guidelines/application-slices.md), [File Conventions](./guidelines/file-conventions.md), then the relevant API, UI, PG, and testing guides below.
+- New or changed `.api.ts` endpoint: read [defineApi Guide](./guidelines/define-api.md) and [Testing Guide](./guidelines/testing.md); also read PG guides if the endpoint touches data.
+- React UI or request-flow change: read [React Guide](./guidelines/react.md), [React Data Fetching Guide](./guidelines/react-data-fetching.md), and [React Testing Guide](./guidelines/react-testing.md); read [Ant Design Guide](./guidelines/ant-design.md) for `@faasjs/ant-design` surfaces.
+- Database schema, query, or type change: read [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md), [PG Table Types Guide](./guidelines/pg-table-types.md), [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md), and [PG Testing Guide](./guidelines/pg-testing.md).
+- Project tooling or config change: read [Project Config Guide](./guidelines/project-config.md) before editing `tsconfig.json`, `vite.config.ts`, or shared tool config.
+- Docs, generated references, translations, navigation, or changelog: follow the repo-level documentation sync guide before editing derived docs.
+
 ## Global Rules
 
 - Read `tsconfig.json` and any extended TypeScript config before choosing import paths.
@@ -13,10 +26,39 @@ description: When working with FaasJS projects, must follow these best practices
 - Keep changes minimal and task-scoped: no extra features, drive-by refactors, opportunistic cleanup, feature flags, transition shims, or speculative future-proofing.
 - Keep code direct: validate at system boundaries such as user input and external APIs, fail fast on invalid internal data, and do not add silent fallbacks or impossible-case handling.
 - Extract helpers, hooks, components, or abstractions only when they are reused, create a real boundary, or simplify a large block; keep one-off code inline unless the body is over about 20 lines.
-- Document every exported declaration with JSDoc, and add other comments only when names or logic are not obvious; do not add comments, docstrings, or type annotations to untouched code.
+- Document package public exports with JSDoc. Add JSDoc for shared app exports when the caller contract is not obvious. Do not add comments, docstrings, or type annotations to untouched code.
 - Delete confirmed-dead code directly instead of leaving temporary tricks such as `_unused` renames, type re-exports, or `// removed` markers.
 - Keep files under about 500 lines by splitting along real boundaries before they grow too large.
 - Treat `vp check` and `vp test` as the default acceptance gates before handoff; if either cannot run, record the reason and the narrower validation that was completed.
+
+## Security And Boundary Checklist
+
+Use this checklist whenever code handles users, tenants, permissions, secrets, external input, or persistent data.
+
+- Validate external input at the boundary with `defineApi` schemas, HTTP parsing, or the relevant integration adapter.
+- Check whether the API needs current-user, tenant, organization, project, role, or permission scoping before reading or mutating data.
+- Prefer project plugins for auth, tenant, request metadata, and other cross-cutting business context.
+- Return expected client errors with explicit HTTP status codes; reserve unexpected `500` failures for internal failures.
+- Do not log secrets, tokens, passwords, cookies, full sensitive payloads, or unredacted third-party responses.
+
+## Definition Of Done
+
+Before handoff, verify the smallest meaningful set for the change:
+
+- Imports follow the local `tsconfig.json`, existing aliases, and extensionless local import rules.
+- API changes include schema validation, typed `params`, narrow response shapes, and tests for success plus meaningful failure paths.
+- Creating, renaming, or moving `.api.ts` files is followed by `faas types` or a recorded reason it could not run.
+- Database shape changes include a migration, table type updates, and PG tests or a recorded reason they are not needed.
+- UI create/update/delete flows provide user feedback and refresh, close, or invalidate the affected surface intentionally.
+- Tests mock only narrow external boundaries and keep FaasJS validation, plugins, and database behavior real when practical.
+- Run targeted tests first when available, then `vp check` and `vp test` when practical; record any blocked commands and the validation that did run.
+
+## Avoid By Default
+
+- Do not add Rails-style generators, generic CRUD layers, broad repository abstractions, or speculative framework shims for a single slice.
+- Do not bypass FaasJS wrappers with raw React, Ant Design, SQL, fetch, or test mocks when the curated helper fits.
+- Do not add catch-all fallback branches for impossible internal states; fix the upstream invariant or fail fast.
+- Do not introduce a second config, request, logging, or database bootstrap path unless the task explicitly requires it.
 
 ## Guidelines
 
@@ -24,7 +66,7 @@ description: When working with FaasJS projects, must follow these best practices
 - [Application Slices Guide](./guidelines/application-slices.md): Covers vertical UI/API/database/test slices, recommended file layout, agent workflow, and why FaasJS avoids generator-heavy development.
 - [Ant Design Guide](./guidelines/ant-design.md): Covers `@faasjs/ant-design` page structure, routing, CRUD composition, feature-local APIs, and UI feedback patterns.
 - [File Conventions](./guidelines/file-conventions.md): Covers where to place pages, components, hooks, and `.api.ts` files, plus when separate files are worth creating.
-- [Code Comments Guide](./guidelines/code-comments.md): Covers export JSDoc expectations, public JSDoc language/tag conventions, when internal helpers need brief comments, and how to explain non-standard code without narrating it line by line.
+- [Code Comments Guide](./guidelines/code-comments.md): Covers package public JSDoc expectations, caller contract conventions, when shared app exports need docs, and how to explain non-standard code without narrating it line by line.
 - [Node Utils Guide](./guidelines/node-utils.md): Covers Node-only helpers for env/config loading, function and plugin bootstrapping, module loading, and shared logging.
 - [Project Config Guide](./guidelines/project-config.md): Covers how to keep `tsconfig.json`, `vite.config.ts`, and shared tooling config aligned with FaasJS defaults.
 - [Testing Guide](./guidelines/testing.md): Covers shared testing principles such as choosing test level, keeping mock boundaries narrow, and avoiding unnecessary mocks.
