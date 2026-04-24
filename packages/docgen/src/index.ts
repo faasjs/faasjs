@@ -67,6 +67,39 @@ const pageSummaries: Record<string, string> = {
     'Standardizes backend route mapping so file paths and request paths stay predictable.',
 }
 
+const zhPageSummaries: Record<string, string> = {
+  'curated-stack':
+    '覆盖受 Rails 启发的默认栈、官方 React/Ant Design/PostgreSQL 路径、plugin 扩展边界、auth/权限范围和替换规则。',
+  'application-slices':
+    '覆盖垂直 UI/API/数据库/测试切片、推荐文件布局、Agent 工作流，以及为什么 FaasJS 避免 generator-heavy 开发。',
+  'project-config': '如何让 `tsconfig.json`、`vite.config.ts` 与 FaasJS 的共享默认配置保持一致。',
+  testing: '覆盖通用测试分层、mock 边界和避免不必要 mock 的原则。',
+  'file-conventions': '页面、组件、hooks 与 `.api.ts` 文件应该放在哪里，以及何时值得拆文件。',
+  'code-comments':
+    '导出内容的 JSDoc 要求、公开 JSDoc 的语言与 tags 约定、何时给内部 helper 补充简短注释，以及如何解释非常规实现的原因。',
+  'define-api': '如何使用 `defineApi` 编写接口、内联 schema、typed params 与错误处理。',
+  react: 'FaasJS 项目中的 React 组件、hooks、依赖处理与 `useEffect` 替代方案。',
+  'react-data-fetching':
+    '何时使用 `useFaas`、`useFaasStream`、`faas`、`FaasDataWrapper` 或 `withFaasData`。',
+  'react-testing':
+    '在共享测试指南基础上，如何用 `setMock`、共享清理与 `jsdom` 测试请求相关的 FaasJS React 代码。',
+  'ant-design': '基于 `@faasjs/ant-design` 的页面结构、路由、CRUD 组合与交互反馈。',
+  'node-utils': 'Node 环境下的配置加载、函数引导、模块装载与日志能力。',
+  logger: '何时复用注入 logger、何时创建 `Logger` 实例，以及如何选择日志级别。',
+  utils: '如何使用 `@faasjs/utils` 处理 `deepMerge` 与 stream 转换。',
+  'pg-query-builder':
+    '如何优先使用 `QueryBuilder` clauses、谨慎选择 raw SQL 回退、保持 client 引导路径一致，并有意识地收窄结果结构。',
+  'pg-table-types': '如何通过 `Tables` 声明合并维护具体行结构，并保持查询推导与表定义一致。',
+  'pg-schema-and-migrations':
+    '如何使用时间戳 migrations、`SchemaBuilder`、`TableBuilder` 与事务性 schema 变更。',
+  'pg-testing':
+    '如何使用 `TypedPgVitestPlugin()`、共享 `DATABASE_URL` 引导路径，并让运行时断言与 `expectTypeOf(...)` 配套。',
+  'faas-yaml': '`faas.yaml` 的发现顺序、合并规则、`server` 节点约定与支持的 YAML 子集。',
+  'http-protocol': 'FaasJS 请求与响应的默认 HTTP 约定，以及错误返回格式。',
+  plugin: '插件的标识、生命周期、配置合并与 `defineApi` 自动装载规则。',
+  'routing-mapping': 'Zero-Mapping 路由规则、查找顺序与 `.api.ts` 文件约束。',
+}
+
 const packageOrder = [
   'core',
   'dev',
@@ -280,11 +313,11 @@ function renderPackageName(name: string) {
   return name === 'create-faas-app' ? name : `@faasjs/${name}`
 }
 
-function renderGuideIndex(manifest: DocsManifest) {
+function renderGuideIndex(manifest: DocsManifest, locale: ManifestLocale) {
   const guidelines = manifest.pages.filter(
-    (page) => page.kind === 'guideline' && page.locale === 'en',
+    (page) => page.kind === 'guideline' && page.locale === locale,
   )
-  const specs = manifest.pages.filter((page) => page.kind === 'spec' && page.locale === 'en')
+  const specs = manifest.pages.filter((page) => page.kind === 'spec' && page.locale === locale)
   const mainPathSlugs = [
     'curated-stack',
     'project-config',
@@ -304,15 +337,47 @@ function renderGuideIndex(manifest: DocsManifest) {
   const numberedMainPath = mainPath
     .map((page, index) => `${index + 1}. [${page.title}](${page.routePath})`)
     .join('\n')
+  const summary = (page: ManifestPage) =>
+    locale === 'zh' ? (zhPageSummaries[page.slug] ?? page.summary) : page.summary
   const guidelineList = guidelines
-    .map((page) => `- [${page.title}](${page.routePath}): ${page.summary}`)
+    .map((page) => `- [${page.title}](${page.routePath}): ${summary(page)}`)
     .join('\n')
   const specList = specs
-    .map((page) => `- [${page.title}](${page.routePath}): ${page.summary}`)
+    .map((page) => `- [${page.title}](${page.routePath}): ${summary(page)}`)
     .join('\n')
   const packageList = manifest.packages
     .map((name) => `- [${renderPackageName(name)}](/doc/${name}/)`)
     .join('\n')
+
+  if (locale === 'zh') {
+    return `# 最佳实践
+
+这里收录 FaasJS 当前公开维护的最佳实践与规范中文版，用来替换旧版教程内容。
+
+FaasJS 是一个受 Rails 启发的精选式全栈 TypeScript 框架，面向数据库驱动的 React 业务应用。主路径包括 React、Ant Design、类型化 API、PostgreSQL、校验、测试、plugin 和稳定项目约定。
+
+## 主路径
+
+开始新功能，或让 AI coding agent 构建功能时，建议按以下顺序阅读：
+
+${numberedMainPath}
+
+FaasJS 更重视完整应用切片，而不是 generator-heavy 工作流。一个切片应让 UI、API、校验、数据库变更和测试能被一起发现、评审和修改。
+
+## 指南
+
+${guidelineList}
+
+## 规范
+
+${specList}
+
+## API 文档
+
+- [文档总览](/doc/)
+${packageList}
+`
+  }
 
   return `# Best Practices
 
@@ -343,7 +408,8 @@ ${packageList}
 }
 
 function writeGeneratedGuideIndex(root: string, manifest: DocsManifest) {
-  writeFileSync(join(root, 'docs/guide/README.md'), renderGuideIndex(manifest))
+  writeFileSync(join(root, 'docs/guide/README.md'), renderGuideIndex(manifest, 'en'))
+  writeFileSync(join(root, 'docs/zh/guide/README.md'), renderGuideIndex(manifest, 'zh'))
 }
 
 export function buildApiDocs(options: BuildApiOptions = {}) {

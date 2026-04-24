@@ -2,7 +2,7 @@
 
 Use this guide after any FaasJS change that may require documentation updates or validation.
 
-It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, generated English docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs sourced from `skills/faasjs-best-practices/locales/zh/**` and generated under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, and docs navigation files such as `docs/guide/README.md`, `docs/zh/guide/README.md`, and `docs/site/site.config.ts`.
+It covers syncing best-practices content under `skills/faasjs-best-practices/**`, specs under `skills/*/references/specs/**`, generated English docs under `docs/guidelines/**` and `docs/specs/**`, Chinese docs sourced from `skills/faasjs-best-practices/locales/zh/**` and generated under `docs/zh/guidelines/**` and `docs/zh/specs/**`, generated API docs from `packages/*/src`, generated guide indexes such as `docs/guide/README.md` and `docs/zh/guide/README.md`, and docs navigation files such as `docs/site/site.config.ts`.
 
 ## Overview
 
@@ -38,7 +38,8 @@ If you are unsure, assume docs are affected and follow the workflow below before
 3. Generate the published docs.
    - English: generated from `skills/faasjs-best-practices/guidelines/**` and `skills/*/references/specs/**` into `docs/guidelines/**` and `docs/specs/**` by `@faasjs/docgen`
    - Chinese: generated from `skills/faasjs-best-practices/locales/zh/**` into `docs/zh/guidelines/**` and `docs/zh/specs/**` by `@faasjs/docgen`
-   - indexes and navigation: `docs/guide/README.md`, `docs/zh/guide/README.md`, `docs/site/site.config.ts`
+   - generated indexes: `docs/guide/README.md`, `docs/zh/guide/README.md`
+   - navigation: `docs/site/site.config.ts`
 4. Update release notes when needed.
    - review user-visible behavior, API, workflow, and documentation changes since the previous released version, not just the current diff you are editing
    - use the release boundary from the latest released changelog entry or git tag (for example `previous-version..HEAD`) to inspect the full set of commits/files that belong in the next entry
@@ -58,7 +59,7 @@ If you are unsure, assume docs are affected and follow the workflow below before
 
 - Update English source docs and Chinese locale source docs together for the same best-practices or spec change unless the user explicitly scopes otherwise.
 - Do not update copied or generated docs while leaving the source-of-truth files stale.
-- Do not directly edit generated Markdown under `packages/**`, `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, or `docs/zh/specs/**`; change the source JSDoc or `skills/**` content and regenerate with `vp run doc`.
+- Do not directly edit generated Markdown under `packages/**`, `docs/guidelines/**`, `docs/specs/**`, `docs/zh/guidelines/**`, `docs/zh/specs/**`, `docs/guide/README.md`, or `docs/zh/guide/README.md`; change the source JSDoc or `skills/**` content and regenerate with `vp run doc`.
 - Do not ship a user-visible change without checking whether `CHANGELOG.md` should mention it.
 - Do not regenerate `CHANGELOG.md` from only the files in your current patch; review the whole range since the previous released version and summarize only end-user-meaningful items.
 - When a change does not require docs edits, say why in the final handoff.
