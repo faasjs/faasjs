@@ -10,7 +10,6 @@
   "devDependencies": {
     "@faasjs/node-utils": "file:../packages/node-utils",
     "highlight.js": "*",
-    "jsdom": "*",
     "markdown-it": "*",
     "markdown-it-anchor": "*"
   }
