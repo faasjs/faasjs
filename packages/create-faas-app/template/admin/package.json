@@ -14,21 +14,14 @@
     "db:up": "faasjs-pg up",
     "db:down": "faasjs-pg down"
   },
-  "dependencies": {
-    "@faasjs/ant-design": "*",
-    "@faasjs/core": "*",
-    "@faasjs/pg": "*",
-    "antd": "*",
-    "postgres": "*",
-    "react": "*",
-    "react-dom": "*",
-    "zod": ">=4.3.0"
-  },
   "devDependencies": {
-    "@electric-sql/pglite": "*",
-    "@electric-sql/pglite-socket": "*",
     "@faasjs/dev": "*",
     "@faasjs/pg-dev": "*"
+  },
+  "peerDependencies": {
+    "@faasjs/ant-design": "*",
+    "@faasjs/core": "*",
+    "@faasjs/pg": "*"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core",

@@ -9,15 +9,11 @@
     "start": "node --import @faasjs/node-utils/register-hooks server.ts",
     "test": "vp test"
   },
-  "dependencies": {
-    "@faasjs/core": "*",
-    "@faasjs/react": "*",
-    "react": "*",
-    "react-dom": "*",
-    "zod": ">=4.3.0"
-  },
   "devDependencies": {
     "@faasjs/dev": "*"
+  },
+  "peerDependencies": {
+    "@faasjs/core": "*"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core",
