@@ -5,7 +5,7 @@ When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 ## Default Workflow
 
 1. Export `default defineApi(...)`.
-2. Write the `schema` inline in `defineApi` unless it is reused elsewhere.
+2. When the endpoint accepts business input, write the `schema` inline in `defineApi` unless it is reused elsewhere.
 3. Keep business logic direct inside `handler({ params })` unless a shared boundary already exists.
 4. Return business data directly unless protocol-level response control is required.
 5. After creating, renaming, or moving an API file, run `faas types` to update `src/.faasjs/types.d.ts`.
@@ -36,6 +36,7 @@ export default defineApi({
 - Prefer defining `schema` directly inside `defineApi`.
 - Extract schema into a separate constant only when it is reused, shared across files, or meaningfully improves readability.
 - Treat `schema` as the source of truth for external input.
+- If an endpoint has no business input, omit `schema` instead of defining an empty `z.object({})`; `params` will be typed as `Record<string, never>`.
 
 Prefer this:
 

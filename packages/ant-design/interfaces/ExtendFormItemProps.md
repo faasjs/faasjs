@@ -102,7 +102,7 @@ Predicate used to show or hide the item from the current form values.
 
 ### input?
 
-> `optional` **input?**: `InputProps` \| `SelectProps`\<`any`, `DefaultOptionType`\> \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
+> `optional` **input?**: `SelectProps`\<`any`, `DefaultOptionType`\> \| `InputProps` \| `RadioProps` \| `InputNumberProps`\<`ValueType`\> \| `SwitchProps` \| `DatePickerProps`
 
 Input props forwarded to the generated Ant Design control.
 

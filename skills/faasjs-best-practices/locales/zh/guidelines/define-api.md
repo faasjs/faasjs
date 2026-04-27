@@ -11,7 +11,7 @@
 ## 默认工作流
 
 1. 导出 `export default defineApi(...)`。
-2. 除非 schema 会复用，否则把 `schema` 直接写在 `defineApi` 内。
+2. 当 endpoint 接收业务入参时，除非 schema 会复用，否则把 `schema` 直接写在 `defineApi` 内。
 3. 除非已存在可复用边界，否则让业务逻辑直接写在 `handler({ params })` 中。
 4. 除非确实需要协议层控制，否则直接返回业务数据。
 5. 创建、重命名或移动 API 文件后，运行 `faas types` 更新 `src/.faasjs/types.d.ts`。
@@ -42,6 +42,7 @@ export default defineApi({
 - 优先直接在 `defineApi` 内定义 `schema`。
 - 只有在 schema 会复用、跨文件共享，或明显提升可读性时，才抽成单独常量。
 - 把 `schema` 视为外部输入的单一事实来源。
+- 如果 endpoint 没有业务入参，省略 `schema`，不要为了空对象写 `z.object({})`；此时 `params` 类型为 `Record<string, never>`。
 
 优先这样写：
 
