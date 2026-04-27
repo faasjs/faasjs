@@ -12,6 +12,7 @@ FaasJS 的精选路径包括：
 - `@faasjs/ant-design` 和 Ant Design 用于业务 UI
 - PostgreSQL 用于关系型数据
 - `@faasjs/pg` 用于类型化数据库查询、迁移和表类型推导
+- `@faasjs/jobs` 用于基于 PostgreSQL 的后台任务和定时投递工作流
 - `defineApi` 用于类型化后端接口
 - 在用户输入和外部请求等系统边界使用 schema validation
 - 基于 Vitest 的测试，包括用 `@faasjs/pg-dev` 测试 PostgreSQL 工作流
@@ -39,6 +40,12 @@ FaasJS 前端应用应使用 React。
 
 优先使用类型化 query builder、显式 returning columns、具体表声明、时间戳 migrations 和 `@faasjs/pg-dev` 测试。不要为了数据库中立抽象重塑 core 设计，除非该变化也能改善 PostgreSQL 主路径。
 
+## Jobs 是后台工作路径
+
+异步后台任务和定时投递工作流应使用 `@faasjs/jobs`。
+
+优先使用 `.job.ts` 文件、`defineJob`、`enqueueJob`、独立 worker 进程，以及用于 cron 规则的 scheduler 进程。不要把后台执行放进 HTTP server 启动流程或 plugin 生命周期里，除非 plugin 只是注入 job 需要使用的项目上下文。
+
 ## 类型化 API 与校验
 
 后端接口应使用 `defineApi`，并在系统边界进行请求校验。
@@ -47,7 +54,7 @@ FaasJS 前端应用应使用 React。
 
 ## Plugin 是业务扩展点
 
-项目特定的横切关注点应使用 plugin，例如 auth context、权限、租户上下文、请求元信息、服务客户端或定时任务。
+项目特定的横切关注点应使用 plugin，例如 auth context、权限、租户上下文、请求元信息或服务客户端。
 
 Plugin 应让扩展点保持显式，但不要把 FaasJS 变成配置繁重的框架。业务规则应保留在应用代码或 plugin 中，而不是推入 core packages。
 

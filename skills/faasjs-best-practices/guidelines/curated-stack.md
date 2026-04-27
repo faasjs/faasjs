@@ -12,6 +12,7 @@ The curated FaasJS path is:
 - `@faasjs/ant-design` and Ant Design for business UI
 - PostgreSQL for relational data
 - `@faasjs/pg` for typed database queries, migrations, and table inference
+- `@faasjs/jobs` for PostgreSQL-backed background jobs and scheduled job enqueueing
 - `defineApi` for typed backend endpoints
 - schema validation at system boundaries such as user input and external requests
 - Vitest-based tests, including `@faasjs/pg-dev` for PostgreSQL workflows
@@ -39,6 +40,12 @@ Use PostgreSQL through `@faasjs/pg` for database-driven application work.
 
 Prefer typed query builder patterns, explicit returning columns, concrete table declarations, timestamped migrations, and `@faasjs/pg-dev` tests. Avoid reshaping core design around database-neutral abstractions unless the change also improves the PostgreSQL path.
 
+## Jobs Are The Background Work Path
+
+Use `@faasjs/jobs` for asynchronous background work and scheduled enqueue workflows.
+
+Prefer `.job.ts` files, `defineJob`, `enqueueJob`, dedicated worker processes, and a scheduler process for cron rules. Do not put background execution under HTTP server startup or plugin lifecycle unless the plugin is only injecting project context used by jobs.
+
 ## Typed APIs And Validation
 
 Use `defineApi` for backend endpoints and keep request validation at system boundaries.
@@ -47,7 +54,7 @@ Prefer inline schemas close to the API handler, explicit params and response sha
 
 ## Plugins Are Business Extension Points
 
-Use plugins for project-specific cross-cutting concerns such as auth context, permissions, tenant context, request metadata, service clients, or scheduled tasks.
+Use plugins for project-specific cross-cutting concerns such as auth context, permissions, tenant context, request metadata, or service clients.
 
 Plugins should make extension points explicit without turning FaasJS into a configuration-heavy framework. Keep business rules in app code or plugins rather than pushing them into core packages.
 
