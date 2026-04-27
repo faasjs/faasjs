@@ -12,10 +12,6 @@ Handler data passed to [defineJob](../functions/defineJob.md).
 
 > **attempt**: `number`
 
-### client
-
-> **client**: `Client`
-
 ### job
 
 > **job**: [`JobRecord`](JobRecord.md)

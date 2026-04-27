@@ -25,11 +25,8 @@ test('defineJob should infer params from schema', () => {
   assertType<FuncEventType<typeof job>>({
     params: {
       name: 'FaasJS',
-      count: 1,
+      count: '1',
     },
-    client: {} as any,
-    job: {} as any,
-    attempt: 1,
   })
 
   assertType<DefineJobParams<typeof schema>>({
@@ -51,9 +48,6 @@ test('defineJob should use empty params without schema', () => {
     params: {
       anything: 1,
     },
-    client: {} as any,
-    job: {} as any,
-    attempt: 1,
   })
 })
 

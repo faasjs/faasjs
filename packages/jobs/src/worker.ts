@@ -233,7 +233,6 @@ export class JobWorker {
       await definition.export().handler(
         {
           params: record.params,
-          client,
           job: record,
           attempt: record.attempts,
         },

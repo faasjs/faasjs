@@ -4,13 +4,44 @@ import type { ZodType } from 'zod'
 
 import { resolveMaxAttempts, resolveQueue } from './options'
 import {
+  DEFAULT_JOB_MAX_ATTEMPTS,
+  DEFAULT_JOB_QUEUE,
   type DefineJobData,
   type DefineJobOptions,
   type DefineJobParams,
   type JobCron,
   type JobEvent,
   type JobRetry,
+  type JobRecord,
 } from './types'
+
+function defaultJobRecord(overrides: Partial<JobRecord> | undefined, attempt: number): JobRecord {
+  const now = new Date(0)
+
+  return {
+    id: '00000000-0000-0000-0000-000000000000',
+    job_path: '',
+    queue: DEFAULT_JOB_QUEUE,
+    params: {},
+    status: 'running',
+    run_at: now,
+    priority: 0,
+    attempts: attempt,
+    max_attempts: DEFAULT_JOB_MAX_ATTEMPTS,
+    locked_by: null,
+    lease_id: null,
+    locked_until: null,
+    last_error: null,
+    idempotency_key: null,
+    cron_key: null,
+    scheduled_at: null,
+    created_at: now,
+    updated_at: now,
+    completed_at: null,
+    failed_at: null,
+    ...overrides,
+  }
+}
 
 /**
  * Executable job definition returned by {@link defineJob}.
@@ -34,13 +65,13 @@ export class Job<
         value: data.event.params,
         errorMessage: 'Invalid job params',
       })
+      const attempt = data.event.attempt ?? data.event.job?.attempts ?? 1
 
       return options.handler({
         ...data,
         params,
-        client: data.event.client,
-        job: data.event.job,
-        attempt: data.event.attempt,
+        job: defaultJobRecord(data.event.job, attempt),
+        attempt,
       } as DefineJobData<TSchema, TContext, TResult>)
     }
 

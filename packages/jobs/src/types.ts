@@ -1,7 +1,6 @@
 import type { InvokeData } from '@faasjs/core'
 import type { SchemaOutput } from '@faasjs/node-utils'
-import type { Client } from '@faasjs/pg'
-import type { ZodType } from 'zod'
+import type { input, ZodType } from 'zod'
 
 export const DEFAULT_JOB_QUEUE = 'default'
 export const DEFAULT_JOB_MAX_ATTEMPTS = 3
@@ -70,10 +69,15 @@ export type JobCron<TParams = Record<string, never>> = {
  * Runtime event passed to the underlying job function.
  */
 export type JobEvent<TSchema extends ZodType | undefined = undefined> = {
-  params?: SchemaOutput<TSchema, Record<string, any>>
-  client: Client
-  job: JobRecord
-  attempt: number
+  params?: TSchema extends ZodType ? input<TSchema> : Record<string, any>
+  /**
+   * Job metadata. Defaults are filled when omitted, which keeps direct job tests small.
+   */
+  job?: Partial<JobRecord>
+  /**
+   * Current execution attempt. Defaults to `1` when omitted.
+   */
+  attempt?: number
 }
 
 /**
@@ -96,7 +100,6 @@ export type DefineJobData<
    * Params validated by the optional Zod schema.
    */
   params: DefineJobParams<TSchema>
-  client: Client
   job: JobRecord
   attempt: number
 } & DefineJobInject

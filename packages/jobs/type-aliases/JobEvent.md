@@ -14,18 +14,18 @@ Runtime event passed to the underlying job function.
 
 ## Properties
 
-### attempt
+### attempt?
 
-> **attempt**: `number`
+> `optional` **attempt?**: `number`
 
-### client
+Current execution attempt. Defaults to `1` when omitted.
 
-> **client**: `Client`
+### job?
 
-### job
+> `optional` **job?**: `Partial`\<[`JobRecord`](JobRecord.md)\>
 
-> **job**: [`JobRecord`](JobRecord.md)
+Job metadata. Defaults are filled when omitted, which keeps direct job tests small.
 
 ### params?
 
-> `optional` **params?**: `SchemaOutput`\<`TSchema`, `Record`\<`string`, `any`\>\>
+> `optional` **params?**: `TSchema` _extends_ `ZodType` ? `input`\<`TSchema`\> : `Record`\<`string`, `any`\>
