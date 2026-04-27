@@ -8,6 +8,12 @@ import { type EnqueueJobOptions, type InternalEnqueueJobOptions, type JobRecord 
 const initializedClients = new WeakSet<Client>()
 const initializingClients = new WeakMap<Client, Promise<void>>()
 
+type JobsSchemaMigration = {
+  version: number
+  name: string
+  up: (client: Client) => Promise<void>
+}
+
 function assertNonEmpty(value: string, label: string): void {
   if (!value.trim()) throw Error(`[jobs] ${label} must not be empty.`)
 }
@@ -19,49 +25,94 @@ function resolvePriority(priority: number | undefined): number {
   return priority
 }
 
-async function initializeSchema(client: Client): Promise<void> {
+const jobsSchemaMigrations: JobsSchemaMigration[] = [
+  {
+    version: 1,
+    name: 'create_faasjs_jobs',
+    async up(client) {
+      await client.raw`
+        CREATE TABLE IF NOT EXISTS faasjs_jobs (
+          id uuid PRIMARY KEY,
+          job_path text NOT NULL,
+          queue text NOT NULL DEFAULT 'default',
+          payload jsonb NOT NULL DEFAULT '{}',
+          status text NOT NULL,
+          run_at timestamptz NOT NULL,
+          priority integer NOT NULL DEFAULT 0,
+          attempts integer NOT NULL DEFAULT 0,
+          max_attempts integer NOT NULL DEFAULT 3,
+          locked_by text,
+          lease_id uuid,
+          locked_until timestamptz,
+          last_error text,
+          idempotency_key text,
+          cron_key text,
+          scheduled_at timestamptz,
+          created_at timestamptz NOT NULL DEFAULT NOW(),
+          updated_at timestamptz NOT NULL DEFAULT NOW(),
+          completed_at timestamptz,
+          failed_at timestamptz
+        )
+      `
+
+      await client.raw`
+        CREATE INDEX IF NOT EXISTS faasjs_jobs_claim_idx
+          ON faasjs_jobs (queue, status, run_at, priority DESC, created_at)
+          WHERE status IN ('pending', 'running')
+      `
+
+      await client.raw`
+        CREATE UNIQUE INDEX IF NOT EXISTS faasjs_jobs_idempotency_key_idx
+          ON faasjs_jobs (idempotency_key)
+          WHERE idempotency_key IS NOT NULL
+      `
+
+      await client.raw`
+        CREATE UNIQUE INDEX IF NOT EXISTS faasjs_jobs_cron_idx
+          ON faasjs_jobs (job_path, cron_key, scheduled_at)
+          WHERE cron_key IS NOT NULL AND scheduled_at IS NOT NULL
+      `
+    },
+  },
+]
+
+async function createJobsSchemaMigrationTable(client: Client): Promise<void> {
   await client.raw`
-    CREATE TABLE IF NOT EXISTS faasjs_jobs (
-      id uuid PRIMARY KEY,
-      job_path text NOT NULL,
-      queue text NOT NULL DEFAULT 'default',
-      payload jsonb NOT NULL DEFAULT '{}',
-      status text NOT NULL,
-      run_at timestamptz NOT NULL,
-      priority integer NOT NULL DEFAULT 0,
-      attempts integer NOT NULL DEFAULT 0,
-      max_attempts integer NOT NULL DEFAULT 3,
-      locked_by text,
-      lease_id uuid,
-      locked_until timestamptz,
-      last_error text,
-      idempotency_key text,
-      cron_key text,
-      scheduled_at timestamptz,
-      created_at timestamptz NOT NULL DEFAULT NOW(),
-      updated_at timestamptz NOT NULL DEFAULT NOW(),
-      completed_at timestamptz,
-      failed_at timestamptz
+    CREATE TABLE IF NOT EXISTS faasjs_jobs_schema_migrations (
+      version integer PRIMARY KEY,
+      name text NOT NULL,
+      migrated_at timestamptz NOT NULL DEFAULT NOW()
     )
   `
+}
 
-  await client.raw`
-    CREATE INDEX IF NOT EXISTS faasjs_jobs_claim_idx
-      ON faasjs_jobs (queue, status, run_at, priority DESC, created_at)
-      WHERE status IN ('pending', 'running')
-  `
+async function lockJobsSchemaMigrations(client: Client): Promise<void> {
+  await client.raw`SELECT pg_advisory_xact_lock(802201, 1)`
+}
 
-  await client.raw`
-    CREATE UNIQUE INDEX IF NOT EXISTS faasjs_jobs_idempotency_key_idx
-      ON faasjs_jobs (idempotency_key)
-      WHERE idempotency_key IS NOT NULL
-  `
+async function runJobsSchemaMigrations(client: Client): Promise<void> {
+  await createJobsSchemaMigrationTable(client)
 
-  await client.raw`
-    CREATE UNIQUE INDEX IF NOT EXISTS faasjs_jobs_cron_idx
-      ON faasjs_jobs (job_path, cron_key, scheduled_at)
-      WHERE cron_key IS NOT NULL AND scheduled_at IS NOT NULL
-  `
+  await client.transaction(async (trx) => {
+    await lockJobsSchemaMigrations(trx)
+
+    const appliedRows = await trx.raw<{
+      version: number
+    }>`SELECT version FROM faasjs_jobs_schema_migrations`
+    const appliedVersions = new Set(appliedRows.map((row) => Number(row.version)))
+
+    for (const migration of jobsSchemaMigrations) {
+      if (appliedVersions.has(migration.version)) continue
+
+      await migration.up(trx)
+      await trx.raw(
+        'INSERT INTO faasjs_jobs_schema_migrations (version, name) VALUES (?, ?)',
+        migration.version,
+        migration.name,
+      )
+      appliedVersions.add(migration.version)
+    }
+  })
 }
 
 export async function ensureJobsSchema(client?: Client): Promise<void> {
@@ -74,7 +125,7 @@ export async function ensureJobsSchema(client?: Client): Promise<void> {
   if (existingInitialization) return existingInitialization
 
   const initializing = (async () => {
-    await initializeSchema(targetClient)
+    await runJobsSchemaMigrations(targetClient)
     initializedClients.add(targetClient)
   })()
 

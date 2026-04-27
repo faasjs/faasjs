@@ -95,6 +95,20 @@ describe('jobs', () => {
     })
   })
 
+  it('records the internal jobs schema migration version', async () => {
+    const migrations = await client.raw<{
+      version: number
+      name: string
+    }>`SELECT version, name FROM faasjs_jobs_schema_migrations ORDER BY version`
+
+    expect(migrations).toEqual([
+      {
+        version: 1,
+        name: 'create_faasjs_jobs',
+      },
+    ])
+  })
+
   it('rejects explicit invalid queue and max attempts values', async () => {
     await expect(enqueueJob('jobs/success', {}, { queue: '' })).rejects.toThrow(
       'queue must not be empty',
