@@ -1,7 +1,7 @@
+import { ApiTester } from '@faasjs/dev'
 import { streamToObject } from '@faasjs/utils'
 import { expect, it } from 'vitest'
 
-import { ApiTester } from '../../index'
 import inferredPathApi from '../fixtures/src/blog/api/post/default.api'
 import errorStreamApi from './funcs/error-stream.api'
 import httpErrorApi from './funcs/http-error.api'

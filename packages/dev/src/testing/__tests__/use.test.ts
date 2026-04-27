@@ -1,6 +1,6 @@
+import { ApiTester } from '@faasjs/dev'
 import { expect, it } from 'vitest'
 
-import { ApiTester } from '../../index'
 import useAApi from './funcs/use-a.api'
 import useBApi from './funcs/use-b.api'
 

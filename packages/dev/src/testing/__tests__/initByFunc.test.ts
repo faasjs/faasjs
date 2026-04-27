@@ -1,6 +1,5 @@
+import { ApiTester, Func } from '@faasjs/dev'
 import { describe, expect, it } from 'vitest'
-
-import { ApiTester, Func } from '../../index'
 
 describe('init by func', () => {
   it('200', async () => {

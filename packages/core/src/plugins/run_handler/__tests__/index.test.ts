@@ -1,7 +1,7 @@
+import { Func, type InvokeData } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
 
 import { RunHandler } from '..'
-import { Func, type InvokeData } from '../../..'
 
 describe('plugins.runHandler', () => {
   it('return result', async () => {

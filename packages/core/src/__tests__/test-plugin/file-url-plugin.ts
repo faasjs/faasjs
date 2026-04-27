@@ -1,4 +1,4 @@
-import type { InvokeData, Next, Plugin } from '../..'
+import type { InvokeData, Next, Plugin } from '@faasjs/core'
 
 export class FileUrlPlugin implements Plugin {
   [key: string]: any

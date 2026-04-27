@@ -1,4 +1,4 @@
-import { buildManifest } from '../../packages/docgen/src/index.ts'
+import { buildManifest } from '@faasjs/docgen'
 
 export type NavbarItem = {
   text: string

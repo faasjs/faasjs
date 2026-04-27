@@ -1,6 +1,5 @@
+import { defineJob } from '@faasjs/jobs'
 import { getClient } from '@faasjs/pg'
-
-import { defineJob } from '../../../../../index'
 
 export default defineJob({
   async handler({ job, attempt }) {
