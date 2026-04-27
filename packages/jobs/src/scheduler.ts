@@ -30,7 +30,7 @@ function stableStringify(value: unknown): string {
   return JSON.stringify(value)
 }
 
-function createCronKey(jobPath: string, rule: JobCron, queue: string, payload: unknown): string {
+function createCronKey(jobPath: string, rule: JobCron, queue: string, params: unknown): string {
   return createHash('sha256')
     .update(
       stableStringify({
@@ -38,7 +38,7 @@ function createCronKey(jobPath: string, rule: JobCron, queue: string, payload: u
         expression: rule.expression,
         timezone: rule.timezone || '',
         queue,
-        payload,
+        params,
       }),
     )
     .digest('hex')
@@ -112,9 +112,9 @@ export class JobScheduler {
         for (const rule of definition.cron) {
           if (!cronMatches(rule.expression, scheduledAt, rule.timezone)) continue
 
-          const payload = rule.payload ?? {}
+          const params = rule.params ?? {}
           const queue = resolveQueue(rule.queue ?? definition.queue)
-          const cronKey = createCronKey(jobPath, rule, queue, payload)
+          const cronKey = createCronKey(jobPath, rule, queue, params)
           const options = {
             queue,
             runAt: scheduledAt,
@@ -124,7 +124,7 @@ export class JobScheduler {
             ...(rule.priority === undefined ? {} : { priority: rule.priority }),
           }
 
-          await enqueueJobInternal(jobPath, payload, options)
+          await enqueueJobInternal(jobPath, params, options)
           count += 1
         }
       }

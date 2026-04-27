@@ -36,11 +36,13 @@
   },
   "devDependencies": {
     "@faasjs/core": ">=8.0.0-beta.26",
+    "@faasjs/node-utils": ">=8.0.0-beta.26",
     "@faasjs/pg": ">=8.0.0-beta.26",
     "zod": ">=4.3.0"
   },
   "peerDependencies": {
     "@faasjs/core": ">=8.0.0-beta.26",
+    "@faasjs/node-utils": ">=8.0.0-beta.26",
     "@faasjs/pg": ">=8.0.0-beta.26",
     "zod": ">=4.3.0"
   },

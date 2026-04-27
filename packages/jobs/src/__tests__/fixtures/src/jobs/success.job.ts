@@ -6,11 +6,11 @@ export default defineJob({
   schema: z.object({
     message: z.string(),
   }),
-  async handler({ payload, client, job, attempt }) {
+  async handler({ params, client, job, attempt }) {
     await client.raw(
       'INSERT INTO job_events (job_id, message, attempt) VALUES (?::uuid, ?, ?)',
       job.id,
-      payload.message,
+      params.message,
       attempt,
     )
   },

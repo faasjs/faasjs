@@ -86,7 +86,7 @@ describe('jobs', () => {
     expect(rows[0]).toMatchObject({
       job_path: 'jobs/success',
       queue: 'default',
-      payload: {
+      params: {
         message: 'hello',
       },
       priority: 10,
@@ -241,7 +241,7 @@ export default defineJob({
     expect(registry.get('jobs/alias')?.queue).toEqual('alias')
   })
 
-  it('runs a pending job with validated payload', async () => {
+  it('runs a pending job with validated params', async () => {
     const record = await enqueueJob('jobs/success', {
       message: 'processed',
     })
@@ -350,7 +350,7 @@ export default defineJob({
     expect(rows).toHaveLength(1)
     expect(rows[0]).toMatchObject({
       job_path: 'jobs/cron',
-      payload: {
+      params: {
         message: 'from cron',
       },
       status: 'pending',

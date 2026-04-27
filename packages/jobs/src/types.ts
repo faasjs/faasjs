@@ -1,6 +1,7 @@
 import type { InvokeData } from '@faasjs/core'
+import type { SchemaOutput } from '@faasjs/node-utils'
 import type { Client } from '@faasjs/pg'
-import type { output, ZodType } from 'zod'
+import type { ZodType } from 'zod'
 
 export const DEFAULT_JOB_QUEUE = 'default'
 export const DEFAULT_JOB_MAX_ATTEMPTS = 3
@@ -14,7 +15,7 @@ export type JobRecord = {
   id: string
   job_path: string
   queue: string
-  payload: unknown
+  params: unknown
   status: JobStatus
   run_at: Date | string
   priority: number
@@ -50,31 +51,51 @@ export type JobRetry =
   | JobRetryOptions
   | ((context: JobRetryContext) => Date | number | Promise<Date | number>)
 
-export type JobCron<TPayload = unknown> = {
+/**
+ * Cron rule that enqueues a job with optional schema-typed params.
+ */
+export type JobCron<TParams = Record<string, never>> = {
   expression: string
   timezone?: string
-  payload?: TPayload
+  /**
+   * Params passed to the job when this cron rule enqueues it.
+   */
+  params?: TParams
   queue?: string
   priority?: number
   maxAttempts?: number
 }
 
-export type JobEvent = {
-  payload: unknown
+/**
+ * Runtime event passed to the underlying job function.
+ */
+export type JobEvent<TSchema extends ZodType | undefined = undefined> = {
+  params?: SchemaOutput<TSchema, Record<string, any>>
   client: Client
   job: JobRecord
   attempt: number
 }
 
-export type DefineJobPayload<TSchema extends ZodType | undefined = undefined> =
-  TSchema extends ZodType ? output<NonNullable<TSchema>> : Record<string, any>
+/**
+ * Params validated by the optional Zod schema.
+ */
+export type DefineJobParams<TSchema extends ZodType | undefined = undefined> = SchemaOutput<
+  TSchema,
+  Record<string, never>
+>
 
+/**
+ * Handler data passed to {@link defineJob}.
+ */
 export type DefineJobData<
-  TPayload = Record<string, any>,
+  TSchema extends ZodType | undefined = undefined,
   TContext = any,
   TResult = any,
-> = InvokeData<JobEvent, TContext, TResult> & {
-  payload: TPayload
+> = InvokeData<JobEvent<TSchema>, TContext, TResult> & {
+  /**
+   * Params validated by the optional Zod schema.
+   */
+  params: DefineJobParams<TSchema>
   client: Client
   job: JobRecord
   attempt: number
@@ -91,10 +112,8 @@ export type DefineJobOptions<
   queue?: string
   maxAttempts?: number
   retry?: JobRetry
-  cron?: JobCron<DefineJobPayload<TSchema>>[]
-  handler: (
-    data: DefineJobData<DefineJobPayload<TSchema>, TContext, TResult>,
-  ) => TResult | Promise<TResult>
+  cron?: JobCron<DefineJobParams<TSchema>>[]
+  handler: (data: DefineJobData<TSchema, TContext, TResult>) => TResult | Promise<TResult>
 }
 
 export type EnqueueJobOptions = {

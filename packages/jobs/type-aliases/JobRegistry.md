@@ -22,8 +22,8 @@ export default defineJob({
   schema: z.object({
     userId: z.string(),
   }),
-  async handler({ payload }) {
-    console.log(payload.userId)
+  async handler({ params }) {
+    console.log(params.userId)
   },
 })
 

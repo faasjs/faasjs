@@ -1,14 +1,16 @@
 [@faasjs/jobs](../README.md) / JobCron
 
-# Type Alias: JobCron\<TPayload\>
+# Type Alias: JobCron\<TParams\>
 
-> **JobCron**\<`TPayload`\> = `object`
+> **JobCron**\<`TParams`\> = `object`
+
+Cron rule that enqueues a job with optional schema-typed params.
 
 ## Type Parameters
 
-### TPayload
+### TParams
 
-`TPayload` = `unknown`
+`TParams` = `Record`\<`string`, `never`\>
 
 ## Properties
 
@@ -20,9 +22,11 @@
 
 > `optional` **maxAttempts?**: `number`
 
-### payload?
+### params?
 
-> `optional` **payload?**: `TPayload`
+> `optional` **params?**: `TParams`
+
+Params passed to the job when this cron rule enqueues it.
 
 ### priority?
 

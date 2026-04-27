@@ -7,7 +7,7 @@ export default defineJob({
     message: z.string(),
   }),
   retry: 0,
-  async handler({ payload, attempt }) {
-    throw Error(`${payload.message} ${attempt}`)
+  async handler({ params, attempt }) {
+    throw Error(`${params.message} ${attempt}`)
   },
 })

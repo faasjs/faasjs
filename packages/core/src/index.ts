@@ -11,7 +11,8 @@
  * ```
  */
 
-import type { output, ZodError, ZodType } from 'zod'
+import { parseSchemaValue, type SchemaOutput } from '@faasjs/node-utils'
+import type { ZodType } from 'zod'
 
 import type { Handler, InvokeData } from './func'
 import { Func } from './func'
@@ -24,9 +25,10 @@ export * from './server'
 export * from './utils'
 
 type IsAny<T> = 0 extends 1 & T ? true : false
-type DefineApiEventParams<TSchema extends ZodType | undefined = undefined> = TSchema extends ZodType
-  ? output<NonNullable<TSchema>>
-  : Record<string, any>
+type DefineApiEventParams<TSchema extends ZodType | undefined = undefined> = SchemaOutput<
+  TSchema,
+  Record<string, any>
+>
 type DefineApiEvent<TSchema extends ZodType | undefined = undefined, TEvent = any> =
   IsAny<TEvent> extends true
     ? Record<string, any> & {
@@ -54,7 +56,7 @@ export type DefineApiData<
   /**
    * Params validated by the optional Zod schema.
    */
-  params: TSchema extends ZodType ? output<NonNullable<TSchema>> : Record<string, never>
+  params: SchemaOutput<TSchema, Record<string, never>>
   /**
    * Cookie helper injected by the HTTP plugin.
    */
@@ -95,22 +97,6 @@ export type DefineApiOptions<
    * Async business handler executed after plugin and schema setup.
    */
   handler: (data: DefineApiData<TSchema, TEvent, TContext, TResult>) => Promise<TResult>
-}
-
-function normalizeIssueMessage(message: string): string {
-  return message.replace(': expected', ', expected').replace(/>=\s+/g, '>=').replace(/<=\s+/g, '<=')
-}
-
-function formatZodErrorMessage(error: ZodError): string {
-  const lines = ['Invalid params']
-
-  for (const issue of error.issues) {
-    const path = issue.path.length ? issue.path.map((item) => String(item)).join('.') : '<root>'
-
-    lines.push(`${path}: ${normalizeIssueMessage(issue.message)}`)
-  }
-
-  return lines.join('\n')
 }
 
 /**
@@ -168,27 +154,22 @@ export function defineApi<
   let func: Func<Event, TContext, Result>
   type Params = DefineApiData<TSchema, TEvent, TContext, Result>['params']
 
-  const parseParams = async (event: Event): Promise<Params> => {
+  const invokeHandler: Handler<Event, TContext, Result> = async (data) => {
     if (!func.plugins.some((plugin) => plugin.type === 'http'))
       throw Error(
         '[defineApi] Missing required "http" plugin. Please configure it in faas.yaml or inject it in code.',
       )
 
-    if (!options.schema) return {} as Params
-
-    const result = await options.schema.safeParseAsync((event as any)?.params ?? {})
-
-    if (!result.success)
-      throw new HttpError({
-        statusCode: 400,
-        message: formatZodErrorMessage(result.error),
-      })
-
-    return result.data as Params
-  }
-
-  const invokeHandler: Handler<Event, TContext, Result> = async (data) => {
-    const params = await parseParams(data.event)
+    const params = (await parseSchemaValue<TSchema>({
+      schema: options.schema,
+      value: (data.event as any)?.params,
+      errorMessage: 'Invalid params',
+      createError: (message) =>
+        new HttpError({
+          statusCode: 400,
+          message,
+        }),
+    })) as Params
 
     const invokeData = {
       ...data,

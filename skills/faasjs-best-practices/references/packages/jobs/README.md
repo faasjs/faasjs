@@ -21,7 +21,7 @@
 
 - [DefineJobData](type-aliases/DefineJobData.md)
 - [DefineJobOptions](type-aliases/DefineJobOptions.md)
-- [DefineJobPayload](type-aliases/DefineJobPayload.md)
+- [DefineJobParams](type-aliases/DefineJobParams.md)
 - [EnqueueJobOptions](type-aliases/EnqueueJobOptions.md)
 - [JobCron](type-aliases/JobCron.md)
 - [JobEvent](type-aliases/JobEvent.md)

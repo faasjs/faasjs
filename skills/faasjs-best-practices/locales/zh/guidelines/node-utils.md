@@ -19,6 +19,7 @@
 - API 加载：`loadApiHandler`、`loadPlugins`
 - Node 模块引导：`loadPackage`、`registerNodeModuleHooks`、`detectNodeRuntime`、`resetRuntime`
 - 文件系统边界校验：`isPathInsideRoot`
+- schema 解析：`parseSchemaValue`、`formatSchemaError`、`SchemaOutput`
 - 日志与日志转运：`Logger`、`formatLogger`、`getTransport`、`Transport`、`colorfy`
 
 ## 默认工作流
@@ -30,7 +31,8 @@
 5. 当你需要最终可运行的导出 handler 时使用 `loadApiHandler()`；如果你已经有了 `Func` 实例，则使用 `loadPlugins()`。
 6. 当直接在 Node 中执行并且需要理解本地 TypeScript 文件或 tsconfig aliases 时，优先使用 FaasJS TypeScript loader，并保持本地导入不带 `.ts` 或 `.tsx` 后缀。
 7. 当你要从用户输入或 URL 推导出 root-scoped 文件路径时，先用 `isPathInsideRoot()` 做校验。
-8. 复用 `Logger` 和共享 transport，而不是自己再包一套日志封装。
+8. 自定义 Node 侧边界需要与 FaasJS API 和 jobs 一致的可选 Zod schema 解析与错误格式时，使用 `parseSchemaValue()`。
+9. 复用 `Logger` 和共享 transport，而不是自己再包一套日志封装。
 
 ## 规则
 
@@ -130,7 +132,27 @@ await import('./scripts/sync-users')
 - 只有当日志必须被缓冲并转发到其他 sink 时，才使用 `getTransport()`。
 - `colorfy()` 和 `formatLogger()` 是更底层的 helpers；除非你在实现日志基础设施，否则优先使用 `Logger`。
 
-### 7. 用 `isPathInsideRoot()` 校验 root-scoped 文件路径
+### 7. 为自定义 Node 边界使用 schema helpers
+
+- `defineApi` 和 `defineJob` 已经会解析自己的 schema，所以应用 handler 应该使用注入的 `params`。
+- 当 CLI、worker adapter、loader 或其他 Node-only 边界需要同样的可选 schema 行为时，使用 `parseSchemaValue()`；省略 schema 或输入为 nullish 时默认使用 `{}`，除非显式传入 `defaultValue`。
+- 当公共 helper 类型需要跟随 Zod schema 的 output 类型，并在省略 schema 时回退到指定类型时，使用 `SchemaOutput<TSchema, TFallback>`。
+- 只有在需要格式化校验信息但不希望抛错时，才直接使用 `formatSchemaError()`。
+
+```ts
+import { parseSchemaValue } from '@faasjs/node-utils'
+import * as z from 'zod'
+
+const params = await parseSchemaValue({
+  schema: z.object({
+    count: z.coerce.number().int().positive(),
+  }),
+  value: input,
+  errorMessage: 'Invalid params',
+})
+```
+
+### 8. 用 `isPathInsideRoot()` 校验 root-scoped 文件路径
 
 - 在打开由 request URL、CLI 参数、配置值或其他用户可控片段拼出来的文件前，先调用 `isPathInsideRoot()`。
 - 它会先规范化两边路径，对已存在路径使用 `realpath` 跟随 symlink，并且在目标文件尚不存在时，也会通过最近的已存在父目录完成规范化。
@@ -157,6 +179,7 @@ if (!isPathInsideRoot(candidate, root)) {
 - 原始 FaasJS YAML 使用 `parseYaml()` 解析，而不是另一个 YAML parser
 - 加载逻辑使用 `loadApiHandler()`、`loadPlugins()` 或 `loadPackage()`，而不是自定义动态 import 包装
 - module hooks 在进程启动阶段注册，而不是深埋在 feature 代码中
+- 自定义 Node 侧边界校验使用 `parseSchemaValue()`，而不是临时格式化 Zod 错误
 - root-scoped 文件访问会用 `isPathInsideRoot()` 校验已解析路径
 - 依赖全新 loader 状态的测试使用了 `resetRuntime()`
 - 日志使用 `Logger` 或共享 transport，而不是直接包裹 `console`
@@ -170,5 +193,6 @@ if (!isPathInsideRoot(candidate, root)) {
 - [loadApiHandler](/doc/node-utils/functions/loadApiHandler.html)
 - [loadPackage](/doc/node-utils/functions/loadPackage.html)
 - [loadPlugins](/doc/node-utils/functions/loadPlugins.html)
+- [parseSchemaValue](/doc/node-utils/functions/parseSchemaValue.html)
 - [parseYaml](/doc/node-utils/functions/parseYaml.html)
 - [registerNodeModuleHooks](/doc/node-utils/functions/registerNodeModuleHooks.html)

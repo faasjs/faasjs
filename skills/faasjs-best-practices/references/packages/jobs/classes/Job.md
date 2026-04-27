@@ -6,7 +6,7 @@ Executable job definition returned by [defineJob](../functions/defineJob.md).
 
 ## Extends
 
-- `Func`\<[`JobEvent`](../type-aliases/JobEvent.md), `TContext`, `TResult`\>
+- `Func`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`\>, `TContext`, `TResult`\>
 
 ## Type Parameters
 
@@ -44,7 +44,7 @@ Executable job definition returned by [defineJob](../functions/defineJob.md).
 
 #### Overrides
 
-`Func<JobEvent, TContext, TResult>.constructor`
+`Func<JobEvent<TSchema>, TContext, TResult>.constructor`
 
 ## Methods
 
@@ -62,7 +62,7 @@ Object containing the exported handler.
 
 ##### handler
 
-> **handler**: `ExportedHandler`\<[`JobEvent`](../type-aliases/JobEvent.md), `TContext`, `TResult`\>
+> **handler**: `ExportedHandler`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`\>, `TContext`, `TResult`\>
 
 #### Inherited from
 
@@ -78,7 +78,7 @@ Invoke the function.
 
 ##### data
 
-`InvokeData`\<[`JobEvent`](../type-aliases/JobEvent.md), `TContext`, `TResult`\>
+`InvokeData`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`\>, `TContext`, `TResult`\>
 
 Invocation state mutated by plugins and the final handler.
 
@@ -156,7 +156,7 @@ Mutable runtime configuration used by the function.
 
 ### cron
 
-> `readonly` **cron**: [`JobCron`](../type-aliases/JobCron.md)\<[`DefineJobPayload`](../type-aliases/DefineJobPayload.md)\<`TSchema`\>\>[]
+> `readonly` **cron**: [`JobCron`](../type-aliases/JobCron.md)\<`SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`\>\>\>[]
 
 ### filename?
 
@@ -170,7 +170,7 @@ Resolved source filename inferred from the constructor call stack.
 
 ### handler?
 
-> `optional` **handler?**: `Handler`\<[`JobEvent`](../type-aliases/JobEvent.md), `TContext`, `TResult`\>
+> `optional` **handler?**: `Handler`\<[`JobEvent`](../type-aliases/JobEvent.md)\<`TSchema`\>, `TContext`, `TResult`\>
 
 Final business handler invoked after plugins finish.
 

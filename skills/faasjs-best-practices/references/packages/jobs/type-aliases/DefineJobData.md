@@ -1,8 +1,10 @@
 [@faasjs/jobs](../README.md) / DefineJobData
 
-# Type Alias: DefineJobData\<TPayload, TContext, TResult\>
+# Type Alias: DefineJobData\<TSchema, TContext, TResult\>
 
-> **DefineJobData**\<`TPayload`, `TContext`, `TResult`\> = `InvokeData`\<[`JobEvent`](JobEvent.md), `TContext`, `TResult`\> & `object` & [`DefineJobInject`](../interfaces/DefineJobInject.md)
+> **DefineJobData**\<`TSchema`, `TContext`, `TResult`\> = `InvokeData`\<[`JobEvent`](JobEvent.md)\<`TSchema`\>, `TContext`, `TResult`\> & `object` & [`DefineJobInject`](../interfaces/DefineJobInject.md)
+
+Handler data passed to [defineJob](../functions/defineJob.md).
 
 ## Type Declaration
 
@@ -18,15 +20,17 @@
 
 > **job**: [`JobRecord`](JobRecord.md)
 
-### payload
+### params
 
-> **payload**: `TPayload`
+> **params**: [`DefineJobParams`](DefineJobParams.md)\<`TSchema`\>
+
+Params validated by the optional Zod schema.
 
 ## Type Parameters
 
-### TPayload
+### TSchema
 
-`TPayload` = `Record`\<`string`, `any`\>
+`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
 ### TContext
 

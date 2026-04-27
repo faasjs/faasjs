@@ -8,6 +8,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 - API loading: `loadApiHandler`, `loadPlugins`
 - Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `detectNodeRuntime`, `resetRuntime`
 - filesystem containment checks: `isPathInsideRoot`
+- schema parsing: `parseSchemaValue`, `formatSchemaError`, `SchemaOutput`
 - logging and log shipping: `Logger`, `formatLogger`, `getTransport`, `Transport`, `colorfy`
 
 ## Default Workflow
@@ -19,7 +20,8 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 5. Use `loadApiHandler()` when you need the final exported handler, or `loadPlugins()` when you already have a `Func` instance.
 6. Prefer the FaasJS TypeScript loader when direct Node execution must understand local TypeScript files or tsconfig aliases, and keep local imports extensionless without `.ts` or `.tsx` suffixes.
 7. Use `isPathInsideRoot()` before reading or loading root-scoped files from user-controlled or URL-derived paths.
-8. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
+8. Use `parseSchemaValue()` for custom Node-side boundaries that need the same optional Zod schema parsing and error formatting as FaasJS APIs and jobs.
+9. Reuse `Logger` and the shared transport instead of building a custom logging wrapper.
 
 ## Rules
 
@@ -119,7 +121,27 @@ await import('./scripts/sync-users')
 - Use `getTransport()` only when logs must be buffered and forwarded to another sink.
 - `colorfy()` and `formatLogger()` are lower-level helpers; prefer the `Logger` class unless you are implementing logging infrastructure.
 
-### 7. Validate root-scoped file paths with `isPathInsideRoot()`
+### 7. Use schema helpers for custom Node boundaries
+
+- `defineApi` and `defineJob` already parse their own schemas, so application handlers should use their injected `params`.
+- Use `parseSchemaValue()` when a CLI, worker adapter, loader, or other Node-only boundary needs the same optional-schema behavior; omitted schemas and nullish input default to `{}` unless you pass `defaultValue`.
+- Use `SchemaOutput<TSchema, TFallback>` when a public helper type should follow a Zod schema output type and fall back when the schema is omitted.
+- Use `formatSchemaError()` only when you need the formatted validation message without throwing.
+
+```ts
+import { parseSchemaValue } from '@faasjs/node-utils'
+import * as z from 'zod'
+
+const params = await parseSchemaValue({
+  schema: z.object({
+    count: z.coerce.number().int().positive(),
+  }),
+  value: input,
+  errorMessage: 'Invalid params',
+})
+```
+
+### 8. Validate root-scoped file paths with `isPathInsideRoot()`
 
 - Use `isPathInsideRoot()` before opening files resolved from request URLs, CLI arguments, config values, or any other user-controlled fragments.
 - It normalizes both paths, follows existing symlinks with `realpath`, and still handles missing target files by normalizing through the nearest existing parent directory.
@@ -146,6 +168,7 @@ if (!isPathInsideRoot(candidate, root)) {
 - raw FaasJS YAML parsing uses `parseYaml()` instead of a different YAML parser
 - loaders use `loadApiHandler()`, `loadPlugins()`, or `loadPackage()` instead of custom dynamic import wrappers
 - module hooks are registered at process startup, not deep inside feature code
+- custom Node-side boundary validation uses `parseSchemaValue()` instead of one-off Zod error formatting
 - root-scoped file access validates resolved paths with `isPathInsideRoot()`
 - tests that depend on fresh loader state use `resetRuntime()`
 - logging uses `Logger` or the shared transport instead of raw `console` wrappers

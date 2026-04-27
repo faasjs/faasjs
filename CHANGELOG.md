@@ -9,7 +9,10 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Stop re-exporting `z` from `@faasjs/core`; import Zod directly from `zod` in APIs and templates.
 
 - `@faasjs/jobs`
-  - [Feature] Add PostgreSQL-backed `.job.ts` background jobs with `defineJob`, `enqueueJob`, `startJobWorker`, `startJobScheduler`, retries, leases, idempotency keys, and cron enqueue dedupe.
+  - [Feature] Add PostgreSQL-backed `.job.ts` background jobs with `defineJob`, `enqueueJob`, schema-inferred `params`, `startJobWorker`, `startJobScheduler`, retries, leases, idempotency keys, and cron enqueue dedupe.
+
+- `@faasjs/node-utils`
+  - [Feature] Add reusable Zod schema parsing helpers for FaasJS boundary validation.
 
 [`v8.0.0-beta.26 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.25...v8.0.0-beta.26)
 

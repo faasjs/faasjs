@@ -5,8 +5,8 @@ Use this guide when defining `.job.ts` background jobs, enqueueing asynchronous 
 ## Default Workflow
 
 1. Create a `.job.ts` file under `src/jobs/`.
-2. Default-export `defineJob(...)` with a schema when the payload has a shape.
-3. Enqueue work with `enqueueJob(jobPath, payload)` from APIs, scripts, or other jobs.
+2. Default-export `defineJob(...)` with a schema when the params have a shape.
+3. Enqueue work with `enqueueJob(jobPath, params)` from APIs, scripts, or other jobs.
 4. Run `startJobWorker()` in a worker process for execution.
 5. Run `startJobScheduler()` only when `.job.ts` files include `cron` rules.
 6. Keep handlers idempotent; delivery is at-least-once.
@@ -25,7 +25,7 @@ src/jobs/reports/index.job.ts -> jobs/reports
 
 Do not duplicate the job name inside the file. Moving or renaming a job file changes the path used by `enqueueJob()`.
 
-### 2. Define payload schemas at the boundary
+### 2. Define params schemas at the boundary
 
 ```ts
 import { defineJob } from '@faasjs/jobs'
@@ -35,8 +35,8 @@ export default defineJob({
   schema: z.object({
     userId: z.string(),
   }),
-  async handler({ payload, client, logger, job }) {
-    logger.info('sync user %s via job %s', payload.userId, job.id)
+  async handler({ params, client, logger, job }) {
+    logger.info('sync user %s via job %s', params.userId, job.id)
 
     await client.raw`SELECT 1`
   },
@@ -44,6 +44,8 @@ export default defineJob({
 ```
 
 Use the injected `client` from `@faasjs/pg`. Do not create or pass a second database client unless the job is deliberately talking to another database.
+
+If a job has no business input, omit `schema`; `params` will be typed as `Record<string, never>`.
 
 ### 3. Enqueue asynchronous work explicitly
 
@@ -70,18 +72,24 @@ Use `idempotencyKey` for enqueue-side dedupe. It does not make the handler exact
 Cron rules only enqueue jobs:
 
 ```ts
+import { defineJob } from '@faasjs/jobs'
+import * as z from 'zod'
+
 export default defineJob({
+  schema: z.object({
+    source: z.string(),
+  }),
   cron: [
     {
       expression: '0 3 * * *',
       timezone: 'Asia/Shanghai',
-      payload: {
+      params: {
         source: 'cron',
       },
     },
   ],
-  async handler({ payload }) {
-    await cleanup(payload.source)
+  async handler({ params }) {
+    await cleanup(params.source)
   },
 })
 ```
@@ -105,7 +113,7 @@ Run a scheduler process to create pending rows, and run worker processes to clai
 
 - job files end with `.job.ts` and default-export `defineJob(...)`
 - enqueue paths match file-derived job paths
-- payloads are validated with schemas when structured
+- params are validated with schemas when structured
 - handlers use the injected `client` and `logger`
 - idempotency and retry behavior are explicit
 - cron rules enqueue jobs instead of doing work directly

@@ -19,7 +19,7 @@ Cookie helper injected by the HTTP plugin.
 
 ### params
 
-> **params**: `TSchema` _extends_ `ZodType` ? `output`\<`NonNullable`\<`TSchema`\>\> : `Record`\<`string`, `never`\>
+> **params**: `SchemaOutput`\<`TSchema`, `Record`\<`string`, `never`\>\>
 
 Params validated by the optional Zod schema.
 

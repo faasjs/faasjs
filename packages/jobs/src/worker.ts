@@ -18,28 +18,6 @@ export type JobWorkerOptions = LoadJobRegistryOptions & {
   autoStart?: boolean
 }
 
-function toError(error: unknown): Error {
-  if (error instanceof Error) return error
-
-  return Error(String(error))
-}
-
-function getErrorText(error: unknown): string {
-  const normalized = toError(error)
-
-  return normalized.stack || normalized.message
-}
-
-function normalizePayload(payload: unknown): unknown {
-  if (typeof payload !== 'string') return payload
-
-  try {
-    return JSON.parse(payload)
-  } catch {
-    return payload
-  }
-}
-
 async function resolveRetryRunAt(
   retry: JobRetry | undefined,
   error: Error,
@@ -192,8 +170,8 @@ export class JobWorker {
     error: unknown,
     definition?: Job<any, any, any>,
   ): Promise<void> {
-    const normalized = toError(error)
-    const errorText = getErrorText(normalized)
+    const normalized = error instanceof Error ? error : Error(String(error))
+    const errorText = normalized.stack || normalized.message
 
     if (record.attempts >= record.max_attempts) {
       await client.raw(
@@ -255,7 +233,7 @@ export class JobWorker {
     try {
       await definition.export().handler(
         {
-          payload: normalizePayload(record.payload),
+          params: record.params,
           client,
           job: record,
           attempt: record.attempts,

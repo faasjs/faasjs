@@ -44,5 +44,7 @@ export {
   resetRuntime,
 } from './load_package'
 export { parseYaml } from './parse_yaml'
+export type { ParseSchemaValueOptions, SchemaOutput } from './schema'
+export { formatSchemaError, parseSchemaValue } from './schema'
 export type { LoggerMessage, TransportHandler, TransportOptions } from './transport'
 export { getTransport, Transport } from './transport'

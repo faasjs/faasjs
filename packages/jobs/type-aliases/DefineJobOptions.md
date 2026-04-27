@@ -22,7 +22,7 @@
 
 ### cron?
 
-> `optional` **cron?**: [`JobCron`](JobCron.md)\<[`DefineJobPayload`](DefineJobPayload.md)\<`TSchema`\>\>[]
+> `optional` **cron?**: [`JobCron`](JobCron.md)\<[`DefineJobParams`](DefineJobParams.md)\<`TSchema`\>\>[]
 
 ### handler
 
@@ -32,7 +32,7 @@
 
 ##### data
 
-[`DefineJobData`](DefineJobData.md)\<[`DefineJobPayload`](DefineJobPayload.md)\<`TSchema`\>, `TContext`, `TResult`\>
+[`DefineJobData`](DefineJobData.md)\<`TSchema`, `TContext`, `TResult`\>
 
 #### Returns
 

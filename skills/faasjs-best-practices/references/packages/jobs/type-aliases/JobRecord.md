@@ -60,9 +60,9 @@ Persisted row from the `faasjs_jobs` table.
 
 > **max_attempts**: `number`
 
-### payload
+### params
 
-> **payload**: `unknown`
+> **params**: `unknown`
 
 ### priority
 

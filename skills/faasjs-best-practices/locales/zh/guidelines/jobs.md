@@ -5,8 +5,8 @@
 ## 默认工作流
 
 1. 在 `src/jobs/` 下创建 `.job.ts` 文件。
-2. 使用 default export `defineJob(...)`，当 payload 有结构时加上 schema。
-3. 在 API、脚本或其他 job 中通过 `enqueueJob(jobPath, payload)` 投递工作。
+2. 使用 default export `defineJob(...)`，当 params 有结构时加上 schema。
+3. 在 API、脚本或其他 job 中通过 `enqueueJob(jobPath, params)` 投递工作。
 4. 在 worker 进程中运行 `startJobWorker()` 执行业务逻辑。
 5. 只有 `.job.ts` 包含 `cron` 规则时，才运行 `startJobScheduler()`。
 6. 保持 handler 幂等；执行语义是 at-least-once。
@@ -25,7 +25,7 @@ src/jobs/reports/index.job.ts -> jobs/reports
 
 不要在文件里重复手写 job 名称。移动或重命名 job 文件会改变 `enqueueJob()` 使用的路径。
 
-### 2. 在边界处定义 payload schema
+### 2. 在边界处定义 params schema
 
 ```ts
 import { defineJob } from '@faasjs/jobs'
@@ -35,8 +35,8 @@ export default defineJob({
   schema: z.object({
     userId: z.string(),
   }),
-  async handler({ payload, client, logger, job }) {
-    logger.info('sync user %s via job %s', payload.userId, job.id)
+  async handler({ params, client, logger, job }) {
+    logger.info('sync user %s via job %s', params.userId, job.id)
 
     await client.raw`SELECT 1`
   },
@@ -44,6 +44,8 @@ export default defineJob({
 ```
 
 使用由 `@faasjs/pg` 注入的 `client`。除非这个 job 明确要访问另一个数据库，否则不要创建或传入第二个数据库 client。
+
+如果 job 没有业务入参，省略 `schema`；此时 `params` 类型为 `Record<string, never>`。
 
 ### 3. 显式投递异步工作
 
@@ -70,18 +72,24 @@ await enqueueJob(
 Cron 规则只负责投递 job：
 
 ```ts
+import { defineJob } from '@faasjs/jobs'
+import * as z from 'zod'
+
 export default defineJob({
+  schema: z.object({
+    source: z.string(),
+  }),
   cron: [
     {
       expression: '0 3 * * *',
       timezone: 'Asia/Shanghai',
-      payload: {
+      params: {
         source: 'cron',
       },
     },
   ],
-  async handler({ payload }) {
-    await cleanup(payload.source)
+  async handler({ params }) {
+    await cleanup(params.source)
   },
 })
 ```
@@ -105,7 +113,7 @@ Scheduler 进程负责创建 pending rows，worker 进程负责领取并执行 r
 
 - job 文件以 `.job.ts` 结尾，并 default-export `defineJob(...)`
 - enqueue path 与文件生成的 job path 对齐
-- 结构化 payload 使用 schema 校验
+- 结构化 params 使用 schema 校验
 - handler 使用注入的 `client` 和 `logger`
 - idempotency 与 retry 行为明确
 - cron 规则只投递 job，不直接执行业务逻辑

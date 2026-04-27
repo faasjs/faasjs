@@ -14,17 +14,6 @@ type JobsSchemaMigration = {
   up: (client: Client) => Promise<void>
 }
 
-function assertNonEmpty(value: string, label: string): void {
-  if (!value.trim()) throw Error(`[jobs] ${label} must not be empty.`)
-}
-
-function resolvePriority(priority: number | undefined): number {
-  if (priority === undefined) return 0
-  if (!Number.isInteger(priority)) throw Error('[jobs] priority must be an integer.')
-
-  return priority
-}
-
 const jobsSchemaMigrations: JobsSchemaMigration[] = [
   {
     version: 1,
@@ -35,7 +24,7 @@ const jobsSchemaMigrations: JobsSchemaMigration[] = [
           id uuid PRIMARY KEY,
           job_path text NOT NULL,
           queue text NOT NULL DEFAULT 'default',
-          payload jsonb NOT NULL DEFAULT '{}',
+          params jsonb NOT NULL DEFAULT '{}',
           status text NOT NULL,
           run_at timestamptz NOT NULL,
           priority integer NOT NULL DEFAULT 0,
@@ -76,7 +65,7 @@ const jobsSchemaMigrations: JobsSchemaMigration[] = [
   },
 ]
 
-async function createJobsSchemaMigrationTable(client: Client): Promise<void> {
+async function runJobsSchemaMigrations(client: Client): Promise<void> {
   await client.raw`
     CREATE TABLE IF NOT EXISTS faasjs_jobs_schema_migrations (
       version integer PRIMARY KEY,
@@ -84,17 +73,9 @@ async function createJobsSchemaMigrationTable(client: Client): Promise<void> {
       migrated_at timestamptz NOT NULL DEFAULT NOW()
     )
   `
-}
-
-async function lockJobsSchemaMigrations(client: Client): Promise<void> {
-  await client.raw`SELECT pg_advisory_xact_lock(802201, 1)`
-}
-
-async function runJobsSchemaMigrations(client: Client): Promise<void> {
-  await createJobsSchemaMigrationTable(client)
 
   await client.transaction(async (trx) => {
-    await lockJobsSchemaMigrations(trx)
+    await trx.raw`SELECT pg_advisory_xact_lock(802201, 1)`
 
     const appliedRows = await trx.raw<{
       version: number
@@ -167,23 +148,24 @@ async function selectExistingJob(
 async function insertJob(
   client: Client,
   jobPath: string,
-  payload: unknown,
+  params: unknown,
   options: InternalEnqueueJobOptions,
 ): Promise<JobRecord | undefined> {
   const id = randomUUID()
   const queue = resolveQueue(options.queue)
   const runAt = options.runAt ?? new Date()
-  const priority = resolvePriority(options.priority)
+  const priority = options.priority ?? 0
   const maxAttempts = resolveMaxAttempts(options.maxAttempts)
-  const payloadValue = payload ?? {}
+  const paramsValue = params ?? {}
 
-  assertNonEmpty(jobPath, 'jobPath')
+  if (!Number.isInteger(priority)) throw Error('[jobs] priority must be an integer.')
+  if (!jobPath.trim()) throw Error('[jobs] jobPath must not be empty.')
 
   const args = [
     id,
     jobPath,
     queue,
-    payloadValue,
+    paramsValue,
     runAt,
     priority,
     maxAttempts,
@@ -206,50 +188,21 @@ async function insertJob(
       ?
     )
   `
-
-  if (options.idempotencyKey) {
-    const [record] = await client.raw<JobRecord>(
-      `
-        INSERT INTO faasjs_jobs (
-          id, job_path, queue, payload, status, run_at, priority, max_attempts,
-          idempotency_key, cron_key, scheduled_at
-        )
-        ${valuesSql}
-        ON CONFLICT (idempotency_key) WHERE idempotency_key IS NOT NULL DO NOTHING
-        RETURNING *
-      `,
-      ...args,
-    )
-
-    return record
-  }
-
-  if (options.cronKey && options.scheduledAt) {
-    const [record] = await client.raw<JobRecord>(
-      `
-        INSERT INTO faasjs_jobs (
-          id, job_path, queue, payload, status, run_at, priority, max_attempts,
-          idempotency_key, cron_key, scheduled_at
-        )
-        ${valuesSql}
-        ON CONFLICT (job_path, cron_key, scheduled_at)
+  const conflictSql = options.idempotencyKey
+    ? 'ON CONFLICT (idempotency_key) WHERE idempotency_key IS NOT NULL DO NOTHING'
+    : options.cronKey && options.scheduledAt
+      ? `ON CONFLICT (job_path, cron_key, scheduled_at)
           WHERE cron_key IS NOT NULL AND scheduled_at IS NOT NULL
-          DO NOTHING
-        RETURNING *
-      `,
-      ...args,
-    )
-
-    return record
-  }
-
+          DO NOTHING`
+      : ''
   const [record] = await client.raw<JobRecord>(
     `
       INSERT INTO faasjs_jobs (
-        id, job_path, queue, payload, status, run_at, priority, max_attempts,
+        id, job_path, queue, params, status, run_at, priority, max_attempts,
         idempotency_key, cron_key, scheduled_at
       )
       ${valuesSql}
+      ${conflictSql}
       RETURNING *
     `,
     ...args,
@@ -260,14 +213,14 @@ async function insertJob(
 
 export async function enqueueJobInternal(
   jobPath: string,
-  payload: unknown = {},
+  params: unknown = {},
   options: InternalEnqueueJobOptions = {},
 ): Promise<JobRecord> {
   const client = await getClient()
 
   await ensureJobsSchema(client)
 
-  const inserted = await insertJob(client, jobPath, payload, options)
+  const inserted = await insertJob(client, jobPath, params, options)
 
   if (inserted) return inserted
 
@@ -283,8 +236,8 @@ export async function enqueueJobInternal(
  */
 export async function enqueueJob(
   jobPath: string,
-  payload: unknown = {},
+  params: unknown = {},
   options: EnqueueJobOptions = {},
 ): Promise<JobRecord> {
-  return enqueueJobInternal(jobPath, payload, options)
+  return enqueueJobInternal(jobPath, params, options)
 }

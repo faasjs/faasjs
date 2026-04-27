@@ -7,7 +7,9 @@
 Define a PostgreSQL-backed background job.
 
 The returned job can be loaded from a `.job.ts` file by `startJobWorker`
-and `startJobScheduler`.
+and `startJobScheduler`. When `schema` is provided, handler `params` are
+inferred from the schema output type. Without `schema`, handler `params` are
+typed as `Record<string, never>`.
 
 ## Type Parameters
 

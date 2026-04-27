@@ -1,8 +1,16 @@
 [@faasjs/jobs](../README.md) / JobEvent
 
-# Type Alias: JobEvent
+# Type Alias: JobEvent\<TSchema\>
 
-> **JobEvent** = `object`
+> **JobEvent**\<`TSchema`\> = `object`
+
+Runtime event passed to the underlying job function.
+
+## Type Parameters
+
+### TSchema
+
+`TSchema` _extends_ `ZodType` \| `undefined` = `undefined`
 
 ## Properties
 
@@ -18,6 +26,6 @@
 
 > **job**: [`JobRecord`](JobRecord.md)
 
-### payload
+### params?
 
-> **payload**: `unknown`
+> `optional` **params?**: `SchemaOutput`\<`TSchema`, `Record`\<`string`, `any`\>\>

@@ -10,6 +10,8 @@ it('should export helpers', () => {
   expect(nodeUtils).toHaveProperty('loadApiHandler')
   expect(nodeUtils).toHaveProperty('loadPackage')
   expect(nodeUtils).toHaveProperty('parseYaml')
+  expect(nodeUtils).toHaveProperty('parseSchemaValue')
+  expect(nodeUtils).toHaveProperty('formatSchemaError')
   expect(nodeUtils).toHaveProperty('registerNodeModuleHooks')
   expect(nodeUtils).toHaveProperty('detectNodeRuntime')
   expect(nodeUtils).toHaveProperty('formatLogger')

@@ -17,8 +17,8 @@
  *   schema: z.object({
  *     userId: z.string(),
  *   }),
- *   async handler({ payload }) {
- *     console.log(payload.userId)
+ *   async handler({ params }) {
+ *     console.log(params.userId)
  *   },
  * })
  *
@@ -37,7 +37,7 @@ export type {
   DefineJobData,
   DefineJobInject,
   DefineJobOptions,
-  DefineJobPayload,
+  DefineJobParams,
   EnqueueJobOptions,
   JobCron,
   JobEvent,
