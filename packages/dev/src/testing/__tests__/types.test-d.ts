@@ -1,5 +1,6 @@
-import { defineApi, z } from '@faasjs/core'
+import { defineApi } from '@faasjs/core'
 import { assertType, expect, test } from 'vitest'
+import * as z from 'zod'
 
 import { testApi } from '..'
 

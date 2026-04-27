@@ -44,6 +44,7 @@ const guidelineOrder = [
   'file-conventions',
   'code-comments',
   'define-api',
+  'jobs',
   'testing',
   'react',
   'react-data-fetching',
@@ -74,10 +75,12 @@ const zhPageSummaries: Record<string, string> = {
     '覆盖垂直 UI/API/数据库/测试切片、推荐文件布局、Agent 工作流，以及为什么 FaasJS 避免 generator-heavy 开发。',
   'project-config': '如何让 `tsconfig.json`、`vite.config.ts` 与 FaasJS 的共享默认配置保持一致。',
   testing: '覆盖通用测试分层、mock 边界和避免不必要 mock 的原则。',
-  'file-conventions': '页面、组件、hooks 与 `.api.ts` 文件应该放在哪里，以及何时值得拆文件。',
+  'file-conventions':
+    '页面、组件、hooks、`.api.ts` 与 `.job.ts` 文件应该放在哪里，以及何时值得拆文件。',
   'code-comments':
     '导出内容的 JSDoc 要求、公开 JSDoc 的语言与 tags 约定、何时给内部 helper 补充简短注释，以及如何解释非常规实现的原因。',
   'define-api': '如何使用 `defineApi` 编写接口、内联 schema、typed params 与错误处理。',
+  jobs: '如何定义 `.job.ts` 后台任务、投递异步工作、启动 worker 与 scheduler，并处理重试和幂等。',
   react: 'FaasJS 项目中的 React 组件、hooks、依赖处理与 `useEffect` 替代方案。',
   'react-data-fetching':
     '何时使用 `useFaas`、`useFaasStream`、`faas`、`FaasDataWrapper` 或 `withFaasData`。',
@@ -106,6 +109,7 @@ const packageOrder = [
   'react',
   'ant-design',
   'node-utils',
+  'jobs',
   'pg',
   'pg-dev',
   'types',
@@ -580,5 +584,6 @@ export function buildAllDocs(options: DocgenOptions = {}) {
 
   buildApiDocs({ root })
   syncSkillReferences({ root })
+  prepareDocsSite({ root })
   run('vp check --fix', root)
 }

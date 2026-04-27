@@ -5,7 +5,7 @@
 HTTP server that loads and runs FaasJS API files from a project root.
 
 A Server resolves API route files on demand, caches loaded handlers, and
-can optionally mount cron jobs for the process lifecycle.
+dispatches each request through the matching function lifecycle.
 
 ## Example
 
@@ -61,7 +61,7 @@ Close the server and wait for active requests to finish.
 
 `Promise`\<`void`\>
 
-Promise that resolves after sockets, cron jobs, and transports stop.
+Promise that resolves after sockets, requests, and transports stop.
 
 ### handle()
 

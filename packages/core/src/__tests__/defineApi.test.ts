@@ -1,5 +1,6 @@
-import { Http, defineApi, z } from '@faasjs/core'
+import { Http, defineApi } from '@faasjs/core'
 import { describe, expect, it } from 'vitest'
+import * as z from 'zod'
 
 import { TestsAuthPlugin } from './auth-plugin'
 

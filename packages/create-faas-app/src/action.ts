@@ -10,6 +10,7 @@ import enquirer from 'enquirer'
 const prompt = enquirer.prompt
 const validateName = (input: string) => Validator.name(input)
 const templateRoot = join(dirname(fileURLToPath(import.meta.url)), '..', 'template')
+const ignoredTemplateEntries = new Set(['node_modules'])
 
 const Validator = {
   name(input: string) {
@@ -57,6 +58,8 @@ function copyTemplateDirectory(
   })
 
   for (const entry of readdirSync(sourcePath, { withFileTypes: true })) {
+    if (ignoredTemplateEntries.has(entry.name)) continue
+
     const nextSourcePath = join(sourcePath, entry.name)
     const nextTargetPath = join(targetPath, entry.name === 'gitignore' ? '.gitignore' : entry.name)
 

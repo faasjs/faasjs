@@ -2,6 +2,15 @@
 
 FaasJS use [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- `@faasjs/core`
+  - [Break] Remove the in-process `CronJob` APIs and stop mounting background work from `Server.listen()` / `Server.close()`.
+  - [Break] Stop re-exporting `z` from `@faasjs/core`; import Zod directly from `zod` in APIs and templates.
+
+- `@faasjs/jobs`
+  - [Feature] Add PostgreSQL-backed `.job.ts` background jobs with `defineJob`, `enqueueJob`, `startJobWorker`, `startJobScheduler`, retries, leases, idempotency keys, and cron enqueue dedupe.
+
 [`v8.0.0-beta.26 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.25...v8.0.0-beta.26)
 
 - `faasjs`

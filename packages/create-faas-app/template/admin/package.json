@@ -21,7 +21,8 @@
     "antd": "*",
     "postgres": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "zod": ">=4.3.0"
   },
   "devDependencies": {
     "@electric-sql/pglite": "*",

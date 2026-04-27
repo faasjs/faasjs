@@ -31,11 +31,11 @@
   },
   "devDependencies": {
     "@faasjs/utils": ">=8.0.0-beta.26",
-    "zod": ">=4.0.0"
+    "zod": ">=4.3.0"
   },
   "peerDependencies": {
     "@faasjs/utils": ">=8.0.0-beta.26",
-    "zod": ">=4.0.0"
+    "zod": ">=4.3.0"
   },
   "engines": {
     "node": ">=24.0.0",

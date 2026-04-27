@@ -26,17 +26,18 @@ FaasJS favors complete application slices over generator-heavy workflows. A slic
 
 - [Curated Stack Guide](/guidelines/curated-stack.html): Use this guide when choosing defaults, reviewing architecture, or asking an AI coding agent to build a FaasJS feature.
 - [Application Slices Guide](/guidelines/application-slices.html): Use this guide when adding a business feature to a FaasJS app or asking an AI coding agent to build one.
-- [Project Config Guide](/guidelines/project-config.html): Use this guide when creating or reviewing a FaasJS project's `tsconfig.json`, `vite.config.ts`, or shared workspace tooling config.
-- [File Conventions](/guidelines/file-conventions.html): Use this guide when creating or reviewing frontend pages, React components, hooks, or FaasJS backend route files.
-- [Code Comments Guide](/guidelines/code-comments.html): Use this guide when adding or reviewing JSDoc, helper comments, or short intent notes in a FaasJS app or package. For docs site pages or tutorials, use the structure that best fits the page instead of forcing source-JSDoc conventions.
+- [Project Config Guide](/guidelines/project-config.html): Use for `tsconfig.json`, `vite.config.ts`, and shared workspace tooling config.
+- [File Conventions](/guidelines/file-conventions.html): Use this guide when creating or reviewing frontend pages, React components, hooks, FaasJS backend route files, or background job files.
+- [Code Comments Guide](/guidelines/code-comments.html): Use for source JSDoc, helper comments, and short intent notes in FaasJS apps or packages. Docs pages and tutorials may use page-specific structure instead.
 - [defineApi Guide](/guidelines/define-api.html): When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
+- [Jobs Guide](/guidelines/jobs.html): Use this guide when defining `.job.ts` background jobs, enqueueing asynchronous work, or running FaasJS workers and schedulers.
 - [Testing Guide](/guidelines/testing.html): Use this guide when writing or reviewing tests in FaasJS projects.
-- [React Guide](/guidelines/react.html): Use this guide when creating or reviewing React pages, components, or hooks in FaasJS projects.
-- [React Data Fetching Guide](/guidelines/react-data-fetching.html): Use this guide when creating or reviewing FaasJS data requests in React components.
+- [React Guide](/guidelines/react.html): Use for React pages, components, hooks, dependency handling, derived state, and `@faasjs/react` helpers.
+- [React Data Fetching Guide](/guidelines/react-data-fetching.html): Use for FaasJS requests in React: `useFaas`, `useFaasStream`, `faas`, `FaasDataWrapper`, `withFaasData`, client setup, loading, error, retry, debounce, polling, and reload behavior.
 - [React Testing Guide](/guidelines/react-testing.html): Use this guide when writing or reviewing React tests that exercise FaasJS request flows in hooks or components.
-- [Ant Design Guide](/guidelines/ant-design.html): Use this guide when developing or reviewing frontend features built with `@faasjs/ant-design`.
+- [Ant Design Guide](/guidelines/ant-design.html): Use for `@faasjs/ant-design` pages, CRUD surfaces, routes, app feedback, modals, and drawers.
 - [Node Utils Guide](/guidelines/node-utils.html): Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrapping, local tooling, config resolution, or logging.
-- [Logger Guide](/guidelines/logger.html): Use this guide when you need readable runtime logs in FaasJS handlers, middleware, cron jobs, server hooks, or standalone Node.js scripts.
+- [Logger Guide](/guidelines/logger.html): Use this guide when you need readable runtime logs in FaasJS handlers, middleware, background jobs, server hooks, or standalone Node.js scripts.
 - [Utils Guide](/guidelines/utils.html): Use this guide when you need lightweight helper functions from `@faasjs/utils` in app code, tests, or runtime adapters.
 - [PG Query Builder and Raw SQL Guide](/guidelines/pg-query-builder.html): When implementing or reviewing `@faasjs/pg` query code, default to the fluent `QueryBuilder` surface, and fall back to `client.raw(...)` only when the builder cannot express the SQL cleanly.
 - [PG Table Types Guide](/guidelines/pg-table-types.html): When implementing or reviewing `@faasjs/pg` table typing, default to declaration merging on `Tables`.
@@ -57,6 +58,7 @@ FaasJS favors complete application slices over generator-heavy workflows. A slic
 - [@faasjs/react](/doc/react/)
 - [@faasjs/ant-design](/doc/ant-design/)
 - [@faasjs/node-utils](/doc/node-utils/)
+- [@faasjs/jobs](/doc/jobs/)
 - [@faasjs/pg](/doc/pg/)
 - [@faasjs/pg-dev](/doc/pg-dev/)
 - [@faasjs/types](/doc/types/)

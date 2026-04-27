@@ -14,7 +14,8 @@ When implementing or reviewing a FaasJS HTTP endpoint, default to `defineApi`.
 ## Minimal Example
 
 ```ts
-import { defineApi, z } from '@faasjs/core'
+import { defineApi } from '@faasjs/core'
+import * as z from 'zod'
 
 export default defineApi({
   schema: z.object({
@@ -77,7 +78,8 @@ Response behavior summary:
 Example:
 
 ```ts
-import { defineApi, HttpError, z } from '@faasjs/core'
+import { defineApi, HttpError } from '@faasjs/core'
+import * as z from 'zod'
 
 export default defineApi({
   schema: z.object({

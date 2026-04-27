@@ -12,17 +12,14 @@
  */
 
 import type { output, ZodError, ZodType } from 'zod'
-import * as z from 'zod'
 
 import type { Handler, InvokeData } from './func'
 import { Func } from './func'
 import { HttpError, type Cookie, type Session } from './plugins/http'
 
-export { z }
 export * from './func'
 export * from './plugins/http'
 export * from './middleware'
-export * from './cron'
 export * from './server'
 export * from './utils'
 
@@ -133,7 +130,8 @@ function formatZodErrorMessage(error: ZodError): string {
  *
  * @example
  * ```ts
- * import { defineApi, z } from '@faasjs/core'
+ * import { defineApi } from '@faasjs/core'
+ * import * as z from 'zod'
  *
  * const schema = z.object({
  *   name: z.string().min(1),

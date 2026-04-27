@@ -1,0 +1,31 @@
+[@faasjs/jobs](../README.md) / JobRegistry
+
+# Type Alias: JobRegistry
+
+> **JobRegistry** = `Map`\<`string`, [`Job`](../classes/Job.md)\<`any`, `any`, `any`\>\>
+
+PostgreSQL-backed background jobs for FaasJS.
+
+## Install
+
+```sh
+npm install @faasjs/jobs @faasjs/pg
+```
+
+## Usage
+
+```ts
+import { defineJob, enqueueJob } from '@faasjs/jobs'
+import * as z from 'zod'
+
+export default defineJob({
+  schema: z.object({
+    userId: z.string(),
+  }),
+  async handler({ payload }) {
+    console.log(payload.userId)
+  },
+})
+
+await enqueueJob('jobs/users/sync', { userId: 'u_123' })
+```

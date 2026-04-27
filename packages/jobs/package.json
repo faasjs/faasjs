@@ -1,0 +1,51 @@
+{
+  "name": "@faasjs/jobs",
+  "version": "8.0.0-beta.26",
+  "description": "PostgreSQL-backed background jobs for FaasJS.",
+  "keywords": [
+    "background-jobs",
+    "faasjs",
+    "postgresql",
+    "queue",
+    "scheduler",
+    "typescript"
+  ],
+  "homepage": "https://faasjs.com/doc/jobs",
+  "bugs": {
+    "url": "https://github.com/faasjs/faasjs/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faasjs/faasjs.git",
+    "directory": "packages/jobs"
+  },
+  "funding": "https://github.com/sponsors/faasjs",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "devDependencies": {
+    "@faasjs/core": ">=8.0.0-beta.26",
+    "@faasjs/pg": ">=8.0.0-beta.26",
+    "zod": ">=4.3.0"
+  },
+  "peerDependencies": {
+    "@faasjs/core": ">=8.0.0-beta.26",
+    "@faasjs/pg": ">=8.0.0-beta.26",
+    "zod": ">=4.3.0"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  }
+}

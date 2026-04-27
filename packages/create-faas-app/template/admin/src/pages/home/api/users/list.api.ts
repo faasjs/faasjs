@@ -1,5 +1,6 @@
-import { defineApi, z } from '@faasjs/core'
+import { defineApi } from '@faasjs/core'
 import { getClient } from '@faasjs/pg'
+import * as z from 'zod'
 
 export default defineApi({
   schema: z.object({

@@ -22,7 +22,6 @@ import {
 } from '@faasjs/node-utils'
 import { deepMerge } from '@faasjs/utils'
 
-import { mountServerCronJobs, unmountServerCronJobs } from '../cron'
 import type { Func } from '../func'
 import type { Middleware } from '../middleware'
 import { HttpError } from '../plugins/http'
@@ -117,7 +116,7 @@ export function getAll(): Server[] {
  * ```
  */
 export async function closeAll(): Promise<void> {
-  for (const server of [...servers]) await server.close()
+  for (const server of servers.slice()) await server.close()
 }
 
 /**
@@ -209,23 +208,13 @@ export type ServerOptions = {
    * ```
    */
   beforeHandle?: Middleware
-
-  /**
-   * Whether to mount cron job lifecycle with this server instance.
-   *
-   * When enabled, `server.listen()` mounts registered cron jobs and
-   * `server.close()` unmounts them.
-   *
-   * @default true
-   */
-  cronJob?: boolean
 }
 
 /**
  * HTTP server that loads and runs FaasJS API files from a project root.
  *
  * A {@link Server} resolves API route files on demand, caches loaded handlers, and
- * can optionally mount cron jobs for the process lifecycle.
+ * dispatches each request through the matching function lifecycle.
  *
  * @example
  * ```ts
@@ -274,7 +263,6 @@ export class Server {
    * @param {ServerOptions['onError']} [opts.onError] - Async hook invoked when server-level errors occur.
    * @param {ServerOptions['onClose']} [opts.onClose] - Async hook invoked after the server closes.
    * @param {Middleware} [opts.beforeHandle] - Middleware hook invoked before each request is dispatched.
-   * @param {boolean} [opts.cronJob] - Whether server lifecycle should mount registered cron jobs.
    * @throws {Error} When `onStart`, `onError`, or `onClose` is not an async function.
    */
   constructor(root: string, opts: ServerOptions = {}) {
@@ -286,7 +274,6 @@ export class Server {
     this.options = deepMerge(
       {
         port: 3000,
-        cronJob: true,
       },
       opts,
     )
@@ -689,13 +676,6 @@ export class Server {
       })
       .listen(this.options.port, '0.0.0.0')
 
-    if (this.options.cronJob)
-      try {
-        mountServerCronJobs()
-      } catch (error) {
-        this.onError(error)
-      }
-
     process
       .on('uncaughtException', (e) => {
         this.logger.debug('Uncaught exception')
@@ -743,7 +723,7 @@ export class Server {
   /**
    * Close the server and wait for active requests to finish.
    *
-   * @returns {Promise<void>} Promise that resolves after sockets, cron jobs, and transports stop.
+   * @returns {Promise<void>} Promise that resolves after sockets, requests, and transports stop.
    */
   public async close(): Promise<void> {
     if (this.closed) {
@@ -753,13 +733,6 @@ export class Server {
 
     this.logger.debug('closing')
     this.logger.time(`${this.logger.label}close`)
-
-    if (this.options.cronJob)
-      try {
-        unmountServerCronJobs()
-      } catch (error) {
-        this.onError(error)
-      }
 
     if (this.activeRequests) {
       await new Promise<void>((resolve) => {

@@ -11,6 +11,7 @@ Before changing code, inspect nearby examples and read only the guides needed fo
 
 - New business feature or vertical slice: read [Application Slices Guide](./guidelines/application-slices.md), [File Conventions](./guidelines/file-conventions.md), then the relevant API, UI, PG, and testing guides below.
 - New or changed `.api.ts` endpoint: read [defineApi Guide](./guidelines/define-api.md) and [Testing Guide](./guidelines/testing.md); also read PG guides if the endpoint touches data.
+- New or changed `.job.ts` background job: read [Jobs Guide](./guidelines/jobs.md), [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md), and [PG Testing Guide](./guidelines/pg-testing.md).
 - React UI or request-flow change: read [React Guide](./guidelines/react.md), [React Data Fetching Guide](./guidelines/react-data-fetching.md), and [React Testing Guide](./guidelines/react-testing.md); read [Ant Design Guide](./guidelines/ant-design.md) for `@faasjs/ant-design` surfaces.
 - Database schema, query, or type change: read [PG Schema and Migrations Guide](./guidelines/pg-schema-and-migrations.md), [PG Table Types Guide](./guidelines/pg-table-types.md), [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md), and [PG Testing Guide](./guidelines/pg-testing.md).
 - Project tooling or config change: read [Project Config Guide](./guidelines/project-config.md) before editing `tsconfig.json`, `vite.config.ts`, or shared tool config.
@@ -48,6 +49,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - Imports follow the local `tsconfig.json`, existing aliases, and extensionless local import rules.
 - API changes include schema validation, typed `params`, narrow response shapes, and tests for success plus meaningful failure paths.
 - Creating, renaming, or moving `.api.ts` files is followed by `faas types` or a recorded reason it could not run.
+- Creating, renaming, or moving `.job.ts` files keeps `enqueueJob()` paths and worker/scheduler roots aligned.
 - Database shape changes include a migration, table type updates, and PG tests or a recorded reason they are not needed.
 - UI create/update/delete flows provide user feedback and refresh, close, or invalidate the affected surface intentionally.
 - Tests mock only narrow external boundaries and keep FaasJS validation, plugins, and database behavior real when practical.
@@ -74,6 +76,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - [React Data Fetching Guide](./guidelines/react-data-fetching.md): Covers when to use `useFaas`, `useFaasStream`, `faas`, or wrapper components, and how to handle loading, error, and retry states.
 - [React Testing Guide](./guidelines/react-testing.md): Covers request-related React testing with `setMock`, shared cleanup, `jsdom`, and common request-flow scenarios on top of the shared Testing Guide.
 - [defineApi Guide](./guidelines/define-api.md): Covers building `.api.ts` endpoints with `defineApi`, inline schemas, typed `params`, error handling, and validation expectations.
+- [Jobs Guide](./guidelines/jobs.md): Covers `.job.ts` files, `defineJob`, `enqueueJob`, workers, scheduler cron enqueueing, retries, idempotency, and testing.
 - [Logger Guide](./guidelines/logger.md): Covers when to reuse injected loggers versus creating `Logger` instances, how to choose log levels, and how to time slow operations.
 - [Utils Guide](./guidelines/utils.md): Covers portable helpers from `@faasjs/utils` for deep merging and converting text or JSON to and from streams.
 - [PG Query Builder and Raw SQL Guide](./guidelines/pg-query-builder.md): Covers preferring `QueryBuilder` clauses, choosing raw SQL fallbacks deliberately, keeping client bootstrap consistent, and narrowing row shapes intentionally.
@@ -94,6 +97,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - [@faasjs/core](./references/packages/core/README.md)
 - [create-faas-app](./references/packages/create-faas-app/README.md)
 - [@faasjs/dev](./references/packages/dev/README.md)
+- [@faasjs/jobs](./references/packages/jobs/README.md)
 - [@faasjs/pg](./references/packages/pg/README.md)
 - [@faasjs/pg-dev](./references/packages/pg-dev/README.md)
 - [@faasjs/node-utils](./references/packages/node-utils/README.md)

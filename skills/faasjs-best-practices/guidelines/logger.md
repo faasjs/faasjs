@@ -1,6 +1,6 @@
 # Logger Guide
 
-Use this guide when you need readable runtime logs in FaasJS handlers, middleware, cron jobs, server hooks, or standalone Node.js scripts.
+Use this guide when you need readable runtime logs in FaasJS handlers, middleware, background jobs, server hooks, or standalone Node.js scripts.
 
 ## Default Workflow
 
@@ -17,7 +17,7 @@ Use this guide when you need readable runtime logs in FaasJS handlers, middlewar
 
 - In FaasJS runtime code, `logger` is often already part of the callback context.
 - Reuse that logger so labels, timing, and transport behavior stay consistent with the runtime.
-- Do not create a second logger inside the same request or cron callback unless you have a very specific reason.
+- Do not create a second logger inside the same request or job handler unless you have a very specific reason.
 
 Middleware example:
 
@@ -31,13 +31,12 @@ export default useMiddleware((request, response, { logger }) => {
 })
 ```
 
-Cron job example:
+Job handler example:
 
 ```ts
-import { CronJob } from '@faasjs/core'
+import { defineJob } from '@faasjs/jobs'
 
-const job = new CronJob({
-  expression: '0 * * * *',
+export default defineJob({
   async handler({ logger }) {
     logger.info('run cleanup')
   },

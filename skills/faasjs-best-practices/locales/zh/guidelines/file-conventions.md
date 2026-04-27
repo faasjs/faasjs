@@ -1,6 +1,6 @@
 # 文件约定
 
-当你创建或评审前端页面、React 组件、hooks，或 FaasJS 后端路由文件时，请使用这份指南。
+当你创建或评审前端页面、React 组件、hooks、FaasJS 后端路由文件，或后台 job 文件时，请使用这份指南。
 
 ## 适用场景
 
@@ -8,6 +8,7 @@
 - 重组前端目录结构
 - 在 `pages/` 下新增页面或 feature 目录
 - 创建或移动 `.api.ts` 后端文件
+- 创建或移动 `.job.ts` 后台 job 文件
 - 评审文件名与文件位置是否对人类和 AI agent 都保持可预测
 
 ## 默认工作流
@@ -17,8 +18,8 @@
 3. 在有明确拆分理由前，把一次性的页面局部逻辑保留在当前文件内。
 4. 当组件或 hook 真正形成边界时，再给它单独文件。
 5. 以前端页面或 feature 为单位组织代码。
-6. 组件放在 `components/`，hooks 放在 `hooks/`，后端处理器放在 `api/`。
-7. 后端路由文件遵循 routing-mapping 规范。
+6. 组件放在 `components/`，hooks 放在 `hooks/`，后端处理器放在 `api/`，后台 jobs 放在 `jobs/`。
+7. 后端路由文件遵循 routing-mapping 规范，job 文件遵循 jobs 指南。
 
 ## 规则
 
@@ -135,7 +136,29 @@ src/pages/feature-name/api/default.api.ts
 - `/pages/feature-name/api`
 - `/pages/feature-name/api/*` fallback
 
-### 5. 保持导入路径可读
+### 5. 后台 jobs 放在 `jobs/` 下
+
+- Job 入口文件必须以 `.job.ts` 结尾。
+- 除非项目显式配置了其他 worker root，否则 job 文件应放在 `src/jobs/` 下。
+- Job 文件必须 default-export `defineJob(...)`。
+- `index.job.ts` 表示目录入口。
+- 移动或重命名 `.job.ts` 文件会改变 `enqueueJob()` 使用的路径，就像移动 `.api.ts` 会改变路由一样。
+
+优先这样组织：
+
+```text
+src/jobs/users/cleanup.job.ts
+src/jobs/emails/send.job.ts
+src/jobs/reports/index.job.ts
+```
+
+它会直接映射为：
+
+- `jobs/users/cleanup`
+- `jobs/emails/send`
+- `jobs/reports`
+
+### 6. 保持导入路径可读
 
 - 选择导入路径前，先阅读 `tsconfig.json` 及其继承配置。
 - 当路径需要跨越多层目录时，优先使用 TypeScript 配置中已经存在的 alias，而不是深层相对路径。
@@ -155,6 +178,7 @@ src/pages/feature-name/api/default.api.ts
 - 前端组件位于 `components/`
 - 前端 hooks 位于 `hooks/`
 - 前端对应的后端处理器位于 `api/`
+- 后台 job 文件位于 `jobs/`，并以 `.job.ts` 结尾
 - 只有页面入口文件位于外层页面或 feature 目录
 - 后端 `.api.ts` 文件遵循 routing-mapping
 - 导入路径在适用时遵循 `tsconfig.json` 已定义的 alias
@@ -164,3 +188,4 @@ src/pages/feature-name/api/default.api.ts
 
 - [路由映射规范](../specs/routing-mapping.md)
 - [defineApi 指南](./define-api.md)
+- [Jobs 指南](./jobs.md)

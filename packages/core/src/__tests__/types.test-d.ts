@@ -1,5 +1,6 @@
-import { defineApi, Func, z } from '@faasjs/core'
+import { defineApi, Func } from '@faasjs/core'
 import { assertType, expect, test } from 'vitest'
+import * as z from 'zod'
 
 import { type Cookie, type FuncEventType, type FuncReturnType, type Session } from '..'
 

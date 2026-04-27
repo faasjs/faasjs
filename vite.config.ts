@@ -6,6 +6,7 @@ import type { PackUserConfig } from 'vite-plus/pack'
 
 import { oxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
 import { oxlintConfig } from './packages/dev/src/vite/oxlint.ts'
+import { TypedPgVitestPlugin } from './packages/pg-dev/src/plugin.ts'
 
 const tests = ['packages/**/*.test.ts']
 
@@ -13,7 +14,31 @@ const uiTests = ['packages/**/*.test.tsx', 'packages/**/*.ui.test.ts']
 
 const typeTests = ['packages/**/*.types.test.ts', 'packages/**/*.types.test.tsx']
 
-const pgTests = ['packages/pg/**/*.test.ts', 'packages/pg-dev/**/*.test.ts']
+const pgTests = [
+  'packages/jobs/**/*.test.ts',
+  'packages/pg/**/*.test.ts',
+  'packages/pg-dev/**/*.test.ts',
+]
+
+const adminTemplateTests = ['packages/create-faas-app/template/admin/**/*.test.ts']
+const adminTemplateRoot = join(process.cwd(), 'packages/create-faas-app/template/admin')
+const workspacePackageAliases = Object.fromEntries(
+  [
+    'ant-design',
+    'core',
+    'dev',
+    'docgen',
+    'jobs',
+    'node-utils',
+    'pg',
+    'pg-dev',
+    'react',
+    'utils',
+  ].map((packageName) => [
+    `@faasjs/${packageName}`,
+    join(process.cwd(), 'packages', packageName, 'src/index.ts'),
+  ]),
+)
 
 const packEntries: Record<string, Record<string, string>> = {
   dev: {
@@ -23,6 +48,9 @@ const packEntries: Record<string, Record<string, string>> = {
   docgen: {
     index: './src/index.ts',
     cli: './src/cli.ts',
+  },
+  jobs: {
+    index: './src/index.ts',
   },
   'node-utils': {
     index: './src/index.ts',
@@ -48,6 +76,7 @@ const pack: PackUserConfig[] = [
   'create-faas-app',
   'dev',
   'docgen',
+  'jobs',
   'pg',
   'pg-dev',
   'utils',
@@ -105,7 +134,21 @@ export default defineConfig({
         test: {
           name: 'node',
           include: tests,
-          exclude: uiTests.concat(typeTests, pgTests),
+          exclude: uiTests.concat(typeTests, pgTests, adminTemplateTests),
+          environment: 'node',
+        },
+      },
+      {
+        extends: true as const,
+        root: adminTemplateRoot,
+        plugins: [TypedPgVitestPlugin()],
+        resolve: {
+          alias: workspacePackageAliases,
+          dedupe: ['@faasjs/pg'],
+        },
+        test: {
+          name: 'template-admin',
+          include: ['src/**/*.test.ts'],
           environment: 'node',
         },
       },

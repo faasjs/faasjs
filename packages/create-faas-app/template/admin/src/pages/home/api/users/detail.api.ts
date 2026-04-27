@@ -1,5 +1,6 @@
-import { defineApi, HttpError, z } from '@faasjs/core'
+import { defineApi, HttpError } from '@faasjs/core'
 import { getClient } from '@faasjs/pg'
+import * as z from 'zod'
 
 export default defineApi({
   schema: z.object({

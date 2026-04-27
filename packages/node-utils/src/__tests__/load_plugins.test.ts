@@ -3,8 +3,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { defineApi, z, type InvokeData, type Next, type Plugin } from '@faasjs/core'
+import { defineApi, type InvokeData, type Next, type Plugin } from '@faasjs/core'
 import { afterEach, describe, expect, it } from 'vitest'
+import * as z from 'zod'
 
 import { loadPlugins } from '../load_plugins'
 

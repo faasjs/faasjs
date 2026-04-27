@@ -1,6 +1,6 @@
 # File Conventions
 
-Use this guide when creating or reviewing frontend pages, React components, hooks, or FaasJS backend route files.
+Use this guide when creating or reviewing frontend pages, React components, hooks, FaasJS backend route files, or background job files.
 
 ## Default Workflow
 
@@ -9,8 +9,8 @@ Use this guide when creating or reviewing frontend pages, React components, hook
 3. Keep one-off page-local logic inline until extraction is justified.
 4. When a component or hook earns its own abstraction, give it its own file.
 5. Group frontend code by page or feature.
-6. Place components in `components/`, hooks in `hooks/`, and backend handlers in `api/`.
-7. Place backend route files according to the routing-mapping specification.
+6. Place components in `components/`, hooks in `hooks/`, backend route handlers in `api/`, and background jobs in `jobs/`.
+7. Place backend route files according to the routing-mapping specification and job files according to the jobs guide.
 
 ## Rules
 
@@ -127,7 +127,29 @@ This maps directly to:
 - `/pages/feature-name/api`
 - `/pages/feature-name/api/*` fallback
 
-### 5. Keep imports readable
+### 5. Place background jobs under `jobs/`
+
+- Job entry files MUST end with `.job.ts`.
+- Job files SHOULD live under `src/jobs/` unless a project has an explicit worker root.
+- Job files MUST default-export `defineJob(...)`.
+- `index.job.ts` acts as the directory entry for a job path.
+- Moving or renaming a `.job.ts` file changes the `enqueueJob()` path, just like moving a `.api.ts` file changes its route.
+
+Prefer this:
+
+```text
+src/jobs/users/cleanup.job.ts
+src/jobs/emails/send.job.ts
+src/jobs/reports/index.job.ts
+```
+
+This maps directly to:
+
+- `jobs/users/cleanup`
+- `jobs/emails/send`
+- `jobs/reports`
+
+### 6. Keep imports readable
 
 - Read `tsconfig.json` and any config it extends before choosing import paths.
 - Prefer aliases already defined in TypeScript config over deep relative imports when the path would otherwise cross several directories.
@@ -147,6 +169,7 @@ This maps directly to:
 - frontend components live in `components/`
 - frontend hooks live in `hooks/`
 - frontend backend handlers live in `api/`
+- background job files live in `jobs/` and end with `.job.ts`
 - only page entry files stay at the outer page or feature level
 - backend `.api.ts` files follow routing-mapping
 - imports follow aliases already defined in `tsconfig.json` when available

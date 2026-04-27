@@ -1,4 +1,4 @@
-import { defineApi, Func, z } from '@faasjs/core'
+import { defineApi, Func } from '@faasjs/core'
 import type {
   FaasAction,
   FaasActions,
@@ -9,6 +9,7 @@ import type {
   InferFaasAction,
 } from '@faasjs/types'
 import { assertType, expectTypeOf, test } from 'vitest'
+import * as z from 'zod'
 
 declare module '@faasjs/types' {
   interface FaasActions {

@@ -20,7 +20,8 @@
 ## 最小示例
 
 ```ts
-import { defineApi, z } from '@faasjs/core'
+import { defineApi } from '@faasjs/core'
+import * as z from 'zod'
 
 export default defineApi({
   schema: z.object({
@@ -82,7 +83,8 @@ export default defineApi({
 示例：
 
 ```ts
-import { defineApi, HttpError, z } from '@faasjs/core'
+import { defineApi, HttpError } from '@faasjs/core'
+import * as z from 'zod'
 
 export default defineApi({
   schema: z.object({

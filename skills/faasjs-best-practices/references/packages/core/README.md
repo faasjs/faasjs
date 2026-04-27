@@ -3,23 +3,17 @@
 ## Functions
 
 - [closeAll](functions/closeAll.md)
-- [createCronJob](functions/createCronJob.md)
 - [defineApi](functions/defineApi.md)
 - [getAll](functions/getAll.md)
-- [listCronJobs](functions/listCronJobs.md)
-- [mountServerCronJobs](functions/mountServerCronJobs.md)
 - [nameFunc](functions/nameFunc.md)
 - [parseApiFilenameFromStack](functions/parseApiFilenameFromStack.md)
-- [removeCronJob](functions/removeCronJob.md)
 - [staticHandler](functions/staticHandler.md)
-- [unmountServerCronJobs](functions/unmountServerCronJobs.md)
 - [useMiddleware](functions/useMiddleware.md)
 - [useMiddlewares](functions/useMiddlewares.md)
 
 ## Classes
 
 - [Cookie](classes/Cookie.md)
-- [CronJob](classes/CronJob.md)
 - [Func](classes/Func.md)
 - [Http](classes/Http.md)
 - [HttpError](classes/HttpError.md)
@@ -30,10 +24,6 @@
 
 - [Config](type-aliases/Config.md)
 - [CookieOptions](type-aliases/CookieOptions.md)
-- [CronJobContext](type-aliases/CronJobContext.md)
-- [CronJobErrorHandler](type-aliases/CronJobErrorHandler.md)
-- [CronJobHandler](type-aliases/CronJobHandler.md)
-- [CronJobOptions](type-aliases/CronJobOptions.md)
 - [DefineApiData](type-aliases/DefineApiData.md)
 - [DefineApiOptions](type-aliases/DefineApiOptions.md)
 - [ExportedHandler](type-aliases/ExportedHandler.md)

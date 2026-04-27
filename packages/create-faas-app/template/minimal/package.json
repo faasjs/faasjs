@@ -13,7 +13,8 @@
     "@faasjs/core": "*",
     "@faasjs/react": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "zod": ">=4.3.0"
   },
   "devDependencies": {
     "@faasjs/dev": "*"

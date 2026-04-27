@@ -1,10 +1,10 @@
 # Logger 指南
 
-当你需要在 FaasJS handler、middleware、cron job、server hooks 或独立 Node.js 脚本中写出易读的运行时日志时，请使用这份指南。
+当你需要在 FaasJS handler、middleware、background job、server hooks 或独立 Node.js 脚本中写出易读的运行时日志时，请使用这份指南。
 
 ## 适用场景
 
-- 在 middleware、plugins 或 cron jobs 中写日志
+- 在 middleware、plugins 或 background jobs 中写日志
 - 为 FaasJS server 增加请求、生命周期或失败日志
 - 创建需要共享 logger 的独立脚本
 - 给慢操作加计时
@@ -25,7 +25,7 @@
 
 - 在 FaasJS 运行时代码中，`logger` 往往已经是回调上下文的一部分。
 - 复用它可以让 labels、计时和 transport 行为与运行时保持一致。
-- 除非有非常明确的理由，否则不要在同一个请求或 cron 回调里再创建第二个 logger。
+- 除非有非常明确的理由，否则不要在同一个请求或 job handler 里再创建第二个 logger。
 
 Middleware 示例：
 
@@ -39,13 +39,12 @@ export default useMiddleware((request, response, { logger }) => {
 })
 ```
 
-Cron job 示例：
+Job handler 示例：
 
 ```ts
-import { CronJob } from '@faasjs/core'
+import { defineJob } from '@faasjs/jobs'
 
-const job = new CronJob({
-  expression: '0 * * * *',
+export default defineJob({
   async handler({ logger }) {
     logger.info('run cleanup')
   },
@@ -174,5 +173,5 @@ process.on('SIGINT', async () => {
 - [getTransport](/doc/node-utils/functions/getTransport.html)
 - [formatLogger](/doc/node-utils/functions/formatLogger.html)
 - [useMiddleware](/doc/core/functions/useMiddleware.html)
-- [CronJob](/doc/core/classes/CronJob.html)
-- [ServerOptions](/doc/core/type-aliases/ServerOptions.html)
+- [defineJob](/doc/jobs/functions/defineJob.html)
+- [startJobWorker](/doc/jobs/functions/startJobWorker.html)

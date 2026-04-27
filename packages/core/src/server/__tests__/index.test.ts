@@ -55,7 +55,6 @@ describe.sequential('server', () => {
     expect(getAll()).toHaveLength(1)
     expect(getAll()[0].root).toEqual(join(__dirname, 'funcs', sep))
     expect(getAll()[0].options).toEqual({
-      cronJob: true,
       port,
     })
   })

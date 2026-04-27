@@ -26,6 +26,7 @@ The curated default path is:
 - `@faasjs/ant-design` and Ant Design for business UI components
 - PostgreSQL for relational data
 - `@faasjs/pg` for typed database workflows, queries, and migrations
+- `@faasjs/jobs` for PostgreSQL-backed background jobs and scheduled job enqueueing
 - `defineApi` for typed backend endpoints
 - schema validation at system boundaries
 - Vitest-based testing
@@ -161,9 +162,9 @@ Current official batteries include:
 - React client bindings
 - Ant Design business UI components
 - PostgreSQL query, migration, and testing workflows
+- PostgreSQL-backed background jobs and scheduled enqueue workflows
 - Node utilities and plugin conventions
 - dev tooling and templates
-- scheduled tasks
 
 Potential future batteries such as seed data, fixtures, uploads, queues, and mailers should be evaluated by whether they strengthen database-driven React business applications and can be layered without bloating core.
 
