@@ -6,10 +6,6 @@
 
 ## Type Declaration
 
-### autoStart?
-
-> `optional` **autoStart?**: `boolean`
-
 ### concurrency?
 
 > `optional` **concurrency?**: `number`

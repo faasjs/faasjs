@@ -8,14 +8,7 @@ import { getClient, getClients, type Client } from '@faasjs/pg'
 import { afterAll, afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { getJobPathFromFile, loadJobRegistry } from '../discovery'
-import {
-  enqueueJob,
-  JobScheduler,
-  JobWorker,
-  startJobScheduler,
-  startJobWorker,
-  type JobRecord,
-} from '../index'
+import { enqueueJob, JobScheduler, JobWorker, type JobRecord } from '../index'
 import { ensureJobsSchema } from '../queue'
 
 const root = resolve(__dirname, 'fixtures/src')
@@ -125,9 +118,7 @@ describe('jobs', () => {
 
     cronJob.cron[0].queue = ''
 
-    const scheduler = new JobScheduler(registry, {
-      autoStart: false,
-    })
+    const scheduler = new JobScheduler(registry)
 
     await expect(scheduler.tick(new Date('2026-01-01T00:00:00.000Z'))).rejects.toThrow(
       'queue must not be empty',
@@ -245,10 +236,7 @@ export default defineJob({
     const record = await enqueueJob('jobs/success', {
       message: 'processed',
     })
-    const worker = await startJobWorker({
-      root,
-      autoStart: false,
-    })
+    const worker = new JobWorker(await loadJobRegistry({ root }))
 
     expect(worker.jobs.has('jobs/success')).toEqual(true)
     expect(await worker.poll()).toEqual(1)
@@ -285,10 +273,7 @@ export default defineJob({
         maxAttempts: 2,
       },
     )
-    const worker = await startJobWorker({
-      root,
-      autoStart: false,
-    })
+    const worker = new JobWorker(await loadJobRegistry({ root }))
 
     expect(await worker.poll()).toEqual(1)
 
@@ -317,10 +302,7 @@ export default defineJob({
 
   it('records a missing job handler as a job failure', async () => {
     const record = await enqueueJob('jobs/missing', {}, { maxAttempts: 1 })
-    const worker = await startJobWorker({
-      root,
-      autoStart: false,
-    })
+    const worker = new JobWorker(await loadJobRegistry({ root }))
 
     expect(await worker.poll()).toEqual(1)
 
@@ -333,10 +315,7 @@ export default defineJob({
   })
 
   it('deduplicates scheduler cron enqueue attempts', async () => {
-    const scheduler = await startJobScheduler({
-      root,
-      autoStart: false,
-    })
+    const scheduler = new JobScheduler(await loadJobRegistry({ root }))
     const scheduledAt = new Date('2026-01-01T00:00:00.000Z')
 
     await scheduler.tick(scheduledAt)

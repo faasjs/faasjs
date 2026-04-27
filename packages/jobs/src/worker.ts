@@ -15,7 +15,6 @@ export type JobWorkerOptions = LoadJobRegistryOptions & {
   pollInterval?: number
   leaseSeconds?: number
   workerId?: string
-  autoStart?: boolean
 }
 
 async function resolveRetryRunAt(
@@ -286,7 +285,7 @@ export async function startJobWorker(options: JobWorkerOptions = {}): Promise<Jo
 
   const worker = new JobWorker(await loadJobRegistry(options), options)
 
-  if (options.autoStart !== false) worker.start()
+  worker.start()
 
   return worker
 }

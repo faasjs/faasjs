@@ -9,6 +9,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Stop re-exporting `z` from `@faasjs/core`; import Zod directly from `zod` in APIs and templates.
 
 - `@faasjs/jobs`
+  - [Break] Remove the `autoStart` option from job worker and scheduler startup helpers; use `JobWorker` or `JobScheduler` directly for manual polling/ticking.
   - [Feature] Add PostgreSQL-backed `.job.ts` background jobs with `defineJob`, `enqueueJob`, schema-inferred `params`, `startJobWorker`, `startJobScheduler`, retries, leases, idempotency keys, and cron enqueue dedupe.
 
 - `@faasjs/node-utils`

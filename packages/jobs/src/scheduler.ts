@@ -12,7 +12,6 @@ import type { JobCron } from './types'
 export type JobSchedulerOptions = LoadJobRegistryOptions & {
   pollInterval?: number
   schedulerId?: string
-  autoStart?: boolean
 }
 
 function stableStringify(value: unknown): string {
@@ -143,7 +142,7 @@ export async function startJobScheduler(options: JobSchedulerOptions = {}): Prom
 
   const scheduler = new JobScheduler(await loadJobRegistry(options), options)
 
-  if (options.autoStart !== false) scheduler.start()
+  scheduler.start()
 
   return scheduler
 }
