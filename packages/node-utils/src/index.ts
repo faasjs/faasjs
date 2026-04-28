@@ -26,11 +26,7 @@ export { colorfy, Color, LevelColor } from './color'
 export type { Level } from './logger'
 export { formatLogger, Logger } from './logger'
 export { isPathInsideRoot } from './is_path_inside_root'
-export type {
-  LoadPackageOptions,
-  NodeRuntime,
-  RegisterNodeModuleHooksOptions,
-} from './load_package'
+export type { NodeRuntime, RegisterNodeModuleHooksOptions } from './load_package'
 export {
   detectNodeRuntime,
   loadPackage,

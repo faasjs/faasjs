@@ -19,6 +19,8 @@ import {
   loadPackage,
   loadPlugins,
   Logger,
+  registerNodeModuleHooks,
+  type RegisterNodeModuleHooksOptions,
 } from '@faasjs/node-utils'
 import { deepMerge } from '@faasjs/utils'
 
@@ -501,15 +503,17 @@ export class Server {
         ? srcTsconfig
         : undefined
 
-    const loadOptions: Parameters<typeof loadPackage>[2] = {
+    const hookOptions: RegisterNodeModuleHooksOptions = {
       root: tsconfigPath ? dirname(tsconfigPath) : resolve(srcRoot, '..'),
     }
 
-    if (tsconfigPath) loadOptions.tsconfigPath = tsconfigPath
+    if (tsconfigPath) hookOptions.tsconfigPath = tsconfigPath
 
-    if (process.env.FAASJS_MODULE_VERSION) loadOptions.version = process.env.FAASJS_MODULE_VERSION
+    if (process.env.FAASJS_MODULE_VERSION) hookOptions.version = process.env.FAASJS_MODULE_VERSION
 
-    const api = await loadPackage<Func>(file, 'default', loadOptions)
+    registerNodeModuleHooks(hookOptions)
+
+    const api = await loadPackage<Func>(file)
 
     if (!api || typeof api.export !== 'function')
       throw Error(`API module "${file}" must export a FaasJS API instance as default`)

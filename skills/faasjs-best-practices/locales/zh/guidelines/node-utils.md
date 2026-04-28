@@ -80,7 +80,7 @@ console.log(config.plugins?.http)
 - `parseYaml()` 不会遍历目录、应用 staging fallback，也不会校验 `faas.yaml` schema；当你没有走 `loadConfig()` 时，需要自行校验解析结果的结构。
 - 需要最终 handler 时，使用 `loadApiHandler()`。
 - 当你已经有 `Func` 实例，并希望在导出或挂载前附加 YAML 驱动的 plugins 与 config 时，使用 `loadPlugins()`。
-- 一般性的 Node 动态模块加载，尤其目标是本地 TypeScript 文件或支持 path alias 的模块时，使用 `loadPackage()`。
+- 加载默认导出的 Node 动态模块，尤其目标是本地 TypeScript 文件或支持 path alias 的模块时，使用 `loadPackage()`。
 - 优先使用这些 helpers，而不是临时写 `import()` 包装，这样 cache busting、tsconfig 解析和 plugin 装载行为才能保持一致。
 
 ```ts

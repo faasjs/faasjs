@@ -69,7 +69,7 @@ console.log(config.plugins?.http)
 - `parseYaml()` does not walk directories, apply staging fallbacks, or validate the `faas.yaml` schema, so validate the parsed shape yourself when you are not calling `loadConfig()`.
 - Use `loadApiHandler()` when you need the final handler that a runtime or test will invoke.
 - Use `loadPlugins()` when you already have a `Func` instance and want YAML-driven plugins and config attached before exporting or mounting it.
-- Use `loadPackage()` for general dynamic module loading in Node.js, especially when the target is a local TypeScript file or a path-alias-aware module.
+- Use `loadPackage()` for default-export dynamic module loading in Node.js, especially when the target is a local TypeScript file or a path-alias-aware module.
 - Prefer these helpers over ad hoc `import()` wrappers so cache busting, tsconfig resolution, and plugin wiring stay consistent.
 
 ```ts

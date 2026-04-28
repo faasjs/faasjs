@@ -25,8 +25,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/node-utils`
   - [Break] Require config-driven plugins to export a matching named lifecycle class, and remove default-export plugin constructor fallback.
   - [Feature] Add reusable Zod schema parsing helpers for FaasJS boundary validation.
-  - [Break] Make `loadPackage()` fail when requested exports are missing instead of falling back to the full module namespace.
-  - [Break] Require `loadPackage()` callers to pass a single export name instead of an export-name fallback list.
+  - [Break] Make `loadPackage()` return only the default export and remove its `defaultName` and `options` parameters; use `registerNodeModuleHooks()` for explicit root, tsconfig, or version overrides.
   - [Break] Stop resolving imports such as `./config.json` to shadow files such as `./config.json.ts`; use extensionless imports or the exact source filename.
   - [Break] Stop resolving the removed `@faasjs/http` plugin package alias to `@faasjs/core`; use plugin type `http` instead.
 

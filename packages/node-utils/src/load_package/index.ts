@@ -11,9 +11,15 @@ import { isPathInsideRoot } from '../is_path_inside_root/index.ts'
 export type NodeRuntime = 'module'
 
 /**
- * Options for loading modules with tsconfig path aliases and runtime-aware cache control.
+ * Options for preloading Node module hooks that resolve tsconfig paths and local TypeScript files.
  */
-export type LoadPackageOptions = {
+export type RegisterNodeModuleHooksOptions = {
+  /**
+   * Application entry file used to infer the project root and tsconfig path.
+   *
+   * @default process.argv[1]
+   */
+  entry?: string
   /**
    * Project root used to scope tsconfig path alias resolution.
    */
@@ -30,17 +36,7 @@ export type LoadPackageOptions = {
   version?: string
 }
 
-/**
- * Options for preloading Node module hooks that resolve tsconfig paths and local TypeScript files.
- */
-export type RegisterNodeModuleHooksOptions = LoadPackageOptions & {
-  /**
-   * Application entry file used to infer the project root and tsconfig path.
-   *
-   * @default process.argv[1]
-   */
-  entry?: string
-}
+type LoaderOptions = Omit<RegisterNodeModuleHooksOptions, 'entry'>
 
 type TsconfigPathRule = {
   key: string
@@ -370,13 +366,13 @@ function parseTsconfig(tsconfigPath: string): TsconfigData {
   }
 }
 
-function findNearestTsconfig(startPath: string): string | undefined {
+function findNearestFile(startPath: string, filename: string): string | undefined {
   let current = resolve(startPath)
 
   while (true) {
-    const tsconfigPath = join(current, 'tsconfig.json')
+    const filePath = join(current, filename)
 
-    if (existsSync(tsconfigPath)) return tsconfigPath
+    if (existsSync(filePath)) return filePath
 
     const parent = dirname(current)
 
@@ -384,6 +380,52 @@ function findNearestTsconfig(startPath: string): string | undefined {
 
     current = parent
   }
+}
+
+function findNearestTsconfig(startPath: string): string | undefined {
+  return findNearestFile(startPath, 'tsconfig.json')
+}
+
+function inferLoaderOptionsFromFile(filePath: string): LoaderOptions {
+  const fileDir = dirname(filePath)
+  const tsconfigPath = findNearestTsconfig(fileDir)
+
+  if (tsconfigPath)
+    return {
+      root: normalizeRoot(dirname(tsconfigPath)),
+      tsconfigPath,
+    }
+
+  const packageJsonPath = findNearestFile(fileDir, 'package.json')
+
+  if (packageJsonPath)
+    return {
+      root: normalizeRoot(dirname(packageJsonPath)),
+    }
+
+  const faasYamlPath = findNearestFile(fileDir, 'faas.yaml')
+
+  if (faasYamlPath) {
+    const faasYamlDir = dirname(faasYamlPath)
+
+    return {
+      root: normalizeRoot(faasYamlDir.endsWith(`${sep}src`) ? dirname(faasYamlDir) : faasYamlDir),
+    }
+  }
+
+  return {
+    root: normalizeRoot(fileDir),
+  }
+}
+
+function resolveLoadPackageSpecifier(name: string): string {
+  if (hasUrlScheme(name)) return name
+  if (!isAbsolute(name) && !isRelativeSpecifier(name)) return name
+
+  const absolutePath = isAbsolute(name) ? name : resolve(process.cwd(), name)
+  const scriptFile = resolveScriptFile(absolutePath) || resolve(absolutePath)
+
+  return pathToFileURL(scriptFile).href
 }
 
 function resolveRuleSpecifier(specifier: string, state: LoaderState): string | undefined {
@@ -486,7 +528,7 @@ function buildLoaderState(root: string, tsconfigPath: string, version: string): 
   }
 }
 
-function ensureLoaderState(name: string, options: LoadPackageOptions): LoaderState | undefined {
+function ensureLoaderState(name: string, options: LoaderOptions): LoaderState | undefined {
   let root = options.root ? normalizeRoot(options.root) : ''
   let tsconfigPath = options.tsconfigPath ? normalizeFileSystemPath(options.tsconfigPath) : ''
 
@@ -496,12 +538,10 @@ function ensureLoaderState(name: string, options: LoadPackageOptions): LoaderSta
     const filePath = toFilePath(name)
 
     if (filePath) {
-      const nearestTsconfig = findNearestTsconfig(dirname(filePath))
+      const inferredOptions = inferLoaderOptionsFromFile(filePath)
 
-      if (nearestTsconfig) {
-        tsconfigPath = nearestTsconfig
-        root = normalizeRoot(dirname(nearestTsconfig))
-      }
+      root = inferredOptions.root || ''
+      tsconfigPath = inferredOptions.tsconfigPath || tsconfigPath
     }
   }
 
@@ -638,17 +678,15 @@ export function detectNodeRuntime(): NodeRuntime {
 }
 
 /**
- * Load a module in the current Node ESM runtime and resolve a preferred export key.
+ * Load a module in the current Node ESM runtime and return its default export.
  *
  * The loader can install tsconfig-aware hooks and append a version query string to bust Node's
  * import cache for project-local files.
  *
  * @template T - The type of module to be loaded.
  * @param {string} name - Package name, file path, or module specifier to load.
- * @param {string} defaultName - Export key to resolve. @default 'default'
- * @param {LoadPackageOptions} options - Optional loader overrides such as project root, tsconfig path, or cache-busting version. @default {}
- * @returns {Promise<T>} Loaded export value.
- * @throws {Error} If the runtime cannot be detected, the requested module fails to load, or the requested export is missing.
+ * @returns {Promise<T>} Loaded default export value.
+ * @throws {Error} If the runtime cannot be detected, the requested module fails to load, or the default export is missing.
  *
  * @example
  * ```ts
@@ -657,22 +695,19 @@ export function detectNodeRuntime(): NodeRuntime {
  * const api = await loadPackage('./src/hello.api.ts')
  * ```
  */
-export async function loadPackage<T = unknown>(
-  name: string,
-  defaultName: string = 'default',
-  options: LoadPackageOptions = {},
-): Promise<T> {
+export async function loadPackage<T = unknown>(name: string): Promise<T> {
   const runtime = detectNodeRuntime()
+  const specifier = resolveLoadPackageSpecifier(name)
 
   let module: any
 
   if (runtime !== 'module') throw Error('Unknown runtime')
 
-  if (ensureLoaderState(name, options)) installModuleHooks()
+  if (ensureLoaderState(specifier, {})) installModuleHooks()
 
-  module = await import(name)
+  module = await import(specifier)
 
-  if (defaultName in module) return module[defaultName]
+  if ('default' in module) return module.default
 
-  throw Error(`[loadPackage] Module "${name}" must export "${defaultName}".`)
+  throw Error(`[loadPackage] Module "${name}" must export "default".`)
 }

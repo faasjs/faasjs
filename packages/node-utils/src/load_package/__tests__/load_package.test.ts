@@ -99,26 +99,10 @@ describe('loadPackage', () => {
     expect(result).toBe('my-module-default')
   })
 
-  it('should load a module with an export name', async () => {
-    const result = await loadPackage<string>(
-      createDataModuleURL(`export const test = 'my-module-default'`),
-      'test',
-    )
-
-    expect(result).toBe('my-module-default')
-  })
-
-  it('should load esm module in module runtime', async () => {
-    const path = await import('node:path')
-    const result = await loadPackage<string>('node:path', 'sep')
-
-    expect(result).toBe(path.sep)
-  })
-
   it('should reject missing default export key', async () => {
-    await expect(
-      loadPackage(createDataModuleURL(`export const key = 'value'`), 'default'),
-    ).rejects.toThrow('must export "default"')
+    await expect(loadPackage(createDataModuleURL(`export const key = 'value'`))).rejects.toThrow(
+      'must export "default"',
+    )
   })
 
   it('should reuse cached runtime', () => {
@@ -215,12 +199,14 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 resetRuntime()
 
 const entry = join(root, 'src', 'entry.api.ts')
-const first = await loadPackage(entry, 'default', { root, version: '1' })
+process.env.FAASJS_MODULE_VERSION = '1'
+const first = await loadPackage(entry)
 const firstValue = await first.export().handler()
 
 writeFileSync(join(root, 'src', 'shared', 'message.ts'), "export const message = 'v2'\\n", 'utf8')
 
-const second = await loadPackage(entry, 'default', { root, version: '2' })
+process.env.FAASJS_MODULE_VERSION = '2'
+const second = await loadPackage(entry)
 const secondValue = await second.export().handler()
 
 process.stdout.write(JSON.stringify({ firstValue, secondValue }))
@@ -268,10 +254,7 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 
 resetRuntime()
 
-const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'), 'default', {
-  root,
-  version: '3',
-})
+const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'))
 
 const value = await loaded.export().handler()
 process.stdout.write(String(value))
@@ -279,6 +262,49 @@ process.stdout.write(String(value))
     )
 
     expect(output).toBe('ok')
+  })
+
+  it('should load a relative file path from the process cwd', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'faas-load-package-relative-entry-'))
+    tempDirs.push(root)
+
+    await mkdir(join(root, 'src'), {
+      recursive: true,
+    })
+
+    await writeFile(join(root, 'src', 'message.ts'), `export const message = 'cwd'\n`, 'utf8')
+    await writeFile(
+      join(root, 'src', 'entry.api.ts'),
+      `import { message } from './message'
+
+export default {
+  export() {
+    return {
+      handler: async () => message,
+    }
+  },
+}
+`,
+      'utf8',
+    )
+
+    const output = await runNativeLoadPackage(
+      root,
+      `
+const root = process.env.FAAS_TEST_ROOT
+const moduleUrl = process.env.FAAS_LOAD_PACKAGE_MODULE_URL
+const { loadPackage, resetRuntime } = await import(moduleUrl)
+
+resetRuntime()
+process.chdir(root)
+
+const loaded = await loadPackage('./src/entry.api.ts')
+const value = await loaded.export().handler()
+process.stdout.write(String(value))
+`,
+    )
+
+    expect(output).toBe('cwd')
   })
 
   it('should resolve exact relative imports with an existing suffix', async () => {
@@ -316,10 +342,7 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 
 resetRuntime()
 
-const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'), 'default', {
-  root,
-  version: '5',
-})
+const loaded = await loadPackage(join(root, 'src', 'entry.api.ts'))
 
 const value = await loaded.export().handler()
 process.stdout.write(String(value))
@@ -394,9 +417,7 @@ const { loadPackage, resetRuntime } = await import(moduleUrl)
 resetRuntime()
 
 const entry = pathToFileURL(join(root, 'src', 'nested', 'entry.api.ts')).href
-const loaded = await loadPackage(entry, 'default', {
-  version: '6',
-})
+const loaded = await loadPackage(entry)
 
 const value = await loaded.export().handler()
 process.stdout.write(String(value))

@@ -1,7 +1,13 @@
 import { existsSync, readdirSync, statSync } from 'node:fs'
 import { dirname, join, relative, resolve, sep } from 'node:path'
 
-import { type LoadPackageOptions, loadPackage, loadPlugins, Logger } from '@faasjs/node-utils'
+import {
+  loadPackage,
+  loadPlugins,
+  Logger,
+  registerNodeModuleHooks,
+  type RegisterNodeModuleHooksOptions,
+} from '@faasjs/node-utils'
 
 import { isJob, type Job } from './define_job'
 
@@ -43,7 +49,7 @@ function collectJobFiles(root: string): string[] {
   return files.sort()
 }
 
-function getLoadPackageOptions(root: string): LoadPackageOptions {
+function getModuleHooksOptions(root: string): RegisterNodeModuleHooksOptions {
   const srcRoot = resolve(root)
   const projectTsconfig = join(resolve(srcRoot, '..'), 'tsconfig.json')
   const srcTsconfig = join(srcRoot, 'tsconfig.json')
@@ -52,7 +58,7 @@ function getLoadPackageOptions(root: string): LoadPackageOptions {
     : existsSync(srcTsconfig)
       ? srcTsconfig
       : undefined
-  const options: LoadPackageOptions = {
+  const options: RegisterNodeModuleHooksOptions = {
     root: tsconfigPath ? dirname(tsconfigPath) : resolve(srcRoot, '..'),
   }
 
@@ -86,11 +92,13 @@ export async function loadJobRegistry(options: LoadJobRegistryOptions = {}): Pro
   const logger = options.logger || new Logger('@faasjs/jobs')
   const staging = options.staging || process.env.FaasEnv || 'development'
   const registry: JobRegistry = new Map()
-  const loadOptions = getLoadPackageOptions(root)
+  const hookOptions = getModuleHooksOptions(root)
+
+  registerNodeModuleHooks(hookOptions)
 
   for (const file of collectJobFiles(root)) {
     const jobPath = getJobPathFromFile(file, root)
-    const loaded = await loadPackage<unknown>(file, 'default', loadOptions)
+    const loaded = await loadPackage<unknown>(file)
 
     if (!isJob(loaded)) throw Error(`[jobs] ${file} must default export defineJob(...).`)
 

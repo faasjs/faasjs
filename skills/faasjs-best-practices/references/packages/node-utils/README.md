@@ -28,7 +28,6 @@
 - [FuncConfig](type-aliases/FuncConfig.md)
 - [FuncPluginConfig](type-aliases/FuncPluginConfig.md)
 - [Level](type-aliases/Level.md)
-- [LoadPackageOptions](type-aliases/LoadPackageOptions.md)
 - [LoadPluginsOptions](type-aliases/LoadPluginsOptions.md)
 - [LoggerMessage](type-aliases/LoggerMessage.md)
 - [NodeRuntime](type-aliases/NodeRuntime.md)
