@@ -38,7 +38,11 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/pg-dev`
   - [Break] Require `VITEST_POOL_ID` for TypedPgVitest worker database lookup and remove `VITEST_WORKER_ID` / worker `1` fallbacks.
   - [Break] Drop old Node worker-count and package shim fallbacks from the Vitest plugin runtime.
+  - [Break] Remove the legacy `./typed-pg-vitest-setup` and `./typed-pg-vitest-global-setup` subpath exports; use `TypedPgVitestPlugin()` instead.
   - [Break] Stop reusing the first TypedPgVitest database URL when the current worker id is missing; missing worker mappings now fail explicitly.
+
+- `@faasjs/types`
+  - [Break] Remove the `faasjsActionsPlaceholder` member from `FaasActions`; route declarations now come only from module augmentation.
 
 [`v8.0.0-beta.26 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.25...v8.0.0-beta.26)
 

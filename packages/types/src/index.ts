@@ -29,23 +29,12 @@
 /**
  * Interface for defining FaasJS actions.
  */
-export interface FaasActions {
-  /**
-   * Internal placeholder to keep this interface visible in generated docs.
-   */
-  faasjsActionsPlaceholder?: {
-    Params: Record<string, any>
-    Data: Record<string, any>
-  }
-}
+export interface FaasActions {}
 
 /**
- * Infer all action paths declared in {@link FaasActions}.
+ * Infer all declared action paths.
  */
-export type FaasActionPaths = Exclude<
-  Extract<keyof FaasActions, string>,
-  'faasjsActionsPlaceholder'
->
+export type FaasActionPaths = Extract<keyof FaasActions, string>
 
 /**
  * Union type accepted by action helpers when callers pass either an action path or inferred data shape.

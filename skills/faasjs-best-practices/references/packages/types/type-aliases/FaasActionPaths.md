@@ -2,6 +2,6 @@
 
 # Type Alias: FaasActionPaths
 
-> **FaasActionPaths** = `Exclude`\<`Extract`\<keyof `FaasActions`, `string`\>, `"faasjsActionsPlaceholder"`\>
+> **FaasActionPaths** = `Extract`\<keyof `FaasActions`, `string`\>
 
-Infer all action paths declared in FaasActions.
+Infer all declared action paths.

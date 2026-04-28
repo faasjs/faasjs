@@ -150,20 +150,7 @@ describe('typed-pg-dev published package', () => {
 
       expect(output).toContain('1 passed')
       expect(
-        existsSync(
-          join(consumerDir, 'node_modules', '@faasjs/pg-dev', 'dist', 'typed-pg-vitest-setup.mjs'),
-        ),
-      ).toBe(true)
-      expect(
-        existsSync(
-          join(
-            consumerDir,
-            'node_modules',
-            '@faasjs/pg-dev',
-            'dist',
-            'typed-pg-vitest-global-setup.mjs',
-          ),
-        ),
+        existsSync(join(consumerDir, 'node_modules', '@faasjs/pg-dev', 'dist', 'index.mjs')),
       ).toBe(true)
     } finally {
       rmSync(typedPgTarball, { force: true })

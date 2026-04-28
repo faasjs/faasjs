@@ -62,8 +62,6 @@ const packEntries: Record<string, Record<string, string>> = {
   },
   'pg-dev': {
     index: './src/index.ts',
-    'typed-pg-vitest-global-setup': './src/typed-pg-vitest-global-setup/index.ts',
-    'typed-pg-vitest-setup': './src/typed-pg-vitest-setup/index.ts',
   },
   react: {
     index: './src/index.ts',

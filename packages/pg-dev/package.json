@@ -33,14 +33,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.mjs"
-    },
-    "./typed-pg-vitest-global-setup": {
-      "types": "./dist/typed-pg-vitest-global-setup.d.ts",
-      "default": "./dist/typed-pg-vitest-global-setup.mjs"
-    },
-    "./typed-pg-vitest-setup": {
-      "types": "./dist/typed-pg-vitest-setup.d.ts",
-      "default": "./dist/typed-pg-vitest-setup.mjs"
     }
   },
   "devDependencies": {

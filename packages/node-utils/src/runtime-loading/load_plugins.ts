@@ -1,9 +1,9 @@
 import { basename, dirname, extname, isAbsolute, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-import { type Func, type Plugin } from '@faasjs/core'
+import type { Func, Plugin } from '@faasjs/core'
+import { deepMerge } from '@faasjs/utils'
 
-import { deepMerge } from '../deep_merge'
 import type { Logger } from '../logger'
 import {
   assignPluginNames,

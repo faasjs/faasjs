@@ -43,7 +43,7 @@ describe('typed-pg-vitest setup helper', () => {
   })
 
   function createProjectRoot({ withMigration = true } = {}) {
-    const projectRoot = mkdtempSync(join(tmpdir(), 'typed-pg-vitest-setup-'))
+    const projectRoot = mkdtempSync(join(tmpdir(), 'pg-dev-setup-helper-'))
 
     if (withMigration) {
       const migrationsDir = join(projectRoot, 'migrations')
@@ -128,7 +128,7 @@ describe('typed-pg-vitest setup helper', () => {
       resetTestingDatabase,
     }))
 
-    const module = await import('../../setup-helper')
+    const module = await import('..')
 
     module.setupTypedPgVitest({
       afterAll,

@@ -2,9 +2,9 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
+import { deepMerge } from '@faasjs/utils'
 import * as z from 'zod'
 
-import { deepMerge } from '../deep_merge'
 import { Logger } from '../logger'
 import { parseYaml } from '../parse_yaml'
 

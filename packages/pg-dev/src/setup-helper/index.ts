@@ -2,14 +2,14 @@ import { resolve } from 'node:path'
 
 import { createClient, getClients, registerDatabaseBootstrap } from '@faasjs/pg'
 
-import type { StartedPGliteServer } from './pglite'
+import type { StartedPGliteServer } from '../pglite'
 import {
   TYPED_PG_VITEST_DATABASE_URL_ENV_NAME,
   TYPED_PG_VITEST_RESET_EXCLUDE_TABLES,
-} from './plugin-context'
-import { createTestingPostgres } from './postgres'
-import { resetTestingDatabase } from './testing'
-import { startTestingServer } from './testing-server'
+} from '../plugin-context'
+import { createTestingPostgres } from '../postgres'
+import { resetTestingDatabase } from '../testing'
+import { startTestingServer } from '../testing-server'
 
 type Awaitable<T> = T | Promise<T>
 
