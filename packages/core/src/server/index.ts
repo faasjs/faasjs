@@ -269,8 +269,6 @@ export class Server {
     this.root = root.endsWith(sep) ? root : root + sep
     loadServerEnvFile(this.root)
 
-    if (!process.env.FaasEnv && process.env.NODE_ENV) process.env.FaasEnv = process.env.NODE_ENV
-
     this.options = deepMerge(
       {
         port: 3000,

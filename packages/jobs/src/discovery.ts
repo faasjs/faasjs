@@ -84,7 +84,7 @@ export function getJobPathFromFile(file: string, root: string): string {
 export async function loadJobRegistry(options: LoadJobRegistryOptions = {}): Promise<JobRegistry> {
   const root = resolveJobsRoot(options.root)
   const logger = options.logger || new Logger('@faasjs/jobs')
-  const staging = options.staging || process.env.FaasEnv || process.env.NODE_ENV || 'development'
+  const staging = options.staging || process.env.FaasEnv || 'development'
   const registry: JobRegistry = new Map()
   const loadOptions = getLoadPackageOptions(root)
 

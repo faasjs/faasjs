@@ -7,15 +7,18 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `faasjs`
   - [Feature] Document colocated test layout as the recommended convention and keep scaffolded tests next to the code or slice they cover instead of under catch-all `__tests__` folders.
   - [Break] Remove the stale Jobs design memo from published docs; use the Jobs guide as the supported source of truth.
+  - [Fix] Remove stale code-comment guidance around workaround, TODO/FIXME, and deprecated annotations.
 
 - `@faasjs/core`
   - [Break] Remove the in-process `CronJob` APIs and stop mounting background work from `Server.listen()` / `Server.close()`.
   - [Break] Stop falling back to the original HTTP params object when `structuredClone()` fails.
   - [Break] Stop re-exporting `z` from `@faasjs/core`; import Zod directly from `zod` in APIs and templates.
+  - [Break] Stop copying `NODE_ENV` into `FaasEnv` during `Server` construction; set `FaasEnv` explicitly when selecting a stage.
 
 - `@faasjs/jobs`
   - [Break] Remove the `autoStart` option from job worker and scheduler startup helpers; use `JobWorker` or `JobScheduler` directly for manual polling/ticking.
   - [Break] Remove the injected `client` from job events and handler data; call `getClient()` inside job handlers when database access is needed.
+  - [Break] Stop using `NODE_ENV` as the job registry staging fallback; pass `staging` or set `FaasEnv` explicitly.
   - [Feature] Add PostgreSQL-backed `.job.ts` background jobs with `defineJob`, `enqueueJob`, schema-inferred `params`, `startJobWorker`, `startJobScheduler`, retries, leases, idempotency keys, and cron enqueue dedupe.
 
 - `@faasjs/node-utils`

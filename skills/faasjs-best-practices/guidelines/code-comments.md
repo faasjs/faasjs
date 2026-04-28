@@ -10,7 +10,7 @@ Use for source JSDoc, helper comments, and short intent notes in FaasJS apps or 
 4. Add shared app JSDoc only when caller contract, side effects, or failure behavior is not obvious from names and types.
 5. Skip routine JSDoc for feature-local components, hooks, API default exports, and test helpers unless it prevents real ambiguity.
 6. Keep public JSDoc in one primary language per package; prefer English for published or cross-team packages.
-7. Add inline comments only for non-obvious private helpers, ordering constraints, workarounds, or performance-sensitive branches.
+7. Add inline comments only for non-obvious private helpers, ordering constraints, or performance-sensitive branches.
 8. Explain purpose, caller contract, or constraint; do not narrate syntax or line-by-line flow.
 9. Regenerate derived API docs from source JSDoc after public contract changes.
 10. Delete or rewrite stale comments in the same change that alters behavior.
@@ -37,7 +37,7 @@ Use for source JSDoc, helper comments, and short intent notes in FaasJS apps or 
 ### Style and tags
 
 - Prefer `@param {Type} name - description` style in TypeScript source.
-- When multiple tags appear, prefer: `@template`, `@param`, `@returns`, `@throws`, `@default`, `@property`, `@see`, `@augments`, `@deprecated`, `@example`.
+- When multiple tags appear, prefer: `@template`, `@param`, `@returns`, `@throws`, `@default`, `@property`, `@see`, `@augments`, `@example`.
 - Use fenced examples with `ts`, `tsx`, `sh`, or `json`.
 - Example imports SHOULD come from the package public entrypoint unless a deep import is intentionally public.
 - Use `{@link Symbol}` for same-codebase public symbols and Markdown links for external docs.
@@ -49,7 +49,6 @@ Use for source JSDoc, helper comments, and short intent notes in FaasJS apps or 
 - Explain why the code exists, what invariant it protects, or what platform/tooling limit it handles.
 - For performance notes, name the trigger and cost being avoided.
 - Avoid repeating types, variable names, obvious control flow, or TypeScript boilerplate.
-- TODO/FIXME notes need a reason plus an exit condition or follow-up trigger.
 
 ## Examples
 
@@ -75,10 +74,6 @@ Constraint comments:
 ```ts
 // Normalize ids once so repeated lookups do not allocate on every render.
 function buildIdIndex(records: RecordItem[]) {}
-
-// Keep this branch for Node 18 stream adapters because they can emit close
-// before the final buffered chunk is flushed.
-await drainBufferedStream(stream)
 ```
 
 ## Review Checklist

@@ -102,7 +102,7 @@ const pluginDefaults = parseYaml(`defaults:
 const handler = await loadApiHandler(
   process.cwd(),
   '/project/src/orders/create.api.ts',
-  process.env.NODE_ENV || 'development',
+  process.env.FaasEnv || 'development',
 )
 
 console.log(pluginDefaults)

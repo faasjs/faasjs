@@ -7,7 +7,7 @@
 - 新增一个导出的 API
 - 评审已有导出是否具备足够的文档说明
 - 判断某个私有 helper 是否需要一条简短注释
-- 保留 workaround、顺序敏感实现或其他日后看起来不直观的代码
+- 说明顺序敏感实现或其他日后看起来不直观的代码
 - 清理已经开始重复代码本身的陈旧注释
 
 ## 默认工作流
@@ -50,11 +50,11 @@
 ### 3. 使用稳定的 JSDoc tags 与引用方式
 
 - 在 TypeScript 源码中，`@param` 应采用 `{Type} name - description` 风格。
-- 当同一个 JSDoc block 中出现多个 block tags 时，优先使用这个顺序：`@template`、`@param`、`@returns`、`@throws`、`@default`、`@property`、`@see`、`@augments`、`@deprecated`、`@example`。
+- 当同一个 JSDoc block 中出现多个 block tags 时，优先使用这个顺序：`@template`、`@param`、`@returns`、`@throws`、`@default`、`@property`、`@see`、`@augments`、`@example`。
 - 示例必须使用带有合适 info string 的 fenced code block，例如 `ts`、`tsx`、`sh` 或 `json`。
 - 示例中的 import 应优先来自 package 的公开入口，除非某个 deep import 被明确视作公开 API。
 - 指向同一代码库中的其他公开 API symbol 时，优先使用 `{@link Symbol}`；外部文档和 URL 则使用标准 Markdown links。
-- `@see`、`@augments` 和 `@deprecated` 只有在能表达 TypeScript 语法本身无法表达的信息时才值得使用。
+- `@see` 和 `@augments` 只有在能表达 TypeScript 语法本身无法表达的信息时才值得使用。
 - 各 tag 的描述必须与真实运行时行为、默认值和错误语义保持一致。
 
 ### 4. 把调用契约和维护说明分开写
@@ -91,9 +91,7 @@
 
 - 当代码有意偏离直觉实现、依赖运行时顺序、绕过平台或工具限制，或是在防止某个隐蔽回归时，可以补一条简短说明。
 - 对性能相关注释，要说明触发条件以及在避免什么代价，而不是只写“为了性能”。
-- 对平台或工具约束相关的注释，要点名具体的平台、库、工具，或生成文档约束，而不是笼统写成 workaround。
 - 注释应解释约束或原因，而不是解释语法。
-- 一旦 workaround 或特殊分支消失，就把对应注释一并删掉。
 
 ### 9. 公开 JSDoc 变化后要同步派生文档
 
@@ -108,7 +106,6 @@
 - 优先写目的、约束和契约这类更稳定的信息，不要把注释写成对当前实现细节的脆弱镜像。
 - 术语尽量与公开 API 保持一致，避免源码注释、生成文档和对外文案各说各话。
 - 只要你改动了某个公开 JSDoc block，就顺手把它规范到这份指南里，即使周围还有旧风格注释也一样。
-- TODO 或 FIXME 只有在包含明确原因，以及退出条件或后续触发条件时才值得保留。
 - 只要行为发生变化，就要在同一次改动中同步更新或删除相关注释。
 
 ## 示例
@@ -198,10 +195,6 @@ function buildIdIndex(records: RecordItem[]) {
   // ...
 }
 
-// Keep this branch for Node 18 stream adapters because they still deliver the
-// close event before the final buffered chunk is flushed.
-await drainBufferedStream(stream)
-
 // Keep this synchronous registration order because later plugins read earlier defaults.
 plugins.unshift(systemPlugin)
 ```
@@ -221,5 +214,4 @@ plugins.unshift(systemPlugin)
 - 公开 JSDoc 变化后，相关派生文档已同步，并快速检查了渲染结果
 - 私有 helper 只有在命名仍不够清楚时才保留注释
 - 非常规分支说明的是“为什么存在”
-- TODO 或 FIXME 记录了原因和退出条件
 - 注释保持简短，并且与当前行为一致
