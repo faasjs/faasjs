@@ -638,17 +638,17 @@ export function detectNodeRuntime(): NodeRuntime {
 }
 
 /**
- * Load a module in the current Node ESM runtime and optionally resolve a preferred export key.
+ * Load a module in the current Node ESM runtime and resolve a preferred export key.
  *
  * The loader can install tsconfig-aware hooks and append a version query string to bust Node's
  * import cache for project-local files.
  *
  * @template T - The type of module to be loaded.
  * @param {string} name - Package name, file path, or module specifier to load.
- * @param {string | string[]} defaultNames - Export key or keys to resolve. @default 'default'
+ * @param {string} defaultName - Export key to resolve. @default 'default'
  * @param {LoadPackageOptions} options - Optional loader overrides such as project root, tsconfig path, or cache-busting version. @default {}
  * @returns {Promise<T>} Loaded export value.
- * @throws {Error} If the runtime cannot be detected, the requested module fails to load, or none of the requested exports exist.
+ * @throws {Error} If the runtime cannot be detected, the requested module fails to load, or the requested export is missing.
  *
  * @example
  * ```ts
@@ -659,7 +659,7 @@ export function detectNodeRuntime(): NodeRuntime {
  */
 export async function loadPackage<T = unknown>(
   name: string,
-  defaultNames: string | string[] = 'default',
+  defaultName: string = 'default',
   options: LoadPackageOptions = {},
 ): Promise<T> {
   const runtime = detectNodeRuntime()
@@ -672,15 +672,7 @@ export async function loadPackage<T = unknown>(
 
   module = await import(name)
 
-  if (typeof defaultNames === 'string') {
-    if (defaultNames in module) return module[defaultNames]
+  if (defaultName in module) return module[defaultName]
 
-    throw Error(`[loadPackage] Module "${name}" must export "${defaultNames}".`)
-  }
-
-  if (!defaultNames.length) throw Error('[loadPackage] At least one export name is required.')
-
-  for (const key of defaultNames) if (key in module) return module[key]
-
-  throw Error(`[loadPackage] Module "${name}" must export one of: ${defaultNames.join(', ')}.`)
+  throw Error(`[loadPackage] Module "${name}" must export "${defaultName}".`)
 }

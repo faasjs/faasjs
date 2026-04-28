@@ -332,9 +332,7 @@ export class Server {
     const requestedAt = options.requestedAt || Date.now()
 
     const requestId =
-      (req.headers['x-faasjs-request-id'] as string) ||
-      (req.headers['x-request-id'] as string) ||
-      `FS-${randomBytes(16).toString('hex')}`
+      (req.headers['x-faasjs-request-id'] as string) || `FS-${randomBytes(16).toString('hex')}`
     const logger = new Logger(requestId)
 
     logger.info('%s %s', req.method, req.url)

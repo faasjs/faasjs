@@ -44,7 +44,7 @@ const response = new Response({
   data: { created: true },
   headers: {
     'Content-Type': 'application/json',
-    'X-Request-Id': 'req-123',
+    'x-faasjs-request-id': 'req-123',
     'X-Cache-Key': 'user-123',
   },
 })

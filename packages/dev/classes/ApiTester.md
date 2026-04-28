@@ -4,7 +4,7 @@
 
 Wrap a FaasJS API with helpers for mounting and assertion-friendly invocations.
 
-The tester resolves config for the current `FaasEnv`, mounts lazily, and
+The tester resolves config for the current `FaasEnv` or `development`, mounts lazily, and
 exposes helpers for raw handler calls and HTTP-style JSON assertions.
 
 ## See

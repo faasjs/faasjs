@@ -53,8 +53,8 @@ try {
     if (error.body) {
       console.error('Error details:', error.body)
     }
-    if (error.headers['X-Request-Id']) {
-      console.error('Request ID:', error.headers['X-Request-Id'])
+    if (error.headers['x-faasjs-request-id']) {
+      console.error('Request ID:', error.headers['x-faasjs-request-id'])
     }
   }
 }

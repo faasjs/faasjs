@@ -95,7 +95,7 @@ function createTester<TApi extends Func<any, any, any>>(api: TApi): ApiTester<TA
 /**
  * Wrap a FaasJS API with helpers for mounting and assertion-friendly invocations.
  *
- * The tester resolves config for the current `FaasEnv`, mounts lazily, and
+ * The tester resolves config for the current `FaasEnv` or `development`, mounts lazily, and
  * exposes helpers for raw handler calls and HTTP-style JSON assertions.
  *
  * @template TApi - Wrapped FaasJS API type.
@@ -148,7 +148,7 @@ export class ApiTester<TApi extends Func<any, any, any> = Func<any, any, any>> {
    * ```
    */
   constructor(api: TApi) {
-    this.staging = process.env.FaasEnv ?? 'default'
+    this.staging = process.env.FaasEnv ?? 'development'
     this.logger = new Logger('TestCase')
 
     this.api = api

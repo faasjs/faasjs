@@ -12,6 +12,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/core`
   - [Break] Remove the in-process `CronJob` APIs and stop mounting background work from `Server.listen()` / `Server.close()`.
   - [Break] Stop falling back to the original HTTP params object when `structuredClone()` fails.
+  - [Break] Stop reading the generic `x-request-id` request header; use `x-faasjs-request-id` for request id propagation.
   - [Break] Stop re-exporting `z` from `@faasjs/core`; import Zod directly from `zod` in APIs and templates.
   - [Break] Stop copying `NODE_ENV` into `FaasEnv` during `Server` construction; set `FaasEnv` explicitly when selecting a stage.
 
@@ -25,12 +26,14 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Require config-driven plugins to export a matching named lifecycle class, and remove default-export plugin constructor fallback.
   - [Feature] Add reusable Zod schema parsing helpers for FaasJS boundary validation.
   - [Break] Make `loadPackage()` fail when requested exports are missing instead of falling back to the full module namespace.
+  - [Break] Require `loadPackage()` callers to pass a single export name instead of an export-name fallback list.
   - [Break] Stop resolving imports such as `./config.json` to shadow files such as `./config.json.ts`; use extensionless imports or the exact source filename.
   - [Break] Stop resolving the removed `@faasjs/http` plugin package alias to `@faasjs/core`; use plugin type `http` instead.
 
 - `@faasjs/dev`
   - [Break] Remove the `faas run` cwd fallback for resolving `@faasjs/node-utils/register-hooks`; the command now requires the CLI package path to resolve cleanly.
   - [Break] Require `ApiTester` and `testApi()` to receive a FaasJS API instance directly, and expose that wrapped instance as `api`.
+  - [Break] Make `ApiTester` use `development` as its default staging when `FaasEnv` is not set.
 
 - `@faasjs/pg-dev`
   - [Break] Stop reusing the first TypedPgVitest database URL when the current worker id is missing; missing worker mappings now fail explicitly.

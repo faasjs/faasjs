@@ -99,19 +99,10 @@ describe('loadPackage', () => {
     expect(result).toBe('my-module-default')
   })
 
-  it('should load a module with default name', async () => {
+  it('should load a module with an export name', async () => {
     const result = await loadPackage<string>(
       createDataModuleURL(`export const test = 'my-module-default'`),
       'test',
-    )
-
-    expect(result).toBe('my-module-default')
-  })
-
-  it('should load a module with default name list', async () => {
-    const result = await loadPackage<string>(
-      createDataModuleURL(`export const test = 'my-module-default'`),
-      ['default', 'test'],
     )
 
     expect(result).toBe('my-module-default')
@@ -128,18 +119,6 @@ describe('loadPackage', () => {
     await expect(
       loadPackage(createDataModuleURL(`export const key = 'value'`), 'default'),
     ).rejects.toThrow('must export "default"')
-  })
-
-  it('should reject missing default name list', async () => {
-    await expect(
-      loadPackage(createDataModuleURL(`export const key = 'value'`), ['default', 'test']),
-    ).rejects.toThrow('must export one of: default, test')
-  })
-
-  it('should reject empty default name list', async () => {
-    await expect(
-      loadPackage(createDataModuleURL(`export const key = 'value'`), []),
-    ).rejects.toThrow('At least one export name is required')
   })
 
   it('should reuse cached runtime', () => {

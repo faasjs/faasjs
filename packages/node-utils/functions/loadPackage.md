@@ -2,9 +2,9 @@
 
 # Function: loadPackage()
 
-> **loadPackage**\<`T`\>(`name`, `defaultNames?`, `options?`): `Promise`\<`T`\>
+> **loadPackage**\<`T`\>(`name`, `defaultName?`, `options?`): `Promise`\<`T`\>
 
-Load a module in the current Node ESM runtime and optionally resolve a preferred export key.
+Load a module in the current Node ESM runtime and resolve a preferred export key.
 
 The loader can install tsconfig-aware hooks and append a version query string to bust Node's
 import cache for project-local files.
@@ -25,11 +25,11 @@ The type of module to be loaded.
 
 Package name, file path, or module specifier to load.
 
-### defaultNames?
+### defaultName?
 
-`string` \| `string`[]
+`string` = `'default'`
 
-Export key or keys to resolve.
+Export key to resolve.
 
 ### options?
 
@@ -58,7 +58,7 @@ Loaded export value.
 
 ## Throws
 
-If the runtime cannot be detected, the requested module fails to load, or none of the requested exports exist.
+If the runtime cannot be detected, the requested module fails to load, or the requested export is missing.
 
 ## Example
 

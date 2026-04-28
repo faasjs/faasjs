@@ -139,19 +139,19 @@ tag 顺序与交叉引用示例：
  *
  * @template T - Expected module shape.
  * @param {string} name - Package name to load.
- * @param {string | string[]} defaultNames - Preferred export keys used to resolve default values.
+ * @param {string} defaultName - Preferred export key used to resolve the loaded value.
  * @param {LoadPackageOptions} options - Optional runtime loader options.
  * @returns Loaded module or resolved default export.
  * @throws {Error} When runtime cannot be determined.
  * @see {@link loadConfig}
  * @example
  * ```ts
- * const handler = await loadPackage('pkg', ['default', 'handler'])
+ * const handler = await loadPackage('pkg', 'handler')
  * ```
  */
 export async function loadPackage<T = unknown>(
   name: string,
-  defaultNames: string | string[] = 'default',
+  defaultName: string = 'default',
   options: LoadPackageOptions = {},
 ): Promise<T> {
   // ...

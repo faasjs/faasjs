@@ -260,7 +260,7 @@ export type Options = RequestInit & {
  *
  * Notes:
  * - Headers are case-insensitive in HTTP but stored with exact casing in this object
- * - Common headers include: Content-Type, Authorization, X-Request-Id, X-Custom-Header
+ * - Common headers include: Content-Type, Authorization, x-faasjs-request-id, X-Custom-Header
  * - No support for multi-value headers (use comma-separated values instead)
  * - Used in Response, ResponseError, and Options types
  * - Simplified model compared to browser's Headers interface (no .get(), .set() methods)
@@ -406,7 +406,7 @@ export type ResponseProps<T = any> = {
  *   data: { created: true },
  *   headers: {
  *     'Content-Type': 'application/json',
- *     'X-Request-Id': 'req-123',
+ *     'x-faasjs-request-id': 'req-123',
  *     'X-Cache-Key': 'user-123'
  *   }
  * })
@@ -572,8 +572,8 @@ export type ResponseErrorProps = {
  *     if (error.body) {
  *       console.error('Error details:', error.body)
  *     }
- *     if (error.headers['X-Request-Id']) {
- *       console.error('Request ID:', error.headers['X-Request-Id'])
+ *     if (error.headers['x-faasjs-request-id']) {
+ *       console.error('Request ID:', error.headers['x-faasjs-request-id'])
  *     }
  *   }
  * }
