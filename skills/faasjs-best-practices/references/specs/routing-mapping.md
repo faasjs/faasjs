@@ -13,7 +13,7 @@ an application concern and is out of scope for this spec.
 Related references:
 
 - `packages/core/src/server/routes.ts`
-- `packages/core/src/server/__tests__/routes.test.ts`
+- `packages/core/src/server/routes.test.ts`
 - `documents/projects/faasjs/rfc-spa-api-zero-mapping-v0.1-short.md`
 
 ## Goals

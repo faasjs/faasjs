@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { Func } from '..'
+import { Func } from '../..'
 
 describe('Func handler', () => {
   it('without handler', async () => {

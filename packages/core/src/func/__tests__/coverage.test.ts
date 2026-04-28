@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { Func, parseApiFilenameFromStack } from '..'
+import { Func, parseApiFilenameFromStack } from '../..'
 
 describe('Func coverage', () => {
   it('should handle empty and malformed stack frames', () => {

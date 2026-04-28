@@ -1,0 +1,207 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+import type { TransportHandler } from '../../transport'
+import { getTransport } from '../../transport'
+
+describe('transport', () => {
+  beforeEach(() => {
+    process.env.FaasLogTransport = 'true'
+  })
+
+  afterEach(() => {
+    process.env.FaasLogTransport = 'false'
+    getTransport().reset()
+  })
+
+  it('should register a transport handler', () => {
+    const handler: TransportHandler = async () => {}
+
+    getTransport().register('test', handler)
+
+    expect(getTransport().handlers.has('test')).toBe(true)
+  })
+
+  it('should unregister a transport handler', () => {
+    const handler: TransportHandler = async () => {}
+
+    getTransport().register('test', handler)
+
+    getTransport().unregister('test')
+
+    expect(getTransport().handlers.has('test')).toBe(false)
+  })
+
+  it('should insert messages into cache', () => {
+    const level = 'info'
+    const message = 'test message'
+    const timestamp = Date.now()
+
+    getTransport().insert({ level, labels: [], message, timestamp })
+
+    expect(getTransport().messages.length).toBe(1)
+    expect(getTransport().messages[0]).toEqual({
+      level,
+      labels: [],
+      message,
+      timestamp,
+    })
+  })
+
+  it('should flush transport handlers with cached messages', async () => {
+    const handler: TransportHandler = vi.fn<TransportHandler>(async () => {})
+
+    const transport = getTransport()
+
+    transport.register('test', handler)
+
+    const level = 'info'
+    const message = 'test message'
+    const timestamp = Date.now()
+
+    transport.messages.splice(0, transport.messages.length)
+
+    transport.insert({ level, labels: [], message, timestamp })
+
+    await Promise.all([transport.flush(), transport.flush()])
+
+    expect(handler).toHaveBeenCalledWith([{ level, labels: [], message, timestamp }])
+  })
+
+  it('should handle errors in transport handlers', async () => {
+    const error = new Error('test error')
+    const transport = getTransport()
+
+    const handler: TransportHandler = vi.fn<TransportHandler>(async () => {
+      throw error
+    })
+
+    transport.register('test', handler)
+
+    const level = 'info'
+    const message = 'test message'
+    const timestamp = Date.now()
+
+    transport.messages.splice(0, transport.messages.length)
+
+    transport.insert({ level, labels: [], message, timestamp })
+
+    await transport.flush()
+
+    expect(transport.messages[0]).toMatchObject({
+      labels: ['LoggerTransport'],
+      level: 'error',
+      extra: [error],
+    })
+  })
+
+  it('should wait for an in-flight flush', async () => {
+    const transport = getTransport()
+    const handler: TransportHandler = vi.fn<TransportHandler>(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 150))
+    })
+
+    transport.register('slow', handler)
+    transport.insert({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+      timestamp: Date.now(),
+    })
+
+    await Promise.all([transport.flush(), transport.flush()])
+
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
+
+  it('should apply config options', () => {
+    const transport = getTransport()
+
+    transport.config({ label: 'CustomLabel', debug: true })
+    expect((transport as any).logger.label).toBe('CustomLabel')
+    expect((transport as any).logger.level).toBe('debug')
+
+    transport.config({ debug: false })
+    expect((transport as any).logger.level).toBe('info')
+  })
+
+  it('should re-enable transport after being disabled', () => {
+    const transport = getTransport()
+    const handler: TransportHandler = async () => {}
+    const handler2: TransportHandler = async () => {}
+
+    transport.register('a', handler)
+    transport.register('b', handler2)
+    transport.unregister('a')
+    expect((transport as any).enabled).toBe(true)
+
+    transport.unregister('b')
+    expect((transport as any).enabled).toBe(false)
+
+    transport.register('test', handler)
+    transport.unregister('test')
+    expect((transport as any).enabled).toBe(false)
+
+    transport.register('test2', handler)
+    expect((transport as any).enabled).toBe(true)
+
+    transport.unregister('test2')
+    expect((transport as any).enabled).toBe(false)
+
+    transport.config({})
+    expect((transport as any).enabled).toBe(true)
+  })
+
+  it('should stop even when interval has been cleared', async () => {
+    const transport = getTransport()
+
+    transport.reset()
+
+    await transport.stop()
+
+    expect((transport as any).enabled).toBe(false)
+  })
+
+  it('should start and periodically flush cached messages', async () => {
+    vi.useFakeTimers()
+
+    const transport = getTransport()
+
+    transport.config({ interval: 1000 })
+    transport.config({})
+
+    transport.messages.splice(0, transport.messages.length)
+
+    transport.insert({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+      timestamp: Date.now(),
+    })
+
+    vi.advanceTimersByTime(1000)
+
+    expect(transport.messages).toHaveLength(0)
+
+    transport.insert({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+      timestamp: Date.now(),
+    })
+
+    await transport.stop()
+
+    transport.insert({
+      level: 'info',
+      labels: [],
+      message: 'test message',
+      timestamp: Date.now(),
+    })
+
+    vi.advanceTimersByTime(1000)
+
+    expect(transport.messages).toHaveLength(0)
+
+    vi.useRealTimers()
+  })
+})

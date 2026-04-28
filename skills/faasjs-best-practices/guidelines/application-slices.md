@@ -44,6 +44,21 @@ src/pages/settings/users/api/__tests__/update-role.test.ts
 
 Use short relative imports inside the slice unless an existing TypeScript alias is already configured.
 
+Do not centralize tests in a catch-all package-level `src/__tests__` folder. This includes `src/__tests__/<feature>` subfolders: the feature folder itself should own `__tests__`. Each feature, slice, API folder, job folder, helper folder, or component folder should own its own `__tests__` folder so tests stay attached to the behavior they protect.
+
+When a slice would otherwise be a single business file, turn that file into a folder module and keep its tests under that folder's `__tests__`:
+
+```text
+# Avoid
+src/useBilling.ts
+src/__tests__/useBilling.test.ts
+src/__tests__/useBilling/useBilling.test.ts
+
+# Prefer
+src/useBilling/index.ts
+src/useBilling/__tests__/useBilling.test.ts
+```
+
 ## API, Validation, And Security
 
 Use `defineApi` for every API entrypoint.
@@ -77,7 +92,9 @@ Keep page-level state and request flow readable. After create, update, or delete
 
 ## Tests
 
-Put API tests close to the API files under `__tests__`.
+Put API tests under the API folder's `__tests__`.
+
+For non-API tests, use the same feature-local layout principle: place React, job, helper, or integration tests in the `__tests__` folder inside the page, job, utility, or slice folder they cover instead of centralizing them under a detached package-level test tree.
 
 Test the behavior that defines the slice:
 

@@ -45,7 +45,7 @@ vi.mock('../../typegen', () => ({
   isTypegenInputFile: mocks.isTypegenInputFile,
 }))
 
-import { viteFaasJsServer } from '..'
+import { viteFaasJsServer } from '../..'
 
 const tempDirs: string[] = []
 

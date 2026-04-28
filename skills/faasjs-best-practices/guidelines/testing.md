@@ -11,7 +11,8 @@ Use this guide when writing or reviewing tests in FaasJS projects.
 5. Keep mock setup explicit, local to the scenario, and smaller than the real behavior it replaces.
 6. Cover the success path plus the failure or state-transition paths callers actually rely on.
 7. Reset shared global state, timers, env, and mocks between cases.
-8. Before handoff, run `vp check` and `vp test` as acceptance gates; if either command cannot run in the current environment, record the blocker and the narrower validation that still ran.
+8. Place each test file near the feature, API, hook, component, helper, or job it protects.
+9. Before handoff, run `vp check` and `vp test` as acceptance gates; if either command cannot run in the current environment, record the blocker and the narrower validation that still ran.
 
 ## Rules
 
@@ -48,6 +49,13 @@ Use this guide when writing or reviewing tests in FaasJS projects.
 - reload, retry, or state-transition behavior when the feature supports it
 - cleanup or reset behavior when shared state is involved
 
+### 6. Keep tests near the project area they protect
+
+- Do not collect all package tests in a catch-all `src/__tests__` directory, including feature-named subfolders inside that centralized directory.
+- Split code and tests by project purpose, feature, or slice so API, UI, job, helper, and integration tests stay under the feature folder that owns the behavior.
+- Put tests in the owning folder's `__tests__`, such as `src/pages/users/api/__tests__/list.test.ts` for `list.api.ts` or `src/jobs/users/__tests__/cleanup.test.ts` for `cleanup.job.ts`.
+- When the protected business code would otherwise be a single file, turn it into a folder with `index.ts` or `index.tsx` and keep the test under that folder's `__tests__`, for example `src/useBilling/index.ts` and `src/useBilling/__tests__/useBilling.test.ts`.
+
 ## Review Checklist
 
 - the test asserts public behavior
@@ -57,3 +65,4 @@ Use this guide when writing or reviewing tests in FaasJS projects.
 - the chosen test level matches the risk and avoids unnecessary internal mocking
 - success and meaningful failure paths are covered
 - shared state, timers, env, and globals are reset between cases
+- test files live in the feature-local `__tests__` folder under the code or slice they protect instead of a centralized package-level `src/__tests__` tree

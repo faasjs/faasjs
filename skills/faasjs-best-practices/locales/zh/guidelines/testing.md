@@ -18,7 +18,8 @@
 5. 让 mock 设置保持显式、贴近场景，并且比它替代的真实行为更小、更简单。
 6. 覆盖 success path，以及调用方真正依赖的失败路径或状态变化。
 7. 在 case 之间重置共享的全局状态、timers、env 与 mocks。
-8. 交付前将 `vp check` 和 `vp test` 作为验收门禁执行；如果当前环境无法运行其中任一命令，记录阻塞原因以及已经完成的更小范围验证。
+8. 将每个测试文件放在它保护的 feature、API、hook、组件、helper 或 job 附近。
+9. 交付前将 `vp check` 和 `vp test` 作为验收门禁执行；如果当前环境无法运行其中任一命令，记录阻塞原因以及已经完成的更小范围验证。
 
 ## 规则
 
@@ -55,6 +56,13 @@
 - 功能支持时的 reload、retry 或状态迁移行为
 - 涉及共享状态时的 cleanup 或 reset 行为
 
+### 6. 测试要靠近它保护的项目区域
+
+- 不要把所有 package 测试文件集中放进兜底的 `src/__tests__` 目录，也不要在这个集中目录下再按 feature 建子目录。
+- 按项目用途、feature 或 slice 拆分代码和测试，让 API、UI、job、helper 与集成测试都留在拥有该行为的 feature 文件夹下。
+- 测试文件放在所属文件夹自己的 `__tests__` 下，例如 `src/pages/users/api/__tests__/list.test.ts` 对应 `list.api.ts`，或 `src/jobs/users/__tests__/cleanup.test.ts` 对应 `cleanup.job.ts`。
+- 当被保护的业务代码原本只是单文件时，先改成包含 `index.ts` 或 `index.tsx` 的文件夹，并把测试放在该文件夹的 `__tests__` 下，例如 `src/useBilling/index.ts` 和 `src/useBilling/__tests__/useBilling.test.ts`。
+
 ## 评审清单
 
 - 测试断言的是公开行为
@@ -64,6 +72,7 @@
 - 选择的测试层级与风险匹配，并避免不必要的内部 mocking
 - 覆盖了 success path 和有意义的失败路径
 - case 之间会重置共享状态、timers、env 与 globals
+- 测试文件放在它保护的代码或 slice 下的 feature-local `__tests__` 文件夹中，而不是集中放在 package 级 `src/__tests__` 下
 
 ## 延伸阅读
 

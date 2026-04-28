@@ -2,20 +2,21 @@ import { join } from 'node:path'
 
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import { closeAll, Server } from '../../server'
+import { Server } from '../../server'
 
 describe('middleware', () => {
   let server: Server
+  const funcsRoot = join(__dirname, '..', 'funcs')
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31001 + poolId
 
   beforeAll(() => {
-    server = new Server(join(__dirname, 'funcs'), { port })
+    server = new Server(funcsRoot, { port })
     server.listen()
   })
 
   afterAll(async () => {
-    await closeAll()
+    await server.close()
   })
 
   it('useMiddleware', async () => {

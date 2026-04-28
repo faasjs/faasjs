@@ -44,6 +44,21 @@ src/pages/settings/users/api/__tests__/update-role.test.ts
 
 切片内部优先使用短相对导入，除非项目已经配置了对应 TypeScript alias。
 
+不要把测试集中放到 package 级别的 `src/__tests__` 兜底目录，也不要在这个集中目录下再按 feature 建子目录。应该让 feature 文件夹自己拥有 `__tests__`。每个 feature、slice、API 文件夹、job 文件夹、helper 文件夹或组件文件夹都应该拥有自己的 `__tests__`，让测试始终贴着它保护的行为。
+
+当一个业务单元原本只是单文件时，把这个文件改成目录模块，并把测试放进这个目录下的 `__tests__`：
+
+```text
+# 避免
+src/useBilling.ts
+src/__tests__/useBilling.test.ts
+src/__tests__/useBilling/useBilling.test.ts
+
+# 推荐
+src/useBilling/index.ts
+src/useBilling/__tests__/useBilling.test.ts
+```
+
 ## API 与校验
 
 每个 API 入口都应使用 `defineApi`。
@@ -73,7 +88,9 @@ src/pages/settings/users/api/__tests__/update-role.test.ts
 
 ## 测试
 
-API 测试应放在 API 文件附近的 `__tests__` 目录中。
+API 测试应放在对应 API 文件夹的 `__tests__` 下。
+
+非 API 测试也遵循同样的 feature-local 布局原则：React、job、helper 或集成测试应放在对应页面、job、工具或 slice 文件夹自己的 `__tests__` 下，而不是统一集中到脱离业务代码的 package 级测试目录。
 
 测试定义切片行为的内容：
 

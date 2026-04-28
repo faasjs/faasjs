@@ -3,10 +3,11 @@ import { join, sep } from 'node:path'
 
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import { closeAll, getAll, Server } from '../../server'
+import { getAll, Server } from '../../server'
 
 describe.sequential('server', () => {
   let server: Server
+  const funcsRoot = join(__dirname, '..', 'funcs')
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31201 + poolId
 
@@ -41,26 +42,26 @@ describe.sequential('server', () => {
   }
 
   beforeAll(() => {
-    server = new Server(join(__dirname, 'funcs'), {
+    server = new Server(funcsRoot, {
       port,
     })
     server.listen()
   })
 
   afterAll(async () => {
-    await closeAll()
+    await server.close()
   })
 
   it('check config', async () => {
     expect(getAll()).toHaveLength(1)
-    expect(getAll()[0].root).toEqual(join(__dirname, 'funcs', sep))
+    expect(getAll()[0].root).toEqual(join(funcsRoot, sep))
     expect(getAll()[0].options).toEqual({
       port,
     })
   })
 
   it('should untrack closed servers', async () => {
-    const extraServer = new Server(join(__dirname, 'funcs'))
+    const extraServer = new Server(funcsRoot)
 
     expect(getAll()).toContain(extraServer)
 

@@ -4,6 +4,9 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- `faasjs`
+  - [Feature] Document colocated test layout as the recommended convention and keep scaffolded tests next to the code or slice they cover instead of under catch-all `__tests__` folders.
+
 - `@faasjs/core`
   - [Break] Remove the in-process `CronJob` APIs and stop mounting background work from `Server.listen()` / `Server.close()`.
   - [Break] Stop re-exporting `z` from `@faasjs/core`; import Zod directly from `zod` in APIs and templates.

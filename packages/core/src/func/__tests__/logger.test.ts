@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { Func } from '..'
+import { Func } from '../..'
 
 describe('logger', () => {
   it('should work', async () => {

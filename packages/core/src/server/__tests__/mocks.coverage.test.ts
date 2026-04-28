@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { createMockReq, createMockRes, triggerReqEvents } from './mocks'
+import { createMockReq, createMockRes, triggerReqEvents } from '../mocks'
 
 describe('server mocks coverage', () => {
   afterEach(() => {

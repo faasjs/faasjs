@@ -113,7 +113,7 @@ Scheduler 进程负责创建 pending rows，worker 进程负责领取并执行 r
 
 ### 7. 直接测试单个 job
 
-将 job 测试放在 job 文件附近，例如 `src/jobs/users/__tests__/cleanup.test.ts` 或 `src/jobs/__tests__/users.cleanup.test.ts`。
+将 job 测试放在 job 文件夹自己的 `__tests__` 下，例如用 `src/jobs/users/__tests__/cleanup.test.ts` 测试 `cleanup.job.ts`。
 
 对于单个 job 的业务行为，直接调用导出的 job handler。这样可以保留 `defineJob` 包装、schema 校验，以及 `job`、`attempt` 形状，同时不创建 queue row，也不启动 worker 循环。
 

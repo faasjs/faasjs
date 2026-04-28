@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { createServer } from 'vite'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { viteFaasJsServer } from '..'
+import { viteFaasJsServer } from '../..'
 
 const mocks = vi.hoisted(() => {
   const calls: any[][] = []

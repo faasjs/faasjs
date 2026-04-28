@@ -113,7 +113,7 @@ Run a scheduler process to create pending rows, and run worker processes to clai
 
 ### 7. Test a single job directly
 
-Put job tests close to the job file, such as `src/jobs/users/__tests__/cleanup.test.ts` or `src/jobs/__tests__/users.cleanup.test.ts`.
+Put job tests under the job folder's `__tests__`, such as `src/jobs/users/__tests__/cleanup.test.ts` for `cleanup.job.ts`.
 
 For a single job's business behavior, call the exported job handler directly. This keeps the `defineJob` wrapper, schema validation, `job`, and `attempt` shape real without creating queue rows or starting worker loops.
 

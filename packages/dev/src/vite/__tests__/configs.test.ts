@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { oxfmtConfig, oxlintConfig, viteConfig } from '..'
+import { oxfmtConfig, oxlintConfig, viteConfig } from '../..'
 
 describe('configs exports', () => {
   it('should export the shared oxfmt config', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { Func, type InvokeData, type MountData, type Next, type Plugin } from '..'
+import { Func, type InvokeData, type MountData, type Next, type Plugin } from '../..'
 
 describe('lifecycle', () => {
   describe('mount', () => {

@@ -5,4 +5,8 @@ import { defineConfig } from 'vite-plus'
 export default defineConfig({
   ...viteConfig,
   plugins: [...viteConfig.plugins, TypedPgVitestPlugin()],
+  test: {
+    fileParallelism: false,
+    testTimeout: 30_000,
+  },
 })

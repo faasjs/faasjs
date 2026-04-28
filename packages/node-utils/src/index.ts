@@ -25,13 +25,7 @@
 export { colorfy, Color, LevelColor } from './color'
 export type { Level } from './logger'
 export { formatLogger, Logger } from './logger'
-export type { FuncConfig, FuncPluginConfig } from './load_config'
-export { loadConfig } from './load_config'
-export type { ExportedHandler } from './load_func'
-export { loadApiHandler } from './load_func'
 export { isPathInsideRoot } from './is_path_inside_root'
-export type { LoadPluginsOptions } from './load_plugins'
-export { loadPlugins } from './load_plugins'
 export type {
   LoadPackageOptions,
   NodeRuntime,
@@ -44,6 +38,12 @@ export {
   resetRuntime,
 } from './load_package'
 export { parseYaml } from './parse_yaml'
+export type { FuncConfig, FuncPluginConfig } from './runtime-loading/load_config'
+export { loadConfig } from './runtime-loading/load_config'
+export type { ExportedHandler } from './runtime-loading/load_func'
+export { loadApiHandler } from './runtime-loading/load_func'
+export type { LoadPluginsOptions } from './runtime-loading/load_plugins'
+export { loadPlugins } from './runtime-loading/load_plugins'
 export type { ParseSchemaValueOptions, SchemaOutput } from './schema'
 export { formatSchemaError, parseSchemaValue } from './schema'
 export type { LoggerMessage, TransportHandler, TransportOptions } from './transport'

@@ -4,28 +4,26 @@ import { join } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { staticHandler } from '../../middleware'
-import { closeAll, Server } from '../../server'
+import { Server } from '../../server'
 
 describe('staticHandler', () => {
   let server: Server
+  const funcsRoot = join(__dirname, '..', 'funcs')
   const poolId = Number(process.env.VITEST_POOL_ID || 0)
   const port = 31101 + poolId
 
   beforeAll(() => {
-    server = new Server(join(__dirname, 'funcs'), { port })
+    server = new Server(funcsRoot, { port })
     server.listen()
   })
 
   afterAll(async () => {
-    await closeAll()
+    await server.close()
   })
 
   it('should work', async () => {
-    const useMiddlewareBody = readFileSync(
-      join(__dirname, 'funcs', 'useMiddleware.api.ts'),
-      'utf-8',
-    )
-    const defaultBody = readFileSync(join(__dirname, 'funcs', 'default.api.ts'), 'utf-8')
+    const useMiddlewareBody = readFileSync(join(funcsRoot, 'useMiddleware.api.ts'), 'utf-8')
+    const defaultBody = readFileSync(join(funcsRoot, 'default.api.ts'), 'utf-8')
 
     const response1 = await fetch(`http://127.0.0.1:${port}/useMiddleware.api.ts`)
     expect(response1.status).toBe(200)
@@ -54,7 +52,7 @@ describe('staticHandler', () => {
     const response = await fetch(`http://127.0.0.1:${port}/fallback404`)
     expect(response.status).toBe(200)
     expect(await response.text()).toBe(
-      readFileSync(join(__dirname, 'funcs', 'useMiddleware.api.ts'), 'utf-8'),
+      readFileSync(join(funcsRoot, 'useMiddleware.api.ts'), 'utf-8'),
     )
   })
 
@@ -115,7 +113,7 @@ describe('staticHandler', () => {
     }
 
     await staticHandler({
-      root: join(__dirname, 'funcs'),
+      root: funcsRoot,
       notFound: true,
       stripPrefix: '/public/',
     })(
@@ -128,7 +126,7 @@ describe('staticHandler', () => {
         logger: {
           debug() {},
         },
-        root: join(__dirname, 'funcs'),
+        root: funcsRoot,
       } as any,
     )
 

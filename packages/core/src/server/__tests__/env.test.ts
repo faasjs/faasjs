@@ -4,9 +4,12 @@ import { join } from 'node:path'
 
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { closeAll, Server } from '../../server'
+import { Server } from '../../server'
+
+const funcsRoot = join(__dirname, '..', 'funcs')
 
 describe('server env loading', () => {
+  const servers: Server[] = []
   const temporaryRoots: string[] = []
   const key = 'FAASJS_SERVER_DOTENV'
   const originalKey = process.env[key]
@@ -24,7 +27,7 @@ describe('server env loading', () => {
       })
     }
 
-    await closeAll()
+    await Promise.all(servers.splice(0).map((server) => server.close()))
   })
 
   it('should not load .env from process cwd on server initialization', () => {
@@ -36,7 +39,7 @@ describe('server env loading', () => {
 
     vi.spyOn(process, 'cwd').mockReturnValue(root)
 
-    new Server(join(__dirname, 'funcs'))
+    servers.push(new Server(funcsRoot))
 
     expect(process.env[key]).toBeUndefined()
   })
@@ -52,7 +55,7 @@ describe('server env loading', () => {
     writeFileSync(join(root, '.env'), `${key}=from-project-root\n`)
     delete process.env[key]
 
-    new Server(join(root, 'src'))
+    servers.push(new Server(join(root, 'src')))
 
     expect(process.env[key]).toBe('from-project-root')
   })
@@ -70,7 +73,7 @@ describe('server env loading', () => {
 
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
 
-    expect(() => new Server(join(root, 'src'))).not.toThrow()
+    expect(() => servers.push(new Server(join(root, 'src')))).not.toThrow()
     expect(warn).toHaveBeenCalledWith('[faasjs] Failed to load env file', expect.any(Error))
     expect(process.env[key]).toBeUndefined()
   })

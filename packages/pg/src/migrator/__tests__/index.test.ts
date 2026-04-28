@@ -1,13 +1,15 @@
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { Migrator } from '..'
-import { requireTestingDatabaseUrl } from '../../__tests__/utils'
+import { Migrator } from '../..'
 import type { Client } from '../../client'
 import { createClient } from '../../client'
+import { requireTestingDatabaseUrl } from '../../testing-support/utils'
+
+const migrationFolder = resolve(__dirname, '../migrations')
 
 function createTempFolder(tempFolders: string[]) {
   const folder = mkdtempSync(join(tmpdir(), 'typed-pg-migrator-'))
@@ -86,13 +88,13 @@ describe('Migrator', () => {
   })
 
   it('should create migration table', async () => {
-    const migrator = new Migrator({ client, folder: __dirname + '/migrations' })
+    const migrator = new Migrator({ client, folder: migrationFolder })
 
     expect(await migrator.status()).toEqual([])
   })
 
   it('should run migration', async () => {
-    const migrator = new Migrator({ client, folder: __dirname + '/migrations' })
+    const migrator = new Migrator({ client, folder: migrationFolder })
 
     await migrator.migrate()
 

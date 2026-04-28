@@ -2,7 +2,7 @@ import { defineApi } from '@faasjs/core'
 import { assertType, expect, test } from 'vitest'
 import * as z from 'zod'
 
-import { testApi } from '..'
+import { testApi } from '../..'
 
 test('testApi should infer body from defineApi schema', () => {
   const schema = z.object({

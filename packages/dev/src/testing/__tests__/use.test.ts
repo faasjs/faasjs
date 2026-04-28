@@ -1,8 +1,8 @@
 import { ApiTester } from '@faasjs/dev'
 import { expect, it } from 'vitest'
 
-import useAApi from './funcs/use-a.api'
-import useBApi from './funcs/use-b.api'
+import useAApi from '../funcs/use-a.api'
+import useBApi from '../funcs/use-b.api'
 
 it('use', async () => {
   const apiA = new ApiTester(useAApi)

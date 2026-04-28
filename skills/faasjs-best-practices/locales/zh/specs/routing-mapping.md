@@ -11,7 +11,7 @@ FaasJS 的 API 路由解析是基于文件系统的。这份规范标准化后�
 相关参考：
 
 - `packages/core/src/server/routes.ts`
-- `packages/core/src/server/__tests__/routes.test.ts`
+- `packages/core/src/server/routes.test.ts`
 - `documents/projects/faasjs/rfc-spa-api-zero-mapping-v0.1-short.md`
 
 ## 目标

@@ -53,6 +53,7 @@ Before handoff, verify the smallest meaningful set for the change:
 - Database shape changes include a migration, table type updates, and PG tests or a recorded reason they are not needed.
 - UI create/update/delete flows provide user feedback and refresh, close, or invalidate the affected surface intentionally.
 - Tests mock only narrow external boundaries and keep FaasJS validation, plugins, and database behavior real when practical.
+- Test files live in the `__tests__` folder inside the code, feature, or slice folder they protect. Do not centralize tests under a package-level `src/__tests__`, including feature-named subfolders inside that centralized directory. If a business unit would otherwise be a single file, convert it to a folder with `index.ts` or `index.tsx` and put its tests under that folder's `__tests__`.
 - Run targeted tests first when available, then `vp check` and `vp test` when practical; record any blocked commands and the validation that did run.
 
 ## Avoid By Default

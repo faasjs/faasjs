@@ -6,7 +6,7 @@ import type { PackUserConfig } from 'vite-plus/pack'
 
 import { oxfmtConfig } from './packages/dev/src/vite/oxfmt.ts'
 import { oxlintConfig } from './packages/dev/src/vite/oxlint.ts'
-import { TypedPgVitestPlugin } from './packages/pg-dev/src/plugin.ts'
+import { TypedPgVitestPlugin } from './packages/pg-dev/src/plugin/index.ts'
 
 const tests = ['packages/**/*.test.ts']
 
@@ -54,7 +54,7 @@ const packEntries: Record<string, Record<string, string>> = {
   },
   'node-utils': {
     index: './src/index.ts',
-    register_hooks: './src/register_hooks.ts',
+    register_hooks: './src/register_hooks/index.ts',
   },
   pg: {
     index: './src/index.ts',
@@ -62,8 +62,8 @@ const packEntries: Record<string, Record<string, string>> = {
   },
   'pg-dev': {
     index: './src/index.ts',
-    'typed-pg-vitest-global-setup': './src/typed-pg-vitest-global-setup.ts',
-    'typed-pg-vitest-setup': './src/typed-pg-vitest-setup.ts',
+    'typed-pg-vitest-global-setup': './src/typed-pg-vitest-global-setup/index.ts',
+    'typed-pg-vitest-setup': './src/typed-pg-vitest-setup/index.ts',
   },
   react: {
     index: './src/index.ts',
@@ -124,7 +124,16 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['packages/**/*.ts', 'packages/**/*.tsx'],
-      exclude: ['packages/**/__tests/**', 'packages/**/dist/**', 'packages/**/template/**'],
+      exclude: [
+        'packages/**/*.test.ts',
+        'packages/**/*.test.tsx',
+        'packages/**/*.ui.test.ts',
+        'packages/**/*.types.test.ts',
+        'packages/**/*.types.test.tsx',
+        'packages/**/dist/**',
+        'packages/**/fixtures/**',
+        'packages/**/template/**',
+      ],
       reporter: ['text', 'lcov', 'html'],
     },
     reporters: ['default', ['junit', { outputFile: 'test-report.junit.xml' }]],
@@ -150,6 +159,8 @@ export default defineConfig({
           name: 'template-admin',
           include: ['src/**/*.test.ts'],
           environment: 'node',
+          fileParallelism: false,
+          testTimeout: 30_000,
         },
       },
       {
@@ -159,8 +170,10 @@ export default defineConfig({
           include: pgTests,
           exclude: typeTests,
           environment: 'node',
-          globalSetup: ['packages/pg/src/__tests__/global-setup.ts'],
-          setupFiles: ['packages/pg/src/__tests__/setup.ts'],
+          fileParallelism: false,
+          globalSetup: ['packages/pg/src/testing-support/global-setup.ts'],
+          setupFiles: ['packages/pg/src/testing-support/setup.ts'],
+          testTimeout: 30_000,
         },
       },
       {
