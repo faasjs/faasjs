@@ -75,14 +75,14 @@ Related references:
 2. The loader MUST inspect only own enumerable keys on `config.plugins`.
 3. Plugin config entries in `func.config.plugins` MUST be keyed by plugin id.
 4. For config-driven loading, resolved plugin `name` MUST default to the entry key and therefore represent the plugin id.
-5. For an object config entry, resolved plugin `type` MUST come from `type`, then fall back to the entry key only for built-in aliases explicitly supported by the runtime.
+5. For an object config entry, resolved plugin `type` MUST come from `type`, then fall back to the entry key only for built-in plugin ids explicitly supported by the runtime.
 6. The loader MUST instantiate plugins with the resolved config object plus resolved `name` and `type`.
 7. If a plugin with the same resolved `name` already exists on the function, config-driven loading MUST NOT create a duplicate runtime instance.
 8. When a plugin instance already exists in code and config exists for the same id, the resolved config MUST still be attached to `func.config.plugins[name]` with code values taking precedence.
 
 ### 6. Module And Constructor Resolution
 
-1. Plugin type `http` and alias `@faasjs/http` MUST resolve to module `@faasjs/core`.
+1. Plugin type `http` MUST resolve to module `@faasjs/core`.
 2. Unscoped bare plugin types such as `mysql` MUST resolve to `@faasjs/<type>`.
 3. Scoped package names, relative paths, absolute paths, and `file://` local file URLs MUST resolve as authored after stripping an optional `npm:` prefix.
 4. When resolving a class export from a module, the loader MUST first try normalized PascalCase class names derived from the plugin type or trailing path segments.

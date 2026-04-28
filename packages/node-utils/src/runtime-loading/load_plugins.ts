@@ -67,7 +67,7 @@ function normalizePluginType(pluginType: string, filename: string): string {
 }
 
 function resolvePluginModuleSpecifier(pluginType: string): string {
-  if (pluginType === 'http' || pluginType === '@faasjs/http') return '@faasjs/core'
+  if (pluginType === 'http') return '@faasjs/core'
 
   if (
     !pluginType.startsWith('.') &&

@@ -75,14 +75,14 @@ FaasJS 在两个互补层次上支持 plugins：
 2. Loader 只能检查 `config.plugins` 上自有且可枚举的 keys。
 3. `func.config.plugins` 中的 plugin 配置条目必须以 plugin id 作为 key。
 4. 对配置驱动加载来说，解析后的 plugin `name` 必须默认等于条目 key，因此它天然代表 plugin id。
-5. 对对象形态的配置条目，解析后的 plugin `type` 必须优先来自 `type`；只有在运行时显式支持的内建 alias 场景下，才允许回退到条目 key。
+5. 对对象形态的配置条目，解析后的 plugin `type` 必须优先来自 `type`；只有在运行时显式支持的内建 plugin id 场景下，才允许回退到条目 key。
 6. Loader 必须用“解析后的配置对象 + 解析后的 `name` 与 `type`”来实例化 plugin。
 7. 如果函数上已经存在同名 `name` 的 plugin，配置驱动加载不得创建重复的运行时实例。
 8. 当代码中已经存在 plugin 实例，且同一个 id 在配置中也存在时，最终解析后的配置仍必须挂到 `func.config.plugins[name]` 上，并以代码中的值优先。
 
 ### 6. 模块与构造器解析
 
-1. Plugin type `http` 与 alias `@faasjs/http` 必须解析到模块 `@faasjs/core`。
+1. Plugin type `http` 必须解析到模块 `@faasjs/core`。
 2. 不带 scope 的裸 plugin types（如 `mysql`）必须解析到 `@faasjs/<type>`。
 3. Scoped package names、相对路径、绝对路径和 `file://` 本地文件 URL，在去掉可选的 `npm:` 前缀后，必须按原样解析。
 4. 从模块中解析 class export 时，loader 必须优先尝试由 plugin type 或末尾路径片段规范化得到的 PascalCase 类名。

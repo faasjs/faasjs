@@ -20,6 +20,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 - `@faasjs/node-utils`
   - [Feature] Add reusable Zod schema parsing helpers for FaasJS boundary validation.
   - [Break] Make `loadPackage()` fail when requested exports are missing instead of falling back to the full module namespace.
+  - [Break] Stop resolving the removed `@faasjs/http` plugin package alias to `@faasjs/core`; use plugin type `http` instead.
 
 - `@faasjs/dev`
   - [Break] Require `ApiTester` and `testApi()` to receive a FaasJS API instance directly, and expose that wrapped instance as `api`.

@@ -62,7 +62,7 @@
 3. 同一个 staging 内的 plugin key 应保持稳定，因为 `loadConfig()` 会从该 key 推导运行时的 `name`。
 4. `name` 是 loader 在运行时生成的字段，不应手写在 `faas.yaml` 中。
 5. 一个 plugin config object 可以包含 `type`、`config` 以及其他 plugin 自定义字段。
-6. Plugin `type` 可以写成内建 alias、裸 package type、scoped package name、相对路径、绝对路径，或 `file://` 本地文件 URL。
+6. Plugin `type` 可以写成内建 plugin type、裸 package type、scoped package name、相对路径、绝对路径，或 `file://` 本地文件 URL。
 7. plugin 自身的内部字段不在本规范范围内，合并时应原样保留。
 
 ### 6. 支持的 YAML 子集

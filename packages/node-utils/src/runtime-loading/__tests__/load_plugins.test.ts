@@ -114,6 +114,33 @@ describe('loadPlugins', () => {
     })
   })
 
+  it('does not remap the removed @faasjs/http package specifier', async () => {
+    const { src } = createProject({})
+
+    const func = defineApi({
+      async handler() {
+        return true
+      },
+    })
+
+    func.filename = join(src, 'demo.api.ts')
+    func.config = {
+      plugins: {
+        external: {
+          type: '@faasjs/http',
+        },
+      },
+    }
+
+    await expect(
+      loadPlugins(func, {
+        root: src,
+        filename: func.filename,
+        staging: 'defaults',
+      }),
+    ).rejects.toThrow('Failed to load plugin "external" from "@faasjs/http"')
+  })
+
   it('skips yaml plugin entries when the same plugin name is already injected in code', async () => {
     const { src } = createProject({
       'src/faas.yaml': `defaults:
