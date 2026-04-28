@@ -119,13 +119,16 @@ describe('TypedPgVitestPlugin', () => {
     expect(generatedSource).toContain('  { afterAll, beforeEach, projectRoot: "/repo/project" },')
   })
 
-  it('prefers the Vitest pool id when resolving a worker id', () => {
+  it('uses the Vitest pool id when resolving a worker id', () => {
     expect(
       resolveTypedPgVitestWorkerId({
         VITEST_POOL_ID: '2',
-        VITEST_WORKER_ID: '7',
       }),
     ).toBe('2')
+  })
+
+  it('throws when the Vitest pool id is missing', () => {
+    expect(() => resolveTypedPgVitestWorkerId({})).toThrow(/VITEST_POOL_ID/)
   })
 
   it('returns undefined when the current worker id is missing', () => {

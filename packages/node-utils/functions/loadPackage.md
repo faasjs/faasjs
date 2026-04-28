@@ -33,7 +33,7 @@ Loaded default export value.
 
 ## Throws
 
-If the runtime cannot be detected, the requested module fails to load, or the default export is missing.
+If the requested module fails to load or the default export is missing.
 
 ## Example
 

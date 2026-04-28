@@ -6,11 +6,6 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { isPathInsideRoot } from '../is_path_inside_root/index.ts'
 
 /**
- * Supported Node.js module runtime recognized by {@link detectNodeRuntime}.
- */
-export type NodeRuntime = 'module'
-
-/**
  * Options for preloading Node module hooks that resolve tsconfig paths and local TypeScript files.
  */
 export type RegisterNodeModuleHooksOptions = {
@@ -65,14 +60,13 @@ const SCRIPT_EXTENSIONS = ['.ts', '.tsx', '.mts', '.js', '.jsx', '.mjs', '.json'
 
 const loaderStates = new Map<string, LoaderState>()
 
-let _runtime: NodeRuntime | null = null
 let hooksInstalled = false
 
 /**
- * Clear cached runtime detection and loader state used by this module.
+ * Clear cached loader state used by this module.
  *
  * Installed Node module hooks remain active. This only resets in-memory state used by
- * {@link detectNodeRuntime} and {@link loadPackage}.
+ * {@link loadPackage}.
  *
  * @example
  * ```ts
@@ -83,7 +77,6 @@ let hooksInstalled = false
  * ```
  */
 export function resetRuntime(): void {
-  _runtime = null
   loaderStates.clear()
 }
 
@@ -633,9 +626,7 @@ function installModuleHooks(): void {
  */
 export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions = {}): void {
   const { entry, ...loadOptions } = options
-  const runtimeEntry =
-    typeof process !== 'undefined' && Array.isArray(process.argv) ? process.argv[1] : undefined
-  const resolvedEntry = resolveLoaderEntryPath(entry) || resolveLoaderEntryPath(runtimeEntry)
+  const resolvedEntry = resolveLoaderEntryPath(entry) || resolveLoaderEntryPath(process.argv[1])
 
   if (resolvedEntry || loadOptions.root || loadOptions.tsconfigPath) {
     const state = ensureLoaderState(
@@ -655,29 +646,6 @@ export function registerNodeModuleHooks(options: RegisterNodeModuleHooksOptions 
 }
 
 /**
- * Detect whether the current Node process is running in the supported ESM runtime.
- *
- * The detected runtime is cached until {@link resetRuntime} is called.
- *
- * @returns {NodeRuntime} `'module'` for ESM.
- * @throws {Error} If the runtime cannot be determined from the current global environment.
- *
- * @example
- * ```ts
- * import { detectNodeRuntime } from '@faasjs/node-utils'
- *
- * const runtime = detectNodeRuntime()
- * ```
- */
-export function detectNodeRuntime(): NodeRuntime {
-  if (_runtime) return _runtime
-
-  if (typeof process !== 'undefined' && process.versions?.node) return (_runtime = 'module')
-
-  throw Error('Unknown runtime')
-}
-
-/**
  * Load a module in the current Node ESM runtime and return its default export.
  *
  * The loader can install tsconfig-aware hooks and append a version query string to bust Node's
@@ -686,7 +654,7 @@ export function detectNodeRuntime(): NodeRuntime {
  * @template T - The type of module to be loaded.
  * @param {string} name - Package name, file path, or module specifier to load.
  * @returns {Promise<T>} Loaded default export value.
- * @throws {Error} If the runtime cannot be detected, the requested module fails to load, or the default export is missing.
+ * @throws {Error} If the requested module fails to load or the default export is missing.
  *
  * @example
  * ```ts
@@ -696,12 +664,9 @@ export function detectNodeRuntime(): NodeRuntime {
  * ```
  */
 export async function loadPackage<T = unknown>(name: string): Promise<T> {
-  const runtime = detectNodeRuntime()
   const specifier = resolveLoadPackageSpecifier(name)
 
   let module: any
-
-  if (runtime !== 'module') throw Error('Unknown runtime')
 
   if (ensureLoaderState(specifier, {})) installModuleHooks()
 

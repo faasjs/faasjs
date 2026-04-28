@@ -17,7 +17,7 @@
 
 - 配置加载：`loadConfig`、`parseYaml`
 - API 加载：`loadApiHandler`、`loadPlugins`
-- Node 模块引导：`loadPackage`、`registerNodeModuleHooks`、`detectNodeRuntime`、`resetRuntime`
+- Node 模块引导：`loadPackage`、`registerNodeModuleHooks`、`resetRuntime`
 - 文件系统边界校验：`isPathInsideRoot`
 - schema 解析：`parseSchemaValue`、`formatSchemaError`、`SchemaOutput`
 - 日志与日志转运：`Logger`、`formatLogger`、`getTransport`、`Transport`、`colorfy`

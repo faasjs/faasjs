@@ -21,15 +21,19 @@ export type TypedPgVitestDatabaseUrls = Record<string, string>
 /**
  * Resolves the current Vitest worker identifier.
  *
- * Vitest exposes `VITEST_POOL_ID` for the pool slot and `VITEST_WORKER_ID` for the logical
- * worker. The plugin prefers the pool ID so it can pre-provision one temporary database per pool
- * slot during global setup.
+ * The plugin uses `VITEST_POOL_ID` so global setup can pre-provision one temporary database per
+ * pool slot.
  *
  * @param {NodeJS.ProcessEnv} [env] - Environment object to inspect.
  * @returns Current worker identifier.
+ * @throws {Error} When Vitest does not expose a pool id for the current worker.
  */
 export function resolveTypedPgVitestWorkerId(env: NodeJS.ProcessEnv = process.env) {
-  return env.VITEST_POOL_ID ?? env.VITEST_WORKER_ID ?? '1'
+  if (!env.VITEST_POOL_ID) {
+    throw Error('TypedPgVitestPlugin requires VITEST_POOL_ID to resolve the worker database URL.')
+  }
+
+  return env.VITEST_POOL_ID
 }
 
 /**

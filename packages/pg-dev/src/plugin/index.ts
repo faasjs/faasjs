@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 
 import type { Plugin } from 'vitest/config'
 
-const moduleFilename = typeof __filename === 'string' ? __filename : fileURLToPath(import.meta.url)
+const moduleFilename = fileURLToPath(import.meta.url)
 const moduleDirname = dirname(moduleFilename)
 const moduleExtension = extname(moduleFilename) === '.ts' ? '.ts' : extname(moduleFilename)
 const indexPath = join(

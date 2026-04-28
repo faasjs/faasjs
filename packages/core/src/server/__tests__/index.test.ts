@@ -223,17 +223,6 @@ describe.sequential('server', () => {
     expect(response.headers.get('access-control-allow-origin')).toBe('*')
   })
 
-  it('runtime', async () => {
-    const response = await fetch(`http://127.0.0.1:${port}/runtime`)
-    expect(response.status).toBe(200)
-    expect(await response.json()).toEqual({
-      data: {
-        exportOrder: 'default',
-        runtime: 'module',
-      },
-    })
-  })
-
   describe('compress', () => {
     it('br', async () => {
       const response = await fetch(`http://127.0.0.1:${port}/compress`, {

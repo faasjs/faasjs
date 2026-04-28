@@ -5,9 +5,9 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { promisify } from 'node:util'
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { detectNodeRuntime, loadPackage, resetRuntime } from '../../load_package'
+import { loadPackage, resetRuntime } from '../../load_package'
 
 const execFileAsync = promisify(execFile)
 const loadPackageModuleURL = new URL('../index.ts', import.meta.url).href
@@ -78,16 +78,11 @@ registerNodeModuleHooks({
 }
 
 describe('loadPackage', () => {
-  let originalProcess: any
-
   beforeEach(() => {
-    originalProcess = globalThis.process
-    vi.resetModules()
     resetRuntime()
   })
 
   afterEach(() => {
-    globalThis.process = originalProcess
     resetRuntime()
   })
 
@@ -103,21 +98,6 @@ describe('loadPackage', () => {
     await expect(loadPackage(createDataModuleURL(`export const key = 'value'`))).rejects.toThrow(
       'must export "default"',
     )
-  })
-
-  it('should reuse cached runtime', () => {
-    expect(detectNodeRuntime()).toBe('module')
-    // @ts-expect-error
-    globalThis.process = undefined
-
-    expect(detectNodeRuntime()).toBe('module')
-  })
-
-  it('should throw when runtime cannot be detected', () => {
-    // @ts-expect-error
-    globalThis.process = undefined
-
-    expect(() => detectNodeRuntime()).toThrow('Unknown runtime')
   })
 })
 

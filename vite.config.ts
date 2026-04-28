@@ -98,7 +98,6 @@ const pack: PackUserConfig[] = [
   sourcemap: false,
   treeshake: true,
   tsconfig: join(process.cwd(), 'tsconfig.build.json'),
-  shims: true,
   outExtensions() {
     return {
       js: '.mjs',

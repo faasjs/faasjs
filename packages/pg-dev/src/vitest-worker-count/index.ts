@@ -1,9 +1,9 @@
-import { availableParallelism, cpus } from 'node:os'
+import { availableParallelism } from 'node:os'
 
 import type { TestProject } from 'vitest/node'
 
 function getAvailableWorkerCount() {
-  return typeof availableParallelism === 'function' ? availableParallelism() : cpus().length
+  return availableParallelism()
 }
 
 function resolveConfiguredWorkerCount(value: unknown) {

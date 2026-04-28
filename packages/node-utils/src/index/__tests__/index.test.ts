@@ -13,7 +13,6 @@ it('should export helpers', () => {
   expect(nodeUtils).toHaveProperty('parseSchemaValue')
   expect(nodeUtils).toHaveProperty('formatSchemaError')
   expect(nodeUtils).toHaveProperty('registerNodeModuleHooks')
-  expect(nodeUtils).toHaveProperty('detectNodeRuntime')
   expect(nodeUtils).toHaveProperty('formatLogger')
   expect(nodeUtils).toHaveProperty('isPathInsideRoot')
   expect(nodeUtils).toHaveProperty('Logger')

@@ -2,12 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => ({
   availableParallelism: vi.fn<() => number>(),
-  cpus: vi.fn<() => Array<{ model: string }>>(),
 }))
 
 vi.mock('node:os', () => ({
   availableParallelism: mocks.availableParallelism,
-  cpus: mocks.cpus,
 }))
 
 describe('resolveVitestWorkerCount', () => {
@@ -16,7 +14,6 @@ describe('resolveVitestWorkerCount', () => {
   beforeEach(() => {
     vi.resetModules()
     mocks.availableParallelism.mockReturnValue(8)
-    mocks.cpus.mockReturnValue([{ model: 'cpu-1' }])
     delete process.env.VITEST_MAX_WORKERS
   })
 

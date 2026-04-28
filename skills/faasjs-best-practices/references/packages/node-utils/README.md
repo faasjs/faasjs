@@ -3,7 +3,6 @@
 ## Functions
 
 - [colorfy](functions/colorfy.md)
-- [detectNodeRuntime](functions/detectNodeRuntime.md)
 - [formatLogger](functions/formatLogger.md)
 - [formatSchemaError](functions/formatSchemaError.md)
 - [getTransport](functions/getTransport.md)
@@ -30,7 +29,6 @@
 - [Level](type-aliases/Level.md)
 - [LoadPluginsOptions](type-aliases/LoadPluginsOptions.md)
 - [LoggerMessage](type-aliases/LoggerMessage.md)
-- [NodeRuntime](type-aliases/NodeRuntime.md)
 - [ParseSchemaValueOptions](type-aliases/ParseSchemaValueOptions.md)
 - [RegisterNodeModuleHooksOptions](type-aliases/RegisterNodeModuleHooksOptions.md)
 - [SchemaOutput](type-aliases/SchemaOutput.md)

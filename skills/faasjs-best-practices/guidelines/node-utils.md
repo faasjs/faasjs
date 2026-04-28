@@ -6,7 +6,7 @@ Use this guide when you need Node.js-only helpers for FaasJS runtime bootstrappi
 
 - config loading: `loadConfig`, `parseYaml`
 - API loading: `loadApiHandler`, `loadPlugins`
-- Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `detectNodeRuntime`, `resetRuntime`
+- Node module bootstrapping: `loadPackage`, `registerNodeModuleHooks`, `resetRuntime`
 - filesystem containment checks: `isPathInsideRoot`
 - schema parsing: `parseSchemaValue`, `formatSchemaError`, `SchemaOutput`
 - logging and log shipping: `Logger`, `formatLogger`, `getTransport`, `Transport`, `colorfy`

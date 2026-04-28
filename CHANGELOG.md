@@ -24,6 +24,7 @@ FaasJS use [Semantic Versioning](https://semver.org/).
 
 - `@faasjs/node-utils`
   - [Break] Require config-driven plugins to export a matching named lifecycle class, and remove default-export plugin constructor fallback.
+  - [Break] Remove the obsolete `detectNodeRuntime()` helper and `NodeRuntime` type; Node utilities now assume the supported Node ESM runtime.
   - [Feature] Add reusable Zod schema parsing helpers for FaasJS boundary validation.
   - [Break] Make `loadPackage()` return only the default export and remove its `defaultName` and `options` parameters; use `registerNodeModuleHooks()` for explicit root, tsconfig, or version overrides.
   - [Break] Stop resolving imports such as `./config.json` to shadow files such as `./config.json.ts`; use extensionless imports or the exact source filename.
@@ -35,6 +36,8 @@ FaasJS use [Semantic Versioning](https://semver.org/).
   - [Break] Make `ApiTester` use `development` as its default staging when `FaasEnv` is not set.
 
 - `@faasjs/pg-dev`
+  - [Break] Require `VITEST_POOL_ID` for TypedPgVitest worker database lookup and remove `VITEST_WORKER_ID` / worker `1` fallbacks.
+  - [Break] Drop old Node worker-count and package shim fallbacks from the Vitest plugin runtime.
   - [Break] Stop reusing the first TypedPgVitest database URL when the current worker id is missing; missing worker mappings now fail explicitly.
 
 [`v8.0.0-beta.26 (2026-04-24)`](https://github.com/faasjs/faasjs/compare/v8.0.0-beta.25...v8.0.0-beta.26)
